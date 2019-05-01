@@ -77,11 +77,11 @@ case class LLGrammar(
     s: String
 ) extends Grammar {
   var parser: InstantParser = new InstantParser(this)
-  var candidate: CandidateParser = new CandidateParser(this)
+  //var candidate: CandidateParser = new CandidateParser(this)
   def contains(a: String) = parser(a)
-  def suggest(a: String) =
+  /*def suggest(a: String) =
     candidate.candidate(a).map { case (i, j) => (i, parser.generalize(j)) }
-
+   */
   def addGrammar(ks: String, kr: CFGRule): LLGrammar = {
     val nnon = if (non contains ks) non else non :+ ks
     val nr = r.updated(ks, r.getOrElse(ks, List()) :+ kr)
@@ -100,25 +100,39 @@ case class LLGrammar(
   }
 }
 
-class InstantParser(g: LLGrammar) extends RegexParsers {
+class InstantParser(g: LLGrammar) extends TokenParsers {
 
-  override protected val whiteSpace = """[\s\,\.]+""".r
-  import scala.util.parsing.combinator._
-  import scala.util.parsing.input.{Reader, CharSequenceReader}
-
-  val anyone = """(\[\[|\]\]|\(|\)|[^\s\,\.\[\]\(\)]+)""".r ^^ { case id => id }
   val (r, s) = g match {
     case LLGrammar(_, r, s) => (r, s)
   }
-  def lazyParser(in: String): Parser[Unit] = {
+  def lazyParser(in: String): Parser[Unit] =
     Parser[Unit]((i) => ruleParser(in)(i))
-  }
 
   def ruleParser(s: String): Parser[Unit] =
     r(s)
       .map {
         case CFGRule(b) =>
           b.map {
+              case Nonterm("Var") =>
+                id ^^ { _ =>
+                  ()
+                }
+              case Nonterm("Value") =>
+                value ^^ { _ =>
+                  ()
+                }
+              case Nonterm("Code") =>
+                code ^^ { _ =>
+                  ()
+                }
+              case Nonterm("Const") =>
+                const ^^ { _ =>
+                  ()
+                }
+              case Nonterm("Linelist") =>
+                linelist ^^ { _ =>
+                  ()
+                }
               case Nonterm(a) => lazyParser(a)
               case Term(a) =>
                 a ^^ { _ =>
@@ -134,6 +148,7 @@ class InstantParser(g: LLGrammar) extends RegexParsers {
       }
       .reduce((i, j) => i ||| j)
 
+  /*
   def nonTermParser: Parser[String] =
     r.map {
         case (k, v) =>
@@ -160,12 +175,12 @@ class InstantParser(g: LLGrammar) extends RegexParsers {
       }
       .values
       .reduce(_ ||| _)
-
+   */
   def apply(code: String): Boolean = parseAll(ruleParser(s), code) match {
     case Success(result, next) => true
-    case _: NoSuccess          => false
+    case _: NoSuccess => false
   }
-
+  /*
   def readTerm(s: Reader[Char]): (String, Reader[Char]) = {
     parse(anyone, s) match {
       case Success(result, next) => (result, next)
@@ -207,8 +222,9 @@ class InstantParser(g: LLGrammar) extends RegexParsers {
     val (matched, _) = aux(List(), new CharSequenceReader(code))
     CFGRule(matched)
   }
-
+ */
 }
+/*
 class CandidateParser(g: LLGrammar) extends GRegexParsers {
   import com.codecommit.gll._
   override protected val whitespace = """[\s\,\.]+""".r
@@ -266,3 +282,4 @@ class CandidateParser(g: LLGrammar) extends GRegexParsers {
   def apply(code: String): List[(String, String)] = candidate(code)
 
 }
+ */

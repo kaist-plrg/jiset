@@ -25,7 +25,7 @@ object Main extends RegexParsers {
       case (k, v) => -v
     })
   }
-   */
+   
 
   def findProb(
       tokenArr: List[List[String]],
@@ -48,7 +48,7 @@ object Main extends RegexParsers {
         }
     )
 
-    /*def aux(tokenArr: List[List[String]], s: List[String], f: String): Double = {
+    def aux(tokenArr: List[List[String]], s: List[String], f: String): Double = {
       var y = 0
       var z = 0
       tokenArr.foreach((t) =>
@@ -59,12 +59,13 @@ object Main extends RegexParsers {
           }
         })
       z.toDouble / y
-    }*/
+    }
 
     (x, countMap.map { case (k, v) => (k, v.toDouble / x) }.toList.sortBy {
       case (k, v) => -v
     } take 10)
   }
+  */
 
   def printInfo(tokenArr: List[String], g: LLGrammar): Unit = {
     g.pprint()
@@ -87,8 +88,8 @@ object Main extends RegexParsers {
 
   def cmdLoop(tokenArr: List[String], g: LLGrammar): Unit = {
     printInfo(tokenArr, g)
-    printMenu()
-    print(">> ")
+    // printMenu()
+    // print(">> ")
     ()
     /*
     val f = Option(StdIn.readLine)
@@ -135,24 +136,10 @@ object Main extends RegexParsers {
   val defaultGrammar: LLGrammar = LLGrammar(List("S"), Map(), "S")
 
   def main(args: Array[String]) {
-    val anyone: Parser[String] = ".".r ^^ { id =>
-      id
-    }
-    lazy val anything: Parser[String] = anyone | anyone ~ anything ^^ {
-      case (a, b) => a + b
-    }
-    val isrule = anything ~ "is " ~ anything
-    val ifthenotherwiserule = "If " ~ anything ~ "then " ~ anything ~ "otherwise " ~ anything
-    println(
-      ifthenotherwiserule(
-        "If HasPrimitiveBase(V) is false, then let get be the [[Get]] internal method of base, otherwise let get be the special [[Get]] internal method defined below."
-      )
-    )
-
     println("Loading file...")
-    val filename = "sample2"
-    val gfilename = "grammars"
-    val stringArr = Source.fromFile(filename).getLines.toList
+    val filename = args(0)
+    val gfilename = args(1)
+    val stringArr =  Source.fromFile(filename).getLines.toList
     println("Loading done.")
     val grammarSum = Source
       .fromFile(gfilename)
