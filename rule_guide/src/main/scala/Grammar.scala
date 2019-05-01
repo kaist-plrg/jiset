@@ -146,7 +146,7 @@ class InstantParser(g: LLGrammar) extends TokenParsers {
                 }
             )
       }
-      .reduce((i, j) => i ||| j)
+      .reduce((i, j) => i | j)
 
   /*
   def nonTermParser: Parser[String] =
