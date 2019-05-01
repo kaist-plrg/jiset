@@ -1,9 +1,10 @@
-package pgen
+package NLPjse
 
 import scala.language.implicitConversions
 import scala.util.matching.Regex
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
+import scala.language.postfixOps
 
 trait ESParsers extends RegexParsers {
   private val self = this
