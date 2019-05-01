@@ -12,22 +12,3 @@ case class Const(text: String) extends Token
 case object LineList extends Token
 
 case class Line(tokens: List[Token])
-object Line extends LineParser {
-  def apply(str: String): Line = parseAll(line, str) match {
-    case Success(result, _) => result
-    case failure: NoSuccess => scala.sys.error(failure.msg)
-  }
-  def fromFile(filename: String): List[Line] = {
-    Source.fromFile(filename).getLines.map(apply _).toList
-  }
-}
-trait LineParser extends RegexParsers {
-  lazy val str = "\\S+".r
-  lazy val text = str ^^ { Text(_) }
-  lazy val id = "Id(" ~> str <~ ")" ^^ { Id(_) }
-  lazy val value = "Value(" ~> str <~ ")" ^^ { Value(_) }
-  lazy val code = "Code(" ~> str <~ ")" ^^ { Code(_) }
-  lazy val const = "Const(" ~> str <~ ")" ^^ { Const(_) }
-  lazy val token: Parser[Token] = id | value | code | const | text
-  lazy val line = rep(token) ^^ { Line(_) }
-}

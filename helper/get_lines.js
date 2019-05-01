@@ -22,11 +22,11 @@ function getLines(ol) {
     for (block of blocks) {
       let text = block.innerText;
       switch (block.nodeName) {
-        case 'CODE': tokens.push(`Code(${text})`); break;
-        case 'EMU-CONST': tokens.push(`Const(${text})`); break;
-        case 'EMU-VAL': tokens.push(`Value(${text})`); break;
-        case 'OL': tokens.push('LineList'); lines = lines.concat(getLines(block)); break;
-        case 'VAR': tokens.push(`Id(${text})`); break;
+        case 'CODE': tokens.push(`code:${text}`); break;
+        case 'EMU-CONST': tokens.push(`const:${text}`); break;
+        case 'EMU-VAL': tokens.push(`value:${text}`); break;
+        case 'OL': tokens.push('line-list'); lines = lines.concat(getLines(block)); break;
+        case 'VAR': tokens.push(`id:${text}`); break;
         default:
           if (block.nodeName == '#text') text = block.textContent;
           for (str of text.split(/\s+/)) {
