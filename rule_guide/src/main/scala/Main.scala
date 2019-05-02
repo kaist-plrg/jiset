@@ -68,7 +68,7 @@ object Main extends RegexParsers {
   */
 
   def printInfo(tokenArr: List[String], g: LLGrammar): Unit = {
-    g.pprint()
+    // g.pprint()
     val totalL = tokenArr.length
     val validL = tokenArr.filter((i) => g contains i)
     val notL = tokenArr.filter((i) => !(g contains i))
