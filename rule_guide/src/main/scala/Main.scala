@@ -71,7 +71,7 @@ object Main extends RegexParsers {
     // g.pprint()
     val totalL = tokenArr.length
     val validL = tokenArr.filter((i) => g contains i)
-    val notL = tokenArr.filter((i) => !(g contains i))
+    val notL = tokenArr.filter((i) => !(g contains i)).sorted
     for (i <- notL) {
       println(i)
         }
