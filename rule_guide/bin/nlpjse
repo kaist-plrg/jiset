@@ -1,8 +1,0 @@
-#!/bin/bash
-STLC_HOME="$(dirname "$(dirname "${BASH_SOURCE[0]}" )")"
-SV="2.12"
-SEP=":"
-TP_MANAGED="$(find ${STLC_HOME}/lib_managed -name "*.jar" | tr '\n' ${SEP})"
-
-CP="${STLC_HOME}/target/scala-${SV}/classes${SEP}${TP_MANAGED}${SEP}$CLASSPATH"
-java -cp "$CP" -Xss1G NLPjse.Main $@

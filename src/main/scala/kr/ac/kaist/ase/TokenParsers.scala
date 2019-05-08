@@ -1,4 +1,4 @@
-package NLPjse
+package kr.ac.kaist.ase
 
 import scala.util.parsing.input._
 import scala.util.parsing.combinator._
@@ -28,9 +28,9 @@ trait TokenParsers extends Parsers {
       }
       if (i == s.length)
         Success(source.subSequence(start, j).toString, in.drop(j - offset))
-      else  {
-        val found = if (start == source.length()) "end of source" else "'"+source.charAt(start)+"'"
-        Failure("'"+s+"' expected but "+found+" found", in.drop(start - offset))
+      else {
+        val found = if (start == source.length()) "end of source" else "'" + source.charAt(start) + "'"
+        Failure("'" + s + "' expected but " + found + " found", in.drop(start - offset))
       }
     }
   }

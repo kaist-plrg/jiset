@@ -1,4 +1,4 @@
-package NLPjse
+package kr.ac.kaist.ase
 
 import scala.io.Source
 import scala.util.Random
@@ -8,7 +8,7 @@ import scala.io.StdIn
 import scala.collection.mutable.HashMap
 import com.codecommit.gll._
 
-object Main extends RegexParsers {
+object ASE extends RegexParsers {
 
   val thres = 0.5
   val dep_const = 0.7
@@ -74,7 +74,7 @@ object Main extends RegexParsers {
     val notL = tokenArr.filter((i) => !(g contains i)).sorted
     for (i <- notL) {
       println(i)
-        }
+    }
     //println(findFirst(notL))
     println(s"${validL.length} / $totalL")
   }
@@ -139,14 +139,14 @@ object Main extends RegexParsers {
     println("Loading file...")
     val filename = args(0)
     val gfilename = args(1)
-    val stringArr =  Source.fromFile(filename).getLines.toList
+    val stringArr = Source.fromFile(filename).getLines.toList
     println("Loading done.")
     val grammarSum = Source
       .fromFile(gfilename)
       .getLines
       .map((i) => JParser(i))
       .foldLeft(defaultGrammar) {
-        case (g, Left(_))       => g
+        case (g, Left(_)) => g
         case (g, Right((s, r))) => g.addGrammar(s, r)
       }
     cmdLoop(stringArr, grammarSum)

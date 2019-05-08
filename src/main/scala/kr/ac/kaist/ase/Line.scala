@@ -1,4 +1,4 @@
-package NLPjse
+package kr.ac.kaist.ase
 
 import scala.util.parsing.combinator.RegexParsers
 import scala.io.Source

@@ -1,4 +1,4 @@
-package NLPjse
+package kr.ac.kaist.ase
 
 import scala.language.implicitConversions
 import scala.util.matching.Regex
@@ -17,8 +17,8 @@ trait ESParsers extends RegexParsers {
   class LookaheadSyntax[A](parser: => Parser[A]) {
     def unary_-(): Parser[Unit] = Parser { in =>
       parser(in) match {
-        case Success(_, _)  => Failure("Wrong Lookahead", in)
-        case _              => Success((), in)
+        case Success(_, _) => Failure("Wrong Lookahead", in)
+        case _ => Success((), in)
       }
     }
     def unary_+(): Parser[Unit] = Parser { in =>
@@ -97,7 +97,7 @@ trait ESParsers extends RegexParsers {
     def ~(that: => FirstTerms): FirstTerms =
       if (this.ts contains "") FirstTerms(this.ts - "" ++ that.ts, this.nts ++ that.nts)
       else this
-    def getParser: Parser[String] = ((STR_MISMATCH /:[Parser[String]] ts)(_ | _) /: nts)(_ | _._2)
+    def getParser: Parser[String] = (((STR_MISMATCH: Parser[String]) /: ts)(_ | _) /: nts)(_ | _._2)
     override def toString: String = (ts ++ nts.map(_._1)).map("\"" + _ + "\"").mkString("[", ", ", "]")
   }
 
@@ -121,7 +121,7 @@ trait ESParsers extends RegexParsers {
     def ^^[U](f: T => U): NodeParser[U] =
       NodeParser(first => this.parser(first) ^^ f, this.first)
 
-    def ^^^ [U](v: => U): NodeParser[U] =
+    def ^^^[U](v: => U): NodeParser[U] =
       NodeParser(first => this.parser(first) ^^^ v, this.first)
 
     def apply(first: FirstTerms, in: Reader[Char]): ParseResult[T] = parser(first)(in)
@@ -173,14 +173,15 @@ trait ESParsers extends RegexParsers {
       case "j" =>
         keepLog = false
         val r = p(first, in)
-        println(name + " --> "+ r)
+        println(name + " --> " + r)
         keepLog = true
         r
       case _ =>
         val r = p(first, in)
-        println(name + " --> "+ r)
+        println(name + " --> " + r)
         r
-    } else p(first, in)
+    }
+    else p(first, in)
   }, p.first)
 
   private def stop(msg: String): String = {
@@ -192,7 +193,7 @@ trait ESParsers extends RegexParsers {
   type P1[T] = (Boolean) => NodeParser[T]
   type P2[T] = ((Boolean, Boolean)) => NodeParser[T]
   type P3[T] = ((Boolean, Boolean, Boolean)) => NodeParser[T]
-  type R0[T] = NodeParser[T => T] 
+  type R0[T] = NodeParser[T => T]
   type R1[T] = (Boolean) => NodeParser[T => T]
   type R2[T] = ((Boolean, Boolean)) => NodeParser[T => T]
   type R3[T] = ((Boolean, Boolean, Boolean)) => NodeParser[T => T]

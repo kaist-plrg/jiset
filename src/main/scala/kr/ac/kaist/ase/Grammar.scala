@@ -1,10 +1,10 @@
-package NLPjse
+package kr.ac.kaist.ase
 
 import scala.util.Random
 import scala.collection.mutable.HashMap
 
-import com.codecommit.gll.{RegexParsers => GRegexParsers}
-import scala.util.parsing.combinator.{RegexParsers}
+import com.codecommit.gll.{ RegexParsers => GRegexParsers }
+import scala.util.parsing.combinator.{ RegexParsers }
 
 trait GSymbol {}
 
@@ -113,32 +113,32 @@ class InstantParser(g: LLGrammar) extends TokenParsers {
       .map {
         case CFGRule(b) =>
           b.map {
-              case Nonterm("Var") =>
-                id ^^ { _ =>
-                  ()
-                }
-              case Nonterm("Value") =>
-                value ^^ { _ =>
-                  ()
-                }
-              case Nonterm("Code") =>
-                code ^^ { _ =>
-                  ()
-                }
-              case Nonterm("Const") =>
-                const ^^ { _ =>
-                  ()
-                }
-              case Nonterm("Linelist") =>
-                linelist ^^ { _ =>
-                  ()
-                }
-              case Nonterm(a) => lazyParser(a)
-              case Term(a) =>
-                a ^^ { _ =>
-                  ()
-                }
-            }
+            case Nonterm("Var") =>
+              id ^^ { _ =>
+                ()
+              }
+            case Nonterm("Value") =>
+              value ^^ { _ =>
+                ()
+              }
+            case Nonterm("Code") =>
+              code ^^ { _ =>
+                ()
+              }
+            case Nonterm("Const") =>
+              const ^^ { _ =>
+                ()
+              }
+            case Nonterm("Linelist") =>
+              linelist ^^ { _ =>
+                ()
+              }
+            case Nonterm(a) => lazyParser(a)
+            case Term(a) =>
+              a ^^ { _ =>
+                ()
+              }
+          }
             .reduce(
               (i, j) =>
                 i ~ j ^^ { _ =>

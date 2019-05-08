@@ -1,0 +1,39 @@
+#!/bin/bash
+if [ -z "$ASE_HOME" ]; then
+  echo "You need to set ASE_HOME to the directory containing ASE"
+  exit 1
+fi
+
+if (uname | egrep CYGWIN > /dev/null) ; then
+  SEP=";"
+else
+  SEP=":"
+fi
+TP="${ASE_HOME}/lib"
+TP_MANAGED="$(find ${ASE_HOME}/lib_managed -name "*.jar" | tr '\n' ${SEP})"
+SV="2.12"
+
+CP="${ASE_HOME}/target/scala-${SV}/classes${SEP}${TP_MANAGED}${SEP}${TP}/xtc.jar${SEP}${TP}/jericho-html-3.3.jar${SEP}${TP}/commons-io-1.3.2.jar${SEP}$CLASSPATH"
+
+if [ -z "$JAVA_HOME" ] ; then
+  JAVACMD=java
+else
+  JAVACMD="$JAVA_HOME/bin/java"
+fi
+
+if [ -z "$JAVA_FLAGS" ] ; then
+  JAVA_FLAGS="-Xms16g -Xmx32g -Xss1g -Xmn512m -Dfile.encoding=utf8"
+fi
+
+# remote debugging
+if [ "$1" == "-debug" ] ; then
+    JAVA_FLAGS="-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 $JAVA_FLAGS"
+    shift
+fi
+
+"$JAVACMD" $JAVA_OPTS $JAVA_FLAGS -cp "$CP" kr.ac.kaist.ase.ASE "$@"
+EXIT_CODE=$?
+wait $!
+if [ $EXIT_CODE -ne 0 ] ; then
+  exit $EXIT_CODE
+fi

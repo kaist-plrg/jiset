@@ -1,4 +1,4 @@
-package NLPjse
+package kr.ac.kaist.ase
 
 sealed trait Command
 
