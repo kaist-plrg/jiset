@@ -1,6 +1,5 @@
-package kr.ac.kaist.ase
+package kr.ac.kaist.ase.parser
 
-import scala.language.implicitConversions
 import scala.util.matching.Regex
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._

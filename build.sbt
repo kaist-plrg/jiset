@@ -7,6 +7,8 @@ lazy val root = (project in file(".")).
 
 libraryDependencies ++= Seq(
   "com.codecommit" %% "gll-combinators" % "2.3",
+  "io.spray" %% "spray-json" % "1.3.2",
+  "org.scala-lang" % "scala-reflect" % scalaVersion.value,
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
   "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 )
