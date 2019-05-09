@@ -1,19 +1,31 @@
-package kr.ac.kaist.ase
+package kr.ac.kaist.ase.node.algorithm
 
-class StmtParser extends ConditionParser {
-  def start0: Parser[Stmt] = {
-    stmt ~ "." ^^ {
-      case e0 ~ _ => e0
-    }
-  }
-  def start1: Parser[Stmt] = {
-    stmt
-  }
-  lazy val start = start0 | start1
+trait Stmt extends Step { val tokens = Nil }
+case class Stmt0(e0: Id, e1: Expr) extends Stmt // Let $Id be $Expr
+case class Stmt1(e0: Cond, e1: Stmt, e2: Stmt) extends Stmt // If $Cond , $Stmt (.|;) (Otherwise|otherwise) opt(,) $Stmt
+case class Stmt2(e0: Cond, e1: Stmt) extends Stmt // If $Cond, opt(then) $Stmt
+case class Stmt3(e0: Stmt) extends Stmt // (Otherwise | Else) , $Stmt
+case class Stmt4(e0: Cond, e1: Stmt) extends Stmt // Else opt(if) $Cond, $Stmt
+case class Stmt5(e0: Expr) extends Stmt // (Return|return) $Expr
+case class Stmt6(e0: Cond) extends Stmt // Assert : $Cond
+case class Stmt7(e0: Value) extends Stmt // throw a $Value exception
+case class Stmt8(e0: Expr) extends Stmt // (Perform|perform) $Expr
+case class Stmt9(e0: Settable, e1: Expr) extends Stmt // (Set|set) $Settable to $Expr
+case class Stmt10(e0: Expr) extends Stmt // Call $Expr
+case class Stmt11(e0: Stmt) extends Stmt // Repeat, $Stmt
+case class Stmt12(e0: Expr, e1: Id) extends Stmt // Append $Expr to $Id
+case class Stmt13(e0: Expr) extends Stmt // change its bound value to $Expr
+case class Stmt14() extends Stmt // line-list
+
+trait StmtParsers { this: AlgorithmParsers =>
+  lazy val stmt: Parser[Stmt] = (stmt0 | stmt1 | stmt2 | stmt3 |
+    stmt4 | stmt5 | stmt6 | stmt7 |
+    stmt8 | stmt9 | stmt10 | stmt11 |
+    stmt12 | stmt13 | stmt14) <~ ("."?)
 
   def stmt0: Parser[Stmt0] = {
     "Let" ~ id ~ "be" ~ expr ^^ {
-      case _ ~ e0 ~ _ ~ e1 => Stmt0(Var(e0), e1)
+      case _ ~ e0 ~ _ ~ e1 => Stmt0(e0, e1)
     }
   }
   def stmt1: Parser[Stmt1] = {
@@ -48,7 +60,7 @@ class StmtParser extends ConditionParser {
   }
   def stmt7: Parser[Stmt7] = {
     "throw" ~ "a" ~ value ~ "exception" ^^ {
-      case _ ~ _ ~ e0 ~ _ => Stmt7(Value(e0))
+      case _ ~ _ ~ e0 ~ _ => Stmt7(e0)
     }
   }
   def stmt8: Parser[Stmt8] = {
@@ -73,7 +85,7 @@ class StmtParser extends ConditionParser {
   }
   def stmt12: Parser[Stmt12] = {
     "Append" ~ expr ~ "to" ~ id ^^ {
-      case _ ~ e0 ~ _ ~ e1 => Stmt12(e0, Var(e1))
+      case _ ~ e0 ~ _ ~ e1 => Stmt12(e0, e1)
     }
   }
   def stmt13: Parser[Stmt13] = {
@@ -83,16 +95,5 @@ class StmtParser extends ConditionParser {
   }
   def stmt14: Parser[Stmt14] = {
     "line-list" ^^ { case _ => Stmt14() }
-  }
-  lazy val stmt: Parser[Stmt] = stmt0 | stmt1 | stmt2 | stmt3 |
-    stmt4 | stmt5 | stmt6 | stmt7 |
-    stmt8 | stmt9 | stmt10 | stmt11 |
-    stmt12 | stmt13 | stmt14
-
-}
-
-object StartParser extends StmtParser {
-  def apply(s: String): ParseResult[Stmt] = {
-    parse(start, s)
   }
 }
