@@ -191,7 +191,7 @@ class ExpressionParser extends TokenParsers {
       "an" ~ "ECMAScript" ~ "function" ^^ {
         case _ => TypeV("an ECMAScript function")
       } |
-      "Object" ^^ { case _    => TypeV("Object") } |
+      "Object" ^^ { case _ => TypeV("Object") } |
       "Undefined" ^^ { case _ => TypeV("Undefined") } |
       "Reference" ^^ { case _ => TypeV("Reference") }
   }
@@ -247,8 +247,8 @@ class ExpressionParser extends TokenParsers {
       "TemplateMap" |
       "Intrinsics" |
       "Value" |
-      "%" ~ "ObjectPrototype" ~ "%" ^^ { case _   => "% ObjectPrototype %" } |
-      "%" ~ "ThrowTypeError" ~ "%" ^^ { case _    => "% ThrowTypeError %" } |
+      "%" ~ "ObjectPrototype" ~ "%" ^^ { case _ => "% ObjectPrototype %" } |
+      "%" ~ "ThrowTypeError" ~ "%" ^^ { case _ => "% ThrowTypeError %" } |
       "%" ~ "FunctionPrototype" ~ "%" ^^ { case _ => "% FunctionPrototype %" } |
       "SetPrototypeOf" |
       "GetPrototypeOf" |
@@ -286,14 +286,14 @@ class ExpressionParser extends TokenParsers {
   }
   lazy val initexpr: Parser[InitExpr] = initexpr0 | initexpr1
   lazy val componentname: Parser[ComponentName] = {
-    ("base" ~ "value" ^^ { case _       => "base value" } |
+    ("base" ~ "value" ^^ { case _ => "base value" } |
       "referenced" ~ "name" ^^ { case _ => "referenced name" }) ^^ {
-      case s                            => ComponentName(s)
-    }
+        case s => ComponentName(s)
+      }
   }
   lazy val flagname: Parser[FlagName] = {
     ("strict" ~ "reference" ^^ { case _ => "strict reference" }) ^^ {
-      case s                            => FlagName(s)
+      case s => FlagName(s)
     }
   }
   lazy val amername: Parser[AMERName] = {
@@ -342,7 +342,7 @@ class ExpressionParser extends TokenParsers {
       case _ ~ _ ~ _ ~ e0 ~ e1op =>
         e1op match {
           case Some(_ ~ e1) => Binding0(Var(e0), Var(e1))
-          case None         => Binding1(Var(e0))
+          case None => Binding1(Var(e0))
         }
     }
   }

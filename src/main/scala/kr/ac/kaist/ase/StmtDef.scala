@@ -5,7 +5,7 @@ case class Stmt0(e0: Var, e1: Expr) extends Stmt // Let $Var be $Expr
 case class Stmt1(e0: Condition, e1: Stmt, e2: Stmt) extends Stmt // If $Condition , $Stmt (.|;) (Otherwise|otherwise) opt(,) $Stmt
 case class Stmt2(e0: Condition, e1: Stmt) extends Stmt // If $Condition, opt(then) $Stmt
 case class Stmt3(e0: Stmt) extends Stmt // (Otherwise | Else) , $Stmt
-case class Stmt4(e0: Condition, e1: Stmt) extends Stmt // Else opt(If) $Condition, $Stmt
+case class Stmt4(e0: Condition, e1: Stmt) extends Stmt // Else opt(if) $Condition, $Stmt
 case class Stmt5(e0: Expr) extends Stmt // (Return|return) $Expr
 case class Stmt6(e0: Condition) extends Stmt // Assert : $Condition
 case class Stmt7(e0: Value) extends Stmt // throw a $Value exception
