@@ -1,0 +1,13 @@
+AppendStmt      = append Expr to Id
+AssertStmt      = assert \: Cond
+CallStmt        = call Expr
+ElseStmt        = (otherwise|else) \,? Stmt
+IfStmt          = if Cond \, then? Stmt
+IfThenElseStmt  = if Cond \, Stmt (\.|\;) otherwise \,? Stmt
+LetStmt         = let Id be Expr
+PerformStmt     = perform Expr
+RepeatStmt      = repeat \, Stmt
+ReturnStmt      = return Expr
+SetStmt         = Lhs to Expr
+StepListStmt    = StepList
+ThrowStmt       = throw a Value exception
