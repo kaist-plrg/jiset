@@ -1,8 +1,17 @@
+lazy val grammarConvert = taskKey[Unit]("Task to convert rule file to scala parser combinator")
+lazy val compileGrammar = taskKey[Unit]("Convert grammar and compile")
 lazy val root = (project in file(".")).
   settings(
     name := "ASE",
     version := "1.0",
-    scalaVersion := "2.12.8"
+    scalaVersion := "2.12.8",
+    grammarConvert := {
+        ConvertUtil.run
+    },
+    compileGrammar in Compile := Def.sequential(
+      grammarConvert in Compile,
+      compile in Compile
+    ).value
   )
 
 libraryDependencies ++= Seq(
