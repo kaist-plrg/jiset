@@ -54,6 +54,8 @@ object ConvertUtil {
         pw.println("}")
       }
     }
+    pw.println(s"lazy val ${className.head.toLower + className.tail} = ")
+    pw.println(rules.map{ case (subname, _) => s"${subname.head.toLower + subname.tail}"}.mkString(" |\n"))
     pw.println("}")
     pw.close()
   }
