@@ -34,12 +34,30 @@ object ASE {
     val startTime = System.currentTimeMillis
 
     // execute the command.
-    runner(config)
+    val result: Result = runner(config)
+
+    // duration
+    val duration = System.currentTimeMillis - startTime
+
+    // display the result.
+    if (!config.silent) {
+      command.display(result)
+    }
+
+    // display the time.
+    if (config.time) {
+      val name = config.command.name
+      println(s"The command '$name' took $duration ms.")
+    }
+
+    // return result
+    result
   }
 
   // commands
   val commands: List[Command] = List(
     CmdHelp,
+    CmdAlgoParse,
     CmdParse
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
@@ -49,11 +67,17 @@ object ASE {
   // phases
   var phases: List[Phase] = List(
     Help,
+    AlgoParse,
     Parse
   )
 
   // global options
-  val options: List[PhaseOption[ASEConfig]] = List()
+  val options: List[PhaseOption[ASEConfig]] = List(
+    ("silent", BoolOption(c => c.silent = true),
+      "final results are not displayed."),
+    ("time", BoolOption(c => c.silent = true),
+      "display duration time.")
+  )
 
   // indentation
   private val INDENT = 15
@@ -64,7 +88,7 @@ object ASE {
     val prefix = " " * (INDENT + 4)
     s.append("Usage:").append(LINE_SEP)
       .append("  ase {command} [-{option}]* [-{phase}:{option}[={input}]]* {filename}+").append(LINE_SEP)
-      .append("  example: ase parse algorithm").append(LINE_SEP)
+      .append("  example: ase algo-parse example.algorithm").append(LINE_SEP)
       .append(LINE_SEP)
       .append("* command list:").append(LINE_SEP)
       .append("    Each command consists of the following phases.").append(LINE_SEP)
@@ -129,5 +153,7 @@ object ASE {
 
 case class ASEConfig(
   var command: Command,
-  var fileNames: List[String] = Nil
+  var fileNames: List[String] = Nil,
+  var silent: Boolean = false,
+  var time: Boolean = false
 ) extends Config

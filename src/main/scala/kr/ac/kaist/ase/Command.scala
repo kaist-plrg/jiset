@@ -1,7 +1,8 @@
 package kr.ac.kaist.ase
 
 import kr.ac.kaist.ase.error.NoMode
-import kr.ac.kaist.ase.node.algorithm._
+import kr.ac.kaist.ase.node.algorithm.Algorithm
+import kr.ac.kaist.ase.node.ast.Script
 import kr.ac.kaist.ase.phase._
 import kr.ac.kaist.ase.util.ArgParser
 
@@ -45,9 +46,14 @@ class CommandObj[Result](
 // base command
 case object CmdBase extends CommandObj("", PhaseNil)
 
+// algo-parse
+case object CmdAlgoParse extends CommandObj("algo-parse", CmdBase >> AlgoParse) {
+  override def display(algos: List[Algorithm]): Unit = println(algos)
+}
+
 // parse
 case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
-  override def display(algos: List[Algorithm]): Unit = println(algos)
+  override def display(script: Script): Unit = println(script)
 }
 
 // help

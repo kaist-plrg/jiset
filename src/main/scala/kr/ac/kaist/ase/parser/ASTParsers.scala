@@ -1,11 +1,11 @@
 package kr.ac.kaist.ase.parser
 
+import kr.ac.kaist.ase.node.ast.Script
 import scala.util.matching.Regex
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
-import scala.language.postfixOps
 
-trait ESParsers extends RegexParsers {
+trait ASTParsers extends RegexParsers {
   private val self = this
 
   // not skip white sapces
@@ -85,8 +85,8 @@ trait ESParsers extends RegexParsers {
   lazy val Skip: Parser[String] = ((WhiteSpace | LineTerminator | Comment)*) ^^ { _.mkString }
   lazy val NoLineTerminator: NodeParser[String] = NodeParser(first => strNoLineTerminator, emptyFirst)
   lazy val strNoLineTerminator: Parser[String] = STR_MATCH <~ +(Skip.filter(s => lines.findFirstIn(s).isEmpty))
-  def term(name: String, nt: Parser[String]): NodeParser[String] = log(NodeParser(first => Skip ~> nt <~ Skip <~ +first.getParser, FirstTerms() + (name -> nt)))(name)
-  def term(t: String): NodeParser[String] = log(NodeParser(first => { Skip ~> t <~ Skip <~ +first.getParser }, FirstTerms() + t))(t)
+  def term(name: String, nt: Parser[String]): NodeParser[String] = NodeParser(first => Skip ~> nt <~ Skip <~ +first.getParser, FirstTerms() + (name -> nt))
+  def term(t: String): NodeParser[String] = NodeParser(first => { Skip ~> t <~ Skip <~ +first.getParser }, FirstTerms() + t)
 
   lazy val emptyFirst: FirstTerms = FirstTerms(ts = Set(""))
   case class FirstTerms(ts: Set[String] = Set(), nts: Map[String, Parser[String]] = Map()) {
@@ -100,7 +100,7 @@ trait ESParsers extends RegexParsers {
     override def toString: String = (ts ++ nts.map(_._1)).map("\"" + _ + "\"").mkString("[", ", ", "]")
   }
 
-  lazy val MATCH: NodeParser[String] = log(NodeParser(first => "" <~ +first.getParser, FirstTerms() + ""))("MATCH")
+  lazy val MATCH: NodeParser[String] = NodeParser(first => "" <~ +first.getParser, FirstTerms() + "")
   lazy val MISMATCH: NodeParser[Nothing] = NodeParser(first => failure(""), FirstTerms())
 
   case class NodeParser[+T](parser: FirstTerms => Parser[T], first: FirstTerms) {
