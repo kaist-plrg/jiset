@@ -13,7 +13,8 @@ libraryDependencies ++= Seq(
   "io.spray" %% "spray-json" % "1.3.2",
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+  "org.jline" % "jline" % "3.10.0"
 )
 
 scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature",

@@ -3,6 +3,7 @@ package kr.ac.kaist.ase
 import kr.ac.kaist.ase.error.NoMode
 import kr.ac.kaist.ase.node.algorithm.Algorithm
 import kr.ac.kaist.ase.node.ast.Script
+import kr.ac.kaist.ase.node.core
 import kr.ac.kaist.ase.phase._
 import kr.ac.kaist.ase.util.ArgParser
 
@@ -46,8 +47,8 @@ class CommandObj[Result](
 // base command
 case object CmdBase extends CommandObj("", PhaseNil)
 
-// algo-parse
-case object CmdAlgoParse extends CommandObj("algo-parse", CmdBase >> AlgoParse) {
+// parse-algo
+case object CmdParseAlgo extends CommandObj("parse-algo", CmdBase >> ParseAlgo) {
   override def display(algos: List[Algorithm]): Unit = println(algos)
 }
 
@@ -55,6 +56,24 @@ case object CmdAlgoParse extends CommandObj("algo-parse", CmdBase >> AlgoParse) 
 case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
   override def display(script: Script): Unit = println(script)
 }
+
+// parse-core
+case object CmdParseCore extends CommandObj("parse-core", CmdBase >> ParseCore) {
+  override def display(pgm: core.Program): Unit = println(core.beautify(pgm))
+}
+
+// load-core
+case object CmdLoadCore extends CommandObj("load-core", CmdParseCore >> LoadCore) {
+  override def display(st: core.State): Unit = println(core.beautify(st))
+}
+
+// eval-core
+case object CmdEvalCore extends CommandObj("eval-core", CmdLoadCore >> EvalCore) {
+  override def display(st: core.State): Unit = println(core.beautify(st))
+}
+
+// repl-core
+case object CmdREPLCore extends CommandObj("repl-core", CmdLoadCore >> REPLCore)
 
 // help
 case object CmdHelp extends CommandObj("help", CmdBase >> Help)

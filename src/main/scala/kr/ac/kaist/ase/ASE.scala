@@ -57,8 +57,12 @@ object ASE {
   // commands
   val commands: List[Command] = List(
     CmdHelp,
-    CmdAlgoParse,
-    CmdParse
+    CmdParseAlgo,
+    CmdParse,
+    CmdParseCore,
+    CmdLoadCore,
+    CmdEvalCore,
+    CmdREPLCore
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -67,8 +71,12 @@ object ASE {
   // phases
   var phases: List[Phase] = List(
     Help,
-    AlgoParse,
-    Parse
+    ParseAlgo,
+    Parse,
+    ParseCore,
+    LoadCore,
+    EvalCore,
+    REPLCore
   )
 
   // global options
@@ -88,7 +96,7 @@ object ASE {
     val prefix = " " * (INDENT + 4)
     s.append("Usage:").append(LINE_SEP)
       .append("  ase {command} [-{option}]* [-{phase}:{option}[={input}]]* {filename}+").append(LINE_SEP)
-      .append("  example: ase algo-parse example.algorithm").append(LINE_SEP)
+      .append("  example: ase parse example.js").append(LINE_SEP)
       .append(LINE_SEP)
       .append("* command list:").append(LINE_SEP)
       .append("    Each command consists of the following phases.").append(LINE_SEP)

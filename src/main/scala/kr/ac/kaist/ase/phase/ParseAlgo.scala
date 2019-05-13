@@ -7,15 +7,15 @@ import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
 import kr.ac.kaist.ase.util._
 import scala.io.Source
 
-// AlgoParse phase
-case object AlgoParse extends PhaseObj[Unit, AlgoParseConfig, List[Algorithm]] {
-  val name = "algo-parse"
+// ParseAlgo phase
+case object ParseAlgo extends PhaseObj[Unit, ParseAlgoConfig, List[Algorithm]] {
+  val name = "parse-algo"
   val help = "Parses algorithm files."
 
   def apply(
     unit: Unit,
     aseConfig: ASEConfig,
-    config: AlgoParseConfig
+    config: ParseAlgoConfig
   ): List[Algorithm] = aseConfig.fileNames match {
     case Nil => throw NoFileError("parse")
     case filename :: _ =>
@@ -37,14 +37,14 @@ case object AlgoParse extends PhaseObj[Unit, AlgoParseConfig, List[Algorithm]] {
       algos
   }
 
-  def defaultConfig: AlgoParseConfig = AlgoParseConfig()
-  val options: List[PhaseOption[AlgoParseConfig]] = List(
+  def defaultConfig: ParseAlgoConfig = ParseAlgoConfig()
+  val options: List[PhaseOption[ParseAlgoConfig]] = List(
     ("showFailed", BoolOption(c => c.showFailed = true),
       "show failed steps.")
   )
 }
 
-// AlgoParse phase config
-case class AlgoParseConfig(
+// ParseAlgo phase config
+case class ParseAlgoConfig(
   var showFailed: Boolean = false
 ) extends Config
