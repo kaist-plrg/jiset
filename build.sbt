@@ -5,13 +5,10 @@ lazy val root = (project in file(".")).
     name := "ASE",
     version := "1.0",
     scalaVersion := "2.12.8",
-    grammarConvert := {
+    grammarConvert in Compile := {
         ConvertUtil.run
     },
-    compileGrammar in Compile := Def.sequential(
-      grammarConvert in Compile,
-      compile in Compile
-    ).value
+    compile <<= (compile in Compile) dependsOn (grammarConvert in Compile)
   )
 
 libraryDependencies ++= Seq(
