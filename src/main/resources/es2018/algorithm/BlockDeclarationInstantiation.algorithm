@@ -1,0 +1,24 @@
+<algorithm>
+  <param>code</param>
+  <param>env</param>
+  <step-list>
+    <step>Let <id>envRec</id> be <id>env</id> 's EnvironmentRecord .</step>
+    <step>Assert : <id>envRec</id> is a declarative Environment Record .</step>
+    <step>Let <id>declarations</id> be the LexicallyScopedDeclarations of <id>code</id> .</step>
+    <step>For each element <id>d</id> in <id>declarations</id> , do     <step-list>
+      <step>For each element <id>dn</id> of the BoundNames of <id>d</id> , do       <step-list>
+        <step>If IsConstantDeclaration of <id>d</id> is <value>true</value> , then         <step-list>
+          <step>Perform ! <id>envRec</id> .CreateImmutableBinding( <id>dn</id> , <value>true</value> ).</step>
+        </step-list></step>
+        <step>Else,         <step-list>
+          <step>Perform ! <id>envRec</id> .CreateMutableBinding( <id>dn</id> , <value>false</value> ).</step>
+        </step-list></step>
+      </step-list></step>
+      <step>If <id>d</id> is a FunctionDeclaration , a GeneratorDeclaration , an AsyncFunctionDeclaration , or an AsyncGeneratorDeclaration , then       <step-list>
+        <step>Let <id>fn</id> be the sole element of the BoundNames of <id>d</id> .</step>
+        <step>Let <id>fo</id> be the result of performing InstantiateFunctionObject for <id>d</id> with argument <id>env</id> .</step>
+        <step>Perform <id>envRec</id> .InitializeBinding( <id>fn</id> , <id>fo</id> ).</step>
+      </step-list></step>
+    </step-list></step>
+  </step-list>
+</algorithm>

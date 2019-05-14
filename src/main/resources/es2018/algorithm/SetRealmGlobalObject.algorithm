@@ -1,0 +1,17 @@
+<algorithm>
+  <param>realmRec</param>
+  <param>globalObj</param>
+  <param>thisValue</param>
+  <step-list>
+    <step>If <id>globalObj</id> is <value>undefined</value> , then     <step-list>
+      <step>Let <id>intrinsics</id> be <id>realmRec</id> .[[Intrinsics]].</step>
+      <step>Set <id>globalObj</id> to ObjectCreate ( <id>intrinsics</id> .[[ %ObjectPrototype% ]]).</step>
+    </step-list></step>
+    <step>Assert : Type ( <id>globalObj</id> ) is Object.</step>
+    <step>If <id>thisValue</id> is <value>undefined</value> , set <id>thisValue</id> to <id>globalObj</id> .</step>
+    <step>Set <id>realmRec</id> .[[GlobalObject]] to <id>globalObj</id> .</step>
+    <step>Let <id>newGlobalEnv</id> be NewGlobalEnvironment ( <id>globalObj</id> , <id>thisValue</id> ).</step>
+    <step>Set <id>realmRec</id> .[[GlobalEnv]] to <id>newGlobalEnv</id> .</step>
+    <step>Return <id>realmRec</id> .</step>
+  </step-list>
+</algorithm>
