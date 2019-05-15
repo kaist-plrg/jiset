@@ -1,6 +1,10 @@
 import java.io.File
 
 lazy val dummyModel = taskKey[Unit]("Generates a dummy model.")
+lazy val dummyAlgoParser = taskKey[Unit]("Generates a dummy algorithm parser.")
+
+def dummy(source: String, target: String): Unit = {
+}
 
 lazy val root = (project in file(".")).
   settings(
@@ -9,20 +13,36 @@ lazy val root = (project in file(".")).
     organization := "kr.ac.kaist.ase",
     scalaVersion := "2.12.8",
     dummyModel in Compile := {
+      val source = "package"
+      val target = "model"
       val srcDir = baseDirectory.value + "/src/main"
-      val inFile = file(srcDir + "/resources/package.scala")
-      val outPath = srcDir + "/scala/kr/ac/kaist/ase/model"
+      val inFile = file(srcDir + s"/resources/$source.scala")
+      val outPath = srcDir + s"/scala/kr/ac/kaist/ase/$target"
       val outDir = file(outPath)
       if (!outDir.exists) {
         IO.createDirectory(outDir)
-        IO.copyFile(inFile, file(outPath + "/package.scala"))
+        IO.copyFile(inFile, file(outPath + s"/$source.scala"))
       }
     },
-    compile <<= (compile in Compile) dependsOn (dummyModel in Compile)
+    dummyAlgoParser in Compile := {
+      val source = "Stmt"
+      val target = "algorithm/rule"
+      val srcDir = baseDirectory.value + "/src/main"
+      val inFile = file(srcDir + s"/resources/$source.scala")
+      val outPath = srcDir + s"/scala/kr/ac/kaist/ase/$target"
+      val outDir = file(outPath)
+      if (!outDir.exists) {
+        IO.createDirectory(outDir)
+        IO.copyFile(inFile, file(outPath + s"/$source.scala"))
+      }
+    },
+    compile <<= (compile in Compile) dependsOn (dummyModel in Compile, dummyAlgoParser in Compile)
   )
 
-lazy val model = file("src/main/scala/kr/ac/kaist/ase/model")
-cleanFiles ++= Seq(model)
+cleanFiles ++= Seq(
+  file("src/main/scala/kr/ac/kaist/ase/model"),
+  file("src/main/scala/kr/ac/kaist/ase/algorithm/rule")
+)
 
 libraryDependencies ++= Seq(
   "com.codecommit" %% "gll-combinators" % "2.3",

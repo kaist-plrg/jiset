@@ -1,5 +1,5 @@
 package kr.ac.kaist.ase.phase
-import kr.ac.kaist.ase.node.core._
+import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
 import kr.ac.kaist.ase.util._
 import kr.ac.kaist.ase.error.NoFileError
