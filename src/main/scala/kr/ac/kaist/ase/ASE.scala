@@ -15,7 +15,7 @@ object ASE {
     }
     case Nil => throw NoInputError
   } catch {
-    // ASEException: print the usage message.
+    // ASEError: print the error message.
     case ex: ASEError =>
       Console.err.println(ex.getMessage)
     // Unexpected: print the stack trace.
@@ -94,36 +94,6 @@ object ASE {
   // indentation
   private val INDENT = 20
 
-  // print usage message.
-  val usage: String = {
-    val s: StringBuilder = new StringBuilder
-    val prefix = " " * (INDENT + 4)
-    s.append("Usage:").append(LINE_SEP)
-      .append("  ase {command} [-{option}]* [-{phase}:{option}[={input}]]* {filename}+").append(LINE_SEP)
-      .append("  example: ase parse example.js").append(LINE_SEP)
-      .append(LINE_SEP)
-      .append("* command list:").append(LINE_SEP)
-      .append("    Each command consists of the following phases.").append(LINE_SEP)
-      .append("    format: {command} {phase} [>> {phase}]*").append(LINE_SEP).append(LINE_SEP)
-    commands foreach (cmd => s.append(s"    %-${INDENT}s".format(cmd.name)).append(cmd).append(LINE_SEP))
-    s.append(LINE_SEP)
-      .append("* phase list:").append(LINE_SEP)
-      .append("    Each phase has the following options.").append(LINE_SEP)
-      .append("    format: {phase} [-{phase}:{option}[={input}]]*").append(LINE_SEP).append(LINE_SEP)
-    phases foreach (phase => {
-      s.append(s"    %-${INDENT}s".format(phase.name))
-      val names = phase.getOptShapes
-      val len = names.length
-      s.append(names.mkString(LINE_SEP + prefix))
-      s.append(LINE_SEP)
-    })
-    s.append(LINE_SEP)
-      .append("* global options:")
-      .append(options.map { case (opt, kind, _) => s"-${opt}${kind.postfix}" }
-        .mkString(" " * 3, LINE_SEP + prefix, LINE_SEP))
-    s.toString
-  }
-
   // print help message.
   val help: String = {
     val s: StringBuilder = new StringBuilder
@@ -149,7 +119,7 @@ object ASE {
         .append(LINE_SEP)
       phase.getOptDescs foreach {
         case (name, desc) =>
-          s.append(s"    If $name is given, $desc").append(LINE_SEP)
+          s.append(s"%${INDENT + 4}s".format("") + s"If $name is given, $desc").append(LINE_SEP)
       }
       s.append(LINE_SEP)
     })

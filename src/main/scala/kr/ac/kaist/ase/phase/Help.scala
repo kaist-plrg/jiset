@@ -4,7 +4,7 @@ import kr.ac.kaist.ase.{ ASE, ASEConfig }
 
 // Help phase
 case object Help extends PhaseObj[Unit, HelpConfig, Unit] {
-  val name = "helper"
+  val name = "help"
   val help = ""
 
   def apply(
