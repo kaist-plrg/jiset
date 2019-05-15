@@ -1,7 +1,7 @@
 package kr.ac.kaist.ase.phase
 
 import kr.ac.kaist.ase.error.NoFileError
-import kr.ac.kaist.ase.node.algorithm._
+import kr.ac.kaist.ase.algorithm._
 import kr.ac.kaist.ase.util.Useful.fileReader
 import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
 import kr.ac.kaist.ase.util._

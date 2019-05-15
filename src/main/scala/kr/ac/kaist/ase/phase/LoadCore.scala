@@ -2,7 +2,7 @@ package kr.ac.kaist.ase.phase
 
 import scala.util.{ Try, Success }
 import kr.ac.kaist.ase.ASEConfig
-import kr.ac.kaist.ase.node.core._
+import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.util._
 
 // LoadCore phase
