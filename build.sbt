@@ -8,6 +8,8 @@ lazy val root = (project in file(".")).
     grammarConvert := ConvertUtil.run
   )
 
+cleanFiles ++= Seq(file("src/main/generated"))
+
 libraryDependencies ++= Seq(
   "com.codecommit" %% "gll-combinators" % "2.3",
   "io.spray" %% "spray-json" % "1.3.2",
