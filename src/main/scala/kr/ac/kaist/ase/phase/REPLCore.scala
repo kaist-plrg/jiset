@@ -6,7 +6,7 @@ import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
 
 // REPLCore phase
 case object REPLCore extends PhaseObj[State, REPLCoreConfig, Unit] {
-  val name = "core-repl"
+  val name = "repl-core"
   val help = "REPL for Core syntax."
 
   def apply(

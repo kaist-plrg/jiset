@@ -7,7 +7,7 @@ import scala.util.{ Try, Success }
 
 // EvalCore phase
 case object EvalCore extends PhaseObj[State, EvalCoreConfig, State] {
-  val name: String = "core-interpreter"
+  val name: String = "eval-core"
   val help: String = "evaluates JavaScript source files to Core."
 
   def apply(
