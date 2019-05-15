@@ -35,6 +35,7 @@ trait TokenParsers { this: AlgorithmParsers =>
   lazy val value: Parser[Value] = tagged("value")(Value(_))
   lazy val id: Parser[Id] = tagged("id")(Id(_))
   lazy val stepList: Parser[StepList] = tagged("step-list", rep(step) ^^ { StepList(_) })
+  lazy val param: Parser[String] = tagged("param")((x: String) => x)
   val textRegex = ".*</step>.*".r
   lazy val text: Parser[Text] = ("[^\\s<]+".r | "[^\\s]+".r.filter(_ match {
     case textRegex() => false

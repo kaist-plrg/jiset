@@ -5,7 +5,7 @@ import kr.ac.kaist.ase.parser._
 import scala.util.parsing.combinator._
 
 // algorithms
-case class Algorithm(steps: List[Step]) {
+case class Algorithm(params: List[String], steps: List[Step]) {
   def getSteps(init: List[Step]): List[Step] = (init /: steps) {
     case (list, step) => step.getSteps(list)
   }
@@ -18,8 +18,8 @@ trait AlgorithmParsers extends RegexParsers
     with CondParsers
     with ExprParsers
     with TokenParsers {
-  lazy val algorithm: Parser[Algorithm] = stepList ^^ {
-    case sl => Algorithm(sl.steps)
+  lazy val algorithm: Parser[Algorithm] = tagged("algorithm", (rep(param) ~ stepList)) ^^ {
+    case plist ~ sl => Algorithm(plist, sl.steps)
   }
 }
 object Algorithm extends AlgorithmParsers with ParseTo[Algorithm] {
