@@ -13,32 +13,19 @@ sealed trait Command {
 
 class CommandObj[Result](
     override val name: String,
-    pList: PhaseList[Result],
-    modeMap: Map[String, PhaseList[Result]] = Map[String, PhaseList[Result]]()
+    pList: PhaseList[Result]
 ) extends Command {
   def apply(args: List[String]): Result = {
     val aseConfig = ASEConfig(this)
     val parser = new ArgParser(this, aseConfig)
-    val modePattern = "--(.+)".r
-    (args match {
-      case modePattern(mode) :: remain => modeMap.get(mode) match {
-        case Some(pl) => (pl, remain)
-        case None => throw NoMode(name, mode)
-      }
-      case _ => (pList, args)
-    }) match {
-      case (pList, args) =>
-        val runner = pList.getRunner(parser)
-        parser(args)
-        ASE(this, runner(_), aseConfig)
-    }
+    val runner = pList.getRunner(parser)
+    parser(args)
+    ASE(this, runner(_), aseConfig)
   }
 
   def display(res: Result): Unit = ()
 
-  override def toString: String = modeMap.foldLeft(pList.toString) {
-    case (str, (mode, pList)) => s"$str$LINE_SEP--$mode: " + pList.toString
-  }
+  override def toString: String = pList.toString
 
   def >>[C <: Config, R](phase: PhaseObj[Result, C, R]): PhaseList[R] = pList >> phase
 }

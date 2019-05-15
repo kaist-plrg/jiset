@@ -92,7 +92,7 @@ object ASE {
   )
 
   // indentation
-  private val INDENT = 15
+  private val INDENT = 20
 
   // print usage message.
   val usage: String = {
