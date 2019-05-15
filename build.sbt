@@ -13,9 +13,10 @@ lazy val root = (project in file(".")).
       val inFile = file(srcDir + "/resources/package.scala")
       val outPath = srcDir + "/scala/kr/ac/kaist/ase/model"
       val outDir = file(outPath)
-      if (!outDir.exists) IO.createDirectory(outDir)
-      val outFile = file(outPath + "/package.scala")
-      if (!outFile.exists) IO.copyFile(inFile, outFile)
+      if (!outDir.exists) {
+        IO.createDirectory(outDir)
+        IO.copyFile(inFile, file(outPath + "/package.scala"))
+      }
     },
     compile <<= (compile in Compile) dependsOn (dummyModel in Compile)
   )
