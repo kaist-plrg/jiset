@@ -2,8 +2,8 @@ package kr.ac.kaist.ase.phase
 
 import scala.util.{ Try, Success }
 import kr.ac.kaist.ase.ASEConfig
-import kr.ac.kaist.ase.node.core._
-import kr.ac.kaist.ase.node.algorithm._
+import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.algorithm._
 import kr.ac.kaist.ase.util.Useful.fileReader
 import kr.ac.kaist.ase.util._
 import java.io.{ PrintWriter, File }
@@ -40,7 +40,7 @@ case object LoadGlobal extends PhaseObj[Unit, LoadGlobalConfig, Unit] {
       case (i, j) => {
         val nf = new PrintWriter(new File(s"./src/main/scala/kr/ac/kaist/ase/model/${i}.scala"))
         nf.println("package kr.ac.kaist.ase.model")
-        nf.println("import kr.ac.kaist.ase.node.core._")
+        nf.println("import kr.ac.kaist.ase.core._")
         nf.println(s"object ${i} {")
         nf.println(s"val f: Value = ${j}")
         nf.println("}")
@@ -49,7 +49,7 @@ case object LoadGlobal extends PhaseObj[Unit, LoadGlobalConfig, Unit] {
     }
     val nf = new PrintWriter(new File(s"./src/main/scala/kr/ac/kaist/ase/model/Global.scala"))
     nf.println("package kr.ac.kaist.ase.model")
-    nf.println("import kr.ac.kaist.ase.node.core._")
+    nf.println("import kr.ac.kaist.ase.core._")
     nf.println("object Global {")
     nf.println("val initGlobal: Map[Id, Value] = Map(")
     nf.println(nt.map {

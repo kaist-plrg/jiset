@@ -1,7 +1,5 @@
-package kr.ac.kaist.ase.node.algorithm
-import kr.ac.kaist.ase.node.core.{ Id => CId, _ }
-import kr.ac.kaist.ase.node.core.Beautifier
-
+package kr.ac.kaist.ase.algorithm
+import kr.ac.kaist.ase.core.{ Id => CId, _ }
 object RuleCompiler {
   def apply(f: Algorithm): Func = f match {
     case Algorithm(pstrs, steps) => {
@@ -15,7 +13,6 @@ object RuleCompiler {
 }
 object StepCompiler {
   def apply(f: Step): List[Inst] = f match {
-    case Stmt0(e0, e1) => List(INotYetImpl("assign"))
     case _ => List(INotYetImpl("err"))
   }
 }
