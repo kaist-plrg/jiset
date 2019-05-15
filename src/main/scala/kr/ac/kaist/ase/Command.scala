@@ -1,8 +1,8 @@
 package kr.ac.kaist.ase
 
 import kr.ac.kaist.ase.error.NoMode
+import kr.ac.kaist.ase.model.Script
 import kr.ac.kaist.ase.node.algorithm.Algorithm
-import kr.ac.kaist.ase.node.ast.Script
 import kr.ac.kaist.ase.node.core
 import kr.ac.kaist.ase.phase._
 import kr.ac.kaist.ase.util.ArgParser

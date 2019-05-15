@@ -1,8 +1,7 @@
 package kr.ac.kaist.ase.phase
 
 import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
-import kr.ac.kaist.ase.node.ast._
-import kr.ac.kaist.ase.parser.ASTParser
+import kr.ac.kaist.ase.model._
 import kr.ac.kaist.ase.util.Useful.fileReader
 import kr.ac.kaist.ase.error.NoFileError
 import scala.io.Source

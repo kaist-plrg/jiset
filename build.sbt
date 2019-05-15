@@ -1,14 +1,27 @@
-lazy val grammarConvert = taskKey[Unit]("Task to convert rule file to scala parser combinator")
-lazy val compileGrammar = taskKey[Unit]("Convert grammar and compile")
+import java.io.File
+
+lazy val dummyModel = taskKey[Unit]("Generates a dummy model.")
+
 lazy val root = (project in file(".")).
   settings(
     name := "ASE",
     version := "1.0",
+    organization := "kr.ac.kaist.ase",
     scalaVersion := "2.12.8",
-    grammarConvert := ConvertUtil.run
+    dummyModel in Compile := {
+      val srcDir = baseDirectory.value + "/src/main"
+      val inFile = file(srcDir + "/resources/package.scala")
+      val outPath = srcDir + "/scala/kr/ac/kaist/ase/model"
+      val outDir = file(outPath)
+      if (!outDir.exists) IO.createDirectory(outDir)
+      val outFile = file(outPath + "/package.scala")
+      if (!outFile.exists) IO.copyFile(inFile, outFile)
+    },
+    compile <<= (compile in Compile) dependsOn (dummyModel in Compile)
   )
 
-cleanFiles ++= Seq(file("src/main/generated"))
+lazy val model = file("src/main/scala/kr/ac/kaist/ase/model")
+cleanFiles ++= Seq(model)
 
 libraryDependencies ++= Seq(
   "com.codecommit" %% "gll-combinators" % "2.3",
