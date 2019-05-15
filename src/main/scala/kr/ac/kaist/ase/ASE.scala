@@ -62,6 +62,7 @@ object ASE {
     CmdParseCore,
     CmdLoadCore,
     CmdEvalCore,
+    CmdGenAlgoParser,
     CmdREPLCore
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
@@ -76,6 +77,7 @@ object ASE {
     ParseCore,
     LoadCore,
     EvalCore,
+    GenAlgoParser,
     REPLCore
   )
 

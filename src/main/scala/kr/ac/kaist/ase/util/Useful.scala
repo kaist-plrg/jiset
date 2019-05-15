@@ -1,7 +1,8 @@
 package kr.ac.kaist.ase.util
 
-import java.io.{ Reader, File }
-import kr.ac.kaist.ase.LINE_SEP
+import java.io.{ Reader, File, PrintWriter }
+import kr.ac.kaist.ase.error.NoFileError
+import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
 import scala.io.Source
 
 object Useful {
@@ -33,4 +34,11 @@ object Useful {
 
   // extention filter
   def extFilter(ext: String): String => Boolean = _.endsWith(s".$ext")
+
+  // file writer
+  def getPrintWriter(filename: String): PrintWriter = new PrintWriter(new File(filename))
+
+  // get first filename
+  def getFirstFilename(aseConfig: ASEConfig, job: String): String =
+    aseConfig.fileNames.headOption.getOrElse(throw NoFileError(job))
 }

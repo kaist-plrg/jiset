@@ -3,7 +3,6 @@ package kr.ac.kaist.ase.phase
 import kr.ac.kaist.ase.ASEConfig
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.util._
-import scala.util.{ Try, Success }
 
 // EvalCore phase
 case object EvalCore extends PhaseObj[State, EvalCoreConfig, State] {

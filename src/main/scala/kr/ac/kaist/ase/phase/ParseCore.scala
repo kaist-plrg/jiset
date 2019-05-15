@@ -1,8 +1,7 @@
 package kr.ac.kaist.ase.phase
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
-import kr.ac.kaist.ase.util._
-import kr.ac.kaist.ase.error.NoFileError
+import kr.ac.kaist.ase.util.Useful._
 
 // ParseCore phase
 case object ParseCore extends PhaseObj[Unit, ParseCoreConfig, Program] {
@@ -13,9 +12,9 @@ case object ParseCore extends PhaseObj[Unit, ParseCoreConfig, Program] {
     unit: Unit,
     aseConfig: ASEConfig,
     config: ParseCoreConfig
-  ): Program = aseConfig.fileNames match {
-    case Nil => throw NoFileError("core-parser")
-    case filename :: _ => Parser.fileToProgram(filename)
+  ): Program = {
+    val filename = getFirstFilename(aseConfig, "parse-core")
+    Parser.fileToProgram(filename)
   }
 
   def defaultConfig: ParseCoreConfig = ParseCoreConfig()

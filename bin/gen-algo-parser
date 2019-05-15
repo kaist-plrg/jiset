@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ -z "$ASE_HOME" ]; then
+  echo "You need to set ASE_HOME to the directory containing ASE"
+  exit 1
+fi
+
+cd $ASE_HOME
+echo "compile" | sbt
