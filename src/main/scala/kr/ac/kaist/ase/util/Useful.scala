@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.util
 
-import java.io.Reader
+import java.io.{ Reader, File }
 import kr.ac.kaist.ase.LINE_SEP
 import scala.io.Source
 
@@ -22,4 +22,15 @@ object Useful {
       case _ =>
     }
   }
+
+  // walk directory
+  def walkTree(file: File): Iterable[File] = {
+    val children = new Iterable[File] {
+      def iterator: Iterator[File] = if (file.isDirectory) file.listFiles.iterator else Iterator.empty
+    }
+    Seq(file) ++: children.flatMap(walkTree(_))
+  }
+
+  // extention filter
+  def extFilter(ext: String): String => Boolean = _.endsWith(s".$ext")
 }

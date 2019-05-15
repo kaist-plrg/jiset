@@ -1,7 +1,8 @@
 package kr.ac.kaist.ase.node.core
 
-import java.io._
+import java.io.File
 import kr.ac.kaist.ase.LINE_SEP
+import kr.ac.kaist.ase.util.Useful
 
 // CORE Global Model Loader
 object GlobalLoader {
@@ -18,13 +19,6 @@ object GlobalLoader {
     map
   }
 
-  private def walkTree(file: File): Iterable[File] = {
-    val children = new Iterable[File] {
-      def iterator: Iterator[File] = if (file.isDirectory) file.listFiles.iterator else Iterator.empty
-    }
-    Seq(file) ++: children.flatMap(walkTree(_))
-  }
-
-  private def extFilter(ext: String): String => Boolean = _.endsWith(s".$ext")
-  private val funcFilter = extFilter("func")
+  private def walkTree(file: File): Iterable[File] = Useful.walkTree(file)
+  private val funcFilter = Useful.extFilter("func")
 }
