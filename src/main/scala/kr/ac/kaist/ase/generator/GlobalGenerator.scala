@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.generator
 
-import kr.ac.kaist.ase.LINE_SEP
+import kr.ac.kaist.ase._
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.spec._
 
@@ -11,7 +11,7 @@ object GlobalGenerator {
     methods.foreach(name => MethodGenerator(version, name))
     tys.foreach(ty => TypeGenerator(version, ty))
 
-    val nf = getPrintWriter("./src/main/scala/kr/ac/kaist/ase/model/Global.scala")
+    val nf = getPrintWriter(s"$MODEL_DIR/Global.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println(s"""""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")

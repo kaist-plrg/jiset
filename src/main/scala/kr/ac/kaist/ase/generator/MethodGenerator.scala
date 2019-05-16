@@ -1,5 +1,6 @@
 package kr.ac.kaist.ase.generator
 
+import kr.ac.kaist.ase._
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.algorithm.Algorithm
 import kr.ac.kaist.ase.algorithm.RuleCompiler
@@ -7,11 +8,11 @@ import kr.ac.kaist.ase.algorithm.RuleCompiler
 object MethodGenerator {
   def apply(version: String, name: String): Unit = {
     val objName = dotted2camel(name)
-    val reader = fileReader(s"./src/main/resources/$version/algorithm/$name.algorithm")
+    val reader = fileReader(s"$RESOURCE_DIR/$version/algorithm/$name.algorithm")
     val algo = Algorithm(reader)
     val func = RuleCompiler(algo)
 
-    val nf = getPrintWriter(s"./src/main/scala/kr/ac/kaist/ase/model/$objName.scala")
+    val nf = getPrintWriter(s"$MODEL_DIR/$objName.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println(s"""""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")

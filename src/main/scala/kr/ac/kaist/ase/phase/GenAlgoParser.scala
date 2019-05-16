@@ -1,10 +1,10 @@
 package kr.ac.kaist.ase.phase
 
 import java.io.File
+import kr.ac.kaist.ase._
 import kr.ac.kaist.ase.error.NoFileError
 import kr.ac.kaist.ase.parser._
 import kr.ac.kaist.ase.util.Useful._
-import kr.ac.kaist.ase.{ ASEConfig, BASE_DIR }
 import scala.util.parsing.combinator._
 
 // GenAlgoParser phase
@@ -19,12 +19,12 @@ case object GenAlgoParser extends PhaseObj[Unit, GenAlgoParserConfig, Unit] {
   ): Unit = {
     val filename = getFirstFilename(aseConfig, "gen-algo-parser")
     val ruleFiler = extFilter("rule")
-    for (file <- walkTree(new File(s"$BASE_DIR/src/main/resources/$filename/rule/"))) {
+    for (file <- walkTree(new File(s"$RESOURCE_DIR/$filename/rule"))) {
       val filename = file.getName
       if (ruleFiler(filename)) {
         val name = filename.substring(0, filename.length - 5)
         val input = file.getAbsolutePath
-        val output = s"$BASE_DIR/src/main/scala/kr/ac/kaist/ase/algorithm/rule/${name}.scala"
+        val output = s"$RULE_DIR/$name.scala"
 
         val rules = RuleParser.getList(fileReader(input))
 
