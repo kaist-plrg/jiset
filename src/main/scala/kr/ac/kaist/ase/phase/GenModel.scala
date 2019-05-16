@@ -12,12 +12,6 @@ import spray.json._
 
 // GenModel phase
 case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
-  import DefaultJsonProtocol._
-  implicit val TyFormat = jsonFormat2(Ty)
-  implicit val RhsFormat = jsonFormat1(Rhs)
-  implicit val ProductionFormat = jsonFormat3(Production)
-  implicit val GrammarFormat = jsonFormat1(Grammar)
-  implicit val SpecFormat = jsonFormat3(Spec)
 
   val name: String = "gen-model"
   val help: String = "generates ECMAScript models."
@@ -27,6 +21,7 @@ case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
     aseConfig: ASEConfig,
     config: GenModelConfig
   ): Unit = {
+    import SpecProtocol._
     val version = getFirstFilename(aseConfig, "gen-model")
     val json = readFile(s"$RESOURCE_DIR/$version/spec.json")
     val spec = json.parseJson.convertTo[Spec]

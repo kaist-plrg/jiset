@@ -5,15 +5,34 @@
     "CreateIntrinsics"
   ],
   "grammar": {
+    "lexProds": [],
     "prods": [
       {
-        "lhs": "StatementList",
+        "lhs": {
+          "name": "StatementList",
+          "params": ["Yield", "Await", "Return"]
+        },
         "rhsList": [
           {
-            "tokens": []
-          },
-          {
-            "tokens": []
+            "tokens": [
+              {
+                "term": "Terminal"
+              },
+              {
+                "name": "NonTerminal",
+                "args": ["Yield", "false", "true"],
+                "optional": false
+              },
+              {
+                "base": "EmptyToken",
+                "cases": ["NoLineTerminatorToken", "UnicodeAny"]
+              },
+              {
+                "contains": false,
+                "cases": [[{ "code": "Unicode" }, "UnicodeIdStart"], ["UnicodeIdContinue"]]
+              }
+            ],
+            "cond": ""
           }
         ],
         "semantics": ["Evaluation"]
