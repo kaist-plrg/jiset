@@ -6,15 +6,15 @@ import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.util.Useful._
 import scala.io.Source
 
-// ConvertToCore phase
-case object ConvertToCore extends PhaseObj[Script, ConvertToCoreConfig, State] {
-  val name = "convertToCore"
+// Load phase
+case object Load extends PhaseObj[Script, LoadConfig, State] {
+  val name = "load"
   val help = "read script object and using global, convert to State object."
 
   def apply(
     script: Script,
     aseConfig: ASEConfig,
-    config: ConvertToCoreConfig
+    config: LoadConfig
   ): State = {
     val (initialLocals, initialHeap) = Heap().allocLocals(Map(Id("script") -> ASTVal(script)))
     val initialEnv: Env = Env(locals = initialLocals)
@@ -26,9 +26,9 @@ case object ConvertToCore extends PhaseObj[Script, ConvertToCoreConfig, State] {
     )
   }
 
-  def defaultConfig: ConvertToCoreConfig = ConvertToCoreConfig()
-  val options: List[PhaseOption[ConvertToCoreConfig]] = List()
+  def defaultConfig: LoadConfig = LoadConfig()
+  val options: List[PhaseOption[LoadConfig]] = List()
 }
 
 // Parse phase config
-case class ConvertToCoreConfig() extends Config
+case class LoadConfig() extends Config

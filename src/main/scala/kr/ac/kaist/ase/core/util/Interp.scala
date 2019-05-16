@@ -106,9 +106,8 @@ object Interp {
             val retInst = IReturn(EUndef)
             newSt.copy(insts = List(body, retInst), env = newEnv)
           }
-          case _ => error(s"not a ast value: $oid")
+          case _ => error(s"not an AST value: $oid")
         }
-
       }
       case INotYetImpl(msg) => error(s"[NotYetImpl] $msg")
     }

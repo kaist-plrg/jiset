@@ -43,6 +43,12 @@ case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
   override def display(script: Script): Unit = println(script)
 }
 
+// load
+case object CmdLoad extends CommandObj("load", CmdParse >> Load)
+
+// eval
+case object CmdEval extends CommandObj("eval", CmdLoad >> EvalCore)
+
 // parse-core
 case object CmdParseCore extends CommandObj("parse-core", CmdBase >> ParseCore) {
   override def display(pgm: core.Program): Unit = println(core.beautify(pgm))
@@ -66,10 +72,6 @@ case object CmdGenAlgoParser extends CommandObj("gen-algo-parser", CmdBase >> Ge
 
 // gen-model
 case object CmdGenModel extends CommandObj("gen-model", CmdBase >> GenModel)
-
-case object CmdConvertCore extends CommandObj("convert-core", CmdParse >> ConvertToCore)
-
-case object CmdEvalScript extends CommandObj("eval-script", CmdConvertCore >> EvalCore)
 
 // help
 case object CmdHelp extends CommandObj("help", CmdBase >> Help)
