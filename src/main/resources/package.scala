@@ -10,6 +10,8 @@ package object model {
     val initGlobal: Map[Id, Value]
   }
   val Global: Global = throw ModelNotYetGenerated
-  trait ModelAST
+  trait ModelAST {
+    val semantics: Map[String, (Func, List[Value])]
+  }
   trait Script extends ModelAST
 }

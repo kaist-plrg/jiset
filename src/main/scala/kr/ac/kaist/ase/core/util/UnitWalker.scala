@@ -76,6 +76,8 @@ trait UnitWalker {
       walk(expr)
     case IPrint(expr) =>
       walk(expr)
+    case IRun(lhs, oid, name, args) =>
+      walk(lhs); walk(oid); walk(name); walkList[Expr](args, walk);
     case INotYetImpl(msg) =>
   }
 

@@ -121,6 +121,8 @@ object Beautifier {
         walk("assert "); walk(expr)
       case IPrint(expr) =>
         walk("print "); walk(expr)
+      case IRun(_, _, _, _) =>
+        ()
       case INotYetImpl(msg) =>
         walk("??? "); walk(msg)
     }
@@ -247,6 +249,7 @@ object Beautifier {
       case Bool(bool) => walk(s"$bool")
       case Undef => walk("undefined")
       case Null => walk("null")
+      case ASTVal(f) => ()
     }
 
     // addresses

@@ -85,6 +85,31 @@ object Interp {
           case v => println(beautify(v))
         }
         st
+      case IRun(lhs, oid, name, args) => {
+        val prop = interp(lhs)(st)
+        val astobj: Value = st(interp(oid)(st))
+        astobj match {
+          case ASTVal(ast) => {
+            val (Func(params, body), lst) = ast.semantics(name)
+            val nlst = lst ++ args.map(interp(_)(st))
+            val (idMap, _) = ((Map[Id, Value](), nlst) /: params) {
+              case ((map, Nil), param) =>
+                (map + (param -> Undef), Nil)
+              case ((map, arg :: rest), param) =>
+                (map + (param -> arg), rest)
+            }
+            val (locals, newSt) = st.allocLocals(idMap)
+            val newEnv = st.env.copy(
+              locals = locals,
+              retCont = Some(Cont(prop, st.insts, st.env))
+            )
+            val retInst = IReturn(EUndef)
+            newSt.copy(insts = List(body, retInst), env = newEnv)
+          }
+          case _ => error(s"not a ast value: $oid")
+        }
+
+      }
       case INotYetImpl(msg) => error(s"[NotYetImpl] $msg")
     }
   }
@@ -121,6 +146,7 @@ object Interp {
         case Undef => Str("Undefined")
         case Null => Str("Null")
         case Func(_, _) => Str("Function")
+        case ASTVal(_) => Str("AST")
       }
     }
   }
