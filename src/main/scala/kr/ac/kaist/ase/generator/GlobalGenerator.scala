@@ -7,7 +7,6 @@ import kr.ac.kaist.ase.spec._
 object GlobalGenerator {
   def apply(version: String, spec: Spec): Unit = {
     val methods = spec.globalMethods
-    println(spec.grammar) // XXX
     val tys = spec.tys
     methods.foreach(name => MethodGenerator(version, name))
     tys.foreach(ty => TypeGenerator(version, ty))
