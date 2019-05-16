@@ -60,7 +60,7 @@ case object GenAlgoParser extends PhaseObj[Unit, GenAlgoParserConfig, Unit] {
         //     pw.println("}")
         //     pw.println("}")
         // }
-        pw.println(s"""lazy val ${name.head.toLower + name.tail} = failure("")""")
+        pw.println(s"""  lazy val ${name.head.toLower + name.tail} = failure("")""")
         // pw.println(rules.map { case Rule(subname, _) => s"${subname.head.toLower + subname.tail}" }.mkString(" |\n"))
         pw.println("}")
         pw.close()

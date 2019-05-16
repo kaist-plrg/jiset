@@ -1,20 +1,8 @@
 package kr.ac.kaist.ase.algorithm
 
-import kr.ac.kaist.ase.core.{ Id => CId, _ }
+import kr.ac.kaist.ase.core
 
 object RuleCompiler {
-  def apply(f: Algorithm): Func = f match {
-    case Algorithm(pstrs, stepList) => {
-      val body = stepList.steps.foldLeft(List[Inst]()) {
-        case (a, step) => a ++ StepCompiler(step)
-      }
-      val params = pstrs.map(param => CId(param.name))
-      Func(params, ISeq(body))
-    }
-  }
-}
-object StepCompiler {
-  def apply(f: Step): List[Inst] = f match {
-    case _ => List(INotYetImpl("err"))
-  }
+  def apply(algo: Algorithm): core.Func =
+    core.Func(algo.params.map(param => core.Id(param.name)), core.INotYetImpl(algo.toString))
 }

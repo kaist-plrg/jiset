@@ -1,0 +1,33 @@
+{
+  "globalMethods": [
+    "CreateRealm",
+    "BlockDeclarationInstantiation",
+    "CreateIntrinsics"
+  ],
+  "grammar": {
+    "prods": [
+      {
+        "lhs": "StatementList",
+        "rhsList": [
+          {
+            "tokens": []
+          },
+          {
+            "tokens": []
+          }
+        ],
+        "semantics": ["Evaluation"]
+      }
+    ]
+  },
+  "tys": [
+    {
+      "name": "DeclarativeEnvironmentRecords",
+      "methods": [
+        "CreateImmutableBinding",
+        "HasBinding",
+        "CreateMuttableBinding"
+      ]
+    }
+  ]
+}

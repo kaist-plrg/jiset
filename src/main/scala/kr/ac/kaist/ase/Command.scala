@@ -64,8 +64,8 @@ case object CmdREPLCore extends CommandObj("repl-core", CmdLoadCore >> REPLCore)
 // gen-algo-parser
 case object CmdGenAlgoParser extends CommandObj("gen-algo-parser", CmdBase >> GenAlgoParser)
 
-// load-script
-case object CmdLoadGlobal extends CommandObj("load-script", CmdBase >> LoadGlobal)
+// gen-model
+case object CmdGenModel extends CommandObj("gen-model", CmdBase >> GenModel)
 
 // help
 case object CmdHelp extends CommandObj("help", CmdBase >> Help)

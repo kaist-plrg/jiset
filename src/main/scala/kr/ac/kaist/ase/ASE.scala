@@ -64,7 +64,7 @@ object ASE {
     CmdEvalCore,
     CmdREPLCore,
     CmdGenAlgoParser,
-    CmdLoadGlobal
+    CmdGenModel
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -80,7 +80,7 @@ object ASE {
     EvalCore,
     REPLCore,
     GenAlgoParser,
-    LoadGlobal
+    GenModel
   )
 
   // global options
