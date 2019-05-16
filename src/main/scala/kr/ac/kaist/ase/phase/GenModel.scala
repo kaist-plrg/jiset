@@ -1,18 +1,18 @@
 package kr.ac.kaist.ase.phase
 
-import scala.util.{ Try, Success }
+import java.io.File
 import kr.ac.kaist.ase.ASEConfig
-import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.algorithm._
+import kr.ac.kaist.ase.core
+import kr.ac.kaist.ase.spec._
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.util._
-import java.io.File
 import scala.io.Source
 import spray.json._
-import DefaultJsonProtocol._
 
 // GenModel phase
 case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
+  import DefaultJsonProtocol._
   implicit val TyFormat = jsonFormat2(Ty)
   implicit val RhsFormat = jsonFormat1(Rhs)
   implicit val ProductionFormat = jsonFormat3(Production)
@@ -27,12 +27,12 @@ case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
     aseConfig: ASEConfig,
     config: GenModelConfig
   ): Unit = {
-    val filename = getFirstFilename(aseConfig, "gen-model")
-    val json = Source.fromFile(s"./src/main/resources/$filename/spec.json").mkString
+    val version = getFirstFilename(aseConfig, "gen-model")
+    val json = readFile(s"./src/main/resources/$version/spec.json")
     val spec = json.parseJson.convertTo[Spec]
 
-    def loadEFunFromFile(name: String): Func = {
-      val f = Algorithm(fileReader(s"./src/main/resources/$filename/algorithm/$name.algorithm"))
+    def loadEFunFromFile(name: String): core.Func = {
+      val f = Algorithm(fileReader(s"./src/main/resources/$version/algorithm/$name.algorithm"))
       RuleCompiler(f)
     }
     val nt = spec.globalMethods.map(name => name -> loadEFunFromFile(name)).toMap
@@ -68,18 +68,3 @@ case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
 
 // GenModel phase config
 case class GenModelConfig() extends Config
-
-// ECMASCript spec
-case class Spec(
-  globalMethods: List[String],
-  grammar: Grammar,
-  tys: List[Ty]
-)
-case class Grammar(prods: List[Production])
-case class Production(
-  lhs: String,
-  rhsList: List[Rhs],
-  semantics: List[String]
-)
-case class Rhs(tokens: List[String])
-case class Ty(name: String, methods: List[String])
