@@ -35,31 +35,58 @@ case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
       val f = Algorithm(fileReader(s"./src/main/resources/$filename/algorithm/$name.algorithm"))
       RuleCompiler(f)
     }
-    val nt = spec.globalMethods.map(name => name -> loadEFunFromFile(name)).toMap
-    nt.foreach {
-      case (name, func) => {
-        val nf = getPrintWriter(s"./src/main/scala/kr/ac/kaist/ase/model/$name.scala")
-        nf.println(s"package kr.ac.kaist.ase.model")
-        nf.println
-        nf.println(s"import kr.ac.kaist.ase.core._")
-        nf.println(s"object $name {")
-        nf.println(s"  val func: Func = $func")
-        nf.println(s"}")
-        nf.close()
-      }
+
+    def modelForSingleMethod(methodName: String, methodFileName: String): Unit = {
+      val func = loadEFunFromFile(methodFileName)
+      val nf = getPrintWriter(s"./src/main/scala/kr/ac/kaist/ase/model/$methodName.scala")
+      nf.println(s"package kr.ac.kaist.ase.model")
+      nf.println
+      nf.println(s"import kr.ac.kaist.ase.core._")
+      nf.println(s"object $methodName {")
+      nf.println(s"  val func: Func = $func")
+      nf.println(s"}")
+      nf.close()
     }
-    val nf = getPrintWriter("./src/main/scala/kr/ac/kaist/ase/model/Global.scala")
-    nf.println("package kr.ac.kaist.ase.model")
-    nf.println
-    nf.println("import kr.ac.kaist.ase.core._")
-    nf.println("object Global {")
-    nf.println("  val initGlobal: Map[Id, Value] = Map(")
-    nf.println(nt.map {
-      case (i, _) => (new StringContext("(Id(\"", "\") -> ", ".func)").s(i, i))
-    }.mkString(","))
-    nf.println(")")
-    nf.println("}")
-    nf.close()
+    def modelForMethods(methods: List[String]): Unit = {
+      methods foreach ((i) => modelForSingleMethod(i, i))
+      val nf = getPrintWriter("./src/main/scala/kr/ac/kaist/ase/model/Global.scala")
+      nf.println("package kr.ac.kaist.ase.model")
+      nf.println
+      nf.println("import kr.ac.kaist.ase.core._")
+      nf.println("object Global {")
+      nf.println("  val initGlobal: Map[Id, Value] = Map(")
+      nf.println(methods.map(
+        (i) => (new StringContext("(Id(\"", "\") -> ", ".func)").s(i, i))
+      ).mkString(","))
+      nf.println(")")
+      nf.println("}")
+      nf.close()
+    }
+
+    def modelForSingleType(ty: Ty): Unit = {
+      ty.methods foreach ((i) => modelForSingleMethod(s"${ty.name}_${i}", s"${ty.name}.${i}"))
+
+      val nf = getPrintWriter(s"./src/main/scala/kr/ac/kaist/ase/model/${ty.name}.scala")
+      nf.println(s"package kr.ac.kaist.ase.model")
+      nf.println
+      nf.println(s"import kr.ac.kaist.ase.core._")
+      nf.println(s"object ${ty.name} {")
+      nf.println(s"  val obj: Obj = Obj(")
+      nf.println(new StringContext("  Ty(\"", "\"),").s(ty.name))
+      nf.println(s"  Map(),")
+      nf.println(s"  Map(")
+      nf.println(ty.methods.map(
+        (i) => (new StringContext("(\"", "\" -> ", "_", ".func)").s(i, ty.name, i))
+      ).mkString(","))
+      nf.println("))")
+      nf.println(s"}")
+      nf.close()
+    }
+
+    def modelForTypes(tys: List[Ty]): Unit = tys foreach modelForSingleType
+
+    modelForMethods(spec.globalMethods)
+    modelForTypes(spec.tys)
   }
 
   def defaultConfig: GenModelConfig = GenModelConfig()
