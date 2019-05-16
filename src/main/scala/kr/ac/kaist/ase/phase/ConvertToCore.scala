@@ -16,10 +16,10 @@ case object ConvertToCore extends PhaseObj[Script, ConvertToCoreConfig, State] {
     aseConfig: ASEConfig,
     config: ConvertToCoreConfig
   ): State = {
-    val (initialLocals, initialHeap) = Heap().allocLocals()
+    val (initialLocals, initialHeap) = Heap().allocLocals(Map(Id("script") -> ASTVal(script)))
     val initialEnv: Env = Env(locals = initialLocals)
     State(
-      insts = List(IApp(LhsLet(Id("result")), ERun(script, "Evalutation"), Nil)),
+      insts = List(IRun(LhsLet(Id("_")), RefId(Id("script")), "Evalutation", Nil)),
       globals = Global.initGlobal,
       env = initialEnv,
       heap = initialHeap

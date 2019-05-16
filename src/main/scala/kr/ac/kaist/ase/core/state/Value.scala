@@ -1,5 +1,6 @@
 package kr.ac.kaist.ase.core
 
+import kr.ac.kaist.ase.model._
 // CORE Values
 sealed trait Value extends CoreNode
 
@@ -19,6 +20,7 @@ case class Num(double: Double) extends Const {
     case _ => false
   }
 }
+case class ASTVal(a: ModelAST) extends Value
 case class INum(long: Long) extends Const
 case class Str(str: String) extends Const
 case class Bool(bool: Boolean) extends Const
