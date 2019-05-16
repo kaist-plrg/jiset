@@ -83,7 +83,22 @@ case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
       nf.close()
     }
 
-    def modelForTypes(tys: List[Ty]): Unit = tys foreach modelForSingleType
+    def modelForTypes(tys: List[Ty]): Unit = {
+      tys foreach modelForSingleType
+      val nf = getPrintWriter("./src/main/scala/kr/ac/kaist/ase/model/GlobalType.scala")
+      nf.println("package kr.ac.kaist.ase.model")
+      nf.println
+      nf.println("import kr.ac.kaist.ase.core._")
+      nf.println("object GlobalType {")
+      nf.println("  val initType: Map[String, Obj] = Map(")
+      nf.println(tys.map(
+        (i) => (new StringContext("(\"", "\" -> ", ".obj)").s(i.name, i.name))
+      ).mkString(","))
+      nf.println(")")
+      nf.println("}")
+      nf.close()
+
+    }
 
     modelForMethods(spec.globalMethods)
     modelForTypes(spec.tys)
