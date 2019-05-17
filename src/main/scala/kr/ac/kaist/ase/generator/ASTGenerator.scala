@@ -24,7 +24,7 @@ object ASTGenerator {
             nf.println(s"""  override def toString: String = {""")
             nf.println(s"""    s"$string"""")
             nf.println(s"""  }""")
-            nf.println(s"""  val semantics: Map[String, (Func, List[Value])] = $name$i.semantics""")
+            nf.println(s"""  def semantics: Map[String, (Func, List[Value])] = $name$i.semantics""")
             nf.println(s"""}""")
             nf.println(s"""object $name$i {""")
             nf.println(s"""  val semantics: Map[String, (Func, List[Value])] = Map() // TODO""")
@@ -54,7 +54,7 @@ object ASTGenerator {
       strOpt = token match {
         case Terminal(term) => Some(term)
         case NonTerminal(_, _, true) => Some(s"""$${x$i.getOrElse("")}""")
-        case NonTerminal(_, _, false) => Some(s"""$$x$i""")
+        case NonTerminal(_, _, false) | ButNot(_, _) => Some(s"""$$x$i""")
         case _ => None
       }
       if strOpt.isDefined
@@ -71,7 +71,7 @@ object ASTGenerator {
     nf.println(s"""import kr.ac.kaist.ase.core._""")
     nf.println
     nf.println(s"""trait AST {""")
-    nf.println(s"""  val semantics: Map[String, (Func, List[Value])]""")
+    nf.println(s"""  def semantics: Map[String, (Func, List[Value])]""")
     nf.println(s"""}""")
     nf.println
     prods.foreach(getAST)
