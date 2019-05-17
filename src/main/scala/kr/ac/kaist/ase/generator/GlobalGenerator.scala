@@ -7,8 +7,10 @@ import kr.ac.kaist.ase.spec._
 object GlobalGenerator {
   def apply(version: String, spec: Spec): Unit = {
     val methods = spec.globalMethods
+    val grammar = spec.grammar
     val tys = spec.tys
     methods.foreach(name => MethodGenerator(version, name))
+    GrammarGenerator(grammar)
     tys.foreach(ty => TypeGenerator(version, ty))
 
     val nf = getPrintWriter(s"$MODEL_DIR/Global.scala")
