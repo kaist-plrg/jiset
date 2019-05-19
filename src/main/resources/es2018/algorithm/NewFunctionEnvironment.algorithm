@@ -1,0 +1,19 @@
+<algorithm>
+  <param>F</param>
+  <param>newTarget</param>
+  <step-list>
+    <step>Assert : <id>F</id> is an ECMAScript function.</step>
+    <step>Assert : Type ( <id>newTarget</id> ) is Undefined or Object.</step>
+    <step>Let <id>env</id> be a new Lexical Environment .</step>
+    <step>Let <id>envRec</id> be a new function Environment Record containing no bindings.</step>
+    <step>Set <id>envRec</id> .[[FunctionObject]] to <id>F</id> .</step>
+    <step>If <id>F</id> .[[ThisMode]] is <value>lexical</value> , set <id>envRec</id> .[[ThisBindingStatus]] to <value>"lexical"</value> .</step>
+    <step>Else, set <id>envRec</id> .[[ThisBindingStatus]] to <value>"uninitialized"</value> .</step>
+    <step>Let <id>home</id> be <id>F</id> .[[HomeObject]].</step>
+    <step>Set <id>envRec</id> .[[HomeObject]] to <id>home</id> .</step>
+    <step>Set <id>envRec</id> .[[NewTarget]] to <id>newTarget</id> .</step>
+    <step>Set <id>env</id> 's EnvironmentRecord to <id>envRec</id> .</step>
+    <step>Set the outer lexical environment reference of <id>env</id> to <id>F</id> .[[Environment]].</step>
+    <step>Return <id>env</id> .</step>
+  </step-list>
+</algorithm>
