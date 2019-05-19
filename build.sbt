@@ -1,7 +1,6 @@
 import java.io.File
 
 lazy val dummyModel = taskKey[Unit]("Generates a dummy model.")
-lazy val dummyAlgoParser = taskKey[Unit]("Generates a dummy algorithm parser.")
 
 lazy val ES_MODEL = "es2018"
 
@@ -12,30 +11,28 @@ lazy val root = (project in file(".")).
     organization := "kr.ac.kaist.ase",
     scalaVersion := "2.12.8",
     dummyModel in Compile := {
-      val source = "package"
-      val target = "model"
       val srcDir = baseDirectory.value + "/src/main"
-      val inFile = file(srcDir + s"/resources/$source.scala")
-      val outPath = srcDir + s"/scala/kr/ac/kaist/ase/$target"
-      val outDir = file(outPath)
-      if (!outDir.exists) {
-        IO.createDirectory(outDir)
-        IO.copyFile(inFile, file(outPath + s"/$source.scala"))
+      val outPath = s"$srcDir/scala/kr/ac/kaist/ase"
+      def createSrcDir(dirname: String): Boolean = {
+        val outDir = file(s"$outPath/$dirname")
+        if (!outDir.exists) {
+          IO.createDirectory(outDir)
+          false
+        } else true
       }
-    },
-    dummyAlgoParser in Compile := {
-      val source = "Stmt"
-      val target = "algorithm/rule"
-      val srcDir = baseDirectory.value + "/src/main"
-      val inFile = file(srcDir + s"/resources/$source.scala")
-      val outPath = srcDir + s"/scala/kr/ac/kaist/ase/$target"
-      val outDir = file(outPath)
-      if (!outDir.exists) {
-        IO.createDirectory(outDir)
-        IO.copyFile(inFile, file(outPath + s"/$source.scala"))
+      def copySrc(dirname: String, name: String): Unit = if (!createSrcDir(dirname)) {
+        val outFile = file(s"$outPath/$dirname/$name.scala")
+        IO.copyFile(
+          file(s"$srcDir/resources/$name.scala"),
+          file(s"$outPath/$dirname/$name.scala")
+        )
       }
+      copySrc("algorithm/rule", "Stmt")
+      copySrc("model", "package")
+      createSrcDir("model/algorithm")
+      createSrcDir("model/type")
     },
-    compile <<= (compile in Compile) dependsOn (dummyModel in Compile, dummyAlgoParser in Compile)
+    compile <<= (compile in Compile) dependsOn (dummyModel in Compile)
   )
 
 cleanFiles ++= Seq(

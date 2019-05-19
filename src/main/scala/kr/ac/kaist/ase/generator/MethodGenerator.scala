@@ -13,7 +13,7 @@ object MethodGenerator {
     val algo = Algorithm(reader, filename)
     val func = RuleCompiler(algo)
 
-    val nf = getPrintWriter(s"$MODEL_DIR/$objName.scala")
+    val nf = getPrintWriter(s"$MODEL_DIR/algorithm/$objName.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println(s"""""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")

@@ -9,7 +9,7 @@ object TypeGenerator {
     val name = ty.name
     ty.methods.foreach(method => MethodGenerator(version, s"$name.$method"))
 
-    val nf = getPrintWriter(s"$MODEL_DIR/$name.scala")
+    val nf = getPrintWriter(s"$MODEL_DIR/type/$name.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println(s"""""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")
