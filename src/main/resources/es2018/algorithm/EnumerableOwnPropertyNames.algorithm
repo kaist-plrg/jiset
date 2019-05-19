@@ -1,0 +1,28 @@
+<algorithm>
+  <param>O</param>
+  <param>kind</param>
+  <step-list>
+    <step>Assert : Type ( <id>O</id> ) is Object.</step>
+    <step>Let <id>ownKeys</id> be ? <id>O</id> .[[OwnPropertyKeys]]().</step>
+    <step>Let <id>properties</id> be a new empty List .</step>
+    <step>For each element <id>key</id> of <id>ownKeys</id> in List order, do     <step-list>
+      <step>If Type ( <id>key</id> ) is String, then       <step-list>
+        <step>Let <id>desc</id> be ? <id>O</id> .[[GetOwnProperty]]( <id>key</id> ).</step>
+        <step>If <id>desc</id> is not <value>undefined</value> and <id>desc</id> .[[Enumerable]] is <value>true</value> , then         <step-list>
+          <step>If <id>kind</id> is <value>"key"</value> , append <id>key</id> to <id>properties</id> .</step>
+          <step>Else,           <step-list>
+            <step>Let <id>value</id> be ? Get ( <id>O</id> , <id>key</id> ).</step>
+            <step>If <id>kind</id> is <value>"value"</value> , append <id>value</id> to <id>properties</id> .</step>
+            <step>Else,             <step-list>
+              <step>Assert : <id>kind</id> is <value>"key+value"</value> .</step>
+              <step>Let <id>entry</id> be CreateArrayFromList (« <id>key</id> , <id>value</id> »).</step>
+              <step>Append <id>entry</id> to <id>properties</id> .</step>
+            </step-list></step>
+          </step-list></step>
+        </step-list></step>
+      </step-list></step>
+    </step-list></step>
+    <step>Order the elements of <id>properties</id> so they are in the same relative order as would be produced by the Iterator that would be returned if the EnumerateObjectProperties internal method were invoked with <id>O</id> .</step>
+    <step>Return <id>properties</id> .</step>
+  </step-list>
+</algorithm>

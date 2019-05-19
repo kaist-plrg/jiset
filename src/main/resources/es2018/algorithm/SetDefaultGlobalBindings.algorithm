@@ -1,0 +1,12 @@
+<algorithm>
+  <param>realmRec</param>
+  <step-list>
+    <step>Let <id>global</id> be <id>realmRec</id> .[[GlobalObject]].</step>
+    <step>For each property of the Global Object specified in clause 18 , do     <step-list>
+      <step>Let <id>name</id> be the String value of the property name .</step>
+      <step>Let <id>desc</id> be the fully populated data property descriptor for the property containing the specified attributes for the property. For properties listed in 18.2 , 18.3 , or 18.4 the value of the [[Value]] attribute is the corresponding intrinsic object from <id>realmRec</id> .</step>
+      <step>Perform ? DefinePropertyOrThrow ( <id>global</id> , <id>name</id> , <id>desc</id> ).</step>
+    </step-list></step>
+    <step>Return <id>global</id> .</step>
+  </step-list>
+</algorithm>

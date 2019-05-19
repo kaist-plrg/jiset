@@ -1,0 +1,14 @@
+<algorithm>
+  <param>this</param>
+  <param>N</param>
+  <param>M</param>
+  <param>N2</param>
+  <step-list>
+    <step>Let <id>envRec</id> be the module Environment Record for which the method was invoked.</step>
+    <step>Assert : <id>envRec</id> does not already have a binding for <id>N</id> .</step>
+    <step>Assert : <id>M</id> is a Module Record .</step>
+    <step>Assert : When <id>M</id> .[[Environment]] is instantiated it will have a direct binding for <id>N2</id> .</step>
+    <step>Create an immutable indirect binding in <id>envRec</id> for <id>N</id> that references <id>M</id> and <id>N2</id> as its target binding and record that the binding is initialized.</step>
+    <step>Return NormalCompletion ( <value>empty</value> ).</step>
+  </step-list>
+</algorithm>

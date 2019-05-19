@@ -1,0 +1,13 @@
+<algorithm>
+  <param>V</param>
+  <param>W</param>
+  <step-list>
+    <step>ReturnIfAbrupt ( <id>V</id> ).</step>
+    <step>ReturnIfAbrupt ( <id>W</id> ).</step>
+    <step>Assert : Type ( <id>V</id> ) is Reference .</step>
+    <step>Assert : IsUnresolvableReference ( <id>V</id> ) is <value>false</value> .</step>
+    <step>Let <id>base</id> be GetBase ( <id>V</id> ).</step>
+    <step>Assert : <id>base</id> is an Environment Record .</step>
+    <step>Return <id>base</id> .InitializeBinding( GetReferencedName ( <id>V</id> ), <id>W</id> ).</step>
+  </step-list>
+</algorithm>

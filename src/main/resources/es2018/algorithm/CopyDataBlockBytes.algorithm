@@ -1,0 +1,40 @@
+<algorithm>
+  <param>toBlock</param>
+  <param>toIndex</param>
+  <param>fromBlock</param>
+  <param>fromIndex</param>
+  <param>count</param>
+  <step-list>
+    <step>Assert : <id>fromBlock</id> and <id>toBlock</id> are distinct Data Block or Shared Data Block values.</step>
+    <step>Assert : <id>fromIndex</id> , <id>toIndex</id> , and <id>count</id> are integer values ≥ 0.</step>
+    <step>Let <id>fromSize</id> be the number of bytes in <id>fromBlock</id> .</step>
+    <step>Assert : <id>fromIndex</id> + <id>count</id> ≤ <id>fromSize</id> .</step>
+    <step>Let <id>toSize</id> be the number of bytes in <id>toBlock</id> .</step>
+    <step>Assert : <id>toIndex</id> + <id>count</id> ≤ <id>toSize</id> .</step>
+    <step>Repeat, while <id>count</id> >0     <step-list>
+      <step>If <id>fromBlock</id> is a Shared Data Block , then       <step-list>
+        <step>Let <id>execution</id> be the [[CandidateExecution]] field of the surrounding agent 's Agent Record .</step>
+        <step>Let <id>eventList</id> be the [[EventList]] field of the element in <id>execution</id> .[[EventLists]] whose [[AgentSignifier]] is AgentSignifier ().</step>
+        <step>Let <id>bytes</id> be a List of length 1 that contains a nondeterministically chosen byte value.</step>
+        <step>NOTE: In implementations, <id>bytes</id> is the result of a non-atomic read instruction on the underlying 
+hardware. The nondeterminism is a semantic prescription of the memory model to describe observable behaviour of hardware with weak consistency.</step>
+        <step>Let <id>readEvent</id> be ReadSharedMemory { [[Order]]: <value>"Unordered"</value> , [[NoTear]]: <value>true</value> , [[Block]]: <id>fromBlock</id> , [[ByteIndex]]: <id>fromIndex</id> , [[ElementSize]]: 1 }.</step>
+        <step>Append <id>readEvent</id> to <id>eventList</id> .</step>
+        <step>Append Chosen Value Record { [[Event]]: <id>readEvent</id> , [[ChosenValue]]: <id>bytes</id> } to <id>execution</id> .[[ChosenValues]].</step>
+        <step>If <id>toBlock</id> is a Shared Data Block , then         <step-list>
+          <step>Append WriteSharedMemory { [[Order]]: <value>"Unordered"</value> , [[NoTear]]: <value>true</value> , [[Block]]: <id>toBlock</id> , [[ByteIndex]]: <id>toIndex</id> , [[ElementSize]]: 1, [[Payload]]: <id>bytes</id> } to <id>eventList</id> .</step>
+        </step-list></step>
+        <step>Else,         <step-list>
+          <step>Set <id>toBlock</id> [ <id>toIndex</id> ] to <id>bytes</id> [0].</step>
+        </step-list></step>
+      </step-list></step>
+      <step>Else,       <step-list>
+        <step>Assert : <id>toBlock</id> is not a Shared Data Block .</step>
+        <step>Set <id>toBlock</id> [ <id>toIndex</id> ] to <id>fromBlock</id> [ <id>fromIndex</id> ].</step>
+      </step-list></step>
+      <step>Increment <id>toIndex</id> and <id>fromIndex</id> each by 1.</step>
+      <step>Decrement <id>count</id> by 1.</step>
+    </step-list></step>
+    <step>Return NormalCompletion ( <value>empty</value> ).</step>
+  </step-list>
+</algorithm>

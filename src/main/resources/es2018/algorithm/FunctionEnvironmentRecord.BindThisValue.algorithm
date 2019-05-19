@@ -1,0 +1,12 @@
+<algorithm>
+  <param>this</param>
+  <param>V</param>
+  <step-list>
+    <step>Let <id>envRec</id> be the function Environment Record for which the method was invoked.</step>
+    <step>Assert : <id>envRec</id> .[[ThisBindingStatus]] is not <value>"lexical"</value> .</step>
+    <step>If <id>envRec</id> .[[ThisBindingStatus]] is <value>"initialized"</value> , throw a <value>ReferenceError</value> exception.</step>
+    <step>Set <id>envRec</id> .[[ThisValue]] to <id>V</id> .</step>
+    <step>Set <id>envRec</id> .[[ThisBindingStatus]] to <value>"initialized"</value> .</step>
+    <step>Return <id>V</id> .</step>
+  </step-list>
+</algorithm>

@@ -1,0 +1,9 @@
+<algorithm>
+  <param>completionRecord</param>
+  <param>value</param>
+  <step-list>
+    <step>Assert : If <id>completionRecord</id> .[[Type]] is either <value>return</value> or <value>throw</value> , then <id>completionRecord</id> .[[Value]] is not <value>empty</value> .</step>
+    <step>If <id>completionRecord</id> .[[Value]] is not <value>empty</value> , return Completion ( <id>completionRecord</id> ).</step>
+    <step>Return Completion { [[Type]]: <id>completionRecord</id> .[[Type]], [[Value]]: <id>value</id> , [[Target]]: <id>completionRecord</id> .[[Target]] }.</step>
+  </step-list>
+</algorithm>

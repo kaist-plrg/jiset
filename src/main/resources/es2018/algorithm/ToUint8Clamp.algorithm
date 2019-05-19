@@ -1,0 +1,14 @@
+<algorithm>
+  <param>argument</param>
+  <step-list>
+    <step>Let <id>number</id> be ? ToNumber ( <id>argument</id> ).</step>
+    <step>If <id>number</id> is <value>NaN</value> , return <value>+0</value> .</step>
+    <step>If <id>number</id> ≤ 0, return <value>+0</value> .</step>
+    <step>If <id>number</id> ≥ 255, return 255.</step>
+    <step>Let <id>f</id> be floor ( <id>number</id> ).</step>
+    <step>If <id>f</id> + 0.5 < <id>number</id> , return <id>f</id> + 1.</step>
+    <step>If <id>number</id> < <id>f</id> + 0.5, return <id>f</id> .</step>
+    <step>If <id>f</id> is odd, return <id>f</id> + 1.</step>
+    <step>Return <id>f</id> .</step>
+  </step-list>
+</algorithm>

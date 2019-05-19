@@ -1,0 +1,26 @@
+<algorithm>
+  <param>this</param>
+  <param>N</param>
+  <param>V</param>
+  <param>D</param>
+  <step-list>
+    <step>Let <id>envRec</id> be the global Environment Record for which the method was invoked.</step>
+    <step>Let <id>ObjRec</id> be <id>envRec</id> .[[ObjectRecord]].</step>
+    <step>Let <id>globalObject</id> be the binding object for <id>ObjRec</id> .</step>
+    <step>Let <id>existingProp</id> be ? <id>globalObject</id> .[[GetOwnProperty]]( <id>N</id> ).</step>
+    <step>If <id>existingProp</id> is <value>undefined</value> or <id>existingProp</id> .[[Configurable]] is <value>true</value> , then     <step-list>
+      <step>Let <id>desc</id> be the PropertyDescriptor { [[Value]]: <id>V</id> , [[Writable]]: <value>true</value> , [[Enumerable]]: <value>true</value> , [[Configurable]]: <id>D</id> }.</step>
+    </step-list></step>
+    <step>Else,     <step-list>
+      <step>Let <id>desc</id> be the PropertyDescriptor { [[Value]]: <id>V</id> }.</step>
+    </step-list></step>
+    <step>Perform ? DefinePropertyOrThrow ( <id>globalObject</id> , <id>N</id> , <id>desc</id> ).</step>
+    <step>Record that the binding for <id>N</id> in <id>ObjRec</id> has been initialized.</step>
+    <step>Perform ? Set ( <id>globalObject</id> , <id>N</id> , <id>V</id> , <value>false</value> ).</step>
+    <step>Let <id>varDeclaredNames</id> be <id>envRec</id> .[[VarNames]].</step>
+    <step>If <id>varDeclaredNames</id> does not contain <id>N</id> , then     <step-list>
+      <step>Append <id>N</id> to <id>varDeclaredNames</id> .</step>
+    </step-list></step>
+    <step>Return NormalCompletion ( <value>empty</value> ).</step>
+  </step-list>
+</algorithm>

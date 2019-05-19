@@ -1,0 +1,10 @@
+<algorithm>
+  <param>argument</param>
+  <step-list>
+    <step>If Type ( <id>argument</id> ) is not Object, return <value>false</value> .</step>
+    <step>Let <id>matcher</id> be ? Get ( <id>argument</id> , @@match).</step>
+    <step>If <id>matcher</id> is not <value>undefined</value> , return ToBoolean ( <id>matcher</id> ).</step>
+    <step>If <id>argument</id> has a [[RegExpMatcher]] internal slot, return <value>true</value> .</step>
+    <step>Return <value>false</value> .</step>
+  </step-list>
+</algorithm>

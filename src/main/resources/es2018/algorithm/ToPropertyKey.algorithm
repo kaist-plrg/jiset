@@ -1,0 +1,10 @@
+<algorithm>
+  <param>argument</param>
+  <step-list>
+    <step>Let <id>key</id> be ? ToPrimitive ( <id>argument</id> , hint String).</step>
+    <step>If Type ( <id>key</id> ) is Symbol, then     <step-list>
+      <step>Return <id>key</id> .</step>
+    </step-list></step>
+    <step>Return ! ToString ( <id>key</id> ).</step>
+  </step-list>
+</algorithm>

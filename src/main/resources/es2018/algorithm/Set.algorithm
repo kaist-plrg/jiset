@@ -1,0 +1,14 @@
+<algorithm>
+  <param>O</param>
+  <param>P</param>
+  <param>V</param>
+  <param>Throw</param>
+  <step-list>
+    <step>Assert : Type ( <id>O</id> ) is Object.</step>
+    <step>Assert : IsPropertyKey ( <id>P</id> ) is <value>true</value> .</step>
+    <step>Assert : Type ( <id>Throw</id> ) is Boolean.</step>
+    <step>Let <id>success</id> be ? <id>O</id> .[[Set]]( <id>P</id> , <id>V</id> , <id>O</id> ).</step>
+    <step>If <id>success</id> is <value>false</value> and <id>Throw</id> is <value>true</value> , throw a <value>TypeError</value> exception.</step>
+    <step>Return <id>success</id> .</step>
+  </step-list>
+</algorithm>

@@ -1,0 +1,11 @@
+<algorithm>
+  <param>O</param>
+  <param>P</param>
+  <step-list>
+    <step>Assert : Type ( <id>O</id> ) is Object.</step>
+    <step>Assert : IsPropertyKey ( <id>P</id> ) is <value>true</value> .</step>
+    <step>Let <id>desc</id> be ? <id>O</id> .[[GetOwnProperty]]( <id>P</id> ).</step>
+    <step>If <id>desc</id> is <value>undefined</value> , return <value>false</value> .</step>
+    <step>Return <value>true</value> .</step>
+  </step-list>
+</algorithm>

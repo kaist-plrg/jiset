@@ -1,0 +1,17 @@
+<algorithm>
+  <param>this</param>
+  <param>N</param>
+  <step-list>
+    <step>Let <id>envRec</id> be the object Environment Record for which the method was invoked.</step>
+    <step>Let <id>bindings</id> be the binding object for <id>envRec</id> .</step>
+    <step>Let <id>foundBinding</id> be ? HasProperty ( <id>bindings</id> , <id>N</id> ).</step>
+    <step>If <id>foundBinding</id> is <value>false</value> , return <value>false</value> .</step>
+    <step>If the <id>withEnvironment</id> flag of <id>envRec</id> is <value>false</value> , return <value>true</value> .</step>
+    <step>Let <id>unscopables</id> be ? Get ( <id>bindings</id> , @@unscopables).</step>
+    <step>If Type ( <id>unscopables</id> ) is Object, then     <step-list>
+      <step>Let <id>blocked</id> be ToBoolean (? Get ( <id>unscopables</id> , <id>N</id> )).</step>
+      <step>If <id>blocked</id> is <value>true</value> , return <value>false</value> .</step>
+    </step-list></step>
+    <step>Return <value>true</value> .</step>
+  </step-list>
+</algorithm>

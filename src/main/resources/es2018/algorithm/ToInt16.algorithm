@@ -1,0 +1,10 @@
+<algorithm>
+  <param>argument</param>
+  <step-list>
+    <step>Let <id>number</id> be ? ToNumber ( <id>argument</id> ).</step>
+    <step>If <id>number</id> is <value>NaN</value> , <value>+0</value> , <value>-0</value> , <value>+∞</value> , or <value>-∞</value> , return <value>+0</value> .</step>
+    <step>Let <id>int</id> be the mathematical value that is the same sign as <id>number</id> and whose magnitude is floor ( abs ( <id>number</id> )).</step>
+    <step>Let <id>int16bit</id> be <id>int</id>  modulo 2 16 .</step>
+    <step>If <id>int16bit</id> ≥ 2 15 , return <id>int16bit</id> - 2 16 ; otherwise return <id>int16bit</id> .</step>
+  </step-list>
+</algorithm>

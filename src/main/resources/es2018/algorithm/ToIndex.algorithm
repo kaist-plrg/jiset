@@ -1,0 +1,15 @@
+<algorithm>
+  <param>value</param>
+  <step-list>
+    <step>If <id>value</id> is <value>undefined</value> , then     <step-list>
+      <step>Let <id>index</id> be 0.</step>
+    </step-list></step>
+    <step>Else,     <step-list>
+      <step>Let <id>integerIndex</id> be ? ToInteger ( <id>value</id> ).</step>
+      <step>If <id>integerIndex</id> < 0, throw a <value>RangeError</value> exception.</step>
+      <step>Let <id>index</id> be ! ToLength ( <id>integerIndex</id> ).</step>
+      <step>If SameValueZero ( <id>integerIndex</id> , <id>index</id> ) is <value>false</value> , throw a <value>RangeError</value> exception.</step>
+    </step-list></step>
+    <step>Return <id>index</id> .</step>
+  </step-list>
+</algorithm>

@@ -1,0 +1,10 @@
+<algorithm>
+  <param>argument</param>
+  <step-list>
+    <step>Assert : Type ( <id>argument</id> ) is String.</step>
+    <step>If <id>argument</id> is <value>"-0"</value> , return <value>-0</value> .</step>
+    <step>Let <id>n</id> be ! ToNumber ( <id>argument</id> ).</step>
+    <step>If SameValue (! ToString ( <id>n</id> ), <id>argument</id> ) is <value>false</value> , return <value>undefined</value> .</step>
+    <step>Return <id>n</id> .</step>
+  </step-list>
+</algorithm>

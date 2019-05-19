@@ -1,0 +1,17 @@
+<algorithm>
+  <param>queueName</param>
+  <param>job</param>
+  <param>arguments</param>
+  <step-list>
+    <step>Assert : Type ( <id>queueName</id> ) is String and its value is the name of a Job Queue recognized by this implementation.</step>
+    <step>Assert : <id>job</id> is the name of a Job.</step>
+    <step>Assert : <id>arguments</id> is a List that has the same number of elements as the number of parameters required by <id>job</id> .</step>
+    <step>Let <id>callerContext</id> be the running execution context .</step>
+    <step>Let <id>callerRealm</id> be <id>callerContext</id> 's Realm .</step>
+    <step>Let <id>callerScriptOrModule</id> be <id>callerContext</id> 's ScriptOrModule.</step>
+    <step>Let <id>pending</id> be PendingJob { [[Job]]: <id>job</id> , [[Arguments]]: <id>arguments</id> , [[Realm]]: <id>callerRealm</id> , [[ScriptOrModule]]: <id>callerScriptOrModule</id> , [[HostDefined]]: <value>undefined</value> }.</step>
+    <step>Perform any implementation or host environment defined processing of <id>pending</id> . This may include modifying the [[HostDefined]] field or any other field of <id>pending</id> .</step>
+    <step>Add <id>pending</id> at the back of the Job Queue named by <id>queueName</id> .</step>
+    <step>Return NormalCompletion ( <value>empty</value> ).</step>
+  </step-list>
+</algorithm>

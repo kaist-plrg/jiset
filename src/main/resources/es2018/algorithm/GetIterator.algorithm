@@ -1,0 +1,25 @@
+<algorithm>
+  <param>obj</param>
+  <param>hint</param>
+  <param>method</param>
+  <step-list>
+    <step>If <id>hint</id> is not present, set <id>hint</id> to <value>sync</value> .</step>
+    <step>Assert : <id>hint</id> is either <value>sync</value> or <value>async</value> .</step>
+    <step>If <id>method</id> is not present, then     <step-list>
+      <step>If <id>hint</id> is <value>async</value> , then       <step-list>
+        <step>Set <id>method</id> to ? GetMethod ( <id>obj</id> , @@asyncIterator).</step>
+        <step>If <id>method</id> is <value>undefined</value> , then         <step-list>
+          <step>Let <id>syncMethod</id> be ? GetMethod ( <id>obj</id> , @@iterator).</step>
+          <step>Let <id>syncIteratorRecord</id> be ? GetIterator ( <id>obj</id> , <value>sync</value> , <id>syncMethod</id> ).</step>
+          <step>Return ? CreateAsyncFromSyncIterator ( <id>syncIteratorRecord</id> ).</step>
+        </step-list></step>
+      </step-list></step>
+      <step>Otherwise, set <id>method</id> to ? GetMethod ( <id>obj</id> , @@iterator).</step>
+    </step-list></step>
+    <step>Let <id>iterator</id> be ? Call ( <id>method</id> , <id>obj</id> ).</step>
+    <step>If Type ( <id>iterator</id> ) is not Object, throw a <value>TypeError</value> exception.</step>
+    <step>Let <id>nextMethod</id> be ? GetV ( <id>iterator</id> , <value>"next"</value> ).</step>
+    <step>Let <id>iteratorRecord</id> be Record { [[Iterator]]: <id>iterator</id> , [[NextMethod]]: <id>nextMethod</id> , [[Done]]: <value>false</value> }.</step>
+    <step>Return <id>iteratorRecord</id> .</step>
+  </step-list>
+</algorithm>

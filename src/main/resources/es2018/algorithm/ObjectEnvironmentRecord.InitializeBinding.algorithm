@@ -1,0 +1,11 @@
+<algorithm>
+  <param>this</param>
+  <param>N</param>
+  <param>V</param>
+  <step-list>
+    <step>Let <id>envRec</id> be the object Environment Record for which the method was invoked.</step>
+    <step>Assert : <id>envRec</id> must have an uninitialized binding for <id>N</id> .</step>
+    <step>Record that the binding for <id>N</id> in <id>envRec</id> has been initialized.</step>
+    <step>Return ? <id>envRec</id> .SetMutableBinding( <id>N</id> , <id>V</id> , <value>false</value> ).</step>
+  </step-list>
+</algorithm>

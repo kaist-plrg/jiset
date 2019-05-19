@@ -1,0 +1,11 @@
+<algorithm>
+  <param>this</param>
+  <param>N</param>
+  <param>D</param>
+  <step-list>
+    <step>Let <id>envRec</id> be the declarative Environment Record for which the method was invoked.</step>
+    <step>Assert : <id>envRec</id> does not already have a binding for <id>N</id> .</step>
+    <step>Create a mutable binding in <id>envRec</id> for <id>N</id> and record that it is uninitialized. If <id>D</id> is <value>true</value> , record that the newly created binding may be deleted by a subsequent DeleteBinding call.</step>
+    <step>Return NormalCompletion ( <value>empty</value> ).</step>
+  </step-list>
+</algorithm>

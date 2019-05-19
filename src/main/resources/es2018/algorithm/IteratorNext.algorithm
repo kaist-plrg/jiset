@@ -1,0 +1,14 @@
+<algorithm>
+  <param>iteratorRecord</param>
+  <param>value</param>
+  <step-list>
+    <step>If <id>value</id> is not present, then     <step-list>
+      <step>Let <id>result</id> be ? Call ( <id>iteratorRecord</id> .[[NextMethod]], <id>iteratorRecord</id> .[[Iterator]], « »).</step>
+    </step-list></step>
+    <step>Else,     <step-list>
+      <step>Let <id>result</id> be ? Call ( <id>iteratorRecord</id> .[[NextMethod]], <id>iteratorRecord</id> .[[Iterator]], « <id>value</id> »).</step>
+    </step-list></step>
+    <step>If Type ( <id>result</id> ) is not Object, throw a <value>TypeError</value> exception.</step>
+    <step>Return <id>result</id> .</step>
+  </step-list>
+</algorithm>

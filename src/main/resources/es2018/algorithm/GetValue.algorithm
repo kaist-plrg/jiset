@@ -1,0 +1,19 @@
+<algorithm>
+  <param>V</param>
+  <step-list>
+    <step>ReturnIfAbrupt ( <id>V</id> ).</step>
+    <step>If Type ( <id>V</id> ) is not Reference , return <id>V</id> .</step>
+    <step>Let <id>base</id> be GetBase ( <id>V</id> ).</step>
+    <step>If IsUnresolvableReference ( <id>V</id> ) is <value>true</value> , throw a <value>ReferenceError</value> exception.</step>
+    <step>If IsPropertyReference ( <id>V</id> ) is <value>true</value> , then     <step-list>
+      <step>If HasPrimitiveBase ( <id>V</id> ) is <value>true</value> , then       <step-list>
+        <step>Assert : In this case, <id>base</id> will never be <value>undefined</value> or <value>null</value> .</step>
+        <step>Set <id>base</id> to ! ToObject ( <id>base</id> ).</step>
+      </step-list></step>
+      <step>Return ? <id>base</id> .[[Get]]( GetReferencedName ( <id>V</id> ), GetThisValue ( <id>V</id> )).</step>
+    </step-list></step>
+    <step>Else <id>base</id> must be an Environment Record ,     <step-list>
+      <step>Return ? <id>base</id> .GetBindingValue( GetReferencedName ( <id>V</id> ), IsStrictReference ( <id>V</id> )) (see 8.1.1 ).</step>
+    </step-list></step>
+  </step-list>
+</algorithm>

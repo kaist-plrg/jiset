@@ -1,0 +1,20 @@
+<algorithm>
+  <param>x</param>
+  <param>y</param>
+  <step-list>
+    <step>Assert : Type ( <id>x</id> ) is not Number.</step>
+    <step>Assert : Type ( <id>x</id> ) is the same as Type ( <id>y</id> ).</step>
+    <step>If Type ( <id>x</id> ) is Undefined, return <value>true</value> .</step>
+    <step>If Type ( <id>x</id> ) is Null, return <value>true</value> .</step>
+    <step>If Type ( <id>x</id> ) is String, then     <step-list>
+      <step>If <id>x</id> and <id>y</id> are exactly the same sequence of code units (same length and same code units at corresponding indices), return <value>true</value> ; otherwise, return <value>false</value> .</step>
+    </step-list></step>
+    <step>If Type ( <id>x</id> ) is Boolean, then     <step-list>
+      <step>If <id>x</id> and <id>y</id> are both <value>true</value> or both <value>false</value> , return <value>true</value> ; otherwise, return <value>false</value> .</step>
+    </step-list></step>
+    <step>If Type ( <id>x</id> ) is Symbol, then     <step-list>
+      <step>If <id>x</id> and <id>y</id> are both the same Symbol value, return <value>true</value> ; otherwise, return <value>false</value> .</step>
+    </step-list></step>
+    <step>If <id>x</id> and <id>y</id> are the same Object value, return <value>true</value> . Otherwise, return <value>false</value> .</step>
+  </step-list>
+</algorithm>

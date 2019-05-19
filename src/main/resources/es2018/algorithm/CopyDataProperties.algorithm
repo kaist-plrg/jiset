@@ -1,0 +1,28 @@
+<algorithm>
+  <param>target</param>
+  <param>source</param>
+  <param>excludedItems</param>
+  <step-list>
+    <step>Assert : Type ( <id>target</id> ) is Object.</step>
+    <step>Assert : <id>excludedItems</id> is a List of property keys.</step>
+    <step>If <id>source</id> is <value>undefined</value> or <value>null</value> , return <id>target</id> .</step>
+    <step>Let <id>from</id> be ! ToObject ( <id>source</id> ).</step>
+    <step>Let <id>keys</id> be ? <id>from</id> .[[OwnPropertyKeys]]().</step>
+    <step>For each element <id>nextKey</id> of <id>keys</id> in List order, do     <step-list>
+      <step>Let <id>excluded</id> be <value>false</value> .</step>
+      <step>For each element <id>e</id> of <id>excludedItems</id> in List order, do       <step-list>
+        <step>If SameValue ( <id>e</id> , <id>nextKey</id> ) is <value>true</value> , then         <step-list>
+          <step>Set <id>excluded</id> to <value>true</value> .</step>
+        </step-list></step>
+      </step-list></step>
+      <step>If <id>excluded</id> is <value>false</value> , then       <step-list>
+        <step>Let <id>desc</id> be ? <id>from</id> .[[GetOwnProperty]]( <id>nextKey</id> ).</step>
+        <step>If <id>desc</id> is not <value>undefined</value> and <id>desc</id> .[[Enumerable]] is <value>true</value> , then         <step-list>
+          <step>Let <id>propValue</id> be ? Get ( <id>from</id> , <id>nextKey</id> ).</step>
+          <step>Perform ! CreateDataProperty ( <id>target</id> , <id>nextKey</id> , <id>propValue</id> ).</step>
+        </step-list></step>
+      </step-list></step>
+    </step-list></step>
+    <step>Return <id>target</id> .</step>
+  </step-list>
+</algorithm>

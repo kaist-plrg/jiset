@@ -1,0 +1,14 @@
+<algorithm>
+  <step-list>
+    <step>If Type ( <id>x</id> ) is different from Type ( <id>y</id> ), return <value>false</value> .</step>
+    <step>If Type ( <id>x</id> ) is Number, then     <step-list>
+      <step>If <id>x</id> is <value>NaN</value> , return <value>false</value> .</step>
+      <step>If <id>y</id> is <value>NaN</value> , return <value>false</value> .</step>
+      <step>If <id>x</id> is the same Number value as <id>y</id> , return <value>true</value> .</step>
+      <step>If <id>x</id> is <value>+0</value> and <id>y</id> is <value>-0</value> , return <value>true</value> .</step>
+      <step>If <id>x</id> is <value>-0</value> and <id>y</id> is <value>+0</value> , return <value>true</value> .</step>
+      <step>Return <value>false</value> .</step>
+    </step-list></step>
+    <step>Return SameValueNonNumber ( <id>x</id> , <id>y</id> ).</step>
+  </step-list>
+</algorithm>

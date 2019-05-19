@@ -1,0 +1,35 @@
+<algorithm>
+  <step-list>
+    <step>If the <id>LeftFirst</id> flag is <value>true</value> , then     <step-list>
+      <step>Let <id>px</id> be ? ToPrimitive ( <id>x</id> , hint Number).</step>
+      <step>Let <id>py</id> be ? ToPrimitive ( <id>y</id> , hint Number).</step>
+    </step-list></step>
+    <step>Else the order of evaluation needs to be reversed to preserve left to right evaluation,     <step-list>
+      <step>Let <id>py</id> be ? ToPrimitive ( <id>y</id> , hint Number).</step>
+      <step>Let <id>px</id> be ? ToPrimitive ( <id>x</id> , hint Number).</step>
+    </step-list></step>
+    <step>If Type ( <id>px</id> ) is String and Type ( <id>py</id> ) is String, then     <step-list>
+      <step>If IsStringPrefix ( <id>py</id> , <id>px</id> ) is <value>true</value> , return <value>false</value> .</step>
+      <step>If IsStringPrefix ( <id>px</id> , <id>py</id> ) is <value>true</value> , return <value>true</value> .</step>
+      <step>Let <id>k</id> be the smallest nonnegative integer such that the code unit at index <id>k</id> within <id>px</id> is different from the code unit at index <id>k</id> within <id>py</id> . (There must be such a <id>k</id> , for neither String is a prefix of the other.)</step>
+      <step>Let <id>m</id> be the integer that is the numeric value of the code unit at index <id>k</id> within <id>px</id> .</step>
+      <step>Let <id>n</id> be the integer that is the numeric value of the code unit at index <id>k</id> within <id>py</id> .</step>
+      <step>If <id>m</id> < <id>n</id> , return <value>true</value> . Otherwise, return <value>false</value> .</step>
+    </step-list></step>
+    <step>Else,     <step-list>
+      <step>NOTE: Because <id>px</id> and <id>py</id> are primitive values evaluation order is not important.</step>
+      <step>Let <id>nx</id> be ? ToNumber ( <id>px</id> ).</step>
+      <step>Let <id>ny</id> be ? ToNumber ( <id>py</id> ).</step>
+      <step>If <id>nx</id> is <value>NaN</value> , return <value>undefined</value> .</step>
+      <step>If <id>ny</id> is <value>NaN</value> , return <value>undefined</value> .</step>
+      <step>If <id>nx</id> and <id>ny</id> are the same Number value, return <value>false</value> .</step>
+      <step>If <id>nx</id> is <value>+0</value> and <id>ny</id> is <value>-0</value> , return <value>false</value> .</step>
+      <step>If <id>nx</id> is <value>-0</value> and <id>ny</id> is <value>+0</value> , return <value>false</value> .</step>
+      <step>If <id>nx</id> is <value>+∞</value> , return <value>false</value> .</step>
+      <step>If <id>ny</id> is <value>+∞</value> , return <value>true</value> .</step>
+      <step>If <id>ny</id> is <value>-∞</value> , return <value>false</value> .</step>
+      <step>If <id>nx</id> is <value>-∞</value> , return <value>true</value> .</step>
+      <step>If the mathematical value of <id>nx</id> is less than the mathematical value of <id>ny</id> —note that these mathematical values are both finite and not both zero—return <value>true</value> . Otherwise, return <value>false</value> .</step>
+    </step-list></step>
+  </step-list>
+</algorithm>

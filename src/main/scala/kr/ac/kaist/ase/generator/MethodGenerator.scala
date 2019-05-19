@@ -8,8 +8,9 @@ import kr.ac.kaist.ase.algorithm.RuleCompiler
 object MethodGenerator {
   def apply(version: String, name: String): Unit = {
     val objName = dotted2camel(name)
-    val reader = fileReader(s"$RESOURCE_DIR/$version/algorithm/$name.algorithm")
-    val algo = Algorithm(reader)
+    val filename = s"$RESOURCE_DIR/$version/algorithm/$name.algorithm"
+    val reader = fileReader(filename)
+    val algo = Algorithm(reader, filename)
     val func = RuleCompiler(algo)
 
     val nf = getPrintWriter(s"$MODEL_DIR/$objName.scala")
