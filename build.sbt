@@ -3,8 +3,7 @@ import java.io.File
 lazy val dummyModel = taskKey[Unit]("Generates a dummy model.")
 lazy val dummyAlgoParser = taskKey[Unit]("Generates a dummy algorithm parser.")
 
-def dummy(source: String, target: String): Unit = {
-}
+lazy val ES_MODEL = "es2018"
 
 lazy val root = (project in file(".")).
   settings(
@@ -52,6 +51,16 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
   "org.jline" % "jline" % "3.10.0"
 )
+
+commands += Command.command("generateModel") { state =>
+  "clean" ::
+    "compile" ::
+    s"run gen-algo-parser $ES_MODEL" ::
+    "compile" ::
+    s"run gen-model $ES_MODEL" ::
+    "compile" ::
+    state
+}
 
 scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature",
                                    "-language:postfixOps",
