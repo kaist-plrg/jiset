@@ -29,6 +29,7 @@ lazy val root = (project in file(".")).
       }
       copySrc("algorithm/rule", "Stmt")
       copySrc("model", "package")
+      createSrcDir("model/ast")
       createSrcDir("model/algorithm")
       createSrcDir("model/type")
     },
