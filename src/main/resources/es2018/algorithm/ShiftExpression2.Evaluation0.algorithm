@@ -1,0 +1,12 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>lref</id> be the result of evaluating ShiftExpression .</step>
+    <step>Let <id>lval</id> be ? GetValue ( <id>lref</id> ).</step>
+    <step>Let <id>rref</id> be the result of evaluating AdditiveExpression .</step>
+    <step>Let <id>rval</id> be ? GetValue ( <id>rref</id> ).</step>
+    <step>Let <id>lnum</id> be ? ToInt32 ( <id>lval</id> ).</step>
+    <step>Let <id>rnum</id> be ? ToUint32 ( <id>rval</id> ).</step>
+    <step>Let <id>shiftCount</id> be the result of masking out all but the least significant 5 bits of <id>rnum</id> , that is, compute <id>rnum</id> & 0x1F.</step>
+    <step>Return the result of performing a sign-extending right shift of <id>lnum</id> by <id>shiftCount</id> bits. The most significant bit is propagated. The result is a signed 32-bit integer.</step>
+  </step-list>
+</algorithm>

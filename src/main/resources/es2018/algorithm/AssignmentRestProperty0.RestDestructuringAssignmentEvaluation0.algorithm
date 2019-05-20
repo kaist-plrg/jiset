@@ -1,0 +1,9 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>lref</id> be the result of evaluating DestructuringAssignmentTarget .</step>
+    <step>ReturnIfAbrupt ( <id>lref</id> ).</step>
+    <step>Let <id>restObj</id> be ObjectCreate ( %ObjectPrototype% ).</step>
+    <step>Perform ? CopyDataProperties ( <id>restObj</id> , <id>value</id> , <id>excludedNames</id> ).</step>
+    <step>Return PutValue ( <id>lref</id> , <id>restObj</id> ).</step>
+  </step-list>
+</algorithm>

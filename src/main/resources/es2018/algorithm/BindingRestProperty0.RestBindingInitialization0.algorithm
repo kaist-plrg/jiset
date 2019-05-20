@@ -1,0 +1,9 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>lhs</id> be ? ResolveBinding (StringValue of BindingIdentifier , <id>environment</id> ).</step>
+    <step>Let <id>restObj</id> be ObjectCreate ( %ObjectPrototype% ).</step>
+    <step>Perform ? CopyDataProperties ( <id>restObj</id> , <id>value</id> , <id>excludedNames</id> ).</step>
+    <step>If <id>environment</id> is <value>undefined</value> , return PutValue ( <id>lhs</id> , <id>restObj</id> ).</step>
+    <step>Return InitializeReferencedBinding ( <id>lhs</id> , <id>restObj</id> ).</step>
+  </step-list>
+</algorithm>

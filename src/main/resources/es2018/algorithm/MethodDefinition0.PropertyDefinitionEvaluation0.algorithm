@@ -1,0 +1,9 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>methodDef</id> be DefineMethod of MethodDefinition with argument <id>object</id> .</step>
+    <step>ReturnIfAbrupt ( <id>methodDef</id> ).</step>
+    <step>Perform SetFunctionName ( <id>methodDef</id> .[[Closure]], <id>methodDef</id> .[[Key]]).</step>
+    <step>Let <id>desc</id> be the PropertyDescriptor { [[Value]]: <id>methodDef</id> .[[Closure]], [[Writable]]: <value>true</value> , [[Enumerable]]: <id>enumerable</id> , [[Configurable]]: <value>true</value> }.</step>
+    <step>Return ? DefinePropertyOrThrow ( <id>object</id> , <id>methodDef</id> .[[Key]], <id>desc</id> ).</step>
+  </step-list>
+</algorithm>

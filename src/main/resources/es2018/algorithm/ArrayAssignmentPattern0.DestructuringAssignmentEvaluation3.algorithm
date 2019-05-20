@@ -1,0 +1,15 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>iteratorRecord</id> be ? GetIterator ( <id>value</id> ).</step>
+    <step>If Elision is present, then     <step-list>
+      <step>Let <id>status</id> be the result of performing IteratorDestructuringAssignmentEvaluation of Elision with <id>iteratorRecord</id> as the argument.</step>
+      <step>If <id>status</id> is an abrupt completion , then       <step-list>
+        <step>Assert : <id>iteratorRecord</id> .[[Done]] is <value>true</value> .</step>
+        <step>Return Completion ( <id>status</id> ).</step>
+      </step-list></step>
+    </step-list></step>
+    <step>Let <id>result</id> be the result of performing IteratorDestructuringAssignmentEvaluation of AssignmentRestElement with <id>iteratorRecord</id> as the argument.</step>
+    <step>If <id>iteratorRecord</id> .[[Done]] is <value>false</value> , return ? IteratorClose ( <id>iteratorRecord</id> , <id>result</id> ).</step>
+    <step>Return <id>result</id> .</step>
+  </step-list>
+</algorithm>

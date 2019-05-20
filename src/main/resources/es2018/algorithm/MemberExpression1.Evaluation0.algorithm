@@ -1,0 +1,12 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>baseReference</id> be the result of evaluating MemberExpression .</step>
+    <step>Let <id>baseValue</id> be ? GetValue ( <id>baseReference</id> ).</step>
+    <step>Let <id>propertyNameReference</id> be the result of evaluating Expression .</step>
+    <step>Let <id>propertyNameValue</id> be ? GetValue ( <id>propertyNameReference</id> ).</step>
+    <step>Let <id>bv</id> be ? RequireObjectCoercible ( <id>baseValue</id> ).</step>
+    <step>Let <id>propertyKey</id> be ? ToPropertyKey ( <id>propertyNameValue</id> ).</step>
+    <step>If the code matched by this MemberExpression is strict mode code , let <id>strict</id> be <value>true</value> , else let <id>strict</id> be <value>false</value> .</step>
+    <step>Return a value of type Reference whose base value component is <id>bv</id> , whose referenced name component is <id>propertyKey</id> , and whose strict reference flag is <id>strict</id> .</step>
+  </step-list>
+</algorithm>

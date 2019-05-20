@@ -1,0 +1,29 @@
+<algorithm>
+  <step-list>
+    <step>If DestructuringAssignmentTarget is neither an ObjectLiteral nor an ArrayLiteral , then     <step-list>
+      <step>Let <id>lref</id> be the result of evaluating DestructuringAssignmentTarget .</step>
+      <step>ReturnIfAbrupt ( <id>lref</id> ).</step>
+    </step-list></step>
+    <step>Let <id>A</id> be ! ArrayCreate (0).</step>
+    <step>Let <id>n</id> be 0.</step>
+    <step>Repeat, while <id>iteratorRecord</id> .[[Done]] is <value>false</value> ,     <step-list>
+      <step>Let <id>next</id> be IteratorStep ( <id>iteratorRecord</id> ).</step>
+      <step>If <id>next</id> is an abrupt completion , set <id>iteratorRecord</id> .[[Done]] to <value>true</value> .</step>
+      <step>ReturnIfAbrupt ( <id>next</id> ).</step>
+      <step>If <id>next</id> is <value>false</value> , set <id>iteratorRecord</id> .[[Done]] to <value>true</value> .</step>
+      <step>Else,       <step-list>
+        <step>Let <id>nextValue</id> be IteratorValue ( <id>next</id> ).</step>
+        <step>If <id>nextValue</id> is an abrupt completion , set <id>iteratorRecord</id> .[[Done]] to <value>true</value> .</step>
+        <step>ReturnIfAbrupt ( <id>nextValue</id> ).</step>
+        <step>Let <id>status</id> be CreateDataProperty ( <id>A</id> , ! ToString ( <id>n</id> ), <id>nextValue</id> ).</step>
+        <step>Assert : <id>status</id> is <value>true</value> .</step>
+        <step>Increment <id>n</id> by 1.</step>
+      </step-list></step>
+    </step-list></step>
+    <step>If DestructuringAssignmentTarget is neither an ObjectLiteral nor an ArrayLiteral , then     <step-list>
+      <step>Return ? PutValue ( <id>lref</id> , <id>A</id> ).</step>
+    </step-list></step>
+    <step>Let <id>nestedAssignmentPattern</id> be the AssignmentPattern that is covered by DestructuringAssignmentTarget .</step>
+    <step>Return the result of performing DestructuringAssignmentEvaluation of <id>nestedAssignmentPattern</id> with <id>A</id> as the argument.</step>
+  </step-list>
+</algorithm>

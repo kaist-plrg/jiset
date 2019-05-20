@@ -1,0 +1,16 @@
+<algorithm>
+  <step-list>
+    <step>Assert : <id>iteratorRecord</id> .[[Done]] is <value>false</value> .</step>
+    <step>Let <id>next</id> be IteratorStep ( <id>iteratorRecord</id> ).</step>
+    <step>If <id>next</id> is an abrupt completion , set <id>iteratorRecord</id> .[[Done]] to <value>true</value> .</step>
+    <step>ReturnIfAbrupt ( <id>next</id> ).</step>
+    <step>If <id>next</id> is <value>false</value> , set <id>iteratorRecord</id> .[[Done]] to <value>true</value> .</step>
+    <step>Else,     <step-list>
+      <step>Let <id>v</id> be IteratorValue ( <id>next</id> ).</step>
+      <step>If <id>v</id> is an abrupt completion , set <id>iteratorRecord</id> .[[Done]] to <value>true</value> .</step>
+      <step>ReturnIfAbrupt ( <id>v</id> ).</step>
+    </step-list></step>
+    <step>If <id>iteratorRecord</id> .[[Done]] is <value>true</value> , let <id>v</id> be <value>undefined</value> .</step>
+    <step>Return the result of performing BindingInitialization for BindingIdentifier using <id>v</id> and <id>environment</id> as the arguments.</step>
+  </step-list>
+</algorithm>

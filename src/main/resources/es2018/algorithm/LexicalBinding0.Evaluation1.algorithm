@@ -1,0 +1,13 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>bindingId</id> be StringValue of BindingIdentifier .</step>
+    <step>Let <id>lhs</id> be ResolveBinding ( <id>bindingId</id> ).</step>
+    <step>Let <id>rhs</id> be the result of evaluating Initializer .</step>
+    <step>Let <id>value</id> be ? GetValue ( <id>rhs</id> ).</step>
+    <step>If IsAnonymousFunctionDefinition ( Initializer ) is <value>true</value> , then     <step-list>
+      <step>Let <id>hasNameProperty</id> be ? HasOwnProperty ( <id>value</id> , <value>"name"</value> ).</step>
+      <step>If <id>hasNameProperty</id> is <value>false</value> , perform SetFunctionName ( <id>value</id> , <id>bindingId</id> ).</step>
+    </step-list></step>
+    <step>Return InitializeReferencedBinding ( <id>lhs</id> , <id>value</id> ).</step>
+  </step-list>
+</algorithm>

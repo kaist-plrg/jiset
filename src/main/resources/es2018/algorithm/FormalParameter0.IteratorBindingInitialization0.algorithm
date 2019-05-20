@@ -1,0 +1,16 @@
+<algorithm>
+  <step-list>
+    <step>If ContainsExpression of BindingElement is <value>false</value> , return the result of performing IteratorBindingInitialization for BindingElement using <id>iteratorRecord</id> and <id>environment</id> as the arguments.</step>
+    <step>Let <id>currentContext</id> be the running execution context .</step>
+    <step>Let <id>originalEnv</id> be the VariableEnvironment of <id>currentContext</id> .</step>
+    <step>Assert : The VariableEnvironment and LexicalEnvironment of <id>currentContext</id> are the same.</step>
+    <step>Assert : <id>environment</id> and <id>originalEnv</id> are the same.</step>
+    <step>Let <id>paramVarEnv</id> be NewDeclarativeEnvironment ( <id>originalEnv</id> ).</step>
+    <step>Set the VariableEnvironment of <id>currentContext</id> to <id>paramVarEnv</id> .</step>
+    <step>Set the LexicalEnvironment of <id>currentContext</id> to <id>paramVarEnv</id> .</step>
+    <step>Let <id>result</id> be the result of performing IteratorBindingInitialization for BindingElement using <id>iteratorRecord</id> and <id>environment</id> as the arguments.</step>
+    <step>Set the VariableEnvironment of <id>currentContext</id> to <id>originalEnv</id> .</step>
+    <step>Set the LexicalEnvironment of <id>currentContext</id> to <id>originalEnv</id> .</step>
+    <step>Return <id>result</id> .</step>
+  </step-list>
+</algorithm>

@@ -1,0 +1,13 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>exprRef</id> be the result of evaluating Expression .</step>
+    <step>Let <id>exprValue</id> be ToBoolean (? GetValue ( <id>exprRef</id> )).</step>
+    <step>If <id>exprValue</id> is <value>true</value> , then     <step-list>
+      <step>Let <id>stmtCompletion</id> be the result of evaluating the first Statement .</step>
+    </step-list></step>
+    <step>Else,     <step-list>
+      <step>Let <id>stmtCompletion</id> be the result of evaluating the second Statement .</step>
+    </step-list></step>
+    <step>Return Completion ( UpdateEmpty ( <id>stmtCompletion</id> , <value>undefined</value> )).</step>
+  </step-list>
+</algorithm>

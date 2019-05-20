@@ -1,0 +1,11 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>oldEnv</id> be the running execution context 's LexicalEnvironment.</step>
+    <step>Let <id>blockEnv</id> be NewDeclarativeEnvironment ( <id>oldEnv</id> ).</step>
+    <step>Perform BlockDeclarationInstantiation ( StatementList , <id>blockEnv</id> ).</step>
+    <step>Set the running execution context 's LexicalEnvironment to <id>blockEnv</id> .</step>
+    <step>Let <id>blockValue</id> be the result of evaluating StatementList .</step>
+    <step>Set the running execution context 's LexicalEnvironment to <id>oldEnv</id> .</step>
+    <step>Return <id>blockValue</id> .</step>
+  </step-list>
+</algorithm>

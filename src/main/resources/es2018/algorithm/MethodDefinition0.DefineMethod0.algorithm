@@ -1,0 +1,19 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>propKey</id> be the result of evaluating PropertyName .</step>
+    <step>ReturnIfAbrupt ( <id>propKey</id> ).</step>
+    <step>If the function code for this MethodDefinition is strict mode code , let <id>strict</id> be <value>true</value> . Otherwise let <id>strict</id> be <value>false</value> .</step>
+    <step>Let <id>scope</id> be the running execution context 's LexicalEnvironment.</step>
+    <step>If <id>functionPrototype</id> is present as a parameter, then     <step-list>
+      <step>Let <id>kind</id> be <value>Normal</value> .</step>
+      <step>Let <id>prototype</id> be <id>functionPrototype</id> .</step>
+    </step-list></step>
+    <step>Else,     <step-list>
+      <step>Let <id>kind</id> be <value>Method</value> .</step>
+      <step>Let <id>prototype</id> be the intrinsic object %FunctionPrototype% .</step>
+    </step-list></step>
+    <step>Let <id>closure</id> be FunctionCreate ( <id>kind</id> , UniqueFormalParameters , FunctionBody , <id>scope</id> , <id>strict</id> , <id>prototype</id> ).</step>
+    <step>Perform MakeMethod ( <id>closure</id> , <id>object</id> ).</step>
+    <step>Return the Record { [[Key]]: <id>propKey</id> , [[Closure]]: <id>closure</id> }.</step>
+  </step-list>
+</algorithm>

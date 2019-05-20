@@ -1,0 +1,34 @@
+<algorithm>
+  <step-list>
+    <step>If DestructuringAssignmentTarget is neither an ObjectLiteral nor an ArrayLiteral , then     <step-list>
+      <step>Let <id>lref</id> be the result of evaluating DestructuringAssignmentTarget .</step>
+      <step>ReturnIfAbrupt ( <id>lref</id> ).</step>
+    </step-list></step>
+    <step>If <id>iteratorRecord</id> .[[Done]] is <value>false</value> , then     <step-list>
+      <step>Let <id>next</id> be IteratorStep ( <id>iteratorRecord</id> ).</step>
+      <step>If <id>next</id> is an abrupt completion , set <id>iteratorRecord</id> .[[Done]] to <value>true</value> .</step>
+      <step>ReturnIfAbrupt ( <id>next</id> ).</step>
+      <step>If <id>next</id> is <value>false</value> , set <id>iteratorRecord</id> .[[Done]] to <value>true</value> .</step>
+      <step>Else,       <step-list>
+        <step>Let <id>value</id> be IteratorValue ( <id>next</id> ).</step>
+        <step>If <id>value</id> is an abrupt completion , set <id>iteratorRecord</id> .[[Done]] to <value>true</value> .</step>
+        <step>ReturnIfAbrupt ( <id>value</id> ).</step>
+      </step-list></step>
+    </step-list></step>
+    <step>If <id>iteratorRecord</id> .[[Done]] is <value>true</value> , let <id>value</id> be <value>undefined</value> .</step>
+    <step>If Initializer is present and <id>value</id> is <value>undefined</value> , then     <step-list>
+      <step>Let <id>defaultValue</id> be the result of evaluating Initializer .</step>
+      <step>Let <id>v</id> be ? GetValue ( <id>defaultValue</id> ).</step>
+    </step-list></step>
+    <step>Else, let <id>v</id> be <id>value</id> .</step>
+    <step>If DestructuringAssignmentTarget is an ObjectLiteral or an ArrayLiteral , then     <step-list>
+      <step>Let <id>nestedAssignmentPattern</id> be the AssignmentPattern that is covered by DestructuringAssignmentTarget .</step>
+      <step>Return the result of performing DestructuringAssignmentEvaluation of <id>nestedAssignmentPattern</id> with <id>v</id> as the argument.</step>
+    </step-list></step>
+    <step>If Initializer is present and <id>value</id> is <value>undefined</value> and IsAnonymousFunctionDefinition ( Initializer ) and IsIdentifierRef of DestructuringAssignmentTarget are both <value>true</value> , then     <step-list>
+      <step>Let <id>hasNameProperty</id> be ? HasOwnProperty ( <id>v</id> , <value>"name"</value> ).</step>
+      <step>If <id>hasNameProperty</id> is <value>false</value> , perform SetFunctionName ( <id>v</id> , GetReferencedName ( <id>lref</id> )).</step>
+    </step-list></step>
+    <step>Return ? PutValue ( <id>lref</id> , <id>v</id> ).</step>
+  </step-list>
+</algorithm>

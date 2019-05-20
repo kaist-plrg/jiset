@@ -1,0 +1,68 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>lex</id> be the LexicalEnvironment of the running execution context .</step>
+    <step>Let <id>classScope</id> be NewDeclarativeEnvironment ( <id>lex</id> ).</step>
+    <step>Let <id>classScopeEnvRec</id> be <id>classScope</id> 's EnvironmentRecord .</step>
+    <step>If <id>className</id> is not <value>undefined</value> , then     <step-list>
+      <step>Perform <id>classScopeEnvRec</id> .CreateImmutableBinding( <id>className</id> , <value>true</value> ).</step>
+    </step-list></step>
+    <step>If ClassHeritageopt is not present, then     <step-list>
+      <step>Let <id>protoParent</id> be the intrinsic object %ObjectPrototype% .</step>
+      <step>Let <id>constructorParent</id> be the intrinsic object %FunctionPrototype% .</step>
+    </step-list></step>
+    <step>Else,     <step-list>
+      <step>Set the running execution context 's LexicalEnvironment to <id>classScope</id> .</step>
+      <step>Let <id>superclass</id> be the result of evaluating ClassHeritage .</step>
+      <step>Set the running execution context 's LexicalEnvironment to <id>lex</id> .</step>
+      <step>ReturnIfAbrupt ( <id>superclass</id> ).</step>
+      <step>If <id>superclass</id> is <value>null</value> , then       <step-list>
+        <step>Let <id>protoParent</id> be <value>null</value> .</step>
+        <step>Let <id>constructorParent</id> be the intrinsic object %FunctionPrototype% .</step>
+      </step-list></step>
+      <step>Else if IsConstructor ( <id>superclass</id> ) is <value>false</value> , throw a <value>TypeError</value> exception.</step>
+      <step>Else,       <step-list>
+        <step>Let <id>protoParent</id> be ? Get ( <id>superclass</id> , <value>"prototype"</value> ).</step>
+        <step>If Type ( <id>protoParent</id> ) is neither Object nor Null, throw a <value>TypeError</value> exception.</step>
+        <step>Let <id>constructorParent</id> be <id>superclass</id> .</step>
+      </step-list></step>
+    </step-list></step>
+    <step>Let <id>proto</id> be ObjectCreate ( <id>protoParent</id> ).</step>
+    <step>If ClassBodyopt is not present, let <id>constructor</id> be <value>empty</value> .</step>
+    <step>Else, let <id>constructor</id> be ConstructorMethod of ClassBody .</step>
+    <step>If <id>constructor</id> is <value>empty</value> , then     <step-list>
+      <step>If ClassHeritageopt is present, then       <step-list>
+        <step>Set <id>constructor</id> to the result of parsing the source text constructor(... args){ super (...args);} using the syntactic grammar with the goal symbol  MethodDefinition[~Yield, ~Await] .</step>
+      </step-list></step>
+      <step>Else,       <step-list>
+        <step>Set <id>constructor</id> to the result of parsing the source text constructor(){ } using the syntactic grammar with the goal symbol  MethodDefinition[~Yield, ~Await] .</step>
+      </step-list></step>
+    </step-list></step>
+    <step>Set the running execution context 's LexicalEnvironment to <id>classScope</id> .</step>
+    <step>Let <id>constructorInfo</id> be the result of performing DefineMethod for <id>constructor</id> with arguments <id>proto</id> and <id>constructorParent</id> as the optional <id>functionPrototype</id> argument.</step>
+    <step>Assert : <id>constructorInfo</id> is not an abrupt completion .</step>
+    <step>Let <id>F</id> be <id>constructorInfo</id> .[[Closure]].</step>
+    <step>If ClassHeritageopt is present, set <id>F</id> .[[ConstructorKind]] to <value>"derived"</value> .</step>
+    <step>Perform MakeConstructor ( <id>F</id> , <value>false</value> , <id>proto</id> ).</step>
+    <step>Perform MakeClassConstructor ( <id>F</id> ).</step>
+    <step>Perform CreateMethodProperty ( <id>proto</id> , <value>"constructor"</value> , <id>F</id> ).</step>
+    <step>If ClassBodyopt is not present, let <id>methods</id> be a new empty List .</step>
+    <step>Else, let <id>methods</id> be NonConstructorMethodDefinitions of ClassBody .</step>
+    <step>For each ClassElement  <id>m</id> in order from <id>methods</id> , do     <step-list>
+      <step>If IsStatic of <id>m</id> is <value>false</value> , then       <step-list>
+        <step>Let <id>status</id> be the result of performing PropertyDefinitionEvaluation for <id>m</id> with arguments <id>proto</id> and <value>false</value> .</step>
+      </step-list></step>
+      <step>Else,       <step-list>
+        <step>Let <id>status</id> be the result of performing PropertyDefinitionEvaluation for <id>m</id> with arguments <id>F</id> and <value>false</value> .</step>
+      </step-list></step>
+      <step>If <id>status</id> is an abrupt completion , then       <step-list>
+        <step>Set the running execution context 's LexicalEnvironment to <id>lex</id> .</step>
+        <step>Return Completion ( <id>status</id> ).</step>
+      </step-list></step>
+    </step-list></step>
+    <step>Set the running execution context 's LexicalEnvironment to <id>lex</id> .</step>
+    <step>If <id>className</id> is not <value>undefined</value> , then     <step-list>
+      <step>Perform <id>classScopeEnvRec</id> .InitializeBinding( <id>className</id> , <id>F</id> ).</step>
+    </step-list></step>
+    <step>Return <id>F</id> .</step>
+  </step-list>
+</algorithm>

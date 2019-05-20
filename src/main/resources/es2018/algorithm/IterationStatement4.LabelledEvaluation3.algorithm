@@ -1,0 +1,27 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>oldEnv</id> be the running execution context 's LexicalEnvironment.</step>
+    <step>Let <id>loopEnv</id> be NewDeclarativeEnvironment ( <id>oldEnv</id> ).</step>
+    <step>Let <id>loopEnvRec</id> be <id>loopEnv</id> 's EnvironmentRecord .</step>
+    <step>Let <id>isConst</id> be the result of performing IsConstantDeclaration of LexicalDeclaration .</step>
+    <step>Let <id>boundNames</id> be the BoundNames of LexicalDeclaration .</step>
+    <step>For each element <id>dn</id> of <id>boundNames</id> , do     <step-list>
+      <step>If <id>isConst</id> is <value>true</value> , then       <step-list>
+        <step>Perform ! <id>loopEnvRec</id> .CreateImmutableBinding( <id>dn</id> , <value>true</value> ).</step>
+      </step-list></step>
+      <step>Else,       <step-list>
+        <step>Perform ! <id>loopEnvRec</id> .CreateMutableBinding( <id>dn</id> , <value>false</value> ).</step>
+      </step-list></step>
+    </step-list></step>
+    <step>Set the running execution context 's LexicalEnvironment to <id>loopEnv</id> .</step>
+    <step>Let <id>forDcl</id> be the result of evaluating LexicalDeclaration .</step>
+    <step>If <id>forDcl</id> is an abrupt completion , then     <step-list>
+      <step>Set the running execution context 's LexicalEnvironment to <id>oldEnv</id> .</step>
+      <step>Return Completion ( <id>forDcl</id> ).</step>
+    </step-list></step>
+    <step>If <id>isConst</id> is <value>false</value> , let <id>perIterationLets</id> be <id>boundNames</id> ; otherwise let <id>perIterationLets</id> be « ».</step>
+    <step>Let <id>bodyResult</id> be ForBodyEvaluation (the first Expression , the second Expression , Statement , <id>perIterationLets</id> , <id>labelSet</id> ).</step>
+    <step>Set the running execution context 's LexicalEnvironment to <id>oldEnv</id> .</step>
+    <step>Return Completion ( <id>bodyResult</id> ).</step>
+  </step-list>
+</algorithm>

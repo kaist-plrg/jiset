@@ -1,0 +1,15 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>spreadRef</id> be the result of evaluating AssignmentExpression .</step>
+    <step>Let <id>spreadObj</id> be ? GetValue ( <id>spreadRef</id> ).</step>
+    <step>Let <id>iteratorRecord</id> be ? GetIterator ( <id>spreadObj</id> ).</step>
+    <step>Repeat,     <step-list>
+      <step>Let <id>next</id> be ? IteratorStep ( <id>iteratorRecord</id> ).</step>
+      <step>If <id>next</id> is <value>false</value> , return <id>nextIndex</id> .</step>
+      <step>Let <id>nextValue</id> be ? IteratorValue ( <id>next</id> ).</step>
+      <step>Let <id>status</id> be CreateDataProperty ( <id>array</id> , ToString ( ToUint32 ( <id>nextIndex</id> )), <id>nextValue</id> ).</step>
+      <step>Assert : <id>status</id> is <value>true</value> .</step>
+      <step>Let <id>nextIndex</id> be <id>nextIndex</id> + 1.</step>
+    </step-list></step>
+  </step-list>
+</algorithm>

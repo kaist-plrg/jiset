@@ -1,0 +1,23 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>expr</id> be CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead .</step>
+    <step>Let <id>memberExpr</id> be the MemberExpression of <id>expr</id> .</step>
+    <step>Let <id>arguments</id> be the Arguments of <id>expr</id> .</step>
+    <step>Let <id>ref</id> be the result of evaluating <id>memberExpr</id> .</step>
+    <step>Let <id>func</id> be ? GetValue ( <id>ref</id> ).</step>
+    <step>If Type ( <id>ref</id> ) is Reference and IsPropertyReference ( <id>ref</id> ) is <value>false</value> and GetReferencedName ( <id>ref</id> ) is <value>"eval"</value> , then     <step-list>
+      <step>If SameValue ( <id>func</id> , %eval% ) is <value>true</value> , then       <step-list>
+        <step>Let <id>argList</id> be ? ArgumentListEvaluation of <id>arguments</id> .</step>
+        <step>If <id>argList</id> has no elements, return <value>undefined</value> .</step>
+        <step>Let <id>evalText</id> be the first element of <id>argList</id> .</step>
+        <step>If the source code matching this CallExpression is strict mode code , let <id>strictCaller</id> be <value>true</value> . Otherwise let <id>strictCaller</id> be <value>false</value> .</step>
+        <step>Let <id>evalRealm</id> be the current Realm Record .</step>
+        <step>Perform ? HostEnsureCanCompileStrings ( <id>evalRealm</id> , <id>evalRealm</id> ).</step>
+        <step>Return ? PerformEval ( <id>evalText</id> , <id>evalRealm</id> , <id>strictCaller</id> , <value>true</value> ).</step>
+      </step-list></step>
+    </step-list></step>
+    <step>Let <id>thisCall</id> be this CallExpression .</step>
+    <step>Let <id>tailCall</id> be IsInTailPosition ( <id>thisCall</id> ).</step>
+    <step>Return ? EvaluateCall ( <id>func</id> , <id>ref</id> , <id>arguments</id> , <id>tailCall</id> ).</step>
+  </step-list>
+</algorithm>

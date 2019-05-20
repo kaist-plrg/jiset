@@ -1,0 +1,22 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>ref</id> be the result of evaluating UnaryExpression .</step>
+    <step>ReturnIfAbrupt ( <id>ref</id> ).</step>
+    <step>If Type ( <id>ref</id> ) is not Reference , return <value>true</value> .</step>
+    <step>If IsUnresolvableReference ( <id>ref</id> ) is <value>true</value> , then     <step-list>
+      <step>Assert : IsStrictReference ( <id>ref</id> ) is <value>false</value> .</step>
+      <step>Return <value>true</value> .</step>
+    </step-list></step>
+    <step>If IsPropertyReference ( <id>ref</id> ) is <value>true</value> , then     <step-list>
+      <step>If IsSuperReference ( <id>ref</id> ) is <value>true</value> , throw a <value>ReferenceError</value> exception.</step>
+      <step>Let <id>baseObj</id> be ! ToObject ( GetBase ( <id>ref</id> )).</step>
+      <step>Let <id>deleteStatus</id> be ? <id>baseObj</id> .[[Delete]]( GetReferencedName ( <id>ref</id> )).</step>
+      <step>If <id>deleteStatus</id> is <value>false</value> and IsStrictReference ( <id>ref</id> ) is <value>true</value> , throw a <value>TypeError</value> exception.</step>
+      <step>Return <id>deleteStatus</id> .</step>
+    </step-list></step>
+    <step>Else <id>ref</id> is a Reference to an Environment Record binding,     <step-list>
+      <step>Let <id>bindings</id> be GetBase ( <id>ref</id> ).</step>
+      <step>Return ? <id>bindings</id> .DeleteBinding( GetReferencedName ( <id>ref</id> )).</step>
+    </step-list></step>
+  </step-list>
+</algorithm>

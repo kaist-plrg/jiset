@@ -1,0 +1,11 @@
+<algorithm>
+  <step-list>
+    <step>If <id>symbol</id> is ClassBody , return <value>true</value> .</step>
+    <step>If <id>symbol</id> is ClassHeritage , then     <step-list>
+      <step>If ClassHeritage is present, return <value>true</value> ; otherwise return <value>false</value> .</step>
+    </step-list></step>
+    <step>Let <id>inHeritage</id> be ClassHeritage Contains <id>symbol</id> .</step>
+    <step>If <id>inHeritage</id> is <value>true</value> , return <value>true</value> .</step>
+    <step>Return the result of ComputedPropertyContains for ClassBody with argument <id>symbol</id> .</step>
+  </step-list>
+</algorithm>

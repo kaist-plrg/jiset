@@ -1,0 +1,9 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>generatorKind</id> be ! GetGeneratorKind ().</step>
+    <step>Let <id>exprRef</id> be the result of evaluating AssignmentExpression .</step>
+    <step>Let <id>value</id> be ? GetValue ( <id>exprRef</id> ).</step>
+    <step>If <id>generatorKind</id> is <value>async</value> , then return ? AsyncGeneratorYield ( <id>value</id> ).</step>
+    <step>Otherwise, return ? GeneratorYield ( CreateIterResultObject ( <id>value</id> , <value>false</value> )).</step>
+  </step-list>
+</algorithm>

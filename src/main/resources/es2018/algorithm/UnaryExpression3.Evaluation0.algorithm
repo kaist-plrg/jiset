@@ -1,0 +1,10 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>val</id> be the result of evaluating UnaryExpression .</step>
+    <step>If Type ( <id>val</id> ) is Reference , then     <step-list>
+      <step>If IsUnresolvableReference ( <id>val</id> ) is <value>true</value> , return <value>"undefined"</value> .</step>
+    </step-list></step>
+    <step>Set <id>val</id> to ? GetValue ( <id>val</id> ).</step>
+    <step>Return a String according to Table 35 .</step>
+  </step-list>
+</algorithm>

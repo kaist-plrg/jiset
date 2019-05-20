@@ -1,0 +1,12 @@
+<algorithm>
+  <step-list>
+    <step>If the first CaseClauses is present, then     <step-list>
+      <step>Let <id>hasDuplicates</id> be ContainsDuplicateLabels of the first CaseClauses with argument <id>labelSet</id> .</step>
+      <step>If <id>hasDuplicates</id> is <value>true</value> , return <value>true</value> .</step>
+    </step-list></step>
+    <step>Let <id>hasDuplicates</id> be ContainsDuplicateLabels of DefaultClause with argument <id>labelSet</id> .</step>
+    <step>If <id>hasDuplicates</id> is <value>true</value> , return <value>true</value> .</step>
+    <step>If the second CaseClauses is not present, return <value>false</value> .</step>
+    <step>Return ContainsDuplicateLabels of the second CaseClauses with argument <id>labelSet</id> .</step>
+  </step-list>
+</algorithm>

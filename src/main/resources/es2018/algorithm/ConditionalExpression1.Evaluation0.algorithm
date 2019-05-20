@@ -1,0 +1,14 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>lref</id> be the result of evaluating LogicalORExpression .</step>
+    <step>Let <id>lval</id> be ToBoolean (? GetValue ( <id>lref</id> )).</step>
+    <step>If <id>lval</id> is <value>true</value> , then     <step-list>
+      <step>Let <id>trueRef</id> be the result of evaluating the first AssignmentExpression .</step>
+      <step>Return ? GetValue ( <id>trueRef</id> ).</step>
+    </step-list></step>
+    <step>Else,     <step-list>
+      <step>Let <id>falseRef</id> be the result of evaluating the second AssignmentExpression .</step>
+      <step>Return ? GetValue ( <id>falseRef</id> ).</step>
+    </step-list></step>
+  </step-list>
+</algorithm>

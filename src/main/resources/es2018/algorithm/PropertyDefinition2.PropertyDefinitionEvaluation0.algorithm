@@ -1,0 +1,14 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>propKey</id> be the result of evaluating PropertyName .</step>
+    <step>ReturnIfAbrupt ( <id>propKey</id> ).</step>
+    <step>Let <id>exprValueRef</id> be the result of evaluating AssignmentExpression .</step>
+    <step>Let <id>propValue</id> be ? GetValue ( <id>exprValueRef</id> ).</step>
+    <step>If IsAnonymousFunctionDefinition ( AssignmentExpression ) is <value>true</value> , then     <step-list>
+      <step>Let <id>hasNameProperty</id> be ? HasOwnProperty ( <id>propValue</id> , <value>"name"</value> ).</step>
+      <step>If <id>hasNameProperty</id> is <value>false</value> , perform SetFunctionName ( <id>propValue</id> , <id>propKey</id> ).</step>
+    </step-list></step>
+    <step>Assert : <id>enumerable</id> is <value>true</value> .</step>
+    <step>Return CreateDataPropertyOrThrow ( <id>object</id> , <id>propKey</id> , <id>propValue</id> ).</step>
+  </step-list>
+</algorithm>

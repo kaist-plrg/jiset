@@ -1,0 +1,18 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>lref</id> be the result of evaluating AdditiveExpression .</step>
+    <step>Let <id>lval</id> be ? GetValue ( <id>lref</id> ).</step>
+    <step>Let <id>rref</id> be the result of evaluating MultiplicativeExpression .</step>
+    <step>Let <id>rval</id> be ? GetValue ( <id>rref</id> ).</step>
+    <step>Let <id>lprim</id> be ? ToPrimitive ( <id>lval</id> ).</step>
+    <step>Let <id>rprim</id> be ? ToPrimitive ( <id>rval</id> ).</step>
+    <step>If Type ( <id>lprim</id> ) is String or Type ( <id>rprim</id> ) is String, then     <step-list>
+      <step>Let <id>lstr</id> be ? ToString ( <id>lprim</id> ).</step>
+      <step>Let <id>rstr</id> be ? ToString ( <id>rprim</id> ).</step>
+      <step>Return the string-concatenation of <id>lstr</id> and <id>rstr</id> .</step>
+    </step-list></step>
+    <step>Let <id>lnum</id> be ? ToNumber ( <id>lprim</id> ).</step>
+    <step>Let <id>rnum</id> be ? ToNumber ( <id>rprim</id> ).</step>
+    <step>Return the result of applying the addition operation to <id>lnum</id> and <id>rnum</id> . See the Note below 12.8.5 .</step>
+  </step-list>
+</algorithm>
