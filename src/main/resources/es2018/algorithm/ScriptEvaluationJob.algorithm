@@ -1,0 +1,14 @@
+<algorithm>
+  <param>sourceText</param>
+  <param>hostDefined</param>
+  <step-list>
+    <step>Assert : <id>sourceText</id> is an ECMAScript source text (see clause 10 ).</step>
+    <step>Let <id>realm</id> be the current Realm Record .</step>
+    <step>Let <id>s</id> be ParseScript ( <id>sourceText</id> , <id>realm</id> , <id>hostDefined</id> ).</step>
+    <step>If <id>s</id> is a List of errors, then     <step-list>
+      <step>Perform HostReportErrors ( <id>s</id> ).</step>
+      <step>Return NormalCompletion ( <value>undefined</value> ).</step>
+    </step-list></step>
+    <step>Return ? ScriptEvaluation ( <id>s</id> ).</step>
+  </step-list>
+</algorithm>

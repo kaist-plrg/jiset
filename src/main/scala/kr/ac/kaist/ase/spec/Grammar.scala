@@ -11,15 +11,18 @@ case class Grammar(
 // productions
 case class Production(
   lhs: Lhs,
-  rhsList: List[Rhs],
-  semantics: List[String]
+  rhsList: List[Rhs]
 )
 
 // left-hand-sides
 case class Lhs(name: String, params: List[String])
 
 // right-hand-sides
-case class Rhs(tokens: List[Token], cond: String)
+case class Rhs(
+  tokens: List[Token],
+  cond: String,
+  semantics: List[String]
+)
 
 // tokens
 trait Token

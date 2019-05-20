@@ -1,0 +1,17 @@
+<algorithm>
+  <param>constructExpr</param>
+  <param>arguments</param>
+  <step-list>
+    <step>Assert : <id>constructExpr</id> is either a NewExpression or a MemberExpression .</step>
+    <step>Assert : <id>arguments</id> is either <value>empty</value> or an Arguments .</step>
+    <step>Let <id>ref</id> be the result of evaluating <id>constructExpr</id> .</step>
+    <step>Let <id>constructor</id> be ? GetValue ( <id>ref</id> ).</step>
+    <step>If <id>arguments</id> is <value>empty</value> , let <id>argList</id> be a new empty List .</step>
+    <step>Else,     <step-list>
+      <step>Let <id>argList</id> be ArgumentListEvaluation of <id>arguments</id> .</step>
+      <step>ReturnIfAbrupt ( <id>argList</id> ).</step>
+    </step-list></step>
+    <step>If IsConstructor ( <id>constructor</id> ) is <value>false</value> , throw a <value>TypeError</value> exception.</step>
+    <step>Return ? Construct ( <id>constructor</id> , <id>argList</id> ).</step>
+  </step-list>
+</algorithm>

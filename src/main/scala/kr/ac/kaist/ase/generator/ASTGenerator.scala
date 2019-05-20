@@ -12,13 +12,14 @@ object ASTGenerator {
     val lexNames = lexProds.map(_.lhs.name).toSet
 
     def getAST(prod: Production): Unit = {
-      val Production(lhs, rhsList, semantics) = prod
+      val Production(lhs, rhsList) = prod
       val name = lhs.name
       nf.println(s"""trait $name extends AST""")
       rhsList.zipWithIndex.foreach {
         case (rhs, i) => {
           val params = getParams(rhs)
           val string = getString(rhs)
+          val semantics = rhs.semantics
           if (params.length > 0) {
             nf.println(s"""case class $name$i(${params.mkString(", ")}) extends $name {""")
             nf.println(s"""  override def toString: String = {""")

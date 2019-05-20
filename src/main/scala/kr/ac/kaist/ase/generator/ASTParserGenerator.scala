@@ -17,7 +17,7 @@ object ASTParserGenerator {
     }
 
     def getStrParser(prod: Production): Unit = {
-      val Production(lhs, rhsList, semantics) = prod
+      val Production(lhs, rhsList) = prod
       val name = lhs.name
       val subName = "sub" + name
 
@@ -57,7 +57,7 @@ object ASTParserGenerator {
       .replaceAll("""\"""", """\\"""")
 
     def getParser(prod: Production): Unit = {
-      val Production(lhs, rhsList, semantics) = prod
+      val Production(lhs, rhsList) = prod
       val Lhs(name, params) = lhs
       val pre = "lazy val"
       val post =

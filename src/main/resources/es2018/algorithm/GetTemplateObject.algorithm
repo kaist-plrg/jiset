@@ -1,0 +1,32 @@
+<algorithm>
+  <param>templateLiteral</param>
+  <step-list>
+    <step>Let <id>rawStrings</id> be TemplateStrings of <id>templateLiteral</id> with argument <value>true</value> .</step>
+    <step>Let <id>realm</id> be the current Realm Record .</step>
+    <step>Let <id>templateRegistry</id> be <id>realm</id> .[[TemplateMap]].</step>
+    <step>For each element <id>e</id> of <id>templateRegistry</id> , do     <step-list>
+      <step>If <id>e</id> .[[Site]] is the same Parse Node as <id>templateLiteral</id> , then       <step-list>
+        <step>Return <id>e</id> .[[Array]].</step>
+      </step-list></step>
+    </step-list></step>
+    <step>Let <id>cookedStrings</id> be TemplateStrings of <id>templateLiteral</id> with argument <value>false</value> .</step>
+    <step>Let <id>count</id> be the number of elements in the List  <id>cookedStrings</id> .</step>
+    <step>Assert : <id>count</id> ≤ 2 32 -1.</step>
+    <step>Let <id>template</id> be ! ArrayCreate ( <id>count</id> ).</step>
+    <step>Let <id>rawObj</id> be ! ArrayCreate ( <id>count</id> ).</step>
+    <step>Let <id>index</id> be 0.</step>
+    <step>Repeat, while <id>index</id> < <id>count</id>     <step-list>
+      <step>Let <id>prop</id> be ! ToString ( <id>index</id> ).</step>
+      <step>Let <id>cookedValue</id> be the String value <id>cookedStrings</id> [ <id>index</id> ].</step>
+      <step>Call <id>template</id> .[[DefineOwnProperty]]( <id>prop</id> , PropertyDescriptor { [[Value]]: <id>cookedValue</id> , [[Writable]]: <value>false</value> , [[Enumerable]]: <value>true</value> , [[Configurable]]: <value>false</value> }).</step>
+      <step>Let <id>rawValue</id> be the String value <id>rawStrings</id> [ <id>index</id> ].</step>
+      <step>Call <id>rawObj</id> .[[DefineOwnProperty]]( <id>prop</id> , PropertyDescriptor { [[Value]]: <id>rawValue</id> , [[Writable]]: <value>false</value> , [[Enumerable]]: <value>true</value> , [[Configurable]]: <value>false</value> }).</step>
+      <step>Let <id>index</id> be <id>index</id> +1.</step>
+    </step-list></step>
+    <step>Perform SetIntegrityLevel ( <id>rawObj</id> , <value>"frozen"</value> ).</step>
+    <step>Call <id>template</id> .[[DefineOwnProperty]]( <value>"raw"</value> , PropertyDescriptor { [[Value]]: <id>rawObj</id> , [[Writable]]: <value>false</value> , [[Enumerable]]: <value>false</value> , [[Configurable]]: <value>false</value> }).</step>
+    <step>Perform SetIntegrityLevel ( <id>template</id> , <value>"frozen"</value> ).</step>
+    <step>Append the Record { [[Site]]: <id>templateLiteral</id> , [[Array]]: <id>template</id> } to <id>templateRegistry</id> .</step>
+    <step>Return <id>template</id> .</step>
+  </step-list>
+</algorithm>

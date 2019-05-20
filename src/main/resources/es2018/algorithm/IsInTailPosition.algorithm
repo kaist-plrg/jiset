@@ -1,0 +1,14 @@
+<algorithm>
+  <param>call</param>
+  <step-list>
+    <step>Assert : <id>call</id> is a Parse Node .</step>
+    <step>If the source code matching <id>call</id> is non-strict code , return <value>false</value> .</step>
+    <step>If <id>call</id> is not contained within a FunctionBody , ConciseBody , or AsyncConciseBody , return <value>false</value> .</step>
+    <step>Let <id>body</id> be the FunctionBody , ConciseBody , or AsyncConciseBody that most closely contains <id>call</id> .</step>
+    <step>If <id>body</id> is the FunctionBody of a GeneratorBody , return <value>false</value> .</step>
+    <step>If <id>body</id> is the FunctionBody of an AsyncFunctionBody , return <value>false</value> .</step>
+    <step>If <id>body</id> is the FunctionBody of an AsyncGeneratorBody , return <value>false</value> .</step>
+    <step>If <id>body</id> is an AsyncConciseBody , return <value>false</value> .</step>
+    <step>Return the result of HasCallInTailPosition of <id>body</id> with argument <id>call</id> .</step>
+  </step-list>
+</algorithm>

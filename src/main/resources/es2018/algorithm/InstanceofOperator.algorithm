@@ -1,0 +1,13 @@
+<algorithm>
+  <param>V</param>
+  <param>target</param>
+  <step-list>
+    <step>If Type ( <id>target</id> ) is not Object, throw a <value>TypeError</value> exception.</step>
+    <step>Let <id>instOfHandler</id> be ? GetMethod ( <id>target</id> , @@hasInstance).</step>
+    <step>If <id>instOfHandler</id> is not <value>undefined</value> , then     <step-list>
+      <step>Return ToBoolean (? Call ( <id>instOfHandler</id> , <id>target</id> , « <id>V</id> »)).</step>
+    </step-list></step>
+    <step>If IsCallable ( <id>target</id> ) is <value>false</value> , throw a <value>TypeError</value> exception.</step>
+    <step>Return ? OrdinaryHasInstance ( <id>target</id> , <id>V</id> ).</step>
+  </step-list>
+</algorithm>

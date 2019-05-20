@@ -1,0 +1,72 @@
+<algorithm>
+  <param>script</param>
+  <param>env</param>
+  <step-list>
+    <step>Let <id>envRec</id> be <id>env</id> 's EnvironmentRecord .</step>
+    <step>Assert : <id>envRec</id> is a global Environment Record .</step>
+    <step>Let <id>lexNames</id> be the LexicallyDeclaredNames of <id>script</id> .</step>
+    <step>Let <id>varNames</id> be the VarDeclaredNames of <id>script</id> .</step>
+    <step>For each <id>name</id> in <id>lexNames</id> , do     <step-list>
+      <step>If <id>envRec</id> .HasVarDeclaration( <id>name</id> ) is <value>true</value> , throw a <value>SyntaxError</value> exception.</step>
+      <step>If <id>envRec</id> .HasLexicalDeclaration( <id>name</id> ) is <value>true</value> , throw a <value>SyntaxError</value> exception.</step>
+      <step>Let <id>hasRestrictedGlobal</id> be ? <id>envRec</id> .HasRestrictedGlobalProperty( <id>name</id> ).</step>
+      <step>If <id>hasRestrictedGlobal</id> is <value>true</value> , throw a <value>SyntaxError</value> exception.</step>
+    </step-list></step>
+    <step>For each <id>name</id> in <id>varNames</id> , do     <step-list>
+      <step>If <id>envRec</id> .HasLexicalDeclaration( <id>name</id> ) is <value>true</value> , throw a <value>SyntaxError</value> exception.</step>
+    </step-list></step>
+    <step>Let <id>varDeclarations</id> be the VarScopedDeclarations of <id>script</id> .</step>
+    <step>Let <id>functionsToInitialize</id> be a new empty List .</step>
+    <step>Let <id>declaredFunctionNames</id> be a new empty List .</step>
+    <step>For each <id>d</id> in <id>varDeclarations</id> , in reverse list order, do     <step-list>
+      <step>If <id>d</id> is neither a VariableDeclaration nor a ForBinding nor a BindingIdentifier , then       <step-list>
+        <step>Assert : <id>d</id> is either a FunctionDeclaration , a GeneratorDeclaration , an AsyncFunctionDeclaration , or an AsyncGeneratorDeclaration .</step>
+        <step>NOTE: If there are multiple function declarations for the same name, the last declaration is used.</step>
+        <step>Let <id>fn</id> be the sole element of the BoundNames of <id>d</id> .</step>
+        <step>If <id>fn</id> is not an element of <id>declaredFunctionNames</id> , then         <step-list>
+          <step>Let <id>fnDefinable</id> be ? <id>envRec</id> .CanDeclareGlobalFunction( <id>fn</id> ).</step>
+          <step>If <id>fnDefinable</id> is <value>false</value> , throw a <value>TypeError</value> exception.</step>
+          <step>Append <id>fn</id> to <id>declaredFunctionNames</id> .</step>
+          <step>Insert <id>d</id> as the first element of <id>functionsToInitialize</id> .</step>
+        </step-list></step>
+      </step-list></step>
+    </step-list></step>
+    <step>Let <id>declaredVarNames</id> be a new empty List .</step>
+    <step>For each <id>d</id> in <id>varDeclarations</id> , do     <step-list>
+      <step>If <id>d</id> is a VariableDeclaration , a ForBinding , or a BindingIdentifier , then       <step-list>
+        <step>For each String <id>vn</id> in the BoundNames of <id>d</id> , do         <step-list>
+          <step>If <id>vn</id> is not an element of <id>declaredFunctionNames</id> , then           <step-list>
+            <step>Let <id>vnDefinable</id> be ? <id>envRec</id> .CanDeclareGlobalVar( <id>vn</id> ).</step>
+            <step>If <id>vnDefinable</id> is <value>false</value> , throw a <value>TypeError</value> exception.</step>
+            <step>If <id>vn</id> is not an element of <id>declaredVarNames</id> , then             <step-list>
+              <step>Append <id>vn</id> to <id>declaredVarNames</id> .</step>
+            </step-list></step>
+          </step-list></step>
+        </step-list></step>
+      </step-list></step>
+    </step-list></step>
+    <step>NOTE: No abnormal terminations occur after this algorithm step if the global object is an ordinary object. However, if the global object is a Proxy exotic object it may exhibit behaviours that cause abnormal terminations in some of the following steps.</step>
+    <step>NOTE: Annex B.3.3.2 adds additional steps at this point.</step>
+    <step>Let <id>lexDeclarations</id> be the LexicallyScopedDeclarations of <id>script</id> .</step>
+    <step>For each element <id>d</id> in <id>lexDeclarations</id> , do     <step-list>
+      <step>NOTE: Lexically declared names are only instantiated here but not initialized.</step>
+      <step>For each element <id>dn</id> of the BoundNames of <id>d</id> , do       <step-list>
+        <step>If IsConstantDeclaration of <id>d</id> is <value>true</value> , then         <step-list>
+          <step>Perform ? <id>envRec</id> .CreateImmutableBinding( <id>dn</id> , <value>true</value> ).</step>
+        </step-list></step>
+        <step>Else,         <step-list>
+          <step>Perform ? <id>envRec</id> .CreateMutableBinding( <id>dn</id> , <value>false</value> ).</step>
+        </step-list></step>
+      </step-list></step>
+    </step-list></step>
+    <step>For each Parse Node  <id>f</id> in <id>functionsToInitialize</id> , do     <step-list>
+      <step>Let <id>fn</id> be the sole element of the BoundNames of <id>f</id> .</step>
+      <step>Let <id>fo</id> be the result of performing InstantiateFunctionObject for <id>f</id> with argument <id>env</id> .</step>
+      <step>Perform ? <id>envRec</id> .CreateGlobalFunctionBinding( <id>fn</id> , <id>fo</id> , <value>false</value> ).</step>
+    </step-list></step>
+    <step>For each String <id>vn</id> in <id>declaredVarNames</id> , in list order, do     <step-list>
+      <step>Perform ? <id>envRec</id> .CreateGlobalVarBinding( <id>vn</id> , <value>false</value> ).</step>
+    </step-list></step>
+    <step>Return NormalCompletion ( <value>empty</value> ).</step>
+  </step-list>
+</algorithm>

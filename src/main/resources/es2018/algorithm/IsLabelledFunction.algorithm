@@ -1,0 +1,10 @@
+<algorithm>
+  <param>stmt</param>
+  <step-list>
+    <step>If <id>stmt</id> is not a LabelledStatement , return <value>false</value> .</step>
+    <step>Let <id>item</id> be the LabelledItem of <id>stmt</id> .</step>
+    <step>If <id>item</id> is LabelledItem:FunctionDeclaration , return <value>true</value> .</step>
+    <step>Let <id>subStmt</id> be the Statement of <id>item</id> .</step>
+    <step>Return IsLabelledFunction ( <id>subStmt</id> ).</step>
+  </step-list>
+</algorithm>

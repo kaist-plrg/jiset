@@ -1,0 +1,11 @@
+<algorithm>
+  <step-list>
+    <step>Let <id>envRec</id> be GetThisEnvironment ().</step>
+    <step>Assert : <id>envRec</id> is a function Environment Record .</step>
+    <step>Let <id>activeFunction</id> be <id>envRec</id> .[[FunctionObject]].</step>
+    <step>Assert : <id>activeFunction</id> is an ECMAScript function object .</step>
+    <step>Let <id>superConstructor</id> be ! <id>activeFunction</id> .[[GetPrototypeOf]]().</step>
+    <step>If IsConstructor ( <id>superConstructor</id> ) is <value>false</value> , throw a <value>TypeError</value> exception.</step>
+    <step>Return <id>superConstructor</id> .</step>
+  </step-list>
+</algorithm>

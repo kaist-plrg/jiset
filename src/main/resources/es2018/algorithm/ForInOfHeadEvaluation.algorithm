@@ -1,0 +1,33 @@
+<algorithm>
+  <param>TDZnames</param>
+  <param>expr</param>
+  <param>iterationKind</param>
+  <step-list>
+    <step>Let <id>oldEnv</id> be the running execution context 's LexicalEnvironment.</step>
+    <step>If <id>TDZnames</id> is not an empty List , then     <step-list>
+      <step>Assert : <id>TDZnames</id> has no duplicate entries.</step>
+      <step>Let <id>TDZ</id> be NewDeclarativeEnvironment ( <id>oldEnv</id> ).</step>
+      <step>Let <id>TDZEnvRec</id> be <id>TDZ</id> 's EnvironmentRecord .</step>
+      <step>For each string <id>name</id> in <id>TDZnames</id> , do       <step-list>
+        <step>Perform ! <id>TDZEnvRec</id> .CreateMutableBinding( <id>name</id> , <value>false</value> ).</step>
+      </step-list></step>
+      <step>Set the running execution context 's LexicalEnvironment to <id>TDZ</id> .</step>
+    </step-list></step>
+    <step>Let <id>exprRef</id> be the result of evaluating <id>expr</id> .</step>
+    <step>Set the running execution context 's LexicalEnvironment to <id>oldEnv</id> .</step>
+    <step>Let <id>exprValue</id> be ? GetValue ( <id>exprRef</id> ).</step>
+    <step>If <id>iterationKind</id> is <value>enumerate</value> , then     <step-list>
+      <step>If <id>exprValue</id> is <value>undefined</value> or <value>null</value> , then       <step-list>
+        <step>Return Completion { [[Type]]: <value>break</value> , [[Value]]: <value>empty</value> , [[Target]]: <value>empty</value> }.</step>
+      </step-list></step>
+      <step>Let <id>obj</id> be ! ToObject ( <id>exprValue</id> ).</step>
+      <step>Return ? EnumerateObjectProperties ( <id>obj</id> ).</step>
+    </step-list></step>
+    <step>Else,     <step-list>
+      <step>Assert : <id>iterationKind</id> is <value>iterate</value> .</step>
+      <step>If <id>iterationKind</id> is <value>async-iterate</value> , let <id>iteratorHint</id> be <value>async</value> .</step>
+      <step>Else, let <id>iteratorHint</id> be <value>sync</value> .</step>
+      <step>Return ? GetIterator ( <id>exprValue</id> , <id>iteratorHint</id> ).</step>
+    </step-list></step>
+  </step-list>
+</algorithm>

@@ -1,0 +1,11 @@
+<algorithm>
+  <param>sourceText</param>
+  <param>realm</param>
+  <param>hostDefined</param>
+  <step-list>
+    <step>Assert : <id>sourceText</id> is an ECMAScript source text (see clause 10 ).</step>
+    <step>Parse <id>sourceText</id> using Script as the goal symbol and analyse the parse result for any Early Error conditions. If the parse was successful and no early errors were found, let <id>body</id> be the resulting parse tree. Otherwise, let <id>body</id> be a List of one or more <value>SyntaxError</value> or <value>ReferenceError</value> objects representing the parsing errors and/or early errors. Parsing and early error detection may be interweaved in an implementation-dependent manner. If more than one parsing error or early error is present, the number and ordering of error objects in the list is implementation-dependent, but at least one must be present.</step>
+    <step>If <id>body</id> is a List of errors, return <id>body</id> .</step>
+    <step>Return Script Record { [[Realm]]: <id>realm</id> , [[Environment]]: <value>undefined</value> , [[ECMAScriptCode]]: <id>body</id> , [[HostDefined]]: <id>hostDefined</id> }.</step>
+  </step-list>
+</algorithm>
