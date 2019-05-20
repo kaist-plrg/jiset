@@ -10,7 +10,7 @@ object GlobalGenerator {
     val grammar = spec.grammar
     val tys = spec.tys
     methods.foreach(name => MethodGenerator(version, name))
-    GrammarGenerator(grammar)
+    GrammarGenerator(version, grammar)
     tys.foreach(ty => TypeGenerator(version, ty))
 
     val nf = getPrintWriter(s"$MODEL_DIR/Global.scala")
