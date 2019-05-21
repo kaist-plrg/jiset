@@ -1,5 +1,6 @@
 package kr.ac.kaist.ase.spec
 
+import kr.ac.kaist.ase.util.Useful.readFile
 import spray.json._
 
 // ECMASCript specifications
@@ -8,9 +9,7 @@ case class Spec(
   grammar: Grammar,
   tys: List[Ty]
 )
-
-// Protocol for JSON
-object SpecProtocol extends DefaultJsonProtocol {
+object Spec extends DefaultJsonProtocol {
   implicit object TokenFormat extends RootJsonFormat[Token] {
     override def read(json: JsValue): Token = json match {
       case JsString("EmptyToken") => EmptyToken
@@ -49,5 +48,9 @@ object SpecProtocol extends DefaultJsonProtocol {
   implicit val LhsFormat = jsonFormat2(Lhs)
   implicit val ProductionFormat = jsonFormat2(Production)
   implicit val GrammarFormat = jsonFormat2(Grammar)
-  implicit val SpecFormat = jsonFormat3(Spec)
+  implicit val SpecFormat = jsonFormat3(Spec.apply)
+
+  def apply(filename: String): Spec = {
+    readFile(filename).parseJson.convertTo[Spec]
+  }
 }

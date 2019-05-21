@@ -15,10 +15,7 @@ case object ParseAlgo extends PhaseObj[Unit, ParseAlgoConfig, Algorithm] {
     unit: Unit,
     aseConfig: ASEConfig,
     config: ParseAlgoConfig
-  ): Algorithm = {
-    val filename = getFirstFilename(aseConfig, "parse-algo")
-    Algorithm(filename)
-  }
+  ): Algorithm = Algorithm(getFirstFilename(aseConfig, "parse-algo"))
 
   def defaultConfig: ParseAlgoConfig = ParseAlgoConfig()
   val options: List[PhaseOption[ParseAlgoConfig]] = List()

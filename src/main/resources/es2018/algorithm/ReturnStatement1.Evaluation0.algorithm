@@ -1,9 +1,0 @@
-<algorithm>
-  <param>Expression</param>
-  <step-list>
-    <step>Let <id>exprRef</id> be the result of evaluating Expression .</step>
-    <step>Let <id>exprValue</id> be ? GetValue ( <id>exprRef</id> ).</step>
-    <step>If ! GetGeneratorKind () is <value>async</value> , set <id>exprValue</id> to ? Await ( <id>exprValue</id> ).</step>
-    <step>Return Completion { [[Type]]: <value>return</value> , [[Value]]: <id>exprValue</id> , [[Target]]: <value>empty</value> }.</step>
-  </step-list>
-</algorithm>

@@ -18,10 +18,8 @@ case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
     aseConfig: ASEConfig,
     config: GenModelConfig
   ): Unit = {
-    import SpecProtocol._
     val version = getFirstFilename(aseConfig, "gen-model")
-    val json = readFile(s"$RESOURCE_DIR/$version/spec.json")
-    val spec = json.parseJson.convertTo[Spec]
+    val spec = Spec(s"$RESOURCE_DIR/$version/spec.json")
     deleteFile(s"$MODEL_DIR/package.scala")
     GlobalGenerator(version, spec)
   }

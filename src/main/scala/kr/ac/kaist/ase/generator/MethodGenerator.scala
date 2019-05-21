@@ -8,8 +8,7 @@ import kr.ac.kaist.ase.model.AlgoCompiler
 object MethodGenerator {
   def apply(version: String, name: String): Unit = {
     val objName = dotted2camel(name)
-    val filename = s"$RESOURCE_DIR/$version/algorithm/$name.algorithm"
-    val algo = Algorithm(filename)
+    val algo = Algorithm(s"$RESOURCE_DIR/$version/algorithm/$name.json")
     val func = AlgoCompiler(algo)
 
     val nf = getPrintWriter(s"$MODEL_DIR/algorithm/$objName.scala")

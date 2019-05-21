@@ -1,31 +1,43 @@
 package kr.ac.kaist.ase.algorithm
 
-import java.io.Reader
-import kr.ac.kaist.ase.LINE_SEP
-import kr.ac.kaist.ase.parser._
-import kr.ac.kaist.ase.util.Useful._
-import scala.util.parsing.combinator._
+import kr.ac.kaist.ase.util.Useful.readFile
+import spray.json._
 
 // algorithms
-case class Algorithm(params: List[Param], stepList: StepList, filename: String) {
-  def getSteps(init: List[Step]): List[Step] = (init /: stepList.steps) {
+case class Algorithm(params: List[String], steps: List[Step], filename: String) {
+  def getSteps(init: List[Step]): List[Step] = (init /: steps) {
     case (list, step) => step.getSteps(list)
   }
 }
+object Algorithm extends DefaultJsonProtocol {
+  implicit object TokenFormat extends RootJsonFormat[Token] {
+    override def read(json: JsValue): Token = json match {
+      case JsString(text) => Text(text)
+      case v =>
+        val discrimator = List("value", "id", "steps")
+          .map(d => json.asJsObject.fields.contains(d))
+        discrimator.indexOf(true) match {
+          case 0 => ValueFormat.read(v)
+          case 1 => IdFormat.read(v)
+          case 2 => StepListFormat.read(v)
+          case _ => deserializationError(s"unknown Token: $v")
+        }
+    }
+    override def write(token: Token): JsValue = token match {
+      case (t: Value) => ValueFormat.write(t)
+      case (t: Id) => IdFormat.write(t)
+      case (t: StepList) => StepListFormat.write(t)
+      case Text(text) => JsString(text)
+    }
+  }
+  implicit lazy val StepFormat = jsonFormat1(Step)
+  implicit lazy val ValueFormat = jsonFormat1(Value)
+  implicit lazy val IdFormat = jsonFormat1(Id)
+  implicit lazy val StepListFormat = jsonFormat1(StepList)
+  implicit lazy val AlgorithmFormat = jsonFormat3(Algorithm.apply)
 
-// parsers
-trait AlgorithmParsers extends JavaTokenParsers
-    with RegexParsers
-    with ParamParsers
-    with StepParsers
-    with TokenParsers {
-  lazy val algorithm: Parser[Algorithm] = tagged("algorithm", rep(param) ~ stepList) ^^ {
-    case ps ~ sl => Algorithm(ps, sl, "no-file")
+  def apply(filename: String): Algorithm = {
+    readFile(filename).parseJson.convertTo[Algorithm]
   }
 }
-object Algorithm extends AlgorithmParsers with ParseTo[Algorithm] {
-  lazy val rule = algorithm
-  def apply(filename: String): Algorithm = apply(fileReader(filename), filename)
-  def apply(reader: Reader, filename: String): Algorithm =
-    Algorithm(reader).copy(filename = filename)
-}
+
