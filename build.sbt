@@ -12,26 +12,21 @@ lazy val root = (project in file(".")).
     scalaVersion := "2.12.8",
     dummyModel in Compile := {
       val srcDir = baseDirectory.value + "/src/main"
-      val outPath = s"$srcDir/scala/kr/ac/kaist/ase"
-      def createSrcDir(dirname: String): Boolean = {
-        val outDir = file(s"$outPath/$dirname")
-        if (!outDir.exists) {
-          IO.createDirectory(outDir)
-          false
-        } else true
+      val modelPath = s"$srcDir/scala/kr/ac/kaist/ase/model"
+      val modelDir = file(modelPath)
+      if (!modelDir.exists) {
+        IO.createDirectory(modelDir)
+        List("ast", "algorithm", "type").foreach(dirname => {
+          IO.createDirectory(file(s"$modelPath/$dirname"))
+        })
+        List("package", "AlgoCompiler").foreach(filename => {
+          val outFile = file(s"$modelPath/$filename.scala")
+          IO.copyFile(
+            file(s"$srcDir/resources/dummy/$filename.scala"),
+            file(s"$modelPath/$filename.scala")
+          )
+        })
       }
-      def copySrc(dirname: String, name: String): Unit = if (!createSrcDir(dirname)) {
-        val outFile = file(s"$outPath/$dirname/$name.scala")
-        IO.copyFile(
-          file(s"$srcDir/resources/$name.scala"),
-          file(s"$outPath/$dirname/$name.scala")
-        )
-      }
-      copySrc("algorithm/rule", "Stmt")
-      copySrc("model", "package")
-      createSrcDir("model/ast")
-      createSrcDir("model/algorithm")
-      createSrcDir("model/type")
     },
     compile <<= (compile in Compile) dependsOn (dummyModel in Compile)
   )
@@ -52,8 +47,8 @@ libraryDependencies ++= Seq(
 
 commands += Command.command("generateModel") { state =>
   "clean" ::
-    "compile" ::
-    s"run gen-algo-parser $ES_MODEL" ::
+    // "compile" ::
+    // s"run gen-algo-parser $ES_MODEL" ::
     "compile" ::
     s"run gen-model $ES_MODEL" ::
     "compile" ::

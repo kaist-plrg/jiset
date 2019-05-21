@@ -12,6 +12,6 @@ case class Param(name: String) extends Appendable {
 }
 
 // parser for params
-trait ParamParsers extends StmtParsers { this: AlgorithmParsers =>
+trait ParamParsers { this: AlgorithmParsers =>
   lazy val param: Parser[Param] = tagged("param", ident) ^^ { Param(_) }
 }

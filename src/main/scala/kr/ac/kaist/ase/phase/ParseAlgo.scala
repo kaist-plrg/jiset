@@ -7,7 +7,7 @@ import kr.ac.kaist.ase.util._
 import scala.io.Source
 
 // ParseAlgo phase
-case object ParseAlgo extends PhaseObj[Unit, ParseAlgoConfig, List[Algorithm]] {
+case object ParseAlgo extends PhaseObj[Unit, ParseAlgoConfig, Algorithm] {
   val name = "parse-algo"
   val help = "Parses algorithm files."
 
@@ -15,34 +15,14 @@ case object ParseAlgo extends PhaseObj[Unit, ParseAlgoConfig, List[Algorithm]] {
     unit: Unit,
     aseConfig: ASEConfig,
     config: ParseAlgoConfig
-  ): List[Algorithm] = {
+  ): Algorithm = {
     val filename = getFirstFilename(aseConfig, "parse-algo")
-    val algos = Algorithm.getList(fileReader(filename))
-
-    if (config.showFailed) {
-      val steps = (List[Step]() /: algos) { case (list, algo) => algo.getSteps(list) }
-      val failedSteps = steps.filter(_ match {
-        case RawStep(_) => true
-        case _ => false
-      })
-      failedSteps.map(_.shortBeautify).sorted.foreach(println _)
-      val total = steps.length
-      val fail = failedSteps.length
-      val succ = total - fail
-      println(s"$succ/$total")
-    }
-
-    algos
+    Algorithm(filename)
   }
 
   def defaultConfig: ParseAlgoConfig = ParseAlgoConfig()
-  val options: List[PhaseOption[ParseAlgoConfig]] = List(
-    ("showFailed", BoolOption(c => c.showFailed = true),
-      "show failed steps.")
-  )
+  val options: List[PhaseOption[ParseAlgoConfig]] = List()
 }
 
 // ParseAlgo phase config
-case class ParseAlgoConfig(
-  var showFailed: Boolean = false
-) extends Config
+case class ParseAlgoConfig() extends Config

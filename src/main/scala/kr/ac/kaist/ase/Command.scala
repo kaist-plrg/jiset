@@ -35,7 +35,12 @@ case object CmdBase extends CommandObj("", PhaseNil)
 
 // parse-algo
 case object CmdParseAlgo extends CommandObj("parse-algo", CmdBase >> ParseAlgo) {
-  override def display(algos: List[Algorithm]): Unit = println(algos)
+  override def display(algo: Algorithm): Unit = println(algo)
+}
+
+// compile-algo
+case object CmdCompileAlgo extends CommandObj("compile-algo", CmdParseAlgo >> CompileAlgo) {
+  override def display(func: core.Func): Unit = println(func)
 }
 
 // parse

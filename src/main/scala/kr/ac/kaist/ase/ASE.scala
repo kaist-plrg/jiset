@@ -58,6 +58,7 @@ object ASE {
   val commands: List[Command] = List(
     CmdHelp,
     CmdParseAlgo,
+    CmdCompileAlgo,
     CmdParse,
     CmdLoad,
     CmdEval,
@@ -76,6 +77,7 @@ object ASE {
   var phases: List[Phase] = List(
     Help,
     ParseAlgo,
+    CompileAlgo,
     Parse,
     Load,
     ParseCore,

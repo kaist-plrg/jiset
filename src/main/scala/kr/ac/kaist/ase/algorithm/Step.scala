@@ -5,8 +5,7 @@ import kr.ac.kaist.ase.parser._
 import kr.ac.kaist.ase.util.Appendable
 
 // steps
-trait Step extends Appendable {
-  val tokens: List[Token]
+case class Step(tokens: List[Token]) extends Appendable {
   def getSteps(init: List[Step]): List[Step] = ((this :: init) /: tokens) {
     case (list, StepList(steps)) => (list /: steps) {
       case (list, s) => s.getSteps(list)
@@ -28,11 +27,9 @@ trait Step extends Appendable {
     sb.toString
   }
 }
-case class RawStep(tokens: List[Token]) extends Step
 
 // parser for steps
-trait StepParsers extends StmtParsers { this: AlgorithmParsers =>
+trait StepParsers { this: AlgorithmParsers =>
   // steps
-  lazy val rawStep: Parser[RawStep] = rep1(token) ^^ { RawStep(_) }
-  lazy val step: Parser[Step] = tagged("step", stmt) | tagged("step", rawStep)
+  lazy val step: Parser[Step] = tagged("step", rep1(token)) ^^ { Step(_) }
 }
