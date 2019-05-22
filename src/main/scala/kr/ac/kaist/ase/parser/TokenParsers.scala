@@ -18,10 +18,10 @@ trait TokenParsers extends Parsers {
     else f(in.first)
   }
 
+  private val wordChars = (('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9') :+ '_').toSet
   private def splitText(s: String): List[String] = {
     var list = List[String]()
     var prevWordChar = false
-    val wordChars = (('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9') :+ '_').toSet
     for (ch <- s) {
       val isWordChar = wordChars contains ch
       if (prevWordChar && isWordChar) list = (list.head + ch) :: list.tail
@@ -48,9 +48,9 @@ trait TokenParsers extends Parsers {
     case t => Failure(s"`Value(_)` expected but `$t` found", in)
   }))
 
-  def text(given: Text): Parser[Text] = Parser(in => firstMap(in, _ match {
-    case t @ Text(y) if given.text.toLowerCase == y.toLowerCase => Success(t, in.rest)
-    case t => Failure(s"`$given` expected but $t found", in)
+  def text: Parser[String] = Parser(in => firstMap(in, _ match {
+    case Text(x) => Success(x, in.rest)
+    case t => Failure(s"`Text(_)` expected but `$t` found", in)
   }))
 
   def id: Parser[String] = Parser(in => firstMap(in, _ match {
@@ -79,6 +79,13 @@ trait TokenParsers extends Parsers {
     if (in.atEnd) Success("", in)
     else Failure("end of input expected", in)
   })
+
+  def word: Parser[String] = Parser(in => text(in).mapPartial(_ match {
+    case s if wordChars contains s.head => s
+  }, s => s"`$s` is not word"))
+  def step: Parser[List[String]] = rep1(token) <~ Next
+  def token: Parser[String] = value | text | id | stepList
+  def stepList: Parser[String] = In ~> rep1(step) <~ Out ^^^ "step-list"
 
   override def phrase[T](p: Parser[T]): Parser[T] =
     super.phrase(p <~ end)
