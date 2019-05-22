@@ -97,13 +97,8 @@ object Beautifier {
     override def walk(inst: Inst): Unit = inst match {
       case IExpr(lhs, expr) =>
         walk(lhs); walk(" = "); walk(expr)
-      case IAlloc(lhs, ty) =>
-        walk(lhs); walk(" = new "); walk(ty)
       case IDelete(ref) =>
         walk("delete "); walk(ref)
-      case IApp(lhs, fun, args) =>
-        walk(lhs); walk(" = "); walk(fun)
-        walk("("); walkListSep[Expr](args, ", ", walk); walk(")")
       case IReturn(expr) =>
         walk("return "); walk(expr)
       case IIf(cond, thenInst, elseInst) =>
@@ -121,9 +116,6 @@ object Beautifier {
         walk("assert "); walk(expr)
       case IPrint(expr) =>
         walk("print "); walk(expr)
-      case IRun(lhs, id, name, args) =>
-        walk(lhs); walk(" = run "); walk(name); walk(" of "); walk(id);
-        walk(" with "); walkListSep[Expr](args, ", ", walk)
       case INotYetImpl(msg) =>
         walk("??? "); walk(msg)
     }
@@ -149,6 +141,13 @@ object Beautifier {
         walk("(? "); walk(ref); walk(")")
       case ETypeOf(expr) =>
         walk("(typeof "); walk(expr); walk(")")
+      case EAlloc(ty) =>
+        walk("(new "); walk(ty); walk(")")
+      case EApp(fun, args) =>
+        walk("("); walk(fun); walk("("); walkListSep[Expr](args, ", ", walk); walk(")"); walk(")")
+      case ERun(id, name, args) =>
+        walk("(run "); walk(name); walk(" of "); walk(id);
+        walk(" with "); walkListSep[Expr](args, ", ", walk); walk(")")
     }
 
     // references

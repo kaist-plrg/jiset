@@ -19,7 +19,7 @@ case object Load extends PhaseObj[Script, LoadConfig, State] {
     val (initialLocals, initialHeap) = Heap().allocLocals(Map(Id("script") -> ASTVal(script)))
     val initialEnv: Env = Env(locals = initialLocals)
     State(
-      insts = List(IRun(LhsLet(Id("_")), RefId(Id("script")), "Evalutation", Nil)),
+      insts = List(IExpr(LhsLet(Id("_")), ERun(RefId(Id("script")), "Evalutation", Nil))),
       globals = Global.initGlobal,
       env = initialEnv,
       heap = initialHeap

@@ -79,13 +79,11 @@ object Parser extends JavaTokenParsers with PackratParsers {
       "???" ~> stringLiteral ^^ { INotYetImpl(_) } |
       (lhs <~ "=") ~ ("try" ~> inst) ^^ { case x ~ i => ITry(x, i) } |
       (lhs <~ "=" <~ "new") ~ ty ~ (props) ^^ {
-        case x ~ t ~ props => ISeq(IAlloc(x, t) :: props.map {
+        case x ~ t ~ props => ISeq(IExpr(x, EAlloc(t)) :: props.map {
           case (Left(id), e) => IExpr(LhsRef(RefIdProp(x.getRef, id)), e)
           case (Right(str), e) => IExpr(LhsRef(RefStrProp(x.getRef, EStr(str.substring(1, str.length - 1)))), e)
         })
       } |
-      (lhs <~ "=" <~ "new") ~ ty ^^ { case x ~ t => IAlloc(x, t) } |
-      (lhs <~ "=") ~ expr ~ ("(" ~> (repsep(expr, ",") <~ ")")) ^^ { case x ~ f ~ as => IApp(x, f, as) } |
       (lhs <~ "=") ~ (expr) ^^ { case x ~ e => IExpr(x, e) }
   }
 
@@ -108,6 +106,11 @@ object Parser extends JavaTokenParsers with PackratParsers {
       "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
       ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^
       { case ps ~ b => EFunc(ps, b) } |
+      "(" ~> "new" ~> ty <~ ")" ^^ { case t => EAlloc(t) } |
+      ("(" ~> expr) ~ ("(" ~> (repsep(expr, ",") <~ ")") <~ ")") ^^ { case f ~ as => EApp(f, as) } |
+      ("(" ~> "run" ~> ident <~ "of") ~ (ref <~ "with") ~ (repsep(expr, ",") <~ ")") ^^ {
+        case name ~ id ~ l => ERun(id, name, l)
+      } |
       ref ^^ { ERef(_) }
   }
 
