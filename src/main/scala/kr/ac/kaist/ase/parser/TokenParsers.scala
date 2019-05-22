@@ -83,9 +83,9 @@ trait TokenParsers extends Parsers {
   def word: Parser[String] = Parser(in => text(in).mapPartial(_ match {
     case s if wordChars contains s.head => s
   }, s => s"`$s` is not word"))
-  def step: Parser[List[String]] = rep1(token) <~ Next
+  def step: Parser[List[String]] = rep1(token) <~ next
   def token: Parser[String] = value | text | id | stepList
-  def stepList: Parser[String] = In ~> rep1(step) <~ Out ^^^ "step-list"
+  def stepList: Parser[String] = in ~> rep1(step) <~ out ^^^ "step-list"
 
   override def phrase[T](p: Parser[T]): Parser[T] =
     super.phrase(p <~ end)
