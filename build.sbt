@@ -47,8 +47,6 @@ libraryDependencies ++= Seq(
 
 commands += Command.command("generateModel") { state =>
   "clean" ::
-    // "compile" ::
-    // s"run gen-algo-parser $ES_MODEL" ::
     "compile" ::
     s"run gen-model $ES_MODEL" ::
     "compile" ::
