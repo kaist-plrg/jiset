@@ -53,9 +53,7 @@ trait Walker {
   // instructions
   def walk(inst: Inst): Inst = inst match {
     case IExpr(lhs, expr) => IExpr(walk(lhs), walk(expr))
-    case IAlloc(lhs, ty) => IAlloc(walk(lhs), walk(ty))
     case IDelete(ref) => IDelete(walk(ref))
-    case IApp(lhs, fun, args) => IApp(walk(lhs), walk(fun), walkList[Expr](args, walk))
     case IReturn(expr) => IReturn(walk(expr))
     case IIf(cond, thenInst, elseInst) => IIf(walk(cond), walk(thenInst), walk(elseInst))
     case IWhile(cond, body) => IWhile(walk(cond), walk(body))
@@ -64,7 +62,6 @@ trait Walker {
     case ISeq(insts) => ISeq(walkList[Inst](insts, walk))
     case IAssert(expr) => IAssert(walk(expr))
     case IPrint(expr) => IPrint(walk(expr))
-    case IRun(lhs, oid, name, args) => IRun(walk(lhs), walk(oid), walk(name), walkList[Expr](args, walk))
     case INotYetImpl(msg) => INotYetImpl(msg)
   }
 
