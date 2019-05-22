@@ -110,12 +110,14 @@ object Parser extends JavaTokenParsers with RegexParsers {
 
   // references
   lazy private val ref: Parser[Ref] = {
-    id ~ rep("[" ~> expr <~ "]") ^^ {
+    id ~ rep(propExpr) ^^ {
       case x ~ es => es.foldLeft[Ref](RefId(x)) {
         case (ref, expr) => RefProp(ref, expr)
       }
     }
   }
+  lazy private val propExpr: Parser[Expr] =
+    "." ~> id ^^ { case x => EStr(x.name) } | "[" ~> expr <~ "]"
 
   // types
   lazy private val ty: Parser[Ty] = ident ^^ { Ty(_) }
