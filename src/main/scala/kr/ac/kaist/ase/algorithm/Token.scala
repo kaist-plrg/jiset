@@ -8,3 +8,6 @@ case class Value(value: String) extends Token
 case class Id(id: String) extends Token
 case class StepList(steps: List[Step]) extends Token
 case class Text(text: String) extends Token
+case object Next extends Token
+case object In extends Token
+case object Out extends Token

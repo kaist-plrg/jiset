@@ -1,12 +1,53 @@
 package kr.ac.kaist.ase.algorithm
 
+import kr.ac.kaist.ase.LINE_SEP
+import kr.ac.kaist.ase.error.UnexpectedToken
+import kr.ac.kaist.ase.parser
 import kr.ac.kaist.ase.util.Useful.readFile
 import spray.json._
-
 // algorithms
 case class Algorithm(params: List[String], steps: List[Step], filename: String) {
   def getSteps(init: List[Step]): List[Step] = (init /: steps) {
     case (list, step) => step.getSteps(list)
+  }
+
+  def toTokenList: List[Token] = {
+    def T(tokens: List[Token], token: Token): List[Token] = token match {
+      case StepList(steps) => Out :: ((In :: tokens) /: steps)(S(_, _))
+      case t => t :: tokens
+    }
+    def S(tokens: List[Token], step: Step): List[Token] =
+      Next :: (tokens /: step.tokens)(T(_, _))
+    (List[Token]() /: steps)(S(_, _)).reverse
+  }
+
+  override def toString: String = {
+    val sb = new StringBuilder
+    var TAB = 2
+    var indent = 0
+    def newline: Unit = sb.append(LINE_SEP).append(" " * indent)
+    def t(token: Token): Unit = token match {
+      case Value(value) => sb.append("value:").append(value).append(" ")
+      case Id(id) => sb.append("id:").append(id).append(" ")
+      case Text(text) => sb.append(text).append(" ")
+      case Next => newline
+      case In =>
+        indent += TAB; newline
+      case _ => throw UnexpectedToken(token)
+    }
+    def ts(tokens: List[Token]): Unit = tokens match {
+      case Next :: Out :: Next :: rest =>
+        indent -= TAB; newline; ts(rest)
+      case v :: rest =>
+        t(v); ts(rest)
+      case Nil =>
+    }
+    sb.append(s"$filename:")
+    newline
+    sb.append(s"(${params.mkString(", ")}) =>")
+    indent += TAB; newline
+    ts(toTokenList)
+    sb.toString
   }
 }
 object Algorithm extends DefaultJsonProtocol {
@@ -40,4 +81,3 @@ object Algorithm extends DefaultJsonProtocol {
     readFile(filename).parseJson.convertTo[Algorithm]
   }
 }
-
