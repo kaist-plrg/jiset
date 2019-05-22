@@ -54,12 +54,8 @@ trait UnitWalker {
   def walk(inst: Inst): Unit = inst match {
     case IExpr(lhs, expr) =>
       walk(lhs); walk(expr)
-    case IAlloc(lhs, ty) =>
-      walk(lhs); walk(ty)
     case IDelete(ref) =>
       walk(ref)
-    case IApp(lhs, fun, args) =>
-      walk(lhs); walk(fun); walkList[Expr](args, walk)
     case IReturn(expr) =>
       walk(expr)
     case IIf(cond, thenInst, elseInst) =>
@@ -76,8 +72,6 @@ trait UnitWalker {
       walk(expr)
     case IPrint(expr) =>
       walk(expr)
-    case IRun(lhs, oid, name, args) =>
-      walk(lhs); walk(oid); walk(name); walkList[Expr](args, walk);
     case INotYetImpl(msg) =>
   }
 

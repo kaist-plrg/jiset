@@ -20,37 +20,14 @@ object Interp {
         val prop = interp(lhs)(st)
         val value = interp(expr)(st)
         st.updated(prop, value)
-      case IAlloc(lhs, ty) =>
-        val prop = interp(lhs)(st)
-        val (newAddr, newSt) = st.alloc(ty)
-        newSt.updated(prop, newAddr)
       case IDelete(ref) =>
         val prop = interp(ref)(st)
         st.deleted(prop)
-      case IApp(lhs, fun, args) =>
-        val prop = interp(lhs)(st)
-        interp(fun)(st) match {
-          case Func(params, body) =>
-            val (idMap, _) = ((Map[Id, Value](), args) /: params) {
-              case ((map, Nil), param) =>
-                (map + (param -> Undef), Nil)
-              case ((map, arg :: rest), param) =>
-                (map + (param -> interp(arg)(st)), rest)
-            }
-            val (locals, newSt) = st.allocLocals(idMap)
-            val newEnv = st.env.copy(
-              locals = locals,
-              retCont = Some(Cont(prop, st.insts, st.env))
-            )
-            val retInst = IReturn(EUndef)
-            newSt.copy(insts = List(body, retInst), env = newEnv)
-          case v => error(s"not a function: $v")
-        }
       case IReturn(expr) =>
         val value = interp(expr)(st)
         st.env.retCont match {
           case Some(cont) => st.continue(cont, value)
-          case None => error(s"unvailable return: $value")
+          case None => error(s"unavailable return: $value")
         }
       case IIf(cond, thenInst, elseInst) => interp(cond)(st) match {
         case Bool(true) => st.copy(insts = thenInst :: st.insts)
@@ -85,30 +62,6 @@ object Interp {
           case v => println(beautify(v))
         }
         st
-      case IRun(lhs, oid, name, args) => {
-        val prop = interp(lhs)(st)
-        val astobj: Value = st(interp(oid)(st))
-        astobj match {
-          case ASTVal(ast) => {
-            val (Func(params, body), lst) = ast.semantics(name)
-            val nlst = lst ++ args.map(interp(_)(st))
-            val (idMap, _) = ((Map[Id, Value](), nlst) /: params) {
-              case ((map, Nil), param) =>
-                (map + (param -> Undef), Nil)
-              case ((map, arg :: rest), param) =>
-                (map + (param -> arg), rest)
-            }
-            val (locals, newSt) = st.allocLocals(idMap)
-            val newEnv = st.env.copy(
-              locals = locals,
-              retCont = Some(Cont(prop, st.insts, st.env))
-            )
-            val retInst = IReturn(EUndef)
-            newSt.copy(insts = List(body, retInst), env = newEnv)
-          }
-          case _ => error(s"not an AST value: $oid")
-        }
-      }
       case INotYetImpl(msg) => error(s"[NotYetImpl] $msg")
     }
   }
