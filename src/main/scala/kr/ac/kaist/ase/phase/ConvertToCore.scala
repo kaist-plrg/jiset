@@ -15,16 +15,13 @@ case object Load extends PhaseObj[Script, LoadConfig, State] {
     script: Script,
     aseConfig: ASEConfig,
     config: LoadConfig
-  ): State = {
-    val (initialLocals, initialHeap) = Heap().allocLocals(Map(Id("script") -> ASTVal(script)))
-    val initialEnv: Env = Env(locals = initialLocals)
-    State(
-      insts = List(IExpr(LhsLet(Id("_")), ERun(RefId(Id("script")), "Evalutation", Nil))),
-      globals = Global.initGlobal,
-      env = initialEnv,
-      heap = initialHeap
-    )
-  }
+  ): State = State(
+    retValue = None,
+    insts = List(ILet(Id("_"), ERun(RefId(Id("script")), "Evalutation", Nil))),
+    globals = Global.initGlobal,
+    locals = Map(Id("script") -> ASTVal(script)),
+    heap = Heap()
+  )
 
   def defaultConfig: LoadConfig = LoadConfig()
   val options: List[PhaseOption[LoadConfig]] = List()

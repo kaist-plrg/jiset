@@ -3,16 +3,15 @@ package kr.ac.kaist.ase.core
 import java.io._
 import java.nio.charset.Charset
 import scala.util.Either
-import scala.util.parsing.combinator.{ JavaTokenParsers, PackratParsers }
+import scala.util.parsing.combinator.{ JavaTokenParsers, RegexParsers }
 
 // parsers
-object Parser extends JavaTokenParsers with PackratParsers {
+object Parser extends JavaTokenParsers with RegexParsers {
   // parse a file into a CoreNode
   def fileToProgram(f: String): Program = fromFile(f, program)
   def fileToInst(f: String): Inst = fromFile(f, inst)
   def fileToExpr(f: String): Expr = fromFile(f, expr)
   def fileToRef(f: String): Ref = fromFile(f, ref)
-  def fileToLhs(f: String): Lhs = fromFile(f, lhs)
   def fileToTy(f: String): Ty = fromFile(f, ty)
   def fileToUOp(f: String): UOp = fromFile(f, uop)
   def fileToBOp(f: String): BOp = fromFile(f, bop)
@@ -24,7 +23,6 @@ object Parser extends JavaTokenParsers with PackratParsers {
   def parseInst(str: String): Inst = errHandle(parseAll(inst, str))
   def parseExpr(str: String): Expr = errHandle(parseAll(expr, str))
   def parseRef(str: String): Ref = errHandle(parseAll(ref, str))
-  def parseLhs(str: String): Lhs = errHandle(parseAll(lhs, str))
   def parseTy(str: String): Ty = errHandle(parseAll(ty, str))
   def parseUOp(str: String): UOp = errHandle(parseAll(uop, str))
   def parseBOp(str: String): BOp = errHandle(parseAll(bop, str))
@@ -35,7 +33,7 @@ object Parser extends JavaTokenParsers with PackratParsers {
   override protected val whiteSpace = """(\s|//.*)+""".r
 
   // parse from file
-  private def fromFile[T](f: String, parser: PackratParser[T]): T = {
+  private def fromFile[T](f: String, parser: Parser[T]): T = {
     var fileName = new File(f).getCanonicalPath
     if (File.separatorChar == '\\') {
       // convert path string to linux style for windows
@@ -60,35 +58,24 @@ object Parser extends JavaTokenParsers with PackratParsers {
   ////////////////////////////////////////////////////////////////////////////////
 
   // programs
-  lazy private val program: PackratParser[Program] = rep(inst) ^^ { Program(_) }
+  lazy private val program: Parser[Program] = rep(inst) ^^ { Program(_) }
 
   // instructions
-  type Prop = Either[Id, String]
-  lazy private val iprop: PackratParser[(Prop, Expr)] = (id <~ ":") ~ expr ^^ { case x ~ e => (Left(x), e) }
-  lazy private val prop: PackratParser[(Prop, Expr)] = (stringLiteral <~ ":") ~ expr ^^ { case str ~ e => (Right(str), e) }
-  lazy private val props: PackratParser[List[(Prop, Expr)]] = "{" ~> repsep(iprop | prop, ",") <~ "}"
-  lazy private val inst: PackratParser[Inst] = {
+  lazy private val inst: Parser[Inst] = {
     "delete" ~> ref ^^ { IDelete(_) } |
       "return" ~> expr ^^ { case e => IReturn(e) } |
       ("if" ~> expr) ~ inst ~ ("else" ~> inst?) ^^ { case c ~ t ~ e => IIf(c, t, e.getOrElse(ISeq(Nil))) } |
       ("while" ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |
-      "throw" ~> expr ^^ { case e => IThrow(e) } |
       "{" ~> rep(inst) <~ "}" ^^ { case seq => ISeq(seq) } |
       "assert" ~> expr ^^ { case e => IAssert(e) } |
       "print" ~> expr ^^ { case e => IPrint(e) } |
       "???" ~> stringLiteral ^^ { INotYetImpl(_) } |
-      (lhs <~ "=") ~ ("try" ~> inst) ^^ { case x ~ i => ITry(x, i) } |
-      (lhs <~ "=" <~ "new") ~ ty ~ (props) ^^ {
-        case x ~ t ~ props => ISeq(IExpr(x, EAlloc(t)) :: props.map {
-          case (Left(id), e) => IExpr(LhsRef(RefIdProp(x.getRef, id)), e)
-          case (Right(str), e) => IExpr(LhsRef(RefStrProp(x.getRef, EStr(str.substring(1, str.length - 1)))), e)
-        })
-      } |
-      (lhs <~ "=") ~ (expr) ^^ { case x ~ e => IExpr(x, e) }
+      ("let" ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
+      (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) }
   }
 
   // expressions
-  lazy private val expr: PackratParser[Expr] = {
+  lazy private val expr: Parser[Expr] = {
     floatingPointNumber ^^ { case s => ENum(s.toDouble) } |
       "Infinity" ^^ { case s => ENum(Double.PositiveInfinity) } |
       "+Infinity" ^^ { case s => ENum(Double.PositiveInfinity) } |
@@ -106,38 +93,43 @@ object Parser extends JavaTokenParsers with PackratParsers {
       "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
       ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^
       { case ps ~ b => EFunc(ps, b) } |
-      "(" ~> "new" ~> ty <~ ")" ^^ { case t => EAlloc(t) } |
-      ("(" ~> expr) ~ ("(" ~> (repsep(expr, ",") <~ ")") <~ ")") ^^ { case f ~ as => EApp(f, as) } |
+      ("(" ~> "new" ~> ty <~ ")") ^^ { case t => EAlloc(t, Nil) } |
+      ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {
+        case t ~ props => EAlloc(t, props)
+      } |
+      "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
       ("(" ~> "run" ~> ident <~ "of") ~ (ref <~ "with") ~ (repsep(expr, ",") <~ ")") ^^ {
         case name ~ id ~ l => ERun(id, name, l)
       } |
       ref ^^ { ERef(_) }
   }
 
+  // properties
+  lazy private val prop: Parser[(Expr, Expr)] =
+    (expr <~ "->") ~ expr ^^ { case k ~ v => (k, v) }
+
   // references
-  lazy private val ref: PackratParser[Ref] = {
-    ref ~ ("." ~> id) ^^ { case x ~ i => RefIdProp(x, i) } |
-      ref ~ ("[" ~> expr <~ "]") ^^ { case x ~ e => RefStrProp(x, e) } |
-      id ^^ { RefId(_) }
+  lazy private val ref: Parser[Ref] = {
+    id ~ rep("[" ~> expr <~ "]") ^^ {
+      case x ~ es => es.foldLeft[Ref](RefId(x)) {
+        case (ref, expr) => RefProp(ref, expr)
+      }
+    }
   }
 
-  // left-hand-sides
-  lazy private val lhs: PackratParser[Lhs] =
-    "let" ~> id ^^ { LhsLet(_) } | ref ^^ { LhsRef(_) }
-
   // types
-  lazy private val ty: PackratParser[Ty] = ident ^^ { Ty(_) }
+  lazy private val ty: Parser[Ty] = ident ^^ { Ty(_) }
 
   // identifiers
-  lazy private val id: PackratParser[Id] = ident ^^ { Id(_) }
+  lazy private val id: Parser[Id] = ident ^^ { Id(_) }
 
   // unary operators
-  lazy private val uop: PackratParser[UOp] = {
+  lazy private val uop: Parser[UOp] = {
     "-" ^^^ ONeg | "!" ^^^ ONot | "~" ^^^ OBNot
   }
 
   // binary operators
-  lazy private val bop: PackratParser[BOp] = {
+  lazy private val bop: Parser[BOp] = {
     "+" ^^^ OPlus |
       "-" ^^^ OSub |
       "*" ^^^ OMul |
@@ -159,7 +151,7 @@ object Parser extends JavaTokenParsers with PackratParsers {
   // Values
   ////////////////////////////////////////////////////////////////////////////////
   // values
-  lazy private val value: PackratParser[Value] = {
+  lazy private val value: Parser[Value] = {
     func |
       addr |
       floatingPointNumber ^^ { case n => Num(n.toDouble) } |
@@ -172,11 +164,11 @@ object Parser extends JavaTokenParsers with PackratParsers {
   }
 
   // functions
-  lazy private val func: PackratParser[Func] =
+  lazy private val func: Parser[Func] =
     ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^ { case ps ~ b => Func(ps, b) }
 
   // addresses
-  lazy private val addr: PackratParser[Addr] = {
+  lazy private val addr: Parser[Addr] = {
     "#addr(" ~> wholeNumber <~ ")" ^^ { case s => DynamicAddr(s.toLong) } |
       "#" ~> ident ^^ { NamedAddr(_) }
   }

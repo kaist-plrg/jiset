@@ -37,6 +37,8 @@ object Useful {
 
   // extention filter
   def extFilter(ext: String): String => Boolean = _.endsWith(s".$ext")
+  lazy val coreFilter = extFilter("core")
+  lazy val jsFilter = extFilter("js")
 
   // file writer
   def getPrintWriter(filename: String): PrintWriter =
@@ -56,4 +58,8 @@ object Useful {
 
   // delete files
   def deleteFile(filename: String): Unit = new File(filename).delete
+
+  // change extension
+  def changeExt(from: String, to: String): String => String =
+    filename => filename.substring(0, filename.length - from.length) + to
 }

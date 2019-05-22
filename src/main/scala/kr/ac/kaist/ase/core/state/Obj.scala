@@ -3,22 +3,17 @@ package kr.ac.kaist.ase.core
 // CORE Objects
 case class Obj(
     ty: Ty,
-    idProps: Map[Id, Value] = Map(),
-    strProps: Map[String, Value] = Map()
+    props: Map[Value, Value] = Map()
 ) extends CoreNode {
   // existence check
-  def contains(id: Id): Boolean = idProps contains id
-  def contains(str: String): Boolean = strProps contains str
+  def contains(prop: Value): Boolean = props contains prop
 
   // getters
-  def apply(id: Id): Value = idProps.getOrElse(id, error(s"free identifier: $id"))
-  def apply(str: String): Value = strProps.getOrElse(str, error(s"free string property: $str"))
+  def apply(prop: Value): Value = props.getOrElse(prop, error(s"free property: $prop"))
 
   // setters
-  def updated(id: Id, value: Value): Obj = copy(idProps = idProps + (id -> value))
-  def updated(str: String, value: Value): Obj = copy(strProps = strProps + (str -> value))
+  def updated(prop: Value, value: Value): Obj = copy(props = props + (prop -> value))
 
   // deletes
-  def deleted(id: Id): Obj = copy(idProps = idProps - id)
-  def deleted(str: String): Obj = copy(strProps = strProps - str)
+  def deleted(prop: Value): Obj = copy(props = props - prop)
 }

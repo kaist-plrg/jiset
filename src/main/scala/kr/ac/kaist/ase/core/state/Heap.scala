@@ -7,42 +7,28 @@ case class Heap(
 ) extends CoreNode {
   // existence check
   def contains(addr: Addr): Boolean = map contains addr
-  def contains(addr: Addr, id: Id): Boolean = this(addr) contains id
-  def contains(addr: Addr, str: String): Boolean = this(addr) contains str
+  def contains(addr: Addr, prop: Value): Boolean = this(addr) contains prop
 
   // getters
   def apply(addr: Addr): Obj = map.getOrElse(addr, error(s"unknown address: ${beautify(addr)}"))
-  def apply(addr: Addr, id: Id): Value = this(addr)(id)
-  def apply(addr: Addr, str: String): Value = this(addr)(str)
+  def apply(addr: Addr, prop: Value): Value = this(addr)(prop)
 
   // setters
-  def updated(addr: Addr, id: Id, value: Value): Heap =
-    copy(map = map + (addr -> this(addr).updated(id, value)))
-  def updated(addr: Addr, str: String, value: Value): Heap =
-    copy(map = map + (addr -> this(addr).updated(str, value)))
+  def updated(addr: Addr, prop: Value, value: Value): Heap =
+    copy(map = map + (addr -> this(addr).updated(prop, value)))
 
   // deletes
-  def deleted(addr: Addr, id: Id): Heap =
-    copy(map = map + (addr -> this(addr).deleted(id)))
-  def deleted(addr: Addr, str: String): Heap =
-    copy(map = map + (addr -> this(addr).deleted(str)))
+  def deleted(addr: Addr, prop: Value): Heap =
+    copy(map = map + (addr -> this(addr).deleted(prop)))
 
   // object allocations
   def alloc(
     ty: Ty,
-    idMap: Map[Id, Value] = Map(),
-    strMap: Map[String, Value] = Map()
+    objMap: Map[Value, Value] = Map()
   ): (Addr, Heap) = {
     val newAddr = DynamicAddr(size)
-    val newMap = map + (newAddr -> Obj(ty, idMap, strMap))
+    val newMap = map + (newAddr -> Obj(ty, objMap))
     val newSize = size + 1
     (newAddr, Heap(newMap, newSize))
   }
-
-  // environment allocations
-  def allocLocals(idMap: Map[Id, Value] = Map()): (Addr, Heap) =
-    alloc(Heap.ENV_TYPE, idMap)
-}
-object Heap {
-  val ENV_TYPE: Ty = Ty("CoreEnv")
 }

@@ -95,8 +95,10 @@ object Beautifier {
 
     // instructions
     override def walk(inst: Inst): Unit = inst match {
-      case IExpr(lhs, expr) =>
-        walk(lhs); walk(" = "); walk(expr)
+      case ILet(id, expr) =>
+        walk("let "); walk(id); walk(" = "); walk(expr)
+      case IAssign(ref, expr) =>
+        walk(ref); walk(" = "); walk(expr)
       case IDelete(ref) =>
         walk("delete "); walk(ref)
       case IReturn(expr) =>
@@ -106,10 +108,6 @@ object Beautifier {
         walk(" else "); walk(elseInst)
       case IWhile(cond, body) =>
         walk("while "); walk(cond); walk(" "); walk(body)
-      case ITry(lhs, tryInst) =>
-        walk(lhs); walk(" = try "); walk(tryInst)
-      case IThrow(expr) =>
-        walk("throw "); walk(expr)
       case ISeq(insts) =>
         walk("{"); walkList[Inst](insts, walk); walk(indent); walk("}")
       case IAssert(expr) =>
@@ -141,10 +139,12 @@ object Beautifier {
         walk("(? "); walk(ref); walk(")")
       case ETypeOf(expr) =>
         walk("(typeof "); walk(expr); walk(")")
-      case EAlloc(ty) =>
-        walk("(new "); walk(ty); walk(")")
+      case EAlloc(ty, props) =>
+        walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
+          case (k, v) => walk(k); walk(" -> "); walk(v)
+        }); walk("))")
       case EApp(fun, args) =>
-        walk("("); walk(fun); walk("("); walkListSep[Expr](args, ", ", walk); walk(")"); walk(")")
+        walk("("); walk(fun); walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
       case ERun(id, name, args) =>
         walk("(run "); walk(name); walk(" of "); walk(id);
         walk(" with "); walkListSep[Expr](args, ", ", walk); walk(")")
@@ -153,16 +153,8 @@ object Beautifier {
     // references
     override def walk(ref: Ref): Unit = ref match {
       case RefId(id) => walk(id)
-      case RefIdProp(ref, id) =>
-        walk(ref); walk("."); walk(id)
-      case RefStrProp(ref, expr) =>
+      case RefProp(ref, expr) =>
         walk(ref); walk("["); walk(expr); walk("]")
-    }
-
-    // left-hand-sides
-    override def walk(lhs: Lhs): Unit = lhs match {
-      case LhsRef(ref) => walk(ref)
-      case LhsLet(id) => walk("let "); walk(id)
     }
 
     // types
@@ -203,7 +195,8 @@ object Beautifier {
 
     // states
     override def walk(st: State): Unit = oneDepth({
-      val State(insts, globals, env, heap) = st
+      val State(retValue, insts, globals, locals, heap) = st
+      walk(indent); walk("Return Value: "); walkOpt[Value](retValue, walk)
       walk(indent); walk("Instructions: ");
       if (detail) {
         walkList[Inst](insts, walk)
@@ -212,15 +205,8 @@ object Beautifier {
         walkList[Inst](insts.slice(0, VISIBLE_LENGTH), walk)
         if (insts.length > VISIBLE_LENGTH) oneDepth({ walk(indent); walk("...") })
       }
-      walk(indent); walk("Environment: "); walk(env)
+      walk(indent); walk("LocalVars: "); walkMap[Id, Value](locals, walk, walk)
       walk(indent); walk("Heap"); walk(heap)
-    })
-
-    // environments
-    override def walk(env: Env): Unit = oneDepth({
-      walk(indent); walk("LocalVars: "); walk(env.locals)
-      walk(indent); walk("ReturnCont: "); walkOpt[Cont](env.retCont, walk)
-      walk(indent); walk("ExceptionCont: "); walkOpt[Cont](env.excCont, walk)
     })
 
     // heaps
@@ -233,8 +219,7 @@ object Beautifier {
     // objects
     override def walk(obj: Obj): Unit = oneDepth({
       walk("(TYPE = "); walk(obj.ty); walk(")")
-      walkMap[Id, Value](obj.idProps, walk, walk)
-      walkMap[String, Value](obj.strProps, walk, walk)
+      walkMap[Value, Value](obj.props, walk, walk)
     })
 
     // values
@@ -258,27 +243,11 @@ object Beautifier {
       case DynamicAddr(long) => walk(s"#addr($long)")
     }
 
-    // continuations
-    override def walk(cont: Cont): Unit = oneDepth({
-      val Cont(prop, insts, env) = cont
-      walk(indent); walk("Property: "); walk(prop)
-      if (detail) {
-        walk(indent); walk("Instructions: "); walkList[Inst](insts, walk)
-        walk(indent); walk("Environment: "); walk(env)
-      } else {
-        walk(indent); walk("Instructions: "); walkList[Inst](insts.slice(0, VISIBLE_LENGTH), walk)
-        if (insts.length > VISIBLE_LENGTH) oneDepth({ walk(indent); walk("...") })
-        walk(indent); walk("Environment: ...")
-      }
-    })
-
     // properties
-    override def walk(prop: Prop): Unit = prop match {
-      case GlobalId(id) => walk(id)
-      case PropId(addr, id) =>
-        walk(addr); walk("."); walk(id)
-      case PropStr(addr, str) =>
-        walk(addr); walk("[\""); walk(str); walk("\"]")
+    override def walk(refV: RefValue): Unit = refV match {
+      case RefValueId(id) => walk(id)
+      case RefValueProp(addr, value) =>
+        walk(addr); walk("[\""); walk(value); walk("\"]")
     }
   }
 }

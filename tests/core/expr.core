@@ -1,0 +1,70 @@
+// floating points
+let x = 1.2
+let y = 2.0
+assert (= (- x) -1.2)
+assert (= (+ x y) 3.2)
+assert (= (- x y) -0.8)
+assert (= (* x y) 2.4)
+assert (= (/ x y) 0.6)
+assert (= (% y x) 0.8)
+assert (= (< x y) true)
+
+// integers
+x = i3
+y = i5
+assert (= (- x) i-3)
+assert (= (+ x y) i8)
+assert (= (- x y) i-2)
+assert (= (* x y) i15)
+assert (= (/ x y) i0)
+assert (= (% y x) i2)
+assert (= (< y x) false)
+assert (= (& x y) i1)
+assert (= (| x y) i7)
+assert (= (^ x y) i6)
+assert (= (<< x y) i96)
+assert (= (>> i16 i2) i4)
+assert (= (>>> i-1 i60) i15)
+
+// strings
+x = "abc"
+y = "def"
+assert (= (+ x y) "abcdef")
+assert (= (< x y) true)
+
+// booleans
+assert (= true true)
+assert (= false false)
+assert (= (= true false) false)
+
+// undefined
+assert (= undefined undefined)
+
+// null
+assert (= null null)
+
+// identifiers
+x = 1
+let z = x
+assert (= z 1)
+
+// property reads
+let obj = (new Object("x" -> 1, "y" -> 2))
+let p = "x"
+let res = obj[p]
+assert (= res 1)
+
+// property existences
+let obj = (new Object("x" -> 1, "y" -> 2))
+assert (? obj["x"])
+assert (= (? obj["z"]) false)
+
+// typeof
+assert (= (typeof 1) "Number")
+assert (= (typeof true) "Boolean")
+assert (= (typeof undefined) "Undefined")
+assert (= (typeof null) "Null")
+obj = (new Object)
+assert (= (typeof obj) "Object")
+let a = (new A)
+assert (= (typeof a) "A")

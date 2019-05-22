@@ -88,7 +88,7 @@ object ASTGenerator {
       case _ => ""
     }
 
-    val nf = getPrintWriter(s"$MODEL_DIR/AST.scala")
+    val nf = getPrintWriter(s"$MODEL_DIR/ast/AST.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println
     nf.println(s"""import kr.ac.kaist.ase.core._""")

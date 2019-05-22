@@ -9,89 +9,131 @@ object Interp {
       fixpoint(interp(inst)(st.copy(insts = rest)))
   }
 
-  ////////////////////////////////////////////////////////////////////////////////
-  // Syntax
-  ////////////////////////////////////////////////////////////////////////////////
-
   // instructions
   def interp(inst: Inst): State => State = st => {
     inst match {
-      case IExpr(lhs, expr) =>
-        val prop = interp(lhs)(st)
-        val value = interp(expr)(st)
-        st.updated(prop, value)
+      case ILet(id, expr) =>
+        val (value, s0) = interp(expr)(st)
+        s0.define(id, value)
+      case IAssign(ref, expr) =>
+        val (refV, s0) = interp(ref)(st)
+        val (value, s1) = interp(expr)(s0)
+        s1.updated(refV, value)
       case IDelete(ref) =>
-        val prop = interp(ref)(st)
-        st.deleted(prop)
+        val (refV, s0) = interp(ref)(st)
+        s0.deleted(refV)
       case IReturn(expr) =>
-        val value = interp(expr)(st)
-        st.env.retCont match {
-          case Some(cont) => st.continue(cont, value)
-          case None => error(s"unavailable return: $value")
+        val (value, s0) = interp(expr)(st)
+        s0.copy(retValue = Some(value), insts = Nil)
+      case IIf(cond, thenInst, elseInst) =>
+        val (v, s0) = interp(cond)(st)
+        v match {
+          case Bool(true) => s0.copy(insts = thenInst :: s0.insts)
+          case Bool(false) => s0.copy(insts = elseInst :: s0.insts)
+          case v => error(s"not a boolean: $v")
         }
-      case IIf(cond, thenInst, elseInst) => interp(cond)(st) match {
-        case Bool(true) => st.copy(insts = thenInst :: st.insts)
-        case Bool(false) => st.copy(insts = elseInst :: st.insts)
-        case v => error(s"not a boolean: $v")
-      }
-      case IWhile(cond, body) => interp(cond)(st) match {
-        case Bool(true) => st.copy(insts = body :: inst :: st.insts)
-        case Bool(false) => st
-        case v => error(s"not a boolean: $v")
-      }
-      case ITry(lhs, tryInst) =>
-        val prop = interp(lhs)(st)
-        val newEnv = st.env.copy(excCont = Some(Cont(prop, st.insts, st.env)))
-        val excInst = IThrow(EUndef)
-        st.copy(insts = List(tryInst, excInst), env = newEnv)
-      case IThrow(expr) =>
-        val value = interp(expr)(st)
-        st.env.excCont match {
-          case Some(cont) => st.continue(cont, value)
-          case None => error(s"uncaught exception: $value")
+      case IWhile(cond, body) =>
+        val (v, s0) = interp(cond)(st)
+        v match {
+          case Bool(true) => s0.copy(insts = body :: inst :: s0.insts)
+          case Bool(false) => s0
+          case v => error(s"not a boolean: $v")
         }
       case ISeq(newInsts) => st.copy(insts = newInsts ++ st.insts)
-      case IAssert(expr) => interp(expr)(st) match {
-        case Bool(true) => st
-        case Bool(false) => error(s"assertion failure: $expr")
-        case v => error(s"not a boolean: $v")
-      }
+      case IAssert(expr) =>
+        val (v, s0) = interp(expr)(st)
+        v match {
+          case Bool(true) => s0
+          case Bool(false) => error(s"assertion failure: $expr")
+          case v => error(s"not a boolean: $v")
+        }
       case IPrint(expr) =>
-        interp(expr)(st) match {
-          case addr: Addr => println(beautify(st.heap(addr)))
+        val (v, s0) = interp(expr)(st)
+        v match {
+          case addr: Addr => println(beautify(s0.heap(addr)))
           case v => println(beautify(v))
         }
-        st
+        s0
       case INotYetImpl(msg) => error(s"[NotYetImpl] $msg")
     }
   }
 
   // expresssions
-  def interp(expr: Expr): State => Value = st => st match {
-    case State(_, _, env, heap) => expr match {
-      case ENum(n) => Num(n)
-      case EINum(n) => INum(n)
-      case EStr(str) => Str(str)
-      case EBool(b) => Bool(b)
-      case EUndef => Undef
-      case ENull => Null
-      case ERef(ref) =>
-        val prop = interp(ref)(st)
-        st(prop)
-      case EFunc(params, body) =>
-        Func(params, body)
-      case EUOp(uop, expr) =>
-        val v = interp(expr)(st)
-        interp(uop)(v)
-      case EBOp(bop, left, right) =>
-        val lv = interp(left)(st)
-        val rv = interp(right)(st)
-        interp(bop)(lv, rv)
-      case EExist(ref) =>
-        val prop = interp(ref)(st)
-        Bool(st.contains(prop))
-      case ETypeOf(expr) => interp(expr)(st) match {
-        case addr: Addr => Str(heap.map.getOrElse(addr, error(s"unknown address: $addr")).ty.name)
+  def interp(expr: Expr): State => (Value, State) = st => expr match {
+    case ENum(n) => (Num(n), st)
+    case EINum(n) => (INum(n), st)
+    case EStr(str) => (Str(str), st)
+    case EBool(b) => (Bool(b), st)
+    case EUndef => (Undef, st)
+    case ENull => (Null, st)
+    case ERef(ref) =>
+      val (refV, s0) = interp(ref)(st)
+      (s0(refV), s0)
+    case EFunc(params, body) =>
+      (Func(params, body), st)
+    case EApp(fexpr, args) =>
+      val (fv, s0) = interp(fexpr)(st)
+      fv match {
+        case Func(params, body) =>
+          val (locals, s1, _) = ((Map[Id, Value](), s0, args) /: params) {
+            case ((map, st, arg :: rest), param) =>
+              val (av, s0) = interp(arg)(st)
+              (map + (param -> av), s0, rest)
+            case (triple, _) => triple
+          }
+          val newSt = fixpoint(s1.copy(insts = List(body), locals = locals))
+          newSt.retValue match {
+            case Some(v) => (v, s1.copy(heap = newSt.heap))
+            case None => error(s"no return value")
+          }
+        case v => error(s"not a function: $v")
+      }
+    case ERun(ref, name, args) => {
+      val (refV, s0) = interp(ref)(st)
+      st(refV) match {
+        case ASTVal(ast) => {
+          val (Func(params, body), lst) = ast.semantics(name)
+          val (nlst, s1) = ((lst.reverse, s0) /: args) {
+            case ((lst, st), arg) =>
+              val (av, s0) = interp(arg)(st)
+              (av :: lst, s0)
+          }
+          val (locals, _) = ((Map[Id, Value](), nlst.reverse) /: params) {
+            case ((map, arg :: rest), param) =>
+              (map + (param -> arg), rest)
+            case (pair, _) => pair
+          }
+          val newSt = fixpoint(s1.copy(insts = List(body), locals = locals))
+          newSt.retValue match {
+            case Some(v) => (v, s1.copy(heap = newSt.heap))
+            case None => error(s"no return value")
+          }
+        }
+        case v => error(s"not an AST value: $v")
+      }
+    }
+    case EAlloc(ty, props) =>
+      val (addr, s0) = st.alloc(ty)
+      (addr, (s0 /: props) {
+        case (st, (e1, e2)) =>
+          val (k, s0) = interp(e1)(st)
+          val (v, s1) = interp(e2)(s0)
+          s1.updated(addr, k, v)
+      })
+    case EUOp(uop, expr) =>
+      val (v, s0) = interp(expr)(st)
+      (interp(uop)(v), s0)
+    case EBOp(bop, left, right) =>
+      val (lv, s0) = interp(left)(st)
+      val (rv, s1) = interp(right)(s0)
+      (interp(bop)(lv, rv), s1)
+    case EExist(ref) =>
+      val (refV, s0) = interp(ref)(st)
+      (Bool(s0.contains(refV)), s0)
+    case ETypeOf(expr) => {
+      val (v, s0) = interp(expr)(st)
+      (v match {
+        case addr: Addr => Str(s0.heap.map.getOrElse(addr, error(s"unknown address: $addr")).ty.name)
         case Num(_) | INum(_) => Str("Number")
         case Str(_) => Str("String")
         case Bool(_) => Str("Boolean")
@@ -99,40 +141,21 @@ object Interp {
         case Null => Str("Null")
         case Func(_, _) => Str("Function")
         case ASTVal(_) => Str("AST")
-      }
+      }, s0)
     }
   }
 
   // references
-  def interp(ref: Ref): State => Prop = st => ref match {
-    case RefId(id) =>
-      val localId = PropId(st.env.locals, id)
-      val globalId = GlobalId(id)
-      if (st.contains(localId)) localId
-      else if (st.contains(globalId)) globalId
-      else error(s"free identifier: $id")
-    case RefIdProp(ref, id) =>
-      val prop = interp(ref)(st)
-      st(prop) match {
-        case addr: Addr => PropId(addr, id)
+  def interp(ref: Ref): State => (RefValue, State) = st => ref match {
+    case RefId(id) => (RefValueId(id), st)
+    case RefProp(ref, expr) =>
+      val (refV, s0) = interp(ref)(st)
+      s0(refV) match {
+        case addr: Addr =>
+          val (v, s1) = interp(expr)(s0)
+          (RefValueProp(addr, v), s1)
         case v => error(s"not an address: $v")
       }
-    case RefStrProp(ref, expr) =>
-      val prop = interp(ref)(st)
-      st(prop) match {
-        case addr: Addr => interp(expr)(st) match {
-          case Str(str) => PropStr(addr, str)
-          case INum(long) => PropStr(addr, long.toString)
-          case v => error(s"not a string: $v")
-        }
-        case v => error(s"not an address: $v")
-      }
-  }
-
-  // left-hand-sides
-  def interp(lhs: Lhs): State => Prop = st => lhs match {
-    case LhsRef(ref) => interp(ref)(st)
-    case LhsLet(id) => PropId(st.env.locals, id)
   }
 
   // unary operators

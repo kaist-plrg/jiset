@@ -13,12 +13,10 @@ trait UnitWalker {
     case uop: UOp => walk(uop)
     case bop: BOp => walk(bop)
     case st: State => walk(st)
-    case env: Env => walk(env)
     case heap: Heap => walk(heap)
     case obj: Obj => walk(obj)
     case v: Value => walk(v)
-    case cont: Cont => walk(cont)
-    case prop: Prop => walk(prop)
+    case refV: RefValue => walk(refV)
   }
 
   // strings
@@ -52,8 +50,10 @@ trait UnitWalker {
 
   // instructions
   def walk(inst: Inst): Unit = inst match {
-    case IExpr(lhs, expr) =>
-      walk(lhs); walk(expr)
+    case ILet(id, expr) =>
+      walk(id); walk(expr)
+    case IAssign(ref, expr) =>
+      walk(ref); walk(expr)
     case IDelete(ref) =>
       walk(ref)
     case IReturn(expr) =>
@@ -62,10 +62,6 @@ trait UnitWalker {
       walk(cond); walk(thenInst); walk(elseInst)
     case IWhile(cond, body) =>
       walk(cond); walk(body)
-    case ITry(lhs, tryInst) =>
-      walk(lhs); walk(tryInst)
-    case IThrow(expr) =>
-      walk(expr)
     case ISeq(insts) =>
       walkList[Inst](insts, walk)
     case IAssert(expr) =>
@@ -93,16 +89,8 @@ trait UnitWalker {
   // references
   def walk(ref: Ref): Unit = ref match {
     case RefId(id) => walk(id)
-    case RefIdProp(ref, id) =>
-      walk(ref); walk(id)
-    case RefStrProp(ref, expr) =>
+    case RefProp(ref, expr) =>
       walk(ref); walk(expr)
-  }
-
-  // left-hand-sides
-  def walk(lhs: Lhs): Unit = lhs match {
-    case LhsRef(ref) => walk(ref)
-    case LhsLet(id) => walk(id)
   }
 
   // types
@@ -125,15 +113,8 @@ trait UnitWalker {
   def walk(st: State): Unit = {
     walkList[Inst](st.insts, walk)
     walkMap[Id, Value](st.globals, walk, walk)
-    walk(st.env)
+    walkMap[Id, Value](st.locals, walk, walk)
     walk(st.heap)
-  }
-
-  // environments
-  def walk(env: Env): Unit = {
-    walk(env.locals)
-    walkOpt[Cont](env.retCont, walk)
-    walkOpt[Cont](env.excCont, walk)
   }
 
   // heaps
@@ -144,8 +125,7 @@ trait UnitWalker {
   // objects
   def walk(obj: Obj): Unit = {
     walk(obj.ty)
-    walkMap[Id, Value](obj.idProps, walk, walk)
-    walkMap[String, Value](obj.strProps, walk, walk)
+    walkMap[Value, Value](obj.props, walk, walk)
   }
 
   // values
@@ -159,18 +139,10 @@ trait UnitWalker {
   // addresses
   def walk(addr: Addr): Unit = {}
 
-  // continuations
-  def walk(cont: Cont): Unit = {
-    walk(cont.prop)
-    walkList[Inst](cont.insts, walk)
-    walk(cont.env)
-  }
-
   // properties
-  def walk(prop: Prop): Unit = prop match {
-    case GlobalId(id) => walk(id)
-    case PropId(addr, id) =>
-      walk(addr); walk(id)
-    case PropStr(addr, str) => walk(addr)
+  def walk(refV: RefValue): Unit = refV match {
+    case RefValueId(id) => walk(id)
+    case RefValueProp(addr, value) =>
+      walk(addr); walk(value)
   }
 }

@@ -9,6 +9,9 @@ package object ase {
   // Base project directory root
   val BASE_DIR = System.getenv("ASE_HOME")
 
+  // Tests directory root
+  val TEST_DIR = s"${BASE_DIR}/tests"
+
   // Source directory root
   val SRC_DIR = s"${BASE_DIR}/src/main"
 

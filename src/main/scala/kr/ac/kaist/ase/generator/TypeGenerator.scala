@@ -18,9 +18,8 @@ object TypeGenerator {
     nf.println(s"""    Ty("$name"),""")
     nf.println(s"""    Map(""")
     nf.println(ty.methods.map(method =>
-      s"""      (Id("$method") -> $name$method.func)""").mkString("," + LINE_SEP))
-    nf.println(s"""    ),""")
-    nf.println(s"""    Map()""")
+      s"""      (Str("$method") -> $name$method.func)""").mkString("," + LINE_SEP))
+    nf.println(s"""    )""")
     nf.println(s"""  )""")
     nf.println(s"""}""")
     nf.close()

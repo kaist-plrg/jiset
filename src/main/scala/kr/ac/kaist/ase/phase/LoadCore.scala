@@ -14,17 +14,13 @@ case object LoadCore extends PhaseObj[Program, LoadCoreConfig, State] {
     pgm: Program,
     aseConfig: ASEConfig,
     config: LoadCoreConfig
-  ): State = {
-    // Evaluate Core program
-    val (initialLocals, initialHeap) = Heap().allocLocals()
-    val initialEnv: Env = Env(locals = initialLocals)
-    State(
-      insts = pgm.insts,
-      globals = Map(),
-      env = initialEnv,
-      heap = initialHeap
-    )
-  }
+  ): State = State(
+    retValue = None,
+    insts = pgm.insts,
+    globals = Map(),
+    locals = Map(),
+    heap = Heap()
+  )
 
   def defaultConfig: LoadCoreConfig = LoadCoreConfig()
   val options: List[PhaseOption[LoadCoreConfig]] = List()
