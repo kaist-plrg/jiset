@@ -25,6 +25,13 @@ object Interp {
       case IDelete(ref) =>
         val (refV, s0) = interp(ref)(st)
         s0.deleted(refV)
+      case IPush(expr, list) =>
+        val (exprV, s0) = interp(expr)(st)
+        val (listV, s1) = interp(list)(s0)
+        listV match {
+          case addr: Addr => s0.push(addr, exprV)
+          case v => error(s"not an address: $v")
+        }
       case IReturn(expr) =>
         val (value, s0) = interp(expr)(st)
         s0.copy(retValue = Some(value), insts = Nil)
@@ -47,7 +54,7 @@ object Interp {
         val (v, s0) = interp(expr)(st)
         v match {
           case Bool(true) => s0
-          case Bool(false) => error(s"assertion failure: $expr")
+          case Bool(false) => error(s"assertion failure: ${beautify(expr)}")
           case v => error(s"not a boolean: $v")
         }
       case IPrint(expr) =>
@@ -84,6 +91,12 @@ object Interp {
           (v :: vs, s0)
       }
       s0.allocList(vs.reverse)
+    case EPop(expr) =>
+      val (v, s0) = interp(expr)(st)
+      v match {
+        case addr: Addr => s0.pop(addr)
+        case v => error(s"not an address: $v")
+      }
     case ERef(ref) =>
       val (refV, s0) = interp(ref)(st)
       (s0(refV), s0)

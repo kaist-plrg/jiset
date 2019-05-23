@@ -58,6 +58,8 @@ trait UnitWalker {
       walk(ref); walk(expr)
     case IDelete(ref) =>
       walk(ref)
+    case IPush(expr, list) =>
+      walk(expr); walk(list)
     case IReturn(expr) =>
       walk(expr)
     case IIf(cond, thenInst, elseInst) =>
@@ -80,6 +82,8 @@ trait UnitWalker {
       walk(ty); walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
     case EList(exprs) =>
       walkList[Expr](exprs, walk)
+    case EPop(list) =>
+      walk(list)
     case ERef(ref) =>
       walk(ref)
     case EFunc(params, body) =>
@@ -139,6 +143,8 @@ trait UnitWalker {
     case CoreMap(ty, props) =>
       walk(ty)
       walkMap[Value, Value](props, walk, walk)
+    case CoreList(values) =>
+      walkList[Value](values.toList, walk)
   }
 
   // values

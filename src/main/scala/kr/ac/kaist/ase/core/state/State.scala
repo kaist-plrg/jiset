@@ -47,6 +47,17 @@ case class State(
       copy(heap = heap.deleted(addr, prop))
   }
 
+  // pushses
+  def push(addr: Addr, value: Value): State = {
+    copy(heap = heap.push(addr, value))
+  }
+
+  // pops
+  def pop(addr: Addr): (Value, State) = {
+    val (value, newHeap) = heap.pop(addr)
+    (value, copy(heap = newHeap))
+  }
+
   // map allocations
   def allocMap(ty: Ty): (Addr, State) = allocMap(ty, Map())
   def allocMap(ty: Ty, map: Map[Value, Value]): (Addr, State) = {

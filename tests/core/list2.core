@@ -1,0 +1,18 @@
+// list pushes
+let list = (new [7, 8, 9])
+push 5 -> list
+assert (= list.length i4)
+assert (= list[i0] 7)
+assert (= list[i1] 8)
+assert (= list[i2] 9)
+assert (= list[i3] 5)
+
+push list -> list
+push 42 -> list
+assert (= list.length i6)
+assert (= list[i0] 7)
+assert (= list[i1] 8)
+assert (= list[i2] 9)
+assert (= list[i3] 5)
+assert (= list[i4] list)
+assert (= list[i5] 42)

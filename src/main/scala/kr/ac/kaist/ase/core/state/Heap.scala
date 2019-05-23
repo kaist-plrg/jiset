@@ -32,6 +32,20 @@ case class Heap(
     case v => error(s"not a map: $v")
   }
 
+  // pushses
+  def push(addr: Addr, value: Value): Heap = this(addr) match {
+    case (l: CoreList) => copy(map = map + (addr -> l.push(value)))
+    case v => error(s"not a list: $v")
+  }
+
+  // pops
+  def pop(addr: Addr): (Value, Heap) = this(addr) match {
+    case (l: CoreList) =>
+      val (value, newList) = l.pop
+      (value, copy(map = map + (addr -> newList)))
+    case v => error(s"not a list: $v")
+  }
+
   // map allocations
   def allocMap(
     ty: Ty,

@@ -1,7 +1,7 @@
 package kr.ac.kaist.ase.core
 
 // CORE Objects
-trait Obj extends CoreNode {
+sealed trait Obj extends CoreNode {
   // types
   def ty: Ty
 }
@@ -34,5 +34,14 @@ case class CoreList(values: Vector[Value]) extends Obj {
       else error(s"index out of bound: $idx")
     case Str("length") => INum(values.length)
     case v => error(s"not an integer key: $v")
+  }
+
+  // pushses
+  def push(value: Value): CoreList = CoreList(values :+ value)
+
+  // pops
+  def pop: (Value, CoreList) = values match {
+    case newValues :+ last => (last, CoreList(newValues))
+    case _ => error(s"empty list: $this")
   }
 }

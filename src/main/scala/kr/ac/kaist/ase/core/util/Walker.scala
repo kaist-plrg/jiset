@@ -54,6 +54,7 @@ trait Walker {
     case ILet(id, expr) => ILet(walk(id), walk(expr))
     case IAssign(ref, expr) => IAssign(walk(ref), walk(expr))
     case IDelete(ref) => IDelete(walk(ref))
+    case IPush(expr, list) => IPush(walk(expr), walk(list))
     case IReturn(expr) => IReturn(walk(expr))
     case IIf(cond, thenInst, elseInst) => IIf(walk(cond), walk(thenInst), walk(elseInst))
     case IWhile(cond, body) => IWhile(walk(cond), walk(body))
@@ -71,6 +72,7 @@ trait Walker {
       walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
     )
     case EList(exprs) => EList(walkList[Expr](exprs, walk))
+    case EPop(list) => EPop(walk(list))
     case ERef(ref) => ERef(walk(ref))
     case EFunc(params, body) => EFunc(walkList[Id](params, walk), walk(body))
     case EApp(fexpr, args) => EApp(walk(fexpr), walkList[Expr](args, walk))
@@ -123,6 +125,9 @@ trait Walker {
     case CoreMap(ty, props) => CoreMap(
       walk(ty),
       walkMap[Value, Value](props, walk, walk)
+    )
+    case CoreList(values) => CoreList(
+      walkList[Value](values.toList, walk).toVector
     )
   }
 

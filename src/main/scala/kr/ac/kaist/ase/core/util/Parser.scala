@@ -63,6 +63,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   // instructions
   lazy private val inst: Parser[Inst] = {
     "delete" ~> ref ^^ { IDelete(_) } |
+      ("push" ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPush(e, l) } |
       "return" ~> expr ^^ { case e => IReturn(e) } |
       ("if" ~> expr) ~ inst ~ ("else" ~> inst?) ^^ { case c ~ t ~ e => IIf(c, t, e.getOrElse(ISeq(Nil))) } |
       ("while" ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |
@@ -98,13 +99,14 @@ object Parser extends JavaTokenParsers with RegexParsers {
       } |
       ("(" ~> "new" ~> ty <~ ")") ^^ { case t => EMap(t, Nil) } |
       ("(" ~> "new" ~> "[" ~> repsep(expr, ",") <~ "]" <~ ")") ^^ { EList(_) } |
-      "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
       ("(" ~> "run" ~> ident <~ "of") ~ (expr <~ "with") ~ (repsep(expr, ",") <~ ")") ^^ {
         case name ~ id ~ l => ERun(id, name, l)
       } |
       ("(" ~> "run" ~> ident <~ "of") ~ expr ^^ {
         case name ~ id => ERun(id, name, Nil)
       } |
+      ("(" ~> "pop" ~> expr <~ ")") ^^ { case e => EPop(e) } |
+      "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
       ref ^^ { ERef(_) }
   }
 

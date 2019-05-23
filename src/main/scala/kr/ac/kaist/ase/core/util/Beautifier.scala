@@ -103,6 +103,8 @@ object Beautifier {
         walk(ref); walk(" = "); walk(expr)
       case IDelete(ref) =>
         walk("delete "); walk(ref)
+      case IPush(expr, list) =>
+        walk("push "); walk(expr); walk(" -> "); walk(list)
       case IReturn(expr) =>
         walk("return "); walk(expr)
       case IIf(cond, thenInst, elseInst) =>
@@ -134,6 +136,8 @@ object Beautifier {
         }); walk("))")
       case EList(exprs) =>
         walk("(new ["); walkListSep[Expr](exprs, ", ", walk); walk("])");
+      case EPop(list) =>
+        walk("(pop "); walk(list); walk(")")
       case ERef(ref) => walk(ref)
       case EFunc(params, body) =>
         walk("("); walkListSep[Id](params, ", ", walk); walk(") => ")
@@ -225,6 +229,10 @@ object Beautifier {
       case CoreMap(ty, props) => oneDepth({
         walk("(TYPE = "); walk(ty); walk(")")
         walkMap[Value, Value](props, walk, walk)
+      })
+      case CoreList(values) => oneDepth({
+        walk("(List [length = "); walk(values.length.toString); walk(")")
+        walkList[Value](values.toList, walk)
       })
     }
 
