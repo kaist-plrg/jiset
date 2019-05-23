@@ -14,9 +14,10 @@ case class Heap(
 
   // getters
   def apply(addr: Addr): Obj = map.getOrElse(addr, error(s"unknown address: ${beautify(addr)}"))
-  def apply(addr: Addr, prop: Value): Value = this(addr) match {
-    case (m: CoreMap) => m(prop)
-    case v => error(s"not a map: $v")
+  def apply(addr: Addr, key: Value): Value = this(addr) match {
+    case (m: CoreMap) => m(key)
+    case (l: CoreList) => l(key)
+    case v => error(s"not a map or a list: $v")
   }
 
   // setters
@@ -40,5 +41,13 @@ case class Heap(
     val newMap = map + (newAddr -> CoreMap(ty, m))
     val newSize = size + 1
     (newAddr, Heap(newMap, newSize))
+  }
+
+  // list allocations
+  def allocList(list: List[Value]): (Addr, Heap) = {
+    val newAddr = DynamicAddr(size)
+    val newList = map + (newAddr -> CoreList(list.toVector))
+    val newSize = size + 1
+    (newAddr, Heap(newList, newSize))
   }
 }

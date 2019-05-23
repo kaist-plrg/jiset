@@ -47,10 +47,16 @@ case class State(
       copy(heap = heap.deleted(addr, prop))
   }
 
-  // object allocations
+  // map allocations
   def allocMap(ty: Ty): (Addr, State) = allocMap(ty, Map())
   def allocMap(ty: Ty, map: Map[Value, Value]): (Addr, State) = {
     val (newAddr, newHeap) = heap.allocMap(ty, map)
+    (newAddr, copy(heap = newHeap))
+  }
+
+  // list allocations
+  def allocList(list: List[Value]): (Addr, State) = {
+    val (newAddr, newHeap) = heap.allocList(list)
     (newAddr, copy(heap = newHeap))
   }
 }

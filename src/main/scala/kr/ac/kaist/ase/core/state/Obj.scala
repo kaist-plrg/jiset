@@ -22,7 +22,17 @@ case class CoreMap(ty: Ty, props: Map[Value, Value]) extends Obj {
 }
 
 // Core CoreList
-case class CoreList(values: List[Value]) extends Obj {
+case class CoreList(values: Vector[Value]) extends Obj {
   // types
   def ty: Ty = Ty("list")
+
+  // getters
+  def apply(key: Value): Value = key match {
+    case INum(long) =>
+      val idx = long.toInt
+      if (0 <= idx && idx < values.length) values(idx)
+      else error(s"index out of bound: $idx")
+    case Str("length") => INum(values.length)
+    case v => error(s"not an integer key: $v")
+  }
 }
