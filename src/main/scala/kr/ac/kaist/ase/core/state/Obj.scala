@@ -4,19 +4,10 @@ package kr.ac.kaist.ase.core
 trait Obj extends CoreNode {
   // types
   def ty: Ty
-
-  // existence check
-  def contains(prop: Value): Boolean
-
-  // getters
-  def apply(prop: Value): Value
 }
 
 // CORE CoreMap
-case class CoreMap(
-    ty: Ty,
-    props: Map[Value, Value] = Map()
-) extends Obj {
+case class CoreMap(ty: Ty, props: Map[Value, Value]) extends Obj {
   // existence check
   def contains(prop: Value): Boolean = props contains prop
 
@@ -28,4 +19,10 @@ case class CoreMap(
 
   // deletes
   def deleted(prop: Value): Obj = copy(props = props - prop)
+}
+
+// Core CoreList
+case class CoreList(values: List[Value]) extends Obj {
+  // types
+  def ty: Ty = Ty("list")
 }

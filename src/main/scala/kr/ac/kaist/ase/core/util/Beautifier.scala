@@ -130,6 +130,8 @@ object Beautifier {
         walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
           case (k, v) => walk(k); walk(" -> "); walk(v)
         }); walk("))")
+      case EList(exprs) =>
+        walk("(new ["); walkListSep[Expr](exprs, ", ", walk); walk("]");
       case ERef(ref) => walk(ref)
       case EFunc(params, body) =>
         walk("("); walkListSep[Id](params, ", ", walk); walk(") => ")

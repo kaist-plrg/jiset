@@ -7,11 +7,17 @@ case class Heap(
 ) extends CoreNode {
   // existence check
   def contains(addr: Addr): Boolean = map contains addr
-  def contains(addr: Addr, prop: Value): Boolean = this(addr) contains prop
+  def contains(addr: Addr, prop: Value): Boolean = this(addr) match {
+    case (m: CoreMap) => m contains prop
+    case v => error(s"not a map: $v")
+  }
 
   // getters
   def apply(addr: Addr): Obj = map.getOrElse(addr, error(s"unknown address: ${beautify(addr)}"))
-  def apply(addr: Addr, prop: Value): Value = this(addr)(prop)
+  def apply(addr: Addr, prop: Value): Value = this(addr) match {
+    case (m: CoreMap) => m(prop)
+    case v => error(s"not a map: $v")
+  }
 
   // setters
   def updated(addr: Addr, prop: Value, value: Value): Heap = this(addr) match {

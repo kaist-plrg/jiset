@@ -14,6 +14,7 @@ case class EBool(b: Boolean) extends Expr
 case object EUndef extends Expr
 case object ENull extends Expr
 case class EMap(ty: Ty, props: List[(Expr, Expr)]) extends Expr
+case class EList(exprs: List[Expr]) extends Expr
 case class ERef(ref: Ref) extends Expr
 case class EFunc(params: List[Id], body: Inst) extends Expr
 case class EApp(fexpr: Expr, args: List[Expr]) extends Expr

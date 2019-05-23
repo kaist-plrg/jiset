@@ -75,8 +75,9 @@ trait UnitWalker {
   def walk(expr: Expr): Unit = expr match {
     case ENum(_) | EINum(_) | EStr(_) | EBool(_) | EUndef | ENull =>
     case EMap(ty, props) =>
-      walk(ty)
-      walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
+      walk(ty); walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
+    case EList(exprs) =>
+      walkList[Expr](exprs, walk)
     case ERef(ref) =>
       walk(ref)
     case EFunc(params, body) =>
@@ -89,8 +90,10 @@ trait UnitWalker {
       walk(uop); walk(expr)
     case EBOp(bop, left, right) =>
       walk(bop); walk(left); walk(right)
-    case EExist(ref) => walk(ref)
-    case ETypeOf(expr) => walk(expr)
+    case EExist(ref) =>
+      walk(ref)
+    case ETypeOf(expr) =>
+      walk(expr)
   }
 
   // references

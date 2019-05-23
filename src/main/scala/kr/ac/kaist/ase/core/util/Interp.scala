@@ -74,6 +74,7 @@ object Interp {
           val (v, s1) = interp(e2)(s0)
           s1.updated(addr, k, v)
       })
+    case EList(exprs) => ???
     case ERef(ref) =>
       val (refV, s0) = interp(ref)(st)
       (s0(refV), s0)

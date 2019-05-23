@@ -69,6 +69,7 @@ trait Walker {
       walk(ty),
       walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
     )
+    case EList(exprs) => EList(walkList[Expr](exprs, walk))
     case ERef(ref) => ERef(walk(ref))
     case EFunc(params, body) => EFunc(walkList[Id](params, walk), walk(body))
     case EApp(fexpr, args) => EApp(walk(fexpr), walkList[Expr](args, walk))
