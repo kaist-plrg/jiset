@@ -165,7 +165,7 @@ object Interp {
         case ASTVal(_) => Str("AST")
       }, s0)
     }
-    case ENotYetImpl => error(s"[NotYetImpl]")
+    case ENotYetImpl(msg) => error(s"[NotYetImpl] $msg")
   }
 
   // references

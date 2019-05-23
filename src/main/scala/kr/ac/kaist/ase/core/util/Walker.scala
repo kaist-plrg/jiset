@@ -80,7 +80,7 @@ trait Walker {
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case EExist(ref) => EExist(walk(ref))
     case ETypeOf(expr) => ETypeOf(walk(expr))
-    case ENotYetImpl => ENotYetImpl
+    case ENotYetImpl(msg) => ENotYetImpl(walk(msg))
   }
 
   // references

@@ -99,7 +99,8 @@ trait UnitWalker {
       walk(ref)
     case ETypeOf(expr) =>
       walk(expr)
-    case ENotYetImpl =>
+    case ENotYetImpl(msg) =>
+      walk(msg)
   }
 
   // references

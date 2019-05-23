@@ -154,8 +154,8 @@ object Beautifier {
         walk("(? "); walk(ref); walk(")")
       case ETypeOf(expr) =>
         walk("(typeof "); walk(expr); walk(")")
-      case ENotYetImpl =>
-        walk("???");
+      case ENotYetImpl(msg) =>
+        walk("??? \""); walk(msg); walk("\"")
     }
 
     // references

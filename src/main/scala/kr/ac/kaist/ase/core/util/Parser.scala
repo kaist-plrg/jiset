@@ -87,7 +87,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "false" ^^^ EBool(false) |
       "undefined" ^^^ EUndef |
       "null" ^^^ ENull |
-      "???" ^^^ ENotYetImpl |
+      "???" ~> stringLiteral ^^ { case s => ENotYetImpl(s.substring(1, s.length - 1)) } |
       "(" ~> (uop ~ expr) <~ ")" ^^ { case u ~ e => EUOp(u, e) } |
       "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
       "(" ~> ("?" ~> ref) <~ ")" ^^ { case ref => EExist(ref) } |
