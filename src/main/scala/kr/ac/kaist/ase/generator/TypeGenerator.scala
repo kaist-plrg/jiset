@@ -14,7 +14,7 @@ object TypeGenerator {
     nf.println(s"""""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")
     nf.println(s"""object $name {""")
-    nf.println(s"""  val obj: Obj = Obj(""")
+    nf.println(s"""  val obj: Obj = CoreMap(""")
     nf.println(s"""    Ty("$name"),""")
     nf.println(s"""    Map(""")
     nf.println(ty.methods.map(method =>
