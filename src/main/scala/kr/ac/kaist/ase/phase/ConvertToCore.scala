@@ -17,7 +17,7 @@ case object Load extends PhaseObj[Script, LoadConfig, State] {
     config: LoadConfig
   ): State = State(
     retValue = None,
-    insts = List(ILet(Id("_"), ERun(RefId(Id("script")), "Evalutation", Nil))),
+    insts = List(Parser.parseInst("(run Evaluation of script)")),
     globals = Global.initGlobal,
     locals = Map(Id("script") -> ASTVal(script)),
     heap = Heap()

@@ -99,8 +99,11 @@ object Parser extends JavaTokenParsers with RegexParsers {
       ("(" ~> "new" ~> ty <~ ")") ^^ { case t => EMap(t, Nil) } |
       ("(" ~> "new" ~> "[" ~> repsep(expr, ",") <~ "]" <~ ")") ^^ { EList(_) } |
       "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
-      ("(" ~> "run" ~> ident <~ "of") ~ (ref <~ "with") ~ (repsep(expr, ",") <~ ")") ^^ {
+      ("(" ~> "run" ~> ident <~ "of") ~ (expr <~ "with") ~ (repsep(expr, ",") <~ ")") ^^ {
         case name ~ id ~ l => ERun(id, name, l)
+      } |
+      ("(" ~> "run" ~> ident <~ "of") ~ expr ^^ {
+        case name ~ id => ERun(id, name, Nil)
       } |
       ref ^^ { ERef(_) }
   }

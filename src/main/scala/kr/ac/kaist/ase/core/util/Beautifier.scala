@@ -95,6 +95,8 @@ object Beautifier {
 
     // instructions
     override def walk(inst: Inst): Unit = inst match {
+      case IExpr(expr) =>
+        walk(expr)
       case ILet(id, expr) =>
         walk("let "); walk(id); walk(" = "); walk(expr)
       case IAssign(ref, expr) =>

@@ -2,6 +2,7 @@ package kr.ac.kaist.ase.core
 
 // CORE Instructions
 sealed trait Inst extends CoreNode
+case class IExpr(expr: Expr) extends Inst
 case class ILet(id: Id, expr: Expr) extends Inst
 case class IAssign(ref: Ref, expr: Expr) extends Inst
 case class IDelete(ref: Ref) extends Inst

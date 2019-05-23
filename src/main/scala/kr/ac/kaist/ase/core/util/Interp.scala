@@ -12,6 +12,9 @@ object Interp {
   // instructions
   def interp(inst: Inst): State => State = st => {
     inst match {
+      case IExpr(expr) =>
+        val (_, s0) = interp(expr)(st)
+        s0
       case ILet(id, expr) =>
         val (value, s0) = interp(expr)(st)
         s0.define(id, value)
@@ -98,8 +101,8 @@ object Interp {
         case v => error(s"not a function: $v")
       }
     case ERun(ref, name, args) => {
-      val (refV, s0) = interp(ref)(st)
-      st(refV) match {
+      val (v, s0) = interp(expr)(st)
+      v match {
         case ASTVal(ast) => {
           val (Func(params, body), lst) = ast.semantics(name)
           val (nlst, s1) = ((lst.reverse, s0) /: args) {

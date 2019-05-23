@@ -50,6 +50,7 @@ trait Walker {
 
   // instructions
   def walk(inst: Inst): Inst = inst match {
+    case IExpr(expr) => IExpr(walk(expr))
     case ILet(id, expr) => ILet(walk(id), walk(expr))
     case IAssign(ref, expr) => IAssign(walk(ref), walk(expr))
     case IDelete(ref) => IDelete(walk(ref))
