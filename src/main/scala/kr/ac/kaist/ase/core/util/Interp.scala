@@ -64,7 +64,6 @@ object Interp {
           case v => println(beautify(v))
         }
         s0
-      case INotYetImpl(msg) => error(s"[NotYetImpl] $msg")
     }
   }
 
@@ -166,6 +165,7 @@ object Interp {
         case ASTVal(_) => Str("AST")
       }, s0)
     }
+    case ENotYetImpl => error(s"[NotYetImpl]")
   }
 
   // references

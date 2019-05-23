@@ -72,7 +72,6 @@ trait UnitWalker {
       walk(expr)
     case IPrint(expr) =>
       walk(expr)
-    case INotYetImpl(msg) =>
   }
 
   // expressions
@@ -100,6 +99,7 @@ trait UnitWalker {
       walk(ref)
     case ETypeOf(expr) =>
       walk(expr)
+    case ENotYetImpl =>
   }
 
   // references

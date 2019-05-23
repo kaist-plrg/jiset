@@ -13,6 +13,3 @@ case class IWhile(cond: Expr, body: Inst) extends Inst
 case class ISeq(insts: List[Inst]) extends Inst
 case class IAssert(expr: Expr) extends Inst
 case class IPrint(expr: Expr) extends Inst
-case class INotYetImpl(msg: String) extends Inst {
-  override def toString: String = s"""INotYetImpl("$msg")"""
-}

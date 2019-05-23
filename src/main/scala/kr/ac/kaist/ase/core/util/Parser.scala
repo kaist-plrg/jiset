@@ -70,7 +70,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "{" ~> rep(inst) <~ "}" ^^ { case seq => ISeq(seq) } |
       "assert" ~> expr ^^ { case e => IAssert(e) } |
       "print" ~> expr ^^ { case e => IPrint(e) } |
-      "???" ~> stringLiteral ^^ { INotYetImpl(_) } |
       ("let" ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
       (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) }
   }
@@ -88,6 +87,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "false" ^^^ EBool(false) |
       "undefined" ^^^ EUndef |
       "null" ^^^ ENull |
+      "???" ^^^ ENotYetImpl |
       "(" ~> (uop ~ expr) <~ ")" ^^ { case u ~ e => EUOp(u, e) } |
       "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
       "(" ~> ("?" ~> ref) <~ ")" ^^ { case ref => EExist(ref) } |

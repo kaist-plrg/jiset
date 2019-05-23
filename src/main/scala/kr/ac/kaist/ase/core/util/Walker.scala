@@ -61,7 +61,6 @@ trait Walker {
     case ISeq(insts) => ISeq(walkList[Inst](insts, walk))
     case IAssert(expr) => IAssert(walk(expr))
     case IPrint(expr) => IPrint(walk(expr))
-    case INotYetImpl(msg) => INotYetImpl(msg)
   }
 
   // expressions
@@ -81,6 +80,7 @@ trait Walker {
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case EExist(ref) => EExist(walk(ref))
     case ETypeOf(expr) => ETypeOf(walk(expr))
+    case ENotYetImpl => ENotYetImpl
   }
 
   // references

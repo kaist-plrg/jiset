@@ -118,8 +118,6 @@ object Beautifier {
         walk("assert "); walk(expr)
       case IPrint(expr) =>
         walk("print "); walk(expr)
-      case INotYetImpl(msg) =>
-        walk("??? "); walk(msg)
     }
 
     // expressions
@@ -156,6 +154,8 @@ object Beautifier {
         walk("(? "); walk(ref); walk(")")
       case ETypeOf(expr) =>
         walk("(typeof "); walk(expr); walk(")")
+      case ENotYetImpl =>
+        walk("???");
     }
 
     // references

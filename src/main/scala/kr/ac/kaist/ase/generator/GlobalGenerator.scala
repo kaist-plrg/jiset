@@ -22,9 +22,9 @@ object GlobalGenerator {
     nf.println(methods.map(i =>
       s"""    (Id("$i") -> $i.func)""").mkString("," + LINE_SEP))
     nf.println(s"""  )""")
-    nf.println(s"""  val initType: Map[String, Obj] = Map(""")
+    nf.println(s"""  val initType: Map[String, CoreMap] = Map(""")
     nf.println(tys.map(ty =>
-      s"""    ("${ty.name}" -> ${ty.name}.obj)""").mkString("," + LINE_SEP))
+      s"""    ("${ty.name}" -> ${ty.name}.map)""").mkString("," + LINE_SEP))
     nf.println(s"""  )""")
     nf.println(s"""}""")
     nf.close()
