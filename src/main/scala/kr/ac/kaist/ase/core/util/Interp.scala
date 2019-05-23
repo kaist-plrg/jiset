@@ -66,6 +66,14 @@ object Interp {
     case EBool(b) => (Bool(b), st)
     case EUndef => (Undef, st)
     case ENull => (Null, st)
+    case EMap(ty, props) =>
+      val (addr, s0) = st.allocMap(ty)
+      (addr, (s0 /: props) {
+        case (st, (e1, e2)) =>
+          val (k, s0) = interp(e1)(st)
+          val (v, s1) = interp(e2)(s0)
+          s1.updated(addr, k, v)
+      })
     case ERef(ref) =>
       val (refV, s0) = interp(ref)(st)
       (s0(refV), s0)
@@ -112,14 +120,6 @@ object Interp {
         case v => error(s"not an AST value: $v")
       }
     }
-    case EObj(ty, props) =>
-      val (addr, s0) = st.alloc(ty)
-      (addr, (s0 /: props) {
-        case (st, (e1, e2)) =>
-          val (k, s0) = interp(e1)(st)
-          val (v, s1) = interp(e2)(s0)
-          s1.updated(addr, k, v)
-      })
     case EUOp(uop, expr) =>
       val (v, s0) = interp(expr)(st)
       (interp(uop)(v), s0)

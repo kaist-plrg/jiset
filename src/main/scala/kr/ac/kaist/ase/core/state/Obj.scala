@@ -1,10 +1,22 @@
 package kr.ac.kaist.ase.core
 
 // CORE Objects
-case class Obj(
+trait Obj extends CoreNode {
+  // types
+  def ty: Ty
+
+  // existence check
+  def contains(prop: Value): Boolean
+
+  // getters
+  def apply(prop: Value): Value
+}
+
+// CORE CoreMap
+case class CoreMap(
     ty: Ty,
     props: Map[Value, Value] = Map()
-) extends CoreNode {
+) extends Obj {
   // existence check
   def contains(prop: Value): Boolean = props contains prop
 

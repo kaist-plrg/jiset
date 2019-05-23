@@ -73,17 +73,24 @@ trait UnitWalker {
 
   // expressions
   def walk(expr: Expr): Unit = expr match {
+    case ENum(_) | EINum(_) | EStr(_) | EBool(_) | EUndef | ENull =>
+    case EMap(ty, props) =>
+      walk(ty)
+      walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
     case ERef(ref) =>
       walk(ref)
     case EFunc(params, body) =>
       walkList[Id](params, walk); walk(body)
+    case EApp(fexpr, args) =>
+      walk(fexpr); walkList[Expr](args, walk)
+    case ERun(ref, name, args) =>
+      walk(ref); walk(name); walkList[Expr](args, walk)
     case EUOp(uop, expr) =>
       walk(uop); walk(expr)
     case EBOp(bop, left, right) =>
       walk(bop); walk(left); walk(right)
     case EExist(ref) => walk(ref)
     case ETypeOf(expr) => walk(expr)
-    case _ =>
   }
 
   // references
@@ -122,10 +129,11 @@ trait UnitWalker {
     walkMap[Addr, Obj](heap.map, walk, walk)
   }
 
-  // objects
-  def walk(obj: Obj): Unit = {
-    walk(obj.ty)
-    walkMap[Value, Value](obj.props, walk, walk)
+  // objs
+  def walk(obj: Obj): Unit = obj match {
+    case CoreMap(ty, props) =>
+      walk(ty)
+      walkMap[Value, Value](props, walk, walk)
   }
 
   // values
@@ -133,7 +141,7 @@ trait UnitWalker {
     case addr: Addr => walk(addr)
     case Func(params, body) =>
       walkList[Id](params, walk); walk(body)
-    case _ =>
+    case Num(_) | ASTVal(_) | INum(_) | Str(_) | Bool(_) | Undef | Null =>
   }
 
   // addresses

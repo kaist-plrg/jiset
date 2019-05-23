@@ -126,11 +126,20 @@ object Beautifier {
       case EBool(b) => walk(s"$b")
       case EUndef => walk("undefined")
       case ENull => walk("null")
+      case EMap(ty, props) =>
+        walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
+          case (k, v) => walk(k); walk(" -> "); walk(v)
+        }); walk("))")
       case ERef(ref) => walk(ref)
       case EFunc(params, body) =>
         walk("("); walkListSep[Id](params, ", ", walk); walk(") => ")
         if (detail) walk(body)
         else walk("...")
+      case EApp(fun, args) =>
+        walk("("); walk(fun); walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
+      case ERun(id, name, args) =>
+        walk("(run "); walk(name); walk(" of "); walk(id);
+        walk(" with "); walkListSep[Expr](args, ", ", walk); walk(")")
       case EUOp(uop, expr) =>
         walk("("); walk(uop); walk(" "); walk(expr); walk(")")
       case EBOp(bop, left, right) =>
@@ -139,15 +148,6 @@ object Beautifier {
         walk("(? "); walk(ref); walk(")")
       case ETypeOf(expr) =>
         walk("(typeof "); walk(expr); walk(")")
-      case EObj(ty, props) =>
-        walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
-          case (k, v) => walk(k); walk(" -> "); walk(v)
-        }); walk("))")
-      case EApp(fun, args) =>
-        walk("("); walk(fun); walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
-      case ERun(id, name, args) =>
-        walk("(run "); walk(name); walk(" of "); walk(id);
-        walk(" with "); walkListSep[Expr](args, ", ", walk); walk(")")
     }
 
     // references
@@ -217,10 +217,12 @@ object Beautifier {
     })
 
     // objects
-    override def walk(obj: Obj): Unit = oneDepth({
-      walk("(TYPE = "); walk(obj.ty); walk(")")
-      walkMap[Value, Value](obj.props, walk, walk)
-    })
+    override def walk(obj: Obj): Unit = obj match {
+      case CoreMap(ty, props) => oneDepth({
+        walk("(TYPE = "); walk(ty); walk(")")
+        walkMap[Value, Value](props, walk, walk)
+      })
+    }
 
     // values
     override def walk(v: Value): Unit = v match {

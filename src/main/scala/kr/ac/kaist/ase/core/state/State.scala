@@ -48,9 +48,9 @@ case class State(
   }
 
   // object allocations
-  def alloc(ty: Ty): (Addr, State) = alloc(ty, Map())
-  def alloc(ty: Ty, map: Map[Value, Value]): (Addr, State) = {
-    val (newAddr, newHeap) = heap.alloc(ty, map)
+  def allocMap(ty: Ty): (Addr, State) = allocMap(ty, Map())
+  def allocMap(ty: Ty, map: Map[Value, Value]): (Addr, State) = {
+    val (newAddr, newHeap) = heap.allocMap(ty, map)
     (newAddr, copy(heap = newHeap))
   }
 }

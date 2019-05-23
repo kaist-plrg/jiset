@@ -14,20 +14,24 @@ case class Heap(
   def apply(addr: Addr, prop: Value): Value = this(addr)(prop)
 
   // setters
-  def updated(addr: Addr, prop: Value, value: Value): Heap =
-    copy(map = map + (addr -> this(addr).updated(prop, value)))
+  def updated(addr: Addr, prop: Value, value: Value): Heap = this(addr) match {
+    case (m: CoreMap) => copy(map = map + (addr -> m.updated(prop, value)))
+    case v => error(s"not a map: $v")
+  }
 
   // deletes
-  def deleted(addr: Addr, prop: Value): Heap =
-    copy(map = map + (addr -> this(addr).deleted(prop)))
+  def deleted(addr: Addr, prop: Value): Heap = this(addr) match {
+    case (m: CoreMap) => copy(map = map + (addr -> m.deleted(prop)))
+    case v => error(s"not a map: $v")
+  }
 
-  // object allocations
-  def alloc(
+  // map allocations
+  def allocMap(
     ty: Ty,
-    objMap: Map[Value, Value] = Map()
+    m: Map[Value, Value] = Map()
   ): (Addr, Heap) = {
     val newAddr = DynamicAddr(size)
-    val newMap = map + (newAddr -> Obj(ty, objMap))
+    val newMap = map + (newAddr -> CoreMap(ty, m))
     val newSize = size + 1
     (newAddr, Heap(newMap, newSize))
   }

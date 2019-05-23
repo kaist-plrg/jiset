@@ -64,13 +64,19 @@ trait Walker {
 
   // expressions
   def walk(expr: Expr): Expr = expr match {
+    case ENum(_) | EINum(_) | EStr(_) | EBool(_) | EUndef | ENull => expr
+    case EMap(ty, props) => EMap(
+      walk(ty),
+      walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
+    )
     case ERef(ref) => ERef(walk(ref))
     case EFunc(params, body) => EFunc(walkList[Id](params, walk), walk(body))
+    case EApp(fexpr, args) => EApp(walk(fexpr), walkList[Expr](args, walk))
+    case ERun(ref, name, args) => ERun(walk(ref), walk(name), walkList[Expr](args, walk))
     case EUOp(uop, expr) => EUOp(walk(uop), walk(expr))
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case EExist(ref) => EExist(walk(ref))
     case ETypeOf(expr) => ETypeOf(walk(expr))
-    case _ => expr
   }
 
   // references
@@ -111,16 +117,18 @@ trait Walker {
   )
 
   // objects
-  def walk(obj: Obj): Obj = Obj(
-    walk(obj.ty),
-    walkMap[Value, Value](obj.props, walk, walk)
-  )
+  def walk(obj: Obj): Obj = obj match {
+    case CoreMap(ty, props) => CoreMap(
+      walk(ty),
+      walkMap[Value, Value](props, walk, walk)
+    )
+  }
 
   // values
   def walk(value: Value): Value = value match {
     case addr: Addr => walk(addr)
     case Func(params, body) => Func(walkList[Id](params, walk), walk(body))
-    case v => v
+    case Num(_) | ASTVal(_) | INum(_) | Str(_) | Bool(_) | Undef | Null => value
   }
 
   // addresses
