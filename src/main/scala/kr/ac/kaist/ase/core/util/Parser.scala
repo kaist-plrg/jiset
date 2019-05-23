@@ -93,10 +93,10 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
       ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^
       { case ps ~ b => EFunc(ps, b) } |
-      ("(" ~> "new" ~> ty <~ ")") ^^ { case t => EAlloc(t, Nil) } |
       ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {
-        case t ~ props => EAlloc(t, props)
+        case t ~ props => EObj(t, props)
       } |
+      ("(" ~> "new" ~> ty <~ ")") ^^ { case t => EObj(t, Nil) } |
       "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
       ("(" ~> "run" ~> ident <~ "of") ~ (ref <~ "with") ~ (repsep(expr, ",") <~ ")") ^^ {
         case name ~ id ~ l => ERun(id, name, l)

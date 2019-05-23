@@ -112,7 +112,7 @@ object Interp {
         case v => error(s"not an AST value: $v")
       }
     }
-    case EAlloc(ty, props) =>
+    case EObj(ty, props) =>
       val (addr, s0) = st.alloc(ty)
       (addr, (s0 /: props) {
         case (st, (e1, e2)) =>

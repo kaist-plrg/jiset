@@ -139,7 +139,7 @@ object Beautifier {
         walk("(? "); walk(ref); walk(")")
       case ETypeOf(expr) =>
         walk("(typeof "); walk(expr); walk(")")
-      case EAlloc(ty, props) =>
+      case EObj(ty, props) =>
         walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
           case (k, v) => walk(k); walk(" -> "); walk(v)
         }); walk("))")

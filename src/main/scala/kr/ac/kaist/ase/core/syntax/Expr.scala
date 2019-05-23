@@ -17,7 +17,7 @@ case class ERef(ref: Ref) extends Expr
 case class EFunc(params: List[Id], body: Inst) extends Expr
 case class EApp(fexpr: Expr, args: List[Expr]) extends Expr
 case class ERun(ref: Ref, name: String, args: List[Expr]) extends Expr
-case class EAlloc(ty: Ty, props: List[(Expr, Expr)]) extends Expr
+case class EObj(ty: Ty, props: List[(Expr, Expr)]) extends Expr
 case class EUOp(uop: UOp, expr: Expr) extends Expr
 case class EBOp(bop: BOp, left: Expr, right: Expr) extends Expr
 case class EExist(ref: Ref) extends Expr
