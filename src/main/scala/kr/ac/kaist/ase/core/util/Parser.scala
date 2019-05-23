@@ -72,6 +72,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "print" ~> expr ^^ { case e => IPrint(e) } |
       ("let" ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
       (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) }
+    expr ^^ { case e => IExpr(e) }
   }
 
   // expressions
@@ -102,7 +103,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       ("(" ~> "run" ~> ident <~ "of") ~ (expr <~ "with") ~ (repsep(expr, ",") <~ ")") ^^ {
         case name ~ id ~ l => ERun(id, name, l)
       } |
-      ("(" ~> "run" ~> ident <~ "of") ~ expr ^^ {
+      ("(" ~> "run" ~> ident <~ "of") ~ (expr <~ ")") ^^ {
         case name ~ id => ERun(id, name, Nil)
       } |
       ("(" ~> "pop" ~> expr <~ ")") ^^ { case e => EPop(e) } |

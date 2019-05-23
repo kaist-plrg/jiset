@@ -118,7 +118,7 @@ object Interp {
           }
         case v => error(s"not a function: $v")
       }
-    case ERun(ref, name, args) => {
+    case ERun(expr, name, args) => {
       val (v, s0) = interp(expr)(st)
       v match {
         case ASTVal(ast) => {

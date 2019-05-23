@@ -19,6 +19,8 @@ trait TokenParsers extends Parsers {
   }
 
   private val wordChars = (('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9') :+ '_').toSet
+  private val numChars = ('0' to '9').toSet
+
   private def splitText(s: String): List[String] = {
     var list = List[String]()
     var prevWordChar = false
@@ -83,6 +85,11 @@ trait TokenParsers extends Parsers {
   def word: Parser[String] = Parser(in => text(in).mapPartial(_ match {
     case s if wordChars contains s.head => s
   }, s => s"`$s` is not word"))
+
+  def number: Parser[String] = Parser(in => text(in).mapPartial(_ match {
+    case s if numChars contains s.head => s
+  }, s => s"`$s` is not number"))
+
   def step: Parser[List[String]] = rep1(token) <~ next
   def token: Parser[String] = value | text | id | stepList
   def stepList: Parser[String] = in ~> rep1(step) <~ out ^^^ "step-list"
