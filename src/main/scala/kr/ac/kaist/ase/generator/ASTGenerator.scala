@@ -17,6 +17,7 @@ object ASTGenerator {
       nf.println(s"""package kr.ac.kaist.ase.model""")
       nf.println
       nf.println(s"""import kr.ac.kaist.ase.core._""")
+      nf.println(s"""import kr.ac.kaist.ase.error.UnexpectedSemantics""")
       nf.println
       nf.println(s"""trait $name extends AST""")
       rhsList.zipWithIndex.foreach {
@@ -39,7 +40,7 @@ object ASTGenerator {
               nf.println(s"""    $name$i.semMap.get(name + k.toString) match {""")
               nf.println(s"""      case Some(f) => (f, list)""")
               nf.println(s"""      case None => """ + (t0 match {
-                case "String" => "???"
+                case "String" => s"""throw UnexpectedSemantics("$name." + name)"""
                 case _ if t0 startsWith "Option[" => s"$x0.get.semantics(name)"
                 case _ => s"$x0.semantics(name)"
               }))
