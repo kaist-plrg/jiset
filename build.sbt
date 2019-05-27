@@ -19,7 +19,7 @@ lazy val root = (project in file(".")).
         List("ast", "algorithm", "type").foreach(dirname => {
           IO.createDirectory(file(s"$modelPath/$dirname"))
         })
-        List("package", "AlgoCompiler").foreach(filename => {
+        List("package").foreach(filename => {
           val outFile = file(s"$modelPath/$filename.scala")
           IO.copyFile(
             file(s"$srcDir/resources/dummy/$filename.scala"),
