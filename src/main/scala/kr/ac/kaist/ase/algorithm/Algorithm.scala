@@ -1,7 +1,6 @@
 package kr.ac.kaist.ase.algorithm
 
 import kr.ac.kaist.ase.LINE_SEP
-import kr.ac.kaist.ase.error.UnexpectedToken
 import kr.ac.kaist.ase.parser
 import kr.ac.kaist.ase.util.Useful.readFile
 import spray.json._
@@ -23,30 +22,10 @@ case class Algorithm(params: List[String], steps: List[Step], filename: String) 
 
   override def toString: String = {
     val sb = new StringBuilder
-    var TAB = 2
-    var indent = 0
-    def newline: Unit = sb.append(LINE_SEP).append(" " * indent)
-    def t(token: Token): Unit = token match {
-      case Value(value) => sb.append("value:").append(value).append(" ")
-      case Id(id) => sb.append("id:").append(id).append(" ")
-      case Text(text) => sb.append(text).append(" ")
-      case Next => newline
-      case In =>
-        indent += TAB; newline
-      case _ => throw UnexpectedToken(token)
-    }
-    def ts(tokens: List[Token]): Unit = tokens match {
-      case Next :: Out :: Next :: rest =>
-        indent -= TAB; newline; ts(rest)
-      case v :: rest =>
-        t(v); ts(rest)
-      case Nil =>
-    }
-    sb.append(s"$filename:")
-    newline
-    sb.append(s"(${params.mkString(", ")}) =>")
-    indent += TAB; newline
-    ts(toTokenList)
+    sb.append(s"filename: ").append(filename).append(LINE_SEP)
+    sb.append(s"params: ").append(params.mkString(", ")).append(LINE_SEP)
+    sb.append(LINE_SEP)
+    sb.append(Token.getString(toTokenList))
     sb.toString
   }
 }

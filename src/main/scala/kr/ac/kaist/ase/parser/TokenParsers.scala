@@ -1,5 +1,6 @@
 package kr.ac.kaist.ase.parser
 
+import kr.ac.kaist.ase.LINE_SEP
 import kr.ac.kaist.ase.algorithm._
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
@@ -11,6 +12,8 @@ trait TokenParsers extends Parsers {
     def rest: TokenReader = TokenReader(tokens.tail)
     def pos: Position = NoPosition
     def atEnd: Boolean = tokens.isEmpty
+
+    override def toString: String = Token.getString(tokens)
   }
 
   private def firstMap[T](in: Input, f: Token => ParseResult[T]): ParseResult[T] = {
@@ -90,7 +93,7 @@ trait TokenParsers extends Parsers {
     case s if numChars contains s.head => s
   }, s => s"`$s` is not number"))
 
-  def step: Parser[List[String]] = rep1(token) <~ next
+  def step: Parser[List[String]] = rep(token) <~ next
   def token: Parser[String] = value | text | id | stepList
   def stepList: Parser[String] = in ~> rep1(step) <~ out ^^^ "step-list"
 

@@ -8,12 +8,20 @@ import kr.ac.kaist.ase.algorithm.Algorithm
 object AlgoCompiler extends TokenParsers {
   def apply(algo: Algorithm): Func = Func(
     params = algo.params.map(Id(_)),
-    body = ISeq(parseAll(rep(stmt), algo.toTokenList).get)
+    body = ISeq(parseAll(stmts, algo.toTokenList) match {
+      case Success(res, _) => res
+      case NoSuccess(_, reader) => error(s"[AlgoCompiler]:${algo.filename}: $reader")
+    })
   )
 
   // short-cut for TODO
   def itodo(msg: String): IExpr = IExpr(etodo(msg))
   def etodo(msg: String): ENotYetImpl = ENotYetImpl(msg)
+
+  lazy val stmts: Parser[List[Inst]] = rep(
+    stmt <~ "." <~ next |
+      step ^^ { case tokens => itodo(tokens.mkString(" ").replace("\"", "\\\"")) }
+  )
 
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
@@ -21,31 +29,41 @@ object AlgoCompiler extends TokenParsers {
   lazy val stmt: Parser[Inst] =
     returnStmt |
       letStmt |
-      // appendStmt |
-      // assertStmt |
-      // callStmt |
-      // ifthenElseStmt |
-      // ifStmt |
-      // performStmt |
-      // repeatStmt |
-      // setObjStmt |
-      // setStmt |
-      // innerStmt |
-      // throwStmt |
-      // pushStmt |
-      // addStmt |
-      // suspendAndRemoveStmt |
-      // sourceCodeStmt |
-      // jobInitializeStmt |
-      step ^^ { case tokens => itodo(tokens.mkString(" ").replace("\"", "\\\"")) }
+      returnIfAbruptStmt
+  // appendStmt |
+  // assertStmt |
+  // callStmt |
+  // ifthenElseStmt |
+  // ifStmt |
+  // performStmt |
+  // repeatStmt |
+  // setObjStmt |
+  // setStmt |
+  // innerStmt |
+  // throwStmt |
+  // pushStmt |
+  // addStmt |
+  // suspendAndRemoveStmt |
+  // sourceCodeStmt |
+  // jobInitializeStmt
 
   // return statements
   def returnStmt =
-    "return" ~> expr <~ ("."?) <~ next ^^ { IReturn(_) }
+    "return" ~> expr ^^ { IReturn(_) }
 
   // let statements
   def letStmt =
-    ("let" ~> id <~ "be") ~ (expr <~ ("."?) <~ next) ^^ { case e1 ~ e2 => ILet(Id(e1), e2) }
+    ("let" ~> id <~ "be") ~ expr ^^ { case e1 ~ e2 => ILet(Id(e1), e2) }
+
+  // ReturnIfAbrupt statements
+  def returnIfAbruptStmt =
+    "ReturnIfAbrupt(" ~> id <~ ")" ^^ {
+      case x => IIf(
+        cond = parseExpr(s"""(= $x["[[Type]]"] normal)"""),
+        thenInst = parseInst(s"""$x = $x["[[Value]]"]"""),
+        elseInst = parseInst(s"""return $x""")
+      )
+    }
 
   // def appendStmt = ("append" ~> expr <~ "to") ~ (id <~ ("."?) <~ next) ^^ { case e1 ~ id => itodo("appendExpr") }
   // def assertStmt = "assert :" <~ step ^^ { case _ => itodo("assertStmt") }
@@ -118,7 +136,7 @@ object AlgoCompiler extends TokenParsers {
     case "false" => EBool(false)
     case "undefined" => EUndef
     case x0 if (x0.length > 1 && x0.charAt(0) == '"' && x0.charAt(x0.length - 1) == '"') => EStr(x0.slice(1, x0.length - 1))
-    case const @ ("empty" | "normal") => ERef(RefId(Id(const)))
+    case const @ ("empty" | "throw" | "normal") => ERef(RefId(Id(const.replaceAll("-", ""))))
     case s => etodo(s)
   }
 
