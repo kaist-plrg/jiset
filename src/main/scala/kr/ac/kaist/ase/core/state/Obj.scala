@@ -6,6 +6,11 @@ sealed trait Obj extends CoreNode {
   def ty: Ty
 }
 
+// CORE Singleton
+case class Singleton(name: String) extends Obj {
+  val ty: Ty = Ty(name)
+}
+
 // CORE CoreMap
 case class CoreMap(ty: Ty, props: Map[Value, Value]) extends Obj {
   // existence check

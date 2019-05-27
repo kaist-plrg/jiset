@@ -226,6 +226,8 @@ object Beautifier {
 
     // objects
     override def walk(obj: Obj): Unit = obj match {
+      case Singleton(name) =>
+        walk("(Singleton "); walk(name); walk(")")
       case CoreMap(ty, props) => oneDepth({
         walk("(TYPE = "); walk(ty); walk(")")
         walkMap[Value, Value](props, walk, walk)

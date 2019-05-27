@@ -6,12 +6,7 @@ import kr.ac.kaist.ase.core._
 
 package object model {
   val ASTParser: ASTParsers = throw ModelNotYetGenerated
-  trait Global {
-    val initGlobal: Map[Id, Value]
-  }
-  val Global: Global = throw ModelNotYetGenerated
-  trait AST {
-    val semantics: Map[String, (Func, List[Value])]
-  }
+  object Model { val initState: State = throw ModelNotYetGenerated }
+  trait AST { val semantics: Map[String, (Func, List[Value])] }
   trait Script extends AST
 }

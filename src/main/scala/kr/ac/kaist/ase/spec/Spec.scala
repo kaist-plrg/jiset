@@ -6,6 +6,7 @@ import spray.json._
 // ECMASCript specifications
 case class Spec(
   globalMethods: List[String],
+  consts: List[String],
   grammar: Grammar,
   tys: List[Ty]
 )
@@ -48,7 +49,7 @@ object Spec extends DefaultJsonProtocol {
   implicit val LhsFormat = jsonFormat2(Lhs)
   implicit val ProductionFormat = jsonFormat2(Production)
   implicit val GrammarFormat = jsonFormat2(Grammar)
-  implicit val SpecFormat = jsonFormat3(Spec.apply)
+  implicit val SpecFormat = jsonFormat4(Spec.apply)
 
   def apply(filename: String): Spec = {
     readFile(filename).parseJson.convertTo[Spec]

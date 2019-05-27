@@ -3,6 +3,7 @@ package kr.ac.kaist.ase.phase
 import scala.util.{ Try, Success }
 import kr.ac.kaist.ase.ASEConfig
 import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.model.Model
 import kr.ac.kaist.ase.util._
 
 // LoadCore phase
@@ -14,13 +15,7 @@ case object LoadCore extends PhaseObj[Program, LoadCoreConfig, State] {
     pgm: Program,
     aseConfig: ASEConfig,
     config: LoadCoreConfig
-  ): State = State(
-    retValue = None,
-    insts = pgm.insts,
-    globals = Map(),
-    locals = Map(),
-    heap = Heap()
-  )
+  ): State = Model.initState.copy(insts = pgm.insts)
 
   def defaultConfig: LoadCoreConfig = LoadCoreConfig()
   val options: List[PhaseOption[LoadCoreConfig]] = List()

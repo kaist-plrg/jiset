@@ -122,6 +122,7 @@ trait Walker {
 
   // objects
   def walk(obj: Obj): Obj = obj match {
+    case Singleton(name) => Singleton(walk(name))
     case CoreMap(ty, props) => CoreMap(
       walk(ty),
       walkMap[Value, Value](props, walk, walk)
