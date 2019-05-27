@@ -11,6 +11,10 @@ object Interp {
 
   // instructions
   def interp(inst: Inst): State => State = st => {
+    // XXX inst match {
+    //   case ISeq(_) =>
+    //   case _ => println(beautify(inst))
+    // }
     inst match {
       case IExpr(expr) =>
         val (_, s0) = interp(expr)(st)

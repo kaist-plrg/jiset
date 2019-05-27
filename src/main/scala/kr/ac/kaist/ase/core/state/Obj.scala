@@ -17,7 +17,7 @@ case class CoreMap(ty: Ty, props: Map[Value, Value]) extends Obj {
   def contains(prop: Value): Boolean = props contains prop
 
   // getters
-  def apply(prop: Value): Value = props.getOrElse(prop, error(s"free property: $prop"))
+  def apply(prop: Value): Value = props.getOrElse(prop, Undef)
 
   // setters
   def updated(prop: Value, value: Value): Obj = copy(props = props + (prop -> value))

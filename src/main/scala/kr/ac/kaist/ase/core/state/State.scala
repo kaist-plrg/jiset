@@ -19,7 +19,7 @@ case class State(
   // getters
   def apply(refV: RefValue): Value = refV match {
     case RefValueId(id) =>
-      locals.getOrElse(id, globals.getOrElse(id, error(s"free identifier: $id")))
+      locals.getOrElse(id, globals.getOrElse(id, Undef))
     case RefValueProp(addr, value) =>
       heap(addr, value)
   }

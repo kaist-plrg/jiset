@@ -39,13 +39,13 @@ trait TokenParsers extends Parsers {
   implicit def literal(s: String): Parser[List[String]] = Parser(in => {
     val init = success[List[String]](Nil)(in)
     val texts = splitText(s)
-    (init /: texts) {
+    ((init /: texts) {
       case (Success(res, in), x) => firstMap(in, _ match {
         case Text(y) if x.toLowerCase == y.toLowerCase => Success(y :: res, in.rest)
         case t => Failure(s"`Text($x)` expected but `$t` found", in)
       })
       case (e, _) => e
-    }
+    }).map(_.reverse)
   })
 
   def value: Parser[String] = Parser(in => firstMap(in, _ match {
@@ -93,7 +93,8 @@ trait TokenParsers extends Parsers {
     case s if numChars contains s.head => s
   }, s => s"`$s` is not number"))
 
-  def step: Parser[List[String]] = rep(token) <~ next
+  def rest: Parser[List[String]] = rep(token)
+  def step: Parser[List[String]] = rest <~ next
   def token: Parser[String] = value | text | id | stepList
   def stepList: Parser[String] = in ~> rep1(step) <~ out ^^^ "step-list"
 

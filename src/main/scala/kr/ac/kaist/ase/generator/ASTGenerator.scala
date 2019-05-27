@@ -35,12 +35,12 @@ object ASTGenerator {
               nf.println(s"""    s"$string"""")
               nf.println(s"""  }""")
               nf.println(s"""  val k: Int = ${("0" /: params) { case (str, (x, _)) => s"d($x, $str)" }}""")
-              nf.println(s"""  val list: List[Value] = ${("Nil" /: params) { case (str, (x, _)) => s"l($x, $str)" }}""")
+              nf.println(s"""  val list: List[Value] = ${("Nil" /: params) { case (str, (x, _)) => s"l($x, $str)" }}.reverse""")
               nf.println(s"""  def semantics(name: String): (Func, List[Value]) = {""")
               nf.println(s"""    $name$i.semMap.get(name + k.toString) match {""")
               nf.println(s"""      case Some(f) => (f, list)""")
               nf.println(s"""      case None => """ + (t0 match {
-                case "String" => s"""throw UnexpectedSemantics("$name." + name)"""
+                case "String" => s"""throw UnexpectedSemantics("$name$i." + name)"""
                 case _ if t0 startsWith "Option[" => s"$x0.get.semantics(name)"
                 case _ => s"$x0.semantics(name)"
               }))
@@ -55,7 +55,7 @@ object ASTGenerator {
               nf.println(s"""  }""")
               nf.println(s"""  def semantics(name: String): (Func, List[Value]) = semMap.get(name + "0") match {""")
               nf.println(s"""    case Some(f) => (f, Nil)""")
-              nf.println(s"""    case None => ???""")
+              nf.println(s"""    case None => throw UnexpectedSemantics("$name$i." + name)""")
               nf.println(s"""  }""")
           }
           nf.println(s"""  val semMap: Map[String, Func] = Map(""")

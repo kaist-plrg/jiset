@@ -145,7 +145,8 @@ object Beautifier {
         walk("("); walk(fun); walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
       case ERun(id, name, args) =>
         walk("(run "); walk(name); walk(" of "); walk(id);
-        walk(" with "); walkListSep[Expr](args, ", ", walk); walk(")")
+        if (args.length > 0) { walk(" with "); walkListSep[Expr](args, ", ", walk); }
+        walk(")")
       case EUOp(uop, expr) =>
         walk("("); walk(uop); walk(" "); walk(expr); walk(")")
       case EBOp(bop, left, right) =>

@@ -62,15 +62,15 @@ object Parser extends JavaTokenParsers with RegexParsers {
 
   // instructions
   lazy private val inst: Parser[Inst] = {
-    "delete" ~> ref ^^ { IDelete(_) } |
-      ("push" ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPush(e, l) } |
-      "return" ~> expr ^^ { case e => IReturn(e) } |
-      ("if" ~> expr) ~ inst ~ ("else" ~> inst?) ^^ { case c ~ t ~ e => IIf(c, t, e.getOrElse(ISeq(Nil))) } |
-      ("while" ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |
+    "delete " ~> ref ^^ { IDelete(_) } |
+      ("push " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPush(e, l) } |
+      "return " ~> expr ^^ { case e => IReturn(e) } |
+      ("if " ~> expr) ~ inst ~ ("else" ~> inst?) ^^ { case c ~ t ~ e => IIf(c, t, e.getOrElse(ISeq(Nil))) } |
+      ("while " ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |
       "{" ~> rep(inst) <~ "}" ^^ { case seq => ISeq(seq) } |
-      "assert" ~> expr ^^ { case e => IAssert(e) } |
-      "print" ~> expr ^^ { case e => IPrint(e) } |
-      ("let" ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
+      "assert " ~> expr ^^ { case e => IAssert(e) } |
+      "print " ~> expr ^^ { case e => IPrint(e) } |
+      ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
       (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
       expr ^^ { case e => IExpr(e) }
   }
