@@ -37,8 +37,9 @@ object AlgoCompiler extends TokenParsers {
 
   // list of statements
   lazy val stmts: Parser[List[Inst]] = rep(
-    stmt <~ opt(".") <~ next |
-      step ^^ { case tokens => itodo(tokens.mkString(" ").replace("\"", "\\\"")) }
+    stmt <~ opt(".") <~ next | step ^^ {
+      case tokens => itodo(tokens.mkString(" ").replace("\"", "\\\""))
+    }
   ) // TODO flatten
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -63,22 +64,20 @@ object AlgoCompiler extends TokenParsers {
         returnIfAbrupt(temp),
         IReturn(ERef(RefId(tempId)))
       ))
-    } |
-      "return" ~> expr ^^ {
-        case e => IReturn(e)
-      }
+    } | "return" ~> expr ^^ {
+      case e => IReturn(e)
+    }
 
   // let statements
   lazy val letStmt =
     ("let" ~> id <~ "be") ~ expr ^^ {
       case x ~ e => ILet(Id(x), e)
-    } |
-      ("let" ~> id <~ "be") ~ ("?" ~> expr) ^^ {
-        case x ~ e => ISeq(List(
-          ILet(Id(x), e),
-          returnIfAbrupt(x)
-        ))
-      }
+    } | ("let" ~> id <~ "be") ~ ("?" ~> expr) ^^ {
+      case x ~ e => ISeq(List(
+        ILet(Id(x), e),
+        returnIfAbrupt(x)
+      ))
+    }
 
   // ReturnIfAbrupt statements
   lazy val returnIfAbruptStmt =
@@ -94,13 +93,11 @@ object AlgoCompiler extends TokenParsers {
 
   // if-then-else statements
   lazy val ifStmt =
-    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~
-      ("." ~> opt(next) ~> ("else" | "otherwise") ~> opt(",") ~> stmt) ^^ {
-        case c ~ t ~ e => IIf(c, t, e)
-      } |
-      ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
-        case c ~ t => IIf(c, t, emptyInst)
-      }
+    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ ("." ~> opt(next) ~> ("else" | "otherwise") ~> opt(",") ~> stmt) ^^ {
+      case c ~ t ~ e => IIf(c, t, e)
+    } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
+      case c ~ t => IIf(c, t, emptyInst)
+    }
 
   // call statements
   lazy val callStmt =
@@ -109,19 +106,17 @@ object AlgoCompiler extends TokenParsers {
         ILet(tempId, e),
         returnIfAbrupt(temp)
       ))
-    } |
-      ("perform" | "call") ~> callExpr ^^ {
-        case e => IExpr(e)
-      }
+    } | ("perform" | "call") ~> callExpr ^^ {
+      case e => IExpr(e)
+    }
 
   // set statements
   lazy val setStmt =
     ("set" ~> ref) ~ ("to" ~> expr) ^^ {
       case r ~ e => IAssign(r, e)
-    } |
-      "set" ~ expr ~ "'s essential internal methods" ~ rest ^^ {
-        case _ => emptyInst
-      }
+    } | "set" ~ expr ~ "'s essential internal methods" ~ rest ^^ {
+      case _ => emptyInst
+    }
 
   // assert statements
   lazy val assertStmt =
@@ -166,13 +161,11 @@ object AlgoCompiler extends TokenParsers {
   lazy val astExpr =
     "the stringvalue of identifiername" ^^^ {
       parseExpr(s"IdentifierName")
-    } |
-      "the result of evaluating" ~> word ^^ {
-        case x => parseExpr(s"(run Evaluation of $x)")
-      } |
-      (opt("the") ~> word <~ "of") ~ word ^^ {
-        case f ~ x => parseExpr(s"(run $f of $x)")
-      }
+    } | "the result of evaluating" ~> word ^^ {
+      case x => parseExpr(s"(run Evaluation of $x)")
+    } | (opt("the") ~> word <~ "of") ~ word ^^ {
+      case f ~ x => parseExpr(s"(run $f of $x)")
+    }
 
   // completion expressions
   lazy val completionExpr =
@@ -188,20 +181,18 @@ object AlgoCompiler extends TokenParsers {
   lazy val callExpr =
     "type(" ~> expr <~ ")" ^^ {
       case e => ETypeOf(e)
-    } |
-      ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-        case RefId(Id(x)) ~ list => EApp(parseExpr(x), list)
-        case (r @ RefProp(b, _)) ~ list => EApp(ERef(r), ERef(b) :: list)
-      }
+    } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case RefId(Id(x)) ~ list => EApp(parseExpr(x), list)
+      case (r @ RefProp(b, _)) ~ list => EApp(ERef(r), ERef(b) :: list)
+    }
 
   // new expressions
   lazy val newExpr =
     "a new empty list" ^^^ {
       EList(Nil)
-    } |
-      ("a new" | "a newly created") ~> ty <~ opt(("with" | "that") ~ rest) ^^ {
-        case t => EMap(t, List())
-      } // TODO handle after "with" or "that"
+    } | ("a new" | "a newly created") ~> ty <~ opt(("with" | "that") ~ rest) ^^ {
+      case t => EMap(t, List())
+    } // TODO handle after "with" or "that"
 
   // list expressions
   lazy val listExpr =
@@ -245,22 +236,17 @@ object AlgoCompiler extends TokenParsers {
   lazy val cond: Parser[Expr] =
     (id <~ "is not present") ~ subCond ^^ {
       case x ~ f => f(EUOp(ONot, EExist(RefId(Id(x)))))
-    } |
-      (expr <~ "is different from") ~ expr ~ subCond ^^ {
-        case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
-      } |
-      (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
-        case x ~ y ~ f => f(EBOp(OEq, x, y))
-      } |
-      expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
-        EBool(false)
-      } | // TODO fix
-      (expr <~ "is not") ~ expr ~ subCond ^^ {
-        case l ~ r ~ f => f(EUOp(ONot, EBOp(OEq, l, r)))
-      } |
-      (expr <~ "is") ~ expr ~ subCond ^^ {
-        case l ~ r ~ f => f(EBOp(OEq, l, r))
-      }
+    } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
+      case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
+    } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
+      case x ~ y ~ f => f(EBOp(OEq, x, y))
+    } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
+      EBool(false) // TODO fix
+    } | (expr <~ "is not") ~ expr ~ subCond ^^ {
+      case l ~ r ~ f => f(EUOp(ONot, EBOp(OEq, l, r)))
+    } | (expr <~ "is") ~ expr ~ subCond ^^ {
+      case l ~ r ~ f => f(EBOp(OEq, l, r))
+    }
 
   lazy val subCond: Parser[Expr => Expr] =
     "or if" ~> cond ^^ {
@@ -292,10 +278,9 @@ object AlgoCompiler extends TokenParsers {
   lazy val field: Parser[Expr] =
     "." ~> name ^^ {
       case x => EStr(x)
-    } |
-      "[" ~> expr <~ "]" ^^ {
-        case e => e
-      }
+    } | "[" ~> expr <~ "]" ^^ {
+      case e => e
+    }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Section Numbers
