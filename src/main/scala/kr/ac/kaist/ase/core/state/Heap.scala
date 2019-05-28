@@ -1,5 +1,7 @@
 package kr.ac.kaist.ase.core
 
+import kr.ac.kaist.ase.model.Model.tyMap
+
 // CORE Heaps
 case class Heap(
     map: Map[Addr, Obj] = Map(),
@@ -52,7 +54,8 @@ case class Heap(
     m: Map[Value, Value] = Map()
   ): (Addr, Heap) = {
     val newAddr = DynamicAddr(size)
-    val newMap = map + (newAddr -> CoreMap(ty, m))
+    val newM = tyMap.getOrElse(ty.name, Map()) ++ m
+    val newMap = map + (newAddr -> CoreMap(ty, newM))
     val newSize = size + 1
     (newAddr, Heap(newMap, newSize))
   }

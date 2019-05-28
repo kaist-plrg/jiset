@@ -11,6 +11,7 @@ object Interp {
 
   // instructions
   def interp(inst: Inst): State => State = st => {
+    // TODO delete
     inst match {
       case ISeq(_) =>
       case _ => println(beautify(inst))

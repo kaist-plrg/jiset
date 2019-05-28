@@ -11,14 +11,11 @@ object TypeGenerator {
     nf.println(s"""""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")
     nf.println(s"""object $tname {""")
-    nf.println(s"""  val map: CoreMap = CoreMap(""")
-    nf.println(s"""    Ty("$tname"),""")
-    nf.println(s"""    Map(""")
+    nf.println(s"""  val map: Map[Value, Value] = Map(""")
     nf.println(methods.map {
       case (key, value) =>
-        s"""      (Str("$key") -> $value.func)"""
+        s"""    (Str("$key") -> $value.func)"""
     }.mkString("," + LINE_SEP))
-    nf.println(s"""    )""")
     nf.println(s"""  )""")
     nf.println(s"""}""")
     nf.close()
