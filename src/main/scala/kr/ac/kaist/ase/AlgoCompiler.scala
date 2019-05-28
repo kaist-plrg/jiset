@@ -42,7 +42,7 @@ object AlgoCompiler extends TokenParsers {
       returnIfAbruptStmt |
       innerStmt |
       ifStmt |
-      performStmt |
+      callStmt |
       setStmt |
       assertStmt
 
@@ -90,20 +90,20 @@ object AlgoCompiler extends TokenParsers {
       case c ~ t => IIf(c, t, emptyInst)
     }
 
-  // perform statements
-  lazy val performStmt =
-    "perform" ~> callExpr ^^ {
-      case e => IExpr(e)
+  // call statements
+  lazy val callStmt =
+    ("perform" | "call") ~> "?" ~> callExpr ^^ {
+      case e => ISeq(List(
+        ILet(tempId, e),
+        IIf(
+          cond = parseExpr(s"""(= $temp["[[Type]]"] normal)"""),
+          thenInst = parseInst(s"""{}"""),
+          elseInst = parseInst(s"""return $temp""")
+        )
+      ))
     } |
-      "perform ?" ~> callExpr ^^ {
-        case e => ISeq(List(
-          ILet(tempId, e),
-          IIf(
-            cond = parseExpr(s"""(= $temp["[[Type]]"] normal)"""),
-            thenInst = parseInst(s"""{}"""),
-            elseInst = parseInst(s"""return $temp""")
-          )
-        ))
+      ("perform" | "call") ~> callExpr ^^ {
+        case e => IExpr(e)
       }
 
   // set statements
@@ -132,6 +132,7 @@ object AlgoCompiler extends TokenParsers {
       newExpr |
       listExpr |
       curExpr |
+      algoExpr |
       refExpr
 
   // value expressions
@@ -169,8 +170,8 @@ object AlgoCompiler extends TokenParsers {
 
   // call expressions
   lazy val callExpr =
-    word ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-      case s ~ list => EApp(ERef(RefId(Id(s))), list)
+    refExpr ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case f ~ list => EApp(f, list)
     }
 
   // new expressions
@@ -180,7 +181,7 @@ object AlgoCompiler extends TokenParsers {
     } |
       ("a new" | "a newly created") ~> ty <~ opt(("with" | "that") ~ rest) ^^ {
         case t => EMap(t, List())
-      }
+      } // TODO handle after "with" or "that"
 
   // list expressions
   lazy val listExpr =
@@ -192,6 +193,12 @@ object AlgoCompiler extends TokenParsers {
   lazy val curExpr =
     "the current Realm Record" ^^^ {
       parseExpr("context.Realm")
+    }
+
+  // algorithm expressions
+  lazy val algoExpr =
+    "an empty sequence of algorithm steps" ^^^ {
+      EFunc(Nil, emptyInst)
     }
 
   // reference expressions
@@ -232,7 +239,7 @@ object AlgoCompiler extends TokenParsers {
   // References
   ////////////////////////////////////////////////////////////////////////////////
   lazy val ref: Parser[Ref] =
-    id ~ rep(field) ^^ {
+    name ~ rep(field) ^^ {
       case x ~ es => es.foldLeft[Ref](RefId(Id(x))) {
         case (r, e) => RefProp(r, e)
       }
