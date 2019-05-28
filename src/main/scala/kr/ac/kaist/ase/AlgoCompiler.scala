@@ -37,11 +37,15 @@ object AlgoCompiler extends TokenParsers {
 
   // return statements
   lazy val returnStmt =
-    "return" ~> expr ^^ { IReturn(_) }
+    "return" ~> expr ^^ {
+      e => IReturn(e)
+    }
 
   // let statements
   lazy val letStmt =
-    ("let" ~> id <~ "be") ~ expr ^^ { case x ~ e => ILet(Id(x), e) } |
+    ("let" ~> id <~ "be") ~ expr ^^ {
+      case x ~ e => ILet(Id(x), e)
+    } |
       ("let" ~> id <~ "be") ~ ("?" ~> expr) ^^ {
         case x ~ e => ISeq(List(
           ILet(Id(x), e),
@@ -65,11 +69,15 @@ object AlgoCompiler extends TokenParsers {
 
   // inner statements
   lazy val innerStmt =
-    in ~> stmts <~ out ^^ { ISeq(_) }
+    in ~> stmts <~ out ^^ {
+      case list => ISeq(list)
+    }
 
   // if-then-else statements
   lazy val ifStmt =
-    ("if" ~> cond <~ ", then") ~ stmt ^^ { case c ~ t => IIf(c, t, ISeq(Nil)) }
+    ("if" ~> cond <~ ", then") ~ stmt ^^ {
+      case c ~ t => IIf(c, t, ISeq(Nil))
+    }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
@@ -78,7 +86,7 @@ object AlgoCompiler extends TokenParsers {
     valueExpr |
       astExpr |
       completionExpr |
-      nameCallExpr |
+      callExpr |
       idExpr
 
   // value expressions
@@ -87,16 +95,22 @@ object AlgoCompiler extends TokenParsers {
     case "true" => EBool(true)
     case "false" => EBool(false)
     case "undefined" => EUndef
-    case x0 if (x0.length > 1 && x0.charAt(0) == '"' && x0.charAt(x0.length - 1) == '"') => EStr(x0.slice(1, x0.length - 1))
+    case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case const @ ("empty" | "throw" | "normal") => ERef(RefId(Id(const.replaceAll("-", ""))))
     case s => etodo(s)
   }
 
   // AST semantics
   lazy val astExpr =
-    "the stringvalue of identifiername" ^^^ parseExpr(s"IdentifierName") |
-      "the result of evaluating" ~> word ^^ { case x => parseExpr(s"(run Evaluation of $x)") } |
-      (opt("the") ~> word <~ "of") ~ word ^^ { case f ~ x => parseExpr(s"(run $f of $x)") }
+    "the stringvalue of identifiername" ^^^ {
+      parseExpr(s"IdentifierName")
+    } |
+      "the result of evaluating" ~> word ^^ {
+        case x => parseExpr(s"(run Evaluation of $x)")
+      } |
+      (opt("the") ~> word <~ "of") ~ word ^^ {
+        case f ~ x => parseExpr(s"(run $f of $x)")
+      }
 
   // completion expressions
   lazy val completionExpr =
@@ -109,22 +123,30 @@ object AlgoCompiler extends TokenParsers {
     }
 
   // call expressions
-  lazy val nameCallExpr = word ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-    case s ~ list => EApp(ERef(RefId(Id(s))), list)
-  }
+  lazy val callExpr =
+    word ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case s ~ list => EApp(ERef(RefId(Id(s))), list)
+    }
 
   // identifiers expressions
   lazy val idExpr =
-    (id | word) ^^ { case x => ERef(RefId(Id(x))) }
+    (id | word) ^^ {
+      case x => ERef(RefId(Id(x)))
+    }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: Parser[Expr] =
-    (id <~ "is not present") ~ subCond ^^ { case x ~ f => f(EUOp(ONot, EExist(RefId(Id(x))))) } |
-      (expr <~ "is") ~ expr ~ subCond ^^ { case l ~ r ~ f => f(EBOp(OEq, l, r)) }
+    (id <~ "is not present") ~ subCond ^^ {
+      case x ~ f => f(EUOp(ONot, EExist(RefId(Id(x)))))
+    } |
+      (expr <~ "is") ~ expr ~ subCond ^^ {
+        case l ~ r ~ f => f(EBOp(OEq, l, r))
+      }
 
   lazy val subCond: Parser[Expr => Expr] =
-    "or if" ~> cond ^^ { case r => (l: Expr) => EBOp(OOr, l, r) } |
-      success(x => x)
+    "or if" ~> cond ^^ {
+      case r => (l: Expr) => EBOp(OOr, l, r)
+    } | success(x => x)
 }
