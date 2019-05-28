@@ -52,10 +52,6 @@ object Useful {
   def getFirstFilename(aseConfig: ASEConfig, job: String): String =
     aseConfig.fileNames.headOption.getOrElse(throw NoFileError(job))
 
-  // dotted names into camel cases
-  def dotted2camel(name: String): String =
-    name.split('.').map(str => str.head.toUpper + str.tail).toList.mkString
-
   // delete files
   def deleteFile(filename: String): Unit = new File(filename).delete
 

@@ -109,11 +109,13 @@ object Beautifier {
         walk("return "); walk(expr)
       case IIf(cond, thenInst, elseInst) =>
         walk("if "); walk(cond); walk(" "); walk(thenInst)
-        walk(" else "); walk(elseInst)
+        if (elseInst != ISeq(Nil)) { walk(" else "); walk(elseInst) }
       case IWhile(cond, body) =>
         walk("while "); walk(cond); walk(" "); walk(body)
       case ISeq(insts) =>
-        walk("{"); walkList[Inst](insts, walk); walk(indent); walk("}")
+        walk("{");
+        if (insts.length > 0) { walkList[Inst](insts, walk); walk(indent); }
+        walk("}")
       case IAssert(expr) =>
         walk("assert "); walk(expr)
       case IPrint(expr) =>

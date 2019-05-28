@@ -8,7 +8,7 @@ case class Spec(
   globalMethods: List[String],
   consts: List[String],
   grammar: Grammar,
-  tys: List[Ty]
+  tys: Map[String, Map[String, String]]
 )
 object Spec extends DefaultJsonProtocol {
   implicit object TokenFormat extends RootJsonFormat[Token] {
@@ -39,7 +39,6 @@ object Spec extends DefaultJsonProtocol {
       case _ => JsString(token.toString)
     }
   }
-  implicit val TyFormat = jsonFormat2(Ty)
   implicit val TerminalFormat = jsonFormat1(Terminal)
   implicit val NonTerminalFormat = jsonFormat3(NonTerminal)
   implicit val ButNotFormat = jsonFormat2(ButNot)
