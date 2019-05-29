@@ -27,7 +27,7 @@ object AlgoCompiler extends TokenParsers {
   // ReturnIfAbrupt
   def returnIfAbrupt(name: String): Inst = parseInst(
     s"""if (= (typeof $name) "Completion") {
-          if (= $name["[[Type]]"] normal) $name = $name["[[Value]]"]
+          if (= $name["Type"] normal) $name = $name["Value"]
           else return $name
         }"""
   )
@@ -42,6 +42,9 @@ object AlgoCompiler extends TokenParsers {
     }
   ) // TODO flatten
 
+  // running execution context string
+  val context = "context"
+
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
@@ -53,12 +56,15 @@ object AlgoCompiler extends TokenParsers {
       ifStmt |
       callStmt |
       setStmt |
-      assertStmt |
-      whileStmt
+      createStmt |
+      throwStmt |
+      whileStmt |
+      etcStmt |
+      ignoreStmt
 
   // return statements
   lazy val returnStmt =
-    "return !" ~> expr ^^ {
+    "return" ~> ("!" | "?") ~> expr ^^ {
       case e => ISeq(List(
         ILet(tempId, e),
         returnIfAbrupt(temp),
@@ -93,7 +99,7 @@ object AlgoCompiler extends TokenParsers {
 
   // if-then-else statements
   lazy val ifStmt =
-    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ ("." ~> opt(next) ~> ("else" | "otherwise") ~> opt(",") ~> stmt) ^^ {
+    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";") ~> opt(next) ~> ("else" | "otherwise") ~> opt(name ~ "must be" ~ rep(not(",") ~ text)) ~> opt(",") ~> stmt) ^^ {
       case c ~ t ~ e => IIf(c, t, e)
     } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
       case c ~ t => IIf(c, t, emptyInst)
@@ -101,7 +107,7 @@ object AlgoCompiler extends TokenParsers {
 
   // call statements
   lazy val callStmt =
-    ("perform" | "call") ~> "?" ~> callExpr ^^ {
+    ("perform" | "call") ~> ("?" | "!") ~> callExpr ^^ {
       case e => ISeq(List(
         ILet(tempId, e),
         returnIfAbrupt(temp)
@@ -112,16 +118,33 @@ object AlgoCompiler extends TokenParsers {
 
   // set statements
   lazy val setStmt =
-    ("set" ~> ref) ~ ("to" ~> expr) ^^ {
-      case r ~ e => IAssign(r, e)
-    } | "set" ~ expr ~ "'s essential internal methods" ~ rest ^^ {
+    "set" ~ name ~ "'s essential internal methods" ~ rest ^^ {
       case _ => emptyInst
+    } | ("set" ~> ref) ~ ("to" ~> expr) ^^ {
+      case r ~ e => IAssign(r, e)
     }
 
-  // assert statements
-  lazy val assertStmt =
-    "Assert:" ~ rest ^^ {
-      case _ => emptyInst
+  // create statements
+  lazy val createStmt =
+    "create an own data property" ~ rest ^^^ {
+      parseInst(s"""{
+        dp = (new DataProperty())
+        if (? Desc.Value) dp.Value = Desc.Value else dp.Value = undefined
+        if (? Desc.Writable) dp.Writable = Desc.Writable else dp.Writable = false
+        if (? Desc.Enumerable) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false
+        if (? Desc.Configurable) dp.Configurable = Desc.Configurable else dp.Configurable = false
+        O.SubMap[P] = dp
+      }""")
+    }
+
+  // throw statements
+  lazy val throwStmt =
+    "throw a" ~> valueExpr <~ "exception" ^^ {
+      case e => IReturn(EMap(Ty("Completion"), List(
+        EStr("Type") -> parseExpr("throw"),
+        EStr("Value") -> e,
+        EStr("Target") -> parseExpr("empty")
+      )))
     }
 
   // while statements
@@ -129,6 +152,32 @@ object AlgoCompiler extends TokenParsers {
     ("repeat, while" ~> cond <~ ",") ~ stmt ^^ {
       case c ~ s => IWhile(c, s)
     }
+
+  // et cetera statements
+  lazy val etcStmt =
+    "push" ~> expr <~ "onto the execution context stack" ~ rest ^^ {
+      case e => IAssign(RefId(Id(context)), e)
+    } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
+      parseInst(s"""{
+        context.VariableEnvironment = context.Realm.GlobalEnv
+        context.LexicalEnvironment = context.Realm.GlobalEnv
+        return (run Evaluation of script)
+      }""")
+    } | "If the code matching the syntactic production that is being evaluated" ~ rest ^^^ {
+      parseInst(s"let strict = false")
+    } | "if the host requires use of an exotic object" ~ rest ^^^ {
+      parseInst("let global = undefined")
+    } | "if the host requires that the" ~ rest ^^^ {
+      parseInst("let thisValue = undefined")
+    }
+
+  // ignore statements
+  lazy val ignoreStmt = (
+    "assert:" |
+    "set fields of" |
+    "for each property of the global object" |
+    "create any implementation-defined"
+  ) ~ rest ^^^ emptyInst
 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
@@ -147,13 +196,14 @@ object AlgoCompiler extends TokenParsers {
       refExpr
 
   // value expressions
-  lazy val valueExpr = value ^^ {
+  lazy val valueExpr = opt("the value") ~> value ^^ {
     case "null" => ENull
     case "true" => EBool(true)
     case "false" => EBool(false)
     case "undefined" => EUndef
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case const @ ("empty" | "throw" | "normal") => ERef(RefId(Id(const.replaceAll("-", ""))))
+    case "TypeError" => EMap(Ty("TypeError"), Nil)
     case s => etodo(s)
   }
 
@@ -165,15 +215,17 @@ object AlgoCompiler extends TokenParsers {
       case x => parseExpr(s"(run Evaluation of $x)")
     } | (opt("the") ~> word <~ "of") ~ word ^^ {
       case f ~ x => parseExpr(s"(run $f of $x)")
+    } | "IsFunctionDefinition of" ~> id ^^ {
+      case x => parseExpr(s"(run IsFunctionDefinition of $x)")
     }
 
   // completion expressions
   lazy val completionExpr =
     "normalcompletion(" ~> expr <~ ")" ^^ {
       case e => EMap(Ty("Completion"), List(
-        EStr("[[Type]]") -> parseExpr("normal"),
-        EStr("[[Value]]") -> e,
-        EStr("[[Target]]") -> parseExpr("empty")
+        EStr("Type") -> parseExpr("normal"),
+        EStr("Value") -> e,
+        EStr("Target") -> parseExpr("empty")
       ))
     }
 
@@ -190,9 +242,24 @@ object AlgoCompiler extends TokenParsers {
   lazy val newExpr =
     "a new empty list" ^^^ {
       EList(Nil)
-    } | ("a new" | "a newly created") ~> ty <~ opt(("with" | "that") ~ rest) ^^ {
-      case t => EMap(t, List())
-    } // TODO handle after "with" or "that"
+    } | ("a new" ~> ty <~ "containing") ~ (expr <~ "as the binding object") ^^ {
+      case t ~ e => EMap(t, List(
+        EStr("SubMap") -> EMap(Ty("SubMap"), Nil),
+        EStr("BindingObject") -> e
+      ))
+    } | ("a new" | "a newly created") ~> ty <~ opt(("with" | "that" | "containing") ~ rest) ^^ {
+      case t => EMap(t, List(EStr("SubMap") -> EMap(Ty("SubMap"), Nil))) // TODO handle after "with" or "that"
+    } | ("a value of type reference whose base value component is" ~> expr) ~
+      (", whose referenced name component is" ~> expr) ~
+      (", and whose strict reference flag is" ~> expr) ^^ {
+        case b ~ r ~ s => EMap(Ty("Reference"), List(
+          EStr("Base") -> b,
+          EStr("ReferencedName") -> r,
+          EStr("StrictReference") -> s
+        ))
+      } | opt("the") ~> ty ~ ("{" ~> repsep((name <~ ":") ~ expr, ",") <~ "}") ^^ {
+        case t ~ list => EMap(t, list.map { case x ~ e => (ERef(RefId(Id(x))), e) })
+      }
 
   // list expressions
   lazy val listExpr =
@@ -203,7 +270,7 @@ object AlgoCompiler extends TokenParsers {
   // current expressions
   lazy val curExpr =
     "the current Realm Record" ^^^ {
-      parseExpr("context.Realm")
+      parseExpr(s"$context.Realm")
     }
 
   // algorithm expressions
@@ -214,7 +281,7 @@ object AlgoCompiler extends TokenParsers {
 
   // type expressions
   lazy val typeExpr =
-    ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol") ^^ {
+    ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol" | "Reference") ^^ {
       case tname => EStr(tname.head)
     }
 
@@ -222,6 +289,8 @@ object AlgoCompiler extends TokenParsers {
   lazy val etcExpr =
     "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
       case x => ERef(RefId(Id(x)))
+    } | "the number whose value is MV of" ~> name <~ rest ^^ {
+      case x => parseExpr(s"(run StringToNumber of $x)")
     }
 
   // reference expressions
@@ -242,15 +311,23 @@ object AlgoCompiler extends TokenParsers {
       case x ~ y ~ f => f(EBOp(OEq, x, y))
     } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
       EBool(false) // TODO fix
+    } | (ref <~ "does not have an own property with key") ~ expr ^^ {
+      case r ~ p => EUOp(ONot, EExist(RefProp(RefProp(r, EStr("SubMap")), p)))
+    } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
+      case r ~ p => EExist(RefProp(RefProp(r, EStr("SubMap")), p))
     } | (expr <~ "is not") ~ expr ~ subCond ^^ {
       case l ~ r ~ f => f(EUOp(ONot, EBOp(OEq, l, r)))
+    } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
+      case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
     } | (expr <~ "is") ~ expr ~ subCond ^^ {
       case l ~ r ~ f => f(EBOp(OEq, l, r))
     }
 
   lazy val subCond: Parser[Expr => Expr] =
-    "or if" ~> cond ^^ {
+    "or" ~> opt("if") ~> cond ^^ {
       case r => (l: Expr) => EBOp(OOr, l, r)
+    } | "and" ~> opt("if") ~> cond ^^ {
+      case r => (l: Expr) => EBOp(OAnd, l, r)
     } | success(x => x)
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -259,14 +336,36 @@ object AlgoCompiler extends TokenParsers {
   lazy val ty: Parser[Ty] =
     "realm record" ^^^ Ty("RealmRecord") |
       "record" ^^^ Ty("Record") |
+      "built-in function object" ^^^ Ty("BuiltinFunctionObject") |
+      "propertydescriptor" ^^^ Ty("PropertyDescriptor") |
+      "execution context" ^^^ Ty("ExecutionContext") |
+      "lexical environment" ^^^ Ty("LexicalEnvironment") |
+      "object environment record" ^^^ Ty("ObjectEnvironmentRecord") |
       "object" ^^^ Ty("OrdinaryObject") |
-      "built-in function object" ^^^ Ty("BuiltinFunctionObject")
+      "declarative environment record" ^^^ Ty("DeclarativeEnvironmentRecord") |
+      "global environment record" ^^^ Ty("GlobalEnvironmentRecord")
 
   ////////////////////////////////////////////////////////////////////////////////
   // References
   ////////////////////////////////////////////////////////////////////////////////
   lazy val ref: Parser[Ref] =
-    name ~ rep(field) ^^ {
+    "the outer lexical environment reference of" ~> ref ^^ {
+      case r => RefProp(r, EStr("Outer"))
+    } | "the base value component of" ~> name ^^ {
+      case x => parseRef(s"$x.BaseValue")
+    } | "the strict reference flag of" ~> name ^^ {
+      case x => parseRef(s"$x.StrictReference")
+    } | "the referenced name component of" ~> name ^^ {
+      case x => parseRef(s"$x.ReferencedName")
+    } | "the binding object for" ~> name ^^ {
+      case x => parseRef(s"$x.BindingObject")
+    } | ("the value of") ~> ref ^^ {
+      case r => r
+    } | ("the" ~> name <~ "of") ~ ref ^^ {
+      case x ~ r => RefProp(r, EStr(x))
+    } | (name <~ "'s") ~ name ^^ {
+      case b ~ x => RefProp(RefId(Id(b)), EStr(x))
+    } | name ~ rep(field) ^^ {
       case x ~ es => es.foldLeft[Ref](RefId(Id(x))) {
         case (r, e) => RefProp(r, e)
       }
@@ -293,6 +392,14 @@ object AlgoCompiler extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Names
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val name: Parser[String] =
-    word | "%" ~> word <~ "%" | "[[" ~> word <~ "]]" | "[[%" ~> word <~ "%]]" | id
+  lazy val name: Parser[String] = (
+    "outer environment reference" ^^^ "Outer" |
+    "the running execution context" ^^^ context |
+    "the" ~ ty ~ "for which the method was invoked" ^^^ "this" |
+    word |
+    "%" ~> word <~ "%" |
+    "[[" ~> word <~ "]]" |
+    "[[%" ~> word <~ "%]]" |
+    id
+  )
 }

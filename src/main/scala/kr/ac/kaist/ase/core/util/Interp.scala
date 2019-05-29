@@ -12,10 +12,10 @@ object Interp {
   // instructions
   def interp(inst: Inst): State => State = st => {
     // TODO delete
-    inst match {
-      case ISeq(_) =>
-      case _ => println(beautify(inst))
-    }
+    // inst match {
+    //   case ISeq(_) =>
+    //   case _ => println(beautify(inst))
+    // }
     inst match {
       case IExpr(expr) =>
         val (_, s0) = interp(expr)(st)
@@ -118,7 +118,7 @@ object Interp {
           }
           val newSt = fixpoint(s1.copy(insts = List(body), locals = locals))
           newSt.retValue match {
-            case Some(v) => (v, s1.copy(heap = newSt.heap))
+            case Some(v) => (v, s1.copy(heap = newSt.heap, globals = newSt.globals))
             case None => error(s"no return value")
           }
         case v => error(s"not a function: $v")
@@ -140,10 +140,11 @@ object Interp {
           }
           val newSt = fixpoint(s1.copy(insts = List(body), locals = locals))
           newSt.retValue match {
-            case Some(v) => (v, s1.copy(heap = newSt.heap))
+            case Some(v) => (v, s1.copy(heap = newSt.heap, globals = newSt.globals))
             case None => error(s"no return value")
           }
         }
+        case Str(s) if name == "StringToNumber" => (Num(s.toDouble), st)
         case v => error(s"not an AST value: $v")
       }
     }
