@@ -62,6 +62,7 @@ object ASE {
     CmdParse,
     CmdLoad,
     CmdEval,
+    CmdREPL,
     CmdParseCore,
     CmdLoadCore,
     CmdEvalCore,
