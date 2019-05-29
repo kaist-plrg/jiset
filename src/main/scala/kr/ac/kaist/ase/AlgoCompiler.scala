@@ -317,6 +317,8 @@ object AlgoCompiler extends TokenParsers {
       case r ~ p => EExist(RefProp(RefProp(r, EStr("SubMap")), p))
     } | (expr <~ "is not") ~ expr ~ subCond ^^ {
       case l ~ r ~ f => f(EUOp(ONot, EBOp(OEq, l, r)))
+    } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
+      case l ~ r => EBOp(OAnd, EUOp(ONot, EExist(l)), EUOp(ONot, EExist(r)))
     } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
       case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
     } | (expr <~ "is") ~ expr ~ subCond ^^ {
