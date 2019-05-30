@@ -88,6 +88,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "false" ^^^ EBool(false) |
       "undefined" ^^^ EUndef |
       "null" ^^^ ENull |
+      "absent" ^^^ EAbsent |
       "???" ~> stringLiteral ^^ { case s => ENotYetImpl(s.substring(1, s.length - 1)) } |
       "(" ~> (uop ~ expr) <~ ")" ^^ { case u ~ e => EUOp(u, e) } |
       "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
@@ -169,7 +170,8 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "true" ^^^ { Bool(true) } |
       "false" ^^^ { Bool(false) } |
       "undefined" ^^^ Undef |
-      "null" ^^^ Null
+      "null" ^^^ Null |
+      "absent" ^^^ Absent
   }
 
   // functions

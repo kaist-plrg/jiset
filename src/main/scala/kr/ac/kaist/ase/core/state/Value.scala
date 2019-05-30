@@ -27,3 +27,4 @@ case class Str(str: String) extends Const
 case class Bool(bool: Boolean) extends Const
 case object Undef extends Const
 case object Null extends Const
+case object Absent extends Const

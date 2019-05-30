@@ -14,10 +14,10 @@ case class Singleton(name: String) extends Obj {
 // CORE CoreMap
 case class CoreMap(ty: Ty, props: Map[Value, Value]) extends Obj {
   // existence check
-  def contains(prop: Value): Boolean = props contains prop
+  def contains(prop: Value): Boolean = this(prop) == Absent
 
   // getters
-  def apply(prop: Value): Value = props.getOrElse(prop, Undef)
+  def apply(prop: Value): Value = props.getOrElse(prop, Absent)
 
   // setters
   def updated(prop: Value, value: Value): Obj = copy(props = props + (prop -> value))

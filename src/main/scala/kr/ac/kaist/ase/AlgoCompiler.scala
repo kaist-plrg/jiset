@@ -253,7 +253,7 @@ object AlgoCompiler extends TokenParsers {
       (", whose referenced name component is" ~> expr) ~
       (", and whose strict reference flag is" ~> expr) ^^ {
         case b ~ r ~ s => EMap(Ty("Reference"), List(
-          EStr("Base") -> b,
+          EStr("BaseValue") -> b,
           EStr("ReferencedName") -> r,
           EStr("StrictReference") -> s
         ))

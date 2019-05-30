@@ -65,7 +65,7 @@ trait Walker {
 
   // expressions
   def walk(expr: Expr): Expr = expr match {
-    case ENum(_) | EINum(_) | EStr(_) | EBool(_) | EUndef | ENull => expr
+    case ENum(_) | EINum(_) | EStr(_) | EBool(_) | EUndef | ENull | EAbsent => expr
     case EMap(ty, props) => EMap(
       walk(ty),
       walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
@@ -136,7 +136,7 @@ trait Walker {
   def walk(value: Value): Value = value match {
     case addr: Addr => walk(addr)
     case Func(params, body) => Func(walkList[Id](params, walk), walk(body))
-    case Num(_) | ASTVal(_) | INum(_) | Str(_) | Bool(_) | Undef | Null => value
+    case Num(_) | ASTVal(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent => value
   }
 
   // addresses

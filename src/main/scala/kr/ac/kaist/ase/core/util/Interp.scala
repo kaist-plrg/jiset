@@ -80,6 +80,7 @@ object Interp {
     case EBool(b) => (Bool(b), st)
     case EUndef => (Undef, st)
     case ENull => (Null, st)
+    case EAbsent => (Absent, st)
     case EMap(ty, props) =>
       val (addr, s0) = st.allocMap(ty)
       (addr, (s0 /: props) {
@@ -167,6 +168,7 @@ object Interp {
         case Bool(_) => Str("Boolean")
         case Undef => Str("Undefined")
         case Null => Str("Null")
+        case Absent => Str("Absent")
         case Func(_, _) => Str("Function")
         case ASTVal(_) => Str("AST")
       }, s0)

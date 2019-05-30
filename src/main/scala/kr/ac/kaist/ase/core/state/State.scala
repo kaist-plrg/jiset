@@ -9,17 +9,12 @@ case class State(
     heap: Heap
 ) extends CoreNode {
   // existence check
-  def contains(refV: RefValue): Boolean = refV match {
-    case RefValueId(id) =>
-      locals.contains(id) || globals.contains(id)
-    case RefValueProp(addr, value) =>
-      heap.contains(addr, value)
-  }
+  def contains(refV: RefValue): Boolean = this(refV) != Absent
 
   // getters
   def apply(refV: RefValue): Value = refV match {
     case RefValueId(id) =>
-      locals.getOrElse(id, globals.getOrElse(id, Undef))
+      locals.getOrElse(id, globals.getOrElse(id, Absent))
     case RefValueProp(addr, value) =>
       heap(addr, value)
   }
@@ -33,7 +28,7 @@ case class State(
     case RefValueProp(addr, key) => updated(addr, key, value)
   }
   def updated(id: Id, value: Value): State =
-    if (locals.contains(id)) copy(locals = locals + (id -> value))
+    if (locals contains id) copy(locals = locals + (id -> value))
     else copy(globals = globals + (id -> value))
   def updated(addr: Addr, key: Value, value: Value): State =
     copy(heap = heap.updated(addr, key, value))
@@ -41,7 +36,7 @@ case class State(
   // deletes
   def deleted(refV: RefValue): State = refV match {
     case RefValueId(id) =>
-      if (locals.contains(id)) copy(locals = locals - id)
+      if (locals contains id) copy(locals = locals - id)
       else copy(globals = globals - id)
     case RefValueProp(addr, prop) =>
       copy(heap = heap.deleted(addr, prop))

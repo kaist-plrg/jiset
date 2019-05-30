@@ -130,6 +130,7 @@ object Beautifier {
       case EBool(b) => walk(s"$b")
       case EUndef => walk("undefined")
       case ENull => walk("null")
+      case EAbsent => walk("absent")
       case EMap(ty, props) =>
         walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
           case (k, v) => walk(k); walk(" -> "); walk(v)
@@ -253,6 +254,7 @@ object Beautifier {
       case Bool(bool) => walk(s"$bool")
       case Undef => walk("undefined")
       case Null => walk("null")
+      case Absent => walk("absent")
       case ASTVal(ast) => walk(s"$ast")
     }
 
