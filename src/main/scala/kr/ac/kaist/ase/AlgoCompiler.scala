@@ -99,7 +99,7 @@ object AlgoCompiler extends TokenParsers {
 
   // if-then-else statements
   lazy val ifStmt =
-    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";") ~> opt(next) ~> ("else" | "otherwise") ~> opt(name ~ "must be" ~ rep(not(",") ~ text)) ~> opt(",") ~> stmt) ^^ {
+    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";") ~> opt(next) ~> ("else" | "otherwise") ~> opt((name ~ "must be" ~ rep(not(",") ~ text)) | (id ~ "does not currently have a property" ~ id)) ~> opt(",") ~> stmt) ^^ {
       case c ~ t ~ e => IIf(c, t, e)
     } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
       case c ~ t => IIf(c, t, emptyInst)
@@ -135,7 +135,17 @@ object AlgoCompiler extends TokenParsers {
         if (? Desc.Configurable) dp.Configurable = Desc.Configurable else dp.Configurable = false
         O.SubMap[P] = dp
       }""")
-    }
+    } |
+      "create an own accessor property" ~ rest ^^^ {
+        parseInst(s"""{
+        dp = (new DataProperty())
+        if (? Desc.Get) dp.Get = Desc.Get else dp.Get = undefined
+        if (? Desc.Set) dp.Set = Desc.Set else dp.Set = undefined
+        if (? Desc.Enumerable) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false
+        if (? Desc.Configurable) dp.Configurable = Desc.Configurable else dp.Configurable = false
+        O.SubMap[P] = dp
+      }""")
+      }
 
   // throw statements
   lazy val throwStmt =
@@ -283,7 +293,10 @@ object AlgoCompiler extends TokenParsers {
   lazy val typeExpr =
     ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol" | "Reference") ^^ {
       case tname => EStr(tname.head)
-    }
+    } |
+      ty ^^ {
+        case Ty(name) => EStr(name)
+      }
 
   // et cetera expressions
   lazy val etcExpr =
