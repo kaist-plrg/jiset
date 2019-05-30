@@ -258,7 +258,7 @@ object AlgoCompiler extends TokenParsers {
           EStr("StrictReference") -> s
         ))
       } | opt("the") ~> ty ~ ("{" ~> repsep((name <~ ":") ~ expr, ",") <~ "}") ^^ {
-        case t ~ list => EMap(t, list.map { case x ~ e => (ERef(RefId(Id(x))), e) })
+        case t ~ list => EMap(t, list.map { case x ~ e => (EStr(x), e) })
       }
 
   // list expressions
