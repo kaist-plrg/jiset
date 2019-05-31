@@ -44,8 +44,8 @@ object ASTGenerator {
               nf.println(s"""    if (name == "isInstanceOf") {""")
               nf.println(s"""      """ + (t0 match {
                 case "String" => s"""(Func(List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)"""
-                case _ if isNTs && (t0 startsWith "Option[") => s"""(Func(List(Id("name"), Id("x0")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(ERun(ERef(RefId(Id("x0"))), "isInstanceOf", List(ERef(RefId(Id("name")))))))), l($x0, Nil))""" // TODO : maybe Error when x0 is None
-                case _ if isNTs && (rest.forall { case (x, t) => t startsWith "Option[" }) => s"""(Func(List(Id("name"), Id("x0")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(ERun(ERef(RefId(Id("x0"))), "isInstanceOf", List(ERef(RefId(Id("name")))))))), l($x0, Nil))"""
+                case _ if isNTs && (t0 startsWith "Option[") => s"""(Func(List(Id("x0"), Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(ERun(ERef(RefId(Id("x0"))), "isInstanceOf", List(ERef(RefId(Id("name")))))))), l($x0, Nil))""" // TODO : maybe Error when x0 is None
+                case _ if isNTs && (rest.forall { case (x, t) => t startsWith "Option[" }) => s"""(Func(List(Id("x0"), Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(ERun(ERef(RefId(Id("x0"))), "isInstanceOf", List(ERef(RefId(Id("name")))))))), l($x0, Nil))"""
                 case _ => s"""(Func(List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)"""
               }))
               nf.println(s"""    } else {""")

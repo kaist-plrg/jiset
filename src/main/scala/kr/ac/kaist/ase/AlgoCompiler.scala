@@ -334,6 +334,8 @@ object AlgoCompiler extends TokenParsers {
       case l ~ r => EBOp(OAnd, EUOp(ONot, EExist(l)), EUOp(ONot, EExist(r)))
     } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
       case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
+    } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
+      case e => EUOp(ONot, EBOp(OOr, ERun(e, "isInstanceOf", List(EStr("ObjectLiteral"))), ERun(e, "isInstanceOf", List(EStr("ArrayLiteral")))))
     } | (expr <~ "is") ~ expr ~ subCond ^^ {
       case l ~ r ~ f => f(EBOp(OEq, l, r))
     }
