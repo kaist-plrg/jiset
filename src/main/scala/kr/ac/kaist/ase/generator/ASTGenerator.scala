@@ -27,9 +27,13 @@ object ASTGenerator {
             (t, i) <- paramTypes.zipWithIndex if t != ""
           ) yield ("x" + i.toString, t)
           val string = getString(rhs)
+          val isNTs = rhs.tokens.forall {
+            case NonTerminal(_, _, _) => true
+            case _ => false
+          }
           val semantics = rhs.semantics
           params match {
-            case (x0, t0) :: _ =>
+            case (x0, t0) :: rest =>
               nf.println(s"""case class $name$i(${(params.map { case (x, t) => s"$x: $t" }).mkString(", ")}) extends $name {""")
               nf.println(s"""  override def toString: String = {""")
               nf.println(s"""    s"$string"""")
@@ -37,13 +41,23 @@ object ASTGenerator {
               nf.println(s"""  val k: Int = ${("0" /: params) { case (str, (x, _)) => s"d($x, $str)" }}""")
               nf.println(s"""  val list: List[Value] = ${("Nil" /: params) { case (str, (x, _)) => s"l($x, $str)" }}.reverse""")
               nf.println(s"""  def semantics(name: String): (Func, List[Value]) = {""")
-              nf.println(s"""    $name$i.semMap.get(name + k.toString) match {""")
-              nf.println(s"""      case Some(f) => (f, list)""")
-              nf.println(s"""      case None => """ + (t0 match {
+              nf.println(s"""    if (name == "isInstanceOf") {""")
+              nf.println(s"""      """ + (t0 match {
+                case "String" => s"""(Func(List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)"""
+                case _ if isNTs && (t0 startsWith "Option[") => s"""(Func(List(Id("name"), Id("x0")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(ERun(ERef(RefId(Id("x0"))), "isInstanceOf", List(ERef(RefId(Id("name")))))))), l($x0, Nil))""" // TODO : maybe Error when x0 is None
+                case _ if isNTs && (rest.forall { case (x, t) => t startsWith "Option[" }) => s"""(Func(List(Id("name"), Id("x0")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(ERun(ERef(RefId(Id("x0"))), "isInstanceOf", List(ERef(RefId(Id("name")))))))), l($x0, Nil))"""
+                case _ => s"""(Func(List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)"""
+              }))
+              nf.println(s"""    } else {""")
+              nf.println(s"""      $name$i.semMap.get(name + k.toString) match {""")
+              nf.println(s"""        case Some(f) => (f, list)""")
+              nf.println(s"""        case None => """ + (t0 match {
                 case "String" => s"""throw UnexpectedSemantics("$name$i." + name)"""
                 case _ if t0 startsWith "Option[" => s"$x0.get.semantics(name)"
-                case _ => s"$x0.semantics(name)"
+                case _ if rest.forall { case (x, t) => t startsWith "Option[" } => s"$x0.semantics(name)"
+                case _ => s"""throw UnexpectedSemantics("$name$i." + name)"""
               }))
+              nf.println(s"""      }""")
               nf.println(s"""    }""")
               nf.println(s"""  }""")
               nf.println(s"""}""")
@@ -53,9 +67,15 @@ object ASTGenerator {
               nf.println(s"""  override def toString: String = {""")
               nf.println(s"""    s"$string"""")
               nf.println(s"""  }""")
-              nf.println(s"""  def semantics(name: String): (Func, List[Value]) = semMap.get(name + "0") match {""")
-              nf.println(s"""    case Some(f) => (f, Nil)""")
-              nf.println(s"""    case None => throw UnexpectedSemantics("$name$i." + name)""")
+              nf.println(s"""  def semantics(name: String): (Func, List[Value]) = {""")
+              nf.println(s"""    if (name == "isInstanceOf") {""")
+              nf.println(s"""      (Func(List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)""")
+              nf.println(s"""    } else {""")
+              nf.println(s"""      semMap.get(name + "0") match {""")
+              nf.println(s"""        case Some(f) => (f, Nil)""")
+              nf.println(s"""        case None => throw UnexpectedSemantics("$name$i." + name)""")
+              nf.println(s"""      }""")
+              nf.println(s"""    }""")
               nf.println(s"""  }""")
           }
           nf.println(s"""  val semMap: Map[String, Func] = Map(""")
