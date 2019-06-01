@@ -386,7 +386,8 @@ object AlgoCompiler extends TokenParsers {
       "object environment record" ^^^ Ty("ObjectEnvironmentRecord") |
       "object" ^^^ Ty("OrdinaryObject") |
       "declarative environment record" ^^^ Ty("DeclarativeEnvironmentRecord") |
-      "global environment record" ^^^ Ty("GlobalEnvironmentRecord")
+      "global environment record" ^^^ Ty("GlobalEnvironmentRecord") |
+      "completion" ^^^ Ty("Completion")
 
   ////////////////////////////////////////////////////////////////////////////////
   // References
