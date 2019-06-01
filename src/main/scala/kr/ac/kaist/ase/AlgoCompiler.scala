@@ -64,7 +64,7 @@ object AlgoCompiler extends TokenParsers {
 
   // return statements
   lazy val returnStmt =
-    "return" ~> ("!" | "?") ~> expr ^^ {
+    "return" ~> ("!" | "?") ~> expr <~ opt("( see" <~ rest) ^^ {
       case e => ISeq(List(
         ILet(tempId, e),
         returnIfAbrupt(temp),
@@ -99,11 +99,17 @@ object AlgoCompiler extends TokenParsers {
 
   // if-then-else statements
   lazy val ifStmt =
-    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";") ~> opt(next) ~> ("else" | "otherwise") ~> opt((name ~ "must be" ~ rep(not(",") ~ text)) | (id ~ "does not currently have a property" ~ id)) ~> opt(",") ~> stmt) ^^ {
-      case c ~ t ~ e => IIf(c, t, e)
-    } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
-      case c ~ t => IIf(c, t, emptyInst)
-    }
+    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";") ~> opt(next) ~>
+      ("else" | "otherwise") ~> opt((
+        name ~ "must be" ~ rep(not(",") ~ text)
+      ) |
+        (id ~ "does not currently have a property" ~ id) |
+        (id <~ "is an accessor property") |
+        ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr) ~> opt(",") ~> stmt) ^^ {
+        case c ~ t ~ e => IIf(c, t, e)
+      } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
+        case c ~ t => IIf(c, t, emptyInst)
+      }
 
   // call statements
   lazy val callStmt =
@@ -138,7 +144,7 @@ object AlgoCompiler extends TokenParsers {
     } |
       "create an own accessor property" ~ rest ^^^ {
         parseInst(s"""{
-        dp = (new DataProperty())
+        dp = (new AccessorProperty())
         if (? Desc.Get) dp.Get = Desc.Get else dp.Get = undefined
         if (? Desc.Set) dp.Set = Desc.Set else dp.Set = undefined
         if (? Desc.Enumerable) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false
@@ -179,6 +185,8 @@ object AlgoCompiler extends TokenParsers {
       parseInst("let global = undefined")
     } | "if the host requires that the" ~ rest ^^^ {
       parseInst("let thisValue = undefined")
+    } | "for each field of" ~ rest ^^^ {
+      parseInst(s"""O["SubMap"][P]["Value"] = Desc["Value"]""") // TODO: move each field of record at ValidateAndApplyPropertyDescriptor
     }
 
   // ignore statements
@@ -186,7 +194,8 @@ object AlgoCompiler extends TokenParsers {
     "assert:" |
     "set fields of" |
     "for each property of the global object" |
-    "create any implementation-defined"
+    "create any implementation-defined" |
+    "no further validation is required" // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
   ) ~ rest ^^^ emptyInst
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -243,6 +252,8 @@ object AlgoCompiler extends TokenParsers {
   lazy val callExpr =
     "type(" ~> expr <~ ")" ^^ {
       case e => ETypeOf(e)
+    } | "completion(" ~> expr <~ ")" ^^ {
+      case e => e
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
       case RefId(Id(x)) ~ list => EApp(parseExpr(x), list)
       case (r @ RefProp(b, _)) ~ list => EApp(ERef(r), ERef(b) :: list)
@@ -304,6 +315,8 @@ object AlgoCompiler extends TokenParsers {
       case x => ERef(RefId(Id(x)))
     } | "the number whose value is MV of" ~> name <~ rest ^^ {
       case x => parseExpr(s"(run StringToNumber of $x)")
+    } | ("the" ~> id <~ "flag of") ~ id ^^ {
+      case e1 ~ e2 if e1 == "withEnvironment" => EBool(false) // TODO : support withEnvironment flag in Object Environment
     }
 
   // reference expressions
@@ -320,6 +333,8 @@ object AlgoCompiler extends TokenParsers {
       case x ~ f => f(EUOp(ONot, EExist(RefId(Id(x)))))
     } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
       case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
+    } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
+      case x ~ y => EUOp(ONot, EBOp(OEq, x, y))
     } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
       case x ~ y ~ f => f(EBOp(OEq, x, y))
     } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
@@ -336,6 +351,16 @@ object AlgoCompiler extends TokenParsers {
       case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
     } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
       case e => EUOp(ONot, EBOp(OOr, ERun(e, "isInstanceOf", List(EStr("ObjectLiteral"))), ERun(e, "isInstanceOf", List(EStr("ArrayLiteral")))))
+    } | expr <~ "is a data property" ^^ {
+      case e => EBOp(OEq, ETypeOf(e), EStr("DataProperty"))
+    } | expr <~ "is an object" ^^ {
+      case e => EBOp(OEq, ETypeOf(e), EStr("OrdinaryObject"))
+    } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
+      case c1 ~ c2 => EBOp(OAnd, c1, c2)
+    } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
+      case e => EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number"))))) // TODO : remove side effect
+    } | "every field in" ~> id <~ "is absent" ^^ {
+      case x => EBOp(OEq, ERef(RefId(Id(x))), EMap(Ty("PropertyDescriptor"), List()))
     } | (expr <~ "is") ~ expr ~ subCond ^^ {
       case l ~ r ~ f => f(EBOp(OEq, l, r))
     }
@@ -355,6 +380,7 @@ object AlgoCompiler extends TokenParsers {
       "record" ^^^ Ty("Record") |
       "built-in function object" ^^^ Ty("BuiltinFunctionObject") |
       "propertydescriptor" ^^^ Ty("PropertyDescriptor") |
+      "property descriptor" ^^^ Ty("PropertyDescriptor") |
       "execution context" ^^^ Ty("ExecutionContext") |
       "lexical environment" ^^^ Ty("LexicalEnvironment") |
       "object environment record" ^^^ Ty("ObjectEnvironmentRecord") |
@@ -370,6 +396,8 @@ object AlgoCompiler extends TokenParsers {
       case r => RefProp(r, EStr("Outer"))
     } | "the base value component of" ~> name ^^ {
       case x => parseRef(s"$x.BaseValue")
+    } | name <~ "'s base value component" ^^ {
+      case x => parseRef(s"$x.BaseValue")
     } | "the strict reference flag of" ~> name ^^ {
       case x => parseRef(s"$x.StrictReference")
     } | "the referenced name component of" ~> name ^^ {
@@ -380,7 +408,9 @@ object AlgoCompiler extends TokenParsers {
       case r => r
     } | ("the" ~> name <~ "of") ~ ref ^^ {
       case x ~ r => RefProp(r, EStr(x))
-    } | (name <~ "'s") ~ name ^^ {
+    } | (name <~ "'s own property whose key is") ~ expr ^^ {
+      case r ~ p => RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), p)
+    } | (name <~ "'s") ~ name <~ opt("attribute") ^^ {
       case b ~ x => RefProp(RefId(Id(b)), EStr(x))
     } | name ~ rep(field) ^^ {
       case x ~ es => es.foldLeft[Ref](RefId(Id(x))) {

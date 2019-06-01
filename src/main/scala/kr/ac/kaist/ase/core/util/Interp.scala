@@ -103,8 +103,12 @@ object Interp {
         case v => error(s"not an address: $v")
       }
     case ERef(ref) =>
-      val (refV, s0) = interp(ref)(st)
-      (s0(refV), s0)
+      try {
+        val (refV, s0) = interp(ref)(st)
+        (s0(refV), s0)
+      } catch {
+        case _: Throwable => (Absent, st) // TODO : handler err in UpdateEmpty
+      }
     case EFunc(params, body) =>
       (Func(params, body), st)
     case EApp(fexpr, args) =>
