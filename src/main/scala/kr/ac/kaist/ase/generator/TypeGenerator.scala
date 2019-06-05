@@ -5,7 +5,7 @@ import kr.ac.kaist.ase.spec._
 import kr.ac.kaist.ase.util.Useful._
 
 object TypeGenerator {
-  def apply(version: String, tname: String, methods: Map[String, String]): Unit = {
+  def apply(tname: String, methods: Map[String, String]): Unit = {
     val nf = getPrintWriter(s"$MODEL_DIR/type/$tname.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println(s"""""")

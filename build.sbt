@@ -1,8 +1,8 @@
 import java.io.File
 
 lazy val dummyModel = taskKey[Unit]("Generates a dummy model.")
-
-lazy val ES_MODEL = "es2018"
+lazy val coreTest = taskKey[Unit]("Launch core language interpreter tests")
+lazy val algoCompilerTest = taskKey[Unit]("Launch tests for AlgoCompiler")
 
 lazy val root = (project in file(".")).
   settings(
@@ -28,7 +28,9 @@ lazy val root = (project in file(".")).
         })
       }
     },
-    compile <<= (compile in Compile) dependsOn (dummyModel in Compile)
+    compile <<= (compile in Compile) dependsOn (dummyModel in Compile),
+    coreTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.CoreTest") dependsOn compile,
+    algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerTest") dependsOn compile
   )
 
 cleanFiles ++= Seq(
@@ -47,7 +49,7 @@ libraryDependencies ++= Seq(
 
 commands += Command.command("generateModel") { state =>
     "compile" ::
-    s"run gen-model $ES_MODEL" ::
+    s"run gen-model" ::
     "compile" ::
     state
 }

@@ -5,7 +5,7 @@ import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.spec._
 
 object GrammarGenerator {
-  def apply(version: String, grammar: Grammar): Unit = {
+  def apply(grammar: Grammar): Unit = {
     ASTGenerator(grammar)
     ASTParserGenerator(grammar)
   }

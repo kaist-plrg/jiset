@@ -2,11 +2,11 @@ package kr.ac.kaist.ase.core
 
 // CORE States
 case class State(
-    retValue: Option[Value],
-    insts: List[Inst],
-    globals: Map[Id, Value],
-    locals: Map[Id, Value],
-    heap: Heap
+    retValue: Option[Value] = None,
+    insts: List[Inst] = Nil,
+    globals: Map[Id, Value] = Map(),
+    locals: Map[Id, Value] = Map(),
+    heap: Heap = Heap()
 ) extends CoreNode {
   // existence check
   def contains(refV: RefValue): Boolean = this(refV) != Absent

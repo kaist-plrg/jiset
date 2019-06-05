@@ -18,10 +18,9 @@ case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
     aseConfig: ASEConfig,
     config: GenModelConfig
   ): Unit = {
-    val version = getFirstFilename(aseConfig, "gen-model")
-    val spec = Spec(s"$RESOURCE_DIR/$version/spec.json")
+    val spec = Spec(s"$RESOURCE_DIR/$VERSION/spec.json")
     deleteFile(s"$MODEL_DIR/package.scala")
-    ModelGenerator(version, spec)
+    ModelGenerator(spec)
   }
 
   def defaultConfig: GenModelConfig = GenModelConfig()

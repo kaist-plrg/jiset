@@ -29,4 +29,7 @@ package object ase {
 
   // Current directory root
   val CUR_DIR = System.getProperty("user.dir")
+
+  // ECMAScript model
+  val VERSION = "es2018"
 }

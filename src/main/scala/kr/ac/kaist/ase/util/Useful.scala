@@ -39,6 +39,7 @@ object Useful {
   def extFilter(ext: String): String => Boolean = _.endsWith(s".$ext")
   lazy val coreFilter = extFilter("core")
   lazy val jsFilter = extFilter("js")
+  lazy val jsonFilter = extFilter("json")
 
   // file writer
   def getPrintWriter(filename: String): PrintWriter =

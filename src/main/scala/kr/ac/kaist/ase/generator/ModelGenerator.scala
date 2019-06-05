@@ -5,14 +5,14 @@ import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.spec._
 
 object ModelGenerator {
-  def apply(version: String, spec: Spec): Unit = {
+  def apply(spec: Spec): Unit = {
     val methods = spec.globalMethods
     val consts = spec.consts
     val grammar = spec.grammar
     val tys = spec.tys
-    methods.foreach(name => MethodGenerator(version, name))
-    GrammarGenerator(version, grammar)
-    tys.foreach { case ((tname, methods)) => TypeGenerator(version, tname, methods) }
+    methods.foreach(name => MethodGenerator(name))
+    GrammarGenerator(grammar)
+    tys.foreach { case ((tname, methods)) => TypeGenerator(tname, methods) }
 
     val nf = getPrintWriter(s"$MODEL_DIR/Model.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
