@@ -16,7 +16,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, Script] {
     config: ParseConfig
   ): Script = {
     val filename = getFirstFilename(aseConfig, "parse")
-    ASTParser.parseAll(ASTParser.Script, fileReader(filename)).get
+    ASTParser(filename)
   }
 
   def defaultConfig: ParseConfig = ParseConfig()

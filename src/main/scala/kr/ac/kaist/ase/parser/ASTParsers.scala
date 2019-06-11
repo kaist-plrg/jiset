@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase.parser
 
 import kr.ac.kaist.ase.model.Script
+import kr.ac.kaist.ase.util.Useful._
 import scala.util.matching.Regex
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
@@ -206,4 +207,7 @@ trait ASTParsers extends RegexParsers {
   }
 
   val Script: P0[Script]
+
+  def apply(filename: String): Script =
+    parseAll(term("") ~> Script, fileReader(filename)).get
 }
