@@ -17,6 +17,7 @@ object ModelGenerator {
     val nf = getPrintWriter(s"$MODEL_DIR/Model.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println(s"""""")
+    nf.println(s"""import kr.ac.kaist.ase.manualModel._""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")
     nf.println(s"""object Model {""")
     nf.println(s"""  lazy val initState: State = State(""")
@@ -32,7 +33,7 @@ object ModelGenerator {
     nf.println(s"""  ) ++ Map(""")
     nf.println(consts.map(i =>
       s"""    Id("$i") -> NamedAddr("$i")""").mkString("," + LINE_SEP))
-    nf.println(s"""  )""")
+    nf.println(s"""  ) ++ ManualModel.initGlobal""")
     nf.println(s"""  lazy val initHeap: Heap = Heap(Map(""")
     nf.println(consts.map(i =>
       s"""    NamedAddr("$i") -> Singleton("$i")""").mkString("," + LINE_SEP))
