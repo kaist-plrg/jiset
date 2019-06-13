@@ -128,6 +128,8 @@ trait UnitWalker {
 
   // states
   def walk(st: State): Unit = {
+    walk(st.context)
+    walkOpt[Value](st.retValue, walk)
     walkList[Inst](st.insts, walk)
     walkMap[Id, Value](st.globals, walk, walk)
     walkMap[Id, Value](st.locals, walk, walk)
@@ -153,8 +155,8 @@ trait UnitWalker {
   // values
   def walk(v: Value): Unit = v match {
     case addr: Addr => walk(addr)
-    case Func(params, body) =>
-      walkList[Id](params, walk); walk(body)
+    case Func(name, params, body) =>
+      walk(name); walkList[Id](params, walk); walk(body)
     case Num(_) | ASTVal(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent =>
   }
 

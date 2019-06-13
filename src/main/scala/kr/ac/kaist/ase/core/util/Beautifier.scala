@@ -207,7 +207,8 @@ object Beautifier {
 
     // states
     override def walk(st: State): Unit = oneDepth({
-      val State(retValue, insts, globals, locals, heap) = st
+      val State(context, retValue, insts, globals, locals, heap) = st
+      walk(indent); walk("Context: "); walk(context)
       walk(indent); walk("Return Value: "); walkOpt[Value](retValue, walk)
       walk(indent); walk("Instructions: ");
       if (detail) {
@@ -245,8 +246,8 @@ object Beautifier {
     // values
     override def walk(v: Value): Unit = v match {
       case addr: Addr => walk(addr)
-      case Func(params, body) =>
-        walk("("); walkListSep[Id](params, ", ", walk)
+      case Func(name, params, body) =>
+        walk(name); walk(" ("); walkListSep[Id](params, ", ", walk)
         walk(") => "); walk(body)
       case Num(double) => walk(s"$double")
       case INum(long) => walk(s"i$long")

@@ -107,6 +107,7 @@ trait Walker {
 
   // states
   def walk(st: State): State = State(
+    walk(st.context),
     walkOpt[Value](st.retValue, walk),
     walkList[Inst](st.insts, walk),
     walkMap[Id, Value](st.globals, walk, walk),
@@ -135,7 +136,7 @@ trait Walker {
   // values
   def walk(value: Value): Value = value match {
     case addr: Addr => walk(addr)
-    case Func(params, body) => Func(walkList[Id](params, walk), walk(body))
+    case Func(name, params, body) => Func(walk(name), walkList[Id](params, walk), walk(body))
     case Num(_) | ASTVal(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent => value
   }
 

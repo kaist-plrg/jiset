@@ -6,7 +6,8 @@ import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.algorithm.{ Algorithm, Token }
 
 object AlgoCompiler extends TokenParsers {
-  def apply(algo: Algorithm): Func = Func(
+  def apply(name: String, algo: Algorithm): Func = Func(
+    name = name,
     params = algo.params.map(Id(_)),
     body = ISeq(parseAll(stmts, algo.toTokenList) match {
       case Success(res, _) => res
@@ -193,7 +194,7 @@ object AlgoCompiler extends TokenParsers {
   lazy val ignoreStmt = (
     "assert:" |
     "set fields of" |
-    "for each property of the global object" |
+    "for each property of the global object" | // TODO : set global object properties
     "create any implementation-defined" |
     "no further validation is required" // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
   ) ~ rest ^^^ emptyInst
@@ -222,7 +223,7 @@ object AlgoCompiler extends TokenParsers {
     case "undefined" => EUndef
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case const @ ("empty" | "throw" | "normal") => ERef(RefId(Id(const.replaceAll("-", ""))))
-    case "TypeError" => EMap(Ty("TypeError"), Nil)
+    case err @ ("TypeError" | "ReferenceError") => EMap(Ty(err), Nil)
     case s => etodo(s)
   }
 

@@ -176,7 +176,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
 
   // functions
   lazy private val func: Parser[Func] =
-    ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^ { case ps ~ b => Func(ps, b) }
+    ident ~ ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^ { case n ~ ps ~ b => Func(n, ps, b) }
 
   // addresses
   lazy private val addr: Parser[Addr] = {

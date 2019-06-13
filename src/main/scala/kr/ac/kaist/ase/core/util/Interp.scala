@@ -12,10 +12,10 @@ object Interp {
   // instructions
   def interp(inst: Inst): State => State = st => {
     // TODO delete
-    // inst match {
-    //   case ISeq(_) =>
-    //   case _ => println(beautify(inst))
-    // }
+    inst match {
+      case ISeq(_) =>
+      case _ => println(s"${st.context}: ${beautify(inst)}")
+    }
     inst match {
       case IExpr(expr) =>
         val (_, s0) = interp(expr)(st)
@@ -110,18 +110,18 @@ object Interp {
         case _: Throwable => (Absent, st) // TODO : handler err in UpdateEmpty
       }
     case EFunc(params, body) =>
-      (Func(params, body), st)
+      (Func("<empty>", params, body), st)
     case EApp(fexpr, args) =>
       val (fv, s0) = interp(fexpr)(st)
       fv match {
-        case Func(params, body) =>
+        case Func(fname, params, body) =>
           val (locals, s1, _) = ((Map[Id, Value](), s0, args) /: params) {
             case ((map, st, arg :: rest), param) =>
               val (av, s0) = interp(arg)(st)
               (map + (param -> av), s0, rest)
             case (triple, _) => triple
           }
-          val newSt = fixpoint(s1.copy(insts = List(body), locals = locals))
+          val newSt = fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
           newSt.retValue match {
             case Some(v) => (v, s1.copy(heap = newSt.heap, globals = newSt.globals))
             case None => error(s"no return value")
@@ -132,7 +132,7 @@ object Interp {
       val (v, s0) = interp(expr)(st)
       v match {
         case ASTVal(ast) => {
-          val (Func(params, body), lst) = ast.semantics(name)
+          val (Func(fname, params, body), lst) = ast.semantics(name)
           val (nlst, s1) = ((lst.reverse, s0) /: args) {
             case ((lst, st), arg) =>
               val (av, s0) = interp(arg)(st)
@@ -143,7 +143,7 @@ object Interp {
               (map + (param -> arg), rest)
             case (pair, _) => pair
           }
-          val newSt = fixpoint(s1.copy(insts = List(body), locals = locals))
+          val newSt = fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
           newSt.retValue match {
             case Some(v) => (v, s1.copy(heap = newSt.heap, globals = newSt.globals))
             case None => error(s"no return value")
@@ -173,11 +173,11 @@ object Interp {
         case Undef => Str("Undefined")
         case Null => Str("Null")
         case Absent => Str("Absent")
-        case Func(_, _) => Str("Function")
+        case Func(_, _, _) => Str("Function")
         case ASTVal(_) => Str("AST")
       }, s0)
     }
-    case ENotYetImpl(msg) => error(s"[NotYetImpl] $msg")
+    case ENotYetImpl(msg) => error(s"[NotYetImpl]:${st.context}: $msg")
   }
 
   // references

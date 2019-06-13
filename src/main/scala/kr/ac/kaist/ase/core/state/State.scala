@@ -2,6 +2,7 @@ package kr.ac.kaist.ase.core
 
 // CORE States
 case class State(
+    context: String = "<top-level>",
     retValue: Option[Value] = None,
     insts: List[Inst] = Nil,
     globals: Map[Id, Value] = Map(),
