@@ -38,7 +38,7 @@ object AlgoCompiler extends TokenParsers {
 
   // list of statements
   lazy val stmts: Parser[List[Inst]] = rep(
-    stmt <~ opt(".") <~ next | step ^^ {
+    stmt <~ opt(("(" | ".") <~ "see" <~ rest) <~ opt(".") <~ next | step ^^ {
       case tokens => itodo(tokens.mkString(" ").replace("\"", "\\\""))
     }
   ) // TODO flatten
@@ -65,7 +65,7 @@ object AlgoCompiler extends TokenParsers {
 
   // return statements
   lazy val returnStmt =
-    "return" ~> ("!" | "?") ~> expr <~ opt("( see" <~ rest) ^^ {
+    "return" ~> ("!" | "?") ~> expr ^^ {
       case e => ISeq(List(
         ILet(tempId, e),
         returnIfAbrupt(temp),
@@ -203,7 +203,8 @@ object AlgoCompiler extends TokenParsers {
   // Expressions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val expr: Parser[Expr] =
-    valueExpr |
+    etcExpr |
+      valueExpr |
       astExpr |
       completionExpr |
       callExpr |
@@ -212,7 +213,6 @@ object AlgoCompiler extends TokenParsers {
       curExpr |
       algoExpr |
       typeExpr |
-      etcExpr |
       refExpr
 
   // value expressions
@@ -318,6 +318,8 @@ object AlgoCompiler extends TokenParsers {
       case x => parseExpr(s"(run StringToNumber of $x)")
     } | ("the" ~> id <~ "flag of") ~ id ^^ {
       case e1 ~ e2 if e1 == "withEnvironment" => EBool(false) // TODO : support withEnvironment flag in Object Environment
+    } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
+      case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
     }
 
   // reference expressions
