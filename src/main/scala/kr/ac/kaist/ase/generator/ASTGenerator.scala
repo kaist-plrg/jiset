@@ -48,6 +48,8 @@ object ASTGenerator {
                 case _ if isNTs && (rest.forall { case (x, t) => t startsWith "Option[" }) => s"""(Func("isInstanceOf", List(Id("x0"), Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(ERun(ERef(RefId(Id("x0"))), "isInstanceOf", List(ERef(RefId(Id("name")))))))), l($x0, Nil))"""
                 case _ => s"""(Func("isInstanceOf", List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)"""
               }))
+              nf.println(s"""    } else if (name == "toString") {""")
+              nf.println(s"""      (Func("toString", List(), IReturn(EStr(toString))), Nil)""")
               nf.println(s"""    } else {""")
               nf.println(s"""      $name$i.semMap.get(name + k.toString) match {""")
               nf.println(s"""        case Some(f) => (f, list)""")
@@ -70,6 +72,8 @@ object ASTGenerator {
               nf.println(s"""  def semantics(name: String): (Func, List[Value]) = {""")
               nf.println(s"""    if (name == "isInstanceOf") {""")
               nf.println(s"""      (Func("isInstanceOf", List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)""")
+              nf.println(s"""    } else if (name == "toString") {""")
+              nf.println(s"""      (Func("toString", List(), IReturn(EStr(toString))), Nil)""")
               nf.println(s"""    } else {""")
               nf.println(s"""      semMap.get(name + "0") match {""")
               nf.println(s"""        case Some(f) => (f, Nil)""")
