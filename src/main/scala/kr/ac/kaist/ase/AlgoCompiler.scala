@@ -28,7 +28,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // ReturnIfAbrupt
   def returnIfAbrupt(name: String): Inst = parseInst(
     s"""if (= (typeof $name) "Completion") {
-          if (= $name["Type"] normal) $name = $name["Value"]
+          if (= $name.Type normal) $name = $name.Value
           else return $name
         }"""
   )
@@ -197,7 +197,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "if the host requires that the" ~ rest ^^^ {
       parseInst("let thisValue = undefined")
     } | "for each field of" ~ rest ^^^ {
-      parseInst(s"""O["SubMap"][P]["Value"] = Desc["Value"]""") // TODO: move each field of record at ValidateAndApplyPropertyDescriptor
+      parseInst(s"""O.SubMap[P].Value = Desc.Value""") // TODO: move each field of record at ValidateAndApplyPropertyDescriptor
     }
 
   // ignore statements
