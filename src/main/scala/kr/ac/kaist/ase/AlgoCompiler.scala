@@ -320,6 +320,8 @@ object AlgoCompiler extends TokenParsers {
       case e1 ~ e2 if e1 == "withEnvironment" => EBool(false) // TODO : support withEnvironment flag in Object Environment
     } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
       case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
+    } | ("the result of applying the multiplicativeoperator" <~ rest) ^^ {
+      case _ => parseExpr(s"( MulOperation (run toString of MultiplicativeOperator) lnum rnum)")
     }
 
   // reference expressions
