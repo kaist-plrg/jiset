@@ -4,8 +4,14 @@ import kr.ac.kaist.ase.LINE_SEP
 import kr.ac.kaist.ase.parser
 import kr.ac.kaist.ase.util.Useful.readFile
 import spray.json._
+
 // algorithms
-case class Algorithm(params: List[String], steps: List[Step], filename: String) {
+case class Algorithm(
+    params: List[String],
+    kind: AlgoKind,
+    steps: List[Step],
+    filename: String
+) {
   def getSteps(init: List[Step]): List[Step] = (init /: steps) {
     case (list, step) => step.getSteps(list)
   }
@@ -50,11 +56,24 @@ object Algorithm extends DefaultJsonProtocol {
       case Text(text) => JsString(text)
     }
   }
+  implicit object AlgoKindFormat extends RootJsonFormat[AlgoKind] {
+    override def read(json: JsValue): AlgoKind = json match {
+      case JsString("RuntimeSemantics") => RuntimeSemantics
+      case JsString("StaticSemantics") => StaticSemantics
+      case JsString("Method") => Method
+      case v => deserializationError(s"unknown AlgoKind: $v")
+    }
+    override def write(kind: AlgoKind): JsValue = kind match {
+      case RuntimeSemantics => JsString("RuntimeSemantics")
+      case StaticSemantics => JsString("StaticSemantics")
+      case Method => JsString("Method")
+    }
+  }
   implicit lazy val StepFormat = jsonFormat1(Step)
   implicit lazy val ValueFormat = jsonFormat1(Value)
   implicit lazy val IdFormat = jsonFormat1(Id)
   implicit lazy val StepListFormat = jsonFormat1(StepList)
-  implicit lazy val AlgorithmFormat = jsonFormat3(Algorithm.apply)
+  implicit lazy val AlgorithmFormat = jsonFormat4(Algorithm.apply)
 
   def apply(filename: String): Algorithm = {
     readFile(filename).parseJson.convertTo[Algorithm]
