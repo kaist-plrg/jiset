@@ -243,7 +243,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseExpr(s"IdentifierName")
     } | "the result of evaluating" ~> word ^^ {
       case x => parseExpr(s"(run Evaluation of $x)")
-    } | (opt("the") ~> word <~ "of") ~ word ^^ {
+    } | (opt("the") ~> word <~ "of") ~ (word | id.filter(x => "code" == x || "script" == x)) ^^ {
       case f ~ x => parseExpr(s"(run $f of $x)")
     } | "IsFunctionDefinition of" ~> id ^^ {
       case x => parseExpr(s"(run IsFunctionDefinition of $x)")
