@@ -158,6 +158,10 @@ object Beautifier {
         walk("(? "); walk(ref); walk(")")
       case ETypeOf(expr) =>
         walk("(typeof "); walk(expr); walk(")")
+      case EIsInstanceOf(base, name) =>
+        walk("(is-instance-of "); walk(base); walk(" "); walk(name); walk(")")
+      case EGetSyntax(base) =>
+        walk("(get-syntax "); walk(base); walk(")")
       case ENotYetImpl(msg) =>
         walk("??? \""); walk(msg); walk("\"")
     }

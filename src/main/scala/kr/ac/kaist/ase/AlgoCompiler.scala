@@ -331,7 +331,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
       case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
     } | ("the result of applying the multiplicativeoperator" <~ rest) ^^ {
-      case _ => parseExpr(s"( MulOperation (run toString of MultiplicativeOperator) lnum rnum)")
+      case _ => parseExpr(s"( MulOperation (get-syntax MultiplicativeOperator) lnum rnum)")
     }
 
   // reference expressions
@@ -365,7 +365,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
       case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
     } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
-      case e => EUOp(ONot, EBOp(OOr, ERun(e, "isInstanceOf", List(EStr("ObjectLiteral"))), ERun(e, "isInstanceOf", List(EStr("ArrayLiteral")))))
+      case e => EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
     } | expr <~ "is a data property" ^^ {
       case e => EBOp(OEq, ETypeOf(e), EStr("DataProperty"))
     } | expr <~ "is an object" ^^ {

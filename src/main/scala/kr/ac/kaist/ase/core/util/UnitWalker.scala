@@ -99,6 +99,10 @@ trait UnitWalker {
       walk(ref)
     case ETypeOf(expr) =>
       walk(expr)
+    case EIsInstanceOf(base, name) =>
+      walk(base); walk(name)
+    case EGetSyntax(base) =>
+      walk(base)
     case ENotYetImpl(msg) =>
       walk(msg)
   }

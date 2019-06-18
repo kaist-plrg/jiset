@@ -18,6 +18,7 @@ object ASTGenerator {
       nf.println
       nf.println(s"""import kr.ac.kaist.ase.core._""")
       nf.println(s"""import kr.ac.kaist.ase.error.UnexpectedSemantics""")
+      nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
       nf.println
       nf.println(s"""trait $name extends AST""")
       rhsList.zipWithIndex.foreach {
@@ -38,28 +39,21 @@ object ASTGenerator {
               nf.println(s"""  override def toString: String = {""")
               nf.println(s"""    s"$string"""")
               nf.println(s"""  }""")
+              nf.println(s"""  def getNames: SSet[String] = (list match {""")
+              nf.println(s"""    case List(ASTVal(ast)) => ast.getNames""")
+              nf.println(s"""    case _ => SSet()""")
+              nf.println(s"""  }) ++ SSet("$name")""")
               nf.println(s"""  val k: Int = ${("0" /: params) { case (str, (x, _)) => s"d($x, $str)" }}""")
               nf.println(s"""  val list: List[Value] = ${("Nil" /: params) { case (str, (x, _)) => s"l($x, $str)" }}.reverse""")
               nf.println(s"""  def semantics(name: String): (Func, List[Value]) = {""")
-              nf.println(s"""    if (name == "isInstanceOf") {""")
-              nf.println(s"""      """ + (t0 match {
-                case "String" => s"""(Func("isInstanceOf", List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)"""
-                case _ if isNTs && (t0 startsWith "Option[") => s"""(Func("isInstanceOf", List(Id("x0"), Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(ERun(ERef(RefId(Id("x0"))), "isInstanceOf", List(ERef(RefId(Id("name")))))))), l($x0, Nil))""" // TODO : maybe Error when x0 is None
-                case _ if isNTs && (rest.forall { case (x, t) => t startsWith "Option[" }) => s"""(Func("isInstanceOf", List(Id("x0"), Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(ERun(ERef(RefId(Id("x0"))), "isInstanceOf", List(ERef(RefId(Id("name")))))))), l($x0, Nil))"""
-                case _ => s"""(Func("isInstanceOf", List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)"""
-              }))
-              nf.println(s"""    } else if (name == "toString") {""")
-              nf.println(s"""      (Func("toString", List(), IReturn(EStr(toString))), Nil)""")
-              nf.println(s"""    } else {""")
-              nf.println(s"""      $name$i.semMap.get(name + k.toString) match {""")
-              nf.println(s"""        case Some(f) => (f, list)""")
-              nf.println(s"""        case None => """ + (t0 match {
+              nf.println(s"""    $name$i.semMap.get(name + k.toString) match {""")
+              nf.println(s"""      case Some(f) => (f, list)""")
+              nf.println(s"""      case None => """ + (t0 match {
                 case "String" => s"""throw UnexpectedSemantics("$name$i." + name)"""
                 case _ if t0 startsWith "Option[" => s"$x0.get.semantics(name)"
                 case _ if rest.forall { case (x, t) => t startsWith "Option[" } => s"$x0.semantics(name)"
                 case _ => s"""throw UnexpectedSemantics("$name$i." + name)"""
               }))
-              nf.println(s"""      }""")
               nf.println(s"""    }""")
               nf.println(s"""  }""")
               nf.println(s"""}""")
@@ -69,16 +63,11 @@ object ASTGenerator {
               nf.println(s"""  override def toString: String = {""")
               nf.println(s"""    s"$string"""")
               nf.println(s"""  }""")
+              nf.println(s"""  def getNames: SSet[String] = SSet("$name")""")
               nf.println(s"""  def semantics(name: String): (Func, List[Value]) = {""")
-              nf.println(s"""    if (name == "isInstanceOf") {""")
-              nf.println(s"""      (Func("isInstanceOf", List(Id("name")) , IIf(EBOp(OEq, ERef(RefId(Id("name"))), EStr("$name")), IReturn(EBool(true)), IReturn(EBool(false)))), Nil)""")
-              nf.println(s"""    } else if (name == "toString") {""")
-              nf.println(s"""      (Func("toString", List(), IReturn(EStr(toString))), Nil)""")
-              nf.println(s"""    } else {""")
-              nf.println(s"""      semMap.get(name + "0") match {""")
-              nf.println(s"""        case Some(f) => (f, Nil)""")
-              nf.println(s"""        case None => throw UnexpectedSemantics("$name$i." + name)""")
-              nf.println(s"""      }""")
+              nf.println(s"""    semMap.get(name + "0") match {""")
+              nf.println(s"""      case Some(f) => (f, Nil)""")
+              nf.println(s"""      case None => throw UnexpectedSemantics("$name$i." + name)""")
               nf.println(s"""    }""")
               nf.println(s"""  }""")
           }
@@ -117,9 +106,11 @@ object ASTGenerator {
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println
     nf.println(s"""import kr.ac.kaist.ase.core._""")
+    nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
     nf.println
     nf.println(s"""trait AST {""")
     nf.println(s"""  def semantics(name: String): (Func, List[Value])""")
+    nf.println(s"""  def getNames: SSet[String]""")
     nf.println(s"""  protected def d(x: Any, n: Int): Int = x match {""")
     nf.println(s"""    case Some(_) => 2 * n + 1""")
     nf.println(s"""    case None => 2 * n""")

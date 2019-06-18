@@ -173,6 +173,14 @@ object Interp {
         case ASTVal(_) => Str("AST")
       }, s0)
     }
+    case EIsInstanceOf(base, name) => interp(base)(st) match {
+      case (ASTVal(ast), s0) => (Bool(ast.getNames contains name), s0)
+      case v => error(s"not an AST value: $v")
+    }
+    case EGetSyntax(base) => interp(base)(st) match {
+      case (ASTVal(ast), s0) => (Str(ast.toString), s0)
+      case v => error(s"not an AST value: $v")
+    }
     case ENotYetImpl(msg) => error(s"[NotYetImpl]:${st.context}: $msg")
   }
 

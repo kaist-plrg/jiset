@@ -80,6 +80,8 @@ trait Walker {
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case EExist(ref) => EExist(walk(ref))
     case ETypeOf(expr) => ETypeOf(walk(expr))
+    case EIsInstanceOf(base, name) => EIsInstanceOf(walk(base), walk(name))
+    case EGetSyntax(base) => EGetSyntax(walk(base))
     case ENotYetImpl(msg) => ENotYetImpl(walk(msg))
   }
 

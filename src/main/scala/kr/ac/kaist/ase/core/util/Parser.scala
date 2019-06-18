@@ -108,6 +108,10 @@ object Parser extends JavaTokenParsers with RegexParsers {
         case name ~ id => ERun(id, name, Nil)
       } |
       ("(" ~> "pop" ~> expr <~ ")") ^^ { case e => EPop(e) } |
+      ("(" ~> "is-instance-of" ~> expr) ~ (ident <~ ")") ^^ {
+        case e ~ x => EIsInstanceOf(e, x)
+      } |
+      "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
       "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
       ref ^^ { ERef(_) }
   }

@@ -33,7 +33,7 @@ class AlgoCompilerTest extends ASETest {
     if (jsonFilter(filename)) {
       lazy val name = file.toString
       lazy val algo = Algorithm(name)
-      lazy val func = AlgoCompiler("", algo)
+      lazy val func = AlgoCompiler("", algo).result
       test(s"[AlgoCompiler] $filename") { algoCompilerTest(func) }
     }
   }

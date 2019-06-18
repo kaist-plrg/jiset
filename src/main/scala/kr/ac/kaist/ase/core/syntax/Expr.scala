@@ -29,6 +29,10 @@ case class EUOp(uop: UOp, expr: Expr) extends Expr
 case class EBOp(bop: BOp, left: Expr, right: Expr) extends Expr
 case class EExist(ref: Ref) extends Expr
 case class ETypeOf(expr: Expr) extends Expr
+case class EIsInstanceOf(base: Expr, name: String) extends Expr {
+  override def toString: String = s"""EIsInstanceOf($base, "$name")"""
+}
+case class EGetSyntax(base: Expr) extends Expr
 case class ENotYetImpl(msg: String) extends Expr {
   override def toString: String = s"""ENotYetImpl("$msg")"""
 }
