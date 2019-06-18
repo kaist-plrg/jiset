@@ -3,11 +3,11 @@ package kr.ac.kaist.ase.model
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.parser.TokenParsers
-import kr.ac.kaist.ase.algorithm.{ Algorithm, Token }
+import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, RuntimeSemantics }
 
-object AlgoCompiler extends TokenParsers {
-  def apply(name: String, algo: Algorithm): Func = Func(
-    name = name,
+case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers {
+  def result: Func = Func(
+    name = algoName,
     params = algo.params.map(Id(_)),
     body = ISeq(parseAll(stmts, algo.toTokenList) match {
       case Success(res, _) => res
@@ -66,13 +66,23 @@ object AlgoCompiler extends TokenParsers {
   // return statements
   lazy val returnStmt =
     "return" ~> ("!" | "?") ~> expr ^^ {
-      case e => ISeq(List(
-        ILet(tempId, e),
-        returnIfAbrupt(temp),
-        IReturn(ERef(RefId(tempId)))
-      ))
+      case e => algo.kind match {
+        case RuntimeSemantics => ISeq(List(
+          ILet(tempId, e),
+          returnIfAbrupt(temp),
+          IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(ERef(RefId(tempId)))))
+        ))
+        case _ => ISeq(List(
+          ILet(tempId, e),
+          returnIfAbrupt(temp),
+          IReturn(ERef(RefId(tempId)))
+        ))
+      }
     } | "return" ~> expr ^^ {
-      case e => IReturn(e)
+      case e => algo.kind match {
+        case RuntimeSemantics => IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(e)))
+        case _ => IReturn(e)
+      }
     }
 
   // let statements
