@@ -332,6 +332,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
     } | ("the result of applying the multiplicativeoperator" <~ rest) ^^ {
       case _ => parseExpr(s"( MulOperation (run toString of MultiplicativeOperator) lnum rnum)")
+    } | ("the result of applying the subtraction operation to" <~ rest) ^^ {
+      case _ => EBOp(OSub, ERef(RefId(Id("lnum"))), ERef(RefId(Id("rnum"))))
     }
 
   // reference expressions
