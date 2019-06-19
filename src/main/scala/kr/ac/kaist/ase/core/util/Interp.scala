@@ -225,6 +225,7 @@ object Interp {
     // logical operations
     case (OAnd, Bool(l), Bool(r)) => Bool(l && r)
     case (OOr, Bool(l), Bool(r)) => Bool(l || r)
+    case (OXor, Bool(l), Bool(r)) => Bool(l ^ r)
 
     // equality operations
     case (OEq, l, r) => Bool(l == r)

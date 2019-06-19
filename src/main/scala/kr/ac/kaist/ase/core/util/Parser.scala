@@ -148,6 +148,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "=" ^^^ OEq |
       "&&" ^^^ OAnd |
       "||" ^^^ OOr |
+      "^^" ^^^ OXor |
       "&" ^^^ OBAnd |
       "|" ^^^ OBOr |
       "^" ^^^ OBXOr |

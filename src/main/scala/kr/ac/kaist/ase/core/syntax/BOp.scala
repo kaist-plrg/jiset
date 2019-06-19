@@ -11,6 +11,7 @@ case object OLt extends BOp
 case object OEq extends BOp
 case object OAnd extends BOp
 case object OOr extends BOp
+case object OXor extends BOp
 case object OBAnd extends BOp
 case object OBOr extends BOp
 case object OBXOr extends BOp

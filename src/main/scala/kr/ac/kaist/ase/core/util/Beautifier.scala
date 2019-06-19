@@ -194,6 +194,7 @@ object Beautifier {
       case OEq => "="
       case OAnd => "&&"
       case OOr => "||"
+      case OXor => "^^"
       case OBAnd => "&"
       case OBOr => "|"
       case OBXOr => "^"
