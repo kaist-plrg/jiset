@@ -141,7 +141,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // if-then-else statements
   lazy val ifStmt =
-    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";") ~> opt(next) ~>
+    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";" | ",") ~> opt(next) ~>
       ("else" | "otherwise") ~> opt((
         name ~ "must be" ~ rep(not(",") ~ text)
       ) |
@@ -231,8 +231,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e => IAssign(RefId(Id(context)), e)
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
       parseInst(s"""return (ScriptEvaluationJob script hostDefined)""")
-    } | "If the code matching the syntactic production that is being evaluated" ~ rest ^^^ {
-      parseInst(s"let strict = false")
     } | "if the host requires use of an exotic object" ~ rest ^^^ {
       parseInst("let global = undefined")
     } | "if the host requires that the" ~ rest ^^^ {
@@ -289,7 +287,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // AST semantics
   lazy val astExpr =
-    "the stringvalue of identifiername" ^^^ {
+    opt("the") ~ "stringvalue of identifiername" ^^^ {
       parseExpr(s"IdentifierName")
     } | "the result of evaluating" ~> astWord ^^ {
       case x => parseExpr(s"(run Evaluation of $x)")
@@ -409,7 +407,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: Parser[Expr] =
-    (id <~ "is not present") ~ subCond ^^ {
+(("the code matched by this" ~> word <~ "is strict mode code") |
+"the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
+  EBool(false) // TODO : support strict mode code
+} |  (id <~ "is not present") ~ subCond ^^ {
       case x ~ f => f(EUOp(ONot, EExist(RefId(Id(x)))))
     } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
       case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
@@ -421,6 +422,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       EBool(false) // TODO fix
     } | (ref <~ "does not have an own property with key") ~ expr ^^ {
       case r ~ p => EUOp(ONot, EExist(RefProp(RefProp(r, EStr("SubMap")), p)))
+    } | (ref <~ "has a") ~ word <~ "component" ^^ {
+      case r ~ n => EExist(RefProp(r, EStr(n)))
     } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
       case r ~ p => EExist(RefProp(RefProp(r, EStr("SubMap")), p))
     } | (expr <~ "is not") ~ expr ~ subCond ^^ {
@@ -442,7 +445,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | expr <~ "is an object" ^^ {
       case e => EBOp(OEq, ETypeOf(e), EStr("OrdinaryObject"))
     } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
-      case c1 ~ c2 => EBOp(OAnd, c1, c2)
+      case c1 ~ c2 => EBOp(OOr, c1, c2)
     } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
       case e => EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number"))))) // TODO : remove side effect
     } | "every field in" ~> id <~ "is absent" ^^ {
