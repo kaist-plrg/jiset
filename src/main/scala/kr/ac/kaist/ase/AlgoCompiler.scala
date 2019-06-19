@@ -8,12 +8,29 @@ import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, RuntimeSemantics }
 case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers {
   def result: Func = Func(
     name = algoName,
-    params = algo.params.map(Id(_)),
+    params = handleDuplicate(algo.params).map(Id(_)),
     body = ISeq(parseAll(stmts, algo.toTokenList) match {
       case Success(res, _) => res
       case NoSuccess(_, reader) => error(s"[AlgoCompiler]:${algo.filename}: $reader")
     })
   )
+
+  def handleDuplicate(l: List[String]): List[String] = {
+    def aux(scnt: Map[String, Int], lprev: List[String], lnext: List[String]): List[String] = lnext match {
+      case Nil => lprev
+      case s :: rest => {
+        scnt.lift(s) match {
+          case Some(n) => aux(scnt.updated(s, n + 1), lprev :+ (s + n.toString), rest)
+          case None => if (rest contains s) {
+            aux(scnt.updated(s, 1), lprev :+ (s + "0"), rest)
+          } else {
+            aux(scnt, lprev :+ s, rest)
+          }
+        }
+      }
+    }
+    aux(Map(), Nil, l)
+  }
 
   def parseStmt(tokens: List[Token]): Inst = parseAll(stmt, tokens).get
 
@@ -87,7 +104,20 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // let statements
   lazy val letStmt =
-    ("let" ~> id <~ "be") ~ expr ^^ {
+    ("let" ~> id <~ "be") ~ ("?" ~> word <~ "(") ~ ("?" ~> expr <~ ")") ^^ {
+      case x ~ n ~ e => ISeq(List(
+        ILet(tempId, e),
+        returnIfAbrupt(temp),
+        ILet(Id(x), EApp(ERef(RefId(Id(n))), List(ERef(RefId(tempId))))),
+        returnIfAbrupt((x))
+      ))
+    } | ("let" ~> id <~ "be") ~ (word <~ "(") ~ ("?" ~> expr <~ ")") ^^ {
+      case x ~ n ~ e => ISeq(List(
+        ILet(tempId, e),
+        returnIfAbrupt(temp),
+        ILet(Id(x), EApp(ERef(RefId(Id(n))), List(ERef(RefId(tempId)))))
+      ))
+    } | ("let" ~> id <~ "be") ~ expr ^^ {
       case x ~ e => ILet(Id(x), e)
     } | ("let" ~> id <~ "be") ~ ("?" ~> expr) ^^ {
       case x ~ e => ISeq(List(
@@ -139,6 +169,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case _ => emptyInst
     } | ("set" ~> ref) ~ ("to" ~> expr) ^^ {
       case r ~ e => IAssign(r, e)
+    } | ("set" ~> ref) ~ ("to" ~> "?" ~> expr) ^^ {
+      case r ~ e => ISeq(List(
+        ILet(tempId, e),
+        returnIfAbrupt(temp),
+        IAssign(r, ERef(RefId(tempId)))
+      ))
     }
 
   // create statements
