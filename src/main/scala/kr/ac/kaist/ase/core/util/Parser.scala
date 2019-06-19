@@ -113,6 +113,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
         case e ~ x => EIsInstanceOf(e, x)
       } |
       "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
+      "(" ~> "contains" ~> expr ~ expr <~ ")" ^^ { case l ~ e => EContains(l, e) } |
       "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
       ref ^^ { ERef(_) }
   }

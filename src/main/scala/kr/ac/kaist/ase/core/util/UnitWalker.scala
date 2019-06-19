@@ -105,6 +105,8 @@ trait UnitWalker {
       walk(base); walk(name)
     case EGetSyntax(base) =>
       walk(base)
+    case EContains(list, elem) =>
+      walk(list); walk(elem)
     case ENotYetImpl(msg) =>
       walk(msg)
   }

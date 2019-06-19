@@ -191,8 +191,19 @@ object Interp {
     }
     case EGetSyntax(base) => interp(base)(st) match {
       case (ASTVal(ast), s0) => (Str(ast.toString), s0)
-      case v => error(s"not an AST value: $v")
+      case (v, s0) => error(s"not an AST value: $v")
     }
+    case EContains(list, elem) =>
+      val (l, s0) = interp(list)(st)
+      l match {
+        case (addr: Addr) => s0.heap(addr) match {
+          case CoreList(vs) =>
+            val (v, s1) = interp(elem)(st)
+            (Bool(vs contains v), s1)
+          case obj => error(s"not a list: $obj")
+        }
+        case v => error(s"not an address: $v")
+      }
     case ENotYetImpl(msg) => error(s"[NotYetImpl]:${st.context}: $msg")
   }
 

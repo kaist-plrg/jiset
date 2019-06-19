@@ -83,6 +83,7 @@ trait Walker {
     case ETypeOf(expr) => ETypeOf(walk(expr))
     case EIsInstanceOf(base, name) => EIsInstanceOf(walk(base), walk(name))
     case EGetSyntax(base) => EGetSyntax(walk(base))
+    case EContains(list, elem) => EContains(walk(list), walk(elem))
     case ENotYetImpl(msg) => ENotYetImpl(walk(msg))
   }
 

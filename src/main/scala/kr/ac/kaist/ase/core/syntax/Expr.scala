@@ -33,6 +33,7 @@ case class EIsInstanceOf(base: Expr, name: String) extends Expr {
   override def toString: String = s"""EIsInstanceOf($base, "$name")"""
 }
 case class EGetSyntax(base: Expr) extends Expr
+case class EContains(list: Expr, elem: Expr) extends Expr
 case class ENotYetImpl(msg: String) extends Expr {
   override def toString: String = s"""ENotYetImpl("$msg")"""
 }
