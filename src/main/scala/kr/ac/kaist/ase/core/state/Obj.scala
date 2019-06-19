@@ -14,7 +14,7 @@ case class Singleton(name: String) extends Obj {
 // CORE CoreMap
 case class CoreMap(ty: Ty, props: Map[Value, Value]) extends Obj {
   // existence check
-  def contains(prop: Value): Boolean = this(prop) == Absent
+  def contains(prop: Value): Boolean = !(this(prop) == Absent)
 
   // getters
   def apply(prop: Value): Value = props.getOrElse(prop, Absent)
