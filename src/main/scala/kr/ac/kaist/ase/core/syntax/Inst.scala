@@ -10,6 +10,7 @@ case class IPush(expr: Expr, list: Expr) extends Inst
 case class IReturn(expr: Expr) extends Inst
 case class IIf(cond: Expr, thenInst: Inst, elseInst: Inst) extends Inst
 case class IWhile(cond: Expr, body: Inst) extends Inst
+case class IForeach(id: Id, expr: Expr, body: Inst, i: Int) extends Inst
 case class ISeq(insts: List[Inst]) extends Inst
 case class IAssert(expr: Expr) extends Inst
 case class IPrint(expr: Expr) extends Inst

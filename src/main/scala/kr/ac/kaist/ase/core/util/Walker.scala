@@ -58,6 +58,7 @@ trait Walker {
     case IReturn(expr) => IReturn(walk(expr))
     case IIf(cond, thenInst, elseInst) => IIf(walk(cond), walk(thenInst), walk(elseInst))
     case IWhile(cond, body) => IWhile(walk(cond), walk(body))
+    case IForeach(id, expr, body, i) => IForeach(walk(id), walk(expr), walk(body), i)
     case ISeq(insts) => ISeq(walkList[Inst](insts, walk))
     case IAssert(expr) => IAssert(walk(expr))
     case IPrint(expr) => IPrint(walk(expr))

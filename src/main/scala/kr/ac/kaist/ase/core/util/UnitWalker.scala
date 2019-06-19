@@ -66,6 +66,8 @@ trait UnitWalker {
       walk(cond); walk(thenInst); walk(elseInst)
     case IWhile(cond, body) =>
       walk(cond); walk(body)
+    case IForeach(id, expr, body, i) =>
+      walk(id); walk(expr); walk(body);
     case ISeq(insts) =>
       walkList[Inst](insts, walk)
     case IAssert(expr) =>

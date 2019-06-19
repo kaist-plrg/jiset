@@ -54,6 +54,7 @@ object Interp {
           case Bool(false) => s0
           case v => error(s"not a boolean: $v")
         }
+      case IForeach(id, expr, body, i) => ???
       case ISeq(newInsts) => st.copy(insts = newInsts ++ st.insts)
       case IAssert(expr) =>
         val (v, s0) = interp(expr)(st)
