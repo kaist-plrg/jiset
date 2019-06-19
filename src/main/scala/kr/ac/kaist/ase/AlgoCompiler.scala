@@ -285,6 +285,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     case "null" => ENull
     case "true" => EBool(true)
     case "false" => EBool(false)
+    case "NaN" => ENum(Double.NaN)
+    case "+0" => ENum(0.0)
+    case "-0" => ENum(-0.0)
     case "undefined" => EUndef
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case const @ ("empty" | "throw" | "normal") => ERef(RefId(Id(const.replaceAll("-", ""))))
@@ -450,7 +453,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e => EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number"))))) // TODO : remove side effect
     } | "every field in" ~> id <~ "is absent" ^^ {
       case x => EBOp(OEq, ERef(RefId(Id(x))), EMap(Ty("PropertyDescriptor"), List()))
-    } | (expr <~ ("is" ||| "is the same as")) ~ expr ~ subCond ^^ {
+    } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
       case l ~ r ~ f => f(EBOp(OEq, l, r))
     }
 
