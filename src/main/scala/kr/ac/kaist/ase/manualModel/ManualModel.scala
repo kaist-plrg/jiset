@@ -4,6 +4,7 @@ import kr.ac.kaist.ase.core._
 
 object ManualModel {
   lazy val initGlobal: Map[Id, Value] = Map(
+    Id("RequireObjectCoercible") -> RequireObjectCoercible.func,
     Id("ToNumber") -> ToNumber.func,
     Id("ToBoolean") -> ToBoolean.func,
     Id("MulOperation") -> MulOperation.func,
