@@ -242,7 +242,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "parse" ~ id ~ "using script as the goal symbol and analyse the parse result for any early Error conditions" ~ rest ^^^ {
       parseInst(s"""let body = script""")
     } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
-      parseInst(s"""if (is-instance-of Statement LabelledStatement) return (run TopLevelVarDeclaredNames of Statement) else {}""")
+      parseInst(s"""if (is-instance-of Statement LabelledStatement) return Statement.TopLevelVarDeclaredNames else {}""")
     }
 
   // ignore statements
@@ -262,7 +262,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val expr: Parser[Expr] =
     etcExpr |
       valueExpr |
-      astExpr |
       completionExpr |
       callExpr |
       newExpr |
@@ -286,25 +285,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     case err @ ("TypeError" | "ReferenceError") => EMap(Ty(err), Nil)
     case s => etodo(s)
   }
-
-  // AST semantics
-  lazy val astExpr =
-    "the stringvalue of identifiername" ^^^ {
-      parseExpr(s"IdentifierName")
-    } | "the result of evaluating" ~> astWord ^^ {
-      case x => parseExpr(s"(run Evaluation of $x)")
-    } | (opt("the") ~> word <~ "of") ~ (astWord | id.filter(x => "code" == x || "script" == x)) ^^ {
-      case f ~ x => parseExpr(s"(run $f of $x)")
-    } | "IsFunctionDefinition of" ~> id ^^ {
-      case x => parseExpr(s"(run IsFunctionDefinition of $x)")
-    }
-
-  lazy val astWord =
-    "the first" ~> word ^^ {
-      case x => x + "0"
-    } | "the second" ~> word ^^ {
-      case x => x + "1"
-    } | word
 
   // completion expressions
   lazy val completionExpr =
@@ -384,7 +364,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
       case x => ERef(RefId(Id(x)))
     } | "the number whose value is MV of" ~> name <~ rest ^^ {
-      case x => parseExpr(s"(run StringToNumber of $x)")
+      case x => parseExpr(s"$x.toNumber")
     } | ("the" ~> id <~ "flag of") ~ id ^^ {
       case e1 ~ e2 if e1 == "withEnvironment" => EBool(false) // TODO : support withEnvironment flag in Object Environment
     } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
@@ -494,8 +474,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => parseRef(s"$x.BindingObject")
     } | ("the value of") ~> ref ^^ {
       case r => r
-    } | ("the" ~> name <~ "of") ~ ref ^^ {
-      case x ~ r => RefProp(r, EStr(x))
+    } | "the stringvalue of identifiername" ^^^ {
+      parseRef(s"IdentifierName")
+    } | "the result of evaluating" ~> astWord ^^ {
+      case x => parseRef(s"$x.Evaluation")
+    } | "IsFunctionDefinition of" ~> id ^^ {
+      case x => parseRef(s"$x.IsFunctionDefinition")
+    } | (opt("the") ~> name <~ "of") ~ name ^^ {
+      case x ~ y => parseRef(s"$y.$x")
     } | (name <~ "'s own property whose key is") ~ expr ^^ {
       case r ~ p => RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), p)
     } | (name <~ "'s") ~ name <~ opt("attribute") ^^ {
@@ -505,6 +491,13 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (r, e) => RefProp(r, e)
       }
     }
+
+  lazy val astWord =
+    "the first" ~> word ^^ {
+      case x => x + "0"
+    } | "the second" ~> word ^^ {
+      case x => x + "1"
+    } | word
 
   ////////////////////////////////////////////////////////////////////////////////
   // Fields

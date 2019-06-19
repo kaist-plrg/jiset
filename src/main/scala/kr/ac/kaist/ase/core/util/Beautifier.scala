@@ -146,10 +146,6 @@ object Beautifier {
         else walk("...")
       case EApp(fun, args) =>
         walk("("); walk(fun); walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
-      case ERun(id, name, args) =>
-        walk("(run "); walk(name); walk(" of "); walk(id);
-        if (args.length > 0) { walk(" with "); walkListSep[Expr](args, ", ", walk); }
-        walk(")")
       case EUOp(uop, expr) =>
         walk("("); walk(uop); walk(" "); walk(expr); walk(")")
       case EBOp(bop, left, right) =>
@@ -252,6 +248,7 @@ object Beautifier {
     // values
     override def walk(v: Value): Unit = v match {
       case addr: Addr => walk(addr)
+      case ast: ASTVal => walk(ast)
       case Func(name, params, body) =>
         walk(name); walk(" ("); walkListSep[Id](params, ", ", walk)
         walk(") => "); walk(body)
@@ -262,7 +259,6 @@ object Beautifier {
       case Undef => walk("undefined")
       case Null => walk("null")
       case Absent => walk("absent")
-      case ASTVal(ast) => walk(s"$ast")
     }
 
     // addresses
@@ -271,11 +267,18 @@ object Beautifier {
       case DynamicAddr(long) => walk(s"#addr($long)")
     }
 
+    // AST values
+    override def walk(ast: ASTVal): Unit = walk(s"${ast.ast}")
+
     // properties
     override def walk(refV: RefValue): Unit = refV match {
       case RefValueId(id) => walk(id)
       case RefValueProp(addr, value) =>
         walk(addr); walk("[\""); walk(value); walk("\"]")
+      case RefValueAST(ast, name) =>
+        walk(ast); walk("."); walk(name)
+      case RefValueToNumber(s) =>
+        walk(s); walk(".toNumber")
     }
   }
 }

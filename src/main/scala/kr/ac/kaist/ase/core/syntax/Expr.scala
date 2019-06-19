@@ -25,9 +25,6 @@ case class EPop(list: Expr) extends Expr
 case class ERef(ref: Ref) extends Expr
 case class EFunc(params: List[Id], body: Inst) extends Expr
 case class EApp(fexpr: Expr, args: List[Expr]) extends Expr
-case class ERun(astExpr: Expr, name: String, args: List[Expr]) extends Expr {
-  override def toString: String = s"""ERun($astExpr, "$name", $args)"""
-}
 case class EUOp(uop: UOp, expr: Expr) extends Expr
 case class EBOp(bop: BOp, left: Expr, right: Expr) extends Expr
 case class EExist(ref: Ref) extends Expr

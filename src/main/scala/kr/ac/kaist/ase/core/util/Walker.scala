@@ -75,7 +75,6 @@ trait Walker {
     case ERef(ref) => ERef(walk(ref))
     case EFunc(params, body) => EFunc(walkList[Id](params, walk), walk(body))
     case EApp(fexpr, args) => EApp(walk(fexpr), walkList[Expr](args, walk))
-    case ERun(ref, name, args) => ERun(walk(ref), walk(name), walkList[Expr](args, walk))
     case EUOp(uop, expr) => EUOp(walk(uop), walk(expr))
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case EExist(ref) => EExist(walk(ref))
@@ -139,16 +138,22 @@ trait Walker {
   // values
   def walk(value: Value): Value = value match {
     case addr: Addr => walk(addr)
+    case ast: ASTVal => walk(ast)
     case Func(name, params, body) => Func(walk(name), walkList[Id](params, walk), walk(body))
-    case Num(_) | ASTVal(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent => value
+    case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent => value
   }
 
   // addresses
   def walk(addr: Addr): Addr = addr
 
+  // AST values
+  def walk(ast: ASTVal): ASTVal = ast
+
   // reference values
   def walk(refV: RefValue): RefValue = refV match {
     case RefValueId(id) => RefValueId(walk(id))
     case RefValueProp(addr, value) => RefValueProp(walk(addr), walk(value))
+    case RefValueAST(ast, name) => RefValueAST(walk(ast), walk(name))
+    case RefValueToNumber(s) => RefValueToNumber(walk(s))
   }
 }

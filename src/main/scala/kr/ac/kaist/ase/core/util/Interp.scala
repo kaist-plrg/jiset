@@ -104,7 +104,7 @@ object Interp {
       }
     case ERef(ref) =>
       val (refV, s0) = interp(ref)(st)
-      (s0(refV), s0)
+      s0(refV)
     case EFunc(params, body) =>
       (Func("<empty>", params, body), st)
     case EApp(fexpr, args) =>
@@ -124,31 +124,6 @@ object Interp {
           }
         case v => error(s"not a function: $v")
       }
-    case ERun(expr, name, args) => {
-      val (v, s0) = interp(expr)(st)
-      v match {
-        case ASTVal(ast) => {
-          val (Func(fname, params, body), lst) = ast.semantics(name)
-          val (nlst, s1) = ((lst.reverse, s0) /: args) {
-            case ((lst, st), arg) =>
-              val (av, s0) = interp(arg)(st)
-              (av :: lst, s0)
-          }
-          val (locals, _) = ((Map[Id, Value](), nlst.reverse) /: params) {
-            case ((map, arg :: rest), param) =>
-              (map + (param -> arg), rest)
-            case (pair, _) => pair
-          }
-          val newSt = fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
-          newSt.retValue match {
-            case Some(v) => (v, s1.copy(heap = newSt.heap, globals = newSt.globals))
-            case None => error(s"no return value")
-          }
-        }
-        case Str(s) if name == "StringToNumber" => (Num(s.toDouble), st)
-        case v => error(s"not an AST value: $v")
-      }
-    }
     case EUOp(uop, expr) =>
       val (v, s0) = interp(expr)(st)
       (interp(uop)(v), s0)
@@ -200,12 +175,14 @@ object Interp {
     case RefId(id) => (RefValueId(id), st)
     case RefProp(ref, expr) =>
       val (refV, s0) = interp(ref)(st)
-      s0(refV) match {
-        case addr: Addr =>
-          val (v, s1) = interp(expr)(s0)
-          (RefValueProp(addr, v), s1)
+      val (base, s1) = s0(refV)
+      val (p, s2) = interp(expr)(s1)
+      ((base, p) match {
+        case (addr: Addr, p) => RefValueProp(addr, p)
+        case (ast: ASTVal, Str(name)) => RefValueAST(ast, name)
+        case (Str(s), Str("toNumber")) => RefValueToNumber(s)
         case v => error(s"not an address: $v")
-      }
+      }, s2)
   }
 
   // unary operators

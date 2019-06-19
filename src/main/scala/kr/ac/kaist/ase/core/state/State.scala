@@ -10,14 +10,34 @@ case class State(
     heap: Heap = Heap()
 ) extends CoreNode {
   // existence check
-  def contains(refV: RefValue): Boolean = this(refV) != Absent
+  def contains(refV: RefValue): Boolean = refV match {
+    case RefValueId(id) =>
+      (locals contains id) || (globals contains id)
+    case RefValueProp(addr, value) =>
+      heap.contains(addr, value)
+    case _ => error(s"illegal contains check: contains $refV")
+  }
 
   // getters
-  def apply(refV: RefValue): Value = refV match {
+  def apply(refV: RefValue): (Value, State) = refV match {
     case RefValueId(id) =>
-      locals.getOrElse(id, globals.getOrElse(id, Absent))
+      (locals.getOrElse(id, globals.getOrElse(id, Absent)), this)
     case RefValueProp(addr, value) =>
-      heap(addr, value)
+      (heap(addr, value), this)
+    case RefValueAST(astV, name) =>
+      val ASTVal(ast) = astV
+      val (Func(fname, params, body), lst) = ast.semantics(name)
+      val (locals, _) = ((Map[Id, Value](), lst) /: params) {
+        case ((map, arg :: rest), param) =>
+          (map + (param -> arg), rest)
+        case (pair, _) => pair
+      }
+      val newSt = Interp.fixpoint(copy(context = fname, insts = List(body), locals = locals))
+      newSt.retValue match {
+        case Some(v) => (v, copy(heap = newSt.heap, globals = newSt.globals))
+        case None => error(s"no return value")
+      }
+    case RefValueToNumber(s) => (Num(s.toDouble), this)
   }
 
   // initialize local variables
@@ -27,6 +47,7 @@ case class State(
   def updated(refV: RefValue, value: Value): State = refV match {
     case RefValueId(id) => updated(id, value)
     case RefValueProp(addr, key) => updated(addr, key, value)
+    case _ => error(s"illegal reference update: $refV = $value")
   }
   def updated(id: Id, value: Value): State =
     if (locals contains id) copy(locals = locals + (id -> value))
@@ -41,6 +62,7 @@ case class State(
       else copy(globals = globals - id)
     case RefValueProp(addr, prop) =>
       copy(heap = heap.deleted(addr, prop))
+    case _ => error(s"illegal reference delete: delete $refV")
   }
 
   // pushses

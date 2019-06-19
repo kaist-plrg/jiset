@@ -89,8 +89,6 @@ trait UnitWalker {
       walkList[Id](params, walk); walk(body)
     case EApp(fexpr, args) =>
       walk(fexpr); walkList[Expr](args, walk)
-    case ERun(ref, name, args) =>
-      walk(ref); walk(name); walkList[Expr](args, walk)
     case EUOp(uop, expr) =>
       walk(uop); walk(expr)
     case EBOp(bop, left, right) =>
@@ -161,18 +159,26 @@ trait UnitWalker {
   // values
   def walk(v: Value): Unit = v match {
     case addr: Addr => walk(addr)
+    case ast: ASTVal => walk(ast)
     case Func(name, params, body) =>
       walk(name); walkList[Id](params, walk); walk(body)
-    case Num(_) | ASTVal(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent =>
+    case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent =>
   }
 
   // addresses
   def walk(addr: Addr): Unit = {}
+
+  // AST values
+  def walk(ast: ASTVal): Unit = {}
 
   // properties
   def walk(refV: RefValue): Unit = refV match {
     case RefValueId(id) => walk(id)
     case RefValueProp(addr, value) =>
       walk(addr); walk(value)
+    case RefValueAST(ast, name) =>
+      walk(ast); walk(name)
+    case RefValueToNumber(s) =>
+      walk(s)
   }
 }
