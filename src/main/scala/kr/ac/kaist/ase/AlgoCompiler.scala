@@ -429,7 +429,13 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
         case e => EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number"))))) // TODO : remove side effect
       } | "every field in" ~> id <~ "is absent" ^^ {
-        case x => EBOp(OEq, ERef(RefId(Id(x))), EMap(Ty("PropertyDescriptor"), List()))
+        case x => parseExpr(s"""(!
+          (|| (? $x.Value)
+          (|| (? $x.Writable)
+          (|| (? $x.Get)
+          (|| (? $x.Set)
+          (|| (? $x.Enumerable)
+          (? $x.Configurable)))))))""")
       } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
         case l ~ r ~ f => f(EBOp(OEq, l, r))
       }
