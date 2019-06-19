@@ -141,7 +141,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // if-then-else statements
   lazy val ifStmt =
-    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";") ~> opt(next) ~>
+    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";" | ",") ~> opt(next) ~>
       ("else" | "otherwise") ~> opt((
         name ~ "must be" ~ rep(not(",") ~ text)
       ) |
@@ -231,8 +231,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e => IAssign(RefId(Id(context)), e)
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
       parseInst(s"""return (ScriptEvaluationJob script hostDefined)""")
-    } | "If the code matching the syntactic production that is being evaluated" ~ rest ^^^ {
-      parseInst(s"let strict = false")
     } | "if the host requires use of an exotic object" ~ rest ^^^ {
       parseInst("let global = undefined")
     } | "if the host requires that the" ~ rest ^^^ {
@@ -389,47 +387,52 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: Parser[Expr] =
-    (id <~ "is not present") ~ subCond ^^ {
-      case x ~ f => f(EUOp(ONot, EExist(RefId(Id(x)))))
-    } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
-      case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
-    } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
-      case x ~ y => EUOp(ONot, EBOp(OEq, x, y))
-    } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
-      case x ~ y ~ f => f(EBOp(OEq, x, y))
-    } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
-      EBool(false) // TODO fix
-    } | (ref <~ "does not have an own property with key") ~ expr ^^ {
-      case r ~ p => EUOp(ONot, EExist(RefProp(RefProp(r, EStr("SubMap")), p)))
-    } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
-      case r ~ p => EExist(RefProp(RefProp(r, EStr("SubMap")), p))
-    } | (expr <~ "is not") ~ expr ~ subCond ^^ {
-      case l ~ r ~ f => f(EUOp(ONot, EBOp(OEq, l, r)))
-    } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
-      case l ~ r => EBOp(OAnd, EUOp(ONot, EExist(l)), EUOp(ONot, EExist(r)))
-    } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
-      case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
-    } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
-      case e => EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
-    } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
-      case e => EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
-    } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
-      case e => EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))
-    } | "statement is statement : labelledstatement" ^^^ {
-      EIsInstanceOf(ERef(RefId(Id("Statement"))), "LabelledStatement")
-    } | expr <~ "is a data property" ^^ {
-      case e => EBOp(OEq, ETypeOf(e), EStr("DataProperty"))
-    } | expr <~ "is an object" ^^ {
-      case e => EBOp(OEq, ETypeOf(e), EStr("OrdinaryObject"))
-    } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
-      case c1 ~ c2 => EBOp(OAnd, c1, c2)
-    } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
-      case e => EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number"))))) // TODO : remove side effect
-    } | "every field in" ~> id <~ "is absent" ^^ {
-      case x => EBOp(OEq, ERef(RefId(Id(x))), EMap(Ty("PropertyDescriptor"), List()))
-    } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
-      case l ~ r ~ f => f(EBOp(OEq, l, r))
-    }
+    (("the code matched by this" ~> word <~ "is strict mode code") |
+      "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
+        EBool(false) // TODO : support strict mode code
+      } | (id <~ "is not present") ~ subCond ^^ {
+        case x ~ f => f(EUOp(ONot, EExist(RefId(Id(x)))))
+      } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
+        case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
+      } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
+        case x ~ y => EUOp(ONot, EBOp(OEq, x, y))
+      } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
+        case x ~ y ~ f => f(EBOp(OEq, x, y))
+      } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
+        EBool(false) // TODO fix
+      } | (ref <~ "does not have an own property with key") ~ expr ^^ {
+        case r ~ p => EUOp(ONot, EExist(RefProp(RefProp(r, EStr("SubMap")), p)))
+      } | (ref <~ "has a") ~ word <~ "component" ^^ {
+        case r ~ n => EExist(RefProp(r, EStr(n)))
+      } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
+        case r ~ p => EExist(RefProp(RefProp(r, EStr("SubMap")), p))
+      } | (expr <~ "is not") ~ expr ~ subCond ^^ {
+        case l ~ r ~ f => f(EUOp(ONot, EBOp(OEq, l, r)))
+      } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
+        case l ~ r => EBOp(OAnd, EUOp(ONot, EExist(l)), EUOp(ONot, EExist(r)))
+      } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
+        case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
+      } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
+        case e => EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
+      } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
+        case e => EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
+      } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
+        case e => EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))
+      } | "statement is statement : labelledstatement" ^^^ {
+        EIsInstanceOf(ERef(RefId(Id("Statement"))), "LabelledStatement")
+      } | expr <~ "is a data property" ^^ {
+        case e => EBOp(OEq, ETypeOf(e), EStr("DataProperty"))
+      } | expr <~ "is an object" ^^ {
+        case e => EBOp(OEq, ETypeOf(e), EStr("OrdinaryObject"))
+      } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
+        case c1 ~ c2 => EBOp(OOr, c1, c2)
+      } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
+        case e => EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number"))))) // TODO : remove side effect
+      } | "every field in" ~> id <~ "is absent" ^^ {
+        case x => EBOp(OEq, ERef(RefId(Id(x))), EMap(Ty("PropertyDescriptor"), List()))
+      } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
+        case l ~ r ~ f => f(EBOp(OEq, l, r))
+      }
 
   lazy val subCond: Parser[Expr => Expr] =
     "or" ~> opt("if") ~> cond ^^ {
