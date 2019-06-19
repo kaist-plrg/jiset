@@ -77,6 +77,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       createStmt |
       throwStmt |
       whileStmt |
+      forEachStmt |
       etcStmt |
       ignoreStmt
 
@@ -216,16 +217,28 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case c ~ s => IWhile(c, s)
     }
 
+  // for-each statements
+  lazy val forEachStmt =
+    ("for each" ~> id) ~ ("in" ~> expr <~ ", do") ~ stmt ^^ {
+      case x ~ e ~ i => IForeach(Id(x), e, i, 0)
+    } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
+      case x ~ e ~ i => parseInst(s"""{
+        let list = ${beautify(e)}
+        let i = list.length
+        while (< i0 i) {
+          i = (- i i1)
+          let $x = list[i]
+          ${beautify(i)}
+        }
+      }""")
+    }
+
   // et cetera statements
   lazy val etcStmt =
-    "push" ~> expr <~ "onto the execution context stack" ~ rest ^^ {
+    "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
       case e => IAssign(RefId(Id(context)), e)
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
-      parseInst(s"""{
-        context.VariableEnvironment = context.Realm.GlobalEnv
-        context.LexicalEnvironment = context.Realm.GlobalEnv
-        return (run Evaluation of script)
-      }""")
+      parseInst(s"""return (ScriptEvaluationJob script hostDefined)""")
     } | "If the code matching the syntactic production that is being evaluated" ~ rest ^^^ {
       parseInst(s"let strict = false")
     } | "if the host requires use of an exotic object" ~ rest ^^^ {
@@ -234,6 +247,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseInst("let thisValue = undefined")
     } | "for each field of" ~ rest ^^^ {
       parseInst(s"""O.SubMap[P].Value = Desc.Value""") // TODO: move each field of record at ValidateAndApplyPropertyDescriptor
+    } | "parse" ~ id ~ "using script as the goal symbol and analyse the parse result for any early Error conditions" ~ rest ^^^ {
+      parseInst(s"""let body = script""")
+    } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
+      parseInst(s"""if (is-instance-of Statement LabelledStatement) return (run TopLevelVarDeclaredNames of Statement) else {}""")
     }
 
   // ignore statements
@@ -242,7 +259,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "set fields of" |
     "for each property of the global object" | // TODO : set global object properties
     "create any implementation-defined" |
-    "no further validation is required" // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
+    "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
+    "if" ~ id ~ "is a List of errors," |
+    "suspend the currently running execution context ." // TODO : should be re-considered.
   ) ~ rest ^^^ emptyInst
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -317,6 +336,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val newExpr =
     "a new empty list" ^^^ {
       EList(Nil)
+    } | "a new list containing" ~> expr ^^ {
+      case e => EList(List(e))
     } | ("a new" ~> ty <~ "containing") ~ (expr <~ "as the binding object") ^^ {
       case t ~ e => EMap(t, List(
         EStr("SubMap") -> EMap(Ty("SubMap"), Nil),
@@ -411,6 +432,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
     } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
       case e => EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
+    } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
+      case e => EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
     } | "statement is statement : labelledstatement" ^^^ {
       EIsInstanceOf(ERef(RefId(Id("Statement"))), "LabelledStatement")
     } | expr <~ "is a data property" ^^ {
@@ -443,13 +466,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "built-in function object" ^^^ Ty("BuiltinFunctionObject") |
       "propertydescriptor" ^^^ Ty("PropertyDescriptor") |
       "property descriptor" ^^^ Ty("PropertyDescriptor") |
-      "execution context" ^^^ Ty("ExecutionContext") |
+      opt("ecmascript code") ~ "execution context" ^^^ Ty("ExecutionContext") |
       "lexical environment" ^^^ Ty("LexicalEnvironment") |
       "object environment record" ^^^ Ty("ObjectEnvironmentRecord") |
       "object" ^^^ Ty("OrdinaryObject") |
       "declarative environment record" ^^^ Ty("DeclarativeEnvironmentRecord") |
       "global environment record" ^^^ Ty("GlobalEnvironmentRecord") |
-      "completion" ^^^ Ty("Completion")
+      "completion" ^^^ Ty("Completion") |
+      "script record" ^^^ Ty("ScriptRecord")
 
   ////////////////////////////////////////////////////////////////////////////////
   // References
