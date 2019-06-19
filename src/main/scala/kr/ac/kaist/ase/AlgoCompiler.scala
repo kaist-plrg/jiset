@@ -277,13 +277,20 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val astExpr =
     "the stringvalue of identifiername" ^^^ {
       parseExpr(s"IdentifierName")
-    } | "the result of evaluating" ~> word ^^ {
+    } | "the result of evaluating" ~> astWord ^^ {
       case x => parseExpr(s"(run Evaluation of $x)")
-    } | (opt("the") ~> word <~ "of") ~ (word | id.filter(x => "code" == x || "script" == x)) ^^ {
+    } | (opt("the") ~> word <~ "of") ~ (astWord | id.filter(x => "code" == x || "script" == x)) ^^ {
       case f ~ x => parseExpr(s"(run $f of $x)")
     } | "IsFunctionDefinition of" ~> id ^^ {
       case x => parseExpr(s"(run IsFunctionDefinition of $x)")
     }
+
+  lazy val astWord =
+    "the first" ~> word ^^ {
+      case x => x + "0"
+    } | "the second" ~> word ^^ {
+      case x => x + "1"
+    } | word
 
   // completion expressions
   lazy val completionExpr =
@@ -404,6 +411,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
     } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
       case e => EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
+    } | "statement is statement : labelledstatement" ^^^ {
+      EIsInstanceOf(ERef(RefId(Id("Statement"))), "LabelledStatement")
     } | expr <~ "is a data property" ^^ {
       case e => EBOp(OEq, ETypeOf(e), EStr("DataProperty"))
     } | expr <~ "is an object" ^^ {
