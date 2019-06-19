@@ -7,6 +7,9 @@ case class ENum(n: Double) extends Expr {
     case that: ENum => doubleEquals(this.n, that.n)
     case _ => false
   }
+  override def toString: String = {
+    if (n.isNaN) "ENum(Double.NaN)" else s"ENum($n)"
+  }
 }
 case class EINum(n: Long) extends Expr
 case class EStr(str: String) extends Expr {
