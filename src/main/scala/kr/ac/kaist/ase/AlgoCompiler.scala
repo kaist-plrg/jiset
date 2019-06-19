@@ -220,17 +220,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // for-each statements
   lazy val forEachStmt =
     ("for each" ~> id) ~ ("in" ~> expr <~ ", do") ~ stmt ^^ {
-      case x ~ e ~ i => IForeach(Id(x), e, i, 0)
+      case x ~ e ~ i => IForeach(Id(x), e, i)
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
-      case x ~ e ~ i => parseInst(s"""{
-        let list = ${beautify(e)}
-        let i = list.length
-        while (< i0 i) {
-          i = (- i i1)
-          let $x = list[i]
-          ${beautify(i)}
-        }
-      }""")
+      case x ~ e ~ i => IForeach(Id(x), e, i, true)
     }
 
   // et cetera statements

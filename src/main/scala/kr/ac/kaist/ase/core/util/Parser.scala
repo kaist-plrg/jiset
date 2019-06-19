@@ -71,7 +71,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "assert " ~> expr ^^ { case e => IAssert(e) } |
       "print " ~> expr ^^ { case e => IPrint(e) } |
       ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
-      ("for " ~> id <~ "in") ~ expr ~ inst ^^ { case x ~ e ~ b => IForeach(x, e, b, 0) } |
+      ("for " ~> id <~ "in") ~ expr ~ inst ^^ { case x ~ e ~ b => IForeach(x, e, b) } |
       (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
       expr ^^ { case e => IExpr(e) }
   }
@@ -188,5 +188,31 @@ object Parser extends JavaTokenParsers with RegexParsers {
   lazy private val addr: Parser[Addr] = {
     "#addr(" ~> wholeNumber <~ ")" ^^ { case s => DynamicAddr(s.toLong) } |
       "#" ~> ident ^^ { NamedAddr(_) }
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // Helper functions
+  ////////////////////////////////////////////////////////////////////////////////
+  object IForeach {
+    def apply(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = parseInst(
+      if (reversed) s"""{
+        let __list__ = ${beautify(expr)}
+        let __i__ = __list__.length
+        while (< i0 __i__) {
+          __i__ = (- __i__ i1)
+          let ${beautify(id)} = __list__[__i__]
+          ${beautify(body)}
+        }
+      }"""
+      else s"""{
+        let __list__ = ${beautify(expr)}
+        let __i__ = i0
+        while (< __i__ __list__.length) {
+          let ${beautify(id)} = __list__[__i__]
+          ${beautify(body)}
+          __i__ = (+ __i__ i1)
+        }
+      }"""
+    )
   }
 }

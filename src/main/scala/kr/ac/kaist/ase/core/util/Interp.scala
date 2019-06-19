@@ -54,18 +54,6 @@ object Interp {
           case Bool(false) => s0
           case v => error(s"not a boolean: $v")
         }
-      case IForeach(id, expr, body, i) =>
-        val (v, s0) = interp(expr)(st)
-        v match {
-          case (addr: Addr) => s0.heap(addr) match {
-            case CoreList(vs) => if (i < vs.length) {
-              val s1 = s0.define(id, vs(i))
-              s1.copy(insts = body :: IForeach(id, expr, body, i + 1) :: s1.insts)
-            } else s0
-            case obj => error(s"not a list: $obj")
-          }
-          case v => error(s"not an address: $v")
-        }
       case ISeq(newInsts) => st.copy(insts = newInsts ++ st.insts)
       case IAssert(expr) =>
         val (v, s0) = interp(expr)(st)

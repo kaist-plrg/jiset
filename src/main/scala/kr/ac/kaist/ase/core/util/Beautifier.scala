@@ -112,8 +112,6 @@ object Beautifier {
         if (elseInst != ISeq(Nil)) { walk(" else "); walk(elseInst) }
       case IWhile(cond, body) =>
         walk("while "); walk(cond); walk(" "); walk(body)
-      case IForeach(id, expr, body, i) =>
-        walk("for "); walk(id); walk(" in "); walk(expr); walk(" "); walk(body);
       case ISeq(insts) =>
         walk("{");
         if (insts.length > 0) { walkList[Inst](insts, walk); walk(indent); }
