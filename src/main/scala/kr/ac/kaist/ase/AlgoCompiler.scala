@@ -219,7 +219,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~> id) ~ ("in" ~> expr <~ ", do") ~ stmt ^^ {
+    ("for each" ~ opt("string") ~> id) ~ ("in" ~> expr <~ ", do") ~ stmt ^^ {
       case x ~ e ~ i => IForeach(Id(x), e, i)
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ e ~ i => IForeach(Id(x), e, i, true)
@@ -433,6 +433,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e => EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
     } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
       case e => EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
+    } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
+      case e => EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))
     } | "statement is statement : labelledstatement" ^^^ {
       EIsInstanceOf(ERef(RefId(Id("Statement"))), "LabelledStatement")
     } | expr <~ "is a data property" ^^ {
