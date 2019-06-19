@@ -398,6 +398,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case _ => parseExpr(s"( MulOperation (get-syntax MultiplicativeOperator) lnum rnum)")
     } | ("the result of applying the subtraction operation to" <~ rest) ^^ {
       case _ => EBOp(OSub, ERef(RefId(Id("lnum"))), ERef(RefId(Id("rnum"))))
+    } | (("the result of performing abstract equality comparison" ~> id <~ "= =") ~ id) ^^ {
+      case x1 ~ x2 => EApp(ERef(RefId(Id("AbstractEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
+    } | (("the result of performing strict equality comparison" ~> id <~ "= = =") ~ id) ^^ {
+      case x1 ~ x2 => EApp(ERef(RefId(Id("StrictEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
     }
 
   // reference expressions
@@ -446,7 +450,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e => EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number"))))) // TODO : remove side effect
     } | "every field in" ~> id <~ "is absent" ^^ {
       case x => EBOp(OEq, ERef(RefId(Id(x))), EMap(Ty("PropertyDescriptor"), List()))
-    } | (expr <~ "is") ~ expr ~ subCond ^^ {
+    } | (expr <~ ("is" ||| "is the same as")) ~ expr ~ subCond ^^ {
       case l ~ r ~ f => f(EBOp(OEq, l, r))
     }
 
