@@ -61,7 +61,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // list of statements
   lazy val stmts: Parser[List[Inst]] = rep(
-    stmt <~ opt(("(" | ".") <~ "see" <~ rest) <~ opt(".") <~ next | step ^^ {
+    stmt <~ opt(("as defined" <~ rest) | (("(" | ".") <~ "see" <~ rest)) <~ opt(".") <~ next | step ^^ {
       case tokens => itodo(tokens.mkString(" ").replace("\"", "\\\""))
     }
   ) // TODO flatten
@@ -425,7 +425,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x ~ y ~ f => f(EBOp(OEq, x, y))
       } | ("the" ~> name <~ "fields of") ~ name ~ ("and" ~> name <~ "are the boolean negation of each other") ^^ {
         case x ~ y ~ z => parseExpr(s"""(|| (&& (= $y.$x true) (= $z.$x false)) (&& (= $y.$x false) (= $z.$x true)))""")
-      } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
+      } | (expr <~ "and") ~ (expr <~ ("are the same object value" | "are exactly the same sequence of code units ( same length and same code units at corresponding indices )")) ~ subCond ^^ {
         case x ~ y ~ f => f(EBOp(OEq, x, y))
       } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
         EBool(false) // TODO fix
@@ -516,8 +516,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => parseRef(s"$x.BindingObject")
     } | ("the value of") ~> ref ^^ {
       case r => r
-    } | "the stringvalue of identifiername" ^^^ {
+    } | opt("the") ~> "stringvalue of identifiername" ^^^ {
       parseRef(s"IdentifierName")
+    } | "the stringvalue of stringliteral" ^^^ {
+      parseRef(s"StringLiteral") // TODO : SV of stringLiteral ( see 11.8.4.1 )
     } | "the result of evaluating" ~> nameWithOrdinal ^^ {
       case x => parseRef(s"$x.Evaluation")
     } | "IsFunctionDefinition of" ~> id ^^ {
