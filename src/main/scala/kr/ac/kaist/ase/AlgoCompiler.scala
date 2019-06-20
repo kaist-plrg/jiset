@@ -394,6 +394,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x1 ~ x2 => EApp(ERef(RefId(Id("AbstractEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
     } | (("the result of performing strict equality comparison" ~> id <~ "= = =") ~ id) ^^ {
       case x1 ~ x2 => EApp(ERef(RefId(Id("StrictEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
+    } | ("the result of negating" ~> id <~ rest) ^^ {
+      case x => EUOp(ONeg, ERef(RefId(Id(x))))
     }
 
   // reference expressions
