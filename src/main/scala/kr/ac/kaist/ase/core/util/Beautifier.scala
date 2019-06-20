@@ -10,15 +10,16 @@ object Beautifier {
     tab: String,
     detail: Boolean
   ): String = {
-    BeautifierWalker.sb = new StringBuilder
-    BeautifierWalker.indent = LINE_SEP
-    BeautifierWalker.detail = detail
-    BeautifierWalker.walk(node)
-    BeautifierWalker.sb.toString
+    val walker = new BeautifierWalker
+    walker.sb = new StringBuilder
+    walker.indent = LINE_SEP
+    walker.detail = detail
+    walker.walk(node)
+    walker.sb.toString
   }
 
   // walker for beautifier
-  private object BeautifierWalker extends UnitWalker {
+  private class BeautifierWalker extends UnitWalker {
     // visible length when `detail` is false
     val VISIBLE_LENGTH = 10
 
