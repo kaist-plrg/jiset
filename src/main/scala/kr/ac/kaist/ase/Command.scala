@@ -52,7 +52,9 @@ case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
 case object CmdLoad extends CommandObj("load", CmdParse >> Load)
 
 // eval
-case object CmdEval extends CommandObj("eval", CmdLoad >> EvalCore)
+case object CmdEval extends CommandObj("eval", CmdLoad >> EvalCore) {
+  override def display(st: core.State): Unit = println(core.beautify(st))
+}
 
 // repl
 case object CmdREPL extends CommandObj("repl", CmdLoad >> REPLCore)

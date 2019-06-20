@@ -59,4 +59,8 @@ object Useful {
   // change extension
   def changeExt(from: String, to: String): String => String =
     filename => filename.substring(0, filename.length - from.length) + to
+
+  // get name without extension
+  def removedExt(filename: String): String =
+    filename.split('.').dropRight(1).mkString(".")
 }

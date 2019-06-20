@@ -8,5 +8,5 @@ import scala.io.Source
 
 abstract class ASETest extends FunSuite {
   // ase configuration
-  lazy val aseConfig: ASEConfig = ASEConfig(CmdBase, Nil)
+  lazy val aseConfig: ASEConfig = ASEConfig(CmdBase, Nil, true)
 }

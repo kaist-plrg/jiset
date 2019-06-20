@@ -210,4 +210,7 @@ trait ASTParsers extends RegexParsers {
 
   def apply(filename: String): Script =
     parseAll(term("") ~> Script, fileReader(filename)).get
+
+  def fromString(str: String): Script =
+    parseAll(term("") ~> Script, str).get
 }

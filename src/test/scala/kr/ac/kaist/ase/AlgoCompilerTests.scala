@@ -34,7 +34,7 @@ class AlgoCompilerTest extends ASETest {
       lazy val name = file.toString
       lazy val algo = Algorithm(name)
       lazy val func = AlgoCompiler("", algo).result
-      test(s"[AlgoCompiler] $filename") { algoCompilerTest(func) }
+      test(s"[AlgoCompile] $filename") { algoCompilerTest(func) }
     }
   }
 }

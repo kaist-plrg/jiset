@@ -3,6 +3,7 @@ import java.io.File
 lazy val dummyModel = taskKey[Unit]("Generates a dummy model.")
 lazy val coreTest = taskKey[Unit]("Launch core language interpreter tests")
 lazy val algoCompilerTest = taskKey[Unit]("Launch tests for AlgoCompiler")
+lazy val jsTest = taskKey[Unit]("Launch js language interpreter tests")
 
 lazy val root = (project in file(".")).
   settings(
@@ -29,8 +30,9 @@ lazy val root = (project in file(".")).
       }
     },
     compile <<= (compile in Compile) dependsOn (dummyModel in Compile),
-    coreTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.CoreTest") dependsOn compile,
-    algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerTest") dependsOn compile
+    coreTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.BasicCoreTest") dependsOn compile,
+    algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerTest") dependsOn compile,
+    jsTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.JSTest") dependsOn compile
   )
 
 cleanFiles ++= Seq(
