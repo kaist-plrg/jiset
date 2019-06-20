@@ -78,6 +78,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       throwStmt |
       whileStmt |
       forEachStmt |
+      pushStmt |
       etcStmt |
       ignoreStmt
 
@@ -219,10 +220,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~ opt("string") ~> id) ~ ("in" ~> expr <~ ", do") ~ stmt ^^ {
+    ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ ("in" ~> expr <~ "," ~ opt("in list order,") ~ "do") ~ stmt ^^ {
       case x ~ e ~ i => IForeach(Id(x), e, i)
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ e ~ i => IForeach(Id(x), e, i, true)
+    }
+
+  // push statements
+  lazy val pushStmt =
+    ("append" ~> expr) ~ ("to" ~> expr) ^^ {
+      case x ~ y => IPush(x, y)
     }
 
   // et cetera statements
@@ -246,12 +253,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // ignore statements
   lazy val ignoreStmt = (
     "assert:" |
+    "note:" |
     "set fields of" |
     "for each property of the global object" | // TODO : set global object properties
     "create any implementation-defined" |
     "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
     "if" ~ id ~ "is a List of errors," |
-    "suspend the currently running execution context ." // TODO : should be re-considered.
+    "suspend the currently running execution context" | // TODO : should be re-considered.
+    "suspend" ~ id ~ "and remove it from the execution context stack" | // TODO : should be re-considered.
+    "resume the context that is now on the top of the execution context stack as the running execution context" | // TODO : should be re-considered.
+    "record that" // TODO : should be re-considered.
   ) ~ rest ^^^ emptyInst
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -394,8 +405,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x ~ f => f(EUOp(ONot, EExist(RefId(Id(x)))))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
         case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
+      } | (expr <~ "is not an element of") ~ expr ^^ {
+        case x ~ y => EUOp(ONot, EContains(y, x))
+      } | (expr <~ "does not contain") ~ expr ^^ {
+        case x ~ y => EUOp(ONot, EContains(x, y))
       } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
         case x ~ y => EUOp(ONot, EBOp(OEq, x, y))
+      } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
+        case x ~ y ~ f => f(EBOp(OEq, x, y))
+      } | ("the" ~> name <~ "fields of") ~ name ~ ("and" ~> name <~ "are the boolean negation of each other") ^^ {
+        case x ~ y ~ z => parseExpr(s"""(|| (&& (= $y.$x true) (= $z.$x false)) (&& (= $y.$x false) (= $z.$x true)))""")
       } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
         case x ~ y ~ f => f(EBOp(OEq, x, y))
       } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
@@ -406,6 +425,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case r ~ n => EExist(RefProp(r, EStr(n)))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
         case r ~ p => EExist(RefProp(RefProp(r, EStr("SubMap")), p))
+      } | (ref <~ "is present and its value is") ~ expr ^^ {
+        case r ~ e => EBOp(OAnd, EExist(r), EBOp(OEq, ERef(r), e))
+      } | (ref <~ "is present") ~ subCond ^^ {
+        case r ~ f => f(EExist(r))
       } | (expr <~ "is not") ~ expr ~ subCond ^^ {
         case l ~ r ~ f => f(EUOp(ONot, EBOp(OEq, l, r)))
       } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
@@ -485,11 +508,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case r => r
     } | "the stringvalue of identifiername" ^^^ {
       parseRef(s"IdentifierName")
-    } | "the result of evaluating" ~> astWord ^^ {
+    } | "the result of evaluating" ~> name ^^ {
       case x => parseRef(s"$x.Evaluation")
     } | "IsFunctionDefinition of" ~> id ^^ {
       case x => parseRef(s"$x.IsFunctionDefinition")
-    } | (opt("the") ~> name <~ "of") ~ name ^^ {
+    } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ name ^^ {
       case x ~ y => parseRef(s"$y.$x")
     } | (name <~ "'s own property whose key is") ~ expr ^^ {
       case r ~ p => RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), p)
