@@ -1,0 +1,6 @@
+assert (contains context.Realm.GlobalEnv.EnvironmentRecord.VarNames "x")
+assert (? context.Realm.GlobalObject.SubMap.x)
+assert (= context.Realm.GlobalObject.SubMap.x.Value undefined)
+assert (= context.Realm.GlobalObject.SubMap.x.Writable true)
+assert (= context.Realm.GlobalObject.SubMap.x.Enumerable true)
+assert (= context.Realm.GlobalObject.SubMap.x.Configurable false)
