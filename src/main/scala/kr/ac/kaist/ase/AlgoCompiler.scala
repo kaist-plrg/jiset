@@ -518,11 +518,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case r => r
     } | "the stringvalue of identifiername" ^^^ {
       parseRef(s"IdentifierName")
-    } | "the result of evaluating" ~> name ^^ {
+    } | "the result of evaluating" ~> nameWithOrdinal ^^ {
       case x => parseRef(s"$x.Evaluation")
     } | "IsFunctionDefinition of" ~> id ^^ {
       case x => parseRef(s"$x.IsFunctionDefinition")
-    } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ name ^^ {
+    } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ nameWithOrdinal ^^ {
       case x ~ y => parseRef(s"$y.$x")
     } | (name <~ "'s own property whose key is") ~ expr ^^ {
       case r ~ p => RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), p)
@@ -534,12 +534,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       }
     }
 
-  lazy val astWord =
+  lazy val nameWithOrdinal =
     "the first" ~> word ^^ {
       case x => x + "0"
     } | "the second" ~> word ^^ {
       case x => x + "1"
-    } | word
+    } | name
 
   ////////////////////////////////////////////////////////////////////////////////
   // Fields
