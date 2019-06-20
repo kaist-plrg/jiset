@@ -8,6 +8,9 @@ import org.scalatest._
 import scala.util.Random.shuffle
 
 class BasicCoreTest extends CoreTest {
+  // tag name
+  val tag: String = "coreTest"
+
   // basic core files
   val coreDir = s"$TEST_DIR/core"
 
@@ -19,10 +22,10 @@ class BasicCoreTest extends CoreTest {
       lazy val config = aseConfig.copy(fileNames = List(name))
 
       lazy val pgm = ParseCore((), config)
-      test(s"[CoreParse] $filename") { parseCoreTest(pgm) }
+      check("CoreParse", filename, parseCoreTest(pgm))
 
       lazy val st = EvalCore(LoadCore(pgm, config), config)
-      test(s"[CoreEval] $filename") { evalCoreTest(st) }
+      check("CoreEval", filename, evalCoreTest(st))
     }
   }
 }

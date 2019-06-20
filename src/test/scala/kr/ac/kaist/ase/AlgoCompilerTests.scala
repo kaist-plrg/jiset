@@ -10,6 +10,9 @@ import scala.util.Random.shuffle
 import scala.util.{ Failure, Success, Try }
 
 class AlgoCompilerTest extends ASETest {
+  // tag name
+  val tag: String = "algoCompilerTest"
+
   // algorithm files
   val algoDir = s"$RESOURCE_DIR/$VERSION/algorithm"
 
@@ -34,7 +37,7 @@ class AlgoCompilerTest extends ASETest {
       lazy val name = file.toString
       lazy val algo = Algorithm(name)
       lazy val func = AlgoCompiler("", algo).result
-      test(s"[AlgoCompile] $filename") { algoCompilerTest(func) }
+      check("AlgoCompile", filename, algoCompilerTest(func))
     }
   }
 }

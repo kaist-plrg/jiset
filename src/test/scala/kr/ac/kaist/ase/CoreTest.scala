@@ -7,7 +7,7 @@ import kr.ac.kaist.ase.phase._
 import org.scalatest._
 import scala.util.Random.shuffle
 
-class CoreTest extends ASETest {
+abstract class CoreTest extends ASETest {
   // tests for core-parser
   def parseCoreTest(pgm: => Program): Unit = {
     val newPgm = Parser.parseProgram(beautify(pgm))

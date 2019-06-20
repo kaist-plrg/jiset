@@ -29,6 +29,7 @@ lazy val root = (project in file(".")).
         })
       }
     },
+    testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),
     compile <<= (compile in Compile) dependsOn (dummyModel in Compile),
     coreTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.BasicCoreTest") dependsOn compile,
     algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerTest") dependsOn compile,
@@ -42,7 +43,7 @@ cleanFiles ++= Seq(
 
 libraryDependencies ++= Seq(
   "com.codecommit" %% "gll-combinators" % "2.3",
-  "io.spray" %% "spray-json" % "1.3.2",
+  "io.spray" %% "spray-json" % "1.3.5",
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",

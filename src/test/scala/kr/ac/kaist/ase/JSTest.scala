@@ -9,6 +9,9 @@ import org.scalatest._
 import scala.util.Random.shuffle
 
 class JSTest extends CoreTest {
+  // tag name
+  val tag: String = "jsTest"
+
   // base directory
   val jsDir = s"$TEST_DIR/js"
 
@@ -40,20 +43,20 @@ class JSTest extends CoreTest {
       lazy val jsConfig = aseConfig.copy(fileNames = List(jsName))
 
       lazy val ast = Parse((), jsConfig)
-      test(s"[JSParse] $name") { parseJSTest(ast) }
+      check("JSParse", name, parseJSTest(ast))
 
       lazy val st = EvalCore(Load(ast, jsConfig), jsConfig)
-      test(s"[JSEval] $name") { evalJSTest(st) }
+      check("JSEval", name, evalJSTest(st))
 
       lazy val coreName = js2core(jsName)
       lazy val coreConfig = aseConfig.copy(fileNames = List(coreName))
 
       lazy val pgm = ParseCore((), coreConfig)
       lazy val coreSt = EvalCore(st.copy(insts = pgm.insts), coreConfig)
-      test(s"[JSCheck] $name") {
+      check("JSCheck", name, {
         parseCoreTest(pgm)
         evalCoreTest(coreSt)
-      }
+      })
     }
   }
 }
