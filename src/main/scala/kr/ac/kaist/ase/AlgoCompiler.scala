@@ -6,6 +6,7 @@ import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, RuntimeSemantics }
 
 case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers {
+  var foreachCount: Int = 0
   def result: Func = Func(
     name = algoName,
     params = handleDuplicate(algo.params).map(Id(_)),
@@ -37,6 +38,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // short-cut for TODO
   def itodo(msg: String): IExpr = IExpr(etodo(msg))
   def etodo(msg: String): ENotYetImpl = ENotYetImpl(msg)
+  def iForeach(id: Id, expr: Expr, body: Inst, reversed: Boolean = false) = {
+    val f = IForeach(id, expr, body, foreachCount, reversed)
+    foreachCount = foreachCount + 1
+    f
+  }
 
   // temporal identifiers
   lazy val temp: String = "temp"
@@ -221,15 +227,17 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // for-each statements
   lazy val forEachStmt =
     ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ ("in" ~> expr <~ "," ~ opt("in list order,") ~ "do") ~ stmt ^^ {
-      case x ~ e ~ i => IForeach(Id(x), e, i)
+      case x ~ e ~ i => iForeach(Id(x), e, i)
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
-      case x ~ e ~ i => IForeach(Id(x), e, i, true)
+      case x ~ e ~ i => iForeach(Id(x), e, i, true)
     }
 
   // push statements
   lazy val pushStmt =
     ("append" ~> expr) ~ ("to" ~> expr) ^^ {
       case x ~ y => IPush(x, y)
+    } | ("append to" ~> expr <~ "the elements of") ~ expr ^^ {
+      case l1 ~ l2 => iForeach(Id("temp"), l2, IPush(ERef(RefId(Id("temp"))), l1))
     }
 
   // et cetera statements
