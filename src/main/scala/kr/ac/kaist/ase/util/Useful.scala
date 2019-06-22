@@ -66,6 +66,6 @@ object Useful {
 
   // colored println
   def cprintln(color: String, x: Any): Unit = {
-    println(color + x.toString + scala.Console.BLACK)
+    println(color + x.toString + scala.Console.RESET)
   }
 }

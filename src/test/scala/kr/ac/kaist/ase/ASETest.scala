@@ -47,9 +47,11 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
         .map { case (t, r) => (t, getScore(r)) }
 
     // show abstract result
+    print("[info] ")
     cprintln(CYAN, s"$tag:")
     sorted.foreach {
       case (t, (x, y)) =>
+        print("[info] ")
         cprintln(if (x == y) GREEN else RED, s"  $t: $x / $y")
     }
 
