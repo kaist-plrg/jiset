@@ -7,6 +7,7 @@ import org.scalatest._
 import scala.io.Source
 import scala.util.{ Try, Success, Failure }
 import spray.json._
+import scala.Console.{ CYAN, GREEN, RED }
 
 abstract class ASETest extends FunSuite with BeforeAndAfterAll {
   // ase configuration
@@ -25,11 +26,10 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
   }
 
   // get score
-  def getScore(res: Map[String, Boolean]): String = {
-    val s = res.count { case (k, v) => v }
-    val t = res.size
-    s"$s / $t"
-  }
+  def getScore(res: Map[String, Boolean]): (Int, Int) = (
+    res.count { case (k, v) => v },
+    res.size
+  )
 
   // tag name
   val tag: String
@@ -47,12 +47,15 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
         .map { case (t, r) => (t, getScore(r)) }
 
     // show abstract result
-    println(s"$tag:")
-    sorted.foreach { case (t, r) => println(s"  $t: $r") }
+    cprintln(CYAN, s"$tag:")
+    sorted.foreach {
+      case (t, (x, y)) =>
+        cprintln(if (x == y) GREEN else RED, s"  $t: $x / $y")
+    }
 
     // save abstract result
     val pw = getPrintWriter(s"$TEST_DIR/result/$tag")
-    sorted.foreach { case (t, r) => pw.println(s"$t: $r") }
+    sorted.foreach { case (t, (x, y)) => pw.println(s"$t: $x / $y") }
     pw.close()
 
     // check backward-compatibility
@@ -86,40 +89,5 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
       jpw.println(resMap.toJson.sortedPrint)
       jpw.close()
     }
-    // val file = new File(jsonName)
-    // val bw = new BufferedWriter(new FileWriter(file))
-    // val pw = new PrintWriter(bw)
-    // val pre = preciseList.sorted
-    // val impre = impreciseList.sorted
-    // val todo = todoList.sorted
-    // val slow = slowList.sorted
-    // val fail = (testList.toSet -- pre.toSet -- impre.toSet).toList.sorted
-    // pw.println("#######################")
-    // pw.println("# SUMMARY")
-    // pw.println("#######################")
-    // pw.println("# TOTAL : " + (testList.length + todo.length + slow.length))
-    // pw.println("# TEST : " + testList.length)
-    // pw.println("# - FAIL : " + fail.length)
-    // pw.println("# - PRECISE : " + pre.length)
-    // pw.println("# - IMPRECISE : " + impre.length)
-    // pw.println("# - TOTAL ITERATION: " + totalIteration.toString)
-    // pw.println("# TODO : " + todo.length)
-    // pw.println("# SLOW : " + slow.length)
-    // pw.println("#######################")
-    // pw.println()
-    // pw.println("FAIL: " + fail.length)
-    // fail.foreach(fn => pw.println(fn))
-    // pw.println()
-    // pw.println("PRECISE: " + pre.length)
-    // pre.foreach(fn => pw.println(fn))
-    // pw.println()
-    // pw.println("IMPRECISE: " + impre.length)
-    // impre.foreach(fn => pw.println(fn))
-    // pw.println()
-    // pw.println("TODO: " + todo.length)
-    // todo.foreach(fn => pw.println(fn))
-    // pw.println("SLOW: " + slow.length)
-    // slow.foreach(fn => pw.println(fn))
-    // pw.close()
   }
 }

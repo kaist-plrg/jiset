@@ -63,4 +63,9 @@ object Useful {
   // get name without extension
   def removedExt(filename: String): String =
     filename.split('.').dropRight(1).mkString(".")
+
+  // colored println
+  def cprintln(color: String, x: Any): Unit = {
+    println(color + x.toString + scala.Console.BLACK)
+  }
 }
