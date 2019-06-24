@@ -55,11 +55,6 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
         cprintln(if (x == y) GREEN else RED, s"  $t: $x / $y")
     }
 
-    // save abstract result
-    val pw = getPrintWriter(s"$TEST_DIR/result/$tag")
-    sorted.foreach { case (t, (x, y)) => pw.println(s"$t: $x / $y") }
-    pw.close()
-
     // check backward-compatibility
     var breakCount = 0
     def error(msg: String): Unit = {
@@ -87,6 +82,10 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
 
     // save abstract result if backward-compatible
     if (breakCount == 0) {
+      val pw = getPrintWriter(s"$TEST_DIR/result/$tag")
+      sorted.foreach { case (t, (x, y)) => pw.println(s"$t: $x / $y") }
+      pw.close()
+
       val jpw = getPrintWriter(filename)
       jpw.println(resMap.toJson.sortedPrint)
       jpw.close()
