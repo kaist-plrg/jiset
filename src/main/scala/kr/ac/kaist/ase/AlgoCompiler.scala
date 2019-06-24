@@ -10,6 +10,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   def result: Func = Func(
     name = algoName,
     params = handleDuplicate(algo.params).map(Id(_)),
+    varparam = None,
     body = ISeq(parseAll(stmts, algo.toTokenList) match {
       case Success(res, _) => res
       case NoSuccess(_, reader) => error(s"[AlgoCompiler]:${algo.filename}: $reader")
@@ -364,7 +365,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // algorithm expressions
   lazy val algoExpr =
     "an empty sequence of algorithm steps" ^^^ {
-      EFunc(Nil, emptyInst)
+      EFunc(Nil, None, emptyInst)
     }
 
   // type expressions

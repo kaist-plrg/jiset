@@ -141,8 +141,10 @@ object Beautifier {
       case EPop(list) =>
         walk("(pop "); walk(list); walk(")")
       case ERef(ref) => walk(ref)
-      case EFunc(params, body) =>
-        walk("("); walkListSep[Id](params, ", ", walk); walk(") => ")
+      case EFunc(params, varparam, body) =>
+        walk("("); walkListSep[Id](params, ", ", walk);
+        walkOpt[Id](varparam, (id: Id) => if (params.length == 0) { walk("..."); walk(id); } else { walk(", ..."); walk(id) });
+        walk(") => ")
         if (detail) walk(body)
         else walk("...")
       case EApp(fun, args) =>
@@ -251,8 +253,9 @@ object Beautifier {
     override def walk(v: Value): Unit = v match {
       case addr: Addr => walk(addr)
       case ast: ASTVal => walk(ast)
-      case Func(name, params, body) =>
-        walk(name); walk(" ("); walkListSep[Id](params, ", ", walk)
+      case Func(name, params, varparam, body) =>
+        walk(name); walk(" ("); walkListSep[Id](params, ", ", walk);
+        walkOpt[Id](varparam, (id: Id) => if (params.length == 0) { walk("..."); walk(id); } else { walk(", ..."); walk(id) });
         walk(") => "); walk(body)
       case Num(double) => walk(s"$double")
       case INum(long) => walk(s"i$long")
