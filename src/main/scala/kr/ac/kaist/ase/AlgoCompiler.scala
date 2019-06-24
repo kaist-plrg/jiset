@@ -67,7 +67,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     }
   ) // TODO flatten
 
-  // running execution context string
+  // execution context stack string
+  val executionStack = "executionStack"
   val context = "context"
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -244,7 +245,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // et cetera statements
   lazy val etcStmt =
     "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
-      case e => IAssign(RefId(Id(context)), e)
+      case e => ISeq(List(IPush(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
+        $context = $executionStack[(- $executionStack.length i1)]
+      """)))
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
       parseInst(s"""return (ScriptEvaluationJob script hostDefined)""")
     } | "if the host requires use of an exotic object" ~ rest ^^^ {
@@ -257,6 +260,15 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseInst(s"""let body = script""")
     } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
       parseInst(s"""if (is-instance-of Statement LabelledStatement) return Statement.TopLevelVarDeclaredNames else {}""")
+    } | "suspend" ~ name ~ "and remove it from the execution context stack" ^^^ {
+      parseInst(s"""{
+        $context = null
+        (pop $executionStack)
+      }""")
+    } | "suspend the currently running execution context" ^^^ {
+      parseInst(s"""$context = null""")
+    } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
+      parseInst(s"""$context = $executionStack[(- $executionStack.length i1)]""")
     }
 
   // ignore statements
@@ -268,9 +280,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "create any implementation-defined" |
     "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
     "if" ~ id ~ "is a List of errors," |
-    "suspend the currently running execution context" | // TODO : should be re-considered.
-    "suspend" ~ id ~ "and remove it from the execution context stack" | // TODO : should be re-considered.
-    "resume the context that is now on the top of the execution context stack as the running execution context" | // TODO : should be re-considered.
     "record that" // TODO : should be re-considered.
   ) ~ rest ^^^ emptyInst
 
