@@ -569,7 +569,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "the running execution context" ^^^ context |
     "the" ~ ty ~ "for which the method was invoked" ^^^ "this" |
     word |
-    "%" ~> word <~ "%" |
+    "%" ~> word <~ "%" ^^ { case x => s"INTRINSIC__$word" } |
     "[[" ~> word <~ "]]" |
     "[[%" ~> word <~ "%]]" |
     id
