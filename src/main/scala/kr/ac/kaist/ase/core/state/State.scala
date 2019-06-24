@@ -26,7 +26,7 @@ case class State(
       (heap(addr, value), this)
     case RefValueAST(astV, name) =>
       val ASTVal(ast) = astV
-      val (Func(fname, params, body), lst) = ast.semantics(name)
+      val (Func(fname, params, varparam, body), lst) = ast.semantics(name)
       val (locals, _) = ((Map[Id, Value](), lst) /: params) {
         case ((map, arg :: rest), param) =>
           (map + (param -> arg), rest)

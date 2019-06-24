@@ -85,8 +85,10 @@ trait UnitWalker {
       walk(list)
     case ERef(ref) =>
       walk(ref)
-    case EFunc(params, body) =>
-      walkList[Id](params, walk); walk(body)
+    case EFunc(params, varparam, body) =>
+      walkList[Id](params, walk);
+      walkOpt[Id](varparam, walk);
+      walk(body)
     case EApp(fexpr, args) =>
       walk(fexpr); walkList[Expr](args, walk)
     case EUOp(uop, expr) =>
@@ -160,8 +162,9 @@ trait UnitWalker {
   def walk(v: Value): Unit = v match {
     case addr: Addr => walk(addr)
     case ast: ASTVal => walk(ast)
-    case Func(name, params, body) =>
-      walk(name); walkList[Id](params, walk); walk(body)
+    case Func(name, params, varparam, body) =>
+      walk(name); walkList[Id](params, walk);
+      walkOpt[Id](varparam, walk); walk(body)
     case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent =>
   }
 

@@ -11,8 +11,8 @@ case class NamedAddr(name: String) extends Addr
 case class DynamicAddr(long: Long) extends Addr
 
 // CORE Functions
-case class Func(name: String, params: List[Id], body: Inst) extends Value {
-  override def toString: String = s"""Func("$name", $params, $body)"""
+case class Func(name: String, params: List[Id], varparam: Option[Id], body: Inst) extends Value {
+  override def toString: String = s"""Func("$name", $params, $varparam, $body)"""
 }
 
 // CORE Constants

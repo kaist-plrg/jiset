@@ -105,12 +105,12 @@ object Interp {
     case ERef(ref) =>
       val (refV, s0) = interp(ref)(st)
       s0(refV)
-    case EFunc(params, body) =>
-      (Func("<empty>", params, body), st)
+    case EFunc(params, varparam, body) =>
+      (Func("<empty>", params, varparam, body), st)
     case EApp(fexpr, args) =>
       val (fv, s0) = interp(fexpr)(st)
       fv match {
-        case Func(fname, params, body) =>
+        case Func(fname, params, varparam, body) =>
           val (locals, s1, _) = ((Map[Id, Value](), s0, args) /: params) {
             case ((map, st, arg :: rest), param) =>
               val (av, s0) = interp(arg)(st)
@@ -144,7 +144,7 @@ object Interp {
         case Undef => Str("Undefined")
         case Null => Str("Null")
         case Absent => Str("Absent")
-        case Func(_, _, _) => Str("Function")
+        case Func(_, _, _, _) => Str("Function")
         case ASTVal(_) => Str("AST")
       }, s0)
     }

@@ -95,21 +95,22 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
       "(" ~> ("?" ~> ref) <~ ")" ^^ { case ref => EExist(ref) } |
       "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
-      ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^
-      { case ps ~ b => EFunc(ps, b) } |
-      ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {
-        case t ~ props => EMap(t, props)
-      } |
-      ("(" ~> "new" ~> ty <~ ")") ^^ { case t => EMap(t, Nil) } |
-      ("(" ~> "new" ~> "[" ~> repsep(expr, ",") <~ "]" <~ ")") ^^ { EList(_) } |
-      ("(" ~> "pop" ~> expr <~ ")") ^^ { case e => EPop(e) } |
-      ("(" ~> "is-instance-of" ~> expr) ~ (ident <~ ")") ^^ {
-        case e ~ x => EIsInstanceOf(e, x)
-      } |
-      "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
-      "(" ~> "contains" ~> expr ~ expr <~ ")" ^^ { case l ~ e => EContains(l, e) } |
-      "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
-      ref ^^ { ERef(_) }
+      ("(" ~> (
+        rep1sep(id, ",") ~ opt("," ~> "..." ~> id) | success(Nil) ~ opt("..." ~> id)
+      ) <~ ")") ~ ("=>" ~> inst) ^^ { case ps ~ ox ~ b => EFunc(ps, ox, b) } |
+        ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {
+          case t ~ props => EMap(t, props)
+        } |
+        ("(" ~> "new" ~> ty <~ ")") ^^ { case t => EMap(t, Nil) } |
+        ("(" ~> "new" ~> "[" ~> repsep(expr, ",") <~ "]" <~ ")") ^^ { EList(_) } |
+        ("(" ~> "pop" ~> expr <~ ")") ^^ { case e => EPop(e) } |
+        ("(" ~> "is-instance-of" ~> expr) ~ (ident <~ ")") ^^ {
+          case e ~ x => EIsInstanceOf(e, x)
+        } |
+        "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
+        "(" ~> "contains" ~> expr ~ expr <~ ")" ^^ { case l ~ e => EContains(l, e) } |
+        "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
+        ref ^^ { ERef(_) }
   }
 
   // properties
@@ -177,7 +178,9 @@ object Parser extends JavaTokenParsers with RegexParsers {
 
   // functions
   lazy private val func: Parser[Func] =
-    ident ~ ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^ { case n ~ ps ~ b => Func(n, ps, b) }
+    ident ~ ("(" ~> (
+      rep1sep(id, ",") ~ opt("," ~> "..." ~> id) | success(Nil) ~ opt("..." ~> id)
+    ) <~ ")") ~ ("=>" ~> inst) ^^ { case n ~ (ps ~ ox) ~ b => Func(n, ps, ox, b) }
 
   // addresses
   lazy private val addr: Parser[Addr] = {

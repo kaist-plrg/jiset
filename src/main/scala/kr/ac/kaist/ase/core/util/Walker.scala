@@ -73,7 +73,7 @@ trait Walker {
     case EList(exprs) => EList(walkList[Expr](exprs, walk))
     case EPop(list) => EPop(walk(list))
     case ERef(ref) => ERef(walk(ref))
-    case EFunc(params, body) => EFunc(walkList[Id](params, walk), walk(body))
+    case EFunc(params, varparam, body) => EFunc(walkList[Id](params, walk), walkOpt[Id](varparam, walk), walk(body))
     case EApp(fexpr, args) => EApp(walk(fexpr), walkList[Expr](args, walk))
     case EUOp(uop, expr) => EUOp(walk(uop), walk(expr))
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
@@ -139,7 +139,7 @@ trait Walker {
   def walk(value: Value): Value = value match {
     case addr: Addr => walk(addr)
     case ast: ASTVal => walk(ast)
-    case Func(name, params, body) => Func(walk(name), walkList[Id](params, walk), walk(body))
+    case Func(name, params, varparam, body) => Func(walk(name), walkList[Id](params, walk), walkOpt[Id](varparam, walk), walk(body))
     case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent => value
   }
 
