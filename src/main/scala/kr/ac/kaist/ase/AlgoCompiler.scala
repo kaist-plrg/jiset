@@ -63,7 +63,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // list of statements
   lazy val stmts: Parser[List[Inst]] = rep(
     stmt <~ opt(("as defined" <~ rest) | (("(" | ".") <~ "see" <~ rest)) <~ opt(".") <~ next | step ^^ {
-      case tokens => itodo(tokens.mkString(" ").replace("\"", "\\\""))
+      case tokens => itodo(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\""))
     }
   ) // TODO flatten
 
