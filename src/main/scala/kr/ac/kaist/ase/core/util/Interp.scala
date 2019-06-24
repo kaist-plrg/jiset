@@ -111,15 +111,20 @@ object Interp {
       val (fv, s0) = interp(fexpr)(st)
       fv match {
         case Func(fname, params, varparam, body) =>
-          val (locals, s1, _) = ((Map[Id, Value](), s0, args) /: params) {
+          val (locals0, s1, restArg) = ((Map[Id, Value](), s0, args) /: params) {
             case ((map, st, arg :: rest), param) =>
               val (av, s0) = interp(arg)(st)
               (map + (param -> av), s0, rest)
             case (triple, _) => triple
           }
-          val newSt = fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
+          val (locals1, s2) = varparam.map((param) => {
+            val (av, s0) = interp(EList(restArg))(s1)
+            (locals0 + (param -> av), s0)
+          }).getOrElse((locals0, s1))
+
+          val newSt = fixpoint(s2.copy(context = fname, insts = List(body), locals = locals1))
           newSt.retValue match {
-            case Some(v) => (v, s1.copy(heap = newSt.heap, globals = newSt.globals))
+            case Some(v) => (v, s2.copy(heap = newSt.heap, globals = newSt.globals))
             case None => error(s"no return value")
           }
         case v => error(s"not a function: $v")
