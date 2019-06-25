@@ -43,12 +43,16 @@ object ModelGenerator {
       case (m, path) =>
         val (resM, _) = ((m, "Global") /: path.split('.').tail) {
           case ((m, base), x) =>
-            (m + (base -> (m.getOrElse(base, Set()) + x)), s"$base.$x")
+            val name = s"$base.$x"
+            (m + (base -> (m.getOrElse(base, Set()) + x), name -> m.getOrElse(name, Set())), name)
         }
         resM
     }.foreach {
       case (name, list) =>
-        nf.println(s"""    NamedAddr("$name") -> EMPTY.updated(Str("SubMap"), NamedAddr("$name.SubMap")),""")
+        nf.println(s"""    NamedAddr("$name") -> EMPTY""")
+        if (globalObjectMethods contains name)
+          nf.println(s"""     .updated(Str("Code"), ${getScalaName(name)}.func)""")
+        nf.println(s"""     .updated(Str("SubMap"), NamedAddr("$name.SubMap")),""")
         nf.println(s"""    NamedAddr("$name.SubMap") -> CoreMap(Ty("SubMap"), Map(""")
         nf.println(list.map(x => s"""      Str("$x") -> NamedAddr("$name.$x")""").mkString("," + LINE_SEP))
         nf.println(s"""    )),""")

@@ -20,10 +20,10 @@ case class CoreMap(ty: Ty, props: Map[Value, Value]) extends Obj {
   def apply(prop: Value): Value = props.getOrElse(prop, Absent)
 
   // setters
-  def updated(prop: Value, value: Value): Obj = copy(props = props + (prop -> value))
+  def updated(prop: Value, value: Value): CoreMap = copy(props = props + (prop -> value))
 
   // deletes
-  def deleted(prop: Value): Obj = copy(props = props - prop)
+  def deleted(prop: Value): CoreMap = copy(props = props - prop)
 }
 
 // Core CoreList
