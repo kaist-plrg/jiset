@@ -381,6 +381,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val etcExpr =
     "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
       case x => ERef(RefId(Id(x)))
+    } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
+      case x ~ y => etodo(s"larger of $x and $y")
     } | "the steps of an" ~> name <~ "function as specified below" ^^ {
       case x => parseExpr(s"$x")
     } | "the number whose value is MV of" ~> name <~ rest ^^ {
