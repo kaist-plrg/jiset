@@ -8,6 +8,11 @@ object ManualModel {
     Id("ToNumber") -> ToNumber.func,
     Id("ToBoolean") -> ToBoolean.func,
     Id("MulOperation") -> MulOperation.func,
-    Id("WrapCompletion") -> WrapCompletion.func
+    Id("WrapCompletion") -> WrapCompletion.func,
+    Id("executionStack") -> NamedAddr("executionStack"),
+    Id("context") -> Null
+  )
+  lazy val initNamedHeap: Map[Addr, Obj] = Map(
+    NamedAddr("executionStack") -> CoreList(Vector())
   )
 }

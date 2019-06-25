@@ -37,7 +37,7 @@ object ModelGenerator {
     nf.println(s"""  lazy val initHeap: Heap = Heap(Map(""")
     nf.println(consts.map(i =>
       s"""    NamedAddr("$i") -> Singleton("$i")""").mkString("," + LINE_SEP))
-    nf.println(s"""  ))""")
+    nf.println(s"""  ) ++ ManualModel.initNamedHeap)""")
     nf.println(s"""  lazy val tyMap: Map[String, Map[Value, Value]] = Map(""")
     nf.println(tys.map {
       case ((tname, _)) => s"""    ("$tname" -> $tname.map)"""
