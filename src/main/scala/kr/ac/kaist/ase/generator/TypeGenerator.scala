@@ -14,7 +14,7 @@ object TypeGenerator {
     nf.println(s"""  val map: Map[Value, Value] = Map(""")
     nf.println(methods.map {
       case (key, value) =>
-        s"""    (Str("$key") -> $value.func)"""
+        s"""    (Str("$key") -> ${getScalaName(value)}.func)"""
     }.mkString("," + LINE_SEP))
     nf.println(s"""  )""")
     nf.println(s"""}""")

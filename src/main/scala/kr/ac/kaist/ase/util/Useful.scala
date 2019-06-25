@@ -68,4 +68,8 @@ object Useful {
   def cprintln(color: String, x: Any): Unit = {
     println(color + x.toString + scala.Console.RESET)
   }
+
+  // get name that could be used in Scala identifiers
+  def getScalaName(str: String): String =
+    str.replaceAll("\\.", "DOT")
 }

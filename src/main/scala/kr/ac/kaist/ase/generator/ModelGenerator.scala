@@ -28,8 +28,8 @@ object ModelGenerator {
     nf.println(s"""    heap = initHeap""")
     nf.println(s"""  )""")
     nf.println(s"""  lazy val initGlobal: Map[Id, Value] = Map(""")
-    nf.println(methods.map(i =>
-      s"""    Id("$i") -> $i.func""").mkString("," + LINE_SEP))
+    nf.println(methods.map(getScalaName _).map(x =>
+      s"""    Id("$x") -> $x.func""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++ Map(""")
     nf.println(consts.map(i =>
       s"""    Id("$i") -> NamedAddr("$i")""").mkString("," + LINE_SEP))
