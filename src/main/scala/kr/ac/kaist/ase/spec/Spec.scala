@@ -8,6 +8,7 @@ case class Spec(
   globalMethods: List[String],
   consts: List[String],
   grammar: Grammar,
+  intrinsics: Map[String, String],
   tys: Map[String, Map[String, String]]
 )
 object Spec extends DefaultJsonProtocol {
@@ -48,7 +49,7 @@ object Spec extends DefaultJsonProtocol {
   implicit val LhsFormat = jsonFormat2(Lhs)
   implicit val ProductionFormat = jsonFormat2(Production)
   implicit val GrammarFormat = jsonFormat2(Grammar)
-  implicit val SpecFormat = jsonFormat4(Spec.apply)
+  implicit val SpecFormat = jsonFormat5(Spec.apply)
 
   def apply(filename: String): Spec = {
     readFile(filename).parseJson.convertTo[Spec]
