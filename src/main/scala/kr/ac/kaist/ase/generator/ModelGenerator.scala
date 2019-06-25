@@ -7,6 +7,7 @@ import kr.ac.kaist.ase.spec._
 object ModelGenerator {
   def apply(spec: Spec): Unit = {
     val methods = spec.globalMethods
+    val globalObjectMethods = spec.globalMethods.filter(_.startsWith("Global.")).toSet
     val consts = spec.consts
     val grammar = spec.grammar
     val tys = spec.tys
@@ -28,13 +29,31 @@ object ModelGenerator {
     nf.println(s"""    heap = initHeap""")
     nf.println(s"""  )""")
     nf.println(s"""  lazy val initGlobal: Map[Id, Value] = Map(""")
+    nf.println(s"""    Id("Global") -> NamedAddr("Global"),""")
     nf.println(methods.map(getScalaName _).map(x =>
       s"""    Id("$x") -> $x.func""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++ Map(""")
     nf.println(consts.map(i =>
       s"""    Id("$i") -> NamedAddr("$i")""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++ ManualModel.initGlobal""")
+    nf.println(s"""  private lazy val EMPTY: CoreMap = CoreMap(Ty("OrdinaryObject"), tyMap("OrdinaryObject"))""")
     nf.println(s"""  lazy val initHeap: Heap = Heap(Map(""")
+
+    (Map[String, Set[String]]() /: globalObjectMethods) {
+      case (m, path) =>
+        val (resM, _) = ((m, "Global") /: path.split('.').tail) {
+          case ((m, base), x) =>
+            (m + (base -> (m.getOrElse(base, Set()) + x)), s"$base.$x")
+        }
+        resM
+    }.foreach {
+      case (name, list) =>
+        nf.println(s"""    NamedAddr("$name") -> EMPTY.updated(Str("SubMap"), NamedAddr("$name.SubMap")),""")
+        nf.println(s"""    NamedAddr("$name.SubMap") -> CoreMap(Ty("SubMap"), Map(""")
+        nf.println(list.map(x => s"""      Str("$x") -> NamedAddr("$name.$x")""").mkString("," + LINE_SEP))
+        nf.println(s"""    )),""")
+    }
+
     nf.println(consts.map(i =>
       s"""    NamedAddr("$i") -> Singleton("$i")""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++ ManualModel.initNamedHeap)""")
