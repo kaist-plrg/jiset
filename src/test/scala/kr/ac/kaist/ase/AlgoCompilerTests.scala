@@ -9,7 +9,7 @@ import org.scalatest._
 import scala.util.Random.shuffle
 import scala.util.{ Failure, Success, Try }
 
-class AlgoCompilerTest extends ASETest {
+class AlgoCompilerTest extends CoreTest {
   // tag name
   val tag: String = "algoCompilerTest"
 
@@ -38,6 +38,7 @@ class AlgoCompilerTest extends ASETest {
       lazy val algo = Algorithm(name)
       lazy val func = AlgoCompiler("", algo).result
       check("AlgoCompile", filename, algoCompilerTest(func))
+      check("AlgoCoreParse", filename, parseCoreFuncTest(func))
     }
   }
 }

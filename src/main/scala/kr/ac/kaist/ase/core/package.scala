@@ -7,9 +7,9 @@ package object core {
   // beautify
   def beautify(
     node: CoreNode,
-    tab: String = "  ",
+    indent: String = "",
     detail: Boolean = true
-  ): String = Beautifier.beautify(node, tab, detail)
+  ): String = Beautifier.beautify(node, indent, detail)
 
   // equality between doubles
   def doubleEquals(left: Double, right: Double): Boolean = {

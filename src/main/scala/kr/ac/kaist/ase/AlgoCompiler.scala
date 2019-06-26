@@ -7,31 +7,39 @@ import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, RuntimeSemantics }
 
 case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers {
   var foreachCount: Int = 0
-  def result: Func = Func(
-    name = algoName,
-    params = handleDuplicate(algo.params).map(Id(_)),
-    varparam = None,
-    body = ISeq(parseAll(stmts, algo.toTokenList) match {
-      case Success(res, _) => res
-      case NoSuccess(_, reader) => error(s"[AlgoCompiler]:${algo.filename}: $reader")
-    })
-  )
+  def result: Func = {
+    val (params, varparam) = handleParams(algo.params)
+    Func(
+      name = algoName,
+      params = params,
+      varparam = varparam,
+      body = ISeq(parseAll(stmts, algo.toTokenList) match {
+        case Success(res, _) => res
+        case NoSuccess(_, reader) => error(s"[AlgoCompiler]:${algo.filename}: $reader")
+      })
+    )
+  }
 
-  def handleDuplicate(l: List[String]): List[String] = {
-    def aux(scnt: Map[String, Int], lprev: List[String], lnext: List[String]): List[String] = lnext match {
+  // handle duplicated params and variable-length params
+  def handleParams(l: List[String]): (List[Id], Option[Id]) = {
+    def aux(scnt: Map[String, Int], lprev: List[Id], lnext: List[String]): List[Id] = lnext match {
       case Nil => lprev
       case s :: rest => {
         scnt.lift(s) match {
-          case Some(n) => aux(scnt.updated(s, n + 1), lprev :+ (s + n.toString), rest)
+          case Some(n) => aux(scnt + (s -> (n + 1)), Id(s"$s$n") :: lprev, rest)
           case None => if (rest contains s) {
-            aux(scnt.updated(s, 1), lprev :+ (s + "0"), rest)
+            aux(scnt + (s -> 1), Id(s + "0") :: lprev, rest)
           } else {
-            aux(scnt, lprev :+ s, rest)
+            aux(scnt, Id(s) :: lprev, rest)
           }
         }
       }
     }
-    aux(Map(), Nil, l)
+    aux(Map(), Nil, l) match {
+      case Id(x) :: tl if x.startsWith("...") =>
+        (tl.reverse, Some(Id(x.substring(3))))
+      case l => (l.reverse, None)
+    }
   }
 
   def parseStmt(tokens: List[Token]): Inst = parseAll(stmt, tokens).get
@@ -246,7 +254,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val etcStmt =
     "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
       case e => ISeq(List(IPush(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
-        $context = $executionStack[(- $executionStack.length i1)]
+        $context = $executionStack[(- $executionStack.length 1i)]
       """)))
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
       parseInst(s"""return (ScriptEvaluationJob script hostDefined)""")
@@ -268,7 +276,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "suspend the currently running execution context" ^^^ {
       parseInst(s"""$context = null""")
     } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
-      parseInst(s"""$context = $executionStack[(- $executionStack.length i1)]""")
+      parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
     }
 
   // ignore statements
@@ -311,7 +319,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     case const @ ("empty" | "throw" | "normal") => ERef(RefId(Id(const.replaceAll("-", ""))))
     case err @ ("TypeError" | "ReferenceError") => EMap(Ty(err), Nil)
     case s => etodo(s)
-  }
+  } | number ^^ { case s => EINum(s.toLong) }
 
   // completion expressions
   lazy val completionExpr =
@@ -425,8 +433,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     (("the code matched by this" ~> word <~ "is strict mode code") |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
         EBool(false) // TODO : support strict mode code
-      } | (id <~ "is not present") ~ subCond ^^ {
-        case x ~ f => f(EUOp(ONot, EExist(RefId(Id(x)))))
+      } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
+        case r ~ f => f(EUOp(ONot, EExist(r)))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
         case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
       } | (expr <~ "is not an element of") ~ expr ^^ {

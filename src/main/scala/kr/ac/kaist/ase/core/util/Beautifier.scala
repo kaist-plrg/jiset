@@ -7,12 +7,12 @@ object Beautifier {
   // beautify
   def beautify(
     node: CoreNode,
-    tab: String,
+    indent: String,
     detail: Boolean
   ): String = {
     val walker = new BeautifierWalker
     walker.sb = new StringBuilder
-    walker.indent = LINE_SEP
+    walker.indent = LINE_SEP + indent
     walker.detail = detail
     walker.walk(node)
     walker.sb.toString
@@ -126,7 +126,7 @@ object Beautifier {
     // expressions
     override def walk(expr: Expr): Unit = expr match {
       case ENum(n) => walk(s"$n")
-      case EINum(n) => walk(s"i$n")
+      case EINum(n) => walk(s"${n}i")
       case EStr(str) => walk(s""""$str"""")
       case EBool(b) => walk(s"$b")
       case EUndef => walk("undefined")
@@ -254,11 +254,11 @@ object Beautifier {
       case addr: Addr => walk(addr)
       case ast: ASTVal => walk(ast)
       case Func(name, params, varparam, body) =>
-        walk(name); walk(" ("); walkListSep[Id](params, ", ", walk);
-        walkOpt[Id](varparam, (id: Id) => if (params.length == 0) { walk("..."); walk(id); } else { walk(", ..."); walk(id) });
+        walk("\""); walk(name); walk("\" ("); walkListSep[Id](params, ", ", walk)
+        walkOpt[Id](varparam, (id: Id) => if (params.length == 0) { walk("..."); walk(id); } else { walk(", ..."); walk(id) })
         walk(") => "); walk(body)
       case Num(double) => walk(s"$double")
-      case INum(long) => walk(s"i$long")
+      case INum(long) => walk(s"${long}i")
       case Str(str) => walk(s""""$str"""")
       case Bool(bool) => walk(s"$bool")
       case Undef => walk("undefined")

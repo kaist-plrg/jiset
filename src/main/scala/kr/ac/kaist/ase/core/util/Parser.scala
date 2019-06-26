@@ -78,19 +78,20 @@ object Parser extends JavaTokenParsers with RegexParsers {
 
   // expressions
   lazy private val expr: Parser[Expr] = {
-    floatingPointNumber ^^ { case s => ENum(s.toDouble) } |
+    ref ^^ { ERef(_) } |
+      "(0|-?[1-9]\\d*)i".r ^^ { case s => EINum(s.dropRight(1).toLong) } |
+      floatingPointNumber ^^ { case s => ENum(s.toDouble) } |
       "Infinity" ^^ { case s => ENum(Double.PositiveInfinity) } |
       "+Infinity" ^^ { case s => ENum(Double.PositiveInfinity) } |
       "-Infinity" ^^ { case s => ENum(Double.NegativeInfinity) } |
       "NaN" ^^ { case s => ENum(Double.NaN) } |
-      "i(0|-?[1-9]\\d*)".r ^^ { case s => EINum(s.substring(1, s.length).toLong) } |
-      stringLiteral ^^ { case s => EStr(s.substring(1, s.length - 1)) } |
+      string ^^ { EStr(_) } |
       "true" ^^^ EBool(true) |
       "false" ^^^ EBool(false) |
       "undefined" ^^^ EUndef |
       "null" ^^^ ENull |
       "absent" ^^^ EAbsent |
-      "???" ~> stringLiteral ^^ { case s => ENotYetImpl(s.substring(1, s.length - 1)) } |
+      "???" ~> string ^^ { ENotYetImpl(_) } |
       "(" ~> (uop ~ expr) <~ ")" ^^ { case u ~ e => EUOp(u, e) } |
       "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
       "(" ~> ("?" ~> ref) <~ ")" ^^ { case ref => EExist(ref) } |
@@ -107,8 +108,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       } |
       "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
       "(" ~> "contains" ~> expr ~ expr <~ ")" ^^ { case l ~ e => EContains(l, e) } |
-      "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) } |
-      ref ^^ { ERef(_) }
+      "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) }
   }
 
   // properties
@@ -130,7 +130,11 @@ object Parser extends JavaTokenParsers with RegexParsers {
   lazy private val ty: Parser[Ty] = ident ^^ { Ty(_) }
 
   // identifiers
-  lazy private val id: Parser[Id] = ident ^^ { Id(_) }
+  lazy private val id: Parser[Id] = ident.withFilter(s => !(keywords contains s)) ^^ { Id(_) }
+  private val keywords: Set[String] = Set(
+    "Infinity", "NaN", "true", "false", "undefined", "null", "absent",
+    "typeof", "new", "pop", "is-instance-of", "get-syntax", "contains"
+  )
 
   // unary operators
   lazy private val uop: Parser[UOp] = {
@@ -164,9 +168,9 @@ object Parser extends JavaTokenParsers with RegexParsers {
   lazy private val value: Parser[Value] = {
     func |
       addr |
+      "(0|-?[1-9]\\d*)i".r ^^ { case s => INum(s.dropRight(1).toLong) } |
       floatingPointNumber ^^ { case n => Num(n.toDouble) } |
-      "i" ~> wholeNumber ^^ { case n => INum(n.toLong) } |
-      stringLiteral ^^ { Str(_) } |
+      string ^^ { Str(_) } |
       "true" ^^^ { Bool(true) } |
       "false" ^^^ { Bool(false) } |
       "undefined" ^^^ Undef |
@@ -176,7 +180,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
 
   // functions
   lazy private val func: Parser[Func] =
-    ident ~ ("(" ~> (
+    string ~ ("(" ~> (
       rep1sep(id, ",") ~ opt("," ~> "..." ~> id) | success(Nil) ~ opt("..." ~> id)
     ) <~ ")") ~ ("=>" ~> inst) ^^ { case n ~ (ps ~ ox) ~ b => Func(n, ps, ox, b) }
 
@@ -189,24 +193,25 @@ object Parser extends JavaTokenParsers with RegexParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Helper functions
   ////////////////////////////////////////////////////////////////////////////////
+  lazy val string = stringLiteral ^^ { case s => s.substring(1, s.length - 1) }
   object IForeach {
     def apply(id: Id, expr: Expr, body: Inst, cnt: Int, reversed: Boolean = false): Inst = parseInst(
       if (reversed) s"""{
         let __list${cnt}__ = ${beautify(expr)}
         let __i${cnt}__ = __list${cnt}__.length
-        while (< i0 __i${cnt}__) {
-          __i${cnt}__ = (- __i${cnt}__ i1)
+        while (< 0i __i${cnt}__) {
+          __i${cnt}__ = (- __i${cnt}__ 1i)
           let ${beautify(id)} = __list${cnt}__[__i${cnt}__]
           ${beautify(body)}
         }
       }"""
       else s"""{
         let __list${cnt}__ = ${beautify(expr)}
-        let __i${cnt}__ = i0
+        let __i${cnt}__ = 0i
         while (< __i${cnt}__ __list${cnt}__.length) {
           let ${beautify(id)} = __list${cnt}__[__i${cnt}__]
           ${beautify(body)}
-          __i${cnt}__ = (+ __i${cnt}__ i1)
+          __i${cnt}__ = (+ __i${cnt}__ 1i)
         }
       }"""
     )
