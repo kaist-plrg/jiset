@@ -26,6 +26,7 @@ object Useful {
   }
 
   // walk directory
+  def walkTree(filename: String): Iterable[File] = walkTree(new File(filename))
   def walkTree(file: File): Iterable[File] = {
     val children = new Iterable[File] {
       def iterator: Iterator[File] =
@@ -40,6 +41,7 @@ object Useful {
   lazy val coreFilter = extFilter("core")
   lazy val jsFilter = extFilter("js")
   lazy val jsonFilter = extFilter("json")
+  lazy val scalaFilter = extFilter("scala")
 
   // file writer
   def getPrintWriter(filename: String): PrintWriter =
@@ -63,6 +65,10 @@ object Useful {
   // get name without extension
   def removedExt(filename: String): String =
     filename.split('.').dropRight(1).mkString(".")
+
+  // renamed filename
+  def renameFile(from: String, to: String): Unit =
+    new File(from).renameTo(new File(to))
 
   // colored println
   def cprintln(color: String, x: Any): Unit = {

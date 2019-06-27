@@ -13,13 +13,23 @@ object ModelGenerator {
     val grammar = spec.grammar
     val tys = spec.tys
     methods.foreach(name => MethodGenerator(name))
+    for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/manual/algorithm")) {
+      val filename = file.getName
+      if (scalaFilter(filename)) {
+        val name = file.toString
+        val content = readFile(name)
+        val nf = getPrintWriter(s"$MODEL_DIR/algorithm/$filename")
+        nf.println(content)
+        nf.close()
+      }
+    }
+
     GrammarGenerator(grammar)
     tys.foreach { case ((tname, methods)) => TypeGenerator(tname, methods) }
 
     val nf = getPrintWriter(s"$MODEL_DIR/Model.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println(s"""""")
-    nf.println(s"""import kr.ac.kaist.ase.manualModel._""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")
     nf.println(s"""object Model {""")
     nf.println(s"""  lazy val initState: State = State(""")
@@ -40,7 +50,8 @@ object ModelGenerator {
     nf.println(s"""  ) ++ Map(""")
     nf.println(consts.map(i =>
       s"""    Id("$i") -> NamedAddr("$i")""").mkString("," + LINE_SEP))
-    nf.println(s"""  ) ++ ManualModel.initGlobal""")
+    nf.println(s"""  ) ++""")
+    nf.println(readFile(s"$RESOURCE_DIR/$VERSION/manual/Global"))
     nf.println(s"""  private lazy val EMPTY: CoreMap = CoreMap(Ty("OrdinaryObject"), tyMap("OrdinaryObject"))""")
     nf.println(s"""  lazy val initHeap: Heap = Heap(Map(""")
 
@@ -65,7 +76,8 @@ object ModelGenerator {
 
     nf.println(consts.map(i =>
       s"""    NamedAddr("$i") -> Singleton("$i")""").mkString("," + LINE_SEP))
-    nf.println(s"""  ) ++ ManualModel.initNamedHeap)""")
+    nf.println(s"""  ) ++""")
+    nf.println(readFile(s"$RESOURCE_DIR/$VERSION/manual/Heap") + ")")
     nf.println(s"""  lazy val tyMap: Map[String, Map[Value, Value]] = Map(""")
     nf.println(tys.map {
       case ((tname, _)) => s"""    ("$tname" -> $tname.map)"""

@@ -14,7 +14,7 @@ class AlgoCompilerTest extends CoreTest {
   val tag: String = "algoCompilerTest"
 
   // algorithm files
-  val algoDir = s"$RESOURCE_DIR/$VERSION/algorithm"
+  val algoDir = s"$RESOURCE_DIR/$VERSION/auto/algorithm"
 
   object CheckNotYetImplWalker extends UnitWalker {
     override def walk(expr: Expr): Unit = expr match {
