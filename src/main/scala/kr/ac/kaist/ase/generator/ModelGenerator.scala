@@ -7,7 +7,7 @@ import kr.ac.kaist.ase.spec._
 object ModelGenerator {
   def apply(spec: Spec): Unit = {
     val methods = spec.globalMethods
-    val globalObjectMethods = spec.globalMethods.filter(_.startsWith("Global.")).toSet
+    val globalObjectMethods = spec.globalMethods.filter(_.startsWith("global."))
     val intrinsics = spec.intrinsics
     val consts = spec.consts
     val grammar = spec.grammar
@@ -40,7 +40,6 @@ object ModelGenerator {
     nf.println(s"""    heap = initHeap""")
     nf.println(s"""  )""")
     nf.println(s"""  lazy val initGlobal: Map[Id, Value] = Map(""")
-    nf.println(s"""    Id("Global") -> NamedAddr("Global"),""")
     intrinsics.foreach {
       case (k, v) =>
         nf.println(s"""    Id("${getScalaName(k)}") -> NamedAddr("$v"),""")
