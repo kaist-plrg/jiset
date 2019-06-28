@@ -443,6 +443,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: Parser[Expr] =
     (("the code matched by this" ~> word <~ "is strict mode code") |
+      "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
         EBool(false) // TODO : support strict mode code
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
