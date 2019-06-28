@@ -31,6 +31,8 @@ object ModelGenerator {
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println(s"""""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")
+    nf.println(s"""import kr.ac.kaist.ase.util.Useful._""")
+    nf.println(s"""""")
     nf.println(s"""object Model {""")
     nf.println(s"""  lazy val initState: State = State(""")
     nf.println(s"""    retValue = None,""")
@@ -51,32 +53,25 @@ object ModelGenerator {
       s"""    Id("$i") -> NamedAddr("$i")""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++""")
     nf.println(readFile(s"$RESOURCE_DIR/$VERSION/manual/Global"))
-    nf.println(s"""  private lazy val EMPTY: CoreMap = CoreMap(Ty("OrdinaryObject"), tyMap("OrdinaryObject"))""")
+    nf.println(s"""  lazy val globalMethods: List[String] = List(""")
+    nf.println(globalObjectMethods.map(x =>
+      s"""    "$x"""").mkString("," + LINE_SEP))
+    nf.println(s"""  )""")
     nf.println(s"""  lazy val initHeap: Heap = Heap(Map(""")
-
-    (Map[String, Set[String]]() /: globalObjectMethods) {
-      case (m, path) =>
-        val (resM, _) = ((m, "Global") /: path.split('.').tail) {
-          case ((m, base), x) =>
-            val name = s"$base.$x"
-            (m + (base -> (m.getOrElse(base, Set()) + x), name -> m.getOrElse(name, Set())), name)
-        }
-        resM
-    }.foreach {
-      case (name, list) =>
-        nf.println(s"""    NamedAddr("$name") -> EMPTY""")
-        if (globalObjectMethods contains name)
-          nf.println(s"""     .updated(Str("Code"), ${getScalaName(name)}.func)""")
-        nf.println(s"""     .updated(Str("SubMap"), NamedAddr("$name.SubMap")),""")
-        nf.println(s"""    NamedAddr("$name.SubMap") -> CoreMap(Ty("SubMap"), Map(""")
-        nf.println(list.map(x => s"""      Str("$x") -> NamedAddr("$name.$x")""").mkString("," + LINE_SEP))
-        nf.println(s"""    )),""")
-    }
-
     nf.println(consts.map(i =>
       s"""    NamedAddr("$i") -> Singleton("$i")""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++""")
-    nf.println(readFile(s"$RESOURCE_DIR/$VERSION/manual/Heap") + ")")
+    nf.println(readFile(s"$RESOURCE_DIR/$VERSION/manual/Heap") + ") match {")
+    nf.println(s"""    case Heap(m, _) => Heap((m /: globalMethods) {""")
+    nf.println(s"""      case (m, name) =>""")
+    nf.println(s"""        val base = NamedAddr(removedExt(name))""")
+    nf.println(s"""        val prop = Str(getExt(name))""")
+    nf.println(s"""        m.get(base) match {""")
+    nf.println(s"""          case Some(CoreMap(ty, map)) => m + (base -> CoreMap(ty, map + (prop -> NamedAddr(name))))""")
+    nf.println(s"""          case _ => m""")
+    nf.println(s"""        }""")
+    nf.println(s"""    })""")
+    nf.println(s"""  }""")
     nf.println(s"""  lazy val tyMap: Map[String, Map[Value, Value]] = Map(""")
     nf.println(tys.map {
       case ((tname, _)) => s"""    ("$tname" -> $tname.map)"""
@@ -86,3 +81,7 @@ object ModelGenerator {
     nf.close()
   }
 }
+// TODO
+// nf.println(s"""        (NamedAddr(name) -> CoreMap(Ty("BuiltinFunctionObject"), Map(""")
+// nf.println(s"""          Str("Code") -> getScalaName(name).func""")
+// nf.println(s"""        )))""")

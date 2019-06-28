@@ -66,6 +66,10 @@ object Useful {
   def removedExt(filename: String): String =
     filename.split('.').dropRight(1).mkString(".")
 
+  // get extension
+  def getExt(filename: String): String =
+    filename.split('.').last
+
   // renamed filename
   def renameFile(from: String, to: String): Unit =
     new File(from).renameTo(new File(to))

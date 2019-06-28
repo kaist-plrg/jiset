@@ -1,3 +1,27 @@
 Map(
-  NamedAddr("executionStack") -> CoreList(Vector())
+  NamedAddr("executionStack") -> CoreList(Vector()),
+  NamedAddr("global") -> CoreMap(Ty("Map"), Map(
+    Str("Object") -> NamedAddr("global.Object")
+  )),
+  NamedAddr("global.Object") -> CoreMap(Ty("OrdinaryObject"), OrdinaryObject.map ++ Map(
+    Str("Prototype") -> NamedAddr("global.Function.prototype"),
+    Str("SubMap") -> NamedAddr("global.Object.SubMap")
+  )),
+  NamedAddr("global.Object.SubMap") -> CoreMap(Ty("SubMap"), Map(
+    Str("length") -> NamedAddr("global.Object.SubMap.length"),
+    Str("prototype") -> NamedAddr("global.Object.SubMap.prototype")
+  )),
+  NamedAddr("global.Object.SubMap.prototype") -> CoreMap(Ty("PropertyDescriptor"), Map(
+    Str("Value") -> NamedAddr("global.Object.prototype"),
+    Str("Writable") -> Bool(false),
+    Str("Enumerable") -> Bool(false),
+    Str("Configurable") -> Bool(false)
+  )),
+  NamedAddr("global.Object.prototype") -> CoreMap(Ty("ImmutablePrototypeExoticObject"), ImmutablePrototypeExoticObject.map ++ Map(
+    Str("Prototype") -> Null,
+    Str("SubMap") -> NamedAddr("global.Object.prototype.SubMap")
+  )),
+  NamedAddr("global.Object.prototype.SubMap") -> CoreMap(Ty("SubMap"), Map(
+    Str("constructor") -> NamedAddr("global.Object")
+  ))
 )
