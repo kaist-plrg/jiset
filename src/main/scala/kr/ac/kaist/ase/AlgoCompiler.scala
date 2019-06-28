@@ -254,6 +254,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x ~ y => IPush(x, y)
     } | ("append to" ~> expr <~ "the elements of") ~ expr ^^ {
       case l1 ~ l2 => iForeach(Id("temp"), l2, IPush(ERef(RefId(Id("temp"))), l1))
+    } | ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
+      case x ~ y => IPush(x, y)
     }
 
   // et cetera statements
@@ -272,6 +274,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseInst(s"""O.SubMap[P].Value = Desc.Value""") // TODO: move each field of record at ValidateAndApplyPropertyDescriptor
     } | "parse" ~ id ~ "using script as the goal symbol and analyse the parse result for any early Error conditions" ~ rest ^^^ {
       parseInst(s"""let body = script""")
+    } | "if declaration is declaration : hoistabledeclaration, then" ~> stmt ^^ {
+      case s => IIf(EIsInstanceOf(parseExpr("Declaration"), "HoistableDeclaration"), ISeq(List(parseInst("let HoistableDeclaration = Declaration"), s)), ISeq(Nil))
     } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
       parseInst(s"""if (is-instance-of Statement LabelledStatement) return Statement.TopLevelVarDeclaredNames else {}""")
     } | "suspend" ~ name ~ "and remove it from the execution context stack" ^^^ {
@@ -532,6 +536,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val ref: Parser[Ref] =
     "the outer lexical environment reference of" ~> ref ^^ {
       case r => RefProp(r, EStr("Outer"))
+    } | "the sole element of" ~> ref ^^ {
+      case x => RefProp(x, EINum(0))
     } | "the base value component of" ~> name ^^ {
       case x => parseRef(s"$x.BaseValue")
     } | name <~ "'s base value component" ^^ {

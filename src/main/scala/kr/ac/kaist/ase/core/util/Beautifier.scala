@@ -244,7 +244,7 @@ object Beautifier {
         walkMap[Value, Value](props, walk, walk)
       })
       case CoreList(values) => oneDepth({
-        walk("(List [length = "); walk(values.length.toString); walk(")")
+        walk("(List [length = "); walk(values.length.toString); walk("])")
         walkList[Value](values.toList, walk)
       })
     }
