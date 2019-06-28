@@ -24,6 +24,7 @@ case class Num(double: Double) extends Const {
   }
 }
 case class ASTVal(ast: AST) extends Value
+case class ASTMethod(func: Func, env: Map[Id, Value]) extends Value
 case class INum(long: Long) extends Const
 case class Str(str: String) extends Const
 case class Bool(bool: Boolean) extends Const

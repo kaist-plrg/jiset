@@ -27,15 +27,20 @@ case class State(
     case RefValueAST(astV, name) =>
       val ASTVal(ast) = astV
       val (Func(fname, params, varparam, body), lst) = ast.semantics(name)
-      val (locals, _) = ((Map[Id, Value](), lst) /: params) {
-        case ((map, arg :: rest), param) =>
+      val (locals, rest) = ((Map[Id, Value](), params) /: lst) {
+        case ((map, param :: rest), arg) =>
           (map + (param -> arg), rest)
         case (pair, _) => pair
       }
-      val newSt = Interp.fixpoint(copy(context = fname, insts = List(body), locals = locals))
-      newSt.retValue match {
-        case Some(v) => (v, copy(heap = newSt.heap, globals = newSt.globals))
-        case None => error(s"no return value")
+      rest match {
+        case Nil =>
+          val newSt = Interp.fixpoint(copy(context = fname, insts = List(body), locals = locals))
+          newSt.retValue match {
+            case Some(v) => (v, copy(heap = newSt.heap, globals = newSt.globals))
+            case None => error(s"no return value")
+          }
+        case _ =>
+          (ASTMethod(Func(fname, rest, varparam, body), locals), this)
       }
     case RefValueToNumber(s) => (Num(s.toDouble), this)
   }

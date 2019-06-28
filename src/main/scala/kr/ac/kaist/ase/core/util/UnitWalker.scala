@@ -162,14 +162,21 @@ trait UnitWalker {
   def walk(v: Value): Unit = v match {
     case addr: Addr => walk(addr)
     case ast: ASTVal => walk(ast)
-    case Func(name, params, varparam, body) =>
-      walk(name); walkList[Id](params, walk);
-      walkOpt[Id](varparam, walk); walk(body)
+    case ASTMethod(func, locals) =>
+      walk(func); walkMap[Id, Value](locals, walk, walk)
+    case func: Func => walk(func)
     case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent =>
   }
 
   // addresses
   def walk(addr: Addr): Unit = {}
+
+  // function
+  def walk(func: Func): Unit = func match {
+    case Func(name, params, varparam, body) =>
+      walk(name); walkList[Id](params, walk)
+      walkOpt[Id](varparam, walk); walk(body)
+  }
 
   // AST values
   def walk(ast: ASTVal): Unit = {}

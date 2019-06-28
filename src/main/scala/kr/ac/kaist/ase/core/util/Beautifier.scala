@@ -253,10 +253,10 @@ object Beautifier {
     override def walk(v: Value): Unit = v match {
       case addr: Addr => walk(addr)
       case ast: ASTVal => walk(ast)
-      case Func(name, params, varparam, body) =>
-        walk("\""); walk(name); walk("\" ("); walkListSep[Id](params, ", ", walk)
-        walkOpt[Id](varparam, (id: Id) => if (params.length == 0) { walk("..."); walk(id); } else { walk(", ..."); walk(id) })
-        walk(") => "); walk(body)
+      case ASTMethod(func, locals) =>
+        walk("ASTMethod("); walk(func); walk(", ")
+        walkMap[Id, Value](locals, walk, walk); walk(")")
+      case func: Func => walk(func)
       case Num(double) => walk(s"$double")
       case INum(long) => walk(s"${long}i")
       case Str(str) => walk(s""""$str"""")
@@ -270,6 +270,14 @@ object Beautifier {
     override def walk(addr: Addr): Unit = addr match {
       case NamedAddr(name) => walk(s"#$name")
       case DynamicAddr(long) => walk(s"#addr($long)")
+    }
+
+    // function
+    override def walk(func: Func): Unit = func match {
+      case Func(name, params, varparam, body) =>
+        walk("\""); walk(name); walk("\" ("); walkListSep[Id](params, ", ", walk)
+        walkOpt[Id](varparam, (id: Id) => if (params.length == 0) { walk("..."); walk(id); } else { walk(", ..."); walk(id) })
+        walk(") => "); walk(body)
     }
 
     // AST values

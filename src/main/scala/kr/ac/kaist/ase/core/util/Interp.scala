@@ -127,6 +127,18 @@ object Interp {
             case Some(v) => (v, s2.copy(heap = newSt.heap, globals = newSt.globals))
             case None => error(s"no return value")
           }
+        case ASTMethod(Func(fname, params, _, body), baseLocals) =>
+          val (locals, s1, _) = ((baseLocals, s0, args) /: params) {
+            case ((map, st, arg :: rest), param) =>
+              val (av, s0) = interp(arg)(st)
+              (map + (param -> av), s0, rest)
+            case (triple, _) => triple
+          }
+          val newSt = Interp.fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
+          newSt.retValue match {
+            case Some(v) => (v, s1.copy(heap = newSt.heap, globals = newSt.globals))
+            case None => error(s"no return value")
+          }
         case v => error(s"not a function: $v")
       }
     case EUOp(uop, expr) =>
@@ -151,6 +163,7 @@ object Interp {
         case Absent => Str("Absent")
         case Func(_, _, _, _) => Str("Function")
         case ASTVal(_) => Str("AST")
+        case ASTMethod(_, _) => Str("ASTMethod")
       }, s0)
     }
     case EIsInstanceOf(base, name) => interp(base)(st) match {

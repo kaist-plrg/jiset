@@ -139,12 +139,19 @@ trait Walker {
   def walk(value: Value): Value = value match {
     case addr: Addr => walk(addr)
     case ast: ASTVal => walk(ast)
-    case Func(name, params, varparam, body) => Func(walk(name), walkList[Id](params, walk), walkOpt[Id](varparam, walk), walk(body))
+    case ASTMethod(func, locals) => ASTMethod(walk(func), walkMap[Id, Value](locals, walk, walk))
+    case func: Func => walk(func)
     case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent => value
   }
 
   // addresses
   def walk(addr: Addr): Addr = addr
+
+  // function
+  def walk(func: Func): Func = func match {
+    case Func(name, params, varparam, body) =>
+      Func(walk(name), walkList[Id](params, walk), walkOpt[Id](varparam, walk), walk(body))
+  }
 
   // AST values
   def walk(ast: ASTVal): ASTVal = ast

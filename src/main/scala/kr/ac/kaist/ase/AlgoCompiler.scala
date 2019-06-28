@@ -347,6 +347,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e => ETypeOf(e)
     } | "completion(" ~> expr <~ ")" ^^ {
       case e => e
+    } | ("the result of performing" ~> name <~ "for") ~ name ~ ("with argument" ~> expr) ^^ {
+      case f ~ x ~ a => EApp(parseExpr(s"$x.$f"), List(a))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
       case RefId(Id(x)) ~ list => EApp(parseExpr(x), list)
       case (r @ RefProp(b, _)) ~ list => EApp(ERef(r), ERef(b) :: list)
