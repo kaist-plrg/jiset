@@ -607,9 +607,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "outer environment reference" ^^^ "Outer" |
     "the running execution context" ^^^ context |
     "the" ~ ty ~ "for which the method was invoked" ^^^ "this" |
-    word |
     "[[" ~> word <~ "]]" |
-    ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
+    opt("the intrinsic object") ~> ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
+    word |
     id
   )
 }
