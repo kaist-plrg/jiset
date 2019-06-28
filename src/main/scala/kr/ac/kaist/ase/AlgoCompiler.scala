@@ -326,9 +326,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     case "-0" => ENum(-0.0)
     case "undefined" => EUndef
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
-    case const @ ("empty" | "throw" | "normal") => ERef(RefId(Id(const.replaceAll("-", ""))))
     case err @ ("TypeError" | "ReferenceError") => EMap(Ty(err), Nil)
     case s => etodo(s)
+  } | const ^^ {
+    case const => ERef(RefId(Id(const.replaceAll("-", ""))))
   } | number ^^ { case s => EINum(s.toLong) }
 
   // completion expressions

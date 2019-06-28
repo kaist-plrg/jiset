@@ -48,6 +48,11 @@ trait TokenParsers extends Parsers {
     }).map(_.reverse)
   })
 
+  def const: Parser[String] = Parser(in => firstMap(in, _ match {
+    case Const(x) => Success(x, in.rest)
+    case t => Failure(s"`Const(_)` expected but `$t` found", in)
+  }))
+
   def value: Parser[String] = Parser(in => firstMap(in, _ match {
     case Value(x) => Success(x, in.rest)
     case t => Failure(s"`Value(_)` expected but `$t` found", in)
@@ -95,7 +100,7 @@ trait TokenParsers extends Parsers {
 
   def rest: Parser[List[String]] = rep(token)
   def step: Parser[List[String]] = rest <~ next
-  def token: Parser[String] = value | text | id | stepList
+  def token: Parser[String] = const | value | text | id | stepList
   def stepList: Parser[String] = in ~> rep1(step) <~ out ^^^ "step-list"
 
   override def phrase[T](p: Parser[T]): Parser[T] =

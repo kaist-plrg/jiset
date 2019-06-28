@@ -5,6 +5,7 @@ import kr.ac.kaist.ase.error.UnexpectedToken
 
 // tokens
 trait Token
+case class Const(const: String) extends Token
 case class Value(value: String) extends Token
 case class Id(id: String) extends Token
 case class StepList(steps: List[Step]) extends Token
@@ -20,6 +21,7 @@ object Token {
     var indent = 0
     def newline: Unit = sb.append(LINE_SEP).append(" " * indent)
     def t(token: Token): Unit = token match {
+      case Const(const) => sb.append("const:").append(const).append(" ")
       case Value(value) => sb.append("value:").append(value).append(" ")
       case Id(id) => sb.append("id:").append(id).append(" ")
       case Text(text) => sb.append(text).append(" ")
