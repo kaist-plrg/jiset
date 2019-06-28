@@ -329,6 +329,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     case err @ ("TypeError" | "ReferenceError") => EMap(Ty(err), Nil)
     case s => etodo(s)
   } | const ^^ {
+    case "[empty]" => ERef(RefId(Id("emptySyntax")))
     case const => ERef(RefId(Id(const.replaceAll("-", ""))))
   } | number ^^ { case s => EINum(s.toLong) }
 

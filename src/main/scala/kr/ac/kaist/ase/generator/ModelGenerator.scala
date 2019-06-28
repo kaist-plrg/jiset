@@ -9,7 +9,7 @@ object ModelGenerator {
     val methods = spec.globalMethods
     val globalObjectMethods = spec.globalMethods.filter(_.startsWith("global."))
     val intrinsics = spec.intrinsics
-    val consts = spec.consts
+    val consts = (spec.consts.toSet - "[empty]" + "emptySyntax").toList
     val grammar = spec.grammar
     val tys = spec.tys
     methods.foreach(name => MethodGenerator(name))
