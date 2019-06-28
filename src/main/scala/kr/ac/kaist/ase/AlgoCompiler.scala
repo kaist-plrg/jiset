@@ -118,6 +118,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case RuntimeSemantics => IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(e)))
         case _ => IReturn(e)
       }
+    } | "return" ^^^ {
+      IReturn(EMap(Ty("Completion"), List(
+        EStr("Type") -> parseExpr("normal"),
+        EStr("Value") -> EUndef,
+        EStr("Target") -> parseExpr("empty")
+      )))
     }
 
   // let statements
