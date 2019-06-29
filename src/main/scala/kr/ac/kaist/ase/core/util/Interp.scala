@@ -144,6 +144,10 @@ object Interp {
     case EUOp(uop, expr) =>
       val (v, s0) = interp(expr)(st)
       (interp(uop)(v), s0)
+
+    // logical operations
+    case EBOp(OAnd, left, right) => shortCircuit(OAnd, false, _ && _, left, right, st)
+    case EBOp(OOr, left, right) => shortCircuit(OOr, true, _ || _, left, right, st)
     case EBOp(bop, left, right) =>
       val (lv, s0) = interp(left)(st)
       val (rv, s1) = interp(right)(s0)
@@ -248,5 +252,23 @@ object Interp {
     // equality operations
     case (OEq, l, r) => Bool(l == r)
     case (_, lval, rval) => error(s"wrong type: $lval $bop $rval")
+  }
+
+  // short circuit evaluation
+  def shortCircuit(
+    bop: BOp,
+    base: Boolean,
+    op: (Boolean, Boolean) => Boolean,
+    left: Expr,
+    right: Expr,
+    st: State
+  ): (Value, State) = interp(left)(st) match {
+    case pair @ (Bool(`base`), _) => pair
+    case (lv, s0) =>
+      val (rv, s1) = interp(right)(s0)
+      (lv, rv) match {
+        case (Bool(l), Bool(r)) => (Bool(op(l, r)), s1)
+        case (lval, rval) => error(s"wrong type: $lval $bop $rval")
+      }
   }
 }
