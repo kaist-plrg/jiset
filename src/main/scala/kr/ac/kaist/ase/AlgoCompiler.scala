@@ -83,7 +83,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val stmt: Parser[Inst] =
-    returnStmt |
+    etcStmt |
+      returnStmt |
       letStmt |
       returnIfAbruptStmt |
       innerStmt |
@@ -95,7 +96,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       whileStmt |
       forEachStmt |
       pushStmt |
-      etcStmt |
       ignoreStmt
 
   // return statements
@@ -287,6 +287,19 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseInst(s"""$context = null""")
     } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
       parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
+    } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27. all of those internal slots are initialized to" ~ value ^^ {
+      case x => parseInst(s"""{
+        let $x = (new ECMAScriptFunctionObject("SubMap" -> (new SubMap())))
+        $x.Call = undefined
+        $x.Constructor = undefined
+      }""")
+    } | "let" ~> name <~ "be the topmost execution context on the execution context stack whose scriptormodule component is not" ~ value ~ "." ~ next ~ "if no such execution context exists, return" ~ value ~ ". otherwise, return" ~ name ~ "'s scriptormodule component." ^^ {
+      case x => ISeq(List(
+        iForeach(Id(x), parseExpr(executionStack), parseInst(s"""{
+          if (! (= $x.ScriptOrModule null)) return $x.ScriptOrModule
+        }"""), true),
+        parseInst("return null")
+      ))
     }
 
   // ignore statements
@@ -432,6 +445,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x1 ~ x2 => EApp(ERef(RefId(Id("StrictEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
     } | ("the result of negating" ~> id <~ rest) ^^ {
       case x => EUOp(ONeg, ERef(RefId(Id(x))))
+    } | "the definition specified in 9.2.1" ^^^ {
+      parseExpr("ECMAScriptFunctionObjectDOTCall")
+    } | "the definition specified in 9.2.2" ^^^ {
+      parseExpr("ECMAScriptFunctionObjectDOTConstruct")
     }
 
   // reference expressions
@@ -484,6 +501,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
       } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
         case e => EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
+      } | expr <~ "is empty" ^^ {
+        case e => parseExpr(s"(= ${beautify(e)}.length 0)")
       } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
         case e => EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
       } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
@@ -606,6 +625,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val name: Parser[String] = (
     "outer environment reference" ^^^ "Outer" |
     "the running execution context" ^^^ context |
+    "the execution context stack" ^^^ executionStack |
     "the" ~ ty ~ "for which the method was invoked" ^^^ "this" |
     "[[" ~> word <~ "]]" |
     opt("the intrinsic object") ~> ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
