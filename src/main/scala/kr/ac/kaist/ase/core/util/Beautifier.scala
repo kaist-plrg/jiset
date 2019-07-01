@@ -164,6 +164,10 @@ object Beautifier {
         walk("(get-syntax "); walk(base); walk(")")
       case EParseSyntax(code, rule) =>
         walk("(parse-syntax "); walk(code); walk(" "); walk(rule); walk(")")
+      case EParseString(code, pop) =>
+        walk("(parse-string "); walk(code); walk(" "); walk(pop); walk(")")
+      case EConvert(expr, cop) =>
+        walk("(convert "); walk(expr); walk(" "); walk(cop); walk(")")
       case EContains(list, elem) =>
         walk("(contains "); walk(list); walk(" "); walk(elem); walk(")")
       case ENotYetImpl(msg) =>
@@ -208,6 +212,18 @@ object Beautifier {
       case OLt => "<"
       case OURShift => ">>>"
       case OSRShift => ">>"
+    })
+
+    // parse operators
+    override def walk(pop: POp): Unit = walk(pop match {
+      case PStr => "string"
+      case PNum => "number"
+    })
+
+    // convert operators
+    override def walk(cop: COp): Unit = walk(cop match {
+      case CStrToNum => "str2num"
+      case CNumToStr => "num2str"
     })
 
     ////////////////////////////////////////////////////////////////////////////////
