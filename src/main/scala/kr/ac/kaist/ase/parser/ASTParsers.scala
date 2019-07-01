@@ -189,14 +189,8 @@ trait ASTParsers extends RegexParsers {
     scala.io.StdIn.readLine
   }
 
-  type P0[T] = NodeParser[T]
-  type P1[T] = (Boolean) => NodeParser[T]
-  type P2[T] = ((Boolean, Boolean)) => NodeParser[T]
-  type P3[T] = ((Boolean, Boolean, Boolean)) => NodeParser[T]
-  type R0[T] = NodeParser[T => T]
-  type R1[T] = (Boolean) => NodeParser[T => T]
-  type R2[T] = ((Boolean, Boolean)) => NodeParser[T => T]
-  type R3[T] = ((Boolean, Boolean, Boolean)) => NodeParser[T => T]
+  type P[T] = List[Boolean] => NodeParser[T]
+  type R[T] = List[Boolean] => NodeParser[T => T]
   protected def memo[K, V](f: K => V): K => V = {
     val cache = collection.mutable.Map.empty[K, V]
     k => cache.getOrElse(k, {
@@ -206,11 +200,11 @@ trait ASTParsers extends RegexParsers {
     })
   }
 
-  val Script: P0[Script]
+  val Script: P[Script]
 
   def apply(filename: String): Script =
-    parseAll(term("") ~> Script, fileReader(filename)).get
+    parseAll(term("") ~> Script(Nil), fileReader(filename)).get
 
   def fromString(str: String): Script =
-    parseAll(term("") ~> Script, str).get
+    parseAll(term("") ~> Script(Nil), str).get
 }

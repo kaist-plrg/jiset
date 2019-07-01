@@ -9,3 +9,7 @@ case object ModelNotYetGenerated extends ModelError({
 case class UnexpectedSemantics(name: String) extends ModelError({
   s"unexpected semantics: $name"
 })
+
+case class WrongNumberOfParserParams(list: List[Boolean]) extends ModelError({
+  s"wrong number of parser parameters: $list"
+})

@@ -60,29 +60,27 @@ object ASTParserGenerator {
       val Production(lhs, rhsList) = prod
       val Lhs(name, params) = lhs
       val pre = "lazy val"
-      val post =
-        if (params.length == 0) s"""0[$name] = {"""
-        else s"""${params.length}[$name] = memo { case (${params.mkString(", ")}) =>"""
+      val post = s"""[$name] = memo {
+        case args @ List(${params.mkString(", ")}) =>"""
 
       nf.println(s"""  $pre $name: P$post""")
       for ((rhs, i) <- rhsList.zipWithIndex if !isLL(name, rhs))
-        getParsers(name, params, rhs.tokens, rhs.cond, i, false)
+        getParsers(name, rhs.tokens, rhs.cond, i, false)
       nf.println(s"""    MISMATCH""")
+      nf.println(s"""    case v => throw WrongNumberOfParserParams(v)""")
       nf.println(s"""  }""")
       nf.println(s"""  $pre sub$name: R$post""")
       for ((rhs, i) <- rhsList.zipWithIndex if isLL(name, rhs))
-        getParsers(name, params, rhs.tokens.tail, rhs.cond, i, true)
+        getParsers(name, rhs.tokens.tail, rhs.cond, i, true)
       nf.println(s"""    MATCH ^^^ { x => x }""")
+      nf.println(s"""    case v => throw WrongNumberOfParserParams(v)""")
       nf.println(s"""  }""")
     }
 
-    def getParsers(name: String, params: List[String], tokens: List[Token], cond: String, idx: Int, isSub: Boolean): Unit = {
+    def getParsers(name: String, tokens: List[Token], cond: String, idx: Int, isSub: Boolean): Unit = {
       val subName = "sub" + name
       var parser = ("MATCH" /: tokens)(appendParser(_, _))
-      val argStrList =
-        if (params.length == 0) ""
-        else "(" + params.mkString(", ") + ")"
-      parser += s""" ~ $subName$argStrList ^^ { case """
+      parser += s""" ~ $subName(args) ^^ { case """
       val count = tokens.count(_ match {
         case (_: NonTerminal) | (_: ButNot) => true
         case _ => false
@@ -90,12 +88,10 @@ object ASTParserGenerator {
       val ids = (0 until count).map("x" + _.toString)
       val astName = s"$name$idx"
 
-      parser += (if (isSub) {
-        if (ids.length == 0) s"""_ ~ y => ((x: $name) => y($astName(x))) }"""
-        else s"""_ ~ ${ids.mkString(" ~ ")} ~ y => ((x: $name) => y($astName(x, ${ids.mkString(", ")}))) }"""
+      parser += s"_${ids.map(" ~ " + _).mkString("")} ~ y => " + (if (isSub) {
+        s"""((x: $name) => y($astName(x, ${ids.map(_ + ", ").mkString("")}args))) }"""
       } else {
-        if (ids.length == 0) s"""_ ~ y => y(${astName}) }"""
-        else s"""_ ~ ${ids.mkString(" ~ ")} ~ y => y(${astName}(${ids.mkString(", ")})) }"""
+        s"""y($astName(${ids.map(_ + ", ").mkString("")}args)) }"""
       })
 
       if (cond != "") parser = s"""(if(${cond}) ${parser} else MISMATCH)""";
@@ -107,7 +103,7 @@ object ASTParserGenerator {
       case NonTerminal(name, args, optional) =>
         var parser = name
         if (lexNames contains parser) parser = s"""term("$parser", $parser)"""
-        else if (args.length != 0) parser += s"""(${args.mkString(", ")})"""
+        else parser += s"""(List(${args.mkString(", ")}))"""
         if (optional) parser = s"""opt($parser)"""
         s"""$base ~ $parser"""
       case ButNot(_, cases) =>
@@ -126,6 +122,7 @@ object ASTParserGenerator {
     nf.println
     nf.println(s"""import kr.ac.kaist.ase.core._""")
     nf.println(s"""import kr.ac.kaist.ase.parser.ASTParsers""")
+    nf.println(s"""import kr.ac.kaist.ase.error.WrongNumberOfParserParams""")
     nf.println
     nf.println(s"""object ASTParser extends ASTParsers {""")
     lexProds.foreach(getStrParser)
