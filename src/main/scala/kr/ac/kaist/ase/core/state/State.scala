@@ -28,7 +28,7 @@ case class State(
       val ASTVal(ast) = astV
       ast.semantics(name) match {
         case Some((Func(fname, params, varparam, body), lst)) =>
-          val (locals, rest) = ((Map[Id, Value](), params) /: lst) {
+          val (locals, rest) = ((Map[Id, Value](), params) /: (astV :: lst)) {
             case ((map, param :: rest), arg) =>
               (map + (param -> arg), rest)
             case (pair, _) => pair

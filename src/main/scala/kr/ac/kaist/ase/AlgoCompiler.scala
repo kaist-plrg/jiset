@@ -466,6 +466,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e => EUOp(ONeg, e)
     } | "the stringvalue of stringliteral" ^^^ {
       parseExpr(s"(parse-string StringLiteral string)")
+    } | "this" ~ name ^^^ {
+      parseExpr("this")
     }
 
   // reference expressions

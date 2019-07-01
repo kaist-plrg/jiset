@@ -68,7 +68,7 @@ object Interp {
       case IPrint(expr) =>
         val (v, s0) = interp(expr)(st)
         v match {
-          case addr: Addr => println(beautify(s0.heap(addr)))
+          case addr: Addr => println(s0.heap(addr))
           case v => println(beautify(v))
         }
         s0
