@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase.core
 
 import kr.ac.kaist.ase.model.ASTParser
+import org.apache.commons.text.StringEscapeUtils
 
 // CORE Interpreter
 object Interp {
@@ -193,8 +194,30 @@ object Interp {
       }
       case (v, s0) => error(s"not an AST value or a string: $v")
     }
-    case EParseString(code, pop) => ???
-    case EConvert(expr, cop) => ???
+    case EParseString(code, pop) => interp(code)(st) match {
+      case (Str(s), s0) => {
+        (pop match {
+          case PStr => Str(StringEscapeUtils.unescapeEcmaScript(s.substring(1, s.length - 1)))
+          case PNum => Num(s.toDouble)
+        }, s0)
+      }
+      case (v, s0) => error(s"not an String value: $v")
+    }
+    case EConvert(expr, cop) => interp(expr)(st) match {
+      case (Str(s), s0) => {
+        (cop match {
+          case CStrToNum => Num(s.toDouble) // TODO : implement StrToNum to follow specification
+          case _ => error(s"not convertable option: Str to $cop")
+        }, s0)
+      }
+      case (Num(n), s0) => {
+        (cop match {
+          case CNumToStr => Str(Helper.toStringHelper(n))
+          case _ => error(s"not convertable option: Num to $cop")
+        }, s0)
+      }
+      case (v, s0) => error(s"not an convertable value: $v")
+    }
     case EContains(list, elem) =>
       val (l, s0) = interp(list)(st)
       l match {
@@ -219,8 +242,6 @@ object Interp {
       ((base, p) match {
         case (addr: Addr, p) => RefValueProp(addr, p)
         case (ast: ASTVal, Str(name)) => RefValueAST(ast, name)
-        case (Str(s), Str("getNumber")) => RefValueToParsedNumber(s)
-        case (Str(s), Str("getString")) => RefValueToParsedString(s)
         case v => error(s"not an address: $v")
       }, s2)
   }
@@ -290,3 +311,4 @@ object Interp {
       }
   }
 }
+

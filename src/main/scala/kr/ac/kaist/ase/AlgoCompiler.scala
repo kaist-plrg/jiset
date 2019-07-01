@@ -301,7 +301,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseInst("return null")
       ))
     } | "otherwise , let " ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 1" ~ rest ^^^ {
-      parseInst(s"""return m.getString""")
+      parseInst(s"""return (convert m num2str)""")
     }
 
   // ignore statements
@@ -437,7 +437,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "the steps of an" ~> name <~ "function as specified below" ^^ {
       case x => parseExpr(s"$x")
     } | "the number whose value is MV of" ~> name <~ rest ^^ {
-      case x => parseExpr(s"$x.getNumber")
+      case x => EParseString(ERef(RefId(Id(x))), PNum)
     } | ("the" ~> id <~ "flag of") ~ id ^^ {
       case e1 ~ e2 if e1 == "withEnvironment" => EBool(false) // TODO : support withEnvironment flag in Object Environment
     } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
@@ -464,6 +464,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => EStr(x)
     } | "-" ~> expr ^^ {
       case e => EUOp(ONeg, e)
+    } | "the stringvalue of stringliteral" ^^^ {
+      parseExpr(s"(parse-string StringLiteral string)")
     }
 
   // reference expressions
@@ -595,8 +597,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case r => r
     } | opt("the") ~> "stringvalue of identifiername" ^^^ {
       parseRef(s"IdentifierName")
-    } | "the stringvalue of stringliteral" ^^^ {
-      parseRef(s"StringLiteral.getString")
     } | "the result of evaluating" ~> nameWithOrdinal ^^ {
       case x => parseRef(s"$x.Evaluation")
     } | "IsFunctionDefinition of" ~> id ^^ {

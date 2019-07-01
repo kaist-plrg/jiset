@@ -309,10 +309,6 @@ object Beautifier {
         walk(addr); walk("[\""); walk(value); walk("\"]")
       case RefValueAST(ast, name) =>
         walk(ast); walk("."); walk(name)
-      case RefValueToParsedNumber(s) =>
-        walk(s); walk(".getNumber")
-      case RefValueToParsedString(s) =>
-        walk("\""); walk(StringEscapeUtils.escapeEcmaScript(s)); walk("\""); walk(".getString")
     }
   }
 }
