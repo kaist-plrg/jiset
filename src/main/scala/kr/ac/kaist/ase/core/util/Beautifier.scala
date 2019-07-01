@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase.core
 
 import kr.ac.kaist.ase.LINE_SEP
+import org.apache.commons.text.StringEscapeUtils
 
 // CORE Beautifier
 object Beautifier {
@@ -290,8 +291,10 @@ object Beautifier {
         walk(addr); walk("[\""); walk(value); walk("\"]")
       case RefValueAST(ast, name) =>
         walk(ast); walk("."); walk(name)
-      case RefValueToNumber(s) =>
-        walk(s); walk(".toNumber")
+      case RefValueToParsedNumber(s) =>
+        walk(s); walk(".getNumber")
+      case RefValueToParsedString(s) =>
+        walk("\""); walk(StringEscapeUtils.escapeEcmaScript(s)); walk("\""); walk(".getString")
     }
   }
 }

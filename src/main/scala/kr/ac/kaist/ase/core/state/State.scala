@@ -1,5 +1,7 @@
 package kr.ac.kaist.ase.core
 
+import org.apache.commons.text.StringEscapeUtils
+
 // CORE States
 case class State(
     context: String = "<top-level>",
@@ -42,7 +44,8 @@ case class State(
         case _ =>
           (ASTMethod(Func(fname, rest, varparam, body), locals), this)
       }
-    case RefValueToNumber(s) => (Num(s.toDouble), this)
+    case RefValueToParsedNumber(s) => (Num(s.toDouble), this)
+    case RefValueToParsedString(s) => (Str(StringEscapeUtils.unescapeEcmaScript(s.substring(1, s.length - 1))), this)
   }
 
   // initialize local variables
