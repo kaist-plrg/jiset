@@ -449,6 +449,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseExpr("ECMAScriptFunctionObjectDOTCall")
     } | "the definition specified in 9.2.2" ^^^ {
       parseExpr("ECMAScriptFunctionObjectDOTConstruct")
+    } | "the token" ~> value ^^ {
+      case x => EStr(x)
     }
 
   // reference expressions
