@@ -193,6 +193,8 @@ object Interp {
       }
       case (v, s0) => error(s"not an AST value or a string: $v")
     }
+    case EParseString(code, pop) => ???
+    case EConvert(expr, cop) => ???
     case EContains(list, elem) =>
       val (l, s0) = interp(list)(st)
       l match {

@@ -8,7 +8,10 @@ case class ENum(n: Double) extends Expr {
     case _ => false
   }
   override def toString: String = {
-    if (n.isNaN) "ENum(Double.NaN)" else s"ENum($n)"
+    if (n.isNaN) "ENum(Double.NaN)"
+    else if (n.isPosInfinity) "ENum(Double.PositiveInfinity)"
+    else if (n.isNegInfinity) "ENum(Double.NegativeInfinity)"
+    else s"ENum($n)"
   }
 }
 case class EINum(n: Long) extends Expr
@@ -33,8 +36,21 @@ case class EIsInstanceOf(base: Expr, name: String) extends Expr {
   override def toString: String = s"""EIsInstanceOf($base, "$name")"""
 }
 case class EGetSyntax(base: Expr) extends Expr
-case class EParseSyntax(code: Expr, rule: String) extends Expr
+case class EParseSyntax(code: Expr, rule: String) extends Expr {
+  override def toString: String = s"""EParseSyntax($code, "$rule")"""
+}
+case class EParseString(code: Expr, target: POp) extends Expr
+case class EConvert(source: Expr, target: COp) extends Expr
+
+sealed trait POp extends CoreNode
+case object PStr extends POp
+case object PNum extends POp
+
 case class EContains(list: Expr, elem: Expr) extends Expr
 case class ENotYetImpl(msg: String) extends Expr {
   override def toString: String = s"""ENotYetImpl("$msg")"""
 }
+
+sealed trait COp extends CoreNode
+case object CStrToNum extends COp
+case object CNumToStr extends COp
