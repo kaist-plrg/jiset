@@ -20,8 +20,7 @@ case class Lhs(name: String, params: List[String])
 // right-hand-sides
 case class Rhs(
   tokens: List[Token],
-  cond: String,
-  semantics: List[String]
+  cond: String
 )
 
 // tokens

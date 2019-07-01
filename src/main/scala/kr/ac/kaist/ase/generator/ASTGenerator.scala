@@ -32,7 +32,6 @@ object ASTGenerator {
             case NonTerminal(_, _, _) => true
             case _ => false
           }
-          val semantics = rhs.semantics
 
           def handleParams(l: List[String]): List[String] = {
             def aux(scnt: Map[String, Int], lprev: List[String], lnext: List[String]): List[String] = lnext match {
@@ -77,16 +76,26 @@ object ASTGenerator {
           nf.println(s"""}""")
           nf.println(s"""object $name$i {""")
           nf.println(s"""  val semMap: Map[String, Func] = Map(""")
+          var sems: List[String] = Nil
           for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/manual/algorithm")) {
             if (scalaFilter(file.getName)) {
               val methodName = removedExt(file.getName)
               if (methodName startsWith s"$name$i") {
                 val semName = methodName.substring(name.length + 1)
-                nf.println(s""""$semName" -> $methodName.func""")
+                sems ::= s""""$semName" -> $methodName.func"""
               }
             }
           }
-          nf.println(rhs.semantics.map(s => s""""$s" -> $name$i$s.func""").mkString("," + LINE_SEP))
+          for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/auto/algorithm")) {
+            if (jsonFilter(file.getName)) {
+              val methodName = removedExt(file.getName)
+              if (methodName startsWith s"$name$i") {
+                val semName = methodName.substring(name.length + 1)
+                sems ::= s""""$semName" -> $methodName.func"""
+              }
+            }
+          }
+          nf.println(sems.mkString("," + LINE_SEP))
           nf.println(s"""  )""")
           nf.println(s"""}""")
         }
