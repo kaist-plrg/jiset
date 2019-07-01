@@ -14,6 +14,7 @@ package object model {
   trait AST {
     def getNames: SSet[String]
     def semantics: Map[String, (Func, List[Value])]
+    val parserParams: List[Boolean]
   }
   trait Script extends AST
 }

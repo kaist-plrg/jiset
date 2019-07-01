@@ -434,7 +434,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "the steps of an" ~> name <~ "function as specified below" ^^ {
       case x => parseExpr(s"$x")
     } | "the number whose value is MV of" ~> name <~ rest ^^ {
-      case x => parseExpr(s"$x.toNumber")
+      case x => parseExpr(s"$x.getNumber")
     } | ("the" ~> id <~ "flag of") ~ id ^^ {
       case e1 ~ e2 if e1 == "withEnvironment" => EBool(false) // TODO : support withEnvironment flag in Object Environment
     } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
@@ -449,6 +449,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x1 ~ x2 => EApp(ERef(RefId(Id("StrictEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
     } | ("the result of negating" ~> id <~ rest) ^^ {
       case x => EUOp(ONeg, ERef(RefId(Id(x))))
+    } | ("the string - concatenation of" ~> id <~ "and") ~ id ^^ {
+      case x1 ~ x2 => EBOp(OPlus, ERef(RefId(Id(x1))), ERef(RefId(Id(x2))))
     } | "the definition specified in 9.2.1" ^^^ {
       parseExpr("ECMAScriptFunctionObjectDOTCall")
     } | "the definition specified in 9.2.2" ^^^ {
@@ -583,7 +585,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | opt("the") ~> "stringvalue of identifiername" ^^^ {
       parseRef(s"IdentifierName")
     } | "the stringvalue of stringliteral" ^^^ {
-      parseRef(s"StringLiteral") // TODO : SV of stringLiteral ( see 11.8.4.1 )
+      parseRef(s"StringLiteral.getString")
     } | "the result of evaluating" ~> nameWithOrdinal ^^ {
       case x => parseRef(s"$x.Evaluation")
     } | "IsFunctionDefinition of" ~> id ^^ {

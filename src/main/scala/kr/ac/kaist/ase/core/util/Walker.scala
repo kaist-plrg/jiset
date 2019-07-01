@@ -162,6 +162,7 @@ trait Walker {
     case RefValueId(id) => RefValueId(walk(id))
     case RefValueProp(addr, value) => RefValueProp(walk(addr), walk(value))
     case RefValueAST(ast, name) => RefValueAST(walk(ast), walk(name))
-    case RefValueToNumber(s) => RefValueToNumber(walk(s))
+    case RefValueToParsedNumber(s) => RefValueToParsedNumber(walk(s))
+    case RefValueToParsedString(s) => RefValueToParsedString(walk(s))
   }
 }

@@ -190,7 +190,9 @@ trait UnitWalker {
       walk(addr); walk(value)
     case RefValueAST(ast, name) =>
       walk(ast); walk(name)
-    case RefValueToNumber(s) =>
+    case RefValueToParsedNumber(s) =>
+      walk(s)
+    case RefValueToParsedString(s) =>
       walk(s)
   }
 }

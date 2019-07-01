@@ -2,26 +2,27 @@ package kr.ac.kaist.ase.model
 
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
-object ToNumber {
-  val func: Func = Func("ToNumber", List(Id("argument")), None, parseInst(
+object ToString {
+  val func: Func = Func("ToString", List(Id("argument")), None, parseInst(
     s"""{
       let atype = (typeof argument)
       if (= atype "Undefined") {
-        return NaN
+        return "undefined"
       } else if (= atype "Null") {
-        return 0
+        return "null"
       } else if (= atype "Boolean") {
-        return 0
+        if atype return "true"
+        else return "false"
       } else if (= atype "Number") {
-        return argument
+        return (NumberToString argument)
       } else if (= atype "String") {
-        return arguemnt.getNumber
+        return argument
       } else if (= atype "Symbol") {
-        return NaN
+        return undefined
       } else if (= atype "Object") {
-        return NaN
+        return (ToString (ToPrimitive argument "string"))
       } else {
-        return NaN
+        return undefined
       }
     }"""
   ))

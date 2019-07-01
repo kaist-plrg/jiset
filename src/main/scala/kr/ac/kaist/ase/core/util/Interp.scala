@@ -217,7 +217,8 @@ object Interp {
       ((base, p) match {
         case (addr: Addr, p) => RefValueProp(addr, p)
         case (ast: ASTVal, Str(name)) => RefValueAST(ast, name)
-        case (Str(s), Str("toNumber")) => RefValueToNumber(s)
+        case (Str(s), Str("getNumber")) => RefValueToParsedNumber(s)
+        case (Str(s), Str("getString")) => RefValueToParsedString(s)
         case v => error(s"not an address: $v")
       }, s2)
   }
