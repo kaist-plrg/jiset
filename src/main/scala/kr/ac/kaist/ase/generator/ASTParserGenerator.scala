@@ -127,6 +127,11 @@ object ASTParserGenerator {
     nf.println(s"""object ASTParser extends ASTParsers {""")
     lexProds.foreach(getStrParser)
     prods.foreach(getParser)
+    nf.println(s"""  val rules: Map[String, P[AST]] = Map(""")
+    nf.println(prods.map {
+      case Production(Lhs(name, _), _) => s""""$name" -> $name"""
+    }.mkString("," + LINE_SEP))
+    nf.println(s"""  )""")
     nf.println(s"""}""")
     nf.close()
   }

@@ -161,6 +161,8 @@ object Beautifier {
         walk("(is-instance-of "); walk(base); walk(" "); walk(name); walk(")")
       case EGetSyntax(base) =>
         walk("(get-syntax "); walk(base); walk(")")
+      case EParseSyntax(code, rule) =>
+        walk("(parse-syntax "); walk(code); walk(" "); walk(rule); walk(")")
       case EContains(list, elem) =>
         walk("(contains "); walk(list); walk(" "); walk(elem); walk(")")
       case ENotYetImpl(msg) =>

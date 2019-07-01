@@ -1,5 +1,7 @@
 package kr.ac.kaist.ase.core
 
+import kr.ac.kaist.ase.model.ASTParser
+
 // CORE Interpreter
 object Interp {
   // perform transition until instructions are empty
@@ -177,6 +179,19 @@ object Interp {
     case EGetSyntax(base) => interp(base)(st) match {
       case (ASTVal(ast), s0) => (Str(ast.toString), s0)
       case (v, s0) => error(s"not an AST value: $v")
+    }
+    case EParseSyntax(code, rule) => interp(code)(st) match {
+      case (ASTVal(ast), s0) => ASTParser.rules.get(rule) match {
+        case Some(p) =>
+          (ASTVal(ASTParser.parseAll(ASTParser.term("") ~> p(ast.parserParams), ast.toString).get), s0)
+        case None => error(s"not exist parse rule: $rule")
+      }
+      case (Str(str), s0) => ASTParser.rules.get(rule) match {
+        case Some(p) =>
+          (ASTVal(ASTParser.parseAll(ASTParser.term("") ~> p(Nil), str).get), s0)
+        case None => error(s"not exist parse rule: $rule")
+      }
+      case (v, s0) => error(s"not an AST value or a string: $v")
     }
     case EContains(list, elem) =>
       val (l, s0) = interp(list)(st)

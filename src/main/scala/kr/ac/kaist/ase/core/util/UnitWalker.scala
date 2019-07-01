@@ -103,6 +103,8 @@ trait UnitWalker {
       walk(base); walk(name)
     case EGetSyntax(base) =>
       walk(base)
+    case EParseSyntax(code, rule) =>
+      walk(code); walk(rule)
     case EContains(list, elem) =>
       walk(list); walk(elem)
     case ENotYetImpl(msg) =>

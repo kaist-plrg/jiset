@@ -425,6 +425,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val etcExpr =
     "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
       case x => ERef(RefId(Id(x)))
+    } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
+      case r ~ e => EParseSyntax(e, r)
+    } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
+      parseExpr("(parse-syntax CoverCallExpressionAndAsyncArrowHead CallMemberExpression)")
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
       case x ~ y => etodo(s"larger of $x and $y")
     } | "the steps of an" ~> name <~ "function as specified below" ^^ {

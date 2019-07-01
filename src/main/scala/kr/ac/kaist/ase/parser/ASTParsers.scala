@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.parser
 
-import kr.ac.kaist.ase.model.Script
+import kr.ac.kaist.ase.model.{ AST, Script }
 import kr.ac.kaist.ase.util.Useful._
 import scala.util.matching.Regex
 import scala.util.parsing.combinator._
@@ -189,7 +189,7 @@ trait ASTParsers extends RegexParsers {
     scala.io.StdIn.readLine
   }
 
-  type P[T] = List[Boolean] => NodeParser[T]
+  type P[+T] = List[Boolean] => NodeParser[T]
   type R[T] = List[Boolean] => NodeParser[T => T]
   protected def memo[K, V](f: K => V): K => V = {
     val cache = collection.mutable.Map.empty[K, V]
@@ -207,4 +207,6 @@ trait ASTParsers extends RegexParsers {
 
   def fromString(str: String): Script =
     parseAll(term("") ~> Script(Nil), str).get
+
+  val rules: Map[String, P[AST]]
 }
