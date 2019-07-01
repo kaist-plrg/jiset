@@ -115,7 +115,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       }
     } | "return" ~> expr ^^ {
       case e => algo.kind match {
-        case RuntimeSemantics => IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(e)))
+        case RuntimeSemantics if !(algoName contains "InstantiateFunctionObject") =>
+          IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(e)))
         case _ => IReturn(e)
       }
     } | "return" ^^^ {
@@ -164,17 +165,19 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // if-then-else statements
   lazy val ifStmt =
-    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (opt("." | ";" | ",") ~> opt(next) ~>
-      ("else" | "otherwise") ~> opt((
-        name ~ "must be" ~ rep(not(",") ~ text)
-      ) |
-        (id ~ "does not currently have a property" ~ id) |
-        (id <~ "is an accessor property") |
-        ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr) ~> opt(",") ~> stmt) ^^ {
-        case c ~ t ~ e => IIf(c, t, e)
-      } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
-        case c ~ t => IIf(c, t, emptyInst)
-      }
+    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (
+      opt("." | ";" | ",") ~> opt(next) ~> ("else" | "otherwise") ~> opt(
+        cond |
+          name ~ "must be" ~ rep(not(",") ~ text) |
+          id ~ "does not currently have a property" ~ id |
+          id <~ "is an accessor property" |
+          ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr
+      ) ~> opt(",") ~> stmt
+    ) ^^ {
+          case c ~ t ~ e => IIf(c, t, e)
+        } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
+          case c ~ t => IIf(c, t, emptyInst)
+        }
 
   // call statements
   lazy val callStmt =
@@ -401,6 +404,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val listExpr =
     "«" ~> repsep(expr, ",") <~ "»" ^^ {
       case list => EList(list)
+    } | "a List whose sole item is" ~> expr ^^ {
+      case e => EList(List(e))
     }
 
   // current expressions
@@ -494,6 +499,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x ~ y => EUOp(ONot, EContains(y, x))
       } | (expr <~ "does not contain") ~ expr ^^ {
         case x ~ y => EUOp(ONot, EContains(x, y))
+      } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
+        EBool(true)
       } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
         case x ~ y => EUOp(ONot, EBOp(OEq, x, y))
       } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
