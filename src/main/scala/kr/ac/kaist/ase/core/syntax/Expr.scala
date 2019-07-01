@@ -8,7 +8,10 @@ case class ENum(n: Double) extends Expr {
     case _ => false
   }
   override def toString: String = {
-    if (n.isNaN) "ENum(Double.NaN)" else s"ENum($n)"
+    if (n.isNaN) "ENum(Double.NaN)"
+    else if (n.isPosInfinity) "ENum(Double.PositiveInfinity)"
+    else if (n.isNegInfinity) "ENum(Double.NegativeInfinity)"
+    else s"ENum($n)"
   }
 }
 case class EINum(n: Long) extends Expr

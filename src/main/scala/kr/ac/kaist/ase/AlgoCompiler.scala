@@ -300,6 +300,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         }"""), true),
         parseInst("return null")
       ))
+    } | "otherwise , let " ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 1" ~ rest ^^^ {
+      parseInst(s"""return m.getString""")
     }
 
   // ignore statements
@@ -330,13 +332,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       refExpr
 
   // value expressions
-  lazy val valueExpr = opt("the value") ~> value ^^ {
+  lazy val valueExpr = opt("the value" | "the string") ~> value ^^ {
     case "null" => ENull
     case "true" => EBool(true)
     case "false" => EBool(false)
     case "NaN" => ENum(Double.NaN)
     case "+0" => ENum(0.0)
     case "-0" => ENum(-0.0)
+    case "+∞" => ENum(Double.PositiveInfinity)
     case "undefined" => EUndef
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case err @ ("TypeError" | "ReferenceError") => EMap(Ty(err), Nil)
@@ -449,14 +452,18 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x1 ~ x2 => EApp(ERef(RefId(Id("StrictEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
     } | ("the result of negating" ~> id <~ rest) ^^ {
       case x => EUOp(ONeg, ERef(RefId(Id(x))))
-    } | ("the string - concatenation of" ~> id <~ "and") ~ id ^^ {
-      case x1 ~ x2 => EBOp(OPlus, ERef(RefId(Id(x1))), ERef(RefId(Id(x2))))
+    } | ("the string - concatenation of" ~> expr <~ "and") ~ expr ^^ {
+      case e1 ~ e2 => EBOp(OPlus, e1, e2)
+    } | ("the string - concatenation of" ~> expr <~ "and !") ~ expr ^^ {
+      case e1 ~ e2 => EBOp(OPlus, e1, e2) // TODO : support !
     } | "the definition specified in 9.2.1" ^^^ {
       parseExpr("ECMAScriptFunctionObjectDOTCall")
     } | "the definition specified in 9.2.2" ^^^ {
       parseExpr("ECMAScriptFunctionObjectDOTConstruct")
-    } | "the token" ~> value ^^ {
+    } | ("the token") ~> value ^^ {
       case x => EStr(x)
+    } | "-" ~> expr ^^ {
+      case e => EUOp(ONeg, e)
     }
 
   // reference expressions
@@ -475,6 +482,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         EBool(false) // TODO : support strict mode code
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case r ~ f => f(EUOp(ONot, EExist(r)))
+      } | (expr <~ "is less than zero") ~ subCond ^^ {
+        case x ~ f => f(EBOp(OLt, x, ENum(0)))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
         case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
       } | (expr <~ "is not an element of") ~ expr ^^ {
@@ -535,6 +544,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           (? $x.Configurable)))))))""")
       } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
         case l ~ r ~ f => f(EBOp(OEq, l, r))
+      } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
+        case e ~ l ~ r ~ f => f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r)))
       }
 
   lazy val subCond: Parser[Expr => Expr] =
@@ -542,7 +553,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case r => (l: Expr) => EBOp(OOr, l, r)
     } | "and" ~> opt("if") ~> cond ^^ {
       case r => (l: Expr) => EBOp(OAnd, l, r)
-    } | success(x => x)
+    } | guard("," ^^^ { x => x })
 
   ////////////////////////////////////////////////////////////////////////////////
   // Types
