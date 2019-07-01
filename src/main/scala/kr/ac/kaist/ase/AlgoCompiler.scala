@@ -422,7 +422,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // type expressions
   lazy val typeExpr =
-    ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol" | "Reference") ^^ {
+    ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol" | "Reference" | "Object") ^^ {
       case tname => EStr(tname.head)
     } |
       ty ^^ {
@@ -517,6 +517,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case r ~ n => EExist(RefProp(r, EStr(n)))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
         case r ~ p => EExist(RefProp(RefProp(r, EStr("SubMap")), p))
+      } | ref ~ ("has a" ~> name <~ "internal method") ^^ {
+        case r ~ p => parseExpr(s"(? ${beautify(r)}.$p)")
       } | (ref <~ "is present and its value is") ~ expr ^^ {
         case r ~ e => EBOp(OAnd, EExist(r), EBOp(OEq, ERef(r), e))
       } | (ref <~ "is present") ~ subCond ^^ {
@@ -540,7 +542,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | expr <~ "is a data property" ^^ {
         case e => EBOp(OEq, ETypeOf(e), EStr("DataProperty"))
       } | expr <~ "is an object" ^^ {
-        case e => EBOp(OEq, ETypeOf(e), EStr("OrdinaryObject"))
+        case e => EBOp(OEq, ETypeOf(e), EStr("Object"))
       } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
         case c1 ~ c2 => EBOp(OOr, c1, c2)
       } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {

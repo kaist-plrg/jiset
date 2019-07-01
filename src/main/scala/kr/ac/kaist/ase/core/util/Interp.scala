@@ -68,7 +68,7 @@ object Interp {
       case IPrint(expr) =>
         val (v, s0) = interp(expr)(st)
         v match {
-          case addr: Addr => println(s0.heap(addr))
+          case addr: Addr => println(beautify(s0.heap(addr)))
           case v => println(beautify(v))
         }
         s0
@@ -161,7 +161,9 @@ object Interp {
     case ETypeOf(expr) => {
       val (v, s0) = interp(expr)(st)
       (v match {
-        case addr: Addr => Str(s0.heap.map.getOrElse(addr, error(s"unknown address: $addr")).ty.name)
+        case addr: Addr =>
+          val name = s0.heap.map.getOrElse(addr, error(s"unknown address: $addr")).ty.name
+          Str(if (name.endsWith("Object")) "Object" else name)
         case Num(_) | INum(_) => Str("Number")
         case Str(_) => Str("String")
         case Bool(_) => Str("Boolean")
