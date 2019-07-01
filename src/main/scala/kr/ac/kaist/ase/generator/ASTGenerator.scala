@@ -72,6 +72,15 @@ object ASTGenerator {
               nf.println(s"""  }""")
           }
           nf.println(s"""  val semMap: Map[String, Func] = Map(""")
+          for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/manual/algorithm")) {
+            if (scalaFilter(file.getName)) {
+              val methodName = removedExt(file.getName)
+              if (methodName startsWith s"$name$i") {
+                val semName = methodName.substring(name.length + 1)
+                nf.println(s""""$semName" -> $methodName.func""")
+              }
+            }
+          }
           nf.println(rhs.semantics.map(s => s""""$s" -> $name$i$s.func""").mkString("," + LINE_SEP))
           nf.println(s"""  )""")
           nf.println(s"""}""")
