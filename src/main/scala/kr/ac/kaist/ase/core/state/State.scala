@@ -28,21 +28,27 @@ case class State(
       (heap(addr, value), this)
     case RefValueAST(astV, name) =>
       val ASTVal(ast) = astV
-      val (Func(fname, params, varparam, body), lst) = ast.semantics(name)
-      val (locals, rest) = ((Map[Id, Value](), params) /: lst) {
-        case ((map, param :: rest), arg) =>
-          (map + (param -> arg), rest)
-        case (pair, _) => pair
-      }
-      rest match {
-        case Nil =>
-          val newSt = Interp.fixpoint(copy(context = fname, insts = List(body), locals = locals))
-          newSt.retValue match {
-            case Some(v) => (v, copy(heap = newSt.heap, globals = newSt.globals))
-            case None => error(s"no return value")
+      ast.semantics(name) match {
+        case Some((Func(fname, params, varparam, body), lst)) =>
+          val (locals, rest) = ((Map[Id, Value](), params) /: lst) {
+            case ((map, param :: rest), arg) =>
+              (map + (param -> arg), rest)
+            case (pair, _) => pair
           }
-        case _ =>
-          (ASTMethod(Func(fname, rest, varparam, body), locals), this)
+          rest match {
+            case Nil =>
+              val newSt = Interp.fixpoint(copy(context = fname, insts = List(body), locals = locals))
+              newSt.retValue match {
+                case Some(v) => (v, copy(heap = newSt.heap, globals = newSt.globals))
+                case None => error(s"no return value")
+              }
+            case _ =>
+              (ASTMethod(Func(fname, rest, varparam, body), locals), this)
+          }
+        case None => ast.subs(name) match {
+          case Some(v) => (v, this)
+          case None => error(s"Unexpected semantics: ${ast.name}.$name")
+        }
       }
     case RefValueToParsedNumber(s) => (Num(s.toDouble), this)
     case RefValueToParsedString(s) => (Str(StringEscapeUtils.unescapeEcmaScript(s.substring(1, s.length - 1))), this)

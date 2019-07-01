@@ -33,25 +33,47 @@ object ASTGenerator {
             case _ => false
           }
           val semantics = rhs.semantics
+
+          def handleParams(l: List[String]): List[String] = {
+            def aux(scnt: Map[String, Int], lprev: List[String], lnext: List[String]): List[String] = lnext match {
+              case Nil => lprev
+              case s :: rest => {
+                scnt.lift(s) match {
+                  case Some(n) => aux(scnt + (s -> (n + 1)), s"$s$n" :: lprev, rest)
+                  case None => if (rest contains s) {
+                    aux(scnt + (s -> 1), (s + "0") :: lprev, rest)
+                  } else {
+                    aux(scnt, s :: lprev, rest)
+                  }
+                }
+              }
+            }
+            aux(Map(), Nil, l).reverse
+          }
+          val paramPairs = params.map(_._1) zip (handleParams(params.map(_._2)))
+          val listString = ("Nil" /: paramPairs) { case (str, (x, t)) => s"""l("$t", $x, $str)""" }
+
           nf.println(s"""case class $name$i(${(params.map { case (x, t) => s"$x: $t, " }).mkString("")}parserParams: List[Boolean]) extends $name {""")
+          nf.println(s"""  def name: String = "$name$i"""")
           nf.println(s"""  override def toString: String = {""")
           nf.println(s"""    s"$string"""")
           nf.println(s"""  }""")
           nf.println(s"""  def getNames: SSet[String] = (list match {""")
-          nf.println(s"""    case List(ASTVal(ast)) => ast.getNames""")
+          nf.println(s"""    case List((_, ASTVal(ast))) => ast.getNames""")
           nf.println(s"""    case _ => SSet()""")
           nf.println(s"""  }) ++ SSet("$name")""")
           nf.println(s"""  val k: Int = ${("0" /: params) { case (str, (x, _)) => s"d($x, $str)" }}""")
-          nf.println(s"""  val list: List[Value] = ${("Nil" /: params) { case (str, (x, _)) => s"l($x, $str)" }}.reverse""")
-          nf.println(s"""  def semantics(name: String): (Func, List[Value]) = {""")
+          nf.println(s"""  val list: List[(String, Value)] = $listString.reverse""")
+          nf.println(s"""  def semantics(name: String): Option[(Func, List[Value])] = {""")
           nf.println(s"""    $name$i.semMap.get(name + k.toString) match {""")
-          nf.println(s"""      case Some(f) => (f, list)""")
+          nf.println(s"""      case Some(f) => Some((f, list.map(_._2)))""")
           nf.println(s"""      case None => list match {""")
-          nf.println(s"""        case List(ASTVal(x)) => x.semantics(name)""")
-          nf.println(s"""        case _ => throw UnexpectedSemantics("$name$i." + name)""")
+          nf.println(s"""        case List((_, ASTVal(x))) => x.semantics(name)""")
+          nf.println(s"""        case _ => None""")
           nf.println(s"""      }""")
           nf.println(s"""    }""")
           nf.println(s"""  }""")
+          nf.println(s"""  def subs(name: String): Option[Value] = list.toMap.get(name)""")
           nf.println(s"""}""")
           nf.println(s"""object $name$i {""")
           nf.println(s"""  val semMap: Map[String, Func] = Map(""")
@@ -101,20 +123,22 @@ object ASTGenerator {
     nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
     nf.println
     nf.println(s"""trait AST {""")
-    nf.println(s"""  def semantics(name: String): (Func, List[Value])""")
+    nf.println(s"""  def name: String""")
+    nf.println(s"""  def semantics(name: String): Option[(Func, List[Value])]""")
     nf.println(s"""  def getNames: SSet[String]""")
     nf.println(s"""  protected def d(x: Any, n: Int): Int = x match {""")
     nf.println(s"""    case Some(_) => 2 * n + 1""")
     nf.println(s"""    case None => 2 * n""")
     nf.println(s"""    case _ => 2 * n""")
     nf.println(s"""  }""")
-    nf.println(s"""  protected def l(x: Any, list: List[Value]): List[Value] = x match {""")
-    nf.println(s"""    case Some(a: AST) => ASTVal(a) :: list""")
-    nf.println(s"""    case a: AST => ASTVal(a) :: list""")
-    nf.println(s"""    case a: String => Str(a) :: list""")
+    nf.println(s"""  protected def l(name: String, x: Any, list: List[(String, Value)]): List[(String, Value)] = x match {""")
+    nf.println(s"""    case Some(a: AST) => (name.substring(7, name.length - 1), ASTVal(a)) :: list""")
+    nf.println(s"""    case a: AST => (name, ASTVal(a)) :: list""")
+    nf.println(s"""    case a: String => (name, Str(a)) :: list""")
     nf.println(s"""    case _ => list""")
     nf.println(s"""  }""")
     nf.println(s"""  val parserParams: List[Boolean]""")
+    nf.println(s"""  def subs(name: String): Option[Value]""")
     nf.println(s"""}""")
     nf.println
     prods.foreach(getAST)

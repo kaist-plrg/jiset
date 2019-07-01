@@ -12,9 +12,11 @@ package object model {
     val tyMap: Map[String, Map[Value, Value]] = Map()
   }
   trait AST {
+    def name: String
     def getNames: SSet[String]
-    def semantics: Map[String, (Func, List[Value])]
+    def semantics(name: String): Option[(Func, List[Value])]
     val parserParams: List[Boolean]
+    def subs(name: String): Option[ASTVal]
   }
   trait Script extends AST
 }
