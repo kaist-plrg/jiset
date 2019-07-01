@@ -108,6 +108,8 @@ object Parser extends JavaTokenParsers with RegexParsers {
       } |
       "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
       "(" ~> "parse-syntax" ~> expr ~ ident <~ ")" ^^ { case e ~ r => EParseSyntax(e, r) } |
+      "(" ~> "parse-string" ~> expr ~ pop <~ ")" ^^ { case e ~ r => EParseString(e, r) } |
+      "(" ~> "convert" ~> expr ~ cop <~ ")" ^^ { case e ~ r => EConvert(e, r) } |
       "(" ~> "contains" ~> expr ~ expr <~ ")" ^^ { case l ~ e => EContains(l, e) } |
       "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) }
   }
@@ -160,6 +162,16 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "<" ^^^ OLt |
       ">>>" ^^^ OURShift |
       ">>" ^^^ OSRShift
+  }
+
+  // parse-string operators
+  lazy private val pop: Parser[POp] = {
+    "string" ^^^ PStr | "number" ^^^ PNum
+  }
+
+  // convert operators
+  lazy private val cop: Parser[COp] = {
+    "str2num" ^^^ CStrToNum | "num2str" ^^^ CNumToStr
   }
 
   ////////////////////////////////////////////////////////////////////////////////
