@@ -281,13 +281,18 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case s => IIf(EIsInstanceOf(parseExpr("Declaration"), "HoistableDeclaration"), ISeq(List(parseInst("let HoistableDeclaration = Declaration"), s)), ISeq(Nil))
     } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
       parseInst(s"""if (is-instance-of Statement LabelledStatement) return Statement.TopLevelVarDeclaredNames else {}""")
-    } | "suspend" ~ name ~ "and remove it from the execution context stack" ^^^ {
+    } | (("suspend" ~ name ~ "and remove it from the execution context stack") | ("pop" ~ name ~ "from the execution context stack" <~ rest)) ^^^ {
       parseInst(s"""{
         $context = null
         (pop $executionStack)
       }""")
     } | "suspend the currently running execution context" ^^^ {
       parseInst(s"""$context = null""")
+    } | "suspend" ~> name ^^ {
+      case x => parseInst(s"""{
+        $context = null
+        $x = null
+      }""")
     } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
       parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
     } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27. all of those internal slots are initialized to" ~ value ^^ {
@@ -491,6 +496,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         EBool(false) // TODO : support strict mode code
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case r ~ f => f(EUOp(ONot, EExist(r)))
+      } | expr <~ "is not already suspended" ^^ {
+        case e => EBOp(OEq, e, ENull)
       } | (expr <~ "is less than zero") ~ subCond ^^ {
         case x ~ f => f(EBOp(OLt, x, ENum(0)))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
@@ -582,6 +589,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "object environment record" ^^^ Ty("ObjectEnvironmentRecord") |
       "object" ^^^ Ty("OrdinaryObject") |
       "declarative environment record" ^^^ Ty("DeclarativeEnvironmentRecord") |
+      "function environment record" ^^^ Ty("FunctionEnvironmentRecord") |
       "global environment record" ^^^ Ty("GlobalEnvironmentRecord") |
       "completion" ^^^ Ty("Completion") |
       "script record" ^^^ Ty("ScriptRecord")
