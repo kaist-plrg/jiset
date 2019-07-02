@@ -295,7 +295,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         $context = null
         $x = null
       }""")
-    } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
+    } | (("remove" ~ id ~ "from the execution context stack and restore" ~ id ~ "as the running execution context") | ("resume the context that is now on the top of the execution context stack as the running execution context")) ^^^ {
       parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
     } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27. all of those internal slots are initialized to" ~ value ^^ {
       case x => parseInst(s"""{
