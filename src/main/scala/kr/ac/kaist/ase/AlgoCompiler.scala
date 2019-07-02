@@ -295,6 +295,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case s => IIf(EIsInstanceOf(parseExpr("Declaration"), "HoistableDeclaration"), ISeq(List(parseInst("let HoistableDeclaration = Declaration"), s)), ISeq(Nil))
     } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
       parseInst(s"""if (is-instance-of Statement LabelledStatement) return Statement.TopLevelVarDeclaredNames else {}""")
+    } | ("let" ~> name <~ "be a new list of") ~ expr ~ ("with" ~> expr <~ "appended") ^^ {
+      case x ~ l ~ v => parseInst(s"""{
+        let $x = (copy-obj ${beautify(l)})
+        push ${beautify(v)} -> $x
+      }""")
     } | (("suspend" ~ name ~ "and remove it from the execution context stack") | ("pop" ~ name ~ "from the execution context stack" <~ rest)) ^^^ {
       parseInst(s"""{
         $context = null
@@ -335,6 +340,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "create any implementation-defined" |
     "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
     "if" ~ id ~ "is a List of errors," |
+    "perform any necessary implementation - defined initialization of" |
     "Set the remainder of" ~ id ~ "'s essential internal methods to the default ordinary object definitions specified in 9.1" |
     "record that" // TODO : should be re-considered.
   ) ~ rest ^^^ emptyInst
@@ -402,8 +408,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e => ETypeOf(e)
     } | "completion(" ~> expr <~ ")" ^^ {
       case e => e
+    } | name ~ ("for" ~> name <~ "with") ~ expr ~ ("and" ~> expr <~ "as arguments") ^^ {
+      case f ~ x ~ a1 ~ a2 => EApp(parseExpr(s"$x.$f"), List(a1, a2))
     } | ("the result of performing" ~> name <~ "for") ~ name ~ ("with argument" ~> expr) ^^ {
       case f ~ x ~ a => EApp(parseExpr(s"$x.$f"), List(a))
+    } | ("the result of performing" ~> name <~ "for") ~ name ~ (("using" | "with") ~> expr <~ "and") ~ (expr <~ "as the arguments") ^^ {
+      case f ~ x ~ a1 ~ a2 => EApp(parseExpr(s"$x.$f"), List(a1, a2))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
       case RefId(Id(x)) ~ list => EApp(parseExpr(x), list)
       case (r @ RefProp(b, _)) ~ list => EApp(ERef(r), ERef(b) :: list)
@@ -469,6 +479,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => ERef(RefId(Id(x)))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ e => EParseSyntax(e, r)
+    } | "the algorithm steps defined in ListIterator" ~ rest ^^^ {
+      parseExpr("ListIteratornext")
     } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
       parseExpr("(parse-syntax CoverCallExpressionAndAsyncArrowHead CallMemberExpression)")
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
