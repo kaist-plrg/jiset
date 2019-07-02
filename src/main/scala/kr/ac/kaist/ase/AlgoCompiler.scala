@@ -269,6 +269,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case l1 ~ l2 => iForeach(Id("temp"), l2, IPush(ERef(RefId(Id("temp"))), l1))
     } | ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
       case x ~ y => IPush(x, y)
+    } | ("add" ~> expr <~ "as an element of the list") ~ expr ^^ {
+      case x ~ y => IPush(x, y)
     }
 
   // et cetera statements
@@ -341,6 +343,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val expr: Parser[Expr] =
     etcExpr |
       valueExpr |
+      arithExpr |
       completionExpr |
       callExpr |
       newExpr |
@@ -366,7 +369,20 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   } | const ^^ {
     case "[empty]" => ERef(RefId(Id("emptySyntax")))
     case const => ERef(RefId(Id(const.replaceAll("-", ""))))
+  } | (number <~ ".") ~ number ^^ {
+    case x ~ y => ENum(s"$x.$y".toDouble)
   } | number ^^ { case s => EINum(s.toLong) }
+
+  // arithmetic expressions
+  lazy val arithExpr: Parser[Expr] =
+    arithElem ~ bop ~ arithElem ^^ {
+      case l ~ f ~ r => EBOp(f, l, r)
+    }
+  lazy val arithElem: Parser[Expr] =
+    valueExpr | id ^^ { parseExpr(_) }
+  lazy val bop: Parser[BOp] =
+    "+" ^^^ OPlus |
+      "-" ^^^ OSub
 
   // completion expressions
   lazy val completionExpr =
@@ -515,6 +531,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case r ~ f => f(EUOp(ONot, EExist(r)))
       } | (expr <~ "<") ~ expr ^^ {
         case l ~ r => EBOp(OLt, l, r)
+      } | (expr <~ "≥") ~ expr ^^ {
+        case l ~ r => EUOp(ONot, EBOp(OLt, l, r))
       } | expr <~ "is not already suspended" ^^ {
         case e => EBOp(OEq, e, ENull)
       } | (expr <~ "is less than zero") ~ subCond ^^ {
