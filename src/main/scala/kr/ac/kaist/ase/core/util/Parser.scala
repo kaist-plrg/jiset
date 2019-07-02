@@ -231,4 +231,17 @@ object Parser extends JavaTokenParsers with RegexParsers {
       }"""
     )
   }
+  object IMapForeach {
+    def apply(id: Id, expr: Expr, body: Inst, cnt: Int): Inst = parseInst(
+      s"""{
+      let __list${cnt}__ = (map-keys ${beautify(expr)})
+      let __i${cnt}__ = 0i
+      while (< __i${cnt}__ __list${cnt}__.length) {
+        let ${beautify(id)} = __list${cnt}__[__i${cnt}__]
+        ${beautify(body)}
+        __i${cnt}__ = (+ __i${cnt}__ 1i)
+      }
+    }"""
+    )
+  }
 }

@@ -53,7 +53,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     foreachCount = foreachCount + 1
     f
   }
-
+  def iMapForeach(id: Id, expr: Expr, body: Inst) = {
+    val f = IMapForeach(id, expr, body, foreachCount)
+    foreachCount = foreachCount + 1
+    f
+  }
   // temporal identifiers
   lazy val temp: String = "temp"
   lazy val tempId: Id = Id(temp)
@@ -329,6 +333,17 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       ))
     } | "otherwise , let " ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 1" ~ rest ^^^ {
       parseInst(s"""return (convert m num2str)""")
+    } | "for each property of the global object" ~ rest ^^^ {
+      iMapForeach(Id("name"), parseExpr("globalThis"), ISeq(List(
+        ILet(Id("desc"), EMap(Ty("PropertyDescriptor"), List(
+          EStr("Writable") -> EBool(true),
+          EStr("Enumerable") -> EBool(false),
+          EStr("Configurable") -> EBool(true),
+          EStr("Value") -> ERef(RefProp(RefId(Id("globalThis")), ERef(RefId(Id("name")))))
+        ))),
+        ILet(tempId, EApp(ERef(RefId(Id("DefinePropertyOrThrow"))), List(ERef(RefId(Id("global"))), ERef(RefId(Id("name"))), ERef(RefId(Id("desc")))))),
+        returnIfAbrupt(temp)
+      )))
     }
 
   // ignore statements
@@ -336,7 +351,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "assert:" |
     "note:" |
     "set fields of" |
-    "for each property of the global object" | // TODO : set global object properties
     "create any implementation-defined" |
     "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
     "if" ~ id ~ "is a List of errors," |
