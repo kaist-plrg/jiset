@@ -80,10 +80,12 @@ object Useful {
   }
 
   // get name that could be used in Scala identifiers
+  private val symbolRegex = "@@([^@]+)".r
   private val intrinsicRegex = "%([^%]+)%".r
   def getScalaName(str: String): String =
     str.replaceAll("\\.", "DOT") match {
       case intrinsicRegex(x) => "INTRINSIC_" + x
+      case symbolRegex(x) => "SYMBOL_" + x
       case x => x
     }
 }

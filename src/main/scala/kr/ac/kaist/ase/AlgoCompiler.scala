@@ -719,6 +719,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "the arguments object" ^^^ "args" |
     "[[" ~> word <~ "]]" |
     opt("the intrinsic object") ~> ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
+    ("@@" ~> word | "[[@@" ~> word <~ "]]") ^^ { case x => s"SYMBOL_$x" } |
     word |
     id
   )

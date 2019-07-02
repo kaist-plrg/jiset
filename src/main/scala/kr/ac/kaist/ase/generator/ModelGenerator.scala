@@ -8,6 +8,7 @@ object ModelGenerator {
   def apply(spec: Spec): Unit = {
     val methods = spec.globalMethods
     val globalObjectMethods = spec.globalMethods.filter(_.startsWith("global."))
+    val symbols = spec.symbols
     val intrinsics = spec.intrinsics
     val consts = (spec.consts.toSet - "[empty]" + "emptySyntax").toList
     val grammar = spec.grammar
@@ -42,6 +43,10 @@ object ModelGenerator {
     nf.println(s"""    heap = initHeap""")
     nf.println(s"""  )""")
     nf.println(s"""  lazy val initGlobal: Map[Id, Value] = Map(""")
+    symbols.foreach {
+      case (k, v) =>
+        nf.println(s"""    Id("${getScalaName(k)}") -> NamedAddr("global.$v"),""")
+    }
     intrinsics.foreach {
       case (k, v) =>
         nf.println(s"""    Id("${getScalaName(k)}") -> NamedAddr("$v"),""")
