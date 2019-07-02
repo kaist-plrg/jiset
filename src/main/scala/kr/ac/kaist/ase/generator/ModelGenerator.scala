@@ -64,7 +64,6 @@ object ModelGenerator {
     nf.println(globalObjectMethods.map(x =>
       s"""    NamedAddr("$x") -> CoreMap(Ty("BuiltinFunctionObject"), BuiltinFunctionObject.map ++ Map(
                  Str("Code") -> ${getScalaName(x)}.func,
-                 Str("Call") -> ECMAScriptFunctionObjectDOTCall.func,
                  Str("SubMap") -> NamedAddr("$x.SubMap"))),
               NamedAddr("$x.SubMap") -> CoreMap(Ty("SubMap"), Map())""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++""")
