@@ -86,6 +86,7 @@ trait Walker {
     case EConvert(expr, cop) => EConvert(walk(expr), walk(cop))
     case EContains(list, elem) => EContains(walk(list), walk(elem))
     case ECopy(obj) => ECopy(walk(obj))
+    case EKeys(obj) => EKeys(walk(obj))
     case ENotYetImpl(msg) => ENotYetImpl(walk(msg))
   }
 

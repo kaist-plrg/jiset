@@ -92,6 +92,12 @@ case class State(
     (newAddr, copy(heap = newHeap))
   }
 
+  // keys of map
+  def keys(addr: Addr): (Addr, State) = {
+    val (newAddr, newHeap) = heap.keys(addr)
+    (newAddr, copy(heap = newHeap))
+  }
+
   // map allocations
   def allocMap(ty: Ty): (Addr, State) = allocMap(ty, Map())
   def allocMap(ty: Ty, map: Map[Value, Value]): (Addr, State) = {

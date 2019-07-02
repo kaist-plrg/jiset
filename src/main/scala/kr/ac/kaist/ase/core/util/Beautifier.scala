@@ -172,6 +172,8 @@ object Beautifier {
         walk("(contains "); walk(list); walk(" "); walk(elem); walk(")")
       case ECopy(obj) =>
         walk("(copy-obj "); walk(obj); walk(")")
+      case EKeys(obj) =>
+        walk("(map-keys "); walk(obj); walk(")")
       case ENotYetImpl(msg) =>
         walk("??? \""); walk(msg); walk("\"")
     }

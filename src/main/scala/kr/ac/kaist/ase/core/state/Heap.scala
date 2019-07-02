@@ -56,6 +56,16 @@ case class Heap(
     (newAddr, Heap(newMap, newSize))
   }
 
+  // keys of map
+  def keys(addr: Addr): (Addr, Heap) = this(addr) match {
+    case (m: CoreMap) =>
+      val newAddr = DynamicAddr(size)
+      val newL = m.props.keys.toVector
+      val newMap = map + (newAddr -> CoreList(newL))
+      val newSize = size + 1
+      (newAddr, Heap(newMap, newSize))
+    case v => error(s"not a map: $v")
+  }
   // map allocations
   def allocMap(
     ty: Ty,
