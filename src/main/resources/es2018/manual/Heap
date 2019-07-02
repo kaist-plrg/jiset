@@ -3,7 +3,7 @@ Map(
   NamedAddr("global") -> CoreMap(Ty("Map"), Map(
     Str("Object") -> NamedAddr("global.Object")
   )),
-  NamedAddr("global.Object") -> CoreMap(Ty("BuiltinFunctionObject"), OrdinaryObject.map ++ Map(
+  NamedAddr("global.Object") -> CoreMap(Ty("BuiltinFunctionObject"), BuiltinFunctionObject.map ++ Map(
     Str("Prototype") -> NamedAddr("global.Function.prototype"),
     Str("SubMap") -> NamedAddr("global.Object.SubMap"),
     Str("Call") -> ECMAScriptFunctionObjectDOTCall.func,

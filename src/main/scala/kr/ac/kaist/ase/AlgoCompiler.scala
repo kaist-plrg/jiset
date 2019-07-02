@@ -130,14 +130,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // let statements
   lazy val letStmt =
-    ("let" ~> id <~ "be") ~ ("?" ~> word <~ "(") ~ ("?" ~> expr <~ ")") ^^ {
+    ("let" ~> id <~ "be") ~ (("!" | "?") ~> word <~ "(") ~ (("!" | "?") ~> expr <~ ")") ^^ {
       case x ~ n ~ e => ISeq(List(
         ILet(tempId, e),
         returnIfAbrupt(temp),
         ILet(Id(x), EApp(ERef(RefId(Id(n))), List(ERef(RefId(tempId))))),
         returnIfAbrupt((x))
       ))
-    } | ("let" ~> id <~ "be") ~ (word <~ "(") ~ ("?" ~> expr <~ ")") ^^ {
+    } | ("let" ~> id <~ "be") ~ (word <~ "(") ~ (("!" | "?") ~> expr <~ ")") ^^ {
       case x ~ n ~ e => ISeq(List(
         ILet(tempId, e),
         returnIfAbrupt(temp),
@@ -145,7 +145,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       ))
     } | ("let" ~> id <~ "be") ~ expr ^^ {
       case x ~ e => ILet(Id(x), e)
-    } | ("let" ~> id <~ "be") ~ ("?" ~> expr) ^^ {
+    } | ("let" ~> id <~ "be") ~ (("!" | "?") ~> expr) ^^ {
       case x ~ e => ISeq(List(
         ILet(Id(x), e),
         returnIfAbrupt(x)
