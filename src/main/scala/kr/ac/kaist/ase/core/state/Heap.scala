@@ -48,6 +48,14 @@ case class Heap(
     case v => error(s"not a list: $v")
   }
 
+  // copy objects
+  def copyObj(addr: Addr): (Addr, Heap) = {
+    val newAddr = DynamicAddr(size)
+    val newMap = map + (newAddr -> apply(addr))
+    val newSize = size + 1
+    (newAddr, Heap(newMap, newSize))
+  }
+
   // map allocations
   def allocMap(
     ty: Ty,

@@ -170,6 +170,8 @@ object Beautifier {
         walk("(convert "); walk(expr); walk(" "); walk(cop); walk(")")
       case EContains(list, elem) =>
         walk("(contains "); walk(list); walk(" "); walk(elem); walk(")")
+      case ECopy(obj) =>
+        walk("(copy-obj "); walk(obj); walk(")")
       case ENotYetImpl(msg) =>
         walk("??? \""); walk(msg); walk("\"")
     }

@@ -113,6 +113,8 @@ trait UnitWalker {
       walk(expr); walk(cop)
     case EContains(list, elem) =>
       walk(list); walk(elem)
+    case ECopy(obj) =>
+      walk(obj)
     case ENotYetImpl(msg) =>
       walk(msg)
   }

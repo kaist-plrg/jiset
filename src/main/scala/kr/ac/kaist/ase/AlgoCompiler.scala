@@ -203,6 +203,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         returnIfAbrupt(temp),
         IAssign(r, ERef(RefId(tempId)))
       ))
+    } | ("set the bound value for" ~> expr <~ "in") ~ expr ~ ("to" ~> expr) ^^ {
+      case p ~ e ~ v => parseInst(s"${beautify(e)}.SubMap.${beautify(p)} = ${beautify(v)}")
     } | ("set" ~> ref) ~ ("as specified in" ~> (
       "9.4.4.1" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.GetOwnProperty")) |
       "9.4.4.2" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.DefineOwnProperty")) |

@@ -237,6 +237,12 @@ object Interp {
         }
         case v => error(s"not an address: $v")
       }
+    case ECopy(expr) =>
+      val (v, s0) = interp(expr)(st)
+      v match {
+        case (addr: Addr) => s0.copyObj(addr)
+        case v => error(s"not an address: $v")
+      }
     case ENotYetImpl(msg) => error(s"[NotYetImpl]:${st.context}: $msg")
   }
 

@@ -85,6 +85,7 @@ trait Walker {
     case EParseString(code, pop) => EParseString(walk(code), walk(pop))
     case EConvert(expr, cop) => EConvert(walk(expr), walk(cop))
     case EContains(list, elem) => EContains(walk(list), walk(elem))
+    case ECopy(obj) => ECopy(walk(obj))
     case ENotYetImpl(msg) => ENotYetImpl(walk(msg))
   }
 

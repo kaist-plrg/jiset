@@ -86,6 +86,12 @@ case class State(
     (value, copy(heap = newHeap))
   }
 
+  // copy objects
+  def copyObj(addr: Addr): (Addr, State) = {
+    val (newAddr, newHeap) = heap.copyObj(addr)
+    (newAddr, copy(heap = newHeap))
+  }
+
   // map allocations
   def allocMap(ty: Ty): (Addr, State) = allocMap(ty, Map())
   def allocMap(ty: Ty, map: Map[Value, Value]): (Addr, State) = {

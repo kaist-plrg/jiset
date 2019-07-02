@@ -41,15 +41,15 @@ case class EParseSyntax(code: Expr, rule: String) extends Expr {
 }
 case class EParseString(code: Expr, target: POp) extends Expr
 case class EConvert(source: Expr, target: COp) extends Expr
+case class EContains(list: Expr, elem: Expr) extends Expr
+case class ECopy(obj: Expr) extends Expr
+case class ENotYetImpl(msg: String) extends Expr {
+  override def toString: String = s"""ENotYetImpl("$msg")"""
+}
 
 sealed trait POp extends CoreNode
 case object PStr extends POp
 case object PNum extends POp
-
-case class EContains(list: Expr, elem: Expr) extends Expr
-case class ENotYetImpl(msg: String) extends Expr {
-  override def toString: String = s"""ENotYetImpl("$msg")"""
-}
 
 sealed trait COp extends CoreNode
 case object CStrToNum extends COp
