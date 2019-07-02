@@ -63,7 +63,9 @@ object ModelGenerator {
     nf.println(s"""  ) ++ Map(""")
     nf.println(globalObjectMethods.map(x =>
       s"""    NamedAddr("$x") -> CoreMap(Ty("BuiltinFunctionObject"), Map(
-                 Str("Code") -> ${getScalaName(x)}.func ))""").mkString("," + LINE_SEP))
+                 Str("Code") -> ${getScalaName(x)}.func,
+                 Str("SubMap") -> NamedAddr("$x.SubMap"))),
+              NamedAddr("$x.SubMap") -> CoreMap(Ty("SubMap"), Map())""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++""")
     nf.println(readFile(s"$RESOURCE_DIR/$VERSION/manual/Heap") + ") match {")
     nf.println(s"""    case Heap(m, _) => Heap((m /: globalMethods) {""")
