@@ -60,6 +60,13 @@ object ModelGenerator {
     nf.println(s"""  lazy val initHeap: Heap = Heap(Map(""")
     nf.println(consts.map(i =>
       s"""    NamedAddr("$i") -> Singleton("$i")""").mkString("," + LINE_SEP))
+    nf.println(s"""  ) ++ Map(""")
+    nf.println(globalObjectMethods.map(x =>
+      s"""    NamedAddr("$x") -> CoreMap(Ty("BuiltinFunctionObject"), OrdinaryObject.map ++ Map(
+                 Str("Code") -> ${getScalaName(x)}.func,
+                 Str("Call") -> ECMAScriptFunctionObjectDOTCall.func,
+                 Str("SubMap") -> NamedAddr("$x.SubMap"))),
+              NamedAddr("$x.SubMap") -> CoreMap(Ty("SubMap"), Map())""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++""")
     nf.println(readFile(s"$RESOURCE_DIR/$VERSION/manual/Heap") + ") match {")
     nf.println(s"""    case Heap(m, _) => Heap((m /: globalMethods) {""")

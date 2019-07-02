@@ -249,6 +249,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val whileStmt =
     ("repeat, while" ~> cond <~ ",") ~ stmt ^^ {
       case c ~ s => IWhile(c, s)
+    } | "repeat," ~> stmt ^^ {
+      case s => IWhile(EBool(true), s)
     }
 
   // for-each statements
@@ -301,7 +303,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         $context = null
         $x = null
       }""")
-    } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
+    } | (("remove" ~ id ~ "from the execution context stack and restore" ~ id ~ "as the running execution context") | ("resume the context that is now on the top of the execution context stack as the running execution context")) ^^^ {
       parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
     } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27. all of those internal slots are initialized to" ~ value ^^ {
       case x => parseInst(s"""{
@@ -491,6 +493,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseExpr("this")
     } | "the number of elements in" ~> expr ^^ {
       case e => parseExpr(s"${beautify(e)}.length")
+    } | "newtarget" ^^^ {
+      parseExpr("(GetNewTarget)")
     }
 
   // reference expressions
@@ -557,6 +561,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
       } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
         case e => EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
+      } | expr <~ "is neither" <~ value <~ "nor the active function" ^^ {
+        case e => EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function"))))
+      } | expr <~ "is " <~ value <~ " , " <~ value <~ "or not supplied" ^^ {
+        case e => EBOp(OOr, EBOp(OOr, EBOp(OEq, e, ENull), EBOp(OEq, e, EUndef)), EBOp(OEq, e, EAbsent))
       } | expr <~ "is empty" ^^ {
         case e => parseExpr(s"(= ${beautify(e)}.length 0)")
       } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
