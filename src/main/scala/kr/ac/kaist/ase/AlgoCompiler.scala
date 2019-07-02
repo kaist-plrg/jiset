@@ -1,9 +1,10 @@
 package kr.ac.kaist.ase.model
 
-import kr.ac.kaist.ase.core._
-import kr.ac.kaist.ase.core.Parser._
-import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, RuntimeSemantics }
+import kr.ac.kaist.ase.core.Parser._
+import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.parser.TokenParsers
+import kr.ac.kaist.ase.util.Useful._
 
 case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers {
   var foreachCount: Int = 0
@@ -202,7 +203,15 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         returnIfAbrupt(temp),
         IAssign(r, ERef(RefId(tempId)))
       ))
-    }
+    } | ("set" ~> ref) ~ ("as specified in" ~> (
+      "9.4.4.1" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.GetOwnProperty")) |
+      "9.4.4.2" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.DefineOwnProperty")) |
+      "9.4.4.3" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Get")) |
+      "9.4.4.4" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Set")) |
+      "9.4.4.5" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Delete"))
+    )) ^^ {
+        case r ~ e => IAssign(r, e)
+      }
 
   // create statements
   lazy val createStmt =
@@ -215,9 +224,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         if (? Desc.Configurable) dp.Configurable = Desc.Configurable else dp.Configurable = false
         O.SubMap[P] = dp
       }""")
-    } |
-      "create an own accessor property" ~ rest ^^^ {
-        parseInst(s"""{
+    } | "create an own accessor property" ~ rest ^^^ {
+      parseInst(s"""{
         dp = (new AccessorProperty())
         if (? Desc.Get) dp.Get = Desc.Get else dp.Get = undefined
         if (? Desc.Set) dp.Set = Desc.Set else dp.Set = undefined
@@ -225,7 +233,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         if (? Desc.Configurable) dp.Configurable = Desc.Configurable else dp.Configurable = false
         O.SubMap[P] = dp
       }""")
-      }
+    } | "Create" ~ ("an immutable" | "a mutable") ~ "binding" ~ rest ^^^ parseInst("{}")
 
   // throw statements
   lazy val throwStmt =
@@ -321,6 +329,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "create any implementation-defined" |
     "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
     "if" ~ id ~ "is a List of errors," |
+    "Set the remainder of" ~ id ~ "'s essential internal methods to the default ordinary object definitions specified in 9.1" |
     "record that" // TODO : should be re-considered.
   ) ~ rest ^^^ emptyInst
 
@@ -480,6 +489,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseExpr(s"(parse-string StringLiteral string)")
     } | "this" ~ name ^^^ {
       parseExpr("this")
+    } | "the number of elements in" ~> expr ^^ {
+      case e => parseExpr(s"${beautify(e)}.length")
     }
 
   // reference expressions
@@ -498,14 +509,18 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         EBool(false) // TODO : support strict mode code
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case r ~ f => f(EUOp(ONot, EExist(r)))
+      } | (expr <~ "<") ~ expr ^^ {
+        case l ~ r => EBOp(OLt, l, r)
       } | expr <~ "is not already suspended" ^^ {
         case e => EBOp(OEq, e, ENull)
       } | (expr <~ "is less than zero") ~ subCond ^^ {
-        case x ~ f => f(EBOp(OLt, x, ENum(0)))
+        case x ~ f => f(EBOp(OLt, x, EINum(0)))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
         case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
       } | (expr <~ "is not an element of") ~ expr ^^ {
         case x ~ y => EUOp(ONot, EContains(y, x))
+      } | (expr <~ "is an element of") ~ expr ~ subCond ^^ {
+        case x ~ y ~ f => f(EContains(y, x))
       } | (expr <~ "does not contain") ~ expr ^^ {
         case x ~ y => EUOp(ONot, EContains(x, y))
       } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
@@ -536,6 +551,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case l ~ r ~ f => f(EUOp(ONot, EBOp(OEq, l, r)))
       } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
         case l ~ r => EBOp(OAnd, EUOp(ONot, EExist(l)), EUOp(ONot, EExist(r)))
+      } | expr <~ "has any duplicate entries" ^^ {
+        case e => EApp(parseExpr("IsDuplicate"), List(e))
       } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
         case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
       } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
@@ -584,6 +601,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "realm record" ^^^ Ty("RealmRecord") |
       "record" ^^^ Ty("Record") |
       "built-in function object" ^^^ Ty("BuiltinFunctionObject") |
+      "arguments exotic object" ^^^ Ty("ArgumentsExoticObject") |
       "propertydescriptor" ^^^ Ty("PropertyDescriptor") |
       "property descriptor" ^^^ Ty("PropertyDescriptor") |
       opt("ecmascript code") ~ "execution context" ^^^ Ty("ExecutionContext") |
@@ -667,10 +685,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // Names
   ////////////////////////////////////////////////////////////////////////////////
   lazy val name: Parser[String] = (
+    "! tostring" ^^^ "ToString" |
     "outer environment reference" ^^^ "Outer" |
     "the running execution context" ^^^ context |
     "the execution context stack" ^^^ executionStack |
     "the" ~ ty ~ "for which the method was invoked" ^^^ "this" |
+    "the arguments object" ^^^ "args" |
     "[[" ~> word <~ "]]" |
     opt("the intrinsic object") ~> ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
     word |

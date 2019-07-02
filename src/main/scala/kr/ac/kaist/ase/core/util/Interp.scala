@@ -212,6 +212,12 @@ object Interp {
           case _ => error(s"not convertable option: Str to $cop")
         }, s0)
       }
+      case (INum(n), s0) => {
+        (cop match {
+          case CNumToStr => Str(Helper.toStringHelper(n))
+          case _ => error(s"not convertable option: Num to $cop")
+        }, s0)
+      }
       case (Num(n), s0) => {
         (cop match {
           case CNumToStr => Str(Helper.toStringHelper(n))
@@ -267,6 +273,20 @@ object Interp {
     case (OMod, Num(l), Num(r)) => Num(l % r)
     case (OLt, Num(l), Num(r)) => Bool(l < r)
 
+    // double with long operations
+    case (OPlus, INum(l), Num(r)) => Num(l + r)
+    case (OSub, INum(l), Num(r)) => Num(l - r)
+    case (OMul, INum(l), Num(r)) => Num(l * r)
+    case (ODiv, INum(l), Num(r)) => Num(l / r)
+    case (OMod, INum(l), Num(r)) => Num(l % r)
+    case (OLt, INum(l), Num(r)) => Bool(l < r)
+    case (OPlus, Num(l), INum(r)) => Num(l + r)
+    case (OSub, Num(l), INum(r)) => Num(l - r)
+    case (OMul, Num(l), INum(r)) => Num(l * r)
+    case (ODiv, Num(l), INum(r)) => Num(l / r)
+    case (OMod, Num(l), INum(r)) => Num(l % r)
+    case (OLt, Num(l), INum(r)) => Bool(l < r)
+
     // string operations
     case (OPlus, Str(l), Str(r)) => Str(l + r)
     case (OLt, Str(l), Str(r)) => Bool(l < r)
@@ -291,7 +311,10 @@ object Interp {
     case (OXor, Bool(l), Bool(r)) => Bool(l ^ r)
 
     // equality operations
+    case (OEq, INum(l), Num(r)) => Bool(l == r)
+    case (OEq, Num(l), INum(r)) => Bool(l == r)
     case (OEq, l, r) => Bool(l == r)
+
     case (_, lval, rval) => error(s"wrong type: $lval $bop $rval")
   }
 
