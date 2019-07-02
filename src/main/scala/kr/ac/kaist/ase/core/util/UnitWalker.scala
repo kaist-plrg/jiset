@@ -115,6 +115,8 @@ trait UnitWalker {
       walk(list); walk(elem)
     case ECopy(obj) =>
       walk(obj)
+    case EKeys(obj) =>
+      walk(obj)
     case ENotYetImpl(msg) =>
       walk(msg)
   }
