@@ -14,6 +14,12 @@ Map(
     Str("length") -> NamedAddr("global.Object.SubMap.length"),
     Str("prototype") -> NamedAddr("global.Object.SubMap.prototype")
   )),
+  NamedAddr("global.Object.SubMap.length") -> CoreMap(Ty("PropertyDescriptor"), Map(
+    Str("Value") -> Num(1.0),
+    Str("Writable") -> Bool(false),
+    Str("Enumerable") -> Bool(false),
+    Str("Configurable") -> Bool(true)
+  )),
   NamedAddr("global.Object.SubMap.prototype") -> CoreMap(Ty("PropertyDescriptor"), Map(
     Str("Value") -> NamedAddr("global.Object.prototype"),
     Str("Writable") -> Bool(false),
