@@ -462,6 +462,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x1 ~ x2 => EApp(ERef(RefId(Id("StrictEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
     } | ("the result of negating" ~> id <~ rest) ^^ {
       case x => EUOp(ONeg, ERef(RefId(Id(x))))
+    } | ("the result of" ~> expr <~ "passing") ~ expr ~ ("and" ~> expr <~ "as the arguments") ^^ {
+      case f ~ x ~ y => EApp(f, List(x, y))
     } | ("the string - concatenation of" ~> expr <~ "and") ~ expr ^^ {
       case e1 ~ e2 => EBOp(OPlus, e1, e2)
     } | ("the string - concatenation of" ~> expr <~ "and !") ~ expr ^^ {
@@ -602,6 +604,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case r => RefProp(r, EStr("Outer"))
     } | "the sole element of" ~> ref ^^ {
       case x => RefProp(x, EINum(0))
+    } | "the parsed code that is" ~> ref ^^ {
+      case r => r
+    } | "EvaluateBody of" ~> ref ^^ {
+      case r => RefProp(r, EStr("EvaluateBody"))
     } | "the base value component of" ~> name ^^ {
       case x => parseRef(s"$x.BaseValue")
     } | name <~ "'s base value component" ^^ {
