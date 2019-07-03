@@ -33,9 +33,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // list of statements
   lazy val stmts: Parser[List[Inst]] = rep(
-    stmt <~ opt(("as defined" <~ rest) | (("(" | ".") <~ "see" <~ rest)) <~ opt(".") <~ next | step ^^ {
-      case tokens => IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
-    }
+    stmt <~ opt(("as defined" <~ rest) | (("(" | ".") <~ "see" <~ rest)) <~ opt(".") <~ next |
+      step ^^ {
+        case tokens => IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
+      }
   ) // TODO flatten
 
   // execution context stack string
@@ -64,11 +65,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // return statements
   lazy val returnStmt =
     "return" ~> ("!" | "?") ~> expr ^^ {
-      case e => {
+      case i ~ e => {
         val temp = getTemp
         val tempId = Id(temp)
         algo.kind match {
-          case RuntimeSemantics => ISeq(List(
+          case RuntimeSemantics => ISeq(i ++ List(
             ILet(tempId, e),
             returnIfAbrupt(temp),
             IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(ERef(RefId(tempId)))))
@@ -81,11 +82,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         }
       }
     } | "return" ~> expr ^^ {
-      case e => algo.kind match {
+      case i ~ e => ISeq(i :+ (algo.kind match {
         case RuntimeSemantics if !(algoName contains "InstantiateFunctionObject") =>
           IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(e)))
         case _ => IReturn(e)
-      }
+      }))
     } | "return" ^^^ {
       IReturn(EMap(Ty("Completion"), List(
         EStr("Type") -> parseExpr("normal"),
@@ -97,28 +98,28 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // let statements
   lazy val letStmt =
     ("let" ~> id <~ "be") ~ (("!" | "?") ~> word <~ "(") ~ (("!" | "?") ~> expr <~ ")") ^^ {
-      case x ~ n ~ e =>
+      case x ~ n ~ (i ~ e) =>
         val temp = getTemp
         val tempId = Id(temp)
-        ISeq(List(
+        ISeq(i ++ List(
           ILet(tempId, e),
           returnIfAbrupt(temp),
           ILet(Id(x), EApp(ERef(RefId(Id(n))), List(ERef(RefId(tempId))))),
           returnIfAbrupt((x))
         ))
     } | ("let" ~> id <~ "be") ~ (word <~ "(") ~ (("!" | "?") ~> expr <~ ")") ^^ {
-      case x ~ n ~ e =>
+      case x ~ n ~ (i ~ e) =>
         val temp = getTemp
         val tempId = Id(temp)
-        ISeq(List(
+        ISeq(i ++ List(
           ILet(tempId, e),
           returnIfAbrupt(temp),
           ILet(Id(x), EApp(ERef(RefId(Id(n))), List(ERef(RefId(tempId)))))
         ))
     } | ("let" ~> id <~ "be") ~ expr ^^ {
-      case x ~ e => ILet(Id(x), e)
+      case x ~ (i ~ e) => ISeq(i :+ ILet(Id(x), e))
     } | ("let" ~> id <~ "be") ~ (("!" | "?") ~> expr) ^^ {
-      case x ~ e => ISeq(List(
+      case x ~ (i ~ e) => ISeq(i ++ List(
         ILet(Id(x), e),
         returnIfAbrupt(x)
       ))
@@ -147,23 +148,23 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr
       ) ~> opt(",") ~> stmt
     ) ^^ {
-          case c ~ t ~ e => IIf(c, t, e)
+          case (i ~ c) ~ t ~ e => ISeq(i :+ IIf(c, t, e))
         } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
-          case c ~ t => IIf(c, t, emptyInst)
+          case (i ~ c) ~ t => ISeq(i :+ IIf(c, t, emptyInst))
         }
 
   // call statements
   lazy val callStmt =
     ("perform" | "call") ~> ("?" | "!") ~> callExpr ^^ {
-      case e =>
+      case i ~ e =>
         val temp = getTemp
         val tempId = Id(temp)
-        ISeq(List(
+        ISeq(i ++ List(
           ILet(tempId, e),
           returnIfAbrupt(temp)
         ))
     } | ("perform" | "call") ~> callExpr ^^ {
-      case e => IExpr(e)
+      case i ~ e => ISeq(i :+ IExpr(e))
     }
 
   // set statements
@@ -171,18 +172,19 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "set" ~ name ~ "'s essential internal methods" ~ rest ^^ {
       case _ => emptyInst
     } | ("set" ~> ref) ~ ("to" ~> expr) ^^ {
-      case r ~ e => IAssign(r, e)
+      case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e))
     } | ("set" ~> ref) ~ ("to" ~> "?" ~> expr) ^^ {
-      case r ~ e =>
+      case (i0 ~ r) ~ (i1 ~ e) =>
         val temp = getTemp
         val tempId = Id(temp)
-        ISeq(List(
+        ISeq(i0 ++ i1 ++ List(
           ILet(tempId, e),
           returnIfAbrupt(temp),
           IAssign(r, ERef(RefId(tempId)))
         ))
     } | ("set the bound value for" ~> expr <~ "in") ~ expr ~ ("to" ~> expr) ^^ {
-      case p ~ e ~ v => parseInst(s"${beautify(e)}.SubMap.${beautify(p)} = ${beautify(v)}")
+      case (i0 ~ p) ~ (i1 ~ e) ~ (i2 ~ v) =>
+        ISeq(i0 ++ i1 ++ i2 :+ parseInst(s"${beautify(e)}.SubMap.${beautify(p)} = ${beautify(v)}"))
     } | ("set" ~> ref) ~ ("as specified in" ~> (
       "9.4.4.1" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.GetOwnProperty")) |
       "9.4.4.2" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.DefineOwnProperty")) |
@@ -190,7 +192,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "9.4.4.4" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Set")) |
       "9.4.4.5" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Delete"))
     )) ^^ {
-        case r ~ e => IAssign(r, e)
+        case (i ~ r) ~ e => ISeq(i :+ IAssign(r, e))
       }
 
   // create statements
@@ -228,7 +230,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // while statements
   lazy val whileStmt =
     ("repeat, while" ~> cond <~ ",") ~ stmt ^^ {
-      case c ~ s => IWhile(c, s)
+      case (i ~ c) ~ s => ISeq(i :+ IWhile(c, s))
     } | "repeat," ~> stmt ^^ {
       case s => IWhile(EBool(true), s)
     }
@@ -236,29 +238,31 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // for-each statements
   lazy val forEachStmt =
     ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ ("in" ~> expr <~ "," ~ opt("in list order,") ~ "do") ~ stmt ^^ {
-      case x ~ e ~ i => forEachList(Id(x), e, i)
+      case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
-      case x ~ e ~ i => forEachList(Id(x), e, i, true)
+      case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
     }
 
   // push statements
   lazy val pushStmt =
     ("append" ~> expr) ~ ("to" ~> expr) ^^ {
-      case x ~ y => IPush(x, y)
+      case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IPush(x, y))
     } | ("append to" ~> expr <~ "the elements of") ~ expr ^^ {
-      case l1 ~ l2 =>
+      case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
-        forEachList(tempId, l2, IPush(ERef(RefId(tempId)), l1))
+        ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IPush(ERef(RefId(tempId)), l1)))
     } | ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
-      case x ~ y => IPush(x, y)
+      case (i0 ~ x) ~ (i1 ~ y) =>
+        ISeq(i0 ++ i1 :+ IPush(x, y))
     } | ("add" ~> expr <~ "as an element of the list") ~ expr ^^ {
-      case x ~ y => IPush(x, y)
+      case (i0 ~ x) ~ (i1 ~ y) =>
+        ISeq(i0 ++ i1 :+ IPush(x, y))
     }
 
   // et cetera statements
   lazy val etcStmt =
     "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
-      case e => ISeq(List(IPush(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
+      case i ~ e => ISeq(i ++ List(IPush(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
         $context = $executionStack[(- $executionStack.length 1i)]
       """)))
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
@@ -281,10 +285,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
       parseInst(s"""if (is-instance-of Statement LabelledStatement) return Statement.TopLevelVarDeclaredNames else {}""")
     } | ("let" ~> name <~ "be a new list of") ~ expr ~ ("with" ~> expr <~ "appended") ^^ {
-      case x ~ l ~ v => parseInst(s"""{
+      case x ~ (i0 ~ l) ~ (i1 ~ v) => ISeq(i0 ++ i1 :+ parseInst(s"""{
         let $x = (copy-obj ${beautify(l)})
         push ${beautify(v)} -> $x
-      }""")
+      }"""))
     } | (("suspend" ~ name ~ "and remove it from the execution context stack") | ("pop" ~ name ~ "from the execution context stack" <~ rest)) ^^^ {
       parseInst(s"""{
         $context = null
@@ -345,21 +349,22 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val expr: Parser[Expr] =
+  lazy val expr: Parser[List[Inst] ~ Expr] = (
     etcExpr |
-      valueExpr |
-      arithExpr |
-      completionExpr |
-      callExpr |
-      newExpr |
-      listExpr |
-      curExpr |
-      algoExpr |
-      typeExpr |
-      refExpr
+    completionExpr |
+    callExpr |
+    listExpr |
+    newExpr |
+    valueExpr ^^ { pair(Nil, _) } |
+    arithExpr ^^ { pair(Nil, _) } |
+    curExpr ^^ { pair(Nil, _) } |
+    algoExpr ^^ { pair(Nil, _) } |
+    typeExpr ^^ { pair(Nil, _) } |
+    refExpr
+  )
 
   // value expressions
-  lazy val valueExpr = opt("the value" | "the string") ~> value ^^ {
+  lazy val valueExpr: Parser[Expr] = opt("the value" | "the string") ~> value ^^ {
     case "null" => ENull
     case "true" => EBool(true)
     case "false" => EBool(false)
@@ -390,63 +395,72 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "-" ^^^ OSub
 
   // completion expressions
-  lazy val completionExpr =
-    "normalcompletion(" ~> expr <~ ")" ^^ {
-      case e => EMap(Ty("Completion"), List(
-        EStr("Type") -> parseExpr("normal"),
-        EStr("Value") -> e,
-        EStr("Target") -> parseExpr("empty")
-      ))
-    }
+  lazy val completionExpr = "normalcompletion(" ~> expr <~ ")" ^^ {
+    case i ~ e => pair(i, EMap(Ty("Completion"), List(
+      EStr("Type") -> parseExpr("normal"),
+      EStr("Value") -> e,
+      EStr("Target") -> parseExpr("empty")
+    )))
+  }
 
   // call expressions
   lazy val callExpr =
     "type(" ~> expr <~ ")" ^^ {
-      case e => ETypeOf(e)
+      case i ~ e => pair(i, ETypeOf(e))
     } | "completion(" ~> expr <~ ")" ^^ {
-      case e => e
+      case i ~ e => pair(i, e)
     } | name ~ ("for" ~> name <~ "with") ~ expr ~ ("and" ~> expr <~ "as arguments") ^^ {
-      case f ~ x ~ a1 ~ a2 => EApp(parseExpr(s"$x.$f"), List(a1, a2))
+      case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
+        pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | ("the result of performing" ~> name <~ "for") ~ name ~ ("with argument" ~> expr) ^^ {
-      case f ~ x ~ a => EApp(parseExpr(s"$x.$f"), List(a))
+      case f ~ x ~ (i ~ a) => pair(i, EApp(parseExpr(s"$x.$f"), List(a)))
     } | ("the result of performing" ~> name <~ "for") ~ name ~ (("using" | "with") ~> expr <~ "and") ~ (expr <~ "as the arguments") ^^ {
-      case f ~ x ~ a1 ~ a2 => EApp(parseExpr(s"$x.$f"), List(a1, a2))
+      case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
+        pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-      case RefId(Id(x)) ~ list => EApp(parseExpr(x), list)
-      case (r @ RefProp(b, _)) ~ list => EApp(ERef(r), ERef(b) :: list)
+      case (i0 ~ RefId(Id(x))) ~ list =>
+        val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
+        pair(i, EApp(parseExpr(x), list.map { case i ~ e => e }))
+      case (i0 ~ (r @ RefProp(b, _))) ~ list =>
+        val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
+        pair(i, EApp(ERef(r), ERef(b) :: list.map { case i ~ e => e }))
     }
 
   // new expressions
-  lazy val newExpr =
+  lazy val newExpr: Parser[List[Inst] ~ Expr] =
     "a new empty list" ^^^ {
-      EList(Nil)
+      pair(Nil, EList(Nil))
     } | "a new list containing" ~> expr ^^ {
-      case e => EList(List(e))
+      case i ~ e => pair(i, EList(List(e)))
     } | ("a new" ~> ty <~ "containing") ~ (expr <~ "as the binding object") ^^ {
-      case t ~ e => EMap(t, List(
+      case t ~ (i ~ e) => pair(i, EMap(t, List(
         EStr("SubMap") -> EMap(Ty("SubMap"), Nil),
         EStr("BindingObject") -> e
-      ))
+      )))
     } | ("a new" | "a newly created") ~> ty <~ opt(("with" | "that" | "containing") ~ rest) ^^ {
-      case t => EMap(t, List(EStr("SubMap") -> EMap(Ty("SubMap"), Nil))) // TODO handle after "with" or "that"
+      case t => pair(Nil, EMap(t, List(EStr("SubMap") -> EMap(Ty("SubMap"), Nil)))) // TODO handle after "with" or "that"
     } | ("a value of type reference whose base value component is" ~> expr) ~
       (", whose referenced name component is" ~> expr) ~
       (", and whose strict reference flag is" ~> expr) ^^ {
-        case b ~ r ~ s => EMap(Ty("Reference"), List(
+        case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ s) => pair(i0 ++ i1 ++ i2, EMap(Ty("Reference"), List(
           EStr("BaseValue") -> b,
           EStr("ReferencedName") -> r,
           EStr("StrictReference") -> s
-        ))
+        )))
       } | opt("the") ~> ty ~ ("{" ~> repsep((name <~ ":") ~ expr, ",") <~ "}") ^^ {
-        case t ~ list => EMap(t, list.map { case x ~ e => (EStr(x), e) })
+        case t ~ list =>
+          val i = (List[Inst]() /: list) { case (is, _ ~ (i ~ e)) => is ++ i }
+          pair(i, EMap(t, list.map { case x ~ (_ ~ e) => (EStr(x), e) }))
       }
 
   // list expressions
-  lazy val listExpr =
+  lazy val listExpr: Parser[List[Inst] ~ Expr] =
     "«" ~> repsep(expr, ",") <~ "»" ^^ {
-      case list => EList(list)
+      case list =>
+        val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
+        pair(i, EList(list.map { case _ ~ e => e }))
     } | "a List whose sole item is" ~> expr ^^ {
-      case e => EList(List(e))
+      case i ~ e => pair(i, EList(List(e)))
     }
 
   // current expressions
@@ -471,171 +485,175 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       }
 
   // et cetera expressions
-  lazy val etcExpr =
-    "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
-      case x => ERef(RefId(Id(x)))
-    } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
-      case r ~ e => EParseSyntax(e, r)
-    } | "the algorithm steps defined in ListIterator" ~ rest ^^^ {
-      parseExpr("ListIteratornext")
-    } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
-      parseExpr("(parse-syntax CoverCallExpressionAndAsyncArrowHead CallMemberExpression)")
+  lazy val etcExpr: Parser[List[Inst] ~ Expr] =
+    ("the" ~> name <~ "that is covered by") ~ expr ^^ {
+      case r ~ (i ~ e) => pair(i, EParseSyntax(e, r))
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
-      case x ~ y => ENotYetImpl(s"larger of $x and $y")
-    } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ "." ~ name ~ "is the" ~ rest ^^ {
-      case f => parseExpr(s"($f.Code thisArgument argumentsList undefined)")
-    } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ ". the" ~ rest ^^ {
-      case f => parseExpr(s"($f.Code undefined argumentsList newTarget)")
-    } | "the steps of an" ~> name <~ "function as specified below" ^^ {
-      case x => parseExpr(s"$x")
-    } | "the number whose value is MV of" ~> name <~ rest ^^ {
-      case x => EParseString(ERef(RefId(Id(x))), PNum)
-    } | ("the" ~> id <~ "flag of") ~ id ^^ {
-      case e1 ~ e2 if e1 == "withEnvironment" => EBool(false) // TODO : support withEnvironment flag in Object Environment
-    } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
-      case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
-    } | ("the result of applying the multiplicativeoperator" <~ rest) ^^ {
-      case _ => parseExpr(s"( MulOperation (get-syntax MultiplicativeOperator) lnum rnum)")
-    } | ("the result of applying the subtraction operation to" <~ rest) ^^ {
-      case _ => EBOp(OSub, ERef(RefId(Id("lnum"))), ERef(RefId(Id("rnum"))))
-    } | (("the result of performing abstract equality comparison" ~> id <~ "= =") ~ id) ^^ {
-      case x1 ~ x2 => EApp(ERef(RefId(Id("AbstractEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
-    } | (("the result of performing strict equality comparison" ~> id <~ "= = =") ~ id) ^^ {
-      case x1 ~ x2 => EApp(ERef(RefId(Id("StrictEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
-    } | ("the result of negating" ~> id <~ rest) ^^ {
-      case x => EUOp(ONeg, ERef(RefId(Id(x))))
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, ENotYetImpl(s"larger of $x and $y"))
     } | ("the result of" ~> expr <~ "passing") ~ expr ~ ("and" ~> expr <~ "as the arguments") ^^ {
-      case f ~ x ~ y => EApp(f, List(x, y))
+      case (i0 ~ f) ~ (i1 ~ x) ~ (i2 ~ y) =>
+        pair(i0 ++ i1 ++ i2, EApp(f, List(x, y)))
     } | ("the string - concatenation of" ~> expr <~ "and") ~ expr ^^ {
-      case e1 ~ e2 => EBOp(OPlus, e1, e2)
+      case (i0 ~ e1) ~ (i1 ~ e2) =>
+        pair(i0 ++ i1, EBOp(OPlus, e1, e2))
     } | ("the string - concatenation of" ~> expr <~ "and !") ~ expr ^^ {
-      case e1 ~ e2 => EBOp(OPlus, e1, e2) // TODO : support !
-    } | "the definition specified in 9.2.1" ^^^ {
-      parseExpr("ECMAScriptFunctionObjectDOTCall")
-    } | "the definition specified in 9.2.2" ^^^ {
-      parseExpr("ECMAScriptFunctionObjectDOTConstruct")
-    } | ("the token") ~> value ^^ {
-      case x => EStr(x)
+      case (i0 ~ e1) ~ (i1 ~ e2) =>
+        pair(i0 ++ i1, EBOp(OPlus, e1, e2)) // TODO : support !
     } | "-" ~> expr ^^ {
-      case e => EUOp(ONeg, e)
-    } | "the stringvalue of stringliteral" ^^^ {
-      parseExpr(s"(parse-string StringLiteral string)")
-    } | "the" ~> value.filter(x => x == "this") <~ "value" ^^^ {
-      parseExpr("this")
-    } | "this" ~ name ^^^ {
-      parseExpr("this")
+      case i ~ e => pair(i, EUOp(ONeg, e))
     } | "the number of elements" ~ ("in" | "of") ~> expr ^^ {
-      case e => parseExpr(s"${beautify(e)}.length")
-    } | "newtarget" ^^^ {
-      parseExpr("(GetNewTarget)")
-    }
+      case i ~ e => pair(i, parseExpr(s"${beautify(e)}.length"))
+    } | ((
+      "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
+        case x => ERef(RefId(Id(x)))
+      } | "the algorithm steps defined in ListIterator" ~ rest ^^^ {
+        parseExpr("ListIteratornext")
+      } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
+        parseExpr("(parse-syntax CoverCallExpressionAndAsyncArrowHead CallMemberExpression)")
+      } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ "." ~ name ~ "is the" ~ rest ^^ {
+        case f => parseExpr(s"($f.Code thisArgument argumentsList undefined)")
+      } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ ". the" ~ rest ^^ {
+        case f => parseExpr(s"($f.Code undefined argumentsList newTarget)")
+      } | "the steps of an" ~> name <~ "function as specified below" ^^ {
+        case x => parseExpr(s"$x")
+      } | "the number whose value is MV of" ~> name <~ rest ^^ {
+        case x => EParseString(ERef(RefId(Id(x))), PNum)
+      } | ("the" ~> id <~ "flag of") ~ id ^^ {
+        case e1 ~ e2 if e1 == "withEnvironment" => EBool(false) // TODO : support withEnvironment flag in Object Environment
+      } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
+        case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
+      } | ("the result of applying the multiplicativeoperator" <~ rest) ^^ {
+        case _ => parseExpr(s"( MulOperation (get-syntax MultiplicativeOperator) lnum rnum)")
+      } | ("the result of applying the subtraction operation to" <~ rest) ^^ {
+        case _ => EBOp(OSub, ERef(RefId(Id("lnum"))), ERef(RefId(Id("rnum"))))
+      } | (("the result of performing abstract equality comparison" ~> id <~ "= =") ~ id) ^^ {
+        case x1 ~ x2 => EApp(ERef(RefId(Id("AbstractEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
+      } | (("the result of performing strict equality comparison" ~> id <~ "= = =") ~ id) ^^ {
+        case x1 ~ x2 => EApp(ERef(RefId(Id("StrictEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))
+      } | ("the result of negating" ~> id <~ rest) ^^ {
+        case x => EUOp(ONeg, ERef(RefId(Id(x))))
+      } | "the definition specified in 9.2.1" ^^^ {
+        parseExpr("ECMAScriptFunctionObjectDOTCall")
+      } | "the definition specified in 9.2.2" ^^^ {
+        parseExpr("ECMAScriptFunctionObjectDOTConstruct")
+      } | ("the token") ~> value ^^ {
+        case x => EStr(x)
+      } | "the stringvalue of stringliteral" ^^^ {
+        parseExpr(s"(parse-string StringLiteral string)")
+      } | "the" ~> value.filter(x => x == "this") <~ "value" ^^^ {
+        parseExpr("this")
+      } | "this" ~ name ^^^ {
+        parseExpr("this")
+      } | "newtarget" ^^^ {
+        parseExpr("(GetNewTarget)")
+      }
+    ) ^^ { case e => pair(Nil, e) })
 
   // reference expressions
-  lazy val refExpr =
-    ref ^^ {
-      case r => ERef(r)
-    }
+  lazy val refExpr: Parser[List[Inst] ~ Expr] = ref ^^ {
+    case i ~ r => pair(i, ERef(r))
+  }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: Parser[Expr] =
+  lazy val cond: Parser[List[Inst] ~ Expr] =
     (("the code matched by this" ~> word <~ "is strict mode code") |
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
-        EBool(false) // TODO : support strict mode code
+        pair(Nil, EBool(false)) // TODO : support strict mode code
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
-        case r ~ f => f(EUOp(ONot, EExist(r)))
+        case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EUOp(ONot, EExist(r))))
       } | (expr <~ "<") ~ expr ^^ {
-        case l ~ r => EBOp(OLt, l, r)
+        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OLt, l, r))
       } | (expr <~ "≥") ~ expr ^^ {
-        case l ~ r => EUOp(ONot, EBOp(OLt, l, r))
+        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EUOp(ONot, EBOp(OLt, l, r)))
       } | expr <~ "is not already suspended" ^^ {
-        case e => EBOp(OEq, e, ENull)
+        case i ~ e => pair(i, EBOp(OEq, e, ENull))
       } | (expr <~ "is less than zero") ~ subCond ^^ {
-        case x ~ f => f(EBOp(OLt, x, EINum(0)))
+        case (i0 ~ x) ~ (i1 ~ f) => pair(i0 ++ i1, f(EBOp(OLt, x, EINum(0))))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
-        case x ~ y ~ f => f(EUOp(ONot, EBOp(OEq, x, y)))
+        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, x, y))))
       } | (expr <~ "is not an element of") ~ expr ^^ {
-        case x ~ y => EUOp(ONot, EContains(y, x))
+        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
       } | (expr <~ "is an element of") ~ expr ~ subCond ^^ {
-        case x ~ y ~ f => f(EContains(y, x))
+        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EContains(y, x)))
       } | (expr <~ "does not contain") ~ expr ^^ {
-        case x ~ y => EUOp(ONot, EContains(x, y))
+        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
       } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
-        EBool(true)
+        pair(Nil, EBool(true))
       } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
-        case x ~ y => EUOp(ONot, EBOp(OEq, x, y))
+        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EBOp(OEq, x, y)))
       } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
-        case x ~ y ~ f => f(EBOp(OEq, x, y))
+        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, x, y)))
       } | ("the" ~> name <~ "fields of") ~ name ~ ("and" ~> name <~ "are the boolean negation of each other") ^^ {
-        case x ~ y ~ z => parseExpr(s"""(|| (&& (= $y.$x true) (= $z.$x false)) (&& (= $y.$x false) (= $z.$x true)))""")
+        case x ~ y ~ z => pair(Nil, parseExpr(s"""(|| (&& (= $y.$x true) (= $z.$x false)) (&& (= $y.$x false) (= $z.$x true)))"""))
       } | (expr <~ "and") ~ (expr <~ ("are the same object value" | "are exactly the same sequence of code units ( same length and same code units at corresponding indices )")) ~ subCond ^^ {
-        case x ~ y ~ f => f(EBOp(OEq, x, y))
+        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, x, y)))
       } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
-        EBool(false) // TODO fix
+        pair(Nil, EBool(false)) // TODO fix
       } | (ref <~ "does not have an own property with key") ~ expr ^^ {
-        case r ~ p => EUOp(ONot, EExist(RefProp(RefProp(r, EStr("SubMap")), p)))
+        case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, EExist(RefProp(RefProp(r, EStr("SubMap")), p))))
       } | (ref <~ "has a") ~ word <~ "component" ^^ {
-        case r ~ n => EExist(RefProp(r, EStr(n)))
+        case (i ~ r) ~ n => pair(i, EExist(RefProp(r, EStr(n))))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
-        case r ~ p => EExist(RefProp(RefProp(r, EStr("SubMap")), p))
+        case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EExist(RefProp(RefProp(r, EStr("SubMap")), p)))
       } | ref ~ ("has a" ~> name <~ "internal method") ^^ {
-        case r ~ p => parseExpr(s"(? ${beautify(r)}.$p)")
+        case (i ~ r) ~ p => pair(i, parseExpr(s"(? ${beautify(r)}.$p)"))
       } | (ref <~ "is present and its value is") ~ expr ^^ {
-        case r ~ e => EBOp(OAnd, EExist(r), EBOp(OEq, ERef(r), e))
+        case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, EExist(r), EBOp(OEq, ERef(r), e)))
       } | (ref <~ "is present") ~ subCond ^^ {
-        case r ~ f => f(EExist(r))
+        case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EExist(r)))
       } | (expr <~ "is not") ~ expr ~ subCond ^^ {
-        case l ~ r ~ f => f(EUOp(ONot, EBOp(OEq, l, r)))
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, l, r))))
       } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
-        case l ~ r => EBOp(OAnd, EUOp(ONot, EExist(l)), EUOp(ONot, EExist(r)))
+        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OAnd, EUOp(ONot, EExist(l)), EUOp(ONot, EExist(r))))
       } | expr <~ "has any duplicate entries" ^^ {
-        case e => EApp(parseExpr("IsDuplicate"), List(e))
+        case i ~ e => pair(i, EApp(parseExpr("IsDuplicate"), List(e)))
       } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
-        case l ~ r ~ e => EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e))
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ e) => pair(i0 ++ i1 ++ i2, EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e)))
       } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
-        case e => EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
+        case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral"))))
       } | expr <~ "is neither" <~ value <~ "nor the active function" ^^ {
-        case e => EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function"))))
+        case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function")))))
       } | expr <~ "is " <~ value <~ " , " <~ value <~ "or not supplied" ^^ {
-        case e => EBOp(OOr, EBOp(OOr, EBOp(OEq, e, ENull), EBOp(OEq, e, EUndef)), EBOp(OEq, e, EAbsent))
+        case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EBOp(OEq, e, ENull), EBOp(OEq, e, EUndef)), EBOp(OEq, e, EAbsent)))
       } | expr <~ "is empty" ^^ {
-        case e => parseExpr(s"(= ${beautify(e)}.length 0)")
+        case i ~ e => pair(i, parseExpr(s"(= ${beautify(e)}.length 0)"))
       } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
-        case e => EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
+        case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))))
       } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
-        case e => EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))
+        case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
       } | "statement is statement : labelledstatement" ^^^ {
-        EIsInstanceOf(ERef(RefId(Id("Statement"))), "LabelledStatement")
+        pair(Nil, EIsInstanceOf(ERef(RefId(Id("Statement"))), "LabelledStatement"))
       } | expr <~ "is a data property" ^^ {
-        case e => EBOp(OEq, ETypeOf(e), EStr("DataProperty"))
+        case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("DataProperty")))
       } | expr <~ "is an object" ^^ {
-        case e => EBOp(OEq, ETypeOf(e), EStr("Object"))
+        case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("Object")))
       } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
-        case c1 ~ c2 => EBOp(OOr, c1, c2)
+        case (i0 ~ c1) ~ (i1 ~ c2) => pair(i0 ++ i1, EBOp(OOr, c1, c2))
       } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
-        case e => EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number"))))) // TODO : remove side effect
+        case i ~ e => pair(i, EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number")))))) // TODO : remove side effect
       } | "every field in" ~> id <~ "is absent" ^^ {
-        case x => parseExpr(s"""(!
+        case x => pair(Nil, parseExpr(s"""(!
           (|| (? $x.Value)
           (|| (? $x.Writable)
           (|| (? $x.Get)
           (|| (? $x.Set)
           (|| (? $x.Enumerable)
-          (? $x.Configurable)))))))""")
+          (? $x.Configurable)))))))"""))
       } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
-        case l ~ r ~ f => f(EBOp(OEq, l, r))
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, l, r)))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
-        case e ~ l ~ r ~ f => f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r)))
+        case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ (i3 ~ f) => pair(i0 ++ i1 ++ i2 ++ i3, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
       }
 
-  lazy val subCond: Parser[Expr => Expr] =
+  lazy val subCond: Parser[List[Inst] ~ (Expr => Expr)] =
     "or" ~> opt("if") ~> cond ^^ {
-      case r => (l: Expr) => EBOp(OOr, l, r)
+      case i ~ r => pair(i, (l: Expr) => EBOp(OOr, l, r))
     } | "and" ~> opt("if") ~> cond ^^ {
-      case r => (l: Expr) => EBOp(OAnd, l, r)
-    } | guard("," ^^^ { x => x })
+      case i ~ r => pair(i, (l: Expr) => EBOp(OAnd, l, r))
+    } | guard("," ^^^ pair(Nil, x => x))
 
   ////////////////////////////////////////////////////////////////////////////////
   // Types
@@ -660,16 +678,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ////////////////////////////////////////////////////////////////////////////////
   // References
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val ref: Parser[Ref] =
-    "the outer lexical environment reference of" ~> ref ^^ {
-      case r => RefProp(r, EStr("Outer"))
-    } | "the sole element of" ~> ref ^^ {
-      case x => RefProp(x, EINum(0))
-    } | "the parsed code that is" ~> ref ^^ {
-      case r => r
-    } | "EvaluateBody of" ~> ref ^^ {
-      case r => RefProp(r, EStr("EvaluateBody"))
-    } | "the base value component of" ~> name ^^ {
+  lazy val ref: Parser[List[Inst] ~ Ref] = (
+    "the base value component of" ~> name ^^ {
       case x => parseRef(s"$x.BaseValue")
     } | name <~ "'s base value component" ^^ {
       case x => parseRef(s"$x.BaseValue")
@@ -679,24 +689,37 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => parseRef(s"$x.ReferencedName")
     } | "the binding object for" ~> name ^^ {
       case x => parseRef(s"$x.BindingObject")
-    } | ("the value of") ~> ref ^^ {
-      case r => r
     } | opt("the") ~> "stringvalue of identifiername" ^^^ {
       parseRef(s"IdentifierName")
     } | "the result of evaluating" ~> nameWithOrdinal ^^ {
       case x => parseRef(s"$x.Evaluation")
     } | "IsFunctionDefinition of" ~> id ^^ {
       case x => parseRef(s"$x.IsFunctionDefinition")
+    }
+  ) ^^ {
+      case r => pair(Nil, r)
+    } | ("the value of") ~> ref ^^ {
+      case i ~ r => pair(i, r)
+    } | "the outer lexical environment reference of" ~> ref ^^ {
+      case i ~ r => pair(i, RefProp(r, EStr("Outer")))
+    } | "the sole element of" ~> ref ^^ {
+      case i ~ x => pair(i, RefProp(x, EINum(0)))
+    } | logParser("the parsed code that is") ~> ref ^^ {
+      case i ~ r => pair(i, r)
+    } | logParser("EvaluateBody of") ~> ref ^^ {
+      case i ~ r => pair(i, RefProp(r, EStr("EvaluateBody")))
+    } | (name <~ "'s own property whose key is") ~ ref ^^ {
+      case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
     } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ nameWithOrdinal ^^ {
-      case x ~ y => parseRef(s"$y.$x")
-    } | (name <~ "'s own property whose key is") ~ expr ^^ {
-      case r ~ p => RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), p)
+      case x ~ y => pair(Nil, parseRef(s"$y.$x"))
     } | (name <~ "'s") ~ name <~ opt("attribute") ^^ {
-      case b ~ x => RefProp(RefId(Id(b)), EStr(x))
+      case b ~ x => pair(Nil, RefProp(RefId(Id(b)), EStr(x)))
     } | name ~ rep(field) ^^ {
-      case x ~ es => es.foldLeft[Ref](RefId(Id(x))) {
-        case (r, e) => RefProp(r, e)
-      }
+      case x ~ es =>
+        val i = (List[Inst]() /: es) { case (is, i ~ _) => is ++ i }
+        pair(i, (es.map { case i ~ e => e }).foldLeft[Ref](RefId(Id(x))) {
+          case (r, e) => RefProp(r, e)
+        })
     }
 
   lazy val nameWithOrdinal =
@@ -709,11 +732,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ////////////////////////////////////////////////////////////////////////////////
   // Fields
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val field: Parser[Expr] =
+  lazy val field: Parser[List[Inst] ~ Expr] =
     "." ~> name ^^ {
-      case x => EStr(x)
+      case x => pair(Nil, EStr(x))
     } | "[" ~> expr <~ "]" ^^ {
-      case e => e
+      case i ~ e => pair(i, e)
     }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -814,5 +837,19 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         (tl.reverse, Some(Id(x.substring(3))))
       case l => (l.reverse, None)
     }
+  }
+
+  // create pair of parsing results
+  val pair = `~`
+
+  // logging
+  def log[T](t: T): T = {
+    if (algoName == "OrdinaryCallEvaluateBody")
+      println(t)
+    t
+  }
+
+  def logParser[T](parser: Parser[T]): Parser[T] = {
+    parser ^^ { log(_) }
   }
 }
