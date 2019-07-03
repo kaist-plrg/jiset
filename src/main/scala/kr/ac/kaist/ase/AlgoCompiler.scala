@@ -7,7 +7,6 @@ import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.util.Useful._
 
 case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers {
-  var foreachCount: Int = 0
   def result: Func = {
     val (params, varparam) = handleParams(algo.params)
     Func(
@@ -48,16 +47,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // short-cut for TODO
   def itodo(msg: String): IExpr = IExpr(etodo(msg))
   def etodo(msg: String): ENotYetImpl = ENotYetImpl(msg)
-  def iForeach(id: Id, expr: Expr, body: Inst, reversed: Boolean = false) = {
-    val f = IForeach(id, expr, body, foreachCount, reversed)
-    foreachCount = foreachCount + 1
-    f
-  }
-  def iMapForeach(id: Id, expr: Expr, body: Inst) = {
-    val f = IMapForeach(id, expr, body, foreachCount)
-    foreachCount = foreachCount + 1
-    f
-  }
   // temporal identifiers
   lazy val temp: String = "temp"
   lazy val tempId: Id = Id(temp)
@@ -262,9 +251,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // for-each statements
   lazy val forEachStmt =
     ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ ("in" ~> expr <~ "," ~ opt("in list order,") ~ "do") ~ stmt ^^ {
-      case x ~ e ~ i => iForeach(Id(x), e, i)
+      case x ~ e ~ i => forEachList(Id(x), e, i)
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
-      case x ~ e ~ i => iForeach(Id(x), e, i, true)
+      case x ~ e ~ i => forEachList(Id(x), e, i, true)
     }
 
   // push statements
@@ -272,7 +261,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ("append" ~> expr) ~ ("to" ~> expr) ^^ {
       case x ~ y => IPush(x, y)
     } | ("append to" ~> expr <~ "the elements of") ~ expr ^^ {
-      case l1 ~ l2 => iForeach(Id("temp"), l2, IPush(ERef(RefId(Id("temp"))), l1))
+      case l1 ~ l2 => forEachList(Id("temp"), l2, IPush(ERef(RefId(Id("temp"))), l1))
     } | ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
       case x ~ y => IPush(x, y)
     } | ("add" ~> expr <~ "as an element of the list") ~ expr ^^ {
@@ -331,7 +320,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       }""")
     } | "let" ~> name <~ "be the topmost execution context on the execution context stack whose scriptormodule component is not" ~ value ~ "." ~ next ~ "if no such execution context exists, return" ~ value ~ ". otherwise, return" ~ name ~ "'s scriptormodule component." ^^ {
       case x => ISeq(List(
-        iForeach(Id(x), parseExpr(executionStack), parseInst(s"""{
+        forEachList(Id(x), parseExpr(executionStack), parseInst(s"""{
           if (! (= $x.ScriptOrModule null)) return $x.ScriptOrModule
         }"""), true),
         parseInst("return null")
@@ -339,7 +328,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "otherwise , let " ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 1" ~ rest ^^^ {
       parseInst(s"""return (convert m num2str)""")
     } | "for each property of the global object" ~ rest ^^^ {
-      iMapForeach(Id("name"), parseExpr("globalThis"), ISeq(List(
+      forEachMap(Id("name"), parseExpr("globalThis"), ISeq(List(
         ILet(Id("desc"), EMap(Ty("PropertyDescriptor"), List(
           EStr("Writable") -> EBool(true),
           EStr("Enumerable") -> EBool(false),
@@ -762,4 +751,53 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     word |
     id
   )
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // Helpers
+  ////////////////////////////////////////////////////////////////////////////////
+  private var idCount: Int = 0
+  private def getTemp: String = {
+    val i = idCount
+    idCount += 1
+    s"__x${i}__"
+  }
+  private def getTempId: Id = Id(getTemp)
+
+  def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
+    val list = getTemp
+    val idx = getTemp
+    parseInst(
+      if (reversed) s"""{
+        let $list = ${beautify(expr)}
+        let $idx = $list.length
+        while (< 0i $idx) {
+          $idx = (- $idx 1i)
+          let ${beautify(id)} = $list[$idx]
+          ${beautify(body)}
+        }
+      }"""
+      else s"""{
+        let $list = ${beautify(expr)}
+        let $idx = 0i
+        while (< $idx $list.length) {
+          let ${beautify(id)} = $list[$idx]
+          ${beautify(body)}
+          $idx = (+ $idx 1i)
+        }
+      }"""
+    )
+  }
+  def forEachMap(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
+    val list = getTemp
+    val idx = getTemp
+    parseInst(s"""{
+      let $list = (map-keys ${beautify(expr)})
+      let $idx = 0i
+      while (< $idx $list.length) {
+        let ${beautify(id)} = $list[$idx]
+        ${beautify(body)}
+        $idx = (+ $idx 1i)
+      }
+    }""")
+  }
 }
