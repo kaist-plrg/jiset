@@ -287,6 +287,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       """)))
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
       parseInst(s"""return (ScriptEvaluationJob script hostDefined)""")
+    } | ("let" ~> id <~ "be a new built-in function object that when called performs the action described by") ~ id <~ "." ~ rest ^^ {
+      case x ~ y => parseInst(s"""{
+        let $x = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
+        $x.Code = $y
+      }""") // TODO handle internalSlotsList
     } | "if the host requires use of an exotic object" ~ rest ^^^ {
       parseInst("let global = undefined")
     } | "if the host requires that the" ~ rest ^^^ {
