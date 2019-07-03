@@ -542,9 +542,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case e => EUOp(ONeg, e)
     } | "the stringvalue of stringliteral" ^^^ {
       parseExpr(s"(parse-string StringLiteral string)")
+    } | "the" ~> value.filter(x => x == "this") <~ "value" ^^^ {
+      parseExpr("this")
     } | "this" ~ name ^^^ {
       parseExpr("this")
-    } | "the number of elements in" ~> expr ^^ {
+    } | "the number of elements" ~ ("in" | "of") ~> expr ^^ {
       case e => parseExpr(s"${beautify(e)}.length")
     } | "newtarget" ^^^ {
       parseExpr("(GetNewTarget)")
