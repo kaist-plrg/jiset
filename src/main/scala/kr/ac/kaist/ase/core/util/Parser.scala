@@ -71,7 +71,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "assert " ~> expr ^^ { case e => IAssert(e) } |
       "print " ~> expr ^^ { case e => IPrint(e) } |
       ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
-      ("for " ~> id <~ "in") ~ expr ~ inst ^^ { case x ~ e ~ b => IForeach(x, e, b, 0) } |
       (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
       expr ^^ { case e => IExpr(e) }
   }
@@ -209,39 +208,4 @@ object Parser extends JavaTokenParsers with RegexParsers {
   // Helper functions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val string = stringLiteral ^^ { case s => s.substring(1, s.length - 1) }
-  object IForeach {
-    def apply(id: Id, expr: Expr, body: Inst, cnt: Int, reversed: Boolean = false): Inst = parseInst(
-      if (reversed) s"""{
-        let __list${cnt}__ = ${beautify(expr)}
-        let __i${cnt}__ = __list${cnt}__.length
-        while (< 0i __i${cnt}__) {
-          __i${cnt}__ = (- __i${cnt}__ 1i)
-          let ${beautify(id)} = __list${cnt}__[__i${cnt}__]
-          ${beautify(body)}
-        }
-      }"""
-      else s"""{
-        let __list${cnt}__ = ${beautify(expr)}
-        let __i${cnt}__ = 0i
-        while (< __i${cnt}__ __list${cnt}__.length) {
-          let ${beautify(id)} = __list${cnt}__[__i${cnt}__]
-          ${beautify(body)}
-          __i${cnt}__ = (+ __i${cnt}__ 1i)
-        }
-      }"""
-    )
-  }
-  object IMapForeach {
-    def apply(id: Id, expr: Expr, body: Inst, cnt: Int): Inst = parseInst(
-      s"""{
-      let __list${cnt}__ = (map-keys ${beautify(expr)})
-      let __i${cnt}__ = 0i
-      while (< __i${cnt}__ __list${cnt}__.length) {
-        let ${beautify(id)} = __list${cnt}__[__i${cnt}__]
-        ${beautify(body)}
-        __i${cnt}__ = (+ __i${cnt}__ 1i)
-      }
-    }"""
-    )
-  }
 }
