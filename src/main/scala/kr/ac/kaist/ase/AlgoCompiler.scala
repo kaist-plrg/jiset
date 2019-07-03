@@ -504,6 +504,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseExpr("(parse-syntax CoverCallExpressionAndAsyncArrowHead CallMemberExpression)")
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
       case x ~ y => etodo(s"larger of $x and $y")
+    } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ "." ~ name ~ "is the" ~ rest ^^ {
+      case f => parseExpr(s"($f.Code thisArgument argumentsList undefined)")
+    } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ ". the" ~ rest ^^ {
+      case f => parseExpr(s"($f.Code undefined argumentsList newTarget)")
     } | "the steps of an" ~> name <~ "function as specified below" ^^ {
       case x => parseExpr(s"$x")
     } | "the number whose value is MV of" ~> name <~ rest ^^ {
