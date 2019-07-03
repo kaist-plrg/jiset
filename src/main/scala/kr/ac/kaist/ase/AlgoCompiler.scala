@@ -20,37 +20,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     )
   }
 
-  // handle duplicated params and variable-length params
-  def handleParams(l: List[String]): (List[Id], Option[Id]) = {
-    def aux(scnt: Map[String, Int], lprev: List[Id], lnext: List[String]): List[Id] = lnext match {
-      case Nil => lprev
-      case s :: rest => {
-        scnt.lift(s) match {
-          case Some(n) => aux(scnt + (s -> (n + 1)), Id(s"$s$n") :: lprev, rest)
-          case None => if (rest contains s) {
-            aux(scnt + (s -> 1), Id(s + "0") :: lprev, rest)
-          } else {
-            aux(scnt, Id(s) :: lprev, rest)
-          }
-        }
-      }
-    }
-    aux(Map(), Nil, l) match {
-      case Id(x) :: tl if x.startsWith("...") =>
-        (tl.reverse, Some(Id(x.substring(3))))
-      case l => (l.reverse, None)
-    }
-  }
-
-  def parseStmt(tokens: List[Token]): Inst = parseAll(stmt, tokens).get
-
-  // short-cut for TODO
-  def itodo(msg: String): IExpr = IExpr(etodo(msg))
-  def etodo(msg: String): ENotYetImpl = ENotYetImpl(msg)
-  // temporal identifiers
-  lazy val temp: String = "temp"
-  lazy val tempId: Id = Id(temp)
-
   // ReturnIfAbrupt
   def returnIfAbrupt(name: String): Inst = parseInst(
     s"""if (= (typeof $name) "Completion") {
@@ -65,7 +34,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // list of statements
   lazy val stmts: Parser[List[Inst]] = rep(
     stmt <~ opt(("as defined" <~ rest) | (("(" | ".") <~ "see" <~ rest)) <~ opt(".") <~ next | step ^^ {
-      case tokens => itodo(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\""))
+      case tokens => IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
     }
   ) // TODO flatten
 
@@ -95,17 +64,21 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // return statements
   lazy val returnStmt =
     "return" ~> ("!" | "?") ~> expr ^^ {
-      case e => algo.kind match {
-        case RuntimeSemantics => ISeq(List(
-          ILet(tempId, e),
-          returnIfAbrupt(temp),
-          IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(ERef(RefId(tempId)))))
-        ))
-        case _ => ISeq(List(
-          ILet(tempId, e),
-          returnIfAbrupt(temp),
-          IReturn(ERef(RefId(tempId)))
-        ))
+      case e => {
+        val temp = getTemp
+        val tempId = Id(temp)
+        algo.kind match {
+          case RuntimeSemantics => ISeq(List(
+            ILet(tempId, e),
+            returnIfAbrupt(temp),
+            IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(ERef(RefId(tempId)))))
+          ))
+          case _ => ISeq(List(
+            ILet(tempId, e),
+            returnIfAbrupt(temp),
+            IReturn(ERef(RefId(tempId)))
+          ))
+        }
       }
     } | "return" ~> expr ^^ {
       case e => algo.kind match {
@@ -124,18 +97,24 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // let statements
   lazy val letStmt =
     ("let" ~> id <~ "be") ~ (("!" | "?") ~> word <~ "(") ~ (("!" | "?") ~> expr <~ ")") ^^ {
-      case x ~ n ~ e => ISeq(List(
-        ILet(tempId, e),
-        returnIfAbrupt(temp),
-        ILet(Id(x), EApp(ERef(RefId(Id(n))), List(ERef(RefId(tempId))))),
-        returnIfAbrupt((x))
-      ))
+      case x ~ n ~ e =>
+        val temp = getTemp
+        val tempId = Id(temp)
+        ISeq(List(
+          ILet(tempId, e),
+          returnIfAbrupt(temp),
+          ILet(Id(x), EApp(ERef(RefId(Id(n))), List(ERef(RefId(tempId))))),
+          returnIfAbrupt((x))
+        ))
     } | ("let" ~> id <~ "be") ~ (word <~ "(") ~ (("!" | "?") ~> expr <~ ")") ^^ {
-      case x ~ n ~ e => ISeq(List(
-        ILet(tempId, e),
-        returnIfAbrupt(temp),
-        ILet(Id(x), EApp(ERef(RefId(Id(n))), List(ERef(RefId(tempId)))))
-      ))
+      case x ~ n ~ e =>
+        val temp = getTemp
+        val tempId = Id(temp)
+        ISeq(List(
+          ILet(tempId, e),
+          returnIfAbrupt(temp),
+          ILet(Id(x), EApp(ERef(RefId(Id(n))), List(ERef(RefId(tempId)))))
+        ))
     } | ("let" ~> id <~ "be") ~ expr ^^ {
       case x ~ e => ILet(Id(x), e)
     } | ("let" ~> id <~ "be") ~ (("!" | "?") ~> expr) ^^ {
@@ -176,10 +155,13 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // call statements
   lazy val callStmt =
     ("perform" | "call") ~> ("?" | "!") ~> callExpr ^^ {
-      case e => ISeq(List(
-        ILet(tempId, e),
-        returnIfAbrupt(temp)
-      ))
+      case e =>
+        val temp = getTemp
+        val tempId = Id(temp)
+        ISeq(List(
+          ILet(tempId, e),
+          returnIfAbrupt(temp)
+        ))
     } | ("perform" | "call") ~> callExpr ^^ {
       case e => IExpr(e)
     }
@@ -191,11 +173,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("set" ~> ref) ~ ("to" ~> expr) ^^ {
       case r ~ e => IAssign(r, e)
     } | ("set" ~> ref) ~ ("to" ~> "?" ~> expr) ^^ {
-      case r ~ e => ISeq(List(
-        ILet(tempId, e),
-        returnIfAbrupt(temp),
-        IAssign(r, ERef(RefId(tempId)))
-      ))
+      case r ~ e =>
+        val temp = getTemp
+        val tempId = Id(temp)
+        ISeq(List(
+          ILet(tempId, e),
+          returnIfAbrupt(temp),
+          IAssign(r, ERef(RefId(tempId)))
+        ))
     } | ("set the bound value for" ~> expr <~ "in") ~ expr ~ ("to" ~> expr) ^^ {
       case p ~ e ~ v => parseInst(s"${beautify(e)}.SubMap.${beautify(p)} = ${beautify(v)}")
     } | ("set" ~> ref) ~ ("as specified in" ~> (
@@ -261,7 +246,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ("append" ~> expr) ~ ("to" ~> expr) ^^ {
       case x ~ y => IPush(x, y)
     } | ("append to" ~> expr <~ "the elements of") ~ expr ^^ {
-      case l1 ~ l2 => forEachList(Id("temp"), l2, IPush(ERef(RefId(Id("temp"))), l1))
+      case l1 ~ l2 =>
+        val tempId = getTempId
+        forEachList(tempId, l2, IPush(ERef(RefId(tempId)), l1))
     } | ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
       case x ~ y => IPush(x, y)
     } | ("add" ~> expr <~ "as an element of the list") ~ expr ^^ {
@@ -328,6 +315,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "otherwise , let " ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 1" ~ rest ^^^ {
       parseInst(s"""return (convert m num2str)""")
     } | "for each property of the global object" ~ rest ^^^ {
+      val temp = getTemp
+      val tempId = Id(temp)
       forEachMap(Id("name"), parseExpr("globalThis"), ISeq(List(
         ILet(Id("desc"), EMap(Ty("PropertyDescriptor"), List(
           EStr("Writable") -> EBool(true),
@@ -381,7 +370,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     case "undefined" => EUndef
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case err @ ("TypeError" | "ReferenceError") => EMap(Ty(err), Nil)
-    case s => etodo(s)
+    case s => ENotYetImpl(s)
   } | const ^^ {
     case "[empty]" => ERef(RefId(Id("emptySyntax")))
     case const => ERef(RefId(Id(const.replaceAll("-", ""))))
@@ -492,7 +481,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
       parseExpr("(parse-syntax CoverCallExpressionAndAsyncArrowHead CallMemberExpression)")
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
-      case x ~ y => etodo(s"larger of $x and $y")
+      case x ~ y => ENotYetImpl(s"larger of $x and $y")
     } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ "." ~ name ~ "is the" ~ rest ^^ {
       case f => parseExpr(s"($f.Code thisArgument argumentsList undefined)")
     } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ ". the" ~ rest ^^ {
@@ -755,6 +744,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ////////////////////////////////////////////////////////////////////////////////
   // Helpers
   ////////////////////////////////////////////////////////////////////////////////
+  // get temporal identifiers
   private var idCount: Int = 0
   private def getTemp: String = {
     val i = idCount
@@ -763,6 +753,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   }
   private def getTempId: Id = Id(getTemp)
 
+  // for-each instrutions for lists
   def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
     val list = getTemp
     val idx = getTemp
@@ -787,6 +778,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       }"""
     )
   }
+
+  // for-each instrutions for maps
   def forEachMap(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
     val list = getTemp
     val idx = getTemp
@@ -799,5 +792,27 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         $idx = (+ $idx 1i)
       }
     }""")
+  }
+
+  // handle duplicated params and variable-length params
+  def handleParams(l: List[String]): (List[Id], Option[Id]) = {
+    def aux(scnt: Map[String, Int], lprev: List[Id], lnext: List[String]): List[Id] = lnext match {
+      case Nil => lprev
+      case s :: rest => {
+        scnt.lift(s) match {
+          case Some(n) => aux(scnt + (s -> (n + 1)), Id(s"$s$n") :: lprev, rest)
+          case None => if (rest contains s) {
+            aux(scnt + (s -> 1), Id(s + "0") :: lprev, rest)
+          } else {
+            aux(scnt, Id(s) :: lprev, rest)
+          }
+        }
+      }
+    }
+    aux(Map(), Nil, l) match {
+      case Id(x) :: tl if x.startsWith("...") =>
+        (tl.reverse, Some(Id(x.substring(3))))
+      case l => (l.reverse, None)
+    }
   }
 }
