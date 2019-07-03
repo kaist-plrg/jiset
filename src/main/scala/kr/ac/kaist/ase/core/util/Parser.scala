@@ -65,7 +65,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
     "delete " ~> ref ^^ { IDelete(_) } |
       ("push " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPush(e, l) } |
       "return " ~> expr ^^ { case e => IReturn(e) } |
-      ("if " ~> expr) ~ inst ~ opt("else" ~> inst) ^^ { case c ~ t ~ e => IIf(c, t, e.getOrElse(ISeq(Nil))) } |
+      ("if " ~> expr) ~ inst ~ ("else" ~> inst) ^^ { case c ~ t ~ e => IIf(c, t, e) } |
       ("while " ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |
       "{" ~> rep(inst) <~ "}" ^^ { case seq => ISeq(seq) } |
       "assert " ~> expr ^^ { case e => IAssert(e) } |

@@ -40,7 +40,7 @@ case object CmdParseAlgo extends CommandObj("parse-algo", CmdBase >> ParseAlgo) 
 
 // compile-algo
 case object CmdCompileAlgo extends CommandObj("compile-algo", CmdParseAlgo >> CompileAlgo) {
-  override def display(func: core.Func): Unit = println(func)
+  override def display(func: core.Func): Unit = println(core.beautify(func))
 }
 
 // parse

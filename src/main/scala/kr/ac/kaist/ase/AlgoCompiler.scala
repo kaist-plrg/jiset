@@ -13,10 +13,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       name = algoName,
       params = params,
       varparam = varparam,
-      body = ISeq(parseAll(stmts, algo.toTokenList) match {
+      body = flatten(ISeq(parseAll(stmts, algo.toTokenList) match {
         case Success(res, _) => res
         case NoSuccess(_, reader) => error(s"[AlgoCompiler]:${algo.filename}: $reader")
-      })
+      }))
     )
   }
 
@@ -29,7 +29,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       step ^^ {
         case tokens => IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
       }
-  ) // TODO flatten
+  )
 
   // execution context stack string
   val executionStack = "executionStack"
@@ -241,7 +241,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "let" ~> name <~ "be the topmost execution context on the execution context stack whose scriptormodule component is not" ~ value ~ "." ~ next ~ "if no such execution context exists, return" ~ value ~ ". otherwise, return" ~ name ~ "'s scriptormodule component." ^^ {
       case x => ISeq(List(
         forEachList(Id(x), parseExpr(executionStack), parseInst(s"""{
-          if (! (= $x.ScriptOrModule null)) return $x.ScriptOrModule
+          if (! (= $x.ScriptOrModule null)) return $x.ScriptOrModule else {}
         }"""), true),
         parseInst("return null")
       ))
@@ -263,7 +263,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
             if (= (typeof $temp) "Completion") {
               if (= $temp.Type normal) $temp = $temp.Value
               else return $temp
-            }
+            } else {}
           }""")
         }
       )))
@@ -791,7 +791,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       if (= (typeof $x) "Completion") {
         if (= $x.Type normal) $x = $x.Value
         else return $x
-      }"""), e)
+      } else {}"""), e)
     case (i, e) =>
       val temp = getTemp
       pair(i :+ parseInst(
@@ -800,15 +800,33 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         if (= (typeof $temp) "Completion") {
           if (= $temp.Type normal) $temp = $temp.Value
           else return $temp
-        }
+        } else {}
       }"""
         else s"""{
         let $temp = ${beautify(e)}
         if (= (typeof $temp) "Completion") {
           $temp = $temp.Value
-        }
+        } else {}
       }"""
       ), parseExpr(temp))
+  }
+
+  // flatten instructions
+  private def flatten(inst: Inst): Inst = inst match {
+    case IIf(cond, thenInst, elseInst) =>
+      IIf(cond, flatten(thenInst), flatten(elseInst))
+    case IWhile(cond, body) =>
+      IWhile(cond, flatten(body))
+    case ISeq(newInsts) => (List[Inst]() /: newInsts) {
+      case (list, inst) => flatten(inst) match {
+        case ISeq(Nil) => list
+        case inst => inst :: list
+      }
+    } match {
+      case List(inst) => inst
+      case insts => ISeq(insts.reverse)
+    }
+    case i => i
   }
 
   // create pair of parsing results

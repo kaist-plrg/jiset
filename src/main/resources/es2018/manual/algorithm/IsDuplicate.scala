@@ -11,6 +11,7 @@ object IsDuplicate {
       let j = (+ i 1i)
       while (< j len) {
         if (= list[i] list[j]) return true
+        else {}
         j = (+ j 1i)
       }
       i = (+ i 1i)

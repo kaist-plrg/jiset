@@ -111,7 +111,7 @@ object Beautifier {
         walk("return "); walk(expr)
       case IIf(cond, thenInst, elseInst) =>
         walk("if "); walk(cond); walk(" "); walk(thenInst)
-        if (elseInst != ISeq(Nil)) { walk(" else "); walk(elseInst) }
+        walk(" else "); walk(elseInst)
       case IWhile(cond, body) =>
         walk("while "); walk(cond); walk(" "); walk(body)
       case ISeq(insts) =>
