@@ -16,7 +16,10 @@ case object CompileAlgo extends PhaseObj[Algorithm, CompileAlgoConfig, core.Func
     algo: Algorithm,
     aseConfig: ASEConfig,
     config: CompileAlgoConfig
-  ): core.Func = AlgoCompiler("<empty>", algo).result
+  ): core.Func = {
+    val name = getScalaName(removedExt(getSimpleFilename(getFirstFilename(aseConfig, "parse"))))
+    AlgoCompiler(name, algo).result
+  }
 
   def defaultConfig: CompileAlgoConfig = CompileAlgoConfig()
   val options: List[PhaseOption[CompileAlgoConfig]] = List()

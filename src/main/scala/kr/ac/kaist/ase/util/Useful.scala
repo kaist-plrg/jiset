@@ -55,6 +55,9 @@ object Useful {
   def getFirstFilename(aseConfig: ASEConfig, job: String): String =
     aseConfig.fileNames.headOption.getOrElse(throw NoFileError(job))
 
+  // get simple file name
+  def getSimpleFilename(filename: String): String = new File(filename).getName
+
   // delete files
   def deleteFile(filename: String): Unit = new File(filename).delete
 
