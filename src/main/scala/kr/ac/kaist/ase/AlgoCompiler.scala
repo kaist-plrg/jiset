@@ -230,7 +230,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         $context = null
         $x = null
       }""")
-    } | (("remove" ~ id ~ "from the execution context stack and restore" ~ id ~ "as the running execution context") | ("resume the context that is now on the top of the execution context stack as the running execution context")) ^^^ {
+    } | "remove" ~ id ~ "from the execution context stack and restore" ~ id ~ "as the running execution context" ^^^ {
+      parseInst(s"""{
+        (pop $executionStack)
+        $context = $executionStack[(- $executionStack.length 1i)]
+      }""")
+    } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
       parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
     } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27. all of those internal slots are initialized to" ~ value ^^ {
       case x => parseInst(s"""{
@@ -525,6 +530,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EContains(y, x)))
       } | (expr <~ "does not contain") ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
+      } | name <~ "does not have a Generator component" ^^ {
+        case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
       } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
         pair(Nil, EBool(true))
       } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
@@ -537,6 +544,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, x, y)))
       } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
         pair(Nil, EBool(false)) // TODO fix
+      } | ("the binding for" ~> name <~ "in") ~ (name <~ "is an uninitialized binding") ^^ {
+        case x ~ y => pair(Nil, parseExpr(s"(= $y.SubMap[$x] absent)"))
       } | (ref <~ "does not have an own property with key") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
       } | (ref <~ "has a") ~ word <~ "component" ^^ {
@@ -630,6 +639,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => parseRef(s"$x.BaseValue")
     } | "the strict reference flag of" ~> name ^^ {
       case x => parseRef(s"$x.StrictReference")
+    } | ("the value currently bound to" ~> name <~ "in") ~ name ^^ {
+      case x ~ y => parseRef(s"$y.SubMap[$x]")
     } | "the referenced name component of" ~> name ^^ {
       case x => parseRef(s"$x.ReferencedName")
     } | "the binding object for" ~> name ^^ {
