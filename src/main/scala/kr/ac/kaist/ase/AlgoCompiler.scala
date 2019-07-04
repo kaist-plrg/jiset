@@ -817,15 +817,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       IIf(cond, flatten(thenInst), flatten(elseInst))
     case IWhile(cond, body) =>
       IWhile(cond, flatten(body))
-    case ISeq(newInsts) => (List[Inst]() /: newInsts) {
-      case (list, inst) => flatten(inst) match {
-        case ISeq(Nil) => list
-        case inst => inst :: list
+    case ISeq(insts) =>
+      def aux(cur: List[Inst], remain: List[Inst]): List[Inst] = remain match {
+        case Nil => cur.reverse
+        case ISeq(list) :: rest => aux(cur, list ++ rest)
+        case inst :: rest => aux(flatten(inst) :: cur, rest)
       }
-    } match {
-      case List(inst) => inst
-      case insts => ISeq(insts.reverse)
-    }
+      aux(Nil, insts) match {
+        case List(inst) => inst
+        case insts => ISeq(insts)
+      }
     case i => i
   }
 
