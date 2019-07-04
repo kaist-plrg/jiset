@@ -30,5 +30,27 @@ Map(
   )),
   NamedAddr("global.Object.prototype.SubMap") -> CoreMap(Ty("SubMap"), Map(
     Str("constructor") -> NamedAddr("global.Object")
+  )),
+  NamedAddr("global.Function.prototype") -> CoreMap(Ty("BuiltinFunctionObject"), BuiltinFunctionObject.map ++ Map(
+    Str("Prototype") -> NamedAddr("global.Object.prototype"),
+    Str("Extensible") -> Bool(true),
+    Str("SubMap") -> NamedAddr("global.Function.prototype.SubMap"),
+    Str("Code") -> Func("global.Function.prototype", List(), None, IReturn(EUndef))
+  )),
+  NamedAddr("global.Function.prototype.SubMap") -> CoreMap(Ty("SubMap"), Map(
+    Str("length") -> NamedAddr("global.Function.prototype.SubMap.length"),
+    Str("name") -> NamedAddr("global.Function.prototype.SubMap.name")
+  )),
+  NamedAddr("global.Function.prototype.SubMap.length") -> CoreMap(Ty("PropertyDescriptor"), Map(
+    Str("Value") -> Num(0.0),
+    Str("Writable") -> Bool(false),
+    Str("Enumerable") -> Bool(false),
+    Str("Configurable") -> Bool(true)
+  )),
+  NamedAddr("global.Function.prototype.SubMap.name") -> CoreMap(Ty("PropertyDescriptor"), Map(
+    Str("Value") -> Str(""),
+    Str("Writable") -> Bool(false),
+    Str("Enumerable") -> Bool(false),
+    Str("Configurable") -> Bool(true)
   ))
 )

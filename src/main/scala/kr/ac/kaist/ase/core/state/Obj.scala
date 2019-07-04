@@ -33,7 +33,7 @@ case class CoreList(values: Vector[Value]) extends Obj {
     case INum(long) =>
       val idx = long.toInt
       if (0 <= idx && idx < values.length) values(idx)
-      else error(s"index out of bound: $idx")
+      else Absent
     case Str("length") => INum(values.length)
     case v => error(s"not an integer key: $v")
   }
