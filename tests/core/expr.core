@@ -68,8 +68,8 @@ assert (= res 1)
 
 // property existences
 let obj = (new Object("x" -> 1, "y" -> 2))
-assert (? obj.x)
-assert (= (? obj["z"]) false)
+assert (! (= absent obj.x))
+assert (= absent obj["z"])
 
 // typeof
 assert (= (typeof 1) "Number")

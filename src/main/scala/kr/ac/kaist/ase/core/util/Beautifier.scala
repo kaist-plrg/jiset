@@ -154,8 +154,6 @@ object Beautifier {
         walk("("); walk(uop); walk(" "); walk(expr); walk(")")
       case EBOp(bop, left, right) =>
         walk("("); walk(bop); walk(" "); walk(left); walk(" "); walk(right); walk(")")
-      case EExist(ref) =>
-        walk("(? "); walk(ref); walk(")")
       case ETypeOf(expr) =>
         walk("(typeof "); walk(expr); walk(")")
       case EIsInstanceOf(base, name) =>

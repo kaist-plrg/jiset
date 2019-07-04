@@ -15,10 +15,10 @@ object Interp {
   // instructions
   def interp(inst: Inst): State => State = st => {
     // TODO delete
-    // inst match {
-    //   case ISeq(_) =>
-    //   case _ => println(s"${st.context}: ${beautify(inst)}")
-    // }
+    inst match {
+      case ISeq(_) =>
+      case _ => println(s"${st.context}: ${beautify(inst)}")
+    }
     inst match {
       case IExpr(expr) =>
         val (_, s0) = interp(expr)(st)
@@ -157,9 +157,6 @@ object Interp {
       val (lv, s0) = interp(left)(st)
       val (rv, s1) = interp(right)(s0)
       (interp(bop)(lv, rv), s1)
-    case EExist(ref) =>
-      val (refV, s0) = interp(ref)(st)
-      (Bool(s0.contains(refV)), s0)
     case ETypeOf(expr) => {
       val (v, s0) = interp(expr)(st)
       (v match {

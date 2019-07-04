@@ -77,7 +77,6 @@ trait Walker {
     case EApp(fexpr, args) => EApp(walk(fexpr), walkList[Expr](args, walk))
     case EUOp(uop, expr) => EUOp(walk(uop), walk(expr))
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
-    case EExist(ref) => EExist(walk(ref))
     case ETypeOf(expr) => ETypeOf(walk(expr))
     case EIsInstanceOf(base, name) => EIsInstanceOf(walk(base), walk(name))
     case EGetSyntax(base) => EGetSyntax(walk(base))

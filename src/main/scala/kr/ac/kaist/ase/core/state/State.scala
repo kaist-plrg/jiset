@@ -9,15 +9,6 @@ case class State(
     locals: Map[Id, Value] = Map(),
     heap: Heap = Heap()
 ) extends CoreNode {
-  // existence check
-  def contains(refV: RefValue): Boolean = refV match {
-    case RefValueId(id) =>
-      (locals contains id) || (globals contains id)
-    case RefValueProp(addr, value) =>
-      heap.contains(addr, value)
-    case _ => error(s"illegal contains check: contains $refV")
-  }
-
   // getters
   def apply(refV: RefValue): (Value, State) = refV match {
     case RefValueId(id) =>
@@ -60,16 +51,15 @@ case class State(
     case _ => error(s"illegal reference update: $refV = $value")
   }
   def updated(id: Id, value: Value): State =
-    if (locals contains id) copy(locals = locals + (id -> value))
-    else copy(globals = globals + (id -> value))
+    if (id.name.startsWith("GLOBAL_")) copy(globals = globals + (id -> value))
+    else copy(locals = locals + (id -> value))
   def updated(addr: Addr, key: Value, value: Value): State =
     copy(heap = heap.updated(addr, key, value))
 
   // deletes
   def deleted(refV: RefValue): State = refV match {
     case RefValueId(id) =>
-      if (locals contains id) copy(locals = locals - id)
-      else copy(globals = globals - id)
+      copy(locals = locals - id)
     case RefValueProp(addr, prop) =>
       copy(heap = heap.deleted(addr, prop))
     case _ => error(s"illegal reference delete: delete $refV")

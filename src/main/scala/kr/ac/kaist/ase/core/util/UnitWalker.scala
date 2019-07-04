@@ -97,8 +97,6 @@ trait UnitWalker {
       walk(uop); walk(expr)
     case EBOp(bop, left, right) =>
       walk(bop); walk(left); walk(right)
-    case EExist(ref) =>
-      walk(ref)
     case ETypeOf(expr) =>
       walk(expr)
     case EIsInstanceOf(base, name) =>

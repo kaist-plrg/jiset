@@ -93,7 +93,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "???" ~> string ^^ { ENotYetImpl(_) } |
       "(" ~> (uop ~ expr) <~ ")" ^^ { case u ~ e => EUOp(u, e) } |
       "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
-      "(" ~> ("?" ~> ref) <~ ")" ^^ { case ref => EExist(ref) } |
       "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
       ("(" ~> (rep1sep(id, ",") ~ opt("," ~> "..." ~> id) | success(Nil) ~ opt("..." ~> id)) <~ ")") ~ ("=>" ~> inst) ^^ { case ps ~ ox ~ b => EFunc(ps, ox, b) } |
       ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {

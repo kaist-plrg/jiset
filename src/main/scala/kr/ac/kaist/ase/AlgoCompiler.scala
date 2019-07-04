@@ -32,8 +32,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   )
 
   // execution context stack string
-  val executionStack = "executionStack"
-  val context = "context"
+  val executionStack = "GLOBAL_executionStack"
+  val context = "GLOBAL_context"
 
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
@@ -113,7 +113,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e))
     } | ("set the bound value for" ~> expr <~ "in") ~ expr ~ ("to" ~> expr) ^^ {
       case (i0 ~ p) ~ (i1 ~ e) ~ (i2 ~ v) =>
-        ISeq(i0 ++ i1 ++ i2 :+ parseInst(s"${beautify(e)}.SubMap.${beautify(p)} = ${beautify(v)}"))
+        ISeq(i0 ++ i1 ++ i2 :+ parseInst(s"${beautify(e)}.SubMap[${beautify(p)}] = ${beautify(v)}"))
     } | ("set" ~> ref) ~ ("as specified in" ~> (
       "9.4.4.1" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.GetOwnProperty")) |
       "9.4.4.2" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.DefineOwnProperty")) |
@@ -129,19 +129,19 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "create an own data property" ~ rest ^^^ {
       parseInst(s"""{
         dp = (new DataProperty())
-        if (? Desc.Value) dp.Value = Desc.Value else dp.Value = undefined
-        if (? Desc.Writable) dp.Writable = Desc.Writable else dp.Writable = false
-        if (? Desc.Enumerable) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false
-        if (? Desc.Configurable) dp.Configurable = Desc.Configurable else dp.Configurable = false
+        if (! (= absent Desc.Value)) dp.Value = Desc.Value else dp.Value = undefined
+        if (! (= absent Desc.Writable)) dp.Writable = Desc.Writable else dp.Writable = false
+        if (! (= absent Desc.Enumerable)) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false
+        if (! (= absent Desc.Configurable)) dp.Configurable = Desc.Configurable else dp.Configurable = false
         O.SubMap[P] = dp
       }""")
     } | "create an own accessor property" ~ rest ^^^ {
       parseInst(s"""{
         dp = (new AccessorProperty())
-        if (? Desc.Get) dp.Get = Desc.Get else dp.Get = undefined
-        if (? Desc.Set) dp.Set = Desc.Set else dp.Set = undefined
-        if (? Desc.Enumerable) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false
-        if (? Desc.Configurable) dp.Configurable = Desc.Configurable else dp.Configurable = false
+        if (! (= absent Desc.Get)) dp.Get = Desc.Get else dp.Get = undefined
+        if (! (= absent Desc.Set)) dp.Set = Desc.Set else dp.Set = undefined
+        if (! (= absent Desc.Enumerable)) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false
+        if (! (= absent Desc.Configurable)) dp.Configurable = Desc.Configurable else dp.Configurable = false
         O.SubMap[P] = dp
       }""")
     } | "Create" ~ ("an immutable" | "a mutable") ~ "binding" ~ rest ^^^ parseInst("{}")
@@ -461,6 +461,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x => parseExpr(s"$x")
       } | "the number whose value is MV of" ~> name <~ rest ^^ {
         case x => EParseString(ERef(RefId(Id(x))), PNum)
+      } | "a copy of the List" ~> name ^^ {
+        case x => ECopy(ERef(RefId(Id(x))))
       } | ("the" ~> id <~ "flag of") ~ id ^^ {
         case e1 ~ e2 if e1 == "withEnvironment" => EBool(false) // TODO : support withEnvironment flag in Object Environment
       } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
@@ -487,8 +489,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr("this")
       } | "this" ~ name ^^^ {
         parseExpr("this")
-      } | "newtarget" ^^^ {
-        parseExpr("(GetNewTarget)")
       }
     ) ^^ { case e => pair(Nil, e) })
 
@@ -506,7 +506,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
         pair(Nil, EBool(false)) // TODO : support strict mode code
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
-        case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EUOp(ONot, EExist(r))))
+        case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EUOp(ONot, exists(r))))
+      } | expr <~ "is an abrupt completion" ^^ {
+        case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type normal)))"""))
       } | (expr <~ "<") ~ expr ^^ {
         case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OLt, l, r))
       } | (expr <~ "≥") ~ expr ^^ {
@@ -536,21 +538,21 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
         pair(Nil, EBool(false)) // TODO fix
       } | (ref <~ "does not have an own property with key") ~ expr ^^ {
-        case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, EExist(RefProp(RefProp(r, EStr("SubMap")), p))))
+        case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
       } | (ref <~ "has a") ~ word <~ "component" ^^ {
-        case (i ~ r) ~ n => pair(i, EExist(RefProp(r, EStr(n))))
+        case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
-        case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EExist(RefProp(RefProp(r, EStr("SubMap")), p)))
+        case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
       } | ref ~ ("has a" ~> name <~ "internal method") ^^ {
-        case (i ~ r) ~ p => pair(i, parseExpr(s"(? ${beautify(r)}.$p)"))
+        case (i ~ r) ~ p => pair(i, parseExpr(s"(! (= absent ${beautify(r)}.$p))"))
       } | (ref <~ "is present and its value is") ~ expr ^^ {
-        case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, EExist(r), EBOp(OEq, ERef(r), e)))
+        case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, exists(r), EBOp(OEq, ERef(r), e)))
       } | (ref <~ "is present") ~ subCond ^^ {
-        case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EExist(r)))
+        case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(exists(r)))
       } | (expr <~ "is not") ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, l, r))))
       } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OAnd, EUOp(ONot, EExist(l)), EUOp(ONot, EExist(r))))
+        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OAnd, EUOp(ONot, exists(l)), EUOp(ONot, exists(r))))
       } | expr <~ "has any duplicate entries" ^^ {
         case i ~ e => pair(i, EApp(parseExpr("IsDuplicate"), List(e)))
       } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
@@ -578,13 +580,13 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number")))))) // TODO : remove side effect
       } | "every field in" ~> id <~ "is absent" ^^ {
-        case x => pair(Nil, parseExpr(s"""(!
-          (|| (? $x.Value)
-          (|| (? $x.Writable)
-          (|| (? $x.Get)
-          (|| (? $x.Set)
-          (|| (? $x.Enumerable)
-          (? $x.Configurable)))))))"""))
+        case x => pair(Nil, parseExpr(s"""
+          (&& (= absent $x.Value)
+          (&& (= absent $x.Writable)
+          (&& (= absent $x.Get)
+          (&& (= absent $x.Set)
+          (&& (= absent $x.Enumerable)
+          (= absent $x.Configurable))))))"""))
       } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, l, r)))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
@@ -651,6 +653,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ r => pair(i, r)
     } | "EvaluateBody of" ~> ref ^^ {
       case i ~ r => pair(i, RefProp(r, EStr("EvaluateBody")))
+    } | "the EnvironmentRecord component of" ~> ref ^^ {
+      case i ~ r => pair(i, RefProp(r, EStr("EnvironmentRecord")))
     } | (name <~ "'s own property whose key is") ~ ref ^^ {
       case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
     } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ nameWithOrdinal ^^ {
@@ -717,6 +721,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     s"__x${i}__"
   }
   private def getTempId: Id = Id(getTemp)
+
+  // existence check
+  private def exists(expr: Expr): Expr = EUOp(ONot, EBOp(OEq, expr, EAbsent))
+  private def exists(ref: Ref): Expr = exists(ERef(ref))
 
   // for-each instrutions for lists
   private def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
