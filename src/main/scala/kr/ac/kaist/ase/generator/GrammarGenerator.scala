@@ -7,6 +7,6 @@ import kr.ac.kaist.ase.spec._
 object GrammarGenerator {
   def apply(grammar: Grammar): Unit = {
     ASTGenerator(grammar)
-    ASTParserGenerator(grammar)
+    ESParserGenerator(grammar)
   }
 }

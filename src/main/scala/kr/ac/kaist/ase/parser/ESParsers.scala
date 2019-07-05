@@ -7,7 +7,7 @@ import scala.util.matching.Regex
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
 
-trait ASTParsers extends RegexParsers {
+trait ESParsers extends RegexParsers {
   private val self = this
 
   // not skip white sapces
@@ -106,12 +106,12 @@ trait ASTParsers extends RegexParsers {
   lazy val MISMATCH: NodeParser[Nothing] = new NodeParser(first => failure(""), FirstTerms())
 
   class CachedReader(reader: Reader[Char]) extends Reader[Char] { outer =>
-    private[ASTParsers] val cache = mutable.HashMap.empty[(NodeParser[_], FirstTerms, Position), ParseResult[_]]
+    private[ESParsers] val cache = mutable.HashMap.empty[(NodeParser[_], FirstTerms, Position), ParseResult[_]]
     override def source = reader.source
     override def offset = reader.offset
     def first: Char = reader.first
     def rest: Reader[Char] = new CachedReader(reader.rest) {
-      override private[ASTParsers] val cache = outer.cache
+      override private[ESParsers] val cache = outer.cache
     }
 
     def pos: Position = reader.pos
