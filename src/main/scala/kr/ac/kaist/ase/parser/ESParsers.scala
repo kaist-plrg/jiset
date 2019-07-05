@@ -10,7 +10,7 @@ import scala.util.parsing.input._
 trait ESParsers extends RegexParsers {
   private val self = this
 
-  // not skip white sapces
+  // not skip white spaces
   override def skipWhitespace = false
 
   // lookahead
