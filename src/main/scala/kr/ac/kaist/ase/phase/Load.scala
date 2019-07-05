@@ -1,7 +1,7 @@
 package kr.ac.kaist.ase.phase
 
 import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
-import kr.ac.kaist.ase.model._
+import kr.ac.kaist.ase.model.{ Parser => JSParser, _ }
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.util.Useful._
 import scala.io.Source

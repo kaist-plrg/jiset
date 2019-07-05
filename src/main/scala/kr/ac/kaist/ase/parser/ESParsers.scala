@@ -85,10 +85,10 @@ trait ESParsers extends RegexParsers {
   def strOpt(parser: => Parser[String]): Parser[String] = parser | STR_MATCH
 
   lazy val Skip: Parser[String] = ((WhiteSpace | LineTerminator | Comment)*) ^^ { _.mkString }
-  lazy val NoLineTerminator: NodeParser[String] = new NodeParser(first => strNoLineTerminator, emptyFirst)
+  lazy val NoLineTerminator: ESParser[String] = new ESParser(first => strNoLineTerminator, emptyFirst)
   lazy val strNoLineTerminator: Parser[String] = STR_MATCH <~ +(Skip.filter(s => lines.findFirstIn(s).isEmpty))
-  def term(name: String, nt: Parser[String]): NodeParser[String] = new NodeParser(first => Skip ~> nt <~ Skip <~ +first.getParser, FirstTerms() + (name -> nt))
-  def term(t: String): NodeParser[String] = new NodeParser(first => { Skip ~> t <~ Skip <~ +first.getParser }, FirstTerms() + t)
+  def term(name: String, nt: Parser[String]): ESParser[String] = new ESParser(first => Skip ~> nt <~ Skip <~ +first.getParser, FirstTerms() + (name -> nt))
+  def term(t: String): ESParser[String] = new ESParser(first => { Skip ~> t <~ Skip <~ +first.getParser }, FirstTerms() + t)
 
   lazy val emptyFirst: FirstTerms = FirstTerms(ts = Set(""))
   case class FirstTerms(ts: Set[String] = Set(), nts: Map[String, Parser[String]] = Map()) {
@@ -102,15 +102,15 @@ trait ESParsers extends RegexParsers {
     override def toString: String = (ts ++ nts.map(_._1)).map("\"" + _ + "\"").mkString("[", ", ", "]")
   }
 
-  lazy val MATCH: NodeParser[String] = new NodeParser(first => "" <~ +first.getParser, FirstTerms() + "")
-  lazy val MISMATCH: NodeParser[Nothing] = new NodeParser(first => failure(""), FirstTerms())
+  lazy val MATCH: ESParser[String] = new ESParser(first => "" <~ +first.getParser, FirstTerms() + "")
+  lazy val MISMATCH: ESParser[Nothing] = new ESParser(first => failure(""), FirstTerms())
 
-  class CachedReader(reader: Reader[Char]) extends Reader[Char] { outer =>
-    private[ESParsers] val cache = mutable.HashMap.empty[(NodeParser[_], FirstTerms, Position), ParseResult[_]]
+  class ESReader(reader: Reader[Char]) extends Reader[Char] { outer =>
+    private[ESParsers] val cache = mutable.HashMap.empty[(ESParser[_], FirstTerms, Position), ParseResult[_]]
     override def source = reader.source
     override def offset = reader.offset
     def first: Char = reader.first
-    def rest: Reader[Char] = new CachedReader(reader.rest) {
+    def rest: Reader[Char] = new ESReader(reader.rest) {
       override private[ESParsers] val cache = outer.cache
     }
 
@@ -118,71 +118,71 @@ trait ESParsers extends RegexParsers {
     def atEnd: Boolean = reader.atEnd
   }
 
-  class NodeParser[+T](
+  class ESParser[+T](
       val parser: FirstTerms => Parser[T],
       val first: FirstTerms
   ) {
-    def ~[U](that: => NodeParser[U]): NodeParser[~[T, U]] =
-      new NodeParser(first => this.parser(that.first ~ first) ~ that.parser(first), this.first ~ that.first)
+    def ~[U](that: => ESParser[U]): ESParser[~[T, U]] =
+      new ESParser(first => this.parser(that.first ~ first) ~ that.parser(first), this.first ~ that.first)
 
-    def ~>[U](that: => NodeParser[U]): NodeParser[U] =
-      new NodeParser(first => this.parser(that.first ~ first) ~> that.parser(first), this.first ~ that.first)
+    def ~>[U](that: => ESParser[U]): ESParser[U] =
+      new ESParser(first => this.parser(that.first ~ first) ~> that.parser(first), this.first ~ that.first)
 
-    def <~[U](that: => NodeParser[U]): NodeParser[T] =
-      new NodeParser(first => this.parser(that.first ~ first) <~ that.parser(first), this.first ~ that.first)
+    def <~[U](that: => ESParser[U]): ESParser[T] =
+      new ESParser(first => this.parser(that.first ~ first) <~ that.parser(first), this.first ~ that.first)
 
-    def |[U >: T](that: NodeParser[U]): NodeParser[U] =
+    def |[U >: T](that: ESParser[U]): ESParser[U] =
       if (that eq MISMATCH) this
-      else new NodeParser(first => this.parser(first) | that.parser(first), this.first + that.first)
+      else new ESParser(first => this.parser(first) | that.parser(first), this.first + that.first)
 
-    def ^^[U](f: T => U): NodeParser[U] =
-      new NodeParser(first => this.parser(first) ^^ f, this.first)
+    def ^^[U](f: T => U): ESParser[U] =
+      new ESParser(first => this.parser(first) ^^ f, this.first)
 
-    def ^^^[U](v: => U): NodeParser[U] =
-      new NodeParser(first => this.parser(first) ^^^ v, this.first)
+    def ^^^[U](v: => U): ESParser[U] =
+      new ESParser(first => this.parser(first) ^^^ v, this.first)
 
-    def apply(first: FirstTerms, in: CachedReader): ParseResult[T] = parser(first)(in)
+    def apply(first: FirstTerms, in: ESReader): ParseResult[T] = parser(first)(in)
 
-    def unary_-(): NodeParser[Unit] =
-      new NodeParser(first => -parser(first), emptyFirst)
+    def unary_-(): ESParser[Unit] =
+      new ESParser(first => -parser(first), emptyFirst)
 
-    def unary_+(): NodeParser[Unit] =
-      new NodeParser(first => +parser(first), emptyFirst)
+    def unary_+(): ESParser[Unit] =
+      new ESParser(first => +parser(first), emptyFirst)
   }
 
-  def phrase[T](p: => NodeParser[T]): NodeParser[T] =
-    new NodeParser(first => phrase(p.parser(first)), p.first)
+  def phrase[T](p: => ESParser[T]): ESParser[T] =
+    new ESParser(first => phrase(p.parser(first)), p.first)
 
-  def opt[T](p: => NodeParser[T]): NodeParser[Option[T]] =
-    new NodeParser(first => opt(p.parser(first)), p.first + "")
+  def opt[T](p: => ESParser[T]): ESParser[Option[T]] =
+    new ESParser(first => opt(p.parser(first)), p.first + "")
 
   /** Parse some prefix of reader `in` with parser `p`. */
-  def parse[T](p: NodeParser[T], in: Reader[Char]): ParseResult[T] =
-    p(emptyFirst, new CachedReader(in))
+  def parse[T](p: ESParser[T], in: Reader[Char]): ParseResult[T] =
+    p(emptyFirst, new ESReader(in))
 
   /** Parse some prefix of character sequence `in` with parser `p`. */
-  def parse[T](p: NodeParser[T], in: java.lang.CharSequence): ParseResult[T] =
+  def parse[T](p: ESParser[T], in: java.lang.CharSequence): ParseResult[T] =
     parse(p, new CharSequenceReader(in))
 
   /** Parse some prefix of reader `in` with parser `p`. */
-  def parse[T](p: NodeParser[T], in: java.io.Reader): ParseResult[T] =
+  def parse[T](p: ESParser[T], in: java.io.Reader): ParseResult[T] =
     parse(p, new PagedSeqReader(PagedSeq.fromReader(in)))
 
   /** Parse all of reader `in` with parser `p`. */
-  def parseAll[T](p: NodeParser[T], in: Reader[Char]): ParseResult[T] =
+  def parseAll[T](p: ESParser[T], in: Reader[Char]): ParseResult[T] =
     parse(phrase(p), in)
 
   /** Parse all of reader `in` with parser `p`. */
-  def parseAll[T](p: NodeParser[T], in: java.io.Reader): ParseResult[T] =
+  def parseAll[T](p: ESParser[T], in: java.io.Reader): ParseResult[T] =
     parse(phrase(p), in)
 
   /** Parse all of character sequence `in` with parser `p`. */
-  def parseAll[T](p: NodeParser[T], in: java.lang.CharSequence): ParseResult[T] =
+  def parseAll[T](p: ESParser[T], in: java.lang.CharSequence): ParseResult[T] =
     parse(phrase(p), in)
 
   var keepLog: Boolean = true
-  def log[T](p: NodeParser[T])(name: String): NodeParser[T] = new NodeParser(first => Parser { rawIn =>
-    val in = rawIn.asInstanceOf[CachedReader]
+  def log[T](p: ESParser[T])(name: String): ESParser[T] = new ESParser(first => Parser { rawIn =>
+    val in = rawIn.asInstanceOf[ESReader]
     val stopMsg = s"trying $name with $first at [${in.pos}] \n\n${in.pos.longString}\n"
     if (keepLog) stop(stopMsg) match {
       case "q" =>
@@ -207,14 +207,14 @@ trait ESParsers extends RegexParsers {
     scala.io.StdIn.readLine
   }
 
-  type P[+T] = List[Boolean] => NodeParser[T]
-  type R[T] = List[Boolean] => NodeParser[T => T]
+  type P[+T] = List[Boolean] => ESParser[T]
+  type R[T] = List[Boolean] => ESParser[T => T]
   protected def memo[T](f: P[T]): P[T] = {
-    val cache = mutable.Map.empty[List[Boolean], NodeParser[T]]
+    val cache = mutable.Map.empty[List[Boolean], ESParser[T]]
     args => cache.getOrElse(args, {
       val p = f(args)
-      val parser: NodeParser[T] = new NodeParser(first => Parser { rawIn =>
-        val in = rawIn.asInstanceOf[CachedReader]
+      val parser: ESParser[T] = new ESParser(first => Parser { rawIn =>
+        val in = rawIn.asInstanceOf[ESReader]
         val key = (p, first, in.pos)
         in.cache.get(key) match {
           case Some(res) => res.asInstanceOf[ParseResult[T]]

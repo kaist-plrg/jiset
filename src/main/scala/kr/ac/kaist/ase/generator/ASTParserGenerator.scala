@@ -5,9 +5,9 @@ import kr.ac.kaist.ase._
 import kr.ac.kaist.ase.spec._
 import kr.ac.kaist.ase.util.Useful._
 
-object ESParserGenerator {
+object ParserGenerator {
   def apply(grammar: Grammar): Unit = {
-    val nf = getPrintWriter(s"$MODEL_DIR/ESParser.scala")
+    val nf = getPrintWriter(s"$MODEL_DIR/Parser.scala")
     val Grammar(lexProds, prods) = grammar
     val lexNames = lexProds.map(_.lhs.name).toSet
 
@@ -124,7 +124,7 @@ object ESParserGenerator {
     nf.println(s"""import kr.ac.kaist.ase.parser.ESParsers""")
     nf.println(s"""import kr.ac.kaist.ase.error.WrongNumberOfParserParams""")
     nf.println
-    nf.println(s"""object ESParser extends ESParsers {""")
+    nf.println(s"""object Parser extends ESParsers {""")
     lexProds.foreach(getStrParser)
     prods.foreach(getParser)
     nf.println(s"""  val rules: Map[String, P[AST]] = Map(""")

@@ -2,7 +2,7 @@ package kr.ac.kaist.ase
 
 import java.io._
 import kr.ac.kaist.ase.core._
-import kr.ac.kaist.ase.model.{ AST, ESParser }
+import kr.ac.kaist.ase.model.{ AST, Parser => JSParser }
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.phase._
 import org.scalatest._
@@ -17,7 +17,7 @@ class JSTest extends CoreTest {
 
   // tests for js-parser
   def parseJSTest(ast: => AST): Unit = {
-    val newAST = ESParser.fromString(ast.toString)
+    val newAST = JSParser.fromString(ast.toString)
     assert(ast == newAST)
   }
 

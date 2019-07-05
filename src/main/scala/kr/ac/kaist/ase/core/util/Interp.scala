@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.core
 
-import kr.ac.kaist.ase.model.ESParser
+import kr.ac.kaist.ase.model.{ Parser => JSParser }
 import org.apache.commons.text.StringEscapeUtils
 
 // CORE Interpreter
@@ -183,14 +183,14 @@ object Interp {
       case (v, s0) => error(s"not an AST value: $v")
     }
     case EParseSyntax(code, rule) => interp(code)(st) match {
-      case (ASTVal(ast), s0) => ESParser.rules.get(rule) match {
+      case (ASTVal(ast), s0) => JSParser.rules.get(rule) match {
         case Some(p) =>
-          (ASTVal(ESParser.parseAll(ESParser.term("") ~> p(ast.parserParams), ast.toString).get), s0)
+          (ASTVal(JSParser.parseAll(JSParser.term("") ~> p(ast.parserParams), ast.toString).get), s0)
         case None => error(s"not exist parse rule: $rule")
       }
-      case (Str(str), s0) => ESParser.rules.get(rule) match {
+      case (Str(str), s0) => JSParser.rules.get(rule) match {
         case Some(p) =>
-          (ASTVal(ESParser.parseAll(ESParser.term("") ~> p(Nil), str).get), s0)
+          (ASTVal(JSParser.parseAll(JSParser.term("") ~> p(Nil), str).get), s0)
         case None => error(s"not exist parse rule: $rule")
       }
       case (v, s0) => error(s"not an AST value or a string: $v")
