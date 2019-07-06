@@ -90,7 +90,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "undefined" ^^^ EUndef |
       "null" ^^^ ENull |
       "absent" ^^^ EAbsent |
-      "uninit" ^^^ EUninit |
       "???" ~> string ^^ { ENotYetImpl(_) } |
       "(" ~> (uop ~ expr) <~ ")" ^^ { case u ~ e => EUOp(u, e) } |
       "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
@@ -136,7 +135,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   // identifiers
   lazy private val id: Parser[Id] = ident.withFilter(s => !(keywords contains s)) ^^ { Id(_) }
   private val keywords: Set[String] = Set(
-    "Infinity", "NaN", "true", "false", "undefined", "null", "absent", "uninit",
+    "Infinity", "NaN", "true", "false", "undefined", "null", "absent",
     "typeof", "new", "pop", "is-instance-of", "get-syntax", "contains"
   )
 
@@ -190,7 +189,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "undefined" ^^^ Undef |
       "null" ^^^ Null |
       "absent" ^^^ Absent
-    "uninit" ^^^ Uninit
   }
 
   // functions

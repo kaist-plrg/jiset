@@ -22,7 +22,6 @@ case class EBool(b: Boolean) extends Expr
 case object EUndef extends Expr
 case object ENull extends Expr
 case object EAbsent extends Expr
-case object EUninit extends Expr
 case class EMap(ty: Ty, props: List[(Expr, Expr)]) extends Expr
 case class EList(exprs: List[Expr]) extends Expr
 case class EPop(list: Expr) extends Expr

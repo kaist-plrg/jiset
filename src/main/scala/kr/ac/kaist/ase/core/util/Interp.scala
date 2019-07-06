@@ -86,7 +86,6 @@ object Interp {
     case EUndef => (Undef, st)
     case ENull => (Null, st)
     case EAbsent => (Absent, st)
-    case EUninit => (Uninit, st)
     case EMap(ty, props) =>
       val (addr, s0) = st.allocMap(ty)
       (addr, (s0 /: props) {
@@ -170,7 +169,6 @@ object Interp {
         case Undef => Str("Undefined")
         case Null => Str("Null")
         case Absent => Str("Absent")
-        case Uninit => Str("Uninit")
         case Func(_, _, _, _) => Str("Function")
         case ASTVal(_) => Str("AST")
         case ASTMethod(_, _) => Str("ASTMethod")

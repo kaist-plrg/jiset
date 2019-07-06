@@ -31,4 +31,3 @@ case class Bool(bool: Boolean) extends Const
 case object Undef extends Const
 case object Null extends Const
 case object Absent extends Const
-case object Uninit extends Const
