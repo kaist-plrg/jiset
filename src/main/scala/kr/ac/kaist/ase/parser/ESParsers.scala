@@ -1,5 +1,6 @@
 package kr.ac.kaist.ase.parser
 
+import kr.ac.kaist.ase.LINE_SEP
 import kr.ac.kaist.ase.model.{ AST, Script }
 import kr.ac.kaist.ase.util.Useful._
 import scala.collection.mutable
@@ -105,15 +106,20 @@ trait ESParsers extends RegexParsers {
   lazy val MATCH: ESParser[String] = new ESParser(first => "" <~ +first.getParser, FirstTerms() + "")
   lazy val MISMATCH: ESParser[Nothing] = new ESParser(first => failure(""), FirstTerms())
 
+  case class ParseCase[T](parser: ESParser[T], first: FirstTerms, pos: Position)
+  case class ParseData(
+    var cache: Map[ParseCase[_], ParseResult[_]] = Map(),
+    var rightmostFailedPos: Option[Position] = None
+  )
+
   class ESReader(reader: Reader[Char]) extends Reader[Char] { outer =>
-    private[ESParsers] val cache = mutable.HashMap.empty[(ESParser[_], FirstTerms, Position), ParseResult[_]]
+    private[ESParsers] val data = ParseData()
     override def source = reader.source
     override def offset = reader.offset
     def first: Char = reader.first
     def rest: Reader[Char] = new ESReader(reader.rest) {
-      override private[ESParsers] val cache = outer.cache
+      override private[ESParsers] val data = outer.data
     }
-
     def pos: Position = reader.pos
     def atEnd: Boolean = reader.atEnd
   }
@@ -156,9 +162,75 @@ trait ESParsers extends RegexParsers {
   def opt[T](p: => ESParser[T]): ESParser[Option[T]] =
     new ESParser(first => opt(p.parser(first)), p.first + "")
 
-  /** Parse some prefix of reader `in` with parser `p`. */
-  def parse[T](p: ESParser[T], in: Reader[Char]): ParseResult[T] =
-    p(emptyFirst, new ESReader(in))
+  def insertSemicolon(reader: ESReader): Option[String] = {
+    reader.data.rightmostFailedPos match {
+      case Some(pos) =>
+        val source = reader.source.toString
+        val line = pos.line - 1
+        val column = pos.column - 1
+        val lines = source.split('\n')
+
+        // TODO delete
+        // println(source)
+        // println(lines.toList)
+        // println(line, column)
+
+        lazy val curLine = lines(line)
+        lazy val curChar = curLine.charAt(column)
+
+        // insert semicolon right before the offending token
+        lazy val insert = Some({
+          if (line < lines.length) {
+            val (pre, post) = curLine.splitAt(column)
+            lines(line) = pre + ';' + post
+          } else lines(lines.length - 1) = lines(lines.length - 1) + ';'
+          lines.mkString("\n")
+        })
+
+        // A. Additional Rules
+        // A semicolon is never inserted automatically if the semicolon
+        // would then be parsed as an empty statement or if that semicolon
+        // would become one of the two semicolons in the header of a for statement
+        // TODO
+
+        // 2. The end of the input stream of tokens is encountered
+        if (line == lines.length ||
+          (line == lines.length - 1 && column == curLine.length)) return insert
+
+        // 1-1. The offending token is separated from the previous token
+        //      by at least one LineTerminator
+        if (parseAll(rep(WhiteSpace), curLine.splitAt(column)._1).successful &&
+          line > 0 && !lines.splitAt(line)._1.forall {
+            case line => parseAll(rep(WhiteSpace), line).successful
+          }) return insert
+
+        // 1-2. The offending token is '}'
+        if (curChar == '}') return insert
+
+        // 1-3. The previous token is ')' and the inserted semicolon would then be
+        //      parsed as the terminating semicolon of a do-while statement (13.7.2).
+        // TODO
+
+        // 3. the restricted token is separated from the previous token
+        //    by at least one LineTerminator, then a semicolon is automatically
+        //    inserted before the restricted token.
+        // TODO
+
+        None
+      case None => None
+    }
+  }
+
+  def parse[T](p: ESParser[T], in: Reader[Char]): ParseResult[T] = {
+    val reader = new ESReader(in)
+    p(emptyFirst, reader) match {
+      case (f: Failure) => insertSemicolon(reader) match {
+        case Some(str) => parse(p, str)
+        case None => f
+      }
+      case r => r
+    }
+  }
 
   /** Parse some prefix of character sequence `in` with parser `p`. */
   def parse[T](p: ESParser[T], in: java.lang.CharSequence): ParseResult[T] =
@@ -212,22 +284,32 @@ trait ESParsers extends RegexParsers {
   protected def memo[T](f: P[T]): P[T] = {
     val cache = mutable.Map.empty[List[Boolean], ESParser[T]]
     args => cache.getOrElse(args, {
-      val p = f(args)
-      val parser: ESParser[T] = new ESParser(first => Parser { rawIn =>
-        val in = rawIn.asInstanceOf[ESReader]
-        val key = (p, first, in.pos)
-        in.cache.get(key) match {
-          case Some(res) => res.asInstanceOf[ParseResult[T]]
-          case None =>
-            val res = p(first, in)
-            in.cache.update(key, res)
-            res
-        }
-      }, p.first)
+      val parser = record(f(args))
       cache.update(args, parser)
       parser
     })
   }
+
+  private def record[T](p: ESParser[T]): ESParser[T] =
+    new ESParser(first => Parser { rawIn =>
+      val in = rawIn.asInstanceOf[ESReader]
+      val c = ParseCase(p, first, in.pos)
+      val data = in.data
+      data.cache.get(c) match {
+        case Some(res) => res.asInstanceOf[ParseResult[T]]
+        case None =>
+          val res = p(first, in)
+          (res, data.rightmostFailedPos) match {
+            case (f @ Failure(_, cur), Some(origPos)) if origPos < cur.pos =>
+              data.rightmostFailedPos = Some(cur.pos)
+            case (f @ Failure(_, cur), None) =>
+              data.rightmostFailedPos = Some(cur.pos)
+            case _ =>
+          }
+          data.cache += c -> res
+          res
+      }
+    }, p.first)
 
   val Script: P[Script]
 
