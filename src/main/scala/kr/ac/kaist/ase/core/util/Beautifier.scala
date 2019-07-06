@@ -133,6 +133,7 @@ object Beautifier {
       case EUndef => walk("undefined")
       case ENull => walk("null")
       case EAbsent => walk("absent")
+      case EUninit => walk("uninit")
       case EMap(ty, props) =>
         walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
           case (k, v) => walk(k); walk(" -> "); walk(v)
@@ -285,6 +286,7 @@ object Beautifier {
       case Undef => walk("undefined")
       case Null => walk("null")
       case Absent => walk("absent")
+      case Uninit => walk("uninit")
     }
 
     // addresses

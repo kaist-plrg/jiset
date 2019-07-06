@@ -78,7 +78,7 @@ trait UnitWalker {
 
   // expressions
   def walk(expr: Expr): Unit = expr match {
-    case ENum(_) | EINum(_) | EStr(_) | EBool(_) | EUndef | ENull | EAbsent =>
+    case ENum(_) | EINum(_) | EStr(_) | EBool(_) | EUndef | ENull | EAbsent | EUninit =>
     case EMap(ty, props) =>
       walk(ty); walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
     case EList(exprs) =>
@@ -181,7 +181,7 @@ trait UnitWalker {
     case ASTMethod(func, locals) =>
       walk(func); walkMap[Id, Value](locals, walk, walk)
     case func: Func => walk(func)
-    case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent =>
+    case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent | Uninit =>
   }
 
   // addresses
