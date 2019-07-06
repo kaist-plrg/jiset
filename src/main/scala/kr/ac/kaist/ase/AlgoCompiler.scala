@@ -649,6 +649,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseRef(s"IdentifierName")
     } | "the result of evaluating" ~> nameWithOrdinal ^^ {
       case x => parseRef(s"$x.Evaluation")
+    } | ("the result of" ~> name <~ "of") ~ name ^^ {
+      case x ~ y => parseRef(s"$y.$x")
     } | "IsFunctionDefinition of" ~> id ^^ {
       case x => parseRef(s"$x.IsFunctionDefinition")
     }
