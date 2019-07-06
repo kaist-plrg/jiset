@@ -1,10 +1,3 @@
-// Copyright (C) 2017 Ecma International.  All rights reserved.
-// This code is governed by the BSD license found in the LICENSE file.
-/*---
-description: |
-    Collection of assertion functions used throughout test262
----*/
-
 function assert(mustBeTrue, message) {
   if (mustBeTrue === true) {
     return;
@@ -91,3 +84,20 @@ assert.throws = function (expectedErrorConstructor, func, message) {
   message += 'Expected a ' + expectedErrorConstructor.name + ' to be thrown but no exception was thrown at all';
   $ERROR(message);
 };
+
+function Test262Error(message) {
+  this.message = message || "";
+}
+
+Test262Error.prototype.toString = function () {
+  return "Test262Error: " + this.message;
+};
+
+var $ERROR;
+$ERROR = function $ERROR(message) {
+  throw new Test262Error(message);
+};
+
+function $DONOTEVALUATE() {
+  throw "Test262: This statement should not be evaluated.";
+}
