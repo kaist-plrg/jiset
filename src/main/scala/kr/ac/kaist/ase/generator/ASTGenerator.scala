@@ -138,7 +138,7 @@ object ASTGenerator {
     nf.println(s"""  protected def d(x: Any, n: Int): Int = x match {""")
     nf.println(s"""    case Some(_) => 2 * n + 1""")
     nf.println(s"""    case None => 2 * n""")
-    nf.println(s"""    case _ => 2 * n""")
+    nf.println(s"""    case _ => n""")
     nf.println(s"""  }""")
     nf.println(s"""  protected def l(name: String, x: Any, list: List[(String, Value)]): List[(String, Value)] = x match {""")
     nf.println(s"""    case Some(a: AST) => (name.substring(7, name.length - 1), ASTVal(a)) :: list""")

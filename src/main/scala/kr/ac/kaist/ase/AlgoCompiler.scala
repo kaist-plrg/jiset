@@ -510,6 +510,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
         pair(Nil, EBool(false)) // TODO : support strict mode code
+      } | name <~ "is a data property" ^^ {
+        case x => pair(Nil, parseExpr(s"(IsDataDescriptor $x)"))
+      } | name <~ "is an accessor property" ^^ {
+        case x => pair(Nil, parseExpr(s"(IsAccessorDescriptor $x)"))
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EUOp(ONot, exists(r))))
       } | expr <~ "is an abrupt completion" ^^ {
