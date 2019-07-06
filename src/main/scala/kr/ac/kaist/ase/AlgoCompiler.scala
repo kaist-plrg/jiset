@@ -166,7 +166,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ ("in" ~> expr <~ "," ~ opt("in list order,") ~ "do") ~ stmt ^^ {
+    ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ (("in" | "of") ~> expr <~ "," ~ opt("in list order,") ~ "do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
@@ -534,6 +534,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EContains(y, x)))
       } | (expr <~ "does not contain") ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
+      } | (expr <~ "contains") ~ expr ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
       } | name <~ "does not have a Generator component" ^^ {
         case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
       } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
