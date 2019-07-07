@@ -47,6 +47,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ifStmt |
     callStmt |
     setStmt |
+    recordStmt |
     createStmt |
     throwStmt |
     whileStmt |
@@ -113,7 +114,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e))
     } | ("set the bound value for" ~> expr <~ "in") ~ expr ~ ("to" ~> expr) ^^ {
       case (i0 ~ p) ~ (i1 ~ e) ~ (i2 ~ v) =>
-        ISeq(i0 ++ i1 ++ i2 :+ parseInst(s"${beautify(e)}.SubMap[${beautify(p)}] = ${beautify(v)}"))
+        ISeq(i0 ++ i1 ++ i2 :+ parseInst(s"${beautify(e)}.SubMap[${beautify(p)}].BoundValue = ${beautify(v)}"))
     } | ("set" ~> ref) ~ ("as specified in" ~> (
       "9.4.4.1" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.GetOwnProperty")) |
       "9.4.4.2" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.DefineOwnProperty")) |
@@ -123,6 +124,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     )) ^^ {
         case (i ~ r) ~ e => ISeq(i :+ IAssign(r, e))
       }
+
+  // record statements
+  lazy val recordStmt =
+    ("record that the binding for" ~> name <~ "in") ~ name <~ "has been initialized" ^^ {
+      case x ~ y => parseInst(s"if (! (= $y.SubMap[$x] absent)) $y.SubMap[$x].initialized = true else {}")
+    }
 
   // create statements
   lazy val createStmt =
@@ -144,7 +151,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         if (! (= absent Desc.Configurable)) dp.Configurable = Desc.Configurable else dp.Configurable = false
         O.SubMap[P] = dp
       }""")
-    } | "Create" ~ ("an immutable" | "a mutable") ~ "binding" ~ rest ^^^ parseInst("{}")
+    } | ("create a mutable binding in" ~> name <~ "for") ~ name <~ "and record that it is uninitialized" ~ rest ^^ {
+      case x ~ y => parseInst(s"""$x.SubMap[$y] = (new MutableBinding("initialized" -> false))""")
+    } | ("create an immutable binding in" ~> name <~ "for") ~ name <~ "and record that it is uninitialized" ~ rest ^^ {
+      case x ~ y => parseInst(s"""$x.SubMap[$y] = (new ImmutableBinding("initialized" -> false))""")
+    }
 
   // throw statements
   lazy val throwStmt =
@@ -283,8 +294,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
     "if" ~ id ~ "is a List of errors," |
     "perform any necessary implementation - defined initialization of" |
-    "Set the remainder of" ~ id ~ "'s essential internal methods to the default ordinary object definitions specified in 9.1" |
-    "record that" // TODO : should be re-considered.
+    "Set the remainder of" ~ id ~ "'s essential internal methods to the default ordinary object definitions specified in 9.1"
   ) ~ rest ^^^ emptyInst
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -551,7 +561,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
         pair(Nil, EBool(false)) // TODO fix
       } | ("the binding for" ~> name <~ "in") ~ (name <~ "is an uninitialized binding") ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"(= $y.SubMap[$x] absent)"))
+        case x ~ y => pair(Nil, parseExpr(s"(= $y.SubMap[$x].initialized false)"))
       } | (ref <~ "does not have an own property with key") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
       } | (ref <~ "has a") ~ word <~ "component" ^^ {
@@ -646,7 +656,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "the strict reference flag of" ~> name ^^ {
       case x => parseRef(s"$x.StrictReference")
     } | ("the value currently bound to" ~> name <~ "in") ~ name ^^ {
-      case x ~ y => parseRef(s"$y.SubMap[$x]")
+      case x ~ y => parseRef(s"$y.SubMap[$x].BoundValue")
     } | "the referenced name component of" ~> name ^^ {
       case x => parseRef(s"$x.ReferencedName")
     } | "the binding object for" ~> name ^^ {

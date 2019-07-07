@@ -1,19 +1,25 @@
-assert (contains GLOBAL_context.Realm.GlobalEnv.EnvironmentRecord.VarNames "f")
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.f.Writable true)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.f.Enumerable true)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.f.Configurable false)
-assert (contains GLOBAL_context.Realm.GlobalEnv.EnvironmentRecord.VarNames "x")
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.x.Value 2)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.x.Writable true)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.x.Enumerable true)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.x.Configurable false)
-assert (contains GLOBAL_context.Realm.GlobalEnv.EnvironmentRecord.VarNames "y")
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.y.Value 2)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.y.Writable true)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.y.Enumerable true)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.y.Configurable false)
-assert (contains GLOBAL_context.Realm.GlobalEnv.EnvironmentRecord.VarNames "z")
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.z.Value 2)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.z.Writable true)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.z.Enumerable true)
-assert (= GLOBAL_context.Realm.GlobalObject.SubMap.z.Configurable false)
+let globalEnv = GLOBAL_context.Realm.GlobalEnv
+let varNames = globalEnv.EnvironmentRecord.VarNames
+let map = globalEnv.EnvironmentRecord.DeclarativeRecord.SubMap
+let f = GLOBAL_context.Realm.GlobalObject.SubMap.f
+
+assert (contains varNames "f")
+assert (= (typeof f.Value) "Object")
+assert (= f.Writable true)
+assert (= f.Enumerable true)
+assert (= f.Configurable false)
+
+assert (! (contains varNames "x"))
+assert (= (typeof map.x) "MutableBinding")
+assert map.x.initialized
+assert (= map.x.BoundValue 2)
+
+assert (! (contains varNames "y"))
+assert (= (typeof map.y) "MutableBinding")
+assert map.y.initialized
+assert (= map.y.BoundValue 2)
+
+assert (! (contains varNames "z"))
+assert (= (typeof map.z) "MutableBinding")
+assert map.z.initialized
+assert (= map.z.BoundValue 2)
