@@ -31,6 +31,10 @@ lazy val root = (project in file(".")).
     },
     testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),
     compile <<= (compile in Compile) dependsOn (dummyModel in Compile),
+    test <<= (testOnly in Test).toTask(List(
+      "kr.ac.kaist.ase.BasicCoreTest",
+      "kr.ac.kaist.ase.JSTest"
+    ).mkString(" ", " ", "")) dependsOn compile,
     coreTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.BasicCoreTest") dependsOn compile,
     algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerTest") dependsOn compile,
     jsTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.JSTest") dependsOn compile
