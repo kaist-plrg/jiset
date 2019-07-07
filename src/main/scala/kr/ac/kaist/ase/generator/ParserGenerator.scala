@@ -39,7 +39,7 @@ object ParserGenerator {
       case ButNot(base, cases) =>
         val parser = getTokenParser(base)
         val notParser = cases.map(token => getTokenParser(token)).mkString(" ||| ")
-        s"""($parser \\ $notParser)"""
+        s"""($parser \\ ($notParser))"""
       case Lookahead(contains, cases) =>
         val parser = cases.map(c => s"""seq(${c.map(token => getTokenParser(token)).mkString(", ")})""").mkString(" ||| ")
         if (contains) s""""" <~ +($parser)"""
