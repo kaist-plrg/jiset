@@ -57,8 +57,8 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     (meta.flags contains "CanBlockIsTrue")
   ) &&
     (meta.locales.isEmpty) &&
-    ((meta.name contains "language/") ||
-      (meta.name contains "built-ins/"))
+    ((meta.name startsWith "/test/language/") ||
+      (meta.name startsWith "/test/built-ins/"))
   def defaultConfig: FilterMetaConfig = FilterMetaConfig()
   val options: List[PhaseOption[FilterMetaConfig]] = List()
 }
