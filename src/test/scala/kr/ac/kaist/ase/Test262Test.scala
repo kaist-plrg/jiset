@@ -11,6 +11,9 @@ import scala.util.Random.shuffle
 import spray.json._
 import kr.ac.kaist.ase.util._
 import kr.ac.kaist.ase.util.TestConfigJsonProtocol._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.concurrent.duration._
 
 class Test262Test extends CoreTest {
   // tag name
@@ -21,6 +24,12 @@ class Test262Test extends CoreTest {
 
   // tests for js-parser
   def parseJSTest(ast: => AST): Unit = {
+    val timeoutMs: Long = 3000
+    try {
+      Await.result(Future(ast), timeoutMs milliseconds)
+    } catch {
+      case e: TimeoutException => fail("timeout")
+    }
     val newAST = JSParser.fromString(ast.toString)
     assert(ast == newAST)
   }
