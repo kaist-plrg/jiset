@@ -94,6 +94,7 @@ trait ESParsers extends RegexParsers {
   lazy val emptyFirst: FirstTerms = FirstTerms(possibleEmpty = true)
   lazy val noFirst: FirstTerms = FirstTerms()
   case class FirstTerms(possibleEmpty: Boolean = false, ts: Set[String] = Set(), nts: Map[String, Parser[String]] = Map()) {
+    def makeEmptyPossible: FirstTerms = copy(possibleEmpty = true)
     def +(that: FirstTerms): FirstTerms = FirstTerms(this.possibleEmpty || that.possibleEmpty, this.ts ++ that.ts, this.nts ++ that.nts)
     def +(t: String): FirstTerms = copy(ts = ts + t)
     def +(nt: (String, Parser[String])): FirstTerms = copy(nts = nts + nt)
@@ -104,12 +105,13 @@ trait ESParsers extends RegexParsers {
       val base =
         if (possibleEmpty) phrase("")
         else STR_MISMATCH
+      val t = TERMINAL.filter(ts contains _)
       recParse(
-        ((base /: ts)(_ | _) /: nts)(_ | _._2),
+        ((base | t) /: nts)(_ | _._2),
         rawIn.asInstanceOf[ESReader]
       )
     }
-    override def toString: String = (ts ++ nts.map(_._1)).map("\"" + _ + "\"").mkString("[", ", ", "]")
+    override def toString: String = (ts ++ nts.map(_._1) ++ (if (possibleEmpty) List("") else Nil)).map("\"" + _ + "\"").mkString("[", ", ", "]")
   }
 
   lazy val MATCH: ESParser[String] = log(new ESParser(first => "" <~ +(Skip ~ first.getParser), emptyFirst))("MATCH")
@@ -166,7 +168,7 @@ trait ESParsers extends RegexParsers {
   }
 
   def opt[T](p: => ESParser[T]): ESParser[Option[T]] =
-    new ESParser(first => opt(p.parser(first)), p.first + "")
+    new ESParser(first => opt(p.parser(first)), p.first.makeEmptyPossible)
 
   def insertSemicolon(reader: ESReader): Option[String] = {
     reader.data.rightmostFailedPos match {
@@ -312,6 +314,7 @@ trait ESParsers extends RegexParsers {
   }
 
   val Script: P[Script]
+  val TERMINAL: Parser[String]
 
   def apply(filename: String): Script =
     parse(Script(Nil), fileReader(filename)).get

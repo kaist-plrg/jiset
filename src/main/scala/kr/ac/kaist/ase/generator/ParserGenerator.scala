@@ -10,6 +10,14 @@ object ParserGenerator {
     val nf = getPrintWriter(s"$MODEL_DIR/Parser.scala")
     val Grammar(lexProds, prods) = grammar
     val lexNames = lexProds.map(_.lhs.name).toSet
+    val terminalTokens = (Set[String]() /: prods) {
+      case (set, Production(lhs, rhsList)) => (set /: rhsList) {
+        case (set, Rhs(tokens, _)) => (set /: tokens) {
+          case (set, Terminal(t)) => set + t
+          case (set, _) => set
+        }
+      }
+    }
 
     def isLL(name: String, rhs: Rhs): Boolean = rhs.tokens match {
       case NonTerminal(`name`, _, _) :: _ => true
@@ -127,6 +135,9 @@ object ParserGenerator {
     nf.println(s"""object Parser extends ESParsers {""")
     lexProds.foreach(getStrParser)
     prods.foreach(getParser)
+    nf.println(s"""  val TERMINAL: Parser[String] = (""")
+    nf.println(terminalTokens.map(t => s"""    "$t"""").mkString(" |||" + LINE_SEP))
+    nf.println(s"""  )""")
     nf.println(s"""  val rules: Map[String, P[AST]] = Map(""")
     nf.println(prods.map {
       case Production(Lhs(name, _), _) => s""""$name" -> $name"""

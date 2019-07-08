@@ -13,6 +13,10 @@ object ModelGenerator {
     val consts = (spec.consts.toSet - "[empty]" + "emptySyntax").toList
     val grammar = spec.grammar
     val tys = spec.tys
+
+    GrammarGenerator(grammar)
+    tys.foreach { case ((tname, methods)) => TypeGenerator(tname, methods) }
+
     methods.foreach(name => MethodGenerator(name))
     for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/manual/algorithm")) {
       val filename = file.getName
@@ -24,9 +28,6 @@ object ModelGenerator {
         nf.close()
       }
     }
-
-    GrammarGenerator(grammar)
-    tys.foreach { case ((tname, methods)) => TypeGenerator(tname, methods) }
 
     val nf = getPrintWriter(s"$MODEL_DIR/Model.scala")
     nf.println(s"""package kr.ac.kaist.ase.model""")
