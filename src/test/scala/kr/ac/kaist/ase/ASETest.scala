@@ -48,11 +48,11 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
 
     // show abstract result
     print("[info] ")
-    cprintln(CYAN, s"$tag:")
+    printlnColor(CYAN)(s"$tag:")
     sorted.foreach {
       case (t, (x, y)) =>
         print("[info] ")
-        cprintln(if (x == y) GREEN else RED, s"  $t: $x / $y")
+        printlnColor(if (x == y) GREEN else RED)(s"  $t: $x / $y")
     }
 
     // check backward-compatibility

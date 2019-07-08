@@ -185,12 +185,12 @@ object Interp {
     case EParseSyntax(code, rule) => interp(code)(st) match {
       case (ASTVal(ast), s0) => JSParser.rules.get(rule) match {
         case Some(p) =>
-          (ASTVal(JSParser.parseAll(JSParser.term("") ~> p(ast.parserParams), ast.toString).get), s0)
+          (ASTVal(JSParser.parse(JSParser.term("") ~> p(ast.parserParams), ast.toString).get), s0)
         case None => error(s"not exist parse rule: $rule")
       }
       case (Str(str), s0) => JSParser.rules.get(rule) match {
         case Some(p) =>
-          (ASTVal(JSParser.parseAll(JSParser.term("") ~> p(Nil), str).get), s0)
+          (ASTVal(JSParser.parse(JSParser.term("") ~> p(Nil), str).get), s0)
         case None => error(s"not exist parse rule: $rule")
       }
       case (v, s0) => error(s"not an AST value or a string: $v")

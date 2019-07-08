@@ -4,6 +4,7 @@ import java.io.{ Reader, File, PrintWriter }
 import kr.ac.kaist.ase.error.NoFileError
 import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
 import scala.io.Source
+import scala.Console.{ RESET, RED }
 
 object Useful {
   // file reader
@@ -78,9 +79,9 @@ object Useful {
     new File(from).renameTo(new File(to))
 
   // colored println
-  def cprintln(color: String, x: Any): Unit = {
-    println(color + x.toString + scala.Console.RESET)
-  }
+  def printlnColor(color: String): Any => Unit =
+    x => println(color + x.toString + scala.Console.RESET)
+  def printlnRed: Any => Unit = printlnColor(RED)
 
   // get name that could be used in Scala identifiers
   private val symbolRegex = "@@([^@]+)".r

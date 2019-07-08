@@ -86,25 +86,34 @@ trait ESParsers extends RegexParsers {
   def strOpt(parser: => Parser[String]): Parser[String] = parser | STR_MATCH
 
   lazy val Skip: Parser[String] = ((WhiteSpace | LineTerminator | Comment)*) ^^ { _.mkString }
-  lazy val NoLineTerminator: ESParser[String] = new ESParser(first => strNoLineTerminator, emptyFirst)
+  lazy val NoLineTerminator: ESParser[String] = log(new ESParser(first => strNoLineTerminator, emptyFirst))("NoLineTerminator")
   lazy val strNoLineTerminator: Parser[String] = STR_MATCH <~ +(Skip.filter(s => lines.findFirstIn(s).isEmpty))
-  def term(name: String, nt: Parser[String]): ESParser[String] = new ESParser(first => Skip ~> nt <~ Skip <~ +first.getParser, FirstTerms() + (name -> nt))
-  def term(t: String): ESParser[String] = new ESParser(first => { Skip ~> t <~ Skip <~ +first.getParser }, FirstTerms() + t)
+  def term(name: String, nt: Parser[String]): ESParser[String] = log(new ESParser(first => Skip ~> nt <~ +(Skip ~ first.getParser), FirstTerms() + (name -> nt)))(name)
+  def term(t: String): ESParser[String] = log(new ESParser(first => { Skip ~> t <~ +(Skip <~ first.getParser) }, FirstTerms() + t))(t)
 
-  lazy val emptyFirst: FirstTerms = FirstTerms(ts = Set(""))
-  case class FirstTerms(ts: Set[String] = Set(), nts: Map[String, Parser[String]] = Map()) {
-    def +(that: FirstTerms): FirstTerms = FirstTerms(this.ts ++ that.ts, this.nts ++ that.nts)
+  lazy val emptyFirst: FirstTerms = FirstTerms(possibleEmpty = true)
+  lazy val noFirst: FirstTerms = FirstTerms()
+  case class FirstTerms(possibleEmpty: Boolean = false, ts: Set[String] = Set(), nts: Map[String, Parser[String]] = Map()) {
+    def +(that: FirstTerms): FirstTerms = FirstTerms(this.possibleEmpty || that.possibleEmpty, this.ts ++ that.ts, this.nts ++ that.nts)
     def +(t: String): FirstTerms = copy(ts = ts + t)
     def +(nt: (String, Parser[String])): FirstTerms = copy(nts = nts + nt)
     def ~(that: => FirstTerms): FirstTerms =
-      if (this.ts contains "") FirstTerms(this.ts - "" ++ that.ts, this.nts ++ that.nts)
+      if (possibleEmpty) FirstTerms(that.possibleEmpty, this.ts ++ that.ts, this.nts ++ that.nts)
       else this
-    def getParser: Parser[String] = (((STR_MISMATCH: Parser[String]) /: ts)(_ | _) /: nts)(_ | _._2)
+    def getParser: Parser[String] = Parser { rawIn =>
+      val base =
+        if (possibleEmpty) phrase("")
+        else STR_MISMATCH
+      recParse(
+        ((base /: ts)(_ | _) /: nts)(_ | _._2),
+        rawIn.asInstanceOf[ESReader]
+      )
+    }
     override def toString: String = (ts ++ nts.map(_._1)).map("\"" + _ + "\"").mkString("[", ", ", "]")
   }
 
-  lazy val MATCH: ESParser[String] = new ESParser(first => "" <~ +first.getParser, FirstTerms() + "")
-  lazy val MISMATCH: ESParser[Nothing] = new ESParser(first => failure(""), FirstTerms())
+  lazy val MATCH: ESParser[String] = log(new ESParser(first => "" <~ +(Skip ~ first.getParser), emptyFirst))("MATCH")
+  lazy val MISMATCH: ESParser[Nothing] = log(new ESParser(first => failure(""), noFirst))("MISMATCH")
 
   case class ParseCase[T](parser: ESParser[T], first: FirstTerms, pos: Position)
   case class ParseData(
@@ -155,9 +164,6 @@ trait ESParsers extends RegexParsers {
     def unary_+(): ESParser[Unit] =
       new ESParser(first => +parser(first), emptyFirst)
   }
-
-  def phrase[T](p: => ESParser[T]): ESParser[T] =
-    new ESParser(first => phrase(p.parser(first)), p.first)
 
   def opt[T](p: => ESParser[T]): ESParser[Option[T]] =
     new ESParser(first => opt(p.parser(first)), p.first + "")
@@ -240,18 +246,6 @@ trait ESParsers extends RegexParsers {
   def parse[T](p: ESParser[T], in: java.io.Reader): ParseResult[T] =
     parse(p, new PagedSeqReader(PagedSeq.fromReader(in)))
 
-  /** Parse all of reader `in` with parser `p`. */
-  def parseAll[T](p: ESParser[T], in: Reader[Char]): ParseResult[T] =
-    parse(phrase(p), in)
-
-  /** Parse all of reader `in` with parser `p`. */
-  def parseAll[T](p: ESParser[T], in: java.io.Reader): ParseResult[T] =
-    parse(phrase(p), in)
-
-  /** Parse all of character sequence `in` with parser `p`. */
-  def parseAll[T](p: ESParser[T], in: java.lang.CharSequence): ParseResult[T] =
-    parse(phrase(p), in)
-
   var keepLog: Boolean = true
   def log[T](p: ESParser[T])(name: String): ESParser[T] = if (!DEBUG) p else new ESParser(first => Parser { rawIn =>
     val in = rawIn.asInstanceOf[ESReader]
@@ -298,26 +292,32 @@ trait ESParsers extends RegexParsers {
       data.cache.get(c) match {
         case Some(res) => res.asInstanceOf[ParseResult[T]]
         case None =>
-          val res = p(first, in)
-          (res, data.rightmostFailedPos) match {
-            case (f @ Failure(_, cur), Some(origPos)) if origPos < cur.pos =>
-              data.rightmostFailedPos = Some(cur.pos)
-            case (f @ Failure(_, cur), None) =>
-              data.rightmostFailedPos = Some(cur.pos)
-            case _ =>
-          }
+          val res = recParse(p.parser(first), in)
           data.cache += c -> res
           res
       }
     }, p.first)
 
+  private def recParse[T](parser: Parser[T], in: ESReader): ParseResult[T] = {
+    val data = in.data
+    val res = parser(in)
+    (res, data.rightmostFailedPos) match {
+      case (f @ Failure(_, cur), Some(origPos)) if origPos < cur.pos =>
+        data.rightmostFailedPos = Some(cur.pos)
+      case (f @ Failure(_, cur), None) =>
+        data.rightmostFailedPos = Some(cur.pos)
+      case _ =>
+    }
+    res
+  }
+
   val Script: P[Script]
 
   def apply(filename: String): Script =
-    parseAll(term("") ~> Script(Nil), fileReader(filename)).get
+    parse(Script(Nil), fileReader(filename)).get
 
   def fromString(str: String): Script =
-    parseAll(term("") ~> Script(Nil), str).get
+    parse(Script(Nil), str).get
 
   val rules: Map[String, P[AST]]
 }
