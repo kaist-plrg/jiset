@@ -32,4 +32,7 @@ package object ase {
 
   // ECMAScript model
   val VERSION = "es2018"
+
+  // Debugging mode
+  val DEBUG: Boolean = false
 }

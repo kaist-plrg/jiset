@@ -1,5 +1,6 @@
 package kr.ac.kaist.ase.core
 
+import kr.ac.kaist.ase.DEBUG
 import kr.ac.kaist.ase.model.{ Parser => JSParser }
 import org.apache.commons.text.StringEscapeUtils
 
@@ -14,11 +15,10 @@ object Interp {
 
   // instructions
   def interp(inst: Inst): State => State = st => {
-    // TODO delete
-    // inst match {
-    //   case ISeq(_) =>
-    //   case _ => println(s"${st.context}: ${beautify(inst)}")
-    // }
+    if (DEBUG) inst match {
+      case ISeq(_) =>
+      case _ => println(s"${st.context}: ${beautify(inst)}")
+    }
     inst match {
       case IExpr(expr) =>
         val (_, s0) = interp(expr)(st)

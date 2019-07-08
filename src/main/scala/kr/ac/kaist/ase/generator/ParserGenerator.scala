@@ -6,7 +6,7 @@ import kr.ac.kaist.ase.spec._
 import kr.ac.kaist.ase.util.Useful._
 
 object ParserGenerator {
-  def apply(grammar: Grammar): Unit = {
+  def apply(grammar: Grammar, debug: Boolean = false): Unit = {
     val nf = getPrintWriter(s"$MODEL_DIR/Parser.scala")
     val Grammar(lexProds, prods) = grammar
     val lexNames = lexProds.map(_.lhs.name).toSet
@@ -61,18 +61,18 @@ object ParserGenerator {
       val Lhs(name, params) = lhs
       val pre = "lazy val"
       val post = s"""[$name] = memo {
-        case args @ List(${params.mkString(", ")}) =>"""
+        case args @ List(${params.mkString(", ")}) => log("""
 
       nf.println(s"""  $pre $name: P$post""")
       for ((rhs, i) <- rhsList.zipWithIndex if !isLL(name, rhs))
         getParsers(name, rhs.tokens, rhs.cond, i, false)
-      nf.println(s"""    MISMATCH""")
+      nf.println(s"""    MISMATCH)("$name")""")
       nf.println(s"""    case v => throw WrongNumberOfParserParams(v)""")
       nf.println(s"""  }""")
       nf.println(s"""  $pre sub$name: R$post""")
       for ((rhs, i) <- rhsList.zipWithIndex if isLL(name, rhs))
         getParsers(name, rhs.tokens.tail, rhs.cond, i, true)
-      nf.println(s"""    MATCH ^^^ { x => x }""")
+      nf.println(s"""    MATCH ^^^ { (x: $name) => x })("sub$name")""")
       nf.println(s"""    case v => throw WrongNumberOfParserParams(v)""")
       nf.println(s"""  }""")
     }
@@ -95,7 +95,7 @@ object ParserGenerator {
       })
 
       if (cond != "") parser = s"""(if(${cond}) ${parser} else MISMATCH)""";
-      nf.println(s"""    ${parser} |""")
+      nf.println(s"""    log(${parser})("$astName") |""")
     }
 
     def appendParser(base: String, token: Token): String = token match {

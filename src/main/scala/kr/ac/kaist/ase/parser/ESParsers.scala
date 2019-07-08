@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.parser
 
-import kr.ac.kaist.ase.LINE_SEP
+import kr.ac.kaist.ase.{ DEBUG, LINE_SEP }
 import kr.ac.kaist.ase.model.{ AST, Script }
 import kr.ac.kaist.ase.util.Useful._
 import scala.collection.mutable
@@ -253,7 +253,7 @@ trait ESParsers extends RegexParsers {
     parse(phrase(p), in)
 
   var keepLog: Boolean = true
-  def log[T](p: ESParser[T])(name: String): ESParser[T] = new ESParser(first => Parser { rawIn =>
+  def log[T](p: ESParser[T])(name: String): ESParser[T] = if (!DEBUG) p else new ESParser(first => Parser { rawIn =>
     val in = rawIn.asInstanceOf[ESReader]
     val stopMsg = s"trying $name with $first at [${in.pos}] \n\n${in.pos.longString}\n"
     if (keepLog) stop(stopMsg) match {
