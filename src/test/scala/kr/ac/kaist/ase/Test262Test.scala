@@ -8,6 +8,10 @@ import kr.ac.kaist.ase.phase._
 import org.scalatest._
 import scala.util.Random.shuffle
 
+import spray.json._
+import kr.ac.kaist.ase.util._
+import kr.ac.kaist.ase.util.TestConfigJsonProtocol._
+
 class Test262Test extends CoreTest {
   // tag name
   val tag: String = "test262Test/test"
@@ -34,22 +38,20 @@ class Test262Test extends CoreTest {
 
   // registration
   val dir = new File(test262Dir)
-  for (file <- shuffle(walkTree(dir))) {
-    val filename = file.getName
-    if (jsFilter(filename)) {
-      lazy val jsName = file.toString
-      lazy val name = removedExt(jsName).drop(dir.toString.length + 1)
-      lazy val jsConfig = aseConfig.copy(fileNames = List(jsName))
+  val config = readFile(s"$TEST_DIR/test262.json").parseJson.convertTo[Test262ConfigSummary]
+  for (NormalTestConfig(filename, includes) <- shuffle(config.normal)) {
+    lazy val jsName = s"${dir.toString}/$filename"
+    lazy val name = removedExt(jsName).drop(dir.toString.length + 1)
+    lazy val jsConfig = aseConfig.copy(fileNames = List(jsName))
 
-      lazy val ast = Parse((), jsConfig)
-      check("Test262Parse", name, {
-        println(name)
-        parseJSTest(ast)
-      })
+    lazy val ast = Parse((), jsConfig)
+    check("Test262Parse", name, {
+      println(name)
+      parseJSTest(ast)
+    })
 
-      // TODO
-      // lazy val st = EvalCore(Load(ast, jsConfig), jsConfig)
-      // check("Test262Eval", name, evalJSTest(st))
-    }
+    // TODO
+    // lazy val st = EvalCore(Load(ast, jsConfig), jsConfig)
+    // check("Test262Eval", name, evalJSTest(st))
   }
 }
