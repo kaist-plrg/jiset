@@ -49,11 +49,7 @@ case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
 }
 
 // filter
-case object CmdFilterMeta extends CommandObj("filter-meta", CmdBase >> FilterMeta) {
-  override def display(flist: (List[kr.ac.kaist.ase.phase.Test262Config], List[kr.ac.kaist.ase.phase.Test262Config])): Unit = flist match {
-    case (normalList, negativeList) => println(normalList.length); println(negativeList.length)
-  }
-}
+case object CmdFilterMeta extends CommandObj("filter-meta", CmdBase >> FilterMeta)
 
 // load
 case object CmdLoad extends CommandObj("load", CmdParse >> Load)

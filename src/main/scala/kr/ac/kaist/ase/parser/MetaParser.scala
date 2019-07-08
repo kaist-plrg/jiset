@@ -2,7 +2,8 @@ package kr.ac.kaist.ase.parser
 import scala.io.Source
 
 object MetaParser {
-  def apply(filename: String) = {
+  def apply(filename: String, dirname: String) = {
+    val relName = (filename split dirname).last
     val source = scala.io.Source.fromFile(filename)
     val lines = try source.getLines.toList finally source.close()
     val metadata = lines.dropWhile((x) => !(x contains "/*---")) match {
@@ -29,7 +30,7 @@ object MetaParser {
         (negativen, flagsn, includesn2, localesn, featuresn, isNegn, isIncluden)
       }
     }
-    MetaData(filename, negative, flags, includes, locales, features)
+    MetaData(relName, negative, flags, includes, locales, features)
   }
 }
 
