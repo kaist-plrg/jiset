@@ -48,6 +48,9 @@ case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
   override def display(script: Script): Unit = println(script)
 }
 
+// filter
+case object CmdFilterMeta extends CommandObj("filter-meta", CmdBase >> FilterMeta)
+
 // load
 case object CmdLoad extends CommandObj("load", CmdParse >> Load)
 
