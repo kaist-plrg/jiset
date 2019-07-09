@@ -19,4 +19,9 @@ package object model {
     def subs(name: String): Option[ASTVal]
   }
   trait Script extends AST
+  trait StatementListItem extends AST
+  trait ModelHelper {
+    def flattenStatement(s: Script): List[StatementListItem]
+    def mergeStatement(l: List[StatementListItem]): Script
+  }
 }
