@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.core
 
-import kr.ac.kaist.ase.DEBUG_PARSER
+import kr.ac.kaist.ase.DEBUG_INTERP
 import kr.ac.kaist.ase.model.{ Parser => JSParser }
 import org.apache.commons.text.StringEscapeUtils
 
@@ -15,7 +15,7 @@ object Interp {
 
   // instructions
   def interp(inst: Inst): State => State = st => {
-    if (DEBUG_PARSER) inst match {
+    if (DEBUG_INTERP) inst match {
       case ISeq(_) =>
       case _ => println(s"${st.context}: ${beautify(inst)}")
     }
