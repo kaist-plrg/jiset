@@ -34,5 +34,6 @@ package object ase {
   val VERSION = "es2018"
 
   // Debugging mode
-  val DEBUG: Boolean = false
+  val DEBUG_PARSER: Boolean = false
+  val DEBUG_INTERP: Boolean = false
 }
