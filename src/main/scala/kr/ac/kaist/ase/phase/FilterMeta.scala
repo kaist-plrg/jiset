@@ -124,6 +124,9 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     (meta.locales.isEmpty) &&
     ((meta.name startsWith "/test/language/") ||
       (meta.name startsWith "/test/built-ins/")) &&
+      !((meta.name startsWith "/test/language/module-code/") ||
+        (meta.name startsWith "/test/language/expressions/dynamic-import/") ||
+        (meta.name startsWith "/test/language/expressions/import.meta/")) &&
       (meta.features.forall(standardFeatures contains _))
   def defaultConfig: FilterMetaConfig = FilterMetaConfig()
   val options: List[PhaseOption[FilterMetaConfig]] = List()
