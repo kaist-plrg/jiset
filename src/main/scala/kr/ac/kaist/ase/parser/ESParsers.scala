@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.parser
 
-import kr.ac.kaist.ase.{ DEBUG_PASER, LINE_SEP }
+import kr.ac.kaist.ase.{ DEBUG_PARSER, LINE_SEP }
 import kr.ac.kaist.ase.model.{ AST, Script }
 import kr.ac.kaist.ase.util.Useful._
 import scala.collection.mutable
@@ -249,7 +249,7 @@ trait ESParsers extends RegexParsers {
     parse(p, new PagedSeqReader(PagedSeq.fromReader(in)))
 
   var keepLog: Boolean = true
-  def log[T](p: ESParser[T])(name: String): ESParser[T] = if (!DEBUG_PASER) p else new ESParser(first => Parser { rawIn =>
+  def log[T](p: ESParser[T])(name: String): ESParser[T] = if (!DEBUG_PARSER) p else new ESParser(first => Parser { rawIn =>
     val in = rawIn.asInstanceOf[ESReader]
     val stopMsg = s"trying $name with $first at [${in.pos}] \n\n${in.pos.longString}\n"
     if (keepLog) stop(stopMsg) match {
