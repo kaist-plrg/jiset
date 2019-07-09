@@ -1,10 +1,11 @@
 package kr.ac.kaist.ase.util
 
 import java.io.{ Reader, File, PrintWriter }
+import java.nio.file.{ Files, StandardCopyOption }
 import kr.ac.kaist.ase.error.NoFileError
 import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
-import scala.io.Source
 import scala.Console.{ RESET, RED }
+import scala.io.Source
 
 object Useful {
   // file reader
@@ -77,6 +78,13 @@ object Useful {
   // renamed filename
   def renameFile(from: String, to: String): Unit =
     new File(from).renameTo(new File(to))
+
+  // copy file
+  def copyFile(from: String, to: String): Unit = Files.copy(
+    new File(from).toPath,
+    new File(to).toPath,
+    StandardCopyOption.REPLACE_EXISTING
+  )
 
   // colored println
   def printlnColor(color: String): Any => Unit =

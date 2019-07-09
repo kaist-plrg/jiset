@@ -3,7 +3,6 @@ package kr.ac.kaist.ase.generator
 import kr.ac.kaist.ase._
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.spec._
-import java.nio.file.Files
 import java.io.File
 
 object ModelGenerator {
@@ -16,12 +15,10 @@ object ModelGenerator {
     val grammar = spec.grammar
     val tys = spec.tys
 
-    List("ModelHelper").foreach(filename => {
-      Files.copy(
-        new File(s"$RESOURCE_DIR/$VERSION/manual/$filename.scala").toPath(),
-        new File(s"$MODEL_DIR/$filename.scala").toPath
-      )
-    })
+    List("ModelHelper").foreach(filename => copyFile(
+      s"$RESOURCE_DIR/$VERSION/manual/$filename.scala",
+      s"$MODEL_DIR/$filename.scala"
+    ))
 
     GrammarGenerator(grammar)
     tys.foreach { case ((tname, methods)) => TypeGenerator(tname, methods) }
@@ -31,10 +28,7 @@ object ModelGenerator {
       val filename = file.getName
       if (scalaFilter(filename)) {
         val name = file.toString
-        val content = readFile(name)
-        val nf = getPrintWriter(s"$MODEL_DIR/algorithm/$filename")
-        nf.println(content)
-        nf.close()
+        copyFile(name, s"$MODEL_DIR/algorithm/$filename")
       }
     }
 
