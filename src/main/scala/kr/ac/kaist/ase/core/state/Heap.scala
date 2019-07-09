@@ -27,9 +27,15 @@ case class Heap(
     case v => error(s"not a map: $v")
   }
 
-  // pushses
-  def push(addr: Addr, value: Value): Heap = this(addr) match {
-    case (l: CoreList) => copy(map = map + (addr -> l.push(value)))
+  // appends
+  def append(addr: Addr, value: Value): Heap = this(addr) match {
+    case (l: CoreList) => copy(map = map + (addr -> l.append(value)))
+    case v => error(s"not a list: $v")
+  }
+
+  // prepends
+  def prepend(addr: Addr, value: Value): Heap = this(addr) match {
+    case (l: CoreList) => copy(map = map + (addr -> l.prepend(value)))
     case v => error(s"not a list: $v")
   }
 

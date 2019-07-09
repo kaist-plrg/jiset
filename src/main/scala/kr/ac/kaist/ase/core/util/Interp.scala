@@ -33,11 +33,18 @@ object Interp {
       case IDelete(ref) =>
         val (refV, s0) = interp(ref)(st)
         s0.deleted(refV)
-      case IPush(expr, list) =>
+      case IAppend(expr, list) =>
         val (exprV, s0) = interp(expr)(st)
         val (listV, s1) = interp(list)(s0)
         listV match {
-          case addr: Addr => s0.push(addr, exprV)
+          case addr: Addr => s0.append(addr, exprV)
+          case v => error(s"not an address: $v")
+        }
+      case IPrepend(expr, list) =>
+        val (exprV, s0) = interp(expr)(st)
+        val (listV, s1) = interp(list)(s0)
+        listV match {
+          case addr: Addr => s0.prepend(addr, exprV)
           case v => error(s"not an address: $v")
         }
       case IReturn(expr) =>

@@ -52,7 +52,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     throwStmt |
     whileStmt |
     forEachStmt |
-    pushStmt
+    appendStmt |
+    insertStmt
   )
 
   // return statements
@@ -183,26 +184,34 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
     }
 
-  // push statements
-  lazy val pushStmt =
-    ("append" ~> expr) ~ ("to" ~> expr) ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IPush(x, y))
+  // append statements
+  lazy val appendStmt = (
+    ("append" ~> expr) ~ ("to" ~ opt("the end of") ~> expr) ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
     } | ("append to" ~> expr <~ "the elements of") ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
-        ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IPush(ERef(RefId(tempId)), l1)))
-    } | ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) =>
-        ISeq(i0 ++ i1 :+ IPush(x, y))
+        ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(ERef(RefId(tempId)), l1)))
+    } | ("append to" ~> expr) ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(y, x))
     } | ("add" ~> expr <~ "as an element of the list") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) =>
-        ISeq(i0 ++ i1 :+ IPush(x, y))
+        ISeq(i0 ++ i1 :+ IAppend(x, y))
     }
+  )
+
+  // append statements
+  lazy val insertStmt = (
+    ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) =>
+        ISeq(i0 ++ i1 :+ IPrepend(x, y))
+    }
+  )
 
   // et cetera statements
   lazy val etcStmt =
     "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
-      case i ~ e => ISeq(i ++ List(IPush(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
+      case i ~ e => ISeq(i ++ List(IAppend(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
         $context = $executionStack[(- $executionStack.length 1i)]
       """)))
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
@@ -227,7 +236,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("let" ~> name <~ "be a new list of") ~ expr ~ ("with" ~> expr <~ "appended") ^^ {
       case x ~ (i0 ~ l) ~ (i1 ~ v) => ISeq(i0 ++ i1 :+ parseInst(s"""{
         let $x = (copy-obj ${beautify(l)})
-        push ${beautify(v)} -> $x
+        append ${beautify(v)} -> $x
       }"""))
     } | (("suspend" ~ name ~ "and remove it from the execution context stack") | ("pop" ~ name ~ "from the execution context stack" <~ rest)) ^^^ {
       parseInst(s"""{
@@ -374,7 +383,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | ("the result of performing" ~> name <~ "for") ~ name ~ ("with argument" ~> expr) ^^ {
       case f ~ x ~ (i ~ a) => pair(i, EApp(parseExpr(s"$x.$f"), List(a)))
-    } | ("the result of performing" ~> name <~ "for") ~ name ~ (("using" | "with") ~> expr <~ "and") ~ (expr <~ "as the arguments") ^^ {
+    } | (opt("the result of performing") ~> name <~ "for") ~ name ~ (("using" | "with") ~> expr <~ "and") ~ (expr <~ "as the arguments") ^^ {
       case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {

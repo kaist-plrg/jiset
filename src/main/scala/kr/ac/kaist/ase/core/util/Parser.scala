@@ -63,7 +63,8 @@ object Parser extends JavaTokenParsers with RegexParsers {
   // instructions
   lazy private val inst: Parser[Inst] = {
     "delete " ~> ref ^^ { IDelete(_) } |
-      ("push " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPush(e, l) } |
+      ("append " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IAppend(e, l) } |
+      ("prepend " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPrepend(e, l) } |
       "return " ~> expr ^^ { case e => IReturn(e) } |
       ("if " ~> expr) ~ inst ~ ("else" ~> inst) ^^ { case c ~ t ~ e => IIf(c, t, e) } |
       ("while " ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |

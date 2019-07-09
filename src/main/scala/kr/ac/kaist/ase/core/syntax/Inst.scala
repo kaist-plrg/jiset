@@ -6,7 +6,8 @@ case class IExpr(expr: Expr) extends Inst
 case class ILet(id: Id, expr: Expr) extends Inst
 case class IAssign(ref: Ref, expr: Expr) extends Inst
 case class IDelete(ref: Ref) extends Inst
-case class IPush(expr: Expr, list: Expr) extends Inst
+case class IAppend(expr: Expr, list: Expr) extends Inst
+case class IPrepend(expr: Expr, list: Expr) extends Inst
 case class IReturn(expr: Expr) extends Inst
 case class IIf(cond: Expr, thenInst: Inst, elseInst: Inst) extends Inst
 case class IWhile(cond: Expr, body: Inst) extends Inst

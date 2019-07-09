@@ -38,8 +38,11 @@ case class CoreList(values: Vector[Value]) extends Obj {
     case v => error(s"not an integer key: $v")
   }
 
-  // pushses
-  def push(value: Value): CoreList = CoreList(values :+ value)
+  // appends
+  def append(value: Value): CoreList = CoreList(values :+ value)
+
+  // prepends
+  def prepend(value: Value): CoreList = CoreList(value +: values)
 
   // pops
   def pop: (Value, CoreList) = values match {

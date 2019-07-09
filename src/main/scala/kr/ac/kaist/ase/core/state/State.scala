@@ -65,9 +65,14 @@ case class State(
     case _ => error(s"illegal reference delete: delete $refV")
   }
 
-  // pushses
-  def push(addr: Addr, value: Value): State = {
-    copy(heap = heap.push(addr, value))
+  // appends
+  def append(addr: Addr, value: Value): State = {
+    copy(heap = heap.append(addr, value))
+  }
+
+  // prepends
+  def prepend(addr: Addr, value: Value): State = {
+    copy(heap = heap.prepend(addr, value))
   }
 
   // pops

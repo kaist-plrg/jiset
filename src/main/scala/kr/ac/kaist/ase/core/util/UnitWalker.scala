@@ -60,7 +60,9 @@ trait UnitWalker {
       walk(ref); walk(expr)
     case IDelete(ref) =>
       walk(ref)
-    case IPush(expr, list) =>
+    case IAppend(expr, list) =>
+      walk(expr); walk(list)
+    case IPrepend(expr, list) =>
       walk(expr); walk(list)
     case IReturn(expr) =>
       walk(expr)

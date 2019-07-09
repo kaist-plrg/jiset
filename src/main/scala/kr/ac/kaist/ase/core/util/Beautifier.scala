@@ -105,8 +105,10 @@ object Beautifier {
         walk(ref); walk(" = "); walk(expr)
       case IDelete(ref) =>
         walk("delete "); walk(ref)
-      case IPush(expr, list) =>
-        walk("push "); walk(expr); walk(" -> "); walk(list)
+      case IAppend(expr, list) =>
+        walk("append "); walk(expr); walk(" -> "); walk(list)
+      case IPrepend(expr, list) =>
+        walk("prepend "); walk(expr); walk(" -> "); walk(list)
       case IReturn(expr) =>
         walk("return "); walk(expr)
       case IIf(cond, thenInst, elseInst) =>
