@@ -128,7 +128,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
     }
   }
   lazy private val propExpr: Parser[Expr] =
-    "." ~> id ^^ { case x => EStr(x.name) } | "[" ~> expr <~ "]"
+    "." ~> ident ^^ { case x => EStr(x) } | "[" ~> expr <~ "]"
 
   // types
   lazy private val ty: Parser[Ty] = ident ^^ { Ty(_) }

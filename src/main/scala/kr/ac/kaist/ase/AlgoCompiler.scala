@@ -66,9 +66,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       }))
     } | "return" ^^^ {
       IReturn(EMap(Ty("Completion"), List(
-        EStr("Type") -> parseExpr("normal"),
+        EStr("Type") -> parseExpr("CONST_normal"),
         EStr("Value") -> EUndef,
-        EStr("Target") -> parseExpr("empty")
+        EStr("Target") -> parseExpr("CONST_empty")
       )))
     }
   )
@@ -162,9 +162,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val throwStmt =
     "throw a" ~> valueExpr <~ "exception" ^^ {
       case e => IReturn(EMap(Ty("Completion"), List(
-        EStr("Type") -> parseExpr("throw"),
+        EStr("Type") -> parseExpr("CONST_throw"),
         EStr("Value") -> e,
-        EStr("Target") -> parseExpr("empty")
+        EStr("Target") -> parseExpr("CONST_empty")
       )))
     }
 
@@ -272,24 +272,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseInst(s"""return (convert m num2str)""")
     } | "for each property of the global object" ~ rest ^^^ {
       val temp = getTemp
-      val tempId = Id(temp)
-      forEachMap(Id("name"), parseExpr("globalThis"), ISeq(List(
-        ILet(Id("desc"), EMap(Ty("PropertyDescriptor"), List(
-          EStr("Writable") -> EBool(true),
-          EStr("Enumerable") -> EBool(false),
-          EStr("Configurable") -> EBool(true),
-          EStr("Value") -> ERef(RefProp(RefId(Id("globalThis")), ERef(RefId(Id("name")))))
-        ))), {
-          val temp = getTemp
-          parseInst(s"""{
-            let $temp = (DefinePropertyOrThrow global name desc)
-            if (= (typeof $temp) "Completion") {
-              if (= $temp.Type normal) $temp = $temp.Value
-              else return $temp
-            } else {}
-          }""")
-        }
-      )))
+      forEachMap(Id("name"), parseExpr("GLOBAL"), parseInst(s"""{
+        let desc = GLOBAL[name]
+        let $temp = (DefinePropertyOrThrow global name desc)
+        if (= (typeof $temp) "Completion") {
+          if (= $temp.Type CONST_normal) $temp = $temp.Value
+          else return $temp
+        } else {}
+      }"""))
     }
 
   // ignore statements
@@ -344,8 +334,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     case err @ ("TypeError" | "ReferenceError") => EMap(Ty(err), Nil)
     case s => ENotYetImpl(s)
   } | const ^^ {
-    case "[empty]" => ERef(RefId(Id("emptySyntax")))
-    case const => ERef(RefId(Id(const.replaceAll("-", ""))))
+    case "[empty]" => parseExpr("CONST_emptySyntax")
+    case const => parseExpr("CONST_" + const.replaceAll("-", ""))
   } | (number <~ ".") ~ number ^^ {
     case x ~ y => ENum(s"$x.$y".toDouble)
   } | number ^^ { case s => EINum(s.toLong) }
@@ -364,9 +354,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // completion expressions
   lazy val completionExpr = "normalcompletion(" ~> expr <~ ")" ^^ {
     case i ~ e => pair(i, EMap(Ty("Completion"), List(
-      EStr("Type") -> parseExpr("normal"),
+      EStr("Type") -> parseExpr("CONST_normal"),
       EStr("Value") -> e,
-      EStr("Target") -> parseExpr("empty")
+      EStr("Target") -> parseExpr("CONST_empty")
     )))
   }
 
@@ -538,7 +528,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EUOp(ONot, exists(r))))
       } | expr <~ "is an abrupt completion" ^^ {
-        case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type normal)))"""))
+        case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
       } | (expr <~ "<") ~ expr ^^ {
         case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OLt, l, r))
       } | (expr <~ "≥") ~ expr ^^ {
@@ -838,7 +828,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ): List[Inst] ~ Expr = (insts, expr) match {
     case (i, (e @ ERef(RefId(Id(x))))) => pair(i :+ parseInst(s"""
       if (= (typeof $x) "Completion") {
-        if (= $x.Type normal) $x = $x.Value
+        if (= $x.Type CONST_normal) $x = $x.Value
         else return $x
       } else {}"""), e)
     case (i, e) =>
@@ -847,7 +837,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         if (vulnerable) s"""{
         let $temp = ${beautify(e)}
         if (= (typeof $temp) "Completion") {
-          if (= $temp.Type normal) $temp = $temp.Value
+          if (= $temp.Type CONST_normal) $temp = $temp.Value
           else return $temp
         } else {}
       }"""

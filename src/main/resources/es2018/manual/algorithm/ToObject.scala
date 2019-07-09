@@ -7,17 +7,17 @@ object ToObject {
     s"""{
           let atype = (typeof argument)
           if (= atype "Undefined") {
-            return (new Completion ( "Type" -> normal, "Value" -> (new TypeError ()), "Target" -> empty ))
+            return (new Completion ( "Type" -> CONST_normal, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
           } else if (= atype "Null") {
-            return (new Completion ( "Type" -> normal, "Value" -> (new TypeError ()), "Target" -> empty ))
+            return (new Completion ( "Type" -> CONST_normal, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
           } else if (= atype "Boolean") {
-            return (new Completion ( "Type" -> normal, "Value" -> (new TypeError ()), "Target" -> empty ))
+            return (new Completion ( "Type" -> CONST_normal, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
           } else if (= atype "Number") {
-            return (new Completion ( "Type" -> normal, "Value" -> (new TypeError ()), "Target" -> empty ))
+            return (new Completion ( "Type" -> CONST_normal, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
           } else if (= atype "String") {
-            return (new Completion ( "Type" -> normal, "Value" -> (new TypeError ()), "Target" -> empty ))
+            return (new Completion ( "Type" -> CONST_normal, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
           } else if (= atype "Symbol") {
-            return (new Completion ( "Type" -> normal, "Value" -> (new TypeError ()), "Target" -> empty ))
+            return (new Completion ( "Type" -> CONST_normal, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
           } else if (= atype "Object") {
             return argument
           } else {

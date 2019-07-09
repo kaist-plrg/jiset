@@ -73,7 +73,7 @@ object REPL {
       st.retValue match {
         case Some(addr: Addr) => st.heap(addr, Str("Type")) match {
           case (addr: Addr) =>
-            if (addr != st.globals.getOrElse(Id("normal"), Absent)) {
+            if (addr != st.globals.getOrElse(Id("CONST_normal"), Absent)) {
               stopMessage(s"$addr is not normal")
             }
           case v => stopMessage(s"invalid completion type: $v")

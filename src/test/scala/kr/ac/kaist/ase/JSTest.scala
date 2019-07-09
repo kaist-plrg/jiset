@@ -25,7 +25,7 @@ class JSTest extends CoreTest {
   def evalJSTest(st: => State): Unit = st.retValue match {
     case Some(addr: Addr) => st.heap(addr, Str("Type")) match {
       case (addr: Addr) =>
-        assert(addr == st.globals.getOrElse(Id("normal"), Absent))
+        assert(addr == st.globals.getOrElse(Id("CONST_normal"), Absent))
       case v => fail(s"invalid completion type: $v")
     }
     case Some(v) => fail(s"return not an address: $v")

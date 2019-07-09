@@ -8,9 +8,9 @@ object WrapCompletion {
         return val
     } else {
         let temp = (new Completion())
-        temp.Type = normal
+        temp.Type = CONST_normal
         temp.Value = val
-        temp.Target = empty
+        temp.Target = CONST_empty
         return temp
     } """
   ))

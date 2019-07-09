@@ -105,5 +105,22 @@ function $DONOTEVALUATE() {
 
 assert(true, "");
 
-var x0 = 0;
-try { assert(false, ""); x0 = -1; } catch (e) { x0 = 1; }
+var x0 = true;
+var x1 = false;
+try { assert(false, ""); x0 = false; } catch (e) { x1 = true; }
+
+var x2 = assert._isSameValue(1, 1);
+var x3 = assert._isSameValue(NaN, NaN);
+var x4 = assert._isSameValue("asdf", "asdf");
+var x5 = assert._isSameValue(undefined, undefined);
+var x6 = assert._isSameValue(null, null);
+var x7 = assert._isSameValue(true, true);
+var x8 = !assert._isSameValue(-0, +0);
+var x9 = !assert._isSameValue("a", "b");
+var x10 = !assert._isSameValue(NaN, 42);
+var x11 = !assert._isSameValue(undefined, 2);
+var x12 = !assert._isSameValue(42, null);
+
+var a = {}, b = {};
+var x13 = assert._isSameValue(a, a);
+var x14 = !assert._isSameValue(a, b);
