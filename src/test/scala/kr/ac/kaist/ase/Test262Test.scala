@@ -2,7 +2,7 @@ package kr.ac.kaist.ase
 
 import java.io._
 import kr.ac.kaist.ase.core._
-import kr.ac.kaist.ase.model.{ AST, Parser => JSParser }
+import kr.ac.kaist.ase.model.{ AST, Parser => JSParser, StatementListItem, ModelHelper }
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.phase._
 import org.scalatest._
@@ -24,7 +24,7 @@ class Test262Test extends CoreTest {
 
   // tests for js-parser
   def parseJSTest(ast: => AST): Unit = {
-    val timeoutMs: Long = 3000
+    val timeoutMs: Long = 60000
     try {
       Await.result(Future(ast), timeoutMs milliseconds)
     } catch {
@@ -35,32 +35,68 @@ class Test262Test extends CoreTest {
   }
 
   // tests for js-interpreter
-  def evalJSTest(st: => State): Unit = st.retValue match {
-    case Some(addr: Addr) => st.heap(addr, Str("Type")) match {
-      case (addr: Addr) =>
-        assert(addr == st.globals.getOrElse(Id("normal"), Absent))
-      case v => fail(s"invalid completion type: $v")
+  def evalJSTest(st: => State): Unit = {
+    val timeoutMs: Long = 3000
+    try {
+      Await.result(Future(st), timeoutMs milliseconds)
+    } catch {
+      case e: TimeoutException => fail("timeout")
+      case e: java.util.concurrent.ExecutionException => throw e.getCause()
     }
-    case Some(v) => fail(s"return not an address: $v")
-    case None => fail("no return value")
+    st.retValue match {
+      case Some(addr: Addr) => st.heap(addr, Str("Type")) match {
+        case (addr: Addr) =>
+          assert(addr == st.globals.getOrElse(Id("normal"), Absent))
+        case v => fail(s"invalid completion type: $v")
+      }
+      case Some(v) => fail(s"return not an address: $v")
+      case None => fail("no return value")
+    }
   }
 
   // registration
   val dir = new File(test262Dir)
   val config = readFile(s"$TEST_DIR/test262.json").parseJson.convertTo[Test262ConfigSummary]
+  val initInclude = List("assert.js", "sta.js").foldLeft(Map[String, List[StatementListItem]]()) {
+    case (imm, s) => {
+      val includeName = s"${dir.toString}/harness/$s"
+      val jsConfig = aseConfig.copy(fileNames = List(includeName))
+      val stmtList = ModelHelper.flattenStatement(Parse((), jsConfig))
+      imm + (s -> stmtList)
+    }
+
+  }
+  val includeMap: Map[String, List[StatementListItem]] = config.normal.foldLeft(initInclude) {
+    case (im, NormalTestConfig(_, includes)) =>
+      includes.foldLeft(im) {
+        case (imm, s) => if (imm contains s) {
+          imm
+        } else {
+          val includeName = s"${dir.toString}/harness/$s"
+          val jsConfig = aseConfig.copy(fileNames = List(includeName))
+          val stmtList = ModelHelper.flattenStatement(Parse((), jsConfig))
+          imm + (s -> stmtList)
+        }
+      }
+  }
+
+  lazy val initStList = includeMap("assert.js") ++ includeMap("sta.js")
+
   for (NormalTestConfig(filename, includes) <- shuffle(config.normal)) {
     lazy val jsName = s"${dir.toString}/$filename"
     lazy val name = removedExt(jsName).drop(dir.toString.length + 1)
     lazy val jsConfig = aseConfig.copy(fileNames = List(jsName))
 
     lazy val ast = Parse((), jsConfig)
-    check("Test262Parse", name, {
-      println(name)
-      parseJSTest(ast)
-    })
+    // check("Test262Parse", name, {
+    //   println(name)
+    //   parseJSTest(ast)
+    // })
 
-    // TODO
-    // lazy val st = EvalCore(Load(ast, jsConfig), jsConfig)
-    // check("Test262Eval", name, evalJSTest(st))
+    lazy val stList = includes.foldLeft(initStList) {
+      case (li, s) => li ++ includeMap(s)
+    } ++ ModelHelper.flattenStatement(ast)
+    lazy val st = EvalCore(Load(ModelHelper.mergeStatement(stList), jsConfig), jsConfig)
+    check("Test262Eval", name, evalJSTest(st))
   }
 }

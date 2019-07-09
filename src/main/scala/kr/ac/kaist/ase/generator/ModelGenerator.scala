@@ -3,6 +3,8 @@ package kr.ac.kaist.ase.generator
 import kr.ac.kaist.ase._
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.spec._
+import java.nio.file.Files
+import java.io.File
 
 object ModelGenerator {
   def apply(spec: Spec): Unit = {
@@ -13,6 +15,13 @@ object ModelGenerator {
     val consts = (spec.consts.toSet - "[empty]" + "emptySyntax").toList
     val grammar = spec.grammar
     val tys = spec.tys
+
+    List("ModelHelper").foreach(filename => {
+      Files.copy(
+        new File(s"$RESOURCE_DIR/$VERSION/manual/$filename.scala").toPath(),
+        new File(s"$MODEL_DIR/$filename.scala").toPath
+      )
+    })
 
     GrammarGenerator(grammar)
     tys.foreach { case ((tname, methods)) => TypeGenerator(tname, methods) }
