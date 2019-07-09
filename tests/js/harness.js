@@ -102,4 +102,8 @@ function $DONOTEVALUATE() {
   throw "Test262: This statement should not be evaluated.";
 }
 
+
 assert(true, "");
+
+var x0 = 0;
+try { assert(false, ""); x0 = -1; } catch (e) { x0 = 1; }

@@ -379,9 +379,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | name ~ ("for" ~> name <~ "with") ~ expr ~ ("and" ~> expr <~ "as arguments") ^^ {
       case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
-    } | ("the result of performing" ~> name <~ "for") ~ name ~ ("with argument" ~> expr) ^^ {
+    } | (opt("the result of performing") ~> name <~ ("for" | "of")) ~ name ~ ("with argument" ~> expr) ^^ {
       case f ~ x ~ (i ~ a) => pair(i, EApp(parseExpr(s"$x.$f"), List(a)))
-    } | (opt("the result of performing") ~> name <~ "for") ~ name ~ (("using" | "with") ~> expr <~ "and") ~ (expr <~ "as the arguments") ^^ {
+    } | (opt("the result of performing") ~> name <~ "for") ~ name ~ (("using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ "as" ~ opt("the") ~ "arguments") ^^ {
       case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
@@ -458,6 +458,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, r))
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, ENotYetImpl(s"larger of $x and $y"))
+    } | "the result of adding the value 1 to" ~> name <~ rest ^^ {
+      case x => pair(Nil, parseExpr(s"(+ $x 1)"))
     } | ("the result of" ~> expr <~ "passing") ~ expr ~ ("and" ~> expr <~ "as the arguments") ^^ {
       case (i0 ~ f) ~ (i1 ~ x) ~ (i2 ~ y) =>
         pair(i0 ++ i1 ++ i2, EApp(f, List(x, y)))
@@ -522,7 +524,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: Parser[List[Inst] ~ Expr] =
+  lazy val cond: Parser[List[Inst] ~ Expr] = (
     (("the code matched by this" ~> word <~ "is strict mode code") |
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
@@ -626,6 +628,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
         case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ (i3 ~ f) => pair(i0 ++ i1 ++ i2 ++ i3, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
       }
+  )
 
   lazy val subCond: Parser[List[Inst] ~ (Expr => Expr)] =
     "or" ~> opt("if") ~> cond ^^ {
