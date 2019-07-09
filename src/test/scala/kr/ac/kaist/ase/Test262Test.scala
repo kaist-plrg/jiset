@@ -8,6 +8,9 @@ import kr.ac.kaist.ase.phase._
 import org.scalatest._
 import scala.util.Random.shuffle
 
+import java.text.SimpleDateFormat
+import java.util.Date
+
 import spray.json._
 import kr.ac.kaist.ase.util._
 import kr.ac.kaist.ase.util.TestConfigJsonProtocol._
@@ -15,23 +18,35 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
 
-class Test262Test extends CoreTest {
+class Test262Test extends ASETest {
   // tag name
-  val tag: String = "test262Test/test"
+  val tag: String = "test262Test"
 
   // base directory
   val test262Dir = s"$TEST_DIR/test262"
 
   // tests for js-parser
-  def parseJSTest(ast: => AST): Unit = {
-    val timeoutMs: Long = 60000
-    try {
-      Await.result(Future(ast), timeoutMs milliseconds)
-    } catch {
-      case e: TimeoutException => fail("timeout")
+  // def parseJSTest(ast: => AST): Unit = {
+  //   val timeoutMs: Long = 60000
+  //   try {
+  //     Await.result(Future(ast), timeoutMs milliseconds)
+  //   } catch {
+  //     case e: TimeoutException => fail("timeout")
+  //   }
+  //   val newAST = JSParser.fromString(ast.toString)
+  //   assert(ast == newAST)
+  // }
+  // check backward-compatibility aftera all tests
+  override def afterAll(): Unit = {
+
+    val suffix = new SimpleDateFormat("yyMMddHHmm").format(new Date())
+    val filename = s"$TEST_DIR/result/${tag}_${suffix}"
+
+    val jpw = getPrintWriter(filename)
+    resMap("Test262Eval").toList.sortBy { case (k, v) => k }.foreach {
+      case (k, v) => jpw.println(s"$k: $v")
     }
-    val newAST = JSParser.fromString(ast.toString)
-    assert(ast == newAST)
+    jpw.close()
   }
 
   // tests for js-interpreter
