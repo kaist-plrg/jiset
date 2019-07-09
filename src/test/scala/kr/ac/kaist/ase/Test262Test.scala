@@ -24,7 +24,7 @@ class Test262Test extends CoreTest {
 
   // tests for js-parser
   def parseJSTest(ast: => AST): Unit = {
-    val timeoutMs: Long = 3000
+    val timeoutMs: Long = 60000
     try {
       Await.result(Future(ast), timeoutMs milliseconds)
     } catch {
