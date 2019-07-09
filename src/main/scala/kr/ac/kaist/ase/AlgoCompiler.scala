@@ -188,12 +188,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val appendStmt = (
     ("append" ~> expr) ~ ("to" ~ opt("the end of") ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
-    } | ("append to" ~> expr <~ "the elements of") ~ expr ^^ {
+    } | ("append to" ~> expr <~ opt("the elements of")) ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(ERef(RefId(tempId)), l1)))
-    } | ("append to" ~> expr) ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(y, x))
     } | ("add" ~> expr <~ "as an element of the list") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) =>
         ISeq(i0 ++ i1 :+ IAppend(x, y))
@@ -529,6 +527,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
         pair(Nil, EBool(false)) // TODO : support strict mode code
+      } | (name <~ "and") ~ (name <~ "are both") ~ (value <~ "or both") ~ value ^^ {
+        case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
       } | name <~ "is a data property" ^^ {
         case x => pair(Nil, parseExpr(s"(IsDataDescriptor $x)"))
       } | name <~ "is an accessor property" ^^ {

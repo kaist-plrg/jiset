@@ -27,10 +27,7 @@ case class State(
           rest match {
             case Nil =>
               val newSt = Interp.fixpoint(copy(context = fname, insts = List(body), locals = locals))
-              newSt.retValue match {
-                case Some(v) => (v, copy(heap = newSt.heap, globals = newSt.globals))
-                case None => error(s"no return value")
-              }
+              (newSt.retValue.getOrElse(Absent), copy(heap = newSt.heap, globals = newSt.globals))
             case _ =>
               (ASTMethod(Func(fname, rest, varparam, body), locals), this)
           }

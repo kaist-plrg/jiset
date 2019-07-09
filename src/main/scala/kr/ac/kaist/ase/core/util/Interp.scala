@@ -135,10 +135,7 @@ object Interp {
           }).getOrElse((locals0, s1))
 
           val newSt = fixpoint(s2.copy(context = fname, insts = List(body), locals = locals1))
-          newSt.retValue match {
-            case Some(v) => (v, s2.copy(heap = newSt.heap, globals = newSt.globals))
-            case None => error(s"no return value")
-          }
+          (newSt.retValue.getOrElse(Absent), s2.copy(heap = newSt.heap, globals = newSt.globals))
         case ASTMethod(Func(fname, params, _, body), baseLocals) =>
           val (locals, s1, _) = ((baseLocals, s0, args) /: params) {
             case ((map, st, arg :: rest), param) =>
@@ -147,10 +144,7 @@ object Interp {
             case (triple, _) => triple
           }
           val newSt = Interp.fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
-          newSt.retValue match {
-            case Some(v) => (v, s1.copy(heap = newSt.heap, globals = newSt.globals))
-            case None => error(s"no return value")
-          }
+          (newSt.retValue.getOrElse(Absent), s1.copy(heap = newSt.heap, globals = newSt.globals))
         case v => error(s"not a function: $v")
       }
     case EUOp(uop, expr) =>

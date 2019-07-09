@@ -101,3 +101,5 @@ $ERROR = function $ERROR(message) {
 function $DONOTEVALUATE() {
   throw "Test262: This statement should not be evaluated.";
 }
+
+assert(true, "");
