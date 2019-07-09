@@ -89,6 +89,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (
       opt("." | ";" | ",") ~> opt(next) ~> ("else" | "otherwise") ~> opt(
         cond |
+          "the base of" ~ ref ~ "is an Environment Record" |
           name ~ "must be" ~ rep(not(",") ~ text) |
           id ~ "does not currently have a property" ~ id |
           id <~ "is an accessor property" |
@@ -499,7 +500,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x => EStr(x)
       } | "the stringvalue of stringliteral" ^^^ {
         parseExpr(s"(parse-string StringLiteral string)")
-      } | "the" ~> value.filter(x => x == "this") <~ "value" ^^^ {
+      } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
       } | "this" ~ name ^^^ {
         parseExpr("this")
