@@ -594,7 +594,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
-      } | ref ~ ("has a" ~> name <~ "internal method") ^^ {
+      } | ref ~ ("has a" ~> name <~ "internal" ~ ("method" | "slot")) ^^ {
         case (i ~ r) ~ p => pair(i, parseExpr(s"(! (= absent ${beautify(r)}.$p))"))
       } | (ref <~ "is present and its value is") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, exists(r), EBOp(OEq, ERef(r), e)))
@@ -628,6 +628,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("Object")))
       } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
         case (i0 ~ c1) ~ (i1 ~ c2) => pair(i0 ++ i1, EBOp(OOr, c1, c2))
+      } | name ~ ("is either" ~> expr) ~ ("or" ~> expr) ^^ {
+        case x ~ (i0 ~ e1) ~ (i1 ~ e2) =>
+          val e0 = parseExpr(x)
+          pair(i0 ++ i1, EBOp(OOr, EBOp(OEq, e0, e1), EBOp(OEq, e0, e2)))
       } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number")))))) // TODO : remove side effect
       } | "every field in" ~> id <~ "is absent" ^^ {
