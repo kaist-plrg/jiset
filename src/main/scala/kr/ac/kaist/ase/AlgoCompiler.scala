@@ -404,10 +404,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | (opt("the result of performing") ~> name <~ ("for" | "of")) ~ name ~ ("with argument" ~> expr) ^^ {
       case f ~ x ~ (i ~ a) => pair(i, EApp(parseExpr(s"$x.$f"), List(a)))
-    } | (opt("the result of performing") ~> name <~ "for") ~ name ~ (("using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ "as" ~ opt("the") ~ "arguments") ^^ {
-      case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
-        pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
-    } | (opt("the result of performing") ~> name <~ "of") ~ name ~ ("with arguments" ~> expr <~ "and") ~ expr ^^ {
+    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ name ~ (("with arguments" | "using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ opt("as" ~ opt("the") ~ "arguments")) ^^ {
       case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
@@ -424,7 +421,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val newExpr: Parser[List[Inst] ~ Expr] =
     "a new empty list" ^^^ {
       pair(Nil, EList(Nil))
-    } | "a new list containing" ~> expr ^^ {
+    } | "a" ~> opt("new") ~> " list containing" ~> expr ^^ {
       case i ~ e => pair(i, EList(List(e)))
     } | ("a new" ~> ty <~ "containing") ~ (expr <~ "as the binding object") ^^ {
       case t ~ (i ~ e) => pair(i, EMap(t, List(
