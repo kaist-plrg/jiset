@@ -8,14 +8,14 @@ import java.io.File
 object ModelGenerator {
   def apply(spec: Spec): Unit = {
     val methods = spec.globalMethods
-    val globalObjectMethods = spec.globalMethods.filter(_.startsWith("GLOBAL."))
+    val builtinMethods = spec.globalMethods.filter(_.startsWith("GLOBAL."))
     val symbols = spec.symbols
     val intrinsics = spec.intrinsics
     val consts = (spec.consts.toSet - "[empty]" + "emptySyntax").toList
     val grammar = spec.grammar
     val tys = spec.tys
 
-    List("ModelHelper").foreach(filename => copyFile(
+    List("ModelHelper", "BaseGlobal", "BaseHeap", "BuiltinHeap").foreach(filename => copyFile(
       s"$RESOURCE_DIR/$VERSION/manual/$filename.scala",
       s"$MODEL_DIR/$filename.scala"
     ))
@@ -46,7 +46,7 @@ object ModelGenerator {
     nf.println(s"""    locals = Map(),""")
     nf.println(s"""    heap = initHeap""")
     nf.println(s"""  )""")
-    nf.println(s"""  lazy val initGlobal: Map[Id, Value] = Map(""")
+    nf.println(s"""  lazy val initGlobal: Map[Id, Value] = BaseGlobal.get ++ Map(""")
     symbols.foreach {
       case (k, v) =>
         nf.println(s"""    Id("${getScalaName(k)}") -> NamedAddr("GLOBAL.$v"),""")
@@ -60,18 +60,16 @@ object ModelGenerator {
     nf.println(s"""  ) ++ Map(""")
     nf.println(consts.map(i =>
       s"""    Id("CONST_$i") -> NamedAddr("CONST_$i")""").mkString("," + LINE_SEP))
-    nf.println(s"""  ) ++""")
-    nf.println(readFile(s"$RESOURCE_DIR/$VERSION/manual/Global"))
-    nf.println(s"""  lazy val globalMethods: List[(String, Func)] = List(""")
-    nf.println(globalObjectMethods.map(x =>
+    nf.println(s"""  )""")
+    nf.println(s"""  lazy val builtinMethods: List[(String, Func)] = List(""")
+    nf.println(builtinMethods.map(x =>
       s"""    ("$x", ${getScalaName(x)}.func)""").mkString("," + LINE_SEP))
     nf.println(s"""  )""")
-    nf.println(s"""  lazy val initHeap: Heap = Heap(Map(""")
+    nf.println(s"""  lazy val initHeap: Heap = Heap(BaseHeap.get ++ BuiltinHeap.get ++ Map(""")
     nf.println(consts.map(i =>
       s"""    NamedAddr("CONST_$i") -> Singleton("$i")""").mkString("," + LINE_SEP))
-    nf.println(s"""  ) ++""")
-    nf.println(readFile(s"$RESOURCE_DIR/$VERSION/manual/Heap") + ") match {")
-    nf.println(s"""    case Heap(m, _) => Heap((m /: globalMethods) {""")
+    nf.println(s"""  ) match {""")
+    nf.println(s"""    case m => (m /: builtinMethods) {""")
     nf.println(s"""      case (m, (name, func)) =>""")
     nf.println(s"""        val base = removedExt(name)""")
     nf.println(s"""        val prop = getExt(name)""")
@@ -91,14 +89,19 @@ object ModelGenerator {
     nf.println(s"""            ))""")
     nf.println(s"""          )""")
     nf.println(s"""          case _ => m""")
-    nf.println(s"""        }) + (addr -> CoreMap(Ty("BuiltinFunctionObject"), BuiltinFunctionObject.map ++ Map(""")
-    nf.println(s"""          Str("Code") -> func,""")
-    nf.println(s"""          Str("Prototype") -> NamedAddr("GLOBAL.Function.prototype"),""")
-    nf.println(s"""          Str("Extensible") -> Bool(true),""")
-    nf.println(s"""          Str("SubMap") -> NamedAddr(s"$$name.SubMap")""")
-    nf.println(s"""        )))""")
-    nf.println(s"""    })""")
-    nf.println(s"""  }""")
+    nf.println(s"""        }) + (m.get(addr) match {""")
+    nf.println(s"""          case Some(CoreMap(ty, map)) =>""")
+    nf.println(s"""            addr -> CoreMap(ty, map + (Str("Core") -> func))""")
+    nf.println(s"""          case _ =>""")
+    nf.println(s"""            addr -> CoreMap(Ty("BuiltinFunctionObject"), BuiltinFunctionObject.map ++ Map(""")
+    nf.println(s"""              Str("Code") -> func,""")
+    nf.println(s"""              Str("Prototype") -> NamedAddr("GLOBAL.Function.prototype"),""")
+    nf.println(s"""              Str("Extensible") -> Bool(true),""")
+    nf.println(s"""              Str("SubMap") -> NamedAddr(s"$$name.SubMap")""")
+    nf.println(s"""            ))""")
+    nf.println(s"""        })""")
+    nf.println(s"""    }""")
+    nf.println(s"""  })""")
     nf.println(s"""  lazy val tyMap: Map[String, Map[Value, Value]] = Map(""")
     nf.println(tys.map {
       case ((tname, _)) => s"""    ("$tname" -> $tname.map)"""
