@@ -10,6 +10,7 @@ case class Heap(
   // getters
   def apply(addr: Addr): Obj = map.getOrElse(addr, error(s"unknown address: ${beautify(addr)}"))
   def apply(addr: Addr, key: Value): Value = this(addr) match {
+    case (s: CoreSymbol) => s(key)
     case (m: CoreMap) => m(key)
     case (l: CoreList) => l(key)
     case v => error(s"not a map or a list: $v")

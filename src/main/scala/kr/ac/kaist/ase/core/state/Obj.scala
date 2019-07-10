@@ -6,9 +6,15 @@ sealed trait Obj extends CoreNode {
   def ty: Ty
 }
 
-// CORE Singleton
-case class Singleton(name: String) extends Obj {
-  val ty: Ty = Ty(name)
+// CORE CoreSymbol
+case class CoreSymbol(desc: String) extends Obj {
+  val ty: Ty = Ty("Symbol")
+
+  // getters
+  def apply(key: Value): Value = key match {
+    case Str("Description") => Str(desc)
+    case v => error(s"an invalid symbol field access: $v")
+  }
 }
 
 // CORE CoreMap

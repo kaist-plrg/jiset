@@ -3,7 +3,7 @@ package kr.ac.kaist.ase.model
 import kr.ac.kaist.ase.core._
 
 object BuiltinHeap {
-  def get: Map[Addr, Obj] = (Map[Addr, Obj]() /: map) {
+  def get: Map[Addr, Obj] = (Map[Addr, Obj]() /: mapInfo) {
     case (m, ("GLOBAL", Struct(ty, _, nmap))) => ((m ++ Map(
       NamedAddr("GLOBAL") -> CoreMap(Ty("Map"), nmap.map.map {
         case (k, _) => k -> NamedAddr("DESC:GLOBAL" + getPropStr(k))
@@ -20,7 +20,9 @@ object BuiltinHeap {
         case (k, _) => k -> NamedAddr("DESC:" + name + getPropStr(k))
       })
     )) /: nmap.map) { case (m, (k, prop)) => addDesc(name, m, k, prop) }
-  }
+  } ++ (singletonInfo.map {
+    case name => (NamedAddr(SYMBOL_PREFIX + name) -> CoreSymbol("Symbol." + name))
+  }.toMap)
 
   private def addDesc(
     name: String,
@@ -53,7 +55,9 @@ object BuiltinHeap {
     )
   }
 
-  private case class NMap(map: Map[Value, Property])
+  private case class NMap(map: Map[Value, Property]) {
+    def ++(aMap: Map[Value, Property]): NMap = NMap(map ++ aMap)
+  }
   private object NMap {
     def apply(pairs: (String, Property)*): NMap = NMap(
       pairs.map { case (s, p) => Str(s) -> p }.toMap[Value, Property]
@@ -75,7 +79,7 @@ object BuiltinHeap {
   private val T = true
   private val F = false
 
-  private val map: Map[String, Struct] = Map(
+  private val mapInfo: Map[String, Struct] = Map(
     "GLOBAL" -> Struct(
       typeName = "Map",
       imap = IMap(),
@@ -185,6 +189,56 @@ object BuiltinHeap {
       nmap = NMap(
         "constructor" -> Property(NamedAddr("GLOBAL.Boolean"), T, F, T)
       )
+    ),
+
+    "GLOBAL.Symbol" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTSymbol.func
+      ),
+      nmap = NMap(
+        "asyncIterator" -> Property(NamedAddr("GLOBAL.Symbol.asyncIterator"), F, F, F),
+        "hasInstance" -> Property(NamedAddr("GLOBAL.Symbol.hasInstance"), F, F, F),
+        "isConcatSpreadable" -> Property(NamedAddr("GLOBAL.Symbol.isConcatSpreadable"), F, F, F),
+        "iterator" -> Property(NamedAddr("GLOBAL.Symbol.iterator"), F, F, F),
+        "match" -> Property(NamedAddr("GLOBAL.Symbol.match"), F, F, F),
+        "replace" -> Property(NamedAddr("GLOBAL.Symbol.replace"), F, F, F),
+        "search" -> Property(NamedAddr("GLOBAL.Symbol.search"), F, F, F),
+        "species" -> Property(NamedAddr("GLOBAL.Symbol.species"), F, F, F),
+        "split" -> Property(NamedAddr("GLOBAL.Symbol.split"), F, F, F),
+        "toPrimitive" -> Property(NamedAddr("GLOBAL.Symbol.toPrimitive"), F, F, F),
+        "toStringTag" -> Property(NamedAddr("GLOBAL.Symbol.toStringTag"), F, F, F),
+        "unscopables" -> Property(NamedAddr("GLOBAL.Symbol.unscopables"), F, F, F),
+        "length" -> Property(Num(0.0), F, F, T),
+        "prototype" -> Property(NamedAddr("GLOBAL.Symbol.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.Symbol.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> Property(NamedAddr("GLOBAL.Symbol"), T, F, T)
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Symbol"), F, F, T)
+        )
     )
+  )
+
+  private val singletonInfo: List[String] = List(
+    "asyncIterator",
+    "hasInstance",
+    "isConcatSpreadable",
+    "iterator",
+    "match",
+    "replace",
+    "search",
+    "species",
+    "split",
+    "toPrimitive",
+    "toStringTag",
+    "unscopables"
   )
 }

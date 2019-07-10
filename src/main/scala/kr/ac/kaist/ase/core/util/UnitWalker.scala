@@ -167,8 +167,8 @@ trait UnitWalker {
 
   // objs
   def walk(obj: Obj): Unit = obj match {
-    case Singleton(name) =>
-      walk(name)
+    case CoreSymbol(desc) =>
+      walk(desc)
     case CoreMap(ty, props) =>
       walk(ty)
       walkMap[Value, Value](props, walk, walk)

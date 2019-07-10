@@ -498,6 +498,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ e => pair(i, EUOp(ONeg, e))
     } | "the number of elements" ~ ("in" | "of") ~> expr ^^ {
       case i ~ e => pair(i, parseExpr(s"${beautify(e)}.length"))
+    } | "the string - concatenation of" ~> repsep(expr, "," ~ opt("and")) ^^ {
+      case es =>
+        val init: List[Inst] ~ Expr = pair(Nil, EStr(""))
+        val insts ~ e = (init /: es) { case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OPlus, l, r)) }
+        (pair(insts, e): List[Inst] ~ Expr)
     } | ((
       "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
         case x => ERef(RefId(Id(x)))
@@ -533,6 +538,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr("ECMAScriptFunctionObjectDOTConstruct")
       } | "the token" ~> value ^^ {
         case x => EStr(x)
+      } | "the empty string" ^^ {
+        case x => EStr("")
       } | ("the stringvalue of stringliteral" | "the string value whose code units are the sv of the stringliteral") ^^^ {
         parseExpr(s"(parse-string StringLiteral string)")
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
@@ -615,6 +622,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(exists(r)))
       } | (expr <~ "is not") ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, l, r))))
+      } | (name <~ "and") ~ (name <~ "are both the same Symbol value") ^^ {
+        case x ~ y => pair(Nil, parseExpr(s"""(&& (&& (= (typeof $x) "Symbol") (= (typeof $y) "Symbol")) (= $x $y))"""))
       } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
         case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OAnd, EUOp(ONot, exists(l)), EUOp(ONot, exists(r))))
       } | expr <~ "has any duplicate entries" ^^ {
@@ -732,7 +741,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
     } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ nameWithOrdinal ^^ {
       case x ~ y => pair(Nil, parseRef(s"$y.$x"))
-    } | (name <~ "'s") ~ name <~ opt("attribute") ^^ {
+    } | (name <~ "'s") ~ name <~ opt("value" | "attribute") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), EStr(x)))
     } | ("the" ~> id <~ "flag of") ~ ref ^^ {
       case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))

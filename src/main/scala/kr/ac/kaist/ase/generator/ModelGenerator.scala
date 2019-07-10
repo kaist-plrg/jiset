@@ -67,7 +67,7 @@ object ModelGenerator {
     nf.println(s"""  )""")
     nf.println(s"""  lazy val initHeap: Heap = Heap(BaseHeap.get ++ BuiltinHeap.get ++ Map(""")
     nf.println(consts.map(i =>
-      s"""    NamedAddr("CONST_$i") -> Singleton("$i")""").mkString("," + LINE_SEP))
+      s"""    NamedAddr("CONST_$i") -> CoreSymbol("CONST_$i")""").mkString("," + LINE_SEP))
     nf.println(s"""  ) match {""")
     nf.println(s"""    case m => (m /: builtinMethods) {""")
     nf.println(s"""      case (m, (name, func)) =>""")

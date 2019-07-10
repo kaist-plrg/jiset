@@ -20,7 +20,10 @@ object ToObject {
           } else if (= atype "String") {
             return (new Completion ( "Type" -> CONST_throw, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
           } else if (= atype "Symbol") {
-            return (new Completion ( "Type" -> CONST_throw, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
+            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_SymbolPrototype))
+            obj.SymbolData = argument
+            obj.SubMap = (new SubMap())
+            return obj
           } else if (= atype "Object") {
             return argument
           } else {
