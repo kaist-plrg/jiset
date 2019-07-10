@@ -53,7 +53,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     whileStmt |
     forEachStmt |
     appendStmt |
-    insertStmt
+    insertStmt |
+    removeStmt
   )
 
   // return statements
@@ -89,6 +90,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (
       opt("." | ";" | ",") ~> opt(next) ~> ("else" | "otherwise") ~> opt(
         cond |
+          name ~ "is a Reference to an Environment Record binding" |
           "the base of" ~ ref ~ "is an Environment Record" |
           name ~ "must be" ~ rep(not(",") ~ text) |
           id ~ "does not currently have a property" ~ id |
@@ -207,6 +209,13 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     }
   )
 
+  // remove statements
+  lazy val removeStmt = (
+    ("remove the own property with name" ~> name <~ "from") ~ name ^^ {
+      case p ~ o => parseInst(s"$o[$p]")
+    }
+  )
+
   // et cetera statements
   lazy val etcStmt =
     "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
@@ -224,6 +233,21 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseInst("let global = undefined")
     } | "if the host requires that the" ~ rest ^^^ {
       parseInst("let thisValue = undefined")
+    } | ("if" ~> name <~ "is an element of") ~ name <~ ", remove that element from the" ~ name ^^ {
+      case x ~ l =>
+        val idx = getTemp
+        val len = getTemp
+        parseInst(s"""{
+          let $idx = 0i
+          let $len = $l.length
+          while (&& (< $idx $len) (! (= $l[$idx] $x))) $idx = (+ $idx 1i)
+          $idx = (+ $idx 1i)
+          while (< $idx $len) {
+            $l[(- $idx 1i)] = $l[$idx]
+            $idx = (+ $idx 1i)
+          }
+          (pop $l)
+        }""")
     } | "for each field of" ~ rest ^^^ {
       parseInst(s"""O.SubMap[P].Value = Desc.Value""") // TODO: move each field of record at ValidateAndApplyPropertyDescriptor
     } | "parse" ~ id ~ "using script as the goal symbol and analyse the parse result for any early Error conditions" ~ rest ^^^ {
