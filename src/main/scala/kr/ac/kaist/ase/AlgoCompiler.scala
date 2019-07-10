@@ -182,7 +182,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ (("in" | "of") ~> expr <~ "," ~ opt("in list order,") ~ "do") ~ stmt ^^ {
+    ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ (("in" | "of") ~> expr <~ opt(",") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
