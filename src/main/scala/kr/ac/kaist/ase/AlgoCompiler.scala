@@ -460,7 +460,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // type expressions
   lazy val typeExpr =
-    ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol" | "Reference" | "Object") ^^ {
+    opt("hint") ~> ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol" | "Reference" | "Object") ^^ {
       case tname => EStr(tname.head)
     } |
       ty ^^ {
@@ -520,7 +520,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr("ECMAScriptFunctionObjectDOTCall")
       } | "the definition specified in 9.2.2" ^^^ {
         parseExpr("ECMAScriptFunctionObjectDOTConstruct")
-      } | ("the token") ~> value ^^ {
+      } | "the token" ~> value ^^ {
         case x => EStr(x)
       } | ("the stringvalue of stringliteral" | "the string value whose code units are the sv of the stringliteral") ^^^ {
         parseExpr(s"(parse-string StringLiteral string)")
