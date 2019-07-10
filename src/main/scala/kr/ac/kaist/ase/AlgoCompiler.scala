@@ -396,7 +396,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | (opt("the result of performing") ~> name <~ ("for" | "of")) ~ name ~ ("with argument" ~> expr) ^^ {
       case f ~ x ~ (i ~ a) => pair(i, EApp(parseExpr(s"$x.$f"), List(a)))
-    } | (opt("the result of performing") ~> name <~ "for") ~ name ~ (("using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ "as" ~ opt("the") ~ "arguments") ^^ {
+    } | (opt("the result of performing") ~> name <~ ("for" | "of")) ~ name ~ (("using" | "with" | "passing") ~> opt("arguments") ~> expr <~ "and") ~ (expr <~ opt("as") ~ opt("the") ~ opt("arguments")) ^^ {
       case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
@@ -522,7 +522,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr("ECMAScriptFunctionObjectDOTConstruct")
       } | ("the token") ~> value ^^ {
         case x => EStr(x)
-      } | "the stringvalue of stringliteral" ^^^ {
+      } | ("the stringvalue of stringliteral" | "the string value whose code units are the sv of the stringliteral") ^^^ {
         parseExpr(s"(parse-string StringLiteral string)")
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
