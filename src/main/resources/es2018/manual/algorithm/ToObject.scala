@@ -11,7 +11,10 @@ object ToObject {
           } else if (= atype "Null") {
             return (new Completion ( "Type" -> CONST_throw, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
           } else if (= atype "Boolean") {
-            return (new Completion ( "Type" -> CONST_throw, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
+            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_BooleanPrototype))
+            obj.BooleanData = argument
+            obj.SubMap = (new SubMap())
+            return obj
           } else if (= atype "Number") {
             return (new Completion ( "Type" -> CONST_throw, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
           } else if (= atype "String") {
