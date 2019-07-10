@@ -511,7 +511,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case f => parseExpr(s"($f.Code undefined argumentsList newTarget)")
       } | "the steps of an" ~> name <~ "function as specified below" ^^ {
         case x => parseExpr(s"$x")
-      } | "the number whose value is MV of" ~> name <~ rest ^^ {
+      } | (("the number whose value is MV of" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
         case x => EParseString(ERef(RefId(Id(x))), PNum)
       } | "a copy of the List" ~> name ^^ {
         case x => ECopy(ERef(RefId(Id(x))))
@@ -601,7 +601,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x ~ y => pair(Nil, parseExpr(s"(= $y.SubMap[$x].initialized false)"))
       } | (ref <~ "does not have an own property with key") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
-      } | (ref <~ "has a") ~ word <~ "component" ^^ {
+      } | (ref <~ "has" <~ ("a" | "an")) ~ word <~ "component" ^^ {
+        case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
+      } | (ref <~ "has" <~ ("a" | "an")) ~ name <~ "field" ^^ {
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
