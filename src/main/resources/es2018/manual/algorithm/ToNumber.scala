@@ -11,7 +11,7 @@ object ToNumber {
       } else if (= atype "Null") {
         return 0
       } else if (= atype "Boolean") {
-        return 0
+        if argument return 1 else return 0
       } else if (= atype "Number") {
         return argument
       } else if (= atype "String") {
@@ -21,7 +21,7 @@ object ToNumber {
       } else if (= atype "Object") {
         return NaN
       } else {
-        return NaN
+        ??? "Wrong type of argument for ToNumber"
       }
     }"""
   ))

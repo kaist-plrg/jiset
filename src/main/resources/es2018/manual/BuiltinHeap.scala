@@ -161,7 +161,29 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "length" -> Property(Num(0.0), F, F, T),
-        "name" -> Property(Str(""), F, F, T)
+        "name" -> Property(Str(""), F, F, T),
+        "constructor" -> Property(NamedAddr("GLOBAL.Function"), T, F, T)
+      )
+    ),
+    "GLOBAL.Boolean" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTBoolean.func
+      ),
+      nmap = NMap(
+        "length" -> Property(Num(1.0), F, F, T),
+        "prototype" -> Property(NamedAddr("GLOBAL.Boolean.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.Boolean.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "BooleanData" -> Bool(false),
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> Property(NamedAddr("GLOBAL.Boolean"), T, F, T)
       )
     )
   )

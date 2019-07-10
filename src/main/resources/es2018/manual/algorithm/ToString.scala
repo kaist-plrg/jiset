@@ -11,14 +11,14 @@ object ToString {
       } else if (= atype "Null") {
         return "null"
       } else if (= atype "Boolean") {
-        if atype return "true"
+        if argument return "true"
         else return "false"
       } else if (= atype "Number") {
         return (NumberToString argument)
       } else if (= atype "String") {
         return argument
       } else if (= atype "Symbol") {
-        return undefined
+        return (ThrowCompletion (new TypeError()))
       } else if (= atype "Object") {
         return (ToString (ToPrimitive argument "string"))
       } else {
