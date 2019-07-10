@@ -6,7 +6,7 @@ object BuiltinHeap {
   def get: Map[Addr, Obj] = (Map[Addr, Obj]() /: map) {
     case (m, ("GLOBAL", Struct(ty, _, nmap))) => ((m ++ Map(
       NamedAddr("GLOBAL") -> CoreMap(Ty("Map"), nmap.map.map {
-        case (k, _) => k -> NamedAddr("DESC_GLOBAL" + getPropStr(k))
+        case (k, _) => k -> NamedAddr("DESC:GLOBAL" + getPropStr(k))
       })
     )) /: nmap.map) { case (m, (k, prop)) => addDesc("GLOBAL", m, k, prop) }
     case (m, (name, Struct(ty, imap, nmap))) => ((m ++ Map(
@@ -17,7 +17,7 @@ object BuiltinHeap {
           (Str("SubMap") -> NamedAddr(s"$name.SubMap"))
       ),
       NamedAddr(s"$name.SubMap") -> CoreMap(Ty("SubMap"), nmap.map.map {
-        case (k, _) => k -> NamedAddr("DESC_" + name + getPropStr(k))
+        case (k, _) => k -> NamedAddr("DESC:" + name + getPropStr(k))
       })
     )) /: nmap.map) { case (m, (k, prop)) => addDesc(name, m, k, prop) }
   }
@@ -30,7 +30,7 @@ object BuiltinHeap {
   ): Map[Addr, Obj] = {
     val Property(v, w, e, c) = prop
     m + (
-      NamedAddr(s"DESC_$name${getPropStr(k)}") ->
+      NamedAddr(s"DESC:$name${getPropStr(k)}") ->
       CoreMap(Ty("PropertyDescriptor"), Map(
         Str("Value") -> v,
         Str("Writable") -> Bool(w),

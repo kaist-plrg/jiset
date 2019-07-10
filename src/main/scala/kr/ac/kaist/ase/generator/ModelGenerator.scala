@@ -77,7 +77,7 @@ object ModelGenerator {
     nf.println(s"""        val baseAddr =""")
     nf.println(s"""          if (base == "GLOBAL") NamedAddr("GLOBAL")""")
     nf.println(s"""          else NamedAddr(s"$$base.SubMap")""")
-    nf.println(s"""        val descAddr = NamedAddr(s"DESC_$$base.$$prop")""")
+    nf.println(s"""        val descAddr = NamedAddr(s"DESC:$$base.$$prop")""")
     nf.println(s"""        (m.get(baseAddr) match {""")
     nf.println(s"""          case Some(CoreMap(ty, map)) => m ++ List(""")
     nf.println(s"""            baseAddr -> CoreMap(ty, map + (Str(prop) -> descAddr)),""")
