@@ -63,5 +63,5 @@ case class CoreList(values: Vector[Value]) extends Obj {
 
 // CORE not supported objects
 case class CoreNotSupported(name: String) extends Obj {
-  val ty: Ty = Ty("")
+  val ty: Ty = Ty("NotSupported")
 }

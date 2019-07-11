@@ -163,9 +163,12 @@ object Interp {
     case ETypeOf(expr) => {
       val (v, s0) = interp(expr)(st)
       (v match {
-        case addr: Addr =>
-          val name = s0.heap.map.getOrElse(addr, error(s"unknown address: $addr")).ty.name
-          Str(if (name.endsWith("Object")) "Object" else name)
+        case addr: Addr => s0.heap.map.getOrElse(addr, error(s"unknown address: $addr")) match {
+          case CoreNotSupported(name) => throw NotSupported(name)
+          case obj =>
+            val name = obj.ty.name
+            Str(if (name.endsWith("Object")) "Object" else name)
+        }
         case Num(_) | INum(_) => Str("Number")
         case Str(_) => Str("String")
         case Bool(_) => Str("Boolean")
