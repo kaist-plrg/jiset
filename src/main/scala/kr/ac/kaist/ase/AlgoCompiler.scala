@@ -509,6 +509,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val etcExpr: Parser[List[Inst] ~ Expr] =
     rest.filter(list => list.dropRight(1).lastOption == Some("RegularExpressionLiteral")) ^^^ {
       pair(Nil, ENotSupported("RegularExpressionLiteral"))
+    } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
+      pair(Nil, EStr(""))
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
       pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), "ParenthesizedExpression"))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
@@ -690,6 +692,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("DataProperty")))
       } | expr <~ "is an object" ^^ {
         case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("Object")))
+      } | (expr <~ "is" ~ ("a" | "an")) ~ ty ^^ {
+        case (i ~ e) ~ t => pair(i, EBOp(OEq, ETypeOf(e), EStr(t.name)))
       } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
         case (i0 ~ c1) ~ (i1 ~ c2) => pair(i0 ++ i1, EBOp(OOr, c1, c2))
       } | name ~ ("is either" ~> expr) ~ ("or" ~> expr) ^^ {
@@ -708,6 +712,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           (= absent $x.Configurable))))))"""))
       } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, l, r)))
+      } | "type(" ~> name <~ ") is object and is either a built-in function object or has an [[ECMAScriptCode]] internal slot" ^^ {
+        case x =>
+          val t = s"(typeof $x)"
+          pair(Nil, parseExpr(s"""(&& (= $t "Object") (|| (= $t "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
         case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ (i3 ~ f) => pair(i0 ++ i1 ++ i2 ++ i3, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
       }
@@ -727,6 +735,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "realm record" ^^^ Ty("RealmRecord") |
       "record" ^^^ Ty("Record") |
       "built-in function object" ^^^ Ty("BuiltinFunctionObject") |
+      "bound function exotic object" ^^^ Ty("BoundFunctionExoticObject") |
       "arguments exotic object" ^^^ Ty("ArgumentsExoticObject") |
       "propertydescriptor" ^^^ Ty("PropertyDescriptor") |
       "property descriptor" ^^^ Ty("PropertyDescriptor") |
