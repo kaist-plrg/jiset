@@ -13,6 +13,7 @@ object BaseGlobal {
     "WrapCompletion" -> WrapCompletion.func,
     "ThrowCompletion" -> ThrowCompletion.func,
     "IsDuplicate" -> IsDuplicate.func,
+    "HostEnsureCanCompileStrings" -> HostEnsureCanCompileStrings.func,
     "GLOBAL_executionStack" -> NamedAddr("executionStack"),
     "GLOBAL_context" -> Null,
     "GLOBAL" -> NamedAddr("GLOBAL")

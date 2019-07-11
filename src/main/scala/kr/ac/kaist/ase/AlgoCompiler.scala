@@ -780,6 +780,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ r => pair(i, RefProp(r, EStr("EnvironmentRecord")))
     } | (name <~ "'s own property whose key is") ~ ref ^^ {
       case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
+    } | "the second to top element" ~> "of" ~> ref ^^ {
+      case i ~ r => pair(i, RefProp(r, EBOp(OSub, ERef(RefProp(r, EStr("length"))), EINum(2))))
     } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ refWithOrdinal ^^ {
       case x ~ y => pair(Nil, RefProp(y, EStr(x)))
     } | (name <~ "'s") ~ name <~ opt("value" | "attribute") ^^ {
