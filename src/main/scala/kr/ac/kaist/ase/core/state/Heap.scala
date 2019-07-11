@@ -42,9 +42,9 @@ case class Heap(
   }
 
   // pops
-  def pop(addr: Addr): (Value, Heap) = this(addr) match {
+  def pop(addr: Addr, idx: Value): (Value, Heap) = this(addr) match {
     case (l: CoreList) =>
-      val (value, newList) = l.pop
+      val (value, newList) = l.pop(idx)
       (value, copy(map = map + (addr -> newList)))
     case v => error(s"not a list: $v")
   }

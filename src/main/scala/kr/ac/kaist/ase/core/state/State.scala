@@ -73,8 +73,8 @@ case class State(
   }
 
   // pops
-  def pop(addr: Addr): (Value, State) = {
-    val (value, newHeap) = heap.pop(addr)
+  def pop(addr: Addr, idx: Value): (Value, State) = {
+    val (value, newHeap) = heap.pop(addr, idx)
     (value, copy(heap = newHeap))
   }
 

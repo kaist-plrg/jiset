@@ -51,9 +51,13 @@ case class CoreList(values: Vector[Value]) extends Obj {
   def prepend(value: Value): CoreList = CoreList(value +: values)
 
   // pops
-  def pop: (Value, CoreList) = values match {
-    case newValues :+ last => (last, CoreList(newValues))
-    case _ => error(s"empty list: $this")
+  def pop(idx: Value): (Value, CoreList) = idx match {
+    case INum(long) =>
+      val k = long.toInt
+      if (k < 0 || k >= values.length) error(s"Out of range: $k of $this")
+      (values(k), CoreList(values.slice(0, k) ++ values.slice(k + 1, values.length)))
+    case v =>
+      error(s"not an integer index: $v of $this")
   }
 }
 

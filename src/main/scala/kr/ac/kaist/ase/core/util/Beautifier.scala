@@ -141,8 +141,8 @@ object Beautifier {
         }); walk("))")
       case EList(exprs) =>
         walk("(new ["); walkListSep[Expr](exprs, ", ", walk); walk("])");
-      case EPop(list) =>
-        walk("(pop "); walk(list); walk(")")
+      case EPop(list, idx) =>
+        walk("(pop "); walk(list); walk(" "); walk(idx); walk(")")
       case ERef(ref) => walk(ref)
       case EFunc(params, varparam, body) =>
         walk("("); walkListSep[Id](params, ", ", walk);

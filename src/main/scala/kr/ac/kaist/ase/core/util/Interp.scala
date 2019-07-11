@@ -109,10 +109,11 @@ object Interp {
           (v :: vs, s0)
       }
       s0.allocList(vs.reverse)
-    case EPop(expr) =>
-      val (v, s0) = interp(expr)(st)
-      v match {
-        case addr: Addr => s0.pop(addr)
+    case EPop(list, idx) =>
+      val (l, s0) = interp(list)(st)
+      val (k, s1) = interp(idx)(s0)
+      l match {
+        case addr: Addr => s1.pop(addr, k)
         case v => error(s"not an address: $v")
       }
     case ERef(ref) =>

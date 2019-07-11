@@ -248,12 +248,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           let $idx = 0i
           let $len = $l.length
           while (&& (< $idx $len) (! (= $l[$idx] $x))) $idx = (+ $idx 1i)
-          $idx = (+ $idx 1i)
-          while (< $idx $len) {
-            $l[(- $idx 1i)] = $l[$idx]
-            $idx = (+ $idx 1i)
-          }
-          (pop $l)
+          if (< $idx $len) (pop $l $idx) else {}
         }""")
     } | "for each field of" ~ rest ^^^ {
       parseInst(s"""O.SubMap[P].Value = Desc.Value""") // TODO: move each field of record at ValidateAndApplyPropertyDescriptor
@@ -269,9 +264,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         append ${beautify(v)} -> $x
       }"""))
     } | (("suspend" ~ name ~ "and remove it from the execution context stack") | ("pop" ~ name ~ "from the execution context stack" <~ rest)) ^^^ {
+      val idx = getTemp
       parseInst(s"""{
         $context = null
-        (pop $executionStack)
+        $idx = (- $executionStack.length 1i)
+        (pop $executionStack $idx)
       }""")
     } | "suspend the currently running execution context" ^^^ {
       parseInst(s"""$context = null""")
@@ -281,9 +278,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         $x = null
       }""")
     } | "remove" ~ id ~ "from the execution context stack and restore" ~ id ~ "as the running execution context" ^^^ {
+      val idx = getTemp
       parseInst(s"""{
-        (pop $executionStack)
-        $context = $executionStack[(- $executionStack.length 1i)]
+        $idx = (- $executionStack.length 1i)
+        (pop $executionStack $idx)
+        $context = $executionStack[(- $idx 1i)]
       }""")
     } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
       parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
