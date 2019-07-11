@@ -310,6 +310,27 @@ object BuiltinHeap {
       nmap = NMap(
         "constructor" -> Property(NamedAddr("GLOBAL.Number"), T, F, T)
       )
+    ),
+    "GLOBAL.String" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTString.func
+      ),
+      nmap = NMap(
+        "prototype" -> Property(NamedAddr("GLOBAL.String.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.String.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "StringData" -> Str(""),
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "length" -> Property(Num(0.0), F, F, F),
+        "constructor" -> Property(NamedAddr("GLOBAL.String"), T, F, T)
+      )
     )
   ) /: errList) {
       case (m, (errName, func)) => m ++ getErrMap(errName, func)

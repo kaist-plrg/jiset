@@ -180,7 +180,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // while statements
   lazy val whileStmt =
-    ("repeat, while" ~> cond <~ ",") ~ stmt ^^ {
+    ("repeat, while" ~> cond <~ opt(",")) ~ stmt ^^ {
       case (i ~ c) ~ s => ISeq(i :+ IWhile(c, s))
     } | "repeat," ~> stmt ^^ {
       case s => IWhile(EBool(true), s)
@@ -219,7 +219,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // remove statements
   lazy val removeStmt = (
     ("remove the own property with name" ~> name <~ "from") ~ name ^^ {
-      case p ~ o => parseInst(s"$o[$p]")
+      case p ~ o => parseInst(s"delete $o.SubMap[$p]")
     }
   )
 
@@ -393,7 +393,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case const => parseExpr("CONST_" + const.replaceAll("-", ""))
     } | (number <~ ".") ~ number ^^ {
       case x ~ y => ENum(s"$x.$y".toDouble)
-    } | number ^^ { case s => EINum(s.toLong) }
+    } | number ^^ { case s => EINum(java.lang.Long.decode(s)) }
 
   // arithmetic expressions
   lazy val arithExpr: Parser[Expr] =
@@ -472,6 +472,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
         pair(i, EList(list.map { case _ ~ e => e }))
+    } | "a List whose elements are the arguments passed to this function" ^^^ {
+      pair(Nil, parseExpr("argumentsList"))
     } | "a List whose sole item is" ~> expr ^^ {
       case i ~ e => pair(i, EList(List(e)))
     }
@@ -607,6 +609,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OEq, r, l))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
+      } | name <~ "is not empty" ^^ {
+        case x => pair(Nil, parseExpr(s"(< 0i $x.length)"))
       } | (expr <~ ">") ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, y, x)))
       } | (expr <~ "is less than zero") ~ subCond ^^ {

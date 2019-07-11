@@ -37,15 +37,10 @@ object ToObject {
             obj.SubMap = (new SubMap())
             return obj
           } else if (= atype "String") {
-            return (new Completion (
-              "Type" -> CONST_throw,
-              "Value" -> (new OrdinaryObject(
-                "Prototype" -> INTRINSIC_TypeErrorPrototype,
-                "ErrorData" -> undefined,
-                "SubMap" -> (new SubMap())
-              )),
-              "Target" -> CONST_empty
-            ))
+            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_StringPrototype))
+            obj.StringData = argument
+            obj.SubMap = (new SubMap())
+            return obj
           } else if (= atype "Symbol") {
             let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_SymbolPrototype))
             obj.SymbolData = argument
