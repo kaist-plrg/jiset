@@ -81,7 +81,7 @@ trait Walker {
     case ETypeOf(expr) => ETypeOf(walk(expr))
     case EIsInstanceOf(base, name) => EIsInstanceOf(walk(base), walk(name))
     case EGetSyntax(base) => EGetSyntax(walk(base))
-    case EParseSyntax(code, rule) => EParseSyntax(walk(code), walk(rule))
+    case EParseSyntax(code, rule, flags) => EParseSyntax(walk(code), walk(rule), walkList[Expr](flags, walk))
     case EParseString(code, pop) => EParseString(walk(code), walk(pop))
     case EConvert(expr, cop) => EConvert(walk(expr), walk(cop))
     case EContains(list, elem) => EContains(walk(list), walk(elem))

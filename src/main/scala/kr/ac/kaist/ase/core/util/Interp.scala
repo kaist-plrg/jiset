@@ -188,15 +188,24 @@ object Interp {
       case (ASTVal(ast), s0) => (Str(ast.toString), s0)
       case (v, s0) => error(s"not an AST value: $v")
     }
-    case EParseSyntax(code, rule) => interp(code)(st) match {
+    case EParseSyntax(code, rule, flags) => interp(code)(st) match {
       case (ASTVal(ast), s0) => JSParser.rules.get(rule) match {
         case Some(p) =>
           (ASTVal(JSParser.parse(JSParser.term("") ~> p(ast.parserParams), ast.toString).get), s0)
         case None => error(s"not exist parse rule: $rule")
       }
       case (Str(str), s0) => JSParser.rules.get(rule) match {
-        case Some(p) =>
-          (ASTVal(JSParser.parse(JSParser.term("") ~> p(Nil), str).get), s0)
+        case Some(p) => {
+          val (s1, parserParams) = ((s0, List[Boolean]()) /: flags) {
+            case ((st, ps), param) =>
+              val (av, s0) = interp(param)(st)
+              av match {
+                case Bool(v) => (s0, ps :+ v)
+                case _ => error(s"parserParams should be boolean")
+              }
+          }
+          (ASTVal(JSParser.parse(JSParser.term("") ~> p(parserParams), str).get), s1)
+        }
         case None => error(s"not exist parse rule: $rule")
       }
       case (v, s0) => error(s"not an AST value or a string: $v")

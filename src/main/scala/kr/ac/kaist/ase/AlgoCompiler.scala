@@ -512,9 +512,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
-      pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), "ParenthesizedExpression"))
+      pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), "ParenthesizedExpression", Nil))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
-      case r ~ (i ~ e) => pair(i, EParseSyntax(e, r))
+      case r ~ (i ~ e) => pair(i, EParseSyntax(e, r, Nil))
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, ENotYetImpl(s"larger of $x and $y"))
     } | "the result of adding the value 1 to" ~> name <~ rest ^^ {
@@ -547,6 +547,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case f => parseExpr(s"($f.Code undefined argumentsList newTarget)")
       } | "the steps of an" ~> name <~ "function as specified below" ^^ {
         case x => parseExpr(s"$x")
+      } | "the result of parsing the source text constructor ( . . . args ) " <~ rest ^^^ {
+        parseExpr("""(parse-syntax "constructor(... args){ super (...args);}" MethodDefinition false false)""")
+      } | "the result of parsing the source text constructor ( ) { } " <~ rest ^^^ {
+        parseExpr("""(parse-syntax "constructor(){ }" MethodDefinition false false)""")
       } | (("the number whose value is MV of" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
         case x => EParseString(ERef(RefId(Id(x))), PNum)
       } | "a copy of" ~ opt("the List") ~> name ^^ {
