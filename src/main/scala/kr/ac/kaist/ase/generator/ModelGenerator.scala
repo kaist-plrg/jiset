@@ -99,7 +99,7 @@ object ModelGenerator {
     nf.println(s"""              Str("Extensible") -> Bool(true),""")
     nf.println(s"""              Str("SubMap") -> NamedAddr(s"$$name.SubMap")""")
     nf.println(s"""            ))""")
-    nf.println(s"""        })""")
+    nf.println(s"""          }) + (NamedAddr(s"$$name.SubMap") -> m.getOrElse(NamedAddr(s"$$name.SubMap"), CoreMap(Ty("SubMap"), Map())))""")
     nf.println(s"""    }""")
     nf.println(s"""  })""")
     nf.println(s"""  lazy val tyMap: Map[String, Map[Value, Value]] = Map(""")
