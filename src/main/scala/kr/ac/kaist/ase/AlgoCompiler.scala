@@ -188,7 +188,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ (("in" | "of") ~> expr <~ opt(",") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
+    ("for each" ~ opt("classelement" | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of") ~> expr <~ opt(",") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
@@ -424,11 +424,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | name ~ ("for" ~> name <~ "with") ~ expr ~ ("and" ~> expr <~ "as arguments") ^^ {
       case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
-    } | (opt("the result of performing") ~> name <~ ("for" | "of")) ~ name ~ ("with argument" ~> expr) ^^ {
+    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ (name | id) ~ ("with argument" ~> expr) ^^ {
       case f ~ x ~ (i ~ a) => pair(i, EApp(parseExpr(s"$x.$f"), List(a)))
-    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ name ~ (("with arguments" | "using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ opt("as" ~ opt("the") ~ "arguments")) ^^ {
-      case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
-        pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
+    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ (name | id) ~ (("with arguments" | "using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ "as the optional") ~ (expr <~ "argument") ^^ {
+      case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) ~ (i2 ~ a3) => pair(i0 ++ i1 ++ i2, EApp(parseExpr(s"$x.$f"), List(a1, a2, a3)))
+    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ (name | id) ~ (("with arguments" | "using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ opt("as" ~ opt("the") ~ "arguments")) ^^ {
+      case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) => pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
       case (i0 ~ RefId(Id(x))) ~ list =>
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
@@ -571,8 +572,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr(s"(parse-string StringLiteral string)")
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
-      } | "this" ~ name ^^^ {
-        parseExpr("this")
       }
     ) ^^ { case e => pair(Nil, e) })
 
@@ -669,6 +668,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral"))))
       } | expr <~ "is neither" <~ value <~ "nor the active function" ^^ {
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function")))))
+      } | (expr <~ "is neither") ~ (expr <~ "nor") ~ expr ^^ {
+        case (i1 ~ e1) ~ (i2 ~ e2) ~ (i3 ~ e3) => pair(i1 ++ i2 ++ i3, EUOp(ONot, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3))))
       } | expr <~ "is" <~ value <~ " , " <~ value <~ "or not supplied" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EBOp(OEq, e, ENull), EBOp(OEq, e, EUndef)), EBOp(OEq, e, EAbsent)))
       } | (expr <~ "is") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ ("or" ~> valueExpr) ^^ {
@@ -755,12 +756,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => parseRef(s"$x.BindingObject")
     } | opt("the") ~> "stringvalue of identifiername" ^^^ {
       parseRef(s"IdentifierName")
-    } | "the result of evaluating" ~> nameWithOrdinal ^^ {
-      case x => parseRef(s"$x.Evaluation")
+    } | "the result of evaluating" ~> refWithOrdinal ^^ {
+      case x => RefProp(x, EStr("Evaluation"))
     } | ("the result of" ~> name <~ "of") ~ name ^^ {
       case x ~ y => parseRef(s"$y.$x")
     } | "IsFunctionDefinition of" ~> id ^^ {
       case x => parseRef(s"$x.IsFunctionDefinition")
+    } | "this" ~ name ^^^ {
+      parseRef("this")
     }
   ) ^^ {
       case r => pair(Nil, r)
@@ -778,8 +781,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ r => pair(i, RefProp(r, EStr("EnvironmentRecord")))
     } | (name <~ "'s own property whose key is") ~ ref ^^ {
       case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
-    } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ nameWithOrdinal ^^ {
-      case x ~ y => pair(Nil, parseRef(s"$y.$x"))
+    } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ refWithOrdinal ^^ {
+      case x ~ y => pair(Nil, RefProp(y, EStr(x)))
     } | (name <~ "'s") ~ name <~ opt("value" | "attribute") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), EStr(x)))
     } | ("the" ~> id <~ "flag of") ~ ref ^^ {
@@ -791,12 +794,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           case (r, e) => RefProp(r, e)
         })
     }
-  lazy val nameWithOrdinal =
+  lazy val refWithOrdinal: Parser[Ref] =
     "the first" ~> word ^^ {
-      case x => x + "0"
+      case x => RefId(Id(x + "0"))
     } | "the second" ~> word ^^ {
-      case x => x + "1"
-    } | name
+      case x => RefId(Id(x + "1"))
+    } | "this" ~ name ^^^ {
+      RefId(Id("this"))
+    } | name ^^ {
+      case x => RefId(Id(x))
+    }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Fields
