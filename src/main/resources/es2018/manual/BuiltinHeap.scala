@@ -79,7 +79,41 @@ object BuiltinHeap {
   private val T = true
   private val F = false
 
-  private val mapInfo: Map[String, Struct] = Map(
+  private val errList: List[(String, Func)] = List(
+    ("EvalError", GLOBALDOTEvalError.func),
+    ("RangeError", GLOBALDOTRangeError.func),
+    ("ReferenceError", GLOBALDOTReferenceError.func),
+    ("SyntaxError", GLOBALDOTSyntaxError.func),
+    ("TypeError", GLOBALDOTTypeError.func),
+    ("URIError", GLOBALDOTURIError.func)
+  )
+
+  private def getErrMap(errName: String, errFunc: Func ): Map[String, Struct] = Map(
+    s"GLOBAL.$errName" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Error"),
+        "Code" -> errFunc
+      ),
+      nmap = NMap(
+        "name" -> Property(Str(errName), T, F, T),
+        "prototype" -> Property(NamedAddr(s"GLOBAL.$errName.prototype"), F, F, F)
+      )
+    ),
+    s"GLOBAL.$errName.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Error.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> Property(NamedAddr(s"GLOBAL.$errName"), T, F, T),
+        "message" -> Property(Str(""), T, F, T),
+        "name" -> Property(Str(errName), T, F, T)
+      )
+    )
+  )
+
+  private val mapInfo: Map[String, Struct] = (Map(
     "GLOBAL" -> Struct(
       typeName = "Map",
       imap = IMap(),
@@ -190,7 +224,6 @@ object BuiltinHeap {
         "constructor" -> Property(NamedAddr("GLOBAL.Boolean"), T, F, T)
       )
     ),
-
     "GLOBAL.Symbol" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
@@ -224,8 +257,32 @@ object BuiltinHeap {
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Symbol"), F, F, T)
         )
+    ),
+
+    "GLOBAL.Error" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTError.func
+      ),
+      nmap = NMap(
+        "prototype" -> Property(NamedAddr("GLOBAL.Error.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.Error.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> Property(NamedAddr("GLOBAL.Error"), T, F, T),
+        "message" -> Property(Str(""), T, F, T),
+        "name" -> Property(Str("Error"), T, F, T)
+      )
     )
-  )
+  ) /: errList) {
+      case (m, (errName, func)) => m ++ getErrMap(errName, func)
+    }
 
   private val singletonInfo: List[String] = List(
     "asyncIterator",

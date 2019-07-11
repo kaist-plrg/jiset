@@ -7,18 +7,50 @@ object ToObject {
     s"""{
           let atype = (typeof argument)
           if (= atype "Undefined") {
-            return (new Completion ( "Type" -> CONST_throw, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
+            return (new Completion (
+              "Type" -> CONST_throw,
+              "Value" -> (new OrdinaryObject(
+                "Prototype" -> INTRINSIC_TypeErrorPrototype,
+                "ErrorData" -> undefined,
+                "SubMap" -> (new SubMap())
+              )),
+              "Target" -> CONST_empty
+            ))
           } else if (= atype "Null") {
-            return (new Completion ( "Type" -> CONST_throw, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
+            return (new Completion (
+              "Type" -> CONST_throw,
+              "Value" -> (new OrdinaryObject(
+                "Prototype" -> INTRINSIC_TypeErrorPrototype,
+                "ErrorData" -> undefined,
+                "SubMap" -> (new SubMap())
+              )),
+              "Target" -> CONST_empty
+            ))
           } else if (= atype "Boolean") {
             let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_BooleanPrototype))
             obj.BooleanData = argument
             obj.SubMap = (new SubMap())
             return obj
           } else if (= atype "Number") {
-            return (new Completion ( "Type" -> CONST_throw, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
+            return (new Completion (
+              "Type" -> CONST_throw,
+              "Value" -> (new OrdinaryObject(
+                "Prototype" -> INTRINSIC_TypeErrorPrototype,
+                "ErrorData" -> undefined,
+                "SubMap" -> (new SubMap())
+              )),
+              "Target" -> CONST_empty
+            ))
           } else if (= atype "String") {
-            return (new Completion ( "Type" -> CONST_throw, "Value" -> (new TypeError ()), "Target" -> CONST_empty ))
+            return (new Completion (
+              "Type" -> CONST_throw,
+              "Value" -> (new OrdinaryObject(
+                "Prototype" -> INTRINSIC_TypeErrorPrototype,
+                "ErrorData" -> undefined,
+                "SubMap" -> (new SubMap())
+              )),
+              "Target" -> CONST_empty
+            ))
           } else if (= atype "Symbol") {
             let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_SymbolPrototype))
             obj.SymbolData = argument

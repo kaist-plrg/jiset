@@ -364,7 +364,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     case "+∞" => ENum(Double.PositiveInfinity)
     case "undefined" => EUndef
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
-    case err @ ("TypeError" | "ReferenceError") => EMap(Ty(err), Nil)
+    case err if err.endsWith("Error") => parseExpr(s"""(new OrdinaryObject(
+      "Prototype" -> INTRINSIC_${err}Prototype,
+      "ErrorData" -> undefined,
+      "SubMap" -> (new SubMap())
+    ))""")
     case s => ENotYetImpl(s)
   } | const ^^ {
     case "[empty]" => parseExpr("CONST_emptySyntax")
