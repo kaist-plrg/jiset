@@ -592,7 +592,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: Parser[List[Inst] ~ Expr] = (
     (("the code matched by this" ~> word <~ "is strict mode code") |
-      "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
+      "the function code for" ~ opt("the" | "this") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
         pair(Nil, EBool(false)) // TODO : support strict mode code
       } | "no arguments were passed to this function invocation" ^^^ {
@@ -663,7 +663,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i ~ r) ~ p => pair(i, parseExpr(s"(! (= absent ${beautify(r)}.$p))"))
       } | (ref <~ "is present and its value is") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, exists(r), EBOp(OEq, ERef(r), e)))
-      } | (ref <~ "is present") ~ subCond ^^ {
+      } | (ref <~ "is present" <~ opt("as a parameter")) ~ subCond ^^ {
         case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(exists(r)))
       } | (expr <~ "is not") ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, l, r))))
