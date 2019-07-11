@@ -1,4 +1,4 @@
-# ase
+# ASE
 Automatic Semantics Extraction
 
 ## Unsupported Features
