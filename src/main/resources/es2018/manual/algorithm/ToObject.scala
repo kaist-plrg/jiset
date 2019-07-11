@@ -32,15 +32,10 @@ object ToObject {
             obj.SubMap = (new SubMap())
             return obj
           } else if (= atype "Number") {
-            return (new Completion (
-              "Type" -> CONST_throw,
-              "Value" -> (new OrdinaryObject(
-                "Prototype" -> INTRINSIC_TypeErrorPrototype,
-                "ErrorData" -> undefined,
-                "SubMap" -> (new SubMap())
-              )),
-              "Target" -> CONST_empty
-            ))
+            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_NumberPrototype))
+            obj.NumberData = argument
+            obj.SubMap = (new SubMap())
+            return obj
           } else if (= atype "String") {
             return (new Completion (
               "Type" -> CONST_throw,

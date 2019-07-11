@@ -88,7 +88,7 @@ object BuiltinHeap {
     ("URIError", GLOBALDOTURIError.func)
   )
 
-  private def getErrMap(errName: String, errFunc: Func ): Map[String, Struct] = Map(
+  private def getErrMap(errName: String, errFunc: Func): Map[String, Struct] = Map(
     s"GLOBAL.$errName" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
@@ -258,7 +258,6 @@ object BuiltinHeap {
           NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Symbol"), F, F, T)
         )
     ),
-
     "GLOBAL.Error" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
@@ -278,6 +277,36 @@ object BuiltinHeap {
         "constructor" -> Property(NamedAddr("GLOBAL.Error"), T, F, T),
         "message" -> Property(Str(""), T, F, T),
         "name" -> Property(Str("Error"), T, F, T)
+      )
+    ),
+    "GLOBAL.Number" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTNumber.func
+      ),
+      nmap = NMap(
+        "EPSILON" -> Property(Num(math.ulp(1.0)), F, F, F),
+        "MAX_SAFE_INTEGER" -> Property(INum(9007199254740991L), F, F, F),
+        "MAX_VALUE" -> Property(Num(Double.MaxValue), F, F, F),
+        "MIN_SAFE_INTEGER" -> Property(INum(-9007199254740991L), F, F, F),
+        "MIN_VALUE" -> Property(Num(Double.MinValue), F, F, F),
+        "NaN" -> Property(Num(Double.NaN), F, F, F),
+        "NEGATIVE_INFINITY" -> Property(Num(Double.NegativeInfinity), F, F, F),
+        "parseFloat" -> Property(NamedAddr("GLOBAL.parseFloat"), F, F, F),
+        "parseInt" -> Property(NamedAddr("GLOBAL.parseInt"), F, F, F),
+        "POSITIVE_INFINITY" -> Property(Num(Double.PositiveInfinity), F, F, F),
+        "prototype" -> Property(NamedAddr("GLOBAL.Number.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.Number.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "NumberData" -> Num(0.0),
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> Property(NamedAddr("GLOBAL.Number"), T, F, T)
       )
     )
   ) /: errList) {

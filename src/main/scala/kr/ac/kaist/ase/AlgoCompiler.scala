@@ -573,10 +573,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EUOp(ONot, exists(r))))
       } | expr <~ "is an abrupt completion" ^^ {
         case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
-      } | (expr <~ "<") ~ expr ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OLt, l, r))
+      } | (expr <~ "<") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, l, r)))
       } | (expr <~ "≥") ~ expr ^^ {
         case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EUOp(ONot, EBOp(OLt, l, r)))
+      } | (expr <~ ">") ~ expr ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OLt, r, l))
+      } | (expr <~ "=") ~ expr ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OEq, r, l))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
       } | (expr <~ "is less than zero") ~ subCond ^^ {
