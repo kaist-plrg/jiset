@@ -351,6 +351,93 @@ object BuiltinHeap {
         "length" -> Property(Num(0.0), T, F, F),
         "constructor" -> Property(NamedAddr("GLOBAL.Array"), T, F, T)
       )
+    ),
+    "GLOBAL.Map" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTMap.func
+      ),
+      nmap = NMap(
+        "prototype" -> Property(NamedAddr("GLOBAL.Map.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.Map.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> Property(NamedAddr("GLOBAL.Map"), T, F, T)
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.iterator") -> Property(NamedAddr("GLOBAL.Map.prototype.entries"), T, F, T),
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Map"), F, F, T)
+        )
+    ),
+    "GLOBAL.Set" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTSet.func
+      ),
+      nmap = NMap(
+        "prototype" -> Property(NamedAddr("GLOBAL.Set.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.Set.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> Property(NamedAddr("GLOBAL.Set"), T, F, T),
+        "keys" -> Property(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T)
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.iterator") -> Property(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T),
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Set"), F, F, T)
+        )
+    ),
+    "GLOBAL.WeakMap" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTWeakMap.func
+      ),
+      nmap = NMap(
+        "prototype" -> Property(NamedAddr("GLOBAL.WeakMap.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.WeakMap.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> Property(NamedAddr("GLOBAL.WeakMap"), T, F, T)
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("WeakMap"), F, F, T)
+        )
+    ),
+    "GLOBAL.WeakSet" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTWeakSet.func
+      ),
+      nmap = NMap(
+        "prototype" -> Property(NamedAddr("GLOBAL.WeakSet.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.WeakSet.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> Property(NamedAddr("GLOBAL.WeakSet"), T, F, T)
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("WeakSet"), F, F, T)
+        )
     )
   ) /: errList) {
       case (m, (errName, func)) => m ++ getErrMap(errName, func)
