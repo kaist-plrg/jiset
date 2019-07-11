@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase.core
 
 import kr.ac.kaist.ase.DEBUG_INTERP
+import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.model.{ Parser => JSParser }
 import org.apache.commons.text.StringEscapeUtils
 
@@ -250,6 +251,7 @@ object Interp {
         case v => error(s"not an address: $v")
       }
     case ENotYetImpl(msg) => error(s"[NotYetImpl]:${st.context}: $msg")
+    case ENotSupported(msg) => throw NotSupported(msg)
   }
 
   // references

@@ -22,6 +22,8 @@ object BuiltinHeap {
     )) /: nmap.map) { case (m, (k, prop)) => addDesc(name, m, k, prop) }
   } ++ (singletonInfo.map {
     case name => (NamedAddr(SYMBOL_PREFIX + name) -> CoreSymbol("Symbol." + name))
+  }.toMap) ++ (notSupportedInfo.map {
+    case name => (NamedAddr("GLOBAL." + name) -> CoreNotSupported(name))
   }.toMap)
 
   private def addDesc(
@@ -326,5 +328,12 @@ object BuiltinHeap {
     "toPrimitive",
     "toStringTag",
     "unscopables"
+  )
+
+  private val notSupportedInfo: List[String] = List(
+    "Math",
+    "Date",
+    "RegExp",
+    "JSON"
   )
 }

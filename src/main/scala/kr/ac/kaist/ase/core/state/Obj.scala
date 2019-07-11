@@ -6,7 +6,7 @@ sealed trait Obj extends CoreNode {
   def ty: Ty
 }
 
-// CORE CoreSymbol
+// CORE symbols
 case class CoreSymbol(desc: String) extends Obj {
   val ty: Ty = Ty("Symbol")
 
@@ -17,7 +17,7 @@ case class CoreSymbol(desc: String) extends Obj {
   }
 }
 
-// CORE CoreMap
+// CORE maps
 case class CoreMap(ty: Ty, props: Map[Value, Value]) extends Obj {
   // getters
   def apply(prop: Value): Value = props.getOrElse(prop, Absent)
@@ -29,10 +29,10 @@ case class CoreMap(ty: Ty, props: Map[Value, Value]) extends Obj {
   def deleted(prop: Value): CoreMap = copy(props = props - prop)
 }
 
-// Core CoreList
+// CORE lists
 case class CoreList(values: Vector[Value]) extends Obj {
   // types
-  def ty: Ty = Ty("list")
+  def ty: Ty = Ty("List")
 
   // getters
   def apply(key: Value): Value = key match {
@@ -55,4 +55,9 @@ case class CoreList(values: Vector[Value]) extends Obj {
     case newValues :+ last => (last, CoreList(newValues))
     case _ => error(s"empty list: $this")
   }
+}
+
+// CORE not supported objects
+case class CoreNotSupported(name: String) extends Obj {
+  val ty: Ty = Ty("")
 }

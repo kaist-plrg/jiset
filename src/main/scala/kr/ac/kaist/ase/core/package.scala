@@ -1,8 +1,10 @@
 package kr.ac.kaist.ase
 
+import kr.ac.kaist.ase.error.CoreError
+
 package object core {
   // throw an error
-  def error(msg: => String): Nothing = throw new Error(msg)
+  def error(msg: => String): Nothing = throw CoreError(msg)
 
   // beautify
   def beautify(

@@ -481,7 +481,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // et cetera expressions
   lazy val etcExpr: Parser[List[Inst] ~ Expr] =
-    "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
+    rest.filter(list => list.dropRight(1).lastOption == Some("RegularExpressionLiteral")) ^^^ {
+      pair(Nil, ENotSupported("RegularExpressionLiteral"))
+    } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
       pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), "ParenthesizedExpression"))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, r))

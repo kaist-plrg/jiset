@@ -176,6 +176,8 @@ object Beautifier {
         walk("(map-keys "); walk(obj); walk(")")
       case ENotYetImpl(msg) =>
         walk("??? \""); walk(msg); walk("\"")
+      case ENotSupported(msg) =>
+        walk("!!! \""); walk(msg); walk("\"")
     }
 
     // references
@@ -270,6 +272,8 @@ object Beautifier {
         walk("(List [length = "); walk(values.length.toString); walk("])")
         walkList[Value](values.toList, walk)
       })
+      case CoreNotSupported(msg) =>
+        walk("(NotSupported \""); walk(msg); walk("\")")
     }
 
     // values

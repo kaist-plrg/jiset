@@ -1,5 +1,6 @@
 package kr.ac.kaist.ase.core
 
+import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.model.Model.tyMap
 
 // CORE Heaps
@@ -13,7 +14,7 @@ case class Heap(
     case (s: CoreSymbol) => s(key)
     case (m: CoreMap) => m(key)
     case (l: CoreList) => l(key)
-    case v => error(s"not a map or a list: $v")
+    case CoreNotSupported(msg) => throw NotSupported(msg)
   }
 
   // setters

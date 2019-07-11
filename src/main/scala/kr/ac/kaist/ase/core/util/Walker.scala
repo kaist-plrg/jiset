@@ -88,6 +88,7 @@ trait Walker {
     case ECopy(obj) => ECopy(walk(obj))
     case EKeys(obj) => EKeys(walk(obj))
     case ENotYetImpl(msg) => ENotYetImpl(walk(msg))
+    case ENotSupported(msg) => ENotSupported(walk(msg))
   }
 
   // references
@@ -141,6 +142,7 @@ trait Walker {
     case CoreList(values) => CoreList(
       walkList[Value](values.toList, walk).toVector
     )
+    case CoreNotSupported(msg) => CoreNotSupported(walk(msg))
   }
 
   // values

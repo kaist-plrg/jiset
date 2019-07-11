@@ -46,6 +46,9 @@ case class EKeys(mobj: Expr) extends Expr
 case class ENotYetImpl(msg: String) extends Expr {
   override def toString: String = s"""ENotYetImpl("$msg")"""
 }
+case class ENotSupported(msg: String) extends Expr {
+  override def toString: String = s"""ENotSupported("$msg")"""
+}
 
 sealed trait POp extends CoreNode
 case object PStr extends POp

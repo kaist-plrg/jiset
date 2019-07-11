@@ -119,6 +119,8 @@ trait UnitWalker {
       walk(obj)
     case ENotYetImpl(msg) =>
       walk(msg)
+    case ENotSupported(msg) =>
+      walk(msg)
   }
 
   // references
@@ -174,6 +176,8 @@ trait UnitWalker {
       walkMap[Value, Value](props, walk, walk)
     case CoreList(values) =>
       walkList[Value](values.toList, walk)
+    case CoreNotSupported(msg) =>
+      walk(msg)
   }
 
   // values
