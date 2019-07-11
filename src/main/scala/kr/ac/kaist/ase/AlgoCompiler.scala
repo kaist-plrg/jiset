@@ -220,6 +220,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val removeStmt = (
     ("remove the own property with name" ~> name <~ "from") ~ name ^^ {
       case p ~ o => parseInst(s"delete $o.SubMap[$p]")
+    } | ("remove the first element from" ~> name <~ "and let") ~ (name <~ "be the value of that element") ^^ {
+      case l ~ x => parseInst(s"let $x = (pop $l 0i)")
     }
   )
 
@@ -518,7 +520,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("the result of" ~> expr <~ "passing") ~ expr ~ ("and" ~> expr <~ "as the arguments") ^^ {
       case (i0 ~ f) ~ (i1 ~ x) ~ (i2 ~ y) =>
         pair(i0 ++ i1 ++ i2, EApp(f, List(x, y)))
-    } | ("the string - concatenation of" ~> expr <~ "and") ~ expr ^^ {
+    } | ("the string - concatenation of" ~> opt("the previous value of") ~> expr <~ "and") ~ expr ^^ {
       case (i0 ~ e1) ~ (i1 ~ e2) =>
         pair(i0 ++ i1, EBOp(OPlus, e1, e2))
     } | "-" ~> expr ^^ {
