@@ -591,6 +591,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
         pair(Nil, EBool(false)) // TODO : support strict mode code
+      } | "no arguments were passed to this function invocation" ^^^ {
+        pair(Nil, parseExpr(s"(= argumentsList.length 0i)"))
       } | (name <~ "and") ~ (name <~ "are both") ~ (value <~ "or both") ~ value ^^ {
         case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
       } | name <~ "is a data property" ^^ {
