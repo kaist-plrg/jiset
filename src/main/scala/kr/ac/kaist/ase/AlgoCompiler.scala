@@ -76,9 +76,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   )
 
   // let statements
-  lazy val letStmt = ("let" ~> id <~ "be") ~ expr ^^ {
-    case x ~ (i ~ e) => ISeq(i :+ ILet(Id(x), e))
-  }
+  lazy val letStmt =
+    ("let" ~> id <~ "be") ~ (expr <~ "; if") ~ (cond <~ ", use") ~ expr ^^ {
+      case x ~ (i1 ~ e1) ~ (i2 ~ e2) ~ (i3 ~ e3) =>
+        ISeq(i2 :+ IIf(e2, ISeq(i3 :+ ILet(Id(x), e3)), ISeq(i1 :+ ILet(Id(x), e1))))
+    } |
+      ("let" ~> id <~ "be") ~ expr ^^ {
+        case x ~ (i ~ e) => ISeq(i :+ ILet(Id(x), e))
+      }
 
   // inner statements
   lazy val innerStmt =
@@ -125,7 +130,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "9.4.4.2" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.DefineOwnProperty")) |
       "9.4.4.3" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Get")) |
       "9.4.4.4" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Set")) |
-      "9.4.4.5" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Delete"))
+      "9.4.4.5" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Delete")) |
+      "9.4.2.1" ^^^ parseExpr(getScalaName("ArrayExoticObject.DefineOwnProperty"))
     )) ^^ {
         case (i ~ r) ~ e => ISeq(i :+ IAssign(r, e))
       }
@@ -330,6 +336,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
   ////////////////////////////////////////////////////////////////////////////////
+
   lazy val expr: Parser[List[Inst] ~ Expr] = (
     etcExpr |
     completionExpr |
@@ -343,7 +350,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     callExpr |
     typeExpr ^^ { pair(Nil, _) } |
     refExpr
-  )
+  ) ~ subExpr ^^ {
+      case (i1 ~ e1) ~ (i2 ~ f) => pair(i1 ++ i2, f(e1))
+    }
+
+  lazy val subExpr: Parser[List[Inst] ~ (Expr => Expr)] =
+    "+" ~> expr ^^ {
+      case i ~ r => pair(i, (l: Expr) => EBOp(OPlus, l, r))
+    } | success(pair(Nil, x => x))
 
   // ReturnIfAbrupt
   lazy val returnIfAbruptExpr: Parser[List[Inst] ~ Expr] =
@@ -354,28 +368,32 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     }
 
   // value expressions
-  lazy val valueExpr: Parser[Expr] = opt("the value" | "the string") ~> value ^^ {
-    case "null" => ENull
-    case "true" => EBool(true)
-    case "false" => EBool(false)
-    case "NaN" => ENum(Double.NaN)
-    case "+0" => ENum(0.0)
-    case "-0" => ENum(-0.0)
-    case "+∞" => ENum(Double.PositiveInfinity)
-    case "undefined" => EUndef
-    case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
-    case err if err.endsWith("Error") => parseExpr(s"""(new OrdinaryObject(
+  lazy val valueExpr: Parser[Expr] = ("2 32 - 1" ^^^ { ENum(4294967295.0) }) |
+    "the numeric value zero" ^^^ { ENum(0.0) } |
+    opt("the value" | "the string") ~> value ^^ {
+      case "null" => ENull
+      case "true" => EBool(true)
+      case "false" => EBool(false)
+      case "NaN" => ENum(Double.NaN)
+      case "+0" => ENum(0.0)
+      case "-0" => ENum(-0.0)
+      case "+∞" => ENum(Double.PositiveInfinity)
+      case "-∞" => ENum(Double.NegativeInfinity)
+      case "undefined" => EUndef
+      case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
+      case err if err.endsWith("Error") => parseExpr(s"""(new OrdinaryObject(
       "Prototype" -> INTRINSIC_${err}Prototype,
       "ErrorData" -> undefined,
       "SubMap" -> (new SubMap())
     ))""")
-    case s => ENotYetImpl(s)
-  } | const ^^ {
-    case "[empty]" => parseExpr("CONST_emptySyntax")
-    case const => parseExpr("CONST_" + const.replaceAll("-", ""))
-  } | (number <~ ".") ~ number ^^ {
-    case x ~ y => ENum(s"$x.$y".toDouble)
-  } | number ^^ { case s => EINum(s.toLong) }
+
+      case s => ENotYetImpl(s)
+    } | const ^^ {
+      case "[empty]" => parseExpr("CONST_emptySyntax")
+      case const => parseExpr("CONST_" + const.replaceAll("-", ""))
+    } | (number <~ ".") ~ number ^^ {
+      case x ~ y => ENum(s"$x.$y".toDouble)
+    } | number ^^ { case s => EINum(s.toLong) }
 
   // arithmetic expressions
   lazy val arithExpr: Parser[Expr] =
@@ -479,6 +497,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case Ty(name) => EStr(name)
       }
 
+  lazy val binAddExpr =
+    (expr <~ "+") ~ expr ^^ {
+      case (i1 ~ e1) ~ (i2 ~ e2) => pair(i1 ++ i2, EBOp(OPlus, e1, e2))
+    }
   // et cetera expressions
   lazy val etcExpr: Parser[List[Inst] ~ Expr] =
     rest.filter(list => list.dropRight(1).lastOption == Some("RegularExpressionLiteral")) ^^^ {
@@ -585,6 +607,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OEq, r, l))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
+      } | (expr <~ ">") ~ expr ~ subCond ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, y, x)))
       } | (expr <~ "is less than zero") ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ f) => pair(i0 ++ i1, f(EBOp(OLt, x, EINum(0))))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
@@ -641,8 +665,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral"))))
       } | expr <~ "is neither" <~ value <~ "nor the active function" ^^ {
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function")))))
-      } | expr <~ "is " <~ value <~ " , " <~ value <~ "or not supplied" ^^ {
+      } | expr <~ "is" <~ value <~ " , " <~ value <~ "or not supplied" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EBOp(OEq, e, ENull), EBOp(OEq, e, EUndef)), EBOp(OEq, e, EAbsent)))
+      } | (expr <~ "is") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ ("or" ~> valueExpr) ^^ {
+        case (i1 ~ e1) ~ e2 ~ e3 ~ e4 ~ e5 ~ e6 =>
+          pair(i1, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3)), EBOp(OEq, e1, e4)), EBOp(OEq, e1, e5)), EBOp(OEq, e1, e6)))
       } | expr <~ "is empty" ^^ {
         case i ~ e => pair(i, parseExpr(s"(= ${beautify(e)}.length 0)"))
       } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
@@ -703,7 +730,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "function environment record" ^^^ Ty("FunctionEnvironmentRecord") |
       "global environment record" ^^^ Ty("GlobalEnvironmentRecord") |
       "completion" ^^^ Ty("Completion") |
-      "script record" ^^^ Ty("ScriptRecord")
+      "script record" ^^^ Ty("ScriptRecord") |
+      "array exotic object" ^^^ Ty("ArrayExoticObject")
 
   ////////////////////////////////////////////////////////////////////////////////
   // References
