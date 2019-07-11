@@ -1,13 +1,14 @@
 package kr.ac.kaist.ase
 
 import java.io._
+import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.phase._
 import kr.ac.kaist.ase.util.Useful._
 import org.scalatest._
+import scala.Console.{ CYAN, GREEN, RED }
 import scala.io.Source
 import scala.util.{ Try, Success, Failure }
 import spray.json._
-import scala.Console.{ CYAN, GREEN, RED }
 
 abstract class ASETest extends FunSuite with BeforeAndAfterAll {
   // ase configuration
@@ -21,6 +22,7 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
     val res = resMap.getOrElse(tag, Map())
     (Try(t) match {
       case Success(_) => resMap += tag -> (res + (name -> true))
+      case Failure(e @ NotSupported(_)) => fail(e.toString)
       case Failure(e) => resMap += tag -> (res + (name -> false)); fail(e.toString)
     })
   }
