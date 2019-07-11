@@ -52,6 +52,9 @@ object ASTGenerator {
           val paramPairs = params.map(_._1) zip (handleParams(params.map(_._2)))
           val listString = ("Nil" /: paramPairs) { case (str, (x, t)) => s"""l("$t", $x, $str)""" }
 
+          val maxK = (0 /: params) {
+            case (k, (_, t)) => if (t.startsWith("Option[")) k * 2 + 1 else k
+          }
           nf.println(s"""case class $name$i(${(params.map { case (x, t) => s"$x: $t, " }).mkString("")}parserParams: List[Boolean]) extends $name {""")
           nf.println(s"""  def name: String = "$name$i"""")
           nf.println(s"""  override def toString: String = {""")
@@ -62,19 +65,27 @@ object ASTGenerator {
           nf.println(s"""    case _ => SSet()""")
           nf.println(s"""  }) ++ SSet("$name")""")
           nf.println(s"""  val k: Int = ${("0" /: params) { case (str, (x, _)) => s"d($x, $str)" }}""")
-          nf.println(s"""  val list: List[(String, Value)] = $listString.reverse""")
+          nf.println(s"""  val fullList: List[(String, Value)] = $listString.reverse""")
+          nf.println(s"""  val list: List[(String, Value)] = fullList.filter {""")
+          nf.println(s"""    case (_, Absent) => false""")
+          nf.println(s"""    case _ => true""")
+          nf.println(s"""  }""")
           nf.println(s"""  def semantics(name: String): Option[(Func, List[Value])] = {""")
           nf.println(s"""    $name$i.semMap.get(name + k.toString) match {""")
           nf.println(s"""      case Some(f) => Some((f, list.map(_._2)))""")
           nf.println(s"""      case None => list match {""")
           nf.println(s"""        case List((_, ASTVal(x))) => x.semantics(name)""")
-          nf.println(s"""        case _ => None""")
+          nf.println(s"""        case _ => $name$i.semMap.get(name + $name$i.maxK.toString) match {""")
+          nf.println(s"""          case Some(f) => Some((f, fullList.map(_._2)))""")
+          nf.println(s"""          case None => None""")
+          nf.println(s"""        }""")
           nf.println(s"""      }""")
           nf.println(s"""    }""")
           nf.println(s"""  }""")
           nf.println(s"""  def subs(name: String): Option[Value] = list.toMap.get(name)""")
           nf.println(s"""}""")
           nf.println(s"""object $name$i {""")
+          nf.println(s"""  val maxK: Int = $maxK""")
           nf.println(s"""  val semMap: Map[String, Func] = Map(""")
           var sems: List[String] = Nil
           for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/manual/algorithm")) {
@@ -146,6 +157,7 @@ object ASTGenerator {
     nf.println(s"""  }""")
     nf.println(s"""  protected def l(name: String, x: Any, list: List[(String, Value)]): List[(String, Value)] = x match {""")
     nf.println(s"""    case Some(a: AST) => (name.substring(7, name.length - 1), ASTVal(a)) :: list""")
+    nf.println(s"""    case None => (name.substring(7, name.length - 1), Absent) :: list""")
     nf.println(s"""    case a: AST => (name, ASTVal(a)) :: list""")
     nf.println(s"""    case a: String => (name, Str(a)) :: list""")
     nf.println(s"""    case _ => list""")

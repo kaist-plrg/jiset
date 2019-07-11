@@ -547,7 +547,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x => parseExpr(s"$x")
       } | (("the number whose value is MV of" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
         case x => EParseString(ERef(RefId(Id(x))), PNum)
-      } | "a copy of the List" ~> name ^^ {
+      } | "a copy of" ~ opt("the List") ~> name ^^ {
         case x => ECopy(ERef(RefId(Id(x))))
       } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
         case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
@@ -607,6 +607,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OLt, r, l))
       } | (expr <~ "=") ~ expr ^^ {
         case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OEq, r, l))
+      } | (expr <~ "≠") ~ expr ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EUOp(ONot, EBOp(OEq, r, l)))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
       } | name <~ "is not empty" ^^ {
