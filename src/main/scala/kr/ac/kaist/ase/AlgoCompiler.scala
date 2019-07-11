@@ -188,7 +188,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~ opt("string" | "element" | "parse node") ~> id) ~ (("in" | "of") ~> expr <~ opt(",") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
+    ("for each" ~ opt("classelement" | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of") ~> expr <~ opt(",") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
@@ -424,11 +424,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | name ~ ("for" ~> name <~ "with") ~ expr ~ ("and" ~> expr <~ "as arguments") ^^ {
       case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
         pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
-    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ name ~ ("with argument" ~> expr) ^^ {
+    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ (name | id) ~ ("with argument" ~> expr) ^^ {
       case f ~ x ~ (i ~ a) => pair(i, EApp(parseExpr(s"$x.$f"), List(a)))
-    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ name ~ (("with arguments" | "using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ opt("as" ~ opt("the") ~ "arguments")) ^^ {
-      case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) =>
-        pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
+    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ (name | id) ~ (("with arguments" | "using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ "as the optional") ~ (expr <~ "argument") ^^ {
+      case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) ~ (i2 ~ a3) => pair(i0 ++ i1 ++ i2, EApp(parseExpr(s"$x.$f"), List(a1, a2, a3)))
+    } | (opt("the result of performing" | "the result of") ~> name <~ ("for" | "of")) ~ (name | id) ~ (("with arguments" | "using" | "with" | "passing") ~> expr <~ "and") ~ (expr <~ opt("as" ~ opt("the") ~ "arguments")) ^^ {
+      case f ~ x ~ (i0 ~ a1) ~ (i1 ~ a2) => pair(i0 ++ i1, EApp(parseExpr(s"$x.$f"), List(a1, a2)))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
       case (i0 ~ RefId(Id(x))) ~ list =>
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
