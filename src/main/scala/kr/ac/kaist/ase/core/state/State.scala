@@ -10,6 +10,7 @@ case class State(
     heap: Heap = Heap()
 ) extends CoreNode {
   // getters
+  def apply(addr: Addr): Obj = heap(addr)
   def apply(refV: RefValue): (Value, State) = refV match {
     case RefValueId(id) =>
       (locals.getOrElse(id, globals.getOrElse(id, Absent)), this)

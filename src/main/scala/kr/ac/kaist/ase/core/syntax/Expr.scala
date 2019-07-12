@@ -34,6 +34,7 @@ case class ETypeOf(expr: Expr) extends Expr
 case class EIsInstanceOf(base: Expr, name: String) extends Expr {
   override def toString: String = s"""EIsInstanceOf($base, "$name")"""
 }
+case class ELength(expr: Expr) extends Expr
 case class EGetSyntax(base: Expr) extends Expr
 case class EParseSyntax(code: Expr, rule: String, flags: List[Expr]) extends Expr {
   override def toString: String = s"""EParseSyntax($code, "$rule", $flags)"""

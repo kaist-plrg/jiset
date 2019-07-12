@@ -15,7 +15,7 @@ object ToNumber {
       } else if (= atype "Number") {
         return argument
       } else if (= atype "String") {
-        return arguemnt.getNumber
+        return (convert argument str2num)
       } else if (= atype "Symbol") {
         return NaN
       } else if (= atype "Object") {

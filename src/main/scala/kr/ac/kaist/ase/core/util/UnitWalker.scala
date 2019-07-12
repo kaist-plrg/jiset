@@ -103,6 +103,8 @@ trait UnitWalker {
       walk(expr)
     case EIsInstanceOf(base, name) =>
       walk(base); walk(name)
+    case ELength(expr) =>
+      walk(expr)
     case EGetSyntax(base) =>
       walk(base)
     case EParseSyntax(code, rule, flags) =>

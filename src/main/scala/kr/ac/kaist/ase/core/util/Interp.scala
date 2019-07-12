@@ -184,6 +184,14 @@ object Interp {
       case (ASTVal(ast), s0) => (Bool(ast.getNames contains name), s0)
       case v => error(s"not an AST value: $v")
     }
+    case ELength(expr) => interp(expr)(st) match {
+      case (addr: Addr, s0) => s0(addr) match {
+        case CoreList(values) => (INum(values.length), s0)
+        case obj => error(s"not a list: $addr")
+      }
+      case (Str(str), s0) => (INum(str.length), s0)
+      case v => error(s"not a string: $v")
+    }
     case EGetSyntax(base) => interp(base)(st) match {
       case (ASTVal(ast), s0) => (Str(ast.toString), s0)
       case (v, s0) => error(s"not an AST value: $v")
@@ -222,7 +230,7 @@ object Interp {
     case EConvert(expr, cop) => interp(expr)(st) match {
       case (Str(s), s0) => {
         (cop match {
-          case CStrToNum => Num(s.toDouble) // TODO : implement StrToNum to follow specification
+          case CStrToNum => Num(try { s.toDouble } catch { case e: Throwable => Double.NaN }) // TODO : implement StrToNum to follow specification
           case _ => error(s"not convertable option: Str to $cop")
         }, s0)
       }

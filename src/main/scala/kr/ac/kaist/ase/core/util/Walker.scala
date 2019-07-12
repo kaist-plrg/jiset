@@ -80,6 +80,7 @@ trait Walker {
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case ETypeOf(expr) => ETypeOf(walk(expr))
     case EIsInstanceOf(base, name) => EIsInstanceOf(walk(base), walk(name))
+    case ELength(expr) => ELength(walk(expr))
     case EGetSyntax(base) => EGetSyntax(walk(base))
     case EParseSyntax(code, rule, flags) => EParseSyntax(walk(code), walk(rule), walkList[Expr](flags, walk))
     case EParseString(code, pop) => EParseString(walk(code), walk(pop))
