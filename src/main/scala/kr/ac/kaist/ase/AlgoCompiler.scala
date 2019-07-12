@@ -522,12 +522,41 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, ENotSupported("RegularExpressionLiteral"))
     } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
+    } | "the" ~ value ~ "where" ~> name <~ "is" ~ value ^^ {
+      case x =>
+        val str = getTemp
+        pair(
+          List(parseInst(s"""{
+            let $str = (get-syntax $x)
+            $str = (- $str 1i)
+          }""")), parseExpr(str)
+        )
+    } | "a String according to Table 35" ^^^ {
+      pair(Nil, parseExpr("(GetTypeOf val)"))
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
       pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), "ParenthesizedExpression", Nil))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, r, Nil))
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, ENotYetImpl(s"larger of $x and $y"))
+    } | ("the result of applying" ~> name <~ "to") ~ (name <~ "and") ~ (name <~ "as if evaluating the expression" ~ rest) ^^ {
+      case op ~ l ~ r =>
+        val res = getTemp
+        pair(List(parseInst(s"""{
+          if (= $op "*") $res = (* $l $r)
+          else if (= $op "/") $res = (/ $l $r)
+          else if (= $op "%") $res = (% $l $r)
+          else if (= $op "+") $res = (+ $l $r)
+          else if (= $op "-") $res = (- $l $r)
+          else if (= $op "<<") $res = (<< $l $r)
+          else if (= $op ">>") $res = (>> $l $r)
+          else if (= $op ">>>") $res = (>>> $l $r)
+          else if (= $op "&") $res = (& $l $r)
+          else if (= $op "^") $res = (^ $l $r)
+          else if (= $op "|") $res = (| $l $r)
+          else if (= $op "**") $res = (** $l $r)
+          else !!! "assign operator"
+        }""")), parseExpr(res))
     } | "the result of adding the value 1 to" ~> name <~ rest ^^ {
       case x => pair(Nil, parseExpr(s"(+ $x 1)"))
     } | ("the result of" ~> expr <~ "passing") ~ expr ~ ("and" ~> expr <~ "as the arguments") ^^ {
@@ -668,6 +697,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
       } | (ref <~ "has" <~ ("a" | "an")) ~ name <~ "field" ^^ {
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
+      } | (name <~ "does not have a binding for") ~ name ^^ {
+        case x ~ y => pair(Nil, parseExpr(s"(= absent $x.SubMap.$y)"))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
       } | ref ~ ("has" ~ ("a" | "an") ~> name <~ "internal" ~ ("method" | "slot")) ^^ {

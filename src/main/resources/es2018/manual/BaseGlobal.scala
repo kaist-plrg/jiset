@@ -14,6 +14,7 @@ object BaseGlobal {
     "ThrowCompletion" -> ThrowCompletion.func,
     "IsDuplicate" -> IsDuplicate.func,
     "HostEnsureCanCompileStrings" -> HostEnsureCanCompileStrings.func,
+    "GetTypeOf" -> GetTypeOf.func,
     "GLOBAL_executionStack" -> NamedAddr("executionStack"),
     "GLOBAL_context" -> Null,
     "GLOBAL" -> NamedAddr("GLOBAL")

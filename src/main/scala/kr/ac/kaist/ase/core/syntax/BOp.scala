@@ -5,6 +5,7 @@ sealed trait BOp extends CoreNode
 case object OPlus extends BOp
 case object OSub extends BOp
 case object OMul extends BOp
+case object OPow extends BOp
 case object ODiv extends BOp
 case object OMod extends BOp
 case object OLt extends BOp

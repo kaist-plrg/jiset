@@ -151,6 +151,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   lazy private val bop: Parser[BOp] = {
     "+" ^^^ OPlus |
       "-" ^^^ OSub |
+      "**" ^^^ OPow |
       "*" ^^^ OMul |
       "/" ^^^ ODiv |
       "%" ^^^ OMod |

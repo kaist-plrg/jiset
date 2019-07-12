@@ -304,6 +304,7 @@ object Interp {
     case (OPlus, Num(l), Num(r)) => Num(l + r)
     case (OSub, Num(l), Num(r)) => Num(l - r)
     case (OMul, Num(l), Num(r)) => Num(l * r)
+    case (OPow, Num(l), Num(r)) => Num(math.pow(l, r))
     case (ODiv, Num(l), Num(r)) => Num(l / r)
     case (OMod, Num(l), Num(r)) => Num(l % r)
     case (OLt, Num(l), Num(r)) => Bool(l < r)
@@ -324,6 +325,7 @@ object Interp {
 
     // string operations
     case (OPlus, Str(l), Str(r)) => Str(l + r)
+    case (OSub, Str(l), INum(r)) => Str(l.dropRight(r.toInt))
     case (OLt, Str(l), Str(r)) => Bool(l < r)
 
     // long operations
