@@ -141,8 +141,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "9.4.5.4" ^^^ parseExpr(getScalaName("IntegerIndexedExoticObject.Get")) |
       "9.4.5.5" ^^^ parseExpr(getScalaName("IntegerIndexedExoticObject.Set")) |
       "9.4.5.6" ^^^ parseExpr(getScalaName("IntegerIndexedExoticObject.OwnPropertyKeys")) |
-      "9.5.12" ^^^ parseExpr(getScalaName("ProxyObject.Call")) |
-      "9.5.13" ^^^ parseExpr(getScalaName("ProxyObject.Construct"))
+      "9.5.12" ^^^ parseExpr(getScalaName("ProxyExoticObject.Call")) |
+      "9.5.13" ^^^ parseExpr(getScalaName("ProxyExoticObject.Construct"))
     )) ^^ {
         case (i ~ r) ~ e => ISeq(i :+ IAssign(r, e))
       }
@@ -670,7 +670,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
-      } | ref ~ ("has a" ~> name <~ "internal" ~ ("method" | "slot")) ^^ {
+      } | ref ~ ("has" ~ ("a" | "an") ~> name <~ "internal" ~ ("method" | "slot")) ^^ {
         case (i ~ r) ~ p => pair(i, parseExpr(s"(! (= absent ${beautify(r)}.$p))"))
       } | (ref <~ "is present and its value is") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, exists(r), EBOp(OEq, ERef(r), e)))
@@ -754,6 +754,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "built-in function object" ^^^ Ty("BuiltinFunctionObject") |
       "bound function exotic object" ^^^ Ty("BoundFunctionExoticObject") |
       "arguments exotic object" ^^^ Ty("ArgumentsExoticObject") |
+      "proxy exotic object" ^^^ Ty("ProxyExoticObject") |
       "string exotic object" ^^^ Ty("StringExoticObject") |
       "propertydescriptor" ^^^ Ty("PropertyDescriptor") |
       "property descriptor" ^^^ Ty("PropertyDescriptor") |
