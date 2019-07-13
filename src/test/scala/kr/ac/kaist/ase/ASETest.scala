@@ -21,9 +21,15 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
   def check[T](tag: String, name: String, t: => T): Unit = test(s"[$tag] $name") {
     val res = resMap.getOrElse(tag, Map())
     (Try(t) match {
-      case Success(_) => resMap += tag -> (res + (name -> true))
-      case Failure(e @ NotSupported(_)) => fail(e.toString)
-      case Failure(e) => resMap += tag -> (res + (name -> false)); fail(e.toString)
+      case Success(_) =>
+        resMap += tag -> (res + (name -> true))
+        if (DISPLAY_TEST_PROGRESS) printGreen("#")
+      case Failure(e @ NotSupported(_)) =>
+        fail(e.toString)
+      case Failure(e) =>
+        resMap += tag -> (res + (name -> false))
+        if (DISPLAY_TEST_PROGRESS) printRed("#")
+        fail(e.toString)
     })
   }
 
