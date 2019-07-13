@@ -24,6 +24,7 @@ case object ENull extends Expr
 case object EAbsent extends Expr
 case class EMap(ty: Ty, props: List[(Expr, Expr)]) extends Expr
 case class EList(exprs: List[Expr]) extends Expr
+case class ESymbol(desc: Expr) extends Expr
 case class EPop(list: Expr, idx: Expr) extends Expr
 case class ERef(ref: Ref) extends Expr
 case class EFunc(params: List[Id], varparam: Option[Id], body: Inst) extends Expr

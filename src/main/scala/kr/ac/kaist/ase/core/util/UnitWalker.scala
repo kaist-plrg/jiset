@@ -85,6 +85,8 @@ trait UnitWalker {
       walk(ty); walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
     case EList(exprs) =>
       walkList[Expr](exprs, walk)
+    case ESymbol(desc) =>
+      walk(desc)
     case EPop(list, idx) =>
       walk(list); walk(idx)
     case ERef(ref) =>

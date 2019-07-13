@@ -109,6 +109,11 @@ object Interp {
           (v :: vs, s0)
       }
       s0.allocList(vs.reverse)
+    case ESymbol(desc) =>
+      interp(desc)(st) match {
+        case (Str(str), st) => st.allocSymbol(str)
+        case (v, _) => error(s"not a string: $v")
+      }
     case EPop(list, idx) =>
       val (l, s0) = interp(list)(st)
       val (k, s1) = interp(idx)(s0)

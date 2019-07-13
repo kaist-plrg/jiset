@@ -141,6 +141,8 @@ object Beautifier {
         }); walk("))")
       case EList(exprs) =>
         walk("(new ["); walkListSep[Expr](exprs, ", ", walk); walk("])");
+      case ESymbol(desc) =>
+        walk("(new '"); walk(desc); walk(")");
       case EPop(list, idx) =>
         walk("(pop "); walk(list); walk(" "); walk(idx); walk(")")
       case ERef(ref) => walk(ref)

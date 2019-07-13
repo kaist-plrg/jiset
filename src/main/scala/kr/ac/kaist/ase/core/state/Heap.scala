@@ -86,4 +86,12 @@ case class Heap(
     val newSize = size + 1
     (newAddr, Heap(newList, newSize))
   }
+
+  // symbol allocations
+  def allocSymbol(desc: String): (Addr, Heap) = {
+    val newAddr = DynamicAddr(size)
+    val newList = map + (newAddr -> CoreSymbol(desc))
+    val newSize = size + 1
+    (newAddr, Heap(newList, newSize))
+  }
 }

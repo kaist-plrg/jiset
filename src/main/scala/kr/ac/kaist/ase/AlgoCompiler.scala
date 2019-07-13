@@ -577,6 +577,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ((
       "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
         case x => ERef(RefId(Id(x)))
+      } | "a new unique Symbol value whose [[Description]] value is" ~> name ^^ {
+        case x => parseExpr(s"(new '$x)")
       } | "the algorithm steps defined in ListIterator" ~ rest ^^^ {
         parseExpr("ListIteratornext")
       } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {

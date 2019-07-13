@@ -103,4 +103,10 @@ case class State(
     val (newAddr, newHeap) = heap.allocList(list)
     (newAddr, copy(heap = newHeap))
   }
+
+  // symbol allocations
+  def allocSymbol(desc: String): (Addr, State) = {
+    val (newAddr, newHeap) = heap.allocSymbol(desc)
+    (newAddr, copy(heap = newHeap))
+  }
 }

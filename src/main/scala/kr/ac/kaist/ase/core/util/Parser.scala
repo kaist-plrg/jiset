@@ -102,6 +102,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       } |
       ("(" ~> "new" ~> ty <~ ")") ^^ { case t => EMap(t, Nil) } |
       ("(" ~> "new" ~> "[" ~> repsep(expr, ",") <~ "]" <~ ")") ^^ { EList(_) } |
+      ("(" ~> "new" ~> "'" ~> expr <~ ")") ^^ { ESymbol(_) } |
       ("(" ~> "pop" ~> expr ~ expr <~ ")") ^^ { case l ~ x => EPop(l, x) } |
       ("(" ~> "is-instance-of" ~> expr) ~ (ident <~ ")") ^^ {
         case e ~ x => EIsInstanceOf(e, x)
