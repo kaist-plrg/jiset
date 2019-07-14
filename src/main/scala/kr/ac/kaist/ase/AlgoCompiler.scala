@@ -452,6 +452,15 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ e => pair(i, ETypeOf(e))
     } | "completion(" ~> expr <~ ")" ^^ {
       case i ~ e => pair(i, e)
+    } | ("min(" ~> expr <~ ",") ~ (expr <~ ")") ^^ {
+      case (i0 ~ l) ~ (i1 ~ r) =>
+        val x = getTemp
+        val a = beautify(l)
+        val b = beautify(r)
+        pair(i0 ++ i1 :+ parseInst(s"""{
+          if (< $a $b) $x = $a
+          else $x = $b
+        }"""), parseExpr(x))
     } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
       case (i0 ~ RefId(Id(x))) ~ list =>
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
@@ -506,7 +515,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // list expressions
   lazy val listExpr: Parser[List[Inst] ~ Expr] =
-    "«" ~> repsep(expr, ",") <~ "»" ^^ {
+    "«" ~> repsep("[[" ~> name <~ "]]", ",") <~ "»" ^^ {
+      case list => pair(Nil, EList(list.map(EStr(_))))
+    } | "«" ~> repsep(expr, ",") <~ "»" ^^ {
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
         pair(i, EList(list.map { case _ ~ e => e }))
@@ -547,7 +558,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, ENotSupported("RegularExpressionLiteral"))
     } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
-    } | "the mathematical value that is the same sign as" ~> name <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
+    } | "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> name <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
       case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
     } | "the" ~ value ~ "where" ~> name <~ "is" ~ value ^^ {
       case x =>
@@ -668,10 +679,17 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(Nil, EBool(false)) // TODO : support strict mode code
       } | "no arguments were passed to this function invocation" ^^^ {
         pair(Nil, parseExpr(s"(= (length-of argumentsList) 0i)"))
+      } | name <~ "does not have all of the internal slots of an Array Iterator Instance (22.1.5.3)" ^^ {
+        case x => pair(Nil, parseExpr(s"""
+          (|| (= absent $x.IteratedObject)
+          (|| (= absent $x.ArrayIteratorNextIndex)
+          (= absent $x.ArrayIterationKind)))"""))
       } | (name <~ "and") ~ (name <~ "are both") ~ (value <~ "or both") ~ value ^^ {
         case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
       } | name <~ "is a data property" ^^ {
         case x => pair(Nil, parseExpr(s"(IsDataDescriptor $x)"))
+      } | (name <~ "is") ~ (valueExpr <~ "and") ~ (name <~ "is") ~ valueExpr ^^ {
+        case x ~ v ~ y ~ u => pair(Nil, parseExpr(s"(&& (= $x ${beautify(v)}) (= $y ${beautify(u)}))"))
       } | name <~ "is an array index" ^^ {
         case x => pair(Nil, parseExpr(s"(IsArrayIndex $x)"))
       } | name <~ "is an accessor property" ^^ {
@@ -686,6 +704,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OLt, l, r))))
       } | (expr <~ ">") ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, r, l)))
+      } | (expr <~ "≤") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OLt, r, l))))
       } | (expr <~ "=") ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, r, l)))
       } | (expr <~ "≠") ~ expr ~ subCond ^^ {
@@ -783,6 +803,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           pair(i0 ++ i1, EBOp(OOr, EBOp(OEq, e0, e1), EBOp(OEq, e0, e2)))
       } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number")))))) // TODO : remove side effect
+      } | (expr <~ "is") ~ rep1sep(valueExpr, ",") ~ (", or" ~> valueExpr) ^^ {
+        case (i ~ e0) ~ list ~ e1 =>
+          pair(i, (list :+ e1).map(e => EBOp(OEq, e0, e)).reduce((l, r) => EBOp(OOr, l, r)))
       } | "every field in" ~> id <~ "is absent" ^^ {
         case x => pair(Nil, parseExpr(s"""
           (&& (= absent $x.Value)

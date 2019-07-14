@@ -350,6 +350,17 @@ object BuiltinHeap {
       nmap = NMap(
         "length" -> Property(Num(0.0), T, F, F),
         "constructor" -> Property(NamedAddr("GLOBAL.Array"), T, F, T)
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.iterator") -> Property(NamedAddr("GLOBAL.Array.prototype.values"), T, F, T)
+        )
+    ),
+    "GLOBAL.INTRINSIC_ArrayIteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
+      ),
+      nmap = NMap() ++ Map(
+        NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Array Iterator"), F, F, T)
       )
     ),
     "GLOBAL.Map" -> Struct(
@@ -438,6 +449,13 @@ object BuiltinHeap {
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("WeakSet"), F, F, T)
         )
+    ),
+    "GLOBAL.INTRINSIC_IteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap()
     )
   ) /: errList) {
       case (m, (errName, func)) => m ++ getErrMap(errName, func)
