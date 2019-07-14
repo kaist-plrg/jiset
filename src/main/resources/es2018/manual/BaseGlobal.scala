@@ -15,6 +15,7 @@ object BaseGlobal {
     "IsDuplicate" -> IsDuplicate.func,
     "HostEnsureCanCompileStrings" -> HostEnsureCanCompileStrings.func,
     "GetTypeOf" -> GetTypeOf.func,
+    "IsArrayIndex" -> IsArrayIndex.func,
     "GLOBAL_executionStack" -> NamedAddr("executionStack"),
     "GLOBAL_context" -> Null,
     "GLOBAL" -> NamedAddr("GLOBAL")

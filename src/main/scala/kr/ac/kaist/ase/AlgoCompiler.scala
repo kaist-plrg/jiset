@@ -209,6 +209,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val appendStmt = (
     ("append" ~> expr) ~ ("to" ~ opt("the end of") ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
+    } | ("append each item in" ~> expr <~ "to the end of") ~ expr ^^ {
+      case (i0 ~ l1) ~ (i1 ~ l2) =>
+        val tempId = getTempId
+        ISeq(i0 ++ i1 :+ forEachList(tempId, l1, IAppend(ERef(RefId(tempId)), l2)))
     } | ("append to" ~> expr <~ opt("the elements of")) ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
@@ -433,23 +437,28 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ e => pair(i, ETypeOf(e))
     } | "completion(" ~> expr <~ ")" ^^ {
       case i ~ e => pair(i, e)
+    } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case (i0 ~ RefId(Id(x))) ~ list =>
+        val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
+        pair(i, EApp(parseExpr(x), list.map { case i ~ e => e }))
+      case (i0 ~ (r @ RefProp(b, _))) ~ list =>
+        val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
+        pair(i, EApp(ERef(r), ERef(b) :: list.map { case i ~ e => e }))
     } | (
       opt("the result of" ~ opt("performing")) ~>
+      opt("?") ~
       (name <~ ("for" | "of")) ~
       (name <~ ("using" | "with" | "passing") ~ opt("arguments" | "argument")) ~
-      repsep(expr <~ opt("as the optional" ~ name ~ "argument"), "and") <~
+      repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
       opt("as" ~ opt("the") ~ ("arguments" | "argument"))
     ) ^^ {
-        case f ~ x ~ list =>
+        case r ~ f ~ x ~ list =>
           val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
-          pair(i, EApp(parseExpr(s"$x.$f"), list.map { case i ~ e => e }))
-      } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-        case (i0 ~ RefId(Id(x))) ~ list =>
-          val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
-          pair(i, EApp(parseExpr(x), list.map { case i ~ e => e }))
-        case (i0 ~ (r @ RefProp(b, _))) ~ list =>
-          val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
-          pair(i, EApp(ERef(r), ERef(b) :: list.map { case i ~ e => e }))
+          val e = EApp(parseExpr(s"$x.$f"), list.map { case i ~ e => e })
+          r match {
+            case Some(_) => returnIfAbrupt(i, e, true)
+            case None => pair(i, e)
+          }
       }
   )
 
@@ -538,6 +547,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), "ParenthesizedExpression", Nil))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, r, Nil))
+    } | "the string that is the only element of" ~> ref ^^ {
+      case i ~ r => pair(i, parseExpr(s"${beautify(r)}[0i]"))
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, ENotYetImpl(s"larger of $x and $y"))
     } | ("the result of applying" ~> name <~ "to") ~ (name <~ "and") ~ (name <~ "as if evaluating the expression" ~ rest) ^^ {
@@ -644,6 +655,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
       } | name <~ "is a data property" ^^ {
         case x => pair(Nil, parseExpr(s"(IsDataDescriptor $x)"))
+      } | name <~ "is an array index" ^^ {
+        case x => pair(Nil, parseExpr(s"(IsArrayIndex $x)"))
       } | name <~ "is an accessor property" ^^ {
         case x => pair(Nil, parseExpr(s"(IsAccessorDescriptor $x)"))
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
@@ -652,14 +665,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
       } | (expr <~ "<") ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, l, r)))
-      } | (expr <~ "≥") ~ expr ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EUOp(ONot, EBOp(OLt, l, r)))
-      } | (expr <~ ">") ~ expr ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OLt, r, l))
-      } | (expr <~ "=") ~ expr ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OEq, r, l))
-      } | (expr <~ "≠") ~ expr ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EUOp(ONot, EBOp(OEq, r, l)))
+      } | (expr <~ "≥") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OLt, l, r))))
+      } | (expr <~ ">") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, r, l)))
+      } | (expr <~ "=") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, r, l)))
+      } | (expr <~ "≠") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, r, l))))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
       } | name <~ "is not empty" ^^ {
