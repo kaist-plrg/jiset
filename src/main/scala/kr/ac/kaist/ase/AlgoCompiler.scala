@@ -3,6 +3,7 @@ package kr.ac.kaist.ase.model
 import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, RuntimeSemantics }
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.error.UnexpectedShift
 import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.util.Useful._
 
@@ -371,8 +372,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     }
 
   lazy val subExpr: Parser[List[Inst] ~ (Expr => Expr)] =
-    "+" ~> expr ^^ {
+    "*" ~> expr ^^ {
+      case i ~ r => pair(i, (l: Expr) => EBOp(OMul, l, r))
+    } | "/" ~> expr ^^ {
+      case i ~ r => pair(i, (l: Expr) => EBOp(ODiv, l, r))
+    } | "+" ~> expr ^^ {
       case i ~ r => pair(i, (l: Expr) => EBOp(OPlus, l, r))
+    } | "-" ~> expr ^^ {
+      case i ~ r => pair(i, (l: Expr) => EBOp(OSub, l, r))
+    } | "modulo" ~> expr ^^ {
+      case i ~ r => pair(i, (l: Expr) => EBOp(OMod, l, r))
     } | success(pair(Nil, x => x))
 
   // ReturnIfAbrupt
@@ -384,7 +393,13 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     }
 
   // value expressions
-  lazy val valueExpr: Parser[Expr] = ("2 32 - 1" ^^^ { ENum(4294967295.0) }) |
+  lazy val valueExpr: Parser[Expr] = (
+    "2" ~> number ^^ {
+      case s =>
+        val k = s.toInt
+        if (k < 0 | k > 62) throw UnexpectedShift(k)
+        EINum(1L << k)
+    } |
     "the numeric value zero" ^^^ { ENum(0.0) } |
     opt("the value" | "the string") ~> value ^^ {
       case "null" => ENull
@@ -402,7 +417,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "ErrorData" -> undefined,
       "SubMap" -> (new SubMap())
     ))""")
-
       case s => ENotYetImpl(s)
     } | const ^^ {
       case "[empty]" => parseExpr("CONST_emptySyntax")
@@ -410,6 +424,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | (number <~ ".") ~ number ^^ {
       case x ~ y => ENum(s"$x.$y".toDouble)
     } | number ^^ { case s => EINum(java.lang.Long.decode(s)) }
+  )
 
   // arithmetic expressions
   lazy val arithExpr: Parser[Expr] =
@@ -532,6 +547,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, ENotSupported("RegularExpressionLiteral"))
     } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
+    } | "the mathematical value that is the same sign as" ~> name <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
+      case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
     } | "the" ~ value ~ "where" ~> name <~ "is" ~ value ^^ {
       case x =>
         val str = getTemp

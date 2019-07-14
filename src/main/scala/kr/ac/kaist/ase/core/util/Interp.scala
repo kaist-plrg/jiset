@@ -242,12 +242,14 @@ object Interp {
       case (INum(n), s0) => {
         (cop match {
           case CNumToStr => Str(Helper.toStringHelper(n))
+          case CNumToInt => INum(n)
           case _ => error(s"not convertable option: Num to $cop")
         }, s0)
       }
       case (Num(n), s0) => {
         (cop match {
           case CNumToStr => Str(Helper.toStringHelper(n))
+          case CNumToInt => INum((math.signum(n) * math.floor(math.abs(n))).toLong)
           case _ => error(s"not convertable option: Num to $cop")
         }, s0)
       }

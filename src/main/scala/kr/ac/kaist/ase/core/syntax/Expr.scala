@@ -59,3 +59,4 @@ case object PNum extends POp
 sealed trait COp extends CoreNode
 case object CStrToNum extends COp
 case object CNumToStr extends COp
+case object CNumToInt extends COp

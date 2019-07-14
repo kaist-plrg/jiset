@@ -11,3 +11,7 @@ case object AlgorithmNotYetGenerated extends AlgorithmError({
 case class UnexpectedToken(token: Token) extends AlgorithmError({
   s"Unexpected: $token"
 })
+
+case class UnexpectedShift(k: Int) extends AlgorithmError({
+  s"Not satisfied: 0 <= $k <= 62"
+})

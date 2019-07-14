@@ -175,9 +175,11 @@ object Parser extends JavaTokenParsers with RegexParsers {
   }
 
   // convert operators
-  lazy private val cop: Parser[COp] = {
-    "str2num" ^^^ CStrToNum | "num2str" ^^^ CNumToStr
-  }
+  lazy private val cop: Parser[COp] = (
+    "str2num" ^^^ CStrToNum |
+    "num2str" ^^^ CNumToStr |
+    "num2int" ^^^ CNumToInt
+  )
 
   ////////////////////////////////////////////////////////////////////////////////
   // Values
