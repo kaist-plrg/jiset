@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.parser
 
-import kr.ac.kaist.ase.{ DEBUG_PARSER, LINE_SEP }
+import kr.ac.kaist.ase.{ DEBUG_PARSER, DEBUG_SEMI_INSERT, LINE_SEP }
 import kr.ac.kaist.ase.model.{ AST, Script }
 import kr.ac.kaist.ase.util.Useful._
 import scala.collection.mutable
@@ -178,10 +178,13 @@ trait ESParsers extends RegexParsers {
         val column = pos.column - 1
         val lines = source.split('\n')
 
-        // TODO delete
-        // println(source)
-        // println(lines.toList)
-        // println(line, column)
+        if (DEBUG_SEMI_INSERT) {
+          println(source)
+          lines.zipWithIndex.foreach {
+            case (x, i) => println(f"$i%4d: $x")
+          }
+          stop(s"line: $line, column: $column")
+        }
 
         lazy val curLine = lines(line)
         lazy val curChar = curLine.charAt(column)
@@ -195,15 +198,16 @@ trait ESParsers extends RegexParsers {
           lines.mkString("\n")
         })
 
+        // 2. The end of the input stream of tokens is encountered
+        if (line >= lines.length ||
+          (line == lines.length - 1 && column == curLine.length)) return insert
+
         // A. Additional Rules
         // A semicolon is never inserted automatically if the semicolon
         // would then be parsed as an empty statement or if that semicolon
         // would become one of the two semicolons in the header of a for statement
         // TODO
-
-        // 2. The end of the input stream of tokens is encountered
-        if (line == lines.length ||
-          (line == lines.length - 1 && column == curLine.length)) return insert
+        if (curChar == ';') return None
 
         // 1-1. The offending token is separated from the previous token
         //      by at least one LineTerminator
