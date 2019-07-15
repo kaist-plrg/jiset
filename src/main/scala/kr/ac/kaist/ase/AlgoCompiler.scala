@@ -75,7 +75,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         EStr("Target") -> parseExpr("CONST_empty")
       )))
     }
-  )
+  ) <~ opt(". this call will always return" ~ value)
 
   // let statements
   lazy val letStmt =
@@ -349,6 +349,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // ignore statements
   lazy val ignoreStmt = (
     "set fields of" |
+    "need to defer setting the" |
     "create any implementation-defined" |
     "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
     "if" ~ id ~ "is a List of errors," |
@@ -748,6 +749,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
       } | (expr <~ "contains") ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
+      } | (ref <~ "is absent or has the value") ~ valueExpr ^^ {
+        case (i ~ x) ~ v =>
+          val l = beautify(x)
+          val r = beautify(v)
+          pair(i, parseExpr(s"(|| (= $l absent) (= $l $r))"))
       } | name <~ "does not have a Generator component" ^^ {
         case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
       } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
