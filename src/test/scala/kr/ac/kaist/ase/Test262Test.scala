@@ -38,7 +38,6 @@ class Test262Test extends ASETest {
   // }
   // check backward-compatibility aftera all tests
   override def afterAll(): Unit = {
-
     val suffix = new SimpleDateFormat("yyMMddHHmm").format(new Date())
     val filename = s"$TEST_DIR/result/${tag}_${suffix}"
 
@@ -88,23 +87,28 @@ class Test262Test extends ASETest {
       }
   }
 
-  lazy val initStList = includeMap("assert.js") ++ includeMap("sta.js")
+  def init: Unit = {
+    val initStList = includeMap("assert.js") ++ includeMap("sta.js")
+    for (NormalTestConfig(filename, includes) <- shuffle(config.normal)) {
+      val jsName = s"${dir.toString}/$filename"
+      val name = removedExt(jsName).drop(dir.toString.length + 1)
+      check("Test262Eval", name, {
+        val jsConfig = aseConfig.copy(fileNames = List(jsName))
 
-  for (NormalTestConfig(filename, includes) <- shuffle(config.normal)) {
-    lazy val jsName = s"${dir.toString}/$filename"
-    lazy val name = removedExt(jsName).drop(dir.toString.length + 1)
-    lazy val jsConfig = aseConfig.copy(fileNames = List(jsName))
+        val ast = Parse((), jsConfig)
+        // check("Test262Parse", name, {
+        //   println(name)
+        //   parseJSTest(ast)
+        // })
 
-    lazy val ast = Parse((), jsConfig)
-    // check("Test262Parse", name, {
-    //   println(name)
-    //   parseJSTest(ast)
-    // })
-
-    lazy val stList = includes.foldLeft(initStList) {
-      case (li, s) => li ++ includeMap(s)
-    } ++ ModelHelper.flattenStatement(ast)
-    lazy val st = EvalCore(Load(ModelHelper.mergeStatement(stList), jsConfig), jsConfig)
-    check("Test262Eval", name, evalJSTest(st))
+        val stList = includes.foldLeft(initStList) {
+          case (li, s) => li ++ includeMap(s)
+        } ++ ModelHelper.flattenStatement(ast)
+        val st = EvalCore(Load(ModelHelper.mergeStatement(stList), jsConfig), jsConfig)
+        evalJSTest(st)
+      })
+    }
   }
+
+  init
 }
