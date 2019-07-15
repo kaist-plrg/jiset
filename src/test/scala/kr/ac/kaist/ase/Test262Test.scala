@@ -51,13 +51,6 @@ class Test262Test extends ASETest {
 
   // tests for js-interpreter
   def evalJSTest(st: => State): Unit = {
-    val timeoutMs: Long = 3000
-    try {
-      Await.result(Future(st), timeoutMs milliseconds)
-    } catch {
-      case e: TimeoutException => fail("timeout")
-      case e: java.util.concurrent.ExecutionException => throw e.getCause()
-    }
     st.retValue match {
       case Some(addr: Addr) => st.heap(addr, Str("Type")) match {
         case (addr: Addr) =>

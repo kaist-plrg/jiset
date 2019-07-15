@@ -197,7 +197,7 @@ class Interp {
     }
     case EIsInstanceOf(base, name) => interp(base)(st) match {
       case (ASTVal(ast), s0) => (Bool(ast.getNames contains name), s0)
-      case v => error(s"not an AST value: $v")
+      case (v, _) => error(s"not an AST value: $v")
     }
     case ELength(expr) => interp(expr)(st) match {
       case (addr: Addr, s0) => s0(addr) match {
@@ -205,7 +205,7 @@ class Interp {
         case obj => error(s"not a list: $addr")
       }
       case (Str(str), s0) => (INum(str.length), s0)
-      case v => error(s"not a string: $v")
+      case (v, _) => error(s"not a string: $v")
     }
     case EGetSyntax(base) => interp(base)(st) match {
       case (ASTVal(ast), s0) => (Str(ast.toString), s0)
