@@ -50,6 +50,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     callStmt |
     setStmt |
     recordStmt |
+    incrementStmt |
     createStmt |
     throwStmt |
     whileStmt |
@@ -155,6 +156,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x ~ y => parseInst(s"if (! (= $y.SubMap[$x] absent)) $y.SubMap[$x].initialized = true else {}")
     }
 
+  // increment statements
+  lazy val incrementStmt =
+    ("increment" ~> ref <~ "by") ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAssign(x, EBOp(OPlus, ERef(x), y)))
+    }
+
   // create statements
   lazy val createStmt =
     "create an own data property" ~ rest ^^^ {
@@ -210,6 +217,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // append statements
   lazy val appendStmt = (
     ("append" ~> expr) ~ ("to" ~ opt("the end of") ~> expr) ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
+    } | ("append" ~> expr) ~ ("as the last element of" ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
     } | ("append each item in" ~> expr <~ "to the end of") ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
