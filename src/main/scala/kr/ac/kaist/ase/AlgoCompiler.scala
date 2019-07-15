@@ -97,14 +97,15 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val ifStmt =
     ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (
       opt("." | ";" | ",") ~> opt(next) ~> ("else" | "otherwise") ~> opt(
-        cond |
-          "the order of evaluation needs to be reversed to preserve left to right evaluation" |
+        "the order of evaluation needs to be reversed to preserve left to right evaluation" |
+          name ~ "contains a formal parameter mapping for" ~ name |
           name ~ "is a Reference to an Environment Record binding" |
           "the base of" ~ ref ~ "is an Environment Record" |
           name ~ "must be" ~ rep(not(",") ~ text) |
           id ~ "does not currently have a property" ~ id |
           id <~ "is an accessor property" |
-          ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr
+          ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr |
+          cond
       ) ~> opt(",") ~> stmt
     ) ^^ {
           case (i ~ c) ~ t ~ e => ISeq(i :+ IIf(c, t, e))
@@ -643,9 +644,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
         parseExpr("(parse-syntax CoverCallExpressionAndAsyncArrowHead CallMemberExpression)")
       } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ "." ~ name ~ "is the" ~ rest ^^ {
-        case f => parseExpr(s"($f.Code thisArgument argumentsList undefined)")
+        case f => parseExpr(s"($f.Code thisArgument argumentsList undefined $f)")
       } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ ". the" ~ rest ^^ {
-        case f => parseExpr(s"($f.Code undefined argumentsList newTarget)")
+        case f => parseExpr(s"($f.Code undefined argumentsList newTarget $f)")
       } | "the steps of an" ~> name <~ "function as specified below" ^^ {
         case x => parseExpr(s"$x")
       } | "the result of parsing the source text constructor ( . . . args ) " <~ rest ^^^ {
