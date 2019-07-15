@@ -468,6 +468,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case (i0 ~ (r @ RefProp(b, _))) ~ list =>
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
         pair(i, EApp(ERef(r), ERef(b) :: list.map { case i ~ e => e }))
+    } | ("the result of the comparison" ~> expr <~ "==") ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, parseExpr(s"(AbstractEqualityComparison ${beautify(x)} ${beautify(y)})"))
     } | (
       opt("the result of" ~ opt("performing")) ~>
       opt("?") ~
@@ -814,18 +816,28 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           (&& (= absent $x.Set)
           (&& (= absent $x.Enumerable)
           (= absent $x.Configurable))))))"""))
-      } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, l, r)))
       } | "type(" ~> name <~ ") is object and is either a built-in function object or has an [[ECMAScriptCode]] internal slot" ^^ {
         case x =>
           val t = s"(typeof $x)"
           pair(Nil, parseExpr(s"""(&& (= $t "Object") (|| (= $t "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
+      } | ("type(" ~> name <~ ") is") ~ nonTrivialTyName ~ subCond ^^ {
+        case x ~ t ~ (i ~ f) => pair(i, f(parseExpr(s"""(= (typeof $x) "$t")""")))
+      } | ("type(" ~> name <~ ") is either") ~ rep(nonTrivialTyName <~ ",") ~ ("or" ~> nonTrivialTyName) ~ subCond ^^ {
+        case x ~ ts ~ t ~ (i ~ f) =>
+          val ty = getTemp
+          val newTS = ts :+ t
+          val e = parseExpr((ts :+ t).map(t => s"""(= $ty "$t")""").reduce((x, y) => s"(|| $x $y)"))
+          pair(i :+ parseInst(s"let $ty = (typeof $x)"), f(e))
+      } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, l, r)))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
         case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ (i3 ~ f) => pair(i0 ++ i1 ++ i2 ++ i3, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
       } | "classelement is classelement : ;" ^^^ {
         pair(Nil, parseExpr("""(= (get-syntax ClassElement) ";")"""))
       }
   )
+
+  lazy val nonTrivialTyName: Parser[String] = ("string" | "boolean" | "number" | "object" | "symbol") ^^ { ts => ts(0) }
 
   lazy val subCond: Parser[List[Inst] ~ (Expr => Expr)] =
     "or" ~> opt("if") ~> cond ^^ {
