@@ -13,7 +13,7 @@ case object EvalCore extends PhaseObj[State, EvalCoreConfig, State] {
     initialSt: State,
     aseConfig: ASEConfig,
     config: EvalCoreConfig
-  ): State = Interp.fixpoint(initialSt)
+  ): State = (new Interp())(initialSt)
 
   def defaultConfig: EvalCoreConfig = EvalCoreConfig()
   val options: List[PhaseOption[EvalCoreConfig]] = List()

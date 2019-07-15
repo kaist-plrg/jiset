@@ -11,33 +11,6 @@ case class State(
 ) extends CoreNode {
   // getters
   def apply(addr: Addr): Obj = heap(addr)
-  def apply(refV: RefValue): (Value, State) = refV match {
-    case RefValueId(id) =>
-      (locals.getOrElse(id, globals.getOrElse(id, Absent)), this)
-    case RefValueProp(addr, value) =>
-      (heap(addr, value), this)
-    case RefValueAST(astV, name) =>
-      val ASTVal(ast) = astV
-      ast.semantics(name) match {
-        case Some((Func(fname, params, varparam, body), lst)) =>
-          val (locals, rest) = ((Map[Id, Value](), params) /: (astV :: lst)) {
-            case ((map, param :: rest), arg) =>
-              (map + (param -> arg), rest)
-            case (pair, _) => pair
-          }
-          rest match {
-            case Nil =>
-              val newSt = Interp.fixpoint(copy(context = fname, insts = List(body), locals = locals))
-              (newSt.retValue.getOrElse(Absent), copy(heap = newSt.heap, globals = newSt.globals))
-            case _ =>
-              (ASTMethod(Func(fname, rest, varparam, body), locals), this)
-          }
-        case None => ast.subs(name) match {
-          case Some(v) => (v, this)
-          case None => error(s"Unexpected semantics: ${ast.name}.$name")
-        }
-      }
-  }
 
   // initialize local variables
   def define(id: Id, value: Value): State = copy(locals = locals + (id -> value))
