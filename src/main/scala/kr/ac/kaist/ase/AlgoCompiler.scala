@@ -97,6 +97,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (
       opt("." | ";" | ",") ~> opt(next) ~> ("else" | "otherwise") ~> opt(
         cond |
+          "the order of evaluation needs to be reversed to preserve left to right evaluation" |
           name ~ "is a Reference to an Environment Record binding" |
           "the base of" ~ ref ~ "is an Environment Record" |
           name ~ "must be" ~ rep(not(",") ~ text) |
@@ -249,6 +250,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       """)))
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
       parseInst(s"""return (ScriptEvaluationJob script hostDefined)""")
+    } | (in ~ "if IsStringPrefix(" ~> name <~ ",") ~ (name <~ rep(rest ~ next) ~ out) ^^ {
+      case x ~ y => parseInst(s"return (< $y $x)")
+    } | ("if the mathematical value of" ~> name <~ "is less than the mathematical value of") ~ name <~ rest ^^ {
+      case x ~ y => parseInst(s"return (< $x $y)")
     } | ("let" ~> id <~ "be a new built-in function object that when called performs the action described by") ~ id <~ "." ~ rest ^^ {
       case x ~ y => parseInst(s"""{
         let $x = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
@@ -611,6 +616,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ e => pair(i, EUOp(ONeg, e))
     } | "the number of" ~ opt("code unit") ~ "elements" ~ ("in" | "of") ~> expr ^^ {
       case i ~ e => pair(i, ELength(e))
+    } | ("the result of performing abstract relational comparison" ~> name <~ "<") ~ name ~ opt("with" ~ name ~ "equal to" ~> expr) ^^ {
+      case x ~ y ~ Some(i ~ e) => pair(i, parseExpr(s"(AbstractRelationalComparison $x $y ${beautify(e)})"))
+      case x ~ y ~ None => pair(Nil, parseExpr(s"(AbstractRelationalComparison $x $y)"))
     } | "the string - concatenation of" ~> repsep(expr, "," ~ opt("and")) ^^ {
       case es =>
         val init: List[Inst] ~ Expr = pair(Nil, EStr(""))
@@ -736,11 +744,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(Nil, EBool(true))
       } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EBOp(OEq, x, y)))
-      } | (expr <~ "and") ~ (expr <~ "are the same object value") ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, x, y)))
       } | ("the" ~> name <~ "fields of") ~ name ~ ("and" ~> name <~ "are the boolean negation of each other") ^^ {
         case x ~ y ~ z => pair(Nil, parseExpr(s"""(|| (&& (= $y.$x true) (= $z.$x false)) (&& (= $y.$x false) (= $z.$x true)))"""))
-      } | (expr <~ "and") ~ (expr <~ ("are the same object value" | "are exactly the same sequence of code units ( same length and same code units at corresponding indices )")) ~ subCond ^^ {
+      } | (expr <~ "and") ~ (expr <~ ("are the same" ~ ("object" | "number") ~ "value" | "are exactly the same sequence of code units ( same length and same code units at corresponding indices )")) ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, x, y)))
       } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
         pair(Nil, EBool(false)) // TODO fix
@@ -921,6 +927,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), EStr(x)))
     } | ("the" ~> id <~ "flag of") ~ ref ^^ {
       case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
+    } | "the" ~> name <~ "flag" ^^ {
+      case x => pair(Nil, RefId(Id(x)))
     } | name ~ rep(field) ^^ {
       case x ~ es =>
         val i = (List[Inst]() /: es) { case (is, i ~ _) => is ++ i }
