@@ -15,7 +15,7 @@ object ModelGenerator {
     val grammar = spec.grammar
     val tys = spec.tys
 
-    List("ModelHelper", "BaseGlobal", "BaseHeap", "BuiltinHeap").foreach(filename => copyFile(
+    List("ModelHelper", "BaseGlobal", "BaseHeap", "BuiltinHeap", "NoParse").foreach(filename => copyFile(
       s"$RESOURCE_DIR/$VERSION/manual/$filename.scala",
       s"$MODEL_DIR/$filename.scala"
     ))

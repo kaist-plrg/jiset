@@ -2,7 +2,7 @@ package kr.ac.kaist.ase
 
 import java.io._
 import kr.ac.kaist.ase.core._
-import kr.ac.kaist.ase.model.{ AST, Parser => JSParser, StatementListItem, ModelHelper }
+import kr.ac.kaist.ase.model.{ AST, Parser => JSParser, StatementListItem, ModelHelper, NoParse }
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.phase._
 import org.scalatest._
@@ -89,10 +89,11 @@ class Test262Test extends ASETest {
 
   def init: Unit = {
     val initStList = includeMap("assert.js") ++ includeMap("sta.js")
+    val noParseSet = NoParse.failed.toSet ++ NoParse.long.toSet
     for (NormalTestConfig(filename, includes) <- shuffle(config.normal)) {
       val jsName = s"${dir.toString}/$filename"
       val name = removedExt(jsName).drop(dir.toString.length + 1)
-      check("Test262Eval", name, {
+      if (!(noParseSet contains name)) check("Test262Eval", name, {
         val jsConfig = aseConfig.copy(fileNames = List(jsName))
 
         val ast = Parse((), jsConfig)
