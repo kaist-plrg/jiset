@@ -6,7 +6,15 @@ import kr.ac.kaist.ase.model.{ Parser => JSParser }
 import org.apache.commons.text.StringEscapeUtils
 
 // CORE Interpreter
-object Interp {
+class Interp {
+
+  val timeout: Long = 3000
+  val startTime: Long = System.currentTimeMillis
+  var instCount = 0
+
+  def apply(inst: Inst) = interp(inst)
+  def apply(st: State) = fixpoint(st)
+
   // perform transition until instructions are empty
   def fixpoint(st: State): State = st.insts match {
     case Nil => st
@@ -16,6 +24,8 @@ object Interp {
 
   // instructions
   def interp(inst: Inst): State => State = st => {
+    instCount = instCount + 1
+    if ((instCount % 10000 == 0) && (System.currentTimeMillis - startTime) > timeout) error("timeoutInst")
     if (DEBUG_INTERP) inst match {
       case ISeq(_) =>
       case _ => println(s"${st.context}: ${beautify(inst)}")
@@ -123,7 +133,7 @@ object Interp {
       }
     case ERef(ref) =>
       val (refV, s0) = interp(ref)(st)
-      s0(refV)
+      interp(refV)(s0)
     case EFunc(params, varparam, body) =>
       (Func("<empty>", params, varparam, body), st)
     case EApp(fexpr, args) =>
@@ -150,7 +160,7 @@ object Interp {
               (map + (param -> av), s0, rest)
             case (triple, _) => triple
           }
-          val newSt = Interp.fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
+          val newSt = fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
           (newSt.retValue.getOrElse(Absent), s1.copy(heap = newSt.heap, globals = newSt.globals))
         case v => error(s"not a function: $v")
       }
@@ -287,13 +297,41 @@ object Interp {
     case RefId(id) => (RefValueId(id), st)
     case RefProp(ref, expr) =>
       val (refV, s0) = interp(ref)(st)
-      val (base, s1) = s0(refV)
+      val (base, s1) = interp(refV)(s0)
       val (p, s2) = interp(expr)(s1)
       ((base, p) match {
         case (addr: Addr, p) => RefValueProp(addr, p)
         case (ast: ASTVal, Str(name)) => RefValueAST(ast, name)
         case v => error(s"not an address: $v")
       }, s2)
+  }
+
+  def interp(refV: RefValue): State => (Value, State) = st => refV match {
+    case RefValueId(id) =>
+      (st.locals.getOrElse(id, st.globals.getOrElse(id, Absent)), st)
+    case RefValueProp(addr, value) =>
+      (st.heap(addr, value), st)
+    case RefValueAST(astV, name) =>
+      val ASTVal(ast) = astV
+      ast.semantics(name) match {
+        case Some((Func(fname, params, varparam, body), lst)) =>
+          val (locals, rest) = ((Map[Id, Value](), params) /: (astV :: lst)) {
+            case ((map, param :: rest), arg) =>
+              (map + (param -> arg), rest)
+            case (pair, _) => pair
+          }
+          rest match {
+            case Nil =>
+              val newSt = fixpoint(st.copy(context = fname, insts = List(body), locals = locals))
+              (newSt.retValue.getOrElse(Absent), st.copy(heap = newSt.heap, globals = newSt.globals))
+            case _ =>
+              (ASTMethod(Func(fname, rest, varparam, body), locals), st)
+          }
+        case None => ast.subs(name) match {
+          case Some(v) => (v, st)
+          case None => error(s"Unexpected semantics: ${ast.name}.$name")
+        }
+      }
   }
 
   // unary operators
