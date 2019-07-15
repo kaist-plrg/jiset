@@ -674,7 +674,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: Parser[List[Inst] ~ Expr] = (
     (("the code matched by this" ~> word <~ "is strict mode code") |
-      "the function code for" ~ opt("the" | "this") ~ name ~ "is strict mode code" |
+      "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
         pair(Nil, EBool(false)) // TODO : support strict mode code
       } | "no arguments were passed to this function invocation" ^^^ {
@@ -822,6 +822,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           pair(Nil, parseExpr(s"""(&& (= $t "Object") (|| (= $t "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
         case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ (i3 ~ f) => pair(i0 ++ i1 ++ i2 ++ i3, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
+      } | "classelement is classelement : ;" ^^^ {
+        pair(Nil, parseExpr("""(= (get-syntax ClassElement) ";")"""))
       }
   )
 
@@ -951,6 +953,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "the running execution context" ^^^ context |
     "the execution context stack" ^^^ executionStack |
     "the" ~ ty ~ "for which the method was invoked" ^^^ "this" |
+    "this this" ^^^ "this" |
     "the arguments object" ^^^ "args" |
     "[[" ~> word <~ "]]" |
     opt("the intrinsic object") ~> ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
