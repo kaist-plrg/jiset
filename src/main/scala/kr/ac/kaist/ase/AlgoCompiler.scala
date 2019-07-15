@@ -733,7 +733,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, r, l))))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
-      } | name <~ "is not empty" ^^ {
+      } | name <~ ("is not empty" | "has any elements") ^^ {
         case x => pair(Nil, parseExpr(s"(< 0i (length-of $x))"))
       } | (expr <~ ">") ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, y, x)))
@@ -912,7 +912,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseRef(s"IdentifierName")
     } | "the result of evaluating" ~> refWithOrdinal ^^ {
       case x => RefProp(x, EStr("Evaluation"))
-    } | ("the result of" ~> name <~ "of") ~ name ^^ {
+    } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
       case x ~ y => parseRef(s"$y.$x")
     } | "IsFunctionDefinition of" ~> id ^^ {
       case x => parseRef(s"$x.IsFunctionDefinition")
@@ -945,6 +945,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
     } | "the" ~> name <~ "flag" ^^ {
       case x => pair(Nil, RefId(Id(x)))
+    } | "the first" ~> word ^^ {
+      case x => pair(Nil, RefId(Id(x + "0")))
+    } | "the second" ~> word ^^ {
+      case x => pair(Nil, RefId(Id(x + "1")))
     } | name ~ rep(field) ^^ {
       case x ~ es =>
         val i = (List[Inst]() /: es) { case (is, i ~ _) => is ++ i }
