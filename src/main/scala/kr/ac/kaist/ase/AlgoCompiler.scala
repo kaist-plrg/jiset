@@ -344,6 +344,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           else return $temp
         } else {}
       }"""))
+    } | "for each own property key" ~> id ~> "of" ~> id <~ "that is an integer index" <~ rest ^^^ {
+      val temp1 = getTemp
+      val tempId = getTempId
+      ISeq(List(
+        parseInst(s"""let $temp1 = (map-keys O["SubMap"])"""),
+        forEachList(tempId, ERef(RefId(Id(temp1))), IAppend(ERef(RefId(tempId)), ERef(RefId(Id("keys"))))),
+        parseInst(s"""return keys""")
+      ))
     }
 
   // ignore statements
