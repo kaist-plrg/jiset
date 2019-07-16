@@ -3,6 +3,8 @@ package kr.ac.kaist.ase.model
 import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, RuntimeSemantics }
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
+import scala.util.{ Try, Success, Failure }
+
 import kr.ac.kaist.ase.error.UnexpectedShift
 import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.util.Useful._
@@ -357,6 +359,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         forEachList(tempId, ERef(RefId(Id(temp1))), IAppend(ERef(RefId(tempId)), ERef(RefId(Id("keys"))))),
         parseInst(s"""return keys""")
       ))
+    } | "increase" ~> id <~ "by 1" ^^ {
+      case x => IAssign(RefId(Id(x)), EBOp(OPlus, ERef(RefId(Id(x))), EINum(1)))
     }
 
   // ignore statements
@@ -416,11 +420,13 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // ReturnIfAbrupt
   lazy val returnIfAbruptExpr: Parser[List[Inst] ~ Expr] =
-    ("?" ~> expr | "ReturnIfAbrupt(" ~> expr <~ ")") ^^ {
-      case i ~ e => returnIfAbrupt(i, e, true)
-    } | "!" ~> expr ^^ {
-      case i ~ e => returnIfAbrupt(i, e, false)
-    }
+    (opt("the result of" ~ opt("performing")) ~>
+      "?" ~> expr | "ReturnIfAbrupt(" ~> expr <~ ")") ^^ {
+        case i ~ e => returnIfAbrupt(i, e, true)
+      } | opt("the result of" ~ opt("performing")) ~>
+      "!" ~> expr ^^ {
+        case i ~ e => returnIfAbrupt(i, e, false)
+      }
 
   // value expressions
   lazy val valueExpr: Parser[Expr] = (
@@ -431,6 +437,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         EINum(1L << k)
     } |
     "the numeric value zero" ^^^ { ENum(0.0) } |
+    "the numeric value 1" ^^^ { ENum(1.0) } |
     opt("the value" | "the string") ~> value ^^ {
       case "null" => ENull
       case "true" => EBool(true)
@@ -447,6 +454,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "ErrorData" -> undefined,
       "SubMap" -> (new SubMap())
     ))""")
+      case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
       case s => ENotYetImpl(s)
     } | const ^^ {
       case "[empty]" => parseExpr("CONST_emptySyntax")
@@ -491,38 +499,26 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           if (< $a $b) $x = $a
           else $x = $b
         }"""), parseExpr(x))
-    } | (opt("the result of" ~ opt("performing")) ~> opt("?")) ~ ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-      case o ~ (i0 ~ RefId(Id(x))) ~ list =>
+    } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case (i0 ~ RefId(Id(x))) ~ list =>
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
         val e = EApp(parseExpr(x), list.map { case i ~ e => e })
-        o match {
-          case Some(_) => returnIfAbrupt(i, e, true)
-          case None => pair(i, e)
-        }
-      case o ~ (i0 ~ (r @ RefProp(b, _))) ~ list =>
+        pair(i, e)
+      case (i0 ~ (r @ RefProp(b, _))) ~ list =>
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
         val e = EApp(ERef(r), ERef(b) :: list.map { case i ~ e => e })
-        o match {
-          case Some(_) => returnIfAbrupt(i, e, true)
-          case None => pair(i, e)
-        }
+        pair(i, e)
     } | ("the result of the comparison" ~> expr <~ "==") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, parseExpr(s"(AbstractEqualityComparison ${beautify(x)} ${beautify(y)})"))
-    } | (
-      opt("the result of" ~ opt("performing")) ~>
-      opt("?") ~
+    } | (opt("the result of" ~ opt("performing")) ~>
       (name <~ ("for" | "of")) ~
       (name <~ ("using" | "with" | "passing") ~ opt("arguments" | "argument")) ~
       repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
-      opt("as" ~ opt("the") ~ ("arguments" | "argument"))
-    ) ^^ {
-        case r ~ f ~ x ~ list =>
+      opt("as" ~ opt("the") ~ ("arguments" | "argument"))) ^^ {
+        case f ~ x ~ list =>
           val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
           val e = EApp(parseExpr(s"$x.$f"), list.map { case i ~ e => e })
-          r match {
-            case Some(_) => returnIfAbrupt(i, e, true)
-            case None => pair(i, e)
-          }
+          pair(i, e)
       }
   )
 
@@ -629,6 +625,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, parseExpr("(GetTypeOf val)"))
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
       pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), "ParenthesizedExpression", Nil))
+    } | "the number of arguments passed to this function call" ^^^ {
+      pair(Nil, parseExpr(s"""argumentsList["length"]"""))
+    } | "the active function object" ^^^ {
+      pair(Nil, parseExpr(s"""$context.Function"""))
+    } | "a zero - origined list containing the argument items in order" ^^^ {
+      pair(Nil, parseExpr(s"""argumentsList"""))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, r, Nil))
     } | "the string that is the only element of" ~> ref ^^ {
@@ -804,7 +806,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
       } | name <~ "has no elements" ^^ {
         case x => pair(Nil, parseExpr(s"(= 0i (length-of $x))"))
-      } | name <~ ("is not empty" | "has any elements") ^^ {
+      } | name <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
         case x => pair(Nil, parseExpr(s"(< 0i (length-of $x))"))
       } | (expr <~ ">") ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, y, x)))
