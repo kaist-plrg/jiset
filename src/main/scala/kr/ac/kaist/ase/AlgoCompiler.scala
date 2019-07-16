@@ -884,7 +884,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ e) => pair(i0 ++ i1 ++ i2, EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e)))
       } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral"))))
-      } | expr <~ "is either an objectliteral or an arrayliteral" ^^ {
+      } | expr <~ "is" <~ opt("either") <~ "an objectliteral or an arrayliteral" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
       } | expr <~ "is neither" <~ value <~ "nor the active function" ^^ {
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function")))))
