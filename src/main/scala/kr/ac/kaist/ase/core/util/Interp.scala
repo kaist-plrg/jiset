@@ -2,7 +2,7 @@ package kr.ac.kaist.ase.core
 
 import kr.ac.kaist.ase.DEBUG_INTERP
 import kr.ac.kaist.ase.error.NotSupported
-import kr.ac.kaist.ase.model.{ Parser => JSParser }
+import kr.ac.kaist.ase.model.{ Parser => ESParser, ESValueParser }
 import org.apache.commons.text.StringEscapeUtils
 
 // CORE Interpreter
@@ -212,12 +212,12 @@ class Interp {
       case (v, s0) => error(s"not an AST value: $v")
     }
     case EParseSyntax(code, rule, flags) => interp(code)(st) match {
-      case (ASTVal(ast), s0) => JSParser.rules.get(rule) match {
+      case (ASTVal(ast), s0) => ESParser.rules.get(rule) match {
         case Some(p) =>
-          (ASTVal(JSParser.parse(JSParser.term("") ~> p(ast.parserParams), ast.toString).get), s0)
+          (ASTVal(ESParser.parse(ESParser.term("") ~> p(ast.parserParams), ast.toString).get), s0)
         case None => error(s"not exist parse rule: $rule")
       }
-      case (Str(str), s0) => JSParser.rules.get(rule) match {
+      case (Str(str), s0) => ESParser.rules.get(rule) match {
         case Some(p) => {
           val (s1, parserParams) = ((s0, List[Boolean]()) /: flags) {
             case ((st, ps), param) =>
@@ -227,7 +227,7 @@ class Interp {
                 case _ => error(s"parserParams should be boolean")
               }
           }
-          (ASTVal(JSParser.parse(JSParser.term("") ~> p(parserParams), str).get), s1)
+          (ASTVal(ESParser.parse(ESParser.term("") ~> p(parserParams), str).get), s1)
         }
         case None => error(s"not exist parse rule: $rule")
       }
@@ -236,8 +236,8 @@ class Interp {
     case EParseString(code, pop) => interp(code)(st) match {
       case (Str(s), s0) => {
         (pop match {
-          case PStr => Str(StringEscapeUtils.unescapeEcmaScript(s.substring(1, s.length - 1)))
-          case PNum => Num(s.toDouble)
+          case PStr => Str(ESValueParser.parseString(s))
+          case PNum => Num(ESValueParser.parseNumber(s))
         }, s0)
       }
       case (v, s0) => error(s"not an String value: $v")
@@ -245,7 +245,7 @@ class Interp {
     case EConvert(expr, cop) => interp(expr)(st) match {
       case (Str(s), s0) => {
         (cop match {
-          case CStrToNum => Num(try { s.toDouble } catch { case e: Throwable => Double.NaN }) // TODO : implement StrToNum to follow specification
+          case CStrToNum => Num(ESValueParser.str2num(s))
           case _ => error(s"not convertable option: Str to $cop")
         }, s0)
       }

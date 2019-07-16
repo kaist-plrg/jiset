@@ -15,10 +15,17 @@ object ModelGenerator {
     val grammar = spec.grammar
     val tys = spec.tys
 
-    List("ModelHelper", "BaseGlobal", "BaseHeap", "BuiltinHeap", "NoParse").foreach(filename => copyFile(
-      s"$RESOURCE_DIR/$VERSION/manual/$filename.scala",
-      s"$MODEL_DIR/$filename.scala"
-    ))
+    List(
+      "BaseGlobal",
+      "BaseHeap",
+      "BuiltinHeap",
+      "ESValueParser",
+      "ModelHelper",
+      "NoParse"
+    ).foreach(filename => copyFile(
+        s"$RESOURCE_DIR/$VERSION/manual/$filename.scala",
+        s"$MODEL_DIR/$filename.scala"
+      ))
 
     GrammarGenerator(grammar)
     tys.foreach { case ((tname, methods)) => TypeGenerator(tname, methods) }

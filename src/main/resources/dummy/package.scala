@@ -9,7 +9,12 @@ package object model {
   val Parser: ESParsers = throw ModelNotYetGenerated
   object Model {
     val initState: State = throw ModelNotYetGenerated
-    val tyMap: Map[String, Map[Value, Value]] = Map()
+    val tyMap: Map[String, Map[Value, Value]] = throw ModelNotYetGenerated
+  }
+  object ESValueParser {
+    def parseString(str: String): String = throw ModelNotYetGenerated
+    def parseNumber(str: String): Double = throw ModelNotYetGenerated
+    def str2num(str: String): Double = throw ModelNotYetGenerated
   }
   trait AST {
     def name: String
