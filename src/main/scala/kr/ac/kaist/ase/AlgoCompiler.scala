@@ -129,7 +129,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("set the bound value for" ~> expr <~ "in") ~ expr ~ ("to" ~> expr) ^^ {
       case (i0 ~ p) ~ (i1 ~ e) ~ (i2 ~ v) =>
         ISeq(i0 ++ i1 ++ i2 :+ parseInst(s"${beautify(e)}.SubMap[${beautify(p)}].BoundValue = ${beautify(v)}"))
-    } | ("set" ~> ref) ~ ("as specified in" ~> (
+    } | ("set" ~> ref) ~ ("as" ~ ("described" | "specified") ~ "in" ~> (
+      "9.4.1.1" ^^^ parseExpr(getScalaName("BoundFunctionExoticObject.Call")) |
+      "9.4.1.2" ^^^ parseExpr(getScalaName("BoundFunctionExoticObject.Construct")) |
       "9.4.2.1" ^^^ parseExpr(getScalaName("ArrayExoticObject.DefineOwnProperty")) |
       "9.4.3.1" ^^^ parseExpr(getScalaName("StringExoticObject.GetOwnProperty")) |
       "9.4.3.2" ^^^ parseExpr(getScalaName("StringExoticObject.DefineOwnProperty")) |
@@ -548,6 +550,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
         pair(i, EList(list.map { case _ ~ e => e }))
+    } | ("a new list containing the same values as the list" ~> name <~ "in the same order followed by the same values as the list") ~ (name <~ "in the same order") ^^ {
+      case x ~ y =>
+        val elem = getTemp
+        val newList = getTemp
+        pair(List(
+          parseInst(s"let $newList = (copy-obj $x)"),
+          forEachList(Id(elem), parseExpr(y), parseInst(s"append $elem -> $newList"))
+        ), parseExpr(newList))
+    } | "a new (possibly empty) List consisting of all of the argument values provided after" ~ name ~ "in order" ^^^ {
+      pair(List(parseInst(s"(pop argumentsList 0i)")), parseExpr("argumentsList"))
     } | "a List whose elements are the arguments passed to this function" ^^^ {
       pair(Nil, parseExpr("argumentsList"))
     } | "a List whose sole item is" ~> expr ^^ {
@@ -610,8 +622,17 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, r, Nil))
     } | "the string that is the only element of" ~> ref ^^ {
       case i ~ r => pair(i, parseExpr(s"${beautify(r)}[0i]"))
+    } | ("the result of" ~> name <~ "minus the number of elements of") ~ name ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"(- $x (length-of $y))"))
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, ENotYetImpl(s"larger of $x and $y"))
+      case (i0 ~ x) ~ (i1 ~ y) =>
+        val a = beautify(x)
+        val b = beautify(y)
+        val temp = getTemp
+        pair(i0 ++ i1 :+ parseInst(s"""{
+          if (< $a $b) let $temp = $b
+          else let $temp = $a
+        }"""), parseExpr(temp))
     } | ("the result of applying" ~> name <~ "to") ~ (name <~ "and") ~ (name <~ "as if evaluating the expression" ~ rest) ^^ {
       case op ~ l ~ r =>
         val res = getTemp
@@ -635,6 +656,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("the result of" ~> expr <~ "passing") ~ expr ~ ("and" ~> expr <~ "as the arguments") ^^ {
       case (i0 ~ f) ~ (i1 ~ x) ~ (i2 ~ y) =>
         pair(i0 ++ i1 ++ i2, EApp(f, List(x, y)))
+    } | ("the string-concatenation of" ~> name <~ ", the code unit 0x0020(SPACE) , and") ~ name ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"""(+ (+ $x " ") $y)"""))
     } | ("the string - concatenation of" ~> opt("the previous value of") ~> expr <~ "and") ~ expr ^^ {
       case (i0 ~ e1) ~ (i1 ~ e2) =>
         pair(i0 ++ i1, EBOp(OPlus, e1, e2))
