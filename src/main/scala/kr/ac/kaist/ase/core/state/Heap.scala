@@ -58,7 +58,7 @@ case class Heap(
   }
 
   // keys of map
-  def keys(addr: Addr): (Addr, Heap) = this(addr) match {
+  def keys(addr: Addr, sorted: Boolean): (Addr, Heap) = this(addr) match {
     case (m: CoreMap) =>
       val newAddr = DynamicAddr(size)
       val newL = m.props.keys.toVector

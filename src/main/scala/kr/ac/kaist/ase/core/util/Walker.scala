@@ -88,7 +88,7 @@ trait Walker {
     case EConvert(expr, cop) => EConvert(walk(expr), walk(cop))
     case EContains(list, elem) => EContains(walk(list), walk(elem))
     case ECopy(obj) => ECopy(walk(obj))
-    case EKeys(obj) => EKeys(walk(obj))
+    case EKeys(obj, b) => EKeys(walk(obj), walk(b))
     case ENotYetImpl(msg) => ENotYetImpl(walk(msg))
     case ENotSupported(msg) => ENotSupported(walk(msg))
   }
@@ -167,6 +167,8 @@ trait Walker {
 
   // AST values
   def walk(ast: ASTVal): ASTVal = ast
+
+  def walk(b: Boolean): Boolean = b
 
   // reference values
   def walk(refV: RefValue): RefValue = refV match {

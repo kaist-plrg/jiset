@@ -59,8 +59,8 @@ case class State(
   }
 
   // keys of map
-  def keys(addr: Addr): (Addr, State) = {
-    val (newAddr, newHeap) = heap.keys(addr)
+  def keys(addr: Addr, sorted: Boolean): (Addr, State) = {
+    val (newAddr, newHeap) = heap.keys(addr, sorted)
     (newAddr, copy(heap = newHeap))
   }
 
