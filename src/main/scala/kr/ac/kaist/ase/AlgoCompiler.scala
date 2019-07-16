@@ -379,6 +379,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     arithExpr ^^ { pair(Nil, _) } |
     curExpr ^^ { pair(Nil, _) } |
     algoExpr ^^ { pair(Nil, _) } |
+    containsExpr ^^ { pair(Nil, _) } |
     returnIfAbruptExpr |
     callExpr |
     typeExpr ^^ { pair(Nil, _) } |
@@ -555,6 +556,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val algoExpr =
     "an empty sequence of algorithm steps" ^^^ {
       EFunc(Nil, None, emptyInst)
+    }
+
+  // contains expressions
+  lazy val containsExpr =
+    (opt("the result of") ~> name <~ literal("contains").filter(_ == List("Contains"))) ~ name ^^ {
+      case x ~ y => parseExpr(s"($x.Contains $y)")
     }
 
   // type expressions
