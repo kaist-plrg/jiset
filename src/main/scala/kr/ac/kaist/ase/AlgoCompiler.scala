@@ -491,13 +491,21 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           if (< $a $b) $x = $a
           else $x = $b
         }"""), parseExpr(x))
-    } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-      case (i0 ~ RefId(Id(x))) ~ list =>
+    } | (opt("the result of" ~ opt("performing")) ~> opt("?")) ~ ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case o ~ (i0 ~ RefId(Id(x))) ~ list =>
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
-        pair(i, EApp(parseExpr(x), list.map { case i ~ e => e }))
-      case (i0 ~ (r @ RefProp(b, _))) ~ list =>
+        val e = EApp(parseExpr(x), list.map { case i ~ e => e })
+        o match {
+          case Some(_) => returnIfAbrupt(i, e, true)
+          case None => pair(i, e)
+        }
+      case o ~ (i0 ~ (r @ RefProp(b, _))) ~ list =>
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
-        pair(i, EApp(ERef(r), ERef(b) :: list.map { case i ~ e => e }))
+        val e = EApp(ERef(r), ERef(b) :: list.map { case i ~ e => e })
+        o match {
+          case Some(_) => returnIfAbrupt(i, e, true)
+          case None => pair(i, e)
+        }
     } | ("the result of the comparison" ~> expr <~ "==") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, parseExpr(s"(AbstractEqualityComparison ${beautify(x)} ${beautify(y)})"))
     } | (
@@ -1061,6 +1069,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "[[" ~> word <~ "]]" |
     opt("the intrinsic object") ~> ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
     ("@@" ~> word | "[[@@" ~> word <~ "]]") ^^ { case x => s"SYMBOL_$x" } |
+    "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |
+    "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" } |
     word |
     id
   )
