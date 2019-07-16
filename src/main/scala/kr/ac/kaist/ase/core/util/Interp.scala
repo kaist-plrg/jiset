@@ -234,12 +234,18 @@ class Interp {
       case (v, s0) => error(s"not an AST value or a string: $v")
     }
     case EParseString(code, pop) => interp(code)(st) match {
-      case (Str(s), s0) => {
-        (pop match {
-          case PStr => Str(ESValueParser.parseString(s))
-          case PNum => Num(ESValueParser.parseNumber(s))
-        }, s0)
-      }
+      case (Str(s), s0) => (pop match {
+        case PStr => Str(ESValueParser.parseString(s))
+        case PNum => Num(ESValueParser.parseNumber(s))
+        case PTVNoSubs => Str(ESValueParser.parseTVNoSubstitutionTemplate(s))
+        case PTRVNoSubs => Str(ESValueParser.parseTRVNoSubstitutionTemplate(s))
+        case PTVHead => Str(ESValueParser.parseTVTemplateHead(s))
+        case PTRVHead => Str(ESValueParser.parseTRVTemplateHead(s))
+        case PTVMiddle => Str(ESValueParser.parseTVTemplateMiddle(s))
+        case PTRVMiddle => Str(ESValueParser.parseTRVTemplateMiddle(s))
+        case PTVTail => Str(ESValueParser.parseTVTemplateTail(s))
+        case PTRVTail => Str(ESValueParser.parseTRVTemplateTail(s))
+      }, s0)
       case (v, s0) => error(s"not an String value: $v")
     }
     case EConvert(expr, cop) => interp(expr)(st) match {

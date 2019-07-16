@@ -170,9 +170,18 @@ object Parser extends JavaTokenParsers with RegexParsers {
   }
 
   // parse-string operators
-  lazy private val pop: Parser[POp] = {
-    "string" ^^^ PStr | "number" ^^^ PNum
-  }
+  lazy private val pop: Parser[POp] = (
+    "string" ^^^ PStr |
+    "number" ^^^ PNum |
+    "tv-no-subs" ^^^ PTVNoSubs |
+    "trv-no-subs" ^^^ PTRVNoSubs |
+    "tv-head" ^^^ PTVHead |
+    "trv-head" ^^^ PTRVHead |
+    "tv-middle" ^^^ PTVMiddle |
+    "trv-middle" ^^^ PTRVMiddle |
+    "tv-tail" ^^^ PTVTail |
+    "trv-tail" ^^^ PTRVTail
+  )
 
   // convert operators
   lazy private val cop: Parser[COp] = (

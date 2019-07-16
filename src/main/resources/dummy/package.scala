@@ -14,6 +14,14 @@ package object model {
   object ESValueParser {
     def parseString(str: String): String = throw ModelNotYetGenerated
     def parseNumber(str: String): Double = throw ModelNotYetGenerated
+    def parseTVNoSubstitutionTemplate(str: String): String = throw ModelNotYetGenerated
+    def parseTRVNoSubstitutionTemplate(str: String): String = throw ModelNotYetGenerated
+    def parseTVTemplateHead(str: String): String = throw ModelNotYetGenerated
+    def parseTRVTemplateHead(str: String): String = throw ModelNotYetGenerated
+    def parseTVTemplateMiddle(str: String): String = throw ModelNotYetGenerated
+    def parseTRVTemplateMiddle(str: String): String = throw ModelNotYetGenerated
+    def parseTVTemplateTail(str: String): String = throw ModelNotYetGenerated
+    def parseTRVTemplateTail(str: String): String = throw ModelNotYetGenerated
     def str2num(str: String): Double = throw ModelNotYetGenerated
   }
   trait AST {

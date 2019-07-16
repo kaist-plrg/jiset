@@ -11,3 +11,7 @@ case class NoFileError(cmd: String) extends ParseError({
 case class NoParseRule(name: String) extends ParseError({
   s"No parsing rule for $name"
 })
+
+case class ParseFailed(msg: String) extends ParseError({
+  s"Parse failed: $msg"
+})

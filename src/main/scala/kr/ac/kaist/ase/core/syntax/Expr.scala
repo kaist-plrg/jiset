@@ -55,6 +55,14 @@ case class ENotSupported(msg: String) extends Expr {
 sealed trait POp extends CoreNode
 case object PStr extends POp
 case object PNum extends POp
+case object PTVNoSubs extends POp
+case object PTRVNoSubs extends POp
+case object PTVHead extends POp
+case object PTRVHead extends POp
+case object PTVMiddle extends POp
+case object PTRVMiddle extends POp
+case object PTVTail extends POp
+case object PTRVTail extends POp
 
 sealed trait COp extends CoreNode
 case object CStrToNum extends COp

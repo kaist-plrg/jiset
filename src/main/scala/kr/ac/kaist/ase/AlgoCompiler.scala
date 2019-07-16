@@ -226,7 +226,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("append the pair ( a two element list ) consisting of" ~> expr) ~ ("and" ~> expr) ~ ("to the end of" ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ z) => ISeq(i0 ++ i1 ++ i2 :+
         IAppend(EList(List(x, y)), z))
-    } | ("append" ~> expr) ~ ("as the last element of" ~> expr) ^^ {
+    } | ("append" ~> expr) ~ ("as the last element of" ~ opt("the list") ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
     } | ("append each item in" ~> expr <~ "to the end of") ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
@@ -578,6 +578,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           parseInst(s"let $newList = (copy-obj $x)"),
           forEachList(Id(elem), parseExpr(y), parseInst(s"append $elem -> $newList"))
         ), parseExpr(newList))
+    } | ("a List containing the elements, in order, of" ~> name <~ "followed by") ~ name ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"(new [$x, $y])"))
+    } | "a List containing" ~ ("only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> name ^^ {
+      case x => pair(Nil, parseExpr(s"(new [$x])"))
     } | "a new (possibly empty) List consisting of all of the argument values provided after" ~ name ~ "in order" ^^^ {
       pair(List(parseInst(s"(pop argumentsList 0i)")), parseExpr("argumentsList"))
     } | "a List whose elements are the arguments passed to this function" ^^^ {
@@ -684,6 +688,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("the result of" ~> expr <~ "passing") ~ expr ~ ("and" ~> expr <~ "as the arguments") ^^ {
       case (i0 ~ f) ~ (i1 ~ x) ~ (i2 ~ y) =>
         pair(i0 ++ i1 ++ i2, EApp(f, List(x, y)))
+    } | ("the sequence of code units consisting of the elements of" ~> name <~ "followed by the code units of") ~ name ~ ("followed by the elements of" ~> name) ^^ {
+      case x ~ y ~ z => pair(Nil, parseExpr(s"(+ (+ $x $y) $z)"))
+    } | ("the sequence of code units consisting of the code units of" ~> name <~ "followed by the elements of") ~ name ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"(+ $x $y)"))
+    } | "the String value consisting of the code units of" ~> expr ^^ {
+      case p => p
     } | ("the string-concatenation of" ~> name <~ ", the code unit 0x0020(SPACE) , and") ~ name ^^ {
       case x ~ y => pair(Nil, parseExpr(s"""(+ (+ $x " ") $y)"""))
     } | ("the string - concatenation of" ~> opt("the previous value of") ~> expr <~ "and") ~ expr ^^ {
@@ -720,6 +730,20 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr("""(parse-syntax "constructor(... args){ super (...args);}" MethodDefinition false false)""")
       } | "the result of parsing the source text constructor ( ) { } " <~ rest ^^^ {
         parseExpr("""(parse-syntax "constructor(){ }" MethodDefinition false false)""")
+      } | opt("the String value whose code units are the elements of") ~> "the TV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
+        case x => EParseString(ERef(RefId(Id(x))), x match {
+          case "NoSubstitutionTemplate" => PTVNoSubs
+          case "TemplateHead" => PTVHead
+          case "TemplateMiddle" => PTVMiddle
+          case "TemplateTail" => PTVTail
+        })
+      } | "the TRV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
+        case x => EParseString(ERef(RefId(Id(x))), x match {
+          case "NoSubstitutionTemplate" => PTRVNoSubs
+          case "TemplateHead" => PTRVHead
+          case "TemplateMiddle" => PTRVMiddle
+          case "TemplateTail" => PTRVTail
+        })
       } | (("the number whose value is MV of" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
         case x => EParseString(ERef(RefId(Id(x))), PNum)
       } | "a copy of" ~ opt("the List") ~> name ^^ {

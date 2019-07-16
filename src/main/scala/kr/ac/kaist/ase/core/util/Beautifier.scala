@@ -229,6 +229,14 @@ object Beautifier {
     override def walk(pop: POp): Unit = walk(pop match {
       case PStr => "string"
       case PNum => "number"
+      case PTVNoSubs => "tv-no-subs"
+      case PTRVNoSubs => "trv-no-subs"
+      case PTVHead => "tv-head"
+      case PTRVHead => "trv-head"
+      case PTVMiddle => "tv-middle"
+      case PTRVMiddle => "trv-middle"
+      case PTVTail => "tv-tail"
+      case PTRVTail => "trv-tail"
     })
 
     // convert operators
