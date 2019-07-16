@@ -720,6 +720,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           (|| (= absent $x.IteratedObject)
           (|| (= absent $x.ArrayIteratorNextIndex)
           (= absent $x.ArrayIterationKind)))"""))
+      } | name <~ "is a FunctionDeclaration, a GeneratorDeclaration, an AsyncFunctionDeclaration, or an AsyncGeneratorDeclaration" ^^ {
+        case x => pair(Nil, parseExpr(s"""
+          (|| (is-instance-of $x FunctionDeclaration)
+          (|| (is-instance-of $x GeneratorDeclaration)
+          (|| (is-instance-of $x AsyncFunctionDeclaration)
+          (is-instance-of $x AsyncGeneratorDeclaration))))"""))
       } | name <~ "is not one of NewTarget, SuperProperty, SuperCall," ~ value ~ opt(",") ~ "or" ~ value ^^ {
         case x => pair(Nil, parseExpr(s"""(!
           (|| (is-instance-of $x NewTarget)
