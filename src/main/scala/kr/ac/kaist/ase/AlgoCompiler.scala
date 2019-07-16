@@ -939,7 +939,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ r => pair(i, (l: Expr) => EBOp(OOr, l, r))
     } | "and" ~> opt("if") ~> cond ^^ {
       case i ~ r => pair(i, (l: Expr) => EBOp(OAnd, l, r))
-    } | guard("," ^^^ pair(Nil, x => x))
+    } | guard(("," | in) ^^^ pair(Nil, x => x))
 
   ////////////////////////////////////////////////////////////////////////////////
   // Types
