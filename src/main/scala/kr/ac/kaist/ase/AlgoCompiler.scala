@@ -656,6 +656,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         }""")), parseExpr(res))
     } | "the result of adding the value 1 to" ~> name <~ rest ^^ {
       case x => pair(Nil, parseExpr(s"(+ $x 1)"))
+    } | "the result of subtracting the value 1 from" ~> name <~ rest ^^ {
+      case x => pair(Nil, parseExpr(s"(- $x 1)"))
     } | ("the result of" ~> expr <~ "passing") ~ expr ~ ("and" ~> expr <~ "as the arguments") ^^ {
       case (i0 ~ f) ~ (i1 ~ x) ~ (i2 ~ y) =>
         pair(i0 ++ i1 ++ i2, EApp(f, List(x, y)))
