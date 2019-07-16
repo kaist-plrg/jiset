@@ -709,8 +709,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x => EParseString(ERef(RefId(Id(x))), PNum)
       } | "a copy of" ~ opt("the List") ~> name ^^ {
         case x => ECopy(ERef(RefId(Id(x))))
+      } | "the result of applying bitwise complement to" ~> name <~ rest ^^ {
+        case x => EUOp(OBNot, ERef(RefId(Id(x))))
       } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
         case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
+      } | ("the result of applying the ** operator with" ~> id <~ "and") ~ id <~ rest ^^ {
+        case e1 ~ e2 => EBOp(OPow, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
       } | ("the result of applying the multiplicativeoperator" <~ rest) ^^ {
         case _ => parseExpr(s"( MulOperation (get-syntax MultiplicativeOperator) lnum rnum)")
       } | ("the result of applying the subtraction operation to" <~ rest) ^^ {
