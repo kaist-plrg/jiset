@@ -712,6 +712,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           (|| (= absent $x.IteratedObject)
           (|| (= absent $x.ArrayIteratorNextIndex)
           (= absent $x.ArrayIterationKind)))"""))
+      } | name <~ "is not one of NewTarget, SuperProperty, SuperCall," ~ value ~ "or" ~ value ^^ {
+        case x => pair(Nil, parseExpr(s"""(!
+          (|| (is-instance-of $x NewTarget)
+          (|| (is-instance-of $x SuperProperty)
+          (|| (is-instance-of $x SuperCall)
+          (|| (= $x "super") (= $x "this"))))))"""))
       } | (name <~ "and") ~ (name <~ "are both") ~ (value <~ "or both") ~ value ^^ {
         case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
       } | name <~ "is a data property" ^^ {
