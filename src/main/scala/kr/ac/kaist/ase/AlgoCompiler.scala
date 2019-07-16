@@ -720,7 +720,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           (|| (= absent $x.IteratedObject)
           (|| (= absent $x.ArrayIteratorNextIndex)
           (= absent $x.ArrayIterationKind)))"""))
-      } | name <~ "is not one of NewTarget, SuperProperty, SuperCall," ~ value ~ "or" ~ value ^^ {
+      } | name <~ "is not one of NewTarget, SuperProperty, SuperCall," ~ value ~ opt(",") ~ "or" ~ value ^^ {
         case x => pair(Nil, parseExpr(s"""(!
           (|| (is-instance-of $x NewTarget)
           (|| (is-instance-of $x SuperProperty)
