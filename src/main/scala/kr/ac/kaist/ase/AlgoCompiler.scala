@@ -211,7 +211,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~ opt("classelement" | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of") ~> expr <~ opt(",") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
+    ("for each" ~ opt("classelement" | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of" | "from") ~> expr <~ opt(",") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
@@ -221,6 +221,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val appendStmt = (
     ("append" ~> expr) ~ ("to" ~ opt("the end of") ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
+    } | ("append the pair ( a two element list ) consisting of" ~> expr) ~ ("and" ~> expr) ~ ("to the end of" ~> expr) ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ z) => ISeq(i0 ++ i1 ++ i2 :+
+        IAppend(EList(List(x, y)), z))
     } | ("append" ~> expr) ~ ("as the last element of" ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
     } | ("append each item in" ~> expr <~ "to the end of") ~ expr ^^ {
@@ -346,7 +349,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           else return $temp
         } else {}
       }"""))
-    } | "for each own property key" ~> id ~> "of" ~> id <~ "that is an integer index" <~ rest ^^^ {
+    } | "for each own property key" ~> id ~> "of" ~> id <~ "that is an integer index" <~ rest ^^^ { // TODO: considering order of property key
       val temp1 = getTemp
       val tempId = getTempId
       ISeq(List(
@@ -720,6 +723,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr(s"(parse-string StringLiteral string)")
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
+      } | "an instance of the production formalparameters : [ empty ]" ^^^ {
+        parseExpr(s"""(parse-syntax "" FormalParameters)""")
       }
     ) ^^ { case e => pair(Nil, e) })
 
@@ -971,6 +976,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     }
   ) ^^ {
       case r => pair(Nil, r)
+    } | ("the first element of" ~> ref) ^^ {
+      case i ~ r => pair(i, RefProp(r, EINum(0)))
+    } | ("the second element of" ~> ref) ^^ {
+      case i ~ r => pair(i, RefProp(r, EINum(1)))
     } | ("the value of") ~> ref ^^ {
       case i ~ r => pair(i, r)
     } | "the outer lexical environment reference of" ~> ref ^^ {
