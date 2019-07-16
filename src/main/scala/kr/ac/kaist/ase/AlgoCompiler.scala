@@ -788,6 +788,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, r, l))))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
+      } | name <~ "has no elements" ^^ {
+        case x => pair(Nil, parseExpr(s"(= 0i (length-of $x))"))
       } | name <~ ("is not empty" | "has any elements") ^^ {
         case x => pair(Nil, parseExpr(s"(< 0i (length-of $x))"))
       } | (expr <~ ">") ~ expr ~ subCond ^^ {
@@ -811,8 +813,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           pair(i, parseExpr(s"(|| (= $l absent) (= $l $r))"))
       } | name <~ "does not have a Generator component" ^^ {
         case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
+      } | "the source code matching" ~ expr ~ "is strict mode code" ^^^ {
+        pair(Nil, EBool(false)) // TODO strict
       } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
-        pair(Nil, EBool(true))
+        pair(Nil, EBool(true)) // TODO strict
       } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EBOp(OEq, x, y)))
       } | ("the" ~> name <~ "fields of") ~ name ~ ("and" ~> name <~ "are the boolean negation of each other") ^^ {
