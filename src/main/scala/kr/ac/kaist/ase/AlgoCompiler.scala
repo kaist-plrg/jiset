@@ -292,6 +292,19 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         }""")
     } | "for each field of" ~ rest ^^^ {
       parseInst(s"""O.SubMap[P].Value = Desc.Value""") // TODO: move each field of record at ValidateAndApplyPropertyDescriptor
+    } | ("convert the property named" ~> id) ~ ("of object" ~> id <~ "from a data property to an accessor property" <~ rest) ^^^ {
+      val tempP = getTemp
+      parseInst(s"""{
+        let $tempP = O.SubMap[P]
+        O.SubMap[P] = (new AccessorProperty("Get" -> undefined, "Set" -> undefined, "Enumerable" -> $tempP["Enumerable"], "Configurable" -> $tempP["Configurable"]))
+      }""")
+    } | ("convert the property named" ~> id) ~ ("of object" ~> id <~ "from an accessor property to a data property" <~ rest) ^^^ {
+      val tempP = getTemp
+      parseInst(s"""{
+        let $tempP = O.SubMap[P]
+        O.SubMap[P] = (new DataProperty("Value" -> undefined, "Writable" -> false, "Enumerable" -> $tempP["Enumerable"], "Configurable" -> $tempP["Configurable"]))
+      }""")
+
     } | "parse" ~ id ~ "using script as the goal symbol and analyse the parse result for any early Error conditions" ~ rest ^^^ {
       parseInst(s"""let body = script""")
     } | "if declaration is declaration : hoistabledeclaration, then" ~> stmt ^^ {
@@ -629,7 +642,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, parseExpr(s"""argumentsList["length"]"""))
     } | "the active function object" ^^^ {
       pair(Nil, parseExpr(s"""$context.Function"""))
-    } | "a zero - origined list containing the argument items in order" ^^^ {
+    } | ("a zero - origined list containing the argument items in order" | ("the" ~ id ~ "that was passed to this function by" ~ rest)) ^^^ {
       pair(Nil, parseExpr(s"""argumentsList"""))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, r, Nil))
@@ -871,6 +884,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ e) => pair(i0 ++ i1 ++ i2, EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e)))
       } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral"))))
+      } | expr <~ "is either an objectliteral or an arrayliteral" ^^ {
+        case i ~ e => pair(i, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
       } | expr <~ "is neither" <~ value <~ "nor the active function" ^^ {
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function")))))
       } | (expr <~ "is neither") ~ (expr <~ "nor") ~ expr ^^ {
