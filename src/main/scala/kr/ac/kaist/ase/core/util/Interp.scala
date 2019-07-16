@@ -282,10 +282,10 @@ class Interp {
         case (addr: Addr) => s0.copyObj(addr)
         case v => error(s"not an address: $v")
       }
-    case EKeys(expr) =>
+    case EKeys(expr, b) =>
       val (v, s0) = interp(expr)(st)
       v match {
-        case (addr: Addr) => s0.keys(addr)
+        case (addr: Addr) => s0.keys(addr, b)
         case v => error(s"not an address: $v")
       }
     case ENotYetImpl(msg) => error(s"[NotYetImpl]:${st.context}: $msg")

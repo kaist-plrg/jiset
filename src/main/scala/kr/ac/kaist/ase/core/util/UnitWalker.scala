@@ -119,8 +119,8 @@ trait UnitWalker {
       walk(list); walk(elem)
     case ECopy(obj) =>
       walk(obj)
-    case EKeys(obj) =>
-      walk(obj)
+    case EKeys(obj, b) =>
+      walk(obj); walk(b);
     case ENotYetImpl(msg) =>
       walk(msg)
     case ENotSupported(msg) =>
@@ -152,6 +152,7 @@ trait UnitWalker {
   // convert operators
   def walk(cop: COp): Unit = {}
 
+  def walk(b: Boolean): Unit = {}
   ////////////////////////////////////////////////////////////////////////////////
   // States
   ////////////////////////////////////////////////////////////////////////////////
