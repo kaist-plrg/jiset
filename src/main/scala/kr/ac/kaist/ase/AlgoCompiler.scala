@@ -584,17 +584,28 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
             let $newList = (copy-obj $x)
             append $e -> $newList
           }"""), parseExpr(newList))
-      } | ("a List containing the elements, in order, of" ~> name <~ "followed by") ~ name ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"(new [$x, $y])"))
-      } | "a List containing" ~ ("only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> name ^^ {
-        case x => pair(Nil, parseExpr(s"(new [$x])"))
-      } | "a new (possibly empty) List consisting of all of the argument values provided after" ~ name ~ "in order" ^^^ {
-        pair(List(parseInst(s"(pop argumentsList 0i)")), parseExpr("argumentsList"))
-      } | "a List whose elements are the arguments passed to this function" ^^^ {
-        pair(Nil, parseExpr("argumentsList"))
-      } | "a List whose sole item is" ~> expr ^^ {
-        case i ~ e => pair(i, EList(List(e)))
-      }
+      } | ("a List whose first element is" ~> name <~ ", whose second elements is") ~ name ~ (", and whose subsequent elements are the elements of" ~> name <~ rest) ^^ {
+        case x ~ y ~ z =>
+          val newList = getTemp
+          pair(List(parseInst(s"""{
+            let $newList = (copy-obj $z)
+            append $y -> $newList
+            append $x -> $newList
+          }""")), parseExpr(newList))
+      } | (
+        ("a List containing the elements, in order, of" ~> name <~ "followed by") ~ name |
+        ("a List containing" ~> name <~ "followed by the elements , in order , of") ~ name
+      ) ^^ {
+          case x ~ y => pair(Nil, parseExpr(s"(new [$x, $y])"))
+        } | "a List containing" ~ ("only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> name ^^ {
+          case x => pair(Nil, parseExpr(s"(new [$x])"))
+        } | "a new (possibly empty) List consisting of all of the argument values provided after" ~ name ~ "in order" ^^^ {
+          pair(List(parseInst(s"(pop argumentsList 0i)")), parseExpr("argumentsList"))
+        } | "a List whose elements are the arguments passed to this function" ^^^ {
+          pair(Nil, parseExpr("argumentsList"))
+        } | "a List whose sole item is" ~> expr ^^ {
+          case i ~ e => pair(i, EList(List(e)))
+        }
 
   // current expressions
   lazy val curExpr =
