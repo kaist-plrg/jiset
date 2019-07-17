@@ -802,7 +802,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
       } | "an instance of the production formalparameters : [ empty ]" ^^^ {
-        parseExpr(s"""(parse-syntax "" FormalParameters)""")
+        parseExpr(s"""(parse-syntax "" FormalParameters false false)""")
       }
     ) ^^ { case e => pair(Nil, e) })
 
