@@ -399,6 +399,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "note:" |
     "this may be" |
     "as defined" |
+    "( if" |
     (opt("(") <~ ("see" | "it may be"))
   ) ~ rest ^^^ emptyInst
 
@@ -688,7 +689,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "an iterator object ( 25 . 1 . 1 . 2 ) whose" <~ value <~ "method iterates" <~ rest ^^^ {
       pair(Nil, parseExpr(s"""(CreateListIteratorRecord (EnumerateObjectPropertiesHelper O (new [])))"""))
     } | "the ecmascript code that is the result of parsing" ~> id <~ ", interpreted as utf - 16 encoded unicode text" <~ rest ^^^ {
-      pair(Nil, parseExpr(s"""(parse-syntax x Script)""")) // TODO : throw syntax error
+      pair(Nil, parseExpr(s"""(parse-syntax x "Script")""")) // TODO : throw syntax error
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, EStr(r), Nil))
     } | "the string that is the only element of" ~> ref ^^ {
@@ -844,6 +845,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(Nil, EBool(false)) // TODO : support strict mode code
       } | "no arguments were passed to this function invocation" ^^^ {
         pair(Nil, parseExpr(s"(= (length-of argumentsList) 0i)"))
+      } | name <~ "is an Identifier and StringValue of" ~ name ~ "is the same value as the StringValue of IdentifierName" ^^ {
+        case x => pair(Nil, parseExpr(s"(&& (is-instance-of $x Identifier) (= (get-syntax $x) (get-syntax IdentifierName)))"))
+      } | name <~ "is a ReservedWord" ^^ {
+        case x => pair(Nil, parseExpr(s"(! (is-instance-of $x Identifier))"))
       } | (name <~ "does not have a") ~ (name <~ "internal slot") ^^ {
         case x ~ y => pair(Nil, parseExpr(s"(= $x.$y absent)"))
       } | name <~ "does not have all of the internal slots of an Array Iterator Instance (22.1.5.3)" ^^ {
