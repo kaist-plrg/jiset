@@ -12,9 +12,9 @@ object GetTypeOf {
     else if (= t "Number") return "number"
     else if (= t "String") return "string"
     else if (= t "Symbol") return "symbol"
-    else if (= t "Object") {
+    else {
       if (= argument.Call absent) return "object"
       else return "function"
-    } else ??? "Wrong type of argument for GetTypeOf"
+    }
   }""")
 }

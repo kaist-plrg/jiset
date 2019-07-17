@@ -4,7 +4,7 @@ let map = globalEnv.EnvironmentRecord.DeclarativeRecord.SubMap
 let f = GLOBAL_context.Realm.GlobalObject.SubMap.f
 
 assert (contains varNames "f")
-assert (= (typeof f.Value) "Object")
+assert (= (typeof f.Value) "ECMAScriptFunctionObject")
 assert (= f.Writable true)
 assert (= f.Enumerable true)
 assert (= f.Configurable false)

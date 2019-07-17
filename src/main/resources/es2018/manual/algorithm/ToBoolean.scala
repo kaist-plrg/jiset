@@ -20,8 +20,6 @@ object ToBoolean {
             else return true
           } else if (= atype "Symbol") {
             return true
-          } else if (= atype "Object") {
-            return true
           } else {
             return true
           }

@@ -177,23 +177,21 @@ class Interp {
       (interp(bop)(lv, rv), s1)
     case ETypeOf(expr) => {
       val (v, s0) = interp(expr)(st)
-      (v match {
+      (Str(v match {
         case addr: Addr => s0.heap.map.getOrElse(addr, error(s"unknown address: $addr")) match {
           case CoreNotSupported(name) => throw NotSupported(name)
-          case obj =>
-            val name = obj.ty.name
-            Str(if (name.endsWith("Object")) "Object" else name)
+          case obj => obj.ty.name
         }
-        case Num(_) | INum(_) => Str("Number")
-        case Str(_) => Str("String")
-        case Bool(_) => Str("Boolean")
-        case Undef => Str("Undefined")
-        case Null => Str("Null")
-        case Absent => Str("Absent")
-        case Func(_, _, _, _) => Str("Function")
-        case ASTVal(_) => Str("AST")
-        case ASTMethod(_, _) => Str("ASTMethod")
-      }, s0)
+        case Num(_) | INum(_) => "Number"
+        case Str(_) => "String"
+        case Bool(_) => "Boolean"
+        case Undef => "Undefined"
+        case Null => "Null"
+        case Absent => "Absent"
+        case Func(_, _, _, _) => "Function"
+        case ASTVal(_) => "AST"
+        case ASTMethod(_, _) => "ASTMethod"
+      }), s0)
     }
     case EIsInstanceOf(base, kind) => interp(base)(st) match {
       case (ASTVal(ast), s0) => (Bool(ast.getKinds contains kind), s0)

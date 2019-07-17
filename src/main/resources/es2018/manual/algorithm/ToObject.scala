@@ -46,10 +46,8 @@ object ToObject {
             obj.SymbolData = argument
             obj.SubMap = (new SubMap())
             return obj
-          } else if (= atype "Object") {
-            return argument
           } else {
-            return argumeht
+            return argument
           }
         }"""
   ))

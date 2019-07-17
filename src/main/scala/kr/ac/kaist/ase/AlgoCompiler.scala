@@ -271,6 +271,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ e => ISeq(i ++ List(IAppend(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
         $context = $executionStack[(- (length-of $executionStack) 1i)]
       """)))
+    } | "if this method was called with more than one argument , then in left to right order , starting with the second argument , append each argument as the last element of" ~> name ^^ {
+      case x => parseInst(s"""{
+        (pop argumentsList 0i)
+        $x = argumentsList
+      }""")
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
       parseInst(s"""return (ScriptEvaluationJob script hostDefined)""")
     } | (in ~ "if IsStringPrefix(" ~> name <~ ",") ~ (name <~ rep(rest ~ next) ~ out) ^^ {
@@ -515,9 +520,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // call expressions
   lazy val callExpr = (
-    "type(" ~> expr <~ ")" ^^ {
-      case i ~ e => pair(i, ETypeOf(e))
-    } | "completion(" ~> expr <~ ")" ^^ {
+    "completion(" ~> expr <~ ")" ^^ {
       case i ~ e => pair(i, e)
     } | ("min(" ~> expr <~ ",") ~ (expr <~ ")") ^^ {
       case (i0 ~ l) ~ (i1 ~ r) =>
@@ -1015,7 +1018,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | expr <~ "is a data property" ^^ {
         case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("DataProperty")))
       } | expr <~ "is an object" ^^ {
-        case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("Object")))
+        case i ~ e => pair(i, parseExpr(s"""(= (Type ${beautify(e)}) "Object")"""))
       } | (expr <~ "is not" ~ ("a" | "an")) ~ ty ^^ {
         case (i ~ e) ~ t => pair(i, EUOp(ONot, EBOp(OEq, ETypeOf(e), EStr(t.name))))
       } | (expr <~ "is" ~ ("a" | "an")) ~ ty ^^ {
@@ -1043,16 +1046,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           (= absent $x.Configurable))))))"""))
       } | "type(" ~> name <~ ") is object and is either a built-in function object or has an [[ECMAScriptCode]] internal slot" ^^ {
         case x =>
-          val t = s"(typeof $x)"
+          val t = s"(Type $x)"
           pair(Nil, parseExpr(s"""(&& (= $t "Object") (|| (= $t "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
       } | ("type(" ~> name <~ ") is") ~ nonTrivialTyName ~ subCond ^^ {
-        case x ~ t ~ (i ~ f) => pair(i, f(parseExpr(s"""(= (typeof $x) "$t")""")))
+        case x ~ t ~ (i ~ f) => pair(i, f(parseExpr(s"""(= (Type $x) "$t")""")))
       } | ("type(" ~> name <~ ") is either") ~ rep(nonTrivialTyName <~ ",") ~ ("or" ~> nonTrivialTyName) ~ subCond ^^ {
         case x ~ ts ~ t ~ (i ~ f) =>
           val ty = getTemp
           val newTS = ts :+ t
           val e = parseExpr((ts :+ t).map(t => s"""(= $ty "$t")""").reduce((x, y) => s"(|| $x $y)"))
-          pair(i :+ parseInst(s"let $ty = (typeof $x)"), f(e))
+          pair(i :+ parseInst(s"let $ty = (Type $x)"), f(e))
       } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, l, r)))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
