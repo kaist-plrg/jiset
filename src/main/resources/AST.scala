@@ -11,6 +11,15 @@ trait AST {
   val info: ASTInfo
   val fullList: List[(String, Value)]
 
+  // to JSON format
+  def toJson: String = "{" + (fullList.map {
+    case (name, value) => "\"" + name + "\":" + (value match {
+      case ASTVal(ast) => ast.toJson
+      case Str(str) => "\"" + str + "\""
+      case _ => null
+    })
+  }).mkString(",") + "}"
+
   // get possible kinds
   def getKinds: SSet[String] = (list match {
     case List((_, ASTVal(ast))) => ast.getKinds

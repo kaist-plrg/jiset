@@ -30,6 +30,7 @@ package object model {
     val k: Int = throw ModelNotYetGenerated
     val parserParams: List[Boolean] = throw ModelNotYetGenerated
     val fullList: List[(String, Value)] = throw ModelNotYetGenerated
+    def toJson: String
     def getKinds: SSet[String] = throw ModelNotYetGenerated
     def getElems(given: String): List[AST] = throw ModelNotYetGenerated
     val list: List[(String, Value)] = throw ModelNotYetGenerated
