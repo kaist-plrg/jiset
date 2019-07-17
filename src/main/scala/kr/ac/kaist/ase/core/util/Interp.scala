@@ -215,32 +215,31 @@ class Interp {
       case (ASTVal(ast), s0) => (Str(ast.toString), s0)
       case (v, s0) => error(s"not an AST value: $v")
     }
-    case EParseSyntax(code, rule, flags) => interp(code)(st) match {
-      case (ASTVal(ast), s0) => ESParser.rules.get(rule) match {
-        case Some(p) =>
+    case EParseSyntax(code, rule, flags) =>
+      val (v, s0) = interp(code)(st)
+      val (p, s1) = interp(rule)(st) match {
+        case (Str(str), st) => (ESParser.rules.getOrElse(str, error(s"not exist parse rule: $rule")), st)
+        case (v, _) => error(s"not a string: $v")
+      }
+      v match {
+        case ASTVal(ast) =>
           val newAst = ESParser.parse(p(ast.parserParams), ast.toString).get
           if (newAst.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) throw NotSupported("Async/Generator")
-          (ASTVal(newAst), s0)
-        case None => error(s"not exist parse rule: $rule")
-      }
-      case (Str(str), s0) => ESParser.rules.get(rule) match {
-        case Some(p) => {
-          val (s1, parserParams) = ((s0, List[Boolean]()) /: flags) {
+          (ASTVal(newAst), s1)
+        case Str(str) =>
+          val (s2, parserParams) = ((s1, List[Boolean]()) /: flags) {
             case ((st, ps), param) =>
-              val (av, s0) = interp(param)(st)
+              val (av, s1) = interp(param)(st)
               av match {
-                case Bool(v) => (s0, ps :+ v)
+                case Bool(v) => (s1, ps :+ v)
                 case _ => error(s"parserParams should be boolean")
               }
           }
           val ast = ESParser.parse(p(parserParams), str).get
           if (ast.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) throw NotSupported("Async/Generator")
-          (ASTVal(ast), s1)
-        }
-        case None => error(s"not exist parse rule: $rule")
+          (ASTVal(ast), s2)
+        case v => error(s"not an AST value or a string: $v")
       }
-      case (v, s0) => error(s"not an AST value or a string: $v")
-    }
     case EParseString(code, pop) => interp(code)(st) match {
       case (Str(s), s0) => (pop match {
         case PStr => Str(ESValueParser.parseString(s))

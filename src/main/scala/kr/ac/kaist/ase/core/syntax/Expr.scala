@@ -40,8 +40,8 @@ case class EGetElems(base: Expr, name: String) extends Expr {
 }
 case class ELength(expr: Expr) extends Expr
 case class EGetSyntax(base: Expr) extends Expr
-case class EParseSyntax(code: Expr, rule: String, flags: List[Expr]) extends Expr {
-  override def toString: String = s"""EParseSyntax($code, "$rule", $flags)"""
+case class EParseSyntax(code: Expr, rule: Expr, flags: List[Expr]) extends Expr {
+  override def toString: String = s"""EParseSyntax($code, $rule, $flags)"""
 }
 case class EParseString(code: Expr, target: POp) extends Expr
 case class EConvert(source: Expr, target: COp) extends Expr

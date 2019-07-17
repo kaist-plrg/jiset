@@ -666,10 +666,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
             $str = (- $str 1i)
           }""")), parseExpr(str)
         )
+    } | "the grammar symbol" ~> name ^^ {
+      case x => pair(Nil, EStr(x))
     } | "a String according to Table 35" ^^^ {
       pair(Nil, parseExpr("(GetTypeOf val)"))
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
-      pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), "ParenthesizedExpression", Nil))
+      pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), EStr("ParenthesizedExpression"), Nil))
     } | "the number of arguments passed to this function call" ^^^ {
       pair(Nil, parseExpr(s"""argumentsList["length"]"""))
     } | "the active function object" ^^^ {
@@ -679,7 +681,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "an iterator object ( 25 . 1 . 1 . 2 ) whose" <~ value <~ "method iterates" <~ rest ^^^ {
       pair(Nil, parseExpr(s"""(CreateListIteratorRecord (EnumerateObjectPropertiesHelper O (new [])))"""))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
-      case r ~ (i ~ e) => pair(i, EParseSyntax(e, r, Nil))
+      case r ~ (i ~ e) => pair(i, EParseSyntax(e, EStr(r), Nil))
     } | "the string that is the only element of" ~> ref ^^ {
       case i ~ r => pair(i, parseExpr(s"${beautify(r)}[0i]"))
     } | ("the result of" ~> name <~ "minus the number of elements of") ~ name ^^ {
@@ -749,7 +751,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | "the algorithm steps defined in ListIterator" ~ rest ^^^ {
         parseExpr("ListIteratornext")
       } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
-        parseExpr("(parse-syntax CoverCallExpressionAndAsyncArrowHead CallMemberExpression)")
+        parseExpr("""(parse-syntax CoverCallExpressionAndAsyncArrowHead "CallMemberExpression")""")
       } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ "." ~ name ~ "is the" ~ rest ^^ {
         case f => parseExpr(s"($f.Code thisArgument argumentsList undefined $f)")
       } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ ". the" ~ rest ^^ {
@@ -757,9 +759,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | "the steps of an" ~> name <~ "function as specified below" ^^ {
         case x => parseExpr(s"$x")
       } | "the result of parsing the source text constructor ( . . . args ) " <~ rest ^^^ {
-        parseExpr("""(parse-syntax "constructor(... args){ super (...args);}" MethodDefinition false false)""")
+        parseExpr("""(parse-syntax "constructor(... args){ super (...args);}" "MethodDefinition" false false)""")
       } | "the result of parsing the source text constructor ( ) { } " <~ rest ^^^ {
-        parseExpr("""(parse-syntax "constructor(){ }" MethodDefinition false false)""")
+        parseExpr("""(parse-syntax "constructor(){ }" "MethodDefinition" false false)""")
       } | opt("the String value whose code units are the elements of") ~> "the TV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
         case x => EParseString(ERef(RefId(Id(x))), x match {
           case "NoSubstitutionTemplate" => PTVNoSubs
@@ -813,7 +815,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
       } | "an instance of the production formalparameters : [ empty ]" ^^^ {
-        parseExpr(s"""(parse-syntax "" FormalParameters false false)""")
+        parseExpr(s"""(parse-syntax "" "FormalParameters" false false)""")
       }
     ) ^^ { case e => pair(Nil, e) })
 
