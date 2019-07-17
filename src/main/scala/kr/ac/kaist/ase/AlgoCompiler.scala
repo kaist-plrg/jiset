@@ -517,12 +517,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, parseExpr(s"(AbstractEqualityComparison ${beautify(x)} ${beautify(y)})"))
     } | (opt("the result of" ~ opt("performing")) ~>
       (name <~ ("for" | "of")) ~
-      (name <~ ("using" | "with" | "passing") ~ opt("arguments" | "argument")) ~
+      (refWithOrdinal <~ ("using" | "with" | "passing") ~ opt("arguments" | "argument")) ~
       repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
       opt("as" ~ opt("the") ~ ("arguments" | "argument"))) ^^ {
         case f ~ x ~ list =>
           val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
-          val e = EApp(parseExpr(s"$x.$f"), list.map { case i ~ e => e })
+          val e = EApp(parseExpr(s"${beautify(x)}.$f"), list.map { case i ~ e => e })
           pair(i, e)
       }
   )
@@ -1078,8 +1078,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => RefId(Id(x + "0"))
     } | "the second" ~> word ^^ {
       case x => RefId(Id(x + "1"))
-    } | "this" ~ name ^^^ {
-      RefId(Id("this"))
     } | name ^^ {
       case x => RefId(Id(x))
     }
