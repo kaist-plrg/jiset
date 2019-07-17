@@ -53,6 +53,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     setStmt |
     recordStmt |
     incrementStmt |
+    decrementStmt |
     createStmt |
     throwStmt |
     whileStmt |
@@ -167,6 +168,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAssign(x, EBOp(OPlus, ERef(x), y)))
     }
 
+  // decrement statements
+  lazy val decrementStmt =
+    (("decrement" | "decrease") ~> ref <~ "by") ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAssign(x, EBOp(OSub, ERef(x), y)))
+    }
+
   // create statements
   lazy val createStmt =
     "create an own data property" ~ rest ^^^ {
@@ -216,6 +223,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ("for each" ~ opt("caseclause" | "classelement" | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of" | "from") ~> expr <~ opt(",") ~ opt("(NOTE: this is another complete iteration of the second CaseClauses),") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
+      case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
+    } | ("for each" ~ opt("Record { [ [ Key ] ] , [ [ Value ] ] }") ~> id <~ "that is an element of") ~ (expr <~ ", do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
     }
 
@@ -405,13 +414,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     returnIfAbruptExpr |
     callExpr |
     typeExpr ^^ { pair(Nil, _) } |
-    refExpr
+    refExpr |
+    parenExpr
   ) ~ subExpr ^^ {
       case (i1 ~ e1) ~ (i2 ~ f) => pair(i1 ++ i2, f(e1))
     }
 
+  lazy val parenExpr = "(" ~> expr <~ ")"
+
   lazy val subExpr: Parser[List[Inst] ~ (Expr => Expr)] =
-    "*" ~> expr ^^ {
+    "×" ~> expr ^^ {
       case i ~ r => pair(i, (l: Expr) => EBOp(OMul, l, r))
     } | "/" ~> expr ^^ {
       case i ~ r => pair(i, (l: Expr) => EBOp(ODiv, l, r))
@@ -441,8 +453,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         if (k < 0 | k > 62) throw UnexpectedShift(k)
         EINum(1L << k)
     } |
-    "the numeric value zero" ^^^ { ENum(0.0) } |
-    "the numeric value 1" ^^^ { ENum(1.0) } |
+    opt("the numeric value") ~ "zero" ^^^ { ENum(0.0) } |
     opt("the value" | "the string") ~> value ^^ {
       case "null" => ENull
       case "true" => EBool(true)
@@ -466,7 +477,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case const => parseExpr("CONST_" + const.replaceAll("-", ""))
     } | (number <~ ".") ~ number ^^ {
       case x ~ y => ENum(s"$x.$y".toDouble)
-    } | number ^^ { case s => EINum(java.lang.Long.decode(s)) }
+    } | opt("the numeric value") ~> number ^^ { case s => EINum(java.lang.Long.decode(s)) }
   )
 
   // arithmetic expressions
@@ -819,6 +830,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(Nil, EBool(false)) // TODO : support strict mode code
       } | "no arguments were passed to this function invocation" ^^^ {
         pair(Nil, parseExpr(s"(= (length-of argumentsList) 0i)"))
+      } | (name <~ "does not have a") ~ (name <~ "internal slot") ^^ {
+        case x ~ y => pair(Nil, parseExpr(s"(= $x.$y absent)"))
       } | name <~ "does not have all of the internal slots of an Array Iterator Instance (22.1.5.3)" ^^ {
         case x => pair(Nil, parseExpr(s"""
           (|| (= absent $x.IteratedObject)
@@ -870,8 +883,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x => pair(Nil, parseExpr(s"(< 0i (length-of $x))"))
       } | (expr <~ ">") ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, y, x)))
-      } | (expr <~ "is less than zero") ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ f) => pair(i0 ++ i1, f(EBOp(OLt, x, EINum(0))))
+      } | (expr <~ "is less than") ~ expr ~ subCond ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, x, y)))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, x, y))))
       } | (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ^^ {
@@ -1064,6 +1077,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     }
   ) ^^ {
       case r => pair(Nil, r)
+    } | "the list that is" ~> ref ^^ {
+      case p => p
+    } | "the string value of" ~> ref ^^ {
+      case p => p
     } | ("the first element of" ~> ref) ^^ {
       case i ~ r => pair(i, RefProp(r, EINum(0)))
     } | ("the second element of" ~> ref) ^^ {
@@ -1145,7 +1162,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ("@@" ~> word | "[[@@" ~> word <~ "]]") ^^ { case x => s"SYMBOL_$x" } |
     "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |
     "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" } |
-    "the" ~> word |
+    "the" ~> (word | id) |
     "caseclause" ~> id |
     word |
     id
