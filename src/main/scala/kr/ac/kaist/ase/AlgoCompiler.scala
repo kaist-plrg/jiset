@@ -226,7 +226,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("append the pair ( a two element list ) consisting of" ~> expr) ~ ("and" ~> expr) ~ ("to the end of" ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ z) => ISeq(i0 ++ i1 ++ i2 :+
         IAppend(EList(List(x, y)), z))
-    } | ("append" ~> expr) ~ ("as the last element of" ~ opt("the list") ~> expr) ^^ {
+    } | (("append" | "add") ~> expr) ~ ("as" ~ ("an" | "the last") ~ "element of" ~ opt("the list") ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
     } | ("append each item in" ~> expr <~ "to the end of") ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
@@ -236,9 +236,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(ERef(RefId(tempId)), l1)))
-    } | ("add" ~> expr <~ "as an element of the list") ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) =>
-        ISeq(i0 ++ i1 :+ IAppend(x, y))
     }
   )
 
@@ -311,11 +308,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case s => IIf(EIsInstanceOf(parseExpr("Declaration"), "HoistableDeclaration"), ISeq(List(parseInst("let HoistableDeclaration = Declaration"), s)), ISeq(Nil))
     } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
       parseInst(s"""if (is-instance-of Statement LabelledStatement) return Statement.TopLevelVarDeclaredNames else {}""")
-    } | ("let" ~> name <~ "be a new list of") ~ expr ~ ("with" ~> expr <~ "appended") ^^ {
-      case x ~ (i0 ~ l) ~ (i1 ~ v) => ISeq(i0 ++ i1 :+ parseInst(s"""{
-        let $x = (copy-obj ${beautify(l)})
-        append ${beautify(v)} -> $x
-      }"""))
     } | (("suspend" ~ name ~ "and remove it from the execution context stack") | ("pop" ~ name ~ "from the execution context stack" <~ rest)) ^^^ {
       val idx = getTemp
       parseInst(s"""{
@@ -570,6 +562,15 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
         pair(i, EList(list.map { case _ ~ e => e }))
+    } | ("a" ~ ("copy" | "new list") ~ "of" ~ opt("the List") ~> name) ~ opt("with" ~> expr <~ "appended") ^^ {
+      case x ~ None => pair(Nil, ECopy(ERef(RefId(Id(x)))))
+      case x ~ Some(i ~ y) =>
+        val e = beautify(y)
+        val newList = getTemp
+        pair(i :+ parseInst(s"""{
+          let $newList = (copy-obj $x)
+          append $e -> $newList
+        }"""), parseExpr(newList))
     } | ("a new list containing the same values as the list" ~> name <~ "in the same order followed by the same values as the list") ~ (name <~ "in the same order") ^^ {
       case x ~ y =>
         val elem = getTemp
@@ -746,8 +747,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         })
       } | (("the number whose value is MV of" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
         case x => EParseString(ERef(RefId(Id(x))), PNum)
-      } | "a copy of" ~ opt("the List") ~> name ^^ {
-        case x => ECopy(ERef(RefId(Id(x))))
       } | "the result of applying bitwise complement to" ~> name <~ rest ^^ {
         case x => EUOp(OBNot, ERef(RefId(Id(x))))
       } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
