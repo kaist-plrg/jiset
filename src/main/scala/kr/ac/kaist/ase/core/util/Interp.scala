@@ -218,7 +218,9 @@ class Interp {
     case EParseSyntax(code, rule, flags) => interp(code)(st) match {
       case (ASTVal(ast), s0) => ESParser.rules.get(rule) match {
         case Some(p) =>
-          (ASTVal(ESParser.parse(ESParser.term("") ~> p(ast.parserParams), ast.toString).get), s0)
+          val newAst = ESParser.parse(p(ast.parserParams), ast.toString).get
+          if (newAst.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) throw NotSupported("Async/Generator")
+          (ASTVal(newAst), s0)
         case None => error(s"not exist parse rule: $rule")
       }
       case (Str(str), s0) => ESParser.rules.get(rule) match {
@@ -231,7 +233,9 @@ class Interp {
                 case _ => error(s"parserParams should be boolean")
               }
           }
-          (ASTVal(ESParser.parse(ESParser.term("") ~> p(parserParams), str).get), s1)
+          val ast = ESParser.parse(p(parserParams), str).get
+          if (ast.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) throw NotSupported("Async/Generator")
+          (ASTVal(ast), s1)
         }
         case None => error(s"not exist parse rule: $rule")
       }
