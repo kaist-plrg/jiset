@@ -286,6 +286,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       parseInst("let global = undefined")
     } | "if the host requires that the" ~ rest ^^^ {
       parseInst("let thisValue = undefined")
+    } | "perform any necessary implementation - defined initialization of" <~ rest ^^^ {
+      parseInst(s"""{
+        let localEnv = (NewFunctionEnvironment F undefined)
+        calleeContext["LexicalEnvironment"] = localEnv
+        calleeContext["VariableEnvironment"] = localEnv
+      }""")
     } | ("if" ~> name <~ "is an element of") ~ name <~ ", remove that element from the" ~ name ^^ {
       case x ~ l =>
         val idx = getTemp
@@ -384,7 +390,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "create any implementation-defined" |
     "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
     "if" ~ id ~ "is a List of errors," |
-    "perform any necessary implementation - defined initialization of" |
     "Set the remainder of" ~ id ~ "'s essential internal methods to the default ordinary object definitions specified in 9.1"
   ) ~ rest ^^^ emptyInst
 
@@ -549,6 +554,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         EStr("SubMap") -> EMap(Ty("SubMap"), Nil),
         EStr("BindingObject") -> e
       )))
+    } | "a new realm record" ^^^ {
+      pair(Nil, ERef(RefId(Id("REALM"))))
     } | ("a new" | "a newly created") ~> ty <~ opt(("with" | "that" | "containing") ~ rest) ^^ {
       case t => pair(Nil, EMap(t, List(EStr("SubMap") -> EMap(Ty("SubMap"), Nil)))) // TODO handle after "with" or "that"
     } | ("a value of type reference whose base value component is" ~> expr) ~
@@ -633,7 +640,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // contains expressions
   lazy val containsExpr =
     (opt("the result of") ~> name <~ literal("contains").filter(_ == List("Contains"))) ~ name ^^ {
-      case x ~ y => parseExpr(s"($x.Contains $y)")
+      case x ~ y => if (y == "ScriptBody") parseExpr("true") else parseExpr(s"($x.Contains $y)")
     }
 
   // type expressions
@@ -680,6 +687,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, parseExpr(s"""argumentsList"""))
     } | "an iterator object ( 25 . 1 . 1 . 2 ) whose" <~ value <~ "method iterates" <~ rest ^^^ {
       pair(Nil, parseExpr(s"""(CreateListIteratorRecord (EnumerateObjectPropertiesHelper O (new [])))"""))
+    } | "the ecmascript code that is the result of parsing" ~> id <~ ", interpreted as utf - 16 encoded unicode text" <~ rest ^^^ {
+      pair(Nil, parseExpr(s"""(parse-syntax x Script)""")) // TODO : throw syntax error
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, EStr(r), Nil))
     } | "the string that is the only element of" ~> ref ^^ {
@@ -830,7 +839,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val cond: Parser[List[Inst] ~ Expr] = (
     (("the code matched by this" ~> word <~ "is strict mode code") |
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
-      "the code matching the syntactic production that is being evaluated is contained in strict mode code") ^^^ {
+      "the code matching the syntactic production that is being evaluated is contained in strict mode code" |
+      "the directive prologue of statementList contains a use strict directive") ^^^ {
         pair(Nil, EBool(false)) // TODO : support strict mode code
       } | "no arguments were passed to this function invocation" ^^^ {
         pair(Nil, parseExpr(s"(= (length-of argumentsList) 0i)"))
@@ -904,6 +914,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           val l = beautify(x)
           val r = beautify(v)
           pair(i, parseExpr(s"(|| (= $l absent) (= $l $r))"))
+      } | (ref <~ "has the value") ~ valueExpr ^^ {
+        case (i ~ x) ~ v =>
+          val l = beautify(x)
+          val r = beautify(v)
+          pair(i, parseExpr(s"(= $l $r)"))
       } | name <~ "does not have a Generator component" ^^ {
         case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
       } | "the source code matching" ~ expr ~ "is strict mode code" ^^^ {
@@ -938,7 +953,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, exists(r), EBOp(OEq, ERef(r), e)))
       } | (ref <~ "is present" <~ opt("as a parameter")) ~ subCond ^^ {
         case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(exists(r)))
-      } | (expr <~ "is not") ~ expr ~ subCond ^^ {
+      } | (expr <~ "is not" <~ opt("the same as")) ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, l, r))))
       } | (name <~ "and") ~ (name <~ "are both the same Symbol value") ^^ {
         case x ~ y => pair(Nil, parseExpr(s"""(&& (&& (= (typeof $x) "Symbol") (= (typeof $y) "Symbol")) (= $x $y))"""))
@@ -973,6 +988,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("DataProperty")))
       } | expr <~ "is an object" ^^ {
         case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("Object")))
+      } | (expr <~ "is not" ~ ("a" | "an")) ~ ty ^^ {
+        case (i ~ e) ~ t => pair(i, EUOp(ONot, EBOp(OEq, ETypeOf(e), EStr(t.name))))
       } | (expr <~ "is" ~ ("a" | "an")) ~ ty ^^ {
         case (i ~ e) ~ t => pair(i, EBOp(OEq, ETypeOf(e), EStr(t.name)))
       } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
@@ -1168,6 +1185,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" } |
     "the" ~> (word | id) |
     "caseclause" ~> id |
+    "the" ~> id |
     word |
     id
   )

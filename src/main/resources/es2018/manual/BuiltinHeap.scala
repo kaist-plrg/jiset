@@ -116,6 +116,12 @@ object BuiltinHeap {
   )
 
   private val mapInfo: Map[String, Struct] = (Map(
+    "REALM" -> Struct(
+      typeName = "RealmRecord",
+      imap = IMap(),
+      nmap = NMap()
+    ),
+
     "GLOBAL" -> Struct(
       typeName = "Map",
       imap = IMap(),

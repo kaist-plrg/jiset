@@ -19,7 +19,8 @@ object BaseGlobal {
     "IsArrayIndex" -> IsArrayIndex.func,
     "GLOBAL_executionStack" -> NamedAddr("executionStack"),
     "GLOBAL_context" -> Null,
-    "GLOBAL" -> NamedAddr("GLOBAL")
+    "GLOBAL" -> NamedAddr("GLOBAL"),
+    "REALM" -> NamedAddr("REALM")
   )
 
   lazy val get: Map[Id, Value] = map.map {
