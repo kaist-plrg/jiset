@@ -46,6 +46,12 @@ trait AST {
     }
   }
 
+  // existence check
+  def exists(kindFilter: String => Boolean): Boolean = kindFilter(kind) || list.exists {
+    case (_, ASTVal(ast)) => ast.exists(kindFilter)
+    case _ => false
+  }
+
   // get sub-AST
   def subs(name: String): Option[Value] = list.toMap.get(name)
 
@@ -68,4 +74,3 @@ trait ASTInfo {
   val maxK: Int
   val semMap: Map[String, Func]
 }
-

@@ -2,6 +2,7 @@ package kr.ac.kaist.ase
 
 import java.io._
 import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.model.{ AST, Parser => JSParser, StatementListItem, ModelHelper, NoParse }
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.phase._
@@ -25,17 +26,6 @@ class Test262Test extends ASETest {
   // base directory
   val test262Dir = s"$TEST_DIR/test262"
 
-  // tests for js-parser
-  // def parseJSTest(ast: => AST): Unit = {
-  //   val timeoutMs: Long = 60000
-  //   try {
-  //     Await.result(Future(ast), timeoutMs milliseconds)
-  //   } catch {
-  //     case e: TimeoutException => fail("timeout")
-  //   }
-  //   val newAST = JSParser.fromString(ast.toString)
-  //   assert(ast == newAST)
-  // }
   // check backward-compatibility aftera all tests
   override def afterAll(): Unit = {
     val suffix = new SimpleDateFormat("yyMMddHHmm").format(new Date())
@@ -97,10 +87,9 @@ class Test262Test extends ASETest {
         val jsConfig = aseConfig.copy(fileNames = List(jsName))
 
         val ast = Parse((), jsConfig)
-        // check("Test262Parse", name, {
-        //   println(name)
-        //   parseJSTest(ast)
-        // })
+        if (ast.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) {
+          throw NotSupported("Async/Generator")
+        }
 
         val stList = includes.foldLeft(initStList) {
           case (li, s) => li ++ includeMap(s)
