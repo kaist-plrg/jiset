@@ -562,34 +562,37 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
         pair(i, EList(list.map { case _ ~ e => e }))
-    } | ("a" ~ ("copy" | "new list") ~ "of" ~ opt("the List") ~> name) ~ opt("with" ~> expr <~ "appended") ^^ {
-      case x ~ None => pair(Nil, ECopy(ERef(RefId(Id(x)))))
-      case x ~ Some(i ~ y) =>
-        val e = beautify(y)
-        val newList = getTemp
-        pair(i :+ parseInst(s"""{
-          let $newList = (copy-obj $x)
-          append $e -> $newList
-        }"""), parseExpr(newList))
-    } | ("a new list containing the same values as the list" ~> name <~ "in the same order followed by the same values as the list") ~ (name <~ "in the same order") ^^ {
-      case x ~ y =>
-        val elem = getTemp
-        val newList = getTemp
-        pair(List(
-          parseInst(s"let $newList = (copy-obj $x)"),
-          forEachList(Id(elem), parseExpr(y), parseInst(s"append $elem -> $newList"))
-        ), parseExpr(newList))
-    } | ("a List containing the elements, in order, of" ~> name <~ "followed by") ~ name ^^ {
-      case x ~ y => pair(Nil, parseExpr(s"(new [$x, $y])"))
-    } | "a List containing" ~ ("only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> name ^^ {
-      case x => pair(Nil, parseExpr(s"(new [$x])"))
-    } | "a new (possibly empty) List consisting of all of the argument values provided after" ~ name ~ "in order" ^^^ {
-      pair(List(parseInst(s"(pop argumentsList 0i)")), parseExpr("argumentsList"))
-    } | "a List whose elements are the arguments passed to this function" ^^^ {
-      pair(Nil, parseExpr("argumentsList"))
-    } | "a List whose sole item is" ~> expr ^^ {
-      case i ~ e => pair(i, EList(List(e)))
-    }
+    } | (
+      ("a new list containing the same values as the list" ~> name <~ "in the same order followed by the same values as the list") ~ (name <~ "in the same order") |
+      ("a copy of" ~> name <~ "with all the elements of") ~ (name <~ "appended")
+    ) ^^ {
+        case x ~ y =>
+          val elem = getTemp
+          val newList = getTemp
+          pair(List(
+            parseInst(s"let $newList = (copy-obj $x)"),
+            forEachList(Id(elem), parseExpr(y), parseInst(s"append $elem -> $newList"))
+          ), parseExpr(newList))
+      } | ("a" ~ ("copy" | "new list") ~ "of" ~ opt("the List") ~> name) ~ opt("with" ~> expr <~ "appended") ^^ {
+        case x ~ None => pair(Nil, ECopy(ERef(RefId(Id(x)))))
+        case x ~ Some(i ~ y) =>
+          val e = beautify(y)
+          val newList = getTemp
+          pair(i :+ parseInst(s"""{
+            let $newList = (copy-obj $x)
+            append $e -> $newList
+          }"""), parseExpr(newList))
+      } | ("a List containing the elements, in order, of" ~> name <~ "followed by") ~ name ^^ {
+        case x ~ y => pair(Nil, parseExpr(s"(new [$x, $y])"))
+      } | "a List containing" ~ ("only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> name ^^ {
+        case x => pair(Nil, parseExpr(s"(new [$x])"))
+      } | "a new (possibly empty) List consisting of all of the argument values provided after" ~ name ~ "in order" ^^^ {
+        pair(List(parseInst(s"(pop argumentsList 0i)")), parseExpr("argumentsList"))
+      } | "a List whose elements are the arguments passed to this function" ^^^ {
+        pair(Nil, parseExpr("argumentsList"))
+      } | "a List whose sole item is" ~> expr ^^ {
+        case i ~ e => pair(i, EList(List(e)))
+      }
 
   // current expressions
   lazy val curExpr =
