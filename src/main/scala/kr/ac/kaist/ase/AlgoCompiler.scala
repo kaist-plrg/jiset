@@ -394,7 +394,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "note:" |
     "this may be" |
     "as defined" |
-    (opt("(") <~ "see")
+    (opt("(") <~ ("see" | "it may be"))
   ) ~ rest ^^^ emptyInst
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -676,6 +676,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, parseExpr(s"""$context.Function"""))
     } | ("a zero - origined list containing the argument items in order" | ("the" ~ id ~ "that was passed to this function by" ~ rest)) ^^^ {
       pair(Nil, parseExpr(s"""argumentsList"""))
+    } | "an iterator object ( 25 . 1 . 1 . 2 ) whose" <~ value <~ "method iterates" <~ rest ^^^ {
+      pair(Nil, parseExpr(s"""(CreateListIteratorRecord (EnumerateObjectPropertiesHelper O (new [])))"""))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, r, Nil))
     } | "the string that is the only element of" ~> ref ^^ {
@@ -811,7 +813,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
       } | "an instance of the production formalparameters : [ empty ]" ^^^ {
-        parseExpr(s"""(parse-syntax "" FormalParameters)""")
+        parseExpr(s"""(parse-syntax "" FormalParameters false false)""")
       }
     ) ^^ { case e => pair(Nil, e) })
 

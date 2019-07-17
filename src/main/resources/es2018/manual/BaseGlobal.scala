@@ -5,6 +5,7 @@ import kr.ac.kaist.ase.core._
 object BaseGlobal {
   private val map: Map[String, Value] = Map(
     "RequireObjectCoercible" -> RequireObjectCoercible.func,
+    "EnumerateObjectPropertiesHelper" -> EnumerateObjectPropertiesHelper.func,
     "ToNumber" -> ToNumber.func,
     "ToBoolean" -> ToBoolean.func,
     "ToObject" -> ToObject.func,
