@@ -329,13 +329,17 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case s => IIf(EIsInstanceOf(parseExpr("Declaration"), "HoistableDeclaration"), ISeq(List(parseInst("let HoistableDeclaration = Declaration"), s)), ISeq(Nil))
     } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
       parseInst(s"""if (is-instance-of Statement LabelledStatement) return Statement.TopLevelVarDeclaredNames else {}""")
-    } | (("suspend" ~ name ~ "and remove it from the execution context stack") | ("pop" ~ name ~ "from the execution context stack" <~ rest)) ^^^ {
-      val idx = getTemp
-      parseInst(s"""{
+    } | (("suspend" ~> name <~ "and remove it from the execution context stack") | ("pop" ~> name <~ "from the execution context stack" <~ rest)) ^^ {
+      case x => {
+        val idx = getTemp
+        parseInst(s"""{
         $context = null
-        $idx = (- (length-of $executionStack) 1i)
-        (pop $executionStack $idx)
+        if (= $executionStack[(- (length-of $executionStack) 1i)] $x) {
+          $idx = (- (length-of $executionStack) 1i)
+          (pop $executionStack $idx)
+        } else {}
       }""")
+      }
     } | "suspend the currently running execution context" ^^^ {
       parseInst(s"""$context = null""")
     } | "suspend" ~> name ^^ {
@@ -343,13 +347,17 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         $context = null
         $x = null
       }""")
-    } | "remove" ~ id ~ "from the execution context stack and restore" ~ id ~ "as the running execution context" ^^^ {
-      val idx = getTemp
-      parseInst(s"""{
-        $idx = (- (length-of $executionStack) 1i)
-        (pop $executionStack $idx)
+    } | "remove" ~> id <~ "from the execution context stack and restore" ~ id ~ "as the running execution context" ^^ {
+      case x => {
+        val idx = getTemp
+        parseInst(s"""{
+        if (= $executionStack[(- (length-of $executionStack) 1i)] $x) {
+          $idx = (- (length-of $executionStack) 1i)
+          (pop $executionStack $idx)
+        } else {}
         $context = $executionStack[(- $idx 1i)]
       }""")
+      }
     } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
       parseInst(s"""$context = $executionStack[(- (length-of $executionStack) 1i)]""")
     } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27. all of those internal slots are initialized to" ~ value ^^ {
@@ -466,7 +474,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         EINum(1L << k)
     } |
     opt("the numeric value") ~ "zero" ^^^ { ENum(0.0) } |
-    opt("the value" | "the string") ~> value ^^ {
+    opt("the value" | ("the" ~ opt("single - element") ~ "string")) ~> value ^^ {
       case "null" => ENull
       case "true" => EBool(true)
       case "false" => EBool(false)
