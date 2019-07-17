@@ -394,9 +394,9 @@ class Interp {
     case (OBAnd, INum(l), INum(r)) => INum(l & r)
     case (OBOr, INum(l), INum(r)) => INum(l | r)
     case (OBXOr, INum(l), INum(r)) => INum(l ^ r)
-    case (OLShift, INum(l), INum(r)) => INum(l << r)
-    case (OSRShift, INum(l), INum(r)) => INum(l >> r)
-    case (OURShift, INum(l), INum(r)) => INum(l >>> r)
+    case (OLShift, INum(l), INum(r)) => INum((l.toInt << r.toInt).toLong)
+    case (OSRShift, INum(l), INum(r)) => INum((l.toInt >> r.toInt).toLong)
+    case (OURShift, INum(l), INum(r)) => INum((l.toInt >>> r.toInt).toLong)
 
     // logical operations
     case (OAnd, Bool(l), Bool(r)) => Bool(l && r)

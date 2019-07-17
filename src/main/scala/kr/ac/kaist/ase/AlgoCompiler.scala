@@ -754,6 +754,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x => EParseString(ERef(RefId(Id(x))), PNum)
       } | "the result of applying bitwise complement to" ~> name <~ rest ^^ {
         case x => EUOp(OBNot, ERef(RefId(Id(x))))
+      } | "the result of masking out all but the least significant 5 bits of" ~> name <~ rest ^^ {
+        case x => parseExpr(s"(& $x 31i)")
+      } | ("the result of left shifting" ~> name <~ "by") ~ (name <~ "bits" ~ rest) ^^ {
+        case x ~ y => parseExpr(s"(<< $x $y)")
+      } | ("the result of performing a sign-extending right shift of" ~> name <~ "by") ~ (name <~ "bits" ~ rest) ^^ {
+        case x ~ y => parseExpr(s"(>> $x $y)")
+      } | ("the result of performing a zero-filling right shift of" ~> name <~ "by") ~ (name <~ "bits" ~ rest) ^^ {
+        case x ~ y => parseExpr(s"(>>> $x $y)")
       } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
         case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
       } | ("the result of applying the ** operator with" ~> id <~ "and") ~ id <~ rest ^^ {
