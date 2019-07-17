@@ -17,3 +17,4 @@ sbt generateModel
 - strict mode
 - [[CanBlock]]
 - locale
+- Async/Generator
