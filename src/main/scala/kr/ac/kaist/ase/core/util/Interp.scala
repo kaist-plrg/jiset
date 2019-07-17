@@ -1,5 +1,9 @@
 package kr.ac.kaist.ase.core
 
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
+
 import kr.ac.kaist.ase.DEBUG_INTERP
 import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.model.{ Parser => ESParser, ESValueParser }
@@ -221,7 +225,13 @@ class Interp {
       }
       v match {
         case ASTVal(ast) =>
-          val newAst = ESParser.parse(p(ast.parserParams), ast.toString).get
+          val newAst = try {
+            Await.result(Future(
+              ESParser.parse(p(ast.parserParams), ast.toString).get
+            ), timeout.milliseconds)
+          } catch {
+            case e: TimeoutException => error("parser timeout")
+          }
           if (newAst.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) throw NotSupported("Async/Generator")
           (ASTVal(newAst), s1)
         case Str(str) =>
@@ -233,7 +243,13 @@ class Interp {
                 case _ => error(s"parserParams should be boolean")
               }
           }
-          val ast = ESParser.parse(p(parserParams), str).get
+          val ast = try {
+            Await.result(Future(
+              ESParser.parse(p(parserParams), str).get
+            ), timeout.milliseconds)
+          } catch {
+            case e: TimeoutException => error("parser timeout")
+          }
           if (ast.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) throw NotSupported("Async/Generator")
           (ASTVal(ast), s2)
         case v => error(s"not an AST value or a string: $v")
