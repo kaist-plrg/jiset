@@ -213,7 +213,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~ opt("classelement" | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of" | "from") ~> expr <~ opt(",") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
+    ("for each" ~ opt("caseclause" | "classelement" | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of" | "from") ~> expr <~ opt(",") ~ opt("(NOTE: this is another complete iteration of the second CaseClauses),") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
@@ -562,6 +562,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
         pair(i, EList(list.map { case _ ~ e => e }))
+    } | ("the List of" ~> name <~ "items in") ~ (refWithOrdinal <~ ", in source text order") ^^ {
+      case x ~ r => pair(Nil, parseExpr(s"(get-elems ${beautify(r)} $x)"))
     } | (
       ("a new list containing the same values as the list" ~> name <~ "in the same order followed by the same values as the list") ~ (name <~ "in the same order") |
       ("a copy of" ~> name <~ "with all the elements of") ~ (name <~ "appended")
@@ -1030,6 +1032,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => parseRef(s"$x.BindingObject")
     } | opt("the") ~> "stringvalue of identifiername" ^^^ {
       parseRef(s"IdentifierName")
+    } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
+      case x ~ y => parseRef(s"$y.$x.Evaluation")
     } | "the result of evaluating" ~> refWithOrdinal ^^ {
       case x => RefProp(x, EStr("Evaluation"))
     } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
@@ -1123,6 +1127,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |
     "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" } |
     "the" ~> word |
+    "caseclause" ~> id |
     word |
     id
   )

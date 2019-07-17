@@ -199,6 +199,10 @@ class Interp {
       case (ASTVal(ast), s0) => (Bool(ast.getKinds contains kind), s0)
       case (v, _) => error(s"not an AST value: $v")
     }
+    case EGetElems(base, kind) => interp(base)(st) match {
+      case (ASTVal(ast), s0) => s0.allocList(ast.getElems(kind).map(ASTVal(_)))
+      case (v, _) => error(s"not an AST value: $v")
+    }
     case ELength(expr) => interp(expr)(st) match {
       case (addr: Addr, s0) => s0(addr) match {
         case CoreList(values) => (INum(values.length), s0)

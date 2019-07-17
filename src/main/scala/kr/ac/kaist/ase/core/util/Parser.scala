@@ -107,6 +107,9 @@ object Parser extends JavaTokenParsers with RegexParsers {
       ("(" ~> "is-instance-of" ~> expr) ~ (ident <~ ")") ^^ {
         case e ~ x => EIsInstanceOf(e, x)
       } |
+      ("(" ~> "get-elems" ~> expr) ~ (ident <~ ")") ^^ {
+        case e ~ x => EGetElems(e, x)
+      } |
       "(" ~> "length-of" ~> expr <~ ")" ^^ { case e => ELength(e) } |
       "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
       "(" ~> "parse-syntax" ~> expr ~ ident ~ rep(expr) <~ ")" ^^ { case e ~ r ~ le => EParseSyntax(e, r, le) } |
