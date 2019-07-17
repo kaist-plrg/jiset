@@ -25,16 +25,21 @@ package object model {
     def str2num(str: String): Double = throw ModelNotYetGenerated
   }
   trait AST {
-    def name: String
-    def getNames: SSet[String]
-    def semantics(name: String): Option[(Func, List[Value])]
-    val parserParams: List[Boolean]
-    def subs(name: String): Option[ASTVal]
+    val kind: String = throw ModelNotYetGenerated
+    val name: String = throw ModelNotYetGenerated
+    val k: Int = throw ModelNotYetGenerated
+    val parserParams: List[Boolean] = throw ModelNotYetGenerated
+    val fullList: List[(String, Value)] = throw ModelNotYetGenerated
+    def getKinds: SSet[String] = throw ModelNotYetGenerated
+    def getElems(given: String): List[AST] = throw ModelNotYetGenerated
+    val list: List[(String, Value)] = throw ModelNotYetGenerated
+    def semantics(name: String): Option[(Func, List[Value])] = throw ModelNotYetGenerated
+    def subs(name: String): Option[Value] = throw ModelNotYetGenerated
   }
   trait Script extends AST
   trait StatementListItem extends AST
   trait ModelHelper {
-    def flattenStatement(s: Script): List[StatementListItem]
-    def mergeStatement(l: List[StatementListItem]): Script
+    def flattenStatement(s: Script): List[StatementListItem] = throw ModelNotYetGenerated
+    def mergeStatement(l: List[StatementListItem]): Script = throw ModelNotYetGenerated
   }
 }

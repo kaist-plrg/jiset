@@ -195,8 +195,8 @@ class Interp {
         case ASTMethod(_, _) => Str("ASTMethod")
       }, s0)
     }
-    case EIsInstanceOf(base, name) => interp(base)(st) match {
-      case (ASTVal(ast), s0) => (Bool(ast.getNames contains name), s0)
+    case EIsInstanceOf(base, kind) => interp(base)(st) match {
+      case (ASTVal(ast), s0) => (Bool(ast.getKinds contains kind), s0)
       case (v, _) => error(s"not an AST value: $v")
     }
     case ELength(expr) => interp(expr)(st) match {

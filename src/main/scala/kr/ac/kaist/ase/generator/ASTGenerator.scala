@@ -20,7 +20,9 @@ object ASTGenerator {
       nf.println(s"""import kr.ac.kaist.ase.error.UnexpectedSemantics""")
       nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
       nf.println
-      nf.println(s"""trait $name extends AST""")
+      nf.println(s"""trait $name extends AST {""")
+      nf.println(s"""  val kind: String = "$name"""")
+      nf.println(s"""}""")
       rhsList.zipWithIndex.foreach {
         case (rhs, i) => {
           val paramTypes = getParamTypes(rhs)
@@ -56,35 +58,15 @@ object ASTGenerator {
             case (k, (_, t)) => if (t.startsWith("Option[")) k * 2 + 1 else k
           }
           nf.println(s"""case class $name$i(${(params.map { case (x, t) => s"$x: $t, " }).mkString("")}parserParams: List[Boolean]) extends $name {""")
-          nf.println(s"""  def name: String = "$name$i"""")
+          nf.println(s"""  val name: String = "$name$i"""")
           nf.println(s"""  override def toString: String = {""")
           nf.println(s"""    s"$string"""")
           nf.println(s"""  }""")
-          nf.println(s"""  def getNames: SSet[String] = (list match {""")
-          nf.println(s"""    case List((_, ASTVal(ast))) => ast.getNames""")
-          nf.println(s"""    case _ => SSet()""")
-          nf.println(s"""  }) ++ SSet("$name")""")
           nf.println(s"""  val k: Int = ${("0" /: params) { case (str, (x, _)) => s"d($x, $str)" }}""")
           nf.println(s"""  val fullList: List[(String, Value)] = $listString.reverse""")
-          nf.println(s"""  val list: List[(String, Value)] = fullList.filter {""")
-          nf.println(s"""    case (_, Absent) => false""")
-          nf.println(s"""    case _ => true""")
-          nf.println(s"""  }""")
-          nf.println(s"""  def semantics(name: String): Option[(Func, List[Value])] = {""")
-          nf.println(s"""    $name$i.semMap.get(name + k.toString) match {""")
-          nf.println(s"""      case Some(f) => Some((f, list.map(_._2)))""")
-          nf.println(s"""      case None => (list match {""")
-          nf.println(s"""        case List((_, ASTVal(x))) => x.semantics(name)""")
-          nf.println(s"""        case _ => None""")
-          nf.println(s"""      }) match {""")
-          nf.println(s"""        case Some(f) => Some(f)""")
-          nf.println(s"""        case None => $name$i.semMap.get(name + $name$i.maxK.toString).map((f) => (f, fullList.map(_._2)))""")
-          nf.println(s"""      }""")
-          nf.println(s"""    }""")
-          nf.println(s"""  }""")
-          nf.println(s"""  def subs(name: String): Option[Value] = list.toMap.get(name)""")
+          nf.println(s"""  val info: ASTInfo = $name$i""")
           nf.println(s"""}""")
-          nf.println(s"""object $name$i {""")
+          nf.println(s"""object $name$i extends ASTInfo {""")
           nf.println(s"""  val maxK: Int = $maxK""")
           nf.println(s"""  val semMap: Map[String, Func] = Map(""")
           var sems: List[String] = Nil
@@ -140,33 +122,8 @@ object ASTGenerator {
       case _ => ""
     }
 
-    val nf = getPrintWriter(s"$MODEL_DIR/ast/AST.scala")
-    nf.println(s"""package kr.ac.kaist.ase.model""")
-    nf.println
-    nf.println(s"""import kr.ac.kaist.ase.core._""")
-    nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
-    nf.println
-    nf.println(s"""trait AST {""")
-    nf.println(s"""  def name: String""")
-    nf.println(s"""  def semantics(name: String): Option[(Func, List[Value])]""")
-    nf.println(s"""  def getNames: SSet[String]""")
-    nf.println(s"""  protected def d(x: Any, n: Int): Int = x match {""")
-    nf.println(s"""    case Some(_) => 2 * n + 1""")
-    nf.println(s"""    case None => 2 * n""")
-    nf.println(s"""    case _ => n""")
-    nf.println(s"""  }""")
-    nf.println(s"""  protected def l(name: String, x: Any, list: List[(String, Value)]): List[(String, Value)] = x match {""")
-    nf.println(s"""    case Some(a: AST) => (name.substring(7, name.length - 1), ASTVal(a)) :: list""")
-    nf.println(s"""    case None => (name.substring(7, name.length - 1), Absent) :: list""")
-    nf.println(s"""    case a: AST => (name, ASTVal(a)) :: list""")
-    nf.println(s"""    case a: String => (name, Str(a)) :: list""")
-    nf.println(s"""    case _ => list""")
-    nf.println(s"""  }""")
-    nf.println(s"""  val parserParams: List[Boolean]""")
-    nf.println(s"""  def subs(name: String): Option[Value]""")
-    nf.println(s"""}""")
-    nf.println
+    // Generates AST files
+    copyFile(s"$RESOURCE_DIR/AST.scala", s"$MODEL_DIR/ast/AST.scala")
     prods.foreach(getAST)
-    nf.close()
   }
 }

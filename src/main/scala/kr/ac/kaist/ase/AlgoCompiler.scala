@@ -1122,6 +1122,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ("@@" ~> word | "[[@@" ~> word <~ "]]") ^^ { case x => s"SYMBOL_$x" } |
     "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |
     "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" } |
+    "the" ~> word |
     word |
     id
   )
