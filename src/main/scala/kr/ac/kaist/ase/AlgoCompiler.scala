@@ -303,7 +303,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           if (< $idx $len) (pop $l $idx) else {}
         }""")
     } | "for each field of" ~ rest ^^^ {
-      parseInst(s"""O.SubMap[P].Value = Desc.Value""") // TODO: move each field of record at ValidateAndApplyPropertyDescriptor
+      val tempP = getTemp
+      forEachMap(Id(tempP), ERef(RefId(Id("Desc"))), parseInst(s"""O.SubMap[P][$tempP] = Desc[$tempP]"""))
     } | ("convert the property named" ~> id) ~ ("of object" ~> id <~ "from a data property to an accessor property" <~ rest) ^^^ {
       val tempP = getTemp
       parseInst(s"""{
