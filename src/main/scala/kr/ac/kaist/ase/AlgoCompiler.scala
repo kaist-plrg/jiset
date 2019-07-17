@@ -225,7 +225,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
     } | ("for each" ~ opt("Record { [ [ Key ] ] , [ [ Value ] ] }") ~> id <~ "that is an element of") ~ (expr <~ ", do") ~ stmt ^^ {
-      case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
+      case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     }
 
   // append statements
@@ -483,6 +483,12 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case const => parseExpr("CONST_" + const.replaceAll("-", ""))
     } | (number <~ ".") ~ number ^^ {
       case x ~ y => ENum(s"$x.$y".toDouble)
+    } | "a newly created" ~> value <~ "object" ^^ {
+      case err if err.endsWith("Error") => parseExpr(s"""(new OrdinaryObject(
+        "Prototype" -> INTRINSIC_${err}Prototype,
+        "ErrorData" -> undefined,
+        "SubMap" -> (new SubMap())
+      ))""")
     } | opt("the numeric value") ~> number ^^ { case s => EINum(java.lang.Long.decode(s)) }
   )
 
@@ -674,6 +680,22 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
             $str = (- $str 1i)
           }""")), parseExpr(str)
         )
+    } | "the String value whose elements are , in order , the elements in the List" ~> name <~ rest ^^ {
+      case l =>
+        val s = getTemp
+        val x = getTemp
+        val idx = getTemp
+        val len = getTemp
+        pair(List(parseInst(s"""{
+          let $s = ""
+          let $idx = 0i
+          let $len = (length-of $l)
+          while (< $idx $len) {
+            let $x = $l[$idx]
+            $s = (+ $s $x)
+            $idx = (+ $idx 1i)
+          }
+        }""")), parseExpr(s))
     } | "the grammar symbol" ~> name ^^ {
       case x => pair(Nil, EStr(x))
     } | "a String according to Table 35" ^^^ {
