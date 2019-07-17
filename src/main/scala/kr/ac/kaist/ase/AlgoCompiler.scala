@@ -702,7 +702,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(i0 ++ i1, EBOp(OPlus, e1, e2))
     } | "-" ~> expr ^^ {
       case i ~ e => pair(i, EUOp(ONeg, e))
-    } | "the number of" ~ opt("code unit") ~ "elements" ~ ("in" | "of") ~> expr ^^ {
+    } | "the number of" ~ (opt("code unit") ~ "elements" | "code units") ~ ("in" | "of") ~> expr ^^ {
       case i ~ e => pair(i, ELength(e))
     } | ("the result of performing abstract relational comparison" ~> name <~ "<") ~ name ~ opt("with" ~ name ~ "equal to" ~> expr) ^^ {
       case x ~ y ~ Some(i ~ e) => pair(i, parseExpr(s"(AbstractRelationalComparison $x $y ${beautify(e)})"))
@@ -850,9 +850,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ x) ~ (i1 ~ f) => pair(i0 ++ i1, f(EBOp(OLt, x, EINum(0))))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, x, y))))
-      } | (expr <~ "is not an element of") ~ expr ^^ {
+      } | (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
-      } | (expr <~ "is an element of") ~ expr ~ subCond ^^ {
+      } | (expr <~ "is" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EContains(y, x)))
       } | (expr <~ "does not contain") ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
@@ -873,6 +873,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EBOp(OEq, x, y)))
       } | ("the" ~> name <~ "fields of") ~ name ~ ("and" ~> name <~ "are the boolean negation of each other") ^^ {
         case x ~ y ~ z => pair(Nil, parseExpr(s"""(|| (&& (= $y.$x true) (= $z.$x false)) (&& (= $y.$x false) (= $z.$x true)))"""))
+      } | name ~ ("and" ~> name <~ "are not the same Realm Record") ^^ {
+        case x ~ y => pair(Nil, parseExpr(s"(! (= $x $y))"))
       } | (expr <~ "and") ~ (expr <~ ("are the same" ~ ("object" | "number") ~ "value" | "are exactly the same sequence of code units ( same length and same code units at corresponding indices )")) ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, x, y)))
       } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
@@ -940,6 +942,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           pair(i0 ++ i1, EBOp(OOr, EBOp(OEq, e0, e1), EBOp(OEq, e0, e2)))
       } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number")))))) // TODO : remove side effect
+      } | (expr <~ "equals") ~ expr ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EBOp(OEq, x, y))
       } | (expr <~ "is") ~ rep1sep(valueExpr, ",") ~ (", or" ~> valueExpr) ^^ {
         case (i ~ e0) ~ list ~ e1 =>
           pair(i, (list :+ e1).map(e => EBOp(OEq, e0, e)).reduce((l, r) => EBOp(OOr, l, r)))
