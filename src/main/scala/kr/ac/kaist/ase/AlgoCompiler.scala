@@ -493,7 +493,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
       case s => ENotYetImpl(s)
     } | const ^^ {
-      case "[empty]" => parseExpr("CONST_emptySyntax")
+      case "[empty]" => parseExpr("absent")
       case const => parseExpr("CONST_" + const.replaceAll("-", ""))
     } | (number <~ ".") ~ number ^^ {
       case x ~ y => ENum(s"$x.$y".toDouble)
