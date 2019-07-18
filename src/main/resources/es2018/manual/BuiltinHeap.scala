@@ -31,13 +31,21 @@ object BuiltinHeap {
     m: Map[Addr, Obj],
     k: Value,
     prop: Property
-  ): Map[Addr, Obj] = {
-    val Property(v, w, e, c) = prop
-    m + (
+  ): Map[Addr, Obj] = prop match {
+    case DataProperty(v, w, e, c) => m + (
       NamedAddr(s"DESC:$name${getPropStr(k)}") ->
       CoreMap(Ty("PropertyDescriptor"), Map(
         Str("Value") -> v,
         Str("Writable") -> Bool(w),
+        Str("Enumerable") -> Bool(e),
+        Str("Configurable") -> Bool(c)
+      ))
+    )
+    case AccessorProperty(g, s, e, c) => m + (
+      NamedAddr(s"DESC:$name${getPropStr(k)}") ->
+      CoreMap(Ty("PropertyDescriptor"), Map(
+        Str("Get") -> g,
+        Str("Set") -> s,
         Str("Enumerable") -> Bool(e),
         Str("Configurable") -> Bool(c)
       ))
@@ -72,14 +80,22 @@ object BuiltinHeap {
     case _ => s"[${beautify(value)}]"
   }
 
-  private case class Property(
+  private trait Property
+  private case class DataProperty(
     value: Value,
     writable: Boolean,
     enumerable: Boolean,
     configurable: Boolean
-  )
+  ) extends Property
+  private case class AccessorProperty(
+    get: Value,
+    set: Value,
+    enumerable: Boolean,
+    configurable: Boolean
+  ) extends Property
   private val T = true
   private val F = false
+  private val U = Undef
 
   private val errList: List[(String, Func)] = List(
     ("EvalError", GLOBALDOTEvalError.func),
@@ -98,8 +114,8 @@ object BuiltinHeap {
         "Code" -> errFunc
       ),
       nmap = NMap(
-        "name" -> Property(Str(errName), T, F, T),
-        "prototype" -> Property(NamedAddr(s"GLOBAL.$errName.prototype"), F, F, F)
+        "name" -> DataProperty(Str(errName), T, F, T),
+        "prototype" -> DataProperty(NamedAddr(s"GLOBAL.$errName.prototype"), F, F, F)
       )
     ),
     s"GLOBAL.$errName.prototype" -> Struct(
@@ -108,9 +124,9 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Error.prototype")
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr(s"GLOBAL.$errName"), T, F, T),
-        "message" -> Property(Str(""), T, F, T),
-        "name" -> Property(Str(errName), T, F, T)
+        "constructor" -> DataProperty(NamedAddr(s"GLOBAL.$errName"), T, F, T),
+        "message" -> DataProperty(Str(""), T, F, T),
+        "name" -> DataProperty(Str(errName), T, F, T)
       )
     )
   )
@@ -126,47 +142,47 @@ object BuiltinHeap {
       typeName = "Map",
       imap = IMap(),
       nmap = NMap(
-        "Infinity" -> Property(Num(Double.PositiveInfinity), F, F, F),
-        "NaN" -> Property(Num(Double.NaN), F, F, F),
-        "undefined" -> Property(Undef, F, F, F),
-        "Array" -> Property(NamedAddr("GLOBAL.Array"), T, F, T),
-        "ArrayBuffer" -> Property(NamedAddr("GLOBAL.ArrayBuffer"), T, F, T),
-        "Boolean" -> Property(NamedAddr("GLOBAL.Boolean"), T, F, T),
-        "DataView" -> Property(NamedAddr("GLOBAL.DataView"), T, F, T),
-        "Date" -> Property(NamedAddr("GLOBAL.Date"), T, F, T),
-        "Error" -> Property(NamedAddr("GLOBAL.Error"), T, F, T),
-        "EvalError" -> Property(NamedAddr("GLOBAL.EvalError"), T, F, T),
-        "Float32Array" -> Property(NamedAddr("GLOBAL.Float32Array"), T, F, T),
-        "Float64Array" -> Property(NamedAddr("GLOBAL.Float64Array"), T, F, T),
-        "Function" -> Property(NamedAddr("GLOBAL.Function"), T, F, T),
-        "Int8Array" -> Property(NamedAddr("GLOBAL.Int8Array"), T, F, T),
-        "Int16Array" -> Property(NamedAddr("GLOBAL.Int16Array"), T, F, T),
-        "Int32Array" -> Property(NamedAddr("GLOBAL.Int32Array"), T, F, T),
-        "Map" -> Property(NamedAddr("GLOBAL.Map"), T, F, T),
-        "Number" -> Property(NamedAddr("GLOBAL.Number"), T, F, T),
-        "Object" -> Property(NamedAddr("GLOBAL.Object"), T, F, T),
-        "Promise" -> Property(NamedAddr("GLOBAL.Promise"), T, F, T),
-        "Proxy" -> Property(NamedAddr("GLOBAL.Proxy"), T, F, T),
-        "RangeError" -> Property(NamedAddr("GLOBAL.RangeError"), T, F, T),
-        "ReferenceError" -> Property(NamedAddr("GLOBAL.ReferenceError"), T, F, T),
-        "RegExp" -> Property(NamedAddr("GLOBAL.RegExp"), T, F, T),
-        "Set" -> Property(NamedAddr("GLOBAL.Set"), T, F, T),
-        "SharedArrayBuffer" -> Property(NamedAddr("GLOBAL.SharedArrayBuffer"), T, F, T),
-        "String" -> Property(NamedAddr("GLOBAL.String"), T, F, T),
-        "Symbol" -> Property(NamedAddr("GLOBAL.Symbol"), T, F, T),
-        "SyntaxError" -> Property(NamedAddr("GLOBAL.SyntaxError"), T, F, T),
-        "TypeError" -> Property(NamedAddr("GLOBAL.TypeError"), T, F, T),
-        "Uint8Array" -> Property(NamedAddr("GLOBAL.Uint8Array"), T, F, T),
-        "Uint8ClampedArray" -> Property(NamedAddr("GLOBAL.Uint8ClampedArray"), T, F, T),
-        "Uint16Array" -> Property(NamedAddr("GLOBAL.Uint16Array"), T, F, T),
-        "Uint32Array" -> Property(NamedAddr("GLOBAL.Uint32Array"), T, F, T),
-        "URIError" -> Property(NamedAddr("GLOBAL.URIError"), T, F, T),
-        "WeakMap" -> Property(NamedAddr("GLOBAL.WeakMap"), T, F, T),
-        "WeakSet" -> Property(NamedAddr("GLOBAL.WeakSet"), T, F, T),
-        "Atomics" -> Property(NamedAddr("GLOBAL.Atomics"), T, F, T),
-        "JSON" -> Property(NamedAddr("GLOBAL.JSON"), T, F, T),
-        "Math" -> Property(NamedAddr("GLOBAL.Math"), T, F, T),
-        "Reflect" -> Property(NamedAddr("GLOBAL.Reflect"), T, F, T)
+        "Infinity" -> DataProperty(Num(Double.PositiveInfinity), F, F, F),
+        "NaN" -> DataProperty(Num(Double.NaN), F, F, F),
+        "undefined" -> DataProperty(Undef, F, F, F),
+        "Array" -> DataProperty(NamedAddr("GLOBAL.Array"), T, F, T),
+        "ArrayBuffer" -> DataProperty(NamedAddr("GLOBAL.ArrayBuffer"), T, F, T),
+        "Boolean" -> DataProperty(NamedAddr("GLOBAL.Boolean"), T, F, T),
+        "DataView" -> DataProperty(NamedAddr("GLOBAL.DataView"), T, F, T),
+        "Date" -> DataProperty(NamedAddr("GLOBAL.Date"), T, F, T),
+        "Error" -> DataProperty(NamedAddr("GLOBAL.Error"), T, F, T),
+        "EvalError" -> DataProperty(NamedAddr("GLOBAL.EvalError"), T, F, T),
+        "Float32Array" -> DataProperty(NamedAddr("GLOBAL.Float32Array"), T, F, T),
+        "Float64Array" -> DataProperty(NamedAddr("GLOBAL.Float64Array"), T, F, T),
+        "Function" -> DataProperty(NamedAddr("GLOBAL.Function"), T, F, T),
+        "Int8Array" -> DataProperty(NamedAddr("GLOBAL.Int8Array"), T, F, T),
+        "Int16Array" -> DataProperty(NamedAddr("GLOBAL.Int16Array"), T, F, T),
+        "Int32Array" -> DataProperty(NamedAddr("GLOBAL.Int32Array"), T, F, T),
+        "Map" -> DataProperty(NamedAddr("GLOBAL.Map"), T, F, T),
+        "Number" -> DataProperty(NamedAddr("GLOBAL.Number"), T, F, T),
+        "Object" -> DataProperty(NamedAddr("GLOBAL.Object"), T, F, T),
+        "Promise" -> DataProperty(NamedAddr("GLOBAL.Promise"), T, F, T),
+        "Proxy" -> DataProperty(NamedAddr("GLOBAL.Proxy"), T, F, T),
+        "RangeError" -> DataProperty(NamedAddr("GLOBAL.RangeError"), T, F, T),
+        "ReferenceError" -> DataProperty(NamedAddr("GLOBAL.ReferenceError"), T, F, T),
+        "RegExp" -> DataProperty(NamedAddr("GLOBAL.RegExp"), T, F, T),
+        "Set" -> DataProperty(NamedAddr("GLOBAL.Set"), T, F, T),
+        "SharedArrayBuffer" -> DataProperty(NamedAddr("GLOBAL.SharedArrayBuffer"), T, F, T),
+        "String" -> DataProperty(NamedAddr("GLOBAL.String"), T, F, T),
+        "Symbol" -> DataProperty(NamedAddr("GLOBAL.Symbol"), T, F, T),
+        "SyntaxError" -> DataProperty(NamedAddr("GLOBAL.SyntaxError"), T, F, T),
+        "TypeError" -> DataProperty(NamedAddr("GLOBAL.TypeError"), T, F, T),
+        "Uint8Array" -> DataProperty(NamedAddr("GLOBAL.Uint8Array"), T, F, T),
+        "Uint8ClampedArray" -> DataProperty(NamedAddr("GLOBAL.Uint8ClampedArray"), T, F, T),
+        "Uint16Array" -> DataProperty(NamedAddr("GLOBAL.Uint16Array"), T, F, T),
+        "Uint32Array" -> DataProperty(NamedAddr("GLOBAL.Uint32Array"), T, F, T),
+        "URIError" -> DataProperty(NamedAddr("GLOBAL.URIError"), T, F, T),
+        "WeakMap" -> DataProperty(NamedAddr("GLOBAL.WeakMap"), T, F, T),
+        "WeakSet" -> DataProperty(NamedAddr("GLOBAL.WeakSet"), T, F, T),
+        "Atomics" -> DataProperty(NamedAddr("GLOBAL.Atomics"), T, F, T),
+        "JSON" -> DataProperty(NamedAddr("GLOBAL.JSON"), T, F, T),
+        "Math" -> DataProperty(NamedAddr("GLOBAL.Math"), T, F, T),
+        "Reflect" -> DataProperty(NamedAddr("GLOBAL.Reflect"), T, F, T)
       )
     ),
     "GLOBAL.Object" -> Struct(
@@ -176,8 +192,8 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTObject.func
       ),
       nmap = NMap(
-        "length" -> Property(Num(1.0), F, F, T),
-        "prototype" -> Property(NamedAddr("GLOBAL.Object.prototype"), F, F, F)
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Object.prototype"), F, F, F)
       )
     ),
     "GLOBAL.Object.prototype" -> Struct(
@@ -186,7 +202,7 @@ object BuiltinHeap {
         "Prototype" -> Null
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr("GLOBAL.Object"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Object"), T, F, T)
       )
     ),
     "GLOBAL.Function" -> Struct(
@@ -196,8 +212,8 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTFunction.func
       ),
       nmap = NMap(
-        "length" -> Property(Num(1.0), F, F, T),
-        "prototype" -> Property(NamedAddr("GLOBAL.Function.prototype"), F, F, F)
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Function.prototype"), F, F, F)
       )
     ),
     "GLOBAL.Function.prototype" -> Struct(
@@ -206,9 +222,9 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "length" -> Property(Num(0.0), F, F, T),
-        "name" -> Property(Str(""), F, F, T),
-        "constructor" -> Property(NamedAddr("GLOBAL.Function"), T, F, T)
+        "length" -> DataProperty(Num(0.0), F, F, T),
+        "name" -> DataProperty(Str(""), F, F, T),
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Function"), T, F, T)
       )
     ),
     "GLOBAL.Boolean" -> Struct(
@@ -218,8 +234,8 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTBoolean.func
       ),
       nmap = NMap(
-        "length" -> Property(Num(1.0), F, F, T),
-        "prototype" -> Property(NamedAddr("GLOBAL.Boolean.prototype"), F, F, F)
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Boolean.prototype"), F, F, F)
       )
     ),
     "GLOBAL.Boolean.prototype" -> Struct(
@@ -229,7 +245,7 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr("GLOBAL.Boolean"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Boolean"), T, F, T)
       )
     ),
     "GLOBAL.Symbol" -> Struct(
@@ -239,20 +255,20 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTSymbol.func
       ),
       nmap = NMap(
-        "asyncIterator" -> Property(NamedAddr("GLOBAL.Symbol.asyncIterator"), F, F, F),
-        "hasInstance" -> Property(NamedAddr("GLOBAL.Symbol.hasInstance"), F, F, F),
-        "isConcatSpreadable" -> Property(NamedAddr("GLOBAL.Symbol.isConcatSpreadable"), F, F, F),
-        "iterator" -> Property(NamedAddr("GLOBAL.Symbol.iterator"), F, F, F),
-        "match" -> Property(NamedAddr("GLOBAL.Symbol.match"), F, F, F),
-        "replace" -> Property(NamedAddr("GLOBAL.Symbol.replace"), F, F, F),
-        "search" -> Property(NamedAddr("GLOBAL.Symbol.search"), F, F, F),
-        "species" -> Property(NamedAddr("GLOBAL.Symbol.species"), F, F, F),
-        "split" -> Property(NamedAddr("GLOBAL.Symbol.split"), F, F, F),
-        "toPrimitive" -> Property(NamedAddr("GLOBAL.Symbol.toPrimitive"), F, F, F),
-        "toStringTag" -> Property(NamedAddr("GLOBAL.Symbol.toStringTag"), F, F, F),
-        "unscopables" -> Property(NamedAddr("GLOBAL.Symbol.unscopables"), F, F, F),
-        "length" -> Property(Num(0.0), F, F, T),
-        "prototype" -> Property(NamedAddr("GLOBAL.Symbol.prototype"), F, F, F)
+        "asyncIterator" -> DataProperty(NamedAddr("GLOBAL.Symbol.asyncIterator"), F, F, F),
+        "hasInstance" -> DataProperty(NamedAddr("GLOBAL.Symbol.hasInstance"), F, F, F),
+        "isConcatSpreadable" -> DataProperty(NamedAddr("GLOBAL.Symbol.isConcatSpreadable"), F, F, F),
+        "iterator" -> DataProperty(NamedAddr("GLOBAL.Symbol.iterator"), F, F, F),
+        "match" -> DataProperty(NamedAddr("GLOBAL.Symbol.match"), F, F, F),
+        "replace" -> DataProperty(NamedAddr("GLOBAL.Symbol.replace"), F, F, F),
+        "search" -> DataProperty(NamedAddr("GLOBAL.Symbol.search"), F, F, F),
+        "species" -> DataProperty(NamedAddr("GLOBAL.Symbol.species"), F, F, F),
+        "split" -> DataProperty(NamedAddr("GLOBAL.Symbol.split"), F, F, F),
+        "toPrimitive" -> DataProperty(NamedAddr("GLOBAL.Symbol.toPrimitive"), F, F, F),
+        "toStringTag" -> DataProperty(NamedAddr("GLOBAL.Symbol.toStringTag"), F, F, F),
+        "unscopables" -> DataProperty(NamedAddr("GLOBAL.Symbol.unscopables"), F, F, F),
+        "length" -> DataProperty(Num(0.0), F, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Symbol.prototype"), F, F, F)
       )
     ),
     "GLOBAL.Symbol.prototype" -> Struct(
@@ -261,9 +277,9 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr("GLOBAL.Symbol"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Symbol"), T, F, T)
       ) ++ Map(
-          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Symbol"), F, F, T)
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Symbol"), F, F, T)
         )
     ),
     "GLOBAL.Error" -> Struct(
@@ -273,7 +289,7 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTError.func
       ),
       nmap = NMap(
-        "prototype" -> Property(NamedAddr("GLOBAL.Error.prototype"), F, F, F)
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Error.prototype"), F, F, F)
       )
     ),
     "GLOBAL.Error.prototype" -> Struct(
@@ -282,9 +298,9 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr("GLOBAL.Error"), T, F, T),
-        "message" -> Property(Str(""), T, F, T),
-        "name" -> Property(Str("Error"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Error"), T, F, T),
+        "message" -> DataProperty(Str(""), T, F, T),
+        "name" -> DataProperty(Str("Error"), T, F, T)
       )
     ),
     "GLOBAL.Number" -> Struct(
@@ -294,17 +310,17 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTNumber.func
       ),
       nmap = NMap(
-        "EPSILON" -> Property(Num(math.ulp(1.0)), F, F, F),
-        "MAX_SAFE_INTEGER" -> Property(INum(9007199254740991L), F, F, F),
-        "MAX_VALUE" -> Property(Num(Double.MaxValue), F, F, F),
-        "MIN_SAFE_INTEGER" -> Property(INum(-9007199254740991L), F, F, F),
-        "MIN_VALUE" -> Property(Num(Double.MinValue), F, F, F),
-        "NaN" -> Property(Num(Double.NaN), F, F, F),
-        "NEGATIVE_INFINITY" -> Property(Num(Double.NegativeInfinity), F, F, F),
-        "parseFloat" -> Property(NamedAddr("GLOBAL.parseFloat"), F, F, F),
-        "parseInt" -> Property(NamedAddr("GLOBAL.parseInt"), F, F, F),
-        "POSITIVE_INFINITY" -> Property(Num(Double.PositiveInfinity), F, F, F),
-        "prototype" -> Property(NamedAddr("GLOBAL.Number.prototype"), F, F, F)
+        "EPSILON" -> DataProperty(Num(math.ulp(1.0)), F, F, F),
+        "MAX_SAFE_INTEGER" -> DataProperty(INum(9007199254740991L), F, F, F),
+        "MAX_VALUE" -> DataProperty(Num(Double.MaxValue), F, F, F),
+        "MIN_SAFE_INTEGER" -> DataProperty(INum(-9007199254740991L), F, F, F),
+        "MIN_VALUE" -> DataProperty(Num(Double.MinValue), F, F, F),
+        "NaN" -> DataProperty(Num(Double.NaN), F, F, F),
+        "NEGATIVE_INFINITY" -> DataProperty(Num(Double.NegativeInfinity), F, F, F),
+        "parseFloat" -> DataProperty(NamedAddr("GLOBAL.parseFloat"), F, F, F),
+        "parseInt" -> DataProperty(NamedAddr("GLOBAL.parseInt"), F, F, F),
+        "POSITIVE_INFINITY" -> DataProperty(Num(Double.PositiveInfinity), F, F, F),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Number.prototype"), F, F, F)
       )
     ),
     "GLOBAL.Number.prototype" -> Struct(
@@ -314,7 +330,7 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr("GLOBAL.Number"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Number"), T, F, T)
       )
     ),
     "GLOBAL.String" -> Struct(
@@ -324,7 +340,7 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTString.func
       ),
       nmap = NMap(
-        "prototype" -> Property(NamedAddr("GLOBAL.String.prototype"), F, F, F)
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.String.prototype"), F, F, F)
       )
     ),
     "GLOBAL.String.prototype" -> Struct(
@@ -334,8 +350,8 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "length" -> Property(Num(0.0), F, F, F),
-        "constructor" -> Property(NamedAddr("GLOBAL.String"), T, F, T)
+        "length" -> DataProperty(Num(0.0), F, F, F),
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.String"), T, F, T)
       )
     ),
     "GLOBAL.Array" -> Struct(
@@ -345,7 +361,20 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTArray.func
       ),
       nmap = NMap(
-        "prototype" -> Property(NamedAddr("GLOBAL.Array.prototype"), F, F, F)
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Array.prototype"), F, F, F)
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.species") -> AccessorProperty(NamedAddr("GLOBAL.Array.SYMBOL_species"), U, F, T)
+        )
+    ),
+    "GLOBAL.Array.SYMBOL_species" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> Func("GLOBAL.Array.SYMBOL_species", List(Id("this")), None, IReturn(ERef(RefId(Id("this")))))
+      ),
+      nmap = NMap(
+        "name" -> DataProperty(Str("get [Symbol.species]"), F, F, T),
+        "length" -> DataProperty(Num(0.0), F, F, T)
       )
     ),
     "GLOBAL.Array.prototype" -> Struct(
@@ -354,10 +383,10 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "length" -> Property(Num(0.0), T, F, F),
-        "constructor" -> Property(NamedAddr("GLOBAL.Array"), T, F, T)
+        "length" -> DataProperty(Num(0.0), T, F, F),
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Array"), T, F, T)
       ) ++ Map(
-          NamedAddr("GLOBAL.Symbol.iterator") -> Property(NamedAddr("GLOBAL.Array.prototype.values"), T, F, T)
+          NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Array.prototype.values"), T, F, T)
         )
     ),
     "GLOBAL.INTRINSIC_ArrayIteratorPrototype" -> Struct(
@@ -366,7 +395,7 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
       ),
       nmap = NMap() ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Array Iterator"), F, F, T)
+        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Array Iterator"), F, F, T)
       )
     ),
     "GLOBAL.Map" -> Struct(
@@ -376,7 +405,7 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTMap.func
       ),
       nmap = NMap(
-        "prototype" -> Property(NamedAddr("GLOBAL.Map.prototype"), F, F, F)
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Map.prototype"), F, F, F)
       )
     ),
     "GLOBAL.Map.prototype" -> Struct(
@@ -385,10 +414,10 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr("GLOBAL.Map"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Map"), T, F, T)
       ) ++ Map(
-          NamedAddr("GLOBAL.Symbol.iterator") -> Property(NamedAddr("GLOBAL.Map.prototype.entries"), T, F, T),
-          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Map"), F, F, T)
+          NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Map.prototype.entries"), T, F, T),
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Map"), F, F, T)
         )
     ),
     "GLOBAL.Set" -> Struct(
@@ -398,7 +427,7 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTSet.func
       ),
       nmap = NMap(
-        "prototype" -> Property(NamedAddr("GLOBAL.Set.prototype"), F, F, F)
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Set.prototype"), F, F, F)
       )
     ),
     "GLOBAL.Set.prototype" -> Struct(
@@ -407,11 +436,11 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr("GLOBAL.Set"), T, F, T),
-        "keys" -> Property(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Set"), T, F, T),
+        "keys" -> DataProperty(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T)
       ) ++ Map(
-          NamedAddr("GLOBAL.Symbol.iterator") -> Property(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T),
-          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("Set"), F, F, T)
+          NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T),
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Set"), F, F, T)
         )
     ),
     "GLOBAL.WeakMap" -> Struct(
@@ -421,7 +450,7 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTWeakMap.func
       ),
       nmap = NMap(
-        "prototype" -> Property(NamedAddr("GLOBAL.WeakMap.prototype"), F, F, F)
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.WeakMap.prototype"), F, F, F)
       )
     ),
     "GLOBAL.WeakMap.prototype" -> Struct(
@@ -430,9 +459,9 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr("GLOBAL.WeakMap"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.WeakMap"), T, F, T)
       ) ++ Map(
-          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("WeakMap"), F, F, T)
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("WeakMap"), F, F, T)
         )
     ),
     "GLOBAL.WeakSet" -> Struct(
@@ -442,7 +471,7 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTWeakSet.func
       ),
       nmap = NMap(
-        "prototype" -> Property(NamedAddr("GLOBAL.WeakSet.prototype"), F, F, F)
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.WeakSet.prototype"), F, F, F)
       )
     ),
     "GLOBAL.WeakSet.prototype" -> Struct(
@@ -451,9 +480,9 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> Property(NamedAddr("GLOBAL.WeakSet"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.WeakSet"), T, F, T)
       ) ++ Map(
-          NamedAddr("GLOBAL.Symbol.toStringTag") -> Property(Str("WeakSet"), F, F, T)
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("WeakSet"), F, F, T)
         )
     ),
     "GLOBAL.INTRINSIC_IteratorPrototype" -> Struct(
