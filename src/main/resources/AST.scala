@@ -43,15 +43,15 @@ trait AST {
 
   // get semantics
   def semantics(name: String): Option[(Func, List[Value])] = {
-    info.semMap.get(name + k.toString) match {
+    (info.semMap.get(name + k.toString) match {
       case Some(f) => Some((f, list.map(_._2)))
-      case None => (list match {
-        case List((_, ASTVal(x))) => x.semantics(name)
-        case _ => None
+      case None => info.semMap.get(name + info.maxK.toString).map((f) => (f, fullList.map(_._2)))
       }) match {
         case Some(f) => Some(f)
-        case None => info.semMap.get(name + info.maxK.toString).map((f) => (f, fullList.map(_._2)))
-      }
+        case None => (list match {
+          case List((_, ASTVal(x))) => x.semantics(name)
+          case _ => None
+      })
     }
   }
 
