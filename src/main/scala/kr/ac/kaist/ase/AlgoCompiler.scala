@@ -260,7 +260,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val removeStmt = (
     ("remove the own property with name" ~> name <~ "from") ~ name ^^ {
       case p ~ o => parseInst(s"delete $o.SubMap[$p]")
-    } | ("remove the first element from" ~> name <~ "and let") ~ (name <~ "be the value of that element") ^^ {
+    } | ("remove the first element from" ~> name <~ "and let") ~ (name <~ "be the value of" ~ ("that" | "the") ~ "element") ^^ {
       case l ~ x => parseInst(s"let $x = (pop $l 0i)")
     }
   )
@@ -638,6 +638,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           case x => pair(Nil, parseExpr(s"(new [$x])"))
         } | "a new (possibly empty) List consisting of all of the argument values provided after" ~ name ~ "in order" ^^^ {
           pair(List(parseInst(s"(pop argumentsList 0i)")), parseExpr("argumentsList"))
+        } | "a List whose elements are , in left to right order , the arguments that were passed to this function invocation" ^^^ {
+          pair(Nil, parseExpr("argumentsList"))
         } | "a List whose elements are the arguments passed to this function" ^^^ {
           pair(Nil, parseExpr("argumentsList"))
         } | "a List whose sole item is" ~> expr ^^ {
