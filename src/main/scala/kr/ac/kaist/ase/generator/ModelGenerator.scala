@@ -68,9 +68,11 @@ object ModelGenerator {
     nf.println(consts.map(i =>
       s"""    Id("CONST_$i") -> NamedAddr("CONST_$i")""").mkString("," + LINE_SEP))
     nf.println(s"""  )""")
-    nf.println(s"""  lazy val builtinMethods: List[(String, Func)] = List(""")
-    nf.println(builtinMethods.map(x =>
-      s"""    ("$x", ${getScalaName(x)}.func)""").mkString("," + LINE_SEP))
+    nf.println(s"""  lazy val builtinMethods: List[(String, Int, Func)] = List(""")
+    nf.println(builtinMethods.map(x => {
+      val obj = getScalaName(x)
+      s"""    ("$x", $obj.length, $obj.func)"""
+    }).mkString("," + LINE_SEP))
     nf.println(s"""  )""")
     nf.println(s"""  lazy val initHeap: Heap = Heap(BaseHeap.get ++ BuiltinHeap.get ++ Map(""")
     nf.println(consts.map(i =>

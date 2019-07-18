@@ -7,6 +7,7 @@ import spray.json._
 
 // algorithms
 case class Algorithm(
+    length: Int,
     params: List[String],
     kind: AlgoKind,
     steps: List[Step],
@@ -76,7 +77,7 @@ object Algorithm extends DefaultJsonProtocol {
   implicit lazy val ValueFormat = jsonFormat1(Value)
   implicit lazy val IdFormat = jsonFormat1(Id)
   implicit lazy val StepListFormat = jsonFormat1(StepList)
-  implicit lazy val AlgorithmFormat = jsonFormat4(Algorithm.apply)
+  implicit lazy val AlgorithmFormat = jsonFormat5(Algorithm.apply)
 
   def apply(filename: String): Algorithm = {
     readFile(filename).parseJson.convertTo[Algorithm]

@@ -24,9 +24,9 @@ object ModelHelper {
 
   def addBuiltin(
     map: Map[Addr, Obj],
-    builtinMethods: List[(String, Func)]
+    builtinMethods: List[(String, Int, Func)]
   ): Map[Addr, Obj] = (map /: builtinMethods) {
-    case (m, (name, func)) =>
+    case (m, (name, length, func)) =>
       val base = removedExt(name)
       val prop = getExt(name)
       val addr = NamedAddr(name)
@@ -63,10 +63,17 @@ object ModelHelper {
           ))
       }) ++ List(
         NamedAddr(s"$name.SubMap") -> m.getOrElse(NamedAddr(s"$name.SubMap"), CoreMap(Ty("SubMap"), Map(
-          Str("name") -> NamedAddr(s"DESC:$name.name")
+          Str("name") -> NamedAddr(s"DESC:$name.name"),
+          Str("length") -> NamedAddr(s"DESC:$name.length")
         ))),
         NamedAddr(s"DESC:$name.name") -> m.getOrElse(NamedAddr(s"DESC:$name.name"), CoreMap(Ty("PropertyDescriptor"), Map(
           Str("Value") -> Str(prop),
+          Str("Writable") -> Bool(false),
+          Str("Enumerable") -> Bool(false),
+          Str("Configurable") -> Bool(true)
+        ))),
+        NamedAddr(s"DESC:$name.length") -> m.getOrElse(NamedAddr(s"DESC:$name.length"), CoreMap(Ty("PropertyDescriptor"), Map(
+          Str("Value") -> Num(length),
           Str("Writable") -> Bool(false),
           Str("Enumerable") -> Bool(false),
           Str("Configurable") -> Bool(true)

@@ -10,6 +10,7 @@ object MethodGenerator {
   def apply(name: String): Unit = {
     val scalaName = getScalaName(name)
     val algo = Algorithm(s"$RESOURCE_DIR/$VERSION/auto/algorithm/$name.json")
+    val len = algo.length
     val func = AlgoCompiler(name, algo).result
 
     val nf = getPrintWriter(s"$MODEL_DIR/algorithm/$scalaName.scala")
@@ -20,6 +21,7 @@ object MethodGenerator {
     nf.println(s"""import kr.ac.kaist.ase.core.Parser._""")
     nf.println(s"""""")
     nf.println(s"""object $scalaName {""")
+    nf.println(s"""  val length: Int = $len""")
     nf.println(s"""  val func: Func = parseFunc($TRIPLE${beautify(func, "  ")}$TRIPLE)""")
     nf.println(s"""}""")
     nf.close()
