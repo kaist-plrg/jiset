@@ -89,7 +89,12 @@ trait ESParsers extends RegexParsers {
   lazy val NoLineTerminator: ESParser[String] = log(new ESParser(first => strNoLineTerminator, emptyFirst))("NoLineTerminator")
   lazy val strNoLineTerminator: Parser[String] = STR_MATCH <~ +(Skip.filter(s => lines.findFirstIn(s).isEmpty))
   def term(name: String, nt: Parser[String]): ESParser[String] = log(new ESParser(first => Skip ~> nt <~ +(Skip ~ first.getParser), FirstTerms() + (name -> nt)))(name)
-  def term(t: String): ESParser[String] = log(new ESParser(first => { Skip ~> t <~ +(Skip <~ first.getParser) }, FirstTerms() + t))(t)
+  def term(t: String): ESParser[String] = log(new ESParser(first => {
+    Skip ~> {
+      if (parseAll(Keyword, t).isEmpty) t
+      else t <~ not(IDContinue)
+    } <~ +(Skip <~ first.getParser)
+  }, FirstTerms() + t))(t)
 
   lazy val emptyFirst: FirstTerms = FirstTerms(possibleEmpty = true)
   lazy val noFirst: FirstTerms = FirstTerms()
@@ -317,6 +322,7 @@ trait ESParsers extends RegexParsers {
     res
   }
 
+  val Keyword: Parser[String]
   val Script: P[Script]
   val TERMINAL: Parser[String]
 
