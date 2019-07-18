@@ -1171,10 +1171,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
     } | "the" ~> name <~ "flag" ^^ {
       case x => pair(Nil, RefId(Id(x)))
-    } | "the first" ~> word ^^ {
-      case x => pair(Nil, RefId(Id(x + "0")))
-    } | "the second" ~> word ^^ {
-      case x => pair(Nil, RefId(Id(x + "1")))
+    } | ordinal ~ word ^^ {
+      case k ~ x => pair(Nil, RefId(Id(x + k)))
     } | name ~ rep(field) ^^ {
       case x ~ es =>
         val i = (List[Inst]() /: es) { case (is, i ~ _) => is ++ i }
@@ -1183,13 +1181,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         })
     }
   lazy val refWithOrdinal: Parser[Ref] =
-    "the first" ~> word ^^ {
-      case x => RefId(Id(x + "0"))
-    } | "the second" ~> word ^^ {
-      case x => RefId(Id(x + "1"))
+    ordinal ~ word ^^ {
+      case k ~ x => RefId(Id(x + k))
     } | name ^^ {
       case x => RefId(Id(x))
     }
+  lazy val ordinal: Parser[String] = (
+    "the first" ^^^ "0" |
+    "the second" ^^^ "1" |
+    "the third" ^^^ "2"
+  )
 
   ////////////////////////////////////////////////////////////////////////////////
   // Fields
