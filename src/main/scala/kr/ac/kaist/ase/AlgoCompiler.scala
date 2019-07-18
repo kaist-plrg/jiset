@@ -714,8 +714,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, parseExpr("(GetTypeOf val)"))
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
       pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), EStr("ParenthesizedExpression"), Nil))
+    } | "the length of" ~> name ^^ {
+      case x => pair(Nil, parseExpr(s"""(length-of $x)"""))
     } | "the number of arguments passed to this function call" ^^^ {
-      pair(Nil, parseExpr(s"""argumentsList["length"]"""))
+      pair(Nil, parseExpr(s"""(length-of argumentsList)"""))
     } | "the active function object" ^^^ {
       pair(Nil, parseExpr(s"""$context.Function"""))
     } | ("a zero - origined list containing the argument items in order" | ("the" ~ id ~ "that was passed to this function by" ~ rest)) ^^^ {
