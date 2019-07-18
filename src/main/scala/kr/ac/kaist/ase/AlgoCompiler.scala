@@ -493,7 +493,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
       case s => ENotYetImpl(s)
     } | const ^^ {
-      case "[empty]" => parseExpr("CONST_emptySyntax")
+      case "[empty]" => parseExpr("absent")
       case const => parseExpr("CONST_" + const.replaceAll("-", ""))
     } | (number <~ ".") ~ number ^^ {
       case x ~ y => ENum(s"$x.$y".toDouble)
@@ -725,7 +725,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("a zero - origined list containing the argument items in order" | ("the" ~ id ~ "that was passed to this function by" ~ rest)) ^^^ {
       pair(Nil, parseExpr(s"""argumentsList"""))
     } | "an iterator object ( 25 . 1 . 1 . 2 ) whose" <~ value <~ "method iterates" <~ rest ^^^ {
-      pair(Nil, parseExpr(s"""(CreateListIteratorRecord (EnumerateObjectPropertiesHelper O (new [])))"""))
+      pair(Nil, parseExpr(s"""(CreateListIteratorRecord (EnumerateObjectPropertiesHelper O (new []) (new [])))"""))
     } | "the ecmascript code that is the result of parsing" ~> id <~ ", interpreted as utf - 16 encoded unicode text" <~ rest ^^^ {
       pair(Nil, parseExpr(s"""(parse-syntax x "Script")""")) // TODO : throw syntax error
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
