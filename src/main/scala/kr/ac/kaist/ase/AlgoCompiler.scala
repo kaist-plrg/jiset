@@ -101,6 +101,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (
       opt("." | ";" | ",") ~> opt(next) ~> ("else" | "otherwise") ~> opt(
         "the order of evaluation needs to be reversed to preserve left to right evaluation" |
+          name ~ "is added as a single item rather than spread" |
           name ~ "contains a formal parameter mapping for" ~ name |
           name ~ "is a Reference to an Environment Record binding" |
           "the base of" ~ ref ~ "is an Environment Record" |
@@ -590,6 +591,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
         pair(i, EList(list.map { case _ ~ e => e }))
+    } | "a List whose first element is" ~> name <~ "and whose subsequent elements are, in left to right order, the arguments that were passed to this function invocation" ^^ {
+      case x => pair(List(parseInst(s"prepend $x -> argumentsList")), parseExpr("argumentsList"))
     } | ("the List of" ~> name <~ "items in") ~ (refWithOrdinal <~ ", in source text order") ^^ {
       case x ~ r => pair(Nil, parseExpr(s"(get-elems ${beautify(r)} $x)"))
     } | (
