@@ -11,6 +11,7 @@ object BaseGlobal {
     "ToBoolean" -> ToBoolean.func,
     "ToObject" -> ToObject.func,
     "ToString" -> ToString.func,
+    "max" -> max.func,
     "MulOperation" -> MulOperation.func,
     "WrapCompletion" -> WrapCompletion.func,
     "ThrowCompletion" -> ThrowCompletion.func,

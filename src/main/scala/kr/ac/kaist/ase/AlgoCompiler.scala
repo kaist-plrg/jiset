@@ -449,7 +449,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ r => pair(i, (l: Expr) => EBOp(ODiv, l, r))
     } | "+" ~> expr ^^ {
       case i ~ r => pair(i, (l: Expr) => EBOp(OPlus, l, r))
-    } | "-" ~> expr ^^ {
+    } | ("-" | "minus") ~> expr ^^ {
       case i ~ r => pair(i, (l: Expr) => EBOp(OSub, l, r))
     } | "modulo" ~> expr ^^ {
       case i ~ r => pair(i, (l: Expr) => EBOp(OMod, l, r))
@@ -640,6 +640,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           pair(List(parseInst(s"(pop argumentsList 0i)")), parseExpr("argumentsList"))
         } | "a List whose elements are , in left to right order , the arguments that were passed to this function invocation" ^^^ {
           pair(Nil, parseExpr("argumentsList"))
+        } | "a List whose elements are, in left to right order, the portion of the actual argument list starting with the third argument" ~ rest ^^^ {
+          pair(List(parseInst(s"""{
+            (pop argumentsList 0i)
+            (pop argumentsList 0i)
+          }""")), parseExpr("argumentsList"))
         } | "a List whose elements are the arguments passed to this function" ^^^ {
           pair(Nil, parseExpr("argumentsList"))
         } | "a List whose sole item is" ~> expr ^^ {
@@ -718,7 +723,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), EStr("ParenthesizedExpression"), Nil))
     } | "the length of" ~> name ^^ {
       case x => pair(Nil, parseExpr(s"""(length-of $x)"""))
-    } | "the number of arguments passed to this function call" ^^^ {
+    } | "the number of" ~ ("actual arguments" | "arguments passed to this function call") ^^^ {
       pair(Nil, parseExpr(s"""(length-of argumentsList)"""))
     } | "the active function object" ^^^ {
       pair(Nil, parseExpr(s"""$context.Function"""))
