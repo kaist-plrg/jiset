@@ -137,6 +137,8 @@ object BuiltinHeap {
       typeName = "Map",
       imap = IMap(),
       nmap = NMap(
+        "print" -> DataProperty(NamedAddr("GLOBAL.print"), T, F, T),
+        "$262" -> DataProperty(NamedAddr("GLOBAL.$262"), T, F, T),
         "Infinity" -> DataProperty(Num(Double.PositiveInfinity), F, F, F),
         "NaN" -> DataProperty(Num(Double.NaN), F, F, F),
         "undefined" -> DataProperty(Undef, F, F, F),
@@ -535,6 +537,9 @@ object BuiltinHeap {
     "Atomics",
     "JSON",
     "Math",
-    "Reflect"
+    "Reflect",
+    // test262
+    "print",
+    "$262"
   )
 }
