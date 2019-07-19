@@ -5,7 +5,7 @@ import kr.ac.kaist.ase.core._
 object ToString {
   val func: Func = Func("ToString", List(Id("argument")), None, parseInst(
     s"""{
-      let atype = (typeof argument)
+      let atype = (Type argument)
       if (= atype "Undefined") return "undefined"
       else if (= atype "Null") return "null"
       else if (= atype "Boolean") if argument return "true" else return "false"

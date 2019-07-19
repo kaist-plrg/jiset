@@ -5,7 +5,7 @@ import kr.ac.kaist.ase.core._
 object ToNumber {
   val func: Func = Func("ToNumber", List(Id("argument")), None, parseInst(
     s"""{
-      let atype = (typeof argument)
+      let atype = (Type argument)
       if (= atype "Undefined") return NaN
       else if (= atype "Null") return 0
       else if (= atype "Boolean") if argument return 1 else return 0

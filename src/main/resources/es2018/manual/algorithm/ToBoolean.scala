@@ -5,7 +5,7 @@ import kr.ac.kaist.ase.core._
 object ToBoolean {
   val func: Func = Func("ToBoolean", List(Id("argument")), None, parseInst(
     s"""{
-          let atype = (typeof argument)
+          let atype = (Type argument)
           if (= atype "Undefined") {
             return false
           } else if (= atype "Null") {

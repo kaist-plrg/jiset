@@ -10,6 +10,7 @@ case class State(
     heap: Heap = Heap()
 ) extends CoreNode {
   // getters
+  def get(addr: Addr): Option[Obj] = heap.get(addr)
   def apply(addr: Addr): Obj = heap(addr)
 
   // initialize local variables

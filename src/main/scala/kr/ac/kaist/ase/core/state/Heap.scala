@@ -9,7 +9,8 @@ case class Heap(
     size: Int = 0
 ) extends CoreNode {
   // getters
-  def apply(addr: Addr): Obj = map.getOrElse(addr, error(s"unknown address: ${beautify(addr)}"))
+  def get(addr: Addr): Option[Obj] = map.get(addr)
+  def apply(addr: Addr): Obj = map.getOrElse(addr, error(s"unknown address1: ${beautify(addr)}"))
   def apply(addr: Addr, key: Value): Value = this(addr) match {
     case (s: CoreSymbol) => s(key)
     case (m: CoreMap) => m(key)

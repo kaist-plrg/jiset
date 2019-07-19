@@ -7,10 +7,10 @@ object WrapCompletion {
     s"""if (= (typeof val) "Completion") {
         return val
     } else {
-        let temp = (new Completion())
-        temp.Type = CONST_normal
-        temp.Value = val
-        temp.Target = CONST_empty
+        let temp = (new Completion(
+          "Type" -> CONST_normal,
+          "Value" -> val,
+          "Target" -> CONST_empty))
         return temp
     } """
   ))
