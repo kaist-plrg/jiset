@@ -5,7 +5,7 @@ import kr.ac.kaist.ase.core._
 object ToObject {
   val func: Func = Func("ToObject", List(Id("argument")), None, parseInst(
     s"""{
-          let atype = (typeof argument)
+          let atype = (Type argument)
           if (= atype "Undefined") {
             return (new Completion (
               "Type" -> CONST_throw,

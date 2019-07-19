@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.model
 
-import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, RuntimeSemantics }
+import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, StaticSemantics, Method }
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
 import scala.util.{ Try, Success, Failure }
@@ -67,9 +67,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val returnStmt = (
     "return" ~> expr ^^ {
       case i ~ e => ISeq(i :+ (algo.kind match {
-        case RuntimeSemantics if !(algoName contains "InstantiateFunctionObject") =>
-          IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(e)))
-        case _ => IReturn(e)
+        case StaticSemantics => IReturn(e)
+        case Method if algoName == "OrdinaryGetOwnProperty" => IReturn(e)
+        case _ => IReturn(EApp(ERef(RefId(Id("WrapCompletion"))), List(e)))
       }))
     } | "return" ^^^ {
       IReturn(EMap(Ty("Completion"), List(
