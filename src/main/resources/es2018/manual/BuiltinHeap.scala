@@ -384,7 +384,7 @@ object BuiltinHeap {
       )
     ),
     "GLOBAL.Array.prototype" -> Struct(
-      typeName = "OrdinaryObject",
+      typeName = "ArrayExoticObject",
       imap = IMap(
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
