@@ -393,7 +393,8 @@ object BuiltinHeap {
         "length" -> DataProperty(Num(0.0), T, F, F),
         "constructor" -> DataProperty(NamedAddr("GLOBAL.Array"), T, F, T)
       ) ++ Map(
-          NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Array.prototype.values"), T, F, T)
+          NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Array.prototype.values"), T, F, T),
+          NamedAddr("GLOBAL.Symbol.unscopables") -> DataProperty(NamedAddr("GLOBAL.Array.prototype[#GLOBAL.Symbol.unscopables]"), F, F, T)
         )
     ),
     "GLOBAL.INTRINSIC_ArrayIteratorPrototype" -> Struct(

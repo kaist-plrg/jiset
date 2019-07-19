@@ -49,12 +49,12 @@ object ModelHelper {
       (m.get(baseAddr) match {
         case Some(CoreMap(ty, map)) => m ++ List(
           baseAddr -> CoreMap(ty, map + (propV -> descAddr)),
-          descAddr -> CoreMap(Ty("PropertyDescriptor"), Map(
+          descAddr -> m.getOrElse(descAddr, CoreMap(Ty("PropertyDescriptor"), Map(
             Str("Value") -> addr,
             Str("Writable") -> Bool(true),
             Str("Enumerable") -> Bool(false),
             Str("Configurable") -> Bool(true)
-          ))
+          )))
         )
         case _ => m
       }) + (m.get(addr) match {
