@@ -40,7 +40,8 @@ package object model {
   }
   trait Script extends AST
   trait StatementListItem extends AST
-  trait ModelHelper {
+  object ModelHelper {
+    def checkSupported(ast: AST): Unit = throw ModelNotYetGenerated
     def flattenStatement(s: Script): List[StatementListItem] = throw ModelNotYetGenerated
     def mergeStatement(l: List[StatementListItem]): Script = throw ModelNotYetGenerated
   }

@@ -6,7 +6,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 import kr.ac.kaist.ase.DEBUG_INTERP
 import kr.ac.kaist.ase.error.NotSupported
-import kr.ac.kaist.ase.model.{ Parser => ESParser, ESValueParser }
+import kr.ac.kaist.ase.model.{ Parser => ESParser, ESValueParser, ModelHelper }
 import org.apache.commons.text.StringEscapeUtils
 
 // CORE Interpreter
@@ -224,7 +224,7 @@ class Interp {
           } catch {
             case e: TimeoutException => error("parser timeout")
           }
-          if (newAst.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) throw NotSupported("Async/Generator")
+          ModelHelper.checkSupported(newAst)
           (ASTVal(newAst), s1)
         case Str(str) =>
           val (s2, parserParams) = ((s1, List[Boolean]()) /: flags) {
@@ -242,7 +242,7 @@ class Interp {
           } catch {
             case e: TimeoutException => error("parser timeout")
           }
-          if (ast.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) throw NotSupported("Async/Generator")
+          ModelHelper.checkSupported(ast)
           (ASTVal(ast), s2)
         case v => error(s"not an AST value or a string: $v")
       }

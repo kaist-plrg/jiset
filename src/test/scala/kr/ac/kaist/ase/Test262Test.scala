@@ -87,9 +87,7 @@ class Test262Test extends ASETest {
         val jsConfig = aseConfig.copy(fileNames = List(jsName))
 
         val ast = Parse((), jsConfig)
-        if (ast.exists(x => x.startsWith("Async") || x.startsWith("Generator"))) {
-          throw NotSupported("Async/Generator")
-        }
+        ModelHelper.checkSupported(ast)
 
         val stList = includes.foldLeft(initStList) {
           case (li, s) => li ++ includeMap(s)

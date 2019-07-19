@@ -427,7 +427,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     listExpr |
     newExpr |
     valueExpr ^^ { pair(Nil, _) } |
-    arithExpr ^^ { pair(Nil, _) } |
     curExpr ^^ { pair(Nil, _) } |
     algoExpr ^^ { pair(Nil, _) } |
     containsExpr ^^ { pair(Nil, _) } |
@@ -443,17 +442,20 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val parenExpr = "(" ~> expr <~ ")"
 
   lazy val subExpr: Parser[List[Inst] ~ (Expr => Expr)] =
-    "×" ~> expr ^^ {
-      case i ~ r => pair(i, (l: Expr) => EBOp(OMul, l, r))
-    } | "/" ~> expr ^^ {
-      case i ~ r => pair(i, (l: Expr) => EBOp(ODiv, l, r))
-    } | "+" ~> expr ^^ {
-      case i ~ r => pair(i, (l: Expr) => EBOp(OPlus, l, r))
-    } | ("-" | "minus") ~> expr ^^ {
-      case i ~ r => pair(i, (l: Expr) => EBOp(OSub, l, r))
-    } | "modulo" ~> expr ^^ {
-      case i ~ r => pair(i, (l: Expr) => EBOp(OMod, l, r))
+    bop ~ expr ^^ {
+      case b ~ (i ~ r) => pair(i, (l: Expr) => EBOp(b, l, r))
     } | success(pair(Nil, x => x))
+
+  lazy val bop: Parser[BOp] = (
+    "×" ^^^ OMul |
+    "/" ^^^ ODiv |
+    "+" ^^^ OPlus |
+    ("-" | "minus") ^^^ OSub |
+    "modulo" ^^^ OMod |
+    "&" ^^^ OBAnd |
+    "^" ^^^ OBXOr |
+    "|" ^^^ OBOr
+  )
 
   // ReturnIfAbrupt
   lazy val returnIfAbruptExpr: Parser[List[Inst] ~ Expr] =
@@ -479,7 +481,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case "true" => EBool(true)
       case "false" => EBool(false)
       case "NaN" => ENum(Double.NaN)
-      case "+0" => ENum(0.0)
+      case "+0" => EINum(0L)
       case "-0" => ENum(-0.0)
       case "+∞" => ENum(Double.PositiveInfinity)
       case "-∞" => ENum(Double.NegativeInfinity)
@@ -505,17 +507,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       ))""")
     } | opt("the numeric value") ~> number ^^ { case s => EINum(java.lang.Long.decode(s)) }
   )
-
-  // arithmetic expressions
-  lazy val arithExpr: Parser[Expr] =
-    arithElem ~ bop ~ arithElem ^^ {
-      case l ~ f ~ r => EBOp(f, l, r)
-    }
-  lazy val arithElem: Parser[Expr] =
-    valueExpr | id ^^ { parseExpr(_) }
-  lazy val bop: Parser[BOp] =
-    "+" ^^^ OPlus |
-      "-" ^^^ OSub
 
   // completion expressions
   lazy val completionExpr = "normalcompletion(" ~> expr <~ ")" ^^ {

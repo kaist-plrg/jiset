@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase.model
 
 import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.util.Useful._
 
 object ModelHelper {
@@ -93,5 +94,14 @@ object ModelHelper {
           Str("Configurable") -> Bool(true)
         )))
       )
+  }
+
+  private val notSupportedSyntaxPrefixList = List("Async", "Generator", "RegularExpression")
+  def checkSupported(ast: AST): Unit = ast.exists {
+    case name => notSupportedSyntaxPrefixList.exists {
+      case pre =>
+        if (name.startsWith(pre)) throw NotSupported(pre)
+        else false
+    }
   }
 }
