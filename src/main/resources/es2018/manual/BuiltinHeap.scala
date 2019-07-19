@@ -516,9 +516,25 @@ object BuiltinHeap {
   )
 
   private val notSupportedInfo: List[String] = List(
-    "Math",
+    "ArrayBuffer",
+    "DataView",
     "Date",
+    "Float32Array",
+    "Float64Array",
+    "Int8Array",
+    "Int16Array",
+    "Int32Array",
+    "Promise",
+    "Proxy",
     "RegExp",
-    "JSON"
+    "SharedArrayBuffer",
+    "Uint8Array",
+    "Uint8ClampedArray",
+    "Uint16Array",
+    "Uint32Array",
+    "Atomics",
+    "JSON",
+    "Math",
+    "Reflect"
   )
 }
