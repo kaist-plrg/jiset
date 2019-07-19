@@ -716,8 +716,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), EStr("ParenthesizedExpression"), Nil))
     } | "the length of" ~> name ^^ {
       case x => pair(Nil, parseExpr(s"""$x.length"""))
-    } | "the number of" ~ ("actual arguments" | "arguments passed to this function call") ^^^ {
+    } | "the" ~ opt("actual") ~ "number of" ~ ("actual arguments" | "arguments passed to this function" ~ opt("call")) ^^^ {
       pair(Nil, parseExpr(s"""argumentsList.length"""))
+    } | "the List of arguments passed to this function" ^^^ {
+      pair(Nil, parseExpr("argumentsList"))
     } | ("the numeric value of the code unit at index" ~> name <~ "within") ~ name ^^ {
       case x ~ y => pair(Nil, parseExpr(s"$y[$x]"))
     } | "the active function object" ^^^ {

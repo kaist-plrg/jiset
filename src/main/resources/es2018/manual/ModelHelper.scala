@@ -65,7 +65,7 @@ object ModelHelper {
             Str("Realm") -> NamedAddr("REALM")
           ))
         case _ =>
-          addr -> CoreMap(Ty("BuiltinFunctionObject"), BuiltinFunctionObject.map ++ Map(
+          addr -> CoreMap(Ty("BuiltinFunctionObject"), BuiltinFunctionObject.map - Str("Construct") ++ Map(
             Str("Code") -> func,
             Str("Prototype") -> NamedAddr("GLOBAL.Function.prototype"),
             Str("Extensible") -> Bool(true),
