@@ -73,10 +73,13 @@ object ModelHelper {
             Str("SubMap") -> NamedAddr(s"$name.SubMap")
           ))
       }) ++ List(
-        NamedAddr(s"$name.SubMap") -> m.getOrElse(NamedAddr(s"$name.SubMap"), CoreMap(Ty("SubMap"), Map(
-          Str("name") -> NamedAddr(s"DESC:$name.name"),
-          Str("length") -> NamedAddr(s"DESC:$name.length")
-        ))),
+        NamedAddr(s"$name.SubMap") -> (m.getOrElse(NamedAddr(s"$name.SubMap"), CoreMap(Ty("SubMap"), Map())) match {
+          case CoreMap(ty, map) => CoreMap(ty, map ++ List(
+            Str("name") -> map.getOrElse(Str("name"), NamedAddr(s"DESC:$name.name")),
+            Str("length") -> map.getOrElse(Str("length"), NamedAddr(s"DESC:$name.length"))
+          ))
+          case obj => error(s"not a map: $obj")
+        }),
         NamedAddr(s"DESC:$name.name") -> m.getOrElse(NamedAddr(s"DESC:$name.name"), CoreMap(Ty("PropertyDescriptor"), Map(
           Str("Value") -> Str(propName),
           Str("Writable") -> Bool(false),

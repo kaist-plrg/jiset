@@ -367,6 +367,7 @@ object BuiltinHeap {
         "Code" -> GLOBALDOTArray.func
       ),
       nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Array.prototype"), F, F, F)
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.species") -> AccessorProperty(NamedAddr("GLOBAL.Array.SYMBOL_species"), U, F, T)

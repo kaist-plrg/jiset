@@ -377,7 +377,7 @@ class Interp {
     case (OMul, Num(l), Num(r)) => Num(l * r)
     case (OPow, Num(l), Num(r)) => Num(math.pow(l, r))
     case (ODiv, Num(l), Num(r)) => Num(l / r)
-    case (OMod, Num(l), Num(r)) => Num(l % r)
+    case (OMod, Num(l), Num(r)) => Num(modulo(l, r))
     case (OLt, Num(l), Num(r)) => Bool(l < r)
 
     // double with long operations
@@ -385,13 +385,13 @@ class Interp {
     case (OSub, INum(l), Num(r)) => Num(l - r)
     case (OMul, INum(l), Num(r)) => Num(l * r)
     case (ODiv, INum(l), Num(r)) => Num(l / r)
-    case (OMod, INum(l), Num(r)) => Num(l % r)
+    case (OMod, INum(l), Num(r)) => Num(modulo(l, r))
     case (OLt, INum(l), Num(r)) => Bool(l < r)
     case (OPlus, Num(l), INum(r)) => Num(l + r)
     case (OSub, Num(l), INum(r)) => Num(l - r)
     case (OMul, Num(l), INum(r)) => Num(l * r)
     case (ODiv, Num(l), INum(r)) => Num(l / r)
-    case (OMod, Num(l), INum(r)) => Num(l % r)
+    case (OMod, Num(l), INum(r)) => Num(modulo(l, r))
     case (OLt, Num(l), INum(r)) => Bool(l < r)
 
     // string operations
@@ -404,7 +404,7 @@ class Interp {
     case (OSub, INum(l), INum(r)) => INum(l - r)
     case (OMul, INum(l), INum(r)) => INum(l * r)
     case (ODiv, INum(l), INum(r)) => INum(l / r)
-    case (OMod, INum(l), INum(r)) => INum(l % r)
+    case (OMod, INum(l), INum(r)) => INum(modulo(l, r).toLong)
     case (OLt, INum(l), INum(r)) => Bool(l < r)
     case (OBAnd, INum(l), INum(r)) => INum(l & r)
     case (OBOr, INum(l), INum(r)) => INum(l | r)
@@ -424,6 +424,11 @@ class Interp {
     case (OEq, l, r) => Bool(l == r)
 
     case (_, lval, rval) => error(s"wrong type: $lval $bop $rval")
+  }
+  private def modulo(l: Double, r: Double): Double = {
+    val m = l % r
+    if (m * r < 0.0) m + r
+    else m
   }
 
   // short circuit evaluation
