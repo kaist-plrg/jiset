@@ -107,8 +107,6 @@ trait UnitWalker {
       walk(base); walk(name)
     case EGetElems(base, name) =>
       walk(base); walk(name)
-    case ELength(expr) =>
-      walk(expr)
     case EGetSyntax(base) =>
       walk(base)
     case EParseSyntax(code, rule, flags) =>
@@ -216,5 +214,7 @@ trait UnitWalker {
       walk(addr); walk(value)
     case RefValueAST(ast, name) =>
       walk(ast); walk(name)
+    case RefValueString(str, name) =>
+      walk(str); walk(name)
   }
 }

@@ -269,7 +269,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val etcStmt =
     "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
       case i ~ e => ISeq(i ++ List(IAppend(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
-        $context = $executionStack[(- (length-of $executionStack) 1i)]
+        $context = $executionStack[(- $executionStack.length 1i)]
       """)))
     } | "if this method was called with more than one argument , then in left to right order , starting with the second argument , append each argument as the last element of" ~> name ^^ {
       case x => parseInst(s"""{
@@ -303,7 +303,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         val len = getTemp
         parseInst(s"""{
           let $idx = 0i
-          let $len = (length-of $l)
+          let $len = $l.length
           while (&& (< $idx $len) (! (= $l[$idx] $x))) $idx = (+ $idx 1i)
           if (< $idx $len) (pop $l $idx) else {}
         }""")
@@ -334,8 +334,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         val idx = getTemp
         parseInst(s"""{
         $context = null
-        if (= $executionStack[(- (length-of $executionStack) 1i)] $x) {
-          $idx = (- (length-of $executionStack) 1i)
+        if (= $executionStack[(- $executionStack.length 1i)] $x) {
+          $idx = (- $executionStack.length 1i)
           (pop $executionStack $idx)
         } else {}
       }""")
@@ -351,15 +351,15 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => {
         val idx = getTemp
         parseInst(s"""{
-        if (= $executionStack[(- (length-of $executionStack) 1i)] $x) {
-          $idx = (- (length-of $executionStack) 1i)
+        if (= $executionStack[(- $executionStack.length 1i)] $x) {
+          $idx = (- $executionStack.length 1i)
           (pop $executionStack $idx)
         } else {}
         $context = $executionStack[(- $idx 1i)]
       }""")
       }
     } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
-      parseInst(s"""$context = $executionStack[(- (length-of $executionStack) 1i)]""")
+      parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
     } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27. all of those internal slots are initialized to" ~ value ^^ {
       case x => parseInst(s"""{
         let $x = (new ECMAScriptFunctionObject("SubMap" -> (new SubMap())))
@@ -688,6 +688,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, ENotSupported("RegularExpressionLiteral"))
     } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
+    } | "the String value consisting of the single code unit" ~> name ^^ {
+      case x => pair(Nil, parseExpr(x))
     } | "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> name <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
       case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
     } | "the" ~ value ~ "where" ~> name <~ "is" ~ value ^^ {
@@ -708,7 +710,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(List(parseInst(s"""{
           let $s = ""
           let $idx = 0i
-          let $len = (length-of $l)
+          let $len = $l.length
           while (< $idx $len) {
             let $x = $l[$idx]
             $s = (+ $s $x)
@@ -722,9 +724,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
       pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), EStr("ParenthesizedExpression"), Nil))
     } | "the length of" ~> name ^^ {
-      case x => pair(Nil, parseExpr(s"""(length-of $x)"""))
+      case x => pair(Nil, parseExpr(s"""$x.length"""))
     } | "the number of" ~ ("actual arguments" | "arguments passed to this function call") ^^^ {
-      pair(Nil, parseExpr(s"""(length-of argumentsList)"""))
+      pair(Nil, parseExpr(s"""argumentsList.length"""))
+    } | ("the numeric value of the code unit at index" ~> name <~ "within") ~ name ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"$y[$x]"))
     } | "the active function object" ^^^ {
       pair(Nil, parseExpr(s"""$context.Function"""))
     } | ("a zero - origined list containing the argument items in order" | ("the" ~ id ~ "that was passed to this function by" ~ rest)) ^^^ {
@@ -738,7 +742,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "the string that is the only element of" ~> ref ^^ {
       case i ~ r => pair(i, parseExpr(s"${beautify(r)}[0i]"))
     } | ("the result of" ~> name <~ "minus the number of elements of") ~ name ^^ {
-      case x ~ y => pair(Nil, parseExpr(s"(- $x (length-of $y))"))
+      case x ~ y => pair(Nil, parseExpr(s"(- $x $y.length)"))
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) =>
         val a = beautify(x)
@@ -786,8 +790,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         pair(i0 ++ i1, EBOp(OPlus, e1, e2))
     } | "-" ~> expr ^^ {
       case i ~ e => pair(i, EUOp(ONeg, e))
-    } | "the number of" ~ (opt("code unit") ~ "elements" | "code units") ~ ("in" | "of") ~> expr ^^ {
-      case i ~ e => pair(i, ELength(e))
+    } | "the number of" ~ (opt("code unit") ~ "elements" | "code units") ~ ("in" | "of") ~> ref ^^ {
+      case i ~ r => pair(i, ERef(RefProp(r, EStr("length"))))
     } | ("the result of performing abstract relational comparison" ~> name <~ "<") ~ name ~ opt("with" ~ name ~ "equal to" ~> expr) ^^ {
       case x ~ y ~ Some(i ~ e) => pair(i, parseExpr(s"(AbstractRelationalComparison $x $y ${beautify(e)})"))
       case x ~ y ~ None => pair(Nil, parseExpr(s"(AbstractRelationalComparison $x $y)"))
@@ -887,7 +891,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       "the directive prologue of statementList contains a use strict directive") ^^^ {
         pair(Nil, EBool(false)) // TODO : support strict mode code
       } | "no arguments were passed to this function invocation" ^^^ {
-        pair(Nil, parseExpr(s"(= (length-of argumentsList) 0i)"))
+        pair(Nil, parseExpr(s"(= argumentsList.length 0i)"))
+      } | name ~ "< 0xD800 or" ~ name ~ "> 0xDBFF or" ~ name ~ "+ 1 =" ~ name ^^^ {
+        pair(Nil, EBool(true)) // TODO : based on real code unit
       } | name <~ "is an Identifier and StringValue of" ~ name ~ "is the same value as the StringValue of IdentifierName" ^^ {
         case x => pair(Nil, parseExpr(s"(&& (is-instance-of $x Identifier) (= (get-syntax $x) (get-syntax IdentifierName)))"))
       } | name <~ "is a ReservedWord" ^^ {
@@ -942,9 +948,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
       } | name <~ "has no elements" ^^ {
-        case x => pair(Nil, parseExpr(s"(= 0i (length-of $x))"))
+        case x => pair(Nil, parseExpr(s"(= 0i $x.length)"))
       } | name <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
-        case x => pair(Nil, parseExpr(s"(< 0i (length-of $x))"))
+        case x => pair(Nil, parseExpr(s"(< 0i $x.length)"))
       } | (expr <~ ">") ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, y, x)))
       } | (expr <~ "is less than") ~ expr ~ subCond ^^ {
@@ -1027,7 +1033,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i1 ~ e1) ~ e2 ~ e3 ~ e4 ~ e5 ~ e6 =>
           pair(i1, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3)), EBOp(OEq, e1, e4)), EBOp(OEq, e1, e5)), EBOp(OEq, e1, e6)))
       } | expr <~ "is empty" ^^ {
-        case i ~ e => pair(i, parseExpr(s"(= (length-of ${beautify(e)}) 0)"))
+        case i ~ e => pair(i, parseExpr(s"(= ${beautify(e)}.length 0)"))
       } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))))
       } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
@@ -1171,7 +1177,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | (name <~ "'s own property whose key is") ~ ref ^^ {
       case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
     } | "the second to top element" ~> "of" ~> ref ^^ {
-      case i ~ r => pair(i, RefProp(r, EBOp(OSub, ELength(ERef(r)), EINum(2))))
+      case i ~ r => pair(i, RefProp(r, EBOp(OSub, ERef(RefProp(r, EStr("length"))), EINum(2))))
     } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ refWithOrdinal ^^ {
       case x ~ y => pair(Nil, RefProp(y, EStr(x)))
     } | (name <~ "'s") ~ name <~ opt("value" | "attribute") ^^ {
@@ -1264,7 +1270,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     parseInst(
       if (reversed) s"""{
         let $list = ${beautify(expr)}
-        let $idx = (length-of $list)
+        let $idx = $list.length
         while (< 0i $idx) {
           $idx = (- $idx 1i)
           let ${beautify(id)} = $list[$idx]
@@ -1274,7 +1280,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       else s"""{
         let $list = ${beautify(expr)}
         let $idx = 0i
-        while (< $idx (length-of $list)) {
+        while (< $idx $list.length) {
           let ${beautify(id)} = $list[$idx]
           ${beautify(body)}
           $idx = (+ $idx 1i)
@@ -1290,7 +1296,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     parseInst(s"""{
       let $list = (map-keys ${beautify(expr)})
       let $idx = 0i
-      while (< $idx (length-of $list)) {
+      while (< $idx $list.length) {
         let ${beautify(id)} = $list[$idx]
         ${beautify(body)}
         $idx = (+ $idx 1i)

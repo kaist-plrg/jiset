@@ -164,8 +164,6 @@ object Beautifier {
         walk("(is-instance-of "); walk(base); walk(" "); walk(name); walk(")")
       case EGetElems(base, name) =>
         walk("(get-elems "); walk(base); walk(" "); walk(name); walk(")")
-      case ELength(expr) =>
-        walk("(length-of "); walk(expr); walk(")")
       case EGetSyntax(base) =>
         walk("(get-syntax "); walk(base); walk(")")
       case EParseSyntax(code, rule, flags) =>
@@ -333,6 +331,8 @@ object Beautifier {
         walk(addr); walk("[\""); walk(value); walk("\"]")
       case RefValueAST(ast, name) =>
         walk(ast); walk("."); walk(name)
+      case RefValueString(str, name) =>
+        walk(str); walk("."); walk(name)
     }
   }
 }

@@ -205,14 +205,6 @@ class Interp {
       case (ASTVal(ast), s0) => s0.allocList(ast.getElems(kind).map(ASTVal(_)))
       case (v, _) => error(s"not an AST value: $v")
     }
-    case ELength(expr) => interp(expr)(st) match {
-      case (addr: Addr, s0) => s0(addr) match {
-        case CoreList(values) => (INum(values.length), s0)
-        case obj => error(s"not a list: $addr")
-      }
-      case (Str(str), s0) => (INum(str.length), s0)
-      case (v, _) => error(s"not a string: $v")
-    }
     case EGetSyntax(base) => interp(base)(st) match {
       case (ASTVal(ast), s0) => (Str(ast.toString), s0)
       case (v, s0) => error(s"not an AST value: $v")
@@ -329,6 +321,7 @@ class Interp {
       ((base, p) match {
         case (addr: Addr, p) => RefValueProp(addr, p)
         case (ast: ASTVal, Str(name)) => RefValueAST(ast, name)
+        case (Str(str), p) => RefValueString(str, p)
         case v => error(s"not an address: $v")
       }, s2)
   }
@@ -359,6 +352,11 @@ class Interp {
           case None => error(s"Unexpected semantics: ${ast.name}.$name")
         }
       }
+    case RefValueString(str, value) => value match {
+      case Str("length") => (INum(str.length), st)
+      case INum(k) => (Str(str(k.toInt).toString), st)
+      case v => error(s"wrong access of string reference: $str.$value")
+    }
   }
 
   // unary operators

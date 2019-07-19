@@ -7,7 +7,7 @@ object EnumerateObjectPropertiesHelper {
   val func: Func = parseFunc(""""EnumerateObjectPropertiesHelper" ( O , listAll, listEnum ) => {
     let a = (map-keys O["SubMap"])
     let __x0__ = 0i
-    while (< __x0__ (length-of a)) {
+    while (< __x0__ a.length) {
       let c = a[__x0__]
       if (&& (= (typeof c) "String") (! (contains listAll c))) {
         append c -> listAll

@@ -6,7 +6,7 @@ import kr.ac.kaist.ase.core._
 object max {
   val func: Func = parseFunc(""""max" (...args) => {
     let x = 1i
-    let len = (length-of args)
+    let len = args.length
     let res = args[0i]
     while (< x len) {
       let v = args[x]

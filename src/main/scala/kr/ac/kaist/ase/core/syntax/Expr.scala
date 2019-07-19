@@ -38,7 +38,6 @@ case class EIsInstanceOf(base: Expr, name: String) extends Expr {
 case class EGetElems(base: Expr, name: String) extends Expr {
   override def toString: String = s"""EGetElems($base, "$name")"""
 }
-case class ELength(expr: Expr) extends Expr
 case class EGetSyntax(base: Expr) extends Expr
 case class EParseSyntax(code: Expr, rule: Expr, flags: List[Expr]) extends Expr {
   override def toString: String = s"""EParseSyntax($code, $rule, $flags)"""

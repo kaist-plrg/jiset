@@ -110,7 +110,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
       ("(" ~> "get-elems" ~> expr) ~ (ident <~ ")") ^^ {
         case e ~ x => EGetElems(e, x)
       } |
-      "(" ~> "length-of" ~> expr <~ ")" ^^ { case e => ELength(e) } |
       "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
       "(" ~> "parse-syntax" ~> expr ~ expr ~ rep(expr) <~ ")" ^^ { case e ~ r ~ le => EParseSyntax(e, r, le) } |
       "(" ~> "parse-string" ~> expr ~ pop <~ ")" ^^ { case e ~ r => EParseString(e, r) } |

@@ -1,7 +1,7 @@
 // list appends/prepends
 let list = (new [7, 8, 9])
 append 5 -> list
-assert (= (length-of list) 4i)
+assert (= list.length 4i)
 assert (= list[0i] 7)
 assert (= list[1i] 8)
 assert (= list[2i] 9)
@@ -9,7 +9,7 @@ assert (= list[3i] 5)
 
 append list -> list
 append 42 -> list
-assert (= (length-of list) 6i)
+assert (= list.length 6i)
 assert (= list[0i] 7)
 assert (= list[1i] 8)
 assert (= list[2i] 9)
@@ -18,7 +18,7 @@ assert (= list[4i] list)
 assert (= list[5i] 42)
 
 prepend 70 -> list
-assert (= (length-of list) 7i)
+assert (= list.length 7i)
 assert (= list[0i] 70)
 assert (= list[1i] 7)
 assert (= list[2i] 8)

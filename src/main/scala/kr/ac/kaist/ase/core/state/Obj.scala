@@ -40,6 +40,7 @@ case class CoreList(values: Vector[Value]) extends Obj {
       val idx = long.toInt
       if (0 <= idx && idx < values.length) values(idx)
       else Absent
+    case Str("length") => INum(values.length)
     case v => error(s"not an integer key: $v")
   }
 
