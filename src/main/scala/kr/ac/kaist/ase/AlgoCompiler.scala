@@ -921,6 +921,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case x => pair(Nil, parseExpr(s"(IsArrayIndex $x)"))
       } | name <~ "is an accessor property" ^^ {
         case x => pair(Nil, parseExpr(s"(IsAccessorDescriptor $x)"))
+      } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
+        case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EUOp(ONot, exists(r))))
       } | expr <~ "is an abrupt completion" ^^ {

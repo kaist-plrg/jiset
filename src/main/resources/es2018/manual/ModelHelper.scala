@@ -22,21 +22,32 @@ object ModelHelper {
     case Nil => None
   }, List(false, false, false))
 
+  val SYMBOL_PREFIX = "GLOBAL.Symbol."
+  def getPropStr(value: Value): String = value match {
+    case Str(str) => s".$str"
+    case _ => s"[${beautify(value)}]"
+  }
+
   def addBuiltin(
     map: Map[Addr, Obj],
     builtinMethods: List[(String, Int, Func)]
   ): Map[Addr, Obj] = (map /: builtinMethods) {
-    case (m, (name, length, func)) =>
-      val base = removedExt(name)
-      val prop = getExt(name)
+    case (m, (givenName, length, func)) =>
+      val base = removedExt(givenName)
+      val prop = getExt(givenName)
+      val (propV, propName) = if (prop.startsWith("SYMBOL_")) {
+        val p = prop.substring("SYMBOL_".length)
+        (NamedAddr(s"GLOBAL.Symbol.$p"), s"[Symbol.$p]")
+      } else (Str(prop), prop)
+      val name = base + getPropStr(propV)
       val addr = NamedAddr(name)
       val baseAddr =
         if (base == "GLOBAL") NamedAddr("GLOBAL")
         else NamedAddr(s"$base.SubMap")
-      val descAddr = NamedAddr(s"DESC:$base.$prop")
+      val descAddr = NamedAddr(s"DESC:$name")
       (m.get(baseAddr) match {
         case Some(CoreMap(ty, map)) => m ++ List(
-          baseAddr -> CoreMap(ty, map + (Str(prop) -> descAddr)),
+          baseAddr -> CoreMap(ty, map + (propV -> descAddr)),
           descAddr -> CoreMap(Ty("PropertyDescriptor"), Map(
             Str("Value") -> addr,
             Str("Writable") -> Bool(true),
@@ -67,7 +78,7 @@ object ModelHelper {
           Str("length") -> NamedAddr(s"DESC:$name.length")
         ))),
         NamedAddr(s"DESC:$name.name") -> m.getOrElse(NamedAddr(s"DESC:$name.name"), CoreMap(Ty("PropertyDescriptor"), Map(
-          Str("Value") -> Str(prop),
+          Str("Value") -> Str(propName),
           Str("Writable") -> Bool(false),
           Str("Enumerable") -> Bool(false),
           Str("Configurable") -> Bool(true)

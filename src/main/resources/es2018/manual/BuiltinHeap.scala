@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase.model
 
 import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.model.ModelHelper._
 
 object BuiltinHeap {
   def get: Map[Addr, Obj] = (Map[Addr, Obj]() /: mapInfo) {
@@ -72,12 +73,6 @@ object BuiltinHeap {
     def apply(pairs: (String, Property)*): NMap = NMap(
       pairs.map { case (s, p) => Str(s) -> p }.toMap[Value, Property]
     )
-  }
-
-  private val SYMBOL_PREFIX = "GLOBAL.Symbol."
-  private def getPropStr(value: Value): String = value match {
-    case Str(str) => s".$str"
-    case _ => s"[${beautify(value)}]"
   }
 
   private trait Property
@@ -352,6 +347,15 @@ object BuiltinHeap {
       nmap = NMap(
         "length" -> DataProperty(Num(0.0), F, F, F),
         "constructor" -> DataProperty(NamedAddr("GLOBAL.String"), T, F, T)
+      )
+    ),
+    "GLOBAL.INTRINSIC_StringIteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
+      ),
+      nmap = NMap() ++ Map(
+        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("String Iterator"), F, F, T)
       )
     ),
     "GLOBAL.Array" -> Struct(
