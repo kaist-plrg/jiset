@@ -415,8 +415,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "set fields of" |
     "need to defer setting the" |
     "create any implementation-defined" |
-    "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
-    "if" ~ id ~ "is a List of errors,"
+    "no further validation is required" |
+    "if" ~ id ~ "is a List of errors," |
+    "order the elements of" ~ id ~ "so they are in the same relative order as would"
   ) ~ rest ^^^ emptyInst
 
   // statement to comment additional info
@@ -708,7 +709,19 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         )
     } | "the String representation of this Number value using the radix specified by" ~> name <~ rest ^^ {
       case radixNumber =>
-        pair(Nil, parseExpr(s"(convert x num2str $radixNumber)"))
+        var tempP = getTemp
+        pair(List(parseInst(s"""{
+          if (= x NaN) return (WrapCompletion "NaN") else {}
+          if (|| (= x 0i) (= x -0.0)) return (WrapCompletion "0") else {}
+          if (< x 0.0) {
+            x = (- x)
+            if (= x Infinity) return (WrapCompletion "-Infinity") else {}
+            $tempP = (+ "-" (convert x num2str $radixNumber))
+          } else {
+            if (= x Infinity) return (WrapCompletion "Infinity") else {}
+            $tempP = (convert x num2str $radixNumber)
+          }
+        }""")), parseExpr(s"$tempP"))
     } | "the String value whose elements are , in order , the elements in the List" ~> name <~ rest ^^ {
       case l =>
         val s = getTemp
