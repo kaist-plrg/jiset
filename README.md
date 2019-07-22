@@ -75,3 +75,10 @@ sbt generateModel
 - KJS
 
 ## Conclusion
+
+
+# Potential Related Works
+- Automatic Model Generation from Documentation for Java API Functions (ICSE'16)
+- KJS: A complete formal semantics of JavaScript (PLDI'15)
+- The Essence of JavaScript (ECOOP'10)
+- A Trusted Mechanised JavaScript Specification (POPL'14)
