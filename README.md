@@ -50,11 +50,11 @@ sbt generateModel
   - Recursive descent parsers
     - PROS: Scala-supported (Scala parser combinators), easily support ES-BNF features, no need to re-structure CFG
     - CONS: PEG not CFG, exponential time for bactkracing. 
-### Packrat parser + 1 lookahaed
-- combination of recursive descent parsers with predictive parsers
-- implicit lookaheads
-### Converting ES-BNF into Parsers
-- How to handle each ES-BNF features
+- Packrat parser + 1 lookahaed
+  - combination of recursive descent parsers with predictive parsers
+  - implicit lookaheads
+- Converting ES-BNF into Parsers
+  - How to handle each ES-BNF features
 
 ## Compilation from Algorithm into Core
 - Formal definition of Core language
