@@ -19,7 +19,7 @@ sbt generateModel
 - locale
 - Async/Generator
 
-# Automatic Semantics Extraction
+# Outline for ICSE 2020
 
 ## Introduction
 - JavaScript is a essential programming language in client-sides.
