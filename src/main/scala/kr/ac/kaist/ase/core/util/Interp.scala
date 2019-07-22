@@ -287,7 +287,7 @@ class Interp {
       }, s0)
       case (v, s0) => error(s"not an String value: $v")
     }
-    case EConvert(expr, cop) => interp(expr, true)(st) match {
+    case EConvert(expr, cop, l) => interp(expr, true)(st) match {
       case (Str(s), s0) => {
         (cop match {
           case CStrToNum => Num(ESValueParser.str2num(s))
@@ -295,18 +295,34 @@ class Interp {
         }, s0)
       }
       case (INum(n), s0) => {
+        val (radix, s1) = l match {
+          case e :: rest => interp(e, true)(s0) match {
+            case (INum(n), s1) => (n.toInt, s1)
+            case (Num(n), s1) => (n.toInt, s1)
+            case _ => error("radix is not int")
+          }
+          case _ => (10, s0)
+        }
         (cop match {
-          case CNumToStr => Str(Helper.toStringHelper(n))
+          case CNumToStr => Str(Helper.toStringHelper(n, radix))
           case CNumToInt => INum(n)
           case _ => error(s"not convertable option: Num to $cop")
-        }, s0)
+        }, s1)
       }
       case (Num(n), s0) => {
+        val (radix, s1) = l match {
+          case e :: rest => interp(e, true)(s0) match {
+            case (INum(n), s1) => (n.toInt, s1)
+            case (Num(n), s1) => (n.toInt, s1)
+            case _ => error("radix is not int")
+          }
+          case _ => (10, s0)
+        }
         (cop match {
-          case CNumToStr => Str(Helper.toStringHelper(n))
+          case CNumToStr => Str(Helper.toStringHelper(n, radix))
           case CNumToInt => INum((math.signum(n) * math.floor(math.abs(n))).toLong)
           case _ => error(s"not convertable option: Num to $cop")
-        }, s0)
+        }, s1)
       }
       case (v, s0) => error(s"not an convertable value: $v")
     }
@@ -348,7 +364,8 @@ class Interp {
         case (addr: Addr, p) => s2.get(addr) match {
           case Some(CoreMap(Ty("Completion"), m)) if !m.contains(p) => m(Str("Value")) match {
             case a: Addr => RefValueProp(a, p)
-            case _ => error("Completion does not have value")
+            case Str(s) => RefValueString(s, p)
+            case _ => error(s"Completion does not have value: $ref[$expr]")
           }
           case _ => RefValueProp(addr, p)
         }

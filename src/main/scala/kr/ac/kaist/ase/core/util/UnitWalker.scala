@@ -113,8 +113,8 @@ trait UnitWalker {
       walk(code); walk(rule); walkList[Expr](flags, walk)
     case EParseString(code, pop) =>
       walk(code); walk(pop)
-    case EConvert(expr, cop) =>
-      walk(expr); walk(cop)
+    case EConvert(expr, cop, list) =>
+      walk(expr); walk(cop); walkList[Expr](list, walk)
     case EContains(list, elem) =>
       walk(list); walk(elem)
     case ECopy(obj) =>

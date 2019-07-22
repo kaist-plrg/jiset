@@ -37,9 +37,20 @@ object ToObject {
             obj.SubMap = (new SubMap())
             return obj
           } else if (= atype "String") {
-            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_StringPrototype))
+            let obj = (new StringExoticObject("Prototype" -> INTRINSIC_StringPrototype))
             obj.StringData = argument
-            obj.SubMap = (new SubMap())
+            if (= obj["HasProperty"] absent) obj["HasProperty"] = OrdinaryObjectDOTHasProperty else {}
+            if (= obj["DefineOwnProperty"] absent) obj["DefineOwnProperty"] = OrdinaryObjectDOTDefineOwnProperty else {}
+            if (= obj["Set"] absent) obj["Set"] = OrdinaryObjectDOTSet else {}
+            if (= obj["SetPrototypeOf"] absent) obj["SetPrototypeOf"] = OrdinaryObjectDOTSetPrototypeOf else {}
+            if (= obj["Get"] absent) obj["Get"] = OrdinaryObjectDOTGet else {}
+            if (= obj["PreventExtensions"] absent) obj["PreventExtensions"] = OrdinaryObjectDOTPreventExtensions else {}
+            if (= obj["Delete"] absent) obj["Delete"] = OrdinaryObjectDOTDelete else {}
+            if (= obj["GetOwnProperty"] absent) obj["GetOwnProperty"] = OrdinaryObjectDOTGetOwnProperty else {}
+            if (= obj["OwnPropertyKeys"] absent) obj["OwnPropertyKeys"] = OrdinaryObjectDOTOwnPropertyKeys else {}
+            if (= obj["GetPrototypeOf"] absent) obj["GetPrototypeOf"] = OrdinaryObjectDOTGetPrototypeOf else {}
+            if (= obj["IsExtensible"] absent) obj["IsExtensible"] = OrdinaryObjectDOTIsExtensible else {}
+            obj.SubMap = (new SubMap( "length" -> (new DataProperty( "Value" -> argument["length"], "Writable" -> false, "Enumerable" -> false, "Configurable" -> false))))
             return obj
           } else if (= atype "Symbol") {
             let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_SymbolPrototype))

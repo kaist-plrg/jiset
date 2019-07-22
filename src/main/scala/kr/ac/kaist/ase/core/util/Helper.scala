@@ -1,7 +1,12 @@
 package kr.ac.kaist.ase.core
 
 object Helper {
-  def toStringHelper(m: Double): String = {
+
+  def getRadixString(d: Long): String = {
+    if (d < 10) d.toString else ('a' + (d - 10)).toChar.toString
+  }
+
+  def toStringHelper(m: Double, radix: Int): String = {
     // 5. Otherwise, let n, k, and s be integers such that k >= 1,
     //    10^(k-1) <= s < 10^k, the Number value for s * 10^(n-k) is m,
     //    and k is as small as possible.
@@ -10,19 +15,19 @@ object Helper {
     //    is not necessarily uniquely determined by these criteria.
     var s = BigDecimal(m)
     var n = 0
-    while (s % 10 == BigDecimal(0) || s % 1 != BigDecimal(0)) {
-      if (s % 10 == BigDecimal(0)) {
-        s /= 10
+    while (s % radix == BigDecimal(0) || s % 1 != BigDecimal(0)) {
+      if (s % radix == BigDecimal(0)) {
+        s /= radix
         n += 1
       } else {
-        s *= 10
+        s *= radix
         n -= 1
       }
     }
     var sLong = s.toLong
     var k = 0
     while (s >= BigDecimal(1)) {
-      s /= 10
+      s /= radix
       k += 1
     }
     n += k
@@ -30,8 +35,8 @@ object Helper {
       var str = ""
       var sLong = number
       while (sLong > 0) {
-        str += (sLong % 10).toString
-        sLong /= 10
+        str += getRadixString(sLong % radix)
+        sLong /= radix
       }
       str.reverse
     }

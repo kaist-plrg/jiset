@@ -126,8 +126,20 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // set statements
   lazy val setStmt =
-    "set" ~ name ~ "'s essential internal methods" ~ rest ^^ {
-      case _ => emptyInst
+    (("set" ~> name <~ "'s essential internal methods" <~ rest) | ("Set the remainder of" ~> id <~ "'s essential internal methods to the default ordinary object definitions specified in 9.1")) ^^ {
+      case s => parseInst(s"""{
+        if (= $s["HasProperty"] absent) $s["HasProperty"] = OrdinaryObjectDOTHasProperty else {}
+        if (= $s["DefineOwnProperty"] absent) $s["DefineOwnProperty"] = OrdinaryObjectDOTDefineOwnProperty else {}
+        if (= $s["Set"] absent) $s["Set"] = OrdinaryObjectDOTSet else {}
+        if (= $s["SetPrototypeOf"] absent) $s["SetPrototypeOf"] = OrdinaryObjectDOTSetPrototypeOf else {}
+        if (= $s["Get"] absent) $s["Get"] = OrdinaryObjectDOTGet else {}
+        if (= $s["PreventExtensions"] absent) $s["PreventExtensions"] = OrdinaryObjectDOTPreventExtensions else {}
+        if (= $s["Delete"] absent) $s["Delete"] = OrdinaryObjectDOTDelete else {}
+        if (= $s["GetOwnProperty"] absent) $s["GetOwnProperty"] = OrdinaryObjectDOTGetOwnProperty else {}
+        if (= $s["OwnPropertyKeys"] absent) $s["OwnPropertyKeys"] = OrdinaryObjectDOTOwnPropertyKeys else {}
+        if (= $s["GetPrototypeOf"] absent) $s["GetPrototypeOf"] = OrdinaryObjectDOTGetPrototypeOf else {}
+        if (= $s["IsExtensible"] absent) $s["IsExtensible"] = OrdinaryObjectDOTIsExtensible else {}
+      }""")
     } | ("set" ~> ref) ~ ("to" ~> expr) ^^ {
       case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e))
     } | ("set the bound value for" ~> expr <~ "in") ~ expr ~ ("to" ~> expr) ^^ {
@@ -404,8 +416,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "need to defer setting the" |
     "create any implementation-defined" |
     "no further validation is required" | // TODO : should implement goto?? see ValidateAndApplyPropertyDescriptor
-    "if" ~ id ~ "is a List of errors," |
-    "Set the remainder of" ~ id ~ "'s essential internal methods to the default ordinary object definitions specified in 9.1"
+    "if" ~ id ~ "is a List of errors,"
   ) ~ rest ^^^ emptyInst
 
   // statement to comment additional info
@@ -695,6 +706,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
             $str = (- $str 1i)
           }""")), parseExpr(str)
         )
+    } | "the String representation of this Number value using the radix specified by" ~> name <~ rest ^^ {
+      case radixNumber =>
+        pair(Nil, parseExpr(s"(convert x num2str $radixNumber)"))
     } | "the String value whose elements are , in order , the elements in the List" ~> name <~ rest ^^ {
       case l =>
         val s = getTemp
@@ -751,21 +765,38 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | ("the result of applying" ~> name <~ "to") ~ (name <~ "and") ~ (name <~ "as if evaluating the expression" ~ rest) ^^ {
       case op ~ l ~ r =>
         val res = getTemp
-        pair(List(parseInst(s"""{
-          if (= $op "*") $res = (* $l $r)
-          else if (= $op "/") $res = (/ $l $r)
-          else if (= $op "%") $res = (% $l $r)
-          else if (= $op "+") $res = (+ $l $r)
-          else if (= $op "-") $res = (- $l $r)
-          else if (= $op "<<") $res = (<< $l $r)
-          else if (= $op ">>") $res = (>> $l $r)
-          else if (= $op ">>>") $res = (>>> $l $r)
-          else if (= $op "&") $res = (& $l $r)
-          else if (= $op "^") $res = (^ $l $r)
-          else if (= $op "|") $res = (| $l $r)
-          else if (= $op "**") $res = (** $l $r)
-          else !!! "assign operator"
-        }""")), parseExpr(res))
+        val lprimI ~ lprim = returnIfAbrupt(Nil, parseExpr(s"(ToPrimitive $l)"))
+        val lpnumI ~ lpnum = returnIfAbrupt(Nil, parseExpr(s"(ToNumber ${beautify(lprim)})"))
+        val lpstrI ~ lpstr = returnIfAbrupt(Nil, parseExpr(s"(ToString ${beautify(lprim)})"))
+        val rprimI ~ rprim = returnIfAbrupt(Nil, parseExpr(s"(ToPrimitive $r)"))
+        val rpnumI ~ rpnum = returnIfAbrupt(Nil, parseExpr(s"(ToNumber ${beautify(rprim)})"))
+        val rpstrI ~ rpstr = returnIfAbrupt(Nil, parseExpr(s"(ToString ${beautify(rprim)})"))
+        val lnumI ~ lnum = returnIfAbrupt(Nil, parseExpr(s"(ToNumber $l)"))
+        val li32I ~ li32 = returnIfAbrupt(Nil, parseExpr(s"(ToInt32 $l)"))
+        val lui32I ~ lui32 = returnIfAbrupt(Nil, parseExpr(s"(ToUint32 $l)"))
+        val rnumI ~ rnum = returnIfAbrupt(Nil, parseExpr(s"(ToNumber $r)"))
+        val ri32I ~ ri32 = returnIfAbrupt(Nil, parseExpr(s"(ToInt32 $r)"))
+        val rui32I ~ rui32 = returnIfAbrupt(Nil, parseExpr(s"(ToUint32 $r)"))
+        val rpirm = getTemp
+        pair(List(
+          IIf(parseExpr(s"""(= $op "*")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (* ${beautify(lnum)} ${beautify(rnum)})""")),
+            IIf(parseExpr(s"""(= $op "/")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (/ ${beautify(lnum)} ${beautify(rnum)})""")),
+              IIf(parseExpr(s"""(= $op "%")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (% ${beautify(lnum)} ${beautify(rnum)})""")),
+                IIf(parseExpr(s"""(= $op "+")"""), ISeq(lprimI ++ rprimI :+ IIf(
+                  parseExpr(s"""(|| (= (Type ${beautify(lprim)}) "String") (= (Type ${beautify(rprim)}) "String"))"""),
+                  ISeq(lpstrI ++ rpstrI :+ parseInst(s"""$res = (+ ${beautify(lpstr)} ${beautify(rpstr)})""")),
+                  ISeq(lpnumI ++ rpnumI :+ parseInst(s"""$res = (+ ${beautify(lpnum)} ${beautify(rpnum)})"""))
+                )),
+                  IIf(parseExpr(s"""(= $op "-")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (- ${beautify(lnum)} ${beautify(rnum)})""")),
+                    IIf(parseExpr(s"""(= $op "<<")"""), ISeq(li32I ++ rui32I :+ parseInst(s"""$res = (<< ${beautify(li32)} ${beautify(rui32)})""")),
+                      IIf(parseExpr(s"""(= $op ">>")"""), ISeq(li32I ++ rui32I :+ parseInst(s"""$res = (>> ${beautify(li32)} ${beautify(rui32)})""")),
+                        IIf(parseExpr(s"""(= $op ">>>")"""), ISeq(lui32I ++ rui32I :+ parseInst(s"""$res = (>>> ${beautify(lui32)} ${beautify(rui32)})""")),
+                          IIf(parseExpr(s"""(= $op "&")"""), ISeq(li32I ++ ri32I :+ parseInst(s"""$res = (& ${beautify(li32)} ${beautify(ri32)})""")),
+                            IIf(parseExpr(s"""(= $op "^")"""), ISeq(li32I ++ ri32I :+ parseInst(s"""$res = (^ ${beautify(li32)} ${beautify(ri32)})""")),
+                              IIf(parseExpr(s"""(= $op "|")"""), ISeq(li32I ++ ri32I :+ parseInst(s"""$res = (| ${beautify(li32)} ${beautify(ri32)})""")),
+                                IIf(parseExpr(s"""(= $op "**")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (** ${beautify(lnum)} ${beautify(rnum)})""")),
+                                  IExpr(ENotSupported("assign operator"))))))))))))))
+        ), parseExpr(res))
     } | "the result of adding the value 1 to" ~> name <~ rest ^^ {
       case x => pair(Nil, parseExpr(s"(+ $x 1)"))
     } | "the result of subtracting the value 1 from" ~> name <~ rest ^^ {

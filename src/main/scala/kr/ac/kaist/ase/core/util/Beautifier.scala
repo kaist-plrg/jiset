@@ -170,8 +170,8 @@ object Beautifier {
         walk("(parse-syntax "); walk(code); walk(" "); walk(rule); walk(" "); walkListSep[Expr](flags, " ", walk); walk(")")
       case EParseString(code, pop) =>
         walk("(parse-string "); walk(code); walk(" "); walk(pop); walk(")")
-      case EConvert(expr, cop) =>
-        walk("(convert "); walk(expr); walk(" "); walk(cop); walk(")")
+      case EConvert(expr, cop, list) =>
+        walk("(convert "); walk(expr); walk(" "); walk(cop); walk(" "); walkListSep[Expr](list, " ", walk); walk(")")
       case EContains(list, elem) =>
         walk("(contains "); walk(list); walk(" "); walk(elem); walk(")")
       case ECopy(obj) =>
