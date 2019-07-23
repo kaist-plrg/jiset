@@ -82,3 +82,23 @@ sbt generateModel
 - KJS: A complete formal semantics of JavaScript (PLDI'15)
 - The Essence of JavaScript (ECOOP'10)
 - A Trusted Mechanised JavaScript Specification (POPL'14)
+
+# TODO
+- [NotSupported]
+  - Regex / Date / Math
+  - Generator / Async
+  - Module
+  - Strict
+- [NotYetImpl]
+- Parser refactoring
+- Rule 가다듬기
+- Builtin objects 자동화
+- Spec Extraction: JavaScript -> Scala?
+- Spec Extraction: not yet
+- Issues
+- Parser 안되는 부분 (e.g. Semicolon insertion 부족한 부분)
+- Evaluation
+  - Taint analysis?
+  - Dynamic slicing?
+  - Error reporting / 정리
+- Parser Related Work 
