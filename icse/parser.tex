@@ -1,0 +1,22 @@
+\section{Parser Generation}
+
+\subsection{Predictive Parsers vs Recursive Descent Parsers}
+\begin{itemize}
+  \item Predictive parser
+    \begin{itemize}
+      \item PROS: widely-used (Yacc), linear time, lookahead for predictions, no backtrack
+      \item CONS: need to restructure CFG, not easy to implement ES-BNF features
+    \end{itemize}
+  \item Recursive descent parsers
+    \begin{itemize}
+      \item PROS: Scala-supported (Scala parser combinators), easily support ES-BNF features, no need to re-structure CFG
+      \item CONS: PEG not CFG, exponential time for bactkracing.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Packrat Parsers with Lookaheads}
+combination of recursive descent parsers with predictive parsers
+implicit lookaheads
+
+\subsection{Generating Parsers for \( \text{BNF}_\text{ES} \)}
+How to handle each \( \text{BNF}_\text{ES} \) features
