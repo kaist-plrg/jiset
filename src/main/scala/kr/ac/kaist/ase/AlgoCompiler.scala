@@ -349,7 +349,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     } | "if declaration is declaration : hoistabledeclaration, then" ~> stmt ^^ {
       case s => IIf(EIsInstanceOf(parseExpr("Declaration"), "HoistableDeclaration"), ISeq(List(parseInst("let HoistableDeclaration = Declaration"), s)), ISeq(Nil))
     } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
-      parseInst(s"""if (is-instance-of Statement LabelledStatement) return Statement.TopLevelVarDeclaredNames else {}""")
+      val tempP = getTemp
+      parseInst(s"""if (is-instance-of Statement LabelledStatement) {
+        access $tempP = (Statement "TopLevelVarDeclaredNames")
+        return $tempP
+      }else {}""")
     } | (("suspend" ~> name <~ "and remove it from the execution context stack") | ("pop" ~> name <~ "from the execution context stack" <~ rest)) ^^ {
       case x => {
         val idx = getTemp
