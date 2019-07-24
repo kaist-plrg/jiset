@@ -63,6 +63,7 @@ trait Walker {
     case IAssert(expr) => IAssert(walk(expr))
     case IPrint(expr) => IPrint(walk(expr))
     case IApp(id, fexpr, args) => IApp(walk(id), walk(fexpr), walkList[Expr](args, walk))
+    case IRef(id, ref) => IRef(walk(id), walk(ref))
   }
 
   // expressions

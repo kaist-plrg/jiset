@@ -130,6 +130,10 @@ class Interp {
           case v => error(s"not a function: $v")
         }
         s1.define(id, value)
+      case IRef(id, ref) =>
+        val (refV, s0) = interp(ref)(st)
+        val (value, s1) = interp(refV)(s0)
+        s1.define(id, value)
     }
   }
 
