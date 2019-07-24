@@ -63,7 +63,7 @@ trait Walker {
     case IAssert(expr) => IAssert(walk(expr))
     case IPrint(expr) => IPrint(walk(expr))
     case IApp(id, fexpr, args) => IApp(walk(id), walk(fexpr), walkList[Expr](args, walk))
-    case IAccess(id, ref, expr) => IAccess(walk(id), walk(ref), walk(expr))
+    case IAccess(id, bexpr, expr) => IAccess(walk(id), walk(bexpr), walk(expr))
   }
 
   // expressions
@@ -173,7 +173,6 @@ trait Walker {
   def walk(refV: RefValue): RefValue = refV match {
     case RefValueId(id) => RefValueId(walk(id))
     case RefValueProp(addr, value) => RefValueProp(walk(addr), walk(value))
-    case RefValueAST(ast, name) => RefValueAST(walk(ast), walk(name))
     case RefValueString(str, name) => RefValueString(walk(str), walk(name))
   }
 }

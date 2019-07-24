@@ -454,6 +454,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     returnIfAbruptExpr |
     callExpr |
     typeExpr ^^ { pair(Nil, _) } |
+    accessExpr |
     refExpr |
     parenExpr
   ) ~ subExpr ^^ {
@@ -576,9 +577,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       opt("as" ~ opt("the") ~ ("arguments" | "argument"))) ^^ {
         case f ~ x ~ list =>
           val tempP = getTempId
+          val tempP2 = getTempId
           val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
-          val e = IApp(tempP, parseExpr(s"${beautify(x)}.$f"), list.map { case i ~ e => e })
-          pair(i :+ e, ERef(RefId(tempP)))
+          val r = IAccess(tempP, ERef(x), EStr(f))
+          val e = IApp(tempP2, ERef(RefId(tempP)), list.map { case i ~ e => e })
+          pair(i ++ List(r, e), ERef(RefId(tempP2)))
       }
   )
 
@@ -973,6 +976,38 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       }
     ) ^^ { case e => pair(Nil, e) })
 
+  lazy val accessExpr: Parser[List[Inst] ~ Expr] = opt("the") ~> "stringvalue of identifiername" ^^^ {
+    pair(Nil, ERef(RefId(Id("IdentifierName"))))
+  } | "EvaluateBody of" ~> ref ^^ {
+    case i ~ r =>
+      val tempP = getTemp
+      pair(i :+ IAccess(Id(tempP), ERef(r), EStr("EvaluateBody")), ERef(RefId(Id(tempP))))
+  } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
+    case x ~ y =>
+      val tempP = getTemp
+      pair(List(IAccess(Id(tempP), ERef(parseRef(s"$y.$x")), EStr("Evaluation"))), ERef(RefId(Id(tempP))))
+  } | "the result of evaluating" ~> refWithOrdinal ^^ {
+    case x =>
+      val tempP = getTemp
+      pair(List(IAccess(Id(tempP), ERef(x), EStr("Evaluation"))), ERef(RefId(Id(tempP))))
+  } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
+    case x ~ y =>
+      val tempP = getTemp
+      pair(List(IAccess(Id(tempP), ERef(RefId(Id(y))), EStr(x))), ERef(RefId(Id(tempP))))
+  } | "IsFunctionDefinition of" ~> id ^^ {
+    case x =>
+      val tempP = getTemp
+      pair(List(IAccess(Id(tempP), ERef(RefId(Id(x))), EStr("IsFunctionDefinition"))), ERef(RefId(Id(tempP))))
+  } | "the sole element of" ~> expr ^^ {
+    case i ~ e =>
+      val tempP = getTemp
+      pair(i :+ IAccess(Id(tempP), e, EINum(0)), ERef(RefId(Id(tempP))))
+  } | (opt("the") ~> name.filter(x => x.charAt(0).isUpper) <~ "of") ~ refWithOrdinal ^^ {
+    case x ~ y =>
+      val tempP = getTemp
+      pair(List(IAccess(Id(tempP), ERef(y), EStr(x))), ERef(RefId(Id(tempP))))
+  }
+
   // reference expressions
   lazy val refExpr: Parser[List[Inst] ~ Expr] = ref ^^ {
     case i ~ r => pair(i, ERef(r))
@@ -1248,16 +1283,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x => parseRef(s"$x.ReferencedName")
     } | "the binding object for" ~> name ^^ {
       case x => parseRef(s"$x.BindingObject")
-    } | opt("the") ~> "stringvalue of identifiername" ^^^ {
-      parseRef(s"IdentifierName")
-    } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
-      case x ~ y => parseRef(s"$y.$x.Evaluation")
-    } | "the result of evaluating" ~> refWithOrdinal ^^ {
-      case x => RefProp(x, EStr("Evaluation"))
-    } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
-      case x ~ y => parseRef(s"$y.$x")
-    } | "IsFunctionDefinition of" ~> id ^^ {
-      case x => parseRef(s"$x.IsFunctionDefinition")
     } | "this" ~ name ^^^ {
       parseRef("this")
     }
@@ -1275,20 +1300,17 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case i ~ r => pair(i, r)
     } | "the outer lexical environment reference of" ~> ref ^^ {
       case i ~ r => pair(i, RefProp(r, EStr("Outer")))
-    } | "the sole element of" ~> ref ^^ {
-      case i ~ x => pair(i, RefProp(x, EINum(0)))
     } | "the parsed code that is" ~> ref ^^ {
       case i ~ r => pair(i, r)
-    } | "EvaluateBody of" ~> ref ^^ {
-      case i ~ r => pair(i, RefProp(r, EStr("EvaluateBody")))
     } | "the EnvironmentRecord component of" ~> ref ^^ {
       case i ~ r => pair(i, RefProp(r, EStr("EnvironmentRecord")))
     } | (name <~ "'s own property whose key is") ~ ref ^^ {
       case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
     } | "the second to top element" ~> "of" ~> ref ^^ {
       case i ~ r => pair(i, RefProp(r, EBOp(OSub, ERef(RefProp(r, EStr("length"))), EINum(2))))
-    } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ refWithOrdinal ^^ {
-      case x ~ y => pair(Nil, RefProp(y, EStr(x)))
+    } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ ref ^^ {
+      case x ~ (i ~ y) =>
+        pair(i, RefProp(y, EStr(x)))
     } | (name <~ "'s") ~ name <~ opt("value" | "attribute") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), EStr(x)))
     } | ("the" ~> id <~ "flag of") ~ ref ^^ {

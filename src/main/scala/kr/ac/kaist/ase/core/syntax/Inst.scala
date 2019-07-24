@@ -15,4 +15,4 @@ case class ISeq(insts: List[Inst]) extends Inst
 case class IAssert(expr: Expr) extends Inst
 case class IPrint(expr: Expr) extends Inst
 case class IApp(id: Id, fexpr: Expr, args: List[Expr]) extends Inst
-case class IAccess(id: Id, ref: Ref, expr: Expr) extends Inst
+case class IAccess(id: Id, bexpr: Expr, expr: Expr) extends Inst

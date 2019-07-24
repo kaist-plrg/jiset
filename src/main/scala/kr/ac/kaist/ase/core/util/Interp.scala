@@ -130,20 +130,19 @@ class Interp {
           case v => error(s"not a function: $v")
         }
         s1.define(id, value)
-      case IAccess(id, ref, expr) =>
-        val (refV, s0) = interp(ref)(st)
-        val (base, s1) = interp(refV)(s0)
+      case IAccess(id, bexpr, expr) =>
+        val (base, s1) = interp(bexpr)(st)
         val (p, s2) = interp(expr, true)(s1)
         val (value, s3) = (base, p) match {
           case (addr: Addr, p) => s2.get(addr) match {
             case Some(CoreMap(Ty("Completion"), m)) if !m.contains(p) => m(Str("Value")) match {
-              case a: Addr => (s2.heap(addr, p), s2)
+              case a: Addr => (s2.heap(a, p), s2)
               case Str(s) => p match {
                 case Str("length") => (INum(s.length), s2)
                 case INum(k) => (Str(s(k.toInt).toString), s2)
                 case v => error(s"wrong access of string reference: $s.$p")
               }
-              case _ => error(s"Completion does not have value: $ref[$expr]")
+              case _ => error(s"Completion does not have value: $bexpr[$expr]")
             }
             case _ => (s2.heap(addr, p), s2)
           }
@@ -403,7 +402,6 @@ class Interp {
           }
           case _ => RefValueProp(addr, p)
         }
-        case (ast: ASTVal, Str(name)) => RefValueAST(ast, name)
         case (Str(str), p) => RefValueString(str, p)
         case v => error(s"not an address: $v")
       }, s2)
@@ -414,27 +412,6 @@ class Interp {
       (st.locals.getOrElse(id, st.globals.getOrElse(id, Absent)), st)
     case RefValueProp(addr, value) =>
       (st.heap(addr, value), st)
-    case RefValueAST(astV, name) =>
-      val ASTVal(ast) = astV
-      ast.semantics(name) match {
-        case Some((Func(fname, params, varparam, body), lst)) =>
-          val (locals, rest) = ((Map[Id, Value](), params) /: (astV :: lst)) {
-            case ((map, param :: rest), arg) =>
-              (map + (param -> arg), rest)
-            case (pair, _) => pair
-          }
-          rest match {
-            case Nil =>
-              val newSt = fixpoint(st.copy(context = fname, insts = List(body), locals = locals))
-              (newSt.retValue.getOrElse(Absent), st.copy(heap = newSt.heap, globals = newSt.globals))
-            case _ =>
-              (ASTMethod(Func(fname, rest, varparam, body), locals), st)
-          }
-        case None => ast.subs(name) match {
-          case Some(v) => (v, st)
-          case None => error(s"Unexpected semantics: ${ast.name}.$name")
-        }
-      }
     case RefValueString(str, value) => value match {
       case Str("length") => (INum(str.length), st)
       case INum(k) => (Str(str(k.toInt).toString), st)

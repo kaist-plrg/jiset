@@ -78,8 +78,8 @@ trait UnitWalker {
       walk(expr)
     case IApp(id, fexpr, args) =>
       walk(id); walk(fexpr); walkList[Expr](args, walk)
-    case IAccess(id, ref, expr) =>
-      walk(id); walk(ref); walk(expr);
+    case IAccess(id, bexpr, expr) =>
+      walk(id); walk(bexpr); walk(expr);
   }
 
   // expressions
@@ -214,8 +214,6 @@ trait UnitWalker {
     case RefValueId(id) => walk(id)
     case RefValueProp(addr, value) =>
       walk(addr); walk(value)
-    case RefValueAST(ast, name) =>
-      walk(ast); walk(name)
     case RefValueString(str, name) =>
       walk(str); walk(name)
   }
