@@ -126,8 +126,8 @@ object Beautifier {
         walk("print "); walk(expr)
       case IApp(id, fexpr, args) =>
         walk("app "); walk(id); walk(" = ("); walk(fexpr); walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
-      case IRef(id, ref) =>
-        walk("ref "); walk(id); walk(" = "); walk(ref);
+      case IAccess(id, ref, expr) =>
+        walk("access "); walk(id); walk(" = ("); walk(ref); walk(" "); walk(expr); walk(")")
     }
 
     // expressions

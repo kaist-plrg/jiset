@@ -73,7 +73,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "print " ~> expr ^^ { case e => IPrint(e) } |
       ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
       ("app " ~> id <~ "=") ~ ("(" ~> expr) ~ (rep(expr) <~ ")") ^^ { case x ~ f ~ as => IApp(x, f, as) } |
-      ("ref " ~> id <~ "=") ~ ref ^^ { case x ~ r => IRef(x, r) } |
+      ("access " ~> id <~ "=") ~ ("(" ~> ref) ~ (expr <~ ")") ^^ { case x ~ r ~ e => IAccess(x, r, e) } |
       (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
       expr ^^ { case e => IExpr(e) }
   }

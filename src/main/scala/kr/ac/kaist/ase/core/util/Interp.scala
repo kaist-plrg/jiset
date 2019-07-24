@@ -130,10 +130,53 @@ class Interp {
           case v => error(s"not a function: $v")
         }
         s1.define(id, value)
-      case IRef(id, ref) =>
+      case IAccess(id, ref, expr) =>
         val (refV, s0) = interp(ref)(st)
-        val (value, s1) = interp(refV)(s0)
-        s1.define(id, value)
+        val (base, s1) = interp(refV)(s0)
+        val (p, s2) = interp(expr, true)(s1)
+        val (value, s3) = (base, p) match {
+          case (addr: Addr, p) => s2.get(addr) match {
+            case Some(CoreMap(Ty("Completion"), m)) if !m.contains(p) => m(Str("Value")) match {
+              case a: Addr => (s2.heap(addr, p), s2)
+              case Str(s) => p match {
+                case Str("length") => (INum(s.length), s2)
+                case INum(k) => (Str(s(k.toInt).toString), s2)
+                case v => error(s"wrong access of string reference: $s.$p")
+              }
+              case _ => error(s"Completion does not have value: $ref[$expr]")
+            }
+            case _ => (s2.heap(addr, p), s2)
+          }
+          case (astV: ASTVal, Str(name)) =>
+            val ASTVal(ast) = astV
+            ast.semantics(name) match {
+              case Some((Func(fname, params, varparam, body), lst)) =>
+                val (locals, rest) = ((Map[Id, Value](), params) /: (astV :: lst)) {
+                  case ((map, param :: rest), arg) =>
+                    (map + (param -> arg), rest)
+                  case (pair, _) => pair
+                }
+                rest match {
+                  case Nil =>
+                    val newSt = fixpoint(s2.copy(context = fname, insts = List(body), locals = locals))
+                    (newSt.retValue.getOrElse(Absent), s2.copy(heap = newSt.heap, globals = newSt.globals))
+                  case _ =>
+                    (ASTMethod(Func(fname, rest, varparam, body), locals), s2)
+                }
+              case None => ast.subs(name) match {
+                case Some(v) => (v, s2)
+                case None => error(s"Unexpected semantics: ${ast.name}.$name")
+              }
+            }
+
+          case (Str(str), p) => p match {
+            case Str("length") => (INum(str.length), s2)
+            case INum(k) => (Str(str(k.toInt).toString), s2)
+            case v => error(s"wrong access of string reference: $str.$p")
+          }
+          case v => error(s"not an address: $v")
+        }
+        s3.define(id, value)
     }
   }
 
