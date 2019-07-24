@@ -62,6 +62,7 @@ trait Walker {
     case ISeq(insts) => ISeq(walkList[Inst](insts, walk))
     case IAssert(expr) => IAssert(walk(expr))
     case IPrint(expr) => IPrint(walk(expr))
+    case IApp(id, fexpr, args) => IApp(walk(id), walk(fexpr), walkList[Expr](args, walk))
   }
 
   // expressions
@@ -76,7 +77,6 @@ trait Walker {
     case EPop(list, idx) => EPop(walk(list), walk(idx))
     case ERef(ref) => ERef(walk(ref))
     case EFunc(params, varparam, body) => EFunc(walkList[Id](params, walk), walkOpt[Id](varparam, walk), walk(body))
-    case EApp(fexpr, args) => EApp(walk(fexpr), walkList[Expr](args, walk))
     case EUOp(uop, expr) => EUOp(walk(uop), walk(expr))
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case ETypeOf(expr) => ETypeOf(walk(expr))

@@ -18,11 +18,12 @@ object EnumerateObjectPropertiesHelper {
       } else {}
       __x0__ = (+ __x0__ 1i)
     }
-    let proto = (O["GetPrototypeOf"] O)
+    app proto = (O["GetPrototypeOf"] O)
     if (= null proto) {
       return listEnum
     } else {
-      return (EnumerateObjectPropertiesHelper proto listAll listEnum)
+      app __x1__ = (EnumerateObjectPropertiesHelper proto listAll listEnum)
+      return __x1__
     }
   }""")
 }

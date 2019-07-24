@@ -124,6 +124,9 @@ object Beautifier {
         walk("assert "); walk(expr)
       case IPrint(expr) =>
         walk("print "); walk(expr)
+      case IApp(id, fexpr, args) =>
+        walk("app "); walk(id); walk(" = ("); walk(fexpr); walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
+
     }
 
     // expressions
@@ -152,8 +155,6 @@ object Beautifier {
         walk(") => ")
         if (detail) walk(body)
         else walk("...")
-      case EApp(fun, args) =>
-        walk("("); walk(fun); walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
       case EUOp(uop, expr) =>
         walk("("); walk(uop); walk(" "); walk(expr); walk(")")
       case EBOp(bop, left, right) =>

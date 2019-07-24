@@ -76,6 +76,8 @@ trait UnitWalker {
       walk(expr)
     case IPrint(expr) =>
       walk(expr)
+    case IApp(id, fexpr, args) =>
+      walk(id); walk(fexpr); walkList[Expr](args, walk)
   }
 
   // expressions
@@ -95,8 +97,6 @@ trait UnitWalker {
       walkList[Id](params, walk);
       walkOpt[Id](varparam, walk);
       walk(body)
-    case EApp(fexpr, args) =>
-      walk(fexpr); walkList[Expr](args, walk)
     case EUOp(uop, expr) =>
       walk(uop); walk(expr)
     case EBOp(bop, left, right) =>

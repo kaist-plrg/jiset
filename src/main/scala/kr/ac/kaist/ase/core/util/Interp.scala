@@ -99,6 +99,37 @@ class Interp {
           case v => println(beautify(v))
         }
         s0
+      case IApp(id, fexpr, args) =>
+        val (fv, s0) = interp(fexpr)(st)
+        val (value, s1) = fv match {
+          case Func(fname, params, varparam, body) =>
+            val (locals0, s1, restArg) = ((Map[Id, Value](), s0, args) /: params) {
+              case ((map, st, arg :: rest), param) =>
+                val (av, s0) = interp(arg)(st)
+                (map + (param -> av), s0, rest)
+              case (triple, _) => triple
+            }
+            val (locals1, s2) = varparam.map((param) => {
+              val (av, s0) = interp(EList(restArg))(s1)
+              (locals0 + (param -> av), s0)
+            }).getOrElse((locals0, s1))
+
+            val newSt = fixpoint(s2.copy(context = fname, insts = List(body), locals = locals1))
+            val retV = newSt.retValue.getOrElse(Absent)
+            (retV, s2.copy(heap = newSt.heap, globals = newSt.globals))
+          case ASTMethod(Func(fname, params, _, body), baseLocals) =>
+            val (locals, s1, _) = ((baseLocals, s0, args) /: params) {
+              case ((map, st, arg :: rest), param) =>
+                val (av, s0) = interp(arg)(st)
+                (map + (param -> av), s0, rest)
+              case (triple, _) => triple
+            }
+            val newSt = fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
+            val retV = newSt.retValue.getOrElse(Absent)
+            (retV, s1.copy(heap = newSt.heap, globals = newSt.globals))
+          case v => error(s"not a function: $v")
+        }
+        s1.define(id, value)
     }
   }
 
@@ -150,50 +181,6 @@ class Interp {
       }
     case EFunc(params, varparam, body) =>
       (Func("<empty>", params, varparam, body), st)
-    case EApp(fexpr, args) =>
-      val (fv, s0) = interp(fexpr)(st)
-      fv match {
-        case Func(fname, params, varparam, body) =>
-          val (locals0, s1, restArg) = ((Map[Id, Value](), s0, args) /: params) {
-            case ((map, st, arg :: rest), param) =>
-              val (av, s0) = interp(arg)(st)
-              (map + (param -> av), s0, rest)
-            case (triple, _) => triple
-          }
-          val (locals1, s2) = varparam.map((param) => {
-            val (av, s0) = interp(EList(restArg))(s1)
-            (locals0 + (param -> av), s0)
-          }).getOrElse((locals0, s1))
-
-          val newSt = fixpoint(s2.copy(context = fname, insts = List(body), locals = locals1))
-          val retV = newSt.retValue.getOrElse(Absent) match {
-            case addr: DynamicAddr => if (escapeCompletion) newSt.get(addr) match {
-              case Some(CoreMap(Ty("Completion"), m)) => m(Str("Value"))
-              case _ => addr
-            }
-            else addr
-            case v => v
-          }
-          (retV, s2.copy(heap = newSt.heap, globals = newSt.globals))
-        case ASTMethod(Func(fname, params, _, body), baseLocals) =>
-          val (locals, s1, _) = ((baseLocals, s0, args) /: params) {
-            case ((map, st, arg :: rest), param) =>
-              val (av, s0) = interp(arg)(st)
-              (map + (param -> av), s0, rest)
-            case (triple, _) => triple
-          }
-          val newSt = fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
-          val retV = newSt.retValue.getOrElse(Absent) match {
-            case addr: DynamicAddr => if (escapeCompletion) newSt.get(addr) match {
-              case Some(CoreMap(Ty("Completion"), m)) => m(Str("Value"))
-              case _ => addr
-            }
-            else addr
-            case v => v
-          }
-          (retV, s1.copy(heap = newSt.heap, globals = newSt.globals))
-        case v => error(s"not a function: $v")
-      }
     case EUOp(uop, expr) =>
       val (v, s0) = interp(expr, true)(st)
       (interp(uop)(v), s0)

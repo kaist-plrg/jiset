@@ -72,6 +72,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "assert " ~> expr ^^ { case e => IAssert(e) } |
       "print " ~> expr ^^ { case e => IPrint(e) } |
       ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
+      ("app " ~> id <~ "=") ~ ("(" ~> expr) ~ (rep(expr) <~ ")") ^^ { case x ~ f ~ as => IApp(x, f, as) } |
       (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
       expr ^^ { case e => IExpr(e) }
   }
@@ -116,8 +117,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "(" ~> "convert" ~> expr ~ cop ~ rep(expr) <~ ")" ^^ { case e ~ r ~ l => EConvert(e, r, l) } |
       "(" ~> "contains" ~> expr ~ expr <~ ")" ^^ { case l ~ e => EContains(l, e) } |
       "(" ~> "copy-obj" ~> expr <~ ")" ^^ { case e => ECopy(e) } |
-      "(" ~> "map-keys" ~> expr <~ ")" ^^ { case e => EKeys(e) } |
-      "(" ~> (expr ~ rep(expr)) <~ ")" ^^ { case f ~ as => EApp(f, as) }
+      "(" ~> "map-keys" ~> expr <~ ")" ^^ { case e => EKeys(e) }
   }
 
   // properties
