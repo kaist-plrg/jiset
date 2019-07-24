@@ -16,7 +16,10 @@ case object Load extends PhaseObj[Script, LoadConfig, State] {
     aseConfig: ASEConfig,
     config: LoadConfig
   ): State = Model.initState.copy(
-    insts = List(Parser.parseInst("return (RunJobs)")),
+    insts = List(Parser.parseInst("""{
+      app __x0__ = (RunJobs)
+      return __x0__
+    }""")),
     globals = Model.initState.globals + (Id("script") -> ASTVal(script))
   )
 
