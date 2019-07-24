@@ -29,20 +29,22 @@ object ParserGenerator {
       val name = lhs.name
       val subName = "sub" + name
 
-      nf.println(s"""  lazy val $name: Parser[String] =""")
-      for (rhs <- rhsList if !isLL(name, rhs))
-        nf.println(s"""    seq(${rhs.tokens.map(getTokenParser).mkString(", ")}, $subName) |||""")
-      nf.println(s"""    STR_MISMATCH""")
-      nf.println(s"""  lazy val ${subName}: Parser[String] =""")
+      nf.println(s"""  lazy val $name: Lexer = (""")
+      nf.println(rhsList.filter(!isLL(name, _)).map(rhs =>
+        s"""    seq(${rhs.tokens.map(getTokenParser).mkString(", ")}, $subName)""").mkString(" |||" + LINE_SEP))
+      nf.println(s"""  )""")
+
+      nf.println(s"""  lazy val ${subName}: Lexer = (""")
       for (rhs <- rhsList if isLL(name, rhs))
         nf.println(s"""    seq(${rhs.tokens.tail.map(getTokenParser).mkString(", ")}, $subName) |||""")
-      nf.println(s"""    STR_MATCH""")
+      nf.println(s"""    """"")
+      nf.println(s"""  )""")
     }
 
     def getTokenParser(token: Token): String = token match {
       case Terminal(term) => s""""${norm(term)}""""
       case NonTerminal(name, args, optional) =>
-        if (optional) s"""strOpt($name)"""
+        if (optional) s"""opt($name)"""
         else name
       case ButNot(base, cases) =>
         val parser = getTokenParser(base)
@@ -53,7 +55,7 @@ object ParserGenerator {
         if (contains) s""""" <~ +($parser)"""
         else s""""" <~ -($parser)"""
       case Unicode(code) => code
-      case EmptyToken => "STR_MATCH"
+      case EmptyToken => "\"\""
       case NoLineTerminatorToken => "strNoLineTerminator"
       case UnicodeAny => "Unicode"
       case UnicodeIdStart => "IDStart"
@@ -68,8 +70,8 @@ object ParserGenerator {
       val Production(lhs, rhsList) = prod
       val Lhs(name, params) = lhs
       val pre = "lazy val"
-      val post = s"""[$name] = memo {
-        case args @ List(${params.mkString(", ")}) => log("""
+      val post = s"[$name] = memo {" + LINE_SEP +
+        s"""      case args @ List(${params.mkString(", ")}) => log("""
 
       nf.println(s"""  $pre $name: P$post""")
       for ((rhs, i) <- rhsList.zipWithIndex if !isLL(name, rhs))
@@ -135,7 +137,7 @@ object ParserGenerator {
     nf.println(s"""object Parser extends ESParsers {""")
     lexProds.foreach(getStrParser)
     prods.foreach(getParser)
-    nf.println(s"""  val TERMINAL: Parser[String] = (""")
+    nf.println(s"""  val TERMINAL: Lexer = (""")
     nf.println(terminalTokens.map(t => s"""    "$t"""").mkString(" |||" + LINE_SEP))
     nf.println(s"""  )""")
     nf.println(s"""  val rules: Map[String, P[AST]] = Map(""")

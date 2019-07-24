@@ -17,7 +17,7 @@ class JSTest extends CoreTest {
 
   // tests for js-parser
   def parseJSTest(ast: => AST): Unit = {
-    val newAST = JSParser.fromString(ast.toString)
+    val newAST = JSParser.parse(JSParser.Script(Nil), ast.toString).get
     assert(ast == newAST)
   }
 
