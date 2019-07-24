@@ -804,8 +804,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, parseExpr(s"""(parse-syntax x "Script")""")) // TODO : throw syntax error
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, EStr(r), Nil))
-    } | "the string that is the only element of" ~> ref ^^ {
-      case i ~ r => pair(i, parseExpr(s"${beautify(r)}[0i]"))
+    } | "the string that is the only element of" ~> expr ^^ {
+      case i ~ e =>
+        val tempP = getTemp
+        pair(i :+ IAccess(Id(tempP), e, EINum(0)), ERef(RefId(Id(tempP))))
     } | ("the result of" ~> name <~ "minus the number of elements of") ~ name ^^ {
       case x ~ y => pair(Nil, parseExpr(s"(- $x $y.length)"))
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
@@ -985,7 +987,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
     case x ~ y =>
       val tempP = getTemp
-      pair(List(IAccess(Id(tempP), ERef(parseRef(s"$y.$x")), EStr("Evaluation"))), ERef(RefId(Id(tempP))))
+      val tempP2 = getTemp
+      pair(List(IAccess(Id(tempP), ERef(RefId(Id(y))), EStr(x)), IAccess(Id(tempP2), ERef(RefId(Id(tempP))), EStr("Evaluation"))), ERef(RefId(Id(tempP2))))
   } | "the result of evaluating" ~> refWithOrdinal ^^ {
     case x =>
       val tempP = getTemp
