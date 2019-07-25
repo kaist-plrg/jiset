@@ -18,5 +18,19 @@
 combination of recursive descent parsers with predictive parsers
 implicit lookaheads
 
-\subsection{Generating Parsers for \( \text{BNF}_\text{ES} \)}
-How to handle each \( \text{BNF}_\text{ES} \) features
+\subsection{Generating Parsers for \( \bnfes \)}
+How to handle each \( \bnfes \) features
+\begin{itemize}
+  \item \( \code{T}_\code{opt} \): optional term
+  \item \( \code{T but not one of T}^\code{*} \): filtering out
+  \item \( \code{[lookahead} \in \code{T]} \): positive lookahead condition
+  \item \( \code{[lookahead} \not\in \code{T]} \): negative lookahead condition
+  \item \( \code{T[P}^\code{*}\code{]} \): parameters
+    \begin{itemize}
+      \item \( \code{?P} \): passing argument \( \code{P} \)
+      \item \( \code{+P} \): \( \kwtrue \)
+      \item \( \code{\textasciitilde}\code{P} \): \( \kwfalse \)
+    \end{itemize}
+  \item \; \( \code{[+P] T} \): if \( \code{P} \) is \( \kwtrue \), added \( \code{T} \)
+  \item \; \( \code{[\textasciitilde}\code{P] T} \): if \( \code{P} \) is \( \kwfalse \), added \( \code{T} \)
+\end{itemize}
