@@ -2,11 +2,9 @@ package kr.ac.kaist.ase.core
 
 // CORE States
 case class State(
-    context: String = "<top-level>",
-    retValue: Option[Value] = None,
-    insts: List[Inst] = Nil,
+    context: Context = Context(),
+    ctxStack: List[Context] = List(),
     globals: Map[Id, Value] = Map(),
-    locals: Map[Id, Value] = Map(),
     heap: Heap = Heap()
 ) extends CoreNode {
   // getters
@@ -14,7 +12,7 @@ case class State(
   def apply(addr: Addr): Obj = heap(addr)
 
   // initialize local variables
-  def define(id: Id, value: Value): State = copy(locals = locals + (id -> value))
+  def define(id: Id, value: Value): State = copy(context = context.define(id, value))
 
   // setters
   def updated(refV: RefValue, value: Value): State = refV match {
@@ -24,14 +22,14 @@ case class State(
   }
   def updated(id: Id, value: Value): State =
     if (id.name.startsWith("GLOBAL_")) copy(globals = globals + (id -> value))
-    else copy(locals = locals + (id -> value))
+    else copy(context = context.define(id, value))
   def updated(addr: Addr, key: Value, value: Value): State =
     copy(heap = heap.updated(addr, key, value))
 
   // deletes
   def deleted(refV: RefValue): State = refV match {
     case RefValueId(id) =>
-      copy(locals = locals - id)
+      copy(context = context.deleted(id))
     case RefValueProp(addr, prop) =>
       copy(heap = heap.deleted(addr, prop))
     case _ => error(s"illegal reference delete: delete $refV")

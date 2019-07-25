@@ -254,18 +254,17 @@ object Beautifier {
 
     // states
     override def walk(st: State): Unit = oneDepth({
-      val State(context, retValue, insts, globals, locals, heap) = st
-      walk(indent); walk("Context: "); walk(context)
-      walk(indent); walk("Return Value: "); walkOpt[Value](retValue, walk)
+      val State(context, ctxStack, globals, heap) = st
+      walk(indent); walk("Context: "); walk(context.name)
       walk(indent); walk("Instructions: ");
       if (detail) {
-        walkList[Inst](insts, walk)
+        walkList[Inst](context.insts, walk)
         walk(indent); walk("GlobalVars: "); walkMap[Id, Value](globals, walk, walk)
       } else {
-        walkList[Inst](insts.slice(0, VISIBLE_LENGTH), walk)
-        if (insts.length > VISIBLE_LENGTH) oneDepth({ walk(indent); walk("...") })
+        walkList[Inst](context.insts.slice(0, VISIBLE_LENGTH), walk)
+        if (context.insts.length > VISIBLE_LENGTH) oneDepth({ walk(indent); walk("...") })
       }
-      walk(indent); walk("LocalVars: "); walkMap[Id, Value](locals, walk, walk)
+      walk(indent); walk("LocalVars: "); walkMap[Id, Value](context.locals, walk, walk)
       walk(indent); walk("Heap"); walk(heap)
     })
 

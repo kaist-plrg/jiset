@@ -22,7 +22,7 @@ class JSTest extends CoreTest {
   }
 
   // tests for js-interpreter
-  def evalJSTest(st: => State): Unit = st.retValue match {
+  def evalJSTest(st: => State): Unit = st.context.locals.get(st.context.retId) match {
     case Some(addr: Addr) => st.heap(addr, Str("Type")) match {
       case (addr: Addr) =>
         assert(addr == st.globals.getOrElse(Id("CONST_normal"), Absent))
@@ -52,7 +52,7 @@ class JSTest extends CoreTest {
       lazy val coreConfig = aseConfig.copy(fileNames = List(coreName))
 
       lazy val pgm = ParseCore((), coreConfig)
-      lazy val coreSt = EvalCore(st.copy(insts = pgm.insts), coreConfig)
+      lazy val coreSt = EvalCore(st.copy(context = st.context.copy(insts = pgm.insts)), coreConfig)
       check("JSCheck", name, {
         parseCoreTest(pgm)
         evalCoreTest(coreSt)

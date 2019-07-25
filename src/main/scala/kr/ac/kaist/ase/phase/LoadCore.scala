@@ -15,7 +15,7 @@ case object LoadCore extends PhaseObj[Program, LoadCoreConfig, State] {
     pgm: Program,
     aseConfig: ASEConfig,
     config: LoadCoreConfig
-  ): State = Model.initState.copy(insts = pgm.insts)
+  ): State = Model.initState.copy(context = Model.initState.context.copy(insts = pgm.insts))
 
   def defaultConfig: LoadCoreConfig = LoadCoreConfig()
   val options: List[PhaseOption[LoadCoreConfig]] = List()

@@ -40,7 +40,7 @@ class Test262Test extends ASETest {
 
   // tests for js-interpreter
   def evalJSTest(st: => State): Unit = {
-    st.retValue match {
+    st.context.locals.get(st.context.retId) match {
       case Some(addr: Addr) => st.heap(addr, Str("Type")) match {
         case (addr: Addr) =>
           assert(addr == st.globals.getOrElse(Id("CONST_normal"), Absent))

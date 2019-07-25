@@ -20,10 +20,13 @@ class Interp {
   def apply(st: State) = fixpoint(st)
 
   // perform transition until instructions are empty
-  def fixpoint(st: State): State = st.insts match {
-    case Nil => st
+  def fixpoint(st: State): State = st.context.insts match {
+    case Nil => st.ctxStack match {
+      case Nil => st
+      case ctx :: rest => fixpoint(st.copy(context = ctx.copy(locals = ctx.locals + (ctx.retId -> Absent)), ctxStack = rest))
+    }
     case inst :: rest =>
-      fixpoint(interp(inst)(st.copy(insts = rest)))
+      fixpoint(interp(inst)(st.copy(context = st.context.copy(insts = rest))))
   }
 
   // instructions
@@ -32,7 +35,7 @@ class Interp {
     if ((instCount % 10000 == 0) && (System.currentTimeMillis - startTime) > timeout) error("timeoutInst")
     if (DEBUG_INTERP) inst match {
       case ISeq(_) =>
-      case _ => println(s"${st.context}: ${beautify(inst)}")
+      case _ => println(s"${st.context.name}: ${beautify(inst)}")
     }
     inst match {
       case IExpr(expr) =>
@@ -67,22 +70,25 @@ class Interp {
         }
       case IReturn(expr) =>
         val (value, s0) = interp(expr)(st)
-        s0.copy(retValue = Some(value), insts = Nil)
+        s0.ctxStack match {
+          case Nil => s0.copy(context = s0.context.copy(locals = s0.context.locals + (s0.context.retId -> value), insts = Nil))
+          case ctx :: rest => s0.copy(context = ctx.copy(locals = ctx.locals + (ctx.retId -> value)), ctxStack = rest)
+        }
       case IIf(cond, thenInst, elseInst) =>
         val (v, s0) = interp(cond, true)(st)
         v match {
-          case Bool(true) => s0.copy(insts = thenInst :: s0.insts)
-          case Bool(false) => s0.copy(insts = elseInst :: s0.insts)
+          case Bool(true) => s0.copy(context = s0.context.copy(insts = thenInst :: s0.context.insts))
+          case Bool(false) => s0.copy(context = s0.context.copy(insts = elseInst :: s0.context.insts))
           case v => error(s"not a boolean: $v")
         }
       case IWhile(cond, body) =>
         val (v, s0) = interp(cond, true)(st)
         v match {
-          case Bool(true) => s0.copy(insts = body :: inst :: s0.insts)
+          case Bool(true) => s0.copy(context = s0.context.copy(insts = body :: inst :: s0.context.insts))
           case Bool(false) => s0
           case v => error(s"not a boolean: $v")
         }
-      case ISeq(newInsts) => st.copy(insts = newInsts ++ st.insts)
+      case ISeq(newInsts) => st.copy(context = st.context.copy(insts = newInsts ++ st.context.insts))
       case IAssert(expr) =>
         val (v, s0) = interp(expr)(st)
         v match {
@@ -101,7 +107,7 @@ class Interp {
         s0
       case IApp(id, fexpr, args) =>
         val (fv, s0) = interp(fexpr)(st)
-        val (value, s1) = fv match {
+        fv match {
           case Func(fname, params, varparam, body) =>
             val (locals0, s1, restArg) = ((Map[Id, Value](), s0, args) /: params) {
               case ((map, st, arg :: rest), param) =>
@@ -114,9 +120,9 @@ class Interp {
               (locals0 + (param -> av), s0)
             }).getOrElse((locals0, s1))
 
-            val newSt = fixpoint(s2.copy(context = fname, insts = List(body), locals = locals1))
-            val retV = newSt.retValue.getOrElse(Absent)
-            (retV, s2.copy(heap = newSt.heap, globals = newSt.globals))
+            val updatedCtx = s2.context.copy(retId = id)
+            val newCtx = Context(name = fname, insts = List(body), locals = locals1)
+            s2.copy(context = newCtx, ctxStack = updatedCtx :: s2.ctxStack)
           case ASTMethod(Func(fname, params, _, body), baseLocals) =>
             val (locals, s1, _) = ((baseLocals, s0, args) /: params) {
               case ((map, st, arg :: rest), param) =>
@@ -124,27 +130,27 @@ class Interp {
                 (map + (param -> av), s0, rest)
               case (triple, _) => triple
             }
-            val newSt = fixpoint(s1.copy(context = fname, insts = List(body), locals = locals))
-            val retV = newSt.retValue.getOrElse(Absent)
-            (retV, s1.copy(heap = newSt.heap, globals = newSt.globals))
+
+            val updatedCtx = s1.context.copy(retId = id)
+            val newCtx = Context(name = fname, insts = List(body), locals = locals)
+            s1.copy(context = newCtx, ctxStack = updatedCtx :: s1.ctxStack)
           case v => error(s"not a function: $v")
         }
-        s1.define(id, value)
       case IAccess(id, bexpr, expr) =>
         val (base, s1) = interp(bexpr)(st)
         val (p, s2) = interp(expr, true)(s1)
-        val (value, s3) = (base, p) match {
+        (base, p) match {
           case (addr: Addr, p) => s2.get(addr) match {
             case Some(CoreMap(Ty("Completion"), m)) if !m.contains(p) => m(Str("Value")) match {
-              case a: Addr => (s2.heap(a, p), s2)
+              case a: Addr => s2.define(id, s2.heap(a, p))
               case Str(s) => p match {
-                case Str("length") => (INum(s.length), s2)
-                case INum(k) => (Str(s(k.toInt).toString), s2)
+                case Str("length") => s2.define(id, INum(s.length))
+                case INum(k) => s2.define(id, Str(s(k.toInt).toString))
                 case v => error(s"wrong access of string reference: $s.$p")
               }
               case _ => error(s"Completion does not have value: $bexpr[$expr]")
             }
-            case _ => (s2.heap(addr, p), s2)
+            case _ => s2.define(id, s2.heap(addr, p))
           }
           case (astV: ASTVal, Str(name)) =>
             val ASTVal(ast) = astV
@@ -157,25 +163,25 @@ class Interp {
                 }
                 rest match {
                   case Nil =>
-                    val newSt = fixpoint(s2.copy(context = fname, insts = List(body), locals = locals))
-                    (newSt.retValue.getOrElse(Absent), s2.copy(heap = newSt.heap, globals = newSt.globals))
+                    val updatedCtx = s2.context.copy(retId = id)
+                    val newCtx = Context(name = fname, insts = List(body), locals = locals)
+                    s2.copy(context = newCtx, ctxStack = updatedCtx :: s2.ctxStack)
                   case _ =>
-                    (ASTMethod(Func(fname, rest, varparam, body), locals), s2)
+                    s2.define(id, ASTMethod(Func(fname, rest, varparam, body), locals))
                 }
               case None => ast.subs(name) match {
-                case Some(v) => (v, s2)
+                case Some(v) => s2.define(id, v)
                 case None => error(s"Unexpected semantics: ${ast.name}.$name")
               }
             }
 
           case (Str(str), p) => p match {
-            case Str("length") => (INum(str.length), s2)
-            case INum(k) => (Str(str(k.toInt).toString), s2)
+            case Str("length") => s2.define(id, INum(str.length))
+            case INum(k) => s2.define(id, Str(str(k.toInt).toString))
             case v => error(s"wrong access of string reference: $str.$p")
           }
           case v => error(s"not an address: $v")
         }
-        s3.define(id, value)
     }
   }
 
@@ -409,7 +415,7 @@ class Interp {
 
   def interp(refV: RefValue): State => (Value, State) = st => refV match {
     case RefValueId(id) =>
-      (st.locals.getOrElse(id, st.globals.getOrElse(id, Absent)), st)
+      (st.context.locals.getOrElse(id, st.globals.getOrElse(id, Absent)), st)
     case RefValueProp(addr, value) =>
       (st.heap(addr, value), st)
     case RefValueString(str, value) => value match {
