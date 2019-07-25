@@ -17,6 +17,7 @@ trait Walker {
     case obj: Obj => walk(obj)
     case v: Value => walk(v)
     case refV: RefValue => walk(refV)
+    case ctx: Context => walk(ctx)
   }
 
   // strings
@@ -122,11 +123,16 @@ trait Walker {
   // states
   def walk(st: State): State = State(
     walk(st.context),
-    walkOpt[Value](st.retValue, walk),
-    walkList[Inst](st.insts, walk),
+    walkList[Context](st.ctxStack, walk),
     walkMap[Id, Value](st.globals, walk, walk),
-    walkMap[Id, Value](st.locals, walk, walk),
     walk(st.heap)
+  )
+
+  def walk(ctx: Context): Context = Context(
+    walk(ctx.retId),
+    walk(ctx.name),
+    walkList[Inst](ctx.insts, walk),
+    walkMap[Id, Value](ctx.locals, walk, walk)
   )
 
   // heaps

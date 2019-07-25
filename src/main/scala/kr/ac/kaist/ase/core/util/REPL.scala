@@ -47,18 +47,24 @@ object REPL {
 
     var st: State = initial
     val interp: Interp = new Interp()
-    def pre: String = "Instruction: " + st.insts.map(inst => LINE_SEP + "  " + beautify(inst, detail = detail)).mkString
+    def pre: String = "Instruction: " + st.context.insts.map(inst => LINE_SEP + "  " + beautify(inst, detail = detail)).mkString
     def prompt: String = pre + LINE_SEP + s"${cyan}core>${reset} "
     def fixMsg: String = pre + LINE_SEP + "Please press the enter key..."
 
     def fixpoint: Unit = {
-      st.insts match {
+      st.context.insts match {
         case inst :: rest =>
           // clear
           // stopMessage(fixMsg)
-          st = interp(inst)(st.copy(insts = rest))
+          st = interp(inst)(st.copy(context = st.context.copy(insts = rest)))
           fixpoint
         case Nil =>
+          st.ctxStack match {
+            case Nil => ()
+            case ctx :: rest =>
+              st = st.copy(context = ctx.copy(locals = ctx.locals + (ctx.retId -> Absent)), ctxStack = rest)
+              fixpoint
+          }
       }
     }
 
@@ -70,7 +76,7 @@ object REPL {
       // fixpoint
       fixpoint
 
-      st.retValue match {
+      st.context.locals.get(st.context.retId) match {
         case Some(addr: Addr) => st.heap(addr, Str("Type")) match {
           case (addr: Addr) =>
             if (addr != st.globals.getOrElse(Id("CONST_normal"), Absent)) {
