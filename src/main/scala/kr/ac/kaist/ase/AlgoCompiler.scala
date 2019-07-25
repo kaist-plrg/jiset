@@ -1075,21 +1075,21 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
         case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
-        case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(EUOp(ONot, exists(r))))
+        case (i0 ~ r) ~ f => concat(i0, f(EUOp(ONot, exists(r))))
       } | expr <~ "is an abrupt completion" ^^ {
         case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
       } | (expr <~ "<") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, l, r)))
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OLt, l, r)))
       } | (expr <~ "≥") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OLt, l, r))))
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OLt, l, r))))
       } | (expr <~ ">") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, r, l)))
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OLt, r, l)))
       } | (expr <~ "≤") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OLt, r, l))))
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OLt, r, l))))
       } | (expr <~ "=") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, r, l)))
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, r, l)))
       } | (expr <~ "≠") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, r, l))))
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, r, l))))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
       } | name <~ "has no elements" ^^ {
@@ -1097,15 +1097,15 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | name <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
         case x => pair(Nil, parseExpr(s"(< 0i $x.length)"))
       } | (expr <~ ">") ~ expr ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, y, x)))
+        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EBOp(OLt, y, x)))
       } | (expr <~ "is less than") ~ expr ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OLt, x, y)))
+        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EBOp(OLt, x, y)))
       } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, x, y))))
+        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, x, y))))
       } | (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
       } | (expr <~ "is" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EContains(y, x)))
+        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EContains(y, x)))
       } | (expr <~ "does not contain") ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
       } | (expr <~ "contains") ~ expr ^^ {
@@ -1133,7 +1133,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | name ~ ("and" ~> name <~ "are not the same Realm Record") ^^ {
         case x ~ y => pair(Nil, parseExpr(s"(! (= $x $y))"))
       } | (expr <~ "and") ~ (expr <~ ("are the same" ~ ("object" | "number") ~ "value" | "are exactly the same sequence of code units ( same length and same code units at corresponding indices )")) ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, x, y)))
+        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EBOp(OEq, x, y)))
       } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
         pair(Nil, EBool(false)) // TODO fix
       } | ("the binding for" ~> name <~ "in") ~ (name <~ "is an uninitialized binding") ^^ {
@@ -1153,9 +1153,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       } | (ref <~ "is present and its value is") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, exists(r), EBOp(OEq, ERef(r), e)))
       } | (ref <~ "is present" <~ opt("as a parameter")) ~ subCond ^^ {
-        case (i0 ~ r) ~ (i1 ~ f) => pair(i0 ++ i1, f(exists(r)))
+        case (i0 ~ r) ~ f => concat(i0, f(exists(r)))
       } | (expr <~ "is not" <~ opt("the same as")) ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EUOp(ONot, EBOp(OEq, l, r))))
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, l, r))))
       } | (name <~ "and") ~ (name <~ "are both the same Symbol value") ^^ {
         case x ~ y => pair(Nil, parseExpr(s"""(&& (&& (= (typeof $x) "Symbol") (= (typeof $y) "Symbol")) (= $x $y))"""))
       } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
@@ -1223,19 +1223,19 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           val tempP = getTemp
           pair(List(parseInst(s"""app $tempP = (Type $x)""")), parseExpr(s"""(&& (= $tempP "Object") (|| (= $tempP "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
       } | ("type(" ~> name <~ ") is") ~ nonTrivialTyName ~ subCond ^^ {
-        case x ~ t ~ (i ~ f) =>
+        case x ~ t ~ f =>
           val tempP = getTemp
-          pair(i :+ parseInst(s"""app $tempP = (Type $x)"""), f(parseExpr(s"""(= $tempP "$t")""")))
+          concat(List(parseInst(s"""app $tempP = (Type $x)""")), f(parseExpr(s"""(= $tempP "$t")""")))
       } | ("type(" ~> name <~ ") is either") ~ rep(nonTrivialTyName <~ ",") ~ ("or" ~> nonTrivialTyName) ~ subCond ^^ {
-        case x ~ ts ~ t ~ (i ~ f) =>
+        case x ~ ts ~ t ~ f =>
           val ty = getTemp
           val newTS = ts :+ t
           val e = parseExpr((ts :+ t).map(t => s"""(= $ty "$t")""").reduce((x, y) => s"(|| $x $y)"))
-          pair(i :+ parseInst(s"app $ty = (Type $x)"), f(e))
+          concat(List(parseInst(s"app $ty = (Type $x)")), f(e))
       } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ f) => pair(i0 ++ i1 ++ i2, f(EBOp(OEq, l, r)))
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
-        case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ (i3 ~ f) => pair(i0 ++ i1 ++ i2 ++ i3, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
+        case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ f => concat(i0 ++ i1 ++ i2, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
       } | "classelement is classelement : ;" ^^^ {
         pair(Nil, parseExpr("""(= (get-syntax ClassElement) ";")"""))
       }
@@ -1243,12 +1243,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   lazy val nonTrivialTyName: Parser[String] = ("string" | "boolean" | "number" | "object" | "symbol") ^^ { ts => ts(0) }
 
-  lazy val subCond: Parser[List[Inst] ~ (Expr => Expr)] =
+  lazy val subCond: Parser[(Expr => (List[Inst] ~ Expr))] =
     "or" ~> opt("if") ~> cond ^^ {
-      case i ~ r => pair(i, (l: Expr) => EBOp(OOr, l, r))
+      case i ~ r =>
+        val tempP = getTempId
+        (l: Expr) => pair(List(ILet(tempP, l), IIf(ERef(RefId(tempP)), emptyInst, ISeq(i :+ IAssign(RefId(tempP), EBOp(OOr, ERef(RefId(tempP)), r))))), ERef(RefId(tempP)))
     } | "and" ~> opt("if") ~> cond ^^ {
-      case i ~ r => pair(i, (l: Expr) => EBOp(OAnd, l, r))
-    } | guard(("," | in) ^^^ pair(Nil, x => x))
+      case i ~ r =>
+        val tempP = getTempId
+        (l: Expr) => pair(List(ILet(tempP, l), IIf(ERef(RefId(tempP)), ISeq(i :+ IAssign(RefId(tempP), EBOp(OAnd, ERef(RefId(tempP)), r))), emptyInst)), ERef(RefId(tempP)))
+    } | guard(("," | in) ^^^ (x => pair(Nil, x)))
 
   ////////////////////////////////////////////////////////////////////////////////
   // Types
@@ -1515,6 +1519,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // create pair of parsing results
   private val pair = `~`
+  private def concat(a: List[Inst], b: List[Inst] ~ Expr): List[Inst] ~ Expr = b match {
+    case bi ~ be => pair(a ++ bi, be)
+  }
 
   // logging
   private val DEBUG_ALGO_NAME = "StatementList1Evaluation0"
