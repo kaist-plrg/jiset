@@ -1,18 +1,64 @@
 \section{Parser Generation}
 
-\subsection{Predictive Parsers vs Recursive Descent Parsers}
+In this section, we introduce a way to automatically generate JavaScript parsers
+from given ECMAScript specifications. First, we explain \( \bnfes \), an extension
+of BNF used in ECMAScript to describe lexical and syntactic grammars of JavaScript.
+We defined a recursive descent parser generator to support \( \bnfes \) notations.
+We implemented our idea by extending the basic Scala parser combinator.
+The implementation also support the automatic semicolon insertion,
+one of the most distinct parsing feautres in ECMAScript.
+
+\subsection{\( \bnfes \): Grammars for ECMAScripts}
+
+ECMAScript supports their lexical and syntactic grammars based on
+their own Backus-Naur form(BNF), we call it as \( \bnfes \).
+It provides five additional notations:
 \begin{itemize}
-  \item Predictive parser
-    \begin{itemize}
-      \item PROS: widely-used (Yacc), linear time, lookahead for predictions, no backtrack
-      \item CONS: need to restructure CFG, not easy to implement ES-BNF features
-    \end{itemize}
-  \item Recursive descent parsers
-    \begin{itemize}
-      \item PROS: Scala-supported (Scala parser combinators), easily support ES-BNF features, no need to re-structure CFG
-      \item CONS: PEG not CFG, exponential time for bactkracing.
-    \end{itemize}
+  \item \( \code{T}_\code{opt} \)
+    - the (non-)terminal \( \term \) is optional
+  \item \( \code{T but not T'} \):
+    - the (non-)terminal \( \term \) should be not the (non-)terminal \( \code{T'} \)
+  \item \( \code{[lookahead} = \code{T]} \)
+    - it checks that remain inputs are possible to be parsed using \( \code{T} \)
+    but does not consume any inputs.
+  \item \( \code{[lookahead} \neq \code{T]} \)
+    - it checks that remain inputs are not possible to be parsed using \( \code{T} \)
+    but does not consume any inputs.
+    % \code{T[P}^\code{*}\code{]} & \text{parameters}
+    % \\\hline
+    % \begin{itemize}
+    %   \item \code{?P} & \text{passing argument} \code{P}
+    %   \item \code{+P} & \kwtrue
+    %   \item \code{\textasciitilde}\code{P} &  \kwfalse
+    % \end{itemize}
+    % \code{[+P] T} & \text{if} \; \code{P} \; \text{is} \; \kwtrue \;\text{, added} \; \code{T}
+    % \\\hline
+    % \code{[\textasciitilde}\code{P] T} & if  \code{P}  is  \kwfalse , added  \code{T}
+    % \\\hline
 \end{itemize}
+
+Our goal is to automatically generate parsers from grammars written in \( \bnfes \).
+
+% There are two different parsing approaches:
+% ``top-down'' approach (LL-style parsing) and
+% ``bottom-up'' approach (LR-style parsing).
+% Top-down approach support 
+% 
+% There are two different kinds of parsers: top-down parsing, bottom-up parsing.
+% 
+% 
+% 
+% Such features could be easily represented in Parsing Expression Grammars (PEGs).
+% 
+% 
+% 
+% Backus–Naur form(BNF)에 다섯 가지의 방식을 추가한 형태로 lexical 및 syntactic grammar를 제공한다.
+% 각각의 
+
+
+
+\subsection{Predictive Parsers vs Recursive Descent Parsers}
+
 
 \subsection{Packrat Parsers with Lookaheads}
 combination of recursive descent parsers with predictive parsers
@@ -20,17 +66,33 @@ implicit lookaheads
 
 \subsection{Generating Parsers for \( \bnfes \)}
 How to handle each \( \bnfes \) features
-\begin{itemize}
-  \item \( \code{T}_\code{opt} \): optional term
-  \item \( \code{T but not one of T}^\code{*} \): filtering out
-  \item \( \code{[lookahead} \in \code{T]} \): positive lookahead condition
-  \item \( \code{[lookahead} \not\in \code{T]} \): negative lookahead condition
-  \item \( \code{T[P}^\code{*}\code{]} \): parameters
-    \begin{itemize}
-      \item \( \code{?P} \): passing argument \( \code{P} \)
-      \item \( \code{+P} \): \( \kwtrue \)
-      \item \( \code{\textasciitilde}\code{P} \): \( \kwfalse \)
-    \end{itemize}
-  \item \; \( \code{[+P] T} \): if \( \code{P} \) is \( \kwtrue \), added \( \code{T} \)
-  \item \; \( \code{[\textasciitilde}\code{P] T} \): if \( \code{P} \) is \( \kwfalse \), added \( \code{T} \)
-\end{itemize}
+% \begin{table}
+%   \centering
+%   \[
+%     \begin{array}{l|l}
+%       \bnfes & \peg
+%       \\\hline
+%       \code{T}_\code{opt} & \code{T?}
+%       \\\hline
+%       \code{T but not T'} & \code{-T'} \; \code{\textasciitilde} \; \code{T}
+%       \\\hline
+%       \code{[lookahead} = \code{T]} & \code{+T}
+%       \\\hline
+%       \code{[lookahead} \neq \code{T]} & \code{-T}
+%       \\\hline
+%       % \code{T[P}^\code{*}\code{]} & \text{parameters}
+%       % \\\hline
+%       % \begin{itemize}
+%       %   \item \code{?P} & \text{passing argument} \code{P}
+%       %   \item \code{+P} & \kwtrue
+%       %   \item \code{\textasciitilde}\code{P} &  \kwfalse
+%       % \end{itemize}
+%       % \code{[+P] T} & \text{if} \; \code{P} \; \text{is} \; \kwtrue \;\text{, added} \; \code{T}
+%       % \\\hline
+%       % \code{[\textasciitilde}\code{P] T} & if  \code{P}  is  \kwfalse , added  \code{T}
+%       % \\\hline
+%     \end{array}
+%   \]
+%   \caption{Conversion from \( \bnfes \) into \( \peg \)}
+%   \label{table:bnfes}
+% \end{table}
