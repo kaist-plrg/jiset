@@ -10,34 +10,67 @@ one of the most distinct parsing feautres in ECMAScript.
 
 \subsection{\( \bnfes \): Grammars for ECMAScripts}
 
-ECMAScript supports their lexical and syntactic grammars based on
-their own Backus-Naur form(BNF), we call it as \( \bnfes \).
-It provides five additional notations:
+ECMAScript provides their lexical and syntactic grammars as grammars
+based on \( \bnfes \), an extension of Backus-Naur form for ECMAScript.
+\( \bnfes \) consists of a number of \textit{productions}
+with the following forms:
+\[
+  \nt(\param_1, \cdots, \param_k) ::=
+  (\cond_1 \Rightarrow)^? \rhs_1 \mid
+  \cdots \mid
+  (\cond_n \Rightarrow)^? \rhs_n
+\]
+The left-hand side represents a parametric nonterminal \( \nt \) with
+multiple boolean parameters \( \param_1, \cdots, \param_n \).
+A production has multiple right-hand sides with optional conditions.
+The condition \( \cond \) is either \( \param_i \) or \( ! \param_i \),
+the negation of \( \param_i \).
+For example, consider the following production:
+\[
+  \nt(\param) ::= \param \Rightarrow \code{a}
+  \mid \; !\param \Rightarrow \code{b}
+  \mid  \code{c}
+\]
+Then, \( \nt(\kwt) \) means \( \code{a} \mid \code{c} \)
+and \( \nt(\kwf) \) means \( \code{b} \mid \code{c} \).
+
+Each right-hand side \( \rhs \) is a sequence of the following symbols:
 \begin{itemize}
-  \item \( \code{T}_\code{opt} \)
-    - the (non-)terminal \( \term \) is optional
-  \item \( \code{T but not T'} \):
-    - the (non-)terminal \( \term \) should be not the (non-)terminal \( \code{T'} \)
-  \item \( \code{[lookahead} = \code{T]} \)
-    - it checks that remain inputs are possible to be parsed using \( \code{T} \)
-    but does not consume any inputs.
-  \item \( \code{[lookahead} \neq \code{T]} \)
-    - it checks that remain inputs are not possible to be parsed using \( \code{T} \)
-    but does not consume any inputs.
-    % \code{T[P}^\code{*}\code{]} & \text{parameters}
-    % \\\hline
-    % \begin{itemize}
-    %   \item \code{?P} & \text{passing argument} \code{P}
-    %   \item \code{+P} & \kwtrue
-    %   \item \code{\textasciitilde}\code{P} &  \kwfalse
-    % \end{itemize}
-    % \code{[+P] T} & \text{if} \; \code{P} \; \text{is} \; \kwtrue \;\text{, added} \; \code{T}
-    % \\\hline
-    % \code{[\textasciitilde}\code{P] T} & if  \code{P}  is  \kwfalse , added  \code{T}
-    % \\\hline
+  \item \( \boxed{\symb} \):
+    basic symbols; terminal \( \code{x} \) or
+    non-terminal \( \nt(\argument_1, \cdots, \argument_k) \)
+  \item \( \boxed{\symb?} \): optional symbols
+  \item \( \boxed{\pm \symb} \): positive/negative lookahead symbols
+  \item \( \boxed{\symb \butnot \symb'} \): exclusive symbols
+  \item \( \boxed{\nolt} \): no line terminator symbols
 \end{itemize}
 
-Our goal is to automatically generate parsers from grammars written in \( \bnfes \).
+Basic symbols are either terminal or non-terminal.
+A non-terminal symbol \( \nt(\argument_1, \cdots, \argument_k) \)
+has multiple parameters and each argument \( \argument_i \) is
+a boolean value \( \kwt \), \( \kwf \) or a parameter \( \param_i \).
+An optional symbol \( \symb? \) is same with \( \epsilon \mid \symb \)
+where \( \epsilon \) denotes the empty sequence.
+A positive(negative) lookahead symbol \( +\symb \)(\( -\symb \))
+checks that the symbol \( \symb \) succeeds(fails) and
+\textit{never consumes any input}.
+The exclusive symbols \( \symb \butnot \symb' \)
+first checks that the symbol \( \symb \) succeeds
+and then checks that the result does not correspond to \( \symb' \).
+The no line terminal symbol \( \nolt \) is a special symbol
+that restricts the white spaces between two other symbols.
+
+\subsection{First/Follow Packrat Parsing}
+
+Our goal is to automatically generate JavaScript parsers from ECMAScript
+grammars written in \( \bnfes \). However, there are several problems
+to use traditional lex/yacc style parser generator.
+\begin{itemize}
+  \item \textbf{Context-Sensitive Tokens} ECMAScript tokens are context-sensitive
+    because of the regular expressions and template strings.
+    For example, the code \( \code{/x/g} \) might be a regular expression token
+    or four tokens to represent divided by the variable \( \code{x} \) and \( \code{g} \).
+\end{itemize}
 
 % There are two different parsing approaches:
 % ``top-down'' approach (LL-style parsing) and
@@ -54,18 +87,12 @@ Our goal is to automatically generate parsers from grammars written in \( \bnfes
 % 
 % Backus–Naur form(BNF)에 다섯 가지의 방식을 추가한 형태로 lexical 및 syntactic grammar를 제공한다.
 % 각각의 
-
-
-
-\subsection{Predictive Parsers vs Recursive Descent Parsers}
-
-
-\subsection{Packrat Parsers with Lookaheads}
 combination of recursive descent parsers with predictive parsers
-implicit lookaheads
+
+first terms and follow terms
 
 \subsection{Generating Parsers for \( \bnfes \)}
-How to handle each \( \bnfes \) features
+how to handle each \( \bnfes \) features
 % \begin{table}
 %   \centering
 %   \[
@@ -96,3 +123,23 @@ How to handle each \( \bnfes \) features
 %   \caption{Conversion from \( \bnfes \) into \( \peg \)}
 %   \label{table:bnfes}
 % \end{table}
+
+% \begin{figure}
+%   \centering
+%   \[
+%     \begin{array}{rcrcl}
+%       Call[Await] &::=& 
+%       A(p, q, r) &::=& && a A(p, \kwt, \kwf)\\
+%                  &\mid& p &Rightarrow& b\\
+%     \end{array}
+%   \]
+%   \caption{Example of \( \bnfes \)}
+%   \label{figure:bnfes}
+% \end{figure}
+
+% code size 줄이기 위해서 모두 풀어헤치지 않고 함수로 변환했다.
+
+% PEG를 그대로 사용하면 backtrack을 이미 성공한 곳에서는 하지 않기 때문에
+% 생기는 문제를 CFG로 적혀있는 것을 해결하기 위해서 lookahead를 추가함
+% Lexical Grammar는 context-sensitive하기 때문에 먼저 lexer를 돌리지 못함
+% gll에서 비슷하게 first/follow를 한 것을 보고 PEG parser를 extend함
