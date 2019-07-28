@@ -93,7 +93,7 @@ object ASE {
   val options: List[PhaseOption[ASEConfig]] = List(
     ("silent", BoolOption(c => c.silent = true),
       "final results are not displayed."),
-    ("time", BoolOption(c => c.silent = true),
+    ("time", BoolOption(c => c.time = true),
       "display duration time.")
   )
 
