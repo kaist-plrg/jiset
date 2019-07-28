@@ -10,8 +10,8 @@ one of the most distinct parsing feautres in ECMAScript.
 
 \subsection{\( \bnfes \): Grammars for ECMAScripts}
 
-ECMAScript provides their lexical and syntactic grammars as grammars
-based on \( \bnfes \), an extension of Backus-Naur form for ECMAScript.
+ECMAScript provides their lexical and syntactic grammars using \( \bnfes \),
+an extension of Backus-Naur form for ECMAScript.
 \( \bnfes \) consists of a number of \textit{productions}
 with the following forms:
 \[
@@ -47,7 +47,7 @@ Each right-hand side \( \rhs \) is a sequence of the following symbols:
 
 Basic symbols are either terminal or non-terminal.
 A non-terminal symbol \( \nt(\argument_1, \cdots, \argument_k) \)
-has multiple parameters and each argument \( \argument_i \) is
+takes multiple arguments and each of them \( \argument_i \) is
 a boolean value \( \kwt \), \( \kwf \) or a parameter \( \param_i \).
 An optional symbol \( \symb? \) is same with \( \epsilon \mid \symb \)
 where \( \epsilon \) denotes the empty sequence.
@@ -56,21 +56,35 @@ checks that the symbol \( \symb \) succeeds(fails) and
 \textit{never consumes any input}.
 The exclusive symbols \( \symb \butnot \symb' \)
 first checks that the symbol \( \symb \) succeeds
-and then checks that the result does not correspond to \( \symb' \).
+and then checks that the parsing result does not correspond to \( \symb' \).
 The no line terminal symbol \( \nolt \) is a special symbol
 that restricts the white spaces between two other symbols.
 
-\subsection{First/Follow Packrat Parsing}
+\subsection{SFDF-Backtrack Parsing}
 
-Our goal is to automatically generate JavaScript parsers from ECMAScript
-grammars written in \( \bnfes \). However, there are several problems
-to use traditional lex/yacc style parser generator.
+Our goal is to automatically generate readable JavaScript parsers from ECMAScript
+grammars written in \( \bnfes \). There are several options for existing paraser generators.
+Among them, we decide to extend Packrat parsers~\cite{packrat} 
+with 
+to support \( \bnfes \) Packrat parsers are first proposed by 
+
+
+assumptions:
+
+Unambiguous
+
 \begin{itemize}
   \item \textbf{Context-Sensitive Tokens} ECMAScript tokens are context-sensitive
     because of the regular expressions and template strings.
     For example, the code \( \code{/x/g} \) might be a regular expression token
-    or four tokens to represent divided by the variable \( \code{x} \) and \( \code{g} \).
+    or four tokens that represent division by variables \( \code{x} \) and \( \code{g} \),
+    depends on enclosing contexts. Thus, tokenizers should be evaluated during the parser
+    not before the parser.
+  \item \textbf{\( \bnfes \) Symbols} Several symbols notations in \( \bnfes \) are
+    not trivial to be converted into normal BNF rules. 
 \end{itemize}
+
+%  Thus, we extend
 
 % There are two different parsing approaches:
 % ``top-down'' approach (LL-style parsing) and
@@ -89,57 +103,19 @@ to use traditional lex/yacc style parser generator.
 % 각각의 
 combination of recursive descent parsers with predictive parsers
 
-first terms and follow terms
+static first terms and dynamic follow terms
 
-\subsection{Generating Parsers for \( \bnfes \)}
-how to handle each \( \bnfes \) features
-% \begin{table}
-%   \centering
-%   \[
-%     \begin{array}{l|l}
-%       \bnfes & \peg
-%       \\\hline
-%       \code{T}_\code{opt} & \code{T?}
-%       \\\hline
-%       \code{T but not T'} & \code{-T'} \; \code{\textasciitilde} \; \code{T}
-%       \\\hline
-%       \code{[lookahead} = \code{T]} & \code{+T}
-%       \\\hline
-%       \code{[lookahead} \neq \code{T]} & \code{-T}
-%       \\\hline
-%       % \code{T[P}^\code{*}\code{]} & \text{parameters}
-%       % \\\hline
-%       % \begin{itemize}
-%       %   \item \code{?P} & \text{passing argument} \code{P}
-%       %   \item \code{+P} & \kwtrue
-%       %   \item \code{\textasciitilde}\code{P} &  \kwfalse
-%       % \end{itemize}
-%       % \code{[+P] T} & \text{if} \; \code{P} \; \text{is} \; \kwtrue \;\text{, added} \; \code{T}
-%       % \\\hline
-%       % \code{[\textasciitilde}\code{P] T} & if  \code{P}  is  \kwfalse , added  \code{T}
-%       % \\\hline
-%     \end{array}
-%   \]
-%   \caption{Conversion from \( \bnfes \) into \( \peg \)}
-%   \label{table:bnfes}
-% \end{table}
+\paragraph{Static-first dynamic-follow}
+% PEG를 그대로 사용하면 backtrack을 이미 성공한 곳에서는 하지 않기 때문에 lookahead를 추가함
 
-% \begin{figure}
-%   \centering
-%   \[
-%     \begin{array}{rcrcl}
-%       Call[Await] &::=& 
-%       A(p, q, r) &::=& && a A(p, \kwt, \kwf)\\
-%                  &\mid& p &Rightarrow& b\\
-%     \end{array}
-%   \]
-%   \caption{Example of \( \bnfes \)}
-%   \label{figure:bnfes}
-% \end{figure}
+% LL(1)-parser의 정의에서 사용하는 first / follow 개념을 확장하여
 
-% code size 줄이기 위해서 모두 풀어헤치지 않고 함수로 변환했다.
+% static한 first를 구하고 dynamic하게 오는 follow를 통해 결정함
 
-% PEG를 그대로 사용하면 backtrack을 이미 성공한 곳에서는 하지 않기 때문에
-% 생기는 문제를 CFG로 적혀있는 것을 해결하기 위해서 lookahead를 추가함
-% Lexical Grammar는 context-sensitive하기 때문에 먼저 lexer를 돌리지 못함
-% gll에서 비슷하게 first/follow를 한 것을 보고 PEG parser를 extend함
+\subsection{Implementation}
+
+% - 실제 EMCAScript production(필요?) -> Our definition -> AST / Parser
+% - code size 줄이기 위해서 모두 풀어헤치지 않고 함수로 변환했다.
+% - autmoatic semicolon insertion도 해주는데 fail한 token 중에 가장 나중에 나오는 부분을 찾아서
+%   offending token으로 지정하고 이를 기반으로 semicolon insertion을 진행
+%   => 넣었을 때 안넣었을 때 test262 parsing 성공률 비교하면 좋을 듯
