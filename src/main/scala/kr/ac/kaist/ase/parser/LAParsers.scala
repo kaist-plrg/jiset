@@ -6,9 +6,9 @@ import scala.collection.mutable
 import scala.language.reflectiveCalls
 import scala.util.parsing.input._
 
-trait LA1Parsers extends Lexer {
+trait LAParsers extends Lexer {
   // parsing case
-  case class ParseCase[+T](parser: LA1Parser[T], first: FirstTerms, pos: Position)
+  case class ParseCase[+T](parser: LAParser[T], first: FirstTerms, pos: Position)
 
   // container
   type Container <: {
@@ -16,8 +16,8 @@ trait LA1Parsers extends Lexer {
   }
 
   // terminal parsers
-  def term(name: String, nt: Lexer): LA1Parser[String] = log(new LA1Parser(first => Skip ~> nt <~ +(Skip ~ first.getParser), FirstTerms() + (name -> nt)))(name)
-  def term(t: String): LA1Parser[String] = log(new LA1Parser(first => {
+  def term(name: String, nt: Lexer): LAParser[String] = log(new LAParser(first => Skip ~> nt <~ +(Skip ~ first.getParser), FirstTerms() + (name -> nt)))(name)
+  def term(t: String): LAParser[String] = log(new LAParser(first => {
     Skip ~> {
       if (parseAll("[a-z]+", t).isEmpty) t
       else t <~ not(IDContinue)
@@ -52,63 +52,63 @@ trait LA1Parsers extends Lexer {
   // no first terms
   lazy val noFirst: FirstTerms = FirstTerms()
 
-  lazy val MATCH: LA1Parser[String] = log(new LA1Parser(first => "" <~ +(Skip ~ first.getParser), emptyFirst))("MATCH")
-  lazy val MISMATCH: LA1Parser[Nothing] = log(new LA1Parser(first => failure(""), noFirst))("MISMATCH")
+  lazy val MATCH: LAParser[String] = log(new LAParser(first => "" <~ +(Skip ~ first.getParser), emptyFirst))("MATCH")
+  lazy val MISMATCH: LAParser[Nothing] = log(new LAParser(first => failure(""), noFirst))("MISMATCH")
 
-  class LA1Parser[+T](
+  class LAParser[+T](
       val parser: FirstTerms => Parser[T],
       val first: FirstTerms
   ) {
-    def ~[U](that: => LA1Parser[U]): LA1Parser[~[T, U]] =
-      new LA1Parser(first => this.parser(that.first ~ first) ~ that.parser(first), this.first ~ that.first)
+    def ~[U](that: => LAParser[U]): LAParser[~[T, U]] =
+      new LAParser(first => this.parser(that.first ~ first) ~ that.parser(first), this.first ~ that.first)
 
-    def ~>[U](that: => LA1Parser[U]): LA1Parser[U] =
-      new LA1Parser(first => this.parser(that.first ~ first) ~> that.parser(first), this.first ~ that.first)
+    def ~>[U](that: => LAParser[U]): LAParser[U] =
+      new LAParser(first => this.parser(that.first ~ first) ~> that.parser(first), this.first ~ that.first)
 
-    def <~[U](that: => LA1Parser[U]): LA1Parser[T] =
-      new LA1Parser(first => this.parser(that.first ~ first) <~ that.parser(first), this.first ~ that.first)
+    def <~[U](that: => LAParser[U]): LAParser[T] =
+      new LAParser(first => this.parser(that.first ~ first) <~ that.parser(first), this.first ~ that.first)
 
-    def |[U >: T](that: LA1Parser[U]): LA1Parser[U] =
+    def |[U >: T](that: LAParser[U]): LAParser[U] =
       if (that eq MISMATCH) this
-      else new LA1Parser(first => this.parser(first) | that.parser(first), this.first + that.first)
+      else new LAParser(first => this.parser(first) | that.parser(first), this.first + that.first)
 
-    def ^^[U](f: T => U): LA1Parser[U] =
-      new LA1Parser(first => this.parser(first) ^^ f, this.first)
+    def ^^[U](f: T => U): LAParser[U] =
+      new LAParser(first => this.parser(first) ^^ f, this.first)
 
-    def ^^^[U](v: => U): LA1Parser[U] =
-      new LA1Parser(first => this.parser(first) ^^^ v, this.first)
+    def ^^^[U](v: => U): LAParser[U] =
+      new LAParser(first => this.parser(first) ^^^ v, this.first)
 
     def apply(first: FirstTerms, in: ContainerReader[Char]): ParseResult[T] = parser(first)(in)
 
-    def unary_-(): LA1Parser[Unit] =
-      new LA1Parser(first => -parser(first), emptyFirst)
+    def unary_-(): LAParser[Unit] =
+      new LAParser(first => -parser(first), emptyFirst)
 
-    def unary_+(): LA1Parser[Unit] =
-      new LA1Parser(first => +parser(first), emptyFirst)
+    def unary_+(): LAParser[Unit] =
+      new LAParser(first => +parser(first), emptyFirst)
 
-    def ? = new LA1Parser(first => opt(parser(first)), first.makeEmptyPossible)
+    def ? = new LAParser(first => opt(parser(first)), first.makeEmptyPossible)
   }
 
   // optional parsers
-  def opt[T](p: => LA1Parser[T]): LA1Parser[Option[T]] =
-    new LA1Parser(first => opt(p.parser(first)), p.first.makeEmptyPossible)
+  def opt[T](p: => LAParser[T]): LAParser[Option[T]] =
+    new LAParser(first => opt(p.parser(first)), p.first.makeEmptyPossible)
 
   // Parse charater reader `in` with parser `p`
-  def parse[T](p: LA1Parser[T], in: Reader[Char]): ParseResult[T] = {
+  def parse[T](p: LAParser[T], in: Reader[Char]): ParseResult[T] = {
     p(emptyFirst, new ContainerReader(in))
   }
 
   // Parse character sequence `in` with parser `p`
-  def parse[T](p: LA1Parser[T], in: java.lang.CharSequence): ParseResult[T] =
+  def parse[T](p: LAParser[T], in: java.lang.CharSequence): ParseResult[T] =
     parse(p, new CharSequenceReader(in))
 
   // Parse reader `in` with parser `p`
-  def parse[T](p: LA1Parser[T], in: java.io.Reader): ParseResult[T] =
+  def parse[T](p: LAParser[T], in: java.io.Reader): ParseResult[T] =
     parse(p, new PagedSeqReader(PagedSeq.fromReader(in)))
 
   // logging
   var keepLog: Boolean = true
-  def log[T](p: LA1Parser[T])(name: String): LA1Parser[T] = if (!DEBUG_PARSER) p else new LA1Parser(first => Parser { rawIn =>
+  def log[T](p: LAParser[T])(name: String): LAParser[T] = if (!DEBUG_PARSER) p else new LAParser(first => Parser { rawIn =>
     val in = rawIn.asInstanceOf[ContainerReader[Char]]
     val stopMsg = s"trying $name with $first at [${in.pos}] \n\n${in.pos.longString}\n"
     if (keepLog) stop(stopMsg) match {
@@ -136,7 +136,7 @@ trait LA1Parsers extends Lexer {
   }
 
   // memoization of lookahead parsers
-  protected def memo[T](p: LA1Parser[T]): LA1Parser[T] = new LA1Parser(first => Parser { rawIn =>
+  protected def memo[T](p: LAParser[T]): LAParser[T] = new LAParser(first => Parser { rawIn =>
     val in = rawIn.asInstanceOf[ContainerReader[Char]]
     val c = ParseCase(p, first, in.pos)
     val container = in.container

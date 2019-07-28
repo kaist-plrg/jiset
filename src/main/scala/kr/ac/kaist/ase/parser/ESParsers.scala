@@ -5,7 +5,7 @@ import kr.ac.kaist.ase.{ DEBUG_PARSER, DEBUG_SEMI_INSERT, LINE_SEP }
 import scala.collection.mutable
 import scala.util.parsing.input._
 
-trait ESParsers extends LA1Parsers {
+trait ESParsers extends LAParsers {
   // data containers
   case class Container(
     val cache: mutable.Map[ParseCase[_], ParseResult[_]] = mutable.Map.empty,
@@ -78,7 +78,7 @@ trait ESParsers extends LA1Parsers {
   }
 
   // parser that supports automatic semicolon insertions
-  override def parse[T](p: LA1Parser[T], in: Reader[Char]): ParseResult[T] = {
+  override def parse[T](p: LAParser[T], in: Reader[Char]): ParseResult[T] = {
     val reader = new ContainerReader(in)
     p(emptyFirst, reader) match {
       case (f: Failure) => insertSemicolon(reader) match {
@@ -105,7 +105,7 @@ trait ESParsers extends LA1Parsers {
 
   // memoization of parametric rules
   protected def memo[T](f: P[T]): P[T] = {
-    val cache = mutable.Map.empty[List[Boolean], LA1Parser[T]]
+    val cache = mutable.Map.empty[List[Boolean], LAParser[T]]
     args => cache.getOrElse(args, {
       val parser = memo(f(args))
       cache.update(args, parser)
@@ -114,16 +114,16 @@ trait ESParsers extends LA1Parsers {
   }
 
   // main parsers
-  type P[+T] = List[Boolean] => LA1Parser[T]
+  type P[+T] = List[Boolean] => LAParser[T]
 
   // sub parsers
-  type R[T] = List[Boolean] => LA1Parser[T => T]
+  type R[T] = List[Boolean] => LAParser[T => T]
 
   // script parsers
   val Script: P[Script]
 
   // no LineTerminator parser
-  lazy val NoLineTerminator: LA1Parser[String] = log(new LA1Parser(first => strNoLineTerminator, emptyFirst))("NoLineTerminator")
+  lazy val NoLineTerminator: LAParser[String] = log(new LAParser(first => strNoLineTerminator, emptyFirst))("NoLineTerminator")
 
   // all rules
   val rules: Map[String, P[AST]]
