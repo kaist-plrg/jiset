@@ -1,4 +1,83 @@
-\section{Algorithm Compiler}
+\section{Semantic generation}
+
+\subsection{Core language}
+실행 가능한 specification을 만들기 위한 langauge.
+algorithm들의 공통된 행동을 실행할 수 있게 잘 설계함
+ex) let X be ... => let X = ...
+
+\subsubsection{다른 rewriting system 또는 compiler와 다른 점}
+특징으로는 Parser에서 만들어진 AST를 하나의 값으로 들고 다니면서 관련 함수를 호출하거나 subAST를 가져올수 있게 만들어짐. 이는 Syntax function 실행을 위해선데 이후 initial state organization에서 설명 
+또한 ES specification에서 공통적으로 동작하는 복잡한 연산을 expression으로 지원함, 특히 문서에 covered by에 있는 것처럼 AST Value를 Goal symbol로 다시 parse해야 하는 경우도 있고, eval이나 Class creation 관련 함수에서처럼 string을 AST로 parse해야하는 경우도 있음. 그런 경우를 parse-syntax 를 넣어서 처리할 수 있게
+해줌.
+
+\subsection{semantic 컴파일하기 위해 하는 것 + specification 구조}
+기본적인 원칙 :
+\begin{itemize} 
+\item 자바스크립트로 알고리즘 이름이랑 파라미터, 스텝을 가져와서 코어의 글로벌 ID에 매치 시켜줌
+\item initial Heap을 생성해줌
+\end{itemize}
+매치를 시킨다는 뜻은 코어의 글로벌 ID에 코어 함수 형태로 알고리즘을 넣는 것임
+
+\begin{itemize}
+\item Default Algorithm
+\item Type-dependent algorithm
+\item Object-dependent algorithm
+\item Syntax-dependent algorithm
+\item Object layout
+\end{itemize}
+
+일단 (Type, Object, Syntax)-dependent algorithm 구역을 나누는건 manual
+
+Convert to
+\begin{itemize}
+\item algorithm => Function (AlgoCompiler)
+\item algorithm name => Global Id (generator)
+\item Builtin Object => Heap NamedAddr as Object (manual)
+\item Builtin Object function name => Heap Object .Code (generator)
+\item Type name => Internal Map object (generator)
+\item Type function name => Internal Map field (generator)
+\item Syntax => AST (parser)
+\item Syntax function name => Internal AST semantics field (generator)
+\end{itemize}
+
+\subsection{함수의 의미 번역 (algorithm => Function)}
+Function은 parameter와 body로 나뉨
+\subsubsection{parameter extraction} : HTML에 써있음 + 여러 특별한 말들 (with parameter * )
+Builtin function의 경우 specification 내에서 implicit하게 전해지는 parameter들이 있는데, (thisValue, newTarget) 이것을
+core에서 모두 명시적으로 받게 (지금은 javascript 단에서) 자동으로 고쳐준다.
+
+\subsubsection{body extraction ( AlgoCompiler )} : 이부분이 Human resource 많이 들어감
+여기서 rule에 따라 step을 만들어줌
+나눌 수도 있을 것 같은데 지금은 일단 instruction, expression, condition, type, value, reference을 나타내는 position을 분리하고 거기에 맞춰서 case별로 parser를 짬
+근데 똑같은 의미도 여러 다른 말로 표현하기 떄문에 지금은 모든 경우를 하나씩 써놓음
+또 같은 말도 context에 따라 의미가 다른 경우가 있음 (Return할때), 지금은 알고리즘의 종류에만 dependent하므로 알고리즘에 flag를 둬서 구분
+
+간단하지 않은 알고리즘의 경우는 1) core 내에서 표현될 수 있는 경우 Function을 만들어 모델링하거나 
+2) 지원하지 않는 경우가 있다
+
+\subsection{ Initial state configuration ( generator ) }
+기본적으로 함수는 모두 Global Id로 넣어놓고 필요할때 호출하는데, 필요한 함수가 정적이지 않고
+context-dependent하게 호출될 필요가 있음 ( Type, Syntax의 경우는 말 그대로 호출할 함수가
+스펙 내에서 context-dependent하고, Builtin object의 경우는 유저가 호출할 수 있게 Builtin function object로 넣으라고 써있음) 이 문제를 해결하는 3가지 방법 :
+1. Type의 경우 Core에 Type을 넣고 Type name => internal property를 자동 생성
+
+Internal method를 그 타입 이름과 같이 등록해서 그 타입 Obj를 생성할때 자동으로 field에 넣어줌
+Global Object를 만들기 위해 힙 만들어 줌 그 안에는 Field와 Function들이 
+
+2. Syntax의 경우 Core에 ASTVal을 넣고 semantic을 쓸수 있게 해줌
+Syntax - directed algorithm을 실제 AST와 매칭 (AST node를 대상으로 실행해야 하는 알고리즘이 있으면 그 알고리즘을 찾아서 실행해 주는 것)
+specification을 보면 알고리즘 이름과 Syntax가 붙어 있기 떄문에 자동으로 뽑아낼 수 있음
+그 알고리즘을 실행할 떄 subAST 이름을 지칭하면서 사용하는데, 이를 subAST이름을 가진 argument를 넘겨줌으로써 실행할 수 있게 함
+있음
+
+3. Builtin Object의 경우 매뉴얼하게 initial heap에 유저가 접근할 수 있게 넣어줌
+
+\subsubsection{Js script evaluation}
+
+최종적으로 parse된 AST Value를 initial state의 global variable로 가지고 정해진 함수 (RunJobs)를 불러 ECMAScript를 실행한다
+
+
+
 
 \begin{itemize}
   \item Formal definition of Core language
