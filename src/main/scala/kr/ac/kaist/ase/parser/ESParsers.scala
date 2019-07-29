@@ -123,7 +123,7 @@ trait ESParsers extends LAParsers {
   val Script: P[Script]
 
   // no LineTerminator parser
-  lazy val NoLineTerminator: LAParser[String] = log(new LAParser(first => strNoLineTerminator, emptyFirst))("NoLineTerminator")
+  lazy val NoLineTerminator: LAParser[String] = log(new LAParser(follow => strNoLineTerminator, emptyFirst))("NoLineTerminator")
 
   // all rules
   val rules: Map[String, P[AST]]

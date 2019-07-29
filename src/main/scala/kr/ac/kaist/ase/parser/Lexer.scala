@@ -17,8 +17,11 @@ trait Lexer extends RegexParsers with PackratParsers with UnicodeRegex {
   lazy val LineTerminator: Lexer = LF | CR | LS | PS
   lazy val LineTerminatorSequence: Lexer = LF | CR <~ -LF | LS | PS | seq(CR, LF)
 
+  // empty
+  def empty: Lexer = success("")
+
   // optional
-  def opt(parser: => Lexer): Lexer = parser | ""
+  def opt(parser: => Lexer): Lexer = parser | empty
 
   // lookahead syntax
   implicit def lookaheadSyntax[T, A <% Parser[T]](parser: => A): LookaheadSyntax[T] = new LookaheadSyntax(parser)
@@ -62,5 +65,5 @@ trait Lexer extends RegexParsers with PackratParsers with UnicodeRegex {
   lazy val Skip: Lexer = ((WhiteSpace | LineTerminator | Comment)*) ^^ { _.mkString }
 
   // no LineTerminator lexer
-  lazy val strNoLineTerminator: Lexer = "" <~ +(Skip.filter(s => lines.findFirstIn(s).isEmpty))
+  lazy val strNoLineTerminator: Lexer = empty <~ +(Skip.filter(s => lines.findFirstIn(s).isEmpty))
 }

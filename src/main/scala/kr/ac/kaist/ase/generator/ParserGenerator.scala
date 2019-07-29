@@ -30,14 +30,8 @@ object ParserGenerator {
       val subName = "sub" + name
 
       nf.println(s"""  lazy val $name: Lexer = (""")
-      nf.println(rhsList.filter(!isLL(name, _)).map(rhs =>
-        s"""    seq(${rhs.tokens.map(getTokenParser).mkString(", ")}, $subName)""").mkString(" |||" + LINE_SEP))
-      nf.println(s"""  )""")
-
-      nf.println(s"""  lazy val ${subName}: Lexer = (""")
-      for (rhs <- rhsList if isLL(name, rhs))
-        nf.println(s"""    seq(${rhs.tokens.tail.map(getTokenParser).mkString(", ")}, $subName) |||""")
-      nf.println(s"""    """"")
+      nf.println(rhsList.map(rhs =>
+        s"""    seq(${rhs.tokens.map(getTokenParser).mkString(", ")})""").mkString(" |||" + LINE_SEP))
       nf.println(s"""  )""")
     }
 
@@ -55,7 +49,7 @@ object ParserGenerator {
         if (contains) s""""" <~ +($parser)"""
         else s""""" <~ -($parser)"""
       case Unicode(code) => code
-      case EmptyToken => "\"\""
+      case EmptyToken => "empty"
       case NoLineTerminatorToken => "strNoLineTerminator"
       case UnicodeAny => "Unicode"
       case UnicodeIdStart => "IDStart"
