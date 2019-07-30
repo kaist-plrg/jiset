@@ -5,6 +5,7 @@ import java.nio.file.{ Files, StandardCopyOption }
 import kr.ac.kaist.ase.error.NoFileError
 import kr.ac.kaist.ase.{ LINE_SEP, ASEConfig }
 import scala.Console.{ RESET, RED, GREEN }
+import scala.collection.mutable
 import scala.io.Source
 
 object Useful {
@@ -105,4 +106,14 @@ object Useful {
       case symbolRegex(x) => "SYMBOL_" + x
       case x => x
     }
+
+  // cache for function
+  def cached[A, B](f: A => B): A => B = {
+    val cache = mutable.Map.empty[A, B]
+    arg => cache.getOrElse(arg, {
+      val res = f(arg)
+      cache.update(arg, res)
+      res
+    })
+  }
 }

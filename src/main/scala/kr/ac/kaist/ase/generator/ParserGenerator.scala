@@ -27,11 +27,19 @@ object ParserGenerator {
     def getStrParser(prod: Production): Unit = {
       val Production(lhs, rhsList) = prod
       val name = lhs.name
-      val subName = "sub" + name
 
-      nf.println(s"""  lazy val $name: Lexer = (""")
-      nf.println(rhsList.map(rhs =>
-        s"""    seq(${rhs.tokens.map(getTokenParser).mkString(", ")})""").mkString(" |||" + LINE_SEP))
+      val noLLs = rhsList.filter(!isLL(name, _))
+      val LLs = rhsList.filter(isLL(name, _))
+
+      val pre = if (LLs.isEmpty) "" else "resolveLL"
+      nf.println(s"""  lazy val $name: Lexer = $pre(""")
+      nf.print(noLLs.map {
+        case rhs => s"""    s(${rhs.tokens.map(getTokenParser).mkString(", ")})"""
+      }.mkString(" |||" + LINE_SEP))
+      if (!LLs.isEmpty) nf.print(LLs.map {
+        case rhs => s"""    sLL(${rhs.tokens.drop(1).map(getTokenParser).mkString(", ")})"""
+      }.mkString("," + LINE_SEP, " |||" + LINE_SEP, ""))
+      nf.println
       nf.println(s"""  )""")
     }
 
@@ -42,12 +50,12 @@ object ParserGenerator {
         else name
       case ButNot(base, cases) =>
         val parser = getTokenParser(base)
-        val notParser = cases.map(token => getTokenParser(token)).mkString(" ||| ")
-        s"""($parser \\ ($notParser))"""
+        val notParser = cases.map(token => getTokenParser(token)).mkString("(", " ||| ", ")")
+        s"""($parser \\ $notParser)"""
       case Lookahead(contains, cases) =>
-        val parser = cases.map(c => s"""seq(${c.map(token => getTokenParser(token)).mkString(", ")})""").mkString(" ||| ")
-        if (contains) s""""" <~ +($parser)"""
-        else s""""" <~ -($parser)"""
+        val parser = cases.map(c => s"""s(${c.map(token => getTokenParser(token)).mkString(", ")})""").mkString(" ||| ")
+        if (contains) s"""+$parser"""
+        else s"""-$parser"""
       case Unicode(code) => code
       case EmptyToken => "empty"
       case NoLineTerminatorToken => "strNoLineTerminator"
@@ -63,60 +71,60 @@ object ParserGenerator {
     def getParser(prod: Production): Unit = {
       val Production(lhs, rhsList) = prod
       val Lhs(name, params) = lhs
-      val pre = "lazy val"
-      val post = s"[$name] = memo {" + LINE_SEP +
-        s"""      case args @ List(${params.mkString(", ")}) => log("""
 
-      nf.println(s"""  $pre $name: P$post""")
-      for ((rhs, i) <- rhsList.zipWithIndex if !isLL(name, rhs))
-        getParsers(name, rhs.tokens, rhs.cond, i, false)
-      nf.println(s"""    MISMATCH)("$name")""")
-      nf.println(s"""    case v => throw WrongNumberOfParserParams(v)""")
-      nf.println(s"""  }""")
-      nf.println(s"""  $pre sub$name: R$post""")
-      for ((rhs, i) <- rhsList.zipWithIndex if isLL(name, rhs))
-        getParsers(name, rhs.tokens.tail, rhs.cond, i, true)
-      nf.println(s"""    MATCH ^^^ { (x: $name) => x })("sub$name")""")
+      val noLLs = rhsList.zipWithIndex.filter { case (rhs, _) => !isLL(name, rhs) }
+      val LLs = rhsList.zipWithIndex.filter { case (rhs, _) => isLL(name, rhs) }
+
+      val pre = "lazy val"
+      val llpre = if (LLs.isEmpty) "" else "resolveLL"
+      val post = s"[$name] = memo {" + LINE_SEP +
+        s"""    case args @ List(${params.mkString(", ")}) => $llpre("""
+      nf.println(s"""  $pre $name: ESParser$post""")
+      nf.print(noLLs.map {
+        case (rhs, i) => getParsers(name, rhs.tokens, rhs.cond, i, false)
+      }.mkString(" |" + LINE_SEP))
+      if (!LLs.isEmpty) nf.print(LLs.map {
+        case (rhs, i) => getParsers(name, rhs.tokens.drop(1), rhs.cond, i, true)
+      }.mkString("," + LINE_SEP, " |" + LINE_SEP, ""))
+      nf.println
+      nf.println(s"""    )""")
       nf.println(s"""    case v => throw WrongNumberOfParserParams(v)""")
       nf.println(s"""  }""")
     }
 
-    def getParsers(name: String, tokens: List[Token], cond: String, idx: Int, isSub: Boolean): Unit = {
-      val subName = "sub" + name
-      var parser = ("MATCH" /: tokens)(appendParser(_, _))
-      parser += s""" ~ $subName(args) ^^ { case """
+    def getParsers(name: String, tokens: List[Token], cond: String, idx: Int, isSub: Boolean): String = {
+      var parser = ("MATCH" /: tokens)(appendParser(_, _)) + " ^^ { case "
       val count = tokens.count(_ match {
         case (_: NonTerminal) | (_: ButNot) => true
         case _ => false
       })
       val ids = (0 until count).map("x" + _.toString)
       val astName = s"$name$idx"
-
-      parser += s"_${ids.map(" ~ " + _).mkString("")} ~ y => " + (if (isSub) {
-        s"""((x: $name) => y($astName(x, ${ids.map(_ + ", ").mkString("")}args))) }"""
+      parser += s"_${ids.map(" ~ " + _).mkString("")} => " + (if (isSub) {
+        s"""((x: $name) => $astName(x, ${ids.map(_ + ", ").mkString("")}args)) }"""
       } else {
-        s"""y($astName(${ids.map(_ + ", ").mkString("")}args)) }"""
+        s"""$astName(${ids.map(_ + ", ").mkString("")}args) }"""
       })
 
-      if (cond != "") parser = s"""(if(${cond}) ${parser} else MISMATCH)""";
-      nf.println(s"""    log(${parser})("$astName") |""")
+      if (cond != "") parser = s"""(if (${cond}) ${parser} else MISMATCH)""";
+      s"""      $parser"""
     }
 
     def appendParser(base: String, token: Token): String = token match {
-      case Terminal(term) => s"""($base <~ term(${getTokenParser(token)}))"""
+      case Terminal(term) => s"""($base <~ t(${getTokenParser(token)}))"""
       case NonTerminal(name, args, optional) =>
         var parser = name
-        if (lexNames contains parser) parser = s"""term("$parser", $parser)"""
+        if (lexNames contains parser) parser = s"""nt("$parser", $parser)"""
         else parser += s"""(List(${args.mkString(", ")}))"""
         if (optional) parser = s"""opt($parser)"""
         s"""$base ~ $parser"""
       case ButNot(_, cases) =>
         val parser = getTokenParser(token)
-        s"""$base ~ term(\"\"\"$parser\"\"\", $parser)"""
+        s"""$base ~ nt(\"\"\"$parser\"\"\", $parser)"""
       case Lookahead(contains, cases) =>
-        val parser = cases.map(c => s"""seq(${c.map(token => getTokenParser(token)).mkString(", ")})""").mkString(" | ")
+        val parser = cases.map(c => s"""s(${c.map(token => getTokenParser(token)).mkString(", ")})""").mkString(" | ")
         val pre = if (contains) "+" else "-"
-        s"""($base <~ ${pre}term("", $parser))"""
+        s"""($base <~ ${pre}nt("", $parser))"""
       case EmptyToken => base + " ~ MATCH"
       case NoLineTerminatorToken => s"""($base <~ NoLineTerminator)"""
       case _ => base
@@ -134,7 +142,7 @@ object ParserGenerator {
     nf.println(s"""  val TERMINAL: Lexer = (""")
     nf.println(terminalTokens.map(t => s"""    "$t"""").mkString(" |||" + LINE_SEP))
     nf.println(s"""  )""")
-    nf.println(s"""  val rules: Map[String, P[AST]] = Map(""")
+    nf.println(s"""  val rules: Map[String, ESParser[AST]] = Map(""")
     nf.println(prods.map {
       case Production(Lhs(name, _), _) => s""""$name" -> $name"""
     }.mkString("," + LINE_SEP))

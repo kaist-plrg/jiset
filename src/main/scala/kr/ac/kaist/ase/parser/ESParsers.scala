@@ -1,14 +1,13 @@
 package kr.ac.kaist.ase.parser
 
 import kr.ac.kaist.ase.model.{ AST, Script }
+import kr.ac.kaist.ase.util.Useful.cached
 import kr.ac.kaist.ase.{ DEBUG_PARSER, DEBUG_SEMI_INSERT, LINE_SEP }
-import scala.collection.mutable
 import scala.util.parsing.input._
 
 trait ESParsers extends LAParsers {
   // data containers
   case class Container(
-    val cache: mutable.Map[ParseCase[_], ParseResult[_]] = mutable.Map.empty,
     var rightmostFailedPos: Option[Position] = None
   )
   def emptyContainer = Container()
@@ -104,27 +103,27 @@ trait ESParsers extends LAParsers {
   }
 
   // memoization of parametric rules
-  protected def memo[T](f: P[T]): P[T] = {
-    val cache = mutable.Map.empty[List[Boolean], LAParser[T]]
-    args => cache.getOrElse(args, {
-      val parser = memo(f(args))
-      cache.update(args, parser)
-      parser
-    })
-  }
+  def memo[T](f: ESParser[T]): ESParser[T] = cached(args => memo(f(args)))
 
   // main parsers
-  type P[+T] = List[Boolean] => LAParser[T]
+  type ESParser[T] = List[Boolean] => LAParser[T]
 
-  // sub parsers
-  type R[T] = List[Boolean] => LAParser[T => T]
+  // resolve left recursions
+  type FLAParser[T] = LAParser[T => T]
+  def resolveLL[T](f: LAParser[T], s: FLAParser[T]): LAParser[T] = {
+    lazy val p: FLAParser[T] = s ~ p ^^ { case b ~ f => (x: T) => f(b(x)) } | MATCH ^^^ { (x: T) => x }
+    f ~ p ^^ { case a ~ f => f(a) }
+  }
 
   // script parsers
-  val Script: P[Script]
+  val Script: ESParser[Script]
 
   // no LineTerminator parser
-  lazy val NoLineTerminator: LAParser[String] = log(new LAParser(follow => strNoLineTerminator, emptyFirst))("NoLineTerminator")
+  lazy val NoLineTerminator: LAParser[String] = log(new LAParser(
+    follow => strNoLineTerminator,
+    () => emptyFirst
+  ))("NoLineTerminator")
 
   // all rules
-  val rules: Map[String, P[AST]]
+  val rules: Map[String, ESParser[AST]]
 }

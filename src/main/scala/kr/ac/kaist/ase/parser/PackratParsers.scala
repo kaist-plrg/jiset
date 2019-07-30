@@ -37,11 +37,6 @@ trait PackratParsers extends Parsers {
     override def toString: String = pos.longString
   }
 
-  override def success[T](v: T) = Parser { in =>
-    val inMem = in.asInstanceOf[ContainerReader[Elem]]
-    Success(v, inMem.copy)
-  }
-
   override def phrase[T](p: Parser[T]) = {
     val q = super.phrase(p)
     new PackratParser[T] {
