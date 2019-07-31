@@ -106,7 +106,7 @@ object ParserGenerator {
         s"""$astName(${ids.map(_ + ", ").mkString("")}args) }"""
       })
 
-      if (cond != "") parser = s"""(if (${cond}) ${parser} else MISMATCH)""";
+      if (cond != "") parser = s"""(if (${cond}) ${parser} else MISMATCH)"""
       s"""      $parser"""
     }
 

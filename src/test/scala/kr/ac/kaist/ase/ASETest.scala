@@ -45,7 +45,7 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
   // sort by keys
   def sortByKey[U, V](map: Map[U, V])(implicit ord: scala.math.Ordering[U]): List[(U, V)] = map.toList.sortBy { case (k, v) => k }
 
-  // check backward-compatibility aftera all tests
+  // check backward-compatibility after all tests
   override def afterAll(): Unit = {
     import DefaultJsonProtocol._
     val sorted =

@@ -1,13 +1,16 @@
 package kr.ac.kaist.ase.parser
 
+import kr.ac.kaist.ase.error.TooManySemicolonInsertion
 import kr.ac.kaist.ase.model.{ AST, Script }
 import kr.ac.kaist.ase.util.Useful.cached
 import kr.ac.kaist.ase.{ DEBUG_PARSER, DEBUG_SEMI_INSERT, LINE_SEP }
+import scala.collection.mutable
 import scala.util.parsing.input._
 
 trait ESParsers extends LAParsers {
   // data containers
   case class Container(
+    val cache: mutable.Map[ParseCase[_], ParseResult[_]] = mutable.Map.empty,
     var rightmostFailedPos: Option[Position] = None
   )
   def emptyContainer = Container()
@@ -78,13 +81,22 @@ trait ESParsers extends LAParsers {
 
   // parser that supports automatic semicolon insertions
   override def parse[T](p: LAParser[T], in: Reader[Char]): ParseResult[T] = {
-    val reader = new ContainerReader(in)
-    p(emptyFirst, reader) match {
-      case (f: Failure) => insertSemicolon(reader) match {
-        case Some(str) => parse(p, str)
-        case None => f
-      }
-      case r => r
+    val MAX_ADDITION = 100
+    val init: (Option[ParseResult[T]], Reader[Char]) = (None, in)
+    (init /: (0 until MAX_ADDITION)) {
+      case ((None, in), _) =>
+        val reader = new ContainerReader(in)
+        p(emptyFirst, reader) match {
+          case (f: Failure) => insertSemicolon(reader) match {
+            case Some(str) => (None, new CharSequenceReader(str))
+            case None => (Some(f), reader)
+          }
+          case r => (Some(r), reader)
+        }
+      case (res, _) => res
+    } match {
+      case (Some(res), _) => res
+      case _ => throw TooManySemicolonInsertion(MAX_ADDITION)
     }
   }
 
@@ -121,7 +133,7 @@ trait ESParsers extends LAParsers {
   // no LineTerminator parser
   lazy val NoLineTerminator: LAParser[String] = log(new LAParser(
     follow => strNoLineTerminator,
-    () => emptyFirst
+    emptyFirst
   ))("NoLineTerminator")
 
   // all rules

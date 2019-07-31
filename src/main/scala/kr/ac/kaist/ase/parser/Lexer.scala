@@ -2,7 +2,8 @@ package kr.ac.kaist.ase.parser
 
 import kr.ac.kaist.ase.util.Useful.cached
 import scala.util.matching.Regex
-import scala.util.parsing.combinator._
+import scala.util.parsing.combinator.RegexParsers
+import scala.util.parsing.input.{ Reader, Position }
 
 trait Lexer extends RegexParsers with PackratParsers with UnicodeRegex {
   // not skip white spaces
@@ -70,7 +71,7 @@ trait Lexer extends RegexParsers with PackratParsers with UnicodeRegex {
   lazy val Skip: Lexer = ((WhiteSpace | LineTerminator | Comment)*) ^^ { _.mkString }
 
   // no LineTerminator lexer
-  lazy val strNoLineTerminator: Lexer = +parser2packrat(Skip.filter(s => lines.findFirstIn(s).isEmpty))
+  lazy val strNoLineTerminator: Lexer = +memo(Skip.filter(s => lines.findFirstIn(s).isEmpty))
 
   // resolve left recursions
   def resolveLL(f: Lexer, s: FLexer): Lexer = {

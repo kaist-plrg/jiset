@@ -8,40 +8,20 @@ import scala.util.parsing.input._
 
 trait LAParsers extends Lexer {
   val fail = failure("")
-  object ParserMemoized extends Memoized[FirstTerms, Parser] {
-    def failure(msg: String, i: FirstTerms): Parser[Nothing] = fail
-    def isSuccess(result: Parser[_]): Boolean = result != fail
-    def isProminent(old: Parser[_], temp: Parser[_]): Boolean = ???
-    type Case[T] = FirstTerms => Parser[T]
-  }
-
-  type Dummy[T] = FirstTerms
-  object FirstMemoized extends Memoized[LAParser[_], Dummy] {
-    def failure(msg: String, i: LAParser[_]): Dummy[Nothing] = noFirst
-    def isSuccess(result: Dummy[_]): Boolean = result != noFirst
-    def isProminent(old: Dummy[_], temp: Dummy[_]): Boolean =
-      old < temp
-    type Case[T] = LAParser[_] => Dummy[T]
+  type Container <: {
+    val cache: mutable.Map[ParseCase[_], ParseResult[_]]
   }
 
   // Lookahaed parsers
-  object LAParser {
-    val getFirst: LAParser[_] => FirstTerms = p => p._first()
-  }
   class LAParser[+T](
-      val _parser: FirstTerms => Parser[T],
-      val _first: () => FirstTerms
+      val parser: FirstTerms => Parser[T],
+      val first: FirstTerms
   ) {
-    def parser(follow: FirstTerms): Parser[T] =
-      ParserMemoized.memo(_parser, follow)
-    def first: FirstTerms =
-      FirstMemoized.memo(LAParser.getFirst, this)
-
     def ~[U](_that: => LAParser[U]): LAParser[~[T, U]] = {
       lazy val that = _that
       new LAParser(
         follow => this.parser(that.first ~ follow) ~ that.parser(follow),
-        () => this.first ~ that.first
+        this.first ~ that.first
       )
     }
 
@@ -49,7 +29,7 @@ trait LAParsers extends Lexer {
       lazy val that = _that
       new LAParser(
         follow => this.parser(that.first ~ follow) ~> that.parser(follow),
-        () => this.first ~ that.first
+        this.first ~ that.first
       )
     }
 
@@ -57,25 +37,25 @@ trait LAParsers extends Lexer {
       lazy val that = _that
       new LAParser(
         follow => this.parser(that.first ~ follow) <~ that.parser(follow),
-        () => this.first ~ that.first
+        this.first ~ that.first
       )
     }
 
     def |[U >: T](that: LAParser[U]): LAParser[U] = if (that eq MISMATCH) this else new LAParser(
       follow => this.parser(follow) ||| that.parser(follow),
-      () => this.first + that.first
+      this.first + that.first
     )
 
     def ^^[U](f: T => U): LAParser[U] = new LAParser(
       follow => this.parser(follow) ^^ f,
-      () => this.first
+      this.first
     )
 
     def ^^^[U](_v: => U): LAParser[U] = {
       lazy val v = _v
       new LAParser(
         follow => this.parser(follow) ^^^ v,
-        () => this.first
+        this.first
       )
     }
 
@@ -83,12 +63,12 @@ trait LAParsers extends Lexer {
 
     def unary_-(): LAParser[Unit] = new LAParser(
       follow => not(parser(follow)),
-      () => emptyFirst
+      emptyFirst
     )
 
     def unary_+(): LAParser[T] = new LAParser(
       follow => guard(parser(follow)),
-      () => emptyFirst
+      emptyFirst
     )
   }
 
@@ -106,13 +86,13 @@ trait LAParsers extends Lexer {
     def ~(that: => FirstTerms): FirstTerms =
       if (possibleEmpty) FirstTerms(that.possibleEmpty, this.ts ++ that.ts, this.nts ++ that.nts)
       else this
-    def parser: Lexer = Parser { rawIn =>
+    def parser: Lexer = Skip ~> Parser { rawIn =>
       val base =
         if (possibleEmpty) phrase(empty)
         else fail
       val t = TERMINAL.filter(ts contains _)
       record(
-        Skip ~> ((base | t) /: nts)(_ | _._2),
+        ((base | t) /: nts)(_ | _._2),
         rawIn.asInstanceOf[ContainerReader[Char]]
       )
     }
@@ -129,7 +109,7 @@ trait LAParsers extends Lexer {
   val nt = cached[(String, Lexer), LAParser[String]] {
     case (name, nt) => log(new LAParser(
       follow => Skip ~> nt <~ +follow.parser,
-      () => FirstTerms() + (name -> nt)
+      FirstTerms() + (name -> nt)
     ))(name)
   }
   val t = cached[String, LAParser[String]] {
@@ -138,19 +118,19 @@ trait LAParsers extends Lexer {
         if (parseAll("[a-z]+".r, t).isEmpty) t
         else t <~ not(IDContinue)
       } <~ +follow.parser
-    }, () => FirstTerms() + t))(t)
+    }, FirstTerms() + t))(t)
   }
 
   // always match
   val MATCH: LAParser[String] = log(new LAParser(
     follow => empty <~ +follow.parser,
-    () => emptyFirst
+    emptyFirst
   ))("MATCH")
 
   // always mismatch
   val MISMATCH: LAParser[Nothing] = log(new LAParser(
     follow => fail,
-    () => noFirst
+    noFirst
   ))("MISMATCH")
 
   // optional parsers
@@ -195,7 +175,7 @@ trait LAParsers extends Lexer {
         }
         else p(follow, in)
       }.named(name)
-    }, () => p.first)
+    }, p.first)
 
   // stop message
   protected def stop(msg: String): String = {
@@ -204,10 +184,20 @@ trait LAParsers extends Lexer {
   }
 
   // memoization of lookahead parsers
-  def memo[T](_p: => LAParser[T]): LAParser[T] = {
-    lazy val p = _p
-    new LAParser(follow => memo(p.parser(follow)), () => p.first)
-  }
+  case class ParseCase[+T](parser: LAParser[T], follow: FirstTerms, pos: Position)
+  def memo[T](p: LAParser[T]): LAParser[T] =
+    new LAParser(first => Parser { rawIn =>
+      val in = rawIn.asInstanceOf[ContainerReader[Char]]
+      val c = ParseCase(p, first, in.pos)
+      val container = in.container
+      container.cache.get(c) match {
+        case Some(res) => res.asInstanceOf[ParseResult[T]]
+        case None =>
+          val res = p(first, in)
+          container.cache.update(c, res)
+          res
+      }
+    }, p.first)
 
   // record parsing process
   protected def record[T](parser: Parser[T], in: ContainerReader[Char]): ParseResult[T] = parser(in)

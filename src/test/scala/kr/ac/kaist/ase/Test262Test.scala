@@ -26,7 +26,7 @@ class Test262Test extends ASETest {
   // base directory
   val test262Dir = s"$TEST_DIR/test262"
 
-  // check backward-compatibility aftera all tests
+  // print results after all tests
   override def afterAll(): Unit = {
     val suffix = new SimpleDateFormat("yyMMddHHmm").format(new Date())
     val filename = s"$TEST_DIR/result/${tag}_${suffix}"
