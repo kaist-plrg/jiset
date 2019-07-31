@@ -49,19 +49,19 @@ core에서 모두 명시적으로 받게 (지금은 javascript 단에서) 자동
 
 \section{ Initial state configuration ( generator ) }
 
-위와 같은 방법으로 언어의 AST와 파서, 그리고 언어의 명세에서 필요한 절차들을 실행 가능한 형태로 얻을 수 있다. 그러나, 대부분의 언어는 실행을 하기 위해 초기 환경이 필요하며, 이러한 환경은 절차들과는 다른 형식으로 기술되어 있다. 때로는 긴 문장 형식으로 설명되어 있기도 하고, 경우에 따라 암묵적으로 정의되기도 한다. 따라서, 오버뷰에서 블랙박스로 표현되는 language dependent part에서는 실제 언어를 실행하기 위해 언어의 초기 환경을 구성한다. 
+By above techniques, we can get the programming language's AST, Parser, and executable steps to run the abstract algorithm in the specification.
+But, to run the program with these primitives, Many languages need initial environment to run the program. It is mostly about initialization of builtin types, and it also includes specifying entry point of the program (fetch main function and fill arguments in Java, C, ..)
+These environments are sometimes described as steps of algorithm, but mostly it is not. 
+In our diagram, we categorized these part as language-dependent environment. It is hard to generate environment automatically, but it is relativly not too heavy to model it compared to modeling numerous algorithms used in runtime.
+In this section, we describre how to generate initial environment for ECMAScript to run defined semantics. 
 
 
 Convert to
 \begin{itemize}
-\item algorithm => Function (AlgoCompiler)
-\item algorithm name => Global Id (generator)
-\item Builtin Object => Heap NamedAddr as Object (manual)
-\item Builtin Object function name => Heap Object .Code (generator)
-\item Type name => Internal Map object (generator)
-\item Type function name => Internal Map field (generator)
-\item Syntax => AST (parser)
-\item Syntax function name => Internal AST semantics field (generator)
+\item algorithm name => Global Id
+\item Builtin Object function name => Heap Object .Code
+\item Type function name => Internal Map field
+\item Syntax function name => Internal AST semantics field
 \end{itemize}
 
 
@@ -86,6 +86,7 @@ context-dependent하게 호출될 필요가 있다.
   \item Default Algorithm
   \item Type-dependent algorithm
   \item Syntax-dependent algorithm
+  \item Builtin object algorithm
   \end{itemize}
   
 
