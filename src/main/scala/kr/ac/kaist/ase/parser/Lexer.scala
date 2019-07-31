@@ -5,13 +5,13 @@ import scala.util.matching.Regex
 import scala.util.parsing.combinator.RegexParsers
 import scala.util.parsing.input.{ Reader, Position }
 
-trait Lexer extends RegexParsers with PackratParsers with UnicodeRegex {
+trait Lexer extends RegexParsers with UnicodeRegex {
   // not skip white spaces
   override def skipWhitespace = false
 
   // lexer type
-  type Lexer = PackratParser[String]
-  type FLexer = PackratParser[String => String]
+  type Lexer = Parser[String]
+  type FLexer = Parser[String => String]
   implicit def str2lexer(str: String): Lexer = literal(str)
   implicit def regex2lexer(r: Regex): Lexer = regex(r)
 
@@ -71,7 +71,7 @@ trait Lexer extends RegexParsers with PackratParsers with UnicodeRegex {
   lazy val Skip: Lexer = ((WhiteSpace | LineTerminator | Comment)*) ^^ { _.mkString }
 
   // no LineTerminator lexer
-  lazy val strNoLineTerminator: Lexer = +memo(Skip.filter(s => lines.findFirstIn(s).isEmpty))
+  lazy val strNoLineTerminator: Lexer = +Skip.filter(s => lines.findFirstIn(s).isEmpty)
 
   // resolve left recursions
   def resolveLL(f: Lexer, s: FLexer): Lexer = {

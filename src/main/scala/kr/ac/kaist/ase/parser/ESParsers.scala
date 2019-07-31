@@ -1,19 +1,20 @@
 package kr.ac.kaist.ase.parser
 
-import kr.ac.kaist.ase.error.TooManySemicolonInsertion
-import kr.ac.kaist.ase.model.{ AST, Script }
-import kr.ac.kaist.ase.util.Useful.cached
 import kr.ac.kaist.ase.{ DEBUG_PARSER, DEBUG_SEMI_INSERT, LINE_SEP }
+import kr.ac.kaist.ase.model.{ AST, Script }
+import kr.ac.kaist.ase.util.Useful._
 import scala.collection.mutable
+import scala.util.matching.Regex
+import scala.util.parsing.combinator._
 import scala.util.parsing.input._
 
 trait ESParsers extends LAParsers {
-  // data containers
+  // container with cache for LAParser and right-most failed positions
+  def emptyContainer: Container = Container()
   case class Container(
-    val cache: mutable.Map[ParseCase[_], ParseResult[_]] = mutable.Map.empty,
+    var cache: Map[ParseCase[_], ParseResult[_]] = Map(),
     var rightmostFailedPos: Option[Position] = None
   )
-  def emptyContainer = Container()
 
   // automatic semicolon insertion
   def insertSemicolon(reader: ContainerReader[Char]): Option[String] = {
@@ -81,27 +82,31 @@ trait ESParsers extends LAParsers {
 
   // parser that supports automatic semicolon insertions
   override def parse[T](p: LAParser[T], in: Reader[Char]): ParseResult[T] = {
-    val MAX_ADDITION = 100
-    val init: (Option[ParseResult[T]], Reader[Char]) = (None, in)
-    (init /: (0 until MAX_ADDITION)) {
-      case ((None, in), _) =>
-        val reader = new ContainerReader(in)
-        p(emptyFirst, reader) match {
-          case (f: Failure) => insertSemicolon(reader) match {
-            case Some(str) => (None, new CharSequenceReader(str))
-            case None => (Some(f), reader)
-          }
-          case r => (Some(r), reader)
-        }
-      case (res, _) => res
-    } match {
-      case (Some(res), _) => res
-      case _ => throw TooManySemicolonInsertion(MAX_ADDITION)
+    val reader = new ContainerReader(in)
+    p(emptyFirst, reader) match {
+      case (f: Failure) => insertSemicolon(reader) match {
+        case Some(str) => parse(p, str)
+        case None => f
+      }
+      case r => r
     }
   }
 
-  // record data
-  override def record[T](parser: Parser[T], in: ContainerReader[Char]): ParseResult[T] = {
+  // ECMAScript parsers
+  type ESParser[+T] = List[Boolean] => LAParser[T]
+
+  // memoization of parametric rules
+  def memo[T](f: ESParser[T]): ESParser[T] = cached(args => memo(f(args)))
+
+  // resolve left recursions
+  type FLAParser[T] = LAParser[T => T]
+  def resolveLL[T](f: LAParser[T], s: FLAParser[T]): LAParser[T] = {
+    lazy val p: FLAParser[T] = s ~ p ^^ { case b ~ f => (x: T) => f(b(x)) } | MATCH ^^^ { (x: T) => x }
+    f ~ p ^^ { case a ~ f => f(a) }
+  }
+
+  // record right-most faield positions
+  protected def record[T](parser: Parser[T], in: ContainerReader[Char]): ParseResult[T] = {
     val container = in.container
     val res = parser(in)
     (res, container.rightmostFailedPos) match {
@@ -112,19 +117,6 @@ trait ESParsers extends LAParsers {
       case _ =>
     }
     res
-  }
-
-  // memoization of parametric rules
-  def memo[T](f: ESParser[T]): ESParser[T] = cached(args => memo(f(args)))
-
-  // main parsers
-  type ESParser[T] = List[Boolean] => LAParser[T]
-
-  // resolve left recursions
-  type FLAParser[T] = LAParser[T => T]
-  def resolveLL[T](f: LAParser[T], s: FLAParser[T]): LAParser[T] = {
-    lazy val p: FLAParser[T] = s ~ p ^^ { case b ~ f => (x: T) => f(b(x)) } | MATCH ^^^ { (x: T) => x }
-    f ~ p ^^ { case a ~ f => f(a) }
   }
 
   // script parsers
