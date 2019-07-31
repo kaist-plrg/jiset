@@ -18,28 +18,6 @@ ex) let X be ... => let X = ...
 \end{itemize}
 매치를 시킨다는 뜻은 코어의 글로벌 ID에 코어 함수 형태로 알고리즘을 넣는 것임
 
-\begin{itemize}
-\item Default Algorithm
-\item Type-dependent algorithm
-\item Object-dependent algorithm
-\item Syntax-dependent algorithm
-\item Object layout
-\end{itemize}
-
-일단 (Type, Object, Syntax)-dependent algorithm 구역을 나누는건 manual
-
-Convert to
-\begin{itemize}
-\item algorithm => Function (AlgoCompiler)
-\item algorithm name => Global Id (generator)
-\item Builtin Object => Heap NamedAddr as Object (manual)
-\item Builtin Object function name => Heap Object .Code (generator)
-\item Type name => Internal Map object (generator)
-\item Type function name => Internal Map field (generator)
-\item Syntax => AST (parser)
-\item Syntax function name => Internal AST semantics field (generator)
-\end{itemize}
-
 \subsection{함수의 의미 번역 (algorithm => Function)}
 Function은 parameter와 body로 나뉨
 \subsubsection{parameter extraction} : HTML에 써있음 + 여러 특별한 말들 (with parameter * )
@@ -55,29 +33,6 @@ core에서 모두 명시적으로 받게 (지금은 javascript 단에서) 자동
 간단하지 않은 알고리즘의 경우는 1) core 내에서 표현될 수 있는 경우 Function을 만들어 모델링하거나 
 2) 지원하지 않는 경우가 있다
 
-\subsection{ Initial state configuration ( generator ) }
-기본적으로 함수는 모두 Global Id로 넣어놓고 필요할때 호출하는데, 필요한 함수가 정적이지 않고
-context-dependent하게 호출될 필요가 있음 ( Type, Syntax의 경우는 말 그대로 호출할 함수가
-스펙 내에서 context-dependent하고, Builtin object의 경우는 유저가 호출할 수 있게 Builtin function object로 넣으라고 써있음) 이 문제를 해결하는 3가지 방법 :
-1. Type의 경우 Core에 Type을 넣고 Type name => internal property를 자동 생성
-
-Internal method를 그 타입 이름과 같이 등록해서 그 타입 Obj를 생성할때 자동으로 field에 넣어줌
-Global Object를 만들기 위해 힙 만들어 줌 그 안에는 Field와 Function들이 
-
-2. Syntax의 경우 Core에 ASTVal을 넣고 semantic을 쓸수 있게 해줌
-Syntax - directed algorithm을 실제 AST와 매칭 (AST node를 대상으로 실행해야 하는 알고리즘이 있으면 그 알고리즘을 찾아서 실행해 주는 것)
-specification을 보면 알고리즘 이름과 Syntax가 붙어 있기 떄문에 자동으로 뽑아낼 수 있음
-그 알고리즘을 실행할 떄 subAST 이름을 지칭하면서 사용하는데, 이를 subAST이름을 가진 argument를 넘겨줌으로써 실행할 수 있게 함
-있음
-
-3. Builtin Object의 경우 매뉴얼하게 initial heap에 유저가 접근할 수 있게 넣어줌
-
-\subsubsection{Js script evaluation}
-
-최종적으로 parse된 AST Value를 initial state의 global variable로 가지고 정해진 함수 (RunJobs)를 불러 ECMAScript를 실행한다
-
-
-
 
 \begin{itemize}
   \item Formal definition of Core language
@@ -91,3 +46,65 @@ specification을 보면 알고리즘 이름과 Syntax가 붙어 있기 떄문에
       \item Converted into Core
     \end{itemize}
 \end{itemize}
+
+\section{ Initial state configuration ( generator ) }
+
+위와 같은 방법으로 언어의 AST와 파서, 그리고 언어의 명세에서 필요한 절차들을 실행 가능한 형태로 얻을 수 있다. 그러나, 대부분의 언어는 실행을 하기 위해 초기 환경이 필요하며, 이러한 환경은 절차들과는 다른 형식으로 기술되어 있다. 때로는 긴 문장 형식으로 설명되어 있기도 하고, 경우에 따라 암묵적으로 정의되기도 한다. 따라서, 오버뷰에서 블랙박스로 표현되는 language dependent part에서는 실제 언어를 실행하기 위해 언어의 초기 환경을 구성한다. 
+
+
+Convert to
+\begin{itemize}
+\item algorithm => Function (AlgoCompiler)
+\item algorithm name => Global Id (generator)
+\item Builtin Object => Heap NamedAddr as Object (manual)
+\item Builtin Object function name => Heap Object .Code (generator)
+\item Type name => Internal Map object (generator)
+\item Type function name => Internal Map field (generator)
+\item Syntax => AST (parser)
+\item Syntax function name => Internal AST semantics field (generator)
+\end{itemize}
+
+
+ ECMAScript 명세에서의 경우, 초기 환경은 Global Object와 source Script (AST), Intrinsic Object, 그리고 절차들을 적절한 context에서 참조하기 위한 binding environment로 구성된다. 절차를 참조하여 실행하기 위한 방법은 크게 세 가지가 있다. 첫 번째로 이름을 탑 레벨에서 불러 실행할 수 있고, 두 번째로 Object에 종속적인 절차를 이름으로 부를 수 있다. Object에 종속적인 절차는 Type에 종속적인 절차 또는 AST의 모양에 종속적인 절차로 나뉜다.
+ 우리는 각각의 경우를 처리할 수 있게 만들었다. 
+
+ Global Object
+
+ 글로벌 오브젝트 안에는 빌트인 오브젝트들이 들어있으며, 각각의 빌트인 오브젝트는 빌트인 함수들과 field가 있다. 빌트인 함수는 명세에 써있는 특정 절차들을 호출한다. 글로벌 오브젝트를 지원하기 위해 간단하게 빌트인 오브젝트의 모양(가지고 있는 빌트인 함수 이름과 property)를 작성하면 자동으로 빌트인 함수 이름과 절차를 대응시켜 Core Heap에 할당해 넣어주었다.
+
+ Intrinsic Object
+
+ Intrinsic Object은 Specification 내에서 Global Object 하위에 있는 특정 Object를 참조할 때 사용하는 별칭이다. Intrinsic Object를 지칭하는 이름과 실제 Object의 위치가 specification 내에서 table로 설명되어 있으므로, HTML table을 파싱하여 Intrinsic Object의 별칭과 실제 Object의 주소가 대응되게 자동으로 넣었다. 
+
+ Binding environment
+
+기본적으로 함수는 모두 Global Id로 넣어놓고 필요할때 호출하는데, 필요한 함수가 정적이지 않고
+context-dependent하게 호출될 필요가 있다.
+
+ 
+\begin{itemize}
+  \item Default Algorithm
+  \item Type-dependent algorithm
+  \item Syntax-dependent algorithm
+  \end{itemize}
+  
+
+일단 (Type, Object, Syntax)-dependent algorithm 구역을 나누는건 manual
+
+Type에 종속적인 절차와 AST 모양에 종속적인 절차가 기술된 범위를 수동으로 지정하고, 이후 자동으로 그 Type과 AST 구조를 추출해서 각각 필요한 시점에 불릴 수 있게 할 수 있었다. AST 모양에 종속적인 절차를 예로 들면, 그 절차의 이름에 AST 모양을 serialization한 값을 붙여 유일한 이름을 만들고, AST에서 특정 절차를 수행할 때 그 모양을 serialization한 것과 이름을 합하여 그 AST에 종속적인 절차를 가져온다. Type의 경우도 같은 방법으로 절차를 가져올 수 있다.
+
+1. Type의 경우 Core에 Type을 넣고 Type name => internal property를 자동 생성
+
+Internal method를 그 타입 이름과 같이 등록해서 그 타입 Obj를 생성할때 자동으로 field에 넣어줌
+
+2. Syntax의 경우 Core에 ASTVal을 넣고 semantic을 쓸수 있게 해줌
+Syntax - directed algorithm을 실제 AST와 매칭 (AST node를 대상으로 실행해야 하는 알고리즘이 있으면 그 알고리즘을 찾아서 실행해 주는 것)
+specification을 보면 알고리즘 이름과 Syntax가 붙어 있기 떄문에 자동으로 뽑아낼 수 있음
+그 알고리즘을 실행할 떄 subAST 이름을 지칭하면서 사용하는데, 이를 subAST이름을 가진 argument를 넘겨줌으로써 실행할 수 있게 함
+있음
+
+
+
+\subsubsection{Js script evaluation}
+ 마지막으로 Parser를 통해 만들어진 AST를 참조할 수 있는 Id를 Core의 초기 환경에 추가한 후 실제 ECMAScript를 실행하기 위한 RunJobs 절차를 최초 실행 절차로 설정해 놓으면 실행하기 위한 모든 환경 설정이 끝난다.
+
