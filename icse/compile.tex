@@ -65,51 +65,47 @@ Convert to
 \end{itemize}
 
 
-For ECMAScript Specification, initial environment consists of the builtin objects, Intrinsinc objects, and mapping from specification steps to corresponding reference.
+For ECMAScript Specification, initial environment consists of the builtin objects, Intrinsincs, and binding environment of specification steps.
 
- Global Object
+Builtin objects
 
  In ECMAScript, there is a initial object which have references of builtin object. Each Builtin Object provides fields and function, just as ordinary object. But when its function is called,
  the corresponding step specified in document should be called. To support global object, we make shape of builtin object and its attributes, and then we autoamtically match the step in specification to corresponding field in object by considering its function name.
  
- Intrinsic Object
+ Intrinsics
 
- While Global Object is used for reference in ECMAScript language, It is also frequently used in ECMAScript specification. But Global Object layout is
- formed for reference in Host language, it needs another name to refer it in specification langauge. Intrinsics are alias for built-in objects. 
+ While Builtin objects can be used to refer itself in ECMAScript language, It is also frequently used in ECMAScript specification. But name of builtin objects
+ are defiend for reference in Host language, it needs another name to refer it in specification langauge. Intrinsics are alias for built-in objects. 
  Correspondence between Intrinsic name and Builtin objects are shown in table, so we parse this table to generate global ID to object.
- 
+
  Binding environment
 
- 절차를 참조하여 실행하기 위한 방법은 크게 세 가지가 있다. 첫 번째로 이름을 탑 레벨에서 불러 실행할 수 있고, 두 번째로 Object에 종속적인 절차를 이름으로 부를 수 있다. Object에 종속적인 절차는 Type에 종속적인 절차 또는 AST의 모양에 종속적인 절차로 나뉜다.
- 
- 기본적으로 함수는 모두 Global Id로 넣어놓고 필요할때 호출하는데, 필요한 함수가 정적이지 않고
-context-dependent하게 호출될 필요가 있다.
-
- 
-\begin{itemize}
-  \item Default Algorithm
+ In specification, All algorithm has name to refer it, but some algorithms have same names and they are called in context-dependent way.
+ \begin{itemize}
+  \item Global Algorithm
   \item Type-dependent algorithm
   \item Syntax-dependent algorithm
   \item Builtin object algorithm
   \end{itemize}
+
+ There is four types of algorithm. 
+ First is global algorithm that can be called by just name, 
+ second is set of algorithms which are bounded in specific type of object, 
+ third is set of algorithms which are bounded in AST,
+ and forth is set of algorithms which correspond to builtin object function.
+
+ We set builtin object function algorithms when initialzing builtin object, so we descibe about rest three algorithms. 
   
+First, we categorized sections by types of algorithm. Builtin object has several own sections to describe its functions,
+so it is easy to extract builtin object algorithms. Type-dependent algorithms and syntax-dependent algorithms has their own layout, so it
+can be extracted. Rest algorithms are considered as global algorithm.
 
-일단 (Type, Object, Syntax)-dependent algorithm 구역을 나누는건 manual
+We just convert global algorithms to function, and bind global identifier to that function to call it by algorithm name.
 
-Type에 종속적인 절차와 AST 모양에 종속적인 절차가 기술된 범위를 수동으로 지정하고, 이후 자동으로 그 Type과 AST 구조를 추출해서 각각 필요한 시점에 불릴 수 있게 할 수 있었다. AST 모양에 종속적인 절차를 예로 들면, 그 절차의 이름에 AST 모양을 serialization한 값을 붙여 유일한 이름을 만들고, AST에서 특정 절차를 수행할 때 그 모양을 serialization한 것과 이름을 합하여 그 AST에 종속적인 절차를 가져온다. Type의 경우도 같은 방법으로 절차를 가져올 수 있다.
+For type-denpendent algorithms, we organized map from algorithm name to function for each type,
+ and we insert functions as propertiy of object when such type of object is created.
 
-1. Type의 경우 Core에 Type을 넣고 Type name => internal property를 자동 생성
+For syntax-dependent algorithm, we insert converted functions in AST structure, and add special expression to call AST-dependent algorithm which requires AST Value and algorithm name.
+To insert functions, we gather which AST can be applied to a function. Also, to use subAST structure, we passes subAST in function as argument.
 
-Internal method를 그 타입 이름과 같이 등록해서 그 타입 Obj를 생성할때 자동으로 field에 넣어줌
-
-2. Syntax의 경우 Core에 ASTVal을 넣고 semantic을 쓸수 있게 해줌
-Syntax - directed algorithm을 실제 AST와 매칭 (AST node를 대상으로 실행해야 하는 알고리즘이 있으면 그 알고리즘을 찾아서 실행해 주는 것)
-specification을 보면 알고리즘 이름과 Syntax가 붙어 있기 떄문에 자동으로 뽑아낼 수 있음
-그 알고리즘을 실행할 떄 subAST 이름을 지칭하면서 사용하는데, 이를 subAST이름을 가진 argument를 넘겨줌으로써 실행할 수 있게 함
-있음
-
-
-
-\subsubsection{Js script evaluation}
- 마지막으로 Parser를 통해 만들어진 AST를 참조할 수 있는 Id를 Core의 초기 환경에 추가한 후 실제 ECMAScript를 실행하기 위한 RunJobs 절차를 최초 실행 절차로 설정해 놓으면 실행하기 위한 모든 환경 설정이 끝난다.
 
