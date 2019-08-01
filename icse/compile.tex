@@ -47,28 +47,33 @@ core에서 모두 명시적으로 받게 (지금은 javascript 단에서) 자동
     \end{itemize}
 \end{itemize}
 
-\section{ Initial state configuration ( generator ) }
+\section{ Building entire system to evaluate code }
 
-In this section, we describre how to generate initial environment for ECMAScript to run defined semantics. 
-We can extract programming language's AST, Parser, and executable algorithm in the specification with minimal human effort.
-With these primitives, we can build entire system for evaluating target language.
+In this section, we will demonstrate how our idea can be implemented to evaluate programming language. Although it is hard to generalize the process because the format of specification or 
+environment of the programming language is varying, We shows the possibility to build entire system for evaluating target language with minimal human effort by giving end-to-end example of ECMAScript langauge.
 
-Initial environment of language is mostly about initialization of builtin types, or entry point of the program, etc.
-In our diagram, we categorized these part as language-dependent environment.
-For ECMAScript Specification, initial environment consists of the Builtin objects, Intrinsincs, and Algorithm scope. We will describe how to generate each component.
+\subsection{Extracting specification}
+First step is to collect language specification and extract component that we can process autoamtically. For our target langauge, ECMAScript, has HTML format of specification in their website, and
+in the specification they have BNF form of syntax, highly structured algorithm steps, and verbose texts to describe additional environment to evaluating ECMAScript source code.
+We get these information by parsing HTML document, and passing these result to our previous moudle to get AST, Parser, and executable algorithms automatically.
 
-\subsection{Builtin objects}
+Rest part is initial environment of language such as initialization of builtin types, or entry point of the program, etc.
+
+\subsection{Generating initial environment for evaluating}
+For ECMAScript Specification, initial environment consists of the Builtin objects, Intrinsincs. We will describe how to generate each component.
+
+\subsubsection{Builtin objects}
 
  In ECMAScript, there is the object which have references of builtin object. Each Builtin Object provides fields and function, just as ordinary object. When its function is called,
  the corresponding algorithm specified in the document should be called. To support builtin object, we make structure of builtin object and its attributes, and then we autoamtically map corresponding field to the algorithm in specification by matching its function name.
  
- \subsection{Intrinsics}
+ \subsubsection{Intrinsics}
 
  While builtin objects has canonical name to refer itself in ECMAScript language, It is also frequently refered in specification. But name of builtin objects
  are defiend for reference in Host language, so it needs another name to refer it in specification langauge. Intrinsics are alias for built-in objects. 
  Map between Intrinsic name and Builtin objects are available in speicificaion as table form , so we parse this table to generate global identifier to object.
 
- \subsection{Algorithm scope}
+\subsection{Algorithm scope}
 
  In specification, All algorithm has name to refer it, but some algorithms have same names and they are called in context-dependent way.
  There is four types of algorithm. 
@@ -91,11 +96,19 @@ We just convert global algorithms to function, and bind global identifier to tha
 
 \subsubsection{Type-dependent algorithm}
 
+In ECMAScript specification, there are some objects which has similar interface, but they have different algorithms. 
+
+For Example, Object Environment Record and Declarative Environment Record is different object in specification, but they have same name of algorithm(i.e. HasBinding(N))
+
+In this case, algorithm is called in context of calling Object(i.e. x.HasBinding(N)). We name it type-dependent algorithm.
 For type-denpendent algorithms, we organized map from algorithm name to function for each type,
  and we insert functions as propertiy of object when such type of object is created.
 
  \subsubsection{Syntax-dependent algorithm}
-For syntax-dependent algorithm, we insert converted functions in AST structure, and add special expression to call AST-dependent algorithm which requires AST Value and algorithm name.
-To insert functions, we gather which AST can be applied to a function. Also, to use subAST structure, we passes subAST in function as argument.
+ 
+ Like type-dependent algorithm, there are many AST Value (in specification, it is called Parse Node) which uses same name of algorithm but the content is differnt.
+The most frequent example is Evaluation of the AST Value. every Evaluation algorithm has same name, but each algorithm can be applied for specific syntax. We name it syntax-dependent algorithm.
+For syntax-dependent algorithm, we insert converted functions in AST structure, and add special expression to call syntax-dependent algorithm which requires AST Value and algorithm name.
+We gather which AST can be applied to a function. Also, to use child node of AST, we passes child node of AST to function as argument.
 
 
