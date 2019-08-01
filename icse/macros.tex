@@ -6,7 +6,7 @@
 \newcommand{\peg}{\text{PEG}}
 
 % codes
-\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\code}[1]{\texttt{\small#1}}
 \newcommand{\kwtrue}{\code{true}}
 \newcommand{\kwt}{\code{\#t}}
 \newcommand{\kwfalse}{\code{false}}
@@ -14,10 +14,23 @@
 
 %BNF_ES
 \newcommand{\symb}{s}
-\newcommand{\nt}{A}
+\newcommand{\NT}[1]{#1}
+\newcommand{\T}[1]{\code{#1}}
 \newcommand{\argument}{a}
 \newcommand{\param}{p}
-\newcommand{\butnot}{\setminus}
+\newcommand{\butnot}{\!\smallsetminus\!}
 \newcommand{\rhs}{\alpha}
 \newcommand{\cond}{c}
 \newcommand{\nolt}{\left<\neg\code{LT}\right>}
+
+% colors
+\newcommand{\inred}[1]{{\color{red}#1}}
+
+% lookahead
+\newcommand{\symbfirst}[1]{\textbf{first}_\symb(#1)}
+\newcommand{\rhsfirst}[1]{\textbf{first}_\rhs(#1)}
+\newcommand{\fail}{FAIL}
+\newcommand{\emptyfirst}{\circ}
+\newcommand{\firstplus}{:\!\!+\;}
+\newcommand{\la}{L}
+\newcommand{\getlap}[1]{\textbf{get}_\symb(#1)}
