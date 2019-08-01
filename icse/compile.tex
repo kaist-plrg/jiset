@@ -65,20 +65,24 @@ Convert to
 \end{itemize}
 
 
- ECMAScript 명세에서의 경우, 초기 환경은 Global Object와 source Script (AST), Intrinsic Object, 그리고 절차들을 적절한 context에서 참조하기 위한 binding environment로 구성된다. 절차를 참조하여 실행하기 위한 방법은 크게 세 가지가 있다. 첫 번째로 이름을 탑 레벨에서 불러 실행할 수 있고, 두 번째로 Object에 종속적인 절차를 이름으로 부를 수 있다. Object에 종속적인 절차는 Type에 종속적인 절차 또는 AST의 모양에 종속적인 절차로 나뉜다.
- 우리는 각각의 경우를 처리할 수 있게 만들었다. 
+For ECMAScript Specification, initial environment consists of the builtin objects, Intrinsinc objects, and mapping from specification steps to corresponding reference.
 
  Global Object
 
- 글로벌 오브젝트 안에는 빌트인 오브젝트들이 들어있으며, 각각의 빌트인 오브젝트는 빌트인 함수들과 field가 있다. 빌트인 함수는 명세에 써있는 특정 절차들을 호출한다. 글로벌 오브젝트를 지원하기 위해 간단하게 빌트인 오브젝트의 모양(가지고 있는 빌트인 함수 이름과 property)를 작성하면 자동으로 빌트인 함수 이름과 절차를 대응시켜 Core Heap에 할당해 넣어주었다.
-
+ In ECMAScript, there is a initial object which have references of builtin object. Each Builtin Object provides fields and function, just as ordinary object. But when its function is called,
+ the corresponding step specified in document should be called. To support global object, we make shape of builtin object and its attributes, and then we autoamtically match the step in specification to corresponding field in object by considering its function name.
+ 
  Intrinsic Object
 
- Intrinsic Object은 Specification 내에서 Global Object 하위에 있는 특정 Object를 참조할 때 사용하는 별칭이다. Intrinsic Object를 지칭하는 이름과 실제 Object의 위치가 specification 내에서 table로 설명되어 있으므로, HTML table을 파싱하여 Intrinsic Object의 별칭과 실제 Object의 주소가 대응되게 자동으로 넣었다. 
-
+ While Global Object is used for reference in ECMAScript language, It is also frequently used in ECMAScript specification. But Global Object layout is
+ formed for reference in Host language, it needs another name to refer it in specification langauge. Intrinsics are alias for built-in objects. 
+ Correspondence between Intrinsic name and Builtin objects are shown in table, so we parse this table to generate global ID to object.
+ 
  Binding environment
 
-기본적으로 함수는 모두 Global Id로 넣어놓고 필요할때 호출하는데, 필요한 함수가 정적이지 않고
+ 절차를 참조하여 실행하기 위한 방법은 크게 세 가지가 있다. 첫 번째로 이름을 탑 레벨에서 불러 실행할 수 있고, 두 번째로 Object에 종속적인 절차를 이름으로 부를 수 있다. Object에 종속적인 절차는 Type에 종속적인 절차 또는 AST의 모양에 종속적인 절차로 나뉜다.
+ 
+ 기본적으로 함수는 모두 Global Id로 넣어놓고 필요할때 호출하는데, 필요한 함수가 정적이지 않고
 context-dependent하게 호출될 필요가 있다.
 
  
