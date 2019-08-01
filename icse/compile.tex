@@ -49,62 +49,53 @@ core에서 모두 명시적으로 받게 (지금은 javascript 단에서) 자동
 
 \section{ Initial state configuration ( generator ) }
 
-위와 같은 방법으로 언어의 AST와 파서, 그리고 언어의 명세에서 필요한 절차들을 실행 가능한 형태로 얻을 수 있다. 그러나, 대부분의 언어는 실행을 하기 위해 초기 환경이 필요하며, 이러한 환경은 절차들과는 다른 형식으로 기술되어 있다. 때로는 긴 문장 형식으로 설명되어 있기도 하고, 경우에 따라 암묵적으로 정의되기도 한다. 따라서, 오버뷰에서 블랙박스로 표현되는 language dependent part에서는 실제 언어를 실행하기 위해 언어의 초기 환경을 구성한다. 
+In this section, we describre how to generate initial environment for ECMAScript to run defined semantics. 
+We can extract programming language's AST, Parser, and executable algorithm in the specification with minimal human effort.
+With these primitives, we can build entire system for evaluating target language.
 
+Initial environment of language is mostly about initialization of builtin types, or entry point of the program, etc.
+In our diagram, we categorized these part as language-dependent environment.
+For ECMAScript Specification, initial environment consists of the Builtin objects, Intrinsincs, and Algorithm scope. We will describe how to generate each component.
 
-Convert to
-\begin{itemize}
-\item algorithm => Function (AlgoCompiler)
-\item algorithm name => Global Id (generator)
-\item Builtin Object => Heap NamedAddr as Object (manual)
-\item Builtin Object function name => Heap Object .Code (generator)
-\item Type name => Internal Map object (generator)
-\item Type function name => Internal Map field (generator)
-\item Syntax => AST (parser)
-\item Syntax function name => Internal AST semantics field (generator)
-\end{itemize}
+\subsection{Builtin objects}
 
-
- ECMAScript 명세에서의 경우, 초기 환경은 Global Object와 source Script (AST), Intrinsic Object, 그리고 절차들을 적절한 context에서 참조하기 위한 binding environment로 구성된다. 절차를 참조하여 실행하기 위한 방법은 크게 세 가지가 있다. 첫 번째로 이름을 탑 레벨에서 불러 실행할 수 있고, 두 번째로 Object에 종속적인 절차를 이름으로 부를 수 있다. Object에 종속적인 절차는 Type에 종속적인 절차 또는 AST의 모양에 종속적인 절차로 나뉜다.
- 우리는 각각의 경우를 처리할 수 있게 만들었다. 
-
- Global Object
-
- 글로벌 오브젝트 안에는 빌트인 오브젝트들이 들어있으며, 각각의 빌트인 오브젝트는 빌트인 함수들과 field가 있다. 빌트인 함수는 명세에 써있는 특정 절차들을 호출한다. 글로벌 오브젝트를 지원하기 위해 간단하게 빌트인 오브젝트의 모양(가지고 있는 빌트인 함수 이름과 property)를 작성하면 자동으로 빌트인 함수 이름과 절차를 대응시켜 Core Heap에 할당해 넣어주었다.
-
- Intrinsic Object
-
- Intrinsic Object은 Specification 내에서 Global Object 하위에 있는 특정 Object를 참조할 때 사용하는 별칭이다. Intrinsic Object를 지칭하는 이름과 실제 Object의 위치가 specification 내에서 table로 설명되어 있으므로, HTML table을 파싱하여 Intrinsic Object의 별칭과 실제 Object의 주소가 대응되게 자동으로 넣었다. 
-
- Binding environment
-
-기본적으로 함수는 모두 Global Id로 넣어놓고 필요할때 호출하는데, 필요한 함수가 정적이지 않고
-context-dependent하게 호출될 필요가 있다.
-
+ In ECMAScript, there is the object which have references of builtin object. Each Builtin Object provides fields and function, just as ordinary object. When its function is called,
+ the corresponding algorithm specified in the document should be called. To support builtin object, we make structure of builtin object and its attributes, and then we autoamtically map corresponding field to the algorithm in specification by matching its function name.
  
-\begin{itemize}
-  \item Default Algorithm
-  \item Type-dependent algorithm
-  \item Syntax-dependent algorithm
+ \subsection{Intrinsics}
+
+ While builtin objects has canonical name to refer itself in ECMAScript language, It is also frequently refered in specification. But name of builtin objects
+ are defiend for reference in Host language, so it needs another name to refer it in specification langauge. Intrinsics are alias for built-in objects. 
+ Map between Intrinsic name and Builtin objects are available in speicificaion as table form , so we parse this table to generate global identifier to object.
+
+ \subsection{Algorithm scope}
+
+ In specification, All algorithm has name to refer it, but some algorithms have same names and they are called in context-dependent way.
+ There is four types of algorithm. 
+ \begin{itemize}
+  \item Global algorithm: they can be called by name in any context
+  \item Type-dependent algorithm: they are bounded in specific type of object
+  \item Syntax-dependent algorithm: they are bounded in AST
+  \item Builtin function algorithm: they correspond to builtin function
   \end{itemize}
-  
 
-일단 (Type, Object, Syntax)-dependent algorithm 구역을 나누는건 manual
+  First, we categorized sections by types of algorithm. Builtin object has several own sections to describe its functions,
+so it is easy to extract builtin object algorithms. Type-dependent algorithms and syntax-dependent algorithms has their own layout, so it
+can be extracted. Rest algorithms are considered as global algorithm.
 
-Type에 종속적인 절차와 AST 모양에 종속적인 절차가 기술된 범위를 수동으로 지정하고, 이후 자동으로 그 Type과 AST 구조를 추출해서 각각 필요한 시점에 불릴 수 있게 할 수 있었다. AST 모양에 종속적인 절차를 예로 들면, 그 절차의 이름에 AST 모양을 serialization한 값을 붙여 유일한 이름을 만들고, AST에서 특정 절차를 수행할 때 그 모양을 serialization한 것과 이름을 합하여 그 AST에 종속적인 절차를 가져온다. Type의 경우도 같은 방법으로 절차를 가져올 수 있다.
+We mapped builtin function algorithms in environment when initialzing builtin object, so we descibe about rest three algorithms. 
 
-1. Type의 경우 Core에 Type을 넣고 Type name => internal property를 자동 생성
+\subsubsection{Global algorithm}
 
-Internal method를 그 타입 이름과 같이 등록해서 그 타입 Obj를 생성할때 자동으로 field에 넣어줌
+We just convert global algorithms to function, and bind global identifier to that function to call it by algorithm name.
 
-2. Syntax의 경우 Core에 ASTVal을 넣고 semantic을 쓸수 있게 해줌
-Syntax - directed algorithm을 실제 AST와 매칭 (AST node를 대상으로 실행해야 하는 알고리즘이 있으면 그 알고리즘을 찾아서 실행해 주는 것)
-specification을 보면 알고리즘 이름과 Syntax가 붙어 있기 떄문에 자동으로 뽑아낼 수 있음
-그 알고리즘을 실행할 떄 subAST 이름을 지칭하면서 사용하는데, 이를 subAST이름을 가진 argument를 넘겨줌으로써 실행할 수 있게 함
-있음
+\subsubsection{Type-dependent algorithm}
 
+For type-denpendent algorithms, we organized map from algorithm name to function for each type,
+ and we insert functions as propertiy of object when such type of object is created.
 
+ \subsubsection{Syntax-dependent algorithm}
+For syntax-dependent algorithm, we insert converted functions in AST structure, and add special expression to call AST-dependent algorithm which requires AST Value and algorithm name.
+To insert functions, we gather which AST can be applied to a function. Also, to use subAST structure, we passes subAST in function as argument.
 
-\subsubsection{Js script evaluation}
- 마지막으로 Parser를 통해 만들어진 AST를 참조할 수 있는 Id를 Core의 초기 환경에 추가한 후 실제 ECMAScript를 실행하기 위한 RunJobs 절차를 최초 실행 절차로 설정해 놓으면 실행하기 위한 모든 환경 설정이 끝난다.
 
