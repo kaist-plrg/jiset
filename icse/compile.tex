@@ -49,62 +49,52 @@ core에서 모두 명시적으로 받게 (지금은 javascript 단에서) 자동
 
 \section{ Initial state configuration ( generator ) }
 
-By above techniques, we can get the programming language's AST, Parser, and executable steps to run the abstract algorithm in the specification.
-But, to run the program with these primitives, Many languages need initial environment to run the program. It is mostly about initialization of builtin types, and it also includes specifying entry point of the program (fetch main function and fill arguments in Java, C, ..)
-These environments are sometimes described as steps of algorithm, but mostly it is not. 
-In our diagram, we categorized these part as language-dependent environment. It is hard to generate environment automatically, but it is relativly not too heavy to model it compared to modeling numerous algorithms used in runtime.
 In this section, we describre how to generate initial environment for ECMAScript to run defined semantics. 
+We can extract programming language's AST, Parser, and executable algorithm in the specification with minimal human effort.
+With these primitives, we can build entire system for evaluating target language.
 
+Initial environment of language is mostly about initialization of builtin types, or entry point of the program, etc.
+In our diagram, we categorized these part as language-dependent environment.
+For ECMAScript Specification, initial environment consists of the Builtin objects, Intrinsincs, and Algorithm scope. We will describe how to generate each component.
 
-Convert to
-\begin{itemize}
-\item algorithm name => Global Id
-\item Builtin Object function name => Heap Object .Code
-\item Type function name => Internal Map field
-\item Syntax function name => Internal AST semantics field
-\end{itemize}
+\subsection{Builtin objects}
 
-
-For ECMAScript Specification, initial environment consists of the builtin objects, Intrinsincs, and binding environment of specification steps.
-
-Builtin objects
-
- In ECMAScript, there is a initial object which have references of builtin object. Each Builtin Object provides fields and function, just as ordinary object. But when its function is called,
- the corresponding step specified in document should be called. To support global object, we make shape of builtin object and its attributes, and then we autoamtically match the step in specification to corresponding field in object by considering its function name.
+ In ECMAScript, there is the object which have references of builtin object. Each Builtin Object provides fields and function, just as ordinary object. When its function is called,
+ the corresponding algorithm specified in the document should be called. To support builtin object, we make structure of builtin object and its attributes, and then we autoamtically map corresponding field to the algorithm in specification by matching its function name.
  
- Intrinsics
+ \subsection{Intrinsics}
 
- While Builtin objects can be used to refer itself in ECMAScript language, It is also frequently used in ECMAScript specification. But name of builtin objects
- are defiend for reference in Host language, it needs another name to refer it in specification langauge. Intrinsics are alias for built-in objects. 
- Correspondence between Intrinsic name and Builtin objects are shown in table, so we parse this table to generate global ID to object.
+ While builtin objects has canonical name to refer itself in ECMAScript language, It is also frequently refered in specification. But name of builtin objects
+ are defiend for reference in Host language, so it needs another name to refer it in specification langauge. Intrinsics are alias for built-in objects. 
+ Map between Intrinsic name and Builtin objects are available in speicificaion as table form , so we parse this table to generate global identifier to object.
 
- Binding environment
+ \subsection{Algorithm scope}
 
  In specification, All algorithm has name to refer it, but some algorithms have same names and they are called in context-dependent way.
+ There is four types of algorithm. 
  \begin{itemize}
-  \item Global Algorithm
-  \item Type-dependent algorithm
-  \item Syntax-dependent algorithm
-  \item Builtin object algorithm
+  \item Global algorithm: they can be called by name in any context
+  \item Type-dependent algorithm: they are bounded in specific type of object
+  \item Syntax-dependent algorithm: they are bounded in AST
+  \item Builtin function algorithm: they correspond to builtin function
   \end{itemize}
 
- There is four types of algorithm. 
- First is global algorithm that can be called by just name, 
- second is set of algorithms which are bounded in specific type of object, 
- third is set of algorithms which are bounded in AST,
- and forth is set of algorithms which correspond to builtin object function.
-
- We set builtin object function algorithms when initialzing builtin object, so we descibe about rest three algorithms. 
-  
-First, we categorized sections by types of algorithm. Builtin object has several own sections to describe its functions,
+  First, we categorized sections by types of algorithm. Builtin object has several own sections to describe its functions,
 so it is easy to extract builtin object algorithms. Type-dependent algorithms and syntax-dependent algorithms has their own layout, so it
 can be extracted. Rest algorithms are considered as global algorithm.
 
+We mapped builtin function algorithms in environment when initialzing builtin object, so we descibe about rest three algorithms. 
+
+\subsubsection{Global algorithm}
+
 We just convert global algorithms to function, and bind global identifier to that function to call it by algorithm name.
+
+\subsubsection{Type-dependent algorithm}
 
 For type-denpendent algorithms, we organized map from algorithm name to function for each type,
  and we insert functions as propertiy of object when such type of object is created.
 
+ \subsubsection{Syntax-dependent algorithm}
 For syntax-dependent algorithm, we insert converted functions in AST structure, and add special expression to call AST-dependent algorithm which requires AST Value and algorithm name.
 To insert functions, we gather which AST can be applied to a function. Also, to use subAST structure, we passes subAST in function as argument.
 
