@@ -45,4 +45,8 @@ package object model {
     def flattenStatement(s: Script): List[StatementListItem] = throw ModelNotYetGenerated
     def mergeStatement(l: List[StatementListItem]): Script = throw ModelNotYetGenerated
   }
+  object NoParse {
+    val long: List[String] = throw ModelNotYetGenerated
+    val failed: List[String] = throw ModelNotYetGenerated
+  }
 }
