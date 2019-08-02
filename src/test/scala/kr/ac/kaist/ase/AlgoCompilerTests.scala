@@ -24,21 +24,35 @@ class AlgoCompilerTest extends CoreTest {
   }
 
   // tests for algo-compiler
-  def algoCompilerTest(func: => Func): Unit = Try(func) match {
+  def algoCompilerTest(size: Int, failed: => Set[Int], name: String): Unit = Try(failed) match {
     case Failure(e) => fail(s"it throws an error: $e")
-    case Success(func) =>
-      CheckNotYetImplWalker.walk(func)
+    case Success(failed) =>
+      val tag = "AlgoCompile"
+      val res = resMap.getOrElse(tag, Map())
+      val newRes = (res /: (0 until size)) {
+        case (res, k) => res + (s"$name$k" -> !(failed contains k))
+      }
+      resMap += tag -> newRes
+      failed.isEmpty
   }
 
   // registration
-  for (file <- shuffle(walkTree(new File(algoDir)))) {
-    val filename = file.getName
-    if (jsonFilter(filename)) {
-      lazy val name = file.toString
-      lazy val algo = Algorithm(name)
-      lazy val func = AlgoCompiler("", algo).result
-      check("AlgoCompile", filename, algoCompilerTest(func))
-      check("AlgoCoreParse", filename, parseCoreFuncTest(func))
+  def init: Unit = {
+    for (file <- shuffle(walkTree(new File(algoDir)))) {
+      val filename = file.getName
+      if (jsonFilter(filename)) {
+        val name = file.toString
+        val algo = Algorithm(name)
+        val lineCount = algo.lineCount
+        lazy val compiler = AlgoCompiler("", algo)
+        lazy val (func, failed) = compiler.result
+        test(s"[AlgoCompile] $filename") {
+          algoCompilerTest(lineCount, failed, filename)
+        }
+        check("AlgoCoreParse", filename, parseCoreFuncTest(func))
+      }
     }
   }
+
+  init
 }

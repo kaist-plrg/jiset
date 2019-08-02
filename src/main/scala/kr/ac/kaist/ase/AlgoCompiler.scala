@@ -4,15 +4,16 @@ import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, StaticSemantics, Method }
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
 import scala.util.{ Try, Success, Failure }
+import scala.collection.immutable.{ Set => SSet }
 
 import kr.ac.kaist.ase.error.UnexpectedShift
 import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.util.Useful._
 
 case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers {
-  def result: Func = {
+  lazy val result: (Func, SSet[Int]) = {
     val (params, varparam) = handleParams(algo.params)
-    Func(
+    val func = Func(
       name = algoName,
       params = params,
       varparam = varparam,
@@ -21,7 +22,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case NoSuccess(_, reader) => error(s"[AlgoCompiler]:${algo.filename}: $reader")
       }))
     )
+    (func, failed)
   }
+
+  // failed lines
+  private var failed: SSet[Int] = SSet()
 
   // empty instruction
   lazy val emptyInst: Inst = ISeq(Nil)
@@ -30,7 +35,9 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   lazy val stmts: Parser[List[Inst]] = rep(
     stmt <~ opt(".") <~ opt(commentStmt) <~ next |
       step ^^ {
-        case tokens => IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
+        case (tokens, k) =>
+          failed += k
+          IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
       }
   )
 

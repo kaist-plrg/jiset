@@ -68,9 +68,9 @@ trait TokenParsers extends Parsers {
     case t => Failure(s"`Id(_)` expected but `$t` found", in)
   }))
 
-  def next: Parser[String] = Parser(in => firstMap(in, _ match {
-    case Next => Success("", in.rest)
-    case t => Failure(s"`Next` expected but `$t` found", in)
+  def next: Parser[Int] = Parser(in => firstMap(in, _ match {
+    case Next(k) => Success(k, in.rest)
+    case t => Failure(s"`Next(_)` expected but `$t` found", in)
   }))
 
   def in: Parser[String] = Parser(in => firstMap(in, _ match {
@@ -99,7 +99,7 @@ trait TokenParsers extends Parsers {
   }, s => s"`$s` is not number"))
 
   def rest: Parser[List[String]] = rep(token)
-  def step: Parser[List[String]] = rest <~ next
+  def step: Parser[(List[String], Int)] = rest ~ next ^^ { case s ~ k => (s, k) }
   def token: Parser[String] = const | value | text | id | stepList
   def stepList: Parser[String] = in ~> rep1(step) <~ out ^^^ "step-list"
 

@@ -10,7 +10,7 @@ case class Value(value: String) extends Token
 case class Id(id: String) extends Token
 case class StepList(steps: List[Step]) extends Token
 case class Text(text: String) extends Token
-case object Next extends Token
+case class Next(k: Int) extends Token
 case object In extends Token
 case object Out extends Token
 
@@ -25,13 +25,13 @@ object Token {
       case Value(value) => sb.append("value:").append(value).append(" ")
       case Id(id) => sb.append("id:").append(id).append(" ")
       case Text(text) => sb.append(text).append(" ")
-      case Next => newline
+      case Next(_) => newline
       case In =>
         indent += TAB; newline
       case _ => throw UnexpectedToken(token)
     }
     def ts(tokens: List[Token]): Unit = tokens match {
-      case Next :: Out :: Next :: rest =>
+      case Next(_) :: Out :: Next(_) :: rest =>
         indent -= TAB; newline; ts(rest)
       case v :: rest =>
         t(v); ts(rest)

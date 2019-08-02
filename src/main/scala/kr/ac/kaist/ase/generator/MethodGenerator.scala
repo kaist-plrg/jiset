@@ -11,7 +11,7 @@ object MethodGenerator {
     val scalaName = getScalaName(name)
     val algo = Algorithm(s"$RESOURCE_DIR/$VERSION/auto/algorithm/$name.json")
     val len = algo.length
-    val func = AlgoCompiler(name, algo).result
+    val (func, _) = AlgoCompiler(name, algo).result
 
     val nf = getPrintWriter(s"$MODEL_DIR/algorithm/$scalaName.scala")
     val TRIPLE = "\"\"\""
