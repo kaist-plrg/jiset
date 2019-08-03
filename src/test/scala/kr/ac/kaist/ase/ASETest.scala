@@ -54,6 +54,13 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
         .sortBy { case (k, v) => k }
         .map { case (t, r) => (t, getScore(r)) }
 
+    // check backward-compatibility
+    var breakCount = 0
+    def error(msg: String): Unit = {
+      breakCount += 1
+      scala.Console.err.println(s"[Backward-Compatibility] $msg")
+    }
+
     // show abstract result
     print("[info] ")
     printlnColor(CYAN)(s"$tag:")
@@ -62,22 +69,16 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
         print("[info] ")
         printlnColor(if (x == y) GREEN else RED)(s"  $t: $x / $y")
     }
-
-    // check backward-compatibility
-    var breakCount = 0
-    def error(msg: String): Unit = {
-      breakCount += 1
-      scala.Console.err.println(s"[Backward-Compatibility] $msg")
-    }
     val filename = s"$TEST_DIR/result/$tag.json"
     val orig =
       Try(readFile(filename))
         .getOrElse("{}")
         .parseJson
         .convertTo[Map[String, Map[String, Boolean]]]
+        .toSeq.sortBy(_._1)
     orig.foreach {
       case (name, origM) => resMap.get(name) match {
-        case Some(curM) => origM.foreach {
+        case Some(curM) => origM.toSeq.sortBy(_._1) foreach {
           case (k, b) => (curM.get(k), b) match {
             case (None, _) => error(s"'[$name] $k' test is removed")
             case (Some(false), true) => error(s"'[$name] $k' test becomes failed")

@@ -39,5 +39,5 @@ package object ase {
   val DEBUG_INTERP: Boolean = false
 
   // display progress in tests
-  val DISPLAY_TEST_PROGRESS = false
+  val DISPLAY_TEST_PROGRESS = true
 }

@@ -19,6 +19,9 @@ case object CompileAlgo extends PhaseObj[Algorithm, CompileAlgoConfig, core.Func
   ): core.Func = {
     val name = getScalaName(removedExt(getSimpleFilename(getFirstFilename(aseConfig, "parse"))))
     val (func, failed) = AlgoCompiler(name, algo).result
+    failed.toSeq.sortBy(_._1) foreach {
+      case (k, tokens) => println(s"[FailedLine]:$k: ${Token.getString(tokens)}")
+    }
     func
   }
 

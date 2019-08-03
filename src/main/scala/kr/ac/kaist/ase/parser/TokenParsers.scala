@@ -40,9 +40,11 @@ trait TokenParsers extends Parsers {
     val init = success[List[String]](Nil)(in)
     val texts = splitText(s)
     ((init /: texts) {
-      case (Success(res, in), x) => firstMap(in, _ match {
-        case Text(y) if x.toLowerCase == y.toLowerCase => Success(y :: res, in.rest)
-        case t => Failure(s"`Text($x)` expected but `$t` found", in)
+      case (Success(res, in), x) => firstMap(in, t => t match {
+        case (_: Id) | (_: Value) | (_: Code) | (_: Const) => Failure(s"`$x` expected but `$t` found", in)
+        case (t: NormalToken) if x.toLowerCase == t.getContent.toLowerCase =>
+          Success(t.getContent :: res, in.rest)
+        case t => Failure(s"`$x` expected but `$t` found", in)
       })
       case (e, _) => e
     }).map(_.reverse)
@@ -53,9 +55,19 @@ trait TokenParsers extends Parsers {
     case t => Failure(s"`Const(_)` expected but `$t` found", in)
   }))
 
+  def code: Parser[String] = Parser(in => firstMap(in, _ match {
+    case Code(x) => Success(x, in.rest)
+    case t => Failure(s"`Code(_)` expected but `$t` found", in)
+  }))
+
   def value: Parser[String] = Parser(in => firstMap(in, _ match {
     case Value(x) => Success(x, in.rest)
     case t => Failure(s"`Value(_)` expected but `$t` found", in)
+  }))
+
+  def id: Parser[String] = Parser(in => firstMap(in, _ match {
+    case Id(x) => Success(x, in.rest)
+    case t => Failure(s"`Id(_)` expected but `$t` found", in)
   }))
 
   def text: Parser[String] = Parser(in => firstMap(in, _ match {
@@ -63,9 +75,25 @@ trait TokenParsers extends Parsers {
     case t => Failure(s"`Text(_)` expected but `$t` found", in)
   }))
 
-  def id: Parser[String] = Parser(in => firstMap(in, _ match {
-    case Id(x) => Success(x, in.rest)
-    case t => Failure(s"`Id(_)` expected but `$t` found", in)
+  def nt: Parser[String] = Parser(in => firstMap(in, _ match {
+    case Nt(x) => Success(x, in.rest)
+    case t => Failure(s"`Nt(_)` expected but `$t` found", in)
+  }))
+
+  def sup: Parser[String] = Parser(in => firstMap(in, _ match {
+    case Sup(Step(List(x: NormalToken))) => Success(x.getContent, in.rest)
+    case (t: Sup) => Failure(s"$t is not yet supported", in)
+    case t => Failure(s"`Sup(_)` expected but `$t` found", in)
+  }))
+
+  def url: Parser[String] = Parser(in => firstMap(in, _ match {
+    case Url(x) => Success(x, in.rest)
+    case t => Failure(s"`Url(_)` expected but `$t` found", in)
+  }))
+
+  def grammar: Parser[Grammar] = Parser(in => firstMap(in, _ match {
+    case (g: Grammar) => Success(g, in.rest)
+    case t => Failure(s"`Grammar(_)` expected but `$t` found", in)
   }))
 
   def next: Parser[Int] = Parser(in => firstMap(in, _ match {
@@ -83,7 +111,10 @@ trait TokenParsers extends Parsers {
     case t => Failure(s"`Out` expected but `$t` found", in)
   }))
 
-  def all: Parser[Token] = Parser(in => firstMap(in, token => Success(token, in.rest)))
+  def normal: Parser[Token] = Parser(in => firstMap(in, _ match {
+    case (t: NormalToken) => Success(t, in.rest)
+    case t => Failure(s"NormalToken expected but `$t` found", in)
+  }))
 
   def end: Parser[String] = Parser(in => {
     if (in.atEnd) Success("", in)
@@ -98,10 +129,17 @@ trait TokenParsers extends Parsers {
     case s if numChars contains s.head => s
   }, s => s"`$s` is not number"))
 
-  def rest: Parser[List[String]] = rep(token)
-  def step: Parser[(List[String], Int)] = rest ~ next ^^ { case s ~ k => (s, k) }
-  def token: Parser[String] = const | value | text | id | stepList
-  def stepList: Parser[String] = in ~> rep1(step) <~ out ^^^ "step-list"
+  // failed lines
+  protected var failed: Map[Int, List[Token]] = Map()
+
+  def token: Parser[Token] = normal | in ~> rep(step) <~ out ^^^ StepList(Nil)
+  def rest: Parser[List[String]] = rep(token ^^ { _.toString })
+  def step: Parser[List[String]] = rest <~ next
+
+  def failedToken: Parser[Token] = normal | in ~> rep(failedStep) <~ out ^^^ StepList(Nil)
+  def failedStep: Parser[List[String]] = rep(failedToken) ~ next ^^ {
+    case s ~ k => failed += k -> s; s.map(_.toString)
+  }
 
   override def phrase[T](p: Parser[T]): Parser[T] =
     super.phrase(p <~ end)

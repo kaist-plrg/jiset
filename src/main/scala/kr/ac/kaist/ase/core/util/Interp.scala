@@ -263,7 +263,7 @@ class Interp {
       }), s0)
     }
     case EIsInstanceOf(base, kind) => interp(base, true)(st) match {
-      case (ASTVal(ast), s0) => (Bool(ast.getKinds contains kind), s0)
+      case (ASTVal(ast), s0) => (Bool(ast.name == kind || ast.getKinds.contains(kind)), s0)
       case (v, _) => error(s"not an AST value: $v")
     }
     case EGetElems(base, kind) => interp(base, true)(st) match {

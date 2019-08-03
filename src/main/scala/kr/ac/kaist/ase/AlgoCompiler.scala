@@ -1,17 +1,17 @@
 package kr.ac.kaist.ase.model
 
-import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, StaticSemantics, Method }
+import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, StaticSemantics, Method, Grammar }
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.LINE_SEP
 import scala.util.{ Try, Success, Failure }
-import scala.collection.immutable.{ Set => SSet }
 
 import kr.ac.kaist.ase.error.UnexpectedShift
 import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.util.Useful._
 
 case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers {
-  lazy val result: (Func, SSet[Int]) = {
+  lazy val result: (Func, Map[Int, List[Token]]) = {
     val (params, varparam) = handleParams(algo.params)
     val func = Func(
       name = algoName,
@@ -19,14 +19,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       varparam = varparam,
       body = flatten(ISeq(parseAll(stmts, algo.toTokenList) match {
         case Success(res, _) => res
-        case NoSuccess(_, reader) => error(s"[AlgoCompiler]:${algo.filename}: $reader")
+        case NoSuccess(_, reader) => error(s"[AlgoCompilerFailed]:${algo.filename}:" + LINE_SEP + reader.toString)
       }))
     )
     (func, failed)
   }
-
-  // failed lines
-  private var failed: SSet[Int] = SSet()
 
   // empty instruction
   lazy val emptyInst: Inst = ISeq(Nil)
@@ -34,10 +31,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // list of statements
   lazy val stmts: Parser[List[Inst]] = rep(
     stmt <~ opt(".") <~ opt(commentStmt) <~ next |
-      step ^^ {
-        case (tokens, k) =>
-          failed += k
-          IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
+      failedStep ^^ { tokens =>
+        IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
       }
   )
 
@@ -103,14 +98,15 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       }
 
   // inner statements
-  lazy val innerStmt =
-    in ~> stmts <~ out ^^ {
-      case list => ISeq(list)
-    }
+  lazy val innerStmt = in ~> stmts <~ out ^^ { ISeq(_) }
 
   // if-then-else statements
   lazy val ifStmt =
-    ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (
+    "if" ~> (name <~ "is") ~ grammar ~ ("," ~ opt("then") ~> stmt) ^^ {
+      case x ~ Grammar(y, ss) ~ s =>
+        val pre = ss.map(s => parseInst(s"""access $s = ($x "$s")"""))
+        IIf(parseExpr(s"(is-instance-of $x $y)"), ISeq(pre :+ s), ISeq(Nil))
+    } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (
       opt("." | ";" | ",") ~> opt(next) ~> ("else" | "otherwise") ~> opt(
         "the order of evaluation needs to be reversed to preserve left to right evaluation" |
           name ~ "is added as a single item rather than spread" |
@@ -245,7 +241,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~ opt("caseclause" | "classelement" | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of" | "from") ~> expr <~ opt(",") ~ opt("(NOTE: this is another complete iteration of the second CaseClauses),") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
+    ("for each" ~ opt(nt | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of" | "from") ~> expr <~ opt(",") ~ opt("(NOTE: this is another complete iteration of the second CaseClauses),") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
@@ -353,14 +349,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
     } | "parse" ~ id ~ "using script as the goal symbol and analyse the parse result for any early Error conditions" ~ rest ^^^ {
       parseInst(s"""let body = script""")
-    } | "if declaration is declaration : hoistabledeclaration, then" ~> stmt ^^ {
-      case s => IIf(EIsInstanceOf(parseExpr("Declaration"), "HoistableDeclaration"), ISeq(List(parseInst("let HoistableDeclaration = Declaration"), s)), ISeq(Nil))
-    } | "if statement is statement : labelledstatement , return toplevelvardeclarednames of statement ." ^^^ {
-      val tempP = getTemp
-      parseInst(s"""if (is-instance-of Statement LabelledStatement) {
-        access $tempP = (Statement "TopLevelVarDeclaredNames")
-        return $tempP
-      }else {}""")
     } | (("suspend" ~> name <~ "and remove it from the execution context stack") | ("pop" ~> name <~ "from the execution context stack" <~ rest)) ^^ {
       case x => {
         val idx = getTemp
@@ -502,14 +490,14 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // value expressions
   lazy val valueExpr: Parser[Expr] = (
-    "2" ~> number ^^ {
+    "2" ~> sup ^^ {
       case s =>
         val k = s.toInt
         if (k < 0 | k > 62) throw UnexpectedShift(k)
         EINum(1L << k)
     } |
     opt("the numeric value") ~ "zero" ^^^ { ENum(0.0) } |
-    opt("the value" | ("the" ~ opt("single - element") ~ "string")) ~> value ^^ {
+    opt("the value" | ("the" ~ opt("single - element") ~ "string")) ~> (value | code) ^^ {
       case "null" => ENull
       case "true" => EBool(true)
       case "false" => EBool(false)
@@ -725,15 +713,13 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     }
   // et cetera expressions
   lazy val etcExpr: Parser[List[Inst] ~ Expr] =
-    rest.filter(list => list.dropRight(1).lastOption == Some("RegularExpressionLiteral")) ^^^ {
-      pair(Nil, ENotSupported("RegularExpressionLiteral"))
-    } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
+    "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
     } | "the String value consisting of the single code unit" ~> name ^^ {
       case x => pair(Nil, parseExpr(x))
     } | "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> name <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
       case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
-    } | "the" ~ value ~ "where" ~> name <~ "is" ~ value ^^ {
+    } | "the" ~ code ~ "where" ~> name <~ "is" ~ code ^^ {
       case x =>
         val str = getTemp
         pair(
@@ -804,7 +790,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       pair(Nil, parseExpr(s"""$context.Function"""))
     } | ("a zero - origined list containing the argument items in order" | ("the" ~ id ~ "that was passed to this function by" ~ rest)) ^^^ {
       pair(Nil, parseExpr(s"""argumentsList"""))
-    } | "an iterator object ( 25 . 1 . 1 . 2 ) whose" <~ value <~ "method iterates" <~ rest ^^^ {
+    } | "an iterator object ( 25 . 1 . 1 . 2 ) whose" <~ code <~ "method iterates" <~ rest ^^^ {
       val tempP = getTemp
       val tempP2 = getTemp
       pair(List(
@@ -934,10 +920,8 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr("""(parse-syntax CoverCallExpressionAndAsyncArrowHead "CallMemberExpression")""")
       } | "the steps of an" ~> name <~ "function as specified below" ^^ {
         case x => parseExpr(s"$x")
-      } | "the result of parsing the source text constructor ( . . . args ) " <~ rest ^^^ {
-        parseExpr("""(parse-syntax "constructor(... args){ super (...args);}" "MethodDefinition" false false)""")
-      } | "the result of parsing the source text constructor ( ) { } " <~ rest ^^^ {
-        parseExpr("""(parse-syntax "constructor(){ }" "MethodDefinition" false false)""")
+      } | "the result of parsing the source text" ~> code <~ rest ^^ {
+        case s => parseExpr(s"""(parse-syntax "$s" "MethodDefinition" false false)""")
       } | opt("the String value whose code units are the elements of") ~> "the TV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
         case x => EParseString(ERef(RefId(Id(x))), x match {
           case "NoSubstitutionTemplate" => PTVNoSubs
@@ -976,7 +960,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr("ECMAScriptFunctionObjectDOTCall")
       } | "the definition specified in 9.2.2" ^^^ {
         parseExpr("ECMAScriptFunctionObjectDOTConstruct")
-      } | "the token" ~> value ^^ {
+      } | "the token" ~> code ^^ {
         case x => EStr(x)
       } | "the empty string" ^^ {
         case x => EStr("")
@@ -984,7 +968,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         parseExpr(s"(parse-string StringLiteral string)")
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
-      } | "an instance of the production formalparameters : [ empty ]" ^^^ {
+      } | "an instance of the production formalparameters0" ^^^ {
         parseExpr(s"""(parse-syntax "" "FormalParameters" false false)""")
       }
     ) ^^ { case e => pair(Nil, e) })
@@ -1031,7 +1015,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: Parser[List[Inst] ~ Expr] = (
-    (("the code matched by this" ~> word <~ "is strict mode code") |
+    (("the code matched by" ~> name <~ "is strict mode code") |
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code" |
       "the directive prologue of statementList contains a use strict directive") ^^^ {
@@ -1057,7 +1041,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
           (|| (is-instance-of $x GeneratorDeclaration)
           (|| (is-instance-of $x AsyncFunctionDeclaration)
           (is-instance-of $x AsyncGeneratorDeclaration))))"""))
-      } | name <~ "is not one of NewTarget, SuperProperty, SuperCall," ~ value ~ opt(",") ~ "or" ~ value ^^ {
+      } | name <~ "is not one of NewTarget, SuperProperty, SuperCall," ~ code ~ opt(",") ~ "or" ~ code ^^ {
         case x => pair(Nil, parseExpr(s"""(!
           (|| (is-instance-of $x NewTarget)
           (|| (is-instance-of $x SuperProperty)
@@ -1192,7 +1176,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))))
       } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
-      } | "statement is statement : labelledstatement" ^^^ {
+      } | "statement is statement10" ^^^ {
         pair(Nil, EIsInstanceOf(ERef(RefId(Id("Statement"))), "LabelledStatement"))
       } | expr <~ "is a data property" ^^ {
         case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("DataProperty")))
@@ -1243,8 +1227,6 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
         case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ f => concat(i0 ++ i1 ++ i2, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
-      } | "classelement is classelement : ;" ^^^ {
-        pair(Nil, parseExpr("""(= (get-syntax ClassElement) ";")"""))
       }
   )
 
@@ -1335,7 +1317,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
       case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
     } | "the" ~> name <~ "flag" ^^ {
       case x => pair(Nil, RefId(Id(x)))
-    } | ordinal ~ word ^^ {
+    } | ordinal ~ nt ^^ {
       case k ~ x => pair(Nil, RefId(Id(x + k)))
     } | name ~ rep(field) ^^ {
       case x ~ es =>
@@ -1345,7 +1327,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
         })
     }
   lazy val refWithOrdinal: Parser[Ref] =
-    ordinal ~ word ^^ {
+    ordinal ~ nt ^^ {
       case k ~ x => RefId(Id(x + k))
     } | name ^^ {
       case x => RefId(Id(x))
@@ -1382,16 +1364,16 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     "the running execution context" ^^^ context |
     "the execution context stack" ^^^ executionStack |
     "the" ~ ty ~ "for which the method was invoked" ^^^ "this" |
-    "this this" ^^^ "this" |
+    ("this" ~ nt | "this this" | "this") ^^^ "this" |
     "the arguments object" ^^^ "args" |
     "[[" ~> word <~ "]]" |
     opt("the intrinsic object") ~> ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
     ("@@" ~> word | "[[@@" ~> word <~ "]]") ^^ { case x => s"SYMBOL_$x" } |
     "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |
     "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" } |
-    "the" ~> (word | id) |
-    "caseclause" ~> id |
-    "the" ~> id |
+    "the" ~> (word | id | nt) |
+    nt ~> id |
+    nt |
     word |
     id
   )
@@ -1531,12 +1513,5 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   }
 
   // logging
-  private val DEBUG_ALGO_NAME = "StatementList1Evaluation0"
-  private def logParser[T](parser: Parser[T]): Parser[T] = parser ^^ { log(_) }
-  private def message(str: String): Parser[Nothing] =
-    logParser(guard(step) ^^ { s"$str: " + _ }) ~> failure("")
-  private def log[T](t: T): T = {
-    if (algoName == DEBUG_ALGO_NAME) println(t)
-    t
-  }
+  private def log[T](parser: Parser[T]): Parser[T] = parser ^^ { t => println(t); t }
 }

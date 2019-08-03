@@ -24,16 +24,15 @@ class AlgoCompilerTest extends CoreTest {
   }
 
   // tests for algo-compiler
-  def algoCompilerTest(size: Int, failed: => Set[Int], name: String): Unit = Try(failed) match {
-    case Failure(e) => fail(s"it throws an error: $e")
-    case Success(failed) =>
-      val tag = "AlgoCompile"
-      val res = resMap.getOrElse(tag, Map())
-      val newRes = (res /: (0 until size)) {
-        case (res, k) => res + (s"$name$k" -> !(failed contains k))
-      }
-      resMap += tag -> newRes
-      failed.isEmpty
+  def algoCompilerTest(size: Int, failed: Map[Int, List[Token]], name: String): Unit = {
+    val tag = "AlgoCompile"
+    val res = resMap.getOrElse(tag, Map())
+    val newRes = (res /: (0 until size)) {
+      case (res, k) => res + (s"$name$k" -> !(failed contains k))
+    }
+    resMap += tag -> newRes
+    val failedCount = failed.size
+    assert(failedCount == 0)
   }
 
   // registration
@@ -46,9 +45,7 @@ class AlgoCompilerTest extends CoreTest {
         val lineCount = algo.lineCount
         lazy val compiler = AlgoCompiler("", algo)
         lazy val (func, failed) = compiler.result
-        test(s"[AlgoCompile] $filename") {
-          algoCompilerTest(lineCount, failed, filename)
-        }
+        test(s"[AlgoCompile] $filename") { algoCompilerTest(lineCount, failed, filename) }
         check("AlgoCoreParse", filename, parseCoreFuncTest(func))
       }
     }
