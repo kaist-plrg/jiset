@@ -80,6 +80,9 @@ case object CmdEvalCore extends CommandObj("eval-core", CmdLoadCore >> EvalCore)
 // repl-core
 case object CmdREPLCore extends CommandObj("repl-core", CmdLoadCore >> REPLCore)
 
+// repl-algo
+case object CmdREPLAlgo extends CommandObj("repl-algo", CmdBase >> REPLAlgo)
+
 // gen-model
 case object CmdGenModel extends CommandObj("gen-model", CmdBase >> GenModel)
 

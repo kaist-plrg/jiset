@@ -11,7 +11,6 @@ import org.apache.commons.text.StringEscapeUtils
 
 // CORE Interpreter
 class Interp {
-
   val timeout: Long = 3000
   val startTime: Long = System.currentTimeMillis
   var instCount = 0

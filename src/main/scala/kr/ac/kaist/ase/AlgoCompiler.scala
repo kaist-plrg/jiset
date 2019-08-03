@@ -30,7 +30,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
 
   // list of statements
   lazy val stmts: Parser[List[Inst]] = rep(
-    stmt <~ opt(".") <~ opt(commentStmt) <~ next |
+    stmt <~ next |
       failedStep ^^ { tokens =>
         IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
       }
@@ -63,7 +63,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     appendStmt |
     insertStmt |
     removeStmt
-  )
+  ) <~ opt(".") <~ opt(commentStmt)
 
   // return statements
   lazy val returnStmt = (
