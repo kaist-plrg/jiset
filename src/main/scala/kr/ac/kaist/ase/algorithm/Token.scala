@@ -33,7 +33,7 @@ case object Out extends Token
 object Token {
   def getString(tokens: List[Token]): String = {
     val sb = new StringBuilder
-    var TAB = 2
+    val TAB = 2
     var indent = 0
     def newline: Unit = sb.append(LINE_SEP).append(" " * indent)
     def t(token: Token): Unit = token match {
@@ -44,8 +44,8 @@ object Token {
       case _ => throw UnexpectedToken(token)
     }
     def ts(tokens: List[Token]): Unit = tokens match {
-      case Next(_) :: Out :: Next(_) :: rest =>
-        indent -= TAB; newline; ts(rest)
+      case Next(_) :: Out :: rest =>
+        indent -= TAB; ts(rest)
       case v :: rest =>
         t(v); ts(rest)
       case Nil =>

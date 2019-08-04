@@ -5,15 +5,62 @@ import kr.ac.kaist.ase.algorithm._
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
 
-trait TokenParsers extends Parsers {
+trait TokenParsers extends PackratParsers {
   type Elem = Token
-  case class TokenReader(tokens: List[Token]) extends Reader[Token] {
-    def first: Token = tokens.head
-    def rest: TokenReader = TokenReader(tokens.tail)
-    def pos: Position = NoPosition
-    def atEnd: Boolean = tokens.isEmpty
+  case class TokenPosition(
+    line: Int,
+    column: Int,
+    protected val lineContents: String
+  ) extends Position
+  abstract class TokenReader extends Reader[Token] { outer =>
+    val tokens: List[Token]
+    val pos: TokenPosition
+    val stringList: List[String]
 
-    override def toString: String = Token.getString(tokens)
+    def first: Token = tokens.head
+    def rest: TokenReader = {
+      val isNewline = tokens match {
+        case In :: _ => true
+        case Next(_) :: rest => rest match {
+          case Out :: _ => false
+          case _ => true
+        }
+        case _ => false
+      }
+      val width = 1 + (first match {
+        case (t: NormalToken) => t.toString.length
+        case _ => 0
+      })
+      new TokenReader {
+        val tokens = outer.tokens.tail
+        val stringList =
+          if (isNewline) outer.stringList.tail
+          else outer.stringList
+        val pos = if (isNewline) TokenPosition(
+          outer.pos.line + 1,
+          {
+            val str = stringList.head
+            var c = 0
+            while (c < str.length && str.charAt(c) == ' ') c += 1
+            c + 1
+          },
+          stringList.head
+        )
+        else TokenPosition(
+          outer.pos.line,
+          outer.pos.column + width,
+          stringList.head
+        )
+      }
+    }
+    def atEnd: Boolean = tokens.isEmpty
+  }
+  object TokenReader {
+    def apply(ts: List[Token]): TokenReader = new TokenReader {
+      val tokens = ts
+      val stringList = Token.getString(tokens).split(LINE_SEP).toList :+ ""
+      val pos = TokenPosition(1, 1, stringList.head)
+    }
   }
 
   private def firstMap[T](in: Input, f: Token => ParseResult[T]): ParseResult[T] = {
@@ -36,7 +83,7 @@ trait TokenParsers extends Parsers {
     list.reverse
   }
 
-  implicit def literal(s: String): Parser[List[String]] = Parser(in => {
+  implicit def literal(s: String): PackratParser[List[String]] = Parser(in => {
     val init = success[List[String]](Nil)(in)
     val texts = splitText(s)
     ((init /: texts) {
@@ -116,11 +163,6 @@ trait TokenParsers extends Parsers {
     case t => Failure(s"NormalToken expected but `$t` found", in)
   }))
 
-  def end: Parser[String] = Parser(in => {
-    if (in.atEnd) Success("", in)
-    else Failure("end of input expected", in)
-  })
-
   def word: Parser[String] = Parser(in => text(in).mapPartial(_ match {
     case s if wordChars contains s.head => s
   }, s => s"`$s` is not word"))
@@ -132,17 +174,14 @@ trait TokenParsers extends Parsers {
   // failed lines
   protected var failed: Map[Int, List[Token]] = Map()
 
-  def token: Parser[Token] = normal | in ~> rep(step) <~ out ^^^ StepList(Nil)
-  def rest: Parser[List[String]] = rep(token ^^ { _.toString })
-  def step: Parser[List[String]] = rest <~ next
+  def token: PackratParser[Token] = normal | in ~> rep(step) <~ out ^^^ StepList(Nil)
+  def rest: PackratParser[List[String]] = rep(token ^^ { _.toString })
+  def step: PackratParser[List[String]] = rest <~ next
 
-  def failedToken: Parser[Token] = normal | in ~> rep(failedStep) <~ out ^^^ StepList(Nil)
-  def failedStep: Parser[List[String]] = rep(failedToken) ~ next ^^ {
+  def failedToken: PackratParser[Token] = normal | in ~> rep(failedStep) <~ out ^^^ StepList(Nil)
+  def failedStep: PackratParser[List[String]] = rep(failedToken) ~ next ^^ {
     case s ~ k => failed += k -> s; s.map(_.toString)
   }
-
-  override def phrase[T](p: Parser[T]): Parser[T] =
-    super.phrase(p <~ end)
 
   def parse[T](p: Parser[T], tokenReader: TokenReader): ParseResult[T] =
     p(tokenReader)
@@ -155,4 +194,32 @@ trait TokenParsers extends Parsers {
 
   def parseAll[T](p: Parser[T], tokens: List[Token]): ParseResult[T] =
     parse(phrase(p), tokens)
+
+  // logging
+  var keepLog = true
+  protected def log[T](p: Parser[T])(name: String): Parser[T] = Parser { in =>
+    val stopMsg = s"trying $name at [${in.pos}] \n\n${in.pos.longString}\n"
+    if (keepLog) stop(stopMsg) match {
+      case "q" =>
+        keepLog = false
+        p(in)
+      case "j" =>
+        keepLog = false
+        val r = p(in)
+        println(name + " --> " + r)
+        keepLog = true
+        r
+      case _ =>
+        val r = p(in)
+        println(name + " --> " + r)
+        r
+    }
+    else p(in)
+  }
+
+  // stop message
+  protected def stop(msg: String): String = {
+    println(msg)
+    scala.io.StdIn.readLine
+  }
 }
