@@ -123,6 +123,11 @@ trait TokenParsers extends PackratParsers {
     case t => Failure(s"`Text(_)` expected but `$t` found", in)
   }))
 
+  def star: Parser[String] = Parser(in => firstMap(in, _ match {
+    case Star(x) => Success(x, in.rest)
+    case t => Failure(s"`Star(_)` expected but `$t` found", in)
+  }))
+
   def nt: Parser[String] = Parser(in => firstMap(in, _ match {
     case Nt(x) => Success(x, in.rest)
     case t => Failure(s"`Nt(_)` expected but `$t` found", in)

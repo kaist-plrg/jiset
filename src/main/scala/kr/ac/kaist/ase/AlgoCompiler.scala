@@ -45,6 +45,18 @@ trait AlgoCompilerHelper extends TokenParsers {
       }
   )
 
+  lazy val starStmt: PackratParser[Inst] = star ^^ {
+    case s => IExpr(ENotYetImpl(s"stmt: $s"))
+  }
+
+  lazy val starExpr: PackratParser[List[Inst] ~ Expr] = star ^^ {
+    case s => pair(Nil, ENotYetImpl(s"expr: $s"))
+  }
+
+  lazy val starCond: PackratParser[List[Inst] ~ Expr] = star ^^ {
+    case s => pair(Nil, ENotYetImpl(s"cond: $s"))
+  }
+
   // execution context stack string
   val executionStack = "GLOBAL_executionStack"
   val context = "GLOBAL_context"
@@ -71,7 +83,8 @@ trait AlgoCompilerHelper extends TokenParsers {
     forEachStmt |
     appendStmt |
     insertStmt |
-    removeStmt
+    removeStmt |
+    starStmt
   ) <~ opt(".") <~ opt(commentStmt)
 
   // return statements
@@ -464,7 +477,8 @@ trait AlgoCompilerHelper extends TokenParsers {
     callExpr |
     typeExpr ^^ { pair(Nil, _) } |
     accessExpr |
-    refExpr
+    refExpr |
+    starExpr
   )
 
   lazy val arithExpr: PackratParser[List[Inst] ~ Expr] = expr ~ bop ~ expr ^^ {
@@ -1230,7 +1244,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
         case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ f => concat(i0 ++ i1 ++ i2, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
-      }
+      } | starCond
   )
 
   lazy val nonTrivialTyName: PackratParser[String] = ("string" | "boolean" | "number" | "object" | "symbol") ^^ { ts => ts(0) }
