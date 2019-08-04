@@ -18,10 +18,10 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends AlgoCompilerH
       name = algoName,
       params = params,
       varparam = varparam,
-      body = flatten(ISeq(parseAll(stmts, algo.toTokenList) match {
+      body = normalizeTempIds(flatten(ISeq(parseAll(stmts, algo.toTokenList) match {
         case Success(res, _) => res
         case NoSuccess(_, reader) => error(s"[AlgoCompilerFailed]:${algo.filename}:" + LINE_SEP + reader.toString)
-      }))
+      })))
     )
     (func, failed)
   }
@@ -1389,10 +1389,12 @@ trait AlgoCompilerHelper extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // get temporal identifiers
   private var idCount: Int = 0
+  private val TEMP_PRE: String = "__x"
+  private val TEMP_POST: String = "__"
   private def getTemp: String = {
     val i = idCount
     idCount += 1
-    s"__x${i}__"
+    s"$TEMP_PRE$i$TEMP_POST"
   }
   private def getTempId: Id = Id(getTemp)
 
@@ -1492,6 +1494,25 @@ trait AlgoCompilerHelper extends TokenParsers {
       }"""
       ), parseExpr(temp))
   }
+
+  // normalize temporal identifiers
+  protected def normalizeTempIds(inst: Inst): Inst = (new Walker {
+    var count: Int = 0
+    def newId: String = {
+      val s = s"$TEMP_PRE$count$TEMP_POST"
+      count += 1
+      s
+    }
+    var idMap: Map[String, String] = Map()
+    override def walk(id: Id): Id = id.name match {
+      case s if s.startsWith(TEMP_PRE) && s.endsWith(TEMP_POST) => Id(idMap.getOrElse(s, {
+        val newS = newId
+        idMap += (s -> newS)
+        newS
+      }))
+      case _ => id
+    }
+  }).walk(inst)
 
   // flatten instructions
   protected def flatten(inst: Inst): Inst = inst match {
