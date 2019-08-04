@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.model
 
-import kr.ac.kaist.ase.algorithm.{ Algorithm, Token, StaticSemantics, Method, Grammar }
+import kr.ac.kaist.ase.algorithm.{ AlgoKind, Algorithm, Token, StaticSemantics, Method, Grammar }
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.LINE_SEP
@@ -10,7 +10,8 @@ import kr.ac.kaist.ase.error.UnexpectedShift
 import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.util.Useful._
 
-case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers {
+case class AlgoCompiler(algoName: String, algo: Algorithm) extends AlgoCompilerHelper {
+  val kind = algo.kind
   lazy val result: (Func, Map[Int, List[Token]]) = {
     val (params, varparam) = handleParams(algo.params)
     val func = Func(
@@ -24,6 +25,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
     )
     (func, failed)
   }
+}
+
+trait AlgoCompilerHelper extends TokenParsers {
+  val algoName: String
+  val kind: AlgoKind
 
   // empty instruction
   lazy val emptyInst: Inst = ISeq(Nil)
@@ -68,7 +74,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   // return statements
   lazy val returnStmt = (
     "return" ~> expr ^^ {
-      case i ~ e => ISeq(i :+ (algo.kind match {
+      case i ~ e => ISeq(i :+ (kind match {
         case StaticSemantics => IReturn(e)
         case Method if algoName == "OrdinaryGetOwnProperty" => IReturn(e)
         case _ =>
@@ -1391,11 +1397,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   private def getTempId: Id = Id(getTemp)
 
   // existence check
-  private def exists(expr: Expr): Expr = EUOp(ONot, EBOp(OEq, expr, EAbsent))
-  private def exists(ref: Ref): Expr = exists(ERef(ref))
+  protected def exists(expr: Expr): Expr = EUOp(ONot, EBOp(OEq, expr, EAbsent))
+  protected def exists(ref: Ref): Expr = exists(ERef(ref))
 
   // for-each instrutions for lists
-  private def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
+  protected def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
     val list = getTemp
     val idx = getTemp
     parseInst(
@@ -1421,7 +1427,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   }
 
   // for-each instrutions for maps
-  private def forEachMap(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
+  protected def forEachMap(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
     val list = getTemp
     val idx = getTemp
     parseInst(s"""{
@@ -1436,7 +1442,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   }
 
   // handle duplicated params and variable-length params
-  private def handleParams(l: List[String]): (List[Id], Option[Id]) = {
+  protected def handleParams(l: List[String]): (List[Id], Option[Id]) = {
     def aux(scnt: Map[String, Int], lprev: List[Id], lnext: List[String]): List[Id] = lnext match {
       case Nil => lprev
       case s :: rest => {
@@ -1458,7 +1464,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   }
 
   // ReturnIfAbrupt
-  private def returnIfAbrupt(
+  protected def returnIfAbrupt(
     insts: List[Inst],
     expr: Expr,
     vulnerable: Boolean = true
@@ -1488,7 +1494,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   }
 
   // flatten instructions
-  private def flatten(inst: Inst): Inst = inst match {
+  protected def flatten(inst: Inst): Inst = inst match {
     case IIf(cond, thenInst, elseInst) =>
       IIf(cond, flatten(thenInst), flatten(elseInst))
     case IWhile(cond, body) =>
@@ -1507,11 +1513,11 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends TokenParsers 
   }
 
   // create pair of parsing results
-  private val pair = `~`
-  private def concat(a: List[Inst], b: List[Inst] ~ Expr): List[Inst] ~ Expr = b match {
+  protected val pair = `~`
+  protected def concat(a: List[Inst], b: List[Inst] ~ Expr): List[Inst] ~ Expr = b match {
     case bi ~ be => pair(a ++ bi, be)
   }
 
   // logging
-  private def log[T](parser: Parser[T]): Parser[T] = parser ^^ { t => println(t); t }
+  protected def log[T](parser: Parser[T]): Parser[T] = parser ^^ { t => println(t); t }
 }

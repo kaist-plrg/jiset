@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase.algorithm
 
 import java.io.File
+import kr.ac.kaist.ase.model.AlgoCompilerHelper
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.{ LINE_SEP, RESOURCE_DIR, VERSION }
 import org.jline.builtins.Completers.TreeCompleter
@@ -16,7 +17,10 @@ import scala.util.{ Try, Success, Failure }
 import TreeCompleter._
 
 // REPL
-object REPL {
+object REPL extends AlgoCompilerHelper {
+  val algoName: String = ""
+  val kind: AlgoKind = Method
+
   // algorithm files
   val algoDir = s"$RESOURCE_DIR/$VERSION/auto/algorithm"
 
@@ -65,19 +69,9 @@ object REPL {
 
     def prompt: String = CYAN + "repl-algo> " + RESET
 
-    def show(list: List[List[Token]]): Unit = {
+    def show(list: List[List[Token]], filter: Filter = ts => true): Unit = {
       list.foreach(l => println(l.mkString(" ")))
       printlnGreen(s"total: ${list.length}")
-    }
-
-    type Filter = (List[Token], List[String]) => Boolean
-
-    def checkSub: Filter = (_, _) match {
-      case (_, Nil) => true
-      case (Nil, _) => false
-      case (t :: ttl, ss @ s :: stl) =>
-        if (t.toString == s) checkSub(ttl, stl)
-        else checkSub(ttl, ss)
     }
 
     var keep: Boolean = true
@@ -106,14 +100,16 @@ object REPL {
               case Nil => printlnRed(s"no filter for `filter` command")
               case fname :: args => ((fname match {
                 // prefix filter
-                case "pre" => Left(_.map(_.toString) startsWith _)
+                case "pre" => Left(preFilter)
                 // sub-sequence filter
-                case "sub" => Left(checkSub)
+                case "sub" => Left(subFilter)
+                // parser filter
+                case "parser" => Left(parserFilter)
                 // unknown filter
                 case f => Right(f)
-              }): Either[Filter, String]) match {
+              }): Either[GenFilter, String]) match {
                 case Left(filter) =>
-                  show(tokenLists.filter(ts => filter(ts, args)))
+                  show(tokenLists, filter(args))
                 case Right(f) =>
                   printlnRed(s"unknown filter for `filter` command: $f")
               }
@@ -133,5 +129,32 @@ object REPL {
       case e: java.lang.RuntimeException => stopMessage(s"")
       case e: Throwable => stopMessage(s"ERROR: $e")
     }
+  }
+
+  // filters
+  type Filter = List[Token] => Boolean
+  type GenFilter = List[String] => Filter
+
+  // prefix filter generator
+  lazy val preFilter: GenFilter =
+    ss => ts => ts.map(_.toString) startsWith ss
+
+  // sub-sequence filter generator
+  lazy val subFilter: GenFilter = ss => ts => (ts, ss) match {
+    case (_, Nil) => true
+    case (Nil, _) => false
+    case (t :: ttl, ss @ s :: stl) =>
+      if (t.toString == s) subFilter(stl)(ttl)
+      else subFilter(ss)(ttl)
+  }
+
+  // parser filter generator
+  lazy val parserFilter: GenFilter = ss => ts => {
+    val p = getParser(ss)
+    parseAll(p, ts).successful
+  }
+  def getParser(ss: List[String]): Parser[Unit] = {
+    // TODO
+    stmt ^^^ { () }
   }
 }
