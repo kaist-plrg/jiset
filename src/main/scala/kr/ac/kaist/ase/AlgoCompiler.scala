@@ -448,6 +448,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
 
   lazy val expr: PackratParser[List[Inst] ~ Expr] = (
+    arithExpr |
     etcExpr |
     completionExpr |
     listExpr |
@@ -460,19 +461,12 @@ trait AlgoCompilerHelper extends TokenParsers {
     callExpr |
     typeExpr ^^ { pair(Nil, _) } |
     accessExpr |
-    refExpr |
-    parenExpr
-  ) ~ subExpr ^^ {
-      case (i1 ~ e1) ~ (i2 ~ f) => pair(i1 ++ i2, f(e1))
-    }
+    refExpr
+  )
 
-  lazy val parenExpr = "(" ~> expr <~ ")"
-
-  lazy val subExpr: PackratParser[List[Inst] ~ (Expr => Expr)] =
-    bop ~ expr ^^ {
-      case b ~ (i ~ r) => pair(i, (l: Expr) => EBOp(b, l, r))
-    } | success(pair(Nil, (x: Expr) => x))
-
+  lazy val arithExpr: PackratParser[List[Inst] ~ Expr] = expr ~ bop ~ expr ^^ {
+    case (i0 ~ l) ~ b ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(b, l, r))
+  } | "(" ~> expr <~ ")"
   lazy val bop: Parser[BOp] = (
     "×" ^^^ OMul |
     "/" ^^^ ODiv |

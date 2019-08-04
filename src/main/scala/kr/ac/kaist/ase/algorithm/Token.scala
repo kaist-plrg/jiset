@@ -39,12 +39,12 @@ object Token {
     def t(token: Token): Unit = token match {
       case (_: NormalToken) | (_: StepList) => sb.append(token).append(" ")
       case Next(_) => newline
+      case Out =>
       case In =>
         indent += TAB; newline
-      case _ => throw UnexpectedToken(token)
     }
     def ts(tokens: List[Token]): Unit = tokens match {
-      case Next(_) :: Out :: rest =>
+      case Out :: Next(_) :: rest =>
         indent -= TAB; ts(rest)
       case v :: rest =>
         t(v); ts(rest)
