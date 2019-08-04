@@ -70,7 +70,7 @@ object REPL extends AlgoCompilerHelper {
     def prompt: String = CYAN + "repl-algo> " + RESET
 
     def show(list: List[List[Token]], filter: Filter = ts => true): Unit = {
-      list.foreach(l => println(l.mkString(" ")))
+      list.foreach(ts => if (filter(ts)) println(ts.mkString(" ")))
       printlnGreen(s"total: ${list.length}")
     }
 
