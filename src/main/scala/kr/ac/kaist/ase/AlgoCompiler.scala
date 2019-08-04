@@ -34,6 +34,9 @@ trait AlgoCompilerHelper extends TokenParsers {
   // empty instruction
   lazy val emptyInst: Inst = ISeq(Nil)
 
+  // result type
+  type Result = Inst
+
   // list of statements
   lazy val stmts: PackratParser[List[Inst]] = rep(
     stmt <~ next |

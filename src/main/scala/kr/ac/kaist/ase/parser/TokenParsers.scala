@@ -2,6 +2,7 @@ package kr.ac.kaist.ase.parser
 
 import kr.ac.kaist.ase.LINE_SEP
 import kr.ac.kaist.ase.algorithm._
+import kr.ac.kaist.ase.core.Inst
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
 
@@ -178,7 +179,9 @@ trait TokenParsers extends PackratParsers {
   def rest: PackratParser[List[String]] = rep(token ^^ { _.toString })
   def step: PackratParser[List[String]] = rest <~ next
 
-  def failedToken: PackratParser[Token] = normal | in ~> rep(failedStep) <~ out ^^^ StepList(Nil)
+  type Result
+  def stmts: PackratParser[List[Result]]
+  def failedToken: PackratParser[Token] = normal | in ~> stmts <~ out ^^^ StepList(Nil)
   def failedStep: PackratParser[List[String]] = rep(failedToken) ~ next ^^ {
     case s ~ k => failed += k -> s; s.map(_.toString)
   }
