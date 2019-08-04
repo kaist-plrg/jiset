@@ -1,7 +1,7 @@
 package kr.ac.kaist.ase.algorithm
 
 import java.io.File
-import kr.ac.kaist.ase.model.AlgoCompilerHelper
+import kr.ac.kaist.ase.model.{ AlgoCompilerHelper, AlgoCompiler }
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.{ LINE_SEP, RESOURCE_DIR, VERSION }
 import org.jline.builtins.Completers.TreeCompleter
@@ -24,7 +24,7 @@ object REPL extends AlgoCompilerHelper {
   // algorithm files
   val algoDir = s"$RESOURCE_DIR/$VERSION/auto/algorithm"
 
-  def run: Unit = {
+  def run(onlyFailed: Boolean): Unit = {
     val builder: TerminalBuilder = TerminalBuilder.builder()
     val terminal: Terminal = builder.build()
     val completer: TreeCompleter = new TreeCompleter(
@@ -56,16 +56,28 @@ object REPL extends AlgoCompilerHelper {
       }
     }
 
-    val tokenLists: List[List[Token]] = (for {
+    val algos: List[Algorithm] = for {
       file <- shuffle(walkTree(new File(algoDir))).toList
       filename = file.getName
       if jsonFilter(filename)
-      algo = Algorithm(file.toString)
+    } yield Algorithm(file.toString)
+
+    lazy val allLists: List[List[Token]] = (for {
+      algo <- algos
       step <- algo.getSteps(Nil)
     } yield (List[Token]() /: step.tokens) {
       case (l, StepList(_)) => Out :: In :: l
       case (l, x) => x :: l
     }.reverse).sorted
+
+    lazy val failedLists: List[List[Token]] = (for {
+      algo <- algos
+      (_, failed) = AlgoCompiler("", algo).result
+      tokens <- failed.values
+    } yield tokens).sorted
+
+    lazy val tokenLists: List[List[Token]] = if (onlyFailed) failedLists else allLists
+    lazy val total = tokenLists.length
 
     def prompt: String = CYAN + "repl-algo> " + RESET
 
@@ -77,6 +89,9 @@ object REPL extends AlgoCompilerHelper {
       })
       printlnGreen(s"total: $count")
     }
+
+    printlnGreen("Loading token lists...")
+    printlnGreen(s"$total token lists loaded.")
 
     var keep: Boolean = true
     while (keep) try {
