@@ -18,14 +18,22 @@ to find correct modeling. Unlike their approaches, we provides specification tra
 testing for each primitive is unavailable so we cannot decide correct semantics automatically.
 
 % \begin{itemize}
-%  \item Automatic Model Generation from Documentation for Java API Functions (ICSE'16)~\cite{javadoc}
+%   \item Automatic Model Generation from Documentation for Java API Functions (ICSE'16)~\cite{javadoc}
 % \end{itemize}
 
 \subsection{Formal Semantics of JavaScript}
-Building formal semantics of JavaScript language is 
-\begin{itemize}
-  \item JsVert: \cite{javert}
-  \item KJS: A complete formal semantics of JavaScript (PLDI'15)~\cite{kjs}
-  \item The Essence of JavaScript (ECOOP'10)~\cite{lambdajs}
-  \item A Trusted Mechanised JavaScript Specification (POPL'14)~\cite{jscert}
-\end{itemize}
+Building formal semantics of language is important for program verification and static analysis. JavaScript is most widely-used language in
+web browser, but its complex behavior makes confusion to developer and program analysis designer. So there are many reseraches to define formal semantics of JavaScript and
+using it to formal verification or program analysis. \cite{lambdajs} define the core calculus of JavaScript, and express rest of the features as desugraing. Their method can
+work for subset of JavaScript, but their formalization is not directly mapped to specification document. So it requires deep understanding of current and upcoming specification,
+which needs lots of effort. \cite{kjs} and \cite{javert} defines formal semantics of JavaSciprt based on ECMAScript specification, and they manually convert from specification
+to formal languages. KJS mapped from ECMAScript 5 specification to K framework, which can be used in program verifiaction and analysis. Similarly, JaVerT coverts specification
+to their own language (called JSIL) to make further analysis. Compared to these approaches, we suggests to generate converter from specification to intermediate language, with
+convertion assistant and layered translation technique to minimize human effort and to apply for further update or even unconfirmed proposal of specification.
+
+% \begin{itemize}
+%   \item JaVerT: JavaScript verification toolchain (POPL'18)~\cite{javert}
+%   \item KJS: A complete formal semantics of JavaScript (PLDI'15)~\cite{kjs}
+%   \item The Essence of JavaScript (ECOOP'10)~\cite{lambdajs}
+%   \item A Trusted Mechanised JavaScript Specification (POPL'14)~\cite{jscert}
+% \end{itemize}
