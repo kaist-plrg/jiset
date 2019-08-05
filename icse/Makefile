@@ -1,6 +1,6 @@
-TEXSRC=	main.tex intro.tex overall.tex \
-				parser.tex compile.tex eval.tex \
-				related.tex conclusion.tex \
+TEXSRC=	main.tex intro.tex overview.tex \
+				parser.tex converter.tex framework.tex \
+				eval.tex related.tex conclusion.tex \
 				macros.tex ref.bib
 
 main.pdf: $(TEXSRC)

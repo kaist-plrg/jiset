@@ -1,53 +1,4 @@
-\section{Semantic generation}
-
-\subsection{Core language}
-실행 가능한 specification을 만들기 위한 langauge.
-algorithm들의 공통된 행동을 실행할 수 있게 잘 설계함
-ex) let X be ... => let X = ...
-
-\subsubsection{다른 rewriting system 또는 compiler와 다른 점}
-특징으로는 Parser에서 만들어진 AST를 하나의 값으로 들고 다니면서 관련 함수를 호출하거나 subAST를 가져올수 있게 만들어짐. 이는 Syntax function 실행을 위해선데 이후 initial state organization에서 설명 
-또한 ES specification에서 공통적으로 동작하는 복잡한 연산을 expression으로 지원함, 특히 문서에 covered by에 있는 것처럼 AST Value를 Goal symbol로 다시 parse해야 하는 경우도 있고, eval이나 Class creation 관련 함수에서처럼 string을 AST로 parse해야하는 경우도 있음. 그런 경우를 parse-syntax 를 넣어서 처리할 수 있게
-해줌.
-
-\subsection{semantic 컴파일하기 위해 하는 것 + specification 구조}
-기본적인 원칙 :
-\begin{itemize} 
-\item 자바스크립트로 알고리즘 이름이랑 파라미터, 스텝을 가져와서 코어의 글로벌 ID에 매치 시켜줌
-\item initial Heap을 생성해줌
-\end{itemize}
-매치를 시킨다는 뜻은 코어의 글로벌 ID에 코어 함수 형태로 알고리즘을 넣는 것임
-
-\subsection{함수의 의미 번역 (algorithm => Function)}
-Function은 parameter와 body로 나뉨
-\subsubsection{parameter extraction} : HTML에 써있음 + 여러 특별한 말들 (with parameter * )
-Builtin function의 경우 specification 내에서 implicit하게 전해지는 parameter들이 있는데, (thisValue, newTarget) 이것을
-core에서 모두 명시적으로 받게 (지금은 javascript 단에서) 자동으로 고쳐준다.
-
-\subsubsection{body extraction ( AlgoCompiler )} : 이부분이 Human resource 많이 들어감
-여기서 rule에 따라 step을 만들어줌
-나눌 수도 있을 것 같은데 지금은 일단 instruction, expression, condition, type, value, reference을 나타내는 position을 분리하고 거기에 맞춰서 case별로 parser를 짬
-근데 똑같은 의미도 여러 다른 말로 표현하기 떄문에 지금은 모든 경우를 하나씩 써놓음
-또 같은 말도 context에 따라 의미가 다른 경우가 있음 (Return할때), 지금은 알고리즘의 종류에만 dependent하므로 알고리즘에 flag를 둬서 구분
-
-간단하지 않은 알고리즘의 경우는 1) core 내에서 표현될 수 있는 경우 Function을 만들어 모델링하거나 
-2) 지원하지 않는 경우가 있다
-
-
-\begin{itemize}
-  \item Formal definition of Core language
-    \begin{itemize}
-      \item Syntax
-      \item Semantics
-    \end{itemize}
-  \item Abstract algorithms
-    \begin{itemize}
-      \item syntax-directed / internal method
-      \item Converted into Core
-    \end{itemize}
-\end{itemize}
-
-\section{ Building entire system to evaluate code }
+\section{Building entire system to evaluate code}
 
 In this section, we will demonstrate how our idea can be implemented to evaluate programming language. Although it is hard to generalize the process because the format of specification or 
 environment of the programming language is varying, We shows the possibility to build entire system for evaluating target language with minimal human effort by giving end-to-end example of ECMAScript langauge.
@@ -111,4 +62,35 @@ The most frequent example is Evaluation of the AST Value. every Evaluation algor
 For syntax-dependent algorithm, we insert converted functions in AST structure, and add special expression to call syntax-dependent algorithm which requires AST Value and algorithm name.
 We gather which AST can be applied to a function. Also, to use child node of AST, we passes child node of AST to function as argument.
 
+% \begin{itemize}
+%   \item \textbf{Global Algorithms} Global algorithms are possible to be accessed
+%     by any other algorithms. The top-level algorithm \( \code{RunJobs} \) is also global.
+%   \item \textbf{Type-dependent Algorithms} Several algorithms have different
+%     bodies dependent on types of their owner data. In ECMAScript specifications,
+%     there are two different data types; language types and specification types.
+%     The language types are explicitly used in JavaScript languages such as
+%     \( \code{Boolean}, \code{Number}, \code{String} \), and \( \code{Object} \).
+%     However, specification types are only used in specifications such as
+%     Lists, Records, and Lexical Environments. Among them, some data types
+%     have their own member algorithms. For example, language type \( \code{Object} \)
+%     has several internal methods described in abstract algorithms. It depends
+%     on 
+% 
+%     several data types have their own member algorithms. For example, 
+%     
+%     For example, the internal method
+%     \( \code{[[Call]]} \) has different semantics dependent on its owner object.
+%     Moreover, the owner objects are used in the body of algorithms as well.
+%     Thus, we extend the parameters to accept its owner object as an implicit argument.
+%   \item \textbf{Syntax-directed Algorithms} The semantics of each JavaScript syntax
+%     are written in 
+% \end{itemize}
 
+% \subsection{semantic 컴파일하기 위해 하는 것 + specification 구조}
+% 기본적인 원칙 :
+% \begin{itemize} 
+% \item 자바스크립트로 알고리즘 이름이랑 파라미터, 스텝을 가져와서 코어의 글로벌 ID에 매치 시켜줌
+% \item initial Heap을 생성해줌
+% \end{itemize}
+% 매치를 시킨다는 뜻은 코어의 글로벌 ID에 코어 함수 형태로 알고리즘을 넣는 것임
+% 
