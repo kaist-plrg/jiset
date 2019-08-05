@@ -1,5 +1,6 @@
 \section{Related Work}
 
+Our technique is closely related by these fields: Parser generation, Automatic model generation, and Formal semantics of JavaScript.
 \subsection{Parser Generation}
 \begin{itemize}
   \item Packrat parsing:: simple, powerful, lazy, linear time, functional pearl (ICFP'02)~\cite{packrat}
@@ -8,14 +9,31 @@
     % context-sensitive token이기에 미리 parsing을 한 token이 존재하지 않기 때문에 그 다음 token이 뭔지 알 수 없어서 prediction도 하지 못함
 \end{itemize}
 
-\subsection{Automatic Semantics Extraction}
-\begin{itemize}
-  \item Automatic Model Generation from Documentation for Java API Functions (ICSE'16)~\cite{javadoc}
-\end{itemize}
+\subsection{Automatic Model Generation}
+There is similiar problems in many fields. Not only langauge semantics, many specification is not constructed formally, so many researcheres are trying to
+extract formal semantics of target specification. To reduce manual efforts to get models of target system, there are few studies about automatic generation of
+formal semantics from specification. \cite{javadoc} is closely related work of ours, which uses javadoc comments of target API function with NLP techniques and various
+heuristic methods, to generate java code which correctly models target. They produces several candidate codes, and test their codes with actual implementation of API functions
+to find correct modeling. Unlike their approaches, we provides specification translation assistant to support future language update, and to provide correct meaning of specification, which also can applicable when
+testing for each primitive is unavailable so we cannot decide correct semantics automatically.
+
+% \begin{itemize}
+%   \item Automatic Model Generation from Documentation for Java API Functions (ICSE'16)~\cite{javadoc}
+% \end{itemize}
 
 \subsection{Formal Semantics of JavaScript}
-\begin{itemize}
-  \item KJS: A complete formal semantics of JavaScript (PLDI'15)~\cite{kjs}
-  \item The Essence of JavaScript (ECOOP'10)~\cite{lambdajs}
-  \item A Trusted Mechanised JavaScript Specification (POPL'14)~\cite{jscert}
-\end{itemize}
+Building formal semantics of language is important for program verification and static analysis. JavaScript is most widely-used language in
+web browser, but its complex behavior makes confusion to developer and program analysis designer. So there are many reseraches to define formal semantics of JavaScript and
+using it to formal verification or program analysis. \cite{lambdajs} define the core calculus of JavaScript, and express rest of the features as desugraing. Their method can
+work for subset of JavaScript, but their formalization is not directly mapped to specification document. So it requires deep understanding of current and upcoming specification,
+which needs lots of effort. \cite{kjs} and \cite{javert} defines formal semantics of JavaSciprt based on ECMAScript specification, and they manually convert from specification
+to formal languages. KJS mapped from ECMAScript 5 specification to K framework, which can be used in program verifiaction and analysis. Similarly, JaVerT coverts specification
+to their own language (called JSIL) to make further analysis. Compared to these approaches, we suggests to generate converter from specification to intermediate language, with
+convertion assistant and layered translation technique to minimize human effort and to apply for further update or even unconfirmed proposal of specification.
+
+% \begin{itemize}
+%   \item JaVerT: JavaScript verification toolchain (POPL'18)~\cite{javert}
+%   \item KJS: A complete formal semantics of JavaScript (PLDI'15)~\cite{kjs}
+%   \item The Essence of JavaScript (ECOOP'10)~\cite{lambdajs}
+%   \item A Trusted Mechanised JavaScript Specification (POPL'14)~\cite{jscert}
+% \end{itemize}
