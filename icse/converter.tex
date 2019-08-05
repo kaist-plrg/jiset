@@ -1,38 +1,38 @@
-\section{Algorithm Converter}
+\section{Algorithm Compiler}
 
-There are several efforts to extract formal ECMAScript semantics for static analysis
-or verifications of JavaScript programs~\cite{???}. However, existing researches
-manually extract the semantics and only target specific version of
-EMCAScript specifications, mostly ECMAScript 5.1.
-It is the critical problem to treat real-world JavaScript programs
-because ECMAScript specifications are annually updated after 2015.
+In this section, we propose a compiler from abstract algorithms
+into our core language for ECMAScript specifications.
+We first convert a given abstract algorithm into a list of
+tokens based on HTML tags. Then, we 
 
-To alleviate such problems, we propose to automatically extract semantics from
-ECMAScript specifications. Their semantics are provided as \textit{abstract algorithms}
-written in structural natural langauges. Our main idea is to convert such algorithms
-into our small core languages. The algorithm converter consits of multiple rules
-for each layer. Moreover, we provide \textit{rule generation assistant}.
-It diagnoses root causes of failed conversions and suggests
-that which layer of rules should be extended for them.
+use \textit{compiler assistant}
+to generate compiler rules.
+
+
+o
+In this section, we propose our core languages for ECMAScript
+and explain how to convert abstract algorithms into the core programs.
+We first explain the pre-processing to extract abstract algorithms
+as lists of tagged tokens from ECMAScript specifications written in HTML.
+Then, we introduce main features of the core languages and
+
 
 \subsection{Abstract Algorithms}
 
 Abstract algorithms in ECMAScript specifications are written in structural
 natural languages. For example, Figure~\ref{fig:to-primitive} describes
 the \( \code{ToPrimitive} \) abstract algorithm. It takes two parameters
-\( \code{input} \) and \( \code{PreferredType} \) and evaluates its body
-with given arguments. Its body consits of multiple steps and each step could
-have multiple sub-steps as well. While it is not easy to infer exact meaning
-of natural languages, fortunately, there is additional HTML tags are attached
+\( \code{input} \) and \( \code{PreferredType} \). The body consits of
+multiple steps and each step might have multiple sub-steps as well.
+While it is not easy to infer exact meaning of natural languages,
+fortunately, there is additional HTML tags are attached
 into several tokens in abstract algorithms. For example, all the paramters
-and newly defined local identifiers have \( \code{<var>} \) tags.
-We utilize such information to construct more precise semantics.
-The following table describes the list of HTML tags we utilize
-and their meaning:
+and local identifiers have \( \code{<var>} \) tags. We utilize such information
+to construct more precise semantics. The following table describes
+the list of HTML tags we utilize and their meaning:
 
 \[
   \begin{array}{c|l}
-
     \text{tags} & \text{descriptions}\\\hline\hline
     \code{<code>} & \text{ECMAScript codes}\\\hline
     \code{<emu-const>} & \text{constant values}\\\hline
@@ -48,7 +48,12 @@ and their meaning:
 
 \subsection{Layered Rule-based Conversions}
 
-We convert abstract algorithms 
+We use multi-layer rules to convert abstract algorithms.
+Each layer of rules denotes same level of expressiveness.
+We define six different layers; statements, expressions,
+conditions, types, values, references.
+
+\paragraph{Statements} 
 
 \subsubsection{Layered Rules}
 
@@ -141,7 +146,8 @@ core에서 모두 명시적으로 받게 (지금은 javascript 단에서) 자동
   return input
 }
   \end{lstlisting}
-  \caption{\( \code{ToPrimitive} \) abstract algorithms}
+  \caption{\( \code{ToPrimitive} \) abstract algorithms
+  and its generated core program.}
   \label{fig:to-primitive}
 \end{figure}
 
