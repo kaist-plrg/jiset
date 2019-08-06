@@ -1,5 +1,5 @@
 TEXSRC=	main.tex intro.tex overview.tex \
-				parser.tex converter.tex framework.tex \
+				parser.tex compiler.tex framework.tex \
 				eval.tex related.tex conclusion.tex \
 				macros.tex ref.bib
 
