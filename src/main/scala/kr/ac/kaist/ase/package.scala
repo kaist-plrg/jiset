@@ -31,7 +31,7 @@ package object ase {
   val CUR_DIR = System.getProperty("user.dir")
 
   // ECMAScript model
-  val VERSION = "es2018"
+  val VERSION = "es2020"
 
   // Debugging mode
   val DEBUG_SEMI_INSERT: Boolean = false
