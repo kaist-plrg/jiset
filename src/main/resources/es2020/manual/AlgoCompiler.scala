@@ -402,7 +402,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       }
     } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
       parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
-    } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27. all of those internal slots are initialized to" ~ value ^^ {
+    } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27." ^^ {
       case x => parseInst(s"""{
         let $x = (new ECMAScriptFunctionObject("SubMap" -> (new SubMap())))
         $x.Call = undefined
@@ -953,7 +953,7 @@ trait AlgoCompilerHelper extends TokenParsers {
           case "TemplateMiddle" => PTRVMiddle
           case "TemplateTail" => PTRVTail
         })
-      } | (("the number whose value is MV of" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
+      } | (("the Number value represented by" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
         case x => EParseString(ERef(RefId(Id(x))), PNum)
       } | "the result of applying bitwise complement to" ~> name <~ rest ^^ {
         case x => EUOp(OBNot, ERef(RefId(Id(x))))
