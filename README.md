@@ -102,3 +102,12 @@ sbt generateModel
   - Dynamic slicing?
   - Error reporting / 정리
 - Parser Related Work 
+
+
+# Reference
+
+git submodule reference at the time of Jul 20, 2019
+
+[ECMA262](https://github.com/tc39/ecma262/tree/a68d1296f156ff73075fde36aebd643de4f8ebde)
+
+[test262](https://github.com/tc39/test262/tree/00ef6331a62b06b02badfc7152d7f740ea31f4aa)
