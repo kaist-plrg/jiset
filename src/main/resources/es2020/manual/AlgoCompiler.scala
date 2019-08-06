@@ -732,7 +732,9 @@ trait AlgoCompilerHelper extends TokenParsers {
   lazy val etcExpr: PackratParser[List[Inst] ~ Expr] =
     "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
-    } | "the String value consisting of the single code unit" ~> name ^^ {
+      } | "the source text matched by" ~> name ^^ {
+        case x => pair(Nil, EGetSyntax(ERef(RefId(Id(x)))))
+      } |"the String value consisting of the single code unit" ~> name ^^ {
       case x => pair(Nil, parseExpr(x))
     } | "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> name <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
       case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
