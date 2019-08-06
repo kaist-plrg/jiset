@@ -61,6 +61,8 @@ libraryDependencies ++= Seq(
 
 commands += Command.command("generateModel") { state =>
     "compile" ::
+    s"run preprocess" ::
+    "compile" ::
     s"run gen-model" ::
     "compile" ::
     state
