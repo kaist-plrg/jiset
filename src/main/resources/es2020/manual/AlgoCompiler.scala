@@ -1033,6 +1033,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: PackratParser[List[Inst] ~ Expr] = (
     (("the code matched by" ~> name <~ "is strict mode code") |
+      "the source text matching" ~> name <~ "is strict mode code" |
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
       "the code matching the syntactic production that is being evaluated is contained in strict mode code" |
       "the directive prologue of statementList contains a use strict directive") ^^^ {
