@@ -69,6 +69,7 @@ object ASE {
     CmdEvalCore,
     CmdREPLCore,
     CmdREPLAlgo,
+    CmdPreProcess,
     CmdGenModel,
     CmdFilterMeta
   )
@@ -90,6 +91,7 @@ object ASE {
     REPLCore,
     REPLAlgo,
     GenModel,
+    PreProcess,
     FilterMeta
   )
 

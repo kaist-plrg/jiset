@@ -90,5 +90,8 @@ case object CmdREPLAlgo extends CommandObj("repl-algo", CmdBase >> REPLAlgo)
 // gen-model
 case object CmdGenModel extends CommandObj("gen-model", CmdBase >> GenModel)
 
+// preprocess
+case object CmdPreProcess extends CommandObj("preprocess", CmdBase >> PreProcess)
+
 // help
 case object CmdHelp extends CommandObj("help", CmdBase >> Help)

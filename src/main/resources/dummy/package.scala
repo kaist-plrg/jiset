@@ -1,8 +1,10 @@
 package kr.ac.kaist.ase
 
-import kr.ac.kaist.ase.parser.ESParsers
+import kr.ac.kaist.ase.parser.{ ESParsers, TokenParsers }
 import kr.ac.kaist.ase.error.ModelNotYetGenerated
 import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.core.Parser._
+import kr.ac.kaist.ase.algorithm.{ AlgoKind, Algorithm, Token }
 import scala.collection.immutable.{ Set => SSet }
 
 package object model {
@@ -35,7 +37,7 @@ package object model {
     def getElems(given: String): List[AST] = throw ModelNotYetGenerated
     val list: List[(String, Value)] = throw ModelNotYetGenerated
     def semantics(name: String): Option[(Func, List[Value])] = throw ModelNotYetGenerated
-  def exists(kindFilter: String => Boolean): Boolean = throw ModelNotYetGenerated
+    def exists(kindFilter: String => Boolean): Boolean = throw ModelNotYetGenerated
     def subs(name: String): Option[Value] = throw ModelNotYetGenerated
   }
   trait Script extends AST
@@ -49,4 +51,18 @@ package object model {
     val long: List[String] = throw ModelNotYetGenerated
     val failed: List[String] = throw ModelNotYetGenerated
   }
+
+  trait AlgoCompilerHelper extends TokenParsers {
+    type Result = Inst
+    val algoName: String
+    val kind: AlgoKind
+    val stmt: PackratParser[Inst] = throw ModelNotYetGenerated
+    val stmts: PackratParser[List[Inst]] = throw ModelNotYetGenerated
+
+  }
+  case class AlgoCompiler(algoName: String, algo: Algorithm) extends AlgoCompilerHelper {
+    val kind = algo.kind
+    val result: (Func, Map[Int, List[Token]]) = throw ModelNotYetGenerated
+  }
+
 }
