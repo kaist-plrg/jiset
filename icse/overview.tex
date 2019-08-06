@@ -1,12 +1,30 @@
 \section{Overview}
 
-% TODO
-% \begin{figure}
-%   \centering
-%   \includegraphics[height=6em]{img/???}
-%   \caption{}
-%   \label{fig:array-literal}
-% \end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[height=18em]{img/to_primitive.png}
+  \begin{lstlisting}[style=myCorestyle]
+"ToPrimitive" (input, PreferredType) => {
+  if (= (Type input) "Object") {
+    if (= PreferredType absent) let hint = "default"
+    else if (= PreferredType "String") let hint = "string"
+    else let hint = "number"
+    let exoticToPrim = ? (GetMethod input SYMBOL_toPrimitive)
+    if (! (= exoticToPrim undefined)) {
+      let result = ? (Call exoticToPrim input (new [hint]))
+      if (! (= (Type result) "Object")) return result
+      return (Throw INTRINSIC_TypeErrorPrototype)
+    }
+    if (= hint "default") hint = "number"
+    return ? (OrdinaryToPrimitive input hint)
+  }
+  return input
+}
+  \end{lstlisting}
+  \caption{\( \code{ToPrimitive} \) abstract algorithms
+  and its generated core program.}
+  \label{fig:to-primitive}
+\end{figure}
 
 \begin{itemize}
   \item Sytnax: automatically generate parser from ES-BNF

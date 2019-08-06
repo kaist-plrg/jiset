@@ -1,156 +1,139 @@
 \section{Algorithm Compiler}
 
-In this section, we propose a compiler from abstract algorithms
-into our core language for ECMAScript specifications.
-We first convert a given abstract algorithm into a list of
-tokens based on HTML tags. Then, we 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{img/algo_compiler.png}
+  \caption{Overall structure of the algorithm compiler.}
+  \label{fig:algo-compiler}
+\end{figure}
 
-use \textit{compiler assistant}
-to generate compiler rules.
+In this section, we propose the \textit{algorithm compiler}
+that compiles abstract algorithms into \( \ires \) functions
+and its overall structure is described in Figure~\ref{fig:algo-compiler}.
+Before compiling abstract algorithms,
+the tokenizer first tokenizes each abstract algorithm into
+a list of tagged tokens. Then, the token parser constructs
+syntactic parse tree of the given token list.
+Finally, the \( \ires \) function generator constructs the coressponding
+\( \ires \) function from the given parse tree.
+The parser and the generator is dependent on conversion rules
+and we define the general conversion rules for abstract algorithms in
+ECMAScript specifications. Like Coq, a proof assistant, we also provide
+the \textit{rule generation assistant} to make easy write conversion rules.
+It diagnoses root causes of failed parsing tokens
+and suggests new conversion rules based on
+statistical analysis of algorithm steps that failed to be parsed.
 
+\subsection{Tokenizer}
 
-o
-In this section, we propose our core languages for ECMAScript
-and explain how to convert abstract algorithms into the core programs.
-We first explain the pre-processing to extract abstract algorithms
-as lists of tagged tokens from ECMAScript specifications written in HTML.
-Then, we introduce main features of the core languages and
-
-
-\subsection{Abstract Algorithms}
-
-Abstract algorithms in ECMAScript specifications are written in structural
-natural languages. For example, Figure~\ref{fig:to-primitive} describes
-the \( \code{ToPrimitive} \) abstract algorithm. It takes two parameters
-\( \code{input} \) and \( \code{PreferredType} \). The body consits of
-multiple steps and each step might have multiple sub-steps as well.
-While it is not easy to infer exact meaning of natural languages,
-fortunately, there is additional HTML tags are attached
-into several tokens in abstract algorithms. For example, all the paramters
-and local identifiers have \( \code{<var>} \) tags. We utilize such information
-to construct more precise semantics. The following table describes
-the list of HTML tags we utilize and their meaning:
-
+Abstract algorithms in ECMAScript specifications are written in structured
+natural languages in HTML files. An algorithm consists of ordered steps
+and it might contain sub-steps as well. For example,
+the \( \code{ToPrimitive} \) algorithm in Figure~\ref{fig:to-primitive}
+has three steps and second step has seven sub-steps.
+Moreover, the tokens of each step has its own HTML tag and each tag
+has the following meaning:
 \[
   \begin{array}{c|l}
-    \text{tags} & \text{descriptions}\\\hline\hline
-    \code{<code>} & \text{ECMAScript codes}\\\hline
-    \code{<emu-const>} & \text{constant values}\\\hline
+    \text{HTML tags} & \text{meanings}\\\hline\hline
+    \code{<var>} & \text{variables}\\\hline
     \code{<emu-grammar>} & \text{productions}\\\hline
     \code{<emu-nt>} & \text{non-terminal syntax}\\\hline
+    \code{<code>} & \text{ECMAScript codes}\\\hline
+    \code{<emu-const>} & \text{constant values}\\\hline
     \code{<emu-val>} & \text{values}\\\hline
     \code{<ol>} & \text{ordered sub-steps}\\\hline
-    \code{<sup>} & \text{superscripts}\\\hline
     \code{<ul>} & \text{unordered sub-steps}\\\hline
-    \code{<var>} & \text{variables}\\\hline
+    \code{<sup>} & \text{superscripts}\\\hline
+    \text{otheriwse} & \text{simple texts}\\\hline
+  \end{array}
+\]
+We try to keep the tag information for each token to generate more
+precise conversion rules. For example, if and only if a token has a tag
+\( \code{<var>} \), it is a parameter or a local variable.
+Thus, it is possible to construct a conversion rule precisly discriminates
+identifiers and other components.
+
+The tokenizer first recognizes the overall structures of steps.
+Then, it divides each step into sequence of tagged tokens.
+If an HTML element has a explicit tag, it is converted into a single token
+with the tag. Otherwise, it is splitted into multiple tokens and each token
+should be a sequence of alphanumeric characters or a single
+non-alphanumeric character. For example, in the \( \code{ToPrimitive} \)algorithm,
+\( \textbf{\code{"default"}} \) is a single token with the tag \( \code{<code>} \)
+and \( \code{@@toPrimitive} \) is splitted into three text tokens
+\( \code{@} \), \( \code{@} \), and \( \code{toPrimitive} \).
+
+For the linear structures, the tokenizer flatten the structured steps into
+a single list. Some conversion rules should handle multiple steps such as
+the conditional statements (if-then-else). Thus, we decide to break down
+structured algorithms using three special tokens;
+\( \tend \) denotes the end of a single step,
+\( \tin \) and \( \tout \) the start and the end of nested steps, respectively.
+For example, the \( \code{ToPrimitive} \) algorithm is tokenized as follows.
+\[
+  \begin{array}{l}
+    \code{Assert} \cdots \tend\\
+    \code{If} \cdots \tin \code{If} \cdots \tend
+    \cdots \code{Return} \cdots \tend \tout \tend\\
+    \code{Return} \cdots \tend\\
   \end{array}
 \]
 
-\subsection{Layered Rule-based Conversions}
+\subsection{Token Parser}
 
-We use multi-layer rules to convert abstract algorithms.
-Each layer of rules denotes same level of expressiveness.
-We define six different layers; statements, expressions,
-conditions, types, values, references.
+The token parser parses a given list of tokens into a syntactic parse tree.
+It depends on the given \textit{conversion rules} that consists of
+two parts parsing rules and mapping from parsing rules into corresponding
+\( \ires \) components.
+A parsing rule consists of basic token matchers and other parsing rules
+including itself. For example, the following parsing rule is simplifed version for
+sub-step \( i \) in the \( \code{ToPrimitive} \) algorithm.
+\begin{lstlisting}[style=myScalastyle]
+// statements
+val Stmt = "Let" ~ varT ~ "be" ~ Expr ~ "."
+// expressions
+val Expr = (
+  // identifiers
+  varT |
+  // return if abrupt
+  "?" ~ Expr |
+  // function calls
+  textT ~ "(" ~ repsep(varT, ",") ~ ")" |
+  // lists
+  "<<" ~ repsep(Expr, ",") ~ ">>"
+)
+\end{lstlisting}
 
-\paragraph{Statements} 
+Each parsing rule is written in extended Scala parser combinators.
+We modify the meaning of altenative composition operator ( \( | \) ) to collect
+all longest matched results. If the parser detects that a step cannot be
+parsed with the given parsing rules. It reports that a step is not possible
+to be parsed under the given rules into the rule generation assistant.
+Moreover, even though the parser could parse a step, it will be also reported
+if it could be parsed in not a single but multiple ways.
+Each string literal is a token matcher for tokens without any tags and checks
+that the token has same string value with the sring literal.
+The \( \code{varT} \) and \( \code{textT} \) is also token matchers
+for token with the tag \( \code{<var>} \) and no tags.
+The \( \code{Step} \) and \( \code{Expr} \) are user-defined parsing rules
+defined with our extended parser combinators.
+Morevoer, it supports all helpers functions defined in Scala parser combinators.
+For example, the helper function \( \code{repsep(p, q)} \) generates a new
+parsing rule that denotes zero or more repetitions of the parsing rule \( \code{p} \)
+using another parsing rule \( \code{q} \) as separators.
+Finally, the token parser with the above rules parses sub-step \( i \) in the
+\( \code{ToPrimitive} \) into the following syntactic parse tree:
+\includegraphics[width=0.5\textwidth]{img/parse_tree.png}
 
-\subsubsection{Layered Rules}
+\subsection{\( \ires \) Function Generator}
 
-% 각각의 layer를 어떻게 나누었나를 설명
-% 가장 많이 match하는 경우? 중복되는 경우?
-% 예시 보여주기
+The \( \ires \) function generator takes a parse tree from the token parser
+and generates an \( \ires \) function. The given conversion rules describe
+the mapping from each parsing rule into corresponding \( \ires \) components.
+The \( \ires \) is an imperative style programming languages that we proposed
+in order to represent each step of abstract algorithms in ECMAScript specifications.
 
-\subsubsection{Core Language for ECMAScript}
-
-% core의 특성을 정리해서 보여주기 formal?
-% data와 type을 어떤 식으로 다루는 지 알려주기
-% 예시 보여주기
+% IR_ES 더 설명하기
 
 \subsection{Rule Generation Assistant}
-
-% 각 module들 설명하기
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\inred{
-\subsection{Core language}
-실행 가능한 specification을 만들기 위한 langauge.
-algorithm들의 공통된 행동을 실행할 수 있게 잘 설계함
-ex) let X be ... => let X = ...
-
-\subsubsection{다른 rewriting system 또는 compiler와 다른 점}
-특징으로는 Parser에서 만들어진 AST를 하나의 값으로 들고 다니면서 관련 함수를 호출하거나 subAST를 가져올수 있게 만들어짐. 이는 Syntax function 실행을 위해선데 이후 initial state organization에서 설명 
-또한 ES specification에서 공통적으로 동작하는 복잡한 연산을 expression으로 지원함, 특히 문서에 covered by에 있는 것처럼 AST Value를 Goal symbol로 다시 parse해야 하는 경우도 있고, eval이나 Class creation 관련 함수에서처럼 string을 AST로 parse해야하는 경우도 있음. 그런 경우를 parse-syntax 를 넣어서 처리할 수 있게
-해줌.
-
-\subsection{함수의 의미 번역 (algorithm => Function)}
-Function은 parameter와 body로 나뉨
-\subsubsection{parameter extraction} : HTML에 써있음 + 여러 특별한 말들 (with parameter * )
-Builtin function의 경우 specification 내에서 implicit하게 전해지는 parameter들이 있는데, (thisValue, newTarget) 이것을
-core에서 모두 명시적으로 받게 (지금은 javascript 단에서) 자동으로 고쳐준다.
-
-\subsubsection{body extraction ( AlgoCompiler )} : 이부분이 Human resource 많이 들어감
-여기서 rule에 따라 step을 만들어줌
-나눌 수도 있을 것 같은데 지금은 일단 instruction, expression, condition, type, value, reference을 나타내는 position을 분리하고 거기에 맞춰서 case별로 parser를 짬
-근데 똑같은 의미도 여러 다른 말로 표현하기 떄문에 지금은 모든 경우를 하나씩 써놓음
-또 같은 말도 context에 따라 의미가 다른 경우가 있음 (Return할때), 지금은 알고리즘의 종류에만 dependent하므로 알고리즘에 flag를 둬서 구분
-
-간단하지 않은 알고리즘의 경우는 1) core 내에서 표현될 수 있는 경우 Function을 만들어 모델링하거나 
-2) 지원하지 않는 경우가 있다
-
-
-\begin{itemize}
-  \item Formal definition of Core language
-    \begin{itemize}
-      \item Syntax
-      \item Semantics
-    \end{itemize}
-  \item Abstract algorithms
-    \begin{itemize}
-      \item syntax-directed / internal method
-      \item Converted into Core
-    \end{itemize}
-\end{itemize}
-}
-
-\begin{figure}
-  \centering
-  \includegraphics[height=18em]{img/to_primitive.png}
-  \begin{lstlisting}[style=myCorestyle]
-"ToPrimitive" (input, PreferredType) => {
-  if (= (Type input) "Object") {
-    if (= PreferredType absent) let hint = "default"
-    else if (= PreferredType "String") let hint = "string"
-    else let hint = "number"
-    let exoticToPrim = ? (GetMethod input SYMBOL_toPrimitive)
-    if (! (= exoticToPrim undefined)) {
-      let result = ? (Call exoticToPrim input (new [hint]))
-      if (! (= (Type result) "Object")) return result
-      return (Throw INTRINSIC_TypeErrorPrototype)
-    }
-    if (= hint "default") hint = "number"
-    return ? (OrdinaryToPrimitive input hint)
-  }
-  return input
-}
-  \end{lstlisting}
-  \caption{\( \code{ToPrimitive} \) abstract algorithms
-  and its generated core program.}
-  \label{fig:to-primitive}
-\end{figure}
-
-% HTML tag based token / structure 그대로 살림
-% Parameter를 뽑는 방법들
-% Context dependent한 return과 함수가 아닌 macro에 해당하는 returnifabrupt등을 설명
