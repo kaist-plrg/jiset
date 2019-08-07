@@ -128,6 +128,8 @@ object Beautifier {
         walk("app "); walk(id); walk(" = ("); walk(fexpr); walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
       case IAccess(id, bexpr, expr) =>
         walk("access "); walk(id); walk(" = ("); walk(bexpr); walk(" "); walk(expr); walk(")")
+      case IWithCont(id, params, inst) =>
+        walk("withcont "); walk(id); walk(" ("); walkListSep[Id](params, ", ", walk); walk(") ="); walk(inst)
     }
 
     // expressions
@@ -154,6 +156,11 @@ object Beautifier {
         walk("("); walkListSep[Id](params, ", ", walk);
         walkOpt[Id](varparam, (id: Id) => if (params.length == 0) { walk("..."); walk(id); } else { walk(", ..."); walk(id) });
         walk(") => ")
+        if (detail) walk(body)
+        else walk("...")
+      case ECont(params, body) =>
+        walk("("); walkListSep[Id](params, ", ", walk);
+        walk(") [=>] ")
         if (detail) walk(body)
         else walk("...")
       case EUOp(uop, expr) =>
@@ -299,6 +306,7 @@ object Beautifier {
         walk("ASTMethod("); walk(func); walk(", ")
         walkMap[Id, Value](locals, walk, walk); walk(")")
       case func: Func => walk(func)
+      case cont: Cont => walk(cont)
       case Num(double) => walk(s"$double")
       case INum(long) => walk(s"${long}i")
       case Str(str) => walk(s""""$str"""")
@@ -320,6 +328,13 @@ object Beautifier {
         walk("\""); walk(name); walk("\" ("); walkListSep[Id](params, ", ", walk)
         walkOpt[Id](varparam, (id: Id) => if (params.length == 0) { walk("..."); walk(id); } else { walk(", ..."); walk(id) })
         walk(") => "); walk(body)
+    }
+
+    // continuation
+    override def walk(cont: Cont): Unit = cont match {
+      case Cont(params, body, context, ctxStack) =>
+        walk("\""); walk(context.name); walk("("); walkListSep[Id](params, ", ", walk)
+        walk(") [=>] "); walk(body)
     }
 
     // AST values

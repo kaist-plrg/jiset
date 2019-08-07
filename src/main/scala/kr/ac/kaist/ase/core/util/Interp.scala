@@ -133,6 +133,17 @@ class Interp {
             val updatedCtx = s1.context.copy(retId = id)
             val newCtx = Context(name = fname, insts = List(body), locals = locals)
             s1.copy(context = newCtx, ctxStack = updatedCtx :: s1.ctxStack)
+          case Cont(params, body, context, ctxStack) =>
+            val (locals0, s1, restArg) = ((Map[Id, Value](), s0, args) /: params) {
+              case ((map, st, arg :: rest), param) =>
+                val (av, s0) = interp(arg)(st)
+                (map + (param -> av), s0, rest)
+              case (triple, _) => triple
+            }
+
+            val updatedCtx = context.copy(insts = List(body), locals = context.locals ++ locals0)
+            s1.copy(context = updatedCtx, ctxStack = ctxStack)
+
           case v => error(s"not a function: $v")
         }
       case IAccess(id, bexpr, expr) =>
@@ -181,6 +192,10 @@ class Interp {
           }
           case v => error(s"not an address: $v")
         }
+      case IWithCont(id, params, body) => {
+        val s0 = st.define(id, Cont(params, ISeq(st.context.insts), st.context, st.ctxStack))
+        s0.copy(context = s0.context.copy(insts = List(body)))
+      }
     }
   }
 
@@ -232,6 +247,8 @@ class Interp {
       }
     case EFunc(params, varparam, body) =>
       (Func("<empty>", params, varparam, body), st)
+    case ECont(params, body) =>
+      (Cont(params, body, st.context, st.ctxStack), st)
     case EUOp(uop, expr) =>
       val (v, s0) = interp(expr, true)(st)
       (interp(uop)(v), s0)
@@ -257,6 +274,7 @@ class Interp {
         case Null => "Null"
         case Absent => "Absent"
         case Func(_, _, _, _) => "Function"
+        case Cont(_, _, _, _) => "Continuation"
         case ASTVal(_) => "AST"
         case ASTMethod(_, _) => "ASTMethod"
       }), s0)

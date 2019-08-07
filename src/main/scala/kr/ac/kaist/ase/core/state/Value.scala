@@ -15,6 +15,7 @@ case class Func(name: String, params: List[Id], varparam: Option[Id], body: Inst
   override def toString: String = s"""Func("$name", $params, $varparam, $body)"""
 }
 
+case class Cont(params: List[Id], body: Inst, context: Context, ctxStack: List[Context]) extends Value
 // CORE Constants
 sealed trait Const extends Value
 case class Num(double: Double) extends Const {
