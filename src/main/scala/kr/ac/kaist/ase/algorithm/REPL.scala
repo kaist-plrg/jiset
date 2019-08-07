@@ -30,7 +30,7 @@ object REPL extends AlgoCompilerHelper {
     val completer: TreeCompleter = new TreeCompleter(
       node("all"),
       node("get-first"),
-      node("filter")
+      node("filter", node("pre"), node("sub"), node("parser"))
     )
     val reader: LineReader = LineReaderBuilder.builder()
       .terminal(terminal)

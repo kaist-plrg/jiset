@@ -17,6 +17,7 @@ object BaseGlobal {
     "ThrowCompletion" -> ThrowCompletion.func,
     "IsDuplicate" -> IsDuplicate.func,
     "HostEnsureCanCompileStrings" -> HostEnsureCanCompileStrings.func,
+    "HostHasSourceTextAvailable" -> HostHasSourceTextAvailable.func,
     "GetArgument" -> GetArgument.func,
     "GetTypeOf" -> GetTypeOf.func,
     "IsArrayIndex" -> IsArrayIndex.func,
