@@ -128,12 +128,83 @@ Finally, the token parser with the above rules parses sub-step \( i \) in the
 
 \subsection{\( \ires \) Function Generator}
 
-The \( \ires \) function generator takes a parse tree from the token parser
-and generates an \( \ires \) function. The given conversion rules describe
-the mapping from each parsing rule into corresponding \( \ires \) components.
-The \( \ires \) is an imperative style programming languages that we proposed
-in order to represent each step of abstract algorithms in ECMAScript specifications.
+We define \( \ires \) language to give semantics into syntactic parse tree of
+abstract algorithm steps. It has the following language features:
 
-% IR_ES 더 설명하기
+\begin{itemize}
+\item \textbf{Dynamic Typing} We decide to use dynamic typing for \( \ires \)
+because each variables in abstract algorithms are not statically typed.
+Thus, variables do not have its own static types while each value of \( \ires \)
+has its dynamic type.
+
+\item \textbf{Imparative Style} \( \ires \) represents algorithm steps
+as statements. Each statement changes the current state
+that consists of environments and a heap.
+
+\item \textbf{Higher-order Functions with Restricted Scopes} \( \ires \) supports
+lambda functions as values but it has only restricted scopes. In each function,
+only global variables, parameter, and newly defined local variables are accessible.
+It means that the function closure does not capture the the current environemnt.
+We use such restricted scopes becuase it is enough to represent abstract algorithms.
+
+\item \textbf{Primitive Values} \( \ires \) supports ECMAScript primitive values except
+the symbols that is newly introduced after ECMAScript 6. Thus, only five ECMAScript primitives
+are defined in \( \ires \); numbers, strings, booleans, undefined, and null.
+Moreover, \( \ires \) also supports the unique \( \code{absent} \) value to represent
+the absence of parameters. For example, the second parameter \( \code{PreferredType} \)
+of \( \code{ToPrimitive} \) algorithm in Figure~\ref{fig:to-primitive} might be
+not present in some function calls. Then, the parameter has the \( \code{absent} \) value
+to represent its absence.
+
+\item \textbf{Abstract Data Types} \( \ires \) only supports three abstract data types;
+\( \code{Record} \) for mapping from some values into other value,
+\( \code{List} \) for sequenital data types,
+and \( \code{Singletone} \) for singleton data types.
+They are stored in corresponding addresses in the heap structure.
+For example, ECMAScript environment records are represented as \( \code{Record} \) data types
+from String values for identifier names into addresses.
+The addresses point to other \( \code{Record} \) data types that represent ECMAScript bindings.
+We treat a ECMAScript constants such as \( \code{empty} \) and primitive symbols as singleton
+data types in \( \ires \).
+\end{itemize}
+
+To generate the corresponding \( \ires \) function from syntactic parse tree,
+we describe the mapping from each parsing rule into the corresponding \( \ires \) components.
+For example, we describe the following mapping for the previous example parsing rules:
+\begin{lstlisting}[style=myScalastyle]
+// statements
+val Stmt = "Let" ~ varT ~ "be" ~ Expr ~ "." ^^ { case _ ~ x ~ _ ~ y => ESLet(x, y) }
+// expressions
+val Expr = (
+  // identifiers
+  varT |
+  // return if abrupt
+  "?" ~ Expr ^^ { _ ~ e => ESReturnIfAbrupt(e) } |
+  // function calls
+  textT ~ "(" ~ repsep(varT, ",") ~ ")" ^^ { case x ~ _ ~ y ~ _ => ESCall(x, y) } |
+  // lists
+  "<<" ~ repsep(Expr, ",") ~ ">>" ^^ { case _ ~ x ~ _ => ESList(e) }
+)
+\end{lstlisting}
+Finally, sub-step \( i \) in the \( \code{ToPrimitive} \) is converted
+into the following instructions:
+\begin{lstlisting}[style=myCorestyle]
+let result = ? (Call exoticToPrim input (new [hint]))
+\end{lstlisting}
 
 \subsection{Rule Generation Assistant}
+
+To make easy write conversion rules, we support \textit{rule generation assistant}.
+It consists of several helper functions to show the specific statistics of
+the not yet convertable abstract algorithm steps. It make easy not only construct
+conversion reuls from the scratch but also update existing conversion rules
+for updated specifications. We explain each helper function and how to utilize
+it to construct conversion rules.
+
+\subsubsection{Statement format suggestions}
+
+\inred{TODO}
+
+\subsubsection{Fault localizations based on \( \tstar \) tokens}
+
+\inred{TODO}
