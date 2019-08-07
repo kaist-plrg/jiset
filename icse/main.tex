@@ -13,7 +13,7 @@
 % removed ACM references
 \settopmatter{printacmref=false}
 
-% scala code style
+% Scala code style
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -26,7 +26,6 @@
   columns=fixed,
   basicstyle={\footnotesize\ttfamily},
   numbers=none,
-  numberstyle=\tiny\color{gray},
   keywordstyle=\color{blue},
   commentstyle=\color{dkgreen},
   stringstyle=\color{mauve},
@@ -35,7 +34,9 @@
   breakatwhitespace=true,
   tabsize=3,
 }
-\lstdefinestyle{myCorestyle}{
+
+% 
+\lstdefinestyle{ires}{
   frame=tb,
   aboveskip=3mm,
   belowskip=3mm,
@@ -43,7 +44,6 @@
   columns=fixed,
   basicstyle={\footnotesize\ttfamily},
   numbers=none,
-  numberstyle=\tiny\color{gray},
   keywordstyle=\color{blue},
   commentstyle=\color{dkgreen},
   stringstyle=\color{mauve},
@@ -51,6 +51,35 @@
   breaklines=true,
   breakatwhitespace=true,
   tabsize=3,
+}
+
+% JavaScript code style
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinestyle{myJSstyle}{
+  language=JavaScript,
+  extendedchars=true,
+  basicstyle=\footnotesize\ttfamily,
+  showstringspaces=false,
+  showspaces=false,
+  numbers=none,
+  tabsize=2,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b
 }
 
 % load macros

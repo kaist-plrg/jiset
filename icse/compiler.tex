@@ -91,17 +91,17 @@ including itself. For example, the following parsing rule is simplifed version f
 sub-step \( i \) in the \( \code{ToPrimitive} \) algorithm.
 \begin{lstlisting}[style=myScalastyle]
 // statements
-val Stmt = "Let" ~ varT ~ "be" ~ Expr ~ "."
+val Stmt = "Let" ~ varT ~ "be" ~ Expr ~ "." ^^ ...
 // expressions
 val Expr = (
   // identifiers
-  varT |
+  varT ^^ ... |
   // return if abrupt
-  "?" ~ Expr |
+  "?" ~ Expr ^^ ... |
   // function calls
-  textT ~ "(" ~ repsep(varT, ",") ~ ")" |
+  textT ~ "(" ~ repsep(varT, ",") ~ ")" ^^ ... |
   // lists
-  "<<" ~ repsep(Expr, ",") ~ ">>"
+  "<<" ~ repsep(Expr, ",") ~ ">>" ^^ ...
 )
 \end{lstlisting}
 
@@ -173,22 +173,22 @@ we describe the mapping from each parsing rule into the corresponding \( \ires \
 For example, we describe the following mapping for the previous example parsing rules:
 \begin{lstlisting}[style=myScalastyle]
 // statements
-val Stmt = "Let" ~ varT ~ "be" ~ Expr ~ "." ^^ { case _ ~ x ~ _ ~ y => ESLet(x, y) }
+val Stmt = ... ^^ { case _ ~ x ~ _ ~ y => ESLet(x, y) }
 // expressions
 val Expr = (
   // identifiers
-  varT |
+  ... ^^ { x => x } |
   // return if abrupt
-  "?" ~ Expr ^^ { _ ~ e => ESReturnIfAbrupt(e) } |
+  ... ^^ { _ ~ e => ESReturnIfAbrupt(e) } |
   // function calls
-  textT ~ "(" ~ repsep(varT, ",") ~ ")" ^^ { case x ~ _ ~ y ~ _ => ESCall(x, y) } |
+  ... ^^ { case x ~ _ ~ y ~ _ => ESCall(x, y) } |
   // lists
-  "<<" ~ repsep(Expr, ",") ~ ">>" ^^ { case _ ~ x ~ _ => ESList(e) }
+  ... ^^ { case _ ~ x ~ _ => ESList(e) }
 )
 \end{lstlisting}
 Finally, sub-step \( i \) in the \( \code{ToPrimitive} \) is converted
 into the following instructions:
-\begin{lstlisting}[style=myCorestyle]
+\begin{lstlisting}[style=ires]
 let result = ? (Call exoticToPrim input (new [hint]))
 \end{lstlisting}
 
