@@ -310,6 +310,7 @@ trait AlgoCompilerHelper extends TokenParsers {
 
   // et cetera statements
   lazy val etcStmt =
+    "Perform the following substeps in an implementation - dependent order , possibly interleaving parsing and error detection :" ~> stmt |
     "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
       case i ~ e => ISeq(i ++ List(IAppend(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
         $context = $executionStack[(- $executionStack.length 1i)]
@@ -427,7 +428,7 @@ trait AlgoCompilerHelper extends TokenParsers {
           else return $temp
         } else {}
       }"""))
-    } | "for each own property key" ~> id ~> "of" ~> id <~ "that is an integer index" <~ rest ^^^ { // TODO: considering order of property key
+    } | "for each own property key" ~> id ~> "of" ~> id <~ "that is an array index" <~ rest ^^^ { // TODO: considering order of property key
       val temp1 = getTemp
       val tempId = getTempId
       ISeq(List(
@@ -543,7 +544,8 @@ trait AlgoCompilerHelper extends TokenParsers {
         "ErrorData" -> undefined,
         "SubMap" -> (new SubMap())
       ))""")
-    } | opt("the numeric value") ~> number ^^ { case s => EINum(java.lang.Long.decode(s)) }
+    } | opt("the numeric value") ~> number ^^ { case s => EINum(java.lang.Long.decode(s))
+    } | internalName
   )
 
   // completion expressions
@@ -624,17 +626,15 @@ trait AlgoCompilerHelper extends TokenParsers {
           EStr("ReferencedName") -> r,
           EStr("StrictReference") -> s
         )))
-      } | opt("the") ~> ty ~ ("{" ~> repsep((name <~ ":") ~ expr, ",") <~ "}") ^^ {
+      } | opt("the") ~> ty ~ ("{" ~> repsep((expr <~ ":") ~ expr, ",") <~ "}") ^^ {
         case t ~ list =>
           val i = (List[Inst]() /: list) { case (is, _ ~ (i ~ e)) => is ++ i }
-          pair(i, EMap(t, list.map { case x ~ (_ ~ e) => (EStr(x), e) }))
+          pair(i, EMap(t, list.map { case (_ ~ x) ~ (_ ~ e) => (x, e) }))
       }
 
   // list expressions
   lazy val listExpr: PackratParser[List[Inst] ~ Expr] =
-    "«" ~> repsep("[[" ~> name <~ "]]", ",") <~ "»" ^^ {
-      case list => pair(Nil, EList(list.map(EStr(_))))
-    } | "«" ~> repsep(expr, ",") <~ "»" ^^ {
+    "«" ~> repsep(expr, ",") <~ "»" ^^ {
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
         pair(i, EList(list.map { case _ ~ e => e }))
@@ -706,13 +706,20 @@ trait AlgoCompilerHelper extends TokenParsers {
 
   // contains expressions
   lazy val containsExpr =
-    (opt("the result of") ~> name <~ literal("contains").filter(_ == List("Contains"))) ~ name ^^ {
+    (opt("the result of") ~> word <~ literal("contains").filter(_ == List("Contains"))) ~ name ^^ {
+      case x ~ y => {
+        val tempP = getTemp
+        val tempP2 = getTemp
+        pair(List(parseInst(s"""{
+          access $tempP = ($x "Contains")
+          app $tempP2 = ($tempP $y)
+        }""")), ERef(RefId(Id(tempP2))))
+      }
+    } | (id <~ literal("contains").filter(_ == List("Contains"))) ~ name ^^ { // TODO: define? Contains for ScriptBody0 (appears at PerformEval)
       case x ~ y => if (y == "ScriptBody")
         pair(Nil, parseExpr("true"))
-      else {
-        val tempP = getTemp
-        pair(List(parseInst(s"app $tempP = ($x.Contains $y)")), ERef(RefId(Id(tempP))))
-      }
+      else
+        pair(Nil, parseExpr("false"))
     }
 
   // type expressions
@@ -983,7 +990,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         case x => EStr(x)
       } | "the empty string" ^^ {
         case x => EStr("")
-      } | ("the stringvalue of stringliteral" | "the string value whose code units are the sv of the stringliteral") ^^^ {
+      } | ("the stringvalue of stringliteral" | "the string value whose code units are the sv of stringliteral") ^^^ {
         parseExpr(s"(parse-string StringLiteral string)")
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
@@ -1048,8 +1055,8 @@ trait AlgoCompilerHelper extends TokenParsers {
         case x => pair(Nil, parseExpr(s"(&& (is-instance-of $x Identifier) (= (get-syntax $x) (get-syntax IdentifierName)))"))
       } | name <~ "is a ReservedWord" ^^ {
         case x => pair(Nil, parseExpr(s"(! (is-instance-of $x Identifier))"))
-      } | (name <~ "does not have a") ~ (name <~ "internal slot") ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"(= $x.$y absent)"))
+      } | (name <~ "does not have" <~ ("a" | "an")) ~ (expr <~ "internal slot") ~ subCond ^^ {
+        case x ~ (_ ~ y) ~ f => concat(Nil, f(parseExpr(s"(= $x[${beautify(y)}] absent)")))
       } | name <~ "does not have all of the internal slots of an Array Iterator Instance (22.1.5.3)" ^^ {
         case x => pair(Nil, parseExpr(s"""
           (|| (= absent $x.IteratedObject)
@@ -1117,10 +1124,6 @@ trait AlgoCompilerHelper extends TokenParsers {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
       } | (expr <~ "is" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EContains(y, x)))
-      } | (expr <~ "does not contain") ~ expr ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
-      } | (expr <~ "contains") ~ expr ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
       } | (ref <~ "is absent or has the value") ~ valueExpr ^^ {
         case (i ~ x) ~ v =>
           val l = beautify(x)
@@ -1153,14 +1156,14 @@ trait AlgoCompilerHelper extends TokenParsers {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
       } | (ref <~ "has" <~ ("a" | "an")) ~ word <~ "component" ^^ {
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
-      } | (ref <~ "has" <~ ("a" | "an")) ~ name <~ "field" ^^ {
-        case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
+      } | (ref <~ "has" <~ ("a" | "an")) ~ (name ^^ { case x => EStr(x)} | internalName) <~ "field" ^^ {
+        case (i ~ r) ~ n => pair(i, exists(RefProp(r, n)))
       } | (name <~ "does not have a binding for") ~ name ^^ {
         case x ~ y => pair(Nil, parseExpr(s"(= absent $x.SubMap.$y)"))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
-      } | ref ~ ("has" ~ ("a" | "an") ~> name <~ "internal" ~ ("method" | "slot")) ^^ {
-        case (i ~ r) ~ p => pair(i, parseExpr(s"(! (= absent ${beautify(r)}.$p))"))
+      } | ref ~ ("has" ~ ("a" | "an") ~> internalName <~ "internal" ~ ("method" | "slot")) ~ subCond ^^ {
+        case (i ~ r) ~ p ~ f => concat(i, f(parseExpr(s"(! (= absent ${beautify(r)}[${beautify(p)}]))")))
       } | (ref <~ "is present and its value is") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, exists(r), EBOp(OEq, ERef(r), e)))
       } | (ref <~ "is present" <~ opt("as a parameter")) ~ subCond ^^ {
@@ -1206,6 +1209,8 @@ trait AlgoCompilerHelper extends TokenParsers {
           pair(i :+ parseInst(s"""app $tempP = (Type ${beautify(e)})"""), parseExpr(s"""(= $tempP "Object")"""))
       } | (expr <~ "is not" ~ ("a" | "an")) ~ ty ^^ {
         case (i ~ e) ~ t => pair(i, EUOp(ONot, EBOp(OEq, ETypeOf(e), EStr(t.name))))
+      } | (expr <~ "is") ~ (("a" | "an") ~> ty) ~ ("or" ~> ("a" | "an") ~> ty) ~ subCond ^^ {
+        case (i0 ~ e) ~ t1 ~ t2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OEq, ETypeOf(e), EStr(t1.name)), EBOp(OEq, ETypeOf(e), EStr(t2.name)))))
       } | (expr <~ "is" ~ ("a" | "an")) ~ ty ^^ {
         case (i ~ e) ~ t => pair(i, EBOp(OEq, ETypeOf(e), EStr(t.name)))
       } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
@@ -1247,17 +1252,21 @@ trait AlgoCompilerHelper extends TokenParsers {
         case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
         case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ f => concat(i0 ++ i1 ++ i2, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
+      } | (expr <~ "does not contain") ~ expr ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
+      } | containsExpr | (expr <~ "contains") ~ expr ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
       } | starCond
   )
 
   lazy val nonTrivialTyName: PackratParser[String] = ("string" | "boolean" | "number" | "object" | "symbol") ^^ { ts => ts(0) }
 
   lazy val subCond: PackratParser[(Expr => (List[Inst] ~ Expr))] =
-    "or" ~> opt("if") ~> cond ^^ {
+    opt(",") ~> "or" ~> opt("if") ~> cond ^^ {
       case i ~ r =>
         val tempP = getTempId
         (l: Expr) => pair(List(ILet(tempP, l), IIf(ERef(RefId(tempP)), emptyInst, ISeq(i :+ IAssign(RefId(tempP), EBOp(OOr, ERef(RefId(tempP)), r))))), ERef(RefId(tempP)))
-    } | "and" ~> opt("if") ~> cond ^^ {
+        } | opt(",") ~> "and" ~> opt("if") ~> cond ^^ {
       case i ~ r =>
         val tempP = getTempId
         (l: Expr) => pair(List(ILet(tempP, l), IIf(ERef(RefId(tempP)), ISeq(i :+ IAssign(RefId(tempP), EBOp(OAnd, ERef(RefId(tempP)), r))), emptyInst)), ERef(RefId(tempP)))
@@ -1328,11 +1337,10 @@ trait AlgoCompilerHelper extends TokenParsers {
       case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
     } | "the second to top element" ~> "of" ~> ref ^^ {
       case i ~ r => pair(i, RefProp(r, EBOp(OSub, ERef(RefProp(r, EStr("length"))), EINum(2))))
-    } | (opt("the") ~> name <~ opt("fields") ~ "of") ~ ref ^^ {
-      case x ~ (i ~ y) =>
-        pair(i, RefProp(y, EStr(x)))
-    } | (name <~ "'s") ~ name <~ opt("value" | "attribute") ^^ {
-      case b ~ x => pair(Nil, RefProp(RefId(Id(b)), EStr(x)))
+    } | (opt("the") ~> (name ^^ { case x => EStr(x)} | internalName) <~ opt("fields") ~ "of") ~ ref ^^ {
+      case x ~ (i ~ y) => pair(i, RefProp(y, x))
+    } | (name <~ "'s") ~ ((name ^^ { case x => EStr(x)}) | internalName) <~ opt("value" | "attribute") ^^ {
+      case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
     } | ("the" ~> id <~ "flag of") ~ ref ^^ {
       case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
     } | "the" ~> name <~ "flag" ^^ {
@@ -1364,7 +1372,9 @@ trait AlgoCompilerHelper extends TokenParsers {
   lazy val field: PackratParser[List[Inst] ~ Expr] =
     "." ~> name ^^ {
       case x => pair(Nil, EStr(x))
-    } | "[" ~> expr <~ "]" ^^ {
+      } | "." ~> internalName ^^ {
+        case x => pair(Nil, x)
+      } | "[" ~> expr <~ "]" ^^ {
       case i ~ e => pair(i, e)
     }
 
@@ -1386,7 +1396,6 @@ trait AlgoCompilerHelper extends TokenParsers {
     "the" ~ ty ~ "for which the method was invoked" ^^^ "this" |
     ("this" ~ nt | "this this" | "this") ^^^ "this" |
     "the arguments object" ^^^ "args" |
-    "[[" ~> word <~ "]]" |
     opt("the intrinsic object") ~> ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
     ("@@" ~> word | "[[@@" ~> word <~ "]]") ^^ { case x => s"SYMBOL_$x" } |
     "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |
@@ -1397,6 +1406,9 @@ trait AlgoCompilerHelper extends TokenParsers {
     word |
     id
   )
+
+  lazy val internalName: Parser[Expr] =
+    "[[" ~> word <~ "]]" ^^ {case x => EStr(x)}
 
   ////////////////////////////////////////////////////////////////////////////////
   // Helpers
