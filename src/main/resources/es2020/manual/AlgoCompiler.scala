@@ -1125,6 +1125,8 @@ trait AlgoCompilerHelper extends TokenParsers {
           pair(List(parseInst(s"app $tempP = (IsAccessorDescriptor $x)")), ERef(RefId(Id(tempP))))
       } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
         case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
+      } | (ref <~ "is" ~ ("not present" | "absent") <~ ", or is either") ~ (valueExpr <~ "or") ~ valueExpr ~ subCond ^^ {
+        case (i0 ~ r) ~ e1 ~ e2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OOr, EUOp(ONot, exists(r)), EBOp(OEq, ERef(r), e1)), EBOp(OEq, ERef(r), e2))))
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case (i0 ~ r) ~ f => concat(i0, f(EUOp(ONot, exists(r))))
       } | expr <~ "is an abrupt completion" ^^ {
