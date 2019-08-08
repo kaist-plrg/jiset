@@ -499,6 +499,37 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap()
+    ),
+    "GLOBAL.INTRINSIC_GeneratorFunction" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function"),
+        "Code" -> GLOBALDOTGeneratorFunction.func
+      ),
+      nmap = NMap(
+        "name" -> DataProperty(Str("GeneratorFunction"), T, F, T),
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_Generator"), F, F, F)
+      )
+    ),
+    "GLOBAL.INTRINSIC_Generator" -> Struct(
+      typeName = "OrdniaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorFunction"), T, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorPrototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.INTRINSIC_GeneratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
+      ),
+      nmap = NMap(
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_Generator"), F, F, T)
+        )
     )
   ) /: errList) {
       case (m, (errName, func)) => m ++ getErrMap(errName, func)

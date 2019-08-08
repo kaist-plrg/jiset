@@ -106,6 +106,16 @@ trait AlgoCompilerHelper extends TokenParsers {
         EStr("Value") -> EUndef,
         EStr("Target") -> parseExpr("CONST_empty")
       )))
+    } | ("ReturnCont" ~> expr <~ "to") ~ expr ^^ {
+      case (i0 ~ e0) ~ (i1 ~ e1) => {
+        val tempP = getTempId
+        ISeq((i0 ++ i1) :+ IApp(tempP, e0, List(e1)))
+      }
+    } | "ReturnCont" ~> expr ^^ {
+      case i ~ e => {
+        val tempP = getTemp
+        ISeq(i :+ parseInst(s"""app $tempP = (__ret__ ${beautify(e)})"""))
+      }
     }
   ) <~ opt(". this call will always return" ~ value)
 
@@ -311,7 +321,30 @@ trait AlgoCompilerHelper extends TokenParsers {
   // et cetera statements
   lazy val etcStmt =
     "Perform the following substeps in an implementation - dependent order , possibly interleaving parsing and error detection :" ~> stmt |
-    "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
+    ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed for that execution context the following steps will be performed :") ~ stmt ^^ {
+      case x ~ s => {
+        parseInst(s"""$x.ResumeCont = () [=>] ${beautify(s)}""")
+      }
+    } | ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed with a Completion") ~ (id <~ "the following steps will be performed :") ~ stmt ^^ {
+      case x ~ y ~ s => {
+        parseInst(s"""$x.ResumeCont = ($y) [=>] ${beautify(s)}""")
+      }
+    } | ("Resume the suspended evaluation of" ~> id <~ "using") ~ (expr <~ "as the result of the operation that suspended it . Let") ~ (id <~ "be the value returned by the resumed computation .") ^^ {
+        case cid ~ (i ~ e) ~ rid => {
+          val tempId = getTemp
+          val tempId2 = getTemp
+          ISeq(i :+ parseInst(s"""withcont $tempId ($rid) = {
+            $cid.ReturnCont = $tempId
+            app $tempId2 = ($cid.ResumeCont ${beautify(e)})
+            }"""))
+        }
+    } | "Once a generator enters the" <~ rest ^^^ {
+      parseInst(s"""{
+        delete genContext.ResumeCont
+        access __ret__ = (genContext "ReturnCont")
+        delete genContext.ReturnCont
+       }""")
+    } | "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
       case i ~ e => ISeq(i ++ List(IAppend(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
         $context = $executionStack[(- $executionStack.length 1i)]
       """)))
@@ -390,7 +423,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         $context = null
         $x = null
       }""")
-    } | "remove" ~> id <~ "from the execution context stack and restore" ~ id ~ "as the running execution context" ^^ {
+    } | "remove" ~> id <~ "from the execution context stack and restore" <~ rest ^^ {
       case x => {
         val idx = getTemp
         parseInst(s"""{
@@ -1154,7 +1187,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         case x ~ y => pair(Nil, parseExpr(s"(= $y.SubMap[$x].initialized false)"))
       } | (ref <~ "does not have an own property with key") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
-      } | (ref <~ "has" <~ ("a" | "an")) ~ word <~ "component" ^^ {
+      } | (ref <~ ("has" | "have") <~ ("a" | "an")) ~ word <~ "component" ^^ {
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
       } | (ref <~ "has" <~ ("a" | "an")) ~ (name ^^ { case x => EStr(x)} | internalName) <~ "field" ^^ {
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, n)))
@@ -1337,7 +1370,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
     } | "the second to top element" ~> "of" ~> ref ^^ {
       case i ~ r => pair(i, RefProp(r, EBOp(OSub, ERef(RefProp(r, EStr("length"))), EINum(2))))
-    } | (opt("the") ~> (name ^^ { case x => EStr(x)} | internalName) <~ opt("fields") ~ "of") ~ ref ^^ {
+    } | (opt("the") ~> (name ^^ { case x => EStr(x)} | internalName) <~ opt("fields" | "component") ~ "of") ~ ref ^^ {
       case x ~ (i ~ y) => pair(i, RefProp(y, x))
     } | (name <~ "'s") ~ ((name ^^ { case x => EStr(x)}) | internalName) <~ opt("value" | "attribute") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
