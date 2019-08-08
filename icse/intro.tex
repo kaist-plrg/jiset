@@ -4,11 +4,11 @@ JavaScript is one of widely used programming languages not only for client-sides
 but also for server-side programming~\cite{???} and even operating systems~\cite{???}.
 However, developers suffer from the intricate semantics of JavaScript and
 such complexities cause security vulnerabilities. For example, the following JavaScript
-code seems to be tautology:
+code seems to always return \( \code{false} \):
 \begin{lstlisting}[style=myJSstyle]
 function f(x) { return x == !x; }
 \end{lstlisting}
-Unfortunately, it returns \( \code{false} \) when the argument is an empty array
+Unfortunately, it returns \( \code{true} \) when the argument is an empty array
 \( \code{[]} \). To correctly understand such situations, the understanding of
 formal semantics of JavaScript is necessary.
 
@@ -29,12 +29,12 @@ to handle full semantics.
 
 Moreover, it is not suitable approach to cope with the updates of ECMAScript specifications.
 Most of full formal semantics of ECMAScript only supports ECMAScript 5.1 that was
-released in December 2009. Until 2014 years, it was not big deal because ECMAScript
+released in December 2009. Until 2014, it was not big deal because ECMAScript
 specifications are rarely updated. However, in late 2014, The Ecma Technical
 Committee 39 (TC39) decided to release ECMAScript on a yearly cadence. From the
 ECMAScript 6, officially ECMAScript 2015, they updated specifications every years
 in June. Now, no researches correctly deal with recent ECMAScript features;
-lexical bindings (\( \code{let} \)), spread operator (\( \code{...} \),
+lexical bindings (\( \code{let} \)), spread operator (\( \code{...} \)),
 classes, for-of operators, async functions, or generators.
 
 To alleviate such problems, we propose \textit{Automatic Semantics Extractor (ASE)}
@@ -43,9 +43,9 @@ from syntax provided by ECMAScript specifications. It also extracts formal
 JavaScript semantics in semi-automatic ways. It is semi-automatic because
 it depends on manually defined \textit{conversion rules}. Each rule describes how abstract
 algorithms in specifications are converted into functions of our core language \( \ires \).
-However, to save the labor of defininig such rules, we also propose \textit{rule generation assistant}
-that suggests new conversion rules based on not yet convertable algorithms.
-The assistant help us deal with changed or newly introduced algorithms defined in new version of
+However, to save the labor of defininig such rules, we also propose \textit{rule generation assistant}.
+It suggests new conversion rules based on statistical analysis of not yet convertable algorithms.
+The assistant helps us deal with changed or newly introduced algorithms defined in new versions of
 ECMAScript specifications as well.
 
 Our main contribution is our tool ASE that mechanizes extraction of JavaScript syntax and semantics

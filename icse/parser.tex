@@ -62,6 +62,22 @@ and then checks that the parsing result does not correspond to \( \symb' \).
 The no-line terminal symbol \( \nolt \) is a special symbol
 that restricts the white spaces between two other symbols.
 
+\begin{figure}
+  \centering
+  \[
+    \begin{array}{l}
+      \NT{ArrayLiteral}(Yield, Await) ::=\\
+      \qquad \T{[} \; Elision? \; \T{]}\\
+      \qquad \T{[} \; ElementList(Yield, Await) \; \T{]}\\
+      \qquad \T{[} \; ElementList(Yield, Await) \; \T{,} Elision? \; \T{]}\\
+    \end{array}
+  \]
+  \caption{ArrayLiteral production in \( \bnfes \).}
+  \label{fig:array-literal-bnfes}
+\end{figure}
+
+For example, 
+
 \subsection{Lookahead Parsers}
 
 Our goal is to automatically generate JavaScript parsers from ECMAScript
@@ -283,21 +299,6 @@ versions of ECMAScript only have direct left recursions.}
 Thus, we decided to just remove direct left recursions by defining sub productions
 and carefully build the abstract syntax trees.
 
-\begin{figure}
-  \centering
-  \includegraphics[height=6em]{img/array_literal.png}
-  \[
-    \begin{array}{l}
-      \NT{ArrayLiteral}(Yield, Await) ::=\\
-      \qquad \T{[} \; Elision? \; \T{]}\\
-      \qquad \T{[} \; ElementList(Yield, Await) \; \T{]}\\
-      \qquad \T{[} \; ElementList(Yield, Await) \; \T{,} Elision? \; \T{]}\\
-    \end{array}
-  \]
-  \caption{Array literals defined in ES2019 and its \( \bnfes \)}
-  \label{fig:array-literal}
-\end{figure}
-
 \subsubsection{AST generations}
 We first automatically generate abstract syntax tree(AST) as Scala case classes
 from the given \( \bnfes \) grammar that represents a version of ECMAScript.
@@ -349,19 +350,8 @@ and check whether it contains line terminators.
 However, it is possible in our approach because
 we also automatically generates lexers not only parsers of ECMAScript syntax.
 For the final result, the automatically synthesized parser from the
-production \( ArrayLiteral \) in Figure~\ref{fig:array-literal} is defined as follows:
-\begin{lstlisting}[style=myScalastyle]
-lazy val ArrayLiteral: List[Boolean] => LAParser[ArrayLiteral] = memo {
-  case args @ List(Yield, Await) =>
-    ((MATCH <~ "[") ~ opt(Elision) <~ "]") ^^ {
-      case _ ~ x0 => ArrayLiteral0(x0)
-    } | ((MATCH <~ "[") ~ ElementList(Yield, Await) <~ "]") ^^ {
-      case _ ~ x0 => ArrayLiteral1(x0)
-    } | (((MATCH <~ "[") ~ ElementList(Yield, Await) <~ ",") ~ opt(Elision) <~ "]") ^^ {
-      case _ ~ x0 ~ x1 => ArrayLiteral2(x0, x1)
-    }
-}
-\end{lstlisting}
+production \( ArrayLiteral \) in Figure~\ref{fig:array-literal} is defined
+as the parsers defined in Figure~\ref{fig:array-literal}.
 
 Moreover, we support automatic semicolon insertion algorihtms as well.
 It is the most distinctive parsing feautres in ECMAScript to parse more programs.

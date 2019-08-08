@@ -29,7 +29,7 @@ statistical analysis of algorithm steps that failed to be parsed.
 Abstract algorithms in ECMAScript specifications are written in structured
 natural languages in HTML files. An algorithm consists of ordered steps
 and it might contain sub-steps as well. For example,
-the \( \code{ToPrimitive} \) algorithm in Figure~\ref{fig:to-primitive}
+the \( \code{ToPrimitive} \) algorithm in Figure~\ref{fig:to-primitive-es}
 has three steps and second step has seven sub-steps.
 Moreover, the tokens of each step has its own HTML tag and each tag
 has the following meaning:
@@ -152,7 +152,7 @@ the symbols that is newly introduced after ECMAScript 6. Thus, only five ECMAScr
 are defined in \( \ires \); numbers, strings, booleans, undefined, and null.
 Moreover, \( \ires \) also supports the unique \( \code{absent} \) value to represent
 the absence of parameters. For example, the second parameter \( \code{PreferredType} \)
-of \( \code{ToPrimitive} \) algorithm in Figure~\ref{fig:to-primitive} might be
+of \( \code{ToPrimitive} \) algorithm in Figure~\ref{fig:to-primitive-es} might be
 not present in some function calls. Then, the parameter has the \( \code{absent} \) value
 to represent its absence.
 
@@ -187,7 +187,7 @@ val Expr = (
 )
 \end{lstlisting}
 Finally, sub-step \( i \) in the \( \code{ToPrimitive} \) is converted
-into the following instructions:
+into the following instruction:
 \begin{lstlisting}[style=ires]
 let result = ? (Call exoticToPrim input (new [hint]))
 \end{lstlisting}
