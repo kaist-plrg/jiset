@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase.model
 
 import kr.ac.kaist.ase.core._
+import kr.ac.kaist.ase.parser.StringWrapper
 import scala.collection.immutable.{ Set => SSet }
 
 trait AST {
@@ -10,6 +11,7 @@ trait AST {
   val parserParams: List[Boolean]
   val info: ASTInfo
   val fullList: List[(String, Value)]
+  val wrapperList: List[String]
 
   // to JSON format
   def toJson: String = "{" + (fullList.map {
@@ -56,7 +58,7 @@ trait AST {
   }
 
   // existence check
-  def exists(kindFilter: String => Boolean): Boolean = kindFilter(kind) || list.exists {
+  def exists(kindFilter: String => Boolean): Boolean = kindFilter(kind) || wrapperList.exists(kindFilter(_)) || list.exists {
     case (_, ASTVal(ast)) => ast.exists(kindFilter)
     case _ => false
   }
@@ -74,7 +76,11 @@ trait AST {
     case Some(a: AST) => (name.substring(7, name.length - 1), ASTVal(a)) :: list
     case None => (name.substring(7, name.length - 1), Absent) :: list
     case a: AST => (name, ASTVal(a)) :: list
-    case a: String => (name, Str(a)) :: list
+    case a: StringWrapper => (name, Str(a.data)) :: list
+    case _ => list
+  }
+  protected def w(name: String, x: Any, list: List[String]): List[String] = x match {
+    case a: StringWrapper => a.id :: list
     case _ => list
   }
 }

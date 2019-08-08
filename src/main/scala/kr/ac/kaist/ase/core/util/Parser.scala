@@ -74,6 +74,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
       ("app " ~> id <~ "=") ~ ("(" ~> expr) ~ (rep(expr) <~ ")") ^^ { case x ~ f ~ as => IApp(x, f, as) } |
       ("access " ~> id <~ "=") ~ ("(" ~> expr) ~ (expr <~ ")") ^^ { case x ~ e1 ~ e2 => IAccess(x, e1, e2) } |
+      ("withcont " ~> id) ~ ("(" ~> repsep(id, ",") <~ ")" <~ "=") ~ inst ^^ { case x ~ ps ~ b => IWithCont(x, ps, b) } |
       (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
       expr ^^ { case e => IExpr(e) }
   }
@@ -99,6 +100,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
       "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
       ("(" ~> (rep1sep(id, ",") ~ opt("," ~> "..." ~> id) | success(Nil) ~ opt("..." ~> id)) <~ ")") ~ ("=>" ~> inst) ^^ { case ps ~ ox ~ b => EFunc(ps, ox, b) } |
+      ("(" ~> repsep(id, ",") <~ ")") ~ ("[=>]" ~> inst) ^^ { case ps ~ b => ECont(ps, b) } |
       ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {
         case t ~ props => EMap(t, props)
       } |

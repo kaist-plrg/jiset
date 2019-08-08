@@ -65,6 +65,7 @@ trait Walker {
     case IPrint(expr) => IPrint(walk(expr))
     case IApp(id, fexpr, args) => IApp(walk(id), walk(fexpr), walkList[Expr](args, walk))
     case IAccess(id, bexpr, expr) => IAccess(walk(id), walk(bexpr), walk(expr))
+    case IWithCont(id, params, body) => IWithCont(walk(id), walkList[Id](params, walk), walk(body))
   }
 
   // expressions
@@ -79,6 +80,7 @@ trait Walker {
     case EPop(list, idx) => EPop(walk(list), walk(idx))
     case ERef(ref) => ERef(walk(ref))
     case EFunc(params, varparam, body) => EFunc(walkList[Id](params, walk), walkOpt[Id](varparam, walk), walk(body))
+    case ECont(params, body) => ECont(walkList[Id](params, walk), walk(body))
     case EUOp(uop, expr) => EUOp(walk(uop), walk(expr))
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case ETypeOf(expr) => ETypeOf(walk(expr))
@@ -160,6 +162,7 @@ trait Walker {
     case ast: ASTVal => walk(ast)
     case ASTMethod(func, locals) => ASTMethod(walk(func), walkMap[Id, Value](locals, walk, walk))
     case func: Func => walk(func)
+    case cont: Cont => walk(cont)
     case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent => value
   }
 
@@ -170,6 +173,11 @@ trait Walker {
   def walk(func: Func): Func = func match {
     case Func(name, params, varparam, body) =>
       Func(walk(name), walkList[Id](params, walk), walkOpt[Id](varparam, walk), walk(body))
+  }
+
+  def walk(cont: Cont): Cont = cont match {
+    case Cont(params, body, context, ctxStack) =>
+      Cont(walkList[Id](params, walk), walk(body), walk(context), walkList[Context](ctxStack, walk))
   }
 
   // AST values

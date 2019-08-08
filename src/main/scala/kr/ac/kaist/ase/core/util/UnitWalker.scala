@@ -80,7 +80,9 @@ trait UnitWalker {
     case IApp(id, fexpr, args) =>
       walk(id); walk(fexpr); walkList[Expr](args, walk)
     case IAccess(id, bexpr, expr) =>
-      walk(id); walk(bexpr); walk(expr);
+      walk(id); walk(bexpr); walk(expr)
+    case IWithCont(id, params, body) =>
+      walk(id); walkList[Id](params, walk); walk(body)
   }
 
   // expressions
@@ -99,6 +101,9 @@ trait UnitWalker {
     case EFunc(params, varparam, body) =>
       walkList[Id](params, walk);
       walkOpt[Id](varparam, walk);
+      walk(body)
+    case ECont(params, body) =>
+      walkList[Id](params, walk);
       walk(body)
     case EUOp(uop, expr) =>
       walk(uop); walk(expr)
@@ -199,6 +204,7 @@ trait UnitWalker {
     case ASTMethod(func, locals) =>
       walk(func); walkMap[Id, Value](locals, walk, walk)
     case func: Func => walk(func)
+    case cont: Cont => walk(cont)
     case Num(_) | INum(_) | Str(_) | Bool(_) | Undef | Null | Absent =>
   }
 
@@ -210,6 +216,13 @@ trait UnitWalker {
     case Func(name, params, varparam, body) =>
       walk(name); walkList[Id](params, walk)
       walkOpt[Id](varparam, walk); walk(body)
+  }
+
+  // continuation
+  def walk(cont: Cont): Unit = cont match {
+    case Cont(params, body, context, ctxStack) =>
+      walkList[Id](params, walk)
+      walk(body)
   }
 
   // AST values

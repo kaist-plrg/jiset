@@ -113,9 +113,9 @@ trait LAParsers extends Lexer with Containers {
   def opt[T](p: => LAParser[T]): LAParser[Option[T]] = p ^^ { Some(_) } | MATCH ^^^ None
 
   // terminal parsers
-  val nt = cached[(String, Lexer), LAParser[String]] {
+  val nt = cached[(String, Lexer), LAParser[StringWrapper]] {
     case (name, nt) => log(new LAParser(
-      follow => Skip ~> nt <~ +follow.parser,
+      follow => (Skip ~> nt <~ +follow.parser) ^^ { case s => StringWrapper(name, s) },
       FirstTerms() + (name -> nt)
     ))(name)
   }
