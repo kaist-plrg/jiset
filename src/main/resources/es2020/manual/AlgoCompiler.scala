@@ -117,6 +117,9 @@ trait AlgoCompilerHelper extends TokenParsers {
         val tempP = getTemp
         ISeq(i :+ parseInst(s"""app $tempP = (__ret__ ${beautify(e)})"""))
       }
+    } | "ReturnCont" ^^^ {
+      val tempP = getTemp
+      parseInst(s"""app $tempP = (__ret__ (new Completion( "Type" -> CONST_normal, "Value" -> undefined, "Target" -> CONST_empty)))""")
     }
   ) <~ opt(". this call will always return" ~ value)
 
@@ -274,7 +277,7 @@ trait AlgoCompilerHelper extends TokenParsers {
 
   // for-each statements
   lazy val forEachStmt =
-    ("for each" ~ opt(nt | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of" | "from") ~> expr <~ opt(",") ~ opt("(NOTE: this is another complete iteration of the second CaseClauses),") ~ opt("in list order,") ~ "do") ~ stmt ^^ {
+    ("for each" ~ opt(nt | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of" | "from") ~> expr <~ opt(",") ~ opt("(NOTE: this is another complete iteration of the second CaseClauses),") ~ opt("in list order," | "in original insertion order,") ~ "do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
     } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
       case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
@@ -291,7 +294,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         IAppend(EList(List(x, y)), z))
     } | ("add" ~> id <~ "at the back of the job queue named by") <~ id ^^ {
       case x => IAppend(ERef(RefId(Id(x))), ERef(RefId(Id(jobQueue))))
-    } | (("append" | "add") ~> expr) ~ ("as" ~ ("an" | "the last") ~ "element of" ~ opt("the list") ~> expr) ^^ {
+    } | (("append" | "add") ~> expr) ~ ("as" ~ ("an" | "the last") ~ "element of" ~ opt("the list") ~> opt("that is") ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
     } | ("append each item in" ~> expr <~ "to the end of") ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
@@ -332,6 +335,13 @@ trait AlgoCompilerHelper extends TokenParsers {
       case x ~ y ~ s => {
         parseInst(s"""$x.ResumeCont = ($y) [=>] ${beautify(s)}""")
       }
+    } | ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed with a Completion") ~ (id <~ ", the following steps of the algorithm that invoked Await will be performed ," <~ rest) ^^ {
+      case x ~ y => {
+        parseInst(s"""{
+          access __ret__ = ($x "ReturnCont")
+          $x.ResumeCont = ($y) [=>] return $y
+          }""")
+      }
     } | ("Resume the suspended evaluation of" ~> id <~ "using") ~ (expr <~ "as the result of the operation that suspended it . Let") ~ (id <~ "be the value returned by the resumed computation .") ^^ {
         case cid ~ (i ~ e) ~ rid => {
           val tempId = getTemp
@@ -341,12 +351,36 @@ trait AlgoCompilerHelper extends TokenParsers {
             app $tempId2 = ($cid.ResumeCont ${beautify(e)})
             }"""))
         }
+    } | ("Resume the suspended evaluation of" ~> id <~ "using") ~ (expr <~ "as the result of the operation that suspended it .") ^^ {
+        case cid ~ (i ~ e) => {
+          val tempId = getTemp
+          val tempId2 = getTemp
+          ISeq(i :+ parseInst(s"""withcont $tempId () = {
+            $cid.ReturnCont = $tempId
+            app $tempId2 = ($cid.ResumeCont ${beautify(e)})
+            }"""))
+        }
+    } | ("Resume the suspended evaluation of" ~> id <~ ". Let") ~ (id <~ "be the value returned by the resumed computation .") ^^ {
+        case cid ~ rid => {
+          val tempId = getTemp
+          val tempId2 = getTemp
+          parseInst(s"""withcont $tempId ($rid) = {
+            $cid.ReturnCont = $tempId
+            app $tempId2 = ($cid.ResumeCont)
+            }""")
+        }
     } | "Once a generator enters the" <~ rest ^^^ {
       parseInst(s"""{
         delete genContext.ResumeCont
         access __ret__ = (genContext "ReturnCont")
         delete genContext.ReturnCont
        }""")
+    } | "Assert : If we return here , the async function either threw an exception or performed an implicit or explicit return ; all awaiting is done" ^^^ {
+      parseInst(s"""{
+        delete asyncContext.ResumeCont
+        access __ret__ = (asyncContext "ReturnCont")
+        delete asyncContext.ReturnCont
+      }""")
     } | "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
       case i ~ e => ISeq(i ++ List(IAppend(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
         $context = $executionStack[(- $executionStack.length 1i)]
@@ -432,7 +466,7 @@ trait AlgoCompilerHelper extends TokenParsers {
           $idx = (- $executionStack.length 1i)
           (pop $executionStack $idx)
         } else {}
-        $context = $executionStack[(- $idx 1i)]
+        $context = $executionStack[(- $executionStack.length 1i)]
       }""")
       }
     } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
@@ -773,11 +807,7 @@ trait AlgoCompilerHelper extends TokenParsers {
     }
   // et cetera expressions
   lazy val etcExpr: PackratParser[List[Inst] ~ Expr] =
-    "the algorithm steps defined in Promise Resolve Functions" ^^^ {
-      pair(Nil, ERef(RefId(Id("PromiseResolveFunctions"))))
-    } | "the algorithm steps defined in Promise Reject Functions" ^^^ {
-      pair(Nil, ERef(RefId(Id("PromiseRejectFunctions"))))
-    } | ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
+    ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
       case (i0 ~ e0) ~ (i1 ~ e1) => {
         val tempP = getTemp
         val applyInst = parseInst(s"""app $tempP = (${beautify(e0)} ${beautify(e1)}[0i] ${beautify(e1)}[1i] ${beautify(e1)}[2i])""")
@@ -995,6 +1025,16 @@ trait AlgoCompilerHelper extends TokenParsers {
         case x => parseExpr(s"(new '$x)")
       } | "the algorithm steps defined in ListIterator" ~ rest ^^^ {
         parseExpr("ListIteratornext")
+      } |"the algorithm steps defined in GetCapabilitiesExecutor Functions" ^^^ {
+        ERef(RefId(Id("GLOBALDOTGetCapabilitiesExecutorFunctions")))
+      } | "the algorithm steps defined in Promise Resolve Functions" ^^^ {
+        ERef(RefId(Id("GLOBALDOTPromiseResolveFunctions")))
+      } | "the algorithm steps defined in Promise Reject Functions" ^^^ {
+        ERef(RefId(Id("GLOBALDOTPromiseRejectFunctions")))
+      } | "the algorithm steps defined in Await Fulfilled Functions" ^^^ {
+        ERef(RefId(Id("GLOBALDOTAwaitFulfilledFunctions")))
+      } | "the algorithm steps defined in Await Rejected Functions" ^^^ {
+        ERef(RefId(Id("GLOBALDOTAwaitRejectedFunctions")))
       } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
         parseExpr("""(parse-syntax CoverCallExpressionAndAsyncArrowHead "CallMemberExpression")""")
       } | "the steps of an" ~> name <~ "function as specified below" ^^ {
@@ -1149,6 +1189,8 @@ trait AlgoCompilerHelper extends TokenParsers {
         case (i0 ~ r) ~ e1 ~ e2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OOr, EUOp(ONot, exists(r)), EBOp(OEq, ERef(r), e1)), EBOp(OEq, ERef(r), e2))))
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case (i0 ~ r) ~ f => concat(i0, f(EUOp(ONot, exists(r))))
+      } | expr <~ "is not an abrupt completion" ^^ {
+        case i ~ x => pair(i, parseExpr(s"""(! (&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal))))"""))
       } | expr <~ "is an abrupt completion" ^^ {
         case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
       } | (expr <~ "<") ~ expr ~ subCond ^^ {
@@ -1340,6 +1382,8 @@ trait AlgoCompilerHelper extends TokenParsers {
       "string exotic object" ^^^ Ty("StringExoticObject") |
       "propertydescriptor" ^^^ Ty("PropertyDescriptor") |
       "pendingjob" ^^^ Ty("PendingJob") |
+      "PromiseCapability" ^^^ Ty("PromiseCapability") |
+      "PromiseReaction" ^^^ Ty("PromiseReaction") |
       "property descriptor" ^^^ Ty("PropertyDescriptor") |
       opt("ecmascript code") ~ "execution context" ^^^ Ty("ExecutionContext") |
       "lexical environment" ^^^ Ty("LexicalEnvironment") |
