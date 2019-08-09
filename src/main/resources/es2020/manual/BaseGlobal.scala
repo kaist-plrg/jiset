@@ -18,10 +18,12 @@ object BaseGlobal {
     "IsDuplicate" -> IsDuplicate.func,
     "HostEnsureCanCompileStrings" -> HostEnsureCanCompileStrings.func,
     "HostHasSourceTextAvailable" -> HostHasSourceTextAvailable.func,
+    "HostReportErrors" -> HostReportErrors.func,
     "GetArgument" -> GetArgument.func,
     "GetTypeOf" -> GetTypeOf.func,
     "IsArrayIndex" -> IsArrayIndex.func,
     "GLOBAL_executionStack" -> NamedAddr("executionStack"),
+    "GLOBAL_jobQueue" -> NamedAddr("jobQueue"),
     "GLOBAL_context" -> Null,
     "GLOBAL" -> NamedAddr("GLOBAL"),
     "REALM" -> NamedAddr("REALM")

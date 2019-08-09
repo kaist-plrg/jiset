@@ -530,6 +530,25 @@ object BuiltinHeap {
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_Generator"), F, F, T)
         )
+    ),
+    "GLOBAL.Promise" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTPromise.func
+      ),
+      nmap = NMap(
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise.prototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.Promise.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap(
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise"), F, F, F)
+      )
     )
   ) /: errList) {
       case (m, (errName, func)) => m ++ getErrMap(errName, func)
@@ -559,7 +578,6 @@ object BuiltinHeap {
     "Int8Array",
     "Int16Array",
     "Int32Array",
-    "Promise",
     "Proxy",
     "RegExp",
     "SharedArrayBuffer",

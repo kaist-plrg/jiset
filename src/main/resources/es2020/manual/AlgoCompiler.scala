@@ -60,6 +60,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   // execution context stack string
   val executionStack = "GLOBAL_executionStack"
   val context = "GLOBAL_context"
+  val jobQueue = "GLOBAL_jobQueue"
 
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
@@ -288,6 +289,8 @@ trait AlgoCompilerHelper extends TokenParsers {
     } | ("append the pair ( a two element list ) consisting of" ~> expr) ~ ("and" ~> expr) ~ ("to the end of" ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ z) => ISeq(i0 ++ i1 ++ i2 :+
         IAppend(EList(List(x, y)), z))
+    } | ("add" ~> id <~ "at the back of the job queue named by") <~ id ^^ {
+      case x => IAppend(ERef(RefId(Id(x))), ERef(RefId(Id(jobQueue))))
     } | (("append" | "add") ~> expr) ~ ("as" ~ ("an" | "the last") ~ "element of" ~ opt("the list") ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
     } | ("append each item in" ~> expr <~ "to the end of") ~ expr ^^ {
@@ -353,11 +356,9 @@ trait AlgoCompilerHelper extends TokenParsers {
         (pop argumentsList 0i)
         $x = argumentsList
       }""")
-    } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ~ next ~ rest ^^^ {
-      parseInst(s"""{
-        app __x0__ = (ScriptEvaluationJob script hostDefined)
-        return __x0__
-      }""")
+    } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest  ^^^ {
+      val tempP = getTemp
+      parseInst(s"""app $tempP = (EnqueueJob "ScriptJobs" ScriptEvaluationJob (new [ script, hostDefined ]))""")
     } | (in ~ "if IsStringPrefix(" ~> name <~ ",") ~ (name <~ rep(rest ~ next) ~ out) ^^ {
       case x ~ y => parseInst(s"return (< $y $x)")
     } | ("if the mathematical value of" ~> name <~ "is less than the mathematical value of") ~ name <~ rest ^^ {
@@ -480,7 +481,9 @@ trait AlgoCompilerHelper extends TokenParsers {
     "create any implementation-defined" |
     "no further validation is required" |
     "if" ~ id ~ "is a List of errors," |
-    "order the elements of" ~ id ~ "so they are in the same relative order as would"
+    "order the elements of" ~ id ~ "so they are in the same relative order as would" |
+    "Perform any implementation or host environment defined processing of" |
+    "Perform any implementation or host environment defined job initialization using"
   ) ~ rest ^^^ emptyInst
 
   // statement to comment additional info
@@ -561,7 +564,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
       case err if err.endsWith("Error") => parseExpr(s"""(new OrdinaryObject(
       "Prototype" -> INTRINSIC_${err}Prototype,
-      "ErrorData" -> undefined,
+      "ErrorData" -> "${err}",
       "SubMap" -> (new SubMap())
     ))""")
       case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
@@ -770,11 +773,28 @@ trait AlgoCompilerHelper extends TokenParsers {
     }
   // et cetera expressions
   lazy val etcExpr: PackratParser[List[Inst] ~ Expr] =
-    "an implementation - dependent String source code representation of" ~ rest ^^^ {
+    "the algorithm steps defined in Promise Resolve Functions" ^^^ {
+      pair(Nil, ERef(RefId(Id("PromiseResolveFunctions"))))
+    } | "the algorithm steps defined in Promise Reject Functions" ^^^ {
+      pair(Nil, ERef(RefId(Id("PromiseRejectFunctions"))))
+    } | ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
+      case (i0 ~ e0) ~ (i1 ~ e1) => {
+        val tempP = getTemp
+        val applyInst = parseInst(s"""app $tempP = (${beautify(e0)} ${beautify(e1)}[0i] ${beautify(e1)}[1i] ${beautify(e1)}[2i])""")
+        pair(List(applyInst), ERef(RefId(Id(tempP))))
+      }
+    } | "a non - empty Job Queue chosen in an implementation - defined" ~ rest ^^^ {
+      val checkInst = parseInst(s"""if (= $jobQueue.length 0) {
+        return (new Completion( "Type" -> CONST_normal, "Value" -> undefined, "Target" -> CONST_empty))
+      } else {}""")
+      pair(List(checkInst), ERef(RefId(Id(jobQueue))))
+    } | "the PendingJob record at the front of" ~> id <~ rest ^^ {
+      case x => pair(Nil, parseExpr(s"""(pop $x 0i)"""))
+    } |"an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
-      } | "the source text matched by" ~> name ^^ {
-        case x => pair(Nil, EGetSyntax(ERef(RefId(Id(x)))))
-      } |"the String value consisting of the single code unit" ~> name ^^ {
+    } | "the source text matched by" ~> name ^^ {
+      case x => pair(Nil, EGetSyntax(ERef(RefId(Id(x)))))
+    } |"the String value consisting of the single code unit" ~> name ^^ {
       case x => pair(Nil, parseExpr(x))
     } | "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> name <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
       case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
@@ -1319,6 +1339,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       "proxy exotic object" ^^^ Ty("ProxyExoticObject") |
       "string exotic object" ^^^ Ty("StringExoticObject") |
       "propertydescriptor" ^^^ Ty("PropertyDescriptor") |
+      "pendingjob" ^^^ Ty("PendingJob") |
       "property descriptor" ^^^ Ty("PropertyDescriptor") |
       opt("ecmascript code") ~ "execution context" ^^^ Ty("ExecutionContext") |
       "lexical environment" ^^^ Ty("LexicalEnvironment") |
