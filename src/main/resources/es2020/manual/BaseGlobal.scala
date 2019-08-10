@@ -19,6 +19,7 @@ object BaseGlobal {
     "HostEnsureCanCompileStrings" -> HostEnsureCanCompileStrings.func,
     "HostHasSourceTextAvailable" -> HostHasSourceTextAvailable.func,
     "HostReportErrors" -> HostReportErrors.func,
+    "HostPromiseRejectionTracker" -> HostPromiseRejectionTracker.func,
     "GetArgument" -> GetArgument.func,
     "GetTypeOf" -> GetTypeOf.func,
     "IsArrayIndex" -> IsArrayIndex.func,

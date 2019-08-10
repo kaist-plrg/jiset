@@ -342,7 +342,7 @@ trait AlgoCompilerHelper extends TokenParsers {
           $x.ResumeCont = ($y) [=>] return $y
           }""")
       }
-    } | ("Resume the suspended evaluation of" ~> id <~ "using") ~ (expr <~ "as the result of the operation that suspended it . Let") ~ (id <~ "be the value returned by the resumed computation .") ^^ {
+    } | ("Resume the suspended evaluation of" ~> id <~ "using") ~ (expr <~ "as the result of the operation that suspended it . Let") ~ (id <~ "be the" <~ ("value" | "completion record") <~ "returned by the resumed computation .") ^^ {
         case cid ~ (i ~ e) ~ rid => {
           val tempId = getTemp
           val tempId2 = getTemp
@@ -369,7 +369,7 @@ trait AlgoCompilerHelper extends TokenParsers {
             app $tempId2 = ($cid.ResumeCont)
             }""")
         }
-    } | "Once a generator enters the" <~ rest ^^^ {
+    } | ("Once a generator enters the" | "Assert : If we return here , the async generator either threw") <~ rest ^^^ {
       parseInst(s"""{
         delete genContext.ResumeCont
         access __ret__ = (genContext "ReturnCont")
@@ -1193,6 +1193,8 @@ trait AlgoCompilerHelper extends TokenParsers {
         case i ~ x => pair(i, parseExpr(s"""(! (&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal))))"""))
       } | expr <~ "is an abrupt completion" ^^ {
         case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
+      } | expr <~ "is a normal completion" ^^ {
+        case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (= ${beautify(x)}.Type CONST_normal))"""))
       } | (expr <~ "<") ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OLt, l, r)))
       } | (expr <~ "≥") ~ expr ~ subCond ^^ {
@@ -1290,7 +1292,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       } | (expr <~ "is") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ ("or" ~> valueExpr) ^^ {
         case (i1 ~ e1) ~ e2 ~ e3 ~ e4 ~ e5 ~ e6 =>
           pair(i1, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3)), EBOp(OEq, e1, e4)), EBOp(OEq, e1, e5)), EBOp(OEq, e1, e6)))
-      } | expr <~ "is empty" ^^ {
+      } | expr <~ ("is empty" | "is an empty list") ^^ {
         case i ~ e => pair(i, parseExpr(s"(= ${beautify(e)}.length 0)"))
       } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))))
@@ -1384,6 +1386,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       "pendingjob" ^^^ Ty("PendingJob") |
       "PromiseCapability" ^^^ Ty("PromiseCapability") |
       "PromiseReaction" ^^^ Ty("PromiseReaction") |
+      "AsyncGeneratorRequest" ^^^ Ty("AsyncGeneratorRequest") |
       "property descriptor" ^^^ Ty("PropertyDescriptor") |
       opt("ecmascript code") ~ "execution context" ^^^ Ty("ExecutionContext") |
       "lexical environment" ^^^ Ty("LexicalEnvironment") |

@@ -96,7 +96,7 @@ object ModelHelper {
       )
   }
 
-  private val notSupportedSyntaxPrefixList = List("Async", "RegularExpression")
+  private val notSupportedSyntaxPrefixList = List("RegularExpression")
   def checkSupported(ast: AST): Unit = ast.exists {
     case name => notSupportedSyntaxPrefixList.exists {
       case pre =>

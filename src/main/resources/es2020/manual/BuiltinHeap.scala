@@ -500,6 +500,13 @@ object BuiltinHeap {
       ),
       nmap = NMap()
     ),
+    "GLOBAL.INTRINSIC_AsyncIteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+      ),
+      nmap = NMap()
+    ),
     "GLOBAL.INTRINSIC_GeneratorFunction" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
@@ -529,6 +536,37 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_Generator"), F, F, T)
+        )
+    ),
+    "GLOBAL.INTRINSIC_AsyncGeneratorFunction" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function"),
+        "Code" -> GLOBALDOTAsyncGeneratorFunction.func
+      ),
+      nmap = NMap(
+        "name" -> DataProperty(Str("AsyncGeneratorFunction"), T, F, T),
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGenerator"), F, F, F)
+      )
+    ),
+    "GLOBAL.INTRINSIC_AsyncGenerator" -> Struct(
+      typeName = "OrdniaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorFunction"), T, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorPrototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.INTRINSIC_AsyncGeneratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_AsyncIteratorPrototype")
+      ),
+      nmap = NMap(
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGenerator"), F, F, T)
         )
     ),
     "GLOBAL.Promise" -> Struct(
