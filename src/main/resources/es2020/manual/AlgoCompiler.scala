@@ -1642,22 +1642,21 @@ trait AlgoCompilerHelper extends TokenParsers {
   }).walk(inst)
 
   // flatten instructions
-  protected def flatten(inst: Inst): Inst = inst match {
-    case IIf(cond, thenInst, elseInst) =>
-      IIf(cond, flatten(thenInst), flatten(elseInst))
-    case IWhile(cond, body) =>
-      IWhile(cond, flatten(body))
-    case ISeq(insts) =>
-      def aux(cur: List[Inst], remain: List[Inst]): List[Inst] = remain match {
-        case Nil => cur.reverse
-        case ISeq(list) :: rest => aux(cur, list ++ rest)
-        case inst :: rest => aux(flatten(inst) :: cur, rest)
-      }
-      aux(Nil, insts) match {
-        case List(inst) => inst
-        case insts => ISeq(insts)
-      }
-    case i => i
+  protected def flatten(inst: Inst): Inst = FlattenWalker.walk(inst)
+  private object FlattenWalker extends Walker {
+    override def walk(inst: Inst): Inst = inst match {
+      case ISeq(insts) =>
+        def aux(cur: List[Inst], remain: List[Inst]): List[Inst] = remain match {
+          case Nil => cur.reverse
+          case ISeq(list) :: rest => aux(cur, list ++ rest)
+          case inst :: rest => aux(walk(inst) :: cur, rest)
+        }
+        aux(Nil, insts) match {
+          case List(inst) => inst
+          case insts => ISeq(insts)
+        }
+      case i => super.walk(i)
+    }
   }
 
   // conversions
