@@ -275,6 +275,10 @@ trait AlgoCompilerHelper extends TokenParsers {
       ))
     } | "increase" ~> id <~ "by 1" ^^ {
       case x => IAssign(RefId(Id(x)), EBOp(OPlus, toERef(x), EINum(1)))
+    } | "if" ~> (name <~ "is") ~ grammar ~ ("," ~ opt("then") ~> stmt) ^^ {
+      case x ~ Grammar(y, ss) ~ s =>
+        val pre = ss.map(s => parseInst(s"""access $s = ($x "$s")"""))
+        IIf(parseExpr(s"(is-instance-of $x $y)"), ISeq(pre :+ s), ISeq(Nil))
     }
   ) | ignoreStmt
 
@@ -318,29 +322,27 @@ trait AlgoCompilerHelper extends TokenParsers {
   }
 
   // if-then-else statements
-  lazy val ifStmt =
-    "if" ~> (name <~ "is") ~ grammar ~ ("," ~ opt("then") ~> stmt) ^^ {
-      case x ~ Grammar(y, ss) ~ s =>
-        val pre = ss.map(s => parseInst(s"""access $s = ($x "$s")"""))
-        IIf(parseExpr(s"(is-instance-of $x $y)"), ISeq(pre :+ s), ISeq(Nil))
-    } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ~ (
-      opt("." | ";" | ",") ~> opt(next) ~> ("else" | "otherwise") ~> opt(
-        "the order of evaluation needs to be reversed to preserve left to right evaluation" |
-          name ~ "is added as a single item rather than spread" |
-          name ~ "contains a formal parameter mapping for" ~ name |
-          name ~ "is a Reference to an Environment Record binding" |
-          "the base of" ~ ref ~ "is an Environment Record" |
-          name ~ "must be" ~ rep(not(",") ~ text) |
-          id ~ "does not currently have a property" ~ id |
-          id <~ "is an accessor property" |
-          ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr |
-          cond
-      ) ~> opt(",") ~> stmt
-    ) ^^ {
-          case (i ~ c) ~ t ~ e => ISeq(i :+ IIf(c, t, e))
-        } | ("if" ~> cond <~ "," <~ opt("then")) ~ stmt ^^ {
-          case (i ~ c) ~ t => ISeq(i :+ IIf(c, t, emptyInst))
-        }
+  lazy val ifStmt = {
+    ("if" ~> cond <~ "," ~
+      opt("then")) ~ stmt ~ opt(opt("." | ";" | ",") ~ opt(next) ~
+        ("else" | "otherwise") ~ opt(ignoreCond | cond) ~ opt(",") ~> stmt)
+  } ^^ {
+    case (i ~ c) ~ t ~ None => ISeq(i :+ IIf(c, t, emptyInst))
+    case (i ~ c) ~ t ~ Some(e) => ISeq(i :+ IIf(c, t, e))
+  }
+
+  // ignore conditions
+  val ignoreCond: P[I[Expr]] = (
+    "the order of evaluation needs to be reversed to preserve left to right evaluation" |
+    name ~ "is added as a single item rather than spread" |
+    name ~ "contains a formal parameter mapping for" ~ name |
+    name ~ "is a Reference to an Environment Record binding" |
+    "the base of" ~ ref ~ "is an Environment Record" |
+    name ~ "must be" ~ rep(not(",") ~ text) |
+    id ~ "does not currently have a property" ~ id |
+    id <~ "is an accessor property" |
+    ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr
+  ) ^^^ pair(Nil, EBool(true))
 
   // call statements
   lazy val callStmt: P[Inst] = ("perform" | "call") ~> expr ^^ {
