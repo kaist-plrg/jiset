@@ -54,9 +54,6 @@ trait AlgoCompilerHelper extends TokenParsers {
   val executionStack = "GLOBAL_executionStack"
   val context = "GLOBAL_context"
   val jobQueue = "GLOBAL_jobQueue"
-
-  // identifiers never used
-  val noId = Id("_")
   val retcont = "__ret__"
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -295,29 +292,19 @@ trait AlgoCompilerHelper extends TokenParsers {
   // return statements
   lazy val returnStmt: P[Inst] = (
     "return" ~> expr ^^ {
-      case i ~ e => ISeq(i :+ (kind match {
-        case StaticSemantics => IReturn(e)
-        case Method if algoName == "OrdinaryGetOwnProperty" => IReturn(e)
-        case _ =>
-          val temp = getTempId
-          ISeq(List(
-            IApp(temp, toERef("WrapCompletion"), List(e)),
-            IReturn(toERef(temp))
-          ))
-      }))
-    } | "return" ^^^ {
-      val i ~ e = getCall(toRef("NormalCompletion"), List(pair(Nil, EUndef)))
-      ISeq(i :+ IReturn(e))
-    } | ("ReturnCont" ~> expr <~ "to") ~ expr ^^ {
-      case (i0 ~ e0) ~ (i1 ~ e1) => ISeq(i0 ++ i1 :+ IApp(noId, e0, List(e1)))
-    } | "ReturnCont" ~> expr ^^ {
-      case i ~ e => {
-        val temp = getTemp
-        ISeq(i :+ parseInst(s"""app $temp = ($retcont ${beautify(e)})"""))
+      case ie => kind match {
+        case StaticSemantics => getRet(ie)
+        case Method if algoName == "OrdinaryGetOwnProperty" => getRet(ie)
+        case _ => getRet(getWrapCompletion(ie))
       }
-    } | "ReturnCont" ^^^ {
-      val temp = getTemp
-      parseInst(s"""app $temp = ($retcont (new Completion( "Type" -> CONST_normal, "Value" -> undefined, "Target" -> CONST_empty)))""")
+    } ||| "return" ^^^ {
+      getRet(getNormalCompletion(EUndef))
+    } ||| ("ReturnCont" ~> expr <~ "to") ~ expr ^^ {
+      case (i ~ f) ~ ie => ISeq(i :+ getInst(getCall(f, List(ie))))
+    } ||| "ReturnCont" ~> expr ^^ {
+      case ie => getInst(getCall(retcont, List(ie)))
+    } ||| "ReturnCont" ^^^ {
+      getInst(getCall(retcont, List(getNormalCompletion(EUndef))))
     }
   )
 
@@ -1713,23 +1700,31 @@ trait AlgoCompilerHelper extends TokenParsers {
     pair(i ++ List(r, e), toERef(temp2))
   }
 
+  // get instruction
+  def getInst(ie: I[Expr]): Inst = ISeq(ie._1)
+
   // get return
-  def getRet(pair: I[Expr]): Inst = pair match {
+  def getRet(ie: I[Expr]): Inst = ie match {
     case i ~ e => ISeq(i :+ IReturn(e))
   }
 
   // get call
-  def getCall(name: String, list: List[I[Expr]]): I[Expr] = getCall(toRef(name), list)
-  def getCall(r: Ref, list: List[I[Expr]]): I[Expr] = {
+  def getCall(name: String, list: List[I[Expr]]): I[Expr] = getCall(toERef(name), list)
+  def getCall(f: Expr, list: List[I[Expr]]): I[Expr] = {
     val temp = getTempId
     val i = list.map { case i ~ _ => i }.flatten
-    val args = list.map { case i ~ e => e }
-    val app = IApp(temp, ERef(r), r match {
-      case RefId(_) => args
-      case RefProp(b, _) => ERef(b) :: args
-    })
+    val args = list.map { case _ ~ e => e }
+    val app = IApp(temp, f, args)
     pair(i :+ app, toERef(temp))
   }
+
+  // get completions
+  def getThrowCompletion(e: Expr): I[Expr] = getThrowCompletion(pair(Nil, e))
+  def getThrowCompletion(ie: I[Expr]): I[Expr] = getCall("ThrowCompletion", List(ie))
+  def getWrapCompletion(e: Expr): I[Expr] = getWrapCompletion(pair(Nil, e))
+  def getWrapCompletion(ie: I[Expr]): I[Expr] = getCall("WrapCompletion", List(ie))
+  def getNormalCompletion(e: Expr): I[Expr] = getNormalCompletion(pair(Nil, e))
+  def getNormalCompletion(ie: I[Expr]): I[Expr] = getCall("NormalCompletion", List(ie))
 
   // binary operator calculations
   def calc(not: Boolean, rev: Boolean, bop: BOp, left: Expr, right: Expr): Expr = {
