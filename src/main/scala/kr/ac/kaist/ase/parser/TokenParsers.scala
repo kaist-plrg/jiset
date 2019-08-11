@@ -189,13 +189,6 @@ trait TokenParsers extends PackratParsers {
   def rest: PackratParser[List[String]] = rep(token ^^ { _.toString })
   def step: PackratParser[List[String]] = rest <~ next
 
-  type Result
-  def stmts: PackratParser[List[Result]]
-  def failedToken: PackratParser[Token] = normal | in ~> stmts <~ out ^^^ StepList(Nil)
-  def failedStep: PackratParser[List[String]] = rep(failedToken) ~ next ^^ {
-    case s ~ k => failed += k -> s; s.map(_.toString)
-  }
-
   def parse[T](p: Parser[T], tokenReader: TokenReader): ParseResult[T] =
     p(tokenReader)
 
