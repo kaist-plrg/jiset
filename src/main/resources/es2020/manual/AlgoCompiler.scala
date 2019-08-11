@@ -402,14 +402,9 @@ trait AlgoCompilerHelper extends TokenParsers {
     }
 
   // throw statements
-  lazy val throwStmt =
-    "throw a" ~> valueExpr <~ "exception" ^^ {
-      case e => IReturn(EMap(Ty("Completion"), List(
-        EStr("Type") -> parseExpr("CONST_throw"),
-        EStr("Value") -> e,
-        EStr("Target") -> parseExpr("CONST_empty")
-      )))
-    }
+  lazy val throwStmt = "throw a" ~> expr <~ "exception" ^^ {
+    case ie => getRet(getCall("ThrowCompletion", List(ie)))
+  }
 
   // while statements
   lazy val whileStmt =
