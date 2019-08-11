@@ -55,6 +55,10 @@ trait AlgoCompilerHelper extends TokenParsers {
   val context = "GLOBAL_context"
   val jobQueue = "GLOBAL_jobQueue"
 
+  // identifiers never used
+  val noId = Id("_")
+  val retcont = "__ret__"
+
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
@@ -87,6 +91,7 @@ trait AlgoCompilerHelper extends TokenParsers {
     "this may be" |
     "as defined" |
     "( if" |
+    "this call will always return" ~ value |
     (opt("(") <~ ("see" | "it may be"))
   ) ~ rest ^^^ emptyInst
 
@@ -104,7 +109,7 @@ trait AlgoCompilerHelper extends TokenParsers {
     } | ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed with a Completion") ~ (id <~ ", the following steps of the algorithm that invoked Await will be performed ," <~ rest) ^^ {
       case x ~ y => {
         parseInst(s"""{
-          access __ret__ = ($x "ReturnCont")
+          access $retcont = ($x "ReturnCont")
           $x.ResumeCont = ($y) [=>] return $y
           }""")
       }
@@ -138,13 +143,13 @@ trait AlgoCompilerHelper extends TokenParsers {
     } | ("Once a generator enters the" | "Assert : If we return here , the async generator either threw") <~ rest ^^^ {
       parseInst(s"""{
         delete genContext.ResumeCont
-        access __ret__ = (genContext "ReturnCont")
+        access $retcont = (genContext "ReturnCont")
         delete genContext.ReturnCont
        }""")
     } | "Assert : If we return here , the async function either threw an exception or performed an implicit or explicit return ; all awaiting is done" ^^^ {
       parseInst(s"""{
         delete asyncContext.ResumeCont
-        access __ret__ = (asyncContext "ReturnCont")
+        access $retcont = (asyncContext "ReturnCont")
         delete asyncContext.ReturnCont
       }""")
     } | "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
@@ -301,26 +306,20 @@ trait AlgoCompilerHelper extends TokenParsers {
           ))
       }))
     } | "return" ^^^ {
-      IReturn(EMap(Ty("Completion"), List(
-        EStr("Type") -> parseExpr("CONST_normal"),
-        EStr("Value") -> EUndef,
-        EStr("Target") -> parseExpr("CONST_empty")
-      )))
+      val i ~ e = getCall(toRef("NormalCompletion"), List(pair(Nil, EUndef)))
+      ISeq(i :+ IReturn(e))
     } | ("ReturnCont" ~> expr <~ "to") ~ expr ^^ {
-      case (i0 ~ e0) ~ (i1 ~ e1) => {
-        val temp = getTempId
-        ISeq((i0 ++ i1) :+ IApp(temp, e0, List(e1)))
-      }
+      case (i0 ~ e0) ~ (i1 ~ e1) => ISeq(i0 ++ i1 :+ IApp(noId, e0, List(e1)))
     } | "ReturnCont" ~> expr ^^ {
       case i ~ e => {
         val temp = getTemp
-        ISeq(i :+ parseInst(s"""app $temp = (__ret__ ${beautify(e)})"""))
+        ISeq(i :+ parseInst(s"""app $temp = ($retcont ${beautify(e)})"""))
       }
     } | "ReturnCont" ^^^ {
       val temp = getTemp
-      parseInst(s"""app $temp = (__ret__ (new Completion( "Type" -> CONST_normal, "Value" -> undefined, "Target" -> CONST_empty)))""")
+      parseInst(s"""app $temp = ($retcont (new Completion( "Type" -> CONST_normal, "Value" -> undefined, "Target" -> CONST_empty)))""")
     }
-  ) <~ opt(". this call will always return" ~ value)
+  )
 
   // let statements
   lazy val letStmt =
@@ -1714,7 +1713,13 @@ trait AlgoCompilerHelper extends TokenParsers {
     pair(i ++ List(r, e), toERef(temp2))
   }
 
+  // get return
+  def getRet(pair: I[Expr]): Inst = pair match {
+    case i ~ e => ISeq(i :+ IReturn(e))
+  }
+
   // get call
+  def getCall(name: String, list: List[I[Expr]]): I[Expr] = getCall(toRef(name), list)
   def getCall(r: Ref, list: List[I[Expr]]): I[Expr] = {
     val temp = getTempId
     val i = list.map { case i ~ _ => i }.flatten
