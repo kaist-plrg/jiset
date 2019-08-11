@@ -1,41 +1,14 @@
 package kr.ac.kaist.ase.algorithm
 
 import kr.ac.kaist.ase.LINE_SEP
-import scala.util.{ Try, Success, Failure }
-
 import kr.ac.kaist.ase.error.UnexpectedShift
 import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.util.Useful._
+import scala.util.{ Try, Success, Failure }
 
 trait AlgoCompilers extends TokenParsers {
   import kr.ac.kaist.ase.core.Parser._
   import kr.ac.kaist.ase.core._
-
-  val algoName: String
-  val kind: AlgoKind
-
-  // failed steps
-  def failedToken: PackratParser[Token] = normal | in ~> stmts <~ out ^^^ StepList(Nil)
-  def failedStep: PackratParser[List[String]] = rep(failedToken) ~ next ^^ {
-    case s ~ k => failed += k -> s; s.map(_.toString)
-  }
-
-  // empty instruction
-  lazy val emptyInst: Inst = ISeq(Nil)
-
-  // type alias
-  type P[A] = PackratParser[A]
-  type I[A] = List[Inst] ~ A
-
-  // list of statements
-  lazy val stmts: P[List[Inst]] = rep(stmt <~ next | failedStep ^^ { tokens =>
-    IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
-  })
-
-  // start notations
-  lazy val starStmt: P[Inst] = star ^^ { case s => IExpr(ENotYetImpl(s"stmt: $s")) }
-  lazy val starExpr: P[I[Expr]] = star ^^ { case s => pair(Nil, ENotYetImpl(s"expr: $s")) }
-  lazy val starCond: P[I[Expr]] = star ^^ { case s => pair(Nil, ENotYetImpl(s"cond: $s")) }
 
   // instructions
   val stmt: P[Inst]
@@ -61,6 +34,29 @@ trait AlgoCompilers extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Helpers
   ////////////////////////////////////////////////////////////////////////////////
+  // failed steps
+  def failedToken: PackratParser[Token] = normal | in ~> stmts <~ out ^^^ StepList(Nil)
+  def failedStep: PackratParser[List[String]] = rep(failedToken) ~ next ^^ {
+    case s ~ k => failed += k -> s; s.map(_.toString)
+  }
+
+  // empty instruction
+  lazy val emptyInst: Inst = ISeq(Nil)
+
+  // type alias
+  type P[A] = PackratParser[A]
+  type I[A] = List[Inst] ~ A
+
+  // list of statements
+  lazy val stmts: P[List[Inst]] = rep(stmt <~ next | failedStep ^^ { tokens =>
+    IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
+  })
+
+  // start notations
+  lazy val starStmt: P[Inst] = star ^^ { case s => IExpr(ENotYetImpl(s"stmt: $s")) }
+  lazy val starExpr: P[I[Expr]] = star ^^ { case s => pair(Nil, ENotYetImpl(s"expr: $s")) }
+  lazy val starCond: P[I[Expr]] = star ^^ { case s => pair(Nil, ENotYetImpl(s"cond: $s")) }
+
   // get temporal identifiers
   private var idCount: Int = 0
   val TEMP_PRE: String = "__x"
