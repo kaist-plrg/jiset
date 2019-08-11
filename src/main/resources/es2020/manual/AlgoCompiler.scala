@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase.model
 
-import kr.ac.kaist.ase.algorithm.{ AlgoKind, Algorithm, Token, StaticSemantics, Method, Grammar }
+import kr.ac.kaist.ase.algorithm
+import algorithm.{ AlgoKind, Algorithm, Token, StaticSemantics, Method, Grammar }
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.LINE_SEP
@@ -37,22 +38,22 @@ trait AlgoCompilerHelper extends TokenParsers {
   // result type
   type Result = Inst
   type P[A] = PackratParser[A]
-  type Q[A] = P[List[Inst] ~ A]
+  type I[A] = List[Inst] ~ A
 
   // list of statements
   lazy val stmts: P[List[Inst]] = rep(stmt <~ next | failedStep ^^ { tokens =>
     IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
   })
 
-  lazy val starStmt: PackratParser[Inst] = star ^^ {
+  lazy val starStmt: P[Inst] = star ^^ {
     case s => IExpr(ENotYetImpl(s"stmt: $s"))
   }
 
-  lazy val starExpr: PackratParser[List[Inst] ~ Expr] = star ^^ {
+  lazy val starExpr: P[I[Expr]] = star ^^ {
     case s => pair(Nil, ENotYetImpl(s"expr: $s"))
   }
 
-  lazy val starCond: PackratParser[List[Inst] ~ Expr] = star ^^ {
+  lazy val starCond: P[I[Expr]] = star ^^ {
     case s => pair(Nil, ENotYetImpl(s"cond: $s"))
   }
 
@@ -64,7 +65,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val stmt: PackratParser[Inst] = {
+  lazy val stmt: P[Inst] = {
     etcStmt | (
       comment |||
       returnStmt |||
@@ -97,7 +98,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   ) ~ rest ^^^ emptyInst
 
   // etc statements
-  lazy val etcStmt = (
+  lazy val etcStmt: P[Inst] = (
     "Perform the following substeps in an implementation - dependent order , possibly interleaving parsing and error detection :" ~> stmt |
     ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed for that execution context the following steps will be performed :") ~ stmt ^^ {
       case x ~ s => {
@@ -282,7 +283,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   ) | ignoreStmt
 
   // ignore statements
-  lazy val ignoreStmt = (
+  lazy val ignoreStmt: P[Inst] = (
     "set fields of" |
     "need to defer setting the" |
     "create any implementation-defined" |
@@ -294,7 +295,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   ) ~ rest ^^^ emptyInst
 
   // return statements
-  lazy val returnStmt = (
+  lazy val returnStmt: P[Inst] = (
     "return" ~> expr ^^ {
       case i ~ e => ISeq(i :+ (kind match {
         case StaticSemantics => IReturn(e)
@@ -339,7 +340,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       }
 
   // inner statements
-  lazy val innerStmt = in ~> stmts <~ out ^^ { ISeq(_) }
+  lazy val innerStmt: P[Inst] = in ~> stmts <~ out ^^ { ISeq(_) }
 
   // if-then-else statements
   lazy val ifStmt =
@@ -367,7 +368,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         }
 
   // call statements
-  lazy val callStmt = ("perform" | "call") ~> expr ^^ {
+  lazy val callStmt: P[Inst] = ("perform" | "call") ~> expr ^^ {
     case i ~ e => ISeq(i :+ IExpr(e))
   } | returnIfAbruptExpr ^^ {
     case i ~ e => ISeq(i :+ IExpr(e))
@@ -491,7 +492,7 @@ trait AlgoCompilerHelper extends TokenParsers {
     }
 
   // append statements
-  lazy val appendStmt = (
+  lazy val appendStmt: P[Inst] = (
     ("append" ~> expr) ~ ("to" ~ opt("the end of") ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
     } | ("append the pair ( a two element list ) consisting of" ~> expr) ~ ("and" ~> expr) ~ ("to the end of" ~> expr) ^^ {
@@ -513,7 +514,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   )
 
   // append statements
-  lazy val insertStmt = (
+  lazy val insertStmt: P[Inst] = (
     ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) =>
         ISeq(i0 ++ i1 :+ IPrepend(x, y))
@@ -521,7 +522,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   )
 
   // remove statements
-  lazy val removeStmt = (
+  lazy val removeStmt: P[Inst] = (
     ("remove the own property with name" ~> name <~ "from") ~ name ^^ {
       case p ~ o => parseInst(s"delete $o.SubMap[$p]")
     } | ("remove the first element from" ~> name <~ "and let") ~ (name <~ "be the value of" ~ ("that" | "the") ~ "element") ^^ {
@@ -533,7 +534,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   // Expressions
   ////////////////////////////////////////////////////////////////////////////////
 
-  lazy val expr: PackratParser[List[Inst] ~ Expr] = (
+  lazy val expr: P[I[Expr]] = (
     arithExpr |
     etcExpr |
     completionExpr |
@@ -551,7 +552,7 @@ trait AlgoCompilerHelper extends TokenParsers {
     starExpr
   )
 
-  lazy val arithExpr: PackratParser[List[Inst] ~ Expr] = expr ~ bop ~ expr ^^ {
+  lazy val arithExpr: P[I[Expr]] = expr ~ bop ~ expr ^^ {
     case (i0 ~ l) ~ b ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(b, l, r))
   } | "(" ~> expr <~ ")"
   lazy val bop: Parser[BOp] = (
@@ -566,7 +567,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   )
 
   // ReturnIfAbrupt
-  lazy val returnIfAbruptExpr: PackratParser[List[Inst] ~ Expr] =
+  lazy val returnIfAbruptExpr: P[I[Expr]] =
     (opt("the result of" ~ opt("performing")) ~>
       "?" ~> expr | "ReturnIfAbrupt(" ~> expr <~ ")") ^^ {
         case i ~ e => returnIfAbrupt(i, e, true)
@@ -576,7 +577,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       }
 
   // value expressions
-  lazy val valueExpr: PackratParser[Expr] = (
+  lazy val valueExpr: P[Expr] = (
     "2" ~> sup ^^ {
       case s =>
         val k = s.toInt
@@ -619,7 +620,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   )
 
   // completion expressions
-  lazy val completionExpr = "normalcompletion(" ~> expr <~ ")" ^^ {
+  lazy val completionExpr: P[I[Expr]] = "normalcompletion(" ~> expr <~ ")" ^^ {
     case i ~ e => pair(i, EMap(Ty("Completion"), List(
       EStr("Type") -> parseExpr("CONST_normal"),
       EStr("Value") -> e,
@@ -628,7 +629,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   }
 
   // call expressions
-  lazy val callExpr = (
+  lazy val callExpr: P[I[Expr]] = (
     "completion(" ~> expr <~ ")" ^^ {
       case i ~ e => pair(i, e)
     } | ("min(" ~> expr <~ ",") ~ (expr <~ ")") ^^ {
@@ -674,7 +675,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   )
 
   // new expressions
-  lazy val newExpr: PackratParser[List[Inst] ~ Expr] =
+  lazy val newExpr: P[I[Expr]] =
     "a new empty list" ^^^ {
       pair(Nil, EList(Nil))
     } | "a" ~> opt("new") ~> " list containing" ~> expr ^^ {
@@ -703,7 +704,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       }
 
   // list expressions
-  lazy val listExpr: PackratParser[List[Inst] ~ Expr] =
+  lazy val listExpr: P[I[Expr]] =
     "«" ~> repsep(expr, ",") <~ "»" ^^ {
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
@@ -806,7 +807,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       case (i1 ~ e1) ~ (i2 ~ e2) => pair(i1 ++ i2, EBOp(OPlus, e1, e2))
     }
   // et cetera expressions
-  lazy val etcExpr: PackratParser[List[Inst] ~ Expr] =
+  lazy val etcExpr: P[I[Expr]] =
     ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
       case (i0 ~ e0) ~ (i1 ~ e1) => {
         val tempP = getTemp
@@ -996,9 +997,9 @@ trait AlgoCompilerHelper extends TokenParsers {
         pair(List(parseInst(s"app $tempP = (AbstractRelationalComparison $x $y)")), ERef(RefId(Id(tempP))))
     } | "the string - concatenation of" ~> repsep(expr, "," ~ opt("and")) ^^ {
       case es =>
-        val init: List[Inst] ~ Expr = pair(Nil, EStr(""))
+        val init: I[Expr] = pair(Nil, EStr(""))
         val insts ~ e = (init /: es) { case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OPlus, l, r)) }
-        (pair(insts, e): List[Inst] ~ Expr)
+        (pair(insts, e): I[Expr])
     } | (("the result of performing abstract equality comparison" ~> id <~ "= =") ~ id) ^^ {
       case x1 ~ x2 =>
         val tempP = getTempId
@@ -1092,7 +1093,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       }
     ) ^^ { case e => pair(Nil, e) })
 
-  lazy val accessExpr: PackratParser[List[Inst] ~ Expr] = opt("the") ~> "stringvalue of identifiername" ^^^ {
+  lazy val accessExpr: P[I[Expr]] = opt("the") ~> "stringvalue of identifiername" ^^^ {
     pair(Nil, ERef(RefId(Id("IdentifierName"))))
   } | "EvaluateBody of" ~> ref ^^ {
     case i ~ r =>
@@ -1126,14 +1127,14 @@ trait AlgoCompilerHelper extends TokenParsers {
   }
 
   // reference expressions
-  lazy val refExpr: PackratParser[List[Inst] ~ Expr] = ref ^^ {
+  lazy val refExpr: P[I[Expr]] = ref ^^ {
     case i ~ r => pair(i, ERef(r))
   }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: PackratParser[List[Inst] ~ Expr] = (
+  lazy val cond: P[I[Expr]] = (
     (("the code matched by" ~> name <~ "is strict mode code") |
       "the source text matching" ~> name <~ "is strict mode code" |
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
@@ -1358,9 +1359,9 @@ trait AlgoCompilerHelper extends TokenParsers {
       } | starCond
   )
 
-  lazy val nonTrivialTyName: PackratParser[String] = ("string" | "boolean" | "number" | "object" | "symbol") ^^ { ts => ts(0) }
+  lazy val nonTrivialTyName: P[String] = ("string" | "boolean" | "number" | "object" | "symbol") ^^ { ts => ts(0) }
 
-  lazy val subCond: PackratParser[(Expr => (List[Inst] ~ Expr))] =
+  lazy val subCond: P[Expr => I[Expr]] =
     opt(",") ~> "or" ~> opt("if") ~> cond ^^ {
       case i ~ r =>
         val tempP = getTempId
@@ -1402,7 +1403,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // References
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val ref: PackratParser[List[Inst] ~ Ref] = (
+  lazy val ref: P[I[Ref]] = (
     "the base value component of" ~> name ^^ {
       case x => parseRef(s"$x.BaseValue")
     } | name <~ "'s base value component" ^^ {
@@ -1457,13 +1458,13 @@ trait AlgoCompilerHelper extends TokenParsers {
           case (r, e) => RefProp(r, e)
         })
     }
-  lazy val refWithOrdinal: PackratParser[Ref] =
+  lazy val refWithOrdinal: P[Ref] =
     ordinal ~ nt ^^ {
       case k ~ x => RefId(Id(x + k))
     } | name ^^ {
       case x => RefId(Id(x))
     }
-  lazy val ordinal: PackratParser[String] = (
+  lazy val ordinal: P[String] = (
     "the first" ^^^ "0" |
     "the second" ^^^ "1" |
     "the third" ^^^ "2"
@@ -1472,7 +1473,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Fields
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val field: PackratParser[List[Inst] ~ Expr] =
+  lazy val field: P[I[Expr]] =
     "." ~> name ^^ {
       case x => pair(Nil, EStr(x))
     } | "." ~> internalName ^^ {
@@ -1484,7 +1485,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Section Numbers
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val secno: PackratParser[List[Int]] =
+  lazy val secno: P[List[Int]] =
     number ~ rep("." ~> number) ^^ {
       case n ~ list => n.toInt :: list.map(_.toInt)
     }
@@ -1602,7 +1603,7 @@ trait AlgoCompilerHelper extends TokenParsers {
     insts: List[Inst],
     expr: Expr,
     vulnerable: Boolean = true
-  ): List[Inst] ~ Expr = (insts, expr) match {
+  ): I[Expr] = (insts, expr) match {
     case (i, (e @ ERef(RefId(Id(x))))) => pair(i :+ parseInst(s"""
       if (= (typeof $x) "Completion") {
         if (= $x.Type CONST_normal) $x = $x.Value
@@ -1681,12 +1682,12 @@ trait AlgoCompilerHelper extends TokenParsers {
 
   // create pair of parsing results
   protected val pair = `~`
-  protected def concat(a: List[Inst], b: List[Inst] ~ Expr): List[Inst] ~ Expr = b match {
+  protected def concat(a: List[Inst], b: I[Expr]): I[Expr] = b match {
     case bi ~ be => pair(a ++ bi, be)
   }
 
   // get access
-  def getAccess(x: String, y: String): List[Inst] ~ Expr = {
+  def getAccess(x: String, y: String): I[Expr] = {
     val temp = getTemp
     pair(List(IAccess(Id(temp), toERef(x), EStr(y))), toERef(temp))
   }
@@ -1695,8 +1696,8 @@ trait AlgoCompilerHelper extends TokenParsers {
   def getAccess(
     x: String,
     f: String,
-    list: List[List[Inst] ~ Expr]
-  ): List[Inst] ~ Expr = {
+    list: List[I[Expr]]
+  ): I[Expr] = {
     val temp = getTempId
     val temp2 = getTempId
     val i = list.map { case i ~ _ => i }.flatten
@@ -1706,7 +1707,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   }
 
   // get call
-  def getCall(r: Ref, list: List[List[Inst] ~ Expr]): List[Inst] ~ Expr = {
+  def getCall(r: Ref, list: List[I[Expr]]): I[Expr] = {
     val temp = getTempId
     val i = list.map { case i ~ _ => i }.flatten
     val args = list.map { case i ~ e => e }
