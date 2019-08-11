@@ -155,15 +155,20 @@ object REPL extends AlgoCompilerHelper {
   type GenFilter = List[String] => Filter
 
   // prefix filter generator
-  lazy val preFilter: GenFilter =
-    ss => ts => ts.map(_.toString) startsWith ss
+  lazy val preFilter: GenFilter = ss => ts => (ts, ss) match {
+    case (_, Nil) => true
+    case (Nil, _) => false
+    case (t :: ttl, ss @ s :: stl) =>
+      if (t is s) preFilter(stl)(ttl)
+      else false
+  }
 
   // sub-sequence filter generator
   lazy val subFilter: GenFilter = ss => ts => (ts, ss) match {
     case (_, Nil) => true
     case (Nil, _) => false
     case (t :: ttl, ss @ s :: stl) =>
-      if (t.toString == s) subFilter(stl)(ttl)
+      if (t is s) subFilter(stl)(ttl)
       else subFilter(ss)(ttl)
   }
 

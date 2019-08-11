@@ -14,6 +14,7 @@ object BaseGlobal {
     "max" -> max.func,
     "MulOperation" -> MulOperation.func,
     "WrapCompletion" -> WrapCompletion.func,
+    "NormalCompletion" -> NormalCompletion.func,
     "ThrowCompletion" -> ThrowCompletion.func,
     "IsDuplicate" -> IsDuplicate.func,
     "HostEnsureCanCompileStrings" -> HostEnsureCanCompileStrings.func,

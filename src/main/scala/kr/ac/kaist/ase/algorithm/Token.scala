@@ -4,13 +4,16 @@ import kr.ac.kaist.ase.LINE_SEP
 import kr.ac.kaist.ase.error.UnexpectedToken
 
 // tokens
-trait Token
+trait Token {
+  def is(str: String): Boolean = toString == str
+}
 abstract class NormalToken(name: String, content: String) extends Token {
   override def toString: String = this match {
     case Text(t) => t
     case _ => s"$name:{$content}"
   }
   def getContent: String = content
+  override def is(str: String): Boolean = toString == str || name + ":" == str
 }
 case class Const(const: String) extends NormalToken("const", const)
 case class Code(code: String) extends NormalToken("code", code)
