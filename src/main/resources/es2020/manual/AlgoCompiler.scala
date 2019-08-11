@@ -293,6 +293,13 @@ trait AlgoCompilerHelper extends TokenParsers {
         if (= $s["GetPrototypeOf"] absent) $s["GetPrototypeOf"] = OrdinaryObjectDOTGetPrototypeOf else {}
         if (= $s["IsExtensible"] absent) $s["IsExtensible"] = OrdinaryObjectDOTIsExtensible else {}
       }""")
+    } | ("append the pair ( a two element list ) consisting of" ~> expr) ~ ("and" ~> expr) ~ ("to the end of" ~> expr) ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ z) => ISeq(i0 ++ i1 ++ i2 :+
+        IAppend(EList(List(x, y)), z))
+    } | ("add" ~> id <~ "at the back of the job queue named by") <~ id ^^ {
+      case x => IAppend(toERef(x), toERef(jobQueue))
+    } | ("remove the own property with name" ~> name <~ "from") ~ name ^^ {
+      case p ~ o => parseInst(s"delete $o.SubMap[$p]")
     }
   ) | ignoreStmt
 
@@ -424,25 +431,18 @@ trait AlgoCompilerHelper extends TokenParsers {
     case x ~ (i ~ e) ~ isRev ~ b => ISeq(i :+ forEachList(Id(x), e, b, isRev))
   }
 
-  // metions
-  lazy val mention: P[String] = "(" ~ rep1(normal.filter(_ != Text(")"))) ~ ")" ^^^ ""
-
   // append statements
-  lazy val appendStmt: P[Inst] = (
-    ("append" ~> expr) ~ ("to" ~ opt("the end of") ~> expr) ^^ {
+  lazy val appendStmt: P[Inst] = ("append" | "add") ~> (
+    (expr <~ {
+      "to" ~ opt("the end of") |||
+        "as" ~ ("an" | "the last") ~ "element of" ~ opt("the list" ~ opt("that is"))
+    }) ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
-    } | ("append the pair ( a two element list ) consisting of" ~> expr) ~ ("and" ~> expr) ~ ("to the end of" ~> expr) ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ z) => ISeq(i0 ++ i1 ++ i2 :+
-        IAppend(EList(List(x, y)), z))
-    } | ("add" ~> id <~ "at the back of the job queue named by") <~ id ^^ {
-      case x => IAppend(toERef(x), toERef(jobQueue))
-    } | (("append" | "add") ~> expr) ~ ("as" ~ ("an" | "the last") ~ "element of" ~ opt("the list") ~> opt("that is") ~> expr) ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
-    } | ("append each item in" ~> expr <~ "to the end of") ~ expr ^^ {
+    } | ("each item in" ~> expr <~ "to the end of") ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l1, IAppend(toERef(tempId), l2)))
-    } | ("append to" ~> expr <~ opt("the elements of")) ~ expr ^^ {
+    } | ("to" ~> expr <~ opt("the elements of")) ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(toERef(tempId), l1)))
@@ -450,21 +450,15 @@ trait AlgoCompilerHelper extends TokenParsers {
   )
 
   // append statements
-  lazy val insertStmt: P[Inst] = (
-    ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) =>
-        ISeq(i0 ++ i1 :+ IPrepend(x, y))
-    }
-  )
+  lazy val insertStmt: P[Inst] = ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
+    case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IPrepend(x, y))
+  }
 
   // remove statements
   lazy val removeStmt: P[Inst] = (
-    ("remove the own property with name" ~> name <~ "from") ~ name ^^ {
-      case p ~ o => parseInst(s"delete $o.SubMap[$p]")
-    } | ("remove the first element from" ~> name <~ "and let") ~ (name <~ "be the value of" ~ ("that" | "the") ~ "element") ^^ {
-      case l ~ x => parseInst(s"let $x = (pop $l 0i)")
-    }
-  )
+    ("remove the first element from" ~> name <~ "and let") ~
+    (name <~ "be the value of" ~ ("that" | "the") ~ "element")
+  ) ^^ { case l ~ x => ILet(Id(x), EPop(toERef(l), EINum(0))) }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
@@ -1737,4 +1731,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   def sep(s: P[Any]): P[String] = (
     "," ||| "," ~ s ||| s
   ) ^^^ ""
+
+  // metions
+  lazy val mention: P[String] = "(" ~ rep1(normal.filter(_ != Text(")"))) ~ ")" ^^^ ""
 }
