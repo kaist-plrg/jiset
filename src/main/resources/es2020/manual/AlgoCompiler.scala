@@ -1,7 +1,7 @@
 package kr.ac.kaist.ase.model
 
 import kr.ac.kaist.ase.algorithm
-import algorithm.{ AlgoKind, Algorithm, Token, StaticSemantics, Method, Grammar }
+import algorithm.{ AlgoKind, Algorithm, Token, StaticSemantics, Method, Grammar, Text }
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.LINE_SEP
@@ -407,22 +407,25 @@ trait AlgoCompilerHelper extends TokenParsers {
   }
 
   // while statements
-  lazy val whileStmt =
-    ("repeat, while" ~> cond <~ opt(",")) ~ stmt ^^ {
-      case (i ~ c) ~ s => ISeq(i :+ IWhile(c, s))
-    } | "repeat," ~> stmt ^^ {
-      case s => IWhile(EBool(true), s)
-    }
+  lazy val whileStmt = "repeat," ~> opt("while" ~> cond <~ opt(",")) ~ stmt ^^ {
+    case Some(i ~ c) ~ s => ISeq(i :+ IWhile(c, s))
+    case None ~ s => IWhile(EBool(true), s)
+  }
 
   // for-each statements
-  lazy val forEachStmt =
-    ("for each" ~ opt(nt | "string" | "element" | "parse node") ~> id) ~ (("in order from" | "in" | "of" | "from") ~> expr <~ opt(",") ~ opt("(NOTE: this is another complete iteration of the second CaseClauses),") ~ opt("in list order," | "in original insertion order,") ~ "do") ~ stmt ^^ {
-      case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
-    } | ("for each" ~> id) ~ ("in" ~> expr <~ ", in reverse list order , do") ~ stmt ^^ {
-      case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b, true))
-    } | ("for each" ~ opt("Record { [ [ Key ] ] , [ [ Value ] ] }") ~> id <~ "that is an element of") ~ (expr <~ ", do") ~ stmt ^^ {
-      case x ~ (i ~ e) ~ b => ISeq(i :+ forEachList(Id(x), e, b))
-    }
+  lazy val forEachStmt = {
+    ("for each" ~ rep(nt | text) ~> id) ~
+      (("in order from" | "in" | "of" | "from" | "that is an element of") ~> expr) ~
+      (opt(mention) ~ opt(",") ~> (
+        opt("in list order," | "in original insertion order,") ^^^ false |||
+        "in reverse list order," ^^^ true
+      )) ~ ("do" ~> stmt)
+  } ^^ {
+    case x ~ (i ~ e) ~ isRev ~ b => ISeq(i :+ forEachList(Id(x), e, b, isRev))
+  }
+
+  // metions
+  lazy val mention: P[String] = "(" ~ rep1(normal.filter(_ != Text(")"))) ~ ")" ^^^ ""
 
   // append statements
   lazy val appendStmt: P[Inst] = (
