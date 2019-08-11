@@ -148,7 +148,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         delete asyncContext.ReturnCont
       }""")
     } | "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
-      case i ~ e => ISeq(i ++ List(IAppend(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
+      case i ~ e => ISeq(i ++ List(IAppend(e, toERef(executionStack)), parseInst(s"""
         $context = $executionStack[(- $executionStack.length 1i)]
       """)))
     } | "if this method was called with more than one argument , then in left to right order , starting with the second argument , append each argument as the last element of" ~> name ^^ {
@@ -190,7 +190,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         }""")
     } | "for each field of" ~ rest ^^^ {
       val temp = getTemp
-      forEachMap(Id(temp), ERef(RefId(Id("Desc"))), parseInst(s"""O.SubMap[P][$temp] = Desc[$temp]"""))
+      forEachMap(Id(temp), toERef("Desc"), parseInst(s"""O.SubMap[P][$temp] = Desc[$temp]"""))
     } | ("convert the property named" ~> id) ~ ("of object" ~> id <~ "from a data property to an accessor property" <~ rest) ^^^ {
       val temp = getTemp
       parseInst(s"""{
@@ -267,11 +267,11 @@ trait AlgoCompilerHelper extends TokenParsers {
       val tempId = getTempId
       ISeq(List(
         parseInst(s"""let $temp1 = (map-keys O["SubMap"])"""),
-        forEachList(tempId, ERef(RefId(Id(temp1))), IAppend(ERef(RefId(tempId)), ERef(RefId(Id("keys"))))),
+        forEachList(tempId, toERef(temp1), IAppend(toERef(tempId), toERef("keys"))),
         parseInst(s"""return keys""")
       ))
     } | "increase" ~> id <~ "by 1" ^^ {
-      case x => IAssign(RefId(Id(x)), EBOp(OPlus, ERef(RefId(Id(x))), EINum(1)))
+      case x => IAssign(RefId(Id(x)), EBOp(OPlus, toERef(x), EINum(1)))
     }
   ) | ignoreStmt
 
@@ -296,8 +296,8 @@ trait AlgoCompilerHelper extends TokenParsers {
         case _ =>
           val temp = getTempId
           ISeq(List(
-            IApp(temp, ERef(RefId(Id("WrapCompletion"))), List(e)),
-            IReturn(ERef(RefId(temp)))
+            IApp(temp, toERef("WrapCompletion"), List(e)),
+            IReturn(toERef(temp))
           ))
       }))
     } | "return" ^^^ {
@@ -492,17 +492,17 @@ trait AlgoCompilerHelper extends TokenParsers {
       case (i0 ~ x) ~ (i1 ~ y) ~ (i2 ~ z) => ISeq(i0 ++ i1 ++ i2 :+
         IAppend(EList(List(x, y)), z))
     } | ("add" ~> id <~ "at the back of the job queue named by") <~ id ^^ {
-      case x => IAppend(ERef(RefId(Id(x))), ERef(RefId(Id(jobQueue))))
+      case x => IAppend(toERef(x), toERef(jobQueue))
     } | (("append" | "add") ~> expr) ~ ("as" ~ ("an" | "the last") ~ "element of" ~ opt("the list") ~> opt("that is") ~> expr) ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
     } | ("append each item in" ~> expr <~ "to the end of") ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
-        ISeq(i0 ++ i1 :+ forEachList(tempId, l1, IAppend(ERef(RefId(tempId)), l2)))
+        ISeq(i0 ++ i1 :+ forEachList(tempId, l1, IAppend(toERef(tempId), l2)))
     } | ("append to" ~> expr <~ opt("the elements of")) ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
-        ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(ERef(RefId(tempId)), l1)))
+        ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(toERef(tempId), l1)))
     }
   )
 
@@ -639,18 +639,18 @@ trait AlgoCompilerHelper extends TokenParsers {
         val temp = getTempId
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
         val e = IApp(temp, parseExpr(x), list.map { case i ~ e => e })
-        pair(i :+ e, ERef(RefId(temp)))
+        pair(i :+ e, toERef(temp))
       case (i0 ~ (r @ RefProp(b, _))) ~ list =>
         val temp = getTempId
         val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
         val e = IApp(temp, ERef(r), ERef(b) :: list.map { case i ~ e => e })
-        pair(i :+ e, ERef(RefId(temp)))
+        pair(i :+ e, toERef(temp))
     } | ("the result of the comparison" ~> expr <~ "==") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) =>
         val temp = getTemp
         pair(
           i0 ++ i1 :+ parseInst(s"app $temp = (AbstractEqualityComparison ${beautify(x)} ${beautify(y)})"),
-          ERef(RefId(Id(temp)))
+          toERef(temp)
         )
     } | (opt("the result of" ~ opt("performing")) ~>
       (name <~ ("for" | "of")) ~
@@ -662,8 +662,8 @@ trait AlgoCompilerHelper extends TokenParsers {
           val temp2 = getTempId
           val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
           val r = IAccess(temp, ERef(x), EStr(f))
-          val e = IApp(temp2, ERef(RefId(temp)), list.map { case i ~ e => e })
-          pair(i ++ List(r, e), ERef(RefId(temp2)))
+          val e = IApp(temp2, toERef(temp), list.map { case i ~ e => e })
+          pair(i ++ List(r, e), toERef(temp2))
       }
   )
 
@@ -679,7 +679,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         EStr("BindingObject") -> e
       )))
     } | "a new realm record" ^^^ {
-      pair(Nil, ERef(RefId(Id("REALM"))))
+      pair(Nil, toERef("REALM"))
     } | ("a new" | "a newly created") ~> ty <~ opt(("with" | "that" | "containing") ~ rest) ^^ {
       case t => pair(Nil, EMap(t, List(EStr("SubMap") -> EMap(Ty("SubMap"), Nil)))) // TODO handle after "with" or "that"
     } | ("a value of type reference whose base value component is" ~> expr) ~
@@ -718,7 +718,7 @@ trait AlgoCompilerHelper extends TokenParsers {
             forEachList(Id(elem), parseExpr(y), parseInst(s"append $elem -> $newList"))
           ), parseExpr(newList))
       } | ("a" ~ ("copy" | "new list") ~ "of" ~ opt("the List") ~> name) ~ opt("with" ~> expr <~ "appended") ^^ {
-        case x ~ None => pair(Nil, ECopy(ERef(RefId(Id(x)))))
+        case x ~ None => pair(Nil, ECopy(toERef(x)))
         case x ~ Some(i ~ y) =>
           val e = beautify(y)
           val newList = getTemp
@@ -777,7 +777,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         pair(List(parseInst(s"""{
           access $temp = ($x "Contains")
           app $temp2 = ($temp $y)
-        }""")), ERef(RefId(Id(temp2))))
+        }""")), toERef(temp2))
       }
     } | (id <~ literal("contains").filter(_ == List("Contains"))) ~ name ^^ { // TODO: define? Contains for ScriptBody0 (appears at PerformEval)
       case x ~ y => if (y == "ScriptBody")
@@ -805,19 +805,19 @@ trait AlgoCompilerHelper extends TokenParsers {
       case (i0 ~ e0) ~ (i1 ~ e1) => {
         val temp = getTemp
         val applyInst = parseInst(s"""app $temp = (${beautify(e0)} ${beautify(e1)}[0i] ${beautify(e1)}[1i] ${beautify(e1)}[2i])""")
-        pair(List(applyInst), ERef(RefId(Id(temp))))
+        pair(List(applyInst), toERef(temp))
       }
     } | "a non - empty Job Queue chosen in an implementation - defined" ~ rest ^^^ {
       val checkInst = parseInst(s"""if (= $jobQueue.length 0) {
         return (new Completion( "Type" -> CONST_normal, "Value" -> undefined, "Target" -> CONST_empty))
       } else {}""")
-      pair(List(checkInst), ERef(RefId(Id(jobQueue))))
+      pair(List(checkInst), toERef(jobQueue))
     } | "the PendingJob record at the front of" ~> id <~ rest ^^ {
       case x => pair(Nil, parseExpr(s"""(pop $x 0i)"""))
     } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
     } | "the source text matched by" ~> name ^^ {
-      case x => pair(Nil, EGetSyntax(ERef(RefId(Id(x)))))
+      case x => pair(Nil, EGetSyntax(toERef(x)))
     } | "the String value consisting of the single code unit" ~> name ^^ {
       case x => pair(Nil, parseExpr(x))
     } | "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> name <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
@@ -878,9 +878,9 @@ trait AlgoCompilerHelper extends TokenParsers {
       case x => pair(Nil, EStr(x))
     } | "a String according to Table 35" ^^^ {
       val temp = getTemp
-      pair(List(parseInst(s"app $temp = (GetTypeOf val)")), ERef(RefId(Id(temp))))
+      pair(List(parseInst(s"app $temp = (GetTypeOf val)")), toERef(temp))
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
-      pair(Nil, EParseSyntax(ERef(RefId(Id("this"))), EStr("ParenthesizedExpression"), Nil))
+      pair(Nil, EParseSyntax(toERef("this"), EStr("ParenthesizedExpression"), Nil))
     } | "the length of" ~> name ^^ {
       case x => pair(Nil, parseExpr(s"""$x.length"""))
     } | "the" ~ opt("actual") ~ "number of" ~ ("actual arguments" | "arguments passed to this function" ~ opt("call")) ^^^ {
@@ -899,7 +899,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       pair(List(
         parseInst(s"""app $temp = (EnumerateObjectPropertiesHelper O (new []) (new []))"""),
         parseInst(s"""app $temp2 = (CreateListIteratorRecord $temp)""")
-      ), ERef(RefId(Id(temp2))))
+      ), toERef(temp2))
     } | "the ecmascript code that is the result of parsing" ~> id <~ ", interpreted as utf - 16 encoded unicode text" <~ rest ^^^ {
       pair(Nil, parseExpr(s"""(parse-syntax x "Script")""")) // TODO : throw syntax error
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
@@ -907,7 +907,7 @@ trait AlgoCompilerHelper extends TokenParsers {
     } | "the string that is the only element of" ~> expr ^^ {
       case i ~ e =>
         val temp = getTemp
-        pair(i :+ IAccess(Id(temp), e, EINum(0)), ERef(RefId(Id(temp))))
+        pair(i :+ IAccess(Id(temp), e, EINum(0)), toERef(temp))
     } | ("the result of" ~> name <~ "minus the number of elements of") ~ name ^^ {
       case x ~ y => pair(Nil, parseExpr(s"(- $x $y.length)"))
     } | ("the larger of" ~> expr <~ "and") ~ expr ^^ {
@@ -919,45 +919,60 @@ trait AlgoCompilerHelper extends TokenParsers {
           if (< $a $b) let $temp = $b
           else let $temp = $a
         }"""), parseExpr(temp))
-    } | ("the result of applying" ~> name <~ "to") ~ (name <~ "and") ~ (name <~ "as if evaluating the expression" ~ rest) ^^ {
+    } | ("the result of applying" ~> id <~ "to") ~ (id <~ "and") ~ (id <~ "as if evaluating the expression" ~ id ~ id ~ id) ^^ {
       case op ~ l ~ r =>
-        val res = getTemp
-        val tmp = (0 until 14).map(_ => getTemp)
-        val lprimI ~ lprim = returnIfAbrupt(List(parseInst(s"app ${tmp(0)} = (ToPrimitive $l)")), ERef(RefId(Id(tmp(0)))))
-        val lpnumI ~ lpnum = returnIfAbrupt(List(parseInst(s"app ${tmp(1)} = (ToNumber ${beautify(lprim)})")), ERef(RefId(Id(tmp(1)))))
-        val lpstrI ~ lpstr = returnIfAbrupt(List(parseInst(s"app ${tmp(2)} = (ToString ${beautify(lprim)})")), ERef(RefId(Id(tmp(2)))))
-        val rprimI ~ rprim = returnIfAbrupt(List(parseInst(s"app ${tmp(3)} = (ToPrimitive $r)")), ERef(RefId(Id(tmp(3)))))
-        val rpnumI ~ rpnum = returnIfAbrupt(List(parseInst(s"app ${tmp(4)} = (ToNumber ${beautify(rprim)})")), ERef(RefId(Id(tmp(4)))))
-        val rpstrI ~ rpstr = returnIfAbrupt(List(parseInst(s"app ${tmp(5)} = (ToString ${beautify(rprim)})")), ERef(RefId(Id(tmp(5)))))
-        val lnumI ~ lnum = returnIfAbrupt(List(parseInst(s"app ${tmp(6)} = (ToNumber $l)")), ERef(RefId(Id(tmp(6)))))
-        val li32I ~ li32 = returnIfAbrupt(List(parseInst(s"app ${tmp(7)} = (ToInt32 $l)")), ERef(RefId(Id(tmp(7)))))
-        val lui32I ~ lui32 = returnIfAbrupt(List(parseInst(s"app ${tmp(8)} = (ToUint32 $l)")), ERef(RefId(Id(tmp(8)))))
-        val rnumI ~ rnum = returnIfAbrupt(List(parseInst(s"app ${tmp(9)} = (ToNumber $r)")), ERef(RefId(Id(tmp(9)))))
-        val ri32I ~ ri32 = returnIfAbrupt(List(parseInst(s"app ${tmp(10)} = (ToInt32 $r)")), ERef(RefId(Id(tmp(10)))))
-        val rui32I ~ rui32 = returnIfAbrupt(List(parseInst(s"app ${tmp(11)} = (ToUint32 $r)")), ERef(RefId(Id(tmp(11)))))
-        pair(List(
-          IIf(parseExpr(s"""(= $op "*")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (* ${beautify(lnum)} ${beautify(rnum)})""")),
-            IIf(parseExpr(s"""(= $op "/")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (/ ${beautify(lnum)} ${beautify(rnum)})""")),
-              IIf(parseExpr(s"""(= $op "%")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (% ${beautify(lnum)} ${beautify(rnum)})""")),
-                IIf(parseExpr(s"""(= $op "+")"""), ISeq(lprimI ++ rprimI ++ List(
-                  parseInst(s"app ${tmp(12)} = (Type ${beautify(lprim)})"),
-                  parseInst(s"app ${tmp(13)} = (Type ${beautify(rprim)})"),
-                  IIf(
-                    parseExpr(s"""(|| (= ${tmp(12)} "String") (= ${tmp(13)} "String"))"""),
-                    ISeq(lpstrI ++ rpstrI :+ parseInst(s"""$res = (+ ${beautify(lpstr)} ${beautify(rpstr)})""")),
-                    ISeq(lpnumI ++ rpnumI :+ parseInst(s"""$res = (+ ${beautify(lpnum)} ${beautify(rpnum)})"""))
-                  )
-                )),
-                  IIf(parseExpr(s"""(= $op "-")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (- ${beautify(lnum)} ${beautify(rnum)})""")),
-                    IIf(parseExpr(s"""(= $op "<<")"""), ISeq(li32I ++ rui32I :+ parseInst(s"""$res = (<< ${beautify(li32)} ${beautify(rui32)})""")),
-                      IIf(parseExpr(s"""(= $op ">>")"""), ISeq(li32I ++ rui32I :+ parseInst(s"""$res = (>> ${beautify(li32)} ${beautify(rui32)})""")),
-                        IIf(parseExpr(s"""(= $op ">>>")"""), ISeq(lui32I ++ rui32I :+ parseInst(s"""$res = (>>> ${beautify(lui32)} ${beautify(rui32)})""")),
-                          IIf(parseExpr(s"""(= $op "&")"""), ISeq(li32I ++ ri32I :+ parseInst(s"""$res = (& ${beautify(li32)} ${beautify(ri32)})""")),
-                            IIf(parseExpr(s"""(= $op "^")"""), ISeq(li32I ++ ri32I :+ parseInst(s"""$res = (^ ${beautify(li32)} ${beautify(ri32)})""")),
-                              IIf(parseExpr(s"""(= $op "|")"""), ISeq(li32I ++ ri32I :+ parseInst(s"""$res = (| ${beautify(li32)} ${beautify(ri32)})""")),
-                                IIf(parseExpr(s"""(= $op "**")"""), ISeq(lnumI ++ rnumI :+ parseInst(s"""$res = (** ${beautify(lnum)} ${beautify(rnum)})""")),
-                                  IExpr(ENotSupported("assign operator"))))))))))))))
-        ), parseExpr(res))
+        val res = getTempId
+        val opERef = toERef(op)
+        val list = List(
+          ("*", OMul, "ToNumber", "ToNumber"),
+          ("/", ODiv, "ToNumber", "ToNumber"),
+          ("%", OMod, "ToNumber", "ToNumber"),
+          ("-", OSub, "ToNumber", "ToNumber"),
+          ("<<", OLShift, "ToInt32", "ToUint32"),
+          (">>", OSRShift, "ToInt32", "ToUint32"),
+          (">>>", OURShift, "ToUint32", "ToUint32"),
+          ("&", OBAnd, "ToInt32", "ToInt32"),
+          ("^", OBXOr, "ToInt32", "ToInt32"),
+          ("|", OBOr, "ToInt32", "ToInt32"),
+          ("**", OPow, "ToNumber", "ToNumber")
+        )
+        def getMap(x: Expr, names: List[String]): Map[String, List[Inst] ~ Expr] =
+          (Map[String, List[Inst] ~ Expr]() /: names) {
+            case (m, name) =>
+              val temp = getTempId
+              m + (name -> returnIfAbrupt(List(IApp(temp, toERef(name), List(x))), toERef(temp)))
+          }
+        val names = List("ToNumber", "ToInt32", "ToUint32", "ToPrimitive")
+        val lmap = getMap(toERef(l), names)
+        val rmap = getMap(toERef(r), names)
+        val init: Inst = IExpr(ENotSupported("assign operator"))
+        val genenralCase = (init /: list) {
+          case (base, (name, op, left, right)) =>
+            val li ~ le = lmap(left)
+            var ri ~ re = rmap(right)
+            IIf(
+              EBOp(OEq, opERef, EStr(name)),
+              ISeq(li ++ ri :+ IAssign(toRef(res), EBOp(op, le, re))),
+              base
+            )
+        }
+        val lprimI ~ lprim = lmap("ToPrimitive")
+        val rprimI ~ rprim = rmap("ToPrimitive")
+        val lpstrI ~ lpstr = getMap(lprim, List("ToString"))("ToString")
+        val lpnumI ~ lpnum = getMap(lprim, List("ToNumber"))("ToNumber")
+        var rpstrI ~ rpstr = getMap(rprim, List("ToString"))("ToString")
+        var rpnumI ~ rpnum = getMap(rprim, List("ToNumber"))("ToNumber")
+        val (ltemp, rtemp) = (getTempId, getTempId)
+        val str = EStr("String")
+        pair(List(IIf(EBOp(OEq, opERef, EStr("+")), ISeq(lprimI ++ rprimI ++ List(
+          IApp(ltemp, toERef("Type"), List(lprim)),
+          IApp(rtemp, toERef("Type"), List(rprim)),
+          IIf(
+            EBOp(OOr, EBOp(OEq, toERef(ltemp), str), EBOp(OEq, toERef(rtemp), str)),
+            ISeq(lpstrI ++ rpstrI :+ IAssign(toRef(res), EBOp(OPlus, lpstr, rpstr))),
+            ISeq(lpnumI ++ rpnumI :+ IAssign(toRef(res), EBOp(OPlus, lpnum, rpnum)))
+          )
+        )), genenralCase)), toERef(res))
     } | "the result of adding the value 1 to" ~> name <~ rest ^^ {
       case x => pair(Nil, parseExpr(s"(+ $x 1)"))
     } | "the result of subtracting the value 1 from" ~> name <~ rest ^^ {
@@ -984,10 +999,10 @@ trait AlgoCompilerHelper extends TokenParsers {
     } | ("the result of performing abstract relational comparison" ~> name <~ "<") ~ name ~ opt("with" ~ name ~ "equal to" ~> expr) ^^ {
       case x ~ y ~ Some(i ~ e) =>
         val temp = getTemp
-        pair(i :+ parseInst(s"app $temp = (AbstractRelationalComparison $x $y ${beautify(e)})"), ERef(RefId(Id(temp))))
+        pair(i :+ parseInst(s"app $temp = (AbstractRelationalComparison $x $y ${beautify(e)})"), toERef(temp))
       case x ~ y ~ None =>
         val temp = getTemp
-        pair(List(parseInst(s"app $temp = (AbstractRelationalComparison $x $y)")), ERef(RefId(Id(temp))))
+        pair(List(parseInst(s"app $temp = (AbstractRelationalComparison $x $y)")), toERef(temp))
     } | "the string - concatenation of" ~> repsep(expr, "," ~ opt("and")) ^^ {
       case es =>
         val init: I[Expr] = pair(Nil, EStr(""))
@@ -996,39 +1011,39 @@ trait AlgoCompilerHelper extends TokenParsers {
     } | (("the result of performing abstract equality comparison" ~> id <~ "= =") ~ id) ^^ {
       case x1 ~ x2 =>
         val temp = getTempId
-        pair(List(IApp(temp, ERef(RefId(Id("AbstractEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))), ERef(RefId(temp)))
+        pair(List(IApp(temp, toERef("AbstractEqualityComparison"), List(toERef(x1), toERef(x2)))), ERef(RefId(temp)))
     } | (("the result of performing strict equality comparison" ~> id <~ "= = =") ~ id) ^^ {
       case x1 ~ x2 =>
         val temp = getTempId
-        pair(List(IApp(temp, ERef(RefId(Id("StrictEqualityComparison"))), List(ERef(RefId(Id(x1))), ERef(RefId(Id(x2)))))), ERef(RefId(temp)))
+        pair(List(IApp(temp, toERef("StrictEqualityComparison"), List(toERef(x1), toERef(x2)))), ERef(RefId(temp)))
     } | ("the result of applying the multiplicativeoperator" <~ rest) ^^^ {
       val temp = getTemp
-      pair(List(parseInst(s"app $temp = ( MulOperation (get-syntax MultiplicativeOperator) lnum rnum)")), ERef(RefId(Id(temp))))
+      pair(List(parseInst(s"app $temp = ( MulOperation (get-syntax MultiplicativeOperator) lnum rnum)")), toERef(temp))
     } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ "." ~ name ~ "is the" ~ rest ^^ {
       case f =>
         val temp = getTemp
-        pair(List(parseInst(s"app $temp = ($f.Code thisArgument argumentsList undefined $f)")), ERef(RefId(Id(temp))))
+        pair(List(parseInst(s"app $temp = ($f.Code thisArgument argumentsList undefined $f)")), toERef(temp))
     } | "the completion record that is the result of evaluating" ~> name <~ "in an implementation - defined manner that conforms to the specification of" ~ name ~ ". the" ~ rest ^^ {
       case f =>
         val temp = getTemp
-        pair(List(parseInst(s"app $temp = ($f.Code undefined argumentsList newTarget $f)")), ERef(RefId(Id(temp))))
+        pair(List(parseInst(s"app $temp = ($f.Code undefined argumentsList newTarget $f)")), toERef(temp))
     } | ((
       "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
-        case x => ERef(RefId(Id(x)))
+        case x => toERef(x)
       } | "a new unique Symbol value whose [[Description]] value is" ~> name ^^ {
         case x => parseExpr(s"(new '$x)")
       } | "the algorithm steps defined in ListIterator" ~ rest ^^^ {
         parseExpr("ListIteratornext")
       } | "the algorithm steps defined in GetCapabilitiesExecutor Functions" ^^^ {
-        ERef(RefId(Id("GLOBALDOTGetCapabilitiesExecutorFunctions")))
+        toERef("GLOBALDOTGetCapabilitiesExecutorFunctions")
       } | "the algorithm steps defined in Promise Resolve Functions" ^^^ {
-        ERef(RefId(Id("GLOBALDOTPromiseResolveFunctions")))
+        toERef("GLOBALDOTPromiseResolveFunctions")
       } | "the algorithm steps defined in Promise Reject Functions" ^^^ {
-        ERef(RefId(Id("GLOBALDOTPromiseRejectFunctions")))
+        toERef("GLOBALDOTPromiseRejectFunctions")
       } | "the algorithm steps defined in Await Fulfilled Functions" ^^^ {
-        ERef(RefId(Id("GLOBALDOTAwaitFulfilledFunctions")))
+        toERef("GLOBALDOTAwaitFulfilledFunctions")
       } | "the algorithm steps defined in Await Rejected Functions" ^^^ {
-        ERef(RefId(Id("GLOBALDOTAwaitRejectedFunctions")))
+        toERef("GLOBALDOTAwaitRejectedFunctions")
       } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
         parseExpr("""(parse-syntax CoverCallExpressionAndAsyncArrowHead "CallMemberExpression")""")
       } | "the steps of an" ~> name <~ "function as specified below" ^^ {
@@ -1036,23 +1051,23 @@ trait AlgoCompilerHelper extends TokenParsers {
       } | "the result of parsing the source text" ~> code <~ rest ^^ {
         case s => parseExpr(s"""(parse-syntax "$s" "MethodDefinition" false false)""")
       } | opt("the String value whose code units are the elements of") ~> "the TV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
-        case x => EParseString(ERef(RefId(Id(x))), x match {
+        case x => EParseString(toERef(x), x match {
           case "NoSubstitutionTemplate" => PTVNoSubs
           case "TemplateHead" => PTVHead
           case "TemplateMiddle" => PTVMiddle
           case "TemplateTail" => PTVTail
         })
       } | "the TRV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
-        case x => EParseString(ERef(RefId(Id(x))), x match {
+        case x => EParseString(toERef(x), x match {
           case "NoSubstitutionTemplate" => PTRVNoSubs
           case "TemplateHead" => PTRVHead
           case "TemplateMiddle" => PTRVMiddle
           case "TemplateTail" => PTRVTail
         })
       } | (("the Number value represented by" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
-        case x => EParseString(ERef(RefId(Id(x))), PNum)
+        case x => EParseString(toERef(x), PNum)
       } | "the result of applying bitwise complement to" ~> name <~ rest ^^ {
-        case x => EUOp(OBNot, ERef(RefId(Id(x))))
+        case x => EUOp(OBNot, toERef(x))
       } | "the result of masking out all but the least significant 5 bits of" ~> name <~ rest ^^ {
         case x => parseExpr(s"(& $x 31i)")
       } | ("the result of left shifting" ~> name <~ "by") ~ (name <~ "bits" ~ rest) ^^ {
@@ -1062,13 +1077,13 @@ trait AlgoCompilerHelper extends TokenParsers {
       } | ("the result of performing a zero-filling right shift of" ~> name <~ "by") ~ (name <~ "bits" ~ rest) ^^ {
         case x ~ y => parseExpr(s"(>>> $x $y)")
       } | ("the result of applying the addition operation to" ~> id <~ "and") ~ id ^^ {
-        case e1 ~ e2 => EBOp(OPlus, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
+        case e1 ~ e2 => EBOp(OPlus, toERef(e1), toERef(e2))
       } | ("the result of applying the ** operator with" ~> id <~ "and") ~ id <~ rest ^^ {
-        case e1 ~ e2 => EBOp(OPow, ERef(RefId(Id(e1))), ERef(RefId(Id(e2))))
+        case e1 ~ e2 => EBOp(OPow, toERef(e1), toERef(e2))
       } | ("the result of applying the subtraction operation to" <~ rest) ^^ {
-        case _ => EBOp(OSub, ERef(RefId(Id("lnum"))), ERef(RefId(Id("rnum"))))
+        case _ => EBOp(OSub, toERef("lnum"), toERef("rnum"))
       } | ("the result of negating" ~> id <~ rest) ^^ {
-        case x => EUOp(ONeg, ERef(RefId(Id(x))))
+        case x => EUOp(ONeg, toERef(x))
       } | "the definition specified in 9.2.1" ^^^ {
         parseExpr("ECMAScriptFunctionObjectDOTCall")
       } | "the definition specified in 9.2.2" ^^^ {
@@ -1087,36 +1102,36 @@ trait AlgoCompilerHelper extends TokenParsers {
     ) ^^ { case e => pair(Nil, e) })
 
   lazy val accessExpr: P[I[Expr]] = opt("the") ~> "stringvalue of identifiername" ^^^ {
-    pair(Nil, ERef(RefId(Id("IdentifierName"))))
+    pair(Nil, toERef("IdentifierName"))
   } | "EvaluateBody of" ~> ref ^^ {
     case i ~ r =>
       val temp = getTemp
-      pair(i :+ IAccess(Id(temp), ERef(r), EStr("EvaluateBody")), ERef(RefId(Id(temp))))
+      pair(i :+ IAccess(Id(temp), ERef(r), EStr("EvaluateBody")), toERef(temp))
   } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
     case x ~ y =>
       val temp = getTemp
       val temp2 = getTemp
-      pair(List(IAccess(Id(temp), ERef(RefId(Id(y))), EStr(x)), IAccess(Id(temp2), ERef(RefId(Id(temp))), EStr("Evaluation"))), ERef(RefId(Id(temp2))))
+      pair(List(IAccess(Id(temp), toERef(y), EStr(x)), IAccess(Id(temp2), toERef(temp), EStr("Evaluation"))), toERef(temp2))
   } | "the result of evaluating" ~> refWithOrdinal ^^ {
     case x =>
       val temp = getTemp
-      pair(List(IAccess(Id(temp), ERef(x), EStr("Evaluation"))), ERef(RefId(Id(temp))))
+      pair(List(IAccess(Id(temp), ERef(x), EStr("Evaluation"))), toERef(temp))
   } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
     case x ~ y =>
       val temp = getTemp
-      pair(List(IAccess(Id(temp), ERef(RefId(Id(y))), EStr(x))), ERef(RefId(Id(temp))))
+      pair(List(IAccess(Id(temp), toERef(y), EStr(x))), toERef(temp))
   } | "IsFunctionDefinition of" ~> id ^^ {
     case x =>
       val temp = getTemp
-      pair(List(IAccess(Id(temp), ERef(RefId(Id(x))), EStr("IsFunctionDefinition"))), ERef(RefId(Id(temp))))
+      pair(List(IAccess(Id(temp), toERef(x), EStr("IsFunctionDefinition"))), toERef(temp))
   } | "the sole element of" ~> expr ^^ {
     case i ~ e =>
       val temp = getTemp
-      pair(i :+ IAccess(Id(temp), e, EINum(0)), ERef(RefId(Id(temp))))
+      pair(i :+ IAccess(Id(temp), e, EINum(0)), toERef(temp))
   } | (opt("the") ~> name.filter(x => x.charAt(0).isUpper) <~ "of") ~ refWithOrdinal ^^ {
     case x ~ y =>
       val temp = getTemp
-      pair(List(IAccess(Id(temp), ERef(y), EStr(x))), ERef(RefId(Id(temp))))
+      pair(List(IAccess(Id(temp), ERef(y), EStr(x))), toERef(temp))
   }
 
   // reference expressions
@@ -1166,17 +1181,17 @@ trait AlgoCompilerHelper extends TokenParsers {
       } | name <~ "is a data property" ^^ {
         case x =>
           val temp = getTemp
-          pair(List(parseInst(s"app $temp = (IsDataDescriptor $x)")), ERef(RefId(Id(temp))))
+          pair(List(parseInst(s"app $temp = (IsDataDescriptor $x)")), toERef(temp))
       } | (name <~ "is") ~ (valueExpr <~ "and") ~ (name <~ "is") ~ valueExpr ^^ {
         case x ~ v ~ y ~ u => pair(Nil, parseExpr(s"(&& (= $x ${beautify(v)}) (= $y ${beautify(u)}))"))
       } | name <~ "is an array index" ^^ {
         case x =>
           val temp = getTemp
-          pair(List(parseInst(s"app $temp = (IsArrayIndex $x)")), ERef(RefId(Id(temp))))
+          pair(List(parseInst(s"app $temp = (IsArrayIndex $x)")), toERef(temp))
       } | name <~ "is an accessor property" ^^ {
         case x =>
           val temp = getTemp
-          pair(List(parseInst(s"app $temp = (IsAccessorDescriptor $x)")), ERef(RefId(Id(temp))))
+          pair(List(parseInst(s"app $temp = (IsAccessorDescriptor $x)")), toERef(temp))
       } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
         case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
       } | (ref <~ "is" ~ ("not present" | "absent") <~ ", or is either") ~ (valueExpr <~ "or") ~ valueExpr ~ subCond ^^ {
@@ -1293,7 +1308,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
       } | "statement is statement10" ^^^ {
-        pair(Nil, EIsInstanceOf(ERef(RefId(Id("Statement"))), "LabelledStatement"))
+        pair(Nil, EIsInstanceOf(toERef("Statement"), "LabelledStatement"))
       } | expr <~ "is a data property" ^^ {
         case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("DataProperty")))
       } | expr <~ "is an object" ^^ {
