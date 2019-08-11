@@ -62,9 +62,10 @@ trait AlgoCompilerHelper extends TokenParsers {
   lazy val stmt: P[Inst] = {
     etcStmt | (
       comment |||
-      returnStmt |||
-      letStmt |||
       innerStmt |||
+      returnStmt |||
+      returnContStmt |||
+      letStmt |||
       ifStmt |||
       callStmt |||
       setStmt |||
@@ -289,37 +290,32 @@ trait AlgoCompilerHelper extends TokenParsers {
     "Perform any implementation or host environment defined job initialization using"
   ) ~ rest ^^^ emptyInst
 
-  // return statements
-  lazy val returnStmt: P[Inst] = (
-    "return" ~> expr ^^ {
-      case ie => kind match {
-        case StaticSemantics => getRet(ie)
-        case Method if algoName == "OrdinaryGetOwnProperty" => getRet(ie)
-        case _ => getRet(getWrapCompletion(ie))
-      }
-    } ||| "return" ^^^ {
-      getRet(getNormalCompletion(EUndef))
-    } ||| ("ReturnCont" ~> expr <~ "to") ~ expr ^^ {
-      case (i ~ f) ~ ie => ISeq(i :+ getInst(getCall(f, List(ie))))
-    } ||| "ReturnCont" ~> expr ^^ {
-      case ie => getInst(getCall(retcont, List(ie)))
-    } ||| "ReturnCont" ^^^ {
-      getInst(getCall(retcont, List(getNormalCompletion(EUndef))))
-    }
-  )
-
-  // let statements
-  lazy val letStmt =
-    ("let" ~> id <~ "be") ~ (expr <~ "; if") ~ (cond <~ ", use") ~ expr ^^ {
-      case x ~ (i1 ~ e1) ~ (i2 ~ e2) ~ (i3 ~ e3) =>
-        ISeq(i2 :+ IIf(e2, ISeq(i3 :+ ILet(Id(x), e3)), ISeq(i1 :+ ILet(Id(x), e1))))
-    } |
-      ("let" ~> id <~ "be") ~ expr ^^ {
-        case x ~ (i ~ e) => ISeq(i :+ ILet(Id(x), e))
-      }
-
   // inner statements
   lazy val innerStmt: P[Inst] = in ~> stmts <~ out ^^ { ISeq(_) }
+
+  // return statements
+  lazy val returnStmt: P[Inst] = "Return" ~> opt(expr) ^^ {
+    case None => getRet(getNormalCompletion(EUndef))
+    case Some(ie) => kind match {
+      case StaticSemantics => getRet(ie)
+      case Method if algoName == "OrdinaryGetOwnProperty" => getRet(ie)
+      case _ => getRet(getWrapCompletion(ie))
+    }
+  }
+
+  // return continuation statements
+  lazy val returnContStmt: P[Inst] = "ReturnCont" ~> opt(expr ~ opt("to" ~> expr)) ^^ {
+    case None => getInst(getCall(retcont, List(getNormalCompletion(EUndef))))
+    case Some(ie ~ None) => getInst(getCall(retcont, List(ie)))
+    case Some((i ~ f) ~ Some(ie)) => ISeq(i :+ getInst(getCall(f, List(ie))))
+  }
+
+  // let binding statements
+  lazy val letStmt = ("Let" ~> id <~ "be") ~ expr ~ opt(("; if" ~> cond <~ ", use") ~ expr) ^^ {
+    case x ~ (i ~ e) ~ None => ISeq(i :+ ILet(Id(x), e))
+    case x ~ (i1 ~ e1) ~ Some((i2 ~ e2) ~ (i3 ~ e3)) =>
+      ISeq(i2 :+ IIf(e2, ISeq(i3 :+ ILet(Id(x), e3)), ISeq(i1 :+ ILet(Id(x), e1))))
+  }
 
   // if-then-else statements
   lazy val ifStmt =
