@@ -20,7 +20,7 @@ case class AlgoCompiler(algoName: String, algo: Algorithm) extends AlgoCompilerH
       varparam = varparam,
       body = normalizeTempIds(flatten(ISeq(parseAll(stmts, algo.toTokenList) match {
         case Success(res, _) => res
-        case NoSuccess(_, reader) => error(s"[AlgoCompilerFailed]:${algo.filename}:" + LINE_SEP + reader.toString)
+        case f @ NoSuccess(_, reader) => error(s"[AlgoCompilerFailed] ${algo.filename}")
       })))
     )
     (func, failed)
@@ -36,14 +36,13 @@ trait AlgoCompilerHelper extends TokenParsers {
 
   // result type
   type Result = Inst
+  type P[A] = PackratParser[A]
+  type Q[A] = P[List[Inst] ~ A]
 
   // list of statements
-  lazy val stmts: PackratParser[List[Inst]] = rep(
-    stmt <~ next |
-      failedStep ^^ { tokens =>
-        IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
-      }
-  )
+  lazy val stmts: P[List[Inst]] = rep(stmt <~ next | failedStep ^^ { tokens =>
+    IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
+  })
 
   lazy val starStmt: PackratParser[Inst] = star ^^ {
     case s => IExpr(ENotYetImpl(s"stmt: $s"))
@@ -65,28 +64,234 @@ trait AlgoCompilerHelper extends TokenParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val stmt: PackratParser[Inst] = (
-    etcStmt |
-    ignoreStmt |
-    commentStmt |
-    returnStmt |
-    letStmt |
-    innerStmt |
-    ifStmt |
-    callStmt |
-    setStmt |
-    recordStmt |
-    incrementStmt |
-    decrementStmt |
-    createStmt |
-    throwStmt |
-    whileStmt |
-    forEachStmt |
-    appendStmt |
-    insertStmt |
-    removeStmt |
-    starStmt
-  ) <~ opt(".") <~ opt(commentStmt)
+  lazy val stmt: PackratParser[Inst] = {
+    etcStmt | (
+      comment |||
+      returnStmt |||
+      letStmt |||
+      innerStmt |||
+      ifStmt |||
+      callStmt |||
+      setStmt |||
+      recordStmt |||
+      incrementStmt |||
+      decrementStmt |||
+      createStmt |||
+      throwStmt |||
+      whileStmt |||
+      forEachStmt |||
+      appendStmt |||
+      insertStmt |||
+      removeStmt |||
+      starStmt
+    )
+  } <~ opt(".") ~ opt(comment)
+
+  lazy val comment: P[Inst] = (
+    "assert:" |
+    "note:" |
+    "this may be" |
+    "as defined" |
+    "( if" |
+    (opt("(") <~ ("see" | "it may be"))
+  ) ~ rest ^^^ emptyInst
+
+  // etc statements
+  lazy val etcStmt = (
+    "Perform the following substeps in an implementation - dependent order , possibly interleaving parsing and error detection :" ~> stmt |
+    ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed for that execution context the following steps will be performed :") ~ stmt ^^ {
+      case x ~ s => {
+        parseInst(s"""$x.ResumeCont = () [=>] ${beautify(s)}""")
+      }
+    } | ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed with a Completion") ~ (id <~ "the following steps will be performed :") ~ stmt ^^ {
+      case x ~ y ~ s => {
+        parseInst(s"""$x.ResumeCont = ($y) [=>] ${beautify(s)}""")
+      }
+    } | ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed with a Completion") ~ (id <~ ", the following steps of the algorithm that invoked Await will be performed ," <~ rest) ^^ {
+      case x ~ y => {
+        parseInst(s"""{
+          access __ret__ = ($x "ReturnCont")
+          $x.ResumeCont = ($y) [=>] return $y
+          }""")
+      }
+    } | ("Resume the suspended evaluation of" ~> id <~ "using") ~ (expr <~ "as the result of the operation that suspended it . Let") ~ (id <~ "be the" <~ ("value" | "completion record") <~ "returned by the resumed computation .") ^^ {
+      case cid ~ (i ~ e) ~ rid => {
+        val tempId = getTemp
+        val tempId2 = getTemp
+        ISeq(i :+ parseInst(s"""withcont $tempId ($rid) = {
+            $cid.ReturnCont = $tempId
+            app $tempId2 = ($cid.ResumeCont ${beautify(e)})
+            }"""))
+      }
+    } | ("Resume the suspended evaluation of" ~> id <~ "using") ~ (expr <~ "as the result of the operation that suspended it .") ^^ {
+      case cid ~ (i ~ e) => {
+        val tempId = getTemp
+        val tempId2 = getTemp
+        ISeq(i :+ parseInst(s"""withcont $tempId () = {
+            $cid.ReturnCont = $tempId
+            app $tempId2 = ($cid.ResumeCont ${beautify(e)})
+            }"""))
+      }
+    } | ("Resume the suspended evaluation of" ~> id <~ ". Let") ~ (id <~ "be the value returned by the resumed computation .") ^^ {
+      case cid ~ rid => {
+        val tempId = getTemp
+        val tempId2 = getTemp
+        parseInst(s"""withcont $tempId ($rid) = {
+            $cid.ReturnCont = $tempId
+            app $tempId2 = ($cid.ResumeCont)
+            }""")
+      }
+    } | ("Once a generator enters the" | "Assert : If we return here , the async generator either threw") <~ rest ^^^ {
+      parseInst(s"""{
+        delete genContext.ResumeCont
+        access __ret__ = (genContext "ReturnCont")
+        delete genContext.ReturnCont
+       }""")
+    } | "Assert : If we return here , the async function either threw an exception or performed an implicit or explicit return ; all awaiting is done" ^^^ {
+      parseInst(s"""{
+        delete asyncContext.ResumeCont
+        access __ret__ = (asyncContext "ReturnCont")
+        delete asyncContext.ReturnCont
+      }""")
+    } | "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
+      case i ~ e => ISeq(i ++ List(IAppend(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
+        $context = $executionStack[(- $executionStack.length 1i)]
+      """)))
+    } | "if this method was called with more than one argument , then in left to right order , starting with the second argument , append each argument as the last element of" ~> name ^^ {
+      case x => parseInst(s"""{
+        (pop argumentsList 0i)
+        $x = argumentsList
+      }""")
+    } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ^^^ {
+      val tempP = getTemp
+      parseInst(s"""app $tempP = (EnqueueJob "ScriptJobs" ScriptEvaluationJob (new [ script, hostDefined ]))""")
+    } | (in ~ "if IsStringPrefix(" ~> name <~ ",") ~ (name <~ rep(rest ~ next) ~ out) ^^ {
+      case x ~ y => parseInst(s"return (< $y $x)")
+    } | ("if the mathematical value of" ~> name <~ "is less than the mathematical value of") ~ name <~ rest ^^ {
+      case x ~ y => parseInst(s"return (< $x $y)")
+    } | ("let" ~> id <~ "be a new built-in function object that when called performs the action described by") ~ id <~ "." ~ rest ^^ {
+      case x ~ y => parseInst(s"""{
+        let $x = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
+        $x.Code = $y
+      }""") // TODO handle internalSlotsList
+    } | "if the host requires use of an exotic object" ~ rest ^^^ {
+      parseInst("let global = undefined")
+    } | "if the host requires that the" ~ rest ^^^ {
+      parseInst("let thisValue = undefined")
+    } | "perform any necessary implementation - defined initialization of" <~ rest ^^^ {
+      parseInst(s"""{
+        app localEnv = (NewFunctionEnvironment F undefined)
+        calleeContext["LexicalEnvironment"] = localEnv
+        calleeContext["VariableEnvironment"] = localEnv
+      }""")
+    } | ("if" ~> name <~ "is an element of") ~ name <~ ", remove that element from the" ~ name ^^ {
+      case x ~ l =>
+        val idx = getTemp
+        val len = getTemp
+        parseInst(s"""{
+          let $idx = 0i
+          let $len = $l.length
+          while (&& (< $idx $len) (! (= $l[$idx] $x))) $idx = (+ $idx 1i)
+          if (< $idx $len) (pop $l $idx) else {}
+        }""")
+    } | "for each field of" ~ rest ^^^ {
+      val tempP = getTemp
+      forEachMap(Id(tempP), ERef(RefId(Id("Desc"))), parseInst(s"""O.SubMap[P][$tempP] = Desc[$tempP]"""))
+    } | ("convert the property named" ~> id) ~ ("of object" ~> id <~ "from a data property to an accessor property" <~ rest) ^^^ {
+      val tempP = getTemp
+      parseInst(s"""{
+        let $tempP = O.SubMap[P]
+        O.SubMap[P] = (new AccessorProperty("Get" -> undefined, "Set" -> undefined, "Enumerable" -> $tempP["Enumerable"], "Configurable" -> $tempP["Configurable"]))
+      }""")
+    } | ("convert the property named" ~> id) ~ ("of object" ~> id <~ "from an accessor property to a data property" <~ rest) ^^^ {
+      val tempP = getTemp
+      parseInst(s"""{
+        let $tempP = O.SubMap[P]
+        O.SubMap[P] = (new DataProperty("Value" -> undefined, "Writable" -> false, "Enumerable" -> $tempP["Enumerable"], "Configurable" -> $tempP["Configurable"]))
+      }""")
+
+    } | "parse" ~ id ~ "using script as the goal symbol and analyse the parse result for any early Error conditions" ~ rest ^^^ {
+      parseInst(s"""let body = script""")
+    } | (("suspend" ~> name <~ "and remove it from the execution context stack") | ("pop" ~> name <~ "from the execution context stack" <~ rest)) ^^ {
+      case x => {
+        val idx = getTemp
+        parseInst(s"""{
+        $context = null
+        if (= $executionStack[(- $executionStack.length 1i)] $x) {
+          $idx = (- $executionStack.length 1i)
+          (pop $executionStack $idx)
+        } else {}
+      }""")
+      }
+    } | "suspend the currently running execution context" ^^^ {
+      parseInst(s"""$context = null""")
+    } | "suspend" ~> name ^^ {
+      case x => parseInst(s"""{
+        $context = null
+        $x = null
+      }""")
+    } | "remove" ~> id <~ "from the execution context stack and restore" <~ rest ^^ {
+      case x => {
+        val idx = getTemp
+        parseInst(s"""{
+        if (= $executionStack[(- $executionStack.length 1i)] $x) {
+          $idx = (- $executionStack.length 1i)
+          (pop $executionStack $idx)
+        } else {}
+        $context = $executionStack[(- $executionStack.length 1i)]
+      }""")
+      }
+    } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
+      parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
+    } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27." ^^ {
+      case x => parseInst(s"""{
+        let $x = (new ECMAScriptFunctionObject("SubMap" -> (new SubMap())))
+        $x.Call = undefined
+        $x.Constructor = undefined
+      }""")
+    } | "let" ~> name <~ "be the topmost execution context on the execution context stack whose scriptormodule component is not" ~ value ~ "." ~ next ~ "if no such execution context exists, return" ~ value ~ ". otherwise, return" ~ name ~ "'s scriptormodule component." ^^ {
+      case x => ISeq(List(
+        forEachList(Id(x), parseExpr(executionStack), parseInst(s"""{
+          if (! (= $x.ScriptOrModule null)) return $x.ScriptOrModule else {}
+        }"""), true),
+        parseInst("return null")
+      ))
+    } | "otherwise , let " ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 1" ~ rest ^^^ {
+      parseInst(s"""return (convert m num2str)""")
+    } | "for each property of the global object" ~ rest ^^^ {
+      val temp = getTemp
+      forEachMap(Id("name"), parseExpr("GLOBAL"), parseInst(s"""{
+        let desc = GLOBAL[name]
+        app $temp = (DefinePropertyOrThrow global name desc)
+        if (= (typeof $temp) "Completion") {
+          if (= $temp.Type CONST_normal) $temp = $temp.Value
+          else return $temp
+        } else {}
+      }"""))
+    } | "for each own property key" ~> id ~> "of" ~> id <~ "that is an array index" <~ rest ^^^ { // TODO: considering order of property key
+      val temp1 = getTemp
+      val tempId = getTempId
+      ISeq(List(
+        parseInst(s"""let $temp1 = (map-keys O["SubMap"])"""),
+        forEachList(tempId, ERef(RefId(Id(temp1))), IAppend(ERef(RefId(tempId)), ERef(RefId(Id("keys"))))),
+        parseInst(s"""return keys""")
+      ))
+    } | "increase" ~> id <~ "by 1" ^^ {
+      case x => IAssign(RefId(Id(x)), EBOp(OPlus, ERef(RefId(Id(x))), EINum(1)))
+    }
+  ) | ignoreStmt
+
+  // ignore statements
+  lazy val ignoreStmt = (
+    "set fields of" |
+    "need to defer setting the" |
+    "create any implementation-defined" |
+    "no further validation is required" |
+    "if" ~ id ~ "is a List of errors," |
+    "order the elements of" ~ id ~ "so they are in the same relative order as would" |
+    "Perform any implementation or host environment defined processing of" |
+    "Perform any implementation or host environment defined job initialization using"
+  ) ~ rest ^^^ emptyInst
 
   // return statements
   lazy val returnStmt = (
@@ -324,212 +529,6 @@ trait AlgoCompilerHelper extends TokenParsers {
     }
   )
 
-  // et cetera statements
-  lazy val etcStmt =
-    "Perform the following substeps in an implementation - dependent order , possibly interleaving parsing and error detection :" ~> stmt |
-    ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed for that execution context the following steps will be performed :") ~ stmt ^^ {
-      case x ~ s => {
-        parseInst(s"""$x.ResumeCont = () [=>] ${beautify(s)}""")
-      }
-    } | ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed with a Completion") ~ (id <~ "the following steps will be performed :") ~ stmt ^^ {
-      case x ~ y ~ s => {
-        parseInst(s"""$x.ResumeCont = ($y) [=>] ${beautify(s)}""")
-      }
-    } | ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed with a Completion") ~ (id <~ ", the following steps of the algorithm that invoked Await will be performed ," <~ rest) ^^ {
-      case x ~ y => {
-        parseInst(s"""{
-          access __ret__ = ($x "ReturnCont")
-          $x.ResumeCont = ($y) [=>] return $y
-          }""")
-      }
-    } | ("Resume the suspended evaluation of" ~> id <~ "using") ~ (expr <~ "as the result of the operation that suspended it . Let") ~ (id <~ "be the" <~ ("value" | "completion record") <~ "returned by the resumed computation .") ^^ {
-        case cid ~ (i ~ e) ~ rid => {
-          val tempId = getTemp
-          val tempId2 = getTemp
-          ISeq(i :+ parseInst(s"""withcont $tempId ($rid) = {
-            $cid.ReturnCont = $tempId
-            app $tempId2 = ($cid.ResumeCont ${beautify(e)})
-            }"""))
-        }
-    } | ("Resume the suspended evaluation of" ~> id <~ "using") ~ (expr <~ "as the result of the operation that suspended it .") ^^ {
-        case cid ~ (i ~ e) => {
-          val tempId = getTemp
-          val tempId2 = getTemp
-          ISeq(i :+ parseInst(s"""withcont $tempId () = {
-            $cid.ReturnCont = $tempId
-            app $tempId2 = ($cid.ResumeCont ${beautify(e)})
-            }"""))
-        }
-    } | ("Resume the suspended evaluation of" ~> id <~ ". Let") ~ (id <~ "be the value returned by the resumed computation .") ^^ {
-        case cid ~ rid => {
-          val tempId = getTemp
-          val tempId2 = getTemp
-          parseInst(s"""withcont $tempId ($rid) = {
-            $cid.ReturnCont = $tempId
-            app $tempId2 = ($cid.ResumeCont)
-            }""")
-        }
-    } | ("Once a generator enters the" | "Assert : If we return here , the async generator either threw") <~ rest ^^^ {
-      parseInst(s"""{
-        delete genContext.ResumeCont
-        access __ret__ = (genContext "ReturnCont")
-        delete genContext.ReturnCont
-       }""")
-    } | "Assert : If we return here , the async function either threw an exception or performed an implicit or explicit return ; all awaiting is done" ^^^ {
-      parseInst(s"""{
-        delete asyncContext.ResumeCont
-        access __ret__ = (asyncContext "ReturnCont")
-        delete asyncContext.ReturnCont
-      }""")
-    } | "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
-      case i ~ e => ISeq(i ++ List(IAppend(e, ERef(RefId(Id(executionStack)))), parseInst(s"""
-        $context = $executionStack[(- $executionStack.length 1i)]
-      """)))
-    } | "if this method was called with more than one argument , then in left to right order , starting with the second argument , append each argument as the last element of" ~> name ^^ {
-      case x => parseInst(s"""{
-        (pop argumentsList 0i)
-        $x = argumentsList
-      }""")
-    } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest  ^^^ {
-      val tempP = getTemp
-      parseInst(s"""app $tempP = (EnqueueJob "ScriptJobs" ScriptEvaluationJob (new [ script, hostDefined ]))""")
-    } | (in ~ "if IsStringPrefix(" ~> name <~ ",") ~ (name <~ rep(rest ~ next) ~ out) ^^ {
-      case x ~ y => parseInst(s"return (< $y $x)")
-    } | ("if the mathematical value of" ~> name <~ "is less than the mathematical value of") ~ name <~ rest ^^ {
-      case x ~ y => parseInst(s"return (< $x $y)")
-    } | ("let" ~> id <~ "be a new built-in function object that when called performs the action described by") ~ id <~ "." ~ rest ^^ {
-      case x ~ y => parseInst(s"""{
-        let $x = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
-        $x.Code = $y
-      }""") // TODO handle internalSlotsList
-    } | "if the host requires use of an exotic object" ~ rest ^^^ {
-      parseInst("let global = undefined")
-    } | "if the host requires that the" ~ rest ^^^ {
-      parseInst("let thisValue = undefined")
-    } | "perform any necessary implementation - defined initialization of" <~ rest ^^^ {
-      parseInst(s"""{
-        app localEnv = (NewFunctionEnvironment F undefined)
-        calleeContext["LexicalEnvironment"] = localEnv
-        calleeContext["VariableEnvironment"] = localEnv
-      }""")
-    } | ("if" ~> name <~ "is an element of") ~ name <~ ", remove that element from the" ~ name ^^ {
-      case x ~ l =>
-        val idx = getTemp
-        val len = getTemp
-        parseInst(s"""{
-          let $idx = 0i
-          let $len = $l.length
-          while (&& (< $idx $len) (! (= $l[$idx] $x))) $idx = (+ $idx 1i)
-          if (< $idx $len) (pop $l $idx) else {}
-        }""")
-    } | "for each field of" ~ rest ^^^ {
-      val tempP = getTemp
-      forEachMap(Id(tempP), ERef(RefId(Id("Desc"))), parseInst(s"""O.SubMap[P][$tempP] = Desc[$tempP]"""))
-    } | ("convert the property named" ~> id) ~ ("of object" ~> id <~ "from a data property to an accessor property" <~ rest) ^^^ {
-      val tempP = getTemp
-      parseInst(s"""{
-        let $tempP = O.SubMap[P]
-        O.SubMap[P] = (new AccessorProperty("Get" -> undefined, "Set" -> undefined, "Enumerable" -> $tempP["Enumerable"], "Configurable" -> $tempP["Configurable"]))
-      }""")
-    } | ("convert the property named" ~> id) ~ ("of object" ~> id <~ "from an accessor property to a data property" <~ rest) ^^^ {
-      val tempP = getTemp
-      parseInst(s"""{
-        let $tempP = O.SubMap[P]
-        O.SubMap[P] = (new DataProperty("Value" -> undefined, "Writable" -> false, "Enumerable" -> $tempP["Enumerable"], "Configurable" -> $tempP["Configurable"]))
-      }""")
-
-    } | "parse" ~ id ~ "using script as the goal symbol and analyse the parse result for any early Error conditions" ~ rest ^^^ {
-      parseInst(s"""let body = script""")
-    } | (("suspend" ~> name <~ "and remove it from the execution context stack") | ("pop" ~> name <~ "from the execution context stack" <~ rest)) ^^ {
-      case x => {
-        val idx = getTemp
-        parseInst(s"""{
-        $context = null
-        if (= $executionStack[(- $executionStack.length 1i)] $x) {
-          $idx = (- $executionStack.length 1i)
-          (pop $executionStack $idx)
-        } else {}
-      }""")
-      }
-    } | "suspend the currently running execution context" ^^^ {
-      parseInst(s"""$context = null""")
-    } | "suspend" ~> name ^^ {
-      case x => parseInst(s"""{
-        $context = null
-        $x = null
-      }""")
-    } | "remove" ~> id <~ "from the execution context stack and restore" <~ rest ^^ {
-      case x => {
-        val idx = getTemp
-        parseInst(s"""{
-        if (= $executionStack[(- $executionStack.length 1i)] $x) {
-          $idx = (- $executionStack.length 1i)
-          (pop $executionStack $idx)
-        } else {}
-        $context = $executionStack[(- $executionStack.length 1i)]
-      }""")
-      }
-    } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
-      parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
-    } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27." ^^ {
-      case x => parseInst(s"""{
-        let $x = (new ECMAScriptFunctionObject("SubMap" -> (new SubMap())))
-        $x.Call = undefined
-        $x.Constructor = undefined
-      }""")
-    } | "let" ~> name <~ "be the topmost execution context on the execution context stack whose scriptormodule component is not" ~ value ~ "." ~ next ~ "if no such execution context exists, return" ~ value ~ ". otherwise, return" ~ name ~ "'s scriptormodule component." ^^ {
-      case x => ISeq(List(
-        forEachList(Id(x), parseExpr(executionStack), parseInst(s"""{
-          if (! (= $x.ScriptOrModule null)) return $x.ScriptOrModule else {}
-        }"""), true),
-        parseInst("return null")
-      ))
-    } | "otherwise , let " ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 1" ~ rest ^^^ {
-      parseInst(s"""return (convert m num2str)""")
-    } | "for each property of the global object" ~ rest ^^^ {
-      val temp = getTemp
-      forEachMap(Id("name"), parseExpr("GLOBAL"), parseInst(s"""{
-        let desc = GLOBAL[name]
-        app $temp = (DefinePropertyOrThrow global name desc)
-        if (= (typeof $temp) "Completion") {
-          if (= $temp.Type CONST_normal) $temp = $temp.Value
-          else return $temp
-        } else {}
-      }"""))
-    } | "for each own property key" ~> id ~> "of" ~> id <~ "that is an array index" <~ rest ^^^ { // TODO: considering order of property key
-      val temp1 = getTemp
-      val tempId = getTempId
-      ISeq(List(
-        parseInst(s"""let $temp1 = (map-keys O["SubMap"])"""),
-        forEachList(tempId, ERef(RefId(Id(temp1))), IAppend(ERef(RefId(tempId)), ERef(RefId(Id("keys"))))),
-        parseInst(s"""return keys""")
-      ))
-    } | "increase" ~> id <~ "by 1" ^^ {
-      case x => IAssign(RefId(Id(x)), EBOp(OPlus, ERef(RefId(Id(x))), EINum(1)))
-    }
-
-  // ignore statements
-  lazy val ignoreStmt = (
-    "set fields of" |
-    "need to defer setting the" |
-    "create any implementation-defined" |
-    "no further validation is required" |
-    "if" ~ id ~ "is a List of errors," |
-    "order the elements of" ~ id ~ "so they are in the same relative order as would" |
-    "Perform any implementation or host environment defined processing of" |
-    "Perform any implementation or host environment defined job initialization using"
-  ) ~ rest ^^^ emptyInst
-
-  // statement to comment additional info
-  lazy val commentStmt = (
-    "assert:" |
-    "note:" |
-    "this may be" |
-    "as defined" |
-    "( if" |
-    (opt("(") <~ ("see" | "it may be"))
-  ) ~ rest ^^^ emptyInst
-
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
   ////////////////////////////////////////////////////////////////////////////////
@@ -614,7 +613,8 @@ trait AlgoCompilerHelper extends TokenParsers {
         "ErrorData" -> undefined,
         "SubMap" -> (new SubMap())
       ))""")
-    } | opt("the numeric value") ~> number ^^ { case s => EINum(java.lang.Long.decode(s))
+    } | opt("the numeric value") ~> number ^^ {
+      case s => EINum(java.lang.Long.decode(s))
     } | internalName
   )
 
@@ -820,11 +820,11 @@ trait AlgoCompilerHelper extends TokenParsers {
       pair(List(checkInst), ERef(RefId(Id(jobQueue))))
     } | "the PendingJob record at the front of" ~> id <~ rest ^^ {
       case x => pair(Nil, parseExpr(s"""(pop $x 0i)"""))
-    } |"an implementation - dependent String source code representation of" ~ rest ^^^ {
+    } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
     } | "the source text matched by" ~> name ^^ {
       case x => pair(Nil, EGetSyntax(ERef(RefId(Id(x)))))
-    } |"the String value consisting of the single code unit" ~> name ^^ {
+    } | "the String value consisting of the single code unit" ~> name ^^ {
       case x => pair(Nil, parseExpr(x))
     } | "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> name <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
       case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
@@ -1025,7 +1025,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         case x => parseExpr(s"(new '$x)")
       } | "the algorithm steps defined in ListIterator" ~ rest ^^^ {
         parseExpr("ListIteratornext")
-      } |"the algorithm steps defined in GetCapabilitiesExecutor Functions" ^^^ {
+      } | "the algorithm steps defined in GetCapabilitiesExecutor Functions" ^^^ {
         ERef(RefId(Id("GLOBALDOTGetCapabilitiesExecutorFunctions")))
       } | "the algorithm steps defined in Promise Resolve Functions" ^^^ {
         ERef(RefId(Id("GLOBALDOTPromiseResolveFunctions")))
@@ -1255,7 +1255,7 @@ trait AlgoCompilerHelper extends TokenParsers {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
       } | (ref <~ ("has" | "have") <~ ("a" | "an")) ~ word <~ "component" ^^ {
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
-      } | (ref <~ "has" <~ ("a" | "an")) ~ (name ^^ { case x => EStr(x)} | internalName) <~ "field" ^^ {
+      } | (ref <~ "has" <~ ("a" | "an")) ~ (name ^^ { case x => EStr(x) } | internalName) <~ "field" ^^ {
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, n)))
       } | (name <~ "does not have a binding for") ~ name ^^ {
         case x ~ y => pair(Nil, parseExpr(s"(= absent $x.SubMap.$y)"))
@@ -1365,7 +1365,7 @@ trait AlgoCompilerHelper extends TokenParsers {
       case i ~ r =>
         val tempP = getTempId
         (l: Expr) => pair(List(ILet(tempP, l), IIf(ERef(RefId(tempP)), emptyInst, ISeq(i :+ IAssign(RefId(tempP), EBOp(OOr, ERef(RefId(tempP)), r))))), ERef(RefId(tempP)))
-        } | opt(",") ~> "and" ~> opt("if") ~> cond ^^ {
+    } | opt(",") ~> "and" ~> opt("if") ~> cond ^^ {
       case i ~ r =>
         val tempP = getTempId
         (l: Expr) => pair(List(ILet(tempP, l), IIf(ERef(RefId(tempP)), ISeq(i :+ IAssign(RefId(tempP), EBOp(OAnd, ERef(RefId(tempP)), r))), emptyInst)), ERef(RefId(tempP)))
@@ -1440,9 +1440,9 @@ trait AlgoCompilerHelper extends TokenParsers {
       case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
     } | "the second to top element" ~> "of" ~> ref ^^ {
       case i ~ r => pair(i, RefProp(r, EBOp(OSub, ERef(RefProp(r, EStr("length"))), EINum(2))))
-    } | (opt("the") ~> (name ^^ { case x => EStr(x)} | internalName) <~ opt("fields" | "component") ~ "of") ~ ref ^^ {
+    } | (opt("the") ~> (name ^^ { case x => EStr(x) } | internalName) <~ opt("fields" | "component") ~ "of") ~ ref ^^ {
       case x ~ (i ~ y) => pair(i, RefProp(y, x))
-    } | (name <~ "'s") ~ ((name ^^ { case x => EStr(x)}) | internalName) <~ opt("value" | "attribute") ^^ {
+    } | (name <~ "'s") ~ ((name ^^ { case x => EStr(x) }) | internalName) <~ opt("value" | "attribute") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
     } | ("the" ~> id <~ "flag of") ~ ref ^^ {
       case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
@@ -1475,9 +1475,9 @@ trait AlgoCompilerHelper extends TokenParsers {
   lazy val field: PackratParser[List[Inst] ~ Expr] =
     "." ~> name ^^ {
       case x => pair(Nil, EStr(x))
-      } | "." ~> internalName ^^ {
-        case x => pair(Nil, x)
-      } | "[" ~> expr <~ "]" ^^ {
+    } | "." ~> internalName ^^ {
+      case x => pair(Nil, x)
+    } | "[" ~> expr <~ "]" ^^ {
       case i ~ e => pair(i, e)
     }
 
@@ -1511,7 +1511,7 @@ trait AlgoCompilerHelper extends TokenParsers {
   )
 
   lazy val internalName: Parser[Expr] =
-    "[[" ~> word <~ "]]" ^^ {case x => EStr(x)}
+    "[[" ~> word <~ "]]" ^^ { case x => EStr(x) }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Helpers
@@ -1527,7 +1527,10 @@ trait AlgoCompilerHelper extends TokenParsers {
   }
   private def getTempId: Id = Id(getTemp)
 
-  // existence check
+  // several checks
+  protected def checkEq(l: Expr, r: Expr): Expr = EBOp(OEq, l, r)
+  protected def checkNot(e: Expr): Expr = EUOp(ONot, e)
+  protected def checkNEq(l: Expr, r: Expr): Expr = checkNot(checkEq(l, r))
   protected def exists(expr: Expr): Expr = EUOp(ONot, EBOp(OEq, expr, EAbsent))
   protected def exists(ref: Ref): Expr = exists(ERef(ref))
 
@@ -1662,9 +1665,74 @@ trait AlgoCompilerHelper extends TokenParsers {
     case i => i
   }
 
+  // conversions
+  def toERef(x: Id, y: Expr): ERef = ERef(toRef(x, y))
+  def toERef(x: String, y: Expr): ERef = ERef(toRef(x, y))
+  def toERef(x: Id, y: String): ERef = ERef(toRef(x, y))
+  def toERef(x: String, y: String): ERef = ERef(toRef(x, y))
+  def toERef(id: Id): ERef = ERef(toRef(id))
+  def toERef(str: String): ERef = ERef(toRef(str))
+  def toRef(x: Id, y: Expr): Ref = RefProp(toRef(x), y)
+  def toRef(x: String, y: Expr): Ref = RefProp(toRef(x), y)
+  def toRef(x: Id, y: String): Ref = RefProp(toRef(x), EStr(y))
+  def toRef(x: String, y: String): Ref = RefProp(toRef(x), EStr(y))
+  def toRef(id: Id): Ref = RefId(id)
+  def toRef(str: String): Ref = toRef(Id(str))
+
   // create pair of parsing results
   protected val pair = `~`
   protected def concat(a: List[Inst], b: List[Inst] ~ Expr): List[Inst] ~ Expr = b match {
     case bi ~ be => pair(a ++ bi, be)
   }
+
+  // get access
+  def getAccess(x: String, y: String): List[Inst] ~ Expr = {
+    val temp = getTemp
+    pair(List(IAccess(Id(temp), toERef(x), EStr(y))), toERef(temp))
+  }
+
+  // get access
+  def getAccess(
+    x: String,
+    f: String,
+    list: List[List[Inst] ~ Expr]
+  ): List[Inst] ~ Expr = {
+    val temp = getTempId
+    val temp2 = getTempId
+    val i = list.map { case i ~ _ => i }.flatten
+    val r = IAccess(temp, toERef(x), EStr(f))
+    val e = IApp(temp2, toERef(temp), list.map { case _ ~ e => e })
+    pair(i ++ List(r, e), toERef(temp2))
+  }
+
+  // get call
+  def getCall(r: Ref, list: List[List[Inst] ~ Expr]): List[Inst] ~ Expr = {
+    val temp = getTempId
+    val i = list.map { case i ~ _ => i }.flatten
+    val args = list.map { case i ~ e => e }
+    val app = IApp(temp, ERef(r), r match {
+      case RefId(_) => args
+      case RefProp(b, _) => ERef(b) :: args
+    })
+    pair(i :+ app, toERef(temp))
+  }
+
+  // binary operator calculations
+  def calc(not: Boolean, rev: Boolean, bop: BOp, left: Expr, right: Expr): Expr = {
+    val (l, r) =
+      if (rev) (right, left)
+      else (left, right)
+    val expr = EBOp(bop, l, r)
+    if (not) EUOp(ONot, expr) else expr
+  }
+
+  // check abrupt completion
+  def isAbruptCompletion(x: String): Expr = {
+    EBOp(OAnd, checkEq(ETypeOf(toERef(x)), EStr("Completion")), checkNEq(toERef(x, "Type"), toERef("CONST_normal")))
+  }
+
+  // separators
+  def sep(s: P[Any]): P[String] = (
+    "," ||| "," ~ s ||| s
+  ) ^^^ ""
 }
