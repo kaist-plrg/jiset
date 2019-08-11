@@ -279,6 +279,20 @@ trait AlgoCompilerHelper extends TokenParsers {
       case x ~ Grammar(y, ss) ~ s =>
         val pre = ss.map(s => parseInst(s"""access $s = ($x "$s")"""))
         IIf(parseExpr(s"(is-instance-of $x $y)"), ISeq(pre :+ s), ISeq(Nil))
+    } | (("set" ~> name <~ "'s essential internal methods" <~ rest) | ("Set the remainder of" ~> id <~ "'s essential internal methods to the default ordinary object definitions specified in 9.1")) ^^ {
+      case s => parseInst(s"""{
+        if (= $s["HasProperty"] absent) $s["HasProperty"] = OrdinaryObjectDOTHasProperty else {}
+        if (= $s["DefineOwnProperty"] absent) $s["DefineOwnProperty"] = OrdinaryObjectDOTDefineOwnProperty else {}
+        if (= $s["Set"] absent) $s["Set"] = OrdinaryObjectDOTSet else {}
+        if (= $s["SetPrototypeOf"] absent) $s["SetPrototypeOf"] = OrdinaryObjectDOTSetPrototypeOf else {}
+        if (= $s["Get"] absent) $s["Get"] = OrdinaryObjectDOTGet else {}
+        if (= $s["PreventExtensions"] absent) $s["PreventExtensions"] = OrdinaryObjectDOTPreventExtensions else {}
+        if (= $s["Delete"] absent) $s["Delete"] = OrdinaryObjectDOTDelete else {}
+        if (= $s["GetOwnProperty"] absent) $s["GetOwnProperty"] = OrdinaryObjectDOTGetOwnProperty else {}
+        if (= $s["OwnPropertyKeys"] absent) $s["OwnPropertyKeys"] = OrdinaryObjectDOTOwnPropertyKeys else {}
+        if (= $s["GetPrototypeOf"] absent) $s["GetPrototypeOf"] = OrdinaryObjectDOTGetPrototypeOf else {}
+        if (= $s["IsExtensible"] absent) $s["IsExtensible"] = OrdinaryObjectDOTIsExtensible else {}
+      }""")
     }
   ) | ignoreStmt
 
@@ -331,70 +345,17 @@ trait AlgoCompilerHelper extends TokenParsers {
     case (i ~ c) ~ t ~ Some(e) => ISeq(i :+ IIf(c, t, e))
   }
 
-  // ignore conditions
-  val ignoreCond: P[I[Expr]] = (
-    "the order of evaluation needs to be reversed to preserve left to right evaluation" |
-    name ~ "is added as a single item rather than spread" |
-    name ~ "contains a formal parameter mapping for" ~ name |
-    name ~ "is a Reference to an Environment Record binding" |
-    "the base of" ~ ref ~ "is an Environment Record" |
-    name ~ "must be" ~ rep(not(",") ~ text) |
-    id ~ "does not currently have a property" ~ id |
-    id <~ "is an accessor property" |
-    ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr
-  ) ^^^ pair(Nil, EBool(true))
-
   // call statements
-  lazy val callStmt: P[Inst] = ("perform" | "call") ~> expr ^^ {
-    case i ~ e => ISeq(i :+ IExpr(e))
-  } | returnIfAbruptExpr ^^ {
+  lazy val callStmt: P[Inst] = (("perform" | "call") ~> expr ||| returnIfAbruptExpr) ^^ {
     case i ~ e => ISeq(i :+ IExpr(e))
   }
 
   // set statements
-  lazy val setStmt =
-    (("set" ~> name <~ "'s essential internal methods" <~ rest) | ("Set the remainder of" ~> id <~ "'s essential internal methods to the default ordinary object definitions specified in 9.1")) ^^ {
-      case s => parseInst(s"""{
-        if (= $s["HasProperty"] absent) $s["HasProperty"] = OrdinaryObjectDOTHasProperty else {}
-        if (= $s["DefineOwnProperty"] absent) $s["DefineOwnProperty"] = OrdinaryObjectDOTDefineOwnProperty else {}
-        if (= $s["Set"] absent) $s["Set"] = OrdinaryObjectDOTSet else {}
-        if (= $s["SetPrototypeOf"] absent) $s["SetPrototypeOf"] = OrdinaryObjectDOTSetPrototypeOf else {}
-        if (= $s["Get"] absent) $s["Get"] = OrdinaryObjectDOTGet else {}
-        if (= $s["PreventExtensions"] absent) $s["PreventExtensions"] = OrdinaryObjectDOTPreventExtensions else {}
-        if (= $s["Delete"] absent) $s["Delete"] = OrdinaryObjectDOTDelete else {}
-        if (= $s["GetOwnProperty"] absent) $s["GetOwnProperty"] = OrdinaryObjectDOTGetOwnProperty else {}
-        if (= $s["OwnPropertyKeys"] absent) $s["OwnPropertyKeys"] = OrdinaryObjectDOTOwnPropertyKeys else {}
-        if (= $s["GetPrototypeOf"] absent) $s["GetPrototypeOf"] = OrdinaryObjectDOTGetPrototypeOf else {}
-        if (= $s["IsExtensible"] absent) $s["IsExtensible"] = OrdinaryObjectDOTIsExtensible else {}
-      }""")
-    } | ("set" ~> ref) ~ ("to" ~> expr) ^^ {
-      case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e))
-    } | ("set the bound value for" ~> expr <~ "in") ~ expr ~ ("to" ~> expr) ^^ {
-      case (i0 ~ p) ~ (i1 ~ e) ~ (i2 ~ v) =>
-        ISeq(i0 ++ i1 ++ i2 :+ parseInst(s"${beautify(e)}.SubMap[${beautify(p)}].BoundValue = ${beautify(v)}"))
-    } | ("set" ~> ref) ~ ("as" ~ ("described" | "specified") ~ "in" ~> (
-      "9.4.1.1" ^^^ parseExpr(getScalaName("BoundFunctionExoticObject.Call")) |
-      "9.4.1.2" ^^^ parseExpr(getScalaName("BoundFunctionExoticObject.Construct")) |
-      "9.4.2.1" ^^^ parseExpr(getScalaName("ArrayExoticObject.DefineOwnProperty")) |
-      "9.4.3.1" ^^^ parseExpr(getScalaName("StringExoticObject.GetOwnProperty")) |
-      "9.4.3.2" ^^^ parseExpr(getScalaName("StringExoticObject.DefineOwnProperty")) |
-      "9.4.3.3" ^^^ parseExpr(getScalaName("StringExoticObject.OwnPropertyKeys")) |
-      "9.4.4.1" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.GetOwnProperty")) |
-      "9.4.4.2" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.DefineOwnProperty")) |
-      "9.4.4.3" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Get")) |
-      "9.4.4.4" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Set")) |
-      "9.4.4.5" ^^^ parseExpr(getScalaName("ArgumentsExoticObject.Delete")) |
-      "9.4.5.1" ^^^ parseExpr(getScalaName("IntegerIndexedExoticObject.GetOwnProperty")) |
-      "9.4.5.2" ^^^ parseExpr(getScalaName("IntegerIndexedExoticObject.HasProperty")) |
-      "9.4.5.3" ^^^ parseExpr(getScalaName("IntegerIndexedExoticObject.DefineOwnProperty")) |
-      "9.4.5.4" ^^^ parseExpr(getScalaName("IntegerIndexedExoticObject.Get")) |
-      "9.4.5.5" ^^^ parseExpr(getScalaName("IntegerIndexedExoticObject.Set")) |
-      "9.4.5.6" ^^^ parseExpr(getScalaName("IntegerIndexedExoticObject.OwnPropertyKeys")) |
-      "9.5.12" ^^^ parseExpr(getScalaName("ProxyExoticObject.Call")) |
-      "9.5.13" ^^^ parseExpr(getScalaName("ProxyExoticObject.Construct"))
-    )) ^^ {
-        case (i ~ r) ~ e => ISeq(i :+ IAssign(r, e))
-      }
+  lazy val setStmt = "set" ~> ref ~ {
+    "to" ~> expr ||| "as" ~ ("described" | "specified") ~ "in" ~> (
+      section ^^ { case s => pair(Nil, toERef(s)) }
+    )
+  } ^^ { case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e)) }
 
   // record statements
   lazy val recordStmt =
@@ -1351,6 +1312,18 @@ trait AlgoCompilerHelper extends TokenParsers {
       } | starCond
   )
 
+  val ignoreCond: P[I[Expr]] = (
+    "the order of evaluation needs to be reversed to preserve left to right evaluation" |
+    name ~ "is added as a single item rather than spread" |
+    name ~ "contains a formal parameter mapping for" ~ name |
+    name ~ "is a Reference to an Environment Record binding" |
+    "the base of" ~ ref ~ "is an Environment Record" |
+    name ~ "must be" ~ rep(not(",") ~ text) |
+    id ~ "does not currently have a property" ~ id |
+    id <~ "is an accessor property" |
+    ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr
+  ) ^^^ pair(Nil, EBool(true))
+
   lazy val nonTrivialTyName: P[String] = ("string" | "boolean" | "number" | "object" | "symbol") ^^ { ts => ts(0) }
 
   lazy val subCond: P[Expr => I[Expr]] =
@@ -1398,6 +1371,8 @@ trait AlgoCompilerHelper extends TokenParsers {
   lazy val ref: P[I[Ref]] = (
     "the base value component of" ~> name ^^ {
       case x => parseRef(s"$x.BaseValue")
+    } | ("the bound value for" ~> id <~ "in") ~ id ^^ {
+      case p ~ e => parseRef(s"$e.SubMap[$p].BoundValue")
     } | name <~ "'s base value component" ^^ {
       case x => parseRef(s"$x.BaseValue")
     } | "the strict reference flag of" ~> name ^^ {
@@ -1481,6 +1456,29 @@ trait AlgoCompilerHelper extends TokenParsers {
     number ~ rep("." ~> number) ^^ {
       case n ~ list => n.toInt :: list.map(_.toInt)
     }
+
+  // method pointed by sections
+  lazy val section: P[String] = (
+    "9.4.1.1" ^^^ "BoundFunctionExoticObject.Call" |
+    "9.4.1.2" ^^^ "BoundFunctionExoticObject.Construct" |
+    "9.4.2.1" ^^^ "ArrayExoticObject.DefineOwnProperty" |
+    "9.4.3.1" ^^^ "StringExoticObject.GetOwnProperty" |
+    "9.4.3.2" ^^^ "StringExoticObject.DefineOwnProperty" |
+    "9.4.3.3" ^^^ "StringExoticObject.OwnPropertyKeys" |
+    "9.4.4.1" ^^^ "ArgumentsExoticObject.GetOwnProperty" |
+    "9.4.4.2" ^^^ "ArgumentsExoticObject.DefineOwnProperty" |
+    "9.4.4.3" ^^^ "ArgumentsExoticObject.Get" |
+    "9.4.4.4" ^^^ "ArgumentsExoticObject.Set" |
+    "9.4.4.5" ^^^ "ArgumentsExoticObject.Delete" |
+    "9.4.5.1" ^^^ "IntegerIndexedExoticObject.GetOwnProperty" |
+    "9.4.5.2" ^^^ "IntegerIndexedExoticObject.HasProperty" |
+    "9.4.5.3" ^^^ "IntegerIndexedExoticObject.DefineOwnProperty" |
+    "9.4.5.4" ^^^ "IntegerIndexedExoticObject.Get" |
+    "9.4.5.5" ^^^ "IntegerIndexedExoticObject.Set" |
+    "9.4.5.6" ^^^ "IntegerIndexedExoticObject.OwnPropertyKeys" |
+    "9.5.12" ^^^ "ProxyExoticObject.Call" |
+    "9.5.13" ^^^ "ProxyExoticObject.Construct"
+  ) ^^ { getScalaName(_) }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Names
