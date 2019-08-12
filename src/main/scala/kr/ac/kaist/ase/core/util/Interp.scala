@@ -405,7 +405,7 @@ class Interp {
         case (addr: Addr) => s0.keys(addr)
         case v => error(s"not an address: $v")
       }
-    case ENotYetImpl(msg) => error(s"[NotYetImpl]:${st.context}: $msg")
+    case ENotYetImpl(msg) => error(s"[NotYetImpl]:${st.context.name}: $msg")
     case ENotSupported(msg) => throw NotSupported(msg)
   }
 
