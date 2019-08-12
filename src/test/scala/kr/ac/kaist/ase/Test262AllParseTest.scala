@@ -19,12 +19,15 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
 
-class Test262ParseTest extends ASETest {
+class Test262AllParseTest extends ASETest {
   // tag name
-  val tag: String = "test262ParseTest"
+  val tag: String = "test262AllParseTest"
 
   // base directory
   val test262Dir = s"$TEST_DIR/test262"
+
+  // all tests
+  val test262all = s"$test262Dir/test"
 
   // tests for js-parser
   def parseJSTest(ast: => AST): Unit = {
@@ -35,20 +38,19 @@ class Test262ParseTest extends ASETest {
   // do nothing after all tests
   override def afterAll(): Unit = {}
 
-  // registration
-  val dir = new File(test262Dir)
-  val config = readFile(s"$TEST_DIR/test262.json").parseJson.convertTo[Test262ConfigSummary]
-
   // initialize tests
   def init: Unit = {
-    val noParseSet = NoParse.failed.toSet ++ NoParse.long.toSet
-    for (NormalTestConfig(filename, includes) <- shuffle(config.normal)) {
-      val jsName = s"${dir.toString}/$filename"
-      val name = removedExt(jsName).drop(dir.toString.length + 1)
-      if (!(noParseSet contains name)) check("Test262Parse", name, {
+    for (file <- shuffle(walkTree(new File(test262all)))) {
+      val filename = file.getName
+      if (jsFilter(filename)) {
+        val name = removedExt(filename)
+        val jsName = file.toString
         val jsConfig = aseConfig.copy(fileNames = List(jsName))
-        parseJSTest(Parse((), jsConfig))
-      })
+        val testName = jsName.drop(test262all.length)
+
+        lazy val ast = Parse((), jsConfig)
+        check("Test262AllParse", testName, parseJSTest(ast))
+      }
     }
   }
 

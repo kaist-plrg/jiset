@@ -6,6 +6,7 @@ lazy val algoCompilerTest = taskKey[Unit]("Launch tests for AlgoCompiler")
 lazy val jsTest = taskKey[Unit]("Launch js language interpreter tests")
 lazy val test262Test = taskKey[Unit]("Launch test262 tests")
 lazy val test262ParseTest = taskKey[Unit]("Launch test262 parsing tests")
+lazy val test262AllParseTest = taskKey[Unit]("Launch test262 parsing tests")
 
 lazy val root = (project in file(".")).
   settings(
@@ -41,7 +42,8 @@ lazy val root = (project in file(".")).
     algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerTest") dependsOn compile,
     jsTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.JSTest") dependsOn compile,
     test262Test <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.Test262Test") dependsOn compile,
-    test262ParseTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.Test262ParseTest") dependsOn compile
+    test262ParseTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.Test262ParseTest") dependsOn compile,
+    test262AllParseTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.Test262AllParseTest") dependsOn compile
   )
 
 cleanFiles ++= Seq(
