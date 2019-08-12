@@ -226,6 +226,7 @@ class Interp {
     case ESymbol(desc) =>
       interp(desc, true)(st) match {
         case (Str(str), st) => st.allocSymbol(str)
+        case (Undef, st) => st.allocSymbol("") // TODO : change Symbol Desc to Value
         case (v, _) => error(s"not a string: $v")
       }
     case EPop(list, idx) =>
