@@ -180,8 +180,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
 
   lazy val expr: P[I[Expr]] = (
     etcExpr |||
-    arithExpr |
-    valueExpr ^^ { pair(Nil, _) } |
+    arithExpr |||
+    valueExpr |||
     listExpr |
     newExpr |
     curExpr ^^ { pair(Nil, _) } |
@@ -210,6 +210,9 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "|" ^^^ OBOr
   )
 
+  // value expressions
+  lazy val valueExpr: P[I[Expr]] = valueParser ^^ { pair(Nil, _) }
+
   // ReturnIfAbrupt
   lazy val returnIfAbruptExpr: P[I[Expr]] = opt("the result of" ~ opt("performing")) ~> {
     ("?" ~> expr | "ReturnIfAbrupt(" ~> expr <~ ")") ^^ {
@@ -218,49 +221,6 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       case i ~ e => returnIfAbrupt(i, e, false)
     }
   }
-
-  // value expressions
-  lazy val valueExpr: P[Expr] = (
-    number ~ sup.filter(ts => parseAll(number, ts).successful) ^^ {
-      case x ~ List(y: Text) =>
-        val a = x.toInt
-        val b = y.getContent.toInt
-        EINum(math.pow(a, b).longValue)
-    } |
-    opt("the numeric value") ~ "zero" ^^^ { ENum(0.0) } |
-    opt("the value" | ("the" ~ opt("single - element") ~ "string")) ~> (value | code) ^^ {
-      case "null" => ENull
-      case "true" => EBool(true)
-      case "false" => EBool(false)
-      case "NaN" => ENum(Double.NaN)
-      case "+0" => EINum(0L)
-      case "-0" => ENum(-0.0)
-      case "+∞" => ENum(Double.PositiveInfinity)
-      case "-∞" => ENum(Double.NegativeInfinity)
-      case "undefined" => EUndef
-      case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
-      case err if err.endsWith("Error") => parseExpr(s"""(new OrdinaryObject(
-      "Prototype" -> INTRINSIC_${err}Prototype,
-      "ErrorData" -> "${err}",
-      "SubMap" -> (new SubMap())
-    ))""")
-      case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
-      case s => ENotYetImpl(s)
-    } | const ^^ {
-      case "[empty]" => parseExpr("absent")
-      case const => parseExpr("CONST_" + const.replaceAll("-", ""))
-    } | (number <~ ".") ~ number ^^ {
-      case x ~ y => ENum(s"$x.$y".toDouble)
-    } | "a newly created" ~> value <~ "object" ^^ {
-      case err if err.endsWith("Error") => parseExpr(s"""(new OrdinaryObject(
-        "Prototype" -> INTRINSIC_${err}Prototype,
-        "ErrorData" -> undefined,
-        "SubMap" -> (new SubMap())
-      ))""")
-    } | opt("the numeric value") ~> number ^^ {
-      case s => EINum(java.lang.Long.decode(s))
-    } | internalName
-  )
 
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
@@ -781,6 +741,79 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   }
 
   ////////////////////////////////////////////////////////////////////////////////
+  // values
+  ////////////////////////////////////////////////////////////////////////////////
+  lazy val valueParser: P[Expr] = (
+    valueValue |||
+    expValue |||
+    codeValue |||
+    constValue |||
+    numberValue |||
+    internalName
+  )
+
+  // values with tag `value`
+  lazy val valueValue: P[Expr] = opt("the value") ~> value ^^ {
+    case "undefined" => EUndef
+    case "NaN" => ENum(Double.NaN)
+    case "null" => ENull
+    case "+0" => EINum(0L)
+    case "-0" => ENum(-0.0)
+    case "true" => EBool(true)
+    case "false" => EBool(false)
+    case "+∞" => ENum(Double.PositiveInfinity)
+    case "-∞" => ENum(Double.NegativeInfinity)
+    case s if Try(s.toLong).isSuccess => EINum(s.toLong)
+    case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
+    case err if err.endsWith("Error") => EMap(Ty("OrdinaryObject"), List(
+      EStr("Prototype") -> toERef(s"INTRINSIC_${err}Prototype"),
+      EStr("ErrorData") -> EStr(err),
+      EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
+    ))
+    case s => ENotYetImpl(s)
+  } ||| "a newly created" ~> value <~ "object" ^^ {
+    case err if err.endsWith("Error") => parseExpr(s"""(new OrdinaryObject(
+      "Prototype" -> INTRINSIC_${err}Prototype,
+      "ErrorData" -> undefined,
+      "SubMap" -> (new SubMap())
+    ))""")
+  }
+
+  // exponential values
+  lazy val expValue: P[Expr] = (
+    number ~ sup.filter(ts => parseAll(number, ts).successful) ^^ {
+      case x ~ List(y: Text) =>
+        val a = x.toInt
+        val b = y.getContent.toInt
+        EINum(math.pow(a, b).longValue)
+    }
+  )
+
+  // values with tag `code`
+  lazy val codeValue: P[Expr] = opt("the" ~ opt("single - element") ~ "string") ~> code ^^ {
+    case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
+    case s @ ("super" | "this") => EStr(s)
+    case s => ENotYetImpl(s)
+  }
+
+  // values with tag `const`
+  lazy val constValue: P[Expr] = const ^^ {
+    case "[empty]" => EAbsent
+    case const => toERef("CONST_" + const.replaceAll("-", ""))
+  }
+
+  // number values
+  lazy val numberValue: P[Expr] = opt("the numeric value") ~> (
+    (number <~ ".") ~ number ^^ {
+      case x ~ y => ENum(s"$x.$y".toDouble)
+    } ||| number ^^ {
+      case s => EINum(java.lang.Long.decode(s))
+    } ||| "zero" ^^^ {
+      EINum(0L)
+    }
+  )
+
+  ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: P[I[Expr]] = (
@@ -823,7 +856,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case x =>
           val temp = getTemp
           pair(List(parseInst(s"app $temp = (IsDataDescriptor $x)")), toERef(temp))
-      } | (name <~ "is") ~ (valueExpr <~ "and") ~ (name <~ "is") ~ valueExpr ^^ {
+      } | (name <~ "is") ~ (valueParser <~ "and") ~ (name <~ "is") ~ valueParser ^^ {
         case x ~ v ~ y ~ u => pair(Nil, parseExpr(s"(&& (= $x ${beautify(v)}) (= $y ${beautify(u)}))"))
       } | name <~ "is an array index" ^^ {
         case x =>
@@ -835,7 +868,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
           pair(List(parseInst(s"app $temp = (IsAccessorDescriptor $x)")), toERef(temp))
       } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
         case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
-      } | (ref <~ "is" ~ ("not present" | "absent") <~ ", or is either") ~ (valueExpr <~ "or") ~ valueExpr ~ subCond ^^ {
+      } | (ref <~ "is" ~ ("not present" | "absent") <~ ", or is either") ~ (valueParser <~ "or") ~ valueParser ~ subCond ^^ {
         case (i0 ~ r) ~ e1 ~ e2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OOr, EUOp(ONot, exists(r)), EBOp(OEq, ERef(r), e1)), EBOp(OEq, ERef(r), e2))))
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case (i0 ~ r) ~ f => concat(i0, f(EUOp(ONot, exists(r))))
@@ -873,12 +906,12 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
       } | (expr <~ "is" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EContains(y, x)))
-      } | (ref <~ "is absent or has the value") ~ valueExpr ^^ {
+      } | (ref <~ "is absent or has the value") ~ valueParser ^^ {
         case (i ~ x) ~ v =>
           val l = beautify(x)
           val r = beautify(v)
           pair(i, parseExpr(s"(|| (= $l absent) (= $l $r))"))
-      } | (ref <~ "has the value") ~ valueExpr ^^ {
+      } | (ref <~ "has the value") ~ valueParser ^^ {
         case (i ~ x) ~ v =>
           val l = beautify(x)
           val r = beautify(v)
@@ -939,7 +972,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case (i1 ~ e1) ~ (i2 ~ e2) ~ (i3 ~ e3) => pair(i1 ++ i2 ++ i3, EUOp(ONot, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3))))
       } | expr <~ "is" <~ value <~ " , " <~ value <~ "or not supplied" ^^ {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EBOp(OEq, e, ENull), EBOp(OEq, e, EUndef)), EBOp(OEq, e, EAbsent)))
-      } | (expr <~ "is") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ (valueExpr <~ ",") ~ ("or" ~> valueExpr) ^^ {
+      } | (expr <~ "is") ~ (valueParser <~ ",") ~ (valueParser <~ ",") ~ (valueParser <~ ",") ~ (valueParser <~ ",") ~ ("or" ~> valueParser) ^^ {
         case (i1 ~ e1) ~ e2 ~ e3 ~ e4 ~ e5 ~ e6 =>
           pair(i1, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3)), EBOp(OEq, e1, e4)), EBOp(OEq, e1, e5)), EBOp(OEq, e1, e6)))
       } | expr <~ ("is empty" | "is an empty list") ^^ {
@@ -972,7 +1005,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case i ~ e => pair(i, EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number")))))) // TODO : remove side effect
       } | (expr <~ "equals") ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EBOp(OEq, x, y))
-      } | (expr <~ "is") ~ rep1sep(valueExpr, ",") ~ (", or" ~> valueExpr) ^^ {
+      } | (expr <~ "is") ~ rep1sep(valueParser, ",") ~ (", or" ~> valueParser) ^^ {
         case (i ~ e0) ~ list ~ e1 =>
           pair(i, (list :+ e1).map(e => EBOp(OEq, e0, e)).reduce((l, r) => EBOp(OOr, l, r)))
       } | "every field in" ~> id <~ "is absent" ^^ {
