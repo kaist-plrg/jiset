@@ -213,13 +213,13 @@ class Interp {
       (addr, (s0 /: props) {
         case (st, (e1, e2)) =>
           val (k, s0) = interp(e1, true)(st)
-          val (v, s1) = interp(e2, true)(s0)
+          val (v, s1) = interp(e2, false)(s0)
           s1.updated(addr, k, v)
       })
     case EList(exprs) =>
       val (vs, s0) = ((List[Value](), st) /: exprs) {
         case ((vs, st), expr) =>
-          val (v, s0) = interp(expr, true)(st)
+          val (v, s0) = interp(expr, false)(st)
           (v :: vs, s0)
       }
       s0.allocList(vs.reverse)
