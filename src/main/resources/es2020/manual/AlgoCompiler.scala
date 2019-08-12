@@ -187,8 +187,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     newExpr |||
     listExpr |||
     listCopyExpr |||
-    curExpr ^^ { pair(Nil, _) } |
-    algoExpr ^^ { pair(Nil, _) } |
+    algorithmExpr |||
     containsExpr |
     typeExpr ^^ { pair(Nil, _) } |
     accessExpr |
@@ -285,17 +284,21 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     ("a new list containing the same values as the list" ~> expr <~ "in the same order followed by the same values as the list") ~ (expr <~ "in the same order") ^^ { case x ~ y => getCopyList(x, y) }
   )
 
-  // current expressions
-  lazy val curExpr =
-    "the current Realm Record" ^^^ {
-      parseExpr(s"$context.Realm")
-    }
-
   // algorithm expressions
-  lazy val algoExpr =
-    "an empty sequence of algorithm steps" ^^^ {
-      EFunc(Nil, None, emptyInst)
-    }
+  lazy val algorithmExpr: P[I[Expr]] = (
+    "an empty sequence of algorithm steps" ^^^ EFunc(Nil, None, emptyInst) |||
+    "the algorithm steps" ~ ("specified" | "defined") ~ "in" ~> algorithmName ^^ { toERef(_) }
+  ) ^^ { pair(Nil, _) }
+  lazy val algorithmName: P[String] = (
+    secno ~ "for the" ~> intrinsicName <~ "function" |||
+    "ListIterator next ()" ^^^ "ListIteratornext" |||
+    "GetCapabilitiesExecutor Functions" ^^^ "GLOBALDOTGetCapabilitiesExecutorFunctions" |||
+    "Promise Resolve Functions" ^^^ "GLOBALDOTPromiseResolveFunctions" |||
+    "Promise Reject Functions" ^^^ "GLOBALDOTPromiseRejectFunctions" |||
+    "Await Fulfilled Functions" ^^^ "GLOBALDOTAwaitFulfilledFunctions" |||
+    "Await Rejected Functions" ^^^ "GLOBALDOTAwaitRejectedFunctions" |||
+    "Async-from-Sync Iterator Value Unwrap Functions" ^^^ "GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions"
+  )
 
   // contains expressions
   lazy val containsExpr =
@@ -580,25 +583,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     } ||| "a List whose first element is" ~> name <~ "and whose subsequent elements are, in left to right order, the arguments that were passed to this function invocation" ^^ {
       case x => pair(List(parseInst(s"prepend $x -> argumentsList")), parseExpr("argumentsList"))
     } | ((
-      "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
-        case x => toERef(x)
-      } | "a new unique Symbol value whose [[Description]] value is" ~> name ^^ {
-        case x => parseExpr(s"(new '$x)")
-      } | "the algorithm steps defined in ListIterator" ~ rest ^^^ {
-        parseExpr("ListIteratornext")
-      } | "the algorithm steps defined in GetCapabilitiesExecutor Functions" ^^^ {
-        toERef("GLOBALDOTGetCapabilitiesExecutorFunctions")
-      } | "the algorithm steps defined in Promise Resolve Functions" ^^^ {
-        toERef("GLOBALDOTPromiseResolveFunctions")
-      } | "the algorithm steps defined in Promise Reject Functions" ^^^ {
-        toERef("GLOBALDOTPromiseRejectFunctions")
-      } | "the algorithm steps defined in Await Fulfilled Functions" ^^^ {
-        toERef("GLOBALDOTAwaitFulfilledFunctions")
-      } | "the algorithm steps defined in Await Rejected Functions" ^^^ {
-        toERef("GLOBALDOTAwaitRejectedFunctions")
-      } | "the algorithm steps defined in Async - from - Sync Iterator Value Unwrap Functions" ^^^ {
-        toERef("GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions")
-      } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
+      "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
         parseExpr("""(parse-syntax CoverCallExpressionAndAsyncArrowHead "CallMemberExpression")""")
       } | "the steps of an" ~> name <~ "function as specified below" ^^ {
         case x => parseExpr(s"$x")
@@ -657,10 +642,12 @@ trait AlgoCompilerHelper extends AlgoCompilers {
           EStr("SubMap") -> EMap(Ty("SubMap"), Nil),
           EStr("BindingObject") -> toERef(x)
         ))
-      } | "a new realm record" ^^^ {
-        toERef("REALM")
       } | "a List whose elements are the arguments passed to this function" ^^^ {
         toERef("argumentsList")
+      } | "the current Realm Record" ^^^ {
+        parseExpr("REALM")
+      } | "a new unique Symbol value whose [[Description]] value is" ~> name ^^ {
+        case x => parseExpr(s"(new '$x)")
       }
     ) ^^ { case e => pair(Nil, e) })
   )
