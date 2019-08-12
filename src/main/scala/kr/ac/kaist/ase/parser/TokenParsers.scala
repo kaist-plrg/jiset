@@ -134,15 +134,10 @@ trait TokenParsers extends PackratParsers {
     case t => Failure(s"`Nt(_)` expected but `$t` found", in)
   }))
 
-  def sup: Parser[String] = Parser(in => firstMap(in, _ match {
-    case Sup(Step(List(x: NormalToken))) => Success(x.getContent, in.rest)
-    case (t: Sup) => Failure(s"$t is not yet supported", in)
+  def sup: Parser[List[Token]] = Parser(in => firstMap(in, _ match {
+    case Sup(Step(list)) => Success(list, in.rest)
     case t => Failure(s"`Sup(_)` expected but `$t` found", in)
   }))
-  // TODO def sup: Parser[List[Token]] = Parser(in => firstMap(in, _ match {
-  //   case Sup(Step(list)) => Success(list, in.rest)
-  //   case t => Failure(s"`Sup(_)` expected but `$t` found", in)
-  // }))
 
   def url: Parser[String] = Parser(in => firstMap(in, _ match {
     case Url(x) => Success(x, in.rest)

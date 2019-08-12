@@ -1,7 +1,8 @@
 package kr.ac.kaist.ase.model
 
 import kr.ac.kaist.ase.algorithm
-import algorithm.{ AlgoKind, Algorithm, Token, StaticSemantics, Method, Grammar, AlgoCompilers }
+import algorithm.{ AlgoKind, Algorithm, Token, StaticSemantics }
+import algorithm.{ Method, Grammar, AlgoCompilers, Text }
 import kr.ac.kaist.ase.core.Parser._
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.LINE_SEP
@@ -180,9 +181,9 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   lazy val expr: P[I[Expr]] = (
     etcExpr |||
     arithExpr |
+    valueExpr ^^ { pair(Nil, _) } |
     listExpr |
     newExpr |
-    valueExpr ^^ { pair(Nil, _) } |
     curExpr ^^ { pair(Nil, _) } |
     algoExpr ^^ { pair(Nil, _) } |
     containsExpr |
@@ -210,22 +211,21 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   )
 
   // ReturnIfAbrupt
-  lazy val returnIfAbruptExpr: P[I[Expr]] =
-    (opt("the result of" ~ opt("performing")) ~>
-      "?" ~> expr | "ReturnIfAbrupt(" ~> expr <~ ")") ^^ {
-        case i ~ e => returnIfAbrupt(i, e, true)
-      } | opt("the result of" ~ opt("performing")) ~>
-      "!" ~> expr ^^ {
-        case i ~ e => returnIfAbrupt(i, e, false)
-      }
+  lazy val returnIfAbruptExpr: P[I[Expr]] = opt("the result of" ~ opt("performing")) ~> {
+    ("?" ~> expr | "ReturnIfAbrupt(" ~> expr <~ ")") ^^ {
+      case i ~ e => returnIfAbrupt(i, e, true)
+    } | "!" ~> expr ^^ {
+      case i ~ e => returnIfAbrupt(i, e, false)
+    }
+  }
 
   // value expressions
   lazy val valueExpr: P[Expr] = (
-    "2" ~> sup ^^ {
-      case s =>
-        val k = s.toInt
-        if (k < 0 | k > 62) throw UnexpectedShift(k)
-        EINum(1L << k)
+    number ~ sup.filter(ts => parseAll(number, ts).successful) ^^ {
+      case x ~ List(y: Text) =>
+        val a = x.toInt
+        val b = y.getContent.toInt
+        EINum(math.pow(a, b).longValue)
     } |
     opt("the numeric value") ~ "zero" ^^^ { ENum(0.0) } |
     opt("the value" | ("the" ~ opt("single - element") ~ "string")) ~> (value | code) ^^ {
