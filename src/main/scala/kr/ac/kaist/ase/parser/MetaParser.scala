@@ -30,7 +30,8 @@ object MetaParser {
         (negativen, flagsn, includesn2, localesn, featuresn, isNegn, isIncluden)
       }
     }
-    MetaData(relName, negative, flags, includes, locales, features)
+    val newIncludes = if (flags contains "async") includes :+ "doneprintHandle.js" else includes
+    MetaData(relName, negative, flags, newIncludes, locales, features)
   }
 }
 

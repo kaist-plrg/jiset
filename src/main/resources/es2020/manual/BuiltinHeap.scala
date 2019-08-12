@@ -182,6 +182,16 @@ object BuiltinHeap {
         "Reflect" -> DataProperty(NamedAddr("GLOBAL.Reflect"), T, F, T)
       )
     ),
+    "GLOBAL.print" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> HostPrint.func
+      ),
+      nmap = NMap(
+        "length" -> DataProperty(Num(0.0), F, F, T)
+      )
+    ),
     "GLOBAL.Object" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
@@ -507,6 +517,13 @@ object BuiltinHeap {
       ),
       nmap = NMap()
     ),
+    "GLOBAL.INTRINSIC_AsyncFromSyncIteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_AsyncIteratorPrototype")
+      ),
+      nmap = NMap()
+    ),
     "GLOBAL.INTRINSIC_GeneratorFunction" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
@@ -628,7 +645,7 @@ object BuiltinHeap {
     "Math",
     "Reflect",
     // test262
-    "print",
+    // "print",
     "$262"
   )
 }
