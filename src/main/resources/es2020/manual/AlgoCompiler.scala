@@ -184,8 +184,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     valueExpr |||
     returnIfAbruptExpr |||
     callExpr |||
+    newExpr |||
     listExpr |
-    newExpr |
     curExpr ^^ { pair(Nil, _) } |
     algoExpr ^^ { pair(Nil, _) } |
     containsExpr |
@@ -248,36 +248,21 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   lazy val intrinsicName: P[String] = "%" ~> word <~ "%" ^^ { INTRINSIC_PRE + _ }
 
   // new expressions
-  lazy val newExpr: P[I[Expr]] =
-    "a new empty list" ^^^ {
-      pair(Nil, EList(Nil))
-    } | "a" ~> opt("new") ~> " list containing" ~> expr ^^ {
-      case i ~ e => pair(i, EList(List(e)))
-    } | ("a new" ~> ty <~ "containing") ~ (expr <~ "as the binding object") ^^ {
-      case t ~ (i ~ e) => pair(i, EMap(t, List(
-        EStr("SubMap") -> EMap(Ty("SubMap"), Nil),
-        EStr("BindingObject") -> e
-      )))
-    } | "a new realm record" ^^^ {
-      pair(Nil, toERef("REALM"))
-    } | ("a new" | "a newly created") ~> ty <~ opt(("with" | "that" | "containing") ~ rest) ^^ {
-      case t => pair(Nil, EMap(t, List(EStr("SubMap") -> EMap(Ty("SubMap"), Nil)))) // TODO handle after "with" or "that"
-    } | ("a value of type reference whose base value component is" ~> expr) ~
-      (", whose referenced name component is" ~> expr) ~
-      (", and whose strict reference flag is" ~> expr) ^^ {
-        case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ s) => pair(i0 ++ i1 ++ i2, EMap(Ty("Reference"), List(
-          EStr("BaseValue") -> b,
-          EStr("ReferencedName") -> r,
-          EStr("StrictReference") -> s
-        )))
-      } | opt("the") ~> ty ~ ("{" ~> repsep((expr <~ ":") ~ expr, ",") <~ "}") ^^ {
-        case t ~ list =>
-          val i = (List[Inst]() /: list) { case (is, _ ~ (i ~ e)) => is ++ i }
-          pair(i, EMap(t, list.map { case (_ ~ x) ~ (_ ~ e) => (x, e) }))
-      }
+  lazy val newExpr: P[I[Expr]] = (
+    ("a new" | "a newly created") ~> ty ~ opt(("with" | "that" | "containing") ~> extraFields) ^^ {
+      case t ~ fs =>
+        pair(Nil, EMap(t, (EStr("SubMap") -> EMap(Ty("SubMap"), Nil)) :: fs.getOrElse(Nil)))
+    } ||| "a newly created" ~> valueValue <~ "object" ^^ {
+      case e => pair(Nil, e)
+    } | opt("the") ~> ty ~ ("{" ~> repsep((internalName <~ ":") ~ expr, ",") <~ "}") ^^ {
+      case t ~ list =>
+        val i = list.map { case _ ~ (i ~ _) => i }.flatten
+        pair(i, EMap(t, list.map { case x ~ (_ ~ e) => (x, e) }))
+    }
+  )
 
   // list expressions
-  lazy val listExpr: P[I[Expr]] =
+  lazy val listExpr: P[I[Expr]] = (
     "«" ~> repsep(expr, ",") <~ "»" ^^ {
       case list =>
         val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
@@ -334,7 +319,12 @@ trait AlgoCompilerHelper extends AlgoCompilers {
           pair(Nil, parseExpr("argumentsList"))
         } | "a List whose sole item is" ~> expr ^^ {
           case i ~ e => pair(i, EList(List(e)))
+        } | "a new empty list" ^^^ {
+          pair(Nil, EList(Nil))
+        } | "a" ~> opt("new") ~> " list containing" ~> expr ^^ {
+          case i ~ e => pair(i, EList(List(e)))
         }
+  )
 
   // current expressions
   lazy val curExpr =
@@ -380,7 +370,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       case (i1 ~ e1) ~ (i2 ~ e2) => pair(i1 ++ i2, EBOp(OPlus, e1, e2))
     }
   // et cetera expressions
-  lazy val etcExpr: P[I[Expr]] =
+  lazy val etcExpr: P[I[Expr]] = (
     ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
       case (i0 ~ e0) ~ (i1 ~ e1) => {
         val temp = getTemp
@@ -607,6 +597,14 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       case f =>
         val temp = getTemp
         pair(List(parseInst(s"app $temp = ($f.Code undefined argumentsList newTarget $f)")), toERef(temp))
+    } | ("a value of type reference whose base value component is" ~> expr) ~
+    (", whose referenced name component is" ~> expr) ~
+    (", and whose strict reference flag is" ~> expr) ^^ {
+      case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ s) => pair(i0 ++ i1 ++ i2, EMap(Ty("Reference"), List(
+        EStr("BaseValue") -> b,
+        EStr("ReferencedName") -> r,
+        EStr("StrictReference") -> s
+      )))
     } | ((
       "the algorithm steps specified in" ~> secno ~> "for the" ~> name <~ "function" ^^ {
         case x => toERef(x)
@@ -678,8 +676,16 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         parseExpr("this")
       } | "an instance of the production formalparameters0" ^^^ {
         parseExpr(s"""(parse-syntax "" "FormalParameters" false false)""")
+      } | "a new object Environment Record containing" ~> id <~ "as the binding object" ^^ {
+        case x => EMap(Ty("ObjectEnvironmentRecord"), List(
+          EStr("SubMap") -> EMap(Ty("SubMap"), Nil),
+          EStr("BindingObject") -> toERef(x)
+        ))
+      } | "a new realm record" ^^^ {
+        toERef("REALM")
       }
     ) ^^ { case e => pair(Nil, e) })
+  )
 
   lazy val accessExpr: P[I[Expr]] =
     (opt("the result of" ~ opt("performing")) ~>
@@ -759,8 +765,6 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
     case err if err.endsWith("Error") => getErrorObj(err)
     case s => ENotYetImpl(s)
-  } ||| "a newly created" ~> value <~ "object" ^^ {
-    case err if err.endsWith("Error") => getErrorObj(err)
   }
 
   // exponential values
@@ -1053,30 +1057,31 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Types
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val ty: P[Ty] =
-    "realm record" ^^^ Ty("RealmRecord") |
-      "record" ^^^ Ty("Record") |
-      "built-in function object" ^^^ Ty("BuiltinFunctionObject") |
-      "bound function exotic object" ^^^ Ty("BoundFunctionExoticObject") |
-      "arguments exotic object" ^^^ Ty("ArgumentsExoticObject") |
-      "proxy exotic object" ^^^ Ty("ProxyExoticObject") |
-      "string exotic object" ^^^ Ty("StringExoticObject") |
-      "propertydescriptor" ^^^ Ty("PropertyDescriptor") |
-      "pendingjob" ^^^ Ty("PendingJob") |
-      "PromiseCapability" ^^^ Ty("PromiseCapability") |
-      "PromiseReaction" ^^^ Ty("PromiseReaction") |
-      "AsyncGeneratorRequest" ^^^ Ty("AsyncGeneratorRequest") |
-      "property descriptor" ^^^ Ty("PropertyDescriptor") |
-      opt("ecmascript code") ~ "execution context" ^^^ Ty("ExecutionContext") |
-      "lexical environment" ^^^ Ty("LexicalEnvironment") |
-      "object environment record" ^^^ Ty("ObjectEnvironmentRecord") |
-      "object" ^^^ Ty("OrdinaryObject") |
-      "declarative environment record" ^^^ Ty("DeclarativeEnvironmentRecord") |
-      "function environment record" ^^^ Ty("FunctionEnvironmentRecord") |
-      "global environment record" ^^^ Ty("GlobalEnvironmentRecord") |
-      "completion" ^^^ Ty("Completion") |
-      "script record" ^^^ Ty("ScriptRecord") |
-      "array exotic object" ^^^ Ty("ArrayExoticObject")
+  lazy val ty: P[Ty] = (
+    "AsyncGeneratorRequest" ^^^ Ty("AsyncGeneratorRequest") |||
+    "PromiseCapability" ^^^ Ty("PromiseCapability") |||
+    "PromiseReaction" ^^^ Ty("PromiseReaction") |||
+    "arguments exotic object" ^^^ Ty("ArgumentsExoticObject") |||
+    "array exotic object" ^^^ Ty("ArrayExoticObject") |||
+    "bound function exotic object" ^^^ Ty("BoundFunctionExoticObject") |||
+    "built-in function object" ^^^ Ty("BuiltinFunctionObject") |||
+    "completion" ^^^ Ty("Completion") |||
+    "declarative environment record" ^^^ Ty("DeclarativeEnvironmentRecord") |||
+    "function environment record" ^^^ Ty("FunctionEnvironmentRecord") |||
+    "global environment record" ^^^ Ty("GlobalEnvironmentRecord") |||
+    "lexical environment" ^^^ Ty("LexicalEnvironment") |||
+    "object environment record" ^^^ Ty("ObjectEnvironmentRecord") |||
+    "object" ^^^ Ty("OrdinaryObject") |||
+    "pendingjob" ^^^ Ty("PendingJob") |||
+    "property descriptor" ^^^ Ty("PropertyDescriptor") |||
+    "propertydescriptor" ^^^ Ty("PropertyDescriptor") |||
+    "proxy exotic object" ^^^ Ty("ProxyExoticObject") |||
+    "realm record" ^^^ Ty("RealmRecord") |||
+    "record" ^^^ Ty("Record") |||
+    "script record" ^^^ Ty("ScriptRecord") |||
+    "string exotic object" ^^^ Ty("StringExoticObject") |||
+    opt("ecmascript code") ~ "execution context" ^^^ Ty("ExecutionContext")
+  )
 
   ////////////////////////////////////////////////////////////////////////////////
   // References
@@ -1451,6 +1456,15 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       case x ~ y => parseInst(s"""$x.SubMap[$y] = (new ImmutableBinding("initialized" -> false))""")
     } | ("record that the binding for" ~> name <~ "in") ~ name <~ "has been initialized" ^^ {
       case x ~ y => parseInst(s"if (! (= $y.SubMap[$x] absent)) $y.SubMap[$x].initialized = true else {}")
+    } | ("Let" ~> id <~ "be a newly created object with an internal slot for each name in") ~ id ^^ {
+      case obj ~ list =>
+        val temp = getTempId
+        ISeq(List(
+          ILet(Id(obj), EMap(Ty("OrdinaryObject"), List(EStr("SubMap") -> EMap(Ty("SubMap"), Nil)))),
+          forEachList(temp, toERef(list), IAssign(toRef(obj, toERef(temp)), EUndef))
+        ))
+    } | "Let" ~> id <~ "be a new Realm Record" ^^ {
+      case x => ILet(Id(x), toERef("REALM"))
     }
   ) | ignoreStmt
 
@@ -1476,4 +1490,12 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "this call will always return" ~ value |
     (opt("(") <~ ("see" | "it may be"))
   ) ~ rest ^^^ emptyInst
+
+  // extra fields for newly created objects
+  lazy val extraFields: P[List[(Expr, Expr)]] = (
+    "a" ~> internalName <~ "internal slot" ^^ { case x => List(x -> EUndef) } |||
+    "internal slots" ~> rep1sep(internalName, sep("and")) ^^ { case xs => xs.map(_ -> EUndef) } |||
+    id <~ "as the binding object" ^^ { case x => List(EStr("BindingObject") -> toERef(x)) } |||
+    ("the internal slots listed in table" ~ number | opt("initially has") ~> "no fields" | "no bindings") ^^^ Nil
+  )
 }
