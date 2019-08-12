@@ -113,12 +113,6 @@ trait LAParsers extends Lexer with Containers {
   def opt[T](p: => LAParser[T]): LAParser[Option[T]] = p ^^ { Some(_) } | MATCH ^^^ None
 
   // terminal parsers
-  val nt = cached[(String, Lexer), LAParser[StringWrapper]] {
-    case (name, nt) => log(new LAParser(
-      follow => (Skip ~> nt <~ +follow.parser) ^^ { case s => StringWrapper(name, s) },
-      FirstTerms() + (name -> nt)
-    ))(name)
-  }
   val t = cached[String, LAParser[String]] {
     case t => log(new LAParser(follow => {
       Skip ~> {
@@ -126,6 +120,18 @@ trait LAParsers extends Lexer with Containers {
         else t <~ not(IDContinue)
       } <~ +follow.parser
     }, FirstTerms() + t))(t)
+  }
+  val nt = cached[(String, Lexer), LAParser[StringWrapper]] {
+    case (name, nt) => log(new LAParser(
+      follow => (Skip ~> nt <~ +follow.parser) ^^ { case s => StringWrapper(name, s) },
+      FirstTerms() + (name -> nt)
+    ))(name)
+  }
+  def ntl = cached[Lexer, LAParser[StringWrapper]] {
+    case nt => log(new LAParser(
+      follow => (Skip ~> nt) ^^ { case s => StringWrapper("", s) },
+      FirstTerms()
+    ))("")
   }
 
   // memoization of lookahead parsers

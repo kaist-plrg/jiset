@@ -124,7 +124,7 @@ object ParserGenerator {
       case Lookahead(contains, cases) =>
         val parser = cases.map(c => s"""s(${c.map(token => getTokenParser(token)).mkString(", ")})""").mkString(" | ")
         val pre = if (contains) "+" else "-"
-        s"""($base <~ ${pre}nt("", $parser))"""
+        s"""($base <~ ${pre}ntl($parser))"""
       case EmptyToken => base + " ~ MATCH"
       case NoLineTerminatorToken => s"""($base <~ NoLineTerminator)"""
       case _ => base
