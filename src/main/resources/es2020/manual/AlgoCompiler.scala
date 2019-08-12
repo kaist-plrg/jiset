@@ -170,8 +170,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
 
   // remove statements
   lazy val removeStmt: P[Inst] = (
-    ("remove the first element from" ~> name <~ "and let") ~
-    (name <~ "be the value of" ~ ("that" | "the") ~ "element")
+    ("remove the first element from" ~> id <~ "and let") ~
+    (id <~ "be the value of" ~ ("that" | "the") ~ "element")
   ) ^^ { case l ~ x => ILet(Id(x), EPop(toERef(l), EINum(0))) }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -182,13 +182,13 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     etcExpr |||
     arithExpr |||
     valueExpr |||
+    returnIfAbruptExpr |||
+    callExpr |||
     listExpr |
     newExpr |
     curExpr ^^ { pair(Nil, _) } |
     algoExpr ^^ { pair(Nil, _) } |
     containsExpr |
-    returnIfAbruptExpr |
-    callExpr |
     typeExpr ^^ { pair(Nil, _) } |
     accessExpr |
     refExpr |
@@ -224,49 +224,28 @@ trait AlgoCompilerHelper extends AlgoCompilers {
 
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
-    "completion(" ~> expr <~ ")" ^^ {
-      case i ~ e => pair(i, e)
-    } | ("min(" ~> expr <~ ",") ~ (expr <~ ")") ^^ {
-      case (i0 ~ l) ~ (i1 ~ r) =>
-        val x = getTemp
-        val a = beautify(l)
-        val b = beautify(r)
-        pair(i0 ++ i1 :+ parseInst(s"""{
-          if (< $a $b) $x = $a
-          else $x = $b
-        }"""), parseExpr(x))
-    } | ref ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-      case (i0 ~ RefId(Id(x))) ~ list =>
-        val temp = getTempId
-        val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
-        val e = IApp(temp, parseExpr(x), list.map { case i ~ e => e })
-        pair(i :+ e, toERef(temp))
-      case (i0 ~ (r @ RefProp(b, _))) ~ list =>
-        val temp = getTempId
-        val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
-        val e = IApp(temp, ERef(r), ERef(b) :: list.map { case i ~ e => e })
-        pair(i :+ e, toERef(temp))
-    } | ("the result of the comparison" ~> expr <~ "==") ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) =>
-        val temp = getTemp
-        pair(
-          i0 ++ i1 :+ parseInst(s"app $temp = (AbstractEqualityComparison ${beautify(x)} ${beautify(y)})"),
-          toERef(temp)
-        )
-    } | (opt("the result of" ~ opt("performing")) ~>
-      (name <~ ("for" | "of")) ~
-      (refWithOrdinal <~ ("using" | "with" | "passing") ~ opt("arguments" | "argument")) ~
-      repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
-      opt("as" ~ opt("the") ~ ("arguments" | "argument"))) ^^ {
-        case f ~ x ~ list =>
-          val temp = getTempId
-          val temp2 = getTempId
-          val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
-          val r = IAccess(temp, ERef(x), EStr(f))
-          val e = IApp(temp2, toERef(temp), list.map { case i ~ e => e })
-          pair(i ++ List(r, e), toERef(temp2))
-      }
+    callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case (r: RefId) ~ list => getCall(ERef(r), list)
+      case (r @ RefProp(b, _)) ~ list => getCall(ERef(r), pair(Nil, ERef(b)) :: list)
+    } ||| {
+      "the result of" ~ (rep(not("comparison") ~ word) ~ "comparison") ~>
+        expr ~ compOp ~ expr ~ opt("with" ~ id ~ "equal to" ~> expr)
+    } ^^ {
+      case l ~ f ~ r ~ opt => getCall(toERef(f), List(l, r) ++ opt.toList)
+    }
   )
+  lazy val callRef: P[Ref] = (
+    word |||
+    "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |||
+    "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }
+  ) ^^ { toRef(_) } ||| id ~ staticField ^^ { case x ~ y => toRef(x, y) }
+  lazy val compOp: P[String] = (
+    "==" ^^^ "AbstractEqualityComparison" |||
+    "===" ^^^ "StrictEqualityComparison" |||
+    "<" ^^^ "AbstractRelationalComparison"
+  )
+  lazy val staticField: P[String] = "." ~> ("[[" ~> (intrinsicName ||| word) <~ "]]" ||| word)
+  lazy val intrinsicName: P[String] = "%" ~> word <~ "%" ^^ { INTRINSIC_PRE + _ }
 
   // new expressions
   lazy val newExpr: P[I[Expr]] =
@@ -702,38 +681,51 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       }
     ) ^^ { case e => pair(Nil, e) })
 
-  lazy val accessExpr: P[I[Expr]] = opt("the") ~> "stringvalue of identifiername" ^^^ {
-    pair(Nil, toERef("IdentifierName"))
-  } | "EvaluateBody of" ~> ref ^^ {
-    case i ~ r =>
-      val temp = getTemp
-      pair(i :+ IAccess(Id(temp), ERef(r), EStr("EvaluateBody")), toERef(temp))
-  } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
-    case x ~ y =>
-      val temp = getTemp
-      val temp2 = getTemp
-      pair(List(IAccess(Id(temp), toERef(y), EStr(x)), IAccess(Id(temp2), toERef(temp), EStr("Evaluation"))), toERef(temp2))
-  } | "the result of evaluating" ~> refWithOrdinal ^^ {
-    case x =>
-      val temp = getTemp
-      pair(List(IAccess(Id(temp), ERef(x), EStr("Evaluation"))), toERef(temp))
-  } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
-    case x ~ y =>
-      val temp = getTemp
-      pair(List(IAccess(Id(temp), toERef(y), EStr(x))), toERef(temp))
-  } | "IsFunctionDefinition of" ~> id ^^ {
-    case x =>
-      val temp = getTemp
-      pair(List(IAccess(Id(temp), toERef(x), EStr("IsFunctionDefinition"))), toERef(temp))
-  } | "the sole element of" ~> expr ^^ {
-    case i ~ e =>
-      val temp = getTemp
-      pair(i :+ IAccess(Id(temp), e, EINum(0)), toERef(temp))
-  } | (opt("the") ~> name.filter(x => x.charAt(0).isUpper) <~ "of") ~ refWithOrdinal ^^ {
-    case x ~ y =>
-      val temp = getTemp
-      pair(List(IAccess(Id(temp), ERef(y), EStr(x))), toERef(temp))
-  }
+  lazy val accessExpr: P[I[Expr]] =
+    (opt("the result of" ~ opt("performing")) ~>
+      (name <~ ("for" | "of")) ~
+      (refWithOrdinal <~ ("using" | "with" | "passing") ~ opt("arguments" | "argument")) ~
+      repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
+      opt("as" ~ opt("the") ~ ("arguments" | "argument"))) ^^ {
+        case f ~ x ~ list =>
+          val temp = getTempId
+          val temp2 = getTempId
+          val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
+          val r = IAccess(temp, ERef(x), EStr(f))
+          val e = IApp(temp2, toERef(temp), list.map { case i ~ e => e })
+          pair(i ++ List(r, e), toERef(temp2))
+      } | opt("the") ~> "stringvalue of identifiername" ^^^ {
+        pair(Nil, toERef("IdentifierName"))
+      } | "EvaluateBody of" ~> ref ^^ {
+        case i ~ r =>
+          val temp = getTemp
+          pair(i :+ IAccess(Id(temp), ERef(r), EStr("EvaluateBody")), toERef(temp))
+      } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
+        case x ~ y =>
+          val temp = getTemp
+          val temp2 = getTemp
+          pair(List(IAccess(Id(temp), toERef(y), EStr(x)), IAccess(Id(temp2), toERef(temp), EStr("Evaluation"))), toERef(temp2))
+      } | "the result of evaluating" ~> refWithOrdinal ^^ {
+        case x =>
+          val temp = getTemp
+          pair(List(IAccess(Id(temp), ERef(x), EStr("Evaluation"))), toERef(temp))
+      } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
+        case x ~ y =>
+          val temp = getTemp
+          pair(List(IAccess(Id(temp), toERef(y), EStr(x))), toERef(temp))
+      } | "IsFunctionDefinition of" ~> id ^^ {
+        case x =>
+          val temp = getTemp
+          pair(List(IAccess(Id(temp), toERef(x), EStr("IsFunctionDefinition"))), toERef(temp))
+      } | "the sole element of" ~> expr ^^ {
+        case i ~ e =>
+          val temp = getTemp
+          pair(i :+ IAccess(Id(temp), e, EINum(0)), toERef(temp))
+      } | (opt("the") ~> name.filter(x => x.charAt(0).isUpper) <~ "of") ~ refWithOrdinal ^^ {
+        case x ~ y =>
+          val temp = getTemp
+          pair(List(IAccess(Id(temp), ERef(y), EStr(x))), toERef(temp))
+      }
 
   // reference expressions
   lazy val refExpr: P[I[Expr]] = ref ^^ {
@@ -765,18 +757,10 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     case "-∞" => ENum(Double.NegativeInfinity)
     case s if Try(s.toLong).isSuccess => EINum(s.toLong)
     case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
-    case err if err.endsWith("Error") => EMap(Ty("OrdinaryObject"), List(
-      EStr("Prototype") -> toERef(s"INTRINSIC_${err}Prototype"),
-      EStr("ErrorData") -> EStr(err),
-      EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
-    ))
+    case err if err.endsWith("Error") => getErrorObj(err)
     case s => ENotYetImpl(s)
   } ||| "a newly created" ~> value <~ "object" ^^ {
-    case err if err.endsWith("Error") => parseExpr(s"""(new OrdinaryObject(
-      "Prototype" -> INTRINSIC_${err}Prototype,
-      "ErrorData" -> undefined,
-      "SubMap" -> (new SubMap())
-    ))""")
+    case err if err.endsWith("Error") => getErrorObj(err)
   }
 
   // exponential values

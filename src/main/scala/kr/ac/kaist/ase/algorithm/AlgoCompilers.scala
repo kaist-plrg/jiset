@@ -292,4 +292,12 @@ trait AlgoCompilers extends TokenParsers {
 
   // metions
   lazy val mention: P[String] = literal("(") ~ rep1(normal.filter(_ != Text(")"))) ~ literal(")") ^^^ ""
+
+  // get error objects
+  val INTRINSIC_PRE = "INTRINSIC_"
+  def getErrorObj(name: String): EMap = EMap(Ty("OrdinaryObject"), List(
+    EStr("Prototype") -> toERef(INTRINSIC_PRE + name + "Prototype"),
+    EStr("ErrorData") -> EUndef,
+    EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
+  ))
 }
