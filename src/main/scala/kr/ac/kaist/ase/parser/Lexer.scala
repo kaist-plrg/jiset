@@ -67,6 +67,13 @@ trait Lexer extends RegexParsers with UnicodeRegex {
 
   def sLL(p1: => Lexer): FLexer = p1 ^^ { case x1 => (x0: String) => x0 + x1 }
 
+  // sequence with skips
+  def ss(seq: Lexer*): Lexer = ss(seq.toList)
+  def ss(list: List[Lexer]): Lexer = if (list.length == 0) empty else list.map(x => {
+    if (x eq strNoLineTerminator) x
+    else Skip ~> x
+  }).reduce(_ ~ _ ^^^ "")
+
   // skip
   lazy val Skip: Lexer = ((WhiteSpace | LineTerminator | Comment)*) ^^ { _.mkString }
 
