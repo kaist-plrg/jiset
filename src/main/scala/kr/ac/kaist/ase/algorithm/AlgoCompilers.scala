@@ -297,6 +297,38 @@ trait AlgoCompilers extends TokenParsers {
     pair(i :+ app, toERef(temp))
   }
 
+  // get lists
+  def getList(list: List[I[Expr]]): I[Expr] = {
+    val i = list.map { case i ~ _ => i }.flatten
+    pair(i, EList(list.map { case _ ~ e => e }))
+  }
+
+  // get copy lists
+  def getCopyList(il0: I[Expr], il1: I[Expr]): I[Expr] = {
+    val i0 ~ l0 = il0
+    val i1 ~ l1 = il1
+    val elem = getTempId
+    val newList = getTempId
+    pair(i0 ++ i1 ++ List(
+      ILet(newList, ECopy(l0)),
+      forEachList(elem, l1, IAppend(toERef(elem), toERef(newList)))
+    ), toERef(newList))
+  }
+  def getCopyList(il: I[Expr], appended: List[I[Expr]], prepend: Boolean = false): I[Expr] = {
+    val i ~ l = il
+    appended match {
+      case Nil => pair(i, ECopy(l))
+      case _ =>
+        val newList = getTempId
+        val i0 = appended.map { case i ~ _ => i }.flatten
+        val as = appended.map { case _ ~ e => e }
+        val f =
+          if (prepend) IPrepend(_, toERef(newList))
+          else IAppend(_, toERef(newList))
+        pair((i ++ i0 :+ ILet(newList, ECopy(l))) ++ as.map(f), toERef(newList))
+    }
+  }
+
   // get completions
   def getThrowCompletion(e: Expr): I[Expr] = getThrowCompletion(pair(Nil, e))
   def getThrowCompletion(ie: I[Expr]): I[Expr] = getCall("ThrowCompletion", List(ie))
