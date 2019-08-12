@@ -168,6 +168,40 @@ trait AlgoCompilers extends TokenParsers {
       ), parseExpr(temp))
   }
 
+  // IfAbruptRejectPromise
+  def ifAbruptRejectPromise(
+    insts: List[Inst],
+    expr: Expr,
+    capexpr: Expr
+  ): List[Inst] ~ Expr = (insts, expr, capexpr) match {
+    case (i, (e @ ERef(RefId(Id(x)))), ce) =>
+      val temp = getTemp
+      pair(i :+ parseInst(s"""
+      if (= (typeof $x) "Completion") {
+        if (= $x.Type CONST_normal) $x = $x.Value
+        else {
+          app $temp = (Call ${beautify(ce)}.Reject undefined (new [$x.Value]))
+          if (&& (= (typeof $temp) "Completion") (! (= $temp.Type CONST_normal))) return $temp else {}
+          return ${beautify(ce)}.Promise
+        }
+      } else {}"""), e)
+    case (i, e, ce) =>
+      val temp = getTemp
+      val temp2 = getTemp
+      pair(i :+ parseInst(
+        s"""{
+        let $temp = ${beautify(e)}
+        if (= (typeof $temp) "Completion") {
+          if (= $temp.Type CONST_normal) $temp = $temp.Value
+          else {
+            app $temp2 = (Call ${beautify(ce)}.Reject undefined (new [$temp.Value]))
+            if (&& (= (typeof $temp2) "Completion") (! (= $temp2.Type CONST_normal))) return $temp2 else {}
+            return ${beautify(ce)}.Promise
+        } else {}
+      }"""
+      ), parseExpr(temp))
+  }
+
   // normalize temporal identifiers
   def normalizeTempIds(inst: Inst): Inst = (new Walker {
     var count: Int = 0

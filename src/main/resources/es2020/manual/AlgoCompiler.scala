@@ -220,7 +220,10 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     } | "!" ~> expr ^^ {
       case i ~ e => returnIfAbrupt(i, e, false)
     }
+  } | ( "IfAbruptRejectPromise(" ~> expr <~ ", ") ~ ( expr <~ ")") ^^ { 
+      case (i0 ~ e0) ~ (i1 ~ e1) => ifAbruptRejectPromise(i0 ++ i1, e0, e1)
   }
+
 
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
@@ -622,6 +625,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         toERef("GLOBALDOTAwaitFulfilledFunctions")
       } | "the algorithm steps defined in Await Rejected Functions" ^^^ {
         toERef("GLOBALDOTAwaitRejectedFunctions")
+      } | "the algorithm steps defined in Async - from - Sync Iterator Value Unwrap Functions" ^^^ {
+        toERef("GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions")
       } | "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
         parseExpr("""(parse-syntax CoverCallExpressionAndAsyncArrowHead "CallMemberExpression")""")
       } | "the steps of an" ~> name <~ "function as specified below" ^^ {
