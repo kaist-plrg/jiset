@@ -152,11 +152,11 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         "as" ~ ("an" | "the last") ~ "element of" ~ opt("the list" ~ opt("that is"))
     }) ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
-    } | ("each item in" ~> expr <~ "to the end of") ~ expr ^^ {
+    } ||| ("each item in" ~> expr <~ "to the end of") ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l1, IAppend(toERef(tempId), l2)))
-    } | ("to" ~> expr <~ opt("the elements of")) ~ expr ^^ {
+    } ||| ("to" ~> expr <~ opt("the elements of")) ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(toERef(tempId), l1)))
@@ -214,16 +214,15 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   lazy val valueExpr: P[I[Expr]] = valueParser ^^ { pair(Nil, _) }
 
   // ReturnIfAbrupt
-  lazy val returnIfAbruptExpr: P[I[Expr]] = opt("the result of" ~ opt("performing")) ~> {
+  lazy val returnIfAbruptExpr: P[I[Expr]] = opt("the result of" ~ opt("performing")) ~> (
     ("?" ~> expr | "ReturnIfAbrupt(" ~> expr <~ ")") ^^ {
       case i ~ e => returnIfAbrupt(i, e, true)
     } | "!" ~> expr ^^ {
       case i ~ e => returnIfAbrupt(i, e, false)
-    }
-  } | ( "IfAbruptRejectPromise(" ~> expr <~ ", ") ~ ( expr <~ ")") ^^ { 
+    } | ("IfAbruptRejectPromise(" ~> expr <~ ", ") ~ (expr <~ ")") ^^ {
       case (i0 ~ e0) ~ (i1 ~ e1) => ifAbruptRejectPromise(i0 ++ i1, e0, e1)
-  }
-
+    }
+  )
 
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
@@ -257,7 +256,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         pair(Nil, EMap(t, (EStr("SubMap") -> EMap(Ty("SubMap"), Nil)) :: fs.getOrElse(Nil)))
     } ||| "a newly created" ~> valueValue <~ "object" ^^ {
       case e => pair(Nil, e)
-    } | opt("the") ~> ty ~ ("{" ~> repsep((internalName <~ ":") ~ expr, ",") <~ "}") ^^ {
+    } ||| opt("the") ~> ty ~ ("{" ~> repsep((internalName <~ ":") ~ expr, ",") <~ "}") ^^ {
       case t ~ list =>
         val i = list.map { case _ ~ (i ~ _) => i }.flatten
         pair(i, EMap(t, list.map { case x ~ (_ ~ e) => (x, e) }))
@@ -268,7 +267,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   lazy val listExpr: P[I[Expr]] = (
     "«" ~> repsep(expr, ",") <~ "»" ^^ {
       case list =>
-        val i = (List[Inst]() /: list) { case (is, (i ~ _)) => is ++ i }
+        val i = list.map { case i ~ _ => i }.flatten
         pair(i, EList(list.map { case _ ~ e => e }))
     } | "a List whose first element is" ~> name <~ "and whose subsequent elements are, in left to right order, the arguments that were passed to this function invocation" ^^ {
       case x => pair(List(parseInst(s"prepend $x -> argumentsList")), parseExpr("argumentsList"))
