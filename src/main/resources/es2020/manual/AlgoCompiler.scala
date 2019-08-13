@@ -1242,7 +1242,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
             app $tempId2 = ($cid.ResumeCont)
             }""")
       }
-    } | ("Once a generator enters the" | "Assert : If we return here , the async generator either threw") <~ rest ^^^ {
+    } | ("Assert : If we return here , the" ~ opt("async") ~ " generator either threw") <~ rest ^^^ {
       parseInst(s"""{
         delete genContext.ResumeCont
         access $retcont = (genContext "ReturnCont")
@@ -1449,7 +1449,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "if" ~ id ~ "is a List of errors," |
     "order the elements of" ~ id ~ "so they are in the same relative order as would" |
     "Perform any implementation or host environment defined processing of" |
-    "Perform any implementation or host environment defined job initialization using"
+    "Perform any implementation or host environment defined job initialization using" |
+    "Once a generator enters"
   ) ~ rest ^^^ emptyInst
 
   // comments
