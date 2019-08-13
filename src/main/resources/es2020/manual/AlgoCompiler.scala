@@ -1198,15 +1198,11 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       }
     } | ("Assert : If we return here , the" ~ opt("async") ~ " generator either threw") <~ rest ^^^ {
       parseInst(s"""{
-        delete genContext.ResumeCont
         access $retcont = (genContext "ReturnCont")
-        delete genContext.ReturnCont
        }""")
     } | "Assert : If we return here , the async function either threw an exception or performed an implicit or explicit return ; all awaiting is done" ^^^ {
       parseInst(s"""{
-        delete asyncContext.ResumeCont
         access $retcont = (asyncContext "ReturnCont")
-        delete asyncContext.ReturnCont
       }""")
     } | "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
       case i ~ e => ISeq(i ++ List(IAppend(e, toERef(executionStack)), parseInst(s"""

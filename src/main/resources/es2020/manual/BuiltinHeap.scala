@@ -226,7 +226,8 @@ object BuiltinHeap {
     "GLOBAL.Function.prototype" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
-        "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
+        "Prototype" -> NamedAddr("GLOBAL.Object.prototype"),
+        "Code" -> Func("", List(), None, IReturn(EUndef))
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(0.0), F, F, T),
