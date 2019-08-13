@@ -579,14 +579,15 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         EStr("StrictReference") -> s
       )))
     } | "a new (possibly empty) List consisting of all of the argument values provided after" ~ name ~ "in order" ^^^ {
-      pair(List(parseInst(s"(pop argumentsList 0i)")), parseExpr("argumentsList"))
+      pair(List(parseInst(s"if (< 0i argumentsList.length) (pop argumentsList 0i) else {}")), parseExpr("argumentsList"))
     } | "a List whose elements are , in left to right order , the arguments that were passed to this function invocation" ^^^ {
       pair(Nil, parseExpr("argumentsList"))
     } | "a List whose elements are, in left to right order, the portion of the actual argument list starting with the third argument" ~ rest ^^^ {
-      pair(List(parseInst(s"""{
+      pair(List(parseInst(s"""if (< 2i argumentsList.length) {
             (pop argumentsList 0i)
             (pop argumentsList 0i)
-          }""")), parseExpr("argumentsList"))
+        } else { argumentsList = (new [])
+        }""")), parseExpr("argumentsList"))
     } ||| ("the List of" ~> name <~ "items in") ~ (refWithOrdinal <~ ", in source text order") ^^ {
       case x ~ r => pair(Nil, parseExpr(s"(get-elems ${beautify(r)} $x)"))
     } ||| ("a List whose first element is" ~> expr <~ ", whose second elements is") ~ expr ~ (", and whose subsequent elements are the elements of" ~> expr <~ rest) ^^ {
@@ -1200,7 +1201,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       """)))
     } | "if this method was called with more than one argument , then in left to right order , starting with the second argument , append each argument as the last element of" ~> name ^^ {
       case x => parseInst(s"""{
-        (pop argumentsList 0i)
+        if (< 0i argumentsList.length) (pop argumentsList 0i) else {}
         $x = argumentsList
       }""")
     } | "in an implementation - dependent manner , obtain the ecmascript source texts" ~ rest ^^^ {

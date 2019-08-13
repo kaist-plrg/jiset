@@ -546,8 +546,8 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype")
       ),
       nmap = NMap(
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorFunction"), T, F, T),
-        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorPrototype"), F, F, F)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorFunction"), F, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorPrototype"), F, F, T)
       )
     ),
     "GLOBAL.INTRINSIC_GeneratorPrototype" -> Struct(
@@ -580,7 +580,7 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype")
       ),
       nmap = NMap(
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorFunction"), T, F, T),
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorFunction"), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorPrototype"), F, F, F)
       )
     ),
