@@ -25,6 +25,7 @@ object BaseGlobal {
     "HostHasSourceTextAvailable" -> HostHasSourceTextAvailable.func,
     "HostReportErrors" -> HostReportErrors.func,
     "HostPromiseRejectionTracker" -> HostPromiseRejectionTracker.func,
+    "RegExpCreate" -> RegExpCreate.func,
     "GetArgument" -> GetArgument.func,
     "GetTypeOf" -> GetTypeOf.func,
     "IsArrayIndex" -> IsArrayIndex.func,
