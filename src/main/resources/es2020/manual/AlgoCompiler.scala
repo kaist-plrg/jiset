@@ -894,7 +894,13 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       } | (ref <~ "has" <~ ("a" | "an")) ~ (name ^^ { case x => EStr(x) } | internalName) <~ "field" ^^ {
         case (i ~ r) ~ n => pair(i, exists(RefProp(r, n)))
       } | (name <~ "does not have a binding for") ~ name ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"(= absent $x.SubMap.$y)"))
+        case x ~ y => pair(Nil, parseExpr(s"(= absent $x.SubMap[$y])"))
+      } | ("the binding for" ~> name <~ "in") ~ (name <~ "is a strict binding") ^^ {
+        case x ~ y => pair(Nil, parseExpr(s"(&& (! (= absent $y.SubMap[$x].strict)) $y.SubMap[$x].strict)"))
+      } | ("the binding for" ~> name <~ "in") ~ (name <~ "has not yet been initialized") ^^ {
+        case x ~ y => pair(Nil, parseExpr(s"(&& (! (= absent $y.SubMap[$x].initialized)) (! $y.SubMap[$x].initialized))"))
+      } | ("the binding for" ~> name <~ "in") ~ (name <~ "is a mutable binding") ^^ {
+        case x ~ y => pair(Nil, parseExpr(s"""(= (typeof $y.SubMap[$x]) "MutableBinding")"""))
       } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
         case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
       } | ref ~ ("has" ~ ("a" | "an") ~> internalName <~ "internal" ~ ("method" | "slot")) ~ subCond ^^ {
@@ -1191,8 +1197,9 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   // Etc parsers
   ////////////////////////////////////////////////////////////////////////////////
   // etc statements
-  lazy val etcStmt: P[Inst] = (
-    "Perform the following substeps in an implementation - dependent order , possibly interleaving parsing and error detection :" ~> stmt |
+  lazy val etcStmt: P[Inst] = "change its bound value to" ~> id ^^ {
+      case x => parseInst(s"envRec.SubMap[N].BoundValue = $x")
+    } | ("Perform the following substeps in an implementation - dependent order , possibly interleaving parsing and error detection :" ~> stmt |
     ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed for that execution context the following steps will be performed :") ~ stmt ^^ {
       case x ~ s => {
         parseInst(s"""$x.ResumeCont = () [=>] ${beautify(s)}""")
@@ -1417,8 +1424,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       }""")
     } | ("create a mutable binding in" ~> name <~ "for") ~ name <~ "and record that it is uninitialized" ~ rest ^^ {
       case x ~ y => parseInst(s"""$x.SubMap[$y] = (new MutableBinding("initialized" -> false))""")
-    } | ("create an immutable binding in" ~> name <~ "for") ~ name <~ "and record that it is uninitialized" ~ rest ^^ {
-      case x ~ y => parseInst(s"""$x.SubMap[$y] = (new ImmutableBinding("initialized" -> false))""")
+    } | ("create an immutable binding in" ~> name <~ "for") ~ (name <~ "and record that it is uninitialized . if") ~ (name <~ "is" <~  rest) ^^ {
+      case x ~ y ~ z => parseInst(s"""$x.SubMap[$y] = (new ImmutableBinding("initialized" -> false, "strict" -> $z))""")
     } | ("record that the binding for" ~> name <~ "in") ~ name <~ "has been initialized" ^^ {
       case x ~ y => parseInst(s"if (! (= $y.SubMap[$x] absent)) $y.SubMap[$x].initialized = true else {}")
     } | ("Let" ~> id <~ "be a newly created object with an internal slot for each name in") ~ id ^^ {
