@@ -188,9 +188,9 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     listExpr |||
     listCopyExpr |||
     algorithmExpr |||
-    containsExpr |
     typeExpr |||
-    accessExpr |
+    accessExpr |||
+    containsExpr |
     refExpr |
     starExpr
   )
@@ -240,14 +240,13 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     word |||
     "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |||
     "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }
-  ) ^^ { toRef(_) } ||| id ~ staticField ^^ { case x ~ y => toRef(x, y) }
+  ) ^^ { toRef(_) } ||| id ~ callField ^^ { case x ~ y => toRef(x, y) }
+  lazy val callField: P[Expr] = "." ~> (internalName | camelWord ^^ { EStr(_) })
   lazy val compOp: P[String] = (
     "==" ^^^ "AbstractEqualityComparison" |||
     "===" ^^^ "StrictEqualityComparison" |||
     "<" ^^^ "AbstractRelationalComparison"
   )
-  lazy val staticField: P[String] = "." ~> ("[[" ~> (intrinsicName ||| word) <~ "]]" ||| word)
-  lazy val intrinsicName: P[String] = "%" ~> word <~ "%" ^^ { INTRINSIC_PRE + _ }
 
   // new expressions
   lazy val newExpr: P[I[Expr]] = (
@@ -300,56 +299,21 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "Async-from-Sync Iterator Value Unwrap Functions" ^^^ "GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions"
   )
 
-  // access expressions
-  lazy val accessExpr: P[I[Expr]] = (
-    (opt("the result of" ~ opt("performing")) ~>
-      (name <~ ("for" | "of")) ~
-      (refWithOrdinal <~ ("using" | "with" | "passing") ~ opt("arguments" | "argument")) ~
-      repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
-      opt("as" ~ opt("the") ~ ("arguments" | "argument"))) ^^ {
-        case f ~ x ~ list =>
-          val temp = getTempId
-          val temp2 = getTempId
-          val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
-          val r = IAccess(temp, ERef(x), EStr(f))
-          val e = IApp(temp2, toERef(temp), list.map { case i ~ e => e })
-          pair(i ++ List(r, e), toERef(temp2))
-      } | "EvaluateBody of" ~> ref ^^ {
-        case i ~ r =>
-          val temp = getTemp
-          pair(i :+ IAccess(Id(temp), ERef(r), EStr("EvaluateBody")), toERef(temp))
-      } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
-        case x ~ y =>
-          val temp = getTemp
-          val temp2 = getTemp
-          pair(List(IAccess(Id(temp), toERef(y), EStr(x)), IAccess(Id(temp2), toERef(temp), EStr("Evaluation"))), toERef(temp2))
-      } | "the result of evaluating" ~> refWithOrdinal ^^ {
-        case x =>
-          val temp = getTemp
-          pair(List(IAccess(Id(temp), ERef(x), EStr("Evaluation"))), toERef(temp))
-      } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
-        case x ~ y =>
-          val temp = getTemp
-          pair(List(IAccess(Id(temp), toERef(y), EStr(x))), toERef(temp))
-      } | "IsFunctionDefinition of" ~> id ^^ {
-        case x =>
-          val temp = getTemp
-          pair(List(IAccess(Id(temp), toERef(x), EStr("IsFunctionDefinition"))), toERef(temp))
-      } | "the sole element of" ~> expr ^^ {
-        case i ~ e =>
-          val temp = getTemp
-          pair(i :+ IAccess(Id(temp), e, EINum(0)), toERef(temp))
-      } | (opt("the") ~> name.filter(x => x.charAt(0).isUpper) <~ "of") ~ refWithOrdinal ^^ {
-        case x ~ y =>
-          val temp = getTemp
-          pair(List(IAccess(Id(temp), ERef(y), EStr(x))), toERef(temp))
-      }
-  )
-
   // type expressions
   lazy val typeExpr = opt("hint") ~> ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol" | "Reference" | "Object") ^^ {
     case tname => pair(Nil, EStr(tname.head))
   }
+
+  // access expressions
+  lazy val accessExpr: P[I[Expr]] = (
+    (opt("the result of" ~ opt("performing")) ~>
+      ("evaluating" ^^^ "Evaluation" | opt("the") ~> (camelWord | nt) <~ ("for" | "of")) ~ expr ~
+      opt(("using" | "with" | "passing") ~ opt("arguments" | "argument") ~>
+        repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
+        opt("as" ~ opt("the") ~ ("arguments" | "argument")))) ^^ {
+        case f ~ ix ~ optList => getAccess(f, ix, optList)
+      }
+  )
 
   // contains expressions
   lazy val containsExpr =
@@ -1061,11 +1025,13 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       case x => parseRef(s"$x.ReferencedName")
     } | "the binding object for" ~> name ^^ {
       case x => parseRef(s"$x.BindingObject")
-    } | "this" ~ name ^^^ {
-      parseRef("this")
     }
   ) ^^ {
       case r => pair(Nil, r)
+    } | "the sole element of" ~> expr ^^ {
+      case i ~ e =>
+        val temp = getTempId
+        pair(i :+ ILet(temp, e), RefProp(toRef(temp), EINum(0)))
     } | "the list that is" ~> ref ^^ {
       case p => p
     } | "the string value of" ~> ref ^^ {
@@ -1119,9 +1085,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   // Fields
   ////////////////////////////////////////////////////////////////////////////////
   lazy val field: P[I[Expr]] =
-    "." ~> name ^^ {
-      case x => pair(Nil, EStr(x))
-    } | "." ~> internalName ^^ {
+    "." ~> internalName ^^ {
       case x => pair(Nil, x)
     } | "[" ~> expr <~ "]" ^^ {
       case i ~ e => pair(i, e)
@@ -1179,8 +1143,9 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     id
   )
 
+  lazy val intrinsicName: P[String] = "%" ~> word <~ "%" ^^ { INTRINSIC_PRE + _ }
   lazy val internalName: P[Expr] =
-    "[[" ~> word <~ "]]" ^^ { case x => EStr(x) }
+    "[[" ~> (intrinsicName ||| word) <~ "]]" ^^ { EStr(_) }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Etc parsers

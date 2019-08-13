@@ -40,6 +40,9 @@ trait AlgoCompilers extends TokenParsers {
     case s ~ k => failed += k -> s; s.map(_.toString)
   }
 
+  // word for camel cases
+  def camelWord: P[String] = word.filter(_.head.isUpper)
+
   // empty instruction
   lazy val emptyInst: Inst = ISeq(Nil)
 
@@ -260,23 +263,21 @@ trait AlgoCompilers extends TokenParsers {
   }
 
   // get access
-  def getAccess(x: String, y: String): I[Expr] = {
-    val temp = getTemp
-    pair(List(IAccess(Id(temp), toERef(x), EStr(y))), toERef(temp))
-  }
-
-  // get access
   def getAccess(
-    x: String,
     f: String,
-    list: List[I[Expr]]
-  ): I[Expr] = {
-    val temp = getTempId
-    val temp2 = getTempId
-    val i = list.map { case i ~ _ => i }.flatten
-    val r = IAccess(temp, toERef(x), EStr(f))
-    val e = IApp(temp2, toERef(temp), list.map { case _ ~ e => e })
-    pair(i ++ List(r, e), toERef(temp2))
+    ix: I[Expr],
+    optList: Option[List[I[Expr]]]
+  ): I[Expr] = (f, ix, optList) match {
+    case (f, (i0 ~ x), None) =>
+      val temp = getTemp
+      pair(i0 :+ IAccess(Id(temp), x, EStr(f)), toERef(temp))
+    case (f, (i0 ~ x), Some(list)) =>
+      val temp = getTempId
+      val temp2 = getTempId
+      val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
+      val r = IAccess(temp, x, EStr(f))
+      val e = IApp(temp2, toERef(temp), list.map { case i ~ e => e })
+      pair(i ++ List(r, e), toERef(temp2))
   }
 
   // get instruction
