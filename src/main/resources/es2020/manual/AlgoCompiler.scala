@@ -578,6 +578,17 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         EStr("ReferencedName") -> r,
         EStr("StrictReference") -> s
       )))
+    } | ("a value of type Reference that is a Super Reference whose base value component is" ~> expr) ~
+    (", whose referenced name component is" ~> expr) ~
+    (", whose thisValue component is" ~> expr) ~
+    (", and whose strict reference flag is" ~> expr) ^^ {
+      case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ t) ~ (i3 ~ s) => pair(i0 ++ i1 ++ i2 ++ i3, EMap(Ty("Reference"), List(
+        EStr("BaseValue") -> b,
+        EStr("ReferencedName") -> r,
+        EStr("thisValue") -> t,
+        EStr("StrictReference") -> s
+      )))
+
     } | "a new (possibly empty) List consisting of all of the argument values provided after" ~ name ~ "in order" ^^^ {
       pair(List(parseInst(s"if (< 0i argumentsList.length) (pop argumentsList 0i) else {}")), parseExpr("argumentsList"))
     } | "a List whose elements are , in left to right order , the arguments that were passed to this function invocation" ^^^ {
@@ -1049,6 +1060,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "execution context stack" ^^^ executionStack |||
     ty ~ "for which the method was invoked" ^^^ "this" |||
     "this" ~ opt(nt | "this") ^^^ "this" |||
+    "reference" ~> id |||
     nt ~> id |||
     intrinsicName |||
     symbolName |||
@@ -1087,6 +1099,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   )
   lazy val fieldName: P[Expr] = opt("the") ~> (
     "base value component" ^^^ "BaseValue" |||
+    "thisValue component" ^^^ "thisValue" |||
     "outer environment reference" ^^^ "Outer" |||
     "outer lexical environment reference" ^^^ "Outer" |||
     "strict reference flag" ^^^ "StrictReference" |||
