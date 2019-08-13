@@ -42,7 +42,6 @@ case class EGetSyntax(base: Expr) extends Expr
 case class EParseSyntax(code: Expr, rule: Expr, flags: List[Expr]) extends Expr {
   override def toString: String = s"""EParseSyntax($code, $rule, $flags)"""
 }
-case class EParseString(code: Expr, target: POp) extends Expr
 case class EConvert(source: Expr, target: COp, flags: List[Expr]) extends Expr
 case class EContains(list: Expr, elem: Expr) extends Expr
 case class ECopy(obj: Expr) extends Expr
@@ -53,18 +52,6 @@ case class ENotYetImpl(msg: String) extends Expr {
 case class ENotSupported(msg: String) extends Expr {
   override def toString: String = s"""ENotSupported("$msg")"""
 }
-
-sealed trait POp extends CoreNode
-case object PStr extends POp
-case object PNum extends POp
-case object PTVNoSubs extends POp
-case object PTRVNoSubs extends POp
-case object PTVHead extends POp
-case object PTRVHead extends POp
-case object PTVMiddle extends POp
-case object PTRVMiddle extends POp
-case object PTVTail extends POp
-case object PTRVTail extends POp
 
 sealed trait COp extends CoreNode
 case object CStrToNum extends COp

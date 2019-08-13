@@ -2,7 +2,7 @@ package kr.ac.kaist.ase
 
 import java.io._
 import kr.ac.kaist.ase.core._
-import kr.ac.kaist.ase.model.{ AST, Parser => JSParser }
+import kr.ac.kaist.ase.model.{ Parser => JSParser }
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.phase._
 import org.scalatest._

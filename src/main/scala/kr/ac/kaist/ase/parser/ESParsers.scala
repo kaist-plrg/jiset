@@ -1,7 +1,7 @@
 package kr.ac.kaist.ase.parser
 
-import kr.ac.kaist.ase.{ DEBUG_PARSER, DEBUG_SEMI_INSERT, LINE_SEP }
-import kr.ac.kaist.ase.model.{ AST, Script }
+import kr.ac.kaist.ase.{ AST, Lexical, DEBUG_PARSER, DEBUG_SEMI_INSERT, LINE_SEP }
+import kr.ac.kaist.ase.model.{ Script }
 import kr.ac.kaist.ase.util.Useful._
 import scala.collection.mutable
 import scala.util.matching.Regex
@@ -78,6 +78,28 @@ trait ESParsers extends LAParsers {
         None
       case None => None
     }
+  }
+
+  // terminal parsers
+  val t = cached[String, LAParser[String]] {
+    case t => log(new LAParser(follow => {
+      Skip ~> {
+        if (parseAll("[a-z]+".r, t).isEmpty) t
+        else t <~ not(IDContinue)
+      } <~ +follow.parser
+    }, FirstTerms() + t))(t)
+  }
+  val nt = cached[(String, Lexer), LAParser[Lexical]] {
+    case (name, nt) => log(new LAParser(
+      follow => (Skip ~> nt <~ +follow.parser) ^^ { case s => Lexical(name, s) },
+      FirstTerms() + (name -> nt)
+    ))(name)
+  }
+  def ntl = cached[Lexer, LAParser[Lexical]] {
+    case nt => log(new LAParser(
+      follow => (Skip ~> nt) ^^ { case s => Lexical("", s) },
+      FirstTerms()
+    ))("")
   }
 
   // parser that supports automatic semicolon insertions

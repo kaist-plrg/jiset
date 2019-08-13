@@ -177,8 +177,6 @@ object Beautifier {
         walk("(get-syntax "); walk(base); walk(")")
       case EParseSyntax(code, rule, flags) =>
         walk("(parse-syntax "); walk(code); walk(" "); walk(rule); walk(" "); walkListSep[Expr](flags, " ", walk); walk(")")
-      case EParseString(code, pop) =>
-        walk("(parse-string "); walk(code); walk(" "); walk(pop); walk(")")
       case EConvert(expr, cop, list) =>
         walk("(convert "); walk(expr); walk(" "); walk(cop); walk(" "); walkListSep[Expr](list, " ", walk); walk(")")
       case EContains(list, elem) =>
@@ -232,20 +230,6 @@ object Beautifier {
       case OLt => "<"
       case OURShift => ">>>"
       case OSRShift => ">>"
-    })
-
-    // parse operators
-    override def walk(pop: POp): Unit = walk(pop match {
-      case PStr => "string"
-      case PNum => "number"
-      case PTVNoSubs => "tv-no-subs"
-      case PTRVNoSubs => "trv-no-subs"
-      case PTVHead => "tv-head"
-      case PTRVHead => "trv-head"
-      case PTVMiddle => "tv-middle"
-      case PTRVMiddle => "trv-middle"
-      case PTVTail => "tv-tail"
-      case PTRVTail => "trv-tail"
     })
 
     // convert operators

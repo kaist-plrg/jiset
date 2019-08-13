@@ -132,6 +132,7 @@ object ParserGenerator {
 
     nf.println(s"""package kr.ac.kaist.ase.model""")
     nf.println
+    nf.println(s"""import kr.ac.kaist.ase.AST""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")
     nf.println(s"""import kr.ac.kaist.ase.parser.ESParsers""")
     nf.println(s"""import kr.ac.kaist.ase.error.WrongNumberOfParserParams""")

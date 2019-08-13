@@ -12,7 +12,6 @@ trait UnitWalker {
     case id: Id => walk(id)
     case uop: UOp => walk(uop)
     case bop: BOp => walk(bop)
-    case pop: POp => walk(pop)
     case cop: COp => walk(cop)
     case st: State => walk(st)
     case heap: Heap => walk(heap)
@@ -119,8 +118,6 @@ trait UnitWalker {
       walk(base)
     case EParseSyntax(code, rule, flags) =>
       walk(code); walk(rule); walkList[Expr](flags, walk)
-    case EParseString(code, pop) =>
-      walk(code); walk(pop)
     case EConvert(expr, cop, list) =>
       walk(expr); walk(cop); walkList[Expr](list, walk)
     case EContains(list, elem) =>
@@ -153,9 +150,6 @@ trait UnitWalker {
 
   // binary operators
   def walk(bop: BOp): Unit = {}
-
-  // parse operators
-  def walk(pop: POp): Unit = {}
 
   // convert operators
   def walk(cop: COp): Unit = {}

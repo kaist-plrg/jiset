@@ -116,7 +116,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
       } |
       "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
       "(" ~> "parse-syntax" ~> expr ~ expr ~ rep(expr) <~ ")" ^^ { case e ~ r ~ le => EParseSyntax(e, r, le) } |
-      "(" ~> "parse-string" ~> expr ~ pop <~ ")" ^^ { case e ~ r => EParseString(e, r) } |
       "(" ~> "convert" ~> expr ~ cop ~ rep(expr) <~ ")" ^^ { case e ~ r ~ l => EConvert(e, r, l) } |
       "(" ~> "contains" ~> expr ~ expr <~ ")" ^^ { case l ~ e => EContains(l, e) } |
       "(" ~> "copy-obj" ~> expr <~ ")" ^^ { case e => ECopy(e) } |
@@ -173,20 +172,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
       ">>>" ^^^ OURShift |
       ">>" ^^^ OSRShift
   }
-
-  // parse-string operators
-  lazy private val pop: Parser[POp] = (
-    "string" ^^^ PStr |
-    "number" ^^^ PNum |
-    "tv-no-subs" ^^^ PTVNoSubs |
-    "trv-no-subs" ^^^ PTRVNoSubs |
-    "tv-head" ^^^ PTVHead |
-    "trv-head" ^^^ PTRVHead |
-    "tv-middle" ^^^ PTVMiddle |
-    "trv-middle" ^^^ PTRVMiddle |
-    "tv-tail" ^^^ PTVTail |
-    "trv-tail" ^^^ PTRVTail
-  )
 
   // convert operators
   lazy private val cop: Parser[COp] = (

@@ -1,6 +1,6 @@
 package kr.ac.kaist.ase.core
 
-import kr.ac.kaist.ase.model.AST
+import kr.ac.kaist.ase.AST
 
 // CORE Values
 sealed trait Value extends CoreNode

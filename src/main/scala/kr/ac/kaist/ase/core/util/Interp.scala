@@ -4,7 +4,7 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-import kr.ac.kaist.ase.DEBUG_INTERP
+import kr.ac.kaist.ase.{ DEBUG_INTERP, ASE, Lexical }
 import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.model.{ Parser => ESParser, ESValueParser, ModelHelper }
 import org.apache.commons.text.StringEscapeUtils
@@ -162,6 +162,20 @@ class Interp {
             }
             case _ => s2.define(id, s2.heap(addr, p))
           }
+          case (ASTVal(Lexical(kind, str)), Str(name)) => s2.define(id, (kind, name) match {
+            case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(str)
+            case ("NumericLiteral", "MV") => Num(ESValueParser.parseNumber(str))
+            case ("StringLiteral", "SV" | "StringValue") => Str(ESValueParser.parseString(str))
+            case ("NoSubstitutionTemplate", "TV") => Str(ESValueParser.parseTVNoSubstitutionTemplate(str))
+            case ("TemplateHead", "TV") => Str(ESValueParser.parseTVTemplateHead(str))
+            case ("TemplateMiddle", "TV") => Str(ESValueParser.parseTVTemplateMiddle(str))
+            case ("TemplateTail", "TV") => Str(ESValueParser.parseTVTemplateTail(str))
+            case ("NoSubstitutionTemplate", "TRV") => Str(ESValueParser.parseTRVNoSubstitutionTemplate(str))
+            case ("TemplateHead", "TRV") => Str(ESValueParser.parseTRVTemplateHead(str))
+            case ("TemplateMiddle", "TRV") => Str(ESValueParser.parseTRVTemplateMiddle(str))
+            case ("TemplateTail", "TRV") => Str(ESValueParser.parseTRVTemplateTail(str))
+            case _ => throw new Error(s"$kind, $str, $name")
+          })
           case (astV: ASTVal, Str(name)) =>
             val ASTVal(ast) = astV
             ast.semantics(name) match {
@@ -329,21 +343,6 @@ class Interp {
           (ASTVal(ast), s2)
         case v => error(s"not an AST value or a string: $v")
       }
-    case EParseString(code, pop) => interp(code, true)(st) match {
-      case (Str(s), s0) => (pop match {
-        case PStr => Str(ESValueParser.parseString(s))
-        case PNum => Num(ESValueParser.parseNumber(s))
-        case PTVNoSubs => Str(ESValueParser.parseTVNoSubstitutionTemplate(s))
-        case PTRVNoSubs => Str(ESValueParser.parseTRVNoSubstitutionTemplate(s))
-        case PTVHead => Str(ESValueParser.parseTVTemplateHead(s))
-        case PTRVHead => Str(ESValueParser.parseTRVTemplateHead(s))
-        case PTVMiddle => Str(ESValueParser.parseTVTemplateMiddle(s))
-        case PTRVMiddle => Str(ESValueParser.parseTRVTemplateMiddle(s))
-        case PTVTail => Str(ESValueParser.parseTVTemplateTail(s))
-        case PTRVTail => Str(ESValueParser.parseTRVTemplateTail(s))
-      }, s0)
-      case (v, s0) => error(s"not an String value: $v")
-    }
     case EConvert(expr, cop, l) => interp(expr, true)(st) match {
       case (Str(s), s0) => {
         (cop match {

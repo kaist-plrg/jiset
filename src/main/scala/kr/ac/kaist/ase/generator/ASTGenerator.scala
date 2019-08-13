@@ -16,8 +16,8 @@ object ASTGenerator {
       val nf = getPrintWriter(s"$MODEL_DIR/ast/$name.scala")
       nf.println(s"""package kr.ac.kaist.ase.model""")
       nf.println
+      nf.println(s"""import kr.ac.kaist.ase.{ AST, ASTInfo, Lexical }""")
       nf.println(s"""import kr.ac.kaist.ase.core._""")
-      nf.println(s"""import kr.ac.kaist.ase.parser.StringWrapper""")
       nf.println(s"""import kr.ac.kaist.ase.error.UnexpectedSemantics""")
       nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
       nf.println
@@ -54,7 +54,6 @@ object ASTGenerator {
           }
           val paramPairs = params.map(_._1) zip (handleParams(params.map(_._2)))
           val listString = ("Nil" /: paramPairs) { case (str, (x, t)) => s"""l("$t", $x, $str)""" }
-          val listWrapper = ("Nil" /: paramPairs) { case (str, (x, t)) => s"""w("$t", $x, $str)""" }
 
           val maxK = (0 /: params) {
             case (k, (_, t)) => if (t.startsWith("Option[")) k * 2 + 1 else k
@@ -66,7 +65,6 @@ object ASTGenerator {
           nf.println(s"""  }""")
           nf.println(s"""  val k: Int = ${("0" /: params) { case (str, (x, _)) => s"d($x, $str)" }}""")
           nf.println(s"""  val fullList: List[(String, Value)] = $listString.reverse""")
-          nf.println(s"""  val wrapperList: List[String] = $listWrapper.reverse""")
           nf.println(s"""  val info: ASTInfo = $name$i""")
           nf.println(s"""}""")
           nf.println(s"""object $name$i extends ASTInfo {""")
@@ -106,7 +104,7 @@ object ASTGenerator {
     def getParamTypes(rhs: Rhs): List[String] = for {
       (token, i) <- rhs.tokens.zipWithIndex
       paramType = getType(token)
-    } yield if (lexNames contains paramType) "StringWrapper" else paramType
+    } yield if (lexNames contains paramType) "Lexical" else paramType
 
     def getString(rhs: Rhs): String = (for {
       (token, i) <- rhs.tokens.zipWithIndex
@@ -126,7 +124,6 @@ object ASTGenerator {
     }
 
     // Generates AST files
-    copyFile(s"$RESOURCE_DIR/AST.scala", s"$MODEL_DIR/ast/AST.scala")
     prods.foreach(getAST)
   }
 }

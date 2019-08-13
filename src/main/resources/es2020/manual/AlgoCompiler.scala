@@ -582,6 +582,21 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       case x ~ y ~ z => getCopyList(z, List(y, x), true)
     } ||| "a List whose first element is" ~> name <~ "and whose subsequent elements are, in left to right order, the arguments that were passed to this function invocation" ^^ {
       case x => pair(List(parseInst(s"prepend $x -> argumentsList")), parseExpr("argumentsList"))
+    } | "the string value whose code units are the sv of stringliteral" ^^^ {
+      val temp = getTemp
+      pair(List(parseInst(s"""access $temp = (StringLiteral "SV")""")), toERef(temp))
+    } | (("the Number value represented by" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
+      case x =>
+        val temp = getTemp
+        pair(List(parseInst(s"""access $temp = ($x "MV")""")), toERef(temp))
+    } | opt("the String value whose code units are the elements of") ~> "the TV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
+      case x =>
+        val temp = getTemp
+        pair(List(parseInst(s"""access $temp = ($x "TV")""")), toERef(temp))
+    } | "the TRV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
+      case x =>
+        val temp = getTemp
+        pair(List(parseInst(s"""access $temp = ($x "TRV")""")), toERef(temp))
     } | ((
       "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
         parseExpr("""(parse-syntax CoverCallExpressionAndAsyncArrowHead "CallMemberExpression")""")
@@ -589,22 +604,6 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case x => parseExpr(s"$x")
       } | "the result of parsing the source text" ~> code <~ rest ^^ {
         case s => parseExpr(s"""(parse-syntax "$s" "MethodDefinition" false false)""")
-      } | opt("the String value whose code units are the elements of") ~> "the TV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
-        case x => EParseString(toERef(x), x match {
-          case "NoSubstitutionTemplate" => PTVNoSubs
-          case "TemplateHead" => PTVHead
-          case "TemplateMiddle" => PTVMiddle
-          case "TemplateTail" => PTVTail
-        })
-      } | "the TRV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
-        case x => EParseString(toERef(x), x match {
-          case "NoSubstitutionTemplate" => PTRVNoSubs
-          case "TemplateHead" => PTRVHead
-          case "TemplateMiddle" => PTRVMiddle
-          case "TemplateTail" => PTRVTail
-        })
-      } | (("the Number value represented by" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
-        case x => EParseString(toERef(x), PNum)
       } | "the result of applying bitwise complement to" ~> name <~ rest ^^ {
         case x => EUOp(OBNot, toERef(x))
       } | "the result of masking out all but the least significant 5 bits of" ~> name <~ rest ^^ {
@@ -627,12 +626,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         parseExpr("ECMAScriptFunctionObjectDOTCall")
       } | "the definition specified in 9.2.2" ^^^ {
         parseExpr("ECMAScriptFunctionObjectDOTConstruct")
-      } | "the token" ~> code ^^ {
-        case x => EStr(x)
       } | "the empty string" ^^ {
         case x => EStr("")
-      } | ("the stringvalue of stringliteral" | "the string value whose code units are the sv of stringliteral") ^^^ {
-        parseExpr(s"(parse-string StringLiteral string)")
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
       } | "an instance of the production formalparameters0" ^^^ {
@@ -665,8 +660,6 @@ trait AlgoCompilerHelper extends AlgoCompilers {
           val r = IAccess(temp, ERef(x), EStr(f))
           val e = IApp(temp2, toERef(temp), list.map { case i ~ e => e })
           pair(i ++ List(r, e), toERef(temp2))
-      } | opt("the") ~> "stringvalue of identifiername" ^^^ {
-        pair(Nil, toERef("IdentifierName"))
       } | "EvaluateBody of" ~> ref ^^ {
         case i ~ r =>
           val temp = getTemp
@@ -784,6 +777,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case x => pair(Nil, parseExpr(s"(&& (is-instance-of $x Identifier) (= (get-syntax $x) (get-syntax IdentifierName)))"))
       } | name <~ "is a ReservedWord" ^^ {
         case x => pair(Nil, parseExpr(s"(! (is-instance-of $x Identifier))"))
+      } | (name <~ "is the token") ~ code ^^ {
+        case x ~ y => pair(Nil, EBOp(OEq, EGetSyntax(toERef(x)), EStr(y)))
       } | (name <~ "does not have" <~ ("a" | "an")) ~ (expr <~ "internal slot") ~ subCond ^^ {
         case x ~ (_ ~ y) ~ f => concat(Nil, f(parseExpr(s"(= $x[${beautify(y)}] absent)")))
       } | name <~ "does not have all of the internal slots of an Array Iterator Instance (22.1.5.3)" ^^ {

@@ -1,8 +1,6 @@
-package kr.ac.kaist.ase.model
+package kr.ac.kaist.ase
 
 import kr.ac.kaist.ase.core._
-import kr.ac.kaist.ase.parser.StringWrapper
-import scala.collection.immutable.{ Set => SSet }
 
 trait AST {
   val kind: String
@@ -11,7 +9,6 @@ trait AST {
   val parserParams: List[Boolean]
   val info: ASTInfo
   val fullList: List[(String, Value)]
-  val wrapperList: List[String]
 
   // to JSON format
   def toJson: String = "{" + (fullList.map {
@@ -23,10 +20,10 @@ trait AST {
   }).mkString(",") + "}"
 
   // get possible kinds
-  def getKinds: SSet[String] = (list match {
+  def getKinds: Set[String] = (list match {
     case List((_, ASTVal(ast))) => ast.getKinds
-    case _ => SSet()
-  }) ++ SSet(kind)
+    case _ => Set()
+  }) ++ Set(kind)
 
   // get element list for the given kind
   def getElems(given: String): List[AST] = {
@@ -48,17 +45,17 @@ trait AST {
     (info.semMap.get(name + k.toString) match {
       case Some(f) => Some((f, list.map(_._2)))
       case None => info.semMap.get(name + info.maxK.toString).map((f) => (f, fullList.map(_._2)))
-      }) match {
-        case Some(f) => Some(f)
-        case None => (list match {
-          case List((_, ASTVal(x))) => x.semantics(name)
-          case _ => None
+    }) match {
+      case Some(f) => Some(f)
+      case None => (list match {
+        case List((_, ASTVal(x))) => x.semantics(name)
+        case _ => None
       })
     }
   }
 
   // existence check
-  def exists(kindFilter: String => Boolean): Boolean = kindFilter(kind) || wrapperList.exists(kindFilter(_)) || list.exists {
+  def exists(kindFilter: String => Boolean): Boolean = kindFilter(kind) || list.exists {
     case (_, ASTVal(ast)) => ast.exists(kindFilter)
     case _ => false
   }
@@ -76,11 +73,6 @@ trait AST {
     case Some(a: AST) => (name.substring(7, name.length - 1), ASTVal(a)) :: list
     case None => (name.substring(7, name.length - 1), Absent) :: list
     case a: AST => (name, ASTVal(a)) :: list
-    case a: StringWrapper => (name, Str(a.data)) :: list
-    case _ => list
-  }
-  protected def w(name: String, x: Any, list: List[String]): List[String] = x match {
-    case a: StringWrapper => a.id :: list
     case _ => list
   }
 }
@@ -88,4 +80,17 @@ trait AST {
 trait ASTInfo {
   val maxK: Int
   val semMap: Map[String, Func]
+}
+
+case class Lexical(kind: String, str: String) extends AST {
+  val name: String = kind
+  val k: Int = 0
+  val parserParams: List[Boolean] = Nil
+  val info: ASTInfo = LexicalInfo
+  val fullList: List[(String, Value)] = Nil
+  override def toString: String = str
+}
+object LexicalInfo extends ASTInfo {
+  val maxK: Int = 0
+  val semMap: Map[String, Func] = Map()
 }

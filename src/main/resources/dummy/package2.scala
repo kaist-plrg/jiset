@@ -24,20 +24,6 @@ package object model {
     def parseTRVTemplateTail(str: String): String = throw ModelNotYetGenerated
     def str2num(str: String): Double = throw ModelNotYetGenerated
   }
-  trait AST {
-    val kind: String = throw ModelNotYetGenerated
-    val name: String = throw ModelNotYetGenerated
-    val k: Int = throw ModelNotYetGenerated
-    val parserParams: List[Boolean] = throw ModelNotYetGenerated
-    val fullList: List[(String, Value)] = throw ModelNotYetGenerated
-    def toJson: String = throw ModelNotYetGenerated
-    def getKinds: SSet[String] = throw ModelNotYetGenerated
-    def getElems(given: String): List[AST] = throw ModelNotYetGenerated
-    val list: List[(String, Value)] = throw ModelNotYetGenerated
-    def semantics(name: String): Option[(Func, List[Value])] = throw ModelNotYetGenerated
-    def exists(kindFilter: String => Boolean): Boolean = throw ModelNotYetGenerated
-    def subs(name: String): Option[Value] = throw ModelNotYetGenerated
-  }
   trait Script extends AST
   trait StatementListItem extends AST
   object ModelHelper {

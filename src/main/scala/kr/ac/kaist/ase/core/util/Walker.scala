@@ -88,7 +88,6 @@ trait Walker {
     case EGetElems(base, name) => EGetElems(walk(base), walk(name))
     case EGetSyntax(base) => EGetSyntax(walk(base))
     case EParseSyntax(code, rule, flags) => EParseSyntax(walk(code), walk(rule), walkList[Expr](flags, walk))
-    case EParseString(code, pop) => EParseString(walk(code), walk(pop))
     case EConvert(expr, cop, list) => EConvert(walk(expr), walk(cop), walkList[Expr](list, walk))
     case EContains(list, elem) => EContains(walk(list), walk(elem))
     case ECopy(obj) => ECopy(walk(obj))
@@ -114,8 +113,6 @@ trait Walker {
 
   // binary operators
   def walk(bop: BOp): BOp = bop
-
-  def walk(pop: POp): POp = pop
 
   def walk(cop: COp): COp = cop
   ////////////////////////////////////////////////////////////////////////////////

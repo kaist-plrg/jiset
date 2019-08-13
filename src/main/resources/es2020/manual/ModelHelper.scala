@@ -1,5 +1,6 @@
 package kr.ac.kaist.ase.model
 
+import kr.ac.kaist.ase.AST
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.util.Useful._
