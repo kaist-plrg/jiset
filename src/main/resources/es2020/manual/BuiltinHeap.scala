@@ -322,7 +322,7 @@ object BuiltinHeap {
         "MAX_SAFE_INTEGER" -> DataProperty(INum(9007199254740991L), F, F, F),
         "MAX_VALUE" -> DataProperty(Num(Double.MaxValue), F, F, F),
         "MIN_SAFE_INTEGER" -> DataProperty(INum(-9007199254740991L), F, F, F),
-        "MIN_VALUE" -> DataProperty(Num(Double.MinValue), F, F, F),
+        "MIN_VALUE" -> DataProperty(Num(Double.MinPositiveValue), F, F, F),
         "NaN" -> DataProperty(Num(Double.NaN), F, F, F),
         "NEGATIVE_INFINITY" -> DataProperty(Num(Double.NegativeInfinity), F, F, F),
         "parseFloat" -> DataProperty(NamedAddr("GLOBAL.parseFloat"), F, F, F),

@@ -502,8 +502,9 @@ class Interp {
     case (OXor, Bool(l), Bool(r)) => Bool(l ^ r)
 
     // equality operations
-    case (OEq, INum(l), Num(r)) => Bool(l == r)
-    case (OEq, Num(l), INum(r)) => Bool(l == r)
+    case (OEq, INum(l), Num(r)) => Bool(!(r equals -0.0) && l == r)
+    case (OEq, Num(l), INum(r)) => Bool(!(l equals -0.0) && l == r)
+    case (OEq, Num(l), Num(r)) => Bool(l equals r)
     case (OEq, l, r) => Bool(l == r)
 
     case (_, lval, rval) => error(s"wrong type: $lval $bop $rval")
