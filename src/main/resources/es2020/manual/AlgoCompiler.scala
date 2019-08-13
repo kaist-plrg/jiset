@@ -313,7 +313,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     (opt("the result of" ~ opt("performing")) ~>
       ("evaluating" ^^^ "Evaluation" | opt("the") ~> (camelWord | nt) <~ ("for" | "of")) ~ expr ~
       opt(("using" | "with" | "passing") ~ opt("arguments" | "argument") ~>
-        repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
+        repsep(expr <~ opt("as the optional" ~ id ~ "argument"), ", and" | "," | "and") <~
         opt("as" ~ opt("the") ~ ("arguments" | "argument")))) ^^ {
         case f ~ ix ~ optList => getAccess(f, ix, optList)
       }
@@ -321,20 +321,19 @@ trait AlgoCompilerHelper extends AlgoCompilers {
 
   // contains expressions
   lazy val containsExpr =
-    (opt("the result of") ~> word <~ literal("contains").filter(_ == List("Contains"))) ~ name ^^ {
-      case x ~ y => {
-        val temp = getTemp
-        val temp2 = getTemp
-        pair(List(parseInst(s"""{
-          access $temp = ($x "Contains")
-          app $temp2 = ($temp $y)
-        }""")), toERef(temp2))
-      }
-    } | (id <~ literal("contains").filter(_ == List("Contains"))) ~ name ^^ { // TODO: define? Contains for ScriptBody0 (appears at PerformEval)
-      case x ~ y => if (y == "ScriptBody")
-        pair(Nil, parseExpr("true"))
-      else
-        pair(Nil, parseExpr("false"))
+    (id <~ camelWord.filter(_ == "Contains")) ~ (nt ^^ { EStr(_) } | id ^^ { toERef(_) }) ^^ {
+      case x ~ y =>
+        // TODO `Contains` static semantics
+        // val a = getTempId
+        // val b = getTempId
+        // pair(List(
+        //   IAccess(a, toERef(x), EStr("Contains")),
+        //   IApp(b, toERef(a), List(y))
+        // ), toERef(b))
+        if (y == EStr("ScriptBody"))
+          pair(Nil, parseExpr("true"))
+        else
+          pair(Nil, parseExpr("false"))
     }
 
   // reference expressions
@@ -1089,11 +1088,11 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "base value component" ^^^ "BaseValue" |||
     "outer environment reference" ^^^ "Outer" |||
     "outer lexical environment reference" ^^^ "Outer" |||
-    "strict reference flag" ^^^ "StrictReference" |||
+    "strict reference" ^^^ "StrictReference" |||
     "referenced name component" ^^^ "ReferencedName" |||
     "binding object" ^^^ "BindingObject" |||
     camelWord <~ ("fields" | "component")
-  ) ^^ { EStr(_) } ||| internalName
+  ) <~ opt("flag") ^^ { EStr(_) } ||| internalName
 
   ////////////////////////////////////////////////////////////////////////////////
   // Section Numbers
