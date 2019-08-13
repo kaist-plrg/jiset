@@ -189,7 +189,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     listCopyExpr |||
     algorithmExpr |||
     containsExpr |
-    typeExpr ^^ { pair(Nil, _) } |
+    typeExpr |||
     accessExpr |
     refExpr |
     starExpr
@@ -300,6 +300,57 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "Async-from-Sync Iterator Value Unwrap Functions" ^^^ "GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions"
   )
 
+  // access expressions
+  lazy val accessExpr: P[I[Expr]] = (
+    (opt("the result of" ~ opt("performing")) ~>
+      (name <~ ("for" | "of")) ~
+      (refWithOrdinal <~ ("using" | "with" | "passing") ~ opt("arguments" | "argument")) ~
+      repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
+      opt("as" ~ opt("the") ~ ("arguments" | "argument"))) ^^ {
+        case f ~ x ~ list =>
+          val temp = getTempId
+          val temp2 = getTempId
+          val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
+          val r = IAccess(temp, ERef(x), EStr(f))
+          val e = IApp(temp2, toERef(temp), list.map { case i ~ e => e })
+          pair(i ++ List(r, e), toERef(temp2))
+      } | "EvaluateBody of" ~> ref ^^ {
+        case i ~ r =>
+          val temp = getTemp
+          pair(i :+ IAccess(Id(temp), ERef(r), EStr("EvaluateBody")), toERef(temp))
+      } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
+        case x ~ y =>
+          val temp = getTemp
+          val temp2 = getTemp
+          pair(List(IAccess(Id(temp), toERef(y), EStr(x)), IAccess(Id(temp2), toERef(temp), EStr("Evaluation"))), toERef(temp2))
+      } | "the result of evaluating" ~> refWithOrdinal ^^ {
+        case x =>
+          val temp = getTemp
+          pair(List(IAccess(Id(temp), ERef(x), EStr("Evaluation"))), toERef(temp))
+      } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
+        case x ~ y =>
+          val temp = getTemp
+          pair(List(IAccess(Id(temp), toERef(y), EStr(x))), toERef(temp))
+      } | "IsFunctionDefinition of" ~> id ^^ {
+        case x =>
+          val temp = getTemp
+          pair(List(IAccess(Id(temp), toERef(x), EStr("IsFunctionDefinition"))), toERef(temp))
+      } | "the sole element of" ~> expr ^^ {
+        case i ~ e =>
+          val temp = getTemp
+          pair(i :+ IAccess(Id(temp), e, EINum(0)), toERef(temp))
+      } | (opt("the") ~> name.filter(x => x.charAt(0).isUpper) <~ "of") ~ refWithOrdinal ^^ {
+        case x ~ y =>
+          val temp = getTemp
+          pair(List(IAccess(Id(temp), ERef(y), EStr(x))), toERef(temp))
+      }
+  )
+
+  // type expressions
+  lazy val typeExpr = opt("hint") ~> ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol" | "Reference" | "Object") ^^ {
+    case tname => pair(Nil, EStr(tname.head))
+  }
+
   // contains expressions
   lazy val containsExpr =
     (opt("the result of") ~> word <~ literal("contains").filter(_ == List("Contains"))) ~ name ^^ {
@@ -318,19 +369,6 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         pair(Nil, parseExpr("false"))
     }
 
-  // type expressions
-  lazy val typeExpr =
-    opt("hint") ~> ("Number" | "Undefined" | "Null" | "String" | "Boolean" | "Symbol" | "Reference" | "Object") ^^ {
-      case tname => EStr(tname.head)
-    } |
-      ty ^^ {
-        case Ty(name) => EStr(name)
-      }
-
-  lazy val binAddExpr =
-    (expr <~ "+") ~ expr ^^ {
-      case (i1 ~ e1) ~ (i2 ~ e2) => pair(i1 ++ i2, EBOp(OPlus, e1, e2))
-    }
   // et cetera expressions
   lazy val etcExpr: P[I[Expr]] = (
     ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
@@ -646,50 +684,6 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       }
     ) ^^ { case e => pair(Nil, e) })
   )
-
-  lazy val accessExpr: P[I[Expr]] =
-    (opt("the result of" ~ opt("performing")) ~>
-      (name <~ ("for" | "of")) ~
-      (refWithOrdinal <~ ("using" | "with" | "passing") ~ opt("arguments" | "argument")) ~
-      repsep(expr <~ opt("as the optional" ~ name ~ "argument"), ", and" | "," | "and") <~
-      opt("as" ~ opt("the") ~ ("arguments" | "argument"))) ^^ {
-        case f ~ x ~ list =>
-          val temp = getTempId
-          val temp2 = getTempId
-          val i = (List[Inst]() /: list) { case (is, i ~ _) => is ++ i }
-          val r = IAccess(temp, ERef(x), EStr(f))
-          val e = IApp(temp2, toERef(temp), list.map { case i ~ e => e })
-          pair(i ++ List(r, e), toERef(temp2))
-      } | "EvaluateBody of" ~> ref ^^ {
-        case i ~ r =>
-          val temp = getTemp
-          pair(i :+ IAccess(Id(temp), ERef(r), EStr("EvaluateBody")), toERef(temp))
-      } | ("the result of evaluating" ~> name <~ "of") ~ name ^^ {
-        case x ~ y =>
-          val temp = getTemp
-          val temp2 = getTemp
-          pair(List(IAccess(Id(temp), toERef(y), EStr(x)), IAccess(Id(temp2), toERef(temp), EStr("Evaluation"))), toERef(temp2))
-      } | "the result of evaluating" ~> refWithOrdinal ^^ {
-        case x =>
-          val temp = getTemp
-          pair(List(IAccess(Id(temp), ERef(x), EStr("Evaluation"))), toERef(temp))
-      } | ("the result of" ~ opt("performing") ~> name <~ "of") ~ name ^^ {
-        case x ~ y =>
-          val temp = getTemp
-          pair(List(IAccess(Id(temp), toERef(y), EStr(x))), toERef(temp))
-      } | "IsFunctionDefinition of" ~> id ^^ {
-        case x =>
-          val temp = getTemp
-          pair(List(IAccess(Id(temp), toERef(x), EStr("IsFunctionDefinition"))), toERef(temp))
-      } | "the sole element of" ~> expr ^^ {
-        case i ~ e =>
-          val temp = getTemp
-          pair(i :+ IAccess(Id(temp), e, EINum(0)), toERef(temp))
-      } | (opt("the") ~> name.filter(x => x.charAt(0).isUpper) <~ "of") ~ refWithOrdinal ^^ {
-        case x ~ y =>
-          val temp = getTemp
-          pair(List(IAccess(Id(temp), ERef(y), EStr(x))), toERef(temp))
-      }
 
   // reference expressions
   lazy val refExpr: P[I[Expr]] = ref ^^ {
@@ -1193,8 +1187,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // etc statements
   lazy val etcStmt: P[Inst] = "change its bound value to" ~> id ^^ {
-      case x => parseInst(s"envRec.SubMap[N].BoundValue = $x")
-    } | ("Perform the following substeps in an implementation - dependent order , possibly interleaving parsing and error detection :" ~> stmt |
+    case x => parseInst(s"envRec.SubMap[N].BoundValue = $x")
+  } | ("Perform the following substeps in an implementation - dependent order , possibly interleaving parsing and error detection :" ~> stmt |
     ("Set the code evaluation state of" ~> id <~ "such that when evaluation is resumed for that execution context the following steps will be performed :") ~ stmt ^^ {
       case x ~ s => {
         parseInst(s"""$x.ResumeCont = () [=>] ${beautify(s)}""")
@@ -1419,7 +1413,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       }""")
     } | ("create a mutable binding in" ~> name <~ "for") ~ name <~ "and record that it is uninitialized" ~ rest ^^ {
       case x ~ y => parseInst(s"""$x.SubMap[$y] = (new MutableBinding("initialized" -> false))""")
-    } | ("create an immutable binding in" ~> name <~ "for") ~ (name <~ "and record that it is uninitialized . if") ~ (name <~ "is" <~  rest) ^^ {
+    } | ("create an immutable binding in" ~> name <~ "for") ~ (name <~ "and record that it is uninitialized . if") ~ (name <~ "is" <~ rest) ^^ {
       case x ~ y ~ z => parseInst(s"""$x.SubMap[$y] = (new ImmutableBinding("initialized" -> false, "strict" -> $z))""")
     } | ("record that the binding for" ~> name <~ "in") ~ name <~ "has been initialized" ^^ {
       case x ~ y => parseInst(s"if (! (= $y.SubMap[$x] absent)) $y.SubMap[$x].initialized = true else {}")
@@ -1432,8 +1426,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         ))
     } | "Let" ~> id <~ "be a new Realm Record" ^^ {
       case x => ILet(Id(x), toERef("REALM"))
-    }
-  ) | ignoreStmt
+    }) | ignoreStmt
 
   // ignore statements
   lazy val ignoreStmt: P[Inst] = (
