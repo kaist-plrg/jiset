@@ -1336,8 +1336,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27." ^^ {
       case x => parseInst(s"""{
         let $x = (new ECMAScriptFunctionObject("SubMap" -> (new SubMap())))
-        $x.Call = undefined
-        $x.Constructor = undefined
+        delete $x.Call
+        delete $x.Construct
       }""")
     } | "let" ~> name <~ "be the topmost execution context on the execution context stack whose scriptormodule component is not" ~ value ~ "." ~ next ~ "if no such execution context exists, return" ~ value ~ ". otherwise, return" ~ name ~ "'s scriptormodule component." ^^ {
       case x => ISeq(List(
