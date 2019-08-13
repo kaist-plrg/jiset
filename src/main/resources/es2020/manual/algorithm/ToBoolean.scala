@@ -13,7 +13,7 @@ object ToBoolean {
           } else if (= atype "Boolean") {
             return argument
           } else if (= atype "Number") {
-            if (|| (= argument 0.0) (= argument NaN)) return false
+            if (|| (|| (= argument 0.0) (= argument (- 0.0))) (= argument NaN)) return false
             else return true
           } else if (= atype "String") {
             if (= argument "") return false
