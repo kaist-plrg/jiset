@@ -320,6 +320,7 @@ object NoParse {
     "/test/language/statements/for-in/head-let-destructuring",
     "/test/language/statements/try/optional-catch-binding-lexical",
     "/test/language/statements/try/optional-catch-binding",
-    "/test/language/statements/try/optional-catch-binding-finally"
+    "/test/language/statements/try/optional-catch-binding-finally",
+    "/test/built-ins/RegExp/named-groups/unicode-property-names.js"
   )
 }
