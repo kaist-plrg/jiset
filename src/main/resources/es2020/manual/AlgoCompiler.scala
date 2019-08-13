@@ -36,6 +36,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   // execution context stack string
   val executionStack = "GLOBAL_executionStack"
   val context = "GLOBAL_context"
+  val realm = "REALM"
   val jobQueue = "GLOBAL_jobQueue"
   val retcont = "__ret__"
 
@@ -106,11 +107,13 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   }
 
   // set statements
-  lazy val setStmt = "set" ~> ref ~ {
+  lazy val setStmt = "set" ~> setRef ~ {
     "to" ~> expr ||| "as" ~ ("described" | "specified") ~ "in" ~> (
       section ^^ { case s => pair(Nil, toERef(s)) }
     )
   } ^^ { case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e)) }
+  lazy val setRef: P[I[Ref]] =
+    ref ||| opt("the") ~> (camelWord <~ "of") ~ refBase ^^ { case f ~ b => pair(Nil, toRef(b, f)) }
 
   // increment statements
   lazy val incrementStmt = ("increment" ~> ref <~ "by") ~ expr ^^ {
@@ -152,7 +155,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         "as" ~ ("an" | "the last") ~ "element of" ~ opt("the list" ~ opt("that is"))
     }) ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAppend(x, y))
-    } ||| ("each item in" ~> expr <~ "to the end of") ~ expr ^^ {
+    } ||| (("the elements of" | "each item in") ~> expr <~ "to the end of") ~ expr ^^ {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l1, IAppend(toERef(tempId), l2)))
@@ -305,7 +308,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   }
 
   // access expressions
-  lazy val accessExpr: P[I[Expr]] = (
+  lazy val accessExpr: P[I[Expr]] = accessRef ^^ { case i ~ r => pair(i, ERef(r)) }
+  lazy val accessRef: P[I[Ref]] = (
     (opt("the result of" ~ opt("performing")) ~>
       ("evaluating" ^^^ "Evaluation" | opt("the") ~> (camelWord | nt) <~ ("for" | "of")) ~ expr ~
       opt(("using" | "with" | "passing") ~ opt("arguments" | "argument") ~>
@@ -332,6 +336,11 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       else
         pair(Nil, parseExpr("false"))
     }
+
+  // reference expressions
+  lazy val refExpr: P[I[Expr]] = ref ^^ {
+    case i ~ r => pair(i, ERef(r))
+  }
 
   // et cetera expressions
   lazy val etcExpr: P[I[Expr]] = (
@@ -642,17 +651,12 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       } | "a List whose elements are the arguments passed to this function" ^^^ {
         toERef("argumentsList")
       } | "the current Realm Record" ^^^ {
-        parseExpr("REALM")
+        toERef(realm)
       } | "a new unique Symbol value whose [[Description]] value is" ~> name ^^ {
         case x => parseExpr(s"(new '$x)")
       }
     ) ^^ { case e => pair(Nil, e) })
   )
-
-  // reference expressions
-  lazy val refExpr: P[I[Expr]] = ref ^^ {
-    case i ~ r => pair(i, ERef(r))
-  }
 
   ////////////////////////////////////////////////////////////////////////////////
   // values
@@ -1010,86 +1014,85 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // References
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val ref: P[I[Ref]] = (
-    "the base value component of" ~> name ^^ {
-      case x => parseRef(s"$x.BaseValue")
-    } | ("the bound value for" ~> id <~ "in") ~ id ^^ {
-      case p ~ e => parseRef(s"$e.SubMap[$p].BoundValue")
-    } | name <~ "'s base value component" ^^ {
-      case x => parseRef(s"$x.BaseValue")
-    } | "the strict reference flag of" ~> name ^^ {
-      case x => parseRef(s"$x.StrictReference")
-    } | ("the value currently bound to" ~> name <~ "in") ~ name ^^ {
-      case x ~ y => parseRef(s"$y.SubMap[$x].BoundValue")
-    } | "the referenced name component of" ~> name ^^ {
-      case x => parseRef(s"$x.ReferencedName")
-    } | "the binding object for" ~> name ^^ {
-      case x => parseRef(s"$x.BindingObject")
-    }
-  ) ^^ {
-      case r => pair(Nil, r)
-    } | "the sole element of" ~> expr ^^ {
-      case i ~ e =>
-        val temp = getTempId
-        pair(i :+ ILet(temp, e), RefProp(toRef(temp), EINum(0)))
-    } | "the list that is" ~> ref ^^ {
-      case p => p
-    } | "the string value of" ~> ref ^^ {
-      case p => p
-    } | ("the first element of" ~> ref) ^^ {
-      case i ~ r => pair(i, RefProp(r, EINum(0)))
-    } | ("the second element of" ~> ref) ^^ {
-      case i ~ r => pair(i, RefProp(r, EINum(1)))
-    } | ("the value of") ~> ref ^^ {
-      case i ~ r => pair(i, r)
-    } | "the outer lexical environment reference of" ~> ref ^^ {
-      case i ~ r => pair(i, RefProp(r, EStr("Outer")))
-    } | "the parsed code that is" ~> ref ^^ {
-      case i ~ r => pair(i, r)
-    } | "the EnvironmentRecord component of" ~> ref ^^ {
-      case i ~ r => pair(i, RefProp(r, EStr("EnvironmentRecord")))
-    } | (name <~ "'s own property whose key is") ~ ref ^^ {
-      case r ~ (i ~ p) => pair(i, RefProp(RefProp(RefId(Id(r)), EStr("SubMap")), ERef(p)))
-    } | "the second to top element" ~> "of" ~> ref ^^ {
+  lazy val ref: P[I[Ref]] = opt(refPre) ~> opt("the") ~> (
+    (("bound value for" | "value currently bound to") ~> id <~ "in") ~ id ^^ {
+      case x ~ y => pair(Nil, parseRef(s"$y.SubMap[$x].BoundValue"))
+    } | (ordinal <~ "element of") ~ (accessRef ||| ref) ^^ {
+      case k ~ (i ~ r) => pair(i, RefProp(r, EINum(k)))
+    } | (refBase <~ "'s own property whose key is") ~ id ^^ {
+      case b ~ p => pair(Nil, RefProp(toRef(b, "SubMap"), toERef(p)))
+    } | "second to top element" ~> "of" ~> ref ^^ {
       case i ~ r => pair(i, RefProp(r, EBOp(OSub, ERef(RefProp(r, EStr("length"))), EINum(2))))
-    } | (opt("the") ~> (name ^^ { case x => EStr(x) } | internalName) <~ opt("fields" | "component") ~ "of") ~ ref ^^ {
-      case x ~ (i ~ y) => pair(i, RefProp(y, x))
-    } | (name <~ "'s") ~ ((name ^^ { case x => EStr(x) }) | internalName) <~ opt("value" | "attribute") ^^ {
+    } | (fieldName <~ opt("fields" | "component") ~ ("of" | "for")) ~ refBase ^^ {
+      case f ~ b => pair(Nil, toRef(b, f))
+    } | (refBase <~ "'s") ~ (fieldName ||| camelWord ^^ { EStr(_) }) <~ opt("value" | "attribute") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
-    } | ("the" ~> id <~ "flag of") ~ ref ^^ {
+    } | (id <~ "flag of") ~ ref ^^ {
       case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
-    } | "the" ~> name <~ "flag" ^^ {
+    } | name <~ "flag" ^^ {
       case x => pair(Nil, RefId(Id(x)))
     } | ordinal ~ nt ^^ {
       case k ~ x => pair(Nil, RefId(Id(x + k)))
-    } | name ~ rep(field) ^^ {
+    } | refBase ~ rep(field) ^^ {
       case x ~ es =>
         val i = (List[Inst]() /: es) { case (is, i ~ _) => is ++ i }
         pair(i, (es.map { case i ~ e => e }).foldLeft[Ref](RefId(Id(x))) {
           case (r, e) => RefProp(r, e)
         })
     }
-  lazy val refWithOrdinal: P[Ref] =
+  )
+  val refBase: P[String] = opt("the") ~> (
+    "running execution context" ^^^ context |||
+    "current Realm Record" ^^^ realm |||
+    "arguments object" ^^^ "args" |||
+    "execution context stack" ^^^ executionStack |||
+    ty ~ "for which the method was invoked" ^^^ "this" |||
+    "this" ~ opt(nt | "this") ^^^ "this" |||
+    nt ~> id |||
+    intrinsicName |||
+    symbolName |||
+    camelWord |||
+    nt |||
+    id
+  )
+  lazy val refPre: P[String] = opt("the") ~> (
+    "list that is" |||
+    "string value of" |||
+    "value of" |||
+    "parsed code that is"
+  ) ^^^ ""
+  lazy val refWithOrdinal: P[Ref] = (
     ordinal ~ nt ^^ {
-      case k ~ x => RefId(Id(x + k))
+      case k ~ x => RefId(Id(x + k.toString))
     } | name ^^ {
       case x => RefId(Id(x))
     }
-  lazy val ordinal: P[String] = (
-    "the first" ^^^ "0" |
-    "the second" ^^^ "1" |
-    "the third" ^^^ "2"
+  )
+  lazy val ordinal: P[Int] = opt("the") ~> (
+    ("sole" | "first") ^^^ 0 |
+    "second" ^^^ 1 |
+    "third" ^^^ 2
   )
 
   ////////////////////////////////////////////////////////////////////////////////
   // Fields
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val field: P[I[Expr]] =
+  lazy val field: P[I[Expr]] = (
     "." ~> internalName ^^ {
       case x => pair(Nil, x)
     } | "[" ~> expr <~ "]" ^^ {
       case i ~ e => pair(i, e)
     }
+  )
+  lazy val fieldName: P[Expr] = opt("the") ~> (
+    "base value component" ^^^ "BaseValue" |||
+    "outer environment reference" ^^^ "Outer" |||
+    "outer lexical environment reference" ^^^ "Outer" |||
+    "strict reference flag" ^^^ "StrictReference" |||
+    "referenced name component" ^^^ "ReferencedName" |||
+    "binding object" ^^^ "BindingObject" |||
+    camelWord <~ ("fields" | "component")
+  ) ^^ { EStr(_) } ||| internalName
 
   ////////////////////////////////////////////////////////////////////////////////
   // Section Numbers
@@ -1125,27 +1128,14 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Names
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val name: P[String] = (
-    "outer environment reference" ^^^ "Outer" |
-    "the running execution context" ^^^ context |
-    "the execution context stack" ^^^ executionStack |
-    "the" ~ ty ~ "for which the method was invoked" ^^^ "this" |
-    ("this" ~ nt | "this this" | "this") ^^^ "this" |
-    "the arguments object" ^^^ "args" |
-    opt("the intrinsic object") ~> ("%" ~> word <~ "%" | "[[%" ~> word <~ "%]]") ^^ { case x => s"INTRINSIC_$x" } |
-    ("@@" ~> word | "[[@@" ~> word <~ "]]") ^^ { case x => s"SYMBOL_$x" } |
-    "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |
-    "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" } |
-    "the" ~> (word | id | nt) |
-    nt ~> id |
-    nt |
-    word |
-    id
-  )
+  lazy val name: P[String] = refBase
 
-  lazy val intrinsicName: P[String] = "%" ~> word <~ "%" ^^ { INTRINSIC_PRE + _ }
+  lazy val intrinsicName: P[String] =
+    opt("the") ~> opt("intrinsic object") ~> "%" ~> word <~ "%" ^^ { INTRINSIC_PRE + _ }
+  lazy val symbolName: P[String] =
+    "@@" ~> word ^^ { case x => s"SYMBOL_$x" }
   lazy val internalName: P[Expr] =
-    "[[" ~> (intrinsicName ||| word) <~ "]]" ^^ { EStr(_) }
+    "[[" ~> (intrinsicName ||| symbolName ||| word) <~ "]]" ^^ { EStr(_) }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Etc parsers
@@ -1386,7 +1376,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
           forEachList(temp, toERef(list), IAssign(toRef(obj, toERef(temp)), EUndef))
         ))
     } | "Let" ~> id <~ "be a new Realm Record" ^^ {
-      case x => ILet(Id(x), toERef("REALM"))
+      case x => ILet(Id(x), toERef(realm))
     }) | ignoreStmt
 
   // ignore statements

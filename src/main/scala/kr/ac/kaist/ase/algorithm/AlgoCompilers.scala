@@ -267,17 +267,17 @@ trait AlgoCompilers extends TokenParsers {
     f: String,
     ix: I[Expr],
     optList: Option[List[I[Expr]]]
-  ): I[Expr] = (f, ix, optList) match {
+  ): I[Ref] = (f, ix, optList) match {
     case (f, (i0 ~ x), None) =>
       val temp = getTemp
-      pair(i0 :+ IAccess(Id(temp), x, EStr(f)), toERef(temp))
+      pair(i0 :+ IAccess(Id(temp), x, EStr(f)), toRef(temp))
     case (f, (i0 ~ x), Some(list)) =>
       val temp = getTempId
       val temp2 = getTempId
       val i = (i0 /: list) { case (is, i ~ _) => is ++ i }
       val r = IAccess(temp, x, EStr(f))
       val e = IApp(temp2, toERef(temp), list.map { case i ~ e => e })
-      pair(i ++ List(r, e), toERef(temp2))
+      pair(i ++ List(r, e), toRef(temp2))
   }
 
   // get instruction
