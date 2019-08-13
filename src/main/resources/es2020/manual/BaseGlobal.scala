@@ -13,6 +13,8 @@ object BaseGlobal {
     "ToString" -> ToString.func,
     "max" -> max.func,
     "min" -> min.func,
+    "abs" -> abs.func,
+    "floor" -> floor.func,
     "MulOperation" -> MulOperation.func,
     "Completion" -> Completion.func,
     "WrapCompletion" -> WrapCompletion.func,
