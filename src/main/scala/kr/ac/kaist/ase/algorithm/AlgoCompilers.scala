@@ -224,6 +224,10 @@ trait AlgoCompilers extends TokenParsers {
     }
   }).walk(inst)
 
+  // emptiness check
+  def isEmptyInsts(insts: List[Inst]): Boolean =
+    insts.forall(inst => flatten(inst) == ISeq(Nil))
+
   // flatten instructions
   def flatten(inst: Inst): Inst = FlattenWalker.walk(inst)
   object FlattenWalker extends Walker {

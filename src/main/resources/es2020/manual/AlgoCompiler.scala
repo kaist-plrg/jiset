@@ -410,7 +410,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     expr ~ condBOp ~ expr ^^ {
       case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
     } ||| _cond ~ (condOp <~ opt("if")) ~ _cond ^^ {
-      case (i ~ l) ~ ((op, _)) ~ (Nil ~ r) => pair(i, EBOp(op, l, r))
+      case (i ~ l) ~ ((op, _)) ~ (i1 ~ r) if isEmptyInsts(i1) => pair(i, EBOp(op, l, r))
       case (i0 ~ l) ~ ((op, f)) ~ (i1 ~ r) =>
         val temp = getTempId
         val (t, e) = f(ISeq(i1 :+ IAssign(toRef(temp), r)))
@@ -428,22 +428,20 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "≤" ^^^ (OLt, true, true)
   )
   lazy val rhs: P[Expr => Expr] = (
-    equalRhs |||
-    absentRhs
+    equalRhs
   )
   lazy val equalRhs: P[Expr => Expr] = {
     "is" ~ opt("present and its value is") |||
       "has the value"
-  } ~ opt("either") ~> rep1sep(valueParser ||| (id | camelWord) ^^ { toERef(_) }, sep("or")) ^^ {
-    case es => (l: Expr) => es.map(EBOp(OEq, l, _)).reduce(EBOp(OOr, _, _))
-  }
-  lazy val absentRhs: P[Expr => Expr] = "is" ~> (
-    ("absent" ||| "not present" ||| "not supplied") ^^^ {
+  } ~ opt("either") ~> rep1sep((
+    (valueParser ||| (id | camelWord) ^^ { toERef(_) }) ^^ {
+      case r => (l: Expr) => EBOp(OEq, l, r)
+    } ||| ("absent" | "not present" | "not supplied") ^^^ {
       (l: Expr) => EBOp(OEq, l, EAbsent)
-    } ||| ("not absent" ||| "present") ^^^ {
+    } ||| ("not absent" | "present") ^^^ {
       (l: Expr) => EUOp(ONot, EBOp(OEq, l, EAbsent))
     }
-  )
+  ) <~ guard("," | "or" | "and" | in), sep("or")) ^^ { case fs => (l: Expr) => fs.map(_(l)).reduce(EBOp(OOr, _, _)) }
   lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = opt(",") ~> (
     "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
     "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
@@ -584,11 +582,6 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function")))))
       } | (expr <~ "is neither") ~ (expr <~ "nor") ~ expr ^^ {
         case (i1 ~ e1) ~ (i2 ~ e2) ~ (i3 ~ e3) => pair(i1 ++ i2 ++ i3, EUOp(ONot, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3))))
-      } | expr <~ "is" <~ value <~ " , " <~ value <~ "or not supplied" ^^ {
-        case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EBOp(OEq, e, ENull), EBOp(OEq, e, EUndef)), EBOp(OEq, e, EAbsent)))
-      } | (expr <~ "is") ~ (valueParser <~ ",") ~ (valueParser <~ ",") ~ (valueParser <~ ",") ~ (valueParser <~ ",") ~ ("or" ~> valueParser) ^^ {
-        case (i1 ~ e1) ~ e2 ~ e3 ~ e4 ~ e5 ~ e6 =>
-          pair(i1, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3)), EBOp(OEq, e1, e4)), EBOp(OEq, e1, e5)), EBOp(OEq, e1, e6)))
       } | expr <~ ("is empty" | "is an empty list") ^^ {
         case i ~ e => pair(i, parseExpr(s"(= ${beautify(e)}.length 0)"))
       } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
