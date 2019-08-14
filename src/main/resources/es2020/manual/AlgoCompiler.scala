@@ -429,6 +429,8 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       case (i ~ r) ~ fs => pair(i, fs.map(_(r)).reduce(EBOp(OOr, _, _)))
     } ||| expr <~ "is strict mode code" ^^^ {
       pair(Nil, EBool(false)) // TODO : support strict mode code
+    } | (id <~ "does not have" ~ ("a" | "an")) ~ internalName <~ ("field" | "internal slot") ^^ {
+      case x ~ y => pair(Nil, EBOp(OEq, toERef(x, y), EAbsent))
     } ||| containsExpr
   )
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
@@ -440,12 +442,14 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "≤" ^^^ (OLt, true, true)
   )
   lazy val rhs: P[Expr => Expr] = (
-    equalRhs
+    equalRhs |||
+    notEqualRhs
   )
+
   lazy val equalRhs: P[Expr => Expr] = {
     "is" ~ opt("present and its value is") |||
       "has the value"
-  } ~ opt("either") ~> rep1sep((
+  } ~ opt("either") ~> rep1sep({
     (valueParser ||| (id | camelWord) ^^ { toERef(_) }) ^^ {
       case r => (l: Expr) => EBOp(OEq, l, r)
     } ||| ("absent" | "not present" | "not supplied") ^^^ {
@@ -453,7 +457,20 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     } ||| ("not absent" | "present") ^^^ {
       (l: Expr) => EUOp(ONot, EBOp(OEq, l, EAbsent))
     }
-  ) <~ guard("," | "or" | "and" | in), sep("or")) ^^ { case fs => (l: Expr) => fs.map(_(l)).reduce(EBOp(OOr, _, _)) }
+  } <~ guard("," | "or" | "and" | in), sep("or")) ^^ {
+    case fs => (l: Expr) => fs.map(_(l)).reduce(EBOp(OOr, _, _))
+  }
+
+  lazy val notEqualRhs: P[Expr => Expr] = {
+    "is" ~ ("not" ~ opt("one of") | "neither")
+  } ~> rep1sep({
+    (valueParser ||| (id | camelWord) ^^ { toERef(_) }) ^^ {
+      case r => (l: Expr) => (EBOp(OEq, l, r): Expr)
+    }
+  } <~ guard("," | "or" | "and" | "nor" | in), sep("nor" | "or")) ^^ {
+    case fs => (l: Expr) => EUOp(ONot, fs.map(_(l)).reduce(EBOp(OOr, _, _)))
+  }
+
   lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = opt(",") ~> (
     "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
     "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
