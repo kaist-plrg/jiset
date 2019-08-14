@@ -7,12 +7,12 @@ sealed trait Obj extends CoreNode {
 }
 
 // CORE symbols
-case class CoreSymbol(desc: String) extends Obj {
+case class CoreSymbol(desc: Value) extends Obj {
   val ty: Ty = Ty("Symbol")
 
   // getters
   def apply(key: Value): Value = key match {
-    case Str("Description") => Str(desc)
+    case Str("Description") => desc
     case v => error(s"an invalid symbol field access: $v")
   }
 }
