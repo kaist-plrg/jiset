@@ -239,8 +239,8 @@ class Interp {
       s0.allocList(vs.reverse)
     case ESymbol(desc) =>
       interp(desc, true)(st) match {
-        case (Str(str), st) => st.allocSymbol(str)
-        case (Undef, st) => st.allocSymbol("") // TODO : change Symbol Desc to Value
+        case (Str(str), st) => st.allocSymbol(Str(str))
+        case (Undef, st) => st.allocSymbol(Undef)
         case (v, _) => error(s"not a string: $v")
       }
     case EPop(list, idx) =>

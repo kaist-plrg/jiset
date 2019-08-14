@@ -22,10 +22,18 @@ object BuiltinHeap {
       })
     )) /: nmap.map) { case (m, (k, prop)) => addDesc(name, m, k, prop) }
   } ++ (singletonInfo.map {
-    case name => (NamedAddr(SYMBOL_PREFIX + name) -> CoreSymbol("Symbol." + name))
+    case name => (NamedAddr(SYMBOL_PREFIX + name) -> CoreSymbol(Str("Symbol." + name)))
   }.toMap) ++ (notSupportedInfo.map {
     case name => (NamedAddr("GLOBAL." + name) -> CoreNotSupported(name))
   }.toMap)
+
+  val builtinMethods: List[(String, Int, Func)] = List(
+    ("GLOBAL.String.prototype.toUpperCase", 0, Func("", List(), None, IExpr(ENotSupported("toUpperCase")))),
+    ("GLOBAL.String.prototype.toLocaleLowerCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleLowerCase")))),
+    ("GLOBAL.String.prototype.toLocaleUpperCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleUpperCase")))),
+    ("GLOBAL.Number.prototype.toLocaleString", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleString")))),
+    ("GLOBAL.Array.prototype.sort", 1, Func("", List(), None, IExpr(ENotSupported("sort"))))
+  )
 
   private def addDesc(
     name: String,
@@ -433,11 +441,19 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.Map"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Map"), T, F, T),
+        "size" -> AccessorProperty(NamedAddr("GLOBAL.getMap.prototype.size"), U, F, T)
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Map.prototype.entries"), T, F, T),
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Map"), F, F, T)
         )
+    ),
+    "GLOBAL.INTRINSIC_MapIteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
+      ),
+      nmap = NMap()
     ),
     "GLOBAL.Set" -> Struct(
       typeName = "BuiltinFunctionObject",
@@ -456,11 +472,19 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.Set"), T, F, T),
-        "keys" -> DataProperty(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T)
+        "keys" -> DataProperty(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T),
+        "size" -> AccessorProperty(NamedAddr("GLOBAL.getSet.prototype.size"), U, F, T)
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T),
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Set"), F, F, T)
         )
+    ),
+    "GLOBAL.INTRINSIC_SetIteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
+      ),
+      nmap = NMap()
     ),
     "GLOBAL.WeakMap" -> Struct(
       typeName = "BuiltinFunctionObject",
@@ -610,6 +634,30 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise"), F, F, F)
+      )
+    ),
+    "GLOBAL.INTRINSIC_AsyncFunction" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function"),
+        "Code" -> GLOBALDOTAsyncFunction.func,
+        "Extensible" -> Bool(true),
+        "ScriptOrModule" -> Null,
+        "Realm" -> NamedAddr("REALM")
+      ),
+      nmap = NMap(
+        "name" -> DataProperty(Str("AsyncFunction"), T, F, T),
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncFunctionPrototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.INTRINSIC_AsyncFunctionPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncFunction"), F, F, T)
       )
     )
   ) /: errList) {

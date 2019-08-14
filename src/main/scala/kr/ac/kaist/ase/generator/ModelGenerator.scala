@@ -74,9 +74,9 @@ object ModelGenerator {
     nf.println(s"""  )""")
     nf.println(s"""  lazy val initHeap: Heap = Heap(BaseHeap.get ++ BuiltinHeap.get ++ Map(""")
     nf.println(consts.map(i =>
-      s"""    NamedAddr("CONST_$i") -> CoreSymbol("CONST_$i")""").mkString("," + LINE_SEP))
+      s"""    NamedAddr("CONST_$i") -> CoreSymbol(Str("CONST_$i"))""").mkString("," + LINE_SEP))
     nf.println(s"""  ) match {""")
-    nf.println(s"""    case m => ModelHelper.addBuiltin(m, builtinMethods)""")
+    nf.println(s"""    case m => ModelHelper.addBuiltin(m, builtinMethods ++ BuiltinHeap.builtinMethods)""")
     nf.println(s"""  })""")
     nf.println(s"""  lazy val tyMap: Map[String, Map[Value, Value]] = Map(""")
     nf.println(tys.map {

@@ -77,7 +77,7 @@ case class State(
   }
 
   // symbol allocations
-  def allocSymbol(desc: String): (Addr, State) = {
+  def allocSymbol(desc: Value): (Addr, State) = {
     val (newAddr, newHeap) = heap.allocSymbol(desc)
     (newAddr, copy(heap = newHeap))
   }
