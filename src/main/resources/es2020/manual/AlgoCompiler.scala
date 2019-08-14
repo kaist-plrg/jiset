@@ -401,7 +401,27 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = (
+  lazy val cond: P[I[Expr]] = _cond <~ guard(",") | etcCond
+  lazy val _cond: P[I[Expr]] = (
+    expr ~ condBOp ~ expr ^^ {
+      case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
+    }
+  )
+  val condOp: P[(BOp, Inst => (Inst, Inst))] = (
+    "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
+    "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
+  )
+  val condBOp: P[(BOp, Boolean, Boolean)] = (
+    "=" ^^^ (OEq, false, false) |||
+    ("≠" | "is different from") ^^^ (OEq, true, false) |||
+    "<" ^^^ (OLt, false, false) |||
+    "≥" ^^^ (OLt, true, false) |||
+    ">" ^^^ (OLt, false, true) |||
+    "≤" ^^^ (OLt, true, true)
+  )
+
+  // etc conditions
+  lazy val etcCond: P[I[Expr]] = (
     (("the code matched by" ~> name <~ "is strict mode code") |
       "the source text matching" ~> name <~ "is strict mode code" |
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
@@ -588,7 +608,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case (i0 ~ e) ~ t1 ~ t2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OEq, ETypeOf(e), EStr(t1.name)), EBOp(OEq, ETypeOf(e), EStr(t2.name)))))
       } | (expr <~ "is" ~ ("a" | "an")) ~ ty ^^ {
         case (i ~ e) ~ t => pair(i, EBOp(OEq, ETypeOf(e), EStr(t.name)))
-      } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
+      } | ("either" ~> etcCond) ~ ("or" ~> etcCond) ^^ {
         case (i0 ~ c1) ~ (i1 ~ c2) => pair(i0 ++ i1, EBOp(OOr, c1, c2))
       } | name ~ ("is either" ~> expr) ~ ("or" ~> expr) ^^ {
         case x ~ (i0 ~ e1) ~ (i1 ~ e2) =>
@@ -649,11 +669,11 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   lazy val nonTrivialTyName: P[String] = ("string" | "boolean" | "number" | "object" | "symbol") ^^ { ts => ts(0) }
 
   lazy val subCond: P[Expr => I[Expr]] =
-    opt(",") ~> "or" ~> opt("if") ~> cond ^^ {
+    opt(",") ~> "or" ~> opt("if") ~> etcCond ^^ {
       case i ~ r =>
         val temp = getTempId
         (l: Expr) => pair(List(ILet(temp, l), IIf(ERef(RefId(temp)), emptyInst, ISeq(i :+ IAssign(RefId(temp), EBOp(OOr, ERef(RefId(temp)), r))))), ERef(RefId(temp)))
-    } | opt(",") ~> "and" ~> opt("if") ~> cond ^^ {
+    } | opt(",") ~> "and" ~> opt("if") ~> etcCond ^^ {
       case i ~ r =>
         val temp = getTempId
         (l: Expr) => pair(List(ILet(temp, l), IIf(ERef(RefId(temp)), ISeq(i :+ IAssign(RefId(temp), EBOp(OAnd, ERef(RefId(temp)), r))), emptyInst)), ERef(RefId(temp)))
@@ -1076,9 +1096,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
 
   // et cetera expressions
   lazy val etcExpr: P[I[Expr]] = (
-    ("the String value of length 1, containing one code unit from" ~> ref ) ~ (", specifically the code unit at index" ~> ref) ^^ {
-      case (i0 ~ r0) ~ (i1 ~ r1) => pair(i0 ++ i1, ERef(RefProp(r0,ERef(r1))))
-    } | ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
+    ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
       case (i0 ~ e0) ~ (i1 ~ e1) => {
         val temp = getTemp
         val applyInst = parseInst(s"""app $temp = (${beautify(e0)} ${beautify(e1)}[0i] ${beautify(e1)}[1i] ${beautify(e1)}[2i])""")
