@@ -401,15 +401,21 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = _cond <~ guard(",") | etcCond
+  lazy val cond: P[I[Expr]] = _cond <~ guard(",") ^^ {
+    case ie =>
+      // print("#")
+      ie
+  } | etcCond
   lazy val _cond: P[I[Expr]] = (
     expr ~ condBOp ~ expr ^^ {
       case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
+    } ||| (_cond ~ condOp <~ opt("if")) ~ _cond ^^ {
+      case (i ~ l) ~ ((op, _)) ~ (Nil ~ r) => pair(i, EBOp(op, l, r))
+      case (i0 ~ l) ~ ((op, f)) ~ (i1 ~ r) =>
+        val temp = getTempId
+        val (t, e) = f(ISeq(i1 :+ IAssign(toRef(temp), r)))
+        pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
     }
-  )
-  val condOp: P[(BOp, Inst => (Inst, Inst))] = (
-    "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
-    "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
   )
   val condBOp: P[(BOp, Boolean, Boolean)] = (
     "=" ^^^ (OEq, false, false) |||
@@ -418,6 +424,17 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     "≥" ^^^ (OLt, true, false) |||
     ">" ^^^ (OLt, false, true) |||
     "≤" ^^^ (OLt, true, true)
+  )
+  val rhs: P[Expr] = (
+    equalRhs
+  )
+  val equalRhs: P[Expr] = (
+    "is" ~ opt("present and its value is") |||
+    "has the value"
+  ) ~> (valueParser ||| id ^^ { toERef(_) })
+  val condOp: P[(BOp, Inst => (Inst, Inst))] = (
+    "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
+    "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
   )
 
   // etc conditions
