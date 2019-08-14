@@ -156,6 +156,7 @@ class Interp {
               case Str(s) => p match {
                 case Str("length") => s2.define(id, INum(s.length))
                 case INum(k) => s2.define(id, Str(s(k.toInt).toString))
+                case Num(k) => s2.define(id, Str(s(k.toInt).toString))
                 case v => error(s"wrong access of string reference: $s.$p")
               }
               case _ => error(s"Completion does not have value: $bexpr[$expr]")
@@ -438,6 +439,7 @@ class Interp {
     case RefValueString(str, value) => value match {
       case Str("length") => (INum(str.length), st)
       case INum(k) => (Str(str(k.toInt).toString), st)
+      case Num(k) => (Str(str(k.toInt).toString), st)
       case v => error(s"wrong access of string reference: $str.$value")
     }
   }

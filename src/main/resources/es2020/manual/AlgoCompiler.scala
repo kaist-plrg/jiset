@@ -1112,7 +1112,9 @@ trait AlgoCompilerHelper extends AlgoCompilers {
 
   // et cetera expressions
   lazy val etcExpr: P[I[Expr]] = (
-    ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
+    ("the String value of length 1, containing one code unit from" ~> ref ) ~ (", specifically the code unit at index" ~> ref) ^^ {
+      case (i0 ~ r0) ~ (i1 ~ r1) => pair(i0 ++ i1, ERef(RefProp(r0,ERef(r1))))
+    } | ("the result of performing the abstract operation named by" ~> expr) ~ ("using the elements of" ~> expr <~ "as its arguments .") ^^ {
       case (i0 ~ e0) ~ (i1 ~ e1) => {
         val temp = getTemp
         val applyInst = parseInst(s"""app $temp = (${beautify(e0)} ${beautify(e1)}[0i] ${beautify(e1)}[1i] ${beautify(e1)}[2i])""")
