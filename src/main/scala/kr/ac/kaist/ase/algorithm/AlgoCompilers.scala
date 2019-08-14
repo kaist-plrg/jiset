@@ -52,7 +52,7 @@ trait AlgoCompilers extends TokenParsers {
 
   // list of statements
   lazy val stmts: P[List[Inst]] = rep(stmt <~ next | failedStep ^^ { tokens =>
-    IExpr(ENotYetImpl(tokens.mkString(" ").replace("\\", "\\\\").replace("\"", "\\\"")))
+    IExpr(ENotYetImpl(tokens.mkString(" ")))
   })
 
   // start notations

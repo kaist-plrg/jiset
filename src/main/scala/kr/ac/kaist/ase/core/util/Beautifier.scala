@@ -1,7 +1,7 @@
 package kr.ac.kaist.ase.core
 
 import kr.ac.kaist.ase.LINE_SEP
-import org.apache.commons.text.StringEscapeUtils
+import kr.ac.kaist.ase.core.Helper.norm
 
 // CORE Beautifier
 object Beautifier {
@@ -136,7 +136,7 @@ object Beautifier {
     override def walk(expr: Expr): Unit = expr match {
       case ENum(n) => walk(s"$n")
       case EINum(n) => walk(s"${n}i")
-      case EStr(str) => walk(s""""$str"""")
+      case EStr(str) => walk("\"" + norm(str) + "\"")
       case EBool(b) => walk(s"$b")
       case EUndef => walk("undefined")
       case ENull => walk("null")
@@ -186,9 +186,9 @@ object Beautifier {
       case EKeys(obj) =>
         walk("(map-keys "); walk(obj); walk(")")
       case ENotYetImpl(msg) =>
-        walk("??? \""); walk(msg); walk("\"")
+        walk("??? \""); walk(norm(msg)); walk("\"")
       case ENotSupported(msg) =>
-        walk("!!! \""); walk(msg); walk("\"")
+        walk("!!! \""); walk(norm(msg)); walk("\"")
     }
 
     // references
@@ -293,7 +293,7 @@ object Beautifier {
       case cont: Cont => walk(cont)
       case Num(double) => walk(s"$double")
       case INum(long) => walk(s"${long}i")
-      case Str(str) => walk(s""""$str"""")
+      case Str(str) => walk("\"" + norm(str) + "\"")
       case Bool(bool) => walk(s"$bool")
       case Undef => walk("undefined")
       case Null => walk("null")

@@ -344,6 +344,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     codeValue |||
     constValue |||
     numberValue |||
+    hexValue |||
     internalName
   )
 
@@ -398,12 +399,21 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     }
   )
 
+  // hex values
+  lazy val hexValue: P[Expr] =
+    opt("code unit") ~> hex <~ "(" ~ rep(word.filter(_ != ")")) ~ ")" ^^ {
+      case x => EStr(Character.toChars(x).mkString)
+    } ||| hex ^^ { EINum(_) }
+  lazy val hex: P[Int] = text.filter(_ startsWith "0x") ^^ {
+    case s => Integer.parseInt(s.substring(2), 16)
+  }
+
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: P[I[Expr]] = _cond <~ guard("," | in) ^^ {
     case ie =>
-      print("#")
+      // print("#")
       ie
   } | etcCond
   lazy val _cond: P[I[Expr]] = (
@@ -417,14 +427,16 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
     } ||| expr ~ rep1sep(rhs, sep("or")) ^^ {
       case (i ~ r) ~ fs => pair(i, fs.map(_(r)).reduce(EBOp(OOr, _, _)))
+    } ||| expr <~ "is strict mode code" ^^^ {
+      pair(Nil, EBool(false)) // TODO : support strict mode code
     } ||| containsExpr
   )
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
-    "=" ^^^ (OEq, false, false) |||
+    ("=" | "equals") ^^^ (OEq, false, false) |||
     ("≠" | "is different from") ^^^ (OEq, true, false) |||
     ("<" | "is less than") ^^^ (OLt, false, false) |||
     "≥" ^^^ (OLt, true, false) |||
-    ">" ^^^ (OLt, false, true) |||
+    (">" | "is greater than") ^^^ (OLt, false, true) |||
     "≤" ^^^ (OLt, true, true)
   )
   lazy val rhs: P[Expr => Expr] = (
@@ -449,193 +461,178 @@ trait AlgoCompilerHelper extends AlgoCompilers {
 
   // etc conditions
   lazy val etcCond: P[I[Expr]] = (
-    (("the code matched by" ~> name <~ "is strict mode code") |
-      "the source text matching" ~> name <~ "is strict mode code" |
-      "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
-      "the code matching the syntactic production that is being evaluated is contained in strict mode code" |
-      "the directive prologue of statementList contains a use strict directive") ^^^ {
-        pair(Nil, EBool(false)) // TODO : support strict mode code
-      } | "no arguments were passed to this function invocation" ^^^ {
-        pair(Nil, parseExpr(s"(= argumentsList.length 0i)"))
-      } | name ~ "< 0xD800 or" ~ name ~ "> 0xDBFF or" ~ name ~ "+ 1 =" ~ name ^^^ {
-        pair(Nil, EBool(true)) // TODO : based on real code unit
-      } | name <~ "is an Identifier and StringValue of" ~ name ~ "is the same value as the StringValue of IdentifierName" ^^ {
-        case x => pair(Nil, parseExpr(s"(&& (is-instance-of $x Identifier) (= (get-syntax $x) (get-syntax IdentifierName)))"))
-      } | name <~ "is a ReservedWord" ^^ {
-        case x => pair(Nil, parseExpr(s"(! (is-instance-of $x Identifier))"))
-      } | (name <~ "is the token") ~ code ^^ {
-        case x ~ y => pair(Nil, EBOp(OEq, EGetSyntax(toERef(x)), EStr(y)))
-      } | (name <~ "does not have" <~ ("a" | "an")) ~ (expr <~ "internal slot") ~ subCond ^^ {
-        case x ~ (_ ~ y) ~ f => concat(Nil, f(parseExpr(s"(= $x[${beautify(y)}] absent)")))
-      } | name <~ "does not have all of the internal slots of an Array Iterator Instance (22.1.5.3)" ^^ {
-        case x => pair(Nil, parseExpr(s"""
-          (|| (= absent $x.IteratedObject)
-          (|| (= absent $x.ArrayIteratorNextIndex)
-          (= absent $x.ArrayIterationKind)))"""))
-      } | name <~ "is a FunctionDeclaration, a GeneratorDeclaration, an AsyncFunctionDeclaration, or an AsyncGeneratorDeclaration" ^^ {
-        case x => pair(Nil, parseExpr(s"""
-          (|| (is-instance-of $x FunctionDeclaration)
-          (|| (is-instance-of $x GeneratorDeclaration)
-          (|| (is-instance-of $x AsyncFunctionDeclaration)
-          (is-instance-of $x AsyncGeneratorDeclaration))))"""))
-      } | name <~ "is not one of NewTarget, SuperProperty, SuperCall," ~ code ~ opt(",") ~ "or" ~ code ^^ {
-        case x => pair(Nil, parseExpr(s"""(!
-          (|| (is-instance-of $x NewTarget)
-          (|| (is-instance-of $x SuperProperty)
-          (|| (is-instance-of $x SuperCall)
-          (|| (= $x "super") (= $x "this"))))))"""))
-      } | (name <~ "and") ~ (name <~ "are both") ~ (value <~ "or both") ~ value ^^ {
-        case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
-      } | name <~ "is a data property" ^^ {
-        case x =>
-          val temp = getTemp
-          pair(List(parseInst(s"app $temp = (IsDataDescriptor $x)")), toERef(temp))
-      } | (name <~ "is") ~ (valueParser <~ "and") ~ (name <~ "is") ~ valueParser ^^ {
-        case x ~ v ~ y ~ u => pair(Nil, parseExpr(s"(&& (= $x ${beautify(v)}) (= $y ${beautify(u)}))"))
-      } | name <~ "is an array index" ^^ {
-        case x =>
-          val temp = getTemp
-          pair(List(parseInst(s"app $temp = (IsArrayIndex $x)")), toERef(temp))
-      } | name <~ "is an accessor property" ^^ {
-        case x =>
-          val temp = getTemp
-          pair(List(parseInst(s"app $temp = (IsAccessorDescriptor $x)")), toERef(temp))
-      } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
-        case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
-      } | (ref <~ "is" ~ ("not present" | "absent") <~ ", or is either") ~ (valueParser <~ "or") ~ valueParser ~ subCond ^^ {
-        case (i0 ~ r) ~ e1 ~ e2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OOr, EUOp(ONot, exists(r)), EBOp(OEq, ERef(r), e1)), EBOp(OEq, ERef(r), e2))))
-      } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
-        case (i0 ~ r) ~ f => concat(i0, f(EUOp(ONot, exists(r))))
-      } | expr <~ "is not an abrupt completion" ^^ {
-        case i ~ x => pair(i, parseExpr(s"""(! (&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal))))"""))
-      } | expr <~ "is an abrupt completion" ^^ {
-        case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
-      } | expr <~ "is a normal completion" ^^ {
-        case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (= ${beautify(x)}.Type CONST_normal))"""))
-      } | expr <~ "is not already suspended" ^^ {
-        case i ~ e => pair(i, EBOp(OEq, e, ENull))
-      } | name <~ "has no elements" ^^ {
-        case x => pair(Nil, parseExpr(s"(= 0i $x.length)"))
-      } | name <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
-        case x => pair(Nil, parseExpr(s"(< 0i $x.length)"))
-      } | (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
-      } | (expr <~ "is" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EContains(y, x)))
-      } | name <~ "does not have a Generator component" ^^ {
-        case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
-      } | "the source code matching" ~ expr ~ "is strict mode code" ^^^ {
-        pair(Nil, EBool(false)) // TODO strict
-      } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
-        pair(Nil, EBool(true)) // TODO strict
-      } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EBOp(OEq, x, y)))
-      } | ("the" ~> name <~ "fields of") ~ name ~ ("and" ~> name <~ "are the boolean negation of each other") ^^ {
-        case x ~ y ~ z => pair(Nil, parseExpr(s"""(|| (&& (= $y.$x true) (= $z.$x false)) (&& (= $y.$x false) (= $z.$x true)))"""))
-      } | name ~ ("and" ~> name <~ "are not the same Realm Record") ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"(! (= $x $y))"))
-      } | (expr <~ "and") ~ (expr <~ ("are the same" ~ ("object" | "number") ~ "value" | "are exactly the same sequence of code units ( same length and same code units at corresponding indices )")) ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EBOp(OEq, x, y)))
-      } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
-        pair(Nil, EBool(false)) // TODO fix
-      } | ("the binding for" ~> name <~ "in") ~ (name <~ "is an uninitialized binding") ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"(= $y.SubMap[$x].initialized false)"))
-      } | (ref <~ "does not have an own property with key") ~ expr ^^ {
-        case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
-      } | (ref <~ ("has" | "have") <~ ("a" | "an")) ~ word <~ "component" ^^ {
-        case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
-      } | (ref <~ "has" <~ ("a" | "an")) ~ (name ^^ { case x => EStr(x) } | internalName) <~ "field" ^^ {
-        case (i ~ r) ~ n => pair(i, exists(RefProp(r, n)))
-      } | (name <~ "does not have a binding for") ~ name ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"(= absent $x.SubMap[$y])"))
-      } | ("the binding for" ~> name <~ "in") ~ (name <~ "is a strict binding") ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"(&& (! (= absent $y.SubMap[$x].strict)) $y.SubMap[$x].strict)"))
-      } | ("the binding for" ~> name <~ "in") ~ (name <~ "has not yet been initialized") ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"(&& (! (= absent $y.SubMap[$x].initialized)) (! $y.SubMap[$x].initialized))"))
-      } | ("the binding for" ~> name <~ "in") ~ (name <~ "is a mutable binding") ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"""(= (typeof $y.SubMap[$x]) "MutableBinding")"""))
-      } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
-        case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
-      } | ref ~ ("has" ~ ("a" | "an") ~> internalName <~ "internal" ~ ("method" | "slot")) ~ subCond ^^ {
-        case (i ~ r) ~ p ~ f => concat(i, f(parseExpr(s"(! (= absent ${beautify(r)}[${beautify(p)}]))")))
-      } | (ref <~ "is present and its value is") ~ expr ^^ {
-        case (i0 ~ r) ~ (i1 ~ e) => pair(i0 ++ i1, EBOp(OAnd, exists(r), EBOp(OEq, ERef(r), e)))
-      } | (ref <~ "is present" <~ opt("as a parameter")) ~ subCond ^^ {
-        case (i0 ~ r) ~ f => concat(i0, f(exists(r)))
-      } | (expr <~ "is not" <~ opt("the same as")) ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, l, r))))
-      } | (name <~ "and") ~ (name <~ "are both the same Symbol value") ^^ {
-        case x ~ y => pair(Nil, parseExpr(s"""(&& (&& (= (typeof $x) "Symbol") (= (typeof $y) "Symbol")) (= $x $y))"""))
-      } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OAnd, EUOp(ONot, exists(l)), EUOp(ONot, exists(r))))
-      } | expr <~ "has any duplicate entries" ^^ {
-        case i ~ e =>
-          val temp = getTempId
-          pair(i :+ IApp(temp, parseExpr("IsDuplicate"), List(e)), ERef(RefId(temp)))
-      } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ e) => pair(i0 ++ i1 ++ i2, EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e)))
-      } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
-        case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral"))))
-      } | expr <~ "is" <~ opt("either") <~ "an objectliteral or an arrayliteral" ^^ {
-        case i ~ e => pair(i, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
-      } | expr <~ "is neither" <~ value <~ "nor the active function" ^^ {
-        case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function")))))
-      } | (expr <~ "is neither") ~ (expr <~ "nor") ~ expr ^^ {
-        case (i1 ~ e1) ~ (i2 ~ e2) ~ (i3 ~ e3) => pair(i1 ++ i2 ++ i3, EUOp(ONot, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3))))
-      } | expr <~ ("is empty" | "is an empty list") ^^ {
-        case i ~ e => pair(i, parseExpr(s"(= ${beautify(e)}.length 0)"))
-      } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
-        case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))))
-      } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
-        case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
-      } | "statement is statement10" ^^^ {
-        pair(Nil, EIsInstanceOf(toERef("Statement"), "LabelledStatement"))
-      } | expr <~ "is a data property" ^^ {
-        case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("DataProperty")))
-      } | expr <~ "is an object" ^^ {
-        case i ~ e =>
-          val temp = getTemp
-          pair(i :+ parseInst(s"""app $temp = (Type ${beautify(e)})"""), parseExpr(s"""(= $temp "Object")"""))
-      } | (expr <~ "is not" ~ ("a" | "an")) ~ ty ^^ {
-        case (i ~ e) ~ t => pair(i, EUOp(ONot, EBOp(OEq, ETypeOf(e), EStr(t.name))))
-      } | (expr <~ "is") ~ (("a" | "an") ~> ty) ~ ("or" ~> ("a" | "an") ~> ty) ~ subCond ^^ {
-        case (i0 ~ e) ~ t1 ~ t2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OEq, ETypeOf(e), EStr(t1.name)), EBOp(OEq, ETypeOf(e), EStr(t2.name)))))
-      } | (expr <~ "is" ~ ("a" | "an")) ~ ty ^^ {
-        case (i ~ e) ~ t => pair(i, EBOp(OEq, ETypeOf(e), EStr(t.name)))
-      } | ("either" ~> etcCond) ~ ("or" ~> etcCond) ^^ {
-        case (i0 ~ c1) ~ (i1 ~ c2) => pair(i0 ++ i1, EBOp(OOr, c1, c2))
-      } | name ~ ("is either" ~> expr) ~ ("or" ~> expr) ^^ {
-        case x ~ (i0 ~ e1) ~ (i1 ~ e2) =>
-          val e0 = parseExpr(x)
-          pair(i0 ++ i1, EBOp(OOr, EBOp(OEq, e0, e1), EBOp(OEq, e0, e2)))
-      } | expr <~ "is Boolean, String, Symbol, or Number" ^^ {
-        case i ~ e => pair(i, EBOp(OOr, EBOp(OEq, e, EStr("Boolean")), EBOp(OOr, EBOp(OEq, e, EStr("String")), EBOp(OOr, EBOp(OEq, e, EStr("Symbol")), EBOp(OEq, e, EStr("Number")))))) // TODO : remove side effect
-      } | (expr <~ "equals") ~ expr ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EBOp(OEq, x, y))
-      } | (expr <~ "is") ~ rep1sep(valueParser, ",") ~ (", or" ~> valueParser) ^^ {
-        case (i ~ e0) ~ list ~ e1 =>
-          pair(i, (list :+ e1).map(e => EBOp(OEq, e0, e)).reduce((l, r) => EBOp(OOr, l, r)))
-      } | "every field in" ~> id <~ "is absent" ^^ {
-        case x => pair(Nil, parseExpr(s"""
-          (&& (= absent $x.Value)
-          (&& (= absent $x.Writable)
-          (&& (= absent $x.Get)
-          (&& (= absent $x.Set)
-          (&& (= absent $x.Enumerable)
-          (= absent $x.Configurable))))))"""))
-      } | "type(" ~> name <~ ") is object and is either a built-in function object or has an [[ECMAScriptCode]] internal slot" ^^ {
-        case x =>
-          val temp = getTemp
-          pair(List(parseInst(s"""app $temp = (Type $x)""")), parseExpr(s"""(&& (= $temp "Object") (|| (= $temp "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
-      } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
-      } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
-        case (i0 ~ e) ~ (i1 ~ l) ~ (i2 ~ r) ~ f => concat(i0 ++ i1 ++ i2, f(EBOp(OOr, EBOp(OEq, e, l), EBOp(OEq, e, r))))
-      } | (expr <~ "does not contain") ~ expr ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
-      } | containsExpr | (expr <~ "contains") ~ expr ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
-      } | starCond
+    "the directive prologue of statementList contains a use strict directive" ^^^ {
+      pair(Nil, EBool(false)) // TODO : support strict mode code
+    } | "the code matching the syntactic production that is being evaluated is contained in strict mode code" ^^^ {
+      pair(Nil, EBool(false)) // TODO : support strict mode code
+    } | "no arguments were passed to this function invocation" ^^^ {
+      pair(Nil, parseExpr(s"(= argumentsList.length 0i)"))
+    } | name <~ "is an Identifier and StringValue of" ~ name ~ "is the same value as the StringValue of IdentifierName" ^^ {
+      case x => pair(Nil, parseExpr(s"(&& (is-instance-of $x Identifier) (= (get-syntax $x) (get-syntax IdentifierName)))"))
+    } | name <~ "is a ReservedWord" ^^ {
+      case x => pair(Nil, parseExpr(s"(! (is-instance-of $x Identifier))"))
+    } | (name <~ "is the token") ~ code ^^ {
+      case x ~ y => pair(Nil, EBOp(OEq, EGetSyntax(toERef(x)), EStr(y)))
+    } | (name <~ "does not have" <~ ("a" | "an")) ~ (expr <~ "internal slot") ~ subCond ^^ {
+      case x ~ (_ ~ y) ~ f => concat(Nil, f(parseExpr(s"(= $x[${beautify(y)}] absent)")))
+    } | name <~ "does not have all of the internal slots of an Array Iterator Instance (22.1.5.3)" ^^ {
+      case x => pair(Nil, parseExpr(s"""
+        (|| (= absent $x.IteratedObject)
+        (|| (= absent $x.ArrayIteratorNextIndex)
+        (= absent $x.ArrayIterationKind)))"""))
+    } | name <~ "is a FunctionDeclaration, a GeneratorDeclaration, an AsyncFunctionDeclaration, or an AsyncGeneratorDeclaration" ^^ {
+      case x => pair(Nil, parseExpr(s"""
+        (|| (is-instance-of $x FunctionDeclaration)
+        (|| (is-instance-of $x GeneratorDeclaration)
+        (|| (is-instance-of $x AsyncFunctionDeclaration)
+        (is-instance-of $x AsyncGeneratorDeclaration))))"""))
+    } | name <~ "is not one of NewTarget, SuperProperty, SuperCall," ~ code ~ opt(",") ~ "or" ~ code ^^ {
+      case x => pair(Nil, parseExpr(s"""(!
+        (|| (is-instance-of $x NewTarget)
+        (|| (is-instance-of $x SuperProperty)
+        (|| (is-instance-of $x SuperCall)
+        (|| (= $x "super") (= $x "this"))))))"""))
+    } | (name <~ "and") ~ (name <~ "are both") ~ (value <~ "or both") ~ value ^^ {
+      case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
+    } | name <~ "is a data property" ^^ {
+      case x =>
+        val temp = getTemp
+        pair(List(parseInst(s"app $temp = (IsDataDescriptor $x)")), toERef(temp))
+    } | (name <~ "is") ~ (valueParser <~ "and") ~ (name <~ "is") ~ valueParser ^^ {
+      case x ~ v ~ y ~ u => pair(Nil, parseExpr(s"(&& (= $x ${beautify(v)}) (= $y ${beautify(u)}))"))
+    } | name <~ "is an array index" ^^ {
+      case x =>
+        val temp = getTemp
+        pair(List(parseInst(s"app $temp = (IsArrayIndex $x)")), toERef(temp))
+    } | name <~ "is an accessor property" ^^ {
+      case x =>
+        val temp = getTemp
+        pair(List(parseInst(s"app $temp = (IsAccessorDescriptor $x)")), toERef(temp))
+    } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
+      case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
+    } | (ref <~ "is" ~ ("not present" | "absent") <~ ", or is either") ~ (valueParser <~ "or") ~ valueParser ~ subCond ^^ {
+      case (i0 ~ r) ~ e1 ~ e2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OOr, EUOp(ONot, exists(r)), EBOp(OEq, ERef(r), e1)), EBOp(OEq, ERef(r), e2))))
+    } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
+      case (i0 ~ r) ~ f => concat(i0, f(EUOp(ONot, exists(r))))
+    } | expr <~ "is not an abrupt completion" ^^ {
+      case i ~ x => pair(i, parseExpr(s"""(! (&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal))))"""))
+    } | expr <~ "is an abrupt completion" ^^ {
+      case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
+    } | expr <~ "is a normal completion" ^^ {
+      case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (= ${beautify(x)}.Type CONST_normal))"""))
+    } | expr <~ "is not already suspended" ^^ {
+      case i ~ e => pair(i, EBOp(OEq, e, ENull))
+    } | name <~ "has no elements" ^^ {
+      case x => pair(Nil, parseExpr(s"(= 0i $x.length)"))
+    } | name <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
+      case x => pair(Nil, parseExpr(s"(< 0i $x.length)"))
+    } | (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
+    } | (expr <~ "is" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EContains(y, x)))
+    } | name <~ "does not have a Generator component" ^^ {
+      case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
+    } | "the source code matching" ~ expr ~ "is strict mode code" ^^^ {
+      pair(Nil, EBool(false)) // TODO strict
+    } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
+      pair(Nil, EBool(true)) // TODO strict
+    } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EBOp(OEq, x, y)))
+    } | ("the" ~> name <~ "fields of") ~ name ~ ("and" ~> name <~ "are the boolean negation of each other") ^^ {
+      case x ~ y ~ z => pair(Nil, parseExpr(s"""(|| (&& (= $y.$x true) (= $z.$x false)) (&& (= $y.$x false) (= $z.$x true)))"""))
+    } | name ~ ("and" ~> name <~ "are not the same Realm Record") ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"(! (= $x $y))"))
+    } | (expr <~ "and") ~ (expr <~ ("are the same" ~ ("object" | "number") ~ "value" | "are exactly the same sequence of code units ( same length and same code units at corresponding indices )")) ~ subCond ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EBOp(OEq, x, y)))
+    } | expr ~ "is not the ordinary object internal method defined in" ~ secno ^^^ {
+      pair(Nil, EBool(false)) // TODO fix
+    } | ("the binding for" ~> name <~ "in") ~ (name <~ "is an uninitialized binding") ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"(= $y.SubMap[$x].initialized false)"))
+    } | (ref <~ "does not have an own property with key") ~ expr ^^ {
+      case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
+    } | (ref <~ ("has" | "have") <~ ("a" | "an")) ~ word <~ "component" ^^ {
+      case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
+    } | (ref <~ "has" <~ ("a" | "an")) ~ (name ^^ { case x => EStr(x) } | internalName) <~ "field" ^^ {
+      case (i ~ r) ~ n => pair(i, exists(RefProp(r, n)))
+    } | (name <~ "does not have a binding for") ~ name ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"(= absent $x.SubMap[$y])"))
+    } | ("the binding for" ~> name <~ "in") ~ (name <~ "is a strict binding") ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"(&& (! (= absent $y.SubMap[$x].strict)) $y.SubMap[$x].strict)"))
+    } | ("the binding for" ~> name <~ "in") ~ (name <~ "has not yet been initialized") ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"(&& (! (= absent $y.SubMap[$x].initialized)) (! $y.SubMap[$x].initialized))"))
+    } | ("the binding for" ~> name <~ "in") ~ (name <~ "is a mutable binding") ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"""(= (typeof $y.SubMap[$x]) "MutableBinding")"""))
+    } | (ref <~ "has a binding for the name that is the value of") ~ expr ^^ {
+      case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
+    } | ref ~ ("has" ~ ("a" | "an") ~> internalName <~ "internal" ~ ("method" | "slot")) ~ subCond ^^ {
+      case (i ~ r) ~ p ~ f => concat(i, f(parseExpr(s"(! (= absent ${beautify(r)}[${beautify(p)}]))")))
+    } | (ref <~ "is present" <~ opt("as a parameter")) ~ subCond ^^ {
+      case (i0 ~ r) ~ f => concat(i0, f(exists(r)))
+    } | (expr <~ "is not" <~ opt("the same as")) ~ expr ~ subCond ^^ {
+      case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, l, r))))
+    } | (name <~ "and") ~ (name <~ "are both the same Symbol value") ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"""(&& (&& (= (typeof $x) "Symbol") (= (typeof $y) "Symbol")) (= $x $y))"""))
+    } | ("both" ~> ref <~ "and") ~ (ref <~ "are absent") ^^ {
+      case (i0 ~ l) ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(OAnd, EUOp(ONot, exists(l)), EUOp(ONot, exists(r))))
+    } | expr <~ "has any duplicate entries" ^^ {
+      case i ~ e =>
+        val temp = getTempId
+        pair(i :+ IApp(temp, parseExpr("IsDuplicate"), List(e)), ERef(RefId(temp)))
+    } | (opt("both") ~> expr <~ "and") ~ (expr <~ "are" <~ opt("both")) ~ expr ^^ {
+      case (i0 ~ l) ~ (i1 ~ r) ~ (i2 ~ e) => pair(i0 ++ i1 ++ i2, EBOp(OAnd, EBOp(OEq, l, e), EBOp(OEq, r, e)))
+    } | expr <~ "is neither an objectliteral nor an arrayliteral" ^^ {
+      case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral"))))
+    } | expr <~ "is" <~ opt("either") <~ "an objectliteral or an arrayliteral" ^^ {
+      case i ~ e => pair(i, EBOp(OOr, EIsInstanceOf(e, "ObjectLiteral"), EIsInstanceOf(e, "ArrayLiteral")))
+    } | expr <~ "is neither" <~ value <~ "nor the active function" ^^ {
+      case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OEq, e, EUndef), EBOp(OEq, e, parseExpr(s"$context.Function")))))
+    } | (expr <~ "is neither") ~ (expr <~ "nor") ~ expr ^^ {
+      case (i1 ~ e1) ~ (i2 ~ e2) ~ (i3 ~ e3) => pair(i1 ++ i2 ++ i3, EUOp(ONot, EBOp(OOr, EBOp(OEq, e1, e2), EBOp(OEq, e1, e3))))
+    } | expr <~ ("is empty" | "is an empty list") ^^ {
+      case i ~ e => pair(i, parseExpr(s"(= ${beautify(e)}.length 0)"))
+    } | expr <~ "is neither a variabledeclaration nor a forbinding nor a bindingidentifier" ^^ {
+      case i ~ e => pair(i, EUOp(ONot, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier"))))
+    } | expr <~ "is a variabledeclaration , a forbinding , or a bindingidentifier" ^^ {
+      case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
+    } | "statement is statement10" ^^^ {
+      pair(Nil, EIsInstanceOf(toERef("Statement"), "LabelledStatement"))
+    } | expr <~ "is a data property" ^^ {
+      case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("DataProperty")))
+    } | expr <~ "is an object" ^^ {
+      case i ~ e =>
+        val temp = getTemp
+        pair(i :+ parseInst(s"""app $temp = (Type ${beautify(e)})"""), parseExpr(s"""(= $temp "Object")"""))
+    } | (expr <~ "is not" ~ ("a" | "an")) ~ ty ^^ {
+      case (i ~ e) ~ t => pair(i, EUOp(ONot, EBOp(OEq, ETypeOf(e), EStr(t.name))))
+    } | (expr <~ "is") ~ (("a" | "an") ~> ty) ~ ("or" ~> ("a" | "an") ~> ty) ~ subCond ^^ {
+      case (i0 ~ e) ~ t1 ~ t2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OEq, ETypeOf(e), EStr(t1.name)), EBOp(OEq, ETypeOf(e), EStr(t2.name)))))
+    } | (expr <~ "is" ~ ("a" | "an")) ~ ty ^^ {
+      case (i ~ e) ~ t => pair(i, EBOp(OEq, ETypeOf(e), EStr(t.name)))
+    } | ("either" ~> etcCond) ~ ("or" ~> etcCond) ^^ {
+      case (i0 ~ c1) ~ (i1 ~ c2) => pair(i0 ++ i1, EBOp(OOr, c1, c2))
+    } | name ~ ("is either" ~> expr) ~ ("or" ~> expr) ^^ {
+      case x ~ (i0 ~ e1) ~ (i1 ~ e2) =>
+        val e0 = parseExpr(x)
+        pair(i0 ++ i1, EBOp(OOr, EBOp(OEq, e0, e1), EBOp(OEq, e0, e2)))
+    } | "every field in" ~> id <~ "is absent" ^^ {
+      case x => pair(Nil, parseExpr(s"""
+        (&& (= absent $x.Value)
+        (&& (= absent $x.Writable)
+        (&& (= absent $x.Get)
+        (&& (= absent $x.Set)
+        (&& (= absent $x.Enumerable)
+        (= absent $x.Configurable))))))"""))
+    } | "type(" ~> name <~ ") is object and is either a built-in function object or has an [[ECMAScriptCode]] internal slot" ^^ {
+      case x =>
+        val temp = getTemp
+        pair(List(parseInst(s"""app $temp = (Type $x)""")), parseExpr(s"""(&& (= $temp "Object") (|| (= $temp "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
+    } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
+      case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
+    } | (expr <~ "does not contain") ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
+    } | containsExpr | (expr <~ "contains") ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
+    } | starCond
   )
 
   val ignoreCond: P[I[Expr]] = (
@@ -1095,7 +1092,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
       case x => pair(Nil, parseExpr(s"""(pop $x 0i)"""))
     } | "an implementation - dependent String source code representation of" ~ rest ^^^ {
       pair(Nil, EStr(""))
-    } | "the source text matched by" ~> name ^^ {
+    } | "the" ~> ("source text" | "code") ~ ("matched by" | "matching") ~> refBase ^^ {
       case x => pair(Nil, EGetSyntax(toERef(x)))
     } | "the String value consisting of the single code unit" ~> name ^^ {
       case x => pair(Nil, parseExpr(x))

@@ -1,7 +1,6 @@
 package kr.ac.kaist.ase.core
 
 object Helper {
-
   def getRadixString(d: Long): String = {
     if (d < 10) d.toString else ('a' + (d - 10)).toChar.toString
   }
@@ -73,4 +72,8 @@ object Helper {
       str.substring(0, 1) + '.' + str.substring(1) + 'e' + getSign(n) + math.abs(n - 1).toString
     }
   }
+
+  // normalize strings
+  def norm(str: String): String =
+    str.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")
 }

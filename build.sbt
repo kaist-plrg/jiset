@@ -57,8 +57,7 @@ libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-  "org.jline" % "jline" % "3.10.0",
-  "org.apache.commons" % "commons-text" % "1.6"
+  "org.jline" % "jline" % "3.10.0"
 )
 
 commands += Command.command("generateModel") { state =>

@@ -212,5 +212,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Helper functions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val string = stringLiteral ^^ { case s => s.substring(1, s.length - 1) }
+  lazy val string = stringLiteral ^^ {
+    case s => StringContext treatEscapes s.substring(1, s.length - 1)
+  }
 }

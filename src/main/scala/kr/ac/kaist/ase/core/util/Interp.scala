@@ -7,7 +7,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import kr.ac.kaist.ase.{ DEBUG_INTERP, ASE, Lexical }
 import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.model.{ Parser => ESParser, ESValueParser, ModelHelper }
-import org.apache.commons.text.StringEscapeUtils
 
 // CORE Interpreter
 class Interp {
