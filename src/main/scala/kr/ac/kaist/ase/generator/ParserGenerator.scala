@@ -78,7 +78,10 @@ object ParserGenerator {
       val pre = "lazy val"
       val llpre = if (LLs.isEmpty) "" else "resolveLL"
       val post = s"[$name] = memo {" + LINE_SEP +
-        s"""    case args @ List(${params.mkString(", ")}) => log($llpre("""
+        (if (params.isEmpty)
+          s"""    case args => log($llpre("""
+        else
+          s"""    case args @ ${(params :+ "rest").mkString(" :: ")} => log($llpre(""")
       nf.println(s"""  $pre $name: ESParser$post""")
       nf.print(noLLs.map {
         case (rhs, i) => getParsers(name, rhs.tokens, rhs.cond, i, false)
@@ -88,7 +91,8 @@ object ParserGenerator {
       }.mkString("," + LINE_SEP, " |" + LINE_SEP, ""))
       nf.println
       nf.println(s"""    ))("$name")""")
-      nf.println(s"""    case v => throw WrongNumberOfParserParams(v)""")
+      if (!params.isEmpty)
+        nf.println(s"""    case v => throw WrongNumberOfParserParams(v)""")
       nf.println(s"""  }""")
     }
 
