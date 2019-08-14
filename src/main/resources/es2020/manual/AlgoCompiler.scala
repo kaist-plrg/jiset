@@ -403,7 +403,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: P[I[Expr]] = _cond <~ guard("," | in) ^^ {
     case ie =>
-      // print("#")
+      print("#")
       ie
   } | etcCond
   lazy val _cond: P[I[Expr]] = (
@@ -415,7 +415,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         val temp = getTempId
         val (t, e) = f(ISeq(i1 :+ IAssign(toRef(temp), r)))
         pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
-    } ||| ref ~ rep1sep(rhs, sep("or")) ^^ {
+    } ||| expr ~ rep1sep(rhs, sep("or")) ^^ {
       case (i ~ r) ~ fs => pair(i, fs.map(_(r)).reduce(EBOp(OOr, _, _)))
     } ||| containsExpr
   )
@@ -427,21 +427,21 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     ">" ^^^ (OLt, false, true) |||
     "≤" ^^^ (OLt, true, true)
   )
-  lazy val rhs: P[Ref => Expr] = (
+  lazy val rhs: P[Expr => Expr] = (
     equalRhs |||
     absentRhs
   )
-  lazy val equalRhs: P[Ref => Expr] = {
+  lazy val equalRhs: P[Expr => Expr] = {
     "is" ~ opt("present and its value is") |||
       "has the value"
-  } ~ opt("either") ~> rep1sep(valueParser ||| id ^^ { toERef(_) }, sep("or")) ^^ {
-    case es => (r: Ref) => es.map(EBOp(OEq, ERef(r), _)).reduce(EBOp(OOr, _, _))
+  } ~ opt("either") ~> rep1sep(valueParser ||| (id | camelWord) ^^ { toERef(_) }, sep("or")) ^^ {
+    case es => (l: Expr) => es.map(EBOp(OEq, l, _)).reduce(EBOp(OOr, _, _))
   }
-  lazy val absentRhs: P[Ref => Expr] = "is" ~> (
+  lazy val absentRhs: P[Expr => Expr] = "is" ~> (
     ("absent" ||| "not present" ||| "not supplied") ^^^ {
-      (r: Ref) => EBOp(OEq, ERef(r), EAbsent)
+      (l: Expr) => EBOp(OEq, l, EAbsent)
     } ||| ("not absent" ||| "present") ^^^ {
-      (r: Ref) => EUOp(ONot, EBOp(OEq, ERef(r), EAbsent))
+      (l: Expr) => EUOp(ONot, EBOp(OEq, l, EAbsent))
     }
   )
   lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = opt(",") ~> (
@@ -634,16 +634,6 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case x =>
           val temp = getTemp
           pair(List(parseInst(s"""app $temp = (Type $x)""")), parseExpr(s"""(&& (= $temp "Object") (|| (= $temp "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
-      } | ("type(" ~> name <~ ") is") ~ nonTrivialTyName ~ subCond ^^ {
-        case x ~ t ~ f =>
-          val temp = getTemp
-          concat(List(parseInst(s"""app $temp = (Type $x)""")), f(parseExpr(s"""(= $temp "$t")""")))
-      } | ("type(" ~> name <~ ") is either") ~ rep(nonTrivialTyName <~ ",") ~ ("or" ~> nonTrivialTyName) ~ subCond ^^ {
-        case x ~ ts ~ t ~ f =>
-          val ty = getTemp
-          val newTS = ts :+ t
-          val e = parseExpr((ts :+ t).map(t => s"""(= $ty "$t")""").reduce((x, y) => s"(|| $x $y)"))
-          concat(List(parseInst(s"app $ty = (Type $x)")), f(e))
       } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
         case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
       } | (expr <~ "is") ~ expr ~ ("or" ~> expr) ~ subCond ^^ {
