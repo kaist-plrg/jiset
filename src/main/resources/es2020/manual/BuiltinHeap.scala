@@ -433,7 +433,8 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.Map"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Map"), T, F, T),
+        "size" -> AccessorProperty(NamedAddr("GLOBAL.getMap.prototype.size"), U, F, T)
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Map.prototype.entries"), T, F, T),
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Map"), F, F, T)
@@ -463,7 +464,8 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.Set"), T, F, T),
-        "keys" -> DataProperty(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T)
+        "keys" -> DataProperty(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T),
+        "size" -> AccessorProperty(NamedAddr("GLOBAL.getSet.prototype.size"), U, F, T)
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T),
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Set"), F, F, T)
