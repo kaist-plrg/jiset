@@ -401,67 +401,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] =
-    expr ~ condBOp ~ expr ^^ {
-      case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
-    } ||| {
-      (expr <~ ("is" ~ opt("present and its value is") | "has the value") ~ opt("either")) ~
-        rep1sep(opt("has the value") ~> rhs, sep("or"))
-    } ^^ {
-      case (i ~ l) ~ rs => pair(i, rs.map(EBOp(OEq, l, _)).reduce(EBOp(OOr, _, _)))
-    } ||| {
-      (expr <~ "is" ~ ("not" ~ opt("one of") | "neither")) ~
-        rep1sep(rhs, sep("nor" | "or"))
-    } ^^ {
-      case (i ~ l) ~ rs =>
-        pair(i, rs.map(r => EUOp(ONot, EBOp(OEq, l, r))).reduce[Expr](EBOp(OAnd, _, _)))
-    } ||| (ref <~ "is") ~ opt("not") ~ (("a" | "an") ~> rhsType) ^^ {
-      case (i ~ r) ~ b ~ f => pair(i, b match {
-        case None => f(r)
-        case Some(_) => EUOp(ONot, f(r))
-      })
-    } ||| (cond ~ condOp <~ opt("if")) ~ cond ^^ {
-      case (i ~ l) ~ ((op, _)) ~ (Nil ~ r) => pair(i, EBOp(op, l, r))
-      case (i0 ~ l) ~ ((op, f)) ~ (i1 ~ r) =>
-        val temp = getTempId
-        val (t, e) = f(ISeq(i1 :+ IAssign(toRef(temp), r)))
-        pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
-    } ||| etcCond
-  val rhs: P[Expr] = (
-    "the ordinary object internal method defined in" ~> section ^^ { toERef(_) } |||
-    id ^^ { toERef(_) } |||
-    valueParser
-  // opt("a" | "an") ~> nt ^^ { EStr(_) } |||
-  )
-  val rhsType: P[Ref => Expr] = (
-    "abrupt completion" ^^^ { (r: Ref) =>
-      EBOp(
-        OAnd,
-        EBOp(OEq, ETypeOf(ERef(r)), EStr("Completion")),
-        EUOp(ONot, EBOp(OEq, ERef(RefProp(r, EStr("Type"))), toERef("CONST_normal")))
-      )
-    } ||| "normal completion" ^^^ { (r: Ref) =>
-      EBOp(
-        OAnd,
-        EBOp(OEq, ETypeOf(ERef(r)), EStr("Completion")),
-        EBOp(OEq, ERef(RefProp(r, EStr("Type"))), toERef("CONST_normal"))
-      )
-    }
-  )
-  val condOp: P[(BOp, Inst => (Inst, Inst))] = (
-    "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
-    "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
-  )
-  val condBOp: P[(BOp, Boolean, Boolean)] = (
-    "=" ^^^ (OEq, false, false) |||
-    ("≠" | "is different from") ^^^ (OEq, true, false) |||
-    ("<" | "is less than") ^^^ (OLt, false, false) |||
-    "≥" ^^^ (OLt, true, false) |||
-    ">" ^^^ (OLt, false, true) |||
-    "≤" ^^^ (OLt, true, true)
-  )
-
-  lazy val etcCond: P[I[Expr]] = (
+  lazy val cond: P[I[Expr]] = (
     (("the code matched by" ~> name <~ "is strict mode code") |
       "the source text matching" ~> name <~ "is strict mode code" |
       "the function code for" ~ opt("the") ~ name ~ "is strict mode code" |
@@ -519,12 +459,36 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case (i0 ~ r) ~ e1 ~ e2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OOr, EUOp(ONot, exists(r)), EBOp(OEq, ERef(r), e1)), EBOp(OEq, ERef(r), e2))))
       } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
         case (i0 ~ r) ~ f => concat(i0, f(EUOp(ONot, exists(r))))
+      } | expr <~ "is not an abrupt completion" ^^ {
+        case i ~ x => pair(i, parseExpr(s"""(! (&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal))))"""))
+      } | expr <~ "is an abrupt completion" ^^ {
+        case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
+      } | expr <~ "is a normal completion" ^^ {
+        case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (= ${beautify(x)}.Type CONST_normal))"""))
+      } | (expr <~ "<") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OLt, l, r)))
+      } | (expr <~ "≥") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OLt, l, r))))
+      } | (expr <~ ">") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OLt, r, l)))
+      } | (expr <~ "≤") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OLt, r, l))))
+      } | (expr <~ "=") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, r, l)))
+      } | (expr <~ "≠") ~ expr ~ subCond ^^ {
+        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, r, l))))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
       } | name <~ "has no elements" ^^ {
         case x => pair(Nil, parseExpr(s"(= 0i $x.length)"))
       } | name <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
         case x => pair(Nil, parseExpr(s"(< 0i $x.length)"))
+      } | (expr <~ ">") ~ expr ~ subCond ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EBOp(OLt, y, x)))
+      } | (expr <~ "is less than") ~ expr ~ subCond ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EBOp(OLt, x, y)))
+      } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, x, y))))
       } | (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
       } | (expr <~ "is" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
@@ -624,7 +588,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case (i0 ~ e) ~ t1 ~ t2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OEq, ETypeOf(e), EStr(t1.name)), EBOp(OEq, ETypeOf(e), EStr(t2.name)))))
       } | (expr <~ "is" ~ ("a" | "an")) ~ ty ^^ {
         case (i ~ e) ~ t => pair(i, EBOp(OEq, ETypeOf(e), EStr(t.name)))
-      } | ("either" ~> etcCond) ~ ("or" ~> etcCond) ^^ {
+      } | ("either" ~> cond) ~ ("or" ~> cond) ^^ {
         case (i0 ~ c1) ~ (i1 ~ c2) => pair(i0 ++ i1, EBOp(OOr, c1, c2))
       } | name ~ ("is either" ~> expr) ~ ("or" ~> expr) ^^ {
         case x ~ (i0 ~ e1) ~ (i1 ~ e2) =>
@@ -685,11 +649,11 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   lazy val nonTrivialTyName: P[String] = ("string" | "boolean" | "number" | "object" | "symbol") ^^ { ts => ts(0) }
 
   lazy val subCond: P[Expr => I[Expr]] =
-    opt(",") ~> "or" ~> opt("if") ~> etcCond ^^ {
+    opt(",") ~> "or" ~> opt("if") ~> cond ^^ {
       case i ~ r =>
         val temp = getTempId
         (l: Expr) => pair(List(ILet(temp, l), IIf(ERef(RefId(temp)), emptyInst, ISeq(i :+ IAssign(RefId(temp), EBOp(OOr, ERef(RefId(temp)), r))))), ERef(RefId(temp)))
-    } | opt(",") ~> "and" ~> opt("if") ~> etcCond ^^ {
+    } | opt(",") ~> "and" ~> opt("if") ~> cond ^^ {
       case i ~ r =>
         val temp = getTempId
         (l: Expr) => pair(List(ILet(temp, l), IIf(ERef(RefId(temp)), ISeq(i :+ IAssign(RefId(temp), EBOp(OAnd, ERef(RefId(temp)), r))), emptyInst)), ERef(RefId(temp)))
