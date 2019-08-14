@@ -439,6 +439,13 @@ object BuiltinHeap {
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Map"), F, F, T)
         )
     ),
+    "GLOBAL.INTRINSIC_MapIteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
+      ),
+      nmap = NMap()
+    ),
     "GLOBAL.Set" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
@@ -461,6 +468,13 @@ object BuiltinHeap {
           NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Set.prototype.values"), T, F, T),
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Set"), F, F, T)
         )
+    ),
+    "GLOBAL.INTRINSIC_SetIteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
+      ),
+      nmap = NMap()
     ),
     "GLOBAL.WeakMap" -> Struct(
       typeName = "BuiltinFunctionObject",
@@ -610,6 +624,30 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise"), F, F, F)
+      )
+    ),
+    "GLOBAL.INTRINSIC_AsyncFunction" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function"),
+        "Code" -> GLOBALDOTAsyncFunction.func,
+        "Extensible" -> Bool(true),
+        "ScriptOrModule" -> Null,
+        "Realm" -> NamedAddr("REALM")
+      ),
+      nmap = NMap(
+        "name" -> DataProperty(Str("AsyncFunction"), T, F, T),
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncFunctionPrototype"), F, F, F)
+      )
+    ),
+    "GLOBAL.INTRINSIC_AsyncFunctionPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype")
+      ),
+      nmap = NMap(
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncFunction"), F, F, T)
       )
     )
   ) /: errList) {
