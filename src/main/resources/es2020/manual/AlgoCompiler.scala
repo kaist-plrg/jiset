@@ -424,7 +424,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     } ||| expr ~ rep1sep(rhs, sep("or")) ^^ {
       case (i ~ r) ~ fs => pair(i, fs.map(_(r)).reduce(EBOp(OOr, _, _)))
     } ||| expr <~ "is strict mode code" ^^^ {
-      pair(Nil, EBool(false)) // TODO : support strict mode code
+      pair(Nil, EBool(true)) // TODO : support strict mode code
     } | (id <~ "does not have" ~ ("a" | "an")) ~ internalName <~ ("field" | "internal slot") ^^ {
       case x ~ y => pair(Nil, EBOp(OEq, toERef(x, y), EAbsent))
     } ||| containsExpr
@@ -1218,9 +1218,9 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   // etc conditions
   lazy val etcCond: P[I[Expr]] = (
     "the directive prologue of statementList contains a use strict directive" ^^^ {
-      pair(Nil, EBool(false)) // TODO : support strict mode code
+      pair(Nil, EBool(true)) // TODO : support strict mode code
     } | "the code matching the syntactic production that is being evaluated is contained in strict mode code" ^^^ {
-      pair(Nil, EBool(false)) // TODO : support strict mode code
+      pair(Nil, EBool(true)) // TODO : support strict mode code
     } | "no arguments were passed to this function invocation" ^^^ {
       pair(Nil, parseExpr(s"(= argumentsList.length 0i)"))
     } | name <~ "is an Identifier and StringValue of" ~ name ~ "is the same value as the StringValue of IdentifierName" ^^ {
@@ -1289,7 +1289,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     } | name <~ "does not have a Generator component" ^^ {
       case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
     } | "the source code matching" ~ expr ~ "is strict mode code" ^^^ {
-      pair(Nil, EBool(false)) // TODO strict
+      pair(Nil, EBool(true)) // TODO strict
     } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
       pair(Nil, EBool(true)) // TODO strict
     } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
