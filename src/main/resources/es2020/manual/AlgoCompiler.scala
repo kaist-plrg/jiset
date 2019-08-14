@@ -401,7 +401,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = _cond <~ guard(",") ^^ {
+  lazy val cond: P[I[Expr]] = _cond <~ guard("," | in) ^^ {
     case ie =>
       // print("#")
       ie
@@ -409,15 +409,17 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   lazy val _cond: P[I[Expr]] = (
     expr ~ condBOp ~ expr ^^ {
       case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
-    } ||| (_cond ~ condOp <~ opt("if")) ~ _cond ^^ {
+    } ||| (_cond <~ opt(",")) ~ (condOp <~ opt("if")) ~ _cond ^^ {
       case (i ~ l) ~ ((op, _)) ~ (Nil ~ r) => pair(i, EBOp(op, l, r))
       case (i0 ~ l) ~ ((op, f)) ~ (i1 ~ r) =>
         val temp = getTempId
         val (t, e) = f(ISeq(i1 :+ IAssign(toRef(temp), r)))
         pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
-    }
+    } ||| ref ~ rhs ^^ {
+      case (i ~ r) ~ f => pair(i, f(r))
+    } ||| containsExpr
   )
-  val condBOp: P[(BOp, Boolean, Boolean)] = (
+  lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
     "=" ^^^ (OEq, false, false) |||
     ("≠" | "is different from") ^^^ (OEq, true, false) |||
     "<" ^^^ (OLt, false, false) |||
@@ -425,14 +427,20 @@ trait AlgoCompilerHelper extends AlgoCompilers {
     ">" ^^^ (OLt, false, true) |||
     "≤" ^^^ (OLt, true, true)
   )
-  val rhs: P[Expr] = (
+  lazy val rhs: P[Ref => Expr] = (
     equalRhs
   )
-  val equalRhs: P[Expr] = (
+  lazy val equalRhs: P[Ref => Expr] = equalOp ~ opt("either") ~> rep1sep(
+    valueParser ||| id ^^ { toERef(_) },
+    "," ~ opt("or")
+  ) ^^ {
+      case es => (r: Ref) => es.map(EBOp(OEq, ERef(r), _)).reduce(EBOp(OOr, _, _))
+    }
+  lazy val equalOp: P[String] = (
     "is" ~ opt("present and its value is") |||
     "has the value"
-  ) ~> (valueParser ||| id ^^ { toERef(_) })
-  val condOp: P[(BOp, Inst => (Inst, Inst))] = (
+  ) ^^^ ""
+  lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = (
     "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
     "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
   )
@@ -502,18 +510,6 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
       } | expr <~ "is a normal completion" ^^ {
         case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (= ${beautify(x)}.Type CONST_normal))"""))
-      } | (expr <~ "<") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OLt, l, r)))
-      } | (expr <~ "≥") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OLt, l, r))))
-      } | (expr <~ ">") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OLt, r, l)))
-      } | (expr <~ "≤") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OLt, r, l))))
-      } | (expr <~ "=") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, r, l)))
-      } | (expr <~ "≠") ~ expr ~ subCond ^^ {
-        case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, r, l))))
       } | expr <~ "is not already suspended" ^^ {
         case i ~ e => pair(i, EBOp(OEq, e, ENull))
       } | name <~ "has no elements" ^^ {
