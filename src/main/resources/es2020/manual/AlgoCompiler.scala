@@ -409,38 +409,42 @@ trait AlgoCompilerHelper extends AlgoCompilers {
   lazy val _cond: P[I[Expr]] = (
     expr ~ condBOp ~ expr ^^ {
       case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
-    } ||| (_cond <~ opt(",")) ~ (condOp <~ opt("if")) ~ _cond ^^ {
+    } ||| _cond ~ (condOp <~ opt("if")) ~ _cond ^^ {
       case (i ~ l) ~ ((op, _)) ~ (Nil ~ r) => pair(i, EBOp(op, l, r))
       case (i0 ~ l) ~ ((op, f)) ~ (i1 ~ r) =>
         val temp = getTempId
         val (t, e) = f(ISeq(i1 :+ IAssign(toRef(temp), r)))
         pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
-    } ||| ref ~ rhs ^^ {
-      case (i ~ r) ~ f => pair(i, f(r))
+    } ||| ref ~ rep1sep(rhs, sep("or")) ^^ {
+      case (i ~ r) ~ fs => pair(i, fs.map(_(r)).reduce(EBOp(OOr, _, _)))
     } ||| containsExpr
   )
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
     "=" ^^^ (OEq, false, false) |||
     ("≠" | "is different from") ^^^ (OEq, true, false) |||
-    "<" ^^^ (OLt, false, false) |||
+    ("<" | "is less than") ^^^ (OLt, false, false) |||
     "≥" ^^^ (OLt, true, false) |||
     ">" ^^^ (OLt, false, true) |||
     "≤" ^^^ (OLt, true, true)
   )
   lazy val rhs: P[Ref => Expr] = (
-    equalRhs
+    equalRhs |||
+    absentRhs
   )
-  lazy val equalRhs: P[Ref => Expr] = equalOp ~ opt("either") ~> rep1sep(
-    valueParser ||| id ^^ { toERef(_) },
-    "," ~ opt("or")
-  ) ^^ {
-      case es => (r: Ref) => es.map(EBOp(OEq, ERef(r), _)).reduce(EBOp(OOr, _, _))
-    }
-  lazy val equalOp: P[String] = (
+  lazy val equalRhs: P[Ref => Expr] = {
     "is" ~ opt("present and its value is") |||
-    "has the value"
-  ) ^^^ ""
-  lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = (
+      "has the value"
+  } ~ opt("either") ~> rep1sep(valueParser ||| id ^^ { toERef(_) }, sep("or")) ^^ {
+    case es => (r: Ref) => es.map(EBOp(OEq, ERef(r), _)).reduce(EBOp(OOr, _, _))
+  }
+  lazy val absentRhs: P[Ref => Expr] = "is" ~> (
+    ("absent" ||| "not present" ||| "not supplied") ^^^ {
+      (r: Ref) => EBOp(OEq, ERef(r), EAbsent)
+    } ||| ("not absent" ||| "present") ^^^ {
+      (r: Ref) => EUOp(ONot, EBOp(OEq, ERef(r), EAbsent))
+    }
+  )
+  lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = opt(",") ~> (
     "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
     "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
   )
@@ -516,26 +520,10 @@ trait AlgoCompilerHelper extends AlgoCompilers {
         case x => pair(Nil, parseExpr(s"(= 0i $x.length)"))
       } | name <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
         case x => pair(Nil, parseExpr(s"(< 0i $x.length)"))
-      } | (expr <~ ">") ~ expr ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EBOp(OLt, y, x)))
-      } | (expr <~ "is less than") ~ expr ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EBOp(OLt, x, y)))
-      } | (expr <~ "is different from") ~ expr ~ subCond ^^ {
-        case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, x, y))))
       } | (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ^^ {
         case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
       } | (expr <~ "is" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
         case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EContains(y, x)))
-      } | (ref <~ "is absent or has the value") ~ valueParser ^^ {
-        case (i ~ x) ~ v =>
-          val l = beautify(x)
-          val r = beautify(v)
-          pair(i, parseExpr(s"(|| (= $l absent) (= $l $r))"))
-      } | (ref <~ "has the value") ~ valueParser ^^ {
-        case (i ~ x) ~ v =>
-          val l = beautify(x)
-          val r = beautify(v)
-          pair(i, parseExpr(s"(= $l $r)"))
       } | name <~ "does not have a Generator component" ^^ {
         case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
       } | "the source code matching" ~ expr ~ "is strict mode code" ^^^ {
