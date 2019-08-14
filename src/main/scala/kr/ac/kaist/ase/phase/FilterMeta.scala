@@ -115,7 +115,7 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
   }
 
   def filter(meta: MetaData) = !(
-    (meta.flags contains "onlyStrict") ||
+    (meta.flags contains "noStrict") ||
     (meta.flags contains "raw") ||
     (meta.flags contains "module") ||
     (meta.flags contains "CanBlockIsFalse") ||
