@@ -1,7 +1,7 @@
 \section{Overview}
 
-In this section, we introduce the overall structure of ASE and the outline of
-this paper. Figure~\ref{fig:overview} depicts the overall structure of ASE.
+In this section, we introduce the overall structure of JSSET and the outline of
+this paper. Figure~\ref{fig:overview} depicts the overall structure of JSSET.
 It mechanizes to extract syntax and semantics of ECMAScript using
 two main module; the \textit{parser generator} and the \textit{algorithm compiler}.
 If first extracts information via the spec extractor.
@@ -12,8 +12,7 @@ extract their contents.
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{img/overview.png}
-  \caption{Overall structure of Automatic Semantics Extractor (ASE)
-  for ECMAScript specifications}
+  \caption{Overall structure of JavaScript Semantics Extraction Toolchain (JSSET)}
   \label{fig:overview}
 \end{figure}
 
@@ -123,12 +122,12 @@ given JavaScript program using the generated JavaScript parser
 to get the abstract syntax tree (AST). Then, the \( \ires \) interpreter
 evaluates the given AST and provides evaluation results.
 
-From now, we describe the detailed techniques of ASE.
+From now, we describe the detailed techniques of JSSET.
 Section 3 formallly defines \( \bnfes \) and how to automatically
 generate parsers from given \( \bnfes \) using lookahead parsers.
 Section 4 explains abstract algorithms with tagged tokens
 and how to compile them into \( \ires \) functions based on
 given conversion rules. Section 5 describes the implemented details
 about initial settings to evaluate JavaScript programs. Section 6
-discusses the effectiveness of ASE with four research questions.
+discusses the effectiveness of JSSET with four research questions.
 Section 7 discusses related work and Section 8 concludes.

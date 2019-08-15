@@ -14,7 +14,7 @@ Before compiling abstract algorithms,
 the tokenizer first tokenizes each abstract algorithm into
 a list of tagged tokens. Then, the token parser constructs
 syntactic parse tree of the given token list.
-Finally, the \( \ires \) function generator constructs the coressponding
+Finally, the \( \ires \) function generator constructs the corresponding
 \( \ires \) function from the given parse tree.
 The parser and the generator is dependent on conversion rules
 and we define the general conversion rules for abstract algorithms in
@@ -45,23 +45,23 @@ has the following meaning:
     \code{<ol>} & \text{ordered sub-steps}\\\hline
     \code{<ul>} & \text{unordered sub-steps}\\\hline
     \code{<sup>} & \text{superscripts}\\\hline
-    \text{otheriwse} & \text{simple texts}\\\hline
+    \text{otherwise} & \text{simple texts}\\\hline
   \end{array}
 \]
 We try to keep the tag information for each token to generate more
 precise conversion rules. For example, if and only if a token has a tag
 \( \code{<var>} \), it is a parameter or a local variable.
-Thus, it is possible to construct a conversion rule precisly discriminates
+Thus, it is possible to construct a conversion rule precisely discriminates
 identifiers and other components.
 
 The tokenizer first recognizes the overall structures of steps.
 Then, it divides each step into sequence of tagged tokens.
 If an HTML element has a explicit tag, it is converted into a single token
-with the tag. Otherwise, it is splitted into multiple tokens and each token
+with the tag. Otherwise, it is divided into multiple tokens and each token
 should be a sequence of alphanumeric characters or a single
 non-alphanumeric character. For example, in the \( \code{ToPrimitive} \)algorithm,
 \( \textbf{\code{"default"}} \) is a single token with the tag \( \code{<code>} \)
-and \( \code{@@toPrimitive} \) is splitted into three text tokens
+and \( \code{@@toPrimitive} \) is divided into three text tokens
 \( \code{@} \), \( \code{@} \), and \( \code{toPrimitive} \).
 
 For the linear structures, the tokenizer flatten the structured steps into
@@ -87,7 +87,7 @@ It depends on the given \textit{conversion rules} that consists of
 two parts parsing rules and mapping from parsing rules into corresponding
 \( \ires \) components.
 A parsing rule consists of basic token matchers and other parsing rules
-including itself. For example, the following parsing rule is simplifed version for
+including itself. For example, the following parsing rule is simplified version for
 sub-step \( i \) in the \( \code{ToPrimitive} \) algorithm.
 \begin{lstlisting}[style=myScalastyle]
 // statements
@@ -106,19 +106,19 @@ val Expr = (
 \end{lstlisting}
 
 Each parsing rule is written in extended Scala parser combinators.
-We modify the meaning of altenative composition operator ( \( | \) ) to collect
+We modify the meaning of alternative composition operator ( \( | \) ) to collect
 all longest matched results. If the parser detects that a step cannot be
 parsed with the given parsing rules. It reports that a step is not possible
 to be parsed under the given rules into the rule generation assistant.
 Moreover, even though the parser could parse a step, it will be also reported
 if it could be parsed in not a single but multiple ways.
 Each string literal is a token matcher for tokens without any tags and checks
-that the token has same string value with the sring literal.
+that the token has same string value with the string literal.
 The \( \code{varT} \) and \( \code{textT} \) is also token matchers
 for token with the tag \( \code{<var>} \) and no tags.
 The \( \code{Step} \) and \( \code{Expr} \) are user-defined parsing rules
 defined with our extended parser combinators.
-Morevoer, it supports all helpers functions defined in Scala parser combinators.
+Moreover, it supports all helpers functions defined in Scala parser combinators.
 For example, the helper function \( \code{repsep(p, q)} \) generates a new
 parsing rule that denotes zero or more repetitions of the parsing rule \( \code{p} \)
 using another parsing rule \( \code{q} \) as separators.
@@ -137,19 +137,19 @@ because each variables in abstract algorithms are not statically typed.
 Thus, variables do not have its own static types while each value of \( \ires \)
 has its dynamic type.
 
-\item \textbf{Imparative Style} \( \ires \) represents algorithm steps
+\item \textbf{Imperative Style} \( \ires \) represents algorithm steps
 as statements. Each statement changes the current state
 that consists of environments and a heap.
 
 \item \textbf{Higher-order Functions with Restricted Scopes} \( \ires \) supports
 lambda functions as values but it has only restricted scopes. In each function,
 only global variables, parameter, and newly defined local variables are accessible.
-It means that the function closure does not capture the the current environemnt.
-We use such restricted scopes becuase it is enough to represent abstract algorithms.
+It means that the function closure does not capture the the current environment.
+We use such restricted scopes because it is enough to represent abstract algorithms.
 
 \item \textbf{Primitive Values} \( \ires \) supports ECMAScript primitive values except
 the symbols that is newly introduced after ECMAScript 6. Thus, only five ECMAScript primitives
-are defined in \( \ires \); numbers, strings, booleans, undefined, and null.
+are defined in \( \ires \); numbers, strings, booleans, \( \code{undefined} \), and \( \code{null} \).
 Moreover, \( \ires \) also supports the unique \( \code{absent} \) value to represent
 the absence of parameters. For example, the second parameter \( \code{PreferredType} \)
 of \( \code{ToPrimitive} \) algorithm in Figure~\ref{fig:to-primitive-es} might be
@@ -158,8 +158,8 @@ to represent its absence.
 
 \item \textbf{Abstract Data Types} \( \ires \) only supports three abstract data types;
 \( \code{Record} \) for mapping from some values into other value,
-\( \code{List} \) for sequenital data types,
-and \( \code{Singletone} \) for singleton data types.
+\( \code{List} \) for sequential data types,
+and \( \code{Singleton} \) for singleton data types.
 They are stored in corresponding addresses in the heap structure.
 For example, ECMAScript environment records are represented as \( \code{Record} \) data types
 from String values for identifier names into addresses.
@@ -196,8 +196,8 @@ let result = ? (Call exoticToPrim input (new [hint]))
 
 To make easy write conversion rules, we support \textit{rule generation assistant}.
 It consists of several helper functions to show the specific statistics of
-the not yet convertable abstract algorithm steps. It make easy not only construct
-conversion reuls from the scratch but also update existing conversion rules
+the not yet convertible abstract algorithm steps. It make easy not only construct
+conversion rules from the scratch but also update existing conversion rules
 for updated specifications. We explain each helper function and how to utilize
 it to construct conversion rules.
 
@@ -205,6 +205,6 @@ it to construct conversion rules.
 
 \inred{TODO}
 
-\subsubsection{Fault localizations based on \( \tstar \) tokens}
+\subsubsection{Fault localization based on \( \tstar \) tokens}
 
 \inred{TODO}

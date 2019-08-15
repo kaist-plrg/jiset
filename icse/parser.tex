@@ -341,11 +341,11 @@ The conversion from \( \bnfes \) symbols into Scala codes is defined as follows:
 \]
 The \( \code{MATCH} \) denotes the empty sequence of lookahead parsers.
 Each String literals are implicitly converted into lookahead parsers
-through Scala implicit conversions. The \( \code{opt(s)} \) funciton
+through Scala implicit conversions. The \( \code{opt(s)} \) function
 is same with \( \code{s | MATCH} \). We also define \( \code{\textbackslash} \)
-opertor between parsers to support exclusive parsers.
+operator between parsers to support exclusive parsers.
 Finally, we support the \( \code{NoLineTerminator} \) parser.
-It is a little bit tricky because it should hook the whitespace parsers
+It is a little bit tricky because it should hook the white space parsers
 and check whether it contains line terminators.
 However, it is possible in our approach because
 we also automatically generates lexers not only parsers of ECMAScript syntax.
@@ -353,8 +353,8 @@ For the final result, the automatically synthesized parser from the
 production \( ArrayLiteral \) in Figure~\ref{fig:array-literal} is defined
 as the parsers defined in Figure~\ref{fig:array-literal}.
 
-Moreover, we support automatic semicolon insertion algorihtms as well.
-It is the most distinctive parsing feautres in ECMAScript to parse more programs.
+Moreover, we support automatic semicolon insertion algorithms as well.
+It is the most distinctive parsing features in ECMAScript to parse more programs.
 We extend our parser implementation to keep track of the right-most position
 that fails to be parsed in the given input. In ECMAScript, the token at that
 position is defined as \textit{offending token} and automatic semicolon insertion

@@ -19,7 +19,7 @@ formal semantics of JavaScript is necessary.
   \label{fig:previous}
 \end{figure}
 
-However, the existing JavaScript foraml semantics are fully manually written
+However, the existing JavaScript formal semantics are fully manually written
 by researchers based on ECMAScript specifications. ECMAScript is a standardized language
 of JavaScript and its specifications formally define its syntax and semantics.
 As described in Figure~\ref{fig:previous}, former researchers implement parser and
@@ -35,37 +35,37 @@ Committee 39 (TC39) decided to release ECMAScript on a yearly cadence. From the
 ECMAScript 6, officially ECMAScript 2015, they updated specifications every years
 in June. Now, no researches correctly deal with recent ECMAScript features;
 lexical bindings (\( \code{let} \)), spread operator (\( \code{...} \)),
-classes, for-of operators, async functions, or generators.
+classes, for-of operators, asynchronous functions \( \code{async} \), or generators.
 
-To alleviate such problems, we propose \textit{Automatic Semantics Extractor (ASE)}
-for ECMAScript specifications. The tool automatically generates JavaScript parser
+To alleviate such problems, we propose JavaScript Semantics Extraction Toolchain (JSSET)
+based on ECMAScript specifications. The tool automatically generates JavaScript parser
 from syntax provided by ECMAScript specifications. It also extracts formal
 JavaScript semantics in semi-automatic ways. It is semi-automatic because
 it depends on manually defined \textit{conversion rules}. Each rule describes how abstract
 algorithms in specifications are converted into functions of our core language \( \ires \).
-However, to save the labor of defininig such rules, we also propose \textit{rule generation assistant}.
-It suggests new conversion rules based on statistical analysis of not yet convertable algorithms.
+However, to save the labor of defining such rules, we also propose \textit{rule generation assistant}.
+It suggests new conversion rules based on statistical analysis of not yet convertible algorithms.
 The assistant helps us deal with changed or newly introduced algorithms defined in new versions of
 ECMAScript specifications as well.
 
-Our main contribution is our tool ASE that mechanizes extraction of JavaScript syntax and semantics
+Our main contribution is our tool JSSET that mechanizes extraction of JavaScript syntax and semantics
 from ECMAScript specifications:
 \begin{itemize}
-  \item ASE enables to extract the syntax and semantics of ECMAScript 2019,
+  \item JSSET enables to extract the syntax and semantics of ECMAScript 2019,
     which is the latest released version of ECMAScript in June 2019.
     Moreover, we successfully applied our tool into the next proposed version,
     ECMAScript 2020. The official conformance test suite, test262, provides
     \inred{XXXXX} tests for ECMAScript 2020 and we passed \inred{XXXXX} tests
     among them.
-  \item ASE is also applicable in-process proposed langauge features in a modular way.
+  \item JSSET is also applicable in-process proposed language features in a modular way.
     ECMAScript specifications are open-source based documentations. Thus, anyone
-    could propose some new language feautres. Then, the committee carefully inspects
+    could propose some new language features. Then, the committee carefully inspects
     such proposals and adds them into specifications. Each in-process proposed language
-    feature has its own specification and tests. Thus, we apply ASE into the specification
-    and evalute the corresponding tests. Among \inred{XX} proposals, we successfully
+    feature has its own specification and tests. Thus, we apply JSSET into the specification
+    and evaluate the corresponding tests. Among \inred{XX} proposals, we successfully
     pass all the tests in \inred{XX} proposals and partially pass the tests in \inred{XX}
     proposals.
-  \item Moreover, all extraction mechanisms in ASE is automatic thus we could use this tool
+  \item Moreover, all extraction mechanisms in JSSET is automatic thus we could use this tool
     to find possible specification errors. We found \inred{X} possible specification errors
     in ECMAScript 2019 and reported them into TC39, which is the Ecma Technical Committee.
     We confirm that all of them are real specification errors.

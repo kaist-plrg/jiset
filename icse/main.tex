@@ -1,4 +1,4 @@
-\documentclass[sigconf,review]{acmart}
+\documentclass[sigconf,review,anonymous=true]{acmart}
 
 \usepackage{kotex}
 \usepackage[T1]{fontenc}
@@ -37,7 +37,7 @@
   tabsize=3,
 }
 
-% 
+% ECMAScript Intermediate Reprentations
 \lstdefinestyle{ires}{
   frame=tb,
   aboveskip=3mm,
@@ -89,8 +89,7 @@
 
 \begin{document}
 
-\title{Automatic Extraction of JavaScript Formal Semantics
-from ECMAScript Specifications}
+\title{JSSET: JavaScript Semantics Extraction Toolchain}
 
 \author{Jihyeok Park}
 \email{jhpark0223@kaist.ac.kr}
@@ -104,11 +103,39 @@ from ECMAScript Specifications}
 \email{sryu.cs@kaist.ac.kr}
 \affiliation{\institution{KAIST}}
 
-\maketitle
 \begin{abstract}
+While JavaScript is initially invented for client-side in web browsers,
+JavaScript engines are now embedded in many other types of host software.
+Despite its popularity, JavaScript semantics are complicated because of its
+dynamic nature. Thus, the formal analysis and verification of JavaScript programs
+require its formal semantics. Several researches proposed formal semantics
+of JavaScript based on ECMAScript, the official specifications of JavaScript.
+However, the existing approaches are fully manual and only target ECMAScript 5.1.
+It is a critical problem to understand recent JavaScript programs
+because ECMAScript is annually updated from 2015. Thus, already five more updates
+after ECMAScript 5.1.
+
+To alleviate such problems, we propose JSSET, a JavaScript Semantics Extraction
+Toolchain. It automatically extracts JavaScript formal semantics from ECMAScript
+specifications. JSSET generates JavaScript parser for the given grammar written
+in \( \bnfes \), an extended BNF used in ECMAScript specifications.
+Our tool also converts each abstract algorithm written in structured natural
+languages into functions written in \( \ires \), an Intermediate Representation
+for ECMAScript specifications. The conversion from algorithms to \( \ires \) functions
+is defined with \textit{conversion rules}. We apply JSSET into the next proposed
+version, ECMAScript 2020. and the extracted semantics passes all \inred{XXXXX} tests
+in test262, the official ECMAScript conformance test suite.
+Moreover, JSSET also successfully extracts semantics for \inred{XX} proposed features
+by adding only \inred{XX} minor conversion rules.
 \end{abstract}
 
-% TODO \keywords
+\keywords{
+  JavaScript,
+  mechanized formal semantics,
+  recursive descent parsing
+}
+
+\maketitle
 
 \input{intro}
 \input{overview}
