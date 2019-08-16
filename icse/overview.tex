@@ -20,7 +20,7 @@ the ECMAScript specification HTML file.
   \centering
   \begin{subfigure}[t]{0.4\textwidth}
     \includegraphics[width=\textwidth]{img/array_literal.png}
-    \caption{ArrayLiteral production in ECMAScript 2020 specification.}
+    \caption{\( ArrayLiteral \) production.}
     \label{fig:array-literal-es}
   \end{subfigure}
   \begin{subfigure}[t]{0.48\textwidth}
@@ -33,10 +33,10 @@ lazy val ArrayLiteral: P[ArrayLiteral] = memo {
   "[" ~ ElementList(Yield, Await) ~ "," ~ opt(Elision) ~ "]" ^^ ArrayLiteral2
 }
     \end{lstlisting}
-    \caption{The generated parser for ArrayLiteral production.}
+    \caption{The generated parser for \( ArrayLiteral \) production.}
     \label{fig:array-literal-parser}
   \end{subfigure}
-  \caption{ArrayLiteral grammar production in ECMAScript 2020.}
+  \caption{\( ArrayLiteral \) production in ECMAScript 2020 specification and its generated parser.}
   \label{fig:array-literal}
 \end{figure}
 
@@ -58,7 +58,7 @@ The prefix \( ? \) denotes that the given parameter is passed as an argument.
   \centering
   \begin{subfigure}{0.4\textwidth}
     \includegraphics[width=\textwidth]{img/to_primitive.png}
-    \subcaption{\( \code{ToPrimitive} \) abstract algorithm in ECMAScript 2020.}
+    \subcaption{The ToPrimitive abstract algorithm.}
     \label{fig:to-primitive-es}
   \end{subfigure}
   \qquad
@@ -81,12 +81,10 @@ The prefix \( ? \) denotes that the given parameter is passed as an argument.
   return input
 }
     \end{lstlisting}
-    \subcaption{The \( \ires \) funciton for \( \code{ToPrimitive} \)
-    abstract algorithm.}
+    \subcaption{The \( \ires \) funciton for the ToPrimitive algorithm.}
     \label{fig:to-primitive-ires}
   \end{subfigure}
-  \caption{\( \code{ToPrimitive} \) abstract algorithm
-  and its generated \( \ires \) program.}
+  \caption{ToPrimitive abstract algorithm in ECMAScript 2020 specification and its generated \( \ires \) function.}
   \label{fig:to-primitive}
 \end{figure*}
 
@@ -119,7 +117,7 @@ The semantics in ECMAScript specifications are described as
 abstract algorithms. They are written in structured natural languages
 with ordered steps and tagged tokens. The spec extractor extracts each abstract algorithm
 with HTML tags because we utilize tag information to discriminate different kinds of tokens.
-For example, Figure~\ref{fig:to-primitive-es} is the \( \code{ToPrimitive} \)
+For example, Figure~\ref{fig:to-primitive-es} is the ToPrimitive
 abstract algorithm in ECMAScript 2020. It has three steps and
 second step consists of seven sub-steps. Each parameter or local variable such as
 \( \code{input} \) or \( \code{PreferredType} \) is written with \( \code{<var>} \) HTML tags
@@ -129,12 +127,12 @@ To extract such abstract algorithms into treatable representations,
 we define \( \ires \), a specialized intermediate representation
 for ECMAScript abstract algorithms. Then, we develop the \textit{algorithm compiler}
 in Scala using also Scala parser combinators to convert given abstract algorithms
-into \( \ires \) functions. It is dependent on the conversion rules that consists of two parts;
+into \( \ires \) functions. It is dependent on the compile rules that consists of two parts;
 parsing rules and mapping from each rule into \( \ires \) component.
-We explain detailed role of conversion rules in Section~\ref{sec:compiler}.
+We explain detailed role of compile rules in Section~\ref{sec:compiler}.
 Thus, each abstract algorithm is converted into a function written in \( \ires \)
 through the algorithm compiler. For example, Figure~\ref{fig:to-primitive-ires}
-describes the generated \( \ires \) function for the \( \code{ToPrimitive} \)
+describes the generated \( \ires \) function for the ToPrimitive
 algorithm. The \( \code{input} \) and \( \code{PreferredType} \) are parameters
 of the \( \code{ToPrimitive} \) function. The parameter \( \code{PreferredType} \)
 is might be optional but we handle such cases with a special value \( \code{absent} \).
@@ -161,8 +159,8 @@ Section~\ref{sec:parser} formallly defines \( \bnfes \) and how to automatically
 generate parsers from given \( \bnfes \) using lookahead parsers.
 Section~\ref{sec:compiler} explains abstract algorithms with tagged tokens
 and how to compile them into \( \ires \) functions based on
-given conversion rules. Moreover, we introduce the rule generation assistant
-to easily construct conversion rules. Section~\ref{sec:framework} describes
+given compile rules. Moreover, we introduce the rule generation assistant
+to easily construct compile rules. Section~\ref{sec:framework} describes
 the implemented details including global settings to evaluate JavaScript programs.
 Section~\ref{sec:eval} discusses the effectiveness of \( \tool \) with
 four research questions.

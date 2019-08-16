@@ -13,23 +13,24 @@ and its overall structure is described in Figure~\ref{fig:algo-compiler}.
 Before compiling abstract algorithms,
 the tokenizer first tokenizes each abstract algorithm into
 a list of tagged tokens. Then, the token parser constructs
-syntactic parse tree of the given token list.
-Finally, the \( \ires \) function generator constructs the corresponding
-\( \ires \) function from the given parse tree.
-The parser and the generator is dependent on conversion rules
-and we define the general conversion rules for abstract algorithms in
+abstract syntax tree (AST) of the given token list.
+Finally, the \( \ires \) matcher constructs the corresponding
+\( \ires \) function from the given token AST.
+The parser and the matcher are dependent on compile rules
+and we define the general compile rules for abstract algorithms in
 ECMAScript specifications. Like Coq, a proof assistant, we also provide
-the \textit{rule generation assistant} to make easy write conversion rules.
-It suggests new conversion rules based on
-statistical analysis of algorithm steps that failed to be parsed
-and also diagnoses root causes of parsing failures.
+the \textit{rule assistant} to make easy write compile rules.
+It suggests new compile rules based on
+statistical analysis of failed algorithm steps to be parsed
+and also diagnoses root causes of parsing failures
+for updated abstract algorithms.
 
 \subsection{Tokenizer}
 
 Abstract algorithms in ECMAScript specifications are written in structured
 natural languages in HTML files. An algorithm consists of ordered steps
 and it might contain sub-steps as well. For example,
-the \( \code{ToPrimitive} \) algorithm in Figure~\ref{fig:to-primitive-es}
+the ToPrimitive algorithm in Figure~\ref{fig:to-primitive-es}
 has three steps and second step has seven sub-steps.
 Moreover, the tokens of each step has its own HTML tag and each tag
 has the following meaning:
@@ -49,9 +50,9 @@ has the following meaning:
   \end{array}
 \]
 We try to keep the tag information for each token to generate more
-precise conversion rules. For example, if and only if a token has a tag
+precise compile rules. For example, if and only if a token has a tag
 \( \code{<var>} \), it is a parameter or a local variable.
-Thus, it is possible to construct a conversion rule precisely discriminates
+Thus, it is possible to construct a compile rule precisely discriminates
 identifiers and other components.
 
 The tokenizer first recognizes the overall structures of steps.
@@ -59,18 +60,20 @@ Then, it divides each step into sequence of tagged tokens.
 If an HTML element has a explicit tag, it is converted into a single token
 with the tag. Otherwise, it is divided into multiple tokens and each token
 should be a sequence of alphanumeric characters or a single
-non-alphanumeric character. For example, in the \( \code{ToPrimitive} \)algorithm,
-\( \textbf{\code{"default"}} \) is a single token with the tag \( \code{<code>} \)
+non-alphanumeric character. For example, in the ToPrimitive algorithm,
+\( \textbf{\code{"default"}} \) is a single token with the HTML tag \( \code{<code>} \)
 and \( \code{@@toPrimitive} \) is divided into three text tokens
 \( \code{@} \), \( \code{@} \), and \( \code{toPrimitive} \).
 
-For the linear structures, the tokenizer flatten the structured steps into
-a single list. Some conversion rules should handle multiple steps such as
-the conditional statements (if-then-else). Thus, we decide to break down
-structured algorithms using three special tokens;
-\( \tend \) denotes the end of a single step,
+Moreover, the tokenizer flattens the structured steps into
+a single token list to easily handle multi-step statements.
+Several statements in abstract algorithms consists of multilple steps.
+For example, an if-then-else statement often consists of two steps;
+one step for the then-branch and another step for the else-branh.
+For linear structures, we introduce three special tokens to break down structured
+algorithms; \( \tend \) denotes the end of a single step,
 \( \tin \) and \( \tout \) the start and the end of nested steps, respectively.
-For example, the \( \code{ToPrimitive} \) algorithm is tokenized as follows.
+For example, the ToPrimitive algorithm is tokenized as follows.
 \[
   \begin{array}{l}
     \code{Assert} \cdots \tend\\
@@ -80,15 +83,49 @@ For example, the \( \code{ToPrimitive} \) algorithm is tokenized as follows.
   \end{array}
 \]
 
-\subsection{Token Parser}
+After tokenizing abstract algorithms, the algorithm compiler compiles token lists
+into \( \ires \) functions. It consists of two modules; the token list parser and
+the token AST converter. They are dependent on compile rules and each compile rule
+consists of a \textit{parsing rule} and a \textit{conversion rule}:
+\begin{lstlisting}[style=myScalastyle]
+val CompileRule = ParsingRule ^^ ConversionRule
+\end{lstlisting}
+For the compile rule \( \code{CompileRule} \), the parsing rule
+\( \code{ParsingRule} \) describes how to parse the given token list into structured
+token AST. The conversion rule \( \code{ConversionRule} \) describes how to
+convert the given token AST structure into an \( \ires \) component.
+Now, we explain the token list parser and token AST converter with
+parsing rules and conversion rules, respectively.
 
-The token parser parses a given list of tokens into a syntactic parse tree.
-It depends on the given \textit{conversion rules} that consists of
-two parts parsing rules and mapping from parsing rules into corresponding
-\( \ires \) components.
-A parsing rule consists of basic token matchers and other parsing rules
-including itself. For example, the following parsing rule is simplified version for
-sub-step \( i \) in the \( \code{ToPrimitive} \) algorithm.
+\subsection{Token List Parser}
+
+The token list parser is dependent on the given parsing rules.
+Each parsing rule is written in extended Scala parser combinators.
+We modify the meaning of alternative composition operator ( \( | \) ) to collect
+all longest matched results. If the parser detects that a step cannot be
+parsed with the given parsing rules. It reports that the step is not possible
+to be parsed under the given rules into the rule assistant.
+Moreover, even though the parser could parse the step, it will be also reported
+if it could be parsed in not a single but multiple ways.
+We basically use Packrat parsing~\cite{packrat}, the parsing rule could support
+not only non-left recursive but also left recursive parsing rules.
+
+We support two kinds of basic token parsers; tag-based parsers and
+content-based parsers. A tag-based parser just checks that the next
+token has the given tag. For example, the tag-based parser \( \code{varT} \)
+checks that the next token has the tag \( \code{<var>} \). A content-based parser
+checks that the next token is text token and its content passes the given condition.
+For example, the String literal \( \code{"Let"} \) denotes the content parser
+that checks whether the next token is text token with the content \( \code{Let} \).
+Moreover, we provide two content parsers \( \code{word} \) and \( \code{number} \)
+that checks the content consists of only alphabets or numbers, respectively.
+In the parsing rule, any helper functions defined in Scala parser combinators
+are available. For example, the helper function \( \code{repsep(p, q)} \) generates a new
+parsing rule that denotes zero or more repetitions of the parsing rule \( \code{p} \)
+using another parsing rule \( \code{q} \) as the separator.
+
+For example, the following parsing rule is simplified version for
+the step 2-e-i of the ToPrimitive algorithm.
 \begin{lstlisting}[style=myScalastyle]
 // statements
 val Stmt = "Let" ~ varT ~ "be" ~ Expr ~ "." ^^ ...
@@ -99,60 +136,50 @@ val Expr = (
   // return if abrupt
   "?" ~ Expr ^^ ... |
   // function calls
-  textT ~ "(" ~ repsep(varT, ",") ~ ")" ^^ ... |
+  word ~ "(" ~ repsep(varT, ",") ~ ")" ^^ ... |
   // lists
   "<<" ~ repsep(Expr, ",") ~ ">>" ^^ ...
 )
 \end{lstlisting}
-
-Each parsing rule is written in extended Scala parser combinators.
-We modify the meaning of alternative composition operator ( \( | \) ) to collect
-all longest matched results. If the parser detects that a step cannot be
-parsed with the given parsing rules. It reports that a step is not possible
-to be parsed under the given rules into the rule generation assistant.
-Moreover, even though the parser could parse a step, it will be also reported
-if it could be parsed in not a single but multiple ways.
-Each string literal is a token matcher for tokens without any tags and checks
-that the token has same string value with the string literal.
-The \( \code{varT} \) and \( \code{textT} \) is also token matchers
-for token with the tag \( \code{<var>} \) and no tags.
-The \( \code{Step} \) and \( \code{Expr} \) are user-defined parsing rules
-defined with our extended parser combinators.
-Moreover, it supports all helpers functions defined in Scala parser combinators.
-For example, the helper function \( \code{repsep(p, q)} \) generates a new
-parsing rule that denotes zero or more repetitions of the parsing rule \( \code{p} \)
-using another parsing rule \( \code{q} \) as separators.
-Finally, the token parser with the above rules parses sub-step \( i \) in the
-\( \code{ToPrimitive} \) into the following syntactic parse tree:
+The \( \code{Stmt} \) denotes the compile rule for statements with one
+parsing rule. The \( \code{Expr} \) represents the compile rule for expressions
+with four different parsing rules. Finally, the token parser with the above rules
+parses the step 2-e-i in the ToPrimitive into the following
+token AST:
+\begin{center}
 \includegraphics[width=0.5\textwidth]{img/token_ast.png}
+\end{center}
 
-\subsection{\( \ires \) Function Generator}
+\subsection{Token AST Converter}
 
-We define \( \ires \) language to give semantics into syntactic parse tree of
-abstract algorithm steps. It has the following language features:
+We define \( \ires \) to represent abstract algorithms as its functions.
+The following bullets explain the reason of our language design choices
+for \( \ires \).
 
 \begin{itemize}
 \item \textbf{Dynamic Typing} We decide to use dynamic typing for \( \ires \)
-because each variables in abstract algorithms are not statically typed.
+because each variable in abstract algorithms are not statically typed.
 Thus, variables do not have its own static types while each value of \( \ires \)
 has its dynamic type.
 
 \item \textbf{Imperative Style} \( \ires \) represents algorithm steps
-as statements. Each statement changes the current state
-that consists of environments and a heap.
+as imperative-style instructions. Each instruction changes the current state
+that consists of an environment and a heap.
 
 \item \textbf{Higher-order Functions with Restricted Scopes} \( \ires \) supports
-lambda functions as values but it has only restricted scopes. In each function,
-only global variables, parameter, and newly defined local variables are accessible.
-It means that the function closure does not capture the the current environment.
+lambda functions as values but they have only restricted scopes. In each function,
+only global variables, parameters, and newly defined local variables are available.
+It means that the function closure does not capture the current environment.
 We use such restricted scopes because it is enough to represent abstract algorithms.
 
 \item \textbf{Primitive Values} \( \ires \) supports ECMAScript primitive values except
-the symbols that is newly introduced after ECMAScript 6. Thus, only five ECMAScript primitives
-are defined in \( \ires \); numbers, strings, booleans, \( \code{undefined} \), and \( \code{null} \).
+the symbols that is newly introduced after ECMAScript 6. In JavaScript, symbols are
+primitive values but it is much easier to treat them as singleton objects.
+Thus, only five ECMAScript primitives are defined in \( \ires \);
+numbers, strings, booleans, \( \code{undefined} \), and \( \code{null} \).
 Moreover, \( \ires \) also supports the unique \( \code{absent} \) value to represent
 the absence of parameters. For example, the second parameter \( \code{PreferredType} \)
-of \( \code{ToPrimitive} \) algorithm in Figure~\ref{fig:to-primitive-es} might be
+of ToPrimitive algorithm in Figure~\ref{fig:to-primitive-es} might be
 not present in some function calls. Then, the parameter has the \( \code{absent} \) value
 to represent its absence.
 
@@ -162,32 +189,46 @@ to represent its absence.
 and \( \code{Singleton} \) for singleton data types.
 They are stored in corresponding addresses in the heap structure.
 For example, ECMAScript environment records are represented as \( \code{Record} \) data types
-from String values for identifier names into addresses.
-The addresses point to other \( \code{Record} \) data types that represent ECMAScript bindings.
-We treat a ECMAScript constants such as \( \code{empty} \) and primitive symbols as singleton
-data types in \( \ires \).
+String values as keys and addresses as values. Each key String value represents an identifier
+name and each address represents an ECMAScript binding object.
+Thus, the addresses point to other \( \code{Record} \) data types that represent ECMAScript bindings
+in the heap. We treat not only symbols but also constants used in ECMAScript specifications,
+such as \( \code{empty} \) or \( \code{normal} \), as singleton data types in \( \ires \).
 \end{itemize}
 
-To generate the corresponding \( \ires \) function from syntactic parse tree,
-we describe the mapping from each parsing rule into the corresponding \( \ires \) components.
-For example, we describe the following mapping for the previous example parsing rules:
+To generate the corresponding \( \ires \) function from the given token AST,
+the token AST converter uses the given coversion rules. Each conversion rule is
+defined with the corresponding parsing rule and it is a function from given token AST
+into an \( \ires \) component. For basic token parsers, their conversion rules
+always return the String value of the content in the parsed token.
+For example, the following conversion rules are for the previous example
+parsing rules:
 \begin{lstlisting}[style=myScalastyle]
 // statements
-val Stmt = ... ^^ { case _ ~ x ~ _ ~ y => ESLet(x, y) }
+val Stmt = ... ^^ { case _ ~ x ~ _ ~ y => ILet(x, y) }
 // expressions
 val Expr = (
   // identifiers
-  ... ^^ { x => x } |
+  ... ^^ { x => EId(x) } |
   // return if abrupt
-  ... ^^ { _ ~ e => ESReturnIfAbrupt(e) } |
+  ... ^^ { _ ~ e => EReturnIfAbrupt(e) } |
   // function calls
-  ... ^^ { case x ~ _ ~ y ~ _ => ESCall(x, y) } |
+  ... ^^ { case x ~ _ ~ y ~ _ => ECall(x, y) } |
   // lists
-  ... ^^ { case _ ~ x ~ _ => ESList(e) }
+  ... ^^ { case _ ~ x ~ _ => EList(e) }
 )
 \end{lstlisting}
-Finally, sub-step \( i \) in the \( \code{ToPrimitive} \) is converted
-into the following instruction:
+The conversion rule of the compile rule \( \code{Stmt} \) takes
+only second and fourth sub trees and convert them into \( \ires \) components.
+The second sub-tree is converted into a String value because it was
+constructed via basic the token parser \( \code{varT} \).
+The fourth sub-tree is converted into an \( \ires \) expression
+because the conversion rules of the \( \code{Expr} \) compile rule
+constructs \( \ires \) expressions.
+Then, the conversion rule of \( \code{Stmt} \) constructs the
+lexical binding instruction \( \code{ILet} \) with the String value
+and the \( \ires \) expression. Finally, sub-step 2-e-i in the ToPrimitive
+is converted into the following instruction:
 \begin{lstlisting}[style=ires]
 let result = ? (Call exoticToPrim input (new [hint]))
 \end{lstlisting}
@@ -195,13 +236,13 @@ let result = ? (Call exoticToPrim input (new [hint]))
 \subsection{Rule Generation Assistant}
 
 \inred{
-To make easy write conversion rules, we support \textit{rule generation assistant}.
+To make easy write compile rules, we support \textit{rule generation assistant}.
 It consists of two helper functions; the \textit{rule recommender} and
 the \textit{fault localizer}. The 
 
-It makes easy not only construct conversion rules from the scratch
-but also updates existing conversion rules to handle specification updates.
-We explain each helper function and how to utilize it to construct conversion rules.
+It makes easy not only construct compile rules from the scratch
+but also updates existing compile rules to handle specification updates.
+We explain each helper function and how to utilize it to construct compile rules.
 
 \subsubsection{Statistics Monitor}
 
