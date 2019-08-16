@@ -37,7 +37,7 @@ class Test262ParseTest extends ASETest {
 
   // registration
   val dir = new File(test262Dir)
-  val config = readFile(s"$TEST_DIR/test262.json").parseJson.convertTo[Test262ConfigSummary]
+  val config = FilterMeta.test262configSummary
 
   // initialize tests
   def init: Unit = {

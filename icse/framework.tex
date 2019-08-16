@@ -1,7 +1,7 @@
 \section{Building entire system to evaluate code}\label{sec:framework}
 
-In this section, we will demonstrate how our idea can be implemented to evaluate programming language. Although it is hard to generalize the process because the format of specification or 
-environment of the programming language is varying, We shows the possibility to build entire system for evaluating target language with minimal human effort by giving end-to-end example of ECMAScript language.
+In this section, we demonstrate how our idea can be implemented for target language. Although it is hard to generalize the process because the format of specification or
+environment of the programming language is varying, We shows the possibility to build entire system to extract target language specification and interpreting it with minimal human effort by giving end-to-end example of ECMAScript language.
 
 \subsection{Extracting specification}
 First step is to collect language specification and extract component that we can process automatically. For our target language, ECMAScript, has HTML format of specification in their website, and
@@ -10,28 +10,25 @@ We get these information by parsing HTML document, and passing these result to o
 
 To organize these primitives and running the program, we have to model initial environment of language such as initialization of builtin types, or entry point of the program, etc.
 
-\subsection{Generating initial environment for evaluating}
-For ECMAScript Specification, initial environment consists of the Builtin objects, Intrinsic objects. We will describe how to generate each component.
+\subsection{Generating initial environment for execution}
+For ECMAScript Specification, initial environment consists of the Builtin objects, and Intrinsic objects. We describe how to generate each component.
 
 \subsubsection{Builtin objects}
 
- Builtin object is pre-defined object with many built-in functions. For example, In ECMAScript \( \code{Array} \) refers an object which can generate an array by
- calling it. Each Builtin Object provides fields and function, just as ordinary object. When its function is called,
- the corresponding algorithm specified in the document should be called. 
+ Builtin object is a pre-defined object with many built-in functions. For example, In ECMAScript \( \code{Array} \) corresponds to an object which can generate an array by
+ calling it. Each builtin object provides data property and functions, just as ordinary object. When its function is called,
+ its algorithm specified in the document should be called.
  
- In specification, a built-in function object usually matches to abstract algorithm. Its algorithm name
+ In specification, a builtin function object usually matches to abstract algorithm. Its algorithm name
  describes the hierarchy about object it should be contained. For example, there is an abstract algorithm named \( \code{ Object.prototype.propertyIsEnumerable } \). With its name,
- we can know that it corresponds to builtin function in the object \( \code{ Object.prototype } \) as attribute. 
- To support builtin object, we make structure of builtin object and its attributes.
+ we can know that it corresponds to builtin function in the object \( \code{ Object.prototype } \) as property.
+ To support builtin object, we make structure of builtin object and its properties.
  After we correctly organizes structure, then we made algorithm that automatically map corresponding field to the abstract algorithm in specification by matching its function name.
  
  \subsubsection{Intrinsic objects}
 
- While builtin objects has canonical name to refer itself in ECMAScript language, It is also frequently referred in specification. But name of builtin objects
- are defined for reference in Host language, so it needs another name to refer it in specification language. For example, \( \code{Array} \) is a name for
- ECMAScript reference, so abstract algorithm should call \\
- \( \code{realm.[[GlobalObject]].[[GetOwnProperty]]("Array")} \) to get ECMAScript \( \code{Array} \) object. Instead of this verbose way, abstract algorithm introduces Intrinsic objects, which
-are alias for built-in objects. For example it is referred as \( \code{\%Array\%} \) to refer Array Object.
+ In specification, "Well-known intrinsics are built-in objects that are explicitly referenced by the algorithms".
+ Abstract algorithm uses name like "\%name\%", which are alias for builtin objects. For example it refers builtin Array object as \( \code{\%Array\%} \) .
  Map between Intrinsic name and Builtin objects are available in specification as table form in section "6.1.7.4 Well-Known Intrinsic Objects", so we parse this table to generate global identifier to object.
 
 \subsection{Algorithm scope}
@@ -62,7 +59,7 @@ For Example, Ordinary Object and String Exotic Object is different object in spe
 In this case, algorithm dispatching should consider receiver Object(i.e. \( \code{x.[[GetOwnProperty]](N)} \)).
 For method-like abstract operation, we organized map from algorithm name to function for each type,
  and we insert functions as property of object when such type of object is created. So In our example, when  \( \code{x} \) is created with Ordinary Object type,
- then we insert attributes with name \( \code{[[GetOwnProperty]]} \) and function from method-like abstract operation "[[GetOwnProperty]]" in Ordinary Object Internal method section, at the time of map creation.
+ then we insert property with name \( \code{[[GetOwnProperty]]} \) and function from method-like abstract operation "[[GetOwnProperty]]" in Ordinary Object Internal method section, at the time of map creation.
 
  \subsubsection{Syntax-directed operation}
  

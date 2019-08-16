@@ -92,12 +92,7 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     "WeakSet"
   )
 
-  def apply(
-    unit: Unit,
-    aseConfig: ASEConfig,
-    config: FilterMetaConfig
-  ): Unit = {
-
+  lazy val test262configSummary: Test262ConfigSummary = {
     val test262Dir = s"$TEST_DIR/test262"
     val dir = new File(test262Dir)
     val (normalL, errorL) = walkTree(dir).toList.filter(
@@ -105,12 +100,19 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     ).map((x) => MetaParser(x.toString, dir.toString)).filter((x) => filter(x)).map {
         case MetaData(name, n, _, i, _, _) => Test262Config(name, n, i)
       }.partition(_.negative.isEmpty)
-    val summary = Test262ConfigSummary(
+    Test262ConfigSummary(
       normalL.map((x) => NormalTestConfig(x.name, x.includes)),
       errorL.collect { case Test262Config(name, Some(n), in) => ErrorTestConfig(name, n, in) }
     )
+  }
+
+  def apply(
+    unit: Unit,
+    aseConfig: ASEConfig,
+    config: FilterMetaConfig
+  ): Unit = {
     val pw = new PrintWriter(new File(s"$TEST_DIR/test262.json"))
-    pw.println(summary.toJson.prettyPrint)
+    pw.println(test262configSummary.toJson.prettyPrint)
     pw.close()
   }
 
@@ -134,4 +136,3 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
 
 // FilterMeta phase config
 case class FilterMetaConfig() extends Config
-

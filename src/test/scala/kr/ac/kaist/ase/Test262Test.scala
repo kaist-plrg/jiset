@@ -57,7 +57,7 @@ class Test262Test extends ASETest {
 
   // registration
   val dir = new File(test262Dir)
-  val config = readFile(s"$TEST_DIR/test262.json").parseJson.convertTo[Test262ConfigSummary]
+  val config = FilterMeta.test262configSummary
   val initInclude = List("assert.js", "sta.js").foldLeft(Map[String, List[StatementListItem]]()) {
     case (imm, s) => {
       val includeName = s"${dir.toString}/harness/$s"
