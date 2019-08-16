@@ -233,22 +233,77 @@ is converted into the following instruction:
 let result = ? (Call exoticToPrim input (new [hint]))
 \end{lstlisting}
 
-\subsection{Rule Generation Assistant}
 
-\inred{
-To make easy write compile rules, we support \textit{rule generation assistant}.
-It consists of two helper functions; the \textit{rule recommender} and
-the \textit{fault localizer}. The 
+\subsection{Rule Assistant}
 
-It makes easy not only construct compile rules from the scratch
-but also updates existing compile rules to handle specification updates.
-We explain each helper function and how to utilize it to construct compile rules.
+To make easy write compile rules, we support \textit{rule assistant}.
+It takes currently not yet convertible steps as arguments
+and we call them as failed steps. For each failed step,
+The rule assistant diagnosis the root cause of parsing failures.
+The basic idea is to check that it becomes possible to be parsed
+with assumption that a speicific sub-sequence of failed steps is
+successfully parsed. We define the approach to find such sub-sequences of
+failed steps as \textit{fault localizations}. The rule assistant recommend
+new compile rules for failed steps via fault localizations.
+Moreover, it also helps us update existing compile rules for new version
+of specifications.
 
-\subsubsection{Statistics Monitor}
+The fault localization algorithm is evaluated with the special token \( \tstar \).
+The special token \( \tstar \) represents a sub-sequence of a failed step.
+The rule assistant substitues a specific sub-sequence \( T[i..j] \) of the
+failed step \( T \) into a single star token \( \tstar \). For each compile rule,
+the parsing rule  \( \code{starT} \) is implicitely added to utilize it in the
+rule assistant. The \( \code{starT} \) is a special basic token parser
+that just checks whether the given token is the special token \( \tstar \).
+Its corresponding conversion rule is a function that returns a dummy
+\( \ires \) component \( \code{Dummy} \) with the String value of the
+compile rule name. For example, the compile rules in the previous example are
+acutally defined as follows:
+\begin{lstlisting}[style=myScalastyle]
+// statements
+val Stmt = ... | starT ^^ { case x => Dummy("Stmt") }
+// expressions
+val Expr = ... | starT ^^ { case x => Dummy("Expr") }
+\end{lstlisting}
+Then, the rule assistant evaluates the \textsc{FaultLocalize} algorithm
+with the failed step to find the set of most specific suggestions.
+\begin{algorithm}
+  \caption{Fault Localization}
+  \begin{algorithmic}[1]
+    \Function{FaultLocalize}{$T,n$}\Comment{$T$ - failed step, $n$ - size}
+    \State $S = \varnothing$
+    \For{$i = 0$ to $n - 1$}
+    \For{$j = i$ to $n - 1$}
+    \State $T'$ = a copy of $T$
+    \State Substitue $T'[i..j]$ into $\tstar$
+    \If{Parse($T'$) containing $\code{Dummy(}x \code{)}$}
+    \State Insert $(x, i, j)$ into $S$
+    \EndIf
+    \EndFor
+    \EndFor
+    \While{$s = (x, i, j) \in S$}
+    \If{$\exists (y, p, q) \in S$ s.t. $i \leq p \wedge q \leq j$}
+    \State Remove $s \in S$
+    \EndIf
+    \EndWhile
+    \State \Return $S$
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
 
-TODO
-
-\subsubsection{Fault localizer}
-
-TODO
-}
+For example, assume that the expression compile rule for lists is removed.
+Then, the step 2-e-i of the ToPrimitive algorithm becomes a failed step.
+The fault localization algorithm first find one suggestion for statements
+and four suggestions for expressions as follows:
+\[
+  \begin{array}{c}
+    (\code{"Stmt"}, 0, 14), \;
+    (\code{"Expr"}, 3, 13), \;
+    (\code{"Expr"}, 4, 13), \;\\
+    (\code{"Expr"}, 6, 12), \;
+    (\code{"Expr"}, 10, 12)
+  \end{array}
+\]
+However, first four suggestions are removed because the last one is the most
+specific sub-sequence. Finally, the rule assistant suggests to define
+another expression compile rule for the token list \hint{}.
