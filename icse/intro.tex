@@ -20,7 +20,7 @@ formal semantics of JavaScript is necessary.
 \begin{figure}
   \centering
   \includegraphics[width=0.48\textwidth]{img/existing.png}
-  \caption{Existing approaches of semantics extractions for ECMAScript}
+  \caption{Existing approaches of IR-based semantics extractions for ECMAScript}
   \label{fig:existing}
 \end{figure}
 
@@ -52,36 +52,36 @@ in June. Now, no researches correctly deal with recent ECMAScript features;
 lexical bindings (\( \code{let} \)), spread operator (\( \code{...} \)),
 classes, \( \code{for-of} \) operators, \( \code{async} \) functions, or generators.
 
-In this paper, we propose JavaScript Syntax and Semantics Extraction Toolchain (JSSET)
+In this paper, we propose JavaScript IR-based Semantics Extraction Toolchain (\( \tool \))
 based on ECMAScript specifications. The tool automatically extracts JavaScript
 syntax and semantics from ECMAScript specifications. It generates JavaScript parser
-from the syntax provided by ECMAScript specifications. It also extracts formal
-JavaScript semantics in semi-automatic ways. It is semi-automatic because
-it depends on manually defined \textit{conversion rules}. Each conversion rule describes how abstract
-algorithms in specifications are converted into functions of our core language \( \ires \).
+from the syntax provided by ECMAScript specifications. It also automatically extracts
+formal JavaScript semantics with given \textit{conversion rules}. Each conversion
+rule describes how abstract algorithms in specifications are converted into
+functions of our intermediate representation \( \ires \) for ECMAScript.
 However, to save the labor of defining such rules, we also propose a \textit{rule generation assistant}.
 It suggests new conversion rules based on statistical analysis of not yet convertible algorithms.
 The assistant helps us deal with changed or newly introduced algorithms defined in new versions of
 ECMAScript specifications as well.
 
-Our main contribution is our tool JSSET that mechanizes extraction of JavaScript syntax and semantics
+Our main contribution is our tool \( \tool \) that mechanizes extraction of JavaScript syntax and semantics
 from ECMAScript specifications:
 \begin{itemize}
-  \item JSSET enables to extract the syntax and semantics of ECMAScript 2020,
+  \item \( \tool \) enables to extract the syntax and semantics of ECMAScript 2020,
     which is the next released version of ECMAScript in June 2020.
     Moreover, we successfully applied our tool into the next proposed version,
     ECMAScript 2020. The official conformance test suite, test262, provides
     \inred{XXXXX} tests for ECMAScript 2020 and we passed \inred{XXXXX} tests
     among them.
-  \item JSSET is also applicable in-process proposed language features in a modular way.
+  \item \( \tool \) is also applicable in-process proposed language features in a modular way.
     ECMAScript specifications are open-source based documentations. Thus, anyone
     could propose some new language features. Then, the committee carefully inspects
     such proposals and adds them into specifications. Each in-process proposed language
-    feature has its own specification and tests. Thus, we apply JSSET into the specification
+    feature has its own specification and tests. Thus, we apply \( \tool \) into the specification
     and evaluate the corresponding tests. Among \inred{XX} proposals, we successfully
     pass all the tests in \inred{XX} proposals and partially pass the tests in \inred{XX}
     proposals.
-  \item Moreover, all extraction mechanisms in JSSET is automatic thus we could use this tool
+  \item Moreover, all extraction mechanisms in \( \tool \) is automatic thus we could use this tool
     to find possible specification errors. We found \inred{X} possible specification errors
     in ECMAScript 2020 and reported them into TC39, which is the Ecma Technical Committee.
     We confirm that all of them are real specification errors.
