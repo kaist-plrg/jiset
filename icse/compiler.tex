@@ -136,9 +136,9 @@ val Expr = (
   // return if abrupt
   "?" ~ Expr ^^ ... |
   // function calls
-  word ~ "(" ~ repsep(varT, ",") ~ ")" ^^ ... |
+  word ~ "(" ~ repsep(Expr, ",") ~ ")" ^^ ... |
   // lists
-  "<<" ~ repsep(Expr, ",") ~ ">>" ^^ ...
+  "<<" ~ repsep(varT, ",") ~ ">>" ^^ ...
 )
 \end{lstlisting}
 The \( \code{Stmt} \) denotes the compile rule for statements with one
