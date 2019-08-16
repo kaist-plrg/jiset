@@ -25,9 +25,12 @@ testing for each primitive is unavailable so we cannot decide correct semantics 
 % \end{itemize}
 
 \subsection{Formal Semantics of JavaScript}
-Building formal semantics of language is important for program verification and static analysis. JavaScript is most widely-used language in
-web browser, but its complex behavior makes confusion to developer and program analysis designer. So there are many researches to define formal semantics of JavaScript and
-using it to formal verification or program analysis. \cite{lambdajs} define the core calculus of JavaScript, and express rest of the features as desugaring. Their method can
+
+
+% Building formal semantics of language is important for program verification and static analysis. JavaScript is most widely-used language in
+% web browser, but its complex behavior makes confusion to developer and program analysis designer. So there are many researches to define formal semantics of JavaScript and
+% using it to formal verification or program analysis.
+There are also many researches to define formal semantics of JavaScript. \cite{lambdajs} define the core calculus of JavaScript, and express rest of the features as desugaring. Their method can
 work for subset of JavaScript, but their formalization is not directly mapped to specification document. So it requires deep understanding of current and upcoming specification,
 which needs lots of effort. \cite{kjs} and \cite{javert} defines formal semantics of JavaScript based on ECMAScript specification, and they manually convert from specification
 to formal languages. KJS mapped from ECMAScript 5 specification to K framework, which can be used in program verification and analysis. Similarly, JaVerT coverts specification
