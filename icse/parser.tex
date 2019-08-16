@@ -171,6 +171,23 @@ calculated first tokens of each symbols using algorithm in
 Figure~\ref{fig:first-tokens}. For example, the following steps explain
 how to utilize lookahead tokens during parsing processes with
 the input \( \code{a(b);} \):
+\begin{center}
+  \includegraphics[width=0.4\textwidth]{img/laparser.png}
+\end{center}
+% \Tree[.\(\NT{A}[\emptyfirst]\)
+% [.\(\NT{T}\T{;}[\emptyfirst]\)
+% [.\(\NT{T}[\T{;}]\)
+% \sout{\(\T{a}[\T{;}]\)}
+% [.\(\T{a}\T{(}\T{b}\T{)}[\T{;}]\)
+% [.\(\T{a}[\T{(}]\) \(\boxed{\T{a}}\) ]
+% [.\(\T{(}\T{b}\T{)}[\T{;}]\)
+% [.\(\T{(}[\T{b}]\) \(\boxed{\T{(}}\) ]
+% [.\(\T{b}\T{)}[\T{;}]\)
+% [.\(\T{b}[\T{)}]\) \(\boxed{\T{b}}\) ]
+% [.\(\T{b}\T{)}[\T{;}]\)
+% [.\(\T{)}[\T{;}]\) \(\boxed{\T{)}}\) ] ] ] ] ] ]
+% [.\(\T{;}[\emptyfirst]\)
+% \(\boxed{\T{;}}\) ] ] ]
 
 \begin{figure}
 \centering
@@ -201,21 +218,6 @@ the input \( \code{a(b);} \):
 \label{fig:first-tokens}
 \end{figure}
 
-\Tree[.\(\NT{A}[\emptyfirst]\)
-[.\(\NT{T}\T{;}[\emptyfirst]\)
-[.\(\NT{T}[\T{;}]\)
-\sout{\(\T{a}[\T{;}]\)}
-[.\(\T{a}\T{(}\T{b}\T{)}[\T{;}]\)
-[.\(\T{a}[\T{(}]\) \(\boxed{\T{a}}\) ]
-[.\(\T{(}\T{b}\T{)}[\T{;}]\)
-[.\(\T{(}[\T{b}]\) \(\boxed{\T{(}}\) ]
-[.\(\T{b}\T{)}[\T{;}]\)
-[.\(\T{b}[\T{)}]\) \(\boxed{\T{b}}\) ]
-[.\(\T{b}\T{)}[\T{;}]\)
-[.\(\T{)}[\T{;}]\) \(\boxed{\T{)}}\) ] ] ] ] ] ]
-[.\(\T{;}[\emptyfirst]\)
-\(\boxed{\T{;}}\) ] ] ]
-
 Each node \( \symb^*[\la] \) denotes a sequence of symbols \( \symb^* \) with
 lookahead tokens \( \la \), which is the set of tokens.
 The parsing process follows pre-order traversals.
@@ -234,13 +236,6 @@ Thus, it fails to parse the input string even though the current token is
 same with the terminal \( \T{a} \).
 Thus, the parser could visit the next right-hand side \( \T{a}\T{(}\T{b}\T{)} \)
 and finally the input \( \code{a(b);} \) is successfully parsed.
-
-We formally define semantics of lookahead parsers
-in Figure~\ref{fig:laparser} by converting them into the given parsers.
-The helper function \( \getlap{\la} \) generates a parser by combining all
-tokens in the lookahead \( \la \) using prioritized choices.
-In this case, the order does not change the semantics of lookahead parsers
-because \( \getlap{\la} \) just check whether it contains the given token or not.
 
 \begin{figure}
 \centering
@@ -265,6 +260,13 @@ because \( \getlap{\la} \) just check whether it contains the given token or not
 \caption{Formal semantics of lookahead parsers}
 \label{fig:laparser}
 \end{figure}
+
+We formally define semantics of lookahead parsers
+in Figure~\ref{fig:laparser} by converting them into the given parsers.
+The helper function \( \getlap{\la} \) generates a parser by combining all
+tokens in the lookahead \( \la \) using prioritized choices.
+In this case, the order does not change the semantics of lookahead parsers
+because \( \getlap{\la} \) just check whether it contains the given token or not.
 
 \subsection{Implementation}
 

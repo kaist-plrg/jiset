@@ -20,9 +20,9 @@ The parser and the generator is dependent on conversion rules
 and we define the general conversion rules for abstract algorithms in
 ECMAScript specifications. Like Coq, a proof assistant, we also provide
 the \textit{rule generation assistant} to make easy write conversion rules.
-It diagnoses root causes of failed parsing tokens
-and suggests new conversion rules based on
-statistical analysis of algorithm steps that failed to be parsed.
+It suggests new conversion rules based on
+statistical analysis of algorithm steps that failed to be parsed
+and also diagnoses root causes of parsing failures.
 
 \subsection{Tokenizer}
 
@@ -124,7 +124,7 @@ parsing rule that denotes zero or more repetitions of the parsing rule \( \code{
 using another parsing rule \( \code{q} \) as separators.
 Finally, the token parser with the above rules parses sub-step \( i \) in the
 \( \code{ToPrimitive} \) into the following syntactic parse tree:
-\includegraphics[width=0.5\textwidth]{img/parse_tree.png}
+\includegraphics[width=0.5\textwidth]{img/token_ast.png}
 
 \subsection{\( \ires \) Function Generator}
 
@@ -194,17 +194,20 @@ let result = ? (Call exoticToPrim input (new [hint]))
 
 \subsection{Rule Generation Assistant}
 
+\inred{
 To make easy write conversion rules, we support \textit{rule generation assistant}.
-It consists of several helper functions to show the specific statistics of
-the not yet convertible abstract algorithm steps. It make easy not only construct
-conversion rules from the scratch but also update existing conversion rules
-for updated specifications. We explain each helper function and how to utilize
-it to construct conversion rules.
+It consists of two helper functions; the \textit{rule recommender} and
+the \textit{fault localizer}. The 
 
-\subsubsection{Statement format suggestions}
+It makes easy not only construct conversion rules from the scratch
+but also updates existing conversion rules to handle specification updates.
+We explain each helper function and how to utilize it to construct conversion rules.
 
-\inred{TODO}
+\subsubsection{Statistics Monitor}
 
-\subsubsection{Fault localization based on \( \tstar \) tokens}
+TODO
 
-\inred{TODO}
+\subsubsection{Fault localizer}
+
+TODO
+}
