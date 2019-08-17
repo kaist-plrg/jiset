@@ -3,7 +3,7 @@ library(scales)
 
 # copy below lines
 if (FALSE) {
-  dir = "" # fill the project directory path
+  dir = "~/project/ase/" # fill the project directory path
   source(file = paste(dir, "icse/img/icse_jiset.R", sep = "", collapse = NULL))
   getGraph(dir)
 }
@@ -15,7 +15,8 @@ getGraph <- function(dir) {
     labs(title="", x="Version of ECMAScript", y="# of Steps", fill="") +
     theme(
       panel.background = element_blank(),
-      element_line(colour = 'black', size=0.5, linetype='solid')
+      element_line(colour = 'black', size=0.5, linetype='solid'),
+      axis.line = element_line(colour = "black")
     ) + scale_fill_manual(values=c("#0070DE", "#9FC5E2", "#FE1A13"))
   return(p)
 }
