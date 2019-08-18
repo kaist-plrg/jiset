@@ -6,13 +6,44 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{qtree}
+\usepackage{colortbl}
 \usepackage{ulem}
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{listings}
-\usepackage[noend]{algorithm,algpseudocode}
 \usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{booktabs}
+
+% color
+\definecolor{gainsboro}{rgb}{0.86, 0.86, 0.86}
+\newcommand*{\belowrulesepcolor}[1]{%
+  \noalign{%
+    \kern-\belowrulesep
+    \begingroup
+      \color{#1}%
+      \hrule height\belowrulesep
+    \endgroup
+  }%
+}
+\newcommand*{\aboverulesepcolor}[1]{%
+  \noalign{%
+    \begingroup
+      \color{#1}%
+      \hrule height\aboverulesep
+    \endgroup
+    \kern-\aboverulesep
+  }%
+}
+
+% dashed line
+\usepackage{array}
+\usepackage{arydshln}
+\setlength\dashlinedash{0.2pt}
+\setlength\dashlinegap{1.5pt}
+\setlength\arrayrulewidth{0.3pt}
 
 % removed ACM references
 \settopmatter{printacmref=false}
