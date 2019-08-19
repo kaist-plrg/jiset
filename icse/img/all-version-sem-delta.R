@@ -1,8 +1,8 @@
 library(plotly)
 
-ECMAScript_Version <- c(2016, 2017, 2018, 2019, 2020)
-auto <- c(930, 1140, 1200, 1290, 1400)
-manual <- c(100, 102, 103, 109, 120)
+ECMAScript_Version <- c("2015-16", "2016-17", "2017-18", "2019-20")
+auto <- c(160, 100, 240, 180)
+manual <- c(10, 3, 7, 8)
 data <- data.frame(ECMAScript_Version, auto, manual)
 
 p <- plot_ly(
