@@ -1,24 +1,25 @@
 library(plotly)
 
 ECMAScript_Version <- c(2016, 2017, 2018, 2019, 2020)
-auto <- c(930, 1140, 1200, 1290, 1400)
-manual <- c(100, 102, 103, 109, 120)
+auto <- c(938, 1055, 1109, 1127, 1145)
+manual <- c(475, 436, 446, 474, 456)
 data <- data.frame(ECMAScript_Version, auto, manual)
 
 p <- plot_ly(
   data,
-  x = ~ECMAScript_Version,
-  y = ~auto,
+  y = ~ECMAScript_Version,
+  x = ~auto,
   type = 'bar',
   name = 'auto',
-  marker = list(color = '#0070DE')
+  marker = list(color = '#0070DE'),
+  orientation = 'h'
 ) %>% add_trace(
-  y = ~manual,
+  x = ~manual,
   name = 'manual',
   marker = list(color = '#FE1A13')
 ) %>% layout(
-  yaxis = list(title = '# of Steps'),
-  xaxis = list(title = 'ECMAScript Versions', dtick = 1),
+  xaxis = list(title = '# of Steps', autorange = "reversed"),
+  yaxis = list(title = 'ECMAScript Versions', side = "right", dtick = 1),
   barmode = 'stack'
 )
 p
