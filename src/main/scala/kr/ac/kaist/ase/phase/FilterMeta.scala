@@ -106,6 +106,20 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     )
   }
 
+  lazy val test262propconfigSummary: Test262ConfigSummary = {
+    val test262Dir = s"$TEST_DIR/test262"
+    val dir = new File(test262Dir)
+    val (normalL, errorL) = walkTree(dir).toList.filter(
+      (file) => jsFilter(file.getName)
+    ).map((x) => MetaParser(x.toString, dir.toString)).filter((x) => filterprop(x)).map {
+        case MetaData(name, n, _, i, _, _) => Test262Config(name, n, i)
+      }.partition(_.negative.isEmpty)
+    Test262ConfigSummary(
+      normalL.map((x) => NormalTestConfig(x.name, x.includes)),
+      errorL.collect { case Test262Config(name, Some(n), in) => ErrorTestConfig(name, n, in) }
+    )
+  }
+
   def apply(
     unit: Unit,
     aseConfig: ASEConfig,
@@ -115,6 +129,23 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     pw.println(test262configSummary.toJson.prettyPrint)
     pw.close()
   }
+
+  def filterprop(meta: MetaData) = !(
+    (meta.flags contains "noStrict") ||
+    (meta.flags contains "raw") ||
+    (meta.flags contains "module") ||
+    (meta.flags contains "CanBlockIsFalse") ||
+    (meta.flags contains "CanBlockIsTrue")
+  ) &&
+    (meta.locales.isEmpty) &&
+    ((meta.name startsWith "/test/language/") ||
+      (meta.name startsWith "/test/built-ins/")) &&
+      !((meta.name startsWith "/test/language/module-code/") ||
+        (meta.name startsWith "/test/language/expressions/dynamic-import/") ||
+        (meta.name startsWith "/test/language/expressions/import.meta/")) &&
+      (meta.features.forall((x) =>
+        (standardFeatures contains x) || (x == "optional-chaining"))) &&
+      meta.features.exists(_ == "optional-chaining")
 
   def filter(meta: MetaData) = !(
     (meta.flags contains "noStrict") ||
