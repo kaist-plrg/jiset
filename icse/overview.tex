@@ -1,7 +1,7 @@
 \section{Overview}
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\textwidth]{img/overview.png}
+  \includegraphics[width=0.48\textwidth]{img/overview.png}
   \caption{Overall structure of \( \tool \): Automatic extraction of
 IR-based semantics for ECMAScript}
   \label{fig:overview}
@@ -129,9 +129,9 @@ The \( \code{\textasciitilde} \) operator combines two parsers
 and the \( \code{\^{}\^{}} \) operator describes how to construct ASTs.
 When the left-hand side of \( \code{\^{}\^{}} \) is matched, its
 right-hand side shows a corresponding AST constructor, where each
-constructor has a number denoting the order among right-hand sides.
+constructor has a number denoting the order among alternatives.
 For example, the \( \code{ArrayLiteral0} \) constructor corresponds to
-the first right-hand side of the \textit{ArrayLiteral} production.
+the first alternative of the \textit{ArrayLiteral} production.
 
 \smallskip
 
@@ -155,7 +155,7 @@ intermediate representation for ECMAScript abstract algorithms.  Then,
 we develop \textsf{Algorithm Compiler} in Scala using Scala parser
 combinators again to convert given abstract algorithms to \( \ires \)
 functions.  It also takes \textsf{Compile Rules} as another input,
-which has two parts: parsing rules and mapping from each rule to its
+which has two parts: parsing rules and conversion rules from each rule to its
 corresponding \( \ires \) component.  They are \textit{manually} specified for
 the ECMAScript specification; we explain them in detail in
 Section~\ref{sec:compiler}.  Thus, each abstract algorithm is

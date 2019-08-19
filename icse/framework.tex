@@ -1,4 +1,4 @@
-\section{Building entire system to evaluate code}\label{sec:framework}
+\section{Building entire system to extract semantics}\label{sec:framework}
 
 In this section, we demonstrate how our idea can be implemented for target language. Although it is hard to generalize the process because the format of specification or
 environment of the programming language is varying, We shows the possibility to build entire system to extract target language specification and interpreting it with minimal human effort by giving end-to-end example of ECMAScript language.
@@ -28,7 +28,7 @@ For ECMAScript Specification, initial environment consists of the Builtin object
  \subsubsection{Intrinsic objects}
 
  In specification, "Well-known intrinsics are built-in objects that are explicitly referenced by the algorithms".
- Abstract algorithm uses name like "\%name\%", which are alias for builtin objects. For example it refers builtin Array object as \( \code{\%Array\%} \) .
+ Abstract algorithm uses identifiers like "\%name\%" to point builtin objects. For example it refers builtin Array object as \( \code{\%Array\%} \) .
  Map between Intrinsic name and Builtin objects are available in specification as table form in section "6.1.7.4 Well-Known Intrinsic Objects", so we parse this table to generate global identifier to object.
 
 \subsection{Algorithm scope}
@@ -63,12 +63,12 @@ For method-like abstract operation, we organized map from algorithm name to func
 
  \subsubsection{Syntax-directed operation}
  
- Like Method-like abstract operation, many AST Value (in specification, it is called Parse Node) uses same name of algorithm but the content is different.
-The most frequent example is Evaluation of the AST Value. Evaluation is described as \( \code{result of evaluating Expression} \), but Non-terminal
-\( \code{ Expression } \) did not has specific algorithm \( \code{ Evaluation } \). Instead of this, some non-terminal that can be derived from \( \code{ Expression } \) has \( \code{ Evaluation }\),
-(i.e. \( \code{ CallExpression } \)). Also in Syntax-directed operation, the sub-component of AST can be used as values. For example, In the
-Evaluation algorithm of\\ \( \code{CallExpression : CallExpression Arguments} \), algorithm can uses \( \code{CallExpression}\) or \( \code{Arguments}\) to refer sub-component of AST.
- For Syntax-directed operation, we insert converted functions in AST structure, and add special expression to call Syntax-directed operation which requires AST Value and algorithm name.
+ Like method-like abstract operation, many AST objects have similar interface, but they have different algorithm.
+The most frequent example is "Evaluation" algorithm of AST Values. Many non-terminal symbol have different algorithm with name "Evaluation", and
+when specification requires "the result of evaluating \textit{variable}", then it should apply "Evaluation" of non-terminal symbol which matches to \textit{variable}.
+It is assumed that \textit{variable} is a AST value. Also in Syntax-directed operation, the sub-component of AST can be used as values. For example, In the
+Evaluation algorithm of \textit{CallExpression} : \textit{CallExpression} \textit{Arguments}, algorithm can uses \textit{CallExpression} or \textit{Arguments} to refer sub-component of AST.
+ To support Syntax-directed operation, we insert converted functions in AST structure, and add special expression to call Syntax-directed operation which requires AST Value and algorithm name.
 We gather which AST can be applied to a function. Also, to use child node of AST, we passes child node of AST to function as argument.
 
 % \begin{itemize}
