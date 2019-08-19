@@ -54,7 +54,7 @@ functions.
     \rowcolor{gainsboro} \textbf{All tests262 Tests} & \textbf{36,794} \\
     \aboverulesepcolor{gainsboro}\midrule
     Annexes/Internationalisation & 1,774\\ \hdashline
-    In-process features & \inred{XXXX} \\\hdashline
+    In-progress features & \inred{XXXX} \\\hdashline
     Module tests & \inred{XXXX} \\\hdashline
     Non-strict tests & \inred{XXXX} \\\midrule
     \belowrulesepcolor{gainsboro}
@@ -73,18 +73,18 @@ functions.
 
 To evaluate that \( \tool \) correctly extracts semantics, we extract semantics of ECMAScript
 2020 via our tool. Above automatically extracted parts of semantics, we manually implement
-\inred{XX} \( \ires \) functions for failed to be automatically compiled abstract algorithms.
+\inred{XX} \( \ires \) functions for abstract algorithms failed to be automatically compiled.
 Moreover, we fill in global setting based on ECMAScript 2020 specification as described
 in Section~\ref{sec:framework}. The ECMAScript 2020 version is actively updated in
-GitHub~\ref{es2020} to be released in the next year. Ecma Technical Committee 39 (TC39)
+GitHub~\cite{es2020} to be released in the next year. Ecma Technical Committee 39 (TC39)
 officially provides the conformance test suite, test262, for ECMAScript 2020.
 Thus, we decide to evaluate the correctness of our syntax and semantics based on the test262.
-However, the test262 also provides tests for in-process features and other extensions
+However, the test262 also provides tests for in-progress features and other extensions
 such as web browsers and internationalisation. Thus, we exclude them from our target tests.
 Figure~\ref{table:test262} describes how to break down tests and the test results of extracted
 semantics. We use test262 written in \inred{August 6, 2019}. In that version,
 test262 consists of 36,794 tests and we first exclude \inred{XXXX} tests
-for extensions and in-process features. Then, we remove tests for non-strict mode because
+for extensions and in-progres features. Then, we remove tests for non-strict mode because
 we focus on only JavaScript codes in strict mode
 as described in Section~\ref{sec:framework}. Finally, we remove the \inred{XXXX} tests
 for not supported language features such as \inred{modules, JSON, RegExp, or Date}.
@@ -93,60 +93,26 @@ There are several reasons of test failures; \inred{...}.
 
 \subsection{Adaptability}
 
-\begin{table}
-  \centering
-  \[
-    \begin{array}{l|r|r|r|r} \hline
-      \text{features} &
-      \multicolumn{1}{c|}{\text{\#prods}} &
-      \multicolumn{1}{c|}{\text{\#steps}} &
-      \multicolumn{1}{c|}{\Delta\text{CR}} &
-      \multicolumn{1}{c}{\text{tests}}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \text{\inred{????}} & \inred{X} & \inred{XX} & \inred{X} & \inred{XX/XX}\\\hline
-      \hline
-      \text{total} & \inred{XX} & \inred{XXX} & \inred{XX} & \inred{XXX/XXX}\\\hline
-    \end{array}
-  \]
-  \caption{The result of \( \tool \) for in-process language features}
-  \label{table:in-process}
-\end{table}
-
 We also check that \( \tool \) deals with future language features for adaptability.
-ECMAScript specifications are managed as open-sources and proposals of in-process language
-features follow the TC39 process and are tracked in the separated repository~\ref{proposals}.
-Thare are five stages for proposals; Stage 0, Stage 1, active, finished or inactive proposals.
-Each proposal starts from Stage 0 and is promoted to an active proposal through Stage 1.
-Then, the committee (TC39) regularly examins the active proposal and changes the stage into
-finished if they want to apply the proposed language features, otherwise, changes it
-into inactive stage.
+ECMAScript specifications are managed as open-sources and proposals of in-progress language
+features follow the TC39 process and are tracked in the separated repository~\cite{proposals}.
+Thare are five stages for proposals; Stage from 0 to 3, and finished or inactive proposals.
+The committee (TC39) regularly examins the proposals in Stage 3 and changes the stage into
+finished if its members decide to apply it into official specifications. Otherwise, the committee
+changes the stage of proposal into inactive. Our tool \( \tool \) is also applicable into
+not yet finished proposals and we advance \inred{a case study for a proposal} in Stage 3.
+We decide to study on proposals in Stage 3 because test262 supports tests for several
+proposals in Stage 3.
 
-
-
-% We also check that \( \tool \) deals with future language features based on in-process language
-% features. Each in-process language feature has its own specification, and the test262 supports
-% tests for them. We extract semantics of \inred{XX} language features via \( \tool \) and test extracted
-% semantics based on tests in test262. Table~\ref{table:in-process} describes the result and
-% \( \tool \) successfully generates parsers of total \inred{XX} productions.
-% For semantics, \( \tool \) successfully compiles \inred{XXX} algorithm steps by adding
-% \inred{XX} more compile rules. Above the semantics, \inred{XXX} tests passes among \inred{XXX}
-% tests for \inred{XX} in-process language features.
-
+\inred{...}
 
 \subsection{Specification Error Detection}
 
-We found four specification errors in ECMAScript 2020. All of them 
+We found four specification errors in ECMAScript 2020 via \( \tool \).
+They were all confirmed by TC39 and will be fixed in the next release.
+
+\paragraph{Ambiguous \textbf{VarScopedDeclarations} for \textit{IterationStatement}}
+
 
 
 
