@@ -1,1 +1,18 @@
 \section{Conclusion}\label{sec:conclude}
+
+We indiciate the problem that existing JavaScript semantics are not suitable for
+annually updated cadence of ECMAScript specifications. We propose a tool \( \tool \),
+JavaScript IR-based Semantics Extraction Toolchain to mechanize extracting syntax
+and semantics from ECMAScript specifications. The most important modules are
+the parser generator and the algorithm compiler. The parser generator generates
+parsers from given \( \bnfes \) in lookahead parsers we proposed. the algorithm
+compiler compiles given abstract algorithm written in structured natural language
+into \( \ires \) functions. It is dependent on given compile rules and we provide
+general compile rules for existing ECMAScript specifications. Moroever, we also
+develop the rule assistant to diagnose root causes of not yet convertible algorithms.
+It aids to modify compile rules for specification updates. We evaluate \( \tool \)
+based on the next version of ECMAScript specification (2020) with the official conformance test
+suite (test262). The extracted semantics passed all \inred{XXXXX} tests in test262
+and we show that the tool is alo applicable into in-progress language features
+by a case study. Moreover, we found \inred{four} real specification errors via \( \tool \)
+and TC39 confirms all of them.
