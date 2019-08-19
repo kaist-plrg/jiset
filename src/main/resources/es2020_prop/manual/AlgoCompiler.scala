@@ -1054,6 +1054,7 @@ trait AlgoCompilerHelper extends AlgoCompilers {
           app $tempP2 = ($tempP $y $z)
         }""") :: Nil, ERef(RefId(Id(tempP2))))
       }
+    } | ("this OptionalChain .") ^^^ { pair(Nil, ERef(RefId(Id("OptionalChain"))))
     } | ("the first child of this production") ~ rest ^^^ {
       pair(Nil, ERef(RefId(Id(algo.params(1)))))
     } | ("the String value of length 1 , containing one code unit from" ~> id) ~ (", " ~> ("namely" | "specifically") ~> "the code unit at index" ~> id) ^^ {
