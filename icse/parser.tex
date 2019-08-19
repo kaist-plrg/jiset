@@ -182,7 +182,7 @@ but the next token of the input string \( \code{a(b);} \) is \( \code{(} \)
 rather than \( \code{;} \).  Hence, it fails to parse the input string
 even though the current token is the same with the terminal \( \T{a} \).
 Therefore, the parser can visit the next alternative \( \T{a}\T{(}\T{b}\T{)} \)
-and successfully parsers the input \( \code{a(b);} \).
+and successfully parses the input \( \code{a(b);} \).
 
 \begin{figure}[t]
 \centering
@@ -235,7 +235,7 @@ classes of syntax trees.  For each production \(
   \cdots \mid
   (\cond_n \Rightarrow)^? \rhs_n
 \), the AST generator defines the \( \code{A} \) trait and multiple
-subclasses \( \code{A}_i \) of \( \code{A} \) for \(1 \le i \le n\)
+subclasses \( \code{A}_i \) of \( \code{A} \) for \(0 \le i \le n-1\)
 that represents its alternatives.  Each class \( \code{A}_i \) has
 non-terminals in its corresponding alternative as its fields.
 For instance, the \( ArrayLiteral \) production in Figure~\ref{fig:array-literal}
