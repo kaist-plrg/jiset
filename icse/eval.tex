@@ -109,16 +109,41 @@ proposals in Stage 3.
 \subsection{Specification Error Detection}
 
 We found four specification errors in ECMAScript 2020 via \( \tool \).
-They were all confirmed by TC39 and will be fixed in the next release.
+We fixed them and sent pull requests into the official GitHub repository of
+ECMAScript specification~\cite{es2020}. They were all confirmed by TC39
+and will be fixed in the next release.
 
-\paragraph{Ambiguous \textbf{VarScopedDeclarations} for \textit{IterationStatement}}
+First, we found that \textbf{VarScopedDeclarations} syntax-directed algorithms of
+specific cases of \textit{IterationStatement} are ambigious.
+The \textbf{VarScopedDeclarations} algorithm is used to initially define
+the variable declarations before entering speicific scopes. However, the iteration syntax
+\( \code{for await (} \; \textit{LeftHandSideExpression} \; \code{of} \;
+\textit{AssignmentExpression} \; \code{)} \; \textit{Statement} \)
+has two different \textbf{VarScopedDeclarations} algorithms.
+In \( \tool \), the spec extractor detects such duplications.
 
+For the \textbf{ExpectedArgumentCount} syntax-directed algorithm, we found that
+there are missing cases for some syntax. This algorithm counts the number of
+expected arugments of a specific parameters. However, it does not cover all
+the cases. For example, if there exists only one formal parameter,
+the ECMAScript 2020 specification does not provide any semantics.
+We detect this error during evaluations of test262 tests under
+the extracted semantics via \( \tool \). It throws an error that there
+is no \textbf{ExpectedArgumentCount} algorithm for specific tests.
 
+Moreover, we found an error in \textsf{Ecmarkup}, a toolchain used to specify ECMAScript
+and render the raw specification HTML files.
+At the first time, we though that we found a missing case for the \textbf{IsFunctionDefinition}
+algorithm of unnamed function expressions. However, in the raw specification HTML file,
+there are no missing cases. We investigate why it happens and realize that \textsf{Ecmarkup}
+itself has a bug to silently remove the {\small opt} subscript in
+\( \code{collapsed} \) syntax mode. Thus, unnamed functions are not described
+in the rendered HTML file.
 
-
-% test262 결과를 어떻게? 전체 개수 / applicable tests 개수 / succes, fail 개수
-% \inred{refactoring for compile rules / get statistics of compile rules}
-% 개수만 - stmt / expr / cond / ref 몇개씩? / corner cases 개수
-% \inred{proposed language features / related tests in test262 / diff of compile rules}
-% 각 feature name / 의미 / compile 성공률 / 결과 test
-% \inred{supprot "Assert: ... "?/ confirm found spec errors by TC39}
+\inred{- completion records??}
+% The last issue is about the \textit{completion record type}, which is one of controversial features
+% in ECMAScript specifications. They are used to describe the propagation of control
+% flows and values in abstract algorithms. They are implicitly constructed
+% in steps that return values that are not completion records in runtime semantics.
+% Moreover, 
+% It confuses the type of return values 
