@@ -33,11 +33,13 @@ package object ase {
   // ECMAScript model
   val VERSION = "es2020"
 
+  val DIFFLIST = List("es2016", "es2017", "es2018", "es2019", "es2020")
+
   // Debugging mode
   val DEBUG_SEMI_INSERT: Boolean = false
   val DEBUG_PARSER: Boolean = false
   val DEBUG_INTERP: Boolean = false
 
   // display progress in tests
-  val DISPLAY_TEST_PROGRESS = false
+  val DISPLAY_TEST_PROGRESS = true
 }
