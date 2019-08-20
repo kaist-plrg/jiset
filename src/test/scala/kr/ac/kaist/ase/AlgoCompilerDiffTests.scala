@@ -67,12 +67,10 @@ class AlgoCompilerDiffTest extends CoreTest {
         algoMap = algoMap2
         firstStepMap = nextStepMap
         firstAlgoMap = nextAlgoMap
+        println(s"diff algo: ${countPass(diffAlgoMap)}")
 
-        println(s"$version step: ${countPass(nextStepMap)}")
         println(s"$version algo: ${countPass(nextAlgoMap)}")
 
-        println(s"diff step: ${countPass(diffStepMap)}")
-        println(s"diff algo: ${countPass(diffAlgoMap)}")
       })
 
   }
