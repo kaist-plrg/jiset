@@ -639,21 +639,6 @@ object BuiltinHeap {
         NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Generator"), F, F, T)
       )
     ),
-    "GLOBAL.INTRINSIC_AsyncGeneratorFunction" -> Struct(
-      typeName = "BuiltinFunctionObject",
-      imap = IMap(
-        "Prototype" -> NamedAddr("GLOBAL.Function"),
-        "Code" -> GLOBALDOTAsyncGeneratorFunction.func,
-        "Extensible" -> Bool(true),
-        "ScriptOrModule" -> Null,
-        "Realm" -> NamedAddr("REALM")
-      ),
-      nmap = NMap(
-        "name" -> DataProperty(Str("AsyncGeneratorFunction"), T, F, T),
-        "length" -> DataProperty(Num(1.0), F, F, T),
-        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGenerator"), F, F, F)
-      )
-    ),
     "GLOBAL.INTRINSIC_AsyncGenerator" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
@@ -709,21 +694,6 @@ object BuiltinHeap {
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise"), F, F, F)
       ) ++ Map(
         NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Promise"), F, F, T)
-      )
-    ),
-    "GLOBAL.INTRINSIC_AsyncFunction" -> Struct(
-      typeName = "BuiltinFunctionObject",
-      imap = IMap(
-        "Prototype" -> NamedAddr("GLOBAL.Function"),
-        "Code" -> GLOBALDOTAsyncFunction.func,
-        "Extensible" -> Bool(true),
-        "ScriptOrModule" -> Null,
-        "Realm" -> NamedAddr("REALM")
-      ),
-      nmap = NMap(
-        "name" -> DataProperty(Str("AsyncFunction"), F, F, T),
-        "length" -> DataProperty(Num(1.0), F, F, T),
-        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncFunctionPrototype"), F, F, F)
       )
     ),
     "GLOBAL.INTRINSIC_AsyncFunctionPrototype" -> Struct(
