@@ -13,10 +13,6 @@ class AlgoCompilerDiffTest extends CoreTest {
   // tag name
   val tag: String = "algoCompilerDiffTest"
 
-  // algorithm files
-  val algo1Dir = s"$RESOURCE_DIR/$VERSION1/auto/algorithm"
-  val algo2Dir = s"$RESOURCE_DIR/$VERSION2/auto/algorithm"
-
   object CheckNotYetImplWalker extends UnitWalker {
     override def walk(expr: Expr): Unit = expr match {
       case ENotYetImpl(msg) => fail(s"[ENotYetImpl] $msg")
@@ -31,25 +27,9 @@ class AlgoCompilerDiffTest extends CoreTest {
   // registration
   def init: Unit = {
     var algoMap: Map[String, String] = Map()
+    var algoMap2: Map[String, String] = Map()
     var firstStepMap: Map[String, Boolean] = Map()
     var firstAlgoMap: Map[String, Boolean] = Map()
-    for (file <- shuffle(walkTree(new File(algo1Dir)))) {
-      val filename = file.getName
-      if (jsonFilter(filename)) {
-        val name = file.toString
-        val algo = Algorithm(name)
-        algoMap += algo.filename.split("/").last -> algo.steps.toString
-        val lineCount = algo.lineCount
-        lazy val compiler = AlgoCompiler("", algo)
-        lazy val (func, failed) = compiler.result
-        firstAlgoMap += name -> (failed.size == 0)
-        (0 until lineCount).foreach((k) =>
-          firstStepMap += s"$name$k" -> !(failed contains k))
-      }
-    }
-
-    println(s"first step: ${countPass(firstStepMap)}")
-    println(s"first algo: ${countPass(firstAlgoMap)}")
 
     var nextStepMap: Map[String, Boolean] = Map()
     var nextAlgoMap: Map[String, Boolean] = Map()
@@ -57,29 +37,41 @@ class AlgoCompilerDiffTest extends CoreTest {
     var diffStepMap: Map[String, Boolean] = Map()
     var diffAlgoMap: Map[String, Boolean] = Map()
 
-    for (file <- shuffle(walkTree(new File(algo2Dir)))) {
-      val filename = file.getName
-      if (jsonFilter(filename)) {
-        val name = file.toString
-        val algo = Algorithm(name)
-        val isDiff = algoMap.get(algo.filename.split("/").last).map(_ != algo.steps.toString).getOrElse(true)
-        val lineCount = algo.lineCount
-        lazy val compiler = AlgoCompiler("", algo)
-        lazy val (func, failed) = compiler.result
-        nextAlgoMap += name -> (failed.size == 0)
-        if (isDiff) diffAlgoMap += name -> (failed.size == 0)
-        (0 until lineCount).foreach((k) => {
-          nextStepMap += s"$name$k" -> !(failed contains k)
-          if (isDiff) diffStepMap += s"$name$k" -> !(failed contains k)
-        })
-      }
-    }
+    DIFFLIST.foreach((version) =>
+      {
+        val algoversionDir = s"$RESOURCE_DIR/$version/auto/algorithm"
+        algoMap2 = Map()
+        nextStepMap = Map()
+        nextAlgoMap = Map()
+        diffStepMap = Map()
+        diffAlgoMap = Map()
 
-    println(s"next step: ${countPass(nextStepMap)}")
-    println(s"next algo: ${countPass(nextAlgoMap)}")
+        for (file <- shuffle(walkTree(new File(algoversionDir)))) {
+          val filename = file.getName
+          if (jsonFilter(filename)) {
+            val name = file.toString
+            val algo = Algorithm(name)
+            algoMap2 += algo.filename.split("/").last -> algo.steps.toString
+            val isDiff = algoMap.get(algo.filename.split("/").last).map(_ != algo.steps.toString).getOrElse(true)
+            val lineCount = algo.lineCount
+            lazy val compiler = AlgoCompiler("", algo)
+            lazy val (func, failed) = compiler.result
+            nextAlgoMap += name -> (failed.size == 0)
+            if (isDiff) diffAlgoMap += name -> (failed.size == 0)
+            (0 until lineCount).foreach((k) => {
+              nextStepMap += s"$name$k" -> !(failed contains k)
+              if (isDiff) diffStepMap += s"$name$k" -> !(failed contains k)
+            })
+          }
+        }
+        algoMap = algoMap2
+        firstStepMap = nextStepMap
+        firstAlgoMap = nextAlgoMap
+        println(s"diff algo: ${countPass(diffAlgoMap)}")
 
-    println(s"diff step: ${countPass(diffStepMap)}")
-    println(s"diff algo: ${countPass(diffAlgoMap)}")
+        println(s"$version algo: ${countPass(nextAlgoMap)}")
+
+      })
 
   }
   init
