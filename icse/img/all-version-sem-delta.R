@@ -19,7 +19,7 @@ p <- plot_ly(
   marker = list(color = '#FE1A13')
 ) %>% layout(
   yaxis = list(title = '# of Steps'),
-  xaxis = list(title = ''), #, showticklabels = FALSE),
+  xaxis = list(title = 'Δ ECMAScript Version'), #, showticklabels = FALSE),
   barmode = 'stack'
 )
 p
