@@ -87,7 +87,7 @@ parsing rules and conversion rules, respectively.
 \subsection{Token List Parser}
 Parsing rules determine the token list parser, and each parsing rule
 is written in extended Scala parser combinators.  We modified the
-meaning of the alternative composition operator ( \( | \) ) to collect
+meaning of the alternative composition operator ( \( ||| \) ) to collect
 all the longest matched results.  If a parser detects a step that
 cannot be parsed with given parsing rules, it reports the step into
 {\sf Rule Assistant}.  Even when a parser parses a step successfully,
@@ -117,13 +117,14 @@ version for the step 2-e-i of the \textbf{ToPrimitive} algorithm.
 \begin{lstlisting}[style=myScalastyle]
 // statements
 val Stmt = "Let" ~ varT ~ "be" ~ Expr ~ "." ^^ ...
-val Expr = (          // expressions
-  varT ^^ ... |       // identifiers
-  "?" ~ Expr ^^ ... | // return if abrupt
-                      // function calls
-  word ~ "(" ~ repsep(Expr, ",") ~ ")" ^^ ... |
-  "<<" ~ repsep(varT, ",") ~ ">>" ^^ ...  // lists
-)
+// expressions
+val Expr =
+  // identifiers        // return if abrupt
+  varT      ^^ ... |||  "?" ~ Expr      ^^ ... |||
+  // function calls
+  word ~ "(" ~ repsep(Expr, ",") ~ ")"  ^^ ... |||
+  // lists
+  "<<" ~ repsep(varT, ",") ~ ">>"       ^^ ...
 \end{lstlisting}
 The \( \code{Stmt} \) compile rule describes how to compile statements
 with one parsing rule and its conversion rule is omitted for now for
@@ -145,13 +146,14 @@ in the previous example for the step 2-e-i of \textbf{ToPrimitive}:
 \begin{lstlisting}[style=myScalastyle]
 // statements
 val Stmt = ... ^^ { case _ ~ x ~ _ ~ y => ILet(x, y) }
-val Expr = (               // expressions
-  ... ^^ { x => EId(x) } | // identifiers
-                           // return if abrupt
-  ... ^^ { _ ~ e => EReturnIfAbrupt(e) } |
-                           // function calls
-  ... ^^ { case x ~ _ ~ y ~ _ => ECall(x, y) } |
-  ... ^^ { case _ ~ x ~ _ => EList(e) } // lists
+// expressions
+val Expr =
+  // identifiers   // return if abrupt
+  ... ^^ EId |||   ... ^^ { _ ~ e => EAbrupt(e) } |||
+  // function calls
+  ... ^^ { case x ~ _ ~ y ~ _ => ECall(x, y) }    |||
+  // lists
+  ... ^^ { case _ ~ x ~ _ => EList(e) }
 )
 \end{lstlisting}
 The conversion rule of the compile rule \( \code{Stmt} \) uses only
@@ -201,11 +203,11 @@ abstract data types: \( \code{Record} \) for mappings from some values
 to other values, \( \code{List} \) for sequential data, and
 \( \code{Singleton} \) for singleton data.  For example, ECMAScript
 environment records are represented as \( \code{Record} \)
-with string values as keys and addresses as values.  Each key
-represents an identifier name and its corresponding address represents
-an ECMAScript object.  We also represent constants in the ECMAScript
-specification such as \( \code{empty} \) and \( \code{normal} \) as
-\( \code{Singleton} \) data types in \( \ires \).
+from string values into addresses that represents other type of
+\( \code{Record} \) for bindings.  We also represent constants
+in the ECMAScript specification such as \( \code{empty} \)
+and \( \code{normal} \) as \( \code{Singleton} \) data types
+in \( \ires \).
 \end{itemize}
 
 \subsection{Rule Assistant}
@@ -254,9 +256,9 @@ process, we added a parsing rule  \( \code{starT} \) to each compile
 rule as follows:
 \begin{lstlisting}[style=myScalastyle]
 // statements
-val Stmt = ... | starT ^^ { case x => Dummy("Stmt") }
+val Stmt = ... ||| starT ^^ { case x => Dummy("Stmt") }
 // expressions
-val Expr = ... | starT ^^ { case x => Dummy("Expr") }
+val Expr = ... ||| starT ^^ { case x => Dummy("Expr") }
 \end{lstlisting}
 where \( \code{starT} \) is a special basic token parser that just
 checks whether a given token is the special token \( \tstar \). 
