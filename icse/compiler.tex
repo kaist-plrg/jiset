@@ -13,7 +13,7 @@ Figure~\ref{fig:algo-compiler}.
 \subsection{Tokenizer}
 Before compiling abstract algorithms, {\sf Tokenizer} first tokenizes
 each abstract algorithm into a list of tagged tokens.  An algorithm
-consists of ordered steps and it may contain sub-steps as well.
+consists of ordered steps, and a step may contain sub-steps as well.
 For example, the \textbf{\small ToPrimitive} algorithm in
 Figure~\ref{fig:to-primitive}(a) has three steps and the second step
 has seven sub-steps.  Moreover, the tokens of each step have their own
@@ -158,7 +158,7 @@ val Expr =
 \end{lstlisting}
 The conversion rule of the compile rule \( \code{Stmt} \) uses only
 the second and fourth sub trees and converts them to \( \ires \)
-components.  The second sub-tree is converted to a string value
+instructions.  The second sub-tree is converted to a string value
 because it was constructed via the basic token parser \( \code{varT} \).
 The fourth sub-tree is converted to an \( \ires \) expression
 because the conversion rules of the \( \code{Expr} \) compile rule
@@ -166,7 +166,7 @@ construct \( \ires \) expressions.  Then, the conversion rule of
 \( \code{Stmt} \) constructs the lexical binding instruction \( \code{ILet} \)
 with the string value and the \( \ires \) expression.  In this way,
 the step 2-e-i of \textbf{ToPrimitive} is converted to the following
-instruction:
+\( \ires \) instruction:
 \begin{lstlisting}[style=ires]
 let result = ? (Call exoticToPrim input (new [hint]))
 \end{lstlisting}
@@ -203,7 +203,7 @@ abstract data types: \( \code{Record} \) for mappings from some values
 to other values, \( \code{List} \) for sequential data, and
 \( \code{Singleton} \) for singleton data.  For example, ECMAScript
 environment records are represented as \( \code{Record} \)
-from string values into addresses that represents other type of
+from string values into addresses that represent other types of
 \( \code{Record} \) for bindings.  We also represent constants
 in the ECMAScript specification such as \( \code{empty} \)
 and \( \code{normal} \) as \( \code{Singleton} \) data types
