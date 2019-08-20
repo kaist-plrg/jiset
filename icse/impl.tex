@@ -1,105 +1,139 @@
-\section{Building entire system to extract semantics}\label{sec:impl}
+\section{Implementation}\label{sec:impl}
 
-In this section, we demonstrate how our idea can be implemented for target language. Although it is hard to generalize the process because the format of specification or
-environment of the programming language is varying, We shows the possibility to build entire system to extract target language specification and interpreting it with minimal human effort by giving end-to-end example of ECMAScript language.
+In this section, we demonstrate the implementation detail of \( \tool \).
+We target to extract JavaScript syntax and semantics from
+ECMAScript 2020 specification. It is the next ECMAScript version
+that is actively updated in GitHub repository~\cite{es2020}
+to be released in the next year. Moreover, Ecma Technical Committee 39 (TC39)
+officially provides the conformance test suite, test262, for ECMAScript 2020.
 
-\subsection{Extracting specification}
-First step is to collect language specification and extract component that we can process automatically. For our target language, ECMAScript, has HTML format of specification in their website, and
-in the specification they have BNF form of syntax, highly structured algorithm steps, and verbose texts to describe additional environment to evaluating ECMAScript source code.
-We get these information by parsing HTML document, and passing these result to our previous module to get AST, Parser, and executable algorithms.
+\subsection{Excluded Language Features}
+We decide to not support several language features in ECMAScript 2020:
 
-To organize these primitives and running the program, we have to model initial environment of language such as initialization of builtin types, or entry point of the program, etc.
+\paragraph{No-Strict Mode}
+Since ECMAScript 5, JavaScript introduced strict mode to \textit{intentianally} provide
+slightly different semantics. It provides more stable semantics by preventing
+unsafe actions or throwing originally ignored errors.
+However, ECMAScript specification says:
+``Strict mode does not restrict or modify any aspect of the ECMAScript semantics
+that must operate consistently across multiple source text units.''
+Thus, we decide to only support strict mode JavaScript to reduce the labors.
 
-\subsection{Generating initial environment for execution}
-For ECMAScript Specification, initial environment consists of the Builtin objects, and Intrinsic objects. We describe how to generate each component.
+\paragraph{Intricate Built-ins}
+JavaScript provides various built-in object to support helper functions in standard.
+However, several built-in libraries are orthogonal but labor-intensive
+to be manually modeled. Thus, we decide to not support
+four orgothonoal libraries; \( \code{Math} \), \( \code{Date} \),
+\( \code{RegExp} \), and \( \code{JSON} \).
 
-\subsubsection{Builtin objects}
+\paragraph{Modules}
+Moreover, we also do not support modules introduced since ES6 (ECMAScript 2015).
+With the \( \code{import} \) keyword, a JavaScript program
+imports other JavaScript components defined with the \( \code{export} \)
+keyword in modules. In order to support modules in semantics, we should
+model the functionality to communicate with file system to access
+JavaScript module files. However, modules do not critically affect
+the overall semantics. Thus, we decide to not support modules.
 
- Builtin object is a pre-defined object with many built-in functions. For example, In ECMAScript \( \code{Array} \) corresponds to an object which can generate an array by
- calling it. Each builtin object provides data property and functions, just as ordinary object. When its function is called,
- its algorithm specified in the document should be called.
- 
- In specification, a builtin function object usually matches to abstract algorithm. Its algorithm name
- describes the hierarchy about object it should be contained. For example, there is an abstract algorithm named \( \code{ Object.prototype.propertyIsEnumerable } \). With its name,
- we can know that it corresponds to builtin function in the object \( \code{ Object.prototype } \) as property.
- To support builtin object, we make structure of builtin object and its properties.
- After we correctly organizes structure, then we made algorithm that automatically map corresponding field to the abstract algorithm in specification by matching its function name.
- 
- \subsubsection{Intrinsic objects}
 
- In specification, "Well-known intrinsics are built-in objects that are explicitly referenced by the algorithms".
- Abstract algorithm uses identifiers like "\%name\%" to point builtin objects. For example it refers builtin Array object as \( \code{\%Array\%} \) .
- Map between Intrinsic name and Builtin objects are available in specification as table form in section "6.1.7.4 Well-Known Intrinsic Objects", so we parse this table to generate global identifier to object.
+\subsection{Comple Rules for ECMAScript}
 
-\subsection{Algorithm scope}
+\begin{table}
+  \centering
+  \[
+    \begin{array}{c|r|r|r|r|r|r|r}
+      \text{name}
+      & \multicolumn{1}{c|}{\code{Stmt}}
+      & \multicolumn{1}{c|}{\code{Expr}}
+      & \multicolumn{1}{c|}{\code{Cond}}
+      & \multicolumn{1}{c|}{\code{Value}}
+      & \multicolumn{1}{c|}{\code{Ty}}
+      & \multicolumn{1}{c|}{\code{Ref}}
+      & \multicolumn{1}{c}{\code{SecNo}}\\\hline
+      \text{\# rules}
+      & \inred{XX}
+      & \inred{XX}
+      & \inred{XX}
+      & \inred{XX}
+      & \inred{XX}
+      & \inred{XX}
+      & \inred{XX}\\\hline
+    \end{array}
+  \]
+  \caption{The compile rules for ECMAScript specifications.}
+  \label{table:rules}
+\end{table}
 
- In specification, All algorithm has name to refer it, but some algorithms have same names and they are called in context-dependent way.
-In "5.2 Algorithm Conventions", it defines three types of abstract operation.
- \begin{itemize}
-  \item Abstract operation: they can be called by name in any context
-  \item Method-like abstract operation: algorithm dispatch depends on receiver object
-  \item Syntax-directed operation: algorithm dispatch depends on receiver AST
-  \end{itemize}
+The \textsf{Algorithm Compiler} requires compile rules to compile
+given abstract algorithms into \( \ires \) functions.
+We define compiler rules for ECMAScript specifications
+and Table~\ref{table:rules} describes them.
+The statement compile rule \( \code{Stmt} \) contains
+\inred{XX} compile rules and generates \( \ires \) instructions.
+The \( \code{Expr} \), \( \code{Cond} \), and \( \code{Value} \)
+compile rules denote expressions, conditions, and values, respectively.
+While all of them generates \( \ires \) expressions,
+we discriminate them because they have different use cases.
+The \( \code{Ty} \) denotes type names and generates
+string primitives in \( \ires \). The \( \code{Ref} \)
+represents the references including identifiers lookups or
+member accesses of map-like structures. It generates
+\( \ires \) reference expressions.
+Finally, the Section number \( \code{SecNo} \) compile rule
+represents sections numbers such as \( \code{9.4.1.1} \),
+and it converts such numbers into the corresponding name strings
+such as \( \code{"BoundFunctionObject.Call"} \).
 
-First, we categorized sections by types of algorithm.
-Method-like abstract operation has separate sections to describe it, so we manually add these sections to treat differently.
-Also Syntax-directed operations are described in distinct sections, so both case is easy to extract it.
-Rest algorithms are considered as ordinary Abstract operation.
 
-\subsubsection{Abstract operation}
+\subsection{Global Setting}
 
-We just convert abstract operations to function, and bind global identifier to that function to call it by algorithm name.
+We manually implemented \textsf{Global Setting} for ECMAScript 2020.
+It consists of the structure of built-in objects and ECMAScript data types.
 
-\subsubsection{Method-like abstract operation}
+\subsubsection{ECMAScript Data Types}
 
-In ECMAScript specification, there are some objects which has similar interface, but they have different algorithms. 
+In ECMAScript, the Section \textsf{6 ECMAScript Data Types and Values} describes
+data types used in ECMAScript specifications. They not only represent
+data types explicitely exposed into JavaScript evaluations, but also
+represent all internal data types used in the specification.
+For example, the Environement Records are record types from identifiers
+into bindings for values. They are not explicitely accessed in JavaScript
+programs but defined internally in the specification.
 
-For Example, Ordinary Object and String Exotic Object is different object in specification, but they have same name of algorithm(i.e. \( \code{[[getOwnProperty]](N)} \))
+Each ECMAScript data type consists of several fields to store relevant values.
+Thus, we should implement such structures to correctly evaluate JavaScript
+programs. Moreover, some fields of ECMAScript data types might be
+abstract algorithms. We call them as \textit{method-like abstract algorithms}
+and they have implicitly get reciever object as an argument.
+In order to mimic such implicit behaviors, we added a special variable
+\( \code{this} \) as the first parameter. And we modify algorithm compiler
+to detect cases and pass the receiver object into the method-like abstract
+algorithms. For example, an Environement Record has the \textsf{DeleteBinding (N)}
+abstract algorithm as one of its fields. Then, it has two parameters the special
+parameter \( \code{this} \) and normal one \( \code{N} \).
+The following algorithm step is compiled into the \( \ires \) instruction
+\( \code{return DclRec.DeleteBinding(DclRec, N)} \).
+\begin{center}
+  \includegraphics[width=0.3\textwidth]{img/method-like-example.png}
+\end{center}
 
-In this case, algorithm dispatching should consider receiver Object(i.e. \( \code{x.[[GetOwnProperty]](N)} \)).
-For method-like abstract operation, we organized map from algorithm name to function for each type,
- and we insert functions as property of object when such type of object is created. So In our example, when  \( \code{x} \) is created with Ordinary Object type,
- then we insert property with name \( \code{[[GetOwnProperty]]} \) and function from method-like abstract operation "[[GetOwnProperty]]" in Ordinary Object Internal method section, at the time of map creation.
 
- \subsubsection{Syntax-directed operation}
- 
- Like method-like abstract operation, many AST objects have similar interface, but they have different algorithm.
-The most frequent example is "Evaluation" algorithm of AST Values. Many non-terminal symbol have different algorithm with name "Evaluation", and
-when specification requires "the result of evaluating \textit{variable}", then it should apply "Evaluation" of non-terminal symbol which matches to \textit{variable}.
-It is assumed that \textit{variable} is a AST value. Also in Syntax-directed operation, the sub-component of AST can be used as values. For example, In the
-Evaluation algorithm of \textit{CallExpression} : \textit{CallExpression} \textit{Arguments}, algorithm can uses \textit{CallExpression} or \textit{Arguments} to refer sub-component of AST.
- To support Syntax-directed operation, we insert converted functions in AST structure, and add special expression to call Syntax-directed operation which requires AST Value and algorithm name.
-We gather which AST can be applied to a function. Also, to use child node of AST, we passes child node of AST to function as argument.
+\subsubsection{Built-in Objects}
+In ECMAScript, built-in objects are pre-defined functions with several
+built-in functions. For example, the array object \( \code{Array} \)
+is the constructor of array objects, and its prototype property
+\( \code{Array.prototype} \) has built-in functions for array objects.
+For example, \( \code{[1,2,3].flat()} \) calls the
+\( \code{Array.prototype.flat} \) built-in function with the array
+\( \code{[1,2,3]} \). Built-in functions are also abstract algorithms
+thus each of them is automatically converted into an \( \ires \) function.
+However, the structured of built-in objects should be implemented manually.
+Thus, we implement built-in objects in Scala and connect their properties
+with the extracted \( \ires \) functions.
 
-% \begin{itemize}
-%   \item \textbf{Global Algorithms} Global algorithms are possible to be accessed
-%     by any other algorithms. The top-level algorithm \( \code{RunJobs} \) is also global.
-%   \item \textbf{Type-dependent Algorithms} Several algorithms have different
-%     bodies dependent on types of their owner data. In ECMAScript specifications,
-%     there are two different data types; language types and specification types.
-%     The language types are explicitly used in JavaScript languages such as
-%     \( \code{Boolean}, \code{Number}, \code{String} \), and \( \code{Object} \).
-%     However, specification types are only used in specifications such as
-%     Lists, Records, and Lexical Environments. Among them, some data types
-%     have their own member algorithms. For example, language type \( \code{Object} \)
-%     has several internal methods described in abstract algorithms. It depends
-%     on 
-% 
-%     several data types have their own member algorithms. For example, 
-%     
-%     For example, the internal method
-%     \( \code{[[Call]]} \) has different semantics dependent on its owner object.
-%     Moreover, the owner objects are used in the body of algorithms as well.
-%     Thus, we extend the parameters to accept its owner object as an implicit argument.
-%   \item \textbf{Syntax-directed Algorithms} The semantics of each JavaScript syntax
-%     are written in 
-% \end{itemize}
-
-% \subsection{semantic 컴파일하기 위해 하는 것 + specification 구조}
-% 기본적인 원칙 :
-% \begin{itemize} 
-% \item 자바스크립트로 알고리즘 이름이랑 파라미터, 스텝을 가져와서 코어의 글로벌 ID에 매치 시켜줌
-% \item initial Heap을 생성해줌
-% \end{itemize}
-% 매치를 시킨다는 뜻은 코어의 글로벌 ID에 코어 함수 형태로 알고리즘을 넣는 것임
-% 
+Some built-in objects are named as intrinsic objects when they are
+are explicitly referenced in abstrat algorithms.
+Intrinsic objects have their own names as aliases in the table
+of the Section \textsf{6.1.7.4 Well-known Intrinsic Objects}.
+Thus, we extract such alias information into \textsf{Global Setting}
+to utilize it during evaluations.
