@@ -31,13 +31,13 @@ package object ase {
   val CUR_DIR = System.getProperty("user.dir")
 
   // ECMAScript model
-  val VERSION = "es2020_full"
+  val VERSION = "es2016"
 
   val DIFFLIST = List("es2016", "es2017", "es2018", "es2019", "es2020")
 
   // Debugging mode
   val DEBUG_SEMI_INSERT: Boolean = false
-  val DEBUG_PARSER: Boolean = false
+  val DEBUG_PARSER: Boolean = true
   val DEBUG_INTERP: Boolean = false
 
   // display progress in tests

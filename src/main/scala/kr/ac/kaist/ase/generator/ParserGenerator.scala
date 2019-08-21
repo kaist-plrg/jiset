@@ -70,7 +70,8 @@ object ParserGenerator {
 
     def getParser(prod: Production): Unit = {
       val Production(lhs, rhsList) = prod
-      val Lhs(name, params) = lhs
+      val Lhs(name, rawParams) = lhs
+      val params = rawParams.map("p" + _)
 
       val noLLs = rhsList.zipWithIndex.filter { case (rhs, _) => !isLL(name, rhs) }
       val LLs = rhsList.zipWithIndex.filter { case (rhs, _) => isLL(name, rhs) }
@@ -92,8 +93,6 @@ object ParserGenerator {
       nf.println(s"""  })""")
     }
 
-    lazy val paramMap: Map[String, List[String]] =
-      prods.map(prod => prod.lhs.name -> prod.lhs.params).toMap
     def getParsers(name: String, tokens: List[Token], cond: String, idx: Int, isSub: Boolean): String = {
       var parser = ("MATCH" /: tokens)(appendParser(_, _)) + " ^^ { case "
       val count = tokens.count(_ match {
@@ -112,12 +111,28 @@ object ParserGenerator {
       s"""      log($parser)("$astName")"""
     }
 
+    lazy val paramMap: Map[String, List[String]] =
+      prods.map(prod => prod.lhs.name -> prod.lhs.params).toMap
+    def getArgs(name: String, args: List[String]): String = {
+      val params = paramMap.getOrElse(name, Nil)
+      val argMap = (Map[String, String]() /: args) {
+        case (m, arg) =>
+          val dropped = arg.drop(1)
+          m + {
+            if (arg.startsWith("~")) dropped -> "false"
+            else if (arg.startsWith("+")) dropped -> "true"
+            else if (arg.startsWith("?")) dropped -> ("p" + dropped)
+            else dropped -> "false"
+          }
+      }
+      s"""(List(${params.map(p => argMap.getOrElse(p, "false")).mkString(", ")}))"""
+    }
     def appendParser(base: String, token: Token): String = token match {
       case Terminal(term) => s"""($base <~ t(${getTokenParser(token)}))"""
       case NonTerminal(name, args, optional) =>
         var parser = name
         if (lexNames contains parser) parser = s"""nt("$parser", $parser)"""
-        else parser += s"""(List(${args.mkString(", ")}))"""
+        else parser += getArgs(name, args)
         if (optional) parser = s"""opt($parser)"""
         s"""$base ~ $parser"""
       case ButNot(_, cases) =>
