@@ -88,13 +88,12 @@ type names and generates string primitives in \( \ires \).  The \( \code{Ref} \)
 represents references such as identifier lookup and member accesses of
 map-like structures.  It generates \( \ires \) reference expressions.
 Finally, the \( \code{SecNo} \) compile rule denotes section numbers
-like \( \code{9.4.1.1} \), and it converts such numbers to
-corresponding name strings like \( \code{"BoundFunctionExoticObject.Call"} \):
+like \( \code{9.5.12} \), and it converts such numbers to
+corresponding name strings like \( \code{"ProxyExoticObject.Call"} \):
 \begin{lstlisting}[style=myScalastyle]
-lazy val section: P[String] = (
-  "9.4.1.1" ^^^ "BoundFunctionExoticObject.Call" |
+lazy val SecNo =
+  "9.5.12" ^^ { case x => "ProxyExoticObject.Call" } |||
   ...
-) ^^ { getScalaName(_) }
 \end{lstlisting}
 
 \subsection{Global Setting}
