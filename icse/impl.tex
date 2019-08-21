@@ -23,13 +23,12 @@ across multiple source text units.''  Thus, we decided to support only
 strict mode of JavaScript to focus on the main contribution of this
 paper.
 
-\paragraph{Intricate Built-in Objects}
+\paragraph{Orthogonal Built-in Objects}
 JavaScript provides various standard built-in objects to support
-helper functions.  However, several built-in libraries require
-labor-intensive manual modeling without adding any technical
-contribution to this paper.  Thus, we decided not to support
-four such libraries: \( \code{Math} \), \( \code{Date} \),
-\( \code{RegExp} \), and \( \code{JSON} \).
+helper functions.  However, several built-in libraries are orthogonal
+to the JavaScript semantics but support extra functionalities such as
+\( \code{Math} \), \( \code{Date} \), \( \code{RegExp} \), and
+\( \code{JSON} \).  Thus, we decided not to support the four libraries.
 
 \paragraph{Modules}
 Moreover, we do not support modules that were introduced since ES6
