@@ -16,13 +16,6 @@ class AlgoCompilerTest extends CoreTest {
   // algorithm files
   val algoDir = s"$RESOURCE_DIR/$VERSION/auto/algorithm"
 
-  object CheckNotYetImplWalker extends UnitWalker {
-    override def walk(expr: Expr): Unit = expr match {
-      case ENotYetImpl(msg) => fail(s"[ENotYetImpl] $msg")
-      case e => super.walk(e)
-    }
-  }
-
   // tests for algo-compiler
   def algoCompilerTest(size: Int, failed: Map[Int, List[Token]], name: String): Unit = {
     val tag = "AlgoCompile"

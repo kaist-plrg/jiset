@@ -94,7 +94,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "undefined" ^^^ EUndef |
       "null" ^^^ ENull |
       "absent" ^^^ EAbsent |
-      "???" ~> string ^^ { ENotYetImpl(_) } |
       "!!!" ~> string ^^ { ENotSupported(_) } |
       "(" ~> (uop ~ expr) <~ ")" ^^ { case u ~ e => EUOp(u, e) } |
       "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |

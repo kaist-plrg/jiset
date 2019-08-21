@@ -28,7 +28,7 @@ abstract class ASETest extends FunSuite with BeforeAndAfterAll {
         fail(e.toString)
       case Failure(e) =>
         resMap += tag -> (res + (name -> false))
-        if (DISPLAY_TEST_PROGRESS && !(e.toString contains "NotYetImpl")) printRed("#")
+        if (DISPLAY_TEST_PROGRESS) printRed("#")
         fail(e.toString)
     })
   }

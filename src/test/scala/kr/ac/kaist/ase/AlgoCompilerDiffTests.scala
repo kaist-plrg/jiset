@@ -13,13 +13,6 @@ class AlgoCompilerDiffTest extends CoreTest {
   // tag name
   val tag: String = "algoCompilerDiffTest"
 
-  object CheckNotYetImplWalker extends UnitWalker {
-    override def walk(expr: Expr): Unit = expr match {
-      case ENotYetImpl(msg) => fail(s"[ENotYetImpl] $msg")
-      case e => super.walk(e)
-    }
-  }
-
   def countPass[A](k: Map[A, Boolean]): (Int, Int) = (
     k.filter { case (k, v) => v }.size, k.size
   )

@@ -126,8 +126,6 @@ trait UnitWalker {
       walk(obj)
     case EKeys(obj) =>
       walk(obj)
-    case ENotYetImpl(msg) =>
-      walk(msg)
     case ENotSupported(msg) =>
       walk(msg)
   }

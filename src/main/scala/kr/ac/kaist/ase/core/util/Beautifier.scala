@@ -185,8 +185,6 @@ object Beautifier {
         walk("(copy-obj "); walk(obj); walk(")")
       case EKeys(obj) =>
         walk("(map-keys "); walk(obj); walk(")")
-      case ENotYetImpl(msg) =>
-        walk("??? \""); walk(norm(msg)); walk("\"")
       case ENotSupported(msg) =>
         walk("!!! \""); walk(norm(msg)); walk("\"")
     }
