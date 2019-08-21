@@ -105,75 +105,46 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
       "well-formed-json-stringify"
     )
 
-  lazy val test262configSummary: Test262ConfigSummary = {
-    val test262Dir = s"$TEST_DIR/test262"
-    val dir = new File(test262Dir)
-    val (normalL, errorL) = walkTree(dir).toList.filter(
-      (file) => jsFilter(file.getName)
-    ).map((x) => MetaParser(x.toString, dir.toString)).filter((x) => filter(x)).map {
-        case MetaData(name, n, _, i, _, _) => Test262Config(name, n, i)
-      }.partition(_.negative.isEmpty)
-    Test262ConfigSummary(
-      normalL.map((x) => NormalTestConfig(x.name, x.includes)),
-      errorL.collect { case Test262Config(name, Some(n), in) => ErrorTestConfig(name, n, in) }
-    )
-  }
+  val test262Dir = new File(s"$TEST_DIR/test262/test")
+  val allTests = TestList(
+    walkTree(test262Dir)
+      .toList
+      .filter(f => jsFilter(f.getName))
+      .map(x => MetaParser(x.toString, test262Dir.toString))
+  )
 
-  lazy val test262propconfigSummary: Test262ConfigSummary = {
-    val test262Dir = s"$TEST_DIR/test262"
-    val dir = new File(test262Dir)
-    val (normalL, errorL) = walkTree(dir).toList.filter(
-      (file) => jsFilter(file.getName)
-    ).map((x) => MetaParser(x.toString, dir.toString)).filter((x) => filterprop(x)).map {
-        case MetaData(name, n, _, i, _, _) => Test262Config(name, n, i)
-      }.partition(_.negative.isEmpty)
-    Test262ConfigSummary(
-      normalL.map((x) => NormalTestConfig(x.name, x.includes)),
-      errorL.collect { case Test262Config(name, Some(n), in) => ErrorTestConfig(name, n, in) }
-    )
-  }
+  def getSummary(features: List[String]): Test262ConfigSummary = allTests
+    .remove("harness", _.name startsWith "/harness")
+    .remove("internationalisation", _.name startsWith "/intl")
+    .remove("annex", _.name startsWith "/annex")
+    .remove("in-progress features", !_.features.forall(features contains _))
+    .remove("non-strict codes", m => (m.flags contains "noStrict") || (m.flags contains "raw"))
+    .remove("modules", m => (
+      (m.flags contains "module") ||
+      (m.name startsWith "/language/module-code/") ||
+      (m.name startsWith "/language/expressions/dynamic-import/") ||
+      (m.name startsWith "/language/expressions/import.meta/")
+    )).remove("[[CanBlock]]", m => (
+      (m.flags contains "CanBlockIsFalse") ||
+      (m.flags contains "CanBlockIsTrue")
+    )).remove("locale", !_.locales.isEmpty)
+    .getSummary
 
   def apply(
     unit: Unit,
     aseConfig: ASEConfig,
     config: FilterMetaConfig
   ): Unit = {
+    println(s"Total ${allTests.length} tests")
+    val summary = getSummary(standardFeatures)
+    // val optChainSummary = getSummary("optional-chaining" :: standardFeatures)
+    println(s"negative applicable tests: ${summary.error.length}")
+    println(s"positive applicable tests: ${summary.normal.length}")
     val pw = new PrintWriter(new File(s"$TEST_DIR/test262.json"))
-    pw.println(test262configSummary.toJson.prettyPrint)
+    pw.println(summary.toJson.prettyPrint)
     pw.close()
   }
 
-  def filterprop(meta: MetaData) = !(
-    (meta.flags contains "noStrict") ||
-    (meta.flags contains "raw") ||
-    (meta.flags contains "module") ||
-    (meta.flags contains "CanBlockIsFalse") ||
-    (meta.flags contains "CanBlockIsTrue")
-  ) &&
-    (meta.locales.isEmpty) &&
-    ((meta.name startsWith "/test/language/") ||
-      (meta.name startsWith "/test/built-ins/")) &&
-      !((meta.name startsWith "/test/language/module-code/") ||
-        (meta.name startsWith "/test/language/expressions/dynamic-import/") ||
-        (meta.name startsWith "/test/language/expressions/import.meta/")) &&
-      (meta.features.forall((x) =>
-        (standardFeatures contains x) || (x == "optional-chaining"))) &&
-      meta.features.exists(_ == "optional-chaining")
-
-  def filter(meta: MetaData) = !(
-    (meta.flags contains "noStrict") ||
-    (meta.flags contains "raw") ||
-    (meta.flags contains "module") ||
-    (meta.flags contains "CanBlockIsFalse") ||
-    (meta.flags contains "CanBlockIsTrue")
-  ) &&
-    (meta.locales.isEmpty) &&
-    ((meta.name startsWith "/test/language/") ||
-      (meta.name startsWith "/test/built-ins/")) &&
-      !((meta.name startsWith "/test/language/module-code/") ||
-        (meta.name startsWith "/test/language/expressions/dynamic-import/") ||
-        (meta.name startsWith "/test/language/expressions/import.meta/")) &&
-      (meta.features.forall(standardFeatures contains _))
   def defaultConfig: FilterMetaConfig = FilterMetaConfig()
   val options: List[PhaseOption[FilterMetaConfig]] = List()
 }
