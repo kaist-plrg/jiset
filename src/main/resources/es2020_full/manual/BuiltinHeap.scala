@@ -32,7 +32,8 @@ object BuiltinHeap {
     ("GLOBAL.String.prototype.toLocaleLowerCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleLowerCase")))),
     ("GLOBAL.String.prototype.toLocaleUpperCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleUpperCase")))),
     ("GLOBAL.Number.prototype.toLocaleString", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleString")))),
-    ("GLOBAL.Array.prototype.sort", 1, Func("", List(), None, IExpr(ENotSupported("sort"))))
+    ("GLOBAL.Array.prototype.sort", 1, Func("", List(), None, IExpr(ENotSupported("sort")))),
+    ("GLOBAL.INTRINSIC_ThrowTypeError", 0, INTRINSIC_ThrowTypeError.func)
   )
 
   private def addDesc(
@@ -240,7 +241,22 @@ object BuiltinHeap {
       nmap = NMap(
         "length" -> DataProperty(Num(0.0), F, F, T),
         "name" -> DataProperty(Str(""), F, F, T),
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.Function"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Function"), T, F, T),
+        "caller" -> AccessorProperty(NamedAddr("GLOBAL.INTRINSIC_ThrowTypeError"), NamedAddr("GLOBAL.INTRINSIC_ThrowTypeError"), F, T),
+        "arguments" -> AccessorProperty(NamedAddr("GLOBAL.INTRINSIC_ThrowTypeError"), NamedAddr("GLOBAL.INTRINSIC_ThrowTypeError"), F, T)
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.hasInstance") -> DataProperty(NamedAddr("GLOBAL.Function.prototype[#GLOBAL.Symbol.hasInstance]"), F, F, F)
+        )
+    ),
+   "GLOBAL.Function.prototype[#GLOBAL.Symbol.hasInstance]" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTFunctionDOTprototypeDOTSYMBOL_hasInstance.func
+      ),
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "name" -> DataProperty(Str("[Symbol.hasInstance]"), F, F, T),
       )
     ),
     "GLOBAL.Boolean" -> Struct(
@@ -333,8 +349,8 @@ object BuiltinHeap {
         "MIN_VALUE" -> DataProperty(Num(Double.MinPositiveValue), F, F, F),
         "NaN" -> DataProperty(Num(Double.NaN), F, F, F),
         "NEGATIVE_INFINITY" -> DataProperty(Num(Double.NegativeInfinity), F, F, F),
-        "parseFloat" -> DataProperty(NamedAddr("GLOBAL.parseFloat"), F, F, F),
-        "parseInt" -> DataProperty(NamedAddr("GLOBAL.parseInt"), F, F, F),
+        "parseFloat" -> DataProperty(NamedAddr("GLOBAL.parseFloat"), T, F, T),
+        "parseInt" -> DataProperty(NamedAddr("GLOBAL.parseInt"), T, F, T),
         "POSITIVE_INFINITY" -> DataProperty(Num(Double.PositiveInfinity), F, F, F),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Number.prototype"), F, F, F)
       )
@@ -415,6 +431,22 @@ object BuiltinHeap {
           NamedAddr("GLOBAL.Symbol.iterator") -> DataProperty(NamedAddr("GLOBAL.Array.prototype.values"), T, F, T),
           NamedAddr("GLOBAL.Symbol.unscopables") -> DataProperty(NamedAddr("GLOBAL.Array.prototype[#GLOBAL.Symbol.unscopables]"), F, F, T)
         )
+    ),
+    "GLOBAL.Array.prototype[#GLOBAL.Symbol.unscopables]" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(),
+      nmap = NMap(
+        "copyWithin" -> DataProperty(Bool(true), T, T, T),
+        "entries" -> DataProperty(Bool(true), T, T, T),
+        "fill" -> DataProperty(Bool(true), T, T, T),
+        "find" -> DataProperty(Bool(true), T, T, T),
+        "findIndex" -> DataProperty(Bool(true), T, T, T),
+        "flat" -> DataProperty(Bool(true), T, T, T),
+        "flatMap" -> DataProperty(Bool(true), T, T, T),
+        "includes" -> DataProperty(Bool(true), T, T, T),
+        "keys" -> DataProperty(Bool(true), T, T, T),
+        "values" -> DataProperty(Bool(true), T, T, T)
+      )
     ),
     "GLOBAL.INTRINSIC_ArrayIteratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
@@ -661,7 +693,7 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorFunction"), F, F, T),
-        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorPrototype"), F, F, F)
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorPrototype"), F, F, T)
       ) ++ Map(
         NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncGeneratorFunction"), F, F, T)
       )
