@@ -248,7 +248,7 @@ object BuiltinHeap {
           NamedAddr("GLOBAL.Symbol.hasInstance") -> DataProperty(NamedAddr("GLOBAL.Function.prototype[#GLOBAL.Symbol.hasInstance]"), F, F, F)
         )
     ),
-   "GLOBAL.Function.prototype[#GLOBAL.Symbol.hasInstance]" -> Struct(
+    "GLOBAL.Function.prototype[#GLOBAL.Symbol.hasInstance]" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
@@ -256,7 +256,7 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
-        "name" -> DataProperty(Str("[Symbol.hasInstance]"), F, F, T),
+        "name" -> DataProperty(Str("[Symbol.hasInstance]"), F, F, T)
       )
     ),
     "GLOBAL.Boolean" -> Struct(
@@ -511,7 +511,7 @@ object BuiltinHeap {
       ),
       nmap = NMap() ++ Map(
         NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Map Iterator"), F, F, T)
-        )
+      )
     ),
     "GLOBAL.Set" -> Struct(
       typeName = "BuiltinFunctionObject",
@@ -567,8 +567,8 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
       ),
       nmap = NMap() ++ Map(
-          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Set Iterator"), F, F, T)
-        )
+        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Set Iterator"), F, F, T)
+      )
     ),
     "GLOBAL.WeakMap" -> Struct(
       typeName = "BuiltinFunctionObject",
@@ -657,8 +657,8 @@ object BuiltinHeap {
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorFunction"), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorPrototype"), F, F, T)
       ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("GeneratorFunction"), F, F, T)
-      )
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("GeneratorFunction"), F, F, T)
+        )
     ),
     "GLOBAL.INTRINSIC_GeneratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
@@ -667,9 +667,9 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_Generator"), F, F, T)
-        ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Generator"), F, F, T)
-      )
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Generator"), F, F, T)
+        )
     ),
     "GLOBAL.INTRINSIC_AsyncGeneratorFunction" -> Struct(
       typeName = "BuiltinFunctionObject",
@@ -695,8 +695,8 @@ object BuiltinHeap {
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorFunction"), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorPrototype"), F, F, T)
       ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncGeneratorFunction"), F, F, T)
-      )
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncGeneratorFunction"), F, F, T)
+        )
     ),
     "GLOBAL.INTRINSIC_AsyncGeneratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
@@ -705,7 +705,7 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGenerator"), F, F, T)
-        ) ++ Map(
+      ) ++ Map(
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncGenerator"), F, F, T)
         )
     ),
@@ -740,8 +740,8 @@ object BuiltinHeap {
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise"), F, F, F)
       ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Promise"), F, F, T)
-      )
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Promise"), F, F, T)
+        )
     ),
     "GLOBAL.INTRINSIC_AsyncFunction" -> Struct(
       typeName = "BuiltinFunctionObject",
@@ -766,8 +766,8 @@ object BuiltinHeap {
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncFunction"), F, F, T)
       ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncFunction"), F, F, T)
-      )
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncFunction"), F, F, T)
+        )
     )
   ) /: errList) {
       case (m, (errName, func)) => m ++ getErrMap(errName, func)

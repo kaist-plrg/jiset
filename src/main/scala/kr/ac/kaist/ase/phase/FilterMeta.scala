@@ -131,8 +131,8 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     )).remove("locale", !_.locales.isEmpty)
     .getSummary
 
-  val test262configSummary = getSummary(standardFeatures)
-  val test262propconfigSummary = getSummary("optional-chaining" :: standardFeatures)
+  lazy val test262configSummary = getSummary(standardFeatures)
+  lazy val test262propconfigSummary = getSummary("optional-chaining" :: standardFeatures)
 
   def apply(
     unit: Unit,
