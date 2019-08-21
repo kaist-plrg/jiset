@@ -167,7 +167,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     }
   )
 
-  // append statements
+  // insert statements
   lazy val insertStmt: P[Inst] = ("insert" ~> expr <~ "as the first element of") ~ expr ^^ {
     case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IPrepend(x, y))
   }
@@ -194,6 +194,9 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     algorithmExpr |||
     accessExpr |||
     containsExpr |||
+    coveredByExpr |||
+    strConcatExpr |||
+    syntaxExpr |||
     refExpr |||
     starExpr
   )
@@ -264,6 +267,12 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
         pair(i, EMap(t, list.map { case x ~ (_ ~ e) => (x, e) }))
     }
   )
+  lazy val extraFields: P[List[(Expr, Expr)]] = (
+    "a" ~> internalName <~ "internal slot" ^^ { case x => List(x -> EUndef) } |||
+    "internal slots" ~> rep1sep(internalName, sep("and")) ^^ { case xs => xs.map(_ -> EUndef) } |||
+    id <~ "as the binding object" ^^ { case x => List(EStr("BindingObject") -> toERef(x)) } |||
+    ("the internal slots listed in table" ~ number | opt("initially has") ~> "no fields" | "no bindings") ^^^ Nil
+  )
 
   // list expressions
   lazy val listExpr: P[I[Expr]] = "a new empty list" ^^^ pair(Nil, EList(Nil)) ||| {
@@ -315,7 +324,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   )
 
   // contains expressions
-  lazy val containsExpr =
+  lazy val containsExpr: P[I[Expr]] =
     (id <~ camelWord.filter(_ == "Contains")) ~ (nt ^^ { EStr(_) } | id ^^ { toERef(_) }) ^^ {
       case x ~ y =>
         // TODO `Contains` static semantics
@@ -333,6 +342,25 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       pair(Nil, ENotSupported("Contains"))
     }
 
+  // covered-by expressions
+  lazy val coveredByExpr: P[I[Expr]] = ("the" ~> nt <~ "that is covered by") ~ ref ^^ {
+    case x ~ (i ~ r) => pair(i, EParseSyntax(ERef(r), EStr(x), Nil))
+  }
+
+  // string-concatenation expressions
+  lazy val strConcatExpr: P[I[Expr]] =
+    "the string-concatenation of" ~> rep1sep(opt("the previous value of") ~> expr, sep("and")) ^^ {
+      case es => es.reduce[I[Expr]] {
+        case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OPlus, l, r))
+      }
+    }
+
+  // syntax expressions
+  lazy val syntaxExpr: P[I[Expr]] =
+    "the" ~> ("source text" | "code") ~ ("matched by" | "matching") ~> ref ^^ {
+      case i ~ r => pair(i, EGetSyntax(ERef(r)))
+    }
+
   // reference expressions
   lazy val refExpr: P[I[Expr]] = ref ^^ {
     case i ~ r => pair(i, ERef(r))
@@ -347,6 +375,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     codeValue |||
     constValue |||
     numberValue |||
+    grammarValue |||
     hexValue |||
     internalName
   )
@@ -365,7 +394,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     case s if Try(s.toLong).isSuccess => EINum(s.toLong)
     case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
     case err if err.endsWith("Error") => getErrorObj(err)
-    case s => ENotYetImpl(s)
+    case s => ENotSupported(s)
   }
 
   // exponential values
@@ -379,10 +408,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   )
 
   // values with tag `code`
-  lazy val codeValue: P[Expr] = opt("the" ~ opt("single - element") ~ "string") ~> code ^^ {
+  lazy val codeValue: P[Expr] = opt("the" ~ opt("single - element") ~ "string") ~> code <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case s @ ("super" | "this") => EStr(s)
-    case s => ENotYetImpl(s)
+    case s => ENotSupported(s)
   }
 
   // values with tag `const`
@@ -401,6 +430,11 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       EINum(0L)
     }
   )
+
+  // grammar values
+  lazy val grammarValue: P[Expr] = "the grammar symbol" ~> nt ^^ {
+    case x => EStr(x)
+  }
 
   // hex values
   lazy val hexValue: P[Expr] =
@@ -624,9 +658,6 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // etc statements
   lazy val etcStmt: P[Inst] = failure("")
-
-  // extra fields for newly created objects
-  lazy val extraFields: P[List[(Expr, Expr)]] = failure("")
 
   // etc expressions
   lazy val etcExpr: P[I[Expr]] = failure("")

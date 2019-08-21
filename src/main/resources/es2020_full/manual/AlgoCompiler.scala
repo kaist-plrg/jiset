@@ -617,11 +617,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x ~ y => pair(Nil, parseExpr(s"(+ $x $y)"))
     } | "the String value consisting of the code units of" ~> expr ^^ {
       case p => p
-    } | ("the string-concatenation of" ~> name <~ ", the code unit 0x0020(SPACE) , and") ~ name ^^ {
-      case x ~ y => pair(Nil, parseExpr(s"""(+ (+ $x " ") $y)"""))
-    } | ("the string - concatenation of" ~> opt("the previous value of") ~> expr <~ "and") ~ expr ^^ {
-      case (i0 ~ e1) ~ (i1 ~ e2) =>
-        pair(i0 ++ i1, EBOp(OPlus, e1, e2))
     } | "-" ~> expr ^^ {
       case i ~ e => pair(i, EUOp(ONeg, e))
     } | "the number of" ~ (opt("code unit") ~ "elements" | "code units") ~ ("in" | "of") ~> ref ^^ {
@@ -633,11 +628,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x ~ y ~ None =>
         val temp = getTemp
         pair(List(parseInst(s"app $temp = (AbstractRelationalComparison $x $y)")), toERef(temp))
-    } | "the string - concatenation of" ~> ((repsep(expr, ",") <~ ", and") ~ expr) ^^ {
-      case es ~ (i0 ~ e0) =>
-        val init: I[Expr] = pair(Nil, EStr(""))
-        val insts ~ e = (init /: es) { case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OPlus, l, r)) }
-        (pair(insts ++ i0, EBOp(OPlus, e, e0)): I[Expr])
     } | (("the result of performing abstract equality comparison" ~> id <~ "= =") ~ id) ^^ {
       case x1 ~ x2 =>
         val temp = getTempId
@@ -758,8 +748,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       } | "the code units of" ~ rest ^^^ {
         ENotSupported("StringOp")
       } | "the remaining" ~ rest ^^^ {
-        ENotSupported("StringOp")
-      } | "the string - concatenation of" ~ rest ^^^ {
         ENotSupported("StringOp")
       } | "the" ~ ("largest" | "smallest") ~ "possible" ~ rest ^^^ {
         ENotSupported("NumberOp")

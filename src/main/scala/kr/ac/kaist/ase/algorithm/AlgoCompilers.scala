@@ -52,13 +52,13 @@ trait AlgoCompilers extends TokenParsers {
 
   // list of statements
   lazy val stmts: P[List[Inst]] = rep(stmt <~ next | failedStep ^^ { tokens =>
-    IExpr(ENotYetImpl(tokens.mkString(" ")))
+    IExpr(ENotSupported(tokens.mkString(" ")))
   })
 
   // start notations
-  lazy val starStmt: P[Inst] = star ^^ { case s => IExpr(ENotYetImpl(s"stmt: $s")) }
-  lazy val starExpr: P[I[Expr]] = star ^^ { case s => pair(Nil, ENotYetImpl(s"expr: $s")) }
-  lazy val starCond: P[I[Expr]] = star ^^ { case s => pair(Nil, ENotYetImpl(s"cond: $s")) }
+  lazy val starStmt: P[Inst] = star ^^ { case s => IExpr(ENotSupported(s"stmt: $s")) }
+  lazy val starExpr: P[I[Expr]] = star ^^ { case s => pair(Nil, ENotSupported(s"expr: $s")) }
+  lazy val starCond: P[I[Expr]] = star ^^ { case s => pair(Nil, ENotSupported(s"cond: $s")) }
 
   // get temporal identifiers
   private var idCount: Int = 0
