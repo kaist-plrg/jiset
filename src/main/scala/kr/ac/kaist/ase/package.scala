@@ -37,7 +37,7 @@ package object ase {
 
   // Debugging mode
   val DEBUG_SEMI_INSERT: Boolean = false
-  val DEBUG_PARSER: Boolean = true
+  val DEBUG_PARSER: Boolean = false
   val DEBUG_INTERP: Boolean = false
 
   // display progress in tests
