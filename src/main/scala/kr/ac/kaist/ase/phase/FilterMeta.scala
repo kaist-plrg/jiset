@@ -90,7 +90,20 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     "Uint8ClampedArray",
     "WeakMap",
     "WeakSet"
-  )
+  ) ++ List(
+      "Promise.allSettled",
+      "Object.fromEntries",
+      "dynamic-import",
+      "Array.prototype.flat",
+      "Array.prototype.flatMap",
+      "string-trimming",
+      "String.prototype.trimEnd",
+      "String.prototype.trimStart",
+      "String.prototype.matchAll",
+      "Symbol.matchAll",
+      "Symbol.prototype.description",
+      "well-formed-json-stringify"
+    )
 
   lazy val test262configSummary: Test262ConfigSummary = {
     val test262Dir = s"$TEST_DIR/test262"
