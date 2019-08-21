@@ -7,12 +7,12 @@ Our goal is to extract the JavaScript syntax and semantics from the
 ECMAScript 2020 specification.  It is the next ECMAScript version
 that is actively updated in its GitHub repository~\cite{es2020}
 to be released in the next year.  Moreover, Ecma Technical Committee 39 (TC39)
-officially provides the conformance test suite, test262, for ECMAScript 2020.
+officially provides the conformance test suite, Test262, for ECMAScript 2020.
 
-\subsection{Excluded Language Features}
+\subsection{Excluded Language Features}\label{sec:exclusion}
 We decided not to support the following language features in ECMAScript 2020:
 
-\paragraph{No-Strict Mode}
+\paragraph{Non-Strict Mode}
 Since ECMAScript 5, JavaScript introduced strict mode to
 \textit{intentionally} provide slightly different semantics.  It
 provides more stable semantics by preventing unsafe actions or
@@ -33,23 +33,23 @@ functionality to communicate with file systems to access JavaScript
 module files.  Because modules do not affect the overall JavaScript
 semantics critically, we decided not to support modules.
 
-\paragraph{Orthogonal Built-in Objects}
+\paragraph{Inessential Built-in Objects}
 JavaScript provides various standard built-in objects to support
-helper functions.  However, several built-in libraries are orthogonal
-to the JavaScript semantics but support extra functionalities such as
+helper functions.  However, several built-in libraries are not essential
+to the core JavaScript semantics but support extra functionalities such as
 \( \code{Math} \), \( \code{Date} \), \( \code{RegExp} \), and
-\( \code{JSON} \).  Thus, we decided not to support the four libraries.
+\( \code{JSON} \).  Thus, we decided not to support such libraries
+following the tradition of KJS~\cite{kjs}.
 
 \subsection{Compile Rules for ECMAScript}
-
 \begin{table}[t]
   \centering
   \caption{Compile rules in ECMAScript 2020}
   \label{table:rules}
 \vspace*{-1em}
   \[
-    \begin{array}{c|r|r|r|r|r|r|r}
-      \text{name}
+    \begin{array}{c?r|r|r|r|r|r|r}
+      \text{Name}
       & \multicolumn{1}{c|}{\code{Stmt}}
       & \multicolumn{1}{c|}{\code{Expr}}
       & \multicolumn{1}{c|}{\code{Cond}}
@@ -57,14 +57,14 @@ to the JavaScript semantics but support extra functionalities such as
       & \multicolumn{1}{c|}{\code{Ty}}
       & \multicolumn{1}{c|}{\code{Ref}}
       & \multicolumn{1}{c}{\code{SecNo}}\\\hline
-      \text{\# rules}
+      \text{\# Rules}
       & \inred{XX}
       & \inred{XX}
       & \inred{XX}
       & \inred{XX}
       & \inred{XX}
       & \inred{XX}
-      & \inred{XX}\\\hline
+      & \inred{XX}
     \end{array}
   \]
 \end{table}
