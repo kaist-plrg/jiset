@@ -77,11 +77,9 @@ object ParserGenerator {
 
       val pre = "lazy val"
       val llpre = if (LLs.isEmpty) "" else "resolveLL"
-      val post = s"[$name] = memo {" + LINE_SEP +
-        (if (params.isEmpty)
-          s"""    case args => log($llpre("""
-        else
-          s"""    case args @ ${(params :+ "rest").mkString(" :: ")} => log($llpre(""")
+      val post = s"[$name] = memo(args => {" + LINE_SEP + (if (params.isEmpty) "" else {
+        s"""    val List(${params.mkString(", ")}) = getArgsN("$name", args, ${params.length})""" + LINE_SEP
+      }) + s"""    log($llpre("""
       nf.println(s"""  $pre $name: ESParser$post""")
       nf.print(noLLs.map {
         case (rhs, i) => getParsers(name, rhs.tokens, rhs.cond, i, false)
@@ -91,11 +89,11 @@ object ParserGenerator {
       }.mkString("," + LINE_SEP, " |" + LINE_SEP, ""))
       nf.println
       nf.println(s"""    ))("$name")""")
-      if (!params.isEmpty)
-        nf.println(s"""    case v => throw WrongNumberOfParserParams("$name", v)""")
-      nf.println(s"""  }""")
+      nf.println(s"""  })""")
     }
 
+    lazy val paramMap: Map[String, List[String]] =
+      prods.map(prod => prod.lhs.name -> prod.lhs.params).toMap
     def getParsers(name: String, tokens: List[Token], cond: String, idx: Int, isSub: Boolean): String = {
       var parser = ("MATCH" /: tokens)(appendParser(_, _)) + " ^^ { case "
       val count = tokens.count(_ match {
@@ -139,7 +137,6 @@ object ParserGenerator {
     nf.println(s"""import kr.ac.kaist.ase.AST""")
     nf.println(s"""import kr.ac.kaist.ase.core._""")
     nf.println(s"""import kr.ac.kaist.ase.parser.ESParsers""")
-    nf.println(s"""import kr.ac.kaist.ase.error.WrongNumberOfParserParams""")
     nf.println
     nf.println(s"""object Parser extends ESParsers {""")
     lexProds.foreach(getStrParser)

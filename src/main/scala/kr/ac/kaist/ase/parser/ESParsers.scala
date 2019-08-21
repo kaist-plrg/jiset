@@ -1,8 +1,9 @@
 package kr.ac.kaist.ase.parser
 
-import kr.ac.kaist.ase.{ AST, Lexical, DEBUG_PARSER, DEBUG_SEMI_INSERT, LINE_SEP }
+import kr.ac.kaist.ase.error.WrongNumberOfParserParams
 import kr.ac.kaist.ase.model.{ Script }
 import kr.ac.kaist.ase.util.Useful._
+import kr.ac.kaist.ase.{ AST, Lexical, DEBUG_PARSER, DEBUG_SEMI_INSERT, LINE_SEP }
 import scala.collection.mutable
 import scala.util.matching.Regex
 import scala.util.parsing.combinator._
@@ -152,4 +153,10 @@ trait ESParsers extends LAParsers {
 
   // all rules
   val rules: Map[String, ESParser[AST]]
+
+  // get fixed length arguments
+  def getArgsN(name: String, args: List[Boolean], n: Int): List[Boolean] = {
+    if (args.length == n) args
+    else throw WrongNumberOfParserParams(name, args)
+  }
 }
