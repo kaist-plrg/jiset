@@ -2,6 +2,7 @@ import java.io.File
 
 lazy val dummyModel = taskKey[Unit]("Generates a dummy model.")
 lazy val coreTest = taskKey[Unit]("Launch core language interpreter tests")
+lazy val grammarDiffTest = taskKey[Unit]("Launch tests for GrammarDiff")
 lazy val algoCompilerTest = taskKey[Unit]("Launch tests for AlgoCompiler")
 lazy val algoCompilerDiffTest = taskKey[Unit]("Launch tests for AlgoCompilerDiff")
 lazy val jsTest = taskKey[Unit]("Launch js language interpreter tests")
@@ -41,6 +42,7 @@ lazy val root = (project in file(".")).
       "kr.ac.kaist.ase.JSTest"
     ).mkString(" ", " ", "")) dependsOn compile,
     coreTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.BasicCoreTest") dependsOn compile,
+    grammarDiffTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.GrammarDiffTest") dependsOn compile,
     algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerTest") dependsOn compile,
     algoCompilerDiffTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerDiffTest") dependsOn compile,
     jsTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.JSTest") dependsOn compile,
