@@ -31,7 +31,7 @@ package object ase {
   val CUR_DIR = System.getProperty("user.dir")
 
   // ECMAScript model
-  val VERSION = "es2020"
+  val VERSION = "es2020_full"
 
   val DIFFLIST = List("es2016", "es2017", "es2018", "es2019", "es2020")
 
