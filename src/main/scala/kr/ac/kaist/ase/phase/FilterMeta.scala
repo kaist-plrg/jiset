@@ -131,14 +131,16 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     )).remove("locale", !_.locales.isEmpty)
     .getSummary
 
+  val test262configSummary = getSummary(standardFeatures)
+  val test262propconfigSummary = getSummary("optional-chaining" :: standardFeatures)
+
   def apply(
     unit: Unit,
     aseConfig: ASEConfig,
     config: FilterMetaConfig
   ): Unit = {
     println(s"Total ${allTests.length} tests")
-    val summary = getSummary(standardFeatures)
-    // val optChainSummary = getSummary("optional-chaining" :: standardFeatures)
+    val summary = test262configSummary
     println(s"negative applicable tests: ${summary.error.length}")
     println(s"positive applicable tests: ${summary.normal.length}")
     val pw = new PrintWriter(new File(s"$TEST_DIR/test262.json"))
