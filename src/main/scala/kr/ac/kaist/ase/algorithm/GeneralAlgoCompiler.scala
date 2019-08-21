@@ -450,22 +450,17 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: P[I[Expr]] = _cond <~ guard("," | in) | etcCond
   lazy val _cond: P[I[Expr]] = (
-    expr ~ condBOp ~ expr ^^ {
-      case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
-    } ||| _cond ~ (condOp <~ opt("if")) ~ _cond ^^ {
-      case (i ~ l) ~ ((op, _)) ~ (i1 ~ r) if isEmptyInsts(i1) => pair(i, EBOp(op, l, r))
-      case (i0 ~ l) ~ ((op, f)) ~ (i1 ~ r) =>
-        val temp = getTempId
-        val (t, e) = f(ISeq(i1 :+ IAssign(toRef(temp), r)))
-        pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
-    } ||| expr ~ rep1sep(rhs, sep("or")) ^^ {
-      case (i ~ r) ~ fs => pair(i, fs.map(_(r)).reduce(EBOp(OOr, _, _)))
-    } ||| expr <~ "is strict mode code" ^^^ {
-      pair(Nil, EBool(true)) // TODO : support strict mode code
-    } | (id <~ "does not have" ~ ("a" | "an")) ~ internalName <~ ("field" | "internal slot") ^^ {
-      case x ~ y => pair(Nil, EBOp(OEq, toERef(x, y), EAbsent))
-    } ||| containsExpr
+    bopCond |||
+    condOpCond |||
+    rhsCond |||
+    strictModeCond |||
+    containsCond
   )
+
+  // binary operator conditions
+  lazy val bopCond: P[I[Expr]] = expr ~ condBOp ~ expr ^^ {
+    case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
+  }
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
     ("=" | "equals") ^^^ (OEq, false, false) |||
     ("≠" | "is different from") ^^^ (OEq, true, false) |||
@@ -474,11 +469,28 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     (">" | "is greater than") ^^^ (OLt, false, true) |||
     "≤" ^^^ (OLt, true, true)
   )
+
+  // conditional operators
+  lazy val condOpCond: P[I[Expr]] = _cond ~ (condOp <~ opt("if")) ~ _cond ^^ {
+    case (i ~ l) ~ ((op, _)) ~ (i1 ~ r) if isEmptyInsts(i1) => pair(i, EBOp(op, l, r))
+    case (i0 ~ l) ~ ((op, f)) ~ (i1 ~ r) =>
+      val temp = getTempId
+      val (t, e) = f(ISeq(i1 :+ IAssign(toRef(temp), r)))
+      pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
+  }
+  lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = opt(",") ~> (
+    "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
+    "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
+  )
+
+  // right-hand side conditions
+  lazy val rhsCond: P[I[Expr]] = expr ~ rep1sep(rhs, sep("or")) ^^ {
+    case (i ~ r) ~ fs => pair(i, fs.map(_(r)).reduce(EBOp(OOr, _, _)))
+  }
   lazy val rhs: P[Expr => Expr] = (
     equalRhs |||
     notEqualRhs
   )
-
   lazy val equalRhs: P[Expr => Expr] = {
     "is" ~ opt("present and its value is") |||
       "has the value"
@@ -493,7 +505,6 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   } <~ guard("," | "or" | "and" | in), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce(EBOp(OOr, _, _))
   }
-
   lazy val notEqualRhs: P[Expr => Expr] = {
     "is" ~ ("not" ~ opt("one of") | "neither")
   } ~> rep1sep({
@@ -504,10 +515,14 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     case fs => (l: Expr) => EUOp(ONot, fs.map(_(l)).reduce(EBOp(OOr, _, _)))
   }
 
-  lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = opt(",") ~> (
-    "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
-    "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
-  )
+  // strict mode conditions
+  val strictModeCond: P[I[Expr]] =
+    expr <~ "is strict mode code" ^^^ pair(Nil, EBool(true))
+
+  // contains conditions
+  val containsCond: P[I[Expr]] = (id <~ "does not have" ~ ("a" | "an")) ~ internalName <~ ("field" | "internal slot") ^^ {
+    case x ~ y => pair(Nil, EBOp(OEq, toERef(x, y), EAbsent))
+  } ||| containsExpr
 
   ////////////////////////////////////////////////////////////////////////////////
   // Types
