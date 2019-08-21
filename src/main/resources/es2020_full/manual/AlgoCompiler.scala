@@ -802,10 +802,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         (|| (= $x "super") (= $x "this"))))))"""))
     } | (name <~ "and") ~ (name <~ "are both") ~ (value <~ "or both") ~ value ^^ {
       case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
-    } | name <~ "is a data property" ^^ {
-      case x =>
-        val temp = getTemp
-        pair(List(parseInst(s"app $temp = (IsDataDescriptor $x)")), toERef(temp))
     } | (name <~ "is") ~ (valueParser <~ "and") ~ (name <~ "is") ~ valueParser ^^ {
       case x ~ v ~ y ~ u => pair(Nil, parseExpr(s"(&& (= $x ${beautify(v)}) (= $y ${beautify(u)}))"))
     } | name <~ "is an array index" ^^ {
@@ -906,8 +902,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case i ~ e => pair(i, EBOp(OOr, EBOp(OOr, EIsInstanceOf(e, "VariableDeclaration"), EIsInstanceOf(e, "ForBinding")), EIsInstanceOf(e, "BindingIdentifier")))
     } | "statement is statement10" ^^^ {
       pair(Nil, EIsInstanceOf(toERef("Statement"), "LabelledStatement"))
-    } | expr <~ "is a data property" ^^ {
-      case i ~ e => pair(i, EBOp(OEq, ETypeOf(e), EStr("DataProperty")))
     } | expr <~ "is an object" ^^ {
       case i ~ e =>
         val temp = getTemp
