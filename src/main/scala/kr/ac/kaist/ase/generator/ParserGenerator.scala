@@ -92,7 +92,7 @@ object ParserGenerator {
       nf.println
       nf.println(s"""    ))("$name")""")
       if (!params.isEmpty)
-        nf.println(s"""    case v => throw WrongNumberOfParserParams(v)""")
+        nf.println(s"""    case v => throw WrongNumberOfParserParams("$name", v)""")
       nf.println(s"""  }""")
     }
 

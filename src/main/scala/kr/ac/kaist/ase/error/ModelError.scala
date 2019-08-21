@@ -10,8 +10,8 @@ case class UnexpectedSemantics(name: String) extends ModelError({
   s"unexpected semantics: $name"
 })
 
-case class WrongNumberOfParserParams(list: List[Boolean]) extends ModelError({
-  s"wrong number of parser parameters: $list"
+case class WrongNumberOfParserParams(name: String, list: List[Boolean]) extends ModelError({
+  s"wrong number of parameters for $name: $list"
 })
 
 case class NotSupported(msg: String) extends ModelError({
