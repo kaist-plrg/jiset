@@ -118,8 +118,9 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     .remove("internationalisation", _.name startsWith "/intl")
     .remove("annex", _.name startsWith "/annex")
     .remove("in-progress features", !_.features.forall(features contains _))
-    .remove("non-strict codes", m => (m.flags contains "noStrict") || (m.flags contains "raw"))
-    .remove("modules", m => (
+    .remove("negative", !_.negative.isEmpty)
+    .remove("non-strict", m => (m.flags contains "noStrict") || (m.flags contains "raw"))
+    .remove("module", m => (
       (m.flags contains "module") ||
       (m.name startsWith "/language/module-code/") ||
       (m.name startsWith "/language/expressions/dynamic-import/") ||
