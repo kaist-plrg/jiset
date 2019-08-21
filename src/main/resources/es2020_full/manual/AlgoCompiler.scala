@@ -12,24 +12,8 @@ import kr.ac.kaist.ase.error.UnexpectedShift
 import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.util.Useful._
 
-case class AlgoCompiler(algoName: String, algo: Algorithm) extends AlgoCompilerHelper {
-  val kind = algo.kind
-  lazy val result: (Func, Map[Int, List[Token]]) = {
-    val (params, varparam) = handleParams(algo.params)
-    val func = Func(
-      name = algoName,
-      params = params,
-      varparam = varparam,
-      body = normalizeTempIds(flatten(ISeq(parseAll(stmts, algo.toTokenList) match {
-        case Success(res, _) => res
-        case f @ NoSuccess(_, reader) => error(s"[AlgoCompilerFailed] ${algo.filename}")
-      })))
-    )
-    (func, failed)
-  }
-}
-
-trait AlgoCompilerHelper extends GeneralAlgoCompilers {
+case class AlgoCompiler(algoName: String, algo: Algorithm) extends AlgoCompilerHelper
+trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
   // etc statements
   override lazy val etcStmt: P[Inst] = "change its bound value to" ~> id ^^ {
     case x => parseInst(s"envRec.SubMap[N].BoundValue = $x")

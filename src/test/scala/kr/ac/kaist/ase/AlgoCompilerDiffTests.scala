@@ -37,42 +37,42 @@ class AlgoCompilerDiffTest extends CoreTest {
     var diffStepMap: Map[String, Boolean] = Map()
     var diffAlgoMap: Map[String, Boolean] = Map()
 
-    DIFFLIST.foreach((version) =>
-      {
-        val algoversionDir = s"$RESOURCE_DIR/$version/auto/algorithm"
-        algoMap2 = Map()
-        nextStepMap = Map()
-        nextAlgoMap = Map()
-        diffStepMap = Map()
-        diffAlgoMap = Map()
+    DIFFLIST.foreach((version) => {
+      val algoversionDir = s"$RESOURCE_DIR/$version/auto/algorithm"
+      algoMap2 = Map()
+      nextStepMap = Map()
+      nextAlgoMap = Map()
+      diffStepMap = Map()
+      diffAlgoMap = Map()
 
-        for (file <- shuffle(walkTree(new File(algoversionDir)))) {
-          val filename = file.getName
-          if (jsonFilter(filename)) {
-            val name = file.toString
-            val algo = Algorithm(name)
-            algoMap2 += algo.filename.split("/").last -> algo.steps.toString
-            val isDiff = algoMap.get(algo.filename.split("/").last).map(_ != algo.steps.toString).getOrElse(true)
-            val lineCount = algo.lineCount
-            lazy val compiler = AlgoCompiler("", algo)
-            lazy val (func, failed) = compiler.result
-            nextAlgoMap += name -> (failed.size == 0)
-            if (isDiff) diffAlgoMap += name -> (failed.size == 0)
-            (0 until lineCount).foreach((k) => {
-              nextStepMap += s"$name$k" -> !(failed contains k)
-              if (isDiff) diffStepMap += s"$name$k" -> !(failed contains k)
-            })
-          }
+      for (file <- shuffle(walkTree(new File(algoversionDir)))) {
+        val filename = file.getName
+        if (jsonFilter(filename)) {
+          val name = file.toString
+          val algo = Algorithm(name)
+          algoMap2 += algo.filename.split("/").last -> algo.steps.toString
+          val isDiff = algoMap.get(algo.filename.split("/").last).map(_ != algo.steps.toString).getOrElse(true)
+          val lineCount = algo.lineCount
+          lazy val compiler = GeneralAlgoCompiler("", algo)
+          lazy val (func, failed) = compiler.result
+          nextAlgoMap += name -> (failed.size == 0)
+          if (isDiff) diffAlgoMap += name -> (failed.size == 0)
+          (0 until lineCount).foreach((k) => {
+            nextStepMap += s"$name$k" -> !(failed contains k)
+            if (isDiff) diffStepMap += s"$name$k" -> !(failed contains k)
+          })
         }
-        algoMap = algoMap2
-        firstStepMap = nextStepMap
-        firstAlgoMap = nextAlgoMap
-        println(s"diff algo: ${countPass(diffAlgoMap)}")
+      }
+      algoMap = algoMap2
+      firstStepMap = nextStepMap
+      firstAlgoMap = nextAlgoMap
 
-        println(s"$version algo: ${countPass(nextAlgoMap)}")
-
-      })
-
+      println(s"diff algo: ${countPass(diffAlgoMap)}")
+      println(s"$version algo: ${countPass(nextAlgoMap)}")
+      println(s"diff step: ${countPass(diffStepMap)}")
+      println(s"$version step: ${countPass(nextStepMap)}")
+      println(s"----------------------------------------")
+    })
   }
   init
 }

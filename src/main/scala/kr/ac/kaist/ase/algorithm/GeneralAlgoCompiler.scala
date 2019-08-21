@@ -12,9 +12,27 @@ import kr.ac.kaist.ase.error.UnexpectedShift
 import kr.ac.kaist.ase.parser.TokenParsers
 import kr.ac.kaist.ase.util.Useful._
 
-trait GeneralAlgoCompilers extends AlgoCompilers {
+case class GeneralAlgoCompiler(
+  algoName: String,
+  algo: Algorithm
+) extends GeneralAlgoCompilerHelper
+
+trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   val algoName: String
-  val kind: AlgoKind
+  val algo: Algorithm
+  lazy val result: (Func, Map[Int, List[Token]]) = {
+    val (params, varparam) = handleParams(algo.params)
+    val func = Func(
+      name = algoName,
+      params = params,
+      varparam = varparam,
+      body = normalizeTempIds(flatten(ISeq(parseAll(stmts, algo.toTokenList) match {
+        case Success(res, _) => res
+        case f @ NoSuccess(_, reader) => error(s"[AlgoCompilerFailed] ${algo.filename}")
+      })))
+    )
+    (func, failed)
+  }
 
   // execution context stack string
   val executionStack = "GLOBAL_executionStack"
@@ -53,7 +71,7 @@ trait GeneralAlgoCompilers extends AlgoCompilers {
   // return statements
   lazy val returnStmt: P[Inst] = "Return" ~> opt(expr) ^^ {
     case None => getRet(getNormalCompletion(EUndef))
-    case Some(ie) => kind match {
+    case Some(ie) => algo.kind match {
       case StaticSemantics => getRet(ie)
       case Method if algoName == "OrdinaryGetOwnProperty" => getRet(ie)
       case _ => getRet(getWrapCompletion(ie))
