@@ -41,14 +41,14 @@ Several approaches have defined the formal semantics of JavaScript.
 rest as desugaring.  While it presents the core JavaScript semantics in
 an extension of the $\lambda$ calculus, it does not show the semantics
 correspondence defined in the ECMAScript specification.  KJS~\citet{kjs} and
-JaVerT\citet{javert} defined formal semantics of JavaScript by manually converting
+JaVerT~\citet{javert} defined formal semantics of JavaScript by manually converting
 the ECMAScript specification to their own formal languages.  KJS mapped
-ECMAScript 5 in the K framework~\cite{kframework}, which can be used
+ECMAScript 5.1 in the K framework~\cite{kframework}, which can be used
 for program verification and analysis.  Similarly, JaVerT converts the
 specification to their own IR called JSIL to make further analysis.
-Our approach provides a framework to generate converters from the
-specification to IR with a conversion assistant and layered translation
-techniques, which reduces human efforts significantly.
+Our approach provides a framework to generate syntactic parsers and
+semantics compilers from the specification to \( \ires \)
+with a conversion assistant, which reduces human efforts significantly.
 
 % \begin{itemize}
 %   \item JaVerT: JavaScript verification toolchain (POPL'18)~\cite{javert}
