@@ -485,12 +485,13 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // right-hand side conditions
   lazy val rhsCond: P[I[Expr]] = expr ~ rep1sep(rhs, sep("or")) ^^ {
-    case (i ~ r) ~ fs => pair(i, fs.map(_(r)).reduce(EBOp(OOr, _, _)))
+    case r ~ fs => fs.map(_(r)).reduce[I[Expr]] {
+      case ((i0 ~ x), (i1 ~ y)) => pair(i0 ++ i1, EBOp(OOr, x, y))
+    }
   }
-  lazy val rhs: P[Expr => Expr] = (
-    equalRhs |||
-    notEqualRhs
-  )
+  lazy val rhs: P[I[Expr] => I[Expr]] = callRhs ||| (
+    equalRhs ||| notEqualRhs
+  ) ^^ { case f => (ie: I[Expr]) => pair(ie._1, f(ie._2)) }
   lazy val equalRhs: P[Expr => Expr] = {
     "is" ~ opt("present and its value is") |||
       "has the value"
@@ -514,6 +515,11 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   } <~ guard("," | "or" | "and" | "nor" | in), sep("nor" | "or")) ^^ {
     case fs => (l: Expr) => EUOp(ONot, fs.map(_(l)).reduce(EBOp(OOr, _, _)))
   }
+  lazy val callRhs: P[I[Expr] => I[Expr]] = "is" ~ ("a" | "an") ~> (
+    "array index" ^^^ "IsArrayIndex" |||
+    "accessor property" ^^^ "IsAccessorDescriptor" |||
+    "data property" ^^^ "IsDataDescriptor"
+  ) ^^ { case f => (ie: I[Expr]) => getCall(f, List(ie)) }
 
   // strict mode conditions
   val strictModeCond: P[I[Expr]] =
