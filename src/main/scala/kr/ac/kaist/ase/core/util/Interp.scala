@@ -480,6 +480,7 @@ class Interp {
     case (OMul, INum(l), Num(r)) => Num(l * r)
     case (ODiv, INum(l), Num(r)) => Num(l / r)
     case (OMod, INum(l), Num(r)) => Num(modulo(l, r))
+    case (OPow, INum(l), Num(r)) => Num(scala.math.pow(l, r))
     case (OUMod, INum(l), Num(r)) => Num(unsigned_modulo(l, r))
     case (OLt, INum(l), Num(r)) => Bool(l < r)
     case (OPlus, Num(l), INum(r)) => Num(l + r)
@@ -487,6 +488,7 @@ class Interp {
     case (OMul, Num(l), INum(r)) => Num(l * r)
     case (ODiv, Num(l), INum(r)) => Num(l / r)
     case (OMod, Num(l), INum(r)) => Num(modulo(l, r))
+    case (OPow, Num(l), INum(r)) => Num(math.pow(l, r))
     case (OUMod, Num(l), INum(r)) => Num(unsigned_modulo(l, r))
     case (OLt, Num(l), INum(r)) => Bool(l < r)
 
