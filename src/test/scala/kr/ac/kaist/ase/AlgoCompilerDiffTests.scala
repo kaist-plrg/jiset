@@ -6,6 +6,7 @@ import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.model._
 import kr.ac.kaist.ase.util.Useful._
 import org.scalatest._
+import scala.Console.{ RESET, GREEN }
 import scala.util.Random.shuffle
 import scala.util.{ Failure, Success, Try }
 
@@ -13,9 +14,12 @@ class AlgoCompilerDiffTest extends CoreTest {
   // tag name
   val tag: String = "algoCompilerDiffTest"
 
-  def countPass[A](k: Map[A, Boolean]): (Int, Int) = (
-    k.filter { case (k, v) => v }.size, k.size
-  )
+  def countPass[A](k: Map[A, Boolean]): String = {
+    val pass = k.filter(_._2).size
+    val total = k.size
+    val rate = pass.toDouble / total.toDouble * 100
+    f"$GREEN[$rate%2.2f%%]$RESET $pass / $total"
+  }
 
   // registration
   def init: Unit = {
@@ -60,10 +64,10 @@ class AlgoCompilerDiffTest extends CoreTest {
       firstStepMap = nextStepMap
       firstAlgoMap = nextAlgoMap
 
-      println(s"diff algo: ${countPass(diffAlgoMap)}")
       println(s"$version algo: ${countPass(nextAlgoMap)}")
-      println(s"diff step: ${countPass(diffStepMap)}")
+      println(s"Δ algo     : ${countPass(diffAlgoMap)}")
       println(s"$version step: ${countPass(nextStepMap)}")
+      println(s"Δ step     : ${countPass(diffStepMap)}")
       println(s"----------------------------------------")
     })
   }
