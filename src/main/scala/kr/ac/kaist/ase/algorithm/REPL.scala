@@ -1,7 +1,7 @@
 package kr.ac.kaist.ase.algorithm
 
 import java.io.File
-import kr.ac.kaist.ase.model.{ AlgoCompilerHelper, AlgoCompiler }
+import kr.ac.kaist.ase.model.{ GeneralAlgoCompilerHelper, GeneralAlgoCompiler }
 import kr.ac.kaist.ase.util.Useful._
 import kr.ac.kaist.ase.{ LINE_SEP, RESOURCE_DIR, VERSION }
 import org.jline.builtins.Completers.TreeCompleter
@@ -21,13 +21,10 @@ case class AText(s: String) extends AbstractToken
 case class ATag(t: String) extends AbstractToken
 
 // REPL
-object REPL extends AlgoCompilerHelper {
+object REPL extends GeneralAlgoCompilerHelper {
   val algo: Algorithm = Algorithm(0, Nil, Method, Nil, "")
   val algoName: String = ""
   val kind: AlgoKind = Method
-
-  // algorithm files
-  val algoDir = s"$RESOURCE_DIR/$VERSION/auto/algorithm"
 
   def run(onlyFailed: Boolean): Unit = {
     val builder: TerminalBuilder = TerminalBuilder.builder()
@@ -48,8 +45,8 @@ object REPL extends AlgoCompilerHelper {
       System.console().reader().read
     }
 
-    implicit def tokenListOrdering[Token]: Ordering[List[Token]] = new Ordering[List[Token]] {
-      implicit def compare(x: List[Token], y: List[Token]): Int = (x, y) match {
+    implicit def listOrdering[T]: Ordering[List[T]] = new Ordering[List[T]] {
+      implicit def compare(x: List[T], y: List[T]): Int = (x, y) match {
         case (Nil, Nil) => 0
         case (Nil, _) => -1
         case (_, Nil) => 1
@@ -61,19 +58,33 @@ object REPL extends AlgoCompilerHelper {
       }
     }
 
+    implicit val tokenListOrdering: Ordering[TokenList] = new Ordering[TokenList] {
+      implicit def compare(x: TokenList, y: TokenList): Int =
+        if (x.name < y.name) -1
+        else if (x.name > y.name) 1
+        else listOrdering[Token].compare(x.list, y.list)
+    }
+
+    val algoDirs = List("es2016", "es2017", "es2018", "es2019", "es2020").map {
+      // val algoDirs = List("es2016").map {
+      case version => s"$RESOURCE_DIR/$version/auto/algorithm"
+    }
     val algos: List[Algorithm] = for {
-      file <- shuffle(walkTree(new File(algoDir))).toList
+      algoDir <- algoDirs
+      file <- walkTree(new File(algoDir)).toList
       filename = file.getName
       if jsonFilter(filename)
     } yield Algorithm(file.toString)
 
-    lazy val allLists: List[List[Token]] = (for {
+    case class TokenList(name: String, list: List[Token])
+
+    lazy val allLists: List[TokenList] = (for {
       algo <- algos
       step <- algo.getSteps(Nil)
-    } yield (List[Token]() /: step.tokens) {
+    } yield TokenList(algo.filename.split("/").last, (List[Token]() /: step.tokens) {
       case (l, StepList(_)) => Out :: In :: l
       case (l, x) => x :: l
-    }.reverse).sorted
+    }.reverse)).sorted
 
     def toAbstractToken(x: Token): AbstractToken = x match {
       case Text(s) => AText(s)
@@ -101,21 +112,21 @@ object REPL extends AlgoCompilerHelper {
       case (l, x) => x :: l
     }.reverse).sorted
 
-    lazy val failedLists: List[List[Token]] = (for {
+    lazy val failedLists: List[TokenList] = (for {
       algo <- algos
-      (_, failed) = AlgoCompiler("", algo).result
+      (_, failed) = GeneralAlgoCompiler("", algo).result
       tokens <- failed.values
-    } yield tokens).sorted
+    } yield TokenList(algo.filename.split("/").last, tokens)).sorted
 
-    lazy val tokenLists: List[List[Token]] = if (onlyFailed) failedLists else allLists
+    lazy val tokenLists: List[TokenList] = if (onlyFailed) failedLists else allLists
     lazy val total = tokenLists.length
 
     def prompt: String = CYAN + "repl-algo> " + RESET
 
-    def show(list: List[List[Token]], filter: Filter = ts => true): Unit = {
+    def show(list: List[TokenList], filter: Filter = ts => true): Unit = {
       var count = 0
-      list.foreach(ts => if (filter(ts)) {
-        println(ts.mkString(" "))
+      list.foreach(ts => if (filter(ts.list)) {
+        println(f"${ts.name}%-50s: " + ts.list.mkString(" "))
         count += 1
       })
       printlnGreen(s"total: $count")
@@ -169,7 +180,7 @@ object REPL extends AlgoCompilerHelper {
             case "all" => show(tokenLists)
 
             // print statistics of first tokens
-            case "get-first" => (Map[Token, Int]() /: tokenLists.map(_.head)) {
+            case "get-first" => (Map[Token, Int]() /: tokenLists.map(_.list.head)) {
               case (m, t) => m.get(t) match {
                 case Some(k) => m + (t -> (k + 1))
                 case None => m + (t -> 1)

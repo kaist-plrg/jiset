@@ -61,6 +61,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       appendStmt |||
       insertStmt |||
       removeStmt |||
+      assertStmt |||
       starStmt
     )
   } <~ opt(".") ~ opt(comment) | comment
@@ -178,6 +179,9 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     (id <~ "be the value of" ~ ("that" | "the") ~ "element")
   ) ^^ { case l ~ x => ILet(Id(x), EPop(toERef(l), EINum(0))) }
 
+  // assert statements
+  lazy val assertStmt: P[Inst] = ("assert:" | "note:") ~ rest ^^^ emptyInst
+
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
   ////////////////////////////////////////////////////////////////////////////////
@@ -202,9 +206,13 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   )
 
   // arithmetic expressions
-  lazy val arithExpr: P[I[Expr]] = "(" ~> expr <~ ")" ||| expr ~ bop ~ expr ^^ {
-    case (i0 ~ l) ~ b ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(b, l, r))
-  }
+  lazy val arithExpr: P[I[Expr]] = (
+    expr ~ bop ~ expr ^^ {
+      case (i0 ~ l) ~ b ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(b, l, r))
+    } ||| uop ~ expr ^^ {
+      case u ~ (i ~ e) => pair(i, EUOp(u, e))
+    }
+  ) ||| "(" ~> expr <~ ")"
   lazy val bop: P[BOp] = (
     "×" ^^^ OMul |
     "/" ^^^ ODiv |
@@ -215,6 +223,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "^" ^^^ OBXOr |
     "|" ^^^ OBOr
   )
+  lazy val uop: P[UOp] = "-" ^^^ ONeg
 
   // value expressions
   lazy val valueExpr: P[I[Expr]] = valueParser ^^ { pair(Nil, _) }
@@ -373,6 +382,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     absentValue |||
     hexValue |||
     activeFunctionValue |||
+    stringValue |||
     internalName
   )
 
@@ -448,6 +458,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // active function object
   lazy val activeFunctionValue: P[Expr] =
     "the active function" ~ opt("object") ^^^ toERef(context, "Function")
+
+  // string values
+  lazy val stringValue: P[Expr] =
+    "the empty String" ^^^ EStr("")
 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
@@ -680,6 +694,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "execution context stack" ^^^ executionStack |||
     ty ~ "for which the method was invoked" ^^^ "this" |||
     "this" ~ opt(nt | "this") ^^^ "this" |||
+    value.filter(_ == "this") ~ "value" ^^^ "this" |||
     "reference" ~> id |||
     intrinsicName |||
     symbolName |||
