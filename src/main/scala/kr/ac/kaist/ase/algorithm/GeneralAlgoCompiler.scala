@@ -497,7 +497,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   }
   lazy val rhs: P[Expr => I[Expr]] = equalRhs ||| notEqualRhs
   lazy val equalRhs: P[Expr => I[Expr]] = {
-    "is" ~ opt("present and its value is") | "has the value"
+    "is" ~ opt("present and" ~ ("its value is" | "has value")) | "has the value"
   } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
@@ -618,21 +618,22 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // References
   ////////////////////////////////////////////////////////////////////////////////
   lazy val ref: P[I[Ref]] = opt(refPre) ~> opt("the") ~> (
-    (("bound value for" | "value currently bound to") ~> id <~ "in") ~ id ^^ {
-      case x ~ y => pair(Nil, parseRef(s"$y.SubMap[$x].BoundValue"))
-    } | (ordinal <~ "element of") ~ (accessRef ||| ref) ^^ {
-      case k ~ (i ~ r) => pair(i, RefProp(r, EINum(k)))
-    } | (refBase <~ "'s own property whose key is") ~ id ^^ {
-      case b ~ p => pair(Nil, RefProp(toRef(b, "SubMap"), toERef(p)))
-    } | "second to top element" ~> "of" ~> ref ^^ {
-      case i ~ r => pair(i, RefProp(r, EBOp(OSub, ERef(RefProp(r, EStr("length"))), EINum(2))))
-    } | (fieldName <~ ("of" | "for")) ~ refBase ^^ {
+    boundValueRef |||
+    ordinalRef |||
+    ownKeyRef |||
+    topElemRef |||
+    fieldRef |||
+    lengthRef |||
+    flagRef
+  )
+
+  // references with fields
+  lazy val fieldRef: P[I[Ref]] = (
+    (fieldName <~ ("of" | "for")) ~ refBase ^^ {
       case f ~ b => pair(Nil, toRef(b, f))
-    } | (refBase <~ "'s") ~ (fieldName ||| camelWord ^^ { EStr(_) }) <~ opt("value" | "attribute") ^^ {
+    } ||| (refBase <~ "'s") ~ (fieldName ||| camelWord ^^ { EStr(_) }) <~ opt("value" | "attribute") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
-    } | (id <~ "flag of") ~ ref ^^ {
-      case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
-    } | refBase ~ rep(field) ^^ {
+    } ||| refBase ~ rep(field) ^^ {
       case x ~ es =>
         val i = (List[Inst]() /: es) { case (is, i ~ _) => is ++ i }
         pair(i, (es.map { case i ~ e => e }).foldLeft[Ref](RefId(Id(x))) {
@@ -640,7 +641,39 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
         })
     }
   )
-  val refBase: P[String] = opt("the") ~> (
+
+  // bound value references
+  lazy val boundValueRef: P[I[Ref]] = (("bound value for" | "value currently bound to") ~> id <~ "in") ~ id ^^ {
+    case x ~ y => pair(Nil, parseRef(s"$y.SubMap[$x].BoundValue"))
+  }
+
+  // ordinal references
+  lazy val ordinalRef: P[I[Ref]] = (ordinal <~ "element of") ~ (accessRef ||| ref) ^^ {
+    case k ~ (i ~ r) => pair(i, RefProp(r, EINum(k)))
+  }
+
+  // own key references
+  lazy val ownKeyRef: P[I[Ref]] = (refBase <~ "'s own property whose key is") ~ id ^^ {
+    case b ~ p => pair(Nil, RefProp(toRef(b, "SubMap"), toERef(p)))
+  }
+
+  // top elements references
+  lazy val topElemRef: P[I[Ref]] = ordinal ~ ("to top element of" ~> ref) ^^ {
+    case k ~ (i ~ r) => pair(i, RefProp(r, EBOp(OSub, ERef(RefProp(r, EStr("length"))), EINum(k + 1))))
+  }
+
+  // length references
+  lazy val lengthRef: P[I[Ref]] = (
+    "length of" ~> ref |||
+    "number of" ~ (opt("code unit") ~ "elements" | "code units") ~ ("in" | "of") ~> ref
+  ) ^^ { case i ~ r => pair(i, RefProp(r, EStr("length"))) }
+
+  // flag references
+  lazy val flagRef: P[I[Ref]] = (id <~ "flag of") ~ ref ^^ {
+    case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
+  }
+
+  lazy val refBase: P[String] = opt("the") ~> (
     "running execution context" ^^^ context |||
     "current Realm Record" ^^^ realm |||
     "arguments object" ^^^ "args" |||

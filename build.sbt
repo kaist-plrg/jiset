@@ -75,6 +75,13 @@ commands += Command.command("generateModel") { state =>
     state
 }
 
+commands += Command.command("updateAndTestModel") { state =>
+    s"run gen-model" ::
+    "test" ::
+    "algoCompilerDiffTest" ::
+    state
+}
+
 scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature",
                                    "-language:postfixOps",
                                    "-language:implicitConversions")

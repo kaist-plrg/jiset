@@ -306,10 +306,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "If this this is contained in strict mode code and StringValue of Identifier is" ~ code ~ "or" ~ code ~ ", return" ~ const ~ "." |
       "If" ~ id ~ "+ ( 3 × (" ~ id ~ "- 1 ) ) is greater than or equal to" ~ id ~ ", throw a" ~ value ~ "exception ." |
       "If" ~ id ~ "+ 2 is greater than or equal to" ~ id ~ ", throw a" ~ value ~ "exception ." |
-      "If" ~ id ~ ". [ [ Configurable ] ] is present and has value" ~ value ~ ", return" ~ value ~ "." |
-      "If" ~ id ~ ". [ [ Enumerable ] ] is present and has value" ~ value ~ ", return" ~ value ~ "." |
       "If" ~ id ~ ". [ [ Site ] ] is the same Parse Node as" ~ id ~ ", then " ~ rest |
-      "If" ~ id ~ ". [ [ Writable ] ] is present and has value" ~ value ~ ", return" ~ value ~ "." |
       "If" ~ id ~ "= 0 ℝ , then " ~ rest |
       "If" ~ id ~ "can be the string - concatenation of" ~ id ~ "and some other String" ~ id ~ ", return" ~ value ~ ". Otherwise , return" ~ value ~ "." |
       "If" ~ id ~ "contains any duplicate entries , throw a" ~ value ~ "exception ." |
@@ -516,15 +513,11 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
             $idx = (+ $idx 1i)
           }
         }""")), parseExpr(s))
-    } | "the grammar symbol" ~> name ^^ {
-      case x => pair(Nil, EStr(x))
     } | "a String according to Table 35" ^^^ {
       val temp = getTemp
       pair(List(parseInst(s"app $temp = (GetTypeOf val)")), toERef(temp))
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
       pair(Nil, EParseSyntax(toERef("this"), EStr("ParenthesizedExpression"), Nil))
-    } | "the length of" ~> name ^^ {
-      case x => pair(Nil, parseExpr(s"""$x.length"""))
     } | "the" ~ opt("actual") ~ "number of" ~ ("actual arguments" | "arguments passed to this function" ~ opt("call")) ^^^ {
       if (algoName == "GLOBAL.Array.prototype.splice")
         pair(Nil, parseExpr(s"""(- argumentsList.length 2i)"""))
@@ -632,8 +625,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case p => p
     } | "-" ~> expr ^^ {
       case i ~ e => pair(i, EUOp(ONeg, e))
-    } | "the number of" ~ (opt("code unit") ~ "elements" | "code units") ~ ("in" | "of") ~> ref ^^ {
-      case i ~ r => pair(i, ERef(RefProp(r, EStr("length"))))
     } | ("the result of performing abstract relational comparison" ~> name <~ "<") ~ name ~ opt("with" ~ name ~ "equal to" ~> expr) ^^ {
       case x ~ y ~ Some(i ~ e) =>
         val temp = getTemp
