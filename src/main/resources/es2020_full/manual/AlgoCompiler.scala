@@ -804,10 +804,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x ~ v ~ y ~ u => pair(Nil, parseExpr(s"(&& (= $x ${beautify(v)}) (= $y ${beautify(u)}))"))
     } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
       case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
-    } | expr <~ "is not an abrupt completion" ^^ {
-      case i ~ x => pair(i, parseExpr(s"""(! (&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal))))"""))
-    } | expr <~ "is an abrupt completion" ^^ {
-      case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal)))"""))
     } | expr <~ "is a normal completion" ^^ {
       case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (= ${beautify(x)}.Type CONST_normal))"""))
     } | expr <~ "is not already suspended" ^^ {

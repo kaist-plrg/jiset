@@ -518,7 +518,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val callName: P[String] = (
     "array index" ^^^ "IsArrayIndex" |||
     "accessor property" ^^^ "IsAccessorDescriptor" |||
-    "data property" ^^^ "IsDataDescriptor"
+    "data property" ^^^ "IsDataDescriptor" |||
+    "abrupt completion" ^^^ "IsAbruptCompletion"
   )
 
   // strict mode conditions
