@@ -38,7 +38,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val stmt: P[Inst] = {
-    etcStmt | (
+    etcStmt | ignoreStmt | (
       innerStmt |||
       returnStmt |||
       returnContStmt |||
@@ -55,6 +55,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       insertStmt |||
       removeStmt |||
       suspendStmt |||
+      pushStmt |||
       assertStmt |||
       starStmt
     )
@@ -67,6 +68,19 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "( if" |
     "this call will always return" ~ value |
     (opt("(") <~ ("see" | "it may be"))
+  ) ~ rest ^^^ emptyInst
+
+  // ignore statements
+  lazy val ignoreStmt: P[Inst] = (
+    "set fields of" |
+    "need to defer setting the" |
+    "create any implementation-defined" |
+    "no further validation is required" |
+    "if" ~ id ~ "is a List of errors," |
+    "order the elements of" ~ id ~ "so they are in the same relative order as would" |
+    "Perform any implementation or host environment defined processing of" |
+    "Perform any implementation or host environment defined job initialization using" |
+    "Once a generator enters"
   ) ~ rest ^^^ emptyInst
 
   // inner statements
@@ -104,6 +118,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   } ^^ {
     case (i ~ c) ~ t ~ None => ISeq(i :+ IIf(c, t, emptyInst))
     case (i ~ c) ~ t ~ Some(e) => ISeq(i :+ IIf(c, t, e))
+  } ||| ("if" ~> (nt | id) <~ "is" ~ opt("the production")) ~ grammar ~ ("," ~ opt("then") ~> stmt) ^^ {
+    case x ~ Grammar(y, ss) ~ s =>
+      val pre = ss.map(s => IAccess(Id(s), toERef(x), EStr(s)))
+      IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
   }
 
   // call statements
@@ -137,19 +155,19 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   }
 
   // while statements
-  lazy val whileStmt = "repeat," ~> opt("while" ~> cond <~ opt(",")) ~ stmt ^^ {
+  lazy val whileStmt = "repeat" ~ opt(",") ~> opt("while" ~> cond <~ opt(",")) ~ stmt ^^ {
     case Some(i ~ c) ~ s => ISeq(i :+ IWhile(c, s))
     case None ~ s => IWhile(EBool(true), s)
   }
 
   // for-each statements
   lazy val forEachStmt = {
-    ("for each" ~ rep(nt | text) ~> id) ~
+    (opt("repeat" ~ opt(",")) ~> "for each" ~ rep(nt | text) ~> id) ~
       (("in order from" | "in" | "of" | "from" | "that is an element of") ~> expr) ~
       (opt(mention) ~ opt(",") ~> (
         opt("in list order," | "in original insertion order,") ^^^ false |||
         "in reverse list order," ^^^ true
-      )) ~ ("do" ~> stmt)
+      )) ~ (opt("do") ~> stmt)
   } ^^ {
     case x ~ (i ~ e) ~ isRev ~ b => ISeq(i :+ forEachList(Id(x), e, b, isRev))
   }
@@ -185,8 +203,22 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // suspend statements
   lazy val suspendStmt: P[Inst] = (
-    "suspend" ~> id ~ opt("and remove it from the execution context stack")
-  ) ^^ { case x ~ opt => suspend(x, !opt.isEmpty) }
+    "suspend" ~> id ~ opt("and remove it from the execution context stack") ^^ {
+      case x ~ opt => suspend(x, !opt.isEmpty)
+    } ||| "suspend the currently running execution context" ^^^ {
+      suspend(context)
+    }
+  )
+
+  // push statements
+  lazy val pushStmt: P[Inst] = (
+    "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack;" ~
+    id ~ "is now the running execution context" ^^ {
+      case i ~ e => ISeq(i ++ List(IAppend(e, toERef(executionStack)), parseInst(s"""
+        $context = $executionStack[(- $executionStack.length 1i)]
+      """)))
+    }
+  )
 
   // assert statements
   lazy val assertStmt: P[Inst] = ("assert:" | "note:") ~ rest ^^^ emptyInst
@@ -212,6 +244,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     syntaxExpr |||
     argumentExpr |||
     refExpr |||
+    referenceExpr |||
     starExpr
   )
 
@@ -344,7 +377,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // contains expressions
   lazy val containsExpr: P[I[Expr]] =
-    ((id | nt) <~ camelWord.filter(_ == "Contains")) ~ (nt ^^ { EStr(_) } | id ^^ { toERef(_) }) ^^ {
+    opt("the result of") ~> ((id | nt) <~ camelWord.filter(_ == "Contains")) ~ (nt ^^ { EStr(_) } | id ^^ { toERef(_) }) ^^ {
       case x ~ y =>
         // `Contains` static semantics
         val a = getTempId
@@ -380,7 +413,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "the List of arguments passed to this function" |||
     "a List containing the arguments passed to this function" |||
     "a List consisting of all of the arguments passed to this function" |||
-    "a List whose elements are , in left to right order , the arguments that were passed to this function invocation"
+    "a List whose elements are , in left to right order , the arguments that were passed to this function invocation" |||
+    "the" ~ id ~ "that was passed to this function by [ [ Call ] ] or [ [ Construct ] ]"
   ) ^^^ { pair(Nil, toERef("argumentsList")) } ||| (
       "the number of arguments passed to this function call"
     ) ^^^ { pair(Nil, toERef("argumentsList", "length")) }
@@ -389,6 +423,29 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val refExpr: P[I[Expr]] = ref ^^ {
     case i ~ r => pair(i, ERef(r))
   }
+
+  // ECMAScript reference expressions
+  lazy val referenceExpr: P[I[Expr]] = (
+    ("a value of type reference whose base value component is" ~> expr) ~
+    (", whose referenced name component is" ~> expr) ~
+    (", and whose strict reference flag is" ~> expr) ^^ {
+      case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ s) => pair(i0 ++ i1 ++ i2, EMap(Ty("Reference"), List(
+        EStr("BaseValue") -> b,
+        EStr("ReferencedName") -> r,
+        EStr("StrictReference") -> s
+      )))
+    } | ("a value of type Reference that is a Super Reference whose base value component is" ~> expr) ~
+    (", whose referenced name component is" ~> expr) ~
+    (", whose thisValue component is" ~> expr) ~
+    (", and whose strict reference flag is" ~> expr) ^^ {
+      case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ t) ~ (i3 ~ s) => pair(i0 ++ i1 ++ i2 ++ i3, EMap(Ty("Reference"), List(
+        EStr("BaseValue") -> b,
+        EStr("ReferencedName") -> r,
+        EStr("thisValue") -> t,
+        EStr("StrictReference") -> s
+      )))
+    }
+  )
 
   ////////////////////////////////////////////////////////////////////////////////
   // values
@@ -456,7 +513,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     } ||| "zero" ^^^ {
       EINum(0L)
     }
-  )
+  ) ||| "the Number value for" ~> id ^^ { toERef(_) }
 
   // grammar values
   lazy val grammarValue: P[Expr] = "the grammar symbol" ~> nt ^^ {
@@ -495,6 +552,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     bothCond |||
     strictModeCond |||
     containsCond |||
+    suppliedCond |||
     emptyCond
   )
 
@@ -584,7 +642,9 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     opt("the source code matching") ~ expr ~ ("is" ~ ("strict mode" | "non-strict") ~ "code") |||
     "the directive prologue of statementList contains a use strict directive" |||
     "the code matching the syntactic production that is being evaluated is contained in strict mode code" |||
-    "this this is contained in strict mode code"
+    "the code matched by the syntactic production that is being evaluated is strict mode code" |||
+    refBase ~> "is contained in strict mode code" |||
+    "the function code for this" ~> nt <~ "is strict mode code"
   ) ^^^ pair(Nil, EBool(true))
 
   // contains conditions
@@ -607,8 +667,13 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val containsPost: P[String] =
     ("field" | "internal" ~ ("slot" | "method") | "component") ^^^ ""
 
+  // supplied conditions
+  lazy val suppliedCond: P[I[Expr]] = id <~ "was supplied" ^^ {
+    case x => pair(Nil, isNEq(toERef(x), EAbsent))
+  }
+
   // empty conditions
-  val emptyCond: P[I[Expr]] = (
+  lazy val emptyCond: P[I[Expr]] = (
     ref <~ ("has no elements" | "is empty" | "is an empty list") ^^ {
       case i ~ r => pair(i, isEq(ERef(RefProp(r, EStr("length"))), EINum(0)))
     } ||| ref <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
@@ -621,21 +686,28 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   lazy val ty: P[Ty] = (
     "AsyncGeneratorRequest" ^^^ "AsyncGeneratorRequest" |||
+    "Cyclic Module Record" ^^^ "CyclicModuleRecord" |||
+    "ExportEntry Record" ^^^ "ExportEntryRecord" |||
+    "ImportEntry Record" ^^^ "ImportEntryRecord" |||
     "PromiseCapability" ^^^ "PromiseCapability" |||
+    "ResolvedBinding Record" ^^^ "ResolvedBindingRecord" |||
     "PromiseReaction" ^^^ "PromiseReaction" |||
-    "arguments exotic object" ^^^ "ArgumentsExoticObject" |||
-    "WriteSharedMemory" ^^^ "WriteSharedMemory" |||
     "ReadSharedMemory" ^^^ "ReadSharedMemory" |||
+    "Shared Data Block" ^^^ "SharedDataBlock" |||
+    "Source Text Module Record" ^^^ "SourceTextModuleRecord" |||
+    "WriteSharedMemory" ^^^ "WriteSharedMemory" |||
+    "arguments exotic object" ^^^ "ArgumentsExoticObject" |||
     "array exotic object" ^^^ "ArrayExoticObject" |||
     "bound function exotic object" ^^^ "BoundFunctionExoticObject" |||
     "built-in function object" ^^^ "BuiltinFunctionObject" |||
+    "chosen value record" ^^^ "ChosenValueRecord" |||
     "completion" ^^^ "Completion" |||
     "declarative environment record" ^^^ "DeclarativeEnvironmentRecord" |||
     "function environment record" ^^^ "FunctionEnvironmentRecord" |||
     "global environment record" ^^^ "GlobalEnvironmentRecord" |||
     "lexical environment" ^^^ "LexicalEnvironment" |||
-    "object environment record" ^^^ "ObjectEnvironmentRecord" |||
     "module environment record" ^^^ "ModuleEnvironmentRecord" |||
+    "object environment record" ^^^ "ObjectEnvironmentRecord" |||
     "object" ^^^ "OrdinaryObject" |||
     "pendingjob" ^^^ "PendingJob" |||
     "property descriptor" ^^^ "PropertyDescriptor" |||
@@ -644,9 +716,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "realm record" ^^^ "RealmRecord" |||
     "record" ^^^ "Record" |||
     "script record" ^^^ "ScriptRecord" |||
-    "chosen value record" ^^^ "ChosenValueRecord" |||
     "string exotic object" ^^^ "StringExoticObject" |||
-    "Shared Data Block" ^^^ "SharedDataBlock" |||
     opt("ecmascript code") ~ "execution context" ^^^ "ExecutionContext"
   ) ^^ Ty
 
@@ -701,7 +771,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // length references
   lazy val lengthRef: P[I[Ref]] = (
     "length of" ~> ref |||
-    "number of" ~ (opt("code unit") ~ "elements" | "code units") ~ ("in" | "of") ~> ref
+    "number of" ~ (opt("code unit") ~ "elements" | "code units") ~ ("in" | "of") ~ opt("the List") ~> ref
   ) ^^ { case i ~ r => pair(i, RefProp(r, EStr("length"))) }
 
   // flag references
@@ -715,7 +785,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "arguments object" ^^^ "args" |||
     "execution context stack" ^^^ executionStack |||
     ty ~ "for which the method was invoked" ^^^ "this" |||
-    "this" ~ opt(nt | "this") ^^^ "this" |||
+    "this" ~ opt(nt | "this" | ty) ^^^ "this" |||
     value.filter(_ == "this") ~ "value" ^^^ "this" |||
     "reference" ~> id |||
     intrinsicName |||
@@ -726,7 +796,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   )
   lazy val refPre: P[String] = opt("the") ~> (
     "hint" |||
-    "list that is" |||
+    "list that is" ~ opt("the value of") |||
     "string value of" |||
     "value of" |||
     "parsed code that is"
