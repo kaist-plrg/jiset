@@ -65,6 +65,15 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       starStmt
     )
   } <~ opt(".") ~ opt(comment) | comment
+  lazy val comment: P[Inst] = (
+    "assert:" |
+    "note:" |
+    "this may be" |
+    "as defined" |
+    "( if" |
+    "this call will always return" ~ value |
+    (opt("(") <~ ("see" | "it may be"))
+  ) ~ rest ^^^ emptyInst
 
   // inner statements
   lazy val innerStmt: P[Inst] = in ~> stmts <~ out ^^ { ISeq(_) }
@@ -118,7 +127,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     ref ||| opt("the") ~> (camelWord <~ "of") ~ refBase ^^ { case f ~ b => pair(Nil, toRef(b, f)) }
 
   // increment statements
-  lazy val incrementStmt = ("increment" ~> ref <~ "by") ~ expr ^^ {
+  lazy val incrementStmt = (("increment" | "increase") ~> ref <~ "by") ~ expr ^^ {
     case (i0 ~ x) ~ (i1 ~ y) => ISeq(i0 ++ i1 :+ IAssign(x, EBOp(OPlus, ERef(x), y)))
   }
 
@@ -270,7 +279,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
         pair(Nil, EMap(t, (EStr("SubMap") -> EMap(Ty("SubMap"), Nil)) :: fs.getOrElse(Nil)))
     } ||| "a newly created" ~> valueValue <~ "object" ^^ {
       case e => pair(Nil, e)
-    } ||| opt("the") ~> ty ~ ("{" ~> repsep((internalName <~ ":") ~ expr, ",") <~ "}") ^^ {
+    } ||| opt("the" | "a new") ~> ty ~ ("{" ~> repsep((internalName <~ ":") ~ expr, ",") <~ "}") ^^ {
       case t ~ list =>
         val i = list.map { case _ ~ (i ~ _) => i }.flatten
         pair(i, EMap(t, list.map { case x ~ (_ ~ e) => (x, e) }))
@@ -614,6 +623,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "global environment record" ^^^ "GlobalEnvironmentRecord" |||
     "lexical environment" ^^^ "LexicalEnvironment" |||
     "object environment record" ^^^ "ObjectEnvironmentRecord" |||
+    "module environment record" ^^^ "ModuleEnvironmentRecord" |||
     "object" ^^^ "OrdinaryObject" |||
     "pendingjob" ^^^ "PendingJob" |||
     "property descriptor" ^^^ "PropertyDescriptor" |||
@@ -730,7 +740,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "referenced name component" ^^^ "ReferencedName" |||
     "binding object" ^^^ "BindingObject" |||
     camelWord <~ ("fields" | "component")
-  ) ^^ { EStr(_) } ||| internalName
+  ) ^^ { EStr(_) } ||| internalName <~ opt("internal slot")
 
   ////////////////////////////////////////////////////////////////////////////////
   // Section Numbers
@@ -785,9 +795,6 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // etc conditions
   lazy val etcCond: P[I[Expr]] = failure("")
-
-  // comments
-  lazy val comment: P[Inst] = failure("")
 
   // ignore conditions
   lazy val ignoreCond: P[I[Expr]] = failure("") ^^^ pair(Nil, EBool(true))
