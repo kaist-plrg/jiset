@@ -454,7 +454,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     condOpCond |||
     rhsCond |||
     strictModeCond |||
-    containsCond
+    containsCond |||
+    emptyCond
   )
 
   // binary operator conditions
@@ -513,9 +514,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val rhsExpr: P[Expr => I[Expr]] = (
     valueParser ^^ { case x => (e: Expr) => pair(Nil, isEq(e, x)) } |||
     (id | camelWord) ^^ { case x => (e: Expr) => pair(Nil, isEq(e, toERef(x))) } |||
-    ("a" | "an") ~> callName ^^ { case f => (e: Expr) => getCall(f, List(pair(Nil, e))) }
+    callName ^^ { case f => (e: Expr) => getCall(f, List(pair(Nil, e))) } |||
+    ("a" | "an") ~> ty ^^ { case t => (e: Expr) => pair(Nil, isEq(ETypeOf(e), EStr(t.name))) }
   )
-  lazy val callName: P[String] = (
+  lazy val callName: P[String] = ("a" | "an") ~> (
     "array index" ^^^ "IsArrayIndex" |||
     "accessor property" ^^^ "IsAccessorDescriptor" |||
     "data property" ^^^ "IsDataDescriptor" |||
@@ -527,46 +529,61 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     expr <~ "is strict mode code" ^^^ pair(Nil, EBool(true))
 
   // contains conditions
-  val containsCond: P[I[Expr]] =
+  val containsCond: P[I[Expr]] = (
     (id <~ "does not have" ~ ("a" | "an")) ~ (id ^^ toERef | internalName) <~ ("field" | "internal slot") ^^ {
       case x ~ y => pair(Nil, EBOp(OEq, toERef(x, y), EAbsent))
     } ||| (expr <~ "does not contain") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
-    } ||| containsExpr | (expr <~ "contains") ~ expr ^^ {
+    } ||| (expr <~ "contains") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
+    } ||| (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
+    } ||| (expr <~ "is" ~ ("in" | "an element of")) ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(y, x))
     } ||| containsExpr
+  )
+
+  // empty conditions
+  val emptyCond: P[I[Expr]] = (
+    ref <~ "has no elements" ^^ {
+      case i ~ r => pair(i, isEq(EINum(0), ERef(RefProp(r, EStr("length")))))
+    } ||| ref <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
+      case i ~ r => pair(i, EBOp(OLt, EINum(0), ERef(RefProp(r, EStr("length")))))
+    }
+  )
 
   ////////////////////////////////////////////////////////////////////////////////
   // Types
   ////////////////////////////////////////////////////////////////////////////////
   lazy val ty: P[Ty] = (
-    "AsyncGeneratorRequest" ^^^ Ty("AsyncGeneratorRequest") |||
-    "PromiseCapability" ^^^ Ty("PromiseCapability") |||
-    "PromiseReaction" ^^^ Ty("PromiseReaction") |||
-    "arguments exotic object" ^^^ Ty("ArgumentsExoticObject") |||
-    "WriteSharedMemory" ^^^ Ty("WriteSharedMemory") |||
-    "ReadSharedMemory" ^^^ Ty("ReadSharedMemory") |||
-    "array exotic object" ^^^ Ty("ArrayExoticObject") |||
-    "bound function exotic object" ^^^ Ty("BoundFunctionExoticObject") |||
-    "built-in function object" ^^^ Ty("BuiltinFunctionObject") |||
-    "completion" ^^^ Ty("Completion") |||
-    "declarative environment record" ^^^ Ty("DeclarativeEnvironmentRecord") |||
-    "function environment record" ^^^ Ty("FunctionEnvironmentRecord") |||
-    "global environment record" ^^^ Ty("GlobalEnvironmentRecord") |||
-    "lexical environment" ^^^ Ty("LexicalEnvironment") |||
-    "object environment record" ^^^ Ty("ObjectEnvironmentRecord") |||
-    "object" ^^^ Ty("OrdinaryObject") |||
-    "pendingjob" ^^^ Ty("PendingJob") |||
-    "property descriptor" ^^^ Ty("PropertyDescriptor") |||
-    "propertydescriptor" ^^^ Ty("PropertyDescriptor") |||
-    "proxy exotic object" ^^^ Ty("ProxyExoticObject") |||
-    "realm record" ^^^ Ty("RealmRecord") |||
-    "record" ^^^ Ty("Record") |||
-    "script record" ^^^ Ty("ScriptRecord") |||
-    "chosen value record" ^^^ Ty("ChosenValueRecord") |||
-    "string exotic object" ^^^ Ty("StringExoticObject") |||
-    opt("ecmascript code") ~ "execution context" ^^^ Ty("ExecutionContext")
-  )
+    "AsyncGeneratorRequest" ^^^ "AsyncGeneratorRequest" |||
+    "PromiseCapability" ^^^ "PromiseCapability" |||
+    "PromiseReaction" ^^^ "PromiseReaction" |||
+    "arguments exotic object" ^^^ "ArgumentsExoticObject" |||
+    "WriteSharedMemory" ^^^ "WriteSharedMemory" |||
+    "ReadSharedMemory" ^^^ "ReadSharedMemory" |||
+    "array exotic object" ^^^ "ArrayExoticObject" |||
+    "bound function exotic object" ^^^ "BoundFunctionExoticObject" |||
+    "built-in function object" ^^^ "BuiltinFunctionObject" |||
+    "completion" ^^^ "Completion" |||
+    "declarative environment record" ^^^ "DeclarativeEnvironmentRecord" |||
+    "function environment record" ^^^ "FunctionEnvironmentRecord" |||
+    "global environment record" ^^^ "GlobalEnvironmentRecord" |||
+    "lexical environment" ^^^ "LexicalEnvironment" |||
+    "object environment record" ^^^ "ObjectEnvironmentRecord" |||
+    "object" ^^^ "OrdinaryObject" |||
+    "pendingjob" ^^^ "PendingJob" |||
+    "property descriptor" ^^^ "PropertyDescriptor" |||
+    "propertydescriptor" ^^^ "PropertyDescriptor" |||
+    "proxy exotic object" ^^^ "ProxyExoticObject" |||
+    "realm record" ^^^ "RealmRecord" |||
+    "record" ^^^ "Record" |||
+    "script record" ^^^ "ScriptRecord" |||
+    "chosen value record" ^^^ "ChosenValueRecord" |||
+    "string exotic object" ^^^ "StringExoticObject" |||
+    "Shared Data Block" ^^^ "SharedDataBlock" |||
+    opt("ecmascript code") ~ "execution context" ^^^ "ExecutionContext"
+  ) ^^ Ty
 
   ////////////////////////////////////////////////////////////////////////////////
   // References

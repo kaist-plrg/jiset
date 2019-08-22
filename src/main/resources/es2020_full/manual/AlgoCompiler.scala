@@ -808,14 +808,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (= ${beautify(x)}.Type CONST_normal))"""))
     } | expr <~ "is not already suspended" ^^ {
       case i ~ e => pair(i, EBOp(OEq, e, ENull))
-    } | name <~ "has no elements" ^^ {
-      case x => pair(Nil, parseExpr(s"(= 0i $x.length)"))
-    } | name <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
-      case x => pair(Nil, parseExpr(s"(< 0i $x.length)"))
-    } | (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EContains(y, x))))
-    } | (expr <~ "is" ~ ("in" | "an element of")) ~ expr ~ subCond ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, f(EContains(y, x)))
     } | name <~ "does not have a Generator component" ^^ {
       case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
     } | "the source code matching" ~ expr ~ "is strict mode code" ^^^ {
@@ -852,8 +844,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, exists(RefProp(RefProp(r, EStr("SubMap")), p)))
     } | ref ~ ("has" ~ ("a" | "an") ~> internalName <~ "internal" ~ ("method" | "slot")) ~ subCond ^^ {
       case (i ~ r) ~ p ~ f => concat(i, f(parseExpr(s"(! (= absent ${beautify(r)}[${beautify(p)}]))")))
-    } | (ref <~ "is present" <~ opt("as a parameter")) ~ subCond ^^ {
-      case (i0 ~ r) ~ f => concat(i0, f(exists(r)))
     } | (expr <~ "is not" <~ opt("the same as")) ~ expr ~ subCond ^^ {
       case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EUOp(ONot, EBOp(OEq, l, r))))
     } | (name <~ "and") ~ (name <~ "are both the same Symbol value") ^^ {
@@ -888,18 +878,8 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case i ~ e =>
         val temp = getTemp
         pair(i :+ parseInst(s"""app $temp = (Type ${beautify(e)})"""), parseExpr(s"""(= $temp "Object")"""))
-    } | (expr <~ "is not" ~ ("a" | "an")) ~ ty ^^ {
-      case (i ~ e) ~ t => pair(i, EUOp(ONot, EBOp(OEq, ETypeOf(e), EStr(t.name))))
-    } | (expr <~ "is") ~ (("a" | "an") ~> ty) ~ ("or" ~> ("a" | "an") ~> ty) ~ subCond ^^ {
-      case (i0 ~ e) ~ t1 ~ t2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OEq, ETypeOf(e), EStr(t1.name)), EBOp(OEq, ETypeOf(e), EStr(t2.name)))))
-    } | (expr <~ "is" ~ ("a" | "an")) ~ ty ^^ {
-      case (i ~ e) ~ t => pair(i, EBOp(OEq, ETypeOf(e), EStr(t.name)))
     } | ("either" ~> etcCond) ~ ("or" ~> etcCond) ^^ {
       case (i0 ~ c1) ~ (i1 ~ c2) => pair(i0 ++ i1, EBOp(OOr, c1, c2))
-    } | name ~ ("is either" ~> expr) ~ ("or" ~> expr) ^^ {
-      case x ~ (i0 ~ e1) ~ (i1 ~ e2) =>
-        val e0 = parseExpr(x)
-        pair(i0 ++ i1, EBOp(OOr, EBOp(OEq, e0, e1), EBOp(OEq, e0, e2)))
     } | "every field in" ~> id <~ "is absent" ^^ {
       case x => pair(Nil, parseExpr(s"""
         (&& (= absent $x.Value)
@@ -914,8 +894,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         pair(List(parseInst(s"""app $temp = (Type $x)""")), parseExpr(s"""(&& (= $temp "Object") (|| (= $temp "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
     } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
       case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
-    } | id ~ "is a Shared Data Block" ^^^ {
-      pair(Nil, ENotSupported("SharedDataBlock"))
     } | "the most significant bit in" ~ id ~ "is 0" ^^^ {
       pair(Nil, ENotSupported("NumberOp"))
     } | "an implementation - defined debugging facility is available and enabled" ^^^ {
@@ -942,7 +920,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
     "the base of" ~ ref ~ "is an Environment Record" |
     name ~ "must be" ~ rep(not(",") ~ text) |
     id ~ "does not currently have a property" ~ id |
-    id <~ "is an accessor property" |
     ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr
   ) ^^^ pair(Nil, EBool(true))
 }
