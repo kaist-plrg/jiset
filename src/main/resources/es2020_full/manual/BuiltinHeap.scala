@@ -457,8 +457,8 @@ object BuiltinHeap {
     "GLOBAL.Array.prototype[#GLOBAL.Symbol.unscopables]" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
-        "Extensible" -> Bool(true),
-        ),
+        "Extensible" -> Bool(true)
+      ),
       nmap = NMap(
         "copyWithin" -> DataProperty(Bool(true), T, T, T),
         "entries" -> DataProperty(Bool(true), T, T, T),
