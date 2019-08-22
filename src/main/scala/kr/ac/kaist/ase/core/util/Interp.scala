@@ -316,15 +316,19 @@ class Interp {
       }
       v match {
         case ASTVal(ast) =>
-          val newAst = try {
-            Await.result(Future(
+          val newVal = try {
+            ASTVal(Await.result(Future(
               ESParser.parse(p(ast.parserParams), ast.toString).get
-            ), timeout.milliseconds)
+            ), timeout.milliseconds))
           } catch {
             case e: TimeoutException => error("parser timeout")
+            case e: Throwable => Absent
           }
-          ModelHelper.checkSupported(newAst)
-          (ASTVal(newAst), s1)
+          newVal match {
+            case ASTVal(s) => ModelHelper.checkSupported(s)
+            case _ => ()
+          }
+          (newVal, s1)
         case Str(str) =>
           val (s2, parserParams) = ((s1, List[Boolean]()) /: flags) {
             case ((st, ps), param) =>
@@ -334,15 +338,19 @@ class Interp {
                 case _ => error(s"parserParams should be boolean")
               }
           }
-          val ast = try {
-            Await.result(Future(
+          val newVal = try {
+            ASTVal(Await.result(Future(
               ESParser.parse(p(parserParams), str).get
-            ), timeout.milliseconds)
+            ), timeout.milliseconds))
           } catch {
             case e: TimeoutException => error("parser timeout")
+            case e: Throwable => Absent
           }
-          ModelHelper.checkSupported(ast)
-          (ASTVal(ast), s2)
+          newVal match {
+            case ASTVal(s) => ModelHelper.checkSupported(s)
+            case _ => ()
+          }
+          (newVal, s2)
         case v => error(s"not an AST value or a string: $v")
       }
     case EConvert(expr, cop, l) => interp(expr, true)(st) match {

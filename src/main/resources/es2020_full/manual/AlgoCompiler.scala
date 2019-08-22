@@ -537,7 +537,15 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         parseInst(s"""app $temp2 = (CreateListIteratorRecord $temp)""")
       ), toERef(temp2))
     } | "the ecmascript code that is the result of parsing" ~> id <~ ", interpreted as utf - 16 encoded unicode text" <~ rest ^^^ {
-      pair(Nil, parseExpr(s"""(parse-syntax x "Script")""")) // TODO : throw syntax error
+      val tempP = getTemp
+      val tempP2 = getTemp
+      pair(List(parseInst(s"""{
+        let $tempP = (parse-syntax x "Script")
+        if (= $tempP absent) {
+          app $tempP2 = (ThrowCompletion ${beautify(getErrorObj("SyntaxError"))})
+          return $tempP2
+        } else {}
+      }""")) , toERef(tempP))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, EStr(r), Nil))
     } | "the string that is the only element of" ~> expr ^^ {
