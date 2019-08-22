@@ -72,11 +72,14 @@ trait AlgoCompilers extends TokenParsers {
   def getTempId: Id = Id(getTemp)
 
   // several checks
-  def checkEq(l: Expr, r: Expr): Expr = EBOp(OEq, l, r)
-  def checkNot(e: Expr): Expr = EUOp(ONot, e)
-  def checkNEq(l: Expr, r: Expr): Expr = checkNot(checkEq(l, r))
-  def exists(expr: Expr): Expr = EUOp(ONot, EBOp(OEq, expr, EAbsent))
+  def exists(expr: Expr): Expr = isNEq(expr, EAbsent)
   def exists(ref: Ref): Expr = exists(ERef(ref))
+  def isEq(l: Expr, r: Expr): Expr = EBOp(OEq, l, r)
+  def isNEq(l: Expr, r: Expr): Expr = not(isEq(l, r))
+  def not(e: Expr): Expr = e match {
+    case EUOp(ONot, e) => e
+    case _ => EUOp(ONot, e)
+  }
 
   // for-each instrutions for lists
   def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
@@ -343,17 +346,17 @@ trait AlgoCompilers extends TokenParsers {
   def getNormalCompletion(ie: I[Expr]): I[Expr] = getCall("NormalCompletion", List(ie))
 
   // binary operator calculations
-  def calc(not: Boolean, rev: Boolean, bop: BOp, left: Expr, right: Expr): Expr = {
+  def calc(n: Boolean, rev: Boolean, bop: BOp, left: Expr, right: Expr): Expr = {
     val (l, r) =
       if (rev) (right, left)
       else (left, right)
     val expr = EBOp(bop, l, r)
-    if (not) EUOp(ONot, expr) else expr
+    if (n) not(expr) else expr
   }
 
   // check abrupt completion
   def isAbruptCompletion(x: String): Expr = {
-    EBOp(OAnd, checkEq(ETypeOf(toERef(x)), EStr("Completion")), checkNEq(toERef(x, "Type"), toERef("CONST_normal")))
+    EBOp(OAnd, isEq(ETypeOf(toERef(x)), EStr("Completion")), isNEq(toERef(x, "Type"), toERef("CONST_normal")))
   }
 
   // separators
@@ -371,8 +374,4 @@ trait AlgoCompilers extends TokenParsers {
     EStr("ErrorData") -> EUndef,
     EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
   ))
-
-  // equals
-  def isEq(l: Expr, r: Expr): Expr = EBOp(OEq, l, r)
-  def isNEq(l: Expr, r: Expr): Expr = EUOp(ONot, isEq(l, r))
 }

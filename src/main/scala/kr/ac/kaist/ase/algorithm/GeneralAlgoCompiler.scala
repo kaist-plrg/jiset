@@ -370,7 +370,9 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     constValue |||
     numberValue |||
     grammarValue |||
+    absentValue |||
     hexValue |||
+    activeFunctionValue |||
     internalName
   )
 
@@ -430,6 +432,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     case x => EStr(x)
   }
 
+  // absent values
+  lazy val absentValue: P[Expr] =
+    ("absent" | "not supplied" | "not present") ^^^ EAbsent
+
   // hex values
   lazy val hexValue: P[Expr] =
     opt("the") ~> opt("code unit") ~> hex <~ "(" ~ rep(normal.filter(_ != Text(")"))) ~ ")" ^^ {
@@ -439,6 +445,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     case s => Integer.parseInt(s.substring(2), 16)
   }
 
+  // active function object
+  lazy val activeFunctionValue: P[Expr] =
+    "the active function" ~ opt("object") ^^^ toERef(context, "Function")
+
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
@@ -447,6 +457,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     bopCond |||
     condOpCond |||
     rhsCond |||
+    bothCond |||
     strictModeCond |||
     containsCond |||
     emptyCond
@@ -487,26 +498,22 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val rhs: P[Expr => I[Expr]] = equalRhs ||| notEqualRhs
   lazy val equalRhs: P[Expr => I[Expr]] = {
     "is" ~ opt("present and its value is") | "has the value"
-  } ~ opt("either") ~> rep1sep({
-    rhsExpr ||| ("absent" | "not present" | "not supplied") ^^^ {
-      (e: Expr) => pair(Nil, isEq(e, EAbsent))
-    } ||| ("not absent" | "present" <~ opt("as a parameter")) ^^^ {
-      (e: Expr) => pair(Nil, isNEq(e, EAbsent))
-    }
-  } <~ guard("," | "or" | "and" | in), sep("or")) ^^ {
+  } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     }
   }
   lazy val notEqualRhs: P[Expr => I[Expr]] = {
-    "is" ~ ("not" ~ opt("one of") | "neither")
+    "is" ~ ("not" ~ opt("the same as" | "one of") | "neither")
   } ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | "nor" | in), sep("nor" | "or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
-    } match { case i ~ e => pair(i, EUOp(ONot, e)) }
+    } match { case i ~ e => pair(i, not(e)) }
   }
   lazy val rhsExpr: P[Expr => I[Expr]] = (
+    ("supplied" | "present") <~ opt("as a parameter") ^^^ { (e: Expr) => pair(Nil, isNEq(e, EAbsent)) } |||
     valueParser ^^ { case x => (e: Expr) => pair(Nil, isEq(e, x)) } |||
+    "the token" ~> code ^^ { case y => (e: Expr) => pair(Nil, isEq(EGetSyntax(e), EStr(y))) } |||
     (id | camelWord) ^^ { case x => (e: Expr) => pair(Nil, isEq(e, toERef(x))) } |||
     callName ^^ { case f => (e: Expr) => getCall(f, List(pair(Nil, e))) } |||
     ("a" | "an") ~> ty ^^ { case t => (e: Expr) => pair(Nil, isEq(ETypeOf(e), EStr(t.name))) } |||
@@ -517,6 +524,24 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "accessor property" ^^^ "IsAccessorDescriptor" |||
     "data property" ^^^ "IsDataDescriptor" |||
     "abrupt completion" ^^^ "IsAbruptCompletion"
+  )
+
+  // both conditions
+  val bothCond: P[I[Expr]] =
+    (opt("both") ~> expr <~ "and") ~ (expr <~ "are" ~ opt("both")) ~
+      rep1sep(bothRhsExpr, sep("or" ~ opt("both"))) ^^ {
+        case (i0 ~ x) ~ (i1 ~ y) ~ fs => concat(i0 ++ i1, fs.map(_(x, y)).reduce[I[Expr]] {
+          case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
+        })
+      }
+  lazy val bothRhsExpr: P[(Expr, Expr) => I[Expr]] = (
+    rhsExpr ^^ {
+      case f => (l: Expr, r: Expr) => (f(l), f(r)) match {
+        case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OAnd, l, r))
+      }
+    } ||| "the same" ~> camelWord <~ "value" ^^^ {
+      (l: Expr, r: Expr) => pair(Nil, isEq(l, r))
+    }
   )
 
   // strict mode conditions
@@ -534,22 +559,23 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     } | (ref <~ ("has" | "have") <~ ("a" | "an")) ~ containsField <~ opt(containsPost) ^^ {
       case (i ~ r) ~ f => pair(i, isNEq(ERef(RefProp(r, f)), EAbsent))
     } ||| (expr <~ "does not contain") ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, not(EContains(x, y)))
     } ||| (expr <~ "contains") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
     } ||| (expr <~ "is not" ~ ("in" | "an element of")) ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(y, x)))
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, not(EContains(y, x)))
     } ||| (expr <~ "is" ~ ("in" | "an element of")) ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(y, x))
     } ||| containsExpr
   )
   lazy val containsField: P[Expr] = id ^^ toERef | fieldName
-  lazy val containsPost: P[String] = ("field" | "internal slot" | "component") ^^^ ""
+  lazy val containsPost: P[String] =
+    ("field" | "internal" ~ ("slot" | "method") | "component") ^^^ ""
 
   // empty conditions
   val emptyCond: P[I[Expr]] = (
-    ref <~ "has no elements" ^^ {
-      case i ~ r => pair(i, isEq(EINum(0), ERef(RefProp(r, EStr("length")))))
+    ref <~ ("has no elements" | "is empty" | "is an empty list") ^^ {
+      case i ~ r => pair(i, isEq(ERef(RefProp(r, EStr("length"))), EINum(0)))
     } ||| ref <~ ("is not empty" | "has any elements" | "is not an empty list") ^^ {
       case i ~ r => pair(i, EBOp(OLt, EINum(0), ERef(RefProp(r, EStr("length")))))
     }
