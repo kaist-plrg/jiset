@@ -48,17 +48,20 @@ class AlgoCompilerDiffTest extends CoreTest {
         if (jsonFilter(filename)) {
           val name = file.toString
           val algo = Algorithm(name)
-          algoMap2 += algo.filename.split("/").last -> algo.steps.toString
-          val isDiff = algoMap.get(algo.filename.split("/").last).map(_ != algo.steps.toString).getOrElse(true)
-          val lineCount = algo.lineCount
-          lazy val compiler = GeneralAlgoCompiler("", algo)
-          lazy val (func, failed) = compiler.result
-          nextAlgoMap += name -> (failed.size == 0)
-          if (isDiff) diffAlgoMap += name -> (failed.size == 0)
-          (0 until lineCount).foreach((k) => {
-            nextStepMap += s"$name$k" -> !(failed contains k)
-            if (isDiff) diffStepMap += s"$name$k" -> !(failed contains k)
-          })
+          // if (algo.kind == Builtin) {
+          if (algo.kind == Language) {
+            algoMap2 += algo.filename.split("/").last -> algo.steps.toString
+            val isDiff = algoMap.get(algo.filename.split("/").last).map(_ != algo.steps.toString).getOrElse(true)
+            val lineCount = algo.lineCount
+            lazy val compiler = GeneralAlgoCompiler("", algo)
+            lazy val (func, failed) = compiler.result
+            nextAlgoMap += name -> (failed.size == 0)
+            if (isDiff) diffAlgoMap += name -> (failed.size == 0)
+            (0 until lineCount).foreach((k) => {
+              nextStepMap += s"$name$k" -> !(failed contains k)
+              if (isDiff) diffStepMap += s"$name$k" -> !(failed contains k)
+            })
+          }
         }
       }
       algoMap = algoMap2

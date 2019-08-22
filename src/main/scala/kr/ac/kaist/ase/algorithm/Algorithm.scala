@@ -71,12 +71,16 @@ object Algorithm extends DefaultJsonProtocol {
       case JsString("RuntimeSemantics") => RuntimeSemantics
       case JsString("StaticSemantics") => StaticSemantics
       case JsString("Method") => Method
+      case JsString("Language") => Language
+      case JsString("Builtin") => Builtin
       case v => deserializationError(s"unknown AlgoKind: $v")
     }
     override def write(kind: AlgoKind): JsValue = kind match {
       case RuntimeSemantics => JsString("RuntimeSemantics")
       case StaticSemantics => JsString("StaticSemantics")
       case Method => JsString("Method")
+      case Language => JsString("Language")
+      case Builtin => JsString("Builtin")
     }
   }
   implicit lazy val StepFormat = jsonFormat1(Step)
