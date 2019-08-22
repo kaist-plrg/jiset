@@ -174,6 +174,7 @@ class Interp {
             case ("TemplateHead", "TRV") => Str(ESValueParser.parseTRVTemplateHead(str))
             case ("TemplateMiddle", "TRV") => Str(ESValueParser.parseTRVTemplateMiddle(str))
             case ("TemplateTail", "TRV") => Str(ESValueParser.parseTRVTemplateTail(str))
+            case (_, "Contains") => Func("", Nil, None, IReturn(EBool(false)))
             case _ => throw new Error(s"$kind, $str, $name")
           })
           case (astV: ASTVal, Str(name)) =>
@@ -296,6 +297,7 @@ class Interp {
     }
     case EIsInstanceOf(base, kind) => interp(base, true)(st) match {
       case (ASTVal(ast), s0) => (Bool(ast.name == kind || ast.getKinds.contains(kind)), s0)
+      case (Str(str), s0) => (Bool(str == kind), s0)
       case (v, _) => error(s"not an AST value: $v")
     }
     case EGetElems(base, kind) => interp(base, true)(st) match {

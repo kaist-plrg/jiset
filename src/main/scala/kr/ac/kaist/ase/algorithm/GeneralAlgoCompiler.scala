@@ -325,21 +325,15 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // contains expressions
   lazy val containsExpr: P[I[Expr]] =
-    (id <~ camelWord.filter(_ == "Contains")) ~ (nt ^^ { EStr(_) } | id ^^ { toERef(_) }) ^^ {
+    ((id | nt) <~ camelWord.filter(_ == "Contains")) ~ (nt ^^ { EStr(_) } | id ^^ { toERef(_) }) ^^ {
       case x ~ y =>
-        // TODO `Contains` static semantics
-        // val a = getTempId
-        // val b = getTempId
-        // pair(List(
-        //   IAccess(a, toERef(x), EStr("Contains")),
-        //   IApp(b, toERef(a), List(y))
-        // ), toERef(b))
-        if (y == EStr("ScriptBody"))
-          pair(Nil, parseExpr("true"))
-        else
-          pair(Nil, parseExpr("false"))
-    } | (nt <~ camelWord.filter(_ == "Contains")) ~ (nt ^^ { EStr(_) } | id ^^ { toERef(_) }) ^^^ {
-      pair(Nil, ENotSupported("Contains"))
+        // `Contains` static semantics
+        val a = getTempId
+        val b = getTempId
+        pair(List(
+          IAccess(a, toERef(x), EStr("Contains")),
+          IApp(b, toERef(a), List(y))
+        ), toERef(b))
     }
 
   // covered-by expressions

@@ -47,29 +47,29 @@ trait AST {
       case None => info.semMap.get(fname + info.maxK.toString).map((f) => (f, fullList.map(_._2)))
     }) match {
       case Some(f) => Some(f)
-      // TODO `Contains` static semantics
-      // case None => if (fname == "Contains") Some((Func(
-      //   name + fname,
-      //   Id("this") :: (list.map { case (x, _) => Id(x) } :+ Id("symbol")),
-      //   None,
-      //   list.foldLeft[Inst](IReturn(EBool(false))) {
-      //     case (base, (kind, value)) => IIf(
-      //       EBOp(OEq, ERef(RefId(Id("symbol"))), EStr(kind)),
-      //       IReturn(EBool(true)),
-      //       ISeq(List(
-      //         IAccess(Id("res"), ERef(RefId(Id(kind))), EStr("Contains")),
-      //         IApp(Id("res"), ERef(RefId(Id("res"))), List(ERef(RefId(Id("symbol"))))),
-      //         IIf(
-      //           ERef(RefId(Id("res"))),
-      //           IReturn(EBool(true)),
-      //           base
-      //         )
-      //       ))
-      //     )
-      //   }
-      // ), list.map(_._2)))
-      // else (list match {
-      case None => (list match {
+      // `Contains` static semantics
+      case None => if (fname == "Contains") Some((Func(
+        name + fname,
+        Id("this") :: (list.map { case (x, _) => Id(x) } :+ Id("symbol")),
+        None,
+        list.foldLeft[Inst](IReturn(EBool(false))) {
+          case (base, (kind, value)) => IIf(
+            EBOp(OEq, ERef(RefId(Id("symbol"))), EStr(kind)),
+            IReturn(EBool(true)),
+            ISeq(List(
+              IAccess(Id("res"), ERef(RefId(Id(kind))), EStr("Contains")),
+              IApp(Id("res"), ERef(RefId(Id("res"))), List(ERef(RefId(Id("symbol"))))),
+              IIf(
+                ERef(RefId(Id("res"))),
+                IReturn(EBool(true)),
+                base
+              )
+            ))
+          )
+        }
+      ), list.map(_._2)))
+      else (list match {
+        // case None => (list match {
         case List((_, ASTVal(x))) => x.semantics(fname)
         case _ => None
       })
