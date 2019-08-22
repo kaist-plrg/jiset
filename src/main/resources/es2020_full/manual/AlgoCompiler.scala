@@ -781,8 +781,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x => pair(Nil, parseExpr(s"(! (is-instance-of $x Identifier))"))
     } | (name <~ "is the token") ~ code ^^ {
       case x ~ y => pair(Nil, EBOp(OEq, EGetSyntax(toERef(x)), EStr(y)))
-    } | (name <~ "does not have" <~ ("a" | "an")) ~ (expr <~ "internal slot") ~ subCond ^^ {
-      case x ~ (_ ~ y) ~ f => concat(Nil, f(parseExpr(s"(= $x[${beautify(y)}] absent)")))
     } | name <~ "does not have all of the internal slots of an Array Iterator Instance (22.1.5.3)" ^^ {
       case x => pair(Nil, parseExpr(s"""
         (|| (= absent $x.IteratedObject)
@@ -804,20 +802,8 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
     } | (name <~ "is") ~ (valueParser <~ "and") ~ (name <~ "is") ~ valueParser ^^ {
       case x ~ v ~ y ~ u => pair(Nil, parseExpr(s"(&& (= $x ${beautify(v)}) (= $y ${beautify(u)}))"))
-    } | name <~ "is an array index" ^^ {
-      case x =>
-        val temp = getTemp
-        pair(List(parseInst(s"app $temp = (IsArrayIndex $x)")), toERef(temp))
-    } | name <~ "is an accessor property" ^^ {
-      case x =>
-        val temp = getTemp
-        pair(List(parseInst(s"app $temp = (IsAccessorDescriptor $x)")), toERef(temp))
     } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
       case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
-    } | (ref <~ "is" ~ ("not present" | "absent") <~ ", or is either") ~ (valueParser <~ "or") ~ valueParser ~ subCond ^^ {
-      case (i0 ~ r) ~ e1 ~ e2 ~ f => concat(i0, f(EBOp(OOr, EBOp(OOr, EUOp(ONot, exists(r)), EBOp(OEq, ERef(r), e1)), EBOp(OEq, ERef(r), e2))))
-    } | (ref <~ "is" ~ ("not present" | "absent")) ~ subCond ^^ {
-      case (i0 ~ r) ~ f => concat(i0, f(EUOp(ONot, exists(r))))
     } | expr <~ "is not an abrupt completion" ^^ {
       case i ~ x => pair(i, parseExpr(s"""(! (&& (= (typeof ${beautify(x)}) "Completion") (! (= ${beautify(x)}.Type CONST_normal))))"""))
     } | expr <~ "is an abrupt completion" ^^ {
@@ -932,10 +918,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         pair(List(parseInst(s"""app $temp = (Type $x)""")), parseExpr(s"""(&& (= $temp "Object") (|| (= $temp "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
     } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
       case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
-    } | (expr <~ "does not contain") ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
-    } | containsExpr | (expr <~ "contains") ~ expr ^^ {
-      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
     } | id ~ "is a Shared Data Block" ^^^ {
       pair(Nil, ENotSupported("SharedDataBlock"))
     } | "the most significant bit in" ~ id ~ "is 0" ^^^ {

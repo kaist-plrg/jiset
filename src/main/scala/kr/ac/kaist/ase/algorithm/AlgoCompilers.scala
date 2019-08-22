@@ -371,4 +371,8 @@ trait AlgoCompilers extends TokenParsers {
     EStr("ErrorData") -> EUndef,
     EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
   ))
+
+  // equals
+  def isEq(l: Expr, r: Expr): Expr = EBOp(OEq, l, r)
+  def isNEq(l: Expr, r: Expr): Expr = EUOp(ONot, isEq(l, r))
 }

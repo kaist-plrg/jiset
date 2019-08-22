@@ -37,6 +37,7 @@ object BaseGlobal {
     "GetArgument" -> GetArgument.func,
     "GetTypeOf" -> GetTypeOf.func,
     "IsArrayIndex" -> IsArrayIndex.func,
+    "IsAbruptCompletion" -> IsAbruptCompletion.func,
     "GLOBAL_executionStack" -> NamedAddr("executionStack"),
     "GLOBAL_jobQueue" -> NamedAddr("jobQueue"),
     "GLOBAL_context" -> Null,
