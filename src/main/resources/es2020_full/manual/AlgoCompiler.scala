@@ -400,39 +400,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "Search" ~ id ~ "for the first occurrence of" ~ id ~ "and let" ~ id ~ "be the index within" ~ id ~ "of the first code unit of the matched substring and let" ~ id ~ "be" ~ id ~ ". If no occurrences of" ~ id ~ "were found , return" ~ id ~ "." |
       "Set all of the bytes of" ~ id ~ "to 0 ." |
       "Set" ~ id ~ "to" ~ id ~ "' s intrinsic object named" ~ id ~ "."
-    ) ^^^ IExpr(ENotSupported("Etc"))) | ignoreStmt
-
-  // ignore statements
-  lazy val ignoreStmt: P[Inst] = (
-    "set fields of" |
-    "need to defer setting the" |
-    "create any implementation-defined" |
-    "no further validation is required" |
-    "if" ~ id ~ "is a List of errors," |
-    "order the elements of" ~ id ~ "so they are in the same relative order as would" |
-    "Perform any implementation or host environment defined processing of" |
-    "Perform any implementation or host environment defined job initialization using" |
-    "Once a generator enters"
-  ) ~ rest ^^^ emptyInst
-
-  // comments
-  override lazy val comment: P[Inst] = (
-    "assert:" |
-    "note:" |
-    "this may be" |
-    "as defined" |
-    "( if" |
-    "this call will always return" ~ value |
-    (opt("(") <~ ("see" | "it may be"))
-  ) ~ rest ^^^ emptyInst
-
-  // extra fields for newly created objects
-  override lazy val extraFields: P[List[(Expr, Expr)]] = (
-    "a" ~> internalName <~ "internal slot" ^^ { case x => List(x -> EUndef) } |||
-    "internal slots" ~> rep1sep(internalName, sep("and")) ^^ { case xs => xs.map(_ -> EUndef) } |||
-    id <~ "as the binding object" ^^ { case x => List(EStr("BindingObject") -> toERef(x)) } |||
-    ("the internal slots listed in table" ~ number | opt("initially has") ~> "no fields" | "no bindings") ^^^ Nil
-  )
+    ) ^^^ IExpr(ENotSupported("Etc")))
 
   // etc expressions
   override lazy val etcExpr: P[I[Expr]] = (
@@ -545,7 +513,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
           app $tempP2 = (ThrowCompletion ${beautify(getErrorObj("SyntaxError"))})
           return $tempP2
         } else {}
-      }""")) , toERef(tempP))
+      }""")), toERef(tempP))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
       case r ~ (i ~ e) => pair(i, EParseSyntax(e, EStr(r), Nil))
     } | "the string that is the only element of" ~> expr ^^ {
