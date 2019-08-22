@@ -509,7 +509,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     valueParser ^^ { case x => (e: Expr) => pair(Nil, isEq(e, x)) } |||
     (id | camelWord) ^^ { case x => (e: Expr) => pair(Nil, isEq(e, toERef(x))) } |||
     callName ^^ { case f => (e: Expr) => getCall(f, List(pair(Nil, e))) } |||
-    ("a" | "an") ~> ty ^^ { case t => (e: Expr) => pair(Nil, isEq(ETypeOf(e), EStr(t.name))) }
+    ("a" | "an") ~> ty ^^ { case t => (e: Expr) => pair(Nil, isEq(ETypeOf(e), EStr(t.name))) } |||
+    opt("a" | "an") ~> nt ^^ { case x => (e: Expr) => pair(Nil, EIsInstanceOf(e, x)) }
   )
   lazy val callName: P[String] = ("a" | "an") ~> (
     "array index" ^^^ "IsArrayIndex" |||
@@ -519,13 +520,19 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   )
 
   // strict mode conditions
-  val strictModeCond: P[I[Expr]] =
-    expr <~ "is strict mode code" ^^^ pair(Nil, EBool(true))
+  val strictModeCond: P[I[Expr]] = (
+    opt("the source code matching") ~ expr ~ ("is" ~ ("strict mode" | "non-strict") ~ "code") |||
+    "the directive prologue of statementList contains a use strict directive" |||
+    "the code matching the syntactic production that is being evaluated is contained in strict mode code" |||
+    "this this is contained in strict mode code"
+  ) ^^^ pair(Nil, EBool(true))
 
   // contains conditions
   val containsCond: P[I[Expr]] = (
-    (id <~ "does not have" ~ ("a" | "an")) ~ (id ^^ toERef | internalName) <~ ("field" | "internal slot") ^^ {
-      case x ~ y => pair(Nil, EBOp(OEq, toERef(x, y), EAbsent))
+    (ref <~ "does not have" ~ ("a" | "an")) ~ containsField <~ opt(containsPost) ^^ {
+      case (i ~ r) ~ f => pair(i, isEq(ERef(RefProp(r, f)), EAbsent))
+    } | (ref <~ ("has" | "have") <~ ("a" | "an")) ~ containsField <~ opt(containsPost) ^^ {
+      case (i ~ r) ~ f => pair(i, isNEq(ERef(RefProp(r, f)), EAbsent))
     } ||| (expr <~ "does not contain") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EContains(x, y)))
     } ||| (expr <~ "contains") ~ expr ^^ {
@@ -536,6 +543,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(y, x))
     } ||| containsExpr
   )
+  lazy val containsField: P[Expr] = id ^^ toERef | fieldName
+  lazy val containsPost: P[String] = ("field" | "internal slot" | "component") ^^^ ""
 
   // empty conditions
   val emptyCond: P[I[Expr]] = (

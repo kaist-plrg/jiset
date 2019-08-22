@@ -769,16 +769,10 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
 
   // etc conditions
   override lazy val etcCond: P[I[Expr]] = (
-    "the directive prologue of statementList contains a use strict directive" ^^^ {
-      pair(Nil, EBool(true)) // TODO : support strict mode code
-    } | "the code matching the syntactic production that is being evaluated is contained in strict mode code" ^^^ {
-      pair(Nil, EBool(true)) // TODO : support strict mode code
-    } | "no arguments were passed to this function invocation" ^^^ {
+    "no arguments were passed to this function invocation" ^^^ {
       pair(Nil, parseExpr(s"(= argumentsList.length 0i)"))
     } | name <~ "is an Identifier and StringValue of" ~ name ~ "is the same value as the StringValue of IdentifierName" ^^ {
       case x => pair(Nil, parseExpr(s"(&& (is-instance-of $x Identifier) (= (get-syntax $x) (get-syntax IdentifierName)))"))
-    } | name <~ "is a ReservedWord" ^^ {
-      case x => pair(Nil, parseExpr(s"(! (is-instance-of $x Identifier))"))
     } | (name <~ "is the token") ~ code ^^ {
       case x ~ y => pair(Nil, EBOp(OEq, EGetSyntax(toERef(x)), EStr(y)))
     } | name <~ "does not have all of the internal slots of an Array Iterator Instance (22.1.5.3)" ^^ {
@@ -786,34 +780,14 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         (|| (= absent $x.IteratedObject)
         (|| (= absent $x.ArrayIteratorNextIndex)
         (= absent $x.ArrayIterationKind)))"""))
-    } | name <~ "is a FunctionDeclaration, a GeneratorDeclaration, an AsyncFunctionDeclaration, or an AsyncGeneratorDeclaration" ^^ {
-      case x => pair(Nil, parseExpr(s"""
-        (|| (is-instance-of $x FunctionDeclaration)
-        (|| (is-instance-of $x GeneratorDeclaration)
-        (|| (is-instance-of $x AsyncFunctionDeclaration)
-        (is-instance-of $x AsyncGeneratorDeclaration))))"""))
-    } | name <~ "is not one of NewTarget, SuperProperty, SuperCall," ~ code ~ opt(",") ~ "or" ~ code ^^ {
-      case x => pair(Nil, parseExpr(s"""(!
-        (|| (is-instance-of $x NewTarget)
-        (|| (is-instance-of $x SuperProperty)
-        (|| (is-instance-of $x SuperCall)
-        (|| (= $x "super") (= $x "this"))))))"""))
     } | (name <~ "and") ~ (name <~ "are both") ~ (value <~ "or both") ~ value ^^ {
       case x ~ y ~ v ~ u => pair(Nil, parseExpr(s"(|| (&& (= $x $v) (= $y $v)) (&& (= $x $u) (= $y $u)))"))
-    } | (name <~ "is") ~ (valueParser <~ "and") ~ (name <~ "is") ~ valueParser ^^ {
-      case x ~ v ~ y ~ u => pair(Nil, parseExpr(s"(&& (= $x ${beautify(v)}) (= $y ${beautify(u)}))"))
     } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
       case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
     } | expr <~ "is a normal completion" ^^ {
       case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (= ${beautify(x)}.Type CONST_normal))"""))
     } | expr <~ "is not already suspended" ^^ {
       case i ~ e => pair(i, EBOp(OEq, e, ENull))
-    } | name <~ "does not have a Generator component" ^^ {
-      case x => pair(Nil, parseExpr(s"(= $x.Generator absent)"))
-    } | "the source code matching" ~ expr ~ "is strict mode code" ^^^ {
-      pair(Nil, EBool(true)) // TODO strict
-    } | "the source code matching" ~ expr ~ "is non-strict code" ^^^ {
-      pair(Nil, EBool(true)) // TODO strict
     } | (expr <~ "and") ~ expr <~ "have different results" ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EUOp(ONot, EBOp(OEq, x, y)))
     } | ("the" ~> name <~ "fields of") ~ name ~ ("and" ~> name <~ "are the boolean negation of each other") ^^ {
@@ -828,10 +802,6 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x ~ y => pair(Nil, parseExpr(s"(= $y.SubMap[$x].initialized false)"))
     } | (ref <~ "does not have an own property with key") ~ expr ^^ {
       case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
-    } | (ref <~ ("has" | "have") <~ ("a" | "an")) ~ word <~ "component" ^^ {
-      case (i ~ r) ~ n => pair(i, exists(RefProp(r, EStr(n))))
-    } | (ref <~ "has" <~ ("a" | "an")) ~ ((name ^^ { case x => EStr(x) } | internalName) <~ "field") ~ subCond ^^ {
-      case (i ~ r) ~ n ~ f => concat(i, f(exists(RefProp(r, n))))
     } | (name <~ "does not have a binding for") ~ name ^^ {
       case x ~ y => pair(Nil, parseExpr(s"(= absent $x.SubMap[$y])"))
     } | ("the binding for" ~> name <~ "in") ~ (name <~ "is a strict binding") ^^ {
