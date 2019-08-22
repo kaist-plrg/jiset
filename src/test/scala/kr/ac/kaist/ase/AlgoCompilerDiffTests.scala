@@ -14,9 +14,8 @@ class AlgoCompilerDiffTest extends CoreTest {
   // tag name
   val tag: String = "algoCompilerDiffTest"
 
-  def countPass[A](k: Map[A, Boolean]): String = {
-    val pass = k.filter(_._2).size
-    val total = k.size
+  def countPass[A](k: Map[A, Boolean]): (Int, Int) = (k.filter(_._2).size, k.size)
+  def getCountString(pass: Int, total: Int): String = {
     val rate = pass.toDouble / total.toDouble * 100
     f"$GREEN[$rate%2.2f%%]$RESET $pass / $total"
   }
@@ -33,6 +32,8 @@ class AlgoCompilerDiffTest extends CoreTest {
 
     var diffStepMap: Map[String, Boolean] = Map()
     var diffAlgoMap: Map[String, Boolean] = Map()
+
+    var (apass, atotal, dapass, datotal, spass, stotal, dspass, dstotal) = (0, 0, 0, 0, 0, 0, 0, 0)
 
     DIFFLIST.foreach((version) => {
       val algoversionDir = s"$RESOURCE_DIR/$version/auto/algorithm"
@@ -64,12 +65,26 @@ class AlgoCompilerDiffTest extends CoreTest {
       firstStepMap = nextStepMap
       firstAlgoMap = nextAlgoMap
 
-      println(s"$version algo: ${countPass(nextAlgoMap)}")
-      println(s"Δ algo     : ${countPass(diffAlgoMap)}")
-      println(s"$version step: ${countPass(nextStepMap)}")
-      println(s"Δ step     : ${countPass(diffStepMap)}")
+      val (ap, at) = countPass(nextAlgoMap)
+      val (dap, dat) = countPass(diffAlgoMap)
+      val (sp, st) = countPass(nextStepMap)
+      val (dsp, dst) = countPass(diffStepMap)
+
+      apass += ap; atotal += at
+      dapass += dap; datotal += dat
+      spass += sp; stotal += st
+      dspass += dsp; dstotal += dst
+
+      println(s"$version algo: ${getCountString(ap, at)}")
+      println(s"     Δ algo: ${getCountString(dap, dat)}")
+      println(s"$version step: ${getCountString(sp, st)}")
+      println(s"     Δ step: ${getCountString(dsp, dst)}")
       println(s"----------------------------------------")
     })
+    println(s"  algo: ${getCountString(apass, atotal)}")
+    println(s"Δ algo: ${getCountString(dapass, datotal)}")
+    println(s"  step: ${getCountString(spass, stotal)}")
+    println(s"Δ step: ${getCountString(dspass, dstotal)}")
   }
   init
 }
