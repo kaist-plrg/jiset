@@ -34,13 +34,6 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     (func, failed)
   }
 
-  // execution context stack string
-  val executionStack = "GLOBAL_executionStack"
-  val context = "GLOBAL_context"
-  val realm = "REALM"
-  val jobQueue = "GLOBAL_jobQueue"
-  val retcont = "__ret__"
-
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
@@ -61,13 +54,14 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       appendStmt |||
       insertStmt |||
       removeStmt |||
+      suspendStmt |||
       assertStmt |||
       starStmt
     )
   } <~ opt(".") ~ opt(comment) | comment
   lazy val comment: P[Inst] = (
     "assert:" |
-    "note:" |
+    "note" |
     "this may be" |
     "as defined" |
     "( if" |
@@ -119,9 +113,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // set statements
   lazy val setStmt = "set" ~> setRef ~ {
-    "to" ~> expr ||| "as" ~ ("described" | "specified") ~ "in" ~> (
-      section ^^ { case s => pair(Nil, toERef(s)) }
-    )
+    "to" ~> expr ||| (
+      "as" ~ ("described" | "specified") ~ "in" |||
+      "to the definition specified in"
+    ) ~> section ^^ { case s => pair(Nil, toERef(s)) }
   } ^^ { case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e)) }
   lazy val setRef: P[I[Ref]] =
     ref ||| opt("the") ~> (camelWord <~ "of") ~ refBase ^^ { case f ~ b => pair(Nil, toRef(b, f)) }
@@ -188,6 +183,11 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     (id <~ "be the value of" ~ ("that" | "the") ~ "element")
   ) ^^ { case l ~ x => ILet(Id(x), EPop(toERef(l), EINum(0))) }
 
+  // suspend statements
+  lazy val suspendStmt: P[Inst] = (
+    "suspend" ~> id ~ opt("and remove it from the execution context stack")
+  ) ^^ { case x ~ opt => suspend(x, !opt.isEmpty) }
+
   // assert statements
   lazy val assertStmt: P[Inst] = ("assert:" | "note:") ~ rest ^^^ emptyInst
 
@@ -210,6 +210,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     coveredByExpr |||
     strConcatExpr |||
     syntaxExpr |||
+    argumentExpr |||
     refExpr |||
     starExpr
   )
@@ -279,7 +280,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
         pair(Nil, EMap(t, (EStr("SubMap") -> EMap(Ty("SubMap"), Nil)) :: fs.getOrElse(Nil)))
     } ||| "a newly created" ~> valueValue <~ "object" ^^ {
       case e => pair(Nil, e)
-    } ||| opt("the" | "a new") ~> ty ~ ("{" ~> repsep((internalName <~ ":") ~ expr, ",") <~ "}") ^^ {
+    } ||| opt("the" | "a" ~ opt("new")) ~> ty ~ ("{" ~> repsep((internalName <~ ":") ~ expr, ",") <~ "}") ^^ {
       case t ~ list =>
         val i = list.map { case _ ~ (i ~ _) => i }.flatten
         pair(i, EMap(t, list.map { case x ~ (_ ~ e) => (x, e) }))
@@ -372,6 +373,17 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "the" ~> ("source text" | "code") ~ ("matched by" | "matching") ~> ref ^^ {
       case i ~ r => pair(i, EGetSyntax(ERef(r)))
     }
+
+  // argument expressions
+  lazy val argumentExpr: P[I[Expr]] = (
+    "a List whose elements are the arguments passed to this function" |||
+    "the List of arguments passed to this function" |||
+    "a List containing the arguments passed to this function" |||
+    "a List consisting of all of the arguments passed to this function" |||
+    "a List whose elements are , in left to right order , the arguments that were passed to this function invocation"
+  ) ^^^ { pair(Nil, toERef("argumentsList")) } ||| (
+      "the number of arguments passed to this function call"
+    ) ^^^ { pair(Nil, toERef("argumentsList", "length")) }
 
   // reference expressions
   lazy val refExpr: P[I[Expr]] = ref ^^ {
@@ -740,7 +752,9 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "referenced name component" ^^^ "ReferencedName" |||
     "binding object" ^^^ "BindingObject" |||
     camelWord <~ ("fields" | "component")
-  ) ^^ { EStr(_) } ||| internalName <~ opt("internal slot")
+  ) ^^ { EStr(_) } ||| {
+      opt("the") ~> internalName <~ opt("field" | "internal" ~ ("method" | "slot"))
+    }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Section Numbers
@@ -752,6 +766,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // method pointed by sections
   lazy val section: P[String] = (
+    "9.2.1" ^^^ "ECMAScriptFunctionObjectDOTCall" |
+    "9.2.2" ^^^ "ECMAScriptFunctionObjectDOTConstruct" |
     "9.4.1.1" ^^^ "BoundFunctionExoticObject.Call" |
     "9.4.1.2" ^^^ "BoundFunctionExoticObject.Construct" |
     "9.4.2.1" ^^^ "ArrayExoticObject.DefineOwnProperty" |

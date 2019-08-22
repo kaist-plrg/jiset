@@ -60,9 +60,9 @@ object REPL extends GeneralAlgoCompilerHelper {
 
     implicit val tokenListOrdering: Ordering[TokenList] = new Ordering[TokenList] {
       implicit def compare(x: TokenList, y: TokenList): Int =
-        if (x.name < y.name) -1
-        else if (x.name > y.name) 1
-        else listOrdering[Token].compare(x.list, y.list)
+        // if (x.name < y.name) -1
+        // else if (x.name > y.name) 1
+        listOrdering[Token].compare(x.list, y.list)
     }
 
     val algoDirs = List("es2016", "es2017", "es2018", "es2019", "es2020").map {
@@ -126,7 +126,7 @@ object REPL extends GeneralAlgoCompilerHelper {
     def show(list: List[TokenList], filter: Filter = ts => true): Unit = {
       var count = 0
       list.foreach(ts => if (filter(ts.list)) {
-        println(f"${ts.name}%-50s: " + ts.list.mkString(" "))
+        println(ts.list.mkString(" "))
         count += 1
       })
       printlnGreen(s"total: $count")

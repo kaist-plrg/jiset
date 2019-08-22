@@ -374,4 +374,25 @@ trait AlgoCompilers extends TokenParsers {
     EStr("ErrorData") -> EUndef,
     EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
   ))
+
+  // suspend context
+  def suspend(x: String, removed: Boolean = false): Inst = {
+    if (removed) {
+      ISeq(List(
+        IAssign(toRef(context), ENull),
+        IIf(
+          isEq(toERef(executionStack, EBOp(OSub, toERef(executionStack, "length"), EINum(1))), toERef(x)),
+          IExpr(EPop(toERef(executionStack), EBOp(OSub, toERef(executionStack, "length"), EINum(1)))),
+          emptyInst
+        )
+      ))
+    } else IAssign(toRef(context), ENull)
+  }
+
+  // execution context stack string
+  val executionStack = "GLOBAL_executionStack"
+  val context = "GLOBAL_context"
+  val realm = "REALM"
+  val jobQueue = "GLOBAL_jobQueue"
+  val retcont = "__ret__"
 }
