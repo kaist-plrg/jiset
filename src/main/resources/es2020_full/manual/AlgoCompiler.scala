@@ -30,6 +30,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x ~ y => {
         parseInst(s"""{
           access $retcont = ($x "ReturnCont")
+          $retcont = (pop $retcont 0i)
           $x.ResumeCont = ($y) [=>] return $y
           }""")
       }
@@ -38,7 +39,10 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         val tempId = getTemp
         val tempId2 = getTemp
         ISeq(i :+ parseInst(s"""withcont $tempId ($rid) = {
-            $cid.ReturnCont = $tempId
+            if (= $cid.ReturnCont absent) {
+              $cid.ReturnCont = (new [])
+            } else {}
+            append $tempId -> $cid.ReturnCont
             app $tempId2 = ($cid.ResumeCont ${beautify(e)})
             }"""))
       }
@@ -47,7 +51,10 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         val tempId = getTemp
         val tempId2 = getTemp
         ISeq(i :+ parseInst(s"""withcont $tempId () = {
-            $cid.ReturnCont = $tempId
+            if (= $cid.ReturnCont absent) {
+              $cid.ReturnCont = (new [])
+            } else {}
+            append $tempId -> $cid.ReturnCont
             app $tempId2 = ($cid.ResumeCont ${beautify(e)})
             }"""))
       }
@@ -56,17 +63,22 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         val tempId = getTemp
         val tempId2 = getTemp
         parseInst(s"""withcont $tempId ($rid) = {
-            $cid.ReturnCont = $tempId
+            if (= $cid.ReturnCont absent) {
+              $cid.ReturnCont = (new [])
+            } else {}
+            append $tempId -> $cid.ReturnCont
             app $tempId2 = ($cid.ResumeCont)
             }""")
       }
     } | ("Assert : If we return here , the" ~ opt("async") ~ " generator either threw") <~ rest ^^^ {
       parseInst(s"""{
         access $retcont = (genContext "ReturnCont")
+        $retcont = (pop $retcont 0i)
        }""")
     } | "Assert : If we return here , the async function either threw an exception or performed an implicit or explicit return ; all awaiting is done" ^^^ {
       parseInst(s"""{
         access $retcont = (asyncContext "ReturnCont")
+        $retcont = (pop $retcont 0i)
       }""")
     } | "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack" ~ rest ^^ {
       case i ~ e => ISeq(i ++ List(IAppend(e, toERef(executionStack)), parseInst(s"""
@@ -514,7 +526,10 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
     } | "the length of" ~> name ^^ {
       case x => pair(Nil, parseExpr(s"""$x.length"""))
     } | "the" ~ opt("actual") ~ "number of" ~ ("actual arguments" | "arguments passed to this function" ~ opt("call")) ^^^ {
-      pair(Nil, parseExpr(s"""argumentsList.length"""))
+      if (algoName == "GLOBAL.Array.prototype.splice")
+        pair(Nil, parseExpr(s"""(- argumentsList.length 2i)"""))
+      else
+        pair(Nil, parseExpr(s"""argumentsList.length"""))
     } | "the List of arguments passed to this function" ^^^ {
       pair(Nil, parseExpr("argumentsList"))
     } | ("the numeric value of the code unit at index" ~> name <~ "within") ~ name ^^ {

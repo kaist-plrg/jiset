@@ -158,6 +158,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
       "**" ^^^ OPow |
       "*" ^^^ OMul |
       "/" ^^^ ODiv |
+      "%%" ^^^ OUMod |
       "%" ^^^ OMod |
       "=" ^^^ OEq |
       "&&" ^^^ OAnd |

@@ -14,6 +14,7 @@ package object model {
     val tyMap: Map[String, Map[Value, Value]] = throw ModelNotYetGenerated
   }
   object ESValueParser {
+    def parseIdentifier(str: String): String = throw ModelNotYetGenerated
     def parseString(str: String): String = throw ModelNotYetGenerated
     def parseNumber(str: String): Double = throw ModelNotYetGenerated
     def parseTVNoSubstitutionTemplate(str: String): String = throw ModelNotYetGenerated

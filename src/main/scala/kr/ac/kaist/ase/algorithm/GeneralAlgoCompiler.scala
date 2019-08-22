@@ -82,7 +82,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val returnContStmt: P[Inst] = "ReturnCont" ~> opt(expr ~ opt("to" ~> expr)) ^^ {
     case None => getInst(getCall(retcont, List(getNormalCompletion(EUndef))))
     case Some(ie ~ None) => getInst(getCall(retcont, List(ie)))
-    case Some((i ~ f) ~ Some(ie)) => ISeq(i :+ getInst(getCall(f, List(ie))))
+    case Some((i ~ f) ~ Some(ie)) => ISeq(i :+ getInst(getCall(EPop(f, EINum(0)), List(ie))))
   }
 
   // let binding statements
@@ -210,7 +210,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "/" ^^^ ODiv |
     "+" ^^^ OPlus |
     ("-" | "minus") ^^^ OSub |
-    "modulo" ^^^ OMod |
+    "modulo" ^^^ OUMod |
     "&" ^^^ OBAnd |
     "^" ^^^ OBXOr |
     "|" ^^^ OBOr

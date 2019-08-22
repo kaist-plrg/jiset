@@ -7,6 +7,7 @@ case object OSub extends BOp
 case object OMul extends BOp
 case object OPow extends BOp
 case object ODiv extends BOp
+case object OUMod extends BOp
 case object OMod extends BOp
 case object OLt extends BOp
 case object OEq extends BOp
