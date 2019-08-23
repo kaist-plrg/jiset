@@ -272,6 +272,8 @@ object BuiltinHeap {
    "GLOBAL.INTRINSIC_ThrowTypeError" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> INTRINSIC_ThrowTypeError.func
       ),
       nmap = NMap(
