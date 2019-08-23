@@ -73,8 +73,8 @@ class Test262PropTest extends ASETest {
     val initStList = includeMap("assert.js") ++ includeMap("sta.js")
     val noParseSet = NoParse.failed.toSet ++ NoParse.long.toSet
     for (NormalTestConfig(filename, includes) <- shuffle(config.normal)) {
-      val jsName = s"${dir.toString}/test/$filename"
-      val name = removedExt(jsName).drop(dir.toString.length + 1)
+      val jsName = s"${dir.toString}/test/$filename".replace("//", "/")
+      val name = removedExt(jsName).drop(dir.toString.length)
       if (!(noParseSet contains name)) check("Test262PropEval", name, {
         val jsConfig = aseConfig.copy(fileNames = List(jsName))
 

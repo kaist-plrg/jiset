@@ -42,4 +42,7 @@ package object ase {
 
   // display progress in tests
   val DISPLAY_TEST_PROGRESS = true
+
+  val PREVDIFF = false
+  val PREVFILE = "tests/result/test262Test_1908221732"
 }

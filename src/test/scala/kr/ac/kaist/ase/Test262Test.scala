@@ -1,6 +1,7 @@
 package kr.ac.kaist.ase
 
 import java.io._
+import scala.io.Source
 import kr.ac.kaist.ase.core._
 import kr.ac.kaist.ase.error.NotSupported
 import kr.ac.kaist.ase.model.{ Parser => JSParser, StatementListItem, ModelHelper, NoParse }
@@ -84,12 +85,17 @@ class Test262Test extends ASETest {
   def init: Unit = {
     val initStList = includeMap("assert.js") ++ includeMap("sta.js")
     val noParseSet = NoParse.failed.toSet ++ NoParse.long.toSet
+    val failedSet = (
+      if (PREVDIFF) Source.fromFile(PREVFILE).getLines.filter(_ contains ": false").map((s) => s.takeWhile(_ != ':').replace("//", "/").split("test/").last).toList
+      else Nil
+    )
     for (NormalTestConfig(filename, includes) <- shuffle(config.normal)) {
-      val jsName = s"${dir.toString}/test/$filename"
-      val name = removedExt(jsName).drop(dir.toString.length + 1)
-      if (!(noParseSet contains name)) check("Test262Eval", name, {
+      val jsName = s"${dir.toString}/test/$filename".replace("//", "/")
+      val name = removedExt(jsName).drop(dir.toString.length)
+      if ((!(noParseSet contains name)) && ((!PREVDIFF) || (failedSet contains name.replace("//", "/").split("test/").last))) check("Test262Eval", name, {
         val jsConfig = aseConfig.copy(fileNames = List(jsName))
 
+        println(name)
         val ast = Parse((), jsConfig)
         ModelHelper.checkSupported(ast)
 

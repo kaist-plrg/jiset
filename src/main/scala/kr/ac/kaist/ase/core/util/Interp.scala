@@ -10,7 +10,7 @@ import kr.ac.kaist.ase.model.{ Parser => ESParser, ESValueParser, ModelHelper }
 
 // CORE Interpreter
 class Interp {
-  val timeout: Long = 2000
+  val timeout: Long = 3000
   val startTime: Long = System.currentTimeMillis
   var instCount = 0
 
