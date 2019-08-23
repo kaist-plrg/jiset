@@ -60,7 +60,8 @@ class AlgoCompilerDiffTest extends CoreTest {
 
   // registration
   def init: Unit = {
-    def show(name: String, filter: Algorithm => Boolean): Unit = {
+    def show(name: String, filter: Algorithm => Boolean): Unit = check("AlgoCompilerDiffTest", name, {
+      println
       println(s"========================================")
       println(name)
       println(s"========================================")
@@ -129,8 +130,7 @@ class AlgoCompilerDiffTest extends CoreTest {
       println(s"  step: ${getCountString(spass, stotal)}")
       println(s"Δ step: ${getCountString(dspass, dstotal)}")
       println(s"========================================")
-      println
-    }
+    })
     show("All", x => true)
     show("Language", _.kind == Language)
     show("Builtin", _.kind == Builtin)
