@@ -238,8 +238,12 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
 
   lazy val expr: P[I[Expr]] = (
+    arithExpr ||| term
+  )
+
+  lazy val term: P[I[Expr]] = (
+    "(" ~> expr <~ ")" |||
     etcExpr |||
-    arithExpr |||
     valueExpr |||
     returnIfAbruptExpr |||
     callExpr |||
@@ -260,12 +264,14 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // arithmetic expressions
   lazy val arithExpr: P[I[Expr]] = (
-    expr ~ bop ~ expr ^^ {
-      case (i0 ~ l) ~ b ~ (i1 ~ r) => pair(i0 ++ i1, EBOp(b, l, r))
+    expr ~ rep1(bop ~ term) ^^ {
+      case ie ~ ps => (ie /: ps) {
+        case (i0 ~ l, b ~ (i1 ~ r)) => pair(i0 ++ i1, EBOp(b, l, r))
+      }
     } ||| uop ~ expr ^^ {
       case u ~ (i ~ e) => pair(i, EUOp(u, e))
     }
-  ) ||| "(" ~> expr <~ ")"
+  )
   lazy val bop: P[BOp] = (
     "×" ^^^ OMul |
     "/" ^^^ ODiv |
