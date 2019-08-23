@@ -371,7 +371,7 @@ object ESValueParser extends RegexParsers with UnicodeRegex {
       // The TRV of TemplateHead::`${ is the empty code unit sequence.
       "`${" ^^^ "" |||
       // The TRV of TemplateHead::`TemplateCharacters${ is the TRV of TemplateCharacters.
-      "`" ~> TRV.TemplateCharacters <~ "`"
+      "`" ~> TRV.TemplateCharacters <~ "${"
     )
     lazy val TemplateMiddle: S = (
       // The TRV of TemplateMiddle::}${ is the empty code unit sequence.
