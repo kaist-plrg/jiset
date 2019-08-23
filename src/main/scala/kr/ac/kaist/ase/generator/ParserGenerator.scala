@@ -139,7 +139,13 @@ object ParserGenerator {
         val parser = getTokenParser(token)
         s"""$base ~ nt(\"\"\"$parser\"\"\", $parser)"""
       case Lookahead(contains, cases) =>
-        val parser = cases.map(c => s"""ss(${c.map(token => getTokenParser(token)).mkString(", ")})""").mkString(" | ")
+        val parser = cases.map(c => s"""ss(${
+          c.map(token => {
+            val t = getTokenParser(token)
+            if (t.startsWith("\"") && t.endsWith("\"") && t(1).isLower) t + " <~ not(IDContinue)"
+            else t
+          }).mkString(", ")
+        })""").mkString(" | ")
         val pre = if (contains) "+" else "-"
         s"""($base <~ ${pre}ntl($parser))"""
       case EmptyToken => base + " ~ MATCH"

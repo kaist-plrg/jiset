@@ -41,11 +41,10 @@ class Test262ParseTest extends ASETest {
 
   // initialize tests
   def init: Unit = {
-    val noParseSet = NoParse.failed.toSet ++ NoParse.long.toSet
     for (NormalTestConfig(filename, includes) <- shuffle(config.normal)) {
       val jsName = s"${dir.toString}/test/$filename"
       val name = removedExt(jsName).drop(dir.toString.length + 1)
-      if (!(noParseSet contains name)) check("Test262Parse", name, {
+      check("Test262Parse", name, {
         val jsConfig = aseConfig.copy(fileNames = List(jsName))
         parseJSTest(Parse((), jsConfig))
       })
