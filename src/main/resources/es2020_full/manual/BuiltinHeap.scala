@@ -119,7 +119,7 @@ object BuiltinHeap {
         "Code" -> errFunc
       ),
       nmap = NMap(
-        "name" -> DataProperty(Str(errName), T, F, T),
+        "name" -> DataProperty(Str(errName), F, F, T),
         "prototype" -> DataProperty(NamedAddr(s"GLOBAL.$errName.prototype"), F, F, F)
       )
     ),
@@ -685,7 +685,7 @@ object BuiltinHeap {
         "Realm" -> NamedAddr("REALM")
       ),
       nmap = NMap(
-        "name" -> DataProperty(Str("GeneratorFunction"), T, F, T),
+        "name" -> DataProperty(Str("GeneratorFunction"), F, F, T),
         "length" -> DataProperty(Num(1.0), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_Generator"), F, F, F)
       )
@@ -725,7 +725,7 @@ object BuiltinHeap {
         "Realm" -> NamedAddr("REALM")
       ),
       nmap = NMap(
-        "name" -> DataProperty(Str("AsyncGeneratorFunction"), T, F, T),
+        "name" -> DataProperty(Str("AsyncGeneratorFunction"), F, F, T),
         "length" -> DataProperty(Num(1.0), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGenerator"), F, F, F)
       )

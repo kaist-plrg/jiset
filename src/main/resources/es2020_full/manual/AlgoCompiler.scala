@@ -98,8 +98,11 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x ~ y => parseInst(s"return (< $x $y)")
     } | ("let" ~> id <~ "be a new built-in function object that when called performs the action described by") ~ id <~ "." ~ rest ^^ {
       case x ~ y => parseInst(s"""{
+        prototype = INTRINSIC_FunctionPrototype
         let $x = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
-        $x.Code = $y
+        $x.Code = $y.step
+        $x.SubMap.name = (new DataProperty("Value" -> $y.name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))
+        $x.SubMap.length = (new DataProperty("Value" -> $y.length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))
       }""") // TODO handle internalSlotsList
     } | "if the host requires use of an exotic object" ~ rest ^^^ {
       parseInst("let global = undefined")

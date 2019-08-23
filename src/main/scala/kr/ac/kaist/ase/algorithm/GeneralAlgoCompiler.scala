@@ -360,18 +360,30 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // algorithm expressions
   lazy val algorithmExpr: P[I[Expr]] = (
-    "an empty sequence of algorithm steps" ^^^ EFunc(Nil, None, emptyInst) |||
-    "the algorithm steps" ~ ("specified" | "defined") ~ "in" ~> algorithmName ^^ { toERef(_) }
+    "an empty sequence of algorithm steps" ^^^ EMap(Ty("algorithm"), List(
+      EStr("name") -> EStr(""),
+      EStr("length") -> EINum(0),
+      EStr("step") -> EFunc(Nil, None, emptyInst)
+    )) |||
+    "the algorithm steps" ~ ("specified" | "defined") ~ "in" ~> algorithmName ^^ {
+      case (name, len, stepS) => EMap(Ty("algorithm"), List(
+        EStr("name") -> EStr(name),
+        EStr("length") -> EINum(len),
+        EStr("step") -> toERef(stepS)
+      ))
+    }
   ) ^^ { pair(Nil, _) }
-  lazy val algorithmName: P[String] = (
-    secno ~ "for the" ~> intrinsicName <~ "function" |||
-    "ListIterator next ()" ^^^ "ListIteratornext" |||
-    "GetCapabilitiesExecutor Functions" ^^^ "GLOBALDOTGetCapabilitiesExecutorFunctions" |||
-    "Promise Resolve Functions" ^^^ "GLOBALDOTPromiseResolveFunctions" |||
-    "Promise Reject Functions" ^^^ "GLOBALDOTPromiseRejectFunctions" |||
-    "Await Fulfilled Functions" ^^^ "GLOBALDOTAwaitFulfilledFunctions" |||
-    "Await Rejected Functions" ^^^ "GLOBALDOTAwaitRejectedFunctions" |||
-    "Async-from-Sync Iterator Value Unwrap Functions" ^^^ "GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions"
+  lazy val algorithmName: P[(String, Int, String)] = (
+    secno ~ "for the" ~> intrinsicName <~ "function" ^^ {
+      ("", 0, _)
+    } |||
+    "ListIterator next ()" ^^^ ("next", 0, "ListIteratornext") |||
+    "GetCapabilitiesExecutor Functions" ^^^ ("", 2, "GLOBALDOTGetCapabilitiesExecutorFunctions") |||
+    "Promise Resolve Functions" ^^^ ("", 1, "GLOBALDOTPromiseResolveFunctions") |||
+    "Promise Reject Functions" ^^^ ("", 1, "GLOBALDOTPromiseRejectFunctions") |||
+    "Await Fulfilled Functions" ^^^ ("", 1, "GLOBALDOTAwaitFulfilledFunctions") |||
+    "Await Rejected Functions" ^^^ ("", 1, "GLOBALDOTAwaitRejectedFunctions") |||
+    "Async-from-Sync Iterator Value Unwrap Functions" ^^^ ("", 1, "GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions")
   )
 
   // access expressions
