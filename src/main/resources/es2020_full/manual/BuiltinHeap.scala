@@ -32,8 +32,7 @@ object BuiltinHeap {
     ("GLOBAL.String.prototype.toLocaleLowerCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleLowerCase")))),
     ("GLOBAL.String.prototype.toLocaleUpperCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleUpperCase")))),
     ("GLOBAL.Number.prototype.toLocaleString", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleString")))),
-    ("GLOBAL.Array.prototype.sort", 1, Func("", List(), None, IExpr(ENotSupported("sort")))),
-    ("GLOBAL.INTRINSIC_ThrowTypeError", 0, INTRINSIC_ThrowTypeError.func)
+    ("GLOBAL.Array.prototype.sort", 1, Func("", List(), None, IExpr(ENotSupported("sort"))))
   )
 
   private def addDesc(
@@ -265,6 +264,16 @@ object BuiltinHeap {
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
         "name" -> DataProperty(Str("[Symbol.hasInstance]"), F, F, T)
+      )
+    ),
+   "GLOBAL.INTRINSIC_ThrowTypeError" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Code" -> INTRINSIC_ThrowTypeError.func
+      ),
+      nmap = NMap(
+        "length" -> DataProperty(Num(0.0), F, F, F),
+        "name" -> DataProperty(Str(""), F, F, F)
       )
     ),
     "GLOBAL.Boolean" -> Struct(

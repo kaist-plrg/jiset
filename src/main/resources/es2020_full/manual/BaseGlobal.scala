@@ -38,6 +38,7 @@ object BaseGlobal {
     "GetTypeOf" -> GetTypeOf.func,
     "IsArrayIndex" -> IsArrayIndex.func,
     "IsAbruptCompletion" -> IsAbruptCompletion.func,
+    "INTRINSIC_ThrowTypeError" -> NamedAddr("GLOBAL.INTRINSIC_ThrowTypeError"),
     "GLOBAL_executionStack" -> NamedAddr("executionStack"),
     "GLOBAL_jobQueue" -> NamedAddr("jobQueue"),
     "GLOBAL_context" -> Null,

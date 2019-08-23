@@ -51,7 +51,7 @@ object ModelGenerator {
     nf.println(s"""    globals = initGlobal,""")
     nf.println(s"""    heap = initHeap""")
     nf.println(s"""  )""")
-    nf.println(s"""  lazy val initGlobal: Map[Id, Value] = BaseGlobal.get ++ Map(""")
+    nf.println(s"""  lazy val initGlobal: Map[Id, Value] = Map(""")
     symbols.foreach {
       case (k, v) =>
         nf.println(s"""    Id("${getScalaName(k)}") -> NamedAddr("GLOBAL.$v"),""")
@@ -65,7 +65,7 @@ object ModelGenerator {
     nf.println(s"""  ) ++ Map(""")
     nf.println(consts.map(i =>
       s"""    Id("CONST_$i") -> NamedAddr("CONST_$i")""").mkString("," + LINE_SEP))
-    nf.println(s"""  )""")
+    nf.println(s"""  ) ++ BaseGlobal.get""")
     nf.println(s"""  lazy val builtinMethods: List[(String, Int, Func)] = List(""")
     nf.println(builtinMethods.map(x => {
       val obj = getScalaName(x)
