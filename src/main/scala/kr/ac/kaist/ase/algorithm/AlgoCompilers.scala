@@ -83,44 +83,31 @@ trait AlgoCompilers extends TokenParsers {
 
   // for-each instrutions for lists
   def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
-    val list = getTemp
-    val idx = getTemp
-    parseInst(
-      if (reversed) s"""{
-        let $list = ${beautify(expr)}
-        let $idx = $list.length
-        while (< 0i $idx) {
-          $idx = (- $idx 1i)
-          let ${beautify(id)} = $list[$idx]
-          ${beautify(body)}
-        }
-      }"""
-      else s"""{
-        let $list = ${beautify(expr)}
-        let $idx = 0i
-        while (< $idx $list.length) {
-          let ${beautify(id)} = $list[$idx]
-          ${beautify(body)}
-          $idx = (+ $idx 1i)
-        }
-      }"""
-    )
+    val list = getTempId
+    val idx = getTempId
+    if (reversed) ISeq(List(
+      ILet(list, expr),
+      ILet(idx, toERef(list, "length")),
+      IWhile(EBOp(OLt, EINum(0), toERef(idx)), ISeq(List(
+        IAssign(toRef(idx), EBOp(OSub, toERef(idx), EINum(1))),
+        ILet(id, toERef(list, toERef(idx))),
+        body
+      )))
+    ))
+    else ISeq(List(
+      ILet(list, expr),
+      ILet(idx, EINum(0)),
+      IWhile(EBOp(OLt, toERef(idx), toERef(list, "length")), ISeq(List(
+        ILet(id, toERef(list, toERef(idx))),
+        body,
+        IAssign(toRef(idx), EBOp(OPlus, toERef(idx), EINum(1)))
+      )))
+    ))
   }
 
   // for-each instrutions for maps
-  def forEachMap(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
-    val list = getTemp
-    val idx = getTemp
-    parseInst(s"""{
-      let $list = (map-keys ${beautify(expr)})
-      let $idx = 0i
-      while (< $idx $list.length) {
-        let ${beautify(id)} = $list[$idx]
-        ${beautify(body)}
-        $idx = (+ $idx 1i)
-      }
-    }""")
-  }
+  def forEachMap(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst =
+    forEachList(id, EKeys(expr), body, reversed)
 
   // handle duplicated params and variable-length params
   def handleParams(l: List[String]): (List[Id], Option[Id]) = {
@@ -150,62 +137,87 @@ trait AlgoCompilers extends TokenParsers {
     expr: Expr,
     vulnerable: Boolean = true
   ): I[Expr] = (insts, expr) match {
-    case (i, (e @ ERef(RefId(Id(x))))) => pair(i :+ parseInst(s"""
-      if (= (typeof $x) "Completion") {
-        if (= $x.Type CONST_normal) $x = $x.Value
-        else return $x
-      } else {}"""), e)
+    case (i, (e @ ERef(RefId(Id(x))))) => pair(i :+ IIf(
+      isEq(ETypeOf(e), EStr("Completion")),
+      IIf(
+        isEq(toERef(x, "Type"), toERef("CONST_normal")),
+        IAssign(toRef(x), toERef(x, "Value")),
+        IReturn(e)
+      ),
+      emptyInst
+    ), e)
     case (i, e) =>
-      val temp = getTemp
-      pair(i :+ parseInst(
-        if (vulnerable) s"""{
-        let $temp = ${beautify(e)}
-        if (= (typeof $temp) "Completion") {
-          if (= $temp.Type CONST_normal) $temp = $temp.Value
-          else return $temp
-        } else {}
-      }"""
-        else s"""{
-        let $temp = ${beautify(e)}
-        if (= (typeof $temp) "Completion") {
-          $temp = $temp.Value
-        } else {}
-      }"""
-      ), parseExpr(temp))
+      val temp = getTempId
+      pair(i :+ (if (vulnerable) ISeq(List(
+        ILet(temp, e),
+        IIf(
+          isEq(ETypeOf(toERef(temp)), EStr("Completion")),
+          IIf(
+            isEq(toERef(temp, "Type"), toERef("CONST_normal")),
+            IAssign(toRef(temp), toERef(temp, "Value")),
+            IReturn(toERef(temp))
+          ),
+          emptyInst
+        )
+      ))
+      else ISeq(List(
+        ILet(temp, e),
+        IIf(
+          isEq(ETypeOf(toERef(temp)), EStr("Completion")),
+          IAssign(toRef(temp), toERef(temp, "Value")),
+          emptyInst
+        )
+      ))), toERef(temp))
   }
 
   // IfAbruptRejectPromise
   def ifAbruptRejectPromise(
     insts: List[Inst],
     expr: Expr,
-    capexpr: Expr
+    capexpr: Ref
   ): List[Inst] ~ Expr = (insts, expr, capexpr) match {
     case (i, (e @ ERef(RefId(Id(x)))), ce) =>
-      val temp = getTemp
-      pair(i :+ parseInst(s"""
-      if (= (typeof $x) "Completion") {
-        if (= $x.Type CONST_normal) $x = $x.Value
-        else {
-          app $temp = (Call ${beautify(ce)}.Reject undefined (new [$x.Value]))
-          if (&& (= (typeof $temp) "Completion") (! (= $temp.Type CONST_normal))) return $temp else {}
-          return ${beautify(ce)}.Promise
-        }
-      } else {}"""), e)
+      val temp = getTempId
+      pair(i :+ IIf(
+        isEq(ETypeOf(e), EStr("Completion")),
+        IIf(
+          isEq(toERef(x, "Type"), toERef("CONST_normal")),
+          IAssign(toRef(x), toERef(x, "Value")),
+          ISeq(List(
+            IApp(temp, toERef("Call"), List(ERef(RefProp(ce, EStr("Reject"))), EUndef, EList(List(toERef(x, "Value"))))),
+            IIf(
+              EBOp(OAnd, isEq(ETypeOf(toERef(temp)), EStr("Completion")), isNEq(toERef(temp, "Type"), toERef("CONST_normal"))),
+              IReturn(toERef(temp)),
+              emptyInst
+            ),
+            IReturn(ERef(RefProp(ce, EStr("Promise"))))
+          ))
+        ),
+        emptyInst
+      ), e)
     case (i, e, ce) =>
-      val temp = getTemp
-      val temp2 = getTemp
-      pair(i :+ parseInst(
-        s"""{
-        let $temp = ${beautify(e)}
-        if (= (typeof $temp) "Completion") {
-          if (= $temp.Type CONST_normal) $temp = $temp.Value
-          else {
-            app $temp2 = (Call ${beautify(ce)}.Reject undefined (new [$temp.Value]))
-            if (&& (= (typeof $temp2) "Completion") (! (= $temp2.Type CONST_normal))) return $temp2 else {}
-            return ${beautify(ce)}.Promise
-        } else {}
-      }"""
-      ), parseExpr(temp))
+      val temp = getTempId
+      val temp2 = getTempId
+      pair(i :+ ISeq(List(
+        ILet(temp, e),
+        IIf(
+          isEq(ETypeOf(toERef(temp)), EStr("Completion")),
+          IIf(
+            isEq(toERef(temp, "Type"), toERef("CONST_normal")),
+            IAssign(toRef(temp), toERef(temp, "Value")),
+            ISeq(List(
+              IApp(temp2, toERef("Call"), List(ERef(RefProp(ce, EStr("Reject"))), EUndef, EList(List(toERef(temp, "Value"))))),
+              IIf(
+                EBOp(OAnd, isEq(ETypeOf(toERef(temp2)), EStr("Completion")), isNEq(toERef(temp2, "Type"), toERef("CONST_normal"))),
+                IReturn(toERef(temp2)),
+                emptyInst
+              ),
+              IReturn(ERef(RefProp(ce, EStr("Promise"))))
+            ))
+          ),
+          emptyInst
+        )
+      )), toERef(temp))
   }
 
   // normalize temporal identifiers

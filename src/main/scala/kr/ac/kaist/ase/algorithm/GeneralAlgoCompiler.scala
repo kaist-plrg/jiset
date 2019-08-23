@@ -123,6 +123,16 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       val pre = ss.map(s => IAccess(Id(s), toERef(x), EStr(s)))
       IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
   }
+  lazy val ignoreCond: P[I[Expr]] = (
+    "the order of evaluation needs to be reversed to preserve left to right evaluation" |
+    name ~ "is added as a single item rather than spread" |
+    name ~ "contains a formal parameter mapping for" ~ name |
+    name ~ "is a Reference to an Environment Record binding" |
+    "the base of" ~ ref ~ "is an Environment Record" |
+    name ~ "must be" ~ rep(not(",") ~ text) |
+    id ~ "does not currently have a property" ~ id |
+    ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr
+  ) ^^^ pair(Nil, EBool(true))
 
   // call statements
   lazy val callStmt: P[Inst] = (("perform" | "call") ~> expr ||| returnIfAbruptExpr) ^^ {
@@ -277,8 +287,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       case i ~ e => returnIfAbrupt(i, e, true)
     } | "!" ~> expr ^^ {
       case i ~ e => returnIfAbrupt(i, e, false)
-    } | ("IfAbruptRejectPromise(" ~> expr <~ ", ") ~ (expr <~ ")") ^^ {
-      case (i0 ~ e0) ~ (i1 ~ e1) => ifAbruptRejectPromise(i0 ++ i1, e0, e1)
+    } | ("IfAbruptRejectPromise(" ~> expr <~ ", ") ~ (ref <~ ")") ^^ {
+      case (i0 ~ e) ~ (i1 ~ r) => ifAbruptRejectPromise(i0 ++ i1, e, r)
     }
   )
 
@@ -341,6 +351,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // list copy expressions
   lazy val listCopyExpr: P[I[Expr]] = (
+    "a new List which is a copy of" ~> expr ^^ { getCopyList(_, Nil) } |||
     "a copy of" ~ opt("the list") ~> expr ^^ { getCopyList(_, Nil) } |||
     ("a copy of" | "a new list of") ~> expr ~ ("with" ~> expr <~ "appended") ^^ { case x ~ y => getCopyList(x, List(y)) } |||
     "a copy of" ~ opt("the List") ~> (expr <~ "with all the elements of") ~ (expr <~ "appended") ^^ { case x ~ y => getCopyList(x, y) } |||
@@ -716,7 +727,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "realm record" ^^^ "RealmRecord" |||
     "record" ^^^ "Record" |||
     "script record" ^^^ "ScriptRecord" |||
-    "string exotic object" ^^^ "StringExoticObject" |||
+    ("exotic String object" | "string exotic object") ^^^ "StringExoticObject" |||
     opt("ecmascript code") ~ "execution context" ^^^ "ExecutionContext"
   ) ^^ Ty
 
@@ -881,7 +892,4 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // etc conditions
   lazy val etcCond: P[I[Expr]] = failure("")
-
-  // ignore conditions
-  lazy val ignoreCond: P[I[Expr]] = failure("") ^^^ pair(Nil, EBool(true))
 }
