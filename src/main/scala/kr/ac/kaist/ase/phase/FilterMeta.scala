@@ -91,7 +91,6 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     "WeakMap",
     "WeakSet"
   ) ++ List(
-      "Promise.allSettled",
       "Object.fromEntries",
       "dynamic-import",
       "Array.prototype.flat",
@@ -118,7 +117,6 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     .remove("internationalisation", _.name startsWith "/intl")
     .remove("annex", _.name startsWith "/annex")
     .remove("in-progress features", !_.features.forall(features contains _))
-    .remove("negative", !_.negative.isEmpty)
     .remove("non-strict", m => (m.flags contains "noStrict") || (m.flags contains "raw"))
     .remove("module", m => (
       (m.flags contains "module") ||
@@ -129,6 +127,7 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
       (m.flags contains "CanBlockIsFalse") ||
       (m.flags contains "CanBlockIsTrue")
     )).remove("locale", !_.locales.isEmpty)
+    .remove("negative", !_.negative.isEmpty)
     .getSummary
 
   lazy val test262configSummary = getSummary(standardFeatures)
