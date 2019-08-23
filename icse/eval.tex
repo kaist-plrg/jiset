@@ -19,6 +19,8 @@ specification errors?
   \caption{Number of productions in specifications,
 from \textit{all} of which \( \tool \) automatically generated parsers}
   \label{fig:syntax-all-version}
+\vspace*{-1em}
+\small
   \[
     \begin{array}{c?r|r|r|r|r?r}
       \textbf{Version}
@@ -87,9 +89,10 @@ from \textit{all} of which \( \tool \) automatically generated parsers}
     \caption{Results for differences between adjacent versions}
     \label{fig:semantics-all-version-delta}
   \end{subfigure}
-  \caption{Number of steps for abstract algorithms in specifications, from which
+  \caption{Number of abstract algorithm steps in specifications, from which
 \( \tool \) generated the JavaScript semantics}
   \label{fig:all-version}
+\vspace*{-1em}
 \end{figure}
 
 We evaluate the effectiveness of \( \tool \) by applying it to the
@@ -99,39 +102,36 @@ steps in abstract algorithms \( \tool \) automatically generates parsers and
 semantics, respectively, in two respects: 1) in each version and 2) in
 each difference between adjacent versions.
 
-For syntax, we measured the number of grammar productions for which
-\textsf{Parser Generator} automatically generated parsers.  As summarized in
-Figure~\ref{fig:syntax-all-version}, the average numbers of lexical and
-syntactic grammar productions are 79.2 and 168, respectively.
-In addition, the average numbers of annually updated lexical and
-syntactic grammar productions between adjacent versions are 4.7
-and 55, respectively.  We report that \( \tool \)
-automatically generated parsers for \textit{all} the productions.
+%For syntax, we measured the number of grammar productions for which
+%\textsf{Parser Generator} automatically generated parsers.  
+%Table~\ref{fig:syntax-all-version} shows the number of grammar productions
 
-For semantics, we measured the number of steps in abstract algorithms that
-\textsf{Algorithm Compiler} with the compile rules described in
-Section~\ref{sec:impl} automatically covered.
-Figure~\ref{fig:all-version} shows that \( \tool \) could
-automatically extract semantics with the 91.60\% success rate on
-average for existing specifications, and 90.43\% for changed or
-newly defined steps.  Moreover, we found that algorithm steps in
-built-in libraries are less covered than other language semantics
-with 86.98\% success rates (86.09\% for updates).
-It is due to the diverse writing styles to represent
-their own specific functionalities.
-However, steps in core language semantics are covered
-with higher success rates 95.35\% (95.25\% for updates).
+For syntax, \( \tool \) automatically generated parsers for
+\textit{all} the productions.  As Table~\ref{fig:syntax-all-version} shows,
+the average numbers of lexical and syntactic productions are 79.2 and 168, respectively.
+Also, the average numbers of annually updated lexical and
+syntactic productions between adjacent versions are 4.7 and 55, respectively.
 
-According to this evaluation, we believe that \( \tool \) effectively
-reduces the efforts to extract the syntax and semantics of JavaScript
-not only for developing them from scratch, but also for updating
-existing ones.
+For semantics, Figure~\ref{fig:all-version} shows that \( \tool \)
+automatically extracted semantics with the 91.60\% success rate on
+average for existing specifications, and 90.43\% for updates.
+We found that algorithm steps in
+built-in libraries have lower success rates (86.98\% for specifications
+and 86.09\% for updates) than core language semantics (95.35\%  for specifications
+and 95.25\% for updates) because of diverse writing styles in
+describing their own specific functionalities.
+
+This results show that \( \tool \) effectively reduces the efforts to
+extract the syntax and semantics of JavaScript not only for developing
+them from scratch, but also for updating existing ones.
 
 \subsection{Correctness}
 \begin{table}[t]
   \centering
   \caption{Testing results of Test262 for ECMAScript 2020}
   \label{table:test262}
+\vspace*{-.5em}
+\small
   \begin{tabular}{lr}\toprule
     \belowrulesepcolor{gainsboro}
     \rowcolor{gainsboro} \textbf{All tests262 Tests} & \textbf{36,794}\\
@@ -151,6 +151,7 @@ existing ones.
     Passed tests & \inred{XXXX} \\\hdashline
     Failed tests & \inred{XXXX} \\\bottomrule
   \end{tabular}
+\vspace*{-1em}
 \end{table}
 
 To evaluate the correctness of \( \tool \), we developed a JavaScript
@@ -180,7 +181,7 @@ semantics extracted from \( \tool \) are perfectly correct.
 We show the adaptability of \( \tool \) with one case study: applying
 it to an incomplete feature proposal.  Because ECMAScript is an open
 standard language, various proposals are available with their own
-specification changes and tests by following the TC39 process.  A
+specification changes and tests.  A
 separate repository~\cite{proposals} maintains such proposals with six
 different stages: Stage 0 to Stage 3, Finished, and Inactive.  Each
 proposal starts with Stage 0, and the TC39 committee regularly
