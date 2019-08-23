@@ -13,7 +13,7 @@ object BuiltinHeap {
     case (m, (name, Struct(ty, imap, nmap))) => ((m ++ Map(
       NamedAddr(s"$name") -> CoreMap(
         Ty(ty),
-        Model.tyMap.getOrElse(ty, Map()) ++
+        (Model.tyMap.getOrElse(ty, Map()) - Str("Construct")) ++
           imap.map +
           (Str("SubMap") -> NamedAddr(s"$name.SubMap"))
       ),
@@ -31,6 +31,7 @@ object BuiltinHeap {
     ("GLOBAL.String.prototype.toUpperCase", 0, Func("", List(), None, IExpr(ENotSupported("toUpperCase")))),
     ("GLOBAL.String.prototype.toLocaleLowerCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleLowerCase")))),
     ("GLOBAL.String.prototype.toLocaleUpperCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleUpperCase")))),
+    ("GLOBAL.String.prototype.localeCompare", 1, Func("", List(), None, IExpr(ENotSupported("localeCompare")))),
     ("GLOBAL.Number.prototype.toLocaleString", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleString")))),
     ("GLOBAL.Array.prototype.sort", 1, Func("", List(), None, IExpr(ENotSupported("sort"))))
   )
@@ -115,7 +116,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Error"),
-        "Code" -> errFunc
+        "Code" -> errFunc,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "name" -> DataProperty(Str(errName), F, F, T),
@@ -208,7 +210,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTObject.func
+        "Code" -> GLOBALDOTObject.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
@@ -281,7 +284,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTBoolean.func
+        "Code" -> GLOBALDOTBoolean.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
@@ -304,7 +308,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTSymbol.func
+        "Code" -> GLOBALDOTSymbol.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "asyncIterator" -> DataProperty(NamedAddr("GLOBAL.Symbol.asyncIterator"), F, F, F),
@@ -340,7 +345,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTError.func
+        "Code" -> GLOBALDOTError.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Error.prototype"), F, F, F)
@@ -363,7 +369,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTNumber.func
+        "Code" -> GLOBALDOTNumber.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "EPSILON" -> DataProperty(Num(math.ulp(1.0)), F, F, F),
@@ -395,7 +402,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTString.func
+        "Code" -> GLOBALDOTString.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.String.prototype"), F, F, F)
@@ -428,7 +436,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTArray.func
+        "Code" -> GLOBALDOTArray.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
@@ -496,7 +505,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTMap.func
+        "Code" -> GLOBALDOTMap.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Map.prototype"), F, F, F)
@@ -557,7 +567,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTSet.func
+        "Code" -> GLOBALDOTSet.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Set.prototype"), F, F, F)
@@ -619,7 +630,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTWeakMap.func
+        "Code" -> GLOBALDOTWeakMap.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.WeakMap.prototype"), F, F, F)
@@ -642,7 +654,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTWeakSet.func
+        "Code" -> GLOBALDOTWeakSet.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.WeakSet.prototype"), F, F, F)
@@ -689,6 +702,7 @@ object BuiltinHeap {
       imap = IMap(
         "Prototype" -> NamedAddr("GLOBAL.Function"),
         "Code" -> GLOBALDOTGeneratorFunction.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func,
         "Extensible" -> Bool(true),
         "ScriptOrModule" -> Null,
         "Realm" -> NamedAddr("REALM")
@@ -729,6 +743,7 @@ object BuiltinHeap {
       imap = IMap(
         "Prototype" -> NamedAddr("GLOBAL.Function"),
         "Code" -> GLOBALDOTAsyncGeneratorFunction.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func,
         "Extensible" -> Bool(true),
         "ScriptOrModule" -> Null,
         "Realm" -> NamedAddr("REALM")
@@ -769,7 +784,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTPromise.func
+        "Code" -> GLOBALDOTPromise.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise.prototype"), F, F, F)
@@ -806,6 +822,7 @@ object BuiltinHeap {
       imap = IMap(
         "Prototype" -> NamedAddr("GLOBAL.Function"),
         "Code" -> GLOBALDOTAsyncFunction.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func,
         "Extensible" -> Bool(true),
         "ScriptOrModule" -> Null,
         "Realm" -> NamedAddr("REALM")
