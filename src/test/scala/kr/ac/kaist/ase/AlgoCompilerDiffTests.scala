@@ -20,15 +20,12 @@ class AlgoCompilerDiffTest extends CoreTest {
     f"$GREEN[$rate%2.2f%%]$RESET $pass / $total"
   }
 
-  def splitNext(a: List[Token]): List[List[Token]] = {
-    def aux(a: List[Token], b: List[List[Token]]): List[List[Token]] = (a, b) match {
-      case (Next(_) :: rest, x) => aux(rest, List() :: x)
-      case (a :: rest, Nil) => aux(rest, List(List(a)))
-      case (a :: rest, x :+ y) => aux(rest, x :+ (y :+ a))
-      case (Nil, x) => x
-    }
-    aux(a, Nil)
-  }
+  def splitAlgo(algo: Algorithm): List[List[Token]] = (for {
+    step <- algo.getSteps(Nil)
+  } yield (List[Token]() /: step.tokens) {
+    case (l, StepList(_)) => Out :: In :: l
+    case (l, x) => x :: l
+  }.reverse)
 
   case class Memoized[A1, A2, B](f: (A1, A2) => B) extends ((A1, A2) => B) {
     val cache = scala.collection.mutable.Map.empty[(A1, A2), B]
@@ -53,8 +50,9 @@ class AlgoCompilerDiffTest extends CoreTest {
       case (_, Nil, _, li) => li
       case (Nil, x :: rest, i, li) => aux(Nil, rest, i + 1, li :+ i)
       case (cx :: crest, x :: rest, i, li) => {
+        val newCx = if (cx == x) crest else cx :: crest
         val newLi = if (cx == x) li else (li :+ i)
-        aux(crest, rest, i + 1, newLi)
+        aux(newCx, rest, i + 1, newLi)
       }
     }
     aux(commonSeq, b, 0, Nil)
@@ -90,8 +88,8 @@ class AlgoCompilerDiffTest extends CoreTest {
           val algo = Algorithm(name)
           // if (algo.kind == Builtin) {
           // if (algo.kind == Language) {
-          algoMap2 += algo.filename.split("/").last -> splitNext(algo.toTokenList)
-          val diffStepSet = algoMap.get(algo.filename.split("/").last).map((x) => findDiffStepSet(x, splitNext(algo.toTokenList))).getOrElse((0 until algo.lineCount).toList)
+          algoMap2 += algo.filename.split("/").last -> splitAlgo(algo)
+          val diffStepSet = algoMap.get(algo.filename.split("/").last).map((x) => findDiffStepSet(x, splitAlgo(algo))).getOrElse((0 until algo.lineCount).toList)
           val isDiff = !(diffStepSet.isEmpty)
           val lineCount = algo.lineCount
           lazy val compiler = GeneralAlgoCompiler("", algo)
