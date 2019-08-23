@@ -24,7 +24,7 @@ trait ESParsers extends LAParsers {
         val source = reader.source.toString
         val line = pos.line - 1
         val column = pos.column - 1
-        val lines = source.split(Array('\n', '\r'))
+        val lines = source.replace("\r\n", "\n").split(Array('\n', '\r'))
         val revStr = rev.mkString
 
         if (DEBUG_SEMI_INSERT) {
