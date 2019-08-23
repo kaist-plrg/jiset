@@ -20,10 +20,50 @@ class AlgoCompilerDiffTest extends CoreTest {
     f"$GREEN[$rate%2.2f%%]$RESET $pass / $total"
   }
 
+  def splitNext(a: List[Token]): List[List[Token]] = {
+    def aux(a: List[Token], b: List[List[Token]]): List[List[Token]] = (a, b) match {
+      case (Next(_) :: rest, x) => aux(rest, List() :: x)
+      case (a :: rest, Nil) => aux(rest, List(List(a)))
+      case (a :: rest, x :+ y) => aux(rest, x :+ (y :+ a))
+      case (Nil, x) => x
+    }
+    aux(a, Nil)
+  }
+
+  case class Memoized[A1, A2, B](f: (A1, A2) => B) extends ((A1, A2) => B) {
+    val cache = scala.collection.mutable.Map.empty[(A1, A2), B]
+    def apply(x: A1, y: A2) = cache.getOrElseUpdate((x, y), f(x, y))
+  }
+
+  lazy val lcsM: Memoized[List[List[Token]], List[List[Token]], List[List[Token]]] = Memoized {
+    case (_, Nil) => Nil
+    case (Nil, _) => Nil
+    case (x :: xs, y :: ys) if x == y => x :: lcsM(xs, ys)
+    case (x :: xs, y :: ys) => {
+      (lcsM(x :: xs, ys), lcsM(xs, y :: ys)) match {
+        case (xs, ys) if xs.length > ys.length => xs
+        case (xs, ys) => ys
+      }
+    }
+  }
+
+  def findDiffStepSet(a: List[List[Token]], b: List[List[Token]]): List[Int] = {
+    val commonSeq = lcsM(a, b)
+    def aux(comm: List[List[Token]], b: List[List[Token]], i: Int, li: List[Int]): List[Int] = (comm, b, i, li) match {
+      case (_, Nil, _, li) => li
+      case (Nil, x :: rest, i, li) => aux(Nil, rest, i + 1, li :+ i)
+      case (cx :: crest, x :: rest, i, li) => {
+        val newLi = if (cx == x) li else (li :+ i)
+        aux(crest, rest, i + 1, newLi)
+      }
+    }
+    aux(commonSeq, b, 0, Nil)
+  }
+
   // registration
   def init: Unit = {
-    var algoMap: Map[String, String] = Map()
-    var algoMap2: Map[String, String] = Map()
+    var algoMap: Map[String, List[List[Token]]] = Map()
+    var algoMap2: Map[String, List[List[Token]]] = Map()
     var firstStepMap: Map[String, Boolean] = Map()
     var firstAlgoMap: Map[String, Boolean] = Map()
 
@@ -50,8 +90,9 @@ class AlgoCompilerDiffTest extends CoreTest {
           val algo = Algorithm(name)
           // if (algo.kind == Builtin) {
           // if (algo.kind == Language) {
-          algoMap2 += algo.filename.split("/").last -> algo.steps.toString
-          val isDiff = algoMap.get(algo.filename.split("/").last).map(_ != algo.steps.toString).getOrElse(true)
+          algoMap2 += algo.filename.split("/").last -> splitNext(algo.toTokenList)
+          val diffStepSet = algoMap.get(algo.filename.split("/").last).map((x) => findDiffStepSet(x, splitNext(algo.toTokenList))).getOrElse((0 until algo.lineCount).toList)
+          val isDiff = !(diffStepSet.isEmpty)
           val lineCount = algo.lineCount
           lazy val compiler = GeneralAlgoCompiler("", algo)
           lazy val (func, failed) = compiler.result
@@ -59,7 +100,7 @@ class AlgoCompilerDiffTest extends CoreTest {
           if (isDiff) diffAlgoMap += name -> (failed.size == 0)
           (0 until lineCount).foreach((k) => {
             nextStepMap += s"$name$k" -> !(failed contains k)
-            if (isDiff) diffStepMap += s"$name$k" -> !(failed contains k)
+            if (diffStepSet contains k) diffStepMap += s"$name$k" -> !(failed contains k)
           })
         }
       }
