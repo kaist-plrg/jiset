@@ -112,7 +112,7 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
       .map(x => MetaParser(x.toString, test262Dir.toString))
   )
 
-  def getSummary(features: List[String]): Test262ConfigSummary = allTests
+  def getTests(features: List[String]): TestList = allTests
     .remove("harness", _.name startsWith "/harness")
     .remove("internationalisation", _.name startsWith "/intl")
     .remove("annex", _.name startsWith "/annex")
@@ -128,10 +128,12 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
       (m.flags contains "CanBlockIsTrue")
     )).remove("locale", !_.locales.isEmpty)
     .remove("negative", !_.negative.isEmpty)
-    .getSummary
 
-  lazy val test262configSummary = getSummary(standardFeatures)
-  lazy val test262propconfigSummary = getSummary("optional-chaining" :: standardFeatures)
+  lazy val test262configSummary = getTests(standardFeatures).getSummary
+  lazy val test262propconfigSummary =
+    getTests("optional-chaining" :: standardFeatures)
+      .remove("non optional-chaining", m => !(m.features contains "optional-chaining"))
+      .getSummary
 
   def apply(
     unit: Unit,
