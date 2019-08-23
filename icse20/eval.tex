@@ -156,16 +156,17 @@ them from scratch, but also for updating existing ones.
 
 To evaluate the correctness of \( \tool \), we developed a JavaScript
 interpreter based on the extracted syntax and semantics from
-ECMAScript 2020.  Among 1,601 algorithms in ECMAScript 2020,
-\inred{XXX} algorithms are relevant to the excluded language features
-discussed in Section~\ref{sec:exclusion}, and \inred{XXXX} algorithms
-are automatically compiled via \textsf{Algorithm Compiler}.
-Among the remaining \inred{XXX} algorithms, we selected \inred{XX}
-algorithms that are essential to the core semantics and manually
-implemented their corresponding \( \ires \) functions.
+ECMAScript 2020.  Among 9,657 steps in ECMAScript 2020,
+8,926 steps are automatically compiled via \textsf{Algorithm Compiler}.
+Among the remaining 731 steps, we selected 381 steps
+that are essential to the core semantics and manually
+implemented their corresponding \( \ires \) functions
+via the rule assistant introduced in Section~\ref{sec:assistant}.
+Moreover, we implement the \textsf{Global Setting} except
+the excluded language features discussed in Section~\ref{sec:exclusion}.
 
 We tested the interpreter using Test262, the official conformance test
-suite provided by TC39, as of \inred{August 6, 2019}.  Because Test262
+suite provided by TC39, as of August 6, 2019.  Because Test262
 contains tests for extensions and in-progress features, we excluded
 them to focus on the semantics of ECMAScript 2020.  As Table~\ref{table:test262} shows,
 Test262 consists of 36,794 tests and we excluded 7,669 tests for
