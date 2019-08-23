@@ -15,7 +15,10 @@ specification errors?
 
 \subsection{Effectiveness}
 
-\begin{figure}[t]
+\begin{table}[t]
+  \caption{Number of productions in specifications,
+from \textit{all} of which \( \tool \) automatically generated parsers}
+  \label{fig:syntax-all-version}
   \[
     \begin{array}{c?r|r|r|r|r?r}
       \textbf{Version}
@@ -69,25 +72,22 @@ specification errors?
       & \text{55}\\
     \end{array}
   \]
-  \caption{Number of productions in specifications,
-from \textit{all} of which \( \tool \) automatically generated parsers}
-  \label{fig:syntax-all-version}
-\end{figure}
+\end{table}
 
 \begin{figure}[t]
   \centering
-  \begin{subfigure}{0.23\textwidth}
-    \includegraphics[width=\textwidth]{img/all-version-sem.png}
-    \caption{Results for different versions}
+  \begin{subfigure}{0.46\textwidth}
+    \includegraphics[width=\textwidth]{img/sem-all.png}
+    \caption{Results for existing versions}
     \label{fig:semantics-all-version}
   \end{subfigure}
   \hfill
-  \begin{subfigure}{0.20\textwidth}
-    \includegraphics[width=\textwidth]{img/all-version-sem-delta.png}
-    \caption{Results for differences between versions}
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img/sem-delta.png}
+    \caption{Results for differences between adjacent versions}
     \label{fig:semantics-all-version-delta}
   \end{subfigure}
-  \caption{Number of abstract algorithms in specifications, from which
+  \caption{Number of steps for abstract algorithms in specifications, from which
 \( \tool \) generated the JavaScript semantics}
   \label{fig:all-version}
 \end{figure}
@@ -95,26 +95,34 @@ from \textit{all} of which \( \tool \) automatically generated parsers}
 We evaluate the effectiveness of \( \tool \) by applying it to the
 most recent five versions of the ECMAScript specifications, ECMAScript
 2016 to 2020.  We measured for how many grammar productions and
-abstract algorithms \( \tool \) automatically generates parsers and
+steps in abstract algorithms \( \tool \) automatically generates parsers and
 semantics, respectively, in two respects: 1) in each version and 2) in
 each difference between adjacent versions.
 
 For syntax, we measured the number of grammar productions for which
 \textsf{Parser Generator} automatically generated parsers.  As summarized in
 Figure~\ref{fig:syntax-all-version}, the average numbers of lexical and
-syntactic grammar productions are \inred{XX} and \inred{XXX}, respectively.
+syntactic grammar productions are 79.2 and 168, respectively.
 In addition, the average numbers of annually updated lexical and
-syntactic grammar productions between adjacent versions are \inred{X}
-and \inred{XX}, respectively.  We report that \( \tool \)
+syntactic grammar productions between adjacent versions are 4.7
+and 55, respectively.  We report that \( \tool \)
 automatically generated parsers for \textit{all} the productions.
 
-For semantics, we measured the number of abstract algorithms that
+For semantics, we measured the number of steps in abstract algorithms that
 \textsf{Algorithm Compiler} with the compile rules described in
 Section~\ref{sec:impl} automatically covered.
 Figure~\ref{fig:all-version} shows that \( \tool \) could
-automatically extract semantics with the \inred{XX\%} success rate on
-average for existing specifications, and \inred{XX\%} for changed or
-newly defined algorithms.  Thus, we believe that \( \tool \) effectively
+automatically extract semantics with the 91.60\% success rate on
+average for existing specifications, and 90.43\% for changed or
+newly defined steps.  Moreover, we found that algorithm steps in
+built-in libraries are less covered than other language semantics
+with 86.98\% success rates (86.09\% for updates).
+It is due to the diverse writing styles to represent
+their own specific functionalities.
+However, steps in core language semantics are covered
+with higher success rates 95.35\% (95.25\% for updates).
+
+According to this evaluation, we believe that \( \tool \) effectively
 reduces the efforts to extract the syntax and semantics of JavaScript
 not only for developing them from scratch, but also for updating
 existing ones.
