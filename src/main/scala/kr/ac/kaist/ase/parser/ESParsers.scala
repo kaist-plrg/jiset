@@ -14,20 +14,20 @@ trait ESParsers extends LAParsers {
   def emptyContainer: Container = Container()
   case class Container(
     var cache: Map[ParseCase[_], ParseResult[_]] = Map(),
-    var rightmostFailedPos: Option[Position] = None
+    var rightmostFailedPos: Option[(Position, List[Char])] = None
   )
 
   // automatic semicolon insertion
   def insertSemicolon(reader: ContainerReader[Char]): Option[String] = {
     reader.container.rightmostFailedPos match {
-      case Some(pos) =>
+      case Some((pos, rev)) =>
         val source = reader.source.toString
         val line = pos.line - 1
         val column = pos.column - 1
-        val lines = source.split('\n')
+        val lines = source.split(Array('\n', '\r'))
+        val revStr = rev.mkString
 
         if (DEBUG_SEMI_INSERT) {
-          println(source)
           lines.zipWithIndex.foreach {
             case (x, i) => println(f"$i%4d: $x")
           }
@@ -59,10 +59,7 @@ trait ESParsers extends LAParsers {
 
         // 1-1. The offending token is separated from the previous token
         //      by at least one LineTerminator
-        if (parseAll(rep(WhiteSpace), curLine.splitAt(column)._1).successful &&
-          line > 0 && !lines.splitAt(line)._1.forall {
-            case line => parseAll(rep(WhiteSpace), line).successful
-          }) return insert
+        if (!parse(strNoLineTerminator, revStr).successful) return insert
 
         // 1-2. The offending token is '}'
         if (curChar == '}') return insert
@@ -142,10 +139,10 @@ trait ESParsers extends LAParsers {
     val container = in.container
     val res = parser(in)
     (res, container.rightmostFailedPos) match {
-      case (f @ Failure(_, cur), Some(origPos)) if origPos < cur.pos =>
-        container.rightmostFailedPos = Some(cur.pos)
-      case (f @ Failure(_, cur), None) =>
-        container.rightmostFailedPos = Some(cur.pos)
+      case (f @ Failure(_, cur: ContainerReader[_]), Some((origPos, _))) if origPos < cur.pos =>
+        container.rightmostFailedPos = Some((cur.pos, cur.rev))
+      case (f @ Failure(_, cur: ContainerReader[_]), None) =>
+        container.rightmostFailedPos = Some((cur.pos, cur.rev))
       case _ =>
     }
     res
