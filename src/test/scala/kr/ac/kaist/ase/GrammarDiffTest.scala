@@ -39,5 +39,5 @@ class GrammarDiffTest extends CoreTest {
         (lexMap, synMap)
     }
   }
-  init
+  check("GrammarDiffTest", "All", init)
 }
