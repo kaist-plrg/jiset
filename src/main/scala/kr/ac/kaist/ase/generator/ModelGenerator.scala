@@ -8,7 +8,9 @@ import java.io.File
 object ModelGenerator {
   def apply(spec: Spec): Unit = {
     val methods = spec.globalMethods
-    val builtinMethods = spec.globalMethods.filter(_.startsWith("GLOBAL."))
+    val builtinMethods = spec.globalMethods.filter {
+      case m => m.startsWith("GLOBAL.") && m != "GLOBAL.AsyncFunction"
+    }
     val symbols = spec.symbols
     val intrinsics = spec.intrinsics
     val consts = (spec.consts.toSet - "[empty]" + "emptySyntax").toList
