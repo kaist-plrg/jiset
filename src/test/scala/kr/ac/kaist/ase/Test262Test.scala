@@ -95,7 +95,6 @@ class Test262Test extends ASETest {
       if ((!(noParseSet contains name)) && ((!PREVDIFF) || (failedSet contains name.replace("//", "/").split("test/").last))) check("Test262Eval", name, {
         val jsConfig = aseConfig.copy(fileNames = List(jsName))
 
-        println(name)
         val ast = Parse((), jsConfig)
         ModelHelper.checkSupported(ast)
 
