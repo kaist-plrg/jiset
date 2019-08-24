@@ -13,7 +13,7 @@ object BuiltinHeap {
     case (m, (name, Struct(ty, imap, nmap))) => ((m ++ Map(
       NamedAddr(s"$name") -> CoreMap(
         Ty(ty),
-        Model.tyMap.getOrElse(ty, Map()) ++
+        (Model.tyMap.getOrElse(ty, Map()) - Str("Construct")) ++
           imap.map +
           (Str("SubMap") -> NamedAddr(s"$name.SubMap"))
       ),
@@ -31,6 +31,7 @@ object BuiltinHeap {
     ("GLOBAL.String.prototype.toUpperCase", 0, Func("", List(), None, IExpr(ENotSupported("toUpperCase")))),
     ("GLOBAL.String.prototype.toLocaleLowerCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleLowerCase")))),
     ("GLOBAL.String.prototype.toLocaleUpperCase", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleUpperCase")))),
+    ("GLOBAL.String.prototype.localeCompare", 1, Func("", List(), None, IExpr(ENotSupported("localeCompare")))),
     ("GLOBAL.Number.prototype.toLocaleString", 0, Func("", List(), None, IExpr(ENotSupported("toLocaleString")))),
     ("GLOBAL.Array.prototype.sort", 1, Func("", List(), None, IExpr(ENotSupported("sort"))))
   )
@@ -113,17 +114,20 @@ object BuiltinHeap {
     s"GLOBAL.$errName" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Error"),
-        "Code" -> errFunc
+        "Code" -> errFunc,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
-        "name" -> DataProperty(Str(errName), T, F, T),
+        "name" -> DataProperty(Str(errName), F, F, T),
         "prototype" -> DataProperty(NamedAddr(s"GLOBAL.$errName.prototype"), F, F, F)
       )
     ),
     s"GLOBAL.$errName.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Error.prototype")
       ),
       nmap = NMap(
@@ -193,6 +197,7 @@ object BuiltinHeap {
     "GLOBAL.print" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> HostPrint.func
       ),
@@ -203,8 +208,10 @@ object BuiltinHeap {
     "GLOBAL.Object" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTObject.func
+        "Code" -> GLOBALDOTObject.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
@@ -214,6 +221,7 @@ object BuiltinHeap {
     "GLOBAL.Object.prototype" -> Struct(
       typeName = "ImmutablePrototypeExoticObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> Null
       ),
       nmap = NMap(
@@ -223,6 +231,7 @@ object BuiltinHeap {
     "GLOBAL.Function" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> GLOBALDOTFunction.func
       ),
@@ -234,20 +243,51 @@ object BuiltinHeap {
     "GLOBAL.Function.prototype" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype"),
         "Code" -> Func("", List(), None, IReturn(EUndef))
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(0.0), F, F, T),
         "name" -> DataProperty(Str(""), F, F, T),
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.Function"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Function"), T, F, T),
+        "caller" -> AccessorProperty(NamedAddr("GLOBAL.INTRINSIC_ThrowTypeError"), NamedAddr("GLOBAL.INTRINSIC_ThrowTypeError"), F, T),
+        "arguments" -> AccessorProperty(NamedAddr("GLOBAL.INTRINSIC_ThrowTypeError"), NamedAddr("GLOBAL.INTRINSIC_ThrowTypeError"), F, T)
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.hasInstance") -> DataProperty(NamedAddr("GLOBAL.Function.prototype[#GLOBAL.Symbol.hasInstance]"), F, F, F)
+        )
+    ),
+    "GLOBAL.Function.prototype[#GLOBAL.Symbol.hasInstance]" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Extensible" -> Bool(true),
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTFunctionDOTprototypeDOTSYMBOL_hasInstance.func
+      ),
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "name" -> DataProperty(Str("[Symbol.hasInstance]"), F, F, T)
+      )
+    ),
+   "GLOBAL.INTRINSIC_ThrowTypeError" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Extensible" -> Bool(true),
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> INTRINSIC_ThrowTypeError.func
+      ),
+      nmap = NMap(
+        "length" -> DataProperty(Num(0.0), F, F, F),
+        "name" -> DataProperty(Str(""), F, F, F)
       )
     ),
     "GLOBAL.Boolean" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTBoolean.func
+        "Code" -> GLOBALDOTBoolean.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
@@ -257,6 +297,7 @@ object BuiltinHeap {
     "GLOBAL.Boolean.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "BooleanData" -> Bool(false),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
@@ -267,8 +308,10 @@ object BuiltinHeap {
     "GLOBAL.Symbol" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTSymbol.func
+        "Code" -> GLOBALDOTSymbol.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "asyncIterator" -> DataProperty(NamedAddr("GLOBAL.Symbol.asyncIterator"), F, F, F),
@@ -290,6 +333,7 @@ object BuiltinHeap {
     "GLOBAL.Symbol.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
@@ -301,8 +345,10 @@ object BuiltinHeap {
     "GLOBAL.Error" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTError.func
+        "Code" -> GLOBALDOTError.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Error.prototype"), F, F, F)
@@ -311,6 +357,7 @@ object BuiltinHeap {
     "GLOBAL.Error.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
@@ -322,8 +369,10 @@ object BuiltinHeap {
     "GLOBAL.Number" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTNumber.func
+        "Code" -> GLOBALDOTNumber.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "EPSILON" -> DataProperty(Num(math.ulp(1.0)), F, F, F),
@@ -333,8 +382,8 @@ object BuiltinHeap {
         "MIN_VALUE" -> DataProperty(Num(Double.MinPositiveValue), F, F, F),
         "NaN" -> DataProperty(Num(Double.NaN), F, F, F),
         "NEGATIVE_INFINITY" -> DataProperty(Num(Double.NegativeInfinity), F, F, F),
-        "parseFloat" -> DataProperty(NamedAddr("GLOBAL.parseFloat"), F, F, F),
-        "parseInt" -> DataProperty(NamedAddr("GLOBAL.parseInt"), F, F, F),
+        "parseFloat" -> DataProperty(NamedAddr("GLOBAL.parseFloat"), T, F, T),
+        "parseInt" -> DataProperty(NamedAddr("GLOBAL.parseInt"), T, F, T),
         "POSITIVE_INFINITY" -> DataProperty(Num(Double.PositiveInfinity), F, F, F),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Number.prototype"), F, F, F)
       )
@@ -342,6 +391,7 @@ object BuiltinHeap {
     "GLOBAL.Number.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "NumberData" -> Num(0.0),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
@@ -352,8 +402,10 @@ object BuiltinHeap {
     "GLOBAL.String" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTString.func
+        "Code" -> GLOBALDOTString.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.String.prototype"), F, F, F)
@@ -362,6 +414,7 @@ object BuiltinHeap {
     "GLOBAL.String.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "StringData" -> Str(""),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
@@ -373,6 +426,7 @@ object BuiltinHeap {
     "GLOBAL.INTRINSIC_StringIteratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
       ),
       nmap = NMap() ++ Map(
@@ -382,8 +436,10 @@ object BuiltinHeap {
     "GLOBAL.Array" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTArray.func
+        "Code" -> GLOBALDOTArray.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
@@ -395,6 +451,7 @@ object BuiltinHeap {
     "GLOBAL.Array.SYMBOL_species" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> Func("GLOBAL.Array.SYMBOL_species", List(Id("this")), None, IReturn(ERef(RefId(Id("this")))))
       ),
@@ -406,6 +463,7 @@ object BuiltinHeap {
     "GLOBAL.Array.prototype" -> Struct(
       typeName = "ArrayExoticObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
@@ -416,9 +474,28 @@ object BuiltinHeap {
           NamedAddr("GLOBAL.Symbol.unscopables") -> DataProperty(NamedAddr("GLOBAL.Array.prototype[#GLOBAL.Symbol.unscopables]"), F, F, T)
         )
     ),
+    "GLOBAL.Array.prototype[#GLOBAL.Symbol.unscopables]" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Extensible" -> Bool(true)
+      ),
+      nmap = NMap(
+        "copyWithin" -> DataProperty(Bool(true), T, T, T),
+        "entries" -> DataProperty(Bool(true), T, T, T),
+        "fill" -> DataProperty(Bool(true), T, T, T),
+        "find" -> DataProperty(Bool(true), T, T, T),
+        "findIndex" -> DataProperty(Bool(true), T, T, T),
+        "flat" -> DataProperty(Bool(true), T, T, T),
+        "flatMap" -> DataProperty(Bool(true), T, T, T),
+        "includes" -> DataProperty(Bool(true), T, T, T),
+        "keys" -> DataProperty(Bool(true), T, T, T),
+        "values" -> DataProperty(Bool(true), T, T, T)
+      )
+    ),
     "GLOBAL.INTRINSIC_ArrayIteratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
       ),
       nmap = NMap() ++ Map(
@@ -428,8 +505,10 @@ object BuiltinHeap {
     "GLOBAL.Map" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTMap.func
+        "Code" -> GLOBALDOTMap.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Map.prototype"), F, F, F)
@@ -440,6 +519,7 @@ object BuiltinHeap {
     "GLOBAL.Map.SYMBOL_species" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> Func("GLOBAL.Map.SYMBOL_species", List(Id("this")), None, IReturn(ERef(RefId(Id("this")))))
       ),
@@ -451,6 +531,7 @@ object BuiltinHeap {
     "GLOBAL.Map.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
@@ -464,6 +545,7 @@ object BuiltinHeap {
     "GLOBAL.Map.prototype.size" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> GLOBALDOTgetMapDOTprototypeDOTsize.func
       ),
@@ -475,17 +557,20 @@ object BuiltinHeap {
     "GLOBAL.INTRINSIC_MapIteratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
       ),
       nmap = NMap() ++ Map(
         NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Map Iterator"), F, F, T)
-        )
+      )
     ),
     "GLOBAL.Set" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTSet.func
+        "Code" -> GLOBALDOTSet.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Set.prototype"), F, F, F)
@@ -496,6 +581,7 @@ object BuiltinHeap {
     "GLOBAL.Set.SYMBOL_species" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> Func("GLOBAL.Set.SYMBOL_species", List(Id("this")), None, IReturn(ERef(RefId(Id("this")))))
       ),
@@ -507,6 +593,7 @@ object BuiltinHeap {
     "GLOBAL.Set.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
@@ -521,6 +608,7 @@ object BuiltinHeap {
     "GLOBAL.Set.prototype.size" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> GLOBALDOTgetSetDOTprototypeDOTsize.func
       ),
@@ -532,17 +620,20 @@ object BuiltinHeap {
     "GLOBAL.INTRINSIC_SetIteratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
       ),
       nmap = NMap() ++ Map(
-          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Set Iterator"), F, F, T)
-        )
+        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Set Iterator"), F, F, T)
+      )
     ),
     "GLOBAL.WeakMap" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTWeakMap.func
+        "Code" -> GLOBALDOTWeakMap.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.WeakMap.prototype"), F, F, F)
@@ -551,6 +642,7 @@ object BuiltinHeap {
     "GLOBAL.WeakMap.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
@@ -562,8 +654,10 @@ object BuiltinHeap {
     "GLOBAL.WeakSet" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTWeakSet.func
+        "Code" -> GLOBALDOTWeakSet.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.WeakSet.prototype"), F, F, F)
@@ -572,6 +666,7 @@ object BuiltinHeap {
     "GLOBAL.WeakSet.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
@@ -583,6 +678,7 @@ object BuiltinHeap {
     "GLOBAL.INTRINSIC_IteratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap()
@@ -590,6 +686,7 @@ object BuiltinHeap {
     "GLOBAL.INTRINSIC_AsyncIteratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap()
@@ -597,6 +694,7 @@ object BuiltinHeap {
     "GLOBAL.INTRINSIC_AsyncFromSyncIteratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_AsyncIteratorPrototype")
       ),
       nmap = NMap()
@@ -606,12 +704,13 @@ object BuiltinHeap {
       imap = IMap(
         "Prototype" -> NamedAddr("GLOBAL.Function"),
         "Code" -> GLOBALDOTGeneratorFunction.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func,
         "Extensible" -> Bool(true),
         "ScriptOrModule" -> Null,
         "Realm" -> NamedAddr("REALM")
       ),
       nmap = NMap(
-        "name" -> DataProperty(Str("GeneratorFunction"), T, F, T),
+        "name" -> DataProperty(Str("GeneratorFunction"), F, F, T),
         "length" -> DataProperty(Num(1.0), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_Generator"), F, F, F)
       )
@@ -619,37 +718,40 @@ object BuiltinHeap {
     "GLOBAL.INTRINSIC_Generator" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype")
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorFunction"), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_GeneratorPrototype"), F, F, T)
       ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("GeneratorFunction"), F, F, T)
-      )
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("GeneratorFunction"), F, F, T)
+        )
     ),
     "GLOBAL.INTRINSIC_GeneratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_IteratorPrototype")
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_Generator"), F, F, T)
-        ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Generator"), F, F, T)
-      )
+      ) ++ Map(
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Generator"), F, F, T)
+        )
     ),
     "GLOBAL.INTRINSIC_AsyncGeneratorFunction" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
         "Prototype" -> NamedAddr("GLOBAL.Function"),
         "Code" -> GLOBALDOTAsyncGeneratorFunction.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func,
         "Extensible" -> Bool(true),
         "ScriptOrModule" -> Null,
         "Realm" -> NamedAddr("REALM")
       ),
       nmap = NMap(
-        "name" -> DataProperty(Str("AsyncGeneratorFunction"), T, F, T),
+        "name" -> DataProperty(Str("AsyncGeneratorFunction"), F, F, T),
         "length" -> DataProperty(Num(1.0), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGenerator"), F, F, F)
       )
@@ -657,31 +759,35 @@ object BuiltinHeap {
     "GLOBAL.INTRINSIC_AsyncGenerator" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype")
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorFunction"), F, F, T),
-        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorPrototype"), F, F, F)
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGeneratorPrototype"), F, F, T)
       ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncGeneratorFunction"), F, F, T)
-      )
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncGeneratorFunction"), F, F, T)
+        )
     ),
     "GLOBAL.INTRINSIC_AsyncGeneratorPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.INTRINSIC_AsyncIteratorPrototype")
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncGenerator"), F, F, T)
-        ) ++ Map(
+      ) ++ Map(
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncGenerator"), F, F, T)
         )
     ),
     "GLOBAL.Promise" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTPromise.func
+        "Code" -> GLOBALDOTPromise.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise.prototype"), F, F, F)
@@ -692,6 +798,7 @@ object BuiltinHeap {
     "GLOBAL.Promise.SYMBOL_species" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> Func("GLOBAL.Promise.SYMBOL_species", List(Id("this")), None, IReturn(ERef(RefId(Id("this")))))
       ),
@@ -703,19 +810,21 @@ object BuiltinHeap {
     "GLOBAL.Promise.prototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise"), F, F, F)
       ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Promise"), F, F, T)
-      )
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Promise"), F, F, T)
+        )
     ),
     "GLOBAL.INTRINSIC_AsyncFunction" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
         "Prototype" -> NamedAddr("GLOBAL.Function"),
         "Code" -> GLOBALDOTAsyncFunction.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func,
         "Extensible" -> Bool(true),
         "ScriptOrModule" -> Null,
         "Realm" -> NamedAddr("REALM")
@@ -729,13 +838,14 @@ object BuiltinHeap {
     "GLOBAL.INTRINSIC_AsyncFunctionPrototype" -> Struct(
       typeName = "OrdinaryObject",
       imap = IMap(
+        "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype")
       ),
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.INTRINSIC_AsyncFunction"), F, F, T)
       ) ++ Map(
-        NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncFunction"), F, F, T)
-      )
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncFunction"), F, F, T)
+        )
     )
   ) /: errList) {
       case (m, (errName, func)) => m ++ getErrMap(errName, func)

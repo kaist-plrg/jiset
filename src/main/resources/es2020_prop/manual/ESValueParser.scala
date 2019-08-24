@@ -4,9 +4,11 @@ import scala.util.matching.Regex
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
 import kr.ac.kaist.ase.error.ParseFailed
+import kr.ac.kaist.ase.parser.UnicodeRegex
 
-object ESValueParser extends RegexParsers {
+object ESValueParser extends RegexParsers with UnicodeRegex {
   // parsing
+  def parseIdentifier(str: String): String = get("SV.IdentifierName", SV.IdentifierName, str)
   def parseString(str: String): String = get("SV.StringLiteral", SV.StringLiteral, str)
   def parseNumber(str: String): Double = get("MV.NumericLiteral", MV.NumericLiteral, str)
   def parseTVNoSubstitutionTemplate(str: String): String = get("TV.NoSubstitutionTemplate", TV.NoSubstitutionTemplate, str)
@@ -28,6 +30,22 @@ object ESValueParser extends RegexParsers {
 
   // String Value
   object SV {
+    lazy val IdentifierName: S = (
+      seq(SV.IdentifierStart, rep(SV.IdentifierPart) ^^ { case l => l.foldLeft("")(_ + _) })
+    )
+    lazy val IdentifierStart: S = (
+      IDStart |||
+      "$" |||
+      "_" |||
+      "\\" ~> SV.UnicodeEscapeSequence
+    )
+    lazy val IdentifierPart: S = (
+      IDContinue |||
+      "$" |||
+      "\\" ~> SV.UnicodeEscapeSequence |||
+      Predef.ZWNJ |||
+      Predef.ZWJ
+    )
     lazy val StringLiteral: S = (
       // The SV of StringLiteral::"" is the empty code unit sequence.
       "\"\"" ^^^ "" |||
@@ -353,7 +371,7 @@ object ESValueParser extends RegexParsers {
       // The TRV of TemplateHead::`${ is the empty code unit sequence.
       "`${" ^^^ "" |||
       // The TRV of TemplateHead::`TemplateCharacters${ is the TRV of TemplateCharacters.
-      "`" ~> TRV.TemplateCharacters <~ "`"
+      "`" ~> TRV.TemplateCharacters <~ "${"
     )
     lazy val TemplateMiddle: S = (
       // The TRV of TemplateMiddle::}${ is the empty code unit sequence.

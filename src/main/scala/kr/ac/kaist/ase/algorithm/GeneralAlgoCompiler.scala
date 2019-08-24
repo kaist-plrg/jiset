@@ -59,7 +59,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       assertStmt |||
       starStmt
     )
-  } <~ opt(".") ~ opt(comment) | comment
+  } <~ opt("." | ";") ~ opt(comment) | comment
   lazy val comment: P[Inst] = (
     "assert:" |
     "note" |
