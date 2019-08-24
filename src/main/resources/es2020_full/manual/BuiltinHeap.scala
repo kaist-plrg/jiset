@@ -337,10 +337,23 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.Symbol"), T, F, T)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Symbol"), T, F, T),
+        "description" -> AccessorProperty(NamedAddr("GLOBAL.Symbol.prototype.description"), U, F, T)
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Symbol"), F, F, T)
         )
+    ),
+    "GLOBAL.Symbol.prototype.description" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Extensible" -> Bool(true),
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTgetSymbolDOTprototypeDOTdescription.func,
+      ),
+      nmap = NMap(
+        "name" -> DataProperty(Str("get description"), F, F, T),
+        "length" -> DataProperty(Num(0.0), F, F, T)
+      )
     ),
     "GLOBAL.Error" -> Struct(
       typeName = "BuiltinFunctionObject",
