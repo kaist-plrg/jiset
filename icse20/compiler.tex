@@ -235,14 +235,14 @@ in \( \ires \).
   \end{algorithmic}
 \end{algorithm}
 
-To diagnose the root cause of parsing failures, we support a \textsf{Fault Localizer},
+To diagnose root causes of parsing failures, we support a \textsf{Fault Localizer},
 which takes not-yet-convertible steps dubbed ``failed steps'' as arguments.
 The basic idea is to check whether we can parse the failed algorithm step
 with the assumption that a specific sub-sequence of the
 failed step is successfully parsed.  We define a \textit{rule suggestion}
-as such sub-sequence of failed steps with the name of an existing compile rule.
-\textsf{Fault Localizer} refines candidates of rule suggestions into
-most specific ones. It could guide to update existing
+as such a sub-sequence of failed steps with the name of an existing compile rule.
+\textsf{Fault Localizer} refines candidates of rule suggestions into the
+most specific ones. It helped us when we update existing
 compile rules for new versions of the specification.
 
 The fault localization algorithm is shown in Algorithm~\ref{alg:fault}.
