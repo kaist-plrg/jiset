@@ -163,7 +163,10 @@ object ParserGenerator {
     lexProds.foreach(getStrParser)
     prods.foreach(getParser)
     nf.println(s"""  val TERMINAL: Lexer = (""")
-    nf.println(terminalTokens.map(t => s"""    "$t"""").mkString(" |||" + LINE_SEP))
+    nf.println(terminalTokens.map(t => {
+      if (t == "?.") s"""    "$t" <~ not(DecimalDigit)"""
+      else s"""    "$t""""
+    }).mkString(" |||" + LINE_SEP))
     nf.println(s"""  )""")
     nf.println(s"""  val rules: Map[String, ESParser[AST]] = Map(""")
     nf.println(prods.map {
