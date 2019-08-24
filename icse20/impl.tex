@@ -1,50 +1,52 @@
 \section{Implementation}\label{sec:impl}
-This section describes the implementation detail of our open-source
+We describe the implementation detail of our open-source
 tool, \( \tool \)\footnote{The URL of the tool is anonymized due to a
-double-blind review process.}.  We target
-%aim to extract the syntax and semantics from 
-ECMAScript 2020, which is actively updated in its
-GitHub repository~\cite{es2020} to be released in the next year.
+double-blind review process.}, which targets
+ECMAScript 2020~\cite{es2020}.
+
+%We describe how we implement an open-source \( \tool \)\footnote{
+%The URL of the tool is anonymized due to a double-blind review process.},
+%which targets ECMAScript 2020~\cite{es2020}.
 
 \subsection{Excluded Language Features}\label{sec:exclusion}
 We decided not to support the following ECMAScript 2020 features:
 
+\vspace*{-.5em}
 \paragraph{Non-Strict Mode}
 Since ECMAScript 5, JavaScript introduced strict mode to
-\textit{intentionally} provide slightly different semantics.  It
+provide different semantics.  It
 provides more stable semantics by preventing unsafe actions or
 throwing originally ignored errors.  However, the ECMAScript
 specification states that ``Strict mode does not restrict or modify
 any aspect of the ECMAScript semantics that must operate consistently
 across multiple source text units.''  Thus, we decided to support only
-strict mode to focus on the main contribution of this paper.
+strict mode.
 
+\vspace*{-.5em}
 \paragraph{Modules}
-Moreover, we do not support modules that were introduced since ES6
-(ECMAScript 2015).  With the \( \code{import} \) keyword, a JavaScript
-program can import other JavaScript components defined with the \(
-\code{export} \) keyword in their modules.  In order to support
+Moreover, we do not support modules that were introduced since ES6.
+With the \( \code{import} \) keyword, a JavaScript
+program can import other JavaScript components.  To support
 modules in our automatically generated semantics, we should model the
 functionality to communicate with file systems to access JavaScript
 module files.  Because modules do not affect the overall JavaScript
 semantics critically, we decided not to support modules.
 
+\vspace*{-.5em}
 \paragraph{Early Errors}
-ECMAScript specifications declare their syntax not only using
-\( \bnfes \) but also using Early Error Rule to violate invalid codes
-before evaluations. For example, an Early Error Rule checks whether
-functions have duplicated parameters in strict mode. However,
-there are written in natural languages with differenet styles
-with abstract algorithms. Thus, we do not support Early Error Rules.
+ECMAScript specifications use Early Error Rules to preclude invalid code
+before evaluation. For example, an Early Error Rule checks whether
+functions have duplicated parameters in strict mode.
+Because they are written in differenet styles from abstract algorithms,
+we do not support Early Error Rules.
 
+\vspace*{-.5em}
 \paragraph{Inessential Built-in Objects}
-JavaScript provides various standard built-in objects to support
-helper functions.  However, several built-in libraries are not essential
-to the core JavaScript semantics but support extra functionalities such as
-\( \code{Math} \), \( \code{Date} \), \( \code{RegExp} \), and
-\( \code{JSON} \).  Thus, we decided not to support such libraries
-following the tradition of KJS~\cite{kjs}, which is a complete
-formal semantics of JavaScript.
+JavaScript provides various standard built-in objects but some of them
+are not essential to core JavaScript but support extra functionalities such as
+\( \code{RegExp} \) and \( \code{JSON} \).  Thus, we decided not to
+support such libraries following the tradition of KJS~\cite{kjs},
+which is a complete formal semantics of JavaScript.
 
 \subsection{Compile Rules for ECMAScript}
 \begin{table}[t]
@@ -105,6 +107,7 @@ corresponding name strings like \( \code{"ProxyExoticObject.Call"} \).
 We manually implemented \textsf{Global Setting} for ECMAScript 2020,
 which has two parts: ECMAScript data types and built-in objects.
 
+\vspace*{-.5em}
 \paragraph{ECMAScript Data Types}
 In ECMAScript 2020, Section 6 \textsf{ECMAScript Data Types and Values}
 describes data types used in the specification.  It describes not only

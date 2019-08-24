@@ -131,10 +131,10 @@ them from scratch, but also for updating existing ones.
   \caption{Testing results of Test262 for ECMAScript 2020}
   \label{table:test262}
 \vspace*{-.5em}
-\small
+\footnotesize
   \begin{tabular}{lr}\toprule
     \belowrulesepcolor{gainsboro}
-    \rowcolor{gainsboro} \textbf{All tests262 Tests} & \textbf{36,794}\\
+    \rowcolor{gainsboro} \textbf{All Test262 Tests} & \textbf{36,794}\\
     \aboverulesepcolor{gainsboro}\midrule
     Annexes/Internationalisation & 1,774\\\hdashline
     In-progress features & 5,895\\\midrule
@@ -172,10 +172,10 @@ them to focus on the semantics of ECMAScript 2020.  As Table~\ref{table:test262}
 Test262 consists of 36,794 tests and we excluded 7,669 tests for
 extensions and in-progress features.  We also filtered out
 tests for excluded features described in Section~\ref{sec:impl}.
-Finally, we tested 19,282 applicable tests with our JavaScript
-interpreter and only 62 tests are failed. Among them, 54 tests
-utilize implementation-dependent features and 3 tests are timeout
-and 5 tests are wrong tests. Thus, we believe that all the
+Finally, we tested 19,282 applicable tests and only 62 tests failed.
+Among them, 54 tests utilize implementation-dependent features,
+three are timeout with 20 minutes due to enormous computation,
+and five are wrong tests.  Thus, we believe that all the
 semantics extracted from \( \tool \) are correct.
 
 % TODO if some tests failed, categorize them and explain why they failed.
