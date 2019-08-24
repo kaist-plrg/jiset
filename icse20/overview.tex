@@ -13,17 +13,16 @@ depicted in Figure~\ref{fig:overview} and the outline of the paper.
 Compared to the existing approaches shown in
 Figure~\ref{fig:existing}, \( \tool \) automatically generates
 {\sf JavaScript Parser} and {\sf AST-\( \ires \) Translator} from the
-ECMAScript specification.  Inside \( \tool \), {\sf Spec Extractor}
-extracts the JavaScript syntax to build the parser and its semantics
-to build the translator.
+ECMAScript specification.
 
 The motivation of automatically extracting syntax and semantics
 of JavaScript from the ECMAScript specification is twofold: 1) the
 natural language used in the specification follows well-organized
 specific patterns, and 2) the specification is available as HTML files
 using various HTML tags.  As the first step, we developed {\sf Spec Extractor}
-in JavaScript, which extracts the syntax and semantics from the
-ECMAScript specification in HTML into JSON format.
+to simply collect and save both syntax and semantics into JSON format.
+It is written in JavaScript because the ECMAScript specifications are
+provided as HTML files.
 
 \begin{figure}
   \centering
