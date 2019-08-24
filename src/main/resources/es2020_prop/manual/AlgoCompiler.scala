@@ -516,10 +516,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
       pair(Nil, EParseSyntax(toERef("this"), EStr("ParenthesizedExpression"), Nil))
     } | "the" ~ opt("actual") ~ "number of" ~ ("actual arguments" | "arguments passed to this function" ~ opt("call")) ^^^ {
-      if (algoName == "GLOBAL.Array.prototype.splice")
-        pair(Nil, parseExpr(s"""(- argumentsList.length 2i)"""))
-      else
-        pair(Nil, parseExpr(s"""argumentsList.length"""))
+      pair(Nil, parseExpr(s"""argumentsList.length"""))
     } | "the List of arguments passed to this function" ^^^ {
       pair(Nil, parseExpr("argumentsList"))
     } | ("the numeric value of the code unit at index" ~> name <~ "within") ~ name ^^ {
