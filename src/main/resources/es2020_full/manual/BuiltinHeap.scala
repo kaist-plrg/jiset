@@ -320,6 +320,7 @@ object BuiltinHeap {
         "isConcatSpreadable" -> DataProperty(NamedAddr("GLOBAL.Symbol.isConcatSpreadable"), F, F, F),
         "iterator" -> DataProperty(NamedAddr("GLOBAL.Symbol.iterator"), F, F, F),
         "match" -> DataProperty(NamedAddr("GLOBAL.Symbol.match"), F, F, F),
+        "matchAll" -> DataProperty(NamedAddr("GLOBAL.Symbol.matchAll"), F, F, F),
         "replace" -> DataProperty(NamedAddr("GLOBAL.Symbol.replace"), F, F, F),
         "search" -> DataProperty(NamedAddr("GLOBAL.Symbol.search"), F, F, F),
         "species" -> DataProperty(NamedAddr("GLOBAL.Symbol.species"), F, F, F),
@@ -341,8 +342,21 @@ object BuiltinHeap {
         "constructor" -> DataProperty(NamedAddr("GLOBAL.Symbol"), T, F, T),
         "description" -> AccessorProperty(NamedAddr("GLOBAL.Symbol.prototype.description"), U, F, T)
       ) ++ Map(
-          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Symbol"), F, F, T)
+          NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Symbol"), F, F, T),
+          NamedAddr("GLOBAL.Symbol.toPrimitive") -> DataProperty(NamedAddr("GLOBAL.Symbol.prototype[#GLOBAL.Symbol.toPrimitive]"), F, F, T)
         )
+    ),
+    "GLOBAL.Symbol.prototype[#GLOBAL.Symbol.toPrimitive]" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Extensible" -> Bool(true),
+        "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
+        "Code" -> GLOBALDOTSymbolDOTprototypeDOTSYMBOL_toPrimitive.func
+      ),
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "name" -> DataProperty(Str("[Symbol.toPrimitive]"), F, F, T)
+      )
     ),
     "GLOBAL.Symbol.prototype.description" -> Struct(
       typeName = "BuiltinFunctionObject",
@@ -872,6 +886,7 @@ object BuiltinHeap {
     "isConcatSpreadable",
     "iterator",
     "match",
+    "matchAll",
     "replace",
     "search",
     "species",
