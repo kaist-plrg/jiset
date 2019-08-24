@@ -172,26 +172,25 @@ because ECMAScript has been annually released since 2015, which made
 already five updates after ECMAScript 5.1.
 
 To alleviate the problem, we propose \( \tool \), a JavaScript IR-based Semantics
-Extraction Toolchain.  It \textit{automatically} extracts the JavaScript syntax and
-semantics from ECMAScript specifications.  \( \tool \) generates a JavaScript
+Extraction Toolchain. It \textit{synthesizes} a JavaScript
 parser for a given grammar written in \( \bnfes \), an extended BNF
-used in ECMAScript specifications.  It also converts each
-abstract algorithm written in a structured natural language into
-functions written in \( \ires \), an Intermediate Representation
-for ECMAScript specifications.  The compilation from algorithms to
-\( \ires \) functions is defined with \textit{compile rules}.
-We applied \( \tool \) to ECMAScript 2020,
-and the automatically extracted semantics passed 19,220 of 19,282
-applicable tests in Test262, the official ECMAScript conformance test
-suite.  The tool also extracted the semantics of an incomplete proposal,
-and it detected three errors from the specification and they were all
-confirmed.
+used in ECMAScript. It also \textit{automatically} extracts
+semantics based on rule-based compilations. Each \textit{compile rule}
+describes how to convert each abstract algorithm written in a structured natural language
+into functions written in \( \ires \), an Intermediate Representation
+for ECMAScript. \( \tool \) successfully synthesizes
+parsers and compiles 91.60\% of algorithm steps for five recent
+ECMAScript versions. We tested the extracted semantics from the next version
+ECMAScript 2020 using Test262, the official ECMAScript conformance test
+suite. It passed 19,220 of 19,282 tests and we found three specification errors
+using our tool. Moreover, we check the adaptability of \( \tool \)
+via a case study for an incomplete proposal.
 \end{abstract}
 
 \keywords{
   JavaScript,
   mechanized formal semantics,
-  recursive descent parsing
+  program synthesis
 }
 
 \maketitle

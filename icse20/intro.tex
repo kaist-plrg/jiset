@@ -1,5 +1,5 @@
 \section{Introduction}
-JavaScript is one of the widely used programming languages not only for client-side
+JavaScript is one of the most widely used programming languages not only for client-side
 but also for server-side programming~\cite{nodejs, meanjs}
 and even for small embedded systems~\cite{espruino, tessel2}.
 It is the top-ranked language used in active GitHub
@@ -9,14 +9,14 @@ According to W3Techs\footnote{https://w3techs.com/technologies/details/cp-javasc
 95.2\% of websites use JavaScript as their client-side programming language.
 
 Despite its popularity, JavaScript developers often suffer from its intricate semantics,
-which may cause security vulnerabilities.  For example, calling the following JavaScript
+which may cause unexpected behavior.  For example, calling the following JavaScript
 function seems to always return \( \code{false} \):
 \begin{lstlisting}[style=myJSstyle]
     function f(x) { return x == !x; }
 \end{lstlisting}
 Unfortunately, it returns \( \code{true} \) when its argument is an empty array
 \( \code{[]} \).  To correctly understand and reason about such complex
-behaviors, the formal semantics of JavaScript is necessary.
+behavior, the formal semantics of JavaScript is necessary.
 
 \begin{figure}
   \centering
@@ -52,11 +52,9 @@ labor-intensive, and error-prone especially because the language is
 huge.  The most recent specification, ECMAScript 2019, has 798 pages.
 
 Moreover, manual extraction does not scale for frequent updates of the
-specification.  While most existing formal semantics and analyzers of
-JavaScript support only ECMAScript 5.1~\cite{ecma5} released in December 2009,
-from ECMAScript 6, officially dubbed ECMAScript 2015, the 
-ECMAScript specification is updated every year.  Focusing on
-ECMAScript 5.1 was reasonable until 2014, because the
+specification.  Most existing formal semantics and analyzers of
+JavaScript support only ECMAScript 5.1~\cite{ecma5} released in June 2011.
+Focusing on ECMAScript 5.1 was reasonable until 2014, because the
 specification was rarely updated.  However, in late 2014, The Ecma
 Technical Committee 39 (TC39)~\cite{tc39} decided to release the
 specification annually.  Currently, no formal semantics
