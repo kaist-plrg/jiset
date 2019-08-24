@@ -29,6 +29,14 @@ functionality to communicate with file systems to access JavaScript
 module files.  Because modules do not affect the overall JavaScript
 semantics critically, we decided not to support modules.
 
+\paragraph{Early Errors}
+ECMAScript specifications declare their syntax not only using
+\( \bnfes \) but also using Early Error Rule to violate invalid codes
+before evaluations. For example, an Early Error Rule checks whether
+functions have duplicated parameters in strict mode. However,
+there are written in natural languages with differenet styles
+with abstract algorithms. Thus, we do not support Early Error Rules.
+
 \paragraph{Inessential Built-in Objects}
 JavaScript provides various standard built-in objects to support
 helper functions.  However, several built-in libraries are not essential

@@ -143,13 +143,13 @@ them from scratch, but also for updating existing ones.
     \aboverulesepcolor{gainsboro}\midrule
     Non-strict mode tests & 1,136\\\hdashline
     Module tests& 918 \\\hdashline
-    Inessential built-in object tests & \inred{XXXX}\\\hdashline
-    Non-standard negative tests & 2,280\\\midrule
+    Early error tests & 1,316\\\hdashline
+    Inessential built-in object tests & 6,473\\\midrule
     \belowrulesepcolor{gainsboro}
-    \rowcolor{gainsboro} \textbf{Applicable Tests} & \textbf{\inred{XXXXX}}\\
+    \rowcolor{gainsboro} \textbf{Applicable Tests} & \textbf{19,282}\\
     \aboverulesepcolor{gainsboro}\midrule
-    Passed tests & \inred{XXXX} \\\hdashline
-    Failed tests & \inred{XXXX} \\\bottomrule
+    Passed tests & 19,220 \\\hdashline
+    Failed tests & 62 \\\bottomrule
   \end{tabular}
 \vspace*{-1em}
 \end{table}
@@ -170,11 +170,13 @@ suite provided by TC39, as of August 6, 2019.  Because Test262
 contains tests for extensions and in-progress features, we excluded
 them to focus on the semantics of ECMAScript 2020.  As Table~\ref{table:test262} shows,
 Test262 consists of 36,794 tests and we excluded 7,669 tests for
-extensions and in-progress features.  We also excluded \inred{XXXX}
-tests for excluded features and non-standard negative tests.
-Finally, we tested \inred{XXXXX} applicable tests with our JavaScript
-interpreter and they all successfully passed, which means that all the
-semantics extracted from \( \tool \) are perfectly correct.
+extensions and in-progress features.  We also filtered out
+tests for excluded features described in Section~\ref{sec:impl}.
+Finally, we tested 19,282 applicable tests with our JavaScript
+interpreter and only 62 tests are failed. Among them, 54 tests
+utilize implementation-dependent features and 3 tests are timeout
+and 5 tests are wrong tests. Thus, we believe that all the
+semantics extracted from \( \tool \) are correct.
 
 % TODO if some tests failed, categorize them and explain why they failed.
 
