@@ -180,12 +180,12 @@ describes how to convert each abstract algorithm written in a structured natural
 into functions written in \( \ires \), an Intermediate Representation
 for ECMAScript. \( \tool \) synthesizes parsers from all \( \bnfes \) productions
 and extracts semantics from 91.60\% of algorithm steps for five recent
-ECMAScript versions. We manually extend one of the extracted semantics for
-the next version of ECMAScript 2020. It passed 19,220 of 19,282 applicable tests
+ECMAScript versions.  We implemented a JavaScript interpreter for ECMAScript 2020
+using the extracted semantics.  It passed 19,220 of 19,282 applicable tests
 in Test262, the official ECMAScript conformance test suite. While extracting
 the semantics using \( \tool \), we found three specification errors
-and all of them are confirmed by TC 39. Moreover, we succeed to apply
-our tool into an incomplete proposal as a case study.
+and all of them were confirmed by TC 39. Moreover, we also successfully applied
+our tool to an incomplete proposal as a case study.
 \end{abstract}
 
 \keywords{
