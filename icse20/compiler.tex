@@ -90,7 +90,7 @@ is written in extended Scala parser combinators.  We modified the
 meaning of the alternative composition operator ( \( ||| \) ) to collect
 all the longest matched results.  If a parser detects a step that
 cannot be parsed with given parsing rules, it reports the step into
-{\sf Rule Assistant}.  Even when a parser parses a step successfully,
+{\sf Fault Localizer}.  Even when a parser parses a step successfully,
 it also reports the step if it can parse the step in multiple ways.
 We use Packrat parsing~\cite{packrat} for parsing rules, which
 support left recursion.
@@ -210,7 +210,7 @@ and \( \code{normal} \) as \( \code{Singleton} \) data types
 in \( \ires \).
 \end{itemize}
 
-\subsection{Rule Assistant}\label{sec:assistant}
+\subsection{Fault Localizer}\label{sec:localizer}
 \begin{algorithm}[t]
   \caption{Fault Localization}\label{alg:fault}
   \begin{algorithmic}[1]
@@ -235,22 +235,22 @@ in \( \ires \).
   \end{algorithmic}
 \end{algorithm}
 
-To make it easy to write compile rules, we support a \textit{rule assistant},
+To diagnose the root cause of parsing failures, we support a \textsf{Fault Localizer},
 which takes not-yet-convertible steps dubbed ``failed steps'' as arguments.
-For each failed step, the rule assistant diagnoses a root cause of the
-parsing failure.  The basic idea is to check whether we can parse the
-failed input with the assumption that a specific sub-sequence of the
-failed step is successfully parsed.  We define an approach to find
-such sub-sequences of failed steps as \textit{fault localization}.
-This approach was actually helpful for us when we update existing
+The basic idea is to check whether we can parse the failed algorithm step
+with the assumption that a specific sub-sequence of the
+failed step is successfully parsed.  We define a \textit{rule suggestion}
+as such sub-sequence of failed steps with the name of an existing compile rule.
+\textsf{Fault Localizer} refines candidates of rule suggestions into
+most specific ones. This approach was actually helpful for us when we update existing
 compile rules for new versions of the specification.
 
 The fault localization algorithm is shown in Algorithm~\ref{alg:fault}.
 For a given failed step $T$ and the size of a failed input $n$, it
-attempts to find a set of the most specific suggestions.  It
+attempts to find a set of the most specific rule suggestions.  It
 substitutes a specific sub-sequence \( T[i..j] \) of \( T \) with the
 special token \( \tstar \), which represents some sub-sequence of a
-failed step.  It collects a set of possible suggestions, and then
+failed step.  It collects a set of possible rule suggestions, and then
 removes more general ones than existing suggestions.  To support this
 process, we added a parsing rule  \( \code{starT} \) to each compile
 rule as follows:
@@ -274,8 +274,8 @@ does not have the alternative for lists:
 \end{lstlisting}
 Then, the step 2-e-i of \textbf{ToPrimitive} becomes a failed step.
 When we use the fault localization algorithm with the failed step and
-its size 15, it first finds one suggestion for statements and four
-suggestions for expressions as follows:
+its size 15, it first finds one rule suggestion for statements and four
+rule suggestions for expressions as follows:
 \[
 \footnotesize
 \! \! \! \!
@@ -289,5 +289,5 @@ suggestions for expressions as follows:
 \]
 In the \textbf{\small while} loop on lines 9--11, because the last one
 is the most specific sub-sequence, it removes the other four
-suggestions. Finally, the rule assistant suggests to define another
-expression compile rule for the token list \hint{}.
+rule suggestions. Finally, \textsf{Fault Localizer} suggests to define
+another expression compile rule for the token list \hint{}.

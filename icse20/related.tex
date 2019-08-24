@@ -19,8 +19,8 @@ ours is \citet{javadoc}'s, which generates Java code from Javadoc comments
 for API functions.  Using NLP techniques and various heuristic methods,
 it produces several candidate code tests them with actual implementation
 of the API functions to find correct modeling.  Unlike their approach, we
-support a specification translation assistant to support future language
-updates and to provide correct meaning of specification, which is
+introduce a fault localization algorithm to support future language
+updates and to provide correct meaning of specification. Our tool is also
 applicable for testing even when the actual implementation is not available.
 
 % TODO pseudo code의 형태와 natural language의 결합이다.
@@ -46,9 +46,10 @@ the ECMAScript specification to their own formal languages.  KJS mapped
 ECMAScript 5.1 in the K framework~\cite{kframework}, which can be used
 for program verification and analysis.  Similarly, JaVerT converts the
 specification to their own IR called JSIL to make further analysis.
-Our approach provides a framework to generate syntactic parsers and
-semantics compilers from the specification to \( \ires \)
-with a conversion assistant, which reduces human efforts significantly.
+Our approach provides a mechanized framework to synthesize syntactic parsers and
+to automatically extract semantics from the specification to \( \ires \)
+using rule-based compilation technique. It significantly reduces human
+efforts and also flexible for future specification updates.
 
 % \begin{itemize}
 %   \item JaVerT: JavaScript verification toolchain (POPL'18)~\cite{javert}
