@@ -233,7 +233,8 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTFunction.func
+        "Code" -> GLOBALDOTFunction.func,
+        "Construct" -> BuiltinFunctionObjectDOTConstruct.func
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
@@ -272,7 +273,7 @@ object BuiltinHeap {
    "GLOBAL.INTRINSIC_ThrowTypeError" -> Struct(
       typeName = "BuiltinFunctionObject",
       imap = IMap(
-        "Extensible" -> Bool(true),
+        "Extensible" -> Bool(false),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
         "Code" -> INTRINSIC_ThrowTypeError.func
       ),
@@ -348,7 +349,7 @@ object BuiltinHeap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> GLOBALDOTgetSymbolDOTprototypeDOTdescription.func,
+        "Code" -> GLOBALDOTgetSymbolDOTprototypeDOTdescription.func
       ),
       nmap = NMap(
         "name" -> DataProperty(Str("get description"), F, F, T),
