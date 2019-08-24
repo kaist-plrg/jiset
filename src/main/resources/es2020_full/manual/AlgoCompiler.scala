@@ -100,6 +100,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x ~ y => parseInst(s"""{
         prototype = INTRINSIC_FunctionPrototype
         let $x = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
+        delete $x.Construct
         $x.Code = $y.step
         $x.SubMap.name = (new DataProperty("Value" -> $y.name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))
         $x.SubMap.length = (new DataProperty("Value" -> $y.length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))

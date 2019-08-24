@@ -1,5 +1,6 @@
 package kr.ac.kaist.ase.core
 
+import scala.annotation.tailrec
 import scala.concurrent._
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -10,7 +11,7 @@ import kr.ac.kaist.ase.model.{ Parser => ESParser, ESValueParser, ModelHelper }
 
 // CORE Interpreter
 class Interp {
-  val timeout: Long = 3000
+  val timeout: Long = 3000L
   val startTime: Long = System.currentTimeMillis
   var instCount = 0
 
@@ -18,7 +19,8 @@ class Interp {
   def apply(st: State) = fixpoint(st)
 
   // perform transition until instructions are empty
-  def fixpoint(st: State): State = st.context.insts match {
+  @tailrec
+  final def fixpoint(st: State): State = st.context.insts match {
     case Nil => st.ctxStack match {
       case Nil => st
       case ctx :: rest => fixpoint(st.copy(context = ctx.copy(locals = ctx.locals + (ctx.retId -> Absent)), ctxStack = rest))
