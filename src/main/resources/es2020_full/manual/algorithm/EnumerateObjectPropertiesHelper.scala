@@ -5,7 +5,7 @@ import kr.ac.kaist.ase.core._
 
 object EnumerateObjectPropertiesHelper {
   val func: Func = parseFunc(""""EnumerateObjectPropertiesHelper" ( O , listAll, listEnum ) => {
-    let a = (map-keys O["SubMap"])
+    app a = (O.OwnPropertyKeys O)
     let __x0__ = 0i
     while (< __x0__ a.length) {
       let c = a[__x0__]
