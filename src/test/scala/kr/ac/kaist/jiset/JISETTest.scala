@@ -11,7 +11,7 @@ import scala.util.{ Try, Success, Failure }
 import spray.json._
 
 abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
-  // ase configuration
+  // JISET configuration
   lazy val aseConfig: JISETConfig = JISETConfig(CmdBase, Nil, true)
 
   // result map
