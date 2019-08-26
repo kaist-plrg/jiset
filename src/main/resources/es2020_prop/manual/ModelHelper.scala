@@ -1,9 +1,9 @@
-package kr.ac.kaist.ase.model
+package kr.ac.kaist.jiset.model
 
-import kr.ac.kaist.ase.AST
-import kr.ac.kaist.ase.core._
-import kr.ac.kaist.ase.error.NotSupported
-import kr.ac.kaist.ase.util.Useful._
+import kr.ac.kaist.jiset.AST
+import kr.ac.kaist.jiset.core._
+import kr.ac.kaist.jiset.error.NotSupported
+import kr.ac.kaist.jiset.util.Useful._
 
 object ModelHelper {
   def flattenStList(s: StatementList): List[StatementListItem] = s match {

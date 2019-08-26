@@ -13,13 +13,13 @@ lazy val test262AllParseTest = taskKey[Unit]("Launch test262 parsing tests")
 
 lazy val root = (project in file(".")).
   settings(
-    name := "ASE",
+    name := "JISET",
     version := "1.0",
-    organization := "kr.ac.kaist.ase",
+    organization := "kr.ac.kaist.jiset",
     scalaVersion := "2.12.8",
     dummyModel in Compile := {
       val srcDir = baseDirectory.value + "/src/main"
-      val modelPath = s"$srcDir/scala/kr/ac/kaist/ase/model"
+      val modelPath = s"$srcDir/scala/kr/ac/kaist/jiset/model"
       val modelDir = file(modelPath)
       if (!modelDir.exists) {
         IO.createDirectory(modelDir)
@@ -38,23 +38,23 @@ lazy val root = (project in file(".")).
     testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),
     compile <<= (compile in Compile) dependsOn (dummyModel in Compile),
     test <<= (testOnly in Test).toTask(List(
-      "kr.ac.kaist.ase.BasicCoreTest",
-      "kr.ac.kaist.ase.JSTest"
+      "kr.ac.kaist.jiset.BasicCoreTest",
+      "kr.ac.kaist.jiset.JSTest"
     ).mkString(" ", " ", "")) dependsOn compile,
-    coreTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.BasicCoreTest") dependsOn compile,
-    grammarDiffTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.GrammarDiffTest") dependsOn compile,
-    algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerTest") dependsOn compile,
-    algoCompilerDiffTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.AlgoCompilerDiffTest") dependsOn compile,
-    jsTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.JSTest") dependsOn compile,
-    test262Test <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.Test262Test") dependsOn compile,
-    test262PropTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.Test262PropTest") dependsOn compile,
-    test262ParseTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.Test262ParseTest") dependsOn compile,
-    test262AllParseTest <<= (testOnly in Test).toTask(" kr.ac.kaist.ase.Test262AllParseTest") dependsOn compile
+    coreTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.BasicCoreTest") dependsOn compile,
+    grammarDiffTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.GrammarDiffTest") dependsOn compile,
+    algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerTest") dependsOn compile,
+    algoCompilerDiffTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerDiffTest") dependsOn compile,
+    jsTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.JSTest") dependsOn compile,
+    test262Test <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.Test262Test") dependsOn compile,
+    test262PropTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.Test262PropTest") dependsOn compile,
+    test262ParseTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.Test262ParseTest") dependsOn compile,
+    test262AllParseTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.Test262AllParseTest") dependsOn compile
   )
 
 cleanFiles ++= Seq(
-  file("src/main/scala/kr/ac/kaist/ase/model"),
-  file("src/main/scala/kr/ac/kaist/ase/algorithm/rule")
+  file("src/main/scala/kr/ac/kaist/jiset/model"),
+  file("src/main/scala/kr/ac/kaist/jiset/algorithm/rule")
 )
 
 libraryDependencies ++= Seq(

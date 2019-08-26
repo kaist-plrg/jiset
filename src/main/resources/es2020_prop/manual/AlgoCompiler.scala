@@ -1,16 +1,16 @@
-package kr.ac.kaist.ase.model
+package kr.ac.kaist.jiset.model
 
-import kr.ac.kaist.ase.algorithm
+import kr.ac.kaist.jiset.algorithm
 import algorithm.{ AlgoKind, Algorithm, Token, StaticSemantics }
 import algorithm.{ Method, Grammar, AlgoCompilers, Text }
-import kr.ac.kaist.ase.core.Parser._
-import kr.ac.kaist.ase.core._
-import kr.ac.kaist.ase.LINE_SEP
+import kr.ac.kaist.jiset.core.Parser._
+import kr.ac.kaist.jiset.core._
+import kr.ac.kaist.jiset.LINE_SEP
 import scala.util.{ Try, Success, Failure }
 
-import kr.ac.kaist.ase.error.UnexpectedShift
-import kr.ac.kaist.ase.parser.TokenParsers
-import kr.ac.kaist.ase.util.Useful._
+import kr.ac.kaist.jiset.error.UnexpectedShift
+import kr.ac.kaist.jiset.parser.TokenParsers
+import kr.ac.kaist.jiset.util.Useful._
 
 case class AlgoCompiler(algoName: String, algo: Algorithm) extends AlgoCompilerHelper
 trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {

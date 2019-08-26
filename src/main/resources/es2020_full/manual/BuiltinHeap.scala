@@ -1,7 +1,7 @@
-package kr.ac.kaist.ase.model
+package kr.ac.kaist.jiset.model
 
-import kr.ac.kaist.ase.core._
-import kr.ac.kaist.ase.model.ModelHelper._
+import kr.ac.kaist.jiset.core._
+import kr.ac.kaist.jiset.model.ModelHelper._
 
 object BuiltinHeap {
   def get: Map[Addr, Obj] = (Map[Addr, Obj]() /: mapInfo) {

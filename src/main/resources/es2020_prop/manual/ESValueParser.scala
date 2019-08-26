@@ -1,10 +1,10 @@
-package kr.ac.kaist.ase.model
+package kr.ac.kaist.jiset.model
 
 import scala.util.matching.Regex
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
-import kr.ac.kaist.ase.error.ParseFailed
-import kr.ac.kaist.ase.parser.UnicodeRegex
+import kr.ac.kaist.jiset.error.ParseFailed
+import kr.ac.kaist.jiset.parser.UnicodeRegex
 
 object ESValueParser extends RegexParsers with UnicodeRegex {
   // parsing

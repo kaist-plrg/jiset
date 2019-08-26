@@ -1,7 +1,7 @@
-package kr.ac.kaist.ase.model
+package kr.ac.kaist.jiset.model
 
-import kr.ac.kaist.ase.core.Parser._
-import kr.ac.kaist.ase.core._
+import kr.ac.kaist.jiset.core.Parser._
+import kr.ac.kaist.jiset.core._
 object ToBoolean {
   val func: Func = Func("ToBoolean", List(Id("argument")), None, parseInst(
     s"""{

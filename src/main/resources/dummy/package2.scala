@@ -1,8 +1,8 @@
-package kr.ac.kaist.ase
+package kr.ac.kaist.jiset
 
-import kr.ac.kaist.ase.parser.ESParsers
-import kr.ac.kaist.ase.error.ModelNotYetGenerated
-import kr.ac.kaist.ase.core._
+import kr.ac.kaist.jiset.parser.ESParsers
+import kr.ac.kaist.jiset.error.ModelNotYetGenerated
+import kr.ac.kaist.jiset.core._
 import scala.collection.immutable.{ Set => SSet }
 
 package object model {
