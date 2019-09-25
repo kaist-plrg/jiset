@@ -31,7 +31,7 @@ if [ "$1" == "-debug" ] ; then
     shift
 fi
 
-"$JAVACMD" $JAVA_OPTS $JAVA_FLAGS -cp "$CP" kr.ac.kaist.jiset.JISET"$@"
+"$JAVACMD" $JAVA_OPTS $JAVA_FLAGS -cp "$CP" kr.ac.kaist.jiset.JISET "$@"
 EXIT_CODE=$?
 wait $!
 if [ $EXIT_CODE -ne 0 ] ; then
