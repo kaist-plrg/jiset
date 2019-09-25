@@ -104,8 +104,8 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
       "well-formed-json-stringify"
     )
 
-  val test262Dir = new File(s"$TEST_DIR/test262/test")
-  val allTests = TestList(
+  lazy val test262Dir = new File(s"$TEST_DIR/test262/test")
+  lazy val allTests = TestList(
     walkTree(test262Dir)
       .toList
       .filter(f => jsFilter(f.getName))
