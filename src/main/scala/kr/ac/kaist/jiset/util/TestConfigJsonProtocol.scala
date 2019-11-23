@@ -20,7 +20,7 @@ object TestConfigJsonProtocol extends DefaultJsonProtocol {
 case class TestList(list: List[MetaData]) {
   def length: Int = list.length
   def remove(desc: String, f: MetaData => Boolean): TestList = {
-    val (filtered, removed) = ((List[MetaData](), 0) /: list) {
+    val (filtered, removed) = list.foldLeft(List[MetaData](), 0) {
       case ((l, count), meta) =>
         if (f(meta)) (l, count + 1)
         else (meta :: l, count)

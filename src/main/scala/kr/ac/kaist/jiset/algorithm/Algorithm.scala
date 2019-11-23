@@ -13,7 +13,7 @@ case class Algorithm(
     steps: List[Step],
     filename: String
 ) {
-  def getSteps(init: List[Step]): List[Step] = (init /: steps) {
+  def getSteps(init: List[Step]): List[Step] = steps.foldLeft(init) {
     case (list, step) => step.getSteps(list)
   }
 
@@ -21,12 +21,12 @@ case class Algorithm(
     var k = 0
     def next: Next = { val res = Next(k); k += 1; res }
     def T(tokens: List[Token], token: Token): List[Token] = token match {
-      case StepList(steps) => Out :: ((In :: tokens) /: steps)(S(_, _))
+      case StepList(steps) => Out :: steps.foldLeft(In :: tokens)(S(_, _))
       case t => t :: tokens
     }
     def S(tokens: List[Token], step: Step): List[Token] =
-      next :: (tokens /: step.tokens)(T(_, _))
-    ((List[Token]() /: steps)(S(_, _)).reverse, k)
+      next :: step.tokens.foldLeft(tokens)(T(_, _))
+    (steps.foldLeft(List[Token]())(S(_, _)).reverse, k)
   }
   def toTokenList = getInfo._1
   def lineCount = getInfo._2

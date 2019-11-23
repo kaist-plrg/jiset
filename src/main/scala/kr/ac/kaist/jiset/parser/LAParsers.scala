@@ -40,7 +40,7 @@ trait LAParsers extends Lexer with Containers {
         else failed
       val t = TERMINAL.filter(ts contains _)
       record(
-        ((base | t) /: nts)(_ | _._2),
+        nts.foldLeft(base | t)(_ | _._2),
         rawIn.asInstanceOf[ContainerReader[Char]]
       )
     }

@@ -104,7 +104,7 @@ trait ESParsers extends LAParsers {
   override def parse[T](p: LAParser[T], in: Reader[Char]): ParseResult[T] = {
     val MAX_ADDITION = 100
     val init: (Option[ParseResult[T]], Reader[Char]) = (None, in)
-    (init /: (0 until MAX_ADDITION)) {
+    (0 until MAX_ADDITION).foldLeft(init) {
       case ((None, in), _) =>
         val reader = new ContainerReader(in)
         p(emptyFirst, reader) match {

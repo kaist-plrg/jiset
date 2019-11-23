@@ -5,8 +5,8 @@ import kr.ac.kaist.jiset.parser._
 
 // steps
 case class Step(tokens: List[Token]) {
-  def getSteps(init: List[Step]): List[Step] = ((this :: init) /: tokens) {
-    case (list, StepList(steps)) => (list /: steps) {
+  def getSteps(init: List[Step]): List[Step] = tokens.foldLeft(this :: init) {
+    case (list, StepList(steps)) => steps.foldLeft(list) {
       case (list, s) => s.getSteps(list)
     }
     case (list, _) => list

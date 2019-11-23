@@ -109,7 +109,7 @@ class Interp {
         val (fv, s0) = interp(fexpr)(st)
         fv match {
           case Func(fname, params, varparam, body) =>
-            val (locals0, s1, restArg) = ((Map[Id, Value](), s0, args) /: params) {
+            val (locals0, s1, restArg) = params.foldLeft(Map[Id, Value](), s0, args) {
               case ((map, st, arg :: rest), param) =>
                 val (av, s0) = interp(arg)(st)
                 (map + (param -> av), s0, rest)
@@ -124,7 +124,7 @@ class Interp {
             val newCtx = Context(name = fname, insts = List(body), locals = locals1)
             s2.copy(context = newCtx, ctxStack = updatedCtx :: s2.ctxStack)
           case ASTMethod(Func(fname, params, _, body), baseLocals) =>
-            val (locals, s1, _) = ((baseLocals, s0, args) /: params) {
+            val (locals, s1, _) = params.foldLeft(baseLocals, s0, args) {
               case ((map, st, arg :: rest), param) =>
                 val (av, s0) = interp(arg)(st)
                 (map + (param -> av), s0, rest)
@@ -135,7 +135,7 @@ class Interp {
             val newCtx = Context(name = fname, insts = List(body), locals = locals)
             s1.copy(context = newCtx, ctxStack = updatedCtx :: s1.ctxStack)
           case Cont(params, body, context, ctxStack) =>
-            val (locals0, s1, restArg) = ((Map[Id, Value](), s0, args) /: params) {
+            val (locals0, s1, restArg) = params.foldLeft(Map[Id, Value](), s0, args) {
               case ((map, st, arg :: rest), param) =>
                 val (av, s0) = interp(arg)(st)
                 (map + (param -> av), s0, rest)
@@ -183,7 +183,7 @@ class Interp {
             val ASTVal(ast) = astV
             ast.semantics(name) match {
               case Some((Func(fname, params, varparam, body), lst)) =>
-                val (locals, rest) = ((Map[Id, Value](), params) /: (astV :: lst)) {
+                val (locals, rest) = (astV :: lst).foldLeft(Map[Id, Value](), params) {
                   case ((map, param :: rest), arg) =>
                     (map + (param -> arg), rest)
                   case (pair, _) => pair
@@ -227,14 +227,14 @@ class Interp {
     case EAbsent => (Absent, st)
     case EMap(ty, props) =>
       val (addr, s0) = st.allocMap(ty)
-      (addr, (s0 /: props) {
+      (addr, props.foldLeft(s0) {
         case (st, (e1, e2)) =>
           val (k, s0) = interp(e1, true)(st)
           val (v, s1) = interp(e2, false)(s0)
           s1.updated(addr, k, v)
       })
     case EList(exprs) =>
-      val (vs, s0) = ((List[Value](), st) /: exprs) {
+      val (vs, s0) = exprs.foldLeft(List[Value](), st) {
         case ((vs, st), expr) =>
           val (v, s0) = interp(expr, false)(st)
           (v :: vs, s0)
@@ -332,7 +332,7 @@ class Interp {
           }
           (newVal, s1)
         case Str(str) =>
-          val (s2, parserParams) = ((s1, List[Boolean]()) /: flags) {
+          val (s2, parserParams) = flags.foldLeft(s1, List[Boolean]()) {
             case ((st, ps), param) =>
               val (av, s1) = interp(param)(st)
               av match {

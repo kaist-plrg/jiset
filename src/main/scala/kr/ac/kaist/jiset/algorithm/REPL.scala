@@ -81,7 +81,7 @@ object REPL extends GeneralAlgoCompilerHelper {
     lazy val allLists: List[TokenList] = (for {
       algo <- algos
       step <- algo.getSteps(Nil)
-    } yield TokenList(algo.filename.split("/").last, (List[Token]() /: step.tokens) {
+    } yield TokenList(algo.filename.split("/").last, step.tokens.foldLeft(List[Token]()) {
       case (l, StepList(_)) => Out :: In :: l
       case (l, x) => x :: l
     }.reverse)).sorted
@@ -108,7 +108,7 @@ object REPL extends GeneralAlgoCompilerHelper {
       step <- algo.getSteps(Nil).sliding(2).map(_.foldLeft(List[AbstractToken]()) {
         case (a, b) => a ++ b.tokens.map((x) => toAbstractToken(x))
       }).toList
-    } yield (List[AbstractToken]() /: step) {
+    } yield step.foldLeft(List[AbstractToken]()) {
       case (l, x) => x :: l
     }.reverse).sorted
 
@@ -138,7 +138,7 @@ object REPL extends GeneralAlgoCompilerHelper {
       val passflatten = passRest.foldLeft(List[AbstractToken]()) {
         case (a, b) => a ++ b
       }
-      val nm = (Map[AbstractToken, Int]() /: passflatten) {
+      val nm = passflatten.foldLeft(Map[AbstractToken, Int]()) {
         case (m, t) => m.get(t) match {
           case Some(k) => m + (t -> (k + 1))
           case None => m + (t -> 1)
@@ -180,7 +180,7 @@ object REPL extends GeneralAlgoCompilerHelper {
             case "all" => show(tokenLists)
 
             // print statistics of first tokens
-            case "get-first" => (Map[Token, Int]() /: tokenLists.map(_.list.head)) {
+            case "get-first" => tokenLists.map(_.list.head).foldLeft(Map[Token, Int]()) {
               case (m, t) => m.get(t) match {
                 case Some(k) => m + (t -> (k + 1))
                 case None => m + (t -> 1)

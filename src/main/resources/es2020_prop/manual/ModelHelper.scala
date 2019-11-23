@@ -33,7 +33,7 @@ object ModelHelper {
   def addBuiltin(
     map: Map[Addr, Obj],
     builtinMethods: List[(String, Int, Func)]
-  ): Map[Addr, Obj] = (map /: builtinMethods) {
+  ): Map[Addr, Obj] = builtinMethods.foldLeft(map) {
     case (m, (givenName, length, func)) =>
       val base = removedExt(givenName)
       val prop = getExt(givenName)

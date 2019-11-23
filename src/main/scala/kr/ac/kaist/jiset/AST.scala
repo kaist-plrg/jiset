@@ -28,7 +28,7 @@ trait AST {
   // get element list for the given kind
   def getElems(given: String): List[AST] = {
     if (given == kind) List(this)
-    else (List[AST]() /: list) {
+    else list.foldLeft(List[AST]()) {
       case (l, (_, ASTVal(ast))) => l ++ ast.getElems(given)
       case (l, _) => l
     }

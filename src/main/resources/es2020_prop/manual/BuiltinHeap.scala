@@ -4,13 +4,13 @@ import kr.ac.kaist.jiset.core._
 import kr.ac.kaist.jiset.model.ModelHelper._
 
 object BuiltinHeap {
-  def get: Map[Addr, Obj] = (Map[Addr, Obj]() /: mapInfo) {
-    case (m, ("GLOBAL", Struct(ty, _, nmap))) => ((m ++ Map(
+  def get: Map[Addr, Obj] = mapInfo.foldLeft(Map[Addr, Obj]()) {
+    case (m, ("GLOBAL", Struct(ty, _, nmap))) => nmap.map.foldLeft(m ++ Map(
       NamedAddr("GLOBAL") -> CoreMap(Ty("Map"), nmap.map.map {
         case (k, _) => k -> NamedAddr("DESC:GLOBAL" + getPropStr(k))
       })
-    )) /: nmap.map) { case (m, (k, prop)) => addDesc("GLOBAL", m, k, prop) }
-    case (m, (name, Struct(ty, imap, nmap))) => ((m ++ Map(
+    )) { case (m, (k, prop)) => addDesc("GLOBAL", m, k, prop) }
+    case (m, (name, Struct(ty, imap, nmap))) => nmap.map.foldLeft(m ++ Map(
       NamedAddr(s"$name") -> CoreMap(
         Ty(ty),
         (Model.tyMap.getOrElse(ty, Map()) - Str("Construct")) ++
@@ -20,7 +20,7 @@ object BuiltinHeap {
       NamedAddr(s"$name.SubMap") -> CoreMap(Ty("SubMap"), nmap.map.map {
         case (k, _) => k -> NamedAddr("DESC:" + name + getPropStr(k))
       })
-    )) /: nmap.map) { case (m, (k, prop)) => addDesc(name, m, k, prop) }
+    )) { case (m, (k, prop)) => addDesc(name, m, k, prop) }
   } ++ (singletonInfo.map {
     case name => (NamedAddr(SYMBOL_PREFIX + name) -> CoreSymbol(Str("Symbol." + name)))
   }.toMap) ++ (notSupportedInfo.map {
@@ -138,7 +138,7 @@ object BuiltinHeap {
     )
   )
 
-  private val mapInfo: Map[String, Struct] = (Map(
+  private val mapInfo: Map[String, Struct] = errList.foldLeft(Map(
     "REALM" -> Struct(
       typeName = "RealmRecord",
       imap = IMap(),
@@ -847,9 +847,9 @@ object BuiltinHeap {
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("AsyncFunction"), F, F, T)
         )
     )
-  ) /: errList) {
-      case (m, (errName, func)) => m ++ getErrMap(errName, func)
-    }
+  )) {
+    case (m, (errName, func)) => m ++ getErrMap(errName, func)
+  }
 
   private val singletonInfo: List[String] = List(
     "asyncIterator",

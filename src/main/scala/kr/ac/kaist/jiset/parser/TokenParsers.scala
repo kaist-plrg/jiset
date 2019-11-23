@@ -87,7 +87,7 @@ trait TokenParsers extends PackratParsers {
   implicit def literal(s: String): PackratParser[List[String]] = Parser(in => {
     val init = success[List[String]](Nil)(in)
     val texts = splitText(s)
-    ((init /: texts) {
+    texts.foldLeft(init) {
       case (Success(res, in), x) => firstMap(in, t => t match {
         case (_: Id) | (_: Value) | (_: Code) | (_: Const) => Failure(s"`$x` expected but `$t` found", in)
         // TODO case (t: NormalToken) if x == t.getContent =>
@@ -96,7 +96,7 @@ trait TokenParsers extends PackratParsers {
         case t => Failure(s"`$x` expected but `$t` found", in)
       })
       case (e, _) => e
-    }).map(_.reverse)
+    }.map(_.reverse)
   })
 
   def const: Parser[String] = Parser(in => firstMap(in, _ match {

@@ -575,7 +575,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
           ("**", OPow, "ToNumber", "ToNumber")
         )
         def getMap(x: Expr, names: List[String]): Map[String, List[Inst] ~ Expr] =
-          (Map[String, List[Inst] ~ Expr]() /: names) {
+          names.foldLeft(Map[String, List[Inst] ~ Expr]()) {
             case (m, name) =>
               val temp = getTempId
               m + (name -> returnIfAbrupt(List(IApp(temp, toERef(name), List(x))), toERef(temp)))
@@ -584,7 +584,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         val lmap = getMap(toERef(l), names)
         val rmap = getMap(toERef(r), names)
         val init: Inst = IExpr(ENotSupported("assign operator"))
-        val genenralCase = (init /: list) {
+        val genenralCase = list.foldLeft(init) {
           case (base, (name, op, left, right)) =>
             val li ~ le = lmap(left)
             var ri ~ re = rmap(right)

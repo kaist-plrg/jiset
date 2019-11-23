@@ -265,7 +265,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // arithmetic expressions
   lazy val arithExpr: P[I[Expr]] = (
     expr ~ rep1(bop ~ term) ^^ {
-      case ie ~ ps => (ie /: ps) {
+      case ie ~ ps => ps.foldLeft(ie) {
         case (i0 ~ l, b ~ (i1 ~ r)) => pair(i0 ++ i1, EBOp(b, l, r))
       }
     } ||| uop ~ expr ^^ {
@@ -770,7 +770,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
     } ||| refBase ~ rep(field) ^^ {
       case x ~ es =>
-        val i = (List[Inst]() /: es) { case (is, i ~ _) => is ++ i }
+        val i = es.foldLeft(List[Inst]()) { case (is, i ~ _) => is ++ i }
         pair(i, (es.map { case i ~ e => e }).foldLeft[Ref](RefId(Id(x))) {
           case (r, e) => RefProp(r, e)
         })

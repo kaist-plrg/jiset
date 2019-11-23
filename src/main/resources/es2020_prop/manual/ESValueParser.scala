@@ -161,7 +161,7 @@ object ESValueParser extends RegexParsers with UnicodeRegex {
       "0B" ~> MV.BinaryDigits
     )
     lazy val BinaryDigits: D = rep1("0" | "1") ^^ {
-      case list => (0.0 /: list) {
+      case list => list.foldLeft(0.0) {
         case (x, s) => x * 2 + s.toInt
       }
     }
@@ -172,7 +172,7 @@ object ESValueParser extends RegexParsers with UnicodeRegex {
       "0O" ~> MV.OctalDigits
     )
     lazy val OctalDigits: D = rep1("[0-7]".r) ^^ {
-      case list => (0.0 /: list) {
+      case list => list.foldLeft(0.0) {
         case (x, s) => x * 8 + s.toInt
       }
     }
@@ -184,7 +184,7 @@ object ESValueParser extends RegexParsers with UnicodeRegex {
     )
     lazy val CodePoint: D = MV.HexDigits.filter(_ <= 0x10ffff)
     lazy val HexDigits: D = rep1(MV.HexDigit) ^^ {
-      case list => (0.0 /: list) {
+      case list => list.foldLeft(0.0) {
         case (x, s) => x * 16 + s.toInt
       }
     }

@@ -10,9 +10,9 @@ object ParserGenerator {
     val nf = getPrintWriter(s"$MODEL_DIR/Parser.scala")
     val Grammar(lexProds, prods) = grammar
     val lexNames = lexProds.map(_.lhs.name).toSet
-    val terminalTokens = (Set[String]() /: prods) {
-      case (set, Production(lhs, rhsList)) => (set /: rhsList) {
-        case (set, Rhs(tokens, _)) => (set /: tokens) {
+    val terminalTokens = prods.foldLeft(Set[String]()) {
+      case (set, Production(lhs, rhsList)) => rhsList.foldLeft(set) {
+        case (set, Rhs(tokens, _)) => tokens.foldLeft(set) {
           case (set, Terminal(t)) => set + t
           case (set, _) => set
         }
@@ -94,7 +94,7 @@ object ParserGenerator {
     }
 
     def getParsers(name: String, tokens: List[Token], cond: String, idx: Int, isSub: Boolean): String = {
-      var parser = ("MATCH" /: tokens)(appendParser(_, _)) + " ^^ { case "
+      var parser = tokens.foldLeft("MATCH")(appendParser(_, _)) + " ^^ { case "
       val count = tokens.count(_ match {
         case (_: NonTerminal) | (_: ButNot) => true
         case _ => false
@@ -115,7 +115,7 @@ object ParserGenerator {
       prods.map(prod => prod.lhs.name -> prod.lhs.params).toMap
     def getArgs(name: String, args: List[String]): String = {
       val params = paramMap.getOrElse(name, Nil)
-      val argMap = (Map[String, String]() /: args) {
+      val argMap = args.foldLeft(Map[String, String]()) {
         case (m, arg) =>
           val dropped = arg.drop(1)
           m + {

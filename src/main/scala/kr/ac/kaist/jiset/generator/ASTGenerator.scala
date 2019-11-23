@@ -53,9 +53,9 @@ object ASTGenerator {
             aux(Map(), Nil, l).reverse
           }
           val paramPairs = params.map(_._1) zip (handleParams(params.map(_._2)))
-          val listString = ("Nil" /: paramPairs) { case (str, (x, t)) => s"""l("$t", $x, $str)""" }
+          val listString = paramPairs.foldLeft("Nil") { case (str, (x, t)) => s"""l("$t", $x, $str)""" }
 
-          val maxK = (0 /: params) {
+          val maxK = params.foldLeft(0) {
             case (k, (_, t)) => if (t.startsWith("Option[")) k * 2 + 1 else k
           }
           nf.println(s"""case class $name$i(${(params.map { case (x, t) => s"$x: $t, " }).mkString("")}parserParams: List[Boolean]) extends $name {""")
@@ -63,7 +63,7 @@ object ASTGenerator {
           nf.println(s"""  override def toString: String = {""")
           nf.println(s"""    s"$string"""")
           nf.println(s"""  }""")
-          nf.println(s"""  val k: Int = ${("0" /: params) { case (str, (x, _)) => s"d($x, $str)" }}""")
+          nf.println(s"""  val k: Int = ${params.foldLeft("0") { case (str, (x, _)) => s"d($x, $str)" }}""")
           nf.println(s"""  val fullList: List[(String, Value)] = $listString.reverse""")
           nf.println(s"""  val info: ASTInfo = $name$i""")
           nf.println(s"""}""")
