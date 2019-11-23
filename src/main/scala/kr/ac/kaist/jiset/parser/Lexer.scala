@@ -27,7 +27,8 @@ trait Lexer extends RegexParsers with UnicodeRegex {
   def opt(parser: Lexer): Lexer = parser | empty
 
   // lookahead syntax
-  implicit def lookaheadSyntax[L <% Lexer](parser: L): LookaheadSyntax = new LookaheadSyntax(parser)
+  implicit def lookaheadSyntax[L](parser: L)(implicit ev: L => Lexer): LookaheadSyntax =
+    new LookaheadSyntax(parser)
   class LookaheadSyntax(parser: Lexer) {
     def unary_-(): Lexer = Parser { in =>
       parser(in) match {

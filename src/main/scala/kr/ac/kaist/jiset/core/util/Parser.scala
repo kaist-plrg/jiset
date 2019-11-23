@@ -35,10 +35,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
   // parse from file
   private def fromFile[T](f: String, parser: Parser[T]): T = {
     var fileName = new File(f).getCanonicalPath
-    if (File.separatorChar == '\\') {
-      // convert path string to linux style for windows
-      fileName = fileName.charAt(0).toLower + fileName.replace('\\', '/').substring(1)
-    }
     val fs = new FileInputStream(new File(f))
     val sr = new InputStreamReader(fs, Charset.forName("UTF-8"))
     val in = new BufferedReader(sr)
@@ -213,6 +209,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
   // Helper functions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val string = stringLiteral ^^ {
-    case s => StringContext treatEscapes s.substring(1, s.length - 1)
+    case s => StringContext processEscapes s.substring(1, s.length - 1)
   }
 }

@@ -16,7 +16,7 @@ lazy val root = (project in file(".")).
     name := "JISET",
     version := "1.0",
     organization := "kr.ac.kaist.jiset",
-    scalaVersion := "2.12.8",
+    scalaVersion := "2.13.1",
     dummyModel in Compile := {
       val srcDir = baseDirectory.value + "/src/main"
       val modelPath = s"$srcDir/scala/kr/ac/kaist/jiset/model"
@@ -58,12 +58,11 @@ cleanFiles ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.codecommit" %% "gll-combinators" % "2.3",
   "io.spray" %% "spray-json" % "1.3.5",
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-  "org.jline" % "jline" % "3.10.0"
+  "org.scalatest" %% "scalatest" % "3.0.8" % "test",
+  "org.jline" % "jline" % "3.13.1"
 )
 
 commands += Command.command("generateModel") { state =>

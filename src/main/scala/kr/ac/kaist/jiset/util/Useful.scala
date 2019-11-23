@@ -36,7 +36,7 @@ object Useful {
         if (file.isDirectory) file.listFiles.iterator
         else Iterator.empty
     }
-    Seq(file) ++: children.flatMap(walkTree(_))
+    Seq(file) ++ children.flatMap(walkTree(_))
   }
 
   // extention filter
