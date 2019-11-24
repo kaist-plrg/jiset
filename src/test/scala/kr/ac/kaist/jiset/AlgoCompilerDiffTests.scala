@@ -22,7 +22,7 @@ class AlgoCompilerDiffTest extends CoreTest {
 
   def splitAlgo(algo: Algorithm): List[List[Token]] = (for {
     step <- algo.getSteps(Nil)
-  } yield (List[Token]() /: step.tokens) {
+  } yield step.tokens.foldLeft(List[Token]()) {
     case (l, StepList(_)) => Out :: In :: l
     case (l, x) => x :: l
   }.reverse)

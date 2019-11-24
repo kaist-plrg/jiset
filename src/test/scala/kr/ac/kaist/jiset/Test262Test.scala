@@ -15,6 +15,7 @@ import java.util.Date
 
 import spray.json._
 import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.TestConfigJsonProtocol._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
@@ -105,6 +106,15 @@ class Test262Test extends JISETTest {
         evalJSTest(st)
       })
     }
+    print("[info] ")
+    printlnCyan(s"$count tests are applicble:")
+    print("[info] ")
+    printlnRed("  - #: failed tests")
+    print("[info] ")
+    printlnYellow("  - #: not supported tests")
+    print("[info] ")
+    printlnGreen("  - #: passed tests")
+    println("[info] Loading tests... (It might take several minutes.)")
   }
 
   init

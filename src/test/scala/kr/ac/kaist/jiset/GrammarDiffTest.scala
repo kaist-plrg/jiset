@@ -12,7 +12,7 @@ class GrammarDiffTest extends CoreTest {
   // tag name
   val tag: String = "grammarDiffTest"
 
-  def getDiffSize[A, B](old: Map[A, B], cur: Map[A, B]): Int = (0 /: cur) {
+  def getDiffSize[A, B](old: Map[A, B], cur: Map[A, B]): Int = cur.foldLeft(0) {
     case (count, (k, v)) => old.get(k) match {
       case Some(oldV) => if (oldV == v) count else count + 1
       case None => count + 1
@@ -22,7 +22,7 @@ class GrammarDiffTest extends CoreTest {
   // registration
   def init: Unit = {
     val m = Map[String, Production]()
-    ((m, m) /: DIFFLIST) {
+    DIFFLIST.foldLeft((m, m)) {
       case ((prevLexMap, prevSynMap), version) =>
         val spec = Spec(s"$RESOURCE_DIR/$version/auto/spec.json")
         val Grammar(lexProds, synProds) = spec.grammar

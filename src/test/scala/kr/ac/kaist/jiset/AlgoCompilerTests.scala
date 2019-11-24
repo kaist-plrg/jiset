@@ -20,7 +20,7 @@ class AlgoCompilerTest extends CoreTest {
   def algoCompilerTest(size: Int, failed: Map[Int, List[Token]], name: String): Unit = {
     val tag = "AlgoCompile"
     val res = resMap.getOrElse(tag, Map())
-    val newRes = (res /: (0 until size)) {
+    val newRes = (0 until size).foldLeft(res) {
       case (res, k) => res + (s"$name$k" -> !(failed contains k))
     }
     resMap += tag -> newRes

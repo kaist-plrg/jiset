@@ -4,7 +4,7 @@ import java.io.{ Reader, File, PrintWriter }
 import java.nio.file.{ Files, StandardCopyOption }
 import kr.ac.kaist.jiset.error.NoFileError
 import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
-import scala.Console.{ RESET, RED, GREEN }
+import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
 import scala.collection.mutable
 import scala.io.Source
 
@@ -91,11 +91,15 @@ object Useful {
   def printColor(color: String): Any => Unit =
     x => print(color + x.toString + scala.Console.RESET)
   def printRed: Any => Unit = printColor(RED)
+  def printYellow: Any => Unit = printColor(YELLOW)
   def printGreen: Any => Unit = printColor(GREEN)
+  def printCyan: Any => Unit = printColor(CYAN)
   def printlnColor(color: String): Any => Unit =
     x => println(color + x.toString + scala.Console.RESET)
   def printlnRed: Any => Unit = printlnColor(RED)
+  def printlnYellow: Any => Unit = printlnColor(YELLOW)
   def printlnGreen: Any => Unit = printlnColor(GREEN)
+  def printlnCyan: Any => Unit = printlnColor(CYAN)
 
   // get name that could be used in Scala identifiers
   private val symbolRegex = "@@([^@]+)".r

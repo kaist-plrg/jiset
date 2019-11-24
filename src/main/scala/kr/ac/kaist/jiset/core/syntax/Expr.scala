@@ -14,9 +14,11 @@ case class ENum(n: Double) extends Expr {
     else s"ENum($n)"
   }
 }
-case class EINum(n: Long) extends Expr
+case class EINum(n: Long) extends Expr {
+  override def toString: String = s"EINum(${n}L)"
+}
 case class EStr(str: String) extends Expr {
-  override def toString: String = s"""EStr("$str")"""
+  override def toString: String = s"EStr($TRIPLE$str$TRIPLE)"
 }
 case class EBool(b: Boolean) extends Expr
 case object EUndef extends Expr
@@ -33,21 +35,21 @@ case class EUOp(uop: UOp, expr: Expr) extends Expr
 case class EBOp(bop: BOp, left: Expr, right: Expr) extends Expr
 case class ETypeOf(expr: Expr) extends Expr
 case class EIsInstanceOf(base: Expr, name: String) extends Expr {
-  override def toString: String = s"""EIsInstanceOf($base, "$name")"""
+  override def toString: String = s"EIsInstanceOf($base, $TRIPLE$name$TRIPLE)"
 }
 case class EGetElems(base: Expr, name: String) extends Expr {
-  override def toString: String = s"""EGetElems($base, "$name")"""
+  override def toString: String = s"EGetElems($base, $TRIPLE$name$TRIPLE)"
 }
 case class EGetSyntax(base: Expr) extends Expr
 case class EParseSyntax(code: Expr, rule: Expr, flags: List[Expr]) extends Expr {
-  override def toString: String = s"""EParseSyntax($code, $rule, $flags)"""
+  override def toString: String = s"EParseSyntax($code, $rule, $flags)"
 }
 case class EConvert(source: Expr, target: COp, flags: List[Expr]) extends Expr
 case class EContains(list: Expr, elem: Expr) extends Expr
 case class ECopy(obj: Expr) extends Expr
 case class EKeys(mobj: Expr) extends Expr
 case class ENotSupported(msg: String) extends Expr {
-  override def toString: String = s"""ENotSupported("$msg")"""
+  override def toString: String = s"ENotSupported($TRIPLE$msg$TRIPLE)"
 }
 
 sealed trait COp extends CoreNode

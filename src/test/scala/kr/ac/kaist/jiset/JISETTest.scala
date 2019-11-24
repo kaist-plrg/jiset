@@ -17,20 +17,26 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
   // result map
   protected var resMap: Map[String, Map[String, Boolean]] = Map()
 
+  // count tests
+  protected var count: Int = 0
+
   // check result
-  def check[T](tag: String, name: String, t: => T): Unit = test(s"[$tag] $name") {
-    val res = resMap.getOrElse(tag, Map())
-    (Try(t) match {
-      case Success(_) =>
-        resMap += tag -> (res + (name -> true))
-        if (DISPLAY_TEST_PROGRESS) printGreen("#")
-      case Failure(e @ NotSupported(_)) =>
-        fail(e.toString)
-      case Failure(e) =>
-        resMap += tag -> (res + (name -> false))
-        if (DISPLAY_TEST_PROGRESS) printRed("#")
-        fail(e.toString)
-    })
+  def check[T](tag: String, name: String, t: => T): Unit = {
+    count += 1
+    test(s"[$tag] $name") {
+      val res = resMap.getOrElse(tag, Map())
+      (Try(t) match {
+        case Success(_) =>
+          resMap += tag -> (res + (name -> true))
+          if (DISPLAY_TEST_PROGRESS) printGreen("#")
+        case Failure(e @ NotSupported(_)) =>
+          if (DISPLAY_TEST_PROGRESS) printYellow("#")
+        case Failure(e) =>
+          resMap += tag -> (res + (name -> false))
+          if (DISPLAY_TEST_PROGRESS) printRed("#")
+          fail(e.toString)
+      })
+    }
   }
 
   // get score
@@ -62,6 +68,7 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
     }
 
     // show abstract result
+    if (DISPLAY_TEST_PROGRESS) println
     print("[info] ")
     printlnColor(CYAN)(s"$tag:")
     sorted.foreach {

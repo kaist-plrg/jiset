@@ -23,4 +23,7 @@ package object core {
 
   // negative zero check
   def isNegZero(double: Double): Boolean = (1 / double).isNegInfinity
+
+  // triple quotations
+  val TRIPLE = "\"\"\""
 }
