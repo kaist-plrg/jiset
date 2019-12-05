@@ -1,7 +1,3 @@
-package kr.ac.kaist.jiset.model
-
-import kr.ac.kaist.jiset.core.Parser._
-import kr.ac.kaist.jiset.core._
 
 object ObjectBindingPattern3BoundNames1 {
   val func: Func = parseFunc(""""ObjectBindingPattern3BoundNames1" (this, BindingPropertyList, BindingRestProperty) => {

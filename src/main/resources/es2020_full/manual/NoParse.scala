@@ -1,4 +1,3 @@
-package kr.ac.kaist.jiset.model
 
 object NoParse {
   val long = List(

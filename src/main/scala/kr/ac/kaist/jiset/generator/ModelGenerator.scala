@@ -6,7 +6,13 @@ import kr.ac.kaist.jiset.spec._
 import java.io.File
 
 object ModelGenerator {
-  def apply(spec: Spec): Unit = {
+  def apply(packageName: String, modelDir: String, spec: Spec): Unit = {
+    // make model directories
+    mkdir(modelDir)
+    mkdir(s"$modelDir/ast")
+    mkdir(s"$modelDir/type")
+    mkdir(s"$modelDir/algorithm")
+
     val methods = spec.globalMethods
     val builtinMethods = spec.globalMethods.filter {
       case m => m.startsWith("GLOBAL.") && m != "GLOBAL.AsyncFunction"
@@ -24,28 +30,43 @@ object ModelGenerator {
       "ESValueParser",
       "ModelHelper",
       "NoParse"
-    ).foreach(filename => copyFile(
-        s"$RESOURCE_DIR/$VERSION/manual/$filename.scala",
-        s"$MODEL_DIR/$filename.scala"
-      ))
+    ).foreach(filename => {
+        val nf = getPrintWriter(s"$modelDir/$filename.scala")
+        nf.println(s"package $packageName.model")
+        nf.println
+        nf.println(s"import $packageName.AST")
+        nf.println(s"import $packageName.core._")
+        nf.println(s"import $packageName.error._")
+        nf.println(s"import $packageName.util.Useful._")
+        nf.println(s"import $packageName.parser.UnicodeRegex")
+        nf.print(readFile(s"$RESOURCE_DIR/$VERSION/manual/$filename.scala"))
+        nf.close()
+      })
 
-    GrammarGenerator(grammar)
-    tys.foreach { case ((tname, methods)) => TypeGenerator(tname, methods) }
+    GrammarGenerator(packageName, modelDir, grammar)
+    tys.foreach { case ((tname, methods)) => TypeGenerator(packageName, modelDir, tname, methods) }
 
-    methods.foreach(name => MethodGenerator(name))
+    methods.foreach(name => MethodGenerator(packageName, modelDir, name))
     for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/manual/algorithm")) {
       val filename = file.getName
       if (scalaFilter(filename)) {
         val name = file.toString
-        copyFile(name, s"$MODEL_DIR/algorithm/$filename")
+        val nf = getPrintWriter(s"$modelDir/algorithm.$filename")
+        nf.println(s"package $packageName.model")
+        nf.println
+        nf.println(s"import $packageName.core._")
+        nf.println(s"import $packageName.core.Parser._")
+        nf.println
+        nf.print(readFile(name))
+        nf.close()
       }
     }
 
-    val nf = getPrintWriter(s"$MODEL_DIR/Model.scala")
-    nf.println(s"""package kr.ac.kaist.jiset.model""")
+    val nf = getPrintWriter(s"$modelDir/Model.scala")
+    nf.println(s"""package $packageName.model""")
     nf.println(s"""""")
-    nf.println(s"""import kr.ac.kaist.jiset.core._""")
-    nf.println(s"""import kr.ac.kaist.jiset.util.Useful._""")
+    nf.println(s"""import $packageName.core._""")
+    nf.println(s"""import $packageName.util.Useful._""")
     nf.println(s"""""")
     nf.println(s"""object Model {""")
     nf.println(s"""  lazy val initState: State = State(""")

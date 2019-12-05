@@ -87,6 +87,9 @@ object Useful {
     StandardCopyOption.REPLACE_EXISTING
   )
 
+  // create directories
+  def mkdir(name: String): Unit = new File(name).mkdirs
+
   // colored println
   def printColor(color: String): Any => Unit =
     x => print(color + x.toString + scala.Console.RESET)

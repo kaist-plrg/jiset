@@ -5,8 +5,8 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec._
 
 object GrammarGenerator {
-  def apply(grammar: Grammar): Unit = {
-    ASTGenerator(grammar)
-    ParserGenerator(grammar)
+  def apply(packageName: String, modelDir: String, grammar: Grammar): Unit = {
+    ASTGenerator(packageName, modelDir, grammar)
+    ParserGenerator(packageName, modelDir, grammar)
   }
 }

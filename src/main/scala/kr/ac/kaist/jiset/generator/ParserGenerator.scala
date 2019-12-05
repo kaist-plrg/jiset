@@ -6,8 +6,8 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
 
 object ParserGenerator {
-  def apply(grammar: Grammar, debug: Boolean = false): Unit = {
-    val nf = getPrintWriter(s"$MODEL_DIR/Parser.scala")
+  def apply(packageName: String, modelDir: String, grammar: Grammar, debug: Boolean = false): Unit = {
+    val nf = getPrintWriter(s"$modelDir/Parser.scala")
     val Grammar(lexProds, prods) = grammar
     val lexNames = lexProds.map(_.lhs.name).toSet
     val terminalTokens = prods.foldLeft(Set[String]()) {
@@ -153,11 +153,11 @@ object ParserGenerator {
       case _ => base
     }
 
-    nf.println(s"""package kr.ac.kaist.jiset.model""")
+    nf.println(s"""package $packageName.model""")
     nf.println
-    nf.println(s"""import kr.ac.kaist.jiset.AST""")
-    nf.println(s"""import kr.ac.kaist.jiset.core._""")
-    nf.println(s"""import kr.ac.kaist.jiset.parser.ESParsers""")
+    nf.println(s"""import $packageName.AST""")
+    nf.println(s"""import $packageName.core._""")
+    nf.println(s"""import $packageName.parser.ESParsers""")
     nf.println
     nf.println(s"""object Parser extends ESParsers {""")
     lexProds.foreach(getStrParser)

@@ -1,6 +1,3 @@
-package kr.ac.kaist.jiset.model
-
-import kr.ac.kaist.jiset.core._
 
 object BaseHeap {
   private val map: Map[String, Obj] = Map(

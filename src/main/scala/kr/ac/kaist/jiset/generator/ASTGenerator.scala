@@ -6,19 +6,19 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
 
 object ASTGenerator {
-  def apply(grammar: Grammar): Unit = {
+  def apply(packageName: String, modelDir: String, grammar: Grammar): Unit = {
     val Grammar(lexProds, prods) = grammar
     val lexNames = lexProds.map(_.lhs.name).toSet
 
     def getAST(prod: Production): Unit = {
       val Production(lhs, rhsList) = prod
       val name = lhs.name
-      val nf = getPrintWriter(s"$MODEL_DIR/ast/$name.scala")
-      nf.println(s"""package kr.ac.kaist.jiset.model""")
+      val nf = getPrintWriter(s"$modelDir/ast/$name.scala")
+      nf.println(s"""package $packageName.model""")
       nf.println
-      nf.println(s"""import kr.ac.kaist.jiset.{ AST, ASTInfo, Lexical }""")
-      nf.println(s"""import kr.ac.kaist.jiset.core._""")
-      nf.println(s"""import kr.ac.kaist.jiset.error.UnexpectedSemantics""")
+      nf.println(s"""import $packageName.{ AST, ASTInfo, Lexical }""")
+      nf.println(s"""import $packageName.core._""")
+      nf.println(s"""import $packageName.error.UnexpectedSemantics""")
       nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
       nf.println
       nf.println(s"""trait $name extends AST {""")

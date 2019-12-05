@@ -1,7 +1,4 @@
-package kr.ac.kaist.jiset.model
-
-import kr.ac.kaist.jiset.core._
-import kr.ac.kaist.jiset.model.ModelHelper._
+import ModelHelper._
 
 object BuiltinHeap {
   def get: Map[Addr, Obj] = mapInfo.foldLeft(Map[Addr, Obj]()) {

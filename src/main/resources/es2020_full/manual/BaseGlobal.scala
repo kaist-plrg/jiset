@@ -1,6 +1,3 @@
-package kr.ac.kaist.jiset.model
-
-import kr.ac.kaist.jiset.core._
 
 object BaseGlobal {
   private val map: Map[String, Value] = Map(
