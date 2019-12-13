@@ -1,4 +1,3 @@
-
 object ThrowCompletion {
   val func: Func = parseFunc(""""ThrowCompletion" (argument) => {
     return (new Completion(

@@ -1,4 +1,3 @@
-
 object HostPrint {
   val func: Func = parseFunc(""""HostPrint" (this, argumentsList, NewTarget) => {
     app __x0__ = (GetArgument argumentsList 0i)

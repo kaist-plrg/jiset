@@ -39,6 +39,7 @@ object ModelGenerator {
         nf.println(s"import $packageName.error._")
         nf.println(s"import $packageName.util.Useful._")
         nf.println(s"import $packageName.parser.UnicodeRegex")
+        nf.println
         nf.print(readFile(s"$RESOURCE_DIR/$VERSION/manual/$filename.scala"))
         nf.close()
       })
@@ -51,7 +52,7 @@ object ModelGenerator {
       val filename = file.getName
       if (scalaFilter(filename)) {
         val name = file.toString
-        val nf = getPrintWriter(s"$modelDir/algorithm.$filename")
+        val nf = getPrintWriter(s"$modelDir/algorithm/$filename")
         nf.println(s"package $packageName.model")
         nf.println
         nf.println(s"import $packageName.core._")

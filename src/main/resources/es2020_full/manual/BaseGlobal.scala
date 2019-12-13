@@ -1,4 +1,3 @@
-
 object BaseGlobal {
   private val map: Map[String, Value] = Map(
     "RequireObjectCoercible" -> RequireObjectCoercible.func,

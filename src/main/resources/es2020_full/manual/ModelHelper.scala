@@ -1,4 +1,3 @@
-
 object ModelHelper {
   def flattenStList(s: StatementList): List[StatementListItem] = s match {
     case StatementList0(x0, _) => List(x0)

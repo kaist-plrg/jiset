@@ -21,7 +21,7 @@ class AlgoCompilerTest extends CoreTest {
     val tag = "AlgoCompile"
     val res = resMap.getOrElse(tag, Map())
     val newRes = (0 until size).foldLeft(res) {
-      case (res, k) => res + (s"$name$k" -> !(failed contains k))
+      case (res, k) => res + (s"$name$k" -> (if (failed contains k) Fail else Pass))
     }
     resMap += tag -> newRes
     val failedCount = failed.size

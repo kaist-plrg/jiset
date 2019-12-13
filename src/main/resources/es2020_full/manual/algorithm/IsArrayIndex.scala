@@ -1,4 +1,3 @@
-
 object IsArrayIndex {
   val func: Func = parseFunc(""""IsArrayIndex" (P) => {
     app u = (ToUint32 P)

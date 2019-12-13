@@ -1,5 +1,3 @@
-package kr.ac.kaist.jiset.model
-
 object NoParse {
   val long = List(
     "/test/language/expressions/class/async-gen-method-static/yield-star-sync-next",

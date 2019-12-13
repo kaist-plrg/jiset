@@ -1,8 +1,3 @@
-package kr.ac.kaist.jiset.model
-
-import kr.ac.kaist.jiset.core.Parser._
-import kr.ac.kaist.jiset.core._
-
 object EnumerateObjectPropertiesHelper {
   val func: Func = parseFunc(""""EnumerateObjectPropertiesHelper" ( O , listAll, listEnum ) => {
     let a = (map-keys O["SubMap"])

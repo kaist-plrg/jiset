@@ -1,4 +1,3 @@
-
 object BaseHeap {
   private val map: Map[String, Obj] = Map(
     "executionStack" -> CoreList(Vector()),

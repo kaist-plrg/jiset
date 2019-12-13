@@ -1,4 +1,3 @@
-
 object EnumerateObjectPropertiesHelper {
   val func: Func = parseFunc(""""EnumerateObjectPropertiesHelper" ( O , listAll, listEnum ) => {
     app a = (O.OwnPropertyKeys O)

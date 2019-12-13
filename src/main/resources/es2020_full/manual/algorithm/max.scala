@@ -1,4 +1,3 @@
-
 object max {
   val func: Func = parseFunc(""""max" (...args) => {
     let x = 1i

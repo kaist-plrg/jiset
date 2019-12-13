@@ -180,7 +180,8 @@ trait TokenParsers extends PackratParsers {
   // failed lines
   protected var failed: Map[Int, List[Token]] = Map()
 
-  def token: PackratParser[Token] = normal | in ~> rep(step) <~ out ^^^ StepList(Nil)
+  def stepList: PackratParser[StepList] = in ~> rep(step) <~ out ^^^ StepList(Nil)
+  def token: PackratParser[Token] = normal | stepList
   def rest: PackratParser[List[String]] = rep(token ^^ { _.toString })
   def step: PackratParser[List[String]] = rest <~ next
 

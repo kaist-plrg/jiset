@@ -14,8 +14,25 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
   // JISET configuration
   lazy val aseConfig: JISETConfig = JISETConfig(CmdBase, Nil, true)
 
-  // result map
-  protected var resMap: Map[String, Map[String, Boolean]] = Map()
+  // results
+  trait Result
+  case object Pass extends Result
+  case class Yet(msg: String) extends Result
+  case object Fail extends Result
+  protected var resMap: Map[String, Map[String, Result]] = Map()
+  implicit object ResultFormat extends RootJsonFormat[Result] {
+    override def read(json: JsValue): Result = json match {
+      case JsString(text) => Yet(text)
+      case JsBoolean(bool) => if (bool) Pass else Fail
+      case v => deserializationError(s"unknown Result: $v")
+    }
+
+    override def write(result: Result): JsValue = result match {
+      case Pass => JsTrue
+      case Fail => JsFalse
+      case Yet(msg) => JsString(msg)
+    }
+  }
 
   // count tests
   protected var count: Int = 0
@@ -27,12 +44,13 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
       val res = resMap.getOrElse(tag, Map())
       (Try(t) match {
         case Success(_) =>
-          resMap += tag -> (res + (name -> true))
+          resMap += tag -> (res + (name -> Pass))
           if (DISPLAY_TEST_PROGRESS) printGreen("#")
-        case Failure(e @ NotSupported(_)) =>
+        case Failure(e @ NotSupported(msg)) =>
+          resMap += tag -> (res + (name -> Yet(msg)))
           if (DISPLAY_TEST_PROGRESS) printYellow("#")
         case Failure(e) =>
-          resMap += tag -> (res + (name -> false))
+          resMap += tag -> (res + (name -> Fail))
           if (DISPLAY_TEST_PROGRESS) printRed("#")
           fail(e.toString)
       })
@@ -40,8 +58,8 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
   }
 
   // get score
-  def getScore(res: Map[String, Boolean]): (Int, Int) = (
-    res.count { case (k, v) => v },
+  def getScore(res: Map[String, Result]): (Int, Int) = (
+    res.count { case (k, r) => r == Pass },
     res.size
   )
 
@@ -81,14 +99,14 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
       Try(readFile(filename))
         .getOrElse("{}")
         .parseJson
-        .convertTo[Map[String, Map[String, Boolean]]]
+        .convertTo[Map[String, Map[String, Result]]]
         .toSeq.sortBy(_._1)
     orig.foreach {
       case (name, origM) => resMap.get(name) match {
         case Some(curM) => origM.toSeq.sortBy(_._1) foreach {
-          case (k, b) => (curM.get(k), b) match {
+          case (k, r) => (curM.get(k), r) match {
             case (None, _) => error(s"'[$name] $k' test is removed")
-            case (Some(false), true) => error(s"'[$name] $k' test becomes failed")
+            case (Some(Fail), Yet(_) | Pass) => error(s"'[$name] $k' test becomes failed")
             case _ =>
           }
         }

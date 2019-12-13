@@ -1,4 +1,3 @@
-
 object NormalCompletion {
   val func: Func = parseFunc(""""NormalCompletion" (argument) => {
     return (new Completion(

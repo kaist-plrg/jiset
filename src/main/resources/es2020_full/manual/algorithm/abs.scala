@@ -1,4 +1,3 @@
-
 object abs {
   val func: Func = parseFunc(""""abs" (a) => {
     if (= a (-0)) return 0

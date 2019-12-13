@@ -383,6 +383,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "Let" ~ id ~ "be the prefix associated with" ~ id ~ "in Table 47 ." |
       "Let" ~ id ~ "be the result of parsing" ~ id ~ ", interpreted as UTF - 16 encoded Unicode text as described in 6 . 1 . 4 , using" ~ id ~ "as the goal symbol . Throw a" ~ value ~ "exception if the parse fails ." |
       "Let" ~ id ~ "be the smallest nonnegative integer such that (" ~ id ~ "< <" ~ id ~ ") & 0x80 is equal to 0 ." |
+      "Let" ~ id ~ "be the string - concatenation of the first" ~ id ~ "code units of" ~ id ~ "," ~ id ~ ", and the trailing substring of" ~ id ~ "starting at index" ~ id ~ ". If" ~ id ~ "is 0 , the first element of the concatenation will be the empty String ." |
       "Let" ~ id ~ "be the substring of" ~ id ~ "from index" ~ id ~ "to index" ~ id ~ "inclusive ." |
       "Let" ~ id ~ "be the value obtained by applying the UTF - 8 transformation to" ~ id ~ ", that is , from a List of octets into a 21 - bit value ." |
       "No action is required ." |
@@ -401,8 +402,12 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "Return the result of appending to" ~ id ~ "the elements of the LexicallyScopedDeclarations of the second CaseClauses ." |
       "Return the result of appending to" ~ id ~ "the elements of the VarDeclaredNames of the second CaseClauses ." |
       "Return the result of appending to" ~ id ~ "the elements of the VarScopedDeclarations of the second CaseClauses ." |
+      "Return the string - concatenation of :" ~ stepList |
       "Search" ~ id ~ "for the first occurrence of" ~ id ~ "and let" ~ id ~ "be the index within" ~ id ~ "of the first code unit of the matched substring and let" ~ id ~ "be" ~ id ~ ". If no occurrences of" ~ id ~ "were found , return" ~ id ~ "." |
       "Set all of the bytes of" ~ id ~ "to 0 ." |
+      "Set" ~ id ~ "to the string - concatenation of :" ~ stepList |
+      "Set" ~ id ~ "to the string - concatenation of the code unit 0x0030 ( DIGIT ZERO ) , the code unit 0x002E ( FULL STOP ) , - (" ~ id ~ "+ 1 ) occurrences of the code unit 0x0030 ( DIGIT ZERO ) , and the String" ~ id ~ "." |
+      "Set" ~ id ~ "to the string - concatenation of the first" ~ id ~ "+ 1 code units of" ~ id ~ ", the code unit 0x002E ( FULL STOP ) , and the remaining" ~ id ~ "- (" ~ id ~ "+ 1 ) code units of" ~ id ~ "." |
       "Set" ~ id ~ "to" ~ id ~ "' s intrinsic object named" ~ id ~ "."
     ) ^^^ IExpr(ENotSupported("Etc")))
 

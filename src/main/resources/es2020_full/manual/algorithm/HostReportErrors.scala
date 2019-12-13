@@ -1,4 +1,3 @@
-
 object HostReportErrors {
   val func: Func = parseFunc(""""HostReportErrors" (errorList) => {
     assert "Error occured"

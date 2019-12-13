@@ -1,4 +1,3 @@
-
 object IsDuplicate {
   val func: Func = parseFunc(""""IsDuplicate" (list) => {
     let i = 0i

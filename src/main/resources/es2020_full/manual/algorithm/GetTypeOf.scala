@@ -1,4 +1,3 @@
-
 object GetTypeOf {
   val func: Func = parseFunc(""""GetTypeOf" (argument) => {
     let t = (typeof argument)

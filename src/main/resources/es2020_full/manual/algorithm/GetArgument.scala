@@ -1,4 +1,3 @@
-
 object GetArgument {
   val func: Func = parseFunc(""""GetArgument" (argumentsList, idx) => {
     let arg = argumentsList[idx]
