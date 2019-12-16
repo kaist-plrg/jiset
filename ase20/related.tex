@@ -1,0 +1,59 @@
+\section{Related Work}\label{sec:related}
+Our technique is closely related to three fields: parser generation,
+automatic model generation, and formal semantics of JavaScript.
+
+From Packrat parsing~\cite{packrat} with PEG~\cite{peg}, recursive-descent
+parsers with backtracking support linear-time parsing.  However, it
+has the fundamental problem of ordered choices: \( ab \) is silently
+unmatched with \( a \mid ab \).  While Generalized LL (GLL) parsing~\cite{gll}
+is basically recursive-descent with backtracking that can support general
+context-free grammars (CFGs) even in the presence of ambiguous grammars,
+its worst-time complexity is \( O(n^3) \) for the input size \( n \).
+Unlike GLL parsing, our lookahead parsing is not applicable to general CFGs,
+but we experimentally showed that it can generate JavaScript parsers.
+The complexity of lookahead parsing is \( O(k \cdot n) \) for the input size
+\( n \) and the constant number of tokens \( k \).
+
+In the field of automatic model generation, the closest related work to
+ours is \citet{javadoc}'s, which generates Java code from Javadoc comments
+for API functions.  Using NLP techniques and various heuristic methods,
+it produces several candidate code tests them with actual implementation
+of the API functions to find correct modeling.  Unlike their approach, we
+introduce a fault localization algorithm to support future language
+updates and to provide correct meaning of specification. Our tool is also
+applicable for testing even when the actual implementation is not available.
+
+% TODO pseudo code의 형태와 natural language의 결합이다.
+% TODO moudular test로 guide를 받을 수 없어서 user defined rule을 사용. 대신, statistical analysis를 기반으로 guide해줌
+
+% \begin{itemize}
+%   \item Automatic Model Generation from Documentation for Java API Functions (ICSE'16)~\cite{javadoc}
+% \end{itemize}
+
+
+
+% Building formal semantics of language is important for program verification and static analysis. JavaScript is most widely-used language in
+% web browser, but its complex behavior makes confusion to developer and program analysis designer. So there are many researches to define formal semantics of JavaScript and
+% using it to formal verification or program analysis.
+
+Several approaches have defined the formal semantics of JavaScript.
+\citet{lambdajs} defined a core calculus of JavaScript, and expressed the
+rest as desugaring.  While it presents the core JavaScript semantics in
+an extension of the $\lambda$ calculus, it does not show the semantics
+correspondence defined in the ECMAScript specification.  KJS~\cite{kjs} and
+JaVerT~\cite{javert} defined formal semantics of JavaScript by manually converting
+the ECMAScript specification to their own formal languages.  KJS mapped
+ECMAScript 5.1 in the K framework~\cite{kframework}, which can be used
+for program verification and analysis.  Similarly, JaVerT converts the
+specification to their own IR called JSIL to make further analysis.
+Our approach provides a mechanized framework to synthesize syntactic parsers and
+to automatically extract semantics
+using a rule-based compilation technique, which significantly reduces human
+efforts.
+
+% \begin{itemize}
+%   \item JaVerT: JavaScript verification toolchain (POPL'18)~\cite{javert}
+%   \item KJS: A complete formal semantics of JavaScript (PLDI'15)~\cite{kjs}
+%   \item The Essence of JavaScript (ECOOP'10)~\cite{lambdajs}
+%   \item A Trusted Mechanised JavaScript Specification (POPL'14)~\cite{jscert}
+% \end{itemize}

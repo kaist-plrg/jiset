@@ -1,0 +1,107 @@
+\section{Building entire system to extract semantics}\label{sec:framework}
+% In this section, we explain how to automatically generate
+% {\sf AST-\( \ires \) Translator} from a given ECMAScript specification
+
+In this section, we demonstrate how our idea can be implemented for target language. Although it is hard to generalize the process because the format of specification or
+environment of the programming language is varying, We shows the possibility to build entire system to extract target language specification and interpreting it with minimal human effort by giving end-to-end example of ECMAScript language.
+
+\subsection{Extracting specification}
+First step is to collect language specification and extract component that we can process automatically. For our target language, ECMAScript, has HTML format of specification in their website, and
+in the specification they have BNF form of syntax, highly structured algorithm steps, and verbose texts to describe additional environment to evaluating ECMAScript source code.
+We get these information by parsing HTML document, and passing these result to our previous module to get AST, Parser, and executable algorithms.
+
+To organize these primitives and running the program, we have to model initial environment of language such as initialization of builtin types, or entry point of the program, etc.
+
+\subsection{Generating initial environment for execution}
+For ECMAScript Specification, initial environment consists of the Builtin objects, and Intrinsic objects. We describe how to generate each component.
+
+\subsubsection{Builtin objects}
+
+ Builtin object is a pre-defined object with many built-in functions. For example, In ECMAScript \( \code{Array} \) corresponds to an object which can generate an array by
+ calling it. Each builtin object provides data property and functions, just as ordinary object. When its function is called,
+ its algorithm specified in the document should be called.
+ 
+ In specification, a builtin function object usually matches to abstract algorithm. Its algorithm name
+ describes the hierarchy about object it should be contained. For example, there is an abstract algorithm named \( \code{ Object.prototype.propertyIsEnumerable } \). With its name,
+ we can know that it corresponds to builtin function in the object \( \code{ Object.prototype } \) as property.
+ To support builtin object, we make structure of builtin object and its properties.
+ After we correctly organizes structure, then we made algorithm that automatically map corresponding field to the abstract algorithm in specification by matching its function name.
+ 
+ \subsubsection{Intrinsic objects}
+
+ In specification, "Well-known intrinsics are built-in objects that are explicitly referenced by the algorithms".
+ Abstract algorithm uses identifiers like "\%name\%" to point builtin objects. For example it refers builtin Array object as \( \code{\%Array\%} \) .
+ Map between Intrinsic name and Builtin objects are available in specification as table form in section "6.1.7.4 Well-Known Intrinsic Objects", so we parse this table to generate global identifier to object.
+
+\subsection{Algorithm scope}
+
+ In specification, All algorithm has name to refer it, but some algorithms have same names and they are called in context-dependent way.
+In "5.2 Algorithm Conventions", it defines three types of abstract operation.
+ \begin{itemize}
+  \item Abstract operation: they can be called by name in any context
+  \item Method-like abstract operation: algorithm dispatch depends on receiver object
+  \item Syntax-directed operation: algorithm dispatch depends on receiver AST
+  \end{itemize}
+
+First, we categorized sections by types of algorithm.
+Method-like abstract operation has separate sections to describe it, so we manually add these sections to treat differently.
+Also Syntax-directed operations are described in distinct sections, so both case is easy to extract it.
+Rest algorithms are considered as ordinary Abstract operation.
+
+\subsubsection{Abstract operation}
+
+We just convert abstract operations to function, and bind global identifier to that function to call it by algorithm name.
+
+\subsubsection{Method-like abstract operation}
+
+In ECMAScript specification, there are some objects which has similar interface, but they have different algorithms. 
+
+For Example, Ordinary Object and String Exotic Object is different object in specification, but they have same name of algorithm(i.e. \( \code{[[getOwnProperty]](N)} \))
+
+In this case, algorithm dispatching should consider receiver Object(i.e. \( \code{x.[[GetOwnProperty]](N)} \)).
+For method-like abstract operation, we organized map from algorithm name to function for each type,
+ and we insert functions as property of object when such type of object is created. So In our example, when  \( \code{x} \) is created with Ordinary Object type,
+ then we insert property with name \( \code{[[GetOwnProperty]]} \) and function from method-like abstract operation "[[GetOwnProperty]]" in Ordinary Object Internal method section, at the time of map creation.
+
+ \subsubsection{Syntax-directed operation}
+ 
+ Like method-like abstract operation, many AST objects have similar interface, but they have different algorithm.
+The most frequent example is "Evaluation" algorithm of AST Values. Many non-terminal symbol have different algorithm with name "Evaluation", and
+when specification requires "the result of evaluating \textit{variable}", then it should apply "Evaluation" of non-terminal symbol which matches to \textit{variable}.
+It is assumed that \textit{variable} is a AST value. Also in Syntax-directed operation, the sub-component of AST can be used as values. For example, In the
+Evaluation algorithm of \textit{CallExpression} : \textit{CallExpression} \textit{Arguments}, algorithm can uses \textit{CallExpression} or \textit{Arguments} to refer sub-component of AST.
+ To support Syntax-directed operation, we insert converted functions in AST structure, and add special expression to call Syntax-directed operation which requires AST Value and algorithm name.
+We gather which AST can be applied to a function. Also, to use child node of AST, we passes child node of AST to function as argument.
+
+% \begin{itemize}
+%   \item \textbf{Global Algorithms} Global algorithms are possible to be accessed
+%     by any other algorithms. The top-level algorithm \( \code{RunJobs} \) is also global.
+%   \item \textbf{Type-dependent Algorithms} Several algorithms have different
+%     bodies dependent on types of their owner data. In ECMAScript specifications,
+%     there are two different data types; language types and specification types.
+%     The language types are explicitly used in JavaScript languages such as
+%     \( \code{Boolean}, \code{Number}, \code{String} \), and \( \code{Object} \).
+%     However, specification types are only used in specifications such as
+%     Lists, Records, and Lexical Environments. Among them, some data types
+%     have their own member algorithms. For example, language type \( \code{Object} \)
+%     has several internal methods described in abstract algorithms. It depends
+%     on 
+% 
+%     several data types have their own member algorithms. For example, 
+%     
+%     For example, the internal method
+%     \( \code{[[Call]]} \) has different semantics dependent on its owner object.
+%     Moreover, the owner objects are used in the body of algorithms as well.
+%     Thus, we extend the parameters to accept its owner object as an implicit argument.
+%   \item \textbf{Syntax-directed Algorithms} The semantics of each JavaScript syntax
+%     are written in 
+% \end{itemize}
+
+% \subsection{semantic 컴파일하기 위해 하는 것 + specification 구조}
+% 기본적인 원칙 :
+% \begin{itemize} 
+% \item 자바스크립트로 알고리즘 이름이랑 파라미터, 스텝을 가져와서 코어의 글로벌 ID에 매치 시켜줌
+% \item initial Heap을 생성해줌
+% \end{itemize}
+% 매치를 시킨다는 뜻은 코어의 글로벌 ID에 코어 함수 형태로 알고리즘을 넣는 것임
+% 

@@ -1,0 +1,158 @@
+\section{Implementation}\label{sec:impl}
+We describe the implementation detail of our open-source
+tool, \( \tool \)\footnote{The URL of the tool is anonymized due to a
+double-blind review process.}, which targets
+ECMAScript 2020~\cite{es2020}.
+
+%We describe how we implement an open-source \( \tool \)\footnote{
+%The URL of the tool is anonymized due to a double-blind review process.},
+%which targets ECMAScript 2020~\cite{es2020}.
+
+\subsection{Excluded Language Features}\label{sec:exclusion}
+We decided not to support the following ECMAScript 2020 features:
+
+\vspace*{-.5em}
+\paragraph{Non-Strict Mode}
+Since ECMAScript 5, JavaScript introduced strict mode to
+provide different semantics.  It
+provides more stable semantics by preventing unsafe actions or
+throwing originally ignored errors.  However, the ECMAScript
+specification states that ``Strict mode does not restrict or modify
+any aspect of the ECMAScript semantics that must operate consistently
+across multiple source text units.''  Thus, we decided to support only
+strict mode.
+
+\vspace*{-.5em}
+\paragraph{Modules}
+Moreover, we do not support modules that were introduced since ES6.
+With the \( \code{import} \) keyword, a JavaScript
+program can import other JavaScript components.  To support
+modules in our automatically generated semantics, we should model the
+functionality to communicate with file systems to access JavaScript
+module files.  Because modules do not affect the overall JavaScript
+semantics critically, we decided not to support modules.
+
+\vspace*{-.5em}
+\paragraph{Early Errors}
+ECMAScript specifications use Early Error Rules to preclude invalid code
+before evaluation. For example, an Early Error Rule checks whether
+functions have duplicated parameters in strict mode.
+Because they are written in different styles from abstract algorithms,
+we do not support Early Error Rules.
+
+\vspace*{-.5em}
+\paragraph{Inessential Built-in Objects}
+JavaScript provides various standard built-in objects but some of them
+are not essential to core JavaScript but support extra functionalities such as
+\( \code{RegExp} \) and \( \code{JSON} \).  Thus, we decided not to
+support such libraries following the tradition of KJS~\cite{kjs},
+which is a complete formal semantics of JavaScript.
+
+\subsection{Compile Rules for ECMAScript}
+\begin{table}[t]
+  \centering
+  \caption{Compile rules in ECMAScript 2020}
+  \label{table:rules}
+\vspace*{-1em}
+  \[
+    \begin{array}{c?r|r|r|r|r|r|r}
+      \text{Name}
+      & \multicolumn{1}{c|}{\code{Stmt}}
+      & \multicolumn{1}{c|}{\code{Expr}}
+      & \multicolumn{1}{c|}{\code{Cond}}
+      & \multicolumn{1}{c|}{\code{Value}}
+      & \multicolumn{1}{c|}{\code{Ty}}
+      & \multicolumn{1}{c|}{\code{Ref}}
+      & \multicolumn{1}{c}{\code{SecNo}}\\\hline
+      \text{\# Rules}
+      & 17
+      & 16
+      & 8
+      & 11
+      & 33
+      & 7
+      & 21
+    \end{array}
+  \]
+\vspace*{-2em}
+\end{table}
+
+As we discussed in Section~\ref{sec:compiler}, \textsf{Algorithm Compiler}
+requires compile rules to compile given abstract algorithms to \( \ires \)
+functions.  In order to cover the entire ECMAScript 2020 specification,
+we defined compile rules for only seven kinds as summarized in
+Table~\ref{table:rules}.  The compile rule for statements, \( \code{Stmt} \),
+contains 17 compile rules and generates \( \ires \) instructions.
+The \( \code{Expr} \), \( \code{Cond} \), and \( \code{Value} \) compile
+rules denote expressions, conditions, and values, respectively.  While
+all of them generate \( \ires \) expressions, they represent different
+contexts in the ECMAScript specification.  For example,
+\( \code{Expr} \) represents a context where any expression can appear,
+\( \code{Cond} \) denotes a context where any boolean-valued expression
+can appear, and \( \code{Value} \) represents a context where a fully
+evaluated value can appear.  The \( \code{Ty} \) compile rule denotes
+type names and generates string primitives in \( \ires \).  The \( \code{Ref} \)
+represents references such as identifier lookup and member accesses of
+map-like structures.  It generates \( \ires \) reference expressions.
+Finally, the \( \code{SecNo} \) compile rule denotes section numbers
+like \( \code{9.5.12} \), and it converts such numbers to
+corresponding name strings like \( \code{"ProxyExoticObject.Call"} \).
+% \begin{lstlisting}[style=myScalastyle]
+% lazy val SecNo =
+%   "9.5.12" ^^ { case x => "ProxyExoticObject.Call" } |||
+%   ...
+% \end{lstlisting}
+
+\subsection{Global Setting}
+We manually implemented \textsf{Global Setting} for ECMAScript 2020,
+which has two parts: ECMAScript data types and built-in objects.
+
+\vspace*{-.5em}
+\paragraph{ECMAScript Data Types}
+In ECMAScript 2020, Section 6 \textsf{ECMAScript Data Types and Values}
+describes data types used in the specification.  It describes not only
+data types explicitly exposed for JavaScript evaluation, but also all
+the internal data types used in the specification.  For example, the
+Environment Records are record types from identifiers to bindings for
+values.  They are not explicitly accessible in JavaScript programs
+but defined and used internally in the specification.
+
+Each ECMAScript data type has several fields to store their relevant values.
+We should implement such structures in order to correctly evaluate JavaScript
+programs, but fields of ECMAScript data types could be abstract algorithms.
+We call them \textit{method-like abstract algorithms} because they
+implicitly get their receiver objects as arguments at callsites.
+To mimic such implicit behavior, we added a special variable
+\( \code{this} \) as the first parameter of a method-like abstract algorithm,
+and passed a receiver object at its callsite by modifying
+\textsf{Algorithm Compiler}.  For example, an Environment Record has
+the \textsf{DeleteBinding (N)} abstract algorithm as one of its fields.
+Then, it gets two parameters, the special parameter \( \code{this} \)
+and normal one \( \code{N} \).  Thus, the following algorithm step:
+\begin{center}
+  \includegraphics[width=0.2\textwidth]{img/method-like-example.png}
+\end{center}
+is compiled into the following \( \ires \) instruction:
+\begin{lstlisting}[style=ires]
+return DclRec.DeleteBinding(DclRec, N)
+\end{lstlisting}
+
+\vspace*{-1em}
+\paragraph{Built-in Objects}
+In ECMAScript, built-in objects are pre-defined functions with several
+built-in functions.  For example, \( \code{Array} \)
+is the constructor of array objects, and its prototype
+\( \code{Array.prototype} \) has built-in functions for array objects.
+For instance, \( \code{[1,2,3].flat()} \) calls the
+\( \code{Array.prototype.flat} \) built-in function with the array
+\( \code{[1,2,3]} \).  Because built-in functions are also abstract
+algorithms, each of them is automatically converted to an \( \ires \)
+function.  However, the structures of built-in objects should be
+manually implemented.  Thus, we implemented built-in objects in Scala
+and connected their properties with the extracted \( \ires \) functions.
+%
+Some built-in objects that are explicitly referenced in abstract
+algorithms are intrinsic objects, which have their own
+aliased names summarized in Table 7 of Section 6.1.7.4
+\textsf{Well-Known Intrinsic Objects}.  We extracted the alias
+into \textsf{Global Setting} to utilize it during evaluation.
