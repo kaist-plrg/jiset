@@ -1,4 +1,4 @@
-\documentclass[10pt,conference,anonymous=true]{IEEEtran}
+\documentclass[sigconf,review,anonymous]{acmart}
 
 \usepackage{url}
 \usepackage{amsmath, amssymb}
@@ -20,6 +20,9 @@
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{booktabs}
+
+% remove ACM Reference format
+\settopmatter{printacmref=false}
 
 % color
 \definecolor{gainsboro}{rgb}{0.86, 0.86, 0.86}
@@ -145,27 +148,32 @@
 
 \title{\( \tool \): JavaScript IR-based Semantics Extraction Toolchain}
 
-\author{\IEEEauthorblockN{Jihyeok Park}
-  \IEEEauthorblockA{\textit{KAIST}}
-  Daejeon, South Korea \\
-  jhpark0223@kaist.ac.kr
-
-  \and
-
-  \IEEEauthorblockN{Jihee Park}
-  \IEEEauthorblockA{\textit{KAIST}}
-  Daejeon, South Korea \\
-  j31d0@kaist.ac.kr
-
-  \and
-
-  \IEEEauthorblockN{Sukyoung Ryu}
-  \IEEEauthorblockA{\textit{KAIST}}
-  Daejeon, South Korea \\
-  sryu.cs@kaist.ac.kr
+\author{Jihyeok Park}
+\affiliation{%
+  \institution{KAIST}
+  \department{School of Computing}
+  \city{Daejeon}
+  \country{South Korea}
 }
+\email{jhpark0223@kaist.ac.kr}
 
-\maketitle
+\author{Jihee Park}
+\affiliation{%
+  \institution{KAIST}
+  \department{School of Computing}
+  \city{Daejeon}
+  \country{South Korea}
+}
+\email{j31d0@kaist.ac.kr}
+
+\author{Sukyoung Ryu}
+\affiliation{%
+  \institution{KAIST}
+  \department{School of Computing}
+  \city{Daejeon}
+  \country{South Korea}
+}
+\email{sryu.cs@kaist.ac.kr}
 
 \begin{abstract}
 JavaScript was initially designed for client-side code in web browsers,
@@ -198,11 +206,9 @@ and all of them were confirmed by TC 39. Moreover, we also successfully applied
 our tool to an incomplete proposal as a case study.
 \end{abstract}
 
-\begin{IEEEkeywords}
-  JavaScript,
-  mechanized formal semantics,
-  program synthesis
-\end{IEEEkeywords}
+\keywords{JavaScript, mechanized formal semantics, program synthesis}
+
+\maketitle
 
 \input{intro}
 \input{overview}
