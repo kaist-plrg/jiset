@@ -156,7 +156,7 @@ object ParserGenerator {
     nf.println(s"""package $packageName.model""")
     nf.println
     nf.println(s"""import $packageName.AST""")
-    nf.println(s"""import $packageName.core._""")
+    nf.println(s"""import $packageName.ir._""")
     nf.println(s"""import $packageName.parser.ESParsers""")
     nf.println
     nf.println(s"""object Parser extends ESParsers {""")

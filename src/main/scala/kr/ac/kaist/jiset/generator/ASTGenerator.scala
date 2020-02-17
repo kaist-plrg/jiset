@@ -17,7 +17,7 @@ object ASTGenerator {
       nf.println(s"""package $packageName.model""")
       nf.println
       nf.println(s"""import $packageName.{ AST, ASTInfo, Lexical }""")
-      nf.println(s"""import $packageName.core._""")
+      nf.println(s"""import $packageName.ir._""")
       nf.println(s"""import $packageName.error.UnexpectedSemantics""")
       nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
       nf.println

@@ -1,90 +1,43 @@
-import java.io.File
+import scalariform.formatter.preferences._
 
-lazy val dummyModel = taskKey[Unit]("Generates a dummy model.")
-lazy val coreTest = taskKey[Unit]("Launch core language interpreter tests")
+ThisBuild / version       := "1.0"
+ThisBuild / scalaVersion  := "2.13.1"
+ThisBuild / organization  := "kr.ac.kaist.jiset"
+ThisBuild / scalacOptions := Seq(
+  "-deprecation", "-feature", "-language:postfixOps",
+  "-language:implicitConversions"
+)
+ThisBuild / javacOptions ++= Seq(
+  "-encoding", "UTF-8"
+)
+
 lazy val grammarDiffTest = taskKey[Unit]("Launch tests for GrammarDiff")
 lazy val algoCompilerTest = taskKey[Unit]("Launch tests for AlgoCompiler")
 lazy val algoCompilerDiffTest = taskKey[Unit]("Launch tests for AlgoCompilerDiff")
-lazy val jsTest = taskKey[Unit]("Launch js language interpreter tests")
-lazy val test262Test = taskKey[Unit]("Launch test262 tests")
-lazy val test262PropTest = taskKey[Unit]("Launch test262 tests")
-lazy val test262ParseTest = taskKey[Unit]("Launch test262 parsing tests")
-lazy val test262AllParseTest = taskKey[Unit]("Launch test262 parsing tests")
 
-lazy val root = (project in file(".")).
-  settings(
+lazy val ires = ProjectRef(file("ires"), "ires")
+
+lazy val jiset = (project in file("."))
+  .dependsOn(ires)
+  .settings(
     name := "JISET",
-    version := "1.0",
-    organization := "kr.ac.kaist.jiset",
-    scalaVersion := "2.13.1",
-    dummyModel in Compile := {
-      val srcDir = baseDirectory.value + "/src/main"
-      val modelPath = s"$srcDir/scala/kr/ac/kaist/jiset/model"
-      val modelDir = file(modelPath)
-      if (!modelDir.exists) {
-        IO.createDirectory(modelDir)
-        List("ast", "algorithm", "type").foreach(dirname => {
-          IO.createDirectory(file(s"$modelPath/$dirname"))
-        })
-        List("package").foreach(filename => {
-          val outFile = file(s"$modelPath/$filename.scala")
-          IO.copyFile(
-            file(s"$srcDir/resources/dummy/$filename.scala"),
-            file(s"$modelPath/$filename.scala")
-          )
-        })
-      }
-    },
+    libraryDependencies ++= Seq(
+      "io.spray" %% "spray-json" % "1.3.5",
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+      "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
+      "org.scalatest" %% "scalatest" % "3.0.8" % "test",
+      "org.jline" % "jline" % "3.13.1"
+    ),
     testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),
-    compile <<= (compile in Compile) dependsOn (dummyModel in Compile),
-    test <<= (testOnly in Test).toTask(List(
-      "kr.ac.kaist.jiset.BasicCoreTest",
-      "kr.ac.kaist.jiset.JSTest"
-    ).mkString(" ", " ", "")) dependsOn compile,
-    coreTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.BasicCoreTest") dependsOn compile,
-    grammarDiffTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.GrammarDiffTest") dependsOn compile,
-    algoCompilerTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerTest") dependsOn compile,
-    algoCompilerDiffTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerDiffTest") dependsOn compile,
-    jsTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.JSTest") dependsOn compile,
-    test262Test <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.Test262Test") dependsOn compile,
-    test262PropTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.Test262PropTest") dependsOn compile,
-    test262ParseTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.Test262ParseTest") dependsOn compile,
-    test262AllParseTest <<= (testOnly in Test).toTask(" kr.ac.kaist.jiset.Test262AllParseTest") dependsOn compile
+    retrieveManaged := true,
+    scalariformPreferences := scalariformPreferences.value
+      .setPreference(DanglingCloseParenthesis, Force)
+      .setPreference(DoubleIndentConstructorArguments, true),
+    test in assembly := {},
+    testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),
+    parallelExecution in Test := true,
+    grammarDiffTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.GrammarDiffTest").value,
+    algoCompilerTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerTest").value,
+    algoCompilerDiffTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerDiffTest").value,
+    test in assembly := {}
   )
-
-cleanFiles ++= Seq(
-  file("src/main/scala/kr/ac/kaist/jiset/model"),
-  file("src/main/scala/kr/ac/kaist/jiset/algorithm/rule")
-)
-
-libraryDependencies ++= Seq(
-  "io.spray" %% "spray-json" % "1.3.5",
-  "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-  "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
-  "org.scalatest" %% "scalatest" % "3.0.8" % "test",
-  "org.jline" % "jline" % "3.13.1"
-)
-
-commands += Command.command("generateModel") { state =>
-    "compile" ::
-    s"run preprocess" ::
-    "compile" ::
-    s"run gen-model" ::
-    "compile" ::
-    state
-}
-
-commands += Command.command("updateAndTestModel") { state =>
-    s"run gen-model" ::
-    "test" ::
-    "algoCompilerDiffTest" ::
-    state
-}
-
-scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature",
-                                   "-language:postfixOps",
-                                   "-language:implicitConversions")
-
-javacOptions ++= Seq("-encoding", "UTF-8")
-
-retrieveManaged := true

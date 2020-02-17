@@ -41,8 +41,5 @@ package object jiset {
   val DEBUG_INTERP: Boolean = false
 
   // display progress in tests
-  val DISPLAY_TEST_PROGRESS = true
-
-  val PREVDIFF = false
-  val PREVFILE = "tests/result/test262Test_1908221732"
+  val DISPLAY_TEST_PROGRESS = false
 }

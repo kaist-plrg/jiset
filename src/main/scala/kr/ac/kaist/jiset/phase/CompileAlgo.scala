@@ -1,14 +1,14 @@
 package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset.algorithm._
-import kr.ac.kaist.jiset.core
+import kr.ac.kaist.ires.ir
 import kr.ac.kaist.jiset.model.AlgoCompiler
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
 import scala.io.Source
 
 // CompileAlgo phase
-case object CompileAlgo extends PhaseObj[Algorithm, CompileAlgoConfig, core.Func] {
+case object CompileAlgo extends PhaseObj[Algorithm, CompileAlgoConfig, ir.Func] {
   val name = "compile-algo"
   val help = "Compiles algorithm files."
 
@@ -16,7 +16,7 @@ case object CompileAlgo extends PhaseObj[Algorithm, CompileAlgoConfig, core.Func
     algo: Algorithm,
     jisetConfig: JISETConfig,
     config: CompileAlgoConfig
-  ): core.Func = {
+  ): ir.Func = {
     val name = getScalaName(removedExt(getSimpleFilename(getFirstFilename(jisetConfig, "parse"))))
     val (func, failed) = AlgoCompiler(name, algo).result
     failed.toSeq.sortBy(_._1) foreach {

@@ -1,17 +1,17 @@
 package kr.ac.kaist.jiset.parser
 
+import kr.ac.kaist.ires.ir.Inst
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.algorithm._
-import kr.ac.kaist.jiset.core.Inst
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
 
 trait TokenParsers extends PackratParsers {
   type Elem = Token
   case class TokenPosition(
-    line: Int,
-    column: Int,
-    protected val lineContents: String
+      line: Int,
+      column: Int,
+      protected val lineContents: String
   ) extends Position
   abstract class TokenReader extends Reader[Token] { outer =>
     val tokens: List[Token]

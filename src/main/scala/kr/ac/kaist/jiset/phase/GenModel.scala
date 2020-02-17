@@ -31,14 +31,14 @@ case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
   def defaultConfig: GenModelConfig = GenModelConfig()
   val options: List[PhaseOption[GenModelConfig]] = List(
     ("packageName", StrOption((c, s) => c.packageName = Some(s)),
-      "set the base package name for models (default: kr.ac.kaist.jiset)."),
+      "set the base package name for models (default: kr.ac.kaist.ires)."),
     ("out", StrOption((c, s) => c.out = Some(s)),
-      "set the output directory (default: $JISET_HOME/src/main/scala/kr/ac/kaist/jiset/model).")
+      "set the output directory (default: $JISET_HOME/ires/src/main/scala/kr/ac/kaist/ires/model).")
   )
 }
 
 // GenModel phase config
 case class GenModelConfig(
-  var packageName: Option[String] = None,
-  var out: Option[String] = None
+    var packageName: Option[String] = None,
+    var out: Option[String] = None
 ) extends Config

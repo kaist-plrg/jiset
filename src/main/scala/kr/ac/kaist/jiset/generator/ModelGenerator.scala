@@ -35,7 +35,7 @@ object ModelGenerator {
         nf.println(s"package $packageName.model")
         nf.println
         nf.println(s"import $packageName.AST")
-        nf.println(s"import $packageName.core._")
+        nf.println(s"import $packageName.ir._")
         nf.println(s"import $packageName.error._")
         nf.println(s"import $packageName.util.Useful._")
         nf.println(s"import $packageName.parser.UnicodeRegex")
@@ -55,8 +55,8 @@ object ModelGenerator {
         val nf = getPrintWriter(s"$modelDir/algorithm/$filename")
         nf.println(s"package $packageName.model")
         nf.println
-        nf.println(s"import $packageName.core._")
-        nf.println(s"import $packageName.core.Parser._")
+        nf.println(s"import $packageName.ir._")
+        nf.println(s"import $packageName.ir.Parser._")
         nf.println
         nf.print(readFile(name))
         nf.close()
@@ -66,7 +66,7 @@ object ModelGenerator {
     val nf = getPrintWriter(s"$modelDir/Model.scala")
     nf.println(s"""package $packageName.model""")
     nf.println(s"""""")
-    nf.println(s"""import $packageName.core._""")
+    nf.println(s"""import $packageName.ir._""")
     nf.println(s"""import $packageName.util.Useful._""")
     nf.println(s"""""")
     nf.println(s"""object Model {""")
@@ -98,7 +98,7 @@ object ModelGenerator {
     nf.println(s"""  )""")
     nf.println(s"""  lazy val initHeap: Heap = Heap(BaseHeap.get ++ BuiltinHeap.get ++ Map(""")
     nf.println(consts.map(i =>
-      s"""    NamedAddr("CONST_$i") -> CoreSymbol(Str("CONST_$i"))""").mkString("," + LINE_SEP))
+      s"""    NamedAddr("CONST_$i") -> IRSymbol(Str("CONST_$i"))""").mkString("," + LINE_SEP))
     nf.println(s"""  ) match {""")
     nf.println(s"""    case m => ModelHelper.addBuiltin(m, BuiltinHeap.builtinMethods ++ builtinMethods)""")
     nf.println(s"""  })""")

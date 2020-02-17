@@ -2,14 +2,14 @@ package kr.ac.kaist.jiset
 
 import java.io._
 import kr.ac.kaist.jiset.algorithm._
-import kr.ac.kaist.jiset.core._
+import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset.model._
 import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._
 import scala.util.Random.shuffle
 import scala.util.{ Failure, Success, Try }
 
-class AlgoCompilerTest extends CoreTest {
+class AlgoCompilerTest extends IRTest {
   // tag name
   val tag: String = "algoCompilerTest"
 
@@ -39,7 +39,7 @@ class AlgoCompilerTest extends CoreTest {
         lazy val compiler = AlgoCompiler("", algo)
         lazy val (func, failed) = compiler.result
         test(s"[AlgoCompile] $filename") { algoCompilerTest(lineCount, failed, filename) }
-        check("AlgoCoreParse", filename, parseCoreFuncTest(func))
+        check("AlgoIRParse", filename, parseIRFuncTest(func))
       }
     }
   }

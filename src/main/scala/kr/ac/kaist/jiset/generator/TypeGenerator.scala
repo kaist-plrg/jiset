@@ -9,7 +9,7 @@ object TypeGenerator {
     val nf = getPrintWriter(s"$modelDir/type/$tname.scala")
     nf.println(s"""package $packageName.model""")
     nf.println(s"""""")
-    nf.println(s"""import $packageName.core._""")
+    nf.println(s"""import $packageName.ir._""")
     nf.println(s"""object $tname {""")
     nf.println(s"""  val map: Map[Value, Value] = Map(""")
     nf.println(methods.map {

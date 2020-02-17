@@ -1,8 +1,8 @@
 package kr.ac.kaist.jiset.phase
 
+import kr.ac.kaist.ires.ir
+import kr.ac.kaist.ires.ir.Inst
 import kr.ac.kaist.jiset.algorithm._
-import kr.ac.kaist.jiset.core
-import kr.ac.kaist.jiset.core.Inst
 import kr.ac.kaist.jiset.model.AlgoCompiler
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
@@ -27,7 +27,7 @@ case object InferAlgo extends PhaseObj[Algorithm, InferAlgoConfig, Unit] {
         println(s"[FailedLine]:$k: ${Token.getString(tokens)}")
         val inferList = inferStmt(ac, tokens)
         inferList.zipWithIndex.foreach {
-          case (inst, i) => println(s"[Infer]: $i: ${core.beautify(inst)}")
+          case (inst, i) => println(s"[Infer]: $i: ${ir.beautify(inst)}")
         }
       }
     }

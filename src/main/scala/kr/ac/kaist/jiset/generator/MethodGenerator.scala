@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.generator
 
+import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.core._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.algorithm.Algorithm
 import kr.ac.kaist.jiset.model.AlgoCompiler
@@ -17,8 +17,8 @@ object MethodGenerator {
     val TRIPLE = "\"\"\""
     nf.println(s"""package $packageName.model""")
     nf.println(s"""""")
-    nf.println(s"""import $packageName.core._""")
-    nf.println(s"""import $packageName.core.Parser._""")
+    nf.println(s"""import $packageName.ir._""")
+    nf.println(s"""import $packageName.ir.Parser._""")
     nf.println(s"""""")
     nf.println(s"""object $scalaName {""")
     nf.println(s"""  val length: Int = $len""")

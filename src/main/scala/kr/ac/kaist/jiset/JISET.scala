@@ -1,8 +1,8 @@
 package kr.ac.kaist.jiset
 
-import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.error._
 import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.phase._
 
 object JISET {
   ////////////////////////////////////////////////////////////////////////////////
@@ -60,18 +60,10 @@ object JISET {
     CmdParseAlgo,
     CmdCompileAlgo,
     CmdInferAlgo,
-    CmdParse,
-    CmdLoad,
-    CmdEval,
-    CmdREPL,
-    CmdParseCore,
-    CmdLoadCore,
-    CmdEvalCore,
-    CmdREPLCore,
     CmdREPLAlgo,
-    CmdPreProcess,
     CmdGenModel,
-    CmdFilterMeta
+    CmdGrammarDiff,
+    CmdAlgoStepDiff
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -83,16 +75,10 @@ object JISET {
     ParseAlgo,
     CompileAlgo,
     InferAlgo,
-    Parse,
-    Load,
-    ParseCore,
-    LoadCore,
-    EvalCore,
-    REPLCore,
     REPLAlgo,
     GenModel,
-    PreProcess,
-    FilterMeta
+    GrammarDiff,
+    AlgoStepDiff
   )
 
   // global options
@@ -146,8 +132,8 @@ object JISET {
 }
 
 case class JISETConfig(
-  var command: Command,
-  var fileNames: List[String] = Nil,
-  var silent: Boolean = false,
-  var time: Boolean = false
+    var command: Command,
+    var fileNames: List[String] = Nil,
+    var silent: Boolean = false,
+    var time: Boolean = false
 ) extends Config

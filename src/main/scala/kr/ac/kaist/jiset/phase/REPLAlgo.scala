@@ -24,5 +24,5 @@ case object REPLAlgo extends PhaseObj[Unit, REPLAlgoConfig, Unit] {
 
 // REPLAlgo phase config
 case class REPLAlgoConfig(
-  var onlyFailed: Boolean = false
+    var onlyFailed: Boolean = false
 ) extends Config

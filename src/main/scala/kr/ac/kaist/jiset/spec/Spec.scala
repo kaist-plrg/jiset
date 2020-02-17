@@ -5,12 +5,12 @@ import spray.json._
 
 // ECMASCript specifications
 case class Spec(
-  globalMethods: List[String],
-  consts: List[String],
-  grammar: Grammar,
-  symbols: Map[String, String],
-  intrinsics: Map[String, String],
-  tys: Map[String, Map[String, String]]
+    globalMethods: List[String],
+    consts: List[String],
+    grammar: Grammar,
+    symbols: Map[String, String],
+    intrinsics: Map[String, String],
+    tys: Map[String, Map[String, String]]
 )
 object Spec extends DefaultJsonProtocol {
   implicit object TokenFormat extends RootJsonFormat[Token] {

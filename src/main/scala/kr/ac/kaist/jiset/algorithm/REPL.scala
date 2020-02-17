@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.algorithm
 
 import java.io.File
-import kr.ac.kaist.jiset.model.{ GeneralAlgoCompilerHelper, GeneralAlgoCompiler }
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ LINE_SEP, RESOURCE_DIR, VERSION }
 import org.jline.builtins.Completers.TreeCompleter

@@ -45,13 +45,10 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
       (Try(t) match {
         case Success(_) =>
           resMap += tag -> (res + (name -> Pass))
-          if (DISPLAY_TEST_PROGRESS) printGreen("#")
         case Failure(e @ NotSupported(msg)) =>
           resMap += tag -> (res + (name -> Yet(msg)))
-          if (DISPLAY_TEST_PROGRESS) printYellow("#")
         case Failure(e) =>
           resMap += tag -> (res + (name -> Fail))
-          if (DISPLAY_TEST_PROGRESS) printRed("#")
           fail(e.toString)
       })
     }
@@ -86,14 +83,6 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
     }
 
     // show abstract result
-    if (DISPLAY_TEST_PROGRESS) println
-    print("[info] ")
-    printlnColor(CYAN)(s"$tag:")
-    sorted.foreach {
-      case (t, (x, y)) =>
-        print("[info] ")
-        printlnColor(if (x == y) GREEN else RED)(s"  $t: $x / $y")
-    }
     val filename = s"$TEST_DIR/result/$tag.json"
     val orig =
       Try(readFile(filename))
