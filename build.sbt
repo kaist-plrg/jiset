@@ -41,3 +41,9 @@ lazy val jiset = (project in file("."))
     algoCompilerDiffTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerDiffTest").value,
     test in assembly := {}
   )
+
+commands += Command.command("generateModel") { state =>
+  s"run gen-model" ::
+  "compile" ::
+  state
+}

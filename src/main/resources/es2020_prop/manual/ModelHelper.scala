@@ -41,9 +41,9 @@ object ModelHelper {
         else NamedAddr(s"$base.SubMap")
       val descAddr = NamedAddr(s"DESC:$name")
       (m.get(baseAddr) match {
-        case Some(CoreMap(ty, map)) => m ++ List(
-          baseAddr -> CoreMap(ty, map + (propV -> descAddr)),
-          descAddr -> m.getOrElse(descAddr, CoreMap(Ty("PropertyDescriptor"), Map(
+        case Some(IRMap(ty, map)) => m ++ List(
+          baseAddr -> IRMap(ty, map + (propV -> descAddr)),
+          descAddr -> m.getOrElse(descAddr, IRMap(Ty("PropertyDescriptor"), Map(
             Str("Value") -> addr,
             Str("Writable") -> Bool(true),
             Str("Enumerable") -> Bool(false),
@@ -52,14 +52,14 @@ object ModelHelper {
         )
         case _ => m
       }) + (m.get(addr) match {
-        case Some(CoreMap(ty, map)) =>
-          addr -> CoreMap(ty, map ++ Map(
+        case Some(IRMap(ty, map)) =>
+          addr -> IRMap(ty, map ++ Map(
             Str("Extensible") -> Bool(true),
             Str("ScriptOrModule") -> Null,
             Str("Realm") -> NamedAddr("REALM")
           ))
         case _ =>
-          addr -> CoreMap(Ty("BuiltinFunctionObject"), BuiltinFunctionObject.map - Str("Construct") ++ Map(
+          addr -> IRMap(Ty("BuiltinFunctionObject"), BuiltinFunctionObject.map - Str("Construct") ++ Map(
             Str("Code") -> func,
             Str("Prototype") -> NamedAddr("GLOBAL.Function.prototype"),
             Str("Extensible") -> Bool(true),
@@ -68,20 +68,20 @@ object ModelHelper {
             Str("SubMap") -> NamedAddr(s"$name.SubMap")
           ))
       }) ++ List(
-        NamedAddr(s"$name.SubMap") -> (m.getOrElse(NamedAddr(s"$name.SubMap"), CoreMap(Ty("SubMap"), Map())) match {
-          case CoreMap(ty, map) => CoreMap(ty, map ++ List(
+        NamedAddr(s"$name.SubMap") -> (m.getOrElse(NamedAddr(s"$name.SubMap"), IRMap(Ty("SubMap"), Map())) match {
+          case IRMap(ty, map) => IRMap(ty, map ++ List(
             Str("name") -> map.getOrElse(Str("name"), NamedAddr(s"DESC:$name.name")),
             Str("length") -> map.getOrElse(Str("length"), NamedAddr(s"DESC:$name.length"))
           ))
           case obj => error(s"not a map: $obj")
         }),
-        NamedAddr(s"DESC:$name.name") -> m.getOrElse(NamedAddr(s"DESC:$name.name"), CoreMap(Ty("PropertyDescriptor"), Map(
+        NamedAddr(s"DESC:$name.name") -> m.getOrElse(NamedAddr(s"DESC:$name.name"), IRMap(Ty("PropertyDescriptor"), Map(
           Str("Value") -> Str(propName),
           Str("Writable") -> Bool(false),
           Str("Enumerable") -> Bool(false),
           Str("Configurable") -> Bool(true)
         ))),
-        NamedAddr(s"DESC:$name.length") -> m.getOrElse(NamedAddr(s"DESC:$name.length"), CoreMap(Ty("PropertyDescriptor"), Map(
+        NamedAddr(s"DESC:$name.length") -> m.getOrElse(NamedAddr(s"DESC:$name.length"), IRMap(Ty("PropertyDescriptor"), Map(
           Str("Value") -> Num(length),
           Str("Writable") -> Bool(false),
           Str("Enumerable") -> Bool(false),

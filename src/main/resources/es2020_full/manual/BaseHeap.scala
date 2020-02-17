@@ -1,7 +1,7 @@
 object BaseHeap {
   private val map: Map[String, Obj] = Map(
-    "executionStack" -> CoreList(Vector()),
-    "jobQueue" -> CoreList(Vector())
+    "executionStack" -> IRList(Vector()),
+    "jobQueue" -> IRList(Vector())
   )
 
   lazy val get: Map[Addr, Obj] = map.map {

@@ -3,25 +3,25 @@ import ModelHelper._
 object BuiltinHeap {
   def get: Map[Addr, Obj] = mapInfo.foldLeft(Map[Addr, Obj]()) {
     case (m, ("GLOBAL", Struct(ty, _, nmap))) => nmap.map.foldLeft(m ++ Map(
-      NamedAddr("GLOBAL") -> CoreMap(Ty("Map"), nmap.map.map {
+      NamedAddr("GLOBAL") -> IRMap(Ty("Map"), nmap.map.map {
         case (k, _) => k -> NamedAddr("DESC:GLOBAL" + getPropStr(k))
       })
     )) { case (m, (k, prop)) => addDesc("GLOBAL", m, k, prop) }
     case (m, (name, Struct(ty, imap, nmap))) => nmap.map.foldLeft(m ++ Map(
-      NamedAddr(s"$name") -> CoreMap(
+      NamedAddr(s"$name") -> IRMap(
         Ty(ty),
         (Model.tyMap.getOrElse(ty, Map()) - Str("Construct")) ++
           imap.map +
           (Str("SubMap") -> NamedAddr(s"$name.SubMap"))
       ),
-      NamedAddr(s"$name.SubMap") -> CoreMap(Ty("SubMap"), nmap.map.map {
+      NamedAddr(s"$name.SubMap") -> IRMap(Ty("SubMap"), nmap.map.map {
         case (k, _) => k -> NamedAddr("DESC:" + name + getPropStr(k))
       })
     )) { case (m, (k, prop)) => addDesc(name, m, k, prop) }
   } ++ (singletonInfo.map {
-    case name => (NamedAddr(SYMBOL_PREFIX + name) -> CoreSymbol(Str("Symbol." + name)))
+    case name => (NamedAddr(SYMBOL_PREFIX + name) -> IRSymbol(Str("Symbol." + name)))
   }.toMap) ++ (notSupportedInfo.map {
-    case name => (NamedAddr("GLOBAL." + name) -> CoreNotSupported(name))
+    case name => (NamedAddr("GLOBAL." + name) -> IRNotSupported(name))
   }.toMap)
 
   val builtinMethods: List[(String, Int, Func)] = List(
@@ -41,7 +41,7 @@ object BuiltinHeap {
   ): Map[Addr, Obj] = prop match {
     case DataProperty(v, w, e, c) => m + (
       NamedAddr(s"DESC:$name${getPropStr(k)}") ->
-      CoreMap(Ty("PropertyDescriptor"), Map(
+      IRMap(Ty("PropertyDescriptor"), Map(
         Str("Value") -> v,
         Str("Writable") -> Bool(w),
         Str("Enumerable") -> Bool(e),
@@ -50,7 +50,7 @@ object BuiltinHeap {
     )
     case AccessorProperty(g, s, e, c) => m + (
       NamedAddr(s"DESC:$name${getPropStr(k)}") ->
-      CoreMap(Ty("PropertyDescriptor"), Map(
+      IRMap(Ty("PropertyDescriptor"), Map(
         Str("Get") -> g,
         Str("Set") -> s,
         Str("Enumerable") -> Bool(e),

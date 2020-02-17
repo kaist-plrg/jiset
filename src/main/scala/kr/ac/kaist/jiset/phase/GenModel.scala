@@ -20,9 +20,8 @@ case object GenModel extends PhaseObj[Unit, GenModelConfig, Unit] {
     config: GenModelConfig
   ): Unit = {
     val spec = Spec(s"$RESOURCE_DIR/$VERSION/auto/spec.json")
-    deleteFile(s"$MODEL_DIR/package.scala")
     ModelGenerator(
-      config.packageName.getOrElse("kr.ac.kaist.jiset"),
+      config.packageName.getOrElse("kr.ac.kaist.ires"),
       config.out.getOrElse(MODEL_DIR),
       spec
     )
