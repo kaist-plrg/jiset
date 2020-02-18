@@ -1,4 +1,5 @@
 import scalariform.formatter.preferences._
+import sbtassembly.AssemblyPlugin.defaultUniversalScript
 
 ThisBuild / version       := "1.0"
 ThisBuild / scalaVersion  := "2.13.1"
@@ -33,6 +34,9 @@ lazy val jiset = (project in file("."))
       .setPreference(DanglingCloseParenthesis, Force)
       .setPreference(DoubleIndentConstructorArguments, true),
     parallelExecution in Test := true,
+    assemblyOutputPath in assembly := file("bin/jiset"),
+    assemblyOption in assembly := (assemblyOption in assembly).value
+      .copy(prependShellScript = Some(defaultUniversalScript(shebang = false))),
     algoCompilerTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerTest").value
   )
 
