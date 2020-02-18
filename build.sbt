@@ -24,7 +24,7 @@ lazy val jiset = (project in file("."))
       "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
       "org.scalatest" %% "scalatest" % "3.0.8" % "test",
-      "org.jline" % "jline" % "3.13.1"
+      "org.jline" % "jline" % "3.13.3"
     ),
     test in assembly := {},
     testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),
