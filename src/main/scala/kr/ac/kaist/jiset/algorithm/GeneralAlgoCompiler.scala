@@ -365,7 +365,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "an empty sequence of algorithm steps" ^^^ EMap(Ty("algorithm"), List(
       EStr("name") -> EStr(""),
       EStr("length") -> EINum(0),
-      EStr("step") -> EFunc(Nil, None, emptyInst)
+      EStr("step") -> toERef("EmptyFunction")
     )) |||
     "the algorithm steps" ~ ("specified" | "defined") ~ "in" ~> algorithmName ^^ {
       case (name, len, stepS) => EMap(Ty("algorithm"), List(

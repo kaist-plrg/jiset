@@ -1,6 +1,7 @@
 object BaseGlobal {
   private val map: Map[String, Value] = Map(
     "RequireObjectCoercible" -> RequireObjectCoercible.func,
+    "EmptyFunction" -> EmptyFunction.func,
     "EnumerateObjectPropertiesHelper" -> EnumerateObjectPropertiesHelper.func,
     "Type" -> Type.func,
     "ToNumber" -> ToNumber.func,
