@@ -3,6 +3,7 @@ object BaseGlobal {
     "RequireObjectCoercible" -> RequireObjectCoercible.func,
     "EmptyFunction" -> EmptyFunction.func,
     "EnumerateObjectPropertiesHelper" -> EnumerateObjectPropertiesHelper.func,
+    "FalseFunction" -> FalseFunction.func,
     "Type" -> Type.func,
     "ToNumber" -> ToNumber.func,
     "ToBoolean" -> ToBoolean.func,
