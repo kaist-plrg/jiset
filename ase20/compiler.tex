@@ -210,84 +210,85 @@ and \( \code{normal} \) as \( \code{Singleton} \) data types
 in \( \ires \).
 \end{itemize}
 
-\subsection{Fault Localizer}\label{sec:localizer}
-\begin{algorithm}[t]
-  \caption{Fault Localization}\label{alg:fault}
-  \begin{algorithmic}[1]
-    \Function{FaultLocalize}{$T,n$}\Comment{$T$: failed step, $n$: size}
-    \State $S = \varnothing$
-    \For{$i = 0$ to $n - 1$}
-    \For{$j = i$ to $n - 1$}
-    \State $T'$ = a copy of $T$
-    \State Substitute $T'[i..j]$ with $\tstar$
-    \If{Parse($T'$) contains $\code{Dummy(}x \code{)}$ for some $x$}
-    \State Insert $(x, i, j)$ into $S$
-    \EndIf
-    \EndFor
-    \EndFor
-    \While{$s = (x, i, j) \in S$}
-    \If{$\exists (y, p, q) \in S$ s.t. $i \leq p \wedge q \leq j$}
-    \State Remove $s$ from $S$
-    \EndIf
-    \EndWhile
-    \State \Return $S$
-    \EndFunction
-  \end{algorithmic}
-\end{algorithm}
-
-To diagnose root causes of parsing failures, we support a \textsf{Fault Localizer},
-which takes not-yet-convertible steps dubbed ``failed steps'' as arguments.
-The basic idea is to check whether we can parse the failed algorithm step
-with the assumption that a specific sub-sequence of the
-failed step is successfully parsed.  We define a \textit{rule suggestion}
-as such a sub-sequence of failed steps with the name of an existing compile rule.
-\textsf{Fault Localizer} refines candidates of rule suggestions into the
-most specific ones. It helped us when we update existing
-compile rules for new versions of the specification.
-
-The fault localization algorithm is shown in Algorithm~\ref{alg:fault}.
-For a given failed step $T$ and the size of a failed input $n$, it
-attempts to find a set of the most specific rule suggestions.  It
-substitutes a specific sub-sequence \( T[i..j] \) of \( T \) with the
-special token \( \tstar \), which represents some sub-sequence of a
-failed step.  It collects a set of possible rule suggestions, and then
-removes more general ones than existing suggestions.  To support this
-process, we added a parsing rule  \( \code{starT} \) to each compile
-rule as follows:
-\begin{lstlisting}[style=myScalastyle]
-// statements
-val Stmt = ... ||| starT ^^ { case x => Dummy("Stmt") }
-// expressions
-val Expr = ... ||| starT ^^ { case x => Dummy("Expr") }
-\end{lstlisting}
-where \( \code{starT} \) is a special basic token parser that just
-checks whether a given token is the special token \( \tstar \). 
-Its corresponding conversion rule is a function that returns a dummy
-\( \ires \) component \( \code{Dummy} \) with a string value that
-represents the name of its compile rule.
-
-For example, let us assume that the \( \code{Expr} \) compile rule
-does not have the alternative for lists:
-\begin{lstlisting}[style=myScalastyle]
-  "<<" ~ repsep(varT, ",") ~ ">>" ^^
-       { case _ ~ x ~ _ => EList(e) } // lists
-\end{lstlisting}
-Then, the step 2-e-i of \textbf{ToPrimitive} becomes a failed step.
-When we use the fault localization algorithm with the failed step and
-its size 15, it first finds one rule suggestion for statements and four
-rule suggestions for expressions as follows:
-\[
-\footnotesize
-\! \! \! \!
-  \begin{array}{c}
-    (\scode{"Stmt"}, 0, 14), \;
-    (\scode{"Expr"}, 3, 13), \;
-    (\scode{"Expr"}, 4, 13), \;
-    (\scode{"Expr"}, 6, 12), \;
-    (\scode{"Expr"}, 10, 12)
-  \end{array}
-\]
-In the \textbf{\small while} loop on lines 9--11, because the last one
-is the most specific sub-sequence, it removes the other four
-rule suggestions. Finally, \textsf{Fault Localizer} suggests to define
-another expression compile rule for the token list \hint{}.
+% XXX removed
+% \subsection{Fault Localizer}\label{sec:localizer}
+% \begin{algorithm}[t]
+%   \caption{Fault Localization}\label{alg:fault}
+%   \begin{algorithmic}[1]
+%     \Function{FaultLocalize}{$T,n$}\Comment{$T$: failed step, $n$: size}
+%     \State $S = \varnothing$
+%     \For{$i = 0$ to $n - 1$}
+%     \For{$j = i$ to $n - 1$}
+%     \State $T'$ = a copy of $T$
+%     \State Substitute $T'[i..j]$ with $\tstar$
+%     \If{Parse($T'$) contains $\code{Dummy(}x \code{)}$ for some $x$}
+%     \State Insert $(x, i, j)$ into $S$
+%     \EndIf
+%     \EndFor
+%     \EndFor
+%     \While{$s = (x, i, j) \in S$}
+%     \If{$\exists (y, p, q) \in S$ s.t. $i \leq p \wedge q \leq j$}
+%     \State Remove $s$ from $S$
+%     \EndIf
+%     \EndWhile
+%     \State \Return $S$
+%     \EndFunction
+%   \end{algorithmic}
+% \end{algorithm}
+% 
+% To diagnose root causes of parsing failures, we support a \textsf{Fault Localizer},
+% which takes not-yet-convertible steps dubbed ``failed steps'' as arguments.
+% The basic idea is to check whether we can parse the failed algorithm step
+% with the assumption that a specific sub-sequence of the
+% failed step is successfully parsed.  We define a \textit{rule suggestion}
+% as such a sub-sequence of failed steps with the name of an existing compile rule.
+% \textsf{Fault Localizer} refines candidates of rule suggestions into the
+% most specific ones. It helped us when we update existing
+% compile rules for new versions of the specification.
+% 
+% The fault localization algorithm is shown in Algorithm~\ref{alg:fault}.
+% For a given failed step $T$ and the size of a failed input $n$, it
+% attempts to find a set of the most specific rule suggestions.  It
+% substitutes a specific sub-sequence \( T[i..j] \) of \( T \) with the
+% special token \( \tstar \), which represents some sub-sequence of a
+% failed step.  It collects a set of possible rule suggestions, and then
+% removes more general ones than existing suggestions.  To support this
+% process, we added a parsing rule  \( \code{starT} \) to each compile
+% rule as follows:
+% \begin{lstlisting}[style=myScalastyle]
+% // statements
+% val Stmt = ... ||| starT ^^ { case x => Dummy("Stmt") }
+% // expressions
+% val Expr = ... ||| starT ^^ { case x => Dummy("Expr") }
+% \end{lstlisting}
+% where \( \code{starT} \) is a special basic token parser that just
+% checks whether a given token is the special token \( \tstar \). 
+% Its corresponding conversion rule is a function that returns a dummy
+% \( \ires \) component \( \code{Dummy} \) with a string value that
+% represents the name of its compile rule.
+% 
+% For example, let us assume that the \( \code{Expr} \) compile rule
+% does not have the alternative for lists:
+% \begin{lstlisting}[style=myScalastyle]
+%   "<<" ~ repsep(varT, ",") ~ ">>" ^^
+%        { case _ ~ x ~ _ => EList(e) } // lists
+% \end{lstlisting}
+% Then, the step 2-e-i of \textbf{ToPrimitive} becomes a failed step.
+% When we use the fault localization algorithm with the failed step and
+% its size 15, it first finds one rule suggestion for statements and four
+% rule suggestions for expressions as follows:
+% \[
+% \footnotesize
+% \! \! \! \!
+%   \begin{array}{c}
+%     (\scode{"Stmt"}, 0, 14), \;
+%     (\scode{"Expr"}, 3, 13), \;
+%     (\scode{"Expr"}, 4, 13), \;
+%     (\scode{"Expr"}, 6, 12), \;
+%     (\scode{"Expr"}, 10, 12)
+%   \end{array}
+% \]
+% In the \textbf{\small while} loop on lines 9--11, because the last one
+% is the most specific sub-sequence, it removes the other four
+% rule suggestions. Finally, \textsf{Fault Localizer} suggests to define
+% another expression compile rule for the token list \hint{}.
