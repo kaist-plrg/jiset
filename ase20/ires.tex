@@ -11,6 +11,7 @@
 \usepackage{tikz}
 \usepackage{dirtree}
 \usepackage{multicol}
+\usepackage{array}
 
 \usetikzlibrary{arrows}
 \tikzset{
@@ -35,13 +36,14 @@
 % \title{\irname : Intermediate Representation for ECMAScript Specification}
 % \maketitle
 
-This document explains abstract syntax and operational semantic of \irnameb.
+% This document explains abstract syntax and operational semantic of \irnameb.
 
 
 \section{Abstract Syntax}
 
+This section explains syntax of \irname.
+
 % Domain
-\begin{figure}[t]
 \[
 \begin{array}{rrl}
 n & \in & \textit{Real Number} \\
@@ -50,15 +52,57 @@ s & \in & \textit{String} \\
 b & \in & \{\textit{true}, \textit{false}\} \\
 r & \in & \textit{Reference} \\
 id & \in & \textit{Id} \\
+t & \in & \textit{Type} \\
+\end{array}
+\]
+
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+asdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasfasdfasf
+
+% Abstract Syntax
+\[
+\begin{array}{rrrll}
+\text{Program} & p & ::= & Inst;\ \dots ;\ Inst & \\
+\\
+
+\text{Instruction} & Inst & ::= & e & \text{(expression)} \\
+&&|& \Cd{let}\ id\ =\ e & \text{(let)}\\
+&&|& r := e & \text{(assign)}\\
+&&|& \Cd{delete}\ e & \text{(delete)}\\
+&&|& \Cd{append}\ e\ \to\ l & \text{(append)}\\
+&&|& \Cd{prepend}\ e\ \to\ l & \text{(prepend)}\\
+&&|& \Cd{return}\ e & \text{(return)}\\
+&&|& \Cd{if}\ e\ \Cd{then}\ \subsc{Inst}{then}\
+\Cd{else}\ \subsc{Inst}{else} & \text{(if-then-else)}\\
+&&|& \Cd{while}\ e\ Inst & \text{(while)}\\
+&&|& \{ Inst;\ \dots\ Inst;  \} & \text{(sequence)}\\
+&&|& \Cd{assert}\ e & \text{(assert)}\\
+&&|& \Cd{print}\ e & \text{(print)}\\
+&&|& \Cd{app}\ id\ =\ (\subsc{e}{function}\ \subsc{e}{1}\ \dots\
+\subsc{e}{n}) & \text{(function application)}\\
+&&|& \Cd{access}\ id\ =\ (\subsc{e}{cond}\ e) & \text{(access)}\\
+&&|& \Cd{withcont}\ id\ (\subsc{id}{1},\ \dots,\ \subsc{id}{n})\ =\ Inst
+& \text{(continuation)}\\ 
 \\
 \end{array}
 \]
-\caption{Expression of \irname}
-\label{fig:domain}
-\end{figure}
 
-% Abstract Syntax
-\begin{figure}[t]
 \[
 \begin{array}{rrrll}
 \text{Expression} & e & ::= & n & \text{(number)}\\
@@ -71,7 +115,7 @@ id & \in & \textit{Id} \\
 &&|& \primitive{"undefined"} & \text{(undefined)}\\
 &&|& \primitive{"null"} & \text{(null)}\\
 &&|& \primitive{"absent"} & \text{(absent)}\\
-&&|& (\Cd{"new"}\ s) & \text{(symbol)}\\ % ESymbol\\
+&&|& (\Cd{"new"}\ s) & \text{(symbol)}\\ % ESymbol
 &&|& \Cd{"pop"}\ l\ i & \text{(pop)}\\
 &&|& \Cd{"typeof"}\ e& \text{(typeof)}\\
 &&|& \Cd{"is-instance-of"}\ e\ s& \text{(is-instance-of)}\\
@@ -86,7 +130,8 @@ id & \in & \textit{Id} \\
 &&|& \Cd{"!!!"}\ s& \text{(not supported)}\\
 &&|& \odot\ e& \text{(unary operator)}\\ %Uop
 &&|& \subsc{e}{1}\ \oplus\ \subsc{e}{2}& \text{(binary operator)}\\ %Bop
-%Cont
+&&|& (\subsc{id}{1},\ \dots,\ \subsc{id}{n})\ [\Rightarrow]\ Inst
+& \text{(continuation)}\\ %Cont\\
 \\
 
 & l & ::= & (\Cd{"new"}\ [\subsc{e}{1},\dots,\subsc{e}{n}]\ )
@@ -98,11 +143,11 @@ id & \in & \textit{Id} \\
 , \subsc{e}{\subsc{k}{n}}\ \to\ \subsc{e}{\subsc{v}{n}}))
 & \text{(map)}\\
 \\
+
+\text{Value} & v & ::= & value & \text{(value)}\\
+\\
 \end{array}
 \]
-\caption{Expression of \irname}
-\label{fig:expr}
-\end{figure}
 
 \begin{figure}[t]
 \[
@@ -161,32 +206,9 @@ id & \in & \textit{Id} \\
 % \text{MapExpression} & m & ::= & \Acd{Nil} & \text{(nil)}\\
 % &&|& e :: l & \text{(cons)}\\
 % \\
+% Figure~\ref{fig:domain}, Figure~\ref{fig:expr}, Figure~\ref{fig:op}
+% describes the abstract syntax of \irname.
 
-% \text{UnaryOperator} & \Acd{UnaryOp} & ::= & - & \text{(number negation)} \\
-% &&|& ! & \text{(boolean not)}\\
-% &&|& ~ & \text{(bit not)}\\
-% &&|& \Acd{TypeOf} & \text{(typeof)}\\
-% &&|& \Acd{Symbol} & \text{(symbol)}\\
-% &&|& \Acd{Copy} & \text{(copy)}\\
-% &&|& \Acd{GetSyntax} & \text{(get syntax)}\\
-% &&|& \Acd{GetKeys} & \text{(get keys)}\\
-% \\
-
-% \text{BinaryOperator} & \Acd{BinaryOp} & ::= & + & \text{(add)}\\
-% &&|& - & \text{(subtraction)}\\
-% &&|& * & \text{(multiplication)}\\
-% \\
-
-% \text{ConvertOperator} & \Acd{ConvertOp} & ::= & \Acd{str2num} & \text{(string to number)}\\
-% &&|& \Acd{num2str} & \text{(number to string)}\\
-% &&|& \Acd{num2int} & \text{(number to integer)}\\
-% \\
-
-
-
-Figure~\ref{fig:domain}, Figure~\ref{fig:expr}, Figure~\ref{fig:op}
-describes the abstract syntax of \irname.
-
-\section{Operational Semantic}
+% \section{Operational Semantic}
 
 \end{document}
