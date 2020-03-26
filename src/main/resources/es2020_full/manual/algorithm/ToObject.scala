@@ -7,6 +7,7 @@ object ToObject {
               "Type" -> CONST_throw,
               "Value" -> (new OrdinaryObject(
                 "Prototype" -> INTRINSIC_TypeErrorPrototype,
+                "Extensible" -> false,
                 "ErrorData" -> undefined,
                 "SubMap" -> (new SubMap())
               )),
@@ -17,23 +18,24 @@ object ToObject {
               "Type" -> CONST_throw,
               "Value" -> (new OrdinaryObject(
                 "Prototype" -> INTRINSIC_TypeErrorPrototype,
+                "Extensible" -> false,
                 "ErrorData" -> undefined,
                 "SubMap" -> (new SubMap())
               )),
               "Target" -> CONST_empty
             ))
           } else if (= atype "Boolean") {
-            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_BooleanPrototype))
+            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_BooleanPrototype, "Extensible" -> true))
             obj.BooleanData = argument
             obj.SubMap = (new SubMap())
             return obj
           } else if (= atype "Number") {
-            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_NumberPrototype))
+            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_NumberPrototype, "Extensible" -> true))
             obj.NumberData = argument
             obj.SubMap = (new SubMap())
             return obj
           } else if (= atype "String") {
-            let obj = (new StringExoticObject("Prototype" -> INTRINSIC_StringPrototype))
+            let obj = (new StringExoticObject("Prototype" -> INTRINSIC_StringPrototype, "Extensible" -> true))
             obj.StringData = argument
             if (= obj["HasProperty"] absent) obj["HasProperty"] = OrdinaryObjectDOTHasProperty else {}
             if (= obj["DefineOwnProperty"] absent) obj["DefineOwnProperty"] = OrdinaryObjectDOTDefineOwnProperty else {}
@@ -49,7 +51,7 @@ object ToObject {
             obj.SubMap = (new SubMap( "length" -> (new DataProperty( "Value" -> argument["length"], "Writable" -> false, "Enumerable" -> false, "Configurable" -> false))))
             return obj
           } else if (= atype "Symbol") {
-            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_SymbolPrototype))
+            let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_SymbolPrototype, "Extensible" -> true))
             obj.SymbolData = argument
             obj.SubMap = (new SubMap())
             return obj

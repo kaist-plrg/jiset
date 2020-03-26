@@ -56,15 +56,17 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       starStmt
     )
   } <~ opt("." | ";") ~ opt(comment) | comment
-  lazy val comment: P[Inst] = (
-    "assert:" |
-    "note" |
-    "this may be" |
-    "as defined" |
-    "( if" |
-    "this call will always return" ~ value |
-    (opt("(") <~ ("see" | "it may be"))
-  ) ~ rest ^^^ emptyInst
+  lazy val comment: P[Inst] =
+    "assert:" ~> cond <~ guard("." ~ next) ^^ { case i ~ e => ISeq(i :+ IAssert(e)) } |
+      (
+        "assert:" |
+        "note" |
+        "this may be" |
+        "as defined" |
+        "( if" |
+        "this call will always return" ~ value |
+        (opt("(") <~ ("see" | "it may be"))
+      ) ~ rest ^^^ emptyInst
 
   // ignore statements
   lazy val ignoreStmt: P[Inst] = (
@@ -227,7 +229,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   )
 
   // assert statements
-  lazy val assertStmt: P[Inst] = ("assert:" | "note:") ~ rest ^^^ emptyInst
+  lazy val assertStmt: P[Inst] = ("assert:" | "note:") ~> cond <~ guard("." ~ next) ^^ { case i ~ e => ISeq(i :+ IAssert(e)) } |
+    ("assert:" | "note:") ~> rest ^^^ emptyInst
 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
@@ -569,7 +572,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = _cond <~ guard("," | in) | etcCond
+  lazy val cond: P[I[Expr]] = _cond <~ guard("," | in | ("." ~ next)) | etcCond
   lazy val _cond: P[I[Expr]] = (
     bopCond |||
     condOpCond |||
@@ -616,14 +619,14 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val rhs: P[Expr => I[Expr]] = equalRhs ||| notEqualRhs
   lazy val equalRhs: P[Expr => I[Expr]] = {
     "is" ~ opt("present and" ~ ("its value is" | "has value")) | "has the value"
-  } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in), sep("or")) ^^ {
+  } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in | ("." ~ next)), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     }
   }
   lazy val notEqualRhs: P[Expr => I[Expr]] = {
     "is" ~ ("not" ~ opt("the same as" | "one of") | "neither")
-  } ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | "nor" | in), sep("nor" | "or")) ^^ {
+  } ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next)), sep("nor" | "or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     } match { case i ~ e => pair(i, not(e)) }
