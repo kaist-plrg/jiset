@@ -1,7 +1,7 @@
-TEXSRC=	main.tex intro.tex overview.tex \
-				parser.tex compiler.tex impl.tex \
-				eval.tex related.tex conclusion.tex \
-				macros.tex ref.bib
+TEXSRC=	main.tex abstract.tex intro.tex \
+				overview.tex parser.tex compiler.tex \
+				impl.tex eval.tex related.tex \
+				conclusion.tex macros.tex ref.bib
 
 main.pdf: $(TEXSRC)
 	pdflatex main.tex  && \

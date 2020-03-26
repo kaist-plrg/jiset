@@ -175,39 +175,8 @@
 }
 \email{sryu.cs@kaist.ac.kr}
 
-\begin{abstract}
-JavaScript was initially designed for client-side code in web browsers,
-but its engine is now embedded in various kinds of host software.
-Despite its popularity, since the JavaScript semantics is complex
-especially due to its dynamic nature, understanding and reasoning
-about JavaScript programs are challenging tasks.  Thus,
-researchers have proposed several attempts to define the formal semantics
-of JavaScript based on ECMAScript, the official JavaScript specification.
-However, the existing approaches are manual, labor-intensive, and
-error-prone, and they all target only the ECMAScript 5.1 version.
-This problem is critical in understanding recent JavaScript programs
-because ECMAScript has been annually released since 2015, which made
-already five updates after ECMAScript 5.1.
-
-To alleviate the problem, we propose \( \tool \), a JavaScript IR-based Semantics
-Extraction Toolchain. It \textit{synthesizes} a JavaScript
-parser for a given grammar written in \( \bnfes \), an extended BNF
-used in ECMAScript. It also \textit{automatically} extracts
-semantics using rule-based compilation. Each \textit{compile rule}
-describes how to convert each abstract algorithm written in a structured natural language
-into functions written in \( \ires \), an Intermediate Representation
-for ECMAScript. \( \tool \) synthesizes parsers from all \( \bnfes \) productions
-and extracts semantics from 91.60\% of algorithm steps for five recent
-ECMAScript versions.  We implemented a JavaScript interpreter for ECMAScript 2020
-using the extracted semantics.  It passed 19,220 of 19,282 applicable tests
-in Test262, the official ECMAScript conformance test suite. While extracting
-the semantics using \( \tool \), we found three specification errors
-and all of them were confirmed by TC 39. Moreover, we also successfully applied
-our tool to an incomplete proposal as a case study.
-\end{abstract}
-
+\input{abstract}
 \keywords{JavaScript, mechanized formal semantics, program synthesis}
-
 \maketitle
 
 \input{intro}
