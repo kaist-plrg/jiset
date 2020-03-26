@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,left=20mm,right=20mm,top=30mm,bottom=25mm]{geometry}
+
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathpartir}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{xspace}
+\usepackage{stmaryrd}
+\usepackage{tikz}
+\usepackage{dirtree}
+\usepackage{multicol}
+\usepackage{array}
+
+\usetikzlibrary{arrows}
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered},
+  arn_n/.style = {treenode, circle, black, draw=black, text width=1.5em},
+}
+
+\newcommand{\irnameb}[0]{\textbf{IR\textsubscript{ES}}\xspace}
+\newcommand{\irname}[0]{IR\textsubscript{ES}\xspace}
+\newcommand{\Acd}[1]{\mathsf{#1}}
+\newcommand{\Term}[1]{\texttt{#1}}
+
+
+\begin{document}
+
+% \title{\irname : Intermediate Representation for ECMAScript Specification}
+% \maketitle
+
+% This document explains abstract syntax and operational semantic of \irnameb.
+
+
+\section{Abstract Syntax}
+
+This section explains abstract syntax of \irname.
+
+% Domain
+\[
+\begin{array}{rrl}
+n & \in & \textit{FloatingPoint} \\
+d & \in & \textit{Integer} \\
+s & \in & \textit{String} \\
+b & \in & \textit{Boolean} \\
+r & \in & \textit{Reference} \\
+x & \in & \textit{Identifier} \\
+t & \in & \textit{Type} \\
+\end{array}
+\]
+
+% Abstract Syntax
+\[
+\begin{array}{rrrll}
+\text{Program} & p & ::= & i\Term{;}\ \cdots \Term{;}\ i & \\
+\\
+
+\text{Instruction} & i & ::= & e & \text{(expression)} \\
+&&|& \Term{let}\ x\ \Term{=}\ e & \text{(let)}\\
+&&|& r \Term{:=} e & \text{(assign)}\\
+&&|& \Term{delete}\ e & \text{(delete)}\\
+&&|& \Term{append}\ e\ \to\ e & \text{(append)}\\
+&&|& \Term{prepend}\ e\ \to\ e & \text{(prepend)}\\
+&&|& \Term{return}\ e & \text{(return)}\\
+&&|& \Term{if}\ e\ i\ i\ & \text{(if-then-else)}\\
+&&|& \Term{while}\ e\ i & \text{(while)}\\
+&&|& \{ i\Term{;}\ \cdots\ i\Term{;}  \} & \text{(sequence)}\\
+&&|& \Term{assert}\ e & \text{(assert)}\\
+&&|& \Term{print}\ e & \text{(print)}\\
+&&|& \Term{app}\ x\ \Term{=}\ (e\ e^*) & \text{(function application)}\\
+&&|& \Term{access}\ x\ \Term{=}\ (e\ e) & \text{(access)}\\
+&&|& \Term{withcont}\ x\ (x^*)\ =\ i & \text{(continuation)}\\ 
+\\
+\end{array}
+\]
+
+\newpage
+
+\[
+\begin{array}{rrrll}
+\text{Expression} & e & ::= & n & \text{(number)}\\
+&&|& i & \text{(integer)}\\
+&&|& s & \text{(string)}\\
+&&|& b & \text{(boolean)}\\
+&&|& r & \text{(reference)}\\
+&&|& \Term{undefined} & \text{(undefined)}\\
+&&|& \Term{null} & \text{(null)}\\
+&&|& \Term{absent} & \text{(absent)}\\
+&&|& \Term{new}\ s & \text{(symbol)}\\ % ESymbol
+&&|& l & \text{(list)}\\
+&&|& m & \text{(map)}\\
+&&|& \Term{new}\ \Term{[} e^* \Term{]} & \text{(list)}\\ %EList
+&&|& \Term{new}\ t\ \Term{(} e\ \mapsto\ e,\ \cdots,\
+e\ \mapsto\ e \Term{)} & \text{(map)}\\ %EMap
+&&|& \Term{pop}\ e\ e & \text{(pop)}\\
+&&|& \Term{typeof}\ e & \text{(typeof)}\\
+&&|& \Term{is-instance-of}\ e\ s& \text{(is-instance-of)}\\
+&&|& \Term{get-elems}\ e\ s& \text{(get-elements)}\\
+&&|& \Term{get-syntax}\ e& \text{(get-syntax)}\\
+&&|& \Term{parse-syntax}\ e\ e\ e^*\ & \text{(parse-syntax)}\\
+&&|& \Term{convert}\ e\ \triangleright\ e^*& \text{(convert)}\\
+&&|& \Term{contains}\ e\ e& \text{(contains)}\\
+&&|& \Term{copy-obj}\ e& \text{(copy-object)}\\
+&&|& \Term{map-keys}\ e& \text{(map-keys)}\\
+&&|& \Term{!!!}\ s& \text{(not supported)}\\
+&&|& \odot\ e& \text{(unary operation)}\\ %Uop
+&&|& e\ \oplus\ e& \text{(binary operation)}\\ %Bop
+&&|& \Term{(} x^* \Term{)}\ \Term{[} \Rightarrow \Term{]}\ i
+& \text{(continuation)}\\ %Cont\\
+\\
+
+\end{array}
+\]
+
+\newpage
+
+\[
+\begin{array}{rrrll}
+\text{UnaryOperator}& \odot & ::=
+& \Term{-} & \text{(negation)}\\
+&&|& \Term{!} & \text{(boolean not)}\\
+&&|& \sim & \text{(bitwise not)}\\
+\\
+
+\text{BinaryOperator}& \oplus & ::=
+& \Term{+} & \text{(addition)}\\
+&&|& \Term{-} & \text{(subtraction)}\\
+&&|& \Term{*} & \text{(multiplication)}\\
+&&|& \Term{**} & \text{(power)}\\
+&&|& \Term{/} & \text{(division)}\\
+&&|& \verb|%| & \text{(modulo)}\\
+&&|& \verb|%| & \text{(modulo)}\\
+&&|& \Term{=} & \text{(equals)}\\
+&&|& \verb|&&| & \text{(boolean and)}\\
+&&|& \Term{||} & \text{(boolean or)}\\
+&&|& \verb|^^| & \text{(boolean xor)}\\
+&&|& \verb|&| & \text{(bitwise and)}\\
+&&|& \Term{|} & \text{(bitwise or)}\\
+&&|& \verb|^| & \text{(bitwise xor)}\\
+&&|& \verb|<<| & \text{(shift left)}\\
+&&|& \Term{<} & \text{(less-then)}\\
+&&|& \verb|>>>| & \text{(unsigned shift right)}\\
+&&|& \verb|>>| & \text{(shift right)}\\
+\\
+
+\text{ConvertOperator} & \triangleright
+& ::= & \Term{str2num}& \text{(string to number)}\\
+&&|& \Term{num2str} & \text{(number to string)}\\
+&&|& \Term{num2int} & \text{(number to integer)}\\
+\\
+\end{array}
+\]
+
+\newpage
+
+\section{Operational Semantic}
+
+This section explains operational semantic of \irname.
+
+\end{document}
