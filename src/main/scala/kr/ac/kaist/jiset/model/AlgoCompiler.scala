@@ -193,7 +193,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       forEachMap(Id("name"), parseExpr("GLOBAL"), parseInst(s"""{
         let desc = GLOBAL[name]
         app $temp = (DefinePropertyOrThrow global name desc)
-        if (= (typeof $temp) "Completion") {
+        if (is-completion $temp) {
           if (= $temp.Type CONST_normal) $temp = $temp.Value
           else return $temp
         } else {}
@@ -766,7 +766,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
     } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
       case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
     } | expr <~ "is a normal completion" ^^ {
-      case i ~ x => pair(i, parseExpr(s"""(&& (= (typeof ${beautify(x)}) "Completion") (= ${beautify(x)}.Type CONST_normal))"""))
+      case i ~ x => pair(i, parseExpr(s"""(&& (is-completion ${beautify(x)}) (= ${beautify(x)}.Type CONST_normal))"""))
     } | expr <~ "is not already suspended" ^^ {
       case i ~ e => pair(i, EBOp(OEq, e, ENull))
     } | (expr <~ "and") ~ expr <~ "have different results" ^^ {

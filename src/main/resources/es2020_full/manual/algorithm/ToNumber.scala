@@ -18,13 +18,13 @@ object ToNumber {
       ))
       else {
         app __x0__ = (ToPrimitive argument "Number")
-        if (= (typeof __x0__) "Completion") {
+        if (is-completion __x0__) {
           if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value
           else return __x0__
         } else {}
         let primValue = __x0__
         app __x1__ = (ToNumber primValue)
-        if (= (typeof __x1__) "Completion") {
+        if (is-completion __x1__) {
           if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value
           else return __x1__
         } else {}

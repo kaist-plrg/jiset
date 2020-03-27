@@ -637,7 +637,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "the token" ~> code ^^ { case y => (e: Expr) => pair(Nil, isEq(EGetSyntax(e), EStr(y))) } |||
     (id | camelWord) ^^ { case x => (e: Expr) => pair(Nil, isEq(e, toERef(x))) } |||
     callName ^^ { case f => (e: Expr) => getCall(f, List(pair(Nil, e))) } |||
-    ("a" | "an") ~> ty ^^ { case t => (e: Expr) => pair(Nil, isEq(ETypeOf(e), EStr(t.name))) } |||
+    ("a completion") ^^ { case _ => (e: Expr) => pair(Nil, EIsCompletion(e)) } |||
+    ("a" | "an") ~> ty.filter(_ != Ty("Completion")) ^^ { case t => (e: Expr) => pair(Nil, isEq(ETypeOf(e), EStr(t.name))) } |||
     opt("a" | "an") ~> nt ^^ { case x => (e: Expr) => pair(Nil, EIsInstanceOf(e, x)) }
   )
   lazy val callName: P[String] = ("a" | "an") ~> (

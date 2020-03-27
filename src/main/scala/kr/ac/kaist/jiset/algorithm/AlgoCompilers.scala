@@ -138,7 +138,7 @@ trait AlgoCompilers extends TokenParsers {
     vulnerable: Boolean = true
   ): I[Expr] = (insts, expr) match {
     case (i, (e @ ERef(RefId(Id(x))))) => pair(i :+ IIf(
-      isEq(ETypeOf(e), EStr("Completion")),
+      EIsCompletion(e),
       IIf(
         isEq(toERef(x, "Type"), toERef("CONST_normal")),
         IAssign(toRef(x), toERef(x, "Value")),
@@ -151,7 +151,7 @@ trait AlgoCompilers extends TokenParsers {
       pair(i :+ (if (vulnerable) ISeq(List(
         ILet(temp, e),
         IIf(
-          isEq(ETypeOf(toERef(temp)), EStr("Completion")),
+          EIsCompletion(toERef(temp)),
           IIf(
             isEq(toERef(temp, "Type"), toERef("CONST_normal")),
             IAssign(toRef(temp), toERef(temp, "Value")),
@@ -163,7 +163,7 @@ trait AlgoCompilers extends TokenParsers {
       else ISeq(List(
         ILet(temp, e),
         IIf(
-          isEq(ETypeOf(toERef(temp)), EStr("Completion")),
+          EIsCompletion(toERef(temp)),
           IAssign(toRef(temp), toERef(temp, "Value")),
           emptyInst
         )
@@ -179,14 +179,14 @@ trait AlgoCompilers extends TokenParsers {
     case (i, (e @ ERef(RefId(Id(x)))), ce) =>
       val temp = getTempId
       pair(i :+ IIf(
-        isEq(ETypeOf(e), EStr("Completion")),
+        EIsCompletion(e),
         IIf(
           isEq(toERef(x, "Type"), toERef("CONST_normal")),
           IAssign(toRef(x), toERef(x, "Value")),
           ISeq(List(
             IApp(temp, toERef("Call"), List(ERef(RefProp(ce, EStr("Reject"))), EUndef, EList(List(toERef(x, "Value"))))),
             IIf(
-              EBOp(OAnd, isEq(ETypeOf(toERef(temp)), EStr("Completion")), isNEq(toERef(temp, "Type"), toERef("CONST_normal"))),
+              EBOp(OAnd, EIsCompletion(toERef(temp)), isNEq(toERef(temp, "Type"), toERef("CONST_normal"))),
               IReturn(toERef(temp)),
               emptyInst
             ),
@@ -201,14 +201,14 @@ trait AlgoCompilers extends TokenParsers {
       pair(i :+ ISeq(List(
         ILet(temp, e),
         IIf(
-          isEq(ETypeOf(toERef(temp)), EStr("Completion")),
+          EIsCompletion(toERef(temp)),
           IIf(
             isEq(toERef(temp, "Type"), toERef("CONST_normal")),
             IAssign(toRef(temp), toERef(temp, "Value")),
             ISeq(List(
               IApp(temp2, toERef("Call"), List(ERef(RefProp(ce, EStr("Reject"))), EUndef, EList(List(toERef(temp, "Value"))))),
               IIf(
-                EBOp(OAnd, isEq(ETypeOf(toERef(temp2)), EStr("Completion")), isNEq(toERef(temp2, "Type"), toERef("CONST_normal"))),
+                EBOp(OAnd, EIsCompletion(toERef(temp2)), isNEq(toERef(temp2, "Type"), toERef("CONST_normal"))),
                 IReturn(toERef(temp2)),
                 emptyInst
               ),
@@ -368,7 +368,7 @@ trait AlgoCompilers extends TokenParsers {
 
   // check abrupt completion
   def isAbruptCompletion(x: String): Expr = {
-    EBOp(OAnd, isEq(ETypeOf(toERef(x)), EStr("Completion")), isNEq(toERef(x, "Type"), toERef("CONST_normal")))
+    EBOp(OAnd, EIsCompletion(toERef(x)), isNEq(toERef(x, "Type"), toERef("CONST_normal")))
   }
 
   // separators
