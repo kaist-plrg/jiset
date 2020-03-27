@@ -4,6 +4,7 @@
 \usepackage{mathtools}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{amsmath}
 \usepackage{mathpartir}
 \usepackage{verbatim}
 \usepackage{hyperref}
@@ -25,6 +26,17 @@
 \newcommand{\Acd}[1]{\mathsf{#1}}
 \newcommand{\Term}[1]{\texttt{#1}}
 
+\newcommand{\eval}[3]{#1\vdash #2\Rightarrow #3}
+\newcommand{\evald}[2]{\eval{\sigma}{#1}{#2}}
+\newcommand{\dom}[1]{\mathit{Domain}(#1)}
+\newcommand{\cs}[0]{\quad}
+
+\newcommand{\symstate}[0]{\Sigma}
+\newcommand{\symctx}[0]{\Delta}
+\newcommand{\symctxstack}[0]{\sqcup}
+\newcommand{\symglb}[0]{\mathbb{G}}
+\newcommand{\symenv}[0]{\sigma}
+\newcommand{\symheap}[0]{\mathbb{M}}
 
 \begin{document}
 
@@ -89,8 +101,6 @@ t & \in & \textit{Type} \\
 &&|& \Term{null} & \text{(null)}\\
 &&|& \Term{absent} & \text{(absent)}\\
 &&|& \Term{new}\ s & \text{(symbol)}\\ % ESymbol
-&&|& l & \text{(list)}\\
-&&|& m & \text{(map)}\\
 &&|& \Term{new}\ \Term{[} e^* \Term{]} & \text{(list)}\\ %EList
 &&|& \Term{new}\ t\ \Term{(} e\ \mapsto\ e,\ \cdots,\
 e\ \mapsto\ e \Term{)} & \text{(map)}\\ %EMap
@@ -158,5 +168,111 @@ e\ \mapsto\ e \Term{)} & \text{(map)}\\ %EMap
 \section{Operational Semantic}
 
 This section explains operational semantic of \irname.
+
+\subsection{Domain}
+
+Semantic domain of \irname.
+
+\[
+\begin{array}{rrrl}
+%State
+\text{State} & \symstate & \in &
+\textit{Context}\ \times\ \textit{ContextStack}\
+\times\ \textit{Global}\ \times\ \textit{Heap}
+\\
+%Context
+\text{Context} & \symctx & \in &
+\textit{Identifier}\ \times\ \textit{String}\
+\times\ \textit{Instruction}^*\ \times\ \textit{Environment}
+\\
+%ContextStack
+\text{ContextStack} & \symctxstack & \in & \textit{Context}^*
+\\
+%Global
+\text{Global} & \symglb & \in &
+\textit{Identifier}\ \to\ \textit{Value}
+\\
+%Environment
+\text{Environment} & \symenv & \in &
+\textit{Identifier}\ \to\ \textit{Value}
+\\
+%Heap
+\text{Heap} & \symheap & \in &
+\textit{Address}\ \to\ \textit{Object}
+\\
+%Value
+\text{Value} & v & \in & \textit{Value}
+\\
+%Address
+\text{Address} & a & \in & \textit{Address}
+\\
+%Object
+\text{Object} & o & \in & \textit{Object}
+\\
+
+\end{array}
+\]
+
+\[
+\begin{array}{rrrll}
+%Constant
+\text{Constant} & c & ::= & n\ |\ d\ |\ s\ |\ b\ |\
+\Term{undefined}\ |\ \Term{null}\ |\ \Term{absent}\ & \\
+\\
+%Address
+\text{Address} & a & ::= & s & \text{(named address)} \\
+&&|& d & \text{(dynamic address)}\\
+\\
+%Object
+\textit{Object} & o & ::= & \Term{symbol}\ v & \text{(symbol)}\\
+&&|& \Term{map}\ t\ \Term{(} v\ \mapsto\ v,\ \cdots,\
+v\ \mapsto\ v \Term{)} & \text{(map)}\\
+&&|& \Term{list}\ \Term{[} v^* \Term{]} & \text{(list)}\\
+&&|& \Term{not-supported}\ s & \text{(not supported)}\\
+\\
+%Value
+\textit{Value} & v & ::= & a & \text{(address)} \\
+&&|& c & \text{(constant)}\\
+&&|& s\ \Term{(} x^* \Term{)}\ \Rightarrow\ i
+& \text{(function(varparam?))}\\
+&&|& \sigma,\ \sqcup\ \vdash \Term{(} x^* \Term{)}\
+\Term{[} \Rightarrow \Term{]}\ i & \text{(continuation)}\\
+&&|& ASTVal? & \text{(AST value)}\\
+&&|& ASTMethod? & \text{(AST method)}\\
+\\
+
+% \textit{RefValue} & rv & ::= & id & \text{(id)}\\
+% &&|& prop & \text{(prop)}\\
+% &&|& string & \text{(string)}\\
+% \\
+
+\end{array}
+\]
+
+\newpage
+
+\subsection{State Transition}
+
+\subsubsection{Instruction}
+
+\[
+\begin{array}{ccc}
+\multicolumn{1}{c}{\begin{array}{ccc}
+\fbox{$\evald{e}{v}$}
+&\cs&
+\infer
+{ x\in\dom{\sigma} }
+{ \evald{x}{\sigma(x)} }
+\end{array}}
+&
+\multicolumn{2}{c}{\begin{array}{ccc}
+\evald{n}{n}
+&\cs&
+\evald{b}{b}
+\end{array}}
+\\
+\end{array}
+\]
+
 
 \end{document}
