@@ -6,26 +6,28 @@ dynamic nature, understanding and reasoning about JavaScript programs are
 challenging tasks.  Thus, researchers have proposed several attempts to define
 the formal semantics of JavaScript based on ECMAScript, the official JavaScript
 specification.  However, the existing approaches are manual, labor-intensive,
-and error-prone and all formal semantics target former versions of ECMAScript
-5.1 (ES5.1).  It is critical in understanding modern JavaScript language
-features introduced after ECMAScript 6 (ES6). Moreover, ECMAScript has been
-annually released since 2015, which made already five updates after ES5.1.
+and error-prone and all formal semantics targeted ECMAScript 5.1 (ES5.1, 2011)
+or more former versions.  It is critical in understanding modern JavaScript
+language features introduced by ECMAScript 6 (ES6, 2015).  Moreover, ECMAScript
+has been annually released since 2015, which made already five updates after
+ES5.1.
 
 To alleviate the problem, we propose \( \tool \), a JavaScript IR-based
-Semantics Extraction Toolchain. It is the first tool that \textit{automatically
+Semantics Extraction Toolchain.  It is the first tool that \textit{automatically
 synthesizes} parsers and AST-IR translators directly from a given ECMAScript.
 For syntax, we develop a parser generation technique with \textit{lookahead
 parsing} for \( \bnfes \), a variant of the extended BNF used in ECMAScript.
 For semantics, \( \tool \) synthesizes AST-IR translators using \textit{forward
-compatible} rule-based compilation. Each \textit{compile rule} describes how to
+compatible} rule-based compilation.  Each \textit{compile rule} describes how to
 convert each step of abstract algorithms written in structured natural language
 into \( \ires \), an Intermediate Representation that we designed for
-ECMAScript. For the five most recent ECMAScript versions, \( \tool \) succeeds
+ECMAScript.  For the five most recent ECMAScript versions, \( \tool \) succeeds
 to synthesize parsers for all versions, and to compile \inred{XX.XX}\% of
-algorithm steps in average. We manually complete the core part of formal
-semantics of the next version of ECMAScript (ES11) based on the extracted
-semantics and it passed all \inred{XX,XXX} applicable tests. Based on the formal
-semantics, we found \inred{X} specification errors in ES11 and all of them were
-confirmed by TC 39.  Furthermore, we also successfully applied \( \tool \) to
-\inred{X} feature proposals in Stage 3.
+algorithm steps in average.  We manually complete the core part of formal
+semantics of the draft of the next ECMAScript (ES11, 2020) based on the
+extracted semantics and it passed all \inred{XX,XXX} applicable tests.  Based on
+the formal semantics, we found \inred{X} specification errors in ES11 and all of
+them were confirmed by TC 39.  Furthermore, we also successfully applied \(
+\tool \) to \inred{X} feature proposals in Stage 3 to check the forward
+compatibility of \( \tool \).
 \end{abstract}
