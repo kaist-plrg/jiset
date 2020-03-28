@@ -93,7 +93,7 @@ object ASTGenerator {
               }
             }
           }
-          nf.println(sems.mkString("," + LINE_SEP))
+          nf.println(sems.sorted.mkString("," + LINE_SEP))
           nf.println(s"""  )""")
           nf.println(s"""}""")
         }
