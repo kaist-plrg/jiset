@@ -77,7 +77,7 @@ object ParserGenerator {
       val LLs = rhsList.zipWithIndex.filter { case (rhs, _) => isLL(name, rhs) }
 
       val pre = "lazy val"
-      val llpre = if (LLs.isEmpty) "" else "resolveLL"
+      val llpre = if (LLs.isEmpty) "" else "resolveLL("
       val post = s"[$name] = memo(args => {" + LINE_SEP + (if (params.isEmpty) "" else {
         s"""    val List(${params.mkString(", ")}) = getArgsN("$name", args, ${params.length})""" + LINE_SEP
       }) + s"""    log($llpre("""
@@ -87,9 +87,9 @@ object ParserGenerator {
       }.mkString(" |" + LINE_SEP))
       if (!LLs.isEmpty) nf.print(LLs.map {
         case (rhs, i) => getParsers(name, rhs.tokens.drop(1), rhs.cond, i, true)
-      }.mkString("," + LINE_SEP, " |" + LINE_SEP, ""))
+      }.mkString(LINE_SEP + "    ), (" + LINE_SEP, " |" + LINE_SEP, ""))
       nf.println
-      nf.println(s"""    ))("$name")""")
+      nf.println("    " + (if (LLs.isEmpty) "" else ")") + s"""))("$name")""")
       nf.println(s"""  })""")
     }
 
@@ -170,7 +170,7 @@ object ParserGenerator {
     nf.println(s"""  )""")
     nf.println(s"""  val rules: Map[String, ESParser[AST]] = Map(""")
     nf.println(prods.map {
-      case Production(Lhs(name, _), _) => s""""$name" -> $name"""
+      case Production(Lhs(name, _), _) => s"""    "$name" -> $name"""
     }.mkString("," + LINE_SEP))
     nf.println(s"""  )""")
     nf.println(s"""}""")

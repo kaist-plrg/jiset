@@ -69,7 +69,6 @@ object ASTGenerator {
           nf.println(s"""}""")
           nf.println(s"""object $name$i extends ASTInfo {""")
           nf.println(s"""  val maxK: Int = $maxK""")
-          nf.println(s"""  val semMap: Map[String, Func] = Map(""")
           var sems: List[String] = Nil
           for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/manual/algorithm")) {
             if (scalaFilter(file.getName)) {
@@ -78,7 +77,7 @@ object ASTGenerator {
               val len = pre.length
               if (methodName.startsWith(pre) && !methodName.charAt(len).isDigit) {
                 val semName = methodName.substring(len)
-                sems ::= s""""$semName" -> $methodName.func"""
+                sems ::= s"""    "$semName" -> $methodName.func"""
               }
             }
           }
@@ -89,12 +88,14 @@ object ASTGenerator {
               val len = pre.length
               if (methodName.startsWith(pre) && !methodName.charAt(len).isDigit) {
                 val semName = methodName.substring(len)
-                sems ::= s""""$semName" -> $methodName.func"""
+                sems ::= s"""    "$semName" -> $methodName.func"""
               }
             }
           }
-          nf.println(sems.sorted.mkString("," + LINE_SEP))
-          nf.println(s"""  )""")
+          nf.print(s"""  val semMap: Map[String, Func] = Map(""")
+          if (!sems.isEmpty)
+            nf.print(sems.sorted.mkString(LINE_SEP, "," + LINE_SEP, LINE_SEP + "  "))
+          nf.println(s""")""")
           nf.println(s"""}""")
         }
       }

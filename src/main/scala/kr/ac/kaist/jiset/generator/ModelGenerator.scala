@@ -88,8 +88,8 @@ object ModelGenerator {
       s"""    Id("$x") -> $x.func""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++ Map(""")
     nf.println(consts.map(i =>
-      s"""    Id("CONST_$i") -> NamedAddr("CONST_$i")""").mkString("," + LINE_SEP))
-    nf.println(s"""  ) ++ BaseGlobal.get""")
+      s"""      Id("CONST_$i") -> NamedAddr("CONST_$i")""").mkString("," + LINE_SEP))
+    nf.println(s"""    ) ++ BaseGlobal.get""")
     nf.println(s"""  lazy val builtinMethods: List[(String, Int, Func)] = List(""")
     nf.println(builtinMethods.map(x => {
       val obj = getScalaName(x)
@@ -100,8 +100,8 @@ object ModelGenerator {
     nf.println(consts.map(i =>
       s"""    NamedAddr("CONST_$i") -> IRSymbol(Str("CONST_$i"))""").mkString("," + LINE_SEP))
     nf.println(s"""  ) match {""")
-    nf.println(s"""    case m => ModelHelper.addBuiltin(m, BuiltinHeap.builtinMethods ++ builtinMethods)""")
-    nf.println(s"""  })""")
+    nf.println(s"""      case m => ModelHelper.addBuiltin(m, BuiltinHeap.builtinMethods ++ builtinMethods)""")
+    nf.println(s"""    })""")
     nf.println(s"""  lazy val tyMap: Map[String, Map[Value, Value]] = Map(""")
     nf.println(tys.map {
       case ((tname, _)) => s"""    ("$tname" -> $tname.map)"""
