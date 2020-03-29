@@ -118,7 +118,7 @@ t & \in & \textit{Type} \\
 &&|& \Term{undefined} & \text{(undefined)}\\
 &&|& \Term{null} & \text{(null)}\\
 &&|& \Term{absent} & \text{(absent)}\\
-&&|& \Term{new}\ s & \text{(symbol)}\\ % ESymbol
+&&|& \Term{new}\ e & \text{(symbol)}\\ % ESymbol
 &&|& \Term{new}\ \Term{[} e^* \Term{]} & \text{(list)}\\ %EList
 &&|& \Term{new}\ t\ \Term{(} e\ \mapsto\ e,\ \cdots,\
 e\ \mapsto\ e \Term{)} & \text{(map)}\\ %EMap
@@ -306,6 +306,9 @@ dynamic addr
 is represented by completion record. "Escape completion" means "use value of 
 completion record(\irname object), instead of record itself".
 
+\subsubsection{State Helper Function}
+[[description of state function]]
+
 \newpage
 
 \subsubsection{Instruction}
@@ -480,27 +483,181 @@ v_f = \symctx,\ \symctxstack,\ x^*\ \Term{[} \Rightarrow \Term{]}\ i
 \end{array}
 \]
 
+TODO 
+
+function application - method
+
+access
+
 \newpage
 
 \subsubsection{Expression}
 
 \[
-\begin{array}{ccc}
-\multicolumn{1}{c}{\begin{array}{ccc}
+\begin{array}{c}
+\multicolumn{1}{c}{\begin{array}{ccccccccc}
 \fbox{$\evalexpr{\symstate}{e}{v}{\symstate}$}
-&\cs&
-\infer
-{ x\in\dom{\sigma} }
-{ \evald{x}{\sigma(x)} }
-\end{array}}
 &
-\multicolumn{2}{c}{\begin{array}{ccc}
-\evald{n}{n}
-&\cs&
-\evald{b}{b}
+\cs
+&
+% number
+\evalexpr{\symstate}{n}{n}{\symstate}
+&
+\cs
+&
+% integer
+\evalexpr{\symstate}{d}{d}{\symstate}
+&
+\cs
+&
+% string
+\evalexpr{\symstate}{s}{s}{\symstate}
+&
+\cs
+&
+% boolean
+\evalexpr{\symstate}{b}{b}{\symstate}
 \end{array}}
+\\ \\
+\multicolumn{1}{c}{\begin{array}{ccccc}
+% undefined
+\evalexpr{\symstate}{\Term{undefined}}{\Term{undefined}}{\symstate}
+&
+\cs
+&
+% null
+\evalexpr{\symstate}{\Term{null}}{\Term{null}}{\symstate}
+&
+\cs
+&
+% absent
+\evalexpr{\symstate}{\Term{absent}}{\Term{absent}}{\symstate}
+\end{array}}
+\\ \\
+\multicolumn{1}{c}{\begin{array}{ccc}
+% uop
+\infer
+{\evalescexpr{\symstate}{e}{v}{\symstate_0}\ \ \ \
+\evaluop{v}{v_0}}
+{\evalexpr{\symstate}{\odot\ e}{v_0}{\symstate_0}}
+&
+\cs
+&
+% bop
+\infer
+{\evalescexpr{\symstate}{e_0}{v_0}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e_1}{v_1}{\symstate_1}\ \ \ \
+\evalbop{v_0}{v_1}{v_2}}
+{\evalexpr{\symstate}{e_0\ \oplus\ e_1}{v_2}{\symstate_1}}
+\end{array}}
+\\ \\
+\multicolumn{1}{c}{\begin{array}{ccc}
+% continuation
+\infer
+{\symctx = \Term{getCtx}(\symstate) \ \ \ \
+\symctxstack = \Term{getCtxStack}(\symstate) \ \ \ \
+v_{c} = \symctx,\ \symctxstack,\ x^*\ \Term{[} \Rightarrow \Term{]}\ i}
+{\evalexpr{\symstate}
+{\Term{(} x^* \Term{)}\ \Term{[} \Rightarrow \Term{]}\ i}
+{v_c}{\symstate}}
+&
+\cs
+&
+% typeof
+\infer
+{\evalexpr{\symstate}{e}{v}{\symstate_0}\ \ \ \
+\Term{getType}(v)=s_{type}}
+{\evalexpr{\symstate}{\Term{typeof}\ e}{s_{type}}{\symstate_0}}
+\end{array}}
+\\ \\
+% symbol - str
+\infer
+{\evalescexpr{\symstate}{e}{s}{\symstate_0}\ \ \ \
+\Term{allocSymbol}(\symstate_0,\ s) = (a,\ \symstate_1)}
+{\evalexpr{\symstate}{\Term{new}\ e}{a}{\symstate_1}}
+\\ \\ 
+% symbol - undefined
+\infer
+{\evalescexpr{\symstate}{e}{\Term{undefined}}{\symstate_0}\ \ \ \
+\Term{allocSymbol}(\symstate_0,\ \Term{undefined}) = (a,\ \symstate_1)}
+{\evalexpr{\symstate}{\Term{new}\ e}{a}{\symstate_1}}
+\\ \\
+% list 
+\infer
+{ \evalexpr{\symstate}{e_0}{v_0}{\symstate_0}\ \ \ \ \cdots\ \ \ \
+\evalexpr{\symstate_{n-1}}{e_n}{v_n}{\symstate_n}\ \ \ \
+\\ \\
+\Term{allocList}(\symstate_n,\ v^*) = (a,\ \symstate_{next})}
+{ \evalexpr{\symstate}
+{\Term{new}\ \Term{[} e^* \Term{]}}{a}{\symstate_{next}} }
+\\ \\
+% map
+\infer
+{\Term{allocMap}(\symstate,\ t) = (a,\ \symstate_t)
+\\ \\
+\evalescexpr{\symstate_t}{e_{k_0}}{v_{k_0}}{\symstate_{0_k}}\ \ \ \
+\evalexpr{\symstate_{0_k}}{e_{v_0}}{v_{v_0}}{\symstate_{0_v}}\ \ \ \
+\Term{updated}(\symstate_{0_v},\ v_{k_0},\ v_{v_0}) = \symstate_0\ \ \ \
+\\ \\ 
+\ \ \ \ \ \cdots\ \ \ \ \ \
+\\ \\ 
+\evalescexpr{\symstate_{n-1}}{e_{k_n}}{v_{k_n}}{\symstate_{n_k}}\ \ \ \
+\evalexpr{\symstate_{n_k}}{e_{v_n}}{v_{v_n}}{\symstate_{n_v}}\ \ \ \
+\Term{updated}(\symstate_{n_v},\ v_{k_n},\ v_{v_n}) = \symstate_n}
+{ \evalexpr{\symstate}
+{\Term{new}\ t\ \Term{(} e_{k_0}\ \mapsto\ e_{v_0},\ \cdots,\
+e_{k_n}\ \mapsto\ e_{v_n} \Term{)}}
+{a}{\symstate_{n}} }
+\\ \\
+% pop
+\infer
+{\evalescexpr{\symstate}{e_0}{a}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e_1}{v_k}{\symstate_1}\ \ \ \
+\Term{pop}(\symstate_1,\ a,\ v_k) = (v,\ \symstate_2)}
+{\evalexpr{\symstate}{\Term{pop}\ e_0\ e_1}{v}{\symstate_2}}
+\\ \\
+\multicolumn{1}{c}{\begin{array}{ccc}
+% copy-obj
+\infer
+{\evalescexpr{\symstate}{e}{a_0}{\symstate_0}\ \ \ \
+\Term{copyObj}(\symstate_0,\ a_0) = (a_1,\ \symstate_1)}
+{\evalexpr{\symstate}{\Term{copy-obj}\ e}{a_1}{\symstate_1}}
+&
+\cs
+&
+% map-keys
+\infer
+{\evalescexpr{\symstate}{e}{a_0}{\symstate_0}\ \ \ \
+\Term{keys}(\symstate_0,\ a_0) = (a_1,\ \symstate_1)}
+{\evalexpr{\symstate}{\Term{map-keys}\ e}{a_1}{\symstate_1}}
+\end{array}}
+\\ \\
+% contains
+\infer
+{\evalescexpr{\symstate}{e_0}{a_l}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e_1}{v}{\symstate_1}\ \ \ \
+\Term{contains}(\symstate_1,\ a_l,\ v) = b}
+{\evalexpr{\symstate}{\Term{contains}\ e_0\ e_1}{b}{\symstate_1}}
+
 \end{array}
 \]
 
+TODO
+
+reference
+
+is-instance-of
+
+get-elements
+
+get-syntax
+
+parse-syntax
+
+convert
+
+not supported
+
+handle escapeCompletion
 
 \end{document}
