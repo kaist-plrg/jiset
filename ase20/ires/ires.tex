@@ -516,39 +516,125 @@ v_f = \valcont{\symctx}{\symctxstack}{x^*}{i}
 {\Term{app}\ x\ \Term{=}\ (e_{f}\ e_0\ \cdots\ e_n)}
 {\symstate_{next}} }
 \\ \\
-% access - addr - not completion
+% access - string - length
 \infer
 { \evalexpr{\symstate}{e_b}{a}{\symstate_0}\ \ \ \
 \evalescexpr{\symstate_0}{e}{s_p}{\symstate_1}
 \\ \\ \\
-s_p = "\Term{length}"\ \ \ \
+\Term{assertEquals}(s_p,\ "\Term{length}")\ \ \ \
 \Term{define}(\symstate_1,\ x,\ \Term{length}(s)) = \symstate_2
 }
 { \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
 \\ \\
-% access - string - length
-\infer
-{ \evalexpr{\symstate}{e_b}{s}{\symstate_0}\ \ \ \
-\evalescexpr{\symstate_0}{e}{s_p}{\symstate_1}
-\\ \\ \\
-s_p = "\Term{length}"\ \ \ \
-\Term{define}(\symstate_1,\ x,\ \Term{length}(s)) = \symstate_2
-}
-{ \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
 % access - string - integer
-\\ \\
 \infer
 { \evalexpr{\symstate}{e_b}{s}{\symstate_0}\ \ \ \
 \evalescexpr{\symstate_0}{e}{d}{\symstate_1}\ \ \ \
-\Term{define}(\symstate_1,\ x,\ \Term{ToString}(d)) = \symstate_2
+\Term{define}(\symstate_1,\ x,\ \Term{charAt}(s,\ d)) = \symstate_2
 }
 { \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
+\\ \\
+% access - address - symbol
+\infer
+{ \evalexpr{\symstate}{e_b}{a}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e}{v_p}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+\\ \\
+a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = \Term{symbol}\ v_s\ \ \ \
+\Term{getHeapProp}(\symheap,\ a,\ v_p) = v_0\ \ \ \
+\\ \\
+\Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
+{ \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
+\\ \\
+% access - address - list
+\infer
+{ \evalexpr{\symstate}{e_b}{a}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e}{v_p}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+\\ \\
+a \in \Term{Dom}(\symheap)\ \ \ \ \
+\symheap(a) = \Term{<} v^* \Term{>}\ \ \ \ \
+\Term{getHeapProp}(\symheap,\ a,\ v_p) = v_0\ \ \ \ \
+\\ \\ \\
+\Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
+{ \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
+\\ \\
+% access - address - map and not completion
+\infer
+{ \evalexpr{\symstate}{e_b}{a}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e}{v_p}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+\\ \\
+a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
+\Term{assertNotEquals}(t,\ t_{completion})
+\\ \\ \\
+\Term{getHeapProp}(\symheap,\ a,\ v_p) = v_0\ \ \ \
+\Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
+{ \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
+\\ \\
+% access - address - map and completion and contains
+\infer
+{ \evalexpr{\symstate}{e_b}{a}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e}{v_p}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+\\ \\
+a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
+\Term{asserrtEquals}(t,\ t_{completion})\ \ \ \
+v_p \in \{v_k\}
+\\ \\ \\
+\Term{getHeapProp}(\symheap,\ a,\ v_p) = v_0\ \ \ \
+\Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
+{ \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
+\\ \\
 \end{array}
 \]
 
-TODO 
+\newpage
 
-access - addr
+\[\begin{array}{c}
+% access - address - completion and contains value - address
+\infer
+{ \evalexpr{\symstate}{e_b}{a}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e}{v_p}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+\\ \\
+a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
+\Term{assertEquals}(t,\ t_{completion})\ \ \ \
+\\ \\
+v_p \notin \{v_k\}\ \ \ \
+\Term{"Value"} \in \{v_k\}\ \ \ \
+[v_k\ \mapsto\ v_v]^*(\Term{"Value"}) = a_0\ \ \ \
+\\ \\
+\Term{getHeapProp}(\symheap,\ a_0,\ v_p) = v_0\ \ \ \
+\Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
+{ \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
+\\ \\
+% access - address - completion and contains value - string
+\infer
+{ \evalexpr{\symstate}{e_b}{a}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e}{v_p}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+\\ \\
+a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
+\Term{assertEquals}(t,\ t_{completion})\ \ \ \
+\\ \\
+v_p \notin \{v_k\}\ \ \ \
+\Term{"Value"} \in \{v_k\}\ \ \ \
+[v_k\ \mapsto\ v_v]^*(\Term{"Value"}) = s\ \ \ \
+\\ \\
+\Term{getStringProp}(\symheap,\ s,\ v_p) = v_0\ \ \ \
+\Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
+{ \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
+
+\end{array}
+\]
+
+TODO
 
 access - ASTVal - Lexical
 
@@ -617,6 +703,25 @@ define helper function OR change function to rule explictly
 \evalbop{v_0}{v_1}{v_2}}
 {\evalexpr{\symstate}{e_0\ \oplus\ e_1}{v_2}{\symstate_1}}
 \end{array}}
+\\ \\
+% reference - not escapeCompletion
+\infer
+{\evalref{\symstate}{r}{\symrefv}{\symstate_0}\ \ \ \
+\evalrefv{\symstate_0}{\symrefv}{v}{\symstate_1}}
+{\evalexpr{\symstate}{r}{v}{\symstate_1}}
+\\ \\
+% reference - escapeCompletion
+\infer
+{\evalref{\symstate}{r}{\symrefv}{\symstate_0}\ \ \ \
+\evalrefv{\symstate_0}{\symrefv}{a}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+\Term{assertDynamicAddr}(a)
+\\ \\
+a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \ 
+\Term{assertEquals}(t,\ t_{completion})\ \ \ \
+[v_k\ \mapsto\ v_v]^*(\Term{"Value"}) = v}
+{\evalescexpr{\symstate}{r}{v}{\symstate_1}}
 \\ \\
 \multicolumn{1}{c}{\begin{array}{ccc}
 % continuation
@@ -766,8 +871,6 @@ e_{k_n}\ \mapsto\ e_{v_n} \Term{)}}
 \end{array}\]
 
 TODO
-
-reference + handle escapeCompletion
 
 define helper function OR change function to rule explictly
 
