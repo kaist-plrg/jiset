@@ -3,10 +3,9 @@ In this section, we explain how to automatically generate JavaScript
 parsers from a given ECMAScript.
 
 \subsection{\( \bnfes \): Grammar for ECMAScript}
-ECMAScript describes the JavaScript syntax using an
-extension of the BNF notation.  We formally define the notation and
-dub it \( \bnfes \).  It consists of a number of \textit{productions}
-with the following form:
+ECMAScript describes the JavaScript syntax using a variant of the extended BNF.
+We formally define the notation and dub it \( \bnfes \).  It consists of a
+number of \textit{productions} with the following form:
 \[
   \NT{A}(\param_1, \cdots, \param_k) ::=
   (\cond_1 \Rightarrow)^? \rhs_1 \mid
@@ -45,82 +44,89 @@ For example, consider the following production:
 Then, \( \NT{A}(\kwt) \) means \( \T{a} \mid \T{c} \)
 and \( \NT{A}(\kwf) \) means \( \T{b} \mid \T{c} \).
 
-\subsection{Lookahead Parsers}
-To support \( \bnfes \) correctly, we propose a recursive descent
-parser generator that handles both backtracking and lookahead tokens.
+\subsection{Lookahead Parsing}
+To support \( \bnfes \) correctly, we extend PEG-based parser generation
+techniques with lookahead parsing.
 
 \smallskip
 
-\textbf{Approach.} 
-Our goal is to automatically generate a JavaScript parser from a given
-ECMAScript grammar written in \( \bnfes \).  Among various parser
-generators, we chose Scala parser combinators defined in
-\textit{Parsing Expression Grammar (PEG)}~\cite{peg}.
-PEG is a top-down (LL-style) recursive descent parser with
-\textit{backtracking}.  It visits each alternative of a production in
-order and backtracks to its previous production when parsing fails.
-We chose Scala parser combinators because of the following reasons:
-
+\textbf{Background (Parsing Expression Grammar).}
+Most parser generators target context-free languages with specific parsing
+algorithms for Context-Free Grammar (CFG): JavaCC with LL(k)~\inred{\cite{llk}},
+Bison with GLR~\inred{\cite{glr}}, and ANTLR with
+ALL(*)~\inred{\cite{all-star}}.  However, they are not directly applicable for
+ECMAScript syntax because ECMAScript lexical and syntactic grammars require
+context-sensitive lexers and parsers:
 \begin{itemize}[leftmargin=0.5cm]
-\item \textbf{Context-sensitive tokens:} ECMAScript tokens are
-context-sensitive because of JavaScript regular expressions and
-template strings.  For example, \( \code{/x/g} \) could be a single
-regular expression token or four tokens that represent division by
-variables \( \code{x} \) and \( \code{g} \) depending on enclosing
-contexts.  Thus, lexers should be evaluated during parsing not before
-parsing.  Since Scala parser combinators also treat lexers as parsers,
-we can use appropriate lexers depending on parsing contexts.
-\item \textbf{\( \bnfes \) symbols:} PEG can represent \( \bnfes \)
-symbols intuitively as we explain in Section~\ref{sec:convert-bnfes}.
-\item \textbf{Multiple starting non-terminals:} Since ECMAScript 6,
-both scripts and modules serve as starting points of parsers.  Scala
-parser combinators allow to use any non-terminals as parsers.
-\item \textbf{Parsing at run-time:} JavaScript supports the \( \code{eval} \)
-function that parses a given JavaScript string value to code and
-evaluates it.  Moreover, syntax-directed abstract algorithms use special
-phrases like ``the \( N \) that is \textit{covered by} \( P \),'' which
-means that a generalized parser parses the syntax tree \( P \) because
-finding a specific parser to correctly parse it requires its
-evaluation context.  When a JavaScript interpreter encounters such a
-phrase, it decides a specific parser to \( N \) and parses the given
-syntax tree \( P \) with the non-terminal \( N \) again at run time.
+  \item \textbf{Context-sensitive tokens:}
+    ECMAScript tokens are context-sensitive because of JavaScript regular
+    expressions and template strings.  For example, \( \code{/x/g} \) could be a
+    single regular expression token or four tokens that represent division by
+    variables \( \code{x} \) and \( \code{g} \) depending on enclosing contexts.
+    Thus, lexers should be evaluated during parsing not before parsing.
+  \item \textbf{Context-sensitive \( \bnfes \) symbols:}
+    \( \bnfes \) supports context-sensitive symbols: positive (negative)
+    lookahead \( +\symb \) (\( -\symb \)), exclusion \( \symb \butnot \symb' \),
+    and no line-terminator \( \nolt \).  They have highly expressive power. It
+    could even represent the classic non-context-free language \( \{ a^n b^n c^n
+    : n \geq 1 \} \) with the following productions:
+    \[
+      \begin{array}{r@{~}c@{~}lr@{~}c@{~}l}
+        \NT{S} &::=& +(\NT{X}~\T{c})~\NT{A}~\NT{Y}&
+        \NT{X} &::=& \T{a}~\NT{X}?~\T{b}\\
+        \NT{A} &::=& \T{a}~\NT{A}?&
+        \NT{Y} &::=& \T{b}~\NT{Y}?~\T{c}\\
+      \end{array}
+    \]
+    It is not trivial to support such \( \bnfes \) symbols in CFG-based
+    parser generators.
 \end{itemize}
 
+Unlike CFG-based parser generators, parser generators based on \textit{Parsing
+Expression Grammar (PEG)}~\cite{peg} can easily resolve these problems.  PEGs
+are defined with a top-down (LL-style) recursive descent parser with
+\textit{backtracking}.  It visits each alternative of a production in order and
+backtracks to its previous production when parsing fails.  PEG-based parser
+generators treat lexers as parsers thus we can use appropriate lexers depending
+on parsing contexts.  Moreover, PEGs support \textit{and-predicate} (\&) and
+\textit{not-predicate} (!) operators that denote the same meaning of the
+positive and negative lookahead symbols in \( \bnfes \), respectively. Thus, we
+could easily support context-sensitive tokens and \( \bnfes \) symbols in
+PEG-based parser generators.
+
 \smallskip
 
-\textbf{Problem: Prioritized Choices.} While PEG provides all the
-features we discussed so far, it has one fundamental problem:
-\textit{prioritized choices}.  In PEG, the pipe \( \mid \) operator
-denotes a prioritized choice; even when multiple alternatives are
-applicable, PEG always picks the first success alternative.  However,
-some non-terminals of the ECMAScript grammar accept multiple
-alternatives for given input strings.  For example, consider the
-following simplified grammar of the JavaScript expressions:
-\[
+\textbf{Problem: Prioritized Choices.}
+While PEG-based parser generators support the context-sensitivity,
+PEGs have one fundamental difference with \( \bnfes \): \textit{prioritized
+choices}.  PEGs use prioritized choice operator `\( / \)' instead of the unordered
+pipe operator `\( \mid \)' in \( \bnfes \); even when multiple alternatives are
+applicable, PEGs always pick the first success alternative.  For example,
+consider the following simplified PEG for the JavaScript expressions:
+\begin{equation}
   \begin{array}{r@{~}c@{~}l}
-    \NT{A} &::=& \NT{T} \T{;} \mid \NT{A} \; \T{+} \; \NT{T} \T{;} \\
-    \NT{T} &::=& \T{a} \mid \T{a} \T{(} \T{b} \T{)}\\
+    \NT{S} &::=& \NT{E} ~ \T{+} ~ \NT{E}\\
+    \NT{E} &::=& \T{x} ~/~ \T{x} \T{.} \T{p}\\
   \end{array}
-\]
-The non-terminal \( \NT{T} \) should accept both alternatives for
-\( \code{a(b);} \), but PEG-based parsers fail to parse it because the
-first alternative \( \T{a} \) succeeds first and the second alternative
-\( \T{a} \T{(} \T{b} \T{)} \) is not reachable.  A simple solution is
-to change the order of alternatives like \( \NT{T} ::= \T{a} \T{(} \T{b} \T{)} \mid \T{a} \),
-but ensuring correct order is not trivial because it requires
-calculation of their inclusion relationship.  Moreover, simple
-reordering does not work for some productions:
-\[
+  \label{eq:simple-js}
+\end{equation}
+If it is written in \( \bnfes \), the string \( \code{x+x.p} \) is in this
+language. However, in this PEG, the first alternative \( \T{x} \) of \( \NT{E}
+\) is always taken if the input string starts with \( \code{x} \). Thus, the
+second alternative \( \T{x}\T{.}\T{p} \) of \( \NT{E} \) is unreachable and \(
+\code{x+x.p} \) is not in the language.  A simple solution is just to change the
+order of alternatives of \( \NT{E} \) like \( \NT{E} ::= \T{x} \T{.} \T{p} ~/~
+\T{x} \).  However, simple reordering is not the solution for all cases:
+\begin{equation}
   \begin{array}{r@{~}c@{~}l}
-    \NT{A} &::=& \NT{B} \; \T{b}\\
-    \NT{B} &::=& \T{a} \mid \T{a} \; \T{b}\\
+    \NT{S} &::=& \NT{A} ~ \T{b}\\
+    \NT{A} &::=& \T{a} ~/~ \T{a} \T{b}\\
   \end{array}
-\]
-The non-terminal \( \NT{A} \) should successfully parse two strings
-\( \code{ab} \) and \( \code{abb} \),  but it accepts only \( \code{ab} \),
-and it accepts only \( \code{abb} \) if \( \NT{B} ::= \T{a} \; \T{b} \mid \T{a} \).
-Hence, we should re-structure the above rules to accept both strings
-in traditional PEG grammars.
+\end{equation}
+If it is written in \( \bnfes \), both strings \( \code{ab} \) and \( \code{abb}
+\) is in this language. However, this PEG only accepts the string \( \code{ab}
+\), and another PEG with the reordered production \( \NT{A} ::= \T{a} \T{b}
+~/~ \T{a} \) only accepts \( \code{abb} \).
 
 \begin{figure}[t]
 \centering
@@ -128,7 +134,7 @@ in traditional PEG grammars.
 \[
   \begin{array}{l@{~}c@{~}l}
     \rhsfirst{\symb_1 \cdots \symb_n} &=& \symbfirst{\symb_1} \firstplus
-    \symbfirst{\symb_2 \cdots \symb_n}\\
+    \rhsfirst{\symb_2 \cdots \symb_n}\\
     && \text{where} \; x \firstplus y = \left\{
     \begin{array}{ll}
       x \cup y & \text{if} \; \emptyfirst \in x\\
@@ -151,38 +157,62 @@ in traditional PEG grammars.
 \vspace*{-1em}
 \caption{Over-approximated first tokens of \( \bnfes \) symbols}
 \label{fig:first-tokens}
+\vspace{-1em}
 \end{figure}
 
 \smallskip
 
 \textbf{Solution: Lookahead Tokens.}
-To alleviate the problem, we propose \textit{lookahead parsers},
-which are recursive descent parsers extended with backtracking and
-\textit{lookahead tokens}.  They keep track of the next possible
-tokens by statically calculating first tokens of each symbol using the
-algorithm in Figure~\ref{fig:first-tokens}.  For example, the
-following steps explain how to utilize lookahead tokens during parsing
-with the input \( \code{a(b);} \):
+To alleviate the problem, we propose \textit{lookahead parsing}, which is an
+extended parsing algorithm for PEGs with \textit{lookahead tokens}.  The key
+idea of lookahead parsing is to keep track of the next possible tokens by
+statically calculating first tokens of each symbol using the algorithm in
+Figure~\ref{fig:first-tokens}.  For example, the following steps explain how to
+utilize lookahead tokens during parsing of the string \( \code{x+x.p} \) with
+the PEG in Equation~(1): %\ref{eq:simple-js}:
 \begin{center}
-  \includegraphics[width=0.3\textwidth]{img/laparser.png}
+  \includegraphics[width=0.3\textwidth]{img/laparser.pdf}
 \end{center}
-Each node \( \symb^*[\la] \) denotes a sequence of symbols \( \symb^* \)
-with a set of lookahead tokens \( \la \).  The parsing process follows
-a pre-order traversal.  It starts from the starting non-terminal \( \NT{A} \)
-with the special lookahead \( \emptyfirst \), which denotes the end of
-inputs.  Then, it visits the first alternative \( \NT{T} \T{;} \) with
-the same lookahead.  Each symbol is visited with its corresponding
-lookahead, which is the first tokens of the right next symbol.
-For example, for the symbol \( \NT{T} \), the next symbol is \( \T{;} \)
-and its first token is itself.  Thus, the parser visits \( \NT{T} \)
-with the lookahead \( \T{;} \).  The most important point here
-is the first alternative \( \T{a} \) of the
-non-terminal \( \NT{T} \).  The parser visits it with the lookahead \( \T{;} \)
-but the next token of the input string \( \code{a(b);} \) is \( \code{(} \)
-rather than \( \code{;} \).  Hence, it fails to parse the input string
-even though the current token is the same with the terminal \( \T{a} \).
-Therefore, the parser can visit the next alternative \( \T{a}\T{(}\T{b}\T{)} \)
-and successfully parses the input \( \code{a(b);} \).
+Each node \( \symb[\la] \) denotes a symbol \( \symb \) with a set of lookahead
+tokens \( \la \).  The underlined character in the string of each node denotes
+the current position in parsing process that follows a pre-order traversal.  It
+starts from the starting non-terminal \( \NT{S} \) with the special lookahead \(
+\emptyfirst \), which denotes the end of inputs.  Then, it visits the first
+alternative \( \NT{E}~\T{+}~\NT{E} \) with the same lookahead \( \emptyfirst \).
+Each symbol is visited with its corresponding lookahead, which is the first
+tokens of the right next symbol.  For example, for the second symbol \( \T{+} \)
+in \( \NT{E}~\T{+}~\NT{E} \), the next symbol is \( \NT{E} \) and its first
+tokens are:
+\[
+  \begin{array}{r@{~}c@{~}l}
+    \symbfirst{\NT{E}} &=& \rhsfirst{\T{x}} \cup \rhsfirst{\T{x.p}}\\
+                       &=& \symbfirst{\T{x}} \cup (\symbfirst{\T{x}} \firstplus
+    \rhsfirst{\T{.p}}) = \{ \T{x} \}\\
+  \end{array}
+\]
+Thus, the parser visits \( \T{+} \) with the lookahead \( \T{x} \).
+The most important point here is the difference between two visits of the
+non-terminal \( \NT{E} \) in \( \NT{E}~\T{+}~\NT{E} \).  The first visit of \(
+\NT{E} \) has the lookahead \( \T{+} \) and the actual next character after
+matching \( \T{x} \) is also \( \T{+} \). Thus, the first alternative \( \T{x}
+\) of \( \NT{E} \) is taken for the first visit.  However, in the second visit
+of \( \NT{E} \), the lookahead is the end of inputs \( \emptyfirst \) but the
+next character after matching \( \T{x} \) is the dot character (\( \T{.} \))
+instead of the end of inputs.  Thus, the second alternative \( \T{x.p} \) is
+taken in the second visit and the parser successfully parses the input \(
+\code{x+x.p} \) now.
+
+We formally define the semantics of lookahead parsers in Figure~\ref{fig:laparser}.
+The helper function \( \getlap{\la} \) generates a parser by combining all
+tokens in the lookahead \( \la \) using prioritized choices.
+In this case, the order does not change the semantics of lookahead parsers
+because \( \getlap{\la} \) just checks the existence of a given token.
+
+\subsection{Implementation}\label{sec:convert-bnfes}
+We implemented lookahead parsing technique by extending Scala parser combinators
+library, which is a Scala library for PEG-based parser generations.  We
+developed {\sf Parser Generator} to synthesize PEG-based parsers with
+lookahead parsing for \( \bnfes \).
 
 \begin{figure}[t]
 \centering
@@ -211,30 +241,18 @@ and successfully parses the input \( \code{a(b);} \).
 \vspace*{-1em}
 \end{figure}
 
-We formally define the semantics of lookahead parsers in Figure~\ref{fig:laparser}.
-The helper function \( \getlap{\la} \) generates a parser by combining all
-tokens in the lookahead \( \la \) using prioritized choices.
-In this case, the order does not change the semantics of lookahead parsers
-because \( \getlap{\la} \) just checks the existence of a given token.
-
-\subsection{Implementation}\label{sec:convert-bnfes}
-We implemented lookahead parsers by extending Scala parser combinators
-with two functions corresponding to Figure~\ref{fig:first-tokens} and
-Figure~\ref{fig:laparser}.
-
 \smallskip
 
 \textbf{AST Generation.}
-We first automatically generate ASTs as Scala case classes from a
-given \( \bnfes \) grammar.  Because lexical grammars do not affect
-the ECMAScript semantics, we represent them as string values.
-For parser grammars, we automatically synthesize a Scala file that has
-classes of syntax trees.  For each production \(
+{\sf Parser Generator} first automatically synthesizes ASTs as Scala case classes
+from a given \( \bnfes \) grammar.  Because structure of lexical productions do
+not affect the ECMAScript semantics, we represent lexical non-terminals as
+string values.  For each syntactic production \(
   \NT{A}(\param_1, \cdots, \param_k) ::=
   (\cond_1 \Rightarrow)^? \rhs_1 \mid
   \cdots \mid
   (\cond_n \Rightarrow)^? \rhs_n
-\), the AST generator defines the \( \code{A} \) trait and multiple
+\), the generator synthesizes the \( \code{A} \) trait and multiple
 subclasses \( \code{A}_i \) of \( \code{A} \) for \(0 \le i \le n-1\)
 that represents its alternatives.  Each class \( \code{A}_i \) has
 non-terminals in its corresponding alternative as its fields.
@@ -250,66 +268,27 @@ case class ArrayLiteral2(x1: ElementList, x3: Option[Elision])
 \smallskip
 
 \textbf{Parser Generation.}
-The next step is to automatically extract parsers from the given \(
-\bnfes \) grammar.  The conversion from \( \bnfes \) symbols into
-Scala code is as follows:
-\[
-\small
-  \begin{array}{ccc}
-%    \bnfes \; \text{symbols} &\Rightarrow& \text{Scala codes}\\\hline
-    \epsilon &\Rightarrow& \scode{MATCH}\\
-    \T{a} &\Rightarrow& \scode{"a"}\\
-    \NT{A}(\argument_1, \cdots, \argument_n) &\Rightarrow& \scode{A(a1, .. , an)}\\
-    \symb? &\Rightarrow& \scode{opt(s)}\\
-    \pm\symb &\Rightarrow& \pm\scode{\symb} \\
-    \symb \butnot \symb' &\Rightarrow& \scode{s\textbackslash s'}\\
-    \nolt &\Rightarrow& \scode{NoLineTerminator}\\
-  \end{array}
-\]
-where \( \code{MATCH} \) denotes the empty sequence of lookahead parsers.
-Each string literal gets implicitly converted to a lookahead parser via
-Scala implicit conversion.  The \( \code{opt(s)} \) function is the
-same with \( \code{s | MATCH} \).  We also define the \( \code{\textbackslash} \) 
-operator between parsers to support exclusive parsers.
-Finally, we provide the \( \code{NoLineTerminator} \) parser, which uses
-the white space parsers to check the existence of line terminators.
-Our approach can support such a parser because we also automatically
-generate lexers not only parsers of the ECMAScript syntax.  Then, the 
-automatically synthesized parser from the production \textit{ArrayLiteral}
-in Figure~\ref{fig:array-literal}(a) is the one in Figure~\ref{fig:array-literal}(b).
+The next step is to automatically synthesizes parsers for each production in \(
+\bnfes \).  We extended Scala parser combinators to support lookahead parsing
+and \( \bnfes \) notations. For example, the synthesized parser from the
+production \textit{ArrayLiteral} in Figure~\ref{fig:array-literal}(a) is the one
+in Figure~\ref{fig:array-literal}(b).  The naive implementation of lookahead
+parsing has exponential parsing time because of backtracking.  To reduce the
+complexity to linear time, we applied the memoization technique introduced in
+Packrat parsing~\cite{packrat} proposed by Ford et al.  \inred{Moreover, we also
+implemented the \textit{growing the seed} technique presented by Warth et
+al~\cite{packrat-lr} to support direct and even indirect left recursive
+productions.  It helps to synthesize parsers without changing the structure of
+each production in \( \bnfes \).}
 
-We support the automatic semicolon insertion algorithm, which
-is the most distinctive parsing feature in ECMAScript.  We extended
-our parser implementation to keep track of the right-most position
-that fails to be parsed in a given input.  In ECMAScript, the token at that
-position is defined as an \textit{offending token} and the automatic
-semicolon insertion algorithm is defined with such tokens.  The
-algorithm is simple when we already have the positions of offending
-tokens.  Thus, we just manually supported them by following the rules
-in ES10.  In addition, the rules rarely change; since
+The synthesized parsers also support the automatic semicolon insertion
+algorithm, which is one of the most distinctive parsing features in ECMAScript.
+We extended our parsing algorithm to keep track of the right-most position that
+fails to be parsed in a given input.  In ECMAScript, the token at that position
+is defined as an \textit{offending token} and the automatic semicolon insertion
+algorithm is defined with such tokens.  The algorithm is simple when we already
+have the positions of offending tokens.  Thus, we just manually supported them
+by following the rules defined in Section
+11.9\footnote{https://www.ecma-international.org/ecma-262/\#sec-automatic-semicolon-insertion}
+in ES10.  The rules about automatic semicolon insertion rarely change; since
 ES5.1 written in 2011, only one sub-rule was added.
-
-\smallskip
-
-\textbf{Discussion.}
-While implementing lookahead parsers in Scala, we resolved two issues.
-
-First, one of the critical weak points of recursive descent parsing
-with backtracking is its performance.  To support backtracking, it
-requires exponential time relative to the input size.  Luckily, Ford
-et al~\cite{packrat} proposed Packrat parsing that provides linear 
-time complexity using memoization.  By treating each parser as a
-function from the current input position to a parsing result, it just
-memoizes each parser using input positions, which dramatically reduces
-redundant parsing trials.  In a similar way, we treat each lookahead
-parser as a function from a pair of lookahead tokens and input
-positions to a parsing result.
-
-The second issue is that recursive descent parsers do not support left
-recursion in grammars.  If a grammar has a left recursion, its parser
-falls into an infinite loop.  To resolve this problem, Warth et
-al~\cite{packrat-lr} proposed a mechanism to support not only direct
-left recursion but also indirect one in Packrat parsing.  While we can
-adopt the mechanism, we found that the ES10 syntax does not
-use indirect left recursion.  Thus, we decided to just remove direct
-left recursion by defining sub productions.
