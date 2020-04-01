@@ -173,7 +173,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       }
     } | "resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
       parseInst(s"""$context = $executionStack[(- $executionStack.length 1i)]""")
-    } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27." ^^ {
+    } | "let" ~> name <~ "be a newly created ecmascript function object with the internal slots listed in table 27. All of those internal slots are initialized to" <~ value <~ "." ^^ {
       case x => parseInst(s"""{
         let $x = (new ECMAScriptFunctionObject("SubMap" -> (new SubMap())))
         delete $x.Call
@@ -293,12 +293,13 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "If IsCallable (" ~ id ~ ") is" ~ value ~ ", set" ~ id ~ "to the intrinsic function % ObjProto_toString % ." |
       "If IsDataDescriptor (" ~ id ~ ") is" ~ value ~ "and" ~ id ~ "has attribute values { [ [ Writable ] ] :" ~ value ~ ", [ [ Enumerable ] ] :" ~ value ~ "} , return" ~ value ~ "." |
       "If any element of the BoundNames of" ~ id ~ "also occurs in the LexicallyDeclaredNames of" ~ id ~ ", throw a" ~ value ~ "exception ." |
-      "If any static semantics errors are detected for" ~ id ~ "or" ~ id ~ ", throw a" ~ value ~ "exception ." ~ rest |
+      "If any static semantics errors are detected for" ~ id ~ "or" ~ id ~ ", throw a" ~ value ~ "or a" ~ value ~ "exception ," ~ rest |
       "If neither" ~ id ~ "nor any prefix of" ~ id ~ "satisfies the syntax of a StrDecimalLiteral ( see 7 . 1 . 3 . 1 ) , return" ~ value ~ "." |
       "If only one argument was passed , return" ~ id ~ "." |
       "If the Directive Prologue of FunctionStatementList contains a Use Strict Directive , return" ~ value ~ "; otherwise , return" ~ value ~ "." |
       "If the binding for" ~ id ~ "in" ~ id ~ "cannot be deleted , return" ~ value ~ "." |
       "If the binding for" ~ id ~ "is an indirect binding , then " ~ rest |
+      "If the first code unit of" ~ id ~ "is the code unit 0x002D ( HYPHEN - MINUS ) , return" ~ value ~ "." |
       "If the code unit at index" ~ id ~ "within" ~ id ~ "is not the code unit 0x0025 ( PERCENT SIGN ) , throw a" ~ value ~ "exception ." |
       "If the code units at index (" ~ id ~ "+ 1 ) and (" ~ id ~ "+ 2 ) within" ~ id ~ "do not represent hexadecimal digits , throw a" ~ value ~ "exception ." |
       "If the code units at index (" ~ id ~ "+ 1 ) and (" ~ id ~ "+ 2 ) within" ~ id ~ "do not represent hexadecimal digits , throw a" ~ value ~ "exception ." |
@@ -318,9 +319,10 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "If" ~ id ~ "does not have all of the internal slots of a Set Iterator Instance ( 23 . 2 . 5 . 3 ) , throw a" ~ value ~ "exception ." |
       "If" ~ id ~ "is a Proxy exotic object and" ~ id ~ ". [ [ ProxyHandler ] ] is" ~ value ~ ", throw a" ~ value ~ "exception ." |
       "If" ~ id ~ "is a trailing surrogate or" ~ id ~ "+ 1 =" ~ id ~ ", then " ~ rest |
+      "If" ~ id ~ "is a trailing surrogate ," ~ rest |
       "If" ~ id ~ "is an AsyncConciseBody , return" ~ value ~ "." |
       "If" ~ id ~ "is not a leading surrogate or trailing surrogate , then " ~ rest |
-      "If" ~ id ~ "is not a trailing surrogate , then " ~ rest |
+      "If" ~ id ~ "is not a trailing surrogate ," ~ rest |
       "If" ~ id ~ "is not a LabelledStatement , return" ~ value ~ "." |
       "If" ~ id ~ "is not contained within a FunctionBody , ConciseBody , or AsyncConciseBody , return" ~ value ~ "." |
       "If" ~ id ~ "is not empty and the first code unit of" ~ id ~ "is the code unit 0x002B ( PLUS SIGN ) or the code unit 0x002D ( HYPHEN - MINUS ) , remove the first code unit from" ~ id ~ "." |
@@ -333,6 +335,8 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "If" ~ id ~ "≤" ~ id ~ "≤ 21 , return the string - concatenation of : " ~ rest |
       "Let" ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 0 ," ~ rest |
       "Let" ~ id ~ "and" ~ id ~ "be integers such that 10" ~ rest |
+      "Let" ~ id ~ "be a substring of" ~ id ~ "consisting of the leftmost code unit that is not a" ~ nt ~ "and all code units to the right of that code unit . ( In other words , remove leading white space . )" ~ rest |
+      "Let" ~ id ~ "be a newly created substring of" ~ id ~ "consisting of the first code unit that is not a " ~ nt ~ "and all code units following that code unit . ( In other words , remove leading white space . )" ~ rest |
       "Let" ~ id ~ "be a List consisting of all of the arguments passed to this function , starting with the second argument . If fewer than two arguments were passed , the List is empty ." |
       "Let" ~ id ~ "be a List containing in order the code points as defined in 6 . 1 . 4 of" ~ id ~ ", starting at the first element of" ~ id ~ "." |
       "Let" ~ id ~ "be a List containing the arguments passed to this function ." |
@@ -351,20 +355,21 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "Let" ~ id ~ "be a newly created Integer - Indexed exotic object with an internal slot for each name in" ~ id ~ "." |
       "Let" ~ id ~ "be a newly created module namespace exotic object with the internal slots listed in Table 29 ." |
       "Let" ~ id ~ "be an implementation - defined Completion value ." |
+      "Let" ~ id ~ "be an integer for which the exact mathematical value" ~ rest |
       "Let" ~ id ~ "be an integer for which ℝ (" ~ id ~ ") ÷ 10 ℝ" ~ rest |
       "Let" ~ id ~ "be equivalent to a function that returns" ~ id ~ "." |
       "Let" ~ id ~ "be equivalent to a function that throws" ~ id ~ "." |
       "Let" ~ id ~ "be the 8 - bit value represented by the two hexadecimal digits at index (" ~ id ~ "+ 1 ) and (" ~ id ~ "+ 2 ) ." |
       "Let" ~ id ~ "be the Agent Record of the surrounding agent ." |
-      "Let" ~ id ~ "be the Element Size value specified in Table 60 for" ~ id ~ "." |
+      "Let" ~ id ~ "be the Number value of the Element Size value specified in Table 59 for" ~ id ~ "." |
       "Let" ~ id ~ "be the List of argument values starting with the second argument ." |
-      "Let" ~ id ~ "be the List of octets resulting by applying the UTF - 8 transformation to" ~ id ~ ". [ [ CodePoint ] ] ." |
+      "Let" ~ id ~ "be the List of octets resulting by applying the UTF - 8 transformation to" ~ id ~ "." |
       "Let" ~ id ~ "be the Number value for" ~ id ~ "." |
       "Let" ~ id ~ "be the Record { [ [ Key ] ] , [ [ Value ] ] } that is the value of" ~ id ~ "[" ~ id ~ "] ." |
       "Let" ~ id ~ "be the String value derived from" ~ id ~ "by copying code unit elements from" ~ id ~ "to" ~ id ~ "while performing replacements as specified in Table 51 . These" ~ code ~ "replacements are done left - to - right , and , once such a replacement is performed , the new replacement text is not subject to further replacements ." |
       "Let" ~ id ~ "be the String value equal to the substring of" ~ id ~ "consisting of the code units at indices" ~ id ~ "( inclusive ) through" ~ id ~ "( exclusive ) ." |
       "Let" ~ id ~ "be the String value for the list - separator String appropriate for the host environment ' s current locale ( this is derived in an implementation - defined way ) ." |
-      "Let" ~ id ~ "be the String value of the Element Type value in Table 60 for" ~ id ~ "." |
+      "Let" ~ id ~ "be the String value of the Element Type value in Table 59 for" ~ id ~ "." |
       "Let" ~ id ~ "be the String value" ~ id ~ "[" ~ id ~ "] ." |
       "Let" ~ id ~ "be the [ [ CandidateExecution ] ] field of the surrounding agent ' s Agent Record ." |
       "Let" ~ id ~ "be the [ [ EventList ] ] field of the element in" ~ id ~ ". [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ." |
@@ -383,8 +388,11 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "Let" ~ id ~ "be the result of parsing" ~ id ~ ", interpreted as UTF - 16 encoded Unicode text as described in 6 . 1 . 4 , using" ~ id ~ "as the goal symbol . Throw a" ~ value ~ "exception if the parse fails ." |
       "Let" ~ id ~ "be the smallest nonnegative integer such that (" ~ id ~ "< <" ~ id ~ ") & 0x80 is equal to 0 ." |
       "Let" ~ id ~ "be the string - concatenation of the first" ~ id ~ "code units of" ~ id ~ "," ~ id ~ ", and the trailing substring of" ~ id ~ "starting at index" ~ id ~ ". If" ~ id ~ "is 0 , the first element of the concatenation will be the empty String ." |
+      "Let" ~ id ~ "be the string - concatenation of :" ~ stepList |
       "Let" ~ id ~ "be the substring of" ~ id ~ "from index" ~ id ~ "to index" ~ id ~ "inclusive ." |
       "Let" ~ id ~ "be the value obtained by applying the UTF - 8 transformation to" ~ id ~ ", that is , from a List of octets into a 21 - bit value ." |
+      "Let" ~ id ~ "be the code point with the same numeric value as code unit" ~ id ~ "." |
+      "Increment" ~ id ~ "and" ~ id ~ "each by 1 ." |
       "No action is required ." |
       "Otherwise , if" ~ id ~ "= 1 , return the string - concatenation of : " ~ rest |
       "Otherwise , return" ~ value ~ "." |
@@ -412,7 +420,13 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
 
   // etc expressions
   override lazy val etcExpr: P[I[Expr]] = (
-    ("the String value of length 1 , containing one code unit from" ~> id) ~ (", " ~> ("namely" | "specifically") ~> "the code unit at index" ~> id) ^^ {
+    ("the number whose value is MV of" ~> nt) ^^ {
+      case x =>
+        {
+          val temp = getTemp
+          pair(List(parseInst(s"""access $temp = ($x "MV")""")), toERef(temp))
+        }
+    } | ("the String value of length 1 , containing one code unit from" ~> id) ~ (", " ~> ("namely" | "specifically") ~> "the code unit at index" ~> id) ^^ {
       case x ~ y => {
         pair(Nil, ERef(RefProp(RefId(Id(x)), ERef(RefId(Id(y))))))
       }
@@ -498,8 +512,8 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       pair(Nil, parseExpr(s"""argumentsList.length"""))
     } | "the List of arguments passed to this function" ^^^ {
       pair(Nil, parseExpr("argumentsList"))
-    } | ("the numeric value of the code unit at index" ~> name <~ "within") ~ name ^^ {
-      case x ~ y => pair(Nil, parseExpr(s"$y[$x]"))
+    } | ("the numeric value of the code unit at index" ~> expr <~ "within") ~ (opt("the string") ~> name) ^^ {
+      case (i ~ x) ~ y => pair(i, parseExpr(s"$y[${beautify(x)}]"))
     } | ("a zero - origined list containing the argument items in order" | ("the" ~ id ~ "that was passed to this function by" ~ rest)) ^^^ {
       pair(Nil, parseExpr(s"""argumentsList"""))
     } | "an iterator object ( 25 . 1 . 1 . 2 ) whose" <~ code <~ "method iterates" <~ rest ^^^ {
@@ -667,7 +681,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x ~ y ~ z => getCopyList(z, List(y, x), true)
     } ||| "a List whose first element is" ~> name <~ "and whose subsequent elements are, in left to right order, the arguments that were passed to this function invocation" ^^ {
       case x => pair(List(parseInst(s"prepend $x -> argumentsList")), parseExpr("argumentsList"))
-    } | "the string value whose code units are the sv of stringliteral" ^^^ {
+    } | "the string value whose code units are the sv of the stringliteral" ^^^ {
       val temp = getTemp
       pair(List(parseInst(s"""access $temp = (StringLiteral "SV")""")), toERef(temp))
     } | (("the Number value represented by" ~> name) | ("the result of forming the value of the" ~> name)) <~ rest ^^ {
@@ -819,10 +833,17 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         pair(List(parseInst(s"""app $temp = (Type $x)""")), parseExpr(s"""(&& (= $temp "Object") (|| (= $temp "BuiltinFunctionObject") (! (= $x.ECMAScriptCode absent))))"""))
     } | (expr <~ ("is the same as" | "is the same Number value as" | "is")) ~ expr ~ subCond ^^ {
       case (i0 ~ l) ~ (i1 ~ r) ~ f => concat(i0 ++ i1, f(EBOp(OEq, l, r)))
-    } | "the most significant bit in" ~ id ~ "is 0" ^^^ {
+    } | (id <~ ". [ [ Enumerable ] ] is present and the [ [ Enumerable ] ] fields of") ~ (id <~ "and") ~ (id <~ "are the Boolean negation of each other") ^^ {
+      case z ~ x ~ y => pair(Nil, parseExpr(s"""
+        (&& (! (= absent $z.Enumerable)) (|| (&& (= true $x.Enumerable) (= false $y.Enumerable)) (&& (= false $x.Enumerable) (= true $y.Enumerable))))"""))
+    } | "the most significant bit in" ~ id ~ "is" ~ number ^^^ {
       pair(Nil, ENotSupported("NumberOp"))
     } | "an implementation - defined debugging facility is available and enabled" ^^^ {
       pair(Nil, ENotSupported("ImplDependent"))
+    } | id <~ "is not a leading surrogate" ^^^ {
+      pair(Nil, ENotSupported("StringOp"))
+    } | id <~ "is an integer index ≤" <~ id ^^^ {
+      pair(Nil, ENotSupported("NumberOp"))
     } | starCond
   )
 

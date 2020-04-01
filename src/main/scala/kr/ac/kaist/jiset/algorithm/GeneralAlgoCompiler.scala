@@ -382,10 +382,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     secno ~ "for the" ~> intrinsicName <~ "function" ^^ {
       ("", 0, _)
     } |||
-    "ListIterator next ()" ^^^ ("next", 0, "ListIteratornext") |||
+    "ListIterator" ~ code.filter(_ == "next") ~ "(" ~ secno ~ ")" ^^^ ("next", 0, "ListIteratornext") |||
     "GetCapabilitiesExecutor Functions" ^^^ ("", 2, "GLOBALDOTGetCapabilitiesExecutorFunctions") |||
-    "Promise Resolve Functions" ^^^ ("", 1, "GLOBALDOTPromiseResolveFunctions") |||
-    "Promise Reject Functions" ^^^ ("", 1, "GLOBALDOTPromiseRejectFunctions") |||
+    "Promise Resolve Functions (" <~ secno <~ ")" ^^^ ("", 1, "GLOBALDOTPromiseResolveFunctions") |||
+    "Promise Reject Functions (" <~ secno <~ ")" ^^^ ("", 1, "GLOBALDOTPromiseRejectFunctions") |||
     "Await Fulfilled Functions" ^^^ ("", 1, "GLOBALDOTAwaitFulfilledFunctions") |||
     "Await Rejected Functions" ^^^ ("", 1, "GLOBALDOTAwaitRejectedFunctions") |||
     "Async-from-Sync Iterator Value Unwrap Functions" ^^^ ("", 1, "GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions")
@@ -590,7 +590,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   }
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
     ("=" | "equals") ^^^ (OEq, false, false) |||
-    ("≠" | "is different from") ^^^ (OEq, true, false) |||
+    ("≠" | "is not equal to" | "is different from") ^^^ (OEq, true, false) |||
     ("<" | "is less than") ^^^ (OLt, false, false) |||
     "≥" ^^^ (OLt, true, false) |||
     (">" | "is greater than") ^^^ (OLt, false, true) |||
@@ -673,7 +673,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "the code matching the syntactic production that is being evaluated is contained in strict mode code" |||
     "the code matched by the syntactic production that is being evaluated is strict mode code" |||
     refBase ~> "is contained in strict mode code" |||
-    "the function code for this" ~> nt <~ "is strict mode code"
+    "the function code for" ~> ("this" ~> opt(nt | "this" | ty)) <~ "is strict mode code"
   ) ^^^ pair(Nil, EBool(true))
 
   // contains conditions
@@ -823,13 +823,14 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     opt(ordinal) ~ nt ^^ { case k ~ x => x + k.getOrElse("") } |||
     opt("reference" | nt) ~> id <~ opt("flag")
   )
-  lazy val refPre: P[String] = opt("the") ~> (
+  lazy val refPre: P[Unit] = opt("the") ~> (
     "hint" |||
     "list that is" ~ opt("the value of") |||
     "string value of" |||
     "value of" |||
-    "parsed code that is"
-  ) ^^^ ""
+    "parsed code that is" |||
+    "code unit"
+  ) ^^^ ()
   lazy val ordinal: P[Int] = opt("the") ~> (
     ("sole" | "first") ^^^ 0 |
     "second" ^^^ 1 |
