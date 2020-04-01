@@ -21,14 +21,16 @@
   arn_n/.style = {treenode, circle, black, draw=black, text width=1.5em},
 }
 
+% style
 \newcommand{\irnameb}[0]{\textbf{IR\textsubscript{ES}}\xspace}
 \newcommand{\irname}[0]{IR\textsubscript{ES}\xspace}
 \newcommand{\Acd}[1]{\mathsf{#1}}
 \newcommand{\Term}[1]{\texttt{#1}}
-
 \newcommand{\dom}[1]{\mathit{Domain}(#1)}
 \newcommand{\cs}[0]{\quad}
+\newcommand{\inred}[1]{{\color{red}{#1}}}
 
+% symbols
 \newcommand{\symstate}[0]{\sigma}
 \newcommand{\symctx}[0]{C}
 \newcommand{\symctxstack}[0]{C^*}
@@ -45,15 +47,16 @@
 {\symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap}}
 \newcommand{\symctxtuple}[4]{(#1,\ #2,\ #3,\ #4)}
 \newcommand{\symctxdef}[0]{\symctxtuple{x}{s}{i^*}{E}}
+\newcommand{\symlist}[1]{\Term{<} #1 \Term{>}}
+\newcommand{\symmap}[3]{#1\ \Term{\{} [#2 \mapsto #3]^* \Term{\}}}
 % \newcommand{\symconv}][0]{$\triangleright$}
 
+% value
 \newcommand{\valfunc}[4]{\lambda \Term{(} #1,\ #2,\ #3,\ #4 \Term{)}}
 \newcommand{\valcont}[4]{\kappa \Term{(} #1,\ #2,\ #3,\ #4 \Term{)}}
 \newcommand{\valast}[4]{\symast \Term{(} \Term{)}}
 
-\newcommand{\eval}[3]{#1\vdash #2\Rightarrow #3}
-\newcommand{\evald}[2]{\eval{\symstate}{#1}{#2}}
-
+% evaluation
 \newcommand{\evaluop}[2]{\symuop #1 \Rightarrow #2}
 \newcommand{\evalbop}[3]{#1 \symbop #2 \Rightarrow #3}
 \newcommand{\evalinst}[3]{#1 \vdash #2 \Rightarrow #3}
@@ -62,12 +65,24 @@
 \newcommand{\evalref}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
 \newcommand{\evalrefv}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
 
+% helper function
 \newcommand{\hdefine}[4]{\Term{define}(#1,\ #2,\ #3) = #4}
 \newcommand{\hupdated}[4]{\Term{updated}(#1,\ #2,\ #3) = #4}
 \newcommand{\hdeleted}[3]{\Term{deleted}(#1,\ #2) = #3}
 \newcommand{\happend}[4]{\Term{append}(#1,\ #2,\ #3) = #4}
 \newcommand{\hprepend}[4]{\Term{prepend}(#1,\ #2,\ #3) = #4}
 \newcommand{\hreturn}[3]{\Term{return}(#1,\ #2) = #3}
+\newcommand{\hgethprop}[4]{\Term{getHeapProp}(#1,\ #2,\ #3) = #4}
+\newcommand{\hgetsprop}[3]{\Term{getStringProp}(#1,\ #2) = #3}
+\newcommand{\hcharat}[3]{\Term{charAt}(#1,\ #2) = #3}
+\newcommand{\htoint}[2]{\Term{toInt}(#1) = #2}
+\newcommand{\hgettype}[2]{\Term{getType}(#1) = #2}
+\newcommand{\hallocsym}[4]{\Term{allocSymbol}(#1,\ #2) = (#3,\ #4)}
+\newcommand{\halloclist}[4]{\Term{allocList}(#1,\ #2) = (#3,\ #4)}
+\newcommand{\hallocmap}[4]{\Term{allocMap}(#1,\ #2) = (#3,\ #4)}
+
+%etc
+\newcommand{\mathlen}[1]{|#1|}
 
 \begin{document}
 
@@ -402,14 +417,14 @@ change ASTMethod notation
 \infer
 { \evalescexpr{\symstate}{e_0}{v}{\symstate_0}\ \ \ \
 \evalescexpr{\symstate_0}{e_1}{a}{\symstate_1}\ \ \ \
-\happend{\symstate_0 ??}{a}{v}{\symstate_2}}
+\happend{\symstate_1}{a}{v}{\symstate_2}}
 { \evalinst{\symstate}{\Term{append}\ e_0 \leftarrow e_1}{\symstate_2} }
 \\ \\
 % prepend
 \infer
 { \evalescexpr{\symstate}{e_0}{v}{\symstate_0}\ \ \ \
 \evalescexpr{\symstate_0}{e_1}{a}{\symstate_1}\ \ \ \
-\hprepend{\symstate_0 ??}{a}{v}{\symstate_2}}
+\hprepend{\symstate_1}{a}{v}{\symstate_2}}
 { \evalinst{\symstate}{\Term{prepend}\ e_0 \to e_1}{\symstate_2} }
 \\ \\
 % return
@@ -424,7 +439,7 @@ change ASTMethod notation
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 \symctx = \symctxtuple{x}{s}{i^*}{\symenv_L}
 \\ \\
-\symctx_0 = \symctxtuple{x}{s}{i_0\ \Term{+:}\ i^*}{\symenv_L}\ \ \ \
+\symctx_0 = \symctxtuple{x}{s}{ \inred{i_0\ \Term{+:}\ i^*}}{\symenv_L}\ \ \ \
 \symstate_1 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap}}
 { \evalinst{\symstate}{\Term{if}\ e\ i_0\ i_1}{\symstate_1} }
 \\ \\
@@ -434,7 +449,7 @@ change ASTMethod notation
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 \symctx = \symctxtuple{x}{s}{i^*}{\symenv_L}
 \\ \\
-\symctx_0 = \symctxtuple{x}{s}{i_1\ \Term{+:}\ i^*}{\symenv_L}\ \ \ \
+\symctx_0 = \symctxtuple{x}{s}{\inred{i_1\ \Term{+:}\ i^*}}{\symenv_L}\ \ \ \
 \symstate_1 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap}}
 { \evalinst{\symstate}{\Term{if}\ e\ i_0\ i_1}{\symstate_1} }
 \\ \\
@@ -444,7 +459,7 @@ change ASTMethod notation
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 \symctx = \symctxtuple{x}{s}{i^*}{\symenv_L}
 \\ \\
-\symctx_0 = \symctxtuple{x}{s}{i_b\ \Term{+:}\ i^*}{\symenv_L}\ \ \ \
+\symctx_0 = \symctxtuple{x}{s}{\inred{i_b\ \Term{+:}\ i^*}}{\symenv_L}\ \ \ \
 \symstate_1 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap} }
 { \evalinst{\symstate}{\Term{while}\ e\ i_b}{\symstate_1} }
 \\ \\
@@ -474,7 +489,7 @@ change ASTMethod notation
 { \symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 \symctx = \symctxtuple{x}{s}{i^*}{\symenv_L}
 \\ \\
-\symctx_0 = \symctxtuple{x}{s}{i_s^*\ \Term{++}\ i^*}{\symenv_L}\ \ \ \
+\symctx_0 = \symctxtuple{x}{s}{\inred{i_s^*\ \Term{++}\ i^*}}{\symenv_L}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap} }
 { \evalinst{\symstate}{\{ i_s^* \}}{\symstate_0} }
 \\ \\
@@ -512,7 +527,7 @@ v_f = \valfunc{s_{\lambda}}{x^*}{x_{var}}{i_{\lambda}}
 x_1 \in \mbox{Identifier}\ \ \ \
 \symctx_1 = \symctxtuple{x_1}{s_{\lambda}}{i_{\lambda}}{\symenv_{L_1}}\ \ \ \
 \symstate_{next} = \symstatetuple
-{\symctx_1}{\symctx_0\ \Term{+:}\ \symctxstack}{\symenv_G}{\symheap}}
+{\symctx_1}{\inred{\symctx_0\ \Term{+:}\ \symctxstack}}{\symenv_G}{\symheap}}
 { \evalinst{\symstate}
 {\Term{app}\ x_f\ \Term{=}\ (e_{f}\ e_0\ \cdots\ e_n)}
 {\symstate_{next}} }
@@ -529,11 +544,11 @@ v_f = \Term{ASTMethod}\ \valfunc{s_\lambda}{x^*}{x_{var}}{i_\lambda}\ E_\lambda
 \symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \ 
 \symctx_0 = \symctxtuple{x_f}{s}{i^*}{\symenv_L}
 \\ \\
-\symenv_{L_1} = \symenv_\lambda + [x \mapsto v]^*\ \ \ \
+\inred{\symenv_{L_1} = \symenv_\lambda + [x \mapsto v]^*}\ \ \ \
 x_1 \in \mbox{Identifier}\ \ \ \
 \symctx_1 = \symctxtuple{x_1}{s_{\lambda}}{i_{\lambda}}{\symenv_{L_1}}\ \ \ \
 \symstate_{next} = \symstatetuple
-{\symctx_1}{\symctx_0\ \Term{+:}\ \symctxstack}{\symenv_G}{\symheap}}
+{\symctx_1}{\inred{\symctx_0\ \Term{+:}\ \symctxstack}}{\symenv_G}{\symheap}}
 { \evalinst
 {\symstate}
 {\Term{app}\ x_f\ \Term{=}\ (e_{f}\ e_0\ \cdots\ e_n)}
@@ -549,7 +564,7 @@ v_f = \valcont{\symctx}{\symctxstack}{x^*}{i}\ \ \ \
 \evalexpr{\symstate_{n-1}}{e_n}{v_n}{\symstate_n}\ \ \ \
 \symstate_n = \symstatetuple{\symctx_n}{\symctxstack_n}{\symenv_G}{\symheap}
 \\ \\
-\symenv_{L_0} = \symenv_L + [x \mapsto v]^*\ \ \ \
+\inred{\symenv_{L_0} = \symenv_L + [x \mapsto v]^*}\ \ \ \
 \symctx_0 = \symctxtuple{x_c}{s}{i}{\symenv_{L_0}}\ \ \  \
 \symstate_{next} = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap}}
 { \evalinst
@@ -557,25 +572,17 @@ v_f = \valcont{\symctx}{\symctxstack}{x^*}{i}\ \ \ \
 {\Term{app}\ x_f\ \Term{=}\ (e_{f}\ e_0\ \cdots\ e_n)}
 {\symstate_{next}} }
 \\ \\
-% access - string - length
-\infer
-{ \evalexpr{\symstate}{e_b}{a}{\symstate_0}\ \ \ \
-\evalescexpr{\symstate_0}{e}{s_p}{\symstate_1}
-\\ \\ \\
-\Term{assertEquals}(s_p,\ "\Term{length}")\ \ \ \
-\Term{define}(\symstate_1,\ x,\ \Term{length}(s)) = \symstate_2
-}
-{ \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
-\\ \\
-% access - string - integer
+% access - string
 \infer
 { \evalexpr{\symstate}{e_b}{s}{\symstate_0}\ \ \ \
-\evalescexpr{\symstate_0}{e}{d}{\symstate_1}\ \ \ \
-\Term{define}(\symstate_1,\ x,\ \Term{charAt}(s,\ d)) = \symstate_2
+\evalescexpr{\symstate_0}{e}{v_p}{\symstate_1}\ \ \ \
+\\ \\
+\hgetsprop{s}{v_p}{v_0}\ \ \ \
+\Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2
 }
 { \evalinst{\symstate}{\Term{access}\ x\ \Term{=}\ (e_b\ e)}{\symstate_2} }
 \\ \\
-% access - address - symbol
+% access - address - symbol, list
 \infer
 { \evalexpr{\symstate}{e_b}{a}{\symstate_0}\ \ \ \
 \evalescexpr{\symstate_0}{e}{v_p}{\symstate_1}\ \ \ \
@@ -609,7 +616,7 @@ a \in \Term{Dom}(\symheap)\ \ \ \ \
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-\Term{assertNotEquals}(t,\ t_{completion})
+t \neq t_{completion}
 \\ \\ \\
 \Term{getHeapProp}(\symheap,\ a,\ v_p) = v_0\ \ \ \
 \Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
@@ -623,7 +630,7 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-\Term{asserrtEquals}(t,\ t_{completion})\ \ \ \
+t = t_{completion}\ \ \ \
 v_p \in \{v_k\}
 \\ \\ \\
 \Term{getHeapProp}(\symheap,\ a,\ v_p) = v_0\ \ \ \
@@ -644,11 +651,11 @@ v_p \in \{v_k\}
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-\Term{assertEquals}(t,\ t_{completion})\ \ \ \
+t = t_{completion}\ \ \ \
 \\ \\
 v_p \notin \{v_k\}\ \ \ \
 \Term{"Value"} \in \{v_k\}\ \ \ \
-[v_k\ \mapsto\ v_v]^*(\Term{"Value"}) = a_0\ \ \ \
+\inred{[v_k\ \mapsto\ v_v]^*(\Term{"Value"}) = a_0}\ \ \ \
 \\ \\
 \Term{getHeapProp}(\symheap,\ a_0,\ v_p) = v_0\ \ \ \
 \Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
@@ -662,11 +669,11 @@ v_p \notin \{v_k\}\ \ \ \
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-\Term{assertEquals}(t,\ t_{completion})\ \ \ \
+t = t_{completion}\ \ \ \
 \\ \\
 v_p \notin \{v_k\}\ \ \ \
 \Term{"Value"} \in \{v_k\}\ \ \ \
-[v_k\ \mapsto\ v_v]^*(\Term{"Value"}) = s\ \ \ \
+\inred{[v_k\ \mapsto\ v_v]^*(\Term{"Value"}) = s}\ \ \ \
 \\ \\
 \Term{getStringProp}(\symheap,\ s,\ v_p) = v_0\ \ \ \
 \Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
@@ -680,8 +687,6 @@ TODO
 access - ASTVal - Lexical
 
 access - ASTVal
-
-define helper function OR change function to rule explictly
 
 \newpage
 
@@ -756,12 +761,12 @@ define helper function OR change function to rule explictly
 {\evalref{\symstate}{r}{\symrefv}{\symstate_0}\ \ \ \
 \evalrefv{\symstate_0}{\symrefv}{a}{\symstate_1}\ \ \ \
 \symstate_1 = \symstdef\ \ \ \
-\Term{assertDynamicAddr}(a)
+\inred{\Term{assertDynamicAddr}(a)}
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \ 
-\Term{assertEquals}(t,\ t_{completion})\ \ \ \
-[v_k\ \mapsto\ v_v]^*(\Term{"Value"}) = v}
+t = t_{completion}\ \ \ \
+\inred{[v_k\ \mapsto\ v_v]^*(\Term{"Value"}) = v}}
 {\evalescexpr{\symstate}{r}{v}{\symstate_1}}
 \\ \\
 \multicolumn{1}{c}{\begin{array}{ccc}
@@ -779,43 +784,45 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 % typeof
 \infer
 {\evalexpr{\symstate}{e}{v}{\symstate_0}\ \ \ \
-\Term{getType}(v)=s_{type}}
+\inred{\hgettype{v}{s_{type}}}}
 {\evalexpr{\symstate}{\Term{typeof}\ e}{s_{type}}{\symstate_0}}
 \end{array}}
 \\ \\
 % symbol - str
 \infer
-{\evalescexpr{\symstate}{e}{s}{\symstate_0}\ \ \ \
-\Term{allocSymbol}(\symstate_0,\ s) = (a,\ \symstate_1)}
-{\evalexpr{\symstate}{\Term{new}\ e}{a}{\symstate_1}}
-\\ \\ 
-% symbol - undefined
-\infer
-{\evalescexpr{\symstate}{e}{\Term{undefined}}{\symstate_0}\ \ \ \
-\Term{allocSymbol}(\symstate_0,\ \Term{undefined}) = (a,\ \symstate_1)}
+{\evalescexpr{\symstate}{e}{v}{\symstate_0}\ \ \ \
+\symstate_0 = \symstdef\ \ \ \
+\\ \\
+\hallocsym{\symheap}{v}{a}{\symheap_0}\ \ \ \
+\symstate_1 = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
 {\evalexpr{\symstate}{\Term{new}\ e}{a}{\symstate_1}}
 \\ \\
 % list 
 \infer
 { \evalexpr{\symstate}{e_0}{v_0}{\symstate_0}\ \ \ \ \cdots\ \ \ \
 \evalexpr{\symstate_{n-1}}{e_n}{v_n}{\symstate_n}\ \ \ \
-\Term{allocList}(\symstate_n,\ v^*) = (a,\ \symstate_{next})}
+\symstate_n = \symstdef
+\\ \\
+\halloclist{\symheap}{\inred{v^*}}{a}{\symheap_0}\ \ \ \
+\symstate_{next} = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
 { \evalexpr{\symstate}
 {\Term{new}\ \Term{[} e_0,\ \cdots,\ e_n \Term{]}}{a}{\symstate_{next}} }
 \\ \\
 % map
 \infer
-{\Term{allocMap}(\symstate,\ t) = (a,\ \symstate_t)
+{\symstate = \symstdef\ \ \ \
+\hallocmap{\symheap}{t}{a}{\symheap_0}\ \ \ \
+\symstate_t = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}
 \\ \\
 \evalescexpr{\symstate_t}{e_{k_0}}{v_{k_0}}{\symstate_{0_k}}\ \ \ \
 \evalexpr{\symstate_{0_k}}{e_{v_0}}{v_{v_0}}{\symstate_{0_v}}\ \ \ \
-\Term{updated}(\symstate_{0_v},\ v_{k_0},\ v_{v_0}) = \symstate_0\ \ \ \
+\Term{updated}(\symstate_{0_v},\ a \Term{[} v_{k_0} \Term{]},\ v_{v_0}) = \symstate_0\ \ \ \
 \\ \\ 
 \ \ \ \ \ \cdots\ \ \ \ \ \
 \\ \\ 
 \evalescexpr{\symstate_{n-1}}{e_{k_n}}{v_{k_n}}{\symstate_{n_k}}\ \ \ \
 \evalexpr{\symstate_{n_k}}{e_{v_n}}{v_{v_n}}{\symstate_{n_v}}\ \ \ \
-\Term{updated}(\symstate_{n_v},\ v_{k_n},\ v_{v_n}) = \symstate_n}
+\Term{updated}(\symstate_{n_v},\ a \Term{[} v_{k_n} \Term{]},\ v_{v_n}) = \symstate_n}
 { \evalexpr{\symstate}
 {\Term{new}\ t\ \Term{(} e_{k_0}\ \mapsto\ e_{v_0},\ \cdots,\
 e_{k_n}\ \mapsto\ e_{v_n} \Term{)}}
@@ -824,49 +831,91 @@ e_{k_n}\ \mapsto\ e_{v_n} \Term{)}}
 % pop
 \infer
 {\evalescexpr{\symstate}{e_0}{a}{\symstate_0}\ \ \ \
-\evalescexpr{\symstate_0}{e_1}{v_k}{\symstate_1}\ \ \ \
-\Term{pop}(\symstate_1,\ a,\ v_k) = (v,\ \symstate_2)}
-{\evalexpr{\symstate}{\Term{pop}\ e_0\ e_1}{v}{\symstate_2}}
+\evalescexpr{\symstate_0}{e_1}{d}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+a \in \Term{Dom}(\symheap)
 \\ \\
-\multicolumn{1}{c}{\begin{array}{ccc}
+\symheap(a) = \symlist{v^*}\ \ \ \
+d_l = \mathlen{\symlist{v^*}}\ \ \ \ 
+0 \le d < d_l\ \ \ \
+\symlist{v^*}(d) = v_0\ \ \ \
+\inred{o = \symlist{v^*}[0..d]\ \Term{++}\ \symlist{v^*}[(d+1)..d_l]}
+\\ \\
+\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
+\symstate_2 = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
+{\evalexpr{\symstate}{\Term{pop}\ e_0\ e_1}{v_0}{\symstate_2}}
+\\ \\
 % copy-obj
 \infer
-{\evalescexpr{\symstate}{e}{a_0}{\symstate_0}\ \ \ \
-\Term{copyObj}(\symstate_0,\ a_0) = (a_1,\ \symstate_1)}
-{\evalexpr{\symstate}{\Term{copy-obj}\ e}{a_1}{\symstate_1}}
-&
-\cs
-&
+{\evalescexpr{\symstate}{e}{a}{\symstate_0}\ \ \ \
+\symstate_0 = \symstdef\ \ \ \
+a \in \Term{Dom}(\symheap)\ \ \ \
+a_0 \notin \Term{Dom}(\symheap)\ \ \ \
+\\ \\
+\symheap(a) = o\ \ \ \
+\inred{\symheap_0 = \symheap + (a_0 \mapsto o)}\ \ \ \
+\symstate_1 = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
+{\evalexpr{\symstate}{\Term{copy-obj}\ e}{a_0}{\symstate_1}}
+\\ \\
 % map-keys
 \infer
-{\evalescexpr{\symstate}{e}{a_0}{\symstate_0}\ \ \ \
-\Term{keys}(\symstate_0,\ a_0) = (a_1,\ \symstate_1)}
+{\evalescexpr{\symstate}{e}{a}{\symstate_0}\ \ \ \
+\symstate_0 = \symstdef\ \ \ \
+a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = \symmap{t}{v_k}{v_v}
+\\ \\
+a_0 \notin \Term{Dom}(\symheap)\ \ \ \
+\inred{o = \symlist{v_k^*}}\ \ \ \
+\inred{\symheap_0 = \symheap + (a_0 \mapsto o)}\ \ \ \
+\symstate_1 = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
 {\evalexpr{\symstate}{\Term{map-keys}\ e}{a_1}{\symstate_1}}
-\end{array}}
-\\ \\
-% contains
-\infer
-{\evalescexpr{\symstate}{e_0}{a_l}{\symstate_0}\ \ \ \
-\evalescexpr{\symstate_0}{e_1}{v}{\symstate_1}\ \ \ \
-\Term{contains}(\symstate_1,\ a_l,\ v) = b}
-{\evalexpr{\symstate}{\Term{contains}\ e_0\ e_1}{b}{\symstate_1}}
-\\ \\
-% convert
-\infer
-{\evalescexpr{\symstate}{e}{s}{\symstate_0}\ \ \ \
-\Term{convert}(\triangleright,\ s,\ e^*) = (v,\ \symstate_1)}
-{\evalexpr{\symstate}{\Term{convert}\ e\ \triangleright\ e^*}{v}{\symstate_1}}
 \end{array}
 \]
 
 \newpage
 
 \[ \begin{array}{c}
-% is-instance-of - str
+% contains - true
+\infer
+{\evalescexpr{\symstate}{e_0}{a}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e_1}{v_0}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+\\ \\
+a \in \symheap\ \ \ \
+\inred{\symheap(a) = \symlist{v^*}}\ \ \ \
+v_0 \in \Term{\{}v\Term{\}}}
+{\evalexpr{\symstate}{\Term{contains}\ e_0\ e_1}{\Term{true}}{\symstate_1}}
+\\ \\
+% contains - false
+\infer
+{\evalescexpr{\symstate}{e_0}{a}{\symstate_0}\ \ \ \
+\evalescexpr{\symstate_0}{e_1}{v_0}{\symstate_1}\ \ \ \
+\symstate_1 = \symstdef\ \ \ \
+\\ \\
+a \in \symheap\ \ \ \
+\symheap(a) = \symlist{v^*}\ \ \ \
+\inred{v_0 \notin \Term{\{}v\Term{\}}}}
+{\evalexpr{\symstate}{\Term{contains}\ e_0\ e_1}{\Term{false}}{\symstate_1}}
+\\ \\
+% convert
+\infer
+{\evalescexpr{\symstate}{e}{s}{\symstate_0}\ \ \ \
+\inred{\Term{convert}(\triangleright,\ s,\ e^*) = (v,\ \symstate_1)}}
+{\evalexpr{\symstate}{\Term{convert}\ e\ \triangleright\ e^*}{v}{\symstate_1}}
+\\ \\
+\multicolumn{1}{c}{\begin{array}{ccc}
+% is-instance-of - str - true
 \infer
 {\evalescexpr{\symstate}{e}{s_0}{\symstate_0}\ \ \ \
-\Term{equals}(s_0,\ s) = b }
-{\evalexpr{\symstate}{\Term{is-instance-of}\ e\ s}{b}{\symstate_0}}
+s_0 = s }
+{\evalexpr{\symstate}{\Term{is-instance-of}\ e\ s}{\Term{true}}{\symstate_0}}
+& \cs &
+% is-instance-of - str - false
+\infer
+{\evalescexpr{\symstate}{e}{s_0}{\symstate_0}\ \ \ \
+s_0 \neq s }
+{\evalexpr{\symstate}{\Term{is-instance-of}\ e\ s}{\Term{false}}{\symstate_0}}
+\end{array}}
 \\ \\
 % is-instance-of - AST value
 \infer
@@ -914,6 +963,8 @@ e_{k_n}\ \mapsto\ e_{v_n} \Term{)}}
 TODO
 
 define helper function OR change function to rule explictly
+
+fix rule related to AST value
 
 \newpage
 
@@ -975,7 +1026,7 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-\Term{assertNotEquals}(t,\ t_{completion})}
+t \neq t_{completion}}
 {\evalref{\symstate}{r\Term{[} e \Term{]}}{a\Term{[} v \Term{]}}{\symstate_2}}
 \\ \\
 % ref - prop - address - completion and contains
@@ -987,7 +1038,7 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-\Term{assertEquals}(t,\ t_{completion})\ \ \ \
+t = t_{completion}\ \ \ \
 v \in \{v_k\} \ \ \ \ }
 {\evalref{\symstate}{r\Term{[} e \Term{]}}{a\Term{[} v \Term{]}}{\symstate_2}}
 \\ \\
@@ -1000,7 +1051,7 @@ v \in \{v_k\} \ \ \ \ }
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-\Term{assertEquals}(t,\ t_{completion}) \ \ \ \
+t = t_{completion}\ \ \ \
 v \notin \{v_k\}\ \ \ \
 \Term{"Value"} \in \{v_k\}
 \\ \\
@@ -1016,7 +1067,7 @@ v \notin \{v_k\}\ \ \ \
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-\Term{assertEquals}(t,\ t_{completion}) \ \ \ \
+t = t_{completion}\ \ \ \
 v \notin \{v_k\}\ \ \ \
 \Term{"Value"} \in \{v_k\}
 \\ \\
@@ -1059,76 +1110,17 @@ x \notin \Term{Dom}(\symenv_L)\ \ \ \
 x \notin \Term{Dom}(\symenv_G)}
 {\evalrefv{\symstate}{x}{\Term{absent}}{\symstate}}
 \\ \\
-% refv - prop - symbol
+% refv - prop
 \infer
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
 a \in \Term{Dom}(\symheap)\ \ \ \
-\Term{assertEquals}(v,\ "\Term{Description}")\ \ \ \
-\symheap(a) = \Term{symbol}\ v_d}
-{\evalrefv{\symstate}{a\Term{[} v \Term{]}}{v_d}{\symstate}}
-\\ \\
-% refv - prop - map - absent
-\infer
-{\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
-a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}} \ \ \ \
-v \notin \{ v_k \}}
-{\evalrefv{\symstate}{a\Term{[} v \Term{]}}{\Term{absent}}{\symstate}}
-\\ \\
-% refv - prop - map - not absent
-\infer
-{\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
-a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}} \ \ \ \
-v \in \{ v_k \} \ \ \ \
-[v_k\ \mapsto\ v_v]^*(v) = v_0 }
+\hgethprop{\symheap}{a}{v}{v_0}}
 {\evalrefv{\symstate}{a\Term{[} v \Term{]}}{v_0}{\symstate}}
 \\ \\
-% refv - prop - list - length
+% refv - str
 \infer
-{\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
-a \in \Term{Dom}(\symheap)\ \ \ \
-\\ \\
-\Term{assertEquals}(v,\ "\Term{length}")\ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
-\Term{length}(\Term{<} v^* \Term{>}) = d}
-{\evalrefv{\symstate}{a\Term{[} v \Term{]}}{d}{\symstate}}
-\\ \\
-% refv - prop - list - integer - not valid
-\infer
-{\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
-a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
-\Term{assertInvalidIndex}(\Term{<} v^* \Term{>},\ d)}
-{\evalrefv{\symstate}{a\Term{[} d \Term{]}}{\Term{absent}}{\symstate}}
-\\ \\
-% refv - prop - list - integer - valid
-\infer
-{\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
-a \in \Term{Dom}(\symheap)\ \ \ \
-\\ \\
-\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
-\Term{assertValidIndex}(\Term{<} v^* \Term{>},\ d)\ \ \ \
-(\Term{<} v^* \Term{>})(d) = v_0}
-{\evalrefv{\symstate}{a\Term{[} d \Term{]}}{v_0}{\symstate}}
-\\ \\
-\multicolumn{1}{c}{\begin{array}{ccccc}
-% refv - str - length
-\infer
-{\Term{assertEquals}(s_k,\ "\Term{length}")\ \ \ \
-\Term{length}(s) = d}
-{\evalrefv{\symstate}{s\Term{.}s_k}{d}{\symstate}}
-& \cs &
-% refv - str - integer
-\infer
-{\Term{charAt}(s,\ d) = s_0}
-{\evalrefv{\symstate}{s\Term{.}d}{s_0}{\symstate}}
-& \cs &
-% refv - str - floating point
-\infer
-{\Term{charAt}(s,\ \Term{toInt}(n)) = s_0}
-{\evalrefv{\symstate}{s\Term{.}n}{s_0}{\symstate}}
-\end{array}}
+{\hgetsprop{s}{v}{v_0}}
+{\evalrefv{\symstate}{s\Term{.}v}{v_0}{\symstate}}
 
 \end{array}
 \]
@@ -1143,7 +1135,7 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 \symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \
 \\ \\
-\symenv_0 = \symenv_L + (x \mapsto v)\ \ \ \
+\inred{\symenv_0 = \symenv_L + (x \mapsto v)}\ \ \ \
 \symctx_0 = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_0}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap}}
 {\hdefine{\symstate}{x}{v}{\symstate_0}}
@@ -1151,14 +1143,14 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 % update - refv:id - global
 \infer
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
-\Term{assertGlobalId}(x)\ \ \ \ 
-\symenv_0 = \symenv_G + (x \mapsto v)\ \ \ \
+\inred{\Term{assertGlobalId}(x)}\ \ \ \ 
+\inred{\symenv_0 = \symenv_G + (x \mapsto v)}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_0}{\symheap}}
 {\hupdated{\symstate}{x}{v}{\symstate_0}}
 \\ \\
 % update - refv:id - local
 \infer
-{\Term{assertLocalId}(x)\ \ \ \
+{\inred{\Term{assertLocalId}(x)}\ \ \ \
 \hdefine{\symstate}{x}{v}{\symstate_0}}
 {\hupdated{\symstate}{x}{v}{\symstate_0}}
 \\ \\
@@ -1167,9 +1159,9 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-o = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* + (v_0 \mapsto v_1) \Term{\}}
+\inred{o = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* + (v_0 \mapsto v_1) \Term{\}}}
 \\ \\
-\symheap_0 = \symheap + (a \mapsto o)\ \ \ \
+\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
 {\hupdated{\symstate}{a\Term{[} v_0 \Term{]}}{v_1}{\symstate_0}}
 \\ \\
@@ -1178,7 +1170,7 @@ o = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* + (v_0 \mapsto v_1) \Term{\}}
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 \symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \
 \\ \\
-\symenv_0 = \symenv_L - x\ \ \ \
+\inred{\symenv_0 = \symenv_L - x}\ \ \ \
 \symctx_0 = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_0}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap}}
 {\hdeleted{\symstate}{x}{\symstate_0}}
@@ -1188,9 +1180,9 @@ o = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* + (v_0 \mapsto v_1) \Term{\}}
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}}\ \ \ \
-o = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* - v_0 \Term{\}}
+\inred{o = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* - v_0 \Term{\}}}
 \\ \\
-\symheap_0 = \symheap + (a \mapsto o)\ \ \ \
+\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
 {\hdeleted{\symstate}{a\Term{[} v_0 \Term{]}}{\symstate_0}}
 \\ \\
@@ -1199,9 +1191,9 @@ o = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* - v_0 \Term{\}}
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = \Term{<} v^* \Term{>}\ \ \ \
-o = \Term{<} v^* \Term{>}\ \Term{:+}\ v_0
+\inred{o = \Term{<} v^* \Term{>}\ \Term{:+}\ v_0}
 \\ \\
-\symheap_0 = \symheap + (a \mapsto o)\ \ \ \
+\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
 {\happend{\symstate}{a}{v_0}{\symstate_0}}
 \\ \\
@@ -1210,18 +1202,18 @@ o = \Term{<} v^* \Term{>}\ \Term{:+}\ v_0
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 a \in \Term{Dom}(\symheap)\ \ \ \
 \symheap(a) = \Term{<} v^* \Term{>}\ \ \ \
-o = v_0\ \Term{+:}\ \Term{<} v^* \Term{>}
+\inred{o = v_0\ \Term{+:}\ \Term{<} v^* \Term{>}}
 \\ \\
-\symheap_0 = \symheap + (a \mapsto o)\ \ \ \
+\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
 {\hprepend{\symstate}{a}{v_0}{\symstate_0}}
 \\ \\
 % return - ctx stack empty
 \infer
-{\symstate = \symstatetuple{\symctx}{\Term{Nil}}{\symenv_G}{\symheap}\ \ \ \
+{\symstate = \symstatetuple{\symctx}{\inred{\Term{Nil}}}{\symenv_G}{\symheap}\ \ \ \
 \symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \
 \\ \\
-\symenv_0 = \symenv_L + (x_{ret} \mapsto v)\ \ \ \
+\inred{\symenv_0 = \symenv_L + (x_{ret} \mapsto v)}\ \ \ \
 \symctx_0 = \symctxtuple{x_{ret}}{s}{\Term{Nil}}{\symenv_0}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap}}
 {\hreturn{\symstate}{v}{\symstate_0}}
@@ -1229,15 +1221,134 @@ o = v_0\ \Term{+:}\ \Term{<} v^* \Term{>}
 % return - ctx stack not empty
 \infer
 {\symstate = \symstatetuple
-{\symctx}{\symctx_0\ \Term{+:}\ \symctxstack}{\symenv_G}{\symheap}\ \ \ \
+{\symctx}{\inred{\symctx_0\ \Term{+:}\ \symctxstack}}{\symenv_G}{\symheap}\ \ \ \
 \symctx_0 = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_{L}}\ \ \ \
 \\ \\
-\symenv_0 = \symenv_L + (x_{ret} \mapsto v)\ \ \ \
+\inred{\symenv_0 = \symenv_L + (x_{ret} \mapsto v)}\ \ \ \
 \symctx_1 = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_0}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx_1}{\symctxstack}{\symenv_G}{\symheap}}
 {\hreturn{\symstate}{v}{\symstate_0}}
-
-
 \end{array}\]
+
+\newpage
+
+\[\begin{array}{c}
+% prop - symbol
+\infer
+{a \in \Term{Dom}(\symheap)\ \ \ \
+s = "\Term{Description}"\ \ \ \
+\symheap(a) = \Term{symbol}\ v}
+{\hgethprop{\symheap}{a}{s}{v}}
+\\ \\
+% prop - map - absent
+\infer
+{a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}} \ \ \ \
+v \notin \{ v_k \}}
+{\hgethprop{\symheap}{a}{v}{\Term{absent}}}
+\\ \\
+% prop - map - not absent
+\infer
+{a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}} \ \ \ \
+v_p \in \{ v_k \} \ \ \ \
+\inred{[v_k\ \mapsto\ v_v]^*(v_p) = v} }
+{\hgethprop{\symheap}{a}{v_p}{v}}
+\\ \\
+% prop - list - length
+\infer
+{a \in \Term{Dom}(\symheap)\ \ \ \
+s = "\Term{length}"\ \ \ \
+\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
+|\Term{<} v^* \Term{>}| = d}
+{\hgethprop{\symheap}{a}{s}{d}}
+\\ \\
+\multicolumn{1}{c}{\begin{array}{ccc}
+% prop - list - integer - not valid - negative
+\infer
+{a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
+d < 0}
+{\hgethprop{\symheap}{a}{d}{\Term{absent}}}
+& \cs &
+% prop - list - integer - not valid - ge length
+\infer
+{a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
+|\Term{<} v^* \Term{>}| = d_0\ \ \ \
+d \ge d_0}
+{\hgethprop{\symheap}{a}{d}{\Term{absent}}}
+\end{array}}
+\\ \\
+% prop - list - integer - valid
+\infer
+{a \in \Term{Dom}(\symheap)\ \ \ \
+\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
+|\Term{<} v^* \Term{>}| = d_0\ \ \ \
+0 \le d < d_0\ \ \ \
+\inred{\Term{<} v^* \Term{>}(d) = v_0}}
+{\hgethprop{\symheap}{a}{d}{v_0}}
+\\ \\
+\multicolumn{1}{c}{\begin{array}{ccccc}
+% str prop - length
+\infer
+{s_p = \Term{"length"}\ \ \ \
+v = |s|}
+{\hgetsprop{s}{s_p}{v}}
+& \cs &
+% str prop - floating point
+\infer
+{\htoint{n}{d}\ \ \ \
+\inred{\hcharat{s}{d}{s_0}}}
+{\hgetsprop{s}{n}{s_0}}
+& \cs &
+% str prop - integer
+\infer
+{\inred{\hcharat{s}{d}{s_0}}}
+{\hgetsprop{s}{d}{s_0}}
+\end{array}}
+\\ \\
+% alloc symbol - string
+\infer
+{a \notin \Term{Dom}(\symheap)\ \ \ \
+o = \Term{symbol}\ s\ \ \ \
+\inred{\symheap_0 = \symheap + (a \mapsto o)}}
+{\hallocsym{\symheap}{s}{a}{\symheap_0}}
+\\ \\
+% alloc symbol - undef
+\infer
+{a \notin \Term{Dom}(\symheap)\ \ \ \
+o = \Term{symbol}\ \Term{undefined}\ \ \ \
+\inred{\symheap_0 = \symheap + (a \mapsto o)}}
+{\hallocsym{\symheap}{\Term{undefined}}{a}{\symheap_0}}
+\\ \\
+% alloc map
+\infer
+{a \notin \Term{Dom}(\symheap)\ \ \ \
+\inred{o = t\ \Term{\{} {\emptyset} \Term{\}}}\ \ \ \
+\inred{\symheap_0 = \symheap + (a \mapsto o)}}
+{\hallocmap{\symheap}{t}{a}{\symheap_0}}
+\\ \\
+% alloc list
+\infer
+{a \notin \Term{Dom}(\symheap)\ \ \ \
+o = \Term{<} v^* \Term{>}\ \ \ \
+\inred{\symheap_0 = \symheap + (a \mapsto o)}}
+{\halloclist{\symheap}{v^*}{a}{\symheap_0}}
+\end{array}\]
+
+TODO
+
+getType
+
+getElmes
+
+isKindOf
+
+toString
+
+getNewValue
+
+assertValidParseRule
 
 \end{document}
