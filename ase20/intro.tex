@@ -37,18 +37,18 @@ and its semantics using abstract algorithms written in English in a clear and
 structured manner.  \textit{IR-based semantics extraction} is a traditional way to
 define the formal semantics of a language by building a compiler front-end
 that takes programs and produces their Intermediate
-Representations (IRs) to indirectly represent the semantics of given programs.
-As illustrated in Figure~\ref{fig:existing}, the compiler front-end consists of a parser
+Representations (IRs) to indirectly represent the semantics of the given programs.
+As illustrated in Figure~\ref{fig:existing}, a compiler front-end consists of a parser
 that constructs Abstract Syntax Trees (ASTs) of given JavaScript programs, and
-an AST-IR translator that converts ASTs to their own IRs.  This approach helps
+an AST-IR translator that converts ASTs to their own IRs.  It helps
 researchers focus on IRs without worrying about diverse and enormous features of
 JavaScript in developing new techniques for static analysis and formal
 verification.
 
 However, to the best of our knowledge, all existing approaches to JavaScript
 IR-based semantics extraction \textit{manually} build parsers and translators.
-Although it was a reasonable approach until ECMAScript 5.1 (ES5.1,
-2011)~\cite{es5}, the manual approach is too tedious, labor-intensive, and
+Although manually building them was reasonable until ECMAScript 5.1 (ES5.1,
+2011)~\cite{es5}, it is too tedious, labor-intensive, and
 error-prone to deal with the large size of \textit{modern JavaScript} since ECMAScript 6
 (ES6, 2015)~\cite{es6}. ES6 introduced numerous significantly new features such
 as lexical binding via \( \code{let} \), the spread \( \code{...} \) operator,
@@ -58,10 +58,10 @@ KJS is one of formal semantics of ES5.1
 and it is defined on top of \( \kframework \), which is a framework for
 defining language semantics.  According to an author of KJS, it took
 \textit{four months} to implement an AST-IR translator for 1,370 steps out of 2,932
-steps in 368 abstract algorithms. However, the most recent version of ECMAScript
+steps in 368 abstract algorithms~\cite{kjsslides}. However, the most recent version of ECMAScript
 (ES10, 2019)~\cite{es10} has 1,731 abstract algorithms consisting of 10,068
-steps. Thus, the manual approach does not seem to be scalable enough to build
-an AST-IR translator for modern JavaScript
+steps. Thus, the manual approaches do not seem to be scalable enough to build
+an AST-IR translator for modern JavaScript,
 and indeed no formal semantics exists for ES6 to ES10.
 
 Moreover, JavaScript syntax and semantics are annually updated.  Until
@@ -71,14 +71,14 @@ decided to release the specification annually in late 2014.  After this official
 announcement, several syntax features and roughly 1,000 to 3,000 steps of
 abstract algorithms have been modified or newly added in the specification every year.
 To handle these frequent and massive updates of ECMAScript,
-the manual approach requires researchers to manually update parsers and AST-IR translators,
+the manual approaches require researchers to manually update parsers and AST-IR translators,
 which incurs tremendous efforts.
 
 To alleviate this problem, we propose a technique to \textit{automatically
 synthesize} parsers and AST-IR translators directly from ECMAScript with
 \textit{forward compatibility}. There are several technical challenges in
 synthesizing parsers and translators. For syntax, ECMAScript utilizes its own
-special variant of the EBNF with parametric non-terminals, conditional
+special variant of EBNF with parametric non-terminals, conditional
 alternatives, and various special terminal symbols.  Thus, no existing parser
 generation technique is directly applicable for this variant.  Moreover,
 JavaScript provides automatic semicolon insertion in its parsing algorithm with
@@ -100,32 +100,25 @@ Toolchain:
     difficulty in handling the semantics written in a natural language.  Compile rules describe how
     each step of abstract algorithms is converted into our intermediate
     representation \( \ires \) designed for ECMAScript. We evaluated \( \tool \)
-    with the five most recent ECMAScript versions and the current draft of the next
-    ECMAScript (ES6 to ES11).   \( \tool \) automatically generated
+    with the five most recent ECMAScript versions (ES6 to ES10).   \( \tool \) automatically generated
     parsers for all versions, and automatically compiled
     \inred{XX.X}\% of the steps in abstract algorithms on average.
   \item \textbf{ Using \( \tool \), we could define the \textit{first IR-based
     formal semantics of modern JavaScript}.}  The semantics targets the
-    core of ES11, and \( \tool \) successfully synthesizes its
+    core of ES10, and \( \tool \) successfully synthesizes its
     parser and AST-IR translator for \inred{X,XXX} out of \inred{X,XXX}
     algorithm steps.  We manually completed the missing parts of the AST-IR
     translator (\inred{XXX} steps) in \inred{XX} days.  We evaluated the correctness
     of the formal semantics using Test262~\cite{test262}, the official
     conformance test suite, and the semantics passed all \inred{XX,XXX}
-    applicable tests.  Moreover, we found \inred{X} specification errors in ES11
+    applicable tests.  Moreover, we found \inred{X} specification errors in ES10
     thanks to the formal semantics.  They were all confirmed by TC39 and will be
     fixed in the next release.
   \item \textbf{\( \tool \) is also \textit{forward compatible} with new language features
-    proposed for future ECMAScript specifications.}  TC39 manages proposals of
-    new language features in an open source
-    project\footnote{https://github.com/tc39/proposals}.  Out of five stages
-    of proposals (from Stage 0 to Stage 4), proposals in Stage 4 (Finished)
-    are ready for inclusion in the next ECMAScript, and proposals in
-    Stage 3 (Candidate) are in the last stage before finished.  We
-    evaluated the forward compatibility of \( \tool \) by applying it
-    to all \inred{XX} proposals in Stage 3. It successfully
-    synthesized parsers for all proposals, and automatically
-    compiled \inred{XX} out of \inred{XX} algorithm steps for all
-    proposals.  After completion of the missing parts,
-    each semantics passed all \inred{XX} tests.
+    proposed for future ECMAScript specifications.}  
+    We evaluated the forward compatibility of \( \tool \) by applying it
+    to the current draft of the next ECMAScript (ES11, 2020).  It successfully
+    synthesized a parser and automatically
+    compiled \inred{XX} out of \inred{XX} algorithm steps for ES11.
+    After completion of the missing parts, the extracted semantics passed all \inred{XX} tests.
 \end{itemize}

@@ -10,7 +10,7 @@ and error-prone and all of their formal semantics target ECMAScript 5.1 (ES5.1, 
 or its former versions.  Therefore, they are not suitable for understanding
 \textit{modern JavaScript} language features introduced since
 ECMAScript 6 (ES6, 2015).  Moreover, ECMAScript has been annually updated since ES6,
-which made already five releases after ES5.1.
+which already made five releases after ES5.1.
 
 To alleviate the problem, we propose \( \tool \), a JavaScript IR-based
 Semantics Extraction Toolchain.  It is the first tool that \textit{automatically
@@ -22,14 +22,14 @@ For semantics, \( \tool \) synthesizes AST-IR translators using \textit{forward
 compatible} rule-based compilation.  \textit{Compile rules} describe how to
 convert each step of abstract algorithms written in a structured natural language
 into \( \ires \), an Intermediate Representation that we designed for
-ECMAScript.  For the five most recent ECMAScript versions and the
-current draft of the next ECMAScript (ES11, 2020), \( \tool \) automatically
+ECMAScript.  For the five most recent ECMAScript versions, \( \tool \) automatically
 synthesized parsers for all versions, and compiled \inred{XX.XX}\% of the
 algorithm steps on average.  After we complete the missing parts manually,
-the extracted core semantics of ES11 passed all \inred{XX,XXX} applicable tests.
+the extracted core semantics of the latest ECMAScript version (ES10, 2019)
+passed all \inred{XX,XXX} applicable tests.
 Using this \textit{first formal semantics of modern JavaScript}, we found
-\inred{X} specification errors in ES11, which were all confirmed by
+\inred{X} specification errors in ES10, which were all confirmed by
 the Ecma Technical Committee 39.  Furthermore, we also successfully
-applied \( \tool \) to \inred{X} feature proposals that are candidates
-for inclusion in ECMAScript, which shows the forward compatibility of \( \tool \).
+applied \( \tool \) to the current draft of the next ECMAScript (ES11, 2020),
+which shows the forward compatibility of \( \tool \).
 \end{abstract}
