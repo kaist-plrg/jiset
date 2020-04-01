@@ -280,7 +280,7 @@ Semantic domain of \irname.
 %Object
 \text{Object} & o & ::= & \Term{symbol}\ v & \text{(symbol)}\\
 &&|& t\ \Term{\{} [v\ \mapsto\ v]^* \Term{\}} & \text{(map)}\\
-&&|& \Term{<} v^* \Term{>} & \text{(list)}\\
+&&|& \symlist{v^*} & \text{(list)}\\
 &&|& \Term{not-supported}\ s & \text{(not supported)}\\
 \\
 %Value
@@ -602,7 +602,7 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 \symstate_1 = \symstdef\ \ \ \
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>}\ \ \ \ \
+\symheap(a) = \symlist{v^*}\ \ \ \ \
 \Term{getHeapProp}(\symheap,\ a,\ v_p) = v_0\ \ \ \ \
 \\ \\ \\
 \Term{define}(\symstate_1,\ x,\ v_0) = \symstate_2 }
@@ -1014,7 +1014,7 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 \symstate_2 = \symstdef\ \ \ \
 \\ \\
 a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>}}
+\symheap(a) = \symlist{v^*}}
 {\evalref{\symstate}{r\Term{[} e \Term{]}}{a\Term{[} v \Term{]}}{\symstate_2}}
 \\ \\
 % ref - prop - address - not completion
@@ -1190,8 +1190,8 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 \infer
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>}\ \ \ \
-\inred{o = \Term{<} v^* \Term{>}\ \Term{:+}\ v_0}
+\symheap(a) = \symlist{v^*}\ \ \ \
+\inred{o = \symlist{v^*}\ \Term{:+}\ v_0}
 \\ \\
 \inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
@@ -1201,8 +1201,8 @@ a \in \Term{Dom}(\symheap)\ \ \ \
 \infer
 {\symstate = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
 a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>}\ \ \ \
-\inred{o = v_0\ \Term{+:}\ \Term{<} v^* \Term{>}}
+\symheap(a) = \symlist{v^*}\ \ \ \
+\inred{o = v_0\ \Term{+:}\ \symlist{v^*}}
 \\ \\
 \inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
 \symstate_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
@@ -1243,14 +1243,14 @@ s = "\Term{Description}"\ \ \ \
 % prop - map - absent
 \infer
 {a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}} \ \ \ \
+\symheap(a) = \symmap{t}{v_k}{v_v}\ \ \ \
 v \notin \{ v_k \}}
 {\hgethprop{\symheap}{a}{v}{\Term{absent}}}
 \\ \\
 % prop - map - not absent
 \infer
 {a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \Term{\{} [v_k\ \mapsto\ v_v]^* \Term{\}} \ \ \ \
+\symheap(a) = \symmap{t}{v_k}{v_v}\ \ \ \
 v_p \in \{ v_k \} \ \ \ \
 \inred{[v_k\ \mapsto\ v_v]^*(v_p) = v} }
 {\hgethprop{\symheap}{a}{v_p}{v}}
@@ -1259,23 +1259,23 @@ v_p \in \{ v_k \} \ \ \ \
 \infer
 {a \in \Term{Dom}(\symheap)\ \ \ \
 s = "\Term{length}"\ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
-|\Term{<} v^* \Term{>}| = d}
+\symheap(a) = \symlist{v^*} \ \ \ \
+\mathlen{\symlist{v^*}} = d}
 {\hgethprop{\symheap}{a}{s}{d}}
 \\ \\
 \multicolumn{1}{c}{\begin{array}{ccc}
 % prop - list - integer - not valid - negative
 \infer
 {a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
+\symheap(a) = \symlist{v^*} \ \ \ \
 d < 0}
 {\hgethprop{\symheap}{a}{d}{\Term{absent}}}
 & \cs &
 % prop - list - integer - not valid - ge length
 \infer
 {a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
-|\Term{<} v^* \Term{>}| = d_0\ \ \ \
+\symheap(a) = \symlist{v^*} \ \ \ \
+\mathlen{\symlist{v^*}} = d_0\ \ \ \
 d \ge d_0}
 {\hgethprop{\symheap}{a}{d}{\Term{absent}}}
 \end{array}}
@@ -1283,17 +1283,17 @@ d \ge d_0}
 % prop - list - integer - valid
 \infer
 {a \in \Term{Dom}(\symheap)\ \ \ \
-\symheap(a) = \Term{<} v^* \Term{>} \ \ \ \
-|\Term{<} v^* \Term{>}| = d_0\ \ \ \
+\symheap(a) = \symlist{v^*} \ \ \ \
+\mathlen{\symlist{v^*}} = d_0\ \ \ \
 0 \le d < d_0\ \ \ \
-\inred{\Term{<} v^* \Term{>}(d) = v_0}}
+\inred{\symlist{v^*}(d) = v_0}}
 {\hgethprop{\symheap}{a}{d}{v_0}}
 \\ \\
 \multicolumn{1}{c}{\begin{array}{ccccc}
 % str prop - length
 \infer
 {s_p = \Term{"length"}\ \ \ \
-v = |s|}
+v = \mathlen{s}}
 {\hgetsprop{s}{s_p}{v}}
 & \cs &
 % str prop - floating point
@@ -1332,7 +1332,7 @@ o = \Term{symbol}\ \Term{undefined}\ \ \ \
 % alloc list
 \infer
 {a \notin \Term{Dom}(\symheap)\ \ \ \
-o = \Term{<} v^* \Term{>}\ \ \ \
+o = \symlist{v^*}\ \ \ \
 \inred{\symheap_0 = \symheap + (a \mapsto o)}}
 {\halloclist{\symheap}{v^*}{a}{\symheap_0}}
 \end{array}\]
