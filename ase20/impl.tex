@@ -1,23 +1,22 @@
 \section{Implementation}\label{sec:impl}
 We describe the implementation detail of our open-source
 tool, \( \tool \)\footnote{The URL of the tool is anonymized due to a
-double-blind review process.}, which targets
-ECMAScript 2020~\cite{es2020}.
+double-blind review process.}, which targets ES10~\cite{es10}.
 
 %We describe how we implement an open-source \( \tool \)\footnote{
 %The URL of the tool is anonymized due to a double-blind review process.},
-%which targets ECMAScript 2020~\cite{es2020}.
+%which targets ES10~\cite{es10}.
 
 \subsection{Excluded Language Features}\label{sec:exclusion}
-We decided not to support the following ECMAScript 2020 features:
+We decided not to support the following ES10 features:
 
 \vspace*{-.5em}
 \paragraph{Non-Strict Mode}
-Since ECMAScript 5, JavaScript introduced strict mode to
+Since ES5.1, JavaScript introduced strict mode to
 provide different semantics.  It
 provides more stable semantics by preventing unsafe actions or
-throwing originally ignored errors.  However, the ECMAScript
-specification states that ``Strict mode does not restrict or modify
+throwing originally ignored errors.  However, ECMAScript
+states that ``Strict mode does not restrict or modify
 any aspect of the ECMAScript semantics that must operate consistently
 across multiple source text units.''  Thus, we decided to support only
 strict mode.
@@ -34,7 +33,7 @@ semantics critically, we decided not to support modules.
 
 \vspace*{-.5em}
 \paragraph{Early Errors}
-ECMAScript specifications use Early Error Rules to preclude invalid code
+ECMAScript uses Early Error Rules to preclude invalid code
 before evaluation. For example, an Early Error Rule checks whether
 functions have duplicated parameters in strict mode.
 Because they are written in different styles from abstract algorithms,
@@ -51,7 +50,7 @@ which is a complete formal semantics of JavaScript.
 \subsection{Compile Rules for ECMAScript}
 \begin{table}[t]
   \centering
-  \caption{Compile rules in ECMAScript 2020}
+  \caption{Compile rules in ES10}
   \label{table:rules}
 \vspace*{-1em}
   \[
@@ -79,14 +78,14 @@ which is a complete formal semantics of JavaScript.
 
 As we discussed in Section~\ref{sec:compiler}, \textsf{Algorithm Compiler}
 requires compile rules to compile given abstract algorithms to \( \ires \)
-functions.  In order to cover the entire ECMAScript 2020 specification,
+functions.  In order to cover the entire ES10,
 we defined compile rules for only seven kinds as summarized in
 Table~\ref{table:rules}.  The compile rule for statements, \( \code{Stmt} \),
 contains 17 compile rules and generates \( \ires \) instructions.
 The \( \code{Expr} \), \( \code{Cond} \), and \( \code{Value} \) compile
 rules denote expressions, conditions, and values, respectively.  While
 all of them generate \( \ires \) expressions, they represent different
-contexts in the ECMAScript specification.  For example,
+contexts in ECMAScript.  For example,
 \( \code{Expr} \) represents a context where any expression can appear,
 \( \code{Cond} \) denotes a context where any boolean-valued expression
 can appear, and \( \code{Value} \) represents a context where a fully
@@ -104,12 +103,12 @@ corresponding name strings like \( \code{"ProxyExoticObject.Call"} \).
 % \end{lstlisting}
 
 \subsection{Global Setting}
-We manually implemented \textsf{Global Setting} for ECMAScript 2020,
+We manually implemented \textsf{Global Setting} for ES10,
 which has two parts: ECMAScript data types and built-in objects.
 
 \vspace*{-.5em}
 \paragraph{ECMAScript Data Types}
-In ECMAScript 2020, Section 6 \textsf{ECMAScript Data Types and Values}
+In ES10, Section 6 \textsf{ECMAScript Data Types and Values}
 describes data types used in the specification.  It describes not only
 data types explicitly exposed for JavaScript evaluation, but also all
 the internal data types used in the specification.  For example, the

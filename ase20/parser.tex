@@ -1,9 +1,9 @@
 \section{Parser Generator}\label{sec:parser}
 In this section, we explain how to automatically generate JavaScript
-parsers from a given ECMAScript specification.
+parsers from a given ECMAScript.
 
 \subsection{\( \bnfes \): Grammar for ECMAScript}
-The ECMAScript specification describes the JavaScript syntax using an
+ECMAScript describes the JavaScript syntax using an
 extension of the BNF notation.  We formally define the notation and
 dub it \( \bnfes \).  It consists of a number of \textit{productions}
 with the following form:
@@ -286,8 +286,8 @@ position is defined as an \textit{offending token} and the automatic
 semicolon insertion algorithm is defined with such tokens.  The
 algorithm is simple when we already have the positions of offending
 tokens.  Thus, we just manually supported them by following the rules
-in ECMAScript 2020.  In addition, the rules rarely change; since
-ECMAScript 5.1 written in 2011, only one sub-rule was added.
+in ES10.  In addition, the rules rarely change; since
+ES5.1 written in 2011, only one sub-rule was added.
 
 \smallskip
 
@@ -310,6 +310,6 @@ recursion in grammars.  If a grammar has a left recursion, its parser
 falls into an infinite loop.  To resolve this problem, Warth et
 al~\cite{packrat-lr} proposed a mechanism to support not only direct
 left recursion but also indirect one in Packrat parsing.  While we can
-adopt the mechanism, we found that the ECMAScript 2020 syntax does not
+adopt the mechanism, we found that the ES10 syntax does not
 use indirect left recursion.  Thus, we decided to just remove direct
 left recursion by defining sub productions.

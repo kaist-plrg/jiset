@@ -6,7 +6,7 @@ We evaluate \( \tool \) based on the following four research questions:
 manual efforts in extracting the syntax and semantics from existing
 ECMAScript specifications? 
 \item RQ2. \textbf{Correctness:} Do the extracted syntax and semantics
-from ECMAScript 2020 behave correctly?
+from ES10 behave correctly?
 \item RQ3. \textbf{Adaptability:} Is \( \tool \) applicable to
 incomplete feature proposals?
 \item RQ4. \textbf{Usefulness:} Does \( \tool \) detect any
@@ -96,8 +96,8 @@ from \textit{all} of which \( \tool \) automatically generated parsers}
 \end{figure}
 
 We evaluate the effectiveness of \( \tool \) by applying it to the
-most recent five versions of the ECMAScript specifications, ECMAScript
-2016 to 2020.  We measured for how many grammar productions and
+most recent five versions of ECMAScript, ES6 to ES10.
+We measured for how many grammar productions and
 steps in abstract algorithms \( \tool \) automatically generates parsers and
 semantics, respectively, in two respects: 1) in each version and 2) in
 each difference between adjacent versions.
@@ -128,7 +128,7 @@ them from scratch, but also for updating existing ones.
 \subsection{Correctness}
 \begin{table}[t]
   \centering
-  \caption{Testing results of Test262 for ECMAScript 2020}
+  \caption{Testing results of Test262 for ES10}
   \label{table:test262}
 \vspace*{-.5em}
 \footnotesize
@@ -139,7 +139,7 @@ them from scratch, but also for updating existing ones.
     Annexes/Internationalization & 1,774\\\hdashline
     In-progress features & 5,895\\\midrule
     \belowrulesepcolor{gainsboro}
-    \rowcolor{gainsboro} \textbf{ECMAScript 2020 Tests} & \textbf{29,125}\\
+    \rowcolor{gainsboro} \textbf{ES10 Tests} & \textbf{29,125}\\
     \aboverulesepcolor{gainsboro}\midrule
     Non-strict mode tests & 1,136\\\hdashline
     Module tests& 918 \\\hdashline
@@ -155,8 +155,8 @@ them from scratch, but also for updating existing ones.
 \end{table}
 
 To evaluate the correctness of \( \tool \), we developed a JavaScript
-interpreter based on the extracted syntax and semantics from
-ECMAScript 2020.  Among 9,657 steps in ECMAScript 2020,
+interpreter based on the extracted syntax and semantics from ES10.
+Among 9,657 steps in ES10,
 8,926 steps are automatically compiled via \textsf{Algorithm Compiler}.
 Among the remaining 731 steps, we selected 381 steps
 that are essential to the core semantics and manually
@@ -168,7 +168,7 @@ the excluded language features discussed in Section~\ref{sec:exclusion}.
 We tested the interpreter using Test262, the official conformance test
 suite provided by TC39, as of August 6, 2019.  Because Test262
 contains tests for extensions and in-progress features, we excluded
-them to focus on the semantics of ECMAScript 2020.  As Table~\ref{table:test262} shows,
+them to focus on the semantics of ES10.  As Table~\ref{table:test262} shows,
 Test262 consists of 36,794 tests and we excluded 7,669 tests for
 extensions and in-progress features.  We also filtered out
 tests for excluded features described in Section~\ref{sec:impl}.
@@ -190,7 +190,7 @@ different stages: Stage 0 to Stage 3, Finished, and Inactive.  Each
 proposal starts with Stage 0, and the TC39 committee regularly
 examines Stage 3 proposals to decide their next stages.  If a proposal
 is confirmed, the committee changes its stage to Finished and
-integrates it into the next version of the ECMAScript specification.
+integrates it into the next version of ECMAScript.
 Otherwise, the committee changes its stage to Inactive.  Thus, we
 applied \( \tool \) to one Stage 3 proposal.
 %https://github.com/tc39/proposal-optional-chaining
@@ -201,14 +201,14 @@ pattern like \( \code{x \&\& x.p} \), which first checks that the
 value of \( \code{x} \) is not \( \code{undefined} \) and then
 accesses its property \( \code{p} \).  With the optional chaining
 operator, we can reduce code size by implementing it as \( \code{x?.p} \).
-We extended ECMAScript 2020 with this proposal and applied \( \tool \)
+We extended ES10 with this proposal and applied \( \tool \)
 to the extended specification.  We found that \textsf{Parser Generator}
 successfully handled three updated lexical productions and three
 updated syntactic productions.  For semantics, the proposal had 22
 updated abstract algorithms.  At the first attempt,
 \textsf{Algorithm Compiler} succeeded compiling only 10 algorithms.
 However, we noticed that several algorithm steps have different styles
-from existing ECMAScript specifications.  Thus, we revised them to the
+from existing ECMAScript.  Thus, we revised them to the
 original style, sent three pull requests to the GitHub repository
 of the proposal, and the authors of the proposal accepted our pull
 requests\footnote{The URL of three pull requests are anonymized 
@@ -224,7 +224,7 @@ writing guide.
 \subsection{Usefulness}
 We show the usefulness of \( \tool \) with one case study:
 specification error detection.  While applying \( \tool \) to
-ECMAScript 2020, we found three specification errors.  We fixed them
+ES10, we found three specification errors.  We fixed them
 and sent pull requests to the official GitHub repository of
 ECMAScript~\cite{es2020}.  They were all confirmed by TC39
 and will be fixed in the next release \footnote{The URL of three pull
