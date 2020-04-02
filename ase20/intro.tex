@@ -9,8 +9,8 @@ W3Techs\footnote{https://w3techs.com/technologies/details/cp-javascript/all/all}
 95.0\% of websites use JavaScript as their client-side programming language.
 
 Despite its popularity, JavaScript developers often suffer from its intricate
-semantics, which may cause unexpected behaviors.  For example, calling the
-following JavaScript function seems to always return \( \code{false} \):
+semantics, which may cause unexpected behaviors.  For example, the
+following function may seem to always return \( \code{false} \):
 \begin{lstlisting}[style=myJSstyle]
         function f(x) { return x == !x; }
 \end{lstlisting}
@@ -53,10 +53,10 @@ error-prone to deal with the large size of \textit{modern JavaScript} since ECMA
 (ES6, 2015)~\cite{es6}. ES6 introduced numerous significantly new features such
 as lexical binding via \( \code{let} \), the spread \( \code{...} \) operator,
 classes, the \( \code{for-of} \) operator, the \( \code{async} \) functions, and
-generators.  For example, consider KJS~\cite{kjs}.
-KJS is one of formal semantics of ES5.1
-and it is defined on top of \( \kframework \), which is a framework for
-defining language semantics.  According to an author of KJS, it took
+generators.  For example, consider KJS~\cite{kjs},
+one of formal semantics of ES5.1 defined on top of \( \kframework \), which is
+a framework for defining language semantics.
+According to an author of KJS, it took
 \textit{four months} to implement an AST-IR translator for 1,370 steps out of 2,932
 steps in 368 abstract algorithms~\cite{kjsslides}. However, the most recent version of ECMAScript
 (ES10, 2019)~\cite{es10} has 1,731 abstract algorithms consisting of 10,068
@@ -78,7 +78,7 @@ To alleviate this problem, we propose a technique to \textit{automatically
 synthesize} parsers and AST-IR translators directly from ECMAScript with
 \textit{forward compatibility}. There are several technical challenges in
 synthesizing parsers and translators. For syntax, ECMAScript utilizes its own
-special variant of EBNF with parametric non-terminals, conditional
+variant of EBNF with parametric non-terminals, conditional
 alternatives, and various special terminal symbols.  Thus, no existing parser
 generation technique is directly applicable for this variant.  Moreover,
 JavaScript provides automatic semicolon insertion in its parsing algorithm with
@@ -96,9 +96,9 @@ Toolchain:
     and propose a parser generation technique with
     lookahead parsing for \( \bnfes \), which supports automatic semicolon
     insertion. For semantics, we propose semi-automatic synthesis of AST-IR
-    translators assisted by compile rules because of the
-    difficulty in handling the semantics written in a natural language.  Compile rules describe how
-    each step of abstract algorithms is converted into our intermediate
+    translators assisted by compile rules due to the
+    difficulty in handling the semantics written in a natural language.  Compile rules describe
+    how to convert each step of abstract algorithms into our intermediate
     representation \( \ires \) designed for ECMAScript. We evaluated \( \tool \)
     with the five most recent ECMAScript versions (ES6 to ES10).   \( \tool \) automatically generated
     parsers for all versions, and automatically compiled
@@ -116,9 +116,9 @@ Toolchain:
     fixed in the next release.
   \item \textbf{\( \tool \) is also \textit{forward compatible} with new language features
     proposed for future ECMAScript specifications.}  
-    We evaluated the forward compatibility of \( \tool \) by applying it
-    to the current draft of the next ECMAScript (ES11, 2020).  It successfully
-    synthesized a parser and automatically
-    compiled \inred{XX} out of \inred{XX} algorithm steps for ES11.
+     We evaluated the forward compatibility of \( \tool \) by applying it
+     to all \inred{XX} proposals that are ready for inclusion in the next ECMAScript  (ES11, 2020).
+    It automatically synthesized parsers and
+    compiled \inred{XX} out of \inred{XX} algorithm steps for all the proposals.
     After completion of the missing parts, the extracted semantics passed all \inred{XX} tests.
 \end{itemize}
