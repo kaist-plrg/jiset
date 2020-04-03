@@ -28,17 +28,10 @@ object ParserGenerator {
       val Production(lhs, rhsList) = prod
       val name = lhs.name
 
-      val noLLs = rhsList.filter(!isLL(name, _))
-      val LLs = rhsList.filter(isLL(name, _))
-
-      val pre = if (LLs.isEmpty) "" else "resolveLL"
-      nf.println(s"""  lazy val $name: Lexer = $pre(""")
-      nf.print(noLLs.map {
-        case rhs => s"""    s(${rhs.tokens.map(getTokenParser).mkString(", ")})"""
+      nf.println(s"""  lazy val $name: Lexer = (""")
+      nf.print(rhsList.map {
+        case rhs => s"""    ${rhs.tokens.map(getTokenParser).mkString(" % ")}"""
       }.mkString(" |||" + LINE_SEP))
-      if (!LLs.isEmpty) nf.print(LLs.map {
-        case rhs => s"""    sLL(${rhs.tokens.drop(1).map(getTokenParser).mkString(", ")})"""
-      }.mkString("," + LINE_SEP, " |||" + LINE_SEP, ""))
       nf.println
       nf.println(s"""  )""")
     }
@@ -46,18 +39,18 @@ object ParserGenerator {
     def getTokenParser(token: Token): String = token match {
       case Terminal(term) => s""""${norm(term)}""""
       case NonTerminal(name, args, optional) =>
-        if (optional) s"""opt($name)"""
+        if (optional) s"""$name.opt"""
         else name
       case ButNot(base, cases) =>
         val parser = getTokenParser(base)
         val notParser = cases.map(token => getTokenParser(token)).mkString("(", " ||| ", ")")
         s"""($parser \\ $notParser)"""
       case Lookahead(contains, cases) =>
-        val parser = cases.map(c => s"""s(${c.map(token => getTokenParser(token)).mkString(", ")})""").mkString(" ||| ")
+        val parser = cases.map(c => s"""(${c.map(token => getTokenParser(token)).mkString(" % ")})""").mkString(" ||| ")
         if (contains) s"""+$parser"""
         else s"""-$parser"""
       case Unicode(code) => code
-      case EmptyToken => "empty"
+      case EmptyToken => "EMPTY"
       case NoLineTerminatorToken => "strNoLineTerminator"
       case UnicodeAny => "Unicode"
       case UnicodeIdStart => "IDStart"
@@ -139,12 +132,12 @@ object ParserGenerator {
         val parser = getTokenParser(token)
         s"""$base ~ nt(\"\"\"$parser\"\"\", $parser)"""
       case Lookahead(contains, cases) =>
-        val parser = cases.map(c => s"""ss(${
+        val parser = cases.map(c => s"""(${
           c.map(token => {
             val t = getTokenParser(token)
-            if (t.startsWith("\"") && t.endsWith("\"") && t(1).isLower) t + " <~ not(IDContinue)"
+            if (t.startsWith("\"") && t.endsWith("\"") && t(1).isLower) "(" + t + " <~ not(IDContinue))"
             else t
-          }).mkString(", ")
+          }).mkString(" %% ")
         })""").mkString(" | ")
         val pre = if (contains) "+" else "-"
         s"""($base <~ ${pre}ntl($parser))"""
