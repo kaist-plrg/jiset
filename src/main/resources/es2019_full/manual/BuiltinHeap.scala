@@ -276,7 +276,6 @@ object BuiltinHeap {
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(0.0), F, F, F),
-        "name" -> DataProperty(Str(""), F, F, F)
       )
     ),
     "GLOBAL.Boolean" -> Struct(
@@ -840,7 +839,7 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.Promise"), F, F, F)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Promise"), T, F, T)
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Promise"), F, F, T)
         )

@@ -24,3 +24,10 @@ Let promise be ? PromiseResolve(%Promise%, « value »).
 #2
 
 ForInOfHeadEvaluation에서 Assert: iterationKind is iterate
+
+
+#3
+
+12.11.3Runtime Semantics: Evaluation
+
+EqualityExpression != RelationalExpression 에서 Abstract Equality Comparison 한 후 RetrnIfAbrupt 없음
