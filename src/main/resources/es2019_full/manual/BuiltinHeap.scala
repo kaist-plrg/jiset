@@ -437,7 +437,7 @@ object BuiltinHeap {
       )
     ),
     "GLOBAL.String.prototype" -> Struct(
-      typeName = "OrdinaryObject",
+      typeName = "StringExoticObject",
       imap = IMap(
         "Extensible" -> Bool(true),
         "StringData" -> Str(""),
@@ -840,7 +840,7 @@ object BuiltinHeap {
         "Prototype" -> NamedAddr("GLOBAL.Object.prototype")
       ),
       nmap = NMap(
-        "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise"), F, F, F)
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Promise"), F, F, F)
       ) ++ Map(
           NamedAddr("GLOBAL.Symbol.toStringTag") -> DataProperty(Str("Promise"), F, F, T)
         )

@@ -11,12 +11,12 @@ object TypeGenerator {
     nf.println(s"""""")
     nf.println(s"""import $packageName.ir._""")
     nf.println(s"""object $tname {""")
-    nf.println(s"""  val map: Map[Value, Value] = Map(""")
+    nf.println(s"""  val map: Map[Value, Value] = Map[Value, Value](""")
     nf.println(methods.map {
       case (key, value) =>
         s"""    (Str("$key") -> ${getScalaName(value)}.func)"""
     }.mkString("," + LINE_SEP))
-    nf.println(s"""  )""")
+    nf.println(s"""  ) ++ BaseType.getMap("$tname")""")
     nf.println(s"""}""")
     nf.close()
   }

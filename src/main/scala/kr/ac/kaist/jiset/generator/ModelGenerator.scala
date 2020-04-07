@@ -26,6 +26,7 @@ object ModelGenerator {
     List(
       "BaseGlobal",
       "BaseHeap",
+      "BaseType",
       "BuiltinHeap",
       "ESValueParser",
       "ModelHelper",

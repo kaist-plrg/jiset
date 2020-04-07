@@ -91,7 +91,9 @@ object ModelHelper {
   }
 
   private val notSupportedSyntaxPrefixList = List("RegularExpression")
-  def checkSupported(ast: AST): Unit = ast.exists {
+  def checkSupported(ast: AST): Unit = ast.getElems("Identifier").map(_.toString).exists(
+    (s) => if (s == "eval") throw NotSupported("eval") else false
+  ) && ast.exists {
     case name => notSupportedSyntaxPrefixList.exists {
       case pre =>
         if (name.startsWith(pre)) throw NotSupported(pre)

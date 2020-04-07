@@ -101,7 +101,10 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         let $x = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
         delete $x.Construct
         $x.Code = $y.step
-        $x.SubMap.name = (new DataProperty("Value" -> $y.name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))
+        if (= $y.name "")
+          {}
+        else
+          $x.SubMap.name = (new DataProperty("Value" -> $y.name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))
         $x.SubMap.length = (new DataProperty("Value" -> $y.length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))
       }""") // TODO handle internalSlotsList
     } | "if the host requires use of an exotic object" ~ rest ^^^ {
@@ -198,12 +201,54 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
           else return $temp
         } else {}
       }"""))
-    } | "for each own property key" ~> id ~> "of" ~> id <~ "that is an array index" <~ rest ^^^ { // TODO: considering order of property key
+    } | "for each own property key" ~> id ~> "of" ~> id <~ "that is an array index" <~ rest ^^^ {
       val temp1 = getTemp
-      val tempId = getTempId
+      val temp2 = getTemp
+      val temp3 = getTemp
+      val temp4 = getTemp
+      val temp5 = getTemp
+      val temp6 = getTemp
+      val temp7 = getTemp
+      val temp8 = getTemp
+      val temp9 = getTemp
+      val tempId = getTemp
       ISeq(List(
-        parseInst(s"""let $temp1 = (map-keys O["SubMap"])"""),
-        forEachList(tempId, toERef(temp1), IAppend(toERef(tempId), toERef("keys"))),
+        parseInst(s"""{
+          let $temp1 = (new [])
+          let $temp2 = (new [])
+          let $temp3 = (new [])
+          let $temp4 = (map-keys O["SubMap"])
+        }"""),
+        forEachList(Id(tempId), toERef(temp4),
+          parseInst(s"""
+            if (= (typeof $tempId) "Symbol")
+              append $tempId -> $temp1
+            else {
+              app $temp5 = (CanonicalNumericIndexString $tempId)
+              if (|| (= $temp5 undefined) (|| (< $temp5 0) (< 4294967295 $temp5)))
+                append $tempId -> $temp2
+              else
+                append $temp5 -> $temp3
+            }""")),
+        parseInst(s"""
+          while (< 0i $temp3["length"]) {
+            let $temp6 = 0i
+            let $temp7 = 0i
+            while (< $temp7 $temp3["length"]) {
+              if (< $temp3[$temp7] $temp3[$temp6])
+                $temp6 = $temp7
+              else {}
+              $temp7 = (+ $temp7 1i)
+            }
+            let $temp8 = (pop $temp3 $temp6)
+            app $temp9 = (ToString $temp8)
+            append $temp9 -> keys
+          }
+          """),
+        forEachList(Id(tempId), toERef(temp2),
+          IAppend(toERef(Id(tempId)), toERef("keys"))),
+        forEachList(Id(tempId), toERef(temp1),
+          IAppend(toERef(Id(tempId)), toERef("keys"))),
         parseInst(s"""return keys""")
       ))
     } | "increase" ~> id <~ "by 1" ^^ {
@@ -512,8 +557,8 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       pair(Nil, parseExpr(s"""argumentsList.length"""))
     } | "the List of arguments passed to this function" ^^^ {
       pair(Nil, parseExpr("argumentsList"))
-    } | ("the numeric value of the code unit at index" ~> expr <~ "within") ~ (opt("the string") ~> name) ^^ {
-      case (i ~ x) ~ y => pair(i, parseExpr(s"$y[${beautify(x)}]"))
+    } | ("the numeric value of the code unit at index" ~> expr <~ "within") ~ (opt("the string") ~> name) ^^^ {
+      pair(Nil, ENotSupported("StringOp")) // parseExpr(s"(convert $y[${beautify(x)}] str2cp)"))
     } | ("a zero - origined list containing the argument items in order" | ("the" ~ id ~ "that was passed to this function by" ~ rest)) ^^^ {
       pair(Nil, parseExpr(s"""argumentsList"""))
     } | "an iterator object ( 25 . 1 . 1 . 2 ) whose" <~ code <~ "method iterates" <~ rest ^^^ {
