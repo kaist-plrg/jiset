@@ -52,11 +52,10 @@ techniques with lookahead parsing.
 
 \textbf{Background: Parsing Expression Grammar.}
 Most parser generators target context-free languages with specific parsing
-algorithms for Context-Free Grammar (CFG): JavaCC with LL(k)~\inred{\cite{llk}},
-Bison with GLR~\inred{\cite{glr}}, and ANTLR with
-ALL(*)~\inred{\cite{all-star}}.  However, they are not directly applicable for the
-ECMAScript syntax because ECMAScript lexical and syntactic grammars require
-context-sensitive lexers and parsers:
+algorithms for Context-Free Grammar (CFG): JavaCC with LL(k)~\cite{llk}, Bison
+with GLR~\cite{glr}, and ANTLR with ALL(*)~\cite{all-star}.  However, they are
+not directly applicable for the ECMAScript syntax because ECMAScript lexical and
+syntactic grammars require context-sensitive lexers and parsers:
 \begin{itemize}%[leftmargin=0.5cm]
   \item \textbf{Context-sensitive tokens:}
     ECMAScript tokens are context-sensitive because of JavaScript regular
@@ -303,11 +302,10 @@ production \textit{ArrayLiteral} in Figure~\ref{fig:array-literal}(a) is the one
 in Figure~\ref{fig:array-literal}(b).  A na\"{i}ve implementation of lookahead
 parsing would take exponential time because of backtracking.  To reduce it
 to linear time, we applied the memoization technique introduced in
-Packrat parsing~\cite{packrat}.  \inred{Moreover, we also
-implemented the \textit{growing the seed} technique presented
-by~\citet{packrat-lr} to support direct and even indirect left recursive
-productions.  It enables the synthesis of parsers without changing the structure of
-each production in \( \bnfes \).}
+Packrat parsing~\cite{packrat}.  Moreover, we also implemented the
+\textit{growing the seed} technique presented by~\citet{packrat-lr} to support
+direct and even indirect left recursive productions.  It enables the synthesis
+of parsers without changing the structure of each production in \( \bnfes \).
 
 The synthesized parsers also support the automatic semicolon insertion
 algorithm, which is one of the most distinctive parsing features in ECMAScript.
