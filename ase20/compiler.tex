@@ -2,7 +2,7 @@
 \begin{figure}
   \centering
   \includegraphics[width=0.48\textwidth]{img/algo-compiler.pdf}
-  \caption{overall structure of {\sf algorithm compiler}}
+  \caption{Overall structure of {\sf Algorithm Compiler}}
   \label{fig:algo-compiler}
 \end{figure}
 
@@ -30,7 +30,7 @@ Moreover, {\sf Tokenizer} flattens a structured step to a single token
 list to handle multi-step statements easily.  Some statements in
 abstract algorithms consist of multiple steps.  For example, the
 \( \code{if}\!-\!\code{then}\!-\!\code{else} \) statement often consists of
-two steps: one for the \( \code{then} \)-branch and another
+two steps: one for the \( \code{then} \)-branch and the other
 for the \( \code{else} \)-branch.  To treat them as a linear structure,
 we introduce three special tokens to break down structured algorithms:
 \( \tend \) denotes the end of a single step, and \( \tin \) and
@@ -61,11 +61,11 @@ parsing rules and conversion rules, respectively.
 
 
 \subsection{Token List Parser}
-The token list parser is defined with \textit{parsing rules}. Each parsing rule
-is a basic parsing rule or a composition of other parsing rules. The composition
-\code{A | B} of two parsing rules \code{A} and \code{B} parses the input using
-both rules and collect the longest matched results.  If both rules are failed or
-matched the same length of the input, the composition is failed.
+The token list parser is defined with \textit{parsing rules}. A parsing rule
+is a basic parsing rule or a composition of multiple parsing rules. The composition
+\code{A | B} of two parsing rules \code{A} and \code{B} parses an input using
+both rules and collects the longest matched results.  If both rules fail or
+match the same length of the input, the composition fails.
 
 We provide two kinds of basic parsing rules: \textit{tag-based rules} and
 \textit{content-based rules}.  A tag-based rule just checks whether the next
@@ -78,8 +78,8 @@ parser that checks whether the next token is a text token with the content \(
 \code{Perform} \).  We also define two content-based parsers \( \code{word} \)
 and \( \code{number} \) that check whether the content of the next token
 consists of only alphabets or numbers, respectively.  In addition, we provide
-several helper functions in parsing rules such as optional rule \code{A?},
-positive(negative) predicate \code{+A}(\code{-A}).  For instance, the helper
+several helper functions such as the optional rule \code{A?} and
+the positive(negative) predicate \code{+A}(\code{-A}).  For instance, the helper
 function \( \code{repsep(A, B)} \) generates a new parsing rule that denotes
 zero or more repetition of the parsing rule \( \code{A} \) using another parsing
 rule \( \code{B} \) as a separator.
@@ -130,12 +130,12 @@ val Expr =
 \end{lstlisting}
 The conversion rule of the \code{Stmt} compile rule uses only the second sub
 tree and constructs an \code{IExpr} \( \ires \) instruction.  For the second
-sub-tree, the conversion rule of the fourth \code{Expr} compile rule is
+sub-tree, the conversion rule of the fifth \code{Expr} compile rule is
 applied. It constructs \code{ECall} \( \ires \) expression with the string value
 of the first sub-tree and the sequence of the expressions of the third sub-tree.
 In this way, the step 5 of \textbf{Evaluation} is converted to the following \(
-\ires \) instruction whose beautified form is the sixth line of the function
-body in Figure~\ref{fig:array-literal-eval}.
+\ires \) instruction whose beautified form is the seventh line
+in Figure~\ref{fig:array-literal-eval}(b).
 \begin{lstlisting}[style=ires]
 IExpr(ECall(EId("Set"), List(
   EId(array), EStr("length"), ECall(EId(ToUint32), List(
@@ -169,45 +169,45 @@ Figure~\ref{fig:array-literal-eval}(a) is absent, the parameter has the \(
 \code{absent} \) value.
 
 \item \textbf{Abstract data types:} \( \ires \) supports only three abstract
-data types: \( \code{Record} \) for mappings from some values to other values,
+data types: \( \code{Record} \) for mappings from values to values,
 \( \code{List} \) for sequential data, and \( \code{Symbol} \) for singleton
 data.  For example, ECMAScript environment records are represented as \(
-\code{Record} \) from string values into addresses that represent other types
-of \( \code{Record} \) for bindings.
+\code{Record} \) from string values to addresses that represent the
+bindings of the string values.
 \end{itemize}
-We define syntax of \( \ires \) including 15 kinds of instructions and 26 kinds
+We define the syntax of \( \ires \) that has 15 kinds of instructions and 26 kinds
 of expressions with the notation \( \irinst \) and \( \irexpr \), respectively.
-Moreover, we also formally define their operational semantics with the form \(
-\irstate \vdash \irinst \Rightarrow \irstate \) for instructions, and the form
-\( \irstate \vdash \irexpr \Rightarrow (\irvalue, \irstate) \) for expressions
-where \( \irvalue \) denotes a value and \( \irstate \) denotes a state.
-However, we omit this formalization in this paper for brevity, instead, we
-include it in the companion material\footnote{\inred{???}}.
+We also formally define its operational semantics \(
+\irstate \vdash \irinst \Rightarrow \irstate \) for instructions and
+\( \irstate \vdash \irexpr \Rightarrow (\irvalue, \irstate) \) for expressions,
+where \( \irstate \) denotes a state and \( \irvalue \) denotes a value.
+For presentation brevity, we omit the formalization of \( \ires \) in this paper
+and include it in a companion report\inred{\cite{report}}.
 
 
 \subsection{Implementation}
-We implemented {\sf Algorithm Compiler} by extending Packrat
+We implemented {\sf Algorithm Compiler} by extending the Packrat
 parsing~\cite{packrat} library in Scala parser combinators. We modified the
 meaning of the composition operator ( \( | \) ) to collect all the
 longest matched results.  If a parser detects a step that cannot be parsed or
-parsed in multiple ways, it reports the step with the parsing results.
+is parsed in multiple ways, it reports the step with parsing results.
 
 
 \paragraph{Compile Rules}
 \textsf{Algorithm Compiler} requires compile rules to compile given abstract
 algorithms to \( \ires \) functions.  As already explained in
-Section~\ref{sec:overview}, we found general patterns in writing style of
-abstract algorithms.  We manually define the general compile rules to represent
-such writing style with six different kinds as summarized in
+Section~\ref{sec:overview}, we found common patterns in the writing style of
+abstract algorithms.  We manually defined general compile rules to represent
+such a writing style with six different kinds as summarized in
 Table~\ref{table:rules}.  The compile rule for statements, \( \code{Stmt} \),
 generates \( \ires \) instructions.  The \( \code{Expr} \), \( \code{Cond} \),
 and \( \code{Value} \) compile rules generate \( \ires \) expressions, but they
-represents different contexts in ECMAScript; \( \code{Expr} \) represents a
+represent different contexts in ECMAScript; \( \code{Expr} \) represents a
 context where any expression can appear, \( \code{Cond} \) denotes a context
 where any boolean-valued expression can appear, and \( \code{Value} \)
 represents a context where a fully evaluated value can appear.  The \( \code{Ty}
 \) compile rule denotes type names and generates string primitives used in
-object constructions.  The \( \code{Ref} \) represents references such as
+object constructions.  The \( \code{Ref} \) compile rule represents references such as
 identifier lookup and member accesses of objects, and it generates \( \ires \)
 references.
 
@@ -239,24 +239,24 @@ references.
 
 
 \paragraph{Global Setting}
-To construct {\sf AST-\( \ires \) Translator}, global settings are also required
-and it consists of \textit{ECMAScript data types} and \textit{built-in objects}.
-Unlike compile rules, global settings are slightly different depending on
+{\sf AST-\( \ires \) Translator} uses global settings consisting
+of \textit{ECMAScript data types} and \textit{built-in objects}.
+Unlike compile rules, global settings depend on
 ECMAScript versions. In this paper, we construct global settings only for the
-most recent ECMAScript version, ES10.
+latest ECMAScript, ES10.
 
-ECMAScript describes data types with several fields and methods used in the
-specification.  Their methods are abstract algorithms but their semantics are
-slightly different with other. They implicitly get their receiver objects as
-arguments at callsites.  To mimic such implicit behavior, we added a special
-variable \( \code{this} \) as the first parameter of a method, and passed a
+ECMAScript describes data types with some fields and methods.
+While the methods are like abstract algorithms, their semantics are
+slightly different from abstract algorithms. They implicitly get their receiver objects as
+arguments at callsites.  To mimic such an implicit behavior, we added a special
+variable \( \code{this} \) as the first parameter of each method, and passed a
 receiver object at its callsite by modifying \textsf{Algorithm Compiler}.  For
 example, an Environment Record type has the \textbf{DeleteBinding (N)} method.
-Thus, the corresponding \( \ires \) function has two parameters, the special
-parameter \( \code{this} \) and normal one \( \code{N} \) and the method call
+Thus, its corresponding \( \ires \) function has two parameters, the special
+parameter \( \code{this} \) and a normal parameter \( \code{N} \), and the method call
 \raisebox{-0.65ex}{\includegraphics[width=0.17\textwidth]{img/method-call.png}}
 in an abstract algorithm is compiled to the \( \ires \) instruction:
-\code{(DclRec.DeleteBinding DclRec N)}
+\code{(DclRec.DeleteBinding DclRec N)}.
 
 In ECMAScript, built-in objects are pre-defined functions with several
 built-in functions.  For example, \( \code{Array} \)
@@ -272,6 +272,6 @@ and connected their properties with the extracted \( \ires \) functions.
 %
 Some built-in objects that are explicitly referenced in abstract
 algorithms are intrinsic objects, which have their own
-aliased names summarized in Table 7 of Section 6.1.7.4
+aliased names summarized in Table~7 of Section~6.1.7.4
 \textsf{Well-Known Intrinsic Objects}.  We extracted the alias
 into \textsf{Global Setting} to utilize it during evaluation.
