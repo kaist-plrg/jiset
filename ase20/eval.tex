@@ -1,5 +1,48 @@
 \section{Evaluation}\label{sec:eval}
 
+% TODO as an open source tool\footnote{The URL of the tool
+% is anonymized due to a double-blind review process.}
+
+% \subsection{Excluded Language Features}\label{sec:exclusion}
+% We decided not to support the following ES10 features:
+% 
+% \vspace*{-.5em}
+% \paragraph{Non-Strict Mode}
+% Since ES5.1, JavaScript introduced strict mode to
+% provide different semantics.  It
+% provides more stable semantics by preventing unsafe actions or
+% throwing originally ignored errors.  However, ECMAScript
+% states that ``Strict mode does not restrict or modify
+% any aspect of the ECMAScript semantics that must operate consistently
+% across multiple source text units.''  Thus, we decided to support only
+% strict mode.
+% 
+% \vspace*{-.5em}
+% \paragraph{Modules}
+% Moreover, we do not support modules that were introduced since ES6.
+% With the \( \code{import} \) keyword, a JavaScript
+% program can import other JavaScript components.  To support
+% modules in our automatically generated semantics, we should model the
+% functionality to communicate with file systems to access JavaScript
+% module files.  Because modules do not affect the overall JavaScript
+% semantics critically, we decided not to support modules.
+% 
+% \vspace*{-.5em}
+% \paragraph{Early Errors}
+% ECMAScript uses Early Error Rules to preclude invalid code
+% before evaluation. For example, an Early Error Rule checks whether
+% functions have duplicated parameters in strict mode.
+% Because they are written in different styles from abstract algorithms,
+% we do not support Early Error Rules.
+% 
+% \vspace*{-.5em}
+% \paragraph{Inessential Built-in Objects}
+% JavaScript provides various standard built-in objects but some of them
+% are not essential to core JavaScript but support extra functionalities such as
+% \( \code{RegExp} \) and \( \code{JSON} \).  Thus, we decided not to
+% support such libraries following the tradition of KJS~\cite{kjs},
+% which is a complete formal semantics of JavaScript.
+
 We evaluate \( \tool \) based on the following four research questions:
 \begin{itemize}[leftmargin=0.5cm]
 \item RQ1. \textbf{Effectiveness:} Does \( \tool \) effectively reduce
