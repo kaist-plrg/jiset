@@ -9,19 +9,17 @@
 \vspace*{-1em}
 \end{figure}
 
-In this section, we introduce the overall structure of \( \tool \)
-depicted in Figure~\ref{fig:overview}.
-Compared to the existing approaches shown in
-Figure~\ref{fig:existing}, \( \tool \) automatically synthesizes
-{\sf JavaScript Parser} and {\sf AST-\( \ires \) Translator} directly from
-ECMAScript.
+In this section, we introduce the overall structure of \( \tool \) depicted in
+Figure~\ref{fig:overview}.  Compared to the existing approaches shown in
+Figure~\ref{fig:existing}, our tool automatically synthesizes {\sf JavaScript
+Parser} and {\sf AST-\( \ires \) Translator} directly from ECMAScript. The
+motivation of this work is twofold: 1) ECMAScript is written in a well-organized
+style, and 2) the writing style is converged since ES7 in 2016.
 
-The motivation of automatically extracting syntax and semantics of JavaScript
-from ECMAScript is twofold: 1) ECMAScript is written in a well-organized
-style, and 2) it is available as HTML files using various HTML tags.
-To easily manipulate ECMAScript written in HTML, we developed
-{\sf Spec Extractor} in JavaScript to extract the syntax and semantics in JSON format.
-
+We explain how \( \tool \) utilize such common patterns in the writing style to
+synthesize two modules with an example.  After {\sf Spec Extractor} extract
+syntax and semantics in JSON format, our tool consists consists of two parts for
+\textit{syntax} and \textit{semantics}.
 
 \begin{figure}
   \centering
