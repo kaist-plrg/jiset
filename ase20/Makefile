@@ -3,11 +3,16 @@ TEXSRC=	main.tex abstract.tex intro.tex \
 				eval.tex related.tex conclusion.tex \
 				macros.tex ref.bib
 
+all: main.pdf report/report.pdf
+
 main.pdf: $(TEXSRC)
 	pdflatex main.tex  && \
 	bibtex main && \
 	pdflatex main.tex && \
 	pdflatex main.tex
+
+report/report.pdf:
+	cd report; $(MAKE)
 
 .PHONY: clean
 
