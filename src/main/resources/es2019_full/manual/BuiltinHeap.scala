@@ -21,7 +21,7 @@ object BuiltinHeap {
   } ++ (singletonInfo.map {
     case name => (NamedAddr(SYMBOL_PREFIX + name) -> IRSymbol(Str("Symbol." + name)))
   }.toMap) ++ (notSupportedInfo.map {
-    case name => (NamedAddr("GLOBAL." + name) -> IRNotSupported(name))
+    case name => (NamedAddr("GLOBAL." + name) -> IRNotSupported("OrdinaryObject", name))
   }.toMap)
 
   val builtinMethods: List[(String, Int, Func)] = List(
