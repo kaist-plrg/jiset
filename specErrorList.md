@@ -37,3 +37,25 @@ throw a SyntaxError exception.  이게 2019에 없음
   FormalParameters: FunctionRestParameter
   FormalParameterList: FormalParameter
 - 다른 사람이 고쳐줘서 수정됨
+
+#7 YET
+- 9.4.2.4 ArraySetLength에서 5번째 step의 newLen과 numberLen의 비교연산자의
+  정의가 애매함. -0 과 +0을 같은 것으로 보는 것이 의도한 것 같은데, 다른 곳과
+  일관적이지 않아보임 다음의 테스트들에서 문제가 발생
+  - test262/test/built-ins/Object/defineProperties/15.2.3.7-6-a-127.js
+  - test262/test/built-ins/Object/defineProperty/15.2.3.6-4-131.js
+
+#8 YET
+- 18 Global Object의 [[Prototype]]은 다음과 같이 정의됨
+  "has a [[Prototype]] internal slot whose value is implementation-dependent."
+  그런데, 다음의 test들은 Object.prototype을 가지는 것처럼 검사를 하고 있음.
+  - test262/test/built-ins/Object/defineProperty/15.2.3.6-4-625gs.js
+  - test262/test/built-ins/Object/getPrototypeOf/15.2.3.2-2-30.js
+  - test262/test/built-ins/decodeURI/S15.1.3.1_A5.5.js
+  - test262/test/built-ins/decodeURIComponent/S15.1.3.2_A5.5.js
+  - test262/test/built-ins/encodeURI/S15.1.3.3_A5.5.js
+  - test262/test/built-ins/encodeURIComponent/S15.1.3.4_A5.5.js
+  - test262/test/built-ins/eval/prop-desc-enumerable.js
+  - test262/test/built-ins/parseFloat/S15.1.2.3_A7.5.js
+  - test262/test/built-ins/parseInt/S15.1.2.2_A9.5.js
+  - test262/test/language/global-code/decl-lex.js
