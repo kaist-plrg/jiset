@@ -59,3 +59,8 @@ throw a SyntaxError exception.  이게 2019에 없음
   - test262/test/built-ins/parseFloat/S15.1.2.3_A7.5.js
   - test262/test/built-ins/parseInt/S15.1.2.2_A9.5.js
   - test262/test/language/global-code/decl-lex.js
+
+#9 YET
+- 12.4.{4,5,6,7} oldValue로 변수를 정의해놓고, oldvalue로 사용
+  - 아직 report안함 => pull request 날려서 confirm받기
+  - 가장 최근 버전에도 존재하는 버그
