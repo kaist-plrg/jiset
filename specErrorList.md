@@ -70,3 +70,8 @@ throw a SyntaxError exception.  이게 2019에 없음
   ToInt32를 해버려서 문제가 발생함
   - 아직 report안함 => pull request 날려서 confirm받기
   - 가장 최근 버전에도 존재하는 버그
+
+#11 https://github.com/tc39/ecma262/pull/1766
+- 20.1.1.1 Number ( value )에서 바로 value에다가 ToNumber를 해버려서
+  BigInt인 경우에 문제가 발생함
+- 이미 현재 버전에서는 위의 pull request로 해결이 됨
