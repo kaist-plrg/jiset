@@ -64,3 +64,9 @@ throw a SyntaxError exception.  이게 2019에 없음
 - 12.4.{4,5,6,7} oldValue로 변수를 정의해놓고, oldvalue로 사용
   - 아직 report안함 => pull request 날려서 confirm받기
   - 가장 최근 버전에도 존재하는 버그
+
+#10 YET
+- 6.1.6.1.11 Number::unsignedRightShift ( x, y )에서 lnum을 구할 때,
+  ToInt32를 해버려서 문제가 발생함
+  - 아직 report안함 => pull request 날려서 confirm받기
+  - 가장 최근 버전에도 존재하는 버그
