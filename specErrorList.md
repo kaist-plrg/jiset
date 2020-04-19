@@ -60,18 +60,24 @@ throw a SyntaxError exception.  이게 2019에 없음
   - test262/test/built-ins/parseInt/S15.1.2.2_A9.5.js
   - test262/test/language/global-code/decl-lex.js
 
-#9 YET
+#9 https://github.com/tc39/ecma262/pull/1954
 - 12.4.{4,5,6,7} oldValue로 변수를 정의해놓고, oldvalue로 사용
-  - 아직 report안함 => pull request 날려서 confirm받기
-  - 가장 최근 버전에도 존재하는 버그
+- 가장 최근 버전에도 존재하는 버그
+- oldValue로 4개의 이름을 바꾸고, pull request를 날려둠
 
-#10 YET
+#10 https://github.com/tc39/ecma262/pull/1955
 - 6.1.6.1.11 Number::unsignedRightShift ( x, y )에서 lnum을 구할 때,
   ToInt32를 해버려서 문제가 발생함
-  - 아직 report안함 => pull request 날려서 confirm받기
-  - 가장 최근 버전에도 존재하는 버그
+- 가장 최근 버전에도 존재하는 버그
+- ToUint32를 사용하도록 수정 후, pull request를 날려둠
 
-#11 https://github.com/tc39/ecma262/pull/1766
+#11 https://github.com/tc39/ecma262/pull/1956
+- 6.1.6.1.16 NumberBitwiseOp ( op, x, y )에서 rnum을 구할 때,
+  ToUint32를 해버려서 문제가 발생함
+- 가장 최근 버전에도 존재하는 버그
+- ToInt32를 사용하도록 수정 후, pull request를 날려둠
+
+#12 https://github.com/tc39/ecma262/pull/1766
 - 20.1.1.1 Number ( value )에서 바로 value에다가 ToNumber를 해버려서
   BigInt인 경우에 문제가 발생함
 - 이미 현재 버전에서는 위의 pull request로 해결이 됨
