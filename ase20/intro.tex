@@ -90,35 +90,37 @@ versions of ECMAScript.
 Our contribution is \( \tool \), a JavaScript IR-based Semantics Extraction
 Toolchain:
 \begin{itemize}[leftmargin=0.5cm]
-  \item \textbf{\( \tool \) is the \textit{first tool that can automatically synthesize}
-    parsers and AST-IR translators directly from a language specification,
-    ECMAScript.}  For syntax, we formally introduce a variant of EBNF, \( \bnfes \),
+  \item \textbf{\( \tool \) is the \textit{first tool that automatically
+    extract} IR-based semantics from a language specification, ECMAScript.}
+    For syntax, we formally introduce a variant of EBNF, \( \bnfes \),
     and propose a parser generation technique with
     lookahead parsing for \( \bnfes \), which supports automatic semicolon
     insertion. For semantics, we propose semi-automatic synthesis of AST-IR
-    translators assisted by compile rules due to the
-    difficulty in handling the semantics written in a natural language.  Compile rules describe
+    translators assisted by compile rules.  Compile rules describe
     how to convert each step of abstract algorithms into our intermediate
     representation \( \ires \) designed for ECMAScript. We evaluated \( \tool \)
-    with the five most recent ECMAScript versions (ES6 to ES10).   \( \tool \) automatically generated
-    parsers for all versions, and automatically compiled
+    with the four most recent ECMAScript versions (ES7 to ES10).   \( \tool \)
+    automatically generated parsers for all versions, and automatically compiled
     \inred{XX.X}\% of the steps in abstract algorithms on average.
-  \item \textbf{ Using \( \tool \), we could define the \textit{first IR-based
-    formal semantics of modern JavaScript}.}  The semantics targets the
-    core of ES10, and \( \tool \) successfully synthesizes its
-    parser and AST-IR translator for \inred{X,XXX} out of \inred{X,XXX}
-    algorithm steps.  We manually completed the missing parts of the AST-IR
-    translator (\inred{XXX} steps) in \inred{XX} days.  We evaluated the correctness
-    of the formal semantics using Test262~\cite{test262}, the official
-    conformance test suite, and the semantics passed all \inred{XX,XXX}
-    applicable tests.  Moreover, we found \inred{X} specification errors in ES10
-    thanks to the formal semantics.  They were all confirmed by TC39 and will be
-    fixed in the next release.
-  \item \textbf{\( \tool \) is also \textit{forward compatible} with new language features
-    proposed for future ECMAScript specifications.}  
-     We evaluated the forward compatibility of \( \tool \) by applying it
-     to all \inred{XX} proposals that are ready for inclusion in the next ECMAScript  (ES11, 2020).
-    It automatically synthesized parsers and
-    compiled \inred{XX} out of \inred{XX} algorithm steps for all the proposals.
-    After completion of the missing parts, the extracted semantics passed all \inred{XX} tests.
+  \item \textbf{\( \tool \) bridges the gap between tests and the specification
+    written in a natural language.}
+    The formal semantics automatically extracted by \( \tool \) is executable
+    and its components have one-to-one correspondences with the components of
+    the ECMAScript.  It gives opportunity to directly verify the specification
+    through the official test conformance suite, Test262~\cite{test262}.  We
+    manually completed the missing parts for the latest ECMAScript (ES10, 2019),
+    and it is the \textit{first IR-based formal semantics of modern JavaScript}.
+    By executing tests, we found \inred{X} specification errors in ES10 and
+    \inred{XX} wrong tests in Test262. They were all confirmed by TC39 and will
+    be fixed in the next release.  After fixing them, our formal semantics
+    passed all \inred{XX,XXX} applicable tests.
+  \item \textbf{\( \tool \) is also \textit{forward compatible} with new
+    language features proposed for future ECMAScript specifications.}
+    We evaluated the forward compatibility of \( \tool \) by applying it to all
+    \inred{X} proposals that are ready for inclusion in the next ECMAScript
+    (ES11, 2020).  It automatically synthesized parsers and compiled \inred{XXX}
+    out of \inred{XXX} algorithm steps for all the proposals.  After completion
+    of the missing parts, we found \inred{X} specifications errors by executing
+    the corresponding tests in Test262.  After fixing them, the extracted
+    semantics passed all \inred{XXX} tests.
 \end{itemize}
