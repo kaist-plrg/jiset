@@ -388,7 +388,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "Promise Reject Functions (" <~ secno <~ ")" ^^^ ("", 1, "GLOBALDOTPromiseRejectFunctions") |||
     "Await Fulfilled Functions" ^^^ ("", 1, "GLOBALDOTAwaitFulfilledFunctions") |||
     "Await Rejected Functions" ^^^ ("", 1, "GLOBALDOTAwaitRejectedFunctions") |||
-    "Async-from-Sync Iterator Value Unwrap Functions" ^^^ ("", 1, "GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions")
+    "Async-from-Sync Iterator Value Unwrap Functions" ^^^ ("", 1, "GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions") |||
+    "AsyncGeneratorResumeNext Return Processor Fulfilled Functions" ^^^ ("", 1, "GLOBALDOTAsyncGeneratorResumeNextReturnProcessorFulfilledFunctions") |||
+    "AsyncGeneratorResumeNext Return Processor Rejected Functions" ^^^ ("", 1, "GLOBALDOTAsyncGeneratorResumeNextReturnProcessorRejectedFunctions")
+
   )
 
   // access expressions

@@ -59,6 +59,11 @@ object ASTGenerator {
             case (k, (_, t)) => if (t.startsWith("Option[")) k * 2 + 1 else k
           }
           nf.println(s"""case class $name$i(${(params.map { case (x, t) => s"$x: $t, " }).mkString("")}parserParams: List[Boolean]) extends $name {""")
+          params.foreach {
+            case (x, t) =>
+              if (t.startsWith("Option[")) nf.println(s"$x.foreach((m) => m.parent = Some(this))")
+              else nf.println(s"$x.parent = Some(this)")
+          }
           nf.println(s"""  val name: String = "$name$i"""")
           nf.println(s"""  override def toString: String = {""")
           nf.println(s"""    s"$string"""")
