@@ -106,14 +106,15 @@ Toolchain:
     written in a natural language.}
     The formal semantics automatically extracted by \( \tool \) is executable
     and its components have one-to-one correspondences with the components of
-    the ECMAScript.  It gives opportunity to directly verify the specification
+    the ECMAScript.  It gives opportunity to directly check the specification
     through the official test conformance suite, Test262~\cite{test262}.  We
-    manually completed the missing parts for the latest ECMAScript (ES10, 2019),
-    and it is the \textit{first IR-based formal semantics of modern JavaScript}.
-    By executing tests, we found \inred{X} specification errors in ES10 and
-    \inred{XX} wrong tests in Test262. They were all confirmed by TC39 and will
-    be fixed in the next release.  After fixing them, our formal semantics
-    passed all \inred{XX,XXX} applicable tests.
+    manually completed the missing parts of the AST-IR translator for the latest
+    ECMAScript (ES10, 2019), and it is the \textit{first IR-based formal
+    semantics of modern JavaScript}.  By executing tests, we found \inred{X}
+    specification errors in ES10 and \inred{XX} wrong tests in Test262. They
+    were all confirmed by TC39 and will be fixed in the next release.  After
+    fixing them, our formal semantics passed all \inred{XX,XXX} applicable
+    tests.
   \item \textbf{\( \tool \) is also \textit{forward compatible} with new
     language features proposed for future ECMAScript specifications.}
     We evaluated the forward compatibility of \( \tool \) by applying it to all
