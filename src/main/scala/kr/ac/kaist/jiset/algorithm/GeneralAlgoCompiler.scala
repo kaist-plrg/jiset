@@ -506,6 +506,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     case "false" => EBool(false)
     case "+∞" => ENum(Double.PositiveInfinity)
     case "-∞" => ENum(Double.NegativeInfinity)
+    case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case s if Try(s.toLong).isSuccess => EINum(s.toLong)
     case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
     case err if err.endsWith("Error") => getErrorObj(err)
@@ -671,13 +672,15 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // strict mode conditions
   val strictModeCond: P[I[Expr]] = (
-    opt("the source code matching") ~ expr ~ ("is" ~ ("strict mode" | "non-strict") ~ "code") |||
+    "the Directive Prologue of FunctionStatementList contains a Use Strict Directive" |||
+    opt("the source code matching") ~ expr ~ "is strict mode code" |||
     "the directive prologue of statementList contains a use strict directive" |||
     "the code matching the syntactic production that is being evaluated is contained in strict mode code" |||
     "the code matched by the syntactic production that is being evaluated is strict mode code" |||
     refBase ~> "is contained in strict mode code" |||
     "the function code for" ~> ("this" ~> opt(nt | "this" | ty)) <~ "is strict mode code"
-  ) ^^^ pair(Nil, EBool(true))
+  ) ^^^ pair(Nil, EBool(true)) |||
+    opt("the source code matching") ~ expr ~ "is non-strict code" ^^^ pair(Nil, EBool(false))
 
   // contains conditions
   val containsCond: P[I[Expr]] = (

@@ -9,6 +9,14 @@ import org.scalatest._
 import scala.util.Random.shuffle
 import scala.util.{ Failure, Success, Try }
 
+class NotYetChecker extends UnitWalker {
+  var exist = false
+  override def walk(expr: Expr): Unit = expr match {
+    case ENotSupported(msg) => exist = true
+    case _ => super.walk(expr)
+  }
+}
+
 class AlgoCompilerTest extends IRTest {
   // tag name
   val tag: String = "algoCompilerTest"
@@ -38,6 +46,9 @@ class AlgoCompilerTest extends IRTest {
         val lineCount = algo.lineCount
         lazy val compiler = AlgoCompiler("", algo)
         lazy val (func, failed) = compiler.result
+        val checker = new NotYetChecker
+        checker.walk(func)
+        if (checker.exist) println(filename)
         test(s"[AlgoCompile] $filename") { algoCompilerTest(lineCount, failed, filename) }
         check("AlgoIRParse", filename, parseIRFuncTest(func))
       }

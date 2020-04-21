@@ -149,20 +149,19 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x => {
         val idx = getTemp
         parseInst(s"""{
-        $context = null
         if (= $executionStack[(- $executionStack.length 1i)] $x) {
           $idx = (- $executionStack.length 1i)
           (pop $executionStack $idx)
-        } else {}
+          if (= $executionStack.length 0) {
+            $context = null
+          } else {
+            $context = $executionStack[(- $executionStack.length 1i)]
+          }
+        } else {
+          $context = null
+        }
       }""")
       }
-    } | "suspend the currently running execution context" ^^^ {
-      parseInst(s"""$context = null""")
-    } | "suspend" ~> name ^^ {
-      case x => parseInst(s"""{
-        $context = null
-        $x = null
-      }""")
     } | "remove" ~> id <~ "from the execution context stack and restore" <~ rest ^^ {
       case x => {
         val idx = getTemp
@@ -278,6 +277,8 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x => IAppend(toERef(x), toERef(jobQueue))
     } | ("remove the own property with name" ~> name <~ "from") ~ name ^^ {
       case p ~ o => parseInst(s"delete $o.SubMap[$p]")
+    } | ("Remove the binding for" ~> id <~ "from") ~ id ^^ {
+      case p ~ o => parseInst(s"delete $o.SubMap[$p]")
     } | "create an own data property" ~ rest ^^^ {
       parseInst(s"""{
         dp = (new DataProperty())
@@ -311,161 +312,168 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         ))
     } | "Let" ~> id <~ "be a new Realm Record" ^^ {
       case x => ILet(Id(x), toERef(realm))
+    } | ("Return the result of appending to" ~> id <~ "the elements of the") ~ (name <~ "of the second CaseClauses .") ^^ {
+      case x ~ s => {
+        val temp = getTemp
+        val temp2 = getTemp
+        val temp3 = getTemp
+        parseInst(s"""{
+          access $temp = (CaseClauses1 "$s")
+          let $temp2 = 0i
+          while (< $temp2 $temp["length"]) {
+            let $temp3 = $temp[$temp2]
+            append $temp3 -> names
+            $temp2 = (+ $temp2 1i)
+          }
+          return names
+        }""")
+      }
     } | "If" ~ id ~ "contains a code unit that is not a radix -" ~ id ~ "digit" <~ rest ^^^ {
       IExpr(ENotSupported("StringOp"))
     } | "if there exists" ~ ("any" | "an") ~ "integer" ~ rest ^^^ {
       IExpr(ENotSupported("NumberOp"))
     } | (
-      "Append all the entries of" ~ id ~ "to the end of" ~ id ~ "." |
-      "Append in order the code unit elements of" ~ id ~ "to the end of" ~ id ~ "." |
-      "Append the Record { [ [ Key ] ] :" ~ id ~ ", [ [ Symbol ] ] :" ~ id ~ "} to the GlobalSymbolRegistry List ." |
-      "Create an immutable indirect binding in" ~ id ~ "for" ~ id ~ "that references" ~ id ~ "and" ~ id ~ "as its target binding and record that the binding is initialized ." |
-      "Create own properties of" ~ id ~ "corresponding to the definitions in 26 . 3 ." |
-      "For each Record { [ [ Key ] ] , [ [ Value ] ] }" ~ id ~ "that is an element of" ~ id ~ ", in original key insertion order , do " ~ rest |
-      "For each element" ~ id ~ "of the GlobalSymbolRegistry List ( see 19 . 4 . 2 . 2 ) , do " ~ rest |
-      "For each element" ~ id ~ "of the GlobalSymbolRegistry List , do " ~ rest |
-      "For each element" ~ id ~ "of" ~ id ~ ", in ascending index order , do " ~ rest |
-      "For each integer" ~ id ~ "starting with 0 such that" ~ id ~ "<" ~ id ~ ", in ascending order , do " ~ rest |
-      "For each own property key" ~ id ~ "of" ~ id ~ "such that Type (" ~ id ~ ") is String and" ~ id ~ "is not an array index , in ascending chronological order of property creation , do " ~ rest |
-      "For each own property key" ~ id ~ "of" ~ id ~ "such that Type (" ~ id ~ ") is String and" ~ id ~ "is not an integer index , in ascending chronological order of property creation , do " ~ rest |
-      "For each own property key" ~ id ~ "of" ~ id ~ "such that Type (" ~ id ~ ") is Symbol , in ascending chronological order of property creation , do " ~ rest |
-      "For each own property key" ~ id ~ "of" ~ id ~ "such that" ~ id ~ "is an array index and ToInteger (" ~ id ~ ") ≥" ~ id ~ ", in ascending numeric index order , do " ~ rest |
       "For each own property key" ~ id ~ "of" ~ id ~ "that is a String but is not an array index , in ascending chronological order of property creation , do " ~ rest |
       "For each own property key" ~ id ~ "of" ~ id ~ "that is a Symbol , in ascending chronological order of property creation , do " ~ rest |
       "If - 6 <" ~ id ~ "≤ 0 , return the string - concatenation of : " ~ rest |
       "If 0 <" ~ id ~ "≤ 21 , return the string - concatenation of : " ~ rest |
-      "If BoundNames of" ~ id ~ "contains any duplicate elements , throw a" ~ value ~ "exception ." |
-      "If IsCallable (" ~ id ~ ") is" ~ value ~ ", set" ~ id ~ "to the intrinsic function % ObjProto_toString % ." |
-      "If IsDataDescriptor (" ~ id ~ ") is" ~ value ~ "and" ~ id ~ "has attribute values { [ [ Writable ] ] :" ~ value ~ ", [ [ Enumerable ] ] :" ~ value ~ "} , return" ~ value ~ "." |
-      "If any element of the BoundNames of" ~ id ~ "also occurs in the LexicallyDeclaredNames of" ~ id ~ ", throw a" ~ value ~ "exception ." |
-      "If any static semantics errors are detected for" ~ id ~ "or" ~ id ~ ", throw a" ~ value ~ "or a" ~ value ~ "exception ," ~ rest |
-      "If neither" ~ id ~ "nor any prefix of" ~ id ~ "satisfies the syntax of a StrDecimalLiteral ( see 7 . 1 . 3 . 1 ) , return" ~ value ~ "." |
-      "If only one argument was passed , return" ~ id ~ "." |
-      "If the Directive Prologue of FunctionStatementList contains a Use Strict Directive , return" ~ value ~ "; otherwise , return" ~ value ~ "." |
-      "If the binding for" ~ id ~ "in" ~ id ~ "cannot be deleted , return" ~ value ~ "." |
-      "If the binding for" ~ id ~ "is an indirect binding , then " ~ rest |
-      "If the first code unit of" ~ id ~ "is the code unit 0x002D ( HYPHEN - MINUS ) , return" ~ value ~ "." |
-      "If the code unit at index" ~ id ~ "within" ~ id ~ "is not the code unit 0x0025 ( PERCENT SIGN ) , throw a" ~ value ~ "exception ." |
-      "If the code units at index (" ~ id ~ "+ 1 ) and (" ~ id ~ "+ 2 ) within" ~ id ~ "do not represent hexadecimal digits , throw a" ~ value ~ "exception ." |
-      "If the code units at index (" ~ id ~ "+ 1 ) and (" ~ id ~ "+ 2 ) within" ~ id ~ "do not represent hexadecimal digits , throw a" ~ value ~ "exception ." |
-      "If the length of" ~ id ~ "is at least 2 and the first two code units of" ~ id ~ "are either" ~ code ~ "or" ~ code ~ ", then " ~ rest |
-      "If the sequence of code units of" ~ id ~ "starting at" ~ id ~ "of length" ~ id ~ "is the same as the full code unit sequence of" ~ id ~ ", return" ~ value ~ "." |
-      "If the sequence of code units of" ~ id ~ "starting at" ~ id ~ "of length" ~ id ~ "is the same as the full code unit sequence of" ~ id ~ ", return" ~ value ~ "." |
-      "If the two most significant bits in" ~ id ~ "are not 10 , throw a" ~ value ~ "exception ." |
-      "If this this is contained in strict mode code and StringValue of Identifier is" ~ code ~ "or" ~ code ~ ", return" ~ const ~ "." |
-      "If" ~ id ~ "+ ( 3 × (" ~ id ~ "- 1 ) ) is greater than or equal to" ~ id ~ ", throw a" ~ value ~ "exception ." |
-      "If" ~ id ~ "+ 2 is greater than or equal to" ~ id ~ ", throw a" ~ value ~ "exception ." |
-      "If" ~ id ~ ". [ [ Site ] ] is the same Parse Node as" ~ id ~ ", then " ~ rest |
-      "If" ~ id ~ "= 0 ℝ , then " ~ rest |
-      "If" ~ id ~ "can be the string - concatenation of" ~ id ~ "and some other String" ~ id ~ ", return" ~ value ~ ". Otherwise , return" ~ value ~ "." |
-      "If" ~ id ~ "contains any duplicate entries , throw a" ~ value ~ "exception ." |
-      "If" ~ id ~ "does not contain a valid UTF - 8 encoding of a Unicode code point , throw a" ~ value ~ "exception ." |
-      "If" ~ id ~ "does not have all of the internal slots of a Map Iterator Instance ( 23 . 1 . 5 . 3 ) , throw a" ~ value ~ "exception ." |
-      "If" ~ id ~ "does not have all of the internal slots of a Set Iterator Instance ( 23 . 2 . 5 . 3 ) , throw a" ~ value ~ "exception ." |
-      "If" ~ id ~ "is a Proxy exotic object and" ~ id ~ ". [ [ ProxyHandler ] ] is" ~ value ~ ", throw a" ~ value ~ "exception ." |
-      "If" ~ id ~ "is a trailing surrogate or" ~ id ~ "+ 1 =" ~ id ~ ", then " ~ rest |
-      "If" ~ id ~ "is a trailing surrogate ," ~ rest |
-      "If" ~ id ~ "is an AsyncConciseBody , return" ~ value ~ "." |
-      "If" ~ id ~ "is not a leading surrogate or trailing surrogate , then " ~ rest |
-      "If" ~ id ~ "is not a trailing surrogate ," ~ rest |
-      "If" ~ id ~ "is not a LabelledStatement , return" ~ value ~ "." |
-      "If" ~ id ~ "is not contained within a FunctionBody , ConciseBody , or AsyncConciseBody , return" ~ value ~ "." |
-      "If" ~ id ~ "is not empty and the first code unit of" ~ id ~ "is the code unit 0x002B ( PLUS SIGN ) or the code unit 0x002D ( HYPHEN - MINUS ) , remove the first code unit from" ~ id ~ "." |
-      "If" ~ id ~ "is not empty and the first code unit of" ~ id ~ "is the code unit 0x002D ( HYPHEN - MINUS ) , set" ~ id ~ "to - 1 ." |
-      "If" ~ id ~ "is not greater than" ~ id ~ ", return" ~ id ~ "." |
-      "If" ~ id ~ "is odd , return" ~ id ~ "+ 1 ." |
-      "If" ~ id ~ "is the FunctionBody of an AsyncFunctionBody , return" ~ value ~ "." |
-      "If" ~ id ~ "is the FunctionBody of an AsyncGeneratorBody , return" ~ value ~ "." |
-      "If" ~ id ~ "is the ReservedWord" ~ code ~ ", return" ~ value ~ "." |
       "If" ~ id ~ "≤" ~ id ~ "≤ 21 , return the string - concatenation of : " ~ rest |
-      "Let" ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 0 ," ~ rest |
-      "Let" ~ id ~ "and" ~ id ~ "be integers such that 10" ~ rest |
-      "Let" ~ id ~ "be a substring of" ~ id ~ "consisting of the leftmost code unit that is not a" ~ nt ~ "and all code units to the right of that code unit . ( In other words , remove leading white space . )" ~ rest |
-      "Let" ~ id ~ "be a newly created substring of" ~ id ~ "consisting of the first code unit that is not a " ~ nt ~ "and all code units following that code unit . ( In other words , remove leading white space . )" ~ rest |
-      "Let" ~ id ~ "be a List consisting of all of the arguments passed to this function , starting with the second argument . If fewer than two arguments were passed , the List is empty ." |
-      "Let" ~ id ~ "be a List containing in order the code points as defined in 6 . 1 . 4 of" ~ id ~ ", starting at the first element of" ~ id ~ "." |
-      "Let" ~ id ~ "be a List containing the arguments passed to this function ." |
-      "Let" ~ id ~ "be a List containing the arguments passed to this function ." |
-      "Let" ~ id ~ "be a List of 8 - bit integers of size" ~ id ~ "." |
-      "Let" ~ id ~ "be a List of length 1 that contains a nondeterministically chosen byte value ." |
-      "Let" ~ id ~ "be a List where the elements are the result of toLowercase (" ~ id ~ ") , according to the Unicode Default Case Conversion algorithm ." |
-      "Let" ~ id ~ "be a String containing one instance of each code unit valid in uriReserved and uriUnescaped plus" ~ code ~ "." |
-      "Let" ~ id ~ "be a String containing one instance of each code unit valid in uriReserved plus" ~ code ~ "." |
-      "Let" ~ id ~ "be a String containing one instance of each code unit valid in uriUnescaped ." |
-      "Let" ~ id ~ "be a new Data Block value consisting of" ~ id ~ "bytes . If it is impossible to create such a Data Block , throw a" ~ value ~ "exception ." |
-      "Let" ~ id ~ "be a new List containing the same values as the list" ~ id ~ "where the values are ordered as if an Array of the same values had been sorted using" ~ code ~ "using" ~ value ~ "as" ~ id ~ "." |
-      "Let" ~ id ~ "be a new List which is a copy of" ~ id ~ "." |
-      "Let" ~ id ~ "be a new Shared Data Block value consisting of" ~ id ~ "bytes . If it is impossible to create such a Shared Data Block , throw a" ~ value ~ "exception ." |
-      "Let" ~ id ~ "be a new module Environment Record containing no bindings ." |
-      "Let" ~ id ~ "be a newly created Integer - Indexed exotic object with an internal slot for each name in" ~ id ~ "." |
-      "Let" ~ id ~ "be a newly created module namespace exotic object with the internal slots listed in Table 29 ." |
-      "Let" ~ id ~ "be an implementation - defined Completion value ." |
-      "Let" ~ id ~ "be an integer for which the exact mathematical value" ~ rest |
-      "Let" ~ id ~ "be an integer for which ℝ (" ~ id ~ ") ÷ 10 ℝ" ~ rest |
-      "Let" ~ id ~ "be equivalent to a function that returns" ~ id ~ "." |
-      "Let" ~ id ~ "be equivalent to a function that throws" ~ id ~ "." |
-      "Let" ~ id ~ "be the 8 - bit value represented by the two hexadecimal digits at index (" ~ id ~ "+ 1 ) and (" ~ id ~ "+ 2 ) ." |
-      "Let" ~ id ~ "be the Agent Record of the surrounding agent ." |
-      "Let" ~ id ~ "be the Number value of the Element Size value specified in Table 59 for" ~ id ~ "." |
-      "Let" ~ id ~ "be the List of argument values starting with the second argument ." |
-      "Let" ~ id ~ "be the List of octets resulting by applying the UTF - 8 transformation to" ~ id ~ "." |
-      "Let" ~ id ~ "be the Number value for" ~ id ~ "." |
-      "Let" ~ id ~ "be the Record { [ [ Key ] ] , [ [ Value ] ] } that is the value of" ~ id ~ "[" ~ id ~ "] ." |
-      "Let" ~ id ~ "be the String value derived from" ~ id ~ "by copying code unit elements from" ~ id ~ "to" ~ id ~ "while performing replacements as specified in Table 51 . These" ~ code ~ "replacements are done left - to - right , and , once such a replacement is performed , the new replacement text is not subject to further replacements ." |
-      "Let" ~ id ~ "be the String value equal to the substring of" ~ id ~ "consisting of the code units at indices" ~ id ~ "( inclusive ) through" ~ id ~ "( exclusive ) ." |
-      "Let" ~ id ~ "be the String value for the list - separator String appropriate for the host environment ' s current locale ( this is derived in an implementation - defined way ) ." |
-      "Let" ~ id ~ "be the String value of the Element Type value in Table 59 for" ~ id ~ "." |
-      "Let" ~ id ~ "be the String value" ~ id ~ "[" ~ id ~ "] ." |
-      "Let" ~ id ~ "be the [ [ CandidateExecution ] ] field of the surrounding agent ' s Agent Record ." |
-      "Let" ~ id ~ "be the [ [ EventList ] ] field of the element in" ~ id ~ ". [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ." |
-      "Let" ~ id ~ "be the code point whose numeric value is that of" ~ id ~ "." |
-      "Let" ~ id ~ "be the code unit at index" ~ id ~ "+ 1 within" ~ id ~ "." |
-      "Let" ~ id ~ "be the code unit at index" ~ id ~ "within" ~ id ~ "." |
-      "Let" ~ id ~ "be the code unit whose value is" ~ id ~ "." |
-      "Let" ~ id ~ "be the first code unit of" ~ id ~ ", and let" ~ id ~ "be the remaining" ~ id ~ "- 1 code units of" ~ id ~ "." |
-      "Let" ~ id ~ "be the first code unit of" ~ id ~ ", and let" ~ id ~ "be the remaining" ~ id ~ "code units of" ~ id ~ "." |
-      "Let" ~ id ~ "be the first" ~ id ~ "-" ~ id ~ "code units of" ~ id ~ ", and let" ~ id ~ "be the remaining" ~ id ~ "code units of" ~ id ~ "." |
-      "Let" ~ id ~ "be the longest prefix of" ~ id ~ ", which might be" ~ id ~ "itself , that satisfies the syntax of a StrDecimalLiteral ." |
-      "Let" ~ id ~ "be the module Environment Record for which the method was invoked ." |
-      "Let" ~ id ~ "be the number of bytes in" ~ id ~ "." |
-      "Let" ~ id ~ "be the number of elements in the List" ~ id ~ "." |
-      "Let" ~ id ~ "be the prefix associated with" ~ id ~ "in Table 47 ." |
-      "Let" ~ id ~ "be the result of parsing" ~ id ~ ", interpreted as UTF - 16 encoded Unicode text as described in 6 . 1 . 4 , using" ~ id ~ "as the goal symbol . Throw a" ~ value ~ "exception if the parse fails ." |
-      "Let" ~ id ~ "be the smallest nonnegative integer such that (" ~ id ~ "< <" ~ id ~ ") & 0x80 is equal to 0 ." |
-      "Let" ~ id ~ "be the string - concatenation of the first" ~ id ~ "code units of" ~ id ~ "," ~ id ~ ", and the trailing substring of" ~ id ~ "starting at index" ~ id ~ ". If" ~ id ~ "is 0 , the first element of the concatenation will be the empty String ." |
-      "Let" ~ id ~ "be the string - concatenation of :" ~ stepList |
-      "Let" ~ id ~ "be the substring of" ~ id ~ "from index" ~ id ~ "to index" ~ id ~ "inclusive ." |
-      "Let" ~ id ~ "be the value obtained by applying the UTF - 8 transformation to" ~ id ~ ", that is , from a List of octets into a 21 - bit value ." |
-      "Let" ~ id ~ "be the code point with the same numeric value as code unit" ~ id ~ "." |
-      "Increment" ~ id ~ "and" ~ id ~ "each by 1 ." |
-      "No action is required ." |
       "Otherwise , if" ~ id ~ "= 1 , return the string - concatenation of : " ~ rest |
-      "Otherwise , return" ~ value ~ "." |
-      "Perform an implementation - defined debugging action ." |
-      "Remove the binding for" ~ id ~ "from" ~ id ~ "." |
-      "Remove" ~ id ~ "from" ~ id ~ "." |
-      "Replace the element of" ~ id ~ "whose value is" ~ id ~ "with an element whose value is" ~ const ~ "." |
-      "Return a value of Number type , whose value is the numeric value of the code unit at index" ~ id ~ "within the String" ~ id ~ "." |
-      "Return the Number value for" ~ id ~ "." |
-      "Return the code point" ~ id ~ "." |
-      "Return the code unit sequence consisting of" ~ id ~ "followed by" ~ id ~ "." |
-      "Return the result of ComputedPropertyName Contains" ~ id ~ "." |
-      "Return the result of appending to" ~ id ~ "the elements of the LexicallyDeclaredNames of the second CaseClauses ." |
-      "Return the result of appending to" ~ id ~ "the elements of the LexicallyScopedDeclarations of the second CaseClauses ." |
-      "Return the result of appending to" ~ id ~ "the elements of the VarDeclaredNames of the second CaseClauses ." |
-      "Return the result of appending to" ~ id ~ "the elements of the VarScopedDeclarations of the second CaseClauses ." |
       "Return the string - concatenation of :" ~ stepList |
-      "Search" ~ id ~ "for the first occurrence of" ~ id ~ "and let" ~ id ~ "be the index within" ~ id ~ "of the first code unit of the matched substring and let" ~ id ~ "be" ~ id ~ ". If no occurrences of" ~ id ~ "were found , return" ~ id ~ "." |
-      "Set all of the bytes of" ~ id ~ "to 0 ." |
-      "Set" ~ id ~ "to the string - concatenation of :" ~ stepList |
-      "Set" ~ id ~ "to the string - concatenation of the code unit 0x0030 ( DIGIT ZERO ) , the code unit 0x002E ( FULL STOP ) , - (" ~ id ~ "+ 1 ) occurrences of the code unit 0x0030 ( DIGIT ZERO ) , and the String" ~ id ~ "." |
-      "Set" ~ id ~ "to the string - concatenation of the first" ~ id ~ "+ 1 code units of" ~ id ~ ", the code unit 0x002E ( FULL STOP ) , and the remaining" ~ id ~ "- (" ~ id ~ "+ 1 ) code units of" ~ id ~ "." |
-      "Set" ~ id ~ "to" ~ id ~ "' s intrinsic object named" ~ id ~ "."
-    ) ^^^ IExpr(ENotSupported("Etc")))
+      "Let" ~ id ~ "be an implementation - defined Completion value ." |
+      "Perform an implementation - defined debugging action ." |
+      "suspend the currently running execution context" |
+      "suspend" ~> name
+    ) ^^^ {
+        ISeq(List())
+      } | (
+        "Append all the entries of" ~ id ~ "to the end of" ~ id ~ "." |
+        "Append in order the code unit elements of" ~ id ~ "to the end of" ~ id ~ "." |
+        "Append the Record { [ [ Key ] ] :" ~ id ~ ", [ [ Symbol ] ] :" ~ id ~ "} to the GlobalSymbolRegistry List ." |
+        "Create an immutable indirect binding in" ~ id ~ "for" ~ id ~ "that references" ~ id ~ "and" ~ id ~ "as its target binding and record that the binding is initialized ." |
+        "Create own properties of" ~ id ~ "corresponding to the definitions in 26 . 3 ." |
+        "For each Record { [ [ Key ] ] , [ [ Value ] ] }" ~ id ~ "that is an element of" ~ id ~ ", in original key insertion order , do " ~ rest |
+        "For each element" ~ id ~ "of the GlobalSymbolRegistry List ( see 19 . 4 . 2 . 2 ) , do " ~ rest |
+        "For each element" ~ id ~ "of the GlobalSymbolRegistry List , do " ~ rest |
+        "For each element" ~ id ~ "of" ~ id ~ ", in ascending index order , do " ~ rest |
+        "For each integer" ~ id ~ "starting with 0 such that" ~ id ~ "<" ~ id ~ ", in ascending order , do " ~ rest |
+        "For each own property key" ~ id ~ "of" ~ id ~ "such that Type (" ~ id ~ ") is String and" ~ id ~ "is not an array index , in ascending chronological order of property creation , do " ~ rest |
+        "For each own property key" ~ id ~ "of" ~ id ~ "such that Type (" ~ id ~ ") is String and" ~ id ~ "is not an integer index , in ascending chronological order of property creation , do " ~ rest |
+        "For each own property key" ~ id ~ "of" ~ id ~ "such that Type (" ~ id ~ ") is Symbol , in ascending chronological order of property creation , do " ~ rest |
+        "For each own property key" ~ id ~ "of" ~ id ~ "such that" ~ id ~ "is an array index and ToInteger (" ~ id ~ ") ≥" ~ id ~ ", in ascending numeric index order , do " ~ rest |
+        "If BoundNames of" ~ id ~ "contains any duplicate elements , throw a" ~ value ~ "exception ." |
+        "If IsCallable (" ~ id ~ ") is" ~ value ~ ", set" ~ id ~ "to the intrinsic function % ObjProto_toString % ." |
+        "If IsDataDescriptor (" ~ id ~ ") is" ~ value ~ "and" ~ id ~ "has attribute values { [ [ Writable ] ] :" ~ value ~ ", [ [ Enumerable ] ] :" ~ value ~ "} , return" ~ value ~ "." |
+        "If any element of the BoundNames of" ~ id ~ "also occurs in the LexicallyDeclaredNames of" ~ id ~ ", throw a" ~ value ~ "exception ." |
+        "If any static semantics errors are detected for" ~ id ~ "or" ~ id ~ ", throw a" ~ value ~ "or a" ~ value ~ "exception ," ~ rest |
+        "If neither" ~ id ~ "nor any prefix of" ~ id ~ "satisfies the syntax of a StrDecimalLiteral ( see 7 . 1 . 3 . 1 ) , return" ~ value ~ "." |
+        "If only one argument was passed , return" ~ id ~ "." |
+        "If the binding for" ~ id ~ "is an indirect binding , then " ~ rest |
+        "If the first code unit of" ~ id ~ "is the code unit 0x002D ( HYPHEN - MINUS ) , return" ~ value ~ "." |
+        "If the code unit at index" ~ id ~ "within" ~ id ~ "is not the code unit 0x0025 ( PERCENT SIGN ) , throw a" ~ value ~ "exception ." |
+        "If the code units at index (" ~ id ~ "+ 1 ) and (" ~ id ~ "+ 2 ) within" ~ id ~ "do not represent hexadecimal digits , throw a" ~ value ~ "exception ." |
+        "If the code units at index (" ~ id ~ "+ 1 ) and (" ~ id ~ "+ 2 ) within" ~ id ~ "do not represent hexadecimal digits , throw a" ~ value ~ "exception ." |
+        "If the length of" ~ id ~ "is at least 2 and the first two code units of" ~ id ~ "are either" ~ code ~ "or" ~ code ~ ", then " ~ rest |
+        "If the sequence of code units of" ~ id ~ "starting at" ~ id ~ "of length" ~ id ~ "is the same as the full code unit sequence of" ~ id ~ ", return" ~ value ~ "." |
+        "If the sequence of code units of" ~ id ~ "starting at" ~ id ~ "of length" ~ id ~ "is the same as the full code unit sequence of" ~ id ~ ", return" ~ value ~ "." |
+        "If the two most significant bits in" ~ id ~ "are not 10 , throw a" ~ value ~ "exception ." |
+        "If" ~ id ~ "+ ( 3 × (" ~ id ~ "- 1 ) ) is greater than or equal to" ~ id ~ ", throw a" ~ value ~ "exception ." |
+        "If" ~ id ~ "+ 2 is greater than or equal to" ~ id ~ ", throw a" ~ value ~ "exception ." |
+        "If" ~ id ~ ". [ [ Site ] ] is the same Parse Node as" ~ id ~ ", then " ~ rest |
+        "If" ~ id ~ "= 0 ℝ , then " ~ rest |
+        "If" ~ id ~ "can be the string - concatenation of" ~ id ~ "and some other String" ~ id ~ ", return" ~ value ~ ". Otherwise , return" ~ value ~ "." |
+        "If" ~ id ~ "contains any duplicate entries , throw a" ~ value ~ "exception ." |
+        "If" ~ id ~ "does not contain a valid UTF - 8 encoding of a Unicode code point , throw a" ~ value ~ "exception ." |
+        "If" ~ id ~ "does not have all of the internal slots of a Map Iterator Instance ( 23 . 1 . 5 . 3 ) , throw a" ~ value ~ "exception ." |
+        "If" ~ id ~ "does not have all of the internal slots of a Set Iterator Instance ( 23 . 2 . 5 . 3 ) , throw a" ~ value ~ "exception ." |
+        "If" ~ id ~ "is a Proxy exotic object and" ~ id ~ ". [ [ ProxyHandler ] ] is" ~ value ~ ", throw a" ~ value ~ "exception ." |
+        "If" ~ id ~ "is a trailing surrogate or" ~ id ~ "+ 1 =" ~ id ~ ", then " ~ rest |
+        "If" ~ id ~ "is a trailing surrogate ," ~ rest |
+        "If" ~ id ~ "is not a leading surrogate or trailing surrogate , then " ~ rest |
+        "If" ~ id ~ "is not a trailing surrogate ," ~ rest |
+        "If" ~ id ~ "is not empty and the first code unit of" ~ id ~ "is the code unit 0x002B ( PLUS SIGN ) or the code unit 0x002D ( HYPHEN - MINUS ) , remove the first code unit from" ~ id ~ "." |
+        "If" ~ id ~ "is not empty and the first code unit of" ~ id ~ "is the code unit 0x002D ( HYPHEN - MINUS ) , set" ~ id ~ "to - 1 ." |
+        "If" ~ id ~ "is not greater than" ~ id ~ ", return" ~ id ~ "." |
+        "If" ~ id ~ "is odd , return" ~ id ~ "+ 1 ." |
+        "Let" ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 0 ," ~ rest |
+        "Let" ~ id ~ "and" ~ id ~ "be integers such that 10" ~ rest |
+        "Let" ~ id ~ "be a substring of" ~ id ~ "consisting of the leftmost code unit that is not a" ~ nt ~ "and all code units to the right of that code unit . ( In other words , remove leading white space . )" ~ rest |
+        "Let" ~ id ~ "be a newly created substring of" ~ id ~ "consisting of the first code unit that is not a " ~ nt ~ "and all code units following that code unit . ( In other words , remove leading white space . )" ~ rest |
+        "Let" ~ id ~ "be a List consisting of all of the arguments passed to this function , starting with the second argument . If fewer than two arguments were passed , the List is empty ." |
+        "Let" ~ id ~ "be a List containing in order the code points as defined in 6 . 1 . 4 of" ~ id ~ ", starting at the first element of" ~ id ~ "." |
+        "Let" ~ id ~ "be a List containing the arguments passed to this function ." |
+        "Let" ~ id ~ "be a List containing the arguments passed to this function ." |
+        "Let" ~ id ~ "be a List of 8 - bit integers of size" ~ id ~ "." |
+        "Let" ~ id ~ "be a List of length 1 that contains a nondeterministically chosen byte value ." |
+        "Let" ~ id ~ "be a List where the elements are the result of toLowercase (" ~ id ~ ") , according to the Unicode Default Case Conversion algorithm ." |
+        "Let" ~ id ~ "be a String containing one instance of each code unit valid in uriReserved and uriUnescaped plus" ~ code ~ "." |
+        "Let" ~ id ~ "be a String containing one instance of each code unit valid in uriReserved plus" ~ code ~ "." |
+        "Let" ~ id ~ "be a String containing one instance of each code unit valid in uriUnescaped ." |
+        "Let" ~ id ~ "be a new Data Block value consisting of" ~ id ~ "bytes . If it is impossible to create such a Data Block , throw a" ~ value ~ "exception ." |
+        "Let" ~ id ~ "be a new List containing the same values as the list" ~ id ~ "where the values are ordered as if an Array of the same values had been sorted using" ~ code ~ "using" ~ value ~ "as" ~ id ~ "." |
+        "Let" ~ id ~ "be a new List which is a copy of" ~ id ~ "." |
+        "Let" ~ id ~ "be a new Shared Data Block value consisting of" ~ id ~ "bytes . If it is impossible to create such a Shared Data Block , throw a" ~ value ~ "exception ." |
+        "Let" ~ id ~ "be a new module Environment Record containing no bindings ." |
+        "Let" ~ id ~ "be a newly created Integer - Indexed exotic object with an internal slot for each name in" ~ id ~ "." |
+        "Let" ~ id ~ "be a newly created module namespace exotic object with the internal slots listed in Table 29 ." |
+        "Let" ~ id ~ "be an integer for which the exact mathematical value" ~ rest |
+        "Let" ~ id ~ "be an integer for which ℝ (" ~ id ~ ") ÷ 10 ℝ" ~ rest |
+        "Let" ~ id ~ "be equivalent to a function that returns" ~ id ~ "." |
+        "Let" ~ id ~ "be equivalent to a function that throws" ~ id ~ "." |
+        "Let" ~ id ~ "be the 8 - bit value represented by the two hexadecimal digits at index (" ~ id ~ "+ 1 ) and (" ~ id ~ "+ 2 ) ." |
+        "Let" ~ id ~ "be the Agent Record of the surrounding agent ." |
+        "Let" ~ id ~ "be the Number value of the Element Size value specified in Table 59 for" ~ id ~ "." |
+        "Let" ~ id ~ "be the List of argument values starting with the second argument ." |
+        "Let" ~ id ~ "be the List of octets resulting by applying the UTF - 8 transformation to" ~ id ~ "." |
+        "Let" ~ id ~ "be the Number value for" ~ id ~ "." |
+        "Let" ~ id ~ "be the Record { [ [ Key ] ] , [ [ Value ] ] } that is the value of" ~ id ~ "[" ~ id ~ "] ." |
+        "Let" ~ id ~ "be the String value derived from" ~ id ~ "by copying code unit elements from" ~ id ~ "to" ~ id ~ "while performing replacements as specified in Table 51 . These" ~ code ~ "replacements are done left - to - right , and , once such a replacement is performed , the new replacement text is not subject to further replacements ." |
+        "Let" ~ id ~ "be the String value equal to the substring of" ~ id ~ "consisting of the code units at indices" ~ id ~ "( inclusive ) through" ~ id ~ "( exclusive ) ." |
+        "Let" ~ id ~ "be the String value for the list - separator String appropriate for the host environment ' s current locale ( this is derived in an implementation - defined way ) ." |
+        "Let" ~ id ~ "be the String value of the Element Type value in Table 59 for" ~ id ~ "." |
+        "Let" ~ id ~ "be the String value" ~ id ~ "[" ~ id ~ "] ." |
+        "Let" ~ id ~ "be the [ [ CandidateExecution ] ] field of the surrounding agent ' s Agent Record ." |
+        "Let" ~ id ~ "be the [ [ EventList ] ] field of the element in" ~ id ~ ". [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ." |
+        "Let" ~ id ~ "be the code point whose numeric value is that of" ~ id ~ "." |
+        "Let" ~ id ~ "be the code unit at index" ~ id ~ "+ 1 within" ~ id ~ "." |
+        "Let" ~ id ~ "be the code unit at index" ~ id ~ "within" ~ id ~ "." |
+        "Let" ~ id ~ "be the code unit whose value is" ~ id ~ "." |
+        "Let" ~ id ~ "be the first code unit of" ~ id ~ ", and let" ~ id ~ "be the remaining" ~ id ~ "- 1 code units of" ~ id ~ "." |
+        "Let" ~ id ~ "be the first code unit of" ~ id ~ ", and let" ~ id ~ "be the remaining" ~ id ~ "code units of" ~ id ~ "." |
+        "Let" ~ id ~ "be the first" ~ id ~ "-" ~ id ~ "code units of" ~ id ~ ", and let" ~ id ~ "be the remaining" ~ id ~ "code units of" ~ id ~ "." |
+        "Let" ~ id ~ "be the longest prefix of" ~ id ~ ", which might be" ~ id ~ "itself , that satisfies the syntax of a StrDecimalLiteral ." |
+        "Let" ~ id ~ "be the module Environment Record for which the method was invoked ." |
+        "Let" ~ id ~ "be the number of bytes in" ~ id ~ "." |
+        "Let" ~ id ~ "be the number of elements in the List" ~ id ~ "." |
+        "Let" ~ id ~ "be the prefix associated with" ~ id ~ "in Table 47 ." |
+        "Let" ~ id ~ "be the result of parsing" ~ id ~ ", interpreted as UTF - 16 encoded Unicode text as described in 6 . 1 . 4 , using" ~ id ~ "as the goal symbol . Throw a" ~ value ~ "exception if the parse fails ." |
+        "Let" ~ id ~ "be the smallest nonnegative integer such that (" ~ id ~ "< <" ~ id ~ ") & 0x80 is equal to 0 ." |
+        "Let" ~ id ~ "be the string - concatenation of the first" ~ id ~ "code units of" ~ id ~ "," ~ id ~ ", and the trailing substring of" ~ id ~ "starting at index" ~ id ~ ". If" ~ id ~ "is 0 , the first element of the concatenation will be the empty String ." |
+        "Let" ~ id ~ "be the string - concatenation of :" ~ stepList |
+        "Let" ~ id ~ "be the substring of" ~ id ~ "from index" ~ id ~ "to index" ~ id ~ "inclusive ." |
+        "Let" ~ id ~ "be the value obtained by applying the UTF - 8 transformation to" ~ id ~ ", that is , from a List of octets into a 21 - bit value ." |
+        "Let" ~ id ~ "be the code point with the same numeric value as code unit" ~ id ~ "." |
+        "Increment" ~ id ~ "and" ~ id ~ "each by 1 ." |
+        "No action is required ." |
+        "Otherwise , return" ~ value ~ "." |
+        "Remove" ~ id ~ "from" ~ id ~ "." |
+        "Replace the element of" ~ id ~ "whose value is" ~ id ~ "with an element whose value is" ~ const ~ "." |
+        "Return a value of Number type , whose value is the numeric value of the code unit at index" ~ id ~ "within the String" ~ id ~ "." |
+        "Return the Number value for" ~ id ~ "." |
+        "Return the code point" ~ id ~ "." |
+        "Return the code unit sequence consisting of" ~ id ~ "followed by" ~ id ~ "." |
+        "Search" ~ id ~ "for the first occurrence of" ~ id ~ "and let" ~ id ~ "be the index within" ~ id ~ "of the first code unit of the matched substring and let" ~ id ~ "be" ~ id ~ ". If no occurrences of" ~ id ~ "were found , return" ~ id ~ "." |
+        "Set all of the bytes of" ~ id ~ "to 0 ." |
+        "Set" ~ id ~ "to the string - concatenation of :" ~ stepList |
+        "Set" ~ id ~ "to the string - concatenation of the code unit 0x0030 ( DIGIT ZERO ) , the code unit 0x002E ( FULL STOP ) , - (" ~ id ~ "+ 1 ) occurrences of the code unit 0x0030 ( DIGIT ZERO ) , and the String" ~ id ~ "." |
+        "Set" ~ id ~ "to the string - concatenation of the first" ~ id ~ "+ 1 code units of" ~ id ~ ", the code unit 0x002E ( FULL STOP ) , and the remaining" ~ id ~ "- (" ~ id ~ "+ 1 ) code units of" ~ id ~ "."
+      ) ^^^ IExpr(ENotSupported("Etc")))
 
   // etc expressions
   override lazy val etcExpr: P[I[Expr]] = (
-    ("the number whose value is MV of" ~> nt) ^^ {
+    (id <~ "' s intrinsic object named") ~ id ^^ {
+      case x ~ y => pair(List(), parseExpr(s"""$x["Intrinsics"][$y]"""))
+    } | ("the number whose value is MV of" ~> nt) ^^ {
       case x =>
         {
           val temp = getTemp
@@ -621,7 +629,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         val names = List("ToNumber", "ToInt32", "ToUint32", "ToPrimitive")
         val lmap = getMap(toERef(l), names)
         val rmap = getMap(toERef(r), names)
-        val init: Inst = IExpr(ENotSupported("assign operator"))
+        val init: Inst = IAssert(EStr("invalid assign operator"))
         val genenralCase = list.foldLeft(init) {
           case (base, (name, op, left, right)) =>
             val li ~ le = lmap(left)
@@ -737,10 +745,30 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case x =>
         val temp = getTemp
         pair(List(parseInst(s"""access $temp = ($x "TV")""")), toERef(temp))
+    } | "the String value consisting of the UTF16Encoding of each code point of" ~> name <~ "of RegularExpressionLiteral" ^^ {
+      case x => {
+        val temp = getTemp
+        pair(List(parseInst(s"""access $temp = (RegularExpressionLiteral "$x")""")), toERef(temp))
+      }
     } | "the TRV of" ~> name <~ opt("as defined in 11.8.6") ^^ {
       case x =>
         val temp = getTemp
         pair(List(parseInst(s"""access $temp = ($x "TRV")""")), toERef(temp))
+    } | "the FunctionBody , ConciseBody , or AsyncConciseBody that most closely contains" ~> id ^^ {
+      case x => {
+        val temp = getTemp
+        val temp2 = getTemp
+        pair(List(parseInst(s"""{
+        let $temp = true
+        let $temp2 = $x
+        while (&& (= $temp true) (! (= $temp2 absent))) {
+          if (is-instance-of $temp2 FunctionBody) $temp = false else {}
+          if (is-instance-of $temp2 ConciseBody) $temp = false else {}
+          if (is-instance-of $temp2 AsyncConciseBody) $temp = false else {}
+          if (= $temp true) access $temp2 = ($temp2 "parent") else {}
+          }
+        }""")), ERef(RefId(Id(temp2))))
+      }
     } | ((
       "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
         parseExpr("""(parse-syntax CoverCallExpressionAndAsyncArrowHead "CallMemberExpression")""")
@@ -801,19 +829,17 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         ENotSupported("NumberOp")
       } | "the algorithm steps" ~ ("specified" | "defined") ~ "in" ~ not(algorithmName) ~ rest ^^^ {
         ENotSupported("Algorithms")
-      } | "the FunctionBody of a" ~ ("GeneratorBody" | "AsyncFunctionBody" | "AsyncGeneratorBody") ^^^ {
-        ENotSupported("ParentNode")
-      } | id ~ "is not contained within a FunctionBody , ConciseBody , or AsyncConciseBody" ^^^ {
-        ENotSupported("ParentNode")
-      } | "the FunctionBody , ConciseBody , or AsyncConciseBody that most closely contains" ~ id ^^^ {
-        ENotSupported("ParentNode")
       }
     ) ^^ { case e => pair(Nil, e) })
   )
 
   // etc conditions
   override lazy val etcCond: P[I[Expr]] = (
-    "no arguments were passed to this function invocation" ^^^ {
+    "this this is contained in strict mode code and StringValue of Identifier is" ~ code ~ "or" ~ code ^^^ {
+      pair(Nil, parseExpr(s"""(|| (= (get-syntax IdentifierName) "eval") (= (get-syntax IdentifierName) "arguments"))"""))
+    } | (id <~ "is the ReservedWord") ~ code ^^ {
+      case x ~ y => pair(Nil, parseExpr(s"""(= (get-syntax $x) "$y")"""))
+    } | "no arguments were passed to this function invocation" ^^^ {
       pair(Nil, parseExpr(s"(= argumentsList.length 0i)"))
     } | name <~ "is an Identifier and StringValue of" ~ name ~ "is the same value as the StringValue of IdentifierName" ^^ {
       case x => pair(Nil, parseExpr(s"(&& (is-instance-of $x Identifier) (= (get-syntax $x) (get-syntax IdentifierName)))"))
@@ -824,6 +850,33 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         (= absent $x.ArrayIterationKind)))"""))
     } | name <~ "does not have all of the internal slots of a String Iterator Instance (21.1.5.3)" ^^ {
       case x => pair(Nil, parseExpr(s"""(|| (= $x.IteratedString absent) (= $x.StringIteratorNextIndex absent))"""))
+    } | id <~ "is not contained within a FunctionBody , ConciseBody , or AsyncConciseBody" ^^ {
+      case x => {
+        val temp = getTemp
+        val temp2 = getTemp
+        pair(List(parseInst(s"""{
+        let $temp = true
+        let $temp2 = $x
+        while (&& (= $temp true) (! (= $temp2 absent))) {
+          if (is-instance-of $temp2 FunctionBody) $temp = false else {}
+          if (is-instance-of $temp2 ConciseBody) $temp = false else {}
+          if (is-instance-of $temp2 AsyncConciseBody) $temp = false else {}
+          access $temp2 = ($temp2 "parent")
+          }
+        }""")), ERef(RefId(Id(temp))))
+      }
+    } | id ~ ("is the FunctionBody of" ~> ("a" | "an") ~> ("GeneratorBody" | "AsyncFunctionBody" | "AsyncGeneratorBody")) ^^ {
+      case x ~ s => {
+        val temp = getTemp
+        val temp2 = getTemp
+        pair(List(parseInst(s"""{
+            let $temp2 = false
+            if (is-instance-of $x FunctionBody) {
+              access $temp = ($x "parent")
+              if (&& (! (= $temp absent)) (is-instance-of $temp ${s(0)})) $temp2 = true else {}
+            } else {}
+          }""")), ERef(RefId(Id(temp2))))
+      }
     } | expr <~ "is a normal completion" ^^ {
       case i ~ x => pair(i, parseExpr(s"""(&& (is-completion ${beautify(x)}) (= ${beautify(x)}.Type CONST_normal))"""))
     } | expr <~ "is not already suspended" ^^ {
@@ -844,6 +897,8 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       case (i0 ~ r) ~ (i1 ~ p) => pair(i0 ++ i1, EUOp(ONot, exists(RefProp(RefProp(r, EStr("SubMap")), p))))
     } | (name <~ "does not have a binding for") ~ name ^^ {
       case x ~ y => pair(Nil, parseExpr(s"(= absent $x.SubMap[$y])"))
+    } | ("the binding for" ~> name <~ "in") ~ (name <~ "cannot be deleted") ^^^ {
+      pair(Nil, EBool(false))
     } | ("the binding for" ~> name <~ "in") ~ (name <~ "is a strict binding") ^^ {
       case x ~ y => pair(Nil, parseExpr(s"(&& (! (= absent $y.SubMap[$x].strict)) $y.SubMap[$x].strict)"))
     } | ("The binding for" ~> name <~ "in") ~ (name <~ "has not yet been initialized") ^^ {
@@ -881,10 +936,10 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
     } | (id <~ ". [ [ Enumerable ] ] is present and the [ [ Enumerable ] ] fields of") ~ (id <~ "and") ~ (id <~ "are the Boolean negation of each other") ^^ {
       case z ~ x ~ y => pair(Nil, parseExpr(s"""
         (&& (! (= absent $z.Enumerable)) (|| (&& (= true $x.Enumerable) (= false $y.Enumerable)) (&& (= false $x.Enumerable) (= true $y.Enumerable))))"""))
+    } | "an implementation - defined debugging facility is available and enabled" ^^^ {
+      pair(Nil, EBool(false))
     } | "the most significant bit in" ~ id ~ "is" ~ number ^^^ {
       pair(Nil, ENotSupported("NumberOp"))
-    } | "an implementation - defined debugging facility is available and enabled" ^^^ {
-      pair(Nil, ENotSupported("ImplDependent"))
     } | id <~ "is not a leading surrogate" ^^^ {
       pair(Nil, ENotSupported("StringOp"))
     } | id <~ "is an integer index ≤" <~ id ^^^ {
