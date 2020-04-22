@@ -1,62 +1,19 @@
 \section{Evaluation}\label{sec:eval}
 
-% TODO as an open source tool\footnote{The URL of the tool
-% is anonymized due to a double-blind review process.}
-
-% \subsection{Excluded Language Features}\label{sec:exclusion}
-% We decided not to support the following ES10 features:
-% 
-% \vspace*{-.5em}
-% \paragraph{Non-Strict Mode}
-% Since ES5.1, JavaScript introduced strict mode to
-% provide different semantics.  It
-% provides more stable semantics by preventing unsafe actions or
-% throwing originally ignored errors.  However, ECMAScript
-% states that ``Strict mode does not restrict or modify
-% any aspect of the ECMAScript semantics that must operate consistently
-% across multiple source text units.''  Thus, we decided to support only
-% strict mode.
-% 
-% \vspace*{-.5em}
-% \paragraph{Modules}
-% Moreover, we do not support modules that were introduced since ES6.
-% With the \( \code{import} \) keyword, a JavaScript
-% program can import other JavaScript components.  To support
-% modules in our automatically generated semantics, we should model the
-% functionality to communicate with file systems to access JavaScript
-% module files.  Because modules do not affect the overall JavaScript
-% semantics critically, we decided not to support modules.
-% 
-% \vspace*{-.5em}
-% \paragraph{Early Errors}
-% ECMAScript uses Early Error Rules to preclude invalid code
-% before evaluation. For example, an Early Error Rule checks whether
-% functions have duplicated parameters in strict mode.
-% Because they are written in different styles from abstract algorithms,
-% we do not support Early Error Rules.
-% 
-% \vspace*{-.5em}
-% \paragraph{Inessential Built-in Objects}
-% JavaScript provides various standard built-in objects but some of them
-% are not essential to core JavaScript but support extra functionalities such as
-% \( \code{RegExp} \) and \( \code{JSON} \).  Thus, we decided not to
-% support such libraries following the tradition of KJS~\cite{kjs},
-% which is a complete formal semantics of JavaScript.
-
-We evaluate \( \tool \) based on the following four research questions:
+We developed \( \tool \) as an open source tool\footnote{The URL of the tool is
+anonymized due to a double-blind review process.}, and evaluated the tool
+based on the following three research questions:
 \begin{itemize}[leftmargin=0.5cm]
-\item RQ1. \textbf{Effectiveness:} Does \( \tool \) effectively reduce
-manual efforts in extracting the syntax and semantics from existing
-ECMAScript specifications? 
-\item RQ2. \textbf{Correctness:} Do the extracted syntax and semantics
-from ES10 behave correctly?
-\item RQ3. \textbf{Adaptability:} Is \( \tool \) applicable to
-incomplete feature proposals?
-\item RQ4. \textbf{Usefulness:} Does \( \tool \) detect any
-specification errors?
+\item RQ1. \textbf{Coverage:} How much parts \( \tool \) automatically extract
+the syntax and semantics from ES7 to ES10?
+\item RQ2. \textbf{Check with Tests:} The syntax and semantics of the latest
+version on ECMAScript (ES10) is compatible with official tests?
+\item RQ3. \textbf{Forward Compatibility:} Is \( \tool \) applicable to language
+features ready for inclusion in the next ECMAScript (ES11)?
 \end{itemize}
 
-\subsection{Effectiveness}
+
+\subsection{Coverage}
 
 \begin{table}[t]
   \caption{Number of productions in specifications,
@@ -65,72 +22,81 @@ from \textit{all} of which \( \tool \) automatically generated parsers}
 \vspace*{-1em}
 \small
   \[
-    \begin{array}{c?r|r|r|r|r?r}
+    \begin{array}{c?r|r|r|r?r}
       \textbf{Version}
-      & \multicolumn{1}{c|}{\textbf{2016}}
-      & \multicolumn{1}{c|}{\textbf{2017}}
-      & \multicolumn{1}{c|}{\textbf{2018}}
-      & \multicolumn{1}{c|}{\textbf{2019}}
-      & \multicolumn{1}{c?}{\textbf{2020}}
+      & \multicolumn{1}{c|}{\textbf{ES7}}
+      & \multicolumn{1}{c|}{\textbf{ES8}}
+      & \multicolumn{1}{c|}{\textbf{ES9}}
+      & \multicolumn{1}{c?}{\textbf{ES10}}
       & \multicolumn{1}{c}{\textbf{avg.}}\\\toprule
       \text{\# Lexical prod.}
-      & \text{78}
-      & \text{78}
-      & \text{78}
-      & \text{81}
-      & \text{81}
-      & \text{79.2}\\\hline
+      & \inred{\text{78}}
+      & \inred{\text{78}}
+      & \inred{\text{78}}
+      & \inred{\text{81}}
+      & \inred{\text{78.75}}\\\hline
       \text{\# Syntactic prod.}
-      & \text{157}
-      & \text{167}
-      & \text{167}
-      & \text{174}
-      & \text{175}
-      & \text{168}\\
+      & \inred{\text{157}}
+      & \inred{\text{167}}
+      & \inred{\text{167}}
+      & \inred{\text{174}}
+      & \inred{\text{166.25}}\\
     \end{array}
   \]
   \[
-    \begin{array}{c|r|r|r|r?r}
+    \begin{array}{c?r|r|r?r}
       \textbf{Old version}
-      & \multicolumn{1}{c|}{\textbf{2016}}
-      & \multicolumn{1}{c|}{\textbf{2017}}
-      & \multicolumn{1}{c|}{\textbf{2018}}
-      & \multicolumn{1}{c?}{\textbf{2019}}
-      & \multirow{2}{*}{\textbf{avg.}}\\\cline{1-5}
+      & \multicolumn{1}{c|}{\textbf{ES7}}
+      & \multicolumn{1}{c|}{\textbf{ES8}}
+      & \multicolumn{1}{c?}{\textbf{ES9}}
+      & \multirow{2}{*}{\textbf{avg.}}\\\cline{1-4}
       \textbf{New version}
-      & \multicolumn{1}{c|}{\textbf{2017}}
-      & \multicolumn{1}{c|}{\textbf{2018}}
-      & \multicolumn{1}{c|}{\textbf{2019}}
-      & \multicolumn{1}{c?}{\textbf{2020}}
+      & \multicolumn{1}{c|}{\textbf{ES8}}
+      & \multicolumn{1}{c|}{\textbf{ES9}}
+      & \multicolumn{1}{c?}{\textbf{ES10}}
       & \\\toprule
       \Delta \; \text{\# Lexical prod.}
-      & \text{3}
-      & \text{5}
-      & \text{6}
-      & \text{0}
-      & \text{4.7}\\\hline
+      & \inred{\text{3}}
+      & \inred{\text{5}}
+      & \inred{\text{6}}
+      & \inred{\text{4.67}}\\\hline
       \Delta \; \text{\# Syntactic prod.}
-      & \text{140}
-      & \text{15}
-      & \text{8}
-      & \text{2}
-      & \text{55}\\
+      & \inred{\text{140}}
+      & \inred{\text{15}}
+      & \inred{\text{8}}
+      & \inred{\text{54.33}}\\
     \end{array}
   \]
 \end{table}
 
+\( \tool \) targets ECMAScript specifications released after ES7 in 2016 because
+our tool utilizes common patterns in the converged writing style since ES7 as
+already explained in Section~\ref{sec:overview}.  Thus, we evaluate the coverage
+of \( \tool \) by applying it to the most recent four versions of ECMAScript,
+ES7 to ES10.  We measured for how many grammar productions and steps in abstract
+algorithms \( \tool \) automatically generates parsers and AST-IR translators,
+respectively, in two respects: 1) in each version and 2) in each difference
+between adjacent versions.
+
+For syntax, \( \tool \) automatically generated parsers for \textit{all} the
+lexical and syntactic productions.  As Table~\ref{fig:syntax-all-version} shows,
+the average numbers of lexical and syntactic productions are \inred{78.75} and
+\inred{166.25}, respectively.  Also, the average numbers of annually updated
+lexical and syntactic productions between adjacent versions are \inred{4.67} and
+\inred{54.33}, respectively.
+
 \begin{figure}[t]
   \centering
-  \begin{subfigure}{0.46\textwidth}
-    \includegraphics[width=\textwidth]{img/sem-all.png}
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img/sem-all.pdf}
     \caption{Results for existing versions}
     \label{fig:semantics-all-version}
   \end{subfigure}
   \hfill
   \begin{subfigure}{0.48\textwidth}
-    \includegraphics[width=\textwidth]{img/sem-delta.png}
+    \includegraphics[width=\textwidth]{img/sem-diff.pdf}
     \caption{Results for differences between adjacent versions}
-    \label{fig:semantics-all-version-delta}
+    \label{fig:semantics-all-version-diff}
   \end{subfigure}
   \caption{Number of abstract algorithm steps in specifications, from which
 \( \tool \) generated the JavaScript semantics}
@@ -138,167 +104,375 @@ from \textit{all} of which \( \tool \) automatically generated parsers}
 \vspace*{-1em}
 \end{figure}
 
-We evaluate the effectiveness of \( \tool \) by applying it to the
-most recent five versions of ECMAScript, ES6 to ES10.
-We measured for how many grammar productions and
-steps in abstract algorithms \( \tool \) automatically generates parsers and
-semantics, respectively, in two respects: 1) in each version and 2) in
-each difference between adjacent versions.
-
-%For syntax, we measured the number of grammar productions for which
-%\textsf{Parser Generator} automatically generated parsers.  
-%Table~\ref{fig:syntax-all-version} shows the number of grammar productions
-
-For syntax, \( \tool \) automatically generated parsers for
-\textit{all} the productions.  As Table~\ref{fig:syntax-all-version} shows,
-the average numbers of lexical and syntactic productions are 79.2 and 168, respectively.
-Also, the average numbers of annually updated lexical and
-syntactic productions between adjacent versions are 4.7 and 55, respectively.
-
-For semantics, Figure~\ref{fig:all-version} shows that \( \tool \)
-automatically extracted semantics with the 91.60\% success rate on
-average for existing specifications, and 90.43\% for updates.
-We found that algorithm steps in
-built-in libraries have lower success rates (86.98\% for specifications
-and 86.09\% for updates) than core language semantics (95.35\%  for specifications
-and 95.25\% for updates) because of diverse writing styles in
-describing their own specific functionalities.
+For semantics, Figure~\ref{fig:all-version} shows that \( \tool \) automatically
+compile algorithm steps to the corresponding \( \ires \) instructions with
+\inred{91.60\%} success rate on average for existing specifications, and
+\inred{90.43\%} for updates.  ECMAScript abstract algorithms describe not only
+core language semantics but also other helper functions of built-in libraries.
+Built-in libraries written in more diverse styles in describing their own
+specific functionalities.  Thus, built-in libraries have lower success rates
+(\inred{86.98\%} for specifications and \inred{86.09\%} for updates) than core
+language semantics (\inred{95.35\%} for specifications and \inred{95.25\%} for
+updates).
 
 This results show that \( \tool \) effectively reduces the efforts to
 extract the syntax and semantics of JavaScript not only for developing
 them from scratch, but also for updating existing ones.
 
-\subsection{Correctness}
+
+\subsection{Check with Tests}\label{sec:check-with-tests}
+
+To define the \textit{first IR-based formal semantics of modern JavaScript}, we
+completed missing parts of the AST-IR translator for ES10.  Among \inred{9,674}
+steps in ES10, \inred{8,901} steps are automatically compiled via
+\textsf{Algorithm Compiler}.  Among the remaining \inred{773} steps, we manually
+implemented all remaining language semantics (\inred{221} steps) and essential
+parts of built-in libraries (\inred{XX} steps out of \inred{552}) in \inred{XX}
+days.  Moreover, we manually implemented the \textsf{Global Setting} as described
+in Section~\ref{sec:compiler-impl} for the core language features.  However, we
+do not support several minor language features that do not affect the overall
+JavaScript semantics critically: non-strict mode codes, modules, early errors
+before actual executions, and inessential built-in objects.
+
+Thanks to the executability of our extracted formal semantics, we checked the
+semantics with Test262, the official conformance test suite provided by TC39.
+We fixed version of Test262 as of February 28, 2019 because the ES10 was
+branched out with the branch name es2019 in that day.  While it consists of
+\inred{XX,XXX} tests, we filtered out \inred{XX,XXX} tests not applicable for
+our formal semantics as shown in Table~\ref{table:test262}.  Test262 targets not
+only the current official version of ECMAScript but several extensions and
+in-progress features. We excluded \inred{X,XXX} tests for such cases to focus on
+the semantics of ES10.  Among \inred{XX,XXX} ES10 tests, we also filtered out
+\inred{X,XXX} tests using language features not supported by our semantics.
+
+\begin{table*}[t]
+  \centering
+  \caption{Specification errors and wrong tests in Test262.}
+  \label{table:spec-tests-errors}
+  \vspace*{-0.5em}
+  \small
+  \begin{tabular}{|c|c|l|c|c|c|c|c|}
+    \hline
+    \multicolumn{1}{|c|}{\bf Name} &
+    \multicolumn{1}{c|}{\bf Feature} &
+    \multicolumn{1}{c|}{\bf Description} &
+    \multicolumn{1}{c|}{\bf Known} &
+    \multicolumn{1}{c|}{\bf Created} &
+    \multicolumn{1}{c|}{\bf Resolved} &
+    \multicolumn{1}{c|}{\bf Existed} &
+    \multicolumn{1}{c|}{\bf \# Failed Tests} \\\hline
+
+    es10-1 &
+    Await &
+    \makecell[l]{Passing wrong type of \\ the second argument for {\bf PromiseResolve}.} &
+    \textsf{O} &
+    2019-02-27 &
+    2019-04-13 &
+    45 days &
+    \inred{XX} \\\hline
+
+    es10-2 &
+    IterationKind &
+    \makecell[l]{Missing \code{async-iterate} case \\ in the assertion of {\bf
+    ForIn/OfHeadEvaluation}.} &
+    \textsf{X} &
+    2018-02-16 &
+    2020-03-25 &
+    768 days &
+    \inred{XX} \\\hline
+
+    es10-3 &
+    Completion &
+    \makecell[l]{Not handling abrupt completion \\ in {\bf Evaluation} of {\it
+    EqualityExpression}.} &
+    \textsf{O} &
+    2016-06-01 &
+    2019-05-02 &
+    1065 days &
+    \inred{XX} \\\hline
+
+    es10-4 &
+    Function &
+    \makecell[l]{No semantics of {\bf IsFunctionDefinition} \\ for
+    \code{function(...)\{...\}}.} &
+    \textsf{O} &
+    2015-10-30 &
+    2020-01-18 &
+    1541 days &
+    \inred{XX} \\\hline
+
+    es10-5 &
+    ForOf &
+    \makecell[l]{Two semantics of {\bf VarScopedDeclarations} \\ for \code{for
+    await(var x of e)\{...\}}.} &
+    \textsf{O} &
+    2018-02-16 &
+    2019-10-11 &
+    602 days &
+    \inred{XX} \\\hline
+
+    es10-6 &
+    Argument &
+    \makecell[l]{No semantics of {\bf ExpectedArgumentCount} \\ for the base case
+    of {\it FormalParameters}.} &
+    \textsf{O} &
+    2016-11-02 &
+    2020-02-20 &
+    1205 days &
+    \inred{XX} \\\hline
+
+    es10-7 &
+    String &
+    \makecell[l]{Wrong use of \code{=} operator in {\bf
+    StringGetOwnProperty}.} &
+    \textsf{X} &
+    2015-06-01 &
+    \inred{2019-00-00} &
+    \inred{XX} days &
+    \inred{XX} \\\hline
+
+    test-1 &
+    Global &
+    \makecell[l]{Testing implementation-dependent [[Prototype]] \\ of the global
+    object.} &
+    \textsf{X} &
+    \inred{2019-00-00} &
+    \inred{2019-00-00} &
+    \inred{XX} days &
+    10 \\\hline
+
+    bigint-1 &
+    UpdateExpression &
+    \makecell[l]{Using wrong variable \code{oldvalue} instead of \\
+    \code{oldValue} in {\bf Evaluation} of {\it UpdateExpression}.} &
+    \textsf{X} &
+    2019-11-27 &
+    \inred{2019-00-00} &
+    \inred{XX} days &
+    \inred{XX} \\\hline
+
+    bigint-2 &
+    NumberOp &
+    \makecell[l]{Using {\bf ToInt32} instead of {\bf ToUint32} \\ in {\bf
+    Number::unsignedRightShift}.} &
+    \textsf{X} &
+    2019-11-27 &
+    \inred{2019-00-00} &
+    \inred{XX} days &
+    \inred{XX} \\\hline
+
+    bigint-3 &
+    NumberOp &
+    \makecell[l]{Using {\bf ToUint32} instead of {\bf ToInt32} \\ in {\bf
+    NumberBitwiseOp}.} &
+    \textsf{X} &
+    2019-11-27 &
+    \inred{2019-00-00} &
+    \inred{XX} days &
+    \inred{XX} \\\hline
+
+    bigint-4 &
+    Number &
+    \makecell[l]{Not handling BigInt values in {\bf Number} constructor.} &
+    \textsf{O} &
+    2019-11-27 &
+    \inred{2019-00-00} &
+    \inred{XX} days &
+    \inred{XX} \\\hline
+
+  \end{tabular}
+\end{table*}
+
 \begin{table}[t]
   \centering
-  \caption{Testing results of Test262 for ES10}
+  \caption{Excluded tests in Test262}
   \label{table:test262}
-\vspace*{-.5em}
-\footnotesize
+  \vspace*{-0.5em}
+  \small
   \begin{tabular}{lr}\toprule
     \belowrulesepcolor{gainsboro}
-    \rowcolor{gainsboro} \textbf{All Test262 Tests} & \textbf{36,794}\\
+    \rowcolor{gainsboro} \textbf{All Test262 Tests} & \inred{\textbf{XX,XXX}}\\
     \aboverulesepcolor{gainsboro}\midrule
-    Annexes/Internationalization & 1,774\\\hdashline
-    In-progress features & 5,895\\\midrule
+    Annexes & \inred{XXX}\\\hdashline
+    Internationalization & \inred{XXX}\\\hdashline
+    In-progress features & \inred{X,XXX}\\\midrule
     \belowrulesepcolor{gainsboro}
-    \rowcolor{gainsboro} \textbf{ES10 Tests} & \textbf{29,125}\\
+    \rowcolor{gainsboro} \textbf{ES10 Tests} & \inred{\textbf{XX,XXX}}\\
     \aboverulesepcolor{gainsboro}\midrule
-    Non-strict mode tests & 1,136\\\hdashline
-    Module tests& 918 \\\hdashline
-    Early error tests & 1,316\\\hdashline
-    Inessential built-in object tests & 6,473\\\midrule
+    Non-strict modes & \inred{X,XXX}\\\hdashline
+    Modules & \inred{X,XXX} \\\hdashline
+    Early errors & \inred{X,XXX} \\\hdashline
+    Inessential built-in objects & \inred{X,XXX} \\\midrule
     \belowrulesepcolor{gainsboro}
-    \rowcolor{gainsboro} \textbf{Applicable Tests} & \textbf{19,282}\\
+    \rowcolor{gainsboro} \textbf{Applicable Tests} & \inred{\textbf{XX,XXX}}\\
     \aboverulesepcolor{gainsboro}\midrule
-    Passed tests & 19,220 \\\hdashline
-    Failed tests & 62 \\\bottomrule
+    Passed tests & \inred{XX,XXX} \\\hdashline
+    Failed tests & \inred{XXX} \\\bottomrule
   \end{tabular}
-\vspace*{-1em}
+  \vspace*{-2em}
 \end{table}
 
-To evaluate the correctness of \( \tool \), we developed a JavaScript
-interpreter based on the extracted syntax and semantics from ES10.
-Among 9,657 steps in ES10,
-8,926 steps are automatically compiled via \textsf{Algorithm Compiler}.
-Among the remaining 731 steps, we selected 381 steps
-that are essential to the core semantics and manually
-implemented their corresponding \( \ires \) functions
-via the \textsf{Fault Localizer} introduced in Section~\ref{sec:localizer}.
-Moreover, we implement the \textsf{Global Setting} except
-the excluded language features discussed in Section~\ref{sec:exclusion}.
+For \inred{XX,XXX} applicable tests, the synthesized JavaScript parser
+successfully parses all tests but \inred{XXX} tests are failed to be executed
+because of the different semantics between ECMAScript and official tests.  Based
+on the failed tests, we found 7 specification errors in ES10 and 10 wrong tests
+in Test262 as described in Table~\ref{table:spec-tests-errors}.  For example,
+the specification error es10-1 is related to the JavaScript Await.  The {\bf
+PromiseResolve (C, x)} algorithm creates a new Promise object using a given
+constructor {\bf C} and resolved with a given value {\bf x}.  However, a
+specification update added three invocations of {\bf PromiseResolve} with a list
+of values for {\bf x} in February 27, 2019.  This error exists in 45 days until
+April 13, 2019 and fails \inred{XX} tests for ES10 in Test262.  For other cases,
+es10-2 arises because of the wrong assertion. es10-3 and es10-7 arise because
+contributors misunderstood the meaning of abrupt completion and \code{=}
+operator for numbers, respectively.  es10-4, es10-5, and es10-6 are
+specification errors that miss or define twice specific corner cases of
+semantic.  For example, es10-4 is an error that does not define the {\bf
+IsFunctionDefinition} algorithm for unnamed functions such as
+\code{function(){}}.  For these seven specification errors, they existed in ES10
+in \inred{XXX} days on average.  Besides, two errors es10-2 and es10-7 are even
+not known before we reported to TC39.
 
-We tested the interpreter using Test262, the official conformance test
-suite provided by TC39, as of August 6, 2019.  Because Test262
-contains tests for extensions and in-progress features, we excluded
-them to focus on the semantics of ES10.  As Table~\ref{table:test262} shows,
-Test262 consists of 36,794 tests and we excluded 7,669 tests for
-extensions and in-progress features.  We also filtered out
-tests for excluded features described in Section~\ref{sec:impl}.
-Finally, we tested 19,282 applicable tests and only 62 tests failed.
-Among them, 54 tests utilize implementation-dependent features,
-three are timeout with 20 minutes due to enormous computation,
-and five are wrong tests.  Thus, we believe that all the
-semantics extracted from \( \tool \) are correct.
+For tests in Test262, we found 10 wrong tests categorized in test-1 and they are
+related to the JavaScript global object. The [[Prototype]] internal property of
+the global object is fully implementation dependent thus the official tests
+should not check its attributes.  However, 10 tests assumes that [[Prototype]]
+of the global object is a prototype chain starts with \code{Object.prototype}.
+They violate the implementation dependent semantics of ES10.  Moreover, they
+existed in Test262 in \inred{XXX} days.
 
-% TODO if some tests failed, categorize them and explain why they failed.
+After resolving above specification errors in ES10, we extracted formal
+semantics from the revised specification again. The revised formal semantics of
+ES10 passed all \inred{XX,XXX} applicable tests in Test262.  We believe that our
+tool can assist to check and find bugs in ECMAScript by generating executable
+formal semantics and executing it with tests in Test262.
 
-\subsection{Adaptability}
-We show the adaptability of \( \tool \) with one case study: applying
-it to an incomplete feature proposal.  Because ECMAScript is an open
-standard language, various proposals are available with their own
-specification changes and tests.  A
-separate repository~\cite{proposals} maintains such proposals with six
-different stages: Stage 0 to Stage 3, Finished, and Inactive.  Each
-proposal starts with Stage 0, and the TC39 committee regularly
-examines Stage 3 proposals to decide their next stages.  If a proposal
-is confirmed, the committee changes its stage to Finished and
-integrates it into the next version of ECMAScript.
-Otherwise, the committee changes its stage to Inactive.  Thus, we
-applied \( \tool \) to one Stage 3 proposal.
-%https://github.com/tc39/proposal-optional-chaining
 
-The optional chaining operator (\( \code{?.} \)) is one of Stage 3
-proposals that removes specific boilerplate code.  It detects a code
-pattern like \( \code{x \&\& x.p} \), which first checks that the
-value of \( \code{x} \) is not \( \code{undefined} \) and then
-accesses its property \( \code{p} \).  With the optional chaining
-operator, we can reduce code size by implementing it as \( \code{x?.p} \).
-We extended ES10 with this proposal and applied \( \tool \)
-to the extended specification.  We found that \textsf{Parser Generator}
-successfully handled three updated lexical productions and three
-updated syntactic productions.  For semantics, the proposal had 22
-updated abstract algorithms.  At the first attempt,
-\textsf{Algorithm Compiler} succeeded compiling only 10 algorithms.
-However, we noticed that several algorithm steps have different styles
-from existing ECMAScript.  Thus, we revised them to the
-original style, sent three pull requests to the GitHub repository
-of the proposal, and the authors of the proposal accepted our pull
-requests\footnote{The URL of three pull requests are anonymized 
-due to a double-blind review process.}.  After revision, 21 of 22
-algorithms are successfully compiled and we manually compiled only one
-algorithm.  Test262 has 33 tests for the optional chaining operator
-and six of them are semantics tests.  The semantics extracted with the
-optional chaining operator proposal successfully passed all the six
-semantics tests.  This case study shows that \( \tool \) is applicable
-to future language features and it could be useful as a specification
-writing guide.
+\subsection{Forward Compatibility}
 
-\subsection{Usefulness}
-We show the usefulness of \( \tool \) with one case study:
-specification error detection.  While applying \( \tool \) to
-ES10, we found three specification errors.  We fixed them
-and sent pull requests to the official GitHub repository of
-ECMAScript~\cite{es2020}.  They were all confirmed by TC39
-and will be fixed in the next release \footnote{The URL of three pull
-requests are anonymized due to a double-blind review process.}.
+We show the forward compatibility of \( \tool \) by applying it to the proposals
+that are ready for inclusion in the next ECMAScript (ES11, 2020). Because
+ECMAScript administered as an open-source project, various proposals for new
+language features are available with their own specification changes and tests.
+A separate repository~\cite{proposals} maintains such proposals with six
+different stages: Stage 0 to Stage 3, Finished, and Inactive.  Each proposal
+starts with Stage 0, and the TC39 committee regularly examines Stage 3 proposals
+to decide their next stages.  If a proposal is confirmed, the committee changes
+its stage to Finished and integrates it into the next version of ECMAScript.
+Otherwise, the committee changes its stage to Inactive.  Among them, we applied
+\( \tool \) to all Finished proposals decided to be included in ES11.
 
-% https://github.com/tc39/ecma262/pull/1661
-% https://github.com/tc39/ecma262/pull/1662
-% https://github.com/tc39/ecma262/pull/1663
-The first error we found is an ambiguous production for
-\textit{IterationStatement}.  For some
-specific cases, the syntax-directed algorithm for
-\textbf{VarScopedDeclarations} is ambiguous.
-Our \( \tool \) detected the duplicated semantics while automatically
-extracting the abstract algorithms in JSON files.
+\begin{table}[t]
+  \centering
+  \caption{Evaluation result of \( \tool \) for Finished stage proposals that
+  will be included in ES11.}
+  \label{table:spec-prop-result}
+  \vspace*{-0.5em}
+  \small
+  \begin{tabular}{c?r|r?r?r}
+    \hline
+    \multicolumn{1}{c?}{\multirow{2}{*}{\bf Name}} &
+    \multicolumn{2}{c?}{\bf \( \Delta \) \# Prod.} &
+    \multicolumn{1}{c?}{\multirow{2}{*}{\bf \( \Delta \) \# Steps}} &
+    \multicolumn{1}{c}{\multirow{2}{*}{\bf \# Tests}} \\\cline{2-3}
 
-The second error is that the \textbf{ExpectedArgumentCount} algorithm
-has missing cases.  While this algorithm counts
-the number of expected arguments of given formal parameters, it does
-not cover the case with only one formal parameter in the sense that it
-does not provide any semantics for the case.  We found this error
-during evaluation of the Test262 tests under the extracted semantics
-via \( \tool \).  The interpreter threw an error because for specific
-tests no \textbf{ExpectedArgumentCount} algorithm was available.
+    &
+    \multicolumn{1}{c|}{\bf Lex.} &
+    \multicolumn{1}{c?}{\bf Syn.} &
+    &\\\hline\hline
 
-The third error is in \textsf{Ecmarkup}~\cite{ecmarkup}, a
-toolchain that specifies ECMAScript and beautifies an HTML file with
-raw specification to a more readable one.  At first, we though we
-found a missing case for the \textbf{IsFunctionDefinition} algorithm
-of unnamed function expressions.  However, the HTML file with raw
-specification contained the corresponding case.  We investigated the
-issue and realized that \textsf{Ecmarkup} itself had a bug that
-silently removed the {\small opt} subscript in the \( \code{collapsed} \)
-syntax mode.  It was already reported in another pull request but
-\( \tool \) detected it in a mechanical way.
+    \code{matchAll} of \code{String} &
+    \inred{X} &
+    \inred{X} &
+    9/9 &
+    5/5\\\hline
+
+    \code{import()} &
+    \inred{X} &
+    \inred{X} &
+    \inred{X/X} &
+    \inred{X/X}\\\hline
+
+    \code{BigInt} &
+    \inred{X} &
+    \inred{X} &
+    258/323 &
+    \inred{207}/207\\\hline
+
+    \code{Promise.allSettled} &
+    \inred{X} &
+    \inred{X} &
+    79/85 &
+    50/50\\\hline
+
+    \code{globalThis} &
+    \inred{X} &
+    \inred{X} &
+    1/1 &
+    1/1\\\hline
+
+    \code{for-in} mechanics &
+    \inred{X} &
+    \inred{X} &
+    \inred{X/X} &
+    \inred{X/X}\\\hline
+
+    Optional Chaining &
+    \inred{X} &
+    \inred{X} &
+    72/74 &
+    19/19\\\hline
+
+    Nullish Coalescing Op. &
+    \inred{X} &
+    \inred{X} &
+    10/10 &
+    21/21\\\hline
+
+    \code{import.meta} &
+    \inred{X} &
+    \inred{X} &
+    \inred{X/X} &
+    \inred{X/X}\\\hline
+
+    {\bf Total} &
+    \inred{X} &
+    \inred{X} &
+    \inred{X/X} &
+    \inred{X/X}\\\hline
+  \end{tabular}
+\end{table}
+
+Table~\ref{table:spec-prop-result} shows the result of applying \( \tool \) to 9
+Finished proposals for ES11.  For all proposals, \inred{XX} lexical and
+\inred{XX} syntactic productions are modified and \( \tool \) successfully
+updated the changes to the synthesized JavaScript parser.  The updated parser
+parses all applicable tests for all proposals.  For abstract algorithms,
+\inred{XXX} steps out of \inred{XXX} steps are automatically converted to the
+corresponding \( \ires \) instructions by the algorithm compiler without
+changing of the compile rules.  Thus, our tool has \inred{XX.XX\%} success rate
+on average for future proposals.  Similar with
+Section~\ref{sec:check-with-tests}, we manually implemented missing part of the
+AST-IR translator for each Finished proposal and checked each extracted
+semantics with official tests.  Each of them passed all applicable tests except
+the semantics for \code{BigInt} proposal.  It fails \inred{XX} tests out of 207
+applicable tests.
+
+Based on the failed tests, we found three undiscovered specification errors
+(bigint-1, bigint-2, and bigint-3), and one reported error (bigint-4) in the
+BigInt proposal as described in Table~\ref{table:spec-tests-errors}.  All of
+them were confirmed by TC39 and will be fixed in the next release.  The BigInt
+proposal added a new type of primitives BigInt and unified the type with
+original Number type to Numeric types.  Thus, it not only added new
+algorithms for BigInt but also modified all existing algorithms related to
+number values.  The error bigint-1 is just a simple misuse of the variable
+\code{oldValue} in {\bf Evaluation} of {\it UpdateExpression}. bigint-2 and
+bigint-3 break the backward compatibility because of the incorrectly mixed uses
+of {\bf ToInt32} and {\bf ToUint32} algorithms in unsigned right shift operators
+and bitwise operators, respectively. The last one bigint-4 arises because the
+Number constructor does not consider BigInt primitives.  On average, ECMAScript
+included these four specification errors in \inred{XXX} days.
+
+After fixing all specification errors, we extracted the semantics for the BigInt
+proposal again.  The updated semantics passed all 207 applicable tests.  Thus,
+\( \tool \) also correctly extract IR-based semantics from future proposals.
