@@ -13,33 +13,40 @@ throw a SyntaxError exception.  이게 2019에 없음
   Let promise be ?  PromiseResolve(%Promise%, « value »).
 
 #2 https://github.com/tc39/ecma262/pull/1915
+- create : https://github.com/tc39/ecma262/pull/1066
 - ForInOfHeadEvaluation에서 Assert: iterationKind is iterate
 - pull request 날려서 확인받고 merge 됨
 
 #3 https://github.com/tc39/ecma262/pull/1403
+- create : es6 , June 2015
 - 12.11.3Runtime Semantics: Evaluation EqualityExpression !=
   RelationalExpression 에서 Abstract Equality Comparison 한 후 RetrnIfAbrupt
   없음
 - 다른 사람이 고쳐서 올려두었음
 
 #4 https://github.com/tc39/ecmarkup/pull/165
+- create : https://github.com/tc39/ecma262/commit/b3d8f5b66c93db373ee1e89b144d3062448783f4
 - 14.1.12 Static Semantics: IsFunctionDefinition에서 BindingIdentifier가 없는
   경우가 정의가 안되어 있었음
 - 다른 사람이 ecmarkup에 bug를 찾아서 해결함
 
 #5 https://github.com/tc39/ecma262/pull/1284
+- create : https://github.com/tc39/ecma262/pull/1066
 - 13.7.5.8 Static Semantics: VarScopedDeclarations에서 다음이 두번 나옴
   for await ( var ForBinding of AssignmentExpression ) Statement
 - 서로 다른 semantics를 가져서 혼란을 야기함
 - 실제로는 두번째 경우여야 했는데 다른 사람이 고쳐줘서 수정됨
 
 #6 https://github.com/tc39/ecma262/pull/1301
+- create : https://github.com/tc39/ecma262/pull/711
 - 14.1.7 Static Semantics: ExpectedArgumentCount에서 다음의 두 경우가 없음
   FormalParameters: FunctionRestParameter
   FormalParameterList: FormalParameter
+- 원래는 없었던 버그였지만, FormalsList라는 non-terminal 을 삭제하고 FormalParameterList로 대체하는 과정에서 기존의 static semantics 가 삭제됨
 - 다른 사람이 고쳐줘서 수정됨
 
 #7 https://github.com/tc39/ecma262/pull/1752
+- create : es6 , June 2015
 - -0와 =를 통해서 비교하면 +0도 같아져서 문제가 발생함
 - Integer-Indexed exotic objects와 관련해서는 위의 pull request로 해결됨
 - 이 부분이 inessential builtin 부분이어서 안잡힐 거 같음
@@ -61,23 +68,27 @@ throw a SyntaxError exception.  이게 2019에 없음
   - test262/test/language/global-code/decl-lex.js
 
 #9 https://github.com/tc39/ecma262/pull/1954
+- create : https://github.com/tc39/ecma262/pull/1515
 - 12.4.{4,5,6,7} oldValue로 변수를 정의해놓고, oldvalue로 사용
 - 가장 최근 버전에도 존재하는 버그
 - oldValue로 4개의 이름을 바꾸고, pull request를 날려둠
 
 #10 https://github.com/tc39/ecma262/pull/1955
+- create : https://github.com/tc39/ecma262/pull/1515
 - 6.1.6.1.11 Number::unsignedRightShift ( x, y )에서 lnum을 구할 때,
   ToInt32를 해버려서 문제가 발생함
 - 가장 최근 버전에도 존재하는 버그
 - ToUint32를 사용하도록 수정 후, pull request를 날려둠
 
 #11 https://github.com/tc39/ecma262/pull/1956
+- create : https://github.com/tc39/ecma262/pull/1515
 - 6.1.6.1.16 NumberBitwiseOp ( op, x, y )에서 rnum을 구할 때,
   ToUint32를 해버려서 문제가 발생함
 - 가장 최근 버전에도 존재하는 버그
 - ToInt32를 사용하도록 수정 후, pull request를 날려둠
 
 #12 https://github.com/tc39/ecma262/pull/1766
+- create : https://github.com/tc39/ecma262/pull/1515
 - 20.1.1.1 Number ( value )에서 바로 value에다가 ToNumber를 해버려서
   BigInt인 경우에 문제가 발생함
 - 이미 현재 버전에서는 위의 pull request로 해결이 됨
