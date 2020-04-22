@@ -8,6 +8,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._
 import scala.util.Random.shuffle
 import scala.util.{ Failure, Success, Try }
+import scala.Console.{ RESET, GREEN, RED }
 
 class NotYetChecker extends UnitWalker {
   var exist = false
@@ -46,6 +47,24 @@ class AlgoCompilerTest extends IRTest {
         val lineCount = algo.lineCount
         lazy val compiler = AlgoCompiler("", algo)
         lazy val (func, failed) = compiler.result
+
+        // print compile results of algo compiler and general algo compiler
+        val algoName = name.split("/").last
+        lazy val generalCompiler = GeneralAlgoCompiler("", algo)
+        lazy val (_, generalFailed) = generalCompiler.result
+
+        val generalPassCount = lineCount - generalFailed.size
+        val passCount = lineCount - failed.size
+
+        val generalRate = generalPassCount.toDouble / lineCount.toDouble * 100
+        val rate = passCount.toDouble / lineCount.toDouble * 100
+        val generalIndicator = if (generalPassCount == lineCount) GREEN else RED
+        val indicator = if (passCount == lineCount) GREEN else RED
+
+        println(f"$generalIndicator[$generalRate%2.2f%%]$RESET $algoName(general)  $generalPassCount / $lineCount")
+        println(f"$indicator[$rate%2.2f%%]$RESET $algoName(full)  $passCount / $lineCount")
+
+        // check not yet
         val checker = new NotYetChecker
         checker.walk(func)
         if (checker.exist) println(filename)
