@@ -5,6 +5,7 @@ PerformEval If inDerivedConstructor is false, and body Contains SuperCall,
 throw a SyntaxError exception.  이게 2019에 없음
 
 #1 https://github.com/tc39/ecma262/pull/1456
+- create: https://github.com/tc39/ecma262/pull/1250
 - await : Await 함수 등 에서 promiseResolve의 2nd argument를 잘못 전달하는 듯
 - 6.2.3.1Await
   Let promise be ?  PromiseResolve(%Promise%, value).
@@ -38,12 +39,11 @@ throw a SyntaxError exception.  이게 2019에 없음
   FormalParameterList: FormalParameter
 - 다른 사람이 고쳐줘서 수정됨
 
-#7 YET
-- 9.4.2.4 ArraySetLength에서 5번째 step의 newLen과 numberLen의 비교연산자의
-  정의가 애매함. -0 과 +0을 같은 것으로 보는 것이 의도한 것 같은데, 다른 곳과
-  일관적이지 않아보임 다음의 테스트들에서 문제가 발생
-  - test262/test/built-ins/Object/defineProperties/15.2.3.7-6-a-127.js
-  - test262/test/built-ins/Object/defineProperty/15.2.3.6-4-131.js
+#7 https://github.com/tc39/ecma262/pull/1752
+- -0와 =를 통해서 비교하면 +0도 같아져서 문제가 발생함
+- Integer-Indexed exotic objects와 관련해서는 위의 pull request로 해결됨
+- 이 부분이 inessential builtin 부분이어서 안잡힐 거 같음
+- 하지만 String 관련은 아직 해결이 안되었으니 pull request 해야됨
 
 #8 YET
 - 18 Global Object의 [[Prototype]]은 다음과 같이 정의됨
