@@ -102,18 +102,18 @@ Toolchain:
     with the four most recent ECMAScript versions (ES7 to ES10).   \( \tool \)
     automatically generated parsers for all versions, and automatically compiled
     \inred{XX.X}\% of the steps in abstract algorithms on average.
-  \item \textbf{\( \tool \) bridges the gap between tests and the specification
+  \item \textbf{\( \tool \) bridges gaps between tests and the specification
     written in a natural language.}
-    The formal semantics automatically extracted by \( \tool \) is executable
+    Because the formal semantics automatically extracted by \( \tool \) is executable
     and its components have one-to-one correspondences with the components of
-    the ECMAScript.  It gives opportunity to directly check the specification
-    through the official test conformance suite, Test262~\cite{test262}.  We
-    manually completed the missing parts of the AST-IR translator for the latest
-    ECMAScript (ES10, 2019), and it is the \textit{first IR-based formal
-    semantics of modern JavaScript}.  By executing tests, we found \inred{X}
+    ECMAScript, we can check the specification
+    using the official test conformance suite, Test262~\cite{test262}.  After
+    manually completing missing parts of the AST-IR translator for the latest
+    ECMAScript (ES10, 2019), which is the \textit{first IR-based formal
+    semantics of modern JavaScript}, we found \inred{X}
     specification errors in ES10 and \inred{XX} wrong tests in Test262. They
     were all confirmed by TC39 and will be fixed in the next release.  After
-    fixing them, our formal semantics passed all \inred{XX,XXX} applicable
+    fixing them, the formal semantics passed all \inred{XX,XXX} applicable
     tests.
   \item \textbf{\( \tool \) is also \textit{forward compatible} with new
     language features proposed for future ECMAScript specifications.}
