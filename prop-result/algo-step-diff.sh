@@ -8,6 +8,7 @@ prop_list="\
   prop_optional_chaining \
   prop_BigInt \
   prop_dynamic_import \
+  prop_import_meta \
 "
 
 for prop in $prop_list
