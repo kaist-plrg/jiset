@@ -152,7 +152,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         if (= $executionStack[(- $executionStack.length 1i)] $x) {
           $idx = (- $executionStack.length 1i)
           (pop $executionStack $idx)
-          if (= $executionStack.length 0) {
+          if (= $executionStack.length 0i) {
             $context = null
           } else {
             $context = $executionStack[(- $executionStack.length 1i)]
@@ -322,10 +322,10 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
           let $temp2 = 0i
           while (< $temp2 $temp["length"]) {
             let $temp3 = $temp[$temp2]
-            append $temp3 -> names
+            append $temp3 -> $x
             $temp2 = (+ $temp2 1i)
           }
-          return names
+          return $x
         }""")
       }
     } | "If" ~ id ~ "contains a code unit that is not a radix -" ~ id ~ "digit" <~ rest ^^^ {
@@ -472,7 +472,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
   // etc expressions
   override lazy val etcExpr: P[I[Expr]] = (
     (id <~ "' s intrinsic object named") ~ id ^^ {
-      case x ~ y => pair(List(), parseExpr(s"""$x["Intrinsics"][$y]"""))
+      case _ ~ y => pair(List(), ERef(RefId(Id(y))))
     } | ("the number whose value is MV of" ~> nt) ^^ {
       case x =>
         {
