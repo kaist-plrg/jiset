@@ -9,6 +9,7 @@ prop_list="\
   prop_BigInt \
   prop_dynamic_import \
   prop_import_meta \
+  prop_for_in_order \
 "
 
 for prop in $prop_list
