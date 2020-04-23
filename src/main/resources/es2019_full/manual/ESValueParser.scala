@@ -67,6 +67,10 @@ object ESValueParser extends RegexParsers with UnicodeRegex {
     lazy val DoubleStringCharacter: S = (
       // The SV of DoubleStringCharacter::SourceCharacterbut not one of " or \ or LineTerminator is the UTF16Encoding of the code point value of SourceCharacter.
       notChars("\"" | "\\" | Predef.LineTerminator) |||
+      // The SV of DoubleStringCharacter::<LS> is the code unit 0x2028 (LINE SEPARATOR).
+      Predef.LS |||
+      // The SV of DoubleStringCharacter::<PS> is the code unit 0x2029 (PARAGRAPH SEPARATOR).
+      Predef.PS |||
       // The SV of DoubleStringCharacter::\EscapeSequence is the SV of the EscapeSequence.
       "\\" ~> SV.EscapeSequence |||
       // The SV of DoubleStringCharacter::LineContinuation is the empty code unit sequence.
@@ -75,6 +79,10 @@ object ESValueParser extends RegexParsers with UnicodeRegex {
     lazy val SingleStringCharacter: S = (
       // The SV of SingleStringCharacter::SourceCharacterbut not one of ' or \ or LineTerminator is the UTF16Encoding of the code point value of SourceCharacter.
       notChars("'" | "\\" | Predef.LineTerminator) |||
+      // The SV of SingleStringCharacter::<LS> is the code unit 0x2028 (LINE SEPARATOR).
+      Predef.LS |||
+      // The SV of SingleStringCharacter::<PS> is the code unit 0x2029 (PARAGRAPH SEPARATOR).
+      Predef.PS |||
       // The SV of SingleStringCharacter::\EscapeSequence is the SV of the EscapeSequence.
       "\\" ~> SV.EscapeSequence |||
       // The SV of SingleStringCharacter::LineContinuation is the empty code unit sequence.
