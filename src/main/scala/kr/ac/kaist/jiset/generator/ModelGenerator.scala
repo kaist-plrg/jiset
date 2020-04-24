@@ -29,8 +29,7 @@ object ModelGenerator {
       "BaseType",
       "BuiltinHeap",
       "ESValueParser",
-      "ModelHelper",
-      "NoParse"
+      "ModelHelper"
     ).foreach(filename => {
         val nf = getPrintWriter(s"$modelDir/$filename.scala")
         nf.println(s"package $packageName.model")
