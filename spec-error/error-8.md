@@ -1,4 +1,4 @@
-#8 YET
+#8 https://github.com/tc39/ecma262/pull/1967
 - 18 Global Object의 [[Prototype]]은 다음과 같이 정의됨
   "has a [[Prototype]] internal slot whose value is implementation-dependent."
   그런데, 다음의 test들은 Object.prototype을 가지는 것처럼 검사를 하고 있음.
