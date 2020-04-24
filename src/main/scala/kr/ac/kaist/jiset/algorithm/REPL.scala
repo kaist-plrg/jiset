@@ -64,7 +64,7 @@ object REPL extends GeneralAlgoCompilerHelper {
         listOrdering[Token].compare(x.list, y.list)
     }
 
-    val algoDirs = List("es2016", "es2017", "es2018", "es2019", "es2020").map {
+    val algoDirs = List("es2016", "es2017", "es2018", "es2019").map {
       // val algoDirs = List("es2016").map {
       case version => s"$RESOURCE_DIR/$version/auto/algorithm"
     }

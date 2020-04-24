@@ -24,7 +24,7 @@ package object jiset {
   // ECMAScript model
   val VERSION = "es2019_full"
 
-  val DIFFLIST = List("es2016", "es2017", "es2018", "es2019", "es2020")
+  val DIFFLIST = List("es2016", "es2017", "es2018", "es2019")
 
   // Debugging mode
   val DEBUG_SEMI_INSERT: Boolean = false
