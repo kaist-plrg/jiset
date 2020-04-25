@@ -594,8 +594,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
   }
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
-    ("=" | "equals") ^^^ (OEq, false, false) |||
-    ("≠" | "is not equal to" | "is different from") ^^^ (OEq, true, false) |||
+    ("=") ^^^ (OEqual, false, false) |||
+    ("≠") ^^^ (OEqual, true, false) |||
+    ("equals") ^^^ (OEq, false, false) |||
+    ("is not equal to" | "is different from") ^^^ (OEq, true, false) |||
     ("<" | "is less than") ^^^ (OLt, false, false) |||
     "≥" ^^^ (OLt, true, false) |||
     (">" | "is greater than") ^^^ (OLt, false, true) |||
