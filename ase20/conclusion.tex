@@ -1,18 +1,19 @@
 \section{Conclusion}\label{sec:conclude}
-The annual updates of the ECMAScript makes it difficult to
-build program analysis or formal verification of JavaScript due to the
-required human efforts in modeling a moving target.  In this paper,
-we proposed a tool \( \tool \), which \textit{automatically} extracts the
-syntax and semantics specified in ECMAScript.  The tool
-generates a parser from a language grammar written in \( \bnfes \), and
-compiles abstract algorithms written in English to \( \ires \) functions.
-The only parts that require manual efforts are compile rules and
-language-specific global setting, which we provide for ECMAScript
-as an example case study.  We also support \textsf{Fault Localizer} to
-adapt updates of ECMAScript by suggesting new rules.
-We evaluated \( \tool \) by applying it to ES10 with Test262.
-The extracted semantics passed 19,220 of 19,282 applicable tests in Test262.
-The tool also detected three confirmed errors from the specification.
-Moreover, we showed that the tool is also applicable to an incomplete
-language proposal. The implementation of the tool is publicly available
-as an open-source project.
+
+The annual updates of the ECMAScript makes it difficult to build program
+analysis or formal verification of JavaScript due to the required human efforts
+in modeling a moving target.  In this paper, we proposed a tool \( \tool \),
+which \textit{automatically} extracts the syntax and semantics specified in
+ECMAScript.  The tool generates a parser from a language grammar written in \(
+\bnfes \), and an AST-IR translator from abstract algorithms written in
+English.  The tool automatically extract all syntax and \inred{XX.XX\%} of
+semantics for the most recent four versions of ECMAScript (ES7 to ES10).  We
+evaluated the correctness of the tool by testing the extracted semantics from
+ES10 with Test262, the official conformance suite.  Based on \inred{X,XXX}
+failed tests, we found eight specification errors in ES10. After resolving
+them, the extracted semantics passed all \inred{XX,XXX} applicable tests.
+Moreover, we showed that \( \tool \) is also forward compatible for the future
+language features by applying it to nine proposals, and we found four
+specification errors in the proposal for BigInt.  We believe that it could
+dramatically reduce the human efforts to define formal semantics of ECMAScript
+and also bridge gaps between ECMAScript and Test262.
