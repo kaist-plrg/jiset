@@ -102,19 +102,17 @@ Toolchain:
     with the four most recent ECMAScript versions (ES7 to ES10).   \( \tool \)
     automatically generated parsers for all versions, and automatically compiled
     \inred{XX.X}\% of the steps in abstract algorithms on average.
-  \item \textbf{\( \tool \) bridges gaps between tests and the specification
-    written in a natural language.}
-    Because the formal semantics automatically extracted by \( \tool \) is executable
-    and its components have one-to-one correspondences with the components of
-    ECMAScript, we can check the specification
-    using the official test conformance suite, Test262~\cite{test262}.  After
-    manually completing missing parts of the AST-IR translator for the latest
-    ECMAScript (ES10, 2019), which is the \textit{first IR-based formal
-    semantics of modern JavaScript}, we found \inred{X}
-    specification errors in ES10 and \inred{XX} wrong tests in Test262. They
-    were all confirmed by TC39 and will be fixed in the next release.  After
-    fixing them, the formal semantics passed all \inred{XX,XXX} applicable
-    tests.
+  \item \textbf{\( \tool \) bridges gaps between the specification written in a
+    natural language and tests.}
+    To evaluate the correctness of \( \tool \), we checked the extracted
+    semantics with the official test conformance suite, Test262~\cite{test262}.
+    By manually completing missing parts of the AST-IR translator for the latest
+    ECMAScript (ES10, 2019), we define the \textit{first IR-based formal
+    semantics of modern JavaScript}. It fails \inred{XXXX} tests because of the
+    specification errors in ES10. We found eight specification errors and
+    three of them are even not yet reported errors. They were all confirmed by
+    TC39 and will be fixed in the next release.  After fixing them, the formal
+    semantics passed all \inred{XX,XXX} applicable tests.
   \item \textbf{\( \tool \) is also \textit{forward compatible} with new
     language features proposed for future ECMAScript specifications.}
     We evaluated the forward compatibility of \( \tool \) by applying it to all
