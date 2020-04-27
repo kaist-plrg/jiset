@@ -2,12 +2,12 @@
 
 We developed \( \tool \) as an open source tool\footnote{The URL of the tool is
 anonymized due to a double-blind review process.}, and evaluated the tool
-based on the following three research questions:
+based on the following research questions:
 \begin{itemize}[leftmargin=0.5cm]
 \item RQ1. \textbf{Coverage:} How much parts \( \tool \) automatically extract
 the syntax and semantics from ES7 to ES10?
-\item RQ2. \textbf{Check with Tests:} The syntax and semantics of the latest
-version on ECMAScript (ES10) is compatible with official tests?
+\item RQ2. \textbf{Correctness:} Does \( \tool \) correctly extract IR-based formal
+semantics from ECMAScript?
 \item RQ3. \textbf{Forward Compatibility:} Is \( \tool \) applicable to language
 features ready for inclusion in the next ECMAScript (ES11)?
 \end{itemize}
@@ -28,14 +28,14 @@ from \textit{all} of which \( \tool \) automatically generated parsers}
       & \multicolumn{1}{c|}{\textbf{ES8}}
       & \multicolumn{1}{c|}{\textbf{ES9}}
       & \multicolumn{1}{c?}{\textbf{ES10}}
-      & \multicolumn{1}{c}{\textbf{avg.}}\\\toprule
-      \text{\# Lexical prod.}
+      & \multicolumn{1}{c}{\textbf{Average}}\\\toprule
+      \text{\# Lexical productions}
       & \inred{\text{78}}
       & \inred{\text{78}}
       & \inred{\text{78}}
       & \inred{\text{81}}
       & \inred{\text{78.75}}\\\hline
-      \text{\# Syntactic prod.}
+      \text{\# Syntactic productions}
       & \inred{\text{157}}
       & \inred{\text{167}}
       & \inred{\text{167}}
@@ -49,18 +49,18 @@ from \textit{all} of which \( \tool \) automatically generated parsers}
       & \multicolumn{1}{c|}{\textbf{ES7}}
       & \multicolumn{1}{c|}{\textbf{ES8}}
       & \multicolumn{1}{c?}{\textbf{ES9}}
-      & \multirow{2}{*}{\textbf{avg.}}\\\cline{1-4}
+      & \multirow{2}{*}{\textbf{Average}}\\\cline{1-4}
       \textbf{New version}
       & \multicolumn{1}{c|}{\textbf{ES8}}
       & \multicolumn{1}{c|}{\textbf{ES9}}
       & \multicolumn{1}{c?}{\textbf{ES10}}
       & \\\toprule
-      \Delta \; \text{\# Lexical prod.}
+      \Delta \; \text{\# Lexical productions}
       & \inred{\text{3}}
       & \inred{\text{5}}
       & \inred{\text{6}}
       & \inred{\text{4.67}}\\\hline
-      \Delta \; \text{\# Syntactic prod.}
+      \Delta \; \text{\# Syntactic productions}
       & \inred{\text{140}}
       & \inred{\text{15}}
       & \inred{\text{8}}
