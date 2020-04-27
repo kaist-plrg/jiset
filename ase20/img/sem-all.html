@@ -67,23 +67,21 @@
   Plotly.newPlot(
     "myDiv",
     [].concat(
-      createModel('y1', [8901, 5115, 3786], [773, 221, 552], [9674, 5336, 4338]),
-      createModel('y2', [8744, 5042, 3702], [758, 221, 537], [9502, 5263, 4239]),
-      createModel('y3', [8456, 4779, 3677], [881, 259, 622], [9337, 5038, 4299]),
-      createModel('y4', [7832, 4579, 3253], [789, 296, 493], [8621, 4875, 3746]),
-
-      // createModel('y1', [1069, 371, 698], [115, 22, 93], [1184, 393, 791]),
-      // createModel('y2', [1472, 694, 778], [99, 23, 76], [1571, 717, 854]),
-      // createModel('y3', [2700, 1512, 1188], [237, 51, 186], [2937, 1563, 1374]),
+      createModel('y1', [8483.3,4878.8,3604.5], [800.3,249.3,551.0], [9283.5,5128.0,4155.5]),
+      createModel('y2', [8901,5115,3786], [773,221,552], [9674,5336,4338]),
+      createModel('y3', [8744,5042,3702], [758,221,537], [9502,5263,4239]),
+      createModel('y4', [8456,4779,3677], [881,259,622], [9337,5038,4299]),
+      createModel('y5', [7832,4579,3253], [789,296,493], [8621,4875,3746]),
       [
-        createDummy('y5'),
         createDummy('y6'),
         createDummy('y7'),
+        createDummy('y8'),
+        createDummy('y9'),
       ]
     ),
     {
       barmode: "stack",
-      title: "T: Total   L: Language   B: Built-in",
+      title: "<b>T:</b> Total   <b>L:</b> Core Language Semantics   <b>B:</b> Built-in Libraries",
       xaxis: {
         domain: [0, 20000],
         dtick: 1000,
@@ -93,32 +91,39 @@
         // visible: false,
       },
       yaxis1: {
-        domain: [0.03, 0.22],
+        domain: [0.02, 0.18],
         anchor: 'y1',
-        title: 'ES10',
+        title: 'Average',
         autorange: 'reversed',
       },
       yaxis2: {
-        domain: [0.28, 0.47],
+        domain: [0.22, 0.38],
         anchor: 'y2',
-        title: 'ES9',
+        title: 'ES10',
         autorange: 'reversed',
       },
       yaxis3: {
-        domain: [0.53, 0.72],
+        domain: [0.42, 0.58],
         anchor: 'y3',
-        title: 'ES8',
+        title: 'ES9',
         autorange: 'reversed',
       },
       yaxis4: {
-        domain: [0.78, 0.97],
+        domain: [0.62, 0.78],
         anchor: 'y4',
+        title: 'ES8',
+        autorange: 'reversed',
+      },
+      yaxis5: {
+        domain: [0.82, 0.98],
+        anchor: 'y5',
         title: 'ES7',
         autorange: 'reversed',
       },
-      yaxis5: { domain: [0.22, 0.28] },
-      yaxis6: { domain: [0.47, 0.53] },
-      yaxis7: { domain: [0.72, 0.78] },
+      yaxis6: { domain: [0.18, 0.22] },
+      yaxis7: { domain: [0.38, 0.42] },
+      yaxis8: { domain: [0.58, 0.62] },
+      yaxis9: { domain: [0.78, 0.82] },
     },
     {responsive: true}
   );

@@ -1,0 +1,121 @@
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+.infolayer [class^='y'][class$='title'] {
+  transform: rotate(0deg) translate(-10px);
+}
+  </style>
+</head>
+<div id="myDiv"></div>
+<script>
+  // color: ['#4F732C', '#BF1515'],
+
+  let green = '#080';
+  let red = '#A00';
+  let white = '#FFF';
+
+  function createBase(color, yaxis, data, kind, text, pos) {
+    return {
+      x: data,
+      y: ['T ', 'L ', 'B '],
+      type: 'bar',
+      name: kind,
+      yaxis: yaxis,
+      text: text,
+      textposition: pos,
+      textfont: {
+        size: 1000,
+      },
+      barmode: 'stack',
+      orientation: 'h',
+      marker: {color: color}
+    };
+  }
+
+  function createDummy(yaxis) {
+    return {
+      x: [''],
+      y: [''],
+      type: 'bar',
+      yaxis: yaxis,
+      barmode: 'stack',
+      orientation: 'h',
+    }
+  }
+
+  function createAuto(yaxis, data) {
+    return createBase(green, yaxis, data, 'auto', data, 'none');
+  }
+  function createManual(yaxis, data) {
+    return createBase(red, yaxis, data, 'manual', data, 'none');
+  }
+  function createTotal(yaxis, data, total) {
+    let text = [];
+    for (let i = 0; i < 3; i++) {
+      text[i] = `<b>${data[i]} / ${total[i]}</b> (${(data[i] / total[i] * 100).toFixed(2)}%)`;
+    }
+    // text[0] = (data[0] / total[0] * 100).toFixed(2) + '%';
+    // text[1] = (data[1] / total[1] * 100).toFixed(2) + '%';
+    // text[2] = (data[2] / total[2] * 100).toFixed(2) + '%';
+    return createBase(white, yaxis, [0,0,0], '', text, 'outside');
+  }
+
+  function createModel(yaxis, pass, fail, total) {
+    return [createAuto(yaxis, pass), createManual(yaxis, fail), createTotal(yaxis, pass, total)];
+  }
+
+  Plotly.newPlot(
+    "myDiv",
+    [].concat(
+      createModel('y1', [1747.0,859.0,888.0], [150.3,32.0,118.3], [1897.3,891.0,1006.3]),
+      createModel('y2', [1069,371,698], [115,22,93], [1184,393,791]),
+      createModel('y3', [1472,694,778], [99,23,76], [1571,717,854]),
+      createModel('y4', [2700,1512,1188], [237,51,186], [2937,1563,1374]),
+      [
+        createDummy('y5'),
+        createDummy('y6'),
+        createDummy('y7'),
+      ]
+    ),
+    {
+      barmode: "stack",
+      title: "<b>T:</b> Total   <b>L:</b> Core Language Semantics   <b>B:</b> Built-in Libraries",
+      xaxis: {
+        domain: [0, 20000],
+        dtick: 500,
+        separatethousands: 'true',
+        title: '# Steps',
+        tickformat: ',4d',
+        // visible: false,
+      },
+      yaxis1: {
+        domain: [0.02, 0.18],
+        anchor: 'y1',
+        title: 'Average',
+        autorange: 'reversed',
+      },
+      yaxis2: {
+        domain: [0.22, 0.38],
+        anchor: 'y2',
+        title: 'ES9-10',
+        autorange: 'reversed',
+      },
+      yaxis3: {
+        domain: [0.42, 0.58],
+        anchor: 'y3',
+        title: 'ES8-9',
+        autorange: 'reversed',
+      },
+      yaxis4: {
+        domain: [0.62, 0.78],
+        anchor: 'y4',
+        title: 'ES7-8',
+        autorange: 'reversed',
+      },
+      yaxis5: { domain: [0.18, 0.22] },
+      yaxis6: { domain: [0.38, 0.42] },
+      yaxis7: { domain: [0.58, 0.62] },
+    },
+    {responsive: true}
+  );
+</script>
