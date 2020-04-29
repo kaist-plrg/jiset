@@ -158,7 +158,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   }
 
   // throw statements
-  lazy val throwStmt = "throw a" ~> expr <~ "exception" ^^ {
+  lazy val throwStmt = "throw" ~ ("a" | "an") ~> expr <~ "exception" ~ rest ^^ {
     case ie => getRet(getCall("ThrowCompletion", List(ie)))
   }
 
@@ -205,9 +205,36 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // remove statements
   lazy val removeStmt: P[Inst] = (
-    ("remove the first element from" ~> id <~ "and let") ~
-    (id <~ "be the value of" ~ ("that" | "the") ~ "element")
-  ) ^^ { case l ~ x => ILet(Id(x), EPop(toERef(l), EINum(0))) }
+    ("remove the first element from" ~> id <~ "and let") ~ (id <~ "be the value of" ~ ("that" | "the") ~ "element") ^^ {
+      case l ~ x => ILet(Id(x), EPop(toERef(l), EINum(0)))
+    } ||| "remove" ~ id ~ "from the front of" ~> id ^^ {
+      case x => parseInst(s"(pop $x 0i)")
+    } ||| "remove the last element of" ~> id ^^ {
+      case x => parseInst(s"(pop $x (- $x.length 1i))")
+    } ||| ("remove the" ~ ("own property with name" | "binding for") ~> id <~ "from") ~ id ^^ {
+      case p ~ x => parseInst(s"delete $x[$p]")
+    } ||| "remove" ~> id <~ "from the execution context stack and restore" <~ rest ^^ {
+      case x => {
+        val idx = getTemp
+        parseInst(s"""{
+        if (= $executionStack[(- $executionStack.length 1i)] $x) {
+          $idx = (- $executionStack.length 1i)
+          (pop $executionStack $idx)
+        } else {}
+        $context = $executionStack[(- $executionStack.length 1i)]
+      }""")
+      }
+    } ||| ("remove" ~ opt("all occurrences of") ~> id <~ "from") ~ (opt("the list of waiters in") ~> id) ^^ {
+      case x ~ list =>
+        val idx = getTemp
+        parseInst(s"""{
+          let $idx = 0i
+          while (< $idx $list.length)
+            if (= $list[$idx] $x) (pop $list $idx)
+            else $idx = (+ $idx 1i)
+        }""")
+    }
+  )
 
   // suspend statements
   lazy val suspendStmt: P[Inst] = (
@@ -342,7 +369,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   )
 
   // list expressions
-  lazy val listExpr: P[I[Expr]] = "a new empty list" ^^^ pair(Nil, EList(Nil)) ||| {
+  lazy val listExpr: P[I[Expr]] = ("an empty set" | "a new empty list") ^^^ pair(Nil, EList(Nil)) ||| {
     // multiple expressions
     "«" ~> repsep(expr, ",") <~ "»" |||
       ("a" ~ opt("new") ~ "list" ~ opt("containing")) ~> (
@@ -426,7 +453,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // string-concatenation expressions
   lazy val strConcatExpr: P[I[Expr]] =
-    "the string-concatenation of" ~> rep1sep(opt("the previous value of") ~> expr, sep("and")) ^^ {
+    ("the" | "a") ~ opt(opt("new") ~ "string" ~ ("-" | "that is the" ~ opt("result of") | "value" ~ ("formed" | "produced" | "computed") ~ "by") | "result of") ~ ("concatenation of" | "concatenating") ~ opt(opt("the") ~ "Strings") ~> rep1sep(opt("the previous value of") ~> expr, sep("and")) ^^ {
       case es => es.reduce[I[Expr]] {
         case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OPlus, l, r))
       }
@@ -447,7 +474,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "a List whose elements are , in left to right order , the arguments that were passed to this function invocation" |||
     "the" ~ id ~ "that was passed to this function by [ [ Call ] ] or [ [ Construct ] ]"
   ) ^^^ { pair(Nil, toERef("argumentsList")) } ||| (
-      "the number of arguments passed to this function call"
+      "the" ~ opt("actual") ~ "number of" ~ opt("actual") ~ "arguments" ~ opt("passed to this function" ~ opt("call"))
     ) ^^^ { pair(Nil, toERef("argumentsList", "length")) }
 
   // reference expressions
@@ -524,7 +551,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   )
 
   // values with tag `code`
-  lazy val codeValue: P[Expr] = opt("the" ~ opt("single - element") ~ "string") ~> code <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
+  lazy val codeValue: P[Expr] = opt("the" ~ ("code unit" | "element" | opt("single - element") ~ "string" ~ opt("value"))) ~> code <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
     case s if s.startsWith("\"%") && s.endsWith("%\"") => ERef(RefId(Id(INTRINSIC_PRE + s.slice(2, s.length - 2))))
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case s @ ("super" | "this") => EStr(s)
@@ -555,7 +582,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // absent values
   lazy val absentValue: P[Expr] =
-    ("absent" | "not supplied" | "not present") ^^^ EAbsent
+    ("absent" | "not" ~ ("specified" | "passed" | "supplied" | "present" | "provided")) ^^^ EAbsent
 
   // hex values
   lazy val hexValue: P[Expr] =
@@ -572,13 +599,14 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // string values
   lazy val stringValue: P[Expr] =
-    "the empty String" ^^^ EStr("")
+    "the empty string" ~ opt("value") ^^^ EStr("")
 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: P[I[Expr]] = _cond <~ guard("," | in | ("." ~ next)) | etcCond
   lazy val _cond: P[I[Expr]] = (
+    argumentCond |||
     bopCond |||
     condOpCond |||
     rhsCond |||
@@ -589,6 +617,15 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     emptyCond
   )
 
+  // conditions for arguments
+  lazy val argumentCond: P[I[Expr]] = (
+    "no arguments were passed to this function invocation" ^^^ {
+      pair(Nil, parseExpr("(= argumentsList.length 0i)"))
+    } ||| "only one argument was passed" ^^^ {
+      pair(Nil, parseExpr("(= argumentsList.length 1i)"))
+    }
+  )
+
   // binary operator conditions
   lazy val bopCond: P[I[Expr]] = expr ~ condBOp ~ expr ^^ {
     case (i0 ~ x) ~ ((b, n, r)) ~ (i1 ~ y) => pair(i0 ++ i1, calc(n, r, b, x, y))
@@ -596,7 +633,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
     ("=") ^^^ (OEqual, false, false) |||
     ("≠") ^^^ (OEqual, true, false) |||
-    ("equals") ^^^ (OEq, false, false) |||
+    ("equals" | "is the same" ~ opt(opt(camelWord) ~ "value") ~ "as") ^^^ (OEq, false, false) |||
     ("is not equal to" | "is different from") ^^^ (OEq, true, false) |||
     ("<" | "is less than") ^^^ (OLt, false, false) |||
     "≥" ^^^ (OLt, true, false) |||
@@ -625,7 +662,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   }
   lazy val rhs: P[Expr => I[Expr]] = equalRhs ||| notEqualRhs
   lazy val equalRhs: P[Expr => I[Expr]] = {
-    "is" ~ opt("present and" ~ ("its value is" | "has value")) | "has the value"
+    ("is" | "was") ~ opt("present and" ~ ("its value is" | "has value")) | "has the value"
   } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in | ("." ~ next)), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
@@ -676,7 +713,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // strict mode conditions
   val strictModeCond: P[I[Expr]] = (
     "the Directive Prologue of FunctionStatementList contains a Use Strict Directive" |||
-    opt("the source code matching") ~ expr ~ "is strict mode code" |||
+    opt("the source code matching" | "the function code for") ~ expr ~ "is strict mode code" |||
     "the directive prologue of statementList contains a use strict directive" |||
     "the code matching the syntactic production that is being evaluated is contained in strict mode code" |||
     "the code matched by the syntactic production that is being evaluated is strict mode code" |||
@@ -691,7 +728,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       case (i ~ r) ~ f => pair(i, isEq(ERef(RefProp(r, f)), EAbsent))
     } | (ref <~ ("has" | "have") <~ ("a" | "an")) ~ containsField <~ opt(containsPost) ^^ {
       case (i ~ r) ~ f => pair(i, isNEq(ERef(RefProp(r, f)), EAbsent))
-    } ||| (expr <~ "does not contain") ~ expr ^^ {
+    } ||| (expr <~ "does not" ~ ("contain" | "include")) ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, not(EContains(x, y)))
     } ||| (expr <~ "contains") ~ expr ^^ {
       case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EContains(x, y))
@@ -762,6 +799,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // References
   ////////////////////////////////////////////////////////////////////////////////
   lazy val ref: P[I[Ref]] = opt(refPre) ~> opt("the") ~> (
+    typedArrayRef |||
     boundValueRef |||
     ordinalRef |||
     ownKeyRef |||
@@ -771,11 +809,18 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     flagRef
   )
 
+  // references for TypedArray
+  lazy val typedArrayRef: P[I[Ref]] = (
+    (opt(camelWord ~ "value of") ~ opt("the") ~> rep1(camelWord) <~ opt("value") ~ opt("specified") ~ "in table" ~ number ~ "for" ~ opt("element type")) ~ id ^^ {
+      case fs ~ x => pair(Nil, parseRef(s"$typedArrayInfo[$x].${fs.mkString}"))
+    }
+  )
+
   // references with fields
   lazy val fieldRef: P[I[Ref]] = (
     (fieldName <~ ("of" | "for")) ~ refBase ^^ {
       case f ~ b => pair(Nil, toRef(b, f))
-    } ||| (refBase <~ "'s") ~ (fieldName ||| camelWord ^^ { EStr(_) }) <~ opt("value" | "attribute") ^^ {
+    } ||| (refBase <~ "'s") ~ (fieldName ||| (camelWord | id) ^^ { EStr(_) }) <~ opt("value" | "attribute") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
     } ||| refBase ~ rep(field) ^^ {
       case x ~ es =>
@@ -818,24 +863,26 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   }
 
   lazy val refBase: P[String] = opt("the") ~> (
+    "surrounding agent's agent record" ^^^ agent |||
+    "agent record of the surrounding agent" ^^^ agent |||
     "running execution context" ^^^ context |||
     "current Realm Record" ^^^ realm |||
     "arguments object" ^^^ "args" |||
     "execution context stack" ^^^ executionStack |||
     ty ~ "for which the method was invoked" ^^^ "this" |||
-    "this" ~ opt(nt | "this" | ty) ^^^ "this" |||
+    "this" ~ opt(nt | "this" | ty | camelWord ~ "object") ^^^ "this" |||
     value.filter(_ == "this") ~ "value" ^^^ "this" |||
     "reference" ~> id |||
     intrinsicName |||
     symbolName |||
     camelWord |||
     opt(ordinal) ~ nt ^^ { case k ~ x => x + k.getOrElse("") } |||
-    opt("reference" | nt) ~> id <~ opt("flag")
+    opt("argument" | "code unit" | "reference" | nt) ~> id <~ opt("flag" | "argument")
   )
   lazy val refPre: P[Unit] = opt("the") ~> (
     "hint" |||
     "list that is" ~ opt("the value of") |||
-    "string value of" |||
+    "string" ~ opt("value") ~ ("of" | "containing only") |||
     "value of" |||
     "parsed code that is" |||
     "code unit"

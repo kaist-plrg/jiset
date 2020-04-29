@@ -25,7 +25,7 @@ object REPL extends GeneralAlgoCompilerHelper {
   val algoName: String = ""
   val kind: AlgoKind = Method
 
-  def run(onlyFailed: Boolean): Unit = {
+  def run(onlyFailed: Boolean, onlyLanguage: Boolean): Unit = {
     val builder: TerminalBuilder = TerminalBuilder.builder()
     val terminal: Terminal = builder.build()
     val completer: TreeCompleter = new TreeCompleter(
@@ -73,7 +73,9 @@ object REPL extends GeneralAlgoCompilerHelper {
       file <- walkTree(new File(algoDir)).toList
       filename = file.getName
       if jsonFilter(filename)
-    } yield Algorithm(file.toString)
+      algo = Algorithm(file.toString)
+      if !onlyLanguage || algo.kind == Language
+    } yield algo
 
     case class TokenList(name: String, list: List[Token])
 

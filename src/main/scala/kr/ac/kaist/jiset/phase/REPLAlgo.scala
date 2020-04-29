@@ -13,16 +13,19 @@ case object REPLAlgo extends PhaseObj[Unit, REPLAlgoConfig, Unit] {
     unit: Unit,
     jisetConfig: JISETConfig,
     config: REPLAlgoConfig
-  ): Unit = REPL.run(config.onlyFailed)
+  ): Unit = REPL.run(config.onlyFailed, config.onlyLanguage)
 
   def defaultConfig: REPLAlgoConfig = REPLAlgoConfig()
   val options: List[PhaseOption[REPLAlgoConfig]] = List(
     ("only-failed", BoolOption(c => c.onlyFailed = true),
-      "REPL with only failed steps.")
+      "REPL with only failed steps."),
+    ("only-lang", BoolOption(c => c.onlyLanguage = true),
+      "REPL with only steps in core Language parts.")
   )
 }
 
 // REPLAlgo phase config
 case class REPLAlgoConfig(
-    var onlyFailed: Boolean = false
+    var onlyFailed: Boolean = false,
+    var onlyLanguage: Boolean = false
 ) extends Config
