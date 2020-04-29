@@ -188,7 +188,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         }"""), true),
         parseInst("return null")
       ))
-    } | "otherwise , let " ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 1" ~ rest ^^^ {
+    } | "let " ~ id ~ "," ~ id ~ ", and" ~ id ~ "be integers such that" ~ id ~ "≥ 1" ~ rest ^^^ {
       parseInst(s"""return (convert m num2str)""")
     } | "for each property of the global object" ~ rest ^^^ {
       val temp = getTemp

@@ -406,6 +406,7 @@ trait AlgoCompilers extends TokenParsers {
   val context = "GLOBAL_context"
   val typedArrayInfo = "GLOBAL_typedArrayInfo"
   val agent = "GLOBAL_agent"
+  val symbolRegistry = "GLOBAL_symbolRegistry"
   val realm = "REALM"
   val jobQueue = "GLOBAL_jobQueue"
   val retcont = "__ret__"
