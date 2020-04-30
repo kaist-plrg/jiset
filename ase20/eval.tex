@@ -402,7 +402,7 @@ in Test262.
   \centering
   \caption{Proposals that will be included in ES11}
   \label{table:spec-prop-result}
-  \vspace*{-0.5em}
+  \vspace*{-1em}
   \small
   \begin{tabular}{@{}c@{}?r|@{~}r@{~}|@{}c@{}|@{}c@{}|c@{}}
     \multicolumn{1}{@{}c@{}?}{\multirow{2}{*}{\bf Proposal}} &
@@ -486,26 +486,26 @@ in Test262.
     11 &
     502/577 &
   \end{tabular}
+\vspace*{-1em}
 \end{table}
-
 
 \subsection{Forward Compatibility}
 We evaluated whether \( \tool \) is forward compatible by applying it
-to the proposals that are ready for inclusion in ES11.  Because
+to the proposals ready for inclusion in ES11.  Because
 ECMAScript is an open-source project, various proposals for new
-language features are available with their own specification changes and tests.
-A separate repository~\cite{proposals} maintains such proposals with six
+features are available with their own specification changes and tests.
+A separate repository~\cite{proposals} maintains them in six
 stages: Stage 0 to Stage 3, Finished, and Inactive.  A proposal
 starts with Stage 0, and the TC39 committee examines proposals in Stage 3.
 If a proposal is confirmed, the committee changes
 its stage to Finished and integrates it into the next ECMAScript.
-Otherwise, the committee changes its stage to Inactive.
-Thus, we applied \( \tool \) to all nine proposals in the Finished stage.
+Otherwise, its stage becomes Inactive.
 
-Table~\ref{table:spec-prop-result} shows the result of applying \( \tool \) to the
-Finished proposals.  Collectively, the proposals modified \inred{XX} lexical and
+We applied \( \tool \) to all nine Finished proposals as shown in
+Table~\ref{table:spec-prop-result}.
+Collectively, the proposals modified \inred{XX} lexical and
 \inred{XX} syntactic productions, and \( \tool \) successfully
-synthesized parsers for them.  The newly synthesized parsers parse all
+synthesized parsers for them.  The synthesized parsers parse all
 applicable tests for all proposals.  For abstract algorithms,
 \inred{XXX} steps out of \inred{XXX} are automatically converted to
 corresponding \( \ires \) instructions by \textsf{Algorithm Compiler}
@@ -520,22 +520,21 @@ passed all applicable tests except the semantics from the
 applicable tests for the proposal and \inred{XXXX} tests out of
 \inred{XXXXX} applicable tests for ES10.
 
-Using the failed tests, we discovered four specification errors in the
+Using the failed tests, we discovered four errors in the
 BigInt proposal: three new errors (BigInt-1 to BigInt-3) and one known
 error (BigInt-4) as summarized in Table~\ref{table:spec-errors}.
-All of them were confirmed by TC39 and will be fixed in the next ECMAScript.
+All of them were confirmed by TC39 and will be fixed in ES11.
 The proposal added two new types: BigInt as a new type of primitives
 and Numeric as a unified type of the original Number type and the new BigInt type.
 Therefore, it not only added new algorithms for BigInt but also modified
 all existing algorithms for number values.
-The error BigInt-1 is due to a simple misuse of the variable 
+The error BigInt-1 is due to a misuse of the variable 
 \code{oldValue} in {\bf Evaluation} of {\it UpdateExpression}.
 BigInt-2 and BigInt-3 break the backward compatibility because of
-the incorrectly mixed uses of {\bf ToInt32} and {\bf ToUint32}
+misusing {\bf ToInt32} and {\bf ToUint32}
 in unsigned right shift operators and bitwise operators, respectively.
-Finally, BigInt-4 happened because the proposal did not consider
-BigInt primitives in the Number constructor.  On average, four
-specification errors existed for \inred{XXX} days in the proposal.
+BigInt-4 is due to missing BigInt primitives in the Number constructor.
+On average, four errors existed for \inred{XXX} days in the proposal.
 
 After fixing the errors in the proposal, we extracted a semantics from
 the revised specification.  The extracted semantics passed all 207
