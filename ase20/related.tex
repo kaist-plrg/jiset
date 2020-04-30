@@ -7,38 +7,35 @@ parsers with backtracking support linear-time parsing.  However, it
 has the fundamental problem of ordered choices: \( ab \) is silently
 unmatched with \( a ~/~ ab \).  While Generalized LL (GLL) parsing~\cite{gll}
 is basically recursive-descent with backtracking that can support general
-context-free grammars (CFGs) even in the presence of ambiguous grammars,
+context-free grammars even in the presence of ambiguous grammars,
 its worst-time complexity is \( O(n^3) \) for the input size \( n \) and it
 does not support context-sensitive features.  Unlike GLL parsing, our lookahead
-parsing is applicable for JavaScript parsers having context sensitive features
-such as positive/negative lookaheads. Moreover, The complexity of lookahead
-parsing is \( O(k \cdot n) \) for the input size \( n \) and the constant
+parsing is applicable for JavaScript parsers with context sensitive features
+such as positive/negative lookaheads. Moreover, the complexity of lookahead
+parsing is \( O(k \cdot n) \) for the constant
 number of tokens \( k \). We experimentally showed that it can generate parsers
 for the most recent four versions of ECMAScript.
 
-In the field of automatic model generation, the closest related work to
-ours is \citet{javadoc}'s, which generates Java code from Javadoc comments
-for API functions.  Using NLP techniques and various heuristic methods,
-it produces several candidate code tests them with actual implementation
-of the API functions to find correct modeling.  Unlike their approach, we
-introduce semi-automatic synthesis based on general compile rules that
-represent the common writing patterns to support future language updates and to
-provide correct meaning of specification.  The extracted semantics via our tool
-is also executable that helps to bridge gaps between the specification written
-in a natural language and tests.
+The closest work to ours in automatic model generation
+is \citet{javadoc}'s, which generates Java code from Javadoc comments
+for API functions.  Using NLP techniques and heuristic methods,
+it produces candidate code and removes wrong ones
+by testing them with actual implementation. Unlike their approach, we
+introduce a semi-automatic synthesis using general compile rules that
+represent common writing patterns of specifications.  The extracted
+semantics by \(\tool\) is also executable, which allows to bridge gaps
+between the specification written in a natural language and executable
+tests.
 
-Several approaches have defined the formal semantics of JavaScript.
-\citet{lambdajs} defined a core calculus of JavaScript, and expressed the
-rest as desugaring.  While it presents the core JavaScript semantics in
-an extension of the $\lambda$ calculus, it does not show the semantics
-correspondence defined in ECMAScript.  KJS~\cite{kjs} and
-JaVerT~\cite{javert} defined formal semantics of JavaScript by manually converting
-ECMAScript to their own formal languages.  KJS mapped
-ES5.1 in the K framework~\cite{kframework}, which can be used
-for program verification and analysis.  Similarly, JaVerT converts the
-specification to their own IR called JSIL to make further analysis.
-However, all of them targets only ES5.1 or former versions of ECMAScript and
-they do not provide solution for annual updates of ECMAScript. Our approach
+Several approaches defined the formal semantics of JavaScript.
+\citet{lambdajs} defined a core calculus of JavaScript expressing non-core
+features using desugaring, but its correspondence with ECMAScript is
+not obvious.
+KJS~\cite{kjs} and JaVerT~\cite{javert} defined the JavaScript semantics
+by manually converting ECMAScript to their own formal languages.  KJS mapped
+ES5.1 in the K framework~\cite{kframework} and JaVerT converts the
+specification to their own IR.  However, they all target only ES5.1 or former and
+they do not provide any solution for annual updates of ECMAScript. Our approach
 provides a mechanized framework to synthesize JavaScript parsers and to
 automatically extract semantics using a rule-based compilation technique, which
 significantly reduces human efforts.

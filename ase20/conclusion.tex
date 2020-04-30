@@ -1,19 +1,18 @@
 \section{Conclusion}\label{sec:conclude}
-
-The annual updates of the ECMAScript makes it difficult to build program
+Annual updates of ECMAScript make it difficult to build program
 analysis or formal verification of JavaScript due to the required human efforts
-in modeling a moving target.  In this paper, we proposed a tool \( \tool \),
-which \textit{automatically} extracts the syntax and semantics specified in
-ECMAScript.  The tool generates a parser from a language grammar written in \(
-\bnfes \), and an AST-IR translator from abstract algorithms written in
-English.  The tool automatically extract all syntax and \inred{XX.XX\%} of
-semantics for the most recent four versions of ECMAScript (ES7 to ES10).  We
-evaluated the correctness of the tool by testing the extracted semantics from
-ES10 with Test262, the official conformance suite.  Based on \inred{X,XXX}
-failed tests, we found eight specification errors in ES10. After resolving
-them, the extracted semantics passed all \inred{XX,XXX} applicable tests.
-Moreover, we showed that \( \tool \) is also forward compatible for the future
-language features by applying it to nine proposals, and we found four
-specification errors in the proposal for BigInt.  We believe that it could
-dramatically reduce the human efforts to define formal semantics of ECMAScript
-and also bridge gaps between ECMAScript and Test262.
+in modeling a moving target.  In this paper, we proposed \( \tool \), a tool
+that \textit{automatically} extracts the syntax and semantics as a parser and
+an AST-IR translator from ECMAScript written in English.
+The tool automatically extracts all the syntax and \inred{XX.XX\%} of the
+semantics for the most recent four versions of ECMAScript (ES7 to ES10).
+We evaluated the correctness of the tool by testing the extracted
+semantics from ES10 with Test262, the official conformance suite.
+Using \inred{X,XXX} failed tests, we found nine specification errors,
+four of which are newly discovered, confirmed by TC39, and planned to
+be integrated in ES11.  After fixing the errors, the extracted
+semantics passed all \inred{XX,XXX} applicable tests in Test262.
+We also showed that \( \tool \) is forward compatible by applying it to nine
+proposals to be included in ES11, which let us find four errors in the
+BigInt proposal.  We believe that \( \tool \) can dramatically reduce
+human efforts in building various JavaScript tools correctly.
