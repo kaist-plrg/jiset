@@ -268,12 +268,21 @@ trait AlgoCompilers extends TokenParsers {
   def toERef(x: String, y: String): ERef = ERef(toRef(x, y))
   def toERef(id: Id): ERef = ERef(toRef(id))
   def toERef(str: String): ERef = ERef(toRef(str))
+  def toERef(str: String, fs: List[I[Expr]]): I[Expr] = {
+    val i ~ r = toRef(str, fs)
+    pair(i, ERef(r))
+  }
   def toRef(x: Id, y: Expr): Ref = RefProp(toRef(x), y)
   def toRef(x: String, y: Expr): Ref = RefProp(toRef(x), y)
   def toRef(x: Id, y: String): Ref = RefProp(toRef(x), EStr(y))
   def toRef(x: String, y: String): Ref = RefProp(toRef(x), EStr(y))
   def toRef(id: Id): Ref = RefId(id)
   def toRef(str: String): Ref = toRef(Id(str))
+  def toRef(str: String, fs: List[I[Expr]]): I[Ref] = {
+    val i = fs.map { case i ~ _ => i }.flatten
+    val es = fs.map { case _ ~ e => e }
+    pair(i, es.foldLeft[Ref](toRef(str))(RefProp(_, _)))
+  }
 
   // create pair of parsing results
   val pair = `~`
@@ -400,6 +409,13 @@ trait AlgoCompilers extends TokenParsers {
       ))
     } else IAssign(toRef(context), ENull)
   }
+
+  // infinity check
+  def isInfinity(expr: Expr): Expr = EBOp(
+    OOr,
+    EBOp(OEq, expr, ENum(Double.PositiveInfinity)),
+    EBOp(OEq, expr, ENum(Double.NegativeInfinity))
+  )
 
   // execution context stack string
   val executionStack = "GLOBAL_executionStack"

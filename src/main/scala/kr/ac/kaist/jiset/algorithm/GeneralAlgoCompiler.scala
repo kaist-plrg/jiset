@@ -86,13 +86,21 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val innerStmt: P[Inst] = in ~> stmts <~ out ^^ { ISeq(_) }
 
   // return statements
-  lazy val returnStmt: P[Inst] = "Return" ~> opt(expr) ^^ {
-    case None => getRet(getNormalCompletion(EUndef))
-    case Some(ie) => algo.kind match {
-      case StaticSemantics => getRet(ie)
-      case Method if algoName == "OrdinaryGetOwnProperty" => getRet(ie)
-      case _ => getRet(getWrapCompletion(ie))
-    }
+  lazy val returnStmt: P[Inst] = "Return" ~> opt(expr) ~ opt(opt(",") ~ "if" ~> cond ~ ("." ~> opt("otherwise" ~ "," ~> stmt))) ^^ {
+    case retOpt ~ condOpt =>
+      val inst = retOpt match {
+        case None => getRet(getNormalCompletion(EUndef))
+        case Some(ie) => algo.kind match {
+          case StaticSemantics => getRet(ie)
+          case Method if algoName == "OrdinaryGetOwnProperty" => getRet(ie)
+          case _ => getRet(getWrapCompletion(ie))
+        }
+      }
+      condOpt match {
+        case None => inst
+        case Some((i ~ c) ~ None) => ISeq(i :+ IIf(c, inst, ISeq(Nil)))
+        case Some((i ~ c) ~ Some(elseInst)) => ISeq(i :+ IIf(c, inst, elseInst))
+      }
   }
 
   // return continuation statements
@@ -163,7 +171,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
         case Some(i ~ y) => (i, y)
         case None => (Nil, EINum(1))
       }
-      val i0 = ps.map { case i ~ _ => i }.reduceLeft(_ ++ _)
+      val i0 = ps.map { case i ~ _ => i }.flatten
       val as = ps.map { case _ ~ x => IAssign(x, EBOp(OPlus, ERef(x), y)) }
       ISeq(i0 ++ i1 ++ as)
   }
@@ -316,6 +324,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     argumentExpr |||
     refExpr |||
     referenceExpr |||
+    dateExpr |||
     starExpr
   )
 
@@ -330,7 +339,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     }
   )
   lazy val bop: P[BOp] = (
-    "×" ^^^ OMul |
+    ("×" | "*") ^^^ OMul |
     "/" ^^^ ODiv |
     "+" ^^^ OPlus |
     ("-" | "minus") ^^^ OSub |
@@ -496,7 +505,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // string-concatenation expressions
   lazy val strConcatExpr: P[I[Expr]] =
-    ("the" | "a") ~ opt(opt("new") ~ "string" ~ ("-" | "that is the" ~ opt("result of") | "value" ~ ("formed" | "produced" | "computed") ~ "by") | "result of") ~ ("concatenation of" | "concatenating") ~ opt(opt("the") ~ "Strings") ~> rep1sep(opt("the previous value of") ~> expr, sep("and")) ^^ {
+    ("the" | "a") ~ opt(opt("new") ~ "string" ~ ("-" | "that is the" ~ opt("result of") | "value" ~ ("formed" | "produced" | "computed") ~ "by") | "result of") ~ (opt("the") ~ "concatenation of" | "concatenating") ~ opt(opt("the") ~ "Strings") ~> rep1sep(opt("the previous value of") ~> expr, sep("and")) ^^ {
       case es => es.reduce[I[Expr]] {
         case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OPlus, l, r))
       }
@@ -547,6 +556,25 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       )))
     }
   )
+
+  // Date expressions
+  lazy val dateExpr: P[I[Expr]] = (
+    dateConst ^^ { n => pair(Nil, ENum(n)) }
+  )
+
+  lazy val dateConst: P[Int] = (
+    "msPerDay" ^^^ msPerDay |
+    "msPerHour" ^^^ msPerHour |
+    "msPerMinute" ^^^ msPerMinute |
+    "msPerSecond" ^^^ msPerSecond
+  )
+  val HoursPerDay = 24
+  val MinutesPerHour = 60
+  val SecondsPerMinute = 60
+  val msPerDay = 86400000
+  val msPerHour = 3600000
+  val msPerMinute = 60000
+  val msPerSecond = 1000
 
   ////////////////////////////////////////////////////////////////////////////////
   // values
@@ -647,9 +675,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | ("." ~ next)) | etcCond
+  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | ".") | etcCond
   lazy val _cond: P[I[Expr]] = (
     argumentCond |||
+    sameCond |||
     bopCond |||
     condOpCond |||
     rhsCond |||
@@ -658,6 +687,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     ownKeyCond |||
     containsCond |||
     suppliedCond |||
+    finiteCond |||
     emptyCond
   )
 
@@ -671,6 +701,18 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   )
 
   def l[T](parser: P[T]): P[T] = parser ^^ { s => println(s); s }
+
+  // same conditions
+  lazy val sameCond: P[I[Expr]] = {
+    (id ~ rep(field) <~ "and") ~ (id ~ rep(field)) ^^ {
+      case (x ~ xfs) ~ (y ~ yfs) => (toERef(x, xfs), toERef(y, yfs))
+    } ||| (opt("the") ~> weakFieldName <~ "and") ~ (weakFieldName <~ ("of" | "for")) ~ refBase ^^ {
+      case f0 ~ f1 ~ b => (pair(Nil, toERef(b, f0)), pair(Nil, toERef(b, f1)))
+    }
+  } ~ ("are" ~> opt("not") <~ "the same" ~ rep(camelWord) ~ opt("value" | "values")) ^^ {
+    case (i0 ~ x, i1 ~ y) ~ None => pair(i0 ++ i1, EBOp(OEq, x, y))
+    case (i0 ~ x, i1 ~ y) ~ Some(_) => pair(i0 ++ i1, not(EBOp(OEq, x, y)))
+  }
 
   // binary operator conditions
   lazy val bopCond: P[I[Expr]] = (
@@ -804,6 +846,15 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     case x => pair(Nil, isNEq(toERef(x), EAbsent))
   }
 
+  // finite conditions
+  lazy val finiteCond: P[I[Expr]] = (
+    expr <~ "is finite" ^^ {
+      case i ~ e => pair(i, not(isInfinity(e)))
+    } ||| expr <~ "is not finite" ^^ {
+      case i ~ e => pair(i, isInfinity(e))
+    }
+  )
+
   // empty conditions
   lazy val emptyCond: P[I[Expr]] = (
     ref <~ ("has no elements" | "is empty" | "is an empty list") ^^ {
@@ -878,14 +929,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val fieldRef: P[I[Ref]] = (
     (fieldName <~ ("of" | "for")) ~ refBase ^^ {
       case f ~ b => pair(Nil, toRef(b, f))
-    } ||| (refBase <~ "'s") ~ (fieldName ||| (camelWord | id) ^^ { EStr(_) }) <~ opt("value" | "attribute") ^^ {
+    } ||| (refBase <~ "'s") ~ weakFieldName <~ opt("value" | "attribute") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
     } ||| refBase ~ rep(field) ^^ {
-      case x ~ es =>
-        val i = es.foldLeft(List[Inst]()) { case (is, i ~ _) => is ++ i }
-        pair(i, (es.map { case i ~ e => e }).foldLeft[Ref](RefId(Id(x))) {
-          case (r, e) => RefProp(r, e)
-        })
+      case x ~ es => toRef(x, es)
     }
   )
 
@@ -963,6 +1010,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       case i ~ e => pair(i, e)
     }
   )
+  lazy val weakFieldName: P[Expr] = fieldName ||| (camelWord | id) ^^ { EStr(_) }
   lazy val fieldName: P[Expr] = opt("the") ~> (
     "base value component" ^^^ "BaseValue" |||
     "thisValue component" ^^^ "thisValue" |||
