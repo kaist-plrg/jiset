@@ -107,10 +107,10 @@ Toolchain:
     To evaluate the correctness of \( \tool \), we checked the extracted
     semantics with the official test conformance suite, Test262~\cite{test262}.
     By manually completing missing parts of the AST-IR translator for the latest
-    ECMAScript (ES10, 2019), we define the \textit{first IR-based formal
-    semantics of modern JavaScript}. It fails \inred{XXXX} tests because of the
-    specification errors in ES10. We found eight specification errors and
-    three of them are even not yet reported errors. They were all confirmed by
+    ECMAScript (ES10, 2019), we defined the \textit{first IR-based formal
+    semantics of modern JavaScript}. It failed for \inred{XXXX} tests because of
+    specification errors in ES10. Using the tests, we found eight specification errors,
+    three of which had not been reported before. They were all confirmed by
     TC39 and will be fixed in the next release.  After fixing them, the formal
     semantics passed all \inred{XX,XXX} applicable tests.
   \item \textbf{\( \tool \) is also \textit{forward compatible} with new
