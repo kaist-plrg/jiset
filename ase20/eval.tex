@@ -131,125 +131,114 @@ it reduces efforts not only in developing JavaScript tools from scratch
 from specifications but also in evolving existing tools for updates.
 
 
-\subsection{Check with Tests}\label{sec:check-with-tests}
-
-To evaluate the correctness of \( \tool \), we utilizes Test262, the official
-conformance test suite provided by TC39.  First, we complete missing parts of
-the AST-IR translator for the latest version of ECMAScript (ES10). Then, we
-test the extracted semantics of ES10 with Test262 and reason about the failed
-tests.
-
-To focus on core language semantics of JavaScript, we completed only necessary
-parts in missing parts of AST-IR translator for ES10.  For abstract algorithms
-in ES10, \inred{8,901} steps out of \inred{9,674} steps are automatically
-compiled via \textsf{Algorithm Compiler} as described in
-Figure~\ref{fig:all-version}(a).  Among the remaining \inred{773} steps, we
-manually implemented all missing steps for core language semantics (\inred{221}
-steps) and essential parts of built-in libraries (\inred{XX} steps out of
-\inred{552}).  Moreover, we manually implemented the \textsf{Global Setting} as
-described in Section~\ref{sec:compiler-impl} for the core language features.
-However, we do not support several minor language features that do not affect
-the overall JavaScript semantics critically: non-strict mode codes, modules,
-early errors before actual executions, and inessential built-in objects.
-
+\subsection{Correctness}\label{sec:check-with-tests}
 \begin{table*}[t]
   \centering
-  \caption{Specification errors in ES10 and in proposals that are ready for
-  inclusion in ES11.}
+  \caption{Specification errors in ES10 and the BigInt proposal ready for
+  inclusion in ES11}
   \label{table:spec-errors}
-  \vspace*{-0.5em}
+  \vspace*{-.5em}
   \small
-  \begin{tabular}{|c|c|l|c|c|c|c|c|}
-    \hline
-    \multicolumn{1}{|c|}{\bf Name} &
-    \multicolumn{1}{c|}{\bf Feature} &
-    \multicolumn{1}{c|}{\bf Description} &
-    \multicolumn{1}{c|}{\bf Known} &
-    \multicolumn{1}{c|}{\bf Created} &
-    \multicolumn{1}{c|}{\bf Resolved} &
-    \multicolumn{1}{c|}{\bf Existed} &
-    \multicolumn{1}{c|}{\bf \# Failed Tests} \\\hline
-
-    es10-1 &
-    Condition &
-    \makecell[l]{Ambiguous production rule for \\
-    dangling \code{else} problem in {\it IfStatement}.} &
-    \textsf{X} &
-    2015-06-01 &
-    \inred{2020-00-10} &
-    \inred{XXX} days &
-    1 \\\hline
-
-    es10-2 &
-    Await &
-    \makecell[l]{Passing wrong type of \\ the second argument for {\bf PromiseResolve}.} &
-    \textsf{O} &
-    2019-02-27 &
-    2019-04-13 &
-    45 days &
-    1100 \\\hline
-
-    es10-3 &
+  \begin{tabular}{@{}c?c|l|@{}c@{}|c|c|r|@{}r@{}}
+\multicolumn{1}{@{}c?}{\bf Name} &
+\multicolumn{1}{c}{\bf Feature} &
+\multicolumn{1}{c}{\bf Description} &
+\multicolumn{1}{@{}c@{}}{\bf Known} &
+\multicolumn{1}{c}{\bf Created} &
+\multicolumn{1}{c}{\bf Resolved} &
+\multicolumn{1}{c}{\bf Existed} &
+\multicolumn{1}{@{}c@{}}{\bf \# Fails} \\\toprule
+&&&&&&&\\[-1.5em]
+    ES10-1 &
     Iteration &
-    \makecell[l]{Missing \code{async-iterate} case \\ in the assertion of {\bf
-    ForIn/OfHeadEvaluation}.} &
+    \makecell[l]{Missing the \code{async-iterate} case in the assertion of\\
+ {\bf ForIn/OfHeadEvaluation}} &
     \textsf{X} &
     2018-02-16 &
     2020-03-25 &
     768 days &
-    1120 \\\hline
+    1,120 \\\hline
 
-    es10-4 &
+    ES10-2 &
+    Condition &
+    \makecell[l]{Ambiguous grammar production for the dangling \code{else} problem in\\
+    {\it IfStatement}} &
+    \textsf{X} &
+    2015-06-01 &
+    TBD &
+    \multicolumn{1}{c|}{TBD} &
+    1 \\\hline
+
+    ES10-3 &
+    String &
+    \makecell[l]{Wrong use of the \code{=} operator in {\bf
+    StringGetOwnProperty}} &
+    \textsf{X} &
+    2015-06-01 &
+    TBD &
+    \multicolumn{1}{c|}{TBD} &
+    \inred{XX} \\\hline
+
+ ES10-4 &
+ Completion &
+ Unhandling abrupt completion in {\bf Abstract Equality Comparison} &
+ \textsf{X} &
+\inred{0000-00-00}&
+ 2020-04-28 &
+ \inred{XX} days &
+ \inred{XX}
+ \\\hline
+
+    ES10-5 &
     Completion &
-    \makecell[l]{Not handling abrupt completion \\ in {\bf Evaluation} of {\it
-    EqualityExpression}.} &
+    \makecell[l]{Unhandling abrupt completion in {\bf Evaluation} of {\it
+    EqualityExpression}} &
     \textsf{O} &
     2015-06-01 &
     2019-05-02 &
-    1065 days &
+    1,065 days &
     1 \\\hline
 
-    es10-5 &
-    String &
-    \makecell[l]{Wrong use of \code{=} operator in {\bf
-    StringGetOwnProperty}.} &
-    \textsf{X} &
-    2015-06-01 &
-    \inred{2019-00-00} &
-    \inred{XX} days &
-    \inred{XX} \\\hline
+    ES10-6 &
+    Await &
+    \makecell[l]{Passing a value of wrong type to the second parameter of\\ {\bf PromiseResolve}} &
+    \textsf{O} &
+    2019-02-27 &
+    2019-04-13 &
+    45 days &
+    1,100 \\\hline
 
-    es10-6 &
+    ES10-7 &
     Function &
-    \makecell[l]{No semantics of {\bf IsFunctionDefinition} \\ for
-    \code{function(...)\{...\}}.} &
+    \makecell[l]{No semantics of {\bf IsFunctionDefinition} for
+    \code{function(...)\{...\}}} &
     \textsf{O} &
     2015-10-30 &
     2020-01-18 &
-    1541 days &
+    1,541 days &
     \inred{XX} \\\hline
 
-    es10-7 &
+    ES10-8 &
     Function &
-    \makecell[l]{No semantics of {\bf ExpectedArgumentCount} \\ for the base case
-    of {\it FormalParameters}.} &
+    \makecell[l]{No semantics of {\bf ExpectedArgumentCount} for the base case
+    of\\ {\it FormalParameters}} &
     \textsf{O} &
     2016-11-02 &
     2020-02-20 &
-    1205 days &
+    1,205 days &
     \inred{XX} \\\hline
 
-    es10-8 &
+    ES10-9 &
     Iteration &
-    \makecell[l]{Two semantics of {\bf VarScopedDeclarations} \\ for \code{for
-    await(var x of e)\{...\}}.} &
+    \makecell[l]{Two semantics of {\bf VarScopedDeclarations} for\\ \code{for
+    await(var x of e)\{...\}}} &
     \textsf{O} &
     2018-02-16 &
     2019-10-11 &
     602 days &
-    \inred{XX} \\\hline
+    \inred{XX} \\\hline\hline
 
-    bigint-1 &
+    BigInt-1 &
     Expression &
     \makecell[l]{Using wrong variable \code{oldvalue} instead of \\
     \code{oldValue} in {\bf Evaluation} of {\it UpdateExpression}.} &
@@ -259,7 +248,7 @@ early errors before actual executions, and inessential built-in objects.
     209 days &
     \inred{XX} \\\hline
 
-    bigint-2 &
+    BigInt-2 &
     Number &
     \makecell[l]{Using {\bf ToInt32} instead of {\bf ToUint32} \\ in {\bf
     Number::unsignedRightShift}.} &
@@ -269,9 +258,9 @@ early errors before actual executions, and inessential built-in objects.
     209 days &
     \inred{XX} \\\hline
 
-    bigint-3 &
+    BigInt-3 &
     Number &
-    \makecell[l]{Using {\bf ToUint32} instead of {\bf ToInt32} \\ in {\bf
+    \makecell[l]{Using {\bf ToUint32} instead of {\bf ToInt32} in {\bf
     NumberBitwiseOp}.} &
     \textsf{X} &
     2019-09-27 &
@@ -279,33 +268,22 @@ early errors before actual executions, and inessential built-in objects.
     209 days &
     \inred{XX} \\\hline
 
-    bigint-4 &
+    BigInt-4 &
     Number &
     \makecell[l]{Not handling BigInt values in {\bf Number} constructor.} &
     \textsf{O} &
     2019-09-27 &
     2019-11-19 &
     53 days &
-    \inred{XX} \\\hline
-
+    \inred{XX}
   \end{tabular}
 \end{table*}
-
-To check the correctness of the extracted IR-based semantics using Test262, we
-fixed version of Test262 as of February 28, 2019 because the ES10 was branched
-out with the branch name es2019 in that day.  While it consists of
-\inred{XX,XXX} tests, we filtered out \inred{XX,XXX} tests not applicable for
-our formal semantics as shown in Table~\ref{table:test262}.  Test262 targets not
-only the current official version of ECMAScript but several extensions and
-in-progress features. We excluded \inred{X,XXX} tests for such cases to focus on
-the semantics of ES10.  Among \inred{XX,XXX} ES10 tests, we also filtered out
-\inred{X,XXX} tests using language features not supported by our semantics.
 
 \begin{table}[t]
   \centering
   \caption{Test results for Test262}
   \label{table:test262}
-  \vspace*{-0.5em}
+  \vspace*{-.5em}
   \small
   \begin{tabular}{lr}\toprule
     \belowrulesepcolor{gainsboro}
@@ -317,9 +295,9 @@ the semantics of ES10.  Among \inred{XX,XXX} ES10 tests, we also filtered out
     \belowrulesepcolor{gainsboro}
     \rowcolor{gainsboro} \textbf{ES10 Tests} & \inred{\textbf{XX,XXX}}\\
     \aboverulesepcolor{gainsboro}\midrule
-    Non-strict modes & \inred{X,XXX}\\\hdashline
+    Non-strict mode & \inred{X,XXX}\\\hdashline
     Modules & \inred{X,XXX} \\\hdashline
-    Early errors & \inred{X,XXX} \\\hdashline
+    Early errors before actual execution & \inred{X,XXX} \\\hdashline
     Inessential built-in objects & \inred{X,XXX} \\\midrule
     \belowrulesepcolor{gainsboro}
     \rowcolor{gainsboro} \textbf{Applicable Tests} & \inred{\textbf{XX,XXX}}\\
@@ -327,60 +305,98 @@ the semantics of ES10.  Among \inred{XX,XXX} ES10 tests, we also filtered out
     Passed tests & \inred{XX,XXX} \\\hdashline
     Failed tests & \inred{XXX} \\\bottomrule
   \end{tabular}
-  \vspace*{-2em}
+  \vspace*{-1em}
 \end{table}
 
-For \inred{XX,XXX} applicable tests, the extracted semantics fails \inred{XXX}
-tests.  We reason about the failed tests, and we discover that they failed
-because ES10 actually has specification errors. We found eight specification
-errors in ES10 (es10-1 to es10-9 in Table~\ref{table:spec-errors}).  Among them,
-five errors are already fixed in the draft version of ECMAScript but three errors
-are newly revealed.  We reported four new errors, and TC39 confirmed and
-merged them into the current draft.
+To evaluate the correctness of \( \tool \), we checked whether the
+extracted semantics from the latest ECMAScript (ES10) passes Test262
+as of February 28, 2019, when ES10 was branched out.
+To focus on the core language semantics of JavaScript, we completed
+only necessary parts missing from the extracted AST-IR translator.
+As Figure~\ref{fig:all-version}(a) shows, for the abstract algorithms
+in ES10, \inred{8,901} steps out of \inred{9,674} steps are
+automatically compiled by \textsf{Algorithm Compiler}.
+Among the remaining \inred{773} steps, we manually implemented all
+missing steps for the core language semantics (\inred{221} steps) and
+the essential parts of the built-in libraries (\inred{XX} steps out of
+\inred{552}).  We also manually implemented \textsf{Global Setting}
+as described in Section~\ref{sec:compiler-impl} for the core language features.
+Note that we do not support minor language features such as the
+non-strict mode, modules, early errors before actual execution, and
+inessential built-in objects.
+Among \inred{XX,XXX} tests in Test262, we filtered out \inred{XX,XXX}
+tests as summarized in Table~\ref{table:test262}.  To focus on ES10,
+we excluded \inred{X,XXX} tests for annexes, internationalization, and
+in-progress features.  We also filted out \inred{X,XXX} tests that use
+minor language features.
+Finally, for \inred{XX,XXX} applicable tests, the extracted semantics
+failed for \inred{XXX} tests.
 
-es10-1 is related to the dangling \code{else} problem introduced in ALGOL
-60~\cite{dangling-else}. While ES10 describes the rule that the \code{else}
-should be associated with the nearest \code{if}, the rule is not explicitly
-represented in the ES10 grammar rule.  It causes one test failed and it is a not
-yet discovered error.  Thus, we revised the grammar rule to satisfy this rule
-and TC39 accepted it in \inred{May X, 2020}.
+We investigated the failed tests and found out that they failed due to
+specification errors in ES10.  Using the failed tests, we
+discovered nine errors: ES10-1 to ES10-9 in
+Table~\ref{table:spec-errors}.  Among them, five errors (ES10-5 to
+ES10-9) were previously reported and fixed in the current draft of the
+next ECMAScript, and the remaining four errors (ES10-1 to ES10-4) were
+never reported before.  All four errors were confirmed by TC39, and
+will be fixed in the next ECMAScript, ES11.
 
-es10-2 is related to the JavaScript Await.  The {\bf PromiseResolve (C, x)}
-algorithm creates a new Promise object using a given constructor {\bf C} and
-resolved with a given value {\bf x}.  However, a specification update added
-three invocations of {\bf PromiseResolve} with a list of values for {\bf x} in
-February 27, 2019.  This error exists in 45 days until April 13, 2019 and causes
-\inred{XX} tests failed.
+The specification error ES10-1 is due to a wrong assertion.
+While ES9 introduced the \code{for await} iteration statement with a
+new {\it iterationKind} tag, \code{async-iterate}, the
+\code{ForIn/OfHeadEvaluation} algorithm missed the
+\code{async-iterate} case in an assertion, which caused 1,120
+tests failed.  We reported the error and proposed a specification fix
+to include  the \code{async-iterate} case, and TC39 accepted it on
+March 25, 2020.  Because the error was created on February 16, 2018,
+it existed for 768 days.
 
-es10-3 arises because of the wrong assertion. ES9 introduced \code{for await}
-iteration statements thus it also introduced a new {\it iterationKind} tag,
-\code{async-iterate}. However, \code{ForIn/OfHeadEvaluation} algorithm misses
-the case of \code{async-iterate} in the assertion. It causes 1120 tests failed
-and it is an unknown error. Thus, we revised the assertion to cover the
-\code{async-iterate} case and TC39 accepted it in March 25, 2020.
+ES10-2 comes from the well-known dangling \code{else} problem
+introduced in ALGOL 60~\cite{dangling-else}.  ES10 describes how to
+parse it in prose: the \code{else} statement should be associated with
+the nearest \code{if} statement.  Because it is written in prose
+rather than in the ES10 grammar productions, it caused one test
+failed.  We proposed a fix to revise the ambiguous grammar production,
+and TC39 confirmed it on April 23, 2020.
 
-es10-4 and es10-5 arise because contributors misunderstood the meaning of
-operations used in abstract algorithms. Especially, es10-5 is related to
-\code{=} operator for numbers and not yet discovered. In abstract algorithms,
-``{\it x} = {\it y}'' denotes equality expression for double-precision 64-bit
-binary format IEEE 754-2008 values thus ``+0 = -0'' is true. However, the {\bf
-StringGetOwnProperty} algorithms uses ``{\it index} = -0'' to check whether
-index is exactly same with -0 but it is true even if {\it index} is +0.
+ES10-3 is due to a misuse of the \code{=} operator for numbers.
+In abstract algorithms, ``{\it x} = {\it y}'' denotes equality testing
+for double-precision 64-bit binary format IEEE 754-2008 values;
+thus, \mbox{``+0 = -0''} evaluates to true.  However, to check whether
+{\it index} is exactly the same with -0,
+{\bf StringGetOwnProperty} used \mbox{``{\it index} = -0''},
+which is true even when {\it index} is +0.
+It caused \inred{XX} tests failed.  We proposed a fix, which is
+confirmed on April 22, 2020.
 
-es10-6, es10-7, and es10-8 are errors that miss or define twice some parts of
-cases in semantics. For example, es10-8 is an error that define the {\bf
-VarScopedDeclarations} for \code{for await} iterations. If the choice is wrong,
-\inred{XX} tests will be failed.
+ES10-4 and ES10-5 happened because ES10 did not handle
+abrupt completion from function calls.  Our proposed fix to ES10-4 was
+accepted on April 28, 2020, and ES10-5 was resolved on May 2, 2019
+after existing for 1,065 days.
 
-After resolving above specification errors in ES10, we extracted formal
-semantics from the revised specification again. The revised formal semantics of
-ES10 passed all \inred{XX,XXX} applicable tests in Test262.  \( \tool \) is
-helpful to correctly extract semantics from ECMAScript but also to detect bugs
-by directly check ECMAScript with Test262. Without our tool, above eight errors
-existed in ECMAScript in \inred{XXX} days on average. Besides, three errors
-es10-1, es10-3, and es10-5 are even not known before we reported to TC39. We
-believe that \( \tool \) bridges gaps between ECMAScript and Test262.
+ES10-6 is due to incorrect uses of an abstract algorithm.
+While {\bf PromiseResolve(C, x)} expects a JavaScript object for its
+second argument, ES10 passed a list of values rather than an object in
+three invocations of {\bf PromiseResolve}.  The wrong invocations were
+introduced on February 27, 2019 and caused \inred{XX} tests failed.
+They were fixed on April 13, 2019 after existing 45 days.
 
+ES10-7 and ES10-8 happened because ES10 missed semantics for some
+cases.  They both existed for more than 1,200 days.
+
+ES10-9 is due to multiple semantics.  Because only one semantics is
+intended, \inred{XX} tests fail when a wrong semantics is chosen.
+
+After resolving the nine specification errors in ES10, we extracted a
+semantics from the revised specification.  The extracted semantics
+from the revised ES10 passed all \inred{XX,XXX} applicable tests in Test262,
+which shows that \( \tool \) extracts an IR-based formal semantics
+from ECMAScript correctly.  In addition, the evaluation witnesses that
+\( \tool \) can detect specification errors effectively.
+We could detect not only five previously-known errors
+but also four new errors.  We believe that \( \tool \) bridges gaps
+between ECMAScript written in a natural language and executable tests
+in Test262.
 
 \subsection{Forward Compatibility}
 
@@ -503,17 +519,17 @@ applicable tests for the proposal and \inred{XXXX} tests out of \inred{XXXXX}
 applicable tests for ES10.
 
 Based on the failed tests, we found three undiscovered specification errors
-(bigint-1, bigint-2, and bigint-3), and one reported error (bigint-4) in the
+(BigInt-1, BigInt-2, and BigInt-3), and one reported error (BigInt-4) in the
 BigInt proposal as described in Table~\ref{table:spec-errors}.  All of
 them were confirmed by TC39 and will be fixed in the next release.  The BigInt
 proposal added a new type of primitives BigInt and unified the type with
 original Number type to Numeric types.  Thus, it not only added new
 algorithms for BigInt but also modified all existing algorithms related to
-number values.  The error bigint-1 is just a simple misuse of the variable
-\code{oldValue} in {\bf Evaluation} of {\it UpdateExpression}. bigint-2 and
-bigint-3 break the backward compatibility because of the incorrectly mixed uses
+number values.  The error BigInt-1 is just a simple misuse of the variable
+\code{oldValue} in {\bf Evaluation} of {\it UpdateExpression}. BigInt-2 and
+BigInt-3 break the backward compatibility because of the incorrectly mixed uses
 of {\bf ToInt32} and {\bf ToUint32} algorithms in unsigned right shift operators
-and bitwise operators, respectively. The last one bigint-4 arises because the
+and bitwise operators, respectively. The last one BigInt-4 arises because the
 Number constructor does not consider BigInt primitives.  On average, ECMAScript
 included these four specification errors in \inred{XXX} days.
 
