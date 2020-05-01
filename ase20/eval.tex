@@ -314,22 +314,22 @@ as of February 28, 2019, when ES10 was branched out.
 To focus on the core language semantics of JavaScript, we completed
 only necessary parts missing from the extracted AST-IR translator.
 As Figure~\ref{fig:all-version}(a) shows, for the abstract algorithms
-in ES10, \inred{8,901} steps out of \inred{9,674} steps are
+in ES10, 9,627 steps out of 10,101 steps are
 automatically compiled by \textsf{Algorithm Compiler}.
-Among the remaining \inred{773} steps, we manually implemented all
-missing steps for the core language semantics (\inred{221} steps) and
+Among the remaining 474 steps, we manually implemented all
+missing steps for the core language semantics (137 steps) and
 the essential parts of the built-in libraries (\inred{XX} steps out of
-\inred{552}).  We also manually implemented \textsf{Global Setting}
+337).  We also manually implemented \textsf{Global Setting}
 as described in Section~\ref{sec:compiler-impl} for the core language features.
 Note that we do not support minor language features such as the
 non-strict mode, modules, early errors before actual execution, and
 inessential built-in objects.
-Among \inred{XX,XXX} tests in Test262, we filtered out \inred{XX,XXX}
+Among 35,990 tests in Test262, we filtered out 17,926
 tests as summarized in Table~\ref{table:test262}.  To focus on ES10,
-we excluded \inred{X,XXX} tests for annexes, internationalization, and
-in-progress features.  We also filted out \inred{X,XXX} tests that use
+we excluded 7,038 tests for annexes, internationalization, and
+in-progress features.  We also filted out 10,888 tests that use
 minor language features.
-Finally, for \inred{XX,XXX} applicable tests, the extracted semantics
+Finally, for 18,064 applicable tests, the extracted semantics
 failed for \inred{XXX} tests.
 
 We investigated the failed tests and found out that they failed due to
@@ -389,7 +389,7 @@ intended, \inred{XX} tests fail when a wrong semantics is chosen.
 
 After resolving the nine specification errors in ES10, we extracted a
 semantics from the revised specification.  The extracted semantics
-from the revised ES10 passed all \inred{XX,XXX} applicable tests in Test262,
+from the revised ES10 passed all 18,064 applicable tests in Test262,
 which shows that \( \tool \) extracts an IR-based formal semantics
 from ECMAScript correctly.  In addition, the evaluation witnesses that
 \( \tool \) can detect specification errors effectively.
@@ -422,35 +422,35 @@ in Test262.
     0 &
     9/9 &
     5/5 &
-    \inred{XXXXX}/\inred{XXXXX}\\\hline
+    \inred{XXXXX}/18,064\\\hline
 
     \scode{import()} &
     0 &
     2 &
     22/23 &
     0/0 &
-    \inred{XXXXX}/\inred{XXXXX}\\\hline
+    \inred{XXXXX}/18,064\\\hline
 
     \scode{BigInt} &
     4 &
     0 &
     258/323 &
     \inred{207}/207 &
-    \inred{XXXXX}/\inred{XXXXX}\\\hline
+    \inred{XXXXX}/18,064\\\hline
 
     \scode{Promise.allSettled } &
     0 &
     0 &
     79/85 &
     50/50 &
-    \inred{XXXXX}/\inred{XXXXX}\\\hline
+    \inred{XXXXX}/18,064\\\hline
 
     \scode{globalThis} &
     0 &
     0 &
     1/1 &
     1/1 &
-    \inred{XXXXX}/\inred{XXXXX}\\\hline
+    \inred{XXXXX}/18,064\\\hline
 
 \footnotesize
     \scode{for-in}  mechanics &
@@ -458,28 +458,28 @@ in Test262.
     0 &
     36/37 &
     0/0 &
-    \inred{XXXXX}/\inred{XXXXX}\\\hline
+    \inred{XXXXX}/18,064\\\hline
 
 \footnotesize    Optional Chaining &
     3 &
     3 &
     72/74 &
     19/19 &
-    \inred{XXXXX}/\inred{XXXXX}\\\hline
+    \inred{XXXXX}/18,064\\\hline
 
 \footnotesize   Nullish Coalescing Op. &
     1 &
     4 &
     10/10 &
     21/21 &
-    \inred{XXXXX}/\inred{XXXXX}\\\hline
+    \inred{XXXXX}/18,064\\\hline
 
     \scode{import.meta} &
     0 &
     2 &
     15/15 &
     0/0 &
-    \inred{XXXXX}/\inred{XXXXX}\\\hline
+    \inred{XXXXX}/18,064\\\hline
 
     {\bf Total} &
     8 &
