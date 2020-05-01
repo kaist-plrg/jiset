@@ -101,7 +101,7 @@ Toolchain:
     representation \( \ires \) designed for ECMAScript. We evaluated \( \tool \)
     with the four most recent ECMAScript versions (ES7 to ES10).   \( \tool \)
     automatically generated parsers for all versions, and automatically compiled
-    \inred{XX.X}\% of the steps in abstract algorithms on average.
+    95.03\% of the steps in abstract algorithms on average.
   \item \textbf{\( \tool \) bridges gaps between the specification written in a
     natural language and tests.}
     To evaluate the correctness of \( \tool \), we checked the extracted
@@ -112,14 +112,14 @@ Toolchain:
     specification errors in ES10. Using the tests, we found eight specification errors,
     three of which had not been reported before. They were all confirmed by
     TC39 and will be fixed in the next release.  After fixing them, the formal
-    semantics passed all \inred{XX,XXX} applicable tests.
+    semantics passed all 18,064 applicable tests.
   \item \textbf{\( \tool \) is also \textit{forward compatible} with new
     language features proposed for future ECMAScript specifications.}
     We evaluated the forward compatibility of \( \tool \) by applying it to all
-    \inred{X} proposals that are ready for inclusion in the next ECMAScript
+    nine proposals that are ready for inclusion in the next ECMAScript
     (ES11, 2020).  It automatically synthesized parsers and compiled \inred{XXX}
     out of \inred{XXX} algorithm steps for all the proposals.  After completion
-    of the missing parts, we found \inred{X} specifications errors by executing
-    the corresponding tests in Test262.  After fixing them, the extracted
-    semantics passed all \inred{XXX} tests.
+    of the missing parts, we found four specifications errors in BigInt
+    proposal by executing the corresponding tests in Test262.  After fixing
+    them, the extracted semantics passed all \inred{XXX} tests.
 \end{itemize}
