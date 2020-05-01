@@ -770,9 +770,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         }""")), ERef(RefId(Id(temp2))))
       }
     } | ((
-      "CoveredCallExpression of CoverCallExpressionAndAsyncArrowHead" ^^^ {
-        parseExpr("""(parse-syntax CoverCallExpressionAndAsyncArrowHead "CallMemberExpression")""")
-      } | "the steps of an" ~> name <~ "function as specified below" ^^ {
+      "the steps of an" ~> name <~ "function as specified below" ^^ {
         case x => parseExpr(s"$x")
       } | "the result of parsing the source text" ~> code <~ rest ^^ {
         case s => parseExpr(s"""(parse-syntax "$s" "MethodDefinition" false false)""")
@@ -817,7 +815,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         case x => parseExpr(s"(new '$x)")
       } | opt("the") ~ "string value" ~ ("whose" | "that" | "containing" | "consisting of" | "consisting solely of") ~ rest ^^^ {
         ENotSupported("StringOp")
-      } | "the code units of" ~ rest ^^^ {
+      } | "the code units of" ~ rep(normal.filter(_ != Text("."))) ^^^ {
         ENotSupported("StringOp")
       } | "the remaining" ~ rest ^^^ {
         ENotSupported("StringOp")

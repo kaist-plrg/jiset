@@ -417,6 +417,34 @@ trait AlgoCompilers extends TokenParsers {
     EBOp(OEq, expr, ENum(Double.NegativeInfinity))
   )
 
+  // select rather than not supported
+  def select(left: Parser[I[Expr]], right: Parser[I[Expr]]): Parser[I[Expr]] = new Parser[I[Expr]] {
+    def apply(in: Input) = {
+      val lres = left(in)
+      val rres = right(in)
+
+      (lres, rres) match {
+        case (s1 @ Success(_ ~ l, next1), s2 @ Success(_ ~ r, next2)) =>
+          if (next2.pos < next1.pos) s1
+          else if (next1.pos < next2.pos) s2
+          else (l, r) match {
+            case (_, ENotSupported(_)) => s1
+            case (ENotSupported(_), _) => s2
+            case _ => s1
+          }
+        case (s1 @ Success(_, _), _) => s1
+        case (_, s2 @ Success(_, _)) => s2
+        case (e1 @ Error(_, _), _) => e1
+        case (f1 @ Failure(_, next1), ns2 @ NoSuccess(_, next2)) => if (next2.pos < next1.pos || next2.pos == next1.pos) f1 else ns2
+      }
+    }
+    override def toString = "|||"
+  }
+
+  def noExc[T](x: => T): Boolean = try { x; true } catch { case e: Throwable => false }
+
+  def log[T](p: Parser[T]): P[T] = p ^^ { x => println(x); x }
+
   // execution context stack string
   val executionStack = "GLOBAL_executionStack"
   val context = "GLOBAL_context"

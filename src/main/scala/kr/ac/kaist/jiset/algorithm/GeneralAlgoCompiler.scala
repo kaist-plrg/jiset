@@ -53,6 +53,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       suspendStmt |||
       pushStmt |||
       subtractStmt |||
+      evaluateStmt |||
       assertStmt |||
       starStmt
     )
@@ -144,7 +145,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // call statements
   lazy val callStmt: P[Inst] = (("perform" | "call") ~> expr ||| returnIfAbruptExpr) ~ opt("and" ~> (
     "return its" ~ opt(camelWord) ~ "result" ^^^ { (e: Expr) => IReturn(e) } |||
-    "let" ~> id <~ "be" ~ ("its result" | "the resulting" ~ camelWord) ^^ { x => (e: Expr) => ILet(Id(x), e) }
+    "let" ~> id <~ "be" ~ ("the" ~ camelWord ~ "result" | "its result" | "the resulting" ~ camelWord ~ opt("value")) ^^ { x => (e: Expr) => ILet(Id(x), e) }
   )) ^^ {
     case i ~ e ~ None => ISeq(i :+ IExpr(e))
     case i ~ e ~ Some(f) => ISeq(i :+ f(e))
@@ -205,7 +206,23 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       )) ~ (opt(",") ~ opt("do") ~ opt(",") ~> stmt)
   } ^^ {
     case x ~ (i ~ e) ~ isRev ~ b => ISeq(i :+ forEachList(Id(x), e, b, isRev))
-  }
+  } ||| "for each integer" ~> id ~ (
+    ("in the range" ~> expr <~ "≤" ~ id ~ "<") ~ expr ^^ { case x ~ y => (x, y, 0, 0) } |
+    ("starting with" ~> expr <~ "such that" ~ id ~ "<") ~ expr ^^ { case x ~ y => (x, y, 0, 0) } |
+    ("such that" ~ id ~ ">" ~> expr <~ "and" ~ id ~ "≤") ~ expr ^^ { case x ~ y => (x, y, 1, 1) } |
+    ("that satisfies" ~> expr <~ "<" ~ id ~ "and" ~ id ~ "≤") ~ expr ^^ { case x ~ y => (x, y, 1, 1) }
+  ) ~ (opt(", in ascending order") ~ opt(",") ~ opt("do") ~> stmt) ^^ {
+      case k ~ ((i0 ~ s, i1 ~ e, ds, de)) ~ b =>
+        val n = getTemp
+        val sv = beautify(s)
+        val ev = beautify(e)
+        val body = beautify(b)
+        ISeq(i0 ++ i1 :+ parseInst(s"""{
+        let $k = (+ $sv ${ds}i)
+        let $n = (+ $ev ${de}i)
+        while (< $k $n) $body
+      }"""))
+    }
 
   // append statements
   lazy val appendStmt: P[Inst] = ("append" | "add") ~> (
@@ -225,6 +242,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       case (i0 ~ l1) ~ (i1 ~ l2) =>
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(toERef(tempId), l1)))
+    } ||| (expr <~ "as the last code unit of") ~ id ^^ {
+      case (i ~ e) ~ x => ILet(Id(x), EBOp(OPlus, toERef(x), e))
     }
   )
 
@@ -237,6 +256,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val removeStmt: P[Inst] = (
     ("remove the first element from" ~> id <~ "and let") ~ (id <~ "be the value of" ~ ("that" | "the") ~ "element") ^^ {
       case l ~ x => ILet(Id(x), EPop(toERef(l), EINum(0)))
+    } ||| ("let" ~> id <~ "be the first element of") ~ (id <~ "and remove that element from" ~ id) ^^ {
+      case x ~ l => ILet(Id(x), EPop(toERef(l), EINum(0)))
     } ||| "remove" ~ id ~ "from the front of" ~> id ^^ {
       case x => parseInst(s"(pop $x 0i)")
     } ||| "remove the last element of" ~> id ^^ {
@@ -293,6 +314,17 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     }
   )
 
+  // evaluate statements
+  lazy val evaluateStmt: P[Inst] = (
+    accessRef ~ ("to obtain" ~ opt("the" ~ word ~ "results:") ~> rep1sep(opt("a" | "an") ~ word ~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ~> id, sep("and"))) ^^ {
+      case (i ~ r) ~ List(x) =>
+        ISeq(i :+ ILet(Id(x), ERef(r)))
+      case (i0 ~ r) ~ xs =>
+        val i1 = xs.zipWithIndex.map { case (x, k) => ILet(Id(x), ERef(RefProp(r, EINum(k)))) }
+        ISeq(i0 ++ i1)
+    }
+  )
+
   // assert statements
   lazy val assertStmt: P[Inst] = ("assert:" | "note:") ~> cond <~ guard("." ~ next) ^^ { case i ~ e => ISeq(i :+ IAssert(e)) } |
     ("assert:" | "note:") ~> rest ^^^ emptyInst
@@ -305,28 +337,35 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     arithExpr ||| term
   )
 
-  lazy val term: P[I[Expr]] = (
+  lazy val term: P[I[Expr]] = select(etcExpr, (
     "(" ~> expr <~ ")" |||
-    etcExpr |||
     pairExpr |||
     valueExpr |||
     returnIfAbruptExpr |||
     callExpr |||
     newExpr |||
     listExpr |||
+    multiExpr |||
     listCopyExpr |||
     algorithmExpr |||
     accessExpr |||
     containsExpr |||
     coveredByExpr |||
     strConcatExpr |||
+    stringExpr |||
     syntaxExpr |||
     argumentExpr |||
     refExpr |||
     referenceExpr |||
     dateExpr |||
+    charExpr |||
+    remainderExpr |||
+    charSetExpr |||
+    stateExpr |||
+    integerExpr |||
+    operatorExpr |||
     starExpr
-  )
+  ))
 
   // arithmetic expressions
   lazy val arithExpr: P[I[Expr]] = (
@@ -335,7 +374,8 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
         case (i0 ~ l, b ~ (i1 ~ r)) => pair(i0 ++ i1, EBOp(b, l, r))
       }
     } ||| uop ~ expr ^^ {
-      case u ~ (i ~ e) => pair(i, EUOp(u, e))
+      case None ~ (i ~ e) => pair(i, e)
+      case Some(u) ~ (i ~ e) => pair(i, EUOp(u, e))
     }
   )
   lazy val bop: P[BOp] = (
@@ -348,7 +388,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "^" ^^^ OBXOr |
     "|" ^^^ OBOr
   )
-  lazy val uop: P[UOp] = "-" ^^^ ONeg
+  lazy val uop: P[Option[UOp]] = (
+    "+" ^^^ None |
+    "-" ^^^ Some(ONeg)
+  )
 
   // pair expressions
   lazy val pairExpr: P[I[Expr]] = (
@@ -433,6 +476,16 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       )
   } ^^ { getList(_) }
 
+  // multiple expressions
+  lazy val multiExpr: P[I[Expr]] = (
+    opt("the") ~ word ~ "results" ~> rep1sep(expr, sep("and")) ^^ {
+      case xs =>
+        val i = xs.map { case i ~ _ => i }.flatten
+        val es = xs.map { case _ ~ e => e }
+        pair(i, EList(es))
+    }
+  )
+
   // list copy expressions
   lazy val listCopyExpr: P[I[Expr]] = (
     "a new List which is a copy of" ~> expr ^^ { getCopyList(_, Nil) } |||
@@ -477,9 +530,9 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val accessExpr: P[I[Expr]] = accessRef ^^ { case i ~ r => pair(i, ERef(r)) }
   lazy val accessRef: P[I[Ref]] = (
     (opt("the result of" ~ opt("performing")) ~>
-      ("evaluating" ^^^ "Evaluation" | opt("the") ~> (camelWord | nt) <~ ("for" | "of")) ~ expr ~
+      (("evaluate" | "evaluating") ^^^ "Evaluation" | opt("the") ~> (camelWord | nt) <~ ("for" | "of")) ~ expr ~
       opt(("using" | "with" | "passing") ~ opt("arguments" | "argument" | "parameters" | "parameter") ~>
-        repsep(expr <~ opt("as the optional" ~ id ~ "argument"), ", and" | "," | "and") <~
+        repsep(expr <~ opt("as" ~ ("its" | "the optional") ~ id ~ "argument"), ", and" | "," | "and") <~
         opt("as" ~ opt("the") ~ ("arguments" | "argument")))) ^^ {
         case f ~ ix ~ optList => getAccess(f, ix, optList)
       }
@@ -504,12 +557,28 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   }
 
   // string-concatenation expressions
-  lazy val strConcatExpr: P[I[Expr]] =
-    ("the" | "a") ~ opt(opt("new") ~ "string" ~ ("-" | "that is the" ~ opt("result of") | "value" ~ ("formed" | "produced" | "computed") ~ "by") | "result of") ~ (opt("the") ~ "concatenation of" | "concatenating") ~ opt(opt("the") ~ "Strings") ~> rep1sep(opt("the previous value of") ~> expr, sep("and")) ^^ {
-      case es => es.reduce[I[Expr]] {
-        case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OPlus, l, r))
+  lazy val strConcatExpr: P[I[Expr]] = (
+    ("the" | "a") ~ opt(opt("new") ~ "string" ~ opt("-" | "that is the" ~ opt("result of") | "value" ~ opt(("formed" | "produced" | "computed") ~ "by")) | "result of") ~ (opt("the") ~ "concatenation of" | "concatenating" | "consisting" ~ opt("solely") ~ "of") ~> (
+      opt(opt("the") ~ "Strings") ~> rep1sep(opt("the previous value of") ~> expr, sep("and")) |||
+      opt(":") ~ in ~> rep1(expr <~ next | (rest ^^^ pair(Nil, ENotSupported("StringOp"))) <~ next) <~ out
+    ) ^^ {
+        case es => es.reduce[I[Expr]] {
+          case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OPlus, l, r))
+        }
       }
+  )
+
+  // string expressions
+  lazy val stringExpr: P[I[Expr]] = (
+    "the String value" ~> expr ^^ {
+      case ie => ie
+    } ||| ("the code unit at index" ~> expr <~ "within") ~ ref ^^ {
+      case (i0 ~ k) ~ (i1 ~ s) =>
+        pair(i0 ++ i1, ERef(RefProp(s, k)))
+    } ||| "the code unit" ~ ("whose value is" | "with code unit value") ~> id ^^ {
+      case x => pair(Nil, toERef(x))
     }
+  )
 
   // syntax expressions
   lazy val syntaxExpr: P[I[Expr]] =
@@ -560,6 +629,66 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // Date expressions
   lazy val dateExpr: P[I[Expr]] = (
     dateConst ^^ { n => pair(Nil, ENum(n)) }
+  )
+
+  // character expressions
+  lazy val charExpr: P[I[Expr]] = (
+    opt("the") ~ ("character" | "code point") ~ opt("whose" ~ ("character value" | "code") ~ "is" | "value of" | "matched by") ~> ("U+" ~> text <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
+      case s => pair(Nil, EStr(Character.toChars(Integer.parseInt(s, 16)).mkString))
+    } | expr) ||| id <~ "'s" ~ ("character" | "code point") ~ "value" ^^ {
+      case x => pair(Nil, toERef(x))
+    }
+  )
+
+  // remainder expressions
+  lazy val remainderExpr: P[I[Expr]] = (
+    (opt("the") ~ "remainder of dividing" ~> expr) ~ ("by" ~> expr) ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EBOp(OMod, x, y))
+    }
+  )
+
+  // set expressions
+  lazy val charSetExpr: P[I[Expr]] = (
+    ("the union of CharSets" ~> expr <~ "and") ~ expr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(i0 ++ i1, EBOp(OPlus, x, y))
+    } ||| (("a" | "the") ~ "one-element CharSet containing the character" | "the CharSet containing the" ~ opt("single" | "one") ~ "character" ~ opt("matched by" | "that is")) ~> expr ^^ {
+      case i ~ e => pair(i, EList(List(e)))
+    } ||| "the one character in CharSet" ~> id ^^ {
+      case x => pair(Nil, parseExpr(s"$x[0i]"))
+    } ||| "the CharSet that is" ~> expr ^^ {
+      case ie => ie
+    } ||| "the empty CharSet" ^^ {
+      case _ => pair(Nil, EList(Nil))
+    }
+  )
+
+  // state expressions
+  lazy val stateExpr: P[I[Expr]] = (
+    ("the state (" ~> expr <~ ",") ~ (expr <~ ")") ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) => pair(Nil, EList(List(x, y)))
+    }
+  )
+
+  // integer expressions
+  lazy val integerExpr: P[I[Expr]] = (
+    "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> id <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
+      case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
+    }
+  )
+
+  // operator expressions
+  lazy val operatorExpr: P[I[Expr]] = "the result of" ~> (
+    ("applying the" ~> ("**" ^^^ OPow | "addition" ^^^ OPlus | "subtraction" ^^^ OSub) <~ opt("operator with" | "operation to")) ~ id ~ ("and" ~> id) <~ rest ^^ {
+      case op ~ x ~ y => pair(Nil, EBOp(op, toERef(x), toERef(y)))
+    } ||| ("applying bitwise complement to" ^^^ OBNot | "negating" ^^^ ONeg) ~ id <~ rest ^^ {
+      case op ~ x => pair(Nil, EUOp(op, toERef(x)))
+    } ||| ("left shifting" ^^^ OLShift | "performing a sign-extending right shift of" ^^^ OSRShift | "performing a zero-filling right shift of" ^^^ OURShift) ~ (id <~ "by") ~ id <~ "bits" ~ rest ^^ {
+      case op ~ x ~ y => pair(Nil, EBOp(op, toERef(x), toERef(y)))
+    } ||| "masking out all but the least significant 5 bits of" ~> id <~ rest ^^ {
+      case x => pair(Nil, parseExpr(s"(& $x 31i)"))
+    } ||| ("adding the value" ~> expr <~ "to" ^^ { (OPlus, _) } | "subtracting the value" ~> expr <~ "from" ^^ { (OSub, _) }) ~ expr <~ rest ^^ {
+      case ((op, i0 ~ e)) ~ (i1 ~ b) => pair(i0 ++ i1, EBOp(op, b, e))
+    }
   )
 
   lazy val dateConst: P[Int] = (
@@ -639,12 +768,13 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val numberValue: P[Expr] = opt("the numeric value") ~> (
     (number <~ ".") ~ number ^^ {
       case x ~ y => ENum(s"$x.$y".toDouble)
-    } ||| number ^^ {
-      case s => EINum(java.lang.Long.decode(s))
+    } ||| opt("-") ~ number.filter(s => noExc(java.lang.Long.decode(s))) ^^ {
+      case None ~ s => EINum(java.lang.Long.decode(s))
+      case Some(_) ~ s => EINum(-java.lang.Long.decode(s))
     } ||| "zero" ^^^ {
       EINum(0L)
-    }
-  ) ||| "the Number value for" ~> id ^^ { toERef(_) }
+    } ||| "∞" ^^^ ENum(Double.PositiveInfinity)
+  ) ||| "the" ~ opt("ECMAScript") ~ "Number value" ~ ("for" | "corresponding to" | "that corresponds to") ~> id ^^ { toERef(_) }
 
   // grammar values
   lazy val grammarValue: P[Expr] = "the grammar symbol" ~> nt ^^ {
@@ -657,7 +787,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // hex values
   lazy val hexValue: P[Expr] =
-    opt("the") ~> opt("code unit") ~> hex <~ "(" ~ rep(normal.filter(_ != Text(")"))) ~ ")" ^^ {
+    opt("the") ~> opt("code unit") ~> hex <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
       case x => EStr(Character.toChars(x).mkString)
     } ||| hex ^^ { EINum(_) }
   lazy val hex: P[Int] = text.filter(_ startsWith "0x") ^^ {
@@ -683,11 +813,15 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     condOpCond |||
     rhsCond |||
     bothCond |||
+    eitherCond |||
     strictModeCond |||
     ownKeyCond |||
     containsCond |||
     suppliedCond |||
     finiteCond |||
+    suspendCond |||
+    oddCond |||
+    completionCond |||
     emptyCond
   )
 
@@ -700,16 +834,16 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     }
   )
 
-  def l[T](parser: P[T]): P[T] = parser ^^ { s => println(s); s }
-
   // same conditions
   lazy val sameCond: P[I[Expr]] = {
-    (id ~ rep(field) <~ "and") ~ (id ~ rep(field)) ^^ {
-      case (x ~ xfs) ~ (y ~ yfs) => (toERef(x, xfs), toERef(y, yfs))
-    } ||| (opt("the") ~> weakFieldName <~ "and") ~ (weakFieldName <~ ("of" | "for")) ~ refBase ^^ {
-      case f0 ~ f1 ~ b => (pair(Nil, toERef(b, f0)), pair(Nil, toERef(b, f1)))
-    }
-  } ~ ("are" ~> opt("not") <~ "the same" ~ rep(camelWord) ~ opt("value" | "values")) ^^ {
+    (expr <~ "and") ~ expr ^^ { case x ~ y => (x, y) } |||
+      (opt("the") ~> weakFieldName <~ "and") ~ (weakFieldName <~ ("of" | "for")) ~ refBase ^^ {
+        case f0 ~ f1 ~ b => (pair(Nil, toERef(b, f0)), pair(Nil, toERef(b, f1)))
+      }
+  } ~ ({
+    "are" ~> opt("not") <~ "the same" ~ rep(camelWord) ~ opt("value" | "values") |||
+      "have different results" ^^^ Some(Nil)
+  }) ^^ {
     case (i0 ~ x, i1 ~ y) ~ None => pair(i0 ++ i1, EBOp(OEq, x, y))
     case (i0 ~ x, i1 ~ y) ~ Some(_) => pair(i0 ++ i1, not(EBOp(OEq, x, y)))
   }
@@ -726,12 +860,12 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
     ("=") ^^^ (OEqual, false, false) |||
     ("≠") ^^^ (OEqual, true, false) |||
-    ("equals" | "is the same" ~ opt(opt(camelWord) ~ "value") ~ "as") ^^^ (OEq, false, false) |||
+    ("is equal to" | "equals" | "is the same" ~ opt(opt(camelWord) ~ "value") ~ "as") ^^^ (OEq, false, false) |||
     ("is not equal to" | "is different from") ^^^ (OEq, true, false) |||
     ("<" | "is less than") ^^^ (OLt, false, false) |||
-    "≥" ^^^ (OLt, true, false) |||
+    ("≥" | "is not less than" | "is greater than or equal to") ^^^ (OLt, true, false) |||
     (">" | "is greater than") ^^^ (OLt, false, true) |||
-    "≤" ^^^ (OLt, true, true)
+    ("≤" | "is not greater than" | "is less than or equal to") ^^^ (OLt, true, true)
   )
 
   // conditional operators
@@ -803,6 +937,14 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     }
   )
 
+  // either conditions
+  val eitherCond: P[I[Expr]] =
+    (opt("either") ~> expr <~ "or") ~ (expr <~ "is") ~ rhsExpr ^^ {
+      case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, (f(x), f(y)) match {
+        case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OOr, l, r))
+      })
+    }
+
   // strict mode conditions
   val strictModeCond: P[I[Expr]] = (
     "the Directive Prologue of FunctionStatementList contains a Use Strict Directive" |||
@@ -842,7 +984,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     ("field" | "internal" ~ ("slot" | "method") | "component") ^^^ ""
 
   // supplied conditions
-  lazy val suppliedCond: P[I[Expr]] = id <~ "was supplied" ^^ {
+  lazy val suppliedCond: P[I[Expr]] = opt("argument") ~> id <~ "was" ~ ("supplied" | "passed" ~ opt("as a parameter")) ^^ {
     case x => pair(Nil, isNEq(toERef(x), EAbsent))
   }
 
@@ -852,6 +994,27 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
       case i ~ e => pair(i, not(isInfinity(e)))
     } ||| expr <~ "is not finite" ^^ {
       case i ~ e => pair(i, isInfinity(e))
+    }
+  )
+
+  // suspend conditions
+  lazy val suspendCond: P[I[Expr]] = (
+    expr <~ "is not already suspended" ^^ {
+      case i ~ e => pair(i, EBOp(OEq, e, ENull))
+    }
+  )
+
+  // odd conditions
+  lazy val oddCond: P[I[Expr]] = (
+    expr <~ "is odd" ^^ {
+      case i ~ e => pair(i, EBOp(OEq, EBOp(OMod, e, EINum(2)), EINum(1)))
+    }
+  )
+
+  // completion conditions
+  lazy val completionCond: P[I[Expr]] = (
+    expr <~ "is a normal completion" ^^ {
+      case i ~ x => pair(i, parseExpr(s"""(&& (is-completion ${beautify(x)}) (= ${beautify(x)}.Type CONST_normal))"""))
     }
   )
 
@@ -876,9 +1039,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     "ResolvedBinding Record" ^^^ "ResolvedBindingRecord" |||
     "PromiseReaction" ^^^ "PromiseReaction" |||
     "ReadSharedMemory" ^^^ "ReadSharedMemory" |||
+    "Data Block" ^^^ "DataBlock" |||
     "Shared Data Block" ^^^ "SharedDataBlock" |||
     "Source Text Module Record" ^^^ "SourceTextModuleRecord" |||
-    "WriteSharedMemory" ^^^ "WriteSharedMemory" |||
+    "WriteSharedMemory" <~ opt("event") ^^^ "WriteSharedMemory" |||
     "arguments exotic object" ^^^ "ArgumentsExoticObject" |||
     "array exotic object" ^^^ "ArrayExoticObject" |||
     "bound function exotic object" ^^^ "BoundFunctionExoticObject" |||
@@ -929,7 +1093,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   lazy val fieldRef: P[I[Ref]] = (
     (fieldName <~ ("of" | "for")) ~ refBase ^^ {
       case f ~ b => pair(Nil, toRef(b, f))
-    } ||| (refBase <~ "'s") ~ weakFieldName <~ opt("value" | "attribute") ^^ {
+    } ||| (refBase <~ "'s") ~ weakFieldName <~ opt("value" | "attribute" | "list") ^^ {
       case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
     } ||| refBase ~ rep(field) ^^ {
       case x ~ es => toRef(x, es)
@@ -942,7 +1106,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   }
 
   // ordinal references
-  lazy val ordinalRef: P[I[Ref]] = (ordinal <~ "element of") ~ (accessRef ||| ref) ^^ {
+  lazy val ordinalRef: P[I[Ref]] = (ordinal <~ ("element of" | text ~ "in")) ~ (accessRef ||| ref) ^^ {
     case k ~ (i ~ r) => pair(i, RefProp(r, EINum(k)))
   }
 
@@ -972,7 +1136,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
   }
 
-  lazy val refBase: P[String] = opt("the") ~> (
+  lazy val refBase: P[String] = opt("the") ~ opt("corresponding") ~> (
     "surrounding agent's agent record" ^^^ agent |||
     "agent record of the surrounding agent" ^^^ agent |||
     "running execution context" ^^^ context |||
@@ -988,7 +1152,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     symbolName |||
     camelWord |||
     opt(ordinal) ~ nt ^^ { case k ~ x => x + k.getOrElse("") } |||
-    opt("argument" | "code unit" | "reference" | nt) ~> id <~ opt("flag" | "argument")
+    opt("argument" | opt("single") ~ "code" ~ ("unit" | "units") ~ opt("of") | "reference" | nt) ~> id <~ opt("flag" | "argument")
   )
   lazy val refPre: P[Unit] = opt("the") ~> (
     "hint" |||
@@ -1062,7 +1226,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   ////////////////////////////////////////////////////////////////////////////////
   lazy val name: P[String] = refBase
   lazy val intrinsicName: P[String] =
-    opt("the") ~> opt("intrinsic object") ~> "%" ~> word <~ "%" ^^ { INTRINSIC_PRE + _ }
+    opt("the") ~> opt("intrinsic" ~ ("object" | "function")) ~> "%" ~> word <~ "%" ^^ { INTRINSIC_PRE + _ }
   lazy val symbolName: P[String] =
     "@@" ~> word ^^ { case x => s"SYMBOL_$x" }
   lazy val internalName: P[Expr] =
