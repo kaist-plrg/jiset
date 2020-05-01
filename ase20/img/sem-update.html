@@ -54,9 +54,6 @@
     for (let i = 0; i < 3; i++) {
       text[i] = `<b>${data[i]} / ${total[i]}</b> (${(data[i] / total[i] * 100).toFixed(2)}%)`;
     }
-    // text[0] = (data[0] / total[0] * 100).toFixed(2) + '%';
-    // text[1] = (data[1] / total[1] * 100).toFixed(2) + '%';
-    // text[2] = (data[2] / total[2] * 100).toFixed(2) + '%';
     return createBase(white, yaxis, [0,0,0], '', text, 'outside');
   }
 
@@ -67,10 +64,10 @@
   Plotly.newPlot(
     "myDiv",
     [].concat(
-      createModel('y1', [1747.0,859.0,888.0], [150.3,32.0,118.3], [1897.3,891.0,1006.3]),
-      createModel('y2', [1069,371,698], [115,22,93], [1184,393,791]),
-      createModel('y3', [1472,694,778], [99,23,76], [1571,717,854]),
-      createModel('y4', [2700,1512,1188], [237,51,186], [2937,1563,1374]),
+      createModel('y1', [2563.7, 1314.3, 1249.3], [154.7, 38.7, 116.0], [2718.3, 1353.0, 1365.3]),
+      createModel('y2', [1559, 736, 823], [55, 6, 49], [1614, 742, 872]),
+      createModel('y3', [3015, 1660, 1355], [153, 37, 116], [3168, 1697, 1471]),
+      createModel('y4', [3117, 1547, 1570], [256, 73, 183], [3373, 1620, 1753]),
       [
         createDummy('y5'),
         createDummy('y6'),
@@ -115,6 +112,7 @@
       yaxis5: { domain: [0.18, 0.22] },
       yaxis6: { domain: [0.38, 0.42] },
       yaxis7: { domain: [0.58, 0.62] },
+      showlegend: false
     },
     {responsive: true}
   );
