@@ -16,22 +16,27 @@ object MethodGenerator {
       case "StringGetOwnProperty" if numberEqual => patchNumberEqual(algo)
       case "AbstractEqualityComparison" if completionInAbstractEquality => patchCompletionInAbstractEquality(algo)
       case "EqualityExpression2Evaluation0" if completionInEqualityExpr => patchCompletionInEqualityExpr(algo)
+      case "AsyncGeneratorResumeNext" | "AsyncFromSyncIteratorContinuation" | "Await" if wrongArgsInPromiseResolve => patchWrongArgsInPromiseResolve(name, algo)
+      case "IterationStatement12VarScopedDeclarations0" if duplicatedVarScopedDecl => patchDuplicatedVarScopedDecl(algo)
       case _ =>
     }
-    val len = algo.length
-    val (func, _) = AlgoCompiler(name, algo).result
+    generate(name, scalaName, algo)
+    def generate(name: String, scalaName: String, algo: Algorithm): Unit = {
+      val len = algo.length
+      val (func, _) = AlgoCompiler(name, algo).result
 
-    val nf = getPrintWriter(s"$modelDir/algorithm/$scalaName.scala")
-    val TRIPLE = "\"\"\""
-    nf.println(s"""package $packageName.model""")
-    nf.println(s"""""")
-    nf.println(s"""import $packageName.ir._""")
-    nf.println(s"""import $packageName.ir.Parser._""")
-    nf.println(s"""""")
-    nf.println(s"""object $scalaName {""")
-    nf.println(s"""  val length: Int = $len""")
-    nf.println(s"""  val func: Func = parseFunc($TRIPLE${beautify(func, "  ")}$TRIPLE)""")
-    nf.println(s"""}""")
-    nf.close()
+      val nf = getPrintWriter(s"$modelDir/algorithm/$scalaName.scala")
+      val TRIPLE = "\"\"\""
+      nf.println(s"""package $packageName.model""")
+      nf.println(s"""""")
+      nf.println(s"""import $packageName.ir._""")
+      nf.println(s"""import $packageName.ir.Parser._""")
+      nf.println(s"""""")
+      nf.println(s"""object $scalaName {""")
+      nf.println(s"""  val length: Int = $len""")
+      nf.println(s"""  val func: Func = parseFunc($TRIPLE${beautify(func, "  ")}$TRIPLE)""")
+      nf.println(s"""}""")
+      nf.close()
+    }
   }
 }

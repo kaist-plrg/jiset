@@ -87,6 +87,38 @@ object BugPatch extends RegexParsers {
       getTokens("ReturnIfAbrupt( id:r ) .")
   }
 
+  // es10-6
+  val wrongArgsInPromiseResolve = true
+  def patchWrongArgsInPromiseResolve(name: String, algo: Algorithm): Unit = name match {
+    case "AsyncGeneratorResumeNext" =>
+      algo.steps(9).tokens(8).asInstanceOf[StepList]
+        .steps(1).tokens(6).asInstanceOf[StepList]
+        .steps(0).tokens(12).asInstanceOf[StepList]
+        .steps(1).tokens = getTokens("Let id:promise be ?PromiseResolve(%Promise%, id:completion .[[Value]]).")
+    case "AsyncFromSyncIteratorContinuation" =>
+      algo.steps(4).tokens =
+        getTokens("Let id:valueWrapper be ?PromiseResolve(%Promise%, id:value ).")
+    case "Await" =>
+      algo.steps(1).tokens =
+        getTokens("Let id:promise be ?PromiseResolve(%Promise%, id:value ).")
+  }
+
+  // es10-7
+  val noIsFunctionDefinition = true
+
+  // es10-8
+  val noExpectedArgumentCount = true
+
+  // es10-9
+  val duplicatedVarScopedDecl = true
+  def patchDuplicatedVarScopedDecl(algo: Algorithm): Unit = {
+    algo.steps = List(
+      Step(getTokens("Let id:declarations be a List containing nt:ForBinding .")),
+      Step(getTokens("Append to id:declarations the elements of the VarScopedDeclarations of nt:Statement .")),
+      Step(getTokens("Return id:declarations ."))
+    )
+  }
+
   private lazy val word = "[a-zA-Z0-9]+".r
   private lazy val symobol = ".".r
   private lazy val any = "\\S+".r
@@ -94,7 +126,8 @@ object BugPatch extends RegexParsers {
   private lazy val id = "id:" ~> any ^^ { Id(_) }
   private lazy val value = "value:" ~> any ^^ { Value(_) }
   private lazy val const = "const:" ~> any ^^ { Const(_) }
-  private lazy val token = text ||| id ||| value ||| const
+  private lazy val nt = "nt:" ~> any ^^ { Nt(_) }
+  private lazy val token = text ||| id ||| value ||| const ||| nt
   private lazy val tokens = rep1(token)
   def getTokens(str: String): List[Token] = parseAll(tokens, str).get
 }

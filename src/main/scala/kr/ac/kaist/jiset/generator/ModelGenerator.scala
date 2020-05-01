@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.generator
 
 import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.BugPatch._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec._
 import java.io.File
@@ -60,7 +61,7 @@ object ModelGenerator {
         nf.println
         nf.print(readFile(name))
         nf.close()
-      }
+      } else deleteFile(s"$modelDir/algorithm/$filename")
     }
 
     val nf = getPrintWriter(s"$modelDir/Model.scala")
@@ -84,8 +85,12 @@ object ModelGenerator {
       case (k, v) =>
         nf.println(s"""    Id("${getScalaName(k)}") -> NamedAddr("$v"),""")
     }
-    nf.println(methods.map(getScalaName _).map(x =>
-      s"""    Id("$x") -> $x.func""").mkString("," + LINE_SEP))
+    nf.println(methods.map(getScalaName _).map {
+      case x @ "FunctionExpression0IsFunctionDefinition1" if noIsFunctionDefinition =>
+        """    Id("FunctionExpression0IsFunctionDefinition0") -> FunctionExpression0IsFunctionDefinition0.func""" + "," + LINE_SEP +
+          s"""    Id("$x") -> $x.func"""
+      case x => s"""    Id("$x") -> $x.func"""
+    }.mkString("," + LINE_SEP))
     nf.println(s"""  ) ++ Map(""")
     nf.println(consts.map(i =>
       s"""      Id("CONST_$i") -> NamedAddr("CONST_$i")""").mkString("," + LINE_SEP))
