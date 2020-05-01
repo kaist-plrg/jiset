@@ -7,11 +7,11 @@ import spray.json._
 
 // algorithms
 case class Algorithm(
-    length: Int,
-    params: List[String],
-    kind: AlgoKind,
-    steps: List[Step],
-    filename: String
+    var length: Int,
+    var params: List[String],
+    var kind: AlgoKind,
+    var steps: List[Step],
+    var filename: String
 ) {
   def getSteps(init: List[Step]): List[Step] = steps.foldLeft(init) {
     case (list, step) => step.getSteps(list)

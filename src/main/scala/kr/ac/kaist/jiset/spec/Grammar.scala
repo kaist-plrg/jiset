@@ -4,42 +4,45 @@ import spray.json._
 
 // ECMAScript grammars
 case class Grammar(
-    lexProds: List[Production],
-    prods: List[Production]
+    var lexProds: List[Production],
+    var prods: List[Production]
 )
 
 // productions
 case class Production(
-    lhs: Lhs,
-    rhsList: List[Rhs]
+    var lhs: Lhs,
+    var rhsList: List[Rhs]
 )
 
 // left-hand-sides
-case class Lhs(name: String, params: List[String])
+case class Lhs(
+    var name: String,
+    var params: List[String]
+)
 
 // right-hand-sides
 case class Rhs(
-    tokens: List[Token],
-    cond: String
+    var tokens: List[Token],
+    var cond: String
 )
 
 // tokens
 trait Token
-case class Terminal(term: String) extends Token
+case class Terminal(var term: String) extends Token
 case class NonTerminal(
-    name: String,
-    args: List[String],
-    optional: Boolean
+    var name: String,
+    var args: List[String],
+    var optional: Boolean
 ) extends Token
 case class ButNot(
-    base: Token,
-    cases: List[Token]
+    var base: Token,
+    var cases: List[Token]
 ) extends Token
 case class Lookahead(
-    contains: Boolean,
-    cases: List[List[Token]]
+    var contains: Boolean,
+    var cases: List[List[Token]]
 ) extends Token
-case class Unicode(code: String) extends Token
+case class Unicode(var code: String) extends Token
 case object EmptyToken extends Token
 case object NoLineTerminatorToken extends Token
 case object UnicodeAny extends Token

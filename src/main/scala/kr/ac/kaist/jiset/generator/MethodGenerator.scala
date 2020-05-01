@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.generator
 
 import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.BugPatch._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.algorithm.Algorithm
 import kr.ac.kaist.jiset.model.AlgoCompiler
@@ -10,6 +11,13 @@ object MethodGenerator {
   def apply(packageName: String, modelDir: String, name: String): Unit = {
     val scalaName = getScalaName(name)
     val algo = Algorithm(s"$RESOURCE_DIR/$VERSION/auto/algorithm/$name.json")
+    if (VERSION == "es2019_full") name match {
+      case "ForInOfHeadEvaluation" if assertForAsyncIterator => patchAssertForAsyncIterator(algo)
+      case "StringGetOwnProperty" if numberEqual => patchNumberEqual(algo)
+      case "AbstractEqualityComparison" if completionInAbstractEquality => patchCompletionInAbstractEquality(algo)
+      case "EqualityExpression2Evaluation0" if completionInEqualityExpr => patchCompletionInEqualityExpr(algo)
+      case _ =>
+    }
     val len = algo.length
     val (func, _) = AlgoCompiler(name, algo).result
 

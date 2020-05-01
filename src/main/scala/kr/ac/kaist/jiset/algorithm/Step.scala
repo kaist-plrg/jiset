@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.parser._
 
 // steps
-case class Step(tokens: List[Token]) {
+case class Step(var tokens: List[Token]) {
   def getSteps(init: List[Step]): List[Step] = tokens.foldLeft(this :: init) {
     case (list, StepList(steps)) => steps.foldLeft(list) {
       case (list, s) => s.getSteps(list)
