@@ -316,7 +316,7 @@ in ES10, 9,627 steps out of 10,101 steps are
 automatically compiled by \textsf{Algorithm Compiler}.
 Among the remaining 474 steps, we manually implemented all
 missing steps for the core language semantics (137 steps) and
-the essential parts of the built-in libraries (\inred{XX} steps out of
+the essential parts of the built-in libraries (140 steps out of
 337).  We also manually implemented \textsf{Global Setting}
 as described in Section~\ref{sec:compiler-impl} for the core language features.
 Note that we do not support minor language features such as the
@@ -501,8 +501,8 @@ Otherwise, its stage becomes Inactive.
 
 We applied \( \tool \) to all nine Finished proposals as shown in
 Table~\ref{table:spec-prop-result}.
-Collectively, the proposals modified \inred{XX} lexical and
-\inred{XX} syntactic productions, and \( \tool \) successfully
+Collectively, the proposals modified eight lexical and
+11 syntactic productions, and \( \tool \) successfully
 synthesized parsers for them.  The synthesized parsers parse all
 applicable tests for all proposals.  For abstract algorithms,
 \inred{XXX} steps out of \inred{XXX} are automatically converted to
@@ -532,10 +532,10 @@ BigInt-2 and BigInt-3 break the backward compatibility because of
 misusing {\bf ToInt32} and {\bf ToUint32}
 in unsigned right shift operators and bitwise operators, respectively.
 BigInt-4 is due to missing BigInt primitives in the Number constructor.
-On average, four errors existed for \inred{XXX} days in the proposal.
+On average, four errors existed for 170 days in the proposal.
 
 After fixing the errors in the proposal, we extracted a semantics from
 the revised specification.  The extracted semantics passed all 207
-applicable tests for the proposal and \inred{XXXXX} applicable tests
+applicable tests for the proposal and 18,064 applicable tests
 for ES10.  Thus, \( \tool \) also correctly extracts an IR-based
 semantics from future proposals, which implies that it is forward compatible.
