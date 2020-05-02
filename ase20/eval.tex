@@ -96,7 +96,6 @@ lexical and syntactic productions between adjacent versions are 4.67 and
   \begin{subfigure}{0.48\textwidth}
     \includegraphics[width=\textwidth]{img/sem-all.pdf}
     \caption{For each ECMAScript version from ES7 to ES10}
-\vspace*{.5em}
     \label{fig:semantics-all-version}
   \end{subfigure}
   \hfill
@@ -109,7 +108,7 @@ lexical and syntactic productions between adjacent versions are 4.67 and
 \caption{Semantics coverage: Number of algorithm steps in specifications,
 from which \( \tool \) generated the semantics}
   \label{fig:all-version}
-\vspace*{-1em}
+\vspace*{-1.5em}
 \end{figure}
 
 For semantics, Figure~\ref{fig:all-version} shows that \( \tool \) automatically
@@ -157,7 +156,7 @@ from specifications but also in evolving existing tools for updates.
     2018-02-16 &
     2020-03-25 &
     768 days &
-    1,120 \\\hline
+    1,116 \\\hline
 
     ES10-2 &
     Condition &
@@ -177,7 +176,7 @@ from specifications but also in evolving existing tools for updates.
     2015-06-01 &
     TBD &
     \multicolumn{1}{c|}{TBD} &
-    \inred{XX} \\\hline
+    7 \\\hline
 
     ES10-4 &
     Completion &
@@ -186,8 +185,7 @@ from specifications but also in evolving existing tools for updates.
     2015-06-01&
     2020-04-28 &
     1,793 days &
-    \inred{XX}
-    \\\hline
+    9 \\\hline
 
     ES10-5 &
     Completion &
@@ -197,7 +195,7 @@ from specifications but also in evolving existing tools for updates.
     2015-06-01 &
     2019-05-02 &
     1,431 days &
-    1 \\\hline
+    2 \\\hline
 
     ES10-6 &
     Await &
@@ -206,7 +204,7 @@ from specifications but also in evolving existing tools for updates.
     2019-02-27 &
     2019-04-13 &
     45 days &
-    1,100 \\\hline
+    1,294 \\\hline
 
     ES10-7 &
     Function &
@@ -226,7 +224,7 @@ from specifications but also in evolving existing tools for updates.
     2016-11-02 &
     2020-02-20 &
     1,205 days &
-    \inred{XX} \\\hline
+    81 \\\hline
 
     ES10-9 &
     Iteration &
@@ -236,7 +234,7 @@ from specifications but also in evolving existing tools for updates.
     2018-02-16 &
     2019-10-11 &
     602 days &
-    \inred{XX} \\\hline\hline
+    0 \\\hline\hline
 
     BigInt-1 &
     Expression &
@@ -366,7 +364,7 @@ thus, \mbox{``+0 = -0''} evaluates to true.  However, to check whether
 {\it index} is exactly the same with -0,
 {\bf StringGetOwnProperty} used \mbox{``{\it index} = -0''},
 which is true even when {\it index} is +0.
-It caused \inred{XX} tests failed.  We proposed a fix, which is
+It caused seven tests failed.  We proposed a fix, which is
 confirmed on April 22, 2020.
 
 ES10-4 and ES10-5 happened because ES10 did not handle
@@ -378,14 +376,16 @@ ES10-6 is due to incorrect uses of an abstract algorithm.
 While {\bf PromiseResolve(C, x)} expects a JavaScript object for its
 second argument, ES10 passed a list of values rather than an object in
 three invocations of {\bf PromiseResolve}.  The wrong invocations were
-introduced on February 27, 2019 and caused \inred{XX} tests failed.
+introduced on February 27, 2019 and caused 1,294 tests failed.
 They were fixed on April 13, 2019 after existing 45 days.
 
 ES10-7 and ES10-8 happened because ES10 missed semantics for some
 cases.  They both existed for more than 1,200 days.
 
-ES10-9 is due to multiple semantics.  Because only one semantics is
-intended, \inred{XX} tests fail when a wrong semantics is chosen.
+ES10-9 is due to multiple semantics.  While any tests in Test262 do not fail
+with two different semantics, we could detect this error via {\sf Spec
+Extractor} even before executing semantics. It is a supplementary merit of
+the mechanization of IR-based semantics extraction.
 
 After resolving the nine specification errors in ES10, we extracted a
 semantics from the revised specification.  The extracted semantics
