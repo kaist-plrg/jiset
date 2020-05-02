@@ -79,10 +79,7 @@ object ASTGenerator {
           for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/manual/algorithm")) {
             if (scalaFilter(file.getName)) {
               val methodName = removedExt(file.getName)
-              if (noExpectedArgumentCount || (
-                methodName != "FormalParameterList0ExpectedArgumentCount0" &&
-                methodName != "FormalParameters1ExpectedArgumentCount0"
-              )) {
+              if (noExpectedArgumentCount || methodName != "FormalParameters1ExpectedArgumentCount0") {
                 val pre = s"$name$i"
                 val len = pre.length
                 if (methodName.startsWith(pre) && !methodName.charAt(len).isDigit) {
