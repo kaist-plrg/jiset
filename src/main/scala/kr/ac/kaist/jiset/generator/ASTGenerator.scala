@@ -92,18 +92,14 @@ object ASTGenerator {
           for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/auto/algorithm")) {
             if (jsonFilter(file.getName)) {
               val methodName = removedExt(file.getName)
-              if (noIsFunctionDefinition || methodName != "FunctionExpression0IsFunctionDefinition0") {
-                val pre = s"$name$i"
-                val len = pre.length
-                if (methodName.startsWith(pre) && !methodName.charAt(len).isDigit) {
-                  val semName = methodName.substring(len)
-                  sems ::= s"""    "$semName" -> $methodName.func"""
-                }
+              val pre = s"$name$i"
+              val len = pre.length
+              if (methodName.startsWith(pre) && !methodName.charAt(len).isDigit) {
+                val semName = methodName.substring(len)
+                sems ::= s"""    "$semName" -> $methodName.func"""
               }
             }
           }
-          if (noIsFunctionDefinition && s"$name$i" == "FunctionExpression0")
-            sems ::= s"""    "IsFunctionDefinition0" -> FunctionExpression0IsFunctionDefinition0.func"""
           nf.print(s"""  val semMap: Map[String, Func] = Map(""")
           if (!sems.isEmpty)
             nf.print(sems.sorted.mkString(LINE_SEP, "," + LINE_SEP, LINE_SEP + "  "))

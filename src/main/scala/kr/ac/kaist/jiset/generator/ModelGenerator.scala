@@ -59,7 +59,8 @@ object ModelGenerator {
         nf.println(s"import $packageName.ir._")
         nf.println(s"import $packageName.ir.Parser._")
         nf.println
-        nf.print(readFile(name))
+        if (!noIsFunctionDefinition && filename == "FunctionExpression0IsFunctionDefinition0.scala") nf.println(readFile(removedExt(name) + ".error"))
+        else nf.print(readFile(name))
         nf.close()
       } else deleteFile(s"$modelDir/algorithm/$filename")
     }
@@ -85,12 +86,7 @@ object ModelGenerator {
       case (k, v) =>
         nf.println(s"""    Id("${getScalaName(k)}") -> NamedAddr("$v"),""")
     }
-    nf.println(methods.map(getScalaName _).map {
-      case x @ "FunctionExpression0IsFunctionDefinition1" if noIsFunctionDefinition =>
-        """    Id("FunctionExpression0IsFunctionDefinition0") -> FunctionExpression0IsFunctionDefinition0.func""" + "," + LINE_SEP +
-          s"""    Id("$x") -> $x.func"""
-      case x => s"""    Id("$x") -> $x.func"""
-    }.mkString("," + LINE_SEP))
+    nf.println(methods.map(getScalaName _).map(x => s"""    Id("$x") -> $x.func""").mkString("," + LINE_SEP))
     nf.println(s"""  ) ++ Map(""")
     nf.println(consts.map(i =>
       s"""      Id("CONST_$i") -> NamedAddr("CONST_$i")""").mkString("," + LINE_SEP))
