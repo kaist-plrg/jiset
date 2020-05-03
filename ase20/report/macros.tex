@@ -1,0 +1,97 @@
+% IRES
+\newcommand{\ires}{\text{IR}_\text{ES}}
+
+% codes
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\C}[1]{\texttt{#1}}
+
+% Values
+\newcommand{\valset}{\mathbb{V}}
+\newcommand{\val}{v}
+\newcommand{\doubleset}{\valset_\code{double}}
+\newcommand{\double}{d}
+\newcommand{\intset}{\valset_\code{int}}
+\newcommand{\intvalue}{n}
+\newcommand{\strset}{\valset_\code{str}}
+\newcommand{\str}{s}
+\newcommand{\boolset}{\valset_\code{bool}}
+\newcommand{\bool}{b}
+
+% Syntax
+\newcommand{\idset}{\mathbb{X}}
+\newcommand{\id}{x}
+\newcommand{\refset}{\mathbb{R}}
+\newcommand{\refvalue}{r}
+\newcommand{\prset}{\mathbb{P}}
+\newcommand{\pr}{p}
+\newcommand{\instset}{\mathbb{I}}
+\newcommand{\inst}{i}
+\newcommand{\exprset}{\mathbb{E}}
+\newcommand{\expr}{e}
+\newcommand{\uop}{\odot}
+\newcommand{\bop}{\oplus}
+\newcommand{\cop}{\triangleright}
+
+
+
+
+
+% style
+\newcommand{\Acd}[1]{\mathsf{#1}}
+\newcommand{\Term}[1]{\texttt{#1}}
+\newcommand{\dom}[1]{\mathit{Domain}(#1)}
+\newcommand{\cs}[0]{\quad}
+\newcommand{\inred}[1]{{\color{red}{#1}}}
+
+% symbols
+\newcommand{\symstate}[0]{\sigma}
+\newcommand{\symctx}[0]{C}
+\newcommand{\symctxstack}[0]{C^*}
+\newcommand{\symglb}[0]{\mathbb{G}}
+\newcommand{\symenv}[0]{E}
+\newcommand{\symheap}[0]{H}
+\newcommand{\symuop}[0]{\odot}
+\newcommand{\symbop}[0]{\oplus}
+\newcommand{\symast}[0]{ASTVal}
+\newcommand{\symastm}[0]{ASTMethod}
+\newcommand{\symrefv}[0]{rv}
+\newcommand{\symstatetuple}[4]{(#1,\ #2,\ #3,\ #4)}
+\newcommand{\symstdef}[0]
+{\symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap}}
+\newcommand{\symctxtuple}[4]{(#1,\ #2,\ #3,\ #4)}
+\newcommand{\symctxdef}[0]{\symctxtuple{x}{s}{i^*}{E}}
+\newcommand{\symlist}[1]{\Term{<} #1 \Term{>}}
+\newcommand{\symmap}[3]{#1\ \Term{\{} [#2 \mapsto #3]^* \Term{\}}}
+
+% value
+\newcommand{\valfunc}[4]{\lambda \Term{(} #1,\ #2,\ #3,\ #4 \Term{)}}
+\newcommand{\valcont}[4]{\kappa \Term{(} #1,\ #2,\ #3,\ #4 \Term{)}}
+\newcommand{\valast}[4]{\symast \Term{(} \Term{)}}
+
+% evaluation
+\newcommand{\evaluop}[2]{\symuop #1 \Rightarrow #2}
+\newcommand{\evalbop}[3]{#1 \symbop #2 \Rightarrow #3}
+\newcommand{\evalinst}[3]{#1 \vdash #2 \Rightarrow #3}
+\newcommand{\evalexpr}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
+\newcommand{\evalescexpr}[4]{#1 \vdash_{escape} #2 \Rightarrow #3,\ #4}
+\newcommand{\evalref}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
+\newcommand{\evalrefv}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
+
+% helper function
+\newcommand{\hdefine}[4]{\Term{define}(#1,\ #2,\ #3) = #4}
+\newcommand{\hupdated}[4]{\Term{updated}(#1,\ #2,\ #3) = #4}
+\newcommand{\hdeleted}[3]{\Term{deleted}(#1,\ #2) = #3}
+\newcommand{\happend}[4]{\Term{append}(#1,\ #2,\ #3) = #4}
+\newcommand{\hprepend}[4]{\Term{prepend}(#1,\ #2,\ #3) = #4}
+\newcommand{\hreturn}[3]{\Term{return}(#1,\ #2) = #3}
+\newcommand{\hgethprop}[4]{\Term{getHeapProp}(#1,\ #2,\ #3) = #4}
+\newcommand{\hgetsprop}[3]{\Term{getStringProp}(#1,\ #2) = #3}
+\newcommand{\hcharat}[3]{\Term{charAt}(#1,\ #2) = #3}
+\newcommand{\htoint}[2]{\Term{toInt}(#1) = #2}
+\newcommand{\hgettype}[2]{\Term{getType}(#1) = #2}
+\newcommand{\hallocsym}[4]{\Term{allocSymbol}(#1,\ #2) = (#3,\ #4)}
+\newcommand{\halloclist}[4]{\Term{allocList}(#1,\ #2) = (#3,\ #4)}
+\newcommand{\hallocmap}[4]{\Term{allocMap}(#1,\ #2) = (#3,\ #4)}
+
+%etc
+\newcommand{\mathlen}[1]{|#1|}

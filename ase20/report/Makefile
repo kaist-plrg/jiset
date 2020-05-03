@@ -1,4 +1,4 @@
-TEXSRC=	report.tex
+TEXSRC=	report.tex macros.tex syntax.tex semantics.tex
 
 report.pdf: $(TEXSRC)
 	pdflatex report.tex
