@@ -108,7 +108,7 @@ Toolchain:
     semantics with the official test conformance suite, Test262~\cite{test262}.
     By manually completing missing parts of the AST-IR translator for the latest
     ECMAScript (ES10, 2019), we defined the \textit{first IR-based formal
-    semantics of modern JavaScript}. It failed for \inred{XXXX} tests because of
+    semantics of modern JavaScript}. It failed for 1,709 tests because of
     specification errors in ES10. Using the tests, we found eight specification errors,
     three of which had not been reported before. They were all confirmed by
     TC39 and will be fixed in the next release.  After fixing them, the formal
@@ -117,9 +117,10 @@ Toolchain:
     language features proposed for future ECMAScript specifications.}
     We evaluated the forward compatibility of \( \tool \) by applying it to all
     nine proposals that are ready for inclusion in the next ECMAScript
-    (ES11, 2020).  It automatically synthesized parsers and compiled \inred{XXX}
-    out of \inred{XXX} algorithm steps for all the proposals.  After completion
+    (ES11, 2020).  It automatically synthesized parsers and compiled 560
+    out of 595 algorithm steps for all the proposals.  After completion
     of the missing parts, we found three specifications errors in BigInt
     proposal by executing the corresponding tests in Test262.  After fixing
-    them, the extracted semantics passed all \inred{XXX} tests.
+    them, the extracted semantics passed all applicable ES10 tests and 303 new
+    applicable tests.
 \end{itemize}
