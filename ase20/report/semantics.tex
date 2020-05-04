@@ -348,7 +348,7 @@ Section~\ref{sec:helper}
 
 
 \subsection{
-Semantics of Expressions: \fbox{\( \evalexpr{\st}{\expr}{\val}{\st} \)}
+  Semantics of Expressions: \fbox{\( \evalexpr{\st}{\expr}{\val}{\st} \)}
 }\label{sec:expr}
 
 \begin{itemize}
@@ -576,166 +576,76 @@ Semantics of Expressions: \fbox{\( \evalexpr{\st}{\expr}{\val}{\st} \)}
 \newpage
 
 
-\subsection{Reference}\label{sec:refer}
+\subsection{
+  Semantics of References: \fbox{\( \evalref{\st}{\refer}{\refval}{\st} \)}
+}\label{sec:refer}
 
-\[
-\begin{array}{c}
-\multicolumn{1}{c}{\begin{array}{ccc}
-\fbox{$\evalref{\st}{r}{\symrefv}{\st}$}
-& \cs &
-% ref - id
-\evalref{\st}{x}{x}{\st}
-\end{array}}
-\\ \\
-% ref - prop - string
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{s}{\st_1}\ \ \ \
-\evalescexpr{\st_1}{e}{v}{\st_2}}
-{\evalref{\st}{r\code{[} e \code{]}}{s\code{.}v}{\st_2}}
-\\ \\
-% ref - prop - address - not contains in heap
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{a}{\st_1}\ \ \ \
-\evalescexpr{\st_1}{e}{v}{\st_2}\ \ \ \
-\st_2 = \symstdef\ \ \ \
-a \notin \code{Dom}(\symheap)}
-{\evalref{\st}{r\code{[} e \code{]}}{a\code{[} v \code{]}}{\st_2}}
-\\ \\
-% ref - prop - address - symbol
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{a}{\st_1}\ \ \ \
-\evalescexpr{\st_1}{e}{v}{\st_2}\ \ \ \
-\st_2 = \symstdef\ \ \ \
-\\ \\
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \code{symbol}\ v_s}
-{\evalref{\st}{r\code{[} e \code{]}}{a\code{[} v \code{]}}{\st_2}}
-\\ \\
-% ref - prop - address - list
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{a}{\st_1}\ \ \ \
-\evalescexpr{\st_1}{e}{v}{\st_2}\ \ \ \
-\st_2 = \symstdef\ \ \ \
-\\ \\
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \symlist{v^*}}
-{\evalref{\st}{r\code{[} e \code{]}}{a\code{[} v \code{]}}{\st_2}}
-\\ \\
-% ref - prop - address - not completion
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{a}{\st_1}\ \ \ \
-\evalescexpr{\st_1}{e}{v}{\st_2}\ \ \ \
-\st_2 = \symstdef\ \ \ \
-\\ \\
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \code{\{} [v_k\ \mapsto\ v_v]^* \code{\}}\ \ \ \
-t \neq t_{completion}}
-{\evalref{\st}{r\code{[} e \code{]}}{a\code{[} v \code{]}}{\st_2}}
-\\ \\
-% ref - prop - address - completion and contains
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{a}{\st_1}\ \ \ \
-\evalescexpr{\st_1}{e}{v}{\st_2}\ \ \ \
-\st_2 = \symstdef\ \ \ \
-\\ \\
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \code{\{} [v_k\ \mapsto\ v_v]^* \code{\}}\ \ \ \
-t = t_{completion}\ \ \ \
-v \in \{v_k\} \ \ \ \ }
-{\evalref{\st}{r\code{[} e \code{]}}{a\code{[} v \code{]}}{\st_2}}
-\\ \\
-% ref - prop - address - completion - prop
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{a}{\st_1}\ \ \ \
-\evalescexpr{\st_1}{e}{v}{\st_2}\ \ \ \
-\st_2 = \symstdef\ \ \ \
-\\ \\
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \code{\{} [v_k\ \mapsto\ v_v]^* \code{\}}\ \ \ \
-t = t_{completion}\ \ \ \
-v \notin \{v_k\}\ \ \ \
-\code{"Value"} \in \{v_k\}
-\\ \\
-[v_k\ \mapsto\ v_v]^*(\code{"Value"}) = a_0 }
-{\evalref{\st}{r\code{[} e \code{]}}{a_0\code{[} v \code{]}}{\st_2}}
-\\ \\
-% ref - prop - address - completion - str
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{a}{\st_1}\ \ \ \
-\evalescexpr{\st_1}{e}{v}{\st_2}\ \ \ \
-\st_2 = \symstdef\ \ \ \
-\\ \\
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \code{\{} [v_k\ \mapsto\ v_v]^* \code{\}}\ \ \ \
-t = t_{completion}\ \ \ \
-v \notin \{v_k\}\ \ \ \
-\code{"Value"} \in \{v_k\}
-\\ \\
-[v_k\ \mapsto\ v_v]^*(\code{"Value"}) = s }
-{\evalref{\st}{r\code{[} e \code{]}}{s\code{.} v}{\st_2}}
-\end{array}  
-\]
+\begin{itemize}
+  \item identifier references:
+    \[
+      \evalref{\st}{\id}{\id}{\st}
+    \]
+  \item field references:
+    \[
+      \infer
+      {
+        \evalref{\st}{\refer}{\refval}{\st_0} \quad
+        \evalrefv{\st_0}{\refval}{\val_0}{\st_1} \quad
+        \hescape{\val_0}{\st_1}{\addr} \\\\
+        \evalexpr{\st_1}{\expr}{\val_1}{\st_2} \quad
+        \hescape{\val_1}{\st_2}{\val}
+      }
+      {\evalref{\st}{\refer \C{[} \expr \C{]}}{\addr \C{[} \val \C{]}}{\st_2}}
+    \]
+    \[
+      \infer
+      {
+        \evalref{\st}{\refer}{\refval}{\st_0} \quad
+        \evalrefv{\st_0}{\refval}{\val_0}{\st_1} \quad
+        \hescape{\val_0}{\st_1}{\str} \\\\
+        \evalexpr{\st_1}{\expr}{\val_1}{\st_2} \quad
+        \hescape{\val_1}{\st_2}{\val}
+      }
+      {\evalref{\st}{\refer \C{[} \expr \C{]}}{\str \C{[} \val \C{]}}{\st_2}}
+    \]
+\end{itemize}
+
+
+\subsection{
+  Semantics of Reference Values: \fbox{\( \evalrefv{\st}{\refval}{\val}{\st} \)}
+}\label{sec:refer}
+
+\begin{itemize}
+  \item identifiers:
+    \[
+      \infer
+      {
+        \hlookup{\st}{\id}{\val}
+      }
+      {\evalrefv{\st}{\id}{\val}{\st}}
+    \]
+  \item address fields:
+    \[
+      \infer
+      {
+        \hgetaddrfield{\st}{\addr}{\val}{\val'} \quad
+      }
+      {\evalrefv{\st}{\addr \C{[} \val \C{]}}{\val'}{\st}}
+    \]
+  \item string fields:
+    \[
+      \infer
+      {
+        \hgetstrfield{\st}{\str}{\val}{\val'}
+      }
+      {\evalrefv{\st}{\str \C{[} \val \C{]}}{\val'}{\st}}
+    \]
+\end{itemize}
 
 \newpage
 
-\subsection{Reference Value}\label{sec:refer-val}
-\[
-\begin{array}{c}
-\multicolumn{1}{c}{\begin{array}{ccc}
-\fbox{$\evalrefv{\st}{\symrefv}{v}{\st}$}
-& \cs &
-% refv - id - local
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
-\symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \
-x \in \code{Dom}(\symenv_L)\ \ \ \
-\symenv_L (x) = v }
-{\evalrefv{\st}{x}{v}{\st}}
-\end{array}}
-\\ \\
-% refv - id - global
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
-\symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \
-x \notin \code{Dom}(\symenv_L)\ \ \ \
-x \in \code{Dom}(\symenv_G)\ \ \ \
-\symenv_G (x) = v }
-{\evalrefv{\st}{x}{v}{\st}}
-\\ \\
-% refv - id - absent
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
-\symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \
-x \notin \code{Dom}(\symenv_L)\ \ \ \
-x \notin \code{Dom}(\symenv_G)}
-{\evalrefv{\st}{x}{\code{absent}}{\st}}
-\\ \\
-% refv - prop
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap} \ \ \ \
-a \in \code{Dom}(\symheap)\ \ \ \
-\hgetaddrfield{\symheap}{a}{v}{v_0}}
-{\evalrefv{\st}{a\code{[} v \code{]}}{v_0}{\st}}
-\\ \\
-% refv - str
-\infer
-{\hgetstrfield{s}{v}{v_0}}
-{\evalrefv{\st}{s\code{.}v}{v_0}{\st}}
 
-\end{array}
-\]
-
-\newpage
-
-\subsection{Helper Function}\label{sec:helper}
+\subsection{Helper Functions}\label{sec:helper}
 
 \[\begin{array}{c}
 % define
