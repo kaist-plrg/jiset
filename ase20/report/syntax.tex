@@ -1,14 +1,13 @@
-\section{Syntax of \( \ires \)}
+\section{Syntax of \( \ires \)}\label{sec:syntax}
 
 \[
   \begin{array}{lrclrll}
     \text{Programs} & \prset &\ni& \pr & ::= & \inst^+          & \text{}\\
     \\
-    \text{Instructions} & \instset &\ni& \inst &
-    ::= & \expr & \text{(expressions)} \\
+    \text{Instructions} & \instset &\ni& \inst & ::= & \expr    & \text{(expressions)} \\
     &&&&\mid& \C{let}\ \id\ \C{=}\ \expr                        & \text{(let bindings)}\\
-    &&&&\mid& \refvalue\ \C{:=}\ \expr                          & \text{(assignments)}\\
-    &&&&\mid& \C{delete}\ \refvalue                             & \text{(deletions)}\\
+    &&&&\mid& \refer\ \C{:=}\ \expr                             & \text{(assignments)}\\
+    &&&&\mid& \C{delete}\ \refer                                & \text{(deletions)}\\
     &&&&\mid& \C{append}\ \expr\ \leftarrow\ \expr              & \text{(append instructions)}\\
     &&&&\mid& \C{prepend}\ \expr\ \rightarrow\ \expr            & \text{(prepend instructions)}\\
     &&&&\mid& \C{return}\ \expr                                 & \text{(return instructions)}\\
@@ -24,11 +23,11 @@
     \text{Expressions} & \exprset &\ni& \expr &
     ::= & \double \mid \intvalue \mid \str \mid \bool \mid
           \C{undefined} \mid \C{null} \mid \C{absent}           & \text{(primitives)}\\
-    &&&&\mid& \C{new}\ \C{\{} [\expr \mapsto \expr]^* \C{\}}    & \text{(maps)}\\
+    &&&&\mid& \C{new}\ \str\ \C{\{}[\expr \mapsto \expr]^*\C{\}}& \text{(maps)}\\
     &&&&\mid& \C{new}\ \C{[} \expr^* \C{]}                      & \text{(lists)}\\
     &&&&\mid& \C{new}\ \expr                                    & \text{(symbols)}\\
     &&&&\mid& \C{pop}\ \expr\ \expr                             & \text{(pop expressions)}\\
-    &&&&\mid& \refvalue                                         & \text{(references)}\\
+    &&&&\mid& \refer                                            & \text{(references)}\\
     &&&&\mid& \C{(} \id^* \C{)}\ \C{[=>]} \inst                 & \text{(continuations)}\\
     &&&&\mid& \uop\ \expr                                       & \text{(unary operations)}\\
     &&&&\mid& \expr \bop \expr                                  & \text{(binary operations)}\\
@@ -48,9 +47,9 @@
 
 \[
   \begin{array}{lrclrll}
-    \text{References} & \refset &\ni& \refvalue &
+    \text{References} & \refset &\ni& \refer &
     ::= & \id                                                   & \text{(identifier references)}\\
-    &&&&\mid& \refvalue \C{[} \expr \C{]}                       & \text{(field references)}\\
+    &&&&\mid& \refer \C{[} \expr \C{]}                          & \text{(field references)}\\
     \\
     \text{Unary Operators} &&& \uop &
     ::= & \C{-}                                                 & \text{(negations)}\\

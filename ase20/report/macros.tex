@@ -1,6 +1,12 @@
 % IRES
 \newcommand{\ires}{\text{IR}_\text{ES}}
 
+% colors
+\newcommand{\inred}[1]{{\color{red}{#1}}}
+
+% finite map
+\newcommand{\finmap}{\xrightarrow{\texttt{fin}}}
+
 % codes
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\C}[1]{\texttt{#1}}
@@ -8,6 +14,8 @@
 % Values
 \newcommand{\valset}{\mathbb{V}}
 \newcommand{\val}{v}
+\newcommand{\pvalset}{\valset_\code{p}}
+\newcommand{\pval}{v^\code{p}}
 \newcommand{\doubleset}{\valset_\code{double}}
 \newcommand{\double}{d}
 \newcommand{\intset}{\valset_\code{int}}
@@ -16,32 +24,128 @@
 \newcommand{\str}{s}
 \newcommand{\boolset}{\valset_\code{bool}}
 \newcommand{\bool}{b}
+\newcommand{\refvalset}{\valset_r}
+\newcommand{\refval}{v^r}
 
 % Syntax
 \newcommand{\idset}{\mathbb{X}}
 \newcommand{\id}{x}
-\newcommand{\refset}{\mathbb{R}}
-\newcommand{\refvalue}{r}
-\newcommand{\prset}{\mathbb{P}}
+\newcommand{\refset}{R}
+\newcommand{\refer}{r}
+\newcommand{\prset}{P}
 \newcommand{\pr}{p}
-\newcommand{\instset}{\mathbb{I}}
+\newcommand{\instset}{I}
 \newcommand{\inst}{i}
-\newcommand{\exprset}{\mathbb{E}}
+\newcommand{\insts}{\overline{i}}
+\newcommand{\exprset}{E}
 \newcommand{\expr}{e}
 \newcommand{\uop}{\odot}
 \newcommand{\bop}{\oplus}
 \newcommand{\cop}{\triangleright}
 
+% States
+\newcommand{\stset}{\mathbb{S}}
+\newcommand{\st}{\sigma}
+\newcommand{\ctxtset}{\mathbb{C}}
+\newcommand{\ctxtstack}{\overline{c}}
+\newcommand{\ctxt}{c}
+\newcommand{\envset}{\mathbb{E}}
+\newcommand{\env}{\rho}
+\newcommand{\heapset}{\mathbb{H}}
+\newcommand{\heap}{h}
+\newcommand{\addrset}{\mathbb{A}}
+\newcommand{\addr}{a}
+\newcommand{\objset}{\mathbb{O}}
+\newcommand{\obj}{o}
+
+% AST
+\makeatletter
+\newcommand\RSloop{\@ifnextchar\bgroup\RSloopa\RSloopb}
+\makeatother
+\newcommand\RSloopa[1]{\bgroup\RSloop#1\relax\egroup\RSloop}
+\newcommand\RSloopb[1]%
+  {\ifx\relax#1%
+   \else
+     \ifcsname RS:#1\endcsname
+       \csname RS:#1\endcsname
+     \else
+       \GenericError{(RS)}{RS Error: operator #1 undefined}{}{}%
+     \fi
+   \expandafter\RSloop
+   \fi
+  }
+\newcommand\X{0}
+\newcommand\RS[1]%
+  {\begin{tikzpicture}
+     [every node/.style=
+       {circle,draw,fill,minimum size=1.5pt,inner sep=0pt,outer sep=0pt},
+      line cap=round
+     ]
+   \coordinate(\X) at (0,0);
+   \RSloop{#1}\relax
+   \end{tikzpicture}
+  }
+\newcommand\RSdef[1]{\expandafter\def\csname RS:#1\endcsname}
+\newlength\RSu
+\RSu=1ex
+\RSdef{l}{\draw (\X) -- +(225:\RSu) node{};}
+\RSdef{r}{\draw (\X) -- +(315:\RSu) node{};}
+\RSdef{L}{\draw (\X) -- +(225:\RSu) coordinate(\X L);\edef\X{\X L}}
+\RSdef{R}{\draw (\X) -- +(315:\RSu) coordinate(\X R);\edef\X{\X R}}
+\newcommand{\AST}{\RS{lRlr}}
+
+% Semantics
+\newcommand{\trans}{\leadsto}
+\newcommand{\transrep}{\trans^*}
+\newcommand{\stinit}{\st_\iota}
+\newcommand{\ctxtinit}{\ctxt_\iota}
+\newcommand{\envinit}{\env_\iota}
+\newcommand{\heapinit}{\heap_\iota}
+\newcommand{\idret}{\code{RET}}
+\newcommand{\sem}[1]{[\![ #1 ]\!]}
+
+% JISET
+\newcommand{\tool}{\text{\sf JISET}}
+
+% evaluation
+\newcommand{\evalinst}[3]{#1 \vdash #2 \Rightarrow #3}
+\newcommand{\evalexpr}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
+\newcommand{\evalref}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
+\newcommand{\evalrefv}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
+
+% helper function
+\newcommand{\hdefine}[4]{#4 = \code{Define}(#1, #2, #3)}
+\newcommand{\hupdated}[4]{#4 = \code{Updated}(#1, #2, #3)}
+\newcommand{\hdeleted}[3]{#3 = \code{Deleted}(#1, #2)}
+\newcommand{\happend}[4]{#4 = \code{Append}(#1, #2, #3)}
+\newcommand{\hprepend}[4]{#4 = \code{Prepend}(#1, #2, #3)}
+\newcommand{\hreturn}[3]{#3 = \code{Return}(#1, #2)}
+\newcommand{\hgetaddrfield}[4]{#4 = \code{GetAddrField}(#1, #2, #3)}
+\newcommand{\hgetstrfield}[3]{#3 = \code{GetStringField}(#1, #2)}
+\newcommand{\hgetastfield}[3]{#3 = \code{GetASTField}(#1, #2)}
+\newcommand{\hcharat}[3]{#3 = \code{CharAt}(#1, #2)}
+\newcommand{\htoint}[2]{#2 = \code{ToInt}(#1)}
+\newcommand{\hgettype}[2]{#2 = \code{GetType}(#1)}
+\newcommand{\hallocsym}[4]{(#3, #4) = \code{AllocSymbol}(#1, #2)}
+\newcommand{\halloclist}[4]{(#3, #4) = \code{AllocList}(#1, #2)}
+\newcommand{\hallocmap}[4]{(#3, #4) = \code{AllocMap}(#1, #2)}
+\newcommand{\hescape}[3]{#3 = \code{Escape}(#1, #2)}
+\newcommand{\hprint}[1]{\code{Print}(#1)}
 
 
 
+
+
+
+
+\newcommand{\evalescexpr}[4]{#1 \vdash_{escape} #2 \Rightarrow #3,\ #4}
+\newcommand{\evaluop}[2]{\symuop #1 \Rightarrow #2}
+\newcommand{\evalbop}[3]{#1 \symbop #2 \Rightarrow #3}
 
 % style
 \newcommand{\Acd}[1]{\mathsf{#1}}
-\newcommand{\Term}[1]{\texttt{#1}}
 \newcommand{\dom}[1]{\mathit{Domain}(#1)}
 \newcommand{\cs}[0]{\quad}
-\newcommand{\inred}[1]{{\color{red}{#1}}}
 
 % symbols
 \newcommand{\symstate}[0]{\sigma}
@@ -60,38 +164,13 @@
 {\symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap}}
 \newcommand{\symctxtuple}[4]{(#1,\ #2,\ #3,\ #4)}
 \newcommand{\symctxdef}[0]{\symctxtuple{x}{s}{i^*}{E}}
-\newcommand{\symlist}[1]{\Term{<} #1 \Term{>}}
-\newcommand{\symmap}[3]{#1\ \Term{\{} [#2 \mapsto #3]^* \Term{\}}}
+\newcommand{\symlist}[1]{\code{<} #1 \code{>}}
+\newcommand{\symmap}[3]{#1\ \code{\{} [#2 \mapsto #3]^* \code{\}}}
 
 % value
-\newcommand{\valfunc}[4]{\lambda \Term{(} #1,\ #2,\ #3,\ #4 \Term{)}}
-\newcommand{\valcont}[4]{\kappa \Term{(} #1,\ #2,\ #3,\ #4 \Term{)}}
-\newcommand{\valast}[4]{\symast \Term{(} \Term{)}}
-
-% evaluation
-\newcommand{\evaluop}[2]{\symuop #1 \Rightarrow #2}
-\newcommand{\evalbop}[3]{#1 \symbop #2 \Rightarrow #3}
-\newcommand{\evalinst}[3]{#1 \vdash #2 \Rightarrow #3}
-\newcommand{\evalexpr}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
-\newcommand{\evalescexpr}[4]{#1 \vdash_{escape} #2 \Rightarrow #3,\ #4}
-\newcommand{\evalref}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
-\newcommand{\evalrefv}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
-
-% helper function
-\newcommand{\hdefine}[4]{\Term{define}(#1,\ #2,\ #3) = #4}
-\newcommand{\hupdated}[4]{\Term{updated}(#1,\ #2,\ #3) = #4}
-\newcommand{\hdeleted}[3]{\Term{deleted}(#1,\ #2) = #3}
-\newcommand{\happend}[4]{\Term{append}(#1,\ #2,\ #3) = #4}
-\newcommand{\hprepend}[4]{\Term{prepend}(#1,\ #2,\ #3) = #4}
-\newcommand{\hreturn}[3]{\Term{return}(#1,\ #2) = #3}
-\newcommand{\hgethprop}[4]{\Term{getHeapProp}(#1,\ #2,\ #3) = #4}
-\newcommand{\hgetsprop}[3]{\Term{getStringProp}(#1,\ #2) = #3}
-\newcommand{\hcharat}[3]{\Term{charAt}(#1,\ #2) = #3}
-\newcommand{\htoint}[2]{\Term{toInt}(#1) = #2}
-\newcommand{\hgettype}[2]{\Term{getType}(#1) = #2}
-\newcommand{\hallocsym}[4]{\Term{allocSymbol}(#1,\ #2) = (#3,\ #4)}
-\newcommand{\halloclist}[4]{\Term{allocList}(#1,\ #2) = (#3,\ #4)}
-\newcommand{\hallocmap}[4]{\Term{allocMap}(#1,\ #2) = (#3,\ #4)}
+\newcommand{\valfunc}[4]{\lambda \code{(} #1,\ #2,\ #3,\ #4 \code{)}}
+\newcommand{\valcont}[4]{\kappa \code{(} #1,\ #2,\ #3,\ #4 \code{)}}
+\newcommand{\valast}[4]{\symast \code{(} \code{)}}
 
 %etc
 \newcommand{\mathlen}[1]{|#1|}

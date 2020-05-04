@@ -1,6 +1,7 @@
 TEXSRC=	report.tex macros.tex syntax.tex semantics.tex
 
 report.pdf: $(TEXSRC)
+	pdflatex report.tex && \
 	pdflatex report.tex
 
 .PHONY: clean
