@@ -87,7 +87,7 @@ Section~\ref{sec:helper}
 \newpage
 
 \subsection{
-  Semantics of Instructions: \fbox{\( \evalinst{\st}{i}{\st} \)}
+  Semantics of Instructions: \fbox{\( \evalinst{\st}{\inst}{\st} \)}
 }\label{sec:inst}
 
 \begin{itemize}
@@ -347,288 +347,234 @@ Section~\ref{sec:helper}
 \newpage
 
 
-\subsection{Expression}\label{sec:expr}
-
-\[
-\begin{array}{c}
-\multicolumn{1}{c}{\begin{array}{ccccccccc}
-\fbox{$\evalexpr{\st}{e}{v}{\st}$}
-&
-\cs
-&
-% number
-\evalexpr{\st}{n}{n}{\st}
-&
-\cs
-&
-% integer
-\evalexpr{\st}{d}{d}{\st}
-&
-\cs
-&
-% string
-\evalexpr{\st}{s}{s}{\st}
-&
-\cs
-&
-% boolean
-\evalexpr{\st}{b}{b}{\st}
-\end{array}}
-\\ \\
-\multicolumn{1}{c}{\begin{array}{ccccc}
-% undefined
-\evalexpr{\st}{\code{undefined}}{\code{undefined}}{\st}
-&
-\cs
-&
-% null
-\evalexpr{\st}{\code{null}}{\code{null}}{\st}
-&
-\cs
-&
-% absent
-\evalexpr{\st}{\code{absent}}{\code{absent}}{\st}
-\end{array}}
-\\ \\
-\multicolumn{1}{c}{\begin{array}{ccc}
-% uop
-\infer
-{\evalescexpr{\st}{e}{v}{\st_0}\ \ \ \
-\evaluop{v}{v_0}}
-{\evalexpr{\st}{\odot\ e}{v_0}{\st_0}}
-&
-\cs
-&
-% bop
-\infer
-{\evalescexpr{\st}{e_0}{v_0}{\st_0}\ \ \ \
-\evalescexpr{\st_0}{e_1}{v_1}{\st_1}\ \ \ \
-\evalbop{v_0}{v_1}{v_2}}
-{\evalexpr{\st}{e_0\ \oplus\ e_1}{v_2}{\st_1}}
-\end{array}}
-\\ \\
-% reference - not escapeCompletion
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{v}{\st_1}}
-{\evalexpr{\st}{r}{v}{\st_1}}
-\\ \\
-% reference - escapeCompletion
-\infer
-{\evalref{\st}{r}{\symrefv}{\st_0}\ \ \ \
-\evalrefv{\st_0}{\symrefv}{a}{\st_1}\ \ \ \
-\st_1 = \symstdef\ \ \ \
-\inred{\code{assertDynamicAddr}(a)}
-\\ \\
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \code{\{} [v_k\ \mapsto\ v_v]^* \code{\}}\ \ \ \ 
-t = t_{completion}\ \ \ \
-\inred{[v_k\ \mapsto\ v_v]^*(\code{"Value"}) = v}}
-{\evalescexpr{\st}{r}{v}{\st_1}}
-\\ \\
-\multicolumn{1}{c}{\begin{array}{ccc}
-% continuation
-\infer
-{\st = \symstdef\ \ \ \ }
-{\evalexpr
-{\st}
-{\code{(} x^* \code{)}\ \code{[} \Rightarrow \code{]}\ i}
-{\valcont{\symctx}{\symctxstack}{x^*}{i}}
-{\st}}
-&
-\cs
-&
-% typeof
-\infer
-{\evalexpr{\st}{e}{v}{\st_0}\ \ \ \
-\inred{\hgettype{v}{s_{type}}}}
-{\evalexpr{\st}{\code{typeof}\ e}{s_{type}}{\st_0}}
-\end{array}}
-\\ \\
-% symbol - str
-\infer
-{\evalescexpr{\st}{e}{v}{\st_0}\ \ \ \
-\st_0 = \symstdef\ \ \ \
-\\ \\
-\hallocsym{\symheap}{v}{a}{\symheap_0}\ \ \ \
-\st_1 = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
-{\evalexpr{\st}{\code{new}\ e}{a}{\st_1}}
-\\ \\
-% list 
-\infer
-{ \evalexpr{\st}{e_0}{v_0}{\st_0}\ \ \ \ \cdots\ \ \ \
-\evalexpr{\st_{n-1}}{e_n}{v_n}{\st_n}\ \ \ \
-\st_n = \symstdef
-\\ \\
-\halloclist{\symheap}{\inred{v^*}}{a}{\symheap_0}\ \ \ \
-\st_{next} = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
-{ \evalexpr{\st}
-{\code{new}\ \code{[} e_0,\ \cdots,\ e_n \code{]}}{a}{\st_{next}} }
-\\ \\
-% map
-\infer
-{\st = \symstdef\ \ \ \
-\hallocmap{\symheap}{t}{a}{\symheap_0}\ \ \ \
-\st_t = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}
-\\ \\
-\evalescexpr{\st_t}{e_{k_0}}{v_{k_0}}{\st_{0_k}}\ \ \ \
-\evalexpr{\st_{0_k}}{e_{v_0}}{v_{v_0}}{\st_{0_v}}\ \ \ \
-\code{updated}(\st_{0_v},\ a \code{[} v_{k_0} \code{]},\ v_{v_0}) = \st_0\ \ \ \
-\\ \\ 
-\ \ \ \ \ \cdots\ \ \ \ \ \
-\\ \\ 
-\evalescexpr{\st_{n-1}}{e_{k_n}}{v_{k_n}}{\st_{n_k}}\ \ \ \
-\evalexpr{\st_{n_k}}{e_{v_n}}{v_{v_n}}{\st_{n_v}}\ \ \ \
-\code{updated}(\st_{n_v},\ a \code{[} v_{k_n} \code{]},\ v_{v_n}) = \st_n}
-{ \evalexpr{\st}
-{\code{new}\ t\ \code{(} e_{k_0}\ \mapsto\ e_{v_0},\ \cdots,\
-e_{k_n}\ \mapsto\ e_{v_n} \code{)}}
-{a}{\st_{n}} }
-\\ \\
-% pop
-\infer
-{\evalescexpr{\st}{e_0}{a}{\st_0}\ \ \ \
-\evalescexpr{\st_0}{e_1}{d}{\st_1}\ \ \ \
-\st_1 = \symstdef\ \ \ \
-a \in \code{Dom}(\symheap)
-\\ \\
-\symheap(a) = \symlist{v^*}\ \ \ \
-d_l = \mathlen{\symlist{v^*}}\ \ \ \ 
-0 \le d < d_l\ \ \ \
-\symlist{v^*}(d) = v_0\ \ \ \
-\inred{o = \symlist{v^*}[0..d]\ \code{++}\ \symlist{v^*}[(d+1)..d_l]}
-\\ \\
-\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
-\st_2 = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
-{\evalexpr{\st}{\code{pop}\ e_0\ e_1}{v_0}{\st_2}}
-\\ \\
-% copy-obj
-\infer
-{\evalescexpr{\st}{e}{a}{\st_0}\ \ \ \
-\st_0 = \symstdef\ \ \ \
-a \in \code{Dom}(\symheap)\ \ \ \
-a_0 \notin \code{Dom}(\symheap)\ \ \ \
-\\ \\
-\symheap(a) = o\ \ \ \
-\inred{\symheap_0 = \symheap + (a_0 \mapsto o)}\ \ \ \
-\st_1 = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
-{\evalexpr{\st}{\code{copy-obj}\ e}{a_0}{\st_1}}
-\\ \\
-% map-keys
-\infer
-{\evalescexpr{\st}{e}{a}{\st_0}\ \ \ \
-\st_0 = \symstdef\ \ \ \
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \symmap{t}{v_k}{v_v}
-\\ \\
-a_0 \notin \code{Dom}(\symheap)\ \ \ \
-\inred{o = \symlist{v_k^*}}\ \ \ \
-\inred{\symheap_0 = \symheap + (a_0 \mapsto o)}\ \ \ \
-\st_1 = \symstatetuple{\symctx}{\symctxstack}{\symenv}{\symheap_0}}
-{\evalexpr{\st}{\code{map-keys}\ e}{a_1}{\st_1}}
-\end{array}
-\]
-
-\newpage
-
-\[ \begin{array}{c}
-% contains - true
-\infer
-{\evalescexpr{\st}{e_0}{a}{\st_0}\ \ \ \
-\evalescexpr{\st_0}{e_1}{v_0}{\st_1}\ \ \ \
-\st_1 = \symstdef\ \ \ \
-\\ \\
-a \in \symheap\ \ \ \
-\inred{\symheap(a) = \symlist{v^*}}\ \ \ \
-v_0 \in \code{\{}v\code{\}}}
-{\evalexpr{\st}{\code{contains}\ e_0\ e_1}{\code{true}}{\st_1}}
-\\ \\
-% contains - false
-\infer
-{\evalescexpr{\st}{e_0}{a}{\st_0}\ \ \ \
-\evalescexpr{\st_0}{e_1}{v_0}{\st_1}\ \ \ \
-\st_1 = \symstdef\ \ \ \
-\\ \\
-a \in \symheap\ \ \ \
-\symheap(a) = \symlist{v^*}\ \ \ \
-\inred{v_0 \notin \code{\{}v\code{\}}}}
-{\evalexpr{\st}{\code{contains}\ e_0\ e_1}{\code{false}}{\st_1}}
-\\ \\
-% convert
-\infer
-{\evalescexpr{\st}{e}{s}{\st_0}\ \ \ \
-\inred{\code{convert}(\triangleright,\ s,\ e^*) = (v,\ \st_1)}}
-{\evalexpr{\st}{\code{convert}\ e\ \triangleright\ e^*}{v}{\st_1}}
-\\ \\
-\multicolumn{1}{c}{\begin{array}{ccc}
-% is-instance-of - str - true
-\infer
-{\evalescexpr{\st}{e}{s_0}{\st_0}\ \ \ \
-s_0 = s }
-{\evalexpr{\st}{\code{is-instance-of}\ e\ s}{\code{true}}{\st_0}}
-& \cs &
-% is-instance-of - str - false
-\infer
-{\evalescexpr{\st}{e}{s_0}{\st_0}\ \ \ \
-s_0 \neq s }
-{\evalexpr{\st}{\code{is-instance-of}\ e\ s}{\code{false}}{\st_0}}
-\end{array}}
-\\ \\
-% is-instance-of - AST value
-\infer
-{\evalescexpr{\st}{e}{\symast}{\st_0}\ \ \ \
-\code{isKindOf}(\symast,\ s) = b }
-{\evalexpr{\st}{\code{is-instance-of}\ e\ s}{b}{\st_0}}
-
-\\ \\
-% get syntax
-\infer
-{\evalescexpr{\st}{e}{\symast}{\st_0}\ \ \ \
-\code{toString}(\symast) = s }
-{\evalexpr{\st}{\code{get-syntax}\ e}{s}{\st_0}}
-\\ \\
-% get elems
-\infer
-{\evalescexpr{\st}{e}{\symast}{\st_0}\ \ \ \
-\code{getElems}(\symast) = v^* \ \ \ \
-\code{allocList}(\st_0,\ v^*) = (a,\ \st_1) }
-{\evalexpr{\st}{\code{get-elems}\ e\ s}{a}{\st_1}}
-\\ \\
-% parse syntax - AST
-\infer
-{\evalescexpr{\st}{e_c}{\symast}{\st_0}\ \ \ \
-\evalescexpr{\st_0}{e_r}{s}{\st_1}\ \ \ \
-\code{assertValidParseRule}(s)
-\\ \\
-\code{getNewValue}(\symast,\ s) = v}
-{\evalexpr{\st}{\code{parse-syntax}\ e_c\ e_r\ e^*}{v}{\st_1}}
-\\ \\ 
-% parse syntax - string
-\infer
-{\evalescexpr{\st}{e_c}{s_c}{\st_c}\ \ \ \
-\evalescexpr{\st_c}{e_r}{s_r}{\st_r}\ \ \ \
-\\ \\
-\evalexpr{\st_r}{e_0}{b_0}{\st_0}\ \ \ \ \cdots\ \ \ \
-\evalexpr{\st_{n-1}}{e_n}{b_n}{\st_n}\ \ \ \
-\code{getNewValue}(s_c,\ s_r,\ b^*) = v}
-{\evalexpr
-{\st}
-{\code{parse-syntax}\ e_c\ e_r\ e_0\ \cdots\ e_n}
-{v}{\st_n}}
-\end{array}\]
-
-TODO
-
-fix rule related to AST value
+\subsection{
+Semantics of Expressions: \fbox{\( \evalexpr{\st}{\expr}{\val}{\st} \)}
+}\label{sec:expr}
 
 \begin{itemize}
-  \item is-instance-of AST
-  \item get-syntax
-  \item get-elems
-  \item parse-syntax
+  \item primitives:
+    \[
+      \evalexpr{\st}{\double}{\double}{\st} \quad
+      \evalexpr{\st}{\intvalue}{\intvalue}{\st} \quad
+      \evalexpr{\st}{\str}{\str}{\st} \quad
+      \evalexpr{\st}{\bool}{\bool}{\st}
+    \]
+    \[
+      \evalexpr{\st}{\C{undefined}}{\C{undefined}}{\st} \quad
+      \evalexpr{\st}{\C{null}}{\C{null}}{\st} \quad
+      \evalexpr{\st}{\C{absent}}{\C{absent}}{\st}
+    \]
+  \item maps:
+    \[
+      \infer
+      {
+        \hallocmap{\st}{\str}{\addr}{\st_0} \\\\
+        \evalexpr{\st_0}{\expr_{k_1}}{\val_{k_1}}{\sigma_{k_1}}\quad
+        \hescape{\val_{k_1}}{\sigma_{k_1}}{\val'_{k_1}} \\\\
+        \evalexpr{\st_{k_1}}{\expr_{v_1}}{\val_{v_1}}{\sigma_{v_1}} \quad
+        \hupdated{\st_{v_1}}{\addr\C{[}\val_{k_0}\C{]}}{\val_{v_n}}{\st_1} \\\\
+        \cdots \\\\
+        \evalexpr{\st_{n-1}}{\expr_{k_n}}{\val_{k_n}}{\sigma_{k_n}}\quad
+        \hescape{\val_{k_n}}{\sigma_{k_n}}{\val'_{k_n}} \\\\
+        \evalexpr{\st_{k_n}}{\expr_{v_n}}{\val_{v_n}}{\sigma_{v_n}} \quad
+        \hupdated{\st_{v_n}}{\addr\C{[}\val_{k_0}\C{]}}{\val_{v_n}}{\st_n}
+      }
+      {\evalexpr{\st}{\C{new}\ \str\ \C{\{}\expr_{k_1} \mapsto \expr_{v_1},
+      \cdots, \expr_{k_n} \mapsto \expr_{v_n}\C{\}}}{\addr}{\st_n}}
+    \]
+  \item lists:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr_0}{\val_0}{\st_0} \quad
+        \cdots \quad
+        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \quad
+        \halloclist{\st_n}{\langle \val_0, \cdots, \val_n \rangle}{\addr}{\st'} \quad
+      }
+      {\evalexpr{\st}{\C{new}\ \C{[} \expr_0, \cdots, \expr_n \C{]}}{\addr}{\st'}}
+    \]
+  \item symbols:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val}{\st_0} \quad
+        \hescape{\val}{\st_0}{\val'} \quad
+        \hallocsym{\st_0}{\val'}{\addr}{\st'} \quad
+      }
+      {\evalexpr{\st}{\C{new}\ \expr}{\addr}{\st'}}
+    \]
+  \item pop expressions:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr_0}{\val_0}{\st_0} \quad
+        \hescape{\val_0}{\st_0}{\addr} \\\\
+        \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
+        \hescape{\val_1}{\st_1}{\intvalue} \quad
+        \hpop{\st_1}{\addr}{\intvalue}{\val'}{\st'}
+      }
+      {\evalexpr{\st}{\C{pop}\ \expr_0\ \expr_1}{\val'}{\st'}}
+    \]
+  \item references:
+    \[
+      \infer
+      {
+        \evalref{\st}{\refer}{\refval}{\st_0} \quad
+        \evalrefv{\st_0}{\refval}{\val}{\st_1}
+      }
+      {\evalexpr{\st}{\refer}{\val}{\st_1}}
+    \]
+  \item continuations:
+    \[
+      \infer
+      {
+        \st = (\ctxt, \ctxtstack, \_, \_)
+      }
+      {\evalexpr{\st}{\C{(} \id_0, \cdots, \id_n \C{)}\ \C{[=>]}\ \inst}{
+          \langle \kappa \C{(}\id_0, \cdots, \id_n  \C{)}.\ \inst, \ctxt, \ctxtstack \rangle
+      }{\st}}
+    \]
+  \item unary operations:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val}{\st'}
+      }
+      {\evalexpr{\st}{\uop\ \expr}{\uop\ \val}{\st'}}
+    \]
+  \item binary operations:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val_0}{\st_0} \quad
+        \evalexpr{\st_0}{\expr}{\val_1}{\st_1} \quad
+      }
+      {\evalexpr{\st}{\expr_0 \bop \expr_1}{\val_0 \bop \val_1}{\st_1}}
+    \]
+  \item typeof expressions:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val}{\st'} \quad
+        \hgettype{\st'}{\expr}{\str}
+      }
+      {\evalexpr{\st}{\C{typeof}\ \expr}{\str}{\st'}}
+    \]
+  \item completion checks:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val}{\st'} \quad
+        \hiscompletion{\st'}{\val}{\bool}
+      }
+      {\evalexpr{\st}{\C{is-completion}\ \expr}{\bool}{\st'}}
+    \]
+  \item instance checks:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val}{\st'} \quad
+        \hescape{\val}{\st'}{\val'} \quad
+        \hisinstanceof{\val'}{\str}{\bool}
+      }
+      {\evalexpr{\st}{\C{is-instance-of}\ \expr\ \str}{\bool}{\st'}}
+    \]
+  \item element getters:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val}{\st_0} \quad
+        \hescape{\val}{\st_0}{\AST} \quad
+        \hgetelems{\st_0}{\AST}{\str}{\addr}{\st_1}
+      }
+      {\evalexpr{\st}{\C{get-elems}\ \expr\ \str}{\addr}{\st_1}}
+    \]
+  \item syntax getters:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val}{\st'} \quad
+        \hescape{\st'}{\val}{\AST} \quad
+        \hgetsytax{\AST}{\str}
+      }
+      {\evalexpr{\st}{\C{get-syntax}\ \expr}{\str}{\st'}}
+    \]
+  \item parse expressions:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr_\C{code}}{\val_\C{code}}{\st_0} \quad
+        \hescape{\st_0}{\val_\C{code}}{\val} \quad
+        \evalexpr{\st_0}{\expr_\C{rule}}{\val_\C{rule}}{\st_1} \quad
+        \hescape{\st_1}{\val_\C{rule}}{\str} \\\\
+        \evalexpr{\st_1}{\expr_1}{\bool_1}{\st_2} \quad
+        \cdots \quad
+        \evalexpr{\st_n}{\expr_n}{\bool_n}{\st'} \quad
+        \hparse{\val}{\str}{\langle \bool_1, \cdots, \bool_n \rangle}{\AST}
+      }
+      {\evalexpr{\st}{\C{parse-syntax}\ \expr_\C{code}\ \expr_\C{rule}\ \expr_1 \cdots \expr_n}{\AST}{\st'}}
+    \]
+  \item conversions:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr_0}{\val_0}{\st_0} \quad
+        \hescape{\val_0}{\st_0}{\val'_0} \quad
+        \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
+        \hescape{\val_1}{\st_1}{\val'_1} \\\\
+        \hconvert{\C{num2str}}{\val'_0}{\val'_1}{\str}
+      }
+      {\evalexpr{\st}{\C{convert}\ \expr_0\ \C{num2str}\ \expr_1}{\str}{\st_1}}
+    \]
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr_0}{\val_0}{\st_0} \quad
+        \hescape{\val_0}{\st_0}{\val_1} \quad
+        \cop \neq \C{num2str} \quad
+        \hconvert{\cop}{\val_1}{\C{absent}}{\val}
+      }
+      {\evalexpr{\st}{\C{convert}\ \expr_0\ \cop}{\val}{\st_0}}
+    \]
+  \item contain checks:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr_0}{\val_0}{\st_0} \quad
+        \hescape{\val_0}{\st_0}{\addr} \quad
+        \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
+        \hescape{\val_1}{\st_1}{\val} \\\\
+        \hcontains{\st_1}{\addr}{\val}{\bool}
+      }
+      {\evalexpr{\st}{\C{contains}\ \expr_0\ \expr_1}{\bool}{\st_1}}
+    \]
+  \item object copies:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val}{\st_0} \quad
+        \hescape{\val}{\st_0}{\addr} \quad
+        \st_0 = (\_, \_, \_, \heap) \quad
+        \addr' \not\in \dom{\heap} \\\\
+        \heap' = \heap[\addr' \mapsto \heap(\addr)] \quad
+        \st' = \st_0[\heap / \heap']
+      }
+      {\evalexpr{\st}{\C{copy}\ \expr}{\addr'}{\st'}}
+    \]
+  \item key collections:
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr}{\val}{\st_0} \quad
+        \hescape{\val}{\st_0}{\addr} \quad
+        \hkeys{\st_0}{\addr}{\addr'}{\st'}
+      }
+      {\evalexpr{\st}{\C{keys}\ \expr}{\addr'}{\st'}}
+    \]
 \end{itemize}
 
 \newpage
+
 
 \subsection{Reference}\label{sec:refer}
 

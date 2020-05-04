@@ -125,12 +125,24 @@
 \newcommand{\hgetastfield}[3]{#3 = \code{GetASTField}(#1, #2)}
 \newcommand{\hcharat}[3]{#3 = \code{CharAt}(#1, #2)}
 \newcommand{\htoint}[2]{#2 = \code{ToInt}(#1)}
-\newcommand{\hgettype}[2]{#2 = \code{GetType}(#1)}
+\newcommand{\hgettype}[3]{#3 = \code{GetType}(#1, #2)}
 \newcommand{\hallocsym}[4]{(#3, #4) = \code{AllocSymbol}(#1, #2)}
 \newcommand{\halloclist}[4]{(#3, #4) = \code{AllocList}(#1, #2)}
 \newcommand{\hallocmap}[4]{(#3, #4) = \code{AllocMap}(#1, #2)}
 \newcommand{\hescape}[3]{#3 = \code{Escape}(#1, #2)}
 \newcommand{\hprint}[1]{\code{Print}(#1)}
+\newcommand{\hpop}[5]{(#4, #5) = \code{Pop}(#1, #2, #3)}
+\newcommand{\hiscompletion}[3]{#3 = \code{IsCompletion}(#1, #2)}
+\newcommand{\hisinstanceof}[3]{#3 = \code{IsInstanceOf}(#1, #2)}
+\newcommand{\hgetelems}[5]{(#4, #5) = \code{GetElems}(#1, #2, #3)}
+\newcommand{\hgetsytax}[2]{#2 = \code{GetSyntax}(#1)}
+\newcommand{\hparse}[4]{#4 = \code{Parse}(#1, #2, #3)}
+\newcommand{\hconvert}[4]{#4 = \code{Convert}(#1, #2, #3)}
+\newcommand{\hcontains}[4]{#4 = \code{Contains}(#1, #2, #3)}
+\newcommand{\hkeys}[4]{(#3, #4) = \code{Keys}(#1, #2)}
+
+% Domain
+\newcommand{\dom}[1]{\mathit{Domain}(#1)}
 
 
 
@@ -144,7 +156,6 @@
 
 % style
 \newcommand{\Acd}[1]{\mathsf{#1}}
-\newcommand{\dom}[1]{\mathit{Domain}(#1)}
 \newcommand{\cs}[0]{\quad}
 
 % symbols
