@@ -113,37 +113,69 @@
 \newcommand{\evalref}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
 \newcommand{\evalrefv}[4]{#1 \vdash #2 \Rightarrow #3,\ #4}
 
+% helper function names
+\newcommand{\cescape}{\code{Escape}}
+\newcommand{\cdefine}{\code{Define}}
+\newcommand{\cupdated}{\code{Updated}}
+\newcommand{\cdeleted}{\code{Deleted}}
+\newcommand{\cappend}{\code{Append}}
+\newcommand{\cprepend}{\code{Prepend}}
+\newcommand{\creturn}{\code{Return}}
+\newcommand{\cprint}{\code{Print}}
+\newcommand{\cgetaddrfield}{\code{GetAddrField}}
+\newcommand{\cgetstrfield}{\code{GetStringField}}
+\newcommand{\cgetastfield}{\code{GetASTField}}
+\newcommand{\callocmap}{\code{AllocMap}}
+\newcommand{\calloclist}{\code{AllocList}}
+\newcommand{\callocsym}{\code{AllocSymbol}}
+\newcommand{\cpop}{\code{Pop}}
+\newcommand{\cgettype}{\code{GetType}}
+\newcommand{\ciscompletion}{\code{IsCompletion}}
+\newcommand{\cisinstanceof}{\code{IsInstanceOf}}
+\newcommand{\cgetelems}{\code{GetElems}}
+\newcommand{\cgetsyntax}{\code{GetSyntax}}
+\newcommand{\cparse}{\code{Parse}}
+\newcommand{\cconvert}{\code{Convert}}
+\newcommand{\ccontains}{\code{Contains}}
+\newcommand{\ckeys}{\code{Keys}}
+\newcommand{\clookup}{\code{Lookup}}
+\newcommand{\ccharat}{\code{CharAt}}
+\newcommand{\ctoint}{\code{ToInt}}
+\newcommand{\cget}{\code{Get}}
+\newcommand{\cset}{\code{Set}}
+
 % helper function
-\newcommand{\hdefine}[4]{#4 = \code{Define}(#1, #2, #3)}
-\newcommand{\hupdated}[4]{#4 = \code{Updated}(#1, #2, #3)}
-\newcommand{\hdeleted}[3]{#3 = \code{Deleted}(#1, #2)}
-\newcommand{\happend}[4]{#4 = \code{Append}(#1, #2, #3)}
-\newcommand{\hprepend}[4]{#4 = \code{Prepend}(#1, #2, #3)}
-\newcommand{\hreturn}[3]{#3 = \code{Return}(#1, #2)}
-\newcommand{\hgetaddrfield}[4]{#4 = \code{GetAddrField}(#1, #2, #3)}
-\newcommand{\hgetstrfield}[3]{#3 = \code{GetStringField}(#1, #2)}
-\newcommand{\hgetastfield}[3]{#3 = \code{GetASTField}(#1, #2)}
-\newcommand{\hcharat}[3]{#3 = \code{CharAt}(#1, #2)}
-\newcommand{\htoint}[2]{#2 = \code{ToInt}(#1)}
-\newcommand{\hgettype}[3]{#3 = \code{GetType}(#1, #2)}
-\newcommand{\hallocsym}[4]{(#3, #4) = \code{AllocSymbol}(#1, #2)}
-\newcommand{\halloclist}[4]{(#3, #4) = \code{AllocList}(#1, #2)}
-\newcommand{\hallocmap}[4]{(#3, #4) = \code{AllocMap}(#1, #2)}
-\newcommand{\hescape}[3]{#3 = \code{Escape}(#1, #2)}
-\newcommand{\hprint}[1]{\code{Print}(#1)}
-\newcommand{\hpop}[5]{(#4, #5) = \code{Pop}(#1, #2, #3)}
-\newcommand{\hiscompletion}[3]{#3 = \code{IsCompletion}(#1, #2)}
-\newcommand{\hisinstanceof}[3]{#3 = \code{IsInstanceOf}(#1, #2)}
-\newcommand{\hgetelems}[5]{(#4, #5) = \code{GetElems}(#1, #2, #3)}
-\newcommand{\hgetsytax}[2]{#2 = \code{GetSyntax}(#1)}
-\newcommand{\hparse}[4]{#4 = \code{Parse}(#1, #2, #3)}
-\newcommand{\hconvert}[4]{#4 = \code{Convert}(#1, #2, #3)}
-\newcommand{\hcontains}[4]{#4 = \code{Contains}(#1, #2, #3)}
-\newcommand{\hkeys}[4]{(#3, #4) = \code{Keys}(#1, #2)}
-\newcommand{\hlookup}[3]{#3 = \code{Lookup}(#1, #2)}
+\newcommand{\hescape}[3]{#3 = \cescape(#1, #2)}
+\newcommand{\hdefine}[4]{#4 = \cdefine(#1, #2, #3)}
+\newcommand{\hupdated}[4]{#4 = \cupdated(#1, #2, #3)}
+\newcommand{\hdeleted}[3]{#3 = \cdeleted(#1, #2)}
+\newcommand{\happend}[4]{#4 = \cappend(#1, #2, #3)}
+\newcommand{\hprepend}[4]{#4 = \cprepend(#1, #2, #3)}
+\newcommand{\hreturn}[3]{#3 = \creturn(#1, #2)}
+\newcommand{\hprint}[1]{\cprint(#1)}
+\newcommand{\hgetaddrfield}[4]{#4 = \cgetaddrfield(#1, #2, #3)}
+\newcommand{\hgetstrfield}[3]{#3 = \cgetstrfield(#1, #2)}
+\newcommand{\hgetastfield}[3]{#3 = \cgetastfield(#1, #2)}
+\newcommand{\hallocmap}[4]{(#3, #4) = \callocmap(#1, #2)}
+\newcommand{\halloclist}[4]{(#3, #4) = \calloclist(#1, #2)}
+\newcommand{\hallocsym}[4]{(#3, #4) = \callocsym(#1, #2)}
+\newcommand{\hpop}[5]{(#4, #5) = \cpop(#1, #2, #3)}
+\newcommand{\hgettype}[3]{#3 = \cgettype(#1, #2)}
+\newcommand{\hiscompletion}[3]{#3 = \ciscompletion(#1, #2)}
+\newcommand{\hisinstanceof}[3]{#3 = \cisinstanceof(#1, #2)}
+\newcommand{\hgetelems}[5]{(#4, #5) = \cgetelems(#1, #2, #3)}
+\newcommand{\hgetsyntax}[2]{#2 = \cgetsyntax(#1)}
+\newcommand{\hparse}[4]{#4 = \cparse(#1, #2, #3)}
+\newcommand{\hconvert}[4]{#4 = \cconvert(#1, #2, #3)}
+\newcommand{\hcontains}[4]{#4 = \ccontains(#1, #2, #3)}
+\newcommand{\hkeys}[4]{(#3, #4) = \ckeys(#1, #2)}
+\newcommand{\hlookup}[3]{#3 = \clookup(#1, #2)}
+
+\newcommand{\hcharat}[3]{#3 = \ccharat(#1, #2)}
+\newcommand{\htoint}[2]{#2 = \ctoint(#1)}
 
 % Domain
-\newcommand{\dom}[1]{\mathit{Domain}(#1)}
+\newcommand{\dom}[1]{\C{Domain}(#1)}
 
 
 

@@ -456,7 +456,7 @@ Section~\ref{sec:helper}
       \infer
       {
         \evalexpr{\st}{\expr}{\val}{\st'} \quad
-        \hgettype{\st'}{\expr}{\str}
+        \hgettype{\st'}{\val}{\str}
       }
       {\evalexpr{\st}{\C{typeof}\ \expr}{\str}{\st'}}
     \]
@@ -474,8 +474,8 @@ Section~\ref{sec:helper}
       \infer
       {
         \evalexpr{\st}{\expr}{\val}{\st'} \quad
-        \hescape{\val}{\st'}{\val'} \quad
-        \hisinstanceof{\val'}{\str}{\bool}
+        \hescape{\val}{\st'}{\AST} \quad
+        \hisinstanceof{\AST}{\str}{\bool}
       }
       {\evalexpr{\st}{\C{is-instance-of}\ \expr\ \str}{\bool}{\st'}}
     \]
@@ -495,7 +495,7 @@ Section~\ref{sec:helper}
       {
         \evalexpr{\st}{\expr}{\val}{\st'} \quad
         \hescape{\st'}{\val}{\AST} \quad
-        \hgetsytax{\AST}{\str}
+        \hgetsyntax{\AST}{\str}
       }
       {\evalexpr{\st}{\C{get-syntax}\ \expr}{\str}{\st'}}
     \]
@@ -613,7 +613,7 @@ Section~\ref{sec:helper}
 
 \subsection{
   Semantics of Reference Values: \fbox{\( \evalrefv{\st}{\refval}{\val}{\st} \)}
-}\label{sec:refer}
+}\label{sec:refer-val}
 
 \begin{itemize}
   \item identifiers:
@@ -647,224 +647,388 @@ Section~\ref{sec:helper}
 
 \subsection{Helper Functions}\label{sec:helper}
 
-\[\begin{array}{c}
-% define
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
-\symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \
-\\ \\
-\inred{\symenv_0 = \symenv_L + (x \mapsto v)}\ \ \ \
-\symctx_0 = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_0}\ \ \ \
-\st_0 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap}}
-{\hdefine{\st}{x}{v}{\st_0}}
-\\ \\
-% update - refv:id - global
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
-\inred{\code{assertGlobalId}(x)}\ \ \ \ 
-\inred{\symenv_0 = \symenv_G + (x \mapsto v)}\ \ \ \
-\st_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_0}{\symheap}}
-{\hupdated{\st}{x}{v}{\st_0}}
-\\ \\
-% update - refv:id - local
-\infer
-{\inred{\code{assertLocalId}(x)}\ \ \ \
-\hdefine{\st}{x}{v}{\st_0}}
-{\hupdated{\st}{x}{v}{\st_0}}
-\\ \\
-% update - refv:prop
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \code{\{} [v_k\ \mapsto\ v_v]^* \code{\}}\ \ \ \
-\inred{o = t\ \code{\{} [v_k\ \mapsto\ v_v]^* + (v_0 \mapsto v_1) \code{\}}}
-\\ \\
-\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
-\st_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
-{\hupdated{\st}{a\code{[} v_0 \code{]}}{v_1}{\st_0}}
-\\ \\
-% delete - id
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
-\symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \
-\\ \\
-\inred{\symenv_0 = \symenv_L - x}\ \ \ \
-\symctx_0 = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_0}\ \ \ \
-\st_0 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap}}
-{\hdeleted{\st}{x}{\st_0}}
-\\ \\
-% delete - refv:prop
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = t\ \code{\{} [v_k\ \mapsto\ v_v]^* \code{\}}\ \ \ \
-\inred{o = t\ \code{\{} [v_k\ \mapsto\ v_v]^* - v_0 \code{\}}}
-\\ \\
-\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
-\st_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
-{\hdeleted{\st}{a\code{[} v_0 \code{]}}{\st_0}}
-\\ \\
-% append
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \symlist{v^*}\ \ \ \
-\inred{o = \symlist{v^*}\ \code{:+}\ v_0}
-\\ \\
-\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
-\st_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
-{\happend{\st}{a}{v_0}{\st_0}}
-\\ \\
-% prepend
-\infer
-{\st = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap}\ \ \ \
-a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \symlist{v^*}\ \ \ \
-\inred{o = v_0\ \code{+:}\ \symlist{v^*}}
-\\ \\
-\inred{\symheap_0 = \symheap + (a \mapsto o)}\ \ \ \
-\st_0 = \symstatetuple{\symctx}{\symctxstack}{\symenv_G}{\symheap_0}}
-{\hprepend{\st}{a}{v_0}{\st_0}}
-\\ \\
-% return - ctx stack empty
-\infer
-{\st = \symstatetuple{\symctx}{\inred{\code{Nil}}}{\symenv_G}{\symheap}\ \ \ \
-\symctx = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_L}\ \ \ \
-\\ \\
-\inred{\symenv_0 = \symenv_L + (x_{ret} \mapsto v)}\ \ \ \
-\symctx_0 = \symctxtuple{x_{ret}}{s}{\code{Nil}}{\symenv_0}\ \ \ \
-\st_0 = \symstatetuple{\symctx_0}{\symctxstack}{\symenv_G}{\symheap}}
-{\hreturn{\st}{v}{\st_0}}
-\\ \\
-% return - ctx stack not empty
-\infer
-{\st = \symstatetuple
-{\symctx}{\inred{\symctx_0\ \code{+:}\ \symctxstack}}{\symenv_G}{\symheap}\ \ \ \
-\symctx_0 = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_{L}}\ \ \ \
-\\ \\
-\inred{\symenv_0 = \symenv_L + (x_{ret} \mapsto v)}\ \ \ \
-\symctx_1 = \symctxtuple{x_{ret}}{s}{i^*}{\symenv_0}\ \ \ \
-\st_0 = \symstatetuple{\symctx_1}{\symctxstack}{\symenv_G}{\symheap}}
-{\hreturn{\st}{v}{\st_0}}
-\end{array}\]
+\[
+  \begin{array}{lcl}
+    \cescape(\st, \val) &=& \left\{
+      \begin{array}{ll}
+        \val' & \text{if}\
+        \val = \addr \wedge
+        \cget(\st, \addr) = \obj \wedge
+        \obj = \C{"Completion"}\ \C{\{} \cdots, \C{"Value"} \mapsto \val', \cdots \C{\}}\\
+        \val & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
 
-\newpage
+    \cget(\st, \addr) &=& \left\{
+      \begin{array}{ll}
+        \obj & \text{if}\
+        \st = (\_, \_, \_, \heap) \wedge
+        \heap(\addr) = \obj\\
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
 
-\[\begin{array}{c}
-% prop - symbol
-\infer
-{a \in \code{Dom}(\symheap)\ \ \ \
-s = "\code{Description}"\ \ \ \
-\symheap(a) = \code{symbol}\ v}
-{\hgetaddrfield{\symheap}{a}{s}{v}}
-\\ \\
-% prop - map - absent
-\infer
-{a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \symmap{t}{v_k}{v_v}\ \ \ \
-v \notin \{ v_k \}}
-{\hgetaddrfield{\symheap}{a}{v}{\code{absent}}}
-\\ \\
-% prop - map - not absent
-\infer
-{a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \symmap{t}{v_k}{v_v}\ \ \ \
-v_p \in \{ v_k \} \ \ \ \
-\inred{[v_k\ \mapsto\ v_v]^*(v_p) = v} }
-{\hgetaddrfield{\symheap}{a}{v_p}{v}}
-\\ \\
-% prop - list - length
-\infer
-{a \in \code{Dom}(\symheap)\ \ \ \
-s = "\code{length}"\ \ \ \
-\symheap(a) = \symlist{v^*} \ \ \ \
-\mathlen{\symlist{v^*}} = d}
-{\hgetaddrfield{\symheap}{a}{s}{d}}
-\\ \\
-\multicolumn{1}{c}{\begin{array}{ccc}
-% prop - list - integer - not valid - negative
-\infer
-{a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \symlist{v^*} \ \ \ \
-d < 0}
-{\hgetaddrfield{\symheap}{a}{d}{\code{absent}}}
-& \cs &
-% prop - list - integer - not valid - ge length
-\infer
-{a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \symlist{v^*} \ \ \ \
-\mathlen{\symlist{v^*}} = d_0\ \ \ \
-d \ge d_0}
-{\hgetaddrfield{\symheap}{a}{d}{\code{absent}}}
-\end{array}}
-\\ \\
-% prop - list - integer - valid
-\infer
-{a \in \code{Dom}(\symheap)\ \ \ \
-\symheap(a) = \symlist{v^*} \ \ \ \
-\mathlen{\symlist{v^*}} = d_0\ \ \ \
-0 \le d < d_0\ \ \ \
-\inred{\symlist{v^*}(d) = v_0}}
-{\hgetaddrfield{\symheap}{a}{d}{v_0}}
-\\ \\
-\multicolumn{1}{c}{\begin{array}{ccccc}
-% str prop - length
-\infer
-{s_p = \code{"length"}\ \ \ \
-v = \mathlen{s}}
-{\hgetstrfield{s}{s_p}{v}}
-& \cs &
-% str prop - floating point
-\infer
-{\htoint{n}{d}\ \ \ \
-\inred{\hcharat{s}{d}{s_0}}}
-{\hgetstrfield{s}{n}{s_0}}
-& \cs &
-% str prop - integer
-\infer
-{\inred{\hcharat{s}{d}{s_0}}}
-{\hgetstrfield{s}{d}{s_0}}
-\end{array}}
-\\ \\
-% alloc symbol - string
-\infer
-{a \notin \code{Dom}(\symheap)\ \ \ \
-o = \code{symbol}\ s\ \ \ \
-\inred{\symheap_0 = \symheap + (a \mapsto o)}}
-{\hallocsym{\symheap}{s}{a}{\symheap_0}}
-\\ \\
-% alloc symbol - undef
-\infer
-{a \notin \code{Dom}(\symheap)\ \ \ \
-o = \code{symbol}\ \code{undefined}\ \ \ \
-\inred{\symheap_0 = \symheap + (a \mapsto o)}}
-{\hallocsym{\symheap}{\code{undefined}}{a}{\symheap_0}}
-\\ \\
-% alloc map
-\infer
-{a \notin \code{Dom}(\symheap)\ \ \ \
-\inred{o = t\ \code{\{} {\emptyset} \code{\}}}\ \ \ \
-\inred{\symheap_0 = \symheap + (a \mapsto o)}}
-{\hallocmap{\symheap}{t}{a}{\symheap_0}}
-\\ \\
-% alloc list
-\infer
-{a \notin \code{Dom}(\symheap)\ \ \ \
-o = \symlist{v^*}\ \ \ \
-\inred{\symheap_0 = \symheap + (a \mapsto o)}}
-{\halloclist{\symheap}{v^*}{a}{\symheap_0}}
-\end{array}\]
+    \cset(\st, \addr, \obj) &=& \left\{
+      \begin{array}{ll}
+        \st' & \text{if}\
+        \st = (\_, \_, \_, \heap) \wedge
+        \heap' = \heap[\addr \mapsto \obj] \wedge
+        \st' = \st[\heap / \heap']\\
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
 
-TODO
+    \cdefine(\st, \id, \val) &=& \st'\ \text{where}\ \left\{
+      \begin{array}{ll}
+        \st = (\ctxt, \_, \_, \_) \wedge
+        \ctxt = (\_, \_, \env) \wedge\\
+        \env' = \env[\id \mapsto \val] \wedge
+        \ctxt' = \ctxt[\env / \env'] \wedge
+        \st' = \st[\ctxt / \ctxt']\\
+      \end{array}
+    \right.\\\\
 
-getType
+    \cupdated(\st, \refval, \val) &=& \left\{
+      \begin{array}{ll}
+        \st' & \text{if}\
+        \refval = \id \wedge
+        \st = (\_, \_, \env, \_) \wedge
+        \id \in \dom{\env} \wedge
+        \env' = \env[\id \mapsto \val] \wedge
+        \st' = \st[\env / \env']\\
 
-getElmes
+        \st' & \text{if}\
+        \refval = \id \wedge
+        \st = (\ctxt, \_, \env, \_) \wedge
+        \id \not\in \dom{\env} \wedge
+        \st' = \cdefine(\st, \id, \val)\\
 
-isKindOf
+        \st' & \text{if}\
+        \refval = \addr \C{[} \val' \C{]} \wedge
+        \st = (\_, \_, \_, \heap) \wedge
+        \heap(\addr) = \obj \wedge
+        \obj = \str\ \C{\{} \cdots \C{\}} \wedge\\
+        & \phantom{\text{if}}\
+        \obj' = \obj[\val' \mapsto \val] \wedge
+        \heap' = \heap[\addr \mapsto \obj'] \wedge
+        \st' = \st[\heap / \heap']\\
 
-toString
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
 
-getNewValue
+    \cdeleted(\st, \refval) &=& \left\{
+      \begin{array}{ll}
+        \st' & \text{if}\
+        \refval = \id \wedge
+        \st = (\ctxt, \_, \_, \_) \wedge
+        \ctxt = (\_, \_, \env) \\
+        & \phantom{\text{if}}\
+        \env' = \env - \id \wedge
+        \ctxt' = \ctxt[\env / \env'] \wedge
+        \st' = \st[\ctxt / \ctxt']\\
 
-assertValidParseRule
+        \st' & \text{if}\
+        \refval = \addr \C{[} \val \C{]} \wedge
+        \cget(\st, \addr) = \obj \wedge
+        \obj = \str\ \C{\{} \cdots \C{\}} \wedge\\
+        & \phantom{\text{if}}\
+        \obj' = \obj - \val \wedge
+        \st' = \cset(\st, \addr, \obj')\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \cappend(\st, \addr, \val) &=& \left\{
+      \begin{array}{ll}
+        \st' & \text{if}\
+        \cget(\st, \addr) = \C{[} \val_1, \cdots, \val_n \C{]} \wedge
+        \obj = \C{[} \val_1, \cdots, \val_n, \val \C{]} \wedge
+        \st' = \cset(\st, \addr, \obj)\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \cprepend(\st, \addr, \val) &=& \left\{
+      \begin{array}{ll}
+        \st' & \text{if}\
+        \cget(\st, \addr) = \C{[} \val_1, \cdots, \val_n \C{]} \wedge
+        \obj = \C{[} \val, \val_1, \cdots, \val_n \C{]} \wedge
+        \st' = \cset(\st, \addr, \obj)\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \creturn(\st, \val) &=& \left\{
+      \begin{array}{ll}
+        \st'' & \text{if}\
+        \st = (\ctxt, \ctxtstack = \langle \ctxt_0, \cdots, \ctxt_n \rangle, \_, \_) \wedge
+        \ctxt = (\id, \_, \_) \\
+        & \phantom{\text{if}}\
+        \st' = \cdefine(\id, \val) \wedge
+        \st'' = \st'[\ctxtstack / \langle \ctxt_1, \cdots, \ctxt_n \rangle]\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \cprint(\val) &=& \text{print the given value}\ \val\\\\
+
+    \cgetaddrfield(\st, \addr, \val) &=& \left\{
+      \begin{array}{ll}
+        \val' & \text{if}\
+        \cget(\st, \addr) = \obj = \str\ \C{\{} \cdots \C{\}} \wedge
+        \val \in \dom{\obj} \wedge
+        \val' = \obj(\val)\\
+
+        \C{absent} & \text{if}\
+        \cget(\st, \addr) = \obj = \str\ \C{\{} \cdots \C{\}} \wedge
+        \val \not\in \dom{\obj} \wedge\\
+
+        \val_\intvalue & \text{if}\
+        \cget(\st, \addr) = \obj = \C{[} \val_0, \cdots, \val_{m-1} \C{]} \wedge
+        \val = \intvalue \wedge
+        0 \leq \intvalue < m\\
+
+        \C{absent} & \text{if}\
+        \cget(\st, \addr) = \obj = \C{[} \val_0, \cdots, \val_{m-1} \C{]} \wedge
+        \val = \intvalue \wedge
+        (\intvalue < 0 \vee m \leq \intvalue)\\
+
+        m & \text{if}\
+        \cget(\st, \addr) = \obj = \C{[} \val_0, \cdots, \val_{m-1} \C{]} \wedge
+        \val = \C{"length"}\\
+
+        \val' & \text{if}\
+        \cget(\st, \addr) = \obj = \C{symbol}\ \val' \wedge
+        \val = \C{"Description"}\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \cgetstrfield(\str, \val) &=& \left\{
+      \begin{array}{ll}
+        \intvalue & \text{if}\
+        \val = \C{"length"} \wedge
+        \intvalue = (\text{the length of}\ \str)\\
+
+        \str' & \text{if}\
+        \val = \double \wedge
+        \intvalue = (\text{the corresponding integer value of}\ \double)\ \wedge \\
+        & \phantom{\text{if}}\
+        \str' = (\text{a string consisting of only}\ \intvalue\text{'th
+        character of}\ \str)\\
+
+        \str' & \text{if}\
+        \val = \intvalue \wedge
+        \str' = (\text{a string consisting of only}\ \intvalue\text{'th
+        character of}\ \str)\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\
+  \end{array}
+\]
+
+\[
+  \begin{array}{lcl}
+    \cgetastfield(\AST, \val) &=& \left\{
+      \begin{array}{ll}
+        \val' & \text{if}\
+        \val = \str \wedge
+        \val' = (\AST\text{'s member whose name is}\ \str)\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \callocmap(\st, \str) &=& (\addr, \st')\ \text{where}\ \left\{
+      \begin{array}{ll}
+        \addr = (\text{a new address not in}\ \st) \\
+        \st' = \cset(\st, \addr, \str\ \C{\{}\C{\}})\\
+      \end{array}
+    \right.\\\\
+
+    \calloclist(\st, \langle \val_1, \cdots, \val_n \rangle) &=& (\addr, \st')\ \text{where}\ \left\{
+      \begin{array}{ll}
+        \addr = (\text{a new address not in}\ \st) \\
+        \st' = \cset(\st, \addr, \C{[}\val_1, \cdots, \val_n\C{]})\\
+      \end{array}
+    \right.\\\\
+
+    \callocsym(\st, \val) &=& (\addr, \st')\ \text{where}\ \left\{
+      \begin{array}{ll}
+        \addr = (\text{a new address not in}\ \st) \\
+        \st' = \cset(\st, \addr, \C{symbol}\ \val)\\
+      \end{array}
+    \right.\\\\
+
+    \cpop(\st, \addr, \intvalue) &=& \left\{
+      \begin{array}{ll}
+        (\val_\intvalue, \st') & \text{if}\
+        \cget(\st, \addr) = \obj = \C{[} \val_0, \cdots, \val_{m-1} \C{]} \wedge
+        0 \leq \intvalue < m \wedge \\
+        & \phantom{\text{if}}\
+        \obj' = \C{[} \val_0, \cdots, \val_{\intvalue-1}, \val{\intvalue+1},
+        \cdots, \val_{m-1} \C{]} \wedge
+        \st' = \cset(\st, \addr, \obj')\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \cgettype(\st, \val) &=& \left\{
+      \begin{array}{ll}
+        \C{"Number"}        & \text{if}\ \val = \double \vee \val = \intvalue\\
+        \C{"String"}        & \text{if}\ \val = \str\\
+        \C{"Boolean"}       & \text{if}\ \val = \bool\\
+        \C{"Undefined"}     & \text{if}\ \val = \C{undefined}\\
+        \C{"Null"}          & \text{if}\ \val = \C{null}\\
+        \C{"Absent"}        & \text{if}\ \val = \C{absent}\\
+        \C{"Function"}      & \text{if}\
+        \val = \langle \lambda \C{(}\cdots\C{)}.\ \inst, \env \rangle\\
+        \C{"Continuation"}  & \text{if}\
+        \val = \langle \kappa \C{(}\cdots\C{)}.\ \inst, \ctxt, \ctxtstack \rangle\\
+        \C{"AST"}           & \text{if}\ \val = \AST\\
+        \str                & \text{if}\
+        \val = \addr \wedge \cget(\st, \addr) = \str\ \C{\{} \cdots \C{\}})\\
+        \C{"List"}          & \text{if}\
+        \val = \addr \wedge \cget(\st, \addr) = \C{[} \cdots \C{]})\\
+        \C{"Symbol"}        & \text{if}\
+        \val = \addr \wedge \cget(\st, \addr) = \C{symbol}\ \val')\\
+        \bot                & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \ciscompletion(\st, \val) &=& \left\{
+      \begin{array}{ll}
+        \C{true} & \text{if}\
+        \val = \addr \wedge
+        \cget(\st, \addr) = \C{"Completion"}\ \C{\{} \cdots \C{\}}\\
+
+        \C{false} & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \cisinstanceof(\AST, \str) &=& \left\{
+      \begin{array}{ll}
+        \C{true} & \text{if}\
+        \AST\ \text{is the syntax element whose kind is}\ \str\\
+        \C{false} & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \cgetelems(\st, \AST, \str) &=& (\addr, \st')\ \text{where}\ \left\{
+      \begin{array}{ll}
+        \langle \AST_1, \cdots, \AST_n \rangle =
+        (\text{the list of syntax elements,}\\
+        \text{whose kind is $\str$, of $\AST$ with pre-order traversal})\\
+        \halloclist{\st}{\langle \AST_1, \cdots, \AST_n \rangle}{\addr}{\st'}\\
+      \end{array}
+    \right.\\\\
+
+    \cgetsyntax(\AST) &=& (\text{the beautified form of string for $AST$})\\\\
+     
+    \cparse(\val, \str, \langle \bool_1, \cdots, \bool_n \rangle) &=& \left\{
+      \begin{array}{ll}
+        \AST & \text{if}\ \val = \str_\C{rule} \wedge\\
+        & \phantom{\text{if}}\
+        \AST = (\text{the parsing result of $\str$ based on the rule $\str_\C{rule}$}\\
+        & \phantom{\text{if}\ \AST = (}
+        \text{with boolean arguments $\langle \bool_1, \cdots, \bool_n \rangle$})\\
+
+        \AST' & \text{if}\
+        \val = \AST \wedge
+        \langle \bool'_1, \cdots, \bool'_n \rangle = (\text{boolean parameters
+        stored in $\AST$})\wedge\\
+        & \phantom{\text{if}}\
+        \AST' = (\text{the parsing result of $\str$ based on the rule $\str_\C{rule}$}\\
+        & \phantom{\text{if}\ \AST = (}
+        \text{with boolean arguments $\langle \bool'_1, \cdots, \bool'_n \rangle$})\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+  \end{array}
+\]
+\[
+  \begin{array}{lcl}
+    \cconvert(\cop, \val, \val') &=& \left\{
+      \begin{array}{ll}
+        \double & \text{if}\
+        \val = \str \wedge
+        \val' = \C{absent} \wedge
+        \cop = \C{str2num}\ \wedge\\
+        & \phantom{\text{if}}\
+        \double = (\text{the corresponding floating point of $\str$})\\
+
+        \str & \text{if}\
+        \val = \double \wedge
+        \val' = \intvalue\wedge
+        \cop = \C{num2str}\ \wedge\\
+        & \phantom{\text{if}}\
+        \str = (\text{the corresponding string of $\double$ with the radix $\intvalue$})\\
+
+        \intvalue & \text{if}\
+        \val = \double \wedge
+        \val' = \C{absent} \wedge
+        \cop = \C{num2int}\ \wedge\\
+        & \phantom{\text{if}}\
+        \intvalue = (\text{the corresponding integer value of $\double$})\ \wedge \\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \ccontains(\st, \addr, \val) &=& \left\{
+      \begin{array}{ll}
+        \C{true} & \text{if}\
+        \cget(\st, \addr) = \C{[} \val_1, \cdots, \val_n \C{]}) \wedge
+        \exists 1 \leq i \leq n.\ \val_i = \val\\
+
+        \C{false} & \text{if}\
+        \cget(\st, \addr) = \C{[} \val_1, \cdots, \val_n \C{]}) \wedge
+        \forall 1 \leq i \leq n.\ \val_i \neq \val\\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \ckeys(\st, \addr) &=& \left\{
+      \begin{array}{ll}
+        (\addr', \st') & \text{if}\
+        \cget(\st, \addr) = \str \C{\{} \val_1 \mapsto \_, \cdots, \val_n
+        \mapsto \_\C{\}}) \wedge \\
+        & \phantom{\text{if}}\
+        \langle \val'_1, \cdots, \val'_n \rangle =
+        (\text{the list consisting of $\val_1, \cdots, \val_n$}\\
+        & \phantom{\text{if}\ \langle \val'_1, \cdots, \val'_n \rangle = (}
+        \text{ordered by their creation time.}) \\
+        & \phantom{\text{if}}\
+        (\addr', \st') = \calloclist(\st, \langle \val'_1, \cdots, \val'_n \rangle) \\
+
+        \bot & \text{otherwise}\\
+      \end{array}
+    \right.\\\\
+
+    \clookup(\st, \id) &=& \left\{
+      \begin{array}{ll}
+        \env(\id) & \text{if}\
+        \st = (\ctxt, \_, \_, \_) \wedge
+        \ctxt = (\_, \_, \env) \wedge
+        \id \in \dom{\env}\\
+
+        \env(\id) & \text{if}\
+        \st = (\_, \_, \env, \_) \wedge
+        \id \in \dom{\env}\\
+
+        \C{absent} & \text{otherwise}\\
+      \end{array}
+    \right.\\
+  \end{array}
+\]
