@@ -27,7 +27,7 @@
     &&&&\mid& \addr                                          & \text{(addresses)}\\
     &&&&\mid& \AST                                           & \text{(ECMAScript ASTs)}\\
     &&&&\mid& \langle \lambda \C{(}\id^*
-              [\C{..}\id]^?\C{)}.\ \inst, \env \rangle      & \text{(closures)}\\
+              [, \C{*}\id]^?\C{)}.\ \inst, \env \rangle      & \text{(closures)}\\
     &&&&\mid& \langle \kappa \C{(}\id^*
               \C{)}.\ \inst, \ctxt, \ctxtstack \rangle       & \text{(continuations)}\\
     \\
@@ -48,7 +48,7 @@
 The semantics of an \( \ires \) program \( \pr \) is defined with a state
 transition system \( (\stset, \trans, \stinit) \). The transition relation
 \( \trans \subseteq \stset \times \stset \) describes how states are transformed
-into other states defined with as follows:
+into other states as follows:
 \[
   \infer
   { \st = (\ctxt, \_, \_, \_) \quad
@@ -59,7 +59,7 @@ into other states defined with as follows:
     \evalinst{\st'}{\inst_0}{\st''}}
   { \st \trans \st'' }
 \]
-where \( x[y / z] \) denotes the substitutions of the component \( y \) in \( x
+where \( x[y / z] \) denotes substituting \( y \) in \( x
 \) with \( z \).  The notation \( \transrep \) is zero or more repetitions of
 the transition relation \( \trans \). The initial state \( \stinit \) is defined
 as follows:
@@ -78,11 +78,11 @@ follows:
 \[
   \sem{p} = \{ \st \mid \stinit \transrep \st \}
 \]
-Now, we define operational semantics of each \( \ires \) component:
+Now, we define the operational semantics of each \( \ires \) component:
 (instructions in Section~\ref{sec:inst}, expressions in Section~\ref{sec:expr},
-references in Section~\ref{sec:refer} and reference values in
-Section~\ref{sec:refer-val}. We utilize several helper functions in
-Section~\ref{sec:helper}
+references in Section~\ref{sec:refer}, and reference values in
+Section~\ref{sec:refer-val}. We utilize several helper functions defined in
+Section~\ref{sec:helper}.
 
 \newpage
 
@@ -244,8 +244,54 @@ Section~\ref{sec:helper}
         }{\st_0} \\\\
         \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
         \cdots \quad
-        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \\\\
-        \env_0 = \env[\id_1 \mapsto \val_1, \cdots, \id_m \mapsto \val_m] \quad
+        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \quad
+        n < m\\\\
+        \env_0 = \env[\id_1 \mapsto \val_1, \cdots, \id_n \mapsto \val_n,
+        \id_{n+1} \mapsto \C{absent}, \cdots, \id_m \mapsto \C{absent}] \\\\
+        \st_n = (\ctxt, \ctxtstack' = \langle \ctxt'_0, \cdots, \ctxt'_k \rangle, \_, \_)\quad
+        \ctxt = (\id_\C{ret}, \_, \_) \\\\
+        \ctxt_0 = \ctxt[\id_\C{ret} / \id] \quad
+        \ctxt_1 = (\idret, \langle \inst_\C{body} \rangle, \env_0) \quad
+        \st' = \st_n[\ctxt / \ctxt_1]
+                    [\ctxtstack' / \langle \ctxt_0, \ctxt'_0, \cdots, \ctxt'_k \rangle]
+      }
+      { \evalinst{\st}{\C{call}\ \id\ \C{=}\ \expr_0 \C{(} \expr_1, \cdots, \expr_n \C{)} }{\st'}}
+    \]
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr_0}{
+          \langle \lambda \C{(}\id_1, \cdots, \id_m\C{)}.\ \inst_\C{body},
+          \env \rangle
+        }{\st_0} \\\\
+        \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
+        \cdots \quad
+        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \quad
+        n \geq m\\\\
+        \env_0 = \env[\id_1 \mapsto \val_1, \cdots, \id_m \mapsto \val_m] \\\\
+        \st_n = (\ctxt, \ctxtstack' = \langle \ctxt'_0, \cdots, \ctxt'_k \rangle, \_, \_)\quad
+        \ctxt = (\id_\C{ret}, \_, \_) \\\\
+        \ctxt_0 = \ctxt[\id_\C{ret} / \id] \quad
+        \ctxt_1 = (\idret, \langle \inst_\C{body} \rangle, \env_0) \quad
+        \st' = \st_n[\ctxt / \ctxt_1]
+                    [\ctxtstack' / \langle \ctxt_0, \ctxt'_0, \cdots, \ctxt'_k \rangle]
+      }
+      { \evalinst{\st}{\C{call}\ \id\ \C{=}\ \expr_0 \C{(} \expr_1, \cdots, \expr_n \C{)} }{\st'}}
+    \]
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr_0}{
+          \langle \lambda \C{(}\id_1, \cdots, \id_m, \C{*}\id'\C{)}.\ \inst_\C{body},
+          \env \rangle
+        }{\st_0} \\\\
+        \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
+        \cdots \quad
+        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \quad
+        n < m\\\\
+        \env_0 = \env[\id_1 \mapsto \val_1, \cdots, \id_n \mapsto \val_n,
+        \id_{n+1} \mapsto \C{absent}, \cdots, \id_m \mapsto \C{absent}] \quad
+        \env_1 = \env_0[\id' \mapsto \code{[} \code{]}] \\\\
         \st_n = (\ctxt, \ctxtstack' = \langle \ctxt'_0, \cdots, \ctxt'_k \rangle, \_, \_)\quad
         \ctxt = (\id_\C{ret}, \_, \_) \\\\
         \ctxt_0 = \ctxt[\id_\C{ret} / \id] \quad
@@ -259,12 +305,13 @@ Section~\ref{sec:helper}
       \infer
       {
         \evalexpr{\st}{\expr_0}{
-          \langle \lambda \C{(}\id_1, \cdots, \id_m, \C{..}\id'\C{)}.\ \inst_\C{body},
+          \langle \lambda \C{(}\id_1, \cdots, \id_m, \C{*}\id'\C{)}.\ \inst_\C{body},
           \env \rangle
         }{\st_0} \\\\
         \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
         \cdots \quad
-        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \\\\
+        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \quad
+        n \geq m\\\\
         \env_0 = \env[\id_1 \mapsto \val_1, \cdots, \id_m \mapsto \val_m] \quad
         \env_1 = \env_0[\id' \mapsto \code{[}\val_{m+1}, \cdots, \val_n \code{]}]\\\
         \st_n = (\ctxt, \ctxtstack' = \langle \ctxt'_0, \cdots, \ctxt'_k \rangle, \_, \_)\quad
@@ -285,10 +332,31 @@ Section~\ref{sec:helper}
         }{\st_0} \\\\
         \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
         \cdots \quad
-        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \\\\
+        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \quad
+        n < m\\\\
+        \env_0 = \env[\id_1 \mapsto \val_1, \cdots, \id_n \mapsto \val_n,
+        \id_{n+1} \mapsto \C{absent}, \cdots, \id_m \mapsto \C{absent}] \\\\
         \st_n = (\ctxt', \ctxtstack', \_, \_) \quad
-        \ctxt = (\_, \insts, \env) \\\\
-        \env_0 = \env[\id_1 \mapsto \val_1, \cdots, \id_m \mapsto \val_m] \quad
+        \ctxt = (\_, \insts, \env) \quad
+        \ctxt_0 = \ctxt[\insts / \langle \inst_\C{body} \rangle][\env / \env_0] \quad
+        \st' = \st_n[\ctxt' / \ctxt_0][\ctxtstack' / \ctxtstack]
+      }
+      { \evalinst{\st}{\C{call}\ \id\ \C{=}\ \expr_0 \C{(} \expr_1, \cdots, \expr_n \C{)} }{\st'}}
+    \]
+    \[
+      \infer
+      {
+        \evalexpr{\st}{\expr_0}{
+          \langle \kappa \C{(}\id_1, \cdots, \id_m\C{)}.\ \inst_\C{body},
+          \ctxt, \ctxtstack \rangle
+        }{\st_0} \\\\
+        \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
+        \cdots \quad
+        \evalexpr{\st_{n-1}}{\expr_n}{\val_n}{\st_n} \quad
+        n \geq m\\\\
+        \env_0 = \env[\id_1 \mapsto \val_1, \cdots, \id_m \mapsto \val_m] \\\\
+        \st_n = (\ctxt', \ctxtstack', \_, \_) \quad
+        \ctxt = (\_, \insts, \env) \quad
         \ctxt_0 = \ctxt[\insts / \langle \inst_\C{body} \rangle][\env / \env_0] \quad
         \st' = \st_n[\ctxt' / \ctxt_0][\ctxtstack' / \ctxtstack]
       }
@@ -372,12 +440,12 @@ Section~\ref{sec:helper}
         \evalexpr{\st_0}{\expr_{k_1}}{\val_{k_1}}{\sigma_{k_1}}\quad
         \hescape{\val_{k_1}}{\sigma_{k_1}}{\val'_{k_1}} \\\\
         \evalexpr{\st_{k_1}}{\expr_{v_1}}{\val_{v_1}}{\sigma_{v_1}} \quad
-        \hupdated{\st_{v_1}}{\addr\C{[}\val_{k_0}\C{]}}{\val_{v_n}}{\st_1} \\\\
+        \hupdated{\st_{v_1}}{\addr\C{[}\val'_{k_1}\C{]}}{\val_{v_1}}{\st_1} \\\\
         \cdots \\\\
         \evalexpr{\st_{n-1}}{\expr_{k_n}}{\val_{k_n}}{\sigma_{k_n}}\quad
         \hescape{\val_{k_n}}{\sigma_{k_n}}{\val'_{k_n}} \\\\
         \evalexpr{\st_{k_n}}{\expr_{v_n}}{\val_{v_n}}{\sigma_{v_n}} \quad
-        \hupdated{\st_{v_n}}{\addr\C{[}\val_{k_0}\C{]}}{\val_{v_n}}{\st_n}
+        \hupdated{\st_{v_n}}{\addr\C{[}\val'_{k_n}\C{]}}{\val_{v_n}}{\st_n}
       }
       {\evalexpr{\st}{\C{new}\ \str\ \C{\{}\expr_{k_1} \mapsto \expr_{v_1},
       \cdots, \expr_{k_n} \mapsto \expr_{v_n}\C{\}}}{\addr}{\st_n}}
@@ -430,7 +498,7 @@ Section~\ref{sec:helper}
       {
         \st = (\ctxt, \ctxtstack, \_, \_)
       }
-      {\evalexpr{\st}{\C{(} \id_0, \cdots, \id_n \C{)}\ \C{[=>]}\ \inst}{
+      {\evalexpr{\st}{\C{(} \id_0, \cdots, \id_n \C{)}\ \C{=>}\ \inst}{
           \langle \kappa \C{(}\id_0, \cdots, \id_n  \C{)}.\ \inst, \ctxt, \ctxtstack \rangle
       }{\st}}
     \]
@@ -446,8 +514,8 @@ Section~\ref{sec:helper}
     \[
       \infer
       {
-        \evalexpr{\st}{\expr}{\val_0}{\st_0} \quad
-        \evalexpr{\st_0}{\expr}{\val_1}{\st_1} \quad
+        \evalexpr{\st}{\expr_0}{\val_0}{\st_0} \quad
+        \evalexpr{\st_0}{\expr_1}{\val_1}{\st_1} \quad
       }
       {\evalexpr{\st}{\expr_0 \bop \expr_1}{\val_0 \bop \val_1}{\st_1}}
     \]
@@ -494,7 +562,7 @@ Section~\ref{sec:helper}
       \infer
       {
         \evalexpr{\st}{\expr}{\val}{\st'} \quad
-        \hescape{\st'}{\val}{\AST} \quad
+        \hescape{\val}{\st'}{\AST} \quad
         \hgetsyntax{\AST}{\str}
       }
       {\evalexpr{\st}{\C{get-syntax}\ \expr}{\str}{\st'}}
@@ -504,9 +572,9 @@ Section~\ref{sec:helper}
       \infer
       {
         \evalexpr{\st}{\expr_\C{code}}{\val_\C{code}}{\st_0} \quad
-        \hescape{\st_0}{\val_\C{code}}{\val} \quad
+        \hescape{\val_\C{code}}{\st_0}{\val} \quad
         \evalexpr{\st_0}{\expr_\C{rule}}{\val_\C{rule}}{\st_1} \quad
-        \hescape{\st_1}{\val_\C{rule}}{\str} \\\\
+        \hescape{\val_\C{rule}}{\st_1}{\str} \\\\
         \evalexpr{\st_1}{\expr_1}{\bool_1}{\st_2} \quad
         \cdots \quad
         \evalexpr{\st_n}{\expr_n}{\bool_n}{\st'} \quad
@@ -636,7 +704,7 @@ Section~\ref{sec:helper}
     \[
       \infer
       {
-        \hgetstrfield{\st}{\str}{\val}{\val'}
+        \hgetstrfield{\str}{\val}{\val'}
       }
       {\evalrefv{\st}{\str \C{[} \val \C{]}}{\val'}{\st}}
     \]
@@ -649,7 +717,7 @@ Section~\ref{sec:helper}
 
 \[
   \begin{array}{lcl}
-    \cescape(\st, \val) &=& \left\{
+    \cescape(\val, \st) &=& \left\{
       \begin{array}{ll}
         \val' & \text{if}\
         \val = \addr \wedge
@@ -699,7 +767,7 @@ Section~\ref{sec:helper}
 
         \st' & \text{if}\
         \refval = \id \wedge
-        \st = (\ctxt, \_, \env, \_) \wedge
+        \st = (\_, \_, \env, \_) \wedge
         \id \not\in \dom{\env} \wedge
         \st' = \cdefine(\st, \id, \val)\\
 
@@ -786,7 +854,7 @@ Section~\ref{sec:helper}
 
         \C{absent} & \text{if}\
         \cget(\st, \addr) = \obj = \str\ \C{\{} \cdots \C{\}} \wedge
-        \val \not\in \dom{\obj} \wedge\\
+        \val \not\in \dom{\obj}\\
 
         \val_\intvalue & \text{if}\
         \cget(\st, \addr) = \obj = \C{[} \val_0, \cdots, \val_{m-1} \C{]} \wedge
@@ -820,12 +888,12 @@ Section~\ref{sec:helper}
         \val = \double \wedge
         \intvalue = (\text{the corresponding integer value of}\ \double)\ \wedge \\
         & \phantom{\text{if}}\
-        \str' = (\text{a string consisting of only}\ \intvalue\text{'th
+        \str' = (\text{a string consisting of only the}\ \intvalue\text{'th
         character of}\ \str)\\
 
         \str' & \text{if}\
         \val = \intvalue \wedge
-        \str' = (\text{a string consisting of only}\ \intvalue\text{'th
+        \str' = (\text{a string consisting of only the}\ \intvalue\text{'th
         character of}\ \str)\\
 
         \bot & \text{otherwise}\\
@@ -840,7 +908,7 @@ Section~\ref{sec:helper}
       \begin{array}{ll}
         \val' & \text{if}\
         \val = \str \wedge
-        \val' = (\AST\text{'s member whose name is}\ \str)\\
+        \val' = (\AST\text{'s member of name $\str$, which is unique})\\
 
         \bot & \text{otherwise}\\
       \end{array}
@@ -873,7 +941,7 @@ Section~\ref{sec:helper}
         \cget(\st, \addr) = \obj = \C{[} \val_0, \cdots, \val_{m-1} \C{]} \wedge
         0 \leq \intvalue < m \wedge \\
         & \phantom{\text{if}}\
-        \obj' = \C{[} \val_0, \cdots, \val_{\intvalue-1}, \val{\intvalue+1},
+        \obj' = \C{[} \val_0, \cdots, \val_{\intvalue-1}, \val_{\intvalue+1},
         \cdots, \val_{m-1} \C{]} \wedge
         \st' = \cset(\st, \addr, \obj')\\
 
@@ -961,23 +1029,23 @@ Section~\ref{sec:helper}
     \cconvert(\cop, \val, \val') &=& \left\{
       \begin{array}{ll}
         \double & \text{if}\
+        \cop = \C{str2num}\ \wedge
         \val = \str \wedge
-        \val' = \C{absent} \wedge
-        \cop = \C{str2num}\ \wedge\\
+        \val' = \C{absent} \wedge\\
         & \phantom{\text{if}}\
         \double = (\text{the corresponding floating point of $\str$})\\
 
         \str & \text{if}\
+        \cop = \C{num2str}\ \wedge
         \val = \double \wedge
-        \val' = \intvalue\wedge
-        \cop = \C{num2str}\ \wedge\\
+        \val' = \intvalue\wedge\\
         & \phantom{\text{if}}\
         \str = (\text{the corresponding string of $\double$ with the radix $\intvalue$})\\
 
         \intvalue & \text{if}\
+        \cop = \C{num2int}\ \wedge
         \val = \double \wedge
-        \val' = \C{absent} \wedge
-        \cop = \C{num2int}\ \wedge\\
+        \val' = \C{absent} \wedge\\
         & \phantom{\text{if}}\
         \intvalue = (\text{the corresponding integer value of $\double$})\ \wedge \\
 
