@@ -834,9 +834,9 @@ Section~\ref{sec:helper}.
       \begin{array}{ll}
         \st'' & \text{if}\
         \st = (\ctxt, \ctxtstack = \langle \ctxt_0, \cdots, \ctxt_n \rangle, \_, \_) \wedge
-        \ctxt = (\id, \_, \_) \\
+        \ctxt_0 = (\id, \_, \_) \\
         & \phantom{\text{if}}\
-        \st' = \cdefine(\id, \val) \wedge
+        \st' = \cdefine(\st, \id, \val) \wedge
         \st'' = \st'[\ctxtstack / \langle \ctxt_1, \cdots, \ctxt_n \rangle]\\
 
         \bot & \text{otherwise}\\
