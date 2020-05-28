@@ -24,13 +24,24 @@ const getSpecUrl = ( version: ECMAScriptVersion ) => {
   return `https://www.ecma-international.org/ecma-262/${ getVersionNumber( version ) }/index.html`;
 }
 
+// get directory path and recursively create the non-existed directories in the path
+export const getDir =
+  ( ...args: string[] ): string => {
+    const dirPath = path.join.apply(path, args);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath);
+    }
+    return dirPath;
+  }
+
 // load specification
 export const loadSpec = async ( resourcePath: string, version: ECMAScriptVersion ) => {
   printSep();
   console.log( "loading spec..." );
 
   /* check if cache exists */
-  const cachePath = path.join( resourcePath, "cache", `${ version }.html` );
+  const cacheDirPath = getDir( resourcePath, ".cache" );
+  const cachePath = path.join( cacheDirPath, `${ version }.html` );
   const cacheExists = fs.existsSync( cachePath );
   let specContent: string;
 

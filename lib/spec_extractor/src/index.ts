@@ -1,6 +1,6 @@
 import cheerio from "cheerio";
 import path from "path";
-import { loadRule, loadSpec, saveGrammarResult, saveFile } from "./util";
+import { getDir, loadRule, loadSpec, saveGrammarResult, saveFile } from "./util";
 import { ECMAScriptVersion } from "./enum";
 import { GrammarExtractResult } from "./types";
 import { extractSection, generateIdxMap } from "./grammar";
@@ -44,7 +44,7 @@ async function main () {
   // getAlgoHeader( "await", { $ } );
   const clause = extractAlgoClause( { $, clauseId: "sec-getidentifierreference" } );
 
-  saveFile( path.join( resourcePath, 'tests', 'test.json' ), JSON.stringify( clause.body ) );
+  saveFile( path.join( getDir(resourcePath, '.cache'), 'spec.json' ), JSON.stringify( clause.body ) );
 }
 
 try {
