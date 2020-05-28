@@ -1,54 +1,73 @@
 import cheerio from "cheerio";
 import path from "path";
-import { getDir, loadRule, loadSpec, saveGrammarResult, saveFile } from "./util";
+import { printSep, loadSpec, saveGrammarResult, saveFile } from "./util";
+import { getESVersion, getDir, loadRule } from "./util";
 import { ECMAScriptVersion } from "./enum";
 import { GrammarExtractResult } from "./types";
 import { extractSection, generateIdxMap } from "./grammar";
 import { extractAlgoClause } from "./algorithm";
 
+const argv = require('yargs')
+  .usage("Usage: --target <ECMAScript-version>")
+  .option('target', {
+    alias: 't',
+    default: 'es10',
+    describe: 'the version of ECMAScript',
+    type: 'string',
+  })
+  .help()
+  .alias('help', 'h')
+  .argv;
+
 async function main () {
-  const version = ECMAScriptVersion.ES2019;
-  const resourcePath = path.join( __dirname, "..", "resource" );
-  const html = await loadSpec( resourcePath, version );
-  const rule = await loadRule( resourcePath, version );
-  let $ = cheerio.load( html );
+  try {
+    const version = getESVersion(argv.target);
+    printSep();
+    console.log(`VERSION: ${version}`);
+    const resourcePath = path.join(__dirname, "..", "resource");
+    const html = await loadSpec(resourcePath, version);
+    const rule = await loadRule(resourcePath, version);
+    let $ = cheerio.load(html);
 
-  console.log( rule );
+    /**
+     * Grammar
+     */
+    // let grammar: GrammarExtractResult = {
+    //   lexProds: [],
+    //   prods: []
+    // };
 
-  /**
-   * Grammar
-   */
-  // let grammar: GrammarExtractResult = {
-  //   lexProds: [],
-  //   prods: []
-  // };
+    // /* extract grammar production */
+    // rule.grammar.sections.forEach(section => {
+    //   let sectionResult = extractSection({ $, rule, section });
+    //   const { lexProds, prods } = sectionResult;
+    //   grammar.lexProds = grammar.lexProds.concat(lexProds);
+    //   grammar.prods = grammar.prods.concat(prods);
+    // });
 
-  // /* extract grammar production */
-  // rule.grammar.sections.forEach( section => {
-  //   let sectionResult = extractSection( { $, rule, section } );
-  //   const { lexProds, prods } = sectionResult;
-  //   grammar.lexProds = grammar.lexProds.concat( lexProds );
-  //   grammar.prods = grammar.prods.concat( prods );
-  // } );
+    // /* generate index map */
+    // grammar.idxMap = generateIdxMap(grammar);
 
-  // /* generate index map */
-  // grammar.idxMap = generateIdxMap( grammar );
+    // /* save grammar extract result */
+    // saveGrammarResult(resourcePath, version, grammar);
 
-  // /* save grammar extract result */
-  // saveGrammarResult( resourcePath, version, grammar );
+    /**
+     * Algorithm
+     */
 
-  /**
-   * Algorithm
-   */
+    // getAlgoHeader("await", { $ });
+    // const clause = extractAlgoClause({ $, clauseId: "sec-getidentifierreference" });
 
-  // getAlgoHeader( "await", { $ } );
-  const clause = extractAlgoClause( { $, clauseId: "sec-getidentifierreference" } );
+    // save the information as a JSON file
+    const cacheDirPath = getDir(resourcePath, '.cache');
+    const jsonPath = path.join(cacheDirPath , 'spec.json');
+    const data = JSON.stringify({} /* TODO */);
+    saveFile(jsonPath , data);
 
-  saveFile( path.join( getDir(resourcePath, '.cache'), 'spec.json' ), JSON.stringify( clause.body ) );
+  } catch (err) {
+    // show error messages
+    console.log(`[ERROR] ${err.message}`);
+  }
 }
 
-try {
-  main();
-} catch ( err ) {
-  throw err;
-}
+main();
