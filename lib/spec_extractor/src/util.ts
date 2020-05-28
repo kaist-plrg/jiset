@@ -1,0 +1,178 @@
+import fs from "fs";
+import path from "path";
+import { get } from "request-promise";
+import { ECMAScriptVersion, HTMLTagAttribute } from "./enum";
+import { ExtractorRule, GrammarExtractResult } from "./types";
+import { serializeToken, serializeProduction } from "./grammar";
+
+const fsOption = { encoding: "utf8" };
+
+export const printSep = () => {
+  console.log( "==========================================================" );
+}
+
+const getVersionNumber = ( version: ECMAScriptVersion ) => {
+  switch ( version ) {
+    case ECMAScriptVersion.ES2019:
+      return "10.0";
+    case ECMAScriptVersion.ES2018:
+      return "9.0";
+  }
+}
+
+const getSpecUrl = ( version: ECMAScriptVersion ) => {
+  return `https://www.ecma-international.org/ecma-262/${ getVersionNumber( version ) }/index.html`;
+}
+
+// load specification
+export const loadSpec = async ( resourcePath: string, version: ECMAScriptVersion ) => {
+  printSep();
+  console.log( "loading spec..." );
+
+  /* check if cache exists */
+  const cachePath = path.join( resourcePath, "cache", `${ version }.html` );
+  const cacheExists = fs.existsSync( cachePath );
+  let specContent: string;
+
+  if ( cacheExists ) {
+    /* if cache exists, read cached file */
+    specContent = fs.readFileSync( cachePath, fsOption );
+  } else {
+    /* if cache doesn't exist, download spec from internet */
+    const specUrl = getSpecUrl( version );
+    console.log( `download ${ version } from ${ specUrl }...` );
+    const HTMLContent: string = await get( specUrl );
+    console.log( `completed` );
+    /* save it to cache dir */
+    fs.writeFileSync( cachePath, HTMLContent, fsOption );
+    specContent = HTMLContent;
+  }
+
+  console.log( "completed!!!" );
+  printSep();
+  return specContent;
+}
+
+//load rules
+export const loadRule =
+  ( resourcePath: string, version: ECMAScriptVersion ): ExtractorRule => {
+    printSep();
+    console.log( "loading rules..." );
+
+    const rulePath = path.join( resourcePath, "rules", `${ version }.json` );
+    const ruleExists = fs.existsSync( rulePath );
+
+    /* assert rule file exists */
+    if ( !ruleExists )
+      throw new Error( `loadRule : rulePath(${ rulePath }) is invalid` );
+
+    const ruleContent = fs.readFileSync( rulePath, fsOption );
+    const ruleObj = JSON.parse( ruleContent );
+
+    console.log( "completed!!!" );
+    printSep();
+    return ruleObj;
+  }
+
+// save extracted grammar result
+export const saveGrammarResult =
+  ( resourcePath: string, version: ECMAScriptVersion, grammar: GrammarExtractResult ) => {
+    printSep();
+    console.log( "saving extracted grammar result..." );
+
+    const grPath = path.join( resourcePath, `spec.json` );
+    const final = {
+      globalMethods: [],
+      consts: [],
+      grammar: {
+        lexProds: grammar.lexProds.map( _ => serializeProduction( _ ) ),
+        prods: grammar.prods.map( _ => serializeProduction( _ ) ),
+        idxMap: grammar.idxMap
+      },
+      symbols: {},
+      intrinsics: {},
+      tys: {}
+    };
+
+    saveFile( grPath, JSON.stringify( final ) );
+    console.log( "completed!!!" )
+    printSep();
+  }
+
+// save file
+export const saveFile =
+  ( filePath: string, content: string ) => {
+    printSep();
+    console.log( "saving file..." );
+    fs.writeFileSync( filePath, content, fsOption );
+    console.log( "completed!!!" )
+    printSep();
+  }
+
+// get attributes from CheerioElement
+export const getAllAttributes =
+  ( elem: CheerioElement ): { [ attr: string ]: any } => {
+    let ret: { [ attr: string ]: any } = {};
+    // parse 
+    for ( let key in elem.attribs ) {
+      let val = elem.attribs[ key ];
+      switch ( key ) {
+        case HTMLTagAttribute.PARAMS: {
+          ret[ key ] = val.split( "," ).map( _ => _.trim() );
+          break;
+        }
+        case HTMLTagAttribute.OPTIONAL: {
+          ret[ key ] = true;
+          break;
+        }
+        case HTMLTagAttribute.CONSTRAINTS: {
+          switch ( val[ 0 ] ) {
+            case "+":
+              ret[ key ] = `p${ val.substr( 1 ) }`; break;
+            case "~":
+              ret[ key ] = `!p${ val.substr( 1 ) }`; break;
+          }
+          break;
+        }
+        case HTMLTagAttribute.ONEOF: {
+          ret[ key ] = true;
+          break;
+        }
+        default:
+          ret[ key ] = val;
+      }
+    }
+
+    // set params to array
+    ret.params = ret.params ? ret.params : [];
+    // set optional to boolean
+    ret.optional = ret.optional ? ret.optional : false;
+    // set constraints to string
+    ret.constraints = ret.constraints ? ret.constraints : "";
+    // set oneof to boolean
+    ret.oneof = ret.oneof ? ret.oneof : false;
+
+    return ret;
+  }
+
+// string normalization
+export const norm = ( str: string ) => {
+  return str
+    .replace( /\s+/g, '' )
+    .replace( /\//g, '' )
+    .replace( '#', '' );
+}
+
+// spilt string
+export const splitText = ( str: string ): string[] => {
+  let tokens: string[] = [];
+  let prevWordChar = false;
+  for ( let ch of str ) {
+    let isWordChar = /\w/.test( ch );
+    let isSpace = /\s/.test( ch );
+    if ( prevWordChar && isWordChar ) tokens.push( tokens.pop() + ch );
+    else if ( !isSpace ) tokens.push( ch );
+    prevWordChar = isWordChar;
+  }
+  return tokens;
+}
