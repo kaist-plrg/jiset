@@ -2,7 +2,8 @@ import fs from "fs";
 import path from "path";
 import { get } from "request-promise";
 import { ECMAScriptVersion, HTMLTagAttribute } from "./enum";
-import { ExtractorRule, GrammarExtractResult } from "./types";
+import { ExtractorRule } from "./rule";
+import { GrammarExtractResult } from "./types";
 import { serializeToken, serializeProduction } from "./grammar";
 
 const fsOption = { encoding: "utf8" };

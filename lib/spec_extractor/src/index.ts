@@ -1,10 +1,10 @@
 import cheerio from "cheerio";
 import path from "path";
+import { Spec } from "./spec";
 import { printSep, loadSpec, saveGrammarResult, saveFile } from "./util";
 import { getESVersion, getDir, loadRule } from "./util";
 import { ECMAScriptVersion } from "./enum";
-import { GrammarExtractResult } from "./types";
-import { extractSection, generateIdxMap } from "./grammar";
+import { Grammar, extractSection, generateIdxMap } from "./grammar";
 import { extractAlgoClause } from "./algorithm";
 
 const argv = require('yargs')
@@ -19,7 +19,7 @@ const argv = require('yargs')
   .alias('help', 'h')
   .argv;
 
-async function main () {
+async function main() {
   try {
     const version = getESVersion(argv.target);
     printSep();
@@ -29,21 +29,18 @@ async function main () {
     const rule = await loadRule(resourcePath, version);
     let $ = cheerio.load(html);
 
-    /**
-     * Grammar
-     */
-    // let grammar: GrammarExtractResult = {
-    //   lexProds: [],
-    //   prods: []
-    // };
+    // extract Spec from a ECMAScript html file
+    const spec = Spec.from($, rule);
 
-    // /* extract grammar production */
-    // rule.grammar.sections.forEach(section => {
+    // extract grammar production
+    // let grammar: Grammar = new Grammar();
+    // const sections = rule.grammar.sections;
+    // for (const section of sections) {
     //   let sectionResult = extractSection({ $, rule, section });
     //   const { lexProds, prods } = sectionResult;
     //   grammar.lexProds = grammar.lexProds.concat(lexProds);
     //   grammar.prods = grammar.prods.concat(prods);
-    // });
+    // }
 
     // /* generate index map */
     // grammar.idxMap = generateIdxMap(grammar);

@@ -1,7 +1,43 @@
-import { ExtractorRule, GrammarExtractResult, GrammarProduction, GrammarRHS, Token, IndexMap, NonterminalToken } from "./types";
+import { ExtractorRule } from "./rule";
+import { GrammarExtractResult, GrammarProduction, GrammarRHS, Token, IndexMap, NonterminalToken } from "./types";
 import { HTMLSemanticTag, HTMLTagType, TokenType } from "./enum";
 import { getAllAttributes, norm } from "./util";
 import assert from "assert";
+
+export class Grammar {
+  constructor(
+    public lexProds: GrammarProduction[] = [],
+    public prods: GrammarProduction[] = [],
+    public idxMap: IndexMap = {}
+  ) { }
+
+  // extract Grammar from a ECMAScript html file
+  static from($: CheerioStatic, rule: ExtractorRule): Grammar {
+    // TODO
+    return new Grammar([], [], {});
+  }
+
+  // extract Grammar from a specific section
+  static extractSection($: CheerioStatic, rule: ExtractorRule, section: string): Grammar {
+    const grammar = new Grammar();
+
+    // $(HTMLSemanticTag.PRODUCTION, `${ HTMLSemanticTag.APPENDIX }#${ section } > `)
+    //   // filter production by rules
+    //   .filter((_, elem) => {
+    //     let attribs = getAllAttributes(elem);
+    //     return !rule.grammar.excludes.includes(attribs.name.trim());
+    //   })
+    //   // extract production
+    //   .each((_, prodElem) => {
+    //     const prod = extractProduction({ $, prodElem, rule });
+    //     let attribs = getAllAttributes(prodElem);
+    //     const target = attribs.type && attribs.type === "lexical" ? grammar.lexProds: grammar.prods;
+    //     target.push(prod);
+    //   });
+
+    return grammar;
+  }
+}
 
 export const generateIdxMap = (result: GrammarExtractResult): IndexMap => {
   let idxMap: IndexMap = {};
@@ -110,7 +146,8 @@ export const extractSection
     const { $, rule, section } = args;
     const result: GrammarExtractResult = {
       lexProds: [],
-      prods: []
+      prods: [],
+      idxMap: {}
     };
 
     $(HTMLSemanticTag.PRODUCTION, `${ HTMLSemanticTag.APPENDIX }#${ section } > `)
