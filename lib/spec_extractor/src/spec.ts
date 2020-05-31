@@ -11,7 +11,7 @@ import assert from "assert";
 export class Spec {
   constructor(
     public consts: string[],
-    // TODO public globalMethods: ???
+    public globalMethods: string[],
     public grammar: Grammar,
     public intrinsics: AliasMap,
     public symbols: AliasMap,
@@ -23,48 +23,28 @@ export class Spec {
     $: CheerioStatic,
     rule: ExtractorRule
   ) {
-    // constansts
-    let cset = new Set<string>();
-    $(HTMLSemanticTag.CONST)
-      .each((_, constElem) => {
-        const name = $(constElem).text();
-        cset.add(name.replace(/-/g, "")); // TODO do not remove `-` in constant names
-      });
-    const consts = Array.from(cset);
+    // constants
+    const consts = extractConsts($);
+
+    // global methods
+    const globalMethods: string[] = []; // TODO
 
     // grammars
     const grammar = Grammar.from($, rule);
 
     // intrinsics
-    const intrinsics: AliasMap = {};
-    $(HTMLSemanticTag.TABLE_ROW, `${HTMLSemanticTag.TABLE}#${rule.intrinsics.table}`)
-      .each((_, tr) => {
-        let children = $(tr).children();
-        if (children[0].name === HTMLSemanticTag.TABLE_HEAD) return;
-        let intrinsic = norm($(children[0]).text());
-        let property = norm($(children[1]).text());
-        if (property == '') property = `INTRINSIC_${unwrap(intrinsic)}`;
-        intrinsics[intrinsic] = `GLOBAL.${property}`; // TODO handle it in JISET
-      });
+    const intrinsics = extractIntrinsics($, rule.intrinsics.table);
 
     // symbols
-    const symbols: AliasMap = {};
-    $(HTMLSemanticTag.TABLE_ROW, `${HTMLSemanticTag.TABLE}#${rule.symbols.table}`)
-      .each((_, tr) => {
-        let children = $(tr).children();
-        if (children[0].name === HTMLSemanticTag.TABLE_HEAD) return;
-        let sym = norm($(children[0]).text());
-        let desc = norm($(children[1]).text());
-        symbols[sym] = unwrap(desc);
-      });
+    const symbols = extractSymbols($, rule.symbols.table);
 
     // types
-    const tys: TyMap = {};
-    extractTypes($, rule.tys, tys);
+    const tys = extractTypes($, rule.tys);
 
     // specifications
     const spec = new Spec(
       consts,
+      globalMethods,
       grammar,
       intrinsics,
       symbols,
@@ -83,10 +63,64 @@ export interface TyMap {
 ////////////////////////////////////////////////////////////////////////////////
 // Helper Functions
 ////////////////////////////////////////////////////////////////////////////////
+// extract constants
+export const extractConsts = (
+  $: CheerioStatic
+): string[] => {
+  // set of constant names
+  let cset = new Set<string>();
+
+  // extract constants
+  $(HTMLSemanticTag.CONST)
+    .each((_, constElem) => {
+      const name = $(constElem).text();
+      cset.add(name.replace(/-/g, "")); // TODO do not remove `-` in constant names
+    });
+
+  // return list of constants
+  return Array.from(cset);
+}
+
+// extract intrinsics
+export const extractIntrinsics = (
+  $: CheerioStatic,
+  tableId: string
+): AliasMap => {
+  const intrinsics: AliasMap = {};
+  $(HTMLSemanticTag.TABLE_ROW, `${HTMLSemanticTag.TABLE}#${tableId}`)
+    .each((_, tr) => {
+      let children = $(tr).children();
+      if (children[0].name === HTMLSemanticTag.TABLE_HEAD) return;
+      let intrinsic = norm($(children[0]).text());
+      let property = norm($(children[1]).text());
+      if (property == '') property = `INTRINSIC_${unwrap(intrinsic)}`;
+      intrinsics[intrinsic] = `GLOBAL.${property}`; // TODO handle it in JISET
+    });
+  return intrinsics;
+}
+
+// extract symbols
+export const extractSymbols = (
+  $: CheerioStatic,
+  tableId: string
+): AliasMap => {
+  const symbols: AliasMap = {};
+  $(HTMLSemanticTag.TABLE_ROW, `${HTMLSemanticTag.TABLE}#${tableId}`)
+    .each((_, tr) => {
+      let children = $(tr).children();
+      if (children[0].name === HTMLSemanticTag.TABLE_HEAD) return;
+      let sym = norm($(children[0]).text());
+      let desc = norm($(children[1]).text());
+      symbols[sym] = unwrap(desc);
+    });
+  return symbols;
+}
+
+// extract types
 export const extractTypes = (
   $: CheerioStatic,
   tyRule: TyRule,
-  tys: TyMap,
+  tys: TyMap = {},
   basePrefix: string = "",
   baseMethods: AliasMap = {}
 ) => {
@@ -114,6 +148,8 @@ export const extractTypes = (
     // recursively extract children types
     extractTypes($, children, tys, prefix, methods);
   }
+
+  return tys;
 }
 
 // TODO remove
