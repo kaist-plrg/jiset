@@ -1,10 +1,10 @@
 import cheerio from "cheerio";
 import path from "path";
 import { Spec } from "./spec";
-import { printSep, loadSpec, saveGrammarResult, saveFile } from "./util";
+import { printSep, loadSpec, saveFile } from "./util";
 import { getESVersion, getDir, loadRule } from "./util";
 import { ECMAScriptVersion } from "./enum";
-import { Grammar, extractSection, generateIdxMap } from "./grammar";
+import { Grammar } from "./grammar";
 import { extractAlgoClause } from "./algorithm";
 
 const argv = require('yargs')
@@ -31,19 +31,7 @@ async function main() {
 
     // extract Spec from a ECMAScript html file
     const spec = Spec.from($, rule);
-
-    // extract grammar production
-    // let grammar: Grammar = new Grammar();
-    // const sections = rule.grammar.sections;
-    // for (const section of sections) {
-    //   let sectionResult = extractSection({ $, rule, section });
-    //   const { lexProds, prods } = sectionResult;
-    //   grammar.lexProds = grammar.lexProds.concat(lexProds);
-    //   grammar.prods = grammar.prods.concat(prods);
-    // }
-
-    // /* generate index map */
-    // grammar.idxMap = generateIdxMap(grammar);
+    // console.log(spec);
 
     // /* save grammar extract result */
     // saveGrammarResult(resourcePath, version, grammar);
@@ -58,8 +46,8 @@ async function main() {
     // save the information as a JSON file
     const cacheDirPath = getDir(resourcePath, '.cache');
     const jsonPath = path.join(cacheDirPath , 'spec.json');
-    const data = JSON.stringify({} /* TODO */);
-    saveFile(jsonPath , data);
+    const data = JSON.stringify(spec);
+    saveFile(jsonPath, data);
 
   } catch (err) {
     // show error messages

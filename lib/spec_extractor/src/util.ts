@@ -3,8 +3,6 @@ import path from "path";
 import { get } from "request-promise";
 import { ECMAScriptVersion, HTMLTagAttribute } from "./enum";
 import { ExtractorRule } from "./rule";
-import { GrammarExtractResult } from "./types";
-import { serializeToken, serializeProduction } from "./grammar";
 
 const fsOption = { encoding: "utf8" };
 
@@ -82,30 +80,6 @@ export const loadRule =
 
     console.log("completed!!!");
     return ruleObj;
-  }
-
-// save extracted grammar result
-export const saveGrammarResult =
-  (resourcePath: string, version: ECMAScriptVersion, grammar: GrammarExtractResult) => {
-    printSep();
-    console.log("saving extracted grammar result...");
-
-    const grPath = path.join(resourcePath, `spec.json`);
-    const final = {
-      globalMethods: [],
-      consts: [],
-      grammar: {
-        lexProds: grammar.lexProds.map(_ => serializeProduction(_)),
-        prods: grammar.prods.map(_ => serializeProduction(_)),
-        idxMap: grammar.idxMap
-      },
-      symbols: {},
-      intrinsics: {},
-      tys: {}
-    };
-
-    saveFile(grPath, JSON.stringify(final));
-    console.log("completed!!!")
   }
 
 // save file
@@ -196,3 +170,6 @@ export const getESVersion = (target: string): ECMAScriptVersion => {
   }
   throw new Error(`getESVersion: Invalid ECMAScript version - ${target}`);
 }
+
+// copy values
+export const copy = (value: any): any => JSON.parse(JSON.stringify(value));
