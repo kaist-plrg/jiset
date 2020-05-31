@@ -13,4 +13,19 @@ export interface ExtractorRule {
       hint2: string;
     }
   };
+  intrinsics: {
+    table: string;
+  };
+  symbols: {
+    table: string;
+  };
+  tys: TyRule;
+}
+
+export interface TyRule {
+  [ attr: string ]: string | {
+    id: string;
+    prefix: string;
+    children: TyRule;
+  };
 }

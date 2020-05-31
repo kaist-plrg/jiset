@@ -44,8 +44,8 @@ async function main() {
     // const clause = extractAlgoClause({ $, clauseId: "sec-getidentifierreference" });
 
     // save the information as a JSON file
-    const cacheDirPath = getDir(resourcePath, '.cache');
-    const jsonPath = path.join(cacheDirPath , 'spec.json');
+    const cacheDirPath = getDir(resourcePath, ".cache");
+    const jsonPath = path.join(cacheDirPath , "spec.json");
     const data = JSON.stringify(spec);
     saveFile(jsonPath, data);
 

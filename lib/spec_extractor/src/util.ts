@@ -173,3 +173,9 @@ export const getESVersion = (target: string): ECMAScriptVersion => {
 
 // copy values
 export const copy = (value: any): any => JSON.parse(JSON.stringify(value));
+
+// unwrapping characters
+export const unwrap = (
+  str: string,
+  size: number = 1
+): string => str.substring(size, str.length - size);

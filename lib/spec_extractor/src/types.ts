@@ -1,6 +1,11 @@
 import { Token } from "./grammar";
 import { TokenType, AlgoKind } from "./enum";
 
+// alias map
+export interface AliasMap {
+  [ attr: string ]: string
+}
+
 // algorithm clauses
 export interface AlgoClause {
   name: string;

@@ -16,10 +16,12 @@ export enum HTMLSemanticTag {
   GMOD = "emu-gmod",
   GANN = "emu-gann",
   CONSTRAINTS = "emu-constraints",
+  CONST = "emu-const",
   CLAUSE = "emu-clause",
   ALGO = "emu-alg",
   REF = "emu-xref",
   VALUE = "emu-val",
+  TABLE = "emu-table",
 
   ANCHOR = "a",
   HEADER = "h1",
@@ -27,6 +29,8 @@ export enum HTMLSemanticTag {
   ORDERED_LIST = "ol",
   LIST_ITEM = "li",
   VARIABLE = "var",
+  TABLE_HEAD = "th",
+  TABLE_ROW = "tr",
 };
 
 export enum HTMLTagType {
