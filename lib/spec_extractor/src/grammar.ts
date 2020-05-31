@@ -1,6 +1,6 @@
 import { ExtractorRule } from "./rule";
 import { HTMLSemanticTag, HTMLTagType, TokenType } from "./enum";
-import { getAllAttributes, norm } from "./util";
+import { getAllAttributes, norm, copy } from "./util";
 import assert from "assert";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -333,13 +333,13 @@ export function extractToken(
           // add buffer to cases and flush buffer
           else if (node.type === HTMLTagType.TEXT && node.data && node.data.indexOf(",") > -1) {
             // clone buf
-            cases.push(JSON.parse(JSON.stringify(buf)));
+            cases.push(copy(buf));
             buf = [];
           }
         }
         // flush buffer
         if (buf.length > 0)
-          cases.push(JSON.parse(JSON.stringify(buf)));
+          cases.push(copy(buf));
 
         return { ty: TokenType.LOOKAHEAD, contains, cases };
       }
@@ -373,7 +373,7 @@ export const serializeToken = (token: Token): any => {
       }
     }
     default: {
-      const tokenClone = JSON.parse(JSON.stringify(token));
+      const tokenClone = copy(token);
       delete tokenClone.ty;
       return tokenClone;
     }
