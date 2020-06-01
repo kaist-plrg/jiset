@@ -1,4 +1,5 @@
 import { AliasMap } from "./types";
+import { Step } from "./algorithm";
 
 // extracting rule
 export interface ExtractorRule {
@@ -38,13 +39,27 @@ export interface TyRule {
 
 // algorithm rule
 export interface AlgoRule {
-  replacePrefix: {
-    [ name: string ]: string;
-  }
-  replaceParams: {
-    [ name: string ]: string[];
-  };
+  replacePrefix: map<string>;
+  replaceGrammarAlgo: map<GrammarAlgo>;
+  replaceNames: map<string>;
+  replaceParams: map<string[]>;
+  preSteps: map<Step[]>;
+  replaceSteps: map<ReplaceStep[]>;
+  replaceLength: map<number>;
+  forwards: map<string[]>;
   ignores: string[];
   globalElementIds: string[];
   grammarElementIds: string[];
+}
+
+interface map<T> {
+  [ prop: string ]: T;
+}
+interface GrammarAlgo {
+  name: string;
+  moreParams: string[];
+}
+interface ReplaceStep {
+  idxList: number[];
+  item: any
 }

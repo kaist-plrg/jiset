@@ -16,6 +16,7 @@ export enum HTMLSemanticTag {
   GMOD = "emu-gmod",
   GPROSE = "emu-gprose",
   GRAMMAR = "emu-grammar",
+  MODS = "emu-mods",
   NONTERM = "emu-nt",
   PRODUCTION = "emu-production",
   REF = "emu-xref",

@@ -124,19 +124,25 @@ export class Step {
             case HTMLSemanticTag.CODE: return { code: text };
             case HTMLSemanticTag.VALUE: return { value: text };
             case HTMLSemanticTag.VARIABLE: return { id: text };
-            case HTMLSemanticTag.NONTERM: return { nt: text };
             case HTMLSemanticTag.ANCHOR: return { url: text };
 
+            // nonterminal tokens
+            case HTMLSemanticTag.NONTERM: {
+              const targets = block.children.filter(_ => _.name !== HTMLSemanticTag.MODS);
+              const name = targets.map(_ => $(_).text()).join();
+              return { nt: name };
+            }
+
             // superscript tokens
-            case HTMLSemanticTag.SUPERSCRIPT:
+            case HTMLSemanticTag.SUPERSCRIPT: {
               return { sup: Step.from($, rule, block, grammar) };
+            }
 
             // grammar tokens
-            case HTMLSemanticTag.GRAMMAR:
-              // TODO
+            case HTMLSemanticTag.GRAMMAR: {
               const prod = block.children[0];
               const lhsName = getAllAttributes(prod).name;
-              const rhsElem = prod.children[2];
+              const rhsElem = $(prod).children()[2];
               const rhs = Rhs.from($, rule, rhsElem);
               let name = rhs.getCaseName(lhsName);
 
@@ -146,20 +152,25 @@ export class Step {
                   if (token.ty === TokenType.NON_TERMINAL) subs.push(token.name);
                 }
                 name = lhsName + grammar.idxMap[name].idx;
-                return { grammar: "not-found", subs: subs };
-              } else return { grammar: "not-found", subs: [] };
+                return { grammar: name, subs: subs };
+              } else {
+                return { grammar: "not-found", subs: [] };
+              }
+            }
 
             // sub-steps
             case HTMLSemanticTag.ORDERED_LIST:
-            case HTMLSemanticTag.UNORDERED_LIST:
+            case HTMLSemanticTag.UNORDERED_LIST: {
               return { steps: Step.listFrom($, rule, block, grammar) };
+            }
 
             // text tokens
             case HTMLSemanticTag.REF:
             case HTMLSemanticTag.SUBSCRIPT:
             case HTMLSemanticTag.ITALIC:
-            case HTMLSemanticTag.BOLD:
+            case HTMLSemanticTag.BOLD: {
               return splitText(text);
+            }
           }
       }
       console.error(block);

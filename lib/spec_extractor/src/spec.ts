@@ -86,7 +86,7 @@ export class Spec {
     const p = $(elem.parent).children()[1];
 
     // more parameters
-    const moreParams: string[] = [];
+    let moreParams: string[] = [];
     if (
       p.name == HTMLSemanticTag.PARAGRAPH &&
       $(p).text().startsWith('With parameter')
@@ -95,12 +95,10 @@ export class Spec {
         moreParams.push($(x).text());
       });
     }
-    // TODO handle in algoRule
-    switch (baseAlgo.head.name) {
-      case "StatementRules":
-      case "ExpressionRules":
-        baseAlgo.head.name = "HasCallInTailPosition";
-        moreParams.push("call");
+    if (baseAlgo.head.name in rule.algoRule.replaceGrammarAlgo) {
+      const info = rule.algoRule.replaceGrammarAlgo[baseAlgo.head.name];
+      baseAlgo.head.name = info.name;
+      moreParams = moreParams.concat(info.moreParams);
     }
 
     const idxMap = this.grammar.idxMap;
@@ -132,6 +130,11 @@ export class Spec {
         }
         algo.head.params = [ "this" ].concat(params).concat(moreParams);
 
+        // replace steps for `this` values
+        if (algo.head.params.indexOf(lhsName) === -1) {
+          algo.steps = replaceStepForThis(algo.steps, lhsName);
+        }
+
         // add algorithm
         this.addAlgorithm(rule.algoRule, algo);
       });
@@ -140,7 +143,7 @@ export class Spec {
 
   // add algorithms
   addAlgorithm(algoRule: AlgoRule, algo: Algorithm) {
-    // normalize algorithm names
+    // modify names
     let name = algo.head.name;
     name = normName(name);
     for (const from in algoRule.replacePrefix) {
@@ -149,13 +152,43 @@ export class Spec {
     }
     algo.head.name = name;
 
+    // modify parameters
+    let params = algo.head.params;
+    if (name in algoRule.replaceParams) {
+      params = algoRule.replaceParams[name];
+    }
+    algo.head.params = params;
+
+    // modify steps
+    let steps = algo.steps;
+    if (name in algoRule.preSteps) {
+      steps = algoRule.preSteps[name].concat(steps);
+    }
+    if (name in algoRule.replaceSteps) {
+      for (const stepInfo of algoRule.replaceSteps[name]) {
+        replaceStep(algo, "steps", stepInfo.idxList, stepInfo.item);
+      }
+    }
+    algo.steps = steps;
+
+    // modify lengths
+    let length = algo.head.length;
+    if (name in algoRule.replaceLength) {
+      length = algoRule.replaceLength[name];
+    }
+    algo.head.length = length;
+
+    // forward algorithms
+    if (name in algoRule.forwards) {
+      for (const newName of algoRule.forwards[name]) {
+        const newAlgo = copy(algo);
+        newAlgo.head.name = newName;
+        this.addAlgorithm(algoRule, newAlgo);
+      }
+    }
+
     // ignore algorithms
     if (name in algoRule.ignores || /[-\[\]@]/g.test(name)) return;
-
-    // replace parameters
-    if (name in algoRule.replaceParams) {
-      algo.head.params = algoRule.replaceParams[name];
-    }
 
     // TODO
     // if (name == 'CreateIntrinsics') {
@@ -168,31 +201,6 @@ export class Spec {
     //   data.steps[6].tokens = data.steps[6].tokens.flat();
     //   data.steps[7] = data.steps[13];
     //   data.steps.length = 8;
-    // } else if (name == 'ArrayBindingPattern0BoundNames2') {
-    //   let params = data.params;
-    //   data.params = ['this'];
-    //   addMethod('ArrayBindingPattern0BoundNames0', length, data)
-    //   data.params = params;
-    // } else if (name == 'ArrayBindingPattern2BoundNames2') {
-    //   let params = data.params;
-    //   data.params = ['this', 'BindingElementList'];
-    //   addMethod('ArrayBindingPattern2BoundNames0', length, data)
-    //   data.params = params;
-    // } else if (name == 'ArrowParameters0IteratorBindingInitialization0') {
-    //   let params = data.params;
-    //   data.params = ['BindingIdentifier', '_', 'iteratorRecord', 'environment'];
-    //   addMethod('BindingIdentifier0IteratorBindingInitialization0', length, data)
-    //   data.params = ['BindingIdentifier', 'iteratorRecord', 'environment'];
-    //   addMethod('BindingIdentifier1IteratorBindingInitialization0', length, data)
-    //   addMethod('BindingIdentifier2IteratorBindingInitialization0', length, data)
-    //   data.params = params;
-    // } else if (name == 'CoverParenthesizedExpressionAndArrowParameterList0CoveredFormalsList0') {
-    //   addMethod('CoverParenthesizedExpressionAndArrowParameterList1CoveredFormalsList0', length, data);
-    // } else if (name == 'AbstractRelationalComparison') {
-    //   data.params = ['x', 'y', 'LeftFirst'];
-    //   data.steps = [{
-    //       'tokens' : ["If", {id: 'LeftFirst'}, "is", "not", "present", ",", "let", {id: 'LeftFirst'}, "be", {value:'true'}, "."]
-    //   }].concat(data.steps);
     // } else if (name == 'Evaluation') {
     //   data.params = ['this', 'A', 'B'];
     //   data.steps[6] = {
@@ -205,10 +213,6 @@ export class Spec {
     //   data.steps[6].tokens[2] = '|';
     //   addMethod('BitwiseORExpression1Evaluation0', length, data);
     //   return;
-    // } else if (name == 'GLOBAL.Array.prototype.push' || name == 'GLOBAL.Array.prototype.concat' || name == 'GLOBAL.Array.prototype.unshift' || name == 'GLOBAL.Number.prototype.toString' || name == 'GLOBAL.String.fromCodePoint' || name == 'GLOBAL.String.prototype.concat' || name == 'GLOBAL.String.fromCharCode') {
-    //   length = 1;
-    // } else if (name == 'GLOBAL.Object.assign') {
-    //   length = 2;
     // } else if (name == 'GLOBAL.Array.from') {
     //   data.steps[7].tokens[7].steps[4].tokens[2].steps[5].tokens[6].steps.length = 2;
     // } else if (name == 'GLOBAL.Array') {
@@ -253,26 +257,6 @@ export class Spec {
     //   data.steps = [{
     //     tokens: ['ReturnIfAbrupt', '(', {'id': 'ref'}, ')', '.']
     //   }].concat(data.steps);
-    // } else if (name == 'GeneratorYield') {
-    //   data.steps[8] = {
-    //       tokens: ['ReturnCont', {'id': 'genContext'}, '.', '[', '[', 'ReturnCont', ']', ']', 'to', 'NormalCompletion', '(', {'id': 'iterNextObj'}, ')', '.']
-    //   };
-    // } else if (name == 'AsyncGeneratorYield') {
-    //   data.steps[8] = {
-    //       tokens: ['ReturnCont', {'id': 'genContext'}, '.', '[', '[', 'ReturnCont', ']', ']', 'to', '!', 'AsyncGeneratorResolve', '(', {'id': 'generator'}, ',', {'id': 'value'}, ',', {'value': 'false'}, ')', '.']
-    //   };
-    // } else if (name == 'GeneratorStart') {
-    //   data.steps[3].tokens[24].steps[7].tokens[2].steps[1].tokens[0] = 'ReturnCont';
-    //   data.steps[3].tokens[24].steps[8].tokens[0] = 'ReturnCont';
-    // } else if (name == 'AsyncGeneratorStart') {
-    //   data.steps[4].tokens[24].steps[5].tokens[2].steps[1].tokens[13].steps[0].tokens[0] = 'ReturnCont';
-    //   data.steps[4].tokens[24].steps[6].tokens[0] = 'ReturnCont';
-    // } else if (name == 'AsyncFunctionStart') {
-    //   data.steps[2].tokens[24].steps[6].tokens[0] = 'ReturnCont';
-    // } else if (name == 'MemberExpression1Evaluation0') {
-    //   addMethod('CallExpression3Evaluation0', length, data);
-    // } else if (name == 'MemberExpression2Evaluation0') {
-    //   addMethod('CallExpression4Evaluation0', length, data);
     // } else if (name == 'ClassTail0ClassDefinitionEvaluation3') {
     //   let newSteps = data.steps.slice(0, 12);
     //   newSteps.push({
@@ -315,15 +299,6 @@ export class Spec {
     //   return;
     // } else if (name == 'GLOBAL.Function' || name == 'GLOBAL.GeneratorFunction' || name == 'GLOBAL.AsyncFunction' || name == 'GLOBAL.AsyncGeneratorFunction') {
     //   data.steps = data.steps.slice(5)
-    // } else if (name == 'BuiltinFunctionObject.Call') {
-    //   builtinFunctionObjectCall = data;
-    // } else if (name == 'BuiltinFunctionObject.Construct') {
-    //   let steps = [];
-    //   for (let step of builtinFunctionObjectCall.steps) {
-    //     steps.push(step);
-    //   }
-    //   steps[9] = data.steps[0];
-    //   data.steps = steps;
     // }
 
     // handle already existed algorithms
@@ -455,3 +430,36 @@ export const extractTypes = (
 
   return tys;
 }
+
+// replace steps for `this` values
+export const replaceStepForThis = (
+  items: any[],
+  name: string
+): any[] => {
+  return items.map(item => {
+    if (item.steps) {
+      return { steps: replaceStepForThis(item["steps"], name) };
+    } else if (item.tokens) {
+      return { tokens: replaceStepForThis(item["tokens"], name) };
+    } else if (item.nt === name) {
+      return "this";
+    } else {
+      return item;
+    }
+  });
+};
+
+// replace steps
+export const replaceStep = (
+  obj: any,
+  prop: string,
+  idxList: any[],
+  item: any
+) => {
+  if (idxList.length == 0) { obj[prop] = item; return; }
+  const nextObj = obj[prop][idxList[0]];
+  switch (prop) {
+    case "steps": replaceStep(nextObj, "tokens", idxList.slice(1), item); return;
+    case "tokens": replaceStep(nextObj, "steps", idxList.slice(1), item); return;
+  }
+};

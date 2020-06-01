@@ -99,12 +99,103 @@
       "GLOBAL.Generator.prototype.": "GLOBAL.INTRINSIC_GeneratorPrototype.",
       "GLOBAL.AsyncGenerator.prototype.": "GLOBAL.INTRINSIC_AsyncGeneratorPrototype."
     },
+    "replaceGrammarAlgo": {
+      "StatementRules": {
+        "name": "HasCallInTailPosition",
+        "moreParams": [ "call" ]
+      },
+      "ExpressionRules": {
+        "name": "HasCallInTailPosition",
+        "moreParams": [ "call" ]
+      }
+    },
     "replaceParams": {
       "Identifier0StringValue0": ["this", "IdentifierName"],
       "ListIteratornext": ["this"],
       "AbstractEqualityComparison": ["x", "y"],
       "StrictEqualityComparison": ["x", "y"],
-      "StringExoticObject.OwnPropertyKeys": ["O"]
+      "StringExoticObject.OwnPropertyKeys": ["O"],
+      "AbstractRelationalComparison": ["x","y","LeftFirst"],
+      "ArrayBindingPattern0BoundNames0": ["this"],
+      "ArrayBindingPattern2BoundNames0": ["this", "BindingElementList"],
+      "BindingIdentifier0IteratorBindingInitialization0": ["BindingIdentifier", "_", "iteratorRecord", "environment"],
+      "BindingIdentifier1IteratorBindingInitialization0": ["BindingIdentifier", "iteratorRecord", "environment"],
+      "BindingIdentifier2IteratorBindingInitialization0": ["BindingIdentifier", "iteratorRecord", "environment"],
+      "BuiltinFunctionObject.Construct": ["F","argumentsList","newTarget"]
+    },
+    "preSteps": {
+      "AbstractRelationalComparison": [
+        { "tokens": ["If", {"id": "LeftFirst"}, "is", "not", "present", ",", "let", {"id": "LeftFirst"}, "be", {"value":"true"}, "."] }
+      ]
+    },
+    "replaceSteps": {
+      "BuiltinFunctionObject.Construct": [
+        {
+          "idxList": [9],
+          "item": ["Let", {"id": "result"}, "be", "the", "Completion", "Record", "that", "is", "the", "result", "of", "evaluating", {"id": "F"}, "in", "an", "implementation", "-", "defined", "manner", "that", "conforms", "to", "the", "specification", "of", {"id": "F"}, ".", "The", {"value": "this"}, "value", "is", "uninitialized", ",", {"id": "argumentsList"}, "provides", "the", "named", "parameters", ",", "and", {"id": "newTarget"}, "provides", "the", "NewTarget", "value", "."]
+        }
+      ],
+      "AsyncFunctionStart": [
+        {
+          "idxList": [2, 24, 6],
+          "item": ["ReturnCont", "."]
+        }
+      ],
+      "AsyncGeneratorStart": [
+        {
+          "idxList": [4, 24, 5, 2, 1, 13, 0],
+          "item": ["ReturnCont","!","AsyncGeneratorReject","(",{"id":"generator"},",",{"id":"resultValue"},")","."]
+        },
+        {
+          "idxList": [4, 24, 6],
+          "item": ["ReturnCont","!","AsyncGeneratorResolve","(",{"id":"generator"},",",{"id":"resultValue"},",",{"value":"true"},")","."]
+        }
+      ],
+      "AsyncGeneratorYield": [
+        {
+          "idxList": [8],
+          "item": ["ReturnCont", {"id": "genContext"}, ".", "[", "[", "ReturnCont", "]", "]", "to", "!", "AsyncGeneratorResolve", "(", {"id": "generator"}, ",", {"id": "value"}, ",", {"value": "false"}, ")", "."]
+        }
+      ],
+      "GeneratorYield": [
+        {
+          "idxList": [8],
+          "item": ["ReturnCont", {"id": "genContext"}, ".", "[", "[", "ReturnCont", "]", "]", "to", "NormalCompletion", "(", {"id": "iterNextObj"}, ")", "."]
+        }
+      ],
+      "GeneratorStart": [
+        {
+          "idxList": [3, 24, 7, 2, 1],
+          "item": ["ReturnCont","Completion","(",{"id":"result"},")","."]
+        },
+        {
+          "idxList": [3, 24, 7, 2, 1],
+          "item": ["ReturnCont","CreateIterResultObject","(",{"id":"resultValue"},",",{"value":"true"},")","."]
+        }
+      ]
+    },
+    "replaceLength": {
+      "GLOBAL.Array.prototype.push": 1,
+      "GLOBAL.Array.prototype.concat": 1,
+      "GLOBAL.Array.prototype.unshift": 1,
+      "GLOBAL.Number.prototype.toString": 1,
+      "GLOBAL.String.fromCodePoint": 1,
+      "GLOBAL.String.prototype.concat": 1,
+      "GLOBAL.String.fromCharCode": 1,
+      "GLOBAL.Object.assign": 2
+    },
+    "forwards": {
+      "ArrayBindingPattern0BoundNames2": [ "ArrayBindingPattern0BoundNames0" ],
+      "ArrayBindingPattern2BoundNames2": [ "ArrayBindingPattern2BoundNames0" ],
+      "ArrowParameters0IteratorBindingInitialization0": [
+        "BindingIdentifier0IteratorBindingInitialization0",
+        "BindingIdentifier1IteratorBindingInitialization0",
+        "BindingIdentifier2IteratorBindingInitialization0"
+      ],
+      "CoverParenthesizedExpressionAndArrowParameterList0CoveredFormalsList0": [ "CoverParenthesizedExpressionAndArrowParameterList1CoveredFormalsList0" ],
+      "MemberExpression1Evaluation0": [ "CallExpression3Evaluation0" ],
+      "MemberExpression2Evaluation0": [ "CallExpression4Evaluation0" ],
+      "BuiltinFunctionObject.Call": [ "BuiltinFunctionObject.Construct" ]
     },
     "ignores": [
       "GLOBAL.Array.prototype.sort",
