@@ -3,6 +3,7 @@ import { ExtractorRule, TyRule } from "./rule";
 import { HTMLSemanticTag } from "./enum";
 import { norm, unwrap, copy } from "./util";
 import { AliasMap } from "./types";
+import { Algorithm } from "./algorithm";
 import assert from "assert";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,26 +24,14 @@ export class Spec {
     $: CheerioStatic,
     rule: ExtractorRule
   ) {
-    // constants
     const consts = extractConsts($);
-
-    // global methods
     const globalMethods: string[] = []; // TODO
-
-    // grammars
     const grammar = Grammar.from($, rule);
-
-    // intrinsics
     const intrinsics = extractIntrinsics($, rule.intrinsics.table);
-
-    // symbols
     const symbols = extractSymbols($, rule.symbols.table);
+    const tys = extractTypes($, rule.tys, grammar);
 
-    // types
-    const tys = extractTypes($, rule.tys);
-
-    // specifications
-    const spec = new Spec(
+    return new Spec(
       consts,
       globalMethods,
       grammar,
@@ -50,8 +39,6 @@ export class Spec {
       symbols,
       tys
     );
-
-    return spec;
   }
 }
 
@@ -86,7 +73,10 @@ export const extractIntrinsics = (
   $: CheerioStatic,
   tableId: string
 ): AliasMap => {
+  // alias map for intrinsics
   const intrinsics: AliasMap = {};
+
+  // extract intrinsics
   $(HTMLSemanticTag.TABLE_ROW, `${HTMLSemanticTag.TABLE}#${tableId}`)
     .each((_, tr) => {
       let children = $(tr).children();
@@ -104,7 +94,10 @@ export const extractSymbols = (
   $: CheerioStatic,
   tableId: string
 ): AliasMap => {
+  // alias map for symbols
   const symbols: AliasMap = {};
+
+  // extract symbols
   $(HTMLSemanticTag.TABLE_ROW, `${HTMLSemanticTag.TABLE}#${tableId}`)
     .each((_, tr) => {
       let children = $(tr).children();
@@ -120,8 +113,10 @@ export const extractSymbols = (
 export const extractTypes = (
   $: CheerioStatic,
   tyRule: TyRule,
+  grammar: Grammar,
   tys: TyMap = {},
   basePrefix: string = "",
+  baseThisName: string = "this",
   baseMethods: AliasMap = {}
 ) => {
   for (const tname in tyRule) {
@@ -129,42 +124,30 @@ export const extractTypes = (
     const methods: AliasMap = copy(baseMethods);
     tys[tname] = methods;
     let info = tyRule[tname];
-    if (typeof info === "string") info = { id: info, prefix: basePrefix, children: {} };
-    const { id, prefix, children } = info;
+    if (typeof info === "string") info = { id: info };
+    if (!info.prefix) info.prefix = basePrefix;
+    if (!info.thisName) info.thisName = baseThisName;
+    if (!info.children) info.children = {};
+    const { id, prefix, thisName, children } = info;
 
     // extract algorithms and link member methods
     $(HTMLSemanticTag.ALGO, `${HTMLSemanticTag.CLAUSE}#${id}`)
       .each((_, elem) => {
-        // TODO const algo = Algorithm.from($, rule, elem, grammar);
-        // TODO let algoName = algo.name;
-        let algoName = getAlgoName($, elem); // TODO remove
+        const algo = Algorithm.from($, elem, grammar);
+        let algoName = algo.head.name;
+        let name = algoName;
         if (algoName.startsWith(prefix)) {
           algoName = unwrap(algoName, prefix.length);
-          const name = `${tname}.${algoName}`;
+          name = `${tname}.${algoName}`;
           methods[algoName] = name;
+          algo.head.params = [ thisName ].concat(algo.head.params);
         }
+        // TODO addMethod(name, algo.length, algo.body);
       });
 
     // recursively extract children types
-    extractTypes($, children, tys, prefix, methods);
+    extractTypes($, children, grammar, tys, prefix, thisName, methods);
   }
 
   return tys;
-}
-
-// TODO remove
-export const getAlgoName = (
-  $: CheerioStatic,
-  elem: CheerioElement
-): string => {
-  const head = $("h1", elem.parent);
-  const secnoElem = head.children()[0];
-  const secno = $(secnoElem).text();
-  const str = head.text().slice(secno.length);
-
-  let name: string =
-    str.indexOf("(") == -1 ? str : str.substring(0, str.indexOf("("));
-  name = norm(name).replace(/.*Semantics:/g, "");
-
-  return name;
 }

@@ -5,7 +5,6 @@ import { printSep, loadSpec, saveFile } from "./util";
 import { getESVersion, getDir, loadRule } from "./util";
 import { ECMAScriptVersion } from "./enum";
 import { Grammar } from "./grammar";
-import { extractAlgoClause } from "./algorithm";
 
 const argv = require('yargs')
   .usage("Usage: --target <ECMAScript-version>")
@@ -31,17 +30,6 @@ async function main() {
 
     // extract Spec from a ECMAScript html file
     const spec = Spec.from($, rule);
-    // console.log(spec);
-
-    // /* save grammar extract result */
-    // saveGrammarResult(resourcePath, version, grammar);
-
-    /**
-     * Algorithm
-     */
-
-    // getAlgoHeader("await", { $ });
-    // const clause = extractAlgoClause({ $, clauseId: "sec-getidentifierreference" });
 
     // save the information as a JSON file
     const cacheDirPath = getDir(resourcePath, ".cache");

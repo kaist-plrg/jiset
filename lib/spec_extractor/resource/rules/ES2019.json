@@ -51,7 +51,6 @@
   "tys": {
     "DeclarativeEnvironmentRecord": {
       "id": "sec-declarative-environment-records",
-      "prefix": "",
       "children": {
         "FunctionEnvironmentRecord": "sec-function-environment-records",
         "ModuleEnvironmentRecord": "sec-module-environment-records"
@@ -62,13 +61,32 @@
     "OrdinaryObject": {
       "id": "sec-ordinary-object-internal-methods-and-internal-slots",
       "prefix": "[[",
+      "thisName": "O",
       "children": {
-        "ECMAScriptFunctionObject": "sec-ecmascript-function-objects",
-        "BuiltinFunctionObject": "sec-built-in-function-objects",
-        "BoundFunctionExoticObject": "sec-bound-function-exotic-objects",
-        "ArrayExoticObject": "sec-array-exotic-objects",
-        "StringExoticObject": "sec-string-exotic-objects",
-        "ArgumentsExoticObject": "sec-arguments-exotic-objects",
+        "ECMAScriptFunctionObject": {
+          "id": "sec-ecmascript-function-objects",
+          "thisName": "F"
+        },
+        "BuiltinFunctionObject": {
+          "id": "sec-built-in-function-objects",
+          "thisName": "F"
+        },
+        "BoundFunctionExoticObject": {
+          "id": "sec-bound-function-exotic-objects",
+          "thisName": "F"
+        },
+        "ArrayExoticObject": {
+          "id": "sec-array-exotic-objects",
+          "thisName": "A"
+        },
+        "StringExoticObject": {
+          "id": "sec-string-exotic-objects",
+          "thisName": "S"
+        },
+        "ArgumentsExoticObject": {
+          "id": "sec-arguments-exotic-objects",
+          "thisName": "args"
+        },
         "IntegerIndexedExoticObject": "sec-integer-indexed-exotic-objects",
         "ModuleNamespaceExoticObject": "sec-module-namespace-exotic-objects",
         "ImmutablePrototypeExoticObject": "sec-immutable-prototype-exotic-objects",

@@ -25,7 +25,8 @@ export interface ExtractorRule {
 export interface TyRule {
   [ attr: string ]: string | {
     id: string;
-    prefix: string;
-    children: TyRule;
+    prefix?: string;
+    thisName?: string;
+    children?: TyRule;
   };
 }
