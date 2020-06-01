@@ -84,11 +84,9 @@ export const loadRule =
 
 // save file
 export const saveFile =
-  (filePath: string, content: string) => {
-    printSep();
-    console.log("saving file...");
-    fs.writeFileSync(filePath, content, fsOption);
-    console.log("completed!!!")
+  (filePath: string, content: any) => {
+    const str = JSON.stringify(content);
+    fs.writeFileSync(filePath, str, fsOption);
   }
 
 // get attributes from CheerioElement

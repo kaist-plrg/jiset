@@ -10,7 +10,7 @@ import assert from "assert";
 // Spec Structures
 ////////////////////////////////////////////////////////////////////////////////
 export class Spec {
-  private algoMap: AlgoMap = {};
+  algoMap: AlgoMap = {};
 
   constructor(
     public consts: string[] = [],
@@ -226,7 +226,9 @@ export class Spec {
     //   data.steps = steps;
     // }
 
-    // TODO applying algoRule
+    // handle already existed algorithms
+    if (name in this.algoMap) return;
+
     this.algoMap[name] = algo;
   }
 

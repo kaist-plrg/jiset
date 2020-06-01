@@ -115,8 +115,11 @@ export class Step {
             case HTMLSemanticTag.VALUE: return { value: text };
             case HTMLSemanticTag.VARIABLE: return { id: text };
             case HTMLSemanticTag.NONTERM: return { nt: text };
-            case HTMLSemanticTag.SUPERSCRIPT: return { sup: text };
             case HTMLSemanticTag.ANCHOR: return { url: text };
+
+            // superscript tokens
+            case HTMLSemanticTag.SUPERSCRIPT:
+              return { sup: Step.from($, block, grammar) };
 
             // grammar tokens
             case HTMLSemanticTag.GRAMMAR:
@@ -177,6 +180,6 @@ export interface IdToken { id: string; }
 export interface StepsToken { steps: Step[]; }
 export interface NonterminalToken { nt: string; }
 export type TextToken = string;
-export interface SupToken { sup: string; }
+export interface SupToken { sup: Step; }
 export interface UrlToken { url: string; }
 export interface GrammarToken { grammar: string; subs: string[]; }

@@ -1,7 +1,7 @@
 import cheerio from "cheerio";
 import path from "path";
 import { Spec } from "./spec";
-import { printSep, loadSpec, saveFile } from "./util";
+import { copy, printSep, loadSpec, saveFile } from "./util";
 import { getESVersion, getDir, loadRule } from "./util";
 import { ECMAScriptVersion } from "./enum";
 import { Grammar } from "./grammar";
@@ -21,6 +21,7 @@ const argv = require('yargs')
 async function main() {
   try {
     const version = getESVersion(argv.target);
+    const lowerVersion = version.toLowerCase();
     printSep();
     console.log(`VERSION: ${version}`);
     const resourcePath = path.join(__dirname, "..", "resource");
@@ -31,16 +32,31 @@ async function main() {
     // extract Spec from a ECMAScript html file
     const spec = Spec.from($, rule);
 
-    // TODO save algorithms in a directory
+    // save algorithms in JSON format files
+    printSep();
+    console.log("saving file...");
+    const specDirPath = getDir(resourcePath, ".cache", version);
+    const algoDirPath = getDir(specDirPath, "algorithm");
+    for (const name in spec.algoMap) {
+      const algo = spec.algoMap[name];
+      const jsonPath = path.join(algoDirPath, `${name}.json`);
+      const data = {
+        kind: algo.head.kind,
+        params: algo.head.params,
+        steps: algo.steps,
+        length: algo.head.length,
+        filename: `${lowerVersion}/algorithm/${name}.json`
+      };
+      saveFile(jsonPath, data);
+    }
 
     // serialize specification
     spec.serialize();
 
     // save the information as a JSON file
-    const cacheDirPath = getDir(resourcePath, ".cache");
-    const jsonPath = path.join(cacheDirPath , "spec.json");
-    const data = JSON.stringify(spec);
-    saveFile(jsonPath, data);
+    const jsonPath = path.join(specDirPath , "spec.json");
+    saveFile(jsonPath, spec);
+    console.log("completed!!!")
 
   } catch (err) {
     // show error messages
