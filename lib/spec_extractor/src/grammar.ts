@@ -27,9 +27,6 @@ export class Grammar {
     // generate index maps
     grammar.generateIdxMap();
 
-    // serialization
-    grammar.serialize();
-
     return grammar;
   }
 

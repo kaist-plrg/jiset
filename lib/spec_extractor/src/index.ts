@@ -31,6 +31,11 @@ async function main() {
     // extract Spec from a ECMAScript html file
     const spec = Spec.from($, rule);
 
+    // TODO save algorithms in a directory
+
+    // serialize specification
+    spec.serialize();
+
     // save the information as a JSON file
     const cacheDirPath = getDir(resourcePath, ".cache");
     const jsonPath = path.join(cacheDirPath , "spec.json");

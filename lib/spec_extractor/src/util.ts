@@ -145,6 +145,13 @@ export const norm = (str: string) => {
     .replace('#', '');
 }
 
+// normalize algorithm name
+export const normName = (str: string) => {
+  return str
+    .replace(/%[^%]+%/g, x => 'INTRINSIC_' + x.substring(1, x.length-1))
+    .replace(/\[@@[^%]+\]/g, x => '.SYMBOL_' + x.substring(3, x.length-1));
+}
+
 // spilt string
 export const splitText = (str: string | undefined): string[] => {
   str = str || "";
@@ -173,7 +180,11 @@ export const getESVersion = (target: string): ECMAScriptVersion => {
 }
 
 // copy values
-export const copy = (value: any): any => JSON.parse(JSON.stringify(value));
+export const copy = (given: any): any => {
+  const target = JSON.parse(JSON.stringify(given));
+  target.__proto__ = given.__proto__;
+  return target;
+}
 
 // unwrapping characters
 export const unwrap = (

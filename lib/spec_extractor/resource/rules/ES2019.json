@@ -48,7 +48,7 @@
       "await"
     ]
   },
-  "tys": {
+  "tyRule": {
     "DeclarativeEnvironmentRecord": {
       "id": "sec-declarative-environment-records",
       "children": {
@@ -93,5 +93,22 @@
         "ProxyExoticObject": "sec-proxy-object-internal-methods-and-internal-slots"
       }
     }
+  },
+  "algoRule": {
+    "replacePrefix": {
+      "GLOBAL.Generator.prototype.": "GLOBAL.INTRINSIC_GeneratorPrototype.",
+      "GLOBAL.AsyncGenerator.prototype.": "GLOBAL.INTRINSIC_AsyncGeneratorPrototype."
+    },
+    "replaceParams": {
+      "Identifier0StringValue0": ["this", "IdentifierName"],
+      "ListIteratornext": ["this"],
+      "AbstractEqualityComparison": ["x", "y"],
+      "StrictEqualityComparison": ["x", "y"]
+    },
+    "ignores": [
+      "GLOBAL.Array.prototype.sort",
+      "GLOBAL.IfAbruptRejectPromise",
+      "SortCompare"
+    ]
   }
 }

@@ -1,3 +1,6 @@
+import { AliasMap } from "./types";
+
+// extracting rule
 export interface ExtractorRule {
   grammar: {
     sections: string[];
@@ -19,9 +22,11 @@ export interface ExtractorRule {
   symbols: {
     table: string;
   };
-  tys: TyRule;
+  tyRule: TyRule;
+  algoRule: AlgoRule;
 }
 
+// type rule
 export interface TyRule {
   [ attr: string ]: string | {
     id: string;
@@ -29,4 +34,15 @@ export interface TyRule {
     thisName?: string;
     children?: TyRule;
   };
+}
+
+// algorithm rule
+export interface AlgoRule {
+  replacePrefix: {
+    [ name: string ]: string;
+  }
+  replaceParams: {
+    [ name: string ]: string[];
+  };
+  ignores: string[];
 }
