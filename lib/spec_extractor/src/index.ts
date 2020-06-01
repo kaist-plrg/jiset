@@ -61,6 +61,7 @@ async function main() {
   } catch (err) {
     // show error messages
     console.log(`[ERROR] ${err.message}`);
+    throw err;
   }
 }
 

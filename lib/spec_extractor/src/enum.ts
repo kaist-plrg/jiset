@@ -31,6 +31,7 @@ export enum HTMLSemanticTag {
   ITALIC = "i",
   LIST_ITEM = "li",
   ORDERED_LIST = "ol",
+  PARAGRAPH = "p",
   PREFORMAT = "pre",
   SUBSCRIPT = "sub",
   SUPERSCRIPT = "sup",

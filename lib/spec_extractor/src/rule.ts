@@ -45,4 +45,6 @@ export interface AlgoRule {
     [ name: string ]: string[];
   };
   ignores: string[];
+  globalElementIds: string[];
+  grammarElementIds: string[];
 }

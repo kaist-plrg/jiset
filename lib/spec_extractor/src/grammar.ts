@@ -195,10 +195,22 @@ export class Rhs {
       tokens.push(extractToken($, rule, tokens, tokenElem));
     });
 
-    return {
-      tokens,
-      cond: constraints
+    return new Rhs(tokens, constraints);
+  }
+
+  // get case name
+  getCaseName(lhsName: string): string {
+    let name = lhsName + ":";
+    for (const token of this.tokens) {
+      if (token.ty === TokenType.TERMINAL) {
+        name += token.term;
+      } else if (token.ty === TokenType.NON_TERMINAL) {
+        name += token.name;
+      } else if (token.ty === TokenType.BUT_NOT) {
+        name += token.base.name;
+      }
     }
+    return norm(name);
   }
 }
 
@@ -235,7 +247,7 @@ export interface UnicodeToken {
 
 export interface ButNotToken {
   ty: TokenType.BUT_NOT;
-  base: Token;
+  base: NonterminalToken;
   cases: Token[];
 }
 
@@ -292,8 +304,8 @@ export function extractToken(
     case HTMLSemanticTag.GMOD: {
       /* NOTE: side-effect -> pop one element from tokens */
       const base = tokens.pop();
-      if (base === undefined)
-        throw new Error(`extractToken::${ HTMLSemanticTag.GMOD }: tokens is empty`);
+      if (!(base && base.ty === TokenType.NON_TERMINAL))
+        throw new Error(`extractToken::${ HTMLSemanticTag.GMOD }: base token is not a non-terminal`);
 
       const firstChild = tokenElem.children[0];
       if (firstChild.data && firstChild.data.startsWith(`but only if`)) return base;

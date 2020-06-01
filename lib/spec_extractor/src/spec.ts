@@ -1,7 +1,7 @@
-import { Grammar } from "./grammar";
+import { Grammar, Rhs } from "./grammar";
 import { ExtractorRule, TyRule, AlgoRule } from "./rule";
-import { HTMLSemanticTag } from "./enum";
-import { norm, normName, unwrap, copy } from "./util";
+import { HTMLSemanticTag, TokenType } from "./enum";
+import { getAllAttributes, norm, normName, unwrap, copy } from "./util";
 import { AliasMap } from "./types";
 import { Algorithm } from "./algorithm";
 import assert from "assert";
@@ -13,8 +13,8 @@ export class Spec {
   algoMap: AlgoMap = {};
 
   constructor(
-    public consts: string[] = [],
     public algorithms: string[] = [],
+    public consts: string[] = [],
     public grammar: Grammar = new Grammar(),
     public intrinsics: AliasMap = {},
     public symbols: AliasMap = {},
@@ -32,10 +32,110 @@ export class Spec {
     spec.intrinsics = extractIntrinsics($, rule.intrinsics.table);
     spec.symbols = extractSymbols($, rule.symbols.table);
 
-    spec.tys = extractTypes($, rule.tyRule, rule.algoRule, spec);
+    spec.extractGlobalAlgos($, rule);
+    spec.extractGrammarAlgos($, rule);
+    spec.tys = extractTypes($, rule, rule.tyRule, spec);
     spec.algorithms = Object.keys(spec.algoMap);
 
     return spec;
+  }
+
+  // extract global algorithms
+  extractGlobalAlgos(
+    $: CheerioStatic,
+    rule: ExtractorRule
+  ) {
+    rule.algoRule.globalElementIds.forEach(id => {
+      $(HTMLSemanticTag.ALGO, `#${id}`).each((_, elem) => {
+        try {
+          const algo = Algorithm.from($, rule, elem, this.grammar);
+          this.addAlgorithm(rule.algoRule, algo);
+        } catch (_) { }
+      });
+    })
+  }
+
+  // extract grammar algorithms
+  extractGrammarAlgos(
+    $: CheerioStatic,
+    rule: ExtractorRule
+  ) {
+    rule.algoRule.grammarElementIds.forEach(id => {
+      $(HTMLSemanticTag.ALGO, `#${id}`).each((_, elem) => {
+        try {
+          const algo = Algorithm.from($, rule, elem, this.grammar);
+          let grammarElem = $(elem).prev()[0];
+          if (grammarElem.name == HTMLSemanticTag.GRAMMAR) {
+            this.extractGrammarAlgo($, rule, algo, elem, grammarElem);
+          } else {
+            this.addAlgorithm(rule.algoRule, algo);
+          }
+        } catch (_) { }
+      });
+    })
+  }
+
+  // extract grammar algorithm
+  extractGrammarAlgo(
+    $: CheerioStatic,
+    rule: ExtractorRule,
+    baseAlgo: Algorithm,
+    elem: CheerioElement,
+    grammarElem: CheerioElement
+  ) {
+    const p = $(elem.parent).children()[1];
+
+    // more parameters
+    const moreParams: string[] = [];
+    if (
+      p.name == HTMLSemanticTag.PARAGRAPH &&
+      $(p).text().startsWith('With parameter')
+    ) {
+      $(HTMLSemanticTag.VARIABLE, p).each((_, x) => {
+        moreParams.push($(x).text());
+      });
+    }
+    // TODO handle in algoRule
+    switch (baseAlgo.head.name) {
+      case "StatementRules":
+      case "ExpressionRules":
+        baseAlgo.head.name = "HasCallInTailPosition";
+        moreParams.push("call");
+    }
+
+    const idxMap = this.grammar.idxMap;
+    const rules = [];
+    $(HTMLSemanticTag.PRODUCTION, grammarElem).each((_, prod) => {
+      $(HTMLSemanticTag.RHS, prod).each((_, rhsElem) => {
+        // copy algorithm
+        const algo = copy(baseAlgo);
+
+        // index map check
+        const lhsName = getAllAttributes(prod).name;
+        const rhs = Rhs.from($, rule, rhsElem);
+        const name = rhs.getCaseName(lhsName);
+        if (!(name in idxMap)) return; // TODO
+
+        // algorithm name
+        const obj = idxMap[name];
+        const ty = `${lhsName}${obj.idx}`;
+        const algoName = `${algo.head.name}${obj.subIdx}`;
+        algo.head.name = ty + algoName;
+
+        // algorithm parameters
+        const params: string[] = [];
+        for (const token of rhs.tokens) {
+          if (
+            token.ty === TokenType.NON_TERMINAL &&
+            token.name !== "LineTerminator"
+          ) params.push(token.name);
+        }
+        algo.head.params = [ "this" ].concat(params).concat(moreParams);
+
+        // add algorithm
+        this.addAlgorithm(rule.algoRule, algo);
+      });
+    });
   }
 
   // add algorithms
@@ -314,8 +414,8 @@ export const extractSymbols = (
 // extract types
 export const extractTypes = (
   $: CheerioStatic,
+  rule: ExtractorRule,
   tyRule: TyRule,
-  algoRule: AlgoRule,
   spec: Spec,
   tys: TyMap = {},
   basePrefix: string = "",
@@ -336,19 +436,21 @@ export const extractTypes = (
     // extract algorithms and link member methods
     $(HTMLSemanticTag.ALGO, `${HTMLSemanticTag.CLAUSE}#${id}`)
       .each((_, elem) => {
-        const algo = Algorithm.from($, elem, spec.grammar);
-        let name = algo.head.name;
-        if (name.startsWith(prefix)) {
-          name = unwrap(name, prefix.length);
-          algo.head.name = `${tname}.${name}`;
-          methods[name] = algo.head.name;
-          algo.head.params = [ thisName ].concat(algo.head.params);
-        }
-        spec.addAlgorithm(algoRule, algo);
+        try {
+          const algo = Algorithm.from($, rule, elem, spec.grammar);
+          let name = algo.head.name;
+          if (name.startsWith(prefix)) {
+            name = unwrap(name, prefix.length);
+            algo.head.name = `${tname}.${name}`;
+            methods[name] = algo.head.name;
+            algo.head.params = [ thisName ].concat(algo.head.params);
+          }
+          spec.addAlgorithm(rule.algoRule, algo);
+        } catch (_) { }
       });
 
     // recursively extract children types
-    extractTypes($, children, algoRule, spec, tys, prefix, thisName, methods);
+    extractTypes($, rule, children, spec, tys, prefix, thisName, methods);
   }
 
   return tys;
