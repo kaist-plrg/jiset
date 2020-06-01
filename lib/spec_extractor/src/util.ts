@@ -146,8 +146,9 @@ export const norm = (str: string) => {
 }
 
 // spilt string
-export const splitText = (str: string): string[] => {
-  let tokens: string[] = [];
+export const splitText = (str: string | undefined): string[] => {
+  str = str || "";
+  const tokens: string[] = [];
   let prevWordChar = false;
   for (let ch of str) {
     let isWordChar = /\w/.test(ch);

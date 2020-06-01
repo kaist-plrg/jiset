@@ -1,6 +1,6 @@
 import { HTMLSemanticTag, HTMLTagType, HTMLTagAttribute, AlgoKind } from "./enum";
 import { Grammar } from "./grammar";
-import { norm } from "./util";
+import { norm, splitText, getAllAttributes } from "./util";
 import assert from "assert";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,16 +20,8 @@ export class Algorithm {
     grammar: Grammar
   ): Algorithm {
     const head = Head.from($, elem);
-    const steps = Algorithm.getSteps($, elem.children[0], grammar);
+    const steps = Step.listFrom($, elem.children[0], grammar);
     return new Algorithm(head, steps);
-  }
-
-  static getSteps(
-    $: CheerioStatic,
-    elem: CheerioElement,
-    grammar: Grammar
-  ): Step[] {
-    return []; // TODO
   }
 }
 
@@ -76,11 +68,13 @@ export class Head {
     return new Head(name, kind, lang, params, length);
   }
 
+  // extract parameters
   static getParams(str: string): string[] {
     str = str.substring(str.indexOf("("));
     return (str.match(/[^\s,()\[\]]+/g) || []);
   }
 
+  // extract length of parameters
   static getLength(str: string): number {
     str = str.substring(str.indexOf("("));
     const idx1 = str.indexOf("[");
@@ -100,6 +94,67 @@ export class Step {
   constructor(
     public tokens: Token[] = []
   ) { }
+
+  // extract Step from a specific HTMLElement
+  static from(
+    $: CheerioStatic,
+    elem: CheerioElement,
+    grammar: Grammar
+  ): Step {
+    const blocks = Array.from(elem.children);
+    const tokens = blocks.flatMap<Token>(block => {
+      switch (block.type) {
+        case HTMLTagType.TEXT: return splitText(block.data);
+        case HTMLTagType.TAG:
+          const text = $(block).text();
+          switch (block.name) {
+            // special tokens
+            case HTMLSemanticTag.CONST: return { const: text };
+            case HTMLSemanticTag.PREFORMAT:
+            case HTMLSemanticTag.CODE: return { code: text };
+            case HTMLSemanticTag.VALUE: return { value: text };
+            case HTMLSemanticTag.VARIABLE: return { id: text };
+            case HTMLSemanticTag.NONTERM: return { nt: text };
+            case HTMLSemanticTag.SUPERSCRIPT: return { sup: text };
+            case HTMLSemanticTag.ANCHOR: return { url: text };
+
+            // grammar tokens
+            case HTMLSemanticTag.GRAMMAR:
+              // TODO
+              const prod = block.children[0];
+              const lhsName = getAllAttributes(prod).name;
+              const rhsElem = prod.children[2];
+              const name = "";
+              const subs: string[] = [];
+              return { grammar: name, subs };
+
+            // sub-steps
+            case HTMLSemanticTag.ORDERED_LIST:
+            case HTMLSemanticTag.UNORDERED_LIST:
+              return { steps: Step.listFrom($, block, grammar) };
+
+            // text tokens
+            case HTMLSemanticTag.REF:
+            case HTMLSemanticTag.SUBSCRIPT:
+            case HTMLSemanticTag.ITALIC:
+            case HTMLSemanticTag.BOLD:
+              return splitText(text);
+          }
+      }
+      console.error(block);
+      throw new Error(`Step.from: Unhandled token`);
+    });
+    return new Step(tokens);
+  }
+
+  // extract list of Step from a specific HTMLElement
+  static listFrom(
+    $: CheerioStatic,
+    list: CheerioElement,
+    grammar: Grammar
+  ): Step[] {
+    return list.children.map(_ => Step.from($, _, grammar));
+  }
 }
 
 // algorithm tokens
@@ -125,125 +180,3 @@ export type TextToken = string;
 export interface SupToken { sup: string; }
 export interface UrlToken { url: string; }
 export interface GrammarToken { grammar: string; subs: string[]; }
-
-
-
-
-// interface ExtractAlgoClauseArgs {
-//   $: CheerioStatic;
-//   clauseId: string;
-// }
-// // extract emu-clause
-// // <emu-clause>
-// //   <h1>
-// //     <var/>
-// //     <var/>
-// //   </h1>
-// //   <emu-alg>
-// //     <ol></ol>
-// //   </emu-alg>
-// // </emu-clause>
-// export const extractAlgoClause =
-//   (args: ExtractAlgoClauseArgs): AlgoClause => {
-//     const { $, clauseId } = args;
-//     // NOTE : clauseId is unique
-//     assert.equal($(`${ HTMLSemanticTag.CLAUSE }#${ clauseId }`).length, 1);
-//     const clauseElem = $(`${ HTMLSemanticTag.CLAUSE }#${ clauseId }`)[ 0 ];
-// 
-//     // extract name
-//     const name: string = getAllAttributes(clauseElem)[ HTMLTagAttribute.AOID ];
-//     const length = 0;
-// 
-//     // extract params (NOTE : unsafe type cast)
-//     const params: string[] =
-//       $(`${ HTMLSemanticTag.HEADER } > ${ HTMLSemanticTag.VARIABLE }`, clauseElem)
-//         .map((_, elem) => $(elem).text())
-//         .get();
-// 
-//     // extract steps
-//     // <emu-alg><ol></ol></emu-alg>
-// 
-//     // NOTE
-//     assert.equal($(`${ HTMLSemanticTag.ALGO } > ${ HTMLSemanticTag.ORDERED_LIST }`, clauseElem).length, 1);
-//     const algoElem =
-//       $(`${ HTMLSemanticTag.ALGO } > ${ HTMLSemanticTag.ORDERED_LIST }`, clauseElem)[ 0 ];
-// 
-//     return {
-//       name,
-//       length,
-//       body: {
-//         kind: AlgoKind.METHOD,
-//         params,
-//         steps: extractAlgoBody({ $, elem: algoElem }).steps
-//       }
-//     }
-//   }
-// 
-// interface ExtractAlgoArgs {
-//   $: CheerioStatic;
-//   elem: CheerioElement;
-// }
-// // extract ol : return {steps: []}
-// export const extractAlgoBody =
-//   (args: ExtractAlgoArgs): AlgoBody => {
-//     const { $, elem } = args;
-//     return {
-//       steps: $(`> ${ HTMLSemanticTag.LIST_ITEM }`, elem)
-//         .map((_, elem) => extractAlgoStep({ $, elem }))
-//         .get()
-//     }
-//   }
-// 
-// interface extractAlgoStepArgs {
-//   $: CheerioStatic;
-//   elem: CheerioElement;
-// }
-// // extract li : return {tokens: []}
-// export const extractAlgoStep =
-//   (args: extractAlgoStepArgs): AlgoStep => {
-//     const { $, elem } = args;
-// 
-//     return {
-//       tokens: elem
-//         .childNodes
-//         // map each nodes to token[]
-//         .map(elem => extractToken({ elem, $ }))
-//         // flatten
-//         .reduce((accTokens, tokens) => {
-//           return accTokens.concat(tokens);
-//         }, [])
-//     };
-//   }
-// 
-// interface ExtractTokenArgs {
-//   $: CheerioStatic;
-//   elem: CheerioElement;
-// }
-// // return AlgoToken[]
-// export const extractToken =
-//   (args: ExtractTokenArgs): AlgoToken[] => {
-//     const { $, elem } = args;
-//     switch (elem.type) {
-//       case HTMLTagType.TAG: {
-//         /* TODO : handle various semantic tag */
-//         switch (elem.tagName) {
-//           case HTMLSemanticTag.REF:
-//             return splitText($(elem).text());
-//           case HTMLSemanticTag.VALUE:
-//             return [ { value: $(elem).text() } ];
-//           case HTMLSemanticTag.VARIABLE:
-//             return [ { id: $(elem).text() } ];
-//           case HTMLSemanticTag.ORDERED_LIST:
-//             return [ extractAlgoBody({ $, elem }) ];
-//           default:
-//             console.log(`name : ${ elem.name }, type : ${ elem.type }, tag : ${ elem.tagName }`);
-//             throw new Error(`extractToken : Unhandled tag name(${ elem.tagName })`);
-//         }
-//       }
-//       case HTMLTagType.TEXT:
-//         /* split text to token */
-//         return splitText($(elem).text());
-//       default:
-//         throw new Error(`extractToken : Unhandled tag type(${ elem.type })`)
-//     }
-//   }
