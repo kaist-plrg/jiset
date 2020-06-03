@@ -13,7 +13,7 @@ export class Spec {
   algoMap: AlgoMap = {};
 
   constructor(
-    public algorithms: string[] = [],
+    public globalMethods: string[] = [],
     public consts: string[] = [],
     public grammar: Grammar = new Grammar(),
     public intrinsics: AliasMap = {},
@@ -32,11 +32,12 @@ export class Spec {
     spec.intrinsics = extractIntrinsics($, rule.intrinsics.table);
     spec.symbols = extractSymbols($, rule.symbols.table);
 
+    spec.handleOmittedScriptSemantics(rule.algoRule);
     spec.extractGlobalAlgos($, rule);
     spec.extractGrammarAlgos($, rule);
     spec.extractBuiltinAlgos($, rule);
     spec.tys = extractTypes($, rule, rule.tyRule, spec);
-    spec.algorithms = Object.keys(spec.algoMap);
+    spec.globalMethods = Object.keys(spec.algoMap);
 
     return spec;
   }
@@ -90,7 +91,7 @@ export class Spec {
 
           // TODO refactoring
           if (name.startsWith('Propertiesof')) {
-            let prev = elem.prev;
+            let prev = $(elem).prev();
             algo.head.name = $("dfn", prev).text();
             algo.head.params = ["value"];
           } else outer: switch (kind) {
@@ -336,6 +337,10 @@ export class Spec {
       });
       newSteps = newSteps.concat(algo.steps.slice(1));
       algo.steps = newSteps;
+    } else if (name == "CallExpression2HasCallInTailPosition0") {
+      algo.steps[0].tokens[2] = "this";
+    } else if (name == "CallExpression5HasCallInTailPosition0") {
+      algo.steps[0].tokens[2] = "this";
     } else if (name == "CallExpression0CoveredCallExpression0") {
       algo.steps[0].tokens[7] = "this";
       name = "CoverCallExpressionAndAsyncArrowHead0CoveredCallExpression0";
@@ -407,6 +412,27 @@ export class Spec {
   serialize() {
     this.grammar.serialize();
     delete this.algoMap;
+  }
+
+  // TODO refactoring
+  // handle omitted semantics of Script
+  handleOmittedScriptSemantics(
+    algoRule: AlgoRule
+  ) {
+    let algo = new Algorithm();
+    algo.head.kind = AlgoKind.STATIC;
+    algo.steps = [{
+      tokens: ["Return", "a", "new", "empty", "List", "."]
+    }];
+
+    algo.head.name = "Script0LexicallyDeclaredNames0";
+    this.addAlgorithm(algoRule, copy(algo));
+    algo.head.name = "Script0VarDeclaredNames0";
+    this.addAlgorithm(algoRule, copy(algo));
+    algo.head.name = "Script0LexicallyScopedDeclarations0";
+    this.addAlgorithm(algoRule, copy(algo));
+    algo.head.name = "Script0VarScopedDeclarations0";
+    this.addAlgorithm(algoRule, copy(algo));
   }
 }
 
@@ -568,7 +594,7 @@ export const replaceParams = (
   for (let i = 0; i < items.length; i ++) {
     let item = items[i];
     if (item.hasOwnProperty('items')) {
-      newItems.push( { items: replaceParams(item['items'], params) });
+      newItems.push({ items: replaceParams(item['items'], params) });
     } else if (item.hasOwnProperty('tokens')) {
       newItems.push({ tokens: replaceParams(item['tokens'], params) });
     } else if (item.hasOwnProperty('id') && params.indexOf(item['id']) !== -1 && items[i+1] === "is" && items[i+2] === "present") {

@@ -48,12 +48,12 @@ export class Head {
     const secno = $(secnoElem).text();
     const str = norm(head.text().slice(secno.length));
 
-    if (str === "") throw new Error(`Head.from: no algorithm head`);
-
     // extract algorithm name
     let name: string =
       (str.indexOf("(") == -1 ? str : str.substring(0, str.indexOf("(")))
         .replace(/.*Semantics:/g, "");
+
+    if (name === "") throw new Error(`Head.from: no algorithm head`);
 
     // extract kind
     const kind: AlgoKind =

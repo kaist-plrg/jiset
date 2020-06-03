@@ -202,12 +202,13 @@ export class Rhs {
   getCaseName(lhsName: string): string {
     let name = lhsName + ":";
     for (const token of this.tokens) {
+      const elem: any = token
       if (token.ty === TokenType.TERMINAL) {
         name += token.term;
       } else if (token.ty === TokenType.NON_TERMINAL) {
         name += token.name;
       } else if (token.ty === TokenType.BUT_NOT) {
-        name += token.base.name;
+        name += token.base.name + "butnot" + elem.cases.map((x: any) => x.name).join("");
       }
     }
     return norm(name);
