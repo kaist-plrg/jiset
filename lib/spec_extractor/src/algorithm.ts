@@ -33,7 +33,7 @@ export class Head {
   constructor(
     public name: string = "",
     public kind: AlgoKind = AlgoKind.METHOD,
-    public lang: boolean = false,
+    public lang: boolean = true,
     public params: string[] = [],
     public length: number = 0
   ) { }

@@ -1,9 +1,9 @@
 import { Grammar, Rhs } from "./grammar";
 import { ExtractorRule, TyRule, AlgoRule } from "./rule";
-import { HTMLSemanticTag, TokenType } from "./enum";
+import { HTMLSemanticTag, TokenType, AlgoKind } from "./enum";
 import { getAllAttributes, norm, normName, unwrap, copy } from "./util";
 import { AliasMap } from "./types";
-import { Algorithm } from "./algorithm";
+import { Algorithm, Step } from "./algorithm";
 import assert from "assert";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +34,7 @@ export class Spec {
 
     spec.extractGlobalAlgos($, rule);
     spec.extractGrammarAlgos($, rule);
+    spec.extractBuiltinAlgos($, rule);
     spec.tys = extractTypes($, rule, rule.tyRule, spec);
     spec.algorithms = Object.keys(spec.algoMap);
 
@@ -70,6 +71,93 @@ export class Spec {
           } else {
             this.addAlgorithm(rule.algoRule, algo);
           }
+        } catch (_) { }
+      });
+    })
+  }
+
+  // extract Builtin algorithms
+  extractBuiltinAlgos(
+    $: CheerioStatic,
+    rule: ExtractorRule
+  ) {
+    rule.algoRule.builtinElementIds.forEach(id => {
+      $(HTMLSemanticTag.ALGO, `#${id}`).each((_, elem) => {
+        try {
+          const algo = Algorithm.from($, rule, elem, this.grammar);
+          const { name, kind } = algo.head;
+          algo.head.lang = false
+
+          // TODO refactoring
+          if (name.startsWith('Propertiesof')) {
+            let prev = elem.prev;
+            algo.head.name = $("dfn", prev).text();
+            algo.head.params = ["value"];
+          } else outer: switch (kind) {
+            case AlgoKind.METHOD: {
+              switch (name) {
+                case "CreateStringIterator":
+                case "CreateArrayIterator":
+                case "CreateMapIterator":
+                case "CreateSetIterator":
+                  break outer;
+                case "GetCapabilitiesExecutorFunctions":
+                  algo.head.params = ["resolve", "reject"];
+                  algo.head.length = 2;
+                  break;
+                case "PromiseRejectFunctions":
+                  algo.head.params = ["reason"];
+                  algo.head.length = 1;
+                  break;
+                case "PromiseResolveFunctions":
+                  algo.head.params = ["resolution"];
+                  algo.head.length = 1;
+                  break;
+                case "AwaitFulfilledFunctions":
+                  algo.head.params = ["value"];
+                  algo.head.length = 1;
+                  break;
+                case "AwaitRejectedFunctions":
+                  algo.head.params = ["reason"];
+                  algo.head.length = 1;
+                  break;
+                case "AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions":
+                  algo.head.params = ["value"];
+                  algo.head.length = 1;
+                  break;
+                case "AsyncGeneratorResumeNextReturnProcessorRejectedFunctions":
+                  algo.head.params = ["reason"];
+                  algo.head.length = 1;
+                  break;
+                case "Async-from-SyncIteratorValueUnwrapFunctions":
+                  algo.head.name = "AsyncfromSyncIteratorValueUnwrapFunctions";
+                  algo.head.params = ["value"];
+                  algo.head.length = 1;
+                  break;
+              }
+              algo.head.name = `GLOBAL.${algo.head.name}`;
+              const params = algo.head.params;
+              const steps: Step[] = [];
+              for (let i = 0; i < params.length; i++) {
+                let param = params[i];
+                if (!param.startsWith('...')) {
+                  steps.push({
+                    tokens: ['Let', {'id': param}, 'be', 'GetArgument', '(', {id: 'argumentsList'}, ',', i + '', ')', '.']
+                  })
+                }
+              }
+              algo.steps = replaceParams(algo.steps, params);
+              algo.steps = steps.concat(algo.steps);
+              algo.head.params = ['this', 'argumentsList', 'NewTarget'];
+              break;
+            }
+            case AlgoKind.RUNTIME:
+              break;
+            default:
+              throw new Error(`[NotYetHandle] ${kind}`);
+          }
+
+          this.addAlgorithm(rule.algoRule, algo);
         } catch (_) { }
       });
     })
@@ -188,121 +276,129 @@ export class Spec {
     }
 
     // ignore algorithms
-    if (name in algoRule.ignores || /[-\[\]@]/g.test(name)) return;
+    if (algoRule.ignores.indexOf(name) != -1 || /[-\[\]@]/g.test(name)) return;
 
-    // TODO
-    // if (name == 'CreateIntrinsics') {
-    //   data.steps[2] = { 'tokens' : ['Set', {id: 'intrinsics'}, '.', '[', '[', '%', 'ObjectPrototype', '%', ']', ']', 'to', '%', 'ObjectPrototype', '%', '.'] };
-    //   data.steps[3] = { 'tokens' : ['Set', {id: 'intrinsics'}, '.', '[', '[', '%', 'ThrowTypeError', '%', ']', ']', 'to', '%', 'ThrowTypeError', '%', '.'] };
-    //   data.steps[4] = { 'tokens' : ['Set', {id: 'intrinsics'}, '.', '[', '[', '%', 'FunctionPrototype', '%', ']', ']', 'to', '%', 'FunctionPrototype', '%', '.'] };
-    //   data.steps[5] = data.steps[12];
-    //   data.steps[6] = data.steps[11];
-    //   data.steps[6].tokens[3] = ['%', 'FunctionPrototype', '%'];
-    //   data.steps[6].tokens = data.steps[6].tokens.flat();
-    //   data.steps[7] = data.steps[13];
-    //   data.steps.length = 8;
-    // } else if (name == 'Evaluation') {
-    //   data.params = ['this', 'A', 'B'];
-    //   data.steps[6] = {
-    //     tokens: ['Return', {id: 'lnum'}, '', {id: 'rnum'}, '.']
-    //   };
-    //   data.steps[6].tokens[2] = '&';
-    //   addMethod('BitwiseANDExpression1Evaluation0', length, data);
-    //   data.steps[6].tokens[2] = '^';
-    //   addMethod('BitwiseXORExpression1Evaluation0', length, data);
-    //   data.steps[6].tokens[2] = '|';
-    //   addMethod('BitwiseORExpression1Evaluation0', length, data);
-    //   return;
-    // } else if (name == 'GLOBAL.Array.from') {
-    //   data.steps[7].tokens[7].steps[4].tokens[2].steps[5].tokens[6].steps.length = 2;
-    // } else if (name == 'GLOBAL.Array') {
-    //   if (arrayCount == 0) {
-    //     arrayData = data;
-    //     arrayData.steps = [{
-    //       tokens: ['If', 'the', 'length', 'of', {id: 'argumentsList'}, '=', {value:'0'}, ',', {steps: data.steps}]
-    //     }];
-    //     arrayCount++;
-    //     return;
-    //   } else if (arrayCount == 1) {
-    //     arrayData.steps = arrayData.steps.concat([{
-    //       tokens: ['Else', 'if', 'the', 'length', 'of', {id: 'argumentsList'}, '=', {value:'1'}, ',', {steps: data.steps}]
-    //     }]);
-    //     arrayCount++;
-    //     return;
-    //   } else {
-    //     arrayData.steps = arrayData.steps.concat([{
-    //       tokens: ['Else', ',', {steps: data.steps}]
-    //     }]);
-    //     data = arrayData;
-    //   }
-    // } else if (name == 'UnaryExpression3Evaluation0') { // specError #15
-    //   let newSteps = data.steps.slice(0, 1);
-    //   newSteps.push({
-    //     tokens: ['ReturnIfAbrupt', '(', {'id': 'val'}, ')', '.']
-    //   });
-    //   newSteps = newSteps.concat(data.steps.slice(1));
-    //   data.steps = newSteps;
-    // } else if (name == 'CallExpression0CoveredCallExpression0') {
-    //   data.steps[0].tokens[7] = 'this';
-    //   addMethod('CoverCallExpressionAndAsyncArrowHead0CoveredCallExpression0', length, data);
-    //   return;
-    // } else if (name == 'CallExpression0Evaluation0') { // specError #15?
-    //   let newSteps = data.steps.slice(0, 4);
-    //   newSteps.push({
-    //     tokens: ['ReturnIfAbrupt', '(', {'id': 'ref'}, ')', '.']
-    //   });
-    //   newSteps = newSteps.concat(data.steps.slice(4));
-    //   data.steps = newSteps;
-    // } else if (name == 'EvaluateCall') { // specError #15
-    //   data.steps = [{
-    //     tokens: ['ReturnIfAbrupt', '(', {'id': 'ref'}, ')', '.']
-    //   }].concat(data.steps);
-    // } else if (name == 'ClassTail0ClassDefinitionEvaluation3') {
-    //   let newSteps = data.steps.slice(0, 12);
-    //   newSteps.push({
-    //     tokens: ['ReturnIfAbrupt', '(', {'id': 'constructorInfo'}, ')', '.']
-    //   });
-    //   newSteps = newSteps.concat(data.steps.slice(12));
-    //   data.steps = newSteps;
-    // } else if (methodSet.has(name)) switch (name) {
-    //   case 'MakeArgGetter':
-    //     name = 'ArgGetter';
-    //     data.params = ['_', '_', '_', 'f'];
-    //     break;
-    //   case 'MakeArgSetter':
-    //     name = 'ArgSetter';
-    //     data.params = ['_', 'argumentsList', '_', 'f'];
-    //     data.steps = [{
-    //       tokens: ['Let', {id: 'value'}, 'be', {id: 'argumentsList'}, '[', '0', ']']
-    //     }].concat(data.steps);
-    //     break;
-    //   case 'Await':
-    //     data.params = ['value'];
-    //     data.steps[11].tokens[0] = 'ReturnCont';
-    //     break;
-    //   default:
-    //     error(`[AlreadyExist] ${name}`);
-    //     return;
-    // } else if (name == 'GLOBAL.NativeError') {
-    //   let errList =  [
-    //     'EvalError',
-    //     'RangeError',
-    //     'ReferenceError',
-    //     'SyntaxError',
-    //     'TypeError',
-    //     'URIError',
-    //   ];
-    //   for (let errName of errList) {
-    //     data.steps[2].tokens[8] = {'code':`"%${errName}Prototype%"`};
-    //     addMethod('GLOBAL.' + errName, length, data);
-    //   }
-    //   return;
-    // } else if (name == 'GLOBAL.Function' || name == 'GLOBAL.GeneratorFunction' || name == 'GLOBAL.AsyncFunction' || name == 'GLOBAL.AsyncGeneratorFunction') {
-    //   data.steps = data.steps.slice(5)
-    // }
+    // TODO refactoring
+    if (name == "CreateIntrinsics") {
+      algo.steps[2] = { "tokens" : ["Set", {id: "intrinsics"}, ".", "[", "[", "%", "ObjectPrototype", "%", "]", "]", "to", "%", "ObjectPrototype", "%", "."] };
+      algo.steps[3] = { "tokens" : ["Set", {id: "intrinsics"}, ".", "[", "[", "%", "ThrowTypeError", "%", "]", "]", "to", "%", "ThrowTypeError", "%", "."] };
+      algo.steps[4] = { "tokens" : ["Set", {id: "intrinsics"}, ".", "[", "[", "%", "FunctionPrototype", "%", "]", "]", "to", "%", "FunctionPrototype", "%", "."] };
+      algo.steps[5] = algo.steps[12];
+      algo.steps[6].tokens = ["Perform","AddRestrictedFunctionProperties","(","%","FunctionPrototype","%",",",{"id":"realmRec"},")","."];
+      algo.steps[7] = algo.steps[13];
+      algo.steps.length = 8;
+    } else if (name == "Evaluation") {
+      algo.head.params = ["this", "A", "B"];
+      algo.steps[6] = {
+        tokens: ["Return", {id: "lnum"}, "", {id: "rnum"}, "."]
+      };
+
+      algo.steps[6].tokens[2] = "&";
+      algo.head.name = "BitwiseANDExpression1Evaluation0";
+      this.addAlgorithm(algoRule, copy(algo));
+
+      algo.steps[6].tokens[2] = "^";
+      algo.head.name = "BitwiseXORExpression1Evaluation0";
+      this.addAlgorithm(algoRule, copy(algo));
+
+      algo.steps[6].tokens[2] = "|";
+      algo.head.name = "BitwiseORExpression1Evaluation0";
+      this.addAlgorithm(algoRule, copy(algo));
+
+      return;
+    } else if (name == "GLOBAL.Array.from") {
+      const item: any = algo;
+      item.steps[7].tokens[7].steps[4].tokens[2].steps[5].tokens[6].steps.length = 2;
+    } else if (name == "GLOBAL.Array") {
+      if (algoRule.arrayCount == 0) {
+        algoRule.arrayAlgo = algo;
+        algoRule.arrayAlgo.steps = [{
+          tokens: ["If", "the", "length", "of", {id: "argumentsList"}, "=", {value:"0"}, ",", {steps: algo.steps}]
+        }];
+        algoRule.arrayCount++;
+        return;
+      } else if (algoRule.arrayCount == 1) {
+        algoRule.arrayAlgo.steps = algoRule.arrayAlgo.steps.concat([{
+          tokens: ["Else", "if", "the", "length", "of", {id: "argumentsList"}, "=", {value:"1"}, ",", {steps: algo.steps}]
+        }]);
+        algoRule.arrayCount++;
+        return;
+      } else {
+        algoRule.arrayAlgo.steps = algoRule.arrayAlgo.steps.concat([{
+          tokens: ["Else", ",", {steps: algo.steps}]
+        }]);
+        algo = algoRule.arrayAlgo;
+      }
+    } else if (name == "UnaryExpression3Evaluation0") { // specError #15
+      let newSteps = algo.steps.slice(0, 1);
+      newSteps.push({
+        tokens: ["ReturnIfAbrupt", "(", {"id": "val"}, ")", "."]
+      });
+      newSteps = newSteps.concat(algo.steps.slice(1));
+      algo.steps = newSteps;
+    } else if (name == "CallExpression0CoveredCallExpression0") {
+      algo.steps[0].tokens[7] = "this";
+      name = "CoverCallExpressionAndAsyncArrowHead0CoveredCallExpression0";
+      algo.head.name = name;
+    } else if (name == "CallExpression0Evaluation0") { // specError #15?
+      let newSteps = algo.steps.slice(0, 4);
+      newSteps.push({
+        tokens: ["ReturnIfAbrupt", "(", {"id": "ref"}, ")", "."]
+      });
+      newSteps = newSteps.concat(algo.steps.slice(4));
+      algo.steps = newSteps;
+    } else if (name == "EvaluateCall") { // specError #15
+      const preSteps: Step[] = [{
+        tokens: ["ReturnIfAbrupt", "(", {"id": "ref"}, ")", "."]
+      }];
+      algo.steps = preSteps.concat(algo.steps);
+    } else if (name == "ClassTail0ClassDefinitionEvaluation3") {
+      let newSteps = algo.steps.slice(0, 12);
+      newSteps.push({
+        tokens: ["ReturnIfAbrupt", "(", {"id": "constructorInfo"}, ")", "."]
+      });
+      newSteps = newSteps.concat(algo.steps.slice(12));
+      algo.steps = newSteps;
 
     // handle already existed algorithms
-    if (name in this.algoMap) return;
+    } else if (name in this.algoMap) switch (name) {
+      case "MakeArgGetter":
+        name = "ArgGetter";
+        algo.head.params = ["_", "_", "_", "f"];
+        break;
+      case "MakeArgSetter":
+        name = "ArgSetter";
+        algo.head.params = ["_", "argumentsList", "_", "f"];
+        const preSteps: Step[] = [{
+          tokens: ["Let", {id: "value"}, "be", {id: "argumentsList"}, "[", "0", "]"]
+        }];
+        algo.steps = preSteps.concat(algo.steps);
+        break;
+      case "Await":
+        algo.head.params = ["value"];
+        algo.steps[11].tokens[0] = "ReturnCont";
+        break;
+      default:
+        // TODO throw new Error(`[AlreadyExist] ${name}`);
+        return;
+    } else if (name == "GLOBAL.NativeError") {
+      let errList =  [
+        "EvalError",
+        "RangeError",
+        "ReferenceError",
+        "SyntaxError",
+        "TypeError",
+        "URIError",
+      ];
+      for (let errName of errList) {
+        algo.steps[2].tokens[8] = {"code":`"%${errName}Prototype%"`};
+        algo.head.name = "GLOBAL." + errName;
+        this.addAlgorithm(algoRule, copy(algo));
+      }
+      return;
+    } else if (name == "GLOBAL.Function" || name == "GLOBAL.GeneratorFunction" || name == "GLOBAL.AsyncFunction" || name == "GLOBAL.AsyncGeneratorFunction") {
+      algo.steps = algo.steps.slice(5)
+    }
 
     this.algoMap[name] = algo;
   }
@@ -462,4 +558,32 @@ export const replaceStep = (
     case "steps": replaceStep(nextObj, "tokens", idxList.slice(1), item); return;
     case "tokens": replaceStep(nextObj, "steps", idxList.slice(1), item); return;
   }
+};
+
+export const replaceParams = (
+  items: any[],
+  params: string[]
+): any[] => {
+  let newItems = [];
+  for (let i = 0; i < items.length; i ++) {
+    let item = items[i];
+    if (item.hasOwnProperty('items')) {
+      newItems.push( { items: replaceParams(item['items'], params) });
+    } else if (item.hasOwnProperty('tokens')) {
+      newItems.push({ tokens: replaceParams(item['tokens'], params) });
+    } else if (item.hasOwnProperty('id') && params.indexOf(item['id']) !== -1 && items[i+1] === "is" && items[i+2] === "present") {
+      newItems.push({id: 'argumentsList'});
+      newItems.push('[');
+      newItems.push(params.indexOf(item['id']).toString());
+      newItems.push(']');
+    } else if (item.hasOwnProperty('id') && params.indexOf(item['id']) !== -1 && items[i+1] === "is" && items[i+2] === "not" && items[i+3] === "present") {
+      newItems.push({id: 'argumentsList'});
+      newItems.push('[');
+      newItems.push(params.indexOf(item['id']).toString());
+      newItems.push(']');
+    } else {
+      newItems.push(item);
+    }
+  }
+  return newItems;
 };
