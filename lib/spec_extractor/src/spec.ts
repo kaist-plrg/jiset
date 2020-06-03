@@ -87,7 +87,7 @@ export class Spec {
         try {
           const algo = Algorithm.from($, rule, elem, this.grammar);
           const { name, kind } = algo.head;
-          algo.head.lang = false
+          algo.head.lang = false;
 
           // TODO refactoring
           if (name.startsWith('Propertiesof')) {

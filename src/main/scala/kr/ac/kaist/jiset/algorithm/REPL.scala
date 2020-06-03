@@ -21,7 +21,7 @@ case class ATag(t: String) extends AbstractToken
 
 // REPL
 object REPL extends GeneralAlgoCompilerHelper {
-  val algo: Algorithm = Algorithm(0, Nil, Method, Nil, "")
+  val algo: Algorithm = Algorithm(0, Nil, Method, false, Nil, "")
   val algoName: String = ""
   val kind: AlgoKind = Method
 
@@ -73,7 +73,7 @@ object REPL extends GeneralAlgoCompilerHelper {
       filename = file.getName
       if jsonFilter(filename)
       algo = Algorithm(file.toString)
-      if !onlyLanguage || algo.kind == Language
+      if !onlyLanguage || algo.lang
     } yield algo
 
     case class TokenList(name: String, list: List[Token])

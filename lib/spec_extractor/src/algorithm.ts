@@ -41,7 +41,8 @@ export class Head {
   // extract Head from a specific HTMLElement
   static from(
     $: CheerioStatic,
-    elem: CheerioElement
+    elem: CheerioElement,
+    lang: boolean = true
   ): Head {
     const head = $($(HTMLSemanticTag.HEADER, elem.parent)[0]);
     const secnoElem = head.children()[0];
@@ -60,9 +61,6 @@ export class Head {
       str.startsWith("StaticSemantics") ? AlgoKind.STATIC :
       str.startsWith("RuntimeSemantics") ? AlgoKind.RUNTIME :
       AlgoKind.METHOD;
-
-    // assume algorithms not for core JS language at first
-    const lang = false
 
     // extract parameters
     const params = Head.getParams(str);

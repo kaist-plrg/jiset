@@ -43,6 +43,7 @@ async function main() {
       const jsonPath = path.join(algoDirPath, `${name}.json`);
       const data = {
         kind: algo.head.kind,
+        lang: algo.head.lang,
         params: algo.head.params,
         steps: algo.steps,
         length: algo.head.length,

@@ -10,6 +10,7 @@ case class Algorithm(
     var length: Int,
     var params: List[String],
     var kind: AlgoKind,
+    var lang: Boolean,
     var steps: List[Step],
     var filename: String
 ) {
@@ -71,16 +72,12 @@ object Algorithm extends DefaultJsonProtocol {
       case JsString("RuntimeSemantics") => RuntimeSemantics
       case JsString("StaticSemantics") => StaticSemantics
       case JsString("Method") => Method
-      case JsString("Language") => Language
-      case JsString("Builtin") => Builtin
       case v => deserializationError(s"unknown AlgoKind: $v")
     }
     override def write(kind: AlgoKind): JsValue = kind match {
       case RuntimeSemantics => JsString("RuntimeSemantics")
       case StaticSemantics => JsString("StaticSemantics")
       case Method => JsString("Method")
-      case Language => JsString("Language")
-      case Builtin => JsString("Builtin")
     }
   }
   implicit lazy val StepFormat = jsonFormat1(Step)
@@ -93,7 +90,7 @@ object Algorithm extends DefaultJsonProtocol {
   implicit lazy val SupFormat = jsonFormat1(Sup)
   implicit lazy val UrlFormat = jsonFormat1(Url)
   implicit lazy val GrammarFormat = jsonFormat2(Grammar)
-  implicit lazy val AlgorithmFormat = jsonFormat5(Algorithm.apply)
+  implicit lazy val AlgorithmFormat = jsonFormat6(Algorithm.apply)
 
   def apply(filename: String): Algorithm = {
     readFile(filename).parseJson.convertTo[Algorithm]

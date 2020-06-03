@@ -23,6 +23,7 @@ object MethodGenerator {
     generate(name, scalaName, algo)
     def generate(name: String, scalaName: String, algo: Algorithm): Unit = {
       val len = algo.length
+      val lang = algo.lang
       val (func, _) = AlgoCompiler(name, algo).result
 
       val nf = getPrintWriter(s"$modelDir/algorithm/$scalaName.scala")
@@ -34,6 +35,7 @@ object MethodGenerator {
       nf.println(s"""""")
       nf.println(s"""object $scalaName {""")
       nf.println(s"""  val length: Int = $len""")
+      nf.println(s"""  val lang: Boolean = $lang""")
       nf.println(s"""  val func: Func = parseFunc($TRIPLE${beautify(func, "  ")}$TRIPLE)""")
       nf.println(s"""}""")
       nf.close()

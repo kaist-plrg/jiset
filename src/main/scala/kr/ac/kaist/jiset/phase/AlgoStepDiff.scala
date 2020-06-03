@@ -78,11 +78,11 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
 
         apass += ap; atotal += at
         spass += sp; stotal += st
-        if (first) {
-          first = false
+        if (!first) {
           dapass += dap; datotal += dat
           dspass += dsp; dstotal += dst
         }
+        first = false
 
         println(s"$version step: ${getCountString(sp, st)}")
         println(s"     Δ step: ${getCountString(dsp, dst)}")
@@ -93,8 +93,8 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
       println(s"========================================")
     }
     show("All", x => true)
-    show("Language", _.kind == Language)
-    show("Builtin", _.kind == Builtin)
+    show("Language", _.lang)
+    show("Builtin", !_.lang)
   }
 
   def countPass[A](k: Map[A, Boolean]): (Int, Int) = (k.filter(_._2).size, k.size)
