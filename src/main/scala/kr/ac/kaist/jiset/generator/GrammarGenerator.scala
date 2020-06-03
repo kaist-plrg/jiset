@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.spec._
 
 object GrammarGenerator {
   def apply(packageName: String, modelDir: String, grammar: Grammar): Unit = {
-    if (VERSION == "es2019_full" && ambiguousIfStatement) patchAmbiguousIfStatement(grammar)
+    if (VERSION == "es2019" && ambiguousIfStatement) patchAmbiguousIfStatement(grammar)
     ASTGenerator(packageName, modelDir, grammar)
     ParserGenerator(packageName, modelDir, grammar)
   }

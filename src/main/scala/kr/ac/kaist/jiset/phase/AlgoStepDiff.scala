@@ -37,6 +37,7 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
 
       var (apass, atotal, dapass, datotal, spass, stotal, dspass, dstotal) = (0, 0, 0, 0, 0, 0, 0, 0)
 
+      var first: Boolean = true
       DIFFLIST.foreach((version) => {
         val algoversionDir = s"$RESOURCE_DIR/$version/auto/algorithm"
         algoMap2 = Map()
@@ -77,7 +78,8 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
 
         apass += ap; atotal += at
         spass += sp; stotal += st
-        if (version != "es2016") {
+        if (first) {
+          first = false
           dapass += dap; datotal += dat
           dspass += dsp; dstotal += dst
         }

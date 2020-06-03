@@ -11,7 +11,7 @@ object MethodGenerator {
   def apply(packageName: String, modelDir: String, name: String): Unit = {
     val scalaName = getScalaName(name)
     val algo = Algorithm(s"$RESOURCE_DIR/$VERSION/auto/algorithm/$name.json")
-    if (VERSION == "es2019_full") name match {
+    if (VERSION == "es2019") name match {
       case "ForInOfHeadEvaluation" if assertForAsyncIterator => patchAssertForAsyncIterator(algo)
       case "StringGetOwnProperty" if numberEqual => patchNumberEqual(algo)
       case "AbstractEqualityComparison" if completionInAbstractEquality => patchCompletionInAbstractEquality(algo)

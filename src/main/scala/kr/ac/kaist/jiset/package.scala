@@ -22,9 +22,9 @@ package object jiset {
   val CUR_DIR = System.getProperty("user.dir")
 
   // ECMAScript model
-  val VERSION = "es2019_full"
+  val VERSION = "es2019"
 
-  val DIFFLIST = List("es2016", "es2017", "es2018", "es2019")
+  val DIFFLIST = List("es2016_eval", "es2017_eval", "es2018_eval", "es2019_eval")
 
   // Debugging mode
   val DEBUG_SEMI_INSERT: Boolean = false
