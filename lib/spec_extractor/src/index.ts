@@ -35,7 +35,8 @@ async function main() {
     // save algorithms in JSON format files
     printSep();
     console.log("saving file...");
-    const specDirPath = getDir(resourcePath, ".cache", version);
+    const basePath = getDir(__dirname, "..", "..", "..")
+    const specDirPath = getDir(basePath, "src", "main", "resources", lowerVersion, "auto");
     const algoDirPath = getDir(specDirPath, "algorithm");
     for (const name in spec.algoMap) {
       const algo = spec.algoMap[name];
