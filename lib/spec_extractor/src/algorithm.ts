@@ -2,7 +2,7 @@ import { HTMLSemanticTag, HTMLTagType, HTMLTagAttribute } from "./enum";
 import { AlgoKind, TokenType } from "./enum";
 import { Grammar, Rhs } from "./grammar";
 import { ExtractorRule } from "./rule";
-import { norm, splitText, getAllAttributes } from "./util";
+import { norm, simpleNorm, splitText, getAllAttributes } from "./util";
 import assert from "assert";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +25,25 @@ export class Algorithm {
     const head = Head.from($, elem);
     const steps = Step.listFrom($, rule, elem.children[0], grammar);
     return new Algorithm(head, steps);
+  }
+
+  // get dummy algorithms
+  static getDummy(
+    $: CheerioStatic,
+    rule: ExtractorRule,
+    elem: CheerioElement,
+    grammar: Grammar,
+    lang: boolean
+  ) {
+    const algo = new Algorithm();
+    algo.head.lang = lang;
+    algo.steps = Step.listFrom($, rule, elem.children[0], grammar);
+    let clauseElem = elem;
+    while (clauseElem.name != "emu-clause") {
+      clauseElem = clauseElem.parent;
+    }
+    algo.head.name = simpleNorm($($(clauseElem).children()[0]).text());
+    return algo;
   }
 }
 
@@ -163,16 +182,11 @@ export class Step {
             }
 
             // text tokens
-            case HTMLSemanticTag.REF:
-            case HTMLSemanticTag.SUBSCRIPT:
-            case HTMLSemanticTag.ITALIC:
-            case HTMLSemanticTag.BOLD: {
+            default:
               return splitText(text);
-            }
           }
       }
-      console.error(block);
-      throw new Error(`Step.from: Unhandled token`);
+      return [];
     });
     return new Step(tokens);
   }

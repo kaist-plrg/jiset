@@ -12,10 +12,11 @@ export const printSep = () => {
 
 const getVersionNumber = (version: ECMAScriptVersion) => {
   switch (version) {
-    case ECMAScriptVersion.ES2020: return "11.0";
-    case ECMAScriptVersion.ES2019: return "10.0";
-    case ECMAScriptVersion.ES2018: return "9.0";
-    case ECMAScriptVersion.ES2017: return "8.0"; case ECMAScriptVersion.ES2016: return "7.0";
+    case ECMAScriptVersion.es2020: return "11.0";
+    case ECMAScriptVersion.es2019: return "10.0";
+    case ECMAScriptVersion.es2018: return "9.0";
+    case ECMAScriptVersion.es2017: return "8.0";
+    case ECMAScriptVersion.es2016: return "7.0";
   }
 }
 
@@ -64,7 +65,7 @@ export const loadSpec = async (resourcePath: string, version: ECMAScriptVersion)
 
 //load rules
 export const loadRule =
-  (resourcePath: string, version: ECMAScriptVersion): ExtractorRule => {
+  (resourcePath: string, version: ECMAScriptVersion | "eval"): ExtractorRule => {
     printSep();
     console.log("loading rules...");
 
@@ -143,6 +144,11 @@ export const norm = (str: string) => {
     .replace('#', '');
 }
 
+// simple string normalization
+export const simpleNorm = (str:string) => {
+  return str.replace(/[^a-zA-Z0-9.:(),]/g,'');
+}
+
 // normalize algorithm name
 export const normName = (str: string) => {
   return str
@@ -168,11 +174,11 @@ export const splitText = (str: string | undefined): string[] => {
 // get ECMAScript Version
 export const getESVersion = (target: string): ECMAScriptVersion => {
   switch (target) {
-    case 'es11': return ECMAScriptVersion.ES2020;
-    case 'es10': return ECMAScriptVersion.ES2019;
-    case 'es9': return ECMAScriptVersion.ES2018;
-    case 'es8': return ECMAScriptVersion.ES2017;
-    case 'es7': return ECMAScriptVersion.ES2016;
+    case 'es11': return ECMAScriptVersion.es2020;
+    case 'es10': return ECMAScriptVersion.es2019;
+    case 'es9': return ECMAScriptVersion.es2018;
+    case 'es8': return ECMAScriptVersion.es2017;
+    case 'es7': return ECMAScriptVersion.es2016;
   }
   throw new Error(`getESVersion: Invalid ECMAScript version - ${target}`);
 }

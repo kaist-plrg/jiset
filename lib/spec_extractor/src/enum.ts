@@ -1,9 +1,9 @@
 export enum ECMAScriptVersion {
-  ES2020 = "ES2020",
-  ES2019 = "ES2019",
-  ES2018 = "ES2018",
-  ES2017 = "ES2017",
-  ES2016 = "ES2016",
+  es2020 = "es2020",
+  es2019 = "es2019",
+  es2018 = "es2018",
+  es2017 = "es2017",
+  es2016 = "es2016",
 };
 
 export enum HTMLSemanticTag {

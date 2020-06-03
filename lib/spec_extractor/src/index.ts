@@ -14,29 +14,36 @@ const argv = require('yargs')
     describe: 'the version of ECMAScript',
     type: 'string',
   })
+  .option('eval', {
+    alias: 'e',
+    default: false,
+    describe: 'for evaluation',
+    type: 'boolean',
+  })
   .help()
   .alias('help', 'h')
   .argv;
 
 async function main() {
   try {
+    const forEval = argv.eval;
     const version = getESVersion(argv.target);
-    const lowerVersion = version.toLowerCase();
+    const version_dir = version + (forEval ? "_eval" : "");
     printSep();
     console.log(`VERSION: ${version}`);
     const resourcePath = path.join(__dirname, "..", "resource");
     const html = await loadSpec(resourcePath, version);
-    const rule = await loadRule(resourcePath, version);
+    const rule = await loadRule(resourcePath, forEval ? "eval" : version);
     let $ = cheerio.load(html);
 
     // extract Spec from a ECMAScript html file
-    const spec = Spec.from($, rule);
+    const spec = Spec.from($, rule, forEval);
 
     // save algorithms in JSON format files
     printSep();
     console.log("saving file...");
     const basePath = getDir(__dirname, "..", "..", "..")
-    const specDirPath = getDir(basePath, "src", "main", "resources", lowerVersion, "auto");
+    const specDirPath = getDir(basePath, "src", "main", "resources", version_dir, "auto");
     const algoDirPath = getDir(specDirPath, "algorithm");
     for (const name in spec.algoMap) {
       const algo = spec.algoMap[name];
@@ -47,7 +54,7 @@ async function main() {
         params: algo.head.params,
         steps: algo.steps,
         length: algo.head.length,
-        filename: `${lowerVersion}/algorithm/${name}.json`
+        filename: `${forEval ? "es2000" : version}/algorithm/${name}.json`
       };
       saveFile(jsonPath, data);
     }

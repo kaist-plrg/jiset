@@ -1,8 +1,8 @@
 import { Grammar, Rhs } from "./grammar";
 import { ExtractorRule, TyRule, AlgoRule } from "./rule";
 import { HTMLSemanticTag, TokenType, AlgoKind } from "./enum";
-import { getAllAttributes, norm, normName, unwrap, copy } from "./util";
-import { AliasMap } from "./types";
+import { getAllAttributes, norm, simpleNorm, normName, unwrap, copy } from "./util";
+import { map } from "./types";
 import { Algorithm, Step } from "./algorithm";
 import assert from "assert";
 
@@ -10,44 +10,63 @@ import assert from "assert";
 // Spec Structures
 ////////////////////////////////////////////////////////////////////////////////
 export class Spec {
-  algoMap: AlgoMap = {};
+  algoMap: map<Algorithm> = {};
+  idxMap: map<number> = {};
 
   constructor(
     public globalMethods: string[] = [],
     public consts: string[] = [],
     public grammar: Grammar = new Grammar(),
-    public intrinsics: AliasMap = {},
-    public symbols: AliasMap = {},
+    public intrinsics: map<string> = {},
+    public symbols: map<string> = {},
     public tys: TyMap = {}
   ) { }
 
   // extract Spec from a ECMAScript html file
   static from(
     $: CheerioStatic,
-    rule: ExtractorRule
+    rule: ExtractorRule,
+    forEval: boolean
   ) {
     const spec = new Spec();
-    spec.consts = extractConsts($);
-    spec.grammar = Grammar.from($, rule);
-    spec.intrinsics = extractIntrinsics($, rule.intrinsics.table);
-    spec.symbols = extractSymbols($, rule.symbols.table);
+    if (forEval) {
+      spec.grammar = Grammar.from($, rule, true);
+      spec.extractGlobalAlgos($, rule, true);
+      spec.extractGrammarAlgos($, rule, true);
+      spec.extractBuiltinAlgos($, rule, true);
+    } else {
+      spec.consts = extractConsts($);
+      spec.grammar = Grammar.from($, rule);
+      spec.intrinsics = extractIntrinsics($, rule.intrinsics.table);
+      spec.symbols = extractSymbols($, rule.symbols.table);
 
-    spec.handleOmittedScriptSemantics(rule.algoRule);
-    spec.extractGlobalAlgos($, rule);
-    spec.extractGrammarAlgos($, rule);
-    spec.extractBuiltinAlgos($, rule);
-    spec.tys = extractTypes($, rule, rule.tyRule, spec);
-    spec.globalMethods = Object.keys(spec.algoMap);
-
+      spec.handleOmittedScriptSemantics(rule.algoRule);
+      spec.extractGlobalAlgos($, rule);
+      spec.extractGrammarAlgos($, rule);
+      spec.extractBuiltinAlgos($, rule);
+      spec.tys = extractTypes($, rule, rule.tyRule, spec);
+      spec.globalMethods = Object.keys(spec.algoMap);
+    }
     return spec;
   }
 
   // extract global algorithms
   extractGlobalAlgos(
     $: CheerioStatic,
-    rule: ExtractorRule
+    rule: ExtractorRule,
+    forEval: boolean = false
   ) {
-    rule.algoRule.globalElementIds.forEach(id => {
+    if (forEval) {
+      const { globalElementIds } = rule.algoRule;
+      for (const id of globalElementIds) {
+        $(HTMLSemanticTag.ALGO, `#${id}`).each((_, elem) => {
+          try {
+            const algo = Algorithm.getDummy($, rule, elem, this.grammar, true);
+            this.addAlgorithm(rule.algoRule, algo, true);
+          } catch (_) { }
+        });
+      }
+    } else rule.algoRule.globalElementIds.forEach(id => {
       $(HTMLSemanticTag.ALGO, `#${id}`).each((_, elem) => {
         try {
           const algo = Algorithm.from($, rule, elem, this.grammar);
@@ -60,9 +79,38 @@ export class Spec {
   // extract grammar algorithms
   extractGrammarAlgos(
     $: CheerioStatic,
-    rule: ExtractorRule
+    rule: ExtractorRule,
+    forEval: boolean = false
   ) {
-    rule.algoRule.grammarElementIds.forEach(id => {
+    if (forEval) {
+      const { grammarElementIds } = rule.algoRule;
+      for (const id of grammarElementIds) {
+        $(HTMLSemanticTag.ALGO, `#${id}`).each((_, elem) => {
+          try {
+            const algo = Algorithm.getDummy($, rule, elem, this.grammar, true);
+            const grammarElem = $(elem).prev()[0];
+            if (grammarElem.name == HTMLSemanticTag.GRAMMAR) {
+              const rules = [];
+              $(HTMLSemanticTag.PRODUCTION, grammarElem).each((_, prod) => {
+                const { collapsed } = getAllAttributes(prod);
+                $(HTMLSemanticTag.RHS, prod).each((_, rhs) => {
+                  $(HTMLSemanticTag.MODS, rhs).each((_, mods) => {
+                    if(collapsed === "") $(mods).remove();
+                  });
+                  const lhsName = getAllAttributes(prod).name;
+                  const name = simpleNorm(lhsName + ':' + $(rhs).text());
+                  const newAlgo = copy(algo);
+                  newAlgo.head.name += name;
+                  this.addAlgorithm(rule.algoRule, newAlgo, true);
+                });
+              });
+            } else {
+              this.addAlgorithm(rule.algoRule, algo, true);
+            }
+          } catch (_) { }
+        });
+      }
+    } else rule.algoRule.grammarElementIds.forEach(id => {
       $(HTMLSemanticTag.ALGO, `#${id}`).each((_, elem) => {
         try {
           const algo = Algorithm.from($, rule, elem, this.grammar);
@@ -74,14 +122,27 @@ export class Spec {
           }
         } catch (_) { }
       });
-    })
+    });
   }
 
   // extract Builtin algorithms
   extractBuiltinAlgos(
     $: CheerioStatic,
-    rule: ExtractorRule
+    rule: ExtractorRule,
+    forEval: boolean = false
   ) {
+    if (forEval) {
+      const { builtinElementIds } = rule.algoRule;
+      for (const id of builtinElementIds) {
+        $(HTMLSemanticTag.ALGO, `#${id}`).each((_, elem) => {
+          try {
+            const algo = Algorithm.getDummy($, rule, elem, this.grammar, false);
+            this.addAlgorithm(rule.algoRule, algo, true);
+          } catch (e) { }
+        });
+      }
+      return;
+    }
     rule.algoRule.builtinElementIds.forEach(id => {
       $(HTMLSemanticTag.ALGO, `#${id}`).each((_, elem) => {
         try {
@@ -231,7 +292,21 @@ export class Spec {
   }
 
   // add algorithms
-  addAlgorithm(algoRule: AlgoRule, algo: Algorithm) {
+  addAlgorithm(
+    algoRule: AlgoRule,
+    algo: Algorithm,
+    forEval: boolean = false
+  ) {
+    if (forEval) {
+      algo.head.length = 0;
+      const idxMap = this.idxMap;
+      const name = algo.head.name;
+      if (idxMap[name] === undefined) idxMap[name] = 0;
+      algo.head.name += idxMap[name]++;
+      this.algoMap[algo.head.name] = algo;
+      return;
+    }
+
     // modify names
     let name = algo.head.name;
     name = normName(name);
@@ -412,6 +487,7 @@ export class Spec {
   serialize() {
     this.grammar.serialize();
     delete this.algoMap;
+    delete this.idxMap;
   }
 
   // TODO refactoring
@@ -437,14 +513,7 @@ export class Spec {
 }
 
 // type map
-export interface TyMap {
-  [ attr: string ]: AliasMap
-}
-
-// algorithm map
-export interface AlgoMap {
-  [ attr: string ]: Algorithm
-}
+export type TyMap = map<map<string>>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helper Functions
@@ -471,9 +540,9 @@ export const extractConsts = (
 export const extractIntrinsics = (
   $: CheerioStatic,
   tableId: string
-): AliasMap => {
+): map<string> => {
   // alias map for intrinsics
-  const intrinsics: AliasMap = {};
+  const intrinsics: map<string> = {};
 
   // extract intrinsics
   $(HTMLSemanticTag.TABLE_ROW, `${HTMLSemanticTag.TABLE}#${tableId}`)
@@ -492,9 +561,9 @@ export const extractIntrinsics = (
 export const extractSymbols = (
   $: CheerioStatic,
   tableId: string
-): AliasMap => {
+): map<string> => {
   // alias map for symbols
-  const symbols: AliasMap = {};
+  const symbols: map<string> = {};
 
   // extract symbols
   $(HTMLSemanticTag.TABLE_ROW, `${HTMLSemanticTag.TABLE}#${tableId}`)
@@ -517,11 +586,11 @@ export const extractTypes = (
   tys: TyMap = {},
   basePrefix: string = "",
   baseThisName: string = "this",
-  baseMethods: AliasMap = {}
+  baseMethods: map<string> = {}
 ) => {
   for (const tname in tyRule) {
     // initialization
-    const methods: AliasMap = copy(baseMethods);
+    const methods: map<string> = copy(baseMethods);
     tys[tname] = methods;
     let info = tyRule[tname];
     if (typeof info === "string") info = { id: info };

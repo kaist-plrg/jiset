@@ -15,13 +15,17 @@ export class Grammar {
   ) { }
 
   // extract Grammar from a ECMAScript html file
-  static from($: CheerioStatic, rule: ExtractorRule): Grammar {
+  static from(
+    $: CheerioStatic,
+    rule: ExtractorRule,
+    forEval: boolean = false
+  ): Grammar {
     const grammar = new Grammar();
 
     // extract productions
     const sections = rule.grammar.sections;
     for (const section of sections) {
-      grammar.merge(Grammar.fromSection($, rule, section));
+      grammar.merge(Grammar.fromSection($, rule, section, forEval));
     }
 
     // generate index maps
@@ -34,7 +38,8 @@ export class Grammar {
   static fromSection(
     $: CheerioStatic,
     rule: ExtractorRule,
-    section: string
+    section: string,
+    forEval: boolean
   ): Grammar {
     const grammar = new Grammar();
     const { lexProds, prods } = grammar;

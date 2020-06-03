@@ -1,4 +1,4 @@
-// alias map
-export interface AliasMap {
-  [ attr: string ]: string
+// mapping
+export interface map<T> {
+  [ attr: string ]: T;
 }

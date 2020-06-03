@@ -1,0 +1,66 @@
+{
+  "grammar": {
+    "sections": [
+      "sec-lexical-grammar",
+      "sec-expressions",
+      "sec-statements",
+      "sec-functions-and-classes",
+      "sec-scripts-and-modules"
+    ],
+    "excludes": [
+      "WhiteSpace",
+      "LineTerminator",
+      "LineTerminatorSequence",
+      "Comment"
+    ],
+    "replaceRules": {
+      "[empty]": "EmptyToken",
+      "[no LineTerminator here]": "NoLineTerminatorToken",
+      "any Unicode code point": "UnicodeAny",
+      "any Unicode code point with the Unicode property “ID_Start”": "UnicodeIdStart",
+      "any Unicode code point with the Unicode property &ldquo;ID_Start&rdquo;": "UnicodeIdStart",
+      "any Unicode code point with the Unicode property “ID_Continue”": "UnicodeIdContinue",
+      "any Unicode code point with the Unicode property &ldquo;ID_Continue&rdquo;": "UnicodeIdContinue"
+    },
+    "lookahead": {
+      "hint": "[lookahead ",
+      "opPos": 11,
+      "contains": {
+        "≠": false,
+        "∉": false,
+        "=": true,
+        "∈": true
+      }
+    },
+    "unicode": {
+      "hint": "<",
+      "hint2": ">"
+    }
+  },
+  "algoRule": {
+    "globalElementIds": [
+      "sec-ecmascript-data-types-and-values",
+      "sec-abstract-operations",
+      "sec-executable-code-and-execution-contexts",
+      "sec-ordinary-and-exotic-objects-behaviours"
+    ],
+    "grammarElementIds": [
+      "sec-ecmascript-language-expressions",
+      "sec-ecmascript-language-statements-and-declarations",
+      "sec-ecmascript-language-functions-and-classes",
+      "sec-ecmascript-language-scripts-and-modules"
+    ],
+    "builtinElementIds": [
+      "sec-global-object",
+      "sec-fundamental-objects",
+      "sec-numbers-and-dates",
+      "sec-text-processing",
+      "sec-indexed-collections",
+      "sec-keyed-collection",
+      "sec-structured-data",
+      "sec-control-abstraction-objects",
+      "sec-reflection",
+      "sec-memory-model"
+    ]
+  }
+}

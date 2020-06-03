@@ -1,4 +1,4 @@
-import { AliasMap } from "./types";
+import { map } from "./types";
 import { Algorithm, Step } from "./algorithm";
 
 // extracting rule
@@ -56,9 +56,6 @@ export interface AlgoRule {
   arrayAlgo: Algorithm;
 }
 
-interface map<T> {
-  [ prop: string ]: T;
-}
 interface GrammarAlgo {
   name: string;
   moreParams: string[];
