@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
 import scala.Console.{ RESET, GREEN }
+import scala.collection.mutable.{ Map => MMap }
 import scala.io.Source
 
 // AlgoStepDiff phase
@@ -18,89 +19,134 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
     unit: Unit,
     jisetConfig: JISETConfig,
     config: AlgoStepDiffConfig
-  ): Unit = {
-    def show(name: String, filter: Algorithm => Boolean): Unit = {
-      println
-      println(s"========================================")
-      println(name)
-      println(s"========================================")
-      var algoMap: Map[String, List[List[Token]]] = Map()
-      var algoMap2: Map[String, List[List[Token]]] = Map()
-      var firstStepMap: Map[String, Boolean] = Map()
-      var firstAlgoMap: Map[String, Boolean] = Map()
-
-      var nextStepMap: Map[String, Boolean] = Map()
-      var nextAlgoMap: Map[String, Boolean] = Map()
-
-      var diffStepMap: Map[String, Boolean] = Map()
-      var diffAlgoMap: Map[String, Boolean] = Map()
-
-      var (apass, atotal, dapass, datotal, spass, stotal, dspass, dstotal) = (0, 0, 0, 0, 0, 0, 0, 0)
-
-      var first: Boolean = true
-      DIFFLIST.foreach((version) => {
-        val algoversionDir = s"$RESOURCE_DIR/$version/auto/algorithm"
-        algoMap2 = Map()
-        nextStepMap = Map()
-        nextAlgoMap = Map()
-        diffStepMap = Map()
-        diffAlgoMap = Map()
-
-        for (file <- walkTree(new File(algoversionDir))) {
-          val filename = file.getName
-          if (jsonFilter(filename)) {
-            val name = file.toString
-            val algo = Algorithm(name)
-            if (filter(algo)) {
-              algoMap2 += algo.filename.split("/").last -> splitAlgo(algo)
-              val diffStepSet = algoMap.get(algo.filename.split("/").last).map((x) => findDiffStepSet(x, splitAlgo(algo))).getOrElse((0 until algo.lineCount).toList)
-              val isDiff = !(diffStepSet.isEmpty)
-              val lineCount = algo.lineCount
-              lazy val compiler = GeneralAlgoCompiler("", algo)
-              lazy val (func, failed) = compiler.result
-              nextAlgoMap += name -> (failed.size == 0)
-              if (isDiff) diffAlgoMap += name -> (failed.size == 0)
-              (0 until lineCount).foreach((k) => {
-                nextStepMap += s"$name$k" -> !(failed contains k)
-                if (diffStepSet contains k) diffStepMap += s"$name$k" -> !(failed contains k)
-              })
-            }
+  ): Unit = DIFFLIST match {
+    case base :: rest =>
+      println("calculating algorithm steps...")
+      val initSt = getState(base)
+      val initRes = getRes(initSt)
+      val (_, res) = rest.foldLeft((initSt, initRes)) {
+        case ((prevSt, prevRes), _version) =>
+          val State(prevVersion, prevAlgoMap, _, _) = prevSt
+          val AllResult(each, diff) = prevRes
+          val st = getState(_version)
+          val version = _version.dropRight(5)
+          val tlb = getTLB(st)
+          val diffLang = MMap[String, Boolean]()
+          val diffBuiltin = MMap[String, Boolean]()
+          for ((name, (algo, failed, _)) <- st.algoMap) {
+            val diffStepMap = if (algo.lang) diffLang else diffBuiltin
+            val diffStepSet = prevAlgoMap
+              .get(name)
+              .map { case (_, _, x) => findDiffStepSet(x, splitAlgo(algo)) }
+              .getOrElse((0 until algo.lineCount).toList)
+            (0 until algo.lineCount).foreach((k) => {
+              if (diffStepSet contains k)
+                diffStepMap += s"$name$k" -> !(failed contains k)
+            })
           }
-        }
-        algoMap = algoMap2
-        firstStepMap = nextStepMap
-        firstAlgoMap = nextAlgoMap
-
-        val (ap, at) = countPass(nextAlgoMap)
-        val (dap, dat) = countPass(diffAlgoMap)
-        val (sp, st) = countPass(nextStepMap)
-        val (dsp, dst) = countPass(diffStepMap)
-
-        apass += ap; atotal += at
-        spass += sp; stotal += st
-        if (!first) {
-          dapass += dap; datotal += dat
-          dspass += dsp; dstotal += dst
-        }
-        first = false
-
-        println(s"$version step: ${getCountString(sp, st)}")
-        println(s"     Δ step: ${getCountString(dsp, dst)}")
-        println(s"----------------------------------------")
-      })
-      println(s"  step: ${getCountString(spass, stotal)}")
-      println(s"Δ step: ${getCountString(dspass, dstotal)}")
-      println(s"========================================")
-    }
-    show("All", x => true)
-    show("Language", _.lang)
-    show("Builtin", !_.lang)
+          val diffVersion = s"$prevVersion-$version"
+          val langRes @ Result(langSucc, langTotal) = countPass(diffLang.toMap)
+          val builtinRes @ Result(builtinSucc, builtinTotal) = countPass(diffBuiltin.toMap)
+          val diffTLB = TLB(
+            Result(langSucc + builtinSucc, langTotal + builtinTotal),
+            langRes,
+            builtinRes
+          )
+          (st, AllResult(each + (version -> tlb), diff + (diffVersion -> diffTLB)))
+      }
+      val (each, diff) = getAverage(res)
+      println("finished")
+      println("========================================")
+      println("ECMAScript each version")
+      println("========================================")
+      for ((version, TLB(all, lang, builtin)) <- res.each) {
+        println(f"${"   "}%-8s Total   : ${getCountString(all)}")
+        println(f"$version%-8s Lang    : ${getCountString(lang)}")
+        println(f"${"   "}%-8s Builtin : ${getCountString(builtin)}")
+        println("----------------------------------------")
+      }
+      println(f"${"    "}%-8s Total   : ${getCountString(each.all)}")
+      println(f"${"avg."}%-8s Lang    : ${getCountString(each.lang)}")
+      println(f"${"    "}%-8s Builtin : ${getCountString(each.builtin)}")
+      println("========================================")
+      println
+      println("========================================")
+      println("ECMAScript update")
+      println("========================================")
+      for ((version, TLB(all, lang, builtin)) <- res.diff) {
+        println(f"${"   "}%-15s Total   : ${getCountString(all)}")
+        println(f"$version%-15s Lang    : ${getCountString(lang)}")
+        println(f"${"   "}%-15s Builtin : ${getCountString(builtin)}")
+        println("----------------------------------------")
+      }
+      println(f"${"    "}%-15s Total   : ${getCountString(diff.all)}")
+      println(f"${"avg."}%-15s Lang    : ${getCountString(diff.lang)}")
+      println(f"${"    "}%-15s Builtin : ${getCountString(diff.builtin)}")
+      println("========================================")
+    case Nil =>
   }
 
-  def countPass[A](k: Map[A, Boolean]): (Int, Int) = (k.filter(_._2).size, k.size)
-  def getCountString(pass: Int, total: Int): String = {
+  case class Result(succ: Int, total: Int)
+  case class TLB(all: Result, lang: Result, builtin: Result)
+  case class AllResult(each: Map[String, TLB], diff: Map[String, TLB])
+  type AlgoMap = Map[String, (Algorithm, Set[Int], List[List[Token]])]
+  type StepMap = Map[String, Boolean]
+  case class State(
+      version: String,
+      algoMap: AlgoMap,
+      lang: StepMap,
+      builtin: StepMap
+  )
+
+  def getAverage(map: Map[String, TLB]): TLB = {
+    val zero = Result(0, 0)
+    map.foldLeft(TLB(zero, zero, zero)) {
+      case (prev, (_, tlb)) => TLB(
+        Result(prev.all.succ + tlb.all.succ, prev.all.total + tlb.all.total),
+        Result(prev.lang.succ + tlb.lang.succ, prev.lang.total + tlb.lang.total),
+        Result(prev.builtin.succ + tlb.builtin.succ, prev.builtin.total + tlb.builtin.total)
+      )
+    }
+  }
+
+  def getAverage(res: AllResult): (TLB, TLB) =
+    (getAverage(res.each), getAverage(res.diff))
+
+  def getState(version: String): State = {
+    val dirName = s"$RESOURCE_DIR/$version/auto/algorithm"
+    val lang = MMap[String, Boolean]()
+    val builtin = MMap[String, Boolean]()
+    val algoMap = MMap[String, (Algorithm, Set[Int], List[List[Token]])]()
+    for (file <- walkTree(new File(dirName)) if jsonFilter(file.getName)) {
+      val name = file.toString
+      val algo = Algorithm(name)
+      val stepMap = if (algo.lang) lang else builtin
+      val lineCount = algo.lineCount
+      lazy val compiler = GeneralAlgoCompiler("", algo)
+      lazy val (func, failed) = compiler.result
+
+      algoMap += algo.filename.split("/").last -> (algo, failed.keySet, splitAlgo(algo))
+      (0 until lineCount).foreach((k) => {
+        stepMap += s"$name$k" -> !(failed contains k)
+      })
+    }
+    State(version.dropRight(5), algoMap.toMap, lang.toMap, builtin.toMap)
+  }
+
+  def getTLB(st: State): TLB = {
+    val State(version, _, lang, builtin) = st
+    val langRes @ Result(langSucc, langTotal) = countPass(lang)
+    val builtinRes @ Result(builtinSucc, builtinTotal) = countPass(builtin)
+    TLB(Result(langSucc + builtinSucc, langTotal + builtinTotal), langRes, builtinRes)
+  }
+  def getRes(st: State): AllResult = {
+    AllResult(Map(st.version -> getTLB(st)), Map())
+  }
+  def countPass[A](k: Map[A, Boolean]): Result = Result(k.filter(_._2).size, k.size)
+  def getCountString(res: Result): String = {
+    val Result(pass, total) = res
     val rate = pass.toDouble / total.toDouble * 100
-    f"$GREEN[$rate%2.2f%%]$RESET $pass / $total"
+    f"$pass / $total $GREEN($rate%2.2f%%)$RESET"
   }
 
   def splitAlgo(algo: Algorithm): List[List[Token]] = (for {
@@ -111,7 +157,7 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
   }.reverse)
 
   case class Memoized[A1, A2, B](f: (A1, A2) => B) extends ((A1, A2) => B) {
-    val cache = scala.collection.mutable.Map.empty[(A1, A2), B]
+    val cache = MMap.empty[(A1, A2), B]
     def apply(x: A1, y: A2) = cache.getOrElseUpdate((x, y), f(x, y))
   }
 
