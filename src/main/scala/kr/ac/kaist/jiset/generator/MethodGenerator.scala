@@ -30,7 +30,6 @@ object MethodGenerator {
       val TRIPLE = "\"\"\""
       nf.println(s"""package $packageName.model""")
       nf.println(s"""""")
-      nf.println(s"""import $packageName.Algorithm""")
       nf.println(s"""import $packageName.ir._""")
       nf.println(s"""import $packageName.ir.Parser._""")
       nf.println(s"""""")

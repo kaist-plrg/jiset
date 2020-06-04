@@ -24,6 +24,8 @@ object ModelGenerator {
     val grammar = spec.grammar
     val tys = spec.tys
 
+    AlgoGenerator(packageName, modelDir, spec)
+
     List(
       "BaseGlobal",
       "BaseHeap",
@@ -56,7 +58,6 @@ object ModelGenerator {
         val nf = getPrintWriter(s"$modelDir/algorithm/$filename")
         nf.println(s"package $packageName.model")
         nf.println
-        nf.println(s"import $packageName.Algorithm")
         nf.println(s"import $packageName.ir._")
         nf.println(s"import $packageName.ir.Parser._")
         nf.println
