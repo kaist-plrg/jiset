@@ -1,7 +1,7 @@
 object ToObject extends Algorithm {
   val length: Int = 1
   val lang: Boolean = true
-  val func: Func = parseFunc(""""ToObject" (argument) => {
+  val func: Func = FixUIdWalker(parseFunc(""""ToObject" (argument) => {
     app atype = (Type argument)
     if (= atype "Undefined") {
       return (new Completion (
@@ -59,5 +59,5 @@ object ToObject extends Algorithm {
     } else {
       return argument
     }
-  }""")
+  }"""))
 }

@@ -1,7 +1,7 @@
 object EnumerateObjectPropertiesHelper extends Algorithm {
   val length: Int = 0
   val lang: Boolean = true
-  val func: Func = parseFunc(""""EnumerateObjectPropertiesHelper" ( O , listAll, listEnum ) => {
+  val func: Func = FixUIdWalker(parseFunc(""""EnumerateObjectPropertiesHelper" ( O , listAll, listEnum ) => {
     app a = (O.OwnPropertyKeys O)
     let __x0__ = 0i
     while (< __x0__ a.length) {
@@ -22,5 +22,5 @@ object EnumerateObjectPropertiesHelper extends Algorithm {
       app __x1__ = (EnumerateObjectPropertiesHelper proto listAll listEnum)
       return __x1__
     }
-  }""")
+  }"""))
 }

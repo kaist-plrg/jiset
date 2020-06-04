@@ -26,7 +26,8 @@ object AlgoGenerator {
     nf.println(s"}")
     nf.println
     nf.println(s"object Algorithm {")
-    nf.println(s"  lazy val getAll: List[Algorithm] = List(")
+    nf.println(s"  lazy val languages: List[Algorithm] = all.filter(_.lang)")
+    nf.println(s"  lazy val all: List[Algorithm] = List(")
     nf.println(allList.map("    " + _).mkString("," + LINE_SEP))
     nf.println(s"  )")
     nf.println(s"}")

@@ -1,7 +1,7 @@
 object HostPrint extends Algorithm {
   val length: Int = 0
   val lang: Boolean = false
-  val func: Func = parseFunc(""""HostPrint" (this, argumentsList, NewTarget) => {
+  val func: Func = FixUIdWalker(parseFunc(""""HostPrint" (this, argumentsList, NewTarget) => {
     app __x0__ = (GetArgument argumentsList 0i)
     let str = __x0__
     app __x1__ = (ToString str)
@@ -13,5 +13,5 @@ object HostPrint extends Algorithm {
       REALM.printStr = (+ REALM.printStr str)
     }
     return undefined
-  }""")
+  }"""))
 }

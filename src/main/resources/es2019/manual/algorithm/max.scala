@@ -1,7 +1,7 @@
 object max extends Algorithm {
   val length: Int = 0
   val lang: Boolean = false
-  val func: Func = parseFunc(""""max" (...args) => {
+  val func: Func = FixUIdWalker(parseFunc(""""max" (...args) => {
     let x = 1i
     let len = args.length
     let res = args[0i]
@@ -12,5 +12,5 @@ object max extends Algorithm {
       x = (+ x 1i)
     }
     return res
-  }""")
+  }"""))
 }

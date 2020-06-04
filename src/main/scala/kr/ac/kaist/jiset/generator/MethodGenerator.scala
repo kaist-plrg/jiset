@@ -36,7 +36,7 @@ object MethodGenerator {
       nf.println(s"""object $scalaName extends Algorithm {""")
       nf.println(s"""  val length: Int = $len""")
       nf.println(s"""  val lang: Boolean = $lang""")
-      nf.println(s"""  val func: Func = parseFunc($TRIPLE${beautify(func, "  ")}$TRIPLE)""")
+      nf.println(s"""  val func: Func = FixUIdWalker(parseFunc($TRIPLE${beautify(func, "  ")}$TRIPLE))""")
       nf.println(s"""}""")
       nf.close()
     }
