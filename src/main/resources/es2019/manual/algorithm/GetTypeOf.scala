@@ -1,4 +1,6 @@
-object GetTypeOf {
+object GetTypeOf extends Algorithm {
+  val length: Int = 0
+  val lang: Boolean = false
   val func: Func = parseFunc(""""GetTypeOf" (argument) => {
     let t = (typeof argument)
     if (= t "Undefined") return "undefined"

@@ -30,10 +30,11 @@ object MethodGenerator {
       val TRIPLE = "\"\"\""
       nf.println(s"""package $packageName.model""")
       nf.println(s"""""")
+      nf.println(s"""import $packageName.Algorithm""")
       nf.println(s"""import $packageName.ir._""")
       nf.println(s"""import $packageName.ir.Parser._""")
       nf.println(s"""""")
-      nf.println(s"""object $scalaName {""")
+      nf.println(s"""object $scalaName extends Algorithm {""")
       nf.println(s"""  val length: Int = $len""")
       nf.println(s"""  val lang: Boolean = $lang""")
       nf.println(s"""  val func: Func = parseFunc($TRIPLE${beautify(func, "  ")}$TRIPLE)""")

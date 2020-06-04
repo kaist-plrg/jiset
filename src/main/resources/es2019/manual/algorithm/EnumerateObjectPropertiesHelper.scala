@@ -1,4 +1,6 @@
-object EnumerateObjectPropertiesHelper {
+object EnumerateObjectPropertiesHelper extends Algorithm {
+  val length: Int = 0
+  val lang: Boolean = true
   val func: Func = parseFunc(""""EnumerateObjectPropertiesHelper" ( O , listAll, listEnum ) => {
     app a = (O.OwnPropertyKeys O)
     let __x0__ = 0i

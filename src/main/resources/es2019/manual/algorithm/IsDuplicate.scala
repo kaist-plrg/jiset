@@ -1,4 +1,6 @@
-object IsDuplicate {
+object IsDuplicate extends Algorithm {
+  val length: Int = 1
+  val lang: Boolean = false
   val func: Func = parseFunc(""""IsDuplicate" (list) => {
     let i = 0i
     let len = list.length

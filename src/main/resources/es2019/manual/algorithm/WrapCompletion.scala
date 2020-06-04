@@ -1,10 +1,12 @@
-object WrapCompletion {
-  val func: Func = Func("WrapCompletion", List(Id("val")), None, parseInst(
-    s"""if (is-completion val) {
-        return val
+object WrapCompletion extends Algorithm {
+  val length: Int = 1
+  val lang: Boolean = false
+  val func: Func = parseFunc(""""WrapCompletion" (val) => {
+    if (is-completion val) {
+      return val
     } else {
       app completion = (NormalCompletion val)
       return completion
-    } """
-  ))
+    }
+  }""")
 }

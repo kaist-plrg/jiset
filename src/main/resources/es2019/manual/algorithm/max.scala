@@ -1,4 +1,6 @@
-object max {
+object max extends Algorithm {
+  val length: Int = 0
+  val lang: Boolean = false
   val func: Func = parseFunc(""""max" (...args) => {
     let x = 1i
     let len = args.length
