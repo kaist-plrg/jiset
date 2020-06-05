@@ -1,4 +1,5 @@
 object ToBoolean extends Algorithm {
+  val name: String = "ToBoolean"
   val length: Int = 1
   val lang: Boolean = true
   val func: Func = FixUIdWalker(parseFunc(""""ToBoolean" (argument) => {
@@ -20,5 +21,5 @@ object ToBoolean extends Algorithm {
     } else {
       return true
     }
-  }"""))
+  }"""), this)
 }

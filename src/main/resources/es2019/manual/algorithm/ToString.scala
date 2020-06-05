@@ -1,4 +1,5 @@
 object ToString extends Algorithm {
+  val name: String = "ToString"
   val length: Int = 1
   val lang: Boolean = true
   val func: Func = FixUIdWalker(parseFunc(""""ToString" (argument) => {
@@ -33,5 +34,5 @@ object ToString extends Algorithm {
       } else {}
       return __x1__
     }
-  }"""))
+  }"""), this)
 }

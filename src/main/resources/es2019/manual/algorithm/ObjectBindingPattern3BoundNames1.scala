@@ -1,4 +1,5 @@
 object ObjectBindingPattern3BoundNames1 extends Algorithm {
+  val name: String = "ObjectBindingPattern3BoundNames1"
   val length: Int = 0
   val lang: Boolean = true
   val func: Func = FixUIdWalker(parseFunc(""""ObjectBindingPattern3BoundNames1" (this, BindingPropertyList, BindingRestProperty) => {
@@ -13,5 +14,5 @@ object ObjectBindingPattern3BoundNames1 extends Algorithm {
       __x3__ = (+ __x3__ 1i)
     }
     return names
-  }"""))
+  }"""), this)
 }

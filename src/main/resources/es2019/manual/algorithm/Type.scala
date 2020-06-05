@@ -1,4 +1,5 @@
 object Type extends Algorithm {
+  val name: String = "Type"
   val length: Int = 1
   val lang: Boolean = false
   val func: Func = FixUIdWalker(parseFunc(""""Type" (argument) => {
@@ -15,5 +16,5 @@ object Type extends Algorithm {
       (|| (= t "ProxyExoticObject")
       (= t "StringExoticObject"))))))))))) return "Object"
     else return t
-  }"""))
+  }"""), this)
 }

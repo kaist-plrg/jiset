@@ -1,4 +1,5 @@
 object EnumerateObjectPropertiesHelper extends Algorithm {
+  val name: String = "EnumerateObjectPropertiesHelper"
   val length: Int = 0
   val lang: Boolean = true
   val func: Func = FixUIdWalker(parseFunc(""""EnumerateObjectPropertiesHelper" ( O , listAll, listEnum ) => {
@@ -22,5 +23,5 @@ object EnumerateObjectPropertiesHelper extends Algorithm {
       app __x1__ = (EnumerateObjectPropertiesHelper proto listAll listEnum)
       return __x1__
     }
-  }"""))
+  }"""), this)
 }

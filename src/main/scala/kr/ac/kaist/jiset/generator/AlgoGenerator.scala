@@ -20,6 +20,7 @@ object AlgoGenerator {
     nf.println(s"import $packageName.ir.Func")
     nf.println
     nf.println(s"trait Algorithm {")
+    nf.println(s"  val name: String")
     nf.println(s"  val length: Int")
     nf.println(s"  val lang: Boolean")
     nf.println(s"  val func: Func")

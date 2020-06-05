@@ -1,4 +1,5 @@
 object GetTypeOf extends Algorithm {
+  val name: String = "GetTypeOf"
   val length: Int = 0
   val lang: Boolean = false
   val func: Func = FixUIdWalker(parseFunc(""""GetTypeOf" (argument) => {
@@ -13,5 +14,5 @@ object GetTypeOf extends Algorithm {
       if (= argument.Call absent) return "object"
       else return "function"
     }
-  }"""))
+  }"""), this)
 }

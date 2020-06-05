@@ -1,4 +1,5 @@
 object MulOperation extends Algorithm {
+  val name: String = "MulOperation"
   val length: Int = 3
   val lang: Boolean = true
   val func: Func = FixUIdWalker(parseFunc(""""MulOperation" (op, lnum, rnum) => {
@@ -11,5 +12,5 @@ object MulOperation extends Algorithm {
     } else {
       return undefined
     }
-  }"""))
+  }"""), this)
 }

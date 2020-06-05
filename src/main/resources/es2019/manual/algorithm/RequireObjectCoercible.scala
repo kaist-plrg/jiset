@@ -1,4 +1,5 @@
 object RequireObjectCoercible extends Algorithm {
+  val name: String = "RequireObjectCoercible"
   val length: Int = 1
   val lang: Boolean = true
   val func: Func = FixUIdWalker(parseFunc(""""RequireObjectCoercible" (argument) => {
@@ -15,5 +16,5 @@ object RequireObjectCoercible extends Algorithm {
     } else {
       return argument
     }
-  }"""))
+  }"""), this)
 }
