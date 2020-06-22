@@ -22,7 +22,7 @@ package object jiset {
   val CUR_DIR = System.getProperty("user.dir")
 
   // ECMAScript model
-  val VERSION = "es2019"
+  val VERSION = "es2020"
 
   val DIFFLIST = List("es2016_eval", "es2017_eval", "es2018_eval", "es2019_eval")
 

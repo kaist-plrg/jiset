@@ -1,0 +1,256 @@
+{
+  "grammar": {
+    "sections": [
+      "sec-lexical-grammar",
+      "sec-expressions",
+      "sec-statements",
+      "sec-functions-and-classes",
+      "sec-scripts-and-modules"
+    ],
+    "excludes": [
+      "WhiteSpace",
+      "LineTerminator",
+      "LineTerminatorSequence",
+      "Comment"
+    ],
+    "replaceRules": {
+      "[empty]": "EmptyToken",
+      "[no LineTerminator here]": "NoLineTerminatorToken",
+      "any Unicode code point": "UnicodeAny",
+      "any Unicode code point with the Unicode property “ID_Start”": "UnicodeIdStart",
+      "any Unicode code point with the Unicode property &ldquo;ID_Start&rdquo;": "UnicodeIdStart",
+      "any Unicode code point with the Unicode property “ID_Continue”": "UnicodeIdContinue",
+      "any Unicode code point with the Unicode property &ldquo;ID_Continue&rdquo;": "UnicodeIdContinue"
+    },
+    "lookahead": {
+      "hint": "[lookahead ",
+      "opPos": 11,
+      "contains": {
+        "≠": false,
+        "∉": false,
+        "=": true,
+        "∈": true
+      }
+    },
+    "unicode": {
+      "hint": "<",
+      "hint2": ">"
+    }
+  },
+  "intrinsics": {
+    "table": "table-7"
+  },
+  "symbols": {
+    "table": "table-1"
+  },
+  "algorithm": {
+    "sections": [
+      "await"
+    ]
+  },
+  "tyRule": {
+    "DeclarativeEnvironmentRecord": {
+      "id": "sec-declarative-environment-records",
+      "children": {
+        "FunctionEnvironmentRecord": "sec-function-environment-records",
+        "ModuleEnvironmentRecord": "sec-module-environment-records"
+      }
+    },
+    "ObjectEnvironmentRecord": "sec-object-environment-records",
+    "GlobalEnvironmentRecord": "sec-global-environment-records",
+    "OrdinaryObject": {
+      "id": "sec-ordinary-object-internal-methods-and-internal-slots",
+      "prefix": "[[",
+      "thisName": "O",
+      "children": {
+        "ECMAScriptFunctionObject": {
+          "id": "sec-ecmascript-function-objects",
+          "thisName": "F"
+        },
+        "BuiltinFunctionObject": {
+          "id": "sec-built-in-function-objects",
+          "thisName": "F"
+        },
+        "BoundFunctionExoticObject": {
+          "id": "sec-bound-function-exotic-objects",
+          "thisName": "F"
+        },
+        "ArrayExoticObject": {
+          "id": "sec-array-exotic-objects",
+          "thisName": "A"
+        },
+        "StringExoticObject": {
+          "id": "sec-string-exotic-objects",
+          "thisName": "S"
+        },
+        "ArgumentsExoticObject": {
+          "id": "sec-arguments-exotic-objects",
+          "thisName": "args"
+        },
+        "IntegerIndexedExoticObject": "sec-integer-indexed-exotic-objects",
+        "ModuleNamespaceExoticObject": "sec-module-namespace-exotic-objects",
+        "ImmutablePrototypeExoticObject": "sec-immutable-prototype-exotic-objects",
+        "ProxyExoticObject": "sec-proxy-object-internal-methods-and-internal-slots"
+      }
+    }
+  },
+  "algoRule": {
+    "replacePrefix": {
+      "GLOBAL.Generator.prototype.": "GLOBAL.INTRINSIC_GeneratorPrototype.",
+      "GLOBAL.AsyncGenerator.prototype.": "GLOBAL.INTRINSIC_AsyncGeneratorPrototype."
+    },
+    "replaceGrammarAlgo": {
+      "StatementRules": {
+        "name": "HasCallInTailPosition",
+        "moreParams": [ "call" ]
+      },
+      "ExpressionRules": {
+        "name": "HasCallInTailPosition",
+        "moreParams": [ "call" ]
+      }
+    },
+    "replaceParams": {
+      "Identifier0StringValue0": ["this", "IdentifierName"],
+      "ListIteratornext": ["this"],
+      "AbstractEqualityComparison": ["x", "y"],
+      "StrictEqualityComparison": ["x", "y"],
+      "StringExoticObject.OwnPropertyKeys": ["O"],
+      "AbstractRelationalComparison": ["x","y","LeftFirst"],
+      "ArrayBindingPattern0BoundNames0": ["this"],
+      "ArrayBindingPattern2BoundNames0": ["this", "BindingElementList"],
+      "BindingIdentifier0IteratorBindingInitialization0": ["BindingIdentifier", "_", "iteratorRecord", "environment"],
+      "BindingIdentifier1IteratorBindingInitialization0": ["BindingIdentifier", "iteratorRecord", "environment"],
+      "BindingIdentifier2IteratorBindingInitialization0": ["BindingIdentifier", "iteratorRecord", "environment"],
+      "BuiltinFunctionObject.Construct": ["F","argumentsList","newTarget"]
+    },
+    "preSteps": {
+      "AbstractRelationalComparison": [
+        { "tokens": ["If", {"id": "LeftFirst"}, "is", "not", "present", ",", "let", {"id": "LeftFirst"}, "be", {"value":"true"}, "."] }
+      ]
+    },
+    "replaceSteps": {
+      "BuiltinFunctionObject.Construct": [
+        {
+          "idxList": [9],
+          "item": ["Let", {"id": "result"}, "be", "the", "Completion", "Record", "that", "is", "the", "result", "of", "evaluating", {"id": "F"}, "in", "an", "implementation", "-", "defined", "manner", "that", "conforms", "to", "the", "specification", "of", {"id": "F"}, ".", "The", {"value": "this"}, "value", "is", "uninitialized", ",", {"id": "argumentsList"}, "provides", "the", "named", "parameters", ",", "and", {"id": "newTarget"}, "provides", "the", "NewTarget", "value", "."]
+        }
+      ],
+      "AsyncFunctionStart": [
+        {
+          "idxList": [2, 24, 6],
+          "item": ["ReturnCont", "."]
+        }
+      ],
+      "AsyncGeneratorStart": [
+        {
+          "idxList": [4, 24, 5, 2, 1, 13, 0],
+          "item": ["ReturnCont","!","AsyncGeneratorReject","(",{"id":"generator"},",",{"id":"resultValue"},")","."]
+        },
+        {
+          "idxList": [4, 24, 6],
+          "item": ["ReturnCont","!","AsyncGeneratorResolve","(",{"id":"generator"},",",{"id":"resultValue"},",",{"value":"true"},")","."]
+        }
+      ],
+      "AsyncGeneratorYield": [
+        {
+          "idxList": [8],
+          "item": ["ReturnCont", {"id": "genContext"}, ".", "[", "[", "ReturnCont", "]", "]", "to", "!", "AsyncGeneratorResolve", "(", {"id": "generator"}, ",", {"id": "value"}, ",", {"value": "false"}, ")", "."]
+        }
+      ],
+      "GeneratorYield": [
+        {
+          "idxList": [8],
+          "item": ["ReturnCont", {"id": "genContext"}, ".", "[", "[", "ReturnCont", "]", "]", "to", "NormalCompletion", "(", {"id": "iterNextObj"}, ")", "."]
+        }
+      ],
+      "GeneratorStart": [
+        {
+          "idxList": [3, 24, 7, 2, 1],
+          "item": ["ReturnCont","Completion","(",{"id":"result"},")","."]
+        },
+        {
+          "idxList": [3, 24, 8],
+          "item": ["ReturnCont","CreateIterResultObject","(",{"id":"resultValue"},",",{"value":"true"},")","."]
+        }
+      ]
+    },
+    "replaceLength": {
+      "GLOBAL.Array.prototype.push": 1,
+      "GLOBAL.Array.prototype.concat": 1,
+      "GLOBAL.Array.prototype.unshift": 1,
+      "GLOBAL.Number.prototype.toString": 1,
+      "GLOBAL.String.fromCodePoint": 1,
+      "GLOBAL.String.prototype.concat": 1,
+      "GLOBAL.String.fromCharCode": 1,
+      "GLOBAL.Object.assign": 2
+    },
+    "forwards": {
+      "ArrayBindingPattern0BoundNames2": [ "ArrayBindingPattern0BoundNames0" ],
+      "ArrayBindingPattern2BoundNames2": [ "ArrayBindingPattern2BoundNames0" ],
+      "ArrowParameters0IteratorBindingInitialization0": [
+        "BindingIdentifier0IteratorBindingInitialization0",
+        "BindingIdentifier1IteratorBindingInitialization0",
+        "BindingIdentifier2IteratorBindingInitialization0"
+      ],
+      "CoverParenthesizedExpressionAndArrowParameterList0CoveredFormalsList0": [ "CoverParenthesizedExpressionAndArrowParameterList1CoveredFormalsList0" ],
+      "MemberExpression1Evaluation0": [ "CallExpression3Evaluation0" ],
+      "MemberExpression2Evaluation0": [ "CallExpression4Evaluation0" ],
+      "BuiltinFunctionObject.Call": [ "BuiltinFunctionObject.Construct" ]
+    },
+    "ignores": [
+      "GLOBAL.Array.prototype.sort",
+      "GLOBAL.IfAbruptRejectPromise",
+      "SortCompare"
+    ],
+    "globalElementIds": [
+      "await",
+      "sec-updateempty",
+      "sec-reference-specification-type",
+      "sec-property-descriptor-specification-type",
+      "sec-data-blocks",
+      "sec-abstract-operations",
+      "sec-lexical-environment-operations",
+      "sec-code-realms",
+      "sec-execution-contexts",
+      "sec-jobs-and-job-queues",
+      "sec-initializehostdefinedrealm",
+      "sec-runjobs",
+      "sec-agents",
+      "sec-source-text",
+      "sec-flattenintoarray",
+      "sec-add-entries-from-iterable",
+      "sec-async-from-sync-iterator-objects",
+      "sec-generator-abstract-operations",
+      "sec-asyncgenerator-abstract-operations",
+      "sec-promise-abstract-operations",
+      "sec-promise-jobs",
+      "sec-promise-resolve",
+      "sec-performpromisethen",
+      "sec-async-functions-abstract-operations"
+    ],
+    "grammarElementIds": [
+      "sec-ecmascript-language-expressions",
+      "sec-ecmascript-language-statements-and-declarations",
+      "sec-ecmascript-language-functions-and-classes",
+      "sec-scripts"
+    ],
+    "builtinElementIds": [
+      "await",
+      "sec-global-object",
+      "sec-object-objects",
+      "sec-function-objects",
+      "sec-boolean-objects",
+      "sec-symbol-objects",
+      "sec-error-objects",
+      "sec-number-objects",
+      "sec-string-objects",
+      "sec-array-objects",
+      "sec-map-objects",
+      "sec-set-objects",
+      "sec-weakmap-objects",
+      "sec-weakset-objects",
+      "sec-control-abstraction-objects"
+    ],
+    "arrayCount": 0
+  }
+}

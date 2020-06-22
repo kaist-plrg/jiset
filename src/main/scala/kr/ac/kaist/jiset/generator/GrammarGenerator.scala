@@ -10,5 +10,6 @@ object GrammarGenerator {
     if (VERSION == "es2019" && ambiguousIfStatement) patchAmbiguousIfStatement(grammar)
     ASTGenerator(packageName, modelDir, grammar)
     ParserGenerator(packageName, modelDir, grammar)
+    SamplerGenerator(packageName, modelDir, grammar)
   }
 }
