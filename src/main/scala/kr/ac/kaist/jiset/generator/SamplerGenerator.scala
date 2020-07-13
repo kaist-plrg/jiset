@@ -75,7 +75,7 @@ object SamplerGenerator {
     nf.println(s"""  val counter = DepthCounter""")
     nf.println(s"""  val random = new scala.util.Random""")
     nf.println(s"""  def choose[T](seq: Seq[() => T]): T = seq(random.nextInt(seq.length))()""")
-    nf.println(s"""  def opt[T](valid: Boolean, elem: T): Option[T] = if (valid && random.nextBoolean) Some(elem) else None""")
+    nf.println(s"""  def opt[T](valid: Boolean, elem: => T): Option[T] = if (valid && random.nextBoolean) Some(elem) else None""")
     nf.println(s"""  def IdentifierName(depth: Int): Lexical = Lexical("IdentifierName", (random.nextInt(26) + 'a').toChar.toString)""")
     nf.println(s"""  def RegularExpressionLiteral(depth: Int): Lexical = Lexical("RegularExpressionLiteral", "/x/g")""")
     nf.println(s"""  def NullLiteral(depth: Int): Lexical = Lexical("NullLiteral", "null")""")
