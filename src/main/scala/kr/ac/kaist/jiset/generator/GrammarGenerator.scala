@@ -11,5 +11,6 @@ object GrammarGenerator {
     ASTGenerator(packageName, modelDir, grammar)
     ParserGenerator(packageName, modelDir, grammar)
     SamplerGenerator(packageName, modelDir, grammar)
+    DepthCounter(grammar).generate(packageName, modelDir)
   }
 }

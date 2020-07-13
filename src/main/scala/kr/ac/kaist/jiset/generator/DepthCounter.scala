@@ -27,6 +27,50 @@ case class DepthCounter(grammar: Grammar) {
     println(s"[$prod($paramStr)] -> $d")
   }
 
+  // synthesize Scala file for modeling
+  def generate(packageName: String, modelDir: String): Unit = {
+    val nf = getPrintWriter(s"$modelDir/DepthCounter.scala")
+
+    def getLexicalCounter(prod: Production): Unit = {
+      val name = prod.lhs.name
+      nf.println(s"""  val $name = 0""")
+    }
+
+    def getDepthCounter(prod: Production): Unit = {
+      val Production(lhs, rhsList) = prod
+      val Lhs(name, rawParams) = lhs
+      val params = rawParams.map("p" + _)
+      val paramsStr = params.map(_ + ": Boolean").mkString(", ")
+
+      val partialDepthMap = depth.filter { case ((prodName, _), _) => prodName == name }
+
+      nf.println(s"""  def $name($paramsStr): Option[Int] = {""")
+      partialDepthMap.foreach {
+        case ((_, ps), d) => {
+          if (rawParams.length > 0) {
+            val conds = rawParams.map((rp: String) => if (ps.contains(rp)) s"p$rp == true" else s"p$rp == false")
+            val ifCond = conds.mkString(" && ")
+            nf.println(s"""    if( $ifCond ) Some($d)""")
+          } else nf.println(s"""    Some($d)""")
+        }
+      }
+      if (rawParams.length > 0) nf.println(s"""    None""")
+      nf.println(s"""  }""")
+    }
+
+    nf.println(s"""package $packageName.model""")
+    nf.println
+    nf.println(s"""import $packageName.Lexical""")
+    nf.println(s"""import $packageName.ir._""")
+    nf.println
+    nf.println(s"""object DepthCounter {""")
+    lexProds.foreach(getLexicalCounter)
+    prods.foreach(getDepthCounter)
+    nf.println(s"""}""")
+
+    nf.close()
+  }
+
   ////////////////////////////////////////////////////////////////////////////////
   // Private Helperes
   ////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +87,6 @@ case class DepthCounter(grammar: Grammar) {
         case None => queue.enqueue((prod, params))
       }
     }
-    println(_depth)
   }
 
   // minimum depth for right-hand-sides
