@@ -31,11 +31,6 @@ case class DepthCounter(grammar: Grammar) {
   def generate(packageName: String, modelDir: String): Unit = {
     val nf = getPrintWriter(s"$modelDir/DepthCounter.scala")
 
-    def getLexicalCounter(prod: Production): Unit = {
-      val name = prod.lhs.name
-      nf.println(s"""  val $name = 0""")
-    }
-
     def getDepthCounter(prod: Production): Unit = {
       val Production(lhs, rhsList) = prod
       val Lhs(name, rawParams) = lhs
@@ -44,17 +39,15 @@ case class DepthCounter(grammar: Grammar) {
 
       val partialDepthMap = depth.filter { case ((prodName, _), _) => prodName == name }
 
-      nf.println(s"""  def $name($paramsStr): Option[Int] = {""")
+      nf.println(s"""  def $name($paramsStr): Depth = (${params.mkString(", ")}) match {""")
       partialDepthMap.foreach {
-        case ((_, ps), d) => {
-          if (rawParams.length > 0) {
-            val conds = rawParams.map((rp: String) => if (ps.contains(rp)) s"p$rp == true" else s"p$rp == false")
-            val ifCond = conds.mkString(" && ")
-            nf.println(s"""    if( $ifCond ) Some($d)""")
-          } else nf.println(s"""    Some($d)""")
+        case (pair @ (_, ps), d) => {
+          val conds = rawParams.map(rp => if (ps.contains(rp)) s"true" else s"false")
+          val cond = conds.mkString("(", ", ", ")")
+          val rhsD = rhsDepth(pair)
+          nf.println(s"""    case $cond => Depth($d, $rhsD)""")
         }
       }
-      if (rawParams.length > 0) nf.println(s"""    None""")
       nf.println(s"""  }""")
     }
 
@@ -63,8 +56,9 @@ case class DepthCounter(grammar: Grammar) {
     nf.println(s"""import $packageName.Lexical""")
     nf.println(s"""import $packageName.ir._""")
     nf.println
+    nf.println(s"""case class Depth(depth: Int, rhsDepth: List[Option[Int]])""")
     nf.println(s"""object DepthCounter {""")
-    lexProds.foreach(getLexicalCounter)
+    // TODO base cases
     prods.foreach(getDepthCounter)
     nf.println(s"""}""")
 
@@ -146,18 +140,11 @@ case class DepthCounter(grammar: Grammar) {
   // get depth of Rhs
   private def getDepth(rhs: Rhs, params: Set[String]): Option[Int] = {
     val depths = rhs.tokens.flatMap((t: Token) => getDepth(t, params))
-
     if (depths.length == rhs.tokens.length) {
       val d = depths.reduceOption(_ max _)
       // if rhs is single nonterminal, then do not increase depth
       // other wise increase depth by 1
-      rhs.tokens.headOption match {
-        case Some(t) => t match {
-          case NonTerminal(_, _, _) if rhs.tokens.length == 1 => d
-          case _ => d.map(_ + 1)
-        }
-        case None => d
-      }
+      if (rhs.isSingleNT) d else d.map(_ + 1)
     } else None
   }
 

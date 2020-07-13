@@ -24,7 +24,13 @@ case class Lhs(
 case class Rhs(
     var tokens: List[Token],
     var cond: String
-)
+) {
+  // check whehter if tokens is a single nonterminal
+  def isSingleNT: Boolean = tokens match {
+    case List(_: NonTerminal) => true
+    case _ => false
+  }
+}
 
 // tokens
 trait Token
