@@ -74,7 +74,7 @@ object SamplerGenerator {
     nf.println(s"""import $packageName.Lexical""")
     nf.println(s"""import $packageName.ir._""")
     nf.println
-    nf.println(s"""object Sampler {""")
+    nf.println(s"""class Sampler {""")
     nf.println(s"""  val counter = DepthCounter""")
     nf.println(s"""  val random = new scala.util.Random""")
     nf.println(s"""  def choose[T](seq: Seq[() => T]): T = seq(random.nextInt(seq.length))()""")
