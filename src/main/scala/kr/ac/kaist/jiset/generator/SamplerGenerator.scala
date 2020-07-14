@@ -9,6 +9,7 @@ object SamplerGenerator {
   def apply(packageName: String, modelDir: String, grammar: Grammar, debug: Boolean = false): Unit = {
     val nf = getPrintWriter(s"$modelDir/Sampler.scala")
     val Grammar(lexProds, prods) = grammar
+    val targetProds = prods.filter(!_.lhs.isModuleNT)
 
     def getSampler(prod: Production): Unit = {
       val Production(lhs, rhsList) = prod
@@ -26,15 +27,17 @@ object SamplerGenerator {
     }
 
     def getCandidates(name: String, bs: List[String], rhs: Rhs, idx: Int): Unit = {
-      val Rhs(tokens, cond) = rhs
-      val nextDepth = "depth" + (if (rhs.isSingleNT) "" else " - 1")
-      val astName = s"$name$idx"
-      val params = tokens.flatMap(tokenSampler(nextDepth, _)).map(_ + ", ").mkString
-      val bsstr = bs.mkString(", ")
-      var sampler = s"$astName(${params}List($bsstr))"
-      nf.print("    ")
-      if (cond != "") nf.print(s"if ($cond) ")
-      nf.println(s"""rhsDepth($idx).collect { case d if depth >= d => candidates :+= { () => $sampler } }""")
+      if (!rhs.isModuleNT) {
+        val Rhs(tokens, cond) = rhs
+        val nextDepth = "depth" + (if (rhs.isSingleNT) "" else " - 1")
+        val astName = s"$name$idx"
+        val params = tokens.flatMap(tokenSampler(nextDepth, _)).map(_ + ", ").mkString
+        val bsstr = bs.mkString(", ")
+        var sampler = s"$astName(${params}List($bsstr))"
+        nf.print("    ")
+        if (cond != "") nf.print(s"if ($cond) ")
+        nf.println(s"""rhsDepth($idx).collect { case d if depth >= d => candidates :+= { () => $sampler } }""")
+      }
     }
 
     lazy val paramMap: Map[String, List[String]] =
@@ -86,7 +89,7 @@ object SamplerGenerator {
     nf.println(s"""  def TemplateHead(depth: Int): Lexical = Lexical("StringLiteral", "`$${")""")
     nf.println(s"""  def TemplateMiddle(depth: Int): Lexical = Lexical("StringLiteral", "}$${")""")
     nf.println(s"""  def TemplateTail(depth: Int): Lexical = Lexical("StringLiteral", "}`")""")
-    prods.foreach(getSampler)
+    targetProds.foreach(getSampler)
     nf.println(s"""}""")
     nf.close()
   }

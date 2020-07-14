@@ -8,6 +8,12 @@ case class Grammar(
     var prods: List[Production]
 )
 
+// ECMAScript grammar helper
+object GrammarHelper {
+  private val moduleNT: Set[String] = Set("ImportCall", "ImportMeta", "Script", "ScriptBody", "Module", "ModuleBody", "ModuleItemList", "ModuleItem", "ImportDeclaration", "ImportClause", "ImportedDefaultBinding", "NameSpaceImport", "NamedImports", "FromClause", "ImportsList", "ImportSpecifier", "ModuleSpecifier", "ImportedBinding", "ExportDeclaration", "ExportFromClause", "NamedExports", "ExportsList", "ExportsSpecifier")
+  def isModuleNT(name: String): Boolean = moduleNT contains name
+}
+
 // productions
 case class Production(
     var lhs: Lhs,
@@ -18,7 +24,9 @@ case class Production(
 case class Lhs(
     var name: String,
     var params: List[String]
-)
+) {
+  def isModuleNT: Boolean = GrammarHelper.isModuleNT(name)
+}
 
 // right-hand-sides
 case class Rhs(
@@ -29,6 +37,12 @@ case class Rhs(
   def isSingleNT: Boolean = tokens match {
     case List(_: NonTerminal) => true
     case _ => false
+  }
+  def isModuleNT: Boolean = tokens.foldLeft(false) {
+    case (b, t) => t match {
+      case NonTerminal(name, _, _) => b || GrammarHelper.isModuleNT(name)
+      case _ => b
+    }
   }
 }
 

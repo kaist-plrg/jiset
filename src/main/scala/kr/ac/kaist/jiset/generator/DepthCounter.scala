@@ -9,6 +9,7 @@ import collection.mutable.Queue
 case class DepthCounter(grammar: Grammar) {
   // initialization
   private val Grammar(lexProds, prods) = grammar
+  private val targetProds = prods.filter(!_.lhs.isModuleNT)
   private val queue: Queue[(Production, Set[String])] = initQueue
   private var _depth: Map[(String, Set[String]), Int] = Map()
   init
@@ -59,7 +60,7 @@ case class DepthCounter(grammar: Grammar) {
     nf.println(s"""case class Depth(depth: Int, rhsDepth: List[Option[Int]])""")
     nf.println(s"""object DepthCounter {""")
     // TODO base cases
-    prods.foreach(getDepthCounter)
+    targetProds.foreach(getDepthCounter)
     nf.println(s"""}""")
 
     nf.close()
@@ -74,18 +75,19 @@ case class DepthCounter(grammar: Grammar) {
     _depth = lexicals.map(_ -> 1).toMap
     while (!queue.isEmpty) {
       val (prod, params) = queue.dequeue
-      val prodName = prod.lhs.name
-      val paramString = params.mkString(",")
-      getDepth(prod, params) match {
-        case Some(d) => _depth += (prod.lhs.name, params) -> d
-        case None => queue.enqueue((prod, params))
+      // filter module grammar
+      if (!prod.lhs.isModuleNT) {
+        getDepth(prod, params) match {
+          case Some(d) => _depth += (prod.lhs.name, params) -> d
+          case None => queue.enqueue((prod, params))
+        }
       }
     }
   }
 
   // minimum depth for right-hand-sides
   private def getRhsDepth: Map[(String, Set[String]), List[Option[Int]]] =
-    prods.foldLeft(Map[(String, Set[String]), List[Option[Int]]]()) {
+    targetProds.foldLeft(Map[(String, Set[String]), List[Option[Int]]]()) {
       case (m, prod) => prod.lhs.params.toSet.subsets().foldLeft(m) {
         case (m, params) =>
           val name = prod.lhs.name
@@ -99,7 +101,7 @@ case class DepthCounter(grammar: Grammar) {
     }
 
   // initialize queue with all cases of productions with parameters
-  private def initQueue: Queue[(Production, Set[String])] = Queue(prods.flatMap(prod => {
+  private def initQueue: Queue[(Production, Set[String])] = Queue(targetProds.flatMap(prod => {
     prod.lhs.params.toSet.subsets().toList.map((prod, _))
   }): _*)
 
@@ -116,6 +118,7 @@ case class DepthCounter(grammar: Grammar) {
   private def getDepth(token: Token, params: Set[String]): Option[Int] = {
     token match {
       case NonTerminal(name, args, optional) => {
+        if (GrammarHelper.isModuleNT(name)) return None
         val ntParams = args.flatMap((arg: String) => {
           arg.headOption match {
             case Some(a) => a match {
@@ -139,12 +142,15 @@ case class DepthCounter(grammar: Grammar) {
 
   // get depth of Rhs
   private def getDepth(rhs: Rhs, params: Set[String]): Option[Int] = {
-    val depths = rhs.tokens.flatMap((t: Token) => getDepth(t, params))
-    if (depths.length == rhs.tokens.length) {
-      val d = depths.reduceOption(_ max _)
-      // if rhs is single nonterminal, then do not increase depth
-      // other wise increase depth by 1
-      if (rhs.isSingleNT) d else d.map(_ + 1)
+    // filter module grammar
+    if (!rhs.isModuleNT) {
+      val depths = rhs.tokens.flatMap((t: Token) => getDepth(t, params))
+      if (depths.length == rhs.tokens.length) {
+        val d = depths.reduceOption(_ max _)
+        // if rhs is single nonterminal, then do not increase depth
+        // other wise increase depth by 1
+        if (rhs.isSingleNT) d else d.map(_ + 1)
+      } else None
     } else None
   }
 
