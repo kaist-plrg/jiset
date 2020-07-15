@@ -22,7 +22,7 @@ object SamplerGenerator {
       rhsList.zipWithIndex.foreach {
         case (rhs, i) => getCandidates(name, params, rhs, i)
       }
-      nf.println(s"""    choose(candidates)""")
+      nf.println(s"""    choose(candidates)()""")
       nf.println(s"""  }""")
     }
 
@@ -73,11 +73,11 @@ object SamplerGenerator {
     nf.println
     nf.println(s"""import $packageName.Lexical""")
     nf.println(s"""import $packageName.ir._""")
+    nf.println(s"""import $packageName.util.Useful._""")
     nf.println
     nf.println(s"""class Sampler {""")
     nf.println(s"""  val counter = DepthCounter""")
     nf.println(s"""  val random = new scala.util.Random""")
-    nf.println(s"""  def choose[T](seq: Seq[() => T]): T = seq(random.nextInt(seq.length))()""")
     nf.println(s"""  def opt[T](valid: Boolean, elem: => T): Option[T] = if (valid && random.nextBoolean) Some(elem) else None""")
     nf.println(s"""  def IdentifierName(depth: Int): Lexical = Lexical("IdentifierName", (random.nextInt(26) + 'a').toChar.toString)""")
     nf.println(s"""  def NullLiteral(depth: Int): Lexical = Lexical("NullLiteral", "null")""")
