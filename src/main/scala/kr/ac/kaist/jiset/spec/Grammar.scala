@@ -10,7 +10,32 @@ case class Grammar(
 
 // ECMAScript grammar helper
 object GrammarHelper {
-  private val moduleNT: Set[String] = Set("ImportCall", "ImportMeta", "Script", "ScriptBody", "Module", "ModuleBody", "ModuleItemList", "ModuleItem", "ImportDeclaration", "ImportClause", "ImportedDefaultBinding", "NameSpaceImport", "NamedImports", "FromClause", "ImportsList", "ImportSpecifier", "ModuleSpecifier", "ImportedBinding", "ExportDeclaration", "ExportFromClause", "NamedExports", "ExportsList", "ExportsSpecifier")
+  private val moduleNT: Set[String] = Set(
+    "ExportDeclaration",
+    "ExportFromClause",
+    "ExportsList",
+    "ExportsSpecifier",
+    "FromClause",
+    "ImportCall",
+    "ImportClause",
+    "ImportDeclaration",
+    "ImportMeta",
+    "ImportSpecifier",
+    "ImportedBinding",
+    "ImportedDefaultBinding",
+    "ImportsList",
+    "Module",
+    "ModuleBody",
+    "ModuleItem",
+    "ModuleItemList",
+    "ModuleSpecifier",
+    "NameSpaceImport",
+    "NamedExports",
+    "NamedImports",
+    "RegularExpressionLiteral",
+    "Script",
+    "ScriptBody",
+  )
   def isModuleNT(name: String): Boolean = moduleNT contains name
 }
 
