@@ -93,7 +93,7 @@ case class DepthCounter(grammar: Grammar) {
           val name = prod.lhs.name
           val key = (name, params)
           val depths = prod.rhsList.map(rhs => {
-            if (satisfyParams(params, rhs.cond)) getDepth(rhs, params)
+            if (rhs.satisfy(params)) getDepth(rhs, params)
             else None
           })
           m + (key -> depths)
@@ -104,15 +104,6 @@ case class DepthCounter(grammar: Grammar) {
   private def initQueue: Queue[(Production, Set[String])] = Queue(targetProds.flatMap(prod => {
     prod.lhs.params.toSet.subsets().toList.map((prod, _))
   }): _*)
-
-  // check valid parameters
-  private def satisfyParams(params: Set[String], cond: String): Boolean = {
-    if (cond == "") true
-    else {
-      if (cond startsWith "p") params contains (cond substring 1)
-      else !(params contains (cond substring 2))
-    }
-  }
 
   // get minimum depth of each token, rhs, production
   private def getDepth(token: Token, params: Set[String]): Option[Int] = {
@@ -159,7 +150,7 @@ case class DepthCounter(grammar: Grammar) {
     prod
       .rhsList
       .flatMap((rhs: Rhs) =>
-        if (satisfyParams(params, rhs.cond)) getDepth(rhs, params)
+        if (rhs.satisfy(params)) getDepth(rhs, params)
         else None)
       .reduceOption(_ min _)
 }

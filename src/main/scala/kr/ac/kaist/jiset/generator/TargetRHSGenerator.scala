@@ -6,6 +6,16 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
 import collection.mutable.Queue
 
+import spray.json._
+
+// RHSElem and JSON format of TargetRHS
+case class RHSElem(rhsName: String, params: List[Boolean], o: Int)
+object RHSElemProtocol extends DefaultJsonProtocol {
+  implicit val RHSElemFormat = jsonFormat3(RHSElem)
+}
+import RHSElemProtocol._
+
+// TargetRHSGenerator
 case class TargetRHSGenerator(grammar: Grammar) {
   // initialization
   private val Grammar(lexProds, prods) = grammar
@@ -13,70 +23,35 @@ case class TargetRHSGenerator(grammar: Grammar) {
   private var _targetRhs: Set[(String, List[Boolean], Int)] = Set()
   init
 
+  lazy val targetRhs: List[RHSElem] = {
+    val sorted = _targetRhs.toList.sortWith {
+      case ((n1, p1, o1), (n2, p2, o2)) => {
+        if (n1 != n2) n1 < n2
+        else if (param2int(p1) != param2int(p2)) param2int(p1) < param2int(p2)
+        else o1 < o2
+      }
+    }
+    sorted.map { case (rhsName, params, o) => RHSElem(rhsName, params, o) }
+  }
+
+  // generate
+  def generate(resourceDir: String): Unit =
+    dumpJson(targetRhs, s"$resourceDir/TargetRHS.json")
+
+  // helpers
+  // def printRhs: Unit = for ((rhsName, params, o) <- targetRhs.toList.sortWith { case ((a, _, _), (b, _, _)) => a < b }) {
+  //   val paramStr = params.mkString(",")
+  //   println(s"$rhsName[$paramStr][$o]")
+  // }
+
+  // represent parameters as integer
   private def param2int(params: List[Boolean]): Int = {
     params.reverse.zipWithIndex.foldLeft(0) {
       case (acc, (p, i)) => acc + (if (p) 1 << i else 0)
     }
   }
 
-  lazy val targetRhs: List[(String, List[Boolean], Int)] = _targetRhs.toList.sortWith {
-    case ((n1, p1, o1), (n2, p2, o2)) => {
-      if (n1 != n2) n1 < n2
-      else if (param2int(p1) != param2int(p2)) param2int(p1) < param2int(p2)
-      else o1 < o2
-    }
-  }
-
-  // generate
-  def generate(packageName: String, resourceDir: String): Unit = {
-    val nf = getPrintWriter(s"$resourceDir/TargetRHS.json")
-
-    def getRhsElement(elem: (String, List[Boolean], Int)): String = elem match {
-      case (rhsName: String, params: List[Boolean], o: Int) => {
-        val pn = param2int(params)
-        s"""  "$rhsName,$pn,$o""""
-      }
-    }
-
-    nf.println("[")
-    nf.println(targetRhs.map(getRhsElement).mkString(",\n"))
-    nf.println("]")
-    nf.flush
-
-    // val scalaSet = "scala.collection.immutable.Set"
-
-    // nf.println(s"""package $packageName.model""")
-    // nf.println
-    // nf.println(s"""import $packageName.Lexical""")
-    // nf.println(s"""import $packageName.ir._""")
-    // nf.println
-    // nf.println(s"""object TargetRHS {""")
-    // nf.println(s"""  var rhsSet: $scalaSet[(String, List[Boolean], Int)] = $scalaSet()""")
-    // nf.println(s"""  init""")
-    // nf.println
-    // nf.println(s"""  def init: Unit = {""")
-    // targetRhs.foreach(getRhsElement)
-    // nf.println(s"""  }""")
-    // nf.println(s"""""")
-    // nf.println(s"""}""")
-    // nf.flush
-  }
-
-  // helpers
-  def printRhs: Unit = for ((rhsName, params, o) <- targetRhs.toList.sortWith { case ((a, _, _), (b, _, _)) => a < b }) {
-    val paramStr = params.mkString(",")
-    println(s"$rhsName[$paramStr][$o]")
-  }
-
-  // check valid parameters
-  private def satisfyParams(params: Set[String], cond: String): Boolean = {
-    if (cond == "") true
-    else {
-      if (cond startsWith "p") params contains (cond substring 1)
-      else !(params contains (cond substring 2))
-    }
-  }
-
+  // extract target rhs from production, rhs
   private def getTarget(rhs: Rhs, params: Set[String], rhsName: String, rawParams: List[String]): List[(String, List[Boolean], Int)] = {
     // count option
     val o = rhs.tokens.count {
@@ -94,7 +69,7 @@ case class TargetRHSGenerator(grammar: Grammar) {
       case (rhs, i) => {
         val rhsName = s"$name$i"
         // filter module and check parameter condition
-        if (!rhs.isModuleNT && satisfyParams(params, rhs.cond)) {
+        if (!rhs.isModuleNT && rhs.satisfy(params)) {
           Some(getTarget(rhs, params, rhsName, prod.lhs.params))
         } else None
       }

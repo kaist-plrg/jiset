@@ -63,10 +63,19 @@ case class Rhs(
     case List(_: NonTerminal) => true
     case _ => false
   }
+  // check wheter if tokens contain module nonterminal
   def isModuleNT: Boolean = tokens.foldLeft(false) {
     case (b, t) => t match {
       case NonTerminal(name, _, _) => b || GrammarHelper.isModuleNT(name)
       case _ => b
+    }
+  }
+  // check if rhs satifies parameters
+  def satisfy(params: Set[String]): Boolean = {
+    if (cond == "") true
+    else {
+      if (cond startsWith "p") params contains (cond substring 1)
+      else !(params contains (cond substring 2))
     }
   }
 }

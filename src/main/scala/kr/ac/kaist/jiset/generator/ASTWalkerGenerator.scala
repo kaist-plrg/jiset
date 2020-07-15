@@ -88,7 +88,7 @@ object ASTWalkerGenerator {
     def getWalker(prod: Production): Unit = {
       val Production(lhs, rhsList) = prod
       val Lhs(name, _) = lhs
-      nf.println(s"""  def walk(ast: $name): Unit = ast match {""")
+      nf.println(s"""  def walk(ast: $name): Unit = id(ast, beforeWalk) match {""")
       rhsList.zipWithIndex.foreach({
         case (rhs, idx) =>
           val astName = s"$name$idx"
@@ -115,11 +115,13 @@ object ASTWalkerGenerator {
     nf.println(s"""import $packageName.ir._""")
     nf.println
     nf.println(s"""trait UnitWalker {""")
+    nf.println(s"""  def beforeWalk[T <: AST](ast: T): Unit = {}""")
+    nf.println(s"""  private def id[T <: AST](ast: T, hook: T => Unit): T = { hook(ast); ast }""")
     nf.println(s"""  def walk(str: String): Unit = {}""")
     nf.println(s"""  def walk(bool: Boolean): Unit = {}""")
     nf.println(s"""  def walkOpt[T](opt: Option[T], tWalk: T => Unit): Unit = opt.foreach(tWalk)""")
     nf.println(s"""  def walkList[T](list: List[T], tWalk: T => Unit): Unit = list.foreach(tWalk)""")
-    nf.println(s"""  def walk(ast: AST): Unit = ast match {""")
+    nf.println(s"""  def walk(ast: AST): Unit = id(ast, beforeWalk) match {""")
     nf.println(s"""    case ast: Lexical => walk(ast)""")
     prods.foreach(getCase)
     nf.println(s"""  }""")

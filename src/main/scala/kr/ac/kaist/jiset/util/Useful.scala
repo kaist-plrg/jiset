@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
 import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
 import scala.collection.mutable
 import scala.io.Source
+import spray.json._
 
 object Useful {
   // file reader
@@ -50,9 +51,24 @@ object Useful {
   def getPrintWriter(filename: String): PrintWriter =
     new PrintWriter(new File(filename))
 
+  // dump given data to a file
+  def dumpFile(data: Any, filename: String): Unit = {
+    val nf = getPrintWriter(filename)
+    nf.print(data)
+    nf.close()
+  }
+
+  // dump given data as JSON
+  def dumpJson[T](data: T, filename: String)(implicit writer: JsonWriter[T]): Unit =
+    dumpFile(data.toJson.prettyPrint, filename)
+
   // read file
   def readFile(filename: String): String =
     Source.fromFile(filename).mkString
+
+  // read JSON
+  def readJson[T](filename: String)(implicit reader: JsonReader[T]): T =
+    readFile(filename).parseJson.convertTo[T]
 
   // get first filename
   def getFirstFilename(jisetConfig: JISETConfig, job: String): String =
