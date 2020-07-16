@@ -33,8 +33,6 @@ object GrammarHelper {
     "NamedExports",
     "NamedImports",
     "RegularExpressionLiteral",
-    "Script",
-    "ScriptBody",
   )
   def isModuleNT(name: String): Boolean = moduleNT contains name
 }

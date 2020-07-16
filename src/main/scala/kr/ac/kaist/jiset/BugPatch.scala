@@ -18,47 +18,12 @@ object BugPatch extends RegexParsers {
   def patchAmbiguousIfStatement(grammar: SpecGrammar): Unit = {
     val SpecGrammar(_, prods) = grammar
     prods.foreach {
-      case Production(lhs @ Lhs("Statement", params), rhsList) =>
-        lhs.params :+= "Else"
-        rhsList.foreach {
-          case Rhs(List(nt @ NonTerminal("IfStatement", _, _)), _) => nt.args :+= "?Else"
-          case Rhs(List(nt @ NonTerminal("BreakableStatement", _, _)), _) => nt.args :+= "?Else"
-          case Rhs(List(nt @ NonTerminal("WithStatement", _, _)), _) => nt.args :+= "?Else"
-          case Rhs(List(nt @ NonTerminal("LabelledStatement", _, _)), _) => nt.args :+= "?Else"
-          case _ =>
-        }
-      case Production(lhs @ Lhs("BreakableStatement", params), rhsList) =>
-        lhs.params :+= "Else"
-        rhsList.foreach {
-          case Rhs(List(nt @ NonTerminal("IterationStatement", _, _)), _) => nt.args :+= "?Else"
-          case _ =>
-        }
-      case Production(lhs @ Lhs("StatementListItem", params), rhsList) =>
-        rhsList.foreach {
-          case Rhs(List(nt @ NonTerminal("Statement", _, _)), _) => nt.args :+= "~Else"
-          case _ =>
-        }
       case Production(lhs @ Lhs("IfStatement", params), rhsList) =>
-        lhs.params :+= "Else"
-        rhsList(0).tokens(4).asInstanceOf[NonTerminal].args :+= "+Else"
-        rhsList(0).tokens(6).asInstanceOf[NonTerminal].args :+= "?Else"
-        rhsList(1).cond = "!pElse"
-        rhsList(1).tokens(4).asInstanceOf[NonTerminal].args :+= "~Else"
-      case Production(lhs @ Lhs("IterationStatement", params), rhsList) =>
-        lhs.params :+= "Else"
-        rhsList(0).tokens(1).asInstanceOf[NonTerminal].args :+= "~Else"
-        rhsList.foreach {
-          case rhs => rhs.tokens.last match {
-            case nt @ NonTerminal("Statement", _, _) => nt.args :+= "?Else"
-            case _ =>
-          }
-        }
-      case Production(lhs @ Lhs("WithStatement", params), rhsList) =>
-        lhs.params :+= "Else"
-        rhsList(0).tokens.last.asInstanceOf[NonTerminal].args :+= "?Else"
-      case Production(lhs @ Lhs("LabelledStatement", params), rhsList) =>
-        lhs.params :+= "Else"
-        rhsList(0).tokens.last.asInstanceOf[NonTerminal].args :+= "?Else"
+        rhsList(1).tokens :+= Lookahead(false, List(List(Terminal("else"))))
+      case Production(lhs @ Lhs("CoverCallExpressionAndAsyncArrowHead", params), rhsList) =>
+        lhs.params = List("Yield", "Await")
+        rhsList(0).tokens(0).asInstanceOf[NonTerminal].args = List("?Yield", "?Await")
+        rhsList(0).tokens(1).asInstanceOf[NonTerminal].args = List("?Yield", "?Await")
       case _ =>
     }
   }
