@@ -14,7 +14,7 @@ object SamplerGenerator {
   def dumpSampler(packageName: String, modelDir: String, grammar: Grammar, debug: Boolean): Unit = {
     val nf = getPrintWriter(s"$modelDir/Sampler.scala")
     val Grammar(lexProds, prods) = grammar
-    val targetProds = prods.filter(!_.lhs.isModuleNT)
+    val targetProds = prods.filter(!_.lhs.isModule)
 
     def getSampler(prod: Production): Unit = {
       val Production(lhs, rhsList) = prod
@@ -32,7 +32,7 @@ object SamplerGenerator {
     }
 
     def getCandidates(name: String, bs: List[String], rhs: Rhs, idx: Int): Unit = {
-      if (!rhs.isModuleNT) {
+      if (!rhs.containsModuleNT) {
         val Rhs(tokens, cond) = rhs
         val nextDepth = "depth" + (if (rhs.isSingleNT) "" else " - 1")
         val astName = s"$name$idx"
@@ -101,7 +101,7 @@ object SamplerGenerator {
   def dumpNRSampler(packageName: String, modelDir: String, grammar: Grammar, debug: Boolean): Unit = {
     val nf = getPrintWriter(s"$modelDir/NonRecursiveSampler.scala")
     val Grammar(lexProds, prods) = grammar
-    val targetProds = prods.filter(!_.lhs.isModuleNT)
+    val targetProds = prods.filter(!_.lhs.isModule)
 
     def getSampler(prod: Production): Unit = {
       val Production(lhs, rhsList) = prod
@@ -138,7 +138,7 @@ object SamplerGenerator {
       // rhs
       // val listItems = StatementListItem(pYield, pAwait, pReturn)
       // s = s union listItems.map(StatementList0(_, List(pYield, pAwait, pReturn)))
-      if (!rhs.isModuleNT) {
+      if (!rhs.containsModuleNT) {
         val Rhs(tokens, cond) = rhs
         val space = if (cond != "") "        " else "      "
         if (cond != "") nf.println(s"      if ($cond) {")

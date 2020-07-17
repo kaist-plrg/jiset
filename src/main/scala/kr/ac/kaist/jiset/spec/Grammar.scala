@@ -6,7 +6,13 @@ import spray.json._
 case class Grammar(
     var lexProds: List[Production],
     var prods: List[Production]
-)
+) {
+  def getProdByName(name: String): Production =
+    prods.find(_.lhs.name == name) match {
+      case Some(prod) => prod
+      case None => throw new Exception(s"Grammar: $name is not production")
+    }
+}
 
 // ECMAScript grammar helper
 object GrammarHelper {
@@ -34,7 +40,26 @@ object GrammarHelper {
     "NamedImports",
     "RegularExpressionLiteral",
   )
+  private val supplementalNT: Set[String] = Set(
+    "CallMemberExpression",
+    "ParenthesizedExpression",
+    "ArrowFormalParameters",
+    "AsyncArrowHead",
+    "AssignmentPattern",
+    "ObjectAssignmentPattern",
+    "ArrayAssignmentPattern",
+    "AssignmentRestProperty",
+    "AssignmentPropertyList",
+    "AssignmentElementList",
+    "AssignmentElisionElement",
+    "AssignmentProperty",
+    "AssignmentElement",
+    "AssignmentRestElement",
+    "DestructuringAssignmentTarget"
+  )
   def isModuleNT(name: String): Boolean = moduleNT contains name
+  def isSupplementalNT(name: String): Boolean = supplementalNT contains name
+  def isTargetNT(name: String): Boolean = !(isModuleNT(name) || isSupplementalNT(name))
 }
 
 // productions
@@ -48,7 +73,10 @@ case class Lhs(
     var name: String,
     var params: List[String]
 ) {
-  def isModuleNT: Boolean = GrammarHelper.isModuleNT(name)
+  def isModule: Boolean = GrammarHelper.isModuleNT(name)
+  def isSupplemental: Boolean = GrammarHelper.isSupplementalNT(name)
+  def isTarget: Boolean = GrammarHelper.isTargetNT(name)
+  def isScript: Boolean = name == "Script"
 }
 
 // right-hand-sides
@@ -61,13 +89,21 @@ case class Rhs(
     case List(_: NonTerminal) => true
     case _ => false
   }
-  // check wheter if tokens contain module nonterminal
-  def isModuleNT: Boolean = tokens.foldLeft(false) {
-    case (b, t) => t match {
-      case NonTerminal(name, _, _) => b || GrammarHelper.isModuleNT(name)
-      case _ => b
+  // check non terminal
+  def check(f: String => Boolean, init: Boolean, op: (Boolean, Boolean) => Boolean) =
+    tokens.foldLeft(init) {
+      case (b, t) => t match {
+        case NonTerminal(name, _, _) => op(b, f(name))
+        case _ => b
+      }
     }
-  }
+  // check wheter if tokens contain module nonterminal
+  def containsModuleNT: Boolean =
+    check(GrammarHelper.isModuleNT, false, (x, y) => x || y)
+  def containsSupplementalNT: Boolean =
+    check(GrammarHelper.isSupplementalNT, false, (x, y) => x || y)
+  def isTarget: Boolean =
+    check(GrammarHelper.isTargetNT, true, (x, y) => x && y)
   // check if rhs satifies parameters
   def satisfy(params: Set[String]): Boolean = {
     if (cond == "") true

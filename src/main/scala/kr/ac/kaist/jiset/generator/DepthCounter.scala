@@ -9,7 +9,7 @@ import collection.mutable.Queue
 case class DepthCounter(grammar: Grammar) {
   // initialization
   private val Grammar(lexProds, prods) = grammar
-  private val targetProds = prods.filter(!_.lhs.isModuleNT)
+  private val targetProds = prods.filter(!_.lhs.isModule)
   private val queue: Queue[(Production, Set[String])] = initQueue
   private var _depth: Map[(String, Set[String]), Int] = Map()
   init
@@ -76,7 +76,7 @@ case class DepthCounter(grammar: Grammar) {
     while (!queue.isEmpty) {
       val (prod, params) = queue.dequeue
       // filter module grammar
-      if (!prod.lhs.isModuleNT) {
+      if (!prod.lhs.isModule) {
         getDepth(prod, params) match {
           case Some(d) => _depth += (prod.lhs.name, params) -> d
           case None => queue.enqueue((prod, params))
@@ -134,7 +134,7 @@ case class DepthCounter(grammar: Grammar) {
   // get depth of Rhs
   private def getDepth(rhs: Rhs, params: Set[String]): Option[Int] = {
     // filter module grammar
-    if (!rhs.isModuleNT) {
+    if (!rhs.containsModuleNT) {
       val depths = rhs.tokens.flatMap((t: Token) => getDepth(t, params))
       if (depths.length == rhs.tokens.length) {
         val d = depths.reduceOption(_ max _)

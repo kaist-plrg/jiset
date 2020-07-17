@@ -19,19 +19,19 @@ import RHSElemProtocol._
 case class TargetRHSGenerator(grammar: Grammar) {
   // initialization
   private val Grammar(lexProds, prods) = grammar
-  private val targetProds = prods.filter(!_.lhs.isModuleNT)
-  private var _targetRhs: Set[(String, List[Boolean], Int)] = Set()
+  // private val targetProds = prods.filter(!_.lhs.isModule)
+  private val lexProdNames = lexProds.map(_.lhs.name)
+  private var _targetRhs: Set[RHSElem] = Set()
+  // init queue with script
+  private val queue = Queue(prods.filter(_.lhs.isScript).map((_, Set[String]())): _*)
   init
 
-  lazy val targetRhs: List[RHSElem] = {
-    val sorted = _targetRhs.toList.sortWith {
-      case ((n1, p1, k1), (n2, p2, k2)) => {
-        if (n1 != n2) n1 < n2
-        else if (param2int(p1) != param2int(p2)) param2int(p1) < param2int(p2)
-        else k1 < k2
-      }
+  lazy val targetRhs: List[RHSElem] = _targetRhs.toList.sortWith {
+    case (RHSElem(n1, p1, k1), RHSElem(n2, p2, k2)) => {
+      if (n1 != n2) n1 < n2
+      else if (param2int(p1) != param2int(p2)) param2int(p1) < param2int(p2)
+      else k1 < k2
     }
-    sorted.map { case (rhsName, params, k) => RHSElem(rhsName, params, k) }
   }
 
   // generate
@@ -46,36 +46,62 @@ case class TargetRHSGenerator(grammar: Grammar) {
   }
 
   // extract target rhs from production, rhs
-  private def getTarget(rhs: Rhs, params: Set[String], rhsName: String, rawParams: List[String]): List[(String, List[Boolean], Int)] = {
-    // count option
-    val k = rhs.tokens.count {
-      case NonTerminal(_, _, true) => true
-      case _ => false
-    }
-    val bparams = rawParams.map(params.contains(_))
-    (0 to ((1 << k) - 1)).toList.map((rhsName, bparams, _))
-  }
+  private def getTarget(prod: Production, params: Set[String]): (Set[RHSElem], List[(Production, Set[String])]) = {
+    def getQueueItems(token: Token, params: Set[String]): Option[(Production, Set[String])] =
+      token match {
+        // filter lexical production and get queue item
+        case NonTerminal(name, args, optional) if !lexProdNames.contains(name) => {
+          val tProd = grammar.getProdByName(name)
+          val tParams = args.flatMap((arg: String) => {
+            arg.headOption match {
+              case Some(a) => a match {
+                // ? => params, + => true, ~ => false
+                case '?' if params contains (arg substring 1) => Some(arg substring 1)
+                case '+' => Some(arg substring 1)
+                case _ => None
+              }
+              case None => None
+            }
+          }).toSet
+          Some((tProd, tParams))
+        }
+        case ButNot(base, _) => getQueueItems(base, params)
+        case _ => None
+      }
 
-  private def getTarget(prod: Production, params: Set[String]): Unit = {
     val name = prod.lhs.name
-    // iter all rhs list
-    val subTargetList = prod.rhsList.zipWithIndex.flatMap {
-      case (rhs, i) => {
+    prod.rhsList.zipWithIndex.foldLeft((Set[RHSElem](), List[(Production, Set[String])]())) {
+      case ((s, l), (rhs, i)) => {
         val rhsName = s"$name$i"
-        // filter module and check parameter condition
-        if (!rhs.isModuleNT && rhs.satisfy(params)) {
-          Some(getTarget(rhs, params, rhsName, prod.lhs.params))
-        } else None
+        // check if rhs is target and satisfies parameters
+        if (rhs.isTarget && rhs.satisfy(params)) {
+          val bparams = prod.lhs.params.map(params.contains(_))
+          val k = rhs.tokens.count {
+            case NonTerminal(_, _, true) => true
+            case _ => false
+          }
+          // all reachable rhs
+          val targets = (0 to ((1 << k) - 1)).toList.map(RHSElem(rhsName, bparams, _)).toSet
+          // next queue items
+          val queueItems = rhs.tokens.flatMap(getQueueItems(_, params))
+          (s ++ targets, l ++ queueItems)
+        } else (s, l)
       }
     }
-    // add target sub list to target rhs
-    _targetRhs ++= subTargetList.flatten.toSet
   }
 
-  private def init: Unit = targetProds.foreach {
-    case prod => {
-      val paramsList = prod.lhs.params.toSet.subsets().toList
-      paramsList.foreach(getTarget(prod, _))
+  private def init: Unit = {
+    var visited: Set[(Production, Set[String])] = Set()
+    while (!queue.isEmpty) {
+      val (prod, params) = queue.dequeue
+      // check if targets contain production
+      if (prod.lhs.isTarget && !lexProdNames.contains(prod.lhs.name)) {
+        val (s, l) = getTarget(prod, params)
+        _targetRhs = _targetRhs ++ s
+        // add current prodcution to visited
+        l.filter(!visited.contains(_)).foreach(queue.enqueue)
+        visited = visited ++ l.toSet
+      }
     }
   }
 }
