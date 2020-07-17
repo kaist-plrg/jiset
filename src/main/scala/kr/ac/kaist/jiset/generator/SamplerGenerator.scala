@@ -108,17 +108,10 @@ object SamplerGenerator {
       val Lhs(name, rawParams) = lhs
       val params = rawParams.map("p" + _)
       val paramsStr = params.map(_ + ": Boolean").mkString(", ")
-      val privateName = s"_$name"
       val argStr = params.mkString(", ")
 
-      // public
-      nf.println(s"""  def $name($paramsStr): ScalaSet[$name] = {""")
-      nf.println(s"""    visited = ScalaSet()""")
-      nf.println(s"""    $privateName($argStr)""")
-      nf.println(s"""  }""")
-
       // all
-      nf.println(s"""  private def $privateName($paramsStr): ScalaSet[$name] = {""")
+      nf.println(s"""  def $name($paramsStr): ScalaSet[$name] = {""")
       nf.println(s"""    if (!visited.contains("$name", List($argStr))) {""")
       nf.println(s"""      visited += (("$name", List($argStr)))""")
       nf.println(s"""      var s = ScalaSet[$name]()""")
@@ -147,8 +140,8 @@ object SamplerGenerator {
           case (token, i) => tokenSampler(token) match {
             case Some((name, argsStr, optional)) =>
               val id = s"${name}_${idx}_${i}"
-              nf.println(space + s"val $id = _$name($argsStr).toList")
-              Some((id, s"_$name($argsStr).head", optional))
+              nf.println(space + s"val $id = $name($argsStr).toList")
+              Some((id, s"$name($argsStr).head", optional))
             case None => None
           }
         }
@@ -221,15 +214,15 @@ object SamplerGenerator {
     nf.println(s"""  val randomSampler = new Sampler""")
     nf.println(s"""  var visited: ScalaSet[(String, List[Boolean])] = ScalaSet()""")
     nf.println
-    nf.println(s"""  private def _IdentifierName(): ScalaSet[Lexical] = ScalaSet(randomSampler.IdentifierName(1))""")
-    nf.println(s"""  private def _NullLiteral(): ScalaSet[Lexical] = ScalaSet(randomSampler.NullLiteral(1))""")
-    nf.println(s"""  private def _BooleanLiteral(): ScalaSet[Lexical] = ScalaSet(randomSampler.BooleanLiteral(1))""")
-    nf.println(s"""  private def _NumericLiteral(): ScalaSet[Lexical] = ScalaSet(randomSampler.NumericLiteral(1))""")
-    nf.println(s"""  private def _StringLiteral(): ScalaSet[Lexical] = ScalaSet(randomSampler.StringLiteral(1))""")
-    nf.println(s"""  private def _NoSubstitutionTemplate(): ScalaSet[Lexical] = ScalaSet(randomSampler.NoSubstitutionTemplate(1))""")
-    nf.println(s"""  private def _TemplateHead(): ScalaSet[Lexical] = ScalaSet(randomSampler.TemplateHead(1))""")
-    nf.println(s"""  private def _TemplateMiddle(): ScalaSet[Lexical] = ScalaSet(randomSampler.TemplateMiddle(1))""")
-    nf.println(s"""  private def _TemplateTail(): ScalaSet[Lexical] = ScalaSet(randomSampler.TemplateTail(1))""")
+    nf.println(s"""  private def IdentifierName(): ScalaSet[Lexical] = ScalaSet(randomSampler.IdentifierName(1))""")
+    nf.println(s"""  private def NullLiteral(): ScalaSet[Lexical] = ScalaSet(randomSampler.NullLiteral(1))""")
+    nf.println(s"""  private def BooleanLiteral(): ScalaSet[Lexical] = ScalaSet(randomSampler.BooleanLiteral(1))""")
+    nf.println(s"""  private def NumericLiteral(): ScalaSet[Lexical] = ScalaSet(randomSampler.NumericLiteral(1))""")
+    nf.println(s"""  private def StringLiteral(): ScalaSet[Lexical] = ScalaSet(randomSampler.StringLiteral(1))""")
+    nf.println(s"""  private def NoSubstitutionTemplate(): ScalaSet[Lexical] = ScalaSet(randomSampler.NoSubstitutionTemplate(1))""")
+    nf.println(s"""  private def TemplateHead(): ScalaSet[Lexical] = ScalaSet(randomSampler.TemplateHead(1))""")
+    nf.println(s"""  private def TemplateMiddle(): ScalaSet[Lexical] = ScalaSet(randomSampler.TemplateMiddle(1))""")
+    nf.println(s"""  private def TemplateTail(): ScalaSet[Lexical] = ScalaSet(randomSampler.TemplateTail(1))""")
     targetProds.foreach(getSampler)
     nf.println(s"""}""")
     nf.close()
