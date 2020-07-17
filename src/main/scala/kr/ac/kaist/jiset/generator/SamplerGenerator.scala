@@ -119,15 +119,14 @@ object SamplerGenerator {
 
       // all
       nf.println(s"""  private def $privateName($paramsStr): ScalaSet[$name] = {""")
-      nf.println(s"""    if(!visited.contains("$name", List($argStr))) {""")
+      nf.println(s"""    if (!visited.contains("$name", List($argStr))) {""")
       nf.println(s"""      visited += (("$name", List($argStr)))""")
       nf.println(s"""      var s = ScalaSet[$name]()""")
       rhsList.zipWithIndex.foreach {
         case (rhs, i) => getCandidates(name, params, rhs, i)
       }
       nf.println(s"""      s""")
-      nf.println(s"""    }""")
-      nf.println(s"""    else {""")
+      nf.println(s"""    } else {""")
       nf.println(s"""      val d = counter.${name}($argStr).depth""")
       nf.println(s"""      val sample = randomSampler.$name(d${params.map(s => s", $s").mkString("")})""")
       nf.println(s"""      ScalaSet(sample)""")
@@ -158,10 +157,10 @@ object SamplerGenerator {
           nf.println(space + s"s += $name$idx(List(${bs.mkString(", ")}))")
         else {
           nf.println(space + s"val max${idx} = List(${tokenIds.mkString(", ")}).map(_.length).max")
-          nf.println(space + s"for(i <- (0 until max${idx})) {")
+          nf.println(space + s"for (i <- (0 until max${idx})) {")
           tokenIds.zipWithIndex.foreach {
             case (tid, i) => {
-              nf.println(space + s"  val arg$i = $tid.applyOrElse(i, (_: Int) => ${tokenDefaults(i)} )")
+              nf.println(space + s"  val arg$i = $tid.applyOrElse(i, (_: Int) => ${tokenDefaults(i)})")
             }
           }
 
@@ -215,7 +214,7 @@ object SamplerGenerator {
     nf.println(s"""import $packageName.Lexical""")
     nf.println(s"""import $packageName.ir._""")
     nf.println(s"""import $packageName.util.Useful._""")
-    nf.println(s"""import scala.collection.immutable.{Set => ScalaSet}""")
+    nf.println(s"""import scala.collection.immutable.{ Set => ScalaSet }""")
     nf.println
     nf.println(s"""class NonRecursiveSampler {""")
     nf.println(s"""  val counter = DepthCounter""")

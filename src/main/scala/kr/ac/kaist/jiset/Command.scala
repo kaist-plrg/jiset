@@ -53,6 +53,9 @@ case object CmdREPLAlgo extends CommandObj("repl-algo", CmdBase >> REPLAlgo)
 // gen-model
 case object CmdGenModel extends CommandObj("gen-model", CmdBase >> GenModel)
 
+// gen-test-module
+case object CmdGenTestModule extends CommandObj("gen-test-module", CmdBase >> GenTestModule)
+
 // grammar-diff
 case object CmdGrammarDiff extends CommandObj("grammar-diff", CmdBase >> GrammarDiff)
 

@@ -62,6 +62,7 @@ object JISET {
     CmdInferAlgo,
     CmdREPLAlgo,
     CmdGenModel,
+    CmdGenTestModule,
     CmdGrammarDiff,
     CmdAlgoStepDiff
   )
@@ -77,6 +78,7 @@ object JISET {
     InferAlgo,
     REPLAlgo,
     GenModel,
+    GenTestModule,
     GrammarDiff,
     AlgoStepDiff
   )
