@@ -9,5 +9,6 @@ object SamplerGenerator {
   def apply(packageName: String, modelDir: String, grammar: Grammar, debug: Boolean = false): Unit = {
     LimitedDepthSamplerGenerator(packageName, modelDir, grammar, debug)
     NonRecursiveSamplerGenerator(packageName, modelDir, grammar, debug)
+    MinSamplerGenerator(grammar).generate(packageName, modelDir)
   }
 }
