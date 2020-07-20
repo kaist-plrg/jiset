@@ -46,7 +46,7 @@ abstract class GrammarWorklist[T](grammar: Grammar) {
 
       nf.println(s"""  def $name($paramsStr): $resultType = (${params.mkString(", ")}) match {""")
       partialMap.foreach {
-        case (elem @ DepElem(_, ps), d) => {
+        case (elem @ DepElem(_, ps), _) => {
           val conds = rawParams.map(rp => if (ps.contains(rp)) s"true" else s"false")
           val cond = conds.mkString("(", ", ", ")")
           val res = getResult(elem)
