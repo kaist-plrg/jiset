@@ -85,7 +85,7 @@ case class Rhs(
     var cond: String
 ) {
   // check whehter if tokens is a single nonterminal
-  def isSingleNT: Boolean = tokens match {
+  def isSingleNT: Boolean = tokens.flatMap(_.norm) match {
     case List(_: NonTerminal) => true
     case _ => false
   }
@@ -115,7 +115,13 @@ case class Rhs(
 }
 
 // tokens
-trait Token
+trait Token {
+  def norm: Option[Token] = this match {
+    case ButNot(base, _) => base.norm
+    case EmptyToken | Lookahead(_, _) => None
+    case t => Some(t)
+  }
+}
 case class Terminal(var term: String) extends Token
 case class NonTerminal(
     var name: String,
