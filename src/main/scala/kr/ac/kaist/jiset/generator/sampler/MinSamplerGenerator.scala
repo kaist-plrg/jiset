@@ -31,7 +31,7 @@ case class MinSamplerGenerator(grammar: Grammar) extends GrammarWorklist[String]
     "IdentifierName" -> "x",
     "NullLiteral" -> "null",
     "BooleanLiteral" -> "true",
-    "NumericLiteral" -> "0",
+    "NumericLiteral" -> "42",
     "StringLiteral" -> "''",
     "NoSubstitutionTemplate" -> "``",
     "TemplateHead" -> "`${",
