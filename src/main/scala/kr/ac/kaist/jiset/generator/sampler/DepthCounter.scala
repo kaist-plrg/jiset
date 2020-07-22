@@ -15,7 +15,7 @@ case class DepthCounter(grammar: Grammar) extends GrammarWorklist[Int](grammar) 
     val rhsD = getRhsDepth(pair)
     s"Depth($d, $rhsD)"
   }
-  def preString: String = "case class Depth(depth: Int, rhsDepth: List[Option[Int]])"
+  def preString: String = "  case class Depth(depth: Int, rhsDepth: List[Option[Int]])"
 
   private lazy val Grammar(lexProds, prods) = grammar
   private lazy val targetProds = prods.filter(!_.lhs.isModule)
