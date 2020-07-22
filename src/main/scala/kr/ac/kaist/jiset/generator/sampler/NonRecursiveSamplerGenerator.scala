@@ -40,14 +40,10 @@ case class NonRecursiveSamplerGenerator(
   }
 
   def getCandidates(name: String, bs: List[String], rhs: Rhs, idx: Int): Unit = {
-    // rhs
-    // val listItems = StatementListItem(pYield, pAwait, pReturn)
-    // s = s union listItems.map(StatementList0(_, List(pYield, pAwait, pReturn)))
     if (!rhs.containsModuleNT) {
       val Rhs(tokens, cond) = rhs
       val space = if (cond != "") "        " else "      "
       if (cond != "") nf.println(s"      if ($cond) {")
-      // val listItems = StatementListItem(pYield, pAwait, pReturn), tokenIdx
       val tokenInfo = tokens.zipWithIndex.flatMap {
         case (token, i) => tokenSampler(token) match {
           case Some((name, argsStr, optional)) =>
@@ -123,7 +119,6 @@ case class NonRecursiveSamplerGenerator(
   nf.println(s"""import scala.collection.immutable.{ Set => ScalaSet }""")
   nf.println
   nf.println(s"""class NonRecursiveSampler {""")
-  nf.println(s"""  val counter = DepthCounter""")
   nf.println(s"""  var visited: ScalaSet[(String, List[Boolean])] = ScalaSet()""")
   nf.println
   nf.println(s"""  private def IdentifierName(): ScalaSet[Lexical] = ScalaSet(Lexical("IdentifierName", MinSampler.IdentifierName()))""")
