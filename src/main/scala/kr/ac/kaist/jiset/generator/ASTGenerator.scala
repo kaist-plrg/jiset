@@ -144,6 +144,7 @@ object ASTGenerator {
         case Terminal(term) => Some(s"k += ${term.length + 1}")
         case NonTerminal(_, _, true) => Some(s"k = x$i.fold(k)(_.updateSpan(k)) + 1")
         case NonTerminal(_, _, false) | ButNot(_, _) => Some(s"k = x$i.updateSpan(k) + 1")
+        case EmptyToken => Some(s"k += 1")
         case _ => None
       }
     } yield line
