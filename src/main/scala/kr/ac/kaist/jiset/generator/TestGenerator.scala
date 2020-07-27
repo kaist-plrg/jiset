@@ -11,6 +11,7 @@ object TestGenerator {
     resourceDir: String = "../ires/src/main/resources",
     grammar: Grammar = Spec(s"$RESOURCE_DIR/$VERSION/auto/spec.json").grammar
   ): Unit = {
+    ASTGenerator(packageName, modelDir, grammar)
     DepthCounter(grammar).generate(packageName, modelDir)
     TargetRHSGenerator(grammar).generate(resourceDir)
     SamplerGenerator(packageName, modelDir, grammar)

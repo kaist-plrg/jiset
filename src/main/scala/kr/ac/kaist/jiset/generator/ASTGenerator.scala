@@ -32,6 +32,7 @@ object ASTGenerator {
             (t, i) <- paramTypes.zipWithIndex if t != ""
           ) yield ("x" + i.toString, t)
           val string = getString(rhs)
+          val updateSpan = getUpdateSpan(rhs)
           val isNTs = rhs.tokens.forall {
             case NonTerminal(_, _, _) => true
             case _ => false
@@ -66,6 +67,13 @@ object ASTGenerator {
               else nf.println(s"  $x.parent = Some(this)")
           }
           nf.println(s"""  val name: String = "$name$i"""")
+          nf.println(s"""  def updateSpan(start: Int): Int = {""")
+          nf.println(s"""    this.start = start""")
+          nf.println(s"""    var k = start""")
+          updateSpan.foreach(line => nf.println(s"""    $line"""))
+          nf.println(s"""    this.end = k - 1""")
+          nf.println(s"""    this.end""")
+          nf.println(s"""  }""")
           nf.println(s"""  override def toString: String = {""")
           nf.println(s"""    s"$string"""")
           nf.println(s"""  }""")
@@ -76,8 +84,11 @@ object ASTGenerator {
           nf.println(s"""object $name$i extends ASTInfo {""")
           nf.println(s"""  val maxK: Int = $maxK""")
           var sems: List[String] = Nil
+          val ignoreNames = List("AssignmentTargetType", "ContainsDuplicateLabels", "ContainsUndefinedBreakTarget", "ContainsUndefinedContinueTarget", "HasDirectSuper")
+          def isIgnore(name: String): Boolean = ignoreNames.exists(ignore => name contains ignore)
           for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/manual/algorithm")) {
-            if (scalaFilter(file.getName)) {
+            val filename = file.getName
+            if (scalaFilter(filename) && !isIgnore(filename)) {
               val methodName = removedExt(file.getName)
               if (noExpectedArgumentCount || methodName != "FormalParameters1ExpectedArgumentCount0") {
                 val pre = s"$name$i"
@@ -90,7 +101,8 @@ object ASTGenerator {
             }
           }
           for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/auto/algorithm")) {
-            if (jsonFilter(file.getName)) {
+            val filename = file.getName
+            if (jsonFilter(filename) && !isIgnore(filename)) {
               val methodName = removedExt(file.getName)
               val pre = s"$name$i"
               val len = pre.length
@@ -125,6 +137,16 @@ object ASTGenerator {
       }
       if strOpt.isDefined
     } yield strOpt.get).mkString(" ")
+
+    def getUpdateSpan(rhs: Rhs): List[String] = for {
+      (token, i) <- rhs.tokens.zipWithIndex
+      line <- token match {
+        case Terminal(term) => Some(s"k += ${term.length + 1}")
+        case NonTerminal(_, _, true) => Some(s"k = x$i.fold(k)(_.updateSpan(k)) + 1")
+        case NonTerminal(_, _, false) | ButNot(_, _) => Some(s"k = x$i.updateSpan(k) + 1")
+        case _ => None
+      }
+    } yield line
 
     def getType(token: Token): String = token match {
       case NonTerminal(name, _, optional) => if (optional) s"Option[$name]" else name
