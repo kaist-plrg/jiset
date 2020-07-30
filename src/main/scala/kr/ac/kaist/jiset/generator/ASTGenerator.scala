@@ -67,15 +67,15 @@ object ASTGenerator {
               else nf.println(s"  $x.parent = Some(this)")
           }
           nf.println(s"""  val name: String = "$name$i"""")
-          nf.println(s"""  def updateSpan(start: Int): Int = {""")
-          nf.println(s"""    this.start = start""")
-          nf.println(s"""    var k = start""")
+          nf.println(s"""  def updateSpan(newStart: Int): Int = {""")
+          nf.println(s"""    start = newStart""")
+          nf.println(s"""    end = start""")
           updateSpan.foreach(line => nf.println(s"""    $line"""))
-          nf.println(s"""    this.end = k - 1""")
-          nf.println(s"""    this.end""")
+          nf.println(s"""    if (end > start) end -= 1""")
+          nf.println(s"""    end""")
           nf.println(s"""  }""")
           nf.println(s"""  override def toString: String = {""")
-          nf.println(s"""    s"$string"""")
+          nf.println(s"""    $string""")
           nf.println(s"""  }""")
           nf.println(s"""  val k: Int = ${params.foldLeft("0") { case (str, (x, _)) => s"d($x, $str)" }}""")
           nf.println(s"""  val fullList: List[(String, Value)] = $listString.reverse""")
@@ -129,22 +129,20 @@ object ASTGenerator {
 
     def getString(rhs: Rhs): String = (for {
       (token, i) <- rhs.tokens.zipWithIndex
-      strOpt = token match {
-        case Terminal(term) => Some(term)
-        case NonTerminal(_, _, true) => Some(s"""$${x$i.getOrElse("")}""")
-        case NonTerminal(_, _, false) | ButNot(_, _) => Some(s"""$$x$i""")
+      str <- token match {
+        case Terminal(term) => Some(s""""$term"""")
+        case NonTerminal(_, _, true) => Some(s"""x$i.getOrElse("")""")
+        case NonTerminal(_, _, false) | ButNot(_, _) => Some(s"""x$i""")
         case _ => None
       }
-      if strOpt.isDefined
-    } yield strOpt.get).mkString(" ")
+    } yield str).mkString("s(", ", ", ")")
 
     def getUpdateSpan(rhs: Rhs): List[String] = for {
       (token, i) <- rhs.tokens.zipWithIndex
       line <- token match {
-        case Terminal(term) => Some(s"k += ${term.length + 1}")
-        case NonTerminal(_, _, true) => Some(s"k = x$i.fold(k)(_.updateSpan(k)) + 1")
-        case NonTerminal(_, _, false) | ButNot(_, _) => Some(s"k = x$i.updateSpan(k) + 1")
-        case EmptyToken => Some(s"k += 1")
+        case Terminal(term) => Some(s"inc(end + ${term.length})")
+        case NonTerminal(_, _, true) => Some(s"x$i.map(x => inc(x.updateSpan(end)))")
+        case NonTerminal(_, _, false) | ButNot(_, _) => Some(s"inc(x$i.updateSpan(end))")
         case _ => None
       }
     } yield line
