@@ -4,6 +4,7 @@ import java.io.File
 import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset.{ DIFFLIST, RESOURCE_DIR }
 import kr.ac.kaist.jiset.algorithm._
+import kr.ac.kaist.jiset.model.AlgoCompiler
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
 import scala.Console.{ RESET, GREEN }
@@ -19,16 +20,24 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
     unit: Unit,
     jisetConfig: JISETConfig,
     config: AlgoStepDiffConfig
+  ): Unit = {
+    apply("general", GeneralAlgoCompiler("", _))
+    apply("manual", AlgoCompiler("", _))
+  }
+
+  def apply(
+    genName: String,
+    algoGen: Algorithm => GeneralAlgoCompilerHelper
   ): Unit = DIFFLIST match {
     case base :: rest =>
       println("calculating algorithm steps...")
-      val initSt = getState(base)
+      val initSt = getState(base, algoGen)
       val initRes = getRes(initSt)
       val (_, res) = rest.foldLeft((initSt, initRes)) {
         case ((prevSt, prevRes), _version) =>
           val State(prevVersion, prevAlgoMap, _, _) = prevSt
           val AllResult(each, diff) = prevRes
-          val st = getState(_version)
+          val st = getState(_version, algoGen)
           val version = _version.dropRight(5)
           val tlb = getTLB(st)
           val diffLang = MMap[String, Boolean]()
@@ -55,9 +64,8 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
           (st, AllResult(each + (version -> tlb), diff + (diffVersion -> diffTLB)))
       }
       val (each, diff) = getAverage(res)
-      println("finished")
       println("========================================")
-      println("ECMAScript each version")
+      println(s"ECMAScript each version ($genName)")
       println("========================================")
       for ((version, TLB(all, lang, builtin)) <- res.each) {
         println(f"${"   "}%-8s Total   : ${getCountString(all)}")
@@ -71,7 +79,7 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
       println("========================================")
       println
       println("========================================")
-      println("ECMAScript update")
+      println(s"ECMAScript update ($genName)")
       println("========================================")
       for ((version, TLB(all, lang, builtin)) <- res.diff) {
         println(f"${"   "}%-15s Total   : ${getCountString(all)}")
@@ -112,7 +120,7 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
   def getAverage(res: AllResult): (TLB, TLB) =
     (getAverage(res.each), getAverage(res.diff))
 
-  def getState(version: String): State = {
+  def getState(version: String, algoGen: Algorithm => GeneralAlgoCompilerHelper): State = {
     val dirName = s"$RESOURCE_DIR/$version/auto/algorithm"
     val lang = MMap[String, Boolean]()
     val builtin = MMap[String, Boolean]()
@@ -122,7 +130,7 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
       val algo = Algorithm(name)
       val stepMap = if (algo.lang) lang else builtin
       val lineCount = algo.lineCount
-      lazy val compiler = GeneralAlgoCompiler("", algo)
+      lazy val compiler = algoGen(algo)
       lazy val (func, failed) = compiler.result
 
       algoMap += algo.filename.split("/").last -> (algo, failed.keySet, splitAlgo(algo))
@@ -130,7 +138,10 @@ case object AlgoStepDiff extends PhaseObj[Unit, AlgoStepDiffConfig, Unit] {
         stepMap += s"$name$k" -> !(failed contains k)
       })
     }
-    State(version.dropRight(5), algoMap.toMap, lang.toMap, builtin.toMap)
+    val shortVersion = version.dropRight(5)
+    val algoRes = getCountString(countPass(algoMap.toMap.map { case (k, (_, f, _)) => k -> f.isEmpty }))
+    println(s"$shortVersion: $algoRes")
+    State(shortVersion, algoMap.toMap, lang.toMap, builtin.toMap)
   }
 
   def getTLB(st: State): TLB = {
