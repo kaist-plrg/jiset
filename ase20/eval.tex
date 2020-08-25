@@ -1,23 +1,5 @@
 \section{Evaluation}\label{sec:eval}
 
-We developed \( \tool \) as an open-source
-tool\footnote{https://github.com/kaist-plrg/jiset}, and evaluated the tool based
-on the following research questions:
-\begin{itemize}[leftmargin=0.5cm]
-\item RQ1. \textbf{Coverage:} How much percentage of 
-the syntax and semantics does \( \tool \) automatically extract from ES7 to ES10?
-\item RQ2. \textbf{Correctness:} Does \( \tool \) extract an IR-based formal
-semantics from ECMAScript correctly?
-\item RQ3. \textbf{Forward Compatibility:} Is \( \tool \) applicable to language
-features ready for inclusion in the next ECMAScript (ES11)?
-\end{itemize}
-We performed our experiments on a machine equipped with 4.2GHz Quad-Core Intel
-Core i7 and 64GB of RAM.  On the machine, \( \tool \) took less than one minute
-to extract IR-based semantics from a given ECMAScript.
-
-
-\subsection{Coverage}
-
 \begin{table}[t]
   \caption{Syntax coverage: Number of productions in each specification
 and in each update between adjacent versions,
@@ -73,6 +55,24 @@ from \textit{all} of which \( \tool \) automatically generated parsers}
   \]
 \end{table}
 
+We developed \( \tool \) as an open-source
+tool\footnote{https://github.com/kaist-plrg/jiset}, and evaluated the tool based
+on the following research questions:
+\begin{itemize}[leftmargin=0.5cm]
+\item RQ1. \textbf{Coverage:} How much percentage of 
+the syntax and semantics does \( \tool \) automatically extract from ES7 to ES10?
+\item RQ2. \textbf{Correctness:} Does \( \tool \) extract an IR-based formal
+semantics from ECMAScript correctly?
+\item RQ3. \textbf{Forward Compatibility:} Is \( \tool \) applicable to language
+features ready for inclusion in the next ECMAScript (ES11)?
+\end{itemize}
+We performed our experiments on a machine equipped with 4.2GHz Quad-Core Intel
+Core i7 and 64GB of RAM.  On the machine, \( \tool \) took less than one minute
+to extract IR-based semantics from a given ECMAScript.
+
+
+\subsection{Coverage}
+
 We evaluated the coverage of \( \tool \) in two respects: syntax
 and semantics.  For syntax, we measured how many grammar
 productions in specifications \( \tool \) automatically generated
@@ -86,55 +86,6 @@ numbers for each ECMAScript version and for each update between
 adjacent versions.
 
 
-
-For syntax, \( \tool \) automatically generated parsers for \textit{all} the
-lexical and syntactic productions.  As Table~\ref{fig:syntax-all-version} shows,
-the average numbers of lexical and syntactic productions are 78.75 and
-166.25, respectively.  Also, the average numbers of annually updated
-lexical and syntactic productions between adjacent versions are 4.67 and
-54.33, respectively.
-
-\begin{figure}[t]
-  \centering
-  \begin{subfigure}{0.48\textwidth}
-    \includegraphics[width=\textwidth]{img/sem-all.pdf}
-    \caption{For each ECMAScript version from ES7 to ES10}
-    \vspace*{1.5em}
-    \label{fig:semantics-all-version}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}{0.48\textwidth}
-    \includegraphics[width=\textwidth]{img/sem-update.pdf}
-    \caption{For each update between adjacent versions}
-    \label{fig:semantics-all-version-update}
-  \end{subfigure}
-\vspace*{-.5em}
-\caption{Semantics coverage: Number of algorithm steps in specifications,
-from which \( \tool \) generated the semantics}
-  \label{fig:all-version}
-\vspace*{-0.5em}
-\end{figure}
-
-For semantics, Figure~\ref{fig:all-version} shows that \( \tool \) automatically
-compiled algorithm steps to corresponding \( \ires \) instructions with
-the success rate of 95.03\% on average for each ECMAScript version
-from ES7 to ES10, and 94.31\% for each update between adjacent
-versions.  ECMAScript abstract algorithms describe not only
-core language semantics but also built-in libraries with various helper functions.
-Note that built-in libraries are written in more diverse styles than
-core language semantics due to their own specific functionalities.
-Therefore, built-in libraries have lower success rates
-(92.55\% for specifications and 91.50\% for updates) than core
-language semantics (97.06\% for specifications and 97.14\% for
-updates).
-
-Because \( \tool \) automatically extracts the syntax
-and semantics from specifications and updates with high coverage rates,
-it reduces efforts not only in developing JavaScript tools from scratch
-from specifications but also in evolving existing tools for updates.
-
-
-\subsection{Correctness}\label{sec:check-with-tests}
 \begin{table*}[t]
   \centering
   \caption{Specification errors in ES10 and the BigInt proposal ready for
@@ -270,6 +221,55 @@ from specifications but also in evolving existing tools for updates.
     1
   \end{tabular}
 \end{table*}
+
+For syntax, \( \tool \) automatically generated parsers for \textit{all} the
+lexical and syntactic productions.  As Table~\ref{fig:syntax-all-version} shows,
+the average numbers of lexical and syntactic productions are 78.75 and
+166.25, respectively.  Also, the average numbers of annually updated
+lexical and syntactic productions between adjacent versions are 4.67 and
+54.33, respectively.
+
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img/sem-all.pdf}
+    \caption{For each ECMAScript version from ES7 to ES10}
+    \vspace*{1.5em}
+    \label{fig:semantics-all-version}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth]{img/sem-update.pdf}
+    \caption{For each update between adjacent versions}
+    \label{fig:semantics-all-version-update}
+  \end{subfigure}
+\vspace*{-.5em}
+\caption{Semantics coverage: Number of algorithm steps in specifications,
+from which \( \tool \) generated the semantics}
+  \label{fig:all-version}
+\vspace*{-0.5em}
+\end{figure}
+
+For semantics, Figure~\ref{fig:all-version} shows that \( \tool \) automatically
+compiled algorithm steps to corresponding \( \ires \) instructions with
+the success rate of 95.03\% on average for each ECMAScript version
+from ES7 to ES10, and 94.31\% for each update between adjacent
+versions.  ECMAScript abstract algorithms describe not only
+core language semantics but also built-in libraries with various helper functions.
+Note that built-in libraries are written in more diverse styles than
+core language semantics due to their own specific functionalities.
+Therefore, built-in libraries have lower success rates
+(92.55\% for specifications and 91.50\% for updates) than core
+language semantics (97.06\% for specifications and 97.14\% for
+updates).
+
+Because \( \tool \) automatically extracts the syntax
+and semantics from specifications and updates with high coverage rates,
+it reduces efforts not only in developing JavaScript tools from scratch
+from specifications but also in evolving existing tools for updates.
+
+
+\subsection{Correctness}\label{sec:check-with-tests}
 
 \begin{table}[t]
   \centering
