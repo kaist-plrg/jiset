@@ -1,8 +1,9 @@
 \section{Related Work}\label{sec:related}
 Our technique is closely related to three fields: parser generation,
-automatic model generation, and formal semantics of JavaScript.
+automatic semantics extraction, and formal semantics of JavaScript.
 
-From Packrat parsing~\cite{packrat} with PEG~\cite{peg}, recursive-descent
+\textbf{Parser Generation:} From Packrat parsing~\cite{packrat} with
+PEG~\cite{peg}, recursive-descent
 parsers with backtracking support linear-time parsing.  However, it
 has the fundamental problem of ordered choices: \( ab \) is silently
 unmatched with \( a ~/~ ab \).  While Generalized LL (GLL) parsing~\cite{gll}
@@ -16,10 +17,13 @@ parsing is \( O(k \cdot n) \) for the constant
 number of tokens \( k \). We experimentally showed that it can generate parsers
 for the most recent four versions of ECMAScript.
 
-The closest work to ours in automatic model generation
-is \citet{javadoc}'s, which generates Java code from Javadoc comments
-for API functions.  Using NLP techniques and heuristic methods,
-it produces candidate code and removes wrong ones
+\textbf{Automatic Semantics Extraction:} The closest work to ours is the formal
+semantics extraction for x86~\cite{extract-x86} and ARM~\cite{extract-arm}.
+They utilized complex Natural Language Processing (NLP) and Machine Learning
+(ML) to extract formal semantics of small-sized low-level assembly languages.
+Another related work is \citet{javadoc}'s automatic model generation, which
+generates Java code from Javadoc comments for API functions.  Using NLP techniques
+and heuristic methods, it produces candidate code and removes wrong ones
 by testing them with actual implementation. Unlike their approach, we
 introduce a semi-automatic synthesis using general compile rules that
 represent common writing patterns of specifications.  The extracted
