@@ -1,0 +1,18 @@
+\section{Conclusion}\label{sec:conclude}
+Annual updates of ECMAScript make it difficult to build program
+analysis or formal verification of JavaScript due to the required human efforts
+in modeling a moving target.  In this paper, we proposed \( \tool \), a tool
+that \textit{automatically} extracts the syntax and semantics as a parser and
+an AST-IR translator from ECMAScript written in English.
+The tool automatically extracts all the syntax and 95.03\% of the
+semantics for the most recent four versions of ECMAScript (ES7 to ES10).
+We evaluated the correctness of the tool by testing the extracted
+semantics from ES10 with Test262, the official conformance suite.
+Using 1,709 failed tests, we found nine specification errors,
+four of which are newly discovered, confirmed by TC39, and planned to
+be integrated in ES11.  After fixing the errors, the extracted
+semantics passed all 18,064 applicable tests in Test262.
+We also showed that \( \tool \) is forward compatible by applying it to nine
+proposals to be included in ES11, which let us find three errors in the
+BigInt proposal.  We believe that \( \tool \) can dramatically reduce
+human efforts in building various JavaScript tools correctly.
