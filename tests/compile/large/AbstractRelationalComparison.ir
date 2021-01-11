@@ -1,0 +1,116 @@
+{
+  if (= LeftFirst absent) let LeftFirst = true else {}
+  if (= LeftFirst true) {
+    app __x0__ = (ToPrimitive x Number)
+    if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+    let px = __x0__
+    app __x1__ = (ToPrimitive y Number)
+    if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+    let py = __x1__
+  } else {
+    app __x2__ = (ToPrimitive y Number)
+    if (is-completion __x2__) if (= __x2__["Type"] CONST_normal) __x2__ = __x2__["Value"] else return __x2__ else {}
+    let py = __x2__
+    app __x3__ = (ToPrimitive x Number)
+    if (is-completion __x3__) if (= __x3__["Type"] CONST_normal) __x3__ = __x3__["Value"] else return __x3__ else {}
+    let px = __x3__
+  }
+  app __x4__ = (Type px)
+  let __x5__ = (= __x4__ String)
+  if __x5__ {
+    app __x6__ = (Type py)
+    __x5__ = (= __x6__ String)
+  } else {}
+  if __x5__ {
+    app __x7__ = (IsStringPrefix py px)
+    if (= __x7__ true) {
+      app __x8__ = (WrapCompletion false)
+      return __x8__
+    } else {}
+    app __x9__ = (IsStringPrefix px py)
+    if (= __x9__ true) {
+      app __x10__ = (WrapCompletion true)
+      return __x10__
+    } else {}
+    ??? "Let id:{k} be the smallest nonnegative integer such that the code unit at index id:{k} within id:{px} is different from the code unit at index id:{k} within id:{py} . ( There must be such a id:{k} , for neither String is a prefix of the other . )"
+    ??? "Let id:{m} be the integer that is the numeric value of the code unit at index id:{k} within id:{px} ."
+    ??? "Let id:{n} be the integer that is the numeric value of the code unit at index id:{k} within id:{py} ."
+    if (< m n) {
+      app __x11__ = (WrapCompletion true)
+      return __x11__
+    } else {
+      app __x12__ = (WrapCompletion false)
+      return __x12__
+    }
+  } else {
+    app __x13__ = (Type px)
+    let __x14__ = (= __x13__ BigInt)
+    if __x14__ {
+      app __x15__ = (Type py)
+      __x14__ = (= __x15__ String)
+    } else {}
+    if __x14__ {
+      app __x16__ = (StringToBigInt py)
+      if (is-completion __x16__) if (= __x16__["Type"] CONST_normal) __x16__ = __x16__["Value"] else return __x16__ else {}
+      let ny = __x16__
+      if (= ny NaN) {
+        app __x17__ = (WrapCompletion undefined)
+        return __x17__
+      } else {}
+      ??? "Return BigInt : : lessThan ( id:{px} , id:{ny} ) ."
+    } else {}
+    app __x18__ = (Type px)
+    let __x19__ = (= __x18__ String)
+    if __x19__ {
+      app __x20__ = (Type py)
+      __x19__ = (= __x20__ BigInt)
+    } else {}
+    if __x19__ {
+      app __x21__ = (StringToBigInt px)
+      if (is-completion __x21__) if (= __x21__["Type"] CONST_normal) __x21__ = __x21__["Value"] else return __x21__ else {}
+      let nx = __x21__
+      if (= nx NaN) {
+        app __x22__ = (WrapCompletion undefined)
+        return __x22__
+      } else {}
+      ??? "Return BigInt : : lessThan ( id:{nx} , id:{py} ) ."
+    } else {}
+    app __x23__ = (ToNumeric px)
+    if (is-completion __x23__) if (= __x23__["Type"] CONST_normal) __x23__ = __x23__["Value"] else return __x23__ else {}
+    let nx = __x23__
+    app __x24__ = (ToNumeric py)
+    if (is-completion __x24__) if (= __x24__["Type"] CONST_normal) __x24__ = __x24__["Value"] else return __x24__ else {}
+    let ny = __x24__
+    ??? "If Type ( id:{nx} ) is the same as Type ( id:{ny} ) , return Type ( id:{nx} ) : : lessThan ( id:{nx} , id:{ny} ) ."
+    app __x25__ = (Type nx)
+    let __x26__ = (= __x25__ BigInt)
+    if __x26__ {
+      app __x27__ = (Type ny)
+      let __x28__ = (= __x27__ Number)
+      if __x28__ {} else {
+        app __x29__ = (Type nx)
+        let __x30__ = (= __x29__ Number)
+        if __x30__ {
+          app __x31__ = (Type ny)
+          __x30__ = (= __x31__ BigInt)
+        } else {}
+        __x28__ = __x30__
+      }
+      __x26__ = __x28__
+    } else {}
+    assert __x26__
+    if (|| (= nx NaN) (= ny NaN)) {
+      app __x32__ = (WrapCompletion undefined)
+      return __x32__
+    } else {}
+    if (|| (= nx -Infinity) (= ny Infinity)) {
+      app __x33__ = (WrapCompletion true)
+      return __x33__
+    } else {}
+    if (|| (= nx Infinity) (= ny -Infinity)) {
+      app __x34__ = (WrapCompletion false)
+      return __x34__
+    } else {}
+    ??? "If the mathematical value of id:{nx} is less than the mathematical value of id:{ny} , return value:{true} ; otherwise return value:{false} ."
+  }
+}

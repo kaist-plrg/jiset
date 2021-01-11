@@ -1,0 +1,161 @@
+[{
+  "tokens": ["Let", {
+    "id": "job"
+  }, "be", "a", "new", "Job", "abstract", "closure", "with", "no", "parameters", "that", "captures", {
+    "id": "reaction"
+  }, "and", {
+    "id": "argument"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":", {
+    "steps": [{
+      "tokens": ["Assert", ":", {
+        "id": "reaction"
+      }, "is", "a", "PromiseReaction", "Record", "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "promiseCapability"
+      }, "be", {
+        "id": "reaction"
+      }, ".", "[", "[", "Capability", "]", "]", "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "type"
+      }, "be", {
+        "id": "reaction"
+      }, ".", "[", "[", "Type", "]", "]", "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "handler"
+      }, "be", {
+        "id": "reaction"
+      }, ".", "[", "[", "Handler", "]", "]", "."]
+    }, {
+      "tokens": ["If", {
+        "id": "handler"
+      }, "is", {
+        "value": "undefined"
+      }, ",", "then", {
+        "steps": [{
+          "tokens": ["If", {
+            "id": "type"
+          }, "is", {
+            "const": "Fulfill"
+          }, ",", "let", {
+            "id": "handlerResult"
+          }, "be", "NormalCompletion", "(", {
+            "id": "argument"
+          }, ")", "."]
+        }, {
+          "tokens": ["Else", ",", {
+            "steps": [{
+              "tokens": ["Assert", ":", {
+                "id": "type"
+              }, "is", {
+                "const": "Reject"
+              }, "."]
+            }, {
+              "tokens": ["Let", {
+                "id": "handlerResult"
+              }, "be", "ThrowCompletion", "(", {
+                "id": "argument"
+              }, ")", "."]
+            }]
+          }]
+        }]
+      }]
+    }, {
+      "tokens": ["Else", ",", "let", {
+        "id": "handlerResult"
+      }, "be", "Call", "(", {
+        "id": "handler"
+      }, ",", {
+        "value": "undefined"
+      }, ",", "«", {
+        "id": "argument"
+      }, "»", ")", "."]
+    }, {
+      "tokens": ["If", {
+        "id": "promiseCapability"
+      }, "is", {
+        "value": "undefined"
+      }, ",", "then", {
+        "steps": [{
+          "tokens": ["Assert", ":", {
+            "id": "handlerResult"
+          }, "is", "not", "an", "abrupt", "completion", "."]
+        }, {
+          "tokens": ["Return", "NormalCompletion", "(", {
+            "const": "empty"
+          }, ")", "."]
+        }]
+      }]
+    }, {
+      "tokens": ["If", {
+        "id": "handlerResult"
+      }, "is", "an", "abrupt", "completion", ",", "then", {
+        "steps": [{
+          "tokens": ["Let", {
+            "id": "status"
+          }, "be", "Call", "(", {
+            "id": "promiseCapability"
+          }, ".", "[", "[", "Reject", "]", "]", ",", {
+            "value": "undefined"
+          }, ",", "«", {
+            "id": "handlerResult"
+          }, ".", "[", "[", "Value", "]", "]", "»", ")", "."]
+        }]
+      }]
+    }, {
+      "tokens": ["Else", ",", {
+        "steps": [{
+          "tokens": ["Let", {
+            "id": "status"
+          }, "be", "Call", "(", {
+            "id": "promiseCapability"
+          }, ".", "[", "[", "Resolve", "]", "]", ",", {
+            "value": "undefined"
+          }, ",", "«", {
+            "id": "handlerResult"
+          }, ".", "[", "[", "Value", "]", "]", "»", ")", "."]
+        }]
+      }]
+    }, {
+      "tokens": ["Return", "Completion", "(", {
+        "id": "status"
+      }, ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Let", {
+    "id": "handlerRealm"
+  }, "be", {
+    "value": "null"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "reaction"
+  }, ".", "[", "[", "Handler", "]", "]", "is", "not", {
+    "value": "undefined"
+  }, ",", "then", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "getHandlerRealmResult"
+      }, "be", "GetFunctionRealm", "(", {
+        "id": "reaction"
+      }, ".", "[", "[", "Handler", "]", "]", ")", "."]
+    }, {
+      "tokens": ["If", {
+        "id": "getHandlerRealmResult"
+      }, "is", "a", "normal", "completion", ",", "then", "set", {
+        "id": "handlerRealm"
+      }, "to", {
+        "id": "getHandlerRealmResult"
+      }, ".", "[", "[", "Value", "]", "]", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Return", "the", "Record", "{", "[", "[", "Job", "]", "]", ":", {
+    "id": "job"
+  }, ",", "[", "[", "Realm", "]", "]", ":", {
+    "id": "handlerRealm"
+  }, "}", "."]
+}]

@@ -1,0 +1,14 @@
+{
+  access __x0__ = (BindingIdentifier "StringValue")
+  let name = __x0__
+  app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Generator FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  let F = __x1__
+  ??? "Let id:{prototype} be OrdinaryObjectCreate ( % Generator . prototype % ) ."
+  app __x2__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  __x2__
+  app __x3__ = (SetFunctionName F name)
+  __x3__
+  F["SourceText"] = (get-syntax this)
+  app __x4__ = (WrapCompletion F)
+  return __x4__
+}

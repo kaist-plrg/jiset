@@ -1,0 +1,24 @@
+{
+  access __x0__ = (OptionalChain "Contains")
+  app __x1__ = (__x0__ symbol)
+  if (= __x1__ true) {
+    app __x2__ = (WrapCompletion true)
+    return __x2__
+  } else {}
+  if (is-instance-of symbol ReservedWord) {
+    app __x3__ = (WrapCompletion false)
+    return __x3__
+  } else {}
+  let __x4__ = (is-instance-of symbol Identifier)
+  if __x4__ {
+    access __x5__ = (symbol "StringValue")
+    access __x6__ = (IdentifierName "StringValue")
+    __x4__ = (= __x5__ __x6__)
+  } else {}
+  if __x4__ {
+    app __x7__ = (WrapCompletion true)
+    return __x7__
+  } else {}
+  app __x8__ = (WrapCompletion false)
+  return __x8__
+}

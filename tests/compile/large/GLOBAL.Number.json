@@ -1,0 +1,65 @@
+[{
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "GetArgument", "(", {
+    "id": "argumentsList"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "argumentsList"
+  }, "[", "0", "]", "is", "present", ",", "then", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "prim"
+      }, "be", "?", "ToNumeric", "(", {
+        "id": "value"
+      }, ")", "."]
+    }, {
+      "tokens": ["If", "Type", "(", {
+        "id": "prim"
+      }, ")", "is", "BigInt", ",", "let", {
+        "id": "n"
+      }, "be", "the", "Number", "value", "for", "the", "mathematical", "value", "of", {
+        "id": "prim"
+      }, "."]
+    }, {
+      "tokens": ["Otherwise", ",", "let", {
+        "id": "n"
+      }, "be", {
+        "id": "prim"
+      }, "."]
+    }]
+  }]
+}, {
+  "tokens": ["Else", ",", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "n"
+      }, "be", {
+        "value": "+0"
+      }, "."]
+    }]
+  }]
+}, {
+  "tokens": ["If", "NewTarget", "is", {
+    "value": "undefined"
+  }, ",", "return", {
+    "id": "n"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+    "value": "\"%Number.prototype%\""
+  }, ",", "«", "[", "[", "NumberData", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "O"
+  }, ".", "[", "[", "NumberData", "]", "]", "to", {
+    "id": "n"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "O"
+  }, "."]
+}]

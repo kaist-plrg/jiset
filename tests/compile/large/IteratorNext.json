@@ -1,0 +1,39 @@
+[{
+  "tokens": ["If", {
+    "id": "value"
+  }, "is", "not", "present", ",", "then", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "result"
+      }, "be", "?", "Call", "(", {
+        "id": "iteratorRecord"
+      }, ".", "[", "[", "NextMethod", "]", "]", ",", {
+        "id": "iteratorRecord"
+      }, ".", "[", "[", "Iterator", "]", "]", ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Else", ",", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "result"
+      }, "be", "?", "Call", "(", {
+        "id": "iteratorRecord"
+      }, ".", "[", "[", "NextMethod", "]", "]", ",", {
+        "id": "iteratorRecord"
+      }, ".", "[", "[", "Iterator", "]", "]", ",", "«", {
+        "id": "value"
+      }, "»", ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "result"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "result"
+  }, "."]
+}]

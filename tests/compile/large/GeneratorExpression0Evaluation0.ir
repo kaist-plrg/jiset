@@ -1,0 +1,12 @@
+{
+  access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  let scope = __x0__
+  app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Generator FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  let closure = __x1__
+  ??? "Let id:{prototype} be OrdinaryObjectCreate ( % Generator . prototype % ) ."
+  app __x2__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  __x2__
+  closure["SourceText"] = (get-syntax this)
+  app __x3__ = (WrapCompletion closure)
+  return __x3__
+}

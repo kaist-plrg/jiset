@@ -1,0 +1,43 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "GetArgument", "(", {
+    "id": "argumentsList"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "Properties"
+  }, "be", "GetArgument", "(", {
+    "id": "argumentsList"
+  }, ",", "1", ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "O"
+  }, ")", "is", "neither", "Object", "nor", "Null", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "obj"
+  }, "be", "OrdinaryObjectCreate", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "Properties"
+  }, "is", "not", {
+    "value": "undefined"
+  }, ",", "then", {
+    "steps": [{
+      "tokens": ["Return", "?", "ObjectDefineProperties", "(", {
+        "id": "obj"
+      }, ",", {
+        "id": "Properties"
+      }, ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Return", {
+    "id": "obj"
+  }, "."]
+}]

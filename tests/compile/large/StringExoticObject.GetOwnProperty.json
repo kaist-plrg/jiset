@@ -1,0 +1,29 @@
+[{
+  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
+    "id": "P"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "desc"
+  }, "be", "OrdinaryGetOwnProperty", "(", {
+    "id": "S"
+  }, ",", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "desc"
+  }, "is", "not", {
+    "value": "undefined"
+  }, ",", "return", {
+    "id": "desc"
+  }, "."]
+}, {
+  "tokens": ["Return", "!", "StringGetOwnProperty", "(", {
+    "id": "S"
+  }, ",", {
+    "id": "P"
+  }, ")", "."]
+}]

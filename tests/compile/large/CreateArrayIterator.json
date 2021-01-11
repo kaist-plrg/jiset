@@ -1,0 +1,39 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "array"
+  }, ")", "is", "Object", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "kind"
+  }, "is", {
+    "const": "key+value"
+  }, ",", {
+    "const": "key"
+  }, ",", "or", {
+    "const": "value"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "iterator"
+  }, "be", "OrdinaryObjectCreate", "(", "%", "ArrayIteratorPrototype", "%", ",", "«", "[", "[", "IteratedArrayLike", "]", "]", ",", "[", "[", "ArrayLikeNextIndex", "]", "]", ",", "[", "[", "ArrayLikeIterationKind", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "iterator"
+  }, ".", "[", "[", "IteratedArrayLike", "]", "]", "to", {
+    "id": "array"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "iterator"
+  }, ".", "[", "[", "ArrayLikeNextIndex", "]", "]", "to", "0", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "iterator"
+  }, ".", "[", "[", "ArrayLikeIterationKind", "]", "]", "to", {
+    "id": "kind"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "iterator"
+  }, "."]
+}]

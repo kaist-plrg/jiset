@@ -33,6 +33,9 @@ class CommandObj[Result](
 // base command
 case object CmdBase extends CommandObj("", PhaseNil)
 
+// gen-test
+case object CmdGenTest extends CommandObj("gen-test", CmdBase >> GenTest)
+
 // parse-algo
 case object CmdParseAlgo extends CommandObj("parse-algo", CmdBase >> ParseAlgo) {
   override def display(algo: Algorithm): Unit = println(algo)

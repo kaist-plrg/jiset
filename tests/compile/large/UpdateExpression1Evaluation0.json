@@ -1,0 +1,33 @@
+[{
+  "tokens": ["Let", {
+    "id": "lhs"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "LeftHandSideExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "oldValue"
+  }, "be", "?", "ToNumeric", "(", "?", "GetValue", "(", {
+    "id": "lhs"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "newValue"
+  }, "be", "!", "Type", "(", {
+    "id": "oldvalue"
+  }, ")", ":", ":", "add", "(", {
+    "id": "oldValue"
+  }, ",", "Type", "(", {
+    "id": "oldValue"
+  }, ")", ":", ":", "unit", ")", "."]
+}, {
+  "tokens": ["Perform", "?", "PutValue", "(", {
+    "id": "lhs"
+  }, ",", {
+    "id": "newValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "oldValue"
+  }, "."]
+}]

@@ -1,0 +1,17 @@
+{
+  app __x0__ = (GetArgument argumentsList 0i)
+  let string = __x0__
+  app __x1__ = (ToString string)
+  if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+  let inputString = __x1__
+  app __x2__ = (TrimString inputString CONST_start)
+  if (is-completion __x2__) if (= __x2__["Type"] CONST_normal) __x2__ = __x2__["Value"] else return __x2__ else {}
+  let trimmedString = __x2__
+  ??? "If neither id:{trimmedString} nor any prefix of id:{trimmedString} satisfies the syntax of a nt:{StrDecimalLiteral} ( see 7 . 1 . 4 . 1 ) , return value:{NaN} ."
+  ??? "Let id:{numberString} be the longest prefix of id:{trimmedString} , which might be id:{trimmedString} itself , that satisfies the syntax of a nt:{StrDecimalLiteral} ."
+  access __x3__ = (numberString "MV")
+  let mathFloat = __x3__
+  ??? "If id:{mathFloat} = 0 ℝ , then step-list:{...}"
+  app __x4__ = (WrapCompletion mathFloat)
+  return __x4__
+}

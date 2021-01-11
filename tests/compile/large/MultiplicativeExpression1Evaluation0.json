@@ -1,0 +1,93 @@
+[{
+  "tokens": ["Let", {
+    "id": "left"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "MultiplicativeExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "leftValue"
+  }, "be", "?", "GetValue", "(", {
+    "id": "left"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "right"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "ExponentiationExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rightValue"
+  }, "be", "?", "GetValue", "(", {
+    "id": "right"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "lnum"
+  }, "be", "?", "ToNumeric", "(", {
+    "id": "leftValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rnum"
+  }, "be", "?", "ToNumeric", "(", {
+    "id": "rightValue"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "lnum"
+  }, ")", "is", "different", "from", "Type", "(", {
+    "id": "rnum"
+  }, ")", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "T"
+  }, "be", "Type", "(", {
+    "id": "lnum"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "nt": "MultiplicativeOperator"
+  }, "is", {
+    "code": "*"
+  }, ",", "return", {
+    "id": "T"
+  }, ":", ":", "multiply", "(", {
+    "id": "lnum"
+  }, ",", {
+    "id": "rnum"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "nt": "MultiplicativeOperator"
+  }, "is", {
+    "code": "/"
+  }, ",", "return", {
+    "id": "T"
+  }, ":", ":", "divide", "(", {
+    "id": "lnum"
+  }, ",", {
+    "id": "rnum"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", ",", {
+    "steps": [{
+      "tokens": ["Assert", ":", {
+        "nt": "MultiplicativeOperator"
+      }, "is", {
+        "code": "%"
+      }, "."]
+    }, {
+      "tokens": ["Return", {
+        "id": "T"
+      }, ":", ":", "remainder", "(", {
+        "id": "lnum"
+      }, ",", {
+        "id": "rnum"
+      }, ")", "."]
+    }]
+  }]
+}]

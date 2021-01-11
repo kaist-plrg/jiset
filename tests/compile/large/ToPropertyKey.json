@@ -1,0 +1,21 @@
+[{
+  "tokens": ["Let", {
+    "id": "key"
+  }, "be", "?", "ToPrimitive", "(", {
+    "id": "argument"
+  }, ",", "hint", "String", ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "key"
+  }, ")", "is", "Symbol", ",", "then", {
+    "steps": [{
+      "tokens": ["Return", {
+        "id": "key"
+      }, "."]
+    }]
+  }]
+}, {
+  "tokens": ["Return", "!", "ToString", "(", {
+    "id": "key"
+  }, ")", "."]
+}]

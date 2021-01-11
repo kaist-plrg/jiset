@@ -1,0 +1,55 @@
+[{
+  "tokens": ["Let", {
+    "id": "promise"
+  }, "be", "GetArgument", "(", {
+    "id": "argumentsList"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "GetArgument", "(", {
+    "id": "argumentsList"
+  }, ",", "1", ")", "."]
+}, {
+  "tokens": ["Assert", ":", "The", "value", "of", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseState", "]", "]", "is", {
+    "const": "pending"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "reactions"
+  }, "be", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseFulfillReactions", "]", "]", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseResult", "]", "]", "to", {
+    "id": "value"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseFulfillReactions", "]", "]", "to", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseRejectReactions", "]", "]", "to", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseState", "]", "]", "to", {
+    "const": "fulfilled"
+  }, "."]
+}, {
+  "tokens": ["Return", "TriggerPromiseReactions", "(", {
+    "id": "reactions"
+  }, ",", {
+    "id": "value"
+  }, ")", "."]
+}]

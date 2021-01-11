@@ -1,0 +1,31 @@
+{
+  let O = this
+  app __x0__ = (Type O)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeErrorPrototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  ??? "If id:{O} does not have all of the internal slots of a String Iterator Instance ( 21 . 1 . 5 . 3 ) , throw a value:{TypeError} exception ."
+  let s = O["IteratedString"]
+  if (= s undefined) {
+    app __x2__ = (CreateIterResultObject undefined true)
+    app __x3__ = (WrapCompletion __x2__)
+    return __x3__
+  } else {}
+  let position = O["StringNextIndex"]
+  let len = s["length"]
+  if (! (< position len)) {
+    O["IteratedString"] = undefined
+    app __x4__ = (CreateIterResultObject undefined true)
+    app __x5__ = (WrapCompletion __x4__)
+    return __x5__
+  } else {}
+  app __x6__ = (CodePointAt s position)
+  if (is-completion __x6__) if (= __x6__["Type"] CONST_normal) __x6__ = __x6__["Value"] else return __x6__ else {}
+  let cp = __x6__
+  ??? "Let id:{resultString} be the String value containing id:{cp} . [ [ CodeUnitCount ] ] consecutive code units from id:{s} beginning with the code unit at index id:{position} ."
+  O["StringNextIndex"] = (+ position cp["CodeUnitCount"])
+  app __x7__ = (CreateIterResultObject resultString false)
+  app __x8__ = (WrapCompletion __x7__)
+  return __x8__
+}

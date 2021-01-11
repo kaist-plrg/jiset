@@ -13,6 +13,16 @@ case class GeneralAlgoCompiler(
     algo: Algorithm
 ) extends GeneralAlgoCompilerHelper
 
+object GeneralAlgoCompiler {
+  val dummyAlgo = Algorithm(0, Nil, RuntimeSemantics, true, Nil, "")
+  def parse(steps: List[Step]): Inst = {
+    dummyAlgo.steps = steps
+    val compiler = GeneralAlgoCompiler("", dummyAlgo)
+    val (func, _) = compiler.result
+    func.body
+  }
+}
+
 trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   val algoName: String
   val algo: Algorithm
@@ -761,7 +771,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
   // values with tag `const`
   lazy val constValue: P[Expr] = const ^^ {
     case "[empty]" => EAbsent
-    case const => toERef("CONST_" + const.replaceAll("-", ""))
+    case const => toERef("CONST_" + const.replaceAll("-", "DASH").replaceAll("\\+", "PLUS"))
   }
 
   // number values

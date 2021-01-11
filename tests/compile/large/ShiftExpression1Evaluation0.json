@@ -1,0 +1,59 @@
+[{
+  "tokens": ["Let", {
+    "id": "lref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "ShiftExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "lval"
+  }, "be", "?", "GetValue", "(", {
+    "id": "lref"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AdditiveExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rval"
+  }, "be", "?", "GetValue", "(", {
+    "id": "rref"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "lnum"
+  }, "be", "?", "ToNumeric", "(", {
+    "id": "lval"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rnum"
+  }, "be", "?", "ToNumeric", "(", {
+    "id": "rval"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "lnum"
+  }, ")", "is", "different", "from", "Type", "(", {
+    "id": "rnum"
+  }, ")", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "T"
+  }, "be", "Type", "(", {
+    "id": "lnum"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "T"
+  }, ":", ":", "leftShift", "(", {
+    "id": "lnum"
+  }, ",", {
+    "id": "rnum"
+  }, ")", "."]
+}]

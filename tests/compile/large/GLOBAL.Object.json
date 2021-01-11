@@ -1,0 +1,29 @@
+[{
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "GetArgument", "(", {
+    "id": "argumentsList"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["If", "NewTarget", "is", "neither", {
+    "value": "undefined"
+  }, "nor", "the", "active", "function", ",", "then", {
+    "steps": [{
+      "tokens": ["Return", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+        "value": "\"%Object.prototype%\""
+      }, ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["If", {
+    "id": "value"
+  }, "is", {
+    "value": "undefined"
+  }, "or", {
+    "value": "null"
+  }, ",", "return", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", "."]
+}, {
+  "tokens": ["Return", "!", "ToObject", "(", {
+    "id": "value"
+  }, ")", "."]
+}]

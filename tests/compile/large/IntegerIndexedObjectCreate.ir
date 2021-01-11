@@ -1,0 +1,15 @@
+{
+  let internalSlotsList = (new ["Prototype", "Extensible", "ViewedArrayBuffer", "TypedArrayName", "ContentType", "ByteLength", "ByteOffset", "ArrayLength"])
+  app __x0__ = (MakeBasicObject internalSlotsList)
+  if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+  let A = __x0__
+  A["GetOwnProperty"] = IntegerIndexedExoticObjectDOTGetOwnProperty
+  A["HasProperty"] = IntegerIndexedExoticObjectDOTHasProperty
+  A["DefineOwnProperty"] = IntegerIndexedExoticObjectDOTDefineOwnProperty
+  A["Get"] = IntegerIndexedExoticObjectDOTGet
+  A["Set"] = IntegerIndexedExoticObjectDOTSet
+  A["OwnPropertyKeys"] = IntegerIndexedExoticObjectDOTOwnPropertyKeys
+  A["Prototype"] = prototype
+  app __x1__ = (WrapCompletion A)
+  return __x1__
+}

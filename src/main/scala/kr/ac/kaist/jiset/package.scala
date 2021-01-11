@@ -11,6 +11,8 @@ package object jiset {
 
   // Tests directory root
   val TEST_DIR = s"${BASE_DIR}/tests"
+  val COMPILE_DIR = s"${TEST_DIR}/compile"
+  val LARGE_DIR = s"${COMPILE_DIR}/large"
 
   // Resource directory root
   val RESOURCE_DIR = s"${BASE_DIR}/src/main/resources"

@@ -1,0 +1,69 @@
+[{
+  "tokens": ["Let", {
+    "id": "asyncContext"
+  }, "be", "the", "running", "execution", "context", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "promise"
+  }, "be", "?", "PromiseResolve", "(", "%", "Promise", "%", ",", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "stepsFulfilled"
+  }, "be", "the", "algorithm", "steps", "defined", "in", "Await", "Fulfilled", "Functions", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "onFulfilled"
+  }, "be", "!", "CreateBuiltinFunction", "(", {
+    "id": "stepsFulfilled"
+  }, ",", "«", "[", "[", "AsyncContext", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "onFulfilled"
+  }, ".", "[", "[", "AsyncContext", "]", "]", "to", {
+    "id": "asyncContext"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "stepsRejected"
+  }, "be", "the", "algorithm", "steps", "defined", "in", "Await", "Rejected", "Functions", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "onRejected"
+  }, "be", "!", "CreateBuiltinFunction", "(", {
+    "id": "stepsRejected"
+  }, ",", "«", "[", "[", "AsyncContext", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "onRejected"
+  }, ".", "[", "[", "AsyncContext", "]", "]", "to", {
+    "id": "asyncContext"
+  }, "."]
+}, {
+  "tokens": ["Perform", "!", "PerformPromiseThen", "(", {
+    "id": "promise"
+  }, ",", {
+    "id": "onFulfilled"
+  }, ",", {
+    "id": "onRejected"
+  }, ")", "."]
+}, {
+  "tokens": ["Remove", {
+    "id": "asyncContext"
+  }, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", "."]
+}, {
+  "tokens": ["Set", "the", "code", "evaluation", "state", "of", {
+    "id": "asyncContext"
+  }, "such", "that", "when", "evaluation", "is", "resumed", "with", "a", "Completion", {
+    "id": "completion"
+  }, ",", "the", "following", "steps", "of", "the", "algorithm", "that", "invoked", "Await", "will", "be", "performed", ",", "with", {
+    "id": "completion"
+  }, "available", "."]
+}, {
+  "tokens": ["ReturnCont", "."]
+}, {
+  "tokens": ["NOTE", ":", "This", "returns", "to", "the", "evaluation", "of", "the", "operation", "that", "had", "most", "previously", "resumed", "evaluation", "of", {
+    "id": "asyncContext"
+  }, "."]
+}]

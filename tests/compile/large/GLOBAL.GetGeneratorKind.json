@@ -1,0 +1,27 @@
+[{
+  "tokens": ["Let", {
+    "id": "genContext"
+  }, "be", "the", "running", "execution", "context", "."]
+}, {
+  "tokens": ["If", {
+    "id": "genContext"
+  }, "does", "not", "have", "a", "Generator", "component", ",", "return", {
+    "const": "non-generator"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "generator"
+  }, "be", "the", "Generator", "component", "of", {
+    "id": "genContext"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "generator"
+  }, "has", "an", "[", "[", "AsyncGeneratorState", "]", "]", "internal", "slot", ",", "return", {
+    "const": "async"
+  }, "."]
+}, {
+  "tokens": ["Else", ",", "return", {
+    "const": "sync"
+  }, "."]
+}]

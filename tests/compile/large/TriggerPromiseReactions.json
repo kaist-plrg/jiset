@@ -1,0 +1,27 @@
+[{
+  "tokens": ["For", "each", {
+    "id": "reaction"
+  }, "in", {
+    "id": "reactions"
+  }, ",", "in", "original", "insertion", "order", ",", "do", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "job"
+      }, "be", "NewPromiseReactionJob", "(", {
+        "id": "reaction"
+      }, ",", {
+        "id": "argument"
+      }, ")", "."]
+    }, {
+      "tokens": ["Perform", "HostEnqueuePromiseJob", "(", {
+        "id": "job"
+      }, ".", "[", "[", "Job", "]", "]", ",", {
+        "id": "job"
+      }, ".", "[", "[", "Realm", "]", "]", ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Return", {
+    "value": "undefined"
+  }, "."]
+}]

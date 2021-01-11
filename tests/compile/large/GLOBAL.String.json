@@ -1,0 +1,43 @@
+[{
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "GetArgument", "(", {
+    "id": "argumentsList"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "argumentsList"
+  }, "[", "0", "]", "is", "not", "present", ",", "let", {
+    "id": "s"
+  }, "be", "the", "empty", "String", "."]
+}, {
+  "tokens": ["Else", ",", {
+    "steps": [{
+      "tokens": ["If", "NewTarget", "is", {
+        "value": "undefined"
+      }, "and", "Type", "(", {
+        "id": "value"
+      }, ")", "is", "Symbol", ",", "return", "SymbolDescriptiveString", "(", {
+        "id": "value"
+      }, ")", "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "s"
+      }, "be", "?", "ToString", "(", {
+        "id": "value"
+      }, ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["If", "NewTarget", "is", {
+    "value": "undefined"
+  }, ",", "return", {
+    "id": "s"
+  }, "."]
+}, {
+  "tokens": ["Return", "!", "StringCreate", "(", {
+    "id": "s"
+  }, ",", "?", "GetPrototypeFromConstructor", "(", "NewTarget", ",", {
+    "value": "\"%String.prototype%\""
+  }, ")", ")", "."]
+}]

@@ -1,0 +1,27 @@
+[{
+  "tokens": ["If", "the", "first", {
+    "nt": "Expression"
+  }, "is", "present", ",", "then", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "exprRef"
+      }, "be", "the", "result", "of", "evaluating", "the", "first", {
+        "nt": "Expression"
+      }, "."]
+    }, {
+      "tokens": ["Perform", "?", "GetValue", "(", {
+        "id": "exprRef"
+      }, ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Return", "?", "ForBodyEvaluation", "(", "the", "second", {
+    "nt": "Expression"
+  }, ",", "the", "third", {
+    "nt": "Expression"
+  }, ",", {
+    "nt": "Statement"
+  }, ",", "«", "»", ",", {
+    "id": "labelSet"
+  }, ")", "."]
+}]

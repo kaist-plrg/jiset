@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Let", {
+    "id": "bindingId"
+  }, "be", "StringValue", "of", {
+    "nt": "BindingIdentifier"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "lhs"
+  }, "be", "ResolveBinding", "(", {
+    "id": "bindingId"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsAnonymousFunctionDefinition", "(", {
+    "nt": "Initializer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "value"
+      }, "be", "NamedEvaluation", "of", {
+        "nt": "Initializer"
+      }, "with", "argument", {
+        "id": "bindingId"
+      }, "."]
+    }]
+  }]
+}, {
+  "tokens": ["Else", ",", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "rhs"
+      }, "be", "the", "result", "of", "evaluating", {
+        "nt": "Initializer"
+      }, "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "value"
+      }, "be", "?", "GetValue", "(", {
+        "id": "rhs"
+      }, ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Return", "InitializeReferencedBinding", "(", {
+    "id": "lhs"
+  }, ",", {
+    "id": "value"
+  }, ")", "."]
+}]

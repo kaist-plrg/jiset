@@ -1,0 +1,39 @@
+[{
+  "tokens": ["Let", {
+    "id": "scope"
+  }, "be", "the", "LexicalEnvironment", "of", "the", "running", "execution", "context", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "head"
+  }, "be", "CoveredAsyncArrowHead", "of", {
+    "nt": "CoverCallExpressionAndAsyncArrowHead"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "parameters"
+  }, "be", "the", {
+    "nt": "ArrowFormalParameters"
+  }, "of", {
+    "id": "head"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "closure"
+  }, "be", "!", "OrdinaryFunctionCreate", "(", "%", "AsyncFunction", ".", "prototype", "%", ",", {
+    "id": "parameters"
+  }, ",", {
+    "nt": "AsyncConciseBody"
+  }, ",", {
+    "const": "lexical-this"
+  }, ",", {
+    "id": "scope"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "closure"
+  }, ".", "[", "[", "SourceText", "]", "]", "to", "the", "source", "text", "matched", "by", "this", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "closure"
+  }, "."]
+}]

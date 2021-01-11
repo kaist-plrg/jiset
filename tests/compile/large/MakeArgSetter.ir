@@ -1,0 +1,10 @@
+{
+  ??? "Let id:{steps} be the steps of an ArgSetter function as specified below ."
+  app __x0__ = (CreateBuiltinFunction steps (new ["Name", "Env"]))
+  if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+  let setter = __x0__
+  setter["Name"] = name
+  setter["Env"] = env
+  app __x1__ = (WrapCompletion setter)
+  return __x1__
+}

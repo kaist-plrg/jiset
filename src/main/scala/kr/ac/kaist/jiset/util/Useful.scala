@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
 import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
 import scala.collection.mutable
 import scala.io.Source
+import scala.util.Random.shuffle
 import spray.json._
 
 object Useful {
@@ -30,6 +31,7 @@ object Useful {
   }
 
   // walk directory
+  def shuffle[T](seq: Iterable[T]): Iterable[T] = shuffle(seq)
   def walkTree(filename: String): Iterable[File] = walkTree(new File(filename))
   def walkTree(file: File): Iterable[File] = {
     val children = new Iterable[File] {

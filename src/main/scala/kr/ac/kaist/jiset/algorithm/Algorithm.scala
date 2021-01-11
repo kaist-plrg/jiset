@@ -18,19 +18,8 @@ case class Algorithm(
     case (list, step) => step.getSteps(list)
   }
 
-  private def getInfo = {
-    var k = 0
-    def next: Next = { val res = Next(k); k += 1; res }
-    def T(tokens: List[Token], token: Token): List[Token] = token match {
-      case StepList(steps) => Out :: steps.foldLeft(In :: tokens)(S(_, _))
-      case t => t :: tokens
-    }
-    def S(tokens: List[Token], step: Step): List[Token] =
-      next :: step.tokens.foldLeft(tokens)(T(_, _))
-    (steps.foldLeft(List[Token]())(S(_, _)).reverse, k)
-  }
-  def toTokenList = getInfo._1
-  def lineCount = getInfo._2
+  def toTokenList = Algorithm.getInfo(steps)._1
+  def lineCount = Algorithm.getInfo(steps)._2
 }
 object Algorithm extends DefaultJsonProtocol {
   implicit object TokenFormat extends RootJsonFormat[Token] {
@@ -94,5 +83,17 @@ object Algorithm extends DefaultJsonProtocol {
 
   def apply(filename: String): Algorithm = {
     readFile(filename).parseJson.convertTo[Algorithm]
+  }
+
+  def getInfo(steps: List[Step]): (List[Token], Int) = {
+    var k = 0
+    def next: Next = { val res = Next(k); k += 1; res }
+    def T(tokens: List[Token], token: Token): List[Token] = token match {
+      case StepList(steps) => Out :: steps.foldLeft(In :: tokens)(S(_, _))
+      case t => t :: tokens
+    }
+    def S(tokens: List[Token], step: Step): List[Token] =
+      next :: step.tokens.foldLeft(tokens)(T(_, _))
+    (steps.foldLeft(List[Token]())(S(_, _)).reverse, k)
   }
 }

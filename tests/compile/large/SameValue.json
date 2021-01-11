@@ -1,0 +1,29 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "different", "from", "Type", "(", {
+    "id": "y"
+  }, ")", ",", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "Number", "or", "BigInt", ",", "then", {
+    "steps": [{
+      "tokens": ["Return", "!", "Type", "(", {
+        "id": "x"
+      }, ")", ":", ":", "sameValue", "(", {
+        "id": "x"
+      }, ",", {
+        "id": "y"
+      }, ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Return", "!", "SameValueNonNumeric", "(", {
+    "id": "x"
+  }, ",", {
+    "id": "y"
+  }, ")", "."]
+}]

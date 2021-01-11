@@ -1,0 +1,22 @@
+{
+  app __x0__ = (GetArgument argumentsList 0i)
+  let key = __x0__
+  app __x1__ = (ToString key)
+  if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+  let stringKey = __x1__
+  let __x2__ = GLOBAL_symbolRegistry
+  let __x3__ = 0i
+  while (< __x3__ __x2__["length"]) {
+    let e = __x2__[__x3__]
+    app __x4__ = (SameValue e["Key"] stringKey)
+    if (= __x4__ true) {
+      app __x5__ = (WrapCompletion e["Symbol"])
+      return __x5__
+    } else {}
+    __x3__ = (+ __x3__ 1i)
+  }
+  ??? "Let id:{newSymbol} be a new unique Symbol value whose [ [ Description ] ] value is id:{stringKey} ."
+  append (new Record("Key" -> stringKey, "Symbol" -> newSymbol)) -> GLOBAL_symbolRegistry
+  app __x6__ = (WrapCompletion newSymbol)
+  return __x6__
+}

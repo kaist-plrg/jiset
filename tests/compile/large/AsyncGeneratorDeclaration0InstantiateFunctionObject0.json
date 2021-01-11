@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Let", {
+    "id": "name"
+  }, "be", "StringValue", "of", {
+    "nt": "BindingIdentifier"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "F"
+  }, "be", "!", "OrdinaryFunctionCreate", "(", "%", "AsyncGenerator", "%", ",", {
+    "nt": "FormalParameters"
+  }, ",", {
+    "nt": "AsyncGeneratorBody"
+  }, ",", {
+    "const": "non-lexical-this"
+  }, ",", {
+    "id": "scope"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "prototype"
+  }, "be", "!", "OrdinaryObjectCreate", "(", "%", "AsyncGenerator", ".", "prototype", "%", ")", "."]
+}, {
+  "tokens": ["Perform", "!", "DefinePropertyOrThrow", "(", {
+    "id": "F"
+  }, ",", {
+    "value": "\"prototype\""
+  }, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+    "id": "prototype"
+  }, ",", "[", "[", "Writable", "]", "]", ":", {
+    "value": "true"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "false"
+  }, "}", ")", "."]
+}, {
+  "tokens": ["Perform", "!", "SetFunctionName", "(", {
+    "id": "F"
+  }, ",", {
+    "id": "name"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "F"
+  }, ".", "[", "[", "SourceText", "]", "]", "to", "the", "source", "text", "matched", "by", "this", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "F"
+  }, "."]
+}]

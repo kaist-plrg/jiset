@@ -1,0 +1,8 @@
+{
+  let f = GLOBAL_context["Function"]
+  let name = f["Name"]
+  let env = f["Env"]
+  app __x0__ = (env["GetBindingValue"] env name false)
+  app __x1__ = (WrapCompletion __x0__)
+  return __x1__
+}

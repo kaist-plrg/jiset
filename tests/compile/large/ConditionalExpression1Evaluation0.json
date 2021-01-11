@@ -1,0 +1,45 @@
+[{
+  "tokens": ["Let", {
+    "id": "lref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "ShortCircuitExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "lval"
+  }, "be", "!", "ToBoolean", "(", "?", "GetValue", "(", {
+    "id": "lref"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "lval"
+  }, "is", {
+    "value": "true"
+  }, ",", "then", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "trueRef"
+      }, "be", "the", "result", "of", "evaluating", "the", "first", {
+        "nt": "AssignmentExpression"
+      }, "."]
+    }, {
+      "tokens": ["Return", "?", "GetValue", "(", {
+        "id": "trueRef"
+      }, ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Else", ",", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "falseRef"
+      }, "be", "the", "result", "of", "evaluating", "the", "second", {
+        "nt": "AssignmentExpression"
+      }, "."]
+    }, {
+      "tokens": ["Return", "?", "GetValue", "(", {
+        "id": "falseRef"
+      }, ")", "."]
+    }]
+  }]
+}]

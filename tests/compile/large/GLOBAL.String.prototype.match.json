@@ -1,0 +1,65 @@
+[{
+  "tokens": ["Let", {
+    "id": "regexp"
+  }, "be", "GetArgument", "(", {
+    "id": "argumentsList"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "RequireObjectCoercible", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "regexp"
+  }, "is", "neither", {
+    "value": "undefined"
+  }, "nor", {
+    "value": "null"
+  }, ",", "then", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "matcher"
+      }, "be", "?", "GetMethod", "(", {
+        "id": "regexp"
+      }, ",", "@", "@", "match", ")", "."]
+    }, {
+      "tokens": ["If", {
+        "id": "matcher"
+      }, "is", "not", {
+        "value": "undefined"
+      }, ",", "then", {
+        "steps": [{
+          "tokens": ["Return", "?", "Call", "(", {
+            "id": "matcher"
+          }, ",", {
+            "id": "regexp"
+          }, ",", "«", {
+            "id": "O"
+          }, "»", ")", "."]
+        }]
+      }]
+    }]
+  }]
+}, {
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "?", "ToString", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rx"
+  }, "be", "?", "RegExpCreate", "(", {
+    "id": "regexp"
+  }, ",", {
+    "value": "undefined"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "?", "Invoke", "(", {
+    "id": "rx"
+  }, ",", "@", "@", "match", ",", "«", {
+    "id": "S"
+  }, "»", ")", "."]
+}]

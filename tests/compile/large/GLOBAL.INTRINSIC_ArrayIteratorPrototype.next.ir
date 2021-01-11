@@ -1,0 +1,56 @@
+{
+  let O = this
+  app __x0__ = (Type O)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeErrorPrototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  ??? "If id:{O} does not have all of the internal slots of an Array Iterator Instance ( 22 . 1 . 5 . 3 ) , throw a value:{TypeError} exception ."
+  let a = O["IteratedArrayLike"]
+  if (= a undefined) {
+    app __x2__ = (CreateIterResultObject undefined true)
+    app __x3__ = (WrapCompletion __x2__)
+    return __x3__
+  } else {}
+  let index = O["ArrayLikeNextIndex"]
+  let itemKind = O["ArrayLikeIterationKind"]
+  if (! (= a["TypedArrayName"] absent)) {
+    app __x4__ = (IsDetachedBuffer a["ViewedArrayBuffer"])
+    if (= __x4__ true) {
+      app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeErrorPrototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x5__
+    } else {}
+    let len = a["ArrayLength"]
+  } else {
+    app __x6__ = (LengthOfArrayLike a)
+    if (is-completion __x6__) if (= __x6__["Type"] CONST_normal) __x6__ = __x6__["Value"] else return __x6__ else {}
+    let len = __x6__
+  }
+  if (! (< index len)) {
+    O["IteratedArrayLike"] = undefined
+    app __x7__ = (CreateIterResultObject undefined true)
+    app __x8__ = (WrapCompletion __x7__)
+    return __x8__
+  } else {}
+  O["ArrayLikeNextIndex"] = (+ index 1i)
+  if (= itemKind CONST_key) {
+    app __x9__ = (CreateIterResultObject index false)
+    app __x10__ = (WrapCompletion __x9__)
+    return __x10__
+  } else {}
+  app __x11__ = (ToString index)
+  if (is-completion __x11__) if (= __x11__["Type"] CONST_normal) __x11__ = __x11__["Value"] else return __x11__ else {}
+  let elementKey = __x11__
+  app __x12__ = (Get a elementKey)
+  if (is-completion __x12__) if (= __x12__["Type"] CONST_normal) __x12__ = __x12__["Value"] else return __x12__ else {}
+  let elementValue = __x12__
+  if (= itemKind CONST_value) let result = elementValue else {
+    assert (= itemKind CONST_keyPLUSvalue)
+    app __x13__ = (CreateArrayFromList (new [index, elementValue]))
+    if (is-completion __x13__) if (= __x13__["Type"] CONST_normal) __x13__ = __x13__["Value"] else return __x13__ else {}
+    let result = __x13__
+  }
+  app __x14__ = (CreateIterResultObject result false)
+  app __x15__ = (WrapCompletion __x14__)
+  return __x15__
+}

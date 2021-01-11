@@ -1,0 +1,61 @@
+[{
+  "tokens": ["Let", {
+    "id": "propKey"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "PropertyName"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "propKey"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsAnonymousFunctionDefinition", "(", {
+    "nt": "AssignmentExpression"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "propValue"
+      }, "be", "NamedEvaluation", "of", {
+        "nt": "AssignmentExpression"
+      }, "with", "argument", {
+        "id": "propKey"
+      }, "."]
+    }]
+  }]
+}, {
+  "tokens": ["Else", ",", {
+    "steps": [{
+      "tokens": ["Let", {
+        "id": "exprValueRef"
+      }, "be", "the", "result", "of", "evaluating", {
+        "nt": "AssignmentExpression"
+      }, "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "propValue"
+      }, "be", "?", "GetValue", "(", {
+        "id": "exprValueRef"
+      }, ")", "."]
+    }]
+  }]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "enumerable"
+  }, "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "object"
+  }, "is", "an", "ordinary", ",", "extensible", "object", "with", "no", "non", "-", "configurable", "properties", "."]
+}, {
+  "tokens": ["Return", "!", "CreateDataPropertyOrThrow", "(", {
+    "id": "object"
+  }, ",", {
+    "id": "propKey"
+  }, ",", {
+    "id": "propValue"
+  }, ")", "."]
+}]

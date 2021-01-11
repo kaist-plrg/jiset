@@ -1,0 +1,79 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "ToObject", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "?", "LengthOfArrayLike", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "len"
+  }, "is", "zero", ",", "then", {
+    "steps": [{
+      "tokens": ["Perform", "?", "Set", "(", {
+        "id": "O"
+      }, ",", {
+        "value": "\"length\""
+      }, ",", "0", ",", {
+        "value": "true"
+      }, ")", "."]
+    }, {
+      "tokens": ["Return", {
+        "value": "undefined"
+      }, "."]
+    }]
+  }]
+}, {
+  "tokens": ["Else", ",", {
+    "steps": [{
+      "tokens": ["Assert", ":", {
+        "id": "len"
+      }, ">", "0", "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "newLen"
+      }, "be", {
+        "id": "len"
+      }, "-", "1", "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "index"
+      }, "be", "!", "ToString", "(", {
+        "id": "newLen"
+      }, ")", "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "element"
+      }, "be", "?", "Get", "(", {
+        "id": "O"
+      }, ",", {
+        "id": "index"
+      }, ")", "."]
+    }, {
+      "tokens": ["Perform", "?", "DeletePropertyOrThrow", "(", {
+        "id": "O"
+      }, ",", {
+        "id": "index"
+      }, ")", "."]
+    }, {
+      "tokens": ["Perform", "?", "Set", "(", {
+        "id": "O"
+      }, ",", {
+        "value": "\"length\""
+      }, ",", {
+        "id": "newLen"
+      }, ",", {
+        "value": "true"
+      }, ")", "."]
+    }, {
+      "tokens": ["Return", {
+        "id": "element"
+      }, "."]
+    }]
+  }]
+}]

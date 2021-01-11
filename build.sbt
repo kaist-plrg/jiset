@@ -12,7 +12,7 @@ ThisBuild / javacOptions ++= Seq(
   "-encoding", "UTF-8"
 )
 
-lazy val algoCompilerTest = taskKey[Unit]("Launch tests for AlgoCompiler")
+lazy val largeCompileTest = taskKey[Unit]("Launch tests for compile (large)")
 
 lazy val ires = ProjectRef(file("ires"), "ires")
 
@@ -37,7 +37,7 @@ lazy val jiset = (project in file("."))
     assemblyOutputPath in assembly := file("bin/jiset"),
     assemblyOption in assembly := (assemblyOption in assembly).value
       .copy(prependShellScript = Some(defaultUniversalScript(shebang = false))),
-    algoCompilerTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerTest").value
+    largeCompileTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.LargeCompileTest").value
   )
 
 commands += Command.command("generateModel") { state =>

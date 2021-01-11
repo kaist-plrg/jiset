@@ -1,0 +1,35 @@
+[{
+  "tokens": ["Let", {
+    "id": "baseReference"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "OptionalExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "baseValue"
+  }, "be", "?", "GetValue", "(", {
+    "id": "baseReference"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "baseValue"
+  }, "is", {
+    "value": "undefined"
+  }, "or", {
+    "value": "null"
+  }, ",", "then", {
+    "steps": [{
+      "tokens": ["Return", {
+        "value": "undefined"
+      }, "."]
+    }]
+  }]
+}, {
+  "tokens": ["Return", "the", "result", "of", "performing", "ChainEvaluation", "of", {
+    "nt": "OptionalChain"
+  }, "with", "arguments", {
+    "id": "baseValue"
+  }, "and", {
+    "id": "baseReference"
+  }, "."]
+}]

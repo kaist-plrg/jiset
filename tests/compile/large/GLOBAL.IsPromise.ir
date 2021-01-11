@@ -1,0 +1,15 @@
+{
+  app __x0__ = (GetArgument argumentsList 0i)
+  let x = __x0__
+  app __x1__ = (Type x)
+  if (! (= __x1__ Object)) {
+    app __x2__ = (WrapCompletion false)
+    return __x2__
+  } else {}
+  if (= x["PromiseState"] absent) {
+    app __x3__ = (WrapCompletion false)
+    return __x3__
+  } else {}
+  app __x4__ = (WrapCompletion true)
+  return __x4__
+}

@@ -1,0 +1,22 @@
+{
+  app __x0__ = (GetArgument argumentsList 0i)
+  let sym = __x0__
+  app __x1__ = (Type sym)
+  if (! (= __x1__ Symbol)) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeErrorPrototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  let __x3__ = GLOBAL_symbolRegistry
+  let __x4__ = 0i
+  while (< __x4__ __x3__["length"]) {
+    let e = __x3__[__x4__]
+    app __x5__ = (SameValue e["Symbol"] sym)
+    if (= __x5__ true) {
+      app __x6__ = (WrapCompletion e["Key"])
+      return __x6__
+    } else {}
+    __x4__ = (+ __x4__ 1i)
+  }
+  app __x7__ = (WrapCompletion undefined)
+  return __x7__
+}

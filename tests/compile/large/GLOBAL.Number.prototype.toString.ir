@@ -1,0 +1,23 @@
+{
+  app __x0__ = (GetArgument argumentsList 0i)
+  let radix = __x0__
+  app __x1__ = (thisNumberValue this)
+  if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+  let x = __x1__
+  if (= radix undefined) let radixNumber = 10i else {
+    app __x2__ = (ToInteger radix)
+    if (is-completion __x2__) if (= __x2__["Type"] CONST_normal) __x2__ = __x2__["Value"] else return __x2__ else {}
+    let radixNumber = __x2__
+  }
+  if (|| (< radixNumber 2i) (< 36i radixNumber)) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeErrorPrototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
+  if (== radixNumber 10i) {
+    app __x4__ = (ToString x)
+    if (is-completion __x4__) if (= __x4__["Type"] CONST_normal) __x4__ = __x4__["Value"] else return __x4__ else {}
+    app __x5__ = (WrapCompletion __x4__)
+    return __x5__
+  } else {}
+  ??? "Return the String representation of this Number value using the radix specified by id:{radixNumber} . Letters code:{a} - code:{z} are used for digits with values 10 through 35 . The precise algorithm is implementation - dependent , however the algorithm should be a generalization of that specified in 6 . 1 . 6 . 1 . 20 ."
+}

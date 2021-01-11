@@ -1,0 +1,117 @@
+[{
+  "tokens": ["Let", {
+    "id": "strLen"
+  }, "be", "the", "number", "of", "code", "units", "in", {
+    "id": "string"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "R"
+  }, "be", "the", "empty", "String", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "k"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Repeat", ",", {
+    "steps": [{
+      "tokens": ["If", {
+        "id": "k"
+      }, "equals", {
+        "id": "strLen"
+      }, ",", "return", {
+        "id": "R"
+      }, "."]
+    }, {
+      "tokens": ["Let", {
+        "id": "C"
+      }, "be", "the", "code", "unit", "at", "index", {
+        "id": "k"
+      }, "within", {
+        "id": "string"
+      }, "."]
+    }, {
+      "tokens": ["If", {
+        "id": "C"
+      }, "is", "in", {
+        "id": "unescapedSet"
+      }, ",", "then", {
+        "steps": [{
+          "tokens": ["Set", {
+            "id": "k"
+          }, "to", {
+            "id": "k"
+          }, "+", "1", "."]
+        }, {
+          "tokens": ["Set", {
+            "id": "R"
+          }, "to", "the", "string", "-", "concatenation", "of", "the", "previous", "value", "of", {
+            "id": "R"
+          }, "and", {
+            "id": "C"
+          }, "."]
+        }]
+      }]
+    }, {
+      "tokens": ["Else", ",", {
+        "steps": [{
+          "tokens": ["Let", {
+            "id": "cp"
+          }, "be", "!", "CodePointAt", "(", {
+            "id": "string"
+          }, ",", {
+            "id": "k"
+          }, ")", "."]
+        }, {
+          "tokens": ["If", {
+            "id": "cp"
+          }, ".", "[", "[", "IsUnpairedSurrogate", "]", "]", "is", {
+            "value": "true"
+          }, ",", "throw", "a", {
+            "value": "URIError"
+          }, "exception", "."]
+        }, {
+          "tokens": ["Set", {
+            "id": "k"
+          }, "to", {
+            "id": "k"
+          }, "+", {
+            "id": "cp"
+          }, ".", "[", "[", "CodeUnitCount", "]", "]", "."]
+        }, {
+          "tokens": ["Let", {
+            "id": "Octets"
+          }, "be", "the", "List", "of", "octets", "resulting", "by", "applying", "the", "UTF", "-", "8", "transformation", "to", {
+            "id": "cp"
+          }, ".", "[", "[", "CodePoint", "]", "]", "."]
+        }, {
+          "tokens": ["For", "each", "element", {
+            "id": "octet"
+          }, "of", {
+            "id": "Octets"
+          }, "in", "List", "order", ",", "do", {
+            "steps": [{
+              "tokens": ["Set", {
+                "id": "R"
+              }, "to", "the", "string", "-", "concatenation", "of", ":", {
+                "steps": [{
+                  "tokens": ["the", "previous", "value", "of", {
+                    "id": "R"
+                  }]
+                }, {
+                  "tokens": [{
+                    "value": "\"%\""
+                  }]
+                }, {
+                  "tokens": ["the", "String", "representation", "of", {
+                    "id": "octet"
+                  }, ",", "formatted", "as", "a", "two", "-", "digit", "uppercase", "hexadecimal", "number", ",", "padded", "to", "the", "left", "with", "a", "zero", "if", "necessary"]
+                }]
+              }]
+            }]
+          }]
+        }]
+      }]
+    }]
+  }]
+}]
