@@ -560,7 +560,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       val temp = getTemp
       pair(List(parseInst(s"app $temp = (GetTypeOf val)")), toERef(temp))
     } | "the parenthesizedexpression that is covered by coverparenthesizedexpressionandarrowparameterlist" ^^^ {
-      pair(Nil, EParseSyntax(toERef("this"), EStr("ParenthesizedExpression"), Nil))
+      pair(Nil, EParseSyntax(toERef("this"), EStr("ParenthesizedExpression"), EList(Nil)))
     } | "the" ~ opt("actual") ~ "number of" ~ ("actual arguments" | "arguments passed to this function" ~ opt("call")) ^^^ {
       pair(Nil, parseExpr(s"""argumentsList.length"""))
     } | "the List of arguments passed to this function" ^^^ {
@@ -587,7 +587,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
         } else {}
       }""")), toERef(tempP))
     } | ("the" ~> name <~ "that is covered by") ~ expr ^^ {
-      case r ~ (i ~ e) => pair(i, EParseSyntax(e, EStr(r), Nil))
+      case r ~ (i ~ e) => pair(i, EParseSyntax(e, EStr(r), EList(Nil)))
     } | "the string that is the only element of" ~> expr ^^ {
       case i ~ e =>
         val temp = getTemp

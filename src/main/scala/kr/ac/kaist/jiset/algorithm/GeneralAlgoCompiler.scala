@@ -553,7 +553,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // covered-by expressions
   lazy val coveredByExpr: P[I[Expr]] = ("the" ~> nt <~ "that is covered by") ~ ref ^^ {
-    case x ~ (i ~ r) => pair(i, EParseSyntax(ERef(r), EStr(x), Nil))
+    case x ~ (i ~ r) => pair(i, EParseSyntax(ERef(r), EStr(x), EList(Nil)))
   }
 
   // string-concatenation expressions
