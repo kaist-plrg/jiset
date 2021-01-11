@@ -773,7 +773,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       "the steps of an" ~> name <~ "function as specified below" ^^ {
         case x => parseExpr(s"$x")
       } | "the result of parsing the source text" ~> code <~ rest ^^ {
-        case s => parseExpr(s"""(parse-syntax "$s" "MethodDefinition" false false)""")
+        case s => parseExpr(s"""(parse-syntax "$s" "MethodDefinition" (new [false, false]))""")
       } | "the result of applying bitwise complement to" ~> name <~ rest ^^ {
         case x => EUOp(OBNot, toERef(x))
       } | "the result of masking out all but the least significant 5 bits of" ~> name <~ rest ^^ {
@@ -801,7 +801,7 @@ trait AlgoCompilerHelper extends GeneralAlgoCompilerHelper {
       } | opt("the") ~ value.filter(x => x == "this") ~ "value" ^^^ {
         parseExpr("this")
       } | "an instance of the production formalparameters0" ^^^ {
-        parseExpr(s"""(parse-syntax "" "FormalParameters" false false)""")
+        parseExpr(s"""(parse-syntax "" "FormalParameters" (new [false, false]))""")
       } | "a new object Environment Record containing" ~> id <~ "as the binding object" ^^ {
         case x => EMap(Ty("ObjectEnvironmentRecord"), List(
           EStr("SubMap") -> EMap(Ty("SubMap"), Nil),
