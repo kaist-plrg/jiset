@@ -157,4 +157,12 @@ object Useful {
     val end = System.currentTimeMillis
     (end - start, result)
   }
+
+  // catch exceptions with Option[_]
+  def optional[T](f: => T, h: Throwable => Unit = _ => {}): Option[T] =
+    try Some(f) catch { case e: Throwable => h(e); None }
+
+  // get indentation
+  def getIndent(str: String): Int =
+    "[ ]+".r.findFirstIn(str).fold(-1)(_.length)
 }
