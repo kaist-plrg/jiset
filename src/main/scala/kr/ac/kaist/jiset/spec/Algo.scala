@@ -48,7 +48,7 @@ object Algo extends RegexParsers {
   val namePattern = "[a-zA-Z]+".r // TODO extend
   val prefixPattern = ".*Semantics:".r
   def nameCheck(name: String): Boolean =
-    namePattern.matches(name) && !PREDEF.contains(name)
+    namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
   def getHead(elem: Element): (String, List[String]) = {
     val headElem = elem.siblingElements.get(0)
     if (headElem.tag.toString != "h1") error(s"no algorithm head: $headElem")
@@ -135,14 +135,4 @@ object Algo extends RegexParsers {
     val tokens = getTokens(code)
     GeneralAlgoCompiler.compile(tokens)
   }
-
-  // pre-defined algorithms
-  val PREDEF = Set(
-    // Completion-related ECMAScript internal algorithms
-    "NormalCompletion", "ThrowCompletion", "ReturnIfAbrupt", "Completion",
-    // ECMAScript type getter algorithm
-    "Type",
-    // JISET specific internal algorithms
-    "IsAbruptCompletion", "WrapCompletion"
-  )
 }

@@ -8,7 +8,7 @@ object ReferenceChecker {
     global: Set[String],
     algo: Algo
   ): Boolean = {
-    var defined = Algo.PREDEF ++ global ++ algo.params.toSet
+    var defined = ECMAScript.PREDEF ++ global ++ algo.params.toSet
     var errors = Set[String]()
     object Walker extends ir.UnitWalker {
       override def walk(inst: ir.Inst): Unit = inst match {

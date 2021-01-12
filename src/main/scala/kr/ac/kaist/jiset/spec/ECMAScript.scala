@@ -52,4 +52,16 @@ object ECMAScript {
     }
     rngs.toArray
   }
+
+  // pre-defined global identifiers
+  val PREDEF = Set(
+    // Completion-related ECMAScript internal algorithms
+    "NormalCompletion", "ThrowCompletion", "ReturnIfAbrupt", "Completion",
+    // ECMAScript type getter algorithm
+    "Type",
+    // JISET specific internal algorithms
+    "IsAbruptCompletion", "WrapCompletion",
+    // JISET specific global variables
+    "GLOBAL_agent"
+  )
 }
