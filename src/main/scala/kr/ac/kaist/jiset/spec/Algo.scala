@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.spec
 
+import kr.ac.kaist.ires.ir
 import kr.ac.kaist.jiset.algorithm._
-
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
 import scala.collection.mutable.Stack
@@ -10,7 +10,7 @@ import scala.util.parsing.combinator._
 // ECMASCript abstract algorithms
 case class Algo(
     params: List[String],
-    tokens: List[Token]
+    body: ir.Inst
 )
 
 object Algo extends RegexParsers {
@@ -18,7 +18,7 @@ object Algo extends RegexParsers {
   val TAB = 2
   def apply(elem: Element, code: List[String]): Option[Algo] = optional(Algo(
     params = getParams(elem),
-    tokens = getTokens(code)
+    body = getBody(code)
   ))
 
   // tokenizer
@@ -91,5 +91,11 @@ object Algo extends RegexParsers {
     tokens :+= next
     while (prev > initial) { prev -= TAB; tokens ++= List(Out, nexts.pop) }
     tokens.toList
+  }
+
+  // get instructions
+  def getBody(code: List[String]): ir.Inst = {
+    val tokens = getTokens(code)
+    GeneralAlgoCompiler.compile(tokens)
   }
 }

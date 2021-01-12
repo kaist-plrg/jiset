@@ -43,17 +43,9 @@ object ECMAScript {
     val (atime, algos) = time((for {
       (elem, code) <- elems zip codes
       algo <- Algo(elem, code)
+      if (isComplete(algo.body))
     } yield algo).toList)
     println(s"# algos: ${algos.length} ($atime ms)")
-
-    // instructions
-    val (itime, insts) = time(for {
-      algo <- algos
-      inst = GeneralAlgoCompiler.compile(algo.tokens)
-      if isComplete(inst)
-    } yield inst)
-
-    println(s"# insts: ${insts.length} ($itime ms)")
 
     ECMAScript(algos)
   }

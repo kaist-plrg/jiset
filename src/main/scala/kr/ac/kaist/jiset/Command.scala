@@ -36,6 +36,9 @@ case object CmdBase extends CommandObj("", PhaseNil)
 // parse
 case object CmdParse extends CommandObj("parse", CmdBase >> Parse)
 
+// check
+case object CmdCheck extends CommandObj("check", CmdParse >> Check)
+
 // gen-test
 case object CmdGenTest extends CommandObj("gen-test", CmdBase >> GenTest)
 

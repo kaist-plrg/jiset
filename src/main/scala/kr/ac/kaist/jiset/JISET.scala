@@ -58,6 +58,7 @@ object JISET {
   val commands: List[Command] = List(
     CmdHelp,
     CmdParse,
+    CmdCheck,
     CmdGenTest
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
@@ -68,6 +69,7 @@ object JISET {
   var phases: List[Phase] = List(
     Help,
     Parse,
+    Check,
     GenTest
   )
 
