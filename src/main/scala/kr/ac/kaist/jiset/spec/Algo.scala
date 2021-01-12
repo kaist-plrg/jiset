@@ -103,27 +103,27 @@ object Algo extends RegexParsers {
     lazy val name = "[_-a-zA-Z]+".r
     lazy val word = "[a-zA-Z]+".r
     lazy val number = "[0-9]+".r
-    lazy val any = "\\S".r
+    lazy val char = "\\S".r
 
     // token parsers
-    def wrap(str: String) = s"$str$any+$str".r ^^ {
-      case s => s.substring(1, s.length - 1)
+    def wrap(x: String) = s"[$x][^ $x]+[$x]".r ^^ {
+      case s => s.substring(x.length, s.length - x.length)
     }
     lazy val const = wrap("~") ^^ { Const(_) }
     lazy val code = wrap("`") ^^ { Code(_) }
-    lazy val value = wrap("\\*") ^^ { Value(_) }
+    lazy val value = wrap("*") ^^ { Value(_) }
     lazy val id = wrap("_") ^^ { Id(_) }
-    lazy val nt = wrap("\\|") ^^ { Nt(_) }
+    lazy val nt = wrap("|") ^^ { Nt(_) }
     lazy val sup = "<sup>" ~> "[^<]*".r <~ "</sup>" ^^ {
       case s => Sup(Step(parseAll(rep(token), s).getOrElse(Nil)))
     }
     lazy val url = "<a[^>]*>".r ~> "[^<]*".r <~ "</a>" ^^ { Url(_) }
-    lazy val text = (word | number | any) ^^ { Text(_) }
+    lazy val text = (word | number | char) ^^ { Text(_) }
     lazy val token: Parser[Token] =
       const | code | value | id | nt | sup | url | text // TODO grammar
 
     // step parsers
-    lazy val indent = number ~ "." | "*" | "<" ~ rep(any)
+    lazy val indent = number ~ "." | "*" | "<" ~ rep(char)
     lazy val step: Parser[List[Token]] = indent ~> rep(token)
 
     // parsing
