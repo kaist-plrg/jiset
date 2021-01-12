@@ -57,15 +57,8 @@ object JISET {
   // commands
   val commands: List[Command] = List(
     CmdHelp,
-    CmdParseAlgo,
-    CmdCompileAlgo,
-    CmdInferAlgo,
-    CmdREPLAlgo,
-    CmdGenTest,
-    CmdGenModel,
-    CmdGenTestModule,
-    CmdGrammarDiff,
-    CmdAlgoStepDiff
+    CmdParse,
+    CmdGenTest
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -74,15 +67,8 @@ object JISET {
   // phases
   var phases: List[Phase] = List(
     Help,
-    ParseAlgo,
-    CompileAlgo,
-    InferAlgo,
-    REPLAlgo,
-    GenTest,
-    GenModel,
-    GenTestModule,
-    GrammarDiff,
-    AlgoStepDiff
+    Parse,
+    GenTest
   )
 
   // global options

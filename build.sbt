@@ -25,6 +25,7 @@ lazy val jiset = (project in file("."))
       "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
       "org.scalatest" %% "scalatest" % "3.0.8" % "test",
+      "org.jsoup" % "jsoup" % "1.13.1",
       "org.jline" % "jline" % "3.13.3"
     ),
     test in assembly := {},
@@ -39,9 +40,3 @@ lazy val jiset = (project in file("."))
       .copy(prependShellScript = Some(defaultUniversalScript(shebang = false))),
     largeCompileTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.LargeCompileTest").value
   )
-
-commands += Command.command("generateModel") { state =>
-  s"run gen-model" ::
-  "compile" ::
-  state
-}

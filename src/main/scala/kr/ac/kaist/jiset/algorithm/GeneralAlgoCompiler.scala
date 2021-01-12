@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.algorithm
 
 import kr.ac.kaist.ires.ir.Parser._
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.ires.ir.{ error => _, _ }
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.error.UnexpectedShift
 import kr.ac.kaist.jiset.parser.TokenParsers
@@ -20,6 +20,11 @@ object GeneralAlgoCompiler {
     val compiler = GeneralAlgoCompiler("", dummyAlgo)
     val (func, _) = compiler.result
     func.body
+  }
+
+  def compile(tokens: List[Token]): Inst = {
+    val compiler = GeneralAlgoCompiler("", dummyAlgo)
+    compiler.compile(tokens)
   }
 }
 
@@ -1253,4 +1258,10 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // etc conditions
   lazy val etcCond: P[I[Expr]] = failure("")
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // Helper
+  ////////////////////////////////////////////////////////////////////////////////
+  def compile(tokens: List[Token]): Inst =
+    normalizeTempIds(flatten(ISeq(parseAll(stmts, tokens).getOrElse(Nil))))
 }

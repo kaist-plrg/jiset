@@ -33,6 +33,9 @@ class CommandObj[Result](
 // base command
 case object CmdBase extends CommandObj("", PhaseNil)
 
+// parse
+case object CmdParse extends CommandObj("parse", CmdBase >> Parse)
+
 // gen-test
 case object CmdGenTest extends CommandObj("gen-test", CmdBase >> GenTest)
 

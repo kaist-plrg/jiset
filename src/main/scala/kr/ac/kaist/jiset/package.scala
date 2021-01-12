@@ -9,6 +9,10 @@ package object jiset {
   // Base project directory root
   val BASE_DIR = System.getenv("JISET_HOME")
 
+  // Specification directory
+  val ECMA262_DIR = s"${BASE_DIR}/ecma262"
+  val SPEC_HTML = s"${ECMA262_DIR}/spec.html"
+
   // Tests directory root
   val TEST_DIR = s"${BASE_DIR}/tests"
   val COMPILE_DIR = s"${TEST_DIR}/compile"

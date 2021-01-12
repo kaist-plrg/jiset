@@ -2,8 +2,10 @@ package kr.ac.kaist.jiset.util
 
 import java.io.{ Reader, File, PrintWriter }
 import java.nio.file.{ Files, StandardCopyOption }
-import kr.ac.kaist.jiset.error.NoFileError
+import kr.ac.kaist.jiset.error._
 import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
+import org.jsoup._
+import org.jsoup.nodes._
 import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
 import scala.collection.mutable
 import scala.io.Source
@@ -42,7 +44,7 @@ object Useful {
     Seq(file) ++ children.flatMap(walkTree(_))
   }
 
-  // extention filter
+  // extension filter
   def extFilter(ext: String): String => Boolean = _.endsWith(s".$ext")
   lazy val irFilter = extFilter("ir")
   lazy val jsFilter = extFilter("js")
@@ -71,6 +73,9 @@ object Useful {
   // read JSON
   def readJson[T](filename: String)(implicit reader: JsonReader[T]): T =
     readFile(filename).parseJson.convertTo[T]
+
+  // read HTML
+  def readHtml(filename: String): Document = Jsoup.parse(readFile(filename))
 
   // get first filename
   def getFirstFilename(jisetConfig: JISETConfig, job: String): String =
@@ -140,5 +145,16 @@ object Useful {
       cache.update(arg, res)
       res
     })
+  }
+
+  // throw a simple error
+  def error(msg: String): Nothing = throw new JISETError(msg)
+
+  // get duration time
+  def time[T](f: => T): (Long, T) = {
+    val start = System.currentTimeMillis
+    val result = f
+    val end = System.currentTimeMillis
+    (end - start, result)
   }
 }
