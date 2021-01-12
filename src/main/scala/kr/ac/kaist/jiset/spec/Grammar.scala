@@ -1,6 +1,9 @@
 package kr.ac.kaist.jiset.spec
 
 import spray.json._
+import kr.ac.kaist.jiset.util.Useful._
+import org.jsoup.nodes._
+import scala.util.parsing.combinator._
 
 // ECMAScript grammars
 case class Grammar(
@@ -67,6 +70,70 @@ case class Production(
     var lhs: Lhs,
     var rhsList: List[Rhs]
 )
+
+object ProductionParser extends RegexParsers {
+  //common
+  lazy val any = "\\S+".r
+  lazy val word = "\\w+".r
+  lazy val cWord = "[A-Z]\\w+".r
+  lazy val pWord = "[?|\\+|~]*\\w+".r
+  lazy val params: Parser[List[String]] = "[" ~> repsep(pWord, ",") <~ "]"
+  // lhs
+  lazy val lhsParser: Parser[Lhs] = word ~ opt(params) <~ "[:]+".r ^^ {
+    case n ~ None => Lhs(n, Nil)
+    case n ~ Some(params) => Lhs(n, params)
+  }
+  //butnot
+  lazy val butnot = (nt <~ ("but not" <~ opt("one of"))) ~ rep(token <~ opt("or")) ^^ {
+    case base ~ cases => ButNot(base, cases)
+  }
+  // lookahead
+  lazy val containsSymbol = ("!=" | "&lt;!" | "==" | "&lt;") ^^ {
+    case "!=" | "&lt;!" => false
+    case "==" | "&lt;" => true
+    case _ => true // impossible
+  }
+  lazy val laElem: Parser[List[Token]] = rep(token)
+  lazy val laList = opt("{") ~> repsep(laElem, ",") <~ opt("}")
+  lazy val lookahead = "[lookahead " ~> containsSymbol ~ laList <~ "]" ^^ {
+    case b ~ cases => Lookahead(b, cases)
+  }
+  // terminal
+  lazy val term = "`" ~> ("[^`]+".r | "`") <~ "`" ^^ { Terminal(_) }
+  // non terminal
+  lazy val nt = cWord ~ opt(params) ~ opt("?") ^^ {
+    case n ~ Some(args) ~ Some(_) => NonTerminal(n, args, true)
+    case n ~ Some(args) ~ None => NonTerminal(n, args, false)
+    case n ~ None ~ Some(_) => NonTerminal(n, Nil, true)
+    case n ~ None ~ None => NonTerminal(n, Nil, false)
+  }
+  // rhs
+  lazy val token: Parser[Token] = butnot | lookahead | nt | term
+  lazy val constraints = "[" ~> "[+|~]".r ~ word <~ "]" ^^ {
+    case "+" ~ c => "p" + c
+    case "~" ~ c => "!p" + c
+    case _ => ??? // impossible
+  }
+  lazy val rhsParser: Parser[Rhs] = opt(constraints) ~ rep(token) ^^ {
+    case Some(cond) ~ tokens => Rhs(tokens, cond)
+    case None ~ tokens => Rhs(tokens, "")
+  }
+
+  def log[T](parser: Parser[T]): Parser[T] =
+    parser ^^ { x => { /*println(s"[LOG]$msg: $x");*/ x } }
+
+  def apply(prod: List[String]): Option[Production] = prod match {
+    case lhsStr :: rhsStrList => {
+      val lhs = parse(lhsParser, lhsStr.trim).get
+      val oneOf = lhsStr.trim.endsWith("one of")
+      // TODO create rhsList
+      val rhsList = rhsStrList.map(r => parse(rhsParser, r.trim).get)
+      // TODO handle oneOf
+      Some(Production(lhs, rhsList))
+    }
+    case Nil => ???
+  }
+}
 
 // left-hand-sides
 case class Lhs(
