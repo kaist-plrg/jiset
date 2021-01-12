@@ -11,18 +11,6 @@ import org.jsoup.nodes._
 case class ECMAScript(algos: List[Algo])
 
 object ECMAScript {
-  def isComplete(inst: ir.Inst): Boolean = {
-    var complete = true
-    object Walker extends ir.UnitWalker {
-      override def walk(expr: ir.Expr): Unit = expr match {
-        case ir.ENotYetModeled(_) | ir.ENotSupported(_) => complete = false
-        case _ => super.walk(expr)
-      }
-    }
-    Walker.walk(inst)
-    complete
-  }
-
   def apply(filename: String): ECMAScript = {
     val src = readFile(filename)
 
@@ -43,7 +31,6 @@ object ECMAScript {
     val (atime, algos) = time((for {
       (elem, code) <- elems zip codes
       algo <- Algo(elem, code)
-      if (isComplete(algo.body))
     } yield algo).toList)
     println(s"# algos: ${algos.length} ($atime ms)")
 

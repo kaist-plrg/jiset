@@ -16,7 +16,12 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
     config: CheckConfig
   ): Unit = {
     val algos = spec.algos
-    println(algos.filter(!ReferenceChecker(_)).length)
+    val targets = algos.filter(_.isComplete)
+    println(s"checking ${targets.size} algorithms...")
+
+    println(s"variable reference checking...")
+    val names = algos.map(_.name).toSet
+    println(targets.filter(!ReferenceChecker(names, _)).length)
   }
 
   def defaultConfig: CheckConfig = CheckConfig()

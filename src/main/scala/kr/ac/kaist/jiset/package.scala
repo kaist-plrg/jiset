@@ -33,6 +33,7 @@ package object jiset {
   val DIFFLIST = List("es2016_eval", "es2017_eval", "es2018_eval", "es2019_eval")
 
   // Debugging mode
+  var DEBUG: Boolean = false
   val DEBUG_SEMI_INSERT: Boolean = false
   val DEBUG_PARSER: Boolean = false
   val DEBUG_INTERP: Boolean = false
