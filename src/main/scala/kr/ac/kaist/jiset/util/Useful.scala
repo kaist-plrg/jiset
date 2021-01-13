@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.error._
 import org.jsoup._
 import org.jsoup.nodes._
+import org.jsoup.select._
 import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
 import scala.collection.mutable
 import scala.io.Source
@@ -208,5 +209,7 @@ object Useful {
 
   // get Element array using queries
   def getElems(elem: Element, query: String): Array[Element] =
-    elem.select(query).toArray(Array[Element]())
+    toArray(elem.select(query))
+  def toArray(elems: Elements): Array[Element] =
+    elems.toArray(Array[Element]())
 }

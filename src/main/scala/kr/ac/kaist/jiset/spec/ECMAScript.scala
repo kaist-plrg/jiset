@@ -115,7 +115,17 @@ object ECMAScript {
     val lexNames = lexProdElems.toList.map(_.attributes().get("name"))
 
     // codes for `emu-grammar` tagges elements
-    val prodElems = getElems(document, "emu-grammar[type=definition]")
+    val headPattern = "h\\d".r
+    val prodElems = getElems(document, "emu-grammar").filter(elem => {
+      val (found, pass) = toArray(elem.previousElementSiblings).foldLeft((false, true)) {
+        case ((false, true), prev) => prev.tag.toString match {
+          case headPattern() => (true, prev.text.endsWith("Syntax"))
+          case _ => (false, true)
+        }
+        case (res, _) => res
+      }
+      found && pass
+    })
     val prods = (for {
       prodElem <- prodElems
       body = getRawBody(lines, prodElem).toList
