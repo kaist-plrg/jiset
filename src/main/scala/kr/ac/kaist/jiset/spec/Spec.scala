@@ -42,15 +42,15 @@ object Spec extends DefaultJsonProtocol {
       case _ => JsString(token.toString)
     }
   }
-  implicit val TerminalFormat = jsonFormat1(Terminal)
-  implicit val NonTerminalFormat = jsonFormat3(NonTerminal)
-  implicit val ButNotFormat = jsonFormat2(ButNot)
-  implicit val LookaheadFormat = jsonFormat2(Lookahead)
-  implicit val UnicodeFormat = jsonFormat1(Unicode)
-  implicit val RhsFormat = jsonFormat2(Rhs)
-  implicit val LhsFormat = jsonFormat2(Lhs)
+  implicit val TerminalFormat = jsonFormat1(Terminal.apply)
+  implicit val NonTerminalFormat = jsonFormat3(NonTerminal.apply)
+  implicit val ButNotFormat = jsonFormat2(ButNot.apply)
+  implicit val LookaheadFormat = jsonFormat2(Lookahead.apply)
+  implicit val UnicodeFormat = jsonFormat1(Unicode.apply)
+  implicit val RhsFormat = jsonFormat2(Rhs.apply)
+  implicit val LhsFormat = jsonFormat2(Lhs.apply)
   implicit val ProductionFormat = jsonFormat2(Production.apply)
-  implicit val GrammarFormat = jsonFormat2(Grammar)
+  implicit val GrammarFormat = jsonFormat2(Grammar.apply)
   implicit val SpecFormat = jsonFormat6(Spec.apply)
 
   def apply(filename: String): Spec = {

@@ -1,4 +1,3 @@
-
 package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.jiset.algorithm.{ Grammar => GRToken, _ }

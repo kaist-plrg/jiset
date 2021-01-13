@@ -56,7 +56,7 @@ case class MinSamplerGenerator(grammar: Grammar) extends GrammarWorklist[String]
     } else None
   }
   private def getSampler(token: Token, params: Set[String]): Option[String] = token match {
-    case NonTerminal(name, _, _) if (GrammarHelper.isModuleNT(name)) => None
+    case NonTerminal(name, _, _) if (Grammar.isModuleNT(name)) => None
     case NonTerminal(name, args, optional) =>
       val ntParams = args.flatMap(arg => {
         arg.headOption match {

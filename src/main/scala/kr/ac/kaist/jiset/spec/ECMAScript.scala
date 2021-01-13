@@ -92,29 +92,18 @@ object ECMAScript {
     val lexElem = document.getElementById("sec-lexical-grammar")
     val lexProdElems = lexElem.getElementsByTag("emu-prodref").toArray(Array[Element]())
     val lexNames = lexProdElems.toList.map(_.attributes().get("name"))
-    // println(s"# of lex: ${lexNames.length}")
 
     // codes for `emu-grammar` tagges elements
     val prodStrs = getChunks(lines, grammarPattern).toList.flatMap(split _)
     val prods = (for {
       prodStr <- prodStrs
-      prod <- Production(prodStr)
+      prod <- optional(Production(prodStr))
     } yield prod).toList
 
     // TODO handle spec.html:41708~41737 additional syntax
     // partition prods
     val (lexProds, nonLexProds) =
       prods.partition(p => lexNames.contains(p.lhs.name))
-
-    // for debug
-    // (prodStrs zip prods).foreach {
-    //   case (st, pr) => st.foreach(println _); println(pr.lhs); pr.rhsList.foreach(println _);
-    // }
-    // println(s"# of prodStrs: ${prodStrs.length}")
-    // println(s"# of prods: ${prods.length}")
-    // lexNames.foreach(println _)
-    // println("################################################################################")
-    // lexProds.foreach(p => println(p.lhs.name))
 
     println(s"# of lexical production: ${lexProds.length}")
     println(s"# of non-lexical production: ${nonLexProds.length}")

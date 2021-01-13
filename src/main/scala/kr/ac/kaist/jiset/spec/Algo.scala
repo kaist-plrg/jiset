@@ -36,11 +36,11 @@ object Algo {
     elem: Element,
     code: List[String],
     grammar: Grammar
-  ): Option[Algo] = optional({
+  ): Option[Algo] = optional {
     val (name, params) = getHead(elem)
     val body = getBody(code)
     Algo(name, params, body)
-  }, x => if (DEBUG) println(x))
+  }
 
   // get names and parameters
   val paramPattern = "[^\\s,()\\[\\]]+".r
@@ -60,8 +60,9 @@ object Algo {
     if (!nameCheck(name)) error(s"not target algorithm: $str")
 
     val prev = elem.previousElementSibling
-    if (prev.tag.toString == "emu-grammar")
+    if (prev.tag.toString == "emu-grammar") {
       error("[TODO] syntax-directed algorithm")
+    }
 
     // extract parameters
     val params = if (from == -1) Nil else paramPattern

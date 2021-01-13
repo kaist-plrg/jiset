@@ -2,8 +2,8 @@ package kr.ac.kaist.jiset.util
 
 import java.io.{ Reader, File, PrintWriter }
 import java.nio.file.{ Files, StandardCopyOption }
+import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.error._
-import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
 import org.jsoup._
 import org.jsoup.nodes._
 import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
@@ -159,8 +159,9 @@ object Useful {
   }
 
   // catch exceptions with Option[_]
-  def optional[T](f: => T, h: Throwable => Unit = _ => {}): Option[T] =
-    try Some(f) catch { case e: Throwable => h(e); None }
+  def optional[T](f: => T): Option[T] = try Some(f) catch {
+    case e: Throwable => if (DEBUG) println(e); None
+  }
 
   // get indentation
   def getIndent(str: String): Int =

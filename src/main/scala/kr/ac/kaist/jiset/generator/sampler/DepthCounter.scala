@@ -54,7 +54,7 @@ case class DepthCounter(grammar: Grammar) extends GrammarWorklist[Int](grammar) 
   private def getDepth(token: Token, params: Set[String]): Option[Int] = {
     token match {
       case NonTerminal(name, args, optional) => {
-        if (GrammarHelper.isModuleNT(name)) return None
+        if (Grammar.isModuleNT(name)) return None
         val ntParams = args.flatMap((arg: String) => {
           arg.headOption match {
             case Some(a) => a match {
