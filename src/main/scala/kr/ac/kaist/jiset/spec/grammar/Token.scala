@@ -30,3 +30,5 @@ case object NoLineTerminatorToken extends Token
 case object UnicodeAny extends Token
 case object UnicodeIdStart extends Token
 case object UnicodeIdContinue extends Token
+case object UnicodeLeadSurrogate extends Token
+case object UnicodeTrailSurrogate extends Token

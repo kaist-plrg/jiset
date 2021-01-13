@@ -40,8 +40,42 @@ trait TokenParsers extends Parsers {
     case n ~ None ~ None => NonTerminal(n, Nil, false)
   }
 
+  // unicode
+  lazy val unicode = "<" ~> word <~ ">" ^^ { Unicode(_) }
+
+  // empty
+  val empty = "[empty]" ^^ { _ => EmptyToken }
+
+  // no line terminator
+  val nlt = "\\[no [\\|]?LineTerminator[\\|]? here\\]".r ^^ { _ => NoLineTerminatorToken }
+
+  // unicode any
+  val uniAny = "any Unicode code point$".r ^^ { _ => UnicodeAny }
+
+  // unicode id start
+  val uniStart =
+    "any Unicode code point with the Unicode property “ID_Start”$".r ^^ { _ => UnicodeIdStart }
+
+  // unicode id continue
+  val uniCont =
+    "any Unicode code point with the Unicode property “ID_Continue”$".r ^^ { _ => UnicodeIdStart }
+
+  // unicode lead surrogate
+  val uniLeadSur =
+    "any Unicode code point in the inclusive range 0xD800 to 0xDBFF" ^^ { _ => UnicodeLeadSurrogate }
+
+  // unicode trail surrogate
+  val uniTrailSur =
+    "any Unicode code point in the inclusive range 0xDC00 to 0xDFFF" ^^ { _ => UnicodeTrailSurrogate }
+
+  // unicode code point
+  val uniCodePoint = ">" ~> (uniLeadSur | uniTrailSur | uniStart | uniCont | uniAny)
+
+  // manual cases
+  val manual = empty | nlt | uniCodePoint
+
   // tokens
-  lazy val token: Parser[Token] = butnot | lookahead | nt | term
+  lazy val token: Parser[Token] = manual | unicode | butnot | lookahead | nt | term
 }
 
 // Rhs parsers
@@ -70,10 +104,15 @@ trait ProductionParsers extends LhsParsers with RhsParsers {
   def parse(lines: List[String]): Production = lines match {
     case lhsStr :: rhsStrList => {
       val lhs = Lhs(lhsStr)
-      val oneOf = lhsStr.trim.endsWith("one of")
-      // TODO create rhsList
-      val rhsList = rhsStrList.map(Rhs(_))
-      // TODO handle oneOf
+      // create rhsList
+      var rhsList = rhsStrList.map(Rhs(_))
+      // handle oneof
+      if (lhsStr.trim.endsWith("one of")) {
+        rhsList = rhsList.foldLeft(List.empty[Rhs]) {
+          case (acc, Rhs(tokens, cond)) =>
+            acc ++ tokens.map(t => Rhs(t :: Nil, cond))
+        }
+      }
       Production(lhs, rhsList)
     }
     case Nil => ??? // impossible
