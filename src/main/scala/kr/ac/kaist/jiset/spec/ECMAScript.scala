@@ -2,14 +2,13 @@ package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.ires.ir
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup._
 import org.jsoup.nodes._
 import scala.util.matching.Regex
 
 // ECMASCript specifications
-case class ECMAScript(grammar: spec.Grammar, algos: List[Algo])
+case class ECMAScript(grammar: Grammar, algos: List[Algo])
 
 object ECMAScript {
   def apply(filename: String): ECMAScript = {
@@ -79,7 +78,7 @@ object ECMAScript {
     ("""[ ]*<emu-grammar type="definition">""".r, "[ ]*</emu-grammar.*>".r)
 
   // parse spec.html to Grammar
-  def parseGrammar(lines: Array[String], document: Document): spec.Grammar = {
+  def parseGrammar(lines: Array[String], document: Document): Grammar = {
     // split codes by empty string
     // ex) split(List("a", "b", "", "c", "d")) = List(List("a", "b"), List("c", "d"))
     def split(prods: List[String]): List[List[String]] = {
@@ -120,7 +119,7 @@ object ECMAScript {
     println(s"# of lexical production: ${lexProds.length}")
     println(s"# of non-lexical production: ${nonLexProds.length}")
 
-    spec.Grammar(lexProds, nonLexProds)
+    Grammar(lexProds, nonLexProds)
   }
 
   ////////////////////////////////////////////////////////////////////////////////
