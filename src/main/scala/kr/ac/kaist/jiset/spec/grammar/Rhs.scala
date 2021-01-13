@@ -2,8 +2,8 @@ package kr.ac.kaist.jiset.spec
 
 // ECMAScript grammar right-hand-sides
 case class Rhs(
-    var tokens: List[Token],
-    var cond: String
+    tokens: List[Token],
+    cond: String
 ) {
   // check whehter if tokens is a single nonterminal
   def isSingleNT: Boolean = tokens.flatMap(_.norm) match {

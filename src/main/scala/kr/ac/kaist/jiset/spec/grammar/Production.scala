@@ -4,8 +4,8 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // ECMAScript grammar productions
 case class Production(
-    var lhs: Lhs,
-    var rhsList: List[Rhs]
+    lhs: Lhs,
+    rhsList: List[Rhs]
 ) {
   def idxMap: Map[String, (Int, Int)] = ???
 }

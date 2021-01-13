@@ -2,8 +2,8 @@ package kr.ac.kaist.jiset.spec
 
 // ECMAScript grammar left-hand-sides
 case class Lhs(
-    var name: String,
-    var params: List[String]
+    name: String,
+    params: List[String]
 ) {
   def isModule: Boolean = Grammar.isModuleNT(name)
   def isSupplemental: Boolean = Grammar.isSupplementalNT(name)

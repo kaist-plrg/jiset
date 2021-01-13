@@ -4,8 +4,8 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // ECMAScript grammars
 case class Grammar(
-    var lexProds: List[Production],
-    var prods: List[Production]
+    lexProds: List[Production],
+    prods: List[Production]
 ) {
   def getProdByName(name: String): Production =
     prods.find(_.lhs.name == name) match {

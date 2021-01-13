@@ -10,21 +10,21 @@ trait Token {
 }
 object Token extends TokenParsers {
 }
-case class Terminal(var term: String) extends Token
+case class Terminal(term: String) extends Token
 case class NonTerminal(
-    var name: String,
-    var args: List[String],
-    var optional: Boolean
+    name: String,
+    args: List[String],
+    optional: Boolean
 ) extends Token
 case class ButNot(
-    var base: Token,
-    var cases: List[Token]
+    base: Token,
+    cases: List[Token]
 ) extends Token
 case class Lookahead(
-    var contains: Boolean,
-    var cases: List[List[Token]]
+    contains: Boolean,
+    cases: List[List[Token]]
 ) extends Token
-case class Unicode(var code: String) extends Token
+case class Unicode(code: String) extends Token
 case object EmptyToken extends Token
 case object NoLineTerminatorToken extends Token
 case object UnicodeAny extends Token
