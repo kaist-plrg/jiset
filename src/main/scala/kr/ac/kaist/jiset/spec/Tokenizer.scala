@@ -37,8 +37,8 @@ object Tokenizer extends RegexParsers {
 
   // get tokens
   val TAB = 2
-  def getTokens(code: List[String]): List[Token] = {
-    val initial = getIndent(code(0))
+  def getTokens(code: Iterable[String]): List[Token] = {
+    val initial = getIndent(code.head)
     var prev = -1
     var tokens = Vector[Token]()
     val nexts = Stack[Next]()

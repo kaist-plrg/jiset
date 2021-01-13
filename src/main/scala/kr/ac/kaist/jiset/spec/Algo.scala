@@ -34,7 +34,7 @@ object Algo {
   // get algorithms
   def apply(
     elem: Element,
-    code: List[String],
+    code: Iterable[String],
     grammar: Grammar
   ): Option[Algo] = optional {
     val (name, params) = getHead(elem)
@@ -75,7 +75,7 @@ object Algo {
   }
 
   // get body instructions
-  def getBody(code: List[String]): ir.Inst = {
+  def getBody(code: Iterable[String]): ir.Inst = {
     val tokens = Tokenizer.getTokens(code)
     GeneralAlgoCompiler.compile(tokens)
   }

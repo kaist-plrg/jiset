@@ -205,4 +205,8 @@ object Useful {
 
   // normalize string
   def norm(str: String): String = "[\\s/#]".r.replaceAllIn(str, "")
+
+  // get Element array using queries
+  def getElems(elem: Element, query: String): Array[Element] =
+    elem.select(query).toArray(Array[Element]())
 }

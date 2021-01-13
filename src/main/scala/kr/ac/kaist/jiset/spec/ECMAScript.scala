@@ -1,11 +1,11 @@
 package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.ires.ir
-import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP }
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP }
 import org.jsoup._
 import org.jsoup.nodes._
-import scala.util.matching.Regex
+import scala.collection.mutable.Stack
 
 // ECMASCript specifications
 case class ECMAScript(grammar: Grammar, algos: List[Algo])
@@ -13,15 +13,15 @@ case class ECMAScript(grammar: Grammar, algos: List[Algo])
 object ECMAScript {
   def parse(version: String): ECMAScript = {
     // read file content of spec.html
-    val src = if (version == "") readFile(SPEC_HTML) else {
+    val src = preprocess(if (version == "") readFile(SPEC_HTML) else {
       val cur = currentVersion(ECMA262_DIR)
       changeVersion(version, ECMA262_DIR)
       val src = readFile(SPEC_HTML)
       changeVersion(cur, ECMA262_DIR)
       src
-    }
+    })
     // source lines
-    val lines = dropAppendix(src.split(LINE_SEP))
+    val lines = src.split(LINE_SEP)
     // parse html
     val document = Jsoup.parse(src)
     // parse grammar
@@ -35,40 +35,49 @@ object ECMAScript {
   ////////////////////////////////////////////////////////////////////////////////
   // helper
   ////////////////////////////////////////////////////////////////////////////////
+  // preprocess for spec.html
+  def preprocess(src: String): String = {
+    val lines = src.split(LINE_SEP)
+    attachLines(dropAppendix(lines)).mkString(LINE_SEP)
+  }
+
+  // attach line numbers
+  val startPattern = """(\s*<)([-a-z]+)([^<>]*(<[^<>]*>[^<>]*)*>[^<>]*)""".r
+  val endPattern = """\s*</([-a-z]+)>\s*""".r
+  val ignoreTags = Set("meta", "link", "style", "br", "img", "li", "p")
+  def attachLines(lines: Array[String]): Array[String] = {
+    val tagStack = Stack[(String, Int)]()
+    var rngs = Map[Int, Int]()
+    lines.zipWithIndex.foreach {
+      case (line, k) => line match {
+        case startPattern(_, tag, _, _) if !ignoreTags.contains(tag) =>
+          tagStack.push((tag, k))
+        case endPattern(tag) if !ignoreTags.contains(tag) =>
+          val (expected, start) = tagStack.pop
+          if (expected != tag)
+            error(s"[ECMAScript.attachLines] $tag not matched with $expected")
+          rngs += start -> (k + 1)
+        case _ =>
+      }
+    }
+    lines.zipWithIndex.map(_ match {
+      case (line @ startPattern(pre, tag, post, _), start) if !ignoreTags.contains(tag) =>
+        rngs.get(start).fold(line)(end => s"$pre$tag s=$start e=$end$post")
+      case (line, _) => line
+    })
+  }
+
+  // drop appendix lines
   def dropAppendix(lines: Array[String]): Array[String] = {
-    val appendixLineNum = lines.indexOf("""<emu-annex id="sec-grammar-summary">""")
-    if (appendixLineNum == -1)
-      error("`ECMASCript.dropAppendix`: appendix not found")
+    val appendixLineNum = lines.indexWhere("<emu-annex.*annexB.*>".r matches _)
+    if (appendixLineNum == -1) error("[ECMAScript.dropAppendix] not found Appendix.")
     lines.slice(0, appendixLineNum)
   }
 
-  // get ranges of mathed pattern from spec.html
-  def getRanges(
-    lines: Array[String],
-    pattern: (Regex, Regex)
-  ): Array[(Int, Int)] = {
-    val (entryPattern, exitPattern) = pattern
-    var rngs = Vector[(Int, Int)]()
-    var entries = List[Int]()
-    for ((line, i) <- lines.zipWithIndex) line match {
-      case entryPattern() => entries ::= i + 1
-      case exitPattern() =>
-        if (!entries.isEmpty) {
-          rngs :+= (entries.head, i)
-          entries = entries.tail
-        }
-      case _ =>
-    }
-    rngs.toArray
-  }
-
-  def getChunks(
-    lines: Array[String],
-    pattern: (Regex, Regex)
-  ): Array[List[String]] = {
-    val rngs = getRanges(lines, pattern)
-    val chunks = rngs.map { case (s, e) => lines.slice(s, e).toList }
-    chunks
+  def getRawBody(lines: Array[String], elem: Element): Array[String] = {
+    val s = elem.attr("s").toInt
+    val e = elem.attr("e").toInt
+    lines.slice(s + 1, e - 1)
   }
 
   // check if inst has ??? or !!!
@@ -87,10 +96,6 @@ object ECMAScript {
   ////////////////////////////////////////////////////////////////////////////////
   // grammar
   ////////////////////////////////////////////////////////////////////////////////
-  // regexp for `emu-grammar` tagged elements
-  val grammarPattern =
-    ("""[ ]*<emu-grammar type="definition">""".r, "[ ]*</emu-grammar.*>".r)
-
   // parse spec.html to Grammar
   def parseGrammar(lines: Array[String], document: Document): Grammar = {
     // split codes by empty string
@@ -104,29 +109,23 @@ object ECMAScript {
 
     // get lexical grammar list
     val lexElem = document.getElementById("sec-lexical-grammar")
-    val lexProdElems = lexElem.getElementsByTag("emu-prodref").toArray(Array[Element]())
+    val lexProdElems = lexElem
+      .getElementsByTag("emu-prodref")
+      .toArray(Array[Element]())
     val lexNames = lexProdElems.toList.map(_.attributes().get("name"))
 
     // codes for `emu-grammar` tagges elements
-    val prodStrs = getChunks(lines, grammarPattern).toList.flatMap(split _)
+    val prodElems = getElems(document, "emu-grammar[type=definition]")
     val prods = (for {
-      prodStr <- prodStrs
+      prodElem <- prodElems
+      body = getRawBody(lines, prodElem).toList
+      prodStr <- split(body)
       prod <- optional(Production(prodStr))
     } yield prod).toList
 
     // partition prods
     val (lexProds, nonLexProds) =
       prods.partition(p => lexNames.contains(p.lhs.name))
-
-    // for debug
-    //  (prodStrs zip prods).foreach {
-    //    case (prodStr, prod) => {
-    //      prodStr.foreach(println _)
-    //      println(prod.lhs)
-    //      prod.rhsList.foreach(println _)
-    //    }
-    //  }
-    //  println(s"# of lexNames : ${lexNames.length}")
 
     println(s"# of lexical production: ${lexProds.length}")
     println(s"# of non-lexical production: ${nonLexProds.length}")
@@ -137,51 +136,30 @@ object ECMAScript {
   ////////////////////////////////////////////////////////////////////////////////
   // algorithm
   ////////////////////////////////////////////////////////////////////////////////
-  // regexp for `emu-alg` tagged elements
-  val algoPattern = ("[ ]*<emu-alg.*>".r, "[ ]*</emu-alg.*>".r)
-
-  // regexp for early-errors elements and it's children `ul` tagged elements
-  val earlyErrorPattern = (
-    "[ ]*<emu-clause.*id=\".*early-errors\">".r,
-    "[ ]*</emu-clause>".r
-  )
-  val ulPattern = (
-    "[ ]*<ul>".r,
-    "[ ]*</ul>".r
-  )
-
   // parse spec.html to Algo
   def parseAlgo(
     lines: Array[String],
     grammar: Grammar,
     document: Document
   ): List[Algo] = {
-    // `emu-alg` tags
-    val emuAlgs = {
-      val elems = document.getElementsByTag("emu-alg").toArray(Array[Element]())
-      val codes = getChunks(lines, algoPattern)
-      println(s"# `emu-alg` tagged elements: ${codes.size}")
-      elems zip codes
-    }
+    // HTML elements with `emu-alg` tags
+    val emuAlgs = getElems(document, "emu-alg")
 
-    // early errors
-    val earlyErrors = {
-      val parent_elems = document
-        .select(s"emu-clause[id$$=early-errors]")
-        .toArray(Array[Element]())
-      val elems = parent_elems.flatMap(elem => elem.getElementsByTag("ul").toArray(Array[Element]()))
-      val parent_codes = getChunks(lines, earlyErrorPattern)
-      val codes = parent_codes
-        .map(chunk => chunk.toArray)
-        .flatMap(chunkArray => { getChunks(chunkArray, ulPattern) })
-      println(s"# Early Error elements: ${codes.size}")
-      elems zip codes
-    }
+    // HTML elements for Early Error
+    val earlyErrors = for {
+      parentElem <- getElems(document, "emu-clause[id$=early-errors]")
+      elem <- getElems(parentElem, "ul")
+    } yield elem
+
+    val elems = emuAlgs ++ earlyErrors
+    println(s"# argorithm elements: ${elems.size}")
+    println(s"  - <emu-alg>: ${emuAlgs.size}")
+    println(s"  - Early Error: ${earlyErrors.size}")
 
     // algorithms
     val (atime, algos) = time((for {
-      (elem, code) <- emuAlgs ++ earlyErrors
-      algo <- Algo(elem, code, grammar)
+      elem <- elems
+      algo <- Algo(elem, getRawBody(lines, elem), grammar)
     } yield algo).toList)
     println(s"# algorithms: ${algos.length} ($atime ms)")
 
