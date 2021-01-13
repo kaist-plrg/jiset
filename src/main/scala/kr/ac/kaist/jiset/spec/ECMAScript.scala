@@ -140,22 +140,47 @@ object ECMAScript {
   // regexp for `emu-alg` tagged elements
   val algoPattern = ("[ ]*<emu-alg.*>".r, "[ ]*</emu-alg.*>".r)
 
+  // regexp for early-errors elements and it's children `ul` tagged elements
+  val earlyErrorPattern = (
+    "[ ]*<emu-clause.*id=\".*early-errors\">".r,
+    "[ ]*</emu-clause>".r
+  )
+  val ulPattern = (
+    "[ ]*<ul>".r,
+    "[ ]*</ul>".r
+  )
+
   // parse spec.html to Algo
   def parseAlgo(
     lines: Array[String],
     grammar: Grammar,
     document: Document
   ): List[Algo] = {
-    // HTML elements with `emu-alg` tags
-    val elems = document.getElementsByTag("emu-alg").toArray(Array[Element]())
+    // `emu-alg` tags
+    val emuAlgs = {
+      val elems = document.getElementsByTag("emu-alg").toArray(Array[Element]())
+      val codes = getChunks(lines, algoPattern)
+      println(s"# `emu-alg` tagged elements: ${codes.size}")
+      elems zip codes
+    }
 
-    // codes for `emu-alg` tagged elements
-    val codes = getChunks(lines, algoPattern)
-    println(s"# `emu-alg` tagged elements: ${codes.size}")
+    // early errors
+    val earlyErrors = {
+      val parent_elems = document
+        .select(s"emu-clause[id$$=early-errors]")
+        .toArray(Array[Element]())
+      val elems = parent_elems.flatMap(elem => elem.getElementsByTag("ul").toArray(Array[Element]()))
+      val parent_codes = getChunks(lines, earlyErrorPattern)
+      val codes = parent_codes
+        .map(chunk => chunk.toArray)
+        .flatMap(chunkArray => { getChunks(chunkArray, ulPattern) })
+      println(s"# Early Error elements: ${codes.size}")
+      elems zip codes
+    }
 
     // algorithms
     val (atime, algos) = time((for {
-      (elem, code) <- elems zip codes
+      (elem, code) <- emuAlgs ++ earlyErrors
       algo <- Algo(elem, code, grammar)
     } yield algo).toList)
     println(s"# algorithms: ${algos.length} ($atime ms)")
