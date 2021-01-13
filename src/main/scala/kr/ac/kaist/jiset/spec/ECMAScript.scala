@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.ires.ir
-import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP }
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup._
 import org.jsoup.nodes._
@@ -21,7 +21,7 @@ object ECMAScript {
       src
     }
     // source lines
-    val lines = src.split(LINE_SEP)
+    val lines = dropAppendix(src.split(LINE_SEP))
     // parse html
     val document = Jsoup.parse(src)
     // parse grammar
@@ -35,6 +35,13 @@ object ECMAScript {
   ////////////////////////////////////////////////////////////////////////////////
   // helper
   ////////////////////////////////////////////////////////////////////////////////
+  def dropAppendix(lines: Array[String]): Array[String] = {
+    val appendixLineNum = lines.indexOf("""<emu-annex id="sec-grammar-summary">""")
+    if (appendixLineNum == -1)
+      error("`ECMASCript.dropAppendix`: appendix not found")
+    lines.slice(0, appendixLineNum)
+  }
+
   // get ranges of mathed pattern from spec.html
   def getRanges(
     lines: Array[String],
@@ -107,10 +114,19 @@ object ECMAScript {
       prod <- optional(Production(prodStr))
     } yield prod).toList
 
-    // TODO handle spec.html:41708~41737 additional syntax
     // partition prods
     val (lexProds, nonLexProds) =
       prods.partition(p => lexNames.contains(p.lhs.name))
+
+    // for debug
+    //  (prodStrs zip prods).foreach {
+    //    case (prodStr, prod) => {
+    //      prodStr.foreach(println _)
+    //      println(prod.lhs)
+    //      prod.rhsList.foreach(println _)
+    //    }
+    //  }
+    //  println(s"# of lexNames : ${lexNames.length}")
 
     println(s"# of lexical production: ${lexProds.length}")
     println(s"# of non-lexical production: ${nonLexProds.length}")
