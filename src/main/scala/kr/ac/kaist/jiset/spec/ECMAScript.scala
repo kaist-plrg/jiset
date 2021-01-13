@@ -98,7 +98,7 @@ object ECMAScript {
     val prodStrs = getChunks(lines, grammarPattern).toList.flatMap(split _)
     val prods = (for {
       prodStr <- prodStrs
-      prod <- ProductionParser(prodStr)
+      prod <- Production(prodStr)
     } yield prod).toList
 
     // TODO handle spec.html:41708~41737 additional syntax

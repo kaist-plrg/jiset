@@ -165,4 +165,20 @@ object Useful {
   // get indentation
   def getIndent(str: String): Int =
     "[ ]+".r.findFirstIn(str).fold(-1)(_.length)
+
+  // revert special codes in HTML
+  val HTML_SPECIAL_CODE = Map(
+    "&quot;" -> "\"",
+    "&amp;" -> "&",
+    "&apos;" -> "'",
+    "&lt;" -> "<",
+    "&gt;" -> ">",
+    "&nbsp;" -> " ",
+    "&laquo;" -> "«",
+    "&raquo;" -> "»"
+  )
+  def revertSpecialCodes(str: String): String =
+    HTML_SPECIAL_CODE.foldLeft(str) {
+      case (s, (f, t)) => s.replaceAll(f, t)
+    }
 }

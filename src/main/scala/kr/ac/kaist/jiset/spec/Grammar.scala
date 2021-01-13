@@ -1,9 +1,10 @@
 package kr.ac.kaist.jiset.spec
 
-import spray.json._
+import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
 import scala.util.parsing.combinator._
+import spray.json._
 
 // ECMAScript grammars
 case class Grammar(
@@ -70,8 +71,20 @@ case class Production(
     var lhs: Lhs,
     var rhsList: List[Rhs]
 )
+object Production extends RegexParsers {
+  def apply(prod: List[String]): Option[Production] =
+    prod.map(revertSpecialCodes) match {
+      case lhsStr :: rhsStrList => {
+        val lhs = parse(lhsParser, lhsStr.trim).get
+        val oneOf = lhsStr.trim.endsWith("one of")
+        // TODO create rhsList
+        val rhsList = rhsStrList.map(r => parse(rhsParser, r.trim).get)
+        // TODO handle oneOf
+        Some(Production(lhs, rhsList))
+      }
+      case Nil => error(s"ill-formed production:" + LINE_SEP + prod.mkString(LINE_SEP))
+    }
 
-object ProductionParser extends RegexParsers {
   //common
   lazy val any = "\\S+".r
   lazy val word = "\\w+".r
@@ -88,10 +101,10 @@ object ProductionParser extends RegexParsers {
     case base ~ cases => ButNot(base, cases)
   }
   // lookahead
-  lazy val containsSymbol = ("!=" | "&lt;!" | "==" | "&lt;") ^^ {
-    case "!=" | "&lt;!" => false
-    case "==" | "&lt;" => true
-    case _ => true // impossible
+  lazy val containsSymbol = ("!=" | "<!" | "==" | "<") ^^ {
+    case "!=" | "<!" => false
+    case "==" | "<" => true
+    case _ => ??? // impossible
   }
   lazy val laElem: Parser[List[Token]] = rep(token)
   lazy val laList = opt("{") ~> repsep(laElem, ",") <~ opt("}")
@@ -121,18 +134,6 @@ object ProductionParser extends RegexParsers {
 
   def log[T](parser: Parser[T]): Parser[T] =
     parser ^^ { x => { /*println(s"[LOG]$msg: $x");*/ x } }
-
-  def apply(prod: List[String]): Option[Production] = prod match {
-    case lhsStr :: rhsStrList => {
-      val lhs = parse(lhsParser, lhsStr.trim).get
-      val oneOf = lhsStr.trim.endsWith("one of")
-      // TODO create rhsList
-      val rhsList = rhsStrList.map(r => parse(rhsParser, r.trim).get)
-      // TODO handle oneOf
-      Some(Production(lhs, rhsList))
-    }
-    case Nil => ???
-  }
 }
 
 // left-hand-sides

@@ -49,7 +49,7 @@ object Spec extends DefaultJsonProtocol {
   implicit val UnicodeFormat = jsonFormat1(Unicode)
   implicit val RhsFormat = jsonFormat2(Rhs)
   implicit val LhsFormat = jsonFormat2(Lhs)
-  implicit val ProductionFormat = jsonFormat2(Production)
+  implicit val ProductionFormat = jsonFormat2(Production.apply)
   implicit val GrammarFormat = jsonFormat2(Grammar)
   implicit val SpecFormat = jsonFormat6(Spec.apply)
 
