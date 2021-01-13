@@ -1,6 +1,5 @@
 package kr.ac.kaist.jiset.spec
 
-import kr.ac.kaist.jiset.BugPatch._
 import kr.ac.kaist.jiset.util.Useful.readFile
 import spray.json._
 
@@ -53,9 +52,5 @@ object Spec extends DefaultJsonProtocol {
   implicit val GrammarFormat = jsonFormat2(Grammar.apply)
   implicit val SpecFormat = jsonFormat6(Spec.apply)
 
-  def apply(filename: String): Spec = {
-    val spec = readFile(filename).parseJson.convertTo[Spec]
-    patchAmbiguousIfStatement(spec.grammar)
-    spec
-  }
+  def apply(filename: String): Spec = readFile(filename).parseJson.convertTo[Spec]
 }

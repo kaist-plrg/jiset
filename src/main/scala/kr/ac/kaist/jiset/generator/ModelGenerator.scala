@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.generator
 
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.BugPatch._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec._
 import java.io.File
@@ -61,8 +60,7 @@ object ModelGenerator {
         nf.println(s"import $packageName.ir._")
         nf.println(s"import $packageName.ir.Parser._")
         nf.println
-        if (!noIsFunctionDefinition && filename == "FunctionExpression0IsFunctionDefinition0.scala") nf.println(readFile(removedExt(name) + ".error"))
-        else nf.print(readFile(name))
+        nf.print(readFile(name))
         nf.close()
       } else deleteFile(s"$modelDir/algorithm/$filename")
     }

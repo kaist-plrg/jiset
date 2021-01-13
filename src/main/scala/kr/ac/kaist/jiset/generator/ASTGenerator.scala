@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset.generator
 
 import java.io.PrintWriter
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.BugPatch._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
 
@@ -90,14 +89,6 @@ object ASTGenerator {
             val filename = file.getName
             if (scalaFilter(filename) && !isIgnore(filename)) {
               val methodName = removedExt(file.getName)
-              if (noExpectedArgumentCount || methodName != "FormalParameters1ExpectedArgumentCount0") {
-                val pre = s"$name$i"
-                val len = pre.length
-                if (methodName.startsWith(pre) && !methodName.charAt(len).isDigit) {
-                  val semName = methodName.substring(len)
-                  sems ::= s"""    "$semName" -> $methodName.func"""
-                }
-              }
             }
           }
           for (file <- walkTree(s"$RESOURCE_DIR/$VERSION/auto/algorithm")) {
