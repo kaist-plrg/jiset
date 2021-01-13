@@ -7,6 +7,11 @@ case class Grammar(
     lexProds: List[Production],
     prods: List[Production]
 ) {
+  val idxMap: Map[String, (Int, Int)] = (for {
+    prod <- prods
+    pair <- prod.getIdxMap
+  } yield pair).toMap
+
   def getProdByName(name: String): Production =
     prods.find(_.lhs.name == name) match {
       case Some(prod) => prod

@@ -199,6 +199,10 @@ object Useful {
   def changeVersion(target: String, dir: String = CUR_DIR): Unit =
     executeCmd(s"git checkout $target", dir)
 
+  // get git current version
   def currentVersion(dir: String = CUR_DIR): String =
     executeCmd(s"git rev-parse HEAD", dir).trim
+
+  // normalize string
+  def norm(str: String): String = "[\\s/#]".r.replaceAllIn(str, "")
 }
