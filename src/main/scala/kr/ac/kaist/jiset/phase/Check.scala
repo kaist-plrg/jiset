@@ -15,7 +15,9 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
     jisetConfig: JISETConfig,
     config: CheckConfig
   ): Unit = {
+    println(s"--------------------------------------------------")
     val algos = spec.algos
+    println(s"# algorithms: ${algos.length}")
     val targets = algos.filter(_.isComplete)
     println(s"checking ${targets.size} algorithms...")
 

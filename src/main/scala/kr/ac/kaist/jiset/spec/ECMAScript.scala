@@ -20,7 +20,7 @@ object ECMAScript {
     // parse grammar
     val grammar = parseGrammar(lines, document)
     // parse algorithm
-    val algos = parseAlgo(lines, document)
+    val algos = parseAlgo(lines, grammar, document)
     // wrap grammar, algos
     ECMAScript(grammar, algos)
   }
@@ -129,20 +129,24 @@ object ECMAScript {
   val algoPattern = ("[ ]*<emu-alg.*>".r, "[ ]*</emu-alg.*>".r)
 
   // parse spec.html to Algo
-  def parseAlgo(lines: Array[String], document: Document): List[Algo] = {
+  def parseAlgo(
+    lines: Array[String],
+    grammar: Grammar,
+    document: Document
+  ): List[Algo] = {
     // HTML elements with `emu-alg` tags
     val elems = document.getElementsByTag("emu-alg").toArray(Array[Element]())
 
     // codes for `emu-alg` tagged elements
     val codes = getChunks(lines, algoPattern)
-    println(s"# total: ${codes.size}")
+    println(s"# `emu-alg` tagged elements: ${codes.size}")
 
     // algorithms
     val (atime, algos) = time((for {
       (elem, code) <- elems zip codes
-      algo <- Algo(elem, code)
+      algo <- Algo(elem, code, grammar)
     } yield algo).toList)
-    println(s"# algos: ${algos.length} ($atime ms)")
+    println(s"# algorithms: ${algos.length} ($atime ms)")
 
     // return algos
     algos

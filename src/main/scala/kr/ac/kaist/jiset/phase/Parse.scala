@@ -13,7 +13,11 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     unit: Unit,
     jisetConfig: JISETConfig,
     config: ParseConfig
-  ): ECMAScript = ECMAScript(SPEC_HTML)
+  ): ECMAScript = {
+    println(s"--------------------------------------------------")
+    println(s"parsing spec.html...")
+    ECMAScript(SPEC_HTML)
+  }
 
   def defaultConfig: ParseConfig = ParseConfig()
   val options: List[PhaseOption[ParseConfig]] = List()
