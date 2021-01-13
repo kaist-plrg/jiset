@@ -11,6 +11,8 @@ import scala.collection.mutable
 import scala.io.Source
 import scala.util.Random.shuffle
 import spray.json._
+import scala.sys.process._
+import scala.concurrent._
 
 object Useful {
   // file reader
@@ -182,4 +184,18 @@ object Useful {
     HTML_SPECIAL_CODE.foldLeft(str) {
       case (s, (f, t)) => s.replaceAll(f, t)
     }
+
+  // execute shell command with given dir, default to CUR_DIR
+  def executeCmd(cmd: String, dir: String = CUR_DIR): String = {
+    var directory = new File(dir)
+    var process = Process(cmd, directory)
+    process !!
+  }
+
+  // change git version
+  def changeVersion(target: String, dir: String = CUR_DIR): Unit =
+    executeCmd(s"git checkout $target", dir)
+
+  def currentVersion(dir: String = CUR_DIR): String =
+    executeCmd(s"git rev-parse HEAD", dir)
 }

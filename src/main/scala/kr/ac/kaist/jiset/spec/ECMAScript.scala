@@ -11,8 +11,15 @@ import scala.util.matching.Regex
 case class ECMAScript(grammar: Grammar, algos: List[Algo])
 
 object ECMAScript {
-  def apply(filename: String): ECMAScript = {
-    val src = readFile(filename)
+  def parse(version: String): ECMAScript = {
+    // read file content of spec.html
+    val src = if (version == "") readFile(SPEC_HTML) else {
+      val cur = currentVersion(ECMA262_DIR)
+      changeVersion(version, ECMA262_DIR)
+      val src = readFile(SPEC_HTML)
+      changeVersion(cur, ECMA262_DIR)
+      src
+    }
     // source lines
     val lines = src.split(LINE_SEP)
     // parse html
