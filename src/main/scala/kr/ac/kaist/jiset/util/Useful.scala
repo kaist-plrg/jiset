@@ -186,9 +186,12 @@ object Useful {
     }
 
   // execute shell command with given dir, default to CUR_DIR
-  def executeCmd(cmd: String, dir: String = CUR_DIR): String = {
+  def executeCmd(given: String, dir: String = CUR_DIR): String = {
+    var cmd =
+      if (DEBUG) { println(s"[SHELL] $given"); given }
+      else s"$given 2> /dev/null"
     var directory = new File(dir)
-    var process = Process(cmd, directory)
+    var process = Process(Seq("sh", "-c", cmd), directory)
     process !!
   }
 
@@ -197,5 +200,5 @@ object Useful {
     executeCmd(s"git checkout $target", dir)
 
   def currentVersion(dir: String = CUR_DIR): String =
-    executeCmd(s"git rev-parse HEAD", dir)
+    executeCmd(s"git rev-parse HEAD", dir).trim
 }
