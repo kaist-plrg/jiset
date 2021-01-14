@@ -9,7 +9,7 @@ case class Grammar(
     prods: List[Production]
 ) {
   val idxMap: Map[String, (Int, Int)] = (for {
-    prod <- prods
+    prod <- lexProds ++ prods
     pair <- prod.getIdxMap
   } yield pair).toMap
 
