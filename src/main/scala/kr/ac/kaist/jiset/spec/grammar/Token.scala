@@ -28,7 +28,7 @@ trait Token {
       val casesStr = cases.mkString(" or ")
       s"$base but not $casesStr"
     case Lookahead(contains, cases) =>
-      val containsStr = if (contains) "∈" else "∉"
+      val containsStr = if (contains) "<" else "<!"
       val casesStr = cases.map(_.mkString(" ")).mkString("{", ", ", "}")
       s"[lookahead $containsStr $casesStr]"
     case EmptyToken =>
@@ -39,6 +39,7 @@ trait Token {
       s"<${char.name}>"
   }
 }
+
 object Token extends TokenParsers {
   def apply(str: String): Token = parseAll(token, str).get
 }

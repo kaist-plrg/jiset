@@ -53,6 +53,7 @@ object Useful {
   lazy val jsFilter = extFilter("js")
   lazy val jsonFilter = extFilter("json")
   lazy val scalaFilter = extFilter("scala")
+  lazy val grammarFilter = extFilter("grammar")
 
   // file writer
   def getPrintWriter(filename: String): PrintWriter =

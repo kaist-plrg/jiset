@@ -19,12 +19,39 @@ case class Grammar(
       case None => throw new Exception(s"Grammar: $name is not production")
     }
 
+  private def getSorted(prods: List[Production]) = prods.sortBy(_.lhs.name)
+  lazy val sortedProds = (getSorted(lexProds), getSorted(prods))
+
   // conversion to string
   override def toString: String = {
-    (("[Lexical Productions]" :: lexProds) ++ ("[Syntactic Productions]" :: prods)).mkString(LINE_SEP)
+    val (lprods, sprods) = sortedProds
+    Grammar.lexicalHeader + LINE_SEP +
+      lprods.mkString(LINE_SEP * 2) + LINE_SEP +
+      Grammar.syntacticHeader + LINE_SEP +
+      sprods.mkString(LINE_SEP * 2)
   }
 }
+
 object Grammar {
+  val lexicalHeader = "[Lexical Productions]"
+  val syntacticHeader = "[Syntactic Productions]"
+
+  def apply(src: String): Grammar = {
+    def getProds(lines: List[String]) = (for {
+      prodStr <- splitBy(lines, "")
+      prod <- optional(Production(prodStr))
+    } yield prod).toList
+
+    val lines = src.split(LINE_SEP).toList
+    val synIdx = lines.indexOf(syntacticHeader)
+    val (lexLines, synLines) = lines.splitAt(synIdx) match {
+      case (l0, l1) => (l0.tail, l1.tail)
+    }
+    val lexProds = getProds(lexLines)
+    val synProds = getProds(synLines)
+    Grammar(lexProds, synProds)
+  }
+
   // check target non-terminals
   def isTargetNT(name: String): Boolean = !(isModuleNT(name) || isSupplementalNT(name))
 

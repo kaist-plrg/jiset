@@ -12,23 +12,7 @@ case class ECMAScript(grammar: Grammar, algos: List[Algo])
 
 object ECMAScript {
   def apply(version: String, query: String, detail: Boolean): ECMAScript = {
-    // read file content of spec.html
-    val src = preprocess({
-      val cur = currentVersion(ECMA262_DIR)
-      println(s"version: ${if (version == "") cur else version}")
-      if (version == "") readFile(SPEC_HTML)
-      else {
-        changeVersion(version, ECMA262_DIR)
-        val src = readFile(SPEC_HTML)
-        changeVersion(cur, ECMA262_DIR)
-        src
-      }
-    })
-    // source lines
-    implicit val lines = src.split(LINE_SEP)
-    // parse html
-    implicit val document = Jsoup.parse(src)
-    // parse grammar
+    implicit val (lines, document) = preprocess(version)
     implicit val grammar = parseGrammar
     // parse algorithm
     val algos =
@@ -38,13 +22,28 @@ object ECMAScript {
     ECMAScript(grammar, algos)
   }
 
+  def grammar(version: String): Grammar = {
+    implicit val (lines, document) = preprocess(version)
+    parseGrammar
+  }
   ////////////////////////////////////////////////////////////////////////////////
   // helper
   ////////////////////////////////////////////////////////////////////////////////
   // preprocess for spec.html
-  def preprocess(src: String): String = {
-    val lines = src.split(LINE_SEP)
-    attachLines(dropAppendix(lines)).mkString(LINE_SEP)
+  def preprocess(version: String): (Array[String], Document) = {
+    val cur = currentVersion(ECMA262_DIR)
+    val src =
+      if (version == "") readFile(SPEC_HTML)
+      else {
+        changeVersion(version, ECMA262_DIR)
+        val src = readFile(SPEC_HTML)
+        changeVersion(cur, ECMA262_DIR)
+        src
+      }
+    println(s"Version: ${if (version == "") cur else version}")
+    val lines = attachLines(dropAppendix(src.split(LINE_SEP)))
+    val document = Jsoup.parse(lines.mkString(LINE_SEP))
+    (lines, document)
   }
 
   // attach line numbers

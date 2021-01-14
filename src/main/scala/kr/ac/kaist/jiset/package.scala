@@ -12,11 +12,13 @@ package object jiset {
   // Specification directory
   val ECMA262_DIR = s"${BASE_DIR}/ecma262"
   val SPEC_HTML = s"${ECMA262_DIR}/spec.html"
+  val RECENT_VERSION = "52bfd9f5775e368c57b8793d678fee6121797354"
 
   // Tests directory root
   val TEST_DIR = s"${BASE_DIR}/tests"
   val COMPILE_DIR = s"${TEST_DIR}/compile"
   val LARGE_DIR = s"${COMPILE_DIR}/large"
+  val GRAMMAR_DIR = s"${TEST_DIR}/grammar"
 
   // Resource directory root
   val RESOURCE_DIR = s"${BASE_DIR}/src/main/resources"

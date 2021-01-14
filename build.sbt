@@ -13,6 +13,7 @@ ThisBuild / javacOptions ++= Seq(
 )
 
 lazy val largeCompileTest = taskKey[Unit]("Launch tests for compile (large)")
+lazy val grammarTest = taskKey[Unit]("Launch tests for grammar")
 
 lazy val ires = ProjectRef(file("ires"), "ires")
 
@@ -38,5 +39,6 @@ lazy val jiset = (project in file("."))
     assemblyOutputPath in assembly := file("bin/jiset"),
     assemblyOption in assembly := (assemblyOption in assembly).value
       .copy(prependShellScript = Some(defaultUniversalScript(shebang = false))),
-    largeCompileTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.LargeCompileTest").value
+    largeCompileTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.LargeCompileTest").value,
+    grammarTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.GrammarTest").value
   )
