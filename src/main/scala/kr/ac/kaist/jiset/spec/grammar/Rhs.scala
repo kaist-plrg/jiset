@@ -5,6 +5,21 @@ case class Rhs(
     tokens: List[Token],
     condOpt: Option[RhsCond]
 ) {
+  // rhs name
+  def names: List[String] = tokens.foldLeft(List[String]("")) {
+    case (names, Terminal(term)) => names.map(_ + term)
+    case (names, NonTerminal(name, _, optional)) => names.flatMap(x => {
+      if (optional) List(x, x + name) else List(x + name)
+    })
+    case (names, ButNot(NonTerminal(base, _, _), cases)) =>
+      val butnot = cases.flatMap(_ match {
+        case NonTerminal(name, _, _) => Some(name)
+        case _ => None
+      }).mkString
+      names.map(_ + s"${base}butnot$butnot")
+    case (names, _) => names
+  }
+
   // check whehter if tokens is a single nonterminal
   def isSingleNT: Boolean = tokens.flatMap(_.norm) match {
     case List(_: NonTerminal) => true

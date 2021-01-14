@@ -152,7 +152,7 @@ object ECMAScript {
     } yield elem
 
     val elems = emuAlgs ++ earlyErrors
-    println(s"# argorithm elements: ${elems.size}")
+    println(s"# algorithm elements: ${elems.size}")
     println(s"  - <emu-alg>: ${emuAlgs.size}")
     println(s"  - Early Error: ${earlyErrors.size}")
 

@@ -87,8 +87,8 @@ object Algo {
   }
 
   // get body instructions
-  def getBody(code: Iterable[String]): ir.Inst = {
-    val tokens = Tokenizer.getTokens(code)
+  def getBody(code: Iterable[String])(implicit grammar: Grammar): ir.Inst = {
+    val tokens = (new Tokenizer).getTokens(code)
     GeneralAlgoCompiler.compile(tokens)
   }
 }

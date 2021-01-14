@@ -10,21 +10,8 @@ case class Production(
 ) {
   def getIdxMap: Map[String, (Int, Int)] = (for {
     (rhs, i) <- rhsList.zipWithIndex
-    names = rhs.tokens.foldLeft(List[String](lhs.name + ":")) {
-      case (names, Terminal(term)) => names.map(_ + term)
-      case (names, NonTerminal(name, _, optional)) => names.flatMap(x => {
-        if (optional) List(x, x + name) else List(x + name)
-      })
-      case (names, ButNot(NonTerminal(base, _, _), cases)) =>
-        val butnot = cases.flatMap(_ match {
-          case NonTerminal(name, _, _) => Some(name)
-          case _ => None
-        }).mkString
-        names.map(_ + s"${base}butnot$butnot")
-      case (names, _) => names
-    }
-    (name, j) <- names.zipWithIndex
-  } yield norm(name) -> (i, j)).toMap
+    (name, j) <- rhs.names.zipWithIndex
+  } yield norm(lhs.name + ":" + name) -> (i, j)).toMap
 
   // conversion to string
   override def toString: String =
