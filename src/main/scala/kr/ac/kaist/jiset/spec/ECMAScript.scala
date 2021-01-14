@@ -96,15 +96,6 @@ object ECMAScript {
     lines: Array[String],
     document: Document
   ): Grammar = {
-    // split codes by empty string
-    // ex) split(List("a", "b", "", "c", "d")) = List(List("a", "b"), List("c", "d"))
-    def split(prods: List[String]): List[List[String]] = {
-      prods.span(_ != "") match {
-        case (prod, _ :: remain) => prod :: split(remain)
-        case (prod, Nil) => List(prod)
-      }
-    }
-
     // get lexical grammar list
     val lexElem = document.getElementById("sec-lexical-grammar")
     val lexProdElems = lexElem
@@ -127,7 +118,7 @@ object ECMAScript {
     val prods = (for {
       prodElem <- prodElems
       body = getRawBody(prodElem).toList
-      prodStr <- split(body)
+      prodStr <- splitBy(body, "")
       prod <- optional(Production(prodStr))
     } yield prod).toList
 

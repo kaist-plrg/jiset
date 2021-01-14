@@ -26,5 +26,6 @@ case class Production(
   } yield norm(name) -> (i, j)).toMap
 }
 object Production extends ProductionParsers {
-  def apply(lines: List[String]): Production = parse(lines.map(revertSpecialCodes))
+  def apply(lines: List[String]): Production =
+    parse(lines.map(revertSpecialCodes))
 }

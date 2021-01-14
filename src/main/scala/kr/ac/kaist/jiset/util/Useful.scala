@@ -219,4 +219,16 @@ object Useful {
     val e = elem.attr("e").toInt
     lines.slice(s + 1, e - 1)
   }
+
+  // split lists by a separator
+  def splitBy[T](list: List[T], sep: T): List[List[T]] = {
+    @annotation.tailrec
+    def aux(xs: List[T], revAcc: List[List[T]]): List[List[T]] = xs match {
+      case Nil => revAcc.reverse
+      case h :: t =>
+        val (pref, suff) = (if (h == sep) xs.tail else xs).span(_ != sep)
+        aux(suff, pref :: revAcc)
+    }
+    aux(list, Nil)
+  }
 }

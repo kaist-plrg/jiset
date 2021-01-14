@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.ires.ir
-import kr.ac.kaist.jiset.DEBUG
+import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.algorithm.GeneralAlgoCompiler
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
@@ -52,7 +52,7 @@ object Algo {
   val prefixPattern = ".*Semantics:".r
   def nameCheck(name: String): Boolean =
     namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
-  def getHead(elem: Element): (String, List[String]) = {
+  def getHead(elem: Element)(implicit lines: Array[String]): (String, List[String]) = {
     val headElem = elem.siblingElements.get(0)
     if (headElem.tag.toString != "h1") error(s"no algorithm head: $headElem")
     val str = headElem.text
@@ -65,7 +65,11 @@ object Algo {
 
     val prev = elem.previousElementSibling
     if (prev.tag.toString == "emu-grammar") {
-      prev.tag.toString
+      val code = getRawBody(prev).toList
+      val prod = Production(code)
+      val names = prod.getIdxMap.keySet
+      // code.foreach(println _)
+      // println(names)
       error("[TODO] syntax-directed algorithm")
     }
 
