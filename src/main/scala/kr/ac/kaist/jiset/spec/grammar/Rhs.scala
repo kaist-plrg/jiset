@@ -20,11 +20,15 @@ case class Rhs(
     case (names, _) => names
   }
 
+  // get non-terminals
+  def getNTs: List[NonTerminal] = tokens.flatMap(_.getNT)
+
   // check whehter if tokens is a single nonterminal
   def isSingleNT: Boolean = tokens.flatMap(_.norm) match {
     case List(_: NonTerminal) => true
     case _ => false
   }
+
   // check non terminal
   def check(f: String => Boolean, init: Boolean, op: (Boolean, Boolean) => Boolean) =
     tokens.foldLeft(init) {
@@ -33,6 +37,7 @@ case class Rhs(
         case _ => b
       }
     }
+
   // check wheter if tokens contain module nonterminal
   def containsModuleNT: Boolean =
     check(Grammar.isModuleNT, false, (x, y) => x || y)

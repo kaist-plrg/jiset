@@ -9,6 +9,13 @@ trait Token {
     case t => Some(t)
   }
 
+  // filter non-terminals
+  def getNT: Option[NonTerminal] = this match {
+    case (nt: NonTerminal) => Some(nt)
+    case ButNot(base, _) => base.getNT
+    case _ => None
+  }
+
   // conversion to string
   override def toString: String = this match {
     case Terminal(term) =>

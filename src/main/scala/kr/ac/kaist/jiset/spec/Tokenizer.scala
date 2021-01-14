@@ -19,7 +19,7 @@ class Tokenizer(implicit grammar: Grammar) extends ProductionParsers {
     }
     lazy val gram = "<emu-grammar>" ~> lhs ~ rhs <~ "</emu-grammar>" ^^ {
       case Lhs(lhsName, _) ~ rhs => {
-        val caseName = norm(s"${lhsName}:${rhs.names.head}")
+        val caseName = s"${lhsName}:${rhs.names.head}"
         grammar.idxMap.get(caseName) match {
           case Some((idx, _)) => {
             val subs = rhs.tokens.flatMap {

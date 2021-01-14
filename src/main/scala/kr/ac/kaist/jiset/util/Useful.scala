@@ -208,9 +208,6 @@ object Useful {
   def currentVersion(dir: String = CUR_DIR): String =
     executeCmd(s"git rev-parse HEAD", dir).trim
 
-  // normalize string
-  def norm(str: String): String = "[\\s/#]".r.replaceAllIn(str, "")
-
   // get Element array using queries
   def getElems(elem: Element, query: String): Array[Element] =
     toArray(elem.select(query))
@@ -219,9 +216,10 @@ object Useful {
 
   // get raw body of element
   def getRawBody(elem: Element)(implicit lines: Array[String]): Array[String] = {
-    val s = elem.attr("s").toInt
-    val e = elem.attr("e").toInt
-    lines.slice(s + 1, e - 1)
+    val s = elem.attr("s")
+    val e = elem.attr("e")
+    if (s == "") Array(elem.text)
+    else lines.slice(s.toInt + 1, e.toInt - 1)
   }
 
   // split lists by a separator

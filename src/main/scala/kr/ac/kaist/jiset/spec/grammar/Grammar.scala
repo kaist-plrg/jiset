@@ -21,8 +21,7 @@ case class Grammar(
 
   // conversion to string
   override def toString: String = {
-    ("[Lexical Productions]" :: lexProds) mkString (LINE_SEP) + LINE_SEP +
-      ("[Syntactic Productions]" :: prods).mkString(LINE_SEP)
+    (("[Lexical Productions]" :: lexProds) ++ ("[Syntactic Productions]" :: prods)).mkString(LINE_SEP)
   }
 }
 object Grammar {

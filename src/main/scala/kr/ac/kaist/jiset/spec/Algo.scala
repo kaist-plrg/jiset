@@ -7,11 +7,11 @@ import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
 
 // ECMASCript abstract algorithms
-case class Algo(
-    name: String,
-    params: List[String],
-    body: ir.Inst
-) {
+case class Algo(head: AlgoHead, body: ir.Inst) {
+  // head fields
+  def name: String = head.name
+  def params: List[String] = head.params
+
   // completion check (not containing ??? or !!! in the algorithm body)
   def isComplete: Boolean = {
     var complete = true
@@ -27,33 +27,37 @@ case class Algo(
 
   // conversion to string
   override def toString: String =
-    s"$name (${params.mkString(", ")}) ${ir.beautify(body)}"
+    s"$head ${ir.beautify(body)}"
 }
-
 object Algo {
   // get algorithms
-  def apply(
+  def parse(
     elem: Element,
     detail: Boolean = false
   )(
     implicit
     lines: Array[String],
     grammar: Grammar
-  ): Option[Algo] = optional {
-    val (name, params) = getHead(elem)
-    val code = getRawBody(elem)
+  ): List[Algo] = try {
+    val heads = getHeads(elem)
     if (detail) {
       println(s"--------------------------------------------------")
-      println(s"$name (${params.mkString(", ")}):")
+      heads.foreach {
+        case AlgoHead(name, params) => println(s"$name (${params.mkString(", ")}):")
+      }
+    }
+    val code = getRawBody(elem)
+    if (detail) {
       code.foreach(println _)
       println(s"====>")
     }
-    val body =
-      if (detail) errorLog(getBody(code))("[Error]: algorithm parsing failed")
-      else getBody(code)
-    val algo = Algo(name, params, body)
-    if (detail) println(algo)
-    algo
+    val body = getBody(code)
+    if (detail) println(ir.beautify(body))
+    heads.map(Algo(_, body))
+  } catch {
+    case _: Throwable =>
+      if (detail) println("[Error]: algorithm parsing failed")
+      Nil
   }
 
   // get names and parameters
@@ -62,7 +66,11 @@ object Algo {
   val prefixPattern = ".*Semantics:".r
   def nameCheck(name: String): Boolean =
     namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
-  def getHead(elem: Element)(implicit lines: Array[String]): (String, List[String]) = {
+  def getHeads(elem: Element)(
+    implicit
+    lines: Array[String],
+    grammar: Grammar
+  ): List[AlgoHead] = {
     val headElem = elem.siblingElements.get(0)
     if (headElem.tag.toString != "h1") error(s"no algorithm head: $headElem")
     val str = headElem.text
@@ -73,19 +81,6 @@ object Algo {
     name = prefixPattern.replaceFirstIn(name, "").trim
     if (!nameCheck(name)) error(s"not target algorithm: $str")
 
-    val prev = elem.previousElementSibling
-    if (prev.tag.toString == "emu-grammar") {
-      error("[TODO] syntax-directed algorithm")
-      // for {
-      //   code <- splitBy(getRawBody(prev).toList, "")
-      //   prod = Production(code)
-      //   names = prod.getIdxMap.keySet
-      // } {
-      //   code.foreach(println _)
-      //   println(names)
-      // }
-    }
-
     // extract parameters
     val params = if (from == -1) Nil else paramPattern
       .findAllMatchIn(str.substring(from))
@@ -93,7 +88,30 @@ object Algo {
         val s = m.toString
         s.substring(1, s.length - 1)
       }).toList
-    (name, params)
+
+    val prev = elem.previousElementSibling
+    if (prev.tag.toString == "emu-grammar") {
+      // syntax-directed algorithms
+      val idxMap = grammar.idxMap
+      val body = getRawBody(prev).toList
+      for {
+        code <- splitBy(body, "")
+        prod = Production(code)
+        lhsName = prod.lhs.name
+        rhs <- prod.rhsList
+        rhsName <- rhs.names
+        syntax = lhsName + ":" + rhsName
+        (i, j) <- idxMap.get(syntax)
+        newName = s"$lhsName[$i,$j].$name"
+        newParams = rhs.getNTs.map(_.name) ++ params
+      } yield AlgoHead(newName, newParams)
+    } else if (false) {
+      // TODO built-in algorithms
+      ???
+    } else {
+      // normal algorithms
+      List(AlgoHead(name, params))
+    }
   }
 
   // get body instructions
@@ -101,4 +119,8 @@ object Algo {
     val tokens = (new Tokenizer).getTokens(code)
     GeneralAlgoCompiler.compile(tokens)
   }
+}
+
+case class AlgoHead(name: String, params: List[String]) {
+  override def toString: String = s"$name (${params.mkString(", ")})"
 }

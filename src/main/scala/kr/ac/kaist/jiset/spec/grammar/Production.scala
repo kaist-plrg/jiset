@@ -8,10 +8,11 @@ case class Production(
     lhs: Lhs,
     rhsList: List[Rhs]
 ) {
+  // get index map
   def getIdxMap: Map[String, (Int, Int)] = (for {
     (rhs, i) <- rhsList.zipWithIndex
     (name, j) <- rhs.names.zipWithIndex
-  } yield norm(lhs.name + ":" + name) -> (i, j)).toMap
+  } yield lhs.name + ":" + name -> (i, j)).toMap
 
   // conversion to string
   override def toString: String =

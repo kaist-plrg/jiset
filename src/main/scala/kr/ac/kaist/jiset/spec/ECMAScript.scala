@@ -50,6 +50,7 @@ object ECMAScript {
   // attach line numbers
   val startPattern = """(\s*<)([-a-z]+)([^<>]*(<[^<>]*>[^<>]*)*>[^<>]*)""".r
   val endPattern = """\s*</([-a-z]+)>\s*""".r
+  val pairPattern = s"$startPattern$endPattern".r
   val ignoreTags = Set("meta", "link", "style", "br", "img", "li", "p")
   def attachLines(lines: Array[String]): Array[String] = {
     val tagStack = Stack[(String, Int)]()
@@ -162,10 +163,13 @@ object ECMAScript {
     println(s"  - Early Error: ${earlyErrors.size}")
 
     // algorithms
-    val (atime, algos) = time((for {
+    val (atime, passed) = time(for {
       elem <- elems
-      algo <- Algo(elem, detail)
-    } yield algo).toList)
+      algos = Algo.parse(elem, detail)
+      if !algos.isEmpty
+    } yield algos)
+    println(s"# successful algorithm parsing: ${passed.size}")
+    val algos = passed.toList.flatten
     println(s"# algorithms: ${algos.length} ($atime ms)")
 
     // return algos
