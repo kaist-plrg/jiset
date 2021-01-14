@@ -13,13 +13,16 @@ case class ECMAScript(grammar: Grammar, algos: List[Algo])
 object ECMAScript {
   def apply(version: String, query: String, detail: Boolean): ECMAScript = {
     // read file content of spec.html
-    val src = preprocess(if (version == "") readFile(SPEC_HTML) else {
+    val src = preprocess({
       val cur = currentVersion(ECMA262_DIR)
-      changeVersion(version, ECMA262_DIR)
-      val src = readFile(SPEC_HTML)
-      println(s"Version: ${version}")
-      changeVersion(cur, ECMA262_DIR)
-      src
+      println(s"Version: ${if (version == "") cur else version}")
+      if (version == "") readFile(SPEC_HTML)
+      else {
+        changeVersion(version, ECMA262_DIR)
+        val src = readFile(SPEC_HTML)
+        changeVersion(cur, ECMA262_DIR)
+        src
+      }
     })
     // source lines
     implicit val lines = src.split(LINE_SEP)
