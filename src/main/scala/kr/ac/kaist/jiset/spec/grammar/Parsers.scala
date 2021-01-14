@@ -74,7 +74,7 @@ trait TokenParsers extends Parsers {
 
 // Rhs parsers
 trait RhsParsers extends TokenParsers {
-  lazy val rhs: Parser[Rhs] = opt(cond) ~ rep(token) <~ opt(tag) ^^ {
+  lazy val rhs: Parser[Rhs] = opt(cond) ~ rep1(token) <~ opt(tag) ^^ {
     case cond ~ tokens => Rhs(tokens, cond)
   }
   lazy val cond = "[" ~> "[+~]".r ~ word <~ "]" ^^ {

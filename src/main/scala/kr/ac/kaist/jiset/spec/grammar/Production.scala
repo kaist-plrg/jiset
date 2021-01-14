@@ -31,12 +31,6 @@ case class Production(
     (lhs.toString :: rhsList.map("  " + _.toString)).mkString(LINE_SEP)
 }
 object Production extends ProductionParsers {
-  def apply(lines: List[String]): Production = {
-    val prod = parse(lines.map(revertSpecialCodes))
-    println("--------------------------------------------------")
-    lines.foreach(println _)
-    println("--------------------------------------------------")
-    println(prod)
-    prod
-  }
+  def apply(lines: List[String]): Production =
+    parse(lines.map(revertSpecialCodes))
 }
