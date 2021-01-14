@@ -11,12 +11,13 @@ import scala.collection.mutable.Stack
 case class ECMAScript(grammar: Grammar, algos: List[Algo])
 
 object ECMAScript {
-  def parse(version: String): ECMAScript = {
+  def apply(version: String, query: String, detail: Boolean): ECMAScript = {
     // read file content of spec.html
     val src = preprocess(if (version == "") readFile(SPEC_HTML) else {
       val cur = currentVersion(ECMA262_DIR)
       changeVersion(version, ECMA262_DIR)
       val src = readFile(SPEC_HTML)
+      println(s"Version: ${version}")
       changeVersion(cur, ECMA262_DIR)
       src
     })
@@ -27,7 +28,9 @@ object ECMAScript {
     // parse grammar
     implicit val grammar = parseGrammar
     // parse algorithm
-    val algos = parseAlgo
+    val algos =
+      if (query == "") parseAlgo(document, detail)
+      else getElems(document, query).toList.flatMap(parseAlgo(_, detail))
     // wrap grammar, algos
     ECMAScript(grammar, algos)
   }
@@ -136,18 +139,17 @@ object ECMAScript {
   // algorithm
   ////////////////////////////////////////////////////////////////////////////////
   // parse spec.html to Algo
-  def parseAlgo(
+  def parseAlgo(target: Element, detail: Boolean = false)(
     implicit
     lines: Array[String],
-    document: Document,
     grammar: Grammar
   ): List[Algo] = {
     // HTML elements with `emu-alg` tags
-    val emuAlgs = getElems(document, "emu-alg")
+    val emuAlgs = getElems(target, "emu-alg")
 
     // HTML elements for Early Error
     val earlyErrors = for {
-      parentElem <- getElems(document, "emu-clause[id$=early-errors]")
+      parentElem <- getElems(target, "emu-clause[id$=early-errors]")
       elem <- getElems(parentElem, "ul")
     } yield elem
 
@@ -159,7 +161,7 @@ object ECMAScript {
     // algorithms
     val (atime, algos) = time((for {
       elem <- elems
-      algo <- Algo(elem)
+      algo <- Algo(elem, detail)
     } yield algo).toList)
     println(s"# algorithms: ${algos.length} ($atime ms)")
 

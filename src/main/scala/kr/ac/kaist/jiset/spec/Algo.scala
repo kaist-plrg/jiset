@@ -33,17 +33,27 @@ case class Algo(
 object Algo {
   // get algorithms
   def apply(
-    elem: Element
+    elem: Element,
+    detail: Boolean = false
   )(
     implicit
     lines: Array[String],
-    document: Document,
     grammar: Grammar
   ): Option[Algo] = optional {
     val (name, params) = getHead(elem)
     val code = getRawBody(elem)
-    val body = getBody(code)
-    Algo(name, params, body)
+    if (detail) {
+      println(s"--------------------------------------------------")
+      println(s"$name (${params.mkString(", ")}):")
+      code.foreach(println _)
+      println(s"====>")
+    }
+    val body =
+      if (detail) errorLog(getBody(code))("[Error]: algorithm parsing failed")
+      else getBody(code)
+    val algo = Algo(name, params, body)
+    if (detail) println(algo)
+    algo
   }
 
   // get names and parameters
