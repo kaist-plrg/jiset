@@ -33,11 +33,15 @@ case class Algo(
 object Algo {
   // get algorithms
   def apply(
-    elem: Element,
-    code: Iterable[String],
+    elem: Element
+  )(
+    implicit
+    lines: Array[String],
+    document: Document,
     grammar: Grammar
   ): Option[Algo] = optional {
     val (name, params) = getHead(elem)
+    val code = getRawBody(elem)
     val body = getBody(code)
     Algo(name, params, body)
   }
@@ -61,6 +65,7 @@ object Algo {
 
     val prev = elem.previousElementSibling
     if (prev.tag.toString == "emu-grammar") {
+      prev.tag.toString
       error("[TODO] syntax-directed algorithm")
     }
 

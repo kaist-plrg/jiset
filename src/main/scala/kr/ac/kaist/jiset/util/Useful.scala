@@ -212,4 +212,11 @@ object Useful {
     toArray(elem.select(query))
   def toArray(elems: Elements): Array[Element] =
     elems.toArray(Array[Element]())
+
+  // get raw body of element
+  def getRawBody(elem: Element)(implicit lines: Array[String]): Array[String] = {
+    val s = elem.attr("s").toInt
+    val e = elem.attr("e").toInt
+    lines.slice(s + 1, e - 1)
+  }
 }

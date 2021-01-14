@@ -21,13 +21,13 @@ object ECMAScript {
       src
     })
     // source lines
-    val lines = src.split(LINE_SEP)
+    implicit val lines = src.split(LINE_SEP)
     // parse html
-    val document = Jsoup.parse(src)
+    implicit val document = Jsoup.parse(src)
     // parse grammar
-    val grammar = parseGrammar(lines, document)
+    implicit val grammar = parseGrammar
     // parse algorithm
-    val algos = parseAlgo(lines, grammar, document)
+    val algos = parseAlgo
     // wrap grammar, algos
     ECMAScript(grammar, algos)
   }
@@ -74,12 +74,6 @@ object ECMAScript {
     lines.slice(0, appendixLineNum)
   }
 
-  def getRawBody(lines: Array[String], elem: Element): Array[String] = {
-    val s = elem.attr("s").toInt
-    val e = elem.attr("e").toInt
-    lines.slice(s + 1, e - 1)
-  }
-
   // check if inst has ??? or !!!
   def isComplete(inst: ir.Inst): Boolean = {
     var complete = true
@@ -97,7 +91,11 @@ object ECMAScript {
   // grammar
   ////////////////////////////////////////////////////////////////////////////////
   // parse spec.html to Grammar
-  def parseGrammar(lines: Array[String], document: Document): Grammar = {
+  def parseGrammar(
+    implicit
+    lines: Array[String],
+    document: Document
+  ): Grammar = {
     // split codes by empty string
     // ex) split(List("a", "b", "", "c", "d")) = List(List("a", "b"), List("c", "d"))
     def split(prods: List[String]): List[List[String]] = {
@@ -128,7 +126,7 @@ object ECMAScript {
     })
     val prods = (for {
       prodElem <- prodElems
-      body = getRawBody(lines, prodElem).toList
+      body = getRawBody(prodElem).toList
       prodStr <- split(body)
       prod <- optional(Production(prodStr))
     } yield prod).toList
@@ -148,9 +146,10 @@ object ECMAScript {
   ////////////////////////////////////////////////////////////////////////////////
   // parse spec.html to Algo
   def parseAlgo(
+    implicit
     lines: Array[String],
-    grammar: Grammar,
-    document: Document
+    document: Document,
+    grammar: Grammar
   ): List[Algo] = {
     // HTML elements with `emu-alg` tags
     val emuAlgs = getElems(document, "emu-alg")
@@ -169,7 +168,7 @@ object ECMAScript {
     // algorithms
     val (atime, algos) = time((for {
       elem <- elems
-      algo <- Algo(elem, getRawBody(lines, elem), grammar)
+      algo <- Algo(elem)
     } yield algo).toList)
     println(s"# algorithms: ${algos.length} ($atime ms)")
 
