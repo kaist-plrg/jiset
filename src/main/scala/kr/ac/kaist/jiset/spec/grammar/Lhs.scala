@@ -11,5 +11,5 @@ case class Lhs(
   def isScript: Boolean = name == "Script"
 }
 object Lhs extends LhsParsers {
-  def apply(str: String): Lhs = parse(lhs, str).get
+  def apply(str: String): Lhs = parseAll(lhs, str).get
 }

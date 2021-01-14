@@ -64,10 +64,11 @@ object Algo {
     if (!nameCheck(name)) error(s"not target algorithm: $str")
 
     val prev = elem.previousElementSibling
-    if (prev.tag.toString == "emu-grammar") {
-      val code = getRawBody(prev).toList
-      val prod = Production(code)
-      val names = prod.getIdxMap.keySet
+    if (prev.tag.toString == "emu-grammar") for {
+      code <- splitBy(getRawBody(prev).toList, "")
+      prod = Production(code)
+      names = prod.getIdxMap.keySet
+    } {
       // code.foreach(println _)
       // println(names)
       error("[TODO] syntax-directed algorithm")

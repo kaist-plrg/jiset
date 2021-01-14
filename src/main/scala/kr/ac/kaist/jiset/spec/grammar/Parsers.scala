@@ -6,7 +6,6 @@ import scala.util.parsing.combinator._
 trait Parsers extends RegexParsers {
   lazy val word = "\\w+".r
   lazy val params: Parser[List[String]] = "[" ~> repsep(pWord, ",") <~ "]"
-  lazy val cWord = "[A-Z]\\w+".r
   lazy val pWord = "[?|\\+|~]*\\w+".r
 }
 
@@ -33,54 +32,49 @@ trait TokenParsers extends Parsers {
   lazy val term = "`" ~> ("[^`]+".r | "`") <~ "`" ^^ { Terminal(_) }
 
   // non-terminals
-  lazy val nt = cWord ~ opt(params) ~ opt("?") ^^ {
+  lazy val nt = word ~ opt(params) ~ opt("?") ^^ {
     case n ~ Some(args) ~ Some(_) => NonTerminal(n, args, true)
     case n ~ Some(args) ~ None => NonTerminal(n, args, false)
     case n ~ None ~ Some(_) => NonTerminal(n, Nil, true)
     case n ~ None ~ None => NonTerminal(n, Nil, false)
   }
 
-  // unicode
-  lazy val unicode = "<" ~> word <~ ">" ^^ { Unicode(_) }
-
   // empty
-  val empty = "[empty]" ^^ { _ => EmptyToken }
+  lazy val empty = "[empty]" ^^^ EmptyToken
 
   // no line terminator
-  val nlt = "\\[no [\\|]?LineTerminator[\\|]? here\\]".r ^^ { _ => NoLineTerminatorToken }
+  lazy val nlt = "\\[no [\\|]?LineTerminator[\\|]? here\\]".r ^^^ NoLineTerminatorToken
 
-  // unicode any
-  val uniAny = "any Unicode code point$".r ^^ { _ => UnicodeAny }
+  // unicode
 
-  // unicode id start
-  val uniStart =
-    "any Unicode code point with the Unicode property “ID_Start”$".r ^^ { _ => UnicodeIdStart }
+  // characters
+  lazy val character = (
+    "<" ~> word <~ ">" ^^ { Unicode(_) } |
+    ".*any.*code point.*".r ^^^ UnicodeAny |
+    ".*code point.*ID_Start.*".r ^^^ UnicodeIdStart |
+    ".*code point.*ID_Continue.*".r ^^^ UnicodeIdContinue |
+    ".*code point.*0xD800 to 0xDBFF.*".r ^^^ UnicodeLeadSurrogate |
+    ".*code point.*0xDC00 to 0xDFFF.*".r ^^^ UnicodeTrailSurrogate |
+    ".*HexDigits.*> 0x10FFFF.*".r ^^^ NotCodePoint |
+    ".*HexDigits.*≤ 0x10FFFF.*".r ^^^ CodePoint |
+    ".*Hex4Digits.*0xD800 to 0xDBFF.*".r ^^^ HexLeadSurrogate |
+    ".*Hex4Digits.*0xDC00 to 0xDFFF.*".r ^^^ HexTrailSurrogate |
+    ".*Hex4Digits.*not.*0xD800 to 0xDFFF.*".r ^^^ HexNonSurrogate
+  )
 
-  // unicode id continue
-  val uniCont =
-    "any Unicode code point with the Unicode property “ID_Continue”$".r ^^ { _ => UnicodeIdStart }
+  // special cases
+  lazy val special = empty | nlt | character
 
-  // unicode lead surrogate
-  val uniLeadSur =
-    "any Unicode code point in the inclusive range 0xD800 to 0xDBFF" ^^ { _ => UnicodeLeadSurrogate }
-
-  // unicode trail surrogate
-  val uniTrailSur =
-    "any Unicode code point in the inclusive range 0xDC00 to 0xDFFF" ^^ { _ => UnicodeTrailSurrogate }
-
-  // unicode code point
-  val uniCodePoint = ">" ~> (uniLeadSur | uniTrailSur | uniStart | uniCont | uniAny)
-
-  // manual cases
-  val manual = empty | nlt | uniCodePoint
+  // tags
+  lazy val tag = "#" ~ word
 
   // tokens
-  lazy val token: Parser[Token] = manual | unicode | butnot | lookahead | nt | term
+  lazy val token: Parser[Token] = special | butnot | lookahead | nt | term
 }
 
 // Rhs parsers
 trait RhsParsers extends TokenParsers {
-  lazy val rhs: Parser[Rhs] = opt(constraints) ~ rep(token) ^^ {
+  lazy val rhs: Parser[Rhs] = opt(constraints) ~ rep(token) <~ opt(tag) ^^ {
     case Some(cond) ~ tokens => Rhs(tokens, cond)
     case None ~ tokens => Rhs(tokens, "")
   }
@@ -101,17 +95,17 @@ trait LhsParsers extends Parsers {
 
 // Production parsers
 trait ProductionParsers extends LhsParsers with RhsParsers {
+  lazy val oneof: Parser[Boolean] = opt("one of") ^^ { !_.isEmpty }
+  lazy val lhsLine = lhs ~ oneof ~ opt(rhs)
   def parse(lines: List[String]): Production = lines match {
     case lhsStr :: rhsStrList => {
-      val lhs = Lhs(lhsStr)
+      val lhs ~ split ~ rhsOpt = parseAll(lhsLine, lhsStr).get
       // create rhsList
       var rhsList = rhsStrList.map(Rhs(_))
-      // handle oneof
-      if (lhsStr.trim.endsWith("one of")) {
-        rhsList = rhsList.foldLeft(List.empty[Rhs]) {
-          case (acc, Rhs(tokens, cond)) =>
-            acc ++ tokens.map(t => Rhs(t :: Nil, cond))
-        }
+      rhsOpt.map(rhsList ::= _)
+      // handle `one of`
+      if (split) rhsList = rhsList.flatMap {
+        case Rhs(tokens, cond) => tokens.map(t => Rhs(List(t), cond))
       }
       Production(lhs, rhsList)
     }

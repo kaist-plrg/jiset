@@ -177,9 +177,13 @@ object Useful {
     "&apos;" -> "'",
     "&lt;" -> "<",
     "&gt;" -> ">",
+    "&le;" -> "≤",
+    "&ge;" -> "≥",
     "&nbsp;" -> " ",
     "&laquo;" -> "«",
-    "&raquo;" -> "»"
+    "&raquo;" -> "»",
+    "&ldquo;" -> "“",
+    "&rdquo;" -> "”"
   )
   def revertSpecialCodes(str: String): String =
     HTML_SPECIAL_CODE.foldLeft(str) {
@@ -230,5 +234,10 @@ object Useful {
         aux(suff, pref :: revAcc)
     }
     aux(list, Nil)
+  }
+
+  // error log
+  def errorLog[T](f: => T)(msg: String): T = try f catch {
+    case e: Throwable => println(msg); throw e
   }
 }

@@ -35,5 +35,5 @@ case class Rhs(
   }
 }
 object Rhs extends RhsParsers {
-  def apply(str: String): Rhs = parse(rhs, str).get
+  def apply(str: String): Rhs = parseAll(rhs, str).get
 }
