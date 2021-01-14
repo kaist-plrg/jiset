@@ -15,7 +15,7 @@ object ECMAScript {
     // read file content of spec.html
     val src = preprocess({
       val cur = currentVersion(ECMA262_DIR)
-      println(s"Version: ${if (version == "") cur else version}")
+      println(s"version: ${if (version == "") cur else version}")
       if (version == "") readFile(SPEC_HTML)
       else {
         changeVersion(version, ECMA262_DIR)
