@@ -46,6 +46,7 @@ object Spec extends DefaultJsonProtocol {
   implicit val ButNotFormat = jsonFormat2(ButNot.apply)
   implicit val LookaheadFormat = jsonFormat2(Lookahead.apply)
   implicit val UnicodeFormat = jsonFormat1(Unicode.apply)
+  implicit val RhsCondFormat = jsonFormat2(RhsCond.apply)
   implicit val RhsFormat = jsonFormat2(Rhs.apply)
   implicit val LhsFormat = jsonFormat2(Lhs.apply)
   implicit val ProductionFormat = jsonFormat2(Production.apply)

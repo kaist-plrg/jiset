@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.spec
 
+import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Useful._
 
 // ECMAScript grammars
@@ -17,6 +18,12 @@ case class Grammar(
       case Some(prod) => prod
       case None => throw new Exception(s"Grammar: $name is not production")
     }
+
+  // conversion to string
+  override def toString: String = {
+    ("[Lexical Productions]" :: lexProds) mkString (LINE_SEP) + LINE_SEP +
+      ("[Syntactic Productions]" :: prods).mkString(LINE_SEP)
+  }
 }
 object Grammar {
   // check target non-terminals

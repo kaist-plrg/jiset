@@ -2,10 +2,34 @@ package kr.ac.kaist.jiset.spec
 
 // ECMAScript grammar tokens
 trait Token {
+  // normalize tokens
   def norm: Option[Token] = this match {
     case ButNot(base, _) => base.norm
     case EmptyToken | Lookahead(_, _) => None
     case t => Some(t)
+  }
+
+  // conversion to string
+  override def toString: String = this match {
+    case Terminal(term) =>
+      s"`$term`"
+    case NonTerminal(name, args, optional) =>
+      val argsStr = if (args.isEmpty) "" else args.mkString("[", ", ", "]")
+      val optionalStr = if (optional) "?" else ""
+      s"$name$argsStr$optionalStr"
+    case ButNot(base, cases) =>
+      val casesStr = cases.mkString(" or ")
+      s"$base but not $casesStr"
+    case Lookahead(contains, cases) =>
+      val containsStr = if (contains) "∈" else "∉"
+      val casesStr = cases.map(_.mkString(" ")).mkString("{", ", ", "}")
+      s"[lookahead $containsStr $casesStr]"
+    case EmptyToken =>
+      s"[empty]"
+    case NoLineTerminatorToken =>
+      s"[no LineTerminator here]"
+    case (char: Character) =>
+      s"<${char.name}>"
   }
 }
 object Token extends TokenParsers {
@@ -41,15 +65,15 @@ case object EmptyToken extends Token
 case object NoLineTerminatorToken extends Token
 
 // char tokens
-trait Character extends Token
-case class Unicode(code: String) extends Character
-case object UnicodeAny extends Character
-case object UnicodeIdStart extends Character
-case object UnicodeIdContinue extends Character
-case object UnicodeLeadSurrogate extends Character
-case object UnicodeTrailSurrogate extends Character
-case object NotCodePoint extends Character
-case object CodePoint extends Character
-case object HexLeadSurrogate extends Character
-case object HexTrailSurrogate extends Character
-case object HexNonSurrogate extends Character
+abstract class Character(val name: String) extends Token
+case class Unicode(code: String) extends Character(code)
+case object UnicodeAny extends Character("UnicodeAny")
+case object UnicodeIdStart extends Character("UnicodeIdStart")
+case object UnicodeIdContinue extends Character("UnicodeIdContinue")
+case object UnicodeLeadSurrogate extends Character("UnicodeLeadSurrogate")
+case object UnicodeTrailSurrogate extends Character("UnicodeTrailSurrogate")
+case object NotCodePoint extends Character("NotCodePoint")
+case object CodePoint extends Character("CodePoint")
+case object HexLeadSurrogate extends Character("HexLeadSurrogate")
+case object HexTrailSurrogate extends Character("HexTrailSurrogate")
+case object HexNonSurrogate extends Character("HexNonSurrogate")

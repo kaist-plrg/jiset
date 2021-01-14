@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.spec
 // ECMAScript grammar right-hand-sides
 case class Rhs(
     tokens: List[Token],
-    cond: String
+    condOpt: Option[RhsCond]
 ) {
   // check whehter if tokens is a single nonterminal
   def isSingleNT: Boolean = tokens.flatMap(_.norm) match {
@@ -26,14 +26,25 @@ case class Rhs(
   def isTarget: Boolean =
     check(Grammar.isTargetNT, true, (x, y) => x && y)
   // check if rhs satifies parameters
-  def satisfy(params: Set[String]): Boolean = {
-    if (cond == "") true
-    else {
-      if (cond startsWith "p") params contains (cond substring 1)
-      else !(params contains (cond substring 2))
+  def satisfy(params: Set[String]): Boolean = condOpt.fold(true)(_ match {
+    case RhsCond(name, pass) => (params contains name) == pass
+  })
+
+  // conversion to string
+  override def toString: String = {
+    val condStr = condOpt.fold("") {
+      case RhsCond(name, true) => s"[+$name] "
+      case RhsCond(name, false) => s"[~$name] "
     }
+    val tokensStr = tokens.mkString(" ")
+    s"$condStr$tokensStr"
   }
 }
 object Rhs extends RhsParsers {
   def apply(str: String): Rhs = parseAll(rhs, str).get
+}
+
+case class RhsCond(name: String, pass: Boolean) {
+  // conversion to string
+  override def toString: String = s"${if (pass) "" else "!"}p$name"
 }

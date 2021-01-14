@@ -9,6 +9,12 @@ case class Lhs(
   def isSupplemental: Boolean = Grammar.isSupplementalNT(name)
   def isTarget: Boolean = Grammar.isTargetNT(name)
   def isScript: Boolean = name == "Script"
+
+  // conversion to string
+  override def toString: String = {
+    val paramsStr = if (params.isEmpty) "" else params.mkString("[", ", ", "]")
+    s"$name$paramsStr:"
+  }
 }
 object Lhs extends LhsParsers {
   def apply(str: String): Lhs = parseAll(lhs, str).get

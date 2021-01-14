@@ -74,14 +74,11 @@ trait TokenParsers extends Parsers {
 
 // Rhs parsers
 trait RhsParsers extends TokenParsers {
-  lazy val rhs: Parser[Rhs] = opt(constraints) ~ rep(token) <~ opt(tag) ^^ {
-    case Some(cond) ~ tokens => Rhs(tokens, cond)
-    case None ~ tokens => Rhs(tokens, "")
+  lazy val rhs: Parser[Rhs] = opt(cond) ~ rep(token) <~ opt(tag) ^^ {
+    case cond ~ tokens => Rhs(tokens, cond)
   }
-  lazy val constraints = "[" ~> "[+|~]".r ~ word <~ "]" ^^ {
-    case "+" ~ c => "p" + c
-    case "~" ~ c => "!p" + c
-    case _ => ??? // impossible
+  lazy val cond = "[" ~> "[+~]".r ~ word <~ "]" ^^ {
+    case s ~ c => RhsCond(c, s == "+")
   }
 }
 

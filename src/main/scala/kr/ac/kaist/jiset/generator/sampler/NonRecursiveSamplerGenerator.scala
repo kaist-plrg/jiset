@@ -41,9 +41,9 @@ case class NonRecursiveSamplerGenerator(
 
   def getCandidates(name: String, bs: List[String], rhs: Rhs, idx: Int): Unit = {
     if (!rhs.containsModuleNT) {
-      val Rhs(tokens, cond) = rhs
-      val space = if (cond != "") "        " else "      "
-      if (cond != "") nf.println(s"      if ($cond) {")
+      val Rhs(tokens, condOpt) = rhs
+      val space = if (!condOpt.isEmpty) "        " else "      "
+      condOpt.map(cond => nf.println(s"      if ($cond) {"))
       val tokenInfo = tokens.zipWithIndex.flatMap {
         case (token, i) => tokenSampler(token) match {
           case Some((name, argsStr, optional)) =>
@@ -80,7 +80,7 @@ case class NonRecursiveSamplerGenerator(
         nf.println(space + s"}")
       }
 
-      if (cond != "") nf.println(s"      }")
+      condOpt.map(_ => nf.println(s"      }"))
     }
   }
 

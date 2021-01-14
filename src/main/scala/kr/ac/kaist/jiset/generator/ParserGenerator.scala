@@ -76,17 +76,17 @@ object ParserGenerator {
       }) + s"""    log($llpre("""
       nf.println(s"""  $pre $name: ESParser$post""")
       nf.print(noLLs.map {
-        case (rhs, i) => getParsers(name, rhs.tokens, rhs.cond, i, false)
+        case (rhs, i) => getParsers(name, rhs.tokens, rhs.condOpt, i, false)
       }.mkString(" |" + LINE_SEP))
       if (!LLs.isEmpty) nf.print(LLs.map {
-        case (rhs, i) => getParsers(name, rhs.tokens.drop(1), rhs.cond, i, true)
+        case (rhs, i) => getParsers(name, rhs.tokens.drop(1), rhs.condOpt, i, true)
       }.mkString(LINE_SEP + "    ), (" + LINE_SEP, " |" + LINE_SEP, ""))
       nf.println
       nf.println("    " + (if (LLs.isEmpty) "" else ")") + s"""))("$name")""")
       nf.println(s"""  })""")
     }
 
-    def getParsers(name: String, tokens: List[Token], cond: String, idx: Int, isSub: Boolean): String = {
+    def getParsers(name: String, tokens: List[Token], condOpt: Option[RhsCond], idx: Int, isSub: Boolean): String = {
       var parser = tokens.foldLeft("MATCH")(appendParser(_, _)) + " ^^ { case "
       val count = tokens.count(_ match {
         case (_: NonTerminal) | (_: ButNot) => true
@@ -100,7 +100,9 @@ object ParserGenerator {
         s"""$astName(${ids.map(_ + ", ").mkString("")}args) }"""
       })
 
-      if (cond != "") parser = s"""(if (${cond}) ${parser} else MISMATCH)"""
+      val cond = condOpt.map {
+        case cond => parser = s"""(if (${cond}) ${parser} else MISMATCH)"""
+      }
       s"""      log($parser)("$astName")"""
     }
 
