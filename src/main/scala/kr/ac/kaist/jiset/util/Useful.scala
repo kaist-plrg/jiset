@@ -239,4 +239,12 @@ object Useful {
   def errorLog[T](f: => T)(msg: String): T = try f catch {
     case e: Throwable => println(msg); throw e
   }
+
+  // get version
+  def getVersion(target: String): String =
+    if (target == "recent") RECENT_VERSION else target
+
+  // get target
+  def getTarget(version: String): String =
+    if (version == RECENT_VERSION) "recent" else version
 }

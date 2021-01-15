@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.ires.ir
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP }
+import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP, RECENT_VERSION }
 import org.jsoup._
 import org.jsoup.nodes._
 import scala.collection.mutable.Stack
@@ -22,7 +22,7 @@ object ECMAScript {
     ECMAScript(grammar, algos)
   }
 
-  def grammar(version: String): Grammar = {
+  def parseGrammar(version: String): Grammar = {
     implicit val (lines, document) = preprocess(version)
     parseGrammar
   }
@@ -30,17 +30,18 @@ object ECMAScript {
   // helper
   ////////////////////////////////////////////////////////////////////////////////
   // preprocess for spec.html
-  def preprocess(version: String): (Array[String], Document) = {
-    val cur = currentVersion(ECMA262_DIR)
-    val src =
-      if (version == "") readFile(SPEC_HTML)
-      else {
+  def preprocess(version: String = RECENT_VERSION): (Array[String], Document) = {
+    val src = version match {
+      case `RECENT_VERSION` | "recent" => readFile(SPEC_HTML)
+      case _ =>
+        val cur = currentVersion(ECMA262_DIR)
         changeVersion(version, ECMA262_DIR)
         val src = readFile(SPEC_HTML)
         changeVersion(cur, ECMA262_DIR)
         src
-      }
-    println(s"Version: ${if (version == "") cur else version}")
+    }
+    val target = getTarget(version)
+    println(s"version: $target")
     val lines = attachLines(dropAppendix(src.split(LINE_SEP)))
     val document = Jsoup.parse(lines.mkString(LINE_SEP))
     (lines, document)

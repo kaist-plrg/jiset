@@ -17,10 +17,11 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
   ): ECMAScript = {
     println(s"--------------------------------------------------")
     println(s"parsing spec.html...")
+    val ParseConfig(version, query, detail) = config
     ECMAScript(
-      version = config.version.getOrElse(""),
-      query = config.query.getOrElse(""),
-      detail = config.detail
+      version = version.getOrElse(RECENT_VERSION),
+      query = query.getOrElse(""),
+      detail = detail
     )
   }
 

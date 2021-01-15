@@ -9,25 +9,20 @@ class GrammarTest extends JISETTest {
   // tag name
   override val tag = "grammar"
 
+  // targets
+  val targets = List(
+    "es2016", "es2017", "es2018", "es2019", "es2020", "recent"
+  )
+
   // registration
   def init: Unit = {
-    for (file <- walkTree(GRAMMAR_DIR)) {
-      val filename = file.getName
-      if (grammarFilter(filename)) {
-        check(tag, filename, {
-          // get version
-          val version =
-            if (filename.contains("recent")) RECENT_VERSION
-            else removedExt(filename)
-          // read answer
-          val answer = readFile(file.toString)
-          // get parse result of version
-          val result = ECMAScript.grammar(version).toString
-          // compare result with answer
-          assert(answer == result)
-        })
-      }
-    }
+    for (target <- targets) check(tag, target, {
+      val version = getVersion(target)
+      val filename = s"$GRAMMAR_DIR/$target.grammar"
+      val answer = readFile(filename)
+      val result = ECMAScript.parseGrammar(version).toString
+      assert(answer == result)
+    })
   }
 
   init
