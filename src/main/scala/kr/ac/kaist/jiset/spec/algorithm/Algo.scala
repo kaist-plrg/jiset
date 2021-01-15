@@ -141,7 +141,7 @@ object Algo {
         newName = s"$lhsName[$i,$j].$name"
         // numbering duplicated params
         ntParams = rename(rhs.getNTs.map(_.name))
-        newParams = withParams ++ ntParams ++ params
+        newParams = ntParams ++ params ++ withParams
       } yield AlgoHead(newName, newParams)
     } else if (false) {
       // TODO built-in algorithms - handle parameters
