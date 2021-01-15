@@ -20,10 +20,11 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
     println(s"# algorithms: ${algos.length}")
     val targets = algos.filter(_.isComplete)
     println(s"checking ${targets.size} algorithms...")
+    val intrinsic = spec.intrinsic
 
     println(s"variable reference checking...")
     val names = algos.map(_.name).toSet
-    val failed = targets.filter(!ReferenceChecker(names, _))
+    val failed = targets.filter(!ReferenceChecker(names, _, intrinsic))
     println(s"${failed.length} algorithms have reference errors.")
   }
 

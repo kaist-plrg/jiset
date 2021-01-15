@@ -10,7 +10,11 @@ import org.jsoup.nodes._
 import scala.collection.mutable.Stack
 
 // ECMASCript specifications
-case class ECMAScript(grammar: Grammar, algos: List[Algo])
+case class ECMAScript(
+    grammar: Grammar,
+    algos: List[Algo],
+    intrinsic: Set[String]
+)
 
 object ECMAScript {
   def apply(version: String, query: String, detail: Boolean): ECMAScript = {
@@ -20,8 +24,11 @@ object ECMAScript {
     val algos =
       if (query == "") parseAlgo(document, detail)
       else getElems(document, query).toList.flatMap(parseAlgo(_, detail))
+    // intrinsic object names
+    val intrinsic = parseInstrinsic
+
     // wrap grammar, algos
-    ECMAScript(grammar, algos)
+    ECMAScript(grammar, algos, intrinsic)
   }
 
   def parseGrammar(version: String): Grammar = {
@@ -176,6 +183,19 @@ object ECMAScript {
 
     // return algos
     algos
+  }
+
+  // parse 6.1.7.4 Well-known intrinsic objects table, return list of intrinsic object names
+  def parseInstrinsic(implicit document: Document): Set[String] = {
+    val intrinsicTableRows: Array[Element] = getElems(document, "emu-clause[id=sec-well-known-intrinsic-objects] table > tbody > tr")
+    val intrinsicNames = intrinsicTableRows
+      .map(row => getElems(row, "td"))
+      .filter(!_.isEmpty) // header row doesn't have `td`, remove it
+      .map(_(0).text())
+      .map("INTRINSIC_" + _.replaceAll("%", ""))
+      .toSet
+    println(s"# intrinsic object names: ${intrinsicNames.size}")
+    intrinsicNames
   }
 
   // pre-defined global identifiers

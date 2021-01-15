@@ -7,9 +7,10 @@ import kr.ac.kaist.ires.ir
 object ReferenceChecker {
   def apply(
     global: Set[String],
-    algo: Algo
+    algo: Algo,
+    intrinsic: Set[String]
   ): Boolean = {
-    var defined = ECMAScript.PREDEF ++ global ++ algo.params.toSet
+    var defined = ECMAScript.PREDEF ++ global ++ algo.params.toSet ++ intrinsic
     var errors = Set[String]()
     object Walker extends ir.UnitWalker {
       override def walk(inst: ir.Inst): Unit = inst match {
