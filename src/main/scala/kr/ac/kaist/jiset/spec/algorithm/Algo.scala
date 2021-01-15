@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
+import scala.util.matching.Regex._
 
 // ECMASCript abstract algorithms
 case class Algo(head: AlgoHead, body: ir.Inst) {
@@ -70,6 +71,7 @@ object Algo {
   val paramPattern = "[^\\s,()\\[\\]]+".r
   val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
   val prefixPattern = ".*Semantics:".r
+  val withParamPattern = "_\\w+_".r
   def nameCheck(name: String): Boolean =
     namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
   def getHeads(elem: Element)(
@@ -89,6 +91,11 @@ object Algo {
       })
     }
 
+    def trimParam(m: Match): String = {
+      val s = m.toString
+      s.substring(1, s.length - 1)
+    }
+
     val headElem = elem.siblingElements.get(0)
     if (headElem.tag.toString != "h1") error(s"no algorithm head: $headElem")
     val str = headElem.text
@@ -102,15 +109,24 @@ object Algo {
     // extract parameters
     val params = if (from == -1) Nil else paramPattern
       .findAllMatchIn(str.substring(from))
-      .map(m => {
-        val s = m.toString
-        s.substring(1, s.length - 1)
-      }).toList
+      .map(trimParam(_)).toList
 
     val prev = elem.previousElementSibling
     if (prev.tag.toString == "emu-grammar") {
       // syntax-directed algorithms
       val idxMap = grammar.idxMap
+
+      // with parameters
+      val withParams: List[String] =
+        toArray(elem.previousElementSiblings).toList.flatMap(prevElem => {
+          val isParagraph = prevElem.tag.toString == "p"
+          val text = prevElem.text
+          val isParams = text.startsWith("With parameter")
+          if (isParagraph && isParams)
+            withParamPattern.findAllMatchIn(text).map(trimParam(_)).toList
+          else List.empty
+        })
+
       val body = getRawBody(prev).toList
       for {
         code <- splitBy(body, "")
@@ -122,7 +138,8 @@ object Algo {
         (i, j) <- idxMap.get(syntax)
         newName = s"$lhsName[$i,$j].$name"
         // numbering duplicated params
-        newParams = rename(rhs.getNTs.map(_.name)) ++ params
+        ntParams = rename(rhs.getNTs.map(_.name))
+        newParams = withParams ++ ntParams ++ params
       } yield AlgoHead(newName, newParams)
     } else if (false) {
       // TODO built-in algorithms - handle parameters
