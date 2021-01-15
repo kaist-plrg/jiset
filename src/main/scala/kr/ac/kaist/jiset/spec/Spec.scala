@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.spec
 
+import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful.readFile
 import spray.json._
 

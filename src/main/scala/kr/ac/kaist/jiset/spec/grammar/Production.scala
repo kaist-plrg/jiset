@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.spec
+package kr.ac.kaist.jiset.spec.grammar
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Useful._

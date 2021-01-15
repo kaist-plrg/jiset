@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.ires.ir
 
 object ReferenceChecker {

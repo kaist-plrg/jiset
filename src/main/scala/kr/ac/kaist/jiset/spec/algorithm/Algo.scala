@@ -1,8 +1,10 @@
-package kr.ac.kaist.jiset.spec
+package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.ires.ir
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.algorithm.GeneralAlgoCompiler
+import kr.ac.kaist.jiset.spec.ECMAScript
+import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
 

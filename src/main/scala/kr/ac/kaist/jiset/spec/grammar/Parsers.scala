@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.spec
+package kr.ac.kaist.jiset.spec.grammar
 
 import scala.util.parsing.combinator._
 

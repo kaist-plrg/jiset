@@ -1,6 +1,7 @@
-package kr.ac.kaist.jiset.spec
+package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.algorithm.{ Grammar => GRToken, _ }
+import kr.ac.kaist.jiset.spec.grammar.{ Grammar, Lhs, ProductionParsers, NonTerminal }
 import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.Stack
 import scala.util.parsing.combinator._

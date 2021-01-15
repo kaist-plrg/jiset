@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.generator
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
 
 object ASTWalkerGenerator {

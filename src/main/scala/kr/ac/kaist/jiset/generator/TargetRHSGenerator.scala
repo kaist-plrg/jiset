@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.generator
 import java.io.PrintWriter
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
 import collection.mutable.Queue
 

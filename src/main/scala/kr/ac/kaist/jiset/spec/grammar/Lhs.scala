@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.spec
+package kr.ac.kaist.jiset.spec.grammar
 
 // ECMAScript grammar left-hand-sides
 case class Lhs(

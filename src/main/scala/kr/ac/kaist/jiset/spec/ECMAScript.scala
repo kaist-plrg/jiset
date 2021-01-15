@@ -1,6 +1,8 @@
 package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.ires.ir
+import kr.ac.kaist.jiset.spec.algorithm._
+import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP, RECENT_VERSION }
 import org.jsoup._

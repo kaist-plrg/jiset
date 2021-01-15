@@ -33,6 +33,9 @@ class CommandObj[Result](
 // base command
 case object CmdBase extends CommandObj("", PhaseNil)
 
+// help
+case object CmdHelp extends CommandObj("help", CmdBase >> Help)
+
 // parse
 case object CmdParse extends CommandObj("parse", CmdBase >> Parse)
 
@@ -41,35 +44,3 @@ case object CmdCheck extends CommandObj("check", CmdParse >> Check)
 
 // gen-test
 case object CmdGenTest extends CommandObj("gen-test", CmdBase >> GenTest)
-
-// parse-algo
-case object CmdParseAlgo extends CommandObj("parse-algo", CmdBase >> ParseAlgo) {
-  override def display(algo: Algorithm): Unit = println(algo)
-}
-
-// compile-algo
-case object CmdCompileAlgo extends CommandObj("compile-algo", CmdParseAlgo >> CompileAlgo) {
-  override def display(func: ir.Func): Unit = println(ir.beautify(func))
-}
-
-// infer-algo
-case object CmdInferAlgo extends CommandObj("infer-algo", CmdParseAlgo >> InferAlgo) {
-}
-
-// repl-algo
-case object CmdREPLAlgo extends CommandObj("repl-algo", CmdBase >> REPLAlgo)
-
-// gen-model
-case object CmdGenModel extends CommandObj("gen-model", CmdBase >> GenModel)
-
-// gen-test-module
-case object CmdGenTestModule extends CommandObj("gen-test-module", CmdBase >> GenTestModule)
-
-// grammar-diff
-case object CmdGrammarDiff extends CommandObj("grammar-diff", CmdBase >> GrammarDiff)
-
-// algo-step-diff
-case object CmdAlgoStepDiff extends CommandObj("algo-step-diff", CmdBase >> AlgoStepDiff)
-
-// help
-case object CmdHelp extends CommandObj("help", CmdBase >> Help)
