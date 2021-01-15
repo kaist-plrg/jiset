@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // Check phase
 case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
-  val name = "parse"
+  val name = "check"
   val help = "performs static checkers for specifications."
 
   def apply(

@@ -77,6 +77,18 @@ object Algo {
     lines: Array[String],
     grammar: Grammar
   ): List[AlgoHead] = {
+    def rename(params: List[String]): List[String] = {
+      val duplicated = params.filter(p => params.count(_ == p) > 1).toSet.toList
+      var counter: Map[String, Int] = Map()
+      params.map(p => {
+        if (duplicated contains p) {
+          val n = counter.getOrElse(p, 0)
+          counter = counter + (p -> (n + 1))
+          p + n.toString
+        } else p
+      })
+    }
+
     val headElem = elem.siblingElements.get(0)
     if (headElem.tag.toString != "h1") error(s"no algorithm head: $headElem")
     val str = headElem.text
@@ -109,7 +121,8 @@ object Algo {
         syntax = lhsName + ":" + rhsName
         (i, j) <- idxMap.get(syntax)
         newName = s"$lhsName[$i,$j].$name"
-        newParams = rhs.getNTs.map(_.name) ++ params
+        // numbering duplicated params
+        newParams = rename(rhs.getNTs.map(_.name)) ++ params
       } yield AlgoHead(newName, newParams)
     } else if (false) {
       // TODO built-in algorithms
