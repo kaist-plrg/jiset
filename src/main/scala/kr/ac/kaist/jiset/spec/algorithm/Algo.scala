@@ -50,7 +50,9 @@ object Algo {
           case AlgoHead(name, params) => println(s"$name (${params.mkString(", ")}):")
         }
       }
-      val code = getRawBody(elem)
+      val code =
+        if (s"${elem.tag}" == "ul") toArray(elem.children).map(li => "* " + li.text)
+        else getRawBody(elem)
       if (detail) {
         code.foreach(println _)
         println(s"====>")
