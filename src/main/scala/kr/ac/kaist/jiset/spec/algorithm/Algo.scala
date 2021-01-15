@@ -68,7 +68,7 @@ object Algo {
 
   // get names and parameters
   val paramPattern = "[^\\s,()\\[\\]]+".r
-  val namePattern = "[.a-zA-Z]+".r // TODO extend
+  val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
   val prefixPattern = ".*Semantics:".r
   def nameCheck(name: String): Boolean =
     namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
@@ -125,7 +125,7 @@ object Algo {
         newParams = rename(rhs.getNTs.map(_.name)) ++ params
       } yield AlgoHead(newName, newParams)
     } else if (false) {
-      // TODO built-in algorithms
+      // TODO built-in algorithms - handle parameters
       ???
     } else {
       // normal algorithms
