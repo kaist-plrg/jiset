@@ -77,6 +77,8 @@ object JISET {
   val options: List[PhaseOption[JISETConfig]] = List(
     ("silent", BoolOption(c => c.silent = true),
       "final results are not displayed."),
+    ("debug", BoolOption(c => DEBUG = true),
+      "trun on the debub option."),
     ("time", BoolOption(c => c.time = true),
       "display duration time.")
   )
@@ -127,5 +129,6 @@ case class JISETConfig(
     var command: Command,
     var fileNames: List[String] = Nil,
     var silent: Boolean = false,
+    var debug: Boolean = false,
     var time: Boolean = false
 ) extends Config

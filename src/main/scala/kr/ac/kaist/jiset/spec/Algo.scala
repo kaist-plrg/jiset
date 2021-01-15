@@ -38,31 +38,35 @@ object Algo {
     implicit
     lines: Array[String],
     grammar: Grammar
-  ): List[Algo] = try {
-    val heads = getHeads(elem)
-    if (detail) {
-      println(s"--------------------------------------------------")
-      heads.foreach {
-        case AlgoHead(name, params) => println(s"$name (${params.mkString(", ")}):")
+  ): List[Algo] = {
+    if (detail) println(s"--------------------------------------------------")
+    val result = try {
+      val heads = getHeads(elem)
+      if (detail) {
+        heads.foreach {
+          case AlgoHead(name, params) => println(s"$name (${params.mkString(", ")}):")
+        }
       }
+      val code = getRawBody(elem)
+      if (detail) {
+        code.foreach(println _)
+        println(s"====>")
+      }
+      val body = getBody(code)
+      if (detail) println(ir.beautify(body))
+      heads.map(Algo(_, body))
+    } catch {
+      case e: Throwable =>
+        if (detail) println(s"[Algo] ${e.getMessage}")
+        Nil
     }
-    val code = getRawBody(elem)
-    if (detail) {
-      code.foreach(println _)
-      println(s"====>")
-    }
-    val body = getBody(code)
-    if (detail) println(ir.beautify(body))
-    heads.map(Algo(_, body))
-  } catch {
-    case _: Throwable =>
-      if (detail) println("[Error]: algorithm parsing failed")
-      Nil
+    if (detail) println(s"--------------------------------------------------")
+    result
   }
 
   // get names and parameters
   val paramPattern = "[^\\s,()\\[\\]]+".r
-  val namePattern = "[a-zA-Z]+".r // TODO extend
+  val namePattern = "[.a-zA-Z]+".r // TODO extend
   val prefixPattern = ".*Semantics:".r
   def nameCheck(name: String): Boolean =
     namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
