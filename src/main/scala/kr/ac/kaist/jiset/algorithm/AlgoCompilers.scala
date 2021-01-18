@@ -391,7 +391,7 @@ trait AlgoCompilers extends TokenParsers {
   // get error objects
   val INTRINSIC_PRE = "INTRINSIC_"
   def getErrorObj(name: String): EMap = EMap(Ty("OrdinaryObject"), List(
-    EStr("Prototype") -> toERef(INTRINSIC_PRE + name + "Prototype"),
+    EStr("Prototype") -> toERef(INTRINSIC_PRE + name, "prototype"),
     EStr("ErrorData") -> EUndef,
     EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
   ))
