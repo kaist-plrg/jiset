@@ -16,9 +16,10 @@ case class ECMAScript(
     intrinsic: Set[String],
     symbols: Set[String]
 ) {
-  lazy val algoNames: Set[String] = algos.map(_.name).toSet
+  lazy val normalAlgos: Set[String] =
+    algos.collect { case Algo(NormalHead(name, _), _) => name }.toSet
   lazy val globals: Set[String] =
-    ECMAScript.PREDEF ++ algoNames ++ intrinsic ++ symbols
+    ECMAScript.PREDEF ++ normalAlgos ++ intrinsic ++ symbols
 }
 
 object ECMAScript {
