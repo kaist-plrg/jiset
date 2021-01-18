@@ -13,7 +13,8 @@ import scala.collection.mutable.Stack
 case class ECMAScript(
     grammar: Grammar,
     algos: List[Algo],
-    intrinsic: Set[String]
+    intrinsic: Set[String],
+    symbols: Set[String]
 )
 
 object ECMAScript {
@@ -25,10 +26,12 @@ object ECMAScript {
       if (query == "") parseAlgo(document, detail)
       else getElems(document, query).toList.flatMap(parseAlgo(_, detail))
     // intrinsic object names
-    val intrinsic = parseInstrinsic
+    val intrinsic = parseIntrinsic
+    // well-known symbols
+    val symbols = parseSymbol
 
     // wrap grammar, algos
-    ECMAScript(grammar, algos, intrinsic)
+    ECMAScript(grammar, algos, intrinsic, symbols)
   }
 
   def parseGrammar(version: String): Grammar = {
@@ -94,17 +97,13 @@ object ECMAScript {
     lines.slice(startLineNum, endLineNum)
   }
 
-  // check if inst has ??? or !!!
-  def isComplete(inst: ir.Inst): Boolean = {
-    var complete = true
-    object Walker extends ir.UnitWalker {
-      override def walk(expr: ir.Expr): Unit = expr match {
-        case ir.ENotYetModeled(_) | ir.ENotSupported(_) => complete = false
-        case _ => super.walk(expr)
-      }
-    }
-    Walker.walk(inst)
-    complete
+  // parse table#id > tag
+  private def parseTable(id: String, tag: String)(implicit document: Document): Set[String] = {
+    val rows: Array[Element] = getElems(document, id)
+    rows.flatMap(row => {
+      val e = getElems(row, tag)
+      e.headOption.map(_.text())
+    }).toSet
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -190,16 +189,23 @@ object ECMAScript {
   }
 
   // parse 6.1.7.4 Well-known intrinsic objects table, return list of intrinsic object names
-  def parseInstrinsic(implicit document: Document): Set[String] = {
-    val intrinsicTableRows: Array[Element] = getElems(document, "emu-clause[id=sec-well-known-intrinsic-objects] table > tbody > tr")
-    val intrinsicNames = intrinsicTableRows
-      .map(row => getElems(row, "td"))
-      .filter(!_.isEmpty) // header row doesn't have `td`, remove it
-      .map(_(0).text())
-      .map("INTRINSIC_" + _.replaceAll("%", ""))
-      .toSet
-    println(s"# intrinsic object names: ${intrinsicNames.size}")
+  private val INTRINSIC_ID =
+    "emu-clause[id=sec-well-known-intrinsic-objects] table > tbody > tr"
+  def parseIntrinsic(implicit document: Document): Set[String] = {
+    val intrinsicNames =
+      parseTable(INTRINSIC_ID, "td").map("INTRINSIC_" + _.replaceAll("%", ""))
+    println(s"# intrinsics: ${intrinsicNames.size}")
     intrinsicNames
+  }
+
+  // parse well-known symbols
+  private val SYMBOL_ID =
+    "emu-clause[id=sec-well-known-symbols] table > tbody > tr"
+  def parseSymbol(implicit document: Document): Set[String] = {
+    val symbolNames =
+      parseTable(SYMBOL_ID, "dfn").map(_.replace("@@", "SYMBOL_"))
+    println(s"# symbols: ${symbolNames.size}")
+    symbolNames
   }
 
   // pre-defined global identifiers
