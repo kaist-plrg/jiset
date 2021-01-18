@@ -33,6 +33,7 @@ object Head extends HeadParsers {
     var name = if (from == -1) str else str.substring(0, from)
     name = prefixPattern.replaceFirstIn(name, "").trim
     if (!nameCheck(name)) error(s"not target algorithm: $str")
+    name = "[/]".r.replaceAllIn(name, "")
 
     // extract parameters
     val params =
