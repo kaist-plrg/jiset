@@ -50,7 +50,14 @@ object Algo {
       if (detail) heads.foreach(println(_))
       val code =
         if (s"${elem.tag}" == "ul") toArray(elem.children).map(li => "* " + li.text)
-        else getRawBody(elem)
+        else if (s"${elem.tag}" == "emu-table") {
+          val rows = toArray(elem.select("tr")).filter(row => row.child(0).text != "Argument Type")
+          rows.map(row => {
+            val typeText = row.child(0).text
+            val doText = row.child(1).text
+            s"* If Type(_argument_) is ${typeText}, ${doText}"
+          })
+        } else getRawBody(elem)
       if (detail) {
         code.foreach(println _)
         println(s"====>")

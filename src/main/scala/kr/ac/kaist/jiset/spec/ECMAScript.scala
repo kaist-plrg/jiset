@@ -180,10 +180,14 @@ object ECMAScript {
       elem <- getElems(parentElem, "ul")
     } yield elem
 
-    val elems = emuAlgs ++ earlyErrors
+    // HTML elements for table algorithms, with "Argument Type"
+    val typeTableAlgs = getElems(target, "emu-table:contains(Argument Type)")
+
+    val elems = emuAlgs ++ earlyErrors ++ typeTableAlgs
     println(s"# algorithm elements: ${elems.size}")
     println(s"  - <emu-alg>: ${emuAlgs.size}")
     println(s"  - Early Error: ${earlyErrors.size}")
+    println(s"  - <emu-table> of header Arguments Type: ${typeTableAlgs.size}")
 
     // algorithms
     val (atime, passed) = time(for {
