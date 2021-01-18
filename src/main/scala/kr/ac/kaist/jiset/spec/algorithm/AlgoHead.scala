@@ -17,8 +17,8 @@ trait AlgoHead {
   override def toString: String = s"$name (${params.mkString(", ")}):"
 }
 
-object AlgoHead {
-  def apply(elem: Element)(
+object AlgoHead extends AlgoHeadParsers {
+  def parse(elem: Element, builtinLine: Int)(
     implicit
     lines: Array[String],
     grammar: Grammar
@@ -67,13 +67,24 @@ object AlgoHead {
         syntax = lhsName + ":" + rhsName
         (i, j) <- idxMap.get(syntax)
       } yield SyntaxDirected(lhsName, rhs, i, j, name, withParams)
-    } else if (false) {
-      // TODO built-in algorithms - handle parameters
-      ???
+    } else if (isBuiltin(prev, elem, builtinLine)) {
+      // built-in algorithms
+      val (base, fields) = parseAll(path, name).get
+      List(Builtin(base, fields, params))
     } else {
       // normal algorithms
       List(Normal(name, params))
     }
+  }
+
+  // check whether current algorithm head is for built-in functions.
+  def isBuiltin(
+    prev: Element,
+    elem: Element,
+    builtinLine: Int
+  )(implicit lines: Array[String]): Boolean = {
+    val (start, _) = getRange(elem).get
+    start >= builtinLine && !prev.text.startsWith("The abstract operation")
   }
 
   // get names and parameters
@@ -82,7 +93,12 @@ object AlgoHead {
   val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
   val prefixPattern = ".*Semantics:".r
   val withParamPattern = "_\\w+_".r
+
+  // pre-defined parameters
   val THIS_PARAM = "this"
+  val ARG_LIST = "argumentsList"
+  val NEW_TARGET = "NewTarget"
+  val BUILTIN_PARAMS = List(THIS_PARAM, ARG_LIST, NEW_TARGET)
 
   // check validity of names
   def nameCheck(name: String): Boolean =
@@ -94,12 +110,6 @@ object AlgoHead {
     s.substring(1, s.length - 1)
   }
 }
-
-// normal algorithms
-case class Normal(name: String, params: List[String]) extends AlgoHead
-
-// built-in algorithms
-case class Builtin(name: String, params: List[String]) extends AlgoHead
 
 // syntax-directed algorithms
 case class SyntaxDirected(
@@ -130,3 +140,34 @@ case class SyntaxDirected(
     })
   }
 }
+
+// built-in algorithms
+case class Builtin(
+    base: String,
+    fields: List[Field],
+    origParams: List[String]
+) extends AlgoHead {
+  // name from base and fields
+  val name: String = base + (fields.map(_.toAccessString).mkString)
+
+  // fixed parameters for built-in algorithms
+  val params: List[String] = AlgoHead.BUILTIN_PARAMS
+}
+trait Field {
+  // conversion to string
+  override def toString: String = this match {
+    case NormalField(name) => s"$name"
+    case SymbolField(name) => s"@@$name"
+  }
+
+  // to access string
+  def toAccessString: String = this match {
+    case NormalField(name) => s".$name"
+    case SymbolField(name) => s"[ @@$name ]"
+  }
+}
+case class NormalField(name: String) extends Field
+case class SymbolField(name: String) extends Field
+
+// normal algorithms
+case class Normal(name: String, params: List[String]) extends AlgoHead

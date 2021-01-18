@@ -36,6 +36,7 @@ object Algo {
   // get algorithms
   def parse(
     elem: Element,
+    builtinLine: Int,
     detail: Boolean = false
   )(
     implicit
@@ -44,7 +45,7 @@ object Algo {
   ): List[Algo] = {
     if (detail) println(s"--------------------------------------------------")
     val result = try {
-      val heads = AlgoHead(elem)
+      val heads = AlgoHead.parse(elem, builtinLine)
       if (detail) heads.foreach(println(_))
       val code =
         if (s"${elem.tag}" == "ul") toArray(elem.children).map(li => "* " + li.text)
@@ -80,7 +81,7 @@ object Algo {
         case Nt(nt) if nt == sd.lhsName => Code(AlgoHead.THIS_PARAM)
         case _@ t => t
       }
-      case Builtin(name, params) => ???
+      case (bt: Builtin) => tokens // TODO load origianl parameters from argumentsList
     }
     GeneralAlgoCompiler.compile(patchedTokens)
   }

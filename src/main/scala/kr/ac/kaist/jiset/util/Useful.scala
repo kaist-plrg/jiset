@@ -215,12 +215,19 @@ object Useful {
   def toArray(elems: Elements): Array[Element] =
     elems.toArray(Array[Element]())
 
-  // get raw body of element
-  def getRawBody(elem: Element)(implicit lines: Array[String]): Array[String] = {
+  // get range of element
+  def getRange(elem: Element): Option[(Int, Int)] = {
     val s = elem.attr("s")
     val e = elem.attr("e")
-    if (s == "") Array(elem.text)
-    else lines.slice(s.toInt + 1, e.toInt - 1)
+    if (s == "") None else Some((s.toInt, e.toInt))
+  }
+
+  // get raw body of element
+  def getRawBody(elem: Element)(implicit lines: Array[String]): Array[String] = {
+    getRange(elem) match {
+      case None => Array(elem.text)
+      case Some((s, e)) => lines.slice(s + 1, e - 1)
+    }
   }
 
   // split lists by a separator

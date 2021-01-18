@@ -21,10 +21,17 @@ object ECMAScript {
   def apply(version: String, query: String, detail: Boolean): ECMAScript = {
     implicit val (lines, document) = preprocess(version)
     implicit val grammar = parseGrammar
+
+    // get built-in libraries scope
+    val (builtinLine, _) = getRange {
+      document.getElementById("sec-ecmascript-standard-built-in-objects")
+    }.get
+
     // parse algorithm
     val algos =
-      if (query == "") parseAlgo(document, detail)
-      else getElems(document, query).toList.flatMap(parseAlgo(_, detail))
+      if (query == "") parseAlgo(document, builtinLine, detail)
+      else getElems(document, query).toList.flatMap(parseAlgo(_, builtinLine, detail))
+
     // intrinsic object names
     val intrinsic = parseIntrinsic
     // well-known symbols
@@ -155,7 +162,11 @@ object ECMAScript {
   // algorithm
   ////////////////////////////////////////////////////////////////////////////////
   // parse spec.html to Algo
-  def parseAlgo(target: Element, detail: Boolean = false)(
+  def parseAlgo(
+    target: Element,
+    builtinLine: Int,
+    detail: Boolean = false
+  )(
     implicit
     lines: Array[String],
     grammar: Grammar
@@ -177,7 +188,7 @@ object ECMAScript {
     // algorithms
     val (atime, passed) = time(for {
       elem <- elems
-      algos = Algo.parse(elem, detail)
+      algos = Algo.parse(elem, builtinLine, detail)
       if !algos.isEmpty
     } yield algos)
     println(s"# successful algorithm parsing: ${passed.size}")
