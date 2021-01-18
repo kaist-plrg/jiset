@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.ires.ir
+import kr.ac.kaist.ires.ir.Parser.parseInst
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.algorithm.GeneralAlgoCompiler
 import kr.ac.kaist.jiset.algorithm.{ Nt, Code }
@@ -13,7 +14,7 @@ import org.jsoup.nodes._
 case class Algo(head: Head, body: ir.Inst) {
   // head fields
   def name: String = head.name
-  def params: List[String] = head.params
+  def params: List[Param] = head.params
 
   // completion check (not containing ??? or !!! in the algorithm body)
   def isComplete: Boolean = {
@@ -82,12 +83,10 @@ object Algo {
     val prefix = head match {
       case (syntax: SyntaxDirectedHead) =>
         val x = syntax.lhsName
-        val y = Head.THIS_PARAM
-        List(Parser.parseInst(s"let $x = $y"))
+        List(parseInst(s"let $x = $THIS_PARAM"))
       case (builtin: BuiltinHead) =>
-        val args = Head.ARGS_LIST
         builtin.origParams.zipWithIndex.map {
-          case (x, i) => Parser.parseInst(s"app $x = (GetArgument $args ${i}i)")
+          case (x, i) => parseInst(s"app $x = (GetArgument $ARGS_LIST ${i}i)")
         }
       case _ => Nil
     }

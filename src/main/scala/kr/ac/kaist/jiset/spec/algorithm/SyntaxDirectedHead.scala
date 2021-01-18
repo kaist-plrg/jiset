@@ -15,8 +15,9 @@ case class SyntaxDirectedHead(
   val name: String = s"$lhsName[$idx,$subIdx].$methodName"
 
   // prepend `this` parameter and number duplicated params
-  val params: List[String] =
-    Head.THIS_PARAM :: rename(rhs.getNTs.map(_.name)) ++ withParams
+  val params: List[Param] = (
+    THIS_PARAM :: rename(rhs.getNTs.map(_.name)) ++ withParams
+  ).map(Param(_))
 
   // rename for duplicated parameters for syntex-directed algorithms
   def rename(params: List[String]): List[String] = {

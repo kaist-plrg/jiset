@@ -11,8 +11,8 @@ object ReferenceChecker {
     intrinsic: Set[String],
     symbols: Set[String]
   ): Boolean = {
-    var defined =
-      ECMAScript.PREDEF ++ global ++ algo.params.toSet ++ intrinsic ++ symbols
+    var defined: Set[String] =
+      ECMAScript.PREDEF ++ global ++ algo.params.map(_.name).toSet ++ intrinsic ++ symbols
     var errors = Set[String]()
     object Walker extends ir.UnitWalker {
       override def walk(inst: ir.Inst): Unit = inst match {

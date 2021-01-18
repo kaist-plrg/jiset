@@ -11,7 +11,7 @@ trait Head {
   val name: String
 
   // parameters
-  val params: List[String]
+  val params: List[Param]
 
   // conversion to string
   override def toString: String = s"$name (${params.mkString(", ")}):"
@@ -72,7 +72,7 @@ object Head extends HeadParsers {
       List(BuiltinHead(parseAll(ref, name).get, params))
     } else {
       // normal algorithms
-      List(NormalHead(name, params))
+      List(NormalHead(name, params.map(Param(_))))
     }
   }
 
@@ -92,12 +92,6 @@ object Head extends HeadParsers {
   val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
   val prefixPattern = ".*Semantics:".r
   val withParamPattern = "_\\w+_".r
-
-  // pre-defined parameters
-  val THIS_PARAM = "this"
-  val ARGS_LIST = "argumentsList"
-  val NEW_TARGET = "NewTarget"
-  val BUILTIN_PARAMS = List(THIS_PARAM, ARGS_LIST, NEW_TARGET)
 
   // check validity of names
   def nameCheck(name: String): Boolean =

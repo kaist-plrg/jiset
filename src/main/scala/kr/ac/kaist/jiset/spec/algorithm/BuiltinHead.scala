@@ -11,5 +11,5 @@ case class BuiltinHead(
   val name: String = ir.beautify(ref)
 
   // fixed parameters for built-in algorithms
-  val params: List[String] = Head.BUILTIN_PARAMS
+  val params: List[Param] = List(THIS_PARAM, ARGS_LIST, NEW_TARGET).map(Param(_))
 }
