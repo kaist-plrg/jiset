@@ -12,8 +12,8 @@ import org.jsoup.nodes._
 // ECMASCript abstract algorithms
 case class Algo(head: AlgoHead, body: ir.Inst) {
   // head fields
-  def name: String = head.getName
-  def params: List[String] = head.getParams
+  def name: String = head.name
+  def params: List[String] = head.params
 
   // completion check (not containing ??? or !!! in the algorithm body)
   def isComplete: Boolean = {

@@ -7,53 +7,17 @@ import org.jsoup.nodes._
 import scala.util.matching.Regex._
 
 trait AlgoHead {
-  override def toString: String = this match {
-    case Normal(name, params) => s"$name (${params.mkString(", ")}):"
-    case Builtin(name, params) => s"$name (${params.mkString(", ")}):"
-    case SyntaxDirected(name, params, _) => s"$name (${params.mkString(", ")}):"
-  }
+  // name
+  val name: String
 
-  def getName: String = this match {
-    case Normal(name, _) => name
-    case Builtin(name, _) => name
-    case SyntaxDirected(name, _, _) => name
-  }
+  // parameters
+  val params: List[String]
 
-  def getParams: List[String] = this match {
-    case Normal(_, params) => params
-    case Builtin(_, params) => params
-    case SyntaxDirected(_, params, _) => params
-  }
+  // conversion to string
+  override def toString: String = s"$name (${params.mkString(", ")}):"
 }
 
 object AlgoHead {
-  // get names and parameters
-  val paramPattern = "[^\\s,()\\[\\]]+".r
-  val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
-  val prefixPattern = ".*Semantics:".r
-  val withParamPattern = "_\\w+_".r
-  val thisParam = "this"
-
-  def nameCheck(name: String): Boolean =
-    namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
-
-  def rename(params: List[String]): List[String] = {
-    val duplicated = params.filter(p => params.count(_ == p) > 1).toSet.toList
-    var counter: Map[String, Int] = Map()
-    params.map(p => {
-      if (duplicated contains p) {
-        val n = counter.getOrElse(p, 0)
-        counter = counter + (p -> (n + 1))
-        p + n.toString
-      } else p
-    })
-  }
-
-  def trimParam(m: Match): String = {
-    val s = m.toString
-    s.substring(1, s.length - 1)
-  }
-
   def apply(elem: Element)(
     implicit
     lines: Array[String],
@@ -114,6 +78,35 @@ object AlgoHead {
     }
   }
 
+  // get names and parameters
+  val paramPattern = "[^\\s,()\\[\\]]+".r
+  val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
+  val prefixPattern = ".*Semantics:".r
+  val withParamPattern = "_\\w+_".r
+  val thisParam = "this"
+
+  // check validity of names
+  def nameCheck(name: String): Boolean =
+    namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
+
+  // rename for duplicated parameters for syntex-directed algorithms
+  def rename(params: List[String]): List[String] = {
+    val duplicated = params.filter(p => params.count(_ == p) > 1).toSet.toList
+    var counter: Map[String, Int] = Map()
+    params.map(p => {
+      if (duplicated contains p) {
+        val n = counter.getOrElse(p, 0)
+        counter = counter + (p -> (n + 1))
+        p + n.toString
+      } else p
+    })
+  }
+
+  // trim parameters
+  def trimParam(m: Match): String = {
+    val s = m.toString
+    s.substring(1, s.length - 1)
+  }
 }
 
 case class Normal(name: String, params: List[String]) extends AlgoHead
