@@ -9,8 +9,8 @@ trait Parsers extends RegexParsers {
   lazy val word = "\\w+".r
 }
 
-// AlgoHead parsers
-trait AlgoHeadParsers extends Parsers {
+// head parsers
+trait HeadParsers extends Parsers {
   lazy val name = "[a-zA-Z]*".r
   lazy val field = (
     "." ~> name ^^ { EStr(_) } |

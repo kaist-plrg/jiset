@@ -10,7 +10,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
 
 // ECMASCript abstract algorithms
-case class Algo(head: AlgoHead, body: ir.Inst) {
+case class Algo(head: Head, body: ir.Inst) {
   // head fields
   def name: String = head.name
   def params: List[String] = head.params
@@ -45,7 +45,7 @@ object Algo {
   ): List[Algo] = {
     if (detail) println(s"--------------------------------------------------")
     val result = try {
-      val heads = AlgoHead.parse(elem, builtinLine)
+      val heads = Head.parse(elem, builtinLine)
       if (detail) heads.foreach(println(_))
       val code =
         if (s"${elem.tag}" == "ul") toArray(elem.children).map(li => "* " + li.text)
@@ -74,7 +74,7 @@ object Algo {
 
   // get body instructions
   def getBody(
-    head: AlgoHead,
+    head: Head,
     code: Iterable[String]
   )(implicit grammar: Grammar): ir.Inst = {
     import ir._
@@ -82,10 +82,10 @@ object Algo {
     val prefix = head match {
       case (syntax: SyntaxDirectedHead) =>
         val x = syntax.lhsName
-        val y = AlgoHead.THIS_PARAM
+        val y = Head.THIS_PARAM
         List(Parser.parseInst(s"let $x = $y"))
       case (builtin: BuiltinHead) =>
-        val args = AlgoHead.ARGS_LIST
+        val args = Head.ARGS_LIST
         builtin.origParams.zipWithIndex.map {
           case (x, i) => Parser.parseInst(s"app $x = (GetArgument $args ${i}i)")
         }

@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
 import scala.util.matching.Regex._
 
-trait AlgoHead {
+trait Head {
   // name
   val name: String
 
@@ -17,12 +17,12 @@ trait AlgoHead {
   override def toString: String = s"$name (${params.mkString(", ")}):"
 }
 
-object AlgoHead extends AlgoHeadParsers {
+object Head extends HeadParsers {
   def parse(elem: Element, builtinLine: Int)(
     implicit
     lines: Array[String],
     grammar: Grammar
-  ): List[AlgoHead] = {
+  ): List[Head] = {
     var headElem = elem.siblingElements.get(0)
     if (rulePattern.matches(headElem.text)) headElem = headElem.parent
     if (headElem.tag.toString != "h1") error(s"no algorithm head: $headElem")

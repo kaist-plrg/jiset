@@ -10,13 +10,13 @@ case class SyntaxDirectedHead(
     subIdx: Int,
     methodName: String,
     withParams: List[String]
-) extends AlgoHead {
+) extends Head {
   // name with index and method name
   val name: String = s"$lhsName[$idx,$subIdx].$methodName"
 
   // prepend `this` parameter and number duplicated params
   val params: List[String] =
-    AlgoHead.THIS_PARAM :: rename(rhs.getNTs.map(_.name)) ++ withParams
+    Head.THIS_PARAM :: rename(rhs.getNTs.map(_.name)) ++ withParams
 
   // rename for duplicated parameters for syntex-directed algorithms
   def rename(params: List[String]): List[String] = {
