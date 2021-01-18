@@ -21,4 +21,13 @@ trait HeadParsers extends Parsers {
       case (b, f) => RefProp(b, f)
     }
   }
+
+  lazy val paramString =
+    "_[a-zA-Z0-9]+_".r ^^ { case s => s.substring(1, s.length - 1) }
+  lazy val params: Parser[List[Param]] = (
+    "[" ~ opt(",") ~> paramString ~ params <~ "]" ^^ { case x ~ ps => Param(x, true) :: ps } |
+    opt(",") ~> paramString ~ params ^^ { case x ~ ps => Param(x, false) :: ps } |
+    "" ^^^ Nil
+  )
+  lazy val paramList = "(" ~> params <~ ")"
 }

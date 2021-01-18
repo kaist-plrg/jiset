@@ -35,9 +35,9 @@ object Head extends HeadParsers {
     if (!nameCheck(name)) error(s"not target algorithm: $str")
 
     // extract parameters
-    val params = if (from == -1) Nil else paramPattern
-      .findAllMatchIn(str.substring(from))
-      .map(trimParam(_)).toList
+    val params =
+      if (from == -1) Nil
+      else parse(paramList, str.substring(from)).get
 
     // classify head
     val prev = elem.previousElementSibling
@@ -46,15 +46,14 @@ object Head extends HeadParsers {
       val idxMap = grammar.idxMap
 
       // with parameters
-      val withParams: List[String] =
+      val withParams: List[Param] =
         toArray(elem.previousElementSiblings).toList.flatMap(prevElem => {
           val isParagraph = prevElem.tag.toString == "p"
           val text = prevElem.text
           val isParams = text.startsWith("With parameter")
-          if (isParagraph && isParams)
-            withParamPattern.findAllMatchIn(text).map(trimParam(_)).toList
-          else List.empty
-        })
+          if (!isParagraph || !isParams) Nil
+          else withParamPattern.findAllMatchIn(text).toList.map(trimParam)
+        }).map(Param(_, false))
 
       // get head
       val body = getRawBody(prev).toList
@@ -72,7 +71,7 @@ object Head extends HeadParsers {
       List(BuiltinHead(parseAll(ref, name).get, params))
     } else {
       // normal algorithms
-      List(NormalHead(name, params.map(Param(_))))
+      List(NormalHead(name, params))
     }
   }
 

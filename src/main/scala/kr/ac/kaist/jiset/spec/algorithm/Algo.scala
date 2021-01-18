@@ -66,7 +66,10 @@ object Algo {
       })
     } catch {
       case e: Throwable =>
-        if (detail) println(s"[Algo] ${e.getMessage}")
+        if (detail) {
+          println(s"[Algo] ${e.getMessage}")
+          e.getStackTrace.foreach(println _)
+        }
         Nil
     }
     if (detail) println(s"--------------------------------------------------")
@@ -86,7 +89,7 @@ object Algo {
         List(parseInst(s"let $x = $THIS_PARAM"))
       case (builtin: BuiltinHead) =>
         builtin.origParams.zipWithIndex.map {
-          case (x, i) => parseInst(s"app $x = (GetArgument $ARGS_LIST ${i}i)")
+          case (x, i) => parseInst(s"app ${x.name} = (GetArgument $ARGS_LIST ${i}i)")
         }
       case _ => Nil
     }
