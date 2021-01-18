@@ -26,15 +26,13 @@ object ECMAScript {
     implicit val (lines, document) = preprocess(version)
     implicit val grammar = parseGrammar
 
-    // get built-in libraries scope
-    val (builtinLine, _) = getRange {
-      document.getElementById("sec-ecmascript-standard-built-in-objects")
-    }.get
+    // region of spec.html
+    implicit val region = Region(document)
 
     // parse algorithm
     val algos =
-      if (query == "") parseAlgo(document, builtinLine, detail)
-      else getElems(document, query).toList.flatMap(parseAlgo(_, builtinLine, detail))
+      if (query == "") parseAlgo(document, detail)
+      else getElems(document, query).toList.flatMap(parseAlgo(_, detail))
 
     // intrinsic object names
     val intrinsic = parseIntrinsic
@@ -168,12 +166,12 @@ object ECMAScript {
   // parse spec.html to Algo
   def parseAlgo(
     target: Element,
-    builtinLine: Int,
     detail: Boolean = false
   )(
     implicit
     lines: Array[String],
-    grammar: Grammar
+    grammar: Grammar,
+    region: Region
   ): List[Algo] = {
     // HTML elements with `emu-alg` tags
     val emuAlgs = getElems(target, "emu-alg")
@@ -196,7 +194,7 @@ object ECMAScript {
     // algorithms
     val (atime, passed) = time(for {
       elem <- elems
-      algos = Algo.parse(elem, builtinLine, detail)
+      algos = Algo.parse(elem, detail)
       if !algos.isEmpty
     } yield algos)
     println(s"# successful algorithm parsing: ${passed.size}")

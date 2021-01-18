@@ -5,7 +5,7 @@ import kr.ac.kaist.ires.ir.Parser.parseInst
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.algorithm.GeneralAlgoCompiler
 import kr.ac.kaist.jiset.algorithm.{ Nt, Code }
-import kr.ac.kaist.jiset.spec.ECMAScript
+import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
@@ -37,16 +37,16 @@ object Algo {
   // get algorithms
   def parse(
     elem: Element,
-    builtinLine: Int,
     detail: Boolean = false
   )(
     implicit
     lines: Array[String],
-    grammar: Grammar
+    grammar: Grammar,
+    region: Region
   ): List[Algo] = {
     if (detail) println(s"--------------------------------------------------")
     val result = try {
-      val heads = Head.parse(elem, builtinLine)
+      val heads = Head.parse(elem)
       if (detail) heads.foreach(println(_))
       val code =
         if (s"${elem.tag}" == "ul") toArray(elem.children).map(li => "* " + li.text)
