@@ -10,7 +10,7 @@ class Tokenizer(implicit grammar: Grammar) extends ProductionParsers {
   // step parsers
   lazy val step: Parser[List[Token]] = {
     lazy val name = "[_-a-zA-Z]+".r
-    lazy val word = "[a-zA-Z]+".r
+    lazy val word = "[a-zA-Z0-9]+".r
     lazy val number = "[0-9]+".r
     lazy val char = "\\S".r
 
