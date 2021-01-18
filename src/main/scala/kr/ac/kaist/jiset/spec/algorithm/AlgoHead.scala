@@ -69,8 +69,7 @@ object AlgoHead extends AlgoHeadParsers {
       } yield SyntaxDirectedHead(lhsName, rhs, i, j, name, withParams)
     } else if (isBuiltin(prev, elem, builtinLine)) {
       // built-in algorithms
-      val (base, fields) = parseAll(path, name).get
-      List(BuiltinHead(base, fields, params))
+      List(BuiltinHead(parseAll(ref, name).get, params))
     } else {
       // normal algorithms
       List(NormalHead(name, params))
