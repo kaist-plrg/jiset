@@ -226,7 +226,7 @@ object ECMAScript {
     // ECMAScript type getter algorithm
     "Type",
     // JISET specific internal algorithms
-    "IsAbruptCompletion", "WrapCompletion",
+    "IsAbruptCompletion", "WrapCompletion", "GetArgument",
     // JISET specific global variables
     "GLOBAL_agent"
   )

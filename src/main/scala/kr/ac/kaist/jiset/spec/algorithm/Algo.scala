@@ -73,16 +73,31 @@ object Algo {
   }
 
   // get body instructions
-  def getBody(head: AlgoHead, code: Iterable[String])(implicit grammar: Grammar): ir.Inst = {
+  def getBody(
+    head: AlgoHead,
+    code: Iterable[String]
+  )(implicit grammar: Grammar): ir.Inst = {
+    import ir._
     val tokens = (new Tokenizer).getTokens(code)
-    val patchedTokens = head match {
-      case (_: Normal) => tokens
-      case (sd: SyntaxDirected) => tokens.map {
-        case Nt(nt) if nt == sd.lhsName => Code(AlgoHead.THIS_PARAM)
-        case _@ t => t
-      }
-      case (bt: Builtin) => tokens // TODO load origianl parameters from argumentsList
+    val prefix = head match {
+      case (syntax: SyntaxDirected) =>
+        val x = syntax.lhsName
+        val y = AlgoHead.THIS_PARAM
+        List(Parser.parseInst(s"let $x = $y"))
+      case (builtin: Builtin) =>
+        val args = AlgoHead.ARGS_LIST
+        builtin.origParams.zipWithIndex.map {
+          case (x, i) => Parser.parseInst(s"app $x = (GetArgument $args ${i}i)")
+        }
+      case _ => Nil
     }
-    GeneralAlgoCompiler.compile(patchedTokens)
+    val body = GeneralAlgoCompiler.compile(tokens)
+    prefix match {
+      case Nil => body
+      case _ => body match {
+        case ISeq(list) => ISeq(prefix ++ list)
+        case _ => ISeq(prefix :+ body)
+      }
+    }
   }
 }

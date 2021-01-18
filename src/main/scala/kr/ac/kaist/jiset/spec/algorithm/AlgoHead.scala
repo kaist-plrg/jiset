@@ -96,9 +96,9 @@ object AlgoHead extends AlgoHeadParsers {
 
   // pre-defined parameters
   val THIS_PARAM = "this"
-  val ARG_LIST = "argumentsList"
+  val ARGS_LIST = "argumentsList"
   val NEW_TARGET = "NewTarget"
-  val BUILTIN_PARAMS = List(THIS_PARAM, ARG_LIST, NEW_TARGET)
+  val BUILTIN_PARAMS = List(THIS_PARAM, ARGS_LIST, NEW_TARGET)
 
   // check validity of names
   def nameCheck(name: String): Boolean =
