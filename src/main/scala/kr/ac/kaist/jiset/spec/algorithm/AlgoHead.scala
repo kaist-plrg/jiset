@@ -23,7 +23,8 @@ object AlgoHead {
     lines: Array[String],
     grammar: Grammar
   ): List[AlgoHead] = {
-    val headElem = elem.siblingElements.get(0)
+    var headElem = elem.siblingElements.get(0)
+    if (rulePattern.matches(headElem.text)) headElem = headElem.parent
     if (headElem.tag.toString != "h1") error(s"no algorithm head: $headElem")
     val str = headElem.text
 
@@ -80,6 +81,7 @@ object AlgoHead {
 
   // get names and parameters
   val paramPattern = "[^\\s,()\\[\\]]+".r
+  val rulePattern = ".*(Statement|Expression)\\s*Rules".r
   val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
   val prefixPattern = ".*Semantics:".r
   val withParamPattern = "_\\w+_".r
