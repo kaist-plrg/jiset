@@ -230,8 +230,9 @@ object ECMAScript {
   val PREDEF = Set(
     // Completion-related ECMAScript internal algorithms
     "NormalCompletion", "ThrowCompletion", "ReturnIfAbrupt", "Completion",
-    // ECMAScript type getter algorithm
-    "Type",
+    // ECMAScript types
+    "Type", "BigInt", "Boolean", "Null", "Number",
+    "Object", "String", "Symbol", "Undefined",
     // JISET specific internal algorithms
     "IsAbruptCompletion", "WrapCompletion", "GetArgument",
     // JISET specific global variables
