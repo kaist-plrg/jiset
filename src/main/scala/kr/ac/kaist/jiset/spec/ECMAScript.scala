@@ -15,7 +15,11 @@ case class ECMAScript(
     algos: List[Algo],
     intrinsic: Set[String],
     symbols: Set[String]
-)
+) {
+  lazy val algoNames: Set[String] = algos.map(_.name).toSet
+  lazy val globals: Set[String] =
+    ECMAScript.PREDEF ++ algoNames ++ intrinsic ++ symbols
+}
 
 object ECMAScript {
   def apply(version: String, query: String, detail: Boolean): ECMAScript = {

@@ -6,13 +6,10 @@ import kr.ac.kaist.ires.ir
 
 object ReferenceChecker {
   def apply(
-    global: Set[String],
-    algo: Algo,
-    intrinsic: Set[String],
-    symbols: Set[String]
+    initial: Set[String],
+    algo: Algo
   ): Boolean = {
-    var defined: Set[String] =
-      ECMAScript.PREDEF ++ global ++ algo.params.map(_.name).toSet ++ intrinsic ++ symbols
+    var defined: Set[String] = initial ++ algo.params.map(_.name).toSet
     var errors = Set[String]()
     object Walker extends ir.UnitWalker {
       override def walk(inst: ir.Inst): Unit = inst match {
