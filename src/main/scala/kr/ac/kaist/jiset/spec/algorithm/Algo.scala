@@ -80,11 +80,11 @@ object Algo {
     import ir._
     val tokens = (new Tokenizer).getTokens(code)
     val prefix = head match {
-      case (syntax: SyntaxDirected) =>
+      case (syntax: SyntaxDirectedHead) =>
         val x = syntax.lhsName
         val y = AlgoHead.THIS_PARAM
         List(Parser.parseInst(s"let $x = $y"))
-      case (builtin: Builtin) =>
+      case (builtin: BuiltinHead) =>
         val args = AlgoHead.ARGS_LIST
         builtin.origParams.zipWithIndex.map {
           case (x, i) => Parser.parseInst(s"app $x = (GetArgument $args ${i}i)")
