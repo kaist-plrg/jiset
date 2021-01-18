@@ -75,12 +75,10 @@ object Algo {
   def getBody(head: AlgoHead, code: Iterable[String])(implicit grammar: Grammar): ir.Inst = {
     val tokens = (new Tokenizer).getTokens(code)
     val patchedTokens = head match {
-      case Normal(name, params) => tokens
-      case SyntaxDirected(name, params, lhsName) => {
-        tokens.map {
-          case Nt(nt) if nt == lhsName => Code(AlgoHead.thisParam)
-          case _@ t => t
-        }
+      case (_: Normal) => tokens
+      case (sd: SyntaxDirected) => tokens.map {
+        case Nt(nt) if nt == sd.lhsName => Code(AlgoHead.THIS_PARAM)
+        case _@ t => t
       }
       case Builtin(name, params) => ???
     }

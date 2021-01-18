@@ -66,10 +66,7 @@ object AlgoHead {
         rhsName <- rhs.names
         syntax = lhsName + ":" + rhsName
         (i, j) <- idxMap.get(syntax)
-        newName = s"$lhsName[$i,$j].$name"
-        // prepend `this` parameter and number duplicated params
-        ntParams = thisParam :: rename(rhs.getNTs.map(_.name))
-      } yield SyntaxDirected(newName, ntParams ++ withParams, lhsName)
+      } yield SyntaxDirected(lhsName, rhs, i, j, name, withParams)
     } else if (false) {
       // TODO built-in algorithms - handle parameters
       ???
@@ -85,11 +82,40 @@ object AlgoHead {
   val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
   val prefixPattern = ".*Semantics:".r
   val withParamPattern = "_\\w+_".r
-  val thisParam = "this"
+  val THIS_PARAM = "this"
 
   // check validity of names
   def nameCheck(name: String): Boolean =
     namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
+
+  // trim parameters
+  def trimParam(m: Match): String = {
+    val s = m.toString
+    s.substring(1, s.length - 1)
+  }
+}
+
+// normal algorithms
+case class Normal(name: String, params: List[String]) extends AlgoHead
+
+// built-in algorithms
+case class Builtin(name: String, params: List[String]) extends AlgoHead
+
+// syntax-directed algorithms
+case class SyntaxDirected(
+    lhsName: String,
+    rhs: Rhs,
+    idx: Int,
+    subIdx: Int,
+    methodName: String,
+    withParams: List[String]
+) extends AlgoHead {
+  // name with index and method name
+  val name: String = s"$lhsName[$idx,$subIdx].$methodName"
+
+  // prepend `this` parameter and number duplicated params
+  val params: List[String] =
+    AlgoHead.THIS_PARAM :: rename(rhs.getNTs.map(_.name)) ++ withParams
 
   // rename for duplicated parameters for syntex-directed algorithms
   def rename(params: List[String]): List[String] = {
@@ -103,14 +129,4 @@ object AlgoHead {
       } else p
     })
   }
-
-  // trim parameters
-  def trimParam(m: Match): String = {
-    val s = m.toString
-    s.substring(1, s.length - 1)
-  }
 }
-
-case class Normal(name: String, params: List[String]) extends AlgoHead
-case class Builtin(name: String, params: List[String]) extends AlgoHead
-case class SyntaxDirected(name: String, params: List[String], lhsName: String) extends AlgoHead
