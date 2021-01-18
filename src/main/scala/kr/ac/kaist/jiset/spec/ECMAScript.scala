@@ -228,6 +228,6 @@ object ECMAScript {
     // JISET specific internal algorithms
     "IsAbruptCompletion", "WrapCompletion", "GetArgument",
     // JISET specific global variables
-    "GLOBAL_agent"
+    "GLOBAL_agent", "GLOBAL_context", "GLOBAL_symbolRegistry", "GLOBAL_executionStack"
   )
 }
