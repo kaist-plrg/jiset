@@ -52,10 +52,22 @@ object Algo {
         if (s"${elem.tag}" == "ul") toArray(elem.children).map(li => "* " + li.text)
         else if (s"${elem.tag}" == "emu-table") {
           val rows = toArray(elem.select("tr")).filter(row => row.child(0).text != "Argument Type")
-          rows.map(row => {
+          rows.flatMap(row => {
             val typeText = row.child(0).text
-            val doText = row.child(1).text
-            s"* If Type(_argument_) is ${typeText}, ${doText}"
+            val doTexts = getElems(row, "emu-alg").headOption match {
+              case Some(emuAlg) => {
+                val algs = getRawBody(emuAlg)
+                val tabCount = algs(0).indexOf(algs(0).trim())
+                if (tabCount > 2) algs.map(line => line.substring(tabCount - 2)) else algs
+              }
+              case None => getRawBody(row.child(1)).map(line => {
+                val tabCount = line.indexOf(line.trim())
+                val text = if (tabCount > 2) line.substring(tabCount - 2) else line
+                val (s, e) = text.splitAt(2)
+                s + "1. " + e
+              })
+            }
+            List(s"* If Type(_argument_) is ${typeText},") ++ doTexts //todo! _argument_ should be handled generally
           })
         } else getRawBody(elem)
       if (detail) {

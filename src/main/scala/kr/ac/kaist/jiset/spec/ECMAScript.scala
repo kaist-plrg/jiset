@@ -187,7 +187,7 @@ object ECMAScript {
     println(s"# algorithm elements: ${elems.size}")
     println(s"  - <emu-alg>: ${emuAlgs.size}")
     println(s"  - Early Error: ${earlyErrors.size}")
-    println(s"  - <emu-table> of header Arguments Type: ${typeTableAlgs.size}")
+    println(s"  - <emu-table> with header Arguments Type : ${typeTableAlgs.size}")
 
     // algorithms
     val (atime, passed) = time(for {
