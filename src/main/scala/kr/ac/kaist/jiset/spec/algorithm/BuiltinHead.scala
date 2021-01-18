@@ -12,5 +12,5 @@ case class BuiltinHead(
 
   // fixed parameters for built-in algorithms
   val params: List[Param] =
-    List(THIS_PARAM, ARGS_LIST, NEW_TARGET).map(Param(_, false))
+    List(THIS_PARAM, ARGS_LIST, NEW_TARGET).map(Param(_))
 }

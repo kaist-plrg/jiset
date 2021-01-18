@@ -58,7 +58,7 @@ object Head extends HeadParsers {
           val isParams = text.startsWith("With parameter")
           if (!isParagraph || !isParams) Nil
           else withParamPattern.findAllMatchIn(text).toList.map(trimParam)
-        }).map(Param(_, false))
+        }).map(Param(_))
 
       // get head
       val body = getRawBody(prev).toList
@@ -84,7 +84,7 @@ object Head extends HeadParsers {
           } else List.empty
         })
 
-      val receiverParam = firstParam(prev.text).getOrElse(ENV_PARAM)
+      val receiverParam = Param(firstParam(prev.text).getOrElse(ENV_PARAM))
 
       bases match {
         case base :: Nil =>
@@ -107,7 +107,7 @@ object Head extends HeadParsers {
         })
 
       val methodName = strip(name, 2)
-      val receiverParam = firstParam(prev.text).getOrElse(OBJ_PARAM)
+      val receiverParam = Param(firstParam(prev.text).getOrElse(OBJ_PARAM))
 
       bases match {
         case base :: Nil =>
