@@ -51,7 +51,7 @@ object ECMAScript {
     }
     val target = getTarget(version)
     println(s"version: $target")
-    val lines = attachLines(dropAppendix(src.split(LINE_SEP)))
+    val lines = attachLines(dropNoScope(src.split(LINE_SEP)))
     val document = Jsoup.parse(lines.mkString(LINE_SEP))
     (lines, document)
   }
@@ -83,11 +83,15 @@ object ECMAScript {
     })
   }
 
-  // drop appendix lines
-  def dropAppendix(lines: Array[String]): Array[String] = {
-    val appendixLineNum = lines.indexWhere("<emu-annex.*annexB.*>".r matches _)
-    if (appendixLineNum == -1) error("[ECMAScript.dropAppendix] not found Appendix.")
-    lines.slice(0, appendixLineNum)
+  // drop lines not in the scope of extraction
+  val startLinePattern = "<emu-clause.*sec-ecmascript-data-types-and-values.*>".r
+  val endLinePattern = "<emu-annex.*annexB.*>".r
+  def dropNoScope(lines: Array[String]): Array[String] = {
+    val startLineNum = lines.indexWhere(startLinePattern matches _)
+    val endLineNum = lines.indexWhere(endLinePattern matches _)
+    if (startLineNum == -1) error("[ECMAScript.dropAppendix] not found start line.")
+    if (endLineNum == -1) error("[ECMAScript.dropAppendix] not found end line.")
+    lines.slice(startLineNum, endLineNum)
   }
 
   // check if inst has ??? or !!!
