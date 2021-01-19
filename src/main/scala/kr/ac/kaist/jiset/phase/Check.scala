@@ -4,6 +4,8 @@ import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.checker._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.spec.algorithm.Algo
 
 // Check phase
 case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
@@ -15,10 +17,17 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
     jisetConfig: JISETConfig,
     config: CheckConfig
   ): Unit = {
+    val CheckConfig(targetString) = config
+    val targetNames: Array[String] = targetString.getOrElse("").split(",").map(_.trim())
+    val targetFilter: Algo => Boolean = if (!targetNames.isEmpty) {
+      x => targetNames contains x.name
+    } else {
+      x => true
+    }
     println(s"--------------------------------------------------")
     val algos = spec.algos
     println(s"# algorithms: ${algos.length}")
-    val targets = algos.filter(_.isComplete)
+    val targets = algos.filter(_.isComplete).filter(targetFilter)
     println(s"checking ${targets.size} algorithms...")
     val intrinsic = spec.intrinsic
     val symbols = spec.symbols
@@ -30,8 +39,13 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
   }
 
   def defaultConfig: CheckConfig = CheckConfig()
-  val options: List[PhaseOption[CheckConfig]] = List()
+  val options: List[PhaseOption[CheckConfig]] = List(
+    ("targetString", StrOption((c, s) => c.targetString = Some(s)),
+      "name of target algorithms to check, divided by comma")
+  )
 }
 
 // Check phase config
-case class CheckConfig() extends Config
+case class CheckConfig(
+    var targetString: Option[String] = None
+) extends Config
