@@ -54,7 +54,10 @@ object Head extends HeadParsers {
     if (isEquation(elem)) {
       // equation
       List(NormalHead(name, params))
-    } else if (isSyntaxDirected(elem)) {
+    } else if (isSyntaxDirected(prev)) {
+      // fix name of regexp syntax -> always evaluation
+      if (isRegexpSyntax(prev)) name = "Evaluation"
+
       // syntax-directed algorithms
       val idxMap = grammar.idxMap
 
@@ -68,8 +71,12 @@ object Head extends HeadParsers {
           else withParamPattern.findAllMatchIn(text).toList.map(trimParam)
         }).map(Param(_))
 
+      // extract emu-grammar
+      val target =
+        if (isCoreSyntax(prev)) prev
+        else getElems(prev, "emu-grammar")(0)
+      val body = getRawBody(target).toList
       // get head
-      val body = getRawBody(prev).toList
       for {
         code <- splitBy(body, "")
         prod = Production(code)
@@ -141,8 +148,13 @@ object Head extends HeadParsers {
   def isEquation(elem: Element): Boolean = elem.tagName == "emu-eqn"
 
   // check whether current algorithm head is for syntax directed functions.
-  def isSyntaxDirected(elem: Element): Boolean =
-    elem.previousElementSibling.tagName == "emu-grammar"
+  def isCoreSyntax(prev: Element): Boolean = prev.tagName == "emu-grammar"
+  def isRegexpSyntax(prev: Element): Boolean =
+    prev.tagName == "p" &&
+      prev.text.startsWith("The production") &&
+      !getElems(prev, "emu-grammar").isEmpty
+  def isSyntaxDirected(prev: Element): Boolean =
+    isCoreSyntax(prev) || isRegexpSyntax(prev)
 
   // check whether current algorithm head is for built-in functions.
   def isBuiltin(
