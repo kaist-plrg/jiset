@@ -38,7 +38,10 @@ class Tokenizer(implicit grammar: Grammar) extends ProductionParsers {
     lazy val code = wrap("`") ^^ { Code(_) }
     lazy val value = wrap("*") ^^ { Value(_) }
     lazy val id = wrap("_") ^^ { Id(_) }
-    lazy val nt = wrap("|") ^^ { Nt(_) }
+    lazy val nt = wrap("|") ^^ {
+      case x if x.endsWith("_opt") => Nt(x.dropRight("_opt".length))
+      case x => Nt(x)
+    }
     lazy val sup = "<sup>" ~> "[^<]*".r <~ "</sup>" ^^ {
       case s => Sup(Step(parseAll(rep(token), s).getOrElse(Nil)))
     }
