@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.spec.grammar._
+import Param.Kind._
 
 // syntax-directed algorithm heads
 case class SyntaxDirectedHead(
@@ -15,9 +16,10 @@ case class SyntaxDirectedHead(
   val name: String = s"$lhsName[$idx,$subIdx].$methodName"
 
   // prepend `this` parameter and number duplicated params
-  val params: List[Param] = Param(THIS_PARAM) :: {
-    rename(rhs.getNTs.map(nt => Param(nt.name, nt.optional)))
-  } ++ withParams
+  val params: List[Param] = Param(THIS_PARAM) :: rename(rhs.getNTs.map(nt => {
+    val kind = if (nt.optional) Optional else Normal
+    Param(nt.name, kind)
+  })) ++ withParams
 
   // rename for duplicated parameters for syntex-directed algorithms
   def rename(params: List[Param]): List[Param] = {
