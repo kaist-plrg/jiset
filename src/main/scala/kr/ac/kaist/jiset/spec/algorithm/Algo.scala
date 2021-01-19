@@ -49,8 +49,8 @@ object Algo {
       val heads = Head.parse(elem)
       if (detail) heads.foreach(println(_))
       val code =
-        if (s"${elem.tag}" == "ul") toArray(elem.children).map(li => "* " + li.text)
-        else if (s"${elem.tag}" == "emu-table") {
+        if (elem.tagName == "ul") toArray(elem.children).map(li => "* " + li.text)
+        else if (elem.tagName == "emu-table") {
           val rows = toArray(elem.select("tr")).filter(row => row.child(0).text != "Argument Type")
           rows.flatMap(row => {
             val typeText = row.child(0).text
@@ -64,6 +64,9 @@ object Algo {
             }).map("  " + _)
             List(s"* If Type(_argument_) is ${typeText},") ++ doTexts //todo! _argument_ should be handled generally
           })
+        } else if (elem.tagName == "emu-eqn") {
+          // trim until finding first '=' in each line
+          getRawBody(elem).map("1. " + _.span(_ != '=')._2.tail.trim)
         } else getRawBody(elem)
       if (detail) {
         code.foreach(println _)

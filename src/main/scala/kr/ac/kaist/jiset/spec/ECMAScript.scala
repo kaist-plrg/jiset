@@ -186,11 +186,16 @@ object ECMAScript {
     // HTML elements for table algorithms, with "Argument Type"
     val typeTableAlgs = getElems(target, "emu-table:contains(Argument Type)")
 
-    val elems = emuAlgs ++ earlyErrors ++ typeTableAlgs
+    // HTML elements with `emu-eqn` tags
+    val emuEqns = getElems(target, "emu-eqn")
+    // val emuEqns = List.empty
+
+    val elems = emuAlgs ++ earlyErrors ++ typeTableAlgs ++ emuEqns
     println(s"# algorithm elements: ${elems.size}")
     println(s"  - <emu-alg>: ${emuAlgs.size}")
     println(s"  - Early Error: ${earlyErrors.size}")
     println(s"  - <emu-table> with header Arguments Type : ${typeTableAlgs.size}")
+    println(s"  - <emu-eqn>: ${emuEqns.size}")
 
     // algorithms
     val (atime, passed) = time(for {

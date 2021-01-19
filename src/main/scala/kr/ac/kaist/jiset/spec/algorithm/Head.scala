@@ -27,7 +27,11 @@ object Head extends HeadParsers {
     var headElem = elem.siblingElements.get(0)
     if (rulePattern.matches(headElem.text)) headElem = headElem.parent
     if (headElem.tagName != "h1") error(s"no algorithm head: $headElem")
-    val str = headElem.text
+    val str =
+      if (isEquation(elem)) {
+        val elemText = elem.text
+        elemText.slice(0, elem.text.indexOf("=")).trim
+      } else headElem.text
 
     // extract region
     val Region(envRange, builtinLine) = region
@@ -36,8 +40,8 @@ object Head extends HeadParsers {
     val from = str.indexOf("(")
     var name = if (from == -1) str else str.substring(0, from)
     name = prefixPattern.replaceFirstIn(name, "").trim
-    if (!nameCheck(name)) error(s"not target algorithm: $str")
     name = "[/\\s]".r.replaceAllIn(name, "")
+    if (!nameCheck(name)) error(s"not target algorithm: $str")
 
     // extract parameters
     val params =
@@ -47,7 +51,10 @@ object Head extends HeadParsers {
 
     // classify head
     val prev = elem.previousElementSibling
-    if (isSyntaxDirected(elem)) {
+    if (isEquation(elem)) {
+      // equation
+      List(NormalHead(name, params))
+    } else if (isSyntaxDirected(elem)) {
       // syntax-directed algorithms
       val idxMap = grammar.idxMap
 
@@ -130,6 +137,8 @@ object Head extends HeadParsers {
       List(NormalHead(name, params))
     }
   }
+  // check whether current algorithm head is for equation functions.
+  def isEquation(elem: Element): Boolean = elem.tagName == "emu-eqn"
 
   // check whether current algorithm head is for syntax directed functions.
   def isSyntaxDirected(elem: Element): Boolean =
@@ -140,9 +149,10 @@ object Head extends HeadParsers {
     prev: Element,
     elem: Element,
     builtinLine: Int
-  )(implicit lines: Array[String]): Boolean = {
-    val (start, _) = getRange(elem).get
-    start >= builtinLine && !prev.text.startsWith("The abstract operation")
+  )(implicit lines: Array[String]): Boolean = getRange(elem) match {
+    case None => false
+    case Some((start, _)) =>
+      start >= builtinLine && !prev.text.startsWith("The abstract operation")
   }
 
   // check whether current algorithm head is for thisValue
@@ -150,11 +160,12 @@ object Head extends HeadParsers {
     prev: Element,
     elem: Element,
     builtinLine: Int
-  )(implicit lines: Array[String]): Boolean = {
-    val (start, _) = getRange(elem).get
-    start >= builtinLine &&
-      prev.text.startsWith("The abstract operation") &&
-      !thisValuePattern.findAllIn(prev.text).toList.isEmpty
+  )(implicit lines: Array[String]): Boolean = getRange(elem) match {
+    case None => false
+    case Some((start, _)) =>
+      start >= builtinLine &&
+        prev.text.startsWith("The abstract operation") &&
+        !thisValuePattern.findAllIn(prev.text).toList.isEmpty
   }
 
   // check whether current algorithm head is for environment record
@@ -163,17 +174,19 @@ object Head extends HeadParsers {
     prev: Element,
     elem: Element,
     envRange: (Int, Int)
-  )(implicit lines: Array[String]): Boolean = {
-    val (start, end) = getRange(elem).get
-    val (envStart, envEnd) = envRange
-    val prevText = prev.text
+  )(implicit lines: Array[String]): Boolean = getRange(elem) match {
+    case None => false
+    case Some((start, end)) => {
+      val (envStart, envEnd) = envRange
+      val prevText = prev.text
 
-    val included = start >= envStart && end <= envEnd
-    val isMethod =
-      !(prevText.startsWith("The abstract operation") ||
-        prevText.startsWith("When the abstract operation"))
+      val included = start >= envStart && end <= envEnd
+      val isMethod =
+        !(prevText.startsWith("The abstract operation") ||
+          prevText.startsWith("When the abstract operation"))
 
-    included && isMethod
+      included && isMethod
+    }
   }
 
   // check whether current algorithm head is for object
