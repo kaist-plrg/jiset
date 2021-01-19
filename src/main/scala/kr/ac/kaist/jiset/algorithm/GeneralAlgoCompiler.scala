@@ -284,7 +284,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
         val idx = getTemp
         parseInst(s"""{
         if (= $executionStack[(- $executionStack.length 1i)] $x) {
-          $idx = (- $executionStack.length 1i)
+          let $idx = (- $executionStack.length 1i)
           (pop $executionStack $idx)
         } else {}
         $context = $executionStack[(- $executionStack.length 1i)]
