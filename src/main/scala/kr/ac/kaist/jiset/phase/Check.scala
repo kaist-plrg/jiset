@@ -19,7 +19,7 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
   ): Unit = {
     val CheckConfig(targetString) = config
     val targetNames: Array[String] = targetString.getOrElse("").split(",").map(_.trim())
-    val targetFilter: Algo => Boolean = if (!targetNames.isEmpty) {
+    val targetFilter: Algo => Boolean = if (targetString != None) {
       x => targetNames contains x.name
     } else {
       x => true
