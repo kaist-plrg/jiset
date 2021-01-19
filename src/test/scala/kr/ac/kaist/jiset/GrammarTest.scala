@@ -9,16 +9,15 @@ class GrammarTest extends JISETTest {
   // tag name
   override val tag = "grammar"
 
-  // targets
-  val targets = List(
+  // versions
+  val versions = List(
     "es2016", "es2017", "es2018", "es2019", "es2020", "recent"
   )
 
   // registration
   def init: Unit = {
-    for (target <- targets) check(tag, target, {
-      val version = getVersion(target)
-      val filename = s"$GRAMMAR_DIR/$target.grammar"
+    for (version <- versions) check(tag, version, {
+      val filename = s"$GRAMMAR_DIR/$version.grammar"
       val answer = readFile(filename)
       val result = ECMAScript.parseGrammar(version).toString
       assert(answer == result)

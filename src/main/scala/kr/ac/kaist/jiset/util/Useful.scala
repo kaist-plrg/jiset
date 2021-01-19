@@ -248,10 +248,10 @@ object Useful {
   }
 
   // get version
-  def getVersion(target: String): String =
-    if (target == "recent") RECENT_VERSION else target
-
-  // get target
-  def getTarget(version: String): String =
+  def getVersion(version: String): String =
     if (version == RECENT_VERSION) "recent" else version
+
+  // get raw version
+  def getRawVersion(version: String): String =
+    if (version == "recent") RECENT_VERSION else version
 }

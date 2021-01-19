@@ -61,18 +61,17 @@ object ECMAScript {
   // helper
   ////////////////////////////////////////////////////////////////////////////////
   // preprocess for spec.html
-  def preprocess(version: String = RECENT_VERSION): (Array[String], Document) = {
-    val src = version match {
-      case `RECENT_VERSION` | "recent" => readFile(SPEC_HTML)
-      case _ =>
-        val cur = currentVersion(ECMA262_DIR)
-        changeVersion(version, ECMA262_DIR)
-        val src = readFile(SPEC_HTML)
-        changeVersion(cur, ECMA262_DIR)
-        src
+  def preprocess(givenVersion: String = RECENT_VERSION): (Array[String], Document) = {
+    val rawVersion = getRawVersion(givenVersion)
+    val version = getVersion(givenVersion)
+    val cur = currentVersion(ECMA262_DIR)
+    val src = if (cur == rawVersion) readFile(SPEC_HTML) else {
+      changeVersion(version, ECMA262_DIR)
+      val src = readFile(SPEC_HTML)
+      changeVersion(cur, ECMA262_DIR)
+      src
     }
-    val target = getTarget(version)
-    println(s"version: $target")
+    println(s"version: $version")
     val lines = attachLines(dropNoScope(src.split(LINE_SEP)))
     val document = Jsoup.parse(lines.mkString(LINE_SEP))
     (lines, document)
