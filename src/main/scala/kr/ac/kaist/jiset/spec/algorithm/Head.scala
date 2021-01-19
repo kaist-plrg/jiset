@@ -117,6 +117,13 @@ object Head extends HeadParsers {
     } else if (isBuiltin(prev, elem, builtinLine)) {
       // built-in algorithms
       List(BuiltinHead(parseAll(ref, name).get, params))
+    } else if (isThisValue(prev, elem, builtinLine)) {
+      // thisValue
+      val prevText = prev.text
+      // NOTE name and params always exist
+      val name = thisValuePattern.findAllIn(prevText).toList.head
+      val params = List(Param(firstParam(prevText).get))
+      List(NormalHead(name, params))
     } else {
       // normal algorithms
       List(NormalHead(name, params))
@@ -135,6 +142,18 @@ object Head extends HeadParsers {
   )(implicit lines: Array[String]): Boolean = {
     val (start, _) = getRange(elem).get
     start >= builtinLine && !prev.text.startsWith("The abstract operation")
+  }
+
+  // check whether current algorithm head is for thisValue
+  def isThisValue(
+    prev: Element,
+    elem: Element,
+    builtinLine: Int
+  )(implicit lines: Array[String]): Boolean = {
+    val (start, _) = getRange(elem).get
+    start >= builtinLine &&
+      prev.text.startsWith("The abstract operation") &&
+      !thisValuePattern.findAllIn(prev.text).toList.isEmpty
   }
 
   // check whether current algorithm head is for environment record
@@ -168,6 +187,7 @@ object Head extends HeadParsers {
   val prefixPattern = ".*Semantics:".r
   val withParamPattern = "_\\w+_".r
   val normPattern = "[\\s|-]".r
+  val thisValuePattern = "this\\w+Value".r
 
   // check validity of names
   def nameCheck(name: String): Boolean =
