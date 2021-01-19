@@ -25,7 +25,9 @@ object Head extends HeadParsers {
     region: Region
   ): List[Head] = {
     var headElem = elem.siblingElements.get(0)
-    if (rulePattern.matches(headElem.text)) headElem = headElem.parent
+    if (rulePattern.matches(headElem.text)) {
+      headElem = headElem.parent.siblingElements.get(0)
+    }
     if (headElem.tagName != "h1") error(s"no algorithm head: $headElem")
     val str =
       if (isEquation(elem)) {
@@ -62,14 +64,14 @@ object Head extends HeadParsers {
       val idxMap = grammar.idxMap
 
       // with parameters
-      val withParams: List[Param] =
-        toArray(elem.previousElementSiblings).toList.flatMap(prevElem => {
-          val isParagraph = prevElem.tagName == "p"
-          val text = prevElem.text
-          val isParams = text.startsWith("With parameter")
-          if (!isParagraph || !isParams) Nil
-          else withParamPattern.findAllMatchIn(text).toList.map(trimParam)
-        }).map(Param(_))
+      val withParams: List[Param] = {
+        val prevElem = headElem.nextElementSibling
+        val isParagraph = prevElem.tagName == "p"
+        val text = prevElem.text
+        val isParams = text.startsWith("With parameter")
+        if (!isParagraph || !isParams) Nil
+        else withParamPattern.findAllMatchIn(text).toList.map(trimParam)
+      }.map(Param(_))
 
       // extract emu-grammar
       val target =
