@@ -68,7 +68,7 @@ object Head extends HeadParsers {
         val prevElem = headElem.nextElementSibling
         val isParagraph = prevElem.tagName == "p"
         val text = prevElem.text
-        val isParams = "With (parameter|argument).*".r.matches(text)
+        val isParams = "[wW]ith (parameter|argument).*".r.matches(text)
         if (!isParagraph || !isParams) Nil
         else withParamPattern.findAllMatchIn(text).toList.map(trimParam)
       }.map(Param(_))
