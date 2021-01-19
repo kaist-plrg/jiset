@@ -19,8 +19,13 @@ case class ECMAScript(
 ) {
   lazy val normalAlgos: Set[String] =
     algos.collect { case Algo(NormalHead(name, _), _) => name }.toSet
-  lazy val globals: Set[String] =
-    ECMAScript.PREDEF ++ normalAlgos ++ intrinsic ++ symbols ++ aoids
+  lazy val globals: Set[String] = (
+    ECMAScript.PREDEF ++
+    normalAlgos ++
+    intrinsic.map("INTRINSIC_" + _) ++
+    symbols.map("SYMBOL_" + _) ++
+    aoids
+  )
 }
 
 object ECMAScript {
@@ -38,6 +43,7 @@ object ECMAScript {
 
     // intrinsic object names
     val intrinsic = parseIntrinsic
+
     // well-known symbols
     val symbols = parseSymbol
 
@@ -111,12 +117,11 @@ object ECMAScript {
   }
 
   // parse table#id > tag
-  private def parseTable(id: String, tag: String)(implicit document: Document): Set[String] = {
-    val rows: Array[Element] = getElems(document, id)
-    rows.flatMap(row => {
-      val e = getElems(row, tag)
-      e.headOption.map(_.text())
-    }).toSet
+  private def parseTable(
+    query: String
+  )(implicit document: Document): Array[Array[Element]] = {
+    getElems(document, s"$query table > tbody > tr")
+      .map(row => toArray(row.children))
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -214,24 +219,16 @@ object ECMAScript {
     algos
   }
 
-  // parse 6.1.7.4 Well-known intrinsic objects table, return list of intrinsic object names
-  private val INTRINSIC_ID =
-    "emu-clause[id=sec-well-known-intrinsic-objects] table > tbody > tr"
+  // parse well-known intrinsic object names
   def parseIntrinsic(implicit document: Document): Set[String] = {
-    val intrinsicNames =
-      parseTable(INTRINSIC_ID, "td").map("INTRINSIC_" + _.replaceAll("%", ""))
-    println(s"# intrinsics: ${intrinsicNames.size}")
-    intrinsicNames
+    val table = parseTable("#sec-well-known-intrinsic-objects")
+    (for (k <- (1 until table.size)) yield table(k)(0).text.replace("%", "")).toSet
   }
 
-  // parse well-known symbols
-  private val SYMBOL_ID =
-    "emu-clause[id=sec-well-known-symbols] table > tbody > tr"
+  // parse well-known symbol names
   def parseSymbol(implicit document: Document): Set[String] = {
-    val symbolNames =
-      parseTable(SYMBOL_ID, "dfn").map(_.replace("@@", "SYMBOL_"))
-    println(s"# symbols: ${symbolNames.size}")
-    symbolNames
+    val table = parseTable("#sec-well-known-symbols")
+    (for (k <- (1 until table.size)) yield table(k)(0).text.replace("@@", "")).toSet
   }
 
   // pre-defined global identifiers
