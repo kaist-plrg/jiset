@@ -14,12 +14,13 @@ case class ECMAScript(
     grammar: Grammar,
     algos: List[Algo],
     intrinsic: Set[String],
-    symbols: Set[String]
+    symbols: Set[String],
+    aoids: Set[String]
 ) {
   lazy val normalAlgos: Set[String] =
     algos.collect { case Algo(NormalHead(name, _), _) => name }.toSet
   lazy val globals: Set[String] =
-    ECMAScript.PREDEF ++ normalAlgos ++ intrinsic ++ symbols
+    ECMAScript.PREDEF ++ normalAlgos ++ intrinsic ++ symbols ++ aoids
 }
 
 object ECMAScript {
@@ -40,8 +41,10 @@ object ECMAScript {
     // well-known symbols
     val symbols = parseSymbol
 
-    // wrap grammar, algos
-    ECMAScript(grammar, algos, intrinsic, symbols)
+    // get aoids
+    val aoids = getAoids
+
+    ECMAScript(grammar, algos, intrinsic, symbols, aoids)
   }
 
   def parseGrammar(version: String): Grammar = {
@@ -238,10 +241,18 @@ object ECMAScript {
     // ECMAScript types
     "Type", "BigInt", "Boolean", "Null", "Number",
     "Object", "String", "Symbol", "Undefined",
+    "Reference",
     // JISET specific internal algorithms
     "IsAbruptCompletion", "WrapCompletion", "GetArgument",
     // JISET specific global variables
     "GLOBAL_agent", "GLOBAL_context", "GLOBAL_symbolRegistry", "GLOBAL_executionStack",
     "REALM"
   )
+
+  // get aoids
+  def getAoids(implicit document: Document): Set[String] = {
+    toArray(document.select("[aoid]")).map(elem => {
+      "[/\\s]".r.replaceAllIn(elem.attr("aoid"), "")
+    }).toSet
+  }
 }
