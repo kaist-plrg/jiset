@@ -26,7 +26,7 @@ object Head extends HeadParsers {
   ): List[Head] = {
     var headElem = elem.siblingElements.get(0)
     if (rulePattern.matches(headElem.text)) headElem = headElem.parent
-    if (headElem.tag.toString != "h1") error(s"no algorithm head: $headElem")
+    if (headElem.tagName != "h1") error(s"no algorithm head: $headElem")
     val str = headElem.text
 
     // extract region
@@ -53,7 +53,7 @@ object Head extends HeadParsers {
       // with parameters
       val withParams: List[Param] =
         toArray(elem.previousElementSiblings).toList.flatMap(prevElem => {
-          val isParagraph = prevElem.tag.toString == "p"
+          val isParagraph = prevElem.tagName == "p"
           val text = prevElem.text
           val isParams = text.startsWith("With parameter")
           if (!isParagraph || !isParams) Nil
@@ -75,7 +75,7 @@ object Head extends HeadParsers {
       // environment record method
       val bases =
         toArray(elem.parent.previousElementSiblings).toList.flatMap(prevElem => {
-          val isHeader = prevElem.tag.toString == "h1"
+          val isHeader = prevElem.tagName == "h1"
           val text = prevElem.text
           val isEnvRecord = text.endsWith("Environment Records")
 
@@ -95,7 +95,7 @@ object Head extends HeadParsers {
       // object method
       val bases =
         toArray(elem.parent.previousElementSiblings).toList.flatMap(prevElem => {
-          val isHeader = prevElem.tag.toString == "h1"
+          val isHeader = prevElem.tagName == "h1"
           val text = prevElem.text
           val isObject = text.contains(OBJECT)
 
@@ -125,7 +125,7 @@ object Head extends HeadParsers {
 
   // check whether current algorithm head is for syntax directed functions.
   def isSyntaxDirected(elem: Element): Boolean =
-    elem.previousElementSibling.tag.toString == "emu-grammar"
+    elem.previousElementSibling.tagName == "emu-grammar"
 
   // check whether current algorithm head is for built-in functions.
   def isBuiltin(
