@@ -37,11 +37,12 @@ object Head extends HeadParsers {
     var name = if (from == -1) str else str.substring(0, from)
     name = prefixPattern.replaceFirstIn(name, "").trim
     if (!nameCheck(name)) error(s"not target algorithm: $str")
-    name = "[/]".r.replaceAllIn(name, "")
+    name = "[/\\s]".r.replaceAllIn(name, "")
 
     // extract parameters
     val params =
-      if (from == -1) Nil
+      if (isComparison(name)) COMP_PARAMS
+      else if (from == -1) Nil
       else parse(paramList, str.substring(from)).get
 
     // classify head
@@ -179,6 +180,9 @@ object Head extends HeadParsers {
   // internal method functions.
   def isObjMethod(name: String): Boolean =
     name.startsWith("[[") && name.endsWith("]]")
+
+  // check whether algorithm is comparison
+  def isComparison(name: String): Boolean = name.endsWith("Comparison")
 
   // get names and parameters
   val paramPattern = "[^\\s,()\\[\\]]+".r
