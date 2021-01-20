@@ -11,6 +11,8 @@ import scala.util.matching.Regex._
 
 // head parsers
 object HeadParser extends HeadParsers {
+  import Head._
+
   def apply(elem: Element)(
     implicit
     lines: Array[String],
@@ -212,17 +214,6 @@ object HeadParser extends HeadParsers {
 
   // check whether algorithm is comparison
   def isComparison(name: String): Boolean = name.endsWith("Comparison")
-
-  // get names and parameters
-  val paramPattern = "[^\\s,()\\[\\]]+".r
-  val rulePattern = ".*(Statement|Expression)\\s*Rules".r
-  val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
-  val prefixPattern = ".*Semantics:".r
-  val withParamPattern = "_\\w+_".r
-  val normPattern = "[\\s|-]".r
-  val thisValuePattern = "this\\w+Value".r
-  val letEnvRecPattern = "1. Let ([_\\w]+) be the \\w+ Environment Record.*".r
-  val letObjPattern = "1. Let ([_\\w]+) be the \\w+ object\\.".r
 
   // check validity of names
   def nameCheck(name: String): Boolean =

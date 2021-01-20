@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.parser._
 
 // steps
 case class Step(var tokens: List[Token]) {
