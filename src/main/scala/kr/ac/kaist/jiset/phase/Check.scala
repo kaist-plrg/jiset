@@ -26,8 +26,6 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
       if (config.target.isEmpty) completeAlgos
       else completeAlgos.filter(config.target contains _.name)
     println(s"checking ${targets.size} algorithms...")
-    val intrinsic = spec.intrinsic
-    val symbols = spec.symbols
 
     println
     println(s"variable reference checking...")

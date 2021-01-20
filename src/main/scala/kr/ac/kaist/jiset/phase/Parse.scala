@@ -16,13 +16,26 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     config: ParseConfig
   ): ECMAScript = {
     println(s"--------------------------------------------------")
+    val ParseConfig(versionOpt, queryOpt, detail) = config
+    val version = versionOpt.getOrElse("recent")
+    val query = queryOpt.getOrElse("")
+    println(s"version: $version")
+    if (query != "") println(s"query: $query")
     println(s"parsing spec.html...")
-    val ParseConfig(version, query, detail) = config
-    ECMAScript(
-      version = version.getOrElse(RECENT_VERSION),
-      query = query.getOrElse(""),
-      detail = detail
-    )
+    val spec = ECMAScript(version, query, detail)
+
+    val ECMAScript(grammar, algos, intrinsics, symbols, aoids) = spec
+    println(s"* grammar:")
+    println(s"  - lexical production: ${grammar.lexProds.length}")
+    println(s"  - non-lexical production: ${grammar.prods.length}")
+    println(s"* algorithms:")
+    println(s"  - complete: ${spec.completeAlgos.length}")
+    println(s"  - total: ${algos.length}")
+    println(s"* intrinsics: ${intrinsics.size}")
+    println(s"* symbols: ${symbols.size}")
+    println(s"* aoids: ${aoids.size}")
+
+    spec
   }
 
   def defaultConfig: ParseConfig = ParseConfig()

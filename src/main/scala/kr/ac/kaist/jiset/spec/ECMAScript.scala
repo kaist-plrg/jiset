@@ -13,7 +13,7 @@ import scala.collection.mutable.Stack
 case class ECMAScript(
     grammar: Grammar,
     algos: List[Algo],
-    intrinsic: Set[String],
+    intrinsics: Set[String],
     symbols: Set[String],
     aoids: Set[String]
 ) {
@@ -25,7 +25,7 @@ case class ECMAScript(
   lazy val globals: Set[String] = (
     ECMAScript.PREDEF ++
     normalAlgos ++
-    intrinsic.map("INTRINSIC_" + _) ++
+    intrinsics.map("INTRINSIC_" + _) ++
     symbols.map("SYMBOL_" + _) ++
     aoids
   )
@@ -48,7 +48,7 @@ object ECMAScript {
       else getElems(document, query).toList.flatMap(parseAlgo(_, detail))
 
     // intrinsic object names
-    val intrinsic = parseIntrinsic
+    val intrinsics = parseIntrinsic
 
     // well-known symbols
     val symbols = parseSymbol
@@ -56,7 +56,7 @@ object ECMAScript {
     // get aoids
     val aoids = getAoids
 
-    ECMAScript(grammar, algos, intrinsic, symbols, aoids)
+    ECMAScript(grammar, algos, intrinsics, symbols, aoids)
   }
 
   def parseGrammar(version: String): Grammar = {
@@ -67,17 +67,15 @@ object ECMAScript {
   // helper
   ////////////////////////////////////////////////////////////////////////////////
   // preprocess for spec.html
-  def preprocess(givenVersion: String = RECENT_VERSION): (Array[String], Document) = {
-    val rawVersion = getRawVersion(givenVersion)
-    val version = getVersion(givenVersion)
+  def preprocess(version: String = RECENT_VERSION): (Array[String], Document) = {
+    val rawVersion = getRawVersion(version)
     val cur = currentVersion(ECMA262_DIR)
     val src = if (cur == rawVersion) readFile(SPEC_HTML) else {
-      changeVersion(version, ECMA262_DIR)
+      changeVersion(rawVersion, ECMA262_DIR)
       val src = readFile(SPEC_HTML)
       changeVersion(cur, ECMA262_DIR)
       src
     }
-    println(s"version: $version")
     val lines = attachLines(dropNoScope(src.split(LINE_SEP)))
     val document = Jsoup.parse(lines.mkString(LINE_SEP))
     (lines, document)
@@ -168,9 +166,6 @@ object ECMAScript {
     val (lexProds, nonLexProds) =
       prods.partition(p => lexNames.contains(p.lhs.name))
 
-    println(s"# of lexical production: ${lexProds.length}")
-    println(s"# of non-lexical production: ${nonLexProds.length}")
-
     Grammar(lexProds, nonLexProds)
   }
 
@@ -204,11 +199,13 @@ object ECMAScript {
     // val emuEqns = List.empty
 
     val elems = emuAlgs ++ earlyErrors ++ typeTableAlgs ++ emuEqns
-    println(s"# algorithm elements: ${elems.size}")
-    println(s"  - <emu-alg>: ${emuAlgs.size}")
-    println(s"  - Early Error: ${earlyErrors.size}")
-    println(s"  - <emu-table> with header Arguments Type : ${typeTableAlgs.size}")
-    println(s"  - <emu-eqn>: ${emuEqns.size}")
+    if (detail) {
+      println(s"# algorithm elements: ${elems.size}")
+      println(s"  - <emu-alg>: ${emuAlgs.size}")
+      println(s"  - Early Error: ${earlyErrors.size}")
+      println(s"  - <emu-table> with header Arguments Type : ${typeTableAlgs.size}")
+      println(s"  - <emu-eqn>: ${emuEqns.size}")
+    }
 
     // algorithms
     val (atime, passed) = time(for {
@@ -216,9 +213,8 @@ object ECMAScript {
       algos = Algo.parse(elem, detail)
       if !algos.isEmpty
     } yield algos)
-    println(s"# successful algorithm parsing: ${passed.size}")
+    if (detail) println(s"# successful algorithm parsing: ${passed.size} ($atime ms)")
     val algos = passed.toList.flatten
-    println(s"# algorithms: ${algos.length} ($atime ms)")
 
     // return algos
     algos
