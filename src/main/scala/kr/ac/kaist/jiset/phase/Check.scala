@@ -17,37 +17,38 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
     jisetConfig: JISETConfig,
     config: CheckConfig
   ): List[Bug] = {
-    val CheckConfig(targetString) = config
-    val targetNames: Array[String] = targetString.getOrElse("").split(",").map(_.trim())
-    val targetFilter: Algo => Boolean = if (targetString != None) {
-      x => targetNames contains x.name
-    } else {
-      x => true
-    }
     println(s"--------------------------------------------------")
     val algos = spec.algos
     println(s"# algorithms: ${algos.length}")
-    val targets = algos.filter(_.isComplete).filter(targetFilter)
+    val completeAlgos = spec.completeAlgos
+    println(s"# complete algorithms: ${completeAlgos.length}")
+    val targets =
+      if (config.target.isEmpty) completeAlgos
+      else completeAlgos.filter(config.target contains _.name)
     println(s"checking ${targets.size} algorithms...")
     val intrinsic = spec.intrinsic
     val symbols = spec.symbols
 
+    println
     println(s"variable reference checking...")
     val refErrors = ReferenceChecker(spec, targets)
     refErrors.foreach(println _)
     println(s"${refErrors.length} algorithms have reference errors.")
 
+    println
+    val bugs = refErrors
+    println(s"Total ${bugs.length} bugs detected.")
     refErrors
   }
 
   def defaultConfig: CheckConfig = CheckConfig()
   val options: List[PhaseOption[CheckConfig]] = List(
-    ("targetString", StrOption((c, s) => c.targetString = Some(s)),
-      "name of target algorithms to check, divided by comma")
+    ("target", ListOption((c, l) => c.target = l),
+      "target algorithms to check")
   )
 }
 
 // Check phase config
 case class CheckConfig(
-    var targetString: Option[String] = None
+    var target: List[String] = Nil
 ) extends Config

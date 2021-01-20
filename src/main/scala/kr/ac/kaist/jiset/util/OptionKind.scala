@@ -44,7 +44,7 @@ case class ListOption[PhaseConfig <: Config](
     assign: (PhaseConfig, List[String]) => Unit
 ) extends OptionKind[PhaseConfig] {
   def argRegexList(name: String): List[ArgRegex[PhaseConfig]] = List(
-    (("-" + name + "=").r, "[[^,]+,]+".r, (c, s) => assign(c, s.split(",").toList)),
+    (("-" + name + "=").r, "[^,]+[,[^,]+]*".r, (c, s) => assign(c, s.split(",").toList)),
     (("-" + name + "=").r, ".*".r, (_, _) => throw NoListArgError(name)),
     (("-" + name).r, "".r, (_, _) => throw NoListArgError(name))
   )
