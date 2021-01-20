@@ -341,7 +341,7 @@ object Compiler extends Compilers {
     integerExpr |||
     operatorExpr |||
     primitiveExpr |||
-    starExpr 
+    starExpr
   ))
 
   // arithmetic expressions
@@ -414,10 +414,9 @@ object Compiler extends Compilers {
 
   )
 
-  lazy val callRef: P[(I[Ref], Boolean)] = ( word |||
-      "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |||
-      "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }
-      ) ^^ { forIn => (pair(Nil, toRef(forIn)), false) } |||
+  lazy val callRef: P[(I[Ref], Boolean)] = (word |||
+    "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |||
+    "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }) ^^ { forIn => (pair(Nil, toRef(forIn)), false) } |||
     id ~ opt(callField) ^^ {
       case x ~ Some(y) => (pair(Nil, toRef(x, y)), false)
       case x ~ None => (pair(Nil, toRef(x)), false)
@@ -682,7 +681,7 @@ object Compiler extends Compilers {
       case ((op, i0 ~ e)) ~ (i1 ~ b) => pair(i0 ++ i1, EBOp(op, b, e))
     }
   )
-  
+
   lazy val primitiveExpr: P[I[Expr]] = (expr <~ "::") ~ word ^^ {
     case ie ~ r => {
       toERef("PRIMITIVE", List(ie, pair(Nil, EStr(r))))
