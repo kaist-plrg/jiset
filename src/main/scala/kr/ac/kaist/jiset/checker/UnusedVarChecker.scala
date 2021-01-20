@@ -44,7 +44,15 @@ object UnusedVarChecker extends Checker {
       }
     }
     Walker.walk(algo.body)
-    val errors = scopeVars.filter(t => t._2 != Used && t._2 != SyntaxUnused).keySet
+    var errors = scopeVars.filter(t => t._2 != Used && t._2 != SyntaxUnused).keySet
+    algo.head match {
+      case _: SyntaxDirectedHead => {
+        // todo!: make cleaner method to get lhsName from SyntaxDirectedHead
+        val lhsName = algo.name.slice(0, algo.name.indexOf('['))
+        if (errors.contains(lhsName)) errors -= lhsName
+      }
+      case _ => {}
+    }
     if (errors.isEmpty) None
     else Some(UnusedVariable(algo, errors))
   }
