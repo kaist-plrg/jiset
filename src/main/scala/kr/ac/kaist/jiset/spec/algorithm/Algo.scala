@@ -3,8 +3,6 @@ package kr.ac.kaist.jiset.spec.algorithm
 import kr.ac.kaist.ires.ir
 import kr.ac.kaist.ires.ir.Parser.parseInst
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.algorithm.GeneralAlgoCompiler
-import kr.ac.kaist.jiset.algorithm.{ Nt, Code }
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.util.Useful._
@@ -106,7 +104,7 @@ object Algo {
       case _ => code
     }
 
-    val tokens = (new Tokenizer).getTokens(patchedCode)
+    val tokens = Token.getTokens(patchedCode)
     val prefix = head match {
       case (syntax: SyntaxDirectedHead) =>
         val x = syntax.lhsName

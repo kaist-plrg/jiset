@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.algorithm
+package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.parser.TokenParsers
 import kr.ac.kaist.jiset.LINE_SEP

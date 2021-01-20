@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.parser
 
 import kr.ac.kaist.ires.ir.Inst
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.algorithm._
+import kr.ac.kaist.jiset.spec.algorithm._
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
 
@@ -144,9 +144,9 @@ trait TokenParsers extends PackratParsers {
     case t => Failure(s"`Url(_)` expected but `$t` found", in)
   }))
 
-  def grammar: Parser[Grammar] = Parser(in => firstMap(in, _ match {
-    case (g: Grammar) => Success(g, in.rest)
-    case t => Failure(s"`Grammar(_)` expected but `$t` found", in)
+  def grammar: Parser[Gr] = Parser(in => firstMap(in, _ match {
+    case (g: Gr) => Success(g, in.rest)
+    case t => Failure(s"`Gr(_)` expected but `$t` found", in)
   }))
 
   def next: Parser[Int] = Parser(in => firstMap(in, _ match {

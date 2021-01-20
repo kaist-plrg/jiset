@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.error
 
-import kr.ac.kaist.jiset.algorithm._
+import kr.ac.kaist.jiset.spec.algorithm._
 
 sealed abstract class AlgorithmError(msg: String) extends JISETError(msg)
 

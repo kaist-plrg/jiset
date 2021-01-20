@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.algorithm
+package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.ires.ir.Parser._
 import kr.ac.kaist.ires.ir.{ error => _, _ }
@@ -11,6 +11,7 @@ import scala.util.{ Try, Success, Failure }
 object GeneralAlgoCompiler extends AlgoCompilers {
   def apply(tokens: List[Token]): Inst =
     normalizeTempIds(flatten(ISeq(parseAll(stmts, tokens).getOrElse(Nil))))
+
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +105,7 @@ object GeneralAlgoCompiler extends AlgoCompilers {
     case (i ~ c) ~ t ~ None => ISeq(i :+ IIf(c, t, emptyInst))
     case (i ~ c) ~ t ~ Some(e) => ISeq(i :+ IIf(c, t, e))
   } ||| ("if" ~> (nt | id) <~ "is" ~ opt("the production")) ~ grammar ~ ("," ~ opt("then") ~> stmt) ^^ {
-    case x ~ Grammar(y, ss) ~ s =>
+    case x ~ Gr(y, ss) ~ s =>
       val pre = ss.map(s => IAccess(Id(s), toERef(x), EStr(s)))
       IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
   }
