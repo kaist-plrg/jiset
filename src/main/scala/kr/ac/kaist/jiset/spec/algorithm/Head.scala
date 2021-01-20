@@ -101,7 +101,12 @@ object Head extends HeadParsers {
           } else List.empty
         })
 
-      val receiverParam = Param(firstParam(prev.text).getOrElse(ENV_PARAM))
+      // check if first step is "Let <var> be the ~ Environment Record ~"
+      val firstStep = getRawBody(elem).head.trim
+      val receiverParam = Param(firstStep match {
+        case letEnvRecPattern(thisVar) => strip(thisVar, 1)
+        case _ => firstParam(prev.text).getOrElse(ENV_PARAM)
+      })
 
       bases match {
         case base :: Nil =>
@@ -124,7 +129,11 @@ object Head extends HeadParsers {
         })
 
       val methodName = strip(name, 2)
-      val receiverParam = Param(firstParam(prev.text).getOrElse(OBJ_PARAM))
+      val firstStep = getRawBody(elem).head.trim
+      val receiverParam = Param(firstStep match {
+        case letObjPattern(thisVar) => strip(thisVar, 1)
+        case _ => firstParam(prev.text).getOrElse(OBJ_PARAM)
+      })
 
       bases match {
         case base :: Nil =>
@@ -219,6 +228,8 @@ object Head extends HeadParsers {
   val withParamPattern = "_\\w+_".r
   val normPattern = "[\\s|-]".r
   val thisValuePattern = "this\\w+Value".r
+  val letEnvRecPattern = "1. Let ([_\\w]+) be the \\w+ Environment Record.*".r
+  val letObjPattern = "1. Let ([_\\w]+) be the \\w+ object\\.".r
 
   // check validity of names
   def nameCheck(name: String): Boolean =
