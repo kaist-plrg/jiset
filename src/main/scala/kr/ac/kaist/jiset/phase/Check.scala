@@ -31,20 +31,21 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
     refErrors.foreach(println _)
     println(s"${refErrors.length} algorithms have reference errors.")
 
-    println
-    println(s"duplicated variable checking...")
-    val dupErrors = DuplicatedVarChecker(spec, targets)
-    dupErrors.foreach(println _)
-    println(s"${dupErrors.length} algorithms have duplicated variable errors.")
+    // println
+    // println(s"duplicated variable checking...")
+    // val dupErrors = DuplicatedVarChecker(spec, targets)
+    // dupErrors.foreach(println _)
+    // println(s"${dupErrors.length} algorithms have duplicated variable errors.")
 
-    println
-    println(s"unused variable checking...")
-    val unusedErrors = UnusedVarChecker(spec, targets)
-    unusedErrors.foreach(println _)
-    println(s"${unusedErrors.length} algorithms have unused variable errors.")
+    // println
+    // println(s"unused variable checking...")
+    // val unusedErrors = UnusedVarChecker(spec, targets)
+    // unusedErrors.foreach(println _)
+    // println(s"${unusedErrors.length} algorithms have unused variable errors.")
 
-    println
-    val bugs = refErrors ++ dupErrors ++ unusedErrors
+    // println
+    // val bugs = refErrors ++ dupErrors ++ unusedErrors
+    val bugs = refErrors
     println(s"Total ${bugs.length} bugs detected.")
     refErrors
   }

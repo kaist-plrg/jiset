@@ -220,8 +220,10 @@ object HeadParser extends HeadParsers {
     namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
 
   // find first parameter
-  def firstParam(str: String): Option[String] =
-    withParamPattern.findFirstMatchIn(str).map(trimParam _)
+  def firstParam(str: String): Option[String] = str match {
+    case methodDescPattern(thisVar) => Some(strip(thisVar, 1))
+    case _ => None
+  }
 
   // trim parameters
   def trimParam(m: Match): String = {
