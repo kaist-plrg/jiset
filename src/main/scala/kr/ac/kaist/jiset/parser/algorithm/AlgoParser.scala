@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.parser
+package kr.ac.kaist.jiset.parser.algorithm
 
 import kr.ac.kaist.ires.ir
 import kr.ac.kaist.ires.ir.Parser.parseInst
@@ -22,7 +22,7 @@ object AlgoParser {
   ): List[Algo] = {
     if (detail) println(s"--------------------------------------------------")
     val result = try {
-      val heads = Head.parse(elem)
+      val heads = HeadParser(elem)
       if (detail) heads.foreach(println(_))
       val code =
         if (elem.tagName == "ul") toArray(elem.children).map(li => "* " + li.text)
@@ -82,7 +82,7 @@ object AlgoParser {
       case _ => code
     }
 
-    val tokens = Token.getTokens(patchedCode)
+    val tokens = TokenParser.getTokens(patchedCode)
     val prefix = head match {
       case (syntax: SyntaxDirectedHead) =>
         val x = syntax.lhsName
@@ -93,7 +93,7 @@ object AlgoParser {
         }
       case _ => Nil
     }
-    val body = GeneralAlgoCompiler(tokens)
+    val body = Compiler(tokens)
     prefix match {
       case Nil => body
       case _ => body match {

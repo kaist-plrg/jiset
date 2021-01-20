@@ -1,14 +1,12 @@
-package kr.ac.kaist.jiset.spec.algorithm
+package kr.ac.kaist.jiset.parser.algorithm
 
+import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.ires.ir.Parser._
-import kr.ac.kaist.ires.ir.{ error => _, _ }
-import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.error.UnexpectedShift
-import kr.ac.kaist.jiset.parser.TokenParsers
+import kr.ac.kaist.ires.ir.{ error => _, Id => IRId, _ }
 import kr.ac.kaist.jiset.util.Useful._
 import scala.util.{ Try, Success, Failure }
 
-object GeneralAlgoCompiler extends AlgoCompilers {
+object Compiler extends Compilers {
   def apply(tokens: List[Token]): Inst =
     normalizeTempIds(flatten(ISeq(parseAll(stmts, tokens).getOrElse(Nil))))
 
@@ -91,9 +89,9 @@ object GeneralAlgoCompiler extends AlgoCompilers {
 
   // let binding statements
   lazy val letStmt = ("Let" ~> rep1sep(id, sep("and")) <~ "be") ~ expr ~ opt(("; if" ~> cond <~ ", use") ~ expr) ^^ {
-    case xs ~ (i ~ e) ~ None => ISeq(i ++ xs.map(x => ILet(Id(x), e)))
+    case xs ~ (i ~ e) ~ None => ISeq(i ++ xs.map(x => ILet(IRId(x), e)))
     case xs ~ (i1 ~ e1) ~ Some((i2 ~ e2) ~ (i3 ~ e3)) =>
-      ISeq(i2 :+ IIf(e2, ISeq(i3 ++ xs.map(x => ILet(Id(x), e3))), ISeq(i1 ++ xs.map(x => ILet(Id(x), e1)))))
+      ISeq(i2 :+ IIf(e2, ISeq(i3 ++ xs.map(x => ILet(IRId(x), e3))), ISeq(i1 ++ xs.map(x => ILet(IRId(x), e1)))))
   }
 
   // if-then-else statements
@@ -106,7 +104,7 @@ object GeneralAlgoCompiler extends AlgoCompilers {
     case (i ~ c) ~ t ~ Some(e) => ISeq(i :+ IIf(c, t, e))
   } ||| ("if" ~> (nt | id) <~ "is" ~ opt("the production")) ~ grammar ~ ("," ~ opt("then") ~> stmt) ^^ {
     case x ~ Gr(y, ss) ~ s =>
-      val pre = ss.map(s => IAccess(Id(s), toERef(x), EStr(s)))
+      val pre = ss.map(s => IAccess(IRId(s), toERef(x), EStr(s)))
       IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
   }
   lazy val ignoreCond: P[I[Expr]] = (
@@ -123,7 +121,7 @@ object GeneralAlgoCompiler extends AlgoCompilers {
   // call statements
   lazy val callStmt: P[Inst] = (("perform" | "call") ~> expr ||| returnIfAbruptExpr) ~ opt("and" ~> (
     "return its" ~ opt(camelWord) ~ "result" ^^^ { (e: Expr) => IReturn(e) } |||
-    "let" ~> id <~ "be" ~ ("the" ~ camelWord ~ "result" | "its result" | "the resulting" ~ camelWord ~ opt("value")) ^^ { x => (e: Expr) => ILet(Id(x), e) }
+    "let" ~> id <~ "be" ~ ("the" ~ camelWord ~ "result" | "its result" | "the resulting" ~ camelWord ~ opt("value")) ^^ { x => (e: Expr) => ILet(IRId(x), e) }
   )) ^^ {
     case i ~ e ~ None => ISeq(i :+ IExpr(e))
     case i ~ e ~ Some(f) => ISeq(i :+ f(e))
@@ -183,7 +181,7 @@ object GeneralAlgoCompiler extends AlgoCompilers {
         "in reverse list order" ^^^ true
       )) ~ (opt(",") ~ opt("do") ~ opt(",") ~> stmt)
   } ^^ {
-    case x ~ (i ~ e) ~ isRev ~ b => ISeq(i :+ forEachList(Id(x), e, b, isRev))
+    case x ~ (i ~ e) ~ isRev ~ b => ISeq(i :+ forEachList(IRId(x), e, b, isRev))
   } ||| "for each integer" ~> id ~ (
     ("in the range" ~> expr <~ "≤" ~ id ~ "<") ~ expr ^^ { case x ~ y => (x, y, 0, 0) } |
     ("starting with" ~> expr <~ "such that" ~ id ~ "<") ~ expr ^^ { case x ~ y => (x, y, 0, 0) } |
@@ -221,7 +219,7 @@ object GeneralAlgoCompiler extends AlgoCompilers {
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(toERef(tempId), l1)))
     } ||| (expr <~ "as the last code unit of") ~ id ^^ {
-      case (i ~ e) ~ x => ILet(Id(x), EBOp(OPlus, toERef(x), e))
+      case (i ~ e) ~ x => ILet(IRId(x), EBOp(OPlus, toERef(x), e))
     }
   )
 
@@ -233,9 +231,9 @@ object GeneralAlgoCompiler extends AlgoCompilers {
   // remove statements
   lazy val removeStmt: P[Inst] = (
     ("remove the first element from" ~> id <~ "and let") ~ (id <~ "be the value of" ~ ("that" | "the") ~ "element") ^^ {
-      case l ~ x => ILet(Id(x), EPop(toERef(l), EINum(0)))
+      case l ~ x => ILet(IRId(x), EPop(toERef(l), EINum(0)))
     } ||| ("let" ~> id <~ "be the first element of") ~ (id <~ "and remove that element from" ~ id) ^^ {
-      case x ~ l => ILet(Id(x), EPop(toERef(l), EINum(0)))
+      case x ~ l => ILet(IRId(x), EPop(toERef(l), EINum(0)))
     } ||| "remove" ~ id ~ "from the front of" ~> id ^^ {
       case x => parseInst(s"(pop $x 0i)")
     } ||| "remove the last element of" ~> id ^^ {
@@ -296,9 +294,9 @@ object GeneralAlgoCompiler extends AlgoCompilers {
   lazy val evaluateStmt: P[Inst] = (
     accessRef ~ ("to obtain" ~ opt("the" ~ word ~ "results:") ~> rep1sep(opt("a" | "an") ~ word ~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ~> id, sep("and"))) ^^ {
       case (i ~ r) ~ List(x) =>
-        ISeq(i :+ ILet(Id(x), ERef(r)))
+        ISeq(i :+ ILet(IRId(x), ERef(r)))
       case (i0 ~ r) ~ xs =>
-        val i1 = xs.zipWithIndex.map { case (x, k) => ILet(Id(x), ERef(RefProp(r, EINum(k)))) }
+        val i1 = xs.zipWithIndex.map { case (x, k) => ILet(IRId(x), ERef(RefProp(r, EINum(k)))) }
         ISeq(i0 ++ i1)
     }
   )
@@ -730,7 +728,7 @@ object GeneralAlgoCompiler extends AlgoCompilers {
 
   // values with tag `code`
   lazy val codeValue: P[Expr] = opt("the" ~ ("code unit" | "element" | opt("single - element") ~ "string" ~ opt("value"))) ~> code <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
-    case s if s.startsWith("\"%") && s.endsWith("%\"") => ERef(RefId(Id(INTRINSIC_PRE + s.slice(2, s.length - 2))))
+    case s if s.startsWith("\"%") && s.endsWith("%\"") => ERef(RefId(IRId(INTRINSIC_PRE + s.slice(2, s.length - 2))))
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case s @ ("super" | "this") => EStr(s)
     case s => ENotSupported(s)
@@ -1072,7 +1070,7 @@ object GeneralAlgoCompiler extends AlgoCompilers {
     (fieldName <~ ("of" | "for")) ~ refBase ^^ {
       case f ~ b => pair(Nil, toRef(b, f))
     } ||| (refBase <~ "'s") ~ weakFieldName <~ opt("value" | "attribute" | "list") ^^ {
-      case b ~ x => pair(Nil, RefProp(RefId(Id(b)), x))
+      case b ~ x => pair(Nil, RefProp(RefId(IRId(b)), x))
     } ||| refBase ~ rep(field) ^^ {
       case x ~ es => toRef(x, es)
     }

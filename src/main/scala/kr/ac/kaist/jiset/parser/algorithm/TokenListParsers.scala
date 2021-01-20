@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.parser
+package kr.ac.kaist.jiset.parser.algorithm
 
 import kr.ac.kaist.ires.ir.Inst
 import kr.ac.kaist.jiset.LINE_SEP
@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import scala.util.parsing.combinator._
 import scala.util.parsing.input._
 
-trait TokenParsers extends PackratParsers {
+trait TokenListParsers extends PackratParsers {
   type Elem = Token
   case class TokenPosition(
       line: Int,

@@ -1,46 +1,13 @@
-package kr.ac.kaist.jiset.spec.algorithm
+package kr.ac.kaist.jiset.parser.algorithm
 
-import kr.ac.kaist.ires.ir
-import kr.ac.kaist.jiset.spec.grammar.{ Grammar, ProductionParsers, NonTerminal, Lhs }
+import kr.ac.kaist.jiset.parser.grammar.ProductionParsers
+import kr.ac.kaist.jiset.spec.algorithm._
+import kr.ac.kaist.jiset.spec.grammar.{ Grammar, NonTerminal, Lhs }
 import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.Stack
-import scala.util.parsing.combinator._
-import Param.Kind._
-
-// common parsers
-trait Parsers extends RegexParsers {
-  lazy val word = "\\w+".r
-}
-
-// head parsers
-trait HeadParsers extends Parsers {
-  import ir._
-
-  lazy val name = "[a-zA-Z]*".r
-  lazy val field = (
-    "." ~> name ^^ { EStr(_) } |
-    "[" ~ "@@" ~> name <~ "]" ^^ { x => ir.Parser.parseExpr("SYMBOL_" + x) }
-  )
-  lazy val ref = name ~ rep(field) ^^ {
-    case b ~ fs => fs.foldLeft[Ref](RefId(Id(b))) {
-      case (b, f) => RefProp(b, f)
-    }
-  }
-  lazy val param =
-    "_[a-zA-Z0-9]+_".r ^^ { case s => s.substring(1, s.length - 1) }
-  lazy val params: Parser[List[Param]] = (
-    "[" ~ opt(",") ~> param ~ params <~ "]" ^^ { case x ~ ps => Param(x, Optional) :: ps } |
-    opt(",") ~ "..." ~> param ~ params ^^ { case x ~ ps => Param(x, Variadic) :: ps } |
-    opt(",") ~> param ~ params ^^ { case x ~ ps => Param(x) :: ps } |
-    "" ^^^ Nil
-  )
-  lazy val paramList = (
-    "(" ~> params <~ ")" |
-    "(" ~ repsep(param | "…", ",") ~ ")" ^^^ Nil
-  )
-}
 
 // token parsers
+object TokenParser extends TokenParsers
 trait TokenParsers extends ProductionParsers {
   // step parsers
   def step(grammar: Grammar): Parser[List[Token]] = {

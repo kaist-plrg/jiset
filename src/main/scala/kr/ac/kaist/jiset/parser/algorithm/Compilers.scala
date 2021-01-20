@@ -1,12 +1,9 @@
-package kr.ac.kaist.jiset.spec.algorithm
+package kr.ac.kaist.jiset.parser.algorithm
 
-import kr.ac.kaist.jiset.parser.TokenParsers
-import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.error.UnexpectedShift
+import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
-import scala.util.{ Try, Success, Failure }
 
-trait AlgoCompilers extends TokenParsers {
+trait Compilers extends TokenListParsers {
   import kr.ac.kaist.ires.ir.Parser._
   import kr.ac.kaist.ires.ir._
 

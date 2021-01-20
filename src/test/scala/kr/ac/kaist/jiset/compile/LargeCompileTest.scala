@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset
 import java.io._
 import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.parser.algorithm.Compiler
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.algorithm.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
@@ -28,7 +29,7 @@ class LargeCompileTest extends CompileTest {
         val inst = Parser.parseInst(readFile(irName))
 
         check(tag, filename, {
-          diffTest(filename, GeneralAlgoCompiler(tokens), inst)
+          diffTest(filename, Compiler(tokens), inst)
         })
       }
     }

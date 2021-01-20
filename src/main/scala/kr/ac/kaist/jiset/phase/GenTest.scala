@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.phase
 import java.io.File
 import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.parser.algorithm.Compiler
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.algorithm.JsonProtocol._
 import kr.ac.kaist.jiset.spec._
@@ -28,7 +29,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         val jsonName = file.toString
         val steps = readJson[List[Step]](jsonName)
         val tokens = Step.toTokens(steps)
-        val inst = GeneralAlgoCompiler(tokens)
+        val inst = Compiler(tokens)
 
         val irName = json2ir(jsonName)
         dumpFile(beautify(inst), irName)

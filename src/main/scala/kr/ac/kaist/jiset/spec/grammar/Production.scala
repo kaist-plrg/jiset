@@ -18,7 +18,3 @@ case class Production(
   override def toString: String =
     (lhs.toString :: rhsList.map("  " + _.toString)).mkString(LINE_SEP)
 }
-object Production extends ProductionParsers {
-  def apply(lines: List[String]): Production =
-    parse(lines.map(revertSpecialCodes))
-}

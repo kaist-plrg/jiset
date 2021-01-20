@@ -60,9 +60,6 @@ case class Rhs(
     s"$condStr$tokensStr"
   }
 }
-object Rhs extends RhsParsers {
-  def apply(str: String): Rhs = parseAll(rhs, str).get
-}
 
 case class RhsCond(name: String, pass: Boolean) {
   // conversion to string

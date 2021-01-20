@@ -1,5 +1,7 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
+import kr.ac.kaist.jiset.parser.algorithm.HeadParser
+
 // method algorithm heads
 case class MethodHead(
     base: String,
@@ -14,6 +16,8 @@ case class MethodHead(
   val params: List[Param] = receiverParam :: origParams
 
   // check if step is let ~ `this` step in internal method algorithms
-  def isLetThisStep(step: String): Boolean =
-    Head.letEnvRecPattern.matches(step) || Head.letObjPattern.matches(step)
+  def isLetThisStep(step: String): Boolean = (
+    HeadParser.letEnvRecPattern.matches(step) ||
+    HeadParser.letObjPattern.matches(step)
+  )
 }

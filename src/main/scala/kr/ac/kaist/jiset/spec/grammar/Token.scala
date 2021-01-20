@@ -40,10 +40,6 @@ trait Token {
   }
 }
 
-object Token extends TokenParsers {
-  def apply(str: String): Token = parseAll(token, str).get
-}
-
 // terminals
 case class Terminal(term: String) extends Token
 

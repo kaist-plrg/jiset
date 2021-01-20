@@ -16,6 +16,3 @@ case class Lhs(
     s"$name$paramsStr:"
   }
 }
-object Lhs extends LhsParsers {
-  def apply(str: String): Lhs = parseAll(lhs, str).get
-}

@@ -1,15 +1,11 @@
-package kr.ac.kaist.jiset.spec.grammar
+package kr.ac.kaist.jiset.parser.grammar
 
-import scala.util.parsing.combinator._
-
-// common parsers
-trait Parsers extends RegexParsers {
-  lazy val word = "\\w+".r
-  lazy val params: Parser[List[String]] = "[" ~> repsep(pWord, ",") <~ "]"
-  lazy val pWord = "[?|\\+|~]*\\w+".r
-}
+import kr.ac.kaist.jiset.spec.grammar._
 
 // Token parsers
+trait TokenParser extends TokenParsers {
+  def apply(str: String): Token = parseAll(token, str).get
+}
 trait TokenParsers extends Parsers {
   // butnot tokens
   lazy val butnot = (nt <~ ("but not" <~ opt("one of"))) ~ rep(token <~ opt("or")) ^^ {
@@ -70,42 +66,4 @@ trait TokenParsers extends Parsers {
 
   // tokens
   lazy val token: Parser[Token] = special | butnot | lookahead | nt | term
-}
-
-// Rhs parsers
-trait RhsParsers extends TokenParsers {
-  lazy val rhs: Parser[Rhs] = opt(cond) ~ rep1(token) <~ opt(tag) ^^ {
-    case cond ~ tokens => Rhs(tokens, cond)
-  }
-  lazy val cond = "[" ~> "[+~]".r ~ word <~ "]" ^^ {
-    case s ~ c => RhsCond(c, s == "+")
-  }
-}
-
-// Lhs parsers
-trait LhsParsers extends Parsers {
-  lazy val lhs: Parser[Lhs] = word ~ opt(params) <~ "[:]+".r ^^ {
-    case n ~ None => Lhs(n, Nil)
-    case n ~ Some(params) => Lhs(n, params)
-  }
-}
-
-// Production parsers
-trait ProductionParsers extends LhsParsers with RhsParsers {
-  lazy val oneof: Parser[Boolean] = opt("one of") ^^ { !_.isEmpty }
-  lazy val lhsLine = lhs ~ oneof ~ opt(rhs)
-  def parse(lines: List[String]): Production = lines match {
-    case lhsStr :: rhsStrList => {
-      val lhs ~ split ~ rhsOpt = parseAll(lhsLine, lhsStr).get
-      // create rhsList
-      var rhsList = rhsStrList.map(Rhs(_))
-      rhsOpt.map(rhsList ::= _)
-      // handle `one of`
-      if (split) rhsList = rhsList.flatMap {
-        case Rhs(tokens, cond) => tokens.map(t => Rhs(List(t), cond))
-      }
-      Production(lhs, rhsList)
-    }
-    case Nil => ??? // impossible
-  }
 }
