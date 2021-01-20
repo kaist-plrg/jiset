@@ -99,7 +99,14 @@ object Algo {
     code: Iterable[String]
   )(implicit grammar: Grammar): ir.Inst = {
     import ir._
-    val tokens = (new Tokenizer).getTokens(code)
+
+    val patchedCode = head match {
+      case head: MethodHead if head.isLetThisStep(code.head.trim) =>
+        code.tail
+      case _ => code
+    }
+
+    val tokens = (new Tokenizer).getTokens(patchedCode)
     val prefix = head match {
       case (syntax: SyntaxDirectedHead) =>
         val x = syntax.lhsName

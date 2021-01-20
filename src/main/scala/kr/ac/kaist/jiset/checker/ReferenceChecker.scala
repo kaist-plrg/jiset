@@ -2,13 +2,17 @@ package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm.Algo
-import kr.ac.kaist.ires.ir
+import kr.ac.kaist.ires.ir._
 
-object ReferenceChecker {
+object ReferenceChecker extends Checker {
+  // for specifications
   def apply(
-    initial: Set[String],
-    algo: Algo
-  ): Boolean = {
+    spec: ECMAScript,
+    targets: List[Algo]
+  ): List[ReferenceError] = targets.flatMap(ReferenceChecker(spec.globals, _))
+
+  // for algorithms
+  def apply(initial: Set[String], algo: Algo): Option[ReferenceError] = {
     var defined: Set[String] = initial ++ algo.params.map(_.name).toSet
     var scopeVars: Map[String, Boolean] = algo.params.map(_.name -> false).toMap
     var errors = Set[String]()
@@ -40,7 +44,7 @@ object ReferenceChecker {
 
         case _ => super.walk(inst)
       }
-      override def walk(id: ir.Id): Unit = {
+      override def walk(id: Id): Unit = {
         val name = id.name
         if (!defined.contains(name) && !name.startsWith("CONST_")) errors += name
         else if (scopeVars.keySet.exists(_ == name)) {
@@ -49,11 +53,10 @@ object ReferenceChecker {
       }
     }
     Walker.walk(algo.body)
-    if (!errors.isEmpty)
-      println(s"[ReferenceError] ${algo.name}: ${errors.mkString(", ")}")
     val unusedVar = scopeVars.filter(t => !t._2).keySet.mkString(", ")
     if (!unusedVar.isEmpty)
       println(s"[UnusedVarWarning] ${algo.name}: ${unusedVar}")
-    errors.isEmpty
+    if (errors.isEmpty) None
+    else Some(ReferenceError(algo, errors))
   }
 }
