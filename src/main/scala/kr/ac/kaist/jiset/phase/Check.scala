@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.spec.algorithm.Algo
 
 // Check phase
-case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
+case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
   val name = "check"
   val help = "performs static checkers for specifications."
 
@@ -16,7 +16,7 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
     spec: ECMAScript,
     jisetConfig: JISETConfig,
     config: CheckConfig
-  ): Unit = {
+  ): List[Bug] = {
     val CheckConfig(targetString) = config
     val targetNames: Array[String] = targetString.getOrElse("").split(",").map(_.trim())
     val targetFilter: Algo => Boolean = if (targetString != None) {
@@ -33,9 +33,11 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, Unit] {
     val symbols = spec.symbols
 
     println(s"variable reference checking...")
-    val names = algos.map(_.name).toSet
-    val failed = targets.filter(!ReferenceChecker(spec.globals, _))
-    println(s"${failed.length} algorithms have reference errors.")
+    val refErrors = ReferenceChecker(spec, targets)
+    refErrors.foreach(println _)
+    println(s"${refErrors.length} algorithms have reference errors.")
+
+    refErrors
   }
 
   def defaultConfig: CheckConfig = CheckConfig()

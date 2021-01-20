@@ -17,8 +17,11 @@ case class ECMAScript(
     symbols: Set[String],
     aoids: Set[String]
 ) {
+  // normal algorithm names
   lazy val normalAlgos: Set[String] =
     algos.collect { case Algo(NormalHead(name, _), _) => name }.toSet
+
+  // global names
   lazy val globals: Set[String] = (
     ECMAScript.PREDEF ++
     normalAlgos ++
@@ -26,6 +29,9 @@ case class ECMAScript(
     symbols.map("SYMBOL_" + _) ++
     aoids
   )
+
+  // complete algorithms
+  lazy val completeAlgos: List[Algo] = algos.filter(_.isComplete)
 }
 
 object ECMAScript {

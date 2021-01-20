@@ -4,11 +4,15 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.ires.ir
 
-object ReferenceChecker {
+object ReferenceChecker extends Checker {
+  // for specifications
   def apply(
-    initial: Set[String],
-    algo: Algo
-  ): Boolean = {
+    spec: ECMAScript,
+    targets: List[Algo]
+  ): List[ReferenceError] = targets.flatMap(ReferenceChecker(spec.globals, _))
+
+  // for algorithms
+  def apply(initial: Set[String], algo: Algo): Option[ReferenceError] = {
     var defined: Set[String] = initial ++ algo.params.map(_.name).toSet
     var errors = Set[String]()
     object Walker extends ir.UnitWalker {
@@ -29,8 +33,7 @@ object ReferenceChecker {
       }
     }
     Walker.walk(algo.body)
-    if (!errors.isEmpty)
-      println(s"[ReferenceError] ${algo.name}: ${errors.mkString(", ")}")
-    errors.isEmpty
+    if (errors.isEmpty) None
+    else Some(ReferenceError(algo, errors))
   }
 }
