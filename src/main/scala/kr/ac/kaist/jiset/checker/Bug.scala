@@ -20,3 +20,9 @@ case class DuplicatedVariable(algo: Algo, names: Set[String]) extends Bug(
   "DuplicatedVariable",
   s"${algo.name}: ${names.mkString(", ")}"
 )
+
+// unused variables
+case class UnusedVariable(algo: Algo, names: Set[String]) extends Bug(
+  "UnusedVariable",
+  s"${algo.name}: ${names.mkString(", ")}"
+)

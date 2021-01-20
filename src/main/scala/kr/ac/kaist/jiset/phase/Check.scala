@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.spec.algorithm.Algo
+import scala.annotation.unused
 
 // Check phase
 case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
@@ -37,7 +38,13 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
     println(s"${dupErrors.length} algorithms have duplicated variable errors.")
 
     println
-    val bugs = refErrors ++ dupErrors
+    println(s"unused variable checking...")
+    val unusedErrors = UnusedVarChecker(spec, targets)
+    unusedErrors.foreach(println _)
+    println(s"${unusedErrors.length} algorithms have unused variable errors.")
+
+    println
+    val bugs = refErrors ++ dupErrors ++ unusedErrors
     println(s"Total ${bugs.length} bugs detected.")
     refErrors
   }
