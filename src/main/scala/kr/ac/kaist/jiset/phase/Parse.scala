@@ -19,7 +19,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     val ParseConfig(versionOpt, queryOpt, detail) = config
     val version = versionOpt.getOrElse("recent")
     val query = queryOpt.getOrElse("")
-    println(s"version: $version")
+    println(s"version: $version (${getRawVersion(version)})")
     if (query != "") println(s"query: $query")
     println(s"parsing spec.html...")
     val spec = ECMAScript(version, query, detail)
