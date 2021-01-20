@@ -8,14 +8,14 @@
     __x1__ = (= __x2__ true)
   }
   if __x1__ {
-    if (= Desc["Value"] absent) Desc["Value"] = like["Value"] else {}
-    if (= Desc["Writable"] absent) Desc["Writable"] = like["Writable"] else {}
+    if (= Desc.Value absent) Desc.Value = like.Value else {}
+    if (= Desc.Writable absent) Desc.Writable = like.Writable else {}
   } else {
-    if (= Desc["Get"] absent) Desc["Get"] = like["Get"] else {}
-    if (= Desc["Set"] absent) Desc["Set"] = like["Set"] else {}
+    if (= Desc.Get absent) Desc.Get = like.Get else {}
+    if (= Desc.Set absent) Desc.Set = like.Set else {}
   }
-  if (= Desc["Enumerable"] absent) Desc["Enumerable"] = like["Enumerable"] else {}
-  if (= Desc["Configurable"] absent) Desc["Configurable"] = like["Configurable"] else {}
+  if (= Desc.Enumerable absent) Desc.Enumerable = like.Enumerable else {}
+  if (= Desc.Configurable absent) Desc.Configurable = like.Configurable else {}
   app __x3__ = (WrapCompletion Desc)
   return __x3__
 }

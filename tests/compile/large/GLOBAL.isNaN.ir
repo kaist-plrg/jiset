@@ -2,7 +2,7 @@
   app __x0__ = (GetArgument argumentsList 0i)
   let number = __x0__
   app __x1__ = (ToNumber number)
-  if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let num = __x1__
   if (= num NaN) {
     app __x2__ = (WrapCompletion true)

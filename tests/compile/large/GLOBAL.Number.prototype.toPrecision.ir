@@ -2,16 +2,16 @@
   app __x0__ = (GetArgument argumentsList 0i)
   let precision = __x0__
   app __x1__ = (thisNumberValue this)
-  if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let x = __x1__
   if (= precision undefined) {
     app __x2__ = (ToString x)
-    if (is-completion __x2__) if (= __x2__["Type"] CONST_normal) __x2__ = __x2__["Value"] else return __x2__ else {}
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
     app __x3__ = (WrapCompletion __x2__)
     return __x3__
   } else {}
   app __x4__ = (ToInteger precision)
-  if (is-completion __x4__) if (= __x4__["Type"] CONST_normal) __x4__ = __x4__["Value"] else return __x4__ else {}
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   let p = __x4__
   ??? "If id:{x} is value:{NaN} , return the String value:{\"NaN\"} ."
   let s = ""
@@ -24,7 +24,7 @@
     return __x5__
   } else {}
   if (|| (< p 1i) (< 100i p)) {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeErrorPrototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x6__
   } else {}
   if (== x 0i) {

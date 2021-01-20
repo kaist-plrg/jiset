@@ -5,11 +5,11 @@
   let argument = __x1__
   let __x2__ = reactions
   let __x3__ = 0i
-  while (< __x3__ __x2__["length"]) {
+  while (< __x3__ __x2__.length) {
     let reaction = __x2__[__x3__]
     app __x4__ = (NewPromiseReactionJob reaction argument)
     let job = __x4__
-    app __x5__ = (HostEnqueuePromiseJob job["Job"] job["Realm"])
+    app __x5__ = (HostEnqueuePromiseJob job.Job job.Realm)
     __x5__
     __x3__ = (+ __x3__ 1i)
   }

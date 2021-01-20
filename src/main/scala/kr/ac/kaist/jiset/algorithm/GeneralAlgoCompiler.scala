@@ -8,43 +8,9 @@ import kr.ac.kaist.jiset.parser.TokenParsers
 import kr.ac.kaist.jiset.util.Useful._
 import scala.util.{ Try, Success, Failure }
 
-case class GeneralAlgoCompiler(
-    algoName: String,
-    algo: Algorithm
-) extends GeneralAlgoCompilerHelper
-
-object GeneralAlgoCompiler {
-  val dummyAlgo = Algorithm(0, Nil, RuntimeSemantics, true, Nil, "")
-  def parse(steps: List[Step]): Inst = {
-    dummyAlgo.steps = steps
-    val compiler = GeneralAlgoCompiler("", dummyAlgo)
-    val (func, _) = compiler.result
-    func.body
-  }
-
-  def compile(tokens: List[Token]): Inst = {
-    val compiler = GeneralAlgoCompiler("", dummyAlgo)
-    compiler.compile(tokens)
-  }
-}
-
-trait GeneralAlgoCompilerHelper extends AlgoCompilers {
-  val algoName: String
-  val algo: Algorithm
-  lazy val result: (Func, Map[Int, List[Token]]) = {
-    val (params, varparam) = handleParams(algo.params)
-    val func = Func(
-      name = algoName,
-      params = params,
-      varparam = varparam,
-      body = normalizeTempIds(flatten(ISeq(parseAll(stmts, algo.toTokenList) match {
-        case Success(res, _) => res
-        case f @ NoSuccess(_, reader) => error(s"[AlgoCompilerFailed] ${algo.filename}")
-      })))
-    )
-    (func, failed)
-  }
-
+object GeneralAlgoCompiler extends AlgoCompilers {
+  def apply(tokens: List[Token]): Inst =
+    normalizeTempIds(flatten(ISeq(parseAll(stmts, tokens).getOrElse(Nil))))
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
@@ -106,11 +72,7 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
     case retOpt ~ condOpt =>
       val inst = retOpt match {
         case None => getRet(getNormalCompletion(EUndef))
-        case Some(ie) => algo.kind match {
-          case StaticSemantics => getRet(ie)
-          case Method if algoName == "OrdinaryGetOwnProperty" => getRet(ie)
-          case _ => getRet(getWrapCompletion(ie))
-        }
+        case Some(ie) => getRet(getWrapCompletion(ie))
       }
       condOpt match {
         case None => inst
@@ -1258,10 +1220,4 @@ trait GeneralAlgoCompilerHelper extends AlgoCompilers {
 
   // etc conditions
   lazy val etcCond: P[I[Expr]] = failure("")
-
-  ////////////////////////////////////////////////////////////////////////////////
-  // Helper
-  ////////////////////////////////////////////////////////////////////////////////
-  def compile(tokens: List[Token]): Inst =
-    normalizeTempIds(flatten(ISeq(parseAll(stmts, tokens).getOrElse(Nil))))
 }

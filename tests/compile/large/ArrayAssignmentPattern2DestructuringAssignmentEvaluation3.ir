@@ -1,15 +1,15 @@
 {
   app __x0__ = (GetIterator value)
-  if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let iteratorRecord = __x0__
   access __x1__ = (AssignmentElementList "IteratorDestructuringAssignmentEvaluation")
   app __x2__ = (__x1__ iteratorRecord)
   let status = __x2__
   app __x3__ = (IsAbruptCompletion status)
   if __x3__ {
-    if (= iteratorRecord["Done"] false) {
+    if (= iteratorRecord.Done false) {
       app __x4__ = (IteratorClose iteratorRecord status)
-      if (is-completion __x4__) if (= __x4__["Type"] CONST_normal) __x4__ = __x4__["Value"] else return __x4__ else {}
+      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
       app __x5__ = (WrapCompletion __x4__)
       return __x5__
     } else {}
@@ -23,7 +23,7 @@
     status = __x9__
     app __x10__ = (IsAbruptCompletion status)
     if __x10__ {
-      assert (= iteratorRecord["Done"] true)
+      assert (= iteratorRecord.Done true)
       app __x11__ = (Completion status)
       app __x12__ = (WrapCompletion __x11__)
       return __x12__
@@ -34,9 +34,9 @@
     app __x14__ = (__x13__ iteratorRecord)
     status = __x14__
   } else {}
-  if (= iteratorRecord["Done"] false) {
+  if (= iteratorRecord.Done false) {
     app __x15__ = (IteratorClose iteratorRecord status)
-    if (is-completion __x15__) if (= __x15__["Type"] CONST_normal) __x15__ = __x15__["Value"] else return __x15__ else {}
+    if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
     app __x16__ = (WrapCompletion __x15__)
     return __x16__
   } else {}

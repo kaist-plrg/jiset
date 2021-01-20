@@ -11,7 +11,6 @@ import spray.json._
 
 // GenTest phase
 case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
-
   val name: String = "gen-test"
   val help: String = "generates tests."
 
@@ -20,23 +19,21 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     jisetConfig: JISETConfig,
     config: GenTestConfig
   ): Unit = {
-    val spec = Spec(s"$RESOURCE_DIR/$VERSION/auto/spec.json")
-    val packageName = "kr.ac.kaist.ires"
-    val methods = spec.globalMethods
-    methods.foreach(name => {
-      val scalaName = getScalaName(name)
-      val algo = Algorithm(s"$RESOURCE_DIR/$VERSION/auto/algorithm/$name.json")
-      algo.kind = RuntimeSemantics
-      val (func, _) = GeneralAlgoCompiler(name, algo).result
+    // change extension from .json to .ir
+    val json2ir = changeExt("json", "ir")
 
-      // steps
-      val steps = algo.steps
-      dumpJson(steps, s"$LARGE_DIR/$name.json")
+    for (file <- walkTree(LARGE_DIR)) {
+      val filename = file.getName
+      if (jsonFilter(filename)) {
+        val jsonName = file.toString
+        val steps = readJson[List[Step]](jsonName)
+        val tokens = Step.toTokens(steps)
+        val inst = GeneralAlgoCompiler(tokens)
 
-      // inst
-      val inst = func.body
-      dumpFile(beautify(inst), s"$LARGE_DIR/$name.ir")
-    })
+        val irName = json2ir(jsonName)
+        dumpFile(beautify(inst), irName)
+      }
+    }
   }
 
   def defaultConfig: GenTestConfig = GenTestConfig()

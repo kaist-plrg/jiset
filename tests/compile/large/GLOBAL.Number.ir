@@ -3,7 +3,7 @@
   let value = __x0__
   if (! (= argumentsList[0i] absent)) {
     app __x1__ = (ToNumeric value)
-    if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
     let prim = __x1__
     ??? "If Type ( id:{prim} ) is BigInt , let id:{n} be the Number value for the mathematical value of id:{prim} ."
     ??? "Otherwise , let id:{n} be id:{prim} ."
@@ -13,9 +13,9 @@
     return __x2__
   } else {}
   app __x3__ = (OrdinaryCreateFromConstructor NewTarget "%Number.prototype%" (new ["NumberData"]))
-  if (is-completion __x3__) if (= __x3__["Type"] CONST_normal) __x3__ = __x3__["Value"] else return __x3__ else {}
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
   let O = __x3__
-  O["NumberData"] = n
+  O.NumberData = n
   app __x4__ = (WrapCompletion O)
   return __x4__
 }

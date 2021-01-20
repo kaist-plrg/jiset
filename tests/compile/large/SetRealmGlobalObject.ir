@@ -1,15 +1,15 @@
 {
   if (= globalObj undefined) {
-    let intrinsics = realmRec["Intrinsics"]
+    let intrinsics = realmRec.Intrinsics
     ??? "Set id:{globalObj} to OrdinaryObjectCreate ( id:{intrinsics} . [ [ % Object . prototype % ] ] ) ."
   } else {}
   app __x0__ = (Type globalObj)
   assert (= __x0__ Object)
   if (= thisValue undefined) thisValue = globalObj else {}
-  realmRec["GlobalObject"] = globalObj
+  realmRec.GlobalObject = globalObj
   app __x1__ = (NewGlobalEnvironment globalObj thisValue)
   let newGlobalEnv = __x1__
-  realmRec["GlobalEnv"] = newGlobalEnv
+  realmRec.GlobalEnv = newGlobalEnv
   app __x2__ = (WrapCompletion realmRec)
   return __x2__
 }

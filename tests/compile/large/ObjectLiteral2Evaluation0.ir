@@ -2,7 +2,7 @@
   ??? "Let id:{obj} be OrdinaryObjectCreate ( % Object . prototype % ) ."
   access __x0__ = (PropertyDefinitionList "PropertyDefinitionEvaluation")
   app __x1__ = (__x0__ obj true)
-  if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   __x1__
   app __x2__ = (WrapCompletion obj)
   return __x2__

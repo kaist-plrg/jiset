@@ -4,16 +4,16 @@
   app __x1__ = (GetArgument argumentsList 1i)
   let radix = __x1__
   app __x2__ = (ToString string)
-  if (is-completion __x2__) if (= __x2__["Type"] CONST_normal) __x2__ = __x2__["Value"] else return __x2__ else {}
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let inputString = __x2__
   app __x3__ = (TrimString inputString CONST_start)
-  if (is-completion __x3__) if (= __x3__["Type"] CONST_normal) __x3__ = __x3__["Value"] else return __x3__ else {}
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
   let S = __x3__
   let sign = 1i
   ??? "If id:{S} is not empty and the first code unit of id:{S} is the code unit 0x002D ( HYPHEN - MINUS ) , set id:{sign} to - 1 ."
   ??? "If id:{S} is not empty and the first code unit of id:{S} is the code unit 0x002B ( PLUS SIGN ) or the code unit 0x002D ( HYPHEN - MINUS ) , remove the first code unit from id:{S} ."
   app __x4__ = (ToInt32 radix)
-  if (is-completion __x4__) if (= __x4__["Type"] CONST_normal) __x4__ = __x4__["Value"] else return __x4__ else {}
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   let R = __x4__
   let stripPrefix = true
   if (! (== R 0i)) {
@@ -25,7 +25,7 @@
   } else R = 10i
   if (= stripPrefix true) ??? "If the length of id:{S} is at least 2 and the first two code units of id:{S} are either value:{\"0x\"} or value:{\"0X\"} , then step-list:{...}" else {}
   ??? "If id:{S} contains a code unit that is not a radix - id:{R} digit , let id:{Z} be the substring of id:{S} consisting of all code units before the first such code unit ; otherwise , let id:{Z} be id:{S} ."
-  if (= Z["length"] 0i) {
+  if (= Z.length 0i) {
     app __x6__ = (WrapCompletion NaN)
     return __x6__
   } else {}

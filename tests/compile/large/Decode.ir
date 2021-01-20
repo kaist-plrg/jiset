@@ -1,5 +1,5 @@
 {
-  let strLen = string["length"]
+  let strLen = string.length
   let R = ""
   let k = 0i
   while true {
@@ -11,7 +11,7 @@
     if (! (= C "%")) let S = C else {
       let start = k
       if (! (< (+ k 2i) strLen)) {
-        app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_URIErrorPrototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_URIError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
         return __x1__
       } else {}
       ??? "If the code units at index ( id:{k} + 1 ) and ( id:{k} + 2 ) within id:{string} do not represent hexadecimal digits , throw a value:{URIError} exception ."

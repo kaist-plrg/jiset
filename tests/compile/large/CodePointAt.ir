@@ -1,5 +1,5 @@
 {
-  let size = string["length"]
+  let size = string.length
   assert (&& (! (< position 0i)) (< position size))
   let first = string[position]
   ??? "Let id:{cp} be the code point whose numeric value is that of id:{first} ."
@@ -8,7 +8,7 @@
   let second = string[(+ position 1i)]
   ??? "If id:{second} is not a trailing surrogate , then step-list:{...}"
   app __x0__ = (UTF16DecodeSurrogatePair first second)
-  if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   cp = __x0__
   app __x1__ = (WrapCompletion (new Record("CodePoint" -> cp, "CodeUnitCount" -> 2i, "IsUnpairedSurrogate" -> false)))
   return __x1__

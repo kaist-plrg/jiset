@@ -4,17 +4,17 @@
   let found = false
   let __x0__ = A
   let __x1__ = 0i
-  while (< __x1__ __x0__["length"]) {
+  while (< __x1__ __x0__.length) {
     let C = __x0__[__x1__]
     if (= found false) {
       app __x2__ = (CaseClauseIsSelected C input)
-      if (is-completion __x2__) if (= __x2__["Type"] CONST_normal) __x2__ = __x2__["Value"] else return __x2__ else {}
+      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
       found = __x2__
     } else {}
     if (= found true) {
       access __x3__ = (C "Evaluation")
       let R = __x3__
-      if (! (= R["Value"] CONST_empty)) V = R["Value"] else {}
+      if (! (= R.Value CONST_empty)) V = R.Value else {}
       app __x4__ = (IsAbruptCompletion R)
       if __x4__ {
         app __x5__ = (UpdateEmpty R V)

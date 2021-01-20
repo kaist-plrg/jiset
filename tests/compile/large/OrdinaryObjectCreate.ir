@@ -2,9 +2,9 @@
   let internalSlotsList = (new ["Prototype", "Extensible"])
   ??? "If id:{additionalInternalSlotsList} is present , append each of its elements to id:{internalSlotsList} ."
   app __x0__ = (MakeBasicObject internalSlotsList)
-  if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let O = __x0__
-  O["Prototype"] = proto
+  O.Prototype = proto
   app __x1__ = (WrapCompletion O)
   return __x1__
 }

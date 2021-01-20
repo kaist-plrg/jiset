@@ -3,17 +3,17 @@
   let value = __x0__
   let S = this
   app __x1__ = (RequireInternalSlot S "WeakSetData")
-  if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   __x1__
   app __x2__ = (Type value)
   if (! (= __x2__ Object)) {
     app __x3__ = (WrapCompletion false)
     return __x3__
   } else {}
-  let entries = S["WeakSetData"]
+  let entries = S.WeakSetData
   let __x4__ = entries
   let __x5__ = 0i
-  while (< __x5__ __x4__["length"]) {
+  while (< __x5__ __x4__.length) {
     let e = __x4__[__x5__]
     let __x6__ = (! (= e CONST_empty))
     if __x6__ {

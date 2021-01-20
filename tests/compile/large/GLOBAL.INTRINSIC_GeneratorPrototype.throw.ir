@@ -5,7 +5,7 @@
   app __x1__ = (ThrowCompletion exception)
   let C = __x1__
   app __x2__ = (GeneratorResumeAbrupt g C)
-  if (is-completion __x2__) if (= __x2__["Type"] CONST_normal) __x2__ = __x2__["Value"] else return __x2__ else {}
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   app __x3__ = (WrapCompletion __x2__)
   return __x3__
 }

@@ -1,6 +1,6 @@
 {
   let args = args
-  let map = args["ParameterMap"]
+  let map = args.ParameterMap
   app __x0__ = (HasOwnProperty map P)
   let isMapped = __x0__
   let newArgDesc = Desc
@@ -9,13 +9,13 @@
     app __x2__ = (IsDataDescriptor Desc)
     __x1__ = (= __x2__ true)
   } else {}
-  if __x1__ if (&& (= Desc["Value"] absent) (= Desc["Writable"] false)) {
+  if __x1__ if (&& (= Desc.Value absent) (= Desc.Writable false)) {
     newArgDesc = (copy-obj Desc)
     app __x3__ = (Get map P)
-    newArgDesc["Value"] = __x3__
+    newArgDesc.Value = __x3__
   } else {} else {}
   app __x4__ = (OrdinaryDefineOwnProperty args P newArgDesc)
-  if (is-completion __x4__) if (= __x4__["Type"] CONST_normal) __x4__ = __x4__["Value"] else return __x4__ else {}
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   let allowed = __x4__
   if (= allowed false) {
     app __x5__ = (WrapCompletion false)
@@ -24,15 +24,15 @@
   if (= isMapped true) {
     app __x6__ = (IsAccessorDescriptor Desc)
     if (= __x6__ true) {
-      app __x7__ = (map["Delete"] map P)
+      app __x7__ = (map.Delete map P)
       __x7__
     } else {
-      if (! (= Desc["Value"] absent)) {
-        app __x8__ = (Set map P Desc["Value"] false)
+      if (! (= Desc.Value absent)) {
+        app __x8__ = (Set map P Desc.Value false)
         let setStatus = __x8__
       } else {}
-      if (= Desc["Writable"] false) {
-        app __x9__ = (map["Delete"] map P)
+      if (= Desc.Writable false) {
+        app __x9__ = (map.Delete map P)
         __x9__
       } else {}
     }

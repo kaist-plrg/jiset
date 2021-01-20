@@ -1,10 +1,10 @@
 {
   ??? "Let id:{steps} be the steps of an ArgGetter function as specified below ."
   app __x0__ = (CreateBuiltinFunction steps (new ["Name", "Env"]))
-  if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let getter = __x0__
-  getter["Name"] = name
-  getter["Env"] = env
+  getter.Name = name
+  getter.Env = env
   app __x1__ = (WrapCompletion getter)
   return __x1__
 }

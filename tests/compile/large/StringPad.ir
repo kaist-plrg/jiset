@@ -1,19 +1,19 @@
 {
   assert (|| (= placement CONST_start) (= placement CONST_end))
   app __x0__ = (ToString O)
-  if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let S = __x0__
   app __x1__ = (ToLength maxLength)
-  if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let intMaxLength = __x1__
-  let stringLength = S["length"]
+  let stringLength = S.length
   if (! (< stringLength intMaxLength)) {
     app __x2__ = (WrapCompletion S)
     return __x2__
   } else {}
   if (= fillString undefined) let filler = " " else {
     app __x3__ = (ToString fillString)
-    if (is-completion __x3__) if (= __x3__["Type"] CONST_normal) __x3__ = __x3__["Value"] else return __x3__ else {}
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
     let filler = __x3__
   }
   if (= filler "") {

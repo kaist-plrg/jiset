@@ -1,7 +1,7 @@
 {
   access __x0__ = (UnaryExpression "Evaluation")
   let val = __x0__
-  if (is-completion val) if (= val["Type"] CONST_normal) val = val["Value"] else return val else {}
+  if (is-completion val) if (= val.Type CONST_normal) val = val.Value else return val else {}
   val
   app __x1__ = (Type val)
   if (= __x1__ Reference) {
@@ -12,7 +12,7 @@
     } else {}
   } else {}
   app __x4__ = (GetValue val)
-  if (is-completion __x4__) if (= __x4__["Type"] CONST_normal) __x4__ = __x4__["Value"] else return __x4__ else {}
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   val = __x4__
   ??? "Return a String according to Table 35 ."
 }

@@ -1,24 +1,24 @@
 {
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
-  if (= O["SubMap"][P] absent) {
+  if (= O.SubMap[P] absent) {
     app __x1__ = (WrapCompletion undefined)
     return __x1__
   } else {}
   let D = (new PropertyDescriptor("SubMap" -> (new SubMap())))
-  let X = O["SubMap"][P]
+  let X = O.SubMap[P]
   app __x2__ = (IsDataDescriptor X)
   if __x2__ {
-    D["Value"] = X["Value"]
-    D["Writable"] = X["Writable"]
+    D.Value = X.Value
+    D.Writable = X.Writable
   } else {
     app __x3__ = (IsAccessorDescriptor X)
     assert __x3__
-    D["Get"] = X["Get"]
-    D["Set"] = X["Set"]
+    D.Get = X.Get
+    D.Set = X.Set
   }
-  D["Enumerable"] = X["Enumerable"]
-  D["Configurable"] = X["Configurable"]
+  D.Enumerable = X.Enumerable
+  D.Configurable = X.Configurable
   app __x4__ = (WrapCompletion D)
   return __x4__
 }

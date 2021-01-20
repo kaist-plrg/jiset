@@ -117,7 +117,7 @@ object Algo {
         }
       case _ => Nil
     }
-    val body = GeneralAlgoCompiler.compile(tokens)
+    val body = GeneralAlgoCompiler(tokens)
     prefix match {
       case Nil => body
       case _ => body match {

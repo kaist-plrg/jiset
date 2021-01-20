@@ -69,7 +69,7 @@ object Algorithm extends DefaultJsonProtocol {
       case Method => JsString("Method")
     }
   }
-  implicit lazy val StepFormat = jsonFormat1(Step)
+  implicit lazy val StepFormat = jsonFormat1(Step.apply)
   implicit lazy val ConstFormat = jsonFormat1(Const)
   implicit lazy val CodeFormat = jsonFormat1(Code)
   implicit lazy val ValueFormat = jsonFormat1(Value)

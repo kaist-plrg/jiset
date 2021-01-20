@@ -22,7 +22,7 @@
   } else {}
   if __x7__ {
     app __x9__ = (ToNumber y)
-    if (is-completion __x9__) if (= __x9__["Type"] CONST_normal) __x9__ = __x9__["Value"] else return __x9__ else {}
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
     app __x10__ = (AbstractEqualityComparison x __x9__)
     app __x11__ = (WrapCompletion __x10__)
     return __x11__
@@ -35,7 +35,7 @@
   } else {}
   if __x13__ {
     app __x15__ = (ToNumber x)
-    if (is-completion __x15__) if (= __x15__["Type"] CONST_normal) __x15__ = __x15__["Value"] else return __x15__ else {}
+    if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
     app __x16__ = (AbstractEqualityComparison __x15__ y)
     app __x17__ = (WrapCompletion __x16__)
     return __x17__
@@ -48,7 +48,7 @@
   } else {}
   if __x19__ {
     app __x21__ = (StringToBigInt y)
-    if (is-completion __x21__) if (= __x21__["Type"] CONST_normal) __x21__ = __x21__["Value"] else return __x21__ else {}
+    if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
     let n = __x21__
     if (= n NaN) {
       app __x22__ = (WrapCompletion false)
@@ -72,7 +72,7 @@
   app __x30__ = (Type x)
   if (= __x30__ Boolean) {
     app __x31__ = (ToNumber x)
-    if (is-completion __x31__) if (= __x31__["Type"] CONST_normal) __x31__ = __x31__["Value"] else return __x31__ else {}
+    if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
     app __x32__ = (AbstractEqualityComparison __x31__ y)
     app __x33__ = (WrapCompletion __x32__)
     return __x33__
@@ -80,7 +80,7 @@
   app __x34__ = (Type y)
   if (= __x34__ Boolean) {
     app __x35__ = (ToNumber y)
-    if (is-completion __x35__) if (= __x35__["Type"] CONST_normal) __x35__ = __x35__["Value"] else return __x35__ else {}
+    if (is-completion __x35__) if (= __x35__.Type CONST_normal) __x35__ = __x35__.Value else return __x35__ else {}
     app __x36__ = (AbstractEqualityComparison x __x35__)
     app __x37__ = (WrapCompletion __x36__)
     return __x37__

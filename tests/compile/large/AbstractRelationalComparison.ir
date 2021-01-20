@@ -2,17 +2,17 @@
   if (= LeftFirst absent) let LeftFirst = true else {}
   if (= LeftFirst true) {
     app __x0__ = (ToPrimitive x Number)
-    if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
     let px = __x0__
     app __x1__ = (ToPrimitive y Number)
-    if (is-completion __x1__) if (= __x1__["Type"] CONST_normal) __x1__ = __x1__["Value"] else return __x1__ else {}
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
     let py = __x1__
   } else {
     app __x2__ = (ToPrimitive y Number)
-    if (is-completion __x2__) if (= __x2__["Type"] CONST_normal) __x2__ = __x2__["Value"] else return __x2__ else {}
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
     let py = __x2__
     app __x3__ = (ToPrimitive x Number)
-    if (is-completion __x3__) if (= __x3__["Type"] CONST_normal) __x3__ = __x3__["Value"] else return __x3__ else {}
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
     let px = __x3__
   }
   app __x4__ = (Type px)
@@ -51,7 +51,7 @@
     } else {}
     if __x14__ {
       app __x16__ = (StringToBigInt py)
-      if (is-completion __x16__) if (= __x16__["Type"] CONST_normal) __x16__ = __x16__["Value"] else return __x16__ else {}
+      if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
       let ny = __x16__
       if (= ny NaN) {
         app __x17__ = (WrapCompletion undefined)
@@ -67,7 +67,7 @@
     } else {}
     if __x19__ {
       app __x21__ = (StringToBigInt px)
-      if (is-completion __x21__) if (= __x21__["Type"] CONST_normal) __x21__ = __x21__["Value"] else return __x21__ else {}
+      if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
       let nx = __x21__
       if (= nx NaN) {
         app __x22__ = (WrapCompletion undefined)
@@ -76,10 +76,10 @@
       ??? "Return BigInt : : lessThan ( id:{nx} , id:{py} ) ."
     } else {}
     app __x23__ = (ToNumeric px)
-    if (is-completion __x23__) if (= __x23__["Type"] CONST_normal) __x23__ = __x23__["Value"] else return __x23__ else {}
+    if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
     let nx = __x23__
     app __x24__ = (ToNumeric py)
-    if (is-completion __x24__) if (= __x24__["Type"] CONST_normal) __x24__ = __x24__["Value"] else return __x24__ else {}
+    if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
     let ny = __x24__
     ??? "If Type ( id:{nx} ) is the same as Type ( id:{ny} ) , return Type ( id:{nx} ) : : lessThan ( id:{nx} , id:{ny} ) ."
     app __x25__ = (Type nx)

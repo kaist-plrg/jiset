@@ -3,13 +3,13 @@
   assert (|| (= __x0__ Undefined) (= __x0__ Object))
   let env = (new LexicalEnvironment("SubMap" -> (new SubMap())))
   let envRec = (new FunctionEnvironmentRecord("SubMap" -> (new SubMap())))
-  envRec["FunctionObject"] = F
-  if (= F["ThisMode"] CONST_lexical) envRec["ThisBindingStatus"] = CONST_lexical else envRec["ThisBindingStatus"] = CONST_uninitialized
-  let home = F["HomeObject"]
-  envRec["HomeObject"] = home
-  envRec["NewTarget"] = newTarget
-  env["EnvironmentRecord"] = envRec
-  env["Outer"] = F["Environment"]
+  envRec.FunctionObject = F
+  if (= F.ThisMode CONST_lexical) envRec.ThisBindingStatus = CONST_lexical else envRec.ThisBindingStatus = CONST_uninitialized
+  let home = F.HomeObject
+  envRec.HomeObject = home
+  envRec.NewTarget = newTarget
+  env.EnvironmentRecord = envRec
+  env.Outer = F.Environment
   app __x1__ = (WrapCompletion env)
   return __x1__
 }

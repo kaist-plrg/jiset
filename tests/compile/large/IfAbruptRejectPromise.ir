@@ -1,8 +1,8 @@
 {
-  if (is-completion value) if (= value["Type"] CONST_normal) value = value["Value"] else {
-    app __x0__ = (Call capability["Reject"] undefined (new [value["Value"]]))
-    if (&& (is-completion __x0__) (! (= __x0__["Type"] CONST_normal))) return __x0__ else {}
-    return capability["Promise"]
+  if (is-completion value) if (= value.Type CONST_normal) value = value.Value else {
+    app __x0__ = (Call capability.Reject undefined (new [value.Value]))
+    if (&& (is-completion __x0__) (! (= __x0__.Type CONST_normal))) return __x0__ else {}
+    return capability.Promise
   } else {}
   value
 }

@@ -3,7 +3,7 @@
     access __x0__ = (Elision "ArrayAccumulation")
     app __x1__ = (__x0__ array nextIndex)
     nextIndex = __x1__
-    if (is-completion nextIndex) if (= nextIndex["Type"] CONST_normal) nextIndex = nextIndex["Value"] else return nextIndex else {}
+    if (is-completion nextIndex) if (= nextIndex.Type CONST_normal) nextIndex = nextIndex.Value else return nextIndex else {}
     nextIndex
   } else {}
   access __x2__ = (SpreadElement "ArrayAccumulation")

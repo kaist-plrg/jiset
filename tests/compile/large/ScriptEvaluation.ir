@@ -1,28 +1,28 @@
 {
-  let globalEnv = scriptRecord["Realm"]["GlobalEnv"]
+  let globalEnv = scriptRecord.Realm.GlobalEnv
   let scriptContext = (new ExecutionContext("SubMap" -> (new SubMap())))
-  scriptContext["Function"] = null
-  scriptContext["Realm"] = scriptRecord["Realm"]
-  scriptContext["ScriptOrModule"] = scriptRecord
-  scriptContext["VariableEnvironment"] = globalEnv
-  scriptContext["LexicalEnvironment"] = globalEnv
+  scriptContext.Function = null
+  scriptContext.Realm = scriptRecord.Realm
+  scriptContext.ScriptOrModule = scriptRecord
+  scriptContext.VariableEnvironment = globalEnv
+  scriptContext.LexicalEnvironment = globalEnv
   GLOBAL_context = null
   append scriptContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack["length"] 1i)]
-  let scriptBody = scriptRecord["ECMAScriptCode"]
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  let scriptBody = scriptRecord.ECMAScriptCode
   app __x0__ = (GlobalDeclarationInstantiation scriptBody globalEnv)
   let result = __x0__
-  if (= result["Type"] CONST_normal) {
+  if (= result.Type CONST_normal) {
     access __x1__ = (scriptBody "Evaluation")
     result = __x1__
   } else {}
-  if (&& (= result["Type"] CONST_normal) (= result["Value"] CONST_empty)) {
+  if (&& (= result.Type CONST_normal) (= result.Value CONST_empty)) {
     app __x2__ = (NormalCompletion undefined)
     result = __x2__
   } else {}
   GLOBAL_context = null
-  if (= GLOBAL_executionStack[(- GLOBAL_executionStack["length"] 1i)] scriptContext) (pop GLOBAL_executionStack (- GLOBAL_executionStack["length"] 1i)) else {}
-  assert (< 0i GLOBAL_executionStack["length"])
+  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] scriptContext) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else {}
+  assert (< 0i GLOBAL_executionStack.length)
   ??? "Resume the context that is now on the top of the execution context stack as the running execution context ."
   app __x3__ = (Completion result)
   app __x4__ = (WrapCompletion __x3__)

@@ -8,7 +8,7 @@
   app __x3__ = (Type x)
   if (|| (= __x3__ Number) (= __x3__ BigInt)) ??? "Return ! Type ( id:{x} ) : : sameValueZero ( id:{x} , id:{y} ) ." else {}
   app __x4__ = (SameValueNonNumeric x y)
-  if (is-completion __x4__) if (= __x4__["Type"] CONST_normal) __x4__ = __x4__["Value"] else return __x4__ else {}
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   app __x5__ = (WrapCompletion __x4__)
   return __x5__
 }

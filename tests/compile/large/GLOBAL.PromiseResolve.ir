@@ -8,7 +8,7 @@
   app __x3__ = (IsPromise x)
   if (= __x3__ true) {
     app __x4__ = (Get x "constructor")
-    if (is-completion __x4__) if (= __x4__["Type"] CONST_normal) __x4__ = __x4__["Value"] else return __x4__ else {}
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
     let xConstructor = __x4__
     app __x5__ = (SameValue xConstructor C)
     if (= __x5__ true) {
@@ -17,11 +17,11 @@
     } else {}
   } else {}
   app __x7__ = (NewPromiseCapability C)
-  if (is-completion __x7__) if (= __x7__["Type"] CONST_normal) __x7__ = __x7__["Value"] else return __x7__ else {}
+  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
   let promiseCapability = __x7__
-  app __x8__ = (Call promiseCapability["Resolve"] undefined (new [x]))
-  if (is-completion __x8__) if (= __x8__["Type"] CONST_normal) __x8__ = __x8__["Value"] else return __x8__ else {}
+  app __x8__ = (Call promiseCapability.Resolve undefined (new [x]))
+  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
   __x8__
-  app __x9__ = (WrapCompletion promiseCapability["Promise"])
+  app __x9__ = (WrapCompletion promiseCapability.Promise)
   return __x9__
 }

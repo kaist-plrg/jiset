@@ -7,17 +7,17 @@
   let arguments = __x2__
   access __x3__ = (memberExpr "Evaluation")
   let ref = __x3__
-  if (is-completion ref) if (= ref["Type"] CONST_normal) ref = ref["Value"] else return ref else {}
+  if (is-completion ref) if (= ref.Type CONST_normal) ref = ref.Value else return ref else {}
   ref
   app __x4__ = (GetValue ref)
-  if (is-completion __x4__) if (= __x4__["Type"] CONST_normal) __x4__ = __x4__["Value"] else return __x4__ else {}
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   let func = __x4__
   ??? "If Type ( id:{ref} ) is Reference , IsPropertyReference ( id:{ref} ) is value:{false} , and GetReferencedName ( id:{ref} ) is value:{\"eval\"} , then step-list:{...}"
   let thisCall = this
   app __x5__ = (IsInTailPosition thisCall)
   let tailCall = __x5__
   app __x6__ = (EvaluateCall func ref arguments tailCall)
-  if (is-completion __x6__) if (= __x6__["Type"] CONST_normal) __x6__ = __x6__["Value"] else return __x6__ else {}
+  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
   app __x7__ = (WrapCompletion __x6__)
   return __x7__
 }

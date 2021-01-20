@@ -24,10 +24,11 @@ class LargeCompileTest extends CompileTest {
         val irName = json2ir(jsonName)
 
         val steps = readJson[List[Step]](jsonName)
+        val tokens = Step.toTokens(steps)
         val inst = Parser.parseInst(readFile(irName))
 
         check(tag, filename, {
-          diffTest(filename, GeneralAlgoCompiler.parse(steps), inst)
+          diffTest(filename, GeneralAlgoCompiler(tokens), inst)
         })
       }
     }

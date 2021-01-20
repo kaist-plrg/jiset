@@ -1,6 +1,6 @@
 {
   app __x0__ = (ToBigInt argument)
-  if (is-completion __x0__) if (= __x0__["Type"] CONST_normal) __x0__ = __x0__["Value"] else return __x0__ else {}
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let n = __x0__
   let int64bit = (%% n 9223372036854775807i)
   app __x1__ = (WrapCompletion int64bit)

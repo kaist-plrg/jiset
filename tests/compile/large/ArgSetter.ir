@@ -1,9 +1,9 @@
 {
   let value = argumentsList[0i]
-  let f = GLOBAL_context["Function"]
-  let name = f["Name"]
-  let env = f["Env"]
-  app __x0__ = (env["SetMutableBinding"] env name value false)
+  let f = GLOBAL_context.Function
+  let name = f.Name
+  let env = f.Env
+  app __x0__ = (env.SetMutableBinding env name value false)
   app __x1__ = (WrapCompletion __x0__)
   return __x1__
 }

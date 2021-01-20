@@ -1,15 +1,15 @@
 {
   access __x0__ = (PropertyName "Evaluation")
   let propKey = __x0__
-  if (is-completion propKey) if (= propKey["Type"] CONST_normal) propKey = propKey["Value"] else return propKey else {}
+  if (is-completion propKey) if (= propKey.Type CONST_normal) propKey = propKey.Value else return propKey else {}
   propKey
-  let scope = GLOBAL_context["LexicalEnvironment"]
+  let scope = GLOBAL_context.LexicalEnvironment
   if (! (= functionPrototype absent)) let prototype = functionPrototype else ??? "Let id:{prototype} be % Function . prototype % ."
   app __x1__ = (OrdinaryFunctionCreate prototype UniqueFormalParameters FunctionBody CONST_nonDASHlexicalDASHthis scope)
   let closure = __x1__
   app __x2__ = (MakeMethod closure object)
   __x2__
-  closure["SourceText"] = (get-syntax this)
+  closure.SourceText = (get-syntax this)
   app __x3__ = (WrapCompletion (new Record("Key" -> propKey, "Closure" -> closure)))
   return __x3__
 }

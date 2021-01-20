@@ -1,14 +1,14 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let reason = __x0__
-  let F = GLOBAL_context["Function"]
-  let promise = F["Promise"]
-  let alreadyResolved = F["AlreadyResolved"]
-  if (= alreadyResolved["Value"] true) {
+  let F = GLOBAL_context.Function
+  let promise = F.Promise
+  let alreadyResolved = F.AlreadyResolved
+  if (= alreadyResolved.Value true) {
     app __x1__ = (WrapCompletion undefined)
     return __x1__
   } else {}
-  alreadyResolved["Value"] = true
+  alreadyResolved.Value = true
   app __x2__ = (RejectPromise promise reason)
   app __x3__ = (WrapCompletion __x2__)
   return __x3__
