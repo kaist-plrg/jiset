@@ -16,27 +16,27 @@ object ReferenceChecker extends Checker {
     var defined: Set[String] = initial ++ algo.params.map(_.name).toSet
     var scopeVars: Map[String, Boolean] = algo.params.map(_.name -> false).toMap
     var errors = Set[String]()
-    object Walker extends ir.UnitWalker {
-      override def walk(inst: ir.Inst): Unit = inst match {
-        case ir.ILet(x, e) => {
+    object Walker extends UnitWalker {
+      override def walk(inst: Inst): Unit = inst match {
+        case ILet(x, e) => {
           walk(e)
           scopeVars += x.name -> false
           defined += x.name
         }
-        case ir.IApp(x, f, as) => {
+        case IApp(x, f, as) => {
           walk(f)
-          walkList[ir.Expr](as, walk)
+          walkList[Expr](as, walk)
           scopeVars += x.name -> false
           defined += x.name
         }
-        case ir.IAccess(x, b, e) => {
+        case IAccess(x, b, e) => {
           walk(b)
           walk(e)
           scopeVars += x.name -> false
           defined += x.name
         }
-        case ir.IWithCont(x, ps, b) => {
-          walkList[ir.Id](ps, walk)
+        case IWithCont(x, ps, b) => {
+          walkList[Id](ps, walk)
           walk(b);
           scopeVars += x.name -> false
           defined += x.name
