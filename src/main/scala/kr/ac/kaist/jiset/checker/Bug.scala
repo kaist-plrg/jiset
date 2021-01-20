@@ -14,3 +14,9 @@ case class ReferenceError(algo: Algo, names: Set[String]) extends Bug(
   "ReferenceError",
   s"${algo.name}: ${names.mkString(", ")}"
 )
+
+// duplicated variables
+case class DuplicatedVariable(algo: Algo, names: Set[String]) extends Bug(
+  "DuplicatedVariable",
+  s"${algo.name}: ${names.mkString(", ")}"
+)
