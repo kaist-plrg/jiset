@@ -1,9 +1,10 @@
 package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.parser.ECMAScriptParser
 import kr.ac.kaist.jiset.spec._
-import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util._
 
 // Parse phase
 case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
@@ -22,7 +23,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     println(s"version: $version (${getRawVersion(version)})")
     if (query != "") println(s"query: $query")
     println(s"parsing spec.html...")
-    val spec = ECMAScript(version, query, detail)
+    val spec = ECMAScriptParser(version, query, detail)
 
     val ECMAScript(grammar, algos, intrinsics, symbols, aoids) = spec
     println(s"* grammar:")

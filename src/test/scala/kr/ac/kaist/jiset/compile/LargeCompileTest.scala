@@ -3,8 +3,8 @@ package kr.ac.kaist.jiset
 import java.io._
 import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.algorithm.Algorithm._
-import kr.ac.kaist.jiset.algorithm._
+import kr.ac.kaist.jiset.spec.algorithm._
+import kr.ac.kaist.jiset.spec.algorithm.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._
 
