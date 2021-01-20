@@ -42,6 +42,7 @@ object ECMAScript {
     "IsAbruptCompletion", "WrapCompletion", "GetArgument",
     // JISET specific global variables
     "GLOBAL_agent", "GLOBAL_context", "GLOBAL_symbolRegistry", "GLOBAL_executionStack",
-    "REALM"
+    "REALM",
+    "PRIMITIVE"
   )
 }

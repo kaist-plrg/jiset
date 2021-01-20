@@ -340,7 +340,8 @@ object Compiler extends Compilers {
     stateExpr |||
     integerExpr |||
     operatorExpr |||
-    starExpr
+    primitiveExpr |||
+    starExpr 
   ))
 
   // arithmetic expressions
@@ -395,23 +396,38 @@ object Compiler extends Compilers {
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
     callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-      case (r: RefId) ~ list => getCall(ERef(r), list)
-      case (r @ RefProp(b, _)) ~ list => getCall(ERef(r), pair(Nil, ERef(b)) :: list)
+      case (i0 ~ (r: RefId), _) ~ list => {
+        val i1 ~ e = getCall(ERef(r), list)
+        pair(i0 ++ i1, e)
+      }
+      case (i0 ~ (r @ RefProp(b, _)), isPrim) ~ list => {
+        val prev = if (isPrim) Nil else List(pair(Nil, ERef(b)))
+        val i1 ~ e = getCall(ERef(r), prev ++ list)
+        pair(i0 ++ i1, e)
+      }
     } ||| {
       "the result of" ~ (rep(not("comparison") ~ word) ~ "comparison") ~>
         expr ~ compOp ~ expr ~ opt("with" ~ id ~ "equal to" ~> expr)
     } ^^ {
       case l ~ f ~ r ~ opt => getCall(toERef(f), List(l, r) ++ opt.toList)
     }
+
   )
-  lazy val callRef: P[Ref] = (
-    word |||
-    "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |||
-    "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }
-  ) ^^ { toRef(_) } ||| id ~ opt(callField) ^^ {
-      case x ~ Some(y) => toRef(x, y)
-      case x ~ None => toRef(x)
+
+  lazy val callRef: P[(I[Ref], Boolean)] = ( word |||
+      "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |||
+      "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }
+      ) ^^ { forIn => (pair(Nil, toRef(forIn)), false) } |||
+    id ~ opt(callField) ^^ {
+      case x ~ Some(y) => (pair(Nil, toRef(x, y)), false)
+      case x ~ None => (pair(Nil, toRef(x)), false)
+    } |||
+    (expr <~ "::") ~ word ^^ {
+      case ie ~ r => {
+        (toRef("PRIMITIVE", List(ie, pair(Nil, EStr(r)))), true)
+      }
     }
+
   lazy val callField: P[Expr] = "." ~> (internalName | camelWord ^^ { EStr(_) })
   lazy val compOp: P[String] = (
     "==" ^^^ "AbstractEqualityComparison" |||
@@ -666,6 +682,12 @@ object Compiler extends Compilers {
       case ((op, i0 ~ e)) ~ (i1 ~ b) => pair(i0 ++ i1, EBOp(op, b, e))
     }
   )
+  
+  lazy val primitiveExpr: P[I[Expr]] = (expr <~ "::") ~ word ^^ {
+    case ie ~ r => {
+      toERef("PRIMITIVE", List(ie, pair(Nil, EStr(r))))
+    }
+  }
 
   lazy val dateConst: P[Int] = (
     "msPerDay" ^^^ msPerDay |
