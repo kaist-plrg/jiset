@@ -2,9 +2,11 @@ package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.ires.ir
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
+import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
+import kr.ac.kaist.jiset.util.Conversion._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.{ InfNum, PInf }
 import org.jsoup.nodes._
 
 // ECMASCript abstract algorithms
@@ -12,6 +14,9 @@ case class Algo(head: Head, body: ir.Inst) {
   // head fields
   def name: String = head.name
   def params: List[Param] = head.params
+
+  // arity
+  lazy val arity: (InfNum, InfNum) = head.arity
 
   // completion check (not containing ??? or !!! in the algorithm body)
   def isComplete: Boolean = {
