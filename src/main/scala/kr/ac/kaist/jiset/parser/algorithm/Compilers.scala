@@ -248,15 +248,19 @@ trait Compilers extends TokenListParsers {
   object FlattenWalker extends Walker {
     override def walk(inst: Inst): Inst = inst match {
       case ISeq(insts) =>
+        def assign(insts: List[Inst], k: Int): List[Inst] =
+          if (k == -1) insts else insts.map(i => { i.line = k; i })
         def aux(cur: List[Inst], remain: List[Inst]): List[Inst] = remain match {
           case Nil => cur.reverse
-          case ISeq(list) :: rest => aux(cur, list ++ rest)
+          case (seq @ ISeq(list)) :: rest => aux(cur, assign(list, seq.line) ++ rest)
           case inst :: rest => aux(walk(inst) :: cur, rest)
         }
-        aux(Nil, insts) match {
+        val newInst = aux(Nil, assign(insts, inst.line)) match {
           case List(inst) => inst
           case insts => ISeq(insts)
         }
+        newInst.line = inst.line
+        newInst
       case i => super.walk(i)
     }
   }
