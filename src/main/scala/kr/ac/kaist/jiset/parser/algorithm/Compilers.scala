@@ -33,8 +33,12 @@ trait Compilers extends TokenListParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // failed steps
   def failedToken: PackratParser[Token] = normal | in ~> stmts <~ out ^^^ StepList(Nil)
-  def failedStep: PackratParser[List[String]] = rep(failedToken) ~ next ^^ {
-    case s ~ k => failed += k -> s; s.map(_.toString)
+  def failedStep: PackratParser[Inst] = rep(failedToken) ~ next ^^ {
+    case ts ~ k =>
+      failed += k -> ts
+      val failedInst = IExpr(ENotSupported(ts.mkString(" ")))
+      failedInst.line = k
+      failedInst
   }
 
   // word for camel cases
@@ -48,9 +52,8 @@ trait Compilers extends TokenListParsers {
   type I[A] = List[Inst] ~ A
 
   // list of statements
-  lazy val stmts: P[List[Inst]] = rep(stmt <~ next | failedStep ^^ { tokens =>
-    IExpr(ENotSupported(tokens.mkString(" ")))
-  })
+  lazy val stmts: P[List[Inst]] =
+    rep(stmt ~ next ^^ { case i ~ k => i.line = k; i } | failedStep)
 
   // start notations
   lazy val starStmt: P[Inst] = star ^^ { case s => IExpr(ENotSupported(s"stmt: $s")) }
