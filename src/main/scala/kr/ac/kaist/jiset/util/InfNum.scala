@@ -13,6 +13,12 @@ trait InfNum {
     case (PInf, _) | (_, PInf) => PInf
     case (MInf, _) | (_, MInf) => MInf
   }
+
+  override def toString: String = this match {
+    case Num(n) => n.toString
+    case PInf => "+∞"
+    case MInf => "-∞"
+  }
 }
 
 case class Num(n: Int) extends InfNum

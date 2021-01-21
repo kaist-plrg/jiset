@@ -104,7 +104,7 @@ object HeadParser extends HeadParsers {
       val firstStep = getRawBody(elem).head.trim
       val receiverParam = Param(firstStep match {
         case letEnvRecPattern(thisVar) => strip(thisVar, 1)
-        case _ => firstParam(prev.text).getOrElse(ENV_PARAM)
+        case _ => firstReceiverParam(prev.text).getOrElse(ENV_PARAM)
       })
 
       bases match {
@@ -131,7 +131,7 @@ object HeadParser extends HeadParsers {
       val firstStep = getRawBody(elem).head.trim
       val receiverParam = Param(firstStep match {
         case letObjPattern(thisVar) => strip(thisVar, 1)
-        case _ => firstParam(prev.text).getOrElse(OBJ_PARAM)
+        case _ => firstReceiverParam(prev.text).getOrElse(OBJ_PARAM)
       })
 
       bases match {
@@ -223,11 +223,15 @@ object HeadParser extends HeadParsers {
   def nameCheck(name: String): Boolean =
     namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
 
-  // find first parameter
-  def firstParam(str: String): Option[String] = str match {
+  // find receiver parameter
+  def firstReceiverParam(str: String): Option[String] = str match {
     case methodDescPattern(thisVar) => Some(strip(thisVar, 1))
     case _ => None
   }
+
+  // find first parameter
+  def firstParam(str: String): Option[String] =
+    withParamPattern.findFirstMatchIn(str).map(trimParam _)
 
   // trim parameters
   def trimParam(m: Match): String = {

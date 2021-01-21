@@ -22,13 +22,19 @@ trait Head {
   override def toString: String = s"$name (${params.mkString(", ")}):"
 
   // arity
-  lazy val arity: (InfNum, InfNum) =
-    params.foldLeft[(InfNum, InfNum)]((0, 0)) {
+  lazy val arity: (InfNum, InfNum) = {
+    val targetParams = this match {
+      case syn: SyntaxDirectedHead => syn.withParams
+      case m: MethodHead => m.origParams
+      case _ => params
+    }
+    targetParams.foldLeft[(InfNum, InfNum)]((0, 0)) {
       case ((s, e), p) => {
         val (ps, pe) = p.count
         (s + ps, e + pe)
       }
     }
+  }
 }
 object Head {
   // get names and parameters

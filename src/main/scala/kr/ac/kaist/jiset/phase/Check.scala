@@ -38,9 +38,15 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
     println(s"${missingRets.length} algorithms have missing return branch errors.")
 
     println
-    val bugs = refErrors ++ missingRets
+    println(s"arity checking...")
+    val arityErrors = ArityChecker(spec, targets)
+    arityErrors.foreach(println _)
+    println(s"# of arity mismatch : ${arityErrors.length}")
+
+    println
+    val bugs = refErrors ++ missingRets ++ arityErrors
     println(s"Total ${bugs.length} bugs detected.")
-    refErrors
+    bugs
   }
 
   def defaultConfig: CheckConfig = CheckConfig()
