@@ -10,7 +10,8 @@ case class SyntaxDirectedHead(
     idx: Int,
     subIdx: Int,
     methodName: String,
-    withParams: List[Param]
+    withParams: List[Param],
+    secId: String
 ) extends Head {
   // name with index and method name
   val name: String = s"$lhsName[$idx,$subIdx].$methodName"

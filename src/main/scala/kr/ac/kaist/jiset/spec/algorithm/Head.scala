@@ -13,6 +13,9 @@ trait Head {
   // parameters
   val params: List[Param]
 
+  // section id
+  val secId: String
+
   // conversion to string
   override def toString: String = s"$name (${params.mkString(", ")}):"
 }

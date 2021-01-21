@@ -46,11 +46,15 @@ object HeadParser extends HeadParsers {
       else if (from == -1) Nil
       else parse(paramList, str.substring(from)).get
 
+    // extract section number
+    val parents = toArray(elem.parents)
+    val secId: String = parents.find(_.tagName == "emu-clause").get.id
+
     // classify head
     val prev = elem.previousElementSibling
     if (isEquation(elem)) {
       // equation
-      List(NormalHead(name, params))
+      List(NormalHead(name, params, secId))
     } else if (isSyntaxDirected(prev)) {
       // fix name of regexp syntax -> always evaluation
       if (isRegexpSyntax(prev)) name = "Evaluation"
@@ -82,7 +86,7 @@ object HeadParser extends HeadParsers {
         rhsName <- rhs.names
         syntax = lhsName + ":" + rhsName
         (i, j) <- idxMap.get(syntax)
-      } yield SyntaxDirectedHead(lhsName, rhs, i, j, name, withParams)
+      } yield SyntaxDirectedHead(lhsName, rhs, i, j, name, withParams, secId)
     } else if (isEnvMethod(prev, elem, envRange)) {
       // environment record method
       val bases =
@@ -105,7 +109,7 @@ object HeadParser extends HeadParsers {
 
       bases match {
         case base :: Nil =>
-          List(MethodHead(base, name, receiverParam, params))
+          List(MethodHead(base, name, receiverParam, params, secId))
         case _ => error("`Head`: no base in environment record method")
       }
     } else if (isObjMethod(name)) {
@@ -132,22 +136,22 @@ object HeadParser extends HeadParsers {
 
       bases match {
         case base :: Nil =>
-          List(MethodHead(base, methodName, receiverParam, params))
+          List(MethodHead(base, methodName, receiverParam, params, secId))
         case _ => error("`Head`: no base in object method")
       }
     } else if (isBuiltin(prev, elem, builtinLine)) {
       // built-in algorithms
-      List(BuiltinHead(parseAll(ref, name).get, params))
+      List(BuiltinHead(parseAll(ref, name).get, params, secId))
     } else if (isThisValue(prev, elem, builtinLine)) {
       // thisValue
       val prevText = prev.text
       // NOTE name and params always exist
       val name = thisValuePattern.findAllIn(prevText).toList.head
       val params = List(Param(firstParam(prevText).get))
-      List(NormalHead(name, params))
+      List(NormalHead(name, params, secId))
     } else {
       // normal algorithms
-      List(NormalHead(name, params))
+      List(NormalHead(name, params, secId))
     }
   }
   // check whether current algorithm head is for equation functions.
