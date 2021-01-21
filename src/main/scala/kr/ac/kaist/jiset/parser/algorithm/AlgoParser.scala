@@ -17,7 +17,8 @@ object AlgoParser {
     implicit
     lines: Array[String],
     grammar: Grammar,
-    region: Region
+    region: Region,
+    document: Document
   ): List[Algo] = {
     if (detail) println(s"--------------------------------------------------")
     val result = try {
@@ -75,7 +76,11 @@ object AlgoParser {
     head: Head,
     code: Iterable[String],
     start: Int
-  )(implicit grammar: Grammar): Inst = {
+  )(
+    implicit
+    grammar: Grammar,
+    document: Document
+  ): Inst = {
     // get tokens
     val tokens = TokenParser.getTokens(code)
 

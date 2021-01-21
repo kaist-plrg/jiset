@@ -133,7 +133,10 @@ object Compiler extends Compilers {
       "to" ~> expr ||| (
         "as" ~ ("described" | "specified") ~ "in" |||
         "to the definition specified in"
-      ) ~> section ^^ { case s => pair(Nil, toERef(s)) }
+      ) ~> link ^^ {
+          case None => pair(Nil, ENotSupported("unknown link"))
+          case Some(s) => pair(Nil, toERef(s))
+        }
     } ^^ {
       case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e))
     } ||| "set" ~ opt("the remainder of") ~ id ~ "'s essential internal methods" ~ rest ^^^ ISeq(Nil)

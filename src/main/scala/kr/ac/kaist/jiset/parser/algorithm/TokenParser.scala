@@ -5,12 +5,13 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar.{ Grammar, NonTerminal, Lhs }
 import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.Stack
+import org.jsoup.nodes._
 
 // token parsers
 object TokenParser extends TokenParsers
 trait TokenParsers extends ProductionParsers {
   // step parsers
-  def step(grammar: Grammar): Parser[List[Token]] = {
+  def step(grammar: Grammar, document: Document): Parser[List[Token]] = {
     lazy val name = "[_-a-zA-Z]+".r
     lazy val word = "[a-zA-Z0-9]+".r
     lazy val number = "[0-9]+".r
@@ -46,7 +47,9 @@ trait TokenParsers extends ProductionParsers {
     lazy val sup = "<sup>" ~> "[^<]*".r <~ "</sup>" ^^ {
       case s => Sup(Step(parseAll(rep(token), s).getOrElse(Nil)))
     }
-    lazy val link = "<emu-xref [^ ]*[ ]*href=\"#".r ~> "[^\"]*".r <~ "\"></emu-xref>" ^^ { Link(_) }
+    lazy val link = "<emu-xref [^ ]*[ ]*href=\"#".r ~> "[^\"]*".r <~ "\"></emu-xref>" ^^ {
+      case id => Link(None) // TODO convert id to corresponding name
+    }
     lazy val text = (word | number | char) ^^ { Text(_) }
     lazy val token: Parser[Token] =
       gram | const | code | value | id | nt | sup | link | text
@@ -58,7 +61,11 @@ trait TokenParsers extends ProductionParsers {
 
   // get tokens
   val TAB = 2
-  def getTokens(code: Iterable[String])(implicit grammar: Grammar): List[Token] = {
+  def getTokens(code: Iterable[String])(
+    implicit
+    grammar: Grammar,
+    document: Document
+  ): List[Token] = {
     val initial = getIndent(code.head)
     var prev = -1
     var tokens = Vector[Token]()
@@ -77,7 +84,7 @@ trait TokenParsers extends ProductionParsers {
         } else tokens :+= next
       }
       prev = indent
-      tokens ++= parse(step(grammar), line).get
+      tokens ++= parse(step(grammar, document), line).get
     })
     tokens :+= next
     while (prev > initial) { prev -= TAB; tokens ++= List(Out, nexts.pop) }

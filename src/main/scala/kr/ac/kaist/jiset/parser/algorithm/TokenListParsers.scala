@@ -139,7 +139,7 @@ trait TokenListParsers extends PackratParsers {
     case t => Failure(s"`Sup(_)` expected but `$t` found", in)
   }))
 
-  def link: Parser[String] = Parser(in => firstMap(in, _ match {
+  def link: Parser[Option[String]] = Parser(in => firstMap(in, _ match {
     case Link(x) => Success(x, in.rest)
     case t => Failure(s"`Link(_)` expected but `$t` found", in)
   }))

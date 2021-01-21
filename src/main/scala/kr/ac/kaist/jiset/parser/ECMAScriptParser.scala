@@ -129,7 +129,8 @@ object ECMAScriptParser {
     implicit
     lines: Array[String],
     grammar: Grammar,
-    region: Region
+    region: Region,
+    document: Document
   ): List[Algo] = {
     // HTML elements with `emu-alg` tags
     val emuAlgs = getElems(target, "emu-alg")
