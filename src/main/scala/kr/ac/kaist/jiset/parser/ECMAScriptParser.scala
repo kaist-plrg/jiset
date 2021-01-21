@@ -62,7 +62,7 @@ object ECMAScriptParser {
   // attach line numbers
   val startPattern = """(\s*<)([-a-z]+)([^<>]*(<[^<>]*>[^<>]*)*>[^<>]*)""".r
   val endPattern = """\s*</([-a-z]+)>\s*""".r
-  val pairPattern = s"$startPattern$endPattern".r
+  val pairPattern = """(\s*<)([-a-z]+)([^<>]*(<[^<>]*>[^<>]*)*>.*</[-a-z]+>\s*)""".r
   val ignoreTags = Set("meta", "link", "style", "br", "img", "li", "p")
   def attachLines(lines: Array[String]): Array[String] = {
     val tagStack = Stack[(String, Int)]()
@@ -82,6 +82,8 @@ object ECMAScriptParser {
     lines.zipWithIndex.map(_ match {
       case (line @ startPattern(pre, tag, post, _), start) if !ignoreTags.contains(tag) =>
         rngs.get(start).fold(line)(end => s"$pre$tag s=$start e=$end$post")
+      case (line @ pairPattern(pre, tag, post, _), start) if !ignoreTags.contains(tag) =>
+        s"$pre$tag s=$start e=${start + 1}$post"
       case (line, _) => line
     })
   }
