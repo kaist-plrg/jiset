@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.MayMust
 import kr.ac.kaist.ires.ir._
 import javax.xml.crypto.AlgorithmMethod
 
-object BranchChecker extends Checker {
+object MissingRetChecker extends Checker {
   // for specifications
   def apply(
     spec: ECMAScript,
@@ -28,16 +28,13 @@ object BranchChecker extends Checker {
       case _ => false
     }
     val res = walkBranch(algo.body)
-    if (!res) List(MissingReturn(algo))
+    if (!res) List(Result(algo))
     else List[Result]()
   }
 
   // results
-  abstract class Result(prefix: String) extends Bug {
-    val name: String = prefix
-    val algo: Algo
+  case class Result(algo: Algo) extends Bug {
+    val name: String = "MissingReturn"
     val msg: String = s"${algo.name}"
   }
-
-  case class MissingReturn(algo: Algo) extends Result("MissingReturn")
 }
