@@ -31,6 +31,12 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
     refErrors.foreach(println _)
     println(s"${refErrors.length} algorithms have reference errors.")
 
+    println
+    println(s"branch checking...")
+    val branchErrors = BranchChecker(spec, targets)
+    branchErrors.foreach(println _)
+    println(s"${branchErrors.length} algorithms have branch errors")
+
     val bugs = refErrors
     println(s"Total ${bugs.length} bugs detected.")
     refErrors
