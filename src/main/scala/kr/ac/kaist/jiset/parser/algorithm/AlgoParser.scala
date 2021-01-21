@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.parser.algorithm
 
-import kr.ac.kaist.ires.ir
-import kr.ac.kaist.ires.ir.Parser.parseInst
+import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.spec.algorithm._
@@ -24,8 +23,8 @@ object AlgoParser {
     val result = try {
       val heads = HeadParser(elem)
       if (detail) heads.foreach(println(_))
-      val (s, e) = getRange(elem).get
-      if (detail) println(s"Range: (${s + 1}, $e)")
+      val (start, end) = getRange(elem).get
+      if (detail) println(s"Range: (${start + 1}, $end)")
       val code =
         if (elem.tagName == "ul") toArray(elem.children).map(li => "* " + li.text)
         else if (elem.tagName == "emu-table") {
@@ -52,9 +51,9 @@ object AlgoParser {
       }
       var printBody = detail && true
       heads.map(h => {
-        val body = getBody(h, code)
+        val body = getBody(h, code, start)
         if (printBody) {
-          println(ir.beautify(body))
+          println(beautify(body))
           printBody = false
         }
         Algo(h, body)
@@ -74,31 +73,40 @@ object AlgoParser {
   // get body instructions
   def getBody(
     head: Head,
-    code: Iterable[String]
-  )(implicit grammar: Grammar): ir.Inst = {
-    import ir._
+    code: Iterable[String],
+    start: Int
+  )(implicit grammar: Grammar): Inst = {
+    // get tokens
+    val tokens = TokenParser.getTokens(code)
 
-    val patchedCode = head match {
-      case head: MethodHead if head.isLetThisStep(code.head.trim) =>
-        code.tail
-      case _ => code
-    }
+    // get body
+    val body = Compiler(tokens, start)
 
-    val tokens = TokenParser.getTokens(patchedCode)
-    val prefix = head match {
+    // post process
+    head match {
+      case (head: MethodHead) if head.isLetThisStep(code.head.trim) =>
+        popFront(body)
       case (builtin: BuiltinHead) =>
-        builtin.origParams.zipWithIndex.map {
-          case (x, i) => parseInst(s"app ${x.name} = (GetArgument $ARGS_LIST ${i}i)")
+        val prefix = builtin.origParams.zipWithIndex.map {
+          case (x, i) => Parser.parseInst(s"app ${x.name} = (GetArgument $ARGS_LIST ${i}i)")
         }
-      case _ => Nil
+        prepend(prefix, body)
+      case _ => body
     }
-    val body = Compiler(tokens)
-    prefix match {
-      case Nil => body
-      case _ => body match {
-        case ISeq(list) => ISeq(prefix ++ list)
-        case _ => ISeq(prefix :+ body)
-      }
+  }
+
+  // prepend instructions
+  def prepend(prefix: List[Inst], inst: Inst): Inst = prefix match {
+    case Nil => inst
+    case _ => inst match {
+      case ISeq(list) => ISeq(prefix ++ list)
+      case _ => ISeq(prefix :+ inst)
     }
+  }
+
+  // pop an instruction at the front
+  def popFront(inst: Inst): Inst = inst match {
+    case ISeq(hd :: tl) => ISeq(tl)
+    case _ => ISeq(Nil)
   }
 }

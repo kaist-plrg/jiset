@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import scala.util.{ Try, Success, Failure }
 
 object Compiler extends Compilers {
-  def apply(tokens: List[Token]): Inst =
+  def apply(tokens: List[Token], start: Int = 0): Inst =
     normalizeTempIds(flatten(ISeq(parseAll(stmts, tokens).getOrElse(Nil))))
 
   ////////////////////////////////////////////////////////////////////////////////
