@@ -53,8 +53,9 @@ object ECMAScriptParser {
       changeVersion(cur, ECMA262_DIR)
       src
     }
-    val lines = attachLines(dropNoScope(src.split(LINE_SEP)))
-    val document = Jsoup.parse(lines.mkString(LINE_SEP))
+    val lines = src.split(LINE_SEP)
+    val cutted = dropNoScope(attachLines(lines)).mkString(LINE_SEP)
+    val document = Jsoup.parse(cutted)
     (lines, document)
   }
 

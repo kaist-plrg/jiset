@@ -24,6 +24,11 @@ object AlgoParser {
     val result = try {
       val heads = HeadParser(elem)
       if (detail) heads.foreach(println(_))
+      val range = getRange(elem)
+      if (detail) range match {
+        case Some((s, e)) => println(s"Range: (${s + 1}, $e)")
+        case None => println(s"Cannot detect range.")
+      }
       val code =
         if (elem.tagName == "ul") toArray(elem.children).map(li => "* " + li.text)
         else if (elem.tagName == "emu-table") {

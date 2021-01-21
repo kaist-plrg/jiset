@@ -225,7 +225,7 @@ object Useful {
   // get raw body of element
   def getRawBody(elem: Element)(implicit lines: Array[String]): Array[String] = {
     getRange(elem) match {
-      case None => Array(elem.html.replaceAll(LINE_SEP, ""))
+      case None => elem.html.split(LINE_SEP)
       case Some((s, e)) => lines.slice(s + 1, e - 1)
     }
   }
