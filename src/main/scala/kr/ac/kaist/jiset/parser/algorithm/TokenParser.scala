@@ -46,10 +46,10 @@ trait TokenParsers extends ProductionParsers {
     lazy val sup = "<sup>" ~> "[^<]*".r <~ "</sup>" ^^ {
       case s => Sup(Step(parseAll(rep(token), s).getOrElse(Nil)))
     }
-    lazy val url = "<a[^>]*>".r ~> "[^<]*".r <~ "</a>" ^^ { Url(_) }
+    lazy val link = "<emu-xref [^ ]*[ ]*href=\"#".r ~> "[^\"]*".r <~ "\"></emu-xref>" ^^ { Link(_) }
     lazy val text = (word | number | char) ^^ { Text(_) }
     lazy val token: Parser[Token] =
-      gram | const | code | value | id | nt | sup | url | text
+      gram | const | code | value | id | nt | sup | link | text
 
     // indentation parsers
     lazy val indent = number ~ "." | "*" | "<" ~ rep(char)
