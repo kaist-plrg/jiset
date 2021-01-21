@@ -84,9 +84,6 @@ object AlgoParser {
 
     val tokens = TokenParser.getTokens(patchedCode)
     val prefix = head match {
-      case (syntax: SyntaxDirectedHead) =>
-        val x = syntax.lhsName
-        List(parseInst(s"let $x = $THIS_PARAM"))
       case (builtin: BuiltinHead) =>
         builtin.origParams.zipWithIndex.map {
           case (x, i) => parseInst(s"app ${x.name} = (GetArgument $ARGS_LIST ${i}i)")
