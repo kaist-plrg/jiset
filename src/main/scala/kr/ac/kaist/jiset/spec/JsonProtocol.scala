@@ -1,9 +1,13 @@
-package kr.ac.kaist.jiset.spec.algorithm
+package kr.ac.kaist.jiset.spec
 
-import kr.ac.kaist.jiset.util.Useful.readFile
+import kr.ac.kaist.jiset.spec.algorithm._
 import spray.json._
 
 object JsonProtocol extends DefaultJsonProtocol {
+  // sections
+  implicit lazy val SectionFormat: JsonFormat[Section] = lazyFormat(jsonFormat2(Section.apply))
+
+  // tokens
   implicit object TokenFormat extends RootJsonFormat[Token] {
     override def read(json: JsValue): Token = json match {
       case JsString(text) => Text(text)
@@ -25,6 +29,7 @@ object JsonProtocol extends DefaultJsonProtocol {
           case _ => deserializationError(s"unknown Token: $v")
         }
     }
+
     override def write(token: Token): JsValue = token match {
       case (t: Const) => ConstFormat.write(t)
       case (t: Code) => CodeFormat.write(t)
@@ -38,6 +43,7 @@ object JsonProtocol extends DefaultJsonProtocol {
       case Text(text) => JsString(text)
     }
   }
+
   implicit lazy val StepFormat = jsonFormat1(Step.apply)
   implicit lazy val ConstFormat = jsonFormat1(Const)
   implicit lazy val CodeFormat = jsonFormat1(Code)

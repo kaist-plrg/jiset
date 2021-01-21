@@ -10,7 +10,8 @@ case class ECMAScript(
     algos: List[Algo],
     intrinsics: Set[String],
     symbols: Set[String],
-    aoids: Set[String]
+    aoids: Set[String],
+    section: Section
 ) {
   // normal algorithm names
   lazy val normalAlgos: Set[String] =

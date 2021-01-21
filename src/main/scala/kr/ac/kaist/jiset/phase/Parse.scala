@@ -25,7 +25,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     println(s"parsing spec.html...")
     val spec = ECMAScriptParser(version, query, detail)
 
-    val ECMAScript(grammar, algos, intrinsics, symbols, aoids) = spec
+    val ECMAScript(grammar, algos, intrinsics, symbols, aoids, section) = spec
     println(s"* grammar:")
     println(s"  - lexical production: ${grammar.lexProds.length}")
     println(s"  - non-lexical production: ${grammar.prods.length}")

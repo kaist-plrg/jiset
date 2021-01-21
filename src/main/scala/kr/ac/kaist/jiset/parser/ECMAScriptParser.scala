@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.parser
 import kr.ac.kaist.jiset.parser.algorithm.AlgoParser
 import kr.ac.kaist.jiset.parser.grammar.GrammarParser
 import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
@@ -10,6 +11,7 @@ import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP, RECENT_VERSION }
 import org.jsoup._
 import org.jsoup.nodes._
 import scala.collection.mutable.Stack
+import spray.json._
 
 object ECMAScriptParser {
   def apply(version: String, query: String, detail: Boolean): ECMAScript = {
@@ -33,7 +35,10 @@ object ECMAScriptParser {
     // get aoids
     val aoids = parseAoids
 
-    ECMAScript(grammar, algos, intrinsics, symbols, aoids)
+    // section hierarchy
+    val section = parseSection
+
+    ECMAScript(grammar, algos, intrinsics, symbols, aoids, section)
   }
   ////////////////////////////////////////////////////////////////////////////////
   // helper
@@ -179,4 +184,7 @@ object ECMAScriptParser {
       "[/\\s]".r.replaceAllIn(elem.attr("aoid"), "")
     }).toSet
   }
+
+  // parse section hierarchy
+  def parseSection(implicit document: Document): Section = Section(document.body)
 }
