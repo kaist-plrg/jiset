@@ -19,7 +19,7 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
     config: CheckConfig
   ): List[Bug] = {
     println(s"--------------------------------------------------")
-    val completeAlgos = spec.completeAlgos
+    val completeAlgos = spec.completedAlgos
     val targets =
       if (config.target.isEmpty) completeAlgos
       else completeAlgos.filter(config.target contains _.name)

@@ -31,7 +31,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     println(s"  - lexical production: ${grammar.lexProds.length}")
     println(s"  - non-lexical production: ${grammar.prods.length}")
     println(s"* algorithms:")
-    println(s"  - complete: ${spec.completeAlgos.length}")
+    println(s"  - complete: ${spec.completedAlgos.length}")
     println(s"  - total: ${algos.length}")
     println(s"* intrinsics: ${intrinsics.size}")
     println(s"* symbols: ${symbols.size}")

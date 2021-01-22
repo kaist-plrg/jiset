@@ -32,8 +32,9 @@ case class ECMAScript(
   lazy val arities: Map[String, (InfNum, InfNum)] =
     algos.map(a => (a.name, a.arity)).toMap ++ ECMAScript.PREDEF_FUNC
 
-  // complete algorithms
-  lazy val completeAlgos: List[Algo] = algos.filter(_.isComplete)
+  // completed/incompleted algorithms
+  lazy val (completedAlgos, incompletedAlgos): (List[Algo], List[Algo]) =
+    algos.partition(_.isComplete)
 }
 
 object ECMAScript {
