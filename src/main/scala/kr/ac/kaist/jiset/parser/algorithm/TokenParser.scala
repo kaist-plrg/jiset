@@ -84,7 +84,7 @@ trait TokenParsers extends ProductionParsers {
         } else tokens :+= next
       }
       prev = indent
-      tokens ++= parse(step(grammar, document), line).get
+      tokens ++= parseAll(step(grammar, document), line).get
     })
     tokens :+= next
     while (prev > initial) { prev -= TAB; tokens ++= List(Out, nexts.pop) }
