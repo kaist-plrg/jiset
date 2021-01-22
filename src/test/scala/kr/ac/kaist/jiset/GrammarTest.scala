@@ -20,8 +20,8 @@ class GrammarTest extends JISETTest {
     for (version <- versions) check(tag, version, {
       val filename = s"$GRAMMAR_DIR/$version.grammar"
       val answer = readFile(filename)
-      val result = ECMAScriptParser.parseGrammar(version).toString
-      assert(answer == result)
+      val (grammar, _) = ECMAScriptParser.parseGrammar(version)
+      assert(answer == grammar.toString)
     })
   }
 

@@ -242,6 +242,10 @@ object Useful {
     aux(list, Nil)
   }
 
+  // trim only right
+  def trimRight(str: String): String =
+    str.reverse.span(_ == ' ')._2.reverse
+
   // error log
   def errorLog[T](f: => T)(msg: String): T = try f catch {
     case e: Throwable => println(msg); throw e

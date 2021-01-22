@@ -111,9 +111,9 @@ object ECMAScriptParser {
   // grammar
   ////////////////////////////////////////////////////////////////////////////////
   // parse spec.html to Grammar
-  def parseGrammar(version: String): Grammar = {
+  def parseGrammar(version: String): (Grammar, Document) = {
     implicit val (lines, document) = preprocess(version)
-    parseGrammar
+    (parseGrammar, document)
   }
   def parseGrammar(implicit lines: Array[String], document: Document): Grammar =
     GrammarParser(lines, document)
