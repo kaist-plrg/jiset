@@ -2,9 +2,9 @@ package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
-import kr.ac.kaist.jiset.spec.grammar
+import kr.ac.kaist.jiset.spec.algorithm.{ CompileREPL => REPL }
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.util.{ CompileREPL => REPL, _ }
+import kr.ac.kaist.jiset.util._
 
 // CompileREPL phase
 case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {

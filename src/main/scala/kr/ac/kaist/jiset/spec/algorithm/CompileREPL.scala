@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.util
+package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset.LINE_SEP
