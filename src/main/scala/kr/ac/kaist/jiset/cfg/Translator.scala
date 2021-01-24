@@ -7,14 +7,17 @@ import kr.ac.kaist.ires.ir._
 object Translator {
   def apply(algo: Algo): Function = {
     // nodes and edges
-    var (nodes, edges) = (Set[Node](), Map[Node, (Edge, Node)]())
+    var (nodes, edges) = (Set[Node](), Map[Node, Set[(Edge, Node)]]())
 
     // register nodes
     def register[T <: Node](node: T): T = { nodes += node; node }
 
     // connect previous edges with a given node
-    def connect(prev: List[(Node, Edge)], to: Node): Unit =
-      prev.foreach { case (from, edge) => edges += from -> (edge, to) }
+    def connect(prev: List[(Node, Edge)], to: Node): Unit = prev.foreach {
+      case (from, edge) =>
+        val set = edges.getOrElse(from, Set()) + ((edge, to))
+        edges += from -> set
+    }
 
     // get a block node
     def getBlock(prev: List[(Node, Edge)]): Block = prev match {
@@ -43,6 +46,7 @@ object Translator {
         List((branch, CondEdge(false)))
       case (inst: CallInst) =>
         val call = register(Call(inst))
+        connect(prev, call)
         List((call, NormalEdge))
       case (inst: NormalInst) =>
         val block = getBlock(prev)

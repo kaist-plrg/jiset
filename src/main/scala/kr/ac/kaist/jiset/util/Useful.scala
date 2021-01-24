@@ -190,6 +190,10 @@ object Useful {
     HTML_SPECIAL_CODE.foldLeft(str) {
       case (s, (f, t)) => s.replaceAll(f, t)
     }
+  def toSpecialCodes(str: String): String =
+    HTML_SPECIAL_CODE.foldLeft(str) {
+      case (s, (t, f)) => s.replaceAll(f, t)
+    }
 
   // execute shell command with given dir, default to CUR_DIR
   def executeCmd(given: String, dir: String = CUR_DIR): String = {

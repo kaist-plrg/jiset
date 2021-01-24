@@ -3,13 +3,14 @@ package kr.ac.kaist.jiset.cfg
 import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.UId
+import kr.ac.kaist.jiset.util.Useful._
 
 // CFG functions
 case class Function(
     entry: Entry,
     exit: Exit,
     nodes: Set[Node],
-    forwards: Map[Node, (Edge, Node)]
+    forwards: Map[Node, Set[(Edge, Node)]]
 ) extends UId {
   // conversion to DOT
   def toDot: String = {
@@ -35,25 +36,25 @@ case class Function(
           add(s"""    </table>""")
           add(s"""  >]""")
         case Call(inst) =>
-          add(s"""  node$uid [shape=hexagon, label=<${norm(inst)}>]""")
+          add(s"""  node$uid [shape=cds, label=<${norm(inst)}>]""")
         case Branch(cond) =>
           add(s"""  node$uid [shape=diamond, label="${norm(cond)}"]""")
       }
     })
     forwards.foreach(_ match {
-      case (from, (edge, to)) =>
-        val opt = edge match {
-          case NormalEdge => ""
-          case CondEdge(pass) => s""" [label="$pass"]"""
-        }
-        add(s"""  node${from.uid} -> node${to.uid}$opt""")
+      case (from, set) => set.foreach {
+        case (edge, to) =>
+          val opt = edge match {
+            case NormalEdge => ""
+            case CondEdge(pass) => s""" [label="$pass"]"""
+          }
+          add(s"""  node${from.uid} -> node${to.uid}$opt""")
+      }
     })
     add(s"""}""")
     sb.toString
   }
 
   // normalize beautified ires nodes
-  def norm(node: IRNode): String = {
-    beautify(node).replaceAll(">", "&gt;")
-  }
+  def norm(node: IRNode): String = toSpecialCodes(beautify(node))
 }
