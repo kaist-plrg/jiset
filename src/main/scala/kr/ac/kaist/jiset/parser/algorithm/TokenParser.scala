@@ -38,7 +38,7 @@ trait TokenParsers extends ProductionParsers {
     }
     lazy val const = wrap("~") ^^ { Const(_) }
     lazy val code = wrap("`") ^^ { Code(_) }
-    lazy val value = wrap("*") ^^ { Value(_) }
+    lazy val value = wrap("*") <~ opt(sub) ^^ { Value(_) } // TODO process the sub
     lazy val id = wrap("_") ^^ { Id(_) }
     lazy val nt = wrap("|") ^^ {
       case x if x.endsWith("_opt") => Nt(x.dropRight("_opt".length))
@@ -47,12 +47,18 @@ trait TokenParsers extends ProductionParsers {
     lazy val sup = "<sup>" ~> "[^<]*".r <~ "</sup>" ^^ {
       case s => Sup(Step(parseAll(rep(token), s).getOrElse(Nil)))
     }
-    lazy val link = "<emu-xref [^ ]*[ ]*href=\"#".r ~> "[^\"]*".r <~ "\"></emu-xref>" ^^ {
+    lazy val link = "<emu-xref href=\"#" ~> "[^\"]*".r <~ "\"></emu-xref>" ^^ {
       case id => Link(None) // TODO convert id to corresponding name
+    }
+    lazy val sub = "<sub>" ~> "[^<]*".r <~ "</sub>" ^^ {
+      case s =>
+        // until 2017, [AWAIT] and [YIELD] are inside the sub as a parameter
+        // after 2019, ℝ, ℤ, and 𝔽 are inside the sub to distinguish between different numeric kinds
+        Sub(Step(parseAll(rep(token), s).getOrElse(Nil)))
     }
     lazy val text = (word | number | char) ^^ { Text(_) }
     lazy val token: Parser[Token] =
-      gram | const | code | value | id | nt | sup | link | text
+      gram | const | code | value | id | nt | sup | link | sub | text
 
     // indentation parsers
     lazy val indent = number ~ "." | "*" | "<" ~ rep(char)

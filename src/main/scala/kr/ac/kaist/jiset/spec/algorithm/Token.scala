@@ -50,6 +50,7 @@ case class Nt(nt: String) extends NormalToken("nt", nt)
 case class Sup(sup: Step) extends NormalToken("sup", Token.getString(sup.tokens))
 case class Link(link: Option[String]) extends NormalToken("link", link.getOrElse(""))
 case class Gr(grammar: String, subs: List[String]) extends NormalToken("grammar", grammar)
+case class Sub(sub: Step) extends NormalToken("sub", Token.getString(sub.tokens))
 
 // step lists
 case class StepList(steps: List[Step]) extends Token {
