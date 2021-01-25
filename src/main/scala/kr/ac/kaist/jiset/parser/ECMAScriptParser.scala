@@ -133,7 +133,8 @@ object ECMAScriptParser {
     document: Document
   ): List[Algo] = {
     // HTML elements with `emu-alg` tags
-    val emuAlgs = getElems(target, "emu-alg")
+    // `emu-alg` that reside inside `emu-note` should be filtered out
+    val emuAlgs = getElems(target, "emu-alg").filter(elem => elem.parent().tagName() != "emu-note")
 
     // HTML elements for Early Error
     val earlyErrors = for {
