@@ -47,7 +47,7 @@ trait TokenParsers extends ProductionParsers {
     lazy val sup = "<sup>" ~> "[^<]*".r <~ "</sup>" ^^ {
       case s => Sup(Step(parseAll(rep(token), s).getOrElse(Nil)))
     }
-    lazy val link = "<emu-xref href=\"#" ~> "[^\"]*".r <~ "\"></emu-xref>" ^^ {
+    lazy val link = "<emu-xref href=\"#" ~> "[^\"]*".r <~ "\"" <~ opt("[^>]*".r) <~ "></emu-xref>" ^^ {
       case id => Link(None) // TODO convert id to corresponding name
     }
     lazy val sub = "<sub>" ~> "[^<]*".r <~ "</sub>" ^^ {
