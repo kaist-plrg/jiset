@@ -60,8 +60,11 @@ trait TokenParsers extends ProductionParsers {
     lazy val token: Parser[Token] =
       gram | const | code | value | id | nt | sup | link | sub | text
 
+    // ignore
+    lazy val ignore = "[id=\"" ~ repsep(word, "-") ~ "\"]"
+
     // indentation parsers
-    lazy val indent = number ~ "." | "*" | "<" ~ rep(char)
+    lazy val indent = number ~ "." ~ opt(ignore) | "*" | "<" ~ rep(char)
     indent ~> rep(token)
   }
 
