@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // Production parsers
 object ProductionParser extends ProductionParsers {
-  def apply(lines: List[String]): Production = lines.map(revertSpecialCodes) match {
+  def apply(lines: List[String]): Production = lines match {
     case lhsStr :: rhsStrList => {
       val lhs ~ split ~ rhsOpt = parseAll(lhsLine, lhsStr).get
       // create rhsList

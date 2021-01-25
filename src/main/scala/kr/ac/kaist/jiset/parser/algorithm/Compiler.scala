@@ -106,6 +106,10 @@ object Compiler extends Compilers {
     case x ~ Gr(y, ss) ~ s =>
       val pre = ss.map(s => IAccess(IRId(s), toERef(x), EStr(s)))
       IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
+  } ||| {
+    ("If" ~> cond <~ ",") ~ stmt ^^ {
+      case (i ~ c) ~ t => ISeq(i :+ IIf(c, t, emptyInst))
+    }
   }
   lazy val ignoreCond: P[I[Expr]] = (
     "the order of evaluation needs to be reversed to preserve left to right evaluation" |
@@ -188,6 +192,7 @@ object Compiler extends Compilers {
   } ||| "for each integer" ~> id ~ (
     ("in the range" ~> expr <~ "≤" ~ id ~ "<") ~ expr ^^ { case x ~ y => (x, y, 0, 0) } |
     ("starting with" ~> expr <~ "such that" ~ id ~ "<") ~ expr ^^ { case x ~ y => (x, y, 0, 0) } |
+    ("starting with" ~> expr <~ "such that" ~ id ~ "≤") ~ expr ^^ { case x ~ y => (x, y, 0, 1) } |
     ("such that" ~ id ~ ">" ~> expr <~ "and" ~ id ~ "≤") ~ expr ^^ { case x ~ y => (x, y, 1, 1) } |
     ("that satisfies" ~> expr <~ "<" ~ id ~ "and" ~ id ~ "≤") ~ expr ^^ { case x ~ y => (x, y, 1, 1) }
   ) ~ (opt(", in ascending order") ~ opt(",") ~ opt("do") ~> stmt) ^^ {
@@ -332,6 +337,7 @@ object Compiler extends Compilers {
     coveredByExpr |||
     strConcatExpr |||
     stringExpr |||
+    substrExpr |||
     syntaxExpr |||
     argumentExpr |||
     refExpr |||
@@ -574,6 +580,28 @@ object Compiler extends Compilers {
     }
   )
 
+  // substring expression
+  lazy val substrExpr: P[I[Expr]] = (
+    ("the substring of" ~> expr) ~ ("from" ~> expr) ~ ("to" ~> expr) ^^ {
+      case (i0 ~ b) ~ (i1 ~ f) ~ (i2 ~ t) => {
+        val (substr, idx, char) = (getTemp, getTemp, getTemp)
+        val base = beautify(b)
+        val from = beautify(f)
+        val to = beautify(t)
+        val inst = parseInst(s"""{
+          let $substr = ""
+          let $idx = $from
+          while (< $idx (+ $to 1i)) {
+            access $char = ($base $idx)
+            $substr = (+ $substr $char)
+            $idx = (+ $idx 1i)
+          }
+        }""")
+        pair(i0 ++ i1 ++ i2 ++ List(inst), toERef(substr))
+      }
+    }
+  )
+
   // syntax expressions
   lazy val syntaxExpr: P[I[Expr]] =
     "the" ~> ("source text" | "code") ~ ("matched by" | "matching") ~> ref ^^ {
@@ -800,12 +828,15 @@ object Compiler extends Compilers {
 
   // string values
   lazy val stringValue: P[Expr] =
-    "the empty string" ~ opt("value") ^^^ EStr("")
+    ("the empty string" | "the empty String") ~ opt("value") ^^^ EStr("")
 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | ".") | etcCond
+  lazy val cond: P[I[Expr]] = (
+    _cond <~ guard("repeat" | "," | in | ".") |
+    etcCond
+  )
   lazy val _cond: P[I[Expr]] = (
     argumentCond |||
     sameCond |||
@@ -860,7 +891,7 @@ object Compiler extends Compilers {
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
     ("=") ^^^ (OEqual, false, false) |||
     ("≠") ^^^ (OEqual, true, false) |||
-    ("is equal to" | "equals" | "is the same" ~ opt(opt(camelWord) ~ "value") ~ "as") ^^^ (OEq, false, false) |||
+    ("is equal to" | "equals" | "is the same" ~ opt((opt(camelWord) ~ "value") | "sequence of code units") ~ "as") ^^^ (OEq, false, false) |||
     ("is not equal to" | "is different from") ^^^ (OEq, true, false) |||
     ("<" | "is less than") ^^^ (OLt, false, false) |||
     ("≥" | "is not less than" | "is greater than or equal to") ^^^ (OLt, true, false) |||

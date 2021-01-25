@@ -47,12 +47,12 @@ object ECMAScriptParser {
   def preprocess(version: String = RECENT_VERSION): (Array[String], Document) = {
     val rawVersion = getRawVersion(version)
     val cur = currentVersion(ECMA262_DIR)
-    val src = if (cur == rawVersion) readFile(SPEC_HTML) else {
+    val src = revertSpecialCodes(if (cur == rawVersion) readFile(SPEC_HTML) else {
       changeVersion(rawVersion, ECMA262_DIR)
       val src = readFile(SPEC_HTML)
       changeVersion(cur, ECMA262_DIR)
       src
-    }
+    })
     val lines = src.split(LINE_SEP)
     val cutted = dropNoScope(attachLines(lines)).mkString(LINE_SEP)
     val document = Jsoup.parse(cutted)
