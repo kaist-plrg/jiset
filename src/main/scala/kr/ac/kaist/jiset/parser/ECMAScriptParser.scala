@@ -146,7 +146,7 @@ object ECMAScriptParser {
     val typeTableAlgs = getElems(target, "emu-table:contains(Argument Type)")
 
     // HTML elements with `emu-eqn` tags
-    val emuEqns = getElems(target, "emu-eqn")
+    val emuEqns = getElems(target, "emu-eqn[aoid]")
     // val emuEqns = List.empty
 
     val elems = emuAlgs ++ earlyErrors ++ typeTableAlgs ++ emuEqns
