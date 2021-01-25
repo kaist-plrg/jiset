@@ -406,7 +406,11 @@ object Compiler extends Compilers {
 
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
-    callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+    ("ℝ" | "ℤ" | "𝔽") ~ "(" ~ expr <~ ")" ^^ { // TODO "𝔽" is not extracted. Solve this.
+      case ty ~ y ~ x => x
+    } ||| {
+      callRef ~ ("(" ~> repsep(expr, ",") <~ ")")
+    } ^^ {
       case (i0 ~ (r: RefId), _) ~ list => {
         val i1 ~ e = getCall(ERef(r), list)
         pair(i0 ++ i1, e)
