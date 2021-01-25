@@ -72,17 +72,8 @@ trait TokenListParsers extends PackratParsers {
   private val wordChars = (('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9') :+ '_').toSet
   private val numChars = ('0' to '9').toSet
 
-  private def splitText(s: String): List[String] = {
-    var list = List[String]()
-    var prevWordChar = false
-    for (ch <- s) {
-      val isWordChar = wordChars contains ch
-      if (prevWordChar && isWordChar) list = (list.head + ch) :: list.tail
-      else if (!ch.isSpaceChar) list ::= ch.toString
-      prevWordChar = isWordChar
-    }
-    list.reverse
-  }
+  private def splitText(s: String): List[String] =
+    "([a-zA-Z0-9_]+|\\S)".r.findAllIn(s).toList
 
   implicit def literal(s: String): PackratParser[List[String]] = Parser(in => {
     val init = success[List[String]](Nil)(in)

@@ -106,10 +106,6 @@ object Compiler extends Compilers {
     case x ~ Gr(y, ss) ~ s =>
       val pre = ss.map(s => IAccess(IRId(s), toERef(x), EStr(s)))
       IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
-  } ||| {
-    ("If" ~> cond <~ ",") ~ stmt ^^ {
-      case (i ~ c) ~ t => ISeq(i :+ IIf(c, t, emptyInst))
-    }
   }
   lazy val ignoreCond: P[I[Expr]] = (
     "the order of evaluation needs to be reversed to preserve left to right evaluation" |
