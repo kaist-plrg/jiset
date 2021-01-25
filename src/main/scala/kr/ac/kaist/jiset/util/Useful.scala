@@ -181,6 +181,7 @@ object Useful {
     "&le;" -> "≤",
     "&ge;" -> "≥",
     "&nbsp;" -> " ",
+    "&infin;" -> "∞",
     "&laquo;" -> "«",
     "&raquo;" -> "»",
     "&ldquo;" -> "“",
