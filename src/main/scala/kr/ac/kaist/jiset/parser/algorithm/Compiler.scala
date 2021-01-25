@@ -343,6 +343,7 @@ object Compiler extends Compilers {
     refExpr |||
     referenceExpr |||
     dateExpr |||
+    mathValueExpr |||
     charExpr |||
     remainderExpr |||
     charSetExpr |||
@@ -356,7 +357,6 @@ object Compiler extends Compilers {
 
   // arithmetic expressions
   lazy val arithExpr: P[I[Expr]] = (
-    "ℝ" ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, e) } |||
     expr ~ rep1(bop ~ term) ^^ {
       case ie ~ ps => ps.foldLeft(ie) {
         case (i0 ~ l, b ~ (i1 ~ r)) => pair(i0 ++ i1, EBOp(b, l, r))
@@ -374,11 +374,12 @@ object Compiler extends Compilers {
     "modulo" ^^^ OUMod |
     "&" ^^^ OBAnd |
     "^" ^^^ OBXOr |
-    "|" ^^^ OBOr
+    "|" ^^^ OBOr |
+    "raised to the power" ^^^ OPow
   )
   lazy val uop: P[Option[UOp]] = (
     "+" ^^^ None |
-    "-" ^^^ Some(ONeg)
+    ("-" | "the negation of") ^^^ Some(ONeg)
   )
 
   // pair expressions
@@ -406,11 +407,7 @@ object Compiler extends Compilers {
 
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
-    ("ℝ" | "ℤ" | "𝔽") ~ "(" ~ expr <~ ")" ^^ { // TODO "𝔽" is not extracted. Solve this.
-      case ty ~ y ~ x => x
-    } ||| {
-      callRef ~ ("(" ~> repsep(expr, ",") <~ ")")
-    } ^^ {
+    callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
       case (i0 ~ (r: RefId), _) ~ list => {
         val i1 ~ e = getCall(ERef(r), list)
         pair(i0 ++ i1, e)
@@ -659,6 +656,12 @@ object Compiler extends Compilers {
     dateConst ^^ { n => pair(Nil, ENum(n)) }
   )
 
+  // Mathematical value expressions
+  lazy val mathValueExpr: P[I[Expr]] = (
+    ("ℝ" | "𝔽") ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, e) } |
+    "ℤ" ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, toBigInt(e)) }
+  )
+
   // character expressions
   lazy val charExpr: P[I[Expr]] = (
     opt("the") ~ ("character" | "code point") ~ opt("whose" ~ ("character value" | "code") ~ "is" | "value of" | "matched by") ~> ("U+" ~> text <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
@@ -706,11 +709,8 @@ object Compiler extends Compilers {
 
   // numeric quantified expressions
   lazy val numericExpr: P[I[Expr]] =
-    ("the" ~> ("Number" ^^^ false | "BigInt" ^^^ true) <~ "value for") ~ expr ^^ {
-      case b ~ (i ~ e) => {
-        val expr = if (b) parseExpr(s"(convert $e num2bigint)") else e
-        pair(i, expr)
-      }
+    ("the" ~> ("Number" ^^^ false | "BigInt" ^^^ true) <~ ("value" ~ ("for" | "that represents"))) ~ expr ^^ {
+      case b ~ (i ~ e) => pair(i, if (b) toBigInt(e) else e)
     }
 
   // operator expressions

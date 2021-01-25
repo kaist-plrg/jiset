@@ -287,6 +287,7 @@ trait Compilers extends TokenListParsers {
     val es = fs.map { case _ ~ e => e }
     pair(i, es.foldLeft[Ref](toRef(str))(RefProp(_, _)))
   }
+  def toBigInt(e: Expr): Expr = EConvert(e, CNumToBigInt, Nil)
 
   // create pair of parsing results
   val pair = `~`
