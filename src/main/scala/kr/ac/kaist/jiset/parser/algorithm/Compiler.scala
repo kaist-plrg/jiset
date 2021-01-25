@@ -793,7 +793,7 @@ object Compiler extends Compilers {
   lazy val codeValue: P[Expr] = opt("the" ~ ("code unit" | "element" | opt("single - element") ~ "string" ~ opt("value"))) ~> code <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
     case s if s.startsWith("\"%") && s.endsWith("%\"") => ERef(RefId(IRId(INTRINSIC_PRE + s.slice(2, s.length - 2))))
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
-    case s @ ("super" | "this" | "&" | "^" | "|") => EStr(s)
+    case s @ ("super" | "this" | "&" | "^" | "|" | "**" | "+" | "-") => EStr(s)
     case s => ENotSupported(s)
   }
 
