@@ -348,6 +348,7 @@ object Compiler extends Compilers {
     charSetExpr |||
     stateExpr |||
     integerExpr |||
+    numericExpr |||
     operatorExpr |||
     primitiveExpr |||
     starExpr
@@ -355,6 +356,7 @@ object Compiler extends Compilers {
 
   // arithmetic expressions
   lazy val arithExpr: P[I[Expr]] = (
+    "ℝ" ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, e) } |||
     expr ~ rep1(bop ~ term) ^^ {
       case ie ~ ps => ps.foldLeft(ie) {
         case (i0 ~ l, b ~ (i1 ~ r)) => pair(i0 ++ i1, EBOp(b, l, r))
@@ -697,6 +699,15 @@ object Compiler extends Compilers {
       case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
     }
   )
+
+  // numeric quantified expressions
+  lazy val numericExpr: P[I[Expr]] =
+    ("the" ~> ("Number" ^^^ false | "BigInt" ^^^ true) <~ "value for") ~ expr ^^ {
+      case b ~ (i ~ e) => {
+        val expr = if (b) parseExpr(s"(convert $e num2bigint)") else e
+        pair(i, expr)
+      }
+    }
 
   // operator expressions
   lazy val operatorExpr: P[I[Expr]] = "the result of" ~> (
