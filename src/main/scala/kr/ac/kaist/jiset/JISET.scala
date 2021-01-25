@@ -60,6 +60,7 @@ object JISET {
     CmdParse,
     CmdCompileREPL,
     CmdCheck,
+    CmdAnalyze,
     CmdGenTest
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
@@ -72,6 +73,7 @@ object JISET {
     Parse,
     CompileREPL,
     Check,
+    Analyze,
     GenTest
   )
 

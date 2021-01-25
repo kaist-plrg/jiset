@@ -44,5 +44,8 @@ case object CmdCompileREPL extends CommandObj("compile-repl", CmdBase >> Compile
 // check
 case object CmdCheck extends CommandObj("check", CmdParse >> Check)
 
+// analyze
+case object CmdAnalyze extends CommandObj("analyze", CmdParse >> Analyze)
+
 // gen-test
 case object CmdGenTest extends CommandObj("gen-test", CmdBase >> GenTest)
