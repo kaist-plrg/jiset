@@ -1,7 +1,5 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
-import concrete._
-
 // abstract domain for value V
 trait AbsDomain[V] extends Domain {
   // abstraction functions for values
@@ -34,7 +32,7 @@ trait AbsDomain[V] extends Domain {
 
   // abstract element traits
   trait ElemTrait extends super.ElemTrait { this: Elem =>
-    def gamma: FinSet[V]
-    def getSingle: Flat[V]
+    def gamma: concrete.Set[V]
+    def getSingle: concrete.Flat[V]
   }
 }

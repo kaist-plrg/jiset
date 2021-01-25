@@ -23,7 +23,7 @@ object Translator {
     def getBlock(prev: List[(Node, Edge)]): Block = prev match {
       case (block: Block, _) :: Nil => block
       case _ =>
-        val block = register(Block())
+        val block = register(Block(Vector()))
         connect(prev, block)
         block
     }
