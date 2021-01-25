@@ -38,6 +38,13 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     println(s"* symbols: ${symbols.size}")
     println(s"* aoids: ${aoids.size}")
 
+    // spec.incompletedAlgos.foreach(a => println(a.name))
+    // spec.incompletedAlgos.foreach(a => {
+    //   println("========================================")
+    //   println(a)
+    //   println("========================================")
+    // })
+
     spec
   }
 
