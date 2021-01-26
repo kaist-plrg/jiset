@@ -47,7 +47,7 @@ object ECMAScriptParser {
   def preprocess(version: String = RECENT_VERSION): (Array[String], Document) = {
     val rawVersion = getRawVersion(version)
     val cur = currentVersion(ECMA262_DIR)
-    val src = revertSpecialCodes(if (cur == rawVersion) readFile(SPEC_HTML) else {
+    val src = unescapeHtml(if (cur == rawVersion) readFile(SPEC_HTML) else {
       changeVersion(rawVersion, ECMA262_DIR)
       val src = readFile(SPEC_HTML)
       changeVersion(cur, ECMA262_DIR)

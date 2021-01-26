@@ -14,6 +14,7 @@ import scala.util.Random.shuffle
 import spray.json._
 import scala.sys.process._
 import scala.concurrent._
+import org.apache.commons.text.StringEscapeUtils
 
 object Useful {
   // file reader
@@ -171,31 +172,11 @@ object Useful {
   def getIndent(str: String): Int =
     "[ ]+".r.findFirstIn(str).fold(-1)(_.length)
 
-  // revert special codes in HTML
-  val HTML_SPECIAL_CODE = Map(
-    "&quot;" -> "\"",
-    "&amp;" -> "&",
-    "&apos;" -> "'",
-    "&lt;" -> "<",
-    "&gt;" -> ">",
-    "&le;" -> "≤",
-    "&ge;" -> "≥",
-    "&ne;" -> "≠",
-    "&nbsp;" -> " ",
-    "&infin;" -> "∞",
-    "&laquo;" -> "«",
-    "&raquo;" -> "»",
-    "&ldquo;" -> "“",
-    "&rdquo;" -> "”"
-  )
-  def revertSpecialCodes(str: String): String =
-    HTML_SPECIAL_CODE.foldLeft(str) {
-      case (s, (f, t)) => s.replaceAll(f, t)
-    }
-  def toSpecialCodes(str: String): String =
-    HTML_SPECIAL_CODE.foldLeft(str) {
-      case (s, (t, f)) => s.replaceAll(f, t)
-    }
+  // revert entity name to character
+  val unescapeHtml = StringEscapeUtils.unescapeHtml4(_)
+
+  // revert character to entity name
+  val escapeHtml = StringEscapeUtils.escapeHtml4(_)
 
   // execute shell command with given dir, default to CUR_DIR
   def executeCmd(given: String, dir: String = CUR_DIR): String = {

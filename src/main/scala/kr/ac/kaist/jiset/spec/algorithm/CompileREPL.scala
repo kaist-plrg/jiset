@@ -87,7 +87,7 @@ object CompileREPL {
     def append(line: String): Unit =
       buffer ++= line.split(LINE_SEP).filter(_.trim != "")
 
-    def getBuffer: Array[String] = buffer.map(revertSpecialCodes)
+    def getBuffer: Array[String] = buffer.map(unescapeHtml)
 
     def reset: Unit = { buffer = Array() }
 
