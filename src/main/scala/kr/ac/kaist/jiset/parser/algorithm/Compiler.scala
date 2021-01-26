@@ -1118,7 +1118,8 @@ object Compiler extends Compilers {
     "record" ^^^ "Record" |||
     "script record" ^^^ "ScriptRecord" |||
     ("exotic String object" | "string exotic object") ^^^ "StringExoticObject" |||
-    opt("ecmascript code") ~ "execution context" ^^^ "ExecutionContext"
+    opt("ecmascript code") ~ "execution context" ^^^ "ExecutionContext" |||
+    "reference record" ^^^ "ReferenceRecord"
   ) ^^ Ty
 
   ////////////////////////////////////////////////////////////////////////////////
