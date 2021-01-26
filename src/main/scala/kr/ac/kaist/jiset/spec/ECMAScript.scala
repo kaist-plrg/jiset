@@ -35,6 +35,10 @@ case class ECMAScript(
   // completed/incompleted algorithms
   lazy val (completedAlgos, incompletedAlgos): (List[Algo], List[Algo]) =
     algos.partition(_.isComplete)
+
+  // incompleted steps
+  lazy val incompletedSteps: Map[String, List[String]] =
+    incompletedAlgos.map(algo => (algo.name, algo.todos)).toMap
 }
 
 object ECMAScript {
