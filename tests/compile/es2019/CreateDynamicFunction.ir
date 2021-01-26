@@ -1,0 +1,113 @@
+{
+  [1] let callerContext = GLOBAL_executionStack[(- GLOBAL_executionStack.length 2i)]
+  [2] let callerRealm = callerContext.Realm
+  [3] let calleeRealm = REALM
+  [4] app __x0__ = (HostEnsureCanCompileStrings callerRealm calleeRealm)
+  [4] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [66] {}
+  [4] __x0__
+  [5] if (= newTarget undefined) newTarget = constructor else [66] {}
+  [18] if (= kind "normal") {
+    [7] ??? "Let id:{goal} be the grammar symbol | FunctionBody [ ~ Yield , ~ Await ] | ."
+    [8] ??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ ~ Yield , ~ Await ] | ."
+    [9] let fallbackProto = INTRINSIC_FunctionPrototype
+  } else if (= kind "generator") {
+    [11] let goal = "GeneratorBody"
+    [12] ??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ + Yield , ~ Await ] | ."
+    [13] let fallbackProto = INTRINSIC_Generator
+  } else if (= kind "async") {
+    [15] let goal = "AsyncFunctionBody"
+    [16] ??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ ~ Yield , + Await ] | ."
+    [17] let fallbackProto = INTRINSIC_AsyncFunctionPrototype
+  } else {
+    [20] let goal = "AsyncGeneratorBody"
+    [21] ??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ + Yield , + Await ] | ."
+    [22] let fallbackProto = INTRINSIC_AsyncGenerator
+  }
+  [23] let argCount = args.length
+  [24] let P = ""
+  [27] if (== argCount 0i) let bodyText = "" else if (== argCount 1i) let bodyText = args[0i] else {
+    [28] let firstArg = args[0i]
+    [29] app __x1__ = (ToString firstArg)
+    [29] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [66] {}
+    [29] P = __x1__
+    [30] let k = 1i
+    [31] while (< k (- argCount 1i)) {
+      [32] let nextArg = args[k]
+      [33] app __x2__ = (ToString nextArg)
+      [33] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [66] {}
+      [33] let nextArgString = __x2__
+      [34] P = (+ (+ P ",") nextArgString)
+      [35] k = (+ k 1i)
+    }
+    [36] let bodyText = args[k]
+  }
+  [37] app __x3__ = (ToString bodyText)
+  [37] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [66] {}
+  [37] bodyText = __x3__
+  [38] ??? "Let id:{parameters} be the result of parsing id:{P} , interpreted as UTF - 16 encoded Unicode text as described in link:{} , using id:{parameterGoal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
+  [39] ??? "Let id:{body} be the result of parsing id:{bodyText} , interpreted as UTF - 16 encoded Unicode text as described in link:{} , using id:{goal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
+  [40] access __x4__ = (body "ContainsUseStrict")
+  [40] let strict = __x4__
+  [41] ??? "If any static semantics errors are detected for id:{parameters} or id:{body} , throw a value:{SyntaxError} or a value:{ReferenceError} exception , depending on the type of the error . If id:{strict} is value:{true} , the Early Error rules for grammar:{UniqueFormalParameters0} are applied . Parsing and early error detection may be interweaved in an implementation - dependent manner ."
+  [42] let __x5__ = (= strict true)
+  [42] if __x5__ {
+    access __x6__ = (parameters "IsSimpleParameterList")
+    __x5__ = (= __x6__ false)
+  } else [66] {}
+  [42] if __x5__ {
+    app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x7__
+  } else [66] {}
+  [43] ??? "If any element of the BoundNames of id:{parameters} also occurs in the LexicallyDeclaredNames of id:{body} , throw a value:{SyntaxError} exception ."
+  [44] access __x8__ = (body "Contains")
+  [44] app __x9__ = (__x8__ "SuperCall")
+  [44] if (= __x9__ true) {
+    app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x10__
+  } else [66] {}
+  [45] access __x11__ = (parameters "Contains")
+  [45] app __x12__ = (__x11__ "SuperCall")
+  [45] if (= __x12__ true) {
+    app __x13__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x13__
+  } else [66] {}
+  [46] access __x14__ = (body "Contains")
+  [46] app __x15__ = (__x14__ "SuperProperty")
+  [46] if (= __x15__ true) {
+    app __x16__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x16__
+  } else [66] {}
+  [47] access __x17__ = (parameters "Contains")
+  [47] app __x18__ = (__x17__ "SuperProperty")
+  [47] if (= __x18__ true) {
+    app __x19__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x19__
+  } else [66] {}
+  [48] ??? "If id:{kind} is code:{\"generator\"} or ` \" async generator \" ` , then step-list:{...}"
+  [50] ??? "If id:{kind} is code:{\"async\"} or ` \" async generator \" ` , then step-list:{...}"
+  [52] if (= strict true) ??? "If BoundNames of id:{parameters} contains any duplicate elements , throw a value:{SyntaxError} exception ." else [66] {}
+  [54] app __x20__ = (GetPrototypeFromConstructor newTarget fallbackProto)
+  [54] if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else [66] {}
+  [54] let proto = __x20__
+  [55] app __x21__ = (FunctionAllocate proto strict kind)
+  [55] let F = __x21__
+  [56] let realmF = F.Realm
+  [57] let scope = realmF.GlobalEnv
+  [58] app __x22__ = (FunctionInitialize F CONST_Normal parameters body scope)
+  [58] __x22__
+  [59] if (= kind "generator") {
+    [60] app __x23__ = (ObjectCreate INTRINSIC_GeneratorPrototype)
+    [60] let prototype = __x23__
+    [61] app __x24__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+    [61] __x24__
+  } else [66] {}
+  [62] ??? "Else if id:{kind} is ` \" async generator \" ` , then step-list:{...}"
+  [65] ??? "Else if id:{kind} is code:{\"normal\"} , perform MakeConstructor ( id:{F} ) ."
+  [67] app __x25__ = (SetFunctionName F "anonymous")
+  [67] __x25__
+  [68] ??? "Let id:{prefix} be the prefix associated with id:{kind} in link:{} ."
+  [69] ??? "Let id:{sourceText} be the string - concatenation of id:{prefix} , ` \" anonymous ( \" ` , id:{P} , 0x000A ( LINE FEED ) , ` \" ) { \" ` , 0x000A ( LINE FEED ) , id:{bodyText} , 0x000A ( LINE FEED ) , and code:{\"}\"} ."
+  [70] F.SourceText = sourceText
+  [71] app __x26__ = (WrapCompletion F)
+  [71] return __x26__
+}

@@ -1,0 +1,31 @@
+{
+  app string = (GetArgument argumentsList 0i)
+  app unescapedSet = (GetArgument argumentsList 1i)
+  [0] let strLen = string.length
+  [1] let R = ""
+  [2] let k = 0i
+  [3] while true {
+    [4] if (= k strLen) {
+      app __x0__ = (WrapCompletion R)
+      return __x0__
+    } else [73] {}
+    [5] let C = string[k]
+    [9] if (contains unescapedSet C) {
+      [7] ??? "Let id:{S} be a String containing only the code unit id:{C} ."
+      [8] let R = (+ R S)
+    } else {
+      [10] ??? "If the code unit value of id:{C} is not less than 0xDC00 and not greater than 0xDFFF , throw a value:{URIError} exception ."
+      [11] ??? "If the code unit value of id:{C} is less than 0xD800 or greater than 0xDBFF , then step-list:{...}"
+      [13] ??? "Else , step-list:{...}"
+      [19] ??? "Let id:{Octets} be the array of octets resulting by applying the UTF - 8 transformation to id:{V} , and let id:{L} be the array size ."
+      [20] let j = 0i
+      [21] while (< j L) {
+        [22] ??? "Let id:{jOctet} be the value at index id:{j} within id:{Octets} ."
+        [23] ??? "Let id:{S} be a String containing three code units < code > \" % < var > XY < / var > \" < / code > where id:{XY} are two uppercase hexadecimal digits encoding the value of id:{jOctet} ."
+        [24] let R = (+ R S)
+        [25] j = (+ j 1i)
+      }
+    }
+    [26] k = (+ k 1i)
+  }
+}

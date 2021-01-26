@@ -1,0 +1,67 @@
+{
+  [1] app __x0__ = (Type x)
+  [1] if (! (= __x0__ String)) {
+    app __x1__ = (WrapCompletion x)
+    return __x1__
+  } else [25] {}
+  [2] let evalRealm = REALM
+  [3] app __x2__ = (HostEnsureCanCompileStrings callerRealm evalRealm)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [25] {}
+  [3] __x2__
+  [4] let inFunction = false
+  [5] let inMethod = false
+  [6] let inDerivedConstructor = false
+  [7] if (= direct true) {
+    [8] app __x3__ = (GetThisEnvironment )
+    [8] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [25] {}
+    [8] let thisEnvRec = __x3__
+    [9] if (= (typeof thisEnvRec) "FunctionEnvironmentRecord") {
+      [10] let F = thisEnvRec.FunctionObject
+      [11] inFunction = true
+      [12] app __x4__ = (thisEnvRec.HasSuperBinding thisEnvRec)
+      [12] inMethod = __x4__
+      [13] if (= F.ConstructorKind CONST_derived) inDerivedConstructor = true else [25] {}
+    } else [25] {}
+  } else [25] {}
+  [14] ??? "Perform the following substeps in an implementation - defined order , possibly interleaving parsing and error detection : step-list:{...}"
+  [23] if (= strictCaller true) let strictEval = true else {
+    access __x5__ = (script "IsStrict")
+    let strictEval = __x5__
+  }
+  [24] let runningContext = GLOBAL_context
+  [29] if (= direct true) {
+    [27] app __x6__ = (NewDeclarativeEnvironment runningContext.LexicalEnvironment)
+    [27] let lexEnv = __x6__
+    [28] let varEnv = runningContext.VariableEnvironment
+  } else {
+    [30] app __x7__ = (NewDeclarativeEnvironment evalRealm.GlobalEnv)
+    [30] let lexEnv = __x7__
+    [31] let varEnv = evalRealm.GlobalEnv
+  }
+  [32] if (= strictEval true) varEnv = lexEnv else [25] {}
+  [33] if (= runningContext null) GLOBAL_context = null else [25] {}
+  [34] let evalContext = (new ExecutionContext("SubMap" -> (new SubMap())))
+  [35] evalContext.Function = null
+  [36] evalContext.Realm = evalRealm
+  [37] evalContext.ScriptOrModule = runningContext.ScriptOrModule
+  [38] evalContext.VariableEnvironment = varEnv
+  [39] evalContext.LexicalEnvironment = lexEnv
+  [40] append evalContext -> GLOBAL_executionStack
+  [40] GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  [41] app __x8__ = (EvalDeclarationInstantiation body varEnv lexEnv strictEval)
+  [41] let result = __x8__
+  [42] if (= result.Type CONST_normal) {
+    [43] access __x9__ = (body "Evaluation")
+    [43] result = __x9__
+  } else [25] {}
+  [44] if (&& (= result.Type CONST_normal) (= result.Value CONST_empty)) {
+    [45] app __x10__ = (NormalCompletion undefined)
+    [45] result = __x10__
+  } else [25] {}
+  [46] GLOBAL_context = null
+  [46] if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] evalContext) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else [25] {}
+  [47] ??? "Resume the context that is now on the top of the execution context stack as the running execution context ."
+  [48] app __x11__ = (Completion result)
+  [48] app __x12__ = (WrapCompletion __x11__)
+  [48] return __x12__
+}

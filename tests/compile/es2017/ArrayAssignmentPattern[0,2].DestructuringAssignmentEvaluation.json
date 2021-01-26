@@ -1,0 +1,37 @@
+[{
+  "tokens": ["Let", {
+    "id": "iterator"
+  }, "be", "?", "GetIterator", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "iteratorRecord"
+  }, "be", "Record", "{", "[", "[", "Iterator", "]", "]", ":", {
+    "id": "iterator"
+  }, ",", "[", "[", "Done", "]", "]", ":", {
+    "value": "false"
+  }, "}", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "result"
+  }, "be", "the", "result", "of", "performing", "IteratorDestructuringAssignmentEvaluation", "of", {
+    "nt": "Elision"
+  }, "with", {
+    "id": "iteratorRecord"
+  }, "as", "the", "argument", "."]
+}, {
+  "tokens": ["If", {
+    "id": "iteratorRecord"
+  }, ".", "[", "[", "Done", "]", "]", "is", {
+    "value": "false"
+  }, ",", "return", "?", "IteratorClose", "(", {
+    "id": "iterator"
+  }, ",", {
+    "id": "result"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "result"
+  }, "."]
+}]

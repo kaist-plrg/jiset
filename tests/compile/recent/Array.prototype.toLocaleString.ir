@@ -1,0 +1,28 @@
+{
+  app reserved1 = (GetArgument argumentsList 0i)
+  app reserved2 = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [4] {}
+  [0] let array = __x0__
+  [1] app __x1__ = (LengthOfArrayLike array)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [4] {}
+  [1] let len = __x1__
+  [2] ??? "Let id:{separator} be the String value for the list - separator String appropriate for the host environment ' s current locale ( this is derived in an implementation - defined way ) ."
+  [3] let R = ""
+  [4] let k = 0i
+  [5] while (< k len) {
+    [6] if (< 0i k) R = (+ R separator) else [4] {}
+    [8] ??? "Let id:{nextElement} be ? Get ( id:{array} , ! ToString ( 𝔽 ( id:{k} ) ) ) ."
+    [9] if (! (|| (= nextElement undefined) (= nextElement null))) {
+      [10] app __x2__ = (Invoke nextElement "toLocaleString")
+      [10] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [4] {}
+      [10] app __x3__ = (ToString __x2__)
+      [10] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [4] {}
+      [10] let S = __x3__
+      [11] R = (+ R S)
+    } else [4] {}
+    [12] k = (+ k 1i)
+  }
+  [13] app __x4__ = (WrapCompletion R)
+  [13] return __x4__
+}

@@ -1,0 +1,77 @@
+{
+  app value = (GetArgument argumentsList 0i)
+  app replacer = (GetArgument argumentsList 1i)
+  app space = (GetArgument argumentsList 2i)
+  [0] let stack = (new [])
+  [1] let indent = ""
+  [2] let PropertyList = undefined
+  [2] let ReplacerFunction = undefined
+  [3] app __x0__ = (Type replacer)
+  [3] if (= __x0__ Object) {
+    [6] app __x1__ = (IsCallable replacer)
+    [6] if (= __x1__ true) ReplacerFunction = replacer else {
+      [7] app __x2__ = (IsArray replacer)
+      [7] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [5] {}
+      [7] let isArray = __x2__
+      [8] if (= isArray true) {
+        [9] PropertyList = (new [])
+        [10] app __x3__ = (LengthOfArrayLike replacer)
+        [10] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [5] {}
+        [10] let len = __x3__
+        [11] let k = 0i
+        [12] while (< k len) {
+          [13] app __x4__ = (ToString k)
+          [13] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [5] {}
+          [13] app __x5__ = (Get replacer __x4__)
+          [13] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [5] {}
+          [13] let v = __x5__
+          [14] let item = undefined
+          [17] app __x6__ = (Type v)
+          [17] if (= __x6__ String) item = v else {
+            app __x7__ = (Type v)
+            if (= __x7__ Number) {
+              app __x8__ = (ToString v)
+              if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [5] {}
+              item = __x8__
+            } else {
+              app __x9__ = (Type v)
+              if (= __x9__ Object) ??? "If id:{v} has a [ [ StringData ] ] or [ [ NumberData ] ] internal slot , set id:{item} to ? ToString ( id:{v} ) ." else [5] {}
+            }
+          }
+          [19] ??? "If id:{item} is not value:{undefined} and id:{item} is not currently an element of id:{PropertyList} , then step-list:{...}"
+          [21] k = (+ k 1i)
+        }
+      } else [5] {}
+    }
+  } else [5] {}
+  [22] app __x10__ = (Type space)
+  [22] if (= __x10__ Object) if (! (= space.NumberData absent)) {
+    [24] app __x11__ = (ToNumber space)
+    [24] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [5] {}
+    [24] space = __x11__
+  } else if (! (= space.StringData absent)) {
+    [26] app __x12__ = (ToString space)
+    [26] if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [5] {}
+    [26] space = __x12__
+  } else [5] {} else [5] {}
+  [32] app __x13__ = (Type space)
+  [32] if (= __x13__ Number) {
+    [28] app __x14__ = (ToInteger space)
+    [28] if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else [5] {}
+    [28] app __x15__ = (min 10i __x14__)
+    [28] space = __x15__
+    [29] ??? "If id:{space} < 1 , let id:{gap} be the empty String ; otherwise let id:{gap} be the String value containing id:{space} occurrences of the code unit 0x0020 ( SPACE ) ."
+  } else {
+    app __x16__ = (Type space)
+    if (= __x16__ String) ??? "If the length of id:{space} is 10 or less , let id:{gap} be id:{space} ; otherwise let id:{gap} be the String value consisting of the first 10 code units of id:{space} ." else let gap = ""
+  }
+  [34] ??? "Let id:{wrapper} be OrdinaryObjectCreate ( % Object . prototype % ) ."
+  [35] app __x17__ = (CreateDataPropertyOrThrow wrapper "" value)
+  [35] if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else [5] {}
+  [35] __x17__
+  [36] let state = (new Record("ReplacerFunction" -> ReplacerFunction, "Stack" -> stack, "Indent" -> indent, "Gap" -> gap, "PropertyList" -> PropertyList))
+  [37] app __x18__ = (SerializeJSONProperty state "" wrapper)
+  [37] if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else [5] {}
+  [37] app __x19__ = (WrapCompletion __x18__)
+  [37] return __x19__
+}

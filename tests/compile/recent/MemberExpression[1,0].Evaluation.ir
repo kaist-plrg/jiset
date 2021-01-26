@@ -1,0 +1,12 @@
+{
+  [0] access __x0__ = (MemberExpression "Evaluation")
+  [0] let baseReference = __x0__
+  [1] app __x1__ = (GetValue baseReference)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [3] {}
+  [1] let baseValue = __x1__
+  [2] if true let strict = true else let strict = false
+  [3] app __x2__ = (EvaluatePropertyAccessWithExpressionKey baseValue Expression strict)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [3] {}
+  [3] app __x3__ = (WrapCompletion __x2__)
+  [3] return __x3__
+}

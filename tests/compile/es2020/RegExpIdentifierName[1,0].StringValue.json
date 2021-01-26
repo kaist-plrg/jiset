@@ -1,0 +1,23 @@
+[{
+  "tokens": ["Let", {
+    "id": "idText"
+  }, "be", "the", "source", "text", "matched", "by", {
+    "nt": "RegExpIdentifierName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "idTextUnescaped"
+  }, "be", "the", "result", "of", "replacing", "any", "occurrences", "of", {
+    "code": "\\\\"
+  }, {
+    "nt": "RegExpUnicodeEscapeSequence"
+  }, "in", {
+    "id": "idText"
+  }, "with", "the", "code", "point", "represented", "by", "the", {
+    "nt": "RegExpUnicodeEscapeSequence"
+  }, "."]
+}, {
+  "tokens": ["Return", "!", "UTF16Encode", "(", {
+    "id": "idTextUnescaped"
+  }, ")", "."]
+}]

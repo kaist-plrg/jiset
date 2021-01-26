@@ -1,0 +1,44 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [3] if (= P "length") {
+    [2] app __x1__ = (ArraySetLength A Desc)
+    [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [5] {}
+    [2] app __x2__ = (WrapCompletion __x1__)
+    [2] return __x2__
+  } else {
+    app __x3__ = (IsArrayIndex P)
+    if __x3__ {
+      [4] app __x4__ = (OrdinaryGetOwnProperty A "length")
+      [4] let oldLenDesc = __x4__
+      [6] let oldLen = oldLenDesc.Value
+      [7] app __x5__ = (IsNonNegativeInteger oldLen)
+      [7] assert (= __x5__ true)
+      [8] app __x6__ = (ToUint32 P)
+      [8] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [5] {}
+      [8] let index = __x6__
+      [9] if (&& (! (< index oldLen)) (= oldLenDesc.Writable false)) {
+        app __x7__ = (WrapCompletion false)
+        return __x7__
+      } else [5] {}
+      [10] app __x8__ = (OrdinaryDefineOwnProperty A P Desc)
+      [10] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [5] {}
+      [10] let succeeded = __x8__
+      [11] if (= succeeded false) {
+        app __x9__ = (WrapCompletion false)
+        return __x9__
+      } else [5] {}
+      [12] if (! (< index oldLen)) {
+        [13] oldLenDesc.Value = (+ index 1i)
+        [14] app __x10__ = (OrdinaryDefineOwnProperty A "length" oldLenDesc)
+        [14] let succeeded = __x10__
+        [15] assert (= succeeded true)
+      } else [5] {}
+      [16] app __x11__ = (WrapCompletion true)
+      [16] return __x11__
+    } else [5] {}
+  }
+  [17] app __x12__ = (OrdinaryDefineOwnProperty A P Desc)
+  [17] app __x13__ = (WrapCompletion __x12__)
+  [17] return __x13__
+}

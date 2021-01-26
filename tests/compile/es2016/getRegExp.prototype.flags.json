@@ -1,0 +1,111 @@
+[{
+  "tokens": ["Let", {
+    "id": "R"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "R"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "result"
+  }, "be", "the", "empty", "String", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "global"
+  }, "be", "ToBoolean", "(", "?", "Get", "(", {
+    "id": "R"
+  }, ",", {
+    "code": "\"global\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "global"
+  }, "is", {
+    "value": "true"
+  }, ",", "append", {
+    "code": "\"g\""
+  }, "as", "the", "last", "code", "unit", "of", {
+    "id": "result"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "ignoreCase"
+  }, "be", "ToBoolean", "(", "?", "Get", "(", {
+    "id": "R"
+  }, ",", {
+    "code": "\"ignoreCase\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "ignoreCase"
+  }, "is", {
+    "value": "true"
+  }, ",", "append", {
+    "code": "\"i\""
+  }, "as", "the", "last", "code", "unit", "of", {
+    "id": "result"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "multiline"
+  }, "be", "ToBoolean", "(", "?", "Get", "(", {
+    "id": "R"
+  }, ",", {
+    "code": "\"multiline\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "multiline"
+  }, "is", {
+    "value": "true"
+  }, ",", "append", {
+    "code": "\"m\""
+  }, "as", "the", "last", "code", "unit", "of", {
+    "id": "result"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "unicode"
+  }, "be", "ToBoolean", "(", "?", "Get", "(", {
+    "id": "R"
+  }, ",", {
+    "code": "\"unicode\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "unicode"
+  }, "is", {
+    "value": "true"
+  }, ",", "append", {
+    "code": "\"u\""
+  }, "as", "the", "last", "code", "unit", "of", {
+    "id": "result"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "sticky"
+  }, "be", "ToBoolean", "(", "?", "Get", "(", {
+    "id": "R"
+  }, ",", {
+    "code": "\"sticky\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "sticky"
+  }, "is", {
+    "value": "true"
+  }, ",", "append", {
+    "code": "\"y\""
+  }, "as", "the", "last", "code", "unit", "of", {
+    "id": "result"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "result"
+  }, "."]
+}]

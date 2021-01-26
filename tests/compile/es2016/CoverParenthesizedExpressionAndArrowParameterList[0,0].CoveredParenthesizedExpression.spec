@@ -1,0 +1,1 @@
+          1. Return the result of parsing the lexical token stream matched by |CoverParenthesizedExpressionAndArrowParameterList[Yield]| using either |ParenthesizedExpression| or |ParenthesizedExpression[Yield]| as the goal symbol depending upon whether the <sub>[Yield]</sub> grammar parameter was present when |CoverParenthesizedExpressionAndArrowParameterList| was matched.

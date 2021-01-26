@@ -1,0 +1,30 @@
+{
+  [0] app __x0__ = (GeneratorValidate generator)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [16] {}
+  [0] let state = __x0__
+  [1] if (= state CONST_suspendedStart) {
+    [2] generator.GeneratorState = CONST_completed
+    [4] state = CONST_completed
+  } else [16] {}
+  [5] if (= state CONST_completed) {
+    [6] if (= abruptCompletion.Type CONST_return) {
+      [7] app __x1__ = (CreateIterResultObject abruptCompletion.Value true)
+      [7] app __x2__ = (WrapCompletion __x1__)
+      [7] return __x2__
+    } else [16] {}
+    [8] app __x3__ = (Completion abruptCompletion)
+    [8] app __x4__ = (WrapCompletion __x3__)
+    [8] return __x4__
+  } else [16] {}
+  [9] assert (= state CONST_suspendedYield)
+  [10] let genContext = generator.GeneratorContext
+  [11] let methodContext = GLOBAL_context
+  [12] GLOBAL_context = null
+  [13] generator.GeneratorState = CONST_executing
+  [14] append genContext -> GLOBAL_executionStack
+  [14] GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  [15] ??? "Resume the suspended evaluation of id:{genContext} using id:{abruptCompletion} as the result of the operation that suspended it . Let id:{result} be the completion record returned by the resumed computation ."
+  [17] app __x5__ = (Completion result)
+  [17] app __x6__ = (WrapCompletion __x5__)
+  [17] return __x6__
+}

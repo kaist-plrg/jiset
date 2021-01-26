@@ -1,0 +1,1 @@
+        1. Return the result of ComputedPropertyContains for |MethodDefinition| with argument _symbol_.

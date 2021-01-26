@@ -1,0 +1,42 @@
+{
+  [0] access __x0__ = (AdditiveExpression "Evaluation")
+  [0] let lref = __x0__
+  [1] app __x1__ = (GetValue lref)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+  [1] let lval = __x1__
+  [2] access __x2__ = (MultiplicativeExpression "Evaluation")
+  [2] let rref = __x2__
+  [3] app __x3__ = (GetValue rref)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [6] {}
+  [3] let rval = __x3__
+  [4] app __x4__ = (ToPrimitive lval)
+  [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [6] {}
+  [4] let lprim = __x4__
+  [5] app __x5__ = (ToPrimitive rval)
+  [5] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [6] {}
+  [5] let rprim = __x5__
+  [6] app __x6__ = (Type lprim)
+  [6] let __x7__ = (= __x6__ String)
+  [6] if __x7__ [6] {} else {
+    app __x8__ = (Type rprim)
+    __x7__ = (= __x8__ String)
+  }
+  [6] if __x7__ {
+    [7] app __x9__ = (ToString lprim)
+    [7] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [6] {}
+    [7] let lstr = __x9__
+    [8] app __x10__ = (ToString rprim)
+    [8] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [6] {}
+    [8] let rstr = __x10__
+    [9] app __x11__ = (WrapCompletion (+ lstr rstr))
+    [9] return __x11__
+  } else [6] {}
+  [10] app __x12__ = (ToNumber lprim)
+  [10] if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [6] {}
+  [10] let lnum = __x12__
+  [11] app __x13__ = (ToNumber rprim)
+  [11] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [6] {}
+  [11] let rnum = __x13__
+  [12] app __x14__ = (WrapCompletion (+ lnum rnum))
+  [12] return __x14__
+}

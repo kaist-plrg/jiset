@@ -1,0 +1,70 @@
+{
+  [1] app __x0__ = (Type x)
+  [1] if (! (= __x0__ String)) {
+    app __x1__ = (WrapCompletion x)
+    return __x1__
+  } else [18] {}
+  [2] app __x2__ = (GetThisEnvironment )
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [18] {}
+  [2] let thisEnvRec = __x2__
+  [8] if (= (typeof thisEnvRec) "FunctionEnvironmentRecord") {
+    [4] let F = thisEnvRec.FunctionObject
+    [5] let inFunction = true
+    [6] app __x3__ = (thisEnvRec.HasSuperBinding thisEnvRec)
+    [6] let inMethod = __x3__
+    [7] if (= F.ConstructorKind "derived") let inDerivedConstructor = true else let inDerivedConstructor = false
+  } else {
+    [9] let inFunction = false
+    [10] let inMethod = false
+    [11] let inDerivedConstructor = false
+  }
+  [12] ??? "Let id:{script} be the ECMAScript code that is the result of parsing id:{x} , interpreted as UTF - 16 encoded Unicode text as described in link:{} , for the goal symbol nt:{Script} . If id:{inFunction} is value:{false} , additional early error rules from link:{} are applied . If id:{inMethod} is value:{false} , additional early error rules from link:{} are applied . If id:{inDerivedConstructor} is value:{false} , additional early error rules from link:{} are applied . If the parse fails , throw a value:{SyntaxError} exception . If any early errors are detected , throw a value:{SyntaxError} or a value:{ReferenceError} exception , depending on the type of the error ( but see also clause link:{} ) . Parsing and early error detection may be interweaved in an implementation - dependent manner ."
+  [13] access __x4__ = (script "Contains")
+  [13] app __x5__ = (__x4__ "ScriptBody")
+  [13] if (= __x5__ false) {
+    app __x6__ = (WrapCompletion undefined)
+    return __x6__
+  } else [18] {}
+  [14] access __x7__ = (script "ScriptBody")
+  [14] let body = __x7__
+  [16] if (= strictCaller true) let strictEval = true else {
+    access __x8__ = (script "IsStrict")
+    let strictEval = __x8__
+  }
+  [17] let ctx = GLOBAL_context
+  [22] if (= direct true) {
+    [20] app __x9__ = (NewDeclarativeEnvironment ctx.LexicalEnvironment)
+    [20] let lexEnv = __x9__
+    [21] let varEnv = ctx.VariableEnvironment
+  } else {
+    [23] app __x10__ = (NewDeclarativeEnvironment evalRealm.GlobalEnv)
+    [23] let lexEnv = __x10__
+    [24] let varEnv = evalRealm.GlobalEnv
+  }
+  [25] if (= strictEval true) varEnv = lexEnv else [18] {}
+  [26] if (= ctx null) GLOBAL_context = null else [18] {}
+  [27] let evalCxt = (new ExecutionContext("SubMap" -> (new SubMap())))
+  [28] evalCxt.Function = null
+  [29] evalCxt.Realm = evalRealm
+  [30] evalCxt.ScriptOrModule = ctx.ScriptOrModule
+  [31] evalCxt.VariableEnvironment = varEnv
+  [32] evalCxt.LexicalEnvironment = lexEnv
+  [33] append evalCxt -> GLOBAL_executionStack
+  [33] GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  [34] app __x11__ = (EvalDeclarationInstantiation body varEnv lexEnv strictEval)
+  [34] let result = __x11__
+  [35] if (= result.Type CONST_normal) {
+    [36] access __x12__ = (body "Evaluation")
+    [36] result = __x12__
+  } else [18] {}
+  [37] if (&& (= result.Type CONST_normal) (= result.Value CONST_empty)) {
+    [38] app __x13__ = (NormalCompletion undefined)
+    [38] result = __x13__
+  } else [18] {}
+  [39] GLOBAL_context = null
+  [39] if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] evalCxt) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else [18] {}
+  [40] ??? "Resume the context that is now on the top of the execution context stack as the running execution context ."
+  [41] app __x14__ = (Completion result)
+  [41] app __x15__ = (WrapCompletion __x14__)
+  [41] return __x15__
+}

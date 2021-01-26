@@ -1,0 +1,11 @@
+{
+  [0] access __x0__ = (Initializer "Evaluation")
+  [0] let rhs = __x0__
+  [1] app __x1__ = (GetValue rhs)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [13] {}
+  [1] let rval = __x1__
+  [2] access __x2__ = (BindingPattern "BindingInitialization")
+  [2] app __x3__ = (__x2__ rval undefined)
+  [2] app __x4__ = (WrapCompletion __x3__)
+  [2] return __x4__
+}

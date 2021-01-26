@@ -11,14 +11,12 @@ import org.scalatest._
 
 class LegacyCompileTest extends CompileTest {
   // tag name
-  override val tag = "legacyCompile"
-
-  // change extension from .json to .ir
-  val json2ir = changeExt("json", "ir")
+  override def tag = "legacyCompile"
 
   // registration
-  def init: Unit = {
-    for (file <- walkTree(LEGACY_DIR)) {
+  override def executeTests: Unit = {
+    val json2ir = changeExt("json", "ir")
+    for (file <- walkTree(LEGACY_COMPILE_DIR)) {
       val filename = file.getName
       if (jsonFilter(filename)) {
         val jsonName = file.toString
@@ -34,6 +32,4 @@ class LegacyCompileTest extends CompileTest {
       }
     }
   }
-
-  init
 }

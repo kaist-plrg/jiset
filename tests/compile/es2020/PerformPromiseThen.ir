@@ -1,0 +1,40 @@
+{
+  [0] app __x0__ = (IsPromise promise)
+  [0] assert (= __x0__ true)
+  [3] if (! (= resultCapability absent)) {} else resultCapability = undefined
+  [5] app __x1__ = (IsCallable onFulfilled)
+  [5] if (= __x1__ false) onFulfilled = undefined else [2] {}
+  [7] app __x2__ = (IsCallable onRejected)
+  [7] if (= __x2__ false) onRejected = undefined else [2] {}
+  [9] let fulfillReaction = (new PromiseReaction("Capability" -> resultCapability, "Type" -> CONST_Fulfill, "Handler" -> onFulfilled))
+  [10] let rejectReaction = (new PromiseReaction("Capability" -> resultCapability, "Type" -> CONST_Reject, "Handler" -> onRejected))
+  [18] if (= promise.PromiseState CONST_pending) {
+    [12] append fulfillReaction -> promise.PromiseFulfillReactions
+    [13] append rejectReaction -> promise.PromiseRejectReactions
+  } else if (= promise.PromiseState CONST_fulfilled) {
+    [15] let value = promise.PromiseResult
+    [16] app __x3__ = (NewPromiseReactionJob fulfillReaction value)
+    [16] let fulfillJob = __x3__
+    [17] app __x4__ = (HostEnqueuePromiseJob fulfillJob.Job fulfillJob.Realm)
+    [17] __x4__
+  } else {
+    [19] assert (= promise.PromiseState CONST_rejected)
+    [20] let reason = promise.PromiseResult
+    [21] if (= promise.PromiseIsHandled false) {
+      app __x5__ = (HostPromiseRejectionTracker promise "handle")
+      __x5__
+    } else [2] {}
+    [22] app __x6__ = (NewPromiseReactionJob rejectReaction reason)
+    [22] let rejectJob = __x6__
+    [23] app __x7__ = (HostEnqueuePromiseJob rejectJob.Job rejectJob.Realm)
+    [23] __x7__
+  }
+  [24] promise.PromiseIsHandled = true
+  [27] if (= resultCapability undefined) {
+    [26] app __x8__ = (WrapCompletion undefined)
+    [26] return __x8__
+  } else {
+    [28] app __x9__ = (WrapCompletion resultCapability.Promise)
+    [28] return __x9__
+  }
+}

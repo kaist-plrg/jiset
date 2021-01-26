@@ -1,0 +1,14 @@
+{
+  [0] app __x0__ = (ArrayCreate 0i)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [3] {}
+  [0] let array = __x0__
+  [1] if (= Elision absent) let pad = 0i else {
+    access __x1__ = (Elision "ElisionWidth")
+    let pad = __x1__
+  }
+  [2] app __x2__ = (ToUint32 pad)
+  [2] app __x3__ = (Set array "length" __x2__ false)
+  [2] __x3__
+  [4] app __x4__ = (WrapCompletion array)
+  [4] return __x4__
+}

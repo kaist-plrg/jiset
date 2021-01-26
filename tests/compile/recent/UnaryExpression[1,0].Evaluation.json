@@ -1,0 +1,95 @@
+[{
+  "tokens": ["Let", {
+    "id": "ref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "UnaryExpression"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "ref"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "ref"
+  }, "is", "not", "a", "Reference", "Record", ",", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "IsUnresolvableReference", "(", {
+    "id": "ref"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "ref"
+  }, ".", "[", "[", "Strict", "]", "]", "is", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "IsPropertyReference", "(", {
+    "id": "ref"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["If", "IsSuperReference", "(", {
+    "id": "ref"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "ReferenceError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "baseObj"
+  }, "be", "!", "ToObject", "(", {
+    "id": "ref"
+  }, ".", "[", "[", "Base", "]", "]", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "deleteStatus"
+  }, "be", "?", {
+    "id": "baseObj"
+  }, ".", "[", "[", "Delete", "]", "]", "(", {
+    "id": "ref"
+  }, ".", "[", "[", "ReferencedName", "]", "]", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "deleteStatus"
+  }, "is", {
+    "value": "false"
+  }, "and", {
+    "id": "ref"
+  }, ".", "[", "[", "Strict", "]", "]", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "deleteStatus"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "base"
+  }, "be", {
+    "id": "ref"
+  }, ".", "[", "[", "Base", "]", "]", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "base"
+  }, "is", "an", "Environment", "Record", "."]
+}, {
+  "tokens": ["Return", "?", {
+    "id": "base"
+  }, ".", "DeleteBinding", "(", {
+    "id": "ref"
+  }, ".", "[", "[", "ReferencedName", "]", "]", ")", "."]
+}]

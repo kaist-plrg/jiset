@@ -1,0 +1,123 @@
+[{
+  "tokens": ["Evaluate", {
+    "nt": "Alternative"
+  }, "with", "argument", {
+    "id": "direction"
+  }, "to", "obtain", "a", "Matcher", {
+    "id": "m1"
+  }, "."]
+}, {
+  "tokens": ["Evaluate", {
+    "nt": "Term"
+  }, "with", "argument", {
+    "id": "direction"
+  }, "to", "obtain", "a", "Matcher", {
+    "id": "m2"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "direction"
+  }, "=", "1", ",", "then"]
+}, {
+  "tokens": ["Return", "a", "new", "Matcher", "with", "parameters", "(", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ")", "that", "captures", {
+    "id": "m1"
+  }, "and", {
+    "id": "m2"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "x"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "c"
+  }, "is", "a", "Continuation", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "d"
+  }, "be", "a", "new", "Continuation", "with", "parameters", "(", {
+    "id": "y"
+  }, ")", "that", "captures", {
+    "id": "c"
+  }, "and", {
+    "id": "m2"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "y"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "m2"
+  }, "(", {
+    "id": "y"
+  }, ",", {
+    "id": "c"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "m1"
+  }, "(", {
+    "id": "x"
+  }, ",", {
+    "id": "d"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "direction"
+  }, "is", "-", "1", "."]
+}, {
+  "tokens": ["Return", "a", "new", "Matcher", "with", "parameters", "(", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ")", "that", "captures", {
+    "id": "m1"
+  }, "and", {
+    "id": "m2"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "x"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "c"
+  }, "is", "a", "Continuation", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "d"
+  }, "be", "a", "new", "Continuation", "with", "parameters", "(", {
+    "id": "y"
+  }, ")", "that", "captures", {
+    "id": "c"
+  }, "and", {
+    "id": "m1"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "y"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "m1"
+  }, "(", {
+    "id": "y"
+  }, ",", {
+    "id": "c"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "m2"
+  }, "(", {
+    "id": "x"
+  }, ",", {
+    "id": "d"
+  }, ")", "."]
+}]

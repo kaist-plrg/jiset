@@ -1,0 +1,20 @@
+{
+  [0] app __x0__ = (Type targetFunction)
+  [0] assert (= __x0__ Object)
+  [1] app __x1__ = (targetFunction.GetPrototypeOf targetFunction)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [1] let proto = __x1__
+  [2] ??? "Let id:{internalSlotsList} be the internal slots listed in link:{} , plus [ [ Prototype ] ] and [ [ Extensible ] ] ."
+  [3] app __x2__ = (MakeBasicObject internalSlotsList)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+  [3] let obj = __x2__
+  [4] obj.Prototype = proto
+  [5] ??? "Set id:{obj} . [ [ Call ] ] as described in link:{} ."
+  [6] app __x3__ = (IsConstructor targetFunction)
+  [6] if (= __x3__ true) ??? "Set id:{obj} . [ [ Construct ] ] as described in link:{} ." else [0] {}
+  [8] obj.BoundTargetFunction = targetFunction
+  [9] obj.BoundThis = boundThis
+  [10] obj.BoundArguments = boundArgs
+  [11] app __x4__ = (WrapCompletion obj)
+  [11] return __x4__
+}

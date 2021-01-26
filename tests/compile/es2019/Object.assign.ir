@@ -1,0 +1,15 @@
+{
+  app target = (GetArgument argumentsList 0i)
+  app sources = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ToObject target)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [74] {}
+  [0] let to = __x0__
+  [1] if (= argumentsList.length 1i) {
+    app __x1__ = (WrapCompletion to)
+    return __x1__
+  } else [74] {}
+  [2] ??? "Let id:{sources} be the List of argument values starting with the second argument ."
+  [3] ??? "For each element id:{nextSource} of id:{sources} , in ascending index order , do step-list:{...}"
+  [12] app __x2__ = (WrapCompletion to)
+  [12] return __x2__
+}

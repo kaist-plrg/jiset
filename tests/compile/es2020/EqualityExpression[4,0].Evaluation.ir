@@ -1,0 +1,22 @@
+{
+  [0] access __x0__ = (EqualityExpression "Evaluation")
+  [0] let lref = __x0__
+  [1] app __x1__ = (GetValue lref)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [13] {}
+  [1] let lval = __x1__
+  [2] access __x2__ = (RelationalExpression "Evaluation")
+  [2] let rref = __x2__
+  [3] app __x3__ = (GetValue rref)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [13] {}
+  [3] let rval = __x3__
+  [4] app __x4__ = (StrictEqualityComparison rval lval)
+  [4] let r = __x4__
+  [5] assert (&& (is-completion r) (= r.Type CONST_normal))
+  [6] if (= r.Value true) {
+    app __x5__ = (WrapCompletion false)
+    return __x5__
+  } else {
+    app __x6__ = (WrapCompletion true)
+    return __x6__
+  }
+}

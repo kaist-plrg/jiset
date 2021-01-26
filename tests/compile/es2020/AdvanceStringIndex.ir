@@ -1,0 +1,27 @@
+{
+  [0] app __x0__ = (Type S)
+  [0] assert (= __x0__ String)
+  [1] let __x1__ = (&& (! (< index 0i)) (! (< (- 9007199254740992i 1i) index)))
+  [1] if __x1__ {
+    app __x2__ = (IsInteger index)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [52] {}
+    __x1__ = (= __x2__ true)
+  } else [52] {}
+  [1] assert __x1__
+  [2] app __x3__ = (Type unicode)
+  [2] assert (= __x3__ Boolean)
+  [3] if (= unicode false) {
+    app __x4__ = (WrapCompletion (+ index 1i))
+    return __x4__
+  } else [52] {}
+  [4] let length = S.length
+  [5] if (! (< (+ index 1i) length)) {
+    app __x5__ = (WrapCompletion (+ index 1i))
+    return __x5__
+  } else [52] {}
+  [6] app __x6__ = (CodePointAt S index)
+  [6] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [52] {}
+  [6] let cp = __x6__
+  [7] app __x7__ = (WrapCompletion (+ index cp.CodeUnitCount))
+  [7] return __x7__
+}

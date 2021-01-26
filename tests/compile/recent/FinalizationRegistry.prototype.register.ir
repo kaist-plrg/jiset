@@ -1,0 +1,31 @@
+{
+  app target = (GetArgument argumentsList 0i)
+  app heldValue = (GetArgument argumentsList 1i)
+  app unregisterToken = (GetArgument argumentsList 2i)
+  [0] let finalizationRegistry = this
+  [1] app __x0__ = (RequireInternalSlot finalizationRegistry "Cells")
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [7] {}
+  [1] __x0__
+  [2] app __x1__ = (Type target)
+  [2] if (! (= __x1__ Object)) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [7] {}
+  [3] app __x3__ = (SameValue target heldValue)
+  [3] if (= __x3__ true) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else [7] {}
+  [4] app __x5__ = (Type unregisterToken)
+  [4] if (! (= __x5__ Object)) {
+    [5] if (! (= unregisterToken undefined)) {
+      app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x6__
+    } else [7] {}
+    [6] unregisterToken = CONST_empty
+  } else [7] {}
+  [7] let cell = (new Record("WeakRefTarget" -> target, "HeldValue" -> heldValue, "UnregisterToken" -> unregisterToken))
+  [8] append cell -> finalizationRegistry.Cells
+  [9] app __x7__ = (WrapCompletion undefined)
+  [9] return __x7__
+}

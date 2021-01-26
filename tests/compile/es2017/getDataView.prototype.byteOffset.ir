@@ -1,0 +1,22 @@
+{
+  [0] let O = this
+  [1] app __x0__ = (Type O)
+  [1] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [0] {}
+  [2] if (= O.DataView absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [0] {}
+  [3] assert (! (= O.ViewedArrayBuffer absent))
+  [4] let buffer = O.ViewedArrayBuffer
+  [5] app __x3__ = (IsDetachedBuffer buffer)
+  [5] if (= __x3__ true) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else [0] {}
+  [6] let offset = O.ByteOffset
+  [7] app __x5__ = (WrapCompletion offset)
+  [7] return __x5__
+}

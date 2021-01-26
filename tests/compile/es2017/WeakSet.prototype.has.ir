@@ -1,0 +1,36 @@
+{
+  app value = (GetArgument argumentsList 0i)
+  [0] let S = this
+  [1] app __x0__ = (Type S)
+  [1] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [0] {}
+  [2] if (= S.WeakSetData absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [0] {}
+  [3] let entries = S.WeakSetData
+  [4] app __x3__ = (Type value)
+  [4] if (! (= __x3__ Object)) {
+    app __x4__ = (WrapCompletion false)
+    return __x4__
+  } else [0] {}
+  [5] let __x5__ = entries
+  [5] let __x6__ = 0i
+  [5] while (< __x6__ __x5__.length) {
+    let e = __x5__[__x6__]
+    [6] let __x7__ = (! (= e CONST_empty))
+    [6] if __x7__ {
+      app __x8__ = (SameValue e value)
+      __x7__ = (= __x8__ true)
+    } else [0] {}
+    [6] if __x7__ {
+      app __x9__ = (WrapCompletion true)
+      return __x9__
+    } else [0] {}
+    __x6__ = (+ __x6__ 1i)
+  }
+  [7] app __x10__ = (WrapCompletion false)
+  [7] return __x10__
+}

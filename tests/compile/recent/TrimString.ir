@@ -1,0 +1,13 @@
+{
+  [0] app __x0__ = (RequireObjectCoercible string)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [25] {}
+  [0] let str = __x0__
+  [1] app __x1__ = (ToString str)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [25] {}
+  [1] let S = __x1__
+  [2] ??? "If id:{where} is const:{start} , let id:{T} be the String value that is a copy of id:{S} with leading white space removed ."
+  [3] ??? "Else if id:{where} is const:{end} , let id:{T} be the String value that is a copy of id:{S} with trailing white space removed ."
+  [4] ??? "Else , step-list:{...}"
+  [7] app __x2__ = (WrapCompletion T)
+  [7] return __x2__
+}

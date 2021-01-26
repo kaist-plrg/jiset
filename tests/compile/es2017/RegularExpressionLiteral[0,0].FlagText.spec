@@ -1,0 +1,1 @@
+          1. Return the source text that was recognized as |RegularExpressionFlags|.

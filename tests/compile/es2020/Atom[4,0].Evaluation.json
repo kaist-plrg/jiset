@@ -1,0 +1,154 @@
+[{
+  "tokens": ["Evaluate", {
+    "nt": "Disjunction"
+  }, "with", "argument", {
+    "id": "direction"
+  }, "to", "obtain", "a", "Matcher", {
+    "id": "m"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "parenIndex"
+  }, "be", "the", "number", "of", "left", "-", "capturing", "parentheses", "in", "the", "entire", "regular", "expression", "that", "occur", "to", "the", "left", "of", "this", {
+    "nt": "Atom"
+  }, ".", "This", "is", "the", "total", "number", "of", {
+    "grammar": "Atom4",
+    "subs": ["GroupSpecifier", "Disjunction"]
+  }, "Parse", "Nodes", "prior", "to", "or", "enclosing", "this", {
+    "nt": "Atom"
+  }, "."]
+}, {
+  "tokens": ["Return", "a", "new", "Matcher", "with", "parameters", "(", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ")", "that", "captures", {
+    "id": "direction"
+  }, ",", {
+    "id": "m"
+  }, ",", "and", {
+    "id": "parenIndex"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "x"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "c"
+  }, "is", "a", "Continuation", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "d"
+  }, "be", "a", "new", "Continuation", "with", "parameters", "(", {
+    "id": "y"
+  }, ")", "that", "captures", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ",", {
+    "id": "direction"
+  }, ",", "and", {
+    "id": "parenIndex"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "y"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "cap"
+  }, "be", "a", "copy", "of", {
+    "id": "y"
+  }, "'", "s", {
+    "id": "captures"
+  }, "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "xe"
+  }, "be", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "endIndex"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "ye"
+  }, "be", {
+    "id": "y"
+  }, "'", "s", {
+    "id": "endIndex"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "direction"
+  }, "is", "equal", "to", "+", "1", ",", "then"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "xe"
+  }, "≤", {
+    "id": "ye"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "s"
+  }, "be", "a", "new", "List", "whose", "elements", "are", "the", "characters", "of", {
+    "id": "Input"
+  }, "at", "indices", {
+    "id": "xe"
+  }, "(", "inclusive", ")", "through", {
+    "id": "ye"
+  }, "(", "exclusive", ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "direction"
+  }, "is", "equal", "to", "-", "1", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "ye"
+  }, "≤", {
+    "id": "xe"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "s"
+  }, "be", "a", "new", "List", "whose", "elements", "are", "the", "characters", "of", {
+    "id": "Input"
+  }, "at", "indices", {
+    "id": "ye"
+  }, "(", "inclusive", ")", "through", {
+    "id": "xe"
+  }, "(", "exclusive", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "cap"
+  }, "[", {
+    "id": "parenIndex"
+  }, "+", "1", "]", "to", {
+    "id": "s"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "z"
+  }, "be", "the", "State", "(", {
+    "id": "ye"
+  }, ",", {
+    "id": "cap"
+  }, ")", "."]
+}, {
+  "tokens": ["Call", {
+    "id": "c"
+  }, "(", {
+    "id": "z"
+  }, ")", "and", "return", "its", "result", "."]
+}, {
+  "tokens": ["Call", {
+    "id": "m"
+  }, "(", {
+    "id": "x"
+  }, ",", {
+    "id": "d"
+  }, ")", "and", "return", "its", "result", "."]
+}]

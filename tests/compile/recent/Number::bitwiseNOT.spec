@@ -1,0 +1,2 @@
+            1. Let _oldValue_ be ! ToInt32(_x_).
+            1. Return the result of applying bitwise complement to _oldValue_. The mathematical value of the result is exactly representable as a 32-bit two's complement bit string.

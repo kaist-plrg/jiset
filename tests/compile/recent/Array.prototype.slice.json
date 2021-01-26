@@ -1,0 +1,169 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "ToObject", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "?", "LengthOfArrayLike", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "relativeStart"
+  }, "be", "?", "ToIntegerOrInfinity", "(", {
+    "id": "start"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "relativeStart"
+  }, "is", "-", "∞", ",", "let", {
+    "id": "k"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "relativeStart"
+  }, "<", "0", ",", "let", {
+    "id": "k"
+  }, "be", "max", "(", {
+    "id": "len"
+  }, "+", {
+    "id": "relativeStart"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "k"
+  }, "be", "min", "(", {
+    "id": "relativeStart"
+  }, ",", {
+    "id": "len"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "end"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "let", {
+    "id": "relativeEnd"
+  }, "be", {
+    "id": "len"
+  }, ";", "else", "let", {
+    "id": "relativeEnd"
+  }, "be", "?", "ToIntegerOrInfinity", "(", {
+    "id": "end"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "relativeEnd"
+  }, "is", "-", "∞", ",", "let", {
+    "id": "final"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "relativeEnd"
+  }, "<", "0", ",", "let", {
+    "id": "final"
+  }, "be", "max", "(", {
+    "id": "len"
+  }, "+", {
+    "id": "relativeEnd"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "final"
+  }, "be", "min", "(", {
+    "id": "relativeEnd"
+  }, ",", {
+    "id": "len"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "count"
+  }, "be", "max", "(", {
+    "id": "final"
+  }, "-", {
+    "id": "k"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "A"
+  }, "be", "?", "ArraySpeciesCreate", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "count"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "n"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "k"
+  }, "<", {
+    "id": "final"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "Pk"
+  }, "be", "!", "ToString", "(", "𝔽", "(", {
+    "id": "k"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "kPresent"
+  }, "be", "?", "HasProperty", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "Pk"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "kPresent"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "kValue"
+  }, "be", "?", "Get", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "Pk"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "?", "CreateDataPropertyOrThrow", "(", {
+    "id": "A"
+  }, ",", "!", "ToString", "(", "𝔽", "(", {
+    "id": "n"
+  }, ")", ")", ",", {
+    "id": "kValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "k"
+  }, "to", {
+    "id": "k"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "n"
+  }, "to", {
+    "id": "n"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["Perform", "?", "Set", "(", {
+    "id": "A"
+  }, ",", {
+    "value": "\"length\""
+  }, ",", "𝔽", "(", {
+    "id": "n"
+  }, ")", ",", {
+    "value": "true"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "A"
+  }, "."]
+}]

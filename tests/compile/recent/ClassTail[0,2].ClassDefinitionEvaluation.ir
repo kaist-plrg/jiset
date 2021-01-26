@@ -1,0 +1,102 @@
+{
+  [0] access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  [0] let env = __x0__
+  [1] app __x1__ = (NewDeclarativeEnvironment env)
+  [1] let classScope = __x1__
+  [2] if (! (= classBinding undefined)) {
+    [3] app __x2__ = (classScope.CreateImmutableBinding classScope classBinding true)
+    [3] __x2__
+  } else [31] {}
+  [7] if (= ClassHeritage absent) {
+    [5] ??? "Let id:{protoParent} be % Object . prototype % ."
+    [6] ??? "Let id:{constructorParent} be % Function . prototype % ."
+  } else {
+    [8] GLOBAL_context.LexicalEnvironment = classScope
+    [9] access __x3__ = (ClassHeritage "Evaluation")
+    [9] let superclassRef = __x3__
+    [10] GLOBAL_context.LexicalEnvironment = env
+    [11] app __x4__ = (GetValue superclassRef)
+    [11] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [31] {}
+    [11] let superclass = __x4__
+    [16] if (= superclass null) {
+      [13] let protoParent = null
+      [14] ??? "Let id:{constructorParent} be % Function . prototype % ."
+    } else {
+      app __x5__ = (IsConstructor superclass)
+      if (= __x5__ false) {
+        app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x6__
+      } else {
+        [17] app __x7__ = (Get superclass "prototype")
+        [17] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [31] {}
+        [17] let protoParent = __x7__
+        [18] app __x8__ = (Type protoParent)
+        [18] if (! (|| (= __x8__ Object) (= __x8__ Null))) {
+          app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+          return __x9__
+        } else [31] {}
+        [19] let constructorParent = superclass
+      }
+    }
+  }
+  [20] app __x10__ = (OrdinaryObjectCreate protoParent)
+  [20] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [31] {}
+  [20] let proto = __x10__
+  [22] if (= ClassBody absent) let constructor = CONST_empty else {
+    access __x11__ = (ClassBody "ConstructorMethod")
+    let constructor = __x11__
+  }
+  [23] if (= constructor CONST_empty) {
+    [27] if (! (= ClassHeritage absent)) ??? "Let id:{constructorText} be the source text step-list:{...}" else ??? "Let id:{constructorText} be the source text step-list:{...}"
+    [30] ??? "Set id:{constructor} to ParseText ( id:{constructorText} , | MethodDefinition [ ~ Yield , ~ Await ] | ) ."
+  } else [31] {}
+  [32] GLOBAL_context.LexicalEnvironment = classScope
+  [33] access __x12__ = (constructor "DefineMethod")
+  [33] app __x13__ = (__x12__ proto constructorParent)
+  [33] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [31] {}
+  [33] let constructorInfo = __x13__
+  [34] let F = constructorInfo.Closure
+  [35] app __x14__ = (SetFunctionName F className)
+  [35] __x14__
+  [36] app __x15__ = (MakeConstructor F false proto)
+  [36] __x15__
+  [37] if (! (= ClassHeritage absent)) F.ConstructorKind = CONST_derived else [31] {}
+  [38] app __x16__ = (MakeClassConstructor F)
+  [38] __x16__
+  [39] app __x17__ = (CreateMethodProperty proto "constructor" F)
+  [39] __x17__
+  [41] if (= ClassBody absent) let methods = (new []) else {
+    access __x18__ = (ClassBody "NonConstructorMethodDefinitions")
+    let methods = __x18__
+  }
+  [42] let __x19__ = methods
+  [42] let __x20__ = 0i
+  [42] while (< __x20__ __x19__.length) {
+    let m = __x19__[__x20__]
+    [45] access __x21__ = (m "IsStatic")
+    [45] if (= __x21__ false) {
+      [44] access __x22__ = (m "PropertyDefinitionEvaluation")
+      [44] app __x23__ = (__x22__ proto false)
+      [44] let status = __x23__
+    } else {
+      [46] access __x24__ = (m "PropertyDefinitionEvaluation")
+      [46] app __x25__ = (__x24__ F false)
+      [46] let status = __x25__
+    }
+    [47] app __x26__ = (IsAbruptCompletion status)
+    [47] if __x26__ {
+      [48] GLOBAL_context.LexicalEnvironment = env
+      [49] app __x27__ = (Completion status)
+      [49] app __x28__ = (WrapCompletion __x27__)
+      [49] return __x28__
+    } else [31] {}
+    __x20__ = (+ __x20__ 1i)
+  }
+  [50] GLOBAL_context.LexicalEnvironment = env
+  [51] if (! (= classBinding undefined)) {
+    [52] app __x29__ = (classScope.InitializeBinding classScope classBinding F)
+    [52] __x29__
+  } else [31] {}
+  [53] app __x30__ = (WrapCompletion F)
+  [53] return __x30__
+}

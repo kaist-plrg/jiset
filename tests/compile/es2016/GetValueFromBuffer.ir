@@ -1,0 +1,25 @@
+{
+  [0] app __x0__ = (IsDetachedBuffer arrayBuffer)
+  [0] assert (= __x0__ false)
+  [3] let block = arrayBuffer.ArrayBufferData
+  [4] ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{} for Element Type id:{type} ."
+  [5] ??? "Let id:{rawValue} be a List of id:{elementSize} containing , in order , the id:{elementSize} sequence of bytes starting with id:{block} [ id:{byteIndex} ] ."
+  [6] ??? "If id:{isLittleEndian} is not present , set id:{isLittleEndian} to either value:{true} or value:{false} . The choice is implementation dependent and should be the alternative that is most efficient for the implementation . An implementation must use the same value each time this step is executed and the same value must be used for the corresponding step in the SetValueInBuffer abstract operation ."
+  [7] ??? "If id:{isLittleEndian} is value:{false} , reverse the order of the elements of id:{rawValue} ."
+  [8] if (= type "Float32") {
+    [9] ??? "Let id:{value} be the byte elements of id:{rawValue} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2008 binary32 value ."
+    [10] ??? "If id:{value} is an IEEE 754 - 2008 binary32 NaN value , return the value:{NaN} Number value ."
+    [11] app __x1__ = (WrapCompletion value)
+    [11] return __x1__
+  } else [2] {}
+  [12] if (= type "Float64") {
+    [13] ??? "Let id:{value} be the byte elements of id:{rawValue} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2008 binary64 value ."
+    [14] ??? "If id:{value} is an IEEE 754 - 2008 binary64 NaN value , return the value:{NaN} Number value ."
+    [15] app __x2__ = (WrapCompletion value)
+    [15] return __x2__
+  } else [2] {}
+  [16] ??? "If the first code unit of id:{type} is code:{\"U\"} , then step-list:{...}"
+  [18] ??? "Else , step-list:{...}"
+  [20] app __x3__ = (WrapCompletion intValue)
+  [20] return __x3__
+}

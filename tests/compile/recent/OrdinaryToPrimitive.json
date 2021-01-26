@@ -1,0 +1,75 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "O"
+  }, ")", "is", "Object", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "hint"
+  }, "is", "either", {
+    "const": "string"
+  }, "or", {
+    "const": "number"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "hint"
+  }, "is", {
+    "const": "string"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "methodNames"
+  }, "be", "«", {
+    "value": "\"toString\""
+  }, ",", {
+    "value": "\"valueOf\""
+  }, "»", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "methodNames"
+  }, "be", "«", {
+    "value": "\"valueOf\""
+  }, ",", {
+    "value": "\"toString\""
+  }, "»", "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "name"
+  }, "of", {
+    "id": "methodNames"
+  }, ",", "do"]
+}, {
+  "tokens": ["Let", {
+    "id": "method"
+  }, "be", "?", "Get", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "name"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "method"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "result"
+  }, "be", "?", "Call", "(", {
+    "id": "method"
+  }, ",", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "result"
+  }, ")", "is", "not", "Object", ",", "return", {
+    "id": "result"
+  }, "."]
+}, {
+  "tokens": ["Throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}]

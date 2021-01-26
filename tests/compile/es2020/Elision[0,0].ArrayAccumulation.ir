@@ -1,0 +1,8 @@
+{
+  [0] let len = (+ nextIndex 1i)
+  [1] app __x0__ = (Set array "length" len true)
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [2] {}
+  [1] __x0__
+  [3] app __x1__ = (WrapCompletion len)
+  [3] return __x1__
+}

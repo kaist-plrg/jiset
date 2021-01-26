@@ -1,0 +1,8 @@
+{
+  [0] let func = this
+  [1] ??? "If id:{func} is a < emu - xref href = \" # sec - bound - function - exotic - objects \" > bound function exotic object < / emu - xref > or a < emu - xref href = \" # sec - built - in - function - objects \" > built - in function object < / emu - xref > , then return an implementation - dependent String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} . Additionally , if id:{func} is a < emu - xref href = \" # sec - well - known - intrinsic - objects \" > Well - known Intrinsic Object < / emu - xref > and is not identified as an anonymous function , the portion of the returned String that would be matched by nt:{PropertyName} must be the initial value of the value:{\"name\"} property of id:{func} ."
+  [2] ??? "If Type ( id:{func} ) is Object and id:{func} has a [ [ SourceText ] ] internal slot and id:{func} . [ [ SourceText ] ] is a sequence of Unicode code points and ! HostHasSourceTextAvailable ( id:{func} ) is value:{true} , then step-list:{...}"
+  [4] ??? "If Type ( id:{func} ) is Object and IsCallable ( id:{func} ) is value:{true} , then return an implementation - dependent String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} ."
+  [5] app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  [5] return __x0__
+}

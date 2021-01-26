@@ -1,0 +1,11 @@
+{
+  [0] app __x0__ = (GetThisEnvironment )
+  [0] let envRec = __x0__
+  [1] assert (= (typeof envRec) "FunctionEnvironmentRecord")
+  [2] let activeFunction = envRec.FunctionObject
+  [4] app __x1__ = (activeFunction.GetPrototypeOf activeFunction)
+  [4] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [3] {}
+  [4] let superConstructor = __x1__
+  [5] app __x2__ = (WrapCompletion superConstructor)
+  [5] return __x2__
+}

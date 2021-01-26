@@ -1,0 +1,9 @@
+{
+  [0] access __x0__ = (AssignmentExpression "Evaluation")
+  [0] let ref = __x0__
+  [1] app __x1__ = (GetValue ref)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+  [1] let arg = __x1__
+  [2] app __x2__ = (WrapCompletion (new [arg]))
+  [2] return __x2__
+}

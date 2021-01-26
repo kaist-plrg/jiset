@@ -1,0 +1,169 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
+    "id": "O"
+  }, ",", "[", "[", "ArrayBufferData", "]", "]", ")", "."]
+}, {
+  "tokens": ["If", "IsSharedArrayBuffer", "(", {
+    "id": "O"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", {
+    "id": "O"
+  }, ".", "[", "[", "ArrayBufferByteLength", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "relativeStart"
+  }, "be", "?", "ToIntegerOrInfinity", "(", {
+    "id": "start"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "relativeStart"
+  }, "is", "-", "∞", ",", "let", {
+    "id": "first"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "relativeStart"
+  }, "<", "0", ",", "let", {
+    "id": "first"
+  }, "be", "max", "(", {
+    "id": "len"
+  }, "+", {
+    "id": "relativeStart"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "first"
+  }, "be", "min", "(", {
+    "id": "relativeStart"
+  }, ",", {
+    "id": "len"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "end"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "let", {
+    "id": "relativeEnd"
+  }, "be", {
+    "id": "len"
+  }, ";", "else", "let", {
+    "id": "relativeEnd"
+  }, "be", "?", "ToIntegerOrInfinity", "(", {
+    "id": "end"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "relativeEnd"
+  }, "is", "-", "∞", ",", "let", {
+    "id": "final"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "relativeEnd"
+  }, "<", "0", ",", "let", {
+    "id": "final"
+  }, "be", "max", "(", {
+    "id": "len"
+  }, "+", {
+    "id": "relativeEnd"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "final"
+  }, "be", "min", "(", {
+    "id": "relativeEnd"
+  }, ",", {
+    "id": "len"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "newLen"
+  }, "be", "max", "(", {
+    "id": "final"
+  }, "-", {
+    "id": "first"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "ctor"
+  }, "be", "?", "SpeciesConstructor", "(", {
+    "id": "O"
+  }, ",", "%", "SharedArrayBuffer", "%", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "new"
+  }, "be", "?", "Construct", "(", {
+    "id": "ctor"
+  }, ",", "«", "𝔽", "(", {
+    "id": "newLen"
+  }, ")", "»", ")", "."]
+}, {
+  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
+    "id": "new"
+  }, ",", "[", "[", "ArrayBufferData", "]", "]", ")", "."]
+}, {
+  "tokens": ["If", "IsSharedArrayBuffer", "(", {
+    "id": "new"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "new"
+  }, ".", "[", "[", "ArrayBufferData", "]", "]", "and", {
+    "id": "O"
+  }, ".", "[", "[", "ArrayBufferData", "]", "]", "are", "the", "same", "Shared", "Data", "Block", "values", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "new"
+  }, ".", "[", "[", "ArrayBufferByteLength", "]", "]", "<", {
+    "id": "newLen"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "fromBuf"
+  }, "be", {
+    "id": "O"
+  }, ".", "[", "[", "ArrayBufferData", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "toBuf"
+  }, "be", {
+    "id": "new"
+  }, ".", "[", "[", "ArrayBufferData", "]", "]", "."]
+}, {
+  "tokens": ["Perform", "CopyDataBlockBytes", "(", {
+    "id": "toBuf"
+  }, ",", "0", ",", {
+    "id": "fromBuf"
+  }, ",", {
+    "id": "first"
+  }, ",", {
+    "id": "newLen"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "new"
+  }, "."]
+}]

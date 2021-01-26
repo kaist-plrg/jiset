@@ -1,0 +1,67 @@
+[{
+  "tokens": ["For", "each", "ReadSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+    "id": "R"
+  }, "in", "SharedDataBlockEventSet", "(", {
+    "id": "execution"
+  }, ")", ",", "do"]
+}, {
+  "tokens": ["Let", {
+    "id": "chosenValue"
+  }, "be", "the", "element", "of", {
+    "id": "execution"
+  }, ".", "[", "[", "ChosenValues", "]", "]", "whose", "[", "[", "Event", "]", "]", "field", "is", {
+    "id": "R"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "readValue"
+  }, "be", "ValueOfReadEvent", "(", {
+    "id": "execution"
+  }, ",", {
+    "id": "R"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "chosenLen"
+  }, "be", "the", "number", "of", "elements", "of", {
+    "id": "chosenValue"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "readLen"
+  }, "be", "the", "number", "of", "elements", "of", {
+    "id": "readValue"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "chosenLen"
+  }, "is", "not", "equal", "to", {
+    "id": "readLen"
+  }, ",", "then"]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "chosenValue"
+  }, "[", {
+    "id": "i"
+  }, "]", "is", "not", "equal", "to", {
+    "id": "readValue"
+  }, "[", {
+    "id": "i"
+  }, "]", "for", "any", "integer", "value", {
+    "id": "i"
+  }, "in", "the", "range", "0", "through", {
+    "id": "chosenLen"
+  }, ",", "exclusive", ",", "then"]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}]

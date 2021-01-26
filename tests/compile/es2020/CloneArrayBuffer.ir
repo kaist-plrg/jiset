@@ -1,0 +1,18 @@
+{
+  [1] app __x0__ = (IsConstructor cloneConstructor)
+  [1] assert (= __x0__ true)
+  [2] app __x1__ = (AllocateArrayBuffer cloneConstructor srcLength)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [2] let targetBuffer = __x1__
+  [3] app __x2__ = (IsDetachedBuffer srcBuffer)
+  [3] if (= __x2__ true) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else [0] {}
+  [4] let srcBlock = srcBuffer.ArrayBufferData
+  [5] let targetBlock = targetBuffer.ArrayBufferData
+  [6] app __x4__ = (CopyDataBlockBytes targetBlock 0i srcBlock srcByteOffset srcLength)
+  [6] __x4__
+  [7] app __x5__ = (WrapCompletion targetBuffer)
+  [7] return __x5__
+}

@@ -1,0 +1,71 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "targetFunction"
+  }, ")", "is", "Object", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "proto"
+  }, "be", "?", {
+    "id": "targetFunction"
+  }, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "obj"
+  }, "be", "a", "newly", "created", "object", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "obj"
+  }, "'", "s", "essential", "internal", "methods", "to", "the", "default", "ordinary", "object", "definitions", "specified", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Set", "the", "[", "[", "Call", "]", "]", "internal", "method", "of", {
+    "id": "obj"
+  }, "as", "described", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "targetFunction"
+  }, "has", "a", "[", "[", "Construct", "]", "]", "internal", "method", ",", "then"]
+}, {
+  "tokens": ["Set", "the", "[", "[", "Construct", "]", "]", "internal", "method", "of", {
+    "id": "obj"
+  }, "as", "described", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Set", "the", "[", "[", "Prototype", "]", "]", "internal", "slot", "of", {
+    "id": "obj"
+  }, "to", {
+    "id": "proto"
+  }, "."]
+}, {
+  "tokens": ["Set", "the", "[", "[", "Extensible", "]", "]", "internal", "slot", "of", {
+    "id": "obj"
+  }, "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Set", "the", "[", "[", "BoundTargetFunction", "]", "]", "internal", "slot", "of", {
+    "id": "obj"
+  }, "to", {
+    "id": "targetFunction"
+  }, "."]
+}, {
+  "tokens": ["Set", "the", "[", "[", "BoundThis", "]", "]", "internal", "slot", "of", {
+    "id": "obj"
+  }, "to", "the", "value", "of", {
+    "id": "boundThis"
+  }, "."]
+}, {
+  "tokens": ["Set", "the", "[", "[", "BoundArguments", "]", "]", "internal", "slot", "of", {
+    "id": "obj"
+  }, "to", {
+    "id": "boundArgs"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "obj"
+  }, "."]
+}]

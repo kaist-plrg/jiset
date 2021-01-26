@@ -1,0 +1,42 @@
+{
+  [0] app __x0__ = (GetIterator value)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [8] {}
+  [0] let iterator = __x0__
+  [1] let iteratorRecord = (new Record("Iterator" -> iterator, "Done" -> false))
+  [2] access __x1__ = (AssignmentElementList "IteratorDestructuringAssignmentEvaluation")
+  [2] app __x2__ = (__x1__ iteratorRecord)
+  [2] let status = __x2__
+  [3] app __x3__ = (IsAbruptCompletion status)
+  [3] if __x3__ {
+    [4] if (= iteratorRecord.Done false) {
+      app __x4__ = (IteratorClose iterator status)
+      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [8] {}
+      app __x5__ = (WrapCompletion __x4__)
+      return __x5__
+    } else [8] {}
+    [5] app __x6__ = (Completion status)
+    [5] app __x7__ = (WrapCompletion __x6__)
+    [5] return __x7__
+  } else [8] {}
+  [6] if (! (= Elision absent)) {
+    [7] access __x8__ = (Elision "IteratorDestructuringAssignmentEvaluation")
+    [7] app __x9__ = (__x8__ iteratorRecord)
+    [7] status = __x9__
+    [9] if (is-completion status) if (= status.Type CONST_normal) status = status.Value else return status else [8] {}
+    [9] status
+  } else [8] {}
+  [10] if (! (= AssignmentRestElement absent)) {
+    [11] access __x10__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation")
+    [11] app __x11__ = (__x10__ iteratorRecord)
+    [11] status = __x11__
+  } else [8] {}
+  [12] if (= iteratorRecord.Done false) {
+    app __x12__ = (IteratorClose iterator status)
+    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [8] {}
+    app __x13__ = (WrapCompletion __x12__)
+    return __x13__
+  } else [8] {}
+  [13] app __x14__ = (Completion status)
+  [13] app __x15__ = (WrapCompletion __x14__)
+  [13] return __x15__
+}

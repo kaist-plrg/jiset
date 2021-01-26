@@ -1,0 +1,14 @@
+{
+  [2] if (= raw false) {
+    [1] access __x0__ = (TemplateHead "TV")
+    [1] let head = __x0__
+  } else {
+    [3] access __x1__ = (TemplateHead "TRV")
+    [3] let head = __x1__
+  }
+  [4] access __x2__ = (TemplateSpans "TemplateStrings")
+  [4] app __x3__ = (__x2__ raw)
+  [4] let tail = __x3__
+  [5] app __x4__ = (WrapCompletion (new [head, tail]))
+  [5] return __x4__
+}

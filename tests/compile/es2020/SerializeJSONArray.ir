@@ -1,0 +1,35 @@
+{
+  [0] if (contains state.Stack value) {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else [5] {}
+  [1] append value -> state.Stack
+  [2] let stepback = state.Indent
+  [3] state.Indent = (+ state.Indent state.Gap)
+  [4] let partial = (new [])
+  [5] app __x1__ = (LengthOfArrayLike value)
+  [5] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [5] {}
+  [5] let len = __x1__
+  [6] let index = 0i
+  [7] while (< index len) {
+    [8] app __x2__ = (ToString index)
+    [8] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [5] {}
+    [8] app __x3__ = (SerializeJSONProperty state __x2__ value)
+    [8] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [5] {}
+    [8] let strP = __x3__
+    [11] if (= strP undefined) append "null" -> partial else append strP -> partial
+    [13] index = (+ index 1i)
+  }
+  [16] if (= partial.length 0i) let final = "[]" else if (= state.Gap "") {
+    [18] ??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with the code unit 0x002C ( COMMA ) . A comma is not inserted either before the first String or after the last String ."
+    [19] let final = (+ (+ "[" properties) "]")
+  } else {
+    [21] let separator = (+ (+ "," "\n") state.Indent)
+    [22] ??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with id:{separator} . The id:{separator} String is not inserted either before the first String or after the last String ."
+    [23] let final = (+ (+ (+ (+ (+ (+ "[" "\n") state.Indent) properties) "\n") stepback) "]")
+  }
+  [24] ??? "Remove the last element of id:{state} . [ [ Stack ] ] ."
+  [25] state.Indent = stepback
+  [26] app __x4__ = (WrapCompletion final)
+  [26] return __x4__
+}

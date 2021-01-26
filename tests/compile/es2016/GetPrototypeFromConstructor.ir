@@ -1,0 +1,16 @@
+{
+  [1] app __x0__ = (IsCallable constructor)
+  [1] assert (= __x0__ true)
+  [2] app __x1__ = (Get constructor "prototype")
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [2] let proto = __x1__
+  [3] app __x2__ = (Type proto)
+  [3] if (! (= __x2__ Object)) {
+    [4] app __x3__ = (GetFunctionRealm constructor)
+    [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [0] {}
+    [4] let realm = __x3__
+    [5] ??? "Let id:{proto} be id:{realm} ' s intrinsic object named id:{intrinsicDefaultProto} ."
+  } else [0] {}
+  [6] app __x4__ = (WrapCompletion proto)
+  [6] return __x4__
+}

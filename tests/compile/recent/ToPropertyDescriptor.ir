@@ -1,0 +1,84 @@
+{
+  [0] app __x0__ = (Type Obj)
+  [0] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [2] {}
+  [1] let desc = (new PropertyDescriptor("SubMap" -> (new SubMap())))
+  [2] app __x2__ = (HasProperty Obj "enumerable")
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [2] {}
+  [2] let hasEnumerable = __x2__
+  [3] if (= hasEnumerable true) {
+    [4] app __x3__ = (Get Obj "enumerable")
+    [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [2] {}
+    [4] app __x4__ = (ToBoolean __x3__)
+    [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [2] {}
+    [4] let enumerable = __x4__
+    [5] desc.Enumerable = enumerable
+  } else [2] {}
+  [6] app __x5__ = (HasProperty Obj "configurable")
+  [6] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [2] {}
+  [6] let hasConfigurable = __x5__
+  [7] if (= hasConfigurable true) {
+    [8] app __x6__ = (Get Obj "configurable")
+    [8] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [2] {}
+    [8] app __x7__ = (ToBoolean __x6__)
+    [8] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [2] {}
+    [8] let configurable = __x7__
+    [9] desc.Configurable = configurable
+  } else [2] {}
+  [10] app __x8__ = (HasProperty Obj "value")
+  [10] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [2] {}
+  [10] let hasValue = __x8__
+  [11] if (= hasValue true) {
+    [12] app __x9__ = (Get Obj "value")
+    [12] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [2] {}
+    [12] let value = __x9__
+    [13] desc.Value = value
+  } else [2] {}
+  [14] app __x10__ = (HasProperty Obj "writable")
+  [14] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [2] {}
+  [14] let hasWritable = __x10__
+  [15] if (= hasWritable true) {
+    [16] app __x11__ = (Get Obj "writable")
+    [16] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [2] {}
+    [16] app __x12__ = (ToBoolean __x11__)
+    [16] if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [2] {}
+    [16] let writable = __x12__
+    [17] desc.Writable = writable
+  } else [2] {}
+  [18] app __x13__ = (HasProperty Obj "get")
+  [18] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [2] {}
+  [18] let hasGet = __x13__
+  [19] if (= hasGet true) {
+    [20] app __x14__ = (Get Obj "get")
+    [20] if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else [2] {}
+    [20] let getter = __x14__
+    [21] app __x15__ = (IsCallable getter)
+    [21] if (&& (= __x15__ false) (! (= getter undefined))) {
+      app __x16__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x16__
+    } else [2] {}
+    [22] desc.Get = getter
+  } else [2] {}
+  [23] app __x17__ = (HasProperty Obj "set")
+  [23] if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else [2] {}
+  [23] let hasSet = __x17__
+  [24] if (= hasSet true) {
+    [25] app __x18__ = (Get Obj "set")
+    [25] if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else [2] {}
+    [25] let setter = __x18__
+    [26] app __x19__ = (IsCallable setter)
+    [26] if (&& (= __x19__ false) (! (= setter undefined))) {
+      app __x20__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x20__
+    } else [2] {}
+    [27] desc.Set = setter
+  } else [2] {}
+  [28] if (|| (! (= desc.Get absent)) (! (= desc.Set absent))) if (|| (! (= desc.Value absent)) (! (= desc.Writable absent))) {
+    app __x21__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x21__
+  } else [2] {} else [2] {}
+  [30] app __x22__ = (WrapCompletion desc)
+  [30] return __x22__
+}

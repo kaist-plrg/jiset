@@ -10,7 +10,7 @@ import kr.ac.kaist.jiset.util.{ InfNum, PInf }
 import org.jsoup.nodes._
 
 // ECMASCript abstract algorithms
-case class Algo(head: Head, body: ir.Inst) {
+case class Algo(head: Head, body: ir.Inst, code: Iterable[String]) {
   // head fields
   def name: String = head.name
   def params: List[Param] = head.params

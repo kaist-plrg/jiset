@@ -1,0 +1,12 @@
+{
+  [0] app __x0__ = (ToNumber argument)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [0] {}
+  [0] let number = __x0__
+  [1] if (|| (|| (|| (|| (= number NaN) (= number 0i)) (= number -0.0)) (= number Infinity)) (= number -Infinity)) {
+    app __x1__ = (WrapCompletion 0i)
+    return __x1__
+  } else [0] {}
+  [2] ??? "Let id:{int} be the mathematical value that is the same sign as id:{number} and whose magnitude is floor ( abs ( ℝ ( id:{number} ) ) ) ."
+  [3] let int32bit = (%% int 4294967296i)
+  [4] ??? "Return 𝔽 ( id:{int32bit} ) ."
+}

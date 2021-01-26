@@ -1,0 +1,21 @@
+{
+  [0] app __x0__ = (IsNonNegativeInteger length)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [5] {}
+  [0] assert (= __x0__ true)
+  [1] if (= length -0.0) length = 0i else [5] {}
+  [2] if (< (- 4294967296i 1i) length) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [5] {}
+  [3] ??? "If id:{proto} is not present , set id:{proto} to % Array . prototype % ."
+  [4] app __x2__ = (MakeBasicObject (new ["Prototype", "Extensible"]))
+  [4] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [5] {}
+  [4] let A = __x2__
+  [5] A.Prototype = proto
+  [6] ??? "Set id:{A} . [ [ DefineOwnProperty ] ] as specified in link:{} ."
+  [7] app __x3__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Value" -> length, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  [7] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [5] {}
+  [7] __x3__
+  [8] app __x4__ = (WrapCompletion A)
+  [8] return __x4__
+}

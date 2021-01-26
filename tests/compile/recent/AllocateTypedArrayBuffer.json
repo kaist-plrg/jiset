@@ -1,0 +1,65 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "O"
+  }, "is", "an", "Object", "that", "has", "a", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "O"
+  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "is", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "constructorName"
+  }, "be", "the", "String", "value", "of", {
+    "id": "O"
+  }, ".", "[", "[", "TypedArrayName", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "elementSize"
+  }, "be", "the", "Element", "Size", "value", "specified", "in", {
+    "link": ""
+  }, "for", {
+    "id": "constructorName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "byteLength"
+  }, "be", {
+    "id": "elementSize"
+  }, "×", {
+    "id": "length"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "data"
+  }, "be", "?", "AllocateArrayBuffer", "(", "%", "ArrayBuffer", "%", ",", {
+    "id": "byteLength"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "O"
+  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "to", {
+    "id": "data"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "O"
+  }, ".", "[", "[", "ByteLength", "]", "]", "to", {
+    "id": "byteLength"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "O"
+  }, ".", "[", "[", "ByteOffset", "]", "]", "to", "0", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "O"
+  }, ".", "[", "[", "ArrayLength", "]", "]", "to", {
+    "id": "length"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "O"
+  }, "."]
+}]

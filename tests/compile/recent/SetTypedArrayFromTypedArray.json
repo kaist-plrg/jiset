@@ -1,0 +1,321 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "source"
+  }, "is", "an", "Object", "that", "has", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetBuffer"
+  }, "be", {
+    "id": "target"
+  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "targetBuffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetLength"
+  }, "be", {
+    "id": "target"
+  }, ".", "[", "[", "ArrayLength", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "srcBuffer"
+  }, "be", {
+    "id": "source"
+  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "srcBuffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetName"
+  }, "be", "the", "String", "value", "of", {
+    "id": "target"
+  }, ".", "[", "[", "TypedArrayName", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetType"
+  }, "be", "the", "Element", "Type", "value", "in", {
+    "link": ""
+  }, "for", {
+    "id": "targetName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetElementSize"
+  }, "be", "the", "Element", "Size", "value", "specified", "in", {
+    "link": ""
+  }, "for", {
+    "id": "targetName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetByteOffset"
+  }, "be", {
+    "id": "target"
+  }, ".", "[", "[", "ByteOffset", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "srcName"
+  }, "be", "the", "String", "value", "of", {
+    "id": "source"
+  }, ".", "[", "[", "TypedArrayName", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "srcType"
+  }, "be", "the", "Element", "Type", "value", "in", {
+    "link": ""
+  }, "for", {
+    "id": "srcName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "srcElementSize"
+  }, "be", "the", "Element", "Size", "value", "specified", "in", {
+    "link": ""
+  }, "for", {
+    "id": "srcName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "srcLength"
+  }, "be", {
+    "id": "source"
+  }, ".", "[", "[", "ArrayLength", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "srcByteOffset"
+  }, "be", {
+    "id": "source"
+  }, ".", "[", "[", "ByteOffset", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "targetOffset"
+  }, "is", "+", "∞", ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "srcLength"
+  }, "+", {
+    "id": "targetOffset"
+  }, ">", {
+    "id": "targetLength"
+  }, ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "target"
+  }, ".", "[", "[", "ContentType", "]", "]", "≠", {
+    "id": "source"
+  }, ".", "[", "[", "ContentType", "]", "]", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", "both", "IsSharedArrayBuffer", "(", {
+    "id": "srcBuffer"
+  }, ")", "and", "IsSharedArrayBuffer", "(", {
+    "id": "targetBuffer"
+  }, ")", "are", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "srcBuffer"
+  }, ".", "[", "[", "ArrayBufferData", "]", "]", "and", {
+    "id": "targetBuffer"
+  }, ".", "[", "[", "ArrayBufferData", "]", "]", "are", "the", "same", "Shared", "Data", "Block", "values", ",", "let", {
+    "id": "same"
+  }, "be", {
+    "value": "true"
+  }, ";", "else", "let", {
+    "id": "same"
+  }, "be", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "same"
+  }, "be", "SameValue", "(", {
+    "id": "srcBuffer"
+  }, ",", {
+    "id": "targetBuffer"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "same"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "srcByteLength"
+  }, "be", {
+    "id": "source"
+  }, ".", "[", "[", "ByteLength", "]", "]", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "srcBuffer"
+  }, "to", "?", "CloneArrayBuffer", "(", {
+    "id": "srcBuffer"
+  }, ",", {
+    "id": "srcByteOffset"
+  }, ",", {
+    "id": "srcByteLength"
+  }, ",", "%", "ArrayBuffer", "%", ")", "."]
+}, {
+  "tokens": ["NOTE", ":", "%", "ArrayBuffer", "%", "is", "used", "to", "clone", {
+    "id": "srcBuffer"
+  }, "because", "is", "it", "known", "to", "not", "have", "any", "observable", "side", "-", "effects", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "srcByteIndex"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "srcByteIndex"
+  }, "be", {
+    "id": "srcByteOffset"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetByteIndex"
+  }, "be", {
+    "id": "targetOffset"
+  }, "×", {
+    "id": "targetElementSize"
+  }, "+", {
+    "id": "targetByteOffset"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "limit"
+  }, "be", {
+    "id": "targetByteIndex"
+  }, "+", {
+    "id": "targetElementSize"
+  }, "×", {
+    "id": "srcLength"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "srcType"
+  }, "is", "the", "same", "as", {
+    "id": "targetType"
+  }, ",", "then"]
+}, {
+  "tokens": ["NOTE", ":", "If", {
+    "id": "srcType"
+  }, "and", {
+    "id": "targetType"
+  }, "are", "the", "same", ",", "the", "transfer", "must", "be", "performed", "in", "a", "manner", "that", "preserves", "the", "bit", "-", "level", "encoding", "of", "the", "source", "data", "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "targetByteIndex"
+  }, "<", {
+    "id": "limit"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "GetValueFromBuffer", "(", {
+    "id": "srcBuffer"
+  }, ",", {
+    "id": "srcByteIndex"
+  }, ",", {
+    "const": "Uint8"
+  }, ",", {
+    "value": "true"
+  }, ",", {
+    "const": "Unordered"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "SetValueInBuffer", "(", {
+    "id": "targetBuffer"
+  }, ",", {
+    "id": "targetByteIndex"
+  }, ",", {
+    "const": "Uint8"
+  }, ",", {
+    "id": "value"
+  }, ",", {
+    "value": "true"
+  }, ",", {
+    "const": "Unordered"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "srcByteIndex"
+  }, "to", {
+    "id": "srcByteIndex"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "targetByteIndex"
+  }, "to", {
+    "id": "targetByteIndex"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "targetByteIndex"
+  }, "<", {
+    "id": "limit"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "GetValueFromBuffer", "(", {
+    "id": "srcBuffer"
+  }, ",", {
+    "id": "srcByteIndex"
+  }, ",", {
+    "id": "srcType"
+  }, ",", {
+    "value": "true"
+  }, ",", {
+    "const": "Unordered"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "SetValueInBuffer", "(", {
+    "id": "targetBuffer"
+  }, ",", {
+    "id": "targetByteIndex"
+  }, ",", {
+    "id": "targetType"
+  }, ",", {
+    "id": "value"
+  }, ",", {
+    "value": "true"
+  }, ",", {
+    "const": "Unordered"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "srcByteIndex"
+  }, "to", {
+    "id": "srcByteIndex"
+  }, "+", {
+    "id": "srcElementSize"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "targetByteIndex"
+  }, "to", {
+    "id": "targetByteIndex"
+  }, "+", {
+    "id": "targetElementSize"
+  }, "."]
+}]

@@ -1,0 +1,16 @@
+{
+  [1] let genContext = GLOBAL_context
+  [3] let generator = genContext.Generator
+  [4] app __x0__ = (GetGeneratorKind )
+  [4] assert (= __x0__ CONST_sync)
+  [5] generator.GeneratorState = "suspendedYield"
+  [6] if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] genContext) {
+    let __x1__ = (- GLOBAL_executionStack.length 1i)
+    (pop GLOBAL_executionStack __x1__)
+  } else {}
+  [6] GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  [7] ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : step-list:{...}"
+  [10] app __x2__ = (NormalCompletion iterNextObj)
+  [10] app __x3__ = (WrapCompletion __x2__)
+  [10] return __x3__
+}

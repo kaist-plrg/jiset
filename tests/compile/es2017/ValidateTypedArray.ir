@@ -1,0 +1,21 @@
+{
+  app O = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (Type O)
+  [0] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [9] {}
+  [1] if (= O.TypedArrayName absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [9] {}
+  [2] assert (! (= O.ViewedArrayBuffer absent))
+  [3] let buffer = O.ViewedArrayBuffer
+  [4] app __x3__ = (IsDetachedBuffer buffer)
+  [4] if (= __x3__ true) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else [9] {}
+  [5] app __x5__ = (WrapCompletion buffer)
+  [5] return __x5__
+}

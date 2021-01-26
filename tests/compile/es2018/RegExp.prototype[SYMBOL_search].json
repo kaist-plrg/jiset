@@ -1,0 +1,87 @@
+[{
+  "tokens": ["Let", {
+    "id": "rx"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "rx"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "?", "ToString", "(", {
+    "id": "string"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "previousLastIndex"
+  }, "be", "?", "Get", "(", {
+    "id": "rx"
+  }, ",", {
+    "code": "\"lastIndex\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "SameValue", "(", {
+    "id": "previousLastIndex"
+  }, ",", "0", ")", "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Perform", "?", "Set", "(", {
+    "id": "rx"
+  }, ",", {
+    "code": "\"lastIndex\""
+  }, ",", "0", ",", {
+    "value": "true"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "result"
+  }, "be", "?", "RegExpExec", "(", {
+    "id": "rx"
+  }, ",", {
+    "id": "S"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "currentLastIndex"
+  }, "be", "?", "Get", "(", {
+    "id": "rx"
+  }, ",", {
+    "code": "\"lastIndex\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "SameValue", "(", {
+    "id": "currentLastIndex"
+  }, ",", {
+    "id": "previousLastIndex"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Perform", "?", "Set", "(", {
+    "id": "rx"
+  }, ",", {
+    "code": "\"lastIndex\""
+  }, ",", {
+    "id": "previousLastIndex"
+  }, ",", {
+    "value": "true"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "result"
+  }, "is", {
+    "value": "null"
+  }, ",", "return", "-", "1", "."]
+}, {
+  "tokens": ["Return", "?", "Get", "(", {
+    "id": "result"
+  }, ",", {
+    "code": "\"index\""
+  }, ")", "."]
+}]

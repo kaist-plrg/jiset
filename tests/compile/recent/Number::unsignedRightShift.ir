@@ -1,0 +1,11 @@
+{
+  [0] app __x0__ = (ToUint32 x)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [2] {}
+  [0] let lnum = __x0__
+  [1] app __x1__ = (ToUint32 y)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [2] {}
+  [1] let rnum = __x1__
+  [2] ??? "Let id:{shiftCount} be ℝ ( id:{rnum} ) modulo 32 ."
+  [3] app __x2__ = (WrapCompletion (>>> lnum shiftCount))
+  [3] return __x2__
+}

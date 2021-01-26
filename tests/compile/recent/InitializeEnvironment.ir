@@ -1,0 +1,103 @@
+{
+  [0] let __x0__ = module.IndirectExportEntries
+  [0] let __x1__ = 0i
+  [0] while (< __x1__ __x0__.length) {
+    let e = __x0__[__x1__]
+    [1] app __x2__ = (module.ResolveExport module e.ExportName)
+    [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [11] {}
+    [1] let resolution = __x2__
+    [2] if (|| (= resolution null) (= resolution "ambiguous")) {
+      app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x3__
+    } else [11] {}
+    [3] assert (= (typeof resolution) "ResolvedBindingRecord")
+    __x1__ = (+ __x1__ 1i)
+  }
+  [5] let realm = module.Realm
+  [6] assert (! (= realm undefined))
+  [7] app __x4__ = (NewModuleEnvironment realm.GlobalEnv)
+  [7] let env = __x4__
+  [8] module.Environment = env
+  [9] let __x5__ = module.ImportEntries
+  [9] let __x6__ = 0i
+  [9] while (< __x6__ __x5__.length) {
+    let in = __x5__[__x6__]
+    [10] app __x7__ = (HostResolveImportedModule module in.ModuleRequest)
+    [10] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [11] {}
+    [10] let importedModule = __x7__
+    [12] ??? "If id:{in} . [ [ ImportName ] ] is value:{\"\\} \" * , then step-list:{...}"
+    [16] ??? "Else , step-list:{...}"
+    __x6__ = (+ __x6__ 1i)
+  }
+  [25] let moduleContext = (new ExecutionContext("SubMap" -> (new SubMap())))
+  [26] moduleContext.Function = null
+  [27] assert (! (= module.Realm undefined))
+  [28] moduleContext.Realm = module.Realm
+  [29] moduleContext.ScriptOrModule = module
+  [30] moduleContext.VariableEnvironment = module.Environment
+  [31] moduleContext.LexicalEnvironment = module.Environment
+  [32] module.Context = moduleContext
+  [33] append moduleContext -> GLOBAL_executionStack
+  [33] GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  [34] let code = module.ECMAScriptCode
+  [35] access __x8__ = (code "VarScopedDeclarations")
+  [35] let varDeclarations = __x8__
+  [36] let declaredVarNames = (new [])
+  [37] let __x9__ = varDeclarations
+  [37] let __x10__ = 0i
+  [37] while (< __x10__ __x9__.length) {
+    let d = __x9__[__x10__]
+    [38] access __x11__ = (d "BoundNames")
+    [38] let __x12__ = __x11__
+    [38] let __x13__ = 0i
+    [38] while (< __x13__ __x12__.length) {
+      let dn = __x12__[__x13__]
+      [39] if (! (contains declaredVarNames dn)) {
+        [40] app __x14__ = (env.CreateMutableBinding env dn false)
+        [40] if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else [11] {}
+        [40] __x14__
+        [41] app __x15__ = (env.InitializeBinding env dn undefined)
+        [41] __x15__
+        [42] append dn -> declaredVarNames
+      } else [11] {}
+      __x13__ = (+ __x13__ 1i)
+    }
+    __x10__ = (+ __x10__ 1i)
+  }
+  [43] access __x16__ = (code "LexicallyScopedDeclarations")
+  [43] let lexDeclarations = __x16__
+  [44] let __x17__ = lexDeclarations
+  [44] let __x18__ = 0i
+  [44] while (< __x18__ __x17__.length) {
+    let d = __x17__[__x18__]
+    [45] access __x19__ = (d "BoundNames")
+    [45] let __x20__ = __x19__
+    [45] let __x21__ = 0i
+    [45] while (< __x21__ __x20__.length) {
+      let dn = __x20__[__x21__]
+      [48] access __x22__ = (d "IsConstantDeclaration")
+      [48] if (= __x22__ true) {
+        [47] app __x23__ = (env.CreateImmutableBinding env dn true)
+        [47] if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else [11] {}
+        [47] __x23__
+      } else {
+        [49] app __x24__ = (env.CreateMutableBinding env dn false)
+        [49] if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else [11] {}
+        [49] __x24__
+      }
+      [50] if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) {
+        [51] access __x25__ = (d "InstantiateFunctionObject")
+        [51] app __x26__ = (__x25__ env)
+        [51] let fo = __x26__
+        [52] app __x27__ = (env.InitializeBinding env dn fo)
+        [52] __x27__
+      } else [11] {}
+      __x21__ = (+ __x21__ 1i)
+    }
+    __x18__ = (+ __x18__ 1i)
+  }
+  [53] ??? "Remove id:{moduleContext} from the execution context stack ."
+  [54] app __x28__ = (NormalCompletion CONST_empty)
+  [54] app __x29__ = (WrapCompletion __x28__)
+  [54] return __x29__
+}

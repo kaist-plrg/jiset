@@ -1,0 +1,15 @@
+{
+  [1] let len = values.length
+  [2] app __x0__ = (AllocateTypedArrayBuffer O len)
+  [2] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [9] {}
+  [2] __x0__
+  [3] let k = 0i
+  [4] while (< k len) {
+    [5] ??? "Let id:{Pk} be ! ToString ( 𝔽 ( id:{k} ) ) ."
+    [6] let kValue = (pop values 0i)
+    [7] app __x1__ = (Set O Pk kValue true)
+    [7] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [9] {}
+    [7] __x1__
+    [8] k = (+ k 1i)
+  }
+}

@@ -1,0 +1,25 @@
+[{
+  "tokens": ["Let", {
+    "id": "expr"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "UnaryExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "oldValue"
+  }, "be", "!", "ToBoolean", "(", "?", "GetValue", "(", {
+    "id": "expr"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "oldValue"
+  }, "is", {
+    "value": "true"
+  }, ",", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}]

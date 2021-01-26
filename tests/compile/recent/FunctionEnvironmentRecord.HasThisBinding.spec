@@ -1,0 +1,1 @@
+            1. If _envRec_.[[ThisBindingStatus]] is ~lexical~, return *false*; otherwise, return *true*.

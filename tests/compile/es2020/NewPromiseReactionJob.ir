@@ -1,0 +1,11 @@
+{
+  [0] ??? "Let id:{job} be a new Job abstract closure with no parameters that captures id:{reaction} and id:{argument} and performs the following steps when called : step-list:{...}"
+  [19] let handlerRealm = null
+  [20] if (! (= reaction.Handler undefined)) {
+    [21] app __x0__ = (GetFunctionRealm reaction.Handler)
+    [21] let getHandlerRealmResult = __x0__
+    [22] if (&& (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type CONST_normal)) handlerRealm = getHandlerRealmResult.Value else [1] {}
+  } else [1] {}
+  [23] app __x1__ = (WrapCompletion (new Record("Job" -> job, "Realm" -> handlerRealm)))
+  [23] return __x1__
+}

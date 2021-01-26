@@ -1,0 +1,31 @@
+{
+  app maxLength = (GetArgument argumentsList 0i)
+  app fillString = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (RequireObjectCoercible this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [2] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (ToString O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [2] {}
+  [1] let S = __x1__
+  [2] app __x2__ = (ToLength maxLength)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [2] {}
+  [2] let intMaxLength = __x2__
+  [3] let stringLength = S.length
+  [4] if (! (< stringLength intMaxLength)) {
+    app __x3__ = (WrapCompletion S)
+    return __x3__
+  } else [2] {}
+  [6] if (= fillString undefined) let filler = " " else {
+    app __x4__ = (ToString fillString)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [2] {}
+    let filler = __x4__
+  }
+  [7] if (= filler "") {
+    app __x5__ = (WrapCompletion S)
+    return __x5__
+  } else [2] {}
+  [8] let fillLen = (- intMaxLength stringLength)
+  [9] ??? "Let id:{truncatedStringFiller} be the String value consisting of repeated concatenations of id:{filler} truncated to length id:{fillLen} ."
+  [10] app __x6__ = (WrapCompletion (+ S truncatedStringFiller))
+  [10] return __x6__
+}

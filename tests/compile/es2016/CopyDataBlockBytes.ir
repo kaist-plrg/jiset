@@ -1,0 +1,15 @@
+{
+  [2] ??? "Let id:{fromSize} be the number of bytes in id:{fromBlock} ."
+  [3] assert (! (< fromSize (+ fromIndex count)))
+  [4] ??? "Let id:{toSize} be the number of bytes in id:{toBlock} ."
+  [5] assert (! (< toSize (+ toIndex count)))
+  [6] while (< 0i count) {
+    [7] toBlock[toIndex] = fromBlock[fromIndex]
+    [8] toIndex = (+ toIndex 1i)
+    [8] fromIndex = (+ fromIndex 1i)
+    [9] count = (- count 1i)
+  }
+  [10] app __x0__ = (NormalCompletion CONST_empty)
+  [10] app __x1__ = (WrapCompletion __x0__)
+  [10] return __x1__
+}

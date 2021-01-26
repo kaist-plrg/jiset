@@ -1,0 +1,77 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "tv"
+  }, ")", "is", "Number", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "tv"
+  }, "is", "not", {
+    "value": "NaN"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "offset"
+  }, "be", "LocalTZA", "(", {
+    "id": "tv"
+  }, ",", {
+    "value": "true"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "offset"
+  }, "≥", {
+    "value": "+0"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "offsetSign"
+  }, "be", {
+    "value": "\"+\""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "absOffset"
+  }, "be", {
+    "id": "offset"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "offsetSign"
+  }, "be", {
+    "value": "\"-\""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "absOffset"
+  }, "be", "-", {
+    "id": "offset"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "offsetMin"
+  }, "be", "the", "String", "representation", "of", "MinFromTime", "(", {
+    "id": "absOffset"
+  }, ")", ",", "formatted", "as", "a", "two", "-", "digit", "decimal", "number", ",", "padded", "to", "the", "left", "with", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", "if", "necessary", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "offsetHour"
+  }, "be", "the", "String", "representation", "of", "HourFromTime", "(", {
+    "id": "absOffset"
+  }, ")", ",", "formatted", "as", "a", "two", "-", "digit", "decimal", "number", ",", "padded", "to", "the", "left", "with", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", "if", "necessary", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "tzName"
+  }, "be", "an", "implementation", "-", "defined", "string", "that", "is", "either", "the", "empty", "String", "or", "the", "string", "-", "concatenation", "of", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", "the", "code", "unit", "0x0028", "(", "LEFT", "PARENTHESIS", ")", ",", "an", "implementation", "-", "defined", "timezone", "name", ",", "and", "the", "code", "unit", "0x0029", "(", "RIGHT", "PARENTHESIS", ")", "."]
+}, {
+  "tokens": ["Return", "the", "string", "-", "concatenation", "of", {
+    "id": "offsetSign"
+  }, ",", {
+    "id": "offsetHour"
+  }, ",", {
+    "id": "offsetMin"
+  }, ",", "and", {
+    "id": "tzName"
+  }, "."]
+}]

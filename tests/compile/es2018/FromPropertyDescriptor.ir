@@ -1,0 +1,34 @@
+{
+  [0] if (= Desc undefined) {
+    app __x0__ = (WrapCompletion undefined)
+    return __x0__
+  } else [15] {}
+  [1] app __x1__ = (ObjectCreate INTRINSIC_ObjectPrototype)
+  [1] let obj = __x1__
+  [3] if (! (= Desc.Value absent)) {
+    [4] app __x2__ = (CreateDataProperty obj "value" Desc.Value)
+    [4] __x2__
+  } else [15] {}
+  [5] if (! (= Desc.Writable absent)) {
+    [6] app __x3__ = (CreateDataProperty obj "writable" Desc.Writable)
+    [6] __x3__
+  } else [15] {}
+  [7] if (! (= Desc.Get absent)) {
+    [8] app __x4__ = (CreateDataProperty obj "get" Desc.Get)
+    [8] __x4__
+  } else [15] {}
+  [9] if (! (= Desc.Set absent)) {
+    [10] app __x5__ = (CreateDataProperty obj "set" Desc.Set)
+    [10] __x5__
+  } else [15] {}
+  [11] if (! (= Desc.Enumerable absent)) {
+    [12] app __x6__ = (CreateDataProperty obj "enumerable" Desc.Enumerable)
+    [12] __x6__
+  } else [15] {}
+  [13] if (! (= Desc.Configurable absent)) {
+    [14] app __x7__ = (CreateDataProperty obj "configurable" Desc.Configurable)
+    [14] __x7__
+  } else [15] {}
+  [16] app __x8__ = (WrapCompletion obj)
+  [16] return __x8__
+}

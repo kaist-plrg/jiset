@@ -1,0 +1,60 @@
+{
+  app typedArray = (GetArgument argumentsList 0i)
+  app index = (GetArgument argumentsList 1i)
+  app value = (GetArgument argumentsList 2i)
+  app timeout = (GetArgument argumentsList 3i)
+  [0] app __x0__ = (ValidateSharedIntegerTypedArray typedArray true)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+  [0] let buffer = __x0__
+  [1] app __x1__ = (ValidateAtomicAccess typedArray index)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [1] {}
+  [1] let i = __x1__
+  [2] app __x2__ = (ToInt32 value)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [1] {}
+  [2] let v = __x2__
+  [3] app __x3__ = (ToNumber timeout)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [1] {}
+  [3] let q = __x3__
+  [4] if (= q NaN) let t = Infinity else {
+    app __x4__ = (max q 0i)
+    let t = __x4__
+  }
+  [5] app __x5__ = (AgentCanSuspend )
+  [5] let B = __x5__
+  [6] if (= B false) {
+    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x6__
+  } else [1] {}
+  [7] let block = buffer.ArrayBufferData
+  [8] let offset = typedArray.ByteOffset
+  [9] let indexedPosition = (+ (* i 4i) offset)
+  [10] app __x7__ = (GetWaiterList block indexedPosition)
+  [10] let WL = __x7__
+  [11] app __x8__ = (EnterCriticalSection WL)
+  [11] __x8__
+  [12] app __x9__ = (AtomicLoad typedArray i)
+  [12] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [1] {}
+  [12] let w = __x9__
+  [13] if (! (= v w)) {
+    [14] app __x10__ = (LeaveCriticalSection WL)
+    [14] __x10__
+    [15] app __x11__ = (WrapCompletion "not-equal")
+    [15] return __x11__
+  } else [1] {}
+  [16] app __x12__ = (AgentSignifier )
+  [16] let W = __x12__
+  [17] app __x13__ = (AddWaiter WL W)
+  [17] __x13__
+  [18] app __x14__ = (Suspend WL W t)
+  [18] let awoken = __x14__
+  [19] app __x15__ = (RemoveWaiter WL W)
+  [19] __x15__
+  [20] app __x16__ = (LeaveCriticalSection WL)
+  [20] __x16__
+  [21] if (= awoken true) {
+    app __x17__ = (WrapCompletion "ok")
+    return __x17__
+  } else [1] {}
+  [22] app __x18__ = (WrapCompletion "timed-out")
+  [22] return __x18__
+}

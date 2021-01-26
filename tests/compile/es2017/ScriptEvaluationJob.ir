@@ -1,0 +1,9 @@
+{
+  [1] let realm = REALM
+  [2] app __x0__ = (ParseScript sourceText realm hostDefined)
+  [2] let s = __x0__
+  [6] app __x1__ = (ScriptEvaluation s)
+  [6] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [3] {}
+  [6] app __x2__ = (WrapCompletion __x1__)
+  [6] return __x2__
+}

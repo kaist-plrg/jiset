@@ -1,0 +1,13 @@
+{
+  [0] app __x0__ = (Type S)
+  [0] assert (= __x0__ String)
+  [1] app __x1__ = (Type global)
+  [1] assert (= __x1__ Boolean)
+  [2] app __x2__ = (Type fullUnicode)
+  [2] assert (= __x2__ Boolean)
+  [3] ??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{R} , id:{S} , id:{global} , and id:{fullUnicode} and performs the following steps when called : step-list:{...}"
+  [16] app __x3__ = (CreateIteratorFromClosure closure "%RegExpStringIteratorPrototype%" INTRINSIC_RegExpStringIteratorPrototype)
+  [16] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [56] {}
+  [16] app __x4__ = (WrapCompletion __x3__)
+  [16] return __x4__
+}

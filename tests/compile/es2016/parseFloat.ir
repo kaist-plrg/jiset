@@ -1,0 +1,18 @@
+{
+  app string = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (ToString string)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [73] {}
+  [0] let inputString = __x0__
+  [1] ??? "Let id:{trimmedString} be a substring of id:{inputString} consisting of the leftmost code unit that is not a nt:{StrWhiteSpaceChar} and all code units to the right of that code unit . ( In other words , remove leading white space . ) If id:{inputString} does not contain any such code units , let id:{trimmedString} be the empty string ."
+  [2] ??? "If neither id:{trimmedString} nor any prefix of id:{trimmedString} satisfies the syntax of a nt:{StrDecimalLiteral} ( see link:{} ) , return value:{NaN} ."
+  [3] ??? "Let id:{numberString} be the longest prefix of id:{trimmedString} , which might be id:{trimmedString} itself , that satisfies the syntax of a nt:{StrDecimalLiteral} ."
+  [4] access __x1__ = (numberString "MV")
+  [4] let mathFloat = __x1__
+  [5] if (== mathFloat 0i) {
+    [6] ??? "If the first code unit of id:{trimmedString} is code:{\"-\"} , return value:{-0} ."
+    [7] app __x2__ = (WrapCompletion 0i)
+    [7] return __x2__
+  } else [73] {}
+  [8] app __x3__ = (WrapCompletion mathFloat)
+  [8] return __x3__
+}

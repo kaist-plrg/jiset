@@ -1,0 +1,15 @@
+{
+  [0] if true let strict = true else let strict = false
+  [1] access __x0__ = (BindingIdentifier "StringValue")
+  [1] let name = __x0__
+  [2] app __x1__ = (GeneratorFunctionCreate CONST_Normal FormalParameters GeneratorBody scope strict)
+  [2] let F = __x1__
+  [3] app __x2__ = (ObjectCreate INTRINSIC_GeneratorPrototype)
+  [3] let prototype = __x2__
+  [4] app __x3__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  [4] __x3__
+  [5] app __x4__ = (SetFunctionName F name)
+  [5] __x4__
+  [6] app __x5__ = (WrapCompletion F)
+  [6] return __x5__
+}

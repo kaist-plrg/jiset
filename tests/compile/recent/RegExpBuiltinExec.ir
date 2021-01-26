@@ -1,0 +1,64 @@
+{
+  [1] app __x0__ = (Type S)
+  [1] assert (= __x0__ String)
+  [2] let length = S.length
+  [3] ??? "Let id:{lastIndex} be ℝ ( ? ToLength ( ? Get ( id:{R} , value:{\"lastIndex\"} ) ) ) ."
+  [4] let flags = R.OriginalFlags
+  [5] if (contains flags "g") let global = true else let global = false
+  [6] if (contains flags "y") let sticky = true else let sticky = false
+  [7] if (&& (= global false) (= sticky false)) lastIndex = 0i else [52] {}
+  [8] let matcher = R.RegExpMatcher
+  [9] if (contains flags "u") let fullUnicode = true else let fullUnicode = false
+  [10] let matchSucceeded = false
+  [11] while (= matchSucceeded false) {
+    [12] if (< length lastIndex) {
+      [13] if (|| (= global true) (= sticky true)) {
+        [14] app __x1__ = (Set R "lastIndex" 0i true)
+        [14] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [52] {}
+        [14] __x1__
+      } else [52] {}
+      [15] app __x2__ = (WrapCompletion null)
+      [15] return __x2__
+    } else [52] {}
+    [16] app __x3__ = (matcher S lastIndex)
+    [16] let r = __x3__
+    [22] if (= r CONST_failure) {
+      [18] if (= sticky true) {
+        [19] app __x4__ = (Set R "lastIndex" 0i true)
+        [19] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [52] {}
+        [19] __x4__
+        [20] app __x5__ = (WrapCompletion null)
+        [20] return __x5__
+      } else [52] {}
+      [21] app __x6__ = (AdvanceStringIndex S lastIndex fullUnicode)
+      [21] lastIndex = __x6__
+    } else matchSucceeded = true
+  }
+  [25] let e = r.endIndex
+  [26] if (= fullUnicode true) {
+    [27] ??? "id:{e} is an index into the id:{Input} character list , derived from id:{S} , matched by id:{matcher} . Let id:{eUTF} be the smallest index into id:{S} that corresponds to the character at element id:{e} of id:{Input} . If id:{e} is greater than or equal to the number of elements in id:{Input} , then id:{eUTF} is the number of code units in id:{S} ."
+    [28] e = eUTF
+  } else [52] {}
+  [29] if (|| (= global true) (= sticky true)) ??? "Perform ? Set ( id:{R} , value:{\"lastIndex\"} , 𝔽 ( id:{e} ) , value:{true} ) ." else [52] {}
+  [31] ??? "Let id:{n} be the number of elements in id:{r} ' s id:{captures} List . ( This is the same value as link:{} ' s id:{NcapturingParens} . )"
+  [32] assert (< n (- 4294967296i 1i))
+  [33] app __x7__ = (ArrayCreate (+ n 1i))
+  [33] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [52] {}
+  [33] let A = __x7__
+  [35] ??? "Perform ! CreateDataPropertyOrThrow ( id:{A} , value:{\"index\"} , 𝔽 ( id:{lastIndex} ) ) ."
+  [36] app __x8__ = (CreateDataPropertyOrThrow A "input" S)
+  [36] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [52] {}
+  [36] __x8__
+  [37] ??? "Let id:{matchedSubstr} be the substring of id:{S} from id:{lastIndex} to id:{e} ."
+  [38] app __x9__ = (CreateDataPropertyOrThrow A "0" matchedSubstr)
+  [38] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [52] {}
+  [38] __x9__
+  [39] ??? "If id:{R} contains any nt:{GroupName} , then step-list:{...}"
+  [41] ??? "Else , step-list:{...}"
+  [43] app __x10__ = (CreateDataPropertyOrThrow A "groups" groups)
+  [43] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [52] {}
+  [43] __x10__
+  [44] ??? "For each integer id:{i} such that id:{i} ≥ 1 and id:{i} ≤ id:{n} , do step-list:{...}"
+  [58] app __x11__ = (WrapCompletion A)
+  [58] return __x11__
+}

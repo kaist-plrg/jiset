@@ -1,0 +1,27 @@
+[{
+  "tokens": ["Let", {
+    "id": "lnum"
+  }, "be", "!", "ToInt32", "(", {
+    "id": "x"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rnum"
+  }, "be", "!", "ToUint32", "(", {
+    "id": "y"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "shiftCount"
+  }, "be", "the", "result", "of", "masking", "out", "all", "but", "the", "least", "significant", "5", "bits", "of", {
+    "id": "rnum"
+  }, ",", "that", "is", ",", "compute", {
+    "id": "rnum"
+  }, "&", "0x1F", "."]
+}, {
+  "tokens": ["Return", "the", "result", "of", "performing", "a", "sign", "-", "extending", "right", "shift", "of", {
+    "id": "lnum"
+  }, "by", {
+    "id": "shiftCount"
+  }, "bits", ".", "The", "most", "significant", "bit", "is", "propagated", ".", "The", "result", "is", "a", "signed", "32", "-", "bit", "integer", "."]
+}]

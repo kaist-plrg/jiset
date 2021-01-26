@@ -1,0 +1,101 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "RequireObjectCoercible", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "?", "ToString", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "the", "length", "of", {
+    "id": "S"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "intStart"
+  }, "be", "?", "ToIntegerOrInfinity", "(", {
+    "id": "start"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "intStart"
+  }, "is", "-", "∞", ",", "let", {
+    "id": "from"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "intStart"
+  }, "<", "0", ",", "let", {
+    "id": "from"
+  }, "be", "max", "(", {
+    "id": "len"
+  }, "+", {
+    "id": "intStart"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "from"
+  }, "be", "min", "(", {
+    "id": "intStart"
+  }, ",", {
+    "id": "len"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "end"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "let", {
+    "id": "intEnd"
+  }, "be", {
+    "id": "len"
+  }, ";", "else", "let", {
+    "id": "intEnd"
+  }, "be", "?", "ToIntegerOrInfinity", "(", {
+    "id": "end"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "intEnd"
+  }, "is", "-", "∞", ",", "let", {
+    "id": "to"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "intEnd"
+  }, "<", "0", ",", "let", {
+    "id": "to"
+  }, "be", "max", "(", {
+    "id": "len"
+  }, "+", {
+    "id": "intEnd"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "to"
+  }, "be", "min", "(", {
+    "id": "intEnd"
+  }, ",", {
+    "id": "len"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "from"
+  }, "≥", {
+    "id": "to"
+  }, ",", "return", "the", "empty", "String", "."]
+}, {
+  "tokens": ["Return", "the", "substring", "of", {
+    "id": "S"
+  }, "from", {
+    "id": "from"
+  }, "to", {
+    "id": "to"
+  }, "."]
+}]

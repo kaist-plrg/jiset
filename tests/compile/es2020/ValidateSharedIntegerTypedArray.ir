@@ -1,0 +1,34 @@
+{
+  [0] if (= waitable absent) waitable = false else [0] {}
+  [1] app __x0__ = (RequireInternalSlot typedArray "TypedArrayName")
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [0] {}
+  [1] __x0__
+  [2] let typeName = typedArray.TypedArrayName
+  [3] ??? "Let id:{type} be the Element Type value in link:{} for id:{typeName} ."
+  [6] if (= waitable true) if (! (|| (= typeName "Int32Array") (= typeName "BigInt64Array"))) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [0] {} else {
+    [7] app __x2__ = (IsUnclampedIntegerElementType type)
+    [7] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+    [7] let __x3__ = (= __x2__ false)
+    [7] if __x3__ {
+      app __x4__ = (IsBigIntElementType type)
+      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [0] {}
+      __x3__ = (= __x4__ false)
+    } else [0] {}
+    [7] if __x3__ {
+      app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x5__
+    } else [0] {}
+  }
+  [8] assert (! (= typedArray.ViewedArrayBuffer absent))
+  [9] let buffer = typedArray.ViewedArrayBuffer
+  [10] app __x6__ = (IsSharedArrayBuffer buffer)
+  [10] if (= __x6__ false) {
+    app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x7__
+  } else [0] {}
+  [11] app __x8__ = (WrapCompletion buffer)
+  [11] return __x8__
+}

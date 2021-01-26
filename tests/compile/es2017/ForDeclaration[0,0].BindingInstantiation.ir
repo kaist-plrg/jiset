@@ -1,0 +1,21 @@
+{
+  [0] let envRec = environment.EnvironmentRecord
+  [1] assert (= (typeof envRec) "DeclarativeEnvironmentRecord")
+  [2] access __x0__ = (ForBinding "BoundNames")
+  [2] let __x1__ = __x0__
+  [2] let __x2__ = 0i
+  [2] while (< __x2__ __x1__.length) {
+    let name = __x1__[__x2__]
+    [5] access __x3__ = (LetOrConst "IsConstantDeclaration")
+    [5] if (= __x3__ true) {
+      [4] app __x4__ = (envRec.CreateImmutableBinding envRec name true)
+      [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [8] {}
+      [4] __x4__
+    } else {
+      [6] app __x5__ = (envRec.CreateMutableBinding envRec name false)
+      [6] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [8] {}
+      [6] __x5__
+    }
+    __x2__ = (+ __x2__ 1i)
+  }
+}

@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "obj"
+  }, "is", "a", "callable", "object", "."]
+}, {
+  "tokens": ["If", {
+    "id": "obj"
+  }, "has", "a", "[", "[", "Realm", "]", "]", "internal", "slot", ",", "then"]
+}, {
+  "tokens": ["Return", {
+    "id": "obj"
+  }, ".", "[", "[", "Realm", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "obj"
+  }, "is", "a", "Bound", "Function", "exotic", "object", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "target"
+  }, "be", {
+    "id": "obj"
+  }, ".", "[", "[", "BoundTargetFunction", "]", "]", "."]
+}, {
+  "tokens": ["Return", "?", "GetFunctionRealm", "(", {
+    "id": "target"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "obj"
+  }, "is", "a", "Proxy", "exotic", "object", ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "obj"
+  }, ".", "[", "[", "ProxyHandler", "]", "]", "is", {
+    "value": "null"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "proxyTarget"
+  }, "be", {
+    "id": "obj"
+  }, ".", "[", "[", "ProxyTarget", "]", "]", "."]
+}, {
+  "tokens": ["Return", "?", "GetFunctionRealm", "(", {
+    "id": "proxyTarget"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "the", "current", "Realm", "Record", "."]
+}]

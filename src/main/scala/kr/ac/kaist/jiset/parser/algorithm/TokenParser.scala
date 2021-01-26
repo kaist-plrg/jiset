@@ -48,7 +48,7 @@ trait TokenParsers extends ProductionParsers {
       case s => Sup(Step(parseAll(rep(token), s).getOrElse(Nil)))
     }
     lazy val link = "<emu-xref href=\"#" ~> "[^\"]*".r <~ "\"" <~ opt("[^>]*".r) <~ "></emu-xref>" ^^ {
-      case id => Link(None) // TODO convert id to corresponding name
+      case id => Link("") // TODO convert id to corresponding name
     }
     lazy val sub = "<sub>" ~> "[^<]*".r <~ "</sub>" ^^ {
       case s =>
@@ -67,6 +67,14 @@ trait TokenParsers extends ProductionParsers {
     lazy val indent = number ~ "." ~ opt(ignore) | "*" | "<" ~ rep(char)
     indent ~> rep(token)
   }
+
+  // get steps
+  def getSteps(code: Iterable[String])(
+    implicit
+    grammar: Grammar,
+    document: Document
+  ): List[Step] =
+    code.map(l => Step(parseAll(step(grammar, document), l).get)).toList
 
   // get tokens
   val TAB = 2

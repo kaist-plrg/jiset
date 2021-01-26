@@ -1,0 +1,13 @@
+{
+  [0] access __x0__ = (PropertyDefinitionList "PropertyNameList")
+  [0] let list = __x0__
+  [1] access __x1__ = (PropertyDefinition "PropName")
+  [1] if (= __x1__ CONST_empty) {
+    app __x2__ = (WrapCompletion list)
+    return __x2__
+  } else [5] {}
+  [2] access __x3__ = (PropertyDefinition "PropName")
+  [2] append __x3__ -> list
+  [3] app __x4__ = (WrapCompletion list)
+  [3] return __x4__
+}

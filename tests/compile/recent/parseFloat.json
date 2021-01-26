@@ -1,0 +1,61 @@
+[{
+  "tokens": ["Let", {
+    "id": "inputString"
+  }, "be", "?", "ToString", "(", {
+    "id": "string"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "trimmedString"
+  }, "be", "!", "TrimString", "(", {
+    "id": "inputString"
+  }, ",", {
+    "const": "start"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "neither", {
+    "id": "trimmedString"
+  }, "nor", "any", "prefix", "of", {
+    "id": "trimmedString"
+  }, "satisfies", "the", "syntax", "of", "a", {
+    "nt": "StrDecimalLiteral"
+  }, "(", "see", {
+    "link": ""
+  }, ")", ",", "return", {
+    "value": "NaN"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "numberString"
+  }, "be", "the", "longest", "prefix", "of", {
+    "id": "trimmedString"
+  }, ",", "which", "might", "be", {
+    "id": "trimmedString"
+  }, "itself", ",", "that", "satisfies", "the", "syntax", "of", "a", {
+    "nt": "StrDecimalLiteral"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "mathFloat"
+  }, "be", "MV", "of", {
+    "id": "numberString"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "mathFloat"
+  }, "=", "0", ",", "then"]
+}, {
+  "tokens": ["If", "the", "first", "code", "unit", "of", {
+    "id": "trimmedString"
+  }, "is", "the", "code", "unit", "0x002D", "(", "HYPHEN", "-", "MINUS", ")", ",", "return", {
+    "value": "-0"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "+0"
+  }, "."]
+}, {
+  "tokens": ["Return", "𝔽", "(", {
+    "id": "mathFloat"
+  }, ")", "."]
+}]

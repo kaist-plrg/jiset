@@ -1,0 +1,193 @@
+[{
+  "tokens": ["Assert", ":", "!", "IsConstructor", "(", {
+    "id": "constructor"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", "!", "IsCallable", "(", {
+    "id": "promiseResolve"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "errors"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "remainingElementsCount"
+  }, "be", "the", "Record", "{", "[", "[", "Value", "]", "]", ":", "1", "}", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "index"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Repeat", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "next"
+  }, "be", "IteratorStep", "(", {
+    "id": "iteratorRecord"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "next"
+  }, "is", "an", "abrupt", "completion", ",", "set", {
+    "id": "iteratorRecord"
+  }, ".", "[", "[", "Done", "]", "]", "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "next"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "next"
+  }, "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "iteratorRecord"
+  }, ".", "[", "[", "Done", "]", "]", "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "to", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "-", "1", "."]
+}, {
+  "tokens": ["If", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "is", "0", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "error"
+  }, "be", "a", "newly", "created", {
+    "code": "AggregateError"
+  }, "object", "."]
+}, {
+  "tokens": ["Perform", "!", "DefinePropertyOrThrow", "(", {
+    "id": "error"
+  }, ",", {
+    "value": "\"errors\""
+  }, ",", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "true"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Writable", "]", "]", ":", {
+    "value": "true"
+  }, ",", "[", "[", "Value", "]", "]", ":", "!", "CreateArrayFromList", "(", {
+    "id": "errors"
+  }, ")", "}", ")", "."]
+}, {
+  "tokens": ["Return", "ThrowCompletion", "(", {
+    "id": "error"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "resultCapability"
+  }, ".", "[", "[", "Promise", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextValue"
+  }, "be", "IteratorValue", "(", {
+    "id": "next"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "nextValue"
+  }, "is", "an", "abrupt", "completion", ",", "set", {
+    "id": "iteratorRecord"
+  }, ".", "[", "[", "Done", "]", "]", "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "nextValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Append", {
+    "value": "undefined"
+  }, "to", {
+    "id": "errors"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextPromise"
+  }, "be", "?", "Call", "(", {
+    "id": "promiseResolve"
+  }, ",", {
+    "id": "constructor"
+  }, ",", "«", {
+    "id": "nextValue"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "steps"
+  }, "be", "the", "algorithm", "steps", "defined", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rejectElement"
+  }, "be", "!", "CreateBuiltinFunction", "(", {
+    "id": "steps"
+  }, ",", "«", "[", "[", "AlreadyCalled", "]", "]", ",", "[", "[", "Index", "]", "]", ",", "[", "[", "Errors", "]", "]", ",", "[", "[", "Capability", "]", "]", ",", "[", "[", "RemainingElements", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "AlreadyCalled", "]", "]", "to", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "Index", "]", "]", "to", {
+    "id": "index"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "Errors", "]", "]", "to", {
+    "id": "errors"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "Capability", "]", "]", "to", {
+    "id": "resultCapability"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "RemainingElements", "]", "]", "to", {
+    "id": "remainingElementsCount"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "to", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "+", "1", "."]
+}, {
+  "tokens": ["Perform", "?", "Invoke", "(", {
+    "id": "nextPromise"
+  }, ",", {
+    "value": "\"then\""
+  }, ",", "«", {
+    "id": "resultCapability"
+  }, ".", "[", "[", "Resolve", "]", "]", ",", {
+    "id": "rejectElement"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "index"
+  }, "to", {
+    "id": "index"
+  }, "+", "1", "."]
+}]

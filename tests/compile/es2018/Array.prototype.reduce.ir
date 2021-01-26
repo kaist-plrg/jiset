@@ -1,0 +1,63 @@
+{
+  app callbackfn = (GetArgument argumentsList 0i)
+  app initialValue = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [32] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (Get O "length")
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [32] {}
+  [1] app __x2__ = (ToLength __x1__)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [32] {}
+  [1] let len = __x2__
+  [2] app __x3__ = (IsCallable callbackfn)
+  [2] if (= __x3__ false) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else [32] {}
+  [3] if (&& (= len 0i) (= initialValue absent)) {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else [32] {}
+  [4] let k = 0i
+  [5] let accumulator = undefined
+  [8] if (! (= initialValue absent)) accumulator = initialValue else {
+    [9] let kPresent = false
+    [10] while (&& (= kPresent false) (< k len)) {
+      [11] app __x6__ = (ToString k)
+      [11] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [32] {}
+      [11] let Pk = __x6__
+      [12] app __x7__ = (HasProperty O Pk)
+      [12] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [32] {}
+      [12] let kPresent = __x7__
+      [13] if (= kPresent true) {
+        [14] app __x8__ = (Get O Pk)
+        [14] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [32] {}
+        [14] accumulator = __x8__
+      } else [32] {}
+      [15] k = (+ k 1i)
+    }
+    [16] if (= kPresent false) {
+      app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x9__
+    } else [32] {}
+  }
+  [17] while (< k len) {
+    [18] app __x10__ = (ToString k)
+    [18] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [32] {}
+    [18] let Pk = __x10__
+    [19] app __x11__ = (HasProperty O Pk)
+    [19] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [32] {}
+    [19] let kPresent = __x11__
+    [20] if (= kPresent true) {
+      [21] app __x12__ = (Get O Pk)
+      [21] if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [32] {}
+      [21] let kValue = __x12__
+      [22] app __x13__ = (Call callbackfn undefined (new [accumulator, kValue, k, O]))
+      [22] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [32] {}
+      [22] accumulator = __x13__
+    } else [32] {}
+    [23] k = (+ k 1i)
+  }
+  [24] app __x14__ = (WrapCompletion accumulator)
+  [24] return __x14__
+}

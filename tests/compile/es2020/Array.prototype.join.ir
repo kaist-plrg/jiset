@@ -1,0 +1,30 @@
+{
+  app separator = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [4] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (LengthOfArrayLike O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [4] {}
+  [1] let len = __x1__
+  [2] ??? "If id:{separator} is value:{undefined} , let id:{sep} be the single - element String value:{\",\"} ."
+  [3] ??? "Else , let id:{sep} be ? ToString ( id:{separator} ) ."
+  [4] let R = ""
+  [5] let k = 0i
+  [6] while (< k len) {
+    [7] if (< 0i k) R = (+ R sep) else [4] {}
+    [8] app __x2__ = (ToString k)
+    [8] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [4] {}
+    [8] app __x3__ = (Get O __x2__)
+    [8] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [4] {}
+    [8] let element = __x3__
+    [9] if (|| (= element undefined) (= element null)) let next = "" else {
+      app __x4__ = (ToString element)
+      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [4] {}
+      let next = __x4__
+    }
+    [10] R = (+ R next)
+    [11] k = (+ k 1i)
+  }
+  [12] app __x5__ = (WrapCompletion R)
+  [12] return __x5__
+}

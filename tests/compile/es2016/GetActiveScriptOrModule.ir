@@ -1,0 +1,12 @@
+{
+  [0] if (= GLOBAL_executionStack.length 0i) {
+    app __x0__ = (WrapCompletion null)
+    return __x0__
+  } else [12] {}
+  [1] ??? "Let id:{ec} be the topmost execution context on the execution context stack whose Function component ' s [ [ ScriptOrModule ] ] component is not value:{null} ."
+  [2] ??? "If such an execution context exists , return id:{ec} ' s Function component ' s [ [ ScriptOrModule ] ] slot ' s value ."
+  [3] ??? "Otherwise , let id:{ec} be the running execution context ."
+  [4] assert (! (= ec.ScriptOrModule null))
+  [5] app __x1__ = (WrapCompletion ec.ScriptOrModule)
+  [5] return __x1__
+}

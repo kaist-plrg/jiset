@@ -1,0 +1,24 @@
+{
+  [0] let alreadyCalled = F.AlreadyCalled
+  [1] if (= alreadyCalled.Value true) {
+    app __x0__ = (WrapCompletion undefined)
+    return __x0__
+  } else [1] {}
+  [2] alreadyCalled.Value = true
+  [3] let index = F.Index
+  [4] let values = F.Values
+  [5] let promiseCapability = F.Capabilities
+  [6] let remainingElementsCount = F.RemainingElements
+  [7] values[index] = x
+  [8] remainingElementsCount.Value = (- remainingElementsCount.Value 1i)
+  [9] if (= remainingElementsCount.Value 0i) {
+    [10] app __x1__ = (CreateArrayFromList values)
+    [10] let valuesArray = __x1__
+    [11] app __x2__ = (Call promiseCapability.Resolve undefined (new [valuesArray]))
+    [11] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [1] {}
+    [11] app __x3__ = (WrapCompletion __x2__)
+    [11] return __x3__
+  } else [1] {}
+  [12] app __x4__ = (WrapCompletion undefined)
+  [12] return __x4__
+}

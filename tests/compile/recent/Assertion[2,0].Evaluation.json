@@ -1,0 +1,61 @@
+[{
+  "tokens": ["Return", "a", "new", "Matcher", "with", "parameters", "(", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ")", "that", "captures", "nothing", "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "x"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "c"
+  }, "is", "a", "Continuation", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "e"
+  }, "be", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "endIndex"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "a"
+  }, "be", "!", "IsWordChar", "(", {
+    "id": "e"
+  }, "-", "1", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "b"
+  }, "be", "!", "IsWordChar", "(", {
+    "id": "e"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "a"
+  }, "is", {
+    "value": "true"
+  }, "and", {
+    "id": "b"
+  }, "is", {
+    "value": "false"
+  }, ",", "or", "if", {
+    "id": "a"
+  }, "is", {
+    "value": "false"
+  }, "and", {
+    "id": "b"
+  }, "is", {
+    "value": "true"
+  }, ",", "return", {
+    "id": "c"
+  }, "(", {
+    "id": "x"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "const": "failure"
+  }, "."]
+}]

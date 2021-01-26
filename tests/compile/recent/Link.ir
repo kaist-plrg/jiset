@@ -1,0 +1,27 @@
+{
+  [0] assert (! (|| (= module.Status CONST_linking) (= module.Status CONST_evaluating)))
+  [1] let stack = (new [])
+  [2] app __x0__ = (InnerModuleLinking module stack 0i)
+  [2] let result = __x0__
+  [3] app __x1__ = (IsAbruptCompletion result)
+  [3] if __x1__ {
+    [4] let __x2__ = stack
+    [4] let __x3__ = 0i
+    [4] while (< __x3__ __x2__.length) {
+      let m = __x2__[__x3__]
+      [5] assert (= m.Status CONST_linking)
+      [6] m.Status = CONST_unlinked
+      [7] m.Environment = undefined
+      [8] m.DFSIndex = undefined
+      [9] m.DFSAncestorIndex = undefined
+      __x3__ = (+ __x3__ 1i)
+    }
+    [10] assert (= module.Status CONST_unlinked)
+    [11] app __x4__ = (WrapCompletion result)
+    [11] return __x4__
+  } else [36] {}
+  [12] assert (|| (= module.Status CONST_linked) (= module.Status CONST_evaluated))
+  [13] assert (= stack.length 0i)
+  [14] app __x5__ = (WrapCompletion undefined)
+  [14] return __x5__
+}

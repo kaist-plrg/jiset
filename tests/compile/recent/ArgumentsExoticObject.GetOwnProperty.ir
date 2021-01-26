@@ -1,0 +1,18 @@
+{
+  [0] app __x0__ = (OrdinaryGetOwnProperty args P)
+  [0] let desc = __x0__
+  [1] if (= desc undefined) {
+    app __x1__ = (WrapCompletion desc)
+    return __x1__
+  } else [0] {}
+  [2] let map = args.ParameterMap
+  [3] app __x2__ = (HasOwnProperty map P)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+  [3] let isMapped = __x2__
+  [4] if (= isMapped true) {
+    [5] app __x3__ = (Get map P)
+    [5] desc.Value = __x3__
+  } else [0] {}
+  [6] app __x4__ = (WrapCompletion desc)
+  [6] return __x4__
+}

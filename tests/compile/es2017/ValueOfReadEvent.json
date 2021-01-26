@@ -1,0 +1,29 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "R"
+  }, "is", "a", "ReadSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", "."]
+}, {
+  "tokens": ["Let", "reads", "-", "bytes", "-", "from", "be", {
+    "id": "execution"
+  }, ".", "[", "[", "ReadsBytesFrom", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "Ws"
+  }, "be", "reads", "-", "bytes", "-", "from", "(", {
+    "id": "R"
+  }, ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "Ws"
+  }, "is", "a", "List", "of", "WriteSharedMemory", "or", "ReadModifyWriteSharedMemory", "events", "with", "length", "equal", "to", {
+    "id": "R"
+  }, ".", "[", "[", "ElementSize", "]", "]", "."]
+}, {
+  "tokens": ["Return", "ComposeWriteEventBytes", "(", {
+    "id": "execution"
+  }, ",", {
+    "id": "R"
+  }, ".", "[", "[", "ByteIndex", "]", "]", ",", {
+    "id": "Ws"
+  }, ")", "."]
+}]

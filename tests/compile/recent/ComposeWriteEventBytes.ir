@@ -1,0 +1,22 @@
+{
+  [0] let byteLocation = byteIndex
+  [1] let bytesRead = (new [])
+  [2] let __x0__ = Ws
+  [2] let __x1__ = 0i
+  [2] while (< __x1__ __x0__.length) {
+    let W = __x0__[__x1__]
+    [4] let payloadIndex = (- byteLocation W.ByteIndex)
+    [7] if (= (typeof W) "WriteSharedMemory") let byte = W.Payload[payloadIndex] else {
+      [9] app __x2__ = (ValueOfReadEvent execution W)
+      [9] let bytes = __x2__
+      [10] app __x3__ = (W.ModifyOp W bytes W.Payload)
+      [10] let bytesModified = __x3__
+      [11] let byte = bytesModified[payloadIndex]
+    }
+    [12] append byte -> bytesRead
+    [13] byteLocation = (+ byteLocation 1i)
+    __x1__ = (+ __x1__ 1i)
+  }
+  [14] app __x4__ = (WrapCompletion bytesRead)
+  [14] return __x4__
+}

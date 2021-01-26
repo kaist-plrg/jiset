@@ -1,0 +1,115 @@
+[{
+  "tokens": ["Assert", ":", "Both", "Type", "(", {
+    "id": "x"
+  }, ")", "and", "Type", "(", {
+    "id": "y"
+  }, ")", "are", "Number", "or", "both", "are", "BigInt", "."]
+}, {
+  "tokens": ["If", {
+    "id": "comparefn"
+  }, "is", "not", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "v"
+  }, "be", "?", "ToNumber", "(", "?", "Call", "(", {
+    "id": "comparefn"
+  }, ",", {
+    "value": "undefined"
+  }, ",", "«", {
+    "id": "x"
+  }, ",", {
+    "id": "y"
+  }, "»", ")", ")", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "buffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "v"
+  }, "is", {
+    "value": "NaN"
+  }, ",", "return", {
+    "value": "+0"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "v"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "x"
+  }, "and", {
+    "id": "y"
+  }, "are", "both", {
+    "value": "NaN"
+  }, ",", "return", {
+    "value": "+0"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "x"
+  }, "is", {
+    "value": "NaN"
+  }, ",", "return", {
+    "value": "1"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "y"
+  }, "is", {
+    "value": "NaN"
+  }, ",", "return", {
+    "value": "-1"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "x"
+  }, "<", {
+    "id": "y"
+  }, ",", "return", {
+    "value": "-1"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "x"
+  }, ">", {
+    "id": "y"
+  }, ",", "return", {
+    "value": "1"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "x"
+  }, "is", {
+    "value": "-0"
+  }, "and", {
+    "id": "y"
+  }, "is", {
+    "value": "+0"
+  }, ",", "return", {
+    "value": "-1"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "x"
+  }, "is", {
+    "value": "+0"
+  }, "and", {
+    "id": "y"
+  }, "is", {
+    "value": "-0"
+  }, ",", "return", {
+    "value": "1"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "+0"
+  }, "."]
+}]

@@ -1,0 +1,18 @@
+{
+  [0] access __x0__ = (ElementList "ArrayAccumulation")
+  [0] app __x1__ = (__x0__ array nextIndex)
+  [0] nextIndex = __x1__
+  [1] if (is-completion nextIndex) if (= nextIndex.Type CONST_normal) nextIndex = nextIndex.Value else return nextIndex else [2] {}
+  [1] nextIndex
+  [2] if (! (= Elision absent)) {
+    [3] access __x2__ = (Elision "ArrayAccumulation")
+    [3] app __x3__ = (__x2__ array nextIndex)
+    [3] nextIndex = __x3__
+    [4] if (is-completion nextIndex) if (= nextIndex.Type CONST_normal) nextIndex = nextIndex.Value else return nextIndex else [2] {}
+    [4] nextIndex
+  } else [2] {}
+  [5] access __x4__ = (SpreadElement "ArrayAccumulation")
+  [5] app __x5__ = (__x4__ array nextIndex)
+  [5] app __x6__ = (WrapCompletion __x5__)
+  [5] return __x6__
+}

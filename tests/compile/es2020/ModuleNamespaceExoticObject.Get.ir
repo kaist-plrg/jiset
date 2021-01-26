@@ -1,0 +1,34 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [1] app __x1__ = (Type P)
+  [1] if (= __x1__ Symbol) {
+    [2] app __x2__ = (OrdinaryGet O P Receiver)
+    [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+    [2] app __x3__ = (WrapCompletion __x2__)
+    [2] return __x3__
+  } else [0] {}
+  [3] let exports = O.Exports
+  [4] if (! (contains exports P)) {
+    app __x4__ = (WrapCompletion undefined)
+    return __x4__
+  } else [0] {}
+  [5] let m = O.Module
+  [6] app __x5__ = (m.ResolveExport m P)
+  [6] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [0] {}
+  [6] let binding = __x5__
+  [7] assert (= (typeof binding) "ResolvedBindingRecord")
+  [8] let targetModule = binding.Module
+  [9] assert (! (= targetModule undefined))
+  [10] ??? "If id:{binding} . [ [ BindingName ] ] is value:{\"\\} namespace \\ value:{\"} , then step-list:{...}"
+  [12] let targetEnv = targetModule.Environment
+  [13] if (= targetEnv undefined) {
+    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x6__
+  } else [0] {}
+  [14] let targetEnvRec = targetEnv.EnvironmentRecord
+  [15] app __x7__ = (targetEnvRec.GetBindingValue targetEnvRec binding.BindingName true)
+  [15] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [0] {}
+  [15] app __x8__ = (WrapCompletion __x7__)
+  [15] return __x8__
+}

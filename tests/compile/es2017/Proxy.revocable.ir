@@ -1,0 +1,17 @@
+{
+  app target = (GetArgument argumentsList 0i)
+  app handler = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ProxyCreate target handler)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [5] {}
+  [0] let p = __x0__
+  [1] let revoker = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
+  [2] revoker.RevocableProxy = p
+  [3] app __x1__ = (ObjectCreate INTRINSIC_ObjectPrototype)
+  [3] let result = __x1__
+  [4] app __x2__ = (CreateDataProperty result "proxy" p)
+  [4] __x2__
+  [5] app __x3__ = (CreateDataProperty result "revoke" revoker)
+  [5] __x3__
+  [6] app __x4__ = (WrapCompletion result)
+  [6] return __x4__
+}

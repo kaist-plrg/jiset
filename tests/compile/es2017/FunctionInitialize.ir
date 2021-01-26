@@ -1,0 +1,16 @@
+{
+  [1] access __x0__ = (ParameterList "ExpectedArgumentCount")
+  [1] let len = __x0__
+  [2] app __x1__ = (DefinePropertyOrThrow F "length" (new PropertyDescriptor("Value" -> len, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [2] __x1__
+  [3] let Strict = F.Strict
+  [4] F.Environment = Scope
+  [5] F.FormalParameters = ParameterList
+  [6] F.ECMAScriptCode = Body
+  [7] app __x2__ = (GetActiveScriptOrModule )
+  [7] F.ScriptOrModule = __x2__
+  [10] if (= kind CONST_Arrow) F.ThisMode = CONST_lexical else if (= Strict true) F.ThisMode = CONST_strict else F.ThisMode = CONST_global
+  [11] app __x3__ = (WrapCompletion F)
+  [11] return __x3__
+}

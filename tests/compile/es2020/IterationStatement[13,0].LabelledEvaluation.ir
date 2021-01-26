@@ -1,0 +1,10 @@
+{
+  [0] access __x0__ = (ForDeclaration "BoundNames")
+  [0] app __x1__ = (ForInOfHeadEvaluation __x0__ AssignmentExpression CONST_asyncDASHiterate)
+  [0] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [13] {}
+  [0] let keyResult = __x1__
+  [1] app __x2__ = (ForInOfBodyEvaluation ForDeclaration Statement keyResult CONST_iterate CONST_lexicalBinding labelSet CONST_async)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [13] {}
+  [1] app __x3__ = (WrapCompletion __x2__)
+  [1] return __x3__
+}

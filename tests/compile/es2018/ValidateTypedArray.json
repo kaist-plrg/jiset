@@ -1,0 +1,35 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "O"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "O"
+  }, "does", "not", "have", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "O"
+  }, "has", "a", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "buffer"
+  }, "be", {
+    "id": "O"
+  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "buffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "buffer"
+  }, "."]
+}]

@@ -1,0 +1,9 @@
+{
+  [1] if (! (= completionRecord.Value CONST_empty)) {
+    app __x0__ = (Completion completionRecord)
+    app __x1__ = (WrapCompletion __x0__)
+    return __x1__
+  } else [0] {}
+  [2] app __x2__ = (WrapCompletion (new Completion("Type" -> completionRecord.Type, "Value" -> value, "Target" -> completionRecord.Target)))
+  [2] return __x2__
+}

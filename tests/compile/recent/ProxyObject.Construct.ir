@@ -1,0 +1,34 @@
+{
+  [0] let handler = O.ProxyHandler
+  [1] if (= handler null) {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else [13] {}
+  [2] app __x1__ = (Type handler)
+  [2] assert (= __x1__ Object)
+  [3] let target = O.ProxyTarget
+  [4] app __x2__ = (IsConstructor target)
+  [4] assert (= __x2__ true)
+  [5] app __x3__ = (GetMethod handler "construct")
+  [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [13] {}
+  [5] let trap = __x3__
+  [6] if (= trap undefined) {
+    [7] app __x4__ = (Construct target argumentsList newTarget)
+    [7] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [13] {}
+    [7] app __x5__ = (WrapCompletion __x4__)
+    [7] return __x5__
+  } else [13] {}
+  [8] app __x6__ = (CreateArrayFromList argumentsList)
+  [8] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [13] {}
+  [8] let argArray = __x6__
+  [9] app __x7__ = (Call trap handler (new [target, argArray, newTarget]))
+  [9] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [13] {}
+  [9] let newObj = __x7__
+  [10] app __x8__ = (Type newObj)
+  [10] if (! (= __x8__ Object)) {
+    app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x9__
+  } else [13] {}
+  [11] app __x10__ = (WrapCompletion newObj)
+  [11] return __x10__
+}

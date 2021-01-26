@@ -1,0 +1,27 @@
+{
+  [1] ??? "Parse id:{sourceText} using nt:{Module} as the goal symbol and analyze the parse result for any Early Error conditions . If the parse was successful and no early errors were found , let id:{body} be the resulting parse tree . Otherwise , let id:{body} be a List of one or more value:{SyntaxError} or value:{ReferenceError} objects representing the parsing errors and / or early errors . Parsing and early error detection may be interweaved in an implementation dependent manner . If more than one parsing error or early error is present , the number and ordering of error objects in the list is implementation dependent , but at least one must be present ."
+  [3] access __x0__ = (body "ModuleRequests")
+  [3] let requestedModules = __x0__
+  [4] access __x1__ = (body "ImportEntries")
+  [4] let importEntries = __x1__
+  [5] app __x2__ = (ImportedLocalNames importEntries)
+  [5] let importedBoundNames = __x2__
+  [6] let indirectExportEntries = (new [])
+  [7] let localExportEntries = (new [])
+  [8] let starExportEntries = (new [])
+  [9] access __x3__ = (body "ExportEntries")
+  [9] let exportEntries = __x3__
+  [10] let __x4__ = exportEntries
+  [10] let __x5__ = 0i
+  [10] while (< __x5__ __x4__.length) {
+    let ee = __x4__[__x5__]
+    [23] if (= ee.ModuleRequest null) if (! (contains importedBoundNames ee.LocalName)) append ee -> localExportEntries else {
+      [15] ??? "Let id:{ie} be the element of id:{importEntries} whose [ [ LocalName ] ] is the same as id:{ee} . [ [ LocalName ] ] ."
+      [16] if (= ie.ImportName "*") append ee -> localExportEntries else [17] {}
+      [19] ??? "Else , this is a re - export of a single name step-list:{...}"
+    } else if (= ee.ImportName "*") append ee -> starExportEntries else append ee -> indirectExportEntries
+    __x5__ = (+ __x5__ 1i)
+  }
+  [25] app __x6__ = (WrapCompletion (new SourceTextModuleRecord("Realm" -> realm, "Environment" -> undefined, "HostDefined" -> hostDefined, "Namespace" -> undefined, "Evaluated" -> false, "ECMAScriptCode" -> body, "RequestedModules" -> requestedModules, "ImportEntries" -> importEntries, "LocalExportEntries" -> localExportEntries, "StarExportEntries" -> starExportEntries, "IndirectExportEntries" -> indirectExportEntries)))
+  [25] return __x6__
+}

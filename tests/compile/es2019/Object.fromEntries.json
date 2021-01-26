@@ -1,0 +1,33 @@
+[{
+  "tokens": ["Perform", "?", "RequireObjectCoercible", "(", {
+    "id": "iterable"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "obj"
+  }, "be", "ObjectCreate", "(", "%", "ObjectPrototype", "%", ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "obj"
+  }, "is", "an", "extensible", "ordinary", "object", "with", "no", "own", "properties", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "stepsDefine"
+  }, "be", "the", "algorithm", "steps", "defined", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "adder"
+  }, "be", "CreateBuiltinFunction", "(", {
+    "id": "stepsDefine"
+  }, ",", "«", "»", ")", "."]
+}, {
+  "tokens": ["Return", "?", "AddEntriesFromIterable", "(", {
+    "id": "obj"
+  }, ",", {
+    "id": "iterable"
+  }, ",", {
+    "id": "adder"
+  }, ")", "."]
+}]

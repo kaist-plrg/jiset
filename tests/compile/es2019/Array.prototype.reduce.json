@@ -1,0 +1,169 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "ToObject", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "?", "ToLength", "(", "?", "Get", "(", {
+    "id": "O"
+  }, ",", {
+    "code": "\"length\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "callbackfn"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "len"
+  }, "is", "0", "and", {
+    "id": "initialValue"
+  }, "is", "not", "present", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "k"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "accumulator"
+  }, "be", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "initialValue"
+  }, "is", "present", ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "accumulator"
+  }, "to", {
+    "id": "initialValue"
+  }, "."]
+}, {
+  "tokens": ["Else", {
+    "id": "initialValue"
+  }, "is", "not", "present", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "kPresent"
+  }, "be", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "kPresent"
+  }, "is", {
+    "value": "false"
+  }, "and", {
+    "id": "k"
+  }, "<", {
+    "id": "len"
+  }]
+}, {
+  "tokens": ["Let", {
+    "id": "Pk"
+  }, "be", "!", "ToString", "(", {
+    "id": "k"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "kPresent"
+  }, "to", "?", "HasProperty", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "Pk"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "kPresent"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "accumulator"
+  }, "to", "?", "Get", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "Pk"
+  }, ")", "."]
+}, {
+  "tokens": ["Increase", {
+    "id": "k"
+  }, "by", "1", "."]
+}, {
+  "tokens": ["If", {
+    "id": "kPresent"
+  }, "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "k"
+  }, "<", {
+    "id": "len"
+  }]
+}, {
+  "tokens": ["Let", {
+    "id": "Pk"
+  }, "be", "!", "ToString", "(", {
+    "id": "k"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "kPresent"
+  }, "be", "?", "HasProperty", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "Pk"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "kPresent"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "kValue"
+  }, "be", "?", "Get", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "Pk"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "accumulator"
+  }, "to", "?", "Call", "(", {
+    "id": "callbackfn"
+  }, ",", {
+    "value": "undefined"
+  }, ",", "«", {
+    "id": "accumulator"
+  }, ",", {
+    "id": "kValue"
+  }, ",", {
+    "id": "k"
+  }, ",", {
+    "id": "O"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["Increase", {
+    "id": "k"
+  }, "by", "1", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "accumulator"
+  }, "."]
+}]

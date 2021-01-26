@@ -1,0 +1,11 @@
+{
+  [0] if true let strict = true else let strict = false
+  [1] access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  [1] let scope = __x0__
+  [2] let parameters = AsyncArrowBindingIdentifier
+  [3] app __x1__ = (AsyncFunctionCreate CONST_Arrow parameters AsyncConciseBody scope strict)
+  [3] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [24] {}
+  [3] let closure = __x1__
+  [4] app __x2__ = (WrapCompletion closure)
+  [4] return __x2__
+}

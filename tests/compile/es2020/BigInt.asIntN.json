@@ -1,0 +1,45 @@
+[{
+  "tokens": ["Set", {
+    "id": "bits"
+  }, "to", "?", "ToIndex", "(", {
+    "id": "bits"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "bigint"
+  }, "to", "?", "ToBigInt", "(", {
+    "id": "bigint"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "mod"
+  }, "be", "the", "BigInt", "value", "that", "represents", {
+    "id": "bigint"
+  }, "modulo", "2", {
+    "sup": {
+      "tokens": [{
+        "id": "bits"
+      }]
+    }
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "mod"
+  }, "≥", "2", {
+    "sup": {
+      "tokens": [{
+        "id": "bits"
+      }, "-", "1"]
+    }
+  }, ",", "return", {
+    "id": "mod"
+  }, "-", "2", {
+    "sup": {
+      "tokens": [{
+        "id": "bits"
+      }]
+    }
+  }, ";", "otherwise", ",", "return", {
+    "id": "mod"
+  }, "."]
+}]

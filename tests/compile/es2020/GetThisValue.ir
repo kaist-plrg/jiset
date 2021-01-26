@@ -1,0 +1,12 @@
+{
+  [0] app __x0__ = (IsPropertyReference V)
+  [0] assert (= __x0__ true)
+  [1] app __x1__ = (IsSuperReference V)
+  [1] if (= __x1__ true) {
+    [2] app __x2__ = (WrapCompletion V.thisValue)
+    [2] return __x2__
+  } else [17] {}
+  [3] app __x3__ = (GetBase V)
+  [3] app __x4__ = (WrapCompletion __x3__)
+  [3] return __x4__
+}

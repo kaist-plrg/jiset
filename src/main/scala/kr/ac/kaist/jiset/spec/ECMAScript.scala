@@ -17,7 +17,7 @@ case class ECMAScript(
 ) {
   // normal algorithm names
   lazy val normalAlgos: Set[String] =
-    algos.collect { case Algo(normal: NormalHead, _) => normal.name }.toSet
+    algos.collect { case Algo(normal: NormalHead, _, _) => normal.name }.toSet
 
   // global names
   lazy val globals: Set[String] = (

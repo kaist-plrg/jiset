@@ -1,0 +1,35 @@
+[{
+  "tokens": ["Let", {
+    "id": "expr"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "UnaryExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "oldValue"
+  }, "be", "?", "ToNumber", "(", "?", "GetValue", "(", {
+    "id": "expr"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "newValue"
+  }, "be", "the", "result", "of", "subtracting", "the", "value", {
+    "code": "1"
+  }, "from", {
+    "id": "oldValue"
+  }, ",", "using", "the", "same", "rules", "as", "for", "the", {
+    "code": "-"
+  }, "operator", "(", "see", {
+    "link": ""
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "?", "PutValue", "(", {
+    "id": "expr"
+  }, ",", {
+    "id": "newValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "newValue"
+  }, "."]
+}]

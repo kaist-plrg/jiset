@@ -1,0 +1,91 @@
+[{
+  "tokens": ["Let", {
+    "id": "module"
+  }, "be", "this", "Cyclic", "Module", "Record", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, ".", "[", "[", "Status", "]", "]", "is", "not", {
+    "const": "linking"
+  }, "or", {
+    "const": "evaluating"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "stack"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "result"
+  }, "be", "InnerModuleLinking", "(", {
+    "id": "module"
+  }, ",", {
+    "id": "stack"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "result"
+  }, "is", "an", "abrupt", "completion", ",", "then"]
+}, {
+  "tokens": ["For", "each", "Cyclic", "Module", "Record", {
+    "id": "m"
+  }, "in", {
+    "id": "stack"
+  }, ",", "do"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "m"
+  }, ".", "[", "[", "Status", "]", "]", "is", {
+    "const": "linking"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "m"
+  }, ".", "[", "[", "Status", "]", "]", "to", {
+    "const": "unlinked"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "m"
+  }, ".", "[", "[", "Environment", "]", "]", "to", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "m"
+  }, ".", "[", "[", "DFSIndex", "]", "]", "to", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "m"
+  }, ".", "[", "[", "DFSAncestorIndex", "]", "]", "to", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, ".", "[", "[", "Status", "]", "]", "is", {
+    "const": "unlinked"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "result"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, ".", "[", "[", "Status", "]", "]", "is", {
+    "const": "linked"
+  }, "or", {
+    "const": "evaluated"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "stack"
+  }, "is", "empty", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "undefined"
+  }, "."]
+}]

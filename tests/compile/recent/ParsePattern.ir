@@ -1,0 +1,8 @@
+{
+  [2] if (= u true) ??? "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ + U , + N ] | ) ." else {
+    [3] ??? "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ ~ U , ~ N ] | ) ."
+    [4] ??? "If id:{parseResult} is a Parse Node and id:{parseResult} contains a nt:{GroupName} , then step-list:{...}"
+  }
+  [6] app __x0__ = (WrapCompletion parseResult)
+  [6] return __x0__
+}

@@ -1,0 +1,63 @@
+{
+  app arguments = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [20] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (ArraySpeciesCreate O 0i)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [20] {}
+  [1] let A = __x1__
+  [2] let n = 0i
+  [3] ??? "Let id:{items} be a List whose first element is id:{O} and whose subsequent elements are , in left to right order , the arguments that were passed to this function invocation ."
+  [4] while (< 0i items.length) {
+    [5] let E = (pop items 0i)
+    [6] app __x2__ = (IsConcatSpreadable E)
+    [6] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [20] {}
+    [6] let spreadable = __x2__
+    [19] if (= spreadable true) {
+      [8] let k = 0i
+      [9] app __x3__ = (LengthOfArrayLike E)
+      [9] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [20] {}
+      [9] let len = __x3__
+      [10] if (< (- 9007199254740992i 1i) (+ n len)) {
+        app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x4__
+      } else [20] {}
+      [11] while (< k len) {
+        [12] app __x5__ = (ToString k)
+        [12] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [20] {}
+        [12] let P = __x5__
+        [13] app __x6__ = (HasProperty E P)
+        [13] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [20] {}
+        [13] let exists = __x6__
+        [14] if (= exists true) {
+          [15] app __x7__ = (Get E P)
+          [15] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [20] {}
+          [15] let subElement = __x7__
+          [16] app __x8__ = (ToString n)
+          [16] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [20] {}
+          [16] app __x9__ = (CreateDataPropertyOrThrow A __x8__ subElement)
+          [16] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [20] {}
+          [16] __x9__
+        } else [20] {}
+        [17] n = (+ n 1i)
+        [18] k = (+ k 1i)
+      }
+    } else {
+      [21] if (! (< n (- 9007199254740992i 1i))) {
+        app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x10__
+      } else [20] {}
+      [22] app __x11__ = (ToString n)
+      [22] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [20] {}
+      [22] app __x12__ = (CreateDataPropertyOrThrow A __x11__ E)
+      [22] if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [20] {}
+      [22] __x12__
+      [23] n = (+ n 1i)
+    }
+  }
+  [24] app __x13__ = (Set A "length" n true)
+  [24] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [20] {}
+  [24] __x13__
+  [25] app __x14__ = (WrapCompletion A)
+  [25] return __x14__
+}

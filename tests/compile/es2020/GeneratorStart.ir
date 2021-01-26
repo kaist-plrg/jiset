@@ -1,0 +1,11 @@
+{
+  [0] assert (= generator.GeneratorState undefined)
+  [1] let genContext = GLOBAL_context
+  [2] genContext.Generator = generator
+  [3] ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed for that execution context the following steps will be performed : step-list:{...}"
+  [15] generator.GeneratorContext = genContext
+  [16] generator.GeneratorState = CONST_suspendedStart
+  [17] app __x0__ = (NormalCompletion undefined)
+  [17] app __x1__ = (WrapCompletion __x0__)
+  [17] return __x1__
+}

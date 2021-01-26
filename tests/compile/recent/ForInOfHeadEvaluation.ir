@@ -1,0 +1,47 @@
+{
+  [0] let oldEnv = GLOBAL_context.LexicalEnvironment
+  [1] if (< 0i uninitializedBoundNames.length) {
+    [3] app __x0__ = (NewDeclarativeEnvironment oldEnv)
+    [3] let newEnv = __x0__
+    [4] let __x1__ = uninitializedBoundNames
+    [4] let __x2__ = 0i
+    [4] while (< __x2__ __x1__.length) {
+      let name = __x1__[__x2__]
+      [5] app __x3__ = (newEnv.CreateMutableBinding newEnv name false)
+      [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [2] {}
+      [5] __x3__
+      __x2__ = (+ __x2__ 1i)
+    }
+    [6] GLOBAL_context.LexicalEnvironment = newEnv
+  } else [2] {}
+  [7] access __x4__ = (expr "Evaluation")
+  [7] let exprRef = __x4__
+  [8] GLOBAL_context.LexicalEnvironment = oldEnv
+  [9] app __x5__ = (GetValue exprRef)
+  [9] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [2] {}
+  [9] let exprValue = __x5__
+  [17] if (= iterationKind CONST_enumerate) {
+    [11] if (|| (= exprValue undefined) (= exprValue null)) {
+      [12] app __x6__ = (WrapCompletion (new Completion("Type" -> CONST_break, "Value" -> CONST_empty, "Target" -> CONST_empty)))
+      [12] return __x6__
+    } else [2] {}
+    [13] app __x7__ = (ToObject exprValue)
+    [13] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [2] {}
+    [13] let obj = __x7__
+    [14] app __x8__ = (EnumerateObjectProperties obj)
+    [14] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [2] {}
+    [14] let iterator = __x8__
+    [15] app __x9__ = (GetV iterator "next")
+    [15] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [2] {}
+    [15] let nextMethod = __x9__
+    [16] app __x10__ = (WrapCompletion (new Record("Iterator" -> iterator, "NextMethod" -> nextMethod, "Done" -> false)))
+    [16] return __x10__
+  } else {
+    [18] assert (|| (= iterationKind CONST_iterate) (= iterationKind CONST_asyncDASHiterate))
+    [20] if (= iterationKind CONST_asyncDASHiterate) let iteratorHint = CONST_async else let iteratorHint = CONST_sync
+    [21] app __x11__ = (GetIterator exprValue iteratorHint)
+    [21] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [2] {}
+    [21] app __x12__ = (WrapCompletion __x11__)
+    [21] return __x12__
+  }
+}

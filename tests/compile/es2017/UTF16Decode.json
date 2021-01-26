@@ -1,0 +1,19 @@
+[{
+  "tokens": ["Assert", ":", "0xD800", "≤", {
+    "id": "lead"
+  }, "≤", "0xDBFF", "and", "0xDC00", "≤", {
+    "id": "trail"
+  }, "≤", "0xDFFF", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "cp"
+  }, "be", "(", {
+    "id": "lead"
+  }, "-", "0xD800", ")", "×", "0x400", "+", "(", {
+    "id": "trail"
+  }, "-", "0xDC00", ")", "+", "0x10000", "."]
+}, {
+  "tokens": ["Return", "the", "code", "point", {
+    "id": "cp"
+  }, "."]
+}]

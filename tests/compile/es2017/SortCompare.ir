@@ -1,0 +1,49 @@
+{
+  app x = (GetArgument argumentsList 0i)
+  app y = (GetArgument argumentsList 1i)
+  [0] if (&& (= x undefined) (= y undefined)) {
+    app __x0__ = (WrapCompletion 0i)
+    return __x0__
+  } else [32] {}
+  [1] if (= x undefined) {
+    app __x1__ = (WrapCompletion 1i)
+    return __x1__
+  } else [32] {}
+  [2] if (= y undefined) {
+    app __x2__ = (WrapCompletion -1i)
+    return __x2__
+  } else [32] {}
+  [3] if (! (= comparefn undefined)) {
+    [4] app __x3__ = (Call comparefn undefined (new [x, y]))
+    [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [32] {}
+    [4] app __x4__ = (ToNumber __x3__)
+    [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [32] {}
+    [4] let v = __x4__
+    [5] if (= v NaN) {
+      app __x5__ = (WrapCompletion 0i)
+      return __x5__
+    } else [32] {}
+    [6] app __x6__ = (WrapCompletion v)
+    [6] return __x6__
+  } else [32] {}
+  [7] app __x7__ = (ToString x)
+  [7] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [32] {}
+  [7] let xString = __x7__
+  [8] app __x8__ = (ToString y)
+  [8] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [32] {}
+  [8] let yString = __x8__
+  [9] app __x9__ = (AbstractRelationalComparison xString yString)
+  [9] let xSmaller = __x9__
+  [10] if (= xSmaller true) {
+    app __x10__ = (WrapCompletion -1i)
+    return __x10__
+  } else [32] {}
+  [11] app __x11__ = (AbstractRelationalComparison yString xString)
+  [11] let ySmaller = __x11__
+  [12] if (= ySmaller true) {
+    app __x12__ = (WrapCompletion 1i)
+    return __x12__
+  } else [32] {}
+  [13] app __x13__ = (WrapCompletion 0i)
+  [13] return __x13__
+}

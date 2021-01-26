@@ -1,0 +1,22 @@
+{
+  [0] access __x0__ = (PropertyName "Evaluation")
+  [0] let propKey = __x0__
+  [1] if (is-completion propKey) if (= propKey.Type CONST_normal) propKey = propKey.Value else return propKey else [0] {}
+  [1] propKey
+  [2] let scope = GLOBAL_context.LexicalEnvironment
+  [3] app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Generator UniqueFormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  [3] let closure = __x1__
+  [4] app __x2__ = (MakeMethod closure object)
+  [4] __x2__
+  [5] ??? "Let id:{prototype} be OrdinaryObjectCreate ( % Generator . prototype % ) ."
+  [6] app __x3__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  [6] __x3__
+  [7] app __x4__ = (SetFunctionName closure propKey)
+  [7] __x4__
+  [8] closure.SourceText = (get-syntax GeneratorMethod)
+  [9] let desc = (new PropertyDescriptor("Value" -> closure, "Writable" -> true, "Enumerable" -> enumerable, "Configurable" -> true))
+  [10] app __x5__ = (DefinePropertyOrThrow object propKey desc)
+  [10] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [0] {}
+  [10] app __x6__ = (WrapCompletion __x5__)
+  [10] return __x6__
+}

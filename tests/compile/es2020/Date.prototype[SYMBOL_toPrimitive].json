@@ -1,0 +1,49 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "O"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "hint"
+  }, "is", "the", "String", "value", {
+    "value": "\"string\""
+  }, "or", "the", "String", "value", {
+    "value": "\"default\""
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "tryFirst"
+  }, "be", {
+    "value": "\"string\""
+  }, "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "hint"
+  }, "is", "the", "String", "value", {
+    "value": "\"number\""
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "tryFirst"
+  }, "be", {
+    "value": "\"number\""
+  }, "."]
+}, {
+  "tokens": ["Else", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", "?", "OrdinaryToPrimitive", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "tryFirst"
+  }, ")", "."]
+}]

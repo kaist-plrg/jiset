@@ -1,0 +1,22 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [1] if (= O.SubMap[P] absent) {
+    app __x1__ = (WrapCompletion undefined)
+    return __x1__
+  } else [0] {}
+  [2] let D = (new PropertyDescriptor("SubMap" -> (new SubMap())))
+  [3] let X = O.SubMap[P]
+  [7] app __x2__ = (IsDataDescriptor X)
+  [7] if __x2__ {
+    [5] D.Value = X.Value
+    [6] D.Writable = X.Writable
+  } else {
+    [8] D.Get = X.Get
+    [9] D.Set = X.Set
+  }
+  [10] D.Enumerable = X.Enumerable
+  [11] D.Configurable = X.Configurable
+  [12] app __x3__ = (WrapCompletion D)
+  [12] return __x3__
+}

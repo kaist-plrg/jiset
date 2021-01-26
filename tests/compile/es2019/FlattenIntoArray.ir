@@ -1,0 +1,60 @@
+{
+  app target = (GetArgument argumentsList 0i)
+  app source = (GetArgument argumentsList 1i)
+  app sourceLen = (GetArgument argumentsList 2i)
+  app start = (GetArgument argumentsList 3i)
+  app depth = (GetArgument argumentsList 4i)
+  app mapperFunction = (GetArgument argumentsList 5i)
+  app thisArg = (GetArgument argumentsList 6i)
+  [0] let targetIndex = start
+  [1] let sourceIndex = 0i
+  [2] while (< sourceIndex sourceLen) {
+    [3] app __x0__ = (ToString sourceIndex)
+    [3] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [32] {}
+    [3] let P = __x0__
+    [4] app __x1__ = (HasProperty source P)
+    [4] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [32] {}
+    [4] let exists = __x1__
+    [5] if (= exists true) {
+      [6] app __x2__ = (Get source P)
+      [6] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [32] {}
+      [6] let element = __x2__
+      [7] if (! (= mapperFunction absent)) {
+        [8] assert (! (= thisArg absent))
+        [9] app __x3__ = (Call mapperFunction thisArg (new [element, sourceIndex, source]))
+        [9] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [32] {}
+        [9] element = __x3__
+      } else [32] {}
+      [10] let shouldFlatten = false
+      [11] if (< 0i depth) {
+        [12] app __x4__ = (IsArray element)
+        [12] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [32] {}
+        [12] shouldFlatten = __x4__
+      } else [32] {}
+      [16] if (= shouldFlatten true) {
+        [14] app __x5__ = (Get element "length")
+        [14] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [32] {}
+        [14] app __x6__ = (ToLength __x5__)
+        [14] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [32] {}
+        [14] let elementLen = __x6__
+        [15] app __x7__ = (FlattenIntoArray target element elementLen targetIndex (- depth 1i))
+        [15] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [32] {}
+        [15] targetIndex = __x7__
+      } else {
+        [17] if (! (< targetIndex (- 9007199254740992i 1i))) {
+          app __x8__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+          return __x8__
+        } else [32] {}
+        [18] app __x9__ = (ToString targetIndex)
+        [18] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [32] {}
+        [18] app __x10__ = (CreateDataPropertyOrThrow target __x9__ element)
+        [18] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [32] {}
+        [18] __x10__
+        [19] targetIndex = (+ targetIndex 1i)
+      }
+    } else [32] {}
+    [20] sourceIndex = (+ sourceIndex 1i)
+  }
+  [21] app __x11__ = (WrapCompletion targetIndex)
+  [21] return __x11__
+}

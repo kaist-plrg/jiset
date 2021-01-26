@@ -1,0 +1,12 @@
+{
+  app typedArray = (GetArgument argumentsList 0i)
+  app index = (GetArgument argumentsList 1i)
+  app value = (GetArgument argumentsList 2i)
+  [0] ??? "Let id:{type} be the Element Type value in link:{} for id:{typedArray} . [ [ TypedArrayName ] ] ."
+  [1] let isLittleEndian = GLOBAL_agent.LittleEndian
+  [2] ??? "Let id:{add} be a new read - modify - write modification function with parameters ( id:{xBytes} , id:{yBytes} ) that captures id:{type} and id:{isLittleEndian} and performs the following steps atomically when called : step-list:{...}"
+  [10] app __x0__ = (AtomicReadModifyWrite typedArray index value add)
+  [10] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [8] {}
+  [10] app __x1__ = (WrapCompletion __x0__)
+  [10] return __x1__
+}

@@ -1,0 +1,14 @@
+{
+  app array = (GetArgument argumentsList 0i)
+  app kind = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (Type array)
+  [0] assert (= __x0__ Object)
+  [1] assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))
+  [2] app __x1__ = (OrdinaryObjectCreate INTRINSIC_ArrayIteratorPrototype (new ["IteratedArrayLike", "ArrayLikeNextIndex", "ArrayLikeIterationKind"]))
+  [2] let iterator = __x1__
+  [3] iterator.IteratedArrayLike = array
+  [4] iterator.ArrayLikeNextIndex = 0i
+  [5] iterator.ArrayLikeIterationKind = kind
+  [6] app __x2__ = (WrapCompletion iterator)
+  [6] return __x2__
+}

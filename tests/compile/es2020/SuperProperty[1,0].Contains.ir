@@ -1,0 +1,19 @@
+{
+  [0] ??? "If id:{symbol} is the nt:{ReservedWord} code:{super} , return value:{true} ."
+  [1] if (is-instance-of symbol ReservedWord) {
+    app __x0__ = (WrapCompletion false)
+    return __x0__
+  } else [5] {}
+  [2] let __x1__ = (is-instance-of symbol Identifier)
+  [2] if __x1__ {
+    access __x2__ = (symbol "StringValue")
+    access __x3__ = (IdentifierName "StringValue")
+    __x1__ = (= __x2__ __x3__)
+  } else [5] {}
+  [2] if __x1__ {
+    app __x4__ = (WrapCompletion true)
+    return __x4__
+  } else [5] {}
+  [3] app __x5__ = (WrapCompletion false)
+  [3] return __x5__
+}

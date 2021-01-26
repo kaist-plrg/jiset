@@ -1,0 +1,41 @@
+{
+  [1] let map = args.ParameterMap
+  [2] app __x0__ = (HasOwnProperty map P)
+  [2] let isMapped = __x0__
+  [3] let newArgDesc = Desc
+  [4] let __x1__ = (= isMapped true)
+  [4] if __x1__ {
+    app __x2__ = (IsDataDescriptor Desc)
+    __x1__ = (= __x2__ true)
+  } else [16] {}
+  [4] if __x1__ if (&& (= Desc.Value absent) (= Desc.Writable false)) {
+    [6] newArgDesc = (copy-obj Desc)
+    [7] app __x3__ = (Get map P)
+    [7] newArgDesc.Value = __x3__
+  } else [16] {} else [16] {}
+  [8] app __x4__ = (OrdinaryDefineOwnProperty args P newArgDesc)
+  [8] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [16] {}
+  [8] let allowed = __x4__
+  [9] if (= allowed false) {
+    app __x5__ = (WrapCompletion false)
+    return __x5__
+  } else [16] {}
+  [10] if (= isMapped true) {
+    [13] app __x6__ = (IsAccessorDescriptor Desc)
+    [13] if (= __x6__ true) {
+      [12] app __x7__ = (map.Delete map P)
+      [12] __x7__
+    } else {
+      [14] if (! (= Desc.Value absent)) {
+        [15] app __x8__ = (Set map P Desc.Value false)
+        [15] let setStatus = __x8__
+      } else [16] {}
+      [17] if (= Desc.Writable false) {
+        [18] app __x9__ = (map.Delete map P)
+        [18] __x9__
+      } else [16] {}
+    }
+  } else [16] {}
+  [19] app __x10__ = (WrapCompletion true)
+  [19] return __x10__
+}

@@ -1,0 +1,45 @@
+[{
+  "tokens": ["If", {
+    "nt": "Elision"
+  }, "is", "present", ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "nextIndex"
+  }, "to", "the", "result", "of", "performing", "ArrayAccumulation", "for", {
+    "nt": "Elision"
+  }, "with", "arguments", {
+    "id": "array"
+  }, "and", {
+    "id": "nextIndex"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "nextIndex"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "initResult"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AssignmentExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "initValue"
+  }, "be", "?", "GetValue", "(", {
+    "id": "initResult"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "created"
+  }, "be", "!", "CreateDataPropertyOrThrow", "(", {
+    "id": "array"
+  }, ",", "!", "ToString", "(", "𝔽", "(", {
+    "id": "nextIndex"
+  }, ")", ")", ",", {
+    "id": "initValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "nextIndex"
+  }, "+", "1", "."]
+}]

@@ -1,0 +1,25 @@
+[{
+  "tokens": ["Let", {
+    "id": "obj"
+  }, "be", "?", "ToObject", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "key"
+  }, "be", "?", "ToPropertyKey", "(", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "desc"
+  }, "be", "?", {
+    "id": "obj"
+  }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+    "id": "key"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "FromPropertyDescriptor", "(", {
+    "id": "desc"
+  }, ")", "."]
+}]

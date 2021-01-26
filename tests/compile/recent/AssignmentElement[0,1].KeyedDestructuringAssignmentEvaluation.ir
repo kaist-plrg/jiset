@@ -1,0 +1,38 @@
+{
+  [0] if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
+    [1] access __x0__ = (DestructuringAssignmentTarget "Evaluation")
+    [1] let lref = __x0__
+    [2] if (is-completion lref) if (= lref.Type CONST_normal) lref = lref.Value else return lref else [9] {}
+    [2] lref
+  } else [9] {}
+  [3] app __x1__ = (GetV value propertyName)
+  [3] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [9] {}
+  [3] let v = __x1__
+  [10] if (&& (! (= Initializer absent)) (= v undefined)) {
+    [7] app __x2__ = (IsAnonymousFunctionDefinition Initializer)
+    [7] access __x3__ = (DestructuringAssignmentTarget "IsIdentifierRef")
+    [7] if (&& (= __x2__ true) (= __x3__ true)) {
+      [6] access __x4__ = (Initializer "NamedEvaluation")
+      [6] app __x5__ = (__x4__ lref.ReferencedName)
+      [6] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [9] {}
+      [6] let rhsValue = __x5__
+    } else {
+      [8] access __x6__ = (Initializer "Evaluation")
+      [8] let defaultValue = __x6__
+      [9] app __x7__ = (GetValue defaultValue)
+      [9] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [9] {}
+      [9] let rhsValue = __x7__
+    }
+  } else let rhsValue = v
+  [11] if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) {
+    [12] let assignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
+    [13] access __x8__ = (assignmentPattern "DestructuringAssignmentEvaluation")
+    [13] app __x9__ = (__x8__ rhsValue)
+    [13] app __x10__ = (WrapCompletion __x9__)
+    [13] return __x10__
+  } else [9] {}
+  [14] app __x11__ = (PutValue lref rhsValue)
+  [14] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [9] {}
+  [14] app __x12__ = (WrapCompletion __x11__)
+  [14] return __x12__
+}

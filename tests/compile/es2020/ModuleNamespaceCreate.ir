@@ -1,0 +1,15 @@
+{
+  [1] assert (= module.Namespace undefined)
+  [3] ??? "Let id:{internalSlotsList} be the internal slots listed in link:{} ."
+  [4] app __x0__ = (MakeBasicObject internalSlotsList)
+  [4] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [2] {}
+  [4] let M = __x0__
+  [6] M.Prototype = null
+  [7] M.Module = module
+  [8] ??? "Let id:{sortedExports} be a new List containing the same values as the list id:{exports} where the values are ordered as if an Array of the same values had been sorted using code:{Array.prototype.sort} using value:{undefined} as id:{comparefn} ."
+  [9] M.Exports = sortedExports
+  [10] ??? "Create own properties of id:{M} corresponding to the definitions in link:{} ."
+  [11] module.Namespace = M
+  [12] app __x1__ = (WrapCompletion M)
+  [12] return __x1__
+}

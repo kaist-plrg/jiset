@@ -1,0 +1,14 @@
+{
+  [0] access __x0__ = (ArgumentList "Evaluation")
+  [0] let precedingArgs = __x0__
+  [1] if (is-completion precedingArgs) if (= precedingArgs.Type CONST_normal) precedingArgs = precedingArgs.Value else return precedingArgs else [6] {}
+  [1] precedingArgs
+  [2] access __x1__ = (AssignmentExpression "Evaluation")
+  [2] let ref = __x1__
+  [3] app __x2__ = (GetValue ref)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [6] {}
+  [3] let arg = __x2__
+  [4] append arg -> precedingArgs
+  [5] app __x3__ = (WrapCompletion precedingArgs)
+  [5] return __x3__
+}

@@ -1,0 +1,67 @@
+[{
+  "tokens": ["Let", {
+    "id": "scope"
+  }, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "funcEnv"
+  }, "be", "NewDeclarativeEnvironment", "(", {
+    "id": "scope"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "name"
+  }, "be", "StringValue", "of", {
+    "nt": "BindingIdentifier"
+  }, "."]
+}, {
+  "tokens": ["Perform", {
+    "id": "funcEnv"
+  }, ".", "CreateImmutableBinding", "(", {
+    "id": "name"
+  }, ",", {
+    "value": "false"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "sourceText"
+  }, "be", "the", "source", "text", "matched", "by", {
+    "nt": "FunctionExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "closure"
+  }, "be", "OrdinaryFunctionCreate", "(", "%", "Function", ".", "prototype", "%", ",", {
+    "id": "sourceText"
+  }, ",", {
+    "nt": "FormalParameters"
+  }, ",", {
+    "nt": "FunctionBody"
+  }, ",", {
+    "const": "non-lexical-this"
+  }, ",", {
+    "id": "funcEnv"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "SetFunctionName", "(", {
+    "id": "closure"
+  }, ",", {
+    "id": "name"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "MakeConstructor", "(", {
+    "id": "closure"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", {
+    "id": "funcEnv"
+  }, ".", "InitializeBinding", "(", {
+    "id": "name"
+  }, ",", {
+    "id": "closure"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "closure"
+  }, "."]
+}]

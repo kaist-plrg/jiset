@@ -1,0 +1,47 @@
+[{
+  "tokens": ["Let", {
+    "id": "obj"
+  }, "be", "?", "ToObject", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "keys"
+  }, "be", "?", {
+    "id": "obj"
+  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nameList"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "nextKey"
+  }, "of", {
+    "id": "keys"
+  }, ",", "do"]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "nextKey"
+  }, ")", "is", "Symbol", "and", {
+    "id": "type"
+  }, "is", {
+    "const": "symbol"
+  }, "or", "Type", "(", {
+    "id": "nextKey"
+  }, ")", "is", "String", "and", {
+    "id": "type"
+  }, "is", {
+    "const": "string"
+  }, ",", "then"]
+}, {
+  "tokens": ["Append", {
+    "id": "nextKey"
+  }, "as", "the", "last", "element", "of", {
+    "id": "nameList"
+  }, "."]
+}, {
+  "tokens": ["Return", "CreateArrayFromList", "(", {
+    "id": "nameList"
+  }, ")", "."]
+}]

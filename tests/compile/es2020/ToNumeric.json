@@ -1,0 +1,17 @@
+[{
+  "tokens": ["Let", {
+    "id": "primValue"
+  }, "be", "?", "ToPrimitive", "(", {
+    "id": "value"
+  }, ",", "hint", "Number", ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "primValue"
+  }, ")", "is", "BigInt", ",", "return", {
+    "id": "primValue"
+  }, "."]
+}, {
+  "tokens": ["Return", "?", "ToNumber", "(", {
+    "id": "primValue"
+  }, ")", "."]
+}]

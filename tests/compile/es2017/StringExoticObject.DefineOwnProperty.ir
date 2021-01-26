@@ -1,0 +1,18 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [1] app __x1__ = (StringGetOwnProperty S P)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [15] {}
+  [1] let stringDesc = __x1__
+  [2] if (! (= stringDesc undefined)) {
+    [3] let extensible = S.Extensible
+    [4] app __x2__ = (IsCompatiblePropertyDescriptor extensible Desc stringDesc)
+    [4] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [15] {}
+    [4] app __x3__ = (WrapCompletion __x2__)
+    [4] return __x3__
+  } else [15] {}
+  [5] app __x4__ = (OrdinaryDefineOwnProperty S P Desc)
+  [5] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [15] {}
+  [5] app __x5__ = (WrapCompletion __x4__)
+  [5] return __x5__
+}

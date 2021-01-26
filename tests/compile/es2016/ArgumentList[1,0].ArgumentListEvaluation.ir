@@ -1,0 +1,24 @@
+{
+  [0] let list = (new [])
+  [1] access __x0__ = (AssignmentExpression "Evaluation")
+  [1] let spreadRef = __x0__
+  [2] app __x1__ = (GetValue spreadRef)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+  [2] let spreadObj = __x1__
+  [3] app __x2__ = (GetIterator spreadObj)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [6] {}
+  [3] let iterator = __x2__
+  [4] while true {
+    [5] app __x3__ = (IteratorStep iterator)
+    [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [6] {}
+    [5] let next = __x3__
+    [6] if (= next false) {
+      app __x4__ = (WrapCompletion list)
+      return __x4__
+    } else [6] {}
+    [7] app __x5__ = (IteratorValue next)
+    [7] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [6] {}
+    [7] let nextArg = __x5__
+    [8] append nextArg -> list
+  }
+}

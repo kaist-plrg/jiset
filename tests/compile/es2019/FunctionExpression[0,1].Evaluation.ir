@@ -1,0 +1,22 @@
+{
+  [0] if true let strict = true else let strict = false
+  [1] let scope = GLOBAL_context.LexicalEnvironment
+  [2] app __x0__ = (NewDeclarativeEnvironment scope)
+  [2] let funcEnv = __x0__
+  [3] let envRec = funcEnv.EnvironmentRecord
+  [4] access __x1__ = (BindingIdentifier "StringValue")
+  [4] let name = __x1__
+  [5] app __x2__ = (envRec.CreateImmutableBinding envRec name false)
+  [5] __x2__
+  [6] app __x3__ = (FunctionCreate CONST_Normal FormalParameters FunctionBody funcEnv strict)
+  [6] let closure = __x3__
+  [7] app __x4__ = (MakeConstructor closure)
+  [7] __x4__
+  [8] app __x5__ = (SetFunctionName closure name)
+  [8] __x5__
+  [9] closure.SourceText = (get-syntax FunctionExpression)
+  [10] app __x6__ = (envRec.InitializeBinding envRec name closure)
+  [10] __x6__
+  [11] app __x7__ = (WrapCompletion closure)
+  [11] return __x7__
+}

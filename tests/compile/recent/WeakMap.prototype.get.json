@@ -1,0 +1,47 @@
+[{
+  "tokens": ["Let", {
+    "id": "M"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
+    "id": "M"
+  }, ",", "[", "[", "WeakMapData", "]", "]", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "entries"
+  }, "be", "the", "List", "that", "is", {
+    "id": "M"
+  }, ".", "[", "[", "WeakMapData", "]", "]", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "key"
+  }, ")", "is", "not", "Object", ",", "return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "Record", "{", "[", "[", "Key", "]", "]", ",", "[", "[", "Value", "]", "]", "}", {
+    "id": "p"
+  }, "of", {
+    "id": "entries"
+  }, ",", "do"]
+}, {
+  "tokens": ["If", {
+    "id": "p"
+  }, ".", "[", "[", "Key", "]", "]", "is", "not", {
+    "const": "empty"
+  }, "and", "SameValue", "(", {
+    "id": "p"
+  }, ".", "[", "[", "Key", "]", "]", ",", {
+    "id": "key"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "return", {
+    "id": "p"
+  }, ".", "[", "[", "Value", "]", "]", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "undefined"
+  }, "."]
+}]

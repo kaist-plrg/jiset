@@ -1,0 +1,33 @@
+[{
+  "tokens": ["Let", {
+    "id": "envRec"
+  }, "be", "GetThisEnvironment", "(", ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "envRec"
+  }, "is", "a", "function", "Environment", "Record", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "activeFunction"
+  }, "be", {
+    "id": "envRec"
+  }, ".", "[", "[", "FunctionObject", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "superConstructor"
+  }, "be", "?", {
+    "id": "activeFunction"
+  }, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", "."]
+}, {
+  "tokens": ["If", "IsConstructor", "(", {
+    "id": "superConstructor"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "superConstructor"
+  }, "."]
+}]

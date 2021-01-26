@@ -1,0 +1,24 @@
+{
+  app target = (GetArgument argumentsList 0i)
+  app argumentsList = (GetArgument argumentsList 1i)
+  app newTarget = (GetArgument argumentsList 2i)
+  [0] app __x0__ = (IsConstructor target)
+  [0] if (= __x0__ false) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [5] {}
+  [2] if (= newTarget absent) let newTarget = target else {
+    app __x2__ = (IsConstructor newTarget)
+    if (= __x2__ false) {
+      app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x3__
+    } else [5] {}
+  }
+  [3] app __x4__ = (CreateListFromArrayLike argumentsList)
+  [3] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [5] {}
+  [3] let args = __x4__
+  [4] app __x5__ = (Construct target args newTarget)
+  [4] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [5] {}
+  [4] app __x6__ = (WrapCompletion __x5__)
+  [4] return __x6__
+}

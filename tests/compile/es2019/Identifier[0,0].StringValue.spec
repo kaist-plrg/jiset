@@ -1,0 +1,1 @@
+        1. Return the StringValue of |IdentifierName|.

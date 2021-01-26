@@ -1,0 +1,1 @@
+          1. Return IsDestructuring of |ForBinding|.

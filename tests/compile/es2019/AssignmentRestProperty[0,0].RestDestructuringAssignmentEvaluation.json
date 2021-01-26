@@ -1,0 +1,29 @@
+[{
+  "tokens": ["Let", {
+    "id": "lref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "DestructuringAssignmentTarget"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "lref"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "restObj"
+  }, "be", "ObjectCreate", "(", "%", "ObjectPrototype", "%", ")", "."]
+}, {
+  "tokens": ["Perform", "?", "CopyDataProperties", "(", {
+    "id": "restObj"
+  }, ",", {
+    "id": "value"
+  }, ",", {
+    "id": "excludedNames"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "PutValue", "(", {
+    "id": "lref"
+  }, ",", {
+    "id": "restObj"
+  }, ")", "."]
+}]

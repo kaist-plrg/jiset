@@ -1,0 +1,18 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [1] app __x1__ = (Type P)
+  [1] if (= __x1__ Symbol) {
+    [2] app __x2__ = (OrdinaryDelete O P)
+    [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+    [2] app __x3__ = (WrapCompletion __x2__)
+    [2] return __x3__
+  } else [0] {}
+  [3] let exports = O.Exports
+  [4] if (contains exports P) {
+    app __x4__ = (WrapCompletion false)
+    return __x4__
+  } else [0] {}
+  [5] app __x5__ = (WrapCompletion true)
+  [5] return __x5__
+}

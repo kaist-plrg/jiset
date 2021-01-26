@@ -1,0 +1,18 @@
+{
+  app message = (GetArgument argumentsList 0i)
+  [0] if (= NewTarget undefined) let newTarget = GLOBAL_context.Function else let newTarget = NewTarget
+  [1] app __x0__ = (OrdinaryCreateFromConstructor newTarget INTRINSIC_ErrorPrototype (new ["ErrorData"]))
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [3] {}
+  [1] let O = __x0__
+  [2] if (! (= message undefined)) {
+    [3] app __x1__ = (ToString message)
+    [3] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [3] {}
+    [3] let msg = __x1__
+    [4] let msgDesc = (new PropertyDescriptor("Value" -> msg, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true))
+    [5] app __x2__ = (DefinePropertyOrThrow O "message" msgDesc)
+    [5] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [3] {}
+    [5] __x2__
+  } else [3] {}
+  [6] app __x3__ = (WrapCompletion O)
+  [6] return __x3__
+}

@@ -1,0 +1,95 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "ref"
+  }, ")", "is", "Reference", ",", "then"]
+}, {
+  "tokens": ["If", "IsPropertyReference", "(", {
+    "id": "ref"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "thisValue"
+  }, "be", "GetThisValue", "(", {
+    "id": "ref"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", "the", "base", "of", {
+    "id": "ref"
+  }, "is", "an", "Environment", "Record", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "refEnv"
+  }, "be", "GetBase", "(", {
+    "id": "ref"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "thisValue"
+  }, "be", {
+    "id": "refEnv"
+  }, ".", "WithBaseObject", "(", ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "thisValue"
+  }, "be", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "argList"
+  }, "be", "?", "ArgumentListEvaluation", "of", {
+    "id": "arguments"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "func"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "func"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "tailPosition"
+  }, "is", {
+    "value": "true"
+  }, ",", "perform", "PrepareForTailCall", "(", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "result"
+  }, "be", "Call", "(", {
+    "id": "func"
+  }, ",", {
+    "id": "thisValue"
+  }, ",", {
+    "id": "argList"
+  }, ")", "."]
+}, {
+  "tokens": ["Assert", ":", "If", {
+    "id": "tailPosition"
+  }, "is", {
+    "value": "true"
+  }, ",", "the", "above", "call", "will", "not", "return", "here", ",", "but", "instead", "evaluation", "will", "continue", "as", "if", "the", "following", "return", "has", "already", "occurred", "."]
+}, {
+  "tokens": ["Assert", ":", "If", {
+    "id": "result"
+  }, "is", "not", "an", "abrupt", "completion", ",", "then", "Type", "(", {
+    "id": "result"
+  }, ")", "is", "an", "ECMAScript", "language", "type", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "result"
+  }, "."]
+}]

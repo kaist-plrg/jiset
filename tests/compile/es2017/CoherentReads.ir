@@ -1,0 +1,22 @@
+{
+  [0] ??? "Let happens - before be id:{execution} . [ [ HappensBefore ] ] ."
+  [1] ??? "Let reads - bytes - from be id:{execution} . [ [ ReadsBytesFrom ] ] ."
+  [2] app __x0__ = (SharedDataBlockEventSet execution)
+  [2] let __x1__ = __x0__
+  [2] let __x2__ = 0i
+  [2] while (< __x2__ __x1__.length) {
+    let R = __x1__[__x2__]
+    [3] ??? "Let id:{Ws} be the List of events reads - bytes - from ( id:{R} ) ."
+    [4] let byteLocation = R.ByteIndex
+    [5] let __x3__ = Ws
+    [5] let __x4__ = 0i
+    [5] while (< __x4__ __x3__.length) {
+      let W = __x3__[__x4__]
+      [6] ??? "It is not the case that id:{R} happens - before id:{W} , and"
+      [7] ??? "There is no WriteSharedMemory or ReadModifyWriteSharedMemory event id:{V} that has id:{byteLocation} in its range such that id:{W} happens - before id:{V} and id:{V} happens - before id:{R} ."
+      [8] byteLocation = (+ byteLocation 1i)
+      __x4__ = (+ __x4__ 1i)
+    }
+    __x2__ = (+ __x2__ 1i)
+  }
+}

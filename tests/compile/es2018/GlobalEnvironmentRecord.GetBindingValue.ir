@@ -1,0 +1,14 @@
+{
+  [1] let DclRec = envRec.DeclarativeRecord
+  [2] app __x0__ = (DclRec.HasBinding DclRec N)
+  [2] if (= __x0__ true) {
+    [3] app __x1__ = (DclRec.GetBindingValue DclRec N S)
+    [3] app __x2__ = (WrapCompletion __x1__)
+    [3] return __x2__
+  } else [4] {}
+  [4] let ObjRec = envRec.ObjectRecord
+  [5] app __x3__ = (ObjRec.GetBindingValue ObjRec N S)
+  [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [4] {}
+  [5] app __x4__ = (WrapCompletion __x3__)
+  [5] return __x4__
+}

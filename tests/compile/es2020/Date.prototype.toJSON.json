@@ -1,0 +1,27 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "ToObject", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "tv"
+  }, "be", "?", "ToPrimitive", "(", {
+    "id": "O"
+  }, ",", "hint", "Number", ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "tv"
+  }, ")", "is", "Number", "and", {
+    "id": "tv"
+  }, "is", "not", "finite", ",", "return", {
+    "value": "null"
+  }, "."]
+}, {
+  "tokens": ["Return", "?", "Invoke", "(", {
+    "id": "O"
+  }, ",", {
+    "value": "\"toISOString\""
+  }, ")", "."]
+}]

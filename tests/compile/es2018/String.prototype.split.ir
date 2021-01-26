@@ -1,0 +1,74 @@
+{
+  app separator = (GetArgument argumentsList 0i)
+  app limit = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (RequireObjectCoercible this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [6] {}
+  [0] let O = __x0__
+  [1] if (! (|| (= separator undefined) (= separator null))) {
+    [2] app __x1__ = (GetMethod separator SYMBOL_split)
+    [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+    [2] let splitter = __x1__
+    [3] if (! (= splitter undefined)) {
+      [4] app __x2__ = (Call splitter separator (new [O, limit]))
+      [4] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [6] {}
+      [4] app __x3__ = (WrapCompletion __x2__)
+      [4] return __x3__
+    } else [6] {}
+  } else [6] {}
+  [5] app __x4__ = (ToString O)
+  [5] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [6] {}
+  [5] let S = __x4__
+  [6] app __x5__ = (ArrayCreate 0i)
+  [6] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [6] {}
+  [6] let A = __x5__
+  [7] let lengthA = 0i
+  [8] if (= limit undefined) let lim = (- 4294967296i 1i) else {
+    app __x6__ = (ToUint32 limit)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [6] {}
+    let lim = __x6__
+  }
+  [9] let s = S.length
+  [10] let p = 0i
+  [11] app __x7__ = (ToString separator)
+  [11] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [6] {}
+  [11] let R = __x7__
+  [12] if (== lim 0i) {
+    app __x8__ = (WrapCompletion A)
+    return __x8__
+  } else [6] {}
+  [13] if (= separator undefined) {
+    [14] app __x9__ = (CreateDataProperty A "0" S)
+    [14] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [6] {}
+    [14] __x9__
+    [15] app __x10__ = (WrapCompletion A)
+    [15] return __x10__
+  } else [6] {}
+  [16] if (== s 0i) {
+    [17] app __x11__ = (SplitMatch S 0i R)
+    [17] let z = __x11__
+    [18] if (! (= z false)) {
+      app __x12__ = (WrapCompletion A)
+      return __x12__
+    } else [6] {}
+    [19] app __x13__ = (CreateDataProperty A "0" S)
+    [19] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [6] {}
+    [19] __x13__
+    [20] app __x14__ = (WrapCompletion A)
+    [20] return __x14__
+  } else [6] {}
+  [21] let q = p
+  [22] while (! (== q s)) {
+    [23] app __x15__ = (SplitMatch S q R)
+    [23] let e = __x15__
+    [24] if (= e false) let q = (+ q 1i) else [6] {}
+    [25] ??? "Else id:{e} is an integer index ≤ id:{s} , step-list:{...}"
+  }
+  [34] ??? "Let id:{T} be the String value equal to the substring of id:{S} consisting of the code units at indices id:{p} ( inclusive ) through id:{s} ( exclusive ) ."
+  [35] app __x16__ = (ToString lengthA)
+  [35] if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else [6] {}
+  [35] app __x17__ = (CreateDataProperty A __x16__ T)
+  [35] if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else [6] {}
+  [35] __x17__
+  [36] app __x18__ = (WrapCompletion A)
+  [36] return __x18__
+}

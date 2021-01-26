@@ -1,0 +1,45 @@
+[{
+  "tokens": ["If", {
+    "id": "value"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "index"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "integerIndex"
+  }, "be", "?", "ToInteger", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "integerIndex"
+  }, "<", "0", ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "index"
+  }, "be", "!", "ToLength", "(", {
+    "id": "integerIndex"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "SameValueZero", "(", {
+    "id": "integerIndex"
+  }, ",", {
+    "id": "index"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "index"
+  }, "."]
+}]

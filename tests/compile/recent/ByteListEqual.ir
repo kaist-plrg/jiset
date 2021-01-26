@@ -1,0 +1,18 @@
+{
+  [0] ??? "If id:{xBytes} and id:{yBytes} do not have the same number of elements , return value:{false} ."
+  [1] let i = 0i
+  [2] let __x0__ = xBytes
+  [2] let __x1__ = 0i
+  [2] while (< __x1__ __x0__.length) {
+    let xByte = __x0__[__x1__]
+    [3] let yByte = yBytes[i]
+    [4] if (! (== xByte yByte)) {
+      app __x2__ = (WrapCompletion false)
+      return __x2__
+    } else [1] {}
+    [5] i = (+ i 1i)
+    __x1__ = (+ __x1__ 1i)
+  }
+  [6] app __x3__ = (WrapCompletion true)
+  [6] return __x3__
+}

@@ -1,0 +1,1 @@
+          1. Return IsValidSimpleAssignmentTarget of |Expression|.

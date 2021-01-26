@@ -1,0 +1,18 @@
+{
+  [0] app __x0__ = (Type name)
+  [0] assert (= __x0__ String)
+  [4] if (! (= environment undefined)) {
+    [2] app __x1__ = (environment.InitializeBinding environment name value)
+    [2] __x1__
+    [3] app __x2__ = (NormalCompletion undefined)
+    [3] app __x3__ = (WrapCompletion __x2__)
+    [3] return __x3__
+  } else {
+    [5] app __x4__ = (ResolveBinding name)
+    [5] let lhs = __x4__
+    [6] app __x5__ = (PutValue lhs value)
+    [6] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [0] {}
+    [6] app __x6__ = (WrapCompletion __x5__)
+    [6] return __x6__
+  }
+}

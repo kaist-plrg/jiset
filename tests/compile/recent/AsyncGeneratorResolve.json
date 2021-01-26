@@ -1,0 +1,55 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "generator"
+  }, "is", "an", "AsyncGenerator", "instance", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "queue"
+  }, "be", {
+    "id": "generator"
+  }, ".", "[", "[", "AsyncGeneratorQueue", "]", "]", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "queue"
+  }, "is", "not", "an", "empty", "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "next"
+  }, "be", "the", "first", "element", "of", {
+    "id": "queue"
+  }, "."]
+}, {
+  "tokens": ["Remove", "the", "first", "element", "from", {
+    "id": "queue"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "promiseCapability"
+  }, "be", {
+    "id": "next"
+  }, ".", "[", "[", "Capability", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "iteratorResult"
+  }, "be", "!", "CreateIterResultObject", "(", {
+    "id": "value"
+  }, ",", {
+    "id": "done"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "!", "Call", "(", {
+    "id": "promiseCapability"
+  }, ".", "[", "[", "Resolve", "]", "]", ",", {
+    "value": "undefined"
+  }, ",", "«", {
+    "id": "iteratorResult"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["Perform", "!", "AsyncGeneratorResumeNext", "(", {
+    "id": "generator"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "undefined"
+  }, "."]
+}]

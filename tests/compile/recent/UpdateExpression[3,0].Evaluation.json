@@ -1,0 +1,33 @@
+[{
+  "tokens": ["Let", {
+    "id": "expr"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "UnaryExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "oldValue"
+  }, "be", "?", "ToNumeric", "(", "?", "GetValue", "(", {
+    "id": "expr"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "newValue"
+  }, "be", "!", "Type", "(", {
+    "id": "oldValue"
+  }, ")", ":", ":", "add", "(", {
+    "id": "oldValue"
+  }, ",", "Type", "(", {
+    "id": "oldValue"
+  }, ")", ":", ":", "unit", ")", "."]
+}, {
+  "tokens": ["Perform", "?", "PutValue", "(", {
+    "id": "expr"
+  }, ",", {
+    "id": "newValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "newValue"
+  }, "."]
+}]

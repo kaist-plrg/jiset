@@ -1,0 +1,103 @@
+{
+  [0] if (= newTarget undefined) let newTarget = constructor else [73] {}
+  [5] if (= kind "normal") {
+    [2] let goal = "FunctionBody"
+    [3] let parameterGoal = "FormalParameters"
+    [4] let fallbackProto = INTRINSIC_FunctionPrototype
+  } else {
+    [6] let goal = "GeneratorBody"
+    [7] let parameterGoal = "FormalParameters[Yield]"
+    [8] let fallbackProto = INTRINSIC_Generator
+  }
+  [9] let argCount = args.length
+  [10] let P = ""
+  [13] if (== argCount 0i) let bodyText = "" else if (== argCount 1i) let bodyText = args[0i] else {
+    [14] let firstArg = args[0i]
+    [15] app __x0__ = (ToString firstArg)
+    [15] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [73] {}
+    [15] let P = __x0__
+    [16] let k = 1i
+    [17] while (< k (- argCount 1i)) {
+      [18] let nextArg = args[k]
+      [19] app __x1__ = (ToString nextArg)
+      [19] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [73] {}
+      [19] let nextArgString = __x1__
+      [20] let P = (+ (+ P ",") nextArgString)
+      [21] k = (+ k 1i)
+    }
+    [22] let bodyText = args[k]
+  }
+  [23] app __x2__ = (ToString bodyText)
+  [23] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [73] {}
+  [23] let bodyText = __x2__
+  [24] ??? "Let id:{parameters} be the result of parsing id:{P} , interpreted as UTF - 16 encoded Unicode text as described in link:{} , using id:{parameterGoal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
+  [25] ??? "Let id:{body} be the result of parsing id:{bodyText} , interpreted as UTF - 16 encoded Unicode text as described in link:{} , using id:{goal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
+  [26] if true let strict = true else let strict = false
+  [27] ??? "If any static semantics errors are detected for id:{parameters} or id:{body} , throw a value:{SyntaxError} or a value:{ReferenceError} exception , depending on the type of the error . If id:{strict} is value:{true} , the Early Error rules for grammar:{StrictFormalParameters0} are applied . Parsing and early error detection may be interweaved in an implementation dependent manner ."
+  [28] access __x3__ = (body "ContainsUseStrict")
+  [28] let __x4__ = (= __x3__ true)
+  [28] if __x4__ {
+    access __x5__ = (parameters "IsSimpleParameterList")
+    __x4__ = (= __x5__ false)
+  } else [73] {}
+  [28] if __x4__ {
+    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x6__
+  } else [73] {}
+  [29] ??? "If any element of the BoundNames of id:{parameters} also occurs in the LexicallyDeclaredNames of id:{body} , throw a value:{SyntaxError} exception ."
+  [30] access __x7__ = (body "Contains")
+  [30] app __x8__ = (__x7__ "SuperCall")
+  [30] if (= __x8__ true) {
+    app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x9__
+  } else [73] {}
+  [31] access __x10__ = (parameters "Contains")
+  [31] app __x11__ = (__x10__ "SuperCall")
+  [31] if (= __x11__ true) {
+    app __x12__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x12__
+  } else [73] {}
+  [32] access __x13__ = (body "Contains")
+  [32] app __x14__ = (__x13__ "SuperProperty")
+  [32] if (= __x14__ true) {
+    app __x15__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x15__
+  } else [73] {}
+  [33] access __x16__ = (parameters "Contains")
+  [33] app __x17__ = (__x16__ "SuperProperty")
+  [33] if (= __x17__ true) {
+    app __x18__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x18__
+  } else [73] {}
+  [34] if (= kind "generator") {
+    [35] access __x19__ = (parameters "Contains")
+    [35] app __x20__ = (__x19__ "YieldExpression")
+    [35] if (= __x20__ true) {
+      app __x21__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x21__
+    } else [73] {}
+  } else [73] {}
+  [36] if (= strict true) ??? "If BoundNames of id:{parameters} contains any duplicate elements , throw a value:{SyntaxError} exception ." else [73] {}
+  [38] app __x22__ = (GetPrototypeFromConstructor newTarget fallbackProto)
+  [38] if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else [73] {}
+  [38] let proto = __x22__
+  [39] app __x23__ = (FunctionAllocate proto strict kind)
+  [39] let F = __x23__
+  [40] let realmF = F.Realm
+  [41] let scope = realmF.GlobalEnv
+  [42] app __x24__ = (FunctionInitialize F CONST_Normal parameters body scope)
+  [42] __x24__
+  [46] if (= kind "generator") {
+    [44] app __x25__ = (ObjectCreate INTRINSIC_GeneratorPrototype)
+    [44] let prototype = __x25__
+    [45] app __x26__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+    [45] __x26__
+  } else {
+    app __x27__ = (MakeConstructor F)
+    __x27__
+  }
+  [47] app __x28__ = (SetFunctionName F "anonymous")
+  [47] __x28__
+  [48] app __x29__ = (WrapCompletion F)
+  [48] return __x29__
+}

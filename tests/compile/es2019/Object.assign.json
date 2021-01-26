@@ -1,0 +1,87 @@
+[{
+  "tokens": ["Let", {
+    "id": "to"
+  }, "be", "?", "ToObject", "(", {
+    "id": "target"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "only", "one", "argument", "was", "passed", ",", "return", {
+    "id": "to"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "sources"
+  }, "be", "the", "List", "of", "argument", "values", "starting", "with", "the", "second", "argument", "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "nextSource"
+  }, "of", {
+    "id": "sources"
+  }, ",", "in", "ascending", "index", "order", ",", "do"]
+}, {
+  "tokens": ["If", {
+    "id": "nextSource"
+  }, "is", "neither", {
+    "value": "undefined"
+  }, "nor", {
+    "value": "null"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "from"
+  }, "be", "!", "ToObject", "(", {
+    "id": "nextSource"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "keys"
+  }, "be", "?", {
+    "id": "from"
+  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "nextKey"
+  }, "of", {
+    "id": "keys"
+  }, "in", "List", "order", ",", "do"]
+}, {
+  "tokens": ["Let", {
+    "id": "desc"
+  }, "be", "?", {
+    "id": "from"
+  }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+    "id": "nextKey"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "desc"
+  }, "is", "not", {
+    "value": "undefined"
+  }, "and", {
+    "id": "desc"
+  }, ".", "[", "[", "Enumerable", "]", "]", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "propValue"
+  }, "be", "?", "Get", "(", {
+    "id": "from"
+  }, ",", {
+    "id": "nextKey"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "?", "Set", "(", {
+    "id": "to"
+  }, ",", {
+    "id": "nextKey"
+  }, ",", {
+    "id": "propValue"
+  }, ",", {
+    "value": "true"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "to"
+  }, "."]
+}]

@@ -1,0 +1,57 @@
+[{
+  "tokens": ["If", {
+    "id": "completion"
+  }, "is", "an", "abrupt", "completion", ",", "perform", "!", "Call", "(", {
+    "id": "promiseCapability"
+  }, ".", "[", "[", "Reject", "]", "]", ",", {
+    "value": "undefined"
+  }, ",", "«", {
+    "id": "completion"
+  }, ".", "[", "[", "Value", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "completion"
+  }, "is", "a", "normal", "completion", "and", {
+    "id": "completion"
+  }, ".", "[", "[", "Value", "]", "]", "is", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "moduleRecord"
+  }, "be", "!", "HostResolveImportedModule", "(", {
+    "id": "referencingScriptOrModule"
+  }, ",", {
+    "id": "specifier"
+  }, ")", "."]
+}, {
+  "tokens": ["Assert", ":", "Evaluate", "has", "already", "been", "invoked", "on", {
+    "id": "moduleRecord"
+  }, "and", "successfully", "completed", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "namespace"
+  }, "be", "GetModuleNamespace", "(", {
+    "id": "moduleRecord"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "namespace"
+  }, "is", "an", "abrupt", "completion", ",", "perform", "!", "Call", "(", {
+    "id": "promiseCapability"
+  }, ".", "[", "[", "Reject", "]", "]", ",", {
+    "value": "undefined"
+  }, ",", "«", {
+    "id": "namespace"
+  }, ".", "[", "[", "Value", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Else", ",", "perform", "!", "Call", "(", {
+    "id": "promiseCapability"
+  }, ".", "[", "[", "Resolve", "]", "]", ",", {
+    "value": "undefined"
+  }, ",", "«", {
+    "id": "namespace"
+  }, ".", "[", "[", "Value", "]", "]", "»", ")", "."]
+}]

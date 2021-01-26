@@ -1,0 +1,44 @@
+{
+  app separator = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [32] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (Get O "length")
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [32] {}
+  [1] app __x2__ = (ToLength __x1__)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [32] {}
+  [1] let len = __x2__
+  [2] if (= separator undefined) let separator = "," else [32] {}
+  [3] app __x3__ = (ToString separator)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [32] {}
+  [3] let sep = __x3__
+  [4] if (= len 0i) {
+    app __x4__ = (WrapCompletion "")
+    return __x4__
+  } else [32] {}
+  [5] app __x5__ = (Get O "0")
+  [5] let element0 = __x5__
+  [6] if (|| (= element0 undefined) (= element0 null)) let R = "" else {
+    app __x6__ = (ToString element0)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [32] {}
+    let R = __x6__
+  }
+  [7] let k = ??? "1"
+  [8] while (< k len) {
+    [9] let S = (+ R sep)
+    [10] app __x7__ = (ToString k)
+    [10] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [32] {}
+    [10] app __x8__ = (Get O __x7__)
+    [10] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [32] {}
+    [10] let element = __x8__
+    [11] if (|| (= element undefined) (= element null)) let next = "" else {
+      app __x9__ = (ToString element)
+      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [32] {}
+      let next = __x9__
+    }
+    [12] let R = (+ S next)
+    [13] k = (+ k 1i)
+  }
+  [14] app __x10__ = (WrapCompletion R)
+  [14] return __x10__
+}

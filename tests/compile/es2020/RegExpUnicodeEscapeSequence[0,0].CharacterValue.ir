@@ -1,0 +1,10 @@
+{
+  [0] access __x0__ = (LeadSurrogate "CharacterValue")
+  [0] let lead = __x0__
+  [1] access __x1__ = (TrailSurrogate "CharacterValue")
+  [1] let trail = __x1__
+  [2] app __x2__ = (UTF16DecodeSurrogatePair lead trail)
+  [2] let cp = __x2__
+  [3] app __x3__ = (WrapCompletion cp)
+  [3] return __x3__
+}

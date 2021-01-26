@@ -1,0 +1,37 @@
+{
+  app callbackfn = (GetArgument argumentsList 0i)
+  app thisArg = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [4] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (LengthOfArrayLike O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [4] {}
+  [1] let len = __x1__
+  [2] app __x2__ = (IsCallable callbackfn)
+  [2] if (= __x2__ false) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else [4] {}
+  [3] app __x4__ = (ArraySpeciesCreate O len)
+  [3] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [4] {}
+  [3] let A = __x4__
+  [4] let k = 0i
+  [5] while (< k len) {
+    [6] ??? "Let id:{Pk} be ! ToString ( 𝔽 ( id:{k} ) ) ."
+    [7] app __x5__ = (HasProperty O Pk)
+    [7] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [4] {}
+    [7] let kPresent = __x5__
+    [8] if (= kPresent true) {
+      [9] app __x6__ = (Get O Pk)
+      [9] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [4] {}
+      [9] let kValue = __x6__
+      [10] ??? "Let id:{mappedValue} be ? Call ( id:{callbackfn} , id:{thisArg} , « id:{kValue} , 𝔽 ( id:{k} ) , id:{O} » ) ."
+      [11] app __x7__ = (CreateDataPropertyOrThrow A Pk mappedValue)
+      [11] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [4] {}
+      [11] __x7__
+    } else [4] {}
+    [12] k = (+ k 1i)
+  }
+  [13] app __x8__ = (WrapCompletion A)
+  [13] return __x8__
+}

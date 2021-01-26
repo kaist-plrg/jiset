@@ -1,0 +1,15 @@
+{
+  [0] access __x0__ = (BindingIdentifier "StringValue")
+  [0] let className = __x0__
+  [1] access __x1__ = (ClassTail "ClassDefinitionEvaluation")
+  [1] app __x2__ = (__x1__ className className)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [33] {}
+  [1] let value = __x2__
+  [2] value.SourceText = (get-syntax ClassDeclaration)
+  [3] let env = GLOBAL_context.LexicalEnvironment
+  [4] app __x3__ = (InitializeBoundName className value env)
+  [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [33] {}
+  [4] __x3__
+  [5] app __x4__ = (WrapCompletion value)
+  [5] return __x4__
+}

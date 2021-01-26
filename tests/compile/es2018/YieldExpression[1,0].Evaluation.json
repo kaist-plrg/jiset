@@ -1,0 +1,31 @@
+[{
+  "tokens": ["Let", {
+    "id": "generatorKind"
+  }, "be", "!", "GetGeneratorKind", "(", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "exprRef"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AssignmentExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "?", "GetValue", "(", {
+    "id": "exprRef"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "generatorKind"
+  }, "is", {
+    "const": "async"
+  }, ",", "then", "return", "?", "AsyncGeneratorYield", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Otherwise", ",", "return", "?", "GeneratorYield", "(", "CreateIterResultObject", "(", {
+    "id": "value"
+  }, ",", {
+    "value": "false"
+  }, ")", ")", "."]
+}]

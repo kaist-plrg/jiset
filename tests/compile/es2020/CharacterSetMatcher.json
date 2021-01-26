@@ -1,0 +1,129 @@
+[{
+  "tokens": ["Return", "a", "new", "Matcher", "with", "parameters", "(", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ")", "that", "captures", {
+    "id": "A"
+  }, ",", {
+    "id": "invert"
+  }, ",", "and", {
+    "id": "direction"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "x"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "c"
+  }, "is", "a", "Continuation", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "e"
+  }, "be", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "endIndex"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "f"
+  }, "be", {
+    "id": "e"
+  }, "+", {
+    "id": "direction"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "f"
+  }, "<", "0", "or", {
+    "id": "f"
+  }, ">", {
+    "id": "InputLength"
+  }, ",", "return", {
+    "const": "failure"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "index"
+  }, "be", "min", "(", {
+    "id": "e"
+  }, ",", {
+    "id": "f"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "ch"
+  }, "be", "the", "character", {
+    "id": "Input"
+  }, "[", {
+    "id": "index"
+  }, "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "cc"
+  }, "be", "Canonicalize", "(", {
+    "id": "ch"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "invert"
+  }, "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["If", "there", "does", "not", "exist", "a", "member", {
+    "id": "a"
+  }, "of", "set", {
+    "id": "A"
+  }, "such", "that", "Canonicalize", "(", {
+    "id": "a"
+  }, ")", "is", {
+    "id": "cc"
+  }, ",", "return", {
+    "const": "failure"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "invert"
+  }, "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "there", "exists", "a", "member", {
+    "id": "a"
+  }, "of", "set", {
+    "id": "A"
+  }, "such", "that", "Canonicalize", "(", {
+    "id": "a"
+  }, ")", "is", {
+    "id": "cc"
+  }, ",", "return", {
+    "const": "failure"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "cap"
+  }, "be", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "captures"
+  }, "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "y"
+  }, "be", "the", "State", "(", {
+    "id": "f"
+  }, ",", {
+    "id": "cap"
+  }, ")", "."]
+}, {
+  "tokens": ["Call", {
+    "id": "c"
+  }, "(", {
+    "id": "y"
+  }, ")", "and", "return", "its", "result", "."]
+}]

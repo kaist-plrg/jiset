@@ -1,0 +1,1 @@
+        1. Return ! OrdinaryGetPrototypeOf(_O_).

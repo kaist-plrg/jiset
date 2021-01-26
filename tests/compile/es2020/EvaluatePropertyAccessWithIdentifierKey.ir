@@ -1,0 +1,10 @@
+{
+  [0] assert (is-instance-of identifierName IdentifierName)
+  [1] app __x0__ = (RequireObjectCoercible baseValue)
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [5] {}
+  [1] let bv = __x0__
+  [2] access __x1__ = (identifierName "StringValue")
+  [2] let propertyNameString = __x1__
+  [3] app __x2__ = (WrapCompletion (new Reference("BaseValue" -> bv, "ReferencedName" -> propertyNameString, "StrictReference" -> strict)))
+  [3] return __x2__
+}

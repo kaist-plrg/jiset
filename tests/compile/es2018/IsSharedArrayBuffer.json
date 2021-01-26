@@ -1,0 +1,33 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "obj"
+  }, ")", "is", "Object", "and", "it", "has", "an", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "bufferData"
+  }, "be", {
+    "id": "obj"
+  }, ".", "[", "[", "ArrayBufferData", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "bufferData"
+  }, "is", {
+    "value": "null"
+  }, ",", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "bufferData"
+  }, "is", "a", "Data", "Block", ",", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "bufferData"
+  }, "is", "a", "Shared", "Data", "Block", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}]

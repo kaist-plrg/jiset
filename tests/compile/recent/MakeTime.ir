@@ -1,0 +1,13 @@
+{
+  [0] if (|| (|| (= hour Infinity) (= hour -Infinity)) (|| (|| (= min Infinity) (= min -Infinity)) (|| (|| (= sec Infinity) (= sec -Infinity)) (|| (= ms Infinity) (= ms -Infinity))))) {
+    app __x0__ = (WrapCompletion NaN)
+    return __x0__
+  } else [2] {}
+  [1] ??? "Let id:{h} be 𝔽 ( ! ToIntegerOrInfinity ( id:{hour} ) ) ."
+  [2] ??? "Let id:{m} be 𝔽 ( ! ToIntegerOrInfinity ( id:{min} ) ) ."
+  [3] ??? "Let id:{s} be 𝔽 ( ! ToIntegerOrInfinity ( id:{sec} ) ) ."
+  [4] ??? "Let id:{milli} be 𝔽 ( ! ToIntegerOrInfinity ( id:{ms} ) ) ."
+  [5] ??? "Let id:{t} be ( ( id:{h} code:{*} msPerHour code:{+} id:{m} code:{*} msPerMinute ) code:{+} id:{s} code:{*} msPerSecond ) code:{+} id:{milli} , performing the arithmetic according to IEEE 754 - 2019 rules ( that is , as if using the ECMAScript operators code:{*} and code:{+} ) ."
+  [6] app __x1__ = (WrapCompletion t)
+  [6] return __x1__
+}

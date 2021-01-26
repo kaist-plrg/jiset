@@ -1,0 +1,20 @@
+{
+  [0] assert (|| (|| (= op "&") (= op "|")) (= op "^"))
+  [1] let result = ??? "0n"
+  [2] let shift = 0i
+  [3] ??? "Repeat , until ( id:{x} = 0 or id:{x} = - 1 ) and ( id:{y} = 0 or id:{y} = - 1 ) , step-list:{...}"
+  [16] if (= op "&") {
+    app __x0__ = (BinaryAnd (%% x 2i) (%% y 2i))
+    let tmp = __x0__
+  } else if (= op "|") {
+    app __x1__ = (BinaryOr (%% x 2i) (%% y 2i))
+    let tmp = __x1__
+  } else {
+    [17] assert (= op "^")
+    [18] app __x2__ = (BinaryXor (%% x 2i) (%% y 2i))
+    [18] let tmp = __x2__
+  }
+  [19] if (! (== tmp 0i)) ??? "Set id:{result} to id:{result} - 2 sup:{id:{shift} } ." else [21] {}
+  [22] app __x3__ = (WrapCompletion result)
+  [22] return __x3__
+}

@@ -1,0 +1,38 @@
+{
+  [0] let module = this
+  [2] assert (! (= module.Realm undefined))
+  [3] if (= module.Evaluated true) {
+    app __x0__ = (WrapCompletion undefined)
+    return __x0__
+  } else [13] {}
+  [4] module.Evaluated = true
+  [5] let __x1__ = module.RequestedModules
+  [5] let __x2__ = 0i
+  [5] while (< __x2__ __x1__.length) {
+    let required = __x1__[__x2__]
+    [6] app __x3__ = (HostResolveImportedModule module required)
+    [6] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [13] {}
+    [6] let requiredModule = __x3__
+    [8] app __x4__ = (requiredModule.ModuleEvaluation requiredModule)
+    [8] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [13] {}
+    [8] __x4__
+    __x2__ = (+ __x2__ 1i)
+  }
+  [9] let moduleCxt = (new ExecutionContext("SubMap" -> (new SubMap())))
+  [10] moduleCxt.Function = null
+  [11] moduleCxt.Realm = module.Realm
+  [12] moduleCxt.ScriptOrModule = module
+  [14] moduleCxt.VariableEnvironment = module.Environment
+  [15] moduleCxt.LexicalEnvironment = module.Environment
+  [16] GLOBAL_context = null
+  [17] append moduleCxt -> GLOBAL_executionStack
+  [17] GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  [18] access __x5__ = (module.ECMAScriptCode "Evaluation")
+  [18] let result = __x5__
+  [19] GLOBAL_context = null
+  [19] if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] moduleCxt) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else [13] {}
+  [20] ??? "Resume the context that is now on the top of the execution context stack as the running execution context ."
+  [21] app __x6__ = (Completion result)
+  [21] app __x7__ = (WrapCompletion __x6__)
+  [21] return __x7__
+}

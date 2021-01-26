@@ -1,0 +1,73 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [1] let handler = O.ProxyHandler
+  [2] if (= handler null) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [0] {}
+  [3] app __x2__ = (Type handler)
+  [3] assert (= __x2__ Object)
+  [4] let target = O.ProxyTarget
+  [5] app __x3__ = (GetMethod handler "getOwnPropertyDescriptor")
+  [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [0] {}
+  [5] let trap = __x3__
+  [6] if (= trap undefined) {
+    [7] app __x4__ = (target.GetOwnProperty target P)
+    [7] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [0] {}
+    [7] app __x5__ = (WrapCompletion __x4__)
+    [7] return __x5__
+  } else [0] {}
+  [8] app __x6__ = (Call trap handler (new [target, P]))
+  [8] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [0] {}
+  [8] let trapResultObj = __x6__
+  [9] app __x7__ = (Type trapResultObj)
+  [9] if (! (|| (= __x7__ Object) (= __x7__ Undefined))) {
+    app __x8__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x8__
+  } else [0] {}
+  [10] app __x9__ = (target.GetOwnProperty target P)
+  [10] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [0] {}
+  [10] let targetDesc = __x9__
+  [11] if (= trapResultObj undefined) {
+    [12] if (= targetDesc undefined) {
+      app __x10__ = (WrapCompletion undefined)
+      return __x10__
+    } else [0] {}
+    [13] if (= targetDesc.Configurable false) {
+      app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x11__
+    } else [0] {}
+    [14] app __x12__ = (IsExtensible target)
+    [14] if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [0] {}
+    [14] let extensibleTarget = __x12__
+    [15] app __x13__ = (Type extensibleTarget)
+    [15] assert (= __x13__ Boolean)
+    [16] if (= extensibleTarget false) {
+      app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x14__
+    } else [0] {}
+    [17] app __x15__ = (WrapCompletion undefined)
+    [17] return __x15__
+  } else [0] {}
+  [18] app __x16__ = (IsExtensible target)
+  [18] if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else [0] {}
+  [18] let extensibleTarget = __x16__
+  [19] app __x17__ = (ToPropertyDescriptor trapResultObj)
+  [19] if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else [0] {}
+  [19] let resultDesc = __x17__
+  [20] app __x18__ = (CompletePropertyDescriptor resultDesc)
+  [20] __x18__
+  [21] app __x19__ = (IsCompatiblePropertyDescriptor extensibleTarget resultDesc targetDesc)
+  [21] let valid = __x19__
+  [22] if (= valid false) {
+    app __x20__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x20__
+  } else [0] {}
+  [23] if (= resultDesc.Configurable false) if (|| (= targetDesc undefined) (= targetDesc.Configurable true)) {
+    [25] app __x21__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    [25] return __x21__
+  } else [0] {} else [0] {}
+  [26] app __x22__ = (WrapCompletion resultDesc)
+  [26] return __x22__
+}

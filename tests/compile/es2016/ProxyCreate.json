@@ -1,0 +1,81 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "target"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "target"
+  }, "is", "a", "Proxy", "exotic", "object", "and", "the", "value", "of", "the", "[", "[", "ProxyHandler", "]", "]", "internal", "slot", "of", {
+    "id": "target"
+  }, "is", {
+    "value": "null"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "handler"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "handler"
+  }, "is", "a", "Proxy", "exotic", "object", "and", "the", "value", "of", "the", "[", "[", "ProxyHandler", "]", "]", "internal", "slot", "of", {
+    "id": "handler"
+  }, "is", {
+    "value": "null"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "P"
+  }, "be", "a", "newly", "created", "object", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "P"
+  }, "'", "s", "essential", "internal", "methods", "(", "except", "for", "[", "[", "Call", "]", "]", "and", "[", "[", "Construct", "]", "]", ")", "to", "the", "definitions", "specified", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "target"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", "the", "[", "[", "Call", "]", "]", "internal", "method", "of", {
+    "id": "P"
+  }, "as", "specified", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "target"
+  }, "has", "a", "[", "[", "Construct", "]", "]", "internal", "method", ",", "then"]
+}, {
+  "tokens": ["Set", "the", "[", "[", "Construct", "]", "]", "internal", "method", "of", {
+    "id": "P"
+  }, "as", "specified", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Set", "the", "[", "[", "ProxyTarget", "]", "]", "internal", "slot", "of", {
+    "id": "P"
+  }, "to", {
+    "id": "target"
+  }, "."]
+}, {
+  "tokens": ["Set", "the", "[", "[", "ProxyHandler", "]", "]", "internal", "slot", "of", {
+    "id": "P"
+  }, "to", {
+    "id": "handler"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "P"
+  }, "."]
+}]

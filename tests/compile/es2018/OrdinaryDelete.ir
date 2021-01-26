@@ -1,0 +1,18 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [1] app __x1__ = (O.GetOwnProperty O P)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [1] let desc = __x1__
+  [2] if (= desc undefined) {
+    app __x2__ = (WrapCompletion true)
+    return __x2__
+  } else [0] {}
+  [3] if (= desc.Configurable true) {
+    [4] delete O[P]
+    [5] app __x3__ = (WrapCompletion true)
+    [5] return __x3__
+  } else [0] {}
+  [6] app __x4__ = (WrapCompletion false)
+  [6] return __x4__
+}

@@ -1,0 +1,8 @@
+{
+  [0] let ch = PatternCharacter
+  [1] let A = (new [ch])
+  [2] app __x0__ = (CharacterSetMatcher A false direction)
+  [2] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [5] {}
+  [2] app __x1__ = (WrapCompletion __x0__)
+  [2] return __x1__
+}

@@ -1,0 +1,77 @@
+{
+  app value = (GetArgument argumentsList 0i)
+  app replacer = (GetArgument argumentsList 1i)
+  app space = (GetArgument argumentsList 2i)
+  [0] let stack = (new [])
+  [1] let indent = ""
+  [2] let PropertyList = undefined
+  [2] let ReplacerFunction = undefined
+  [3] app __x0__ = (Type replacer)
+  [3] if (= __x0__ Object) {
+    [6] app __x1__ = (IsCallable replacer)
+    [6] if (= __x1__ true) ReplacerFunction = replacer else {
+      [7] app __x2__ = (IsArray replacer)
+      [7] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [7] {}
+      [7] let isArray = __x2__
+      [8] if (= isArray true) {
+        [9] PropertyList = (new [])
+        [10] app __x3__ = (LengthOfArrayLike replacer)
+        [10] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [7] {}
+        [10] let len = __x3__
+        [11] let k = 0i
+        [12] while (< k len) {
+          [13] ??? "Let id:{prop} be ! ToString ( 𝔽 ( id:{k} ) ) ."
+          [14] app __x4__ = (Get replacer prop)
+          [14] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [7] {}
+          [14] let v = __x4__
+          [15] let item = undefined
+          [18] app __x5__ = (Type v)
+          [18] if (= __x5__ String) item = v else {
+            app __x6__ = (Type v)
+            if (= __x6__ Number) {
+              app __x7__ = (ToString v)
+              if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [7] {}
+              item = __x7__
+            } else {
+              app __x8__ = (Type v)
+              if (= __x8__ Object) ??? "If id:{v} has a [ [ StringData ] ] or [ [ NumberData ] ] internal slot , set id:{item} to ? ToString ( id:{v} ) ." else [7] {}
+            }
+          }
+          [20] ??? "If id:{item} is not value:{undefined} and id:{item} is not currently an element of id:{PropertyList} , then step-list:{...}"
+          [22] k = (+ k 1i)
+        }
+      } else [7] {}
+    }
+  } else [7] {}
+  [23] app __x9__ = (Type space)
+  [23] if (= __x9__ Object) if (! (= space.NumberData absent)) {
+    [25] app __x10__ = (ToNumber space)
+    [25] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [7] {}
+    [25] space = __x10__
+  } else if (! (= space.StringData absent)) {
+    [27] app __x11__ = (ToString space)
+    [27] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [7] {}
+    [27] space = __x11__
+  } else [7] {} else [7] {}
+  [34] app __x12__ = (Type space)
+  [34] if (= __x12__ Number) {
+    [29] app __x13__ = (ToIntegerOrInfinity space)
+    [29] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [7] {}
+    [29] let spaceMV = __x13__
+    [30] app __x14__ = (min 10i spaceMV)
+    [30] spaceMV = __x14__
+    [31] ??? "If id:{spaceMV} < 1 , let id:{gap} be the empty String ; otherwise let id:{gap} be the String value containing id:{spaceMV} occurrences of the code unit 0x0020 ( SPACE ) ."
+  } else {
+    app __x15__ = (Type space)
+    if (= __x15__ String) ??? "If the length of id:{space} is 10 or less , let id:{gap} be id:{space} ; otherwise let id:{gap} be the substring of id:{space} from 0 to 10 ." else let gap = ""
+  }
+  [36] ??? "Let id:{wrapper} be ! OrdinaryObjectCreate ( % Object . prototype % ) ."
+  [37] app __x16__ = (CreateDataPropertyOrThrow wrapper "" value)
+  [37] if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else [7] {}
+  [37] __x16__
+  [38] let state = (new Record("ReplacerFunction" -> ReplacerFunction, "Stack" -> stack, "Indent" -> indent, "Gap" -> gap, "PropertyList" -> PropertyList))
+  [39] app __x17__ = (SerializeJSONProperty state "" wrapper)
+  [39] if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else [7] {}
+  [39] app __x18__ = (WrapCompletion __x17__)
+  [39] return __x18__
+}

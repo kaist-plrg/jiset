@@ -1,0 +1,12 @@
+{
+  [0] app __x0__ = (OrdinaryFunctionCreate INTRINSIC_Generator FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  [0] let F = __x0__
+  [1] ??? "Let id:{prototype} be OrdinaryObjectCreate ( % Generator . prototype % ) ."
+  [2] app __x1__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  [2] __x1__
+  [3] app __x2__ = (SetFunctionName F "default")
+  [3] __x2__
+  [4] F.SourceText = (get-syntax GeneratorDeclaration)
+  [5] app __x3__ = (WrapCompletion F)
+  [5] return __x3__
+}

@@ -1,0 +1,17 @@
+{
+  [0] app __x0__ = (GetIterator value)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [6] {}
+  [0] let iterator = __x0__
+  [1] let iteratorRecord = (new Record("Iterator" -> iterator, "Done" -> false))
+  [2] access __x1__ = (ArrayBindingPattern "IteratorBindingInitialization")
+  [2] app __x2__ = (__x1__ iteratorRecord environment)
+  [2] let result = __x2__
+  [3] if (= iteratorRecord.Done false) {
+    app __x3__ = (IteratorClose iterator result)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [6] {}
+    app __x4__ = (WrapCompletion __x3__)
+    return __x4__
+  } else [6] {}
+  [4] app __x5__ = (WrapCompletion result)
+  [4] return __x5__
+}

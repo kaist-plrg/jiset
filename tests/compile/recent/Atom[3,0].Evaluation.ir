@@ -1,0 +1,9 @@
+{
+  [0] access __x0__ = (CharacterClass "Evaluation")
+  [0] let A = __x0__[0i]
+  [0] let invert = __x0__[1i]
+  [1] app __x1__ = (CharacterSetMatcher A invert direction)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [5] {}
+  [1] app __x2__ = (WrapCompletion __x1__)
+  [1] return __x2__
+}

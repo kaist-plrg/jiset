@@ -1,0 +1,15 @@
+{
+  [1] let queue = generator.AsyncGeneratorQueue
+  [2] assert (< 0i queue.length)
+  [3] let next = queue[0i]
+  [4] ??? "Remove the first element from id:{queue} ."
+  [5] let promiseCapability = next.Capability
+  [6] app __x0__ = (Call promiseCapability.Reject undefined (new [exception]))
+  [6] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [0] {}
+  [6] __x0__
+  [7] app __x1__ = (AsyncGeneratorResumeNext generator)
+  [7] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [7] __x1__
+  [8] app __x2__ = (WrapCompletion undefined)
+  [8] return __x2__
+}

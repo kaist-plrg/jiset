@@ -1,0 +1,81 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "tv"
+  }, ")", "is", "Number", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "tv"
+  }, "is", "not", {
+    "value": "NaN"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "weekday"
+  }, "be", "the", "Name", "of", "the", "entry", "in", {
+    "link": ""
+  }, "with", "the", "Number", "WeekDay", "(", {
+    "id": "tv"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "month"
+  }, "be", "the", "Name", "of", "the", "entry", "in", {
+    "link": ""
+  }, "with", "the", "Number", "MonthFromTime", "(", {
+    "id": "tv"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "day"
+  }, "be", "the", "String", "representation", "of", "DateFromTime", "(", {
+    "id": "tv"
+  }, ")", ",", "formatted", "as", "a", "two", "-", "digit", "decimal", "number", ",", "padded", "to", "the", "left", "with", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", "if", "necessary", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "yv"
+  }, "be", "YearFromTime", "(", {
+    "id": "tv"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "yv"
+  }, "≥", {
+    "value": "+0"
+  }, ",", "let", {
+    "id": "yearSign"
+  }, "be", "the", "empty", "String", ";", "otherwise", ",", "let", {
+    "id": "yearSign"
+  }, "be", {
+    "value": "\"-\""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "year"
+  }, "be", "the", "String", "representation", "of", "abs", "(", "ℝ", "(", {
+    "id": "yv"
+  }, ")", ")", ",", "formatted", "as", "a", "decimal", "number", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "paddedYear"
+  }, "be", "!", "StringPad", "(", {
+    "id": "year"
+  }, ",", {
+    "value": "4"
+  }, ",", {
+    "value": "\"0\""
+  }, ",", {
+    "const": "start"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "the", "string", "-", "concatenation", "of", {
+    "id": "weekday"
+  }, ",", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", {
+    "id": "month"
+  }, ",", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", {
+    "id": "day"
+  }, ",", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", {
+    "id": "yearSign"
+  }, ",", "and", {
+    "id": "paddedYear"
+  }, "."]
+}]

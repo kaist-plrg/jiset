@@ -1,0 +1,35 @@
+[{
+  "tokens": ["Let", {
+    "id": "closure"
+  }, "be", "a", "new", "Abstract", "Closure", "with", "no", "parameters", "that", "captures", {
+    "id": "list"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "E"
+  }, "of", {
+    "id": "list"
+  }, ",", "do"]
+}, {
+  "tokens": ["Perform", "?", "Yield", "(", {
+    "id": "E"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "iterator"
+  }, "be", "!", "CreateIteratorFromClosure", "(", {
+    "id": "closure"
+  }, ",", {
+    "const": "empty"
+  }, ",", "%", "IteratorPrototype", "%", ")", "."]
+}, {
+  "tokens": ["Return", "Record", "{", "[", "[", "Iterator", "]", "]", ":", {
+    "id": "iterator"
+  }, ",", "[", "[", "NextMethod", "]", "]", ":", "%", "GeneratorFunction", ".", "prototype", ".", "prototype", ".", "next", "%", ",", "[", "[", "Done", "]", "]", ":", {
+    "value": "false"
+  }, "}", "."]
+}]

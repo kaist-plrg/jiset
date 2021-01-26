@@ -1,0 +1,28 @@
+{
+  [0] app __x0__ = (Type functionPrototype)
+  [0] assert (= __x0__ Object)
+  [1] ??? "Let id:{internalSlotsList} be the internal slots listed in link:{} ."
+  [2] app __x1__ = (OrdinaryObjectCreate functionPrototype internalSlotsList)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [7] {}
+  [2] let F = __x1__
+  [3] ??? "Set id:{F} . [ [ Call ] ] to the definition specified in link:{} ."
+  [4] F.SourceText = sourceText
+  [5] F.FormalParameters = ParameterList
+  [6] F.ECMAScriptCode = Body
+  [7] if true let Strict = true else let Strict = false
+  [8] F.Strict = Strict
+  [11] if (= thisMode CONST_lexicalDASHthis) F.ThisMode = CONST_lexical else if (= Strict true) F.ThisMode = CONST_strict else F.ThisMode = CONST_global
+  [12] F.IsClassConstructor = false
+  [13] F.Environment = Scope
+  [14] app __x2__ = (GetActiveScriptOrModule )
+  [14] F.ScriptOrModule = __x2__
+  [15] F.Realm = REALM
+  [16] F.HomeObject = undefined
+  [17] access __x3__ = (ParameterList "ExpectedArgumentCount")
+  [17] let len = __x3__
+  [18] app __x4__ = (SetFunctionLength F len)
+  [18] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [7] {}
+  [18] __x4__
+  [19] app __x5__ = (WrapCompletion F)
+  [19] return __x5__
+}

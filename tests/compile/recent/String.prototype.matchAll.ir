@@ -1,0 +1,44 @@
+{
+  app regexp = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (RequireObjectCoercible this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [4] {}
+  [0] let O = __x0__
+  [1] if (! (|| (= regexp undefined) (= regexp null))) {
+    [2] app __x1__ = (IsRegExp regexp)
+    [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [4] {}
+    [2] let isRegExp = __x1__
+    [3] if (= isRegExp true) {
+      [4] app __x2__ = (Get regexp "flags")
+      [4] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [4] {}
+      [4] let flags = __x2__
+      [5] app __x3__ = (RequireObjectCoercible flags)
+      [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [4] {}
+      [5] __x3__
+      [6] app __x4__ = (ToString flags)
+      [6] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [4] {}
+      [6] if (! (contains __x4__ "g")) {
+        app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x5__
+      } else [4] {}
+    } else [4] {}
+    [7] app __x6__ = (GetMethod regexp SYMBOL_matchAll)
+    [7] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [4] {}
+    [7] let matcher = __x6__
+    [8] if (! (= matcher undefined)) {
+      [9] app __x7__ = (Call matcher regexp (new [O]))
+      [9] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [4] {}
+      [9] app __x8__ = (WrapCompletion __x7__)
+      [9] return __x8__
+    } else [4] {}
+  } else [4] {}
+  [10] app __x9__ = (ToString O)
+  [10] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [4] {}
+  [10] let S = __x9__
+  [11] app __x10__ = (RegExpCreate regexp "g")
+  [11] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [4] {}
+  [11] let rx = __x10__
+  [12] app __x11__ = (Invoke rx SYMBOL_matchAll (new [S]))
+  [12] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [4] {}
+  [12] app __x12__ = (WrapCompletion __x11__)
+  [12] return __x12__
+}

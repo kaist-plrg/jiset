@@ -1,0 +1,33 @@
+[{
+  "tokens": ["Let", {
+    "id": "lhs"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "LeftHandSideExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "oldValue"
+  }, "be", "?", "ToNumber", "(", "?", "GetValue", "(", {
+    "id": "lhs"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "newValue"
+  }, "be", "the", "result", "of", "adding", "the", "value", "1", "to", {
+    "id": "oldValue"
+  }, ",", "using", "the", "same", "rules", "as", "for", "the", {
+    "code": "+"
+  }, "operator", "(", "see", {
+    "link": ""
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "?", "PutValue", "(", {
+    "id": "lhs"
+  }, ",", {
+    "id": "newValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "oldValue"
+  }, "."]
+}]

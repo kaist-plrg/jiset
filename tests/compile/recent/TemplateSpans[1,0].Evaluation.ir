@@ -1,0 +1,10 @@
+{
+  [0] access __x0__ = (TemplateMiddleList "Evaluation")
+  [0] let head = __x0__
+  [1] if (is-completion head) if (= head.Type CONST_normal) head = head.Value else return head else [3] {}
+  [1] head
+  [2] access __x1__ = (TemplateTail "TV")
+  [2] let tail = __x1__
+  [3] app __x2__ = (WrapCompletion (+ head tail))
+  [3] return __x2__
+}

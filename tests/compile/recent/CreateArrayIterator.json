@@ -1,0 +1,121 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "array"
+  }, ")", "is", "Object", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "kind"
+  }, "is", {
+    "const": "key+value"
+  }, ",", {
+    "const": "key"
+  }, ",", "or", {
+    "const": "value"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "closure"
+  }, "be", "a", "new", "Abstract", "Closure", "with", "no", "parameters", "that", "captures", {
+    "id": "kind"
+  }, "and", {
+    "id": "array"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Let", {
+    "id": "index"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Repeat", ","]
+}, {
+  "tokens": ["If", {
+    "id": "array"
+  }, "has", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ",", "then"]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "array"
+  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", {
+    "id": "array"
+  }, ".", "[", "[", "ArrayLength", "]", "]", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "?", "LengthOfArrayLike", "(", {
+    "id": "array"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "index"
+  }, "≥", {
+    "id": "len"
+  }, ",", "return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "kind"
+  }, "is", {
+    "const": "key"
+  }, ",", "perform", "?", "Yield", "(", "𝔽", "(", {
+    "id": "index"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "elementKey"
+  }, "be", "!", "ToString", "(", "𝔽", "(", {
+    "id": "index"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "elementValue"
+  }, "be", "?", "Get", "(", {
+    "id": "array"
+  }, ",", {
+    "id": "elementKey"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "kind"
+  }, "is", {
+    "const": "value"
+  }, ",", "perform", "?", "Yield", "(", {
+    "id": "elementValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "kind"
+  }, "is", {
+    "const": "key+value"
+  }, "."]
+}, {
+  "tokens": ["Perform", "?", "Yield", "(", "!", "CreateArrayFromList", "(", "«", "𝔽", "(", {
+    "id": "index"
+  }, ")", ",", {
+    "id": "elementValue"
+  }, "»", ")", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "index"
+  }, "to", {
+    "id": "index"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["Return", "!", "CreateIteratorFromClosure", "(", {
+    "id": "closure"
+  }, ",", {
+    "value": "\"%ArrayIteratorPrototype%\""
+  }, ",", "%", "ArrayIteratorPrototype", "%", ")", "."]
+}]

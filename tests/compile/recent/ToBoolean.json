@@ -1,0 +1,85 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Undefined", ","]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Null", ","]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Boolean", ","]
+}, {
+  "tokens": ["Return", {
+    "id": "argument"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Number", ","]
+}, {
+  "tokens": ["If", {
+    "id": "argument"
+  }, "is", {
+    "value": "+0"
+  }, "𝔽", ",", {
+    "value": "-0"
+  }, "𝔽", ",", "or", {
+    "value": "NaN"
+  }, ",", "return", {
+    "value": "false"
+  }, ";", "otherwise", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "String", ","]
+}, {
+  "tokens": ["If", {
+    "id": "argument"
+  }, "is", "the", "empty", "String", "(", "its", "length", "is", "0", ")", ",", "return", {
+    "value": "false"
+  }, ";", "otherwise", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Symbol", ","]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "BigInt", ","]
+}, {
+  "tokens": ["If", {
+    "id": "argument"
+  }, "is", {
+    "value": "0"
+  }, "ℤ", ",", "return", {
+    "value": "false"
+  }, ";", "otherwise", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Object", ","]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, ".", "An", "alternate", "algorithm", "related", "to", "the", "[", "[", "IsHTMLDDA", "]", "]", "internal", "slot", "is", "mandated", "in", "section", "."]
+}]

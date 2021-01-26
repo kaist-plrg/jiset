@@ -1,0 +1,14 @@
+{
+  app arg = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (Type arg)
+  [0] if (! (= __x0__ Object)) {
+    app __x1__ = (WrapCompletion false)
+    return __x1__
+  } else [11] {}
+  [1] if (! (= arg.ViewedArrayBuffer absent)) {
+    app __x2__ = (WrapCompletion true)
+    return __x2__
+  } else [11] {}
+  [2] app __x3__ = (WrapCompletion false)
+  [2] return __x3__
+}

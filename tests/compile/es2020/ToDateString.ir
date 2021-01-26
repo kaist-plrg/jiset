@@ -1,0 +1,13 @@
+{
+  app tv = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (Type tv)
+  [0] assert (= __x0__ Number)
+  [1] ??? "If id:{tv} is value:{NaN} , return * \" Invalid Date \" * ."
+  [2] app __x1__ = (LocalTime tv)
+  [2] let t = __x1__
+  [3] app __x2__ = (DateString t)
+  [3] app __x3__ = (TimeString t)
+  [3] app __x4__ = (TimeZoneString tv)
+  [3] app __x5__ = (WrapCompletion (+ (+ (+ __x2__ " ") __x3__) __x4__))
+  [3] return __x5__
+}

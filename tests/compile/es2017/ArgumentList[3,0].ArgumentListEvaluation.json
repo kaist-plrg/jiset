@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Let", {
+    "id": "precedingArgs"
+  }, "be", "ArgumentListEvaluation", "of", {
+    "nt": "ArgumentList"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "precedingArgs"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "spreadRef"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AssignmentExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "iterator"
+  }, "be", "?", "GetIterator", "(", "?", "GetValue", "(", {
+    "id": "spreadRef"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Repeat", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "next"
+  }, "be", "?", "IteratorStep", "(", {
+    "id": "iterator"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "next"
+  }, "is", {
+    "value": "false"
+  }, ",", "return", {
+    "id": "precedingArgs"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextArg"
+  }, "be", "?", "IteratorValue", "(", {
+    "id": "next"
+  }, ")", "."]
+}, {
+  "tokens": ["Append", {
+    "id": "nextArg"
+  }, "as", "the", "last", "element", "of", {
+    "id": "precedingArgs"
+  }, "."]
+}]

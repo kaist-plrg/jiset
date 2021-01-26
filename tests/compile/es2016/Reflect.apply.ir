@@ -1,0 +1,19 @@
+{
+  app target = (GetArgument argumentsList 0i)
+  app thisArgument = (GetArgument argumentsList 1i)
+  app argumentsList = (GetArgument argumentsList 2i)
+  [0] app __x0__ = (IsCallable target)
+  [0] if (= __x0__ false) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [1] {}
+  [1] app __x2__ = (CreateListFromArrayLike argumentsList)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [1] {}
+  [1] let args = __x2__
+  [2] app __x3__ = (PrepareForTailCall )
+  [2] __x3__
+  [3] app __x4__ = (Call target thisArgument args)
+  [3] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [1] {}
+  [3] app __x5__ = (WrapCompletion __x4__)
+  [3] return __x5__
+}

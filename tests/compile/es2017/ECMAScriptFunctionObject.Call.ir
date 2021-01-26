@@ -1,0 +1,28 @@
+{
+  [1] if (= F.FunctionKind "classConstructor") {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else [4] {}
+  [2] let callerContext = GLOBAL_context
+  [3] app __x1__ = (PrepareForOrdinaryCall F undefined)
+  [3] let calleeContext = __x1__
+  [5] app __x2__ = (OrdinaryCallBindThis F calleeContext thisArgument)
+  [5] __x2__
+  [6] app __x3__ = (OrdinaryCallEvaluateBody F argumentsList)
+  [6] let result = __x3__
+  [7] if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext) {
+    let __x4__ = (- GLOBAL_executionStack.length 1i)
+    (pop GLOBAL_executionStack __x4__)
+  } else {}
+  [7] GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  [8] if (= result.Type CONST_return) {
+    app __x5__ = (NormalCompletion result.Value)
+    app __x6__ = (WrapCompletion __x5__)
+    return __x6__
+  } else [4] {}
+  [9] if (is-completion result) if (= result.Type CONST_normal) result = result.Value else return result else [4] {}
+  [9] result
+  [10] app __x7__ = (NormalCompletion undefined)
+  [10] app __x8__ = (WrapCompletion __x7__)
+  [10] return __x8__
+}

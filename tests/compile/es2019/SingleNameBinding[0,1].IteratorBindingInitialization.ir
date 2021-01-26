@@ -1,0 +1,47 @@
+{
+  [0] access __x0__ = (BindingIdentifier "StringValue")
+  [0] let bindingId = __x0__
+  [1] app __x1__ = (ResolveBinding bindingId environment)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [3] {}
+  [1] let lhs = __x1__
+  [2] if (= iteratorRecord.Done false) {
+    [3] app __x2__ = (IteratorStep iteratorRecord)
+    [3] let next = __x2__
+    [4] app __x3__ = (IsAbruptCompletion next)
+    [4] if __x3__ iteratorRecord.Done = true else [3] {}
+    [5] if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else [3] {}
+    [5] next
+    [7] if (= next false) iteratorRecord.Done = true else {
+      [8] app __x4__ = (IteratorValue next)
+      [8] let v = __x4__
+      [9] app __x5__ = (IsAbruptCompletion v)
+      [9] if __x5__ iteratorRecord.Done = true else [3] {}
+      [10] if (is-completion v) if (= v.Type CONST_normal) v = v.Value else return v else [3] {}
+      [10] v
+    }
+  } else [3] {}
+  [11] if (= iteratorRecord.Done true) let v = undefined else [3] {}
+  [12] if (&& (! (= Initializer absent)) (= v undefined)) {
+    [15] app __x6__ = (IsAnonymousFunctionDefinition Initializer)
+    [15] if (= __x6__ true) {
+      [14] access __x7__ = (Initializer "NamedEvaluation")
+      [14] app __x8__ = (__x7__ bindingId)
+      [14] v = __x8__
+    } else {
+      [16] access __x9__ = (Initializer "Evaluation")
+      [16] let defaultValue = __x9__
+      [17] app __x10__ = (GetValue defaultValue)
+      [17] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [3] {}
+      [17] v = __x10__
+    }
+  } else [3] {}
+  [18] if (= environment undefined) {
+    app __x11__ = (PutValue lhs v)
+    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [3] {}
+    app __x12__ = (WrapCompletion __x11__)
+    return __x12__
+  } else [3] {}
+  [19] app __x13__ = (InitializeReferencedBinding lhs v)
+  [19] app __x14__ = (WrapCompletion __x13__)
+  [19] return __x14__
+}

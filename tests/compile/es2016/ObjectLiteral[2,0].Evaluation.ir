@@ -1,0 +1,11 @@
+{
+  [0] app __x0__ = (ObjectCreate INTRINSIC_ObjectPrototype)
+  [0] let obj = __x0__
+  [1] access __x1__ = (PropertyDefinitionList "PropertyDefinitionEvaluation")
+  [1] app __x2__ = (__x1__ obj true)
+  [1] let status = __x2__
+  [2] if (is-completion status) if (= status.Type CONST_normal) status = status.Value else return status else [5] {}
+  [2] status
+  [3] app __x3__ = (WrapCompletion obj)
+  [3] return __x3__
+}

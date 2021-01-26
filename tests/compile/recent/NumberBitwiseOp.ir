@@ -1,0 +1,15 @@
+{
+  [0] assert (|| (|| (= op ??? "&") (= op ??? "^")) (= op ??? "|"))
+  [1] app __x0__ = (ToInt32 x)
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [9] {}
+  [1] let lnum = __x0__
+  [2] app __x1__ = (ToInt32 y)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [9] {}
+  [2] let rnum = __x1__
+  [3] ??? "Let id:{lbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{lnum} ) ."
+  [4] ??? "Let id:{rbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{rnum} ) ."
+  [5] ??? "If id:{op} is code:{&} , let id:{result} be the result of applying the bitwise AND operation to id:{lbits} and id:{rbits} ."
+  [6] ??? "Else if id:{op} is code:{^} , let id:{result} be the result of applying the bitwise exclusive OR ( XOR ) operation to id:{lbits} and id:{rbits} ."
+  [7] ??? "Else , id:{op} is code:{|} . Let id:{result} be the result of applying the bitwise inclusive OR operation to id:{lbits} and id:{rbits} ."
+  [8] ??? "Return the Number value for the integer represented by the 32 - bit two ' s complement bit string id:{result} ."
+}

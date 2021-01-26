@@ -1,0 +1,1 @@
+        1. Return ? InitializeBoundName(*"await"*, _value_, _environment_).

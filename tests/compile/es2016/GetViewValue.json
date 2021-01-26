@@ -1,0 +1,103 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "view"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "view"
+  }, "does", "not", "have", "a", "[", "[", "DataView", "]", "]", "internal", "slot", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "numberIndex"
+  }, "be", "?", "ToNumber", "(", {
+    "id": "requestIndex"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "getIndex"
+  }, "be", "ToInteger", "(", {
+    "id": "numberIndex"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "numberIndex"
+  }, "≠", {
+    "id": "getIndex"
+  }, "or", {
+    "id": "getIndex"
+  }, "<", "0", ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "isLittleEndian"
+  }, "be", "ToBoolean", "(", {
+    "id": "isLittleEndian"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "buffer"
+  }, "be", "the", "value", "of", {
+    "id": "view"
+  }, "'", "s", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "buffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "viewOffset"
+  }, "be", "the", "value", "of", {
+    "id": "view"
+  }, "'", "s", "[", "[", "ByteOffset", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "viewSize"
+  }, "be", "the", "value", "of", {
+    "id": "view"
+  }, "'", "s", "[", "[", "ByteLength", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "elementSize"
+  }, "be", "the", "Number", "value", "of", "the", "Element", "Size", "value", "specified", "in", {
+    "link": ""
+  }, "for", "Element", "Type", {
+    "id": "type"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "getIndex"
+  }, "+", {
+    "id": "elementSize"
+  }, ">", {
+    "id": "viewSize"
+  }, ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "bufferIndex"
+  }, "be", {
+    "id": "getIndex"
+  }, "+", {
+    "id": "viewOffset"
+  }, "."]
+}, {
+  "tokens": ["Return", "GetValueFromBuffer", "(", {
+    "id": "buffer"
+  }, ",", {
+    "id": "bufferIndex"
+  }, ",", {
+    "id": "type"
+  }, ",", {
+    "id": "isLittleEndian"
+  }, ")", "."]
+}]

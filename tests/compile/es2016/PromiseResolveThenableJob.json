@@ -1,0 +1,41 @@
+[{
+  "tokens": ["Let", {
+    "id": "resolvingFunctions"
+  }, "be", "CreateResolvingFunctions", "(", {
+    "id": "promiseToResolve"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "thenCallResult"
+  }, "be", "Call", "(", {
+    "id": "then"
+  }, ",", {
+    "id": "thenable"
+  }, ",", "«", {
+    "id": "resolvingFunctions"
+  }, ".", "[", "[", "Resolve", "]", "]", ",", {
+    "id": "resolvingFunctions"
+  }, ".", "[", "[", "Reject", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "thenCallResult"
+  }, "is", "an", "abrupt", "completion", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "status"
+  }, "be", "Call", "(", {
+    "id": "resolvingFunctions"
+  }, ".", "[", "[", "Reject", "]", "]", ",", {
+    "value": "undefined"
+  }, ",", "«", {
+    "id": "thenCallResult"
+  }, ".", "[", "[", "Value", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["NextJob", "Completion", "(", {
+    "id": "status"
+  }, ")", "."]
+}, {
+  "tokens": ["NextJob", "Completion", "(", {
+    "id": "thenCallResult"
+  }, ")", "."]
+}]

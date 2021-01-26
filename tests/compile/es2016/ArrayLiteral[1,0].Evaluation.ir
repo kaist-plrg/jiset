@@ -1,0 +1,14 @@
+{
+  [0] app __x0__ = (ArrayCreate 0i)
+  [0] let array = __x0__
+  [1] access __x1__ = (ElementList "ArrayAccumulation")
+  [1] app __x2__ = (__x1__ array 0i)
+  [1] let len = __x2__
+  [2] if (is-completion len) if (= len.Type CONST_normal) len = len.Value else return len else [4] {}
+  [2] len
+  [3] app __x3__ = (ToUint32 len)
+  [3] app __x4__ = (Set array "length" __x3__ false)
+  [3] __x4__
+  [5] app __x5__ = (WrapCompletion array)
+  [5] return __x5__
+}

@@ -1,0 +1,35 @@
+[{
+  "tokens": ["If", {
+    "nt": "OptionalChain"
+  }, "Contains", {
+    "id": "symbol"
+  }, "is", {
+    "value": "true"
+  }, ",", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "symbol"
+  }, "is", "a", {
+    "nt": "ReservedWord"
+  }, ",", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "symbol"
+  }, "is", "an", {
+    "nt": "Identifier"
+  }, "and", "StringValue", "of", {
+    "id": "symbol"
+  }, "is", "the", "same", "value", "as", "the", "StringValue", "of", {
+    "nt": "IdentifierName"
+  }, ",", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}]

@@ -1,0 +1,119 @@
+[{
+  "tokens": ["Let", {
+    "id": "buffer"
+  }, "be", "?", "ValidateSharedIntegerTypedArray", "(", {
+    "id": "typedArray"
+  }, ",", {
+    "value": "true"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "i"
+  }, "be", "?", "ValidateAtomicAccess", "(", {
+    "id": "typedArray"
+  }, ",", {
+    "id": "index"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "count"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "let", {
+    "id": "c"
+  }, "be", {
+    "value": "+∞"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "intCount"
+  }, "be", "?", "ToInteger", "(", {
+    "id": "count"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "c"
+  }, "be", "max", "(", {
+    "id": "intCount"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "block"
+  }, "be", {
+    "id": "buffer"
+  }, ".", "[", "[", "ArrayBufferData", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "offset"
+  }, "be", {
+    "id": "typedArray"
+  }, ".", "[", "[", "ByteOffset", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "indexedPosition"
+  }, "be", "(", {
+    "id": "i"
+  }, "×", "4", ")", "+", {
+    "id": "offset"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "WL"
+  }, "be", "GetWaiterList", "(", {
+    "id": "block"
+  }, ",", {
+    "id": "indexedPosition"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "n"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Perform", "EnterCriticalSection", "(", {
+    "id": "WL"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "RemoveWaiters", "(", {
+    "id": "WL"
+  }, ",", {
+    "id": "c"
+  }, ")", "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "S"
+  }, "is", "not", "an", "empty", "List", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "W"
+  }, "be", "the", "first", "agent", "in", {
+    "id": "S"
+  }, "."]
+}, {
+  "tokens": ["Remove", {
+    "id": "W"
+  }, "from", "the", "front", "of", {
+    "id": "S"
+  }, "."]
+}, {
+  "tokens": ["Perform", "NotifyWaiter", "(", {
+    "id": "WL"
+  }, ",", {
+    "id": "W"
+  }, ")", "."]
+}, {
+  "tokens": ["Add", "1", "to", {
+    "id": "n"
+  }, "."]
+}, {
+  "tokens": ["Perform", "LeaveCriticalSection", "(", {
+    "id": "WL"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "n"
+  }, "."]
+}]

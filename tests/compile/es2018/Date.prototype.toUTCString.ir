@@ -1,0 +1,14 @@
+{
+  [0] let O = this
+  [1] app __x0__ = (thisTimeValue O)
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [11] {}
+  [1] let tv = __x0__
+  [2] ??? "If id:{tv} is value:{NaN} , return ` \" Invalid Date \" ` ."
+  [3] ??? "Let id:{weekday} be the Name of the entry in link:{} with the Number WeekDay ( id:{tv} ) ."
+  [4] ??? "Let id:{month} be the Name of the entry in link:{} with the Number MonthFromTime ( id:{tv} ) ."
+  [5] ??? "Let id:{day} be the String representation of DateFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with a zero if necessary ."
+  [6] ??? "Let id:{year} be the String representation of YearFromTime ( id:{tv} ) , formatted as a decimal number of at least four digits , padded to the left with zeroes if necessary ."
+  [7] app __x1__ = (TimeString tv)
+  [7] app __x2__ = (WrapCompletion (+ (+ (+ (+ (+ (+ (+ (+ (+ weekday ",") " ") day) " ") month) " ") year) " ") __x1__))
+  [7] return __x2__
+}

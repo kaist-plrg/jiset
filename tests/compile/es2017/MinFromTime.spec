@@ -1,0 +1,1 @@
+1. floor(_t_ / msPerMinute) modulo MinutesPerHour

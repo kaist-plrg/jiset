@@ -1,0 +1,32 @@
+{
+  [0] app __x0__ = (Type index)
+  [0] assert (= __x0__ Number)
+  [2] let buffer = O.ViewedArrayBuffer
+  [3] app __x1__ = (IsDetachedBuffer buffer)
+  [3] if (= __x1__ true) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [1] {}
+  [4] app __x3__ = (IsInteger index)
+  [4] if (= __x3__ false) {
+    app __x4__ = (WrapCompletion undefined)
+    return __x4__
+  } else [1] {}
+  [5] if (== index -0.0) {
+    app __x5__ = (WrapCompletion undefined)
+    return __x5__
+  } else [1] {}
+  [6] let length = O.ArrayLength
+  [7] if (|| (< index 0i) (! (< index length))) {
+    app __x6__ = (WrapCompletion undefined)
+    return __x6__
+  } else [1] {}
+  [8] let offset = O.ByteOffset
+  [9] let arrayTypeName = O.TypedArrayName
+  [10] ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{} for id:{arrayTypeName} ."
+  [11] let indexedPosition = (+ (* index elementSize) offset)
+  [12] ??? "Let id:{elementType} be the String value of the Element Type value in link:{} for id:{arrayTypeName} ."
+  [13] app __x7__ = (GetValueFromBuffer buffer indexedPosition elementType true "Unordered")
+  [13] app __x8__ = (WrapCompletion __x7__)
+  [13] return __x8__
+}

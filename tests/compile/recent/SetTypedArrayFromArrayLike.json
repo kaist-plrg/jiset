@@ -1,0 +1,177 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "source"
+  }, "is", "any", "ECMAScript", "language", "value", "other", "than", "an", "Object", "with", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetBuffer"
+  }, "be", {
+    "id": "target"
+  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "targetBuffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetLength"
+  }, "be", {
+    "id": "target"
+  }, ".", "[", "[", "ArrayLength", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetName"
+  }, "be", "the", "String", "value", "of", {
+    "id": "target"
+  }, ".", "[", "[", "TypedArrayName", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetElementSize"
+  }, "be", "the", "Element", "Size", "value", "specified", "in", {
+    "link": ""
+  }, "for", {
+    "id": "targetName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetType"
+  }, "be", "the", "Element", "Type", "value", "in", {
+    "link": ""
+  }, "for", {
+    "id": "targetName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetByteOffset"
+  }, "be", {
+    "id": "target"
+  }, ".", "[", "[", "ByteOffset", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "src"
+  }, "be", "?", "ToObject", "(", {
+    "id": "source"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "srcLength"
+  }, "be", "?", "LengthOfArrayLike", "(", {
+    "id": "src"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "targetOffset"
+  }, "is", "+", "∞", ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "srcLength"
+  }, "+", {
+    "id": "targetOffset"
+  }, ">", {
+    "id": "targetLength"
+  }, ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetByteIndex"
+  }, "be", {
+    "id": "targetOffset"
+  }, "×", {
+    "id": "targetElementSize"
+  }, "+", {
+    "id": "targetByteOffset"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "k"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "limit"
+  }, "be", {
+    "id": "targetByteIndex"
+  }, "+", {
+    "id": "targetElementSize"
+  }, "×", {
+    "id": "srcLength"
+  }, "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "targetByteIndex"
+  }, "<", {
+    "id": "limit"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "Pk"
+  }, "be", "!", "ToString", "(", "𝔽", "(", {
+    "id": "k"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "?", "Get", "(", {
+    "id": "src"
+  }, ",", {
+    "id": "Pk"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "target"
+  }, ".", "[", "[", "ContentType", "]", "]", "is", {
+    "const": "BigInt"
+  }, ",", "set", {
+    "id": "value"
+  }, "to", "?", "ToBigInt", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Otherwise", ",", "set", {
+    "id": "value"
+  }, "to", "?", "ToNumber", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "targetBuffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Perform", "SetValueInBuffer", "(", {
+    "id": "targetBuffer"
+  }, ",", {
+    "id": "targetByteIndex"
+  }, ",", {
+    "id": "targetType"
+  }, ",", {
+    "id": "value"
+  }, ",", {
+    "value": "true"
+  }, ",", {
+    "const": "Unordered"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "k"
+  }, "to", {
+    "id": "k"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "targetByteIndex"
+  }, "to", {
+    "id": "targetByteIndex"
+  }, "+", {
+    "id": "targetElementSize"
+  }, "."]
+}]

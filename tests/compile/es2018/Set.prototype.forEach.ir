@@ -1,0 +1,34 @@
+{
+  app callbackfn = (GetArgument argumentsList 0i)
+  app thisArg = (GetArgument argumentsList 1i)
+  [0] let S = this
+  [1] app __x0__ = (Type S)
+  [1] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [0] {}
+  [2] if (= S.SetData absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [0] {}
+  [3] app __x3__ = (IsCallable callbackfn)
+  [3] if (= __x3__ false) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else [0] {}
+  [4] if (! (= thisArg absent)) let T = thisArg else let T = undefined
+  [5] let entries = S.SetData
+  [6] let __x5__ = entries
+  [6] let __x6__ = 0i
+  [6] while (< __x6__ __x5__.length) {
+    let e = __x5__[__x6__]
+    [7] if (! (= e CONST_empty)) {
+      [8] app __x7__ = (Call callbackfn T (new [e, e, S]))
+      [8] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [0] {}
+      [8] __x7__
+    } else [0] {}
+    __x6__ = (+ __x6__ 1i)
+  }
+  [9] app __x8__ = (WrapCompletion undefined)
+  [9] return __x8__
+}

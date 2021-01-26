@@ -1,0 +1,55 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "O"
+  }, ")", "is", "Object", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "C"
+  }, "be", "?", "Get", "(", {
+    "id": "O"
+  }, ",", {
+    "code": "\"constructor\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "C"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "return", {
+    "id": "defaultConstructor"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "C"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "?", "Get", "(", {
+    "id": "C"
+  }, ",", "@", "@", "species", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "S"
+  }, "is", "either", {
+    "value": "undefined"
+  }, "or", {
+    "value": "null"
+  }, ",", "return", {
+    "id": "defaultConstructor"
+  }, "."]
+}, {
+  "tokens": ["If", "IsConstructor", "(", {
+    "id": "S"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "return", {
+    "id": "S"
+  }, "."]
+}, {
+  "tokens": ["Throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}]

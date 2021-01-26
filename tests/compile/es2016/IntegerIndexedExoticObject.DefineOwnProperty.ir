@@ -1,0 +1,60 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [2] app __x1__ = (Type P)
+  [2] if (= __x1__ String) {
+    [3] app __x2__ = (CanonicalNumericIndexString P)
+    [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [1] {}
+    [3] let numericIndex = __x2__
+    [4] if (! (= numericIndex undefined)) {
+      [5] app __x3__ = (IsInteger numericIndex)
+      [5] if (= __x3__ false) {
+        app __x4__ = (WrapCompletion false)
+        return __x4__
+      } else [1] {}
+      [6] let intIndex = numericIndex
+      [7] if (== intIndex -0.0) {
+        app __x5__ = (WrapCompletion false)
+        return __x5__
+      } else [1] {}
+      [8] if (< intIndex 0i) {
+        app __x6__ = (WrapCompletion false)
+        return __x6__
+      } else [1] {}
+      [9] let length = O.ArrayLength
+      [10] if (! (< intIndex length)) {
+        app __x7__ = (WrapCompletion false)
+        return __x7__
+      } else [1] {}
+      [11] app __x8__ = (IsAccessorDescriptor Desc)
+      [11] if (= __x8__ true) {
+        app __x9__ = (WrapCompletion false)
+        return __x9__
+      } else [1] {}
+      [12] if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable true)) {
+        app __x10__ = (WrapCompletion false)
+        return __x10__
+      } else [1] {}
+      [13] if (&& (! (= Desc.Enumerable absent)) (= Desc.Enumerable false)) {
+        app __x11__ = (WrapCompletion false)
+        return __x11__
+      } else [1] {}
+      [14] if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) {
+        app __x12__ = (WrapCompletion false)
+        return __x12__
+      } else [1] {}
+      [15] if (! (= Desc.Value absent)) {
+        [16] let value = Desc.Value
+        [17] app __x13__ = (IntegerIndexedElementSet O intIndex value)
+        [17] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [1] {}
+        [17] app __x14__ = (WrapCompletion __x13__)
+        [17] return __x14__
+      } else [1] {}
+      [18] app __x15__ = (WrapCompletion true)
+      [18] return __x15__
+    } else [1] {}
+  } else [1] {}
+  [19] app __x16__ = (OrdinaryDefineOwnProperty O P Desc)
+  [19] app __x17__ = (WrapCompletion __x16__)
+  [19] return __x17__
+}

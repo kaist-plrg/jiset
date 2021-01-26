@@ -1,0 +1,79 @@
+[{
+  "tokens": ["Let", {
+    "id": "coerced"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "arg"
+  }, "of", {
+    "id": "args"
+  }, ",", "do"]
+}, {
+  "tokens": ["Let", {
+    "id": "n"
+  }, "be", "?", "ToNumber", "(", {
+    "id": "arg"
+  }, ")", "."]
+}, {
+  "tokens": ["Append", {
+    "id": "n"
+  }, "to", {
+    "id": "coerced"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "onlyZero"
+  }, "be", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "number"
+  }, "of", {
+    "id": "coerced"
+  }, ",", "do"]
+}, {
+  "tokens": ["If", {
+    "id": "number"
+  }, "is", {
+    "value": "NaN"
+  }, "or", {
+    "id": "number"
+  }, "is", {
+    "value": "+∞"
+  }, ",", "return", {
+    "id": "number"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "number"
+  }, "is", {
+    "value": "-∞"
+  }, ",", "return", {
+    "value": "+∞"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "number"
+  }, "is", "neither", {
+    "value": "+0"
+  }, "nor", {
+    "value": "-0"
+  }, ",", "set", {
+    "id": "onlyZero"
+  }, "to", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "onlyZero"
+  }, "is", {
+    "value": "true"
+  }, ",", "return", {
+    "value": "+0"
+  }, "."]
+}, {
+  "tokens": ["Return", "an", "implementation", "-", "approximated", "value", "representing", "the", "square", "root", "of", "the", "sum", "of", "squares", "of", "the", "mathematical", "values", "of", "the", "elements", "of", {
+    "id": "coerced"
+  }, "."]
+}]

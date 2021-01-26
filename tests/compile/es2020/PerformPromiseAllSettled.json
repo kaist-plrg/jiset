@@ -1,0 +1,245 @@
+[{
+  "tokens": ["Assert", ":", "!", "IsConstructor", "(", {
+    "id": "constructor"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "resultCapability"
+  }, "is", "a", "PromiseCapability", "Record", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "values"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "remainingElementsCount"
+  }, "be", "the", "Record", "{", "[", "[", "Value", "]", "]", ":", "1", "}", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "index"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "promiseResolve"
+  }, "be", "?", "Get", "(", {
+    "id": "constructor"
+  }, ",", {
+    "value": "\"resolve\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "promiseResolve"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Repeat", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "next"
+  }, "be", "IteratorStep", "(", {
+    "id": "iteratorRecord"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "next"
+  }, "is", "an", "abrupt", "completion", ",", "set", {
+    "id": "iteratorRecord"
+  }, ".", "[", "[", "Done", "]", "]", "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "next"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "next"
+  }, "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "iteratorRecord"
+  }, ".", "[", "[", "Done", "]", "]", "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "to", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "-", "1", "."]
+}, {
+  "tokens": ["If", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "is", "0", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "valuesArray"
+  }, "be", "!", "CreateArrayFromList", "(", {
+    "id": "values"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "?", "Call", "(", {
+    "id": "resultCapability"
+  }, ".", "[", "[", "Resolve", "]", "]", ",", {
+    "value": "undefined"
+  }, ",", "«", {
+    "id": "valuesArray"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "resultCapability"
+  }, ".", "[", "[", "Promise", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextValue"
+  }, "be", "IteratorValue", "(", {
+    "id": "next"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "nextValue"
+  }, "is", "an", "abrupt", "completion", ",", "set", {
+    "id": "iteratorRecord"
+  }, ".", "[", "[", "Done", "]", "]", "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "nextValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Append", {
+    "value": "undefined"
+  }, "to", {
+    "id": "values"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextPromise"
+  }, "be", "?", "Call", "(", {
+    "id": "promiseResolve"
+  }, ",", {
+    "id": "constructor"
+  }, ",", "«", {
+    "id": "nextValue"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "steps"
+  }, "be", "the", "algorithm", "steps", "defined", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "resolveElement"
+  }, "be", "!", "CreateBuiltinFunction", "(", {
+    "id": "steps"
+  }, ",", "«", "[", "[", "AlreadyCalled", "]", "]", ",", "[", "[", "Index", "]", "]", ",", "[", "[", "Values", "]", "]", ",", "[", "[", "Capability", "]", "]", ",", "[", "[", "RemainingElements", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "alreadyCalled"
+  }, "be", "the", "Record", "{", "[", "[", "Value", "]", "]", ":", {
+    "value": "false"
+  }, "}", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "resolveElement"
+  }, ".", "[", "[", "AlreadyCalled", "]", "]", "to", {
+    "id": "alreadyCalled"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "resolveElement"
+  }, ".", "[", "[", "Index", "]", "]", "to", {
+    "id": "index"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "resolveElement"
+  }, ".", "[", "[", "Values", "]", "]", "to", {
+    "id": "values"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "resolveElement"
+  }, ".", "[", "[", "Capability", "]", "]", "to", {
+    "id": "resultCapability"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "resolveElement"
+  }, ".", "[", "[", "RemainingElements", "]", "]", "to", {
+    "id": "remainingElementsCount"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rejectSteps"
+  }, "be", "the", "algorithm", "steps", "defined", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rejectElement"
+  }, "be", "!", "CreateBuiltinFunction", "(", {
+    "id": "rejectSteps"
+  }, ",", "«", "[", "[", "AlreadyCalled", "]", "]", ",", "[", "[", "Index", "]", "]", ",", "[", "[", "Values", "]", "]", ",", "[", "[", "Capability", "]", "]", ",", "[", "[", "RemainingElements", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "AlreadyCalled", "]", "]", "to", {
+    "id": "alreadyCalled"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "Index", "]", "]", "to", {
+    "id": "index"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "Values", "]", "]", "to", {
+    "id": "values"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "Capability", "]", "]", "to", {
+    "id": "resultCapability"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "rejectElement"
+  }, ".", "[", "[", "RemainingElements", "]", "]", "to", {
+    "id": "remainingElementsCount"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "to", {
+    "id": "remainingElementsCount"
+  }, ".", "[", "[", "Value", "]", "]", "+", "1", "."]
+}, {
+  "tokens": ["Perform", "?", "Invoke", "(", {
+    "id": "nextPromise"
+  }, ",", {
+    "value": "\"then\""
+  }, ",", "«", {
+    "id": "resolveElement"
+  }, ",", {
+    "id": "rejectElement"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "index"
+  }, "to", {
+    "id": "index"
+  }, "+", "1", "."]
+}]

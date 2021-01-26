@@ -1,0 +1,24 @@
+{
+  app depth = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [19] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (LengthOfArrayLike O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [19] {}
+  [1] let sourceLen = __x1__
+  [2] let depthNum = 1i
+  [3] if (! (= depth undefined)) {
+    [4] app __x2__ = (ToIntegerOrInfinity depth)
+    [4] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [19] {}
+    [4] depthNum = __x2__
+    [5] if (< depthNum 0i) depthNum = 0i else [19] {}
+  } else [19] {}
+  [6] app __x3__ = (ArraySpeciesCreate O 0i)
+  [6] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [19] {}
+  [6] let A = __x3__
+  [7] app __x4__ = (FlattenIntoArray A O sourceLen 0i depthNum)
+  [7] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [19] {}
+  [7] __x4__
+  [8] app __x5__ = (WrapCompletion A)
+  [8] return __x5__
+}

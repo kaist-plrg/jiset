@@ -1,0 +1,34 @@
+{
+  [0] app __x0__ = (Type O)
+  [0] assert (= __x0__ Object)
+  [1] app __x1__ = (O.OwnPropertyKeys O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [1] let ownKeys = __x1__
+  [2] let properties = (new [])
+  [3] let __x2__ = ownKeys
+  [3] let __x3__ = 0i
+  [3] while (< __x3__ __x2__.length) {
+    let key = __x2__[__x3__]
+    [4] app __x4__ = (Type key)
+    [4] if (= __x4__ String) {
+      [5] app __x5__ = (O.GetOwnProperty O key)
+      [5] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [0] {}
+      [5] let desc = __x5__
+      [6] if (&& (! (= desc undefined)) (= desc.Enumerable true)) if (= kind CONST_key) append key -> properties else {
+        [9] app __x6__ = (Get O key)
+        [9] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [0] {}
+        [9] let value = __x6__
+        [11] if (= kind CONST_value) append value -> properties else {
+          [12] assert (= kind CONST_keyPLUSvalue)
+          [13] app __x7__ = (CreateArrayFromList (new [key, value]))
+          [13] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [0] {}
+          [13] let entry = __x7__
+          [14] append entry -> properties
+        }
+      } else [0] {}
+    } else [0] {}
+    __x3__ = (+ __x3__ 1i)
+  }
+  [15] app __x8__ = (WrapCompletion properties)
+  [15] return __x8__
+}

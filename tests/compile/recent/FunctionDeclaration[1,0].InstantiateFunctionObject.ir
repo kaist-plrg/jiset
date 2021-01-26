@@ -1,0 +1,10 @@
+{
+  [0] let sourceText = (get-syntax FunctionDeclaration)
+  [1] ??? "Let id:{F} be OrdinaryFunctionCreate ( % Function . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{FunctionBody} , const:{non-lexical-this} , id:{scope} ) ."
+  [2] app __x0__ = (SetFunctionName F "default")
+  [2] __x0__
+  [3] app __x1__ = (MakeConstructor F)
+  [3] __x1__
+  [4] app __x2__ = (WrapCompletion F)
+  [4] return __x2__
+}

@@ -1,0 +1,53 @@
+[{
+  "tokens": ["Let", {
+    "id": "M"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
+    "id": "M"
+  }, ",", "[", "[", "MapData", "]", "]", ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "callbackfn"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "entries"
+  }, "be", "the", "List", "that", "is", {
+    "id": "M"
+  }, ".", "[", "[", "MapData", "]", "]", "."]
+}, {
+  "tokens": ["For", "each", "Record", "{", "[", "[", "Key", "]", "]", ",", "[", "[", "Value", "]", "]", "}", {
+    "id": "e"
+  }, "of", {
+    "id": "entries"
+  }, ",", "in", "original", "key", "insertion", "order", ",", "do"]
+}, {
+  "tokens": ["If", {
+    "id": "e"
+  }, ".", "[", "[", "Key", "]", "]", "is", "not", {
+    "const": "empty"
+  }, ",", "then"]
+}, {
+  "tokens": ["Perform", "?", "Call", "(", {
+    "id": "callbackfn"
+  }, ",", {
+    "id": "thisArg"
+  }, ",", "«", {
+    "id": "e"
+  }, ".", "[", "[", "Value", "]", "]", ",", {
+    "id": "e"
+  }, ".", "[", "[", "Key", "]", "]", ",", {
+    "id": "M"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "undefined"
+  }, "."]
+}]

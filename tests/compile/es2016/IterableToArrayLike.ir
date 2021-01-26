@@ -1,0 +1,30 @@
+{
+  [0] app __x0__ = (GetMethod items SYMBOL_iterator)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [11] {}
+  [0] let usingIterator = __x0__
+  [1] if (! (= usingIterator undefined)) {
+    [2] app __x1__ = (GetIterator items usingIterator)
+    [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [11] {}
+    [2] let iterator = __x1__
+    [3] let values = (new [])
+    [4] let next = true
+    [5] while (! (= next false)) {
+      [6] app __x2__ = (IteratorStep iterator)
+      [6] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [11] {}
+      [6] let next = __x2__
+      [7] if (! (= next false)) {
+        [8] app __x3__ = (IteratorValue next)
+        [8] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [11] {}
+        [8] let nextValue = __x3__
+        [9] append nextValue -> values
+      } else [11] {}
+    }
+    [10] app __x4__ = (CreateArrayFromList values)
+    [10] app __x5__ = (WrapCompletion __x4__)
+    [10] return __x5__
+  } else [11] {}
+  [12] app __x6__ = (ToObject items)
+  [12] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [11] {}
+  [12] app __x7__ = (WrapCompletion __x6__)
+  [12] return __x7__
+}

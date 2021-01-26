@@ -1,0 +1,12 @@
+{
+  [0] app __x0__ = (RequireInternalSlot generator "GeneratorState")
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+  [0] __x0__
+  [2] let state = generator.GeneratorState
+  [3] if (= state CONST_executing) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [1] {}
+  [4] app __x2__ = (WrapCompletion state)
+  [4] return __x2__
+}

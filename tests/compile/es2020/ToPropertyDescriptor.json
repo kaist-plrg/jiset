@@ -1,0 +1,221 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "Obj"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "desc"
+  }, "be", "a", "new", "Property", "Descriptor", "that", "initially", "has", "no", "fields", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "hasEnumerable"
+  }, "be", "?", "HasProperty", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"enumerable\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "hasEnumerable"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "enumerable"
+  }, "be", "!", "ToBoolean", "(", "?", "Get", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"enumerable\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "desc"
+  }, ".", "[", "[", "Enumerable", "]", "]", "to", {
+    "id": "enumerable"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "hasConfigurable"
+  }, "be", "?", "HasProperty", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"configurable\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "hasConfigurable"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "configurable"
+  }, "be", "!", "ToBoolean", "(", "?", "Get", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"configurable\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "desc"
+  }, ".", "[", "[", "Configurable", "]", "]", "to", {
+    "id": "configurable"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "hasValue"
+  }, "be", "?", "HasProperty", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"value\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "hasValue"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "?", "Get", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"value\""
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "desc"
+  }, ".", "[", "[", "Value", "]", "]", "to", {
+    "id": "value"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "hasWritable"
+  }, "be", "?", "HasProperty", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"writable\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "hasWritable"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "writable"
+  }, "be", "!", "ToBoolean", "(", "?", "Get", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"writable\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "desc"
+  }, ".", "[", "[", "Writable", "]", "]", "to", {
+    "id": "writable"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "hasGet"
+  }, "be", "?", "HasProperty", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"get\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "hasGet"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "getter"
+  }, "be", "?", "Get", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"get\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "getter"
+  }, ")", "is", {
+    "value": "false"
+  }, "and", {
+    "id": "getter"
+  }, "is", "not", {
+    "value": "undefined"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "desc"
+  }, ".", "[", "[", "Get", "]", "]", "to", {
+    "id": "getter"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "hasSet"
+  }, "be", "?", "HasProperty", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"set\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "hasSet"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "setter"
+  }, "be", "?", "Get", "(", {
+    "id": "Obj"
+  }, ",", {
+    "value": "\"set\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "setter"
+  }, ")", "is", {
+    "value": "false"
+  }, "and", {
+    "id": "setter"
+  }, "is", "not", {
+    "value": "undefined"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "desc"
+  }, ".", "[", "[", "Set", "]", "]", "to", {
+    "id": "setter"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "desc"
+  }, ".", "[", "[", "Get", "]", "]", "is", "present", "or", {
+    "id": "desc"
+  }, ".", "[", "[", "Set", "]", "]", "is", "present", ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "desc"
+  }, ".", "[", "[", "Value", "]", "]", "is", "present", "or", {
+    "id": "desc"
+  }, ".", "[", "[", "Writable", "]", "]", "is", "present", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "desc"
+  }, "."]
+}]

@@ -1,0 +1,85 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "O"
+  }, "is", "an", "Integer", "-", "Indexed", "exotic", "object", "."]
+}, {
+  "tokens": ["If", {
+    "id": "O"
+  }, ".", "[", "[", "ContentType", "]", "]", "is", {
+    "const": "BigInt"
+  }, ",", "let", {
+    "id": "numValue"
+  }, "be", "?", "ToBigInt", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Otherwise", ",", "let", {
+    "id": "numValue"
+  }, "be", "?", "ToNumber", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "!", "IsValidIntegerIndex", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "index"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "offset"
+  }, "be", {
+    "id": "O"
+  }, ".", "[", "[", "ByteOffset", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "arrayTypeName"
+  }, "be", "the", "String", "value", "of", {
+    "id": "O"
+  }, ".", "[", "[", "TypedArrayName", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "elementSize"
+  }, "be", "the", "Element", "Size", "value", "specified", "in", {
+    "link": ""
+  }, "for", {
+    "id": "arrayTypeName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "indexedPosition"
+  }, "be", "(", "ℝ", "(", {
+    "id": "index"
+  }, ")", "×", {
+    "id": "elementSize"
+  }, ")", "+", {
+    "id": "offset"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "elementType"
+  }, "be", "the", "Element", "Type", "value", "in", {
+    "link": ""
+  }, "for", {
+    "id": "arrayTypeName"
+  }, "."]
+}, {
+  "tokens": ["Perform", "SetValueInBuffer", "(", {
+    "id": "O"
+  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ",", {
+    "id": "indexedPosition"
+  }, ",", {
+    "id": "elementType"
+  }, ",", {
+    "id": "numValue"
+  }, ",", {
+    "value": "true"
+  }, ",", {
+    "const": "Unordered"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "NormalCompletion", "(", {
+    "value": "undefined"
+  }, ")", "."]
+}]

@@ -1,0 +1,67 @@
+[{
+  "tokens": ["Let", {
+    "id": "args"
+  }, "be", "the", "arguments", "object", "."]
+}, {
+  "tokens": ["If", "SameValue", "(", {
+    "id": "args"
+  }, ",", {
+    "id": "Receiver"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "isMapped"
+  }, "be", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "map"
+  }, "be", "the", "value", "of", "the", "[", "[", "ParameterMap", "]", "]", "internal", "slot", "of", "the", "arguments", "object", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "isMapped"
+  }, "be", "!", "HasOwnProperty", "(", {
+    "id": "map"
+  }, ",", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "isMapped"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "setStatus"
+  }, "be", "Set", "(", {
+    "id": "map"
+  }, ",", {
+    "id": "P"
+  }, ",", {
+    "id": "V"
+  }, ",", {
+    "value": "false"
+  }, ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "setStatus"
+  }, "is", {
+    "value": "true"
+  }, "because", "formal", "parameters", "mapped", "by", "argument", "objects", "are", "always", "writable", "."]
+}, {
+  "tokens": ["Return", "?", "OrdinarySet", "(", {
+    "id": "args"
+  }, ",", {
+    "id": "P"
+  }, ",", {
+    "id": "V"
+  }, ",", {
+    "id": "Receiver"
+  }, ")", "."]
+}]

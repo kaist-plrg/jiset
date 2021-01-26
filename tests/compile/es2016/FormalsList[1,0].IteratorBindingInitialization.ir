@@ -1,0 +1,11 @@
+{
+  [0] access __x0__ = (FormalsList "IteratorBindingInitialization")
+  [0] app __x1__ = (__x0__ iteratorRecord environment)
+  [0] let status = __x1__
+  [1] if (is-completion status) if (= status.Type CONST_normal) status = status.Value else return status else [20] {}
+  [1] status
+  [2] access __x2__ = (FormalParameter "IteratorBindingInitialization")
+  [2] app __x3__ = (__x2__ iteratorRecord environment)
+  [2] app __x4__ = (WrapCompletion __x3__)
+  [2] return __x4__
+}

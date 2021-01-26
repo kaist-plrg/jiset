@@ -1,0 +1,1 @@
+        1. Return the result of performing IteratorBindingInitialization for |BindingRestElement| with arguments _iteratorRecord_ and _environment_.

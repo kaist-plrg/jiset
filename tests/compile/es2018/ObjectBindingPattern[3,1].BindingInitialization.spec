@@ -1,0 +1,2 @@
+          1. Let _excludedNames_ be the result of performing ? PropertyBindingInitialization of |BindingPropertyList| using _value_ and _environment_ as arguments.
+          1. Return the result of performing RestBindingInitialization of |BindingRestProperty| with _value_, _environment_, and _excludedNames_ as the arguments.

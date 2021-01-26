@@ -1,0 +1,79 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "literal"
+  }, "is", "a", {
+    "nt": "RegularExpressionLiteral"
+  }, "."]
+}, {
+  "tokens": ["If", "FlagText", "of", {
+    "id": "literal"
+  }, "contains", "any", "code", "points", "other", "than", {
+    "code": "g"
+  }, ",", {
+    "code": "i"
+  }, ",", {
+    "code": "m"
+  }, ",", {
+    "code": "s"
+  }, ",", {
+    "code": "u"
+  }, ",", "or", {
+    "code": "y"
+  }, ",", "or", "if", "it", "contains", "the", "same", "code", "point", "more", "than", "once", ",", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "patternText"
+  }, "be", "BodyText", "of", {
+    "id": "literal"
+  }, "."]
+}, {
+  "tokens": ["If", "FlagText", "of", {
+    "id": "literal"
+  }, "contains", {
+    "code": "u"
+  }, ",", "let", {
+    "id": "u"
+  }, "be", {
+    "value": "true"
+  }, ";", "else", "let", {
+    "id": "u"
+  }, "be", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "u"
+  }, "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "stringValue"
+  }, "be", "CodePointsToString", "(", {
+    "id": "patternText"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "patternText"
+  }, "to", "the", "sequence", "of", "code", "points", "resulting", "from", "interpreting", "each", "of", "the", "16", "-", "bit", "elements", "of", {
+    "id": "stringValue"
+  }, "as", "a", "Unicode", "BMP", "code", "point", ".", "UTF", "-", "16", "decoding", "is", "not", "applied", "to", "the", "elements", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "parseResult"
+  }, "be", "ParsePattern", "(", {
+    "id": "patternText"
+  }, ",", {
+    "id": "u"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "parseResult"
+  }, "is", "a", "Parse", "Node", ",", "return", {
+    "value": "true"
+  }, ";", "else", "return", {
+    "value": "false"
+  }, "."]
+}]

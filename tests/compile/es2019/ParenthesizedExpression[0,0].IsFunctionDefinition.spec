@@ -1,0 +1,1 @@
+          1. Return IsFunctionDefinition of |Expression|.

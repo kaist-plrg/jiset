@@ -1,0 +1,81 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "RequireObjectCoercible", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "s"
+  }, "be", "?", "ToString", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "closure"
+  }, "be", "a", "new", "Abstract", "Closure", "with", "no", "parameters", "that", "captures", {
+    "id": "s"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Let", {
+    "id": "position"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "the", "length", "of", {
+    "id": "s"
+  }, "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "position"
+  }, "<", {
+    "id": "len"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "cp"
+  }, "be", "!", "CodePointAt", "(", {
+    "id": "s"
+  }, ",", {
+    "id": "position"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextIndex"
+  }, "be", {
+    "id": "position"
+  }, "+", {
+    "id": "cp"
+  }, ".", "[", "[", "CodeUnitCount", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "resultString"
+  }, "be", "the", "substring", "of", {
+    "id": "s"
+  }, "from", {
+    "id": "position"
+  }, "to", {
+    "id": "nextIndex"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "position"
+  }, "to", {
+    "id": "nextIndex"
+  }, "."]
+}, {
+  "tokens": ["Perform", "?", "Yield", "(", {
+    "id": "resultString"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Return", "!", "CreateIteratorFromClosure", "(", {
+    "id": "closure"
+  }, ",", {
+    "value": "\"%StringIteratorPrototype%\""
+  }, ",", "%", "StringIteratorPrototype", "%", ")", "."]
+}]

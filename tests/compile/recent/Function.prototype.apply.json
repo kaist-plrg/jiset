@@ -1,0 +1,47 @@
+[{
+  "tokens": ["Let", {
+    "id": "func"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "func"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "argArray"
+  }, "is", {
+    "value": "undefined"
+  }, "or", {
+    "value": "null"
+  }, ",", "then"]
+}, {
+  "tokens": ["Perform", "PrepareForTailCall", "(", ")", "."]
+}, {
+  "tokens": ["Return", "?", "Call", "(", {
+    "id": "func"
+  }, ",", {
+    "id": "thisArg"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "argList"
+  }, "be", "?", "CreateListFromArrayLike", "(", {
+    "id": "argArray"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "PrepareForTailCall", "(", ")", "."]
+}, {
+  "tokens": ["Return", "?", "Call", "(", {
+    "id": "func"
+  }, ",", {
+    "id": "thisArg"
+  }, ",", {
+    "id": "argList"
+  }, ")", "."]
+}]

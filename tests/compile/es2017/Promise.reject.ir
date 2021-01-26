@@ -1,0 +1,17 @@
+{
+  app r = (GetArgument argumentsList 0i)
+  [0] let C = this
+  [1] app __x0__ = (Type C)
+  [1] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [1] {}
+  [2] app __x2__ = (NewPromiseCapability C)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [1] {}
+  [2] let promiseCapability = __x2__
+  [3] app __x3__ = (Call promiseCapability.Reject undefined (new [r]))
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [1] {}
+  [3] __x3__
+  [4] app __x4__ = (WrapCompletion promiseCapability.Promise)
+  [4] return __x4__
+}

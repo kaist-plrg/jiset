@@ -1,0 +1,1 @@
+        1. Return ! OrdinarySetPrototypeOf(_O_, _V_).

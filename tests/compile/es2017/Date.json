@@ -1,0 +1,37 @@
+[{
+  "tokens": ["Let", {
+    "id": "numberOfArgs"
+  }, "be", "the", "number", "of", "arguments", "passed", "to", "this", "function", "call", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "numberOfArgs"
+  }, "=", "0", "."]
+}, {
+  "tokens": ["If", "NewTarget", "is", "not", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+    "code": "\"%DatePrototype%\""
+  }, ",", "«", "[", "[", "DateValue", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "O"
+  }, ".", "[", "[", "DateValue", "]", "]", "to", "the", "time", "value", "(", "UTC", ")", "identifying", "the", "current", "time", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "O"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "now"
+  }, "be", "the", "Number", "that", "is", "the", "time", "value", "(", "UTC", ")", "identifying", "the", "current", "time", "."]
+}, {
+  "tokens": ["Return", "ToDateString", "(", {
+    "id": "now"
+  }, ")", "."]
+}]

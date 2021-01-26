@@ -1,0 +1,1 @@
+        1. Return ? ResolveBinding(StringValue of |Identifier|).

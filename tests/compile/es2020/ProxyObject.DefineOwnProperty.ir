@@ -1,0 +1,62 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [1] let handler = O.ProxyHandler
+  [2] if (= handler null) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [0] {}
+  [3] app __x2__ = (Type handler)
+  [3] assert (= __x2__ Object)
+  [4] let target = O.ProxyTarget
+  [5] app __x3__ = (GetMethod handler "defineProperty")
+  [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [0] {}
+  [5] let trap = __x3__
+  [6] if (= trap undefined) {
+    [7] app __x4__ = (target.DefineOwnProperty target P Desc)
+    [7] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [0] {}
+    [7] app __x5__ = (WrapCompletion __x4__)
+    [7] return __x5__
+  } else [0] {}
+  [8] app __x6__ = (FromPropertyDescriptor Desc)
+  [8] let descObj = __x6__
+  [9] app __x7__ = (Call trap handler (new [target, P, descObj]))
+  [9] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [0] {}
+  [9] app __x8__ = (ToBoolean __x7__)
+  [9] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [0] {}
+  [9] let booleanTrapResult = __x8__
+  [10] if (= booleanTrapResult false) {
+    app __x9__ = (WrapCompletion false)
+    return __x9__
+  } else [0] {}
+  [11] app __x10__ = (target.GetOwnProperty target P)
+  [11] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [0] {}
+  [11] let targetDesc = __x10__
+  [12] app __x11__ = (IsExtensible target)
+  [12] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [0] {}
+  [12] let extensibleTarget = __x11__
+  [15] if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable false)) let settingConfigFalse = true else let settingConfigFalse = false
+  [19] if (= targetDesc undefined) {
+    [17] if (= extensibleTarget false) {
+      app __x12__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x12__
+    } else [0] {}
+    [18] if (= settingConfigFalse true) {
+      app __x13__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x13__
+    } else [0] {}
+  } else {
+    [20] app __x14__ = (IsCompatiblePropertyDescriptor extensibleTarget Desc targetDesc)
+    [20] if (= __x14__ false) {
+      app __x15__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x15__
+    } else [0] {}
+    [21] if (&& (= settingConfigFalse true) (= targetDesc.Configurable true)) {
+      app __x16__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x16__
+    } else [0] {}
+    [22] ??? "If IsDataDescriptor ( id:{targetDesc} ) is value:{true} , id:{targetDesc} . [ [ Configurable ] ] is value:{false} , and id:{targetDesc} . [ [ Writable ] ] is value:{true} , then step-list:{...}"
+  }
+  [24] app __x17__ = (WrapCompletion true)
+  [24] return __x17__
+}

@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Let", {
+    "id": "buffer"
+  }, "be", "?", "ValidateIntegerTypedArray", "(", {
+    "id": "typedArray"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "indexedPosition"
+  }, "be", "?", "ValidateAtomicAccess", "(", {
+    "id": "typedArray"
+  }, ",", {
+    "id": "index"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "buffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["NOTE", ":", "The", "above", "check", "is", "not", "redundant", "with", "the", "check", "in", "ValidateIntegerTypedArray", "because", "the", "call", "to", "ValidateAtomicAccess", "on", "the", "preceding", "line", "can", "have", "arbitrary", "side", "effects", ",", "which", "could", "cause", "the", "buffer", "to", "become", "detached", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "arrayTypeName"
+  }, "be", {
+    "id": "typedArray"
+  }, ".", "[", "[", "TypedArrayName", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "elementType"
+  }, "be", "the", "Element", "Type", "value", "in", {
+    "link": ""
+  }, "for", {
+    "id": "arrayTypeName"
+  }, "."]
+}, {
+  "tokens": ["Return", "GetValueFromBuffer", "(", {
+    "id": "buffer"
+  }, ",", {
+    "id": "indexedPosition"
+  }, ",", {
+    "id": "elementType"
+  }, ",", {
+    "value": "true"
+  }, ",", {
+    "const": "SeqCst"
+  }, ")", "."]
+}]

@@ -1,0 +1,71 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Undefined", ","]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Null", ","]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Boolean", ","]
+}, {
+  "tokens": ["Return", {
+    "id": "argument"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Number", ","]
+}, {
+  "tokens": ["If", {
+    "id": "argument"
+  }, "is", {
+    "value": "+0"
+  }, ",", {
+    "value": "-0"
+  }, ",", "or", {
+    "value": "NaN"
+  }, ",", "return", {
+    "value": "false"
+  }, ";", "otherwise", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "String", ","]
+}, {
+  "tokens": ["If", {
+    "id": "argument"
+  }, "is", "the", "empty", "String", "(", "its", "length", "is", "zero", ")", ",", "return", {
+    "value": "false"
+  }, ";", "otherwise", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Symbol", ","]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "argument"
+  }, ")", "is", "Object", ","]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}]

@@ -1,0 +1,37 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "name"
+  }, ")", "is", "String", "."]
+}, {
+  "tokens": ["If", {
+    "id": "environment"
+  }, "is", "not", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Perform", {
+    "id": "environment"
+  }, ".", "InitializeBinding", "(", {
+    "id": "name"
+  }, ",", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "NormalCompletion", "(", {
+    "value": "undefined"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "lhs"
+  }, "be", "ResolveBinding", "(", {
+    "id": "name"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "?", "PutValue", "(", {
+    "id": "lhs"
+  }, ",", {
+    "id": "value"
+  }, ")", "."]
+}]

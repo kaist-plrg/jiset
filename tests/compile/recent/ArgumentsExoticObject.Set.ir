@@ -1,0 +1,17 @@
+{
+  [2] app __x0__ = (SameValue args Receiver)
+  [2] if (= __x0__ false) let isMapped = false else {
+    [3] let map = args.ParameterMap
+    [4] app __x1__ = (HasOwnProperty map P)
+    [4] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [7] {}
+    [4] let isMapped = __x1__
+  }
+  [5] if (= isMapped true) {
+    [6] app __x2__ = (Set map P V false)
+    [6] let setStatus = __x2__
+  } else [7] {}
+  [8] app __x3__ = (OrdinarySet args P V Receiver)
+  [8] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [7] {}
+  [8] app __x4__ = (WrapCompletion __x3__)
+  [8] return __x4__
+}

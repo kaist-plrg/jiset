@@ -1,0 +1,50 @@
+{
+  [0] if (= Desc.Value absent) {
+    [1] app __x0__ = (OrdinaryDefineOwnProperty A "length" Desc)
+    [1] app __x1__ = (WrapCompletion __x0__)
+    [1] return __x1__
+  } else [15] {}
+  [2] let newLenDesc = (copy-obj Desc)
+  [3] app __x2__ = (ToUint32 Desc.Value)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [15] {}
+  [3] let newLen = __x2__
+  [4] app __x3__ = (ToNumber Desc.Value)
+  [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [15] {}
+  [4] let numberLen = __x3__
+  [5] if (! (== newLen numberLen)) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else [15] {}
+  [6] newLenDesc.Value = newLen
+  [7] app __x5__ = (OrdinaryGetOwnProperty A "length")
+  [7] let oldLenDesc = __x5__
+  [9] let oldLen = oldLenDesc.Value
+  [10] if (! (< newLen oldLen)) {
+    [11] app __x6__ = (OrdinaryDefineOwnProperty A "length" newLenDesc)
+    [11] app __x7__ = (WrapCompletion __x6__)
+    [11] return __x7__
+  } else [15] {}
+  [12] if (= oldLenDesc.Writable false) {
+    app __x8__ = (WrapCompletion false)
+    return __x8__
+  } else [15] {}
+  [14] if (|| (= newLenDesc.Writable absent) (= newLenDesc.Writable true)) let newWritable = true else {
+    [16] let newWritable = false
+    [17] newLenDesc.Writable = true
+  }
+  [18] app __x9__ = (OrdinaryDefineOwnProperty A "length" newLenDesc)
+  [18] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [15] {}
+  [18] let succeeded = __x9__
+  [19] if (= succeeded false) {
+    app __x10__ = (WrapCompletion false)
+    return __x10__
+  } else [15] {}
+  [20] ??? "For each own property key id:{P} of id:{A} that is an array index , whose numeric value is greater than or equal to id:{newLen} , in descending numeric index order , do step-list:{...}"
+  [27] if (= newWritable false) {
+    [28] app __x11__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Writable" -> false)))
+    [28] app __x12__ = (WrapCompletion __x11__)
+    [28] return __x12__
+  } else [15] {}
+  [29] app __x13__ = (WrapCompletion true)
+  [29] return __x13__
+}

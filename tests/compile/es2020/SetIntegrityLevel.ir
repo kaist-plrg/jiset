@@ -1,0 +1,46 @@
+{
+  [0] app __x0__ = (Type O)
+  [0] assert (= __x0__ Object)
+  [1] assert (|| (= level CONST_sealed) (= level CONST_frozen))
+  [2] app __x1__ = (O.PreventExtensions O)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [4] {}
+  [2] let status = __x1__
+  [3] if (= status false) {
+    app __x2__ = (WrapCompletion false)
+    return __x2__
+  } else [4] {}
+  [4] app __x3__ = (O.OwnPropertyKeys O)
+  [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [4] {}
+  [4] let keys = __x3__
+  [8] if (= level CONST_sealed) {
+    [6] let __x4__ = keys
+    [6] let __x5__ = 0i
+    [6] while (< __x5__ __x4__.length) {
+      let k = __x4__[__x5__]
+      [7] app __x6__ = (DefinePropertyOrThrow O k (new PropertyDescriptor("Configurable" -> false)))
+      [7] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [4] {}
+      [7] __x6__
+      __x5__ = (+ __x5__ 1i)
+    }
+  } else {
+    [9] assert (= level CONST_frozen)
+    [10] let __x7__ = keys
+    [10] let __x8__ = 0i
+    [10] while (< __x8__ __x7__.length) {
+      let k = __x7__[__x8__]
+      [11] app __x9__ = (O.GetOwnProperty O k)
+      [11] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [4] {}
+      [11] let currentDesc = __x9__
+      [12] if (! (= currentDesc undefined)) {
+        [15] app __x10__ = (IsAccessorDescriptor currentDesc)
+        [15] if (= __x10__ true) let desc = (new PropertyDescriptor("Configurable" -> false)) else let desc = (new PropertyDescriptor("Configurable" -> false, "Writable" -> false))
+        [17] app __x11__ = (DefinePropertyOrThrow O k desc)
+        [17] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [4] {}
+        [17] __x11__
+      } else [4] {}
+      __x8__ = (+ __x8__ 1i)
+    }
+  }
+  [18] app __x12__ = (WrapCompletion true)
+  [18] return __x12__
+}

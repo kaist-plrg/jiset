@@ -1,0 +1,1 @@
+          1. Return the character according to <emu-xref href="#table-47"></emu-xref>.

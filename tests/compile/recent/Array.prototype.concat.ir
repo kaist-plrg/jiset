@@ -1,0 +1,54 @@
+{
+  app items = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [19] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (ArraySpeciesCreate O 0i)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [19] {}
+  [1] let A = __x1__
+  [2] let n = 0i
+  [3] ??? "Prepend id:{O} to id:{items} ."
+  [4] let __x2__ = items
+  [4] let __x3__ = 0i
+  [4] while (< __x3__ __x2__.length) {
+    let E = __x2__[__x3__]
+    [5] app __x4__ = (IsConcatSpreadable E)
+    [5] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [19] {}
+    [5] let spreadable = __x4__
+    [18] if (= spreadable true) {
+      [7] let k = 0i
+      [8] app __x5__ = (LengthOfArrayLike E)
+      [8] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [19] {}
+      [8] let len = __x5__
+      [9] if (< (- 9007199254740992i 1i) (+ n len)) {
+        app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x6__
+      } else [19] {}
+      [10] while (< k len) {
+        [11] ??? "Let id:{P} be ! ToString ( 𝔽 ( id:{k} ) ) ."
+        [12] app __x7__ = (HasProperty E P)
+        [12] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [19] {}
+        [12] let exists = __x7__
+        [13] if (= exists true) {
+          [14] app __x8__ = (Get E P)
+          [14] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [19] {}
+          [14] let subElement = __x8__
+          [15] ??? "Perform ? CreateDataPropertyOrThrow ( id:{A} , ! ToString ( 𝔽 ( id:{n} ) ) , id:{subElement} ) ."
+        } else [19] {}
+        [16] n = (+ n 1i)
+        [17] k = (+ k 1i)
+      }
+    } else {
+      [20] if (! (< n (- 9007199254740992i 1i))) {
+        app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x9__
+      } else [19] {}
+      [21] ??? "Perform ? CreateDataPropertyOrThrow ( id:{A} , ! ToString ( 𝔽 ( id:{n} ) ) , id:{E} ) ."
+      [22] n = (+ n 1i)
+    }
+    __x3__ = (+ __x3__ 1i)
+  }
+  [23] ??? "Perform ? Set ( id:{A} , value:{\"length\"} , 𝔽 ( id:{n} ) , value:{true} ) ."
+  [24] app __x10__ = (WrapCompletion A)
+  [24] return __x10__
+}

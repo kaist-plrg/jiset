@@ -1,0 +1,59 @@
+{
+  [0] if (! (= (typeof module) "SourceTextModuleRecord")) {
+    [1] app __x0__ = (module.Evaluate module)
+    [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [23] {}
+    [1] __x0__
+    [2] app __x1__ = (WrapCompletion index)
+    [2] return __x1__
+  } else [23] {}
+  [3] if (= module.Status "evaluated") if (= module.EvaluationError undefined) {
+    app __x2__ = (WrapCompletion index)
+    return __x2__
+  } else {
+    app __x3__ = (WrapCompletion module.EvaluationError)
+    return __x3__
+  } else [23] {}
+  [6] if (= module.Status "evaluating") {
+    app __x4__ = (WrapCompletion index)
+    return __x4__
+  } else [23] {}
+  [7] assert (= module.Status "instantiated")
+  [8] module.Status = "evaluating"
+  [9] module.DFSIndex = index
+  [10] module.DFSAncestorIndex = index
+  [11] index = (+ index 1i)
+  [12] append module -> stack
+  [13] let __x5__ = module.RequestedModules
+  [13] let __x6__ = 0i
+  [13] while (< __x6__ __x5__.length) {
+    let required = __x5__[__x6__]
+    [14] app __x7__ = (HostResolveImportedModule module required)
+    [14] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [23] {}
+    [14] let requiredModule = __x7__
+    [16] app __x8__ = (InnerModuleEvaluation requiredModule stack index)
+    [16] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [23] {}
+    [16] index = __x8__
+    [17] assert (|| (= requiredModule.Status "evaluating") (= requiredModule.Status "evaluated"))
+    [19] if (= requiredModule.Status "evaluating") {
+      [20] assert (= (typeof requiredModule) "SourceTextModuleRecord")
+      [21] app __x9__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
+      [21] module.DFSAncestorIndex = __x9__
+    } else [23] {}
+    __x6__ = (+ __x6__ 1i)
+  }
+  [22] app __x10__ = (ModuleExecution module)
+  [22] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [23] {}
+  [22] __x10__
+  [24] assert (! (< module.DFSIndex module.DFSAncestorIndex))
+  [25] if (= module.DFSAncestorIndex module.DFSIndex) {
+    [26] let done = false
+    [27] while (= done false) {
+      [28] let requiredModule = stack[(- stack.length 1i)]
+      [29] (pop stack (- stack.length 1i))
+      [30] requiredModule.Status = "evaluated"
+      [31] if (= requiredModule module) done = true else [23] {}
+    }
+  } else [23] {}
+  [32] app __x11__ = (WrapCompletion index)
+  [32] return __x11__
+}

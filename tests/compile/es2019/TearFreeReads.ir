@@ -1,0 +1,15 @@
+{
+  [0] app __x0__ = (SharedDataBlockEventSet execution)
+  [0] let __x1__ = __x0__
+  [0] let __x2__ = 0i
+  [0] while (< __x2__ __x1__.length) {
+    let R = __x1__[__x2__]
+    [1] if (= R.NoTear true) {
+      [2] assert (= (% R.ByteIndex R.ElementSize) 0i)
+      [3] ??? "For each event id:{W} such that ( id:{R} , id:{W} ) is in id:{execution} . [ [ ReadsFrom ] ] and id:{W} . [ [ NoTear ] ] is value:{true} , do step-list:{...}"
+    } else [2] {}
+    __x2__ = (+ __x2__ 1i)
+  }
+  [6] app __x3__ = (WrapCompletion true)
+  [6] return __x3__
+}

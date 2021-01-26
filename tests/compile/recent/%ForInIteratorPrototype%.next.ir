@@ -1,0 +1,39 @@
+{
+  [0] let O = this
+  [1] app __x0__ = (Type O)
+  [1] assert (= __x0__ Object)
+  [3] let object = O.Object
+  [4] let visited = O.VisitedKeys
+  [5] let remaining = O.RemainingKeys
+  [6] while true {
+    [7] if (= O.ObjectWasVisited false) {
+      [8] app __x1__ = (object.OwnPropertyKeys object)
+      [8] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [2] {}
+      [8] let keys = __x1__
+      [9] let __x2__ = keys
+      [9] let __x3__ = 0i
+      [9] while (< __x3__ __x2__.length) {
+        let key = __x2__[__x3__]
+        [10] app __x4__ = (Type key)
+        [10] if (= __x4__ String) append key -> remaining else [2] {}
+        __x3__ = (+ __x3__ 1i)
+      }
+      [12] O.ObjectWasVisited = true
+    } else [2] {}
+    [13] while (< 0i remaining.length) {
+      [14] let r = remaining[0i]
+      [15] ??? "Remove the first element from id:{remaining} ."
+      [16] ??? "If there does not exist an element id:{v} of id:{visited} such that SameValue ( id:{r} , id:{v} ) is value:{true} , then step-list:{...}"
+    }
+    [21] app __x5__ = (object.GetPrototypeOf object)
+    [21] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [2] {}
+    [21] object = __x5__
+    [22] O.Object = object
+    [23] O.ObjectWasVisited = false
+    [24] if (= object null) {
+      app __x6__ = (CreateIterResultObject undefined true)
+      app __x7__ = (WrapCompletion __x6__)
+      return __x7__
+    } else [2] {}
+  }
+}

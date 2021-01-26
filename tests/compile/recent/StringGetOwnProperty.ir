@@ -1,0 +1,33 @@
+{
+  [1] app __x0__ = (IsPropertyKey P)
+  [1] assert (= __x0__ true)
+  [2] app __x1__ = (Type P)
+  [2] if (! (= __x1__ String)) {
+    app __x2__ = (WrapCompletion undefined)
+    return __x2__
+  } else [0] {}
+  [3] app __x3__ = (CanonicalNumericIndexString P)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [0] {}
+  [3] let index = __x3__
+  [4] if (= index undefined) {
+    app __x4__ = (WrapCompletion undefined)
+    return __x4__
+  } else [0] {}
+  [5] app __x5__ = (IsIntegralNumber index)
+  [5] if (= __x5__ false) {
+    app __x6__ = (WrapCompletion undefined)
+    return __x6__
+  } else [0] {}
+  [6] if (= index -0.0) {
+    app __x7__ = (WrapCompletion undefined)
+    return __x7__
+  } else [0] {}
+  [7] let str = S.StringData
+  [8] app __x8__ = (Type str)
+  [8] assert (= __x8__ String)
+  [9] let len = str.length
+  [10] ??? "If ℝ ( id:{index} ) < 0 or id:{len} ≤ ℝ ( id:{index} ) , return value:{undefined} ."
+  [11] ??? "Let id:{resultStr} be the String value of length 1 , containing one code unit from id:{str} , specifically the code unit at index ℝ ( id:{index} ) ."
+  [12] app __x9__ = (WrapCompletion (new PropertyDescriptor("Value" -> resultStr, "Writable" -> false, "Enumerable" -> true, "Configurable" -> false)))
+  [12] return __x9__
+}

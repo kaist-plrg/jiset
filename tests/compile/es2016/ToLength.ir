@@ -1,0 +1,16 @@
+{
+  [0] app __x0__ = (ToInteger argument)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+  [0] let len = __x0__
+  [1] if (! (< 0i len)) {
+    app __x1__ = (WrapCompletion 0i)
+    return __x1__
+  } else [1] {}
+  [2] if (= len Infinity) {
+    app __x2__ = (WrapCompletion (- 9007199254740992i 1i))
+    return __x2__
+  } else [1] {}
+  [3] app __x3__ = (min len (- 9007199254740992i 1i))
+  [3] app __x4__ = (WrapCompletion __x3__)
+  [3] return __x4__
+}

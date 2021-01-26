@@ -1,0 +1,18 @@
+{
+  [0] access __x0__ = (CoalesceExpressionHead "Evaluation")
+  [0] let lref = __x0__
+  [1] app __x1__ = (GetValue lref)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [14] {}
+  [1] let lval = __x1__
+  [5] if (|| (= lval undefined) (= lval null)) {
+    [3] access __x2__ = (BitwiseORExpression "Evaluation")
+    [3] let rref = __x2__
+    [4] app __x3__ = (GetValue rref)
+    [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [14] {}
+    [4] app __x4__ = (WrapCompletion __x3__)
+    [4] return __x4__
+  } else {
+    app __x5__ = (WrapCompletion lval)
+    return __x5__
+  }
+}

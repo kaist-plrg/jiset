@@ -1,0 +1,27 @@
+[{
+  "tokens": ["Let", {
+    "id": "tagRef"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "MemberExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "thisCall"
+  }, "be", "this", {
+    "nt": "MemberExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "tailCall"
+  }, "be", "IsInTailPosition", "(", {
+    "id": "thisCall"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "?", "EvaluateCall", "(", {
+    "id": "tagRef"
+  }, ",", {
+    "nt": "TemplateLiteral"
+  }, ",", {
+    "id": "tailCall"
+  }, ")", "."]
+}]

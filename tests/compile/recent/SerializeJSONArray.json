@@ -1,0 +1,163 @@
+[{
+  "tokens": ["If", {
+    "id": "state"
+  }, ".", "[", "[", "Stack", "]", "]", "contains", {
+    "id": "value"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "because", "the", "structure", "is", "cyclical", "."]
+}, {
+  "tokens": ["Append", {
+    "id": "value"
+  }, "to", {
+    "id": "state"
+  }, ".", "[", "[", "Stack", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "stepback"
+  }, "be", {
+    "id": "state"
+  }, ".", "[", "[", "Indent", "]", "]", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "state"
+  }, ".", "[", "[", "Indent", "]", "]", "to", "the", "string", "-", "concatenation", "of", {
+    "id": "state"
+  }, ".", "[", "[", "Indent", "]", "]", "and", {
+    "id": "state"
+  }, ".", "[", "[", "Gap", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "partial"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "?", "LengthOfArrayLike", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "index"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "index"
+  }, "<", {
+    "id": "len"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "strP"
+  }, "be", "?", "SerializeJSONProperty", "(", {
+    "id": "state"
+  }, ",", "!", "ToString", "(", "𝔽", "(", {
+    "id": "index"
+  }, ")", ")", ",", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "strP"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Append", {
+    "value": "\"null\""
+  }, "to", {
+    "id": "partial"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Append", {
+    "id": "strP"
+  }, "to", {
+    "id": "partial"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "index"
+  }, "to", {
+    "id": "index"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["If", {
+    "id": "partial"
+  }, "is", "empty", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "final"
+  }, "be", {
+    "value": "\"[]\""
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["If", {
+    "id": "state"
+  }, ".", "[", "[", "Gap", "]", "]", "is", "the", "empty", "String", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "properties"
+  }, "be", "the", "String", "value", "formed", "by", "concatenating", "all", "the", "element", "Strings", "of", {
+    "id": "partial"
+  }, "with", "each", "adjacent", "pair", "of", "Strings", "separated", "with", "the", "code", "unit", "0x002C", "(", "COMMA", ")", ".", "A", "comma", "is", "not", "inserted", "either", "before", "the", "first", "String", "or", "after", "the", "last", "String", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "final"
+  }, "be", "the", "string", "-", "concatenation", "of", {
+    "value": "\"[\""
+  }, ",", {
+    "id": "properties"
+  }, ",", "and", {
+    "value": "\"]\""
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "separator"
+  }, "be", "the", "string", "-", "concatenation", "of", "the", "code", "unit", "0x002C", "(", "COMMA", ")", ",", "the", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", "and", {
+    "id": "state"
+  }, ".", "[", "[", "Indent", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "properties"
+  }, "be", "the", "String", "value", "formed", "by", "concatenating", "all", "the", "element", "Strings", "of", {
+    "id": "partial"
+  }, "with", "each", "adjacent", "pair", "of", "Strings", "separated", "with", {
+    "id": "separator"
+  }, ".", "The", {
+    "id": "separator"
+  }, "String", "is", "not", "inserted", "either", "before", "the", "first", "String", "or", "after", "the", "last", "String", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "final"
+  }, "be", "the", "string", "-", "concatenation", "of", {
+    "value": "\"[\""
+  }, ",", "the", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", {
+    "id": "state"
+  }, ".", "[", "[", "Indent", "]", "]", ",", {
+    "id": "properties"
+  }, ",", "the", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", {
+    "id": "stepback"
+  }, ",", "and", {
+    "value": "\"]\""
+  }, "."]
+}, {
+  "tokens": ["Remove", "the", "last", "element", "of", {
+    "id": "state"
+  }, ".", "[", "[", "Stack", "]", "]", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "state"
+  }, ".", "[", "[", "Indent", "]", "]", "to", {
+    "id": "stepback"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "final"
+  }, "."]
+}]

@@ -1,0 +1,61 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "O"
+  }, "is", "an", "Object", "that", "has", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "the", "number", "of", "elements", "in", {
+    "id": "values"
+  }, "."]
+}, {
+  "tokens": ["Perform", "?", "AllocateTypedArrayBuffer", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "len"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "k"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "k"
+  }, "<", {
+    "id": "len"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "Pk"
+  }, "be", "!", "ToString", "(", "𝔽", "(", {
+    "id": "k"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "kValue"
+  }, "be", "the", "first", "element", "of", {
+    "id": "values"
+  }, "and", "remove", "that", "element", "from", {
+    "id": "values"
+  }, "."]
+}, {
+  "tokens": ["Perform", "?", "Set", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "Pk"
+  }, ",", {
+    "id": "kValue"
+  }, ",", {
+    "value": "true"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "k"
+  }, "to", {
+    "id": "k"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "values"
+  }, "is", "now", "an", "empty", "List", "."]
+}]

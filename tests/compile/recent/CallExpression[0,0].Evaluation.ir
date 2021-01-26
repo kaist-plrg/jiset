@@ -1,0 +1,21 @@
+{
+  [0] access __x0__ = (CoverCallExpressionAndAsyncArrowHead "CoveredCallExpression")
+  [0] let expr = __x0__
+  [1] access __x1__ = (expr "MemberExpression")
+  [1] let memberExpr = __x1__
+  [2] access __x2__ = (expr "Arguments")
+  [2] let arguments = __x2__
+  [3] access __x3__ = (memberExpr "Evaluation")
+  [3] let ref = __x3__
+  [4] app __x4__ = (GetValue ref)
+  [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [3] {}
+  [4] let func = __x4__
+  [5] ??? "If id:{ref} is a Reference Record , IsPropertyReference ( id:{ref} ) is value:{false} , and id:{ref} . [ [ ReferencedName ] ] is value:{\"eval\"} , then step-list:{...}"
+  [13] let thisCall = this
+  [14] app __x5__ = (IsInTailPosition thisCall)
+  [14] let tailCall = __x5__
+  [15] app __x6__ = (EvaluateCall func ref arguments tailCall)
+  [15] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [3] {}
+  [15] app __x7__ = (WrapCompletion __x6__)
+  [15] return __x7__
+}

@@ -1,0 +1,107 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "target"
+  }, ")", "is", "Object", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "excludedItems"
+  }, "is", "a", "List", "of", "property", "keys", "."]
+}, {
+  "tokens": ["If", {
+    "id": "source"
+  }, "is", {
+    "value": "undefined"
+  }, "or", {
+    "value": "null"
+  }, ",", "return", {
+    "id": "target"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "from"
+  }, "be", "!", "ToObject", "(", {
+    "id": "source"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "keys"
+  }, "be", "?", {
+    "id": "from"
+  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "nextKey"
+  }, "of", {
+    "id": "keys"
+  }, ",", "do"]
+}, {
+  "tokens": ["Let", {
+    "id": "excluded"
+  }, "be", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "e"
+  }, "of", {
+    "id": "excludedItems"
+  }, ",", "do"]
+}, {
+  "tokens": ["If", "SameValue", "(", {
+    "id": "e"
+  }, ",", {
+    "id": "nextKey"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "excluded"
+  }, "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "excluded"
+  }, "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "desc"
+  }, "be", "?", {
+    "id": "from"
+  }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+    "id": "nextKey"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "desc"
+  }, "is", "not", {
+    "value": "undefined"
+  }, "and", {
+    "id": "desc"
+  }, ".", "[", "[", "Enumerable", "]", "]", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "propValue"
+  }, "be", "?", "Get", "(", {
+    "id": "from"
+  }, ",", {
+    "id": "nextKey"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
+    "id": "target"
+  }, ",", {
+    "id": "nextKey"
+  }, ",", {
+    "id": "propValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "target"
+  }, "."]
+}]

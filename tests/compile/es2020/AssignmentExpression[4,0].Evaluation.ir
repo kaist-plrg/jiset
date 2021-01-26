@@ -1,0 +1,39 @@
+{
+  [0] if (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))) {
+    [1] access __x0__ = (LeftHandSideExpression "Evaluation")
+    [1] let lref = __x0__
+    [2] if (is-completion lref) if (= lref.Type CONST_normal) lref = lref.Value else return lref else [13] {}
+    [2] lref
+    [5] app __x1__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+    [5] access __x2__ = (LeftHandSideExpression "IsIdentifierRef")
+    [5] if (&& (= __x1__ true) (= __x2__ true)) {
+      [4] app __x3__ = (GetReferencedName lref)
+      [4] access __x4__ = (AssignmentExpression "NamedEvaluation")
+      [4] app __x5__ = (__x4__ __x3__)
+      [4] let rval = __x5__
+    } else {
+      [6] access __x6__ = (AssignmentExpression "Evaluation")
+      [6] let rref = __x6__
+      [7] app __x7__ = (GetValue rref)
+      [7] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [13] {}
+      [7] let rval = __x7__
+    }
+    [8] app __x8__ = (PutValue lref rval)
+    [8] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [13] {}
+    [8] __x8__
+    [9] app __x9__ = (WrapCompletion rval)
+    [9] return __x9__
+  } else [13] {}
+  [10] let assignmentPattern = (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))
+  [11] access __x10__ = (AssignmentExpression "Evaluation")
+  [11] let rref = __x10__
+  [12] app __x11__ = (GetValue rref)
+  [12] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [13] {}
+  [12] let rval = __x11__
+  [13] access __x12__ = (assignmentPattern "DestructuringAssignmentEvaluation")
+  [13] app __x13__ = (__x12__ rval)
+  [13] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [13] {}
+  [13] __x13__
+  [14] app __x14__ = (WrapCompletion rval)
+  [14] return __x14__
+}

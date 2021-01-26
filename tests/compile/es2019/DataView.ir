@@ -1,0 +1,53 @@
+{
+  app buffer = (GetArgument argumentsList 0i)
+  app byteOffset = (GetArgument argumentsList 1i)
+  app byteLength = (GetArgument argumentsList 2i)
+  [0] if (= NewTarget undefined) {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else [0] {}
+  [1] app __x1__ = (Type buffer)
+  [1] if (! (= __x1__ Object)) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [0] {}
+  [2] if (= buffer.ArrayBufferData absent) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else [0] {}
+  [3] app __x4__ = (ToIndex byteOffset)
+  [3] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [0] {}
+  [3] let offset = __x4__
+  [4] app __x5__ = (IsDetachedBuffer buffer)
+  [4] if (= __x5__ true) {
+    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x6__
+  } else [0] {}
+  [5] let bufferByteLength = buffer.ArrayBufferByteLength
+  [6] if (< bufferByteLength offset) {
+    app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x7__
+  } else [0] {}
+  [9] if (|| (= byteLength absent) (= byteLength undefined)) let viewByteLength = (- bufferByteLength offset) else {
+    [10] app __x8__ = (ToIndex byteLength)
+    [10] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [0] {}
+    [10] let viewByteLength = __x8__
+    [11] if (< bufferByteLength (+ offset viewByteLength)) {
+      app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x9__
+    } else [0] {}
+  }
+  [12] app __x10__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_DataViewPrototype (new ["DataView", "ViewedArrayBuffer", "ByteLength", "ByteOffset"]))
+  [12] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [0] {}
+  [12] let O = __x10__
+  [13] app __x11__ = (IsDetachedBuffer buffer)
+  [13] if (= __x11__ true) {
+    app __x12__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x12__
+  } else [0] {}
+  [14] O.ViewedArrayBuffer = buffer
+  [15] O.ByteLength = viewByteLength
+  [16] O.ByteOffset = offset
+  [17] app __x13__ = (WrapCompletion O)
+  [17] return __x13__
+}

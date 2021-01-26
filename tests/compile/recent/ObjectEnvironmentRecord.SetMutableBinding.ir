@@ -1,0 +1,14 @@
+{
+  [0] let bindings = envRec.BindingObject
+  [1] app __x0__ = (HasProperty bindings N)
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [0] {}
+  [1] let stillExists = __x0__
+  [2] if (&& (= stillExists false) (= S true)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [0] {}
+  [3] app __x2__ = (Set bindings N V S)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+  [3] app __x3__ = (WrapCompletion __x2__)
+  [3] return __x3__
+}

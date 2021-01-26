@@ -1,0 +1,44 @@
+{
+  app target = (GetArgument argumentsList 0i)
+  app sources = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ToObject target)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [71] {}
+  [0] let to = __x0__
+  [1] if (= argumentsList.length 1i) {
+    app __x1__ = (WrapCompletion to)
+    return __x1__
+  } else [71] {}
+  [2] let __x2__ = sources
+  [2] let __x3__ = 0i
+  [2] while (< __x3__ __x2__.length) {
+    let nextSource = __x2__[__x3__]
+    [3] if (! (|| (= nextSource undefined) (= nextSource null))) {
+      [4] app __x4__ = (ToObject nextSource)
+      [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [71] {}
+      [4] let from = __x4__
+      [5] app __x5__ = (from.OwnPropertyKeys from)
+      [5] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [71] {}
+      [5] let keys = __x5__
+      [6] let __x6__ = keys
+      [6] let __x7__ = 0i
+      [6] while (< __x7__ __x6__.length) {
+        let nextKey = __x6__[__x7__]
+        [7] app __x8__ = (from.GetOwnProperty from nextKey)
+        [7] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [71] {}
+        [7] let desc = __x8__
+        [8] if (&& (! (= desc undefined)) (= desc.Enumerable true)) {
+          [9] app __x9__ = (Get from nextKey)
+          [9] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [71] {}
+          [9] let propValue = __x9__
+          [10] app __x10__ = (Set to nextKey propValue true)
+          [10] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [71] {}
+          [10] __x10__
+        } else [71] {}
+        __x7__ = (+ __x7__ 1i)
+      }
+    } else [71] {}
+    __x3__ = (+ __x3__ 1i)
+  }
+  [11] app __x11__ = (WrapCompletion to)
+  [11] return __x11__
+}

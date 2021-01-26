@@ -1,0 +1,37 @@
+{
+  app year = (GetArgument argumentsList 0i)
+  app month = (GetArgument argumentsList 1i)
+  app date = (GetArgument argumentsList 2i)
+  [0] app __x0__ = (thisTimeValue this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [11] {}
+  [0] let t = __x0__
+  [1] if (= t NaN) t = 0i else [11] {}
+  [2] app __x1__ = (ToNumber year)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [11] {}
+  [2] let y = __x1__
+  [3] if (= month absent) {
+    app __x2__ = (MonthFromTime t)
+    let m = __x2__
+  } else {
+    app __x3__ = (ToNumber month)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [11] {}
+    let m = __x3__
+  }
+  [4] if (= date absent) {
+    app __x4__ = (DateFromTime t)
+    let dt = __x4__
+  } else {
+    app __x5__ = (ToNumber date)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [11] {}
+    let dt = __x5__
+  }
+  [5] app __x6__ = (MakeDay y m dt)
+  [5] app __x7__ = (TimeWithinDay t)
+  [5] app __x8__ = (MakeDate __x6__ __x7__)
+  [5] let newDate = __x8__
+  [6] app __x9__ = (TimeClip newDate)
+  [6] let v = __x9__
+  [7] this.DateValue = v
+  [8] app __x10__ = (WrapCompletion v)
+  [8] return __x10__
+}

@@ -1,0 +1,25 @@
+{
+  [0] access __x0__ = (PropertyName "Evaluation")
+  [0] let propKey = __x0__
+  [1] if (is-completion propKey) if (= propKey.Type CONST_normal) propKey = propKey.Value else return propKey else [5] {}
+  [1] propKey
+  [2] access __x1__ = (AssignmentExpression "Evaluation")
+  [2] let exprValueRef = __x1__
+  [3] app __x2__ = (GetValue exprValueRef)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [5] {}
+  [3] let propValue = __x2__
+  [4] app __x3__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+  [4] if (= __x3__ true) {
+    [5] app __x4__ = (HasOwnProperty propValue "name")
+    [5] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [5] {}
+    [5] let hasNameProperty = __x4__
+    [6] if (= hasNameProperty false) {
+      app __x5__ = (SetFunctionName propValue propKey)
+      __x5__
+    } else [5] {}
+  } else [5] {}
+  [7] assert (= enumerable true)
+  [8] app __x6__ = (CreateDataPropertyOrThrow object propKey propValue)
+  [8] app __x7__ = (WrapCompletion __x6__)
+  [8] return __x7__
+}

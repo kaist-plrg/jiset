@@ -1,0 +1,47 @@
+{
+  app hour = (GetArgument argumentsList 0i)
+  app min = (GetArgument argumentsList 1i)
+  app sec = (GetArgument argumentsList 2i)
+  app ms = (GetArgument argumentsList 3i)
+  [0] app __x0__ = (thisTimeValue this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [13] {}
+  [0] app __x1__ = (LocalTime __x0__)
+  [0] let t = __x1__
+  [1] app __x2__ = (ToNumber hour)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [13] {}
+  [1] let h = __x2__
+  [2] if (= min absent) {
+    app __x3__ = (MinFromTime t)
+    let m = __x3__
+  } else {
+    app __x4__ = (ToNumber min)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [13] {}
+    let m = __x4__
+  }
+  [3] if (= sec absent) {
+    app __x5__ = (SecFromTime t)
+    let s = __x5__
+  } else {
+    app __x6__ = (ToNumber sec)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [13] {}
+    let s = __x6__
+  }
+  [4] if (= ms absent) {
+    app __x7__ = (msFromTime t)
+    let milli = __x7__
+  } else {
+    app __x8__ = (ToNumber ms)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [13] {}
+    let milli = __x8__
+  }
+  [5] app __x9__ = (Day t)
+  [5] app __x10__ = (MakeTime h m s milli)
+  [5] app __x11__ = (MakeDate __x9__ __x10__)
+  [5] let date = __x11__
+  [6] app __x12__ = (UTC date)
+  [6] app __x13__ = (TimeClip __x12__)
+  [6] let u = __x13__
+  [7] this.DateValue = u
+  [8] app __x14__ = (WrapCompletion u)
+  [8] return __x14__
+}

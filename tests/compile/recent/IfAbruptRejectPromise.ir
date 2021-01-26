@@ -1,0 +1,12 @@
+{
+  app value = (GetArgument argumentsList 0i)
+  app capability = (GetArgument argumentsList 1i)
+  [3] app __x0__ = (IsAbruptCompletion value)
+  [3] if __x0__ {
+    [1] app __x1__ = (Call capability.Reject undefined (new [value.Value]))
+    [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [7] {}
+    [1] __x1__
+    [2] app __x2__ = (WrapCompletion capability.Promise)
+    [2] return __x2__
+  } else if (is-completion value) value = value.Value else [7] {}
+}

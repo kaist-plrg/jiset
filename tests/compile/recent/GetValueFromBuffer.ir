@@ -1,0 +1,27 @@
+{
+  [0] app __x0__ = (IsDetachedBuffer arrayBuffer)
+  [0] assert (= __x0__ false)
+  [2] let block = arrayBuffer.ArrayBufferData
+  [3] ??? "Let id:{elementSize} be the Element Size value specified in link:{} for Element Type id:{type} ."
+  [4] app __x1__ = (IsSharedArrayBuffer arrayBuffer)
+  [4] if (= __x1__ true) {
+    [5] let execution = GLOBAL_agent.CandidateExecution
+    [6] ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
+    [7] let __x2__ = (= isTypedArray true)
+    [7] if __x2__ {
+      app __x3__ = (IsNoTearConfiguration type order)
+      __x2__ = (= __x3__ true)
+    } else [9] {}
+    [7] if __x2__ let noTear = true else let noTear = false
+    [8] ??? "Let id:{rawValue} be a List of length id:{elementSize} whose elements are nondeterministically chosen byte values ."
+    [10] let readEvent = (new ReadSharedMemory("Order" -> order, "NoTear" -> noTear, "Block" -> block, "ByteIndex" -> byteIndex, "ElementSize" -> elementSize))
+    [11] append readEvent -> eventList
+    [12] append (new ChosenValueRecord("Event" -> readEvent, "ChosenValue" -> rawValue)) -> execution.ChosenValues
+  } else [9] {}
+  [13] ??? "Else , let id:{rawValue} be a List whose elements are bytes from id:{block} at indices id:{byteIndex} ( inclusive ) through id:{byteIndex} + id:{elementSize} ( exclusive ) ."
+  [14] assert (= rawValue.length elementSize)
+  [15] if (= isLittleEndian absent) isLittleEndian = GLOBAL_agent.LittleEndian else [9] {}
+  [16] app __x4__ = (RawBytesToNumeric type rawValue isLittleEndian)
+  [16] app __x5__ = (WrapCompletion __x4__)
+  [16] return __x5__
+}

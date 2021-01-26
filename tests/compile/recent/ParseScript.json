@@ -1,0 +1,31 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "sourceText"
+  }, "is", "an", "ECMAScript", "source", "text", "(", "see", "clause", {
+    "link": ""
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "body"
+  }, "be", "ParseText", "(", {
+    "id": "sourceText"
+  }, ",", {
+    "nt": "Script"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "body"
+  }, "is", "a", "List", "of", "errors", ",", "return", {
+    "id": "body"
+  }, "."]
+}, {
+  "tokens": ["Return", "Script", "Record", "{", "[", "[", "Realm", "]", "]", ":", {
+    "id": "realm"
+  }, ",", "[", "[", "Environment", "]", "]", ":", {
+    "value": "undefined"
+  }, ",", "[", "[", "ECMAScriptCode", "]", "]", ":", {
+    "id": "body"
+  }, ",", "[", "[", "HostDefined", "]", "]", ":", {
+    "id": "hostDefined"
+  }, "}", "."]
+}]

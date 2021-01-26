@@ -1,0 +1,49 @@
+[{
+  "tokens": ["Let", {
+    "id": "sourceText"
+  }, "be", "the", "source", "text", "matched", "by", {
+    "nt": "GeneratorDeclaration"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "F"
+  }, "be", "OrdinaryFunctionCreate", "(", "%", "GeneratorFunction", ".", "prototype", "%", ",", {
+    "id": "sourceText"
+  }, ",", {
+    "nt": "FormalParameters"
+  }, ",", {
+    "nt": "GeneratorBody"
+  }, ",", {
+    "const": "non-lexical-this"
+  }, ",", {
+    "id": "scope"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "SetFunctionName", "(", {
+    "id": "F"
+  }, ",", {
+    "value": "\"default\""
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "prototype"
+  }, "be", "!", "OrdinaryObjectCreate", "(", "%", "GeneratorFunction", ".", "prototype", ".", "prototype", "%", ")", "."]
+}, {
+  "tokens": ["Perform", "DefinePropertyOrThrow", "(", {
+    "id": "F"
+  }, ",", {
+    "value": "\"prototype\""
+  }, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+    "id": "prototype"
+  }, ",", "[", "[", "Writable", "]", "]", ":", {
+    "value": "true"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "false"
+  }, "}", ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "F"
+  }, "."]
+}]

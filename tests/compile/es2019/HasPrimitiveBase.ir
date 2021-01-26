@@ -1,0 +1,12 @@
+{
+  [0] app __x0__ = (Type V)
+  [0] assert (= __x0__ Reference)
+  [1] app __x1__ = (Type V.BaseValue)
+  [1] if (|| (|| (|| (= __x1__ Boolean) (= __x1__ String)) (= __x1__ Symbol)) (= __x1__ Number)) {
+    app __x2__ = (WrapCompletion true)
+    return __x2__
+  } else {
+    app __x3__ = (WrapCompletion false)
+    return __x3__
+  }
+}

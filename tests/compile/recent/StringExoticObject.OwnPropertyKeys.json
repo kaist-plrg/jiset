@@ -1,0 +1,87 @@
+[{
+  "tokens": ["Let", {
+    "id": "keys"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "str"
+  }, "be", {
+    "id": "O"
+  }, ".", "[", "[", "StringData", "]", "]", "."]
+}, {
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "str"
+  }, ")", "is", "String", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "the", "length", "of", {
+    "id": "str"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "non", "-", "negative", "integer", {
+    "id": "i"
+  }, "starting", "with", "0", "such", "that", {
+    "id": "i"
+  }, "<", {
+    "id": "len"
+  }, ",", "in", "ascending", "order", ",", "do"]
+}, {
+  "tokens": ["Add", "!", "ToString", "(", "𝔽", "(", {
+    "id": "i"
+  }, ")", ")", "as", "the", "last", "element", "of", {
+    "id": "keys"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "own", "property", "key", {
+    "id": "P"
+  }, "of", {
+    "id": "O"
+  }, "such", "that", {
+    "id": "P"
+  }, "is", "an", "array", "index", "and", "!", "ToIntegerOrInfinity", "(", {
+    "id": "P"
+  }, ")", "≥", {
+    "id": "len"
+  }, ",", "in", "ascending", "numeric", "index", "order", ",", "do"]
+}, {
+  "tokens": ["Add", {
+    "id": "P"
+  }, "as", "the", "last", "element", "of", {
+    "id": "keys"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "own", "property", "key", {
+    "id": "P"
+  }, "of", {
+    "id": "O"
+  }, "such", "that", "Type", "(", {
+    "id": "P"
+  }, ")", "is", "String", "and", {
+    "id": "P"
+  }, "is", "not", "an", "array", "index", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do"]
+}, {
+  "tokens": ["Add", {
+    "id": "P"
+  }, "as", "the", "last", "element", "of", {
+    "id": "keys"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "own", "property", "key", {
+    "id": "P"
+  }, "of", {
+    "id": "O"
+  }, "such", "that", "Type", "(", {
+    "id": "P"
+  }, ")", "is", "Symbol", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do"]
+}, {
+  "tokens": ["Add", {
+    "id": "P"
+  }, "as", "the", "last", "element", "of", {
+    "id": "keys"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "keys"
+  }, "."]
+}]

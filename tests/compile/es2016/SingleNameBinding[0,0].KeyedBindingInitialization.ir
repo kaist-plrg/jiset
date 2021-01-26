@@ -1,0 +1,36 @@
+{
+  [0] access __x0__ = (BindingIdentifier "StringValue")
+  [0] let bindingId = __x0__
+  [1] app __x1__ = (ResolveBinding bindingId environment)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+  [1] let lhs = __x1__
+  [2] app __x2__ = (GetV value propertyName)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [6] {}
+  [2] let v = __x2__
+  [3] if (&& (! (= Initializer absent)) (= v undefined)) {
+    [4] access __x3__ = (Initializer "Evaluation")
+    [4] let defaultValue = __x3__
+    [5] app __x4__ = (GetValue defaultValue)
+    [5] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [6] {}
+    [5] let v = __x4__
+    [6] app __x5__ = (IsAnonymousFunctionDefinition Initializer)
+    [6] if (= __x5__ true) {
+      [7] app __x6__ = (HasOwnProperty v "name")
+      [7] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [6] {}
+      [7] let hasNameProperty = __x6__
+      [8] if (= hasNameProperty false) {
+        app __x7__ = (SetFunctionName v bindingId)
+        __x7__
+      } else [6] {}
+    } else [6] {}
+  } else [6] {}
+  [9] if (= environment undefined) {
+    app __x8__ = (PutValue lhs v)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [6] {}
+    app __x9__ = (WrapCompletion __x8__)
+    return __x9__
+  } else [6] {}
+  [10] app __x10__ = (InitializeReferencedBinding lhs v)
+  [10] app __x11__ = (WrapCompletion __x10__)
+  [10] return __x11__
+}

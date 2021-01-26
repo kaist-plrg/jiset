@@ -1,0 +1,17 @@
+{
+  [0] app __x0__ = (Type targetFunction)
+  [0] assert (= __x0__ Object)
+  [1] app __x1__ = (targetFunction.GetPrototypeOf targetFunction)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [1] {}
+  [1] let proto = __x1__
+  [2] let obj = (new OrdinaryObject("SubMap" -> (new SubMap())))
+  [4] ??? "Set id:{obj} . [ [ Call ] ] as described in link:{} ."
+  [5] if (! (= targetFunction.Construct absent)) ??? "Set id:{obj} . [ [ Construct ] ] as described in link:{} ." else [1] {}
+  [7] obj.Prototype = proto
+  [8] obj.Extensible = true
+  [9] obj.BoundTargetFunction = targetFunction
+  [10] obj.BoundThis = boundThis
+  [11] obj.BoundArguments = boundArgs
+  [12] app __x2__ = (WrapCompletion obj)
+  [12] return __x2__
+}

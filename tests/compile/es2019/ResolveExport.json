@@ -1,0 +1,197 @@
+[{
+  "tokens": ["Let", {
+    "id": "module"
+  }, "be", "this", "Source", "Text", "Module", "Record", "."]
+}, {
+  "tokens": ["For", "each", "Record", "{", "[", "[", "Module", "]", "]", ",", "[", "[", "ExportName", "]", "]", "}", {
+    "id": "r"
+  }, "in", {
+    "id": "resolveSet"
+  }, ",", "do"]
+}, {
+  "tokens": ["If", {
+    "id": "module"
+  }, "and", {
+    "id": "r"
+  }, ".", "[", "[", "Module", "]", "]", "are", "the", "same", "Module", "Record", "and", "SameValue", "(", {
+    "id": "exportName"
+  }, ",", {
+    "id": "r"
+  }, ".", "[", "[", "ExportName", "]", "]", ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Assert", ":", "This", "is", "a", "circular", "import", "request", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "null"
+  }, "."]
+}, {
+  "tokens": ["Append", "the", "Record", "{", "[", "[", "Module", "]", "]", ":", {
+    "id": "module"
+  }, ",", "[", "[", "ExportName", "]", "]", ":", {
+    "id": "exportName"
+  }, "}", "to", {
+    "id": "resolveSet"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "ExportEntry", "Record", {
+    "id": "e"
+  }, "in", {
+    "id": "module"
+  }, ".", "[", "[", "LocalExportEntries", "]", "]", ",", "do"]
+}, {
+  "tokens": ["If", "SameValue", "(", {
+    "id": "exportName"
+  }, ",", {
+    "id": "e"
+  }, ".", "[", "[", "ExportName", "]", "]", ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, "provides", "the", "direct", "binding", "for", "this", "export", "."]
+}, {
+  "tokens": ["Return", "ResolvedBinding", "Record", "{", "[", "[", "Module", "]", "]", ":", {
+    "id": "module"
+  }, ",", "[", "[", "BindingName", "]", "]", ":", {
+    "id": "e"
+  }, ".", "[", "[", "LocalName", "]", "]", "}", "."]
+}, {
+  "tokens": ["For", "each", "ExportEntry", "Record", {
+    "id": "e"
+  }, "in", {
+    "id": "module"
+  }, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do"]
+}, {
+  "tokens": ["If", "SameValue", "(", {
+    "id": "exportName"
+  }, ",", {
+    "id": "e"
+  }, ".", "[", "[", "ExportName", "]", "]", ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, "imports", "a", "specific", "binding", "for", "this", "export", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "importedModule"
+  }, "be", "?", "HostResolveImportedModule", "(", {
+    "id": "module"
+  }, ",", {
+    "id": "e"
+  }, ".", "[", "[", "ModuleRequest", "]", "]", ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "importedModule"
+  }, ".", "ResolveExport", "(", {
+    "id": "e"
+  }, ".", "[", "[", "ImportName", "]", "]", ",", {
+    "id": "resolveSet"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "SameValue", "(", {
+    "id": "exportName"
+  }, ",", {
+    "code": "\"default\""
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Assert", ":", "A", {
+    "code": "default"
+  }, "export", "was", "not", "explicitly", "defined", "by", "this", "module", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "null"
+  }, "."]
+}, {
+  "tokens": ["NOTE", ":", "A", {
+    "code": "default"
+  }, "export", "cannot", "be", "provided", "by", "an", "`", "export", "*", "`", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "starResolution"
+  }, "be", {
+    "value": "null"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "ExportEntry", "Record", {
+    "id": "e"
+  }, "in", {
+    "id": "module"
+  }, ".", "[", "[", "StarExportEntries", "]", "]", ",", "do"]
+}, {
+  "tokens": ["Let", {
+    "id": "importedModule"
+  }, "be", "?", "HostResolveImportedModule", "(", {
+    "id": "module"
+  }, ",", {
+    "id": "e"
+  }, ".", "[", "[", "ModuleRequest", "]", "]", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "resolution"
+  }, "be", "?", {
+    "id": "importedModule"
+  }, ".", "ResolveExport", "(", {
+    "id": "exportName"
+  }, ",", {
+    "id": "resolveSet"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "resolution"
+  }, "is", {
+    "code": "\"ambiguous\""
+  }, ",", "return", {
+    "code": "\"ambiguous\""
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "resolution"
+  }, "is", "not", {
+    "value": "null"
+  }, ",", "then"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "resolution"
+  }, "is", "a", "ResolvedBinding", "Record", "."]
+}, {
+  "tokens": ["If", {
+    "id": "starResolution"
+  }, "is", {
+    "value": "null"
+  }, ",", "set", {
+    "id": "starResolution"
+  }, "to", {
+    "id": "resolution"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", "There", "is", "more", "than", "one", {
+    "code": "*"
+  }, "import", "that", "includes", "the", "requested", "name", "."]
+}, {
+  "tokens": ["If", {
+    "id": "resolution"
+  }, ".", "[", "[", "Module", "]", "]", "and", {
+    "id": "starResolution"
+  }, ".", "[", "[", "Module", "]", "]", "are", "not", "the", "same", "Module", "Record", "or", "SameValue", "(", {
+    "id": "resolution"
+  }, ".", "[", "[", "BindingName", "]", "]", ",", {
+    "id": "starResolution"
+  }, ".", "[", "[", "BindingName", "]", "]", ")", "is", {
+    "value": "false"
+  }, ",", "return", {
+    "code": "\"ambiguous\""
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "starResolution"
+  }, "."]
+}]

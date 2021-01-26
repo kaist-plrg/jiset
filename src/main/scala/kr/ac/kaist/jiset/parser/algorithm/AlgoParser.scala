@@ -57,7 +57,7 @@ object AlgoParser {
           println(beautify(body))
           printBody = false
         }
-        Algo(h, body)
+        Algo(h, body, code)
       })
     } catch {
       case e: Throwable =>

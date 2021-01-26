@@ -1,0 +1,21 @@
+[{
+  "tokens": ["Let", {
+    "id": "uriString"
+  }, "be", "?", "ToString", "(", {
+    "id": "encodedURI"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "reservedURISet"
+  }, "be", "a", "String", "containing", "one", "instance", "of", "each", "code", "unit", "valid", "in", {
+    "nt": "uriReserved"
+  }, "plus", {
+    "value": "\"#\""
+  }, "."]
+}, {
+  "tokens": ["Return", "?", "Decode", "(", {
+    "id": "uriString"
+  }, ",", {
+    "id": "reservedURISet"
+  }, ")", "."]
+}]

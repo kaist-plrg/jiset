@@ -1,0 +1,99 @@
+[{
+  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
+    "id": "P"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "handler"
+  }, "be", "the", "value", "of", "the", "[", "[", "ProxyHandler", "]", "]", "internal", "slot", "of", {
+    "id": "O"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "handler"
+  }, "is", {
+    "value": "null"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "handler"
+  }, ")", "is", "Object", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "target"
+  }, "be", "the", "value", "of", "the", "[", "[", "ProxyTarget", "]", "]", "internal", "slot", "of", {
+    "id": "O"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "trap"
+  }, "be", "?", "GetMethod", "(", {
+    "id": "handler"
+  }, ",", {
+    "code": "\"deleteProperty\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "trap"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Return", "?", {
+    "id": "target"
+  }, ".", "[", "[", "Delete", "]", "]", "(", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "booleanTrapResult"
+  }, "be", "ToBoolean", "(", "?", "Call", "(", {
+    "id": "trap"
+  }, ",", {
+    "id": "handler"
+  }, ",", "«", {
+    "id": "target"
+  }, ",", {
+    "id": "P"
+  }, "»", ")", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "booleanTrapResult"
+  }, "is", {
+    "value": "false"
+  }, ",", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetDesc"
+  }, "be", "?", {
+    "id": "target"
+  }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "targetDesc"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "targetDesc"
+  }, ".", "[", "[", "Configurable", "]", "]", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}]

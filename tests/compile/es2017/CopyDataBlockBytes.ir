@@ -1,0 +1,23 @@
+{
+  [2] ??? "Let id:{fromSize} be the number of bytes in id:{fromBlock} ."
+  [3] assert (! (< fromSize (+ fromIndex count)))
+  [4] ??? "Let id:{toSize} be the number of bytes in id:{toBlock} ."
+  [5] assert (! (< toSize (+ toIndex count)))
+  [6] while (< 0i count) {
+    [16] if (= (typeof fromBlock) "SharedDataBlock") {
+      [8] let execution = GLOBAL_agent.CandidateExecution
+      [9] ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventLists ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
+      [10] ??? "Let id:{bytes} be a List of length 1 that contains a nondeterministically chosen byte value ."
+      [12] let readEvent = (new ReadSharedMemory("Order" -> "Unordered", "NoTear" -> true, "Block" -> fromBlock, "ByteIndex" -> fromIndex, "ElementSize" -> 1i))
+      [13] append readEvent -> eventList
+      [14] append (new WriteSharedMemory("Order" -> "Unordered", "NoTear" -> true, "Block" -> toBlock, "ByteIndex" -> toIndex, "ElementSize" -> 1i, "Payload" -> bytes)) -> eventList
+      [15] append (new ChosenValueRecord("Event" -> readEvent, "ChosenValue" -> bytes)) -> execution.ChosenValues
+    } else toBlock[toIndex] = fromBlock[fromIndex]
+    [17] toIndex = (+ toIndex 1i)
+    [17] fromIndex = (+ fromIndex 1i)
+    [18] count = (- count 1i)
+  }
+  [19] app __x0__ = (NormalCompletion CONST_empty)
+  [19] app __x1__ = (WrapCompletion __x0__)
+  [19] return __x1__
+}

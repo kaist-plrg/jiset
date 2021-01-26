@@ -1,0 +1,13 @@
+{
+  [0] let home = envRec.FunctionObject.HomeObject
+  [1] if (= home undefined) {
+    app __x0__ = (WrapCompletion undefined)
+    return __x0__
+  } else [0] {}
+  [2] app __x1__ = (Type home)
+  [2] assert (= __x1__ Object)
+  [3] app __x2__ = (home.GetPrototypeOf home)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+  [3] app __x3__ = (WrapCompletion __x2__)
+  [3] return __x3__
+}

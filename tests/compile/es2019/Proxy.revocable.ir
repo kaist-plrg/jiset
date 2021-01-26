@@ -1,0 +1,19 @@
+{
+  app target = (GetArgument argumentsList 0i)
+  app handler = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ProxyCreate target handler)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [17] {}
+  [0] let p = __x0__
+  [1] ??? "Let id:{steps} be the algorithm steps defined in link:{} ."
+  [2] app __x1__ = (CreateBuiltinFunction steps (new ["RevocableProxy"]))
+  [2] let revoker = __x1__
+  [3] revoker.RevocableProxy = p
+  [4] app __x2__ = (ObjectCreate INTRINSIC_ObjectPrototype)
+  [4] let result = __x2__
+  [5] app __x3__ = (CreateDataProperty result "proxy" p)
+  [5] __x3__
+  [6] app __x4__ = (CreateDataProperty result "revoke" revoker)
+  [6] __x4__
+  [7] app __x5__ = (WrapCompletion result)
+  [7] return __x5__
+}

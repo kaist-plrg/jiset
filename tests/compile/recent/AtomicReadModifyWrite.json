@@ -1,0 +1,67 @@
+[{
+  "tokens": ["Let", {
+    "id": "buffer"
+  }, "be", "?", "ValidateIntegerTypedArray", "(", {
+    "id": "typedArray"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "indexedPosition"
+  }, "be", "?", "ValidateAtomicAccess", "(", {
+    "id": "typedArray"
+  }, ",", {
+    "id": "index"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "arrayTypeName"
+  }, "be", {
+    "id": "typedArray"
+  }, ".", "[", "[", "TypedArrayName", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "typedArray"
+  }, ".", "[", "[", "ContentType", "]", "]", "is", {
+    "const": "BigInt"
+  }, ",", "let", {
+    "id": "v"
+  }, "be", "?", "ToBigInt", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Otherwise", ",", "let", {
+    "id": "v"
+  }, "be", "𝔽", "(", "?", "ToIntegerOrInfinity", "(", {
+    "id": "value"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "buffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["NOTE", ":", "The", "above", "check", "is", "not", "redundant", "with", "the", "check", "in", "ValidateIntegerTypedArray", "because", "the", "call", "to", "ToBigInt", "or", "ToIntegerOrInfinity", "on", "the", "preceding", "lines", "can", "have", "arbitrary", "side", "effects", ",", "which", "could", "cause", "the", "buffer", "to", "become", "detached", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "elementType"
+  }, "be", "the", "Element", "Type", "value", "in", {
+    "link": ""
+  }, "for", {
+    "id": "arrayTypeName"
+  }, "."]
+}, {
+  "tokens": ["Return", "GetModifySetValueInBuffer", "(", {
+    "id": "buffer"
+  }, ",", {
+    "id": "indexedPosition"
+  }, ",", {
+    "id": "elementType"
+  }, ",", {
+    "id": "v"
+  }, ",", {
+    "id": "op"
+  }, ")", "."]
+}]

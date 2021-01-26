@@ -1,0 +1,29 @@
+[{
+  "tokens": ["Let", {
+    "id": "array"
+  }, "be", "?", "ToObject", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "func"
+  }, "be", "?", "Get", "(", {
+    "id": "array"
+  }, ",", {
+    "code": "\"join\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "func"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "set", {
+    "id": "func"
+  }, "to", "the", "intrinsic", "function", "%", "ObjProto", "_", "toString", "%", "."]
+}, {
+  "tokens": ["Return", "?", "Call", "(", {
+    "id": "func"
+  }, ",", {
+    "id": "array"
+  }, ")", "."]
+}]

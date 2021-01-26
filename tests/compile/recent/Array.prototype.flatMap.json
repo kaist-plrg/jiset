@@ -1,0 +1,43 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "ToObject", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "sourceLen"
+  }, "be", "?", "LengthOfArrayLike", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "!", "IsCallable", "(", {
+    "id": "mapperFunction"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "A"
+  }, "be", "?", "ArraySpeciesCreate", "(", {
+    "id": "O"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Perform", "?", "FlattenIntoArray", "(", {
+    "id": "A"
+  }, ",", {
+    "id": "O"
+  }, ",", {
+    "id": "sourceLen"
+  }, ",", "0", ",", "1", ",", {
+    "id": "mapperFunction"
+  }, ",", {
+    "id": "thisArg"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "A"
+  }, "."]
+}]

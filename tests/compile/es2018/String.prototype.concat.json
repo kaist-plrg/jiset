@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "RequireObjectCoercible", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "?", "ToString", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "args"
+  }, "be", "a", "List", "whose", "elements", "are", "the", "arguments", "passed", "to", "this", "function", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "R"
+  }, "be", {
+    "id": "S"
+  }, "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "args"
+  }, "is", "not", "empty"]
+}, {
+  "tokens": ["Remove", "the", "first", "element", "from", {
+    "id": "args"
+  }, "and", "let", {
+    "id": "next"
+  }, "be", "the", "value", "of", "that", "element", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextString"
+  }, "be", "?", "ToString", "(", {
+    "id": "next"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "R"
+  }, "to", "the", "string", "-", "concatenation", "of", "the", "previous", "value", "of", {
+    "id": "R"
+  }, "and", {
+    "id": "nextString"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "R"
+  }, "."]
+}]

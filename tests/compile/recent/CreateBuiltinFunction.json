@@ -1,0 +1,59 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "steps"
+  }, "is", "either", "a", "set", "of", "algorithm", "steps", "or", "other", "definition", "of", "a", "function", "'", "s", "behaviour", "provided", "in", "this", "specification", "."]
+}, {
+  "tokens": ["If", {
+    "id": "realm"
+  }, "is", "not", "present", ",", "set", {
+    "id": "realm"
+  }, "to", "the", "current", "Realm", "Record", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "realm"
+  }, "is", "a", "Realm", "Record", "."]
+}, {
+  "tokens": ["If", {
+    "id": "prototype"
+  }, "is", "not", "present", ",", "set", {
+    "id": "prototype"
+  }, "to", {
+    "id": "realm"
+  }, ".", "[", "[", "Intrinsics", "]", "]", ".", "[", "[", "%", "Function", ".", "prototype", "%", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "func"
+  }, "be", "a", "new", "built", "-", "in", "function", "object", "that", "when", "called", "performs", "the", "action", "described", "by", {
+    "id": "steps"
+  }, ".", "The", "new", "function", "object", "has", "internal", "slots", "whose", "names", "are", "the", "elements", "of", {
+    "id": "internalSlotsList"
+  }, ",", "and", "an", "[", "[", "InitialName", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "func"
+  }, ".", "[", "[", "Realm", "]", "]", "to", {
+    "id": "realm"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "func"
+  }, ".", "[", "[", "Prototype", "]", "]", "to", {
+    "id": "prototype"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "func"
+  }, ".", "[", "[", "Extensible", "]", "]", "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "func"
+  }, ".", "[", "[", "InitialName", "]", "]", "to", {
+    "value": "null"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "func"
+  }, "."]
+}]

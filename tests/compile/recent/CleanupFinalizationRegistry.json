@@ -1,0 +1,43 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "finalizationRegistry"
+  }, "has", "[", "[", "Cells", "]", "]", "and", "[", "[", "CleanupCallback", "]", "]", "internal", "slots", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "callback"
+  }, "be", {
+    "id": "finalizationRegistry"
+  }, ".", "[", "[", "CleanupCallback", "]", "]", "."]
+}, {
+  "tokens": ["While", {
+    "id": "finalizationRegistry"
+  }, ".", "[", "[", "Cells", "]", "]", "contains", "a", "Record", {
+    "id": "cell"
+  }, "such", "that", {
+    "id": "cell"
+  }, ".", "[", "[", "WeakRefTarget", "]", "]", "is", {
+    "const": "empty"
+  }, ",", "an", "implementation", "may", "perform", "the", "following", "steps", ":"]
+}, {
+  "tokens": ["Choose", "any", "such", {
+    "id": "cell"
+  }, "."]
+}, {
+  "tokens": ["Remove", {
+    "id": "cell"
+  }, "from", {
+    "id": "finalizationRegistry"
+  }, ".", "[", "[", "Cells", "]", "]", "."]
+}, {
+  "tokens": ["Perform", "?", "Call", "(", {
+    "id": "callback"
+  }, ",", {
+    "value": "undefined"
+  }, ",", "«", {
+    "id": "cell"
+  }, ".", "[", "[", "HeldValue", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Return", "NormalCompletion", "(", {
+    "value": "undefined"
+  }, ")", "."]
+}]

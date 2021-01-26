@@ -1,0 +1,16 @@
+{
+  [0] if (= globalObj undefined) {
+    [1] let intrinsics = realmRec.Intrinsics
+    [2] app __x0__ = (ObjectCreate intrinsics.INTRINSIC_ObjectPrototype)
+    [2] let globalObj = __x0__
+  } else [12] {}
+  [3] app __x1__ = (Type globalObj)
+  [3] assert (= __x1__ Object)
+  [4] if (= thisValue undefined) let thisValue = globalObj else [12] {}
+  [5] realmRec.GlobalObject = globalObj
+  [6] app __x2__ = (NewGlobalEnvironment globalObj thisValue)
+  [6] let newGlobalEnv = __x2__
+  [7] realmRec.GlobalEnv = newGlobalEnv
+  [8] app __x3__ = (WrapCompletion realmRec)
+  [8] return __x3__
+}

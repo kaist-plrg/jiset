@@ -1,0 +1,16 @@
+{
+  app x = (GetArgument argumentsList 0i)
+  app y = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ToUint32 x)
+  [0] let a = __x0__
+  [1] app __x1__ = (ToUint32 y)
+  [1] let b = __x1__
+  [2] let product = (%% (* a b) 4294967296i)
+  [3] if (! (< product 2147483648i)) {
+    app __x2__ = (WrapCompletion (- product 4294967296i))
+    return __x2__
+  } else {
+    app __x3__ = (WrapCompletion product)
+    return __x3__
+  }
+}

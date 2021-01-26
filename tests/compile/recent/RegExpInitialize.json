@@ -1,0 +1,155 @@
+[{
+  "tokens": ["If", {
+    "id": "pattern"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "let", {
+    "id": "P"
+  }, "be", "the", "empty", "String", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "P"
+  }, "be", "?", "ToString", "(", {
+    "id": "pattern"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "flags"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "let", {
+    "id": "F"
+  }, "be", "the", "empty", "String", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "F"
+  }, "be", "?", "ToString", "(", {
+    "id": "flags"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "F"
+  }, "contains", "any", "code", "unit", "other", "than", {
+    "value": "\"g\""
+  }, ",", {
+    "value": "\"i\""
+  }, ",", {
+    "value": "\"m\""
+  }, ",", {
+    "value": "\"s\""
+  }, ",", {
+    "value": "\"u\""
+  }, ",", "or", {
+    "value": "\"y\""
+  }, "or", "if", "it", "contains", "the", "same", "code", "unit", "more", "than", "once", ",", "throw", "a", {
+    "value": "SyntaxError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "F"
+  }, "contains", {
+    "value": "\"u\""
+  }, ",", "let", {
+    "id": "u"
+  }, "be", {
+    "value": "true"
+  }, ";", "else", "let", {
+    "id": "u"
+  }, "be", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "u"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "patternText"
+  }, "be", "!", "StringToCodePoints", "(", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "patternCharacters"
+  }, "be", "a", "List", "whose", "elements", "are", "the", "code", "points", "of", {
+    "id": "patternText"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "patternText"
+  }, "be", "the", "result", "of", "interpreting", "each", "of", {
+    "id": "P"
+  }, "'", "s", "16", "-", "bit", "elements", "as", "a", "Unicode", "BMP", "code", "point", ".", "UTF", "-", "16", "decoding", "is", "not", "applied", "to", "the", "elements", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "patternCharacters"
+  }, "be", "a", "List", "whose", "elements", "are", "the", "code", "unit", "elements", "of", {
+    "id": "P"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "parseResult"
+  }, "be", "ParsePattern", "(", {
+    "id": "patternText"
+  }, ",", {
+    "id": "u"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "parseResult"
+  }, "is", "a", "non", "-", "empty", "List", "of", {
+    "value": "SyntaxError"
+  }, "objects", ",", "throw", "a", {
+    "value": "SyntaxError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "parseResult"
+  }, "is", "a", "Parse", "Node", "for", {
+    "nt": "Pattern"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "obj"
+  }, ".", "[", "[", "OriginalSource", "]", "]", "to", {
+    "id": "P"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "obj"
+  }, ".", "[", "[", "OriginalFlags", "]", "]", "to", {
+    "id": "F"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "obj"
+  }, ".", "[", "[", "RegExpMatcher", "]", "]", "to", "the", "Abstract", "Closure", "that", "evaluates", {
+    "id": "parseResult"
+  }, "by", "applying", "the", "semantics", "provided", "in", {
+    "link": ""
+  }, "using", {
+    "id": "patternCharacters"
+  }, "as", "the", "pattern", "'", "s", "List", "of", {
+    "nt": "SourceCharacter"
+  }, "values", "and", {
+    "id": "F"
+  }, "as", "the", "flag", "parameters", "."]
+}, {
+  "tokens": ["Perform", "?", "Set", "(", {
+    "id": "obj"
+  }, ",", {
+    "value": "\"lastIndex\""
+  }, ",", {
+    "value": "+0"
+  }, ",", {
+    "value": "true"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "obj"
+  }, "."]
+}]

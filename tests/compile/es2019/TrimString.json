@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Let", {
+    "id": "str"
+  }, "be", "?", "RequireObjectCoercible", "(", {
+    "id": "string"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "?", "ToString", "(", {
+    "id": "str"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "where"
+  }, "is", {
+    "code": "\"start\""
+  }, ",", "let", {
+    "id": "T"
+  }, "be", "the", "String", "value", "that", "is", "a", "copy", "of", {
+    "id": "S"
+  }, "with", "leading", "white", "space", "removed", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "where"
+  }, "is", {
+    "code": "\"end\""
+  }, ",", "let", {
+    "id": "T"
+  }, "be", "the", "String", "value", "that", "is", "a", "copy", "of", {
+    "id": "S"
+  }, "with", "trailing", "white", "space", "removed", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "where"
+  }, "is", {
+    "code": "\"start+end\""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "T"
+  }, "be", "the", "String", "value", "that", "is", "a", "copy", "of", {
+    "id": "S"
+  }, "with", "both", "leading", "and", "trailing", "white", "space", "removed", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "T"
+  }, "."]
+}]

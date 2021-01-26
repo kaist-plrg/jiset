@@ -1,0 +1,12 @@
+{
+  [0] access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  [0] let scope = __x0__
+  [1] access __x1__ = (CoverCallExpressionAndAsyncArrowHead "CoveredAsyncArrowHead")
+  [1] let head = __x1__
+  [2] access __x2__ = (head "ArrowFormalParameters")
+  [2] let parameters = __x2__
+  [3] ??? "Let id:{closure} be ! OrdinaryFunctionCreate ( % AsyncFunction . prototype % , id:{parameters} , nt:{AsyncConciseBody} , const:{lexical-this} , id:{scope} ) ."
+  [4] closure.SourceText = (get-syntax AsyncArrowFunction)
+  [5] app __x3__ = (WrapCompletion closure)
+  [5] return __x3__
+}

@@ -1,0 +1,52 @@
+{
+  [0] if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
+    [1] access __x0__ = (DestructuringAssignmentTarget "Evaluation")
+    [1] let lref = __x0__
+    [2] if (is-completion lref) if (= lref.Type CONST_normal) lref = lref.Value else return lref else [13] {}
+    [2] lref
+  } else [13] {}
+  [3] if (= iteratorRecord.Done false) {
+    [4] app __x1__ = (IteratorStep iteratorRecord)
+    [4] let next = __x1__
+    [5] app __x2__ = (IsAbruptCompletion next)
+    [5] if __x2__ iteratorRecord.Done = true else [13] {}
+    [6] if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else [13] {}
+    [6] next
+    [8] if (= next false) iteratorRecord.Done = true else {
+      [9] app __x3__ = (IteratorValue next)
+      [9] let value = __x3__
+      [10] app __x4__ = (IsAbruptCompletion value)
+      [10] if __x4__ iteratorRecord.Done = true else [13] {}
+      [11] if (is-completion value) if (= value.Type CONST_normal) value = value.Value else return value else [13] {}
+      [11] value
+    }
+  } else [13] {}
+  [12] if (= iteratorRecord.Done true) let value = undefined else [13] {}
+  [19] if (&& (! (= Initializer absent)) (= value undefined)) {
+    [16] app __x5__ = (IsAnonymousFunctionDefinition Initializer)
+    [16] access __x6__ = (DestructuringAssignmentTarget "IsIdentifierRef")
+    [16] if (&& (= __x5__ true) (= __x6__ true)) {
+      [15] app __x7__ = (GetReferencedName lref)
+      [15] access __x8__ = (Initializer "NamedEvaluation")
+      [15] app __x9__ = (__x8__ __x7__)
+      [15] let v = __x9__
+    } else {
+      [17] access __x10__ = (Initializer "Evaluation")
+      [17] let defaultValue = __x10__
+      [18] app __x11__ = (GetValue defaultValue)
+      [18] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [13] {}
+      [18] let v = __x11__
+    }
+  } else let v = value
+  [20] if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) {
+    [21] let nestedAssignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
+    [22] access __x12__ = (nestedAssignmentPattern "DestructuringAssignmentEvaluation")
+    [22] app __x13__ = (__x12__ v)
+    [22] app __x14__ = (WrapCompletion __x13__)
+    [22] return __x14__
+  } else [13] {}
+  [23] app __x15__ = (PutValue lref v)
+  [23] if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else [13] {}
+  [23] app __x16__ = (WrapCompletion __x15__)
+  [23] return __x16__
+}

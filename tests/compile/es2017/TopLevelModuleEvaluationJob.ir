@@ -1,0 +1,12 @@
+{
+  [1] let realm = REALM
+  [2] app __x0__ = (ParseModule sourceText realm hostDefined)
+  [2] let m = __x0__
+  [6] app __x1__ = (m.ModuleDeclarationInstantiation m)
+  [6] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [7] {}
+  [6] __x1__
+  [8] app __x2__ = (m.ModuleEvaluation m)
+  [8] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [7] {}
+  [8] app __x3__ = (WrapCompletion __x2__)
+  [8] return __x3__
+}

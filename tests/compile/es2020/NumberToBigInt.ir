@@ -1,0 +1,11 @@
+{
+  app number = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (Type number)
+  [0] assert (= __x0__ Number)
+  [1] app __x1__ = (IsInteger number)
+  [1] if (= __x1__ false) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [2] {}
+  [2] ??? "Return the BigInt value that represents the mathematical value of id:{number} ."
+}

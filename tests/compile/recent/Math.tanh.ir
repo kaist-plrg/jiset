@@ -1,0 +1,16 @@
+{
+  app x = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (ToNumber x)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [2] {}
+  [0] let n = __x0__
+  [1] ??? "If id:{n} is value:{NaN} , id:{n} is value:{+0} , or id:{n} is value:{-0} , return id:{n} ."
+  [2] if (= n Infinity) {
+    app __x1__ = (WrapCompletion 1i)
+    return __x1__
+  } else [2] {}
+  [3] if (= n -Infinity) {
+    app __x2__ = (WrapCompletion -1i)
+    return __x2__
+  } else [2] {}
+  [4] ??? "Return an implementation - approximated value representing the result of the hyperbolic tangent of ℝ ( id:{n} ) ."
+}

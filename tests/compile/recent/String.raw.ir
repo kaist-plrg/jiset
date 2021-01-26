@@ -1,0 +1,50 @@
+{
+  app template = (GetArgument argumentsList 0i)
+  app substitutions = (GetArgument argumentsList 1i)
+  [0] let numberOfSubstitutions = substitutions.length
+  [1] app __x0__ = (ToObject template)
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [6] {}
+  [1] let cooked = __x0__
+  [2] app __x1__ = (Get cooked "raw")
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+  [2] app __x2__ = (ToObject __x1__)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [6] {}
+  [2] let raw = __x2__
+  [3] app __x3__ = (LengthOfArrayLike raw)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [6] {}
+  [3] let literalSegments = __x3__
+  [4] if (! (< 0i literalSegments)) {
+    app __x4__ = (WrapCompletion "")
+    return __x4__
+  } else [6] {}
+  [5] let stringElements = (new [])
+  [6] let nextIndex = 0i
+  [7] while true {
+    [8] ??? "Let id:{nextKey} be ! ToString ( 𝔽 ( id:{nextIndex} ) ) ."
+    [9] app __x5__ = (Get raw nextKey)
+    [9] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [6] {}
+    [9] app __x6__ = (ToString __x5__)
+    [9] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [6] {}
+    [9] let nextSeg = __x6__
+    [10] let __x7__ = nextSeg
+    [10] let __x8__ = 0i
+    [10] while (< __x8__ __x7__.length) {
+      let __x9__ = __x7__[__x8__]
+      append __x9__ -> stringElements
+      __x8__ = (+ __x8__ 1i)
+    }
+    [11] if (== (+ nextIndex 1i) literalSegments) ??? "Return the String value whose code units are the elements in the List id:{stringElements} . If id:{stringElements} has no elements , the empty String is returned ." else [6] {}
+    [14] if (< nextIndex numberOfSubstitutions) let next = substitutions[nextIndex] else let next = ""
+    [15] app __x10__ = (ToString next)
+    [15] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [6] {}
+    [15] let nextSub = __x10__
+    [16] let __x11__ = nextSub
+    [16] let __x12__ = 0i
+    [16] while (< __x12__ __x11__.length) {
+      let __x13__ = __x11__[__x12__]
+      append __x13__ -> stringElements
+      __x12__ = (+ __x12__ 1i)
+    }
+    [17] nextIndex = (+ nextIndex 1i)
+  }
+}

@@ -1,0 +1,69 @@
+[{
+  "tokens": ["If", {
+    "id": "hour"
+  }, "is", "not", "finite", "or", {
+    "id": "min"
+  }, "is", "not", "finite", "or", {
+    "id": "sec"
+  }, "is", "not", "finite", "or", {
+    "id": "ms"
+  }, "is", "not", "finite", ",", "return", {
+    "value": "NaN"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "h"
+  }, "be", "ToInteger", "(", {
+    "id": "hour"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "m"
+  }, "be", "ToInteger", "(", {
+    "id": "min"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "s"
+  }, "be", "ToInteger", "(", {
+    "id": "sec"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "milli"
+  }, "be", "ToInteger", "(", {
+    "id": "ms"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "t"
+  }, "be", {
+    "id": "h"
+  }, {
+    "code": "*"
+  }, "msPerHour", {
+    "code": "+"
+  }, {
+    "id": "m"
+  }, {
+    "code": "*"
+  }, "msPerMinute", {
+    "code": "+"
+  }, {
+    "id": "s"
+  }, {
+    "code": "*"
+  }, "msPerSecond", {
+    "code": "+"
+  }, {
+    "id": "milli"
+  }, ",", "performing", "the", "arithmetic", "according", "to", "IEEE", "754", "-", "2008", "rules", "(", "that", "is", ",", "as", "if", "using", "the", "ECMAScript", "operators", {
+    "code": "*"
+  }, "and", {
+    "code": "+"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "t"
+  }, "."]
+}]

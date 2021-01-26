@@ -1,0 +1,82 @@
+{
+  [0] let handler = O.ProxyHandler
+  [1] if (= handler null) {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else [11] {}
+  [2] app __x1__ = (Type handler)
+  [2] assert (= __x1__ Object)
+  [3] let target = O.ProxyTarget
+  [4] app __x2__ = (GetMethod handler "ownKeys")
+  [4] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [11] {}
+  [4] let trap = __x2__
+  [5] if (= trap undefined) {
+    [6] app __x3__ = (target.OwnPropertyKeys target)
+    [6] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [11] {}
+    [6] app __x4__ = (WrapCompletion __x3__)
+    [6] return __x4__
+  } else [11] {}
+  [7] app __x5__ = (Call trap handler (new [target]))
+  [7] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [11] {}
+  [7] let trapResultArray = __x5__
+  [8] app __x6__ = (CreateListFromArrayLike trapResultArray (new [String, Symbol]))
+  [8] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [11] {}
+  [8] let trapResult = __x6__
+  [9] app __x7__ = (IsExtensible target)
+  [9] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [11] {}
+  [9] let extensibleTarget = __x7__
+  [10] app __x8__ = (target.OwnPropertyKeys target)
+  [10] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [11] {}
+  [10] let targetKeys = __x8__
+  [12] let targetConfigurableKeys = (new [])
+  [13] let targetNonconfigurableKeys = (new [])
+  [14] let __x9__ = targetKeys
+  [14] let __x10__ = 0i
+  [14] while (< __x10__ __x9__.length) {
+    let key = __x9__[__x10__]
+    [15] app __x11__ = (target.GetOwnProperty target key)
+    [15] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [11] {}
+    [15] let desc = __x11__
+    [18] if (&& (! (= desc undefined)) (= desc.Configurable false)) append key -> targetNonconfigurableKeys else append key -> targetConfigurableKeys
+    __x10__ = (+ __x10__ 1i)
+  }
+  [20] if (&& (= extensibleTarget true) (= targetNonconfigurableKeys.length 0i)) {
+    [21] app __x12__ = (WrapCompletion trapResult)
+    [21] return __x12__
+  } else [11] {}
+  [22] let uncheckedResultKeys = (copy-obj trapResult)
+  [23] let __x13__ = targetNonconfigurableKeys
+  [23] let __x14__ = 0i
+  [23] while (< __x14__ __x13__.length) {
+    let key = __x13__[__x14__]
+    [24] if (! (contains uncheckedResultKeys key)) {
+      app __x15__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x15__
+    } else [11] {}
+    [25] let __x16__ = 0i
+    [25] while (< __x16__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x16__] key) (pop uncheckedResultKeys __x16__) else __x16__ = (+ __x16__ 1i)
+    __x14__ = (+ __x14__ 1i)
+  }
+  [26] if (= extensibleTarget true) {
+    app __x17__ = (WrapCompletion trapResult)
+    return __x17__
+  } else [11] {}
+  [27] let __x18__ = targetConfigurableKeys
+  [27] let __x19__ = 0i
+  [27] while (< __x19__ __x18__.length) {
+    let key = __x18__[__x19__]
+    [28] if (! (contains uncheckedResultKeys key)) {
+      app __x20__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x20__
+    } else [11] {}
+    [29] let __x21__ = 0i
+    [29] while (< __x21__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x21__] key) (pop uncheckedResultKeys __x21__) else __x21__ = (+ __x21__ 1i)
+    __x19__ = (+ __x19__ 1i)
+  }
+  [30] if (< 0i uncheckedResultKeys.length) {
+    app __x22__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x22__
+  } else [11] {}
+  [31] app __x23__ = (WrapCompletion trapResult)
+  [31] return __x23__
+}

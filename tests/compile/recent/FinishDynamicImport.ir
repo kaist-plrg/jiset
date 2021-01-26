@@ -1,0 +1,25 @@
+{
+  [1] app __x0__ = (IsAbruptCompletion completion)
+  [1] if __x0__ {
+    app __x1__ = (Call promiseCapability.Reject undefined (new [completion.Value]))
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [4] {}
+    __x1__
+  } else {
+    [2] assert (&& (&& (is-completion completion) (= completion.Type CONST_normal)) (= completion.Value undefined))
+    [3] app __x2__ = (HostResolveImportedModule referencingScriptOrModule specifier)
+    [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [4] {}
+    [3] let moduleRecord = __x2__
+    [5] app __x3__ = (GetModuleNamespace moduleRecord)
+    [5] let namespace = __x3__
+    [7] app __x4__ = (IsAbruptCompletion namespace)
+    [7] if __x4__ {
+      app __x5__ = (Call promiseCapability.Reject undefined (new [namespace.Value]))
+      if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [4] {}
+      __x5__
+    } else {
+      app __x6__ = (Call promiseCapability.Resolve undefined (new [namespace.Value]))
+      if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [4] {}
+      __x6__
+    }
+  }
+}

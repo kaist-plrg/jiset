@@ -1,0 +1,41 @@
+{
+  [0] let V = undefined
+  [1] app __x0__ = (CreatePerIterationEnvironment perIterationBindings)
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [3] {}
+  [1] __x0__
+  [2] while true {
+    [3] if (! (= test absent)) {
+      [4] access __x1__ = (test "Evaluation")
+      [4] let testRef = __x1__
+      [5] app __x2__ = (GetValue testRef)
+      [5] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [3] {}
+      [5] let testValue = __x2__
+      [6] app __x3__ = (ToBoolean testValue)
+      [6] if (= __x3__ false) {
+        app __x4__ = (NormalCompletion V)
+        app __x5__ = (WrapCompletion __x4__)
+        return __x5__
+      } else [3] {}
+    } else [3] {}
+    [7] access __x6__ = (stmt "Evaluation")
+    [7] let result = __x6__
+    [8] app __x7__ = (LoopContinues result labelSet)
+    [8] if (= __x7__ false) {
+      app __x8__ = (UpdateEmpty result V)
+      app __x9__ = (Completion __x8__)
+      app __x10__ = (WrapCompletion __x9__)
+      return __x10__
+    } else [3] {}
+    [9] if (! (= result.Value CONST_empty)) V = result.Value else [3] {}
+    [10] app __x11__ = (CreatePerIterationEnvironment perIterationBindings)
+    [10] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [3] {}
+    [10] __x11__
+    [11] if (! (= increment absent)) {
+      [12] access __x12__ = (increment "Evaluation")
+      [12] let incRef = __x12__
+      [13] app __x13__ = (GetValue incRef)
+      [13] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [3] {}
+      [13] __x13__
+    } else [3] {}
+  }
+}

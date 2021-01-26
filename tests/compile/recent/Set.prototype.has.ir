@@ -1,0 +1,25 @@
+{
+  app value = (GetArgument argumentsList 0i)
+  [0] let S = this
+  [1] app __x0__ = (RequireInternalSlot S "SetData")
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [16] {}
+  [1] __x0__
+  [2] let entries = S.SetData
+  [3] let __x1__ = entries
+  [3] let __x2__ = 0i
+  [3] while (< __x2__ __x1__.length) {
+    let e = __x1__[__x2__]
+    [4] let __x3__ = (! (= e CONST_empty))
+    [4] if __x3__ {
+      app __x4__ = (SameValueZero e value)
+      __x3__ = (= __x4__ true)
+    } else [16] {}
+    [4] if __x3__ {
+      app __x5__ = (WrapCompletion true)
+      return __x5__
+    } else [16] {}
+    __x2__ = (+ __x2__ 1i)
+  }
+  [5] app __x6__ = (WrapCompletion false)
+  [5] return __x6__
+}

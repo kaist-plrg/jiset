@@ -1,0 +1,49 @@
+[{
+  "tokens": ["Return", "a", "new", "Matcher", "with", "parameters", "(", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ")", "that", "captures", "nothing", "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "x"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "c"
+  }, "is", "a", "Continuation", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "e"
+  }, "be", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "endIndex"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "e"
+  }, "is", "equal", "to", {
+    "id": "InputLength"
+  }, ",", "or", "if", {
+    "id": "Multiline"
+  }, "is", {
+    "value": "true"
+  }, "and", "the", "character", {
+    "id": "Input"
+  }, "[", {
+    "id": "e"
+  }, "]", "is", "one", "of", {
+    "nt": "LineTerminator"
+  }, ",", "then"]
+}, {
+  "tokens": ["Call", {
+    "id": "c"
+  }, "(", {
+    "id": "x"
+  }, ")", "and", "return", "its", "result", "."]
+}, {
+  "tokens": ["Return", {
+    "const": "failure"
+  }, "."]
+}]

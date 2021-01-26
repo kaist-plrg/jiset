@@ -1,0 +1,19 @@
+{
+  [0] let onFinally = F.OnFinally
+  [1] app __x0__ = (IsCallable onFinally)
+  [1] assert (= __x0__ true)
+  [2] app __x1__ = (Call onFinally undefined)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [1] {}
+  [2] let result = __x1__
+  [3] let C = F.Constructor
+  [4] app __x2__ = (IsConstructor C)
+  [4] assert (= __x2__ true)
+  [5] app __x3__ = (PromiseResolve C result)
+  [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [1] {}
+  [5] let promise = __x3__
+  [6] ??? "Let id:{valueThunk} be equivalent to a function that returns id:{value} ."
+  [7] app __x4__ = (Invoke promise "then" (new [valueThunk]))
+  [7] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [1] {}
+  [7] app __x5__ = (WrapCompletion __x4__)
+  [7] return __x5__
+}

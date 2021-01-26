@@ -1,0 +1,60 @@
+{
+  app precision = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (thisNumberValue this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [2] {}
+  [0] let x = __x0__
+  [1] if (= precision undefined) {
+    app __x1__ = (ToString x)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [2] {}
+    app __x2__ = (WrapCompletion __x1__)
+    return __x2__
+  } else [2] {}
+  [2] app __x3__ = (ToInteger precision)
+  [2] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [2] {}
+  [2] let p = __x3__
+  [3] if (= x NaN) {
+    app __x4__ = (WrapCompletion "NaN")
+    return __x4__
+  } else [2] {}
+  [4] let s = ""
+  [5] if (< x 0i) {
+    [6] let s = "-"
+    [7] let x = (- x)
+  } else [2] {}
+  [8] if (== x Infinity) {
+    [9] app __x5__ = (WrapCompletion (+ s "Infinity"))
+    [9] return __x5__
+  } else [2] {}
+  [10] if (|| (< p 1i) (< 21i p)) {
+    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x6__
+  } else [2] {}
+  [14] if (== x 0i) {
+    [12] ??? "Let id:{m} be the String consisting of id:{p} occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
+    [13] let e = 0i
+  } else {
+    [15] ??? "Let id:{e} and id:{n} be integers such that 10 sup:{id:{p} - 1 } ≤ id:{n} < 10 sup:{id:{p} } and for which the exact mathematical value of id:{n} × 10 sup:{id:{e} - id:{p} + 1 } - id:{x} is as close to zero as possible . If there are two such sets of id:{e} and id:{n} , pick the id:{e} and id:{n} for which id:{n} × 10 sup:{id:{e} - id:{p} + 1 } is larger ."
+    [16] ??? "Let id:{m} be the String consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) ."
+    [17] if (|| (< e -6i) (! (< e p))) {
+      [18] assert (! (== e 0i))
+      [19] if (! (== p 1i)) {
+        [20] ??? "Let id:{a} be the first element of id:{m} , and let id:{b} be the remaining id:{p} - 1 elements of id:{m} ."
+        [21] let m = (+ (+ a ".") b)
+      } else [2] {}
+      [24] if (< 0i e) let c = "+" else {
+        [25] let c = "-"
+        [26] let e = (- e)
+      }
+      [27] ??? "Let id:{d} be the String consisting of the digits of the decimal representation of id:{e} ( in order , with no leading zeroes ) ."
+      [28] app __x7__ = (WrapCompletion (+ (+ (+ (+ s m) "e") c) d))
+      [28] return __x7__
+    } else [2] {}
+  }
+  [29] if (== e (- p 1i)) {
+    app __x8__ = (WrapCompletion (+ s m))
+    return __x8__
+  } else [2] {}
+  [32] if (! (< e 0i)) ??? "Let id:{m} be the concatenation of the first id:{e} + 1 elements of id:{m} , the code unit 0x002E ( FULL STOP ) , and the remaining id:{p} - ( id:{e} + 1 ) elements of id:{m} ." else ??? "Let id:{m} be the String formed by the concatenation of code unit 0x0030 ( DIGIT ZERO ) , code unit 0x002E ( FULL STOP ) , - ( id:{e} + 1 ) occurrences of code unit 0x0030 ( DIGIT ZERO ) , and the String id:{m} ."
+  [34] app __x9__ = (WrapCompletion (+ s m))
+  [34] return __x9__
+}

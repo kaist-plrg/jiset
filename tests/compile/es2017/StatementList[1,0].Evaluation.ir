@@ -1,0 +1,12 @@
+{
+  [0] access __x0__ = (StatementList "Evaluation")
+  [0] let sl = __x0__
+  [1] if (is-completion sl) if (= sl.Type CONST_normal) sl = sl.Value else return sl else [8] {}
+  [1] sl
+  [2] access __x1__ = (StatementListItem "Evaluation")
+  [2] let s = __x1__
+  [3] app __x2__ = (UpdateEmpty s sl)
+  [3] app __x3__ = (Completion __x2__)
+  [3] app __x4__ = (WrapCompletion __x3__)
+  [3] return __x4__
+}

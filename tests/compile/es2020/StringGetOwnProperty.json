@@ -1,0 +1,91 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "S"
+  }, "is", "an", "Object", "that", "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
+    "id": "P"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "P"
+  }, ")", "is", "not", "String", ",", "return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "index"
+  }, "be", "!", "CanonicalNumericIndexString", "(", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "index"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["If", "IsInteger", "(", {
+    "id": "index"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "index"
+  }, "=", {
+    "value": "-0"
+  }, ",", "return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "str"
+  }, "be", {
+    "id": "S"
+  }, ".", "[", "[", "StringData", "]", "]", "."]
+}, {
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "str"
+  }, ")", "is", "String", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "the", "length", "of", {
+    "id": "str"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "index"
+  }, "<", "0", "or", {
+    "id": "len"
+  }, "≤", {
+    "id": "index"
+  }, ",", "return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "resultStr"
+  }, "be", "the", "String", "value", "of", "length", "1", ",", "containing", "one", "code", "unit", "from", {
+    "id": "str"
+  }, ",", "specifically", "the", "code", "unit", "at", "index", {
+    "id": "index"
+  }, "."]
+}, {
+  "tokens": ["Return", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+    "id": "resultStr"
+  }, ",", "[", "[", "Writable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "true"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "false"
+  }, "}", "."]
+}]

@@ -1,0 +1,67 @@
+[{
+  "tokens": ["Let", {
+    "id": "P"
+  }, "be", "StringValue", "of", {
+    "nt": "IdentifierReference"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "lref"
+  }, "be", "?", "ResolveBinding", "(", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "v"
+  }, "be", "?", "GetV", "(", {
+    "id": "value"
+  }, ",", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "nt": "Initializer"
+  }, "is", "present", "and", {
+    "id": "v"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["If", "IsAnonymousFunctionDefinition", "(", {
+    "nt": "Initializer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "v"
+  }, "to", "the", "result", "of", "performing", "NamedEvaluation", "for", {
+    "nt": "Initializer"
+  }, "with", "argument", {
+    "id": "P"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "defaultValue"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "Initializer"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "v"
+  }, "to", "?", "GetValue", "(", {
+    "id": "defaultValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "?", "PutValue", "(", {
+    "id": "lref"
+  }, ",", {
+    "id": "v"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "a", "new", "List", "containing", {
+    "id": "P"
+  }, "."]
+}]

@@ -1,0 +1,1 @@
+          1. Return HasCallInTailPosition of |Catch| with argument _call_.

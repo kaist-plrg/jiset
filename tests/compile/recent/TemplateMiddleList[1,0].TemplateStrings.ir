@@ -1,0 +1,15 @@
+{
+  [0] access __x0__ = (TemplateMiddleList "TemplateStrings")
+  [0] app __x1__ = (__x0__ raw)
+  [0] let front = __x1__
+  [3] if (= raw false) {
+    [2] access __x2__ = (TemplateMiddle "TV")
+    [2] let last = __x2__
+  } else {
+    [4] access __x3__ = (TemplateMiddle "TRV")
+    [4] let last = __x3__
+  }
+  [5] append last -> front
+  [6] app __x4__ = (WrapCompletion front)
+  [6] return __x4__
+}

@@ -1,0 +1,19 @@
+{
+  [0] app __x0__ = (ArrayCreate 0i)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [5] {}
+  [0] let array = __x0__
+  [1] access __x1__ = (ElementList "ArrayAccumulation")
+  [1] app __x2__ = (__x1__ array 0i)
+  [1] let len = __x2__
+  [2] if (is-completion len) if (= len.Type CONST_normal) len = len.Value else return len else [5] {}
+  [2] len
+  [3] if (= Elision absent) let padding = 0i else {
+    access __x3__ = (Elision "ElisionWidth")
+    let padding = __x3__
+  }
+  [4] app __x4__ = (ToUint32 (+ padding len))
+  [4] app __x5__ = (Set array "length" __x4__ false)
+  [4] __x5__
+  [6] app __x6__ = (WrapCompletion array)
+  [6] return __x6__
+}

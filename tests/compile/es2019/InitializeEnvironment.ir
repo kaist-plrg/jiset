@@ -1,0 +1,112 @@
+{
+  [0] let module = this
+  [1] let __x0__ = module.IndirectExportEntries
+  [1] let __x1__ = 0i
+  [1] while (< __x1__ __x0__.length) {
+    let e = __x0__[__x1__]
+    [2] app __x2__ = (module.ResolveExport module e.ExportName (new []))
+    [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [13] {}
+    [2] let resolution = __x2__
+    [3] if (|| (= resolution null) (= resolution "ambiguous")) {
+      app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x3__
+    } else [13] {}
+    [4] assert (= (typeof resolution) "ResolvedBindingRecord")
+    __x1__ = (+ __x1__ 1i)
+  }
+  [6] let realm = module.Realm
+  [7] assert (! (= realm undefined))
+  [8] app __x4__ = (NewModuleEnvironment realm.GlobalEnv)
+  [8] let env = __x4__
+  [9] module.Environment = env
+  [10] let envRec = env.EnvironmentRecord
+  [11] let __x5__ = module.ImportEntries
+  [11] let __x6__ = 0i
+  [11] while (< __x6__ __x5__.length) {
+    let in = __x5__[__x6__]
+    [12] app __x7__ = (HostResolveImportedModule module in.ModuleRequest)
+    [12] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [13] {}
+    [12] let importedModule = __x7__
+    [18] if (= in.ImportName "*") {
+      [15] app __x8__ = (GetModuleNamespace importedModule)
+      [15] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [13] {}
+      [15] let namespace = __x8__
+      [16] app __x9__ = (envRec.CreateImmutableBinding envRec in.LocalName true)
+      [16] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [13] {}
+      [16] __x9__
+      [17] app __x10__ = (envRec.InitializeBinding envRec in.LocalName namespace)
+      [17] __x10__
+    } else {
+      [19] app __x11__ = (importedModule.ResolveExport importedModule in.ImportName (new []))
+      [19] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [13] {}
+      [19] let resolution = __x11__
+      [20] if (|| (= resolution null) (= resolution "ambiguous")) {
+        app __x12__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x12__
+      } else [13] {}
+      [21] app __x13__ = (envRec.CreateImportBinding envRec in.LocalName resolution.Module resolution.BindingName)
+      [21] __x13__
+    }
+    __x6__ = (+ __x6__ 1i)
+  }
+  [22] let code = module.ECMAScriptCode
+  [23] access __x14__ = (code "VarScopedDeclarations")
+  [23] let varDeclarations = __x14__
+  [24] let declaredVarNames = (new [])
+  [25] let __x15__ = varDeclarations
+  [25] let __x16__ = 0i
+  [25] while (< __x16__ __x15__.length) {
+    let d = __x15__[__x16__]
+    [26] access __x17__ = (d "BoundNames")
+    [26] let __x18__ = __x17__
+    [26] let __x19__ = 0i
+    [26] while (< __x19__ __x18__.length) {
+      let dn = __x18__[__x19__]
+      [27] if (! (contains declaredVarNames dn)) {
+        [28] app __x20__ = (envRec.CreateMutableBinding envRec dn false)
+        [28] if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else [13] {}
+        [28] __x20__
+        [29] app __x21__ = (envRec.InitializeBinding envRec dn undefined)
+        [29] __x21__
+        [30] append dn -> declaredVarNames
+      } else [13] {}
+      __x19__ = (+ __x19__ 1i)
+    }
+    __x16__ = (+ __x16__ 1i)
+  }
+  [31] access __x22__ = (code "LexicallyScopedDeclarations")
+  [31] let lexDeclarations = __x22__
+  [32] let __x23__ = lexDeclarations
+  [32] let __x24__ = 0i
+  [32] while (< __x24__ __x23__.length) {
+    let d = __x23__[__x24__]
+    [33] access __x25__ = (d "BoundNames")
+    [33] let __x26__ = __x25__
+    [33] let __x27__ = 0i
+    [33] while (< __x27__ __x26__.length) {
+      let dn = __x26__[__x27__]
+      [36] access __x28__ = (d "IsConstantDeclaration")
+      [36] if (= __x28__ true) {
+        [35] app __x29__ = (envRec.CreateImmutableBinding envRec dn true)
+        [35] if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else [13] {}
+        [35] __x29__
+      } else {
+        [37] app __x30__ = (envRec.CreateMutableBinding envRec dn false)
+        [37] if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else [13] {}
+        [37] __x30__
+      }
+      [38] if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) {
+        [39] access __x31__ = (d "InstantiateFunctionObject")
+        [39] app __x32__ = (__x31__ env)
+        [39] let fo = __x32__
+        [40] app __x33__ = (envRec.InitializeBinding envRec dn fo)
+        [40] __x33__
+      } else [13] {}
+      __x27__ = (+ __x27__ 1i)
+    }
+    __x24__ = (+ __x24__ 1i)
+  }
+  [41] app __x34__ = (NormalCompletion CONST_empty)
+  [41] app __x35__ = (WrapCompletion __x34__)
+  [41] return __x35__
+}

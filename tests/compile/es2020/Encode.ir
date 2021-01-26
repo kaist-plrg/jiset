@@ -1,0 +1,35 @@
+{
+  app string = (GetArgument argumentsList 0i)
+  app unescapedSet = (GetArgument argumentsList 1i)
+  [0] let strLen = string.length
+  [1] let R = ""
+  [2] let k = 0i
+  [3] while true {
+    [4] if (= k strLen) {
+      app __x0__ = (WrapCompletion R)
+      return __x0__
+    } else [74] {}
+    [5] let C = string[k]
+    [9] if (contains unescapedSet C) {
+      [7] k = (+ k 1i)
+      [8] R = (+ R C)
+    } else {
+      [10] app __x1__ = (CodePointAt string k)
+      [10] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [74] {}
+      [10] let cp = __x1__
+      [11] if (= cp.IsUnpairedSurrogate true) {
+        app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_URIError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x2__
+      } else [74] {}
+      [12] k = (+ k cp.CodeUnitCount)
+      [13] ??? "Let id:{Octets} be the List of octets resulting by applying the UTF - 8 transformation to id:{cp} . [ [ CodePoint ] ] ."
+      [14] let __x3__ = Octets
+      [14] let __x4__ = 0i
+      [14] while (< __x4__ __x3__.length) {
+        let octet = __x3__[__x4__]
+        [15] R = (+ (+ ??? "StringOp" "%") ??? "StringOp")
+        __x4__ = (+ __x4__ 1i)
+      }
+    }
+  }
+}

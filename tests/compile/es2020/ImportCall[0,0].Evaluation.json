@@ -1,0 +1,45 @@
+[{
+  "tokens": ["Let", {
+    "id": "referencingScriptOrModule"
+  }, "be", "!", "GetActiveScriptOrModule", "(", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "argRef"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AssignmentExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "specifier"
+  }, "be", "?", "GetValue", "(", {
+    "id": "argRef"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "promiseCapability"
+  }, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "specifierString"
+  }, "be", "ToString", "(", {
+    "id": "specifier"
+  }, ")", "."]
+}, {
+  "tokens": ["IfAbruptRejectPromise", "(", {
+    "id": "specifierString"
+  }, ",", {
+    "id": "promiseCapability"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "!", "HostImportModuleDynamically", "(", {
+    "id": "referencingScriptOrModule"
+  }, ",", {
+    "id": "specifierString"
+  }, ",", {
+    "id": "promiseCapability"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "promiseCapability"
+  }, ".", "[", "[", "Promise", "]", "]", "."]
+}]

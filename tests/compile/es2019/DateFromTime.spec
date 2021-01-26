@@ -1,0 +1,12 @@
+1. DayWithinYear(_t_) + 1  if MonthFromTime(_t_) = 0
+1. DayWithinYear(_t_) - 30  if MonthFromTime(_t_) = 1
+1. DayWithinYear(_t_) - 58 - InLeapYear(_t_) if MonthFromTime(_t_) = 2
+1. DayWithinYear(_t_) - 89 - InLeapYear(_t_) if MonthFromTime(_t_) = 3
+1. DayWithinYear(_t_) - 119 - InLeapYear(_t_) if MonthFromTime(_t_) = 4
+1. DayWithinYear(_t_) - 150 - InLeapYear(_t_) if MonthFromTime(_t_) = 5
+1. DayWithinYear(_t_) - 180 - InLeapYear(_t_) if MonthFromTime(_t_) = 6
+1. DayWithinYear(_t_) - 211 - InLeapYear(_t_) if MonthFromTime(_t_) = 7
+1. DayWithinYear(_t_) - 242 - InLeapYear(_t_) if MonthFromTime(_t_) = 8
+1. DayWithinYear(_t_) - 272 - InLeapYear(_t_) if MonthFromTime(_t_) = 9
+1. DayWithinYear(_t_) - 303 - InLeapYear(_t_) if MonthFromTime(_t_) = 10
+1. DayWithinYear(_t_) - 333 - InLeapYear(_t_) if MonthFromTime(_t_) = 11

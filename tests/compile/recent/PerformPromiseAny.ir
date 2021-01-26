@@ -1,0 +1,60 @@
+{
+  [0] app __x0__ = (IsConstructor constructor)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [10] {}
+  [0] assert (= __x0__ true)
+  [1] app __x1__ = (IsCallable promiseResolve)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [10] {}
+  [1] assert (= __x1__ true)
+  [2] let errors = (new [])
+  [3] let remainingElementsCount = (new Record("Value" -> 1i))
+  [4] let index = 0i
+  [5] while true {
+    [6] app __x2__ = (IteratorStep iteratorRecord)
+    [6] let next = __x2__
+    [7] app __x3__ = (IsAbruptCompletion next)
+    [7] if __x3__ iteratorRecord.Done = true else [10] {}
+    [8] if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else [10] {}
+    [8] next
+    [9] if (= next false) {
+      [10] iteratorRecord.Done = true
+      [11] remainingElementsCount.Value = (- remainingElementsCount.Value 1i)
+      [12] if (= remainingElementsCount.Value 0i) {
+        [13] ??? "Let id:{error} be a newly created code:{AggregateError} object ."
+        [14] app __x4__ = (CreateArrayFromList errors)
+        [14] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [10] {}
+        [14] app __x5__ = (DefinePropertyOrThrow error "errors" (new PropertyDescriptor("Configurable" -> true, "Enumerable" -> false, "Writable" -> true, "Value" -> __x4__)))
+        [14] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [10] {}
+        [14] __x5__
+        [15] app __x6__ = (ThrowCompletion error)
+        [15] app __x7__ = (WrapCompletion __x6__)
+        [15] return __x7__
+      } else [10] {}
+      [16] app __x8__ = (WrapCompletion resultCapability.Promise)
+      [16] return __x8__
+    } else [10] {}
+    [17] app __x9__ = (IteratorValue next)
+    [17] let nextValue = __x9__
+    [18] app __x10__ = (IsAbruptCompletion nextValue)
+    [18] if __x10__ iteratorRecord.Done = true else [10] {}
+    [19] if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else [10] {}
+    [19] nextValue
+    [20] append undefined -> errors
+    [21] app __x11__ = (Call promiseResolve constructor (new [nextValue]))
+    [21] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [10] {}
+    [21] let nextPromise = __x11__
+    [22] ??? "Let id:{steps} be the algorithm steps defined in link:{} ."
+    [23] app __x12__ = (CreateBuiltinFunction steps (new ["AlreadyCalled", "Index", "Errors", "Capability", "RemainingElements"]))
+    [23] if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [10] {}
+    [23] let rejectElement = __x12__
+    [24] rejectElement.AlreadyCalled = false
+    [25] rejectElement.Index = index
+    [26] rejectElement.Errors = errors
+    [27] rejectElement.Capability = resultCapability
+    [28] rejectElement.RemainingElements = remainingElementsCount
+    [29] remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)
+    [30] app __x13__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, rejectElement]))
+    [30] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [10] {}
+    [30] __x13__
+    [31] index = (+ index 1i)
+  }
+}

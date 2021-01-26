@@ -1,0 +1,24 @@
+{
+  [0] access __x0__ = (ShortCircuitExpression "Evaluation")
+  [0] let lref = __x0__
+  [1] app __x1__ = (GetValue lref)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [14] {}
+  [1] app __x2__ = (ToBoolean __x1__)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [14] {}
+  [1] let lval = __x2__
+  [5] if (= lval true) {
+    [3] access __x3__ = (AssignmentExpression0 "Evaluation")
+    [3] let trueRef = __x3__
+    [4] app __x4__ = (GetValue trueRef)
+    [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [14] {}
+    [4] app __x5__ = (WrapCompletion __x4__)
+    [4] return __x5__
+  } else {
+    [6] access __x6__ = (AssignmentExpression1 "Evaluation")
+    [6] let falseRef = __x6__
+    [7] app __x7__ = (GetValue falseRef)
+    [7] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [14] {}
+    [7] app __x8__ = (WrapCompletion __x7__)
+    [7] return __x8__
+  }
+}

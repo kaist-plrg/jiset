@@ -1,0 +1,23 @@
+[{
+  "tokens": ["Let", {
+    "id": "idText"
+  }, "be", "the", "source", "text", "matched", "by", {
+    "nt": "IdentifierName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "idTextUnescaped"
+  }, "be", "the", "result", "of", "replacing", "any", "occurrences", "of", {
+    "code": "\\\\"
+  }, {
+    "nt": "UnicodeEscapeSequence"
+  }, "in", {
+    "id": "idText"
+  }, "with", "the", "code", "point", "represented", "by", "the", {
+    "nt": "UnicodeEscapeSequence"
+  }, "."]
+}, {
+  "tokens": ["Return", "!", "CodePointsToString", "(", {
+    "id": "idTextUnescaped"
+  }, ")", "."]
+}]

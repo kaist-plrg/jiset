@@ -1,0 +1,26 @@
+{
+  [0] let V = undefined
+  [1] while true {
+    [2] access __x0__ = (Statement "Evaluation")
+    [2] let stmt = __x0__
+    [3] app __x1__ = (LoopContinues stmt labelSet)
+    [3] if (= __x1__ false) {
+      app __x2__ = (UpdateEmpty stmt V)
+      app __x3__ = (Completion __x2__)
+      app __x4__ = (WrapCompletion __x3__)
+      return __x4__
+    } else [6] {}
+    [4] if (! (= stmt.Value CONST_empty)) let V = stmt.Value else [6] {}
+    [5] access __x5__ = (Expression "Evaluation")
+    [5] let exprRef = __x5__
+    [6] app __x6__ = (GetValue exprRef)
+    [6] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [6] {}
+    [6] let exprValue = __x6__
+    [7] app __x7__ = (ToBoolean exprValue)
+    [7] if (= __x7__ false) {
+      app __x8__ = (NormalCompletion V)
+      app __x9__ = (WrapCompletion __x8__)
+      return __x9__
+    } else [6] {}
+  }
+}

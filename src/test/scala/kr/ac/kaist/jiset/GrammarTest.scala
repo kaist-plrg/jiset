@@ -8,22 +8,15 @@ import org.scalatest._
 
 class GrammarTest extends JISETTest {
   // tag name
-  override val tag = "grammar"
-
-  // versions
-  val versions = List(
-    "es2016", "es2017", "es2018", "es2019", "es2020", "recent"
-  )
+  override def tag = "grammar"
 
   // registration
-  def init: Unit = {
-    for (version <- versions) check(tag, version, {
+  override def executeTests: Unit = {
+    for (version <- VERSIONS) check(tag, version, {
       val filename = s"$GRAMMAR_DIR/$version.grammar"
       val answer = readFile(filename)
       val (grammar, _) = ECMAScriptParser.parseGrammar(version)
       assert(answer == grammar.toString)
     })
   }
-
-  init
 }

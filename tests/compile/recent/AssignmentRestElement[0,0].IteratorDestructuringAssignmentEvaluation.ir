@@ -1,0 +1,41 @@
+{
+  [0] if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
+    [1] access __x0__ = (DestructuringAssignmentTarget "Evaluation")
+    [1] let lref = __x0__
+    [2] if (is-completion lref) if (= lref.Type CONST_normal) lref = lref.Value else return lref else [9] {}
+    [2] lref
+  } else [9] {}
+  [3] app __x1__ = (ArrayCreate 0i)
+  [3] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [9] {}
+  [3] let A = __x1__
+  [4] let n = 0i
+  [5] while (= iteratorRecord.Done false) {
+    [6] app __x2__ = (IteratorStep iteratorRecord)
+    [6] let next = __x2__
+    [7] app __x3__ = (IsAbruptCompletion next)
+    [7] if __x3__ iteratorRecord.Done = true else [9] {}
+    [8] if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else [9] {}
+    [8] next
+    [10] if (= next false) iteratorRecord.Done = true else {
+      [11] app __x4__ = (IteratorValue next)
+      [11] let nextValue = __x4__
+      [12] app __x5__ = (IsAbruptCompletion nextValue)
+      [12] if __x5__ iteratorRecord.Done = true else [9] {}
+      [13] if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else [9] {}
+      [13] nextValue
+      [14] ??? "Perform ! CreateDataPropertyOrThrow ( id:{A} , ! ToString ( 𝔽 ( id:{n} ) ) , id:{nextValue} ) ."
+      [15] n = (+ n 1i)
+    }
+  }
+  [16] if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
+    [17] app __x6__ = (PutValue lref A)
+    [17] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [9] {}
+    [17] app __x7__ = (WrapCompletion __x6__)
+    [17] return __x7__
+  } else [9] {}
+  [18] let nestedAssignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
+  [19] access __x8__ = (nestedAssignmentPattern "DestructuringAssignmentEvaluation")
+  [19] app __x9__ = (__x8__ A)
+  [19] app __x10__ = (WrapCompletion __x9__)
+  [19] return __x10__
+}

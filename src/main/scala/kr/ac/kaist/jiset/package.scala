@@ -21,7 +21,7 @@ package object jiset {
   // Tests directory root
   val TEST_DIR = s"${BASE_DIR}/tests"
   val COMPILE_DIR = s"${TEST_DIR}/compile"
-  val LEGACY_DIR = s"${COMPILE_DIR}/legacy"
+  val LEGACY_COMPILE_DIR = s"${COMPILE_DIR}/legacy"
   val GRAMMAR_DIR = s"${TEST_DIR}/grammar"
 
   // Resource directory root
@@ -35,6 +35,9 @@ package object jiset {
 
   // ECMAScript model
   val VERSION = "es2020"
+  val VERSIONS = List(
+    "es2016", "es2017", "es2018", "es2019", "es2020", "recent"
+  )
 
   val DIFFLIST = List("es2016_eval", "es2017_eval", "es2018_eval", "es2019_eval")
 

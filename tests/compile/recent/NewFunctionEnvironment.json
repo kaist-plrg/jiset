@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "F"
+  }, "is", "an", "ECMAScript", "function", "."]
+}, {
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "newTarget"
+  }, ")", "is", "Undefined", "or", "Object", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "env"
+  }, "be", "a", "new", "function", "Environment", "Record", "containing", "no", "bindings", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "env"
+  }, ".", "[", "[", "FunctionObject", "]", "]", "to", {
+    "id": "F"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "F"
+  }, ".", "[", "[", "ThisMode", "]", "]", "is", {
+    "const": "lexical"
+  }, ",", "set", {
+    "id": "env"
+  }, ".", "[", "[", "ThisBindingStatus", "]", "]", "to", {
+    "const": "lexical"
+  }, "."]
+}, {
+  "tokens": ["Else", ",", "set", {
+    "id": "env"
+  }, ".", "[", "[", "ThisBindingStatus", "]", "]", "to", {
+    "const": "uninitialized"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "env"
+  }, ".", "[", "[", "NewTarget", "]", "]", "to", {
+    "id": "newTarget"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "env"
+  }, ".", "[", "[", "OuterEnv", "]", "]", "to", {
+    "id": "F"
+  }, ".", "[", "[", "Environment", "]", "]", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "env"
+  }, "."]
+}]

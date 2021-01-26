@@ -1,0 +1,16 @@
+{
+  [1] if (! (= CaseClauses0 absent)) {
+    access __x0__ = (CaseClauses0 "LexicallyScopedDeclarations")
+    let declarations = __x0__
+  } else let declarations = (new [])
+  [2] access __x1__ = (DefaultClause "LexicallyScopedDeclarations")
+  [2] let __x2__ = __x1__
+  [2] let __x3__ = 0i
+  [2] while (< __x3__ __x2__.length) {
+    let __x4__ = __x2__[__x3__]
+    append __x4__ -> declarations
+    __x3__ = (+ __x3__ 1i)
+  }
+  [3] ??? "If the second nt:{CaseClauses} is not present , return id:{declarations} ."
+  [4] ??? "Else return the result of appending to id:{declarations} the elements of the LexicallyScopedDeclarations of the second nt:{CaseClauses} ."
+}

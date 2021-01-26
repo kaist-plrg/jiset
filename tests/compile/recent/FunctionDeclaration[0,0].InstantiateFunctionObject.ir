@@ -1,0 +1,12 @@
+{
+  [0] access __x0__ = (BindingIdentifier "StringValue")
+  [0] let name = __x0__
+  [1] let sourceText = (get-syntax FunctionDeclaration)
+  [2] ??? "Let id:{F} be OrdinaryFunctionCreate ( % Function . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{FunctionBody} , const:{non-lexical-this} , id:{scope} ) ."
+  [3] app __x1__ = (SetFunctionName F name)
+  [3] __x1__
+  [4] app __x2__ = (MakeConstructor F)
+  [4] __x2__
+  [5] app __x3__ = (WrapCompletion F)
+  [5] return __x3__
+}

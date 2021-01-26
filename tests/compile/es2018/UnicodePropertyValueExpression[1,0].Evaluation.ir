@@ -1,0 +1,9 @@
+{
+  [0] access __x0__ = (LoneUnicodePropertyNameOrValue "SourceText")
+  [0] let s = __x0__
+  [1] ??? "If ! UnicodeMatchPropertyValue ( code:{\"General_Category\"} , id:{s} ) is identical to a List of Unicode code points that is the name of a Unicode general category or general category alias listed in the “ Property value and aliases ” column of link:{} , then step-list:{...}"
+  [3] app __x1__ = (UnicodeMatchProperty s)
+  [3] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [4] {}
+  [3] let p = __x1__
+  [5] ??? "Return the CharSet containing all Unicode code points whose character database definition includes the property id:{p} with value “ True ” ."
+}

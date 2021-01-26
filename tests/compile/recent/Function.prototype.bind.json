@@ -1,0 +1,129 @@
+[{
+  "tokens": ["Let", {
+    "id": "Target"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "Target"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "F"
+  }, "be", "?", "BoundFunctionCreate", "(", {
+    "id": "Target"
+  }, ",", {
+    "id": "thisArg"
+  }, ",", {
+    "id": "args"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "L"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetHasLength"
+  }, "be", "?", "HasOwnProperty", "(", {
+    "id": "Target"
+  }, ",", {
+    "value": "\"length\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "targetHasLength"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "targetLen"
+  }, "be", "?", "Get", "(", {
+    "id": "Target"
+  }, ",", {
+    "value": "\"length\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "targetLen"
+  }, ")", "is", "Number", ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "targetLen"
+  }, "is", {
+    "value": "+∞"
+  }, ",", "set", {
+    "id": "L"
+  }, "to", "+", "∞", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "targetLen"
+  }, "is", {
+    "value": "-∞"
+  }, ",", "set", {
+    "id": "L"
+  }, "to", "0", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "targetLenAsInt"
+  }, "be", "!", "ToIntegerOrInfinity", "(", {
+    "id": "targetLen"
+  }, ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "targetLenAsInt"
+  }, "is", "finite", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "argCount"
+  }, "be", "the", "number", "of", "elements", "in", {
+    "id": "args"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "L"
+  }, "to", "max", "(", {
+    "id": "targetLenAsInt"
+  }, "-", {
+    "id": "argCount"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Perform", "!", "SetFunctionLength", "(", {
+    "id": "F"
+  }, ",", {
+    "id": "L"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetName"
+  }, "be", "?", "Get", "(", {
+    "id": "Target"
+  }, ",", {
+    "value": "\"name\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "targetName"
+  }, ")", "is", "not", "String", ",", "set", {
+    "id": "targetName"
+  }, "to", "the", "empty", "String", "."]
+}, {
+  "tokens": ["Perform", "SetFunctionName", "(", {
+    "id": "F"
+  }, ",", {
+    "id": "targetName"
+  }, ",", {
+    "value": "\"bound\""
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "F"
+  }, "."]
+}]

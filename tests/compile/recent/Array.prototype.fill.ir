@@ -1,0 +1,34 @@
+{
+  app value = (GetArgument argumentsList 0i)
+  app start = (GetArgument argumentsList 1i)
+  app end = (GetArgument argumentsList 2i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [19] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (LengthOfArrayLike O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [19] {}
+  [1] let len = __x1__
+  [2] app __x2__ = (ToIntegerOrInfinity start)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [19] {}
+  [2] let relativeStart = __x2__
+  [3] ??? "If id:{relativeStart} is - ∞ , let id:{k} be 0 ."
+  [4] ??? "Else if id:{relativeStart} < 0 , let id:{k} be max ( id:{len} + id:{relativeStart} , 0 ) ."
+  [5] ??? "Else , let id:{k} be min ( id:{relativeStart} , id:{len} ) ."
+  [6] if (= end undefined) let relativeEnd = len else {
+    app __x3__ = (ToIntegerOrInfinity end)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [19] {}
+    let relativeEnd = __x3__
+  }
+  [7] ??? "If id:{relativeEnd} is - ∞ , let id:{final} be 0 ."
+  [8] ??? "Else if id:{relativeEnd} < 0 , let id:{final} be max ( id:{len} + id:{relativeEnd} , 0 ) ."
+  [9] ??? "Else , let id:{final} be min ( id:{relativeEnd} , id:{len} ) ."
+  [10] while (< k final) {
+    [11] ??? "Let id:{Pk} be ! ToString ( 𝔽 ( id:{k} ) ) ."
+    [12] app __x4__ = (Set O Pk value true)
+    [12] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [19] {}
+    [12] __x4__
+    [13] k = (+ k 1i)
+  }
+  [14] app __x5__ = (WrapCompletion O)
+  [14] return __x5__
+}

@@ -1,0 +1,181 @@
+[{
+  "tokens": ["Assert", ":", "IsPromise", "(", {
+    "id": "promise"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "resultCapability"
+  }, "is", "not", "present", ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "resultCapability"
+  }, "to", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "onFulfilled"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "onFulfilledJobCallback"
+  }, "be", {
+    "const": "empty"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "onFulfilledJobCallback"
+  }, "be", "HostMakeJobCallback", "(", {
+    "id": "onFulfilled"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "onRejected"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "onRejectedJobCallback"
+  }, "be", {
+    "const": "empty"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "onRejectedJobCallback"
+  }, "be", "HostMakeJobCallback", "(", {
+    "id": "onRejected"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "fulfillReaction"
+  }, "be", "the", "PromiseReaction", "{", "[", "[", "Capability", "]", "]", ":", {
+    "id": "resultCapability"
+  }, ",", "[", "[", "Type", "]", "]", ":", {
+    "const": "Fulfill"
+  }, ",", "[", "[", "Handler", "]", "]", ":", {
+    "id": "onFulfilledJobCallback"
+  }, "}", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rejectReaction"
+  }, "be", "the", "PromiseReaction", "{", "[", "[", "Capability", "]", "]", ":", {
+    "id": "resultCapability"
+  }, ",", "[", "[", "Type", "]", "]", ":", {
+    "const": "Reject"
+  }, ",", "[", "[", "Handler", "]", "]", ":", {
+    "id": "onRejectedJobCallback"
+  }, "}", "."]
+}, {
+  "tokens": ["If", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseState", "]", "]", "is", {
+    "const": "pending"
+  }, ",", "then"]
+}, {
+  "tokens": ["Append", {
+    "id": "fulfillReaction"
+  }, "as", "the", "last", "element", "of", "the", "List", "that", "is", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseFulfillReactions", "]", "]", "."]
+}, {
+  "tokens": ["Append", {
+    "id": "rejectReaction"
+  }, "as", "the", "last", "element", "of", "the", "List", "that", "is", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseRejectReactions", "]", "]", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseState", "]", "]", "is", {
+    "const": "fulfilled"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseResult", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "fulfillJob"
+  }, "be", "NewPromiseReactionJob", "(", {
+    "id": "fulfillReaction"
+  }, ",", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "HostEnqueuePromiseJob", "(", {
+    "id": "fulfillJob"
+  }, ".", "[", "[", "Job", "]", "]", ",", {
+    "id": "fulfillJob"
+  }, ".", "[", "[", "Realm", "]", "]", ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", "The", "value", "of", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseState", "]", "]", "is", {
+    "const": "rejected"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "reason"
+  }, "be", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseResult", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseIsHandled", "]", "]", "is", {
+    "value": "false"
+  }, ",", "perform", "HostPromiseRejectionTracker", "(", {
+    "id": "promise"
+  }, ",", {
+    "value": "\"handle\""
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rejectJob"
+  }, "be", "NewPromiseReactionJob", "(", {
+    "id": "rejectReaction"
+  }, ",", {
+    "id": "reason"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "HostEnqueuePromiseJob", "(", {
+    "id": "rejectJob"
+  }, ".", "[", "[", "Job", "]", "]", ",", {
+    "id": "rejectJob"
+  }, ".", "[", "[", "Realm", "]", "]", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "promise"
+  }, ".", "[", "[", "PromiseIsHandled", "]", "]", "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "resultCapability"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Return", {
+    "id": "resultCapability"
+  }, ".", "[", "[", "Promise", "]", "]", "."]
+}]

@@ -1,0 +1,36 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [1] app __x1__ = (O.GetOwnProperty O P)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [1] let desc = __x1__
+  [2] if (= desc undefined) {
+    [3] app __x2__ = (O.GetPrototypeOf O)
+    [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+    [3] let parent = __x2__
+    [4] if (= parent null) {
+      app __x3__ = (WrapCompletion undefined)
+      return __x3__
+    } else [0] {}
+    [5] app __x4__ = (parent.Get parent P Receiver)
+    [5] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [0] {}
+    [5] app __x5__ = (WrapCompletion __x4__)
+    [5] return __x5__
+  } else [0] {}
+  [6] app __x6__ = (IsDataDescriptor desc)
+  [6] if (= __x6__ true) {
+    app __x7__ = (WrapCompletion desc.Value)
+    return __x7__
+  } else [0] {}
+  [7] app __x8__ = (IsAccessorDescriptor desc)
+  [7] assert (= __x8__ true)
+  [8] let getter = desc.Get
+  [9] if (= getter undefined) {
+    app __x9__ = (WrapCompletion undefined)
+    return __x9__
+  } else [0] {}
+  [10] app __x10__ = (Call getter Receiver)
+  [10] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [0] {}
+  [10] app __x11__ = (WrapCompletion __x10__)
+  [10] return __x11__
+}

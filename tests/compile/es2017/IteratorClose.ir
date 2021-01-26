@@ -1,0 +1,33 @@
+{
+  [0] app __x0__ = (Type iterator)
+  [0] assert (= __x0__ Object)
+  [1] assert (is-completion completion)
+  [2] app __x1__ = (GetMethod iterator "return")
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [2] let return = __x1__
+  [3] if (= return undefined) {
+    app __x2__ = (Completion completion)
+    app __x3__ = (WrapCompletion __x2__)
+    return __x3__
+  } else [0] {}
+  [4] app __x4__ = (Call return iterator (new []))
+  [4] let innerResult = __x4__
+  [5] if (= completion.Type CONST_throw) {
+    app __x5__ = (Completion completion)
+    app __x6__ = (WrapCompletion __x5__)
+    return __x6__
+  } else [0] {}
+  [6] if (= innerResult.Type CONST_throw) {
+    app __x7__ = (Completion innerResult)
+    app __x8__ = (WrapCompletion __x7__)
+    return __x8__
+  } else [0] {}
+  [7] app __x9__ = (Type innerResult.Value)
+  [7] if (! (= __x9__ Object)) {
+    app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x10__
+  } else [0] {}
+  [8] app __x11__ = (Completion completion)
+  [8] app __x12__ = (WrapCompletion __x11__)
+  [8] return __x12__
+}

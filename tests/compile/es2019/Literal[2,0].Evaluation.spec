@@ -1,0 +1,1 @@
+          1. Return the number whose value is MV of |NumericLiteral| as defined in <emu-xref href="#sec-literals-numeric-literals"></emu-xref>.

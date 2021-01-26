@@ -1,0 +1,20 @@
+{
+  [1] app __x0__ = (IsDetachedBuffer O.ViewedArrayBuffer)
+  [1] if (= __x0__ true) {
+    app __x1__ = (WrapCompletion false)
+    return __x1__
+  } else [0] {}
+  [2] app __x2__ = (IsIntegralNumber index)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+  [2] if (= __x2__ false) {
+    app __x3__ = (WrapCompletion false)
+    return __x3__
+  } else [0] {}
+  [3] if (= index -0.0) {
+    app __x4__ = (WrapCompletion false)
+    return __x4__
+  } else [0] {}
+  [4] ??? "If ℝ ( id:{index} ) < 0 or ℝ ( id:{index} ) ≥ id:{O} . [ [ ArrayLength ] ] , return value:{false} ."
+  [5] app __x5__ = (WrapCompletion true)
+  [5] return __x5__
+}

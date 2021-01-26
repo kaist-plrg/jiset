@@ -1,0 +1,21 @@
+{
+  [0] let R = this
+  [1] app __x0__ = (Type R)
+  [1] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [51] {}
+  [2] if (= R.OriginalSource absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [51] {}
+  [3] if (= R.OriginalFlags absent) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else [51] {}
+  [4] let src = R.OriginalSource
+  [5] let flags = R.OriginalFlags
+  [6] app __x4__ = (EscapeRegExpPattern src flags)
+  [6] app __x5__ = (WrapCompletion __x4__)
+  [6] return __x5__
+}

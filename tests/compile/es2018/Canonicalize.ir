@@ -1,0 +1,19 @@
+{
+  [0] if (= IgnoreCase false) {
+    app __x0__ = (WrapCompletion ch)
+    return __x0__
+  } else [8] {}
+  [4] if (= Unicode true) {
+    [2] ??? "If the file CaseFolding . txt of the Unicode Character Database provides a simple or common case folding mapping for id:{ch} , return the result of applying that mapping to id:{ch} ."
+    [3] app __x1__ = (WrapCompletion ch)
+    [3] return __x1__
+  } else {
+    [6] let s = ch
+    [7] ??? "Let id:{u} be the same result produced as if by performing the algorithm for code:{String.prototype.toUpperCase} using id:{s} as the value:{this} value ."
+    [9] ??? "If id:{u} does not consist of a single code unit , return id:{ch} ."
+    [10] ??? "Let id:{cu} be id:{u} ' s single code unit element ."
+    [11] ??? "If the numeric value of id:{ch} ≥ 128 and the numeric value of id:{cu} < 128 , return id:{ch} ."
+    [12] app __x2__ = (WrapCompletion cu)
+    [12] return __x2__
+  }
+}

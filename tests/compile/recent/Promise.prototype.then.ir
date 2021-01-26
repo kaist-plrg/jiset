@@ -1,0 +1,19 @@
+{
+  app onFulfilled = (GetArgument argumentsList 0i)
+  app onRejected = (GetArgument argumentsList 1i)
+  [0] let promise = this
+  [1] app __x0__ = (IsPromise promise)
+  [1] if (= __x0__ false) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [10] {}
+  [2] app __x2__ = (SpeciesConstructor promise INTRINSIC_Promise)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [10] {}
+  [2] let C = __x2__
+  [3] app __x3__ = (NewPromiseCapability C)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [10] {}
+  [3] let resultCapability = __x3__
+  [4] app __x4__ = (PerformPromiseThen promise onFulfilled onRejected resultCapability)
+  [4] app __x5__ = (WrapCompletion __x4__)
+  [4] return __x5__
+}

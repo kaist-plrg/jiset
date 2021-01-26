@@ -1,0 +1,9 @@
+{
+  app exception = (GetArgument argumentsList 0i)
+  [0] let g = this
+  [1] let C = (new Completion("Type" -> CONST_throw, "Value" -> exception, "Target" -> CONST_empty))
+  [2] app __x0__ = (GeneratorResumeAbrupt g C)
+  [2] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [22] {}
+  [2] app __x1__ = (WrapCompletion __x0__)
+  [2] return __x1__
+}

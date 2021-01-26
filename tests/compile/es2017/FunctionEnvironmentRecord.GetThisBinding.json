@@ -1,0 +1,23 @@
+[{
+  "tokens": ["Let", {
+    "id": "envRec"
+  }, "be", "the", "function", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "envRec"
+  }, ".", "[", "[", "ThisBindingStatus", "]", "]", "is", "not", {
+    "code": "\"lexical\""
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "envRec"
+  }, ".", "[", "[", "ThisBindingStatus", "]", "]", "is", {
+    "code": "\"uninitialized\""
+  }, ",", "throw", "a", {
+    "value": "ReferenceError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "envRec"
+  }, ".", "[", "[", "ThisValue", "]", "]", "."]
+}]

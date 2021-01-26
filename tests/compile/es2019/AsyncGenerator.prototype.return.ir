@@ -1,0 +1,9 @@
+{
+  app value = (GetArgument argumentsList 0i)
+  [0] let generator = this
+  [1] let completion = (new Completion("Type" -> CONST_return, "Value" -> value, "Target" -> CONST_empty))
+  [2] app __x0__ = (AsyncGeneratorEnqueue generator completion)
+  [2] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [11] {}
+  [2] app __x1__ = (WrapCompletion __x0__)
+  [2] return __x1__
+}

@@ -1,0 +1,14 @@
+{
+  [0] app __x0__ = (MakeBasicObject (new ["Prototype", "Extensible", "StringData"]))
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [16] {}
+  [0] let S = __x0__
+  [1] S.Prototype = prototype
+  [2] S.StringData = value
+  [3] ??? "Set id:{S} . [ [ GetOwnProperty ] ] as specified in link:{} ."
+  [4] ??? "Set id:{S} . [ [ DefineOwnProperty ] ] as specified in link:{} ."
+  [5] ??? "Set id:{S} . [ [ OwnPropertyKeys ] ] as specified in link:{} ."
+  [6] let length = value.length
+  [7] ??? "Perform ! DefinePropertyOrThrow ( id:{S} , value:{\"length\"} , PropertyDescriptor { [ [ Value ] ] : 𝔽 ( id:{length} ) , [ [ Writable ] ] : value:{false} , [ [ Enumerable ] ] : value:{false} , [ [ Configurable ] ] : value:{false} } ) ."
+  [8] app __x1__ = (WrapCompletion S)
+  [8] return __x1__
+}

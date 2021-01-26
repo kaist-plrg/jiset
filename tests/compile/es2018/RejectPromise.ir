@@ -1,0 +1,17 @@
+{
+  app promise = (GetArgument argumentsList 0i)
+  app reason = (GetArgument argumentsList 1i)
+  [0] assert (= promise.PromiseState "pending")
+  [1] let reactions = promise.PromiseRejectReactions
+  [2] promise.PromiseResult = reason
+  [3] promise.PromiseFulfillReactions = undefined
+  [4] promise.PromiseRejectReactions = undefined
+  [5] promise.PromiseState = "rejected"
+  [6] if (= promise.PromiseIsHandled false) {
+    app __x0__ = (HostPromiseRejectionTracker promise "reject")
+    __x0__
+  } else [0] {}
+  [7] app __x1__ = (TriggerPromiseReactions reactions reason)
+  [7] app __x2__ = (WrapCompletion __x1__)
+  [7] return __x2__
+}

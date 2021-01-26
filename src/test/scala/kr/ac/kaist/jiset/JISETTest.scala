@@ -14,6 +14,10 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
   // JISET configuration
   lazy val aseConfig: JISETConfig = JISETConfig(CmdBase, Nil, true)
 
+  // execute
+  protected def executeTests: Unit
+  executeTests
+
   // results
   trait Result
   case object Pass extends Result
@@ -61,7 +65,7 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
   )
 
   // tag name
-  val tag: String
+  protected def tag: String
 
   // sort by keys
   def sortByKey[U, V](map: Map[U, V])(implicit ord: scala.math.Ordering[U]): List[(U, V)] = map.toList.sortBy { case (k, v) => k }

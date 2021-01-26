@@ -1,0 +1,1 @@
+          1. Return HasProductionInTailPosition of |LabelledItem| with argument _nonterminal_.

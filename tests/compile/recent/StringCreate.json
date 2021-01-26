@@ -1,0 +1,59 @@
+[{
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "!", "MakeBasicObject", "(", "«", "[", "[", "Prototype", "]", "]", ",", "[", "[", "Extensible", "]", "]", ",", "[", "[", "StringData", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "S"
+  }, ".", "[", "[", "Prototype", "]", "]", "to", {
+    "id": "prototype"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "S"
+  }, ".", "[", "[", "StringData", "]", "]", "to", {
+    "id": "value"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "S"
+  }, ".", "[", "[", "GetOwnProperty", "]", "]", "as", "specified", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "S"
+  }, ".", "[", "[", "DefineOwnProperty", "]", "]", "as", "specified", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "S"
+  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "as", "specified", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "length"
+  }, "be", "the", "number", "of", "code", "unit", "elements", "in", {
+    "id": "value"
+  }, "."]
+}, {
+  "tokens": ["Perform", "!", "DefinePropertyOrThrow", "(", {
+    "id": "S"
+  }, ",", {
+    "value": "\"length\""
+  }, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", "𝔽", "(", {
+    "id": "length"
+  }, ")", ",", "[", "[", "Writable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "false"
+  }, "}", ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "S"
+  }, "."]
+}]

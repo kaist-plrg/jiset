@@ -1,0 +1,1 @@
+        1. Return ! OrdinaryIsExtensible(_O_).

@@ -1,0 +1,25 @@
+[{
+  "tokens": ["Let", {
+    "id": "A"
+  }, "be", "the", "CharSet", "of", "all", "characters", "."]
+}, {
+  "tokens": ["If", {
+    "id": "DotAll"
+  }, "is", "not", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Remove", "from", {
+    "id": "A"
+  }, "all", "characters", "corresponding", "to", "a", "code", "point", "on", "the", "right", "-", "hand", "side", "of", "the", {
+    "nt": "LineTerminator"
+  }, "production", "."]
+}, {
+  "tokens": ["Return", "!", "CharacterSetMatcher", "(", {
+    "id": "A"
+  }, ",", {
+    "value": "false"
+  }, ",", {
+    "id": "direction"
+  }, ")", "."]
+}]

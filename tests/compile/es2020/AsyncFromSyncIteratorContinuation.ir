@@ -1,0 +1,38 @@
+{
+  app result = (GetArgument argumentsList 0i)
+  app promiseCapability = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (IteratorComplete result)
+  [0] let done = __x0__
+  [1] if (is-completion done) if (= done.Type CONST_normal) done = done.Value else {
+    app __x1__ = (Call promiseCapability.Reject undefined (new [done.Value]))
+    if (&& (is-completion __x1__) (! (= __x1__.Type CONST_normal))) return __x1__ else [5] {}
+    return promiseCapability.Promise
+  } else [5] {}
+  [1] done
+  [2] app __x2__ = (IteratorValue result)
+  [2] let value = __x2__
+  [3] if (is-completion value) if (= value.Type CONST_normal) value = value.Value else {
+    app __x3__ = (Call promiseCapability.Reject undefined (new [value.Value]))
+    if (&& (is-completion __x3__) (! (= __x3__.Type CONST_normal))) return __x3__ else [5] {}
+    return promiseCapability.Promise
+  } else [5] {}
+  [3] value
+  [4] app __x4__ = (PromiseResolve INTRINSIC_Promise value)
+  [4] let valueWrapper = __x4__
+  [5] if (is-completion valueWrapper) if (= valueWrapper.Type CONST_normal) valueWrapper = valueWrapper.Value else {
+    app __x5__ = (Call promiseCapability.Reject undefined (new [valueWrapper.Value]))
+    if (&& (is-completion __x5__) (! (= __x5__.Type CONST_normal))) return __x5__ else [5] {}
+    return promiseCapability.Promise
+  } else [5] {}
+  [5] valueWrapper
+  [6] ??? "Let id:{steps} be the algorithm steps defined in link:{} ."
+  [7] app __x6__ = (CreateBuiltinFunction steps (new ["Done"]))
+  [7] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [5] {}
+  [7] let onFulfilled = __x6__
+  [8] onFulfilled.Done = done
+  [9] app __x7__ = (PerformPromiseThen valueWrapper onFulfilled undefined promiseCapability)
+  [9] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [5] {}
+  [9] __x7__
+  [10] app __x8__ = (WrapCompletion promiseCapability.Promise)
+  [10] return __x8__
+}

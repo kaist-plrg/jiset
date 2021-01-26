@@ -1,0 +1,10 @@
+{
+  [0] access __x0__ = (PropertyName "Evaluation")
+  [0] let name = __x0__
+  [1] if (is-completion name) if (= name.Type CONST_normal) name = name.Value else return name else [8] {}
+  [1] name
+  [2] access __x1__ = (AssignmentElement "KeyedDestructuringAssignmentEvaluation")
+  [2] app __x2__ = (__x1__ value name)
+  [2] app __x3__ = (WrapCompletion __x2__)
+  [2] return __x3__
+}

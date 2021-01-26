@@ -1,0 +1,57 @@
+[{
+  "tokens": ["Let", {
+    "id": "number"
+  }, "be", "?", "ToNumber", "(", {
+    "id": "argument"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "number"
+  }, "is", {
+    "value": "NaN"
+  }, ",", {
+    "value": "+0"
+  }, ",", {
+    "value": "-0"
+  }, ",", {
+    "value": "+∞"
+  }, ",", "or", {
+    "value": "-∞"
+  }, ",", "return", {
+    "value": "+0"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "int"
+  }, "be", "the", "mathematical", "value", "that", "is", "the", "same", "sign", "as", {
+    "id": "number"
+  }, "and", "whose", "magnitude", "is", "floor", "(", "abs", "(", "ℝ", "(", {
+    "id": "number"
+  }, ")", ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "int8bit"
+  }, "be", {
+    "id": "int"
+  }, "modulo", "2", {
+    "sup": {
+      "tokens": ["8"]
+    }
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "int8bit"
+  }, "≥", "2", {
+    "sup": {
+      "tokens": ["7"]
+    }
+  }, ",", "return", "𝔽", "(", {
+    "id": "int8bit"
+  }, "-", "2", {
+    "sup": {
+      "tokens": ["8"]
+    }
+  }, ")", ";", "otherwise", "return", "𝔽", "(", {
+    "id": "int8bit"
+  }, ")", "."]
+}]

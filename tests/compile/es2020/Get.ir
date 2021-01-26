@@ -1,0 +1,10 @@
+{
+  [0] app __x0__ = (Type O)
+  [0] assert (= __x0__ Object)
+  [1] app __x1__ = (IsPropertyKey P)
+  [1] assert (= __x1__ true)
+  [2] app __x2__ = (O.Get O P O)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [4] {}
+  [2] app __x3__ = (WrapCompletion __x2__)
+  [2] return __x3__
+}

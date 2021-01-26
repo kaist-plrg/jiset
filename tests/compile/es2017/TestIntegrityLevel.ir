@@ -1,0 +1,41 @@
+{
+  [0] app __x0__ = (Type O)
+  [0] assert (= __x0__ Object)
+  [1] assert (|| (= level "sealed") (= level "frozen"))
+  [2] app __x1__ = (IsExtensible O)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [4] {}
+  [2] let status = __x1__
+  [3] if (= status true) {
+    app __x2__ = (WrapCompletion false)
+    return __x2__
+  } else [4] {}
+  [5] app __x3__ = (O.OwnPropertyKeys O)
+  [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [4] {}
+  [5] let keys = __x3__
+  [6] let __x4__ = keys
+  [6] let __x5__ = 0i
+  [6] while (< __x5__ __x4__.length) {
+    let k = __x4__[__x5__]
+    [7] app __x6__ = (O.GetOwnProperty O k)
+    [7] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [4] {}
+    [7] let currentDesc = __x6__
+    [8] if (! (= currentDesc undefined)) {
+      [9] if (= currentDesc.Configurable true) {
+        app __x7__ = (WrapCompletion false)
+        return __x7__
+      } else [4] {}
+      [10] let __x8__ = (= level "frozen")
+      [10] if __x8__ {
+        app __x9__ = (IsDataDescriptor currentDesc)
+        __x8__ = (= __x9__ true)
+      } else [4] {}
+      [10] if __x8__ if (= currentDesc.Writable true) {
+        app __x10__ = (WrapCompletion false)
+        return __x10__
+      } else [4] {} else [4] {}
+    } else [4] {}
+    __x5__ = (+ __x5__ 1i)
+  }
+  [12] app __x11__ = (WrapCompletion true)
+  [12] return __x11__
+}

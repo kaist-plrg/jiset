@@ -1,0 +1,37 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "map"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "map"
+  }, "does", "not", "have", "a", "[", "[", "MapData", "]", "]", "internal", "slot", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "iterator"
+  }, "be", "ObjectCreate", "(", "%", "MapIteratorPrototype", "%", ",", "«", "[", "[", "Map", "]", "]", ",", "[", "[", "MapNextIndex", "]", "]", ",", "[", "[", "MapIterationKind", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "iterator"
+  }, "'", "s", "[", "[", "Map", "]", "]", "internal", "slot", "to", {
+    "id": "map"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "iterator"
+  }, "'", "s", "[", "[", "MapNextIndex", "]", "]", "internal", "slot", "to", "0", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "iterator"
+  }, "'", "s", "[", "[", "MapIterationKind", "]", "]", "internal", "slot", "to", {
+    "id": "kind"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "iterator"
+  }, "."]
+}]

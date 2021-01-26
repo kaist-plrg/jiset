@@ -1,0 +1,41 @@
+[{
+  "tokens": ["Let", {
+    "id": "env"
+  }, "be", "GetThisEnvironment", "(", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "env"
+  }, ".", "HasSuperBinding", "(", ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "ReferenceError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "actualThis"
+  }, "be", "?", {
+    "id": "env"
+  }, ".", "GetThisBinding", "(", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "baseValue"
+  }, "be", "?", {
+    "id": "env"
+  }, ".", "GetSuperBase", "(", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "bv"
+  }, "be", "?", "RequireObjectCoercible", "(", {
+    "id": "baseValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "a", "value", "of", "type", "Reference", "that", "is", "a", "Super", "Reference", "whose", "base", "value", "is", {
+    "id": "bv"
+  }, ",", "whose", "referenced", "name", "is", {
+    "id": "propertyKey"
+  }, ",", "whose", "thisValue", "is", {
+    "id": "actualThis"
+  }, ",", "and", "whose", "strict", "reference", "flag", "is", {
+    "id": "strict"
+  }, "."]
+}]

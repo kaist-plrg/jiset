@@ -1,0 +1,27 @@
+{
+  app regexp = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (RequireObjectCoercible this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [6] {}
+  [0] let O = __x0__
+  [1] if (! (|| (= regexp undefined) (= regexp null))) {
+    [2] app __x1__ = (GetMethod regexp SYMBOL_search)
+    [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+    [2] let searcher = __x1__
+    [3] if (! (= searcher undefined)) {
+      [4] app __x2__ = (Call searcher regexp (new [O]))
+      [4] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [6] {}
+      [4] app __x3__ = (WrapCompletion __x2__)
+      [4] return __x3__
+    } else [6] {}
+  } else [6] {}
+  [5] app __x4__ = (ToString O)
+  [5] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [6] {}
+  [5] let string = __x4__
+  [6] app __x5__ = (RegExpCreate regexp undefined)
+  [6] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [6] {}
+  [6] let rx = __x5__
+  [7] app __x6__ = (Invoke rx SYMBOL_search (new [string]))
+  [7] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [6] {}
+  [7] app __x7__ = (WrapCompletion __x6__)
+  [7] return __x7__
+}

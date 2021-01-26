@@ -1,0 +1,61 @@
+[{
+  "tokens": ["Let", {
+    "id": "spreadRef"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AssignmentExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "spreadObj"
+  }, "be", "?", "GetValue", "(", {
+    "id": "spreadRef"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "iteratorRecord"
+  }, "be", "?", "GetIterator", "(", {
+    "id": "spreadObj"
+  }, ")", "."]
+}, {
+  "tokens": ["Repeat", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "next"
+  }, "be", "?", "IteratorStep", "(", {
+    "id": "iteratorRecord"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "next"
+  }, "is", {
+    "value": "false"
+  }, ",", "return", {
+    "id": "nextIndex"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextValue"
+  }, "be", "?", "IteratorValue", "(", {
+    "id": "next"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "status"
+  }, "be", "CreateDataProperty", "(", {
+    "id": "array"
+  }, ",", "ToString", "(", "ToUint32", "(", {
+    "id": "nextIndex"
+  }, ")", ")", ",", {
+    "id": "nextValue"
+  }, ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "status"
+  }, "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Increase", {
+    "id": "nextIndex"
+  }, "by", "1", "."]
+}]

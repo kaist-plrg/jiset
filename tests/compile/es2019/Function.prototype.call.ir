@@ -1,0 +1,18 @@
+{
+  app thisArg = (GetArgument argumentsList 0i)
+  app args = (GetArgument argumentsList 1i)
+  [0] let func = this
+  [1] app __x0__ = (IsCallable func)
+  [1] if (= __x0__ false) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [66] {}
+  [2] let argList = (new [])
+  [3] ??? "If this method was called with more than one argument , then in left to right order , starting with the second argument , append each argument as the last element of id:{argList} ."
+  [4] app __x2__ = (PrepareForTailCall )
+  [4] __x2__
+  [5] app __x3__ = (Call func thisArg argList)
+  [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [66] {}
+  [5] app __x4__ = (WrapCompletion __x3__)
+  [5] return __x4__
+}

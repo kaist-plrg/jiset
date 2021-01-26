@@ -1,0 +1,45 @@
+{
+  [1] if (= length -0.0) let length = 0i else [0] {}
+  [2] let C = undefined
+  [3] app __x0__ = (IsArray originalArray)
+  [3] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [0] {}
+  [3] let isArray = __x0__
+  [4] if (= isArray true) {
+    [5] app __x1__ = (Get originalArray "constructor")
+    [5] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+    [5] let C = __x1__
+    [6] app __x2__ = (IsConstructor C)
+    [6] if (= __x2__ true) {
+      [7] let thisRealm = REALM
+      [8] app __x3__ = (GetFunctionRealm C)
+      [8] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [0] {}
+      [8] let realmC = __x3__
+      [9] if (! (= thisRealm realmC)) {
+        [10] app __x4__ = (SameValue C realmC.Intrinsics.INTRINSIC_Array)
+        [10] if (= __x4__ true) let C = undefined else [0] {}
+      } else [0] {}
+    } else [0] {}
+    [11] app __x5__ = (Type C)
+    [11] if (= __x5__ Object) {
+      [12] app __x6__ = (Get C SYMBOL_species)
+      [12] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [0] {}
+      [12] let C = __x6__
+      [13] if (= C null) let C = undefined else [0] {}
+    } else [0] {}
+  } else [0] {}
+  [14] if (= C undefined) {
+    app __x7__ = (ArrayCreate length)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [0] {}
+    app __x8__ = (WrapCompletion __x7__)
+    return __x8__
+  } else [0] {}
+  [15] app __x9__ = (IsConstructor C)
+  [15] if (= __x9__ false) {
+    app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x10__
+  } else [0] {}
+  [16] app __x11__ = (Construct C (new [length]))
+  [16] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [0] {}
+  [16] app __x12__ = (WrapCompletion __x11__)
+  [16] return __x12__
+}

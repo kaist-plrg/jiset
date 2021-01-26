@@ -1,0 +1,35 @@
+{
+  [0] if (= max 0i) {
+    app __x0__ = (c x)
+    app __x1__ = (WrapCompletion __x0__)
+    return __x1__
+  } else [6] {}
+  [1] ??? "Create an internal Continuation closure id:{d} that takes one State argument id:{y} and performs the following steps when evaluated : step-list:{...}"
+  [6] ??? "Let id:{cap} be a fresh copy of id:{x} ' s id:{captures} List ."
+  [7] ??? "For every integer id:{k} that satisfies id:{parenIndex} < id:{k} and id:{k} ≤ id:{parenIndex} + id:{parenCount} , set id:{cap} [ id:{k} ] to value:{undefined} ."
+  [8] let e = x.endIndex
+  [9] let xr = (new [e, cap])
+  [10] if (! (= min 0i)) {
+    app __x2__ = (m xr d)
+    app __x3__ = (WrapCompletion __x2__)
+    return __x3__
+  } else [6] {}
+  [11] if (= greedy false) {
+    [12] app __x4__ = (c x)
+    [12] let z = __x4__
+    [13] if (! (= z CONST_failure)) {
+      app __x5__ = (WrapCompletion z)
+      return __x5__
+    } else [6] {}
+    [14] app __x6__ = (m xr d)
+    [14] return __x6__
+  } else [6] {}
+  [15] app __x7__ = (m xr d)
+  [15] let z = __x7__
+  [16] if (! (= z CONST_failure)) {
+    app __x8__ = (WrapCompletion z)
+    return __x8__
+  } else [6] {}
+  [17] app __x9__ = (c x)
+  [17] return __x9__
+}

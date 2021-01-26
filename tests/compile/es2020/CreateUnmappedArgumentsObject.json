@@ -1,0 +1,87 @@
+[{
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "the", "number", "of", "elements", "in", {
+    "id": "argumentsList"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "obj"
+  }, "be", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ",", "«", "[", "[", "ParameterMap", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "obj"
+  }, ".", "[", "[", "ParameterMap", "]", "]", "to", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Perform", "DefinePropertyOrThrow", "(", {
+    "id": "obj"
+  }, ",", {
+    "value": "\"length\""
+  }, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+    "id": "len"
+  }, ",", "[", "[", "Writable", "]", "]", ":", {
+    "value": "true"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "true"
+  }, "}", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "index"
+  }, "be", "0", "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "index"
+  }, "<", {
+    "id": "len"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "val"
+  }, "be", {
+    "id": "argumentsList"
+  }, "[", {
+    "id": "index"
+  }, "]", "."]
+}, {
+  "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
+    "id": "obj"
+  }, ",", "!", "ToString", "(", {
+    "id": "index"
+  }, ")", ",", {
+    "id": "val"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "index"
+  }, "to", {
+    "id": "index"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["Perform", "!", "DefinePropertyOrThrow", "(", {
+    "id": "obj"
+  }, ",", "@", "@", "iterator", ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", "%", "Array", ".", "prototype", ".", "values", "%", ",", "[", "[", "Writable", "]", "]", ":", {
+    "value": "true"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "true"
+  }, "}", ")", "."]
+}, {
+  "tokens": ["Perform", "!", "DefinePropertyOrThrow", "(", {
+    "id": "obj"
+  }, ",", {
+    "value": "\"callee\""
+  }, ",", "PropertyDescriptor", "{", "[", "[", "Get", "]", "]", ":", "%", "ThrowTypeError", "%", ",", "[", "[", "Set", "]", "]", ":", "%", "ThrowTypeError", "%", ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "false"
+  }, "}", ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "obj"
+  }, "."]
+}]

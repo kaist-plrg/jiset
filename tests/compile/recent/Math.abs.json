@@ -1,0 +1,43 @@
+[{
+  "tokens": ["Let", {
+    "id": "n"
+  }, "be", "?", "ToNumber", "(", {
+    "id": "x"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "n"
+  }, "is", {
+    "value": "NaN"
+  }, ",", "return", {
+    "value": "NaN"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "n"
+  }, "is", {
+    "value": "-0"
+  }, ",", "return", {
+    "value": "+0"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "n"
+  }, "is", {
+    "value": "-∞"
+  }, ",", "return", {
+    "value": "+∞"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "n"
+  }, "<", {
+    "value": "+0"
+  }, ",", "return", "-", {
+    "id": "n"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "n"
+  }, "."]
+}]

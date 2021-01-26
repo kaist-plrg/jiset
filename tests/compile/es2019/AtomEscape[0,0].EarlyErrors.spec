@@ -1,0 +1,1 @@
+* It is a Syntax Error if the CapturingGroupNumber of |DecimalEscape| is larger than _NcapturingParens_ ().

@@ -1,0 +1,1 @@
+          1. Return HasCallInTailPosition of |Block| with argument _call_.

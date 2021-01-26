@@ -1,0 +1,1 @@
+          1. Return BoundNames of |BindingElement|.

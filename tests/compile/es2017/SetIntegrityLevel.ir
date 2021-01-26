@@ -1,0 +1,45 @@
+{
+  [0] app __x0__ = (Type O)
+  [0] assert (= __x0__ Object)
+  [1] assert (|| (= level "sealed") (= level "frozen"))
+  [2] app __x1__ = (O.PreventExtensions O)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [1] {}
+  [2] let status = __x1__
+  [3] if (= status false) {
+    app __x2__ = (WrapCompletion false)
+    return __x2__
+  } else [1] {}
+  [4] app __x3__ = (O.OwnPropertyKeys O)
+  [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [1] {}
+  [4] let keys = __x3__
+  [8] if (= level "sealed") {
+    [6] let __x4__ = keys
+    [6] let __x5__ = 0i
+    [6] while (< __x5__ __x4__.length) {
+      let k = __x4__[__x5__]
+      [7] app __x6__ = (DefinePropertyOrThrow O k (new PropertyDescriptor("Configurable" -> false)))
+      [7] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [1] {}
+      [7] __x6__
+      __x5__ = (+ __x5__ 1i)
+    }
+  } else {
+    [9] let __x7__ = keys
+    [9] let __x8__ = 0i
+    [9] while (< __x8__ __x7__.length) {
+      let k = __x7__[__x8__]
+      [10] app __x9__ = (O.GetOwnProperty O k)
+      [10] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [1] {}
+      [10] let currentDesc = __x9__
+      [11] if (! (= currentDesc undefined)) {
+        [14] app __x10__ = (IsAccessorDescriptor currentDesc)
+        [14] if (= __x10__ true) let desc = (new PropertyDescriptor("Configurable" -> false)) else let desc = (new PropertyDescriptor("Configurable" -> false, "Writable" -> false))
+        [16] app __x11__ = (DefinePropertyOrThrow O k desc)
+        [16] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [1] {}
+        [16] __x11__
+      } else [1] {}
+      __x8__ = (+ __x8__ 1i)
+    }
+  }
+  [17] app __x12__ = (WrapCompletion true)
+  [17] return __x12__
+}

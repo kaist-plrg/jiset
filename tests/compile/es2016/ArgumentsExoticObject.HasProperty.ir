@@ -1,0 +1,16 @@
+{
+  [1] if (= P "caller") {
+    [2] app __x0__ = (OrdinaryGetOwnProperty args P)
+    [2] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [8] {}
+    [2] let desc = __x0__
+    [3] app __x1__ = (IsDataDescriptor desc)
+    [3] if (= __x1__ true) {
+      app __x2__ = (WrapCompletion true)
+      return __x2__
+    } else [8] {}
+  } else [8] {}
+  [4] app __x3__ = (OrdinaryHasProperty args P)
+  [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [8] {}
+  [4] app __x4__ = (WrapCompletion __x3__)
+  [4] return __x4__
+}

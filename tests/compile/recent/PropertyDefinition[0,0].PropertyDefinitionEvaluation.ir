@@ -1,0 +1,14 @@
+{
+  [0] access __x0__ = (IdentifierReference "StringValue")
+  [0] let propName = __x0__
+  [1] access __x1__ = (IdentifierReference "Evaluation")
+  [1] let exprValue = __x1__
+  [2] app __x2__ = (GetValue exprValue)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [4] {}
+  [2] let propValue = __x2__
+  [3] assert (= enumerable true)
+  [5] app __x3__ = (CreateDataPropertyOrThrow object propName propValue)
+  [5] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [4] {}
+  [5] app __x4__ = (WrapCompletion __x3__)
+  [5] return __x4__
+}

@@ -1,0 +1,45 @@
+[{
+  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
+    "id": "P"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "P"
+  }, ")", "is", "String", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "numericIndex"
+  }, "be", "!", "CanonicalNumericIndexString", "(", {
+    "id": "P"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "numericIndex"
+  }, "is", "not", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Perform", "?", "IntegerIndexedElementSet", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "numericIndex"
+  }, ",", {
+    "id": "V"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Return", "?", "OrdinarySet", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "P"
+  }, ",", {
+    "id": "V"
+  }, ",", {
+    "id": "Receiver"
+  }, ")", "."]
+}]

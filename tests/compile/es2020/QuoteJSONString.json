@@ -1,0 +1,69 @@
+[{
+  "tokens": ["Let", {
+    "id": "product"
+  }, "be", "the", "String", "value", "consisting", "solely", "of", "the", "code", "unit", "0x0022", "(", "QUOTATION", "MARK", ")", "."]
+}, {
+  "tokens": ["For", "each", "code", "point", {
+    "id": "C"
+  }, "in", "!", "UTF16DecodeString", "(", {
+    "id": "value"
+  }, ")", ",", "do"]
+}, {
+  "tokens": ["If", {
+    "id": "C"
+  }, "is", "listed", "in", "the", "“", "Code", "Point", "”", "column", "of", {
+    "link": ""
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "product"
+  }, "to", "the", "string", "-", "concatenation", "of", {
+    "id": "product"
+  }, "and", "the", "escape", "sequence", "for", {
+    "id": "C"
+  }, "as", "specified", "in", "the", "“", "Escape", "Sequence", "”", "column", "of", "the", "corresponding", "row", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "C"
+  }, "has", "a", "numeric", "value", "less", "than", "0x0020", "(", "SPACE", ")", ",", "or", "if", {
+    "id": "C"
+  }, "has", "the", "same", "numeric", "value", "as", "a", {
+    "link": ""
+  }, "or", {
+    "link": ""
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "unit"
+  }, "be", "the", "code", "unit", "whose", "numeric", "value", "is", "that", "of", {
+    "id": "C"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "product"
+  }, "to", "the", "string", "-", "concatenation", "of", {
+    "id": "product"
+  }, "and", "UnicodeEscape", "(", {
+    "id": "unit"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Set", {
+    "id": "product"
+  }, "to", "the", "string", "-", "concatenation", "of", {
+    "id": "product"
+  }, "and", "the", "UTF16Encoding", "of", {
+    "id": "C"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "product"
+  }, "to", "the", "string", "-", "concatenation", "of", {
+    "id": "product"
+  }, "and", "the", "code", "unit", "0x0022", "(", "QUOTATION", "MARK", ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "product"
+  }, "."]
+}]

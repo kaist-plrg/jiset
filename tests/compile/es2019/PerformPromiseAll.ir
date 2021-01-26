@@ -1,0 +1,54 @@
+{
+  app iteratorRecord = (GetArgument argumentsList 0i)
+  app constructor = (GetArgument argumentsList 1i)
+  app resultCapability = (GetArgument argumentsList 2i)
+  [0] app __x0__ = (IsConstructor constructor)
+  [0] assert (= __x0__ true)
+  [2] let values = (new [])
+  [3] let remainingElementsCount = (new Record("Value" -> 1i))
+  [4] let index = 0i
+  [5] while true {
+    [6] app __x1__ = (IteratorStep iteratorRecord)
+    [6] let next = __x1__
+    [7] app __x2__ = (IsAbruptCompletion next)
+    [7] if __x2__ iteratorRecord.Done = true else [1] {}
+    [8] if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else [1] {}
+    [8] next
+    [9] if (= next false) {
+      [10] iteratorRecord.Done = true
+      [11] remainingElementsCount.Value = (- remainingElementsCount.Value 1i)
+      [12] if (= remainingElementsCount.Value 0i) {
+        [13] app __x3__ = (CreateArrayFromList values)
+        [13] let valuesArray = __x3__
+        [14] app __x4__ = (Call resultCapability.Resolve undefined (new [valuesArray]))
+        [14] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [1] {}
+        [14] __x4__
+      } else [1] {}
+      [15] app __x5__ = (WrapCompletion resultCapability.Promise)
+      [15] return __x5__
+    } else [1] {}
+    [16] app __x6__ = (IteratorValue next)
+    [16] let nextValue = __x6__
+    [17] app __x7__ = (IsAbruptCompletion nextValue)
+    [17] if __x7__ iteratorRecord.Done = true else [1] {}
+    [18] if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else [1] {}
+    [18] nextValue
+    [19] append undefined -> values
+    [20] app __x8__ = (Invoke constructor "resolve" (new [nextValue]))
+    [20] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [1] {}
+    [20] let nextPromise = __x8__
+    [21] ??? "Let id:{steps} be the algorithm steps defined in link:{} ."
+    [22] app __x9__ = (CreateBuiltinFunction steps (new ["AlreadyCalled", "Index", "Values", "Capability", "RemainingElements"]))
+    [22] let resolveElement = __x9__
+    [23] resolveElement.AlreadyCalled = (new Record("Value" -> false))
+    [24] resolveElement.Index = index
+    [25] resolveElement.Values = values
+    [26] resolveElement.Capability = resultCapability
+    [27] resolveElement.RemainingElements = remainingElementsCount
+    [28] remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)
+    [29] app __x10__ = (Invoke nextPromise "then" (new [resolveElement, resultCapability.Reject]))
+    [29] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [1] {}
+    [29] __x10__
+    [30] index = (+ index 1i)
+  }
+}

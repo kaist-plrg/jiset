@@ -1,0 +1,18 @@
+{
+  [0] app __x0__ = (ToNumber argument)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+  [0] let number = __x0__
+  [1] if (|| (|| (|| (|| (= number NaN) (= number 0i)) (= number -0.0)) (= number Infinity)) (= number -Infinity)) {
+    app __x1__ = (WrapCompletion 0i)
+    return __x1__
+  } else [1] {}
+  [2] let int = (convert number num2int )
+  [3] let int8bit = (%% int 256i)
+  [4] if (! (< int8bit 128i)) {
+    app __x2__ = (WrapCompletion (- int8bit 256i))
+    return __x2__
+  } else {
+    app __x3__ = (WrapCompletion int8bit)
+    return __x3__
+  }
+}

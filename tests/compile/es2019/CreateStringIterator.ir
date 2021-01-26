@@ -1,0 +1,11 @@
+{
+  app string = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (Type string)
+  [0] assert (= __x0__ String)
+  [1] app __x1__ = (ObjectCreate INTRINSIC_StringIteratorPrototype (new ["IteratedString", "StringIteratorNextIndex"]))
+  [1] let iterator = __x1__
+  [2] iterator.IteratedString = string
+  [3] iterator.StringIteratorNextIndex = 0i
+  [4] app __x2__ = (WrapCompletion iterator)
+  [4] return __x2__
+}

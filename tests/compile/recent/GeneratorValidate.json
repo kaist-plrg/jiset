@@ -1,0 +1,39 @@
+[{
+  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
+    "id": "generator"
+  }, ",", "[", "[", "GeneratorState", "]", "]", ")", "."]
+}, {
+  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
+    "id": "generator"
+  }, ",", "[", "[", "GeneratorBrand", "]", "]", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "generator"
+  }, ".", "[", "[", "GeneratorBrand", "]", "]", "is", "not", "the", "same", "value", "as", {
+    "id": "generatorBrand"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "generator"
+  }, "also", "has", "a", "[", "[", "GeneratorContext", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "state"
+  }, "be", {
+    "id": "generator"
+  }, ".", "[", "[", "GeneratorState", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "state"
+  }, "is", {
+    "const": "executing"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "state"
+  }, "."]
+}]

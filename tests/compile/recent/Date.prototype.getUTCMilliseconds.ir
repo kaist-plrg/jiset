@@ -1,0 +1,12 @@
+{
+  [0] app __x0__ = (thisTimeValue this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [13] {}
+  [0] let t = __x0__
+  [1] if (= t NaN) {
+    app __x1__ = (WrapCompletion NaN)
+    return __x1__
+  } else [13] {}
+  [2] app __x2__ = (msFromTime t)
+  [2] app __x3__ = (WrapCompletion __x2__)
+  [2] return __x3__
+}

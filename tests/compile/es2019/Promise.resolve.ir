@@ -1,0 +1,13 @@
+{
+  app x = (GetArgument argumentsList 0i)
+  [0] let C = this
+  [1] app __x0__ = (Type C)
+  [1] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [1] {}
+  [2] app __x2__ = (PromiseResolve C x)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [1] {}
+  [2] app __x3__ = (WrapCompletion __x2__)
+  [2] return __x3__
+}

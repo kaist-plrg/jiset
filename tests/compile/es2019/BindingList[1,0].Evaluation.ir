@@ -1,0 +1,9 @@
+{
+  [0] access __x0__ = (BindingList "Evaluation")
+  [0] let next = __x0__
+  [1] if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else [3] {}
+  [1] next
+  [2] access __x1__ = (LexicalBinding "Evaluation")
+  [2] app __x2__ = (WrapCompletion __x1__)
+  [2] return __x2__
+}

@@ -1,0 +1,53 @@
+[{
+  "tokens": ["If", {
+    "id": "E"
+  }, "is", "not", {
+    "id": "D"
+  }, ",", "then"]
+}, {
+  "tokens": ["If", "the", "pairs", "(", {
+    "id": "E"
+  }, ",", {
+    "id": "D"
+  }, ")", "and", "(", {
+    "id": "D"
+  }, ",", {
+    "id": "E"
+  }, ")", "are", "not", "in", {
+    "id": "execution"
+  }, ".", "[", "[", "HappensBefore", "]", "]", ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "E"
+  }, "and", {
+    "id": "D"
+  }, "are", "both", "WriteSharedMemory", "or", "ReadModifyWriteSharedMemory", "events", "and", {
+    "id": "E"
+  }, "and", {
+    "id": "D"
+  }, "do", "not", "have", "disjoint", "ranges", ",", "then"]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "either", "(", {
+    "id": "E"
+  }, ",", {
+    "id": "D"
+  }, ")", "or", "(", {
+    "id": "D"
+  }, ",", {
+    "id": "E"
+  }, ")", "is", "in", {
+    "id": "execution"
+  }, ".", "[", "[", "ReadsFrom", "]", "]", ",", "then"]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}]

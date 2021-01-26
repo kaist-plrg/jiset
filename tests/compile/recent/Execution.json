@@ -1,0 +1,83 @@
+[{
+  "tokens": ["For", "each", "element", {
+    "id": "obj"
+  }, "of", {
+    "id": "S"
+  }, ",", "do"]
+}, {
+  "tokens": ["For", "each", "WeakRef", {
+    "id": "ref"
+  }, "such", "that", {
+    "id": "ref"
+  }, ".", "[", "[", "WeakRefTarget", "]", "]", "is", {
+    "id": "obj"
+  }, ",", "do"]
+}, {
+  "tokens": ["Set", {
+    "id": "ref"
+  }, ".", "[", "[", "WeakRefTarget", "]", "]", "to", {
+    "const": "empty"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "FinalizationRegistry", {
+    "id": "fg"
+  }, "such", "that", {
+    "id": "fg"
+  }, ".", "[", "[", "Cells", "]", "]", "contains", "a", "Record", {
+    "id": "cell"
+  }, "such", "that", {
+    "id": "cell"
+  }, ".", "[", "[", "WeakRefTarget", "]", "]", "is", {
+    "id": "obj"
+  }, ",", "do"]
+}, {
+  "tokens": ["Set", {
+    "id": "cell"
+  }, ".", "[", "[", "WeakRefTarget", "]", "]", "to", {
+    "const": "empty"
+  }, "."]
+}, {
+  "tokens": ["Optionally", ",", "perform", "!", "HostEnqueueFinalizationRegistryCleanupJob", "(", {
+    "id": "fg"
+  }, ")", "."]
+}, {
+  "tokens": ["For", "each", "WeakMap", {
+    "id": "map"
+  }, "such", "that", {
+    "id": "map"
+  }, ".", "[", "[", "WeakMapData", "]", "]", "contains", "a", "Record", {
+    "id": "r"
+  }, "such", "that", {
+    "id": "r"
+  }, ".", "[", "[", "Key", "]", "]", "is", {
+    "id": "obj"
+  }, ",", "do"]
+}, {
+  "tokens": ["Set", {
+    "id": "r"
+  }, ".", "[", "[", "Key", "]", "]", "to", {
+    "const": "empty"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "r"
+  }, ".", "[", "[", "Value", "]", "]", "to", {
+    "const": "empty"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "WeakSet", {
+    "id": "set"
+  }, "such", "that", {
+    "id": "set"
+  }, ".", "[", "[", "WeakSetData", "]", "]", "contains", {
+    "id": "obj"
+  }, ",", "do"]
+}, {
+  "tokens": ["Replace", "the", "element", "of", {
+    "id": "set"
+  }, ".", "[", "[", "WeakSetData", "]", "]", "whose", "value", "is", {
+    "id": "obj"
+  }, "with", "an", "element", "whose", "value", "is", {
+    "const": "empty"
+  }, "."]
+}]

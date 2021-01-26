@@ -1,0 +1,14 @@
+{
+  [0] ??? "Let reads - from be id:{execution} . [ [ ReadsFrom ] ] ."
+  [1] app __x0__ = (SharedDataBlockEventSet execution)
+  [1] let __x1__ = __x0__
+  [1] let __x2__ = 0i
+  [1] while (< __x2__ __x1__.length) {
+    let R = __x1__[__x2__]
+    [2] if (= R.NoTear true) {
+      [3] assert (= (% R.ByteIndex R.ElementSize) 0i)
+      [4] ??? "For each event id:{W} such that id:{R} reads - from id:{W} and id:{W} . [ [ NoTear ] ] is value:{true} , do step-list:{...}"
+    } else [3] {}
+    __x2__ = (+ __x2__ 1i)
+  }
+}

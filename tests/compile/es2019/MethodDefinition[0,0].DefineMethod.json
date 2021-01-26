@@ -1,0 +1,89 @@
+[{
+  "tokens": ["Let", {
+    "id": "propKey"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "PropertyName"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "propKey"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "the", "function", "code", "for", "this", {
+    "nt": "MethodDefinition"
+  }, "is", "strict", "mode", "code", ",", "let", {
+    "id": "strict"
+  }, "be", {
+    "value": "true"
+  }, ".", "Otherwise", "let", {
+    "id": "strict"
+  }, "be", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "scope"
+  }, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "."]
+}, {
+  "tokens": ["If", {
+    "id": "functionPrototype"
+  }, "is", "present", "as", "a", "parameter", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "kind"
+  }, "be", {
+    "const": "Normal"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "prototype"
+  }, "be", {
+    "id": "functionPrototype"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "kind"
+  }, "be", {
+    "const": "Method"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "prototype"
+  }, "be", "the", "intrinsic", "object", "%", "FunctionPrototype", "%", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "closure"
+  }, "be", "FunctionCreate", "(", {
+    "id": "kind"
+  }, ",", {
+    "nt": "UniqueFormalParameters"
+  }, ",", {
+    "nt": "FunctionBody"
+  }, ",", {
+    "id": "scope"
+  }, ",", {
+    "id": "strict"
+  }, ",", {
+    "id": "prototype"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "MakeMethod", "(", {
+    "id": "closure"
+  }, ",", {
+    "id": "object"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "closure"
+  }, ".", "[", "[", "SourceText", "]", "]", "to", "the", "source", "text", "matched", "by", {
+    "nt": "MethodDefinition"
+  }, "."]
+}, {
+  "tokens": ["Return", "the", "Record", "{", "[", "[", "Key", "]", "]", ":", {
+    "id": "propKey"
+  }, ",", "[", "[", "Closure", "]", "]", ":", {
+    "id": "closure"
+  }, "}", "."]
+}]

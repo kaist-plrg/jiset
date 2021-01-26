@@ -1,0 +1,71 @@
+[{
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "the", "ExpectedArgumentCount", "of", {
+    "id": "ParameterList"
+  }, "."]
+}, {
+  "tokens": ["Perform", "!", "SetFunctionLength", "(", {
+    "id": "F"
+  }, ",", {
+    "id": "len"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "Strict"
+  }, "be", {
+    "id": "F"
+  }, ".", "[", "[", "Strict", "]", "]", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "F"
+  }, ".", "[", "[", "Environment", "]", "]", "to", {
+    "id": "Scope"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "F"
+  }, ".", "[", "[", "FormalParameters", "]", "]", "to", {
+    "id": "ParameterList"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "F"
+  }, ".", "[", "[", "ECMAScriptCode", "]", "]", "to", {
+    "id": "Body"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "F"
+  }, ".", "[", "[", "ScriptOrModule", "]", "]", "to", "GetActiveScriptOrModule", "(", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "kind"
+  }, "is", {
+    "const": "Arrow"
+  }, ",", "set", {
+    "id": "F"
+  }, ".", "[", "[", "ThisMode", "]", "]", "to", {
+    "const": "lexical"
+  }, "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "Strict"
+  }, "is", {
+    "value": "true"
+  }, ",", "set", {
+    "id": "F"
+  }, ".", "[", "[", "ThisMode", "]", "]", "to", {
+    "const": "strict"
+  }, "."]
+}, {
+  "tokens": ["Else", ",", "set", {
+    "id": "F"
+  }, ".", "[", "[", "ThisMode", "]", "]", "to", {
+    "const": "global"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "F"
+  }, "."]
+}]

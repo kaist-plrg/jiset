@@ -1,0 +1,15 @@
+{
+  [0] access __x0__ = (ElementList "ArrayAccumulation")
+  [0] app __x1__ = (__x0__ array nextIndex)
+  [0] let postIndex = __x1__
+  [1] if (is-completion postIndex) if (= postIndex.Type CONST_normal) postIndex = postIndex.Value else return postIndex else [11] {}
+  [1] postIndex
+  [2] if (= Elision absent) let padding = 0i else {
+    access __x2__ = (Elision "ElisionWidth")
+    let padding = __x2__
+  }
+  [3] access __x3__ = (SpreadElement "ArrayAccumulation")
+  [3] app __x4__ = (__x3__ array (+ postIndex padding))
+  [3] app __x5__ = (WrapCompletion __x4__)
+  [3] return __x5__
+}

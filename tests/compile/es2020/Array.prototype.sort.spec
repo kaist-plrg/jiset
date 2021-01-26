@@ -1,0 +1,7 @@
+          1. Perform an implementation-dependent sequence of calls to the Get, <emu-xref href="#sec-set-o-p-v-throw">Set</emu-xref>, DeletePropertyOrThrow, and HasOwnProperty abstract operation with _obj_ as the first argument, and to SortCompare (described below), such that:
+            * The property key argument for each call to Get, <emu-xref href="#sec-set-o-p-v-throw">Set</emu-xref>, HasOwnProperty, or DeletePropertyOrThrow is the string representation of a nonnegative integer less than _len_.
+            * The `Throw` argument for every call to <emu-xref href="#sec-set-o-p-v-throw">Set</emu-xref> is *true*.
+            * The arguments for calls to SortCompare are values returned by a previous call to the Get abstract operation, unless the properties accessed by those previous calls did not exist according to HasOwnProperty. If both prospective arguments to SortCompare correspond to non-existent properties, use *+0* instead of calling SortCompare. If only the first prospective argument is non-existent use +1. If only the second prospective argument is non-existent use -1.
+            * If _obj_ is not sparse then DeletePropertyOrThrow must not be called.
+            * If an abrupt completion is returned from any of these operations, it is immediately returned as the value of this function.
+          1. Return _obj_.

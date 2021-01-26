@@ -1,0 +1,41 @@
+[{
+  "tokens": ["Assert", ":", "The", "calling", "agent", "is", "in", "the", "critical", "section", "for", {
+    "id": "WL"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "execution"
+  }, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "calling", "surrounding", "'", "s", "Agent", "Record", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "eventsRecord"
+  }, "be", "the", "Agent", "Events", "Record", "in", {
+    "id": "execution"
+  }, ".", "[", "[", "EventsRecords", "]", "]", "whose", "[", "[", "AgentSignifier", "]", "]", "is", "AgentSignifier", "(", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "leaverEventList"
+  }, "be", {
+    "id": "eventsRecord"
+  }, ".", "[", "[", "EventList", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "leaveEvent"
+  }, "be", "a", "new", "Synchronize", "event", "."]
+}, {
+  "tokens": ["Append", {
+    "id": "leaveEvent"
+  }, "to", {
+    "id": "leaverEventList"
+  }, "."]
+}, {
+  "tokens": ["Set", "the", "Synchronize", "event", "in", {
+    "id": "WL"
+  }, "to", {
+    "id": "leaveEvent"
+  }, "."]
+}, {
+  "tokens": ["Leave", "the", "critical", "section", "for", {
+    "id": "WL"
+  }, "."]
+}]

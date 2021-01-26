@@ -1,0 +1,1 @@
+          1. Return the numeric value of the code unit that is the SV of |HexEscapeSequence|.

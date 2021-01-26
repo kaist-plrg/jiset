@@ -1,0 +1,49 @@
+[{
+  "tokens": ["Let", {
+    "id": "number"
+  }, "be", "?", "ToNumber", "(", {
+    "id": "argument"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "number"
+  }, "is", {
+    "value": "NaN"
+  }, ",", {
+    "value": "+0"
+  }, ",", "or", {
+    "value": "-0"
+  }, ",", "return", "0", "."]
+}, {
+  "tokens": ["If", {
+    "id": "number"
+  }, "is", {
+    "value": "+∞"
+  }, ",", "return", "+", "∞", "."]
+}, {
+  "tokens": ["If", {
+    "id": "number"
+  }, "is", {
+    "value": "-∞"
+  }, ",", "return", "-", "∞", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "integer"
+  }, "be", "floor", "(", "abs", "(", "ℝ", "(", {
+    "id": "number"
+  }, ")", ")", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "number"
+  }, "<", {
+    "value": "+0"
+  }, ",", "set", {
+    "id": "integer"
+  }, "to", "-", {
+    "id": "integer"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "integer"
+  }, "."]
+}]

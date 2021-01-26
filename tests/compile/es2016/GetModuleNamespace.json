@@ -1,0 +1,71 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, "is", "an", "instance", "of", "a", "concrete", "subclass", "of", "Module", "Record", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "namespace"
+  }, "be", {
+    "id": "module"
+  }, ".", "[", "[", "Namespace", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "namespace"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "exportedNames"
+  }, "be", "?", {
+    "id": "module"
+  }, ".", "GetExportedNames", "(", "«", "»", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "unambiguousNames"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["For", "each", {
+    "id": "name"
+  }, "that", "is", "an", "element", "of", {
+    "id": "exportedNames"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "resolution"
+  }, "be", "?", {
+    "id": "module"
+  }, ".", "ResolveExport", "(", {
+    "id": "name"
+  }, ",", "«", "»", ",", "«", "»", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "resolution"
+  }, "is", {
+    "value": "null"
+  }, ",", "throw", "a", {
+    "value": "SyntaxError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "resolution"
+  }, "is", "not", {
+    "code": "\"ambiguous\""
+  }, ",", "append", {
+    "id": "name"
+  }, "to", {
+    "id": "unambiguousNames"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "namespace"
+  }, "be", "ModuleNamespaceCreate", "(", {
+    "id": "module"
+  }, ",", {
+    "id": "unambiguousNames"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "namespace"
+  }, "."]
+}]

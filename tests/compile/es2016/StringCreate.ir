@@ -1,0 +1,16 @@
+{
+  [0] app __x0__ = (Type value)
+  [0] assert (= __x0__ String)
+  [1] let S = (new StringExoticObject("SubMap" -> (new SubMap())))
+  [2] S.StringData = value
+  [4] ??? "Set the [ [ GetOwnProperty ] ] internal method of id:{S} as specified in link:{} ."
+  [5] ??? "Set the [ [ OwnPropertyKeys ] ] internal method of id:{S} as specified in link:{} ."
+  [6] S.Prototype = prototype
+  [7] S.Extensible = true
+  [8] let length = value.length
+  [9] app __x1__ = (DefinePropertyOrThrow S "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
+  [9] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [15] {}
+  [9] __x1__
+  [10] app __x2__ = (WrapCompletion S)
+  [10] return __x2__
+}

@@ -1,0 +1,103 @@
+{
+  app items = (GetArgument argumentsList 0i)
+  app mapfn = (GetArgument argumentsList 1i)
+  app thisArg = (GetArgument argumentsList 2i)
+  [0] let C = this
+  [2] if (= mapfn undefined) let mapping = false else {
+    [3] app __x0__ = (IsCallable mapfn)
+    [3] if (= __x0__ false) {
+      app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x1__
+    } else [31] {}
+    [4] let mapping = true
+  }
+  [5] app __x2__ = (GetMethod items SYMBOL_iterator)
+  [5] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [31] {}
+  [5] let usingIterator = __x2__
+  [6] if (! (= usingIterator undefined)) {
+    [9] app __x3__ = (IsConstructor C)
+    [9] if (= __x3__ true) {
+      [8] app __x4__ = (Construct C)
+      [8] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [31] {}
+      [8] let A = __x4__
+    } else {
+      [10] app __x5__ = (ArrayCreate 0i)
+      [10] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [31] {}
+      [10] let A = __x5__
+    }
+    [11] app __x6__ = (GetIterator items CONST_sync usingIterator)
+    [11] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [31] {}
+    [11] let iteratorRecord = __x6__
+    [12] let k = 0i
+    [13] while true {
+      [14] if (! (< k (- 9007199254740992i 1i))) {
+        [15] app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        [15] let error = __x7__
+        [16] app __x8__ = (IteratorClose iteratorRecord error)
+        [16] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [31] {}
+        [16] app __x9__ = (WrapCompletion __x8__)
+        [16] return __x9__
+      } else [31] {}
+      [17] ??? "Let id:{Pk} be ! ToString ( 𝔽 ( id:{k} ) ) ."
+      [18] app __x10__ = (IteratorStep iteratorRecord)
+      [18] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [31] {}
+      [18] let next = __x10__
+      [19] if (= next false) {
+        [20] ??? "Perform ? Set ( id:{A} , value:{\"length\"} , 𝔽 ( id:{k} ) , value:{true} ) ."
+        [21] app __x11__ = (WrapCompletion A)
+        [21] return __x11__
+      } else [31] {}
+      [22] app __x12__ = (IteratorValue next)
+      [22] if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [31] {}
+      [22] let nextValue = __x12__
+      [27] if (= mapping true) {
+        [24] ??? "Let id:{mappedValue} be Call ( id:{mapfn} , id:{thisArg} , « id:{nextValue} , 𝔽 ( id:{k} ) » ) ."
+        [25] app __x13__ = (IsAbruptCompletion mappedValue)
+        [25] if __x13__ {
+          app __x14__ = (IteratorClose iteratorRecord mappedValue)
+          if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else [31] {}
+          app __x15__ = (WrapCompletion __x14__)
+          return __x15__
+        } else [31] {}
+        [26] mappedValue = mappedValue.Value
+      } else let mappedValue = nextValue
+      [28] app __x16__ = (CreateDataPropertyOrThrow A Pk mappedValue)
+      [28] let defineStatus = __x16__
+      [29] app __x17__ = (IsAbruptCompletion defineStatus)
+      [29] if __x17__ {
+        app __x18__ = (IteratorClose iteratorRecord defineStatus)
+        if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else [31] {}
+        app __x19__ = (WrapCompletion __x18__)
+        return __x19__
+      } else [31] {}
+      [30] k = (+ k 1i)
+    }
+  } else [31] {}
+  [32] app __x20__ = (ToObject items)
+  [32] if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else [31] {}
+  [32] let arrayLike = __x20__
+  [33] app __x21__ = (LengthOfArrayLike arrayLike)
+  [33] if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else [31] {}
+  [33] let len = __x21__
+  [36] app __x22__ = (IsConstructor C)
+  [36] if (= __x22__ true) ??? "Let id:{A} be ? Construct ( id:{C} , « 𝔽 ( id:{len} ) » ) ." else {
+    [37] app __x23__ = (ArrayCreate len)
+    [37] if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else [31] {}
+    [37] let A = __x23__
+  }
+  [38] let k = 0i
+  [39] while (< k len) {
+    [40] ??? "Let id:{Pk} be ! ToString ( 𝔽 ( id:{k} ) ) ."
+    [41] app __x24__ = (Get arrayLike Pk)
+    [41] if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else [31] {}
+    [41] let kValue = __x24__
+    [44] if (= mapping true) ??? "Let id:{mappedValue} be ? Call ( id:{mapfn} , id:{thisArg} , « id:{kValue} , 𝔽 ( id:{k} ) » ) ." else let mappedValue = kValue
+    [45] app __x25__ = (CreateDataPropertyOrThrow A Pk mappedValue)
+    [45] if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else [31] {}
+    [45] __x25__
+    [46] k = (+ k 1i)
+  }
+  [47] ??? "Perform ? Set ( id:{A} , value:{\"length\"} , 𝔽 ( id:{len} ) , value:{true} ) ."
+  [48] app __x26__ = (WrapCompletion A)
+  [48] return __x26__
+}

@@ -1,0 +1,37 @@
+[{
+  "tokens": ["Let", {
+    "id": "obj"
+  }, "be", "?", "OrdinaryCreateFromConstructor", "(", {
+    "id": "constructor"
+  }, ",", {
+    "value": "\"%SharedArrayBuffer.prototype%\""
+  }, ",", "«", "[", "[", "ArrayBufferData", "]", "]", ",", "[", "[", "ArrayBufferByteLength", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Assert", ":", "!", "IsNonNegativeInteger", "(", {
+    "id": "byteLength"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "block"
+  }, "be", "?", "CreateSharedByteDataBlock", "(", {
+    "id": "byteLength"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "obj"
+  }, ".", "[", "[", "ArrayBufferData", "]", "]", "to", {
+    "id": "block"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "obj"
+  }, ".", "[", "[", "ArrayBufferByteLength", "]", "]", "to", {
+    "id": "byteLength"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "obj"
+  }, "."]
+}]

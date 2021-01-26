@@ -1,0 +1,15 @@
+{
+  [0] let lex = GLOBAL_context.LexicalEnvironment
+  [1] while true {
+    [2] let envRec = lex.EnvironmentRecord
+    [3] app __x0__ = (envRec.HasThisBinding envRec)
+    [3] let exists = __x0__
+    [4] if (= exists true) {
+      app __x1__ = (WrapCompletion envRec)
+      return __x1__
+    } else [2] {}
+    [5] let outer = lex.Outer
+    [6] assert (! (= outer null))
+    [7] lex = outer
+  }
+}

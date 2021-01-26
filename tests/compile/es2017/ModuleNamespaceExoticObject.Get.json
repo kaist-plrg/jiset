@@ -1,0 +1,95 @@
+[{
+  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
+    "id": "P"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "P"
+  }, ")", "is", "Symbol", ",", "then"]
+}, {
+  "tokens": ["Return", "?", "OrdinaryGet", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "P"
+  }, ",", {
+    "id": "Receiver"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "exports"
+  }, "be", {
+    "id": "O"
+  }, ".", "[", "[", "Exports", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "P"
+  }, "is", "not", "an", "element", "of", {
+    "id": "exports"
+  }, ",", "return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "m"
+  }, "be", {
+    "id": "O"
+  }, ".", "[", "[", "Module", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "binding"
+  }, "be", "?", {
+    "id": "m"
+  }, ".", "ResolveExport", "(", {
+    "id": "P"
+  }, ",", "«", "»", ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "binding"
+  }, "is", "neither", {
+    "value": "null"
+  }, "nor", {
+    "code": "\"ambiguous\""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetModule"
+  }, "be", {
+    "id": "binding"
+  }, ".", "[", "[", "Module", "]", "]", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "targetModule"
+  }, "is", "not", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetEnv"
+  }, "be", {
+    "id": "targetModule"
+  }, ".", "[", "[", "Environment", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "targetEnv"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "throw", "a", {
+    "value": "ReferenceError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "targetEnvRec"
+  }, "be", {
+    "id": "targetEnv"
+  }, "'", "s", "EnvironmentRecord", "."]
+}, {
+  "tokens": ["Return", "?", {
+    "id": "targetEnvRec"
+  }, ".", "GetBindingValue", "(", {
+    "id": "binding"
+  }, ".", "[", "[", "BindingName", "]", "]", ",", {
+    "value": "true"
+  }, ")", "."]
+}]

@@ -1,0 +1,39 @@
+{
+  [0] if (= Desc undefined) {
+    app __x0__ = (WrapCompletion undefined)
+    return __x0__
+  } else [2] {}
+  [1] ??? "Let id:{obj} be ! OrdinaryObjectCreate ( % Object . prototype % ) ."
+  [3] if (! (= Desc.Value absent)) {
+    [4] app __x1__ = (CreateDataPropertyOrThrow obj "value" Desc.Value)
+    [4] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [2] {}
+    [4] __x1__
+  } else [2] {}
+  [5] if (! (= Desc.Writable absent)) {
+    [6] app __x2__ = (CreateDataPropertyOrThrow obj "writable" Desc.Writable)
+    [6] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [2] {}
+    [6] __x2__
+  } else [2] {}
+  [7] if (! (= Desc.Get absent)) {
+    [8] app __x3__ = (CreateDataPropertyOrThrow obj "get" Desc.Get)
+    [8] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [2] {}
+    [8] __x3__
+  } else [2] {}
+  [9] if (! (= Desc.Set absent)) {
+    [10] app __x4__ = (CreateDataPropertyOrThrow obj "set" Desc.Set)
+    [10] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [2] {}
+    [10] __x4__
+  } else [2] {}
+  [11] if (! (= Desc.Enumerable absent)) {
+    [12] app __x5__ = (CreateDataPropertyOrThrow obj "enumerable" Desc.Enumerable)
+    [12] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [2] {}
+    [12] __x5__
+  } else [2] {}
+  [13] if (! (= Desc.Configurable absent)) {
+    [14] app __x6__ = (CreateDataPropertyOrThrow obj "configurable" Desc.Configurable)
+    [14] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [2] {}
+    [14] __x6__
+  } else [2] {}
+  [15] app __x7__ = (WrapCompletion obj)
+  [15] return __x7__
+}

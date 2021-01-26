@@ -1,0 +1,19 @@
+{
+  app target = (GetArgument argumentsList 0i)
+  app propertyKey = (GetArgument argumentsList 1i)
+  app V = (GetArgument argumentsList 2i)
+  app receiver = (GetArgument argumentsList 3i)
+  [0] app __x0__ = (Type target)
+  [0] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [1] {}
+  [1] app __x2__ = (ToPropertyKey propertyKey)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [1] {}
+  [1] let key = __x2__
+  [2] if (= receiver absent) let receiver = target else [1] {}
+  [4] app __x3__ = (target.Set target key V receiver)
+  [4] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [1] {}
+  [4] app __x4__ = (WrapCompletion __x3__)
+  [4] return __x4__
+}

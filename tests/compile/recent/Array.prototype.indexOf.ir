@@ -1,0 +1,35 @@
+{
+  app searchElement = (GetArgument argumentsList 0i)
+  app fromIndex = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [4] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (LengthOfArrayLike O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [4] {}
+  [1] let len = __x1__
+  [2] if (= len 0i) {
+    app __x2__ = (WrapCompletion -1i)
+    return __x2__
+  } else [4] {}
+  [3] app __x3__ = (ToIntegerOrInfinity fromIndex)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [4] {}
+  [3] let n = __x3__
+  [5] ??? "If id:{n} is + ∞ , return value:{-1} ."
+  [6] ??? "Else if id:{n} is - ∞ , set id:{n} to 0 ."
+  [9] if (! (< n 0i)) let k = n else {
+    [10] let k = (+ len n)
+    [11] if (< k 0i) k = 0i else [4] {}
+  }
+  [12] while (< k len) {
+    [13] ??? "Let id:{kPresent} be ? HasProperty ( id:{O} , ! ToString ( 𝔽 ( id:{k} ) ) ) ."
+    [14] if (= kPresent true) {
+      [15] ??? "Let id:{elementK} be ? Get ( id:{O} , ! ToString ( 𝔽 ( id:{k} ) ) ) ."
+      [16] app __x4__ = (StrictEqualityComparison searchElement elementK)
+      [16] let same = __x4__
+      [17] ??? "If id:{same} is value:{true} , return 𝔽 ( id:{k} ) ."
+    } else [4] {}
+    [18] k = (+ k 1i)
+  }
+  [19] app __x5__ = (WrapCompletion -1i)
+  [19] return __x5__
+}

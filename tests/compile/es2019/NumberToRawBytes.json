@@ -1,0 +1,109 @@
+[{
+  "tokens": ["If", {
+    "id": "type"
+  }, "is", {
+    "code": "\"Float32\""
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "rawBytes"
+  }, "be", "a", "List", "containing", "the", "4", "bytes", "that", "are", "the", "result", "of", "converting", {
+    "id": "value"
+  }, "to", "IEEE", "754", "-", "2008", "binary32", "format", "using", "“", "Round", "to", "nearest", ",", "ties", "to", "even", "”", "rounding", "mode", ".", "If", {
+    "id": "isLittleEndian"
+  }, "is", {
+    "value": "false"
+  }, ",", "the", "bytes", "are", "arranged", "in", "big", "endian", "order", ".", "Otherwise", ",", "the", "bytes", "are", "arranged", "in", "little", "endian", "order", ".", "If", {
+    "id": "value"
+  }, "is", {
+    "value": "NaN"
+  }, ",", {
+    "id": "rawBytes"
+  }, "may", "be", "set", "to", "any", "implementation", "chosen", "IEEE", "754", "-", "2008", "binary32", "format", "Not", "-", "a", "-", "Number", "encoding", ".", "An", "implementation", "must", "always", "choose", "the", "same", "encoding", "for", "each", "implementation", "distinguishable", {
+    "value": "NaN"
+  }, "value", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "type"
+  }, "is", {
+    "code": "\"Float64\""
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "rawBytes"
+  }, "be", "a", "List", "containing", "the", "8", "bytes", "that", "are", "the", "IEEE", "754", "-", "2008", "binary64", "format", "encoding", "of", {
+    "id": "value"
+  }, ".", "If", {
+    "id": "isLittleEndian"
+  }, "is", {
+    "value": "false"
+  }, ",", "the", "bytes", "are", "arranged", "in", "big", "endian", "order", ".", "Otherwise", ",", "the", "bytes", "are", "arranged", "in", "little", "endian", "order", ".", "If", {
+    "id": "value"
+  }, "is", {
+    "value": "NaN"
+  }, ",", {
+    "id": "rawBytes"
+  }, "may", "be", "set", "to", "any", "implementation", "chosen", "IEEE", "754", "-", "2008", "binary64", "format", "Not", "-", "a", "-", "Number", "encoding", ".", "An", "implementation", "must", "always", "choose", "the", "same", "encoding", "for", "each", "implementation", "distinguishable", {
+    "value": "NaN"
+  }, "value", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "n"
+  }, "be", "the", "Number", "value", "of", "the", "Element", "Size", "specified", "in", {
+    "link": ""
+  }, "for", "Element", "Type", {
+    "id": "type"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "convOp"
+  }, "be", "the", "abstract", "operation", "named", "in", "the", "Conversion", "Operation", "column", "in", {
+    "link": ""
+  }, "for", "Element", "Type", {
+    "id": "type"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "intValue"
+  }, "be", {
+    "id": "convOp"
+  }, "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "intValue"
+  }, "≥", "0", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "rawBytes"
+  }, "be", "a", "List", "containing", "the", {
+    "id": "n"
+  }, "-", "byte", "binary", "encoding", "of", {
+    "id": "intValue"
+  }, ".", "If", {
+    "id": "isLittleEndian"
+  }, "is", {
+    "value": "false"
+  }, ",", "the", "bytes", "are", "ordered", "in", "big", "endian", "order", ".", "Otherwise", ",", "the", "bytes", "are", "ordered", "in", "little", "endian", "order", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "rawBytes"
+  }, "be", "a", "List", "containing", "the", {
+    "id": "n"
+  }, "-", "byte", "binary", "2", "'", "s", "complement", "encoding", "of", {
+    "id": "intValue"
+  }, ".", "If", {
+    "id": "isLittleEndian"
+  }, "is", {
+    "value": "false"
+  }, ",", "the", "bytes", "are", "ordered", "in", "big", "endian", "order", ".", "Otherwise", ",", "the", "bytes", "are", "ordered", "in", "little", "endian", "order", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "rawBytes"
+  }, "."]
+}]

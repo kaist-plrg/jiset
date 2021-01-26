@@ -1,0 +1,39 @@
+[{
+  "tokens": ["Let", {
+    "id": "t"
+  }, "be", "?", "thisTimeValue", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "dt"
+  }, "be", "?", "ToNumber", "(", {
+    "id": "date"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "newDate"
+  }, "be", "MakeDate", "(", "MakeDay", "(", "YearFromTime", "(", {
+    "id": "t"
+  }, ")", ",", "MonthFromTime", "(", {
+    "id": "t"
+  }, ")", ",", {
+    "id": "dt"
+  }, ")", ",", "TimeWithinDay", "(", {
+    "id": "t"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "v"
+  }, "be", "TimeClip", "(", {
+    "id": "newDate"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", "the", "[", "[", "DateValue", "]", "]", "internal", "slot", "of", "this", "Date", "object", "to", {
+    "id": "v"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "v"
+  }, "."]
+}]

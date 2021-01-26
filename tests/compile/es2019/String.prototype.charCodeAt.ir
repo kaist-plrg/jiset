@@ -1,0 +1,18 @@
+{
+  app pos = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (RequireObjectCoercible this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [11] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (ToString O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [11] {}
+  [1] let S = __x1__
+  [2] app __x2__ = (ToInteger pos)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [11] {}
+  [2] let position = __x2__
+  [3] let size = S.length
+  [4] if (|| (< position 0i) (! (< position size))) {
+    app __x3__ = (WrapCompletion NaN)
+    return __x3__
+  } else [11] {}
+  [5] ??? "Return a value of Number type , whose value is the numeric value of the code unit at index id:{position} within the String id:{S} ."
+}

@@ -1,0 +1,20 @@
+{
+  [0] app __x0__ = (IsDetachedBuffer arrayBuffer)
+  [0] assert (= __x0__ false)
+  [3] app __x1__ = (Type value)
+  [3] assert (= __x1__ Number)
+  [4] let block = arrayBuffer.ArrayBufferData
+  [5] assert (! (= block undefined))
+  [6] ??? "If id:{isLittleEndian} is not present , set id:{isLittleEndian} to either value:{true} or value:{false} . The choice is implementation dependent and should be the alternative that is most efficient for the implementation . An implementation must use the same value each time this step is executed and the same value must be used for the corresponding step in the GetValueFromBuffer abstract operation ."
+  [11] if (= type "Float32") ??? "Set id:{rawBytes} to a List containing the 4 bytes that are the result of converting id:{value} to IEEE 754 - 2008 binary32 format using “ Round to nearest , ties to even ” rounding mode . If id:{isLittleEndian} is value:{false} , the bytes are arranged in big endian order . Otherwise , the bytes are arranged in little endian order . If id:{value} is value:{NaN} , id:{rawValue} may be set to any implementation chosen IEEE 754 - 2008 binary64 format Not - a - Number encoding . An implementation must always choose the same encoding for each implementation distinguishable value:{NaN} value ." else if (= type "Float64") ??? "Set id:{rawBytes} to a List containing the 8 bytes that are the IEEE 754 - 2008 binary64 format encoding of id:{value} . If id:{isLittleEndian} is value:{false} , the bytes are arranged in big endian order . Otherwise , the bytes are arranged in little endian order . If id:{value} is value:{NaN} , id:{rawValue} may be set to any implementation chosen IEEE 754 - 2008 binary32 format Not - a - Number encoding . An implementation must always choose the same encoding for each implementation distinguishable value:{NaN} value ." else {
+    [12] ??? "Let id:{n} be the Number value of the Element Size specified in link:{} for Element Type id:{type} ."
+    [13] ??? "Let id:{convOp} be the abstract operation named in the Conversion Operation column in link:{} for Element Type id:{type} ."
+    [14] app __x2__ = (convOp value)
+    [14] let intValue = __x2__
+    [17] if (! (< intValue 0i)) ??? "Let id:{rawBytes} be a List containing the id:{n} - byte binary encoding of id:{intValue} . If id:{isLittleEndian} is value:{false} , the bytes are ordered in big endian order . Otherwise , the bytes are ordered in little endian order ." else ??? "Let id:{rawBytes} be a List containing the id:{n} - byte binary 2 ' s complement encoding of id:{intValue} . If id:{isLittleEndian} is value:{false} , the bytes are ordered in big endian order . Otherwise , the bytes are ordered in little endian order ."
+  }
+  [19] ??? "Store the individual bytes of id:{rawBytes} into id:{block} , in order , starting at id:{block} [ id:{byteIndex} ] ."
+  [20] app __x3__ = (NormalCompletion undefined)
+  [20] app __x4__ = (WrapCompletion __x3__)
+  [20] return __x4__
+}

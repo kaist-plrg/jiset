@@ -1,0 +1,16 @@
+{
+  [0] access __x0__ = (ParameterList "ExpectedArgumentCount")
+  [0] let len = __x0__
+  [1] app __x1__ = (SetFunctionLength F len)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [1] {}
+  [1] __x1__
+  [2] let Strict = F.Strict
+  [3] F.Environment = Scope
+  [4] F.FormalParameters = ParameterList
+  [5] F.ECMAScriptCode = Body
+  [6] app __x2__ = (GetActiveScriptOrModule )
+  [6] F.ScriptOrModule = __x2__
+  [9] if (= kind CONST_Arrow) F.ThisMode = CONST_lexical else if (= Strict true) F.ThisMode = CONST_strict else F.ThisMode = CONST_global
+  [10] app __x3__ = (WrapCompletion F)
+  [10] return __x3__
+}

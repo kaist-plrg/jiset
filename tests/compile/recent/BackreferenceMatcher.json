@@ -1,0 +1,123 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "n"
+  }, "≥", "1", "."]
+}, {
+  "tokens": ["Return", "a", "new", "Matcher", "with", "parameters", "(", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ")", "that", "captures", {
+    "id": "n"
+  }, "and", {
+    "id": "direction"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "x"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "c"
+  }, "is", "a", "Continuation", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "cap"
+  }, "be", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "captures"
+  }, "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "s"
+  }, "be", {
+    "id": "cap"
+  }, "[", {
+    "id": "n"
+  }, "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "s"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "return", {
+    "id": "c"
+  }, "(", {
+    "id": "x"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "e"
+  }, "be", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "endIndex"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "len"
+  }, "be", "the", "number", "of", "elements", "in", {
+    "id": "s"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "f"
+  }, "be", {
+    "id": "e"
+  }, "+", {
+    "id": "direction"
+  }, "×", {
+    "id": "len"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "f"
+  }, "<", "0", "or", {
+    "id": "f"
+  }, ">", {
+    "id": "InputLength"
+  }, ",", "return", {
+    "const": "failure"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "g"
+  }, "be", "min", "(", {
+    "id": "e"
+  }, ",", {
+    "id": "f"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "there", "exists", "an", "integer", {
+    "id": "i"
+  }, "between", "0", "(", "inclusive", ")", "and", {
+    "id": "len"
+  }, "(", "exclusive", ")", "such", "that", "Canonicalize", "(", {
+    "id": "s"
+  }, "[", {
+    "id": "i"
+  }, "]", ")", "is", "not", "the", "same", "character", "value", "as", "Canonicalize", "(", {
+    "id": "Input"
+  }, "[", {
+    "id": "g"
+  }, "+", {
+    "id": "i"
+  }, "]", ")", ",", "return", {
+    "const": "failure"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "y"
+  }, "be", "the", "State", "(", {
+    "id": "f"
+  }, ",", {
+    "id": "cap"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "c"
+  }, "(", {
+    "id": "y"
+  }, ")", "."]
+}]

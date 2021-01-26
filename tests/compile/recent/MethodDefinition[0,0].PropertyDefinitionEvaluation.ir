@@ -1,0 +1,13 @@
+{
+  [0] access __x0__ = (MethodDefinition "DefineMethod")
+  [0] app __x1__ = (__x0__ object)
+  [0] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [0] let methodDef = __x1__
+  [1] app __x2__ = (SetFunctionName methodDef.Closure methodDef.Key)
+  [1] __x2__
+  [2] let desc = (new PropertyDescriptor("Value" -> methodDef.Closure, "Writable" -> true, "Enumerable" -> enumerable, "Configurable" -> true))
+  [3] app __x3__ = (DefinePropertyOrThrow object methodDef.Key desc)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [0] {}
+  [3] app __x4__ = (WrapCompletion __x3__)
+  [3] return __x4__
+}

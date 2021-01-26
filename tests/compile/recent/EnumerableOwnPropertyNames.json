@@ -1,0 +1,99 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "O"
+  }, ")", "is", "Object", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "ownKeys"
+  }, "be", "?", {
+    "id": "O"
+  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "properties"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "key"
+  }, "of", {
+    "id": "ownKeys"
+  }, ",", "do"]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "key"
+  }, ")", "is", "String", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "desc"
+  }, "be", "?", {
+    "id": "O"
+  }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+    "id": "key"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "desc"
+  }, "is", "not", {
+    "value": "undefined"
+  }, "and", {
+    "id": "desc"
+  }, ".", "[", "[", "Enumerable", "]", "]", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "kind"
+  }, "is", {
+    "const": "key"
+  }, ",", "append", {
+    "id": "key"
+  }, "to", {
+    "id": "properties"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "?", "Get", "(", {
+    "id": "O"
+  }, ",", {
+    "id": "key"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "kind"
+  }, "is", {
+    "const": "value"
+  }, ",", "append", {
+    "id": "value"
+  }, "to", {
+    "id": "properties"
+  }, "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "kind"
+  }, "is", {
+    "const": "key+value"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "entry"
+  }, "be", "!", "CreateArrayFromList", "(", "«", {
+    "id": "key"
+  }, ",", {
+    "id": "value"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["Append", {
+    "id": "entry"
+  }, "to", {
+    "id": "properties"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "properties"
+  }, "."]
+}]

@@ -1,0 +1,15 @@
+{
+  [0] let exports = (copy-obj O.Exports)
+  [1] app __x0__ = (OrdinaryOwnPropertyKeys O)
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [0] {}
+  [1] let symbolKeys = __x0__
+  [2] let __x1__ = symbolKeys
+  [2] let __x2__ = 0i
+  [2] while (< __x2__ __x1__.length) {
+    let __x3__ = __x1__[__x2__]
+    append __x3__ -> exports
+    __x2__ = (+ __x2__ 1i)
+  }
+  [3] app __x4__ = (WrapCompletion exports)
+  [3] return __x4__
+}

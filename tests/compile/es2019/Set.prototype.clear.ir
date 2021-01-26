@@ -1,0 +1,22 @@
+{
+  [0] let S = this
+  [1] app __x0__ = (Type S)
+  [1] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [1] {}
+  [2] if (= S.SetData absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [1] {}
+  [3] let entries = S.SetData
+  [4] let __x3__ = entries
+  [4] let __x4__ = 0i
+  [4] while (< __x4__ __x3__.length) {
+    let e = __x3__[__x4__]
+    [5] ??? "Replace the element of id:{entries} whose value is id:{e} with an element whose value is const:{empty} ."
+    __x4__ = (+ __x4__ 1i)
+  }
+  [6] app __x5__ = (WrapCompletion undefined)
+  [6] return __x5__
+}

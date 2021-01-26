@@ -1,0 +1,95 @@
+[{
+  "tokens": ["Let", {
+    "id": "lref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AdditiveExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "lval"
+  }, "be", "?", "GetValue", "(", {
+    "id": "lref"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "MultiplicativeExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rval"
+  }, "be", "?", "GetValue", "(", {
+    "id": "rref"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "lprim"
+  }, "be", "?", "ToPrimitive", "(", {
+    "id": "lval"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rprim"
+  }, "be", "?", "ToPrimitive", "(", {
+    "id": "rval"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "lprim"
+  }, ")", "is", "String", "or", "Type", "(", {
+    "id": "rprim"
+  }, ")", "is", "String", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "lstr"
+  }, "be", "?", "ToString", "(", {
+    "id": "lprim"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rstr"
+  }, "be", "?", "ToString", "(", {
+    "id": "rprim"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "the", "string", "-", "concatenation", "of", {
+    "id": "lstr"
+  }, "and", {
+    "id": "rstr"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "lnum"
+  }, "be", "?", "ToNumeric", "(", {
+    "id": "lprim"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rnum"
+  }, "be", "?", "ToNumeric", "(", {
+    "id": "rprim"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "lnum"
+  }, ")", "is", "different", "from", "Type", "(", {
+    "id": "rnum"
+  }, ")", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "T"
+  }, "be", "Type", "(", {
+    "id": "lnum"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "T"
+  }, ":", ":", "add", "(", {
+    "id": "lnum"
+  }, ",", {
+    "id": "rnum"
+  }, ")", "."]
+}]

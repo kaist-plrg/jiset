@@ -1,0 +1,19 @@
+{
+  [0] app __x0__ = (Type tv)
+  [0] assert (= __x0__ Number)
+  [1] assert (! (= tv NaN))
+  [2] app __x1__ = (LocalTZA tv true)
+  [2] let offset = __x1__
+  [6] if (! (< offset 0i)) {
+    [4] let offsetSign = "+"
+    [5] let absOffset = offset
+  } else {
+    [7] let offsetSign = "-"
+    [8] let absOffset = (- offset)
+  }
+  [9] ??? "Let id:{offsetMin} be the String representation of MinFromTime ( id:{absOffset} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
+  [10] ??? "Let id:{offsetHour} be the String representation of HourFromTime ( id:{absOffset} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
+  [11] ??? "Let id:{tzName} be an implementation - defined string that is either the empty String or the string - concatenation of the code unit 0x0020 ( SPACE ) , the code unit 0x0028 ( LEFT PARENTHESIS ) , an implementation - defined timezone name , and the code unit 0x0029 ( RIGHT PARENTHESIS ) ."
+  [12] app __x2__ = (WrapCompletion (+ (+ (+ offsetSign offsetHour) offsetMin) tzName))
+  [12] return __x2__
+}

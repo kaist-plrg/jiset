@@ -1,0 +1,14 @@
+{
+  [0] app __x0__ = (IsPropertyKey P)
+  [0] assert (= __x0__ true)
+  [1] app __x1__ = (OrdinaryGetOwnProperty S P)
+  [1] let desc = __x1__
+  [2] if (! (= desc undefined)) {
+    app __x2__ = (WrapCompletion desc)
+    return __x2__
+  } else [15] {}
+  [3] app __x3__ = (StringGetOwnProperty S P)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [15] {}
+  [3] app __x4__ = (WrapCompletion __x3__)
+  [3] return __x4__
+}

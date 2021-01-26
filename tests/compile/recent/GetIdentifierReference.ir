@@ -1,0 +1,13 @@
+{
+  [0] if (= env null) ??? "Return the Reference Record { [ [ Base ] ] : const:{unresolvable} , [ [ ReferencedName ] ] : id:{name} , [ [ Strict ] ] : id:{strict} , [ [ ThisValue ] ] : const:{empty} } ." else [2] {}
+  [2] app __x0__ = (env.HasBinding env name)
+  [2] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [2] {}
+  [2] let exists = __x0__
+  [5] if (= exists true) ??? "Return the Reference Record { [ [ Base ] ] : id:{env} , [ [ ReferencedName ] ] : id:{name} , [ [ Strict ] ] : id:{strict} , [ [ ThisValue ] ] : const:{empty} } ." else {
+    [6] let outer = env.OuterEnv
+    [7] app __x1__ = (GetIdentifierReference outer name strict)
+    [7] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [2] {}
+    [7] app __x2__ = (WrapCompletion __x1__)
+    [7] return __x2__
+  }
+}

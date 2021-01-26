@@ -1,0 +1,14 @@
+{
+  [0] access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  [0] let scope = __x0__
+  [1] let sourceText = (get-syntax AsyncGeneratorExpression)
+  [2] ??? "Let id:{closure} be ! OrdinaryFunctionCreate ( % AsyncGeneratorFunction . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{AsyncGeneratorBody} , const:{non-lexical-this} , id:{scope} ) ."
+  [3] app __x1__ = (SetFunctionName closure name)
+  [3] __x1__
+  [4] ??? "Let id:{prototype} be ! OrdinaryObjectCreate ( % AsyncGeneratorFunction . prototype . prototype % ) ."
+  [5] app __x2__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  [5] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [33] {}
+  [5] __x2__
+  [6] app __x3__ = (WrapCompletion closure)
+  [6] return __x3__
+}

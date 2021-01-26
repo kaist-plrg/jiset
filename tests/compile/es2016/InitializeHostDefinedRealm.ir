@@ -1,0 +1,20 @@
+{
+  [0] app __x0__ = (CreateRealm )
+  [0] let realm = __x0__
+  [1] let newContext = (new ExecutionContext("SubMap" -> (new SubMap())))
+  [2] newContext.Function = null
+  [3] newContext.Realm = realm
+  [4] newContext.ScriptOrModule = null
+  [5] append newContext -> GLOBAL_executionStack
+  [5] GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  [6] ??? "If the host requires use of an exotic object to serve as id:{realm} ' s global object , let id:{global} be such an object created in an implementation defined manner . Otherwise , let id:{global} be value:{undefined} , indicating that an ordinary object should be created as the global object ."
+  [7] ??? "If the host requires that the code:{this} binding in id:{realm} ' s global scope return an object other than the global object , let id:{thisValue} be such an object created in an implementation defined manner . Otherwise , let id:{thisValue} be value:{undefined} , indicating that id:{realm} ' s global code:{this} binding should be the global object ."
+  [8] app __x1__ = (SetRealmGlobalObject realm global thisValue)
+  [8] __x1__
+  [9] app __x2__ = (SetDefaultGlobalBindings realm)
+  [9] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [10] {}
+  [9] let globalObj = __x2__
+  [10] ??? "Create any implementation defined global object properties on id:{globalObj} ."
+  [11] ??? "In an implementation dependent manner , obtain the ECMAScript source texts ( see clause link:{} ) and any associated host - defined values for zero or more ECMAScript scripts and / or ECMAScript modules . For each such id:{sourceText} and id:{hostDefined} , step-list:{...}"
+  [16] ??? "NextJob NormalCompletion ( value:{undefined} ) ."
+}

@@ -1,0 +1,15 @@
+{
+  [0] access __x0__ = (UnaryExpression "Evaluation")
+  [0] let expr = __x0__
+  [1] app __x1__ = (GetValue expr)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+  [1] app __x2__ = (ToNumber __x1__)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [6] {}
+  [1] let oldValue = __x2__
+  [2] if (= oldValue NaN) {
+    app __x3__ = (WrapCompletion NaN)
+    return __x3__
+  } else [6] {}
+  [3] app __x4__ = (WrapCompletion (- oldValue))
+  [3] return __x4__
+}

@@ -1,0 +1,1 @@
+        1. Return the result of parsing the lexical token stream matched by |CoverCallExpressionAndAsyncArrowHead| using |AsyncArrowHead| as the goal symbol.

@@ -1,0 +1,20 @@
+{
+  [0] access __x0__ = (LabelIdentifier "StringValue")
+  [0] let label = __x0__
+  [1] append label -> labelSet
+  [2] access __x1__ = (LabelledItem "LabelledEvaluation")
+  [2] app __x2__ = (__x1__ labelSet)
+  [2] let stmtResult = __x2__
+  [3] let __x3__ = (= stmtResult.Type CONST_break)
+  [3] if __x3__ {
+    app __x4__ = (SameValue stmtResult.Target label)
+    __x3__ = (= __x4__ true)
+  } else [20] {}
+  [3] if __x3__ {
+    [4] app __x5__ = (NormalCompletion stmtResult.Value)
+    [4] stmtResult = __x5__
+  } else [20] {}
+  [5] app __x6__ = (Completion stmtResult)
+  [5] app __x7__ = (WrapCompletion __x6__)
+  [5] return __x7__
+}

@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "ToObject", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "sourceLen"
+  }, "be", "?", "ToLength", "(", "?", "Get", "(", {
+    "id": "O"
+  }, ",", {
+    "code": "\"length\""
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "depthNum"
+  }, "be", "1", "."]
+}, {
+  "tokens": ["If", {
+    "id": "depth"
+  }, "is", "not", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "depthNum"
+  }, "to", "?", "ToInteger", "(", {
+    "id": "depth"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "A"
+  }, "be", "?", "ArraySpeciesCreate", "(", {
+    "id": "O"
+  }, ",", "0", ")", "."]
+}, {
+  "tokens": ["Perform", "?", "FlattenIntoArray", "(", {
+    "id": "A"
+  }, ",", {
+    "id": "O"
+  }, ",", {
+    "id": "sourceLen"
+  }, ",", "0", ",", {
+    "id": "depthNum"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "A"
+  }, "."]
+}]

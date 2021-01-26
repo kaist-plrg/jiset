@@ -1,0 +1,14 @@
+{
+  app string = (GetArgument argumentsList 0i)
+  [0] let R = this
+  [1] app __x0__ = (RequireInternalSlot R "RegExpMatcher")
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [0] {}
+  [1] __x0__
+  [2] app __x1__ = (ToString string)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [2] let S = __x1__
+  [3] app __x2__ = (RegExpBuiltinExec R S)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+  [3] app __x3__ = (WrapCompletion __x2__)
+  [3] return __x3__
+}

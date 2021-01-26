@@ -1,0 +1,126 @@
+{
+  app string = (GetArgument argumentsList 0i)
+  app limit = (GetArgument argumentsList 1i)
+  [0] let rx = this
+  [1] app __x0__ = (Type rx)
+  [1] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [56] {}
+  [2] app __x2__ = (ToString string)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [56] {}
+  [2] let S = __x2__
+  [3] app __x3__ = (SpeciesConstructor rx INTRINSIC_RegExp)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [56] {}
+  [3] let C = __x3__
+  [4] app __x4__ = (Get rx "flags")
+  [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [56] {}
+  [4] app __x5__ = (ToString __x4__)
+  [4] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [56] {}
+  [4] let flags = __x5__
+  [6] if (contains flags "u") let unicodeMatching = true else let unicodeMatching = false
+  [8] if (contains flags "y") let newFlags = flags else let newFlags = (+ flags "y")
+  [9] app __x6__ = (Construct C (new [rx, newFlags]))
+  [9] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [56] {}
+  [9] let splitter = __x6__
+  [10] app __x7__ = (ArrayCreate 0i)
+  [10] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [56] {}
+  [10] let A = __x7__
+  [11] let lengthA = 0i
+  [12] if (= limit undefined) let lim = (- 4294967296i 1i) else {
+    app __x8__ = (ToUint32 limit)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [56] {}
+    let lim = __x8__
+  }
+  [13] let size = S.length
+  [14] let p = 0i
+  [15] if (== lim 0i) {
+    app __x9__ = (WrapCompletion A)
+    return __x9__
+  } else [56] {}
+  [16] if (== size 0i) {
+    [17] app __x10__ = (RegExpExec splitter S)
+    [17] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [56] {}
+    [17] let z = __x10__
+    [18] if (! (= z null)) {
+      app __x11__ = (WrapCompletion A)
+      return __x11__
+    } else [56] {}
+    [19] app __x12__ = (CreateDataPropertyOrThrow A "0" S)
+    [19] if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else [56] {}
+    [19] __x12__
+    [20] app __x13__ = (WrapCompletion A)
+    [20] return __x13__
+  } else [56] {}
+  [21] let q = p
+  [22] while (< q size) {
+    [23] app __x14__ = (Set splitter "lastIndex" q true)
+    [23] if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else [56] {}
+    [23] __x14__
+    [24] app __x15__ = (RegExpExec splitter S)
+    [24] if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else [56] {}
+    [24] let z = __x15__
+    [26] if (= z null) {
+      app __x16__ = (AdvanceStringIndex S q unicodeMatching)
+      q = __x16__
+    } else {
+      [27] app __x17__ = (Get splitter "lastIndex")
+      [27] if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else [56] {}
+      [27] app __x18__ = (ToLength __x17__)
+      [27] if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else [56] {}
+      [27] let e = __x18__
+      [28] app __x19__ = (min e size)
+      [28] e = __x19__
+      [30] if (== e p) {
+        app __x20__ = (AdvanceStringIndex S q unicodeMatching)
+        q = __x20__
+      } else {
+        [31] ??? "Let id:{T} be the String value equal to the substring of id:{S} consisting of the code units at indices id:{p} ( inclusive ) through id:{q} ( exclusive ) ."
+        [32] app __x21__ = (ToString lengthA)
+        [32] if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else [56] {}
+        [32] app __x22__ = (CreateDataPropertyOrThrow A __x21__ T)
+        [32] if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else [56] {}
+        [32] __x22__
+        [33] lengthA = (+ lengthA 1i)
+        [34] if (== lengthA lim) {
+          app __x23__ = (WrapCompletion A)
+          return __x23__
+        } else [56] {}
+        [35] p = e
+        [36] app __x24__ = (LengthOfArrayLike z)
+        [36] if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else [56] {}
+        [36] let numberOfCaptures = __x24__
+        [37] app __x25__ = (max (- numberOfCaptures 1i) 0i)
+        [37] numberOfCaptures = __x25__
+        [38] let i = 1i
+        [39] while (! (< numberOfCaptures i)) {
+          [40] app __x26__ = (ToString i)
+          [40] if (is-completion __x26__) if (= __x26__.Type CONST_normal) __x26__ = __x26__.Value else return __x26__ else [56] {}
+          [40] app __x27__ = (Get z __x26__)
+          [40] if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else [56] {}
+          [40] let nextCapture = __x27__
+          [41] app __x28__ = (ToString lengthA)
+          [41] if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else [56] {}
+          [41] app __x29__ = (CreateDataPropertyOrThrow A __x28__ nextCapture)
+          [41] if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else [56] {}
+          [41] __x29__
+          [42] i = (+ i 1i)
+          [43] lengthA = (+ lengthA 1i)
+          [44] if (== lengthA lim) {
+            app __x30__ = (WrapCompletion A)
+            return __x30__
+          } else [56] {}
+        }
+        [45] q = p
+      }
+    }
+  }
+  [46] ??? "Let id:{T} be the String value equal to the substring of id:{S} consisting of the code units at indices id:{p} ( inclusive ) through id:{size} ( exclusive ) ."
+  [47] app __x31__ = (ToString lengthA)
+  [47] if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else [56] {}
+  [47] app __x32__ = (CreateDataPropertyOrThrow A __x31__ T)
+  [47] if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else [56] {}
+  [47] __x32__
+  [48] app __x33__ = (WrapCompletion A)
+  [48] return __x33__
+}

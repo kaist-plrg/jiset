@@ -1,0 +1,18 @@
+{
+  [2] if (= value absent) {
+    [1] app __x0__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator (new []))
+    [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+    [1] let result = __x0__
+  } else {
+    [3] app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator (new [value]))
+    [3] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [1] {}
+    [3] let result = __x1__
+  }
+  [4] app __x2__ = (Type result)
+  [4] if (! (= __x2__ Object)) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else [1] {}
+  [5] app __x4__ = (WrapCompletion result)
+  [5] return __x4__
+}

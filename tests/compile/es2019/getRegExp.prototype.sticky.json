@@ -1,0 +1,45 @@
+[{
+  "tokens": ["Let", {
+    "id": "R"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "R"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "R"
+  }, "does", "not", "have", "an", "[", "[", "OriginalFlags", "]", "]", "internal", "slot", ",", "then"]
+}, {
+  "tokens": ["If", "SameValue", "(", {
+    "id": "R"
+  }, ",", "%", "RegExpPrototype", "%", ")", "is", {
+    "value": "true"
+  }, ",", "return", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Otherwise", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "flags"
+  }, "be", {
+    "id": "R"
+  }, ".", "[", "[", "OriginalFlags", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "flags"
+  }, "contains", "the", "code", "unit", "0x0079", "(", "LATIN", "SMALL", "LETTER", "Y", ")", ",", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}]

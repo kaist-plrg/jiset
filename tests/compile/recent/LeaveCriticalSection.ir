@@ -1,0 +1,9 @@
+{
+  [1] ??? "Let id:{execution} be the [ [ CandidateExecution ] ] field of the calling surrounding ' s Agent Record ."
+  [2] ??? "Let id:{eventsRecord} be the Agent Events Record in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
+  [3] let leaverEventList = eventsRecord.EventList
+  [4] ??? "Let id:{leaveEvent} be a new Synchronize event ."
+  [5] append leaveEvent -> leaverEventList
+  [6] ??? "Set the Synchronize event in id:{WL} to id:{leaveEvent} ."
+  [7] ??? "Leave the critical section for id:{WL} ."
+}

@@ -1,0 +1,19 @@
+{
+  [1] app __x0__ = (LengthOfArrayLike arrayLike)
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [0] {}
+  [1] let len = __x0__
+  [2] app __x1__ = (AllocateTypedArrayBuffer O len)
+  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+  [2] __x1__
+  [3] let k = 0i
+  [4] while (< k len) {
+    [5] ??? "Let id:{Pk} be ! ToString ( 𝔽 ( id:{k} ) ) ."
+    [6] app __x2__ = (Get arrayLike Pk)
+    [6] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+    [6] let kValue = __x2__
+    [7] app __x3__ = (Set O Pk kValue true)
+    [7] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [0] {}
+    [7] __x3__
+    [8] k = (+ k 1i)
+  }
+}

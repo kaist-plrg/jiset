@@ -1,0 +1,8 @@
+{
+  [1] let bindings = envRec.BindingObject
+  [2] if (= D true) let configValue = true else let configValue = false
+  [3] app __x0__ = (DefinePropertyOrThrow bindings N (new PropertyDescriptor("Value" -> undefined, "Writable" -> true, "Enumerable" -> true, "Configurable" -> configValue)))
+  [3] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+  [3] app __x1__ = (WrapCompletion __x0__)
+  [3] return __x1__
+}

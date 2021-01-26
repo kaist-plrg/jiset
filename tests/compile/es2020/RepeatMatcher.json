@@ -1,0 +1,195 @@
+[{
+  "tokens": ["If", {
+    "id": "max"
+  }, "is", "zero", ",", "return", {
+    "id": "c"
+  }, "(", {
+    "id": "x"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "d"
+  }, "be", "a", "new", "Continuation", "with", "parameters", "(", {
+    "id": "y"
+  }, ")", "that", "captures", {
+    "id": "m"
+  }, ",", {
+    "id": "min"
+  }, ",", {
+    "id": "max"
+  }, ",", {
+    "id": "greedy"
+  }, ",", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ",", {
+    "id": "parenIndex"
+  }, ",", "and", {
+    "id": "parenCount"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "y"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["If", {
+    "id": "min"
+  }, "is", "zero", "and", {
+    "id": "y"
+  }, "'", "s", {
+    "id": "endIndex"
+  }, "is", "equal", "to", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "endIndex"
+  }, ",", "return", {
+    "const": "failure"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "min"
+  }, "is", "zero", ",", "let", {
+    "id": "min2"
+  }, "be", "zero", ";", "otherwise", "let", {
+    "id": "min2"
+  }, "be", {
+    "id": "min"
+  }, "-", "1", "."]
+}, {
+  "tokens": ["If", {
+    "id": "max"
+  }, "is", "∞", ",", "let", {
+    "id": "max2"
+  }, "be", "∞", ";", "otherwise", "let", {
+    "id": "max2"
+  }, "be", {
+    "id": "max"
+  }, "-", "1", "."]
+}, {
+  "tokens": ["Call", "RepeatMatcher", "(", {
+    "id": "m"
+  }, ",", {
+    "id": "min2"
+  }, ",", {
+    "id": "max2"
+  }, ",", {
+    "id": "greedy"
+  }, ",", {
+    "id": "y"
+  }, ",", {
+    "id": "c"
+  }, ",", {
+    "id": "parenIndex"
+  }, ",", {
+    "id": "parenCount"
+  }, ")", "and", "return", "its", "result", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "cap"
+  }, "be", "a", "copy", "of", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "captures"
+  }, "List", "."]
+}, {
+  "tokens": ["For", "each", "integer", {
+    "id": "k"
+  }, "that", "satisfies", {
+    "id": "parenIndex"
+  }, "<", {
+    "id": "k"
+  }, "and", {
+    "id": "k"
+  }, "≤", {
+    "id": "parenIndex"
+  }, "+", {
+    "id": "parenCount"
+  }, ",", "set", {
+    "id": "cap"
+  }, "[", {
+    "id": "k"
+  }, "]", "to", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "e"
+  }, "be", {
+    "id": "x"
+  }, "'", "s", {
+    "id": "endIndex"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "xr"
+  }, "be", "the", "State", "(", {
+    "id": "e"
+  }, ",", {
+    "id": "cap"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "min"
+  }, "is", "not", "zero", ",", "return", {
+    "id": "m"
+  }, "(", {
+    "id": "xr"
+  }, ",", {
+    "id": "d"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "greedy"
+  }, "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Call", {
+    "id": "c"
+  }, "(", {
+    "id": "x"
+  }, ")", "and", "let", {
+    "id": "z"
+  }, "be", "its", "result", "."]
+}, {
+  "tokens": ["If", {
+    "id": "z"
+  }, "is", "not", {
+    "const": "failure"
+  }, ",", "return", {
+    "id": "z"
+  }, "."]
+}, {
+  "tokens": ["Call", {
+    "id": "m"
+  }, "(", {
+    "id": "xr"
+  }, ",", {
+    "id": "d"
+  }, ")", "and", "return", "its", "result", "."]
+}, {
+  "tokens": ["Call", {
+    "id": "m"
+  }, "(", {
+    "id": "xr"
+  }, ",", {
+    "id": "d"
+  }, ")", "and", "let", {
+    "id": "z"
+  }, "be", "its", "result", "."]
+}, {
+  "tokens": ["If", {
+    "id": "z"
+  }, "is", "not", {
+    "const": "failure"
+  }, ",", "return", {
+    "id": "z"
+  }, "."]
+}, {
+  "tokens": ["Call", {
+    "id": "c"
+  }, "(", {
+    "id": "x"
+  }, ")", "and", "return", "its", "result", "."]
+}]

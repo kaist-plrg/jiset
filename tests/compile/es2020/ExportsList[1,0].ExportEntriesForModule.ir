@@ -1,0 +1,16 @@
+{
+  [0] access __x0__ = (ExportsList "ExportEntriesForModule")
+  [0] app __x1__ = (__x0__ module)
+  [0] let specs = __x1__
+  [1] access __x2__ = (ExportSpecifier "ExportEntriesForModule")
+  [1] app __x3__ = (__x2__ module)
+  [1] let __x4__ = __x3__
+  [1] let __x5__ = 0i
+  [1] while (< __x5__ __x4__.length) {
+    let __x6__ = __x4__[__x5__]
+    append __x6__ -> specs
+    __x5__ = (+ __x5__ 1i)
+  }
+  [2] app __x7__ = (WrapCompletion specs)
+  [2] return __x7__
+}

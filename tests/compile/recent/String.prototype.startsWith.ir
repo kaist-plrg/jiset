@@ -1,0 +1,42 @@
+{
+  app searchString = (GetArgument argumentsList 0i)
+  app position = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (RequireObjectCoercible this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [25] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (ToString O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [25] {}
+  [1] let S = __x1__
+  [2] app __x2__ = (IsRegExp searchString)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [25] {}
+  [2] let isRegExp = __x2__
+  [3] if (= isRegExp true) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else [25] {}
+  [4] app __x4__ = (ToString searchString)
+  [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [25] {}
+  [4] let searchStr = __x4__
+  [5] let len = S.length
+  [6] if (= position undefined) let pos = 0i else {
+    app __x5__ = (ToIntegerOrInfinity position)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [25] {}
+    let pos = __x5__
+  }
+  [7] ??? "Let id:{start} be the result of clamping id:{pos} between 0 and id:{len} ."
+  [8] let searchLength = searchStr.length
+  [9] if (== searchLength 0i) {
+    app __x6__ = (WrapCompletion true)
+    return __x6__
+  } else [25] {}
+  [10] let end = (+ start searchLength)
+  [11] if (< len end) {
+    app __x7__ = (WrapCompletion false)
+    return __x7__
+  } else [25] {}
+  [12] ??? "Let id:{substring} be the substring of id:{S} from id:{start} to id:{end} ."
+  [13] app __x8__ = (SameValueNonNumeric substring searchStr)
+  [13] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [25] {}
+  [13] app __x9__ = (WrapCompletion __x8__)
+  [13] return __x9__
+}

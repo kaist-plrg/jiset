@@ -1,0 +1,167 @@
+[{
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "the", "same", "as", "Type", "(", {
+    "id": "y"
+  }, ")", ",", "then"]
+}, {
+  "tokens": ["Return", "the", "result", "of", "performing", "Strict", "Equality", "Comparison", {
+    "id": "x"
+  }, "=", "=", "=", {
+    "id": "y"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "x"
+  }, "is", {
+    "value": "null"
+  }, "and", {
+    "id": "y"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "x"
+  }, "is", {
+    "value": "undefined"
+  }, "and", {
+    "id": "y"
+  }, "is", {
+    "value": "null"
+  }, ",", "return", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "Number", "and", "Type", "(", {
+    "id": "y"
+  }, ")", "is", "String", ",", "return", "the", "result", "of", "the", "comparison", {
+    "id": "x"
+  }, "=", "=", "!", "ToNumber", "(", {
+    "id": "y"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "String", "and", "Type", "(", {
+    "id": "y"
+  }, ")", "is", "Number", ",", "return", "the", "result", "of", "the", "comparison", "!", "ToNumber", "(", {
+    "id": "x"
+  }, ")", "=", "=", {
+    "id": "y"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "BigInt", "and", "Type", "(", {
+    "id": "y"
+  }, ")", "is", "String", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "n"
+  }, "be", "!", "StringToBigInt", "(", {
+    "id": "y"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "n"
+  }, "is", {
+    "value": "NaN"
+  }, ",", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Return", "the", "result", "of", "the", "comparison", {
+    "id": "x"
+  }, "=", "=", {
+    "id": "n"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "String", "and", "Type", "(", {
+    "id": "y"
+  }, ")", "is", "BigInt", ",", "return", "the", "result", "of", "the", "comparison", {
+    "id": "y"
+  }, "=", "=", {
+    "id": "x"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "Boolean", ",", "return", "the", "result", "of", "the", "comparison", "!", "ToNumber", "(", {
+    "id": "x"
+  }, ")", "=", "=", {
+    "id": "y"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "y"
+  }, ")", "is", "Boolean", ",", "return", "the", "result", "of", "the", "comparison", {
+    "id": "x"
+  }, "=", "=", "!", "ToNumber", "(", {
+    "id": "y"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "either", "String", ",", "Number", ",", "BigInt", ",", "or", "Symbol", "and", "Type", "(", {
+    "id": "y"
+  }, ")", "is", "Object", ",", "return", "the", "result", "of", "the", "comparison", {
+    "id": "x"
+  }, "=", "=", "ToPrimitive", "(", {
+    "id": "y"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "Object", "and", "Type", "(", {
+    "id": "y"
+  }, ")", "is", "either", "String", ",", "Number", ",", "BigInt", ",", "or", "Symbol", ",", "return", "the", "result", "of", "the", "comparison", "ToPrimitive", "(", {
+    "id": "x"
+  }, ")", "=", "=", {
+    "id": "y"
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "BigInt", "and", "Type", "(", {
+    "id": "y"
+  }, ")", "is", "Number", ",", "or", "if", "Type", "(", {
+    "id": "x"
+  }, ")", "is", "Number", "and", "Type", "(", {
+    "id": "y"
+  }, ")", "is", "BigInt", ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "x"
+  }, "or", {
+    "id": "y"
+  }, "are", "any", "of", {
+    "value": "NaN"
+  }, ",", {
+    "value": "+∞"
+  }, ",", "or", {
+    "value": "-∞"
+  }, ",", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["If", "the", "mathematical", "value", "of", {
+    "id": "x"
+  }, "is", "equal", "to", "the", "mathematical", "value", "of", {
+    "id": "y"
+  }, ",", "return", {
+    "value": "true"
+  }, ";", "otherwise", "return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}]

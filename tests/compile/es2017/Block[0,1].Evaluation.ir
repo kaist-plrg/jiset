@@ -1,0 +1,13 @@
+{
+  [0] let oldEnv = GLOBAL_context.LexicalEnvironment
+  [1] app __x0__ = (NewDeclarativeEnvironment oldEnv)
+  [1] let blockEnv = __x0__
+  [2] app __x1__ = (BlockDeclarationInstantiation StatementList blockEnv)
+  [2] __x1__
+  [3] GLOBAL_context.LexicalEnvironment = blockEnv
+  [4] access __x2__ = (StatementList "Evaluation")
+  [4] let blockValue = __x2__
+  [5] GLOBAL_context.LexicalEnvironment = oldEnv
+  [6] app __x3__ = (WrapCompletion blockValue)
+  [6] return __x3__
+}

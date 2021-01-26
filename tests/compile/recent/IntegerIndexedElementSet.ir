@@ -1,0 +1,25 @@
+{
+  [2] if (= O.ContentType CONST_BigInt) {
+    app __x0__ = (ToBigInt value)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [0] {}
+    let numValue = __x0__
+  } else {
+    app __x1__ = (ToNumber value)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [0] {}
+    let numValue = __x1__
+  }
+  [3] app __x2__ = (IsValidIntegerIndex O index)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [0] {}
+  [3] if (= __x2__ true) {
+    [4] let offset = O.ByteOffset
+    [5] let arrayTypeName = O.TypedArrayName
+    [6] ??? "Let id:{elementSize} be the Element Size value specified in link:{} for id:{arrayTypeName} ."
+    [7] ??? "Let id:{indexedPosition} be ( ℝ ( id:{index} ) × id:{elementSize} ) + id:{offset} ."
+    [8] ??? "Let id:{elementType} be the Element Type value in link:{} for id:{arrayTypeName} ."
+    [9] app __x3__ = (SetValueInBuffer O.ViewedArrayBuffer indexedPosition elementType numValue true CONST_Unordered)
+    [9] __x3__
+  } else [0] {}
+  [10] app __x4__ = (NormalCompletion undefined)
+  [10] app __x5__ = (WrapCompletion __x4__)
+  [10] return __x5__
+}

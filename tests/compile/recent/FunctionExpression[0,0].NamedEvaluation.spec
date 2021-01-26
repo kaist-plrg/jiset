@@ -1,0 +1,6 @@
+        1. Let _scope_ be the LexicalEnvironment of the running execution context.
+        1. Let _sourceText_ be the source text matched by |FunctionExpression|.
+        1. Let _closure_ be OrdinaryFunctionCreate(%Function.prototype%, _sourceText_, |FormalParameters|, |FunctionBody|, ~non-lexical-this~, _scope_).
+        1. Perform SetFunctionName(_closure_, _name_).
+        1. Perform MakeConstructor(_closure_).
+        1. Return _closure_.

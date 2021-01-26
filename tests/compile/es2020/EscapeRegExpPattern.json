@@ -1,0 +1,83 @@
+[{
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "a", "String", "in", "the", "form", "of", "a", {
+    "nt": "Pattern[~U]"
+  }, "(", {
+    "nt": "Pattern[+U]"
+  }, "if", {
+    "id": "F"
+  }, "contains", {
+    "value": "\"u\""
+  }, ")", "equivalent", "to", {
+    "id": "P"
+  }, "interpreted", "as", "UTF", "-", "16", "encoded", "Unicode", "code", "points", "(", {
+    "link": ""
+  }, ")", ",", "in", "which", "certain", "code", "points", "are", "escaped", "as", "described", "below", ".", {
+    "id": "S"
+  }, "may", "or", "may", "not", "be", "identical", "to", {
+    "id": "P"
+  }, ";", "however", ",", "the", "abstract", "closure", "that", "would", "result", "from", "evaluating", {
+    "id": "S"
+  }, "as", "a", {
+    "nt": "Pattern[~U]"
+  }, "(", {
+    "nt": "Pattern[+U]"
+  }, "if", {
+    "id": "F"
+  }, "contains", {
+    "value": "\"u\""
+  }, ")", "must", "behave", "identically", "to", "the", "abstract", "closure", "given", "by", "the", "constructed", "object", "'", "s", "[", "[", "RegExpMatcher", "]", "]", "internal", "slot", ".", "Multiple", "calls", "to", "this", "abstract", "operation", "using", "the", "same", "values", "for", {
+    "id": "P"
+  }, "and", {
+    "id": "F"
+  }, "must", "produce", "identical", "results", "."]
+}, {
+  "tokens": ["The", "code", "points", {
+    "code": "/"
+  }, "or", "any", {
+    "nt": "LineTerminator"
+  }, "occurring", "in", "the", "pattern", "shall", "be", "escaped", "in", {
+    "id": "S"
+  }, "as", "necessary", "to", "ensure", "that", "the", "string", "-", "concatenation", "of", {
+    "value": "\"/\""
+  }, ",", {
+    "id": "S"
+  }, ",", {
+    "value": "\"/\""
+  }, ",", "and", {
+    "id": "F"
+  }, "can", "be", "parsed", "(", "in", "an", "appropriate", "lexical", "context", ")", "as", "a", {
+    "nt": "RegularExpressionLiteral"
+  }, "that", "behaves", "identically", "to", "the", "constructed", "regular", "expression", ".", "For", "example", ",", "if", {
+    "id": "P"
+  }, "is", {
+    "value": "\"/\""
+  }, ",", "then", {
+    "id": "S"
+  }, "could", "be", {
+    "value": "\"\\\\/\""
+  }, "or", {
+    "value": "\"\\\\u002F\""
+  }, ",", "among", "other", "possibilities", ",", "but", "not", {
+    "value": "\"/\""
+  }, ",", "because", {
+    "code": "///"
+  }, "followed", "by", {
+    "id": "F"
+  }, "would", "be", "parsed", "as", "a", {
+    "nt": "SingleLineComment"
+  }, "rather", "than", "a", {
+    "nt": "RegularExpressionLiteral"
+  }, ".", "If", {
+    "id": "P"
+  }, "is", "the", "empty", "String", ",", "this", "specification", "can", "be", "met", "by", "letting", {
+    "id": "S"
+  }, "be", {
+    "value": "\"(?:)\""
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "S"
+  }, "."]
+}]

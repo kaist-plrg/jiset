@@ -1,0 +1,97 @@
+[{
+  "tokens": ["If", {
+    "nt": "LeftHandSideExpression"
+  }, "is", "neither", "an", {
+    "nt": "ObjectLiteral"
+  }, "nor", "an", {
+    "nt": "ArrayLiteral"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "lref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "LeftHandSideExpression"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "lref"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AssignmentExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rval"
+  }, "be", "?", "GetValue", "(", {
+    "id": "rref"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsAnonymousFunctionDefinition", "(", {
+    "nt": "AssignmentExpression"
+  }, ")", "and", "IsIdentifierRef", "of", {
+    "nt": "LeftHandSideExpression"
+  }, "are", "both", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "hasNameProperty"
+  }, "be", "?", "HasOwnProperty", "(", {
+    "id": "rval"
+  }, ",", {
+    "code": "\"name\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "hasNameProperty"
+  }, "is", {
+    "value": "false"
+  }, ",", "perform", "SetFunctionName", "(", {
+    "id": "rval"
+  }, ",", "GetReferencedName", "(", {
+    "id": "lref"
+  }, ")", ")", "."]
+}, {
+  "tokens": ["Perform", "?", "PutValue", "(", {
+    "id": "lref"
+  }, ",", {
+    "id": "rval"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "rval"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "assignmentPattern"
+  }, "be", "the", {
+    "nt": "AssignmentPattern"
+  }, "that", "is", "covered", "by", {
+    "nt": "LeftHandSideExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rref"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AssignmentExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rval"
+  }, "be", "?", "GetValue", "(", {
+    "id": "rref"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "?", "DestructuringAssignmentEvaluation", "of", {
+    "id": "assignmentPattern"
+  }, "using", {
+    "id": "rval"
+  }, "as", "the", "argument", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "rval"
+  }, "."]
+}]

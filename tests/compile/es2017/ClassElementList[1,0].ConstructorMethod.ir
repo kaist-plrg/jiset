@@ -1,0 +1,24 @@
+{
+  [0] access __x0__ = (ClassElementList "ConstructorMethod")
+  [0] let head = __x0__
+  [1] if (! (= head CONST_empty)) {
+    app __x1__ = (WrapCompletion head)
+    return __x1__
+  } else [24] {}
+  [2] if (is-instance-of ClassElement ClassElement2) {
+    app __x2__ = (WrapCompletion CONST_empty)
+    return __x2__
+  } else [24] {}
+  [3] access __x3__ = (ClassElement "IsStatic")
+  [3] if (= __x3__ true) {
+    app __x4__ = (WrapCompletion CONST_empty)
+    return __x4__
+  } else [24] {}
+  [4] access __x5__ = (ClassElement "PropName")
+  [4] if (! (= __x5__ "constructor")) {
+    app __x6__ = (WrapCompletion CONST_empty)
+    return __x6__
+  } else [24] {}
+  [5] app __x7__ = (WrapCompletion ClassElement)
+  [5] return __x7__
+}

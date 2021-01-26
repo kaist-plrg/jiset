@@ -1,0 +1,20 @@
+{
+  app args = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (RequireObjectCoercible this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [2] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (ToString O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [2] {}
+  [1] let S = __x1__
+  [2] let args = argumentsList
+  [3] let R = S
+  [4] while (< 0i args.length) {
+    [5] let next = (pop args 0i)
+    [6] app __x2__ = (ToString next)
+    [6] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [2] {}
+    [6] let nextString = __x2__
+    [7] ??? "Let id:{R} be the String value consisting of the code units of the previous value of id:{R} followed by the code units of id:{nextString} ."
+  }
+  [8] app __x3__ = (WrapCompletion R)
+  [8] return __x3__
+}

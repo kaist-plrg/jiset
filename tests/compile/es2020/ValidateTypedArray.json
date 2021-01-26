@@ -1,0 +1,27 @@
+[{
+  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
+    "id": "O"
+  }, ",", "[", "[", "TypedArrayName", "]", "]", ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "O"
+  }, "has", "a", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "buffer"
+  }, "be", {
+    "id": "O"
+  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "buffer"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "buffer"
+  }, "."]
+}]

@@ -1,0 +1,79 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, "is", "a", "Module", "Record", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, ".", "[", "[", "Namespace", "]", "]", "is", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "exports"
+  }, "is", "a", "List", "of", "String", "values", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "internalSlotsList"
+  }, "be", "the", "internal", "slots", "listed", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "M"
+  }, "be", "!", "MakeBasicObject", "(", {
+    "id": "internalSlotsList"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "M"
+  }, "'", "s", "essential", "internal", "methods", "to", "the", "definitions", "specified", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "M"
+  }, ".", "[", "[", "Prototype", "]", "]", "to", {
+    "value": "null"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "M"
+  }, ".", "[", "[", "Module", "]", "]", "to", {
+    "id": "module"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "sortedExports"
+  }, "be", "a", "new", "List", "containing", "the", "same", "values", "as", "the", "list", {
+    "id": "exports"
+  }, "where", "the", "values", "are", "ordered", "as", "if", "an", "Array", "of", "the", "same", "values", "had", "been", "sorted", "using", {
+    "code": "Array.prototype.sort"
+  }, "using", {
+    "value": "undefined"
+  }, "as", {
+    "id": "comparefn"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "M"
+  }, ".", "[", "[", "Exports", "]", "]", "to", {
+    "id": "sortedExports"
+  }, "."]
+}, {
+  "tokens": ["Create", "own", "properties", "of", {
+    "id": "M"
+  }, "corresponding", "to", "the", "definitions", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "module"
+  }, ".", "[", "[", "Namespace", "]", "]", "to", {
+    "id": "M"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "M"
+  }, "."]
+}]

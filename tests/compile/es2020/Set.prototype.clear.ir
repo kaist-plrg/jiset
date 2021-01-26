@@ -1,0 +1,16 @@
+{
+  [0] let S = this
+  [1] app __x0__ = (RequireInternalSlot S "SetData")
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+  [1] __x0__
+  [2] let entries = S.SetData
+  [3] let __x1__ = entries
+  [3] let __x2__ = 0i
+  [3] while (< __x2__ __x1__.length) {
+    let e = __x1__[__x2__]
+    [4] ??? "Replace the element of id:{entries} whose value is id:{e} with an element whose value is const:{empty} ."
+    __x2__ = (+ __x2__ 1i)
+  }
+  [5] app __x3__ = (WrapCompletion undefined)
+  [5] return __x3__
+}

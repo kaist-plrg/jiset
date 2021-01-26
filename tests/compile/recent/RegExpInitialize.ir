@@ -1,0 +1,34 @@
+{
+  [1] if (= pattern undefined) let P = "" else {
+    app __x0__ = (ToString pattern)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [14] {}
+    let P = __x0__
+  }
+  [3] if (= flags undefined) let F = "" else {
+    app __x1__ = (ToString flags)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [14] {}
+    let F = __x1__
+  }
+  [4] ??? "If id:{F} contains any code unit other than value:{\"g\"} , value:{\"i\"} , value:{\"m\"} , value:{\"s\"} , value:{\"u\"} , or value:{\"y\"} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception ."
+  [5] if (contains F "u") let u = true else let u = false
+  [9] if (= u true) {
+    [7] app __x2__ = (StringToCodePoints P)
+    [7] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [14] {}
+    [7] let patternText = __x2__
+    [8] ??? "Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} ."
+  } else {
+    [10] ??? "Let id:{patternText} be the result of interpreting each of id:{P} ' s 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements ."
+    [11] ??? "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} ."
+  }
+  [12] app __x3__ = (ParsePattern patternText u)
+  [12] let parseResult = __x3__
+  [13] ??? "If id:{parseResult} is a non - empty List of value:{SyntaxError} objects , throw a value:{SyntaxError} exception ."
+  [15] obj.OriginalSource = P
+  [16] obj.OriginalFlags = F
+  [17] ??? "Set id:{obj} . [ [ RegExpMatcher ] ] to the Abstract Closure that evaluates id:{parseResult} by applying the semantics provided in link:{} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters ."
+  [18] app __x4__ = (Set obj "lastIndex" 0i true)
+  [18] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [14] {}
+  [18] __x4__
+  [19] app __x5__ = (WrapCompletion obj)
+  [19] return __x5__
+}

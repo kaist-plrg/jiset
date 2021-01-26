@@ -1,0 +1,14 @@
+{
+  [0] app __x0__ = (Type value)
+  [0] if (= __x0__ String) {
+    app __x1__ = (WrapCompletion value)
+    return __x1__
+  } else [2] {}
+  [1] app __x2__ = (Type value)
+  [1] if (&& (= __x2__ Object) (! (= value.StringData absent))) {
+    [3] app __x3__ = (WrapCompletion value.StringData)
+    [3] return __x3__
+  } else [2] {}
+  [4] app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  [4] return __x4__
+}

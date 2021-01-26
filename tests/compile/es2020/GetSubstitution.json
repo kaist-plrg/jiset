@@ -1,0 +1,73 @@
+[{
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "matched"
+  }, ")", "is", "String", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "matchLength"
+  }, "be", "the", "number", "of", "code", "units", "in", {
+    "id": "matched"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "str"
+  }, ")", "is", "String", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "stringLength"
+  }, "be", "the", "number", "of", "code", "units", "in", {
+    "id": "str"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", "!", "IsNonNegativeInteger", "(", {
+    "id": "position"
+  }, ")", "is", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "position"
+  }, "≤", {
+    "id": "stringLength"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "captures"
+  }, "is", "a", "possibly", "empty", "List", "of", "Strings", "."]
+}, {
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "replacement"
+  }, ")", "is", "String", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "tailPos"
+  }, "be", {
+    "id": "position"
+  }, "+", {
+    "id": "matchLength"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "m"
+  }, "be", "the", "number", "of", "elements", "in", {
+    "id": "captures"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "result"
+  }, "be", "the", "String", "value", "derived", "from", {
+    "id": "replacement"
+  }, "by", "copying", "code", "unit", "elements", "from", {
+    "id": "replacement"
+  }, "to", {
+    "id": "result"
+  }, "while", "performing", "replacements", "as", "specified", "in", {
+    "link": ""
+  }, ".", "These", {
+    "code": "$"
+  }, "replacements", "are", "done", "left", "-", "to", "-", "right", ",", "and", ",", "once", "such", "a", "replacement", "is", "performed", ",", "the", "new", "replacement", "text", "is", "not", "subject", "to", "further", "replacements", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "result"
+  }, "."]
+}]

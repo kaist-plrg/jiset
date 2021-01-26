@@ -1,0 +1,23 @@
+{
+  [0] access __x0__ = (ElementList "ArrayAccumulation")
+  [0] app __x1__ = (__x0__ array nextIndex)
+  [0] let postIndex = __x1__
+  [1] if (is-completion postIndex) if (= postIndex.Type CONST_normal) postIndex = postIndex.Value else return postIndex else [11] {}
+  [1] postIndex
+  [2] if (= Elision absent) let padding = 0i else {
+    access __x2__ = (Elision "ElisionWidth")
+    let padding = __x2__
+  }
+  [3] access __x3__ = (AssignmentExpression "Evaluation")
+  [3] let initResult = __x3__
+  [4] app __x4__ = (GetValue initResult)
+  [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [11] {}
+  [4] let initValue = __x4__
+  [5] app __x5__ = (ToUint32 (+ postIndex padding))
+  [5] app __x6__ = (ToString __x5__)
+  [5] app __x7__ = (CreateDataProperty array __x6__ initValue)
+  [5] let created = __x7__
+  [6] assert (= created true)
+  [7] app __x8__ = (WrapCompletion (+ (+ postIndex padding) 1i))
+  [7] return __x8__
+}

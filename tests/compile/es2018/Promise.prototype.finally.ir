@@ -1,0 +1,34 @@
+{
+  app onFinally = (GetArgument argumentsList 0i)
+  [0] let promise = this
+  [1] app __x0__ = (Type promise)
+  [1] if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else [1] {}
+  [2] app __x2__ = (SpeciesConstructor promise INTRINSIC_Promise)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [1] {}
+  [2] let C = __x2__
+  [3] app __x3__ = (IsConstructor C)
+  [3] assert (= __x3__ true)
+  [7] app __x4__ = (IsCallable onFinally)
+  [7] if (= __x4__ false) {
+    [5] let thenFinally = onFinally
+    [6] let catchFinally = onFinally
+  } else {
+    [8] ??? "Let id:{stepsThenFinally} be the algorithm steps defined in link:{} ."
+    [9] app __x5__ = (CreateBuiltinFunction stepsThenFinally (new ["Constructor", "OnFinally"]))
+    [9] let thenFinally = __x5__
+    [10] thenFinally.Constructor = C
+    [11] thenFinally.OnFinally = onFinally
+    [12] ??? "Let id:{stepsCatchFinally} be the algorithm steps defined in link:{} ."
+    [13] app __x6__ = (CreateBuiltinFunction stepsCatchFinally (new ["Constructor", "OnFinally"]))
+    [13] let catchFinally = __x6__
+    [14] catchFinally.Constructor = C
+    [15] catchFinally.OnFinally = onFinally
+  }
+  [16] app __x7__ = (Invoke promise "then" (new [thenFinally, catchFinally]))
+  [16] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [1] {}
+  [16] app __x8__ = (WrapCompletion __x7__)
+  [16] return __x8__
+}

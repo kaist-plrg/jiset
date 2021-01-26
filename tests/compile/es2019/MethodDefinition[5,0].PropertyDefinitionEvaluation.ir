@@ -1,0 +1,20 @@
+{
+  [0] access __x0__ = (PropertyName "Evaluation")
+  [0] let propKey = __x0__
+  [1] if (is-completion propKey) if (= propKey.Type CONST_normal) propKey = propKey.Value else return propKey else [0] {}
+  [1] propKey
+  [2] if true let strict = true else let strict = false
+  [3] let scope = GLOBAL_context.LexicalEnvironment
+  [4] app __x1__ = (FunctionCreate CONST_Method PropertySetParameterList FunctionBody scope strict)
+  [4] let closure = __x1__
+  [5] app __x2__ = (MakeMethod closure object)
+  [5] __x2__
+  [6] app __x3__ = (SetFunctionName closure propKey "set")
+  [6] __x3__
+  [7] closure.SourceText = (get-syntax MethodDefinition)
+  [8] let desc = (new PropertyDescriptor("Set" -> closure, "Enumerable" -> enumerable, "Configurable" -> true))
+  [9] app __x4__ = (DefinePropertyOrThrow object propKey desc)
+  [9] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [0] {}
+  [9] app __x5__ = (WrapCompletion __x4__)
+  [9] return __x5__
+}

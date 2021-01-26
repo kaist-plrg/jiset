@@ -1,0 +1,180 @@
+{
+  app body = (GetArgument argumentsList 0i)
+  app varEnv = (GetArgument argumentsList 1i)
+  app lexEnv = (GetArgument argumentsList 2i)
+  app strict = (GetArgument argumentsList 3i)
+  [0] access __x0__ = (body "VarDeclaredNames")
+  [0] let varNames = __x0__
+  [1] access __x1__ = (body "VarScopedDeclarations")
+  [1] let varDeclarations = __x1__
+  [2] let lexEnvRec = lexEnv.EnvironmentRecord
+  [3] let varEnvRec = varEnv.EnvironmentRecord
+  [4] if (= strict false) {
+    [5] if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+      [6] let __x2__ = varNames
+      [6] let __x3__ = 0i
+      [6] while (< __x3__ __x2__.length) {
+        let name = __x2__[__x3__]
+        [7] app __x4__ = (varEnvRec.HasLexicalDeclaration varEnvRec name)
+        [7] if (= __x4__ true) {
+          app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+          return __x5__
+        } else [74] {}
+        __x3__ = (+ __x3__ 1i)
+      }
+    } else [74] {}
+    [9] let thisLex = lexEnv
+    [11] while (! (= thisLex varEnv)) {
+      [12] let thisEnvRec = thisLex.EnvironmentRecord
+      [13] if (! (= (typeof thisEnvRec) "ObjectEnvironmentRecord")) {
+        [15] let __x6__ = varNames
+        [15] let __x7__ = 0i
+        [15] while (< __x7__ __x6__.length) {
+          let name = __x6__[__x7__]
+          [16] app __x8__ = (thisEnvRec.HasBinding thisEnvRec name)
+          [16] if (= __x8__ true) {
+            [17] app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+            [17] return __x9__
+          } else [74] {}
+          __x7__ = (+ __x7__ 1i)
+        }
+      } else [74] {}
+      [20] thisLex = thisLex.Outer
+    }
+  } else [74] {}
+  [21] let functionsToInitialize = (new [])
+  [22] let declaredFunctionNames = (new [])
+  [23] let __x10__ = varDeclarations
+  [23] let __x11__ = __x10__.length
+  [23] while (< 0i __x11__) {
+    __x11__ = (- __x11__ 1i)
+    let d = __x10__[__x11__]
+    [24] if (! (|| (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding)) (is-instance-of d BindingIdentifier))) {
+      [25] assert (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration))
+      [27] access __x12__ = (d "BoundNames")
+      [27] let fn = __x12__[0i]
+      [28] if (! (contains declaredFunctionNames fn)) {
+        [29] if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+          [30] app __x13__ = (varEnvRec.CanDeclareGlobalFunction varEnvRec fn)
+          [30] if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else [74] {}
+          [30] let fnDefinable = __x13__
+          [31] if (= fnDefinable false) {
+            app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+            return __x14__
+          } else [74] {}
+        } else [74] {}
+        [32] append fn -> declaredFunctionNames
+        [33] prepend d -> functionsToInitialize
+      } else [74] {}
+    } else [74] {}
+  }
+  [35] let declaredVarNames = (new [])
+  [36] let __x15__ = varDeclarations
+  [36] let __x16__ = 0i
+  [36] while (< __x16__ __x15__.length) {
+    let d = __x15__[__x16__]
+    [37] if (|| (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding)) (is-instance-of d BindingIdentifier)) {
+      [38] access __x17__ = (d "BoundNames")
+      [38] let __x18__ = __x17__
+      [38] let __x19__ = 0i
+      [38] while (< __x19__ __x18__.length) {
+        let vn = __x18__[__x19__]
+        [39] if (! (contains declaredFunctionNames vn)) {
+          [40] if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+            [41] app __x20__ = (varEnvRec.CanDeclareGlobalVar varEnvRec vn)
+            [41] if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else [74] {}
+            [41] let vnDefinable = __x20__
+            [42] if (= vnDefinable false) {
+              app __x21__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+              return __x21__
+            } else [74] {}
+          } else [74] {}
+          [43] if (! (contains declaredVarNames vn)) append vn -> declaredVarNames else [74] {}
+        } else [74] {}
+        __x19__ = (+ __x19__ 1i)
+      }
+    } else [74] {}
+    __x16__ = (+ __x16__ 1i)
+  }
+  [46] access __x22__ = (body "LexicallyScopedDeclarations")
+  [46] let lexDeclarations = __x22__
+  [47] let __x23__ = lexDeclarations
+  [47] let __x24__ = 0i
+  [47] while (< __x24__ __x23__.length) {
+    let d = __x23__[__x24__]
+    [49] access __x25__ = (d "BoundNames")
+    [49] let __x26__ = __x25__
+    [49] let __x27__ = 0i
+    [49] while (< __x27__ __x26__.length) {
+      let dn = __x26__[__x27__]
+      [52] access __x28__ = (d "IsConstantDeclaration")
+      [52] if (= __x28__ true) {
+        [51] app __x29__ = (lexEnvRec.CreateImmutableBinding lexEnvRec dn true)
+        [51] if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else [74] {}
+        [51] __x29__
+      } else {
+        [53] app __x30__ = (lexEnvRec.CreateMutableBinding lexEnvRec dn false)
+        [53] if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else [74] {}
+        [53] __x30__
+      }
+      __x27__ = (+ __x27__ 1i)
+    }
+    __x24__ = (+ __x24__ 1i)
+  }
+  [54] let __x31__ = functionsToInitialize
+  [54] let __x32__ = 0i
+  [54] while (< __x32__ __x31__.length) {
+    let f = __x31__[__x32__]
+    [55] access __x33__ = (f "BoundNames")
+    [55] let fn = __x33__[0i]
+    [56] access __x34__ = (f "InstantiateFunctionObject")
+    [56] app __x35__ = (__x34__ lexEnv)
+    [56] let fo = __x35__
+    [59] if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+      [58] app __x36__ = (varEnvRec.CreateGlobalFunctionBinding varEnvRec fn fo true)
+      [58] if (is-completion __x36__) if (= __x36__.Type CONST_normal) __x36__ = __x36__.Value else return __x36__ else [74] {}
+      [58] __x36__
+    } else {
+      [60] app __x37__ = (varEnvRec.HasBinding varEnvRec fn)
+      [60] let bindingExists = __x37__
+      [65] if (= bindingExists false) {
+        [62] app __x38__ = (varEnvRec.CreateMutableBinding varEnvRec fn true)
+        [62] if (is-completion __x38__) if (= __x38__.Type CONST_normal) __x38__ = __x38__.Value else return __x38__ else [74] {}
+        [62] let status = __x38__
+        [64] app __x39__ = (varEnvRec.InitializeBinding varEnvRec fn fo)
+        [64] if (is-completion __x39__) if (= __x39__.Type CONST_normal) __x39__ = __x39__.Value else return __x39__ else [74] {}
+        [64] __x39__
+      } else {
+        [66] app __x40__ = (varEnvRec.SetMutableBinding varEnvRec fn fo false)
+        [66] if (is-completion __x40__) if (= __x40__.Type CONST_normal) __x40__ = __x40__.Value else return __x40__ else [74] {}
+        [66] __x40__
+      }
+    }
+    __x32__ = (+ __x32__ 1i)
+  }
+  [67] let __x41__ = declaredVarNames
+  [67] let __x42__ = 0i
+  [67] while (< __x42__ __x41__.length) {
+    let vn = __x41__[__x42__]
+    [70] if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+      [69] app __x43__ = (varEnvRec.CreateGlobalVarBinding varEnvRec vn true)
+      [69] if (is-completion __x43__) if (= __x43__.Type CONST_normal) __x43__ = __x43__.Value else return __x43__ else [74] {}
+      [69] __x43__
+    } else {
+      [71] app __x44__ = (varEnvRec.HasBinding varEnvRec vn)
+      [71] let bindingExists = __x44__
+      [72] if (= bindingExists false) {
+        [73] app __x45__ = (varEnvRec.CreateMutableBinding varEnvRec vn true)
+        [73] if (is-completion __x45__) if (= __x45__.Type CONST_normal) __x45__ = __x45__.Value else return __x45__ else [74] {}
+        [73] let status = __x45__
+        [75] app __x46__ = (varEnvRec.InitializeBinding varEnvRec vn undefined)
+        [75] if (is-completion __x46__) if (= __x46__.Type CONST_normal) __x46__ = __x46__.Value else return __x46__ else [74] {}
+        [75] __x46__
+      } else [74] {}
+    }
+    __x42__ = (+ __x42__ 1i)
+  }
+  [76] app __x47__ = (NormalCompletion CONST_empty)
+  [76] app __x48__ = (WrapCompletion __x47__)
+  [76] return __x48__
+}

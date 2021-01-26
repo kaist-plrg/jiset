@@ -1,0 +1,21 @@
+{
+  [0] let intrinsics = (new Record("SubMap" -> (new SubMap())))
+  [1] realmRec.Intrinsics = intrinsics
+  [2] app __x0__ = (ObjectCreate null)
+  [2] let objProto = __x0__
+  [3] intrinsics.INTRINSIC_ObjectPrototype = objProto
+  [4] ??? "Let id:{throwerSteps} be the algorithm steps specified in link:{} for the % ThrowTypeError % function ."
+  [5] app __x1__ = (CreateBuiltinFunction realmRec throwerSteps null)
+  [5] let thrower = __x1__
+  [6] intrinsics.INTRINSIC_ThrowTypeError = thrower
+  [7] let noSteps = (new algorithm("name" -> "", "length" -> 0i, "step" -> EmptyFunction))
+  [8] app __x2__ = (CreateBuiltinFunction realmRec noSteps objProto)
+  [8] let funcProto = __x2__
+  [9] intrinsics.INTRINSIC_FunctionPrototype = funcProto
+  [10] app __x3__ = (thrower.SetPrototypeOf thrower funcProto)
+  [10] __x3__
+  [11] app __x4__ = (AddRestrictedFunctionProperties funcProto realmRec)
+  [11] __x4__
+  [13] app __x5__ = (WrapCompletion intrinsics)
+  [13] return __x5__
+}

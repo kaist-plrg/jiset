@@ -1,0 +1,43 @@
+{
+  [0] access __x0__ = (BindingIdentifier "StringValue")
+  [0] app __x1__ = (ResolveBinding __x0__ environment)
+  [0] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+  [0] let lhs = __x1__
+  [1] app __x2__ = (ArrayCreate 0i)
+  [1] let A = __x2__
+  [2] let n = 0i
+  [3] while true {
+    [4] if (= iteratorRecord.Done false) {
+      [5] app __x3__ = (IteratorStep iteratorRecord.Iterator)
+      [5] let next = __x3__
+      [6] app __x4__ = (IsAbruptCompletion next)
+      [6] if __x4__ iteratorRecord.Done = true else [6] {}
+      [7] if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else [6] {}
+      [7] next
+      [8] if (= next false) iteratorRecord.Done = true else [6] {}
+    } else [6] {}
+    [9] if (= iteratorRecord.Done true) {
+      [10] if (= environment undefined) {
+        app __x5__ = (PutValue lhs A)
+        if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [6] {}
+        app __x6__ = (WrapCompletion __x5__)
+        return __x6__
+      } else [6] {}
+      [11] app __x7__ = (InitializeReferencedBinding lhs A)
+      [11] app __x8__ = (WrapCompletion __x7__)
+      [11] return __x8__
+    } else [6] {}
+    [12] app __x9__ = (IteratorValue next)
+    [12] let nextValue = __x9__
+    [13] app __x10__ = (IsAbruptCompletion nextValue)
+    [13] if __x10__ iteratorRecord.Done = true else [6] {}
+    [14] if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else [6] {}
+    [14] nextValue
+    [15] app __x11__ = (ToString n)
+    [15] if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else [6] {}
+    [15] app __x12__ = (CreateDataProperty A __x11__ nextValue)
+    [15] let status = __x12__
+    [16] assert (= status true)
+    [17] n = (+ n 1i)
+  }
+}

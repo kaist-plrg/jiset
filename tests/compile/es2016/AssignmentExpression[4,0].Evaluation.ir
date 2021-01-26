@@ -1,0 +1,19 @@
+{
+  [0] access __x0__ = (LeftHandSideExpression "Evaluation")
+  [0] let lref = __x0__
+  [1] app __x1__ = (GetValue lref)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+  [1] let lval = __x1__
+  [2] access __x2__ = (AssignmentExpression "Evaluation")
+  [2] let rref = __x2__
+  [3] app __x3__ = (GetValue rref)
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [6] {}
+  [3] let rval = __x3__
+  [4] ??? "Let id:{op} be the code:{@} where nt:{AssignmentOperator} is code:{@=} ."
+  [5] ??? "Let id:{r} be the result of applying id:{op} to id:{lval} and id:{rval} as if evaluating the expression id:{lval} id:{op} id:{rval} ."
+  [6] app __x4__ = (PutValue lref r)
+  [6] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [6] {}
+  [6] __x4__
+  [7] app __x5__ = (WrapCompletion r)
+  [7] return __x5__
+}

@@ -1,0 +1,35 @@
+[{
+  "tokens": ["Let", {
+    "id": "obj"
+  }, "be", "?", "OrdinaryCreateFromConstructor", "(", {
+    "id": "constructor"
+  }, ",", {
+    "code": "\"%ArrayBufferPrototype%\""
+  }, ",", "«", "[", "[", "ArrayBufferData", "]", "]", ",", "[", "[", "ArrayBufferByteLength", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "byteLength"
+  }, "is", "an", "integer", "value", "≥", "0", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "block"
+  }, "be", "?", "CreateByteDataBlock", "(", {
+    "id": "byteLength"
+  }, ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "obj"
+  }, "'", "s", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", "to", {
+    "id": "block"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "obj"
+  }, "'", "s", "[", "[", "ArrayBufferByteLength", "]", "]", "internal", "slot", "to", {
+    "id": "byteLength"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "obj"
+  }, "."]
+}]

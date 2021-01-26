@@ -1,0 +1,183 @@
+[{
+  "tokens": ["Let", {
+    "id": "value"
+  }, "be", "?", "Get", "(", {
+    "id": "holder"
+  }, ",", {
+    "id": "key"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "value"
+  }, ")", "is", "Object", "or", "BigInt", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "toJSON"
+  }, "be", "?", "GetV", "(", {
+    "id": "value"
+  }, ",", {
+    "value": "\"toJSON\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "toJSON"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "value"
+  }, "to", "?", "Call", "(", {
+    "id": "toJSON"
+  }, ",", {
+    "id": "value"
+  }, ",", "«", {
+    "id": "key"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "state"
+  }, ".", "[", "[", "ReplacerFunction", "]", "]", "is", "not", {
+    "value": "undefined"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "value"
+  }, "to", "?", "Call", "(", {
+    "id": "state"
+  }, ".", "[", "[", "ReplacerFunction", "]", "]", ",", {
+    "id": "holder"
+  }, ",", "«", {
+    "id": "key"
+  }, ",", {
+    "id": "value"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "value"
+  }, ")", "is", "Object", ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "value"
+  }, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "value"
+  }, "to", "?", "ToNumber", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "value"
+  }, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "value"
+  }, "to", "?", "ToString", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "value"
+  }, "has", "a", "[", "[", "BooleanData", "]", "]", "internal", "slot", ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "value"
+  }, "to", {
+    "id": "value"
+  }, ".", "[", "[", "BooleanData", "]", "]", "."]
+}, {
+  "tokens": ["Else", "if", {
+    "id": "value"
+  }, "has", "a", "[", "[", "BigIntData", "]", "]", "internal", "slot", ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "value"
+  }, "to", {
+    "id": "value"
+  }, ".", "[", "[", "BigIntData", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "value"
+  }, "is", {
+    "value": "null"
+  }, ",", "return", {
+    "value": "\"null\""
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "value"
+  }, "is", {
+    "value": "true"
+  }, ",", "return", {
+    "value": "\"true\""
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "value"
+  }, "is", {
+    "value": "false"
+  }, ",", "return", {
+    "value": "\"false\""
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "value"
+  }, ")", "is", "String", ",", "return", "QuoteJSONString", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "value"
+  }, ")", "is", "Number", ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "value"
+  }, "is", "finite", ",", "return", "!", "ToString", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "\"null\""
+  }, "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "value"
+  }, ")", "is", "BigInt", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "value"
+  }, ")", "is", "Object", "and", "IsCallable", "(", {
+    "id": "value"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "isArray"
+  }, "be", "?", "IsArray", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "isArray"
+  }, "is", {
+    "value": "true"
+  }, ",", "return", "?", "SerializeJSONArray", "(", {
+    "id": "state"
+  }, ",", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "?", "SerializeJSONObject", "(", {
+    "id": "state"
+  }, ",", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "value": "undefined"
+  }, "."]
+}]

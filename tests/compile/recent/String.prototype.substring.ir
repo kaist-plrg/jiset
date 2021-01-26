@@ -1,0 +1,26 @@
+{
+  app start = (GetArgument argumentsList 0i)
+  app end = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (RequireObjectCoercible this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [25] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (ToString O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [25] {}
+  [1] let S = __x1__
+  [2] let len = S.length
+  [3] app __x2__ = (ToIntegerOrInfinity start)
+  [3] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [25] {}
+  [3] let intStart = __x2__
+  [4] if (= end undefined) let intEnd = len else {
+    app __x3__ = (ToIntegerOrInfinity end)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [25] {}
+    let intEnd = __x3__
+  }
+  [5] ??? "Let id:{finalStart} be the result of clamping id:{intStart} between 0 and id:{len} ."
+  [6] ??? "Let id:{finalEnd} be the result of clamping id:{intEnd} between 0 and id:{len} ."
+  [7] app __x4__ = (min finalStart finalEnd)
+  [7] let from = __x4__
+  [8] app __x5__ = (max finalStart finalEnd)
+  [8] let to = __x5__
+  [9] ??? "Return the substring of id:{S} from id:{from} to id:{to} ."
+}

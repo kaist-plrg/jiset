@@ -1,0 +1,11 @@
+{
+  [0] app __x0__ = (RequireObjectCoercible this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [6] {}
+  [0] let O = __x0__
+  [1] app __x1__ = (ToString O)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [6] {}
+  [1] let S = __x1__
+  [2] ??? "Let id:{T} be a String value that is a copy of id:{S} with both leading and trailing white space removed . The definition of white space is the union of nt:{WhiteSpace} and nt:{LineTerminator} . When determining whether a Unicode code point is in Unicode general category “ Space _ Separator ” ( “ Zs ” ) , code unit sequences are interpreted as UTF - 16 encoded code point sequences as specified in link:{} ."
+  [3] app __x2__ = (WrapCompletion T)
+  [3] return __x2__
+}

@@ -1,0 +1,57 @@
+[{
+  "tokens": ["Let", "happens", "-", "before", "be", {
+    "id": "execution"
+  }, ".", "[", "[", "HappensBefore", "]", "]", "."]
+}, {
+  "tokens": ["Let", "reads", "-", "bytes", "-", "from", "be", {
+    "id": "execution"
+  }, ".", "[", "[", "ReadsBytesFrom", "]", "]", "."]
+}, {
+  "tokens": ["For", "each", "ReadSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+    "id": "R"
+  }, "in", "SharedDataBlockEventSet", "(", {
+    "id": "execution"
+  }, ")", ",", "do"]
+}, {
+  "tokens": ["Let", {
+    "id": "Ws"
+  }, "be", "the", "List", "of", "events", "reads", "-", "bytes", "-", "from", "(", {
+    "id": "R"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "byteLocation"
+  }, "be", {
+    "id": "R"
+  }, ".", "[", "[", "ByteIndex", "]", "]", "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "W"
+  }, "of", {
+    "id": "Ws"
+  }, "in", "List", "order", ",", "do"]
+}, {
+  "tokens": ["It", "is", "not", "the", "case", "that", {
+    "id": "R"
+  }, "happens", "-", "before", {
+    "id": "W"
+  }, ",", "and"]
+}, {
+  "tokens": ["There", "is", "no", "WriteSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+    "id": "V"
+  }, "that", "has", {
+    "id": "byteLocation"
+  }, "in", "its", "range", "such", "that", {
+    "id": "W"
+  }, "happens", "-", "before", {
+    "id": "V"
+  }, "and", {
+    "id": "V"
+  }, "happens", "-", "before", {
+    "id": "R"
+  }, "."]
+}, {
+  "tokens": ["Increment", {
+    "id": "byteLocation"
+  }, "by", "1", "."]
+}]

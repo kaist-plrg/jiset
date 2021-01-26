@@ -1,0 +1,89 @@
+[{
+  "tokens": ["If", "NewTarget", "is", {
+    "value": "undefined"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "set"
+  }, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+    "value": "\"%Set.prototype%\""
+  }, ",", "«", "[", "[", "SetData", "]", "]", "»", ")", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "set"
+  }, ".", "[", "[", "SetData", "]", "]", "to", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["If", {
+    "id": "iterable"
+  }, "is", "either", {
+    "value": "undefined"
+  }, "or", {
+    "value": "null"
+  }, ",", "return", {
+    "id": "set"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "adder"
+  }, "be", "?", "Get", "(", {
+    "id": "set"
+  }, ",", {
+    "value": "\"add\""
+  }, ")", "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "adder"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "iteratorRecord"
+  }, "be", "?", "GetIterator", "(", {
+    "id": "iterable"
+  }, ")", "."]
+}, {
+  "tokens": ["Repeat", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "next"
+  }, "be", "?", "IteratorStep", "(", {
+    "id": "iteratorRecord"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "next"
+  }, "is", {
+    "value": "false"
+  }, ",", "return", {
+    "id": "set"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextValue"
+  }, "be", "?", "IteratorValue", "(", {
+    "id": "next"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "status"
+  }, "be", "Call", "(", {
+    "id": "adder"
+  }, ",", {
+    "id": "set"
+  }, ",", "«", {
+    "id": "nextValue"
+  }, "»", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "status"
+  }, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+    "id": "iteratorRecord"
+  }, ",", {
+    "id": "status"
+  }, ")", "."]
+}]

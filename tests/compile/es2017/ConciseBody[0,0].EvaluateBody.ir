@@ -1,0 +1,12 @@
+{
+  [0] app __x0__ = (FunctionDeclarationInstantiation functionObject argumentsList)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [20] {}
+  [0] __x0__
+  [1] access __x1__ = (AssignmentExpression "Evaluation")
+  [1] let exprRef = __x1__
+  [2] app __x2__ = (GetValue exprRef)
+  [2] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [20] {}
+  [2] let exprValue = __x2__
+  [3] app __x3__ = (WrapCompletion (new Completion("Type" -> CONST_return, "Value" -> exprValue, "Target" -> CONST_empty)))
+  [3] return __x3__
+}

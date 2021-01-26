@@ -1,0 +1,18 @@
+{
+  [1] if false {
+    app __x0__ = (WrapCompletion false)
+    return __x0__
+  } else [0] {}
+  [2] ??? "If id:{call} is not contained within a nt:{FunctionBody} , nt:{ConciseBody} , or nt:{AsyncConciseBody} , return value:{false} ."
+  [3] ??? "Let id:{body} be the nt:{FunctionBody} , nt:{ConciseBody} , or nt:{AsyncConciseBody} that most closely contains id:{call} ."
+  [4] ??? "If id:{body} is the nt:{FunctionBody} of a nt:{GeneratorBody} , return value:{false} ."
+  [5] ??? "If id:{body} is the nt:{FunctionBody} of an nt:{AsyncFunctionBody} , return value:{false} ."
+  [6] if (is-instance-of body AsyncConciseBody) {
+    app __x1__ = (WrapCompletion false)
+    return __x1__
+  } else [0] {}
+  [7] access __x2__ = (body "HasCallInTailPosition")
+  [7] app __x3__ = (__x2__ call)
+  [7] app __x4__ = (WrapCompletion __x3__)
+  [7] return __x4__
+}

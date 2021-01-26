@@ -1,0 +1,205 @@
+[{
+  "tokens": ["If", {
+    "id": "module"
+  }, "is", "not", "a", "Cyclic", "Module", "Record", ",", "then"]
+}, {
+  "tokens": ["Perform", "?", {
+    "id": "module"
+  }, ".", "Evaluate", "(", ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "index"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "module"
+  }, ".", "[", "[", "Status", "]", "]", "is", {
+    "const": "evaluated"
+  }, ",", "then"]
+}, {
+  "tokens": ["If", {
+    "id": "module"
+  }, ".", "[", "[", "EvaluationError", "]", "]", "is", {
+    "value": "undefined"
+  }, ",", "return", {
+    "id": "index"
+  }, "."]
+}, {
+  "tokens": ["Otherwise", ",", "return", {
+    "id": "module"
+  }, ".", "[", "[", "EvaluationError", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "module"
+  }, ".", "[", "[", "Status", "]", "]", "is", {
+    "const": "evaluating"
+  }, ",", "return", {
+    "id": "index"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, ".", "[", "[", "Status", "]", "]", "is", {
+    "const": "linked"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "module"
+  }, ".", "[", "[", "Status", "]", "]", "to", {
+    "const": "evaluating"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "module"
+  }, ".", "[", "[", "DFSIndex", "]", "]", "to", {
+    "id": "index"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "module"
+  }, ".", "[", "[", "DFSAncestorIndex", "]", "]", "to", {
+    "id": "index"
+  }, "."]
+}, {
+  "tokens": ["Set", {
+    "id": "index"
+  }, "to", {
+    "id": "index"
+  }, "+", "1", "."]
+}, {
+  "tokens": ["Append", {
+    "id": "module"
+  }, "to", {
+    "id": "stack"
+  }, "."]
+}, {
+  "tokens": ["For", "each", "String", {
+    "id": "required"
+  }, "of", {
+    "id": "module"
+  }, ".", "[", "[", "RequestedModules", "]", "]", ",", "do"]
+}, {
+  "tokens": ["Let", {
+    "id": "requiredModule"
+  }, "be", "!", "HostResolveImportedModule", "(", {
+    "id": "module"
+  }, ",", {
+    "id": "required"
+  }, ")", "."]
+}, {
+  "tokens": ["NOTE", ":", "Link", "must", "be", "completed", "successfully", "prior", "to", "invoking", "this", "method", ",", "so", "every", "requested", "module", "is", "guaranteed", "to", "resolve", "successfully", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "index"
+  }, "to", "?", "InnerModuleEvaluation", "(", {
+    "id": "requiredModule"
+  }, ",", {
+    "id": "stack"
+  }, ",", {
+    "id": "index"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "requiredModule"
+  }, "is", "a", "Cyclic", "Module", "Record", ",", "then"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "requiredModule"
+  }, ".", "[", "[", "Status", "]", "]", "is", "either", {
+    "const": "evaluating"
+  }, "or", {
+    "const": "evaluated"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "requiredModule"
+  }, ".", "[", "[", "Status", "]", "]", "is", {
+    "const": "evaluating"
+  }, "if", "and", "only", "if", {
+    "id": "requiredModule"
+  }, "is", "in", {
+    "id": "stack"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "requiredModule"
+  }, ".", "[", "[", "Status", "]", "]", "is", {
+    "const": "evaluating"
+  }, ",", "then"]
+}, {
+  "tokens": ["Set", {
+    "id": "module"
+  }, ".", "[", "[", "DFSAncestorIndex", "]", "]", "to", "min", "(", {
+    "id": "module"
+  }, ".", "[", "[", "DFSAncestorIndex", "]", "]", ",", {
+    "id": "requiredModule"
+  }, ".", "[", "[", "DFSAncestorIndex", "]", "]", ")", "."]
+}, {
+  "tokens": ["Perform", "?", {
+    "id": "module"
+  }, ".", "ExecuteModule", "(", ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, "occurs", "exactly", "once", "in", {
+    "id": "stack"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "module"
+  }, ".", "[", "[", "DFSAncestorIndex", "]", "]", "≤", {
+    "id": "module"
+  }, ".", "[", "[", "DFSIndex", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "module"
+  }, ".", "[", "[", "DFSAncestorIndex", "]", "]", "=", {
+    "id": "module"
+  }, ".", "[", "[", "DFSIndex", "]", "]", ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "done"
+  }, "be", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Repeat", ",", "while", {
+    "id": "done"
+  }, "is", {
+    "value": "false"
+  }, ","]
+}, {
+  "tokens": ["Let", {
+    "id": "requiredModule"
+  }, "be", "the", "last", "element", "in", {
+    "id": "stack"
+  }, "."]
+}, {
+  "tokens": ["Remove", "the", "last", "element", "of", {
+    "id": "stack"
+  }, "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "requiredModule"
+  }, "is", "a", "Cyclic", "Module", "Record", "."]
+}, {
+  "tokens": ["Set", {
+    "id": "requiredModule"
+  }, ".", "[", "[", "Status", "]", "]", "to", {
+    "const": "evaluated"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "requiredModule"
+  }, "and", {
+    "id": "module"
+  }, "are", "the", "same", "Module", "Record", ",", "set", {
+    "id": "done"
+  }, "to", {
+    "value": "true"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "id": "index"
+  }, "."]
+}]

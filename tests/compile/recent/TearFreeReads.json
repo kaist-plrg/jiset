@@ -1,0 +1,67 @@
+[{
+  "tokens": ["For", "each", "ReadSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+    "id": "R"
+  }, "of", "SharedDataBlockEventSet", "(", {
+    "id": "execution"
+  }, ")", ",", "do"]
+}, {
+  "tokens": ["If", {
+    "id": "R"
+  }, ".", "[", "[", "NoTear", "]", "]", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Assert", ":", "The", "remainder", "of", "dividing", {
+    "id": "R"
+  }, ".", "[", "[", "ByteIndex", "]", "]", "by", {
+    "id": "R"
+  }, ".", "[", "[", "ElementSize", "]", "]", "is", "0", "."]
+}, {
+  "tokens": ["For", "each", "event", {
+    "id": "W"
+  }, "such", "that", "(", {
+    "id": "R"
+  }, ",", {
+    "id": "W"
+  }, ")", "is", "in", {
+    "id": "execution"
+  }, ".", "[", "[", "ReadsFrom", "]", "]", "and", {
+    "id": "W"
+  }, ".", "[", "[", "NoTear", "]", "]", "is", {
+    "value": "true"
+  }, ",", "do"]
+}, {
+  "tokens": ["If", {
+    "id": "R"
+  }, "and", {
+    "id": "W"
+  }, "have", "equal", "ranges", ",", "and", "there", "is", "an", "event", {
+    "id": "V"
+  }, "such", "that", {
+    "id": "V"
+  }, "and", {
+    "id": "W"
+  }, "have", "equal", "ranges", ",", {
+    "id": "V"
+  }, ".", "[", "[", "NoTear", "]", "]", "is", {
+    "value": "true"
+  }, ",", {
+    "id": "W"
+  }, "is", "not", {
+    "id": "V"
+  }, ",", "and", "(", {
+    "id": "R"
+  }, ",", {
+    "id": "V"
+  }, ")", "is", "in", {
+    "id": "execution"
+  }, ".", "[", "[", "ReadsFrom", "]", "]", ",", "then"]
+}, {
+  "tokens": ["Return", {
+    "value": "false"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "value": "true"
+  }, "."]
+}]

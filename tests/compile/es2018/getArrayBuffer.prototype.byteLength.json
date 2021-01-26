@@ -1,0 +1,45 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "the", {
+    "value": "this"
+  }, "value", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "O"
+  }, ")", "is", "not", "Object", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "O"
+  }, "does", "not", "have", "an", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", "IsSharedArrayBuffer", "(", {
+    "id": "O"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", "IsDetachedBuffer", "(", {
+    "id": "O"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "length"
+  }, "be", {
+    "id": "O"
+  }, ".", "[", "[", "ArrayBufferByteLength", "]", "]", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "length"
+  }, "."]
+}]

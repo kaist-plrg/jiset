@@ -1,0 +1,35 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "environment"
+  }, "is", "a", "declarative", "Environment", "Record", "."]
+}, {
+  "tokens": ["For", "each", "element", {
+    "id": "name"
+  }, "of", "the", "BoundNames", "of", {
+    "nt": "ForBinding"
+  }, ",", "do"]
+}, {
+  "tokens": ["If", "IsConstantDeclaration", "of", {
+    "nt": "LetOrConst"
+  }, "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Perform", "!", {
+    "id": "environment"
+  }, ".", "CreateImmutableBinding", "(", {
+    "id": "name"
+  }, ",", {
+    "value": "true"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Perform", "!", {
+    "id": "environment"
+  }, ".", "CreateMutableBinding", "(", {
+    "id": "name"
+  }, ",", {
+    "value": "false"
+  }, ")", "."]
+}]

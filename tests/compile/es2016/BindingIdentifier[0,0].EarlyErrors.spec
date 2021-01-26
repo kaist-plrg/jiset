@@ -1,0 +1,1 @@
+* It is a Syntax Error if this production has a [Yield] parameter and StringValue of |Identifier| is `"yield"`.

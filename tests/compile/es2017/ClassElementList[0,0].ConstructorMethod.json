@@ -1,0 +1,30 @@
+[{
+  "tokens": ["If", {
+    "nt": "ClassElement"
+  }, "is", {
+    "grammar": "ClassElement2",
+    "subs": []
+  }, ",", "return", {
+    "const": "empty"
+  }, "."]
+}, {
+  "tokens": ["If", "IsStatic", "of", {
+    "nt": "ClassElement"
+  }, "is", {
+    "value": "true"
+  }, ",", "return", {
+    "const": "empty"
+  }, "."]
+}, {
+  "tokens": ["If", "PropName", "of", {
+    "nt": "ClassElement"
+  }, "is", "not", {
+    "code": "\"constructor\""
+  }, ",", "return", {
+    "const": "empty"
+  }, "."]
+}, {
+  "tokens": ["Return", {
+    "nt": "ClassElement"
+  }, "."]
+}]

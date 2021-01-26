@@ -1,0 +1,15 @@
+{
+  [0] let module = this
+  [1] GLOBAL_context = null
+  [2] let moduleContext = module.Context
+  [3] append moduleContext -> GLOBAL_executionStack
+  [3] GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  [4] access __x0__ = (module.ECMAScriptCode "Evaluation")
+  [4] let result = __x0__
+  [5] GLOBAL_context = null
+  [5] if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] moduleContext) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else [13] {}
+  [6] ??? "Resume the context that is now on the top of the execution context stack as the running execution context ."
+  [7] app __x1__ = (Completion result)
+  [7] app __x2__ = (WrapCompletion __x1__)
+  [7] return __x2__
+}

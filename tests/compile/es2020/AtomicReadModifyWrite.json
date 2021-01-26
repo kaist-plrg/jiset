@@ -1,0 +1,81 @@
+[{
+  "tokens": ["Let", {
+    "id": "buffer"
+  }, "be", "?", "ValidateSharedIntegerTypedArray", "(", {
+    "id": "typedArray"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "i"
+  }, "be", "?", "ValidateAtomicAccess", "(", {
+    "id": "typedArray"
+  }, ",", {
+    "id": "index"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "arrayTypeName"
+  }, "be", {
+    "id": "typedArray"
+  }, ".", "[", "[", "TypedArrayName", "]", "]", "."]
+}, {
+  "tokens": ["If", {
+    "id": "typedArray"
+  }, ".", "[", "[", "ContentType", "]", "]", "is", {
+    "const": "BigInt"
+  }, ",", "let", {
+    "id": "v"
+  }, "be", "?", "ToBigInt", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Otherwise", ",", "let", {
+    "id": "v"
+  }, "be", "?", "ToInteger", "(", {
+    "id": "value"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "elementSize"
+  }, "be", "the", "Element", "Size", "value", "specified", "in", {
+    "link": ""
+  }, "for", {
+    "id": "arrayTypeName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "elementType"
+  }, "be", "the", "Element", "Type", "value", "in", {
+    "link": ""
+  }, "for", {
+    "id": "arrayTypeName"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "offset"
+  }, "be", {
+    "id": "typedArray"
+  }, ".", "[", "[", "ByteOffset", "]", "]", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "indexedPosition"
+  }, "be", "(", {
+    "id": "i"
+  }, "×", {
+    "id": "elementSize"
+  }, ")", "+", {
+    "id": "offset"
+  }, "."]
+}, {
+  "tokens": ["Return", "GetModifySetValueInBuffer", "(", {
+    "id": "buffer"
+  }, ",", {
+    "id": "indexedPosition"
+  }, ",", {
+    "id": "elementType"
+  }, ",", {
+    "id": "v"
+  }, ",", {
+    "id": "op"
+  }, ")", "."]
+}]

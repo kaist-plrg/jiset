@@ -1,0 +1,2 @@
+        1. Let _opText_ be the source text matched by |MultiplicativeOperator|.
+        1. Return ? EvaluateStringOrNumericBinaryExpression(|MultiplicativeExpression|, _opText_, |ExponentiationExpression|).

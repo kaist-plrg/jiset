@@ -1,0 +1,14 @@
+{
+  [0] let env = (new LexicalEnvironment("SubMap" -> (new SubMap())))
+  [1] let objRec = (new ObjectEnvironmentRecord("SubMap" -> (new SubMap()), "BindingObject" -> G))
+  [2] let dclRec = (new DeclarativeEnvironmentRecord("SubMap" -> (new SubMap())))
+  [3] let globalRec = (new GlobalEnvironmentRecord("SubMap" -> (new SubMap())))
+  [4] globalRec.ObjectRecord = objRec
+  [5] globalRec.GlobalThisValue = thisValue
+  [6] globalRec.DeclarativeRecord = dclRec
+  [7] globalRec.VarNames = (new [])
+  [8] env.EnvironmentRecord = globalRec
+  [9] env.Outer = null
+  [10] app __x0__ = (WrapCompletion env)
+  [10] return __x0__
+}

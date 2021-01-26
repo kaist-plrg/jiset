@@ -1,0 +1,16 @@
+{
+  app codeUnits = (GetArgument argumentsList 0i)
+  [0] let codeUnits = argumentsList
+  [1] let length = codeUnits.length
+  [2] let elements = (new [])
+  [3] let nextIndex = 0i
+  [4] while (< nextIndex length) {
+    [5] let next = codeUnits[nextIndex]
+    [6] app __x0__ = (ToUint16 next)
+    [6] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [2] {}
+    [6] let nextCU = __x0__
+    [7] append nextCU -> elements
+    [8] let nextIndex = (+ nextIndex 1i)
+  }
+  [9] ??? "Return the String value whose elements are , in order , the elements in the List id:{elements} . If id:{length} is 0 , the empty string is returned ."
+}

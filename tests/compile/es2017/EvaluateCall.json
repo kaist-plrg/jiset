@@ -1,0 +1,59 @@
+[{
+  "tokens": ["Let", {
+    "id": "func"
+  }, "be", "?", "GetValue", "(", {
+    "id": "ref"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "Type", "(", {
+    "id": "ref"
+  }, ")", "is", "Reference", ",", "then"]
+}, {
+  "tokens": ["If", "IsPropertyReference", "(", {
+    "id": "ref"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "thisValue"
+  }, "be", "GetThisValue", "(", {
+    "id": "ref"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", "the", "base", "of", {
+    "id": "ref"
+  }, "is", "an", "Environment", "Record", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "refEnv"
+  }, "be", "GetBase", "(", {
+    "id": "ref"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "thisValue"
+  }, "be", {
+    "id": "refEnv"
+  }, ".", "WithBaseObject", "(", ")", "."]
+}, {
+  "tokens": ["Else", "Type", "(", {
+    "id": "ref"
+  }, ")", "is", "not", "Reference", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "thisValue"
+  }, "be", {
+    "value": "undefined"
+  }, "."]
+}, {
+  "tokens": ["Return", "?", "EvaluateDirectCall", "(", {
+    "id": "func"
+  }, ",", {
+    "id": "thisValue"
+  }, ",", {
+    "id": "arguments"
+  }, ",", {
+    "id": "tailPosition"
+  }, ")", "."]
+}]

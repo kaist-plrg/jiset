@@ -1,0 +1,16 @@
+{
+  [0] if (|| (= time Infinity) (= time -Infinity)) {
+    app __x0__ = (WrapCompletion NaN)
+    return __x0__
+  } else [2] {}
+  [1] app __x1__ = (abs time)
+  [1] if (< (* 8.64 1000000000000000i) __x1__) {
+    app __x2__ = (WrapCompletion NaN)
+    return __x2__
+  } else [2] {}
+  [2] app __x3__ = (ToInteger time)
+  [2] let clippedTime = __x3__
+  [3] if (= clippedTime -0.0) let clippedTime = 0i else [2] {}
+  [4] app __x4__ = (WrapCompletion clippedTime)
+  [4] return __x4__
+}

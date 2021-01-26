@@ -14,7 +14,7 @@ object JsonProtocol extends DefaultJsonProtocol {
       case v =>
         val discrimator = List(
           "const", "code", "value", "id",
-          "steps", "nt", "sup", "link", "grammar"
+          "steps", "nt", "sup", "link", "grammar", "sub"
         ).map(d => json.asJsObject.fields.contains(d))
         discrimator.indexOf(true) match {
           case 0 => ConstFormat.read(v)
@@ -26,6 +26,7 @@ object JsonProtocol extends DefaultJsonProtocol {
           case 6 => SupFormat.read(v)
           case 7 => LinkFormat.read(v)
           case 8 => GrFormat.read(v)
+          case 9 => SubFormat.read(v)
           case _ => deserializationError(s"unknown Token: $v")
         }
     }
@@ -40,6 +41,7 @@ object JsonProtocol extends DefaultJsonProtocol {
       case (t: Sup) => SupFormat.write(t)
       case (t: Link) => LinkFormat.write(t)
       case (t: Gr) => GrFormat.write(t)
+      case (t: Sub) => SubFormat.write(t)
       case Text(text) => JsString(text)
     }
   }
@@ -54,4 +56,5 @@ object JsonProtocol extends DefaultJsonProtocol {
   implicit lazy val SupFormat = jsonFormat1(Sup)
   implicit lazy val LinkFormat = jsonFormat1(Link)
   implicit lazy val GrFormat = jsonFormat2(Gr)
+  implicit lazy val SubFormat = jsonFormat1(Sub)
 }

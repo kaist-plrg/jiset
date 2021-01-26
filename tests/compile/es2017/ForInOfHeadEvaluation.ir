@@ -1,0 +1,43 @@
+{
+  [0] let oldEnv = GLOBAL_context.LexicalEnvironment
+  [1] if (< 0i TDZnames.length) {
+    [3] app __x0__ = (NewDeclarativeEnvironment oldEnv)
+    [3] let TDZ = __x0__
+    [4] let TDZEnvRec = TDZ.EnvironmentRecord
+    [5] let __x1__ = TDZnames
+    [5] let __x2__ = 0i
+    [5] while (< __x2__ __x1__.length) {
+      let name = __x1__[__x2__]
+      [6] app __x3__ = (TDZEnvRec.CreateMutableBinding TDZEnvRec name false)
+      [6] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [2] {}
+      [6] __x3__
+      __x2__ = (+ __x2__ 1i)
+    }
+    [7] GLOBAL_context.LexicalEnvironment = TDZ
+  } else [2] {}
+  [8] access __x4__ = (expr "Evaluation")
+  [8] let exprRef = __x4__
+  [9] GLOBAL_context.LexicalEnvironment = oldEnv
+  [10] app __x5__ = (GetValue exprRef)
+  [10] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [2] {}
+  [10] let exprValue = __x5__
+  [16] if (= iterationKind CONST_enumerate) {
+    [12] if (|| (= exprValue undefined) (= exprValue null)) {
+      [13] app __x6__ = (WrapCompletion (new Completion("Type" -> CONST_break, "Value" -> CONST_empty, "Target" -> CONST_empty)))
+      [13] return __x6__
+    } else [2] {}
+    [14] app __x7__ = (ToObject exprValue)
+    [14] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [2] {}
+    [14] let obj = __x7__
+    [15] app __x8__ = (EnumerateObjectProperties obj)
+    [15] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [2] {}
+    [15] app __x9__ = (WrapCompletion __x8__)
+    [15] return __x9__
+  } else {
+    [17] assert (= iterationKind CONST_iterate)
+    [18] app __x10__ = (GetIterator exprValue)
+    [18] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [2] {}
+    [18] app __x11__ = (WrapCompletion __x10__)
+    [18] return __x11__
+  }
+}

@@ -1,0 +1,37 @@
+{
+  [0] if (contains stack value) {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else [22] {}
+  [1] append value -> stack
+  [2] let stepback = indent
+  [3] indent = (+ indent gap)
+  [4] let partial = (new [])
+  [5] app __x1__ = (Get value "length")
+  [5] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [22] {}
+  [5] app __x2__ = (ToLength __x1__)
+  [5] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [22] {}
+  [5] let len = __x2__
+  [6] let index = 0i
+  [7] while (< index len) {
+    [8] app __x3__ = (ToString index)
+    [8] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [22] {}
+    [8] app __x4__ = (SerializeJSONProperty __x3__ value)
+    [8] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [22] {}
+    [8] let strP = __x4__
+    [11] if (= strP undefined) append "null" -> partial else append strP -> partial
+    [13] index = (+ index 1i)
+  }
+  [16] if (= partial.length 0i) let final = "[]" else if (= gap "") {
+    [18] ??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with the code unit 0x002C ( COMMA ) . A comma is not inserted either before the first String or after the last String ."
+    [19] let final = (+ (+ "[" properties) "]")
+  } else {
+    [21] let separator = (+ (+ "," "\n") indent)
+    [22] ??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with id:{separator} . The id:{separator} String is not inserted either before the first String or after the last String ."
+    [23] let final = (+ (+ (+ (+ (+ (+ "[" "\n") indent) properties) "\n") stepback) "]")
+  }
+  [24] (pop stack (- stack.length 1i))
+  [25] indent = stepback
+  [26] app __x5__ = (WrapCompletion final)
+  [26] return __x5__
+}

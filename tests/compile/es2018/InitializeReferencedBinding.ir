@@ -1,0 +1,16 @@
+{
+  [0] if (is-completion V) if (= V.Type CONST_normal) V = V.Value else return V else [5] {}
+  [0] V
+  [1] if (is-completion W) if (= W.Type CONST_normal) W = W.Value else return W else [5] {}
+  [1] W
+  [2] app __x0__ = (Type V)
+  [2] assert (= __x0__ Reference)
+  [3] app __x1__ = (IsUnresolvableReference V)
+  [3] assert (= __x1__ false)
+  [4] app __x2__ = (GetBase V)
+  [4] let base = __x2__
+  [6] app __x3__ = (GetReferencedName V)
+  [6] app __x4__ = (base.InitializeBinding base __x3__ W)
+  [6] app __x5__ = (WrapCompletion __x4__)
+  [6] return __x5__
+}

@@ -1,0 +1,9 @@
+{
+  app typedArray = (GetArgument argumentsList 0i)
+  app index = (GetArgument argumentsList 1i)
+  app value = (GetArgument argumentsList 2i)
+  [0] app __x0__ = (AtomicReadModifyWrite typedArray index value ??? "subtract")
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+  [0] app __x1__ = (WrapCompletion __x0__)
+  [0] return __x1__
+}

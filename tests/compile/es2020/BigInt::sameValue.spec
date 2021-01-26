@@ -1,0 +1,1 @@
+            1. Return BigInt::equal(_x_, _y_).

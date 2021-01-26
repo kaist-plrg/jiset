@@ -1,0 +1,33 @@
+[{
+  "tokens": ["If", "NewTarget", "is", {
+    "value": "undefined"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "numberLength"
+  }, "be", "?", "ToNumber", "(", {
+    "id": "length"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "byteLength"
+  }, "be", "ToLength", "(", {
+    "id": "numberLength"
+  }, ")", "."]
+}, {
+  "tokens": ["If", "SameValueZero", "(", {
+    "id": "numberLength"
+  }, ",", {
+    "id": "byteLength"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Return", "?", "AllocateArrayBuffer", "(", "NewTarget", ",", {
+    "id": "byteLength"
+  }, ")", "."]
+}]

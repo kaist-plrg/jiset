@@ -1,0 +1,19 @@
+{
+  [0] app __x0__ = (GetThisEnvironment )
+  [0] let env = __x0__
+  [1] app __x1__ = (env.HasSuperBinding env)
+  [1] if (= __x1__ false) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else [6] {}
+  [2] app __x3__ = (env.GetThisBinding env)
+  [2] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [6] {}
+  [2] let actualThis = __x3__
+  [3] app __x4__ = (env.GetSuperBase env)
+  [3] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [6] {}
+  [3] let baseValue = __x4__
+  [4] app __x5__ = (RequireObjectCoercible baseValue)
+  [4] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [6] {}
+  [4] let bv = __x5__
+  [5] ??? "Return a value of type Reference that is a Super Reference whose base value is id:{bv} , whose referenced name is id:{propertyKey} , whose thisValue is id:{actualThis} , and whose strict reference flag is id:{strict} ."
+}

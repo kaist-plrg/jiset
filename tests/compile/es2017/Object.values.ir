@@ -1,0 +1,12 @@
+{
+  app O = (GetArgument argumentsList 0i)
+  [0] app __x0__ = (ToObject O)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [74] {}
+  [0] let obj = __x0__
+  [1] app __x1__ = (EnumerableOwnProperties obj "value")
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [74] {}
+  [1] let nameList = __x1__
+  [2] app __x2__ = (CreateArrayFromList nameList)
+  [2] app __x3__ = (WrapCompletion __x2__)
+  [2] return __x3__
+}

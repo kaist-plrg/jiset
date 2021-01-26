@@ -1,0 +1,22 @@
+{
+  [0] access __x0__ = (BindingIdentifier "StringValue")
+  [0] let className = __x0__
+  [1] access __x1__ = (ClassTail "ClassDefinitionEvaluation")
+  [1] app __x2__ = (__x1__ className)
+  [1] let value = __x2__
+  [2] if (is-completion value) if (= value.Type CONST_normal) value = value.Value else return value else [24] {}
+  [2] value
+  [3] app __x3__ = (HasOwnProperty value "name")
+  [3] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [24] {}
+  [3] let hasNameProperty = __x3__
+  [4] if (= hasNameProperty false) {
+    app __x4__ = (SetFunctionName value className)
+    __x4__
+  } else [24] {}
+  [5] let env = GLOBAL_context.LexicalEnvironment
+  [6] app __x5__ = (InitializeBoundName className value env)
+  [6] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [24] {}
+  [6] __x5__
+  [7] app __x6__ = (WrapCompletion value)
+  [7] return __x6__
+}

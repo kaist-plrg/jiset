@@ -1,0 +1,39 @@
+[{
+  "tokens": ["Assert", ":", {
+    "id": "realm"
+  }, ".", "[", "[", "Intrinsics", "]", "]", ".", "[", "[", "%", "ThrowTypeError", "%", "]", "]", "exists", "and", "has", "been", "initialized", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "thrower"
+  }, "be", {
+    "id": "realm"
+  }, ".", "[", "[", "Intrinsics", "]", "]", ".", "[", "[", "%", "ThrowTypeError", "%", "]", "]", "."]
+}, {
+  "tokens": ["Perform", "!", "DefinePropertyOrThrow", "(", {
+    "id": "F"
+  }, ",", {
+    "value": "\"caller\""
+  }, ",", "PropertyDescriptor", "{", "[", "[", "Get", "]", "]", ":", {
+    "id": "thrower"
+  }, ",", "[", "[", "Set", "]", "]", ":", {
+    "id": "thrower"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "true"
+  }, "}", ")", "."]
+}, {
+  "tokens": ["Return", "!", "DefinePropertyOrThrow", "(", {
+    "id": "F"
+  }, ",", {
+    "value": "\"arguments\""
+  }, ",", "PropertyDescriptor", "{", "[", "[", "Get", "]", "]", ":", {
+    "id": "thrower"
+  }, ",", "[", "[", "Set", "]", "]", ":", {
+    "id": "thrower"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "value": "false"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "true"
+  }, "}", ")", "."]
+}]

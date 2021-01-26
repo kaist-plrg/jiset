@@ -1,0 +1,47 @@
+{
+  app reserved1 = (GetArgument argumentsList 0i)
+  app reserved2 = (GetArgument argumentsList 1i)
+  [0] app __x0__ = (ToObject this)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [32] {}
+  [0] let array = __x0__
+  [1] app __x1__ = (Get array "length")
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [32] {}
+  [1] app __x2__ = (ToLength __x1__)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [32] {}
+  [1] let len = __x2__
+  [2] ??? "Let id:{separator} be the String value for the list - separator String appropriate for the host environment ' s current locale ( this is derived in an implementation - defined way ) ."
+  [3] if (= len 0i) {
+    app __x3__ = (WrapCompletion "")
+    return __x3__
+  } else [32] {}
+  [4] app __x4__ = (Get array "0")
+  [4] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [32] {}
+  [4] let firstElement = __x4__
+  [7] if (|| (= firstElement undefined) (= firstElement null)) let R = "" else {
+    [8] app __x5__ = (Invoke firstElement "toLocaleString")
+    [8] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [32] {}
+    [8] app __x6__ = (ToString __x5__)
+    [8] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [32] {}
+    [8] let R = __x6__
+  }
+  [9] let k = ??? "1"
+  [10] while (< k len) {
+    [11] let S = (+ R separator)
+    [12] app __x7__ = (ToString k)
+    [12] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [32] {}
+    [12] app __x8__ = (Get array __x7__)
+    [12] if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else [32] {}
+    [12] let nextElement = __x8__
+    [15] if (|| (= nextElement undefined) (= nextElement null)) let R = "" else {
+      [16] app __x9__ = (Invoke nextElement "toLocaleString")
+      [16] if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else [32] {}
+      [16] app __x10__ = (ToString __x9__)
+      [16] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [32] {}
+      [16] let R = __x10__
+    }
+    [17] let R = (+ S R)
+    [18] k = (+ k 1i)
+  }
+  [19] app __x11__ = (WrapCompletion R)
+  [19] return __x11__
+}

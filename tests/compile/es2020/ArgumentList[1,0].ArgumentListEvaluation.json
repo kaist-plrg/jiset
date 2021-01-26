@@ -1,0 +1,51 @@
+[{
+  "tokens": ["Let", {
+    "id": "list"
+  }, "be", "a", "new", "empty", "List", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "spreadRef"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "AssignmentExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "spreadObj"
+  }, "be", "?", "GetValue", "(", {
+    "id": "spreadRef"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "iteratorRecord"
+  }, "be", "?", "GetIterator", "(", {
+    "id": "spreadObj"
+  }, ")", "."]
+}, {
+  "tokens": ["Repeat", ","]
+}, {
+  "tokens": ["Let", {
+    "id": "next"
+  }, "be", "?", "IteratorStep", "(", {
+    "id": "iteratorRecord"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "next"
+  }, "is", {
+    "value": "false"
+  }, ",", "return", {
+    "id": "list"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "nextArg"
+  }, "be", "?", "IteratorValue", "(", {
+    "id": "next"
+  }, ")", "."]
+}, {
+  "tokens": ["Append", {
+    "id": "nextArg"
+  }, "as", "the", "last", "element", "of", {
+    "id": "list"
+  }, "."]
+}]

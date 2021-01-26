@@ -1,0 +1,26 @@
+{
+  [0] let has = false
+  [1] if (! (= CaseClauses0 absent)) {
+    access __x0__ = (CaseClauses0 "HasProductionInTailPosition")
+    app __x1__ = (__x0__ nonterminal)
+    let has = __x1__
+  } else [0] {}
+  [2] if (= has true) {
+    app __x2__ = (WrapCompletion true)
+    return __x2__
+  } else [0] {}
+  [3] access __x3__ = (DefaultClause "HasProductionInTailPosition")
+  [3] app __x4__ = (__x3__ nonterminal)
+  [3] let has = __x4__
+  [4] if (= has true) {
+    app __x5__ = (WrapCompletion true)
+    return __x5__
+  } else [0] {}
+  [5] if (! (= CaseClauses1 absent)) {
+    access __x6__ = (CaseClauses1 "HasProductionInTailPosition")
+    app __x7__ = (__x6__ nonterminal)
+    let has = __x7__
+  } else [0] {}
+  [6] app __x8__ = (WrapCompletion has)
+  [6] return __x8__
+}

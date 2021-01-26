@@ -1,0 +1,16 @@
+{
+  [0] access __x0__ = (Block "Evaluation")
+  [0] let B = __x0__
+  [2] if (= B.Type CONST_throw) {
+    access __x1__ = (Catch "CatchClauseEvaluation")
+    app __x2__ = (__x1__ B.Value)
+    let C = __x2__
+  } else let C = B
+  [3] access __x3__ = (Finally "Evaluation")
+  [3] let F = __x3__
+  [4] if (= F.Type CONST_normal) let F = C else [20] {}
+  [5] app __x4__ = (UpdateEmpty F undefined)
+  [5] app __x5__ = (Completion __x4__)
+  [5] app __x6__ = (WrapCompletion __x5__)
+  [5] return __x6__
+}

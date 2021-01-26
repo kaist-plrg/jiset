@@ -1,0 +1,39 @@
+[{
+  "tokens": ["If", "IsConstructor", "(", {
+    "id": "target"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "newTarget"
+  }, "is", "not", "present", ",", "set", {
+    "id": "newTarget"
+  }, "to", {
+    "id": "target"
+  }, "."]
+}, {
+  "tokens": ["Else", "if", "IsConstructor", "(", {
+    "id": "newTarget"
+  }, ")", "is", {
+    "value": "false"
+  }, ",", "throw", "a", {
+    "value": "TypeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "args"
+  }, "be", "?", "CreateListFromArrayLike", "(", {
+    "id": "argumentsList"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "?", "Construct", "(", {
+    "id": "target"
+  }, ",", {
+    "id": "args"
+  }, ",", {
+    "id": "newTarget"
+  }, ")", "."]
+}]

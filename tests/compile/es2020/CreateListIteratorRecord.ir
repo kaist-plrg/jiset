@@ -1,0 +1,12 @@
+{
+  [0] app __x0__ = (OrdinaryObjectCreate INTRINSIC_IteratorPrototype (new ["IteratedList", "ListNextIndex"]))
+  [0] let iterator = __x0__
+  [1] iterator.IteratedList = list
+  [2] iterator.ListNextIndex = 0i
+  [3] ??? "Let id:{steps} be the algorithm steps defined in link:{} ."
+  [4] app __x1__ = (CreateBuiltinFunction steps (new []))
+  [4] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [1] {}
+  [4] let next = __x1__
+  [5] app __x2__ = (WrapCompletion (new Record("Iterator" -> iterator, "NextMethod" -> next, "Done" -> false)))
+  [5] return __x2__
+}

@@ -1,0 +1,21 @@
+{
+  [0] app __x0__ = (Type argument)
+  [0] if (! (= __x0__ Object)) {
+    app __x1__ = (WrapCompletion false)
+    return __x1__
+  } else [1] {}
+  [1] app __x2__ = (Get argument SYMBOL_match)
+  [1] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [1] {}
+  [1] let matcher = __x2__
+  [2] if (! (= matcher undefined)) {
+    app __x3__ = (ToBoolean matcher)
+    app __x4__ = (WrapCompletion __x3__)
+    return __x4__
+  } else [1] {}
+  [3] if (! (= argument.RegExpMatcher absent)) {
+    app __x5__ = (WrapCompletion true)
+    return __x5__
+  } else [1] {}
+  [4] app __x6__ = (WrapCompletion false)
+  [4] return __x6__
+}

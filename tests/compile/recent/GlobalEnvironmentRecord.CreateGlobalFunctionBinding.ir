@@ -1,0 +1,19 @@
+{
+  [0] let ObjRec = envRec.ObjectRecord
+  [1] let globalObject = ObjRec.BindingObject
+  [2] app __x0__ = (globalObject.GetOwnProperty globalObject N)
+  [2] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [3] {}
+  [2] let existingProp = __x0__
+  [5] if (|| (= existingProp undefined) (= existingProp.Configurable true)) let desc = (new PropertyDescriptor("Value" -> V, "Writable" -> true, "Enumerable" -> true, "Configurable" -> D)) else let desc = (new PropertyDescriptor("Value" -> V))
+  [7] app __x1__ = (DefinePropertyOrThrow globalObject N desc)
+  [7] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [3] {}
+  [7] __x1__
+  [8] app __x2__ = (Set globalObject N V false)
+  [8] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [3] {}
+  [8] __x2__
+  [9] let varDeclaredNames = envRec.VarNames
+  [10] if (! (contains varDeclaredNames N)) append N -> varDeclaredNames else [3] {}
+  [12] app __x3__ = (NormalCompletion CONST_empty)
+  [12] app __x4__ = (WrapCompletion __x3__)
+  [12] return __x4__
+}

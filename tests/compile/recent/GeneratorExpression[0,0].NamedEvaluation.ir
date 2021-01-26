@@ -1,0 +1,13 @@
+{
+  [0] access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  [0] let scope = __x0__
+  [1] let sourceText = (get-syntax GeneratorExpression)
+  [2] ??? "Let id:{closure} be OrdinaryFunctionCreate ( % GeneratorFunction . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{GeneratorBody} , const:{non-lexical-this} , id:{scope} ) ."
+  [3] app __x1__ = (SetFunctionName closure name)
+  [3] __x1__
+  [4] ??? "Let id:{prototype} be ! OrdinaryObjectCreate ( % GeneratorFunction . prototype . prototype % ) ."
+  [5] app __x2__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  [5] __x2__
+  [6] app __x3__ = (WrapCompletion closure)
+  [6] return __x3__
+}

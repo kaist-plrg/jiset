@@ -1,0 +1,57 @@
+[{
+  "tokens": ["Let", {
+    "id": "O"
+  }, "be", "?", "RequireObjectCoercible", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "S"
+  }, "be", "?", "ToString", "(", {
+    "id": "O"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "form"
+  }, "is", "not", "present", "or", {
+    "id": "form"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "set", {
+    "id": "form"
+  }, "to", {
+    "code": "\"NFC\""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "f"
+  }, "be", "?", "ToString", "(", {
+    "id": "form"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "f"
+  }, "is", "not", "one", "of", {
+    "code": "\"NFC\""
+  }, ",", {
+    "code": "\"NFD\""
+  }, ",", {
+    "code": "\"NFKC\""
+  }, ",", "or", {
+    "code": "\"NFKD\""
+  }, ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "ns"
+  }, "be", "the", "String", "value", "that", "is", "the", "result", "of", "normalizing", {
+    "id": "S"
+  }, "into", "the", "normalization", "form", "named", "by", {
+    "id": "f"
+  }, "as", "specified", "in", "<", "a", "href", "=", "\"", "https", ":", "/", "/", "unicode", ".", "org", "/", "reports", "/", "tr15", "/", "\"", ">", "https", ":", "/", "/", "unicode", ".", "org", "/", "reports", "/", "tr15", "/", "<", "/", "a", ">", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "ns"
+  }, "."]
+}]

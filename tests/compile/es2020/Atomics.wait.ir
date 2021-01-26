@@ -1,0 +1,65 @@
+{
+  app typedArray = (GetArgument argumentsList 0i)
+  app index = (GetArgument argumentsList 1i)
+  app value = (GetArgument argumentsList 2i)
+  app timeout = (GetArgument argumentsList 3i)
+  [0] app __x0__ = (ValidateSharedIntegerTypedArray typedArray true)
+  [0] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [23] {}
+  [0] let buffer = __x0__
+  [1] app __x1__ = (ValidateAtomicAccess typedArray index)
+  [1] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [23] {}
+  [1] let i = __x1__
+  [2] let arrayTypeName = typedArray.TypedArrayName
+  [4] if (= arrayTypeName "BigInt64Array") {
+    app __x2__ = (ToBigInt64 value)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [23] {}
+    let v = __x2__
+  } else {
+    app __x3__ = (ToInt32 value)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [23] {}
+    let v = __x3__
+  }
+  [5] app __x4__ = (ToNumber timeout)
+  [5] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [23] {}
+  [5] let q = __x4__
+  [6] if (= q NaN) let t = Infinity else {
+    app __x5__ = (max q 0i)
+    let t = __x5__
+  }
+  [7] app __x6__ = (AgentCanSuspend )
+  [7] let B = __x6__
+  [8] if (= B false) {
+    app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x7__
+  } else [23] {}
+  [9] let block = buffer.ArrayBufferData
+  [10] let offset = typedArray.ByteOffset
+  [11] ??? "Let id:{elementSize} be the Element Size value specified in link:{} for id:{arrayTypeName} ."
+  [12] let indexedPosition = (+ (* i elementSize) offset)
+  [13] app __x8__ = (GetWaiterList block indexedPosition)
+  [13] let WL = __x8__
+  [14] app __x9__ = (EnterCriticalSection WL)
+  [14] __x9__
+  [15] app __x10__ = (AtomicLoad typedArray i)
+  [15] if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else [23] {}
+  [15] let w = __x10__
+  [16] if (! (= v w)) {
+    [17] app __x11__ = (LeaveCriticalSection WL)
+    [17] __x11__
+    [18] ??? "Return the String value:{\"not-equal\"} ."
+  } else [23] {}
+  [19] app __x12__ = (AgentSignifier )
+  [19] let W = __x12__
+  [20] app __x13__ = (AddWaiter WL W)
+  [20] __x13__
+  [21] app __x14__ = (Suspend WL W t)
+  [21] let notified = __x14__
+  [24] if (= notified true) {} else {
+    [25] app __x15__ = (RemoveWaiter WL W)
+    [25] __x15__
+  }
+  [26] app __x16__ = (LeaveCriticalSection WL)
+  [26] __x16__
+  [27] ??? "If id:{notified} is value:{true} , return the String value:{\"ok\"} ."
+  [28] ??? "Return the String value:{\"timed-out\"} ."
+}

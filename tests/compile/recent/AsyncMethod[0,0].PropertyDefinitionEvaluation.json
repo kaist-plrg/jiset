@@ -1,0 +1,67 @@
+[{
+  "tokens": ["Let", {
+    "id": "propKey"
+  }, "be", "the", "result", "of", "evaluating", {
+    "nt": "PropertyName"
+  }, "."]
+}, {
+  "tokens": ["ReturnIfAbrupt", "(", {
+    "id": "propKey"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "scope"
+  }, "be", "the", "LexicalEnvironment", "of", "the", "running", "execution", "context", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "sourceText"
+  }, "be", "the", "source", "text", "matched", "by", {
+    "nt": "AsyncMethod"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "closure"
+  }, "be", "!", "OrdinaryFunctionCreate", "(", "%", "AsyncFunction", ".", "prototype", "%", ",", {
+    "id": "sourceText"
+  }, ",", {
+    "nt": "UniqueFormalParameters"
+  }, ",", {
+    "nt": "AsyncFunctionBody"
+  }, ",", {
+    "const": "non-lexical-this"
+  }, ",", {
+    "id": "scope"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "!", "MakeMethod", "(", {
+    "id": "closure"
+  }, ",", {
+    "id": "object"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "!", "SetFunctionName", "(", {
+    "id": "closure"
+  }, ",", {
+    "id": "propKey"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "desc"
+  }, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+    "id": "closure"
+  }, ",", "[", "[", "Writable", "]", "]", ":", {
+    "value": "true"
+  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
+    "id": "enumerable"
+  }, ",", "[", "[", "Configurable", "]", "]", ":", {
+    "value": "true"
+  }, "}", "."]
+}, {
+  "tokens": ["Return", "?", "DefinePropertyOrThrow", "(", {
+    "id": "object"
+  }, ",", {
+    "id": "propKey"
+  }, ",", {
+    "id": "desc"
+  }, ")", "."]
+}]

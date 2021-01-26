@@ -1,0 +1,8 @@
+{
+  app onRejected = (GetArgument argumentsList 0i)
+  [0] let promise = this
+  [1] app __x0__ = (Invoke promise "then" (new [undefined, onRejected]))
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+  [1] app __x1__ = (WrapCompletion __x0__)
+  [1] return __x1__
+}

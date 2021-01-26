@@ -52,6 +52,7 @@ object Useful {
   def extFilter(ext: String): String => Boolean = _.endsWith(s".$ext")
   lazy val irFilter = extFilter("ir")
   lazy val jsFilter = extFilter("js")
+  lazy val specFilter = extFilter("spec")
   lazy val jsonFilter = extFilter("json")
   lazy val scalaFilter = extFilter("scala")
   lazy val grammarFilter = extFilter("grammar")

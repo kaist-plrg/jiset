@@ -1,0 +1,45 @@
+[{
+  "tokens": ["Let", {
+    "id": "x"
+  }, "be", "?", "thisNumberValue", "(", {
+    "value": "this"
+  }, "value", ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "radix"
+  }, "is", {
+    "value": "undefined"
+  }, ",", "let", {
+    "id": "radixMV"
+  }, "be", "10", "."]
+}, {
+  "tokens": ["Else", ",", "let", {
+    "id": "radixMV"
+  }, "be", "?", "ToIntegerOrInfinity", "(", {
+    "id": "radix"
+  }, ")", "."]
+}, {
+  "tokens": ["If", {
+    "id": "radixMV"
+  }, "<", "2", "or", {
+    "id": "radixMV"
+  }, ">", "36", ",", "throw", "a", {
+    "value": "RangeError"
+  }, "exception", "."]
+}, {
+  "tokens": ["If", {
+    "id": "radixMV"
+  }, "=", "10", ",", "return", "!", "ToString", "(", {
+    "id": "x"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "the", "String", "representation", "of", "this", "Number", "value", "using", "the", "radix", "specified", "by", {
+    "id": "radixMV"
+  }, ".", "Letters", {
+    "code": "a"
+  }, "-", {
+    "code": "z"
+  }, "are", "used", "for", "digits", "with", "values", "10", "through", "35", ".", "The", "precise", "algorithm", "is", "implementation", "-", "defined", ",", "however", "the", "algorithm", "should", "be", "a", "generalization", "of", "that", "specified", "in", {
+    "link": ""
+  }, "."]
+}]

@@ -1,0 +1,1 @@
+          1. Return the result of <emu-xref href="#sec-applying-the-exp-operator" title>Applying the ** operator</emu-xref> with _base_ and _exponent_ as specified in <emu-xref href="#sec-applying-the-exp-operator"></emu-xref>.

@@ -1,0 +1,105 @@
+[{
+  "tokens": ["Evaluate", {
+    "nt": "Disjunction"
+  }, "with", "1", "as", "its", {
+    "id": "direction"
+  }, "argument", "to", "obtain", "a", "Matcher", {
+    "id": "m"
+  }, "."]
+}, {
+  "tokens": ["Return", "a", "new", "Abstract", "Closure", "with", "parameters", "(", {
+    "id": "str"
+  }, ",", {
+    "id": "index"
+  }, ")", "that", "captures", {
+    "id": "m"
+  }, "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", "Type", "(", {
+    "id": "str"
+  }, ")", "is", "String", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "index"
+  }, "is", "a", "non", "-", "negative", "integer", "which", "is", "≤", "the", "length", "of", {
+    "id": "str"
+  }, "."]
+}, {
+  "tokens": ["If", {
+    "id": "Unicode"
+  }, "is", {
+    "value": "true"
+  }, ",", "let", {
+    "id": "Input"
+  }, "be", "!", "StringToCodePoints", "(", {
+    "id": "str"
+  }, ")", ".", "Otherwise", ",", "let", {
+    "id": "Input"
+  }, "be", "a", "List", "whose", "elements", "are", "the", "code", "units", "that", "are", "the", "elements", "of", {
+    "id": "str"
+  }, ".", {
+    "id": "Input"
+  }, "will", "be", "used", "throughout", "the", "algorithms", "in", {
+    "link": ""
+  }, ".", "Each", "element", "of", {
+    "id": "Input"
+  }, "is", "considered", "to", "be", "a", "character", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "InputLength"
+  }, "be", "the", "number", "of", "characters", "contained", "in", {
+    "id": "Input"
+  }, ".", "This", "alias", "will", "be", "used", "throughout", "the", "algorithms", "in", {
+    "link": ""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "listIndex"
+  }, "be", "the", "index", "into", {
+    "id": "Input"
+  }, "of", "the", "character", "that", "was", "obtained", "from", "element", {
+    "id": "index"
+  }, "of", {
+    "id": "str"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "c"
+  }, "be", "a", "new", "Continuation", "with", "parameters", "(", {
+    "id": "y"
+  }, ")", "that", "captures", "nothing", "and", "performs", "the", "following", "steps", "when", "called", ":"]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "y"
+  }, "is", "a", "State", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "y"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "cap"
+  }, "be", "a", "List", "of", {
+    "id": "NcapturingParens"
+  }, {
+    "value": "undefined"
+  }, "values", ",", "indexed", "1", "through", {
+    "id": "NcapturingParens"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "x"
+  }, "be", "the", "State", "(", {
+    "id": "listIndex"
+  }, ",", {
+    "id": "cap"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "m"
+  }, "(", {
+    "id": "x"
+  }, ",", {
+    "id": "c"
+  }, ")", "."]
+}]

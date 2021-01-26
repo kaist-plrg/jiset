@@ -1,0 +1,26 @@
+{
+  [0] access __x0__ = (ElementList "ArrayAccumulation")
+  [0] app __x1__ = (__x0__ array nextIndex)
+  [0] nextIndex = __x1__
+  [1] if (is-completion nextIndex) if (= nextIndex.Type CONST_normal) nextIndex = nextIndex.Value else return nextIndex else [2] {}
+  [1] nextIndex
+  [2] if (! (= Elision absent)) {
+    [3] access __x2__ = (Elision "ArrayAccumulation")
+    [3] app __x3__ = (__x2__ array nextIndex)
+    [3] nextIndex = __x3__
+    [4] if (is-completion nextIndex) if (= nextIndex.Type CONST_normal) nextIndex = nextIndex.Value else return nextIndex else [2] {}
+    [4] nextIndex
+  } else [2] {}
+  [5] access __x4__ = (AssignmentExpression "Evaluation")
+  [5] let initResult = __x4__
+  [6] app __x5__ = (GetValue initResult)
+  [6] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [2] {}
+  [6] let initValue = __x5__
+  [7] app __x6__ = (ToString nextIndex)
+  [7] if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else [2] {}
+  [7] app __x7__ = (CreateDataPropertyOrThrow array __x6__ initValue)
+  [7] if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else [2] {}
+  [7] let created = __x7__
+  [8] app __x8__ = (WrapCompletion (+ nextIndex 1i))
+  [8] return __x8__
+}

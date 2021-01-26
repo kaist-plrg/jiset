@@ -1,0 +1,93 @@
+[{
+  "tokens": ["Let", {
+    "id": "jsonString"
+  }, "be", "?", "ToString", "(", {
+    "id": "text"
+  }, ")", "."]
+}, {
+  "tokens": ["Parse", "!", "StringToCodePoints", "(", {
+    "id": "jsonString"
+  }, ")", "as", "a", "JSON", "text", "as", "specified", "in", "ECMA", "-", "404", ".", "Throw", "a", {
+    "value": "SyntaxError"
+  }, "exception", "if", "it", "is", "not", "a", "valid", "JSON", "text", "as", "defined", "in", "that", "specification", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "scriptString"
+  }, "be", "the", "string", "-", "concatenation", "of", {
+    "value": "\"(\""
+  }, ",", {
+    "id": "jsonString"
+  }, ",", "and", {
+    "value": "\");\""
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "script"
+  }, "be", "ParseText", "(", "!", "StringToCodePoints", "(", {
+    "id": "scriptString"
+  }, ")", ",", {
+    "nt": "Script"
+  }, ")", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "script"
+  }, "is", "a", "Parse", "Node", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "completion"
+  }, "be", "the", "result", "of", "evaluating", {
+    "id": "script"
+  }, ".", "The", "extended", "PropertyDefinitionEvaluation", "semantics", "defined", "in", {
+    "link": ""
+  }, "must", "not", "be", "used", "during", "the", "evaluation", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "unfiltered"
+  }, "be", {
+    "id": "completion"
+  }, ".", "[", "[", "Value", "]", "]", "."]
+}, {
+  "tokens": ["Assert", ":", {
+    "id": "unfiltered"
+  }, "is", "either", "a", "String", ",", "Number", ",", "Boolean", ",", "Null", ",", "or", "an", "Object", "that", "is", "defined", "by", "either", "an", {
+    "nt": "ArrayLiteral"
+  }, "or", "an", {
+    "nt": "ObjectLiteral"
+  }, "."]
+}, {
+  "tokens": ["If", "IsCallable", "(", {
+    "id": "reviver"
+  }, ")", "is", {
+    "value": "true"
+  }, ",", "then"]
+}, {
+  "tokens": ["Let", {
+    "id": "root"
+  }, "be", "!", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "rootName"
+  }, "be", "the", "empty", "String", "."]
+}, {
+  "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
+    "id": "root"
+  }, ",", {
+    "id": "rootName"
+  }, ",", {
+    "id": "unfiltered"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", "?", "InternalizeJSONProperty", "(", {
+    "id": "root"
+  }, ",", {
+    "id": "rootName"
+  }, ",", {
+    "id": "reviver"
+  }, ")", "."]
+}, {
+  "tokens": ["Else", ","]
+}, {
+  "tokens": ["Return", {
+    "id": "unfiltered"
+  }, "."]
+}]

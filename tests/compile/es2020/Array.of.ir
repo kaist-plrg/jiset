@@ -1,0 +1,32 @@
+{
+  app items = (GetArgument argumentsList 0i)
+  [0] let len = argumentsList.length
+  [1] let items = argumentsList
+  [2] let C = this
+  [5] app __x0__ = (IsConstructor C)
+  [5] if (= __x0__ true) {
+    [4] app __x1__ = (Construct C (new [len]))
+    [4] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [31] {}
+    [4] let A = __x1__
+  } else {
+    [6] app __x2__ = (ArrayCreate len)
+    [6] if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else [31] {}
+    [6] let A = __x2__
+  }
+  [7] let k = 0i
+  [8] while (< k len) {
+    [9] let kValue = items[k]
+    [10] app __x3__ = (ToString k)
+    [10] if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else [31] {}
+    [10] let Pk = __x3__
+    [11] app __x4__ = (CreateDataPropertyOrThrow A Pk kValue)
+    [11] if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else [31] {}
+    [11] __x4__
+    [12] k = (+ k 1i)
+  }
+  [13] app __x5__ = (Set A "length" len true)
+  [13] if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else [31] {}
+  [13] __x5__
+  [14] app __x6__ = (WrapCompletion A)
+  [14] return __x6__
+}

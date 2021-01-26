@@ -1,0 +1,32 @@
+{
+  app key = (GetArgument argumentsList 0i)
+  [0] let M = this
+  [1] app __x0__ = (RequireInternalSlot M "WeakMapData")
+  [1] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [1] {}
+  [1] __x0__
+  [2] let entries = M.WeakMapData
+  [3] app __x1__ = (Type key)
+  [3] if (! (= __x1__ Object)) {
+    app __x2__ = (WrapCompletion false)
+    return __x2__
+  } else [1] {}
+  [4] let __x3__ = entries
+  [4] let __x4__ = 0i
+  [4] while (< __x4__ __x3__.length) {
+    let p = __x3__[__x4__]
+    [5] let __x5__ = (! (= p.Key CONST_empty))
+    [5] if __x5__ {
+      app __x6__ = (SameValue p.Key key)
+      __x5__ = (= __x6__ true)
+    } else [1] {}
+    [5] if __x5__ {
+      [6] p.Key = CONST_empty
+      [7] p.Value = CONST_empty
+      [8] app __x7__ = (WrapCompletion true)
+      [8] return __x7__
+    } else [1] {}
+    __x4__ = (+ __x4__ 1i)
+  }
+  [9] app __x8__ = (WrapCompletion false)
+  [9] return __x8__
+}

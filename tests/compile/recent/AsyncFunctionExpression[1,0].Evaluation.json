@@ -1,0 +1,63 @@
+[{
+  "tokens": ["Let", {
+    "id": "scope"
+  }, "be", "the", "LexicalEnvironment", "of", "the", "running", "execution", "context", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "funcEnv"
+  }, "be", "!", "NewDeclarativeEnvironment", "(", {
+    "id": "scope"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "name"
+  }, "be", "StringValue", "of", {
+    "nt": "BindingIdentifier"
+  }, "."]
+}, {
+  "tokens": ["Perform", "!", {
+    "id": "funcEnv"
+  }, ".", "CreateImmutableBinding", "(", {
+    "id": "name"
+  }, ",", {
+    "value": "false"
+  }, ")", "."]
+}, {
+  "tokens": ["Let", {
+    "id": "sourceText"
+  }, "be", "the", "source", "text", "matched", "by", {
+    "nt": "AsyncFunctionExpression"
+  }, "."]
+}, {
+  "tokens": ["Let", {
+    "id": "closure"
+  }, "be", "!", "OrdinaryFunctionCreate", "(", "%", "AsyncFunction", ".", "prototype", "%", ",", {
+    "id": "sourceText"
+  }, ",", {
+    "nt": "FormalParameters"
+  }, ",", {
+    "nt": "AsyncFunctionBody"
+  }, ",", {
+    "const": "non-lexical-this"
+  }, ",", {
+    "id": "funcEnv"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "!", "SetFunctionName", "(", {
+    "id": "closure"
+  }, ",", {
+    "id": "name"
+  }, ")", "."]
+}, {
+  "tokens": ["Perform", "!", {
+    "id": "funcEnv"
+  }, ".", "InitializeBinding", "(", {
+    "id": "name"
+  }, ",", {
+    "id": "closure"
+  }, ")", "."]
+}, {
+  "tokens": ["Return", {
+    "id": "closure"
+  }, "."]
+}]
