@@ -341,6 +341,7 @@ object Compiler extends Compilers {
     referenceExpr |||
     dateExpr |||
     mathValueExpr |||
+    expValueExpr |||
     charExpr |||
     remainderExpr |||
     charSetExpr |||
@@ -657,6 +658,16 @@ object Compiler extends Compilers {
   lazy val mathValueExpr: P[I[Expr]] = (
     ("ℝ" | "𝔽") ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, e) } |
     "ℤ" ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, toBigInt(e)) }
+  )
+
+  // Exponential expressions
+  lazy val expValueExpr: P[I[Expr]] = (
+    number ~ sup.filter(ts => parseAll(expr, ts).successful) ^^ {
+      case x ~ ts => {
+        val i ~ e = parseAll(expr, ts).get
+        pair(i, EBOp(OPow, ENum(x.toDouble), e))
+      }
+    }
   )
 
   // character expressions
