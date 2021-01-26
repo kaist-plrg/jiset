@@ -44,6 +44,15 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     //   println(a)
     //   println("========================================")
     // })
+    // var cnt = 0
+    // spec.incompletedAlgos.foreach(a => {
+    //   println("========================================")
+    //   println(s"${a.name} ====>")
+    //   a.todos.zipWithIndex.foreach { case (t, i) => println(s" [${i}] $t") }
+    //   cnt += a.todos.length
+    //   println("========================================")
+    // })
+    // println(s"* incompleted steps: $cnt")
 
     spec
   }

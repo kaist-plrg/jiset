@@ -60,6 +60,7 @@ object Compiler extends Compilers {
     "order the elements of" ~ id ~ "so they are in the same relative order as would" |
     "Perform any implementation or host environment defined processing of" |
     "Perform any implementation or host environment defined job initialization using" |
+    "Perform any necessary implementation-defined initialization" |
     "Once a generator enters"
   ) ~ rest ^^^ emptyInst
 

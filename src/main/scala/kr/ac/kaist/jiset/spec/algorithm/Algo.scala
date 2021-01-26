@@ -18,6 +18,20 @@ case class Algo(head: Head, body: ir.Inst) {
   // arity
   lazy val arity: (InfNum, InfNum) = head.arity
 
+  // not supported
+  lazy val todos: List[String] = {
+    var l: List[String] = List()
+    object Walker extends ir.UnitWalker {
+      override def walk(expr: ir.Expr): Unit = expr match {
+        case ir.ENotSupported(msg) => l ::= msg
+        case ir.ENotYetModeled(msg) => l ::= msg
+        case _ => super.walk(expr)
+      }
+    }
+    Walker.walk(body)
+    l
+  }
+
   // completion check (not containing ??? or !!! in the algorithm body)
   def isComplete: Boolean = {
     var complete = true
