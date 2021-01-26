@@ -6,7 +6,7 @@ ThisBuild / scalaVersion  := "2.13.1"
 ThisBuild / organization  := "kr.ac.kaist.jiset"
 ThisBuild / scalacOptions := Seq(
   "-deprecation", "-feature", "-language:postfixOps",
-  "-language:implicitConversions"
+  "-language:implicitConversions", "-language:existentials"
 )
 ThisBuild / javacOptions ++= Seq(
   "-encoding", "UTF-8"
@@ -29,7 +29,8 @@ lazy val jiset = (project in file("."))
       "org.scalatest" %% "scalatest" % "3.0.8" % "test",
       "org.jsoup" % "jsoup" % "1.13.1",
       "org.jline" % "jline" % "3.13.3",
-      "org.apache.commons" % "commons-text" % "1.8"
+      "org.apache.commons" % "commons-text" % "1.8",
+      "com.chuusai" %% "shapeless" % "2.4.0-M1"
     ),
     test in assembly := {},
     testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),

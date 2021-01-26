@@ -5,8 +5,8 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends state.Domain {
   def alpha(st: State): Elem = ???
-  val Bot: Elem = ???
-  val Top: Elem = ???
+  val Bot: Elem = Elem() // TODO
+  val Top: Elem = Elem() // TODO
   case class Elem() extends ElemTrait {
     def gamma: concrete.Set[State] = ???
     def getSingle: concrete.Flat[State] = ???
