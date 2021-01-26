@@ -75,106 +75,107 @@ trait TokenListParsers extends PackratParsers {
   private def splitText(s: String): List[String] =
     "([a-zA-Z0-9_]+|\\S)".r.findAllIn(s).toList
 
-  implicit def literal(s: String): PackratParser[List[String]] = Parser(in => {
-    val init = success[List[String]](Nil)(in)
+  implicit def literal(s: String): PackratParser[List[String]] = {
     val texts = splitText(s)
-    texts.foldLeft(init) {
-      case (Success(res, in), x) => firstMap(in, t => t match {
-        case (_: Id) | (_: Value) | (_: Code) | (_: Const) => Failure(s"`$x` expected but `$t` found", in)
-        // TODO case (t: NormalToken) if x == t.getContent =>
-        case (t: NormalToken) if x.toLowerCase == t.getContent.toLowerCase =>
-          Success(t.getContent :: res, in.rest)
-        case t => Failure(s"`$x` expected but `$t` found", in)
-      })
-      case (e, _) => e
-    }.map(_.reverse)
-  })
+    Parser(in => {
+      val init = success[List[String]](Nil)(in)
+      texts.foldLeft(init) {
+        case (Success(res, in), x) => firstMap(in, t => t match {
+          case (_: Id) | (_: Value) | (_: Code) | (_: Const) => Failure(s"`$x` expected but `$t` found", in)
+          case (t: NormalToken) if x.toLowerCase == t.getContent.toLowerCase =>
+            Success(t.getContent :: res, in.rest)
+          case t => Failure(s"`$x` expected but `$t` found", in)
+        })
+        case (e, _) => e
+      }.map(_.reverse)
+    })
+  }
 
-  def const: Parser[String] = Parser(in => firstMap(in, _ match {
+  lazy val const: Parser[String] = Parser(in => firstMap(in, _ match {
     case Const(x) => Success(x, in.rest)
     case t => Failure(s"`Const(_)` expected but `$t` found", in)
   }))
 
-  def code: Parser[String] = Parser(in => firstMap(in, _ match {
+  lazy val code: Parser[String] = Parser(in => firstMap(in, _ match {
     case Code(x) => Success(x, in.rest)
     case t => Failure(s"`Code(_)` expected but `$t` found", in)
   }))
 
-  def value: Parser[String] = Parser(in => firstMap(in, _ match {
+  lazy val value: Parser[String] = Parser(in => firstMap(in, _ match {
     case Value(x) => Success(x, in.rest)
     case t => Failure(s"`Value(_)` expected but `$t` found", in)
   }))
 
-  def id: Parser[String] = Parser(in => firstMap(in, _ match {
+  lazy val id: Parser[String] = Parser(in => firstMap(in, _ match {
     case Id(x) => Success(x, in.rest)
     case t => Failure(s"`Id(_)` expected but `$t` found", in)
   }))
 
-  def text: Parser[String] = Parser(in => firstMap(in, _ match {
+  lazy val text: Parser[String] = Parser(in => firstMap(in, _ match {
     case Text(x) => Success(x, in.rest)
     case t => Failure(s"`Text(_)` expected but `$t` found", in)
   }))
 
-  def star: Parser[String] = Parser(in => firstMap(in, _ match {
+  lazy val star: Parser[String] = Parser(in => firstMap(in, _ match {
     case Star(x) => Success(x, in.rest)
     case t => Failure(s"`Star(_)` expected but `$t` found", in)
   }))
 
-  def nt: Parser[String] = Parser(in => firstMap(in, _ match {
+  lazy val nt: Parser[String] = Parser(in => firstMap(in, _ match {
     case Nt(x) => Success(x, in.rest)
     case t => Failure(s"`Nt(_)` expected but `$t` found", in)
   }))
 
-  def sup: Parser[List[Token]] = Parser(in => firstMap(in, _ match {
+  lazy val sup: Parser[List[Token]] = Parser(in => firstMap(in, _ match {
     case Sup(Step(list)) => Success(list, in.rest)
     case t => Failure(s"`Sup(_)` expected but `$t` found", in)
   }))
 
-  def link: Parser[Option[String]] = Parser(in => firstMap(in, _ match {
+  lazy val link: Parser[Option[String]] = Parser(in => firstMap(in, _ match {
     case Link(x) => Success(x, in.rest)
     case t => Failure(s"`Link(_)` expected but `$t` found", in)
   }))
 
-  def grammar: Parser[Gr] = Parser(in => firstMap(in, _ match {
+  lazy val grammar: Parser[Gr] = Parser(in => firstMap(in, _ match {
     case (g: Gr) => Success(g, in.rest)
     case t => Failure(s"`Gr(_)` expected but `$t` found", in)
   }))
 
-  def next: Parser[Int] = Parser(in => firstMap(in, _ match {
+  lazy val next: Parser[Int] = Parser(in => firstMap(in, _ match {
     case Next(k) => Success(k, in.rest)
     case t => Failure(s"`Next(_)` expected but `$t` found", in)
   }))
 
-  def in: Parser[String] = Parser(in => firstMap(in, _ match {
+  lazy val in: Parser[String] = Parser(in => firstMap(in, _ match {
     case In => Success("", in.rest)
     case t => Failure(s"`In` expected but `$t` found", in)
   }))
 
-  def out: Parser[String] = Parser(in => firstMap(in, _ match {
+  lazy val out: Parser[String] = Parser(in => firstMap(in, _ match {
     case Out => Success("", in.rest)
     case t => Failure(s"`Out` expected but `$t` found", in)
   }))
 
-  def normal: Parser[Token] = Parser(in => firstMap(in, _ match {
+  lazy val normal: Parser[Token] = Parser(in => firstMap(in, _ match {
     case (t: NormalToken) => Success(t, in.rest)
     case t => Failure(s"NormalToken expected but `$t` found", in)
   }))
 
-  def word: Parser[String] = Parser(in => text(in).mapPartial(_ match {
+  lazy val word: Parser[String] = Parser(in => text(in).mapPartial(_ match {
     case s if wordChars contains s.head => s
   }, s => s"`$s` is not word"))
 
-  def number: Parser[String] = Parser(in => text(in).mapPartial(_ match {
+  lazy val number: Parser[String] = Parser(in => text(in).mapPartial(_ match {
     case s if numChars contains s.head => s
   }, s => s"`$s` is not number"))
 
   // failed lines
   protected var failed: Map[Int, List[Token]] = Map()
 
-  def stepList: PackratParser[StepList] = in ~> rep(step) <~ out ^^^ StepList(Nil)
-  def token: PackratParser[Token] = normal | stepList
-  def rest: PackratParser[List[String]] = rep(token ^^ { _.toString })
-  def step: PackratParser[List[String]] = rest <~ next
+  lazy val stepList: PackratParser[StepList] = in ~> rep(step) <~ out ^^^ StepList(Nil)
+  lazy val token: PackratParser[Token] = normal | stepList
+  lazy val rest: PackratParser[List[String]] = rep(token ^^ { _.toString })
+  lazy val step: PackratParser[List[String]] = rest <~ next
 
   def parse[T](p: Parser[T], tokenReader: TokenReader): ParseResult[T] =
     p(tokenReader)
