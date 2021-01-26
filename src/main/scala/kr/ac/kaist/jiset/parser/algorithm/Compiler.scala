@@ -60,7 +60,7 @@ object Compiler extends Compilers {
     "order the elements of" ~ id ~ "so they are in the same relative order as would" |
     "Perform any implementation or host environment defined processing of" |
     "Perform any implementation or host environment defined job initialization using" |
-    "Perform any necessary implementation-defined initialization" |
+    // TODO "Perform any necessary implementation-defined initialization" |
     "Once a generator enters"
   ) ~ rest ^^^ emptyInst
 
@@ -134,10 +134,12 @@ object Compiler extends Compilers {
       "to" ~> expr ||| (
         "as" ~ ("described" | "specified") ~ "in" |||
         "to the definition specified in"
-      ) ~> link ^^ {
-          case None => pair(Nil, ENotSupported("unknown link"))
-          case Some(s) => pair(Nil, toERef(s))
-        }
+      // TODO
+      // ) ~> link ^^ {
+      //   case None => pair(Nil, ENotSupported("unknown link"))
+      //   case Some(s) => pair(Nil, toERef(s))
+      // }
+      ) ~> section ^^ { case s => pair(Nil, toERef(s)) }
     } ^^ {
       case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e))
     } ||| "set" ~ opt("the remainder of") ~ id ~ "'s essential internal methods" ~ rest ^^^ ISeq(Nil)
@@ -189,7 +191,7 @@ object Compiler extends Compilers {
   } ||| "for each integer" ~> id ~ (
     ("in the range" ~> expr <~ "≤" ~ id ~ "<") ~ expr ^^ { case x ~ y => (x, y, 0, 0) } |
     ("starting with" ~> expr <~ "such that" ~ id ~ "<") ~ expr ^^ { case x ~ y => (x, y, 0, 0) } |
-    ("starting with" ~> expr <~ "such that" ~ id ~ "≤") ~ expr ^^ { case x ~ y => (x, y, 0, 1) } |
+    // TODO ("starting with" ~> expr <~ "such that" ~ id ~ "≤") ~ expr ^^ { case x ~ y => (x, y, 0, 1) } |
     ("such that" ~ id ~ ">" ~> expr <~ "and" ~ id ~ "≤") ~ expr ^^ { case x ~ y => (x, y, 1, 1) } |
     ("that satisfies" ~> expr <~ "<" ~ id ~ "and" ~ id ~ "≤") ~ expr ^^ { case x ~ y => (x, y, 1, 1) }
   ) ~ (opt(", in ascending order") ~ opt(",") ~ opt("do") ~> stmt) ^^ {
@@ -334,22 +336,22 @@ object Compiler extends Compilers {
     coveredByExpr |||
     strConcatExpr |||
     stringExpr |||
-    substrExpr |||
+    // TODO substrExpr |||
     syntaxExpr |||
     argumentExpr |||
     refExpr |||
     referenceExpr |||
     dateExpr |||
-    mathValueExpr |||
-    expValueExpr |||
+    // TODO mathValueExpr |||
+    // TODO expValueExpr |||
     charExpr |||
     remainderExpr |||
     charSetExpr |||
     stateExpr |||
     integerExpr |||
-    numericExpr |||
+    /// TODO numericExpr |||
     operatorExpr |||
-    primitiveExpr |||
+    /// TODO primitiveExpr |||
     starExpr
   ))
 
@@ -372,12 +374,16 @@ object Compiler extends Compilers {
     "modulo" ^^^ OUMod |
     "&" ^^^ OBAnd |
     "^" ^^^ OBXOr |
-    "|" ^^^ OBOr |
-    "raised to the power" ^^^ OPow
+    // TODO
+    //    "|" ^^^ OBOr |
+    //    "raised to the power" ^^^ OPow
+    "|" ^^^ OBOr
   )
   lazy val uop: P[Option[UOp]] = (
     "+" ^^^ None |
-    ("-" | "the negation of") ^^^ Some(ONeg)
+    // TODO
+    // ("-" | "the negation of") ^^^ Some(ONeg)
+    "-" ^^^ Some(ONeg)
   )
 
   // pair expressions
@@ -406,37 +412,44 @@ object Compiler extends Compilers {
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
     callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-      case (i0 ~ (r: RefId), _) ~ list => {
-        val i1 ~ e = getCall(ERef(r), list)
-        pair(i0 ++ i1, e)
-      }
-      case (i0 ~ (r @ RefProp(b, _)), isPrim) ~ list => {
-        val prev = if (isPrim) Nil else List(pair(Nil, ERef(b)))
-        val i1 ~ e = getCall(ERef(r), prev ++ list)
-        pair(i0 ++ i1, e)
-      }
+      // TODO
+      //       case (i0 ~ (r: RefId), _) ~ list => {
+      //         val i1 ~ e = getCall(ERef(r), list)
+      //         pair(i0 ++ i1, e)
+      //       }
+      //       case (i0 ~ (r @ RefProp(b, _)), isPrim) ~ list => {
+      //         val prev = if (isPrim) Nil else List(pair(Nil, ERef(b)))
+      //         val i1 ~ e = getCall(ERef(r), prev ++ list)
+      //         pair(i0 ++ i1, e)
+      //       }
+      case (r: RefId) ~ list => getCall(ERef(r), list)
+      case (r @ RefProp(b, _)) ~ list => getCall(ERef(r), pair(Nil, ERef(b)) :: list)
     } ||| {
       "the result of" ~ (rep(not("comparison") ~ word) ~ "comparison") ~>
         expr ~ compOp ~ expr ~ opt("with" ~ id ~ "equal to" ~> expr)
     } ^^ {
       case l ~ f ~ r ~ opt => getCall(toERef(f), List(l, r) ++ opt.toList)
     }
-
   )
-
-  lazy val callRef: P[(I[Ref], Boolean)] = (word |||
+  // TODO lazy val callRef: P[(I[Ref], Boolean)] = (word |||
+  lazy val callRef: P[Ref] = (
+    word |||
     "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |||
-    "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }) ^^ { forIn => (pair(Nil, toRef(forIn)), false) } |||
-    id ~ opt(callField) ^^ {
-      case x ~ Some(y) => (pair(Nil, toRef(x, y)), false)
-      case x ~ None => (pair(Nil, toRef(x)), false)
-    } |||
-    (expr <~ "::") ~ word ^^ {
-      case ie ~ r => {
-        (toRef("PRIMITIVE", List(ie, pair(Nil, EStr(r)))), true)
-      }
+    // TODO
+    //     "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }) ^^ { forIn => (pair(Nil, toRef(forIn)), false) } |||
+    //     id ~ opt(callField) ^^ {
+    //       case x ~ Some(y) => (pair(Nil, toRef(x, y)), false)
+    //       case x ~ None => (pair(Nil, toRef(x)), false)
+    //     } |||
+    //     (expr <~ "::") ~ word ^^ {
+    //       case ie ~ r => {
+    //         (toRef("PRIMITIVE", List(ie, pair(Nil, EStr(r)))), true)
+    //       }
+    "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }
+  ) ^^ { toRef(_) } ||| id ~ opt(callField) ^^ {
+      case x ~ Some(y) => toRef(x, y)
+      case x ~ None => toRef(x)
     }
-
   lazy val callField: P[Expr] = "." ~> (internalName | camelWord ^^ { EStr(_) })
   lazy val compOp: P[String] = (
     "==" ^^^ "AbstractEqualityComparison" |||
@@ -470,7 +483,8 @@ object Compiler extends Compilers {
     "«" ~> repsep(expr, ",") <~ "»" |||
       ("a" ~ opt("new") ~ "list" ~ opt("containing")) ~> (
         // one element
-        opt("whose sole" ~ ("item" | "element") ~ "is" | "only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> expr ^^ { List(_) } |||
+        // TODO opt("whose sole" ~ ("item" | "element") ~ "is" | "only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> expr ^^ { List(_) } |||
+        opt("whose sole item is" | "only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> expr ^^ { List(_) } |||
         // two elements
         (("the elements, in order, of" ~> expr <~ "followed by") ~ expr |
           (expr <~ "followed by the elements , in order , of") ~ expr) ^^ { case x ~ y => List(x, y) }
@@ -571,7 +585,8 @@ object Compiler extends Compilers {
 
   // string expressions
   lazy val stringExpr: P[I[Expr]] = (
-    ("the String value" | "the String") ~> expr ^^ {
+    // TODO ("the String value" | "the String") ~> expr ^^ {
+    "the String value" ~> expr ^^ {
       case ie => ie
     } ||| ("the code unit at index" ~> expr <~ "within") ~ ref ^^ {
       case (i0 ~ k) ~ (i1 ~ s) =>
@@ -581,27 +596,28 @@ object Compiler extends Compilers {
     }
   )
 
-  // substring expression
-  lazy val substrExpr: P[I[Expr]] = (
-    ("the substring of" ~> expr) ~ ("from" ~> expr) ~ ("to" ~> expr) ^^ {
-      case (i0 ~ b) ~ (i1 ~ f) ~ (i2 ~ t) => {
-        val (substr, idx, char) = (getTemp, getTemp, getTemp)
-        val base = beautify(b)
-        val from = beautify(f)
-        val to = beautify(t)
-        val inst = parseInst(s"""{
-          let $substr = ""
-          let $idx = $from
-          while (< $idx (+ $to 1i)) {
-            access $char = ($base $idx)
-            $substr = (+ $substr $char)
-            $idx = (+ $idx 1i)
-          }
-        }""")
-        pair(i0 ++ i1 ++ i2 ++ List(inst), toERef(substr))
-      }
-    }
-  )
+  // TODO
+  //   // substring expression
+  //   lazy val substrExpr: P[I[Expr]] = (
+  //     ("the substring of" ~> expr) ~ ("from" ~> expr) ~ ("to" ~> expr) ^^ {
+  //       case (i0 ~ b) ~ (i1 ~ f) ~ (i2 ~ t) => {
+  //         val (substr, idx, char) = (getTemp, getTemp, getTemp)
+  //         val base = beautify(b)
+  //         val from = beautify(f)
+  //         val to = beautify(t)
+  //         val inst = parseInst(s"""{
+  //           let $substr = ""
+  //           let $idx = $from
+  //           while (< $idx (+ $to 1i)) {
+  //             access $char = ($base $idx)
+  //             $substr = (+ $substr $char)
+  //             $idx = (+ $idx 1i)
+  //           }
+  //         }""")
+  //         pair(i0 ++ i1 ++ i2 ++ List(inst), toERef(substr))
+  //       }
+  //     }
+  //   )
 
   // syntax expressions
   lazy val syntaxExpr: P[I[Expr]] =
@@ -654,21 +670,22 @@ object Compiler extends Compilers {
     dateConst ^^ { n => pair(Nil, ENum(n)) }
   )
 
-  // Mathematical value expressions
-  lazy val mathValueExpr: P[I[Expr]] = (
-    ("ℝ" | "𝔽") ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, e) } |
-    "ℤ" ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, toBigInt(e)) }
-  )
-
-  // Exponential expressions
-  lazy val expValueExpr: P[I[Expr]] = (
-    number ~ sup.filter(ts => parseAll(expr, ts).successful) ^^ {
-      case x ~ ts => {
-        val i ~ e = parseAll(expr, ts).get
-        pair(i, EBOp(OPow, ENum(x.toDouble), e))
-      }
-    }
-  )
+  // TODO
+  //   // Mathematical value expressions
+  //   lazy val mathValueExpr: P[I[Expr]] = (
+  //     ("ℝ" | "𝔽") ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, e) } |
+  //     "ℤ" ~> ("(" ~> expr <~ ")") ^^ { case i ~ e => pair(i, toBigInt(e)) }
+  //   )
+  //
+  //   // Exponential expressions
+  //   lazy val expValueExpr: P[I[Expr]] = (
+  //     number ~ sup.filter(ts => parseAll(expr, ts).successful) ^^ {
+  //       case x ~ ts => {
+  //         val i ~ e = parseAll(expr, ts).get
+  //         pair(i, EBOp(OPow, ENum(x.toDouble), e))
+  //       }
+  //     }
+  //   )
 
   // character expressions
   lazy val charExpr: P[I[Expr]] = (
@@ -715,11 +732,12 @@ object Compiler extends Compilers {
     }
   )
 
-  // numeric quantified expressions
-  lazy val numericExpr: P[I[Expr]] =
-    ("the" ~> ("Number" ^^^ false | "BigInt" ^^^ true) <~ ("value" ~ ("for" | "that represents"))) ~ expr ^^ {
-      case b ~ (i ~ e) => pair(i, if (b) toBigInt(e) else e)
-    }
+  // TODO
+  //   // numeric quantified expressions
+  //   lazy val numericExpr: P[I[Expr]] =
+  //     ("the" ~> ("Number" ^^^ false | "BigInt" ^^^ true) <~ ("value" ~ ("for" | "that represents"))) ~ expr ^^ {
+  //       case b ~ (i ~ e) => pair(i, if (b) toBigInt(e) else e)
+  //     }
 
   // operator expressions
   lazy val operatorExpr: P[I[Expr]] = "the result of" ~> (
@@ -736,11 +754,12 @@ object Compiler extends Compilers {
     }
   )
 
-  lazy val primitiveExpr: P[I[Expr]] = (expr <~ "::") ~ word ^^ {
-    case ie ~ r => {
-      toERef("PRIMITIVE", List(ie, pair(Nil, EStr(r))))
-    }
-  }
+  // TODO
+  //   lazy val primitiveExpr: P[I[Expr]] = (expr <~ "::") ~ word ^^ {
+  //     case ie ~ r => {
+  //       toERef("PRIMITIVE", List(ie, pair(Nil, EStr(r))))
+  //     }
+  //   }
 
   lazy val dateConst: P[Int] = (
     "msPerDay" ^^^ msPerDay |
@@ -805,7 +824,8 @@ object Compiler extends Compilers {
   lazy val codeValue: P[Expr] = opt("the" ~ ("code unit" | "element" | opt("single - element") ~ "string" ~ opt("value"))) ~> code <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
     case s if s.startsWith("\"%") && s.endsWith("%\"") => ERef(RefId(IRId(INTRINSIC_PRE + s.slice(2, s.length - 2))))
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
-    case s @ ("super" | "this" | "&" | "^" | "|" | "**" | "+" | "-") => EStr(s)
+    // TODO case s @ ("super" | "this" | "&" | "^" | "|" | "**" | "+" | "-") => EStr(s)
+    case s @ ("super" | "this") => EStr(s)
     case s => ENotSupported(s)
   }
 
@@ -851,15 +871,12 @@ object Compiler extends Compilers {
 
   // string values
   lazy val stringValue: P[Expr] =
-    ("the empty string" | "the empty String") ~ opt("value") ^^^ EStr("")
+    "the empty string" ~ opt("value") ^^^ EStr("")
 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = (
-    _cond <~ guard("repeat" | "," | in | ".") |
-    etcCond
-  )
+  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | ".") | etcCond
   lazy val _cond: P[I[Expr]] = (
     argumentCond |||
     sameCond |||
@@ -914,7 +931,8 @@ object Compiler extends Compilers {
   lazy val condBOp: P[(BOp, Boolean, Boolean)] = (
     ("=") ^^^ (OEqual, false, false) |||
     ("≠") ^^^ (OEqual, true, false) |||
-    ("is equal to" | "equals" | "is the same" ~ opt((opt(camelWord) ~ "value") | "sequence of code units") ~ "as") ^^^ (OEq, false, false) |||
+    // TODO ("is equal to" | "equals" | "is the same" ~ opt((opt(camelWord) ~ "value") | "sequence of code units") ~ "as") ^^^ (OEq, false, false) |||
+    ("is equal to" | "equals" | "is the same" ~ opt(opt(camelWord) ~ "value") ~ "as") ^^^ (OEq, false, false) |||
     ("is not equal to" | "is different from") ^^^ (OEq, true, false) |||
     ("<" | "is less than") ^^^ (OLt, false, false) |||
     ("≥" | "is not less than" | "is greater than or equal to") ^^^ (OLt, true, false) |||
@@ -1118,8 +1136,8 @@ object Compiler extends Compilers {
     "record" ^^^ "Record" |||
     "script record" ^^^ "ScriptRecord" |||
     ("exotic String object" | "string exotic object") ^^^ "StringExoticObject" |||
-    opt("ecmascript code") ~ "execution context" ^^^ "ExecutionContext" |||
-    "reference record" ^^^ "ReferenceRecord"
+    // TODO "reference record" ^^^ "ReferenceRecord"
+    opt("ecmascript code") ~ "execution context" ^^^ "ExecutionContext"
   ) ^^ Ty
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -1250,6 +1268,31 @@ object Compiler extends Compilers {
     number ~ rep("." ~> number) ^^ {
       case n ~ list => n.toInt :: list.map(_.toInt)
     }
+
+  // method pointed by sections
+  lazy val section: P[String] = (
+    "9.2.1" ^^^ "ECMAScriptFunctionObjectDOTCall" |
+    "9.2.2" ^^^ "ECMAScriptFunctionObjectDOTConstruct" |
+    "9.4.1.1" ^^^ "BoundFunctionExoticObject.Call" |
+    "9.4.1.2" ^^^ "BoundFunctionExoticObject.Construct" |
+    "9.4.2.1" ^^^ "ArrayExoticObject.DefineOwnProperty" |
+    "9.4.3.1" ^^^ "StringExoticObject.GetOwnProperty" |
+    "9.4.3.2" ^^^ "StringExoticObject.DefineOwnProperty" |
+    "9.4.3.3" ^^^ "StringExoticObject.OwnPropertyKeys" |
+    "9.4.4.1" ^^^ "ArgumentsExoticObject.GetOwnProperty" |
+    "9.4.4.2" ^^^ "ArgumentsExoticObject.DefineOwnProperty" |
+    "9.4.4.3" ^^^ "ArgumentsExoticObject.Get" |
+    "9.4.4.4" ^^^ "ArgumentsExoticObject.Set" |
+    "9.4.4.5" ^^^ "ArgumentsExoticObject.Delete" |
+    "9.4.5.1" ^^^ "IntegerIndexedExoticObject.GetOwnProperty" |
+    "9.4.5.2" ^^^ "IntegerIndexedExoticObject.HasProperty" |
+    "9.4.5.3" ^^^ "IntegerIndexedExoticObject.DefineOwnProperty" |
+    "9.4.5.4" ^^^ "IntegerIndexedExoticObject.Get" |
+    "9.4.5.5" ^^^ "IntegerIndexedExoticObject.Set" |
+    "9.4.5.6" ^^^ "IntegerIndexedExoticObject.OwnPropertyKeys" |
+    "9.5.12" ^^^ "ProxyExoticObject.Call" |
+    "9.5.13" ^^^ "ProxyExoticObject.Construct"
+  ) ^^ { getScalaName(_) }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Names
