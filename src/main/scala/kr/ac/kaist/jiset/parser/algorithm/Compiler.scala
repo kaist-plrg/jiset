@@ -1238,31 +1238,6 @@ object Compiler extends Compilers {
       case n ~ list => n.toInt :: list.map(_.toInt)
     }
 
-  // method pointed by sections
-  lazy val section: P[String] = (
-    "9.2.1" ^^^ "ECMAScriptFunctionObjectDOTCall" |
-    "9.2.2" ^^^ "ECMAScriptFunctionObjectDOTConstruct" |
-    "9.4.1.1" ^^^ "BoundFunctionExoticObject.Call" |
-    "9.4.1.2" ^^^ "BoundFunctionExoticObject.Construct" |
-    "9.4.2.1" ^^^ "ArrayExoticObject.DefineOwnProperty" |
-    "9.4.3.1" ^^^ "StringExoticObject.GetOwnProperty" |
-    "9.4.3.2" ^^^ "StringExoticObject.DefineOwnProperty" |
-    "9.4.3.3" ^^^ "StringExoticObject.OwnPropertyKeys" |
-    "9.4.4.1" ^^^ "ArgumentsExoticObject.GetOwnProperty" |
-    "9.4.4.2" ^^^ "ArgumentsExoticObject.DefineOwnProperty" |
-    "9.4.4.3" ^^^ "ArgumentsExoticObject.Get" |
-    "9.4.4.4" ^^^ "ArgumentsExoticObject.Set" |
-    "9.4.4.5" ^^^ "ArgumentsExoticObject.Delete" |
-    "9.4.5.1" ^^^ "IntegerIndexedExoticObject.GetOwnProperty" |
-    "9.4.5.2" ^^^ "IntegerIndexedExoticObject.HasProperty" |
-    "9.4.5.3" ^^^ "IntegerIndexedExoticObject.DefineOwnProperty" |
-    "9.4.5.4" ^^^ "IntegerIndexedExoticObject.Get" |
-    "9.4.5.5" ^^^ "IntegerIndexedExoticObject.Set" |
-    "9.4.5.6" ^^^ "IntegerIndexedExoticObject.OwnPropertyKeys" |
-    "9.5.12" ^^^ "ProxyExoticObject.Call" |
-    "9.5.13" ^^^ "ProxyExoticObject.Construct"
-  ) ^^ { getScalaName(_) }
-
   ////////////////////////////////////////////////////////////////////////////////
   // Names
   ////////////////////////////////////////////////////////////////////////////////
