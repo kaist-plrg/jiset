@@ -108,5 +108,5 @@ abstract class CompileTest extends JISETTest {
 
   // test compile results
   def diffTest(filename: String, result: Inst, answer: Inst): Unit =
-    compare(result, answer)
+    assert(compare(result, answer))
 }
