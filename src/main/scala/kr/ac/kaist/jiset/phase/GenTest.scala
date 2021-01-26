@@ -13,7 +13,7 @@ import spray.json._
 // GenTest phase
 case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
   val name: String = "gen-test"
-  val help: String = "generates tests."
+  val help: String = "generates test answers."
 
   def apply(
     non: Unit,
@@ -23,7 +23,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     // change extension from .json to .ir
     val json2ir = changeExt("json", "ir")
 
-    for (file <- walkTree(LARGE_DIR)) {
+    for (file <- walkTree(LEGACY_DIR)) {
       val filename = file.getName
       if (jsonFilter(filename)) {
         val jsonName = file.toString

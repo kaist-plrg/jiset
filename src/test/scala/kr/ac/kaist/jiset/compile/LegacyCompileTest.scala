@@ -9,16 +9,16 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._
 
-class LargeCompileTest extends CompileTest {
+class LegacyCompileTest extends CompileTest {
   // tag name
-  override val tag = "largeCompile"
+  override val tag = "legacyCompile"
 
   // change extension from .json to .ir
   val json2ir = changeExt("json", "ir")
 
   // registration
   def init: Unit = {
-    for (file <- walkTree(LARGE_DIR)) {
+    for (file <- walkTree(LEGACY_DIR)) {
       val filename = file.getName
       if (jsonFilter(filename)) {
         val jsonName = file.toString
