@@ -37,22 +37,25 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     println(s"* intrinsics: ${intrinsics.size}")
     println(s"* symbols: ${symbols.size}")
     println(s"* aoids: ${aoids.size}")
-    println(s"* incompleted steps: ${spec.incompletedSteps.values.map(_.length).sum}")
+    println(s"* incompleted steps: ${spec.incompletedAlgos.map(_.todos.length).sum}")
 
-    // spec.incompletedAlgos.foreach(a => println(a.name))
-    // spec.incompletedAlgos.foreach(a => {
-    //   println("========================================")
-    //   println(a)
-    //   println("========================================")
-    // })
-    // spec.incompletedSteps.foreach {
-    //   case (name, todos) => {
-    //     println("========================================")
-    //     println(s"$name ====>")
-    //     todos.zipWithIndex.foreach { case (t, i) => println(s" [${i}] $t") }
-    //     println("========================================")
-    //   }
-    // }
+    // Dump incomplete list
+    dumpFile(
+      spec.incompletedAlgos.map(_.name).mkString(LINE_SEP),
+      s"$BASE_DIR/incomplete_list.log"
+    )
+
+    // Dump incomplete steps
+    dumpFile(
+      spec.incompletedAlgos.map(algo => {
+        "========================================" +
+          LINE_SEP + s"${algo.name} ====>" + LINE_SEP +
+          algo.todos.zipWithIndex.map {
+            case (t, i) => s"  [$i] $t"
+          }.mkString(LINE_SEP) + LINE_SEP
+      }).mkString(LINE_SEP),
+      s"$BASE_DIR/incomplete_steps.log"
+    )
 
     spec
   }
