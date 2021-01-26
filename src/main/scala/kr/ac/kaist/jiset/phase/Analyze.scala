@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset.JISETConfig
+import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.analyzer._
 
@@ -16,9 +17,10 @@ case object Analyze extends PhaseObj[ECMAScript, AnalyzeConfig, AbsSemantics] {
   ): AbsSemantics = {
     println(s"--------------------------------------------------")
     println(s"analyzing specification...")
+    val cfg = CFG(spec)
     val worklist = new StackWorklist[ControlPoint]
     val sem = new AbsSemantics
-    val fixpoint = new Fixpoint(worklist, sem)
+    val fixpoint = new Fixpoint(cfg, worklist, sem)
     fixpoint.compute
     sem
   }

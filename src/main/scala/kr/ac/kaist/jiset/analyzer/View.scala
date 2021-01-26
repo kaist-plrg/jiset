@@ -9,14 +9,21 @@ trait View {
   def *[W <: View](that: W): ProdView[this.type, W] = ProdView(this, that)
 
   // find next views and refined abstract states
-  def next(prev: Result[Node], next: Result[Node]): List[Result[View]] = ???
+  def next(prev: Result[Node], next: Result[Node]): List[Result[View]] = this match {
+    case InsensView => List(Result(InsensView, next.st))
+    case ProdView(left, right) => for {
+      Result(l, ls) <- left.next(prev, next)
+      Result(r, rs) <- right.next(prev, next)
+    } yield Result(ProdView(l, r), ls ⊓ rs)
+    case FlowView(_) => List(Result(FlowView(next.elem), next.st))
+  }
 }
 
 // insensitive view
 case object InsensView extends View
 
-// flow sensitive view
-case class FlowView(node: Node) extends View
-
 // view production
 case class ProdView[+V <: View, +W <: View](left: V, right: W) extends View
+
+// flow sensitive view
+case class FlowView(node: Node) extends View

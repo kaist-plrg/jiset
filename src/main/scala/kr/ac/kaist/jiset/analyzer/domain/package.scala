@@ -11,4 +11,8 @@ package object domain {
   // abstract states
   val AbsState: state.Domain = state.BasicDomain
   type AbsState = AbsState.Elem
+
+  // abstract values
+  val AbsValue: value.Domain = value.BasicDomain
+  type AbsValue = AbsValue.Elem
 }
