@@ -49,3 +49,6 @@ case object CmdAnalyze extends CommandObj("analyze", CmdParse >> Analyze)
 
 // gen-test
 case object CmdGenTest extends CommandObj("gen-test", CmdBase >> GenTest)
+
+// extract tag
+case object CmdExtractTag extends CommandObj("extract-tag", CmdBase >> ExtractTag)
