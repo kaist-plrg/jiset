@@ -466,9 +466,9 @@ object Compiler extends Compilers {
   lazy val listExpr: P[I[Expr]] = ("an empty set" | "a new empty list") ^^^ pair(Nil, EList(Nil)) ||| {
     // multiple expressions
     "«" ~> repsep(expr, ",") <~ "»" |||
-      ("a" ~ opt("new") ~ "list" ~ opt("containing")) ~> (
+      ("a" ~ opt("new") ~ "list") ~> (
         // one element
-        opt("whose sole item is" | "only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> expr ^^ { List(_) } |||
+        opt("whose sole" ~ ("item" | "element") ~ "is" | "only" | opt("containing") ~> ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> expr ^^ { List(_) } |||
         // two elements
         (("the elements, in order, of" ~> expr <~ "followed by") ~ expr |
           (expr <~ "followed by the elements , in order , of") ~ expr) ^^ { case x ~ y => List(x, y) }
