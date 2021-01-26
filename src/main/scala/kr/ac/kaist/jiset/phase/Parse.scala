@@ -39,10 +39,13 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     println(s"* aoids: ${aoids.size}")
     println(s"* incompleted steps: ${spec.incompletedAlgos.map(_.todos.length).sum}")
 
+    // make dir
+    mkdir(PARSE_LOG_DIR)
+
     // Dump incomplete list
     dumpFile(
       spec.incompletedAlgos.map(_.name).mkString(LINE_SEP),
-      s"$BASE_DIR/incomplete_list.log"
+      s"$PARSE_LOG_DIR/incomplete_list.log"
     )
 
     // Dump incomplete steps
@@ -54,7 +57,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
             case (t, i) => s"  [$i] $t"
           }.mkString(LINE_SEP) + LINE_SEP
       }).mkString(LINE_SEP),
-      s"$BASE_DIR/incomplete_steps.log"
+      s"$PARSE_LOG_DIR/incomplete_steps.log"
     )
 
     spec
