@@ -27,13 +27,17 @@ class LegacyCompileTest extends CompileTest {
         lazy val answer = Parser.parseInst(readFile(irName))
         lazy val result = Compiler(tokens)
 
-        check(tag, filename, {
-          val pass = compare(result, answer)
-          if (!pass) {
-            println(s"- answer: ${beautify(answer)}")
-            println(s"- result: ${beautify(result)}")
-          }
-          assert(pass)
+        check(tag, filename, Diff(result, answer) match {
+          case Some(Diff.Missing(missing)) =>
+            println(s"==================================================")
+            println(s"[$filename] MISS: ${beautify(missing)}")
+            println(s"--------------------------------------------------")
+            val answerStr = beautify(answer)
+            val resultStr = beautify(result)
+            println(s"- answer: $answerStr")
+            println(s"- result: $resultStr")
+            fail(s"$answerStr is different with $resultStr")
+          case None =>
         })
       }
     }
