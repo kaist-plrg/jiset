@@ -14,10 +14,6 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
   // JISET configuration
   lazy val aseConfig: JISETConfig = JISETConfig(CmdBase, Nil, true)
 
-  // execute
-  protected def executeTests: Unit
-  executeTests
-
   // results
   trait Result
   case object Pass extends Result
@@ -118,4 +114,8 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
       jpw.close()
     }
   }
+
+  // execute
+  protected def executeTests: Unit
+  executeTests
 }

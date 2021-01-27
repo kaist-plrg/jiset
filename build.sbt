@@ -13,7 +13,7 @@ ThisBuild / javacOptions ++= Seq(
 )
 
 lazy val legacyCompileTest = taskKey[Unit]("Launch tests for compile (legacy)")
-lazy val compileTest = taskKey[Unit]("Launch tests for compile")
+// lazy val compileTest = taskKey[Unit]("Launch tests for compile")
 lazy val grammarTest = taskKey[Unit]("Launch tests for grammar")
 
 lazy val ires = ProjectRef(file("ires"), "ires")
@@ -43,6 +43,6 @@ lazy val jiset = (project in file("."))
     assemblyOption in assembly := (assemblyOption in assembly).value
       .copy(prependShellScript = Some(defaultUniversalScript(shebang = false))),
     legacyCompileTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.LegacyCompileTest").value,
-    compileTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.CompileTest").value,
+    // compileTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.CompileTest").value,
     grammarTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.GrammarTest").value
   )

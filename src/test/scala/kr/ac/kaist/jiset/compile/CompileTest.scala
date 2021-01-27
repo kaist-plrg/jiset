@@ -8,7 +8,7 @@ import org.scalatest._
 import kr.ac.kaist.jiset.spec.algorithm.Step
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
 
-class CompileTest extends JISETTest {
+abstract class CompileTest extends JISETTest {
   // tag name
   override def tag = "compile"
 
@@ -118,40 +118,40 @@ class CompileTest extends JISETTest {
   def diffTest(filename: String, result: Inst, answer: Inst): Unit =
     assert(compare(result, answer))
 
-  // registration
-  override def executeTests: Unit = {
-    val spec2json = changeExt("spec", "json")
-    val spec2ir = changeExt("spec", "ir")
-    for (version <- VERSIONS) {
-      println(s"Testing $version...")
-      val baseDir = s"$COMPILE_DIR/$version"
+  // TODO registration
+  // override def executeTests: Unit = {
+  //   val spec2json = changeExt("spec", "json")
+  //   val spec2ir = changeExt("spec", "ir")
+  //   for (version <- VERSIONS) {
+  //     println(s"Testing $version...")
+  //     val baseDir = s"$COMPILE_DIR/$version"
 
-      // get grammar and document
-      implicit val (grammar, document) = ECMAScriptParser.parseGrammar(version)
+  //     // get grammar and document
+  //     implicit val (grammar, document) = ECMAScriptParser.parseGrammar(version)
 
-      for (file <- walkTree(baseDir)) {
-        val filename = file.getName
-        if (specFilter(filename)) {
-          val specName = file.toString
-          val checkName = s"$filename @ $version"
-          val (jsonName, irName) = (spec2json(specName), spec2ir(specName))
+  //     for (file <- walkTree(baseDir)) {
+  //       val filename = file.getName
+  //       if (specFilter(filename)) {
+  //         val specName = file.toString
+  //         val checkName = s"$filename @ $version"
+  //         val (jsonName, irName) = (spec2json(specName), spec2ir(specName))
 
-          // check token parsing
-          val steps = readJson[List[Step]](jsonName)
-          val tokens = Step.toTokens(steps)
+  //         // check token parsing
+  //         val steps = readJson[List[Step]](jsonName)
+  //         val tokens = Step.toTokens(steps)
 
-          val code = readFile(specName).split(LINE_SEP)
-          val resultTokens = TokenParser.getTokens(code)
+  //         val code = readFile(specName).split(LINE_SEP)
+  //         val resultTokens = TokenParser.getTokens(code)
 
-          check(s"$tag(token)", checkName, tokens == resultTokens)
+  //         check(s"$tag(token)", checkName, tokens == resultTokens)
 
-          // check compile
-          val inst = Parser.fileToInst(irName)
-          check(s"$tag(compile)", checkName, {
-            diffTest(filename, Compiler(tokens), inst)
-          })
-        }
-      }
-    }
-  }
+  //         // check compile
+  //         val inst = Parser.fileToInst(irName)
+  //         check(s"$tag(compile)", checkName, {
+  //           diffTest(filename, Compiler(tokens), inst)
+  //         })
+  //       }
+  //     }
+  //   }
+  // }
 }
