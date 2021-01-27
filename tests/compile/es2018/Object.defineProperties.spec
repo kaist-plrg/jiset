@@ -1,1 +1,0 @@
-          1. Return ? ObjectDefineProperties(_O_, _Properties_).

@@ -1,2 +1,0 @@
-          1. Let _keyResult_ be ? ForIn/OfHeadEvaluation(« », |Expression|, ~enumerate~).
-          1. Return ? ForIn/OfBodyEvaluation(|ForBinding|, |Statement|, _keyResult_, ~enumerate~, ~varBinding~, _labelSet_).

@@ -1,1 +1,0 @@
-          1. Return ! IsInteger(_number_).

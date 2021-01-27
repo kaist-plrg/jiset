@@ -1,1 +1,0 @@
-        1. Return ContainsDuplicateLabels of |CaseBlock| with argument _labelSet_.

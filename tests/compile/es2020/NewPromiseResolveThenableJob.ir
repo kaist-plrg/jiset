@@ -1,8 +1,0 @@
-{
-  [0] ??? "Let id:{job} be a new Job abstract closure with no parameters that captures id:{promiseToResolve} , id:{thenable} , and id:{then} and performs the following steps when called : step-list:{...}"
-  [7] app __x0__ = (GetFunctionRealm then)
-  [7] let getThenRealmResult = __x0__
-  [9] if (&& (is-completion getThenRealmResult) (= getThenRealmResult.Type CONST_normal)) let thenRealm = getThenRealmResult.Value else let thenRealm = null
-  [10] app __x1__ = (WrapCompletion (new Record("Job" -> job, "Realm" -> thenRealm)))
-  [10] return __x1__
-}

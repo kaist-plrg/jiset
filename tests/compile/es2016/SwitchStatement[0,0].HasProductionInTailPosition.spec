@@ -1,1 +1,0 @@
-          1. Return HasProductionInTailPosition of |CaseBlock| with argument _nonterminal_.

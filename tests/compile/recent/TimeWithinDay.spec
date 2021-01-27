@@ -1,1 +1,0 @@
-1. 𝔽(ℝ(_t_) modulo ℝ(msPerDay))

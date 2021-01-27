@@ -1,1 +1,0 @@
-          1. Return the result of performing ArrayAccumulation for |Elision| with arguments _array_ and _nextIndex_ + 1.

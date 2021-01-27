@@ -1,1 +1,0 @@
-        1. Return TopLevelLexicallyScopedDeclarations of |StatementList|.

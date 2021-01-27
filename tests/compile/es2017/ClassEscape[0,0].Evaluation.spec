@@ -1,1 +1,0 @@
-          1. Return the CharSet containing the single character <BS> U+0008 (BACKSPACE).

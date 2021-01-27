@@ -1,1 +1,0 @@
-        1. Return ? OrdinaryHasProperty(_O_, _P_).

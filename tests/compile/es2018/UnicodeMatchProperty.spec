@@ -1,3 +1,0 @@
-            1. Assert: _p_ is a List of Unicode code points that is identical to a List of Unicode code points that is a Unicode property name or property alias listed in the “Property name and aliases” column of <emu-xref href="#table-nonbinary-unicode-properties"></emu-xref> or <emu-xref href="#table-binary-unicode-properties"></emu-xref>.
-            1. Let _c_ be the canonical property name of _p_ as given in the “Canonical property name” column of the corresponding row.
-            1. Return the List of Unicode code points of _c_.

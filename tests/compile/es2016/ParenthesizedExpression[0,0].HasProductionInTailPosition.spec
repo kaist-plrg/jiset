@@ -1,1 +1,0 @@
-          1. Return HasProductionInTailPosition of |Expression| with argument _nonterminal_.

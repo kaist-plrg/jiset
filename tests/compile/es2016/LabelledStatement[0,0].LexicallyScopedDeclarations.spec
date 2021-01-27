@@ -1,1 +1,0 @@
-        1. Return the LexicallyScopedDeclarations of |LabelledItem|.

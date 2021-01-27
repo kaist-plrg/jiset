@@ -1,1 +1,0 @@
-          1. Return ? EvaluateNew(|NewExpression|, ~empty~).

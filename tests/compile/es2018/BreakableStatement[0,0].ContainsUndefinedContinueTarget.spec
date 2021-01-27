@@ -1,2 +1,0 @@
-        1. Let _newIterationSet_ be a copy of _iterationSet_ with all the elements of _labelSet_ appended.
-        1. Return ContainsUndefinedContinueTarget of |IterationStatement| with arguments _newIterationSet_ and « ».

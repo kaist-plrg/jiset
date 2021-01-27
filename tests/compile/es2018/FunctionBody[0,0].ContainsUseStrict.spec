@@ -1,1 +1,0 @@
-        1. If the Directive Prologue of |FunctionStatementList| contains a Use Strict Directive, return *true*; otherwise, return *false*.

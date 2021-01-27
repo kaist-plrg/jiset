@@ -8,10 +8,10 @@ import org.scalatest._
 
 class GrammarTest extends JISETTest {
   // tag name
-  override def tag = "grammar"
+  val tag = "grammar"
 
   // registration
-  override def executeTests: Unit = {
+  def init: Unit = {
     for (version <- VERSIONS) check(tag, version, {
       val filename = s"$GRAMMAR_DIR/$version.grammar"
       val answer = readFile(filename)
@@ -19,4 +19,5 @@ class GrammarTest extends JISETTest {
       assert(answer == grammar.toString)
     })
   }
+  init
 }

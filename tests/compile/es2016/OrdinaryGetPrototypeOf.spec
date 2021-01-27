@@ -1,1 +1,0 @@
-          1. Return the value of the [[Prototype]] internal slot of _O_.

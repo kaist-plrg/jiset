@@ -1,1 +1,0 @@
-        1. Return ! OrdinaryGetOwnProperty(_O_, _P_).

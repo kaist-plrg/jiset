@@ -1,2 +1,0 @@
-          1. Let _n_ be the mathematical integer number of code points in |DecimalDigits|.
-          1. Return the Number value for (the MV of |NonZeroDigit| ×<sub>ℝ</sub> 10<sub>ℝ</sub><sup>_n_</sup> plus the MV of |DecimalDigits|).

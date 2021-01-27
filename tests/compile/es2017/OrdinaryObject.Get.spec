@@ -1,1 +1,0 @@
-        1. Return ? OrdinaryGet(_O_, _P_, _Receiver_).

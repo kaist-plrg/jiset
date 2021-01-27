@@ -1,1 +1,0 @@
-        1. Return ? GeneratorYield(CreateIterResultObject(*undefined*, *false*)).

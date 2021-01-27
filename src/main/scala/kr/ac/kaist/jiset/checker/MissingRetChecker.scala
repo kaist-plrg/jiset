@@ -27,7 +27,7 @@ object MissingRetChecker extends Checker {
       case IReturn(e) => true
       case _ => false
     }
-    val res = walkBranch(algo.body)
+    val res = walkBranch(algo.getBody)
     if (!res) List(Result(algo))
     else List[Result]()
   }

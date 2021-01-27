@@ -1,1 +1,0 @@
-          1. Return ! IsIntegralNumber(_number_).

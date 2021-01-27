@@ -1,2 +1,0 @@
-          1. Let _name_ be the string that is the only element of BoundNames of |SingleNameBinding|.
-          1. Return the result of performing KeyedBindingInitialization for |SingleNameBinding| using _value_, _environment_, and _name_ as the arguments.

@@ -55,7 +55,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     // gen basic test
     def genBasicTest: Unit = {
       for (version <- VERSIONS) {
-        val baseDir = s"$COMPILE_DIR/$version"
+        val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
         // get spec, document, grammar
         val spec = ECMAScriptParser(version, "", false)
@@ -64,15 +64,15 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
 
         mkdir(baseDir)
         spec.algos.foreach(algo => {
-          val Algo(head, body, code) = algo
+          val Algo(head, rawBody, code) = algo
           // flle name
           val filename = s"$baseDir/${algo.name}"
           // dump code
           dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")
           // dump tokens of steps
-          dumpJson[List[Step]](TokenParser.getSteps(code), s"$filename.json")
+          dumpJson[List[Token]](TokenParser.getTokens(code), s"$filename.json")
           // dump ir
-          dumpFile(beautify(body), s"$filename.ir")
+          dumpFile(beautify(rawBody, index = false), s"$filename.ir")
         })
       }
     }

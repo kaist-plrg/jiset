@@ -408,6 +408,11 @@ object Compiler extends Compilers {
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
     callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case (_ ~ RefId(id), _) ~ list if id.name == "ℝ" || id.name == "𝔽" => list.head
+      case (_ ~ RefId(id), _) ~ list if id.name == "ℤ" => list match {
+        case (i ~ e) :: _ => pair(i, toBigInt(e))
+        case _ => ???
+      }
       case (i0 ~ (r: RefId), _) ~ list => {
         val i1 ~ e = getCall(ERef(r), list)
         pair(i0 ++ i1, e)
@@ -424,7 +429,7 @@ object Compiler extends Compilers {
       case l ~ f ~ r ~ opt => getCall(toERef(f), List(l, r) ++ opt.toList)
     }
   )
-  lazy val callRef: P[(I[Ref], Boolean)] = (word |||
+  lazy val callRef: P[(I[Ref], Boolean)] = (notNumber |||
     "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |||
     "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }) ^^ { forIn => (pair(Nil, toRef(forIn)), false) } |||
     id ~ opt(callField) ^^ {

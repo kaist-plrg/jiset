@@ -1,2 +1,0 @@
-* It is a Syntax Error if this production has a [Yield] parameter and StringValue of |Identifier| is *"yield"*.
-* It is a Syntax Error if this production has an [Await] parameter and StringValue of |Identifier| is *"await"*.

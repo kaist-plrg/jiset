@@ -1,1 +1,0 @@
-          1. Return HasProductionInTailPosition of |Block| with argument _nonterminal_.

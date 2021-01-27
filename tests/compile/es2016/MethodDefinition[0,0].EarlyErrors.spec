@@ -1,2 +1,0 @@
-* It is a Syntax Error if ContainsUseStrict of |FunctionBody| is *true* and IsSimpleParameterList of |StrictFormalParameters| is *false*.
-* It is a Syntax Error if any element of the BoundNames of |StrictFormalParameters| also occurs in the LexicallyDeclaredNames of |FunctionBody|.

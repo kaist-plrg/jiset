@@ -1,2 +1,0 @@
-          1. Assert: The calling agent is not in the critical section for any WaiterList.
-          1. Wait until no agent is in the critical section for _WL_, then enter the critical section for _WL_ (without allowing any other agent to enter).

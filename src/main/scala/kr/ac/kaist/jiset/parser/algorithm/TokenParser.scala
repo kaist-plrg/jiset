@@ -68,14 +68,6 @@ trait TokenParsers extends ProductionParsers {
     indent ~> rep(token)
   }
 
-  // get steps
-  def getSteps(code: Iterable[String])(
-    implicit
-    grammar: Grammar,
-    document: Document
-  ): List[Step] =
-    code.map(l => Step(parseAll(step(grammar, document), l).get)).toList
-
   // get tokens
   val TAB = 2
   def getTokens(code: Iterable[String])(

@@ -1,1 +1,0 @@
-          1. Return the BigInt value that represents the MV of |NonDecimalIntegerLiteral|.

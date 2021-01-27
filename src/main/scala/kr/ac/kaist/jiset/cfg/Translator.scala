@@ -57,7 +57,7 @@ object Translator {
 
     // initialization
     val (entry, exit) = (register(Entry()), register(Exit()))
-    val prev = translate(List((entry, NormalEdge)), algo.body)
+    val prev = translate(List((entry, NormalEdge)), algo.getBody)
     connect(prev, exit)
     Function(entry, exit, nodes, edges)
   }

@@ -1,1 +1,0 @@
-            1. Assert: This method is never invoked. See <emu-xref href="#sec-delete-operator-static-semantics-early-errors"></emu-xref>.

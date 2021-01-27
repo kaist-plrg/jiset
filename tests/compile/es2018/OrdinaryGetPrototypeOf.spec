@@ -1,1 +1,0 @@
-          1. Return _O_.[[Prototype]].

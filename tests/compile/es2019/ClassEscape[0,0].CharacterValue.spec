@@ -1,1 +1,0 @@
-          1. Return the code point value of U+0008 (BACKSPACE).

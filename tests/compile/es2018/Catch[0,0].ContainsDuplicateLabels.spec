@@ -1,1 +1,0 @@
-        1. Return ContainsDuplicateLabels of |Block| with argument _labelSet_.

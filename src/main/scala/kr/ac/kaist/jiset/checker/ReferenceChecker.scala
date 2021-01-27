@@ -68,7 +68,7 @@ object ReferenceChecker extends Checker {
         use(id.name)
       }
     }
-    Walker.walk(algo.body)
+    Walker.walk(algo.getBody)
 
     var res = List[Result]()
     if (!undefined.isEmpty) res ::= Undefined(algo, undefined)

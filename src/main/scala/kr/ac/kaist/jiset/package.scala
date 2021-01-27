@@ -21,6 +21,7 @@ package object jiset {
   // Tests directory root
   val TEST_DIR = s"${BASE_DIR}/tests"
   val COMPILE_DIR = s"${TEST_DIR}/compile"
+  val BASIC_COMPILE_DIR = s"${COMPILE_DIR}/basic"
   val LEGACY_COMPILE_DIR = s"${COMPILE_DIR}/legacy"
   val GRAMMAR_DIR = s"${TEST_DIR}/grammar"
 

@@ -52,12 +52,13 @@ object AlgoParser {
       }
       var printBody = detail && true
       heads.map(h => {
-        val body = getBody(h, code, start)
+        val rawBody = getAlgoRawBody(h, code, start)
+        val algo = Algo(h, rawBody, code)
         if (printBody) {
-          println(beautify(body, index = true))
+          println(beautify(algo.getBody, index = true))
           printBody = false
         }
-        Algo(h, body, code)
+        algo
       })
     } catch {
       case e: Throwable =>
@@ -72,7 +73,7 @@ object AlgoParser {
   }
 
   // get body instructions
-  def getBody(
+  def getAlgoRawBody(
     head: Head,
     code: Iterable[String],
     start: Int
@@ -83,35 +84,7 @@ object AlgoParser {
   ): Inst = {
     // get tokens
     val tokens = TokenParser.getTokens(code)
-
     // get body
-    val body = Compiler(tokens, start)
-
-    // post process
-    head match {
-      case (head: MethodHead) if head.isLetThisStep(code.head.trim) =>
-        popFront(body)
-      case (builtin: BuiltinHead) =>
-        val prefix = builtin.origParams.zipWithIndex.map {
-          case (x, i) => Parser.parseInst(s"app ${x.name} = (GetArgument $ARGS_LIST ${i}i)")
-        }
-        prepend(prefix, body)
-      case _ => body
-    }
-  }
-
-  // prepend instructions
-  def prepend(prefix: List[Inst], inst: Inst): Inst = prefix match {
-    case Nil => inst
-    case _ => inst match {
-      case ISeq(list) => ISeq(prefix ++ list)
-      case _ => ISeq(prefix :+ inst)
-    }
-  }
-
-  // pop an instruction at the front
-  def popFront(inst: Inst): Inst = inst match {
-    case ISeq(hd :: tl) => ISeq(tl)
-    case _ => ISeq(Nil)
+    Compiler(tokens, start)
   }
 }

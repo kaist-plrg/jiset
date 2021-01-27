@@ -1,9 +1,0 @@
-{
-  [0] let thisChain = this
-  [1] app __x0__ = (IsInTailPosition thisChain)
-  [1] let tailCall = __x0__
-  [2] app __x1__ = (EvaluateCall baseValue baseReference Arguments tailCall)
-  [2] if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else [3] {}
-  [2] app __x2__ = (WrapCompletion __x1__)
-  [2] return __x2__
-}

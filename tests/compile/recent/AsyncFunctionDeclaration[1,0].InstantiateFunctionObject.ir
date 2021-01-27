@@ -1,9 +1,0 @@
-{
-  [0] let sourceText = (get-syntax AsyncFunctionDeclaration)
-  [1] ??? "Let id:{F} be ! OrdinaryFunctionCreate ( % AsyncFunction . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{AsyncFunctionBody} , const:{non-lexical-this} , id:{scope} ) ."
-  [2] app __x0__ = (SetFunctionName F "default")
-  [2] if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else [31] {}
-  [2] __x0__
-  [3] app __x1__ = (WrapCompletion F)
-  [3] return __x1__
-}

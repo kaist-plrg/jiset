@@ -1,1 +1,0 @@
-          1. Return the value of the [[Extensible]] internal slot of _O_.

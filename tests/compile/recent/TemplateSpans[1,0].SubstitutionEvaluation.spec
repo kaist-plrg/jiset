@@ -1,1 +1,0 @@
-          1. Return the result of SubstitutionEvaluation of |TemplateMiddleList|.

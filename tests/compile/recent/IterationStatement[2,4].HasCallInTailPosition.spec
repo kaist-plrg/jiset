@@ -1,1 +1,0 @@
-          1. Return HasCallInTailPosition of |Statement| with argument _call_.

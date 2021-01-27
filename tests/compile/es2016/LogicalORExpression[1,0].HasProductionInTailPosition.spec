@@ -1,1 +1,0 @@
-          1. Return HasProductionInTailPosition of |LogicalANDExpression| with argument _nonterminal_.

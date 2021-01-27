@@ -1,2 +1,0 @@
-* It is a Syntax Error if the |UnaryExpression| is contained in strict mode code and the derived |UnaryExpression| is PrimaryExpression : IdentifierReference.
-* It is a Syntax Error if the derived |UnaryExpression| is PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList and |CoverParenthesizedExpressionAndArrowParameterList| ultimately derives a phrase that, if used in place of |UnaryExpression|, would produce a Syntax Error according to these rules. This rule is recursively applied.

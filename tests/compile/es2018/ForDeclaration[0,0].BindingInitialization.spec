@@ -1,1 +1,0 @@
-          1. Return the result of performing BindingInitialization for |ForBinding| passing _value_ and _environment_ as the arguments.

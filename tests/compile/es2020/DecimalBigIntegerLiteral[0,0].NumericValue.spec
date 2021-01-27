@@ -1,1 +1,0 @@
-          1. Return the BigInt value that represents 0<sub>ℝ</sub>.

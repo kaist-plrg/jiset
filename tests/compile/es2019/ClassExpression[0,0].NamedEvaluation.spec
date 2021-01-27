@@ -1,1 +1,0 @@
-        1. Return the result of ClassDefinitionEvaluation of |ClassTail| with arguments *undefined* and _name_.

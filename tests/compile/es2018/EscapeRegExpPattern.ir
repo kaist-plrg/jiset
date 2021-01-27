@@ -1,8 +1,0 @@
-{
-  app P = (GetArgument argumentsList 0i)
-  app F = (GetArgument argumentsList 1i)
-  [0] ??? "Let id:{S} be a String in the form of a nt:{Pattern[~U]} ( nt:{Pattern[+U]} if id:{F} contains code:{\"u\"} ) equivalent to id:{P} interpreted as UTF - 16 encoded Unicode code points ( link:{} ) , in which certain code points are escaped as described below . id:{S} may or may not be identical to id:{P} ; however , the internal procedure that would result from evaluating id:{S} as a nt:{Pattern[~U]} ( nt:{Pattern[+U]} if id:{F} contains code:{\"u\"} ) must behave identically to the internal procedure given by the constructed object ' s [ [ RegExpMatcher ] ] internal slot . Multiple calls to this abstract operation using the same values for id:{P} and id:{F} must produce identical results ."
-  [1] ??? "The code points code:{/} or any nt:{LineTerminator} occurring in the pattern shall be escaped in id:{S} as necessary to ensure that the string - concatenation of code:{\"/\"} , id:{S} , code:{\"/\"} , and id:{F} can be parsed ( in an appropriate lexical context ) as a nt:{RegularExpressionLiteral} that behaves identically to the constructed regular expression . For example , if id:{P} is code:{\"/\"} , then id:{S} could be code:{\"\\\\/\"} or code:{\"\\\\u002F\"} , among other possibilities , but not code:{\"/\"} , because code:{///} followed by id:{F} would be parsed as a nt:{SingleLineComment} rather than a nt:{RegularExpressionLiteral} . If id:{P} is the empty String , this specification can be met by letting id:{S} be code:{\"(?:)\"} ."
-  [2] app __x0__ = (WrapCompletion S)
-  [2] return __x0__
-}

@@ -97,7 +97,7 @@ object ArityChecker extends Checker {
         case _ => super.walk(inst)
       }
     }
-    Walker.walk(algo.body)
+    Walker.walk(algo.getBody)
     if (DEBUG) todo.foreach(println _)
     detected
   }

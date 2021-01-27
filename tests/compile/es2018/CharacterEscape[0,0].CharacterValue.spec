@@ -1,1 +1,0 @@
-          1. Return the code point value according to <emu-xref href="#table-47"></emu-xref>.

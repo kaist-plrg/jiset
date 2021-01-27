@@ -1,4 +1,0 @@
-        1. Let _events_ be an empty Set.
-        1. For each event _E_ in EventSet(_execution_), do
-          1. If _E_ is a Synchronize event, add _E_ to _events_.
-        1. Return _events_.

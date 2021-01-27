@@ -1,1 +1,0 @@
-1. 60000 = msPerSecond × SecondsPerMinute

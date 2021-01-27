@@ -1,1 +1,0 @@
-          1. Return the CharSet containing the single character that is the result of evaluating |CharacterEscape|.

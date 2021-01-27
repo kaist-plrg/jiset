@@ -1,1 +1,0 @@
-          1. Return ExportEntriesForModule of |ExportClause| with argument *null*.

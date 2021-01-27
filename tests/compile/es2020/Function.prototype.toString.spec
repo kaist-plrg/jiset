@@ -1,6 +1,0 @@
-          1. Let _func_ be the *this* value.
-          1. If _func_ is a <emu-xref href="#sec-bound-function-exotic-objects">bound function exotic object</emu-xref> or a <emu-xref href="#sec-built-in-function-objects">built-in function object</emu-xref>, then return an implementation-dependent String source code representation of _func_. The representation must have the syntax of a |NativeFunction|. Additionally, if _func_ is a <emu-xref href="#sec-well-known-intrinsic-objects">Well-known Intrinsic Object</emu-xref> and is not identified as an anonymous function, the portion of the returned String that would be matched by |PropertyName| must be the initial value of the *"name"* property of _func_.
-          1. If Type(_func_) is Object and _func_ has a [[SourceText]] internal slot and _func_.[[SourceText]] is a sequence of Unicode code points and ! HostHasSourceTextAvailable(_func_) is *true*, then
-            1. Return ! UTF16Encode(_func_.[[SourceText]]).
-          1. If Type(_func_) is Object and IsCallable(_func_) is *true*, then return an implementation-dependent String source code representation of _func_. The representation must have the syntax of a |NativeFunction|.
-          1. Throw a *TypeError* exception.

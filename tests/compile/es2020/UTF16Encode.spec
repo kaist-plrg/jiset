@@ -1,1 +1,0 @@
-        1. Return the string-concatenation of the code units that are the UTF16Encoding of each code point in _text_, in order.

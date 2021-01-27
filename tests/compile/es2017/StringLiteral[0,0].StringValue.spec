@@ -1,1 +1,0 @@
-          1. Return the String value whose elements are the SV of this |StringLiteral|.

@@ -1,1 +1,0 @@
-          1. Return a String value whose code units are the SV of the |StringLiteral|.

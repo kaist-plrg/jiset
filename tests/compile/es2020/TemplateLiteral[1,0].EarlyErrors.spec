@@ -1,1 +1,0 @@
-* It is a Syntax Error if the number of elements in the result of TemplateStrings of |TemplateLiteral| with argument *false* is greater than 232 - 1.

@@ -1,1 +1,0 @@
-          1. Return the StringValue of |StringLiteral| as defined in <emu-xref href="#sec-string-literals-static-semantics-stringvalue"></emu-xref>.

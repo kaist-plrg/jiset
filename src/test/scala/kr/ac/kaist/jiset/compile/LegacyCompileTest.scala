@@ -11,11 +11,13 @@ import org.scalatest._
 
 class LegacyCompileTest extends CompileTest {
   // tag name
-  override def tag = "legacyCompile"
+  val tag = "legacyCompile"
+
+  // helper
+  val json2ir = changeExt("json", "ir")
 
   // registration
-  override def executeTests: Unit = {
-    val json2ir = changeExt("json", "ir")
+  def init: Unit = {
     for (file <- walkTree(LEGACY_COMPILE_DIR)) {
       val filename = file.getName
       if (jsonFilter(filename)) {
@@ -27,19 +29,9 @@ class LegacyCompileTest extends CompileTest {
         lazy val answer = Parser.parseInst(readFile(irName))
         lazy val result = Compiler(tokens)
 
-        check(tag, filename, Diff(result, answer) match {
-          case Some(Diff.Missing(missing)) =>
-            println(s"==================================================")
-            println(s"[$filename] MISS: ${beautify(missing)}")
-            println(s"--------------------------------------------------")
-            val answerStr = beautify(answer)
-            val resultStr = beautify(result)
-            println(s"- answer: $answerStr")
-            println(s"- result: $resultStr")
-            fail(s"$answerStr is different with $resultStr")
-          case None =>
-        })
+        check(tag, filename, difftest(filename, result, answer))
       }
     }
   }
+  init
 }

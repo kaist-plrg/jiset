@@ -1,1 +1,0 @@
-          1. Return the result of EvaluateBody of the parsed code that is _F_.[[ECMAScriptCode]] passing _F_ and _argumentsList_ as the arguments.

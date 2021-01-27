@@ -61,7 +61,7 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
   )
 
   // tag name
-  protected def tag: String
+  val tag: String
 
   // sort by keys
   def sortByKey[U, V](map: Map[U, V])(implicit ord: scala.math.Ordering[U]): List[(U, V)] = map.toList.sortBy { case (k, v) => k }
@@ -114,8 +114,4 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
       jpw.close()
     }
   }
-
-  // execute
-  protected def executeTests: Unit
-  executeTests
 }

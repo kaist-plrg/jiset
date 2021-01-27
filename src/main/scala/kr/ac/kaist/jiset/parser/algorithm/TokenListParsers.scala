@@ -165,6 +165,10 @@ trait TokenListParsers extends PackratParsers {
     case s if wordChars contains s.head => s
   }, s => s"`$s` is not word"))
 
+  lazy val notNumber: Parser[String] = Parser(in => text(in).mapPartial(_ match {
+    case s if !(numChars contains s.head) => s
+  }, s => s"`$s` is number"))
+
   lazy val number: Parser[String] = Parser(in => text(in).mapPartial(_ match {
     case s if numChars contains s.head => s
   }, s => s"`$s` is not number"))

@@ -1,1 +1,0 @@
-1. floor(_t_ / msPerHour) modulo HoursPerDay
