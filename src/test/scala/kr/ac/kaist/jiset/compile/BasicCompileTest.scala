@@ -22,7 +22,8 @@ class BasicCompileTest extends CompileTest {
       val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
       // get grammar and document
-      implicit val (grammar, document) = ECMAScriptParser.parseGrammar(version)
+      implicit val (lines, document) = getInput(version)
+      implicit val grammar = ECMAScriptParser.parseGrammar
 
       for (file <- walkTree(baseDir)) {
         val filename = file.getName

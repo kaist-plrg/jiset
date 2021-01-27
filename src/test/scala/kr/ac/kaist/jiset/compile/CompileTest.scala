@@ -4,9 +4,8 @@ import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset.parser.algorithm.{ Compiler, TokenParser }
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
-import org.scalatest._
 import kr.ac.kaist.jiset.spec.algorithm.Diff
-import kr.ac.kaist.jiset.parser.ECMAScriptParser
+import org.scalatest._
 
 abstract class CompileTest extends JISETTest {
   def difftest(filename: String, result: Inst, answer: Inst): Unit =

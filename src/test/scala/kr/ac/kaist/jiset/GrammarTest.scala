@@ -15,7 +15,8 @@ class GrammarTest extends JISETTest {
     for (version <- VERSIONS) check(tag, version, {
       val filename = s"$GRAMMAR_DIR/$version.grammar"
       val answer = readFile(filename)
-      val (grammar, _) = ECMAScriptParser.parseGrammar(version)
+      implicit val (lines, document) = getInput(version)
+      val grammar = ECMAScriptParser.parseGrammar
       assert(answer == grammar.toString)
     })
   }

@@ -2,18 +2,13 @@ package kr.ac.kaist.jiset
 
 import java.io._
 import kr.ac.kaist.jiset.error.NotSupported
+import kr.ac.kaist.jiset.parser.ECMAScriptParser
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._
-import scala.Console.{ CYAN, GREEN, RED }
-import scala.io.Source
-import scala.util.{ Try, Success, Failure }
 import spray.json._
 
 abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
-  // JISET configuration
-  lazy val aseConfig: JISETConfig = JISETConfig(CmdBase, Nil, true)
-
   // results
   trait Result
   case object Pass extends Result
@@ -34,23 +29,27 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
     }
   }
 
+  // extract specifications
+  def getInput(version: String) = JISETTest.specInputs(version)
+
   // count tests
   protected var count: Int = 0
 
   // check result
-  def check[T](tag: String, name: String, t: => T): Unit = {
+  def check[T](tag: String, name: String, tester: => T): Unit = {
     count += 1
     test(s"[$tag] $name") {
       val res = resMap.getOrElse(tag, Map())
-      (Try(t) match {
-        case Success(_) =>
-          resMap += tag -> (res + (name -> Pass))
-        case Failure(e @ NotSupported(msg)) =>
+      try {
+        tester
+        resMap += tag -> (res + (name -> Pass))
+      } catch {
+        case e @ NotSupported(msg) =>
           resMap += tag -> (res + (name -> Yet(msg)))
-        case Failure(e) =>
+        case e: Throwable =>
           resMap += tag -> (res + (name -> Fail))
           fail(e.toString)
-      })
+      }
     }
   }
 
@@ -84,12 +83,11 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
 
     // show abstract result
     val filename = s"$TEST_DIR/result/$tag.json"
-    val orig =
-      Try(readFile(filename))
-        .getOrElse("{}")
-        .parseJson
-        .convertTo[Map[String, Map[String, Result]]]
-        .toSeq.sortBy(_._1)
+    val orig = optional(readFile(filename))
+      .getOrElse("{}")
+      .parseJson
+      .convertTo[Map[String, Map[String, Result]]]
+      .toSeq.sortBy(_._1)
     orig.foreach {
       case (name, origM) => resMap.get(name) match {
         case Some(curM) => origM.toSeq.sortBy(_._1) foreach {
@@ -114,4 +112,10 @@ abstract class JISETTest extends FunSuite with BeforeAndAfterAll {
       jpw.close()
     }
   }
+}
+object JISETTest {
+  // extract specifications
+  lazy val specInputs = (for (version <- VERSIONS) yield {
+    version -> ECMAScriptParser.preprocess(version)
+  }).toMap
 }

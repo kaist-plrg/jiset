@@ -14,8 +14,16 @@ import scala.collection.mutable.Stack
 import spray.json._
 
 object ECMAScriptParser {
-  def apply(version: String, query: String, detail: Boolean): ECMAScript = {
-    implicit val (lines, document) = preprocess(version)
+  def apply(version: String, query: String, detail: Boolean): ECMAScript =
+    apply(preprocess(version), query, detail)
+  def apply(
+    input: (Array[String], Document),
+    query: String,
+    detail: Boolean
+  ): ECMAScript = {
+    implicit val (lines, document) = input
+
+    // parse grammar
     implicit val grammar = parseGrammar
 
     // region of spec.html
