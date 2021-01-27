@@ -23,5 +23,7 @@
   } else {}
   app __x9__ = (Type lnum)
   let T = __x9__
-  ??? "Return id:{T} : : unsignedRightShift ( id:{lnum} , id:{rnum} ) ."
+  app __x10__ = (PRIMITIVE[T].unsignedRightShift lnum rnum)
+  app __x11__ = (WrapCompletion __x10__)
+  return __x11__
 }

@@ -13,19 +13,22 @@
   app __x4__ = (ToInteger precision)
   if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   let p = __x4__
-  ??? "If id:{x} is value:{NaN} , return the String value:{\"NaN\"} ."
+  if (= x NaN) {
+    app __x5__ = (WrapCompletion "NaN")
+    return __x5__
+  } else {}
   let s = ""
   if (< x 0i) {
     s = "-"
     x = (- x)
   } else {}
   if (== x Infinity) {
-    app __x5__ = (WrapCompletion (+ s "Infinity"))
-    return __x5__
+    app __x6__ = (WrapCompletion (+ s "Infinity"))
+    return __x6__
   } else {}
   if (|| (< p 1i) (< 100i p)) {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x6__
+    app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x7__
   } else {}
   if (== x 0i) {
     ??? "Let id:{m} be the String value consisting of id:{p} occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
@@ -45,15 +48,15 @@
         e = (- e)
       }
       ??? "Let id:{d} be the String value consisting of the digits of the decimal representation of id:{e} ( in order , with no leading zeroes ) ."
-      app __x7__ = (WrapCompletion (+ (+ (+ (+ s m) "e") c) d))
-      return __x7__
+      app __x8__ = (WrapCompletion (+ (+ (+ (+ s m) "e") c) d))
+      return __x8__
     } else {}
   }
   if (== e (- p 1i)) {
-    app __x8__ = (WrapCompletion (+ s m))
-    return __x8__
+    app __x9__ = (WrapCompletion (+ s m))
+    return __x9__
   } else {}
   if (! (< e 0i)) ??? "Set id:{m} to the string - concatenation of the first id:{e} + 1 code units of id:{m} , the code unit 0x002E ( FULL STOP ) , and the remaining id:{p} - ( id:{e} + 1 ) code units of id:{m} ." else ??? "Set id:{m} to the string - concatenation of the code unit 0x0030 ( DIGIT ZERO ) , the code unit 0x002E ( FULL STOP ) , - ( id:{e} + 1 ) occurrences of the code unit 0x0030 ( DIGIT ZERO ) , and the String id:{m} ."
-  app __x9__ = (WrapCompletion (+ s m))
-  return __x9__
+  app __x10__ = (WrapCompletion (+ s m))
+  return __x10__
 }

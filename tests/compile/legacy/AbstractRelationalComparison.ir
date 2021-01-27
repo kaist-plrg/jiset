@@ -57,59 +57,70 @@
         app __x17__ = (WrapCompletion undefined)
         return __x17__
       } else {}
-      ??? "Return BigInt : : lessThan ( id:{px} , id:{ny} ) ."
+      app __x18__ = (PRIMITIVE[BigInt].lessThan px ny)
+      app __x19__ = (WrapCompletion __x18__)
+      return __x19__
     } else {}
-    app __x18__ = (Type px)
-    let __x19__ = (= __x18__ String)
-    if __x19__ {
-      app __x20__ = (Type py)
-      __x19__ = (= __x20__ BigInt)
+    app __x20__ = (Type px)
+    let __x21__ = (= __x20__ String)
+    if __x21__ {
+      app __x22__ = (Type py)
+      __x21__ = (= __x22__ BigInt)
     } else {}
-    if __x19__ {
-      app __x21__ = (StringToBigInt px)
-      if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
-      let nx = __x21__
+    if __x21__ {
+      app __x23__ = (StringToBigInt px)
+      if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
+      let nx = __x23__
       if (= nx NaN) {
-        app __x22__ = (WrapCompletion undefined)
-        return __x22__
+        app __x24__ = (WrapCompletion undefined)
+        return __x24__
       } else {}
-      ??? "Return BigInt : : lessThan ( id:{nx} , id:{py} ) ."
+      app __x25__ = (PRIMITIVE[BigInt].lessThan nx py)
+      app __x26__ = (WrapCompletion __x25__)
+      return __x26__
     } else {}
-    app __x23__ = (ToNumeric px)
-    if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
-    let nx = __x23__
-    app __x24__ = (ToNumeric py)
-    if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-    let ny = __x24__
-    ??? "If Type ( id:{nx} ) is the same as Type ( id:{ny} ) , return Type ( id:{nx} ) : : lessThan ( id:{nx} , id:{ny} ) ."
-    app __x25__ = (Type nx)
-    let __x26__ = (= __x25__ BigInt)
-    if __x26__ {
-      app __x27__ = (Type ny)
-      let __x28__ = (= __x27__ Number)
-      if __x28__ {} else {
-        app __x29__ = (Type nx)
-        let __x30__ = (= __x29__ Number)
-        if __x30__ {
-          app __x31__ = (Type ny)
-          __x30__ = (= __x31__ BigInt)
-        } else {}
-        __x28__ = __x30__
-      }
-      __x26__ = __x28__
-    } else {}
-    assert __x26__
-    if (|| (= nx NaN) (= ny NaN)) {
-      app __x32__ = (WrapCompletion undefined)
-      return __x32__
-    } else {}
-    if (|| (= nx -Infinity) (= ny Infinity)) {
-      app __x33__ = (WrapCompletion true)
+    app __x27__ = (ToNumeric px)
+    if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
+    let nx = __x27__
+    app __x28__ = (ToNumeric py)
+    if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else {}
+    let ny = __x28__
+    app __x29__ = (Type nx)
+    app __x30__ = (Type ny)
+    if (= __x29__ __x30__) {
+      app __x31__ = (Type nx)
+      app __x32__ = (PRIMITIVE[__x31__].lessThan nx ny)
+      app __x33__ = (WrapCompletion __x32__)
       return __x33__
     } else {}
+    app __x34__ = (Type nx)
+    let __x35__ = (= __x34__ BigInt)
+    if __x35__ {
+      app __x36__ = (Type ny)
+      let __x37__ = (= __x36__ Number)
+      if __x37__ {} else {
+        app __x38__ = (Type nx)
+        let __x39__ = (= __x38__ Number)
+        if __x39__ {
+          app __x40__ = (Type ny)
+          __x39__ = (= __x40__ BigInt)
+        } else {}
+        __x37__ = __x39__
+      }
+      __x35__ = __x37__
+    } else {}
+    assert __x35__
+    if (|| (= nx NaN) (= ny NaN)) {
+      app __x41__ = (WrapCompletion undefined)
+      return __x41__
+    } else {}
+    if (|| (= nx -Infinity) (= ny Infinity)) {
+      app __x42__ = (WrapCompletion true)
+      return __x42__
+    } else {}
     if (|| (= nx Infinity) (= ny -Infinity)) {
-      app __x34__ = (WrapCompletion false)
-      return __x34__
+      app __x43__ = (WrapCompletion false)
+      return __x43__
     } else {}
     ??? "If the mathematical value of id:{nx} is less than the mathematical value of id:{ny} , return value:{true} ; otherwise return value:{false} ."
   }

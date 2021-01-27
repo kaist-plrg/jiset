@@ -343,7 +343,7 @@ object Compiler extends Compilers {
     referenceExpr |||
     dateExpr |||
     mathValueExpr |||
-    // TODO expValueExpr |||
+    expValueExpr |||
     charExpr |||
     remainderExpr |||
     charSetExpr |||

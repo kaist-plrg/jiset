@@ -7,9 +7,9 @@
     return __x1__
   } else {}
   let int = (convert number num2int )
-  let int8bit = (%% int 256i)
-  if (! (< int8bit 128i)) {
-    app __x2__ = (WrapCompletion (- int8bit 256i))
+  let int8bit = (%% int (** 2.0 8i))
+  if (! (< int8bit (** 2.0 7i))) {
+    app __x2__ = (WrapCompletion (- int8bit (** 2.0 8i)))
     return __x2__
   } else {
     app __x3__ = (WrapCompletion int8bit)

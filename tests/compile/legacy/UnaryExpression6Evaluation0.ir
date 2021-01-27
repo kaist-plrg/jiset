@@ -8,5 +8,8 @@
   let oldValue = __x2__
   app __x3__ = (Type oldValue)
   let T = __x3__
-  ??? "Return ! id:{T} : : bitwiseNOT ( id:{oldValue} ) ."
+  app __x4__ = (PRIMITIVE[T].bitwiseNOT oldValue)
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  app __x5__ = (WrapCompletion __x4__)
+  return __x5__
 }

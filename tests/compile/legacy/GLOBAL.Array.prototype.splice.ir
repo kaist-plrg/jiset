@@ -34,7 +34,7 @@
     app __x9__ = (min __x8__ (- len actualStart))
     let actualDeleteCount = __x9__
   }
-  if (< (- 9007199254740992i 1i) (- (+ len insertCount) actualDeleteCount)) {
+  if (< (- (** 2.0 53i) 1i) (- (+ len insertCount) actualDeleteCount)) {
     app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x10__
   } else {}

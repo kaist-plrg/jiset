@@ -21,5 +21,9 @@
     app __x8__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x8__
   } else {}
-  ??? "Return ? Type ( id:{base} ) : : exponentiate ( id:{base} , id:{exponent} ) ."
+  app __x9__ = (Type base)
+  app __x10__ = (PRIMITIVE[__x9__].exponentiate base exponent)
+  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+  app __x11__ = (WrapCompletion __x10__)
+  return __x11__
 }
