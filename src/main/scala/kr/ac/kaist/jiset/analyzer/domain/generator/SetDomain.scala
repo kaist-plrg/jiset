@@ -16,8 +16,8 @@ class SetDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
   // abstraction function
   def alpha(v: V): Elem = VSet(Set(v))
 
-  // total size
-  val totalSize = total.size
+  // upper bound of size
+  val upperBound = total.size
 
   // set abstract element
   sealed trait Elem extends ElemTrait {
@@ -33,7 +33,7 @@ class SetDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
       case (Top, _) | (_, Top) => Top
       case (VSet(l), VSet(r)) =>
         val merged = l ++ r
-        if (merged.size > totalSize) Top
+        if (upperBound != 0 && merged.size > upperBound) Top
         else VSet(merged)
     }
 
@@ -69,5 +69,7 @@ class SetDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
 }
 object SetDomain {
   def apply[V](seq: V*): SetDomain[V] = apply(seq.toSet)
-  def apply[V](total: Set[V]): SetDomain[V] = new SetDomain(total)
+  def apply[V](total: Set[V]) = new SetDomain[V](total)
+  def apply[V](total: Set[V] = Set[V](), bound: Int = 0) =
+    new SetDomain(total) { override val upperBound = bound }
 }

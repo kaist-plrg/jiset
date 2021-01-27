@@ -4,6 +4,14 @@ import kr.ac.kaist.jiset.analyzer.domain.Domain
 
 // concrete flat domain
 sealed trait Flat[+T] {
+  // map function
+  def map[U](f: T => U): Flat[U] = this match {
+    case Zero => Zero
+    case One(t) => One(f(t))
+    case Many => Many
+  }
+
+  // conversion to string
   override def toString: String = this match {
     case Zero => "⊥"
     case One(t) => s"$t"

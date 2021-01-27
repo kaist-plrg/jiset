@@ -61,7 +61,6 @@ class HConsDomain[H, HD <: EAbsDomain[H], T <: HList, TD <: HListDomain[T] with 
 
   // normalization
   private def norm(elem: Elem): Elem = if (elem.isBottom) Bot else elem
-  private def norm(head: AbsH, tail: AbsT): Elem = norm(Elem(head, tail))
 
   // abstract element
   case class Elem(head: AbsH, tail: AbsT) extends ElemTrait {
@@ -75,7 +74,7 @@ class HConsDomain[H, HD <: EAbsDomain[H], T <: HList, TD <: HListDomain[T] with 
 
     // meet operator
     def ⊓(that: Elem): Elem =
-      norm(this.head ⊓ that.head, this.tail ⊓ that.tail)
+      norm(Elem(this.head ⊓ that.head, this.tail ⊓ that.tail))
 
     // concretization function
     def gamma: concrete.Set[H :: T] = (head.gamma, tail.gamma) match {
