@@ -1,5 +1,6 @@
-package kr.ac.kaist.jiset
+package kr.ac.kaist.jiset.compile
 
+import kr.ac.kaist.jiset._
 import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset.parser.algorithm.{ Compiler, TokenParser }
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -8,10 +9,7 @@ import org.scalatest._
 import kr.ac.kaist.jiset.spec.algorithm.Token
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
 
-class BasicCompileTest extends CompileTest {
-  // tag name
-  val tag = "basicCompile"
-
+class BasicMiddleTest extends CompileTest {
   // helper
   val spec2json = changeExt("spec", "json")
   val spec2ir = changeExt("spec", "ir")
@@ -29,7 +27,7 @@ class BasicCompileTest extends CompileTest {
         val filename = file.getName
         if (specFilter(filename)) {
           val name = s"${removedExt(filename)} @ $version"
-          check(tag, name, {
+          check(name, {
             val specName = file.toString
             val (jsonName, irName) = (spec2json(specName), spec2ir(specName))
 

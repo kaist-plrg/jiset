@@ -1,13 +1,16 @@
-package kr.ac.kaist.jiset
+package kr.ac.kaist.jiset.compile
 
 import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.algorithm.{ Compiler, TokenParser }
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec.algorithm.Diff
 import org.scalatest._
 
-abstract class CompileTest extends JISETTest {
+trait CompileTest extends JISETTest {
+  val category: String = "compile"
+
   def difftest(filename: String, result: Inst, answer: Inst): Unit =
     Diff(result, answer) match {
       case Some(Diff.Missing(missing)) =>

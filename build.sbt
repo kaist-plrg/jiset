@@ -12,12 +12,24 @@ ThisBuild / javacOptions ++= Seq(
   "-encoding", "UTF-8"
 )
 
-lazy val legacyCompileTest = taskKey[Unit]("Launch tests for compile (legacy)")
-lazy val basicCompileTest = taskKey[Unit]("Launch tests for compile")
-lazy val grammarTest = taskKey[Unit]("Launch tests for grammar")
+// size
+lazy val smallTest = taskKey[Unit]("Launch small tests (maybe seconds)")
+lazy val middleTest = taskKey[Unit]("Launch middle tests (maybe minutes)")
+lazy val largeTest = taskKey[Unit]("Launch large tests (may hours)")
 
+// grammar
+lazy val grammarTest = taskKey[Unit]("Launch grammar tests")
+lazy val grammarBasicTest = taskKey[Unit]("Launch basic grammar tests (small)")
+
+// compile
+lazy val compileTest = taskKey[Unit]("Launch compile tests")
+lazy val compileBasicTest = taskKey[Unit]("Launch basic compile tests (middle)")
+lazy val compileLegacyTest = taskKey[Unit]("Launch legacy compile tests (small)")
+
+// ires
 lazy val ires = ProjectRef(file("ires"), "ires")
 
+// jiset
 lazy val jiset = (project in file("."))
   .dependsOn(ires)
   .settings(
@@ -42,7 +54,15 @@ lazy val jiset = (project in file("."))
     assemblyOutputPath in assembly := file("bin/jiset"),
     assemblyOption in assembly := (assemblyOption in assembly).value
       .copy(prependShellScript = Some(defaultUniversalScript(shebang = false))),
-    legacyCompileTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.LegacyCompileTest").value,
-    basicCompileTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.BasicCompileTest").value,
-    grammarTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.GrammarTest").value
+    // size
+    smallTest := (testOnly in Test).toTask(" *SmallTest").value,
+    middleTest := (testOnly in Test).toTask(" *MiddleTest").value,
+    largeTest := (testOnly in Test).toTask(" *LargeTest").value,
+    // gramamr
+    grammarTest := (testOnly in Test).toTask(" *.grammar.*Test").value,
+    grammarBasicTest := (testOnly in Test).toTask(" *.grammar.Basic*Test").value,
+    // compile
+    compileTest := (testOnly in Test).toTask(" *.compile.*Test").value,
+    compileBasicTest := (testOnly in Test).toTask(" *.compile.Basic*Test").value,
+    compileLegacyTest := (testOnly in Test).toTask(" *.compile.Legacy*Test").value
   )

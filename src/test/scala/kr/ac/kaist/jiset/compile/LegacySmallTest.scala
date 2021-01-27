@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset
+package kr.ac.kaist.jiset.compile
 
 import java.io._
 import kr.ac.kaist.ires.ir._
@@ -9,10 +9,7 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._
 
-class LegacyCompileTest extends CompileTest {
-  // tag name
-  val tag = "legacyCompile"
-
+class LegacySmallTest extends CompileTest {
   // helper
   val json2ir = changeExt("json", "ir")
 
@@ -29,7 +26,7 @@ class LegacyCompileTest extends CompileTest {
         lazy val answer = Parser.parseInst(readFile(irName))
         lazy val result = Compiler(tokens)
 
-        check(tag, filename, difftest(filename, result, answer))
+        check(filename, difftest(filename, result, answer))
       }
     }
   }
