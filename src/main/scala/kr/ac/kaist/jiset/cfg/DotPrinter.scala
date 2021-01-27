@@ -60,7 +60,7 @@ class DotPrinter {
   private val sb: StringBuilder = new StringBuilder
 
   // normalize beautified ires nodes
-  private def norm(node: IRNode): String = escapeHtml(beautify(node))
+  private def norm(node: IRNode): String = escapeHtml(beautify(node, index = true))
 
   // add to StringBuilder
   private def add(str: String): Unit =

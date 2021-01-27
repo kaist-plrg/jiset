@@ -47,5 +47,5 @@ case class Algo(head: Head, body: ir.Inst, code: Iterable[String]) {
 
   // conversion to string
   override def toString: String =
-    s"$head ${ir.beautify(body)}"
+    s"$head ${ir.beautify(body, index = true)}"
 }

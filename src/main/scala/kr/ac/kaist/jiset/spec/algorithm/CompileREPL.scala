@@ -59,7 +59,7 @@ object CompileREPL {
               val inst = Compiler(tokens)
               // print compiled instruction
               println("[Result]")
-              println(beautify(inst))
+              println(beautify(inst, index = true))
               println
               // reset buffer
               lbuf.reset

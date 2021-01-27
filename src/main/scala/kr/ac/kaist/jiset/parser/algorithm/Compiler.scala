@@ -199,7 +199,7 @@ object Compiler extends Compilers {
         val n = getTemp
         val sv = beautify(s)
         val ev = beautify(e)
-        val body = beautify(b)
+        val body = beautify(b, index = true)
         ISeq(i0 ++ i1 :+ parseInst(s"""{
         let $k = (+ $sv ${ds}i)
         let $n = (+ $ev ${de}i)

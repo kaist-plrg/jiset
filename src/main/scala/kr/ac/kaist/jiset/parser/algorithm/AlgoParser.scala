@@ -54,7 +54,7 @@ object AlgoParser {
       heads.map(h => {
         val body = getBody(h, code, start)
         if (printBody) {
-          println(beautify(body))
+          println(beautify(body, index = true))
           printBody = false
         }
         Algo(h, body, code)

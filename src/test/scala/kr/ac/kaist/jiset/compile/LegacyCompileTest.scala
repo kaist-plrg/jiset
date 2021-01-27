@@ -19,15 +19,21 @@ class LegacyCompileTest extends CompileTest {
     for (file <- walkTree(LEGACY_COMPILE_DIR)) {
       val filename = file.getName
       if (jsonFilter(filename)) {
-        val jsonName = file.toString
-        val irName = json2ir(jsonName)
+        lazy val jsonName = file.toString
+        lazy val irName = json2ir(jsonName)
 
-        val steps = readJson[List[Step]](jsonName)
-        val tokens = Step.toTokens(steps)
-        val inst = Parser.parseInst(readFile(irName))
+        lazy val steps = readJson[List[Step]](jsonName)
+        lazy val tokens = Step.toTokens(steps)
+        lazy val answer = Parser.parseInst(readFile(irName))
+        lazy val result = Compiler(tokens)
 
         check(tag, filename, {
-          diffTest(filename, Compiler(tokens), inst)
+          val pass = compare(result, answer)
+          if (!pass) {
+            println(s"- answer: ${beautify(answer)}")
+            println(s"- result: ${beautify(result)}")
+          }
+          assert(pass)
         })
       }
     }
