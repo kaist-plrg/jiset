@@ -34,9 +34,9 @@ object HNilDomain
 }
 
 // HCons Domain
-case class HConsDomain[H, HD <: EAbsDomain[H], T <: HList, TD <: HListDomain[T] with Singleton](
-    AbsH: HD,
-    AbsT: TD
+class HConsDomain[H, HD <: EAbsDomain[H], T <: HList, TD <: HListDomain[T] with Singleton](
+    val AbsH: HD,
+    val AbsT: TD
 ) extends HListDomain[H :: T] {
   type AbsH = AbsH.Elem
   type AbsT = AbsT.Elem
@@ -103,4 +103,10 @@ case class HConsDomain[H, HD <: EAbsDomain[H], T <: HList, TD <: HListDomain[T] 
     // bottom check
     override def isBottom: Boolean = head.isBottom || tail.isBottom
   }
+}
+object HConsDomain {
+  def apply[H, HD <: EAbsDomain[H], T <: HList, TD <: HListDomain[T] with Singleton](
+    AbsH: HD,
+    AbsT: TD
+  ) = new HConsDomain[H, HD, T, TD](AbsH, AbsT)
 }

@@ -6,7 +6,7 @@ ThisBuild / scalaVersion  := "2.13.1"
 ThisBuild / organization  := "kr.ac.kaist.jiset"
 ThisBuild / scalacOptions := Seq(
   "-deprecation", "-feature", "-language:postfixOps",
-  "-language:implicitConversions", "-language:existentials"
+  "-language:implicitConversions", "-language:existentials", "-language:reflectiveCalls"
 )
 ThisBuild / javacOptions ++= Seq(
   "-encoding", "UTF-8"

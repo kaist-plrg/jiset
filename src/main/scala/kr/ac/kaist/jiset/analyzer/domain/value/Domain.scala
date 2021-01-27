@@ -5,13 +5,12 @@ import kr.ac.kaist.ires.ir.Value
 
 // value abstract domain
 trait Domain extends AbsDomain[Value] {
-  // abstract value element
-  type Elem <: ElemTrait
-
-  // abstract value element traits
-  trait ElemTrait extends super.ElemTrait { this: Elem =>
-    // check whether abstract values denotes only boolean values
-    // and return the boolean values for branches.
-    def boolset: Set[Boolean]
+  // abstract operators
+  implicit class Ops(elem: Elem) {
+    def boolset: Set[Boolean] = getBooleans(elem)
   }
+
+  // check whether abstract values denotes only boolean values
+  // and return the boolean values for branches.
+  def getBooleans(elem: Elem): Set[Boolean]
 }

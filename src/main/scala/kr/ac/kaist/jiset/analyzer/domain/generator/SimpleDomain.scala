@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.analyzer.domain.generator
 import kr.ac.kaist.jiset.analyzer.domain._
 
 // simple abstract domain
-class SimpleDomain[V](total: Set[V] = Set()) extends AbsDomain[V] {
+class SimpleDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
   object Top extends Elem
   object Bot extends Elem
 

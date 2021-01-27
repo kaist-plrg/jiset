@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.analyzer.domain.generator
 import kr.ac.kaist.jiset.analyzer.domain._
 
 // flat abstract domain
-class FlatDomain[V](total: Set[V] = Set()) extends AbsDomain[V] {
+class FlatDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
   // top value
   object Top extends Elem
 

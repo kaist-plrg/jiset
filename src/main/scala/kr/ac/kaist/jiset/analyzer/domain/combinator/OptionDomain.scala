@@ -3,8 +3,8 @@ package kr.ac.kaist.jiset.analyzer.domain.combinator
 import kr.ac.kaist.jiset.analyzer.domain._
 
 // option abstract domain
-case class OptionDomain[V, VD <: EAbsDomain[V]](
-    AbsV: VD
+class OptionDomain[V, VD <: EAbsDomain[V]](
+    val AbsV: VD
 ) extends AbsDomain[Option[V]] {
   type AbsV = AbsV.Elem
 
@@ -63,4 +63,7 @@ case class OptionDomain[V, VD <: EAbsDomain[V]](
     // absent check
     def isAbsent: Boolean = absent.isTop
   }
+}
+object OptionDomain {
+  def apply[V, VD <: EAbsDomain[V]](AbsV: VD) = new OptionDomain[V, VD](AbsV)
 }
