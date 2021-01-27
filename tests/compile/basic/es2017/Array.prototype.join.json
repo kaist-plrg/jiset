@@ -1,0 +1,93 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "separator"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "sep"
+}, "be", "the", "single", "-", "element", "String", {
+  "code": "\",\""
+}, ".", {
+  "k": 2
+}, "Else", ",", "let", {
+  "id": "sep"
+}, "be", "?", "ToString", "(", {
+  "id": "separator"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "R"
+}, "be", "the", "empty", "String", ".", {
+  "k": 4
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "If", {
+  "id": "k"
+}, ">", "0", ",", "let", {
+  "id": "R"
+}, "be", "a", "String", "value", "produced", "by", "concatenating", {
+  "id": "R"
+}, "and", {
+  "id": "sep"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "element"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "element"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "let", {
+  "id": "next"
+}, "be", "the", "empty", "String", ";", "otherwise", ",", "let", {
+  "id": "next"
+}, "be", "?", "ToString", "(", {
+  "id": "element"
+}, ")", ".", {
+  "k": 9
+}, "Set", {
+  "id": "R"
+}, "to", "a", "String", "value", "produced", "by", "concatenating", {
+  "id": "R"
+}, "and", {
+  "id": "next"
+}, ".", {
+  "k": 10
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 11
+}, false, {
+  "k": 6
+}, "Return", {
+  "id": "R"
+}, ".", {
+  "k": 12
+}]

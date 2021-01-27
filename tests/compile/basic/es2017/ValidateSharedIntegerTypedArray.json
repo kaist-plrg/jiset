@@ -1,0 +1,83 @@
+["If", "the", {
+  "id": "onlyInt32"
+}, "argument", "was", "not", "provided", ",", "set", {
+  "id": "onlyInt32"
+}, "to", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "typedArray"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", {
+  "id": "typedArray"
+}, "does", "not", "have", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Let", {
+  "id": "typeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 3
+}, "If", {
+  "id": "onlyInt32"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "typeName"
+}, "is", "not", {
+  "code": "\"Int32Array\""
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", ",", true, "If", {
+  "id": "typeName"
+}, "is", "not", {
+  "code": "\"Int8Array\""
+}, ",", {
+  "code": "\"Uint8Array\""
+}, ",", {
+  "code": "\"Int16Array\""
+}, ",", {
+  "code": "\"Uint16Array\""
+}, ",", {
+  "code": "\"Int32Array\""
+}, ",", "or", {
+  "code": "\"Uint32Array\""
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Assert", ":", {
+  "id": "typedArray"
+}, "has", "a", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", ".", {
+  "k": 8
+}, "Let", {
+  "id": "buffer"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 9
+}, "If", "IsSharedArrayBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 10
+}, "Return", {
+  "id": "buffer"
+}, ".", {
+  "k": 11
+}]

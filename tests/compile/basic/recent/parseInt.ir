@@ -1,0 +1,47 @@
+{
+  app __x0__ = (ToString string)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let inputString = __x0__
+  app __x1__ = (TrimString inputString CONST_start)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let S = __x1__
+  let sign = 1i
+  ??? "If id:{S} is not empty and the first code unit of id:{S} is the code unit 0x002D ( HYPHEN - MINUS ) , set id:{sign} to - 1 ."
+  ??? "If id:{S} is not empty and the first code unit of id:{S} is the code unit 0x002B ( PLUS SIGN ) or the code unit 0x002D ( HYPHEN - MINUS ) , remove the first code unit from id:{S} ."
+  app __x2__ = (ToInt32 radix)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let R = __x2__
+  let stripPrefix = true
+  if (! (== R 0i)) {
+    if (|| (< R 2i) (< 36i R)) {
+      app __x3__ = (WrapCompletion NaN)
+      return __x3__
+    } else {}
+    if (! (== R 16i)) stripPrefix = false else {}
+  } else R = 10i
+  if (= stripPrefix true) ??? "If the length of id:{S} is at least 2 and the first two code units of id:{S} are either value:{\"0x\"} or value:{\"0X\"} , then step-list:{...}" else {}
+  ??? "If id:{S} contains a code unit that is not a radix - id:{R} digit , let id:{end} be the index within id:{S} of the first such code unit ; otherwise , let id:{end} be the length of id:{S} ."
+  let __x4__ = ""
+  let __x5__ = 0i
+  while (< __x5__ (+ end 1i)) {
+    access __x6__ = (S __x5__)
+    __x4__ = (+ __x4__ __x6__)
+    __x5__ = (+ __x5__ 1i)
+  }
+  let Z = __x4__
+  if (= Z.length 0i) {
+    app __x7__ = (WrapCompletion NaN)
+    return __x7__
+  } else {}
+  ??? "Let id:{mathInt} be the integer value that is represented by id:{Z} in radix - id:{R} notation , using the letters < b > A < / b > - < b > Z < / b > and < b > a < / b > - < b > z < / b > for digits with values 10 through 35 . ( However , if id:{R} is 10 and id:{Z} contains more than 20 significant digits , every significant digit after the 20th may be replaced by a 0 digit , at the option of the implementation ; and if id:{R} is not 2 , 4 , 8 , 10 , 16 , or 32 , then id:{mathInt} may be an implementation - approximated value representing the integer value that is represented by id:{Z} in radix - id:{R} notation . )"
+  if (== mathInt 0i) {
+    if (== sign -1i) {
+      app __x8__ = (WrapCompletion -0.0)
+      return __x8__
+    } else {}
+    app __x9__ = (WrapCompletion 0i)
+    return __x9__
+  } else {}
+  app __x10__ = (WrapCompletion (* sign mathInt))
+  return __x10__
+}

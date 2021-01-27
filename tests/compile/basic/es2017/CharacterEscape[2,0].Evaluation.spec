@@ -1,0 +1,1 @@
+          1. Return the character U+0000 (NULL).

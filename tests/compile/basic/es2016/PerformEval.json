@@ -1,0 +1,225 @@
+["Assert", ":", "If", {
+  "id": "direct"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "id": "strictCaller"
+}, "is", "also", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "not", "String", ",", "return", {
+  "id": "x"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "script"
+}, "be", "the", "ECMAScript", "code", "that", "is", "the", "result", "of", "parsing", {
+  "id": "x"
+}, ",", "interpreted", "as", "UTF", "-", "16", "encoded", "Unicode", "text", "as", "described", "in", {
+  "link": ""
+}, ",", "for", "the", "goal", "symbol", {
+  "nt": "Script"
+}, ".", "If", "the", "parse", "fails", ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", "If", "any", "early", "errors", "are", "detected", ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "or", "a", {
+  "value": "ReferenceError"
+}, "exception", ",", "depending", "on", "the", "type", "of", "the", "error", "(", "but", "see", "also", "clause", {
+  "link": ""
+}, ")", ".", "Parsing", "and", "early", "error", "detection", "may", "be", "interweaved", "in", "an", "implementation", "dependent", "manner", ".", {
+  "k": 2
+}, "If", {
+  "id": "script"
+}, "Contains", {
+  "nt": "ScriptBody"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "body"
+}, "be", "the", {
+  "nt": "ScriptBody"
+}, "of", {
+  "id": "script"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "strictCaller"
+}, "is", {
+  "value": "true"
+}, ",", "let", {
+  "id": "strictEval"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, "Else", ",", "let", {
+  "id": "strictEval"
+}, "be", "IsStrict", "of", {
+  "id": "script"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "ctx"
+}, "be", "the", "running", "execution", "context", ".", "If", {
+  "id": "direct"
+}, "is", {
+  "value": "true"
+}, ",", {
+  "id": "ctx"
+}, "will", "be", "the", "execution", "context", "that", "performed", "the", "direct", "eval", ".", "If", {
+  "id": "direct"
+}, "is", {
+  "value": "false"
+}, ",", {
+  "id": "ctx"
+}, "will", "be", "the", "execution", "context", "for", "the", "invocation", "of", "the", {
+  "code": "eval"
+}, "function", ".", {
+  "k": 7
+}, "If", {
+  "id": "direct"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "lexEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "ctx"
+}, "'", "s", "LexicalEnvironment", ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "varEnv"
+}, "be", {
+  "id": "ctx"
+}, "'", "s", "VariableEnvironment", ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, "Else", ",", true, "Let", {
+  "id": "lexEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "evalRealm"
+}, ".", "[", "[", "GlobalEnv", "]", "]", ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "varEnv"
+}, "be", {
+  "id": "evalRealm"
+}, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "If", {
+  "id": "strictEval"
+}, "is", {
+  "value": "true"
+}, ",", "let", {
+  "id": "varEnv"
+}, "be", {
+  "id": "lexEnv"
+}, ".", {
+  "k": 14
+}, "If", {
+  "id": "ctx"
+}, "is", "not", "already", "suspended", ",", "suspend", {
+  "id": "ctx"
+}, ".", {
+  "k": 15
+}, "Let", {
+  "id": "evalCxt"
+}, "be", "a", "new", "ECMAScript", "code", "execution", "context", ".", {
+  "k": 16
+}, "Set", "the", {
+  "id": "evalCxt"
+}, "'", "s", "Function", "to", {
+  "value": "null"
+}, ".", {
+  "k": 17
+}, "Set", "the", {
+  "id": "evalCxt"
+}, "'", "s", "Realm", "to", {
+  "id": "evalRealm"
+}, ".", {
+  "k": 18
+}, "Set", "the", {
+  "id": "evalCxt"
+}, "'", "s", "ScriptOrModule", "to", {
+  "id": "ctx"
+}, "'", "s", "ScriptOrModule", ".", {
+  "k": 19
+}, "Set", "the", {
+  "id": "evalCxt"
+}, "'", "s", "VariableEnvironment", "to", {
+  "id": "varEnv"
+}, ".", {
+  "k": 20
+}, "Set", "the", {
+  "id": "evalCxt"
+}, "'", "s", "LexicalEnvironment", "to", {
+  "id": "lexEnv"
+}, ".", {
+  "k": 21
+}, "Push", {
+  "id": "evalCxt"
+}, "on", "to", "the", "execution", "context", "stack", ";", {
+  "id": "evalCxt"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 22
+}, "Let", {
+  "id": "result"
+}, "be", "EvalDeclarationInstantiation", "(", {
+  "id": "body"
+}, ",", {
+  "id": "varEnv"
+}, ",", {
+  "id": "lexEnv"
+}, ",", {
+  "id": "strictEval"
+}, ")", ".", {
+  "k": 23
+}, "If", {
+  "id": "result"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "normal"
+}, ",", "then", true, "Let", {
+  "id": "result"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "body"
+}, ".", {
+  "k": 25
+}, false, {
+  "k": 24
+}, "If", {
+  "id": "result"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "normal"
+}, "and", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", "is", {
+  "const": "empty"
+}, ",", "then", true, "Let", {
+  "id": "result"
+}, "be", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 27
+}, false, {
+  "k": 26
+}, "Suspend", {
+  "id": "evalCxt"
+}, "and", "remove", "it", "from", "the", "execution", "context", "stack", ".", {
+  "k": 28
+}, "Resume", "the", "context", "that", "is", "now", "on", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 29
+}, "Return", "Completion", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 30
+}]

@@ -1,0 +1,30 @@
+{
+  if (is-completion V) if (= V.Type CONST_normal) V = V.Value else return V else {}
+  V
+  if (! (= (typeof V) "ReferenceRecord")) {
+    app __x0__ = (WrapCompletion V)
+    return __x0__
+  } else {}
+  app __x1__ = (IsUnresolvableReference V)
+  if (= __x1__ true) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  app __x3__ = (IsPropertyReference V)
+  if (= __x3__ true) {
+    app __x4__ = (ToObject V.Base)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let baseObj = __x4__
+    app __x5__ = (GetThisValue V)
+    app __x6__ = (baseObj.Get baseObj V.ReferencedName __x5__)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    app __x7__ = (WrapCompletion __x6__)
+    return __x7__
+  } else {
+    let base = V.Base
+    app __x8__ = (base.GetBindingValue base V.ReferencedName V.Strict)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    app __x9__ = (WrapCompletion __x8__)
+    return __x9__
+  }
+}

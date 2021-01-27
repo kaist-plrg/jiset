@@ -1,0 +1,57 @@
+{
+  let len = argumentsList.length
+  app __x0__ = (MakeBasicObject (new ["Prototype", "Extensible", "ParameterMap"]))
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let obj = __x0__
+  ??? "Set id:{obj} . [ [ GetOwnProperty ] ] as specified in link:{} ."
+  ??? "Set id:{obj} . [ [ DefineOwnProperty ] ] as specified in link:{} ."
+  ??? "Set id:{obj} . [ [ Get ] ] as specified in link:{} ."
+  ??? "Set id:{obj} . [ [ Set ] ] as specified in link:{} ."
+  ??? "Set id:{obj} . [ [ Delete ] ] as specified in link:{} ."
+  ??? "Set id:{obj} . [ [ Prototype ] ] to % Object . prototype % ."
+  app __x1__ = (OrdinaryObjectCreate null)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let map = __x1__
+  obj.ParameterMap = map
+  access __x2__ = (formals "BoundNames")
+  let parameterNames = __x2__
+  let numberOfParameters = parameterNames.length
+  let index = 0i
+  while (< index len) {
+    let val = argumentsList[index]
+    app __x3__ = (ToString index)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    app __x4__ = (CreateDataPropertyOrThrow obj __x3__ val)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    __x4__
+    index = (+ index 1i)
+  }
+  app __x5__ = (DefinePropertyOrThrow obj "length" (new PropertyDescriptor("Value" -> len, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  __x5__
+  let mappedNames = (new [])
+  let index = (- numberOfParameters 1i)
+  while (! (< index 0i)) {
+    let name = parameterNames[index]
+    if (! (contains mappedNames name)) {
+      append name -> mappedNames
+      if (< index len) {
+        app __x6__ = (MakeArgGetter name env)
+        let g = __x6__
+        app __x7__ = (MakeArgSetter name env)
+        let p = __x7__
+        app __x8__ = (ToString index)
+        if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+        app __x9__ = (map.DefineOwnProperty map __x8__ (new PropertyDescriptor("Set" -> p, "Get" -> g, "Enumerable" -> false, "Configurable" -> true)))
+        __x9__
+      } else {}
+    } else {}
+    index = (- index 1i)
+  }
+  ??? "Perform ! DefinePropertyOrThrow ( id:{obj} , @ @ iterator , PropertyDescriptor { [ [ Value ] ] : % Array . prototype . values % , [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{false} , [ [ Configurable ] ] : value:{true} } ) ."
+  app __x10__ = (DefinePropertyOrThrow obj "callee" (new PropertyDescriptor("Value" -> func, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+  __x10__
+  app __x11__ = (WrapCompletion obj)
+  return __x11__
+}

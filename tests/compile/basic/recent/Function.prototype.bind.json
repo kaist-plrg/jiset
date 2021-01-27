@@ -1,0 +1,129 @@
+["Let", {
+  "id": "Target"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "IsCallable", "(", {
+  "id": "Target"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "F"
+}, "be", "?", "BoundFunctionCreate", "(", {
+  "id": "Target"
+}, ",", {
+  "id": "thisArg"
+}, ",", {
+  "id": "args"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "L"
+}, "be", "0", ".", {
+  "k": 3
+}, "Let", {
+  "id": "targetHasLength"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "Target"
+}, ",", {
+  "value": "\"length\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "targetHasLength"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "targetLen"
+}, "be", "?", "Get", "(", {
+  "id": "Target"
+}, ",", {
+  "value": "\"length\""
+}, ")", ".", {
+  "k": 6
+}, "If", "Type", "(", {
+  "id": "targetLen"
+}, ")", "is", "Number", ",", "then", true, "If", {
+  "id": "targetLen"
+}, "is", {
+  "value": "+∞"
+}, ",", "set", {
+  "id": "L"
+}, "to", "+", "∞", ".", {
+  "k": 8
+}, "Else", "if", {
+  "id": "targetLen"
+}, "is", {
+  "value": "-∞"
+}, ",", "set", {
+  "id": "L"
+}, "to", "0", ".", {
+  "k": 9
+}, "Else", ",", true, "Let", {
+  "id": "targetLenAsInt"
+}, "be", "!", "ToIntegerOrInfinity", "(", {
+  "id": "targetLen"
+}, ")", ".", {
+  "k": 11
+}, "Assert", ":", {
+  "id": "targetLenAsInt"
+}, "is", "finite", ".", {
+  "k": 12
+}, "Let", {
+  "id": "argCount"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "args"
+}, ".", {
+  "k": 13
+}, "Set", {
+  "id": "L"
+}, "to", "max", "(", {
+  "id": "targetLenAsInt"
+}, "-", {
+  "id": "argCount"
+}, ",", "0", ")", ".", {
+  "k": 14
+}, false, {
+  "k": 10
+}, false, {
+  "k": 7
+}, false, {
+  "k": 5
+}, "Perform", "!", "SetFunctionLength", "(", {
+  "id": "F"
+}, ",", {
+  "id": "L"
+}, ")", ".", {
+  "k": 15
+}, "Let", {
+  "id": "targetName"
+}, "be", "?", "Get", "(", {
+  "id": "Target"
+}, ",", {
+  "value": "\"name\""
+}, ")", ".", {
+  "k": 16
+}, "If", "Type", "(", {
+  "id": "targetName"
+}, ")", "is", "not", "String", ",", "set", {
+  "id": "targetName"
+}, "to", "the", "empty", "String", ".", {
+  "k": 17
+}, "Perform", "SetFunctionName", "(", {
+  "id": "F"
+}, ",", {
+  "id": "targetName"
+}, ",", {
+  "value": "\"bound\""
+}, ")", ".", {
+  "k": 18
+}, "Return", {
+  "id": "F"
+}, ".", {
+  "k": 19
+}]

@@ -1,0 +1,43 @@
+["Assert", ":", "Type", "(", {
+  "id": "tv"
+}, ")", "is", "Number", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "tv"
+}, "is", "not", {
+  "value": "NaN"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "hour"
+}, "be", "the", "String", "representation", "of", "HourFromTime", "(", {
+  "id": "tv"
+}, ")", ",", "formatted", "as", "a", "two", "-", "digit", "decimal", "number", ",", "padded", "to", "the", "left", "with", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", "if", "necessary", ".", {
+  "k": 2
+}, "Let", {
+  "id": "minute"
+}, "be", "the", "String", "representation", "of", "MinFromTime", "(", {
+  "id": "tv"
+}, ")", ",", "formatted", "as", "a", "two", "-", "digit", "decimal", "number", ",", "padded", "to", "the", "left", "with", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", "if", "necessary", ".", {
+  "k": 3
+}, "Let", {
+  "id": "second"
+}, "be", "the", "String", "representation", "of", "SecFromTime", "(", {
+  "id": "tv"
+}, ")", ",", "formatted", "as", "a", "two", "-", "digit", "decimal", "number", ",", "padded", "to", "the", "left", "with", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", "if", "necessary", ".", {
+  "k": 4
+}, "Return", "the", "string", "-", "concatenation", "of", {
+  "id": "hour"
+}, ",", {
+  "value": "\":\""
+}, ",", {
+  "id": "minute"
+}, ",", {
+  "value": "\":\""
+}, ",", {
+  "id": "second"
+}, ",", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", "and", {
+  "value": "\"GMT\""
+}, ".", {
+  "k": 5
+}]

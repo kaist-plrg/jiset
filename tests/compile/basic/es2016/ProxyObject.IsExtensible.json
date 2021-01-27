@@ -1,0 +1,73 @@
+["Let", {
+  "id": "handler"
+}, "be", "the", "value", "of", "the", "[", "[", "ProxyHandler", "]", "]", "internal", "slot", "of", {
+  "id": "O"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 2
+}, "Let", {
+  "id": "target"
+}, "be", "the", "value", "of", "the", "[", "[", "ProxyTarget", "]", "]", "internal", "slot", "of", {
+  "id": "O"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "code": "\"isExtensible\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "IsExtensible", "]", "]", "(", ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Let", {
+  "id": "booleanTrapResult"
+}, "be", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, "»", ")", ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "targetResult"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "IsExtensible", "]", "]", "(", ")", ".", {
+  "k": 8
+}, "If", "SameValue", "(", {
+  "id": "booleanTrapResult"
+}, ",", {
+  "id": "targetResult"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 9
+}, "Return", {
+  "id": "booleanTrapResult"
+}, ".", {
+  "k": 10
+}]

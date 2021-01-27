@@ -1,0 +1,93 @@
+["Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 0
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 2
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "\"getPrototypeOf\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Let", {
+  "id": "handlerProto"
+}, "be", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, "»", ")", ".", {
+  "k": 7
+}, "If", "Type", "(", {
+  "id": "handlerProto"
+}, ")", "is", "neither", "Object", "nor", "Null", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 8
+}, "Let", {
+  "id": "extensibleTarget"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "extensibleTarget"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "handlerProto"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "targetProto"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", {
+  "k": 11
+}, "If", "SameValue", "(", {
+  "id": "handlerProto"
+}, ",", {
+  "id": "targetProto"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 12
+}, "Return", {
+  "id": "handlerProto"
+}, ".", {
+  "k": 13
+}]

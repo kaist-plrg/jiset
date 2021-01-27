@@ -1,0 +1,45 @@
+["If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "AssignmentExpression"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "the", "result", "of", "performing", "NamedEvaluation", "for", {
+  "nt": "AssignmentExpression"
+}, "with", "argument", {
+  "code": "\"default\""
+}, ".", {
+  "k": 1
+}, false, {
+  "k": 0
+}, "Else", ",", true, "Let", {
+  "id": "rhs"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "value"
+}, "be", "?", "GetValue", "(", {
+  "id": "rhs"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 2
+}, "Let", {
+  "id": "env"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 5
+}, "Perform", "?", "InitializeBoundName", "(", {
+  "code": "\"*default*\""
+}, ",", {
+  "id": "value"
+}, ",", {
+  "id": "env"
+}, ")", ".", {
+  "k": 6
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 7
+}]

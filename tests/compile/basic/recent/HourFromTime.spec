@@ -1,0 +1,1 @@
+1. 𝔽(floor(ℝ(_t_ / msPerHour)) modulo HoursPerDay)

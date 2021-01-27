@@ -1,0 +1,19 @@
+{
+  if (|| (|| (= year Infinity) (= year -Infinity)) (|| (|| (= month Infinity) (= month -Infinity)) (|| (= date Infinity) (= date -Infinity)))) {
+    app __x0__ = (WrapCompletion NaN)
+    return __x0__
+  } else {}
+  app __x1__ = (ToInteger year)
+  let y = __x1__
+  app __x2__ = (ToInteger month)
+  let m = __x2__
+  app __x3__ = (ToInteger date)
+  let dt = __x3__
+  app __x4__ = (floor (/ m 12i))
+  let ym = (+ y __x4__)
+  let mn = (%% m 12i)
+  ??? "Find a value id:{t} such that YearFromTime ( id:{t} ) is id:{ym} and MonthFromTime ( id:{t} ) is id:{mn} and DateFromTime ( id:{t} ) is 1 ; but if this is not possible ( because some argument is out of range ) , return value:{NaN} ."
+  app __x5__ = (Day t)
+  app __x6__ = (WrapCompletion (- (+ __x5__ dt) 1i))
+  return __x6__
+}

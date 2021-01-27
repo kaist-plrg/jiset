@@ -1,0 +1,29 @@
+{
+  app __x0__ = (ToObject this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let O = __x0__
+  app __x1__ = (LengthOfArrayLike O)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let len = __x1__
+  ??? "If id:{separator} is value:{undefined} , let id:{sep} be the single - element String value:{\",\"} ."
+  ??? "Else , let id:{sep} be ? ToString ( id:{separator} ) ."
+  let R = ""
+  let k = 0i
+  while (< k len) {
+    if (< 0i k) R = (+ R sep) else {}
+    app __x2__ = (ToString k)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    app __x3__ = (Get O __x2__)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    let element = __x3__
+    if (|| (= element undefined) (= element null)) let next = "" else {
+      app __x4__ = (ToString element)
+      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+      let next = __x4__
+    }
+    R = (+ R next)
+    k = (+ k 1i)
+  }
+  app __x5__ = (WrapCompletion R)
+  return __x5__
+}

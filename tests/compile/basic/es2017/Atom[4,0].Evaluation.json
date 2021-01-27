@@ -1,0 +1,94 @@
+["Evaluate", {
+  "nt": "Disjunction"
+}, "to", "obtain", "a", "Matcher", {
+  "id": "m"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "parenIndex"
+}, "be", "the", "number", "of", "left", "-", "capturing", "parentheses", "in", "the", "entire", "regular", "expression", "that", "occur", "to", "the", "left", "of", "this", {
+  "nt": "Atom"
+}, ".", "This", "is", "the", "total", "number", "of", {
+  "grammar": "Atom4",
+  "subs": ["Disjunction"]
+}, "Parse", "Nodes", "prior", "to", "or", "enclosing", "this", {
+  "nt": "Atom"
+}, ".", {
+  "k": 1
+}, "Return", "an", "internal", "Matcher", "closure", "that", "takes", "two", "arguments", ",", "a", "State", {
+  "id": "x"
+}, "and", "a", "Continuation", {
+  "id": "c"
+}, ",", "and", "performs", "the", "following", "steps", ":", true, "Let", {
+  "id": "d"
+}, "be", "an", "internal", "Continuation", "closure", "that", "takes", "one", "State", "argument", {
+  "id": "y"
+}, "and", "performs", "the", "following", "steps", ":", true, "Let", {
+  "id": "cap"
+}, "be", "a", "fresh", "copy", "of", {
+  "id": "y"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 4
+}, "Let", {
+  "id": "xe"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "ye"
+}, "be", {
+  "id": "y"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "s"
+}, "be", "a", "fresh", "List", "whose", "characters", "are", "the", "characters", "of", {
+  "id": "Input"
+}, "at", "indices", {
+  "id": "xe"
+}, "(", "inclusive", ")", "through", {
+  "id": "ye"
+}, "(", "exclusive", ")", ".", {
+  "k": 7
+}, "Set", {
+  "id": "cap"
+}, "[", {
+  "id": "parenIndex"
+}, "+", "1", "]", "to", {
+  "id": "s"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "z"
+}, "be", "the", "State", "(", {
+  "id": "ye"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 9
+}, "Call", {
+  "id": "c"
+}, "(", {
+  "id": "z"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 10
+}, false, {
+  "k": 3
+}, "Call", {
+  "id": "m"
+}, "(", {
+  "id": "x"
+}, ",", {
+  "id": "d"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 11
+}, false, {
+  "k": 2
+}]

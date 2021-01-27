@@ -1,0 +1,115 @@
+["Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "level"
+}, "is", "either", {
+  "const": "sealed"
+}, "or", {
+  "const": "frozen"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "status"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "PreventExtensions", "]", "]", "(", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "status"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "keys"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "level"
+}, "is", {
+  "const": "sealed"
+}, ",", "then", true, "For", "each", "element", {
+  "id": "k"
+}, "of", {
+  "id": "keys"
+}, ",", "do", true, "Perform", "?", "DefinePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "k"
+}, ",", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Else", ",", true, "Assert", ":", {
+  "id": "level"
+}, "is", {
+  "const": "frozen"
+}, ".", {
+  "k": 9
+}, "For", "each", "element", {
+  "id": "k"
+}, "of", {
+  "id": "keys"
+}, ",", "do", true, "Let", {
+  "id": "currentDesc"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "k"
+}, ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "currentDesc"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "If", "IsAccessorDescriptor", "(", {
+  "id": "currentDesc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "desc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, "Else", ",", true, "Let", {
+  "id": "desc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 16
+}, false, {
+  "k": 15
+}, "Perform", "?", "DefinePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "k"
+}, ",", {
+  "id": "desc"
+}, ")", ".", {
+  "k": 17
+}, false, {
+  "k": 12
+}, false, {
+  "k": 10
+}, false, {
+  "k": 8
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 18
+}]

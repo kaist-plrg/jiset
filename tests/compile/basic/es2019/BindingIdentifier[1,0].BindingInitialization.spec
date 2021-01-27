@@ -1,0 +1,1 @@
+        1. Return ? InitializeBoundName(`"yield"`, _value_, _environment_).

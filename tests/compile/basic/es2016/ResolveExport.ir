@@ -1,0 +1,75 @@
+{
+  let module = this
+  ??? "For each Record { [ [ Module ] ] , [ [ ExportName ] ] } id:{r} in id:{resolveSet} , do : step-list:{...}"
+  append (new Record("Module" -> module, "ExportName" -> exportName)) -> resolveSet
+  let __x0__ = module.LocalExportEntries
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let e = __x0__[__x1__]
+    app __x2__ = (SameValue exportName e.ExportName)
+    if (= __x2__ true) {
+      app __x3__ = (WrapCompletion (new Record("Module" -> module, "BindingName" -> e.LocalName)))
+      return __x3__
+    } else {}
+    __x1__ = (+ __x1__ 1i)
+  }
+  let __x4__ = module.IndirectExportEntries
+  let __x5__ = 0i
+  while (< __x5__ __x4__.length) {
+    let e = __x4__[__x5__]
+    app __x6__ = (SameValue exportName e.ExportName)
+    if (= __x6__ true) {
+      app __x7__ = (HostResolveImportedModule module e.ModuleRequest)
+      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+      let importedModule = __x7__
+      app __x8__ = (importedModule.ResolveExport importedModule e.ImportName resolveSet exportStarSet)
+      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+      let indirectResolution = __x8__
+      if (! (= indirectResolution null)) {
+        app __x9__ = (WrapCompletion indirectResolution)
+        return __x9__
+      } else {}
+    } else {}
+    __x5__ = (+ __x5__ 1i)
+  }
+  app __x10__ = (SameValue exportName "default")
+  if (= __x10__ true) {
+    app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x11__
+  } else {}
+  if (contains exportStarSet module) {
+    app __x12__ = (WrapCompletion null)
+    return __x12__
+  } else {}
+  append module -> exportStarSet
+  let starResolution = null
+  let __x13__ = module.StarExportEntries
+  let __x14__ = 0i
+  while (< __x14__ __x13__.length) {
+    let e = __x13__[__x14__]
+    app __x15__ = (HostResolveImportedModule module e.ModuleRequest)
+    if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+    let importedModule = __x15__
+    app __x16__ = (importedModule.ResolveExport importedModule exportName resolveSet exportStarSet)
+    if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
+    let resolution = __x16__
+    if (= resolution "ambiguous") {
+      app __x17__ = (WrapCompletion "ambiguous")
+      return __x17__
+    } else {}
+    if (! (= resolution null)) if (= starResolution null) let starResolution = resolution else {
+      let __x18__ = (! (= resolution.Module starResolution.Module))
+      if __x18__ {} else {
+        app __x19__ = (SameValue resolution.BindingName starResolution.BindingName)
+        __x18__ = (= __x19__ false)
+      }
+      if __x18__ {
+        app __x20__ = (WrapCompletion "ambiguous")
+        return __x20__
+      } else {}
+    } else {}
+    __x14__ = (+ __x14__ 1i)
+  }
+  app __x21__ = (WrapCompletion starResolution)
+  return __x21__
+}

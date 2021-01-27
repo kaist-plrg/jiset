@@ -1,0 +1,83 @@
+["Let", {
+  "id": "keys"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 0
+}, "Let", {
+  "id": "str"
+}, "be", "the", "String", "value", "of", {
+  "id": "O"
+}, ".", "[", "[", "StringData", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "len"
+}, "be", "the", "length", "of", {
+  "id": "str"
+}, ".", {
+  "k": 2
+}, "For", "each", "integer", {
+  "id": "i"
+}, "starting", "with", "0", "such", "that", {
+  "id": "i"
+}, "<", {
+  "id": "len"
+}, ",", "in", "ascending", "order", ",", "do", true, "Add", "!", "ToString", "(", {
+  "id": "i"
+}, ")", "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "For", "each", "own", "property", "key", {
+  "id": "P"
+}, "of", {
+  "id": "O"
+}, "such", "that", {
+  "id": "P"
+}, "is", "an", "integer", "index", "and", "ToInteger", "(", {
+  "id": "P"
+}, ")", "≥", {
+  "id": "len"
+}, ",", "in", "ascending", "numeric", "index", "order", ",", "do", true, "Add", {
+  "id": "P"
+}, "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "For", "each", "own", "property", "key", {
+  "id": "P"
+}, "of", {
+  "id": "O"
+}, "such", "that", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", "and", {
+  "id": "P"
+}, "is", "not", "an", "integer", "index", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do", true, "Add", {
+  "id": "P"
+}, "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, "For", "each", "own", "property", "key", {
+  "id": "P"
+}, "of", {
+  "id": "O"
+}, "such", "that", "Type", "(", {
+  "id": "P"
+}, ")", "is", "Symbol", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do", true, "Add", {
+  "id": "P"
+}, "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 9
+}, "Return", {
+  "id": "keys"
+}, ".", {
+  "k": 11
+}]

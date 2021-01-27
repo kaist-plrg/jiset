@@ -1,0 +1,85 @@
+["Let", {
+  "id": "elementSize"
+}, "be", "the", "Number", "value", "of", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", "Element", "Type", {
+  "id": "type"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "isLittleEndian"
+}, "is", {
+  "value": "false"
+}, ",", "reverse", "the", "order", "of", "the", "elements", "of", {
+  "id": "rawBytes"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "type"
+}, "is", {
+  "code": "\"Float32\""
+}, ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "the", "byte", "elements", "of", {
+  "id": "rawBytes"
+}, "concatenated", "and", "interpreted", "as", "a", "little", "-", "endian", "bit", "string", "encoding", "of", "an", "IEEE", "754", "-", "2008", "binary32", "value", ".", {
+  "k": 3
+}, "If", {
+  "id": "value"
+}, "is", "an", "IEEE", "754", "-", "2008", "binary32", "NaN", "value", ",", "return", "the", {
+  "value": "NaN"
+}, "Number", "value", ".", {
+  "k": 4
+}, "Return", "the", "Number", "value", "that", "corresponds", "to", {
+  "id": "value"
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 2
+}, "If", {
+  "id": "type"
+}, "is", {
+  "code": "\"Float64\""
+}, ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "the", "byte", "elements", "of", {
+  "id": "rawBytes"
+}, "concatenated", "and", "interpreted", "as", "a", "little", "-", "endian", "bit", "string", "encoding", "of", "an", "IEEE", "754", "-", "2008", "binary64", "value", ".", {
+  "k": 7
+}, "If", {
+  "id": "value"
+}, "is", "an", "IEEE", "754", "-", "2008", "binary64", "NaN", "value", ",", "return", "the", {
+  "value": "NaN"
+}, "Number", "value", ".", {
+  "k": 8
+}, "Return", "the", "Number", "value", "that", "corresponds", "to", {
+  "id": "value"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 6
+}, "If", "the", "first", "code", "unit", "of", {
+  "id": "type"
+}, "is", "the", "code", "unit", "0x0055", "(", "LATIN", "CAPITAL", "LETTER", "U", ")", ",", "then", true, "Let", {
+  "id": "intValue"
+}, "be", "the", "byte", "elements", "of", {
+  "id": "rawBytes"
+}, "concatenated", "and", "interpreted", "as", "a", "bit", "string", "encoding", "of", "an", "unsigned", "little", "-", "endian", "binary", "number", ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "Else", ",", true, "Let", {
+  "id": "intValue"
+}, "be", "the", "byte", "elements", "of", {
+  "id": "rawBytes"
+}, "concatenated", "and", "interpreted", "as", "a", "bit", "string", "encoding", "of", "a", "binary", "little", "-", "endian", "2", "'", "s", "complement", "number", "of", "bit", "length", {
+  "id": "elementSize"
+}, "×", "8", ".", {
+  "k": 13
+}, false, {
+  "k": 12
+}, "Return", "the", "Number", "value", "that", "corresponds", "to", {
+  "id": "intValue"
+}, ".", {
+  "k": 14
+}]

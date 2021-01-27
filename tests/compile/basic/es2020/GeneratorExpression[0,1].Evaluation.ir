@@ -1,0 +1,22 @@
+{
+  let scope = GLOBAL_context.LexicalEnvironment
+  app __x0__ = (NewDeclarativeEnvironment scope)
+  let funcEnv = __x0__
+  let envRec = funcEnv.EnvironmentRecord
+  access __x1__ = (BindingIdentifier "StringValue")
+  let name = __x1__
+  app __x2__ = (envRec.CreateImmutableBinding envRec name false)
+  __x2__
+  app __x3__ = (OrdinaryFunctionCreate INTRINSIC_Generator FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)
+  let closure = __x3__
+  ??? "Let id:{prototype} be OrdinaryObjectCreate ( % Generator . prototype % ) ."
+  app __x4__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  __x4__
+  app __x5__ = (SetFunctionName closure name)
+  __x5__
+  app __x6__ = (envRec.InitializeBinding envRec name closure)
+  __x6__
+  closure.SourceText = (get-syntax GeneratorExpression)
+  app __x7__ = (WrapCompletion closure)
+  return __x7__
+}

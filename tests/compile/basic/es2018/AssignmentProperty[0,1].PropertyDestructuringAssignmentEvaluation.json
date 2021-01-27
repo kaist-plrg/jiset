@@ -1,0 +1,75 @@
+["Let", {
+  "id": "P"
+}, "be", "StringValue", "of", {
+  "nt": "IdentifierReference"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lref"
+}, "be", "?", "ResolveBinding", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "v"
+}, "be", "?", "GetV", "(", {
+  "id": "value"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "nt": "Initializer"
+}, "is", "present", "and", {
+  "id": "v"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "defaultValue"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", {
+  "k": 4
+}, "Set", {
+  "id": "v"
+}, "to", "?", "GetValue", "(", {
+  "id": "defaultValue"
+}, ")", ".", {
+  "k": 5
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "Initializer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "hasNameProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "v"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "hasNameProperty"
+}, "is", {
+  "value": "false"
+}, ",", "perform", "SetFunctionName", "(", {
+  "id": "v"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, false, {
+  "k": 3
+}, "Perform", "?", "PutValue", "(", {
+  "id": "lref"
+}, ",", {
+  "id": "v"
+}, ")", ".", {
+  "k": 9
+}, "Return", "a", "new", "List", "containing", {
+  "id": "P"
+}, ".", {
+  "k": 10
+}]

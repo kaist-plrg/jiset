@@ -1,0 +1,19 @@
+{
+  app __x0__ = (thisTimeValue this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let t = __x0__
+  app __x1__ = (ToNumber date)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let dt = __x1__
+  app __x2__ = (YearFromTime t)
+  app __x3__ = (MonthFromTime t)
+  app __x4__ = (MakeDay __x2__ __x3__ dt)
+  app __x5__ = (TimeWithinDay t)
+  app __x6__ = (MakeDate __x4__ __x5__)
+  let newDate = __x6__
+  app __x7__ = (TimeClip newDate)
+  let v = __x7__
+  this.DateValue = v
+  app __x8__ = (WrapCompletion v)
+  return __x8__
+}

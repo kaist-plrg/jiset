@@ -1,0 +1,10 @@
+{
+  app __x0__ = (ToString uri)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let uriString = __x0__
+  ??? "Let id:{unescapedURISet} be a String containing one instance of each code unit valid in nt:{uriReserved} and nt:{uriUnescaped} plus code:{\"#\"} ."
+  app __x1__ = (Encode uriString unescapedURISet)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
+}

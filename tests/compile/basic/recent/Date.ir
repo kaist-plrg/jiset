@@ -1,0 +1,82 @@
+{
+  if (= NewTarget undefined) {
+    ??? "Let id:{now} be the time value ( UTC ) identifying the current time ."
+    app __x0__ = (ToDateString now)
+    app __x1__ = (WrapCompletion __x0__)
+    return __x1__
+  } else {}
+  let numberOfArgs = values.length
+  if (== numberOfArgs 0i) ??? "Let id:{dv} be the time value ( UTC ) identifying the current time ." else if (== numberOfArgs 1i) {
+    let value = values[0i]
+    app __x2__ = (Type value)
+    if (&& (= __x2__ Object) (! (= value.DateValue absent))) {
+      app __x3__ = (thisTimeValue value)
+      if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+      let tv = __x3__
+    } else {
+      app __x4__ = (ToPrimitive value)
+      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+      let v = __x4__
+      app __x5__ = (Type v)
+      if (= __x5__ String) ??? "Let id:{tv} be the result of parsing id:{v} as a date , in exactly the same manner as for the code:{parse} method ( link:{} ) ." else {
+        app __x6__ = (ToNumber v)
+        if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+        let tv = __x6__
+      }
+    }
+    app __x7__ = (TimeClip tv)
+    let dv = __x7__
+  } else {
+    assert (! (< numberOfArgs 2i))
+    app __x8__ = (ToNumber values[0i])
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    let y = __x8__
+    app __x9__ = (ToNumber values[1i])
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+    let m = __x9__
+    if (< 2i numberOfArgs) {
+      app __x10__ = (ToNumber values[2i])
+      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+      let dt = __x10__
+    } else let dt = 1i
+    if (< 3i numberOfArgs) {
+      app __x11__ = (ToNumber values[3i])
+      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+      let h = __x11__
+    } else let h = 0i
+    if (< 4i numberOfArgs) {
+      app __x12__ = (ToNumber values[4i])
+      if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+      let min = __x12__
+    } else let min = 0i
+    if (< 5i numberOfArgs) {
+      app __x13__ = (ToNumber values[5i])
+      if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+      let s = __x13__
+    } else let s = 0i
+    if (< 6i numberOfArgs) {
+      app __x14__ = (ToNumber values[6i])
+      if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+      let milli = __x14__
+    } else let milli = 0i
+    if (= y NaN) let yr = NaN else {
+      app __x15__ = (ToIntegerOrInfinity y)
+      if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+      let yi = __x15__
+      if (&& (! (< yi 0i)) (! (< 99i yi))) let yr = (+ 1900i yi) else let yr = y
+    }
+    app __x16__ = (MakeDay yr m dt)
+    app __x17__ = (MakeTime h min s milli)
+    app __x18__ = (MakeDate __x16__ __x17__)
+    let finalDate = __x18__
+    app __x19__ = (UTC finalDate)
+    app __x20__ = (TimeClip __x19__)
+    let dv = __x20__
+  }
+  app __x21__ = (OrdinaryCreateFromConstructor NewTarget "%Date.prototype%" (new ["DateValue"]))
+  if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
+  let O = __x21__
+  O.DateValue = dv
+  app __x22__ = (WrapCompletion O)
+  return __x22__
+}

@@ -1,0 +1,26 @@
+{
+  if (! (= CaseClauses0 absent)) {
+    access __x0__ = (CaseClauses0 "ContainsUndefinedContinueTarget")
+    app __x1__ = (__x0__ iterationSet (new []))
+    let hasUndefinedLabels = __x1__
+    if (= hasUndefinedLabels true) {
+      app __x2__ = (WrapCompletion true)
+      return __x2__
+    } else {}
+  } else {}
+  access __x3__ = (DefaultClause "ContainsUndefinedContinueTarget")
+  app __x4__ = (__x3__ iterationSet (new []))
+  let hasUndefinedLabels = __x4__
+  if (= hasUndefinedLabels true) {
+    app __x5__ = (WrapCompletion true)
+    return __x5__
+  } else {}
+  if (= CaseClauses1 absent) {
+    app __x6__ = (WrapCompletion false)
+    return __x6__
+  } else {}
+  access __x7__ = (CaseClauses1 "ContainsUndefinedContinueTarget")
+  app __x8__ = (__x7__ iterationSet (new []))
+  app __x9__ = (WrapCompletion __x8__)
+  return __x9__
+}

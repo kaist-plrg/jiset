@@ -1,0 +1,11 @@
+{
+  assert (= promise.PromiseState "pending")
+  let reactions = promise.PromiseFulfillReactions
+  promise.PromiseResult = value
+  promise.PromiseFulfillReactions = undefined
+  promise.PromiseRejectReactions = undefined
+  promise.PromiseState = "fulfilled"
+  app __x0__ = (TriggerPromiseReactions reactions value)
+  app __x1__ = (WrapCompletion __x0__)
+  return __x1__
+}

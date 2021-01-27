@@ -1,0 +1,55 @@
+["Let", {
+  "id": "C"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "C"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", "IsPromise", "(", {
+  "id": "x"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "xConstructor"
+}, "be", "?", "Get", "(", {
+  "id": "x"
+}, ",", {
+  "code": "\"constructor\""
+}, ")", ".", {
+  "k": 3
+}, "If", "SameValue", "(", {
+  "id": "xConstructor"
+}, ",", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "x"
+}, ".", {
+  "k": 4
+}, false, {
+  "k": 2
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "?", "NewPromiseCapability", "(", {
+  "id": "C"
+}, ")", ".", {
+  "k": 5
+}, "Perform", "?", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "x"
+}, "»", ")", ".", {
+  "k": 6
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 7
+}]

@@ -1,0 +1,25 @@
+while true {
+  app __x0__ = (IteratorStep iteratorRecord.Iterator)
+  let next = __x0__
+  app __x1__ = (IsAbruptCompletion next)
+  if __x1__ iteratorRecord.Done = true else {}
+  if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else {}
+  next
+  if (= next false) {
+    iteratorRecord.Done = true
+    app __x2__ = (WrapCompletion resultCapability.Promise)
+    return __x2__
+  } else {}
+  app __x3__ = (IteratorValue next)
+  let nextValue = __x3__
+  app __x4__ = (IsAbruptCompletion nextValue)
+  if __x4__ iteratorRecord.Done = true else {}
+  if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else {}
+  nextValue
+  app __x5__ = (Invoke constructor "resolve" (new [nextValue]))
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  let nextPromise = __x5__
+  app __x6__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, resultCapability.Reject]))
+  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+  __x6__
+}

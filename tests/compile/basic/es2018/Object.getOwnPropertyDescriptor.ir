@@ -1,0 +1,14 @@
+{
+  app __x0__ = (ToObject O)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let obj = __x0__
+  app __x1__ = (ToPropertyKey P)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let key = __x1__
+  app __x2__ = (obj.GetOwnProperty obj key)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let desc = __x2__
+  app __x3__ = (FromPropertyDescriptor desc)
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

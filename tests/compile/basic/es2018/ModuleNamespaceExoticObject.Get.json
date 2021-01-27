@@ -1,0 +1,91 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "Symbol", ",", "then", true, "Return", "?", "OrdinaryGet", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 2
+}, false, {
+  "k": 1
+}, "Let", {
+  "id": "exports"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "Exports", "]", "]", ".", {
+  "k": 3
+}, "If", {
+  "id": "P"
+}, "is", "not", "an", "element", "of", {
+  "id": "exports"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "m"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "Module", "]", "]", ".", {
+  "k": 5
+}, "Let", {
+  "id": "binding"
+}, "be", "!", {
+  "id": "m"
+}, ".", "ResolveExport", "(", {
+  "id": "P"
+}, ",", "«", "»", ")", ".", {
+  "k": 6
+}, "Assert", ":", {
+  "id": "binding"
+}, "is", "a", "ResolvedBinding", "Record", ".", {
+  "k": 7
+}, "Let", {
+  "id": "targetModule"
+}, "be", {
+  "id": "binding"
+}, ".", "[", "[", "Module", "]", "]", ".", {
+  "k": 8
+}, "Assert", ":", {
+  "id": "targetModule"
+}, "is", "not", {
+  "value": "undefined"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "targetEnv"
+}, "be", {
+  "id": "targetModule"
+}, ".", "[", "[", "Environment", "]", "]", ".", {
+  "k": 10
+}, "If", {
+  "id": "targetEnv"
+}, "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "ReferenceError"
+}, "exception", ".", {
+  "k": 11
+}, "Let", {
+  "id": "targetEnvRec"
+}, "be", {
+  "id": "targetEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 12
+}, "Return", "?", {
+  "id": "targetEnvRec"
+}, ".", "GetBindingValue", "(", {
+  "id": "binding"
+}, ".", "[", "[", "BindingName", "]", "]", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 13
+}]

@@ -1,0 +1,197 @@
+["Assert", ":", "IsConstructor", "(", {
+  "id": "constructor"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "resultCapability"
+}, "is", "a", "PromiseCapability", "Record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "values"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "Let", {
+  "id": "remainingElementsCount"
+}, "be", "the", "Record", "{", "[", "[", "Value", "]", "]", ":", "1", "}", ".", {
+  "k": 3
+}, "Let", {
+  "id": "promiseResolve"
+}, "be", "?", "Get", "(", {
+  "id": "constructor"
+}, ",", {
+  "value": "\"resolve\""
+}, ")", ".", {
+  "k": 4
+}, "If", "!", "IsCallable", "(", {
+  "id": "promiseResolve"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "k": 6
+}, "Repeat", ",", true, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 9
+}, "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 12
+}, "Set", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "-", "1", ".", {
+  "k": 13
+}, "If", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "is", "0", ",", "then", true, "Let", {
+  "id": "valuesArray"
+}, "be", "!", "CreateArrayFromList", "(", {
+  "id": "values"
+}, ")", ".", {
+  "k": 15
+}, "Perform", "?", "Call", "(", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "valuesArray"
+}, "»", ")", ".", {
+  "k": 16
+}, false, {
+  "k": 14
+}, "Return", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 17
+}, false, {
+  "k": 11
+}, "Let", {
+  "id": "nextValue"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 18
+}, "If", {
+  "id": "nextValue"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 19
+}, "ReturnIfAbrupt", "(", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 20
+}, "Append", {
+  "value": "undefined"
+}, "to", {
+  "id": "values"
+}, ".", {
+  "k": 21
+}, "Let", {
+  "id": "nextPromise"
+}, "be", "?", "Call", "(", {
+  "id": "promiseResolve"
+}, ",", {
+  "id": "constructor"
+}, ",", "«", {
+  "id": "nextValue"
+}, "»", ")", ".", {
+  "k": 22
+}, "Let", {
+  "id": "steps"
+}, "be", "the", "algorithm", "steps", "defined", "in", {
+  "link": ""
+}, ".", {
+  "k": 23
+}, "Let", {
+  "id": "resolveElement"
+}, "be", "!", "CreateBuiltinFunction", "(", {
+  "id": "steps"
+}, ",", "«", "[", "[", "AlreadyCalled", "]", "]", ",", "[", "[", "Index", "]", "]", ",", "[", "[", "Values", "]", "]", ",", "[", "[", "Capability", "]", "]", ",", "[", "[", "RemainingElements", "]", "]", "»", ")", ".", {
+  "k": 24
+}, "Set", {
+  "id": "resolveElement"
+}, ".", "[", "[", "AlreadyCalled", "]", "]", "to", "the", "Record", "{", "[", "[", "Value", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 25
+}, "Set", {
+  "id": "resolveElement"
+}, ".", "[", "[", "Index", "]", "]", "to", {
+  "id": "index"
+}, ".", {
+  "k": 26
+}, "Set", {
+  "id": "resolveElement"
+}, ".", "[", "[", "Values", "]", "]", "to", {
+  "id": "values"
+}, ".", {
+  "k": 27
+}, "Set", {
+  "id": "resolveElement"
+}, ".", "[", "[", "Capability", "]", "]", "to", {
+  "id": "resultCapability"
+}, ".", {
+  "k": 28
+}, "Set", {
+  "id": "resolveElement"
+}, ".", "[", "[", "RemainingElements", "]", "]", "to", {
+  "id": "remainingElementsCount"
+}, ".", {
+  "k": 29
+}, "Set", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "+", "1", ".", {
+  "k": 30
+}, "Perform", "?", "Invoke", "(", {
+  "id": "nextPromise"
+}, ",", {
+  "value": "\"then\""
+}, ",", "«", {
+  "id": "resolveElement"
+}, ",", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 31
+}, "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 32
+}, false, {
+  "k": 7
+}]

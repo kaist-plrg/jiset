@@ -1,0 +1,63 @@
+["Let", {
+  "id": "propKey"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "PropertyName"
+}, ".", {
+  "k": 0
+}, "ReturnIfAbrupt", "(", {
+  "id": "propKey"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "scope"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 2
+}, "If", {
+  "id": "functionPrototype"
+}, "is", "present", "as", "a", "parameter", ",", "then", true, "Let", {
+  "id": "prototype"
+}, "be", {
+  "id": "functionPrototype"
+}, ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Else", ",", true, "Let", {
+  "id": "prototype"
+}, "be", "%", "Function", ".", "prototype", "%", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Let", {
+  "id": "closure"
+}, "be", "OrdinaryFunctionCreate", "(", {
+  "id": "prototype"
+}, ",", {
+  "nt": "UniqueFormalParameters"
+}, ",", {
+  "nt": "FunctionBody"
+}, ",", {
+  "const": "non-lexical-this"
+}, ",", {
+  "id": "scope"
+}, ")", ".", {
+  "k": 7
+}, "Perform", "MakeMethod", "(", {
+  "id": "closure"
+}, ",", {
+  "id": "object"
+}, ")", ".", {
+  "k": 8
+}, "Set", {
+  "id": "closure"
+}, ".", "[", "[", "SourceText", "]", "]", "to", "the", "source", "text", "matched", "by", {
+  "nt": "MethodDefinition"
+}, ".", {
+  "k": 9
+}, "Return", "the", "Record", "{", "[", "[", "Key", "]", "]", ":", {
+  "id": "propKey"
+}, ",", "[", "[", "Closure", "]", "]", ":", {
+  "id": "closure"
+}, "}", ".", {
+  "k": 10
+}]

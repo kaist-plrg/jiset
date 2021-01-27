@@ -1,0 +1,14 @@
+{
+  let env = GLOBAL_context.LexicalEnvironment
+  while true {
+    app __x0__ = (env.HasThisBinding env)
+    let exists = __x0__
+    if (= exists true) {
+      app __x1__ = (WrapCompletion env)
+      return __x1__
+    } else {}
+    let outer = env.OuterEnv
+    assert (! (= outer null))
+    env = outer
+  }
+}

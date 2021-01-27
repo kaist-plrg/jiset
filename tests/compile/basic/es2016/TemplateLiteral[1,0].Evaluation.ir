@@ -1,0 +1,16 @@
+{
+  access __x0__ = (TemplateHead "TV")
+  let head = __x0__
+  access __x1__ = (Expression "Evaluation")
+  let sub = __x1__
+  if (is-completion sub) if (= sub.Type CONST_normal) sub = sub.Value else return sub else {}
+  sub
+  app __x2__ = (ToString sub)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let middle = __x2__
+  access __x3__ = (TemplateSpans "Evaluation")
+  let tail = __x3__
+  if (is-completion tail) if (= tail.Type CONST_normal) tail = tail.Value else return tail else {}
+  tail
+  ??? "Return the String value whose code units are the elements of id:{head} followed by the elements of id:{middle} followed by the elements of id:{tail} ."
+}

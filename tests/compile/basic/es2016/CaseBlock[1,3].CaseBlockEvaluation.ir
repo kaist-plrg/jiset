@@ -1,0 +1,95 @@
+{
+  let V = undefined
+  ??? "Let id:{A} be the List of nt:{CaseClause} items in the first nt:{CaseClauses} , in source text order . If the first nt:{CaseClauses} is not present , id:{A} is « » ."
+  let found = false
+  let __x0__ = A
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let C = __x0__[__x1__]
+    if (= found false) {
+      access __x2__ = (C "CaseSelectorEvaluation")
+      let clauseSelector = __x2__
+      if (is-completion clauseSelector) if (= clauseSelector.Type CONST_normal) clauseSelector = clauseSelector.Value else return clauseSelector else {}
+      clauseSelector
+      app __x3__ = (StrictEqualityComparison input clauseSelector.Value)
+      let found = __x3__
+    } else {}
+    if (= found true) {
+      access __x4__ = (C "Evaluation")
+      let R = __x4__
+      if (! (= R.Value CONST_empty)) let V = R.Value else {}
+      app __x5__ = (IsAbruptCompletion R)
+      if __x5__ {
+        app __x6__ = (UpdateEmpty R V)
+        app __x7__ = (Completion __x6__)
+        app __x8__ = (WrapCompletion __x7__)
+        return __x8__
+      } else {}
+    } else {}
+    __x1__ = (+ __x1__ 1i)
+  }
+  let foundInB = false
+  ??? "Let id:{B} be the List containing the nt:{CaseClause} items in the second nt:{CaseClauses} , in source text order . If the second nt:{CaseClauses} is not present , id:{B} is « » ."
+  if (= found false) {
+    let __x9__ = B
+    let __x10__ = 0i
+    while (< __x10__ __x9__.length) {
+      let C = __x9__[__x10__]
+      if (= foundInB false) {
+        access __x11__ = (C "CaseSelectorEvaluation")
+        let clauseSelector = __x11__
+        if (is-completion clauseSelector) if (= clauseSelector.Type CONST_normal) clauseSelector = clauseSelector.Value else return clauseSelector else {}
+        clauseSelector
+        app __x12__ = (StrictEqualityComparison input clauseSelector.Value)
+        let foundInB = __x12__
+      } else {}
+      if (= foundInB true) {
+        access __x13__ = (C "Evaluation")
+        let R = __x13__
+        if (! (= R.Value CONST_empty)) let V = R.Value else {}
+        app __x14__ = (IsAbruptCompletion R)
+        if __x14__ {
+          app __x15__ = (UpdateEmpty R V)
+          app __x16__ = (Completion __x15__)
+          app __x17__ = (WrapCompletion __x16__)
+          return __x17__
+        } else {}
+      } else {}
+      __x10__ = (+ __x10__ 1i)
+    }
+  } else {}
+  if (= foundInB true) {
+    app __x18__ = (NormalCompletion V)
+    app __x19__ = (WrapCompletion __x18__)
+    return __x19__
+  } else {}
+  access __x20__ = (DefaultClause "Evaluation")
+  let R = __x20__
+  if (! (= R.Value CONST_empty)) let V = R.Value else {}
+  app __x21__ = (IsAbruptCompletion R)
+  if __x21__ {
+    app __x22__ = (UpdateEmpty R V)
+    app __x23__ = (Completion __x22__)
+    app __x24__ = (WrapCompletion __x23__)
+    return __x24__
+  } else {}
+  let __x25__ = B
+  let __x26__ = 0i
+  while (< __x26__ __x25__.length) {
+    let C = __x25__[__x26__]
+    access __x27__ = (C "Evaluation")
+    let R = __x27__
+    if (! (= R.Value CONST_empty)) let V = R.Value else {}
+    app __x28__ = (IsAbruptCompletion R)
+    if __x28__ {
+      app __x29__ = (UpdateEmpty R V)
+      app __x30__ = (Completion __x29__)
+      app __x31__ = (WrapCompletion __x30__)
+      return __x31__
+    } else {}
+    __x26__ = (+ __x26__ 1i)
+  }
+  app __x32__ = (NormalCompletion V)
+  app __x33__ = (WrapCompletion __x32__)
+  return __x33__
+}

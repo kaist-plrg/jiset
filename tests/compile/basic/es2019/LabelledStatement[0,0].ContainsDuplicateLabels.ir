@@ -1,0 +1,15 @@
+{
+  access __x0__ = (LabelIdentifier "StringValue")
+  let label = __x0__
+  if (contains labelSet label) {
+    app __x1__ = (WrapCompletion true)
+    return __x1__
+  } else {}
+  let __x2__ = (copy-obj labelSet)
+  append label -> __x2__
+  let newLabelSet = __x2__
+  access __x3__ = (LabelledItem "ContainsDuplicateLabels")
+  app __x4__ = (__x3__ newLabelSet)
+  app __x5__ = (WrapCompletion __x4__)
+  return __x5__
+}

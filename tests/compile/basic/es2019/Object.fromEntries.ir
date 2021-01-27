@@ -1,0 +1,14 @@
+{
+  app __x0__ = (RequireObjectCoercible iterable)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  __x0__
+  app __x1__ = (ObjectCreate INTRINSIC_ObjectPrototype)
+  let obj = __x1__
+  ??? "Let id:{stepsDefine} be the algorithm steps defined in link:{} ."
+  app __x2__ = (CreateBuiltinFunction stepsDefine (new []))
+  let adder = __x2__
+  app __x3__ = (AddEntriesFromIterable obj iterable adder)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

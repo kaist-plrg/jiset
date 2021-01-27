@@ -1,0 +1,99 @@
+["If", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "Reference", ",", "then", true, "If", "IsPropertyReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "thisValue"
+}, "be", "GetThisValue", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 2
+}, false, {
+  "k": 1
+}, "Else", "the", "base", "of", {
+  "id": "ref"
+}, "is", "an", "Environment", "Record", ",", true, "Let", {
+  "id": "refEnv"
+}, "be", "GetBase", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "refEnv"
+}, ".", "WithBaseObject", "(", ")", ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, false, {
+  "k": 0
+}, "Else", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "not", "Reference", ",", true, "Let", {
+  "id": "thisValue"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "argList"
+}, "be", "ArgumentListEvaluation", "of", {
+  "id": "arguments"
+}, ".", {
+  "k": 8
+}, "ReturnIfAbrupt", "(", {
+  "id": "argList"
+}, ")", ".", {
+  "k": 9
+}, "If", "Type", "(", {
+  "id": "func"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 10
+}, "If", "IsCallable", "(", {
+  "id": "func"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 11
+}, "If", {
+  "id": "tailPosition"
+}, "is", {
+  "value": "true"
+}, ",", "perform", "PrepareForTailCall", "(", ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "result"
+}, "be", "Call", "(", {
+  "id": "func"
+}, ",", {
+  "id": "thisValue"
+}, ",", {
+  "id": "argList"
+}, ")", ".", {
+  "k": 13
+}, "Assert", ":", "If", {
+  "id": "tailPosition"
+}, "is", {
+  "value": "true"
+}, ",", "the", "above", "call", "will", "not", "return", "here", ",", "but", "instead", "evaluation", "will", "continue", "as", "if", "the", "following", "return", "has", "already", "occurred", ".", {
+  "k": 14
+}, "Assert", ":", "If", {
+  "id": "result"
+}, "is", "not", "an", "abrupt", "completion", ",", "then", "Type", "(", {
+  "id": "result"
+}, ")", "is", "an", "ECMAScript", "language", "type", ".", {
+  "k": 15
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 16
+}]

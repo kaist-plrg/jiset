@@ -1,0 +1,57 @@
+["Let", {
+  "id": "baseReference"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "MemberExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "baseValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "baseReference"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "propertyNameReference"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Expression"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "propertyNameValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "propertyNameReference"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "bv"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "id": "baseValue"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "propertyKey"
+}, "be", "?", "ToPropertyKey", "(", {
+  "id": "propertyNameValue"
+}, ")", ".", {
+  "k": 5
+}, "If", "the", "code", "matched", "by", "this", {
+  "nt": "MemberExpression"
+}, "is", "strict", "mode", "code", ",", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "true"
+}, ",", "else", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "Return", "a", "value", "of", "type", "Reference", "whose", "base", "value", "component", "is", {
+  "id": "bv"
+}, ",", "whose", "referenced", "name", "component", "is", {
+  "id": "propertyKey"
+}, ",", "and", "whose", "strict", "reference", "flag", "is", {
+  "id": "strict"
+}, ".", {
+  "k": 7
+}]

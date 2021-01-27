@@ -1,0 +1,57 @@
+["Assert", ":", "The", "calling", "agent", "is", "not", "in", "the", "critical", "section", "for", "any", "WaiterList", ".", {
+  "k": 0
+}, "Wait", "until", "no", "agent", "is", "in", "the", "critical", "section", "for", {
+  "id": "WL"
+}, ",", "then", "enter", "the", "critical", "section", "for", {
+  "id": "WL"
+}, "(", "without", "allowing", "any", "other", "agent", "to", "enter", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "WL"
+}, "has", "a", "Synchronize", "event", ",", "then", true, "NOTE", ":", "A", {
+  "id": "WL"
+}, "whose", "critical", "section", "has", "been", "entered", "at", "least", "once", "has", "a", "Synchronize", "event", "set", "by", "LeaveCriticalSection", ".", {
+  "k": 3
+}, "Let", {
+  "id": "execution"
+}, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 4
+}, "Let", {
+  "id": "eventsRecord"
+}, "be", "the", "Agent", "Events", "Record", "in", {
+  "id": "execution"
+}, ".", "[", "[", "EventsRecords", "]", "]", "whose", "[", "[", "AgentSignifier", "]", "]", "is", "AgentSignifier", "(", ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "entererEventList"
+}, "be", {
+  "id": "eventsRecord"
+}, ".", "[", "[", "EventList", "]", "]", ".", {
+  "k": 6
+}, "Let", {
+  "id": "enterEvent"
+}, "be", "a", "new", "Synchronize", "event", ".", {
+  "k": 7
+}, "Append", {
+  "id": "enterEvent"
+}, "to", {
+  "id": "entererEventList"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "leaveEvent"
+}, "be", "the", "Synchronize", "event", "in", {
+  "id": "WL"
+}, ".", {
+  "k": 9
+}, "Append", "(", {
+  "id": "leaveEvent"
+}, ",", {
+  "id": "enterEvent"
+}, ")", "to", {
+  "id": "eventsRecord"
+}, ".", "[", "[", "AgentSynchronizesWith", "]", "]", ".", {
+  "k": 10
+}, false, {
+  "k": 2
+}]

@@ -1,0 +1,12 @@
+{
+  access __x0__ = (ModuleItemList "Evaluation")
+  let result = __x0__
+  if (&& (= result.Type CONST_normal) (= result.Value CONST_empty)) {
+    app __x1__ = (NormalCompletion undefined)
+    app __x2__ = (WrapCompletion __x1__)
+    return __x2__
+  } else {}
+  app __x3__ = (Completion result)
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

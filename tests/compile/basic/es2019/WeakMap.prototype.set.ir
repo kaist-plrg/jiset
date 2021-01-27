@@ -1,0 +1,38 @@
+{
+  let M = this
+  app __x0__ = (Type M)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  if (= M.WeakMapData absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  let entries = M.WeakMapData
+  app __x3__ = (Type key)
+  if (! (= __x3__ Object)) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else {}
+  let __x5__ = entries
+  let __x6__ = 0i
+  while (< __x6__ __x5__.length) {
+    let p = __x5__[__x6__]
+    let __x7__ = (! (= p.Key CONST_empty))
+    if __x7__ {
+      app __x8__ = (SameValue p.Key key)
+      __x7__ = (= __x8__ true)
+    } else {}
+    if __x7__ {
+      p.Value = value
+      app __x9__ = (WrapCompletion M)
+      return __x9__
+    } else {}
+    __x6__ = (+ __x6__ 1i)
+  }
+  let p = (new Record("Key" -> key, "Value" -> value))
+  append p -> entries
+  app __x10__ = (WrapCompletion M)
+  return __x10__
+}

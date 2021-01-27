@@ -1,0 +1,75 @@
+["If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "If", "IsCallable", "(", {
+  "id": "executor"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "promise"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+  "value": "\"%Promise.prototype%\""
+}, ",", "«", "[", "[", "PromiseState", "]", "]", ",", "[", "[", "PromiseResult", "]", "]", ",", "[", "[", "PromiseFulfillReactions", "]", "]", ",", "[", "[", "PromiseRejectReactions", "]", "]", ",", "[", "[", "PromiseIsHandled", "]", "]", "»", ")", ".", {
+  "k": 2
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseState", "]", "]", "to", {
+  "const": "pending"
+}, ".", {
+  "k": 3
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseFulfillReactions", "]", "]", "to", "a", "new", "empty", "List", ".", {
+  "k": 4
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseRejectReactions", "]", "]", "to", "a", "new", "empty", "List", ".", {
+  "k": 5
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseIsHandled", "]", "]", "to", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "resolvingFunctions"
+}, "be", "CreateResolvingFunctions", "(", {
+  "id": "promise"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "completion"
+}, "be", "Call", "(", {
+  "id": "executor"
+}, ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "completion"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Perform", "?", "Call", "(", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "completion"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 10
+}, false, {
+  "k": 9
+}, "Return", {
+  "id": "promise"
+}, ".", {
+  "k": 11
+}]

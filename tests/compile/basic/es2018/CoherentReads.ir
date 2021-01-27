@@ -1,0 +1,26 @@
+{
+  app __x0__ = (SharedDataBlockEventSet execution)
+  let __x1__ = __x0__
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let R = __x1__[__x2__]
+    app __x3__ = (execution.ReadsBytesFrom execution R)
+    let Ws = __x3__
+    let byteLocation = R.ByteIndex
+    let __x4__ = Ws
+    let __x5__ = 0i
+    while (< __x5__ __x4__.length) {
+      let W = __x4__[__x5__]
+      if (contains execution.HappensBefore (new [R, W])) {
+        app __x6__ = (WrapCompletion false)
+        return __x6__
+      } else {}
+      ??? "If there is a WriteSharedMemory or ReadModifyWriteSharedMemory event id:{V} that has id:{byteLocation} in its range such that the pairs ( id:{W} , id:{V} ) and ( id:{V} , id:{R} ) are in id:{execution} . [ [ HappensBefore ] ] , then step-list:{...}"
+      byteLocation = (+ byteLocation 1i)
+      __x5__ = (+ __x5__ 1i)
+    }
+    app __x7__ = (WrapCompletion true)
+    return __x7__
+    __x2__ = (+ __x2__ 1i)
+  }
+}

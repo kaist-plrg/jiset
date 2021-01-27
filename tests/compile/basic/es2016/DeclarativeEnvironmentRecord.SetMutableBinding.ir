@@ -1,0 +1,11 @@
+{
+  let envRec = this
+  ??? "If id:{envRec} does not have a binding for id:{N} , then step-list:{...}"
+  ??? "If the binding for id:{N} in id:{envRec} is a strict binding , let id:{S} be value:{true} ."
+  ??? "If the binding for id:{N} in id:{envRec} has not yet been initialized , throw a value:{ReferenceError} exception ."
+  ??? "Else if the binding for id:{N} in id:{envRec} is a mutable binding , change its bound value to id:{V} ."
+  ??? "Else this must be an attempt to change the value of an immutable binding so if id:{S} is value:{true} , throw a value:{TypeError} exception ."
+  app __x0__ = (NormalCompletion CONST_empty)
+  app __x1__ = (WrapCompletion __x0__)
+  return __x1__
+}

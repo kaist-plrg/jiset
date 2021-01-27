@@ -1,0 +1,111 @@
+["Assert", ":", {
+  "id": "F"
+}, "has", "a", "[", "[", "Promise", "]", "]", "internal", "slot", "whose", "value", "is", "an", "Object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "promise"
+}, "be", "the", "value", "of", {
+  "id": "F"
+}, "'", "s", "[", "[", "Promise", "]", "]", "internal", "slot", ".", {
+  "k": 1
+}, "Let", {
+  "id": "alreadyResolved"
+}, "be", "the", "value", "of", {
+  "id": "F"
+}, "'", "s", "[", "[", "AlreadyResolved", "]", "]", "internal", "slot", ".", {
+  "k": 2
+}, "If", {
+  "id": "alreadyResolved"
+}, ".", "[", "[", "Value", "]", "]", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "Set", {
+  "id": "alreadyResolved"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "If", "SameValue", "(", {
+  "id": "resolution"
+}, ",", {
+  "id": "promise"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "selfResolutionError"
+}, "be", "a", "newly", "created", {
+  "value": "TypeError"
+}, "object", ".", {
+  "k": 6
+}, "Return", "RejectPromise", "(", {
+  "id": "promise"
+}, ",", {
+  "id": "selfResolutionError"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "resolution"
+}, ")", "is", "not", "Object", ",", "then", true, "Return", "FulfillPromise", "(", {
+  "id": "promise"
+}, ",", {
+  "id": "resolution"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Let", {
+  "id": "then"
+}, "be", "Get", "(", {
+  "id": "resolution"
+}, ",", {
+  "code": "\"then\""
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "then"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Return", "RejectPromise", "(", {
+  "id": "promise"
+}, ",", {
+  "id": "then"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 12
+}, false, {
+  "k": 11
+}, "Let", {
+  "id": "thenAction"
+}, "be", {
+  "id": "then"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 13
+}, "If", "IsCallable", "(", {
+  "id": "thenAction"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "Return", "FulfillPromise", "(", {
+  "id": "promise"
+}, ",", {
+  "id": "resolution"
+}, ")", ".", {
+  "k": 15
+}, false, {
+  "k": 14
+}, "Perform", "EnqueueJob", "(", {
+  "code": "\"PromiseJobs\""
+}, ",", "PromiseResolveThenableJob", ",", "«", {
+  "id": "promise"
+}, ",", {
+  "id": "resolution"
+}, ",", {
+  "id": "thenAction"
+}, "»", ")", ".", {
+  "k": 16
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 17
+}]

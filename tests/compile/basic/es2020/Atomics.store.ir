@@ -1,0 +1,26 @@
+{
+  app __x0__ = (ValidateSharedIntegerTypedArray typedArray)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let buffer = __x0__
+  app __x1__ = (ValidateAtomicAccess typedArray index)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let i = __x1__
+  let arrayTypeName = typedArray.TypedArrayName
+  if (|| (= arrayTypeName "BigUint64Array") (= arrayTypeName "BigInt64Array")) {
+    app __x2__ = (ToBigInt value)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    let v = __x2__
+  } else {
+    app __x3__ = (ToInteger value)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    let v = __x3__
+  }
+  ??? "Let id:{elementSize} be the Element Size value specified in link:{} for id:{arrayTypeName} ."
+  ??? "Let id:{elementType} be the Element Type value in link:{} for id:{arrayTypeName} ."
+  let offset = typedArray.ByteOffset
+  let indexedPosition = (+ (* i elementSize) offset)
+  app __x4__ = (SetValueInBuffer buffer indexedPosition elementType v true CONST_SeqCst)
+  __x4__
+  app __x5__ = (WrapCompletion v)
+  return __x5__
+}

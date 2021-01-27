@@ -1,0 +1,20 @@
+{
+  let args = args
+  app __x0__ = (OrdinaryGetOwnProperty args P)
+  let desc = __x0__
+  if (= desc undefined) {
+    app __x1__ = (WrapCompletion desc)
+    return __x1__
+  } else {}
+  let map = args.ParameterMap
+  app __x2__ = (HasOwnProperty map P)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let isMapped = __x2__
+  if (= isMapped true) {
+    app __x3__ = (Get map P)
+    desc.Value = __x3__
+  } else {}
+  ??? "If IsDataDescriptor ( id:{desc} ) is value:{true} and id:{P} is code:{\"caller\"} and id:{desc} . [ [ Value ] ] is a strict mode Function object , throw a value:{TypeError} exception ."
+  app __x4__ = (WrapCompletion desc)
+  return __x4__
+}

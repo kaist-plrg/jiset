@@ -1,0 +1,93 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "len"
+}, "is", "0", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "n"
+}, "be", "?", "ToInteger", "(", {
+  "id": "fromIndex"
+}, ")", ".", {
+  "k": 3
+}, "Assert", ":", "If", {
+  "id": "fromIndex"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "id": "n"
+}, "is", "0", ".", {
+  "k": 4
+}, "If", {
+  "id": "n"
+}, "≥", "0", ",", "then", true, "Let", {
+  "id": "k"
+}, "be", {
+  "id": "n"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Else", ",", true, "Let", {
+  "id": "k"
+}, "be", {
+  "id": "len"
+}, "+", {
+  "id": "n"
+}, ".", {
+  "k": 8
+}, "If", {
+  "id": "k"
+}, "<", "0", ",", "set", {
+  "id": "k"
+}, "to", "0", ".", {
+  "k": 9
+}, false, {
+  "k": 7
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "elementK"
+}, "be", "the", "result", "of", "?", "Get", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 11
+}, "If", "SameValueZero", "(", {
+  "id": "searchElement"
+}, ",", {
+  "id": "elementK"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 12
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 13
+}, false, {
+  "k": 10
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 14
+}]

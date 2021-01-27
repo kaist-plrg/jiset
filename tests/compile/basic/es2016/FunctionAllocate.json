@@ -1,0 +1,111 @@
+["Assert", ":", "Type", "(", {
+  "id": "functionPrototype"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "functionKind"
+}, "is", "either", {
+  "code": "\"normal\""
+}, ",", {
+  "code": "\"non-constructor\""
+}, "or", {
+  "code": "\"generator\""
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "functionKind"
+}, "is", {
+  "code": "\"normal\""
+}, ",", "let", {
+  "id": "needsConstruct"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "Else", ",", "let", {
+  "id": "needsConstruct"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "functionKind"
+}, "is", {
+  "code": "\"non-constructor\""
+}, ",", "let", {
+  "id": "functionKind"
+}, "be", {
+  "code": "\"normal\""
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "F"
+}, "be", "a", "newly", "created", "ECMAScript", "function", "object", "with", "the", "internal", "slots", "listed", "in", {
+  "link": ""
+}, ".", "All", "of", "those", "internal", "slots", "are", "initialized", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 5
+}, "Set", {
+  "id": "F"
+}, "'", "s", "essential", "internal", "methods", "to", "the", "default", "ordinary", "object", "definitions", "specified", "in", {
+  "link": ""
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "F"
+}, "'", "s", "[", "[", "Call", "]", "]", "internal", "method", "to", "the", "definition", "specified", "in", {
+  "link": ""
+}, ".", {
+  "k": 7
+}, "If", {
+  "id": "needsConstruct"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Set", {
+  "id": "F"
+}, "'", "s", "[", "[", "Construct", "]", "]", "internal", "method", "to", "the", "definition", "specified", "in", {
+  "link": ""
+}, ".", {
+  "k": 9
+}, "Set", "the", "[", "[", "ConstructorKind", "]", "]", "internal", "slot", "of", {
+  "id": "F"
+}, "to", {
+  "code": "\"base\""
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, "Set", "the", "[", "[", "Strict", "]", "]", "internal", "slot", "of", {
+  "id": "F"
+}, "to", {
+  "id": "strict"
+}, ".", {
+  "k": 11
+}, "Set", "the", "[", "[", "FunctionKind", "]", "]", "internal", "slot", "of", {
+  "id": "F"
+}, "to", {
+  "id": "functionKind"
+}, ".", {
+  "k": 12
+}, "Set", "the", "[", "[", "Prototype", "]", "]", "internal", "slot", "of", {
+  "id": "F"
+}, "to", {
+  "id": "functionPrototype"
+}, ".", {
+  "k": 13
+}, "Set", "the", "[", "[", "Extensible", "]", "]", "internal", "slot", "of", {
+  "id": "F"
+}, "to", {
+  "value": "true"
+}, ".", {
+  "k": 14
+}, "Set", "the", "[", "[", "Realm", "]", "]", "internal", "slot", "of", {
+  "id": "F"
+}, "to", "the", "current", "Realm", "Record", ".", {
+  "k": 15
+}, "Return", {
+  "id": "F"
+}, ".", {
+  "k": 16
+}]

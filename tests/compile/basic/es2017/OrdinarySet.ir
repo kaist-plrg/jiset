@@ -1,0 +1,66 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  app __x1__ = (O.GetOwnProperty O P)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let ownDesc = __x1__
+  if (= ownDesc undefined) {
+    app __x2__ = (O.GetPrototypeOf O)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    let parent = __x2__
+    if (! (= parent null)) {
+      app __x3__ = (parent.Set parent P V Receiver)
+      if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+      app __x4__ = (WrapCompletion __x3__)
+      return __x4__
+    } else ownDesc = (new PropertyDescriptor("Value" -> undefined, "Writable" -> true, "Enumerable" -> true, "Configurable" -> true))
+  } else {}
+  app __x5__ = (IsDataDescriptor ownDesc)
+  if (= __x5__ true) {
+    if (= ownDesc.Writable false) {
+      app __x6__ = (WrapCompletion false)
+      return __x6__
+    } else {}
+    app __x7__ = (Type Receiver)
+    if (! (= __x7__ Object)) {
+      app __x8__ = (WrapCompletion false)
+      return __x8__
+    } else {}
+    app __x9__ = (Receiver.GetOwnProperty Receiver P)
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+    let existingDescriptor = __x9__
+    if (! (= existingDescriptor undefined)) {
+      app __x10__ = (IsAccessorDescriptor existingDescriptor)
+      if (= __x10__ true) {
+        app __x11__ = (WrapCompletion false)
+        return __x11__
+      } else {}
+      if (= existingDescriptor.Writable false) {
+        app __x12__ = (WrapCompletion false)
+        return __x12__
+      } else {}
+      let valueDesc = (new PropertyDescriptor("Value" -> V))
+      app __x13__ = (Receiver.DefineOwnProperty Receiver P valueDesc)
+      if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+      app __x14__ = (WrapCompletion __x13__)
+      return __x14__
+    } else {
+      app __x15__ = (CreateDataProperty Receiver P V)
+      if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+      app __x16__ = (WrapCompletion __x15__)
+      return __x16__
+    }
+  } else {}
+  app __x17__ = (IsAccessorDescriptor ownDesc)
+  assert (= __x17__ true)
+  let setter = ownDesc.Set
+  if (= setter undefined) {
+    app __x18__ = (WrapCompletion false)
+    return __x18__
+  } else {}
+  app __x19__ = (Call setter Receiver (new [V]))
+  if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
+  __x19__
+  app __x20__ = (WrapCompletion true)
+  return __x20__
+}

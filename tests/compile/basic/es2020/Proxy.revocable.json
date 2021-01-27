@@ -1,0 +1,51 @@
+["Let", {
+  "id": "p"
+}, "be", "?", "ProxyCreate", "(", {
+  "id": "target"
+}, ",", {
+  "id": "handler"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "steps"
+}, "be", "the", "algorithm", "steps", "defined", "in", {
+  "link": ""
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "revoker"
+}, "be", "!", "CreateBuiltinFunction", "(", {
+  "id": "steps"
+}, ",", "«", "[", "[", "RevocableProxy", "]", "]", "»", ")", ".", {
+  "k": 2
+}, "Set", {
+  "id": "revoker"
+}, ".", "[", "[", "RevocableProxy", "]", "]", "to", {
+  "id": "p"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "result"
+}, "be", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", ".", {
+  "k": 4
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "result"
+}, ",", {
+  "value": "\"proxy\""
+}, ",", {
+  "id": "p"
+}, ")", ".", {
+  "k": 5
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "result"
+}, ",", {
+  "value": "\"revoke\""
+}, ",", {
+  "id": "revoker"
+}, ")", ".", {
+  "k": 6
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 7
+}]

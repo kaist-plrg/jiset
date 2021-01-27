@@ -1,0 +1,133 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "len"
+}, "=", "0", ",", "then", true, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "value": "+0"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 3
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, false, {
+  "k": 2
+}, "Let", {
+  "id": "first"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"0\""
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "k"
+}, "be", "1", ".", {
+  "k": 6
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, ",", true, "Let", {
+  "id": "from"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "to"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, "-", "1", ")", ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "fromPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "fromVal"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 12
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ",", {
+  "id": "fromVal"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "Else", ",", true, "Assert", ":", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "false"
+}, ".", {
+  "k": 15
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ")", ".", {
+  "k": 16
+}, false, {
+  "k": 14
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 17
+}, false, {
+  "k": 7
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "len"
+}, "-", "1", ")", ")", ")", ".", {
+  "k": 18
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"length\""
+}, ",", "𝔽", "(", {
+  "id": "len"
+}, "-", "1", ")", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 19
+}, "Return", {
+  "id": "first"
+}, ".", {
+  "k": 20
+}]

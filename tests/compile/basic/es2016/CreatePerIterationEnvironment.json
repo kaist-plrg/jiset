@@ -1,0 +1,79 @@
+["If", {
+  "id": "perIterationBindings"
+}, "has", "any", "elements", ",", "then", true, "Let", {
+  "id": "lastIterationEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 1
+}, "Let", {
+  "id": "lastIterationEnvRec"
+}, "be", {
+  "id": "lastIterationEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 2
+}, "Let", {
+  "id": "outer"
+}, "be", {
+  "id": "lastIterationEnv"
+}, "'", "s", "outer", "environment", "reference", ".", {
+  "k": 3
+}, "Assert", ":", {
+  "id": "outer"
+}, "is", "not", {
+  "value": "null"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "thisIterationEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "outer"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "thisIterationEnvRec"
+}, "be", {
+  "id": "thisIterationEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 6
+}, "For", "each", "element", {
+  "id": "bn"
+}, "of", {
+  "id": "perIterationBindings"
+}, "do", ",", true, "Perform", "!", {
+  "id": "thisIterationEnvRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "bn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "lastValue"
+}, "be", "?", {
+  "id": "lastIterationEnvRec"
+}, ".", "GetBindingValue", "(", {
+  "id": "bn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 9
+}, "Perform", {
+  "id": "thisIterationEnvRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "bn"
+}, ",", {
+  "id": "lastValue"
+}, ")", ".", {
+  "k": 10
+}, false, {
+  "k": 7
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "thisIterationEnv"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 0
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 12
+}]

@@ -1,0 +1,53 @@
+["For", "each", "ReadSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+  "id": "R"
+}, "in", "SharedDataBlockEventSet", "(", {
+  "id": "execution"
+}, ")", ",", "do", true, "Let", {
+  "id": "chosenValue"
+}, "be", "the", "element", "of", {
+  "id": "execution"
+}, ".", "[", "[", "ChosenValues", "]", "]", "whose", "[", "[", "Event", "]", "]", "field", "is", {
+  "id": "R"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "readValue"
+}, "be", "ValueOfReadEvent", "(", {
+  "id": "execution"
+}, ",", {
+  "id": "R"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "chosenLen"
+}, "be", "the", "number", "of", "elements", "of", {
+  "id": "chosenValue"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "readLen"
+}, "be", "the", "number", "of", "elements", "of", {
+  "id": "readValue"
+}, ".", {
+  "k": 4
+}, {
+  "id": "chosenLen"
+}, "is", "equal", "to", {
+  "id": "readLen"
+}, "and", {
+  "id": "chosenValue"
+}, "[", {
+  "id": "i"
+}, "]", "is", "equal", "to", {
+  "id": "readValue"
+}, "[", {
+  "id": "i"
+}, "]", "for", "all", "integer", "values", {
+  "id": "i"
+}, "in", "the", "range", "0", "through", {
+  "id": "chosenLen"
+}, ",", "exclusive", ".", {
+  "k": 5
+}, false, {
+  "k": 0
+}]

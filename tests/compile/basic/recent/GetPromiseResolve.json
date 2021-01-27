@@ -1,0 +1,27 @@
+["Assert", ":", "IsConstructor", "(", {
+  "id": "promiseConstructor"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "promiseResolve"
+}, "be", "?", "Get", "(", {
+  "id": "promiseConstructor"
+}, ",", {
+  "value": "\"resolve\""
+}, ")", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "promiseResolve"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Return", {
+  "id": "promiseResolve"
+}, ".", {
+  "k": 3
+}]

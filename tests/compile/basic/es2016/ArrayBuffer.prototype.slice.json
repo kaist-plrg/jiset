@@ -1,0 +1,177 @@
+["Let", {
+  "id": "O"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "O"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", {
+  "id": "O"
+}, "does", "not", "have", "an", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "O"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Let", {
+  "id": "len"
+}, "be", "the", "value", "of", {
+  "id": "O"
+}, "'", "s", "[", "[", "ArrayBufferByteLength", "]", "]", "internal", "slot", ".", {
+  "k": 4
+}, "Let", {
+  "id": "relativeStart"
+}, "be", "?", "ToInteger", "(", {
+  "id": "start"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "relativeStart"
+}, "<", "0", ",", "let", {
+  "id": "first"
+}, "be", "max", "(", "(", {
+  "id": "len"
+}, "+", {
+  "id": "relativeStart"
+}, ")", ",", "0", ")", ";", "else", "let", {
+  "id": "first"
+}, "be", "min", "(", {
+  "id": "relativeStart"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "end"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "relativeEnd"
+}, "be", {
+  "id": "len"
+}, ";", "else", "let", {
+  "id": "relativeEnd"
+}, "be", "?", "ToInteger", "(", {
+  "id": "end"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "relativeEnd"
+}, "<", "0", ",", "let", {
+  "id": "final"
+}, "be", "max", "(", "(", {
+  "id": "len"
+}, "+", {
+  "id": "relativeEnd"
+}, ")", ",", "0", ")", ";", "else", "let", {
+  "id": "final"
+}, "be", "min", "(", {
+  "id": "relativeEnd"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "newLen"
+}, "be", "max", "(", {
+  "id": "final"
+}, "-", {
+  "id": "first"
+}, ",", "0", ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "ctor"
+}, "be", "?", "SpeciesConstructor", "(", {
+  "id": "O"
+}, ",", "%", "ArrayBuffer", "%", ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "new"
+}, "be", "?", "Construct", "(", {
+  "id": "ctor"
+}, ",", "«", {
+  "id": "newLen"
+}, "»", ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "new"
+}, "does", "not", "have", "an", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 12
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "new"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 13
+}, "If", "SameValue", "(", {
+  "id": "new"
+}, ",", {
+  "id": "O"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 14
+}, "If", "the", "value", "of", {
+  "id": "new"
+}, "'", "s", "[", "[", "ArrayBufferByteLength", "]", "]", "internal", "slot", "<", {
+  "id": "newLen"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 15
+}, "NOTE", ":", "Side", "-", "effects", "of", "the", "above", "steps", "may", "have", "detached", {
+  "id": "O"
+}, ".", {
+  "k": 16
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "O"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 17
+}, "Let", {
+  "id": "fromBuf"
+}, "be", "the", "value", "of", {
+  "id": "O"
+}, "'", "s", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ".", {
+  "k": 18
+}, "Let", {
+  "id": "toBuf"
+}, "be", "the", "value", "of", {
+  "id": "new"
+}, "'", "s", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ".", {
+  "k": 19
+}, "Perform", "CopyDataBlockBytes", "(", {
+  "id": "toBuf"
+}, ",", "0", ",", {
+  "id": "fromBuf"
+}, ",", {
+  "id": "first"
+}, ",", {
+  "id": "newLen"
+}, ")", ".", {
+  "k": 20
+}, "Return", {
+  "id": "new"
+}, ".", {
+  "k": 21
+}]

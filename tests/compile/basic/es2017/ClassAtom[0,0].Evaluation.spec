@@ -1,0 +1,1 @@
+          1. Return the CharSet containing the one character `-`.

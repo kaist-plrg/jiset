@@ -1,0 +1,34 @@
+{
+  if (= pattern undefined) let P = "" else {
+    app __x0__ = (ToString pattern)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    let P = __x0__
+  }
+  if (= flags undefined) let F = "" else {
+    app __x1__ = (ToString flags)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    let F = __x1__
+  }
+  ??? "If id:{F} contains any code unit other than value:{\"g\"} , value:{\"i\"} , value:{\"m\"} , value:{\"s\"} , value:{\"u\"} , or value:{\"y\"} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception ."
+  if (contains F "u") let u = true else let u = false
+  if (= u true) {
+    app __x2__ = (StringToCodePoints P)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    let patternText = __x2__
+    ??? "Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} ."
+  } else {
+    ??? "Let id:{patternText} be the result of interpreting each of id:{P} ' s 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements ."
+    ??? "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} ."
+  }
+  app __x3__ = (ParsePattern patternText u)
+  let parseResult = __x3__
+  ??? "If id:{parseResult} is a non - empty List of value:{SyntaxError} objects , throw a value:{SyntaxError} exception ."
+  obj.OriginalSource = P
+  obj.OriginalFlags = F
+  ??? "Set id:{obj} . [ [ RegExpMatcher ] ] to the Abstract Closure that evaluates id:{parseResult} by applying the semantics provided in link:{} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters ."
+  app __x4__ = (Set obj "lastIndex" 0i true)
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  __x4__
+  app __x5__ = (WrapCompletion obj)
+  return __x5__
+}

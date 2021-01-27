@@ -1,0 +1,77 @@
+["Let", {
+  "id": "t"
+}, "be", "?", "thisTimeValue", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "t"
+}, "is", {
+  "value": "NaN"
+}, ",", "set", {
+  "id": "t"
+}, "to", {
+  "value": "+0"
+}, ";", "otherwise", ",", "set", {
+  "id": "t"
+}, "to", "LocalTime", "(", {
+  "id": "t"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "y"
+}, "be", "?", "ToNumber", "(", {
+  "id": "year"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "month"
+}, "is", "not", "present", ",", "let", {
+  "id": "m"
+}, "be", "MonthFromTime", "(", {
+  "id": "t"
+}, ")", ";", "otherwise", ",", "let", {
+  "id": "m"
+}, "be", "?", "ToNumber", "(", {
+  "id": "month"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "date"
+}, "is", "not", "present", ",", "let", {
+  "id": "dt"
+}, "be", "DateFromTime", "(", {
+  "id": "t"
+}, ")", ";", "otherwise", ",", "let", {
+  "id": "dt"
+}, "be", "?", "ToNumber", "(", {
+  "id": "date"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "newDate"
+}, "be", "MakeDate", "(", "MakeDay", "(", {
+  "id": "y"
+}, ",", {
+  "id": "m"
+}, ",", {
+  "id": "dt"
+}, ")", ",", "TimeWithinDay", "(", {
+  "id": "t"
+}, ")", ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "u"
+}, "be", "TimeClip", "(", "UTC", "(", {
+  "id": "newDate"
+}, ")", ")", ".", {
+  "k": 6
+}, "Set", "the", "[", "[", "DateValue", "]", "]", "internal", "slot", "of", "this", "Date", "object", "to", {
+  "id": "u"
+}, ".", {
+  "k": 7
+}, "Return", {
+  "id": "u"
+}, ".", {
+  "k": 8
+}]

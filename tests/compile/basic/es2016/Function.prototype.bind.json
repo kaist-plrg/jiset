@@ -1,0 +1,119 @@
+["Let", {
+  "id": "Target"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "IsCallable", "(", {
+  "id": "Target"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "args"
+}, "be", "a", "new", "(", "possibly", "empty", ")", "List", "consisting", "of", "all", "of", "the", "argument", "values", "provided", "after", {
+  "id": "thisArg"
+}, "in", "order", ".", {
+  "k": 2
+}, "Let", {
+  "id": "F"
+}, "be", "?", "BoundFunctionCreate", "(", {
+  "id": "Target"
+}, ",", {
+  "id": "thisArg"
+}, ",", {
+  "id": "args"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "targetHasLength"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "Target"
+}, ",", {
+  "code": "\"length\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "targetHasLength"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "targetLen"
+}, "be", "?", "Get", "(", {
+  "id": "Target"
+}, ",", {
+  "code": "\"length\""
+}, ")", ".", {
+  "k": 6
+}, "If", "Type", "(", {
+  "id": "targetLen"
+}, ")", "is", "not", "Number", ",", "let", {
+  "id": "L"
+}, "be", "0", ".", {
+  "k": 7
+}, "Else", ",", true, "Let", {
+  "id": "targetLen"
+}, "be", "ToInteger", "(", {
+  "id": "targetLen"
+}, ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "L"
+}, "be", "the", "larger", "of", "0", "and", "the", "result", "of", {
+  "id": "targetLen"
+}, "minus", "the", "number", "of", "elements", "of", {
+  "id": "args"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, false, {
+  "k": 5
+}, "Else", "let", {
+  "id": "L"
+}, "be", "0", ".", {
+  "k": 11
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "F"
+}, ",", {
+  "code": "\"length\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "L"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "targetName"
+}, "be", "?", "Get", "(", {
+  "id": "Target"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 13
+}, "If", "Type", "(", {
+  "id": "targetName"
+}, ")", "is", "not", "String", ",", "let", {
+  "id": "targetName"
+}, "be", "the", "empty", "string", ".", {
+  "k": 14
+}, "Perform", "SetFunctionName", "(", {
+  "id": "F"
+}, ",", {
+  "id": "targetName"
+}, ",", {
+  "code": "\"bound\""
+}, ")", ".", {
+  "k": 15
+}, "Return", {
+  "id": "F"
+}, ".", {
+  "k": 16
+}]

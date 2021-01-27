@@ -1,0 +1,79 @@
+["Let", {
+  "id": "product"
+}, "be", "the", "String", "value", "consisting", "solely", "of", "the", "code", "unit", "0x0022", "(", "QUOTATION", "MARK", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "cpList"
+}, "be", "a", "List", "containing", "in", "order", "the", "code", "points", "of", {
+  "id": "value"
+}, "when", "interpreted", "as", "a", "sequence", "of", "UTF", "-", "16", "encoded", "code", "points", "as", "described", "in", {
+  "link": ""
+}, ".", {
+  "k": 1
+}, "For", "each", "code", "point", {
+  "id": "C"
+}, "in", {
+  "id": "cpList"
+}, ",", "do", true, "If", {
+  "id": "C"
+}, "is", "listed", "in", "the", "Code", "Point", "column", "of", {
+  "link": ""
+}, ",", "then", true, "Set", {
+  "id": "product"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "product"
+}, "and", "the", "Escape", "Sequence", "for", {
+  "id": "C"
+}, "as", "specified", "in", {
+  "link": ""
+}, ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Else", "if", {
+  "id": "C"
+}, "has", "a", "numeric", "value", "less", "than", "0x0020", "(", "SPACE", ")", ",", "or", "if", {
+  "id": "C"
+}, "has", "the", "same", "numeric", "value", "as", "a", {
+  "link": ""
+}, "or", {
+  "link": ""
+}, ",", "then", true, "Let", {
+  "id": "unit"
+}, "be", "the", "code", "unit", "whose", "numeric", "value", "is", "that", "of", {
+  "id": "C"
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "product"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "product"
+}, "and", "UnicodeEscape", "(", {
+  "id": "unit"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 5
+}, "Else", ",", true, "Set", {
+  "id": "product"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "product"
+}, "and", "the", "UTF16Encoding", "of", {
+  "id": "C"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, false, {
+  "k": 2
+}, "Set", {
+  "id": "product"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "product"
+}, "and", "the", "code", "unit", "0x0022", "(", "QUOTATION", "MARK", ")", ".", {
+  "k": 10
+}, "Return", {
+  "id": "product"
+}, ".", {
+  "k": 11
+}]

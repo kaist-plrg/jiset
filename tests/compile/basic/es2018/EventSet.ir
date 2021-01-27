@@ -1,0 +1,18 @@
+{
+  let events = (new [])
+  let __x0__ = execution.EventLists
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let aer = __x0__[__x1__]
+    let __x2__ = aer.EventList
+    let __x3__ = 0i
+    while (< __x3__ __x2__.length) {
+      let E = __x2__[__x3__]
+      append E -> events
+      __x3__ = (+ __x3__ 1i)
+    }
+    __x1__ = (+ __x1__ 1i)
+  }
+  app __x4__ = (WrapCompletion events)
+  return __x4__
+}

@@ -1,0 +1,23 @@
+{
+  app __x0__ = (InitializeHostDefinedRealm )
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  __x0__
+  ??? "In an implementation - dependent manner , obtain the ECMAScript source texts ( see clause link:{} ) and any associated host - defined values for zero or more ECMAScript scripts and / or ECMAScript modules . For each such id:{sourceText} and id:{hostDefined} , do step-list:{...}"
+  while true {
+    GLOBAL_context = null
+    ??? "Let id:{nextQueue} be a non - empty Job Queue chosen in an implementation - defined manner . If all Job Queues are empty , the result is implementation - defined ."
+    ??? "Let id:{nextPending} be the PendingJob record at the front of id:{nextQueue} . Remove that record from id:{nextQueue} ."
+    let newContext = (new ExecutionContext("SubMap" -> (new SubMap())))
+    newContext.Function = null
+    newContext.Realm = nextPending.Realm
+    newContext.ScriptOrModule = nextPending.ScriptOrModule
+    append newContext -> GLOBAL_executionStack
+    GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+    ??? "Let id:{result} be the result of performing the abstract operation named by id:{nextPending} . [ [ Job ] ] using the elements of id:{nextPending} . [ [ Arguments ] ] as its arguments ."
+    app __x1__ = (IsAbruptCompletion result)
+    if __x1__ {
+      app __x2__ = (HostReportErrors (new [result.Value]))
+      __x2__
+    } else {}
+  }
+}

@@ -1,0 +1,41 @@
+["Let", {
+  "id": "stringKey"
+}, "be", "?", "ToString", "(", {
+  "id": "key"
+}, ")", ".", {
+  "k": 0
+}, "For", "each", "element", {
+  "id": "e"
+}, "of", "the", "GlobalSymbolRegistry", "List", ",", "do", true, "If", "SameValue", "(", {
+  "id": "e"
+}, ".", "[", "[", "Key", "]", "]", ",", {
+  "id": "stringKey"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "e"
+}, ".", "[", "[", "Symbol", "]", "]", ".", {
+  "k": 2
+}, false, {
+  "k": 1
+}, "Assert", ":", "GlobalSymbolRegistry", "does", "not", "currently", "contain", "an", "entry", "for", {
+  "id": "stringKey"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "newSymbol"
+}, "be", "a", "new", "unique", "Symbol", "value", "whose", "[", "[", "Description", "]", "]", "value", "is", {
+  "id": "stringKey"
+}, ".", {
+  "k": 4
+}, "Append", "the", "Record", "{", "[", "[", "Key", "]", "]", ":", {
+  "id": "stringKey"
+}, ",", "[", "[", "Symbol", "]", "]", ":", {
+  "id": "newSymbol"
+}, "}", "to", "the", "GlobalSymbolRegistry", "List", ".", {
+  "k": 5
+}, "Return", {
+  "id": "newSymbol"
+}, ".", {
+  "k": 6
+}]

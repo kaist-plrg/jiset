@@ -1,0 +1,83 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "len"
+}, "be", "the", "length", "of", {
+  "id": "S"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "intStart"
+}, "be", "?", "ToInteger", "(", {
+  "id": "start"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "end"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "intEnd"
+}, "be", {
+  "id": "len"
+}, ";", "else", "let", {
+  "id": "intEnd"
+}, "be", "?", "ToInteger", "(", {
+  "id": "end"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "finalStart"
+}, "be", "min", "(", "max", "(", {
+  "id": "intStart"
+}, ",", "0", ")", ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "finalEnd"
+}, "be", "min", "(", "max", "(", {
+  "id": "intEnd"
+}, ",", "0", ")", ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "from"
+}, "be", "min", "(", {
+  "id": "finalStart"
+}, ",", {
+  "id": "finalEnd"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "to"
+}, "be", "max", "(", {
+  "id": "finalStart"
+}, ",", {
+  "id": "finalEnd"
+}, ")", ".", {
+  "k": 8
+}, "Return", "the", "String", "value", "whose", "length", "is", {
+  "id": "to"
+}, "-", {
+  "id": "from"
+}, ",", "containing", "code", "units", "from", {
+  "id": "S"
+}, ",", "namely", "the", "code", "units", "with", "indices", {
+  "id": "from"
+}, "through", {
+  "id": "to"
+}, "-", "1", ",", "in", "ascending", "order", ".", {
+  "k": 9
+}]

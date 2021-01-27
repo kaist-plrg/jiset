@@ -1,0 +1,10 @@
+{
+  let O = this
+  app __x0__ = (RequireInternalSlot O "DataView")
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  __x0__
+  assert (! (= O.ViewedArrayBuffer absent))
+  let buffer = O.ViewedArrayBuffer
+  app __x1__ = (WrapCompletion buffer)
+  return __x1__
+}

@@ -1,0 +1,87 @@
+["Let", {
+  "id": "V"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "A"
+}, "be", "the", "List", "of", {
+  "nt": "CaseClause"
+}, "items", "in", {
+  "nt": "CaseClauses"
+}, ",", "in", "source", "text", "order", ".", {
+  "k": 1
+}, "Let", {
+  "id": "found"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 2
+}, "For", "each", {
+  "nt": "CaseClause"
+}, {
+  "id": "C"
+}, "in", {
+  "id": "A"
+}, ",", "do", true, "If", {
+  "id": "found"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "clauseSelector"
+}, "be", "the", "result", "of", "CaseSelectorEvaluation", "of", {
+  "id": "C"
+}, ".", {
+  "k": 5
+}, "ReturnIfAbrupt", "(", {
+  "id": "clauseSelector"
+}, ")", ".", {
+  "k": 6
+}, "Set", {
+  "id": "found"
+}, "to", "the", "result", "of", "performing", "Strict", "Equality", "Comparison", {
+  "id": "input"
+}, "=", "=", "=", {
+  "id": "clauseSelector"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 4
+}, "If", {
+  "id": "found"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "R"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "C"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "R"
+}, ".", "[", "[", "Value", "]", "]", "is", "not", {
+  "const": "empty"
+}, ",", "set", {
+  "id": "V"
+}, "to", {
+  "id": "R"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 10
+}, "If", {
+  "id": "R"
+}, "is", "an", "abrupt", "completion", ",", "return", "Completion", "(", "UpdateEmpty", "(", {
+  "id": "R"
+}, ",", {
+  "id": "V"
+}, ")", ")", ".", {
+  "k": 11
+}, false, {
+  "k": 8
+}, false, {
+  "k": 3
+}, "Return", "NormalCompletion", "(", {
+  "id": "V"
+}, ")", ".", {
+  "k": 12
+}]

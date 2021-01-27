@@ -1,0 +1,97 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", ",", "then", true, "Let", {
+  "id": "numericIndex"
+}, "be", "!", "CanonicalNumericIndexString", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "numericIndex"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "If", "!", "IsValidIntegerIndex", "(", {
+  "id": "O"
+}, ",", {
+  "id": "numericIndex"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 5
+}, "If", "IsAccessorDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Configurable", "]", "]", "field", "and", "if", {
+  "id": "Desc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 7
+}, "If", {
+  "id": "Desc"
+}, "has", "an", "[", "[", "Enumerable", "]", "]", "field", "and", "if", {
+  "id": "Desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 8
+}, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Writable", "]", "]", "field", "and", "if", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Value", "]", "]", "field", ",", "perform", "?", "IntegerIndexedElementSet", "(", {
+  "id": "O"
+}, ",", {
+  "id": "numericIndex"
+}, ",", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 10
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 4
+}, false, {
+  "k": 2
+}, "Return", "!", "OrdinaryDefineOwnProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Desc"
+}, ")", ".", {
+  "k": 12
+}]

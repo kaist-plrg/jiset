@@ -1,0 +1,89 @@
+["Assert", ":", {
+  "id": "input"
+}, "is", "an", "ECMAScript", "language", "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "input"
+}, ")", "is", "Object", ",", "then", true, "If", {
+  "id": "PreferredType"
+}, "is", "not", "present", ",", "let", {
+  "id": "hint"
+}, "be", {
+  "value": "\"default\""
+}, ".", {
+  "k": 2
+}, "Else", "if", {
+  "id": "PreferredType"
+}, "is", "hint", "String", ",", "let", {
+  "id": "hint"
+}, "be", {
+  "value": "\"string\""
+}, ".", {
+  "k": 3
+}, "Else", ",", true, "Assert", ":", {
+  "id": "PreferredType"
+}, "is", "hint", "Number", ".", {
+  "k": 5
+}, "Let", {
+  "id": "hint"
+}, "be", {
+  "value": "\"number\""
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Let", {
+  "id": "exoticToPrim"
+}, "be", "?", "GetMethod", "(", {
+  "id": "input"
+}, ",", "@", "@", "toPrimitive", ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "exoticToPrim"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "result"
+}, "be", "?", "Call", "(", {
+  "id": "exoticToPrim"
+}, ",", {
+  "id": "input"
+}, ",", "«", {
+  "id": "hint"
+}, "»", ")", ".", {
+  "k": 9
+}, "If", "Type", "(", {
+  "id": "result"
+}, ")", "is", "not", "Object", ",", "return", {
+  "id": "result"
+}, ".", {
+  "k": 10
+}, "Throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 11
+}, false, {
+  "k": 8
+}, "If", {
+  "id": "hint"
+}, "is", {
+  "value": "\"default\""
+}, ",", "set", {
+  "id": "hint"
+}, "to", {
+  "value": "\"number\""
+}, ".", {
+  "k": 12
+}, "Return", "?", "OrdinaryToPrimitive", "(", {
+  "id": "input"
+}, ",", {
+  "id": "hint"
+}, ")", ".", {
+  "k": 13
+}, false, {
+  "k": 1
+}, "Return", {
+  "id": "input"
+}, ".", {
+  "k": 14
+}]

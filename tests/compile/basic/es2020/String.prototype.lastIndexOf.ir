@@ -1,0 +1,25 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let O = __x0__
+  app __x1__ = (ToString O)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let S = __x1__
+  app __x2__ = (ToString searchString)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let searchStr = __x2__
+  app __x3__ = (ToNumber position)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let numPos = __x3__
+  if (= numPos NaN) let pos = Infinity else {
+    app __x4__ = (ToInteger numPos)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let pos = __x4__
+  }
+  let len = S.length
+  app __x5__ = (max pos 0i)
+  app __x6__ = (min __x5__ len)
+  let start = __x6__
+  let searchLen = searchStr.length
+  ??? "Return the largest possible nonnegative integer id:{k} not larger than id:{start} such that id:{k} + id:{searchLen} is not greater than id:{len} , and for all nonnegative integers id:{j} less than id:{searchLen} , the code unit at index id:{k} + id:{j} within id:{S} is the same as the code unit at index id:{j} within id:{searchStr} ; but if there is no such integer id:{k} , return the value - 1 ."
+}

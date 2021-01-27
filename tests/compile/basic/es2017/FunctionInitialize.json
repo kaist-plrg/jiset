@@ -1,0 +1,85 @@
+["Assert", ":", {
+  "id": "F"
+}, "is", "an", "extensible", "object", "that", "does", "not", "have", "a", {
+  "code": "length"
+}, "own", "property", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "the", "ExpectedArgumentCount", "of", {
+  "id": "ParameterList"
+}, ".", {
+  "k": 1
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "F"
+}, ",", {
+  "code": "\"length\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "len"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "Strict"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "Strict", "]", "]", ".", {
+  "k": 3
+}, "Set", {
+  "id": "F"
+}, ".", "[", "[", "Environment", "]", "]", "to", {
+  "id": "Scope"
+}, ".", {
+  "k": 4
+}, "Set", {
+  "id": "F"
+}, ".", "[", "[", "FormalParameters", "]", "]", "to", {
+  "id": "ParameterList"
+}, ".", {
+  "k": 5
+}, "Set", {
+  "id": "F"
+}, ".", "[", "[", "ECMAScriptCode", "]", "]", "to", {
+  "id": "Body"
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "F"
+}, ".", "[", "[", "ScriptOrModule", "]", "]", "to", "GetActiveScriptOrModule", "(", ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "kind"
+}, "is", {
+  "const": "Arrow"
+}, ",", "set", {
+  "id": "F"
+}, ".", "[", "[", "ThisMode", "]", "]", "to", {
+  "const": "lexical"
+}, ".", {
+  "k": 8
+}, "Else", "if", {
+  "id": "Strict"
+}, "is", {
+  "value": "true"
+}, ",", "set", {
+  "id": "F"
+}, ".", "[", "[", "ThisMode", "]", "]", "to", {
+  "const": "strict"
+}, ".", {
+  "k": 9
+}, "Else", ",", "set", {
+  "id": "F"
+}, ".", "[", "[", "ThisMode", "]", "]", "to", {
+  "const": "global"
+}, ".", {
+  "k": 10
+}, "Return", {
+  "id": "F"
+}, ".", {
+  "k": 11
+}]

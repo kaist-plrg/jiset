@@ -1,0 +1,19 @@
+{
+  app __x0__ = (ToString string)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let inputString = __x0__
+  app __x1__ = (TrimString inputString CONST_start)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let trimmedString = __x1__
+  ??? "If neither id:{trimmedString} nor any prefix of id:{trimmedString} satisfies the syntax of a nt:{StrDecimalLiteral} ( see link:{} ) , return value:{NaN} ."
+  ??? "Let id:{numberString} be the longest prefix of id:{trimmedString} , which might be id:{trimmedString} itself , that satisfies the syntax of a nt:{StrDecimalLiteral} ."
+  access __x2__ = (numberString "MV")
+  let mathFloat = __x2__
+  if (== mathFloat 0i) {
+    ??? "If the first code unit of id:{trimmedString} is the code unit 0x002D ( HYPHEN - MINUS ) , return value:{-0} ."
+    app __x3__ = (WrapCompletion 0i)
+    return __x3__
+  } else {}
+  app __x4__ = (WrapCompletion mathFloat)
+  return __x4__
+}

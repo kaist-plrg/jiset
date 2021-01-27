@@ -1,0 +1,109 @@
+["Let", {
+  "id": "oldEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 0
+}, "Let", {
+  "id": "loopEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "oldEnv"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "isConst"
+}, "be", "IsConstantDeclaration", "of", {
+  "nt": "LexicalDeclaration"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "boundNames"
+}, "be", "the", "BoundNames", "of", {
+  "nt": "LexicalDeclaration"
+}, ".", {
+  "k": 3
+}, "For", "each", "element", {
+  "id": "dn"
+}, "of", {
+  "id": "boundNames"
+}, ",", "do", true, "If", {
+  "id": "isConst"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Perform", "!", {
+  "id": "loopEnv"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Else", ",", true, "Perform", "!", {
+  "id": "loopEnv"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, false, {
+  "k": 4
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "loopEnv"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "forDcl"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "LexicalDeclaration"
+}, ".", {
+  "k": 10
+}, "If", {
+  "id": "forDcl"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 12
+}, "Return", "Completion", "(", {
+  "id": "forDcl"
+}, ")", ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "If", {
+  "id": "isConst"
+}, "is", {
+  "value": "false"
+}, ",", "let", {
+  "id": "perIterationLets"
+}, "be", {
+  "id": "boundNames"
+}, ";", "otherwise", "let", {
+  "id": "perIterationLets"
+}, "be", "«", "»", ".", {
+  "k": 14
+}, "Let", {
+  "id": "bodyResult"
+}, "be", "ForBodyEvaluation", "(", "the", "first", {
+  "nt": "Expression"
+}, ",", "the", "second", {
+  "nt": "Expression"
+}, ",", {
+  "nt": "Statement"
+}, ",", {
+  "id": "perIterationLets"
+}, ",", {
+  "id": "labelSet"
+}, ")", ".", {
+  "k": 15
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 16
+}, "Return", "Completion", "(", {
+  "id": "bodyResult"
+}, ")", ".", {
+  "k": 17
+}]

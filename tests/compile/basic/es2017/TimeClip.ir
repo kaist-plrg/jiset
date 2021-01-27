@@ -1,0 +1,17 @@
+{
+  if (|| (= time Infinity) (= time -Infinity)) {
+    app __x0__ = (WrapCompletion NaN)
+    return __x0__
+  } else {}
+  app __x1__ = (abs time)
+  if (< (* 8.64 (** 10.0 15i)) __x1__) {
+    app __x2__ = (WrapCompletion NaN)
+    return __x2__
+  } else {}
+  app __x3__ = (ToInteger time)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let clippedTime = __x3__
+  if (= clippedTime -0.0) clippedTime = 0i else {}
+  app __x4__ = (WrapCompletion clippedTime)
+  return __x4__
+}

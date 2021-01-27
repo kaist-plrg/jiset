@@ -1,0 +1,20 @@
+{
+  let entries = (new [])
+  access __x0__ = (Declaration "BoundNames")
+  let names = __x0__
+  let __x1__ = names
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let name = __x1__[__x2__]
+    let __x3__ = (new Record("ModuleRequest" -> null, "ImportName" -> null, "LocalName" -> name, "ExportName" -> name))
+    let __x4__ = 0i
+    while (< __x4__ __x3__.length) {
+      let __x5__ = __x3__[__x4__]
+      append __x5__ -> entries
+      __x4__ = (+ __x4__ 1i)
+    }
+    __x2__ = (+ __x2__ 1i)
+  }
+  app __x6__ = (WrapCompletion entries)
+  return __x6__
+}

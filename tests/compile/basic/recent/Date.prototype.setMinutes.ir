@@ -1,0 +1,36 @@
+{
+  app __x0__ = (thisTimeValue this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  app __x1__ = (LocalTime __x0__)
+  let t = __x1__
+  app __x2__ = (ToNumber min)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let m = __x2__
+  if (= sec absent) {
+    app __x3__ = (SecFromTime t)
+    let s = __x3__
+  } else {
+    app __x4__ = (ToNumber sec)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let s = __x4__
+  }
+  if (= ms absent) {
+    app __x5__ = (msFromTime t)
+    let milli = __x5__
+  } else {
+    app __x6__ = (ToNumber ms)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    let milli = __x6__
+  }
+  app __x7__ = (Day t)
+  app __x8__ = (HourFromTime t)
+  app __x9__ = (MakeTime __x8__ m s milli)
+  app __x10__ = (MakeDate __x7__ __x9__)
+  let date = __x10__
+  app __x11__ = (UTC date)
+  app __x12__ = (TimeClip __x11__)
+  let u = __x12__
+  this.DateValue = u
+  app __x13__ = (WrapCompletion u)
+  return __x13__
+}

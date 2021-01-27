@@ -1,0 +1,10 @@
+{
+  let O = this
+  if (= O.DateValue absent) let tv = NaN else {
+    app __x0__ = (thisTimeValue O)
+    let tv = __x0__
+  }
+  app __x1__ = (ToDateString tv)
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
+}

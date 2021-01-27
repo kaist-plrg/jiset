@@ -1,0 +1,111 @@
+["Let", {
+  "id": "module"
+}, "be", "this", "Source", "Text", "Module", "Record", ".", {
+  "k": 0
+}, "Assert", ":", "ModuleDeclarationInstantiation", "has", "already", "been", "invoked", "on", {
+  "id": "module"
+}, "and", "successfully", "completed", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Realm", "]", "]", "is", "not", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "module"
+}, ".", "[", "[", "Evaluated", "]", "]", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "Set", {
+  "id": "module"
+}, ".", "[", "[", "Evaluated", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "For", "each", "String", {
+  "id": "required"
+}, "that", "is", "an", "element", "of", {
+  "id": "module"
+}, ".", "[", "[", "RequestedModules", "]", "]", ",", "do", true, "Let", {
+  "id": "requiredModule"
+}, "be", "!", "HostResolveImportedModule", "(", {
+  "id": "module"
+}, ",", {
+  "id": "required"
+}, ")", ".", {
+  "k": 6
+}, "NOTE", ":", "ModuleDeclarationInstantiation", "must", "be", "completed", "prior", "to", "invoking", "this", "method", ",", "so", "every", "requested", "module", "is", "guaranteed", "to", "resolve", "successfully", ".", {
+  "k": 7
+}, "Perform", "?", {
+  "id": "requiredModule"
+}, ".", "ModuleEvaluation", "(", ")", ".", {
+  "k": 8
+}, false, {
+  "k": 5
+}, "Let", {
+  "id": "moduleCxt"
+}, "be", "a", "new", "ECMAScript", "code", "execution", "context", ".", {
+  "k": 9
+}, "Set", "the", "Function", "of", {
+  "id": "moduleCxt"
+}, "to", {
+  "value": "null"
+}, ".", {
+  "k": 10
+}, "Set", "the", "Realm", "of", {
+  "id": "moduleCxt"
+}, "to", {
+  "id": "module"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 11
+}, "Set", "the", "ScriptOrModule", "of", {
+  "id": "moduleCxt"
+}, "to", {
+  "id": "module"
+}, ".", {
+  "k": 12
+}, "Assert", ":", {
+  "id": "module"
+}, "has", "been", "linked", "and", "declarations", "in", "its", "module", "environment", "have", "been", "instantiated", ".", {
+  "k": 13
+}, "Set", "the", "VariableEnvironment", "of", {
+  "id": "moduleCxt"
+}, "to", {
+  "id": "module"
+}, ".", "[", "[", "Environment", "]", "]", ".", {
+  "k": 14
+}, "Set", "the", "LexicalEnvironment", "of", {
+  "id": "moduleCxt"
+}, "to", {
+  "id": "module"
+}, ".", "[", "[", "Environment", "]", "]", ".", {
+  "k": 15
+}, "Suspend", "the", "currently", "running", "execution", "context", ".", {
+  "k": 16
+}, "Push", {
+  "id": "moduleCxt"
+}, "on", "to", "the", "execution", "context", "stack", ";", {
+  "id": "moduleCxt"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 17
+}, "Let", {
+  "id": "result"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "module"
+}, ".", "[", "[", "ECMAScriptCode", "]", "]", ".", {
+  "k": 18
+}, "Suspend", {
+  "id": "moduleCxt"
+}, "and", "remove", "it", "from", "the", "execution", "context", "stack", ".", {
+  "k": 19
+}, "Resume", "the", "context", "that", "is", "now", "on", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 20
+}, "Return", "Completion", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 21
+}]

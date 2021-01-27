@@ -1,0 +1,59 @@
+{
+  if (! (= (typeof module) "SourceTextModuleRecord")) {
+    app __x0__ = (module.Evaluate module)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    __x0__
+    app __x1__ = (WrapCompletion index)
+    return __x1__
+  } else {}
+  if (= module.Status "evaluated") if (= module.EvaluationError undefined) {
+    app __x2__ = (WrapCompletion index)
+    return __x2__
+  } else {
+    app __x3__ = (WrapCompletion module.EvaluationError)
+    return __x3__
+  } else {}
+  if (= module.Status "evaluating") {
+    app __x4__ = (WrapCompletion index)
+    return __x4__
+  } else {}
+  assert (= module.Status "instantiated")
+  module.Status = "evaluating"
+  module.DFSIndex = index
+  module.DFSAncestorIndex = index
+  index = (+ index 1i)
+  append module -> stack
+  let __x5__ = module.RequestedModules
+  let __x6__ = 0i
+  while (< __x6__ __x5__.length) {
+    let required = __x5__[__x6__]
+    app __x7__ = (HostResolveImportedModule module required)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    let requiredModule = __x7__
+    app __x8__ = (InnerModuleEvaluation requiredModule stack index)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    index = __x8__
+    assert (|| (= requiredModule.Status "evaluating") (= requiredModule.Status "evaluated"))
+    if (= requiredModule.Status "evaluating") {
+      assert (= (typeof requiredModule) "SourceTextModuleRecord")
+      app __x9__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
+      module.DFSAncestorIndex = __x9__
+    } else {}
+    __x6__ = (+ __x6__ 1i)
+  }
+  app __x10__ = (ModuleExecution module)
+  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+  __x10__
+  assert (! (< module.DFSIndex module.DFSAncestorIndex))
+  if (= module.DFSAncestorIndex module.DFSIndex) {
+    let done = false
+    while (= done false) {
+      let requiredModule = stack[(- stack.length 1i)]
+      (pop stack (- stack.length 1i))
+      requiredModule.Status = "evaluated"
+      if (= requiredModule module) done = true else {}
+    }
+  } else {}
+  app __x11__ = (WrapCompletion index)
+  return __x11__
+}

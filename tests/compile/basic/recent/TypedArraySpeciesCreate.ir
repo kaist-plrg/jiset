@@ -1,0 +1,15 @@
+{
+  ??? "Let id:{defaultConstructor} be the intrinsic object listed in column one of link:{} for id:{exemplar} . [ [ TypedArrayName ] ] ."
+  app __x0__ = (SpeciesConstructor exemplar defaultConstructor)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let constructor = __x0__
+  app __x1__ = (TypedArrayCreate constructor argumentList)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let result = __x1__
+  if (! (== result.ContentType exemplar.ContentType)) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  app __x3__ = (WrapCompletion result)
+  return __x3__
+}

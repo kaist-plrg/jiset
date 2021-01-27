@@ -1,0 +1,19 @@
+{
+  assert (|| (|| (= op "&") (= op "^")) (= op "|"))
+  let result = (new [])
+  let i = 0i
+  let __x0__ = xBytes
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let xByte = __x0__[__x1__]
+    let yByte = yBytes[i]
+    ??? "If id:{op} is code:{&} , let id:{resultByte} be the result of applying the bitwise AND operation to id:{xByte} and id:{yByte} ."
+    ??? "Else if id:{op} is code:{^} , let id:{resultByte} be the result of applying the bitwise exclusive OR ( XOR ) operation to id:{xByte} and id:{yByte} ."
+    ??? "Else , id:{op} is code:{|} . Let id:{resultByte} be the result of applying the bitwise inclusive OR operation to id:{xByte} and id:{yByte} ."
+    i = (+ i 1i)
+    append resultByte -> result
+    __x1__ = (+ __x1__ 1i)
+  }
+  app __x2__ = (WrapCompletion result)
+  return __x2__
+}

@@ -1,0 +1,107 @@
+["Let", {
+  "id": "lhs"
+}, "be", "?", "ResolveBinding", "(", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ",", {
+  "id": "environment"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "A"
+}, "be", "!", "ArrayCreate", "(", "0", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "n"
+}, "be", "0", ".", {
+  "k": 2
+}, "Repeat", ",", true, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 6
+}, "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 4
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "environment"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", "?", "PutValue", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "A"
+}, ")", ".", {
+  "k": 10
+}, "Return", "InitializeReferencedBinding", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "A"
+}, ")", ".", {
+  "k": 11
+}, false, {
+  "k": 9
+}, "Let", {
+  "id": "nextValue"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "nextValue"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 13
+}, "ReturnIfAbrupt", "(", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 14
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "n"
+}, ")", ",", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 15
+}, "Set", {
+  "id": "n"
+}, "to", {
+  "id": "n"
+}, "+", "1", ".", {
+  "k": 16
+}, false, {
+  "k": 3
+}]

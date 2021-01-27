@@ -1,0 +1,107 @@
+["Return", "an", "internal", "Matcher", "closure", "that", "takes", "two", "arguments", ",", "a", "State", {
+  "id": "x"
+}, "and", "a", "Continuation", {
+  "id": "c"
+}, ",", "and", "performs", "the", "following", "steps", ":", true, "Let", {
+  "id": "cap"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 1
+}, "Let", {
+  "id": "s"
+}, "be", {
+  "id": "cap"
+}, "[", {
+  "id": "n"
+}, "]", ".", {
+  "k": 2
+}, "If", {
+  "id": "s"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "id": "c"
+}, "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "len"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "s"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "f"
+}, "be", {
+  "id": "e"
+}, "+", {
+  "id": "direction"
+}, "×", {
+  "id": "len"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "f"
+}, "<", "0", "or", {
+  "id": "f"
+}, ">", {
+  "id": "InputLength"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "g"
+}, "be", "min", "(", {
+  "id": "e"
+}, ",", {
+  "id": "f"
+}, ")", ".", {
+  "k": 8
+}, "If", "there", "exists", "an", "integer", {
+  "id": "i"
+}, "between", "0", "(", "inclusive", ")", "and", {
+  "id": "len"
+}, "(", "exclusive", ")", "such", "that", "Canonicalize", "(", {
+  "id": "s"
+}, "[", {
+  "id": "i"
+}, "]", ")", "is", "not", "the", "same", "character", "value", "as", "Canonicalize", "(", {
+  "id": "Input"
+}, "[", {
+  "id": "g"
+}, "+", {
+  "id": "i"
+}, "]", ")", ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "y"
+}, "be", "the", "State", "(", {
+  "id": "f"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 10
+}, "Call", {
+  "id": "c"
+}, "(", {
+  "id": "y"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 11
+}, false, {
+  "k": 0
+}]

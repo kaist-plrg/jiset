@@ -1,0 +1,73 @@
+["If", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "NOTE", {
+  "id": "C"
+}, "is", "assumed", "to", "be", "a", "constructor", "function", "that", "supports", "the", "parameter", "conventions", "of", "the", {
+  "code": "Promise"
+}, "constructor", "(", "see", {
+  "link": ""
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "a", "new", "PromiseCapability", "{", "[", "[", "Promise", "]", "]", ":", {
+  "value": "undefined"
+}, ",", "[", "[", "Resolve", "]", "]", ":", {
+  "value": "undefined"
+}, ",", "[", "[", "Reject", "]", "]", ":", {
+  "value": "undefined"
+}, "}", ".", {
+  "k": 2
+}, "Let", {
+  "id": "executor"
+}, "be", "a", "new", "built", "-", "in", "function", "object", "as", "defined", "in", "GetCapabilitiesExecutor", "Functions", "(", {
+  "link": ""
+}, ")", ".", {
+  "k": 3
+}, "Set", "the", "[", "[", "Capability", "]", "]", "internal", "slot", "of", {
+  "id": "executor"
+}, "to", {
+  "id": "promiseCapability"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "promise"
+}, "be", "?", "Construct", "(", {
+  "id": "C"
+}, ",", "«", {
+  "id": "executor"
+}, "»", ")", ".", {
+  "k": 5
+}, "If", "IsCallable", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "If", "IsCallable", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 7
+}, "Set", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", "to", {
+  "id": "promise"
+}, ".", {
+  "k": 8
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", {
+  "k": 9
+}]

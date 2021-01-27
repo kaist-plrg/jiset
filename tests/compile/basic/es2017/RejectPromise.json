@@ -1,0 +1,53 @@
+["Assert", ":", "The", "value", "of", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseState", "]", "]", "is", {
+  "code": "\"pending\""
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "reactions"
+}, "be", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseRejectReactions", "]", "]", ".", {
+  "k": 1
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseResult", "]", "]", "to", {
+  "id": "reason"
+}, ".", {
+  "k": 2
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseFulfillReactions", "]", "]", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseRejectReactions", "]", "]", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseState", "]", "]", "to", {
+  "code": "\"rejected\""
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseIsHandled", "]", "]", "is", {
+  "value": "false"
+}, ",", "perform", "HostPromiseRejectionTracker", "(", {
+  "id": "promise"
+}, ",", {
+  "code": "\"reject\""
+}, ")", ".", {
+  "k": 6
+}, "Return", "TriggerPromiseReactions", "(", {
+  "id": "reactions"
+}, ",", {
+  "id": "reason"
+}, ")", ".", {
+  "k": 7
+}]

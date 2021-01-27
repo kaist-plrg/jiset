@@ -1,0 +1,32 @@
+{
+  let C = this
+  app __x0__ = (NewPromiseCapability C)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let promiseCapability = __x0__
+  app __x1__ = (GetIterator iterable)
+  let iteratorRecord = __x1__
+  if (is-completion iteratorRecord) if (= iteratorRecord.Type CONST_normal) iteratorRecord = iteratorRecord.Value else {
+    app __x2__ = (Call promiseCapability.Reject undefined (new [iteratorRecord.Value]))
+    if (&& (is-completion __x2__) (! (= __x2__.Type CONST_normal))) return __x2__ else {}
+    return promiseCapability.Promise
+  } else {}
+  iteratorRecord
+  app __x3__ = (PerformPromiseAll iteratorRecord C promiseCapability)
+  let result = __x3__
+  app __x4__ = (IsAbruptCompletion result)
+  if __x4__ {
+    if (= iteratorRecord.Done false) {
+      app __x5__ = (IteratorClose iteratorRecord result)
+      result = __x5__
+    } else {}
+    if (is-completion result) if (= result.Type CONST_normal) result = result.Value else {
+      app __x6__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+      if (&& (is-completion __x6__) (! (= __x6__.Type CONST_normal))) return __x6__ else {}
+      return promiseCapability.Promise
+    } else {}
+    result
+  } else {}
+  app __x7__ = (Completion result)
+  app __x8__ = (WrapCompletion __x7__)
+  return __x8__
+}

@@ -1,0 +1,52 @@
+{
+  if (! (= (typeof module) "CyclicModuleRecord")) {
+    app __x0__ = (module.Instantiate module)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    __x0__
+    app __x1__ = (WrapCompletion index)
+    return __x1__
+  } else {}
+  if (|| (|| (= module.Status "instantiating") (= module.Status "instantiated")) (= module.Status "evaluated")) {
+    app __x2__ = (WrapCompletion index)
+    return __x2__
+  } else {}
+  assert (= module.Status "uninstantiated")
+  module.Status = "instantiating"
+  module.DFSIndex = index
+  module.DFSAncestorIndex = index
+  index = (+ index 1i)
+  append module -> stack
+  let __x3__ = module.RequestedModules
+  let __x4__ = 0i
+  while (< __x4__ __x3__.length) {
+    let required = __x3__[__x4__]
+    app __x5__ = (HostResolveImportedModule module required)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    let requiredModule = __x5__
+    app __x6__ = (InnerModuleInstantiation requiredModule stack index)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    index = __x6__
+    assert (|| (|| (= requiredModule.Status "instantiating") (= requiredModule.Status "instantiated")) (= requiredModule.Status "evaluated"))
+    if (= requiredModule.Status "instantiating") {
+      assert (= (typeof requiredModule) "CyclicModuleRecord")
+      app __x7__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
+      module.DFSAncestorIndex = __x7__
+    } else {}
+    __x4__ = (+ __x4__ 1i)
+  }
+  app __x8__ = (module.InitializeEnvironment module)
+  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+  __x8__
+  assert (! (< module.DFSIndex module.DFSAncestorIndex))
+  if (= module.DFSAncestorIndex module.DFSIndex) {
+    let done = false
+    while (= done false) {
+      let requiredModule = stack[(- stack.length 1i)]
+      (pop stack (- stack.length 1i))
+      requiredModule.Status = "instantiated"
+      if (= requiredModule module) done = true else {}
+    }
+  } else {}
+  app __x9__ = (WrapCompletion index)
+  return __x9__
+}

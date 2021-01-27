@@ -1,0 +1,59 @@
+["Let", {
+  "id": "func"
+}, "be", "?", "GetValue", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "Reference", ",", "then", true, "If", "IsPropertyReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "thisValue"
+}, "be", "GetThisValue", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "Else", ",", "the", "base", "of", {
+  "id": "ref"
+}, "is", "an", "Environment", "Record", true, "Let", {
+  "id": "refEnv"
+}, "be", "GetBase", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "refEnv"
+}, ".", "WithBaseObject", "(", ")", ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, false, {
+  "k": 1
+}, "Else", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "not", "Reference", ",", true, "Let", {
+  "id": "thisValue"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, "Return", "?", "EvaluateDirectCall", "(", {
+  "id": "func"
+}, ",", {
+  "id": "thisValue"
+}, ",", {
+  "id": "arguments"
+}, ",", {
+  "id": "tailPosition"
+}, ")", ".", {
+  "k": 9
+}]

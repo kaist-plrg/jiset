@@ -1,0 +1,39 @@
+["If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "not", "Object", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "argument"
+}, "is", "an", "Array", "exotic", "object", ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "argument"
+}, "is", "a", "Proxy", "exotic", "object", ",", "then", true, "If", {
+  "id": "argument"
+}, ".", "[", "[", "ProxyHandler", "]", "]", "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "argument"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 4
+}, "Return", "?", "IsArray", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 5
+}, false, {
+  "k": 2
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}]

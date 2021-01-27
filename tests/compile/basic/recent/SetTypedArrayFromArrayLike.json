@@ -1,0 +1,177 @@
+["Assert", ":", {
+  "id": "source"
+}, "is", "any", "ECMAScript", "language", "value", "other", "than", "an", "Object", "with", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ".", {
+  "k": 0
+}, "Let", {
+  "id": "targetBuffer"
+}, "be", {
+  "id": "target"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 1
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "targetBuffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Let", {
+  "id": "targetLength"
+}, "be", {
+  "id": "target"
+}, ".", "[", "[", "ArrayLength", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "targetName"
+}, "be", "the", "String", "value", "of", {
+  "id": "target"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "targetElementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "targetName"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "targetType"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "targetName"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "targetByteOffset"
+}, "be", {
+  "id": "target"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "src"
+}, "be", "?", "ToObject", "(", {
+  "id": "source"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "srcLength"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "src"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "targetOffset"
+}, "is", "+", "∞", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 10
+}, "If", {
+  "id": "srcLength"
+}, "+", {
+  "id": "targetOffset"
+}, ">", {
+  "id": "targetLength"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 11
+}, "Let", {
+  "id": "targetByteIndex"
+}, "be", {
+  "id": "targetOffset"
+}, "×", {
+  "id": "targetElementSize"
+}, "+", {
+  "id": "targetByteOffset"
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 13
+}, "Let", {
+  "id": "limit"
+}, "be", {
+  "id": "targetByteIndex"
+}, "+", {
+  "id": "targetElementSize"
+}, "×", {
+  "id": "srcLength"
+}, ".", {
+  "k": 14
+}, "Repeat", ",", "while", {
+  "id": "targetByteIndex"
+}, "<", {
+  "id": "limit"
+}, ",", true, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 16
+}, "Let", {
+  "id": "value"
+}, "be", "?", "Get", "(", {
+  "id": "src"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 17
+}, "If", {
+  "id": "target"
+}, ".", "[", "[", "ContentType", "]", "]", "is", {
+  "const": "BigInt"
+}, ",", "set", {
+  "id": "value"
+}, "to", "?", "ToBigInt", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 18
+}, "Otherwise", ",", "set", {
+  "id": "value"
+}, "to", "?", "ToNumber", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 19
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "targetBuffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 20
+}, "Perform", "SetValueInBuffer", "(", {
+  "id": "targetBuffer"
+}, ",", {
+  "id": "targetByteIndex"
+}, ",", {
+  "id": "targetType"
+}, ",", {
+  "id": "value"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "const": "Unordered"
+}, ")", ".", {
+  "k": 21
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 22
+}, "Set", {
+  "id": "targetByteIndex"
+}, "to", {
+  "id": "targetByteIndex"
+}, "+", {
+  "id": "targetElementSize"
+}, ".", {
+  "k": 23
+}, false, {
+  "k": 15
+}]

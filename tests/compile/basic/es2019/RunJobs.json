@@ -1,0 +1,99 @@
+["Perform", "?", "InitializeHostDefinedRealm", "(", ")", ".", {
+  "k": 0
+}, "In", "an", "implementation", "-", "dependent", "manner", ",", "obtain", "the", "ECMAScript", "source", "texts", "(", "see", "clause", {
+  "link": ""
+}, ")", "and", "any", "associated", "host", "-", "defined", "values", "for", "zero", "or", "more", "ECMAScript", "scripts", "and", "/", "or", "ECMAScript", "modules", ".", "For", "each", "such", {
+  "id": "sourceText"
+}, "and", {
+  "id": "hostDefined"
+}, ",", "do", true, "If", {
+  "id": "sourceText"
+}, "is", "the", "source", "code", "of", "a", "script", ",", "then", true, "Perform", "EnqueueJob", "(", {
+  "code": "\"ScriptJobs\""
+}, ",", "ScriptEvaluationJob", ",", "«", {
+  "id": "sourceText"
+}, ",", {
+  "id": "hostDefined"
+}, "»", ")", ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "Else", {
+  "id": "sourceText"
+}, "is", "the", "source", "code", "of", "a", "module", ",", true, "Perform", "EnqueueJob", "(", {
+  "code": "\"ScriptJobs\""
+}, ",", "TopLevelModuleEvaluationJob", ",", "«", {
+  "id": "sourceText"
+}, ",", {
+  "id": "hostDefined"
+}, "»", ")", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, false, {
+  "k": 1
+}, "Repeat", ",", true, "Suspend", "the", "running", "execution", "context", "and", "remove", "it", "from", "the", "execution", "context", "stack", ".", {
+  "k": 7
+}, "Assert", ":", "The", "execution", "context", "stack", "is", "now", "empty", ".", {
+  "k": 8
+}, "Let", {
+  "id": "nextQueue"
+}, "be", "a", "non", "-", "empty", "Job", "Queue", "chosen", "in", "an", "implementation", "-", "defined", "manner", ".", "If", "all", "Job", "Queues", "are", "empty", ",", "the", "result", "is", "implementation", "-", "defined", ".", {
+  "k": 9
+}, "Let", {
+  "id": "nextPending"
+}, "be", "the", "PendingJob", "record", "at", "the", "front", "of", {
+  "id": "nextQueue"
+}, ".", "Remove", "that", "record", "from", {
+  "id": "nextQueue"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "newContext"
+}, "be", "a", "new", "execution", "context", ".", {
+  "k": 11
+}, "Set", {
+  "id": "newContext"
+}, "'", "s", "Function", "to", {
+  "value": "null"
+}, ".", {
+  "k": 12
+}, "Set", {
+  "id": "newContext"
+}, "'", "s", "Realm", "to", {
+  "id": "nextPending"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 13
+}, "Set", {
+  "id": "newContext"
+}, "'", "s", "ScriptOrModule", "to", {
+  "id": "nextPending"
+}, ".", "[", "[", "ScriptOrModule", "]", "]", ".", {
+  "k": 14
+}, "Push", {
+  "id": "newContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "newContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 15
+}, "Perform", "any", "implementation", "or", "host", "environment", "defined", "job", "initialization", "using", {
+  "id": "nextPending"
+}, ".", {
+  "k": 16
+}, "Let", {
+  "id": "result"
+}, "be", "the", "result", "of", "performing", "the", "abstract", "operation", "named", "by", {
+  "id": "nextPending"
+}, ".", "[", "[", "Job", "]", "]", "using", "the", "elements", "of", {
+  "id": "nextPending"
+}, ".", "[", "[", "Arguments", "]", "]", "as", "its", "arguments", ".", {
+  "k": 17
+}, "If", {
+  "id": "result"
+}, "is", "an", "abrupt", "completion", ",", "perform", "HostReportErrors", "(", "«", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 18
+}, false, {
+  "k": 6
+}]

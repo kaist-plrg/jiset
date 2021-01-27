@@ -1,0 +1,119 @@
+["If", {
+  "id": "exportStarSet"
+}, "is", "not", "present", ",", "set", {
+  "id": "exportStarSet"
+}, "to", "a", "new", "empty", "List", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "exportStarSet"
+}, "is", "a", "List", "of", "Source", "Text", "Module", "Records", ".", {
+  "k": 1
+}, "Let", {
+  "id": "module"
+}, "be", "this", "Source", "Text", "Module", "Record", ".", {
+  "k": 2
+}, "If", {
+  "id": "exportStarSet"
+}, "contains", {
+  "id": "module"
+}, ",", "then", true, "Assert", ":", "We", "'", "ve", "reached", "the", "starting", "point", "of", "an", "`", "export", "*", "`", "circularity", ".", {
+  "k": 4
+}, "Return", "a", "new", "empty", "List", ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Append", {
+  "id": "module"
+}, "to", {
+  "id": "exportStarSet"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "exportedNames"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 7
+}, "For", "each", "ExportEntry", "Record", {
+  "id": "e"
+}, "in", {
+  "id": "module"
+}, ".", "[", "[", "LocalExportEntries", "]", "]", ",", "do", true, "Assert", ":", {
+  "id": "module"
+}, "provides", "the", "direct", "binding", "for", "this", "export", ".", {
+  "k": 9
+}, "Append", {
+  "id": "e"
+}, ".", "[", "[", "ExportName", "]", "]", "to", {
+  "id": "exportedNames"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, "For", "each", "ExportEntry", "Record", {
+  "id": "e"
+}, "in", {
+  "id": "module"
+}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", true, "Assert", ":", {
+  "id": "module"
+}, "imports", "a", "specific", "binding", "for", "this", "export", ".", {
+  "k": 12
+}, "Append", {
+  "id": "e"
+}, ".", "[", "[", "ExportName", "]", "]", "to", {
+  "id": "exportedNames"
+}, ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "For", "each", "ExportEntry", "Record", {
+  "id": "e"
+}, "in", {
+  "id": "module"
+}, ".", "[", "[", "StarExportEntries", "]", "]", ",", "do", true, "Let", {
+  "id": "requestedModule"
+}, "be", "?", "HostResolveImportedModule", "(", {
+  "id": "module"
+}, ",", {
+  "id": "e"
+}, ".", "[", "[", "ModuleRequest", "]", "]", ")", ".", {
+  "k": 15
+}, "Let", {
+  "id": "starNames"
+}, "be", "?", {
+  "id": "requestedModule"
+}, ".", "GetExportedNames", "(", {
+  "id": "exportStarSet"
+}, ")", ".", {
+  "k": 16
+}, "For", "each", "element", {
+  "id": "n"
+}, "of", {
+  "id": "starNames"
+}, ",", "do", true, "If", "SameValue", "(", {
+  "id": "n"
+}, ",", {
+  "value": "\"default\""
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "If", {
+  "id": "n"
+}, "is", "not", "an", "element", "of", {
+  "id": "exportedNames"
+}, ",", "then", true, "Append", {
+  "id": "n"
+}, "to", {
+  "id": "exportedNames"
+}, ".", {
+  "k": 20
+}, false, {
+  "k": 19
+}, false, {
+  "k": 18
+}, false, {
+  "k": 17
+}, false, {
+  "k": 14
+}, "Return", {
+  "id": "exportedNames"
+}, ".", {
+  "k": 21
+}]

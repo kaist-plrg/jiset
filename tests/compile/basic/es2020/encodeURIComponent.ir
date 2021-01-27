@@ -1,0 +1,10 @@
+{
+  app __x0__ = (ToString uriComponent)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let componentString = __x0__
+  ??? "Let id:{unescapedURIComponentSet} be a String containing one instance of each code unit valid in nt:{uriUnescaped} ."
+  app __x1__ = (Encode componentString unescapedURIComponentSet)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
+}

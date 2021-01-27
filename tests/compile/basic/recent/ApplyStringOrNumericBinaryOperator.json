@@ -1,0 +1,135 @@
+["If", {
+  "id": "opText"
+}, "is", {
+  "code": "+"
+}, ",", "then", true, "Let", {
+  "id": "lprim"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "lval"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "rprim"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "rval"
+}, ")", ".", {
+  "k": 2
+}, "If", "Type", "(", {
+  "id": "lprim"
+}, ")", "is", "String", "or", "Type", "(", {
+  "id": "rprim"
+}, ")", "is", "String", ",", "then", true, "Let", {
+  "id": "lstr"
+}, "be", "?", "ToString", "(", {
+  "id": "lprim"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "rstr"
+}, "be", "?", "ToString", "(", {
+  "id": "rprim"
+}, ")", ".", {
+  "k": 5
+}, "Return", "the", "string", "-", "concatenation", "of", {
+  "id": "lstr"
+}, "and", {
+  "id": "rstr"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 3
+}, "Set", {
+  "id": "lval"
+}, "to", {
+  "id": "lprim"
+}, ".", {
+  "k": 7
+}, "Set", {
+  "id": "rval"
+}, "to", {
+  "id": "rprim"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 0
+}, "NOTE", ":", "At", "this", "point", ",", "it", "must", "be", "a", "numeric", "operation", ".", {
+  "k": 9
+}, "Let", {
+  "id": "lnum"
+}, "be", "?", "ToNumeric", "(", {
+  "id": "lval"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "rnum"
+}, "be", "?", "ToNumeric", "(", {
+  "id": "rval"
+}, ")", ".", {
+  "k": 11
+}, "If", "Type", "(", {
+  "id": "lnum"
+}, ")", "is", "different", "from", "Type", "(", {
+  "id": "rnum"
+}, ")", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 12
+}, "Let", {
+  "id": "T"
+}, "be", "Type", "(", {
+  "id": "lnum"
+}, ")", ".", {
+  "k": 13
+}, "Let", {
+  "id": "operation"
+}, "be", "the", "abstract", "operation", "associated", "with", {
+  "id": "opText"
+}, "in", "the", "following", "table", ":", true, true, true, true, {
+  "k": 18
+}, {
+  "k": 19
+}, {
+  "k": 20
+}, {
+  "k": 21
+}, {
+  "k": 22
+}, {
+  "k": 23
+}, {
+  "k": 24
+}, {
+  "k": 25
+}, {
+  "k": 26
+}, {
+  "k": 27
+}, {
+  "k": 28
+}, {
+  "k": 29
+}, {
+  "k": 30
+}, false, {
+  "k": 17
+}, {
+  "k": 31
+}, false, {
+  "k": 16
+}, {
+  "k": 32
+}, false, {
+  "k": 15
+}, {
+  "k": 33
+}, false, {
+  "k": 14
+}, "Return", "?", {
+  "id": "operation"
+}, "(", {
+  "id": "lnum"
+}, ",", {
+  "id": "rnum"
+}, ")", ".", {
+  "k": 34
+}]

@@ -1,0 +1,22 @@
+{
+  app __x0__ = (IsDetachedBuffer arrayBuffer)
+  assert (= __x0__ false)
+  app __x1__ = (Type value)
+  assert (= __x1__ Number)
+  let block = arrayBuffer.ArrayBufferData
+  ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{} for Element Type id:{type} ."
+  if (= isLittleEndian absent) isLittleEndian = GLOBAL_agent.LittleEndian else {}
+  app __x2__ = (NumberToRawBytes type value isLittleEndian)
+  let rawBytes = __x2__
+  app __x3__ = (IsSharedArrayBuffer arrayBuffer)
+  if (= __x3__ true) {
+    let execution = GLOBAL_agent.CandidateExecution
+    ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventLists ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
+    if (&& (= isTypedArray true) (|| (|| (|| (|| (|| (= type "Int8") (= type "Uint8")) (= type "Int16")) (= type "Uint16")) (= type "Int32")) (= type "Uint32"))) let noTear = true else let noTear = false
+    append (new WriteSharedMemory("Order" -> order, "NoTear" -> noTear, "Block" -> block, "ByteIndex" -> byteIndex, "ElementSize" -> elementSize, "Payload" -> rawBytes)) -> eventList
+  } else {}
+  ??? "Else , store the individual bytes of id:{rawBytes} into id:{block} , in order , starting at id:{block} [ id:{byteIndex} ] ."
+  app __x4__ = (NormalCompletion undefined)
+  app __x5__ = (WrapCompletion __x4__)
+  return __x5__
+}

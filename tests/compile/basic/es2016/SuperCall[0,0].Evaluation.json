@@ -1,0 +1,47 @@
+["Let", {
+  "id": "newTarget"
+}, "be", "GetNewTarget", "(", ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "newTarget"
+}, "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "ReferenceError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "func"
+}, "be", "?", "GetSuperConstructor", "(", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "argList"
+}, "be", "ArgumentListEvaluation", "of", {
+  "nt": "Arguments"
+}, ".", {
+  "k": 3
+}, "ReturnIfAbrupt", "(", {
+  "id": "argList"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "result"
+}, "be", "?", "Construct", "(", {
+  "id": "func"
+}, ",", {
+  "id": "argList"
+}, ",", {
+  "id": "newTarget"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "thisER"
+}, "be", "GetThisEnvironment", "(", ")", ".", {
+  "k": 6
+}, "Return", "?", {
+  "id": "thisER"
+}, ".", "BindThisValue", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 7
+}]

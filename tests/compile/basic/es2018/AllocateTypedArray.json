@@ -1,0 +1,55 @@
+["Let", {
+  "id": "proto"
+}, "be", "?", "GetPrototypeFromConstructor", "(", {
+  "id": "newTarget"
+}, ",", {
+  "id": "defaultProto"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "obj"
+}, "be", "IntegerIndexedObjectCreate", "(", {
+  "id": "proto"
+}, ",", "«", "[", "[", "ViewedArrayBuffer", "]", "]", ",", "[", "[", "TypedArrayName", "]", "]", ",", "[", "[", "ByteLength", "]", "]", ",", "[", "[", "ByteOffset", "]", "]", ",", "[", "[", "ArrayLength", "]", "]", "»", ")", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "obj"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "is", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "TypedArrayName", "]", "]", "to", {
+  "id": "constructorName"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "length"
+}, "is", "not", "present", ",", "then", true, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "ByteLength", "]", "]", "to", "0", ".", {
+  "k": 5
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "ByteOffset", "]", "]", "to", "0", ".", {
+  "k": 6
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "ArrayLength", "]", "]", "to", "0", ".", {
+  "k": 7
+}, false, {
+  "k": 4
+}, "Else", ",", true, "Perform", "?", "AllocateTypedArrayBuffer", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "length"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Return", {
+  "id": "obj"
+}, ".", {
+  "k": 10
+}]

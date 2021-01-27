@@ -1,0 +1,45 @@
+["Let", {
+  "id": "x"
+}, "be", "?", "thisNumberValue", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "radix"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "radixNumber"
+}, "be", "10", ".", {
+  "k": 1
+}, "Else", ",", "let", {
+  "id": "radixNumber"
+}, "be", "?", "ToInteger", "(", {
+  "id": "radix"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "radixNumber"
+}, "<", "2", "or", {
+  "id": "radixNumber"
+}, ">", "36", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 3
+}, "If", {
+  "id": "radixNumber"
+}, "=", "10", ",", "return", "!", "ToString", "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 4
+}, "Return", "the", "String", "representation", "of", "this", "Number", "value", "using", "the", "radix", "specified", "by", {
+  "id": "radixNumber"
+}, ".", "Letters", {
+  "code": "a"
+}, "-", {
+  "code": "z"
+}, "are", "used", "for", "digits", "with", "values", "10", "through", "35", ".", "The", "precise", "algorithm", "is", "implementation", "-", "dependent", ",", "however", "the", "algorithm", "should", "be", "a", "generalization", "of", "that", "specified", "in", {
+  "link": ""
+}, ".", {
+  "k": 5
+}]

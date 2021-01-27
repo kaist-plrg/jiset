@@ -1,0 +1,53 @@
+["Assert", ":", "Type", "(", {
+  "id": "srcBuffer"
+}, ")", "is", "Object", "and", "it", "has", "an", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ".", {
+  "k": 0
+}, "Assert", ":", "IsConstructor", "(", {
+  "id": "cloneConstructor"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "targetBuffer"
+}, "be", "?", "AllocateArrayBuffer", "(", {
+  "id": "cloneConstructor"
+}, ",", {
+  "id": "srcLength"
+}, ")", ".", {
+  "k": 2
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "srcBuffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Let", {
+  "id": "srcBlock"
+}, "be", {
+  "id": "srcBuffer"
+}, ".", "[", "[", "ArrayBufferData", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "targetBlock"
+}, "be", {
+  "id": "targetBuffer"
+}, ".", "[", "[", "ArrayBufferData", "]", "]", ".", {
+  "k": 5
+}, "Perform", "CopyDataBlockBytes", "(", {
+  "id": "targetBlock"
+}, ",", "0", ",", {
+  "id": "srcBlock"
+}, ",", {
+  "id": "srcByteOffset"
+}, ",", {
+  "id": "srcLength"
+}, ")", ".", {
+  "k": 6
+}, "Return", {
+  "id": "targetBuffer"
+}, ".", {
+  "k": 7
+}]

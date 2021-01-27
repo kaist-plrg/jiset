@@ -1,0 +1,35 @@
+["If", {
+  "id": "env"
+}, "is", "not", "present", "or", "if", {
+  "id": "env"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Set", {
+  "id": "env"
+}, "to", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 1
+}, false, {
+  "k": 0
+}, "Assert", ":", {
+  "id": "env"
+}, "is", "a", "Lexical", "Environment", ".", {
+  "k": 2
+}, "If", "the", "code", "matching", "the", "syntactic", "production", "that", "is", "being", "evaluated", "is", "contained", "in", "strict", "mode", "code", ",", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "true"
+}, ",", "else", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "Return", "?", "GetIdentifierReference", "(", {
+  "id": "env"
+}, ",", {
+  "id": "name"
+}, ",", {
+  "id": "strict"
+}, ")", ".", {
+  "k": 4
+}]

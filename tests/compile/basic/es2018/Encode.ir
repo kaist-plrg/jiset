@@ -1,0 +1,30 @@
+{
+  let strLen = string.length
+  let R = ""
+  let k = 0i
+  while true {
+    if (= k strLen) {
+      app __x0__ = (WrapCompletion R)
+      return __x0__
+    } else {}
+    let C = string[k]
+    if (contains unescapedSet C) {
+      let S = C
+      R = (+ R S)
+    } else {
+      ??? "If id:{C} is a link:{} , throw a value:{URIError} exception ."
+      ??? "If id:{C} is not a link:{} , then step-list:{...}"
+      ??? "Else , step-list:{...}"
+      ??? "Let id:{Octets} be the List of octets resulting by applying the UTF - 8 transformation to id:{V} ."
+      let __x1__ = Octets
+      let __x2__ = 0i
+      while (< __x2__ __x1__.length) {
+        let octet = __x1__[__x2__]
+        let S = (+ INTRINSIC_ ??? "StringOp")
+        R = (+ R S)
+        __x2__ = (+ __x2__ 1i)
+      }
+    }
+    k = (+ k 1i)
+  }
+}

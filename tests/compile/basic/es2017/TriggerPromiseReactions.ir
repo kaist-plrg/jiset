@@ -1,0 +1,12 @@
+{
+  let __x0__ = reactions
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let reaction = __x0__[__x1__]
+    app __x2__ = (EnqueueJob "PromiseJobs" PromiseReactionJob (new [reaction, argument]))
+    __x2__
+    __x1__ = (+ __x1__ 1i)
+  }
+  app __x3__ = (WrapCompletion undefined)
+  return __x3__
+}

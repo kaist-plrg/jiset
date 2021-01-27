@@ -1,0 +1,29 @@
+{
+  if (= cloneConstructor absent) {
+    app __x0__ = (SpeciesConstructor srcBuffer INTRINSIC_ArrayBuffer)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    cloneConstructor = __x0__
+    app __x1__ = (IsDetachedBuffer srcBuffer)
+    if (= __x1__ true) {
+      app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x2__
+    } else {}
+  } else {
+    app __x3__ = (IsConstructor cloneConstructor)
+    assert (= __x3__ true)
+  }
+  let srcBlock = srcBuffer.ArrayBufferData
+  app __x4__ = (AllocateArrayBuffer cloneConstructor srcLength)
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  let targetBuffer = __x4__
+  app __x5__ = (IsDetachedBuffer srcBuffer)
+  if (= __x5__ true) {
+    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x6__
+  } else {}
+  let targetBlock = targetBuffer.ArrayBufferData
+  app __x7__ = (CopyDataBlockBytes targetBlock 0i srcBlock srcByteOffset srcLength)
+  __x7__
+  app __x8__ = (WrapCompletion targetBuffer)
+  return __x8__
+}

@@ -1,0 +1,15 @@
+{
+  access __x0__ = (ClassElementList "ConstructorMethod")
+  let head = __x0__
+  if (! (= head CONST_empty)) {
+    app __x1__ = (WrapCompletion head)
+    return __x1__
+  } else {}
+  access __x2__ = (ClassElement "ClassElementKind")
+  if (= __x2__ CONST_ConstructorMethod) {
+    app __x3__ = (WrapCompletion ClassElement)
+    return __x3__
+  } else {}
+  app __x4__ = (WrapCompletion CONST_empty)
+  return __x4__
+}

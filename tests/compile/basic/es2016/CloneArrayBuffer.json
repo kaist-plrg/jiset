@@ -1,0 +1,91 @@
+["Assert", ":", "Type", "(", {
+  "id": "srcBuffer"
+}, ")", "is", "Object", "and", "it", "has", "an", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ".", {
+  "k": 0
+}, "If", {
+  "id": "cloneConstructor"
+}, "is", "not", "present", ",", "then", true, "Let", {
+  "id": "cloneConstructor"
+}, "be", "?", "SpeciesConstructor", "(", {
+  "id": "srcBuffer"
+}, ",", "%", "ArrayBuffer", "%", ")", ".", {
+  "k": 2
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "srcBuffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, false, {
+  "k": 1
+}, "Else", ",", "Assert", ":", "IsConstructor", "(", {
+  "id": "cloneConstructor"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "srcLength"
+}, "be", "the", "value", "of", {
+  "id": "srcBuffer"
+}, "'", "s", "[", "[", "ArrayBufferByteLength", "]", "]", "internal", "slot", ".", {
+  "k": 5
+}, "Assert", ":", {
+  "id": "srcByteOffset"
+}, "≤", {
+  "id": "srcLength"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "cloneLength"
+}, "be", {
+  "id": "srcLength"
+}, "-", {
+  "id": "srcByteOffset"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "srcBlock"
+}, "be", "the", "value", "of", {
+  "id": "srcBuffer"
+}, "'", "s", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ".", {
+  "k": 8
+}, "Let", {
+  "id": "targetBuffer"
+}, "be", "?", "AllocateArrayBuffer", "(", {
+  "id": "cloneConstructor"
+}, ",", {
+  "id": "cloneLength"
+}, ")", ".", {
+  "k": 9
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "srcBuffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 10
+}, "Let", {
+  "id": "targetBlock"
+}, "be", "the", "value", "of", {
+  "id": "targetBuffer"
+}, "'", "s", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ".", {
+  "k": 11
+}, "Perform", "CopyDataBlockBytes", "(", {
+  "id": "targetBlock"
+}, ",", "0", ",", {
+  "id": "srcBlock"
+}, ",", {
+  "id": "srcByteOffset"
+}, ",", {
+  "id": "cloneLength"
+}, ")", ".", {
+  "k": 12
+}, "Return", {
+  "id": "targetBuffer"
+}, ".", {
+  "k": 13
+}]

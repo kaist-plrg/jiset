@@ -1,0 +1,33 @@
+["Assert", ":", "The", "execution", "context", "stack", "has", "at", "least", "two", "elements", ".", {
+  "k": 0
+}, "Let", {
+  "id": "callerContext"
+}, "be", "the", "second", "to", "top", "element", "of", "the", "execution", "context", "stack", ".", {
+  "k": 1
+}, "Let", {
+  "id": "callerRealm"
+}, "be", {
+  "id": "callerContext"
+}, "'", "s", "Realm", ".", {
+  "k": 2
+}, "Let", {
+  "id": "calleeRealm"
+}, "be", "the", "current", "Realm", "Record", ".", {
+  "k": 3
+}, "Perform", "?", "HostEnsureCanCompileStrings", "(", {
+  "id": "callerRealm"
+}, ",", {
+  "id": "calleeRealm"
+}, ")", ".", {
+  "k": 4
+}, "Return", "?", "PerformEval", "(", {
+  "id": "x"
+}, ",", {
+  "id": "calleeRealm"
+}, ",", {
+  "value": "false"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 5
+}]

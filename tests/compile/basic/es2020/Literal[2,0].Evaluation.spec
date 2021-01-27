@@ -1,0 +1,1 @@
+          1. Return the NumericValue of |NumericLiteral| as defined in <emu-xref href="#sec-literals-numeric-literals"></emu-xref>.

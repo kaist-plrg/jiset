@@ -1,0 +1,10 @@
+{
+  let envRec = this
+  assert (! (= envRec.ThisBindingStatus "lexical"))
+  if (= envRec.ThisBindingStatus "uninitialized") {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else {}
+  app __x1__ = (WrapCompletion envRec.ThisValue)
+  return __x1__
+}

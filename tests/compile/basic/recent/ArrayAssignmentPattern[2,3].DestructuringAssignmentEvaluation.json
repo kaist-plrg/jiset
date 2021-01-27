@@ -1,0 +1,85 @@
+["Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "status"
+}, "be", "IteratorDestructuringAssignmentEvaluation", "of", {
+  "nt": "AssignmentElementList"
+}, "with", "argument", {
+  "id": "iteratorRecord"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "k": 3
+}, "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 2
+}, "If", {
+  "nt": "Elision"
+}, "is", "present", ",", "then", true, "Set", {
+  "id": "status"
+}, "to", "the", "result", "of", "performing", "IteratorDestructuringAssignmentEvaluation", "of", {
+  "nt": "Elision"
+}, "with", {
+  "id": "iteratorRecord"
+}, "as", "the", "argument", ".", {
+  "k": 6
+}, "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Assert", ":", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}, "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 7
+}, false, {
+  "k": 5
+}, "If", {
+  "nt": "AssignmentRestElement"
+}, "is", "present", ",", "then", true, "Set", {
+  "id": "status"
+}, "to", "the", "result", "of", "performing", "IteratorDestructuringAssignmentEvaluation", "of", {
+  "nt": "AssignmentRestElement"
+}, "with", {
+  "id": "iteratorRecord"
+}, "as", "the", "argument", ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "k": 12
+}, "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 13
+}]

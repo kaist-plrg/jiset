@@ -1,0 +1,22 @@
+{
+  let M = this
+  app __x0__ = (Type M)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  if (= M.MapData absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  app __x3__ = (IsCallable callbackfn)
+  if (= __x3__ false) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else {}
+  if (! (= thisArg absent)) let T = thisArg else let T = undefined
+  let entries = M.MapData
+  ??? "Repeat for each Record { [ [ Key ] ] , [ [ Value ] ] } id:{e} that is an element of id:{entries} , in original key insertion order step-list:{...}"
+  app __x5__ = (WrapCompletion undefined)
+  return __x5__
+}

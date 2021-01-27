@@ -1,0 +1,13 @@
+{
+  let L = (new [])
+  ??? "Let id:{S} be a reference to the list of waiters in id:{WL} ."
+  while (&& (< 0i c) (< 0i S.length)) {
+    let W = S[0i]
+    append W -> L
+    let __x0__ = 0i
+    while (< __x0__ S.length) if (= S[__x0__] W) (pop S __x0__) else __x0__ = (+ __x0__ 1i)
+    if (! (|| (= c Infinity) (= c -Infinity))) c = (- c 1i) else {}
+  }
+  app __x1__ = (WrapCompletion L)
+  return __x1__
+}

@@ -1,0 +1,97 @@
+["Let", {
+  "id": "A"
+}, "be", "!", "ArrayCreate", "(", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "n"
+}, "be", "0", ".", {
+  "k": 1
+}, "Repeat", ",", true, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 3
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", true, "Return", "the", "result", "of", "performing", "BindingInitialization", "of", {
+  "nt": "BindingPattern"
+}, "with", {
+  "id": "A"
+}, "and", {
+  "id": "environment"
+}, "as", "the", "arguments", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Let", {
+  "id": "nextValue"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "nextValue"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 11
+}, "ReturnIfAbrupt", "(", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "status"
+}, "be", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "n"
+}, ")", ",", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 13
+}, "Assert", ":", {
+  "id": "status"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 14
+}, "Increment", {
+  "id": "n"
+}, "by", "1", ".", {
+  "k": 15
+}, false, {
+  "k": 2
+}]

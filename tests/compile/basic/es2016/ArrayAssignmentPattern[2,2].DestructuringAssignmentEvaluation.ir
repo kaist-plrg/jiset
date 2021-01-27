@@ -1,0 +1,52 @@
+{
+  app __x0__ = (GetIterator value)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let iterator = __x0__
+  let iteratorRecord = (new Record("Iterator" -> iterator, "Done" -> false))
+  access __x1__ = (AssignmentElementList "IteratorDestructuringAssignmentEvaluation")
+  app __x2__ = (__x1__ iteratorRecord)
+  let status = __x2__
+  app __x3__ = (IsAbruptCompletion status)
+  if __x3__ {
+    if (= iteratorRecord.Done false) {
+      app __x4__ = (IteratorClose iterator status)
+      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+      app __x5__ = (WrapCompletion __x4__)
+      return __x5__
+    } else {}
+    app __x6__ = (Completion status)
+    app __x7__ = (WrapCompletion __x6__)
+    return __x7__
+  } else {}
+  if (! (= Elision absent)) {
+    access __x8__ = (Elision "IteratorDestructuringAssignmentEvaluation")
+    app __x9__ = (__x8__ iteratorRecord)
+    let status = __x9__
+    app __x10__ = (IsAbruptCompletion status)
+    if __x10__ {
+      if (= iteratorRecord.Done false) {
+        app __x11__ = (IteratorClose iterator status)
+        if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+        app __x12__ = (WrapCompletion __x11__)
+        return __x12__
+      } else {}
+      app __x13__ = (Completion status)
+      app __x14__ = (WrapCompletion __x13__)
+      return __x14__
+    } else {}
+  } else {}
+  if (! (= AssignmentRestElement absent)) {
+    access __x15__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation")
+    app __x16__ = (__x15__ iteratorRecord)
+    let status = __x16__
+  } else {}
+  if (= iteratorRecord.Done false) {
+    app __x17__ = (IteratorClose iterator status)
+    if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
+    app __x18__ = (WrapCompletion __x17__)
+    return __x18__
+  } else {}
+  app __x19__ = (Completion status)
+  app __x20__ = (WrapCompletion __x19__)
+  return __x20__
+}

@@ -1,0 +1,77 @@
+["Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateSharedIntegerTypedArray", "(", {
+  "id": "typedArray"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "i"
+}, "be", "?", "ValidateAtomicAccess", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "v"
+}, "be", "?", "ToInteger", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Number", "value", "of", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "String", "value", "of", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 6
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "i"
+}, "×", {
+  "id": "elementSize"
+}, ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 7
+}, "Perform", "SetValueInBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "id": "v"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "code": "\"SeqCst\""
+}, ")", ".", {
+  "k": 8
+}, "Return", {
+  "id": "v"
+}, ".", {
+  "k": 9
+}]

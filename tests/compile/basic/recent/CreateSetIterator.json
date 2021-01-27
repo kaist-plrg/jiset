@@ -1,0 +1,107 @@
+["Assert", ":", {
+  "id": "kind"
+}, "is", {
+  "const": "key+value"
+}, "or", {
+  "const": "value"
+}, ".", {
+  "k": 0
+}, "Perform", "?", "RequireInternalSlot", "(", {
+  "id": "set"
+}, ",", "[", "[", "SetData", "]", "]", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "closure"
+}, "be", "a", "new", "Abstract", "Closure", "with", "no", "parameters", "that", "captures", {
+  "id": "set"
+}, "and", {
+  "id": "kind"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "k": 3
+}, "Let", {
+  "id": "entries"
+}, "be", "the", "List", "that", "is", {
+  "id": "set"
+}, ".", "[", "[", "SetData", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "numEntries"
+}, "be", "the", "number", "of", "elements", "of", {
+  "id": "entries"
+}, ".", {
+  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "index"
+}, "<", {
+  "id": "numEntries"
+}, ",", true, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "entries"
+}, "[", {
+  "id": "index"
+}, "]", ".", {
+  "k": 7
+}, "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 8
+}, "If", {
+  "id": "e"
+}, "is", "not", {
+  "const": "empty"
+}, ",", "then", true, "If", {
+  "id": "kind"
+}, "is", {
+  "const": "key+value"
+}, ",", "then", true, "Perform", "?", "Yield", "(", "!", "CreateArrayFromList", "(", "«", {
+  "id": "e"
+}, ",", {
+  "id": "e"
+}, "»", ")", ")", ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "Else", ",", true, "Assert", ":", {
+  "id": "kind"
+}, "is", {
+  "const": "value"
+}, ".", {
+  "k": 13
+}, "Perform", "?", "Yield", "(", {
+  "id": "e"
+}, ")", ".", {
+  "k": 14
+}, false, {
+  "k": 12
+}, "NOTE", ":", "the", "number", "of", "elements", "in", {
+  "id": "entries"
+}, "may", "have", "changed", "while", "execution", "of", "this", "abstract", "operation", "was", "paused", "by", "Yield", ".", {
+  "k": 15
+}, "Set", {
+  "id": "numEntries"
+}, "to", "the", "number", "of", "elements", "of", {
+  "id": "entries"
+}, ".", {
+  "k": 16
+}, false, {
+  "k": 9
+}, false, {
+  "k": 6
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 17
+}, false, {
+  "k": 2
+}, "Return", "!", "CreateIteratorFromClosure", "(", {
+  "id": "closure"
+}, ",", {
+  "value": "\"%SetIteratorPrototype%\""
+}, ",", "%", "SetIteratorPrototype", "%", ")", ".", {
+  "k": 18
+}]

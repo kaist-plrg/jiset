@@ -1,0 +1,257 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "separator"
+}, "is", "neither", {
+  "value": "undefined"
+}, "nor", {
+  "value": "null"
+}, ",", "then", true, "Let", {
+  "id": "splitter"
+}, "be", "?", "GetMethod", "(", {
+  "id": "separator"
+}, ",", "@", "@", "split", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "splitter"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "?", "Call", "(", {
+  "id": "splitter"
+}, ",", {
+  "id": "separator"
+}, ",", "«", {
+  "id": "O"
+}, ",", {
+  "id": "limit"
+}, "»", ")", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, false, {
+  "k": 1
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "A"
+}, "be", "!", "ArrayCreate", "(", "0", ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "lengthA"
+}, "be", "0", ".", {
+  "k": 7
+}, "If", {
+  "id": "limit"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "lim"
+}, "be", "2", {
+  "sup": {
+    "tokens": ["32"]
+  }
+}, "-", "1", ";", "else", "let", {
+  "id": "lim"
+}, "be", "?", "ToUint32", "(", {
+  "id": "limit"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "s"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "S"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "p"
+}, "be", "0", ".", {
+  "k": 10
+}, "Let", {
+  "id": "R"
+}, "be", "?", "ToString", "(", {
+  "id": "separator"
+}, ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "lim"
+}, "=", "0", ",", "return", {
+  "id": "A"
+}, ".", {
+  "k": 12
+}, "If", {
+  "id": "separator"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Perform", "!", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", {
+  "code": "\"0\""
+}, ",", {
+  "id": "S"
+}, ")", ".", {
+  "k": 14
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 15
+}, false, {
+  "k": 13
+}, "If", {
+  "id": "s"
+}, "=", "0", ",", "then", true, "Let", {
+  "id": "z"
+}, "be", "SplitMatch", "(", {
+  "id": "S"
+}, ",", "0", ",", {
+  "id": "R"
+}, ")", ".", {
+  "k": 17
+}, "If", {
+  "id": "z"
+}, "is", "not", {
+  "value": "false"
+}, ",", "return", {
+  "id": "A"
+}, ".", {
+  "k": 18
+}, "Perform", "!", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", {
+  "code": "\"0\""
+}, ",", {
+  "id": "S"
+}, ")", ".", {
+  "k": 19
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 20
+}, false, {
+  "k": 16
+}, "Let", {
+  "id": "q"
+}, "be", {
+  "id": "p"
+}, ".", {
+  "k": 21
+}, "Repeat", ",", "while", {
+  "id": "q"
+}, "≠", {
+  "id": "s"
+}, true, "Let", {
+  "id": "e"
+}, "be", "SplitMatch", "(", {
+  "id": "S"
+}, ",", {
+  "id": "q"
+}, ",", {
+  "id": "R"
+}, ")", ".", {
+  "k": 23
+}, "If", {
+  "id": "e"
+}, "is", {
+  "value": "false"
+}, ",", "let", {
+  "id": "q"
+}, "be", {
+  "id": "q"
+}, "+", "1", ".", {
+  "k": 24
+}, "Else", {
+  "id": "e"
+}, "is", "an", "integer", "index", "≤", {
+  "id": "s"
+}, ",", true, "If", {
+  "id": "e"
+}, "=", {
+  "id": "p"
+}, ",", "let", {
+  "id": "q"
+}, "be", {
+  "id": "q"
+}, "+", "1", ".", {
+  "k": 26
+}, "Else", {
+  "id": "e"
+}, "≠", {
+  "id": "p"
+}, ",", true, "Let", {
+  "id": "T"
+}, "be", "a", "String", "value", "equal", "to", "the", "substring", "of", {
+  "id": "S"
+}, "consisting", "of", "the", "code", "units", "at", "indices", {
+  "id": "p"
+}, "(", "inclusive", ")", "through", {
+  "id": "q"
+}, "(", "exclusive", ")", ".", {
+  "k": 28
+}, "Perform", "!", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "lengthA"
+}, ")", ",", {
+  "id": "T"
+}, ")", ".", {
+  "k": 29
+}, "Increment", {
+  "id": "lengthA"
+}, "by", "1", ".", {
+  "k": 30
+}, "If", {
+  "id": "lengthA"
+}, "=", {
+  "id": "lim"
+}, ",", "return", {
+  "id": "A"
+}, ".", {
+  "k": 31
+}, "Let", {
+  "id": "p"
+}, "be", {
+  "id": "e"
+}, ".", {
+  "k": 32
+}, "Let", {
+  "id": "q"
+}, "be", {
+  "id": "p"
+}, ".", {
+  "k": 33
+}, false, {
+  "k": 27
+}, false, {
+  "k": 25
+}, false, {
+  "k": 22
+}, "Let", {
+  "id": "T"
+}, "be", "a", "String", "value", "equal", "to", "the", "substring", "of", {
+  "id": "S"
+}, "consisting", "of", "the", "code", "units", "at", "indices", {
+  "id": "p"
+}, "(", "inclusive", ")", "through", {
+  "id": "s"
+}, "(", "exclusive", ")", ".", {
+  "k": 34
+}, "Perform", "!", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "lengthA"
+}, ")", ",", {
+  "id": "T"
+}, ")", ".", {
+  "k": 35
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 36
+}]

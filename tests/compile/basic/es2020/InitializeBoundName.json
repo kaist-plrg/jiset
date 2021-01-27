@@ -1,0 +1,43 @@
+["Assert", ":", "Type", "(", {
+  "id": "name"
+}, ")", "is", "String", ".", {
+  "k": 0
+}, "If", {
+  "id": "environment"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "env"
+}, "be", "the", "EnvironmentRecord", "component", "of", {
+  "id": "environment"
+}, ".", {
+  "k": 2
+}, "Perform", {
+  "id": "env"
+}, ".", "InitializeBinding", "(", {
+  "id": "name"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 3
+}, "Return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 1
+}, "Else", ",", true, "Let", {
+  "id": "lhs"
+}, "be", "ResolveBinding", "(", {
+  "id": "name"
+}, ")", ".", {
+  "k": 6
+}, "Return", "?", "PutValue", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 5
+}]

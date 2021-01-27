@@ -1,0 +1,81 @@
+["Let", {
+  "id": "lref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AdditiveExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lval"
+}, "be", "?", "GetValue", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "rref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "MultiplicativeExpression"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "rval"
+}, "be", "?", "GetValue", "(", {
+  "id": "rref"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "lprim"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "lval"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "rprim"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "rval"
+}, ")", ".", {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "lprim"
+}, ")", "is", "String", "or", "Type", "(", {
+  "id": "rprim"
+}, ")", "is", "String", ",", "then", true, "Let", {
+  "id": "lstr"
+}, "be", "?", "ToString", "(", {
+  "id": "lprim"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "rstr"
+}, "be", "?", "ToString", "(", {
+  "id": "rprim"
+}, ")", ".", {
+  "k": 8
+}, "Return", "the", "String", "that", "is", "the", "result", "of", "concatenating", {
+  "id": "lstr"
+}, "and", {
+  "id": "rstr"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "lnum"
+}, "be", "?", "ToNumber", "(", {
+  "id": "lprim"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "rnum"
+}, "be", "?", "ToNumber", "(", {
+  "id": "rprim"
+}, ")", ".", {
+  "k": 11
+}, "Return", "the", "result", "of", "applying", "the", "addition", "operation", "to", {
+  "id": "lnum"
+}, "and", {
+  "id": "rnum"
+}, ".", "See", "the", "Note", "below", {
+  "link": ""
+}, ".", {
+  "k": 12
+}]

@@ -1,0 +1,47 @@
+["Assert", ":", {
+  "id": "nonterminal"
+}, "is", "a", "parsed", "grammar", "production", ".", {
+  "k": 0
+}, "If", "the", "source", "code", "matching", {
+  "id": "nonterminal"
+}, "is", "not", "strict", "code", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "nonterminal"
+}, "is", "not", "contained", "within", "a", {
+  "nt": "FunctionBody"
+}, "or", {
+  "nt": "ConciseBody"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "body"
+}, "be", "the", {
+  "nt": "FunctionBody"
+}, "or", {
+  "nt": "ConciseBody"
+}, "that", "most", "closely", "contains", {
+  "id": "nonterminal"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "body"
+}, "is", "the", {
+  "nt": "FunctionBody"
+}, "of", "a", {
+  "nt": "GeneratorBody"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}, "Return", "the", "result", "of", "HasProductionInTailPosition", "of", {
+  "id": "body"
+}, "with", "argument", {
+  "id": "nonterminal"
+}, ".", {
+  "k": 5
+}]

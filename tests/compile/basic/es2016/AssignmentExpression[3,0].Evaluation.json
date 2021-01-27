@@ -1,0 +1,103 @@
+["If", {
+  "nt": "LeftHandSideExpression"
+}, "is", "neither", "an", {
+  "nt": "ObjectLiteral"
+}, "nor", "an", {
+  "nt": "ArrayLiteral"
+}, ",", "then", true, "Let", {
+  "id": "lref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "LeftHandSideExpression"
+}, ".", {
+  "k": 1
+}, "ReturnIfAbrupt", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "rref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "rval"
+}, "be", "?", "GetValue", "(", {
+  "id": "rref"
+}, ")", ".", {
+  "k": 4
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "AssignmentExpression"
+}, ")", "and", "IsIdentifierRef", "of", {
+  "nt": "LeftHandSideExpression"
+}, "are", "both", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "hasNameProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "rval"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "hasNameProperty"
+}, "is", {
+  "value": "false"
+}, ",", "perform", "SetFunctionName", "(", {
+  "id": "rval"
+}, ",", "GetReferencedName", "(", {
+  "id": "lref"
+}, ")", ")", ".", {
+  "k": 7
+}, false, {
+  "k": 5
+}, "Perform", "?", "PutValue", "(", {
+  "id": "lref"
+}, ",", {
+  "id": "rval"
+}, ")", ".", {
+  "k": 8
+}, "Return", {
+  "id": "rval"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 0
+}, "Let", {
+  "id": "assignmentPattern"
+}, "be", "the", "parse", "of", "the", "source", "text", "corresponding", "to", {
+  "nt": "LeftHandSideExpression"
+}, "using", {
+  "nt": "AssignmentPattern[?Yield]"
+}, "as", "the", "goal", "symbol", ".", {
+  "k": 10
+}, "Let", {
+  "id": "rref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "rval"
+}, "be", "?", "GetValue", "(", {
+  "id": "rref"
+}, ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "status"
+}, "be", "the", "result", "of", "performing", "DestructuringAssignmentEvaluation", "of", {
+  "id": "assignmentPattern"
+}, "using", {
+  "id": "rval"
+}, "as", "the", "argument", ".", {
+  "k": 13
+}, "ReturnIfAbrupt", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 14
+}, "Return", {
+  "id": "rval"
+}, ".", {
+  "k": 15
+}]

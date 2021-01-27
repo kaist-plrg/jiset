@@ -1,0 +1,57 @@
+["Let", {
+  "id": "V"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 0
+}, "Repeat", true, "Let", {
+  "id": "exprRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Expression"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "exprValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "exprRef"
+}, ")", ".", {
+  "k": 3
+}, "If", "ToBoolean", "(", {
+  "id": "exprValue"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", "NormalCompletion", "(", {
+  "id": "V"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "stmt"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Statement"
+}, ".", {
+  "k": 5
+}, "If", "LoopContinues", "(", {
+  "id": "stmt"
+}, ",", {
+  "id": "labelSet"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", "Completion", "(", "UpdateEmpty", "(", {
+  "id": "stmt"
+}, ",", {
+  "id": "V"
+}, ")", ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "stmt"
+}, ".", "[", "[", "Value", "]", "]", "is", "not", {
+  "const": "empty"
+}, ",", "let", {
+  "id": "V"
+}, "be", {
+  "id": "stmt"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 7
+}, false, {
+  "k": 1
+}]

@@ -1,0 +1,41 @@
+["Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "environment"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "envRec"
+}, "is", "a", "declarative", "Environment", "Record", ".", {
+  "k": 1
+}, "For", "each", "element", {
+  "id": "name"
+}, "of", "the", "BoundNames", "of", {
+  "nt": "ForBinding"
+}, ",", "do", true, "If", "IsConstantDeclaration", "of", {
+  "nt": "LetOrConst"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Else", ",", true, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, false, {
+  "k": 2
+}]

@@ -1,0 +1,1 @@
+        1. Return ? OrdinaryDefineOwnProperty(_O_, _P_, _Desc_).

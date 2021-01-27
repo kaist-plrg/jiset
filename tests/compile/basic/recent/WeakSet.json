@@ -1,0 +1,89 @@
+["If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "set"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+  "value": "\"%WeakSet.prototype%\""
+}, ",", "«", "[", "[", "WeakSetData", "]", "]", "»", ")", ".", {
+  "k": 1
+}, "Set", {
+  "id": "set"
+}, ".", "[", "[", "WeakSetData", "]", "]", "to", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "If", {
+  "id": "iterable"
+}, "is", "either", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "return", {
+  "id": "set"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "adder"
+}, "be", "?", "Get", "(", {
+  "id": "set"
+}, ",", {
+  "value": "\"add\""
+}, ")", ".", {
+  "k": 4
+}, "If", "IsCallable", "(", {
+  "id": "adder"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "iterable"
+}, ")", ".", {
+  "k": 6
+}, "Repeat", ",", true, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "set"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "adder"
+}, ",", {
+  "id": "set"
+}, ",", "«", {
+  "id": "nextValue"
+}, "»", ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "k": 12
+}, false, {
+  "k": 7
+}]

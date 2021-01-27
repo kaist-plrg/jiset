@@ -1,0 +1,1 @@
+        10. Let _result_ be the Completion Record that is the result of evaluating _F_ in an implementation-defined manner that conforms to the specification of _F_. The *this* value is uninitialized, _argumentsList_ provides the named parameters, and _newTarget_ provides the NewTarget value.

@@ -1,0 +1,47 @@
+["Assert", ":", {
+  "id": "sourceText"
+}, "is", "an", "ECMAScript", "source", "text", "(", "see", "clause", {
+  "link": ""
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "realm"
+}, "be", "the", "current", "Realm", "Record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "m"
+}, "be", "ParseModule", "(", {
+  "id": "sourceText"
+}, ",", {
+  "id": "realm"
+}, ",", {
+  "id": "hostDefined"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "m"
+}, "is", "a", "List", "of", "errors", ",", "then", true, "Perform", "HostReportErrors", "(", {
+  "id": "m"
+}, ")", ".", {
+  "k": 4
+}, "Return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Perform", "?", {
+  "id": "m"
+}, ".", "ModuleDeclarationInstantiation", "(", ")", ".", {
+  "k": 6
+}, "Assert", ":", "All", "dependencies", "of", {
+  "id": "m"
+}, "have", "been", "transitively", "resolved", "and", {
+  "id": "m"
+}, "is", "ready", "for", "evaluation", ".", {
+  "k": 7
+}, "Return", "?", {
+  "id": "m"
+}, ".", "ModuleEvaluation", "(", ")", ".", {
+  "k": 8
+}]

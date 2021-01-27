@@ -1,0 +1,11 @@
+{
+  app __x0__ = (ObjectCreate INTRINSIC_IteratorPrototype (new ["IteratedList", "ListIteratorNextIndex"]))
+  let iterator = __x0__
+  iterator.IteratedList = list
+  iterator.ListIteratorNextIndex = 0i
+  ??? "Let id:{steps} be the algorithm steps defined in ListIterator code:{next} ( link:{} ) ."
+  app __x1__ = (CreateBuiltinFunction steps (new []))
+  let next = __x1__
+  app __x2__ = (WrapCompletion (new Record("Iterator" -> iterator, "NextMethod" -> next, "Done" -> false)))
+  return __x2__
+}

@@ -1,0 +1,77 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "searchStr"
+}, "be", "?", "ToString", "(", {
+  "id": "searchString"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "pos"
+}, "be", "?", "ToInteger", "(", {
+  "id": "position"
+}, ")", ".", "(", "If", {
+  "id": "position"
+}, "is", {
+  "value": "undefined"
+}, ",", "this", "step", "produces", "the", "value", "0", ".", ")", {
+  "k": 3
+}, "Let", {
+  "id": "len"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "S"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "start"
+}, "be", "min", "(", "max", "(", {
+  "id": "pos"
+}, ",", "0", ")", ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "searchLen"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "searchStr"
+}, ".", {
+  "k": 6
+}, "Return", "the", "smallest", "possible", "integer", {
+  "id": "k"
+}, "not", "smaller", "than", {
+  "id": "start"
+}, "such", "that", {
+  "id": "k"
+}, "+", {
+  "id": "searchLen"
+}, "is", "not", "greater", "than", {
+  "id": "len"
+}, ",", "and", "for", "all", "nonnegative", "integers", {
+  "id": "j"
+}, "less", "than", {
+  "id": "searchLen"
+}, ",", "the", "code", "unit", "at", "index", {
+  "id": "k"
+}, "+", {
+  "id": "j"
+}, "of", {
+  "id": "S"
+}, "is", "the", "same", "as", "the", "code", "unit", "at", "index", {
+  "id": "j"
+}, "of", {
+  "id": "searchStr"
+}, ";", "but", "if", "there", "is", "no", "such", "integer", {
+  "id": "k"
+}, ",", "return", "the", "value", "-", "1", ".", {
+  "k": 7
+}]

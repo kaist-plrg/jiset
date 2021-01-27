@@ -1,0 +1,119 @@
+["Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateSharedIntegerTypedArray", "(", {
+  "id": "typedArray"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "i"
+}, "be", "?", "ValidateAtomicAccess", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "count"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "c"
+}, "be", {
+  "value": "+∞"
+}, ".", {
+  "k": 2
+}, "Else", ",", true, "Let", {
+  "id": "intCount"
+}, "be", "?", "ToInteger", "(", {
+  "id": "count"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "c"
+}, "be", "max", "(", {
+  "id": "intCount"
+}, ",", "0", ")", ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Let", {
+  "id": "block"
+}, "be", {
+  "id": "buffer"
+}, ".", "[", "[", "ArrayBufferData", "]", "]", ".", {
+  "k": 6
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "i"
+}, "×", "4", ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "WL"
+}, "be", "GetWaiterList", "(", {
+  "id": "block"
+}, ",", {
+  "id": "indexedPosition"
+}, ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "n"
+}, "be", "0", ".", {
+  "k": 10
+}, "Perform", "EnterCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 11
+}, "Let", {
+  "id": "S"
+}, "be", "RemoveWaiters", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "c"
+}, ")", ".", {
+  "k": 12
+}, "Repeat", ",", "while", {
+  "id": "S"
+}, "is", "not", "an", "empty", "List", ",", true, "Let", {
+  "id": "W"
+}, "be", "the", "first", "agent", "in", {
+  "id": "S"
+}, ".", {
+  "k": 14
+}, "Remove", {
+  "id": "W"
+}, "from", "the", "front", "of", {
+  "id": "S"
+}, ".", {
+  "k": 15
+}, "Perform", "NotifyWaiter", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "W"
+}, ")", ".", {
+  "k": 16
+}, "Add", "1", "to", {
+  "id": "n"
+}, ".", {
+  "k": 17
+}, false, {
+  "k": 13
+}, "Perform", "LeaveCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 18
+}, "Return", {
+  "id": "n"
+}, ".", {
+  "k": 19
+}]

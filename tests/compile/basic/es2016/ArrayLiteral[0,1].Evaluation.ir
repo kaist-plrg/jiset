@@ -1,0 +1,13 @@
+{
+  app __x0__ = (ArrayCreate 0i)
+  let array = __x0__
+  if (= Elision absent) let pad = 0i else {
+    access __x1__ = (Elision "ElisionWidth")
+    let pad = __x1__
+  }
+  app __x2__ = (ToUint32 pad)
+  app __x3__ = (Set array "length" __x2__ false)
+  __x3__
+  app __x4__ = (WrapCompletion array)
+  return __x4__
+}

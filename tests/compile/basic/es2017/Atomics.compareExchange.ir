@@ -1,0 +1,26 @@
+{
+  app __x0__ = (ValidateSharedIntegerTypedArray typedArray)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let buffer = __x0__
+  app __x1__ = (ValidateAtomicAccess typedArray index)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let i = __x1__
+  app __x2__ = (ToInteger expectedValue)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let expected = __x2__
+  app __x3__ = (ToInteger replacementValue)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let replacement = __x3__
+  let arrayTypeName = typedArray.TypedArrayName
+  ??? "Let id:{elementType} be the String value of the Element Type value in link:{} for id:{arrayTypeName} ."
+  let isLittleEndian = GLOBAL_agent.LittleEndian
+  app __x4__ = (NumberToRawBytes elementType expected isLittleEndian)
+  let expectedBytes = __x4__
+  ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{} for id:{arrayTypeName} ."
+  let offset = typedArray.ByteOffset
+  let indexedPosition = (+ (* i elementSize) offset)
+  ??? "Let code:{compareExchange} denote a semantic function of two List of byte values arguments that returns the second argument if the first argument is element - wise equal to id:{expectedBytes} ."
+  app __x5__ = (GetModifySetValueInBuffer buffer indexedPosition elementType replacement ??? "compareExchange")
+  app __x6__ = (WrapCompletion __x5__)
+  return __x6__
+}

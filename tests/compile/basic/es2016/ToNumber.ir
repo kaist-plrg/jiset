@@ -1,0 +1,33 @@
+{
+  app __x0__ = (Type argument)
+  if (= __x0__ Undefined) {
+    app __x1__ = (WrapCompletion NaN)
+    return __x1__
+  } else {}
+  app __x2__ = (Type argument)
+  if (= __x2__ Null) {
+    app __x3__ = (WrapCompletion 0i)
+    return __x3__
+  } else {}
+  app __x4__ = (Type argument)
+  if (= __x4__ Boolean) ??? "Return 1 if id:{argument} is value:{true} . Return value:{+0} if id:{argument} is value:{false} ." else {}
+  app __x5__ = (Type argument)
+  if (= __x5__ Number) ??? "Return id:{argument} ( no conversion ) ." else {}
+  app __x6__ = (Type argument)
+  if (= __x6__ String) {} else {}
+  app __x7__ = (Type argument)
+  if (= __x7__ Symbol) {
+    app __x8__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x8__
+  } else {}
+  app __x9__ = (Type argument)
+  if (= __x9__ Object) {
+    app __x10__ = (ToPrimitive argument Number)
+    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+    let primValue = __x10__
+    app __x11__ = (ToNumber primValue)
+    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+    app __x12__ = (WrapCompletion __x11__)
+    return __x12__
+  } else {}
+}

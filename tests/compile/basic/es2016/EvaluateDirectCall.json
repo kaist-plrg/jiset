@@ -1,0 +1,53 @@
+["Let", {
+  "id": "argList"
+}, "be", "?", "ArgumentListEvaluation", "(", {
+  "id": "arguments"
+}, ")", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "func"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "func"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "If", {
+  "id": "tailPosition"
+}, "is", {
+  "value": "true"
+}, ",", "perform", "PrepareForTailCall", "(", ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "result"
+}, "be", "Call", "(", {
+  "id": "func"
+}, ",", {
+  "id": "thisValue"
+}, ",", {
+  "id": "argList"
+}, ")", ".", {
+  "k": 4
+}, "Assert", ":", "If", {
+  "id": "tailPosition"
+}, "is", {
+  "value": "true"
+}, ",", "the", "above", "call", "will", "not", "return", "here", ",", "but", "instead", "evaluation", "will", "continue", "as", "if", "the", "following", "return", "has", "already", "occurred", ".", {
+  "k": 5
+}, "Assert", ":", "If", {
+  "id": "result"
+}, "is", "not", "an", "abrupt", "completion", ",", "then", "Type", "(", {
+  "id": "result"
+}, ")", "is", "an", "ECMAScript", "language", "type", ".", {
+  "k": 6
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 7
+}]

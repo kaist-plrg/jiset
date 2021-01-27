@@ -1,0 +1,27 @@
+{
+  app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let promiseCapability = __x0__
+  app __x1__ = (AsyncGeneratorValidate generator generatorBrand)
+  let check = __x1__
+  app __x2__ = (IsAbruptCompletion check)
+  if __x2__ {
+    let badGeneratorError = (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap())))
+    app __x3__ = (Call promiseCapability.Reject undefined (new [badGeneratorError]))
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    __x3__
+    app __x4__ = (WrapCompletion promiseCapability.Promise)
+    return __x4__
+  } else {}
+  let queue = generator.AsyncGeneratorQueue
+  let request = (new AsyncGeneratorRequest("Completion" -> completion, "Capability" -> promiseCapability))
+  append request -> queue
+  let state = generator.AsyncGeneratorState
+  if (! (= state CONST_executing)) {
+    app __x5__ = (AsyncGeneratorResumeNext generator)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    __x5__
+  } else {}
+  app __x6__ = (WrapCompletion promiseCapability.Promise)
+  return __x6__
+}

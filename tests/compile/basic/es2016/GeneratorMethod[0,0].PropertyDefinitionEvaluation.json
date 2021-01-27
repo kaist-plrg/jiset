@@ -1,0 +1,91 @@
+["Let", {
+  "id": "propKey"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "PropertyName"
+}, ".", {
+  "k": 0
+}, "ReturnIfAbrupt", "(", {
+  "id": "propKey"
+}, ")", ".", {
+  "k": 1
+}, "If", "the", "function", "code", "for", "this", {
+  "nt": "GeneratorMethod"
+}, "is", "strict", "mode", "code", ",", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "true"
+}, ".", "Otherwise", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "scope"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 3
+}, "Let", {
+  "id": "closure"
+}, "be", "GeneratorFunctionCreate", "(", {
+  "const": "Method"
+}, ",", {
+  "nt": "StrictFormalParameters"
+}, ",", {
+  "nt": "GeneratorBody"
+}, ",", {
+  "id": "scope"
+}, ",", {
+  "id": "strict"
+}, ")", ".", {
+  "k": 4
+}, "Perform", "MakeMethod", "(", {
+  "id": "closure"
+}, ",", {
+  "id": "object"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "prototype"
+}, "be", "ObjectCreate", "(", "%", "GeneratorPrototype", "%", ")", ".", {
+  "k": 6
+}, "Perform", "DefinePropertyOrThrow", "(", {
+  "id": "closure"
+}, ",", {
+  "code": "\"prototype\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "prototype"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 7
+}, "Perform", "SetFunctionName", "(", {
+  "id": "closure"
+}, ",", {
+  "id": "propKey"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "desc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "closure"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "id": "enumerable"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ".", {
+  "k": 9
+}, "Return", "?", "DefinePropertyOrThrow", "(", {
+  "id": "object"
+}, ",", {
+  "id": "propKey"
+}, ",", {
+  "id": "desc"
+}, ")", ".", {
+  "k": 10
+}]

@@ -1,0 +1,6 @@
+{
+  assert (&& (&& (! (< lead 55296i)) (! (< 56319i lead))) (&& (! (< trail 56320i)) (! (< 57343i trail))))
+  let cp = (+ (+ (* (- lead 55296i) 1024i) (- trail 56320i)) 65536i)
+  app __x0__ = (WrapCompletion cp)
+  return __x0__
+}

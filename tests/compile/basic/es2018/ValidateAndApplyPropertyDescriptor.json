@@ -1,0 +1,259 @@
+["Assert", ":", "If", {
+  "id": "O"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "current"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "If", {
+  "id": "extensible"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "extensible"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, "If", "IsGenericDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, "or", "IsDataDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "O"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "create", "an", "own", "data", "property", "named", {
+  "id": "P"
+}, "of", "object", {
+  "id": "O"
+}, "whose", "[", "[", "Value", "]", "]", ",", "[", "[", "Writable", "]", "]", ",", "[", "[", "Enumerable", "]", "]", "and", "[", "[", "Configurable", "]", "]", "attribute", "values", "are", "described", "by", {
+  "id": "Desc"
+}, ".", "If", "the", "value", "of", "an", "attribute", "field", "of", {
+  "id": "Desc"
+}, "is", "absent", ",", "the", "attribute", "of", "the", "newly", "created", "property", "is", "set", "to", "its", "default", "value", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", {
+  "id": "Desc"
+}, "must", "be", "an", "accessor", "Property", "Descriptor", ",", true, "If", {
+  "id": "O"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "create", "an", "own", "accessor", "property", "named", {
+  "id": "P"
+}, "of", "object", {
+  "id": "O"
+}, "whose", "[", "[", "Get", "]", "]", ",", "[", "[", "Set", "]", "]", ",", "[", "[", "Enumerable", "]", "]", "and", "[", "[", "Configurable", "]", "]", "attribute", "values", "are", "described", "by", {
+  "id": "Desc"
+}, ".", "If", "the", "value", "of", "an", "attribute", "field", "of", {
+  "id": "Desc"
+}, "is", "absent", ",", "the", "attribute", "of", "the", "newly", "created", "property", "is", "set", "to", "its", "default", "value", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 1
+}, "If", "every", "field", "in", {
+  "id": "Desc"
+}, "is", "absent", ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "current"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", "present", "and", "its", "value", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 11
+}, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", "present", "and", "the", "[", "[", "Enumerable", "]", "]", "fields", "of", {
+  "id": "current"
+}, "and", {
+  "id": "Desc"
+}, "are", "the", "Boolean", "negation", "of", "each", "other", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 10
+}, "If", "IsGenericDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "no", "further", "validation", "is", "required", ".", {
+  "k": 13
+}, "Else", "if", "IsDataDescriptor", "(", {
+  "id": "current"
+}, ")", "and", "IsDataDescriptor", "(", {
+  "id": "Desc"
+}, ")", "have", "different", "results", ",", "then", true, "If", {
+  "id": "current"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 15
+}, "If", "IsDataDescriptor", "(", {
+  "id": "current"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "O"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "convert", "the", "property", "named", {
+  "id": "P"
+}, "of", "object", {
+  "id": "O"
+}, "from", "a", "data", "property", "to", "an", "accessor", "property", ".", "Preserve", "the", "existing", "values", "of", "the", "converted", "property", "'", "s", "[", "[", "Configurable", "]", "]", "and", "[", "[", "Enumerable", "]", "]", "attributes", "and", "set", "the", "rest", "of", "the", "property", "'", "s", "attributes", "to", "their", "default", "values", ".", {
+  "k": 17
+}, false, {
+  "k": 16
+}, "Else", ",", true, "If", {
+  "id": "O"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "convert", "the", "property", "named", {
+  "id": "P"
+}, "of", "object", {
+  "id": "O"
+}, "from", "an", "accessor", "property", "to", "a", "data", "property", ".", "Preserve", "the", "existing", "values", "of", "the", "converted", "property", "'", "s", "[", "[", "Configurable", "]", "]", "and", "[", "[", "Enumerable", "]", "]", "attributes", "and", "set", "the", "rest", "of", "the", "property", "'", "s", "attributes", "to", "their", "default", "values", ".", {
+  "k": 19
+}, false, {
+  "k": 18
+}, false, {
+  "k": 14
+}, "Else", "if", "IsDataDescriptor", "(", {
+  "id": "current"
+}, ")", "and", "IsDataDescriptor", "(", {
+  "id": "Desc"
+}, ")", "are", "both", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "current"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, "and", {
+  "id": "current"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 22
+}, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", "is", "present", "and", "SameValue", "(", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", ",", {
+  "id": "current"
+}, ".", "[", "[", "Value", "]", "]", ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 23
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 24
+}, false, {
+  "k": 21
+}, false, {
+  "k": 20
+}, "Else", "IsAccessorDescriptor", "(", {
+  "id": "current"
+}, ")", "and", "IsAccessorDescriptor", "(", {
+  "id": "Desc"
+}, ")", "are", "both", {
+  "value": "true"
+}, ",", true, "If", {
+  "id": "current"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Set", "]", "]", "is", "present", "and", "SameValue", "(", {
+  "id": "Desc"
+}, ".", "[", "[", "Set", "]", "]", ",", {
+  "id": "current"
+}, ".", "[", "[", "Set", "]", "]", ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 27
+}, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Get", "]", "]", "is", "present", "and", "SameValue", "(", {
+  "id": "Desc"
+}, ".", "[", "[", "Get", "]", "]", ",", {
+  "id": "current"
+}, ".", "[", "[", "Get", "]", "]", ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 28
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 29
+}, false, {
+  "k": 26
+}, false, {
+  "k": 25
+}, "If", {
+  "id": "O"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "For", "each", "field", "of", {
+  "id": "Desc"
+}, "that", "is", "present", ",", "set", "the", "corresponding", "attribute", "of", "the", "property", "named", {
+  "id": "P"
+}, "of", "object", {
+  "id": "O"
+}, "to", "the", "value", "of", "the", "field", ".", {
+  "k": 31
+}, false, {
+  "k": 30
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 32
+}]

@@ -1,0 +1,126 @@
+{
+  let rx = this
+  app __x0__ = (Type rx)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  app __x2__ = (ToString string)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let S = __x2__
+  app __x3__ = (SpeciesConstructor rx INTRINSIC_RegExp)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let C = __x3__
+  app __x4__ = (Get rx "flags")
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  app __x5__ = (ToString __x4__)
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  let flags = __x5__
+  if (contains flags "u") let unicodeMatching = true else let unicodeMatching = false
+  if (contains flags "y") let newFlags = flags else let newFlags = (+ flags "y")
+  app __x6__ = (Construct C (new [rx, newFlags]))
+  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+  let splitter = __x6__
+  app __x7__ = (ArrayCreate 0i)
+  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+  let A = __x7__
+  let lengthA = 0i
+  if (= limit undefined) let lim = (- (** 2.0 32i) 1i) else {
+    app __x8__ = (ToUint32 limit)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    let lim = __x8__
+  }
+  let size = S.length
+  let p = 0i
+  if (== lim 0i) {
+    app __x9__ = (WrapCompletion A)
+    return __x9__
+  } else {}
+  if (== size 0i) {
+    app __x10__ = (RegExpExec splitter S)
+    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+    let z = __x10__
+    if (! (= z null)) {
+      app __x11__ = (WrapCompletion A)
+      return __x11__
+    } else {}
+    app __x12__ = (CreateDataProperty A "0" S)
+    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+    __x12__
+    app __x13__ = (WrapCompletion A)
+    return __x13__
+  } else {}
+  let q = p
+  while (< q size) {
+    app __x14__ = (Set splitter "lastIndex" q true)
+    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+    __x14__
+    app __x15__ = (RegExpExec splitter S)
+    if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+    let z = __x15__
+    if (= z null) {
+      app __x16__ = (AdvanceStringIndex S q unicodeMatching)
+      let q = __x16__
+    } else {
+      app __x17__ = (Get splitter "lastIndex")
+      if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
+      app __x18__ = (ToLength __x17__)
+      if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
+      let e = __x18__
+      app __x19__ = (min e size)
+      let e = __x19__
+      if (== e p) {
+        app __x20__ = (AdvanceStringIndex S q unicodeMatching)
+        let q = __x20__
+      } else {
+        ??? "Let id:{T} be a String value equal to the substring of id:{S} consisting of the elements at indices id:{p} ( inclusive ) through id:{q} ( exclusive ) ."
+        app __x21__ = (ToString lengthA)
+        if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
+        app __x22__ = (CreateDataProperty A __x21__ T)
+        if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else {}
+        __x22__
+        let lengthA = (+ lengthA 1i)
+        if (== lengthA lim) {
+          app __x23__ = (WrapCompletion A)
+          return __x23__
+        } else {}
+        let p = e
+        app __x24__ = (Get z "length")
+        if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
+        app __x25__ = (ToLength __x24__)
+        if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
+        let numberOfCaptures = __x25__
+        app __x26__ = (max (- numberOfCaptures 1i) 0i)
+        let numberOfCaptures = __x26__
+        let i = 1i
+        while (! (< numberOfCaptures i)) {
+          app __x27__ = (ToString i)
+          if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
+          app __x28__ = (Get z __x27__)
+          if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else {}
+          let nextCapture = __x28__
+          app __x29__ = (ToString lengthA)
+          if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else {}
+          app __x30__ = (CreateDataProperty A __x29__ nextCapture)
+          if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
+          __x30__
+          let i = (+ i 1i)
+          let lengthA = (+ lengthA 1i)
+          if (== lengthA lim) {
+            app __x31__ = (WrapCompletion A)
+            return __x31__
+          } else {}
+        }
+        let q = p
+      }
+    }
+  }
+  ??? "Let id:{T} be a String value equal to the substring of id:{S} consisting of the elements at indices id:{p} ( inclusive ) through id:{size} ( exclusive ) ."
+  app __x32__ = (ToString lengthA)
+  if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else {}
+  app __x33__ = (CreateDataProperty A __x32__ T)
+  if (is-completion __x33__) if (= __x33__.Type CONST_normal) __x33__ = __x33__.Value else return __x33__ else {}
+  __x33__
+  app __x34__ = (WrapCompletion A)
+  return __x34__
+}

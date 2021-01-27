@@ -1,0 +1,41 @@
+["Let", {
+  "id": "resolvingFunctions"
+}, "be", "CreateResolvingFunctions", "(", {
+  "id": "promiseToResolve"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "thenCallResult"
+}, "be", "Call", "(", {
+  "id": "then"
+}, ",", {
+  "id": "thenable"
+}, ",", "«", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "thenCallResult"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "thenCallResult"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 3
+}, "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 2
+}, "Return", "Completion", "(", {
+  "id": "thenCallResult"
+}, ")", ".", {
+  "k": 5
+}]

@@ -1,0 +1,127 @@
+["Assert", ":", "IsDetachedBuffer", "(", {
+  "id": "arrayBuffer"
+}, ")", "is", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "Assert", ":", "There", "are", "sufficient", "bytes", "in", {
+  "id": "arrayBuffer"
+}, "starting", "at", {
+  "id": "byteIndex"
+}, "to", "represent", "a", "value", "of", {
+  "id": "type"
+}, ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "byteIndex"
+}, "is", "an", "integer", "value", "≥", "0", ".", {
+  "k": 2
+}, "Assert", ":", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Number", ".", {
+  "k": 3
+}, "Let", {
+  "id": "block"
+}, "be", {
+  "id": "arrayBuffer"
+}, ".", "[", "[", "ArrayBufferData", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Number", "value", "of", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", "Element", "Type", {
+  "id": "type"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "isLittleEndian"
+}, "is", "not", "present", ",", "set", {
+  "id": "isLittleEndian"
+}, "to", "the", "value", "of", "the", "[", "[", "LittleEndian", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 6
+}, "Let", {
+  "id": "rawBytes"
+}, "be", "NumberToRawBytes", "(", {
+  "id": "type"
+}, ",", {
+  "id": "value"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 7
+}, "If", "IsSharedArrayBuffer", "(", {
+  "id": "arrayBuffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "execution"
+}, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 9
+}, "Let", {
+  "id": "eventList"
+}, "be", "the", "[", "[", "EventList", "]", "]", "field", "of", "the", "element", "in", {
+  "id": "execution"
+}, ".", "[", "[", "EventLists", "]", "]", "whose", "[", "[", "AgentSignifier", "]", "]", "is", "AgentSignifier", "(", ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "isTypedArray"
+}, "is", {
+  "value": "true"
+}, "and", {
+  "id": "type"
+}, "is", {
+  "code": "\"Int8\""
+}, ",", {
+  "code": "\"Uint8\""
+}, ",", {
+  "code": "\"Int16\""
+}, ",", {
+  "code": "\"Uint16\""
+}, ",", {
+  "code": "\"Int32\""
+}, ",", "or", {
+  "code": "\"Uint32\""
+}, ",", "let", {
+  "id": "noTear"
+}, "be", {
+  "value": "true"
+}, ";", "otherwise", "let", {
+  "id": "noTear"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 11
+}, "Append", "WriteSharedMemory", "{", "[", "[", "Order", "]", "]", ":", {
+  "id": "order"
+}, ",", "[", "[", "NoTear", "]", "]", ":", {
+  "id": "noTear"
+}, ",", "[", "[", "Block", "]", "]", ":", {
+  "id": "block"
+}, ",", "[", "[", "ByteIndex", "]", "]", ":", {
+  "id": "byteIndex"
+}, ",", "[", "[", "ElementSize", "]", "]", ":", {
+  "id": "elementSize"
+}, ",", "[", "[", "Payload", "]", "]", ":", {
+  "id": "rawBytes"
+}, "}", "to", {
+  "id": "eventList"
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 8
+}, "Else", ",", "store", "the", "individual", "bytes", "of", {
+  "id": "rawBytes"
+}, "into", {
+  "id": "block"
+}, ",", "in", "order", ",", "starting", "at", {
+  "id": "block"
+}, "[", {
+  "id": "byteIndex"
+}, "]", ".", {
+  "k": 13
+}, "Return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 14
+}]

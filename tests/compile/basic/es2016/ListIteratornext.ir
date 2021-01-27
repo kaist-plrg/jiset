@@ -1,0 +1,30 @@
+{
+  let O = this
+  let f = GLOBAL_context.Function
+  if (= O.IteratorNext absent) {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else {}
+  let next = O.IteratorNext
+  app __x1__ = (SameValue f next)
+  if (= __x1__ false) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  if (= O.IteratedList absent) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
+  let list = O.IteratedList
+  let index = O.ListIteratorNextIndex
+  let len = list.length
+  if (! (< index len)) {
+    app __x4__ = (CreateIterResultObject undefined true)
+    app __x5__ = (WrapCompletion __x4__)
+    return __x5__
+  } else {}
+  O.ListIteratorNextIndex = (+ index 1i)
+  app __x6__ = (CreateIterResultObject list[index] false)
+  app __x7__ = (WrapCompletion __x6__)
+  return __x7__
+}

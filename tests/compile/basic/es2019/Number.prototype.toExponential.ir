@@ -1,0 +1,49 @@
+{
+  app __x0__ = (thisNumberValue this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let x = __x0__
+  app __x1__ = (ToInteger fractionDigits)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let f = __x1__
+  if (= x NaN) {
+    app __x2__ = (WrapCompletion "NaN")
+    return __x2__
+  } else {}
+  let s = ""
+  if (< x 0i) {
+    s = "-"
+    x = (- x)
+  } else {}
+  if (== x Infinity) {
+    app __x3__ = (WrapCompletion (+ s "Infinity"))
+    return __x3__
+  } else {}
+  if (|| (< f 0i) (< 100i f)) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else {}
+  if (== x 0i) {
+    ??? "Let id:{m} be the String value consisting of id:{f} + 1 occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
+    let e = 0i
+  } else {
+    if (! (= fractionDigits undefined)) ??? "Let id:{e} and id:{n} be integers such that 10 sup:{id:{f} } ≤ id:{n} < 10 sup:{id:{f} + 1 } and for which the exact mathematical value of id:{n} × 10 sup:{id:{e} - id:{f} } - id:{x} is as close to zero as possible . If there are two such sets of id:{e} and id:{n} , pick the id:{e} and id:{n} for which id:{n} × 10 sup:{id:{e} - id:{f} } is larger ." else ??? "Let id:{e} , id:{n} , and id:{f} be integers such that id:{f} ≥ 0 , 10 sup:{id:{f} } ≤ id:{n} < 10 sup:{id:{f} + 1 } , the Number value for id:{n} × 10 sup:{id:{e} - id:{f} } is id:{x} , and id:{f} is as small as possible . Note that the decimal representation of id:{n} has id:{f} + 1 digits , id:{n} is not divisible by 10 , and the least significant digit of id:{n} is not necessarily uniquely determined by these criteria ."
+    ??? "Let id:{m} be the String value consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) ."
+  }
+  if (! (== f 0i)) {
+    ??? "Let id:{a} be the first code unit of id:{m} , and let id:{b} be the remaining id:{f} code units of id:{m} ."
+    m = (+ (+ a ".") b)
+  } else {}
+  if (== e 0i) {
+    let c = "+"
+    let d = "0"
+  } else {
+    if (< 0i e) let c = "+" else {
+      let c = "-"
+      e = (- e)
+    }
+    ??? "Let id:{d} be the String value consisting of the digits of the decimal representation of id:{e} ( in order , with no leading zeroes ) ."
+  }
+  m = (+ (+ (+ m "e") c) d)
+  app __x5__ = (WrapCompletion (+ s m))
+  return __x5__
+}

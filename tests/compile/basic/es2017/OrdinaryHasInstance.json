@@ -1,0 +1,71 @@
+["If", "IsCallable", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "C"
+}, "has", "a", "[", "[", "BoundTargetFunction", "]", "]", "internal", "slot", ",", "then", true, "Let", {
+  "id": "BC"
+}, "be", {
+  "id": "C"
+}, ".", "[", "[", "BoundTargetFunction", "]", "]", ".", {
+  "k": 2
+}, "Return", "?", "InstanceofOperator", "(", {
+  "id": "O"
+}, ",", {
+  "id": "BC"
+}, ")", ".", {
+  "k": 3
+}, false, {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "O"
+}, ")", "is", "not", "Object", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "P"
+}, "be", "?", "Get", "(", {
+  "id": "C"
+}, ",", {
+  "code": "\"prototype\""
+}, ")", ".", {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "Repeat", ",", true, "Set", {
+  "id": "O"
+}, "to", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "O"
+}, "is", {
+  "value": "null"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "If", "SameValue", "(", {
+  "id": "P"
+}, ",", {
+  "id": "O"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 7
+}]

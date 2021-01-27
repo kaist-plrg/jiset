@@ -1,0 +1,105 @@
+["Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "index"
+}, ")", "is", "Number", ".", {
+  "k": 1
+}, "If", {
+  "id": "O"
+}, ".", "[", "[", "ContentType", "]", "]", "is", {
+  "const": "BigInt"
+}, ",", "let", {
+  "id": "numValue"
+}, "be", "?", "ToBigInt", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 2
+}, "Otherwise", ",", "let", {
+  "id": "numValue"
+}, "be", "?", "ToNumber", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "buffer"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 4
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "If", "!", "IsValidIntegerIndex", "(", {
+  "id": "O"
+}, ",", {
+  "id": "index"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", "the", "String", "value", "of", {
+  "id": "O"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 8
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "index"
+}, "×", {
+  "id": "elementSize"
+}, ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 11
+}, "Perform", "SetValueInBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "id": "numValue"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "const": "Unordered"
+}, ")", ".", {
+  "k": 12
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 13
+}]

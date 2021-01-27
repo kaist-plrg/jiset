@@ -1,0 +1,191 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 1
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 3
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "\"defineProperty\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "DefineOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ",", {
+  "id": "Desc"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "descObj"
+}, "be", "FromPropertyDescriptor", "(", {
+  "id": "Desc"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "booleanTrapResult"
+}, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "descObj"
+}, "»", ")", ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "booleanTrapResult"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "targetDesc"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 11
+}, "Let", {
+  "id": "extensibleTarget"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Configurable", "]", "]", "field", "and", "if", {
+  "id": "Desc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "settingConfigFalse"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, "Else", ",", "let", {
+  "id": "settingConfigFalse"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 15
+}, "If", {
+  "id": "targetDesc"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "If", {
+  "id": "extensibleTarget"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 17
+}, "If", {
+  "id": "settingConfigFalse"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 18
+}, false, {
+  "k": 16
+}, "Else", ",", true, "If", "IsCompatiblePropertyDescriptor", "(", {
+  "id": "extensibleTarget"
+}, ",", {
+  "id": "Desc"
+}, ",", {
+  "id": "targetDesc"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 20
+}, "If", {
+  "id": "settingConfigFalse"
+}, "is", {
+  "value": "true"
+}, "and", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 21
+}, "If", "IsDataDescriptor", "(", {
+  "id": "targetDesc"
+}, ")", "is", {
+  "value": "true"
+}, ",", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "and", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Writable", "]", "]", "field", "and", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 23
+}, false, {
+  "k": 22
+}, false, {
+  "k": 19
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 24
+}]

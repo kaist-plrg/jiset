@@ -1,0 +1,53 @@
+["Let", {
+  "id": "className"
+}, "be", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "value"
+}, "be", "the", "result", "of", "ClassDefinitionEvaluation", "of", {
+  "nt": "ClassTail"
+}, "with", "argument", {
+  "id": "className"
+}, ".", {
+  "k": 1
+}, "ReturnIfAbrupt", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "hasNameProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "value"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "hasNameProperty"
+}, "is", {
+  "value": "false"
+}, ",", "perform", "SetFunctionName", "(", {
+  "id": "value"
+}, ",", {
+  "id": "className"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "env"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 5
+}, "Perform", "?", "InitializeBoundName", "(", {
+  "id": "className"
+}, ",", {
+  "id": "value"
+}, ",", {
+  "id": "env"
+}, ")", ".", {
+  "k": 6
+}, "Return", {
+  "id": "value"
+}, ".", {
+  "k": 7
+}]

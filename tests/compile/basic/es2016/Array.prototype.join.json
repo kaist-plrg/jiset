@@ -1,0 +1,115 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "separator"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "separator"
+}, "be", "the", "single", "-", "element", "String", {
+  "code": "\",\""
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "sep"
+}, "be", "?", "ToString", "(", {
+  "id": "separator"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "len"
+}, "is", "zero", ",", "return", "the", "empty", "String", ".", {
+  "k": 4
+}, "Let", {
+  "id": "element0"
+}, "be", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"0\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "element0"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "let", {
+  "id": "R"
+}, "be", "the", "empty", "String", ";", "otherwise", ",", "let", {
+  "id": "R"
+}, "be", "?", "ToString", "(", {
+  "id": "element0"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "k"
+}, "be", {
+  "code": "1"
+}, ".", {
+  "k": 7
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "S"
+}, "be", "the", "String", "value", "produced", "by", "concatenating", {
+  "id": "R"
+}, "and", {
+  "id": "sep"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "element"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "element"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "let", {
+  "id": "next"
+}, "be", "the", "empty", "String", ";", "otherwise", ",", "let", {
+  "id": "next"
+}, "be", "?", "ToString", "(", {
+  "id": "element"
+}, ")", ".", {
+  "k": 11
+}, "Let", {
+  "id": "R"
+}, "be", "a", "String", "value", "produced", "by", "concatenating", {
+  "id": "S"
+}, "and", {
+  "id": "next"
+}, ".", {
+  "k": 12
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 13
+}, false, {
+  "k": 8
+}, "Return", {
+  "id": "R"
+}, ".", {
+  "k": 14
+}]

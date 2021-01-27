@@ -1,0 +1,39 @@
+["Let", {
+  "id": "env"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 0
+}, "Repeat", ",", true, "Let", {
+  "id": "exists"
+}, "be", {
+  "id": "env"
+}, ".", "HasThisBinding", "(", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "exists"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "env"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "outer"
+}, "be", {
+  "id": "env"
+}, ".", "[", "[", "OuterEnv", "]", "]", ".", {
+  "k": 4
+}, "Assert", ":", {
+  "id": "outer"
+}, "is", "not", {
+  "value": "null"
+}, ".", {
+  "k": 5
+}, "Set", {
+  "id": "env"
+}, "to", {
+  "id": "outer"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 1
+}]

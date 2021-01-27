@@ -1,0 +1,34 @@
+["Search", "the", "enclosing", {
+  "nt": "Pattern"
+}, "for", "an", "instance", "of", "a", {
+  "nt": "GroupSpecifier"
+}, "for", "a", {
+  "nt": "RegExpIdentifierName"
+}, "which", "has", "a", "StringValue", "equal", "to", "the", "StringValue", "of", "the", {
+  "nt": "RegExpIdentifierName"
+}, "contained", "in", {
+  "nt": "GroupName"
+}, ".", {
+  "k": 0
+}, "Assert", ":", "A", "unique", "such", {
+  "nt": "GroupSpecifier"
+}, "is", "found", ".", {
+  "k": 1
+}, "Let", {
+  "id": "parenIndex"
+}, "be", "the", "number", "of", "left", "-", "capturing", "parentheses", "in", "the", "entire", "regular", "expression", "that", "occur", "to", "the", "left", "of", "the", "located", {
+  "nt": "GroupSpecifier"
+}, ".", "This", "is", "the", "total", "number", "of", {
+  "grammar": "Atom4",
+  "subs": ["GroupSpecifier", "Disjunction"]
+}, "Parse", "Nodes", "prior", "to", "or", "enclosing", "the", "located", {
+  "nt": "GroupSpecifier"
+}, ".", {
+  "k": 2
+}, "Call", "BackreferenceMatcher", "(", {
+  "id": "parenIndex"
+}, ",", {
+  "id": "direction"
+}, ")", "and", "return", "its", "Matcher", "result", ".", {
+  "k": 3
+}]

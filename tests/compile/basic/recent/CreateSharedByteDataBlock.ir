@@ -1,0 +1,16 @@
+{
+  assert (! (< size 0i))
+  ??? "Let id:{db} be a new Shared Data Block value consisting of id:{size} bytes . If it is impossible to create such a Shared Data Block , throw a value:{RangeError} exception ."
+  let execution = GLOBAL_agent.CandidateExecution
+  ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
+  let zero = (new [0i])
+  let __x0__ = db
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let i = __x0__[__x1__]
+    append (new WriteSharedMemory("Order" -> CONST_Init, "NoTear" -> true, "Block" -> db, "ByteIndex" -> i, "ElementSize" -> 1i, "Payload" -> zero)) -> eventList
+    __x1__ = (+ __x1__ 1i)
+  }
+  app __x2__ = (WrapCompletion db)
+  return __x2__
+}

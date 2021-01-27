@@ -1,0 +1,15 @@
+{
+  let size = string.length
+  assert (&& (! (< position 0i)) (< position size))
+  let first = string[position]
+  ??? "Let id:{cp} be the code point whose numeric value is that of id:{first} ."
+  ??? "If id:{first} is not a link:{} or link:{} , then step-list:{...}"
+  ??? "If id:{first} is a link:{} or id:{position} + 1 = id:{size} , then step-list:{...}"
+  let second = string[(+ position 1i)]
+  ??? "If id:{second} is not a link:{} , then step-list:{...}"
+  app __x0__ = (UTF16SurrogatePairToCodePoint first second)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  cp = __x0__
+  app __x1__ = (WrapCompletion (new Record("CodePoint" -> cp, "CodeUnitCount" -> 2i, "IsUnpairedSurrogate" -> false)))
+  return __x1__
+}

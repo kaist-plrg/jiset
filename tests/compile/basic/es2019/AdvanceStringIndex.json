@@ -1,0 +1,77 @@
+["Assert", ":", "Type", "(", {
+  "id": "S"
+}, ")", "is", "String", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "index"
+}, "is", "an", "integer", "such", "that", "0", "≤", {
+  "id": "index"
+}, "≤", "2", {
+  "sup": {
+    "tokens": ["53"]
+  }
+}, "-", "1", ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "unicode"
+}, ")", "is", "Boolean", ".", {
+  "k": 2
+}, "If", {
+  "id": "unicode"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 3
+}, "Let", {
+  "id": "length"
+}, "be", "the", "number", "of", "code", "units", "in", {
+  "id": "S"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "index"
+}, "+", "1", "≥", {
+  "id": "length"
+}, ",", "return", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 5
+}, "Let", {
+  "id": "first"
+}, "be", "the", "numeric", "value", "of", "the", "code", "unit", "at", "index", {
+  "id": "index"
+}, "within", {
+  "id": "S"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "first"
+}, "<", "0xD800", "or", {
+  "id": "first"
+}, ">", "0xDBFF", ",", "return", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 7
+}, "Let", {
+  "id": "second"
+}, "be", "the", "numeric", "value", "of", "the", "code", "unit", "at", "index", {
+  "id": "index"
+}, "+", "1", "within", {
+  "id": "S"
+}, ".", {
+  "k": 8
+}, "If", {
+  "id": "second"
+}, "<", "0xDC00", "or", {
+  "id": "second"
+}, ">", "0xDFFF", ",", "return", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 9
+}, "Return", {
+  "id": "index"
+}, "+", "2", ".", {
+  "k": 10
+}]

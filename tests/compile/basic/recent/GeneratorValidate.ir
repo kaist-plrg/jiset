@@ -1,0 +1,16 @@
+{
+  app __x0__ = (RequireInternalSlot generator "GeneratorState")
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  __x0__
+  app __x1__ = (RequireInternalSlot generator "GeneratorBrand")
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  __x1__
+  ??? "If id:{generator} . [ [ GeneratorBrand ] ] is not the same value as id:{generatorBrand} , throw a value:{TypeError} exception ."
+  let state = generator.GeneratorState
+  if (= state CONST_executing) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  app __x3__ = (WrapCompletion state)
+  return __x3__
+}

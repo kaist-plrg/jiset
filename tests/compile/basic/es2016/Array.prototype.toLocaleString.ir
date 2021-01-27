@@ -1,0 +1,45 @@
+{
+  app __x0__ = (ToObject this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let array = __x0__
+  app __x1__ = (Get array "length")
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  app __x2__ = (ToLength __x1__)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let len = __x2__
+  ??? "Let id:{separator} be the String value for the list - separator String appropriate for the host environment ' s current locale ( this is derived in an implementation - defined way ) ."
+  if (= len 0i) {
+    app __x3__ = (WrapCompletion "")
+    return __x3__
+  } else {}
+  app __x4__ = (Get array "0")
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  let firstElement = __x4__
+  if (|| (= firstElement undefined) (= firstElement null)) let R = "" else {
+    app __x5__ = (Invoke firstElement "toLocaleString")
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    app __x6__ = (ToString __x5__)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    let R = __x6__
+  }
+  let k = ??? "1"
+  while (< k len) {
+    let S = (+ R separator)
+    app __x7__ = (ToString k)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    app __x8__ = (Get array __x7__)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    let nextElement = __x8__
+    if (|| (= nextElement undefined) (= nextElement null)) let R = "" else {
+      app __x9__ = (Invoke nextElement "toLocaleString")
+      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+      app __x10__ = (ToString __x9__)
+      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+      let R = __x10__
+    }
+    let R = (+ S R)
+    k = (+ k 1i)
+  }
+  app __x11__ = (WrapCompletion R)
+  return __x11__
+}

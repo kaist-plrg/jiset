@@ -1,0 +1,159 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "ownDesc"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "parent"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "parent"
+}, "is", "not", {
+  "value": "null"
+}, ",", "then", true, "Return", "?", {
+  "id": "parent"
+}, ".", "[", "[", "Set", "]", "]", "(", {
+  "id": "P"
+}, ",", {
+  "id": "V"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Else", ",", true, "Set", {
+  "id": "ownDesc"
+}, "to", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "value": "undefined"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, false, {
+  "k": 1
+}, "If", "IsDataDescriptor", "(", {
+  "id": "ownDesc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "ownDesc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 8
+}, "If", "Type", "(", {
+  "id": "Receiver"
+}, ")", "is", "not", "Object", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "existingDescriptor"
+}, "be", "?", {
+  "id": "Receiver"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "existingDescriptor"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "If", "IsAccessorDescriptor", "(", {
+  "id": "existingDescriptor"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 12
+}, "If", {
+  "id": "existingDescriptor"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 13
+}, "Let", {
+  "id": "valueDesc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "V"
+}, "}", ".", {
+  "k": 14
+}, "Return", "?", {
+  "id": "Receiver"
+}, ".", "[", "[", "DefineOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ",", {
+  "id": "valueDesc"
+}, ")", ".", {
+  "k": 15
+}, false, {
+  "k": 11
+}, "Else", {
+  "id": "Receiver"
+}, "does", "not", "currently", "have", "a", "property", {
+  "id": "P"
+}, ",", true, "Return", "?", "CreateDataProperty", "(", {
+  "id": "Receiver"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "V"
+}, ")", ".", {
+  "k": 17
+}, false, {
+  "k": 16
+}, false, {
+  "k": 7
+}, "Assert", ":", "IsAccessorDescriptor", "(", {
+  "id": "ownDesc"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 18
+}, "Let", {
+  "id": "setter"
+}, "be", {
+  "id": "ownDesc"
+}, ".", "[", "[", "Set", "]", "]", ".", {
+  "k": 19
+}, "If", {
+  "id": "setter"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 20
+}, "Perform", "?", "Call", "(", {
+  "id": "setter"
+}, ",", {
+  "id": "Receiver"
+}, ",", "«", {
+  "id": "V"
+}, "»", ")", ".", {
+  "k": 21
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 22
+}]

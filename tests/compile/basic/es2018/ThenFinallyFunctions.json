@@ -1,0 +1,55 @@
+["Let", {
+  "id": "onFinally"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "OnFinally", "]", "]", ".", {
+  "k": 0
+}, "Assert", ":", "IsCallable", "(", {
+  "id": "onFinally"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "result"
+}, "be", "?", "Call", "(", {
+  "id": "onFinally"
+}, ",", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "C"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "Constructor", "]", "]", ".", {
+  "k": 3
+}, "Assert", ":", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "promise"
+}, "be", "?", "PromiseResolve", "(", {
+  "id": "C"
+}, ",", {
+  "id": "result"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "valueThunk"
+}, "be", "equivalent", "to", "a", "function", "that", "returns", {
+  "id": "value"
+}, ".", {
+  "k": 6
+}, "Return", "?", "Invoke", "(", {
+  "id": "promise"
+}, ",", {
+  "code": "\"then\""
+}, ",", "«", {
+  "id": "valueThunk"
+}, "»", ")", ".", {
+  "k": 7
+}]

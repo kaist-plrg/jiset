@@ -1,0 +1,53 @@
+["If", {
+  "id": "E"
+}, "is", "not", {
+  "id": "D"
+}, ",", "then", true, "If", "the", "pairs", "(", {
+  "id": "E"
+}, ",", {
+  "id": "D"
+}, ")", "and", "(", {
+  "id": "D"
+}, ",", {
+  "id": "E"
+}, ")", "are", "not", "in", {
+  "id": "execution"
+}, ".", "[", "[", "HappensBefore", "]", "]", ",", "then", true, "If", {
+  "id": "E"
+}, "and", {
+  "id": "D"
+}, "are", "both", "WriteSharedMemory", "or", "ReadModifyWriteSharedMemory", "events", "and", {
+  "id": "E"
+}, "and", {
+  "id": "D"
+}, "do", "not", "have", "disjoint", "ranges", ",", "then", true, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "If", "either", "(", {
+  "id": "E"
+}, ",", {
+  "id": "D"
+}, ")", "or", "(", {
+  "id": "D"
+}, ",", {
+  "id": "E"
+}, ")", "is", "in", {
+  "id": "execution"
+}, ".", "[", "[", "ReadsFrom", "]", "]", ",", "then", true, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, false, {
+  "k": 1
+}, false, {
+  "k": 0
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}]

@@ -1,0 +1,103 @@
+["Let", {
+  "id": "thisMode"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "ThisMode", "]", "]", ".", {
+  "k": 0
+}, "If", {
+  "id": "thisMode"
+}, "is", {
+  "const": "lexical"
+}, ",", "return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "calleeRealm"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 2
+}, "Let", {
+  "id": "localEnv"
+}, "be", "the", "LexicalEnvironment", "of", {
+  "id": "calleeContext"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "thisMode"
+}, "is", {
+  "const": "strict"
+}, ",", "let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "thisArgument"
+}, ".", {
+  "k": 4
+}, "Else", ",", true, "If", {
+  "id": "thisArgument"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "then", true, "Let", {
+  "id": "globalEnv"
+}, "be", {
+  "id": "calleeRealm"
+}, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "globalEnvRec"
+}, "be", {
+  "id": "globalEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 8
+}, "Assert", ":", {
+  "id": "globalEnvRec"
+}, "is", "a", "global", "Environment", "Record", ".", {
+  "k": 9
+}, "Let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "globalEnvRec"
+}, ".", "[", "[", "GlobalThisValue", "]", "]", ".", {
+  "k": 10
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Let", {
+  "id": "thisValue"
+}, "be", "!", "ToObject", "(", {
+  "id": "thisArgument"
+}, ")", ".", {
+  "k": 12
+}, "NOTE", ":", "ToObject", "produces", "wrapper", "objects", "using", {
+  "id": "calleeRealm"
+}, ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, false, {
+  "k": 5
+}, "Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "localEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 14
+}, "Assert", ":", {
+  "id": "envRec"
+}, "is", "a", "function", "Environment", "Record", ".", {
+  "k": 15
+}, "Assert", ":", "The", "next", "step", "never", "returns", "an", "abrupt", "completion", "because", {
+  "id": "envRec"
+}, ".", "[", "[", "ThisBindingStatus", "]", "]", "is", "not", {
+  "code": "\"initialized\""
+}, ".", {
+  "k": 16
+}, "Return", {
+  "id": "envRec"
+}, ".", "BindThisValue", "(", {
+  "id": "thisValue"
+}, ")", ".", {
+  "k": 17
+}]

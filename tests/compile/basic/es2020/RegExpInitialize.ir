@@ -1,0 +1,33 @@
+{
+  if (= pattern undefined) let P = "" else {
+    app __x0__ = (ToString pattern)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    let P = __x0__
+  }
+  if (= flags undefined) let F = "" else {
+    app __x1__ = (ToString flags)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    let F = __x1__
+  }
+  ??? "If id:{F} contains any code unit other than value:{\"g\"} , value:{\"i\"} , value:{\"m\"} , value:{\"s\"} , value:{\"u\"} , or value:{\"y\"} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception ."
+  if (contains F "u") let BMP = false else let BMP = true
+  if (= BMP true) {
+    ??? "Let id:{pText} be the sequence of code points resulting from interpreting each of the 16 - bit elements of id:{P} as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements ."
+    ??? "Parse id:{pText} using the grammars in link:{} . The goal symbol for the parse is | Pattern [ ~ U , ~ N ] | . If the result of parsing contains a nt:{GroupName} , reparse with the goal symbol | Pattern [ ~ U , + N ] | and use this result instead . Throw a value:{SyntaxError} exception if id:{pText} did not conform to the grammar , if any elements of id:{pText} were not matched by the parse , or if any Early Error conditions exist ."
+    ??? "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} ."
+  } else {
+    app __x2__ = (UTF16DecodeString P)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    let pText = __x2__
+    ??? "Parse id:{pText} using the grammars in link:{} . The goal symbol for the parse is | Pattern [ + U , + N ] | . Throw a value:{SyntaxError} exception if id:{pText} did not conform to the grammar , if any elements of id:{pText} were not matched by the parse , or if any Early Error conditions exist ."
+    ??? "Let id:{patternCharacters} be a List whose elements are the code points of id:{pText} ."
+  }
+  obj.OriginalSource = P
+  obj.OriginalFlags = F
+  ??? "Set id:{obj} . [ [ RegExpMatcher ] ] to the abstract closure that evaluates the above parse by applying the semantics provided in link:{} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters ."
+  app __x3__ = (Set obj "lastIndex" 0i true)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  __x3__
+  app __x4__ = (WrapCompletion obj)
+  return __x4__
+}

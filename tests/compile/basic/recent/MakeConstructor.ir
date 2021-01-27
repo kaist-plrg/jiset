@@ -1,0 +1,19 @@
+{
+  app __x0__ = (IsConstructor F)
+  assert (= __x0__ false)
+  ??? "Set id:{F} . [ [ Construct ] ] to the definition specified in link:{} ."
+  F.ConstructorKind = CONST_base
+  if (= writablePrototype absent) writablePrototype = true else {}
+  if (= prototype absent) {
+    ??? "Set id:{prototype} to ! OrdinaryObjectCreate ( % Object . prototype % ) ."
+    app __x1__ = (DefinePropertyOrThrow prototype "constructor" (new PropertyDescriptor("Value" -> F, "Writable" -> writablePrototype, "Enumerable" -> false, "Configurable" -> true)))
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    __x1__
+  } else {}
+  app __x2__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> writablePrototype, "Enumerable" -> false, "Configurable" -> false)))
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  __x2__
+  app __x3__ = (NormalCompletion undefined)
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

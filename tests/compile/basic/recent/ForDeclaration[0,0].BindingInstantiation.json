@@ -1,0 +1,35 @@
+["Assert", ":", {
+  "id": "environment"
+}, "is", "a", "declarative", "Environment", "Record", ".", {
+  "k": 0
+}, "For", "each", "element", {
+  "id": "name"
+}, "of", "the", "BoundNames", "of", {
+  "nt": "ForBinding"
+}, ",", "do", true, "If", "IsConstantDeclaration", "of", {
+  "nt": "LetOrConst"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Perform", "!", {
+  "id": "environment"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "Else", ",", true, "Perform", "!", {
+  "id": "environment"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, false, {
+  "k": 1
+}]

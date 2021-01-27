@@ -1,0 +1,1 @@
+          1. Return Completion{[[Type]]: ~throw~, [[Value]]: a newly created *TypeError* object, [[Target]]: ~empty~}.

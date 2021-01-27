@@ -1,0 +1,323 @@
+["Let", {
+  "id": "C"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", {
+  "id": "mapfn"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "mapping"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 1
+}, "Else", ",", true, "If", "IsCallable", "(", {
+  "id": "mapfn"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "If", {
+  "id": "thisArg"
+}, "is", "present", ",", "let", {
+  "id": "T"
+}, "be", {
+  "id": "thisArg"
+}, ";", "else", "let", {
+  "id": "T"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "mapping"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 2
+}, "Let", {
+  "id": "usingIterator"
+}, "be", "?", "GetMethod", "(", {
+  "id": "items"
+}, ",", "@", "@", "iterator", ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "usingIterator"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "If", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "A"
+}, "be", "?", "Construct", "(", {
+  "id": "C"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Else", ",", true, "Let", {
+  "id": "A"
+}, "be", "!", "ArrayCreate", "(", "0", ")", ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "items"
+}, ",", {
+  "const": "sync"
+}, ",", {
+  "id": "usingIterator"
+}, ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 13
+}, "Repeat", ",", true, "If", {
+  "id": "k"
+}, "≥", "2", {
+  "sup": {
+    "tokens": ["53"]
+  }
+}, "-", "1", ",", "then", true, "Let", {
+  "id": "error"
+}, "be", "ThrowCompletion", "(", "a", "newly", "created", {
+  "value": "TypeError"
+}, "object", ")", ".", {
+  "k": 16
+}, "Return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "error"
+}, ")", ".", {
+  "k": 17
+}, false, {
+  "k": 15
+}, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", {
+  "k": 18
+}, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 19
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Perform", "?", "Set", "(", {
+  "id": "A"
+}, ",", {
+  "code": "\"length\""
+}, ",", {
+  "id": "k"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 21
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 22
+}, false, {
+  "k": 20
+}, "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 23
+}, "If", {
+  "id": "mapping"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "mappedValue"
+}, "be", "Call", "(", {
+  "id": "mapfn"
+}, ",", {
+  "id": "T"
+}, ",", "«", {
+  "id": "nextValue"
+}, ",", {
+  "id": "k"
+}, "»", ")", ".", {
+  "k": 25
+}, "If", {
+  "id": "mappedValue"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "mappedValue"
+}, ")", ".", {
+  "k": 26
+}, "Let", {
+  "id": "mappedValue"
+}, "be", {
+  "id": "mappedValue"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 27
+}, false, {
+  "k": 24
+}, "Else", ",", "let", {
+  "id": "mappedValue"
+}, "be", {
+  "id": "nextValue"
+}, ".", {
+  "k": 28
+}, "Let", {
+  "id": "defineStatus"
+}, "be", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", {
+  "id": "Pk"
+}, ",", {
+  "id": "mappedValue"
+}, ")", ".", {
+  "k": 29
+}, "If", {
+  "id": "defineStatus"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "defineStatus"
+}, ")", ".", {
+  "k": 30
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 31
+}, false, {
+  "k": 14
+}, false, {
+  "k": 7
+}, "NOTE", ":", {
+  "id": "items"
+}, "is", "not", "an", "Iterable", "so", "assume", "it", "is", "an", "array", "-", "like", "object", ".", {
+  "k": 32
+}, "Let", {
+  "id": "arrayLike"
+}, "be", "!", "ToObject", "(", {
+  "id": "items"
+}, ")", ".", {
+  "k": 33
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "arrayLike"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 34
+}, "If", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "A"
+}, "be", "?", "Construct", "(", {
+  "id": "C"
+}, ",", "«", {
+  "id": "len"
+}, "»", ")", ".", {
+  "k": 36
+}, false, {
+  "k": 35
+}, "Else", ",", true, "Let", {
+  "id": "A"
+}, "be", "?", "ArrayCreate", "(", {
+  "id": "len"
+}, ")", ".", {
+  "k": 38
+}, false, {
+  "k": 37
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 39
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", {
+  "k": 41
+}, "Let", {
+  "id": "kValue"
+}, "be", "?", "Get", "(", {
+  "id": "arrayLike"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 42
+}, "If", {
+  "id": "mapping"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "mappedValue"
+}, "be", "?", "Call", "(", {
+  "id": "mapfn"
+}, ",", {
+  "id": "T"
+}, ",", "«", {
+  "id": "kValue"
+}, ",", {
+  "id": "k"
+}, "»", ")", ".", {
+  "k": 44
+}, false, {
+  "k": 43
+}, "Else", ",", "let", {
+  "id": "mappedValue"
+}, "be", {
+  "id": "kValue"
+}, ".", {
+  "k": 45
+}, "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", {
+  "id": "Pk"
+}, ",", {
+  "id": "mappedValue"
+}, ")", ".", {
+  "k": 46
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 47
+}, false, {
+  "k": 40
+}, "Perform", "?", "Set", "(", {
+  "id": "A"
+}, ",", {
+  "code": "\"length\""
+}, ",", {
+  "id": "len"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 48
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 49
+}]

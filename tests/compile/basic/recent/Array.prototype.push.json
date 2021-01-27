@@ -1,0 +1,67 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "argCount"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "items"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "len"
+}, "+", {
+  "id": "argCount"
+}, ">", "2", {
+  "sup": {
+    "tokens": ["53"]
+  }
+}, "-", "1", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "For", "each", "element", {
+  "id": "E"
+}, "of", {
+  "id": "items"
+}, ",", "do", true, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "len"
+}, ")", ")", ",", {
+  "id": "E"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 5
+}, "Set", {
+  "id": "len"
+}, "to", {
+  "id": "len"
+}, "+", "1", ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"length\""
+}, ",", "𝔽", "(", {
+  "id": "len"
+}, ")", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 7
+}, "Return", "𝔽", "(", {
+  "id": "len"
+}, ")", ".", {
+  "k": 8
+}]

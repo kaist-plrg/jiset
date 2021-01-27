@@ -1,0 +1,25 @@
+{
+  let numberOfArgs = argumentsList.length
+  assert (! (< numberOfArgs 2i))
+  if (= NewTarget undefined) let newTarget = GLOBAL_context.Function else let newTarget = NewTarget
+  app __x0__ = (GetPrototypeFromConstructor newTarget INTRINSIC_ArrayPrototype)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let proto = __x0__
+  app __x1__ = (ArrayCreate numberOfArgs proto)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let array = __x1__
+  let k = 0i
+  ??? "Let id:{items} be a zero - origined List containing the argument items in order ."
+  while (< k numberOfArgs) {
+    app __x2__ = (ToString k)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    let Pk = __x2__
+    let itemK = items[k]
+    app __x3__ = (CreateDataProperty array Pk itemK)
+    let defineStatus = __x3__
+    assert (= defineStatus true)
+    k = (+ k 1i)
+  }
+  app __x4__ = (WrapCompletion array)
+  return __x4__
+}

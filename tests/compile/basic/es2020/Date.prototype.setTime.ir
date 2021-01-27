@@ -1,0 +1,13 @@
+{
+  app __x0__ = (thisTimeValue this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  __x0__
+  app __x1__ = (ToNumber time)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let t = __x1__
+  app __x2__ = (TimeClip t)
+  let v = __x2__
+  this.DateValue = v
+  app __x3__ = (WrapCompletion v)
+  return __x3__
+}

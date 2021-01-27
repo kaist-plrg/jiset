@@ -1,0 +1,317 @@
+["Assert", ":", {
+  "id": "env"
+}, "is", "a", "global", "Environment", "Record", ".", {
+  "k": 0
+}, "Let", {
+  "id": "lexNames"
+}, "be", "the", "LexicallyDeclaredNames", "of", {
+  "id": "script"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "varNames"
+}, "be", "the", "VarDeclaredNames", "of", {
+  "id": "script"
+}, ".", {
+  "k": 2
+}, "For", "each", "element", {
+  "id": "name"
+}, "of", {
+  "id": "lexNames"
+}, ",", "do", true, "If", {
+  "id": "env"
+}, ".", "HasVarDeclaration", "(", {
+  "id": "name"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 4
+}, "If", {
+  "id": "env"
+}, ".", "HasLexicalDeclaration", "(", {
+  "id": "name"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 5
+}, "Let", {
+  "id": "hasRestrictedGlobal"
+}, "be", "?", {
+  "id": "env"
+}, ".", "HasRestrictedGlobalProperty", "(", {
+  "id": "name"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "hasRestrictedGlobal"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 7
+}, false, {
+  "k": 3
+}, "For", "each", "element", {
+  "id": "name"
+}, "of", {
+  "id": "varNames"
+}, ",", "do", true, "If", {
+  "id": "env"
+}, ".", "HasLexicalDeclaration", "(", {
+  "id": "name"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Let", {
+  "id": "varDeclarations"
+}, "be", "the", "VarScopedDeclarations", "of", {
+  "id": "script"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "functionsToInitialize"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 11
+}, "Let", {
+  "id": "declaredFunctionNames"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 12
+}, "For", "each", "element", {
+  "id": "d"
+}, "of", {
+  "id": "varDeclarations"
+}, ",", "in", "reverse", "List", "order", ",", "do", true, "If", {
+  "id": "d"
+}, "is", "neither", "a", {
+  "nt": "VariableDeclaration"
+}, "nor", "a", {
+  "nt": "ForBinding"
+}, "nor", "a", {
+  "nt": "BindingIdentifier"
+}, ",", "then", true, "Assert", ":", {
+  "id": "d"
+}, "is", "either", "a", {
+  "nt": "FunctionDeclaration"
+}, ",", "a", {
+  "nt": "GeneratorDeclaration"
+}, ",", "an", {
+  "nt": "AsyncFunctionDeclaration"
+}, ",", "or", "an", {
+  "nt": "AsyncGeneratorDeclaration"
+}, ".", {
+  "k": 15
+}, "NOTE", ":", "If", "there", "are", "multiple", "function", "declarations", "for", "the", "same", "name", ",", "the", "last", "declaration", "is", "used", ".", {
+  "k": 16
+}, "Let", {
+  "id": "fn"
+}, "be", "the", "sole", "element", "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ".", {
+  "k": 17
+}, "If", {
+  "id": "fn"
+}, "is", "not", "an", "element", "of", {
+  "id": "declaredFunctionNames"
+}, ",", "then", true, "Let", {
+  "id": "fnDefinable"
+}, "be", "?", {
+  "id": "env"
+}, ".", "CanDeclareGlobalFunction", "(", {
+  "id": "fn"
+}, ")", ".", {
+  "k": 19
+}, "If", {
+  "id": "fnDefinable"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 20
+}, "Append", {
+  "id": "fn"
+}, "to", {
+  "id": "declaredFunctionNames"
+}, ".", {
+  "k": 21
+}, "Insert", {
+  "id": "d"
+}, "as", "the", "first", "element", "of", {
+  "id": "functionsToInitialize"
+}, ".", {
+  "k": 22
+}, false, {
+  "k": 18
+}, false, {
+  "k": 14
+}, false, {
+  "k": 13
+}, "Let", {
+  "id": "declaredVarNames"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 23
+}, "For", "each", "element", {
+  "id": "d"
+}, "of", {
+  "id": "varDeclarations"
+}, ",", "do", true, "If", {
+  "id": "d"
+}, "is", "a", {
+  "nt": "VariableDeclaration"
+}, ",", "a", {
+  "nt": "ForBinding"
+}, ",", "or", "a", {
+  "nt": "BindingIdentifier"
+}, ",", "then", true, "For", "each", "String", {
+  "id": "vn"
+}, "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ",", "do", true, "If", {
+  "id": "vn"
+}, "is", "not", "an", "element", "of", {
+  "id": "declaredFunctionNames"
+}, ",", "then", true, "Let", {
+  "id": "vnDefinable"
+}, "be", "?", {
+  "id": "env"
+}, ".", "CanDeclareGlobalVar", "(", {
+  "id": "vn"
+}, ")", ".", {
+  "k": 28
+}, "If", {
+  "id": "vnDefinable"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 29
+}, "If", {
+  "id": "vn"
+}, "is", "not", "an", "element", "of", {
+  "id": "declaredVarNames"
+}, ",", "then", true, "Append", {
+  "id": "vn"
+}, "to", {
+  "id": "declaredVarNames"
+}, ".", {
+  "k": 31
+}, false, {
+  "k": 30
+}, false, {
+  "k": 27
+}, false, {
+  "k": 26
+}, false, {
+  "k": 25
+}, false, {
+  "k": 24
+}, "NOTE", ":", "No", "abnormal", "terminations", "occur", "after", "this", "algorithm", "step", "if", "the", "global", "object", "is", "an", "ordinary", "object", ".", "However", ",", "if", "the", "global", "object", "is", "a", "Proxy", "exotic", "object", "it", "may", "exhibit", "behaviours", "that", "cause", "abnormal", "terminations", "in", "some", "of", "the", "following", "steps", ".", {
+  "k": 32
+}, "NOTE", ":", "Annex", {
+  "link": ""
+}, "adds", "additional", "steps", "at", "this", "point", ".", {
+  "k": 33
+}, "Let", {
+  "id": "lexDeclarations"
+}, "be", "the", "LexicallyScopedDeclarations", "of", {
+  "id": "script"
+}, ".", {
+  "k": 34
+}, "For", "each", "element", {
+  "id": "d"
+}, "of", {
+  "id": "lexDeclarations"
+}, ",", "do", true, "NOTE", ":", "Lexically", "declared", "names", "are", "only", "instantiated", "here", "but", "not", "initialized", ".", {
+  "k": 36
+}, "For", "each", "element", {
+  "id": "dn"
+}, "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ",", "do", true, "If", "IsConstantDeclaration", "of", {
+  "id": "d"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Perform", "?", {
+  "id": "env"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 39
+}, false, {
+  "k": 38
+}, "Else", ",", true, "Perform", "?", {
+  "id": "env"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 41
+}, false, {
+  "k": 40
+}, false, {
+  "k": 37
+}, false, {
+  "k": 35
+}, "For", "each", "Parse", "Node", {
+  "id": "f"
+}, "of", {
+  "id": "functionsToInitialize"
+}, ",", "do", true, "Let", {
+  "id": "fn"
+}, "be", "the", "sole", "element", "of", "the", "BoundNames", "of", {
+  "id": "f"
+}, ".", {
+  "k": 43
+}, "Let", {
+  "id": "fo"
+}, "be", "InstantiateFunctionObject", "of", {
+  "id": "f"
+}, "with", "argument", {
+  "id": "env"
+}, ".", {
+  "k": 44
+}, "Perform", "?", {
+  "id": "env"
+}, ".", "CreateGlobalFunctionBinding", "(", {
+  "id": "fn"
+}, ",", {
+  "id": "fo"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 45
+}, false, {
+  "k": 42
+}, "For", "each", "String", {
+  "id": "vn"
+}, "of", {
+  "id": "declaredVarNames"
+}, ",", "do", true, "Perform", "?", {
+  "id": "env"
+}, ".", "CreateGlobalVarBinding", "(", {
+  "id": "vn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 47
+}, false, {
+  "k": 46
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 48
+}]

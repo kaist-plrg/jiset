@@ -1,0 +1,49 @@
+["If", "the", "first", {
+  "nt": "CaseClauses"
+}, "is", "present", ",", "then", true, "Let", {
+  "id": "hasDuplicates"
+}, "be", "ContainsDuplicateLabels", "of", "the", "first", {
+  "nt": "CaseClauses"
+}, "with", "argument", {
+  "id": "labelSet"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "hasDuplicates"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, false, {
+  "k": 0
+}, "Let", {
+  "id": "hasDuplicates"
+}, "be", "ContainsDuplicateLabels", "of", {
+  "nt": "DefaultClause"
+}, "with", "argument", {
+  "id": "labelSet"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "hasDuplicates"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "If", "the", "second", {
+  "nt": "CaseClauses"
+}, "is", "not", "present", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 5
+}, "Return", "ContainsDuplicateLabels", "of", "the", "second", {
+  "nt": "CaseClauses"
+}, "with", "argument", {
+  "id": "labelSet"
+}, ".", {
+  "k": 6
+}]

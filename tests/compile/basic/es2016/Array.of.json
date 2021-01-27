@@ -1,0 +1,87 @@
+["Let", {
+  "id": "len"
+}, "be", "the", "actual", "number", "of", "arguments", "passed", "to", "this", "function", ".", {
+  "k": 0
+}, "Let", {
+  "id": "items"
+}, "be", "the", "List", "of", "arguments", "passed", "to", "this", "function", ".", {
+  "k": 1
+}, "Let", {
+  "id": "C"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 2
+}, "If", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "A"
+}, "be", "?", "Construct", "(", {
+  "id": "C"
+}, ",", "«", {
+  "id": "len"
+}, "»", ")", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Else", ",", true, "Let", {
+  "id": "A"
+}, "be", "?", "ArrayCreate", "(", {
+  "id": "len"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 7
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "kValue"
+}, "be", {
+  "id": "items"
+}, "[", {
+  "id": "k"
+}, "]", ".", {
+  "k": 9
+}, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", {
+  "k": 10
+}, "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", {
+  "id": "Pk"
+}, ",", {
+  "id": "kValue"
+}, ")", ".", {
+  "k": 11
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 12
+}, false, {
+  "k": 8
+}, "Perform", "?", "Set", "(", {
+  "id": "A"
+}, ",", {
+  "code": "\"length\""
+}, ",", {
+  "id": "len"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 13
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 14
+}]

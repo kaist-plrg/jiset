@@ -1,0 +1,251 @@
+["Assert", ":", {
+  "id": "generator"
+}, "is", "an", "AsyncGenerator", "instance", ".", {
+  "k": 0
+}, "Let", {
+  "id": "state"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorState", "]", "]", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "state"
+}, "is", "not", {
+  "code": "\"executing\""
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "state"
+}, "is", {
+  "code": "\"awaiting-return\""
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "queue"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorQueue", "]", "]", ".", {
+  "k": 4
+}, "If", {
+  "id": "queue"
+}, "is", "an", "empty", "List", ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "next"
+}, "be", "the", "value", "of", "the", "first", "element", "of", {
+  "id": "queue"
+}, ".", {
+  "k": 6
+}, "Assert", ":", {
+  "id": "next"
+}, "is", "an", "AsyncGeneratorRequest", "record", ".", {
+  "k": 7
+}, "Let", {
+  "id": "completion"
+}, "be", {
+  "id": "next"
+}, ".", "[", "[", "Completion", "]", "]", ".", {
+  "k": 8
+}, "If", {
+  "id": "completion"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "If", {
+  "id": "state"
+}, "is", {
+  "code": "\"suspendedStart\""
+}, ",", "then", true, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
+  "code": "\"completed\""
+}, ".", {
+  "k": 11
+}, "Set", {
+  "id": "state"
+}, "to", {
+  "code": "\"completed\""
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 10
+}, "If", {
+  "id": "state"
+}, "is", {
+  "code": "\"completed\""
+}, ",", "then", true, "If", {
+  "id": "completion"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "return"
+}, ",", "then", true, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
+  "code": "\"awaiting-return\""
+}, ".", {
+  "k": 15
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", ".", {
+  "k": 16
+}, "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "completion"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 17
+}, "Let", {
+  "id": "stepsFulfilled"
+}, "be", "the", "algorithm", "steps", "defined", "in", {
+  "link": ""
+}, ".", {
+  "k": 18
+}, "Let", {
+  "id": "onFulfilled"
+}, "be", "CreateBuiltinFunction", "(", {
+  "id": "stepsFulfilled"
+}, ",", "«", "[", "[", "Generator", "]", "]", "»", ")", ".", {
+  "k": 19
+}, "Set", {
+  "id": "onFulfilled"
+}, ".", "[", "[", "Generator", "]", "]", "to", {
+  "id": "generator"
+}, ".", {
+  "k": 20
+}, "Let", {
+  "id": "stepsRejected"
+}, "be", "the", "algorithm", "steps", "defined", "in", {
+  "link": ""
+}, ".", {
+  "k": 21
+}, "Let", {
+  "id": "onRejected"
+}, "be", "CreateBuiltinFunction", "(", {
+  "id": "stepsRejected"
+}, ",", "«", "[", "[", "Generator", "]", "]", "»", ")", ".", {
+  "k": 22
+}, "Set", {
+  "id": "onRejected"
+}, ".", "[", "[", "Generator", "]", "]", "to", {
+  "id": "generator"
+}, ".", {
+  "k": 23
+}, "Let", {
+  "id": "throwawayCapability"
+}, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", ".", {
+  "k": 24
+}, "Set", {
+  "id": "throwawayCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", "[", "[", "PromiseIsHandled", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 25
+}, "Perform", "!", "PerformPromiseThen", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ",", {
+  "id": "onFulfilled"
+}, ",", {
+  "id": "onRejected"
+}, ",", {
+  "id": "throwawayCapability"
+}, ")", ".", {
+  "k": 26
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 27
+}, false, {
+  "k": 14
+}, "Else", ",", true, "Assert", ":", {
+  "id": "completion"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "throw"
+}, ".", {
+  "k": 29
+}, "Perform", "!", "AsyncGeneratorReject", "(", {
+  "id": "generator"
+}, ",", {
+  "id": "completion"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 30
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 31
+}, false, {
+  "k": 28
+}, false, {
+  "k": 13
+}, false, {
+  "k": 9
+}, "Else", "if", {
+  "id": "state"
+}, "is", {
+  "code": "\"completed\""
+}, ",", "return", "!", "AsyncGeneratorResolve", "(", {
+  "id": "generator"
+}, ",", {
+  "value": "undefined"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 32
+}, "Assert", ":", {
+  "id": "state"
+}, "is", "either", {
+  "code": "\"suspendedStart\""
+}, "or", {
+  "code": "\"suspendedYield\""
+}, ".", {
+  "k": 33
+}, "Let", {
+  "id": "genContext"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorContext", "]", "]", ".", {
+  "k": 34
+}, "Let", {
+  "id": "callerContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 35
+}, "Suspend", {
+  "id": "callerContext"
+}, ".", {
+  "k": 36
+}, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
+  "code": "\"executing\""
+}, ".", {
+  "k": 37
+}, "Push", {
+  "id": "genContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "genContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 38
+}, "Resume", "the", "suspended", "evaluation", "of", {
+  "id": "genContext"
+}, "using", {
+  "id": "completion"
+}, "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
+  "id": "result"
+}, "be", "the", "completion", "record", "returned", "by", "the", "resumed", "computation", ".", {
+  "k": 39
+}, "Assert", ":", {
+  "id": "result"
+}, "is", "never", "an", "abrupt", "completion", ".", {
+  "k": 40
+}, "Assert", ":", "When", "we", "return", "here", ",", {
+  "id": "genContext"
+}, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
+  "id": "callerContext"
+}, "is", "the", "currently", "running", "execution", "context", ".", {
+  "k": 41
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 42
+}]

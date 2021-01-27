@@ -1,0 +1,80 @@
+{
+  let O = this
+  app __x0__ = (RequireInternalSlot O "ArrayBufferData")
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  __x0__
+  app __x1__ = (IsSharedArrayBuffer O)
+  if (= __x1__ true) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  app __x3__ = (IsDetachedBuffer O)
+  if (= __x3__ true) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else {}
+  let len = O.ArrayBufferByteLength
+  app __x5__ = (ToInteger start)
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  let relativeStart = __x5__
+  if (< relativeStart 0i) {
+    app __x6__ = (max (+ len relativeStart) 0i)
+    let first = __x6__
+  } else {
+    app __x7__ = (min relativeStart len)
+    let first = __x7__
+  }
+  if (= end undefined) let relativeEnd = len else {
+    app __x8__ = (ToInteger end)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    let relativeEnd = __x8__
+  }
+  if (< relativeEnd 0i) {
+    app __x9__ = (max (+ len relativeEnd) 0i)
+    let final = __x9__
+  } else {
+    app __x10__ = (min relativeEnd len)
+    let final = __x10__
+  }
+  app __x11__ = (max (- final first) 0i)
+  let newLen = __x11__
+  app __x12__ = (SpeciesConstructor O INTRINSIC_ArrayBuffer)
+  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+  let ctor = __x12__
+  app __x13__ = (Construct ctor (new [newLen]))
+  if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+  let new = __x13__
+  app __x14__ = (RequireInternalSlot new "ArrayBufferData")
+  if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+  __x14__
+  app __x15__ = (IsSharedArrayBuffer new)
+  if (= __x15__ true) {
+    app __x16__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x16__
+  } else {}
+  app __x17__ = (IsDetachedBuffer new)
+  if (= __x17__ true) {
+    app __x18__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x18__
+  } else {}
+  app __x19__ = (SameValue new O)
+  if (= __x19__ true) {
+    app __x20__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x20__
+  } else {}
+  if (< new.ArrayBufferByteLength newLen) {
+    app __x21__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x21__
+  } else {}
+  app __x22__ = (IsDetachedBuffer O)
+  if (= __x22__ true) {
+    app __x23__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x23__
+  } else {}
+  let fromBuf = O.ArrayBufferData
+  let toBuf = new.ArrayBufferData
+  app __x24__ = (CopyDataBlockBytes toBuf 0i fromBuf first newLen)
+  __x24__
+  app __x25__ = (WrapCompletion new)
+  return __x25__
+}

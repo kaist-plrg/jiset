@@ -1,0 +1,67 @@
+["Assert", ":", "!", "IsNonNegativeInteger", "(", {
+  "id": "length"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "length"
+}, "is", {
+  "value": "-0"
+}, ",", "set", {
+  "id": "length"
+}, "to", {
+  "value": "+0"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "length"
+}, ">", "2", {
+  "sup": {
+    "tokens": ["32"]
+  }
+}, "-", "1", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 2
+}, "If", {
+  "id": "proto"
+}, "is", "not", "present", ",", "set", {
+  "id": "proto"
+}, "to", "%", "Array", ".", "prototype", "%", ".", {
+  "k": 3
+}, "Let", {
+  "id": "A"
+}, "be", "!", "MakeBasicObject", "(", "«", "[", "[", "Prototype", "]", "]", ",", "[", "[", "Extensible", "]", "]", "»", ")", ".", {
+  "k": 4
+}, "Set", {
+  "id": "A"
+}, ".", "[", "[", "Prototype", "]", "]", "to", {
+  "id": "proto"
+}, ".", {
+  "k": 5
+}, "Set", {
+  "id": "A"
+}, ".", "[", "[", "DefineOwnProperty", "]", "]", "as", "specified", "in", {
+  "link": ""
+}, ".", {
+  "k": 6
+}, "Perform", "!", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "length"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 7
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 8
+}]

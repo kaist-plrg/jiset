@@ -1,0 +1,161 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "searchValue"
+}, "is", "neither", {
+  "value": "undefined"
+}, "nor", {
+  "value": "null"
+}, ",", "then", true, "Let", {
+  "id": "replacer"
+}, "be", "?", "GetMethod", "(", {
+  "id": "searchValue"
+}, ",", "@", "@", "replace", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "replacer"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "?", "Call", "(", {
+  "id": "replacer"
+}, ",", {
+  "id": "searchValue"
+}, ",", "«", {
+  "id": "O"
+}, ",", {
+  "id": "replaceValue"
+}, "»", ")", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, false, {
+  "k": 1
+}, "Let", {
+  "id": "string"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "searchString"
+}, "be", "?", "ToString", "(", {
+  "id": "searchValue"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "functionalReplace"
+}, "be", "IsCallable", "(", {
+  "id": "replaceValue"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "functionalReplace"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "replaceValue"
+}, "be", "?", "ToString", "(", {
+  "id": "replaceValue"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Search", {
+  "id": "string"
+}, "for", "the", "first", "occurrence", "of", {
+  "id": "searchString"
+}, "and", "let", {
+  "id": "pos"
+}, "be", "the", "index", "within", {
+  "id": "string"
+}, "of", "the", "first", "code", "unit", "of", "the", "matched", "substring", "and", "let", {
+  "id": "matched"
+}, "be", {
+  "id": "searchString"
+}, ".", "If", "no", "occurrences", "of", {
+  "id": "searchString"
+}, "were", "found", ",", "return", {
+  "id": "string"
+}, ".", {
+  "k": 10
+}, "If", {
+  "id": "functionalReplace"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "replValue"
+}, "be", "?", "Call", "(", {
+  "id": "replaceValue"
+}, ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "matched"
+}, ",", {
+  "id": "pos"
+}, ",", {
+  "id": "string"
+}, "»", ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "replStr"
+}, "be", "?", "ToString", "(", {
+  "id": "replValue"
+}, ")", ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "Else", ",", true, "Let", {
+  "id": "captures"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 15
+}, "Let", {
+  "id": "replStr"
+}, "be", "GetSubstitution", "(", {
+  "id": "matched"
+}, ",", {
+  "id": "string"
+}, ",", {
+  "id": "pos"
+}, ",", {
+  "id": "captures"
+}, ",", {
+  "value": "undefined"
+}, ",", {
+  "id": "replaceValue"
+}, ")", ".", {
+  "k": 16
+}, false, {
+  "k": 14
+}, "Let", {
+  "id": "tailPos"
+}, "be", {
+  "id": "pos"
+}, "+", "the", "number", "of", "code", "units", "in", {
+  "id": "matched"
+}, ".", {
+  "k": 17
+}, "Let", {
+  "id": "newString"
+}, "be", "the", "string", "-", "concatenation", "of", "the", "first", {
+  "id": "pos"
+}, "code", "units", "of", {
+  "id": "string"
+}, ",", {
+  "id": "replStr"
+}, ",", "and", "the", "trailing", "substring", "of", {
+  "id": "string"
+}, "starting", "at", "index", {
+  "id": "tailPos"
+}, ".", "If", {
+  "id": "pos"
+}, "is", "0", ",", "the", "first", "element", "of", "the", "concatenation", "will", "be", "the", "empty", "String", ".", {
+  "k": 18
+}, "Return", {
+  "id": "newString"
+}, ".", {
+  "k": 19
+}]

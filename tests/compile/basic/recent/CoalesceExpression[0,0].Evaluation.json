@@ -1,0 +1,35 @@
+["Let", {
+  "id": "lref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "CoalesceExpressionHead"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lval"
+}, "be", "?", "GetValue", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "lval"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "then", true, "Let", {
+  "id": "rref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "BitwiseORExpression"
+}, ".", {
+  "k": 3
+}, "Return", "?", "GetValue", "(", {
+  "id": "rref"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 2
+}, "Otherwise", ",", "return", {
+  "id": "lval"
+}, ".", {
+  "k": 5
+}]

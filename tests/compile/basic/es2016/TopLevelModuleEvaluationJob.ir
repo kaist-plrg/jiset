@@ -1,0 +1,13 @@
+{
+  let realm = REALM
+  app __x0__ = (ParseModule sourceText realm hostDefined)
+  let m = __x0__
+  app __x1__ = (m.ModuleDeclarationInstantiation m)
+  let status = __x1__
+  app __x2__ = (IsAbruptCompletion status)
+  if (! __x2__) {
+    app __x3__ = (m.ModuleEvaluation m)
+    let status = __x3__
+  } else {}
+  ??? "NextJob Completion ( id:{status} ) ."
+}

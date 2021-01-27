@@ -1,0 +1,10 @@
+{
+  access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  let scope = __x0__
+  let sourceText = (get-syntax AsyncFunctionExpression)
+  ??? "Let id:{closure} be ! OrdinaryFunctionCreate ( % AsyncFunction . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{AsyncFunctionBody} , const:{non-lexical-this} , id:{scope} ) ."
+  app __x1__ = (SetFunctionName closure name)
+  __x1__
+  app __x2__ = (WrapCompletion closure)
+  return __x2__
+}

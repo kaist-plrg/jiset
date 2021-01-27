@@ -1,0 +1,63 @@
+["Let", {
+  "id": "keys"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 1
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ")", "is", {
+  "value": "false"
+}, ",", "then", true, "For", "each", "integer", {
+  "id": "i"
+}, "starting", "with", "0", "such", "that", {
+  "id": "i"
+}, "<", {
+  "id": "O"
+}, ".", "[", "[", "ArrayLength", "]", "]", ",", "in", "ascending", "order", ",", "do", true, "Add", "!", "ToString", "(", "𝔽", "(", {
+  "id": "i"
+}, ")", ")", "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, false, {
+  "k": 2
+}, "For", "each", "own", "property", "key", {
+  "id": "P"
+}, "of", {
+  "id": "O"
+}, "such", "that", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", "and", {
+  "id": "P"
+}, "is", "not", "an", "integer", "index", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do", true, "Add", {
+  "id": "P"
+}, "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "For", "each", "own", "property", "key", {
+  "id": "P"
+}, "of", {
+  "id": "O"
+}, "such", "that", "Type", "(", {
+  "id": "P"
+}, ")", "is", "Symbol", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do", true, "Add", {
+  "id": "P"
+}, "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, "Return", {
+  "id": "keys"
+}, ".", {
+  "k": 9
+}]

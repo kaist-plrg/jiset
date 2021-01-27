@@ -1,0 +1,65 @@
+["If", "SameValue", "(", {
+  "id": "args"
+}, ",", {
+  "id": "Receiver"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "isMapped"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 1
+}, false, {
+  "k": 0
+}, "Else", ",", true, "Let", {
+  "id": "map"
+}, "be", {
+  "id": "args"
+}, ".", "[", "[", "ParameterMap", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "isMapped"
+}, "be", "!", "HasOwnProperty", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 2
+}, "If", {
+  "id": "isMapped"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "setStatus"
+}, "be", "Set", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "V"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 6
+}, "Assert", ":", {
+  "id": "setStatus"
+}, "is", {
+  "value": "true"
+}, "because", "formal", "parameters", "mapped", "by", "argument", "objects", "are", "always", "writable", ".", {
+  "k": 7
+}, false, {
+  "k": 5
+}, "Return", "?", "OrdinarySet", "(", {
+  "id": "args"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "V"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 8
+}]

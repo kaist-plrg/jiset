@@ -1,0 +1,105 @@
+["Assert", ":", "Type", "(", {
+  "id": "index"
+}, ")", "is", "Number", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "O"
+}, "is", "an", "Object", "that", "has", "[", "[", "ViewedArrayBuffer", "]", "]", ",", "[", "[", "ArrayLength", "]", "]", ",", "[", "[", "ByteOffset", "]", "]", ",", "and", "[", "[", "TypedArrayName", "]", "]", "internal", "slots", ".", {
+  "k": 1
+}, "Let", {
+  "id": "buffer"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 2
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "If", "IsInteger", "(", {
+  "id": "index"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "index"
+}, "=", {
+  "value": "-0"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "length"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ArrayLength", "]", "]", ".", {
+  "k": 6
+}, "If", {
+  "id": "index"
+}, "<", "0", "or", {
+  "id": "index"
+}, "≥", {
+  "id": "length"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 8
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", "the", "String", "value", "of", {
+  "id": "O"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 9
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Number", "value", "of", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "index"
+}, "×", {
+  "id": "elementSize"
+}, ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "String", "value", "of", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 12
+}, "Return", "GetValueFromBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "code": "\"Unordered\""
+}, ")", ".", {
+  "k": 13
+}]

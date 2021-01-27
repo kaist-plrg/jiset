@@ -1,0 +1,91 @@
+["Let", "happens", "-", "before", "be", {
+  "id": "execution"
+}, ".", "[", "[", "HappensBefore", "]", "]", ".", {
+  "k": 0
+}, "Let", "synchronizes", "-", "with", "be", {
+  "id": "execution"
+}, ".", "[", "[", "SynchronizesWith", "]", "]", ".", {
+  "k": 1
+}, "For", "each", "pair", "of", "events", {
+  "id": "E"
+}, "and", {
+  "id": "D"
+}, "in", "EventSet", "(", {
+  "id": "execution"
+}, ")", ",", "do", true, "If", {
+  "id": "E"
+}, "happens", "-", "before", {
+  "id": "D"
+}, ",", "then", {
+  "id": "E"
+}, "is", "memory", "-", "order", "before", {
+  "id": "D"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "E"
+}, "and", {
+  "id": "D"
+}, "are", "in", "SharedDataBlockEventSet", "(", {
+  "id": "execution"
+}, ")", "and", {
+  "id": "E"
+}, "synchronizes", "-", "with", {
+  "id": "D"
+}, ",", "then", true, "Assert", ":", {
+  "id": "D"
+}, ".", "[", "[", "Order", "]", "]", "is", {
+  "code": "\"SeqCst\""
+}, ".", {
+  "k": 5
+}, "There", "is", "no", "WriteSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+  "id": "W"
+}, "in", "SharedDataBlockEventSet", "(", {
+  "id": "execution"
+}, ")", "with", "equal", "range", "as", {
+  "id": "D"
+}, "such", "that", {
+  "id": "W"
+}, "is", "not", {
+  "id": "E"
+}, ",", {
+  "id": "E"
+}, "is", "memory", "-", "order", "before", {
+  "id": "W"
+}, ",", "and", {
+  "id": "W"
+}, "is", "memory", "-", "order", "before", {
+  "id": "D"
+}, ".", {
+  "k": 6
+}, "NOTE", ":", "This", "clause", "additionally", "constrains", {
+  "code": "\"SeqCst\""
+}, "events", "on", "equal", "ranges", ".", {
+  "k": 7
+}, false, {
+  "k": 4
+}, false, {
+  "k": 2
+}, "For", "each", "WriteSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+  "id": "W"
+}, "in", "SharedDataBlockEventSet", "(", {
+  "id": "execution"
+}, ")", ",", "do", true, "If", {
+  "id": "W"
+}, ".", "[", "[", "Order", "]", "]", "is", {
+  "code": "\"SeqCst\""
+}, ",", "then", "it", "is", "not", "the", "case", "that", "there", "is", "an", "infinite", "number", "of", "ReadSharedMemory", "or", "ReadModifyWriteSharedMemory", "events", "in", "SharedDataBlockEventSet", "(", {
+  "id": "execution"
+}, ")", "with", "equal", "range", "that", "is", "memory", "-", "order", "before", {
+  "id": "W"
+}, ".", {
+  "k": 9
+}, "NOTE", ":", "This", "clause", "together", "with", "the", "forward", "progress", "guarantee", "on", "agents", "ensure", "the", "liveness", "condition", "that", {
+  "code": "\"SeqCst\""
+}, "writes", "become", "visible", "to", {
+  "code": "\"SeqCst\""
+}, "reads", "with", "equal", "range", "in", "finite", "time", ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}]

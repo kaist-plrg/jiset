@@ -1,0 +1,18 @@
+{
+  app __x0__ = (GetValue ref)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let func = __x0__
+  app __x1__ = (Type ref)
+  if (= __x1__ Reference) {
+    app __x2__ = (IsPropertyReference ref)
+    if (= __x2__ true) {
+      app __x3__ = (GetThisValue ref)
+      let thisValue = __x3__
+    } else {}
+    ??? "Else , the base of id:{ref} is an Environment Record step-list:{...}"
+  } else let thisValue = undefined
+  app __x4__ = (EvaluateDirectCall func thisValue arguments tailPosition)
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  app __x5__ = (WrapCompletion __x4__)
+  return __x5__
+}

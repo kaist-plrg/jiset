@@ -1,0 +1,26 @@
+{
+  let module = this
+  assert (|| (= module.Status CONST_linked) (= module.Status CONST_evaluated))
+  let stack = (new [])
+  app __x0__ = (InnerModuleEvaluation module stack 0i)
+  let result = __x0__
+  app __x1__ = (IsAbruptCompletion result)
+  if __x1__ {
+    let __x2__ = stack
+    let __x3__ = 0i
+    while (< __x3__ __x2__.length) {
+      let m = __x2__[__x3__]
+      assert (= m.Status CONST_evaluating)
+      m.Status = CONST_evaluated
+      m.EvaluationError = result
+      __x3__ = (+ __x3__ 1i)
+    }
+    assert (&& (= module.Status CONST_evaluated) (= module.EvaluationError result))
+    app __x4__ = (WrapCompletion result)
+    return __x4__
+  } else {}
+  assert (&& (= module.Status CONST_evaluated) (= module.EvaluationError undefined))
+  assert (= stack.length 0i)
+  app __x5__ = (WrapCompletion undefined)
+  return __x5__
+}

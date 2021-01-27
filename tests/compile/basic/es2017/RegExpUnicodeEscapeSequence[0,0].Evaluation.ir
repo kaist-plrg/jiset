@@ -1,0 +1,10 @@
+{
+  access __x0__ = (LeadSurrogate "Evaluation")
+  let lead = __x0__
+  access __x1__ = (TrailSurrogate "Evaluation")
+  let trail = __x1__
+  app __x2__ = (UTF16Decode lead trail)
+  let cp = __x2__
+  app __x3__ = (WrapCompletion cp)
+  return __x3__
+}

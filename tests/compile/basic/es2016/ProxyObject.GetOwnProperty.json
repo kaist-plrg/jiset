@@ -1,0 +1,179 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "handler"
+}, "be", "the", "value", "of", "the", "[", "[", "ProxyHandler", "]", "]", "internal", "slot", "of", {
+  "id": "O"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 3
+}, "Let", {
+  "id": "target"
+}, "be", "the", "value", "of", "the", "[", "[", "ProxyTarget", "]", "]", "internal", "slot", "of", {
+  "id": "O"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "code": "\"getOwnPropertyDescriptor\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "trapResultObj"
+}, "be", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, ",", {
+  "id": "P"
+}, "»", ")", ".", {
+  "k": 8
+}, "If", "Type", "(", {
+  "id": "trapResultObj"
+}, ")", "is", "neither", "Object", "nor", "Undefined", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 9
+}, "Let", {
+  "id": "targetDesc"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "trapResultObj"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "If", {
+  "id": "targetDesc"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 12
+}, "If", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 13
+}, "Let", {
+  "id": "extensibleTarget"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 14
+}, "Assert", ":", "Type", "(", {
+  "id": "extensibleTarget"
+}, ")", "is", "Boolean", ".", {
+  "k": 15
+}, "If", {
+  "id": "extensibleTarget"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 16
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 17
+}, false, {
+  "k": 11
+}, "Let", {
+  "id": "extensibleTarget"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 18
+}, "Let", {
+  "id": "resultDesc"
+}, "be", "?", "ToPropertyDescriptor", "(", {
+  "id": "trapResultObj"
+}, ")", ".", {
+  "k": 19
+}, "Call", "CompletePropertyDescriptor", "(", {
+  "id": "resultDesc"
+}, ")", ".", {
+  "k": 20
+}, "Let", {
+  "id": "valid"
+}, "be", "IsCompatiblePropertyDescriptor", "(", {
+  "id": "extensibleTarget"
+}, ",", {
+  "id": "resultDesc"
+}, ",", {
+  "id": "targetDesc"
+}, ")", ".", {
+  "k": 21
+}, "If", {
+  "id": "valid"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 22
+}, "If", {
+  "id": "resultDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "If", {
+  "id": "targetDesc"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", true, "Throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 25
+}, false, {
+  "k": 24
+}, false, {
+  "k": 23
+}, "Return", {
+  "id": "resultDesc"
+}, ".", {
+  "k": 26
+}]

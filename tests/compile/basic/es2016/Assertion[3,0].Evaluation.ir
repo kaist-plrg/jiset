@@ -1,0 +1,17 @@
+{
+  let e = x.endIndex
+  app __x0__ = (IsWordChar (- e 1i))
+  let a = __x0__
+  app __x1__ = (IsWordChar e)
+  let b = __x1__
+  if (&& (= a true) (= b false)) {
+    app __x2__ = (WrapCompletion false)
+    return __x2__
+  } else {}
+  if (&& (= a false) (= b true)) {
+    app __x3__ = (WrapCompletion false)
+    return __x3__
+  } else {}
+  app __x4__ = (WrapCompletion true)
+  return __x4__
+}

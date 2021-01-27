@@ -1,0 +1,75 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "intMaxLength"
+}, "be", "?", "ToLength", "(", {
+  "id": "maxLength"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "stringLength"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "S"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "intMaxLength"
+}, "is", "not", "greater", "than", {
+  "id": "stringLength"
+}, ",", "return", {
+  "id": "S"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "fillString"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "filler"
+}, "be", "a", "String", "consisting", "solely", "of", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ".", {
+  "k": 5
+}, "Else", ",", "let", {
+  "id": "filler"
+}, "be", "?", "ToString", "(", {
+  "id": "fillString"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "filler"
+}, "is", "the", "empty", "String", ",", "return", {
+  "id": "S"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "fillLen"
+}, "be", {
+  "id": "intMaxLength"
+}, "-", {
+  "id": "stringLength"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "truncatedStringFiller"
+}, "be", "a", "new", "String", "value", "consisting", "of", "repeated", "concatenations", "of", {
+  "id": "filler"
+}, "truncated", "to", "length", {
+  "id": "fillLen"
+}, ".", {
+  "k": 9
+}, "Return", "a", "new", "String", "value", "computed", "by", "the", "concatenation", "of", {
+  "id": "truncatedStringFiller"
+}, "and", {
+  "id": "S"
+}, ".", {
+  "k": 10
+}]

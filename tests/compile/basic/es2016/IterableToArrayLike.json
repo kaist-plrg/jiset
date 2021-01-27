@@ -1,0 +1,73 @@
+["Let", {
+  "id": "usingIterator"
+}, "be", "?", "GetMethod", "(", {
+  "id": "items"
+}, ",", "@", "@", "iterator", ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "usingIterator"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "iterator"
+}, "be", "?", "GetIterator", "(", {
+  "id": "items"
+}, ",", {
+  "id": "usingIterator"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "values"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 3
+}, "Let", {
+  "id": "next"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "Repeat", ",", "while", {
+  "id": "next"
+}, "is", "not", {
+  "value": "false"
+}, true, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iterator"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "next"
+}, "is", "not", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 8
+}, "Append", {
+  "id": "nextValue"
+}, "to", "the", "end", "of", "the", "List", {
+  "id": "values"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 7
+}, false, {
+  "k": 5
+}, "Return", "CreateArrayFromList", "(", {
+  "id": "values"
+}, ")", ".", {
+  "k": 10
+}, false, {
+  "k": 1
+}, "NOTE", ":", {
+  "id": "items"
+}, "is", "not", "an", "Iterable", "so", "assume", "it", "is", "already", "an", "array", "-", "like", "object", ".", {
+  "k": 11
+}, "Return", "!", "ToObject", "(", {
+  "id": "items"
+}, ")", ".", {
+  "k": 12
+}]

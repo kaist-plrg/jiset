@@ -1,0 +1,30 @@
+{
+  let globalEnv = scriptRecord.Realm.GlobalEnv
+  let scriptCxt = (new ExecutionContext("SubMap" -> (new SubMap())))
+  scriptCxt.Function = null
+  scriptCxt.Realm = scriptRecord.Realm
+  scriptCxt.ScriptOrModule = scriptRecord
+  scriptCxt.VariableEnvironment = globalEnv
+  scriptCxt.LexicalEnvironment = globalEnv
+  GLOBAL_context = null
+  append scriptCxt -> GLOBAL_executionStack
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  let scriptBody = scriptRecord.ECMAScriptCode
+  app __x0__ = (GlobalDeclarationInstantiation scriptBody globalEnv)
+  let result = __x0__
+  if (= result.Type CONST_normal) {
+    access __x1__ = (scriptBody "Evaluation")
+    result = __x1__
+  } else {}
+  if (&& (= result.Type CONST_normal) (= result.Value CONST_empty)) {
+    app __x2__ = (NormalCompletion undefined)
+    result = __x2__
+  } else {}
+  GLOBAL_context = null
+  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] scriptCxt) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else {}
+  assert (< 0i GLOBAL_executionStack.length)
+  ??? "Resume the context that is now on the top of the execution context stack as the running execution context ."
+  app __x3__ = (Completion result)
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

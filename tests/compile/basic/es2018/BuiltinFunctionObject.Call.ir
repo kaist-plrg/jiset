@@ -1,0 +1,19 @@
+{
+  let callerContext = GLOBAL_context
+  if (= callerContext null) GLOBAL_context = null else {}
+  let calleeContext = (new ExecutionContext("SubMap" -> (new SubMap())))
+  calleeContext.Function = F
+  let calleeRealm = F.Realm
+  calleeContext.Realm = calleeRealm
+  calleeContext.ScriptOrModule = F.ScriptOrModule
+  append calleeContext -> GLOBAL_executionStack
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  ??? "Let id:{result} be the Completion Record that is the result of evaluating id:{F} in an implementation - defined manner that conforms to the specification of id:{F} . id:{thisArgument} is the value:{this} value , id:{argumentsList} provides the named parameters , and the NewTarget value is value:{undefined} ."
+  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext) {
+    let __x0__ = (- GLOBAL_executionStack.length 1i)
+    (pop GLOBAL_executionStack __x0__)
+  } else {}
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  app __x1__ = (WrapCompletion result)
+  return __x1__
+}

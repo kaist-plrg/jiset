@@ -1,0 +1,39 @@
+["If", {
+  "id": "u"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "parseResult"
+}, "be", "ParseText", "(", {
+  "id": "patternText"
+}, ",", "|", "Pattern", "[", "+", "U", ",", "+", "N", "]", "|", ")", ".", {
+  "k": 1
+}, false, {
+  "k": 0
+}, "Else", ",", true, "Let", {
+  "id": "parseResult"
+}, "be", "ParseText", "(", {
+  "id": "patternText"
+}, ",", "|", "Pattern", "[", "~", "U", ",", "~", "N", "]", "|", ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "parseResult"
+}, "is", "a", "Parse", "Node", "and", {
+  "id": "parseResult"
+}, "contains", "a", {
+  "nt": "GroupName"
+}, ",", "then", true, "Set", {
+  "id": "parseResult"
+}, "to", "ParseText", "(", {
+  "id": "patternText"
+}, ",", "|", "Pattern", "[", "~", "U", ",", "+", "N", "]", "|", ")", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, false, {
+  "k": 2
+}, "Return", {
+  "id": "parseResult"
+}, ".", {
+  "k": 6
+}]

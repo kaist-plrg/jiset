@@ -1,0 +1,163 @@
+["If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "map"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+  "code": "\"%MapPrototype%\""
+}, ",", "«", "[", "[", "MapData", "]", "]", "»", ")", ".", {
+  "k": 1
+}, "Set", {
+  "id": "map"
+}, "'", "s", "[", "[", "MapData", "]", "]", "internal", "slot", "to", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "If", {
+  "id": "iterable"
+}, "is", "not", "present", ",", "let", {
+  "id": "iterable"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "iterable"
+}, "is", "either", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "let", {
+  "id": "iter"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Else", ",", true, "Let", {
+  "id": "adder"
+}, "be", "?", "Get", "(", {
+  "id": "map"
+}, ",", {
+  "code": "\"set\""
+}, ")", ".", {
+  "k": 6
+}, "If", "IsCallable", "(", {
+  "id": "adder"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 7
+}, "Let", {
+  "id": "iter"
+}, "be", "?", "GetIterator", "(", {
+  "id": "iterable"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 5
+}, "If", {
+  "id": "iter"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "id": "map"
+}, ".", {
+  "k": 9
+}, "Repeat", true, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iter"
+}, ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "map"
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "nextItem"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 13
+}, "If", "Type", "(", {
+  "id": "nextItem"
+}, ")", "is", "not", "Object", ",", "then", true, "Let", {
+  "id": "error"
+}, "be", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
+  "const": "throw"
+}, ",", "[", "[", "Value", "]", "]", ":", "a", "newly", "created", {
+  "value": "TypeError"
+}, "object", ",", "[", "[", "Target", "]", "]", ":", {
+  "const": "empty"
+}, "}", ".", {
+  "k": 15
+}, "Return", "?", "IteratorClose", "(", {
+  "id": "iter"
+}, ",", {
+  "id": "error"
+}, ")", ".", {
+  "k": 16
+}, false, {
+  "k": 14
+}, "Let", {
+  "id": "k"
+}, "be", "Get", "(", {
+  "id": "nextItem"
+}, ",", {
+  "code": "\"0\""
+}, ")", ".", {
+  "k": 17
+}, "If", {
+  "id": "k"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iter"
+}, ",", {
+  "id": "k"
+}, ")", ".", {
+  "k": 18
+}, "Let", {
+  "id": "v"
+}, "be", "Get", "(", {
+  "id": "nextItem"
+}, ",", {
+  "code": "\"1\""
+}, ")", ".", {
+  "k": 19
+}, "If", {
+  "id": "v"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iter"
+}, ",", {
+  "id": "v"
+}, ")", ".", {
+  "k": 20
+}, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "adder"
+}, ",", {
+  "id": "map"
+}, ",", "«", {
+  "id": "k"
+}, ".", "[", "[", "Value", "]", "]", ",", {
+  "id": "v"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 21
+}, "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iter"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "k": 22
+}, false, {
+  "k": 10
+}]

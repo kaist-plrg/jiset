@@ -1,0 +1,73 @@
+["Let", {
+  "id": "O"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "O"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "name"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "name"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "name"
+}, "be", {
+  "code": "\"Error\""
+}, ";", "otherwise", "let", {
+  "id": "name"
+}, "be", "?", "ToString", "(", {
+  "id": "name"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "msg"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"message\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "msg"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "msg"
+}, "be", "the", "empty", "String", ";", "otherwise", "let", {
+  "id": "msg"
+}, "be", "?", "ToString", "(", {
+  "id": "msg"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "name"
+}, "is", "the", "empty", "String", ",", "return", {
+  "id": "msg"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "msg"
+}, "is", "the", "empty", "String", ",", "return", {
+  "id": "name"
+}, ".", {
+  "k": 7
+}, "Return", "the", "string", "-", "concatenation", "of", {
+  "id": "name"
+}, ",", "the", "code", "unit", "0x003A", "(", "COLON", ")", ",", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", "and", {
+  "id": "msg"
+}, ".", {
+  "k": 8
+}]

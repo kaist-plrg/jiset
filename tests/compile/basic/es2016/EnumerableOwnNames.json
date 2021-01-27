@@ -1,0 +1,59 @@
+["Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "ownKeys"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "names"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "Repeat", ",", "for", "each", "element", {
+  "id": "key"
+}, "of", {
+  "id": "ownKeys"
+}, "in", "List", "order", true, "If", "Type", "(", {
+  "id": "key"
+}, ")", "is", "String", ",", "then", true, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "key"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "desc"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "If", {
+  "id": "desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", {
+  "value": "true"
+}, ",", "append", {
+  "id": "key"
+}, "to", {
+  "id": "names"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, false, {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Order", "the", "elements", "of", {
+  "id": "names"
+}, "so", "they", "are", "in", "the", "same", "relative", "order", "as", "would", "be", "produced", "by", "the", "Iterator", "that", "would", "be", "returned", "if", "the", "EnumerateObjectProperties", "internal", "method", "was", "invoked", "with", {
+  "id": "O"
+}, ".", {
+  "k": 8
+}, "Return", {
+  "id": "names"
+}, ".", {
+  "k": 9
+}]

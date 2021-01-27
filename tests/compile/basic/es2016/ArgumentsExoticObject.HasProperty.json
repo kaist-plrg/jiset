@@ -1,0 +1,33 @@
+["Let", {
+  "id": "args"
+}, "be", "the", "arguments", "object", ".", {
+  "k": 0
+}, "If", {
+  "id": "P"
+}, "is", {
+  "code": "\"caller\""
+}, ",", "then", true, "Let", {
+  "id": "desc"
+}, "be", "!", "OrdinaryGetOwnProperty", "(", {
+  "id": "args"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 2
+}, "If", "IsDataDescriptor", "(", {
+  "id": "desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, false, {
+  "k": 1
+}, "Return", "?", "OrdinaryHasProperty", "(", {
+  "id": "args"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 4
+}]

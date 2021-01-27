@@ -1,0 +1,109 @@
+["Evaluate", {
+  "nt": "DecimalEscape"
+}, "to", "obtain", "an", "integer", {
+  "id": "n"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "n"
+}, ">", {
+  "id": "NcapturingParens"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 1
+}, "Return", "an", "internal", "Matcher", "closure", "that", "takes", "two", "arguments", ",", "a", "State", {
+  "id": "x"
+}, "and", "a", "Continuation", {
+  "id": "c"
+}, ",", "and", "performs", "the", "following", "steps", ":", true, "Let", {
+  "id": "cap"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 3
+}, "Let", {
+  "id": "s"
+}, "be", {
+  "id": "cap"
+}, "[", {
+  "id": "n"
+}, "]", ".", {
+  "k": 4
+}, "If", {
+  "id": "s"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "id": "c"
+}, "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "len"
+}, "be", {
+  "id": "s"
+}, "'", "s", "length", ".", {
+  "k": 7
+}, "Let", {
+  "id": "f"
+}, "be", {
+  "id": "e"
+}, "+", {
+  "id": "len"
+}, ".", {
+  "k": 8
+}, "If", {
+  "id": "f"
+}, ">", {
+  "id": "InputLength"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 9
+}, "If", "there", "exists", "an", "integer", {
+  "id": "i"
+}, "between", "0", "(", "inclusive", ")", "and", {
+  "id": "len"
+}, "(", "exclusive", ")", "such", "that", "Canonicalize", "(", {
+  "id": "s"
+}, "[", {
+  "id": "i"
+}, "]", ")", "is", "not", "the", "same", "character", "value", "as", "Canonicalize", "(", {
+  "id": "Input"
+}, "[", {
+  "id": "e"
+}, "+", {
+  "id": "i"
+}, "]", ")", ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "y"
+}, "be", "the", "State", "(", {
+  "id": "f"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 11
+}, "Call", {
+  "id": "c"
+}, "(", {
+  "id": "y"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 12
+}, false, {
+  "k": 2
+}]

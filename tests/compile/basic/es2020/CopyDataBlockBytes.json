@@ -1,0 +1,161 @@
+["Assert", ":", {
+  "id": "fromBlock"
+}, "and", {
+  "id": "toBlock"
+}, "are", "distinct", "Data", "Block", "or", "Shared", "Data", "Block", "values", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "fromIndex"
+}, ",", {
+  "id": "toIndex"
+}, ",", "and", {
+  "id": "count"
+}, "are", "integer", "values", "≥", "0", ".", {
+  "k": 1
+}, "Let", {
+  "id": "fromSize"
+}, "be", "the", "number", "of", "bytes", "in", {
+  "id": "fromBlock"
+}, ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "fromIndex"
+}, "+", {
+  "id": "count"
+}, "≤", {
+  "id": "fromSize"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "toSize"
+}, "be", "the", "number", "of", "bytes", "in", {
+  "id": "toBlock"
+}, ".", {
+  "k": 4
+}, "Assert", ":", {
+  "id": "toIndex"
+}, "+", {
+  "id": "count"
+}, "≤", {
+  "id": "toSize"
+}, ".", {
+  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "count"
+}, ">", "0", true, "If", {
+  "id": "fromBlock"
+}, "is", "a", "Shared", "Data", "Block", ",", "then", true, "Let", {
+  "id": "execution"
+}, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 8
+}, "Let", {
+  "id": "eventList"
+}, "be", "the", "[", "[", "EventList", "]", "]", "field", "of", "the", "element", "in", {
+  "id": "execution"
+}, ".", "[", "[", "EventsRecords", "]", "]", "whose", "[", "[", "AgentSignifier", "]", "]", "is", "AgentSignifier", "(", ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "bytes"
+}, "be", "a", "List", "of", "length", "1", "that", "contains", "a", "nondeterministically", "chosen", "byte", "value", ".", {
+  "k": 10
+}, "NOTE", ":", "In", "implementations", ",", {
+  "id": "bytes"
+}, "is", "the", "result", "of", "a", "non", "-", "atomic", "read", "instruction", "on", "the", "underlying", "hardware", ".", "The", "nondeterminism", "is", "a", "semantic", "prescription", "of", "the", "memory", "model", "to", "describe", "observable", "behaviour", "of", "hardware", "with", "weak", "consistency", ".", {
+  "k": 11
+}, "Let", {
+  "id": "readEvent"
+}, "be", "ReadSharedMemory", "{", "[", "[", "Order", "]", "]", ":", {
+  "const": "Unordered"
+}, ",", "[", "[", "NoTear", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Block", "]", "]", ":", {
+  "id": "fromBlock"
+}, ",", "[", "[", "ByteIndex", "]", "]", ":", {
+  "id": "fromIndex"
+}, ",", "[", "[", "ElementSize", "]", "]", ":", "1", "}", ".", {
+  "k": 12
+}, "Append", {
+  "id": "readEvent"
+}, "to", {
+  "id": "eventList"
+}, ".", {
+  "k": 13
+}, "Append", "Chosen", "Value", "Record", "{", "[", "[", "Event", "]", "]", ":", {
+  "id": "readEvent"
+}, ",", "[", "[", "ChosenValue", "]", "]", ":", {
+  "id": "bytes"
+}, "}", "to", {
+  "id": "execution"
+}, ".", "[", "[", "ChosenValues", "]", "]", ".", {
+  "k": 14
+}, "If", {
+  "id": "toBlock"
+}, "is", "a", "Shared", "Data", "Block", ",", "then", true, "Append", "WriteSharedMemory", "{", "[", "[", "Order", "]", "]", ":", {
+  "const": "Unordered"
+}, ",", "[", "[", "NoTear", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Block", "]", "]", ":", {
+  "id": "toBlock"
+}, ",", "[", "[", "ByteIndex", "]", "]", ":", {
+  "id": "toIndex"
+}, ",", "[", "[", "ElementSize", "]", "]", ":", "1", ",", "[", "[", "Payload", "]", "]", ":", {
+  "id": "bytes"
+}, "}", "to", {
+  "id": "eventList"
+}, ".", {
+  "k": 16
+}, false, {
+  "k": 15
+}, "Else", ",", true, "Set", {
+  "id": "toBlock"
+}, "[", {
+  "id": "toIndex"
+}, "]", "to", {
+  "id": "bytes"
+}, "[", "0", "]", ".", {
+  "k": 18
+}, false, {
+  "k": 17
+}, false, {
+  "k": 7
+}, "Else", ",", true, "Assert", ":", {
+  "id": "toBlock"
+}, "is", "not", "a", "Shared", "Data", "Block", ".", {
+  "k": 20
+}, "Set", {
+  "id": "toBlock"
+}, "[", {
+  "id": "toIndex"
+}, "]", "to", {
+  "id": "fromBlock"
+}, "[", {
+  "id": "fromIndex"
+}, "]", ".", {
+  "k": 21
+}, false, {
+  "k": 19
+}, "Set", {
+  "id": "toIndex"
+}, "to", {
+  "id": "toIndex"
+}, "+", "1", ".", {
+  "k": 22
+}, "Set", {
+  "id": "fromIndex"
+}, "to", {
+  "id": "fromIndex"
+}, "+", "1", ".", {
+  "k": 23
+}, "Set", {
+  "id": "count"
+}, "to", {
+  "id": "count"
+}, "-", "1", ".", {
+  "k": 24
+}, false, {
+  "k": 6
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 25
+}]

@@ -1,0 +1,109 @@
+["If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "set"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+  "code": "\"%WeakSetPrototype%\""
+}, ",", "«", "[", "[", "WeakSetData", "]", "]", "»", ")", ".", {
+  "k": 1
+}, "Set", {
+  "id": "set"
+}, ".", "[", "[", "WeakSetData", "]", "]", "to", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "If", {
+  "id": "iterable"
+}, "is", "not", "present", ",", "let", {
+  "id": "iterable"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "iterable"
+}, "is", "either", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "let", {
+  "id": "iter"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Else", ",", true, "Let", {
+  "id": "adder"
+}, "be", "?", "Get", "(", {
+  "id": "set"
+}, ",", {
+  "code": "\"add\""
+}, ")", ".", {
+  "k": 6
+}, "If", "IsCallable", "(", {
+  "id": "adder"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 7
+}, "Let", {
+  "id": "iter"
+}, "be", "?", "GetIterator", "(", {
+  "id": "iterable"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 5
+}, "If", {
+  "id": "iter"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "id": "set"
+}, ".", {
+  "k": 9
+}, "Repeat", ",", true, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iter"
+}, ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "set"
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 13
+}, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "adder"
+}, ",", {
+  "id": "set"
+}, ",", "«", {
+  "id": "nextValue"
+}, "»", ")", ".", {
+  "k": 14
+}, "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iter"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "k": 15
+}, false, {
+  "k": 10
+}]

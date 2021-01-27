@@ -1,0 +1,109 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 1
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 3
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "code": "\"has\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "HasProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "booleanTrapResult"
+}, "be", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, ",", {
+  "id": "P"
+}, "»", ")", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "booleanTrapResult"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "targetDesc"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "targetDesc"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "If", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 12
+}, "Let", {
+  "id": "extensibleTarget"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 13
+}, "If", {
+  "id": "extensibleTarget"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 14
+}, false, {
+  "k": 11
+}, false, {
+  "k": 9
+}, "Return", {
+  "id": "booleanTrapResult"
+}, ".", {
+  "k": 15
+}]

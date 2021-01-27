@@ -1,0 +1,77 @@
+["Let", {
+  "id": "M"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "M"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", {
+  "id": "M"
+}, "does", "not", "have", "a", "[", "[", "WeakMapData", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Let", {
+  "id": "entries"
+}, "be", "the", "List", "that", "is", "the", "value", "of", {
+  "id": "M"
+}, "'", "s", "[", "[", "WeakMapData", "]", "]", "internal", "slot", ".", {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "key"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Repeat", "for", "each", "Record", "{", "[", "[", "Key", "]", "]", ",", "[", "[", "Value", "]", "]", "}", {
+  "id": "p"
+}, "that", "is", "an", "element", "of", {
+  "id": "entries"
+}, ",", true, "If", {
+  "id": "p"
+}, ".", "[", "[", "Key", "]", "]", "is", "not", {
+  "const": "empty"
+}, "and", "SameValue", "(", {
+  "id": "p"
+}, ".", "[", "[", "Key", "]", "]", ",", {
+  "id": "key"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Set", {
+  "id": "p"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "value"
+}, ".", {
+  "k": 7
+}, "Return", {
+  "id": "M"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Let", {
+  "id": "p"
+}, "be", "the", "Record", "{", "[", "[", "Key", "]", "]", ":", {
+  "id": "key"
+}, ",", "[", "[", "Value", "]", "]", ":", {
+  "id": "value"
+}, "}", ".", {
+  "k": 9
+}, "Append", {
+  "id": "p"
+}, "as", "the", "last", "element", "of", {
+  "id": "entries"
+}, ".", {
+  "k": 10
+}, "Return", {
+  "id": "M"
+}, ".", {
+  "k": 11
+}]

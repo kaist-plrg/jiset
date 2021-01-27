@@ -1,0 +1,1 @@
+          1. Return the Matcher that is the result of evaluating |AtomEscape| with argument _direction_.

@@ -1,0 +1,19 @@
+{
+  app __x0__ = (ArrayCreate 0i)
+  let array = __x0__
+  let n = 0i
+  let __x1__ = elements
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let e = __x1__[__x2__]
+    app __x3__ = (ToString n)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    app __x4__ = (CreateDataProperty array __x3__ e)
+    let status = __x4__
+    assert (= status true)
+    n = (+ n 1i)
+    __x2__ = (+ __x2__ 1i)
+  }
+  app __x5__ = (WrapCompletion array)
+  return __x5__
+}

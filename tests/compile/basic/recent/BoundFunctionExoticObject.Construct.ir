@@ -1,0 +1,13 @@
+{
+  let target = F.BoundTargetFunction
+  app __x0__ = (IsConstructor target)
+  assert (= __x0__ true)
+  let boundArgs = F.BoundArguments
+  ??? "Let id:{args} be a List whose elements are the elements of id:{boundArgs} , followed by the elements of id:{argumentsList} ."
+  app __x1__ = (SameValue F newTarget)
+  if (= __x1__ true) newTarget = target else {}
+  app __x2__ = (Construct target args newTarget)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  app __x3__ = (WrapCompletion __x2__)
+  return __x3__
+}

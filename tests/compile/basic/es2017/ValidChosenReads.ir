@@ -1,0 +1,15 @@
+{
+  app __x0__ = (SharedDataBlockEventSet execution)
+  let __x1__ = __x0__
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let R = __x1__[__x2__]
+    ??? "Let id:{chosenValue} be the element of id:{execution} . [ [ ChosenValues ] ] whose [ [ Event ] ] field is id:{R} ."
+    app __x3__ = (ValueOfReadEvent execution R)
+    let readValue = __x3__
+    let chosenLen = chosenValue.length
+    let readLen = readValue.length
+    ??? "id:{chosenLen} is equal to id:{readLen} and id:{chosenValue} [ id:{i} ] is equal to id:{readValue} [ id:{i} ] for all integer values id:{i} in the range 0 through id:{chosenLen} , exclusive ."
+    __x2__ = (+ __x2__ 1i)
+  }
+}

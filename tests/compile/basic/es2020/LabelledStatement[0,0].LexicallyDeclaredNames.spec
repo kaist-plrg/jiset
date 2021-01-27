@@ -1,0 +1,1 @@
+        1. Return the LexicallyDeclaredNames of |LabelledItem|.

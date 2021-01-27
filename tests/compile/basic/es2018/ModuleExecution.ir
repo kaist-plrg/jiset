@@ -1,0 +1,20 @@
+{
+  let moduleCxt = (new ExecutionContext("SubMap" -> (new SubMap())))
+  moduleCxt.Function = null
+  assert (! (= module.Realm undefined))
+  moduleCxt.Realm = module.Realm
+  moduleCxt.ScriptOrModule = module
+  moduleCxt.VariableEnvironment = module.Environment
+  moduleCxt.LexicalEnvironment = module.Environment
+  GLOBAL_context = null
+  append moduleCxt -> GLOBAL_executionStack
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  access __x0__ = (module.ECMAScriptCode "Evaluation")
+  let result = __x0__
+  GLOBAL_context = null
+  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] moduleCxt) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else {}
+  ??? "Resume the context that is now on the top of the execution context stack as the running execution context ."
+  app __x1__ = (Completion result)
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
+}

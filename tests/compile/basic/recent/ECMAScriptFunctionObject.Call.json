@@ -1,0 +1,67 @@
+["Assert", ":", {
+  "id": "F"
+}, "is", "an", "ECMAScript", "function", "object", ".", {
+  "k": 0
+}, "If", {
+  "id": "F"
+}, ".", "[", "[", "IsClassConstructor", "]", "]", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "callerContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 2
+}, "Let", {
+  "id": "calleeContext"
+}, "be", "PrepareForOrdinaryCall", "(", {
+  "id": "F"
+}, ",", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 3
+}, "Assert", ":", {
+  "id": "calleeContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 4
+}, "Perform", "OrdinaryCallBindThis", "(", {
+  "id": "F"
+}, ",", {
+  "id": "calleeContext"
+}, ",", {
+  "id": "thisArgument"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "result"
+}, "be", "OrdinaryCallEvaluateBody", "(", {
+  "id": "F"
+}, ",", {
+  "id": "argumentsList"
+}, ")", ".", {
+  "k": 6
+}, "Remove", {
+  "id": "calleeContext"
+}, "from", "the", "execution", "context", "stack", "and", "restore", {
+  "id": "callerContext"
+}, "as", "the", "running", "execution", "context", ".", {
+  "k": 7
+}, "If", {
+  "id": "result"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "return"
+}, ",", "return", "NormalCompletion", "(", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 8
+}, "ReturnIfAbrupt", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 9
+}, "Return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 10
+}]

@@ -1,0 +1,16 @@
+{
+  app __x0__ = (ToUint32 x)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let a = __x0__
+  app __x1__ = (ToUint32 y)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let b = __x1__
+  let product = (%% (* a b) (** 2.0 32i))
+  if (! (< product (** 2.0 31i))) {
+    app __x2__ = (WrapCompletion (- product (** 2.0 32i)))
+    return __x2__
+  } else {
+    app __x3__ = (WrapCompletion product)
+    return __x3__
+  }
+}

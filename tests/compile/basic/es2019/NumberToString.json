@@ -1,0 +1,179 @@
+["If", {
+  "id": "m"
+}, "is", {
+  "value": "NaN"
+}, ",", "return", "the", "String", {
+  "code": "\"NaN\""
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "m"
+}, "is", {
+  "value": "+0"
+}, "or", {
+  "value": "-0"
+}, ",", "return", "the", "String", {
+  "code": "\"0\""
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "m"
+}, "is", "less", "than", "zero", ",", "return", "the", "string", "-", "concatenation", "of", {
+  "code": "\"-\""
+}, "and", "!", "NumberToString", "(", "-", {
+  "id": "m"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "m"
+}, "is", {
+  "value": "+∞"
+}, ",", "return", "the", "String", {
+  "code": "\"Infinity\""
+}, ".", {
+  "k": 3
+}, "Otherwise", ",", "let", {
+  "id": "n"
+}, ",", {
+  "id": "k"
+}, ",", "and", {
+  "id": "s"
+}, "be", "integers", "such", "that", {
+  "id": "k"
+}, "≥", "1", ",", "10", {
+  "sup": {
+    "tokens": [{
+      "id": "k"
+    }, "-", "1"]
+  }
+}, "≤", {
+  "id": "s"
+}, "<", "10", {
+  "sup": {
+    "tokens": [{
+      "id": "k"
+    }]
+  }
+}, ",", "the", "Number", "value", "for", {
+  "id": "s"
+}, "×", "10", {
+  "sup": {
+    "tokens": [{
+      "id": "n"
+    }, "-", {
+      "id": "k"
+    }]
+  }
+}, "is", {
+  "id": "m"
+}, ",", "and", {
+  "id": "k"
+}, "is", "as", "small", "as", "possible", ".", "Note", "that", {
+  "id": "k"
+}, "is", "the", "number", "of", "digits", "in", "the", "decimal", "representation", "of", {
+  "id": "s"
+}, ",", "that", {
+  "id": "s"
+}, "is", "not", "divisible", "by", "10", ",", "and", "that", "the", "least", "significant", "digit", "of", {
+  "id": "s"
+}, "is", "not", "necessarily", "uniquely", "determined", "by", "these", "criteria", ".", {
+  "k": 4
+}, "If", {
+  "id": "k"
+}, "≤", {
+  "id": "n"
+}, "≤", "21", ",", "return", "the", "string", "-", "concatenation", "of", ":", true, "the", "code", "units", "of", "the", {
+  "id": "k"
+}, "digits", "of", "the", "decimal", "representation", "of", {
+  "id": "s"
+}, "(", "in", "order", ",", "with", "no", "leading", "zeroes", ")", {
+  "k": 6
+}, {
+  "id": "n"
+}, "-", {
+  "id": "k"
+}, "occurrences", "of", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", {
+  "k": 7
+}, false, {
+  "k": 5
+}, "If", "0", "<", {
+  "id": "n"
+}, "≤", "21", ",", "return", "the", "string", "-", "concatenation", "of", ":", true, "the", "code", "units", "of", "the", "most", "significant", {
+  "id": "n"
+}, "digits", "of", "the", "decimal", "representation", "of", {
+  "id": "s"
+}, {
+  "k": 9
+}, "the", "code", "unit", "0x002E", "(", "FULL", "STOP", ")", {
+  "k": 10
+}, "the", "code", "units", "of", "the", "remaining", {
+  "id": "k"
+}, "-", {
+  "id": "n"
+}, "digits", "of", "the", "decimal", "representation", "of", {
+  "id": "s"
+}, {
+  "k": 11
+}, false, {
+  "k": 8
+}, "If", "-", "6", "<", {
+  "id": "n"
+}, "≤", "0", ",", "return", "the", "string", "-", "concatenation", "of", ":", true, "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", {
+  "k": 13
+}, "the", "code", "unit", "0x002E", "(", "FULL", "STOP", ")", {
+  "k": 14
+}, "-", {
+  "id": "n"
+}, "occurrences", "of", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", {
+  "k": 15
+}, "the", "code", "units", "of", "the", {
+  "id": "k"
+}, "digits", "of", "the", "decimal", "representation", "of", {
+  "id": "s"
+}, {
+  "k": 16
+}, false, {
+  "k": 12
+}, "Otherwise", ",", "if", {
+  "id": "k"
+}, "=", "1", ",", "return", "the", "string", "-", "concatenation", "of", ":", true, "the", "code", "unit", "of", "the", "single", "digit", "of", {
+  "id": "s"
+}, {
+  "k": 18
+}, "the", "code", "unit", "0x0065", "(", "LATIN", "SMALL", "LETTER", "E", ")", {
+  "k": 19
+}, "the", "code", "unit", "0x002B", "(", "PLUS", "SIGN", ")", "or", "the", "code", "unit", "0x002D", "(", "HYPHEN", "-", "MINUS", ")", "according", "to", "whether", {
+  "id": "n"
+}, "-", "1", "is", "positive", "or", "negative", {
+  "k": 20
+}, "the", "code", "units", "of", "the", "decimal", "representation", "of", "the", "integer", "abs", "(", {
+  "id": "n"
+}, "-", "1", ")", "(", "with", "no", "leading", "zeroes", ")", {
+  "k": 21
+}, false, {
+  "k": 17
+}, "Return", "the", "string", "-", "concatenation", "of", ":", true, "the", "code", "units", "of", "the", "most", "significant", "digit", "of", "the", "decimal", "representation", "of", {
+  "id": "s"
+}, {
+  "k": 23
+}, "the", "code", "unit", "0x002E", "(", "FULL", "STOP", ")", {
+  "k": 24
+}, "the", "code", "units", "of", "the", "remaining", {
+  "id": "k"
+}, "-", "1", "digits", "of", "the", "decimal", "representation", "of", {
+  "id": "s"
+}, {
+  "k": 25
+}, "the", "code", "unit", "0x0065", "(", "LATIN", "SMALL", "LETTER", "E", ")", {
+  "k": 26
+}, "the", "code", "unit", "0x002B", "(", "PLUS", "SIGN", ")", "or", "the", "code", "unit", "0x002D", "(", "HYPHEN", "-", "MINUS", ")", "according", "to", "whether", {
+  "id": "n"
+}, "-", "1", "is", "positive", "or", "negative", {
+  "k": 27
+}, "the", "code", "units", "of", "the", "decimal", "representation", "of", "the", "integer", "abs", "(", {
+  "id": "n"
+}, "-", "1", ")", "(", "with", "no", "leading", "zeroes", ")", {
+  "k": 28
+}, false, {
+  "k": 22
+}]

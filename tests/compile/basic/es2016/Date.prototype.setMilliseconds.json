@@ -1,0 +1,41 @@
+["Let", {
+  "id": "t"
+}, "be", "LocalTime", "(", "?", "thisTimeValue", "(", {
+  "value": "this"
+}, "value", ")", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "ms"
+}, "be", "?", "ToNumber", "(", {
+  "id": "ms"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "time"
+}, "be", "MakeTime", "(", "HourFromTime", "(", {
+  "id": "t"
+}, ")", ",", "MinFromTime", "(", {
+  "id": "t"
+}, ")", ",", "SecFromTime", "(", {
+  "id": "t"
+}, ")", ",", {
+  "id": "ms"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "u"
+}, "be", "TimeClip", "(", "UTC", "(", "MakeDate", "(", "Day", "(", {
+  "id": "t"
+}, ")", ",", {
+  "id": "time"
+}, ")", ")", ")", ".", {
+  "k": 3
+}, "Set", "the", "[", "[", "DateValue", "]", "]", "internal", "slot", "of", "this", "Date", "object", "to", {
+  "id": "u"
+}, ".", {
+  "k": 4
+}, "Return", {
+  "id": "u"
+}, ".", {
+  "k": 5
+}]

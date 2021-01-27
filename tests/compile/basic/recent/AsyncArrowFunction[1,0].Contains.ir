@@ -1,0 +1,18 @@
+{
+  if (! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol "super")) (= symbol "this"))) {
+    app __x0__ = (WrapCompletion false)
+    return __x0__
+  } else {}
+  access __x1__ = (CoverCallExpressionAndAsyncArrowHead "CoveredAsyncArrowHead")
+  let head = __x1__
+  access __x2__ = (head "Contains")
+  app __x3__ = (__x2__ symbol)
+  if (= __x3__ true) {
+    app __x4__ = (WrapCompletion true)
+    return __x4__
+  } else {}
+  access __x5__ = (AsyncConciseBody "Contains")
+  app __x6__ = (__x5__ symbol)
+  app __x7__ = (WrapCompletion __x6__)
+  return __x7__
+}

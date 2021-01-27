@@ -1,0 +1,15 @@
+{
+  let O = this
+  app __x0__ = (Type O)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  ??? "If id:{hint} is the String value value:{\"string\"} or the String value value:{\"default\"} , then step-list:{...}"
+  ??? "Else if id:{hint} is the String value value:{\"number\"} , then step-list:{...}"
+  ??? "Else , throw a value:{TypeError} exception ."
+  app __x2__ = (OrdinaryToPrimitive O tryFirst)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  app __x3__ = (WrapCompletion __x2__)
+  return __x3__
+}

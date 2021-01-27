@@ -1,0 +1,24 @@
+{
+  assert (= iteratorRecord.Done false)
+  app __x0__ = (IteratorStep iteratorRecord.Iterator)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let next = __x0__
+  app __x1__ = (IsAbruptCompletion next)
+  if __x1__ iteratorRecord.Done = true else {}
+  if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else {}
+  next
+  if (= next false) iteratorRecord.Done = true else {
+    app __x2__ = (IteratorValue next)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    let v = __x2__
+    app __x3__ = (IsAbruptCompletion v)
+    if __x3__ iteratorRecord.Done = true else {}
+    if (is-completion v) if (= v.Type CONST_normal) v = v.Value else return v else {}
+    v
+  }
+  if (= iteratorRecord.Done true) let v = undefined else {}
+  access __x4__ = (BindingIdentifier "BindingInitialization")
+  app __x5__ = (__x4__ v environment)
+  app __x6__ = (WrapCompletion __x5__)
+  return __x6__
+}

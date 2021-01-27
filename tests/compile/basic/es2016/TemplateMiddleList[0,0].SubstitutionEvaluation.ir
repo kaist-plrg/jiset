@@ -1,0 +1,8 @@
+{
+  access __x0__ = (Expression "Evaluation")
+  let sub = __x0__
+  if (is-completion sub) if (= sub.Type CONST_normal) sub = sub.Value else return sub else {}
+  sub
+  app __x1__ = (WrapCompletion (new [sub]))
+  return __x1__
+}

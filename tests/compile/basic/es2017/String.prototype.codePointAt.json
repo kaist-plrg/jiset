@@ -1,0 +1,77 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "position"
+}, "be", "?", "ToInteger", "(", {
+  "id": "pos"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "size"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "S"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "position"
+}, "<", "0", "or", {
+  "id": "position"
+}, "≥", {
+  "id": "size"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "first"
+}, "be", "the", "code", "unit", "value", "of", "the", "element", "at", "index", {
+  "id": "position"
+}, "in", "the", "String", {
+  "id": "S"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "first"
+}, "<", "0xD800", "or", {
+  "id": "first"
+}, ">", "0xDBFF", "or", {
+  "id": "position"
+}, "+", "1", "=", {
+  "id": "size"
+}, ",", "return", {
+  "id": "first"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "second"
+}, "be", "the", "code", "unit", "value", "of", "the", "element", "at", "index", {
+  "id": "position"
+}, "+", "1", "in", "the", "String", {
+  "id": "S"
+}, ".", {
+  "k": 7
+}, "If", {
+  "id": "second"
+}, "<", "0xDC00", "or", {
+  "id": "second"
+}, ">", "0xDFFF", ",", "return", {
+  "id": "first"
+}, ".", {
+  "k": 8
+}, "Return", "UTF16Decode", "(", {
+  "id": "first"
+}, ",", {
+  "id": "second"
+}, ")", ".", {
+  "k": 9
+}]

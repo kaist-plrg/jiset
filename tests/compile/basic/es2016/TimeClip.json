@@ -1,0 +1,37 @@
+["If", {
+  "id": "time"
+}, "is", "not", "finite", ",", "return", {
+  "value": "NaN"
+}, ".", {
+  "k": 0
+}, "If", "abs", "(", {
+  "id": "time"
+}, ")", ">", "8", ".", "64", "×", "10", {
+  "sup": {
+    "tokens": ["15"]
+  }
+}, ",", "return", {
+  "value": "NaN"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "clippedTime"
+}, "be", "ToInteger", "(", {
+  "id": "time"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "clippedTime"
+}, "is", {
+  "value": "-0"
+}, ",", "let", {
+  "id": "clippedTime"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 3
+}, "Return", {
+  "id": "clippedTime"
+}, ".", {
+  "k": 4
+}]

@@ -1,0 +1,13 @@
+{
+  access __x0__ = (DestructuringAssignmentTarget "Evaluation")
+  let lref = __x0__
+  if (is-completion lref) if (= lref.Type CONST_normal) lref = lref.Value else return lref else {}
+  lref
+  ??? "Let id:{restObj} be OrdinaryObjectCreate ( % Object . prototype % ) ."
+  app __x1__ = (CopyDataProperties restObj value excludedNames)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  __x1__
+  app __x2__ = (PutValue lref restObj)
+  app __x3__ = (WrapCompletion __x2__)
+  return __x3__
+}

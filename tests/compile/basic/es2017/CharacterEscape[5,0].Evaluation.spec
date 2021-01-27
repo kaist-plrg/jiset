@@ -1,0 +1,1 @@
+          1. Return the character matched by |IdentityEscape|.

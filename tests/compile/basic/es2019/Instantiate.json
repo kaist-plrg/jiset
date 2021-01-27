@@ -1,0 +1,91 @@
+["Let", {
+  "id": "module"
+}, "be", "this", "Cyclic", "Module", "Record", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", "not", {
+  "code": "\"instantiating\""
+}, "or", {
+  "code": "\"evaluating\""
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "stack"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "Let", {
+  "id": "result"
+}, "be", "InnerModuleInstantiation", "(", {
+  "id": "module"
+}, ",", {
+  "id": "stack"
+}, ",", "0", ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "result"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "For", "each", "module", {
+  "id": "m"
+}, "in", {
+  "id": "stack"
+}, ",", "do", true, "Assert", ":", {
+  "id": "m"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "code": "\"instantiating\""
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "m"
+}, ".", "[", "[", "Status", "]", "]", "to", {
+  "code": "\"uninstantiated\""
+}, ".", {
+  "k": 7
+}, "Set", {
+  "id": "m"
+}, ".", "[", "[", "Environment", "]", "]", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 8
+}, "Set", {
+  "id": "m"
+}, ".", "[", "[", "DFSIndex", "]", "]", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 9
+}, "Set", {
+  "id": "m"
+}, ".", "[", "[", "DFSAncestorIndex", "]", "]", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 5
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "code": "\"uninstantiated\""
+}, ".", {
+  "k": 11
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 4
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "code": "\"instantiated\""
+}, "or", {
+  "code": "\"evaluated\""
+}, ".", {
+  "k": 13
+}, "Assert", ":", {
+  "id": "stack"
+}, "is", "empty", ".", {
+  "k": 14
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 15
+}]

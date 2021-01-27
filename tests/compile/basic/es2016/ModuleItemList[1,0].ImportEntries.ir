@@ -1,0 +1,14 @@
+{
+  access __x0__ = (ModuleItemList "ImportEntries")
+  let entries = __x0__
+  access __x1__ = (ModuleItem "ImportEntries")
+  let __x2__ = __x1__
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let __x4__ = __x2__[__x3__]
+    append __x4__ -> entries
+    __x3__ = (+ __x3__ 1i)
+  }
+  app __x5__ = (WrapCompletion entries)
+  return __x5__
+}

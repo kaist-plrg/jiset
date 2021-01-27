@@ -1,0 +1,49 @@
+{
+  if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
+    access __x0__ = (DestructuringAssignmentTarget "Evaluation")
+    let lref = __x0__
+    if (is-completion lref) if (= lref.Type CONST_normal) lref = lref.Value else return lref else {}
+    lref
+  } else {}
+  app __x1__ = (GetV value propertyName)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let v = __x1__
+  if (&& (! (= Initializer absent)) (= v undefined)) {
+    access __x2__ = (Initializer "Evaluation")
+    let defaultValue = __x2__
+    app __x3__ = (GetValue defaultValue)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    let rhsValue = __x3__
+  } else let rhsValue = v
+  if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) {
+    let assignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
+    access __x4__ = (assignmentPattern "DestructuringAssignmentEvaluation")
+    app __x5__ = (__x4__ rhsValue)
+    app __x6__ = (WrapCompletion __x5__)
+    return __x6__
+  } else {}
+  let __x7__ = (! (= Initializer absent))
+  if __x7__ {
+    let __x8__ = (= v undefined)
+    if __x8__ {
+      app __x9__ = (IsAnonymousFunctionDefinition Initializer)
+      access __x10__ = (DestructuringAssignmentTarget "IsIdentifierRef")
+      __x8__ = (&& (= __x9__ true) (= __x10__ true))
+    } else {}
+    __x7__ = __x8__
+  } else {}
+  if __x7__ {
+    app __x11__ = (HasOwnProperty rhsValue "name")
+    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+    let hasNameProperty = __x11__
+    if (= hasNameProperty false) {
+      app __x12__ = (GetReferencedName lref)
+      app __x13__ = (SetFunctionName rhsValue __x12__)
+      __x13__
+    } else {}
+  } else {}
+  app __x14__ = (PutValue lref rhsValue)
+  if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+  app __x15__ = (WrapCompletion __x14__)
+  return __x15__
+}

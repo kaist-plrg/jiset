@@ -1,0 +1,14 @@
+{
+  if (= BindingIdentifier absent) let className = undefined else {
+    access __x0__ = (BindingIdentifier "StringValue")
+    let className = __x0__
+  }
+  access __x1__ = (ClassTail "ClassDefinitionEvaluation")
+  app __x2__ = (__x1__ className className)
+  let value = __x2__
+  if (is-completion value) if (= value.Type CONST_normal) value = value.Value else return value else {}
+  value
+  value.SourceText = (get-syntax ClassExpression)
+  app __x3__ = (WrapCompletion value)
+  return __x3__
+}

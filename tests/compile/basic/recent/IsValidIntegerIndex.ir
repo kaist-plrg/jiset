@@ -1,0 +1,23 @@
+{
+  app __x0__ = (IsDetachedBuffer O.ViewedArrayBuffer)
+  if (= __x0__ true) {
+    app __x1__ = (WrapCompletion false)
+    return __x1__
+  } else {}
+  app __x2__ = (IsIntegralNumber index)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  if (= __x2__ false) {
+    app __x3__ = (WrapCompletion false)
+    return __x3__
+  } else {}
+  if (= index -0.0) {
+    app __x4__ = (WrapCompletion false)
+    return __x4__
+  } else {}
+  if (|| (< index 0i) (! (< index O.ArrayLength))) {
+    app __x5__ = (WrapCompletion false)
+    return __x5__
+  } else {}
+  app __x6__ = (WrapCompletion true)
+  return __x6__
+}

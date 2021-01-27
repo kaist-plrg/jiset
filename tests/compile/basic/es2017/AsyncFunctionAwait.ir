@@ -1,0 +1,28 @@
+{
+  let asyncContext = GLOBAL_context
+  app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let promiseCapability = __x0__
+  app __x1__ = (Call promiseCapability.Resolve undefined (new [value]))
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let resolveResult = __x1__
+  let onFulfilled = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
+  let onRejected = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
+  onFulfilled.AsyncContext = asyncContext
+  onRejected.AsyncContext = asyncContext
+  app __x2__ = (NewPromiseCapability INTRINSIC_Promise)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let throwawayCapability = __x2__
+  throwawayCapability.Promise.PromiseIsHandled = true
+  app __x3__ = (PerformPromiseThen promiseCapability.Promise onFulfilled onRejected throwawayCapability)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  __x3__
+  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] asyncContext) {
+    let __x4__ = (- GLOBAL_executionStack.length 1i)
+    (pop GLOBAL_executionStack __x4__)
+  } else {}
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  ??? "Set the code evaluation state of id:{asyncContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : step-list:{...}"
+  app __x5__ = (NormalCompletion undefined)
+  return __x5__
+}

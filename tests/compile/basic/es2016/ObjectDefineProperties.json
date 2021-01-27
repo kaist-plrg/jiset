@@ -1,0 +1,99 @@
+["If", "Type", "(", {
+  "id": "O"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "props"
+}, "be", "?", "ToObject", "(", {
+  "id": "Properties"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "keys"
+}, "be", "?", {
+  "id": "props"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "descriptors"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 3
+}, "Repeat", "for", "each", "element", {
+  "id": "nextKey"
+}, "of", {
+  "id": "keys"
+}, "in", "List", "order", ",", true, "Let", {
+  "id": "propDesc"
+}, "be", "?", {
+  "id": "props"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "nextKey"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "propDesc"
+}, "is", "not", {
+  "value": "undefined"
+}, "and", {
+  "id": "propDesc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "descObj"
+}, "be", "?", "Get", "(", {
+  "id": "props"
+}, ",", {
+  "id": "nextKey"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "desc"
+}, "be", "?", "ToPropertyDescriptor", "(", {
+  "id": "descObj"
+}, ")", ".", {
+  "k": 8
+}, "Append", "the", "pair", "(", "a", "two", "element", "List", ")", "consisting", "of", {
+  "id": "nextKey"
+}, "and", {
+  "id": "desc"
+}, "to", "the", "end", "of", {
+  "id": "descriptors"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 6
+}, false, {
+  "k": 4
+}, "For", "each", {
+  "id": "pair"
+}, "from", {
+  "id": "descriptors"
+}, "in", "list", "order", ",", true, "Let", {
+  "id": "P"
+}, "be", "the", "first", "element", "of", {
+  "id": "pair"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "desc"
+}, "be", "the", "second", "element", "of", {
+  "id": "pair"
+}, ".", {
+  "k": 12
+}, "Perform", "?", "DefinePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "desc"
+}, ")", ".", {
+  "k": 13
+}, false, {
+  "k": 10
+}, "Return", {
+  "id": "O"
+}, ".", {
+  "k": 14
+}]

@@ -1,0 +1,21 @@
+{
+  let R = this
+  app __x0__ = (Type R)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  app __x2__ = (Get R "source")
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  app __x3__ = (ToString __x2__)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let pattern = __x3__
+  app __x4__ = (Get R "flags")
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  app __x5__ = (ToString __x4__)
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  let flags = __x5__
+  let result = (+ (+ (+ "/" pattern) "/") flags)
+  app __x6__ = (WrapCompletion result)
+  return __x6__
+}

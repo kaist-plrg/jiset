@@ -1,0 +1,11 @@
+{
+  app __x0__ = (Type newTarget)
+  assert (|| (= __x0__ Undefined) (= __x0__ Object))
+  let env = (new FunctionEnvironmentRecord("SubMap" -> (new SubMap())))
+  env.FunctionObject = F
+  if (= F.ThisMode CONST_lexical) env.ThisBindingStatus = CONST_lexical else env.ThisBindingStatus = CONST_uninitialized
+  env.NewTarget = newTarget
+  env.OuterEnv = F.Environment
+  app __x1__ = (WrapCompletion env)
+  return __x1__
+}

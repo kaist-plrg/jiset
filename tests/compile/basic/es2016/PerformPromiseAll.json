@@ -1,0 +1,171 @@
+["Assert", ":", {
+  "id": "constructor"
+}, "is", "a", "constructor", "function", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "resultCapability"
+}, "is", "a", "PromiseCapability", "record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "values"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "Let", {
+  "id": "remainingElementsCount"
+}, "be", "a", "new", "Record", "{", "[", "[", "Value", "]", "]", ":", "1", "}", ".", {
+  "k": 3
+}, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "k": 4
+}, "Repeat", true, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Iterator", "]", "]", ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 7
+}, "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 10
+}, "Set", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "-", "1", ".", {
+  "k": 11
+}, "If", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "is", "0", ",", "then", true, "Let", {
+  "id": "valuesArray"
+}, "be", "CreateArrayFromList", "(", {
+  "id": "values"
+}, ")", ".", {
+  "k": 13
+}, "Perform", "?", "Call", "(", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "valuesArray"
+}, "»", ")", ".", {
+  "k": 14
+}, false, {
+  "k": 12
+}, "Return", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 15
+}, false, {
+  "k": 9
+}, "Let", {
+  "id": "nextValue"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 16
+}, "If", {
+  "id": "nextValue"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 17
+}, "ReturnIfAbrupt", "(", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 18
+}, "Append", {
+  "value": "undefined"
+}, "to", {
+  "id": "values"
+}, ".", {
+  "k": 19
+}, "Let", {
+  "id": "nextPromise"
+}, "be", "?", "Invoke", "(", {
+  "id": "constructor"
+}, ",", {
+  "code": "\"resolve\""
+}, ",", "«", {
+  "id": "nextValue"
+}, "»", ")", ".", {
+  "k": 20
+}, "Let", {
+  "id": "resolveElement"
+}, "be", "a", "new", "built", "-", "in", "function", "object", "as", "defined", "in", "Promise", ".", "all", "Resolve", "Element", "Functions", ".", {
+  "k": 21
+}, "Set", "the", "[", "[", "AlreadyCalled", "]", "]", "internal", "slot", "of", {
+  "id": "resolveElement"
+}, "to", "a", "new", "Record", "{", "[", "[", "Value", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 22
+}, "Set", "the", "[", "[", "Index", "]", "]", "internal", "slot", "of", {
+  "id": "resolveElement"
+}, "to", {
+  "id": "index"
+}, ".", {
+  "k": 23
+}, "Set", "the", "[", "[", "Values", "]", "]", "internal", "slot", "of", {
+  "id": "resolveElement"
+}, "to", {
+  "id": "values"
+}, ".", {
+  "k": 24
+}, "Set", "the", "[", "[", "Capabilities", "]", "]", "internal", "slot", "of", {
+  "id": "resolveElement"
+}, "to", {
+  "id": "resultCapability"
+}, ".", {
+  "k": 25
+}, "Set", "the", "[", "[", "RemainingElements", "]", "]", "internal", "slot", "of", {
+  "id": "resolveElement"
+}, "to", {
+  "id": "remainingElementsCount"
+}, ".", {
+  "k": 26
+}, "Set", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "+", "1", ".", {
+  "k": 27
+}, "Perform", "?", "Invoke", "(", {
+  "id": "nextPromise"
+}, ",", {
+  "code": "\"then\""
+}, ",", "«", {
+  "id": "resolveElement"
+}, ",", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 28
+}, "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 29
+}, false, {
+  "k": 5
+}]

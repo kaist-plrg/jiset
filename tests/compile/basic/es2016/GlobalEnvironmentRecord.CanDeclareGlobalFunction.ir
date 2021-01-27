@@ -1,0 +1,21 @@
+{
+  let envRec = this
+  let ObjRec = envRec.ObjectRecord
+  let globalObject = ObjRec.BindingObject
+  app __x0__ = (globalObject.GetOwnProperty globalObject N)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let existingProp = __x0__
+  if (= existingProp undefined) {
+    app __x1__ = (IsExtensible globalObject)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    app __x2__ = (WrapCompletion __x1__)
+    return __x2__
+  } else {}
+  if (= existingProp.Configurable true) {
+    app __x3__ = (WrapCompletion true)
+    return __x3__
+  } else {}
+  ??? "If IsDataDescriptor ( id:{existingProp} ) is value:{true} and id:{existingProp} has attribute values { [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{true} } , return value:{true} ."
+  app __x4__ = (WrapCompletion false)
+  return __x4__
+}

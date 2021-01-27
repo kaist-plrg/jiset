@@ -1,0 +1,177 @@
+["Assert", ":", "Type", "(", {
+  "id": "target"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "source"
+}, ")", "is", "Object", ".", {
+  "k": 1
+}, "Assert", ":", "If", {
+  "id": "mapperFunction"
+}, "is", "present", ",", "then", "!", "IsCallable", "(", {
+  "id": "mapperFunction"
+}, ")", "is", {
+  "value": "true"
+}, ",", {
+  "id": "thisArg"
+}, "is", "present", ",", "and", {
+  "id": "depth"
+}, "is", "1", ".", {
+  "k": 2
+}, "Let", {
+  "id": "targetIndex"
+}, "be", {
+  "id": "start"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "sourceIndex"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 4
+}, "Repeat", ",", "while", "ℝ", "(", {
+  "id": "sourceIndex"
+}, ")", "<", {
+  "id": "sourceLen"
+}, ",", true, "Let", {
+  "id": "P"
+}, "be", "!", "ToString", "(", {
+  "id": "sourceIndex"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "exists"
+}, "be", "?", "HasProperty", "(", {
+  "id": "source"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "exists"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "element"
+}, "be", "?", "Get", "(", {
+  "id": "source"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "mapperFunction"
+}, "is", "present", ",", "then", true, "Set", {
+  "id": "element"
+}, "to", "?", "Call", "(", {
+  "id": "mapperFunction"
+}, ",", {
+  "id": "thisArg"
+}, ",", "«", {
+  "id": "element"
+}, ",", {
+  "id": "sourceIndex"
+}, ",", {
+  "id": "source"
+}, "»", ")", ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "Let", {
+  "id": "shouldFlatten"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 12
+}, "If", {
+  "id": "depth"
+}, ">", "0", ",", "then", true, "Set", {
+  "id": "shouldFlatten"
+}, "to", "?", "IsArray", "(", {
+  "id": "element"
+}, ")", ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, "If", {
+  "id": "shouldFlatten"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "depth"
+}, "is", "+", "∞", ",", "let", {
+  "id": "newDepth"
+}, "be", "+", "∞", ".", {
+  "k": 16
+}, "Else", ",", "let", {
+  "id": "newDepth"
+}, "be", {
+  "id": "depth"
+}, "-", "1", ".", {
+  "k": 17
+}, "Let", {
+  "id": "elementLen"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "element"
+}, ")", ".", {
+  "k": 18
+}, "Set", {
+  "id": "targetIndex"
+}, "to", "?", "FlattenIntoArray", "(", {
+  "id": "target"
+}, ",", {
+  "id": "element"
+}, ",", {
+  "id": "elementLen"
+}, ",", {
+  "id": "targetIndex"
+}, ",", {
+  "id": "newDepth"
+}, ")", ".", {
+  "k": 19
+}, false, {
+  "k": 15
+}, "Else", ",", true, "If", {
+  "id": "targetIndex"
+}, "≥", "2", {
+  "sup": {
+    "tokens": ["53"]
+  }
+}, "-", "1", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 21
+}, "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "target"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "targetIndex"
+}, ")", ")", ",", {
+  "id": "element"
+}, ")", ".", {
+  "k": 22
+}, "Set", {
+  "id": "targetIndex"
+}, "to", {
+  "id": "targetIndex"
+}, "+", "1", ".", {
+  "k": 23
+}, false, {
+  "k": 20
+}, false, {
+  "k": 8
+}, "Set", {
+  "id": "sourceIndex"
+}, "to", {
+  "id": "sourceIndex"
+}, "+", {
+  "value": "1"
+}, ".", {
+  "k": 24
+}, false, {
+  "k": 5
+}, "Return", {
+  "id": "targetIndex"
+}, ".", {
+  "k": 25
+}]

@@ -1,0 +1,217 @@
+["If", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", "is", "absent", ",", "then", true, "Return", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "Desc"
+}, ")", ".", {
+  "k": 1
+}, false, {
+  "k": 0
+}, "Let", {
+  "id": "newLenDesc"
+}, "be", "a", "copy", "of", {
+  "id": "Desc"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "newLen"
+}, "be", "?", "ToUint32", "(", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "numberLen"
+}, "be", "?", "ToNumber", "(", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "newLen"
+}, "is", "not", "the", "same", "value", "as", {
+  "id": "numberLen"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 5
+}, "Set", {
+  "id": "newLenDesc"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "newLen"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "oldLenDesc"
+}, "be", "OrdinaryGetOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ")", ".", {
+  "k": 7
+}, "Assert", ":", "!", "IsDataDescriptor", "(", {
+  "id": "oldLenDesc"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}, "Assert", ":", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "oldLen"
+}, "be", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 10
+}, "If", {
+  "id": "newLen"
+}, "≥", {
+  "id": "oldLen"
+}, ",", "then", true, "Return", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "newLenDesc"
+}, ")", ".", {
+  "k": 12
+}, false, {
+  "k": 11
+}, "If", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 13
+}, "If", {
+  "id": "newLenDesc"
+}, ".", "[", "[", "Writable", "]", "]", "is", "absent", "or", "has", "the", "value", {
+  "value": "true"
+}, ",", "let", {
+  "id": "newWritable"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 14
+}, "Else", ",", true, "NOTE", ":", "Setting", "the", "[", "[", "Writable", "]", "]", "attribute", "to", {
+  "value": "false"
+}, "is", "deferred", "in", "case", "any", "elements", "cannot", "be", "deleted", ".", {
+  "k": 16
+}, "Let", {
+  "id": "newWritable"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 17
+}, "Set", {
+  "id": "newLenDesc"
+}, ".", "[", "[", "Writable", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 18
+}, false, {
+  "k": 15
+}, "Let", {
+  "id": "succeeded"
+}, "be", "!", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "newLenDesc"
+}, ")", ".", {
+  "k": 19
+}, "If", {
+  "id": "succeeded"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 20
+}, "For", "each", "own", "property", "key", {
+  "id": "P"
+}, "of", {
+  "id": "A"
+}, "that", "is", "an", "array", "index", ",", "whose", "numeric", "value", "is", "greater", "than", "or", "equal", "to", {
+  "id": "newLen"
+}, ",", "in", "descending", "numeric", "index", "order", ",", "do", true, "Let", {
+  "id": "deleteSucceeded"
+}, "be", "!", {
+  "id": "A"
+}, ".", "[", "[", "Delete", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 22
+}, "If", {
+  "id": "deleteSucceeded"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Set", {
+  "id": "newLenDesc"
+}, ".", "[", "[", "Value", "]", "]", "to", "!", "ToUint32", "(", {
+  "id": "P"
+}, ")", "+", {
+  "value": "1"
+}, ".", {
+  "k": 24
+}, "If", {
+  "id": "newWritable"
+}, "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "newLenDesc"
+}, ".", "[", "[", "Writable", "]", "]", "to", {
+  "value": "false"
+}, ".", {
+  "k": 25
+}, "Perform", "!", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "newLenDesc"
+}, ")", ".", {
+  "k": 26
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 27
+}, false, {
+  "k": 23
+}, false, {
+  "k": 21
+}, "If", {
+  "id": "newWritable"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "succeeded"
+}, "be", "!", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 29
+}, "Assert", ":", {
+  "id": "succeeded"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 30
+}, false, {
+  "k": 28
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 31
+}]

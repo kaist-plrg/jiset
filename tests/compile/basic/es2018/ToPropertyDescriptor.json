@@ -1,0 +1,221 @@
+["If", "Type", "(", {
+  "id": "Obj"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "desc"
+}, "be", "a", "new", "Property", "Descriptor", "that", "initially", "has", "no", "fields", ".", {
+  "k": 1
+}, "Let", {
+  "id": "hasEnumerable"
+}, "be", "?", "HasProperty", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"enumerable\""
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "hasEnumerable"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "enum"
+}, "be", "ToBoolean", "(", "?", "Get", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"enumerable\""
+}, ")", ")", ".", {
+  "k": 4
+}, "Set", {
+  "id": "desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "to", {
+  "id": "enum"
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Let", {
+  "id": "hasConfigurable"
+}, "be", "?", "HasProperty", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"configurable\""
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "hasConfigurable"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "conf"
+}, "be", "ToBoolean", "(", "?", "Get", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"configurable\""
+}, ")", ")", ".", {
+  "k": 8
+}, "Set", {
+  "id": "desc"
+}, ".", "[", "[", "Configurable", "]", "]", "to", {
+  "id": "conf"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 7
+}, "Let", {
+  "id": "hasValue"
+}, "be", "?", "HasProperty", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"value\""
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "hasValue"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "?", "Get", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"value\""
+}, ")", ".", {
+  "k": 12
+}, "Set", {
+  "id": "desc"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "value"
+}, ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "Let", {
+  "id": "hasWritable"
+}, "be", "?", "HasProperty", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"writable\""
+}, ")", ".", {
+  "k": 14
+}, "If", {
+  "id": "hasWritable"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "writable"
+}, "be", "ToBoolean", "(", "?", "Get", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"writable\""
+}, ")", ")", ".", {
+  "k": 16
+}, "Set", {
+  "id": "desc"
+}, ".", "[", "[", "Writable", "]", "]", "to", {
+  "id": "writable"
+}, ".", {
+  "k": 17
+}, false, {
+  "k": 15
+}, "Let", {
+  "id": "hasGet"
+}, "be", "?", "HasProperty", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"get\""
+}, ")", ".", {
+  "k": 18
+}, "If", {
+  "id": "hasGet"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "getter"
+}, "be", "?", "Get", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"get\""
+}, ")", ".", {
+  "k": 20
+}, "If", "IsCallable", "(", {
+  "id": "getter"
+}, ")", "is", {
+  "value": "false"
+}, "and", {
+  "id": "getter"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 21
+}, "Set", {
+  "id": "desc"
+}, ".", "[", "[", "Get", "]", "]", "to", {
+  "id": "getter"
+}, ".", {
+  "k": 22
+}, false, {
+  "k": 19
+}, "Let", {
+  "id": "hasSet"
+}, "be", "?", "HasProperty", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"set\""
+}, ")", ".", {
+  "k": 23
+}, "If", {
+  "id": "hasSet"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "setter"
+}, "be", "?", "Get", "(", {
+  "id": "Obj"
+}, ",", {
+  "code": "\"set\""
+}, ")", ".", {
+  "k": 25
+}, "If", "IsCallable", "(", {
+  "id": "setter"
+}, ")", "is", {
+  "value": "false"
+}, "and", {
+  "id": "setter"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 26
+}, "Set", {
+  "id": "desc"
+}, ".", "[", "[", "Set", "]", "]", "to", {
+  "id": "setter"
+}, ".", {
+  "k": 27
+}, false, {
+  "k": 24
+}, "If", {
+  "id": "desc"
+}, ".", "[", "[", "Get", "]", "]", "is", "present", "or", {
+  "id": "desc"
+}, ".", "[", "[", "Set", "]", "]", "is", "present", ",", "then", true, "If", {
+  "id": "desc"
+}, ".", "[", "[", "Value", "]", "]", "is", "present", "or", {
+  "id": "desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", "present", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 29
+}, false, {
+  "k": 28
+}, "Return", {
+  "id": "desc"
+}, ".", {
+  "k": 30
+}]

@@ -1,0 +1,37 @@
+{
+  if (= max 0i) {
+    app __x0__ = (c x)
+    app __x1__ = (WrapCompletion __x0__)
+    return __x1__
+  } else {}
+  ??? "Let id:{d} be an internal Continuation closure that takes one State argument id:{y} and performs the following steps when evaluated : step-list:{...}"
+  ??? "Let id:{cap} be a fresh copy of id:{x} ' s id:{captures} List ."
+  let k = (+ parenIndex 1i)
+  let __x2__ = (+ (+ parenIndex parenCount) 1i)
+  while (< k __x2__) cap[k] = undefined
+  let e = x.endIndex
+  let xr = (new [e, cap])
+  if (! (= min 0i)) {
+    app __x3__ = (m xr d)
+    app __x4__ = (WrapCompletion __x3__)
+    return __x4__
+  } else {}
+  if (= greedy false) {
+    app __x5__ = (c x)
+    let z = __x5__
+    if (! (= z CONST_failure)) {
+      app __x6__ = (WrapCompletion z)
+      return __x6__
+    } else {}
+    app __x7__ = (m xr d)
+    return __x7__
+  } else {}
+  app __x8__ = (m xr d)
+  let z = __x8__
+  if (! (= z CONST_failure)) {
+    app __x9__ = (WrapCompletion z)
+    return __x9__
+  } else {}
+  app __x10__ = (c x)
+  return __x10__
+}

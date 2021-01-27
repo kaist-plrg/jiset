@@ -1,0 +1,95 @@
+["Let", {
+  "id": "ref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "UnaryExpression"
+}, ".", {
+  "k": 0
+}, "ReturnIfAbrupt", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "not", "Reference", ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "If", "IsUnresolvableReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Assert", ":", "IsStrictReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "If", "IsPropertyReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "If", "IsSuperReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "ReferenceError"
+}, "exception", ".", {
+  "k": 7
+}, "Let", {
+  "id": "baseObj"
+}, "be", "!", "ToObject", "(", "GetBase", "(", {
+  "id": "ref"
+}, ")", ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "deleteStatus"
+}, "be", "?", {
+  "id": "baseObj"
+}, ".", "[", "[", "Delete", "]", "]", "(", "GetReferencedName", "(", {
+  "id": "ref"
+}, ")", ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "deleteStatus"
+}, "is", {
+  "value": "false"
+}, "and", "IsStrictReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 10
+}, "Return", {
+  "id": "deleteStatus"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Assert", ":", {
+  "id": "ref"
+}, "is", "a", "Reference", "to", "an", "Environment", "Record", "binding", ".", {
+  "k": 13
+}, "Let", {
+  "id": "bindings"
+}, "be", "GetBase", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 14
+}, "Return", "?", {
+  "id": "bindings"
+}, ".", "DeleteBinding", "(", "GetReferencedName", "(", {
+  "id": "ref"
+}, ")", ")", ".", {
+  "k": 15
+}, false, {
+  "k": 12
+}]

@@ -1,0 +1,93 @@
+["Let", {
+  "id": "type"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 0
+}, "Let", {
+  "id": "isLittleEndian"
+}, "be", "the", "value", "of", "the", "[", "[", "LittleEndian", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "subtract"
+}, "be", "a", "new", "read", "-", "modify", "-", "write", "modification", "function", "with", "parameters", "(", {
+  "id": "xBytes"
+}, ",", {
+  "id": "yBytes"
+}, ")", "that", "captures", {
+  "id": "type"
+}, "and", {
+  "id": "isLittleEndian"
+}, "and", "performs", "the", "following", "steps", "atomically", "when", "called", ":", true, "Let", {
+  "id": "x"
+}, "be", "RawBytesToNumeric", "(", {
+  "id": "type"
+}, ",", {
+  "id": "xBytes"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "y"
+}, "be", "RawBytesToNumeric", "(", {
+  "id": "type"
+}, ",", {
+  "id": "yBytes"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "T"
+}, "be", "Type", "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "difference"
+}, "be", {
+  "id": "T"
+}, ":", ":", "subtract", "(", {
+  "id": "x"
+}, ",", {
+  "id": "y"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "differenceBytes"
+}, "be", "NumericToRawBytes", "(", {
+  "id": "type"
+}, ",", {
+  "id": "difference"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 7
+}, "Assert", ":", {
+  "id": "differenceBytes"
+}, ",", {
+  "id": "xBytes"
+}, ",", "and", {
+  "id": "yBytes"
+}, "have", "the", "same", "number", "of", "elements", ".", {
+  "k": 8
+}, "Return", {
+  "id": "differenceBytes"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 2
+}, "Return", "?", "AtomicReadModifyWrite", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ",", {
+  "id": "value"
+}, ",", {
+  "id": "subtract"
+}, ")", ".", {
+  "k": 10
+}]

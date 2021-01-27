@@ -1,0 +1,137 @@
+["Assert", ":", {
+  "id": "O"
+}, "is", "an", "Object", "that", "has", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "buffer"
+}, "is", "an", "Object", "that", "has", "an", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ".", {
+  "k": 1
+}, "Let", {
+  "id": "constructorName"
+}, "be", "the", "String", "value", "of", {
+  "id": "O"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 2
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "constructorName"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "offset"
+}, "be", "?", "ToIndex", "(", {
+  "id": "byteOffset"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "offset"
+}, "modulo", {
+  "id": "elementSize"
+}, "≠", "0", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 5
+}, "If", {
+  "id": "length"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "newLength"
+}, "be", "?", "ToIndex", "(", {
+  "id": "length"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 8
+}, "Let", {
+  "id": "bufferByteLength"
+}, "be", {
+  "id": "buffer"
+}, ".", "[", "[", "ArrayBufferByteLength", "]", "]", ".", {
+  "k": 9
+}, "If", {
+  "id": "length"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "If", {
+  "id": "bufferByteLength"
+}, "modulo", {
+  "id": "elementSize"
+}, "≠", "0", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 11
+}, "Let", {
+  "id": "newByteLength"
+}, "be", {
+  "id": "bufferByteLength"
+}, "-", {
+  "id": "offset"
+}, ".", {
+  "k": 12
+}, "If", {
+  "id": "newByteLength"
+}, "<", "0", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 13
+}, false, {
+  "k": 10
+}, "Else", ",", true, "Let", {
+  "id": "newByteLength"
+}, "be", {
+  "id": "newLength"
+}, "×", {
+  "id": "elementSize"
+}, ".", {
+  "k": 15
+}, "If", {
+  "id": "offset"
+}, "+", {
+  "id": "newByteLength"
+}, ">", {
+  "id": "bufferByteLength"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 16
+}, false, {
+  "k": 14
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "to", {
+  "id": "buffer"
+}, ".", {
+  "k": 17
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ByteLength", "]", "]", "to", {
+  "id": "newByteLength"
+}, ".", {
+  "k": 18
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ByteOffset", "]", "]", "to", {
+  "id": "offset"
+}, ".", {
+  "k": 19
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ArrayLength", "]", "]", "to", {
+  "id": "newByteLength"
+}, "/", {
+  "id": "elementSize"
+}, ".", {
+  "k": 20
+}]

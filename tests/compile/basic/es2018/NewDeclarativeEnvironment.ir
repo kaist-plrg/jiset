@@ -1,0 +1,8 @@
+{
+  let env = (new LexicalEnvironment("SubMap" -> (new SubMap())))
+  let envRec = (new DeclarativeEnvironmentRecord("SubMap" -> (new SubMap())))
+  env.EnvironmentRecord = envRec
+  env.Outer = E
+  app __x0__ = (WrapCompletion env)
+  return __x0__
+}

@@ -1,0 +1,88 @@
+{
+  let oldEnv = GLOBAL_context.LexicalEnvironment
+  let V = undefined
+  access __x0__ = (lhs "IsDestructuring")
+  let destructuring = __x0__
+  if (&& (= destructuring true) (= lhsKind CONST_assignment)) {
+    assert (is-instance-of lhs LeftHandSideExpression)
+    ??? "Let id:{assignmentPattern} be the parse of the source text corresponding to id:{lhs} using nt:{AssignmentPattern} as the goal symbol ."
+  } else {}
+  while true {
+    app __x1__ = (IteratorStep iterator)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    let nextResult = __x1__
+    if (= nextResult false) {
+      app __x2__ = (NormalCompletion V)
+      app __x3__ = (WrapCompletion __x2__)
+      return __x3__
+    } else {}
+    app __x4__ = (IteratorValue nextResult)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let nextValue = __x4__
+    if (|| (= lhsKind CONST_assignment) (= lhsKind CONST_varBinding)) if (= destructuring false) {
+      access __x5__ = (lhs "Evaluation")
+      let lhsRef = __x5__
+    } else {} else {
+      assert (= lhsKind CONST_lexicalBinding)
+      assert (is-instance-of lhs ForDeclaration)
+      app __x6__ = (NewDeclarativeEnvironment oldEnv)
+      let iterationEnv = __x6__
+      access __x7__ = (lhs "BindingInstantiation")
+      app __x8__ = (__x7__ iterationEnv)
+      __x8__
+      GLOBAL_context.LexicalEnvironment = iterationEnv
+      if (= destructuring false) {
+        access __x9__ = (lhs "BoundNames")
+        let lhsName = __x9__[0i]
+        app __x10__ = (ResolveBinding lhsName)
+        if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+        let lhsRef = __x10__
+      } else {}
+    }
+    if (= destructuring false) {
+      app __x11__ = (IsAbruptCompletion lhsRef)
+      if __x11__ let status = lhsRef else if (= lhsKind CONST_lexicalBinding) {
+        app __x12__ = (InitializeReferencedBinding lhsRef nextValue)
+        let status = __x12__
+      } else {
+        app __x13__ = (PutValue lhsRef nextValue)
+        let status = __x13__
+      }
+    } else if (= lhsKind CONST_assignment) {
+      access __x14__ = (assignmentPattern "DestructuringAssignmentEvaluation")
+      app __x15__ = (__x14__ nextValue)
+      let status = __x15__
+    } else if (= lhsKind CONST_varBinding) {
+      assert (is-instance-of lhs ForBinding)
+      access __x16__ = (lhs "BindingInitialization")
+      app __x17__ = (__x16__ nextValue undefined)
+      let status = __x17__
+    } else {
+      assert (= lhsKind CONST_lexicalBinding)
+      assert (is-instance-of lhs ForDeclaration)
+      access __x18__ = (lhs "BindingInitialization")
+      app __x19__ = (__x18__ nextValue iterationEnv)
+      let status = __x19__
+    }
+    app __x20__ = (IsAbruptCompletion status)
+    if __x20__ {
+      GLOBAL_context.LexicalEnvironment = oldEnv
+      app __x21__ = (IteratorClose iterator status)
+      if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
+      app __x22__ = (WrapCompletion __x21__)
+      return __x22__
+    } else {}
+    access __x23__ = (stmt "Evaluation")
+    let result = __x23__
+    GLOBAL_context.LexicalEnvironment = oldEnv
+    app __x24__ = (LoopContinues result labelSet)
+    if (= __x24__ false) {
+      app __x25__ = (UpdateEmpty result V)
+      app __x26__ = (IteratorClose iterator __x25__)
+      if (is-completion __x26__) if (= __x26__.Type CONST_normal) __x26__ = __x26__.Value else return __x26__ else {}
+      app __x27__ = (WrapCompletion __x26__)
+      return __x27__
+    } else {}
+    if (! (= result.Value CONST_empty)) let V = result.Value else {}
+  }
+}

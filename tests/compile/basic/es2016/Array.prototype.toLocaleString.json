@@ -1,0 +1,119 @@
+["Let", {
+  "id": "array"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "array"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "separator"
+}, "be", "the", "String", "value", "for", "the", "list", "-", "separator", "String", "appropriate", "for", "the", "host", "environment", "'", "s", "current", "locale", "(", "this", "is", "derived", "in", "an", "implementation", "-", "defined", "way", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "len"
+}, "is", "zero", ",", "return", "the", "empty", "String", ".", {
+  "k": 3
+}, "Let", {
+  "id": "firstElement"
+}, "be", "?", "Get", "(", {
+  "id": "array"
+}, ",", {
+  "code": "\"0\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "firstElement"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "then", true, "Let", {
+  "id": "R"
+}, "be", "the", "empty", "String", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Else", ",", true, "Let", {
+  "id": "R"
+}, "be", "?", "ToString", "(", "?", "Invoke", "(", {
+  "id": "firstElement"
+}, ",", {
+  "code": "\"toLocaleString\""
+}, ")", ")", ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, "Let", {
+  "id": "k"
+}, "be", {
+  "code": "1"
+}, ".", {
+  "k": 9
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "S"
+}, "be", "a", "String", "value", "produced", "by", "concatenating", {
+  "id": "R"
+}, "and", {
+  "id": "separator"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "nextElement"
+}, "be", "?", "Get", "(", {
+  "id": "array"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "nextElement"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "then", true, "Let", {
+  "id": "R"
+}, "be", "the", "empty", "String", ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, "Else", ",", true, "Let", {
+  "id": "R"
+}, "be", "?", "ToString", "(", "?", "Invoke", "(", {
+  "id": "nextElement"
+}, ",", {
+  "code": "\"toLocaleString\""
+}, ")", ")", ".", {
+  "k": 16
+}, false, {
+  "k": 15
+}, "Let", {
+  "id": "R"
+}, "be", "a", "String", "value", "produced", "by", "concatenating", {
+  "id": "S"
+}, "and", {
+  "id": "R"
+}, ".", {
+  "k": 17
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 18
+}, false, {
+  "k": 10
+}, "Return", {
+  "id": "R"
+}, ".", {
+  "k": 19
+}]

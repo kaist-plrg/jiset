@@ -1,0 +1,37 @@
+["Let", {
+  "id": "lref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "RelationalExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lval"
+}, "be", "?", "GetValue", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "rref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "ShiftExpression"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "rval"
+}, "be", "?", "GetValue", "(", {
+  "id": "rref"
+}, ")", ".", {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "rval"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Return", "?", "HasProperty", "(", {
+  "id": "rval"
+}, ",", "ToPropertyKey", "(", {
+  "id": "lval"
+}, ")", ")", ".", {
+  "k": 5
+}]

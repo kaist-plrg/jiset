@@ -1,0 +1,59 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", ",", "then", true, "Let", {
+  "id": "numericIndex"
+}, "be", "!", "CanonicalNumericIndexString", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "numericIndex"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "?", "IntegerIndexedElementGet", "(", {
+  "id": "O"
+}, ",", {
+  "id": "numericIndex"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "value"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 6
+}, "Return", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "value"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 7
+}, false, {
+  "k": 4
+}, false, {
+  "k": 2
+}, "Return", "OrdinaryGetOwnProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 8
+}]

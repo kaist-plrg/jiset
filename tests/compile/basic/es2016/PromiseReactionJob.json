@@ -1,0 +1,83 @@
+["Assert", ":", {
+  "id": "reaction"
+}, "is", "a", "PromiseReaction", "Record", ".", {
+  "k": 0
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", {
+  "id": "reaction"
+}, ".", "[", "[", "Capabilities", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "handler"
+}, "be", {
+  "id": "reaction"
+}, ".", "[", "[", "Handler", "]", "]", ".", {
+  "k": 2
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "code": "\"Identity\""
+}, ",", "let", {
+  "id": "handlerResult"
+}, "be", "NormalCompletion", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 3
+}, "Else", "if", {
+  "id": "handler"
+}, "is", {
+  "code": "\"Thrower\""
+}, ",", "let", {
+  "id": "handlerResult"
+}, "be", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
+  "const": "throw"
+}, ",", "[", "[", "Value", "]", "]", ":", {
+  "id": "argument"
+}, ",", "[", "[", "Target", "]", "]", ":", {
+  "const": "empty"
+}, "}", ".", {
+  "k": 4
+}, "Else", ",", "let", {
+  "id": "handlerResult"
+}, "be", "Call", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "argument"
+}, "»", ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "handlerResult"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "handlerResult"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 7
+}, "NextJob", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "handlerResult"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 9
+}, "NextJob", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 10
+}]

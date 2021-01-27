@@ -1,0 +1,99 @@
+["Let", {
+  "id": "runningContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 0
+}, "Let", {
+  "id": "asyncContext"
+}, "be", "a", "copy", "of", {
+  "id": "runningContext"
+}, ".", {
+  "k": 1
+}, "Set", "the", "code", "evaluation", "state", "of", {
+  "id": "asyncContext"
+}, "such", "that", "when", "evaluation", "is", "resumed", "for", "that", "execution", "context", "the", "following", "steps", "will", "be", "performed", ":", true, "Let", {
+  "id": "result"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "asyncFunctionBody"
+}, ".", {
+  "k": 3
+}, "Assert", ":", "If", "we", "return", "here", ",", "the", "async", "function", "either", "threw", "an", "exception", "or", "performed", "an", "implicit", "or", "explicit", "return", ";", "all", "awaiting", "is", "done", ".", {
+  "k": 4
+}, "Remove", {
+  "id": "asyncContext"
+}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 5
+}, "If", {
+  "id": "result"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "normal"
+}, ",", "then", true, "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "value": "undefined"
+}, "»", ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Else", "if", {
+  "id": "result"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "return"
+}, ",", "then", true, "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Else", ",", true, "Assert", ":", {
+  "id": "result"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "throw"
+}, ".", {
+  "k": 11
+}, "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 12
+}, false, {
+  "k": 10
+}, "Return", ".", {
+  "k": 13
+}, false, {
+  "k": 2
+}, "Push", {
+  "id": "asyncContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "asyncContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 14
+}, "Resume", "the", "suspended", "evaluation", "of", {
+  "id": "asyncContext"
+}, ".", "Let", {
+  "id": "result"
+}, "be", "the", "value", "returned", "by", "the", "resumed", "computation", ".", {
+  "k": 15
+}, "Assert", ":", "When", "we", "return", "here", ",", {
+  "id": "asyncContext"
+}, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
+  "id": "runningContext"
+}, "is", "the", "currently", "running", "execution", "context", ".", {
+  "k": 16
+}, "Assert", ":", {
+  "id": "result"
+}, "is", "a", "normal", "completion", "with", "a", "value", "of", {
+  "value": "undefined"
+}, ".", "The", "possible", "sources", "of", "completion", "values", "are", "AsyncFunctionAwait", "or", ",", "if", "the", "async", "function", "doesn", "'", "t", "await", "anything", ",", "the", "step", "3", ".", "g", "above", ".", {
+  "k": 17
+}, "Return", ".", {
+  "k": 18
+}]

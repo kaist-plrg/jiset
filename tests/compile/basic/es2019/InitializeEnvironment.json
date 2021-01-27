@@ -1,0 +1,273 @@
+["Let", {
+  "id": "module"
+}, "be", "this", "Source", "Text", "Module", "Record", ".", {
+  "k": 0
+}, "For", "each", "ExportEntry", "Record", {
+  "id": "e"
+}, "in", {
+  "id": "module"
+}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", true, "Let", {
+  "id": "resolution"
+}, "be", "?", {
+  "id": "module"
+}, ".", "ResolveExport", "(", {
+  "id": "e"
+}, ".", "[", "[", "ExportName", "]", "]", ",", "«", "»", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "resolution"
+}, "is", {
+  "value": "null"
+}, "or", {
+  "code": "\"ambiguous\""
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 3
+}, "Assert", ":", {
+  "id": "resolution"
+}, "is", "a", "ResolvedBinding", "Record", ".", {
+  "k": 4
+}, false, {
+  "k": 1
+}, "Assert", ":", "All", "named", "exports", "from", {
+  "id": "module"
+}, "are", "resolvable", ".", {
+  "k": 5
+}, "Let", {
+  "id": "realm"
+}, "be", {
+  "id": "module"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 6
+}, "Assert", ":", {
+  "id": "realm"
+}, "is", "not", {
+  "value": "undefined"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "env"
+}, "be", "NewModuleEnvironment", "(", {
+  "id": "realm"
+}, ".", "[", "[", "GlobalEnv", "]", "]", ")", ".", {
+  "k": 8
+}, "Set", {
+  "id": "module"
+}, ".", "[", "[", "Environment", "]", "]", "to", {
+  "id": "env"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "env"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 10
+}, "For", "each", "ImportEntry", "Record", {
+  "id": "in"
+}, "in", {
+  "id": "module"
+}, ".", "[", "[", "ImportEntries", "]", "]", ",", "do", true, "Let", {
+  "id": "importedModule"
+}, "be", "!", "HostResolveImportedModule", "(", {
+  "id": "module"
+}, ",", {
+  "id": "in"
+}, ".", "[", "[", "ModuleRequest", "]", "]", ")", ".", {
+  "k": 12
+}, "NOTE", ":", "The", "above", "call", "cannot", "fail", "because", "imported", "module", "requests", "are", "a", "subset", "of", {
+  "id": "module"
+}, ".", "[", "[", "RequestedModules", "]", "]", ",", "and", "these", "have", "been", "resolved", "earlier", "in", "this", "algorithm", ".", {
+  "k": 13
+}, "If", {
+  "id": "in"
+}, ".", "[", "[", "ImportName", "]", "]", "is", {
+  "code": "\"*\""
+}, ",", "then", true, "Let", {
+  "id": "namespace"
+}, "be", "?", "GetModuleNamespace", "(", {
+  "id": "importedModule"
+}, ")", ".", {
+  "k": 15
+}, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "in"
+}, ".", "[", "[", "LocalName", "]", "]", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 16
+}, "Call", {
+  "id": "envRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "in"
+}, ".", "[", "[", "LocalName", "]", "]", ",", {
+  "id": "namespace"
+}, ")", ".", {
+  "k": 17
+}, false, {
+  "k": 14
+}, "Else", ",", true, "Let", {
+  "id": "resolution"
+}, "be", "?", {
+  "id": "importedModule"
+}, ".", "ResolveExport", "(", {
+  "id": "in"
+}, ".", "[", "[", "ImportName", "]", "]", ",", "«", "»", ")", ".", {
+  "k": 19
+}, "If", {
+  "id": "resolution"
+}, "is", {
+  "value": "null"
+}, "or", {
+  "code": "\"ambiguous\""
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 20
+}, "Call", {
+  "id": "envRec"
+}, ".", "CreateImportBinding", "(", {
+  "id": "in"
+}, ".", "[", "[", "LocalName", "]", "]", ",", {
+  "id": "resolution"
+}, ".", "[", "[", "Module", "]", "]", ",", {
+  "id": "resolution"
+}, ".", "[", "[", "BindingName", "]", "]", ")", ".", {
+  "k": 21
+}, false, {
+  "k": 18
+}, false, {
+  "k": 11
+}, "Let", {
+  "id": "code"
+}, "be", {
+  "id": "module"
+}, ".", "[", "[", "ECMAScriptCode", "]", "]", ".", {
+  "k": 22
+}, "Let", {
+  "id": "varDeclarations"
+}, "be", "the", "VarScopedDeclarations", "of", {
+  "id": "code"
+}, ".", {
+  "k": 23
+}, "Let", {
+  "id": "declaredVarNames"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 24
+}, "For", "each", "element", {
+  "id": "d"
+}, "in", {
+  "id": "varDeclarations"
+}, ",", "do", true, "For", "each", "element", {
+  "id": "dn"
+}, "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ",", "do", true, "If", {
+  "id": "dn"
+}, "is", "not", "an", "element", "of", {
+  "id": "declaredVarNames"
+}, ",", "then", true, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 28
+}, "Call", {
+  "id": "envRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 29
+}, "Append", {
+  "id": "dn"
+}, "to", {
+  "id": "declaredVarNames"
+}, ".", {
+  "k": 30
+}, false, {
+  "k": 27
+}, false, {
+  "k": 26
+}, false, {
+  "k": 25
+}, "Let", {
+  "id": "lexDeclarations"
+}, "be", "the", "LexicallyScopedDeclarations", "of", {
+  "id": "code"
+}, ".", {
+  "k": 31
+}, "For", "each", "element", {
+  "id": "d"
+}, "in", {
+  "id": "lexDeclarations"
+}, ",", "do", true, "For", "each", "element", {
+  "id": "dn"
+}, "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ",", "do", true, "If", "IsConstantDeclaration", "of", {
+  "id": "d"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 35
+}, false, {
+  "k": 34
+}, "Else", ",", true, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 37
+}, false, {
+  "k": 36
+}, "If", {
+  "id": "d"
+}, "is", "a", {
+  "nt": "FunctionDeclaration"
+}, ",", "a", {
+  "nt": "GeneratorDeclaration"
+}, ",", "an", {
+  "nt": "AsyncFunctionDeclaration"
+}, ",", "or", "an", {
+  "nt": "AsyncGeneratorDeclaration"
+}, ",", "then", true, "Let", {
+  "id": "fo"
+}, "be", "the", "result", "of", "performing", "InstantiateFunctionObject", "for", {
+  "id": "d"
+}, "with", "argument", {
+  "id": "env"
+}, ".", {
+  "k": 39
+}, "Call", {
+  "id": "envRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "id": "fo"
+}, ")", ".", {
+  "k": 40
+}, false, {
+  "k": 38
+}, false, {
+  "k": 33
+}, false, {
+  "k": 32
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 41
+}]

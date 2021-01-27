@@ -1,0 +1,187 @@
+["Assert", ":", "Type", "(", {
+  "id": "target"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "source"
+}, ")", "is", "Object", ".", {
+  "k": 1
+}, "Assert", ":", "!", "IsNonNegativeInteger", "(", {
+  "id": "sourceLen"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "Assert", ":", "!", "IsNonNegativeInteger", "(", {
+  "id": "start"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, "Assert", ":", "!", "IsInteger", "(", {
+  "id": "depth"
+}, ")", "is", {
+  "value": "true"
+}, ",", "or", {
+  "id": "depth"
+}, "is", "either", {
+  "value": "+∞"
+}, "or", {
+  "value": "-∞"
+}, ".", {
+  "k": 4
+}, "Assert", ":", "If", {
+  "id": "mapperFunction"
+}, "is", "present", ",", "then", "!", "IsCallable", "(", {
+  "id": "mapperFunction"
+}, ")", "is", {
+  "value": "true"
+}, ",", {
+  "id": "thisArg"
+}, "is", "present", ",", "and", {
+  "id": "depth"
+}, "is", {
+  "value": "1"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "targetIndex"
+}, "be", {
+  "id": "start"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "sourceIndex"
+}, "be", "0", ".", {
+  "k": 7
+}, "Repeat", ",", "while", {
+  "id": "sourceIndex"
+}, "<", {
+  "id": "sourceLen"
+}, true, "Let", {
+  "id": "P"
+}, "be", "!", "ToString", "(", {
+  "id": "sourceIndex"
+}, ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "exists"
+}, "be", "?", "HasProperty", "(", {
+  "id": "source"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "exists"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "element"
+}, "be", "?", "Get", "(", {
+  "id": "source"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "mapperFunction"
+}, "is", "present", ",", "then", true, "Set", {
+  "id": "element"
+}, "to", "?", "Call", "(", {
+  "id": "mapperFunction"
+}, ",", {
+  "id": "thisArg"
+}, ",", "«", {
+  "id": "element"
+}, ",", {
+  "id": "sourceIndex"
+}, ",", {
+  "id": "source"
+}, "»", ")", ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, "Let", {
+  "id": "shouldFlatten"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 15
+}, "If", {
+  "id": "depth"
+}, ">", "0", ",", "then", true, "Set", {
+  "id": "shouldFlatten"
+}, "to", "?", "IsArray", "(", {
+  "id": "element"
+}, ")", ".", {
+  "k": 17
+}, false, {
+  "k": 16
+}, "If", {
+  "id": "shouldFlatten"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "elementLen"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "element"
+}, ")", ".", {
+  "k": 19
+}, "Set", {
+  "id": "targetIndex"
+}, "to", "?", "FlattenIntoArray", "(", {
+  "id": "target"
+}, ",", {
+  "id": "element"
+}, ",", {
+  "id": "elementLen"
+}, ",", {
+  "id": "targetIndex"
+}, ",", {
+  "id": "depth"
+}, "-", "1", ")", ".", {
+  "k": 20
+}, false, {
+  "k": 18
+}, "Else", ",", true, "If", {
+  "id": "targetIndex"
+}, "≥", "2", {
+  "sup": {
+    "tokens": ["53"]
+  }
+}, "-", "1", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 22
+}, "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "target"
+}, ",", "!", "ToString", "(", {
+  "id": "targetIndex"
+}, ")", ",", {
+  "id": "element"
+}, ")", ".", {
+  "k": 23
+}, "Set", {
+  "id": "targetIndex"
+}, "to", {
+  "id": "targetIndex"
+}, "+", "1", ".", {
+  "k": 24
+}, false, {
+  "k": 21
+}, false, {
+  "k": 11
+}, "Set", {
+  "id": "sourceIndex"
+}, "to", {
+  "id": "sourceIndex"
+}, "+", "1", ".", {
+  "k": 25
+}, false, {
+  "k": 8
+}, "Return", {
+  "id": "targetIndex"
+}, ".", {
+  "k": 26
+}]

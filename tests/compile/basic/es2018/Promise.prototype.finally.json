@@ -1,0 +1,103 @@
+["Let", {
+  "id": "promise"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "promise"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "C"
+}, "be", "?", "SpeciesConstructor", "(", {
+  "id": "promise"
+}, ",", "%", "Promise", "%", ")", ".", {
+  "k": 2
+}, "Assert", ":", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, "If", "IsCallable", "(", {
+  "id": "onFinally"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "thenFinally"
+}, "be", {
+  "id": "onFinally"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "catchFinally"
+}, "be", {
+  "id": "onFinally"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Else", ",", true, "Let", {
+  "id": "stepsThenFinally"
+}, "be", "the", "algorithm", "steps", "defined", "in", {
+  "link": ""
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "thenFinally"
+}, "be", "CreateBuiltinFunction", "(", {
+  "id": "stepsThenFinally"
+}, ",", "«", "[", "[", "Constructor", "]", "]", ",", "[", "[", "OnFinally", "]", "]", "»", ")", ".", {
+  "k": 9
+}, "Set", {
+  "id": "thenFinally"
+}, ".", "[", "[", "Constructor", "]", "]", "to", {
+  "id": "C"
+}, ".", {
+  "k": 10
+}, "Set", {
+  "id": "thenFinally"
+}, ".", "[", "[", "OnFinally", "]", "]", "to", {
+  "id": "onFinally"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "stepsCatchFinally"
+}, "be", "the", "algorithm", "steps", "defined", "in", {
+  "link": ""
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "catchFinally"
+}, "be", "CreateBuiltinFunction", "(", {
+  "id": "stepsCatchFinally"
+}, ",", "«", "[", "[", "Constructor", "]", "]", ",", "[", "[", "OnFinally", "]", "]", "»", ")", ".", {
+  "k": 13
+}, "Set", {
+  "id": "catchFinally"
+}, ".", "[", "[", "Constructor", "]", "]", "to", {
+  "id": "C"
+}, ".", {
+  "k": 14
+}, "Set", {
+  "id": "catchFinally"
+}, ".", "[", "[", "OnFinally", "]", "]", "to", {
+  "id": "onFinally"
+}, ".", {
+  "k": 15
+}, false, {
+  "k": 7
+}, "Return", "?", "Invoke", "(", {
+  "id": "promise"
+}, ",", {
+  "code": "\"then\""
+}, ",", "«", {
+  "id": "thenFinally"
+}, ",", {
+  "id": "catchFinally"
+}, "»", ")", ".", {
+  "k": 16
+}]

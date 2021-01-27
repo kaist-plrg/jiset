@@ -1,0 +1,97 @@
+["Let", {
+  "id": "globalEnv"
+}, "be", {
+  "id": "scriptRecord"
+}, ".", "[", "[", "Realm", "]", "]", ".", "[", "[", "GlobalEnv", "]", "]", ".", {
+  "k": 0
+}, "Let", {
+  "id": "scriptCxt"
+}, "be", "a", "new", "ECMAScript", "code", "execution", "context", ".", {
+  "k": 1
+}, "Set", "the", "Function", "of", {
+  "id": "scriptCxt"
+}, "to", {
+  "value": "null"
+}, ".", {
+  "k": 2
+}, "Set", "the", "Realm", "of", {
+  "id": "scriptCxt"
+}, "to", {
+  "id": "scriptRecord"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 3
+}, "Set", "the", "ScriptOrModule", "of", {
+  "id": "scriptCxt"
+}, "to", {
+  "id": "scriptRecord"
+}, ".", {
+  "k": 4
+}, "Set", "the", "VariableEnvironment", "of", {
+  "id": "scriptCxt"
+}, "to", {
+  "id": "globalEnv"
+}, ".", {
+  "k": 5
+}, "Set", "the", "LexicalEnvironment", "of", {
+  "id": "scriptCxt"
+}, "to", {
+  "id": "globalEnv"
+}, ".", {
+  "k": 6
+}, "Suspend", "the", "currently", "running", "execution", "context", ".", {
+  "k": 7
+}, "Push", {
+  "id": "scriptCxt"
+}, "on", "to", "the", "execution", "context", "stack", ";", {
+  "id": "scriptCxt"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 8
+}, "Let", {
+  "id": "result"
+}, "be", "GlobalDeclarationInstantiation", "(", {
+  "nt": "ScriptBody"
+}, ",", {
+  "id": "globalEnv"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "result"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "normal"
+}, ",", "then", true, "Let", {
+  "id": "result"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "ScriptBody"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "If", {
+  "id": "result"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "normal"
+}, "and", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", "is", {
+  "const": "empty"
+}, ",", "then", true, "Let", {
+  "id": "result"
+}, "be", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 13
+}, false, {
+  "k": 12
+}, "Suspend", {
+  "id": "scriptCxt"
+}, "and", "remove", "it", "from", "the", "execution", "context", "stack", ".", {
+  "k": 14
+}, "Assert", ":", "the", "execution", "context", "stack", "is", "not", "empty", ".", {
+  "k": 15
+}, "Resume", "the", "context", "that", "is", "now", "on", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 16
+}, "Return", "Completion", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 17
+}]

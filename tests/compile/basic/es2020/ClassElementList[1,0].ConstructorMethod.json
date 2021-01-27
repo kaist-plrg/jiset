@@ -1,0 +1,44 @@
+["Let", {
+  "id": "head"
+}, "be", "ConstructorMethod", "of", {
+  "nt": "ClassElementList"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "head"
+}, "is", "not", {
+  "const": "empty"
+}, ",", "return", {
+  "id": "head"
+}, ".", {
+  "k": 1
+}, "If", {
+  "nt": "ClassElement"
+}, "is", {
+  "grammar": "ClassElement2",
+  "subs": []
+}, ",", "return", {
+  "const": "empty"
+}, ".", {
+  "k": 2
+}, "If", "IsStatic", "of", {
+  "nt": "ClassElement"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "const": "empty"
+}, ".", {
+  "k": 3
+}, "If", "PropName", "of", {
+  "nt": "ClassElement"
+}, "is", "not", {
+  "value": "\"constructor\""
+}, ",", "return", {
+  "const": "empty"
+}, ".", {
+  "k": 4
+}, "Return", {
+  "nt": "ClassElement"
+}, ".", {
+  "k": 5
+}]

@@ -1,0 +1,143 @@
+["Let", {
+  "id": "targetIndex"
+}, "be", {
+  "id": "start"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "sourceIndex"
+}, "be", "0", ".", {
+  "k": 1
+}, "Repeat", ",", "while", {
+  "id": "sourceIndex"
+}, "<", {
+  "id": "sourceLen"
+}, true, "Let", {
+  "id": "P"
+}, "be", "!", "ToString", "(", {
+  "id": "sourceIndex"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "exists"
+}, "be", "?", "HasProperty", "(", {
+  "id": "source"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "exists"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "element"
+}, "be", "?", "Get", "(", {
+  "id": "source"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "mapperFunction"
+}, "is", "present", ",", "then", true, "Assert", ":", {
+  "id": "thisArg"
+}, "is", "present", ".", {
+  "k": 8
+}, "Set", {
+  "id": "element"
+}, "to", "?", "Call", "(", {
+  "id": "mapperFunction"
+}, ",", {
+  "id": "thisArg"
+}, ",", "«", {
+  "id": "element"
+}, ",", {
+  "id": "sourceIndex"
+}, ",", {
+  "id": "source"
+}, "»", ")", ".", {
+  "k": 9
+}, false, {
+  "k": 7
+}, "Let", {
+  "id": "shouldFlatten"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 10
+}, "If", {
+  "id": "depth"
+}, ">", "0", ",", "then", true, "Set", {
+  "id": "shouldFlatten"
+}, "to", "?", "IsArray", "(", {
+  "id": "element"
+}, ")", ".", {
+  "k": 12
+}, false, {
+  "k": 11
+}, "If", {
+  "id": "shouldFlatten"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "elementLen"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "element"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 14
+}, "Set", {
+  "id": "targetIndex"
+}, "to", "?", "FlattenIntoArray", "(", {
+  "id": "target"
+}, ",", {
+  "id": "element"
+}, ",", {
+  "id": "elementLen"
+}, ",", {
+  "id": "targetIndex"
+}, ",", {
+  "id": "depth"
+}, "-", "1", ")", ".", {
+  "k": 15
+}, false, {
+  "k": 13
+}, "Else", ",", true, "If", {
+  "id": "targetIndex"
+}, "≥", "2", {
+  "sup": {
+    "tokens": ["53"]
+  }
+}, "-", "1", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 17
+}, "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "target"
+}, ",", "!", "ToString", "(", {
+  "id": "targetIndex"
+}, ")", ",", {
+  "id": "element"
+}, ")", ".", {
+  "k": 18
+}, "Increase", {
+  "id": "targetIndex"
+}, "by", "1", ".", {
+  "k": 19
+}, false, {
+  "k": 16
+}, false, {
+  "k": 5
+}, "Increase", {
+  "id": "sourceIndex"
+}, "by", "1", ".", {
+  "k": 20
+}, false, {
+  "k": 2
+}, "Return", {
+  "id": "targetIndex"
+}, ".", {
+  "k": 21
+}]

@@ -1,0 +1,141 @@
+["Evaluate", {
+  "nt": "DecimalEscape"
+}, "to", "obtain", "an", "EscapeValue", {
+  "id": "E"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "E"
+}, "is", "a", "character", ",", "then", true, "Let", {
+  "id": "ch"
+}, "be", {
+  "id": "E"
+}, "'", "s", "character", ".", {
+  "k": 2
+}, "Let", {
+  "id": "A"
+}, "be", "a", "one", "-", "element", "CharSet", "containing", "the", "character", {
+  "id": "ch"
+}, ".", {
+  "k": 3
+}, "Call", "CharacterSetMatcher", "(", {
+  "id": "A"
+}, ",", {
+  "value": "false"
+}, ")", "and", "return", "its", "Matcher", "result", ".", {
+  "k": 4
+}, false, {
+  "k": 1
+}, "Assert", ":", {
+  "id": "E"
+}, "must", "be", "an", "integer", ".", {
+  "k": 5
+}, "Let", {
+  "id": "n"
+}, "be", "that", "integer", ".", {
+  "k": 6
+}, "If", {
+  "id": "n"
+}, "=", "0", "or", {
+  "id": "n"
+}, ">", {
+  "id": "NcapturingParens"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 7
+}, "Return", "an", "internal", "Matcher", "closure", "that", "takes", "two", "arguments", ",", "a", "State", {
+  "id": "x"
+}, "and", "a", "Continuation", {
+  "id": "c"
+}, ",", "and", "performs", "the", "following", "steps", ":", true, "Let", {
+  "id": "cap"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 9
+}, "Let", {
+  "id": "s"
+}, "be", {
+  "id": "cap"
+}, "[", {
+  "id": "n"
+}, "]", ".", {
+  "k": 10
+}, "If", {
+  "id": "s"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "id": "c"
+}, "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 11
+}, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "len"
+}, "be", {
+  "id": "s"
+}, "'", "s", "length", ".", {
+  "k": 13
+}, "Let", {
+  "id": "f"
+}, "be", {
+  "id": "e"
+}, "+", {
+  "id": "len"
+}, ".", {
+  "k": 14
+}, "If", {
+  "id": "f"
+}, ">", {
+  "id": "InputLength"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 15
+}, "If", "there", "exists", "an", "integer", {
+  "id": "i"
+}, "between", "0", "(", "inclusive", ")", "and", {
+  "id": "len"
+}, "(", "exclusive", ")", "such", "that", "Canonicalize", "(", {
+  "id": "s"
+}, "[", {
+  "id": "i"
+}, "]", ")", "is", "not", "the", "same", "character", "value", "as", "Canonicalize", "(", {
+  "id": "Input"
+}, "[", {
+  "id": "e"
+}, "+", {
+  "id": "i"
+}, "]", ")", ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 16
+}, "Let", {
+  "id": "y"
+}, "be", "the", "State", "(", {
+  "id": "f"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 17
+}, "Call", {
+  "id": "c"
+}, "(", {
+  "id": "y"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 18
+}, false, {
+  "k": 8
+}]

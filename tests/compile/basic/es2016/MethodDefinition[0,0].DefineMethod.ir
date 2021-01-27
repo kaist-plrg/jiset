@@ -1,0 +1,14 @@
+{
+  access __x0__ = (PropertyName "Evaluation")
+  let propKey = __x0__
+  if (is-completion propKey) if (= propKey.Type CONST_normal) propKey = propKey.Value else return propKey else {}
+  propKey
+  if true let strict = true else let strict = false
+  let scope = GLOBAL_context.LexicalEnvironment
+  if (! (= functionPrototype absent)) let kind = CONST_Normal else let kind = CONST_Method
+  ??? "Let id:{closure} be FunctionCreate ( id:{kind} , nt:{StrictFormalParameters} , nt:{FunctionBody} , id:{scope} , id:{strict} ) . If id:{functionPrototype} was passed as a parameter , then pass its value as the id:{prototype} optional argument of FunctionCreate ."
+  app __x1__ = (MakeMethod closure object)
+  __x1__
+  app __x2__ = (WrapCompletion (new Record("Key" -> propKey, "Closure" -> closure)))
+  return __x2__
+}

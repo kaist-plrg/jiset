@@ -1,0 +1,76 @@
+{
+  let stack = (new [])
+  let indent = ""
+  let PropertyList = undefined
+  let ReplacerFunction = undefined
+  app __x0__ = (Type replacer)
+  if (= __x0__ Object) {
+    app __x1__ = (IsCallable replacer)
+    if (= __x1__ true) ReplacerFunction = replacer else {
+      app __x2__ = (IsArray replacer)
+      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+      let isArray = __x2__
+      if (= isArray true) {
+        PropertyList = (new [])
+        app __x3__ = (LengthOfArrayLike replacer)
+        if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+        let len = __x3__
+        let k = 0i
+        while (< k len) {
+          app __x4__ = (ToString k)
+          if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+          let prop = __x4__
+          app __x5__ = (Get replacer prop)
+          if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+          let v = __x5__
+          let item = undefined
+          app __x6__ = (Type v)
+          if (= __x6__ String) item = v else {
+            app __x7__ = (Type v)
+            if (= __x7__ Number) {
+              app __x8__ = (ToString v)
+              if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+              item = __x8__
+            } else {
+              app __x9__ = (Type v)
+              if (= __x9__ Object) ??? "If id:{v} has a [ [ StringData ] ] or [ [ NumberData ] ] internal slot , set id:{item} to ? ToString ( id:{v} ) ." else {}
+            }
+          }
+          ??? "If id:{item} is not value:{undefined} and id:{item} is not currently an element of id:{PropertyList} , then step-list:{...}"
+          k = (+ k 1i)
+        }
+      } else {}
+    }
+  } else {}
+  app __x10__ = (Type space)
+  if (= __x10__ Object) if (! (= space.NumberData absent)) {
+    app __x11__ = (ToNumber space)
+    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+    space = __x11__
+  } else if (! (= space.StringData absent)) {
+    app __x12__ = (ToString space)
+    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+    space = __x12__
+  } else {} else {}
+  app __x13__ = (Type space)
+  if (= __x13__ Number) {
+    app __x14__ = (ToIntegerOrInfinity space)
+    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+    let spaceMV = __x14__
+    app __x15__ = (min 10i spaceMV)
+    spaceMV = __x15__
+    ??? "If id:{spaceMV} < 1 , let id:{gap} be the empty String ; otherwise let id:{gap} be the String value containing id:{spaceMV} occurrences of the code unit 0x0020 ( SPACE ) ."
+  } else {
+    app __x16__ = (Type space)
+    if (= __x16__ String) ??? "If the length of id:{space} is 10 or less , let id:{gap} be id:{space} ; otherwise let id:{gap} be the substring of id:{space} from 0 to 10 ." else let gap = ""
+  }
+  ??? "Let id:{wrapper} be ! OrdinaryObjectCreate ( % Object . prototype % ) ."
+  app __x17__ = (CreateDataPropertyOrThrow wrapper "" value)
+  if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
+  __x17__
+  let state = (new Record("ReplacerFunction" -> ReplacerFunction, "Stack" -> stack, "Indent" -> indent, "Gap" -> gap, "PropertyList" -> PropertyList))
+  app __x18__ = (SerializeJSONProperty state "" wrapper)
+  if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
+  app __x19__ = (WrapCompletion __x18__)
+  return __x19__
+}

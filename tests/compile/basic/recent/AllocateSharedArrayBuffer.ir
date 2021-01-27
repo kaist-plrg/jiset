@@ -1,0 +1,12 @@
+{
+  app __x0__ = (OrdinaryCreateFromConstructor constructor "%SharedArrayBuffer.prototype%" (new ["ArrayBufferData", "ArrayBufferByteLength"]))
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let obj = __x0__
+  app __x1__ = (CreateSharedByteDataBlock byteLength)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let block = __x1__
+  obj.ArrayBufferData = block
+  obj.ArrayBufferByteLength = byteLength
+  app __x2__ = (WrapCompletion obj)
+  return __x2__
+}

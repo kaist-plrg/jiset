@@ -1,0 +1,79 @@
+["Let", {
+  "id": "asyncContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 0
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "resolveResult"
+}, "be", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "value"
+}, "»", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "onFulfilled"
+}, "be", "a", "new", "built", "-", "in", "function", "object", "as", "defined", "in", {
+  "link": ""
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "onRejected"
+}, "be", "a", "new", "built", "-", "in", "function", "object", "as", "defined", "in", {
+  "link": ""
+}, ".", {
+  "k": 4
+}, "Set", {
+  "id": "onFulfilled"
+}, ".", "[", "[", "AsyncContext", "]", "]", "to", {
+  "id": "asyncContext"
+}, ".", {
+  "k": 5
+}, "Set", {
+  "id": "onRejected"
+}, ".", "[", "[", "AsyncContext", "]", "]", "to", {
+  "id": "asyncContext"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "throwawayCapability"
+}, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", ".", {
+  "k": 7
+}, "Set", {
+  "id": "throwawayCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", "[", "[", "PromiseIsHandled", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}, "Perform", "!", "PerformPromiseThen", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ",", {
+  "id": "onFulfilled"
+}, ",", {
+  "id": "onRejected"
+}, ",", {
+  "id": "throwawayCapability"
+}, ")", ".", {
+  "k": 9
+}, "Remove", {
+  "id": "asyncContext"
+}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 10
+}, "Set", "the", "code", "evaluation", "state", "of", {
+  "id": "asyncContext"
+}, "such", "that", "when", "evaluation", "is", "resumed", "with", "a", "Completion", {
+  "id": "resumptionValue"
+}, "the", "following", "steps", "will", "be", "performed", ":", true, "Return", {
+  "id": "resumptionValue"
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 11
+}, "Return", ".", {
+  "k": 13
+}]

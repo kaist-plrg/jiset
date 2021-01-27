@@ -1,0 +1,11 @@
+{
+  app __x0__ = (ObjectCreate INTRINSIC_IteratorPrototype (new ["IteratedList", "ListIteratorNextIndex"]))
+  let iterator = __x0__
+  iterator.IteratedList = list
+  iterator.ListIteratorNextIndex = 0i
+  let next = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
+  app __x1__ = (CreateMethodProperty iterator "next" next)
+  __x1__
+  app __x2__ = (WrapCompletion iterator)
+  return __x2__
+}

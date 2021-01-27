@@ -1,0 +1,113 @@
+["Assert", ":", "Type", "(", {
+  "id": "index"
+}, ")", "is", "Number", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "O"
+}, "is", "an", "Object", "that", "has", "[", "[", "ViewedArrayBuffer", "]", "]", ",", "[", "[", "ArrayLength", "]", "]", ",", "[", "[", "ByteOffset", "]", "]", ",", "and", "[", "[", "TypedArrayName", "]", "]", "internal", "slots", ".", {
+  "k": 1
+}, "Let", {
+  "id": "numValue"
+}, "be", "?", "ToNumber", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "buffer"
+}, "be", "the", "value", "of", {
+  "id": "O"
+}, "'", "s", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", ".", {
+  "k": 3
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "If", "IsInteger", "(", {
+  "id": "index"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "index"
+}, "=", {
+  "value": "-0"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "length"
+}, "be", "the", "value", "of", {
+  "id": "O"
+}, "'", "s", "[", "[", "ArrayLength", "]", "]", "internal", "slot", ".", {
+  "k": 7
+}, "If", {
+  "id": "index"
+}, "<", "0", "or", {
+  "id": "index"
+}, "≥", {
+  "id": "length"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "offset"
+}, "be", "the", "value", "of", {
+  "id": "O"
+}, "'", "s", "[", "[", "ByteOffset", "]", "]", "internal", "slot", ".", {
+  "k": 9
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", "the", "String", "value", "of", {
+  "id": "O"
+}, "'", "s", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ".", {
+  "k": 10
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Number", "value", "of", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "index"
+}, "×", {
+  "id": "elementSize"
+}, ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "String", "value", "of", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 13
+}, "Perform", "SetValueInBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "id": "numValue"
+}, ")", ".", {
+  "k": 14
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 15
+}]

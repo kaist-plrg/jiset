@@ -1,0 +1,34 @@
+{
+  let V = undefined
+  ??? "Let id:{A} be the List of nt:{CaseClause} items in nt:{CaseClauses} , in source text order ."
+  let found = false
+  let __x0__ = A
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let C = __x0__[__x1__]
+    if (= found false) {
+      access __x2__ = (C "CaseSelectorEvaluation")
+      let clauseSelector = __x2__
+      if (is-completion clauseSelector) if (= clauseSelector.Type CONST_normal) clauseSelector = clauseSelector.Value else return clauseSelector else {}
+      clauseSelector
+      app __x3__ = (StrictEqualityComparison input clauseSelector.Value)
+      let found = __x3__
+    } else {}
+    if (= found true) {
+      access __x4__ = (C "Evaluation")
+      let R = __x4__
+      if (! (= R.Value CONST_empty)) let V = R.Value else {}
+      app __x5__ = (IsAbruptCompletion R)
+      if __x5__ {
+        app __x6__ = (UpdateEmpty R V)
+        app __x7__ = (Completion __x6__)
+        app __x8__ = (WrapCompletion __x7__)
+        return __x8__
+      } else {}
+    } else {}
+    __x1__ = (+ __x1__ 1i)
+  }
+  app __x9__ = (NormalCompletion V)
+  app __x10__ = (WrapCompletion __x9__)
+  return __x10__
+}

@@ -1,0 +1,21 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let O = __x0__
+  app __x1__ = (ToString O)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let S = __x1__
+  let R = S
+  let __x2__ = args
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let next = __x2__[__x3__]
+    app __x4__ = (ToString next)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let nextString = __x4__
+    R = (+ R nextString)
+    __x3__ = (+ __x3__ 1i)
+  }
+  app __x5__ = (WrapCompletion R)
+  return __x5__
+}

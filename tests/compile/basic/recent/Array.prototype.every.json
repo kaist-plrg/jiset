@@ -1,0 +1,91 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "callbackfn"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 3
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, ",", true, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "kPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "kValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "testResult"
+}, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "callbackfn"
+}, ",", {
+  "id": "thisArg"
+}, ",", "«", {
+  "id": "kValue"
+}, ",", "𝔽", "(", {
+  "id": "k"
+}, ")", ",", {
+  "id": "O"
+}, "»", ")", ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "testResult"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 7
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 11
+}, false, {
+  "k": 4
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 12
+}]

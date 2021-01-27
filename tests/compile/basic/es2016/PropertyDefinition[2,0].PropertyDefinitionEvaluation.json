@@ -1,0 +1,61 @@
+["Let", {
+  "id": "propKey"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "PropertyName"
+}, ".", {
+  "k": 0
+}, "ReturnIfAbrupt", "(", {
+  "id": "propKey"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "exprValueRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "propValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "exprValueRef"
+}, ")", ".", {
+  "k": 3
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "AssignmentExpression"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "hasNameProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "propValue"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "hasNameProperty"
+}, "is", {
+  "value": "false"
+}, ",", "perform", "SetFunctionName", "(", {
+  "id": "propValue"
+}, ",", {
+  "id": "propKey"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Assert", ":", {
+  "id": "enumerable"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 7
+}, "Return", "CreateDataPropertyOrThrow", "(", {
+  "id": "object"
+}, ",", {
+  "id": "propKey"
+}, ",", {
+  "id": "propValue"
+}, ")", ".", {
+  "k": 8
+}]

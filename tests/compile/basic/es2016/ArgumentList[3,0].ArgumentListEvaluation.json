@@ -1,0 +1,47 @@
+["Let", {
+  "id": "precedingArgs"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "ArgumentList"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "spreadRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "iterator"
+}, "be", "?", "GetIterator", "(", "?", "GetValue", "(", {
+  "id": "spreadRef"
+}, ")", ")", ".", {
+  "k": 2
+}, "Repeat", true, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iterator"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "precedingArgs"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "nextArg"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 6
+}, "Append", {
+  "id": "nextArg"
+}, "as", "the", "last", "element", "of", {
+  "id": "precedingArgs"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 3
+}]

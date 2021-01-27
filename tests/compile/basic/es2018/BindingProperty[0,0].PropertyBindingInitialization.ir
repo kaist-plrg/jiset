@@ -1,0 +1,9 @@
+{
+  ??? "Let id:{name} be the string that is the only element of BoundNames of nt:{SingleNameBinding} ."
+  access __x0__ = (SingleNameBinding "KeyedBindingInitialization")
+  app __x1__ = (__x0__ value environment name)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  __x1__
+  app __x2__ = (WrapCompletion (new [name]))
+  return __x2__
+}

@@ -1,0 +1,209 @@
+["If", "the", {
+  "id": "LeftFirst"
+}, "flag", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "px"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "x"
+}, ",", "hint", "Number", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "py"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "y"
+}, ",", "hint", "Number", ")", ".", {
+  "k": 2
+}, false, {
+  "k": 0
+}, "Else", "the", "order", "of", "evaluation", "needs", "to", "be", "reversed", "to", "preserve", "left", "to", "right", "evaluation", ",", true, "Let", {
+  "id": "py"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "y"
+}, ",", "hint", "Number", ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "px"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "x"
+}, ",", "hint", "Number", ")", ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "px"
+}, ")", "is", "String", "and", "Type", "(", {
+  "id": "py"
+}, ")", "is", "String", ",", "then", true, "If", "IsStringPrefix", "(", {
+  "id": "py"
+}, ",", {
+  "id": "px"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 7
+}, "If", "IsStringPrefix", "(", {
+  "id": "px"
+}, ",", {
+  "id": "py"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "k"
+}, "be", "the", "smallest", "nonnegative", "integer", "such", "that", "the", "code", "unit", "at", "index", {
+  "id": "k"
+}, "within", {
+  "id": "px"
+}, "is", "different", "from", "the", "code", "unit", "at", "index", {
+  "id": "k"
+}, "within", {
+  "id": "py"
+}, ".", "(", "There", "must", "be", "such", "a", {
+  "id": "k"
+}, ",", "for", "neither", "String", "is", "a", "prefix", "of", "the", "other", ".", ")", {
+  "k": 9
+}, "Let", {
+  "id": "m"
+}, "be", "the", "integer", "that", "is", "the", "numeric", "value", "of", "the", "code", "unit", "at", "index", {
+  "id": "k"
+}, "within", {
+  "id": "px"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "n"
+}, "be", "the", "integer", "that", "is", "the", "numeric", "value", "of", "the", "code", "unit", "at", "index", {
+  "id": "k"
+}, "within", {
+  "id": "py"
+}, ".", {
+  "k": 11
+}, "If", {
+  "id": "m"
+}, "<", {
+  "id": "n"
+}, ",", "return", {
+  "value": "true"
+}, ".", "Otherwise", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 6
+}, "Else", ",", true, "NOTE", ":", "Because", {
+  "id": "px"
+}, "and", {
+  "id": "py"
+}, "are", "primitive", "values", "evaluation", "order", "is", "not", "important", ".", {
+  "k": 14
+}, "Let", {
+  "id": "nx"
+}, "be", "?", "ToNumber", "(", {
+  "id": "px"
+}, ")", ".", {
+  "k": 15
+}, "Let", {
+  "id": "ny"
+}, "be", "?", "ToNumber", "(", {
+  "id": "py"
+}, ")", ".", {
+  "k": 16
+}, "If", {
+  "id": "nx"
+}, "is", {
+  "value": "NaN"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 17
+}, "If", {
+  "id": "ny"
+}, "is", {
+  "value": "NaN"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 18
+}, "If", {
+  "id": "nx"
+}, "and", {
+  "id": "ny"
+}, "are", "the", "same", "Number", "value", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 19
+}, "If", {
+  "id": "nx"
+}, "is", {
+  "value": "+0"
+}, "and", {
+  "id": "ny"
+}, "is", {
+  "value": "-0"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 20
+}, "If", {
+  "id": "nx"
+}, "is", {
+  "value": "-0"
+}, "and", {
+  "id": "ny"
+}, "is", {
+  "value": "+0"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 21
+}, "If", {
+  "id": "nx"
+}, "is", {
+  "value": "+∞"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 22
+}, "If", {
+  "id": "ny"
+}, "is", {
+  "value": "+∞"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 23
+}, "If", {
+  "id": "ny"
+}, "is", {
+  "value": "-∞"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 24
+}, "If", {
+  "id": "nx"
+}, "is", {
+  "value": "-∞"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 25
+}, "If", "the", "mathematical", "value", "of", {
+  "id": "nx"
+}, "is", "less", "than", "the", "mathematical", "value", "of", {
+  "id": "ny"
+}, "—", "note", "that", "these", "mathematical", "values", "are", "both", "finite", "and", "not", "both", "zero", "—", "return", {
+  "value": "true"
+}, ".", "Otherwise", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 26
+}, false, {
+  "k": 13
+}]

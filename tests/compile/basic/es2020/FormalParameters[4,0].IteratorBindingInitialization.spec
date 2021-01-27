@@ -1,0 +1,2 @@
+        1. Perform ? IteratorBindingInitialization for |FormalParameterList| using _iteratorRecord_ and _environment_ as the arguments.
+        1. Return the result of performing IteratorBindingInitialization for |FunctionRestParameter| using _iteratorRecord_ and _environment_ as the arguments.

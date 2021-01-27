@@ -1,0 +1,3 @@
+          1. Assert: Type(_arrayBuffer_) is Object and it has an [[ArrayBufferData]] internal slot.
+          1. If _arrayBuffer_'s [[ArrayBufferData]] internal slot is *null*, return *true*.
+          1. Return *false*.

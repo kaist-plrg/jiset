@@ -1,0 +1,159 @@
+["Assert", ":", "IsPromise", "(", {
+  "id": "promise"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "resultCapability"
+}, "is", "present", ",", "then", true, "Assert", ":", {
+  "id": "resultCapability"
+}, "is", "a", "PromiseCapability", "Record", ".", {
+  "k": 2
+}, false, {
+  "k": 1
+}, "Else", ",", true, "Set", {
+  "id": "resultCapability"
+}, "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "If", "IsCallable", "(", {
+  "id": "onFulfilled"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "Set", {
+  "id": "onFulfilled"
+}, "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "If", "IsCallable", "(", {
+  "id": "onRejected"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "Set", {
+  "id": "onRejected"
+}, "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, "Let", {
+  "id": "fulfillReaction"
+}, "be", "the", "PromiseReaction", "{", "[", "[", "Capability", "]", "]", ":", {
+  "id": "resultCapability"
+}, ",", "[", "[", "Type", "]", "]", ":", {
+  "code": "\"Fulfill\""
+}, ",", "[", "[", "Handler", "]", "]", ":", {
+  "id": "onFulfilled"
+}, "}", ".", {
+  "k": 9
+}, "Let", {
+  "id": "rejectReaction"
+}, "be", "the", "PromiseReaction", "{", "[", "[", "Capability", "]", "]", ":", {
+  "id": "resultCapability"
+}, ",", "[", "[", "Type", "]", "]", ":", {
+  "code": "\"Reject\""
+}, ",", "[", "[", "Handler", "]", "]", ":", {
+  "id": "onRejected"
+}, "}", ".", {
+  "k": 10
+}, "If", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseState", "]", "]", "is", {
+  "code": "\"pending\""
+}, ",", "then", true, "Append", {
+  "id": "fulfillReaction"
+}, "as", "the", "last", "element", "of", "the", "List", "that", "is", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseFulfillReactions", "]", "]", ".", {
+  "k": 12
+}, "Append", {
+  "id": "rejectReaction"
+}, "as", "the", "last", "element", "of", "the", "List", "that", "is", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseRejectReactions", "]", "]", ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "Else", "if", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseState", "]", "]", "is", {
+  "code": "\"fulfilled\""
+}, ",", "then", true, "Let", {
+  "id": "value"
+}, "be", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseResult", "]", "]", ".", {
+  "k": 15
+}, "Perform", "EnqueueJob", "(", {
+  "code": "\"PromiseJobs\""
+}, ",", "PromiseReactionJob", ",", "«", {
+  "id": "fulfillReaction"
+}, ",", {
+  "id": "value"
+}, "»", ")", ".", {
+  "k": 16
+}, false, {
+  "k": 14
+}, "Else", ",", true, "Assert", ":", "The", "value", "of", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseState", "]", "]", "is", {
+  "code": "\"rejected\""
+}, ".", {
+  "k": 18
+}, "Let", {
+  "id": "reason"
+}, "be", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseResult", "]", "]", ".", {
+  "k": 19
+}, "If", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseIsHandled", "]", "]", "is", {
+  "value": "false"
+}, ",", "perform", "HostPromiseRejectionTracker", "(", {
+  "id": "promise"
+}, ",", {
+  "code": "\"handle\""
+}, ")", ".", {
+  "k": 20
+}, "Perform", "EnqueueJob", "(", {
+  "code": "\"PromiseJobs\""
+}, ",", "PromiseReactionJob", ",", "«", {
+  "id": "rejectReaction"
+}, ",", {
+  "id": "reason"
+}, "»", ")", ".", {
+  "k": 21
+}, false, {
+  "k": 17
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseIsHandled", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 22
+}, "If", {
+  "id": "resultCapability"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 24
+}, false, {
+  "k": 23
+}, "Else", ",", true, "Return", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 26
+}, false, {
+  "k": 25
+}]

@@ -1,0 +1,45 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "hasOwn"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "hasOwn"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "parent"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "parent"
+}, "is", "not", {
+  "value": "null"
+}, ",", "then", true, "Return", "?", {
+  "id": "parent"
+}, ".", "[", "[", "HasProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}]

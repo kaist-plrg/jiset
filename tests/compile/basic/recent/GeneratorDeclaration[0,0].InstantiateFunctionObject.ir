@@ -1,0 +1,13 @@
+{
+  access __x0__ = (BindingIdentifier "StringValue")
+  let name = __x0__
+  let sourceText = (get-syntax GeneratorDeclaration)
+  ??? "Let id:{F} be OrdinaryFunctionCreate ( % GeneratorFunction . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{GeneratorBody} , const:{non-lexical-this} , id:{scope} ) ."
+  app __x1__ = (SetFunctionName F name)
+  __x1__
+  ??? "Let id:{prototype} be ! OrdinaryObjectCreate ( % GeneratorFunction . prototype . prototype % ) ."
+  app __x2__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  __x2__
+  app __x3__ = (WrapCompletion F)
+  return __x3__
+}

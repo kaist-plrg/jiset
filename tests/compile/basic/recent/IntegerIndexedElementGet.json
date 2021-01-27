@@ -1,0 +1,65 @@
+["Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 0
+}, "If", "!", "IsValidIntegerIndex", "(", {
+  "id": "O"
+}, ",", {
+  "id": "index"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 2
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", "the", "String", "value", "of", {
+  "id": "O"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", "ℝ", "(", {
+  "id": "index"
+}, ")", "×", {
+  "id": "elementSize"
+}, ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 6
+}, "Return", "GetValueFromBuffer", "(", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "const": "Unordered"
+}, ")", ".", {
+  "k": 7
+}]

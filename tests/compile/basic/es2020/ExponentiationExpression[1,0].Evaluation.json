@@ -1,0 +1,53 @@
+["Let", {
+  "id": "left"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "UpdateExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "leftValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "left"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "right"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "ExponentiationExpression"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "rightValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "right"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "base"
+}, "be", "?", "ToNumeric", "(", {
+  "id": "leftValue"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "exponent"
+}, "be", "?", "ToNumeric", "(", {
+  "id": "rightValue"
+}, ")", ".", {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "base"
+}, ")", "is", "different", "from", "Type", "(", {
+  "id": "exponent"
+}, ")", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "Return", "?", "Type", "(", {
+  "id": "base"
+}, ")", ":", ":", "exponentiate", "(", {
+  "id": "base"
+}, ",", {
+  "id": "exponent"
+}, ")", ".", {
+  "k": 7
+}]

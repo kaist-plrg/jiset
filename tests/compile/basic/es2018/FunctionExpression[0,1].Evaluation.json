@@ -1,0 +1,79 @@
+["If", "the", "function", "code", "for", {
+  "nt": "FunctionExpression"
+}, "is", "strict", "mode", "code", ",", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "true"
+}, ".", "Otherwise", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "scope"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 1
+}, "Let", {
+  "id": "funcEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "scope"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "funcEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 3
+}, "Let", {
+  "id": "name"
+}, "be", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ".", {
+  "k": 4
+}, "Perform", {
+  "id": "envRec"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "closure"
+}, "be", "FunctionCreate", "(", {
+  "const": "Normal"
+}, ",", {
+  "nt": "FormalParameters"
+}, ",", {
+  "nt": "FunctionBody"
+}, ",", {
+  "id": "funcEnv"
+}, ",", {
+  "id": "strict"
+}, ")", ".", {
+  "k": 6
+}, "Perform", "MakeConstructor", "(", {
+  "id": "closure"
+}, ")", ".", {
+  "k": 7
+}, "Perform", "SetFunctionName", "(", {
+  "id": "closure"
+}, ",", {
+  "id": "name"
+}, ")", ".", {
+  "k": 8
+}, "Perform", {
+  "id": "envRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "name"
+}, ",", {
+  "id": "closure"
+}, ")", ".", {
+  "k": 9
+}, "Return", {
+  "id": "closure"
+}, ".", {
+  "k": 10
+}]

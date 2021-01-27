@@ -1,0 +1,11 @@
+{
+  app __x0__ = (Type array)
+  assert (= __x0__ Object)
+  app __x1__ = (ObjectCreate INTRINSIC_ArrayIteratorPrototype (new ["IteratedObject", "ArrayIteratorNextIndex", "ArrayIterationKind"]))
+  let iterator = __x1__
+  iterator.IteratedObject = array
+  iterator.ArrayIteratorNextIndex = 0i
+  iterator.ArrayIterationKind = kind
+  app __x2__ = (WrapCompletion iterator)
+  return __x2__
+}

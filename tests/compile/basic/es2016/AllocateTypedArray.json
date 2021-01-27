@@ -1,0 +1,55 @@
+["Let", {
+  "id": "proto"
+}, "be", "?", "GetPrototypeFromConstructor", "(", {
+  "id": "newTarget"
+}, ",", {
+  "id": "defaultProto"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "obj"
+}, "be", "IntegerIndexedObjectCreate", "(", {
+  "id": "proto"
+}, ",", "«", "[", "[", "ViewedArrayBuffer", "]", "]", ",", "[", "[", "TypedArrayName", "]", "]", ",", "[", "[", "ByteLength", "]", "]", ",", "[", "[", "ByteOffset", "]", "]", ",", "[", "[", "ArrayLength", "]", "]", "»", ")", ".", {
+  "k": 1
+}, "Assert", ":", "The", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", "of", {
+  "id": "obj"
+}, "is", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "Set", {
+  "id": "obj"
+}, "'", "s", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", "to", {
+  "id": "constructorName"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "length"
+}, "was", "not", "passed", ",", "then", true, "Set", {
+  "id": "obj"
+}, "'", "s", "[", "[", "ByteLength", "]", "]", "internal", "slot", "to", "0", ".", {
+  "k": 5
+}, "Set", {
+  "id": "obj"
+}, "'", "s", "[", "[", "ByteOffset", "]", "]", "internal", "slot", "to", "0", ".", {
+  "k": 6
+}, "Set", {
+  "id": "obj"
+}, "'", "s", "[", "[", "ArrayLength", "]", "]", "internal", "slot", "to", "0", ".", {
+  "k": 7
+}, false, {
+  "k": 4
+}, "Else", ",", true, "Perform", "?", "AllocateTypedArrayBuffer", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "length"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Return", {
+  "id": "obj"
+}, ".", {
+  "k": 10
+}]

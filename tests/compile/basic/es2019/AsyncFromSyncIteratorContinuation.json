@@ -1,0 +1,63 @@
+["Let", {
+  "id": "done"
+}, "be", "IteratorComplete", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 0
+}, "IfAbruptRejectPromise", "(", {
+  "id": "done"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "value"
+}, "be", "IteratorValue", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 2
+}, "IfAbruptRejectPromise", "(", {
+  "id": "value"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "valueWrapper"
+}, "be", "?", "PromiseResolve", "(", "%", "Promise", "%", ",", "«", {
+  "id": "value"
+}, "»", ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "steps"
+}, "be", "the", "algorithm", "steps", "defined", "in", {
+  "link": ""
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "onFulfilled"
+}, "be", "CreateBuiltinFunction", "(", {
+  "id": "steps"
+}, ",", "«", "[", "[", "Done", "]", "]", "»", ")", ".", {
+  "k": 6
+}, "Set", {
+  "id": "onFulfilled"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "id": "done"
+}, ".", {
+  "k": 7
+}, "Perform", "!", "PerformPromiseThen", "(", {
+  "id": "valueWrapper"
+}, ",", {
+  "id": "onFulfilled"
+}, ",", {
+  "value": "undefined"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 8
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 9
+}]

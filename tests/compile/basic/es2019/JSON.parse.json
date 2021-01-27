@@ -1,0 +1,93 @@
+["Let", {
+  "id": "JText"
+}, "be", "?", "ToString", "(", {
+  "id": "text"
+}, ")", ".", {
+  "k": 0
+}, "Parse", {
+  "id": "JText"
+}, "interpreted", "as", "UTF", "-", "16", "encoded", "Unicode", "points", "(", {
+  "link": ""
+}, ")", "as", "a", "JSON", "text", "as", "specified", "in", "ECMA", "-", "404", ".", "Throw", "a", {
+  "value": "SyntaxError"
+}, "exception", "if", {
+  "id": "JText"
+}, "is", "not", "a", "valid", "JSON", "text", "as", "defined", "in", "that", "specification", ".", {
+  "k": 1
+}, "Let", {
+  "id": "scriptText"
+}, "be", "the", "string", "-", "concatenation", "of", {
+  "code": "\"(\""
+}, ",", {
+  "id": "JText"
+}, ",", "and", {
+  "code": "\");\""
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "completion"
+}, "be", "the", "result", "of", "parsing", "and", "evaluating", {
+  "id": "scriptText"
+}, "as", "if", "it", "was", "the", "source", "text", "of", "an", "ECMAScript", {
+  "nt": "Script"
+}, ".", "The", "extended", "PropertyDefinitionEvaluation", "semantics", "defined", "in", {
+  "link": ""
+}, "must", "not", "be", "used", "during", "the", "evaluation", ".", {
+  "k": 3
+}, "Let", {
+  "id": "unfiltered"
+}, "be", {
+  "id": "completion"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 4
+}, "Assert", ":", {
+  "id": "unfiltered"
+}, "is", "either", "a", "String", ",", "Number", ",", "Boolean", ",", "Null", ",", "or", "an", "Object", "that", "is", "defined", "by", "either", "an", {
+  "nt": "ArrayLiteral"
+}, "or", "an", {
+  "nt": "ObjectLiteral"
+}, ".", {
+  "k": 5
+}, "If", "IsCallable", "(", {
+  "id": "reviver"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "root"
+}, "be", "ObjectCreate", "(", "%", "ObjectPrototype", "%", ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "rootName"
+}, "be", "the", "empty", "String", ".", {
+  "k": 8
+}, "Let", {
+  "id": "status"
+}, "be", "CreateDataProperty", "(", {
+  "id": "root"
+}, ",", {
+  "id": "rootName"
+}, ",", {
+  "id": "unfiltered"
+}, ")", ".", {
+  "k": 9
+}, "Assert", ":", {
+  "id": "status"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 10
+}, "Return", "?", "InternalizeJSONProperty", "(", {
+  "id": "root"
+}, ",", {
+  "id": "rootName"
+}, ")", ".", {
+  "k": 11
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Return", {
+  "id": "unfiltered"
+}, ".", {
+  "k": 13
+}, false, {
+  "k": 12
+}]

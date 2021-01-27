@@ -1,0 +1,55 @@
+["Let", {
+  "id": "bindingId"
+}, "be", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lhs"
+}, "be", "ResolveBinding", "(", {
+  "id": "bindingId"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "rhs"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "value"
+}, "be", "?", "GetValue", "(", {
+  "id": "rhs"
+}, ")", ".", {
+  "k": 3
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "Initializer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "hasNameProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "value"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "hasNameProperty"
+}, "is", {
+  "value": "false"
+}, ",", "perform", "SetFunctionName", "(", {
+  "id": "value"
+}, ",", {
+  "id": "bindingId"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Return", "InitializeReferencedBinding", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 7
+}]

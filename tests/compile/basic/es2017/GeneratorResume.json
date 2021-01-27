@@ -1,0 +1,69 @@
+["Let", {
+  "id": "state"
+}, "be", "?", "GeneratorValidate", "(", {
+  "id": "generator"
+}, ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "state"
+}, "is", {
+  "code": "\"completed\""
+}, ",", "return", "CreateIterResultObject", "(", {
+  "value": "undefined"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "state"
+}, "is", "either", {
+  "code": "\"suspendedStart\""
+}, "or", {
+  "code": "\"suspendedYield\""
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "genContext"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorContext", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "methodContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 4
+}, "Suspend", {
+  "id": "methodContext"
+}, ".", {
+  "k": 5
+}, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorState", "]", "]", "to", {
+  "code": "\"executing\""
+}, ".", {
+  "k": 6
+}, "Push", {
+  "id": "genContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "genContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 7
+}, "Resume", "the", "suspended", "evaluation", "of", {
+  "id": "genContext"
+}, "using", "NormalCompletion", "(", {
+  "id": "value"
+}, ")", "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
+  "id": "result"
+}, "be", "the", "value", "returned", "by", "the", "resumed", "computation", ".", {
+  "k": 8
+}, "Assert", ":", "When", "we", "return", "here", ",", {
+  "id": "genContext"
+}, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
+  "id": "methodContext"
+}, "is", "the", "currently", "running", "execution", "context", ".", {
+  "k": 9
+}, "Return", "Completion", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 10
+}]

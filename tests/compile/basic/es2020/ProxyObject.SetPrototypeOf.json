@@ -1,0 +1,105 @@
+["Assert", ":", "Either", "Type", "(", {
+  "id": "V"
+}, ")", "is", "Object", "or", "Type", "(", {
+  "id": "V"
+}, ")", "is", "Null", ".", {
+  "k": 0
+}, "Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 1
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 3
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "\"setPrototypeOf\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "SetPrototypeOf", "]", "]", "(", {
+  "id": "V"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "booleanTrapResult"
+}, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, ",", {
+  "id": "V"
+}, "»", ")", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "booleanTrapResult"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "extensibleTarget"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "extensibleTarget"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "targetProto"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", {
+  "k": 12
+}, "If", "SameValue", "(", {
+  "id": "V"
+}, ",", {
+  "id": "targetProto"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 13
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 14
+}]

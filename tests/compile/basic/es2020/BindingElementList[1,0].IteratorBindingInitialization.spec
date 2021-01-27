@@ -1,0 +1,2 @@
+          1. Perform ? IteratorBindingInitialization for |BindingElementList| with _iteratorRecord_ and _environment_ as arguments.
+          1. Return the result of performing IteratorBindingInitialization for |BindingElisionElement| using _iteratorRecord_ and _environment_ as arguments.

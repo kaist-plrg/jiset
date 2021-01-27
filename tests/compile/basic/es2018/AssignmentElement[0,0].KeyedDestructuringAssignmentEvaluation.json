@@ -1,0 +1,113 @@
+["If", {
+  "nt": "DestructuringAssignmentTarget"
+}, "is", "neither", "an", {
+  "nt": "ObjectLiteral"
+}, "nor", "an", {
+  "nt": "ArrayLiteral"
+}, ",", "then", true, "Let", {
+  "id": "lref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "DestructuringAssignmentTarget"
+}, ".", {
+  "k": 1
+}, "ReturnIfAbrupt", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "k": 2
+}, false, {
+  "k": 0
+}, "Let", {
+  "id": "v"
+}, "be", "?", "GetV", "(", {
+  "id": "value"
+}, ",", {
+  "id": "propertyName"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "nt": "Initializer"
+}, "is", "present", "and", {
+  "id": "v"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "defaultValue"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "rhsValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "defaultValue"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Else", ",", "let", {
+  "id": "rhsValue"
+}, "be", {
+  "id": "v"
+}, ".", {
+  "k": 7
+}, "If", {
+  "nt": "DestructuringAssignmentTarget"
+}, "is", "an", {
+  "nt": "ObjectLiteral"
+}, "or", "an", {
+  "nt": "ArrayLiteral"
+}, ",", "then", true, "Let", {
+  "id": "assignmentPattern"
+}, "be", "the", {
+  "nt": "AssignmentPattern"
+}, "that", "is", "covered", "by", {
+  "nt": "DestructuringAssignmentTarget"
+}, ".", {
+  "k": 9
+}, "Return", "the", "result", "of", "performing", "DestructuringAssignmentEvaluation", "of", {
+  "id": "assignmentPattern"
+}, "with", {
+  "id": "rhsValue"
+}, "as", "the", "argument", ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, "If", {
+  "nt": "Initializer"
+}, "is", "present", "and", {
+  "id": "v"
+}, "is", {
+  "value": "undefined"
+}, "and", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "Initializer"
+}, ")", "and", "IsIdentifierRef", "of", {
+  "nt": "DestructuringAssignmentTarget"
+}, "are", "both", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "hasNameProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "rhsValue"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "hasNameProperty"
+}, "is", {
+  "value": "false"
+}, ",", "perform", "SetFunctionName", "(", {
+  "id": "rhsValue"
+}, ",", "GetReferencedName", "(", {
+  "id": "lref"
+}, ")", ")", ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "Return", "?", "PutValue", "(", {
+  "id": "lref"
+}, ",", {
+  "id": "rhsValue"
+}, ")", ".", {
+  "k": 14
+}]

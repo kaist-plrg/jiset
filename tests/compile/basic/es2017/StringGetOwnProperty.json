@@ -1,0 +1,87 @@
+["Assert", ":", {
+  "id": "S"
+}, "is", "an", "Object", "that", "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ".", {
+  "k": 0
+}, "Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "not", "String", ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "index"
+}, "be", "!", "CanonicalNumericIndexString", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "index"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "If", "IsInteger", "(", {
+  "id": "index"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "index"
+}, "=", {
+  "value": "-0"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "str"
+}, "be", "the", "String", "value", "of", {
+  "id": "S"
+}, ".", "[", "[", "StringData", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "len"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "str"
+}, ".", {
+  "k": 8
+}, "If", {
+  "id": "index"
+}, "<", "0", "or", {
+  "id": "len"
+}, "≤", {
+  "id": "index"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "resultStr"
+}, "be", "a", "String", "value", "of", "length", "1", ",", "containing", "one", "code", "unit", "from", {
+  "id": "str"
+}, ",", "specifically", "the", "code", "unit", "at", "index", {
+  "id": "index"
+}, ".", {
+  "k": 10
+}, "Return", "a", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "resultStr"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 11
+}]

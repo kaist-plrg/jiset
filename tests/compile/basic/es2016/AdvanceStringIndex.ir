@@ -1,0 +1,27 @@
+{
+  app __x0__ = (Type S)
+  assert (= __x0__ String)
+  app __x1__ = (Type unicode)
+  assert (= __x1__ Boolean)
+  if (= unicode false) {
+    app __x2__ = (WrapCompletion (+ index 1i))
+    return __x2__
+  } else {}
+  let length = S.length
+  if (! (< (+ index 1i) length)) {
+    app __x3__ = (WrapCompletion (+ index 1i))
+    return __x3__
+  } else {}
+  ??? "Let id:{first} be the code unit value at index id:{index} in id:{S} ."
+  if (|| (< first 55296i) (< 56319i first)) {
+    app __x4__ = (WrapCompletion (+ index 1i))
+    return __x4__
+  } else {}
+  ??? "Let id:{second} be the code unit value at index id:{index} + 1 in id:{S} ."
+  if (|| (< second 56320i) (< 57343i second)) {
+    app __x5__ = (WrapCompletion (+ index 1i))
+    return __x5__
+  } else {}
+  app __x6__ = (WrapCompletion (+ index 2i))
+  return __x6__
+}

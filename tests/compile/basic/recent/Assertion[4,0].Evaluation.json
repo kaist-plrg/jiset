@@ -1,0 +1,93 @@
+["Evaluate", {
+  "nt": "Disjunction"
+}, "with", "1", "as", "its", {
+  "id": "direction"
+}, "argument", "to", "obtain", "a", "Matcher", {
+  "id": "m"
+}, ".", {
+  "k": 0
+}, "Return", "a", "new", "Matcher", "with", "parameters", "(", {
+  "id": "x"
+}, ",", {
+  "id": "c"
+}, ")", "that", "captures", {
+  "id": "m"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Assert", ":", {
+  "id": "x"
+}, "is", "a", "State", ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "c"
+}, "is", "a", "Continuation", ".", {
+  "k": 3
+}, "Let", {
+  "id": "d"
+}, "be", "a", "new", "Continuation", "with", "parameters", "(", {
+  "id": "y"
+}, ")", "that", "captures", "nothing", "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Assert", ":", {
+  "id": "y"
+}, "is", "a", "State", ".", {
+  "k": 5
+}, "Return", {
+  "id": "y"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Let", {
+  "id": "r"
+}, "be", {
+  "id": "m"
+}, "(", {
+  "id": "x"
+}, ",", {
+  "id": "d"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "r"
+}, "is", {
+  "const": "failure"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "y"
+}, "be", {
+  "id": "r"
+}, "'", "s", "State", ".", {
+  "k": 9
+}, "Let", {
+  "id": "cap"
+}, "be", {
+  "id": "y"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 10
+}, "Let", {
+  "id": "xe"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "z"
+}, "be", "the", "State", "(", {
+  "id": "xe"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 12
+}, "Return", {
+  "id": "c"
+}, "(", {
+  "id": "z"
+}, ")", ".", {
+  "k": 13
+}, false, {
+  "k": 1
+}]

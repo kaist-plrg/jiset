@@ -1,0 +1,67 @@
+["Assert", ":", {
+  "id": "module"
+}, "is", "an", "instance", "of", "a", "concrete", "subclass", "of", "Module", "Record", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", "not", {
+  "code": "\"uninstantiated\""
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "namespace"
+}, "be", {
+  "id": "module"
+}, ".", "[", "[", "Namespace", "]", "]", ".", {
+  "k": 2
+}, "If", {
+  "id": "namespace"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "exportedNames"
+}, "be", "?", {
+  "id": "module"
+}, ".", "GetExportedNames", "(", "«", "»", ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "unambiguousNames"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 5
+}, "For", "each", {
+  "id": "name"
+}, "that", "is", "an", "element", "of", {
+  "id": "exportedNames"
+}, ",", "do", true, "Let", {
+  "id": "resolution"
+}, "be", "?", {
+  "id": "module"
+}, ".", "ResolveExport", "(", {
+  "id": "name"
+}, ",", "«", "»", ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "resolution"
+}, "is", "a", "ResolvedBinding", "Record", ",", "append", {
+  "id": "name"
+}, "to", {
+  "id": "unambiguousNames"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, "Set", {
+  "id": "namespace"
+}, "to", "ModuleNamespaceCreate", "(", {
+  "id": "module"
+}, ",", {
+  "id": "unambiguousNames"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 3
+}, "Return", {
+  "id": "namespace"
+}, ".", {
+  "k": 10
+}]

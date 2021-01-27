@@ -1,0 +1,115 @@
+["Return", "an", "internal", "Matcher", "closure", "that", "takes", "two", "arguments", ",", "a", "State", {
+  "id": "x"
+}, "and", "a", "Continuation", {
+  "id": "c"
+}, ",", "and", "performs", "the", "following", "steps", "when", "evaluated", ":", true, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "f"
+}, "be", {
+  "id": "e"
+}, "+", {
+  "id": "direction"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "f"
+}, "<", "0", "or", {
+  "id": "f"
+}, ">", {
+  "id": "InputLength"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "index"
+}, "be", "min", "(", {
+  "id": "e"
+}, ",", {
+  "id": "f"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "ch"
+}, "be", "the", "character", {
+  "id": "Input"
+}, "[", {
+  "id": "index"
+}, "]", ".", {
+  "k": 5
+}, "Let", {
+  "id": "cc"
+}, "be", "Canonicalize", "(", {
+  "id": "ch"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "invert"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "If", "there", "does", "not", "exist", "a", "member", {
+  "id": "a"
+}, "of", "set", {
+  "id": "A"
+}, "such", "that", "Canonicalize", "(", {
+  "id": "a"
+}, ")", "is", {
+  "id": "cc"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, "Else", ",", true, "Assert", ":", {
+  "id": "invert"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 10
+}, "If", "there", "exists", "a", "member", {
+  "id": "a"
+}, "of", "set", {
+  "id": "A"
+}, "such", "that", "Canonicalize", "(", {
+  "id": "a"
+}, ")", "is", {
+  "id": "cc"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 9
+}, "Let", {
+  "id": "cap"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 12
+}, "Let", {
+  "id": "y"
+}, "be", "the", "State", "(", {
+  "id": "f"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 13
+}, "Call", {
+  "id": "c"
+}, "(", {
+  "id": "y"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 14
+}, false, {
+  "k": 0
+}]

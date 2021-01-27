@@ -1,0 +1,71 @@
+["Assert", ":", {
+  "id": "F"
+}, "is", "an", "extensible", "object", "that", "does", "not", "have", "a", {
+  "code": "name"
+}, "own", "property", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "name"
+}, ")", "is", "either", "Symbol", "or", "String", ".", {
+  "k": 1
+}, "Assert", ":", "If", {
+  "id": "prefix"
+}, "was", "passed", ",", "then", "Type", "(", {
+  "id": "prefix"
+}, ")", "is", "String", ".", {
+  "k": 2
+}, "If", "Type", "(", {
+  "id": "name"
+}, ")", "is", "Symbol", ",", "then", true, "Let", {
+  "id": "description"
+}, "be", {
+  "id": "name"
+}, "'", "s", "[", "[", "Description", "]", "]", "value", ".", {
+  "k": 4
+}, "If", {
+  "id": "description"
+}, "is", {
+  "value": "undefined"
+}, ",", "set", {
+  "id": "name"
+}, "to", "the", "empty", "String", ".", {
+  "k": 5
+}, "Else", ",", "set", {
+  "id": "name"
+}, "to", "the", "concatenation", "of", {
+  "code": "\"[\""
+}, ",", {
+  "id": "description"
+}, ",", "and", {
+  "code": "\"]\""
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 3
+}, "If", {
+  "id": "prefix"
+}, "was", "passed", ",", "then", true, "Set", {
+  "id": "name"
+}, "to", "the", "concatenation", "of", {
+  "id": "prefix"
+}, ",", "code", "unit", "0x0020", "(", "SPACE", ")", ",", "and", {
+  "id": "name"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, "Return", "!", "DefinePropertyOrThrow", "(", {
+  "id": "F"
+}, ",", {
+  "code": "\"name\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "name"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ")", ".", {
+  "k": 9
+}]

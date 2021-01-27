@@ -1,0 +1,1 @@
+          1. Return the character whose code is the result of evaluating |LeadSurrogate|.

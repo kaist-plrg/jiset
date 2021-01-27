@@ -1,0 +1,61 @@
+["If", {
+  "id": "result"
+}, "is", "an", "abrupt", "completion", ",", "perform", "HostReportErrors", "(", "«", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 0
+}, "Suspend", "the", "running", "execution", "context", "and", "remove", "it", "from", "the", "execution", "context", "stack", ".", {
+  "k": 1
+}, "Assert", ":", "The", "execution", "context", "stack", "is", "now", "empty", ".", {
+  "k": 2
+}, "Let", {
+  "id": "nextQueue"
+}, "be", "a", "non", "-", "empty", "Job", "Queue", "chosen", "in", "an", "implementation", "defined", "manner", ".", "If", "all", "Job", "Queues", "are", "empty", ",", "the", "result", "is", "implementation", "defined", ".", {
+  "k": 3
+}, "Let", {
+  "id": "nextPending"
+}, "be", "the", "PendingJob", "record", "at", "the", "front", "of", {
+  "id": "nextQueue"
+}, ".", "Remove", "that", "record", "from", {
+  "id": "nextQueue"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "newContext"
+}, "be", "a", "new", "execution", "context", ".", {
+  "k": 5
+}, "Set", {
+  "id": "newContext"
+}, "'", "s", "Function", "to", {
+  "value": "null"
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "newContext"
+}, "'", "s", "Realm", "to", {
+  "id": "nextPending"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 7
+}, "Set", {
+  "id": "newContext"
+}, "'", "s", "ScriptOrModule", "to", {
+  "id": "nextPending"
+}, ".", "[", "[", "ScriptOrModule", "]", "]", ".", {
+  "k": 8
+}, "Push", {
+  "id": "newContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "newContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 9
+}, "Perform", "any", "implementation", "or", "host", "environment", "defined", "job", "initialization", "using", {
+  "id": "nextPending"
+}, ".", {
+  "k": 10
+}, "Perform", "the", "abstract", "operation", "named", "by", {
+  "id": "nextPending"
+}, ".", "[", "[", "Job", "]", "]", "using", "the", "elements", "of", {
+  "id": "nextPending"
+}, ".", "[", "[", "Arguments", "]", "]", "as", "its", "arguments", ".", {
+  "k": 11
+}]

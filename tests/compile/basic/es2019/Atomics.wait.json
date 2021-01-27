@@ -1,0 +1,165 @@
+["Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateSharedIntegerTypedArray", "(", {
+  "id": "typedArray"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "i"
+}, "be", "?", "ValidateAtomicAccess", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "v"
+}, "be", "?", "ToInt32", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "q"
+}, "be", "?", "ToNumber", "(", {
+  "id": "timeout"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "q"
+}, "is", {
+  "value": "NaN"
+}, ",", "let", {
+  "id": "t"
+}, "be", {
+  "value": "+∞"
+}, ",", "else", "let", {
+  "id": "t"
+}, "be", "max", "(", {
+  "id": "q"
+}, ",", "0", ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "B"
+}, "be", "AgentCanSuspend", "(", ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "B"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "Let", {
+  "id": "block"
+}, "be", {
+  "id": "buffer"
+}, ".", "[", "[", "ArrayBufferData", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 8
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "i"
+}, "×", "4", ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "WL"
+}, "be", "GetWaiterList", "(", {
+  "id": "block"
+}, ",", {
+  "id": "indexedPosition"
+}, ")", ".", {
+  "k": 10
+}, "Perform", "EnterCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 11
+}, "Let", {
+  "id": "w"
+}, "be", "!", "AtomicLoad", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "i"
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "v"
+}, "is", "not", "equal", "to", {
+  "id": "w"
+}, ",", "then", true, "Perform", "LeaveCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 14
+}, "Return", "the", "String", {
+  "code": "\"not-equal\""
+}, ".", {
+  "k": 15
+}, false, {
+  "k": 13
+}, "Let", {
+  "id": "W"
+}, "be", "AgentSignifier", "(", ")", ".", {
+  "k": 16
+}, "Perform", "AddWaiter", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "W"
+}, ")", ".", {
+  "k": 17
+}, "Let", {
+  "id": "notified"
+}, "be", "Suspend", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "W"
+}, ",", {
+  "id": "t"
+}, ")", ".", {
+  "k": 18
+}, "If", {
+  "id": "notified"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Assert", ":", {
+  "id": "W"
+}, "is", "not", "on", "the", "list", "of", "waiters", "in", {
+  "id": "WL"
+}, ".", {
+  "k": 20
+}, false, {
+  "k": 19
+}, "Else", ",", true, "Perform", "RemoveWaiter", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "W"
+}, ")", ".", {
+  "k": 22
+}, false, {
+  "k": 21
+}, "Perform", "LeaveCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 23
+}, "If", {
+  "id": "notified"
+}, "is", {
+  "value": "true"
+}, ",", "return", "the", "String", {
+  "code": "\"ok\""
+}, ".", {
+  "k": 24
+}, "Return", "the", "String", {
+  "code": "\"timed-out\""
+}, ".", {
+  "k": 25
+}]

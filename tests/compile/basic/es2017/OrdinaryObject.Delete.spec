@@ -1,0 +1,1 @@
+        1. Return ? OrdinaryDelete(_O_, _P_).

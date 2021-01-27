@@ -1,0 +1,24 @@
+{
+  access __x0__ = (BindingIdentifier "StringValue")
+  let bindingId = __x0__
+  app __x1__ = (ResolveBinding bindingId)
+  let lhs = __x1__
+  access __x2__ = (Initializer "Evaluation")
+  let rhs = __x2__
+  app __x3__ = (GetValue rhs)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let value = __x3__
+  app __x4__ = (IsAnonymousFunctionDefinition Initializer)
+  if (= __x4__ true) {
+    app __x5__ = (HasOwnProperty value "name")
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    let hasNameProperty = __x5__
+    if (= hasNameProperty false) {
+      app __x6__ = (SetFunctionName value bindingId)
+      __x6__
+    } else {}
+  } else {}
+  app __x7__ = (InitializeReferencedBinding lhs value)
+  app __x8__ = (WrapCompletion __x7__)
+  return __x8__
+}

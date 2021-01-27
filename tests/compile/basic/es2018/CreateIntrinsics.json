@@ -1,0 +1,89 @@
+["Let", {
+  "id": "intrinsics"
+}, "be", "a", "new", "Record", ".", {
+  "k": 0
+}, "Set", {
+  "id": "realmRec"
+}, ".", "[", "[", "Intrinsics", "]", "]", "to", {
+  "id": "intrinsics"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "objProto"
+}, "be", "ObjectCreate", "(", {
+  "value": "null"
+}, ")", ".", {
+  "k": 2
+}, "Set", {
+  "id": "intrinsics"
+}, ".", "[", "[", "%", "ObjectPrototype", "%", "]", "]", "to", {
+  "id": "objProto"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "throwerSteps"
+}, "be", "the", "algorithm", "steps", "specified", "in", {
+  "link": ""
+}, "for", "the", "%", "ThrowTypeError", "%", "function", ".", {
+  "k": 4
+}, "Let", {
+  "id": "thrower"
+}, "be", "CreateBuiltinFunction", "(", {
+  "id": "throwerSteps"
+}, ",", "«", "»", ",", {
+  "id": "realmRec"
+}, ",", {
+  "value": "null"
+}, ")", ".", {
+  "k": 5
+}, "Set", {
+  "id": "intrinsics"
+}, ".", "[", "[", "%", "ThrowTypeError", "%", "]", "]", "to", {
+  "id": "thrower"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "noSteps"
+}, "be", "an", "empty", "sequence", "of", "algorithm", "steps", ".", {
+  "k": 7
+}, "Let", {
+  "id": "funcProto"
+}, "be", "CreateBuiltinFunction", "(", {
+  "id": "noSteps"
+}, ",", "«", "»", ",", {
+  "id": "realmRec"
+}, ",", {
+  "id": "objProto"
+}, ")", ".", {
+  "k": 8
+}, "Set", {
+  "id": "intrinsics"
+}, ".", "[", "[", "%", "FunctionPrototype", "%", "]", "]", "to", {
+  "id": "funcProto"
+}, ".", {
+  "k": 9
+}, "Call", {
+  "id": "thrower"
+}, ".", "[", "[", "SetPrototypeOf", "]", "]", "(", {
+  "id": "funcProto"
+}, ")", ".", {
+  "k": 10
+}, "Perform", "AddRestrictedFunctionProperties", "(", {
+  "id": "funcProto"
+}, ",", {
+  "id": "realmRec"
+}, ")", ".", {
+  "k": 11
+}, "Set", "fields", "of", {
+  "id": "intrinsics"
+}, "with", "the", "values", "listed", "in", {
+  "link": ""
+}, "that", "have", "not", "already", "been", "handled", "above", ".", "The", "field", "names", "are", "the", "names", "listed", "in", "column", "one", "of", "the", "table", ".", "The", "value", "of", "each", "field", "is", "a", "new", "object", "value", "fully", "and", "recursively", "populated", "with", "property", "values", "as", "defined", "by", "the", "specification", "of", "each", "object", "in", "clauses", "18", "-", "26", ".", "All", "object", "property", "values", "are", "newly", "created", "object", "values", ".", "All", "values", "that", "are", "built", "-", "in", "function", "objects", "are", "created", "by", "performing", "CreateBuiltinFunction", "(", "<", "steps", ">", ",", "<", "slots", ">", ",", {
+  "id": "realmRec"
+}, ",", "<", "prototype", ">", ")", "where", "<", "steps", ">", "is", "the", "definition", "of", "that", "function", "provided", "by", "this", "specification", ",", "<", "slots", ">", "is", "a", "list", "of", "the", "names", ",", "if", "any", ",", "of", "the", "function", "'", "s", "specified", "internal", "slots", ",", "and", "<", "prototype", ">", "is", "the", "specified", "value", "of", "the", "function", "'", "s", "[", "[", "Prototype", "]", "]", "internal", "slot", ".", "The", "creation", "of", "the", "intrinsics", "and", "their", "properties", "must", "be", "ordered", "to", "avoid", "any", "dependencies", "upon", "objects", "that", "have", "not", "yet", "been", "created", ".", {
+  "k": 12
+}, "Return", {
+  "id": "intrinsics"
+}, ".", {
+  "k": 13
+}]

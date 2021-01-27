@@ -1,0 +1,91 @@
+["Let", {
+  "id": "byteLocation"
+}, "be", {
+  "id": "byteIndex"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "bytesRead"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 1
+}, "For", "each", "element", {
+  "id": "W"
+}, "of", {
+  "id": "Ws"
+}, ",", "do", true, "Assert", ":", {
+  "id": "W"
+}, "has", {
+  "id": "byteLocation"
+}, "in", "its", "range", ".", {
+  "k": 3
+}, "Let", {
+  "id": "payloadIndex"
+}, "be", {
+  "id": "byteLocation"
+}, "-", {
+  "id": "W"
+}, ".", "[", "[", "ByteIndex", "]", "]", ".", {
+  "k": 4
+}, "If", {
+  "id": "W"
+}, "is", "a", "WriteSharedMemory", "event", ",", "then", true, "Let", {
+  "id": "byte"
+}, "be", {
+  "id": "W"
+}, ".", "[", "[", "Payload", "]", "]", "[", {
+  "id": "payloadIndex"
+}, "]", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Else", ",", true, "Assert", ":", {
+  "id": "W"
+}, "is", "a", "ReadModifyWriteSharedMemory", "event", ".", {
+  "k": 8
+}, "Let", {
+  "id": "bytes"
+}, "be", "ValueOfReadEvent", "(", {
+  "id": "execution"
+}, ",", {
+  "id": "W"
+}, ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "bytesModified"
+}, "be", {
+  "id": "W"
+}, ".", "[", "[", "ModifyOp", "]", "]", "(", {
+  "id": "bytes"
+}, ",", {
+  "id": "W"
+}, ".", "[", "[", "Payload", "]", "]", ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "byte"
+}, "be", {
+  "id": "bytesModified"
+}, "[", {
+  "id": "payloadIndex"
+}, "]", ".", {
+  "k": 11
+}, false, {
+  "k": 7
+}, "Append", {
+  "id": "byte"
+}, "to", {
+  "id": "bytesRead"
+}, ".", {
+  "k": 12
+}, "Set", {
+  "id": "byteLocation"
+}, "to", {
+  "id": "byteLocation"
+}, "+", "1", ".", {
+  "k": 13
+}, false, {
+  "k": 2
+}, "Return", {
+  "id": "bytesRead"
+}, ".", {
+  "k": 14
+}]

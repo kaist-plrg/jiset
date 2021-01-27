@@ -1,0 +1,43 @@
+["Let", {
+  "id": "asyncContext"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "AsyncContext", "]", "]", ".", {
+  "k": 0
+}, "Let", {
+  "id": "prevContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 1
+}, "Suspend", {
+  "id": "prevContext"
+}, ".", {
+  "k": 2
+}, "Push", {
+  "id": "asyncContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "asyncContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 3
+}, "Resume", "the", "suspended", "evaluation", "of", {
+  "id": "asyncContext"
+}, "using", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
+  "const": "throw"
+}, ",", "[", "[", "Value", "]", "]", ":", {
+  "id": "reason"
+}, ",", "[", "[", "Target", "]", "]", ":", {
+  "const": "empty"
+}, "}", "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
+  "id": "result"
+}, "be", "the", "value", "returned", "by", "the", "resumed", "computation", ".", {
+  "k": 4
+}, "Assert", ":", "When", "we", "reach", "this", "step", ",", {
+  "id": "asyncContext"
+}, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
+  "id": "prevContext"
+}, "is", "the", "currently", "running", "execution", "context", ".", {
+  "k": 5
+}, "Return", "Completion", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 6
+}]

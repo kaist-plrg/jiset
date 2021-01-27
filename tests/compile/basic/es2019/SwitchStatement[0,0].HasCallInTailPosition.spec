@@ -1,0 +1,1 @@
+          1. Return HasCallInTailPosition of |CaseBlock| with argument _call_.

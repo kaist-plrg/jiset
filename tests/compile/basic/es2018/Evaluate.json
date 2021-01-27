@@ -1,0 +1,85 @@
+["Let", {
+  "id": "module"
+}, "be", "this", "Source", "Text", "Module", "Record", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "code": "\"instantiated\""
+}, "or", {
+  "code": "\"evaluated\""
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "stack"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "Let", {
+  "id": "result"
+}, "be", "InnerModuleEvaluation", "(", {
+  "id": "module"
+}, ",", {
+  "id": "stack"
+}, ",", "0", ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "result"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "For", "each", "module", {
+  "id": "m"
+}, "in", {
+  "id": "stack"
+}, ",", "do", true, "Assert", ":", {
+  "id": "m"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "code": "\"evaluating\""
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "m"
+}, ".", "[", "[", "Status", "]", "]", "to", {
+  "code": "\"evaluated\""
+}, ".", {
+  "k": 7
+}, "Set", {
+  "id": "m"
+}, ".", "[", "[", "EvaluationError", "]", "]", "to", {
+  "id": "result"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 5
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "code": "\"evaluated\""
+}, "and", {
+  "id": "module"
+}, ".", "[", "[", "EvaluationError", "]", "]", "is", {
+  "id": "result"
+}, ".", {
+  "k": 9
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 4
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "code": "\"evaluated\""
+}, "and", {
+  "id": "module"
+}, ".", "[", "[", "EvaluationError", "]", "]", "is", {
+  "value": "undefined"
+}, ".", {
+  "k": 11
+}, "Assert", ":", {
+  "id": "stack"
+}, "is", "empty", ".", {
+  "k": 12
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 13
+}]

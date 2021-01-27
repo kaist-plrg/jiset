@@ -1,0 +1,12 @@
+{
+  app __x0__ = (Type array)
+  assert (= __x0__ Object)
+  assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))
+  app __x1__ = (OrdinaryObjectCreate INTRINSIC_ArrayIteratorPrototype (new ["IteratedArrayLike", "ArrayLikeNextIndex", "ArrayLikeIterationKind"]))
+  let iterator = __x1__
+  iterator.IteratedArrayLike = array
+  iterator.ArrayLikeNextIndex = 0i
+  iterator.ArrayLikeIterationKind = kind
+  app __x2__ = (WrapCompletion iterator)
+  return __x2__
+}

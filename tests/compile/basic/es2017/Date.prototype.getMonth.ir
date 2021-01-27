@@ -1,0 +1,13 @@
+{
+  app __x0__ = (thisTimeValue this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let t = __x0__
+  if (= t NaN) {
+    app __x1__ = (WrapCompletion NaN)
+    return __x1__
+  } else {}
+  app __x2__ = (LocalTime t)
+  app __x3__ = (MonthFromTime __x2__)
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

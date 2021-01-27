@@ -1,0 +1,57 @@
+["Let", "happens", "-", "before", "be", {
+  "id": "execution"
+}, ".", "[", "[", "HappensBefore", "]", "]", ".", {
+  "k": 0
+}, "Let", "reads", "-", "bytes", "-", "from", "be", {
+  "id": "execution"
+}, ".", "[", "[", "ReadsBytesFrom", "]", "]", ".", {
+  "k": 1
+}, "For", "each", "ReadSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+  "id": "R"
+}, "in", "SharedDataBlockEventSet", "(", {
+  "id": "execution"
+}, ")", ",", "do", true, "Let", {
+  "id": "Ws"
+}, "be", "the", "List", "of", "events", "reads", "-", "bytes", "-", "from", "(", {
+  "id": "R"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "byteLocation"
+}, "be", {
+  "id": "R"
+}, ".", "[", "[", "ByteIndex", "]", "]", ".", {
+  "k": 4
+}, "For", "each", "element", {
+  "id": "W"
+}, "of", {
+  "id": "Ws"
+}, "in", "List", "order", ",", "do", true, "It", "is", "not", "the", "case", "that", {
+  "id": "R"
+}, "happens", "-", "before", {
+  "id": "W"
+}, ",", "and", {
+  "k": 6
+}, "There", "is", "no", "WriteSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+  "id": "V"
+}, "that", "has", {
+  "id": "byteLocation"
+}, "in", "its", "range", "such", "that", {
+  "id": "W"
+}, "happens", "-", "before", {
+  "id": "V"
+}, "and", {
+  "id": "V"
+}, "happens", "-", "before", {
+  "id": "R"
+}, ".", {
+  "k": 7
+}, "Increment", {
+  "id": "byteLocation"
+}, "by", "1", ".", {
+  "k": 8
+}, false, {
+  "k": 5
+}, false, {
+  "k": 2
+}]

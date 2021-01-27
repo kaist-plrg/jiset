@@ -1,0 +1,57 @@
+["Let", {
+  "id": "t"
+}, "be", "?", "thisTimeValue", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "s"
+}, "be", "?", "ToNumber", "(", {
+  "id": "sec"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "ms"
+}, "is", "not", "specified", ",", "let", {
+  "id": "milli"
+}, "be", "msFromTime", "(", {
+  "id": "t"
+}, ")", ".", {
+  "k": 2
+}, "Else", ",", true, "Let", {
+  "id": "milli"
+}, "be", "?", "ToNumber", "(", {
+  "id": "ms"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Let", {
+  "id": "date"
+}, "be", "MakeDate", "(", "Day", "(", {
+  "id": "t"
+}, ")", ",", "MakeTime", "(", "HourFromTime", "(", {
+  "id": "t"
+}, ")", ",", "MinFromTime", "(", {
+  "id": "t"
+}, ")", ",", {
+  "id": "s"
+}, ",", {
+  "id": "milli"
+}, ")", ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "v"
+}, "be", "TimeClip", "(", {
+  "id": "date"
+}, ")", ".", {
+  "k": 6
+}, "Set", "the", "[", "[", "DateValue", "]", "]", "internal", "slot", "of", "this", "Date", "object", "to", {
+  "id": "v"
+}, ".", {
+  "k": 7
+}, "Return", {
+  "id": "v"
+}, ".", {
+  "k": 8
+}]

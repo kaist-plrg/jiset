@@ -1,0 +1,9 @@
+{
+  let g = this
+  app __x0__ = (ThrowCompletion exception)
+  let C = __x0__
+  app __x1__ = (GeneratorResumeAbrupt g C CONST_empty)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
+}

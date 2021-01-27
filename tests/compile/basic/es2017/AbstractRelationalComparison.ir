@@ -1,0 +1,73 @@
+{
+  if (= LeftFirst true) {
+    app __x0__ = (ToPrimitive x Number)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    let px = __x0__
+    app __x1__ = (ToPrimitive y Number)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    let py = __x1__
+  } else {
+    app __x2__ = (ToPrimitive y Number)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    let py = __x2__
+    app __x3__ = (ToPrimitive x Number)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    let px = __x3__
+  }
+  if (&& (= px Strings) (= py Strings)) {
+    ??? "If id:{py} is a prefix of id:{px} , return value:{false} . ( A String value id:{p} is a prefix of String value id:{q} if id:{q} can be the result of concatenating id:{p} and some other String id:{r} . Note that any String is a prefix of itself , because id:{r} may be the empty String . )"
+    ??? "If id:{px} is a prefix of id:{py} , return value:{true} ."
+    ??? "Let id:{k} be the smallest nonnegative integer such that the code unit at index id:{k} within id:{px} is different from the code unit at index id:{k} within id:{py} . ( There must be such a id:{k} , for neither String is a prefix of the other . )"
+    ??? "Let id:{m} be the integer that is the code unit value at index id:{k} within id:{px} ."
+    ??? "Let id:{n} be the integer that is the code unit value at index id:{k} within id:{py} ."
+    if (< m n) {
+      app __x4__ = (WrapCompletion true)
+      return __x4__
+    } else {
+      app __x5__ = (WrapCompletion false)
+      return __x5__
+    }
+  } else {
+    ??? "Let id:{nx} be ? ToNumber ( id:{px} ) . Because id:{px} and id:{py} are primitive values evaluation order is not important ."
+    app __x6__ = (ToNumber py)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    let ny = __x6__
+    if (= nx NaN) {
+      app __x7__ = (WrapCompletion undefined)
+      return __x7__
+    } else {}
+    if (= ny NaN) {
+      app __x8__ = (WrapCompletion undefined)
+      return __x8__
+    } else {}
+    if (= nx ny) {
+      app __x9__ = (WrapCompletion false)
+      return __x9__
+    } else {}
+    if (&& (= nx 0i) (= ny -0.0)) {
+      app __x10__ = (WrapCompletion false)
+      return __x10__
+    } else {}
+    if (&& (= nx -0.0) (= ny 0i)) {
+      app __x11__ = (WrapCompletion false)
+      return __x11__
+    } else {}
+    if (= nx Infinity) {
+      app __x12__ = (WrapCompletion false)
+      return __x12__
+    } else {}
+    if (= ny Infinity) {
+      app __x13__ = (WrapCompletion true)
+      return __x13__
+    } else {}
+    if (= ny -Infinity) {
+      app __x14__ = (WrapCompletion false)
+      return __x14__
+    } else {}
+    if (= nx -Infinity) {
+      app __x15__ = (WrapCompletion true)
+      return __x15__
+    } else {}
+    ??? "If the mathematical value of id:{nx} is less than the mathematical value of id:{ny} — note that these mathematical values are both finite and not both zero — return value:{true} . Otherwise , return value:{false} ."
+  }
+}

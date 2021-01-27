@@ -1,0 +1,57 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "sourceLen"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "mapperFunction"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "If", {
+  "id": "thisArg"
+}, "is", "present", ",", "let", {
+  "id": "T"
+}, "be", {
+  "id": "thisArg"
+}, ";", "else", "let", {
+  "id": "T"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "A"
+}, "be", "?", "ArraySpeciesCreate", "(", {
+  "id": "O"
+}, ",", "0", ")", ".", {
+  "k": 4
+}, "Perform", "?", "FlattenIntoArray", "(", {
+  "id": "A"
+}, ",", {
+  "id": "O"
+}, ",", {
+  "id": "sourceLen"
+}, ",", "0", ",", "1", ",", {
+  "id": "mapperFunction"
+}, ",", {
+  "id": "T"
+}, ")", ".", {
+  "k": 5
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 6
+}]

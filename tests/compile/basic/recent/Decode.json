@@ -1,0 +1,247 @@
+["Let", {
+  "id": "strLen"
+}, "be", "the", "length", "of", {
+  "id": "string"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "R"
+}, "be", "the", "empty", "String", ".", {
+  "k": 1
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 2
+}, "Repeat", ",", true, "If", {
+  "id": "k"
+}, "=", {
+  "id": "strLen"
+}, ",", "return", {
+  "id": "R"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "C"
+}, "be", "the", "code", "unit", "at", "index", {
+  "id": "k"
+}, "within", {
+  "id": "string"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "C"
+}, "is", "not", "the", "code", "unit", "0x0025", "(", "PERCENT", "SIGN", ")", ",", "then", true, "Let", {
+  "id": "S"
+}, "be", "the", "String", "value", "containing", "only", "the", "code", "unit", {
+  "id": "C"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Let", {
+  "id": "start"
+}, "be", {
+  "id": "k"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "k"
+}, "+", "2", "≥", {
+  "id": "strLen"
+}, ",", "throw", "a", {
+  "value": "URIError"
+}, "exception", ".", {
+  "k": 10
+}, "If", "the", "code", "units", "at", "index", "(", {
+  "id": "k"
+}, "+", "1", ")", "and", "(", {
+  "id": "k"
+}, "+", "2", ")", "within", {
+  "id": "string"
+}, "do", "not", "represent", "hexadecimal", "digits", ",", "throw", "a", {
+  "value": "URIError"
+}, "exception", ".", {
+  "k": 11
+}, "Let", {
+  "id": "B"
+}, "be", "the", "8", "-", "bit", "value", "represented", "by", "the", "two", "hexadecimal", "digits", "at", "index", "(", {
+  "id": "k"
+}, "+", "1", ")", "and", "(", {
+  "id": "k"
+}, "+", "2", ")", ".", {
+  "k": 12
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "2", ".", {
+  "k": 13
+}, "Let", {
+  "id": "n"
+}, "be", "the", "number", "of", "leading", "1", "bits", "in", {
+  "id": "B"
+}, ".", {
+  "k": 14
+}, "If", {
+  "id": "n"
+}, "=", "0", ",", "then", true, "Let", {
+  "id": "C"
+}, "be", "the", "code", "unit", "whose", "value", "is", {
+  "id": "B"
+}, ".", {
+  "k": 16
+}, "If", {
+  "id": "C"
+}, "is", "not", "in", {
+  "id": "reservedSet"
+}, ",", "then", true, "Let", {
+  "id": "S"
+}, "be", "the", "String", "value", "containing", "only", "the", "code", "unit", {
+  "id": "C"
+}, ".", {
+  "k": 18
+}, false, {
+  "k": 17
+}, "Else", ",", true, "Let", {
+  "id": "S"
+}, "be", "the", "substring", "of", {
+  "id": "string"
+}, "from", {
+  "id": "start"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 20
+}, false, {
+  "k": 19
+}, false, {
+  "k": 15
+}, "Else", ",", true, "If", {
+  "id": "n"
+}, "=", "1", "or", {
+  "id": "n"
+}, ">", "4", ",", "throw", "a", {
+  "value": "URIError"
+}, "exception", ".", {
+  "k": 22
+}, "If", {
+  "id": "k"
+}, "+", "(", "3", "×", "(", {
+  "id": "n"
+}, "-", "1", ")", ")", "≥", {
+  "id": "strLen"
+}, ",", "throw", "a", {
+  "value": "URIError"
+}, "exception", ".", {
+  "k": 23
+}, "Let", {
+  "id": "Octets"
+}, "be", "a", "List", "whose", "sole", "element", "is", {
+  "id": "B"
+}, ".", {
+  "k": 24
+}, "Let", {
+  "id": "j"
+}, "be", "1", ".", {
+  "k": 25
+}, "Repeat", ",", "while", {
+  "id": "j"
+}, "<", {
+  "id": "n"
+}, ",", true, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 27
+}, "If", "the", "code", "unit", "at", "index", {
+  "id": "k"
+}, "within", {
+  "id": "string"
+}, "is", "not", "the", "code", "unit", "0x0025", "(", "PERCENT", "SIGN", ")", ",", "throw", "a", {
+  "value": "URIError"
+}, "exception", ".", {
+  "k": 28
+}, "If", "the", "code", "units", "at", "index", "(", {
+  "id": "k"
+}, "+", "1", ")", "and", "(", {
+  "id": "k"
+}, "+", "2", ")", "within", {
+  "id": "string"
+}, "do", "not", "represent", "hexadecimal", "digits", ",", "throw", "a", {
+  "value": "URIError"
+}, "exception", ".", {
+  "k": 29
+}, "Let", {
+  "id": "B"
+}, "be", "the", "8", "-", "bit", "value", "represented", "by", "the", "two", "hexadecimal", "digits", "at", "index", "(", {
+  "id": "k"
+}, "+", "1", ")", "and", "(", {
+  "id": "k"
+}, "+", "2", ")", ".", {
+  "k": 30
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "2", ".", {
+  "k": 31
+}, "Append", {
+  "id": "B"
+}, "to", {
+  "id": "Octets"
+}, ".", {
+  "k": 32
+}, "Set", {
+  "id": "j"
+}, "to", {
+  "id": "j"
+}, "+", "1", ".", {
+  "k": 33
+}, false, {
+  "k": 26
+}, "Assert", ":", "The", "length", "of", {
+  "id": "Octets"
+}, "is", {
+  "id": "n"
+}, ".", {
+  "k": 34
+}, "If", {
+  "id": "Octets"
+}, "does", "not", "contain", "a", "valid", "UTF", "-", "8", "encoding", "of", "a", "Unicode", "code", "point", ",", "throw", "a", {
+  "value": "URIError"
+}, "exception", ".", {
+  "k": 35
+}, "Let", {
+  "id": "V"
+}, "be", "the", "code", "point", "obtained", "by", "applying", "the", "UTF", "-", "8", "transformation", "to", {
+  "id": "Octets"
+}, ",", "that", "is", ",", "from", "a", "List", "of", "octets", "into", "a", "21", "-", "bit", "value", ".", {
+  "k": 36
+}, "Let", {
+  "id": "S"
+}, "be", "UTF16EncodeCodePoint", "(", {
+  "id": "V"
+}, ")", ".", {
+  "k": 37
+}, false, {
+  "k": 21
+}, false, {
+  "k": 8
+}, "Set", {
+  "id": "R"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "R"
+}, "and", {
+  "id": "S"
+}, ".", {
+  "k": 38
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 39
+}, false, {
+  "k": 3
+}]

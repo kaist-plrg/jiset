@@ -1,0 +1,61 @@
+["Assert", ":", {
+  "id": "O"
+}, "is", "an", "Object", "that", "has", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "values"
+}, ".", {
+  "k": 1
+}, "Perform", "?", "AllocateTypedArrayBuffer", "(", {
+  "id": "O"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 3
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, ",", true, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "kValue"
+}, "be", "the", "first", "element", "of", {
+  "id": "values"
+}, "and", "remove", "that", "element", "from", {
+  "id": "values"
+}, ".", {
+  "k": 6
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ",", {
+  "id": "kValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 7
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 8
+}, false, {
+  "k": 4
+}, "Assert", ":", {
+  "id": "values"
+}, "is", "now", "an", "empty", "List", ".", {
+  "k": 9
+}]

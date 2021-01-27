@@ -1,0 +1,121 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "len"
+}, "is", "0", ",", "return", "-", "1", ".", {
+  "k": 2
+}, "Let", {
+  "id": "n"
+}, "be", "?", "ToInteger", "(", {
+  "id": "fromIndex"
+}, ")", ".", "(", "If", {
+  "id": "fromIndex"
+}, "is", {
+  "value": "undefined"
+}, ",", "this", "step", "produces", "the", "value", "0", ".", ")", {
+  "k": 3
+}, "If", {
+  "id": "n"
+}, "≥", {
+  "id": "len"
+}, ",", "return", "-", "1", ".", {
+  "k": 4
+}, "If", {
+  "id": "n"
+}, "≥", "0", ",", "then", true, "If", {
+  "id": "n"
+}, "is", {
+  "value": "-0"
+}, ",", "let", {
+  "id": "k"
+}, "be", {
+  "value": "+0"
+}, ";", "else", "let", {
+  "id": "k"
+}, "be", {
+  "id": "n"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Else", {
+  "id": "n"
+}, "<", "0", ",", true, "Let", {
+  "id": "k"
+}, "be", {
+  "id": "len"
+}, "+", {
+  "id": "n"
+}, ".", {
+  "k": 8
+}, "If", {
+  "id": "k"
+}, "<", "0", ",", "let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 9
+}, false, {
+  "k": 7
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "kPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "elementK"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 13
+}, "Let", {
+  "id": "same"
+}, "be", "the", "result", "of", "performing", "Strict", "Equality", "Comparison", {
+  "id": "searchElement"
+}, "=", "=", "=", {
+  "id": "elementK"
+}, ".", {
+  "k": 14
+}, "If", {
+  "id": "same"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "k"
+}, ".", {
+  "k": 15
+}, false, {
+  "k": 12
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 16
+}, false, {
+  "k": 10
+}, "Return", "-", "1", ".", {
+  "k": 17
+}]

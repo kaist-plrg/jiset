@@ -1,0 +1,19 @@
+{
+  let s = this
+  app __x0__ = (Type s)
+  if (= __x0__ Symbol) let sym = s else {
+    app __x1__ = (Type s)
+    if (! (= __x1__ Object)) {
+      app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x2__
+    } else {}
+    if (= s.SymbolData absent) {
+      app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x3__
+    } else {}
+    let sym = s.SymbolData
+  }
+  app __x4__ = (SymbolDescriptiveString sym)
+  app __x5__ = (WrapCompletion __x4__)
+  return __x5__
+}

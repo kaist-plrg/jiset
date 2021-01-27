@@ -1,0 +1,351 @@
+["For", "each", "ExportEntry", "Record", {
+  "id": "e"
+}, "of", {
+  "id": "module"
+}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", true, "Let", {
+  "id": "resolution"
+}, "be", "?", {
+  "id": "module"
+}, ".", "ResolveExport", "(", {
+  "id": "e"
+}, ".", "[", "[", "ExportName", "]", "]", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "resolution"
+}, "is", {
+  "value": "null"
+}, "or", {
+  "value": "\"ambiguous\""
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "resolution"
+}, "is", "a", "ResolvedBinding", "Record", ".", {
+  "k": 3
+}, false, {
+  "k": 0
+}, "Assert", ":", "All", "named", "exports", "from", {
+  "id": "module"
+}, "are", "resolvable", ".", {
+  "k": 4
+}, "Let", {
+  "id": "realm"
+}, "be", {
+  "id": "module"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 5
+}, "Assert", ":", {
+  "id": "realm"
+}, "is", "not", {
+  "value": "undefined"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "env"
+}, "be", "NewModuleEnvironment", "(", {
+  "id": "realm"
+}, ".", "[", "[", "GlobalEnv", "]", "]", ")", ".", {
+  "k": 7
+}, "Set", {
+  "id": "module"
+}, ".", "[", "[", "Environment", "]", "]", "to", {
+  "id": "env"
+}, ".", {
+  "k": 8
+}, "For", "each", "ImportEntry", "Record", {
+  "id": "in"
+}, "of", {
+  "id": "module"
+}, ".", "[", "[", "ImportEntries", "]", "]", ",", "do", true, "Let", {
+  "id": "importedModule"
+}, "be", "!", "HostResolveImportedModule", "(", {
+  "id": "module"
+}, ",", {
+  "id": "in"
+}, ".", "[", "[", "ModuleRequest", "]", "]", ")", ".", {
+  "k": 10
+}, "NOTE", ":", "The", "above", "call", "cannot", "fail", "because", "imported", "module", "requests", "are", "a", "subset", "of", {
+  "id": "module"
+}, ".", "[", "[", "RequestedModules", "]", "]", ",", "and", "these", "have", "been", "resolved", "earlier", "in", "this", "algorithm", ".", {
+  "k": 11
+}, "If", {
+  "id": "in"
+}, ".", "[", "[", "ImportName", "]", "]", "is", {
+  "value": "\"\\"
+}, "\"", "*", ",", "then", true, "Let", {
+  "id": "namespace"
+}, "be", "?", "GetModuleNamespace", "(", {
+  "id": "importedModule"
+}, ")", ".", {
+  "k": 13
+}, "Perform", "!", {
+  "id": "env"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "in"
+}, ".", "[", "[", "LocalName", "]", "]", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 14
+}, "Call", {
+  "id": "env"
+}, ".", "InitializeBinding", "(", {
+  "id": "in"
+}, ".", "[", "[", "LocalName", "]", "]", ",", {
+  "id": "namespace"
+}, ")", ".", {
+  "k": 15
+}, false, {
+  "k": 12
+}, "Else", ",", true, "Let", {
+  "id": "resolution"
+}, "be", "?", {
+  "id": "importedModule"
+}, ".", "ResolveExport", "(", {
+  "id": "in"
+}, ".", "[", "[", "ImportName", "]", "]", ")", ".", {
+  "k": 17
+}, "If", {
+  "id": "resolution"
+}, "is", {
+  "value": "null"
+}, "or", {
+  "value": "\"ambiguous\""
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 18
+}, "If", {
+  "id": "resolution"
+}, ".", "[", "[", "BindingName", "]", "]", "is", {
+  "value": "\"\\"
+}, "namespace", "\\", {
+  "value": "\""
+}, ",", "then", true, "Let", {
+  "id": "namespace"
+}, "be", "?", "GetModuleNamespace", "(", {
+  "id": "resolution"
+}, ".", "[", "[", "Module", "]", "]", ")", ".", {
+  "k": 20
+}, "Perform", "!", {
+  "id": "env"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "in"
+}, ".", "[", "[", "LocalName", "]", "]", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 21
+}, "Call", {
+  "id": "env"
+}, ".", "InitializeBinding", "(", {
+  "id": "in"
+}, ".", "[", "[", "LocalName", "]", "]", ",", {
+  "id": "namespace"
+}, ")", ".", {
+  "k": 22
+}, false, {
+  "k": 19
+}, "Else", ",", true, "Call", {
+  "id": "env"
+}, ".", "CreateImportBinding", "(", {
+  "id": "in"
+}, ".", "[", "[", "LocalName", "]", "]", ",", {
+  "id": "resolution"
+}, ".", "[", "[", "Module", "]", "]", ",", {
+  "id": "resolution"
+}, ".", "[", "[", "BindingName", "]", "]", ")", ".", {
+  "k": 24
+}, false, {
+  "k": 23
+}, false, {
+  "k": 16
+}, false, {
+  "k": 9
+}, "Let", {
+  "id": "moduleContext"
+}, "be", "a", "new", "ECMAScript", "code", "execution", "context", ".", {
+  "k": 25
+}, "Set", "the", "Function", "of", {
+  "id": "moduleContext"
+}, "to", {
+  "value": "null"
+}, ".", {
+  "k": 26
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Realm", "]", "]", "is", "not", {
+  "value": "undefined"
+}, ".", {
+  "k": 27
+}, "Set", "the", "Realm", "of", {
+  "id": "moduleContext"
+}, "to", {
+  "id": "module"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 28
+}, "Set", "the", "ScriptOrModule", "of", {
+  "id": "moduleContext"
+}, "to", {
+  "id": "module"
+}, ".", {
+  "k": 29
+}, "Set", "the", "VariableEnvironment", "of", {
+  "id": "moduleContext"
+}, "to", {
+  "id": "module"
+}, ".", "[", "[", "Environment", "]", "]", ".", {
+  "k": 30
+}, "Set", "the", "LexicalEnvironment", "of", {
+  "id": "moduleContext"
+}, "to", {
+  "id": "module"
+}, ".", "[", "[", "Environment", "]", "]", ".", {
+  "k": 31
+}, "Set", {
+  "id": "module"
+}, ".", "[", "[", "Context", "]", "]", "to", {
+  "id": "moduleContext"
+}, ".", {
+  "k": 32
+}, "Push", {
+  "id": "moduleContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "moduleContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 33
+}, "Let", {
+  "id": "code"
+}, "be", {
+  "id": "module"
+}, ".", "[", "[", "ECMAScriptCode", "]", "]", ".", {
+  "k": 34
+}, "Let", {
+  "id": "varDeclarations"
+}, "be", "the", "VarScopedDeclarations", "of", {
+  "id": "code"
+}, ".", {
+  "k": 35
+}, "Let", {
+  "id": "declaredVarNames"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 36
+}, "For", "each", "element", {
+  "id": "d"
+}, "of", {
+  "id": "varDeclarations"
+}, ",", "do", true, "For", "each", "element", {
+  "id": "dn"
+}, "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ",", "do", true, "If", {
+  "id": "dn"
+}, "is", "not", "an", "element", "of", {
+  "id": "declaredVarNames"
+}, ",", "then", true, "Perform", "!", {
+  "id": "env"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 40
+}, "Call", {
+  "id": "env"
+}, ".", "InitializeBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 41
+}, "Append", {
+  "id": "dn"
+}, "to", {
+  "id": "declaredVarNames"
+}, ".", {
+  "k": 42
+}, false, {
+  "k": 39
+}, false, {
+  "k": 38
+}, false, {
+  "k": 37
+}, "Let", {
+  "id": "lexDeclarations"
+}, "be", "the", "LexicallyScopedDeclarations", "of", {
+  "id": "code"
+}, ".", {
+  "k": 43
+}, "For", "each", "element", {
+  "id": "d"
+}, "of", {
+  "id": "lexDeclarations"
+}, ",", "do", true, "For", "each", "element", {
+  "id": "dn"
+}, "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ",", "do", true, "If", "IsConstantDeclaration", "of", {
+  "id": "d"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Perform", "!", {
+  "id": "env"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 47
+}, false, {
+  "k": 46
+}, "Else", ",", true, "Perform", "!", {
+  "id": "env"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 49
+}, false, {
+  "k": 48
+}, "If", {
+  "id": "d"
+}, "is", "a", {
+  "nt": "FunctionDeclaration"
+}, ",", "a", {
+  "nt": "GeneratorDeclaration"
+}, ",", "an", {
+  "nt": "AsyncFunctionDeclaration"
+}, ",", "or", "an", {
+  "nt": "AsyncGeneratorDeclaration"
+}, ",", "then", true, "Let", {
+  "id": "fo"
+}, "be", "InstantiateFunctionObject", "of", {
+  "id": "d"
+}, "with", "argument", {
+  "id": "env"
+}, ".", {
+  "k": 51
+}, "Call", {
+  "id": "env"
+}, ".", "InitializeBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "id": "fo"
+}, ")", ".", {
+  "k": 52
+}, false, {
+  "k": 50
+}, false, {
+  "k": 45
+}, false, {
+  "k": 44
+}, "Remove", {
+  "id": "moduleContext"
+}, "from", "the", "execution", "context", "stack", ".", {
+  "k": 53
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 54
+}]

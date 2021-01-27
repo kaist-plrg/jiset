@@ -1,0 +1,81 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "O"
+}, "is", "an", "Object", "that", "has", "a", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", ",", "then", true, "Let", {
+  "id": "numericIndex"
+}, "be", "!", "CanonicalNumericIndexString", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "numericIndex"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "buffer"
+}, "be", "the", "value", "of", {
+  "id": "O"
+}, "'", "s", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", ".", {
+  "k": 5
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "If", "IsInteger", "(", {
+  "id": "numericIndex"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 7
+}, "If", {
+  "id": "numericIndex"
+}, "=", {
+  "value": "-0"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 8
+}, "If", {
+  "id": "numericIndex"
+}, "<", "0", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "numericIndex"
+}, "≥", "the", "value", "of", {
+  "id": "O"
+}, "'", "s", "[", "[", "ArrayLength", "]", "]", "internal", "slot", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 10
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 4
+}, false, {
+  "k": 2
+}, "Return", "?", "OrdinaryHasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 12
+}]

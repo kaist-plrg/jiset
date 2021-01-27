@@ -1,0 +1,15 @@
+{
+  access __x0__ = (UnaryExpression "Evaluation")
+  let val = __x0__
+  if (= (typeof val) "ReferenceRecord") {
+    app __x1__ = (IsUnresolvableReference val)
+    if (= __x1__ true) {
+      app __x2__ = (WrapCompletion "undefined")
+      return __x2__
+    } else {}
+  } else {}
+  app __x3__ = (GetValue val)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  val = __x3__
+  ??? "Return a String according to link:{} ."
+}

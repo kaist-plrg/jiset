@@ -1,0 +1,17 @@
+{
+  assert (! (< (- (** 2.0 53i) 1i) index))
+  if (= unicode false) {
+    app __x0__ = (WrapCompletion (+ index 1i))
+    return __x0__
+  } else {}
+  let length = S.length
+  if (! (< (+ index 1i) length)) {
+    app __x1__ = (WrapCompletion (+ index 1i))
+    return __x1__
+  } else {}
+  app __x2__ = (CodePointAt S index)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let cp = __x2__
+  app __x3__ = (WrapCompletion (+ index cp.CodeUnitCount))
+  return __x3__
+}

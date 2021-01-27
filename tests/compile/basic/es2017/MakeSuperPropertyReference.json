@@ -1,0 +1,39 @@
+["Let", {
+  "id": "env"
+}, "be", "GetThisEnvironment", "(", ")", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "env"
+}, ".", "HasSuperBinding", "(", ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "actualThis"
+}, "be", "?", {
+  "id": "env"
+}, ".", "GetThisBinding", "(", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "baseValue"
+}, "be", "?", {
+  "id": "env"
+}, ".", "GetSuperBase", "(", ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "bv"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "id": "baseValue"
+}, ")", ".", {
+  "k": 4
+}, "Return", "a", "value", "of", "type", "Reference", "that", "is", "a", "Super", "Reference", "whose", "base", "value", "component", "is", {
+  "id": "bv"
+}, ",", "whose", "referenced", "name", "component", "is", {
+  "id": "propertyKey"
+}, ",", "whose", "thisValue", "component", "is", {
+  "id": "actualThis"
+}, ",", "and", "whose", "strict", "reference", "flag", "is", {
+  "id": "strict"
+}, ".", {
+  "k": 5
+}]

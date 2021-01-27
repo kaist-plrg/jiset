@@ -1,0 +1,73 @@
+["Let", {
+  "id": "M"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "M"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", {
+  "id": "M"
+}, "does", "not", "have", "a", "[", "[", "MapData", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "If", "IsCallable", "(", {
+  "id": "callbackfn"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "If", {
+  "id": "thisArg"
+}, "is", "present", ",", "let", {
+  "id": "T"
+}, "be", {
+  "id": "thisArg"
+}, ";", "else", "let", {
+  "id": "T"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "entries"
+}, "be", "the", "List", "that", "is", {
+  "id": "M"
+}, ".", "[", "[", "MapData", "]", "]", ".", {
+  "k": 5
+}, "For", "each", "Record", "{", "[", "[", "Key", "]", "]", ",", "[", "[", "Value", "]", "]", "}", {
+  "id": "e"
+}, "that", "is", "an", "element", "of", {
+  "id": "entries"
+}, ",", "in", "original", "key", "insertion", "order", ",", "do", true, "If", {
+  "id": "e"
+}, ".", "[", "[", "Key", "]", "]", "is", "not", {
+  "const": "empty"
+}, ",", "then", true, "Perform", "?", "Call", "(", {
+  "id": "callbackfn"
+}, ",", {
+  "id": "T"
+}, ",", "«", {
+  "id": "e"
+}, ".", "[", "[", "Value", "]", "]", ",", {
+  "id": "e"
+}, ".", "[", "[", "Key", "]", "]", ",", {
+  "id": "M"
+}, "»", ")", ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 9
+}]

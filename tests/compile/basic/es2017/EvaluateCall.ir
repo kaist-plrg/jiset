@@ -1,0 +1,22 @@
+{
+  app __x0__ = (GetValue ref)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let func = __x0__
+  app __x1__ = (Type ref)
+  if (= __x1__ Reference) {
+    app __x2__ = (IsPropertyReference ref)
+    if (= __x2__ true) {
+      app __x3__ = (GetThisValue ref)
+      let thisValue = __x3__
+    } else {
+      app __x4__ = (GetBase ref)
+      let refEnv = __x4__
+      app __x5__ = (refEnv.WithBaseObject refEnv)
+      let thisValue = __x5__
+    }
+  } else let thisValue = undefined
+  app __x6__ = (EvaluateDirectCall func thisValue arguments tailPosition)
+  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+  app __x7__ = (WrapCompletion __x6__)
+  return __x7__
+}

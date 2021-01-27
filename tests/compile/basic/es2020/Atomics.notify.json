@@ -1,0 +1,137 @@
+["Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateSharedIntegerTypedArray", "(", {
+  "id": "typedArray"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "i"
+}, "be", "?", "ValidateAtomicAccess", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "count"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "c"
+}, "be", {
+  "value": "+∞"
+}, ".", {
+  "k": 2
+}, "Else", ",", true, "Let", {
+  "id": "intCount"
+}, "be", "?", "ToInteger", "(", {
+  "id": "count"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "c"
+}, "be", "max", "(", {
+  "id": "intCount"
+}, ",", "0", ")", ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Let", {
+  "id": "block"
+}, "be", {
+  "id": "buffer"
+}, ".", "[", "[", "ArrayBufferData", "]", "]", ".", {
+  "k": 6
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 8
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "i"
+}, "×", {
+  "id": "elementSize"
+}, ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "WL"
+}, "be", "GetWaiterList", "(", {
+  "id": "block"
+}, ",", {
+  "id": "indexedPosition"
+}, ")", ".", {
+  "k": 11
+}, "Let", {
+  "id": "n"
+}, "be", "0", ".", {
+  "k": 12
+}, "Perform", "EnterCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 13
+}, "Let", {
+  "id": "S"
+}, "be", "RemoveWaiters", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "c"
+}, ")", ".", {
+  "k": 14
+}, "Repeat", ",", "while", {
+  "id": "S"
+}, "is", "not", "an", "empty", "List", ",", true, "Let", {
+  "id": "W"
+}, "be", "the", "first", "agent", "in", {
+  "id": "S"
+}, ".", {
+  "k": 16
+}, "Remove", {
+  "id": "W"
+}, "from", "the", "front", "of", {
+  "id": "S"
+}, ".", {
+  "k": 17
+}, "Perform", "NotifyWaiter", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "W"
+}, ")", ".", {
+  "k": 18
+}, "Set", {
+  "id": "n"
+}, "to", {
+  "id": "n"
+}, "+", "1", ".", {
+  "k": 19
+}, false, {
+  "k": 15
+}, "Perform", "LeaveCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 20
+}, "Return", {
+  "id": "n"
+}, ".", {
+  "k": 21
+}]

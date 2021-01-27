@@ -1,0 +1,11 @@
+{
+  access __x0__ = (Elision "IteratorDestructuringAssignmentEvaluation")
+  app __x1__ = (__x0__ iteratorRecord)
+  let status = __x1__
+  if (is-completion status) if (= status.Type CONST_normal) status = status.Value else return status else {}
+  status
+  access __x2__ = (BindingElement "IteratorBindingInitialization")
+  app __x3__ = (__x2__ iteratorRecord environment)
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

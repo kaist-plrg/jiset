@@ -1,0 +1,1 @@
+        1. Return a new List containing DeclarationPart of |Declaration|.

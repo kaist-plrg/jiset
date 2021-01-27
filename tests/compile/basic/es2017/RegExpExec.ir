@@ -1,0 +1,30 @@
+{
+  app __x0__ = (Type R)
+  assert (= __x0__ Object)
+  app __x1__ = (Type S)
+  assert (= __x1__ String)
+  app __x2__ = (Get R "exec")
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let exec = __x2__
+  app __x3__ = (IsCallable exec)
+  if (= __x3__ true) {
+    app __x4__ = (Call exec R (new [S]))
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let result = __x4__
+    app __x5__ = (Type result)
+    if (! (|| (= __x5__ Object) (= __x5__ Null))) {
+      app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x6__
+    } else {}
+    app __x7__ = (WrapCompletion result)
+    return __x7__
+  } else {}
+  if (= R.RegExpMatcher absent) {
+    app __x8__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x8__
+  } else {}
+  app __x9__ = (RegExpBuiltinExec R S)
+  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+  app __x10__ = (WrapCompletion __x9__)
+  return __x10__
+}

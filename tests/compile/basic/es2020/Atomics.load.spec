@@ -1,0 +1,1 @@
+        1. Return ? AtomicLoad(_typedArray_, _index_).

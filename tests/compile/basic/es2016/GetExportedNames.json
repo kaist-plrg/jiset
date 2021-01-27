@@ -1,0 +1,109 @@
+["Let", {
+  "id": "module"
+}, "be", "this", "Source", "Text", "Module", "Record", ".", {
+  "k": 0
+}, "If", {
+  "id": "exportStarSet"
+}, "contains", {
+  "id": "module"
+}, ",", "then", true, "Assert", ":", "We", "'", "ve", "reached", "the", "starting", "point", "of", "an", "`", "import", "*", "`", "circularity", ".", {
+  "k": 2
+}, "Return", "a", "new", "empty", "List", ".", {
+  "k": 3
+}, false, {
+  "k": 1
+}, "Append", {
+  "id": "module"
+}, "to", {
+  "id": "exportStarSet"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "exportedNames"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 5
+}, "For", "each", "ExportEntry", "Record", {
+  "id": "e"
+}, "in", {
+  "id": "module"
+}, ".", "[", "[", "LocalExportEntries", "]", "]", ",", "do", true, "Assert", ":", {
+  "id": "module"
+}, "provides", "the", "direct", "binding", "for", "this", "export", ".", {
+  "k": 7
+}, "Append", {
+  "id": "e"
+}, ".", "[", "[", "ExportName", "]", "]", "to", {
+  "id": "exportedNames"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, "For", "each", "ExportEntry", "Record", {
+  "id": "e"
+}, "in", {
+  "id": "module"
+}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", true, "Assert", ":", {
+  "id": "module"
+}, "imports", "a", "specific", "binding", "for", "this", "export", ".", {
+  "k": 10
+}, "Append", {
+  "id": "e"
+}, ".", "[", "[", "ExportName", "]", "]", "to", {
+  "id": "exportedNames"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 9
+}, "For", "each", "ExportEntry", "Record", {
+  "id": "e"
+}, "in", {
+  "id": "module"
+}, ".", "[", "[", "StarExportEntries", "]", "]", ",", "do", true, "Let", {
+  "id": "requestedModule"
+}, "be", "?", "HostResolveImportedModule", "(", {
+  "id": "module"
+}, ",", {
+  "id": "e"
+}, ".", "[", "[", "ModuleRequest", "]", "]", ")", ".", {
+  "k": 13
+}, "Let", {
+  "id": "starNames"
+}, "be", "?", {
+  "id": "requestedModule"
+}, ".", "GetExportedNames", "(", {
+  "id": "exportStarSet"
+}, ")", ".", {
+  "k": 14
+}, "For", "each", "element", {
+  "id": "n"
+}, "of", {
+  "id": "starNames"
+}, ",", "do", true, "If", "SameValue", "(", {
+  "id": "n"
+}, ",", {
+  "code": "\"default\""
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "If", {
+  "id": "n"
+}, "is", "not", "an", "element", "of", {
+  "id": "exportedNames"
+}, ",", "then", true, "Append", {
+  "id": "n"
+}, "to", {
+  "id": "exportedNames"
+}, ".", {
+  "k": 18
+}, false, {
+  "k": 17
+}, false, {
+  "k": 16
+}, false, {
+  "k": 15
+}, false, {
+  "k": 12
+}, "Return", {
+  "id": "exportedNames"
+}, ".", {
+  "k": 19
+}]

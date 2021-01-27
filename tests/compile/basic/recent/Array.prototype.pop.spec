@@ -1,0 +1,13 @@
+          1. Let _O_ be ? ToObject(*this* value).
+          1. Let _len_ be ? LengthOfArrayLike(_O_).
+          1. If _len_ = 0, then
+            1. Perform ? Set(_O_, *"length"*, *+0*<sub>𝔽</sub>, *true*).
+            1. Return *undefined*.
+          1. Else,
+            1. Assert: _len_ > 0.
+            1. Let _newLen_ be 𝔽(_len_ - 1).
+            1. Let _index_ be ! ToString(_newLen_).
+            1. Let _element_ be ? Get(_O_, _index_).
+            1. Perform ? DeletePropertyOrThrow(_O_, _index_).
+            1. Perform ? Set(_O_, *"length"*, _newLen_, *true*).
+            1. Return _element_.

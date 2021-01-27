@@ -1,0 +1,77 @@
+["Assert", ":", "Type", "(", {
+  "id": "tv"
+}, ")", "is", "Number", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "tv"
+}, "is", "not", {
+  "value": "NaN"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "offset"
+}, "be", "LocalTZA", "(", {
+  "id": "tv"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "offset"
+}, "≥", {
+  "value": "+0"
+}, ",", "then", true, "Let", {
+  "id": "offsetSign"
+}, "be", {
+  "value": "\"+\""
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "absOffset"
+}, "be", {
+  "id": "offset"
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Else", ",", true, "Let", {
+  "id": "offsetSign"
+}, "be", {
+  "value": "\"-\""
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "absOffset"
+}, "be", "-", {
+  "id": "offset"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "offsetMin"
+}, "be", "the", "String", "representation", "of", "MinFromTime", "(", {
+  "id": "absOffset"
+}, ")", ",", "formatted", "as", "a", "two", "-", "digit", "decimal", "number", ",", "padded", "to", "the", "left", "with", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", "if", "necessary", ".", {
+  "k": 9
+}, "Let", {
+  "id": "offsetHour"
+}, "be", "the", "String", "representation", "of", "HourFromTime", "(", {
+  "id": "absOffset"
+}, ")", ",", "formatted", "as", "a", "two", "-", "digit", "decimal", "number", ",", "padded", "to", "the", "left", "with", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", "if", "necessary", ".", {
+  "k": 10
+}, "Let", {
+  "id": "tzName"
+}, "be", "an", "implementation", "-", "defined", "string", "that", "is", "either", "the", "empty", "String", "or", "the", "string", "-", "concatenation", "of", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", "the", "code", "unit", "0x0028", "(", "LEFT", "PARENTHESIS", ")", ",", "an", "implementation", "-", "defined", "timezone", "name", ",", "and", "the", "code", "unit", "0x0029", "(", "RIGHT", "PARENTHESIS", ")", ".", {
+  "k": 11
+}, "Return", "the", "string", "-", "concatenation", "of", {
+  "id": "offsetSign"
+}, ",", {
+  "id": "offsetHour"
+}, ",", {
+  "id": "offsetMin"
+}, ",", "and", {
+  "id": "tzName"
+}, ".", {
+  "k": 12
+}]

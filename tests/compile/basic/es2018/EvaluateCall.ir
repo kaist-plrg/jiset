@@ -1,0 +1,37 @@
+{
+  app __x0__ = (Type ref)
+  if (= __x0__ Reference) {
+    app __x1__ = (IsPropertyReference ref)
+    if (= __x1__ true) {
+      app __x2__ = (GetThisValue ref)
+      let thisValue = __x2__
+    } else {
+      app __x3__ = (GetBase ref)
+      let refEnv = __x3__
+      app __x4__ = (refEnv.WithBaseObject refEnv)
+      let thisValue = __x4__
+    }
+  } else let thisValue = undefined
+  access __x5__ = (arguments "ArgumentListEvaluation")
+  let argList = __x5__
+  if (is-completion argList) if (= argList.Type CONST_normal) argList = argList.Value else return argList else {}
+  argList
+  app __x6__ = (Type func)
+  if (! (= __x6__ Object)) {
+    app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x7__
+  } else {}
+  app __x8__ = (IsCallable func)
+  if (= __x8__ false) {
+    app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x9__
+  } else {}
+  if (= tailPosition true) {
+    app __x10__ = (PrepareForTailCall )
+    __x10__
+  } else {}
+  app __x11__ = (Call func thisValue argList)
+  let result = __x11__
+  app __x12__ = (WrapCompletion result)
+  return __x12__
+}

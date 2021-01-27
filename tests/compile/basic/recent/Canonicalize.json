@@ -1,0 +1,75 @@
+["If", {
+  "id": "Unicode"
+}, "is", {
+  "value": "true"
+}, "and", {
+  "id": "IgnoreCase"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "If", "the", "file", "CaseFolding", ".", "txt", "of", "the", "Unicode", "Character", "Database", "provides", "a", "simple", "or", "common", "case", "folding", "mapping", "for", {
+  "id": "ch"
+}, ",", "return", "the", "result", "of", "applying", "that", "mapping", "to", {
+  "id": "ch"
+}, ".", {
+  "k": 1
+}, "Return", {
+  "id": "ch"
+}, ".", {
+  "k": 2
+}, false, {
+  "k": 0
+}, "If", {
+  "id": "IgnoreCase"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "ch"
+}, ".", {
+  "k": 3
+}, "Assert", ":", {
+  "id": "ch"
+}, "is", "a", "UTF", "-", "16", "code", "unit", ".", {
+  "k": 4
+}, "Let", {
+  "id": "cp"
+}, "be", "the", "code", "point", "whose", "numeric", "value", "is", "that", "of", {
+  "id": "ch"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "u"
+}, "be", "the", "result", "of", "toUppercase", "(", "«", {
+  "id": "cp"
+}, "»", ")", ",", "according", "to", "the", "Unicode", "Default", "Case", "Conversion", "algorithm", ".", {
+  "k": 6
+}, "Let", {
+  "id": "uStr"
+}, "be", "!", "CodePointsToString", "(", {
+  "id": "u"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "uStr"
+}, "does", "not", "consist", "of", "a", "single", "code", "unit", ",", "return", {
+  "id": "ch"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "cu"
+}, "be", {
+  "id": "uStr"
+}, "'", "s", "single", "code", "unit", "element", ".", {
+  "k": 9
+}, "If", "the", "numeric", "value", "of", {
+  "id": "ch"
+}, "≥", "128", "and", "the", "numeric", "value", "of", {
+  "id": "cu"
+}, "<", "128", ",", "return", {
+  "id": "ch"
+}, ".", {
+  "k": 10
+}, "Return", {
+  "id": "cu"
+}, ".", {
+  "k": 11
+}]

@@ -1,0 +1,11 @@
+{
+  access __x0__ = (ClassDeclaration "BindingClassDeclarationEvaluation")
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let value = __x0__
+  access __x1__ = (ClassDeclaration "BoundNames")
+  let className = __x1__[0i]
+  ??? "If id:{className} is value:{\"\\} default \\ value:{\"} , then step-list:{...}"
+  app __x2__ = (NormalCompletion CONST_empty)
+  app __x3__ = (WrapCompletion __x2__)
+  return __x3__
+}

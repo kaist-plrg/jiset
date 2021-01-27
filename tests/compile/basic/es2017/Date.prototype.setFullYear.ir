@@ -1,0 +1,38 @@
+{
+  app __x0__ = (thisTimeValue this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let t = __x0__
+  if (= t NaN) let t = 0i else {
+    app __x1__ = (LocalTime t)
+    let t = __x1__
+  }
+  app __x2__ = (ToNumber year)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let y = __x2__
+  if (= month absent) {
+    app __x3__ = (MonthFromTime t)
+    let m = __x3__
+  } else {
+    app __x4__ = (ToNumber month)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let m = __x4__
+  }
+  if (= date absent) {
+    app __x5__ = (DateFromTime t)
+    let dt = __x5__
+  } else {
+    app __x6__ = (ToNumber date)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    let dt = __x6__
+  }
+  app __x7__ = (MakeDay y m dt)
+  app __x8__ = (TimeWithinDay t)
+  app __x9__ = (MakeDate __x7__ __x8__)
+  let newDate = __x9__
+  app __x10__ = (UTC newDate)
+  app __x11__ = (TimeClip __x10__)
+  let u = __x11__
+  this.DateValue = u
+  app __x12__ = (WrapCompletion u)
+  return __x12__
+}

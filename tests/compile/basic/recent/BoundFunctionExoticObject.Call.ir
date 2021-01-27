@@ -1,0 +1,10 @@
+{
+  let target = F.BoundTargetFunction
+  let boundThis = F.BoundThis
+  let boundArgs = F.BoundArguments
+  ??? "Let id:{args} be a List whose elements are the elements of id:{boundArgs} , followed by the elements of id:{argumentsList} ."
+  app __x0__ = (Call target boundThis args)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  app __x1__ = (WrapCompletion __x0__)
+  return __x1__
+}

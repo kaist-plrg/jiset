@@ -1,0 +1,47 @@
+["Let", {
+  "id": "O"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "O"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", {
+  "id": "O"
+}, "does", "not", "have", "a", "[", "[", "DataView", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "O"
+}, "has", "a", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", ".", {
+  "k": 3
+}, "Let", {
+  "id": "buffer"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 4
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "Let", {
+  "id": "size"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ByteLength", "]", "]", ".", {
+  "k": 6
+}, "Return", {
+  "id": "size"
+}, ".", {
+  "k": 7
+}]

@@ -1,0 +1,30 @@
+{
+  app __x0__ = (ParseText sourceText Module)
+  let body = __x0__
+  access __x1__ = (body "ModuleRequests")
+  let requestedModules = __x1__
+  access __x2__ = (body "ImportEntries")
+  let importEntries = __x2__
+  app __x3__ = (ImportedLocalNames importEntries)
+  let importedBoundNames = __x3__
+  let indirectExportEntries = (new [])
+  let localExportEntries = (new [])
+  let starExportEntries = (new [])
+  access __x4__ = (body "ExportEntries")
+  let exportEntries = __x4__
+  let __x5__ = exportEntries
+  let __x6__ = 0i
+  while (< __x6__ __x5__.length) {
+    let ee = __x5__[__x6__]
+    if (= ee.ModuleRequest null) if (! (contains importedBoundNames ee.LocalName)) append ee -> localExportEntries else {
+      ??? "Let id:{ie} be the element of id:{importEntries} whose [ [ LocalName ] ] is the same as id:{ee} . [ [ LocalName ] ] ."
+      ??? "If id:{ie} . [ [ ImportName ] ] is value:{\"\\} \" * , then step-list:{...}"
+      ??? "Else , step-list:{...}"
+    } else {}
+    ??? "Else if id:{ee} . [ [ ImportName ] ] is value:{\"\\} \" * and id:{ee} . [ [ ExportName ] ] is value:{null} , then step-list:{...}"
+    ??? "Else , step-list:{...}"
+    __x6__ = (+ __x6__ 1i)
+  }
+  app __x7__ = (WrapCompletion (new SourceTextModuleRecord("Realm" -> realm, "Environment" -> undefined, "Namespace" -> undefined, "Status" -> CONST_unlinked, "EvaluationError" -> undefined, "HostDefined" -> hostDefined, "ECMAScriptCode" -> body, "Context" -> CONST_empty, "ImportMeta" -> CONST_empty, "RequestedModules" -> requestedModules, "ImportEntries" -> importEntries, "LocalExportEntries" -> localExportEntries, "IndirectExportEntries" -> indirectExportEntries, "StarExportEntries" -> starExportEntries, "DFSIndex" -> undefined, "DFSAncestorIndex" -> undefined)))
+  return __x7__
+}

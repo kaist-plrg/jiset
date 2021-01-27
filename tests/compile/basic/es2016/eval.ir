@@ -1,0 +1,9 @@
+{
+  ??? "Let id:{evalRealm} be the value of the active function object ' s [ [ Realm ] ] internal slot ."
+  let strictCaller = false
+  let directEval = false
+  app __x0__ = (PerformEval x evalRealm strictCaller directEval)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  app __x1__ = (WrapCompletion __x0__)
+  return __x1__
+}

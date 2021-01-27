@@ -1,0 +1,21 @@
+{
+  access __x0__ = (ClassElementList "NonConstructorMethodDefinitions")
+  let list = __x0__
+  if (is-instance-of ClassElement ClassElement2) {
+    app __x1__ = (WrapCompletion list)
+    return __x1__
+  } else {}
+  access __x2__ = (ClassElement "IsStatic")
+  let __x3__ = (= __x2__ false)
+  if __x3__ {
+    access __x4__ = (ClassElement "PropName")
+    __x3__ = (= __x4__ "constructor")
+  } else {}
+  if __x3__ {
+    app __x5__ = (WrapCompletion list)
+    return __x5__
+  } else {}
+  append ClassElement -> list
+  app __x6__ = (WrapCompletion list)
+  return __x6__
+}

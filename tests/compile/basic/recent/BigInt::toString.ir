@@ -1,0 +1,9 @@
+{
+  if (< x 0i) {
+    app __x0__ = (PRIMITIVE[BigInt].toString (- x))
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    app __x1__ = (WrapCompletion (+ "-" __x0__))
+    return __x1__
+  } else {}
+  ??? "Return the String value consisting of the code units of the digits of the decimal representation of id:{x} ."
+}

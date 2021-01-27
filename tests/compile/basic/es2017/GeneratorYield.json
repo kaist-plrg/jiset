@@ -1,0 +1,51 @@
+["Assert", ":", {
+  "id": "iterNextObj"
+}, "is", "an", "Object", "that", "implements", "the", "<", "i", ">", "IteratorResult", "<", "/", "i", ">", "interface", ".", {
+  "k": 0
+}, "Let", {
+  "id": "genContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "genContext"
+}, "is", "the", "execution", "context", "of", "a", "generator", ".", {
+  "k": 2
+}, "Let", {
+  "id": "generator"
+}, "be", "the", "value", "of", "the", "Generator", "component", "of", {
+  "id": "genContext"
+}, ".", {
+  "k": 3
+}, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorState", "]", "]", "to", {
+  "code": "\"suspendedYield\""
+}, ".", {
+  "k": 4
+}, "Remove", {
+  "id": "genContext"
+}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 5
+}, "Set", "the", "code", "evaluation", "state", "of", {
+  "id": "genContext"
+}, "such", "that", "when", "evaluation", "is", "resumed", "with", "a", "Completion", {
+  "id": "resumptionValue"
+}, "the", "following", "steps", "will", "be", "performed", ":", true, "Return", {
+  "id": "resumptionValue"
+}, ".", {
+  "k": 7
+}, "NOTE", ":", "This", "returns", "to", "the", "evaluation", "of", "the", {
+  "nt": "YieldExpression"
+}, "that", "originally", "called", "this", "abstract", "operation", ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, "Return", "NormalCompletion", "(", {
+  "id": "iterNextObj"
+}, ")", ".", {
+  "k": 9
+}, "NOTE", ":", "This", "returns", "to", "the", "evaluation", "of", "the", "operation", "that", "had", "most", "previously", "resumed", "evaluation", "of", {
+  "id": "genContext"
+}, ".", {
+  "k": 10
+}]

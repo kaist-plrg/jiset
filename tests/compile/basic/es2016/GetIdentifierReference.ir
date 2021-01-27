@@ -1,0 +1,14 @@
+{
+  if (= lex null) ??? "Return a value of type Reference whose base value is value:{undefined} , whose referenced name is id:{name} , and whose strict reference flag is id:{strict} ." else {}
+  let envRec = lex.EnvironmentRecord
+  app __x0__ = (envRec.HasBinding envRec name)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let exists = __x0__
+  if (= exists true) ??? "Return a value of type Reference whose base value is id:{envRec} , whose referenced name is id:{name} , and whose strict reference flag is id:{strict} ." else {
+    let outer = lex.Outer
+    app __x1__ = (GetIdentifierReference outer name strict)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    app __x2__ = (WrapCompletion __x1__)
+    return __x2__
+  }
+}

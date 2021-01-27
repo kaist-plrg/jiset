@@ -1,0 +1,107 @@
+["If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "buffer"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", {
+  "id": "buffer"
+}, "does", "not", "have", "an", "[", "[", "ArrayBufferData", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Let", {
+  "id": "offset"
+}, "be", "?", "ToIndex", "(", {
+  "id": "byteOffset"
+}, ")", ".", {
+  "k": 3
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Let", {
+  "id": "bufferByteLength"
+}, "be", {
+  "id": "buffer"
+}, ".", "[", "[", "ArrayBufferByteLength", "]", "]", ".", {
+  "k": 5
+}, "If", {
+  "id": "offset"
+}, ">", {
+  "id": "bufferByteLength"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 6
+}, "If", {
+  "id": "byteLength"
+}, "is", "either", "not", "present", "or", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "viewByteLength"
+}, "be", {
+  "id": "bufferByteLength"
+}, "-", {
+  "id": "offset"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, "Else", ",", true, "Let", {
+  "id": "viewByteLength"
+}, "be", "?", "ToIndex", "(", {
+  "id": "byteLength"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "offset"
+}, "+", {
+  "id": "viewByteLength"
+}, ">", {
+  "id": "bufferByteLength"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 11
+}, false, {
+  "k": 9
+}, "Let", {
+  "id": "O"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+  "code": "\"%DataViewPrototype%\""
+}, ",", "«", "[", "[", "DataView", "]", "]", ",", "[", "[", "ViewedArrayBuffer", "]", "]", ",", "[", "[", "ByteLength", "]", "]", ",", "[", "[", "ByteOffset", "]", "]", "»", ")", ".", {
+  "k": 12
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "to", {
+  "id": "buffer"
+}, ".", {
+  "k": 13
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ByteLength", "]", "]", "to", {
+  "id": "viewByteLength"
+}, ".", {
+  "k": 14
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ByteOffset", "]", "]", "to", {
+  "id": "offset"
+}, ".", {
+  "k": 15
+}, "Return", {
+  "id": "O"
+}, ".", {
+  "k": 16
+}]

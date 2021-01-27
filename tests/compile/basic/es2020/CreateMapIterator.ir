@@ -1,0 +1,12 @@
+{
+  app __x0__ = (RequireInternalSlot map "MapData")
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  __x0__
+  app __x1__ = (OrdinaryObjectCreate INTRINSIC_MapIteratorPrototype (new ["IteratedMap", "MapNextIndex", "MapIterationKind"]))
+  let iterator = __x1__
+  iterator.IteratedMap = map
+  iterator.MapNextIndex = 0i
+  iterator.MapIterationKind = kind
+  app __x2__ = (WrapCompletion iterator)
+  return __x2__
+}

@@ -1,0 +1,119 @@
+["Assert", ":", {
+  "id": "F"
+}, "is", "an", "ECMAScript", "function", "object", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "newTarget"
+}, ")", "is", "Object", ".", {
+  "k": 1
+}, "Let", {
+  "id": "callerContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 2
+}, "Let", {
+  "id": "kind"
+}, "be", {
+  "id": "F"
+}, "'", "s", "[", "[", "ConstructorKind", "]", "]", "internal", "slot", ".", {
+  "k": 3
+}, "If", {
+  "id": "kind"
+}, "is", {
+  "code": "\"base\""
+}, ",", "then", true, "Let", {
+  "id": "thisArgument"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", {
+  "id": "newTarget"
+}, ",", {
+  "code": "\"%ObjectPrototype%\""
+}, ")", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Let", {
+  "id": "calleeContext"
+}, "be", "PrepareForOrdinaryCall", "(", {
+  "id": "F"
+}, ",", {
+  "id": "newTarget"
+}, ")", ".", {
+  "k": 6
+}, "Assert", ":", {
+  "id": "calleeContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 7
+}, "If", {
+  "id": "kind"
+}, "is", {
+  "code": "\"base\""
+}, ",", "perform", "OrdinaryCallBindThis", "(", {
+  "id": "F"
+}, ",", {
+  "id": "calleeContext"
+}, ",", {
+  "id": "thisArgument"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "constructorEnv"
+}, "be", "the", "LexicalEnvironment", "of", {
+  "id": "calleeContext"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "constructorEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 10
+}, "Let", {
+  "id": "result"
+}, "be", "OrdinaryCallEvaluateBody", "(", {
+  "id": "F"
+}, ",", {
+  "id": "argumentsList"
+}, ")", ".", {
+  "k": 11
+}, "Remove", {
+  "id": "calleeContext"
+}, "from", "the", "execution", "context", "stack", "and", "restore", {
+  "id": "callerContext"
+}, "as", "the", "running", "execution", "context", ".", {
+  "k": 12
+}, "If", {
+  "id": "result"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "return"
+}, ",", "then", true, "If", "Type", "(", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", ")", "is", "Object", ",", "return", "NormalCompletion", "(", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 14
+}, "If", {
+  "id": "kind"
+}, "is", {
+  "code": "\"base\""
+}, ",", "return", "NormalCompletion", "(", {
+  "id": "thisArgument"
+}, ")", ".", {
+  "k": 15
+}, "If", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", "is", "not", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 16
+}, false, {
+  "k": 13
+}, "Else", ",", "ReturnIfAbrupt", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 17
+}, "Return", "?", {
+  "id": "envRec"
+}, ".", "GetThisBinding", "(", ")", ".", {
+  "k": 18
+}]

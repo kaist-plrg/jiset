@@ -1,0 +1,47 @@
+{
+  let values = (new [])
+  let remainingElementsCount = (new Record("Value" -> 1i))
+  let index = 0i
+  while true {
+    app __x0__ = (IteratorStep iteratorRecord.Iterator)
+    let next = __x0__
+    app __x1__ = (IsAbruptCompletion next)
+    if __x1__ iteratorRecord.Done = true else {}
+    if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else {}
+    next
+    if (= next false) {
+      iteratorRecord.Done = true
+      remainingElementsCount.Value = (- remainingElementsCount.Value 1i)
+      if (= remainingElementsCount.Value 0i) {
+        app __x2__ = (CreateArrayFromList values)
+        let valuesArray = __x2__
+        app __x3__ = (Call resultCapability.Resolve undefined (new [valuesArray]))
+        if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+        __x3__
+      } else {}
+      app __x4__ = (WrapCompletion resultCapability.Promise)
+      return __x4__
+    } else {}
+    app __x5__ = (IteratorValue next)
+    let nextValue = __x5__
+    app __x6__ = (IsAbruptCompletion nextValue)
+    if __x6__ iteratorRecord.Done = true else {}
+    if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else {}
+    nextValue
+    append undefined -> values
+    app __x7__ = (Invoke constructor "resolve" (new [nextValue]))
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    let nextPromise = __x7__
+    let resolveElement = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
+    resolveElement.AlreadyCalled = (new Record("Value" -> false))
+    resolveElement.Index = index
+    resolveElement.Values = values
+    resolveElement.Capability = resultCapability
+    resolveElement.RemainingElements = remainingElementsCount
+    remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)
+    app __x8__ = (Invoke nextPromise "then" (new [resolveElement, resultCapability.Reject]))
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    __x8__
+    index = (+ index 1i)
+  }
+}

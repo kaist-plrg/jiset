@@ -1,0 +1,97 @@
+["Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateSharedIntegerTypedArray", "(", {
+  "id": "typedArray"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "i"
+}, "be", "?", "ValidateAtomicAccess", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "expected"
+}, "be", "?", "ToInteger", "(", {
+  "id": "expectedValue"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "replacement"
+}, "be", "?", "ToInteger", "(", {
+  "id": "replacementValue"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "String", "value", "of", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "isLittleEndian"
+}, "be", "the", "value", "of", "the", "[", "[", "LittleEndian", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 6
+}, "Let", {
+  "id": "expectedBytes"
+}, "be", "NumberToRawBytes", "(", {
+  "id": "elementType"
+}, ",", {
+  "id": "expected"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Number", "value", "of", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 9
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "i"
+}, "×", {
+  "id": "elementSize"
+}, ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "code": "compareExchange"
+}, "denote", "a", "semantic", "function", "of", "two", "List", "of", "byte", "values", "arguments", "that", "returns", "the", "second", "argument", "if", "the", "first", "argument", "is", "element", "-", "wise", "equal", "to", {
+  "id": "expectedBytes"
+}, ".", {
+  "k": 11
+}, "Return", "GetModifySetValueInBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "id": "replacement"
+}, ",", {
+  "code": "compareExchange"
+}, ")", ".", {
+  "k": 12
+}]

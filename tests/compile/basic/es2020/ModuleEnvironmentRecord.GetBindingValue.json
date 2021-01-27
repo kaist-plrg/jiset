@@ -1,0 +1,71 @@
+["Assert", ":", {
+  "id": "S"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "envRec"
+}, "be", "the", "module", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "envRec"
+}, "has", "a", "binding", "for", {
+  "id": "N"
+}, ".", {
+  "k": 2
+}, "If", "the", "binding", "for", {
+  "id": "N"
+}, "is", "an", "indirect", "binding", ",", "then", true, "Let", {
+  "id": "M"
+}, "and", {
+  "id": "N2"
+}, "be", "the", "indirection", "values", "provided", "when", "this", "binding", "for", {
+  "id": "N"
+}, "was", "created", ".", {
+  "k": 4
+}, "Let", {
+  "id": "targetEnv"
+}, "be", {
+  "id": "M"
+}, ".", "[", "[", "Environment", "]", "]", ".", {
+  "k": 5
+}, "If", {
+  "id": "targetEnv"
+}, "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "ReferenceError"
+}, "exception", ".", {
+  "k": 6
+}, "Let", {
+  "id": "targetER"
+}, "be", {
+  "id": "targetEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 7
+}, "Return", "?", {
+  "id": "targetER"
+}, ".", "GetBindingValue", "(", {
+  "id": "N2"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 3
+}, "If", "the", "binding", "for", {
+  "id": "N"
+}, "in", {
+  "id": "envRec"
+}, "is", "an", "uninitialized", "binding", ",", "throw", "a", {
+  "value": "ReferenceError"
+}, "exception", ".", {
+  "k": 9
+}, "Return", "the", "value", "currently", "bound", "to", {
+  "id": "N"
+}, "in", {
+  "id": "envRec"
+}, ".", {
+  "k": 10
+}]

@@ -1,0 +1,73 @@
+["Assert", ":", {
+  "id": "completion"
+}, "is", "a", "Completion", "Record", ".", {
+  "k": 0
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "generator"
+}, ")", "is", "not", "Object", ",", "or", "if", {
+  "id": "generator"
+}, "does", "not", "have", "an", "[", "[", "AsyncGeneratorState", "]", "]", "internal", "slot", ",", "then", true, "Let", {
+  "id": "badGeneratorError"
+}, "be", "a", "newly", "created", {
+  "value": "TypeError"
+}, "object", ".", {
+  "k": 3
+}, "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "badGeneratorError"
+}, "»", ")", ".", {
+  "k": 4
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 5
+}, false, {
+  "k": 2
+}, "Let", {
+  "id": "queue"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorQueue", "]", "]", ".", {
+  "k": 6
+}, "Let", {
+  "id": "request"
+}, "be", "AsyncGeneratorRequest", "{", "[", "[", "Completion", "]", "]", ":", {
+  "id": "completion"
+}, ",", "[", "[", "Capability", "]", "]", ":", {
+  "id": "promiseCapability"
+}, "}", ".", {
+  "k": 7
+}, "Append", {
+  "id": "request"
+}, "to", "the", "end", "of", {
+  "id": "queue"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "state"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorState", "]", "]", ".", {
+  "k": 9
+}, "If", {
+  "id": "state"
+}, "is", "not", {
+  "code": "\"executing\""
+}, ",", "then", true, "Perform", "!", "AsyncGeneratorResumeNext", "(", {
+  "id": "generator"
+}, ")", ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 12
+}]

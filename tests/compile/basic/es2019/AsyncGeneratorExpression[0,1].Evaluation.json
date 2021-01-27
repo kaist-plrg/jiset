@@ -1,0 +1,97 @@
+["If", "the", "function", "code", "for", "this", {
+  "nt": "AsyncGeneratorExpression"
+}, "is", "strict", "mode", "code", ",", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "true"
+}, ".", "Otherwise", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "scope"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 1
+}, "Let", {
+  "id": "funcEnv"
+}, "be", "!", "NewDeclarativeEnvironment", "(", {
+  "id": "scope"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "funcEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 3
+}, "Let", {
+  "id": "name"
+}, "be", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ".", {
+  "k": 4
+}, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "name"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "closure"
+}, "be", "!", "AsyncGeneratorFunctionCreate", "(", {
+  "const": "Normal"
+}, ",", {
+  "nt": "FormalParameters"
+}, ",", {
+  "nt": "AsyncGeneratorBody"
+}, ",", {
+  "id": "funcEnv"
+}, ",", {
+  "id": "strict"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "prototype"
+}, "be", "!", "ObjectCreate", "(", "%", "AsyncGeneratorPrototype", "%", ")", ".", {
+  "k": 7
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "closure"
+}, ",", {
+  "code": "\"prototype\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "prototype"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 8
+}, "Perform", "!", "SetFunctionName", "(", {
+  "id": "closure"
+}, ",", {
+  "id": "name"
+}, ")", ".", {
+  "k": 9
+}, "Perform", "!", {
+  "id": "envRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "name"
+}, ",", {
+  "id": "closure"
+}, ")", ".", {
+  "k": 10
+}, "Set", {
+  "id": "closure"
+}, ".", "[", "[", "SourceText", "]", "]", "to", "the", "source", "text", "matched", "by", {
+  "nt": "AsyncGeneratorExpression"
+}, ".", {
+  "k": 11
+}, "Return", {
+  "id": "closure"
+}, ".", {
+  "k": 12
+}]

@@ -1,0 +1,15 @@
+{
+  app __x0__ = (IsSharedArrayBuffer arrayBuffer)
+  assert (= __x0__ false)
+  if (= key absent) key = undefined else {}
+  app __x1__ = (SameValue arrayBuffer.ArrayBufferDetachKey key)
+  if (= __x1__ false) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  arrayBuffer.ArrayBufferData = null
+  arrayBuffer.ArrayBufferByteLength = 0i
+  app __x3__ = (NormalCompletion null)
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

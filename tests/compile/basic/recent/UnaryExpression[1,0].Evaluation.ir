@@ -1,0 +1,42 @@
+{
+  access __x0__ = (UnaryExpression "Evaluation")
+  let ref = __x0__
+  if (is-completion ref) if (= ref.Type CONST_normal) ref = ref.Value else return ref else {}
+  ref
+  if (! (= (typeof ref) "ReferenceRecord")) {
+    app __x1__ = (WrapCompletion true)
+    return __x1__
+  } else {}
+  app __x2__ = (IsUnresolvableReference ref)
+  if (= __x2__ true) {
+    assert (= ref.Strict false)
+    app __x3__ = (WrapCompletion true)
+    return __x3__
+  } else {}
+  app __x4__ = (IsPropertyReference ref)
+  if (= __x4__ true) {
+    app __x5__ = (IsSuperReference ref)
+    if (= __x5__ true) {
+      app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x6__
+    } else {}
+    app __x7__ = (ToObject ref.Base)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    let baseObj = __x7__
+    app __x8__ = (baseObj.Delete baseObj ref.ReferencedName)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    let deleteStatus = __x8__
+    if (&& (= deleteStatus false) (= ref.Strict true)) {
+      app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x9__
+    } else {}
+    app __x10__ = (WrapCompletion deleteStatus)
+    return __x10__
+  } else {
+    let base = ref.Base
+    app __x11__ = (base.DeleteBinding base ref.ReferencedName)
+    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+    app __x12__ = (WrapCompletion __x11__)
+    return __x12__
+  }
+}

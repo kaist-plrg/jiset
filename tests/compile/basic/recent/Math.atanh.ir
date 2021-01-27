@@ -1,0 +1,19 @@
+{
+  app __x0__ = (ToNumber x)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let n = __x0__
+  ??? "If id:{n} is value:{NaN} , id:{n} is value:{+0} , or id:{n} is value:{-0} , return id:{n} ."
+  if (|| (< 1i n) (< n -1i)) {
+    app __x1__ = (WrapCompletion NaN)
+    return __x1__
+  } else {}
+  if (= n 1i) {
+    app __x2__ = (WrapCompletion Infinity)
+    return __x2__
+  } else {}
+  if (= n -1i) {
+    app __x3__ = (WrapCompletion -Infinity)
+    return __x3__
+  } else {}
+  ??? "Return an implementation - approximated value representing the result of the inverse hyperbolic tangent of ℝ ( id:{n} ) ."
+}

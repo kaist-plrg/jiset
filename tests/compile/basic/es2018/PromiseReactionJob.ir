@@ -1,0 +1,27 @@
+{
+  let promiseCapability = reaction.Capability
+  let type = reaction.Type
+  let handler = reaction.Handler
+  if (= handler undefined) if (= type "Fulfill") {
+    app __x0__ = (NormalCompletion argument)
+    let handlerResult = __x0__
+  } else {
+    assert (= type "Reject")
+    app __x1__ = (ThrowCompletion argument)
+    let handlerResult = __x1__
+  } else {
+    app __x2__ = (Call handler undefined (new [argument]))
+    let handlerResult = __x2__
+  }
+  app __x3__ = (IsAbruptCompletion handlerResult)
+  if __x3__ {
+    app __x4__ = (Call promiseCapability.Reject undefined (new [handlerResult.Value]))
+    let status = __x4__
+  } else {
+    app __x5__ = (Call promiseCapability.Resolve undefined (new [handlerResult.Value]))
+    let status = __x5__
+  }
+  app __x6__ = (Completion status)
+  app __x7__ = (WrapCompletion __x6__)
+  return __x7__
+}

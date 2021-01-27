@@ -1,0 +1,195 @@
+["Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateIntegerTypedArray", "(", {
+  "id": "typedArray"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 0
+}, "If", "IsSharedArrayBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "?", "ValidateAtomicAccess", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 3
+}, "If", {
+  "id": "arrayTypeName"
+}, "is", {
+  "value": "\"BigInt64Array\""
+}, ",", "let", {
+  "id": "v"
+}, "be", "?", "ToBigInt64", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 4
+}, "Otherwise", ",", "let", {
+  "id": "v"
+}, "be", "?", "ToInt32", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "q"
+}, "be", "?", "ToNumber", "(", {
+  "id": "timeout"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "q"
+}, "is", {
+  "value": "NaN"
+}, "or", {
+  "value": "+∞"
+}, ",", "let", {
+  "id": "t"
+}, "be", "+", "∞", ";", "else", "if", {
+  "id": "q"
+}, "is", {
+  "value": "-∞"
+}, ",", "let", {
+  "id": "t"
+}, "be", "0", ";", "else", "let", {
+  "id": "t"
+}, "be", "max", "(", "ℝ", "(", {
+  "id": "q"
+}, ")", ",", "0", ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "B"
+}, "be", "AgentCanSuspend", "(", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "B"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 9
+}, "Let", {
+  "id": "block"
+}, "be", {
+  "id": "buffer"
+}, ".", "[", "[", "ArrayBufferData", "]", "]", ".", {
+  "k": 10
+}, "Let", {
+  "id": "WL"
+}, "be", "GetWaiterList", "(", {
+  "id": "block"
+}, ",", {
+  "id": "indexedPosition"
+}, ")", ".", {
+  "k": 11
+}, "Perform", "EnterCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 13
+}, "Let", {
+  "id": "w"
+}, "be", "!", "GetValueFromBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "const": "SeqCst"
+}, ")", ".", {
+  "k": 14
+}, "If", {
+  "id": "v"
+}, "≠", {
+  "id": "w"
+}, ",", "then", true, "Perform", "LeaveCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 16
+}, "Return", "the", "String", {
+  "value": "\"not-equal\""
+}, ".", {
+  "k": 17
+}, false, {
+  "k": 15
+}, "Let", {
+  "id": "W"
+}, "be", "AgentSignifier", "(", ")", ".", {
+  "k": 18
+}, "Perform", "AddWaiter", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "W"
+}, ")", ".", {
+  "k": 19
+}, "Let", {
+  "id": "notified"
+}, "be", "SuspendAgent", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "W"
+}, ",", {
+  "id": "t"
+}, ")", ".", {
+  "k": 20
+}, "If", {
+  "id": "notified"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Assert", ":", {
+  "id": "W"
+}, "is", "not", "on", "the", "list", "of", "waiters", "in", {
+  "id": "WL"
+}, ".", {
+  "k": 22
+}, false, {
+  "k": 21
+}, "Else", ",", true, "Perform", "RemoveWaiter", "(", {
+  "id": "WL"
+}, ",", {
+  "id": "W"
+}, ")", ".", {
+  "k": 24
+}, false, {
+  "k": 23
+}, "Perform", "LeaveCriticalSection", "(", {
+  "id": "WL"
+}, ")", ".", {
+  "k": 25
+}, "If", {
+  "id": "notified"
+}, "is", {
+  "value": "true"
+}, ",", "return", "the", "String", {
+  "value": "\"ok\""
+}, ".", {
+  "k": 26
+}, "Return", "the", "String", {
+  "value": "\"timed-out\""
+}, ".", {
+  "k": 27
+}]

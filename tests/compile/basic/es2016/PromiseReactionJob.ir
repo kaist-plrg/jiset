@@ -1,0 +1,20 @@
+{
+  let promiseCapability = reaction.Capabilities
+  let handler = reaction.Handler
+  if (= handler "Identity") {
+    app __x0__ = (NormalCompletion argument)
+    let handlerResult = __x0__
+  } else if (= handler "Thrower") let handlerResult = (new Completion("Type" -> CONST_throw, "Value" -> argument, "Target" -> CONST_empty)) else {
+    app __x1__ = (Call handler undefined (new [argument]))
+    let handlerResult = __x1__
+  }
+  app __x2__ = (IsAbruptCompletion handlerResult)
+  if __x2__ {
+    app __x3__ = (Call promiseCapability.Reject undefined (new [handlerResult.Value]))
+    let status = __x3__
+    ??? "NextJob Completion ( id:{status} ) ."
+  } else {}
+  app __x4__ = (Call promiseCapability.Resolve undefined (new [handlerResult.Value]))
+  let status = __x4__
+  ??? "NextJob Completion ( id:{status} ) ."
+}

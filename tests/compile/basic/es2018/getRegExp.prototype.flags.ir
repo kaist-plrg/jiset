@@ -1,0 +1,41 @@
+{
+  let R = this
+  app __x0__ = (Type R)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  let result = ""
+  app __x2__ = (Get R "global")
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  app __x3__ = (ToBoolean __x2__)
+  let global = __x3__
+  if (= global true) let result = (+ result "g") else {}
+  app __x4__ = (Get R "ignoreCase")
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  app __x5__ = (ToBoolean __x4__)
+  let ignoreCase = __x5__
+  if (= ignoreCase true) let result = (+ result "i") else {}
+  app __x6__ = (Get R "multiline")
+  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+  app __x7__ = (ToBoolean __x6__)
+  let multiline = __x7__
+  if (= multiline true) let result = (+ result "m") else {}
+  app __x8__ = (Get R "dotAll")
+  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+  app __x9__ = (ToBoolean __x8__)
+  let dotAll = __x9__
+  if (= dotAll true) let result = (+ result "s") else {}
+  app __x10__ = (Get R "unicode")
+  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+  app __x11__ = (ToBoolean __x10__)
+  let unicode = __x11__
+  if (= unicode true) let result = (+ result "u") else {}
+  app __x12__ = (Get R "sticky")
+  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+  app __x13__ = (ToBoolean __x12__)
+  let sticky = __x13__
+  if (= sticky true) let result = (+ result "y") else {}
+  app __x14__ = (WrapCompletion result)
+  return __x14__
+}

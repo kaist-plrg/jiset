@@ -1,0 +1,85 @@
+["Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "env"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "envRec"
+}, "is", "a", "declarative", "Environment", "Record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "declarations"
+}, "be", "the", "LexicallyScopedDeclarations", "of", {
+  "id": "code"
+}, ".", {
+  "k": 2
+}, "For", "each", "element", {
+  "id": "d"
+}, "in", {
+  "id": "declarations"
+}, ",", "do", true, "For", "each", "element", {
+  "id": "dn"
+}, "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ",", "do", true, "If", "IsConstantDeclaration", "of", {
+  "id": "d"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Else", ",", true, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 7
+}, false, {
+  "k": 4
+}, "If", {
+  "id": "d"
+}, "is", "a", {
+  "nt": "FunctionDeclaration"
+}, ",", "a", {
+  "nt": "GeneratorDeclaration"
+}, ",", "or", "an", {
+  "nt": "AsyncFunctionDeclaration"
+}, ",", "then", true, "Let", {
+  "id": "fn"
+}, "be", "the", "sole", "element", "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "fo"
+}, "be", "the", "result", "of", "performing", "InstantiateFunctionObject", "for", {
+  "id": "d"
+}, "with", "argument", {
+  "id": "env"
+}, ".", {
+  "k": 11
+}, "Perform", {
+  "id": "envRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "fn"
+}, ",", {
+  "id": "fo"
+}, ")", ".", {
+  "k": 12
+}, false, {
+  "k": 9
+}, false, {
+  "k": 3
+}]

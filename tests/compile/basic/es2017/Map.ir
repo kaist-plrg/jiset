@@ -1,0 +1,75 @@
+{
+  if (= NewTarget undefined) {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else {}
+  app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_MapPrototype (new ["MapData"]))
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let map = __x1__
+  map.MapData = (new [])
+  if (= iterable absent) let iterable = undefined else {}
+  if (|| (= iterable undefined) (= iterable null)) let iter = undefined else {
+    app __x2__ = (Get map "set")
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    let adder = __x2__
+    app __x3__ = (IsCallable adder)
+    if (= __x3__ false) {
+      app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x4__
+    } else {}
+    app __x5__ = (GetIterator iterable)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    let iter = __x5__
+  }
+  if (= iter undefined) {
+    app __x6__ = (WrapCompletion map)
+    return __x6__
+  } else {}
+  while true {
+    app __x7__ = (IteratorStep iter)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    let next = __x7__
+    if (= next false) {
+      app __x8__ = (WrapCompletion map)
+      return __x8__
+    } else {}
+    app __x9__ = (IteratorValue next)
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+    let nextItem = __x9__
+    app __x10__ = (Type nextItem)
+    if (! (= __x10__ Object)) {
+      let error = (new Completion("Type" -> CONST_throw, "Value" -> (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))), "Target" -> CONST_empty))
+      app __x11__ = (IteratorClose iter error)
+      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+      app __x12__ = (WrapCompletion __x11__)
+      return __x12__
+    } else {}
+    app __x13__ = (Get nextItem "0")
+    let k = __x13__
+    app __x14__ = (IsAbruptCompletion k)
+    if __x14__ {
+      app __x15__ = (IteratorClose iter k)
+      if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+      app __x16__ = (WrapCompletion __x15__)
+      return __x16__
+    } else {}
+    app __x17__ = (Get nextItem "1")
+    let v = __x17__
+    app __x18__ = (IsAbruptCompletion v)
+    if __x18__ {
+      app __x19__ = (IteratorClose iter v)
+      if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
+      app __x20__ = (WrapCompletion __x19__)
+      return __x20__
+    } else {}
+    app __x21__ = (Call adder map (new [k.Value, v.Value]))
+    let status = __x21__
+    app __x22__ = (IsAbruptCompletion status)
+    if __x22__ {
+      app __x23__ = (IteratorClose iter status)
+      if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
+      app __x24__ = (WrapCompletion __x23__)
+      return __x24__
+    } else {}
+  }
+}

@@ -1,0 +1,27 @@
+{
+  ??? "Parse id:{sourceText} using nt:{Module} as the goal symbol and analyze the parse result for any Early Error conditions . If the parse was successful and no early errors were found , let id:{body} be the resulting parse tree . Otherwise , let id:{body} be a List of one or more value:{SyntaxError} or value:{ReferenceError} objects representing the parsing errors and / or early errors . Parsing and early error detection may be interweaved in an implementation dependent manner . If more than one parsing error or early error is present , the number and ordering of error objects in the list is implementation dependent , but at least one must be present ."
+  access __x0__ = (body "ModuleRequests")
+  let requestedModules = __x0__
+  access __x1__ = (body "ImportEntries")
+  let importEntries = __x1__
+  app __x2__ = (ImportedLocalNames importEntries)
+  let importedBoundNames = __x2__
+  let indirectExportEntries = (new [])
+  let localExportEntries = (new [])
+  let starExportEntries = (new [])
+  access __x3__ = (body "ExportEntries")
+  let exportEntries = __x3__
+  let __x4__ = exportEntries
+  let __x5__ = 0i
+  while (< __x5__ __x4__.length) {
+    let ee = __x4__[__x5__]
+    if (= ee.ModuleRequest null) if (! (contains importedBoundNames ee.LocalName)) append ee -> localExportEntries else {
+      ??? "Let id:{ie} be the element of id:{importEntries} whose [ [ LocalName ] ] is the same as id:{ee} . [ [ LocalName ] ] ."
+      if (= ie.ImportName "*") append ee -> localExportEntries else {}
+      ??? "Else , this is a re - export of a single name step-list:{...}"
+    } else if (= ee.ImportName "*") append ee -> starExportEntries else append ee -> indirectExportEntries
+    __x5__ = (+ __x5__ 1i)
+  }
+  app __x6__ = (WrapCompletion (new SourceTextModuleRecord("Realm" -> realm, "Environment" -> undefined, "HostDefined" -> hostDefined, "Namespace" -> undefined, "Evaluated" -> false, "ECMAScriptCode" -> body, "RequestedModules" -> requestedModules, "ImportEntries" -> importEntries, "LocalExportEntries" -> localExportEntries, "StarExportEntries" -> starExportEntries, "IndirectExportEntries" -> indirectExportEntries)))
+  return __x6__
+}

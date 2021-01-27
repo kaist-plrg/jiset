@@ -1,0 +1,165 @@
+["Let", {
+  "id": "job"
+}, "be", "a", "new", "Job", "Abstract", "Closure", "with", "no", "parameters", "that", "captures", {
+  "id": "reaction"
+}, "and", {
+  "id": "argument"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Assert", ":", {
+  "id": "reaction"
+}, "is", "a", "PromiseReaction", "Record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", {
+  "id": "reaction"
+}, ".", "[", "[", "Capability", "]", "]", ".", {
+  "k": 2
+}, "Let", {
+  "id": "type"
+}, "be", {
+  "id": "reaction"
+}, ".", "[", "[", "Type", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "handler"
+}, "be", {
+  "id": "reaction"
+}, ".", "[", "[", "Handler", "]", "]", ".", {
+  "k": 4
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "const": "empty"
+}, ",", "then", true, "If", {
+  "id": "type"
+}, "is", {
+  "const": "Fulfill"
+}, ",", "let", {
+  "id": "handlerResult"
+}, "be", "NormalCompletion", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 6
+}, "Else", ",", true, "Assert", ":", {
+  "id": "type"
+}, "is", {
+  "const": "Reject"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "handlerResult"
+}, "be", "ThrowCompletion", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 7
+}, false, {
+  "k": 5
+}, "Else", ",", "let", {
+  "id": "handlerResult"
+}, "be", "HostCallJobCallback", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "argument"
+}, "»", ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "promiseCapability"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Assert", ":", {
+  "id": "handlerResult"
+}, "is", "not", "an", "abrupt", "completion", ".", {
+  "k": 12
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "Assert", ":", {
+  "id": "promiseCapability"
+}, "is", "a", "PromiseCapability", "Record", ".", {
+  "k": 14
+}, "If", {
+  "id": "handlerResult"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "handlerResult"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 16
+}, false, {
+  "k": 15
+}, "Else", ",", true, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "handlerResult"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 18
+}, false, {
+  "k": 17
+}, "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 19
+}, false, {
+  "k": 0
+}, "Let", {
+  "id": "handlerRealm"
+}, "be", {
+  "value": "null"
+}, ".", {
+  "k": 20
+}, "If", {
+  "id": "reaction"
+}, ".", "[", "[", "Handler", "]", "]", "is", "not", {
+  "const": "empty"
+}, ",", "then", true, "Let", {
+  "id": "getHandlerRealmResult"
+}, "be", "GetFunctionRealm", "(", {
+  "id": "reaction"
+}, ".", "[", "[", "Handler", "]", "]", ".", "[", "[", "Callback", "]", "]", ")", ".", {
+  "k": 22
+}, "If", {
+  "id": "getHandlerRealmResult"
+}, "is", "a", "normal", "completion", ",", "set", {
+  "id": "handlerRealm"
+}, "to", {
+  "id": "getHandlerRealmResult"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 23
+}, "Else", ",", "set", {
+  "id": "handlerRealm"
+}, "to", "the", "current", "Realm", "Record", ".", {
+  "k": 24
+}, "NOTE", ":", {
+  "id": "handlerRealm"
+}, "is", "never", {
+  "value": "null"
+}, "unless", "the", "handler", "is", {
+  "value": "undefined"
+}, ".", "When", "the", "handler", "is", "a", "revoked", "Proxy", "and", "no", "ECMAScript", "code", "runs", ",", {
+  "id": "handlerRealm"
+}, "is", "used", "to", "create", "error", "objects", ".", {
+  "k": 25
+}, false, {
+  "k": 21
+}, "Return", "the", "Record", "{", "[", "[", "Job", "]", "]", ":", {
+  "id": "job"
+}, ",", "[", "[", "Realm", "]", "]", ":", {
+  "id": "handlerRealm"
+}, "}", ".", {
+  "k": 26
+}]

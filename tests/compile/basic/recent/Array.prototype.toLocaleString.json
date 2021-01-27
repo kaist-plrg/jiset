@@ -1,0 +1,85 @@
+["Let", {
+  "id": "array"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "array"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "separator"
+}, "be", "the", "String", "value", "for", "the", "list", "-", "separator", "String", "appropriate", "for", "the", "host", "environment", "'", "s", "current", "locale", "(", "this", "is", "derived", "in", "an", "implementation", "-", "defined", "way", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "R"
+}, "be", "the", "empty", "String", ".", {
+  "k": 3
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 4
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, ",", true, "If", {
+  "id": "k"
+}, ">", "0", ",", "then", true, "Set", {
+  "id": "R"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "R"
+}, "and", {
+  "id": "separator"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "nextElement"
+}, "be", "?", "Get", "(", {
+  "id": "array"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "nextElement"
+}, "is", "not", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "then", true, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", "?", "Invoke", "(", {
+  "id": "nextElement"
+}, ",", {
+  "value": "\"toLocaleString\""
+}, ")", ")", ".", {
+  "k": 10
+}, "Set", {
+  "id": "R"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "R"
+}, "and", {
+  "id": "S"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 9
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 12
+}, false, {
+  "k": 5
+}, "Return", {
+  "id": "R"
+}, ".", {
+  "k": 13
+}]

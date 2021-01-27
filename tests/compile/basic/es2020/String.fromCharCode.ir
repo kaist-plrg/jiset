@@ -1,0 +1,15 @@
+{
+  let codeUnits = argumentsList
+  let length = codeUnits.length
+  let elements = (new [])
+  let nextIndex = 0i
+  while (< nextIndex length) {
+    let next = codeUnits[nextIndex]
+    app __x0__ = (ToUint16 next)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    let nextCU = __x0__
+    append nextCU -> elements
+    nextIndex = (+ nextIndex 1i)
+  }
+  ??? "Return the String value whose code units are , in order , the elements in the List id:{elements} . If id:{length} is 0 , the empty String is returned ."
+}

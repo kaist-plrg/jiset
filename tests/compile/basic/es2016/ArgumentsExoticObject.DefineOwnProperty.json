@@ -1,0 +1,131 @@
+["Let", {
+  "id": "args"
+}, "be", "the", "arguments", "object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "map"
+}, "be", "the", "value", "of", "the", "[", "[", "ParameterMap", "]", "]", "internal", "slot", "of", "the", "arguments", "object", ".", {
+  "k": 1
+}, "Let", {
+  "id": "isMapped"
+}, "be", "HasOwnProperty", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "newArgDesc"
+}, "be", {
+  "id": "Desc"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "isMapped"
+}, "is", {
+  "value": "true"
+}, "and", "IsDataDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", "is", "not", "present", "and", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "its", "value", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "newArgDesc"
+}, "be", "a", "copy", "of", {
+  "id": "Desc"
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "newArgDesc"
+}, ".", "[", "[", "Value", "]", "]", "to", "Get", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Let", {
+  "id": "allowed"
+}, "be", "?", "OrdinaryDefineOwnProperty", "(", {
+  "id": "args"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "newArgDesc"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "allowed"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "If", "the", "value", "of", {
+  "id": "isMapped"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "If", "IsAccessorDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Call", {
+  "id": "map"
+}, ".", "[", "[", "Delete", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 12
+}, false, {
+  "k": 11
+}, "Else", ",", true, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", "is", "present", ",", "then", true, "Let", {
+  "id": "setStatus"
+}, "be", "Set", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 15
+}, "Assert", ":", {
+  "id": "setStatus"
+}, "is", {
+  "value": "true"
+}, "because", "formal", "parameters", "mapped", "by", "argument", "objects", "are", "always", "writable", ".", {
+  "k": 16
+}, false, {
+  "k": 14
+}, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "its", "value", "is", {
+  "value": "false"
+}, ",", "then", true, "Call", {
+  "id": "map"
+}, ".", "[", "[", "Delete", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 18
+}, false, {
+  "k": 17
+}, false, {
+  "k": 13
+}, false, {
+  "k": 10
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 19
+}]

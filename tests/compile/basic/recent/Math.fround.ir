@@ -1,0 +1,14 @@
+{
+  app __x0__ = (ToNumber x)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let n = __x0__
+  if (= n NaN) {
+    app __x1__ = (WrapCompletion NaN)
+    return __x1__
+  } else {}
+  ??? "If id:{n} is one of value:{+0} , value:{-0} , value:{+∞} , or value:{-∞} , return id:{n} ."
+  ??? "Let id:{n32} be the result of converting id:{n} to a value in IEEE 754 - 2019 binary32 format using roundTiesToEven mode ."
+  ??? "Let id:{n64} be the result of converting id:{n32} to a value in IEEE 754 - 2019 binary64 format ."
+  app __x2__ = (WrapCompletion n64)
+  return __x2__
+}

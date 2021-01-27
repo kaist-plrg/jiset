@@ -1,0 +1,20 @@
+{
+  app __x0__ = (Type functionPrototype)
+  assert (= __x0__ Object)
+  assert (|| (|| (|| (= functionKind "normal") (= functionKind "non-constructor")) (= functionKind "generator")) (= functionKind "async"))
+  if (= functionKind "normal") let needsConstruct = true else let needsConstruct = false
+  if (= functionKind "non-constructor") functionKind = "normal" else {}
+  ??? "Let id:{F} be a newly created ECMAScript function object with the internal slots listed in link:{} . All of those internal slots are initialized to value:{undefined} ."
+  ??? "Set id:{F} . [ [ Call ] ] to the definition specified in link:{} ."
+  if (= needsConstruct true) {
+    ??? "Set id:{F} . [ [ Construct ] ] to the definition specified in link:{} ."
+    F.ConstructorKind = "base"
+  } else {}
+  F.Strict = strict
+  F.FunctionKind = functionKind
+  F.Prototype = functionPrototype
+  F.Extensible = true
+  F.Realm = REALM
+  app __x1__ = (WrapCompletion F)
+  return __x1__
+}

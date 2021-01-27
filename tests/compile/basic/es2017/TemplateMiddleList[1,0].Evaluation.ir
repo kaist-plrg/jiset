@@ -1,0 +1,16 @@
+{
+  access __x0__ = (TemplateMiddleList "Evaluation")
+  let rest = __x0__
+  if (is-completion rest) if (= rest.Type CONST_normal) rest = rest.Value else return rest else {}
+  rest
+  access __x1__ = (TemplateMiddle "TV")
+  let middle = __x1__
+  access __x2__ = (Expression "Evaluation")
+  let sub = __x2__
+  if (is-completion sub) if (= sub.Type CONST_normal) sub = sub.Value else return sub else {}
+  sub
+  app __x3__ = (ToString sub)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let last = __x3__
+  ??? "Return the sequence of code units consisting of the elements of id:{rest} followed by the code units of id:{middle} followed by the elements of id:{last} ."
+}

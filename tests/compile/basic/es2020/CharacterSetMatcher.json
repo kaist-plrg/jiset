@@ -1,0 +1,129 @@
+["Return", "a", "new", "Matcher", "with", "parameters", "(", {
+  "id": "x"
+}, ",", {
+  "id": "c"
+}, ")", "that", "captures", {
+  "id": "A"
+}, ",", {
+  "id": "invert"
+}, ",", "and", {
+  "id": "direction"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Assert", ":", {
+  "id": "x"
+}, "is", "a", "State", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "c"
+}, "is", "a", "Continuation", ".", {
+  "k": 2
+}, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "f"
+}, "be", {
+  "id": "e"
+}, "+", {
+  "id": "direction"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "f"
+}, "<", "0", "or", {
+  "id": "f"
+}, ">", {
+  "id": "InputLength"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "index"
+}, "be", "min", "(", {
+  "id": "e"
+}, ",", {
+  "id": "f"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "ch"
+}, "be", "the", "character", {
+  "id": "Input"
+}, "[", {
+  "id": "index"
+}, "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "cc"
+}, "be", "Canonicalize", "(", {
+  "id": "ch"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "invert"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "If", "there", "does", "not", "exist", "a", "member", {
+  "id": "a"
+}, "of", "set", {
+  "id": "A"
+}, "such", "that", "Canonicalize", "(", {
+  "id": "a"
+}, ")", "is", {
+  "id": "cc"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 9
+}, "Else", ",", true, "Assert", ":", {
+  "id": "invert"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 12
+}, "If", "there", "exists", "a", "member", {
+  "id": "a"
+}, "of", "set", {
+  "id": "A"
+}, "such", "that", "Canonicalize", "(", {
+  "id": "a"
+}, ")", "is", {
+  "id": "cc"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "Let", {
+  "id": "cap"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 14
+}, "Let", {
+  "id": "y"
+}, "be", "the", "State", "(", {
+  "id": "f"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 15
+}, "Call", {
+  "id": "c"
+}, "(", {
+  "id": "y"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 16
+}, false, {
+  "k": 0
+}]

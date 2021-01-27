@@ -1,0 +1,30 @@
+{
+  app __x0__ = (IsPromise promise)
+  assert (= __x0__ true)
+  app __x1__ = (IsCallable onFulfilled)
+  if (= __x1__ false) onFulfilled = undefined else {}
+  app __x2__ = (IsCallable onRejected)
+  if (= __x2__ false) onRejected = undefined else {}
+  let fulfillReaction = (new PromiseReaction("Capability" -> resultCapability, "Type" -> "Fulfill", "Handler" -> onFulfilled))
+  let rejectReaction = (new PromiseReaction("Capability" -> resultCapability, "Type" -> "Reject", "Handler" -> onRejected))
+  if (= promise.PromiseState "pending") {
+    append fulfillReaction -> promise.PromiseFulfillReactions
+    append rejectReaction -> promise.PromiseRejectReactions
+  } else if (= promise.PromiseState "fulfilled") {
+    let value = promise.PromiseResult
+    app __x3__ = (EnqueueJob "PromiseJobs" PromiseReactionJob (new [fulfillReaction, value]))
+    __x3__
+  } else {
+    assert (= promise.PromiseState "rejected")
+    let reason = promise.PromiseResult
+    if (= promise.PromiseIsHandled false) {
+      app __x4__ = (HostPromiseRejectionTracker promise "handle")
+      __x4__
+    } else {}
+    app __x5__ = (EnqueueJob "PromiseJobs" PromiseReactionJob (new [rejectReaction, reason]))
+    __x5__
+  }
+  promise.PromiseIsHandled = true
+  app __x6__ = (WrapCompletion resultCapability.Promise)
+  return __x6__
+}

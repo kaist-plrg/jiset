@@ -1,0 +1,79 @@
+{
+  app __x0__ = (Type S)
+  assert (= __x0__ String)
+  let length = S.length
+  app __x1__ = (Get R "lastIndex")
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  app __x2__ = (ToLength __x1__)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let lastIndex = __x2__
+  let flags = R.OriginalFlags
+  if (contains flags "g") let global = true else let global = false
+  if (contains flags "y") let sticky = true else let sticky = false
+  if (&& (= global false) (= sticky false)) lastIndex = 0i else {}
+  let matcher = R.RegExpMatcher
+  if (contains flags "u") let fullUnicode = true else let fullUnicode = false
+  let matchSucceeded = false
+  while (= matchSucceeded false) {
+    if (< length lastIndex) {
+      if (|| (= global true) (= sticky true)) {
+        app __x3__ = (Set R "lastIndex" 0i true)
+        if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+        __x3__
+      } else {}
+      app __x4__ = (WrapCompletion null)
+      return __x4__
+    } else {}
+    app __x5__ = (matcher S lastIndex)
+    let r = __x5__
+    if (= r CONST_failure) {
+      if (= sticky true) {
+        app __x6__ = (Set R "lastIndex" 0i true)
+        if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+        __x6__
+        app __x7__ = (WrapCompletion null)
+        return __x7__
+      } else {}
+      app __x8__ = (AdvanceStringIndex S lastIndex fullUnicode)
+      lastIndex = __x8__
+    } else matchSucceeded = true
+  }
+  let e = r.endIndex
+  if (= fullUnicode true) {
+    ??? "id:{e} is an index into the id:{Input} character list , derived from id:{S} , matched by id:{matcher} . Let id:{eUTF} be the smallest index into id:{S} that corresponds to the character at element id:{e} of id:{Input} . If id:{e} is greater than or equal to the length of id:{Input} , then id:{eUTF} is the number of code units in id:{S} ."
+    e = eUTF
+  } else {}
+  if (|| (= global true) (= sticky true)) {
+    app __x9__ = (Set R "lastIndex" e true)
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+    __x9__
+  } else {}
+  ??? "Let id:{n} be the length of id:{r} ' s id:{captures} List . ( This is the same value as link:{} ' s id:{NcapturingParens} . )"
+  app __x10__ = (ArrayCreate (+ n 1i))
+  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+  let A = __x10__
+  let matchIndex = lastIndex
+  app __x11__ = (CreateDataProperty A "index" matchIndex)
+  if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+  __x11__
+  app __x12__ = (CreateDataProperty A "input" S)
+  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+  __x12__
+  ??? "Let id:{matchedSubstr} be the matched substring ( i . e . the portion of id:{S} between offset id:{lastIndex} inclusive and offset id:{e} exclusive ) ."
+  app __x13__ = (CreateDataProperty A "0" matchedSubstr)
+  if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+  __x13__
+  let i = (+ 0i 1i)
+  let __x14__ = (+ n 1i)
+  while (< i __x14__) {
+    ??? "Let id:{captureI} be id:{i} sup:{th } element of id:{r} ' s id:{captures} List ."
+    if (= captureI undefined) let capturedValue = undefined else if (= fullUnicode true) ??? "Let id:{capturedValue} be a String value whose code units are the UTF16Encoding of the code points of id:{captureI} ." else let capturedValue = captureI
+    app __x15__ = (ToString i)
+    if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+    app __x16__ = (CreateDataProperty A __x15__ capturedValue)
+    if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
+    __x16__
+  }
+  app __x17__ = (WrapCompletion A)
+  return __x17__
+}

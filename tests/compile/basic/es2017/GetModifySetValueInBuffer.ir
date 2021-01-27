@@ -1,0 +1,20 @@
+{
+  app __x0__ = (IsSharedArrayBuffer arrayBuffer)
+  assert (= __x0__ true)
+  app __x1__ = (Type value)
+  assert (= __x1__ Number)
+  let block = arrayBuffer.ArrayBufferData
+  ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{} for Element Type id:{type} ."
+  if (= isLittleEndian absent) isLittleEndian = GLOBAL_agent.LittleEndian else {}
+  app __x2__ = (NumberToRawBytes type value isLittleEndian)
+  let rawBytes = __x2__
+  let execution = GLOBAL_agent.CandidateExecution
+  ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventLists ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
+  ??? "Let id:{rawBytesRead} be a List of length id:{elementSize} of nondeterministically chosen byte values ."
+  ??? "Let id:{rmwEvent} be ReadModifyWriteSharedMemory { [ [ Order ] ] : code:{\"SeqCst\"} , [ [ NoTear ] ] : value:{true} , [ [ Block ] ] : id:{block} , [ [ ByteIndex ] ] : id:{byteIndex} , [ [ ElementSize ] ] : id:{elementSize} , [ [ Payload ] ] : id:{rawBytes} , [ [ ModifyOp ] ] : id:{op} } ."
+  append rmwEvent -> eventList
+  append (new ChosenValueRecord("Event" -> rmwEvent, "ChosenValue" -> rawBytesRead)) -> execution.ChosenValues
+  app __x3__ = (RawBytesToNumber type rawBytesRead isLittleEndian)
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

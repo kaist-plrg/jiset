@@ -1,0 +1,11 @@
+{
+  access __x0__ = (MemberExpression "Evaluation")
+  let tagRef = __x0__
+  let thisCall = this
+  app __x1__ = (IsInTailPosition thisCall)
+  let tailCall = __x1__
+  app __x2__ = (EvaluateCall tagRef TemplateLiteral tailCall)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  app __x3__ = (WrapCompletion __x2__)
+  return __x3__
+}

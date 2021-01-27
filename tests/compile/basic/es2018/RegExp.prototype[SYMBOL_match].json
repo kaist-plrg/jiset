@@ -1,0 +1,161 @@
+["Let", {
+  "id": "rx"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "rx"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "string"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "global"
+}, "be", "ToBoolean", "(", "?", "Get", "(", {
+  "id": "rx"
+}, ",", {
+  "code": "\"global\""
+}, ")", ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "global"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Return", "?", "RegExpExec", "(", {
+  "id": "rx"
+}, ",", {
+  "id": "S"
+}, ")", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", {
+  "id": "global"
+}, "is", {
+  "value": "true"
+}, ",", true, "Let", {
+  "id": "fullUnicode"
+}, "be", "ToBoolean", "(", "?", "Get", "(", {
+  "id": "rx"
+}, ",", {
+  "code": "\"unicode\""
+}, ")", ")", ".", {
+  "k": 7
+}, "Perform", "?", "Set", "(", {
+  "id": "rx"
+}, ",", {
+  "code": "\"lastIndex\""
+}, ",", "0", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "A"
+}, "be", "!", "ArrayCreate", "(", "0", ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "n"
+}, "be", "0", ".", {
+  "k": 10
+}, "Repeat", ",", true, "Let", {
+  "id": "result"
+}, "be", "?", "RegExpExec", "(", {
+  "id": "rx"
+}, ",", {
+  "id": "S"
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "result"
+}, "is", {
+  "value": "null"
+}, ",", "then", true, "If", {
+  "id": "n"
+}, "=", "0", ",", "return", {
+  "value": "null"
+}, ".", {
+  "k": 14
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 15
+}, false, {
+  "k": 13
+}, "Else", {
+  "id": "result"
+}, "is", "not", {
+  "value": "null"
+}, ",", true, "Let", {
+  "id": "matchStr"
+}, "be", "?", "ToString", "(", "?", "Get", "(", {
+  "id": "result"
+}, ",", {
+  "code": "\"0\""
+}, ")", ")", ".", {
+  "k": 17
+}, "Let", {
+  "id": "status"
+}, "be", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "n"
+}, ")", ",", {
+  "id": "matchStr"
+}, ")", ".", {
+  "k": 18
+}, "Assert", ":", {
+  "id": "status"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 19
+}, "If", {
+  "id": "matchStr"
+}, "is", "the", "empty", "String", ",", "then", true, "Let", {
+  "id": "thisIndex"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "rx"
+}, ",", {
+  "code": "\"lastIndex\""
+}, ")", ")", ".", {
+  "k": 21
+}, "Let", {
+  "id": "nextIndex"
+}, "be", "AdvanceStringIndex", "(", {
+  "id": "S"
+}, ",", {
+  "id": "thisIndex"
+}, ",", {
+  "id": "fullUnicode"
+}, ")", ".", {
+  "k": 22
+}, "Perform", "?", "Set", "(", {
+  "id": "rx"
+}, ",", {
+  "code": "\"lastIndex\""
+}, ",", {
+  "id": "nextIndex"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 23
+}, false, {
+  "k": 20
+}, "Increment", {
+  "id": "n"
+}, ".", {
+  "k": 24
+}, false, {
+  "k": 16
+}, false, {
+  "k": 11
+}, false, {
+  "k": 6
+}]

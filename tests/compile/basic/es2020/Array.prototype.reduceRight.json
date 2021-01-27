@@ -1,0 +1,167 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "callbackfn"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "If", {
+  "id": "len"
+}, "is", "0", "and", {
+  "id": "initialValue"
+}, "is", "not", "present", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Let", {
+  "id": "k"
+}, "be", {
+  "id": "len"
+}, "-", "1", ".", {
+  "k": 4
+}, "Let", {
+  "id": "accumulator"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "initialValue"
+}, "is", "present", ",", "then", true, "Set", {
+  "id": "accumulator"
+}, "to", {
+  "id": "initialValue"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Let", {
+  "id": "kPresent"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "Repeat", ",", "while", {
+  "id": "kPresent"
+}, "is", {
+  "value": "false"
+}, "and", {
+  "id": "k"
+}, "≥", "0", true, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", {
+  "k": 11
+}, "Set", {
+  "id": "kPresent"
+}, "to", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Set", {
+  "id": "accumulator"
+}, "to", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "-", "1", ".", {
+  "k": 15
+}, false, {
+  "k": 10
+}, "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 16
+}, false, {
+  "k": 8
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "≥", "0", true, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", {
+  "k": 18
+}, "Let", {
+  "id": "kPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 19
+}, "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "kValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 21
+}, "Set", {
+  "id": "accumulator"
+}, "to", "?", "Call", "(", {
+  "id": "callbackfn"
+}, ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "accumulator"
+}, ",", {
+  "id": "kValue"
+}, ",", {
+  "id": "k"
+}, ",", {
+  "id": "O"
+}, "»", ")", ".", {
+  "k": 22
+}, false, {
+  "k": 20
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "-", "1", ".", {
+  "k": 23
+}, false, {
+  "k": 17
+}, "Return", {
+  "id": "accumulator"
+}, ".", {
+  "k": 24
+}]

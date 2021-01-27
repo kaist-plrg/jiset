@@ -1,0 +1,57 @@
+["Let", {
+  "id": "value"
+}, "be", "the", "result", "of", "BindingClassDeclarationEvaluation", "of", {
+  "nt": "ClassDeclaration"
+}, ".", {
+  "k": 0
+}, "ReturnIfAbrupt", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "className"
+}, "be", "the", "sole", "element", "of", "BoundNames", "of", {
+  "nt": "ClassDeclaration"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "className"
+}, "is", {
+  "code": "\"*default*\""
+}, ",", "then", true, "Let", {
+  "id": "hasNameProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "value"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "hasNameProperty"
+}, "is", {
+  "value": "false"
+}, ",", "perform", "SetFunctionName", "(", {
+  "id": "value"
+}, ",", {
+  "code": "\"default\""
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "env"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 6
+}, "Perform", "?", "InitializeBoundName", "(", {
+  "code": "\"*default*\""
+}, ",", {
+  "id": "value"
+}, ",", {
+  "id": "env"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 3
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 8
+}]

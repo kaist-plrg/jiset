@@ -1,0 +1,45 @@
+["Let", {
+  "id": "args"
+}, "be", "the", "arguments", "object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "map"
+}, "be", {
+  "id": "args"
+}, ".", "[", "[", "ParameterMap", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "isMapped"
+}, "be", "!", "HasOwnProperty", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "isMapped"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Return", "?", "OrdinaryGet", "(", {
+  "id": "args"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Else", {
+  "id": "map"
+}, "contains", "a", "formal", "parameter", "mapping", "for", {
+  "id": "P"
+}, ",", true, "Return", "Get", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}]

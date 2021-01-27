@@ -1,0 +1,19 @@
+{
+  let R = this
+  app __x0__ = (Type R)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  if (= R.OriginalFlags absent) {
+    ??? "If SameValue ( id:{R} , % RegExp . prototype % ) is value:{true} , return value:{undefined} ."
+    ??? "Otherwise , throw a value:{TypeError} exception ."
+  } else {}
+  let flags = R.OriginalFlags
+  if (contains flags "i") {
+    app __x2__ = (WrapCompletion true)
+    return __x2__
+  } else {}
+  app __x3__ = (WrapCompletion false)
+  return __x3__
+}

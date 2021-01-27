@@ -1,0 +1,101 @@
+["Assert", ":", "IsConstructor", "(", {
+  "id": "constructor"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "resultCapability"
+}, "is", "a", "PromiseCapability", "Record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "promiseResolve"
+}, "be", "?", "Get", "(", {
+  "id": "constructor"
+}, ",", {
+  "value": "\"resolve\""
+}, ")", ".", {
+  "k": 2
+}, "If", "!", "IsCallable", "(", {
+  "id": "promiseResolve"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Repeat", ",", true, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 6
+}, "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 9
+}, "Return", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, "Let", {
+  "id": "nextValue"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "nextValue"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 12
+}, "ReturnIfAbrupt", "(", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 13
+}, "Let", {
+  "id": "nextPromise"
+}, "be", "?", "Call", "(", {
+  "id": "promiseResolve"
+}, ",", {
+  "id": "constructor"
+}, ",", "«", {
+  "id": "nextValue"
+}, "»", ")", ".", {
+  "k": 14
+}, "Perform", "?", "Invoke", "(", {
+  "id": "nextPromise"
+}, ",", {
+  "value": "\"then\""
+}, ",", "«", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 15
+}, false, {
+  "k": 4
+}]

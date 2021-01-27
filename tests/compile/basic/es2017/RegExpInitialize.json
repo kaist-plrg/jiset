@@ -1,0 +1,149 @@
+["If", {
+  "id": "pattern"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "P"
+}, "be", "the", "empty", "String", ".", {
+  "k": 0
+}, "Else", ",", "let", {
+  "id": "P"
+}, "be", "?", "ToString", "(", {
+  "id": "pattern"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "flags"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "F"
+}, "be", "the", "empty", "String", ".", {
+  "k": 2
+}, "Else", ",", "let", {
+  "id": "F"
+}, "be", "?", "ToString", "(", {
+  "id": "flags"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "F"
+}, "contains", "any", "code", "unit", "other", "than", {
+  "code": "\"g\""
+}, ",", {
+  "code": "\"i\""
+}, ",", {
+  "code": "\"m\""
+}, ",", {
+  "code": "\"u\""
+}, ",", "or", {
+  "code": "\"y\""
+}, "or", "if", "it", "contains", "the", "same", "code", "unit", "more", "than", "once", ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 4
+}, "If", {
+  "id": "F"
+}, "contains", {
+  "code": "\"u\""
+}, ",", "let", {
+  "id": "BMP"
+}, "be", {
+  "value": "false"
+}, ";", "else", "let", {
+  "id": "BMP"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "BMP"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Parse", {
+  "id": "P"
+}, "using", "the", "grammars", "in", {
+  "link": ""
+}, "and", "interpreting", "each", "of", "its", "16", "-", "bit", "elements", "as", "a", "Unicode", "BMP", "code", "point", ".", "UTF", "-", "16", "decoding", "is", "not", "applied", "to", "the", "elements", ".", "The", "goal", "symbol", "for", "the", "parse", "is", {
+  "nt": "Pattern[~U]"
+}, ".", "Throw", "a", {
+  "value": "SyntaxError"
+}, "exception", "if", {
+  "id": "P"
+}, "did", "not", "conform", "to", "the", "grammar", ",", "if", "any", "elements", "of", {
+  "id": "P"
+}, "were", "not", "matched", "by", "the", "parse", ",", "or", "if", "any", "Early", "Error", "conditions", "exist", ".", {
+  "k": 7
+}, "Let", {
+  "id": "patternCharacters"
+}, "be", "a", "List", "whose", "elements", "are", "the", "code", "unit", "elements", "of", {
+  "id": "P"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Parse", {
+  "id": "P"
+}, "using", "the", "grammars", "in", {
+  "link": ""
+}, "and", "interpreting", {
+  "id": "P"
+}, "as", "UTF", "-", "16", "encoded", "Unicode", "code", "points", "(", {
+  "link": ""
+}, ")", ".", "The", "goal", "symbol", "for", "the", "parse", "is", {
+  "nt": "Pattern[+U]"
+}, ".", "Throw", "a", {
+  "value": "SyntaxError"
+}, "exception", "if", {
+  "id": "P"
+}, "did", "not", "conform", "to", "the", "grammar", ",", "if", "any", "elements", "of", {
+  "id": "P"
+}, "were", "not", "matched", "by", "the", "parse", ",", "or", "if", "any", "Early", "Error", "conditions", "exist", ".", {
+  "k": 10
+}, "Let", {
+  "id": "patternCharacters"
+}, "be", "a", "List", "whose", "elements", "are", "the", "code", "points", "resulting", "from", "applying", "UTF", "-", "16", "decoding", "to", {
+  "id": "P"
+}, "'", "s", "sequence", "of", "elements", ".", {
+  "k": 11
+}, false, {
+  "k": 9
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "OriginalSource", "]", "]", "to", {
+  "id": "P"
+}, ".", {
+  "k": 12
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "OriginalFlags", "]", "]", "to", {
+  "id": "F"
+}, ".", {
+  "k": 13
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "RegExpMatcher", "]", "]", "to", "the", "internal", "procedure", "that", "evaluates", "the", "above", "parse", "of", {
+  "id": "P"
+}, "by", "applying", "the", "semantics", "provided", "in", {
+  "link": ""
+}, "using", {
+  "id": "patternCharacters"
+}, "as", "the", "pattern", "'", "s", "List", "of", {
+  "nt": "SourceCharacter"
+}, "values", "and", {
+  "id": "F"
+}, "as", "the", "flag", "parameters", ".", {
+  "k": 14
+}, "Perform", "?", "Set", "(", {
+  "id": "obj"
+}, ",", {
+  "code": "\"lastIndex\""
+}, ",", "0", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 15
+}, "Return", {
+  "id": "obj"
+}, ".", {
+  "k": 16
+}]

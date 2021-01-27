@@ -1,0 +1,191 @@
+["If", {
+  "id": "stack"
+}, "contains", {
+  "id": "value"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", "because", "the", "structure", "is", "cyclical", ".", {
+  "k": 0
+}, "Append", {
+  "id": "value"
+}, "to", {
+  "id": "stack"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "stepback"
+}, "be", {
+  "id": "indent"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "indent"
+}, "be", "the", "concatenation", "of", {
+  "id": "indent"
+}, "and", {
+  "id": "gap"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "PropertyList"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "K"
+}, "be", {
+  "id": "PropertyList"
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", ",", true, "Let", {
+  "id": "K"
+}, "be", "?", "EnumerableOwnNames", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "partial"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 8
+}, "For", "each", "element", {
+  "id": "P"
+}, "of", {
+  "id": "K"
+}, ",", true, "Let", {
+  "id": "strP"
+}, "be", "?", "SerializeJSONProperty", "(", {
+  "id": "P"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "strP"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "member"
+}, "be", "QuoteJSONString", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "member"
+}, "be", "the", "concatenation", "of", {
+  "id": "member"
+}, "and", "the", "string", {
+  "code": "\":\""
+}, ".", {
+  "k": 13
+}, "If", {
+  "id": "gap"
+}, "is", "not", "the", "empty", "String", ",", "then", true, "Let", {
+  "id": "member"
+}, "be", "the", "concatenation", "of", {
+  "id": "member"
+}, "and", "code", "unit", "0x0020", "(", "SPACE", ")", ".", {
+  "k": 15
+}, false, {
+  "k": 14
+}, "Let", {
+  "id": "member"
+}, "be", "the", "concatenation", "of", {
+  "id": "member"
+}, "and", {
+  "id": "strP"
+}, ".", {
+  "k": 16
+}, "Append", {
+  "id": "member"
+}, "to", {
+  "id": "partial"
+}, ".", {
+  "k": 17
+}, false, {
+  "k": 11
+}, false, {
+  "k": 9
+}, "If", {
+  "id": "partial"
+}, "is", "empty", ",", "then", true, "Let", {
+  "id": "final"
+}, "be", {
+  "code": "\"{}\""
+}, ".", {
+  "k": 19
+}, false, {
+  "k": 18
+}, "Else", ",", true, "If", {
+  "id": "gap"
+}, "is", "the", "empty", "String", ",", "then", true, "Let", {
+  "id": "properties"
+}, "be", "a", "String", "formed", "by", "concatenating", "all", "the", "element", "Strings", "of", {
+  "id": "partial"
+}, "with", "each", "adjacent", "pair", "of", "Strings", "separated", "with", "code", "unit", "0x002C", "(", "COMMA", ")", ".", "A", "comma", "is", "not", "inserted", "either", "before", "the", "first", "String", "or", "after", "the", "last", "String", ".", {
+  "k": 22
+}, "Let", {
+  "id": "final"
+}, "be", "the", "result", "of", "concatenating", {
+  "code": "\"{\""
+}, ",", {
+  "id": "properties"
+}, ",", "and", {
+  "code": "\"}\""
+}, ".", {
+  "k": 23
+}, false, {
+  "k": 21
+}, "Else", {
+  "id": "gap"
+}, "is", "not", "the", "empty", "String", true, "Let", {
+  "id": "separator"
+}, "be", "the", "result", "of", "concatenating", "code", "unit", "0x002C", "(", "COMMA", ")", ",", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", "and", {
+  "id": "indent"
+}, ".", {
+  "k": 25
+}, "Let", {
+  "id": "properties"
+}, "be", "a", "String", "formed", "by", "concatenating", "all", "the", "element", "Strings", "of", {
+  "id": "partial"
+}, "with", "each", "adjacent", "pair", "of", "Strings", "separated", "with", {
+  "id": "separator"
+}, ".", "The", {
+  "id": "separator"
+}, "String", "is", "not", "inserted", "either", "before", "the", "first", "String", "or", "after", "the", "last", "String", ".", {
+  "k": 26
+}, "Let", {
+  "id": "final"
+}, "be", "the", "result", "of", "concatenating", {
+  "code": "\"{\""
+}, ",", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", {
+  "id": "indent"
+}, ",", {
+  "id": "properties"
+}, ",", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", {
+  "id": "stepback"
+}, ",", "and", {
+  "code": "\"}\""
+}, ".", {
+  "k": 27
+}, false, {
+  "k": 24
+}, false, {
+  "k": 20
+}, "Remove", "the", "last", "element", "of", {
+  "id": "stack"
+}, ".", {
+  "k": 28
+}, "Let", {
+  "id": "indent"
+}, "be", {
+  "id": "stepback"
+}, ".", {
+  "k": 29
+}, "Return", {
+  "id": "final"
+}, ".", {
+  "k": 30
+}]

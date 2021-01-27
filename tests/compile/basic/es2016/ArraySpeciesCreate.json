@@ -1,0 +1,117 @@
+["Assert", ":", {
+  "id": "length"
+}, "is", "an", "integer", "Number", "≥", "0", ".", {
+  "k": 0
+}, "If", {
+  "id": "length"
+}, "is", {
+  "value": "-0"
+}, ",", "let", {
+  "id": "length"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "C"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "isArray"
+}, "be", "?", "IsArray", "(", {
+  "id": "originalArray"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "isArray"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "C"
+}, "be", "?", "Get", "(", {
+  "id": "originalArray"
+}, ",", {
+  "code": "\"constructor\""
+}, ")", ".", {
+  "k": 5
+}, "If", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "thisRealm"
+}, "be", "the", "current", "Realm", "Record", ".", {
+  "k": 7
+}, "Let", {
+  "id": "realmC"
+}, "be", "?", "GetFunctionRealm", "(", {
+  "id": "C"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "thisRealm"
+}, "and", {
+  "id": "realmC"
+}, "are", "not", "the", "same", "Realm", "Record", ",", "then", true, "If", "SameValue", "(", {
+  "id": "C"
+}, ",", {
+  "id": "realmC"
+}, ".", "[", "[", "Intrinsics", "]", "]", ".", "[", "[", "%", "Array", "%", "]", "]", ")", "is", {
+  "value": "true"
+}, ",", "let", {
+  "id": "C"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 9
+}, false, {
+  "k": 6
+}, "If", "Type", "(", {
+  "id": "C"
+}, ")", "is", "Object", ",", "then", true, "Let", {
+  "id": "C"
+}, "be", "?", "Get", "(", {
+  "id": "C"
+}, ",", "@", "@", "species", ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "C"
+}, "is", {
+  "value": "null"
+}, ",", "let", {
+  "id": "C"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, false, {
+  "k": 4
+}, "If", {
+  "id": "C"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", "?", "ArrayCreate", "(", {
+  "id": "length"
+}, ")", ".", {
+  "k": 14
+}, "If", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 15
+}, "Return", "?", "Construct", "(", {
+  "id": "C"
+}, ",", "«", {
+  "id": "length"
+}, "»", ")", ".", {
+  "k": 16
+}]

@@ -1,0 +1,71 @@
+["Let", {
+  "id": "coerced"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 0
+}, "For", "each", "element", {
+  "id": "arg"
+}, "of", {
+  "id": "args"
+}, ",", "do", true, "Let", {
+  "id": "n"
+}, "be", "?", "ToNumber", "(", {
+  "id": "arg"
+}, ")", ".", {
+  "k": 2
+}, "Append", {
+  "id": "n"
+}, "to", {
+  "id": "coerced"
+}, ".", {
+  "k": 3
+}, false, {
+  "k": 1
+}, "Let", {
+  "id": "highest"
+}, "be", {
+  "value": "-∞"
+}, ".", {
+  "k": 4
+}, "For", "each", "element", {
+  "id": "number"
+}, "of", {
+  "id": "coerced"
+}, ",", "do", true, "If", {
+  "id": "number"
+}, "is", {
+  "value": "NaN"
+}, ",", "return", {
+  "value": "NaN"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "number"
+}, "is", {
+  "value": "+0"
+}, "and", {
+  "id": "highest"
+}, "is", {
+  "value": "-0"
+}, ",", "set", {
+  "id": "highest"
+}, "to", {
+  "value": "+0"
+}, ".", {
+  "k": 7
+}, "If", {
+  "id": "number"
+}, ">", {
+  "id": "highest"
+}, ",", "set", {
+  "id": "highest"
+}, "to", {
+  "id": "number"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 5
+}, "Return", {
+  "id": "highest"
+}, ".", {
+  "k": 9
+}]

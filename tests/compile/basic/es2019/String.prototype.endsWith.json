@@ -1,0 +1,97 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "isRegExp"
+}, "be", "?", "IsRegExp", "(", {
+  "id": "searchString"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "isRegExp"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Let", {
+  "id": "searchStr"
+}, "be", "?", "ToString", "(", {
+  "id": "searchString"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "len"
+}, "be", "the", "length", "of", {
+  "id": "S"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "endPosition"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "pos"
+}, "be", {
+  "id": "len"
+}, ",", "else", "let", {
+  "id": "pos"
+}, "be", "?", "ToInteger", "(", {
+  "id": "endPosition"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "end"
+}, "be", "min", "(", "max", "(", {
+  "id": "pos"
+}, ",", "0", ")", ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "searchLength"
+}, "be", "the", "length", "of", {
+  "id": "searchStr"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "start"
+}, "be", {
+  "id": "end"
+}, "-", {
+  "id": "searchLength"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "start"
+}, "is", "less", "than", "0", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 10
+}, "If", "the", "sequence", "of", "code", "units", "of", {
+  "id": "S"
+}, "starting", "at", {
+  "id": "start"
+}, "of", "length", {
+  "id": "searchLength"
+}, "is", "the", "same", "as", "the", "full", "code", "unit", "sequence", "of", {
+  "id": "searchStr"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 11
+}, "Otherwise", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 12
+}]

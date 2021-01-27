@@ -1,0 +1,175 @@
+["If", {
+  "id": "max"
+}, "is", "zero", ",", "return", {
+  "id": "c"
+}, "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "d"
+}, "be", "an", "internal", "Continuation", "closure", "that", "takes", "one", "State", "argument", {
+  "id": "y"
+}, "and", "performs", "the", "following", "steps", "when", "evaluated", ":", true, "If", {
+  "id": "min"
+}, "is", "zero", "and", {
+  "id": "y"
+}, "'", "s", {
+  "id": "endIndex"
+}, "is", "equal", "to", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "min"
+}, "is", "zero", ",", "let", {
+  "id": "min2"
+}, "be", "zero", ";", "otherwise", "let", {
+  "id": "min2"
+}, "be", {
+  "id": "min"
+}, "-", "1", ".", {
+  "k": 3
+}, "If", {
+  "id": "max"
+}, "is", "∞", ",", "let", {
+  "id": "max2"
+}, "be", "∞", ";", "otherwise", "let", {
+  "id": "max2"
+}, "be", {
+  "id": "max"
+}, "-", "1", ".", {
+  "k": 4
+}, "Call", "RepeatMatcher", "(", {
+  "id": "m"
+}, ",", {
+  "id": "min2"
+}, ",", {
+  "id": "max2"
+}, ",", {
+  "id": "greedy"
+}, ",", {
+  "id": "y"
+}, ",", {
+  "id": "c"
+}, ",", {
+  "id": "parenIndex"
+}, ",", {
+  "id": "parenCount"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 5
+}, false, {
+  "k": 1
+}, "Let", {
+  "id": "cap"
+}, "be", "a", "fresh", "copy", "of", {
+  "id": "x"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 6
+}, "For", "each", "integer", {
+  "id": "k"
+}, "that", "satisfies", {
+  "id": "parenIndex"
+}, "<", {
+  "id": "k"
+}, "and", {
+  "id": "k"
+}, "≤", {
+  "id": "parenIndex"
+}, "+", {
+  "id": "parenCount"
+}, ",", "set", {
+  "id": "cap"
+}, "[", {
+  "id": "k"
+}, "]", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "xr"
+}, "be", "the", "State", "(", {
+  "id": "e"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "min"
+}, "is", "not", "zero", ",", "return", {
+  "id": "m"
+}, "(", {
+  "id": "xr"
+}, ",", {
+  "id": "d"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "greedy"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Call", {
+  "id": "c"
+}, "(", {
+  "id": "x"
+}, ")", "and", "let", {
+  "id": "z"
+}, "be", "its", "result", ".", {
+  "k": 12
+}, "If", {
+  "id": "z"
+}, "is", "not", {
+  "const": "failure"
+}, ",", "return", {
+  "id": "z"
+}, ".", {
+  "k": 13
+}, "Call", {
+  "id": "m"
+}, "(", {
+  "id": "xr"
+}, ",", {
+  "id": "d"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 14
+}, false, {
+  "k": 11
+}, "Call", {
+  "id": "m"
+}, "(", {
+  "id": "xr"
+}, ",", {
+  "id": "d"
+}, ")", "and", "let", {
+  "id": "z"
+}, "be", "its", "result", ".", {
+  "k": 15
+}, "If", {
+  "id": "z"
+}, "is", "not", {
+  "const": "failure"
+}, ",", "return", {
+  "id": "z"
+}, ".", {
+  "k": 16
+}, "Call", {
+  "id": "c"
+}, "(", {
+  "id": "x"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 17
+}]

@@ -1,0 +1,103 @@
+["Let", {
+  "id": "oldEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 0
+}, "If", {
+  "id": "TDZnames"
+}, "is", "not", "an", "empty", "List", ",", "then", true, "Assert", ":", {
+  "id": "TDZnames"
+}, "has", "no", "duplicate", "entries", ".", {
+  "k": 2
+}, "Let", {
+  "id": "TDZ"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "oldEnv"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "TDZEnvRec"
+}, "be", {
+  "id": "TDZ"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 4
+}, "For", "each", "string", {
+  "id": "name"
+}, "in", {
+  "id": "TDZnames"
+}, ",", "do", true, "Perform", "!", {
+  "id": "TDZEnvRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "TDZ"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 1
+}, "Let", {
+  "id": "exprRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "expr"
+}, ".", {
+  "k": 8
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "exprValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "exprRef"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "iterationKind"
+}, "is", {
+  "const": "enumerate"
+}, ",", "then", true, "If", {
+  "id": "exprValue"
+}, ".", "[", "[", "Value", "]", "]", "is", {
+  "value": "null"
+}, "or", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
+  "const": "break"
+}, ",", "[", "[", "Value", "]", "]", ":", {
+  "const": "empty"
+}, ",", "[", "[", "Target", "]", "]", ":", {
+  "const": "empty"
+}, "}", ".", {
+  "k": 13
+}, false, {
+  "k": 12
+}, "Let", {
+  "id": "obj"
+}, "be", "ToObject", "(", {
+  "id": "exprValue"
+}, ")", ".", {
+  "k": 14
+}, "Return", "?", "EnumerateObjectProperties", "(", {
+  "id": "obj"
+}, ")", ".", {
+  "k": 15
+}, false, {
+  "k": 11
+}, "Else", ",", true, "Assert", ":", {
+  "id": "iterationKind"
+}, "is", {
+  "const": "iterate"
+}, ".", {
+  "k": 17
+}, "Return", "?", "GetIterator", "(", {
+  "id": "exprValue"
+}, ")", ".", {
+  "k": 18
+}, false, {
+  "k": 16
+}]

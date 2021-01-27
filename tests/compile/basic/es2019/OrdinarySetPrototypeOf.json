@@ -1,0 +1,103 @@
+["Assert", ":", "Either", "Type", "(", {
+  "id": "V"
+}, ")", "is", "Object", "or", "Type", "(", {
+  "id": "V"
+}, ")", "is", "Null", ".", {
+  "k": 0
+}, "Let", {
+  "id": "extensible"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "Extensible", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "current"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "Prototype", "]", "]", ".", {
+  "k": 2
+}, "If", "SameValue", "(", {
+  "id": "V"
+}, ",", {
+  "id": "current"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "extensible"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "p"
+}, "be", {
+  "id": "V"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "done"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "Repeat", ",", "while", {
+  "id": "done"
+}, "is", {
+  "value": "false"
+}, ",", true, "If", {
+  "id": "p"
+}, "is", {
+  "value": "null"
+}, ",", "set", {
+  "id": "done"
+}, "to", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}, "Else", "if", "SameValue", "(", {
+  "id": "p"
+}, ",", {
+  "id": "O"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "Else", ",", true, "If", {
+  "id": "p"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "is", "not", "the", "ordinary", "object", "internal", "method", "defined", "in", {
+  "link": ""
+}, ",", "set", {
+  "id": "done"
+}, "to", {
+  "value": "true"
+}, ".", {
+  "k": 11
+}, "Else", ",", "set", {
+  "id": "p"
+}, "to", {
+  "id": "p"
+}, ".", "[", "[", "Prototype", "]", "]", ".", {
+  "k": 12
+}, false, {
+  "k": 10
+}, false, {
+  "k": 7
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "Prototype", "]", "]", "to", {
+  "id": "V"
+}, ".", {
+  "k": 13
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 14
+}]

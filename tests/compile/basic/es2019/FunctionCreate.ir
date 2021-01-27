@@ -1,0 +1,9 @@
+{
+  if (= prototype absent) prototype = INTRINSIC_FunctionPrototype else {}
+  if (! (= kind CONST_Normal)) let allocKind = "non-constructor" else let allocKind = "normal"
+  app __x0__ = (FunctionAllocate prototype Strict allocKind)
+  let F = __x0__
+  app __x1__ = (FunctionInitialize F kind ParameterList Body Scope)
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
+}

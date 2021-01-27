@@ -1,0 +1,26 @@
+{
+  app __x0__ = (IsDetachedBuffer arrayBuffer)
+  assert (= __x0__ false)
+  let block = arrayBuffer.ArrayBufferData
+  ??? "Let id:{elementSize} be the Element Size value specified in link:{} for Element Type id:{type} ."
+  if (= isLittleEndian absent) isLittleEndian = GLOBAL_agent.LittleEndian else {}
+  app __x1__ = (NumericToRawBytes type value isLittleEndian)
+  let rawBytes = __x1__
+  app __x2__ = (IsSharedArrayBuffer arrayBuffer)
+  if (= __x2__ true) {
+    let execution = GLOBAL_agent.CandidateExecution
+    ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
+    ??? "Let id:{rawBytesRead} be a List of length id:{elementSize} whose elements are nondeterministically chosen byte values ."
+    ??? "Let id:{rmwEvent} be ReadModifyWriteSharedMemory { [ [ Order ] ] : const:{SeqCst} , [ [ NoTear ] ] : value:{true} , [ [ Block ] ] : id:{block} , [ [ ByteIndex ] ] : id:{byteIndex} , [ [ ElementSize ] ] : id:{elementSize} , [ [ Payload ] ] : id:{rawBytes} , [ [ ModifyOp ] ] : id:{op} } ."
+    append rmwEvent -> eventList
+    append (new ChosenValueRecord("Event" -> rmwEvent, "ChosenValue" -> rawBytesRead)) -> execution.ChosenValues
+  } else {
+    ??? "Let id:{rawBytesRead} be a List of length id:{elementSize} whose elements are the sequence of id:{elementSize} bytes starting with id:{block} [ id:{byteIndex} ] ."
+    app __x3__ = (op rawBytesRead rawBytes)
+    let rawBytesModified = __x3__
+    ??? "Store the individual bytes of id:{rawBytesModified} into id:{block} , starting at id:{block} [ id:{byteIndex} ] ."
+  }
+  app __x4__ = (RawBytesToNumeric type rawBytesRead isLittleEndian)
+  app __x5__ = (WrapCompletion __x4__)
+  return __x5__
+}

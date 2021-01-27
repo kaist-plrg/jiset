@@ -1,0 +1,13 @@
+{
+  access __x0__ = (IdentifierName "StringValue")
+  let sourceName = __x0__
+  if (= module null) {
+    let localName = sourceName
+    let importName = null
+  } else {
+    let localName = null
+    let importName = sourceName
+  }
+  app __x1__ = (WrapCompletion (new [(new ExportEntryRecord("ModuleRequest" -> module, "ImportName" -> importName, "LocalName" -> localName, "ExportName" -> sourceName))]))
+  return __x1__
+}

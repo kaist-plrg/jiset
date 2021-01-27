@@ -1,0 +1,11 @@
+{
+  access __x0__ = (FormalParameterList "IteratorBindingInitialization")
+  app __x1__ = (__x0__ iteratorRecord environment)
+  let restIndex = __x1__
+  if (is-completion restIndex) if (= restIndex.Type CONST_normal) restIndex = restIndex.Value else return restIndex else {}
+  restIndex
+  access __x2__ = (FunctionRestParameter "IteratorBindingInitialization")
+  app __x3__ = (__x2__ iteratorRecord environment)
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
+}

@@ -1,0 +1,75 @@
+["Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "hint"
+}, ")", "is", "String", "and", "its", "value", "is", "either", {
+  "value": "\"string\""
+}, "or", {
+  "value": "\"number\""
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "hint"
+}, "is", {
+  "value": "\"string\""
+}, ",", "then", true, "Let", {
+  "id": "methodNames"
+}, "be", "«", {
+  "value": "\"toString\""
+}, ",", {
+  "value": "\"valueOf\""
+}, "»", ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "Else", ",", true, "Let", {
+  "id": "methodNames"
+}, "be", "«", {
+  "value": "\"valueOf\""
+}, ",", {
+  "value": "\"toString\""
+}, "»", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "For", "each", {
+  "id": "name"
+}, "in", {
+  "id": "methodNames"
+}, "in", "List", "order", ",", "do", true, "Let", {
+  "id": "method"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "name"
+}, ")", ".", {
+  "k": 7
+}, "If", "IsCallable", "(", {
+  "id": "method"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "result"
+}, "be", "?", "Call", "(", {
+  "id": "method"
+}, ",", {
+  "id": "O"
+}, ")", ".", {
+  "k": 9
+}, "If", "Type", "(", {
+  "id": "result"
+}, ")", "is", "not", "Object", ",", "return", {
+  "id": "result"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, false, {
+  "k": 6
+}, "Throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 11
+}]

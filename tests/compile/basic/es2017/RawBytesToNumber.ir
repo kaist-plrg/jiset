@@ -1,0 +1,20 @@
+{
+  ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{} for Element Type id:{type} ."
+  ??? "If id:{isLittleEndian} is value:{false} , reverse the order of the elements of id:{rawBytes} ."
+  if (= type "Float32") {
+    ??? "Let id:{value} be the byte elements of id:{rawBytes} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2008 binary32 value ."
+    ??? "If id:{value} is an IEEE 754 - 2008 binary32 NaN value , return the value:{NaN} Number value ."
+    app __x0__ = (WrapCompletion value)
+    return __x0__
+  } else {}
+  if (= type "Float64") {
+    ??? "Let id:{value} be the byte elements of id:{rawBytes} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2008 binary64 value ."
+    ??? "If id:{value} is an IEEE 754 - 2008 binary64 NaN value , return the value:{NaN} Number value ."
+    app __x1__ = (WrapCompletion value)
+    return __x1__
+  } else {}
+  ??? "If the first code unit of id:{type} is code:{\"U\"} , then step-list:{...}"
+  ??? "Else , step-list:{...}"
+  app __x2__ = (WrapCompletion intValue)
+  return __x2__
+}

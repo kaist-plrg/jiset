@@ -1,0 +1,53 @@
+["Let", {
+  "id": "val"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Expression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "obj"
+}, "be", "?", "ToObject", "(", "?", "GetValue", "(", {
+  "id": "val"
+}, ")", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "oldEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 2
+}, "Let", {
+  "id": "newEnv"
+}, "be", "NewObjectEnvironment", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "oldEnv"
+}, ")", ".", {
+  "k": 3
+}, "Set", "the", {
+  "id": "withEnvironment"
+}, "flag", "of", {
+  "id": "newEnv"
+}, "'", "s", "EnvironmentRecord", "to", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "newEnv"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "C"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Statement"
+}, ".", {
+  "k": 6
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 7
+}, "Return", "Completion", "(", "UpdateEmpty", "(", {
+  "id": "C"
+}, ",", {
+  "value": "undefined"
+}, ")", ")", ".", {
+  "k": 8
+}]

@@ -1,0 +1,65 @@
+["Assert", ":", "Type", "(", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Iterator", "]", "]", ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "completion"
+}, "is", "a", "Completion", "Record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "iterator"
+}, "be", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Iterator", "]", "]", ".", {
+  "k": 2
+}, "Let", {
+  "id": "return"
+}, "be", "?", "GetMethod", "(", {
+  "id": "iterator"
+}, ",", {
+  "code": "\"return\""
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "return"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", "Completion", "(", {
+  "id": "completion"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "innerResult"
+}, "be", "Call", "(", {
+  "id": "return"
+}, ",", {
+  "id": "iterator"
+}, ",", "«", "»", ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "completion"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "throw"
+}, ",", "return", "Completion", "(", {
+  "id": "completion"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "innerResult"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "throw"
+}, ",", "return", "Completion", "(", {
+  "id": "innerResult"
+}, ")", ".", {
+  "k": 7
+}, "If", "Type", "(", {
+  "id": "innerResult"
+}, ".", "[", "[", "Value", "]", "]", ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 8
+}, "Return", "Completion", "(", {
+  "id": "completion"
+}, ")", ".", {
+  "k": 9
+}]

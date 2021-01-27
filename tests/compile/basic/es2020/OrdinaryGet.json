@@ -1,0 +1,77 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "desc"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "parent"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "parent"
+}, "is", {
+  "value": "null"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Return", "?", {
+  "id": "parent"
+}, ".", "[", "[", "Get", "]", "]", "(", {
+  "id": "P"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 5
+}, false, {
+  "k": 2
+}, "If", "IsDataDescriptor", "(", {
+  "id": "desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "desc"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 6
+}, "Assert", ":", "IsAccessorDescriptor", "(", {
+  "id": "desc"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "getter"
+}, "be", {
+  "id": "desc"
+}, ".", "[", "[", "Get", "]", "]", ".", {
+  "k": 8
+}, "If", {
+  "id": "getter"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 9
+}, "Return", "?", "Call", "(", {
+  "id": "getter"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 10
+}]

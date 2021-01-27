@@ -1,0 +1,103 @@
+["If", "Type", "(", {
+  "id": "view"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "If", {
+  "id": "view"
+}, "does", "not", "have", "a", "[", "[", "DataView", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "view"
+}, "has", "a", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", ".", {
+  "k": 2
+}, "Let", {
+  "id": "getIndex"
+}, "be", "?", "ToIndex", "(", {
+  "id": "requestIndex"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "numberValue"
+}, "be", "?", "ToNumber", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 4
+}, "Set", {
+  "id": "isLittleEndian"
+}, "to", "ToBoolean", "(", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "buffer"
+}, "be", {
+  "id": "view"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 6
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 7
+}, "Let", {
+  "id": "viewOffset"
+}, "be", {
+  "id": "view"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 8
+}, "Let", {
+  "id": "viewSize"
+}, "be", {
+  "id": "view"
+}, ".", "[", "[", "ByteLength", "]", "]", ".", {
+  "k": 9
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Number", "value", "of", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", "Element", "Type", {
+  "id": "type"
+}, ".", {
+  "k": 10
+}, "If", {
+  "id": "getIndex"
+}, "+", {
+  "id": "elementSize"
+}, ">", {
+  "id": "viewSize"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 11
+}, "Let", {
+  "id": "bufferIndex"
+}, "be", {
+  "id": "getIndex"
+}, "+", {
+  "id": "viewOffset"
+}, ".", {
+  "k": 12
+}, "Return", "SetValueInBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "bufferIndex"
+}, ",", {
+  "id": "type"
+}, ",", {
+  "id": "numberValue"
+}, ",", {
+  "value": "false"
+}, ",", {
+  "code": "\"Unordered\""
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 13
+}]

@@ -1,0 +1,225 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "relativeTarget"
+}, "be", "?", "ToInteger", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "relativeTarget"
+}, "<", "0", ",", "let", {
+  "id": "to"
+}, "be", "max", "(", "(", {
+  "id": "len"
+}, "+", {
+  "id": "relativeTarget"
+}, ")", ",", "0", ")", ";", "else", "let", {
+  "id": "to"
+}, "be", "min", "(", {
+  "id": "relativeTarget"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "relativeStart"
+}, "be", "?", "ToInteger", "(", {
+  "id": "start"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "relativeStart"
+}, "<", "0", ",", "let", {
+  "id": "from"
+}, "be", "max", "(", "(", {
+  "id": "len"
+}, "+", {
+  "id": "relativeStart"
+}, ")", ",", "0", ")", ";", "else", "let", {
+  "id": "from"
+}, "be", "min", "(", {
+  "id": "relativeStart"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "end"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "relativeEnd"
+}, "be", {
+  "id": "len"
+}, ";", "else", "let", {
+  "id": "relativeEnd"
+}, "be", "?", "ToInteger", "(", {
+  "id": "end"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "relativeEnd"
+}, "<", "0", ",", "let", {
+  "id": "final"
+}, "be", "max", "(", "(", {
+  "id": "len"
+}, "+", {
+  "id": "relativeEnd"
+}, ")", ",", "0", ")", ";", "else", "let", {
+  "id": "final"
+}, "be", "min", "(", {
+  "id": "relativeEnd"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "count"
+}, "be", "min", "(", {
+  "id": "final"
+}, "-", {
+  "id": "from"
+}, ",", {
+  "id": "len"
+}, "-", {
+  "id": "to"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "from"
+}, "<", {
+  "id": "to"
+}, "and", {
+  "id": "to"
+}, "<", {
+  "id": "from"
+}, "+", {
+  "id": "count"
+}, ",", "then", true, "Let", {
+  "id": "direction"
+}, "be", "-", "1", ".", {
+  "k": 10
+}, "Let", {
+  "id": "from"
+}, "be", {
+  "id": "from"
+}, "+", {
+  "id": "count"
+}, "-", "1", ".", {
+  "k": 11
+}, "Let", {
+  "id": "to"
+}, "be", {
+  "id": "to"
+}, "+", {
+  "id": "count"
+}, "-", "1", ".", {
+  "k": 12
+}, false, {
+  "k": 9
+}, "Else", ",", true, "Let", {
+  "id": "direction"
+}, "be", "1", ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, "Repeat", ",", "while", {
+  "id": "count"
+}, ">", "0", true, "Let", {
+  "id": "fromKey"
+}, "be", "!", "ToString", "(", {
+  "id": "from"
+}, ")", ".", {
+  "k": 16
+}, "Let", {
+  "id": "toKey"
+}, "be", "!", "ToString", "(", {
+  "id": "to"
+}, ")", ".", {
+  "k": 17
+}, "Let", {
+  "id": "fromPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "fromKey"
+}, ")", ".", {
+  "k": 18
+}, "If", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "fromVal"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "fromKey"
+}, ")", ".", {
+  "k": 20
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "toKey"
+}, ",", {
+  "id": "fromVal"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 21
+}, false, {
+  "k": 19
+}, "Else", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "false"
+}, ",", true, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "toKey"
+}, ")", ".", {
+  "k": 23
+}, false, {
+  "k": 22
+}, "Let", {
+  "id": "from"
+}, "be", {
+  "id": "from"
+}, "+", {
+  "id": "direction"
+}, ".", {
+  "k": 24
+}, "Let", {
+  "id": "to"
+}, "be", {
+  "id": "to"
+}, "+", {
+  "id": "direction"
+}, ".", {
+  "k": 25
+}, "Let", {
+  "id": "count"
+}, "be", {
+  "id": "count"
+}, "-", "1", ".", {
+  "k": 26
+}, false, {
+  "k": 15
+}, "Return", {
+  "id": "O"
+}, ".", {
+  "k": 27
+}]

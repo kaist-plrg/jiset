@@ -1,0 +1,93 @@
+["Assert", ":", {
+  "id": "reaction"
+}, "is", "a", "PromiseReaction", "Record", ".", {
+  "k": 0
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", {
+  "id": "reaction"
+}, ".", "[", "[", "Capability", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "type"
+}, "be", {
+  "id": "reaction"
+}, ".", "[", "[", "Type", "]", "]", ".", {
+  "k": 2
+}, "Let", {
+  "id": "handler"
+}, "be", {
+  "id": "reaction"
+}, ".", "[", "[", "Handler", "]", "]", ".", {
+  "k": 3
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "If", {
+  "id": "type"
+}, "is", {
+  "code": "\"Fulfill\""
+}, ",", "let", {
+  "id": "handlerResult"
+}, "be", "NormalCompletion", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 5
+}, "Else", ",", true, "Assert", ":", {
+  "id": "type"
+}, "is", {
+  "code": "\"Reject\""
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "handlerResult"
+}, "be", "ThrowCompletion", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Else", ",", "let", {
+  "id": "handlerResult"
+}, "be", "Call", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "argument"
+}, "»", ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "handlerResult"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "handlerResult"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "Else", ",", true, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "handlerResult"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 13
+}, false, {
+  "k": 12
+}, "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 14
+}]

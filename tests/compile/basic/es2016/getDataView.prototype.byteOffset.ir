@@ -1,0 +1,21 @@
+{
+  let O = this
+  app __x0__ = (Type O)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  if (= O.ViewedArrayBuffer absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  let buffer = O.ViewedArrayBuffer
+  app __x3__ = (IsDetachedBuffer buffer)
+  if (= __x3__ true) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else {}
+  let offset = O.ByteOffset
+  app __x5__ = (WrapCompletion offset)
+  return __x5__
+}

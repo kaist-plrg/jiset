@@ -1,0 +1,131 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "P"
+}, "is", {
+  "value": "\"length\""
+}, ",", "then", true, "Return", "?", "ArraySetLength", "(", {
+  "id": "A"
+}, ",", {
+  "id": "Desc"
+}, ")", ".", {
+  "k": 2
+}, false, {
+  "k": 1
+}, "Else", "if", {
+  "id": "P"
+}, "is", "an", "array", "index", ",", "then", true, "Let", {
+  "id": "oldLenDesc"
+}, "be", "OrdinaryGetOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ")", ".", {
+  "k": 4
+}, "Assert", ":", "!", "IsDataDescriptor", "(", {
+  "id": "oldLenDesc"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, "Assert", ":", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "oldLen"
+}, "be", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 7
+}, "Assert", ":", {
+  "id": "oldLen"
+}, "is", "a", "non", "-", "negative", "integral", "Number", ".", {
+  "k": 8
+}, "Let", {
+  "id": "index"
+}, "be", "!", "ToUint32", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "index"
+}, "≥", {
+  "id": "oldLen"
+}, "and", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "succeeded"
+}, "be", "!", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Desc"
+}, ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "succeeded"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 12
+}, "If", {
+  "id": "index"
+}, "≥", {
+  "id": "oldLen"
+}, ",", "then", true, "Set", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "index"
+}, "+", {
+  "value": "1"
+}, ".", {
+  "k": 14
+}, "Let", {
+  "id": "succeeded"
+}, "be", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "oldLenDesc"
+}, ")", ".", {
+  "k": 15
+}, "Assert", ":", {
+  "id": "succeeded"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 16
+}, false, {
+  "k": 13
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 17
+}, false, {
+  "k": 3
+}, "Return", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Desc"
+}, ")", ".", {
+  "k": 18
+}]

@@ -1,0 +1,51 @@
+["Let", {
+  "id": "list"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 0
+}, "Let", {
+  "id": "spreadRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "spreadObj"
+}, "be", "?", "GetValue", "(", {
+  "id": "spreadRef"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "spreadObj"
+}, ")", ".", {
+  "k": 3
+}, "Repeat", ",", true, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "list"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "nextArg"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 7
+}, "Append", {
+  "id": "nextArg"
+}, "as", "the", "last", "element", "of", {
+  "id": "list"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 4
+}]

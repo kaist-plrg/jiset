@@ -1,0 +1,73 @@
+["Evaluate", {
+  "nt": "Disjunction"
+}, "with", "+", "1", "as", "its", {
+  "id": "direction"
+}, "argument", "to", "obtain", "a", "Matcher", {
+  "id": "m"
+}, ".", {
+  "k": 0
+}, "Return", "an", "internal", "Matcher", "closure", "that", "takes", "two", "arguments", ",", "a", "State", {
+  "id": "x"
+}, "and", "a", "Continuation", {
+  "id": "c"
+}, ",", "and", "performs", "the", "following", "steps", ":", true, "Let", {
+  "id": "d"
+}, "be", "a", "Continuation", "that", "always", "returns", "its", "State", "argument", "as", "a", "successful", "MatchResult", ".", {
+  "k": 2
+}, "Call", {
+  "id": "m"
+}, "(", {
+  "id": "x"
+}, ",", {
+  "id": "d"
+}, ")", "and", "let", {
+  "id": "r"
+}, "be", "its", "result", ".", {
+  "k": 3
+}, "If", {
+  "id": "r"
+}, "is", {
+  "const": "failure"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "y"
+}, "be", {
+  "id": "r"
+}, "'", "s", "State", ".", {
+  "k": 5
+}, "Let", {
+  "id": "cap"
+}, "be", {
+  "id": "y"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 6
+}, "Let", {
+  "id": "xe"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "z"
+}, "be", "the", "State", "(", {
+  "id": "xe"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 8
+}, "Call", {
+  "id": "c"
+}, "(", {
+  "id": "z"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 9
+}, false, {
+  "k": 1
+}]

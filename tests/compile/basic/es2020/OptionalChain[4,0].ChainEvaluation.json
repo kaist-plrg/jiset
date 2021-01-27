@@ -1,0 +1,45 @@
+["Let", {
+  "id": "optionalChain"
+}, "be", {
+  "nt": "OptionalChain"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "newReference"
+}, "be", "?", "ChainEvaluation", "of", {
+  "id": "optionalChain"
+}, "with", "arguments", {
+  "id": "baseValue"
+}, "and", {
+  "id": "baseReference"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "newValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "newReference"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "thisChain"
+}, "be", "this", {
+  "nt": "OptionalChain"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "tailCall"
+}, "be", "IsInTailPosition", "(", {
+  "id": "thisChain"
+}, ")", ".", {
+  "k": 4
+}, "Return", "?", "EvaluateCall", "(", {
+  "id": "newValue"
+}, ",", {
+  "id": "newReference"
+}, ",", {
+  "nt": "Arguments"
+}, ",", {
+  "id": "tailCall"
+}, ")", ".", {
+  "k": 5
+}]

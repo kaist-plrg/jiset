@@ -1,0 +1,60 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let O = __x0__
+  if (! (|| (= searchValue undefined) (= searchValue null))) {
+    app __x1__ = (GetMethod searchValue SYMBOL_replace)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    let replacer = __x1__
+    if (! (= replacer undefined)) {
+      app __x2__ = (Call replacer searchValue (new [O, replaceValue]))
+      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+      app __x3__ = (WrapCompletion __x2__)
+      return __x3__
+    } else {}
+  } else {}
+  app __x4__ = (ToString O)
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  let string = __x4__
+  app __x5__ = (ToString searchValue)
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  let searchString = __x5__
+  app __x6__ = (IsCallable replaceValue)
+  let functionalReplace = __x6__
+  if (= functionalReplace false) {
+    app __x7__ = (ToString replaceValue)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    replaceValue = __x7__
+  } else {}
+  let searchLength = searchString.length
+  app __x8__ = (StringIndexOf string searchString 0i)
+  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+  let position = __x8__
+  if (= position -1i) {
+    app __x9__ = (WrapCompletion string)
+    return __x9__
+  } else {}
+  let __x10__ = ""
+  let __x11__ = 0i
+  while (< __x11__ (+ position 1i)) {
+    access __x12__ = (string __x11__)
+    __x10__ = (+ __x10__ __x12__)
+    __x11__ = (+ __x11__ 1i)
+  }
+  let preserved = __x10__
+  if (= functionalReplace true) {
+    app __x13__ = (Call replaceValue undefined (new [searchString, position, string]))
+    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+    app __x14__ = (ToString __x13__)
+    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+    let replacement = __x14__
+  } else {
+    app __x15__ = (Type replaceValue)
+    assert (= __x15__ String)
+    let captures = (new [])
+    app __x16__ = (GetSubstitution searchString string position captures undefined replaceValue)
+    if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
+    let replacement = __x16__
+  }
+  ??? "Return the string - concatenation of id:{preserved} , id:{replacement} , and the substring of id:{string} from id:{position} + id:{searchLength} ."
+}

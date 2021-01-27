@@ -1,0 +1,115 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "len"
+}, "is", "0", ",", "return", "-", "1", ".", {
+  "k": 2
+}, "Let", {
+  "id": "n"
+}, "be", "?", "ToInteger", "(", {
+  "id": "fromIndex"
+}, ")", ".", {
+  "k": 3
+}, "Assert", ":", "If", {
+  "id": "fromIndex"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "id": "n"
+}, "is", "0", ".", {
+  "k": 4
+}, "If", {
+  "id": "n"
+}, "≥", {
+  "id": "len"
+}, ",", "return", "-", "1", ".", {
+  "k": 5
+}, "If", {
+  "id": "n"
+}, "≥", "0", ",", "then", true, "Let", {
+  "id": "k"
+}, "be", {
+  "id": "n"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Let", {
+  "id": "k"
+}, "be", {
+  "id": "len"
+}, "+", {
+  "id": "n"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "k"
+}, "<", "0", ",", "set", {
+  "id": "k"
+}, "to", "0", ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "kPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "elementK"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 14
+}, "Let", {
+  "id": "same"
+}, "be", "the", "result", "of", "performing", "Strict", "Equality", "Comparison", {
+  "id": "searchElement"
+}, "=", "=", "=", {
+  "id": "elementK"
+}, ".", {
+  "k": 15
+}, "If", {
+  "id": "same"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "k"
+}, ".", {
+  "k": 16
+}, false, {
+  "k": 13
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 17
+}, false, {
+  "k": 11
+}, "Return", "-", "1", ".", {
+  "k": 18
+}]

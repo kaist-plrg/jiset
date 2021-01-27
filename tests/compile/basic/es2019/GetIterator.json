@@ -1,0 +1,101 @@
+["If", {
+  "id": "hint"
+}, "is", "not", "present", ",", "set", {
+  "id": "hint"
+}, "to", {
+  "const": "sync"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "hint"
+}, "is", "either", {
+  "const": "sync"
+}, "or", {
+  "const": "async"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "method"
+}, "is", "not", "present", ",", "then", true, "If", {
+  "id": "hint"
+}, "is", {
+  "const": "async"
+}, ",", "then", true, "Set", {
+  "id": "method"
+}, "to", "?", "GetMethod", "(", {
+  "id": "obj"
+}, ",", "@", "@", "asyncIterator", ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "method"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "syncMethod"
+}, "be", "?", "GetMethod", "(", {
+  "id": "obj"
+}, ",", "@", "@", "iterator", ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "syncIteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "obj"
+}, ",", {
+  "const": "sync"
+}, ",", {
+  "id": "syncMethod"
+}, ")", ".", {
+  "k": 7
+}, "Return", "?", "CreateAsyncFromSyncIterator", "(", {
+  "id": "syncIteratorRecord"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Otherwise", ",", "set", {
+  "id": "method"
+}, "to", "?", "GetMethod", "(", {
+  "id": "obj"
+}, ",", "@", "@", "iterator", ")", ".", {
+  "k": 9
+}, false, {
+  "k": 2
+}, "Let", {
+  "id": "iterator"
+}, "be", "?", "Call", "(", {
+  "id": "method"
+}, ",", {
+  "id": "obj"
+}, ")", ".", {
+  "k": 10
+}, "If", "Type", "(", {
+  "id": "iterator"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 11
+}, "Let", {
+  "id": "nextMethod"
+}, "be", "?", "GetV", "(", {
+  "id": "iterator"
+}, ",", {
+  "code": "\"next\""
+}, ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "Record", "{", "[", "[", "Iterator", "]", "]", ":", {
+  "id": "iterator"
+}, ",", "[", "[", "NextMethod", "]", "]", ":", {
+  "id": "nextMethod"
+}, ",", "[", "[", "Done", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 13
+}, "Return", {
+  "id": "iteratorRecord"
+}, ".", {
+  "k": 14
+}]

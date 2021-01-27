@@ -1,0 +1,51 @@
+["Let", {
+  "id": "result"
+}, "be", "the", "empty", "String", ".", {
+  "k": 0
+}, "For", "each", "element", {
+  "id": "next"
+}, "of", {
+  "id": "codePoints"
+}, ",", "do", true, "Let", {
+  "id": "nextCP"
+}, "be", "?", "ToNumber", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 2
+}, "If", "!", "IsIntegralNumber", "(", {
+  "id": "nextCP"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 3
+}, "If", "ℝ", "(", {
+  "id": "nextCP"
+}, ")", "<", "0", "or", "ℝ", "(", {
+  "id": "nextCP"
+}, ")", ">", "0x10FFFF", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 4
+}, "Set", {
+  "id": "result"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "result"
+}, "and", "!", "UTF16EncodeCodePoint", "(", "ℝ", "(", {
+  "id": "nextCP"
+}, ")", ")", ".", {
+  "k": 5
+}, false, {
+  "k": 1
+}, "Assert", ":", "If", {
+  "id": "codePoints"
+}, "is", "empty", ",", "then", {
+  "id": "result"
+}, "is", "the", "empty", "String", ".", {
+  "k": 6
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 7
+}]

@@ -1,0 +1,14 @@
+{
+  let codePoints = (new [])
+  let size = string.length
+  let position = 0i
+  while (< position size) {
+    app __x0__ = (CodePointAt string position)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    let cp = __x0__
+    append cp.CodePoint -> codePoints
+    position = (+ position cp.CodeUnitCount)
+  }
+  app __x1__ = (WrapCompletion codePoints)
+  return __x1__
+}

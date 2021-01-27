@@ -1,0 +1,32 @@
+{
+  let M = this
+  app __x0__ = (Type M)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  if (= M.MapData absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  let entries = M.MapData
+  let __x3__ = entries
+  let __x4__ = 0i
+  while (< __x4__ __x3__.length) {
+    let p = __x3__[__x4__]
+    let __x5__ = (! (= p.Key CONST_empty))
+    if __x5__ {
+      app __x6__ = (SameValueZero p.Key key)
+      __x5__ = (= __x6__ true)
+    } else {}
+    if __x5__ {
+      p.Key = CONST_empty
+      p.Value = CONST_empty
+      app __x7__ = (WrapCompletion true)
+      return __x7__
+    } else {}
+    __x4__ = (+ __x4__ 1i)
+  }
+  app __x8__ = (WrapCompletion false)
+  return __x8__
+}

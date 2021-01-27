@@ -1,0 +1,107 @@
+["Assert", ":", "Type", "(", {
+  "id": "S"
+}, ")", "is", "String", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "global"
+}, ")", "is", "Boolean", ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "fullUnicode"
+}, ")", "is", "Boolean", ".", {
+  "k": 2
+}, "Let", {
+  "id": "closure"
+}, "be", "a", "new", "Abstract", "Closure", "with", "no", "parameters", "that", "captures", {
+  "id": "R"
+}, ",", {
+  "id": "S"
+}, ",", {
+  "id": "global"
+}, ",", "and", {
+  "id": "fullUnicode"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Repeat", ",", true, "Let", {
+  "id": "match"
+}, "be", "?", "RegExpExec", "(", {
+  "id": "R"
+}, ",", {
+  "id": "S"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "match"
+}, "is", {
+  "value": "null"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "global"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Perform", "?", "Yield", "(", {
+  "id": "match"
+}, ")", ".", {
+  "k": 8
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 7
+}, "Let", {
+  "id": "matchStr"
+}, "be", "?", "ToString", "(", "?", "Get", "(", {
+  "id": "match"
+}, ",", {
+  "value": "\"0\""
+}, ")", ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "matchStr"
+}, "is", "the", "empty", "String", ",", "then", true, "Let", {
+  "id": "thisIndex"
+}, "be", "ℝ", "(", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "R"
+}, ",", {
+  "value": "\"lastIndex\""
+}, ")", ")", ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "nextIndex"
+}, "be", "!", "AdvanceStringIndex", "(", {
+  "id": "S"
+}, ",", {
+  "id": "thisIndex"
+}, ",", {
+  "id": "fullUnicode"
+}, ")", ".", {
+  "k": 13
+}, "Perform", "?", "Set", "(", {
+  "id": "R"
+}, ",", {
+  "value": "\"lastIndex\""
+}, ",", "𝔽", "(", {
+  "id": "nextIndex"
+}, ")", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 14
+}, false, {
+  "k": 11
+}, "Perform", "?", "Yield", "(", {
+  "id": "match"
+}, ")", ".", {
+  "k": 15
+}, false, {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Return", "!", "CreateIteratorFromClosure", "(", {
+  "id": "closure"
+}, ",", {
+  "value": "\"%RegExpStringIteratorPrototype%\""
+}, ",", "%", "RegExpStringIteratorPrototype", "%", ")", ".", {
+  "k": 16
+}]

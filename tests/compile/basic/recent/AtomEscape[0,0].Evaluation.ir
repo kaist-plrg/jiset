@@ -1,0 +1,9 @@
+{
+  access __x0__ = (DecimalEscape "Evaluation")
+  let n = __x0__
+  assert (! (< NcapturingParens n))
+  app __x1__ = (BackreferenceMatcher n direction)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
+}

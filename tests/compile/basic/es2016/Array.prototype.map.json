@@ -1,0 +1,111 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "callbackfn"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "If", {
+  "id": "thisArg"
+}, "was", "supplied", ",", "let", {
+  "id": "T"
+}, "be", {
+  "id": "thisArg"
+}, ";", "else", "let", {
+  "id": "T"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "A"
+}, "be", "?", "ArraySpeciesCreate", "(", {
+  "id": "O"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "kPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "kValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "mappedValue"
+}, "be", "?", "Call", "(", {
+  "id": "callbackfn"
+}, ",", {
+  "id": "T"
+}, ",", "«", {
+  "id": "kValue"
+}, ",", {
+  "id": "k"
+}, ",", {
+  "id": "O"
+}, "»", ")", ".", {
+  "k": 11
+}, "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", {
+  "id": "Pk"
+}, ",", {
+  "id": "mappedValue"
+}, ")", ".", {
+  "k": 12
+}, false, {
+  "k": 9
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 13
+}, false, {
+  "k": 6
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 14
+}]

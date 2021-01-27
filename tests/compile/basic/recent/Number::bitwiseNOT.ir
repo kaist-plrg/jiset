@@ -1,0 +1,7 @@
+{
+  app __x0__ = (ToInt32 x)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let oldValue = __x0__
+  app __x1__ = (WrapCompletion (~ oldValue))
+  return __x1__
+}

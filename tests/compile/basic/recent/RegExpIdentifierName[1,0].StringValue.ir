@@ -1,0 +1,8 @@
+{
+  let idText = (get-syntax RegExpIdentifierName)
+  ??? "Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{RegExpUnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{RegExpUnicodeEscapeSequence} ."
+  app __x0__ = (CodePointsToString idTextUnescaped)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  app __x1__ = (WrapCompletion __x0__)
+  return __x1__
+}

@@ -1,0 +1,8 @@
+{
+  if (= internalSlotsList absent) let internalSlotsList = (new []) else {}
+  ??? "Let id:{obj} be a newly created object with an internal slot for each name in id:{internalSlotsList} ."
+  obj.Prototype = proto
+  obj.Extensible = true
+  app __x0__ = (WrapCompletion obj)
+  return __x0__
+}

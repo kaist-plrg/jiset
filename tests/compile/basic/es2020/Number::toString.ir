@@ -1,0 +1,38 @@
+{
+  if (= x NaN) {
+    app __x0__ = (WrapCompletion "NaN")
+    return __x0__
+  } else {}
+  if (|| (= x 0i) (= x -0.0)) {
+    app __x1__ = (WrapCompletion "0")
+    return __x1__
+  } else {}
+  if (< x 0i) {
+    app __x2__ = (PRIMITIVE[Number].toString (- x))
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    app __x3__ = (WrapCompletion (+ "-" __x2__))
+    return __x3__
+  } else {}
+  if (= x Infinity) {
+    app __x4__ = (WrapCompletion "Infinity")
+    return __x4__
+  } else {}
+  ??? "Otherwise , let id:{n} , id:{k} , and id:{s} be integers such that id:{k} ≥ 1 , 10 sup:{id:{k} - 1 } ≤ id:{s} < 10 sup:{id:{k} } , the Number value for ℝ ( id:{s} ) × 10 sub:{ℝ } sup:{ℝ ( id:{n} ) - ℝ ( id:{k} ) } is id:{x} , and id:{k} is as small as possible . Note that id:{k} is the number of digits in the decimal representation of id:{s} , that id:{s} is not divisible by 10 sub:{ℝ } , and that the least significant digit of id:{s} is not necessarily uniquely determined by these criteria ."
+  if (&& (! (< n k)) (! (< 21i n))) {
+    app __x5__ = (WrapCompletion (+ ??? "StringOp" ??? "StringOp"))
+    return __x5__
+  } else {}
+  if (&& (< 0i n) (! (< 21i n))) {
+    app __x6__ = (WrapCompletion (+ (+ ??? "StringOp" ".") ??? "StringOp"))
+    return __x6__
+  } else {}
+  if (&& (< -6i n) (! (< 0i n))) {
+    app __x7__ = (WrapCompletion (+ (+ (+ "0" ".") ??? "StringOp") ??? "StringOp"))
+    return __x7__
+  } else if (== k 1i) {
+    app __x8__ = (WrapCompletion (+ (+ (+ ??? "StringOp" "e") ??? "StringOp") ??? "StringOp"))
+    return __x8__
+  } else {}
+  app __x9__ = (WrapCompletion (+ (+ (+ (+ (+ ??? "StringOp" ".") ??? "StringOp") "e") ??? "StringOp") ??? "StringOp"))
+  return __x9__
+}

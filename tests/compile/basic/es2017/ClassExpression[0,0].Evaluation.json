@@ -1,0 +1,57 @@
+["If", {
+  "nt": "BindingIdentifier"
+}, "is", "not", "present", ",", "let", {
+  "id": "className"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 0
+}, "Else", ",", "let", {
+  "id": "className"
+}, "be", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "value"
+}, "be", "the", "result", "of", "ClassDefinitionEvaluation", "of", {
+  "nt": "ClassTail"
+}, "with", "argument", {
+  "id": "className"
+}, ".", {
+  "k": 2
+}, "ReturnIfAbrupt", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "className"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "hasNameProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "value"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "hasNameProperty"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Perform", "SetFunctionName", "(", {
+  "id": "value"
+}, ",", {
+  "id": "className"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Return", "NormalCompletion", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 8
+}]

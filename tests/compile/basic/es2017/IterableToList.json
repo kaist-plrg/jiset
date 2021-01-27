@@ -1,0 +1,53 @@
+["Let", {
+  "id": "iterator"
+}, "be", "?", "GetIterator", "(", {
+  "id": "items"
+}, ",", {
+  "id": "method"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "values"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 1
+}, "Let", {
+  "id": "next"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "Repeat", ",", "while", {
+  "id": "next"
+}, "is", "not", {
+  "value": "false"
+}, true, "Set", {
+  "id": "next"
+}, "to", "?", "IteratorStep", "(", {
+  "id": "iterator"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "next"
+}, "is", "not", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 6
+}, "Append", {
+  "id": "nextValue"
+}, "to", "the", "end", "of", "the", "List", {
+  "id": "values"
+}, ".", {
+  "k": 7
+}, false, {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Return", {
+  "id": "values"
+}, ".", {
+  "k": 8
+}]

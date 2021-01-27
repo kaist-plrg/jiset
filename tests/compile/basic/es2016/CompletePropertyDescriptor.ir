@@ -1,0 +1,17 @@
+{
+  assert (= (typeof Desc) "PropertyDescriptor")
+  let like = (new Record("Value" -> undefined, "Writable" -> false, "Get" -> undefined, "Set" -> undefined, "Enumerable" -> false, "Configurable" -> false))
+  app __x0__ = (IsGenericDescriptor Desc)
+  app __x1__ = (IsDataDescriptor Desc)
+  if (|| (= __x0__ true) (= __x1__ true)) {
+    if (= Desc.Value absent) Desc.Value = like.Value else {}
+    if (= Desc.Writable absent) Desc.Writable = like.Writable else {}
+  } else {
+    if (= Desc.Get absent) Desc.Get = like.Get else {}
+    if (= Desc.Set absent) Desc.Set = like.Set else {}
+  }
+  if (= Desc.Enumerable absent) Desc.Enumerable = like.Enumerable else {}
+  if (= Desc.Configurable absent) Desc.Configurable = like.Configurable else {}
+  app __x2__ = (WrapCompletion Desc)
+  return __x2__
+}

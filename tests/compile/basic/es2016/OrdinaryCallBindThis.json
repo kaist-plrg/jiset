@@ -1,0 +1,95 @@
+["Let", {
+  "id": "thisMode"
+}, "be", "the", "value", "of", {
+  "id": "F"
+}, "'", "s", "[", "[", "ThisMode", "]", "]", "internal", "slot", ".", {
+  "k": 0
+}, "If", {
+  "id": "thisMode"
+}, "is", {
+  "const": "lexical"
+}, ",", "return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "calleeRealm"
+}, "be", "the", "value", "of", {
+  "id": "F"
+}, "'", "s", "[", "[", "Realm", "]", "]", "internal", "slot", ".", {
+  "k": 2
+}, "Let", {
+  "id": "localEnv"
+}, "be", "the", "LexicalEnvironment", "of", {
+  "id": "calleeContext"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "thisMode"
+}, "is", {
+  "const": "strict"
+}, ",", "let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "thisArgument"
+}, ".", {
+  "k": 4
+}, "Else", ",", true, "If", {
+  "id": "thisArgument"
+}, "is", {
+  "value": "null"
+}, "or", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "globalEnv"
+}, "be", {
+  "id": "calleeRealm"
+}, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "globalEnvRec"
+}, "be", {
+  "id": "globalEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 8
+}, "Let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "globalEnvRec"
+}, ".", "[", "[", "GlobalThisValue", "]", "]", ".", {
+  "k": 9
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Let", {
+  "id": "thisValue"
+}, "be", "!", "ToObject", "(", {
+  "id": "thisArgument"
+}, ")", ".", {
+  "k": 11
+}, "NOTE", "ToObject", "produces", "wrapper", "objects", "using", {
+  "id": "calleeRealm"
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 10
+}, false, {
+  "k": 5
+}, "Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "localEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 13
+}, "Assert", ":", "The", "next", "step", "never", "returns", "an", "abrupt", "completion", "because", {
+  "id": "envRec"
+}, ".", "[", "[", "ThisBindingStatus", "]", "]", "is", "not", {
+  "code": "\"initialized\""
+}, ".", {
+  "k": 14
+}, "Return", {
+  "id": "envRec"
+}, ".", "BindThisValue", "(", {
+  "id": "thisValue"
+}, ")", ".", {
+  "k": 15
+}]

@@ -1,0 +1,125 @@
+["Assert", ":", {
+  "id": "kind"
+}, "is", {
+  "const": "key+value"
+}, ",", {
+  "const": "key"
+}, ",", "or", {
+  "const": "value"
+}, ".", {
+  "k": 0
+}, "Perform", "?", "RequireInternalSlot", "(", {
+  "id": "map"
+}, ",", "[", "[", "MapData", "]", "]", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "closure"
+}, "be", "a", "new", "Abstract", "Closure", "with", "no", "parameters", "that", "captures", {
+  "id": "map"
+}, "and", {
+  "id": "kind"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Let", {
+  "id": "entries"
+}, "be", "the", "List", "that", "is", {
+  "id": "map"
+}, ".", "[", "[", "MapData", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "k": 4
+}, "Let", {
+  "id": "numEntries"
+}, "be", "the", "number", "of", "elements", "of", {
+  "id": "entries"
+}, ".", {
+  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "index"
+}, "<", {
+  "id": "numEntries"
+}, ",", true, "Let", {
+  "id": "e"
+}, "be", "the", "Record", "{", "[", "[", "Key", "]", "]", ",", "[", "[", "Value", "]", "]", "}", "that", "is", "the", "value", "of", {
+  "id": "entries"
+}, "[", {
+  "id": "index"
+}, "]", ".", {
+  "k": 7
+}, "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 8
+}, "If", {
+  "id": "e"
+}, ".", "[", "[", "Key", "]", "]", "is", "not", {
+  "const": "empty"
+}, ",", "then", true, "If", {
+  "id": "kind"
+}, "is", {
+  "const": "key"
+}, ",", "let", {
+  "id": "result"
+}, "be", {
+  "id": "e"
+}, ".", "[", "[", "Key", "]", "]", ".", {
+  "k": 10
+}, "Else", "if", {
+  "id": "kind"
+}, "is", {
+  "const": "value"
+}, ",", "let", {
+  "id": "result"
+}, "be", {
+  "id": "e"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 11
+}, "Else", ",", true, "Assert", ":", {
+  "id": "kind"
+}, "is", {
+  "const": "key+value"
+}, ".", {
+  "k": 13
+}, "Let", {
+  "id": "result"
+}, "be", "!", "CreateArrayFromList", "(", "«", {
+  "id": "e"
+}, ".", "[", "[", "Key", "]", "]", ",", {
+  "id": "e"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 14
+}, false, {
+  "k": 12
+}, "Perform", "?", "Yield", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 15
+}, "NOTE", ":", "the", "number", "of", "elements", "in", {
+  "id": "entries"
+}, "may", "have", "changed", "while", "execution", "of", "this", "abstract", "operation", "was", "paused", "by", "Yield", ".", {
+  "k": 16
+}, "Set", {
+  "id": "numEntries"
+}, "to", "the", "number", "of", "elements", "of", {
+  "id": "entries"
+}, ".", {
+  "k": 17
+}, false, {
+  "k": 9
+}, false, {
+  "k": 6
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 18
+}, false, {
+  "k": 2
+}, "Return", "!", "CreateIteratorFromClosure", "(", {
+  "id": "closure"
+}, ",", {
+  "value": "\"%MapIteratorPrototype%\""
+}, ",", "%", "MapIteratorPrototype", "%", ")", ".", {
+  "k": 19
+}]

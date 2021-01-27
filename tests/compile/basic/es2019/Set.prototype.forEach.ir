@@ -1,0 +1,32 @@
+{
+  let S = this
+  app __x0__ = (Type S)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  if (= S.SetData absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  app __x3__ = (IsCallable callbackfn)
+  if (= __x3__ false) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else {}
+  if (! (= thisArg absent)) let T = thisArg else let T = undefined
+  let entries = S.SetData
+  let __x5__ = entries
+  let __x6__ = 0i
+  while (< __x6__ __x5__.length) {
+    let e = __x5__[__x6__]
+    if (! (= e CONST_empty)) {
+      app __x7__ = (Call callbackfn T (new [e, e, S]))
+      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+      __x7__
+    } else {}
+    __x6__ = (+ __x6__ 1i)
+  }
+  app __x8__ = (WrapCompletion undefined)
+  return __x8__
+}

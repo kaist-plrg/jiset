@@ -1,0 +1,91 @@
+["Evaluate", {
+  "nt": "Disjunction"
+}, "with", "+", "1", "as", "its", {
+  "id": "direction"
+}, "argument", "to", "obtain", "a", "Matcher", {
+  "id": "m"
+}, ".", {
+  "k": 0
+}, "Return", "an", "internal", "closure", "that", "takes", "two", "arguments", ",", "a", "String", {
+  "id": "str"
+}, "and", "an", "integer", {
+  "id": "index"
+}, ",", "and", "performs", "the", "following", "steps", ":", true, "Assert", ":", {
+  "id": "index"
+}, "≤", "the", "length", "of", {
+  "id": "str"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "Unicode"
+}, "is", {
+  "value": "true"
+}, ",", "let", {
+  "id": "Input"
+}, "be", "a", "List", "consisting", "of", "the", "sequence", "of", "code", "points", "of", {
+  "id": "str"
+}, "interpreted", "as", "a", "UTF", "-", "16", "encoded", "(", {
+  "link": ""
+}, ")", "Unicode", "string", ".", "Otherwise", ",", "let", {
+  "id": "Input"
+}, "be", "a", "List", "consisting", "of", "the", "sequence", "of", "code", "units", "that", "are", "the", "elements", "of", {
+  "id": "str"
+}, ".", {
+  "id": "Input"
+}, "will", "be", "used", "throughout", "the", "algorithms", "in", {
+  "link": ""
+}, ".", "Each", "element", "of", {
+  "id": "Input"
+}, "is", "considered", "to", "be", "a", "character", ".", {
+  "k": 3
+}, "Let", {
+  "id": "InputLength"
+}, "be", "the", "number", "of", "characters", "contained", "in", {
+  "id": "Input"
+}, ".", "This", "variable", "will", "be", "used", "throughout", "the", "algorithms", "in", {
+  "link": ""
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "listIndex"
+}, "be", "the", "index", "into", {
+  "id": "Input"
+}, "of", "the", "character", "that", "was", "obtained", "from", "element", {
+  "id": "index"
+}, "of", {
+  "id": "str"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "c"
+}, "be", "a", "Continuation", "that", "always", "returns", "its", "State", "argument", "as", "a", "successful", "MatchResult", ".", {
+  "k": 6
+}, "Let", {
+  "id": "cap"
+}, "be", "a", "List", "of", {
+  "id": "NcapturingParens"
+}, {
+  "value": "undefined"
+}, "values", ",", "indexed", "1", "through", {
+  "id": "NcapturingParens"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "x"
+}, "be", "the", "State", "(", {
+  "id": "listIndex"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 8
+}, "Call", {
+  "id": "m"
+}, "(", {
+  "id": "x"
+}, ",", {
+  "id": "c"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 9
+}, false, {
+  "k": 1
+}]

@@ -1,0 +1,25 @@
+{
+  app __x0__ = (ToString text)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let JText = __x0__
+  ??? "Parse id:{JText} interpreted as UTF - 16 encoded Unicode points ( link:{} ) as a JSON text as specified in ECMA - 404 . Throw a value:{SyntaxError} exception if id:{JText} is not a valid JSON text as defined in that specification ."
+  let scriptText = (+ (+ "(" JText) ");")
+  ??? "Let id:{completion} be the result of parsing and evaluating id:{scriptText} as if it was the source text of an ECMAScript nt:{Script} , but using the alternative definition of nt:{DoubleStringCharacter} provided below . The extended PropertyDefinitionEvaluation semantics defined in link:{} must not be used during the evaluation ."
+  let unfiltered = completion.Value
+  app __x1__ = (IsCallable reviver)
+  if (= __x1__ true) {
+    app __x2__ = (ObjectCreate INTRINSIC_ObjectPrototype)
+    let root = __x2__
+    let rootName = ""
+    app __x3__ = (CreateDataProperty root rootName unfiltered)
+    let status = __x3__
+    assert (= status true)
+    app __x4__ = (InternalizeJSONProperty root rootName)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    app __x5__ = (WrapCompletion __x4__)
+    return __x5__
+  } else {
+    app __x6__ = (WrapCompletion unfiltered)
+    return __x6__
+  }
+}

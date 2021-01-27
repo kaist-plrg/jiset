@@ -1,0 +1,75 @@
+["Repeat", true, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Iterator", "]", "]", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Let", {
+  "id": "nextValue"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "nextValue"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}, "ReturnIfAbrupt", "(", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "nextPromise"
+}, "be", "?", "Invoke", "(", {
+  "id": "C"
+}, ",", {
+  "code": "\"resolve\""
+}, ",", "«", {
+  "id": "nextValue"
+}, "»", ")", ".", {
+  "k": 10
+}, "Perform", "?", "Invoke", "(", {
+  "id": "nextPromise"
+}, ",", {
+  "code": "\"then\""
+}, ",", "«", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 11
+}, false, {
+  "k": 0
+}]

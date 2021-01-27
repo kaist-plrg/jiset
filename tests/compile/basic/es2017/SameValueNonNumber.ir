@@ -1,0 +1,42 @@
+{
+  app __x0__ = (Type x)
+  assert (! (= __x0__ Number))
+  app __x1__ = (Type x)
+  app __x2__ = (Type y)
+  assert (= __x1__ __x2__)
+  app __x3__ = (Type x)
+  if (= __x3__ Undefined) {
+    app __x4__ = (WrapCompletion true)
+    return __x4__
+  } else {}
+  app __x5__ = (Type x)
+  if (= __x5__ Null) {
+    app __x6__ = (WrapCompletion true)
+    return __x6__
+  } else {}
+  app __x7__ = (Type x)
+  if (= __x7__ String) ??? "If id:{x} and id:{y} are exactly the same sequence of code units ( same length and same code units at corresponding indices ) , return value:{true} ; otherwise , return value:{false} ." else {}
+  app __x8__ = (Type x)
+  if (= __x8__ Boolean) if (|| (&& (= x true) (= y true)) (&& (= x false) (= y false))) {
+    app __x9__ = (WrapCompletion true)
+    return __x9__
+  } else {
+    app __x10__ = (WrapCompletion false)
+    return __x10__
+  } else {}
+  app __x11__ = (Type x)
+  if (= __x11__ Symbol) if (= x y) {
+    app __x12__ = (WrapCompletion true)
+    return __x12__
+  } else {
+    app __x13__ = (WrapCompletion false)
+    return __x13__
+  } else {}
+  if (= x y) {
+    app __x14__ = (WrapCompletion true)
+    return __x14__
+  } else {
+    app __x15__ = (WrapCompletion false)
+    return __x15__
+  }
+}

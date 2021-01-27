@@ -1,0 +1,65 @@
+["Let", {
+  "id": "args"
+}, "be", "the", "arguments", "object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "desc"
+}, "be", "OrdinaryGetOwnProperty", "(", {
+  "id": "args"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "desc"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "id": "desc"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "map"
+}, "be", "the", "value", "of", "the", "[", "[", "ParameterMap", "]", "]", "internal", "slot", "of", "the", "arguments", "object", ".", {
+  "k": 3
+}, "Let", {
+  "id": "isMapped"
+}, "be", "!", "HasOwnProperty", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 4
+}, "If", "the", "value", "of", {
+  "id": "isMapped"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Set", {
+  "id": "desc"
+}, ".", "[", "[", "Value", "]", "]", "to", "Get", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "If", "IsDataDescriptor", "(", {
+  "id": "desc"
+}, ")", "is", {
+  "value": "true"
+}, "and", {
+  "id": "P"
+}, "is", {
+  "code": "\"caller\""
+}, "and", {
+  "id": "desc"
+}, ".", "[", "[", "Value", "]", "]", "is", "a", "strict", "mode", "Function", "object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 7
+}, "Return", {
+  "id": "desc"
+}, ".", {
+  "k": 8
+}]

@@ -1,0 +1,23 @@
+{
+  let len = argumentsList.length
+  app __x0__ = (ObjectCreate INTRINSIC_ObjectPrototype (new ["ParameterMap"]))
+  let obj = __x0__
+  obj.ParameterMap = undefined
+  app __x1__ = (DefinePropertyOrThrow obj "length" (new PropertyDescriptor("Value" -> len, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  __x1__
+  let index = 0i
+  while (< index len) {
+    let val = argumentsList[index]
+    app __x2__ = (ToString index)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    app __x3__ = (CreateDataProperty obj __x2__ val)
+    __x3__
+    let index = (+ index 1i)
+  }
+  ??? "Perform ! DefinePropertyOrThrow ( id:{obj} , @ @ iterator , PropertyDescriptor { [ [ Value ] ] : % ArrayProto _ values % , [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{false} , [ [ Configurable ] ] : value:{true} } ) ."
+  app __x4__ = (DefinePropertyOrThrow obj "callee" (new PropertyDescriptor("Get" -> INTRINSIC_ThrowTypeError, "Set" -> INTRINSIC_ThrowTypeError, "Enumerable" -> false, "Configurable" -> false)))
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  __x4__
+  app __x5__ = (WrapCompletion obj)
+  return __x5__
+}

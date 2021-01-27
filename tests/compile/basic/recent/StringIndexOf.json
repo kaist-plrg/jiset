@@ -1,0 +1,69 @@
+["Assert", ":", "Type", "(", {
+  "id": "string"
+}, ")", "is", "String", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "searchValue"
+}, ")", "is", "String", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "fromIndex"
+}, "is", "a", "non", "-", "negative", "integer", ".", {
+  "k": 2
+}, "Let", {
+  "id": "len"
+}, "be", "the", "length", "of", {
+  "id": "string"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "searchValue"
+}, "is", "the", "empty", "String", "and", {
+  "id": "fromIndex"
+}, "≤", {
+  "id": "len"
+}, ",", "return", {
+  "id": "fromIndex"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "searchLen"
+}, "be", "the", "length", "of", {
+  "id": "searchValue"
+}, ".", {
+  "k": 5
+}, "For", "each", "integer", {
+  "id": "i"
+}, "starting", "with", {
+  "id": "fromIndex"
+}, "such", "that", {
+  "id": "i"
+}, "≤", {
+  "id": "len"
+}, "-", {
+  "id": "searchLen"
+}, ",", "in", "ascending", "order", ",", "do", true, "Let", {
+  "id": "candidate"
+}, "be", "the", "substring", "of", {
+  "id": "string"
+}, "from", {
+  "id": "i"
+}, "to", {
+  "id": "i"
+}, "+", {
+  "id": "searchLen"
+}, ".", {
+  "k": 7
+}, "If", {
+  "id": "candidate"
+}, "is", "the", "same", "sequence", "of", "code", "units", "as", {
+  "id": "searchValue"
+}, ",", "return", {
+  "id": "i"
+}, ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, "Return", "-", "1", ".", {
+  "k": 9
+}]

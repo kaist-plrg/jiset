@@ -1,0 +1,37 @@
+["Let", {
+  "id": "lhs"
+}, "be", "?", "ResolveBinding", "(", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ",", {
+  "id": "environment"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "restObj"
+}, "be", "ObjectCreate", "(", "%", "ObjectPrototype", "%", ")", ".", {
+  "k": 1
+}, "Perform", "?", "CopyDataProperties", "(", {
+  "id": "restObj"
+}, ",", {
+  "id": "value"
+}, ",", {
+  "id": "excludedNames"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "environment"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", "PutValue", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "restObj"
+}, ")", ".", {
+  "k": 3
+}, "Return", "InitializeReferencedBinding", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "restObj"
+}, ")", ".", {
+  "k": 4
+}]

@@ -1,0 +1,131 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 1
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 3
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "code": "\"get\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "Get", "]", "]", "(", {
+  "id": "P"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "trapResult"
+}, "be", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Receiver"
+}, "»", ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "targetDesc"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "targetDesc"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "If", "IsDataDescriptor", "(", {
+  "id": "targetDesc"
+}, ")", "is", {
+  "value": "true"
+}, "and", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, "and", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "If", "SameValue", "(", {
+  "id": "trapResult"
+}, ",", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Value", "]", "]", ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 12
+}, false, {
+  "k": 11
+}, "If", "IsAccessorDescriptor", "(", {
+  "id": "targetDesc"
+}, ")", "is", {
+  "value": "true"
+}, "and", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, "and", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Get", "]", "]", "is", {
+  "value": "undefined"
+}, ",", "then", true, "If", {
+  "id": "trapResult"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, false, {
+  "k": 10
+}, "Return", {
+  "id": "trapResult"
+}, ".", {
+  "k": 15
+}]

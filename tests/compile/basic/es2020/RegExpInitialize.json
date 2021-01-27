@@ -1,0 +1,155 @@
+["If", {
+  "id": "pattern"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "P"
+}, "be", "the", "empty", "String", ".", {
+  "k": 0
+}, "Else", ",", "let", {
+  "id": "P"
+}, "be", "?", "ToString", "(", {
+  "id": "pattern"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "flags"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "F"
+}, "be", "the", "empty", "String", ".", {
+  "k": 2
+}, "Else", ",", "let", {
+  "id": "F"
+}, "be", "?", "ToString", "(", {
+  "id": "flags"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "F"
+}, "contains", "any", "code", "unit", "other", "than", {
+  "value": "\"g\""
+}, ",", {
+  "value": "\"i\""
+}, ",", {
+  "value": "\"m\""
+}, ",", {
+  "value": "\"s\""
+}, ",", {
+  "value": "\"u\""
+}, ",", "or", {
+  "value": "\"y\""
+}, "or", "if", "it", "contains", "the", "same", "code", "unit", "more", "than", "once", ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 4
+}, "If", {
+  "id": "F"
+}, "contains", {
+  "value": "\"u\""
+}, ",", "let", {
+  "id": "BMP"
+}, "be", {
+  "value": "false"
+}, ";", "else", "let", {
+  "id": "BMP"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "BMP"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "pText"
+}, "be", "the", "sequence", "of", "code", "points", "resulting", "from", "interpreting", "each", "of", "the", "16", "-", "bit", "elements", "of", {
+  "id": "P"
+}, "as", "a", "Unicode", "BMP", "code", "point", ".", "UTF", "-", "16", "decoding", "is", "not", "applied", "to", "the", "elements", ".", {
+  "k": 7
+}, "Parse", {
+  "id": "pText"
+}, "using", "the", "grammars", "in", {
+  "link": ""
+}, ".", "The", "goal", "symbol", "for", "the", "parse", "is", "|", "Pattern", "[", "~", "U", ",", "~", "N", "]", "|", ".", "If", "the", "result", "of", "parsing", "contains", "a", {
+  "nt": "GroupName"
+}, ",", "reparse", "with", "the", "goal", "symbol", "|", "Pattern", "[", "~", "U", ",", "+", "N", "]", "|", "and", "use", "this", "result", "instead", ".", "Throw", "a", {
+  "value": "SyntaxError"
+}, "exception", "if", {
+  "id": "pText"
+}, "did", "not", "conform", "to", "the", "grammar", ",", "if", "any", "elements", "of", {
+  "id": "pText"
+}, "were", "not", "matched", "by", "the", "parse", ",", "or", "if", "any", "Early", "Error", "conditions", "exist", ".", {
+  "k": 8
+}, "Let", {
+  "id": "patternCharacters"
+}, "be", "a", "List", "whose", "elements", "are", "the", "code", "unit", "elements", "of", {
+  "id": "P"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Let", {
+  "id": "pText"
+}, "be", "!", "UTF16DecodeString", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 11
+}, "Parse", {
+  "id": "pText"
+}, "using", "the", "grammars", "in", {
+  "link": ""
+}, ".", "The", "goal", "symbol", "for", "the", "parse", "is", "|", "Pattern", "[", "+", "U", ",", "+", "N", "]", "|", ".", "Throw", "a", {
+  "value": "SyntaxError"
+}, "exception", "if", {
+  "id": "pText"
+}, "did", "not", "conform", "to", "the", "grammar", ",", "if", "any", "elements", "of", {
+  "id": "pText"
+}, "were", "not", "matched", "by", "the", "parse", ",", "or", "if", "any", "Early", "Error", "conditions", "exist", ".", {
+  "k": 12
+}, "Let", {
+  "id": "patternCharacters"
+}, "be", "a", "List", "whose", "elements", "are", "the", "code", "points", "of", {
+  "id": "pText"
+}, ".", {
+  "k": 13
+}, false, {
+  "k": 10
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "OriginalSource", "]", "]", "to", {
+  "id": "P"
+}, ".", {
+  "k": 14
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "OriginalFlags", "]", "]", "to", {
+  "id": "F"
+}, ".", {
+  "k": 15
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "RegExpMatcher", "]", "]", "to", "the", "abstract", "closure", "that", "evaluates", "the", "above", "parse", "by", "applying", "the", "semantics", "provided", "in", {
+  "link": ""
+}, "using", {
+  "id": "patternCharacters"
+}, "as", "the", "pattern", "'", "s", "List", "of", {
+  "nt": "SourceCharacter"
+}, "values", "and", {
+  "id": "F"
+}, "as", "the", "flag", "parameters", ".", {
+  "k": 16
+}, "Perform", "?", "Set", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"lastIndex\""
+}, ",", "0", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 17
+}, "Return", {
+  "id": "obj"
+}, ".", {
+  "k": 18
+}]

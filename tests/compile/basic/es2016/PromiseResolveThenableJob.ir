@@ -1,0 +1,13 @@
+{
+  app __x0__ = (CreateResolvingFunctions promiseToResolve)
+  let resolvingFunctions = __x0__
+  app __x1__ = (Call then thenable (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))
+  let thenCallResult = __x1__
+  app __x2__ = (IsAbruptCompletion thenCallResult)
+  if __x2__ {
+    app __x3__ = (Call resolvingFunctions.Reject undefined (new [thenCallResult.Value]))
+    let status = __x3__
+    ??? "NextJob Completion ( id:{status} ) ."
+  } else {}
+  ??? "NextJob Completion ( id:{thenCallResult} ) ."
+}

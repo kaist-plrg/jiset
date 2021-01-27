@@ -1,0 +1,33 @@
+["If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "numberLength"
+}, "be", "?", "ToNumber", "(", {
+  "id": "length"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "byteLength"
+}, "be", "ToLength", "(", {
+  "id": "numberLength"
+}, ")", ".", {
+  "k": 2
+}, "If", "SameValueZero", "(", {
+  "id": "numberLength"
+}, ",", {
+  "id": "byteLength"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 3
+}, "Return", "?", "AllocateArrayBuffer", "(", "NewTarget", ",", {
+  "id": "byteLength"
+}, ")", ".", {
+  "k": 4
+}]

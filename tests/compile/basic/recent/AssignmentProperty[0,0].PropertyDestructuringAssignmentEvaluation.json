@@ -1,0 +1,67 @@
+["Let", {
+  "id": "P"
+}, "be", "StringValue", "of", {
+  "nt": "IdentifierReference"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lref"
+}, "be", "?", "ResolveBinding", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "v"
+}, "be", "?", "GetV", "(", {
+  "id": "value"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "nt": "Initializer"
+}, "is", "present", "and", {
+  "id": "v"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "Initializer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Set", {
+  "id": "v"
+}, "to", "the", "result", "of", "performing", "NamedEvaluation", "for", {
+  "nt": "Initializer"
+}, "with", "argument", {
+  "id": "P"
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", ",", true, "Let", {
+  "id": "defaultValue"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", {
+  "k": 7
+}, "Set", {
+  "id": "v"
+}, "to", "?", "GetValue", "(", {
+  "id": "defaultValue"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, false, {
+  "k": 3
+}, "Perform", "?", "PutValue", "(", {
+  "id": "lref"
+}, ",", {
+  "id": "v"
+}, ")", ".", {
+  "k": 9
+}, "Return", "a", "List", "whose", "sole", "element", "is", {
+  "id": "P"
+}, ".", {
+  "k": 10
+}]

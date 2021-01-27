@@ -1,0 +1,37 @@
+["Let", {
+  "id": "exprRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Expression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "exprValue"
+}, "be", "!", "ToBoolean", "(", "?", "GetValue", "(", {
+  "id": "exprRef"
+}, ")", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "exprValue"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "Else", ",", true, "Let", {
+  "id": "stmtCompletion"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Statement"
+}, ".", {
+  "k": 5
+}, "Return", "Completion", "(", "UpdateEmpty", "(", {
+  "id": "stmtCompletion"
+}, ",", {
+  "value": "undefined"
+}, ")", ")", ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}]

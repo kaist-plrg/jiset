@@ -1,0 +1,47 @@
+{
+  let oldEnv = GLOBAL_context.LexicalEnvironment
+  if (< 0i uninitializedBoundNames.length) {
+    app __x0__ = (NewDeclarativeEnvironment oldEnv)
+    let newEnv = __x0__
+    let __x1__ = uninitializedBoundNames
+    let __x2__ = 0i
+    while (< __x2__ __x1__.length) {
+      let name = __x1__[__x2__]
+      app __x3__ = (newEnv.CreateMutableBinding newEnv name false)
+      if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+      __x3__
+      __x2__ = (+ __x2__ 1i)
+    }
+    GLOBAL_context.LexicalEnvironment = newEnv
+  } else {}
+  access __x4__ = (expr "Evaluation")
+  let exprRef = __x4__
+  GLOBAL_context.LexicalEnvironment = oldEnv
+  app __x5__ = (GetValue exprRef)
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  let exprValue = __x5__
+  if (= iterationKind CONST_enumerate) {
+    if (|| (= exprValue undefined) (= exprValue null)) {
+      app __x6__ = (WrapCompletion (new Completion("Type" -> CONST_break, "Value" -> CONST_empty, "Target" -> CONST_empty)))
+      return __x6__
+    } else {}
+    app __x7__ = (ToObject exprValue)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    let obj = __x7__
+    app __x8__ = (EnumerateObjectProperties obj)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    let iterator = __x8__
+    app __x9__ = (GetV iterator "next")
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+    let nextMethod = __x9__
+    app __x10__ = (WrapCompletion (new Record("Iterator" -> iterator, "NextMethod" -> nextMethod, "Done" -> false)))
+    return __x10__
+  } else {
+    assert (|| (= iterationKind CONST_iterate) (= iterationKind CONST_asyncDASHiterate))
+    if (= iterationKind CONST_asyncDASHiterate) let iteratorHint = CONST_async else let iteratorHint = CONST_sync
+    app __x11__ = (GetIterator exprValue iteratorHint)
+    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+    app __x12__ = (WrapCompletion __x11__)
+    return __x12__
+  }
+}

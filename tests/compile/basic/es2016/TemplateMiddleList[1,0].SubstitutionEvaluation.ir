@@ -1,0 +1,13 @@
+{
+  access __x0__ = (TemplateMiddleList "SubstitutionEvaluation")
+  let preceding = __x0__
+  if (is-completion preceding) if (= preceding.Type CONST_normal) preceding = preceding.Value else return preceding else {}
+  preceding
+  access __x1__ = (Expression "Evaluation")
+  let next = __x1__
+  if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else {}
+  next
+  append next -> preceding
+  app __x2__ = (WrapCompletion preceding)
+  return __x2__
+}

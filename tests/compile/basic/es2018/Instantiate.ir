@@ -1,0 +1,28 @@
+{
+  let module = this
+  assert (! (|| (= module.Status "instantiating") (= module.Status "evaluating")))
+  let stack = (new [])
+  app __x0__ = (InnerModuleInstantiation module stack 0i)
+  let result = __x0__
+  app __x1__ = (IsAbruptCompletion result)
+  if __x1__ {
+    let __x2__ = stack
+    let __x3__ = 0i
+    while (< __x3__ __x2__.length) {
+      let m = __x2__[__x3__]
+      assert (= m.Status "instantiating")
+      m.Status = "uninstantiated"
+      m.Environment = undefined
+      m.DFSIndex = undefined
+      m.DFSAncestorIndex = undefined
+      __x3__ = (+ __x3__ 1i)
+    }
+    assert (= module.Status "uninstantiated")
+    app __x4__ = (WrapCompletion result)
+    return __x4__
+  } else {}
+  assert (|| (= module.Status "instantiated") (= module.Status "evaluated"))
+  assert (= stack.length 0i)
+  app __x5__ = (WrapCompletion undefined)
+  return __x5__
+}

@@ -1,0 +1,125 @@
+["Let", {
+  "id": "expr"
+}, "be", "CoveredCallExpression", "of", {
+  "nt": "CoverCallExpressionAndAsyncArrowHead"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "memberExpr"
+}, "be", "the", {
+  "nt": "MemberExpression"
+}, "of", {
+  "id": "expr"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "arguments"
+}, "be", "the", {
+  "nt": "Arguments"
+}, "of", {
+  "id": "expr"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "ref"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "memberExpr"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "func"
+}, "be", "?", "GetValue", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 4
+}, "If", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "Reference", "and", "IsPropertyReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "false"
+}, "and", "GetReferencedName", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "code": "\"eval\""
+}, ",", "then", true, "If", "SameValue", "(", {
+  "id": "func"
+}, ",", "%", "eval", "%", ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "argList"
+}, "be", "?", "ArgumentListEvaluation", "of", {
+  "id": "arguments"
+}, ".", {
+  "k": 7
+}, "If", {
+  "id": "argList"
+}, "has", "no", "elements", ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "evalText"
+}, "be", "the", "first", "element", "of", {
+  "id": "argList"
+}, ".", {
+  "k": 9
+}, "If", "the", "source", "code", "matching", "this", {
+  "nt": "CallExpression"
+}, "is", "strict", "mode", "code", ",", "let", {
+  "id": "strictCaller"
+}, "be", {
+  "value": "true"
+}, ".", "Otherwise", "let", {
+  "id": "strictCaller"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "evalRealm"
+}, "be", "the", "current", "Realm", "Record", ".", {
+  "k": 11
+}, "Perform", "?", "HostEnsureCanCompileStrings", "(", {
+  "id": "evalRealm"
+}, ",", {
+  "id": "evalRealm"
+}, ")", ".", {
+  "k": 12
+}, "Return", "?", "PerformEval", "(", {
+  "id": "evalText"
+}, ",", {
+  "id": "evalRealm"
+}, ",", {
+  "id": "strictCaller"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 13
+}, false, {
+  "k": 6
+}, false, {
+  "k": 5
+}, "Let", {
+  "id": "thisCall"
+}, "be", "this", {
+  "nt": "CallExpression"
+}, ".", {
+  "k": 14
+}, "Let", {
+  "id": "tailCall"
+}, "be", "IsInTailPosition", "(", {
+  "id": "thisCall"
+}, ")", ".", {
+  "k": 15
+}, "Return", "?", "EvaluateCall", "(", {
+  "id": "func"
+}, ",", {
+  "id": "ref"
+}, ",", {
+  "id": "arguments"
+}, ",", {
+  "id": "tailCall"
+}, ")", ".", {
+  "k": 16
+}]

@@ -1,0 +1,173 @@
+["Let", {
+  "id": "realm"
+}, "be", "the", "current", "Realm", "Record", ".", {
+  "k": 0
+}, "Let", {
+  "id": "templateRegistry"
+}, "be", {
+  "id": "realm"
+}, ".", "[", "[", "TemplateMap", "]", "]", ".", {
+  "k": 1
+}, "For", "each", "element", {
+  "id": "e"
+}, "of", {
+  "id": "templateRegistry"
+}, ",", "do", true, "If", {
+  "id": "e"
+}, ".", "[", "[", "Site", "]", "]", "is", "the", "same", "Parse", "Node", "as", {
+  "id": "templateLiteral"
+}, ",", "then", true, "Return", {
+  "id": "e"
+}, ".", "[", "[", "Array", "]", "]", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, false, {
+  "k": 2
+}, "Let", {
+  "id": "rawStrings"
+}, "be", "TemplateStrings", "of", {
+  "id": "templateLiteral"
+}, "with", "argument", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "cookedStrings"
+}, "be", "TemplateStrings", "of", {
+  "id": "templateLiteral"
+}, "with", "argument", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "count"
+}, "be", "the", "number", "of", "elements", "in", "the", "List", {
+  "id": "cookedStrings"
+}, ".", {
+  "k": 7
+}, "Assert", ":", {
+  "id": "count"
+}, "≤", "2", {
+  "sup": {
+    "tokens": ["32"]
+  }
+}, "-", "1", ".", {
+  "k": 8
+}, "Let", {
+  "id": "template"
+}, "be", "!", "ArrayCreate", "(", {
+  "id": "count"
+}, ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "rawObj"
+}, "be", "!", "ArrayCreate", "(", {
+  "id": "count"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "k": 11
+}, "Repeat", ",", "while", {
+  "id": "index"
+}, "<", {
+  "id": "count"
+}, ",", true, "Let", {
+  "id": "prop"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "index"
+}, ")", ")", ".", {
+  "k": 13
+}, "Let", {
+  "id": "cookedValue"
+}, "be", {
+  "id": "cookedStrings"
+}, "[", {
+  "id": "index"
+}, "]", ".", {
+  "k": 14
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "template"
+}, ",", {
+  "id": "prop"
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "cookedValue"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 15
+}, "Let", {
+  "id": "rawValue"
+}, "be", "the", "String", "value", {
+  "id": "rawStrings"
+}, "[", {
+  "id": "index"
+}, "]", ".", {
+  "k": 16
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "rawObj"
+}, ",", {
+  "id": "prop"
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "rawValue"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 17
+}, "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 18
+}, false, {
+  "k": 12
+}, "Perform", "!", "SetIntegrityLevel", "(", {
+  "id": "rawObj"
+}, ",", {
+  "const": "frozen"
+}, ")", ".", {
+  "k": 19
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "template"
+}, ",", {
+  "value": "\"raw\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "rawObj"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 20
+}, "Perform", "!", "SetIntegrityLevel", "(", {
+  "id": "template"
+}, ",", {
+  "const": "frozen"
+}, ")", ".", {
+  "k": 21
+}, "Append", "the", "Record", "{", "[", "[", "Site", "]", "]", ":", {
+  "id": "templateLiteral"
+}, ",", "[", "[", "Array", "]", "]", ":", {
+  "id": "template"
+}, "}", "to", {
+  "id": "templateRegistry"
+}, ".", {
+  "k": 22
+}, "Return", {
+  "id": "template"
+}, ".", {
+  "k": 23
+}]

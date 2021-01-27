@@ -1,0 +1,87 @@
+["Assert", ":", "This", "call", "to", "Evaluate", "is", "not", "happening", "at", "the", "same", "time", "as", "another", "call", "to", "Evaluate", "within", "the", "surrounding", "agent", ".", {
+  "k": 0
+}, "Let", {
+  "id": "module"
+}, "be", "this", "Cyclic", "Module", "Record", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "const": "linked"
+}, "or", {
+  "const": "evaluated"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "stack"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 3
+}, "Let", {
+  "id": "result"
+}, "be", "InnerModuleEvaluation", "(", {
+  "id": "module"
+}, ",", {
+  "id": "stack"
+}, ",", "0", ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "result"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "For", "each", "Cyclic", "Module", "Record", {
+  "id": "m"
+}, "in", {
+  "id": "stack"
+}, ",", "do", true, "Assert", ":", {
+  "id": "m"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "const": "evaluating"
+}, ".", {
+  "k": 7
+}, "Set", {
+  "id": "m"
+}, ".", "[", "[", "Status", "]", "]", "to", {
+  "const": "evaluated"
+}, ".", {
+  "k": 8
+}, "Set", {
+  "id": "m"
+}, ".", "[", "[", "EvaluationError", "]", "]", "to", {
+  "id": "result"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 6
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "const": "evaluated"
+}, "and", {
+  "id": "module"
+}, ".", "[", "[", "EvaluationError", "]", "]", "is", {
+  "id": "result"
+}, ".", {
+  "k": 10
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 5
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "const": "evaluated"
+}, "and", {
+  "id": "module"
+}, ".", "[", "[", "EvaluationError", "]", "]", "is", {
+  "value": "undefined"
+}, ".", {
+  "k": 12
+}, "Assert", ":", {
+  "id": "stack"
+}, "is", "empty", ".", {
+  "k": 13
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 14
+}]

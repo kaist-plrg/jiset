@@ -1,0 +1,161 @@
+["If", {
+  "id": "stack"
+}, "contains", {
+  "id": "value"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", "because", "the", "structure", "is", "cyclical", ".", {
+  "k": 0
+}, "Append", {
+  "id": "value"
+}, "to", {
+  "id": "stack"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "stepback"
+}, "be", {
+  "id": "indent"
+}, ".", {
+  "k": 2
+}, "Set", {
+  "id": "indent"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "indent"
+}, "and", {
+  "id": "gap"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "partial"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 4
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "value"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "k": 6
+}, "Repeat", ",", "while", {
+  "id": "index"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "strP"
+}, "be", "?", "SerializeJSONProperty", "(", "!", "ToString", "(", {
+  "id": "index"
+}, ")", ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "strP"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Append", {
+  "code": "\"null\""
+}, "to", {
+  "id": "partial"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 9
+}, "Else", ",", true, "Append", {
+  "id": "strP"
+}, "to", {
+  "id": "partial"
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 11
+}, "Increment", {
+  "id": "index"
+}, "by", "1", ".", {
+  "k": 13
+}, false, {
+  "k": 7
+}, "If", {
+  "id": "partial"
+}, "is", "empty", ",", "then", true, "Let", {
+  "id": "final"
+}, "be", {
+  "code": "\"[]\""
+}, ".", {
+  "k": 15
+}, false, {
+  "k": 14
+}, "Else", ",", true, "If", {
+  "id": "gap"
+}, "is", "the", "empty", "String", ",", "then", true, "Let", {
+  "id": "properties"
+}, "be", "the", "String", "value", "formed", "by", "concatenating", "all", "the", "element", "Strings", "of", {
+  "id": "partial"
+}, "with", "each", "adjacent", "pair", "of", "Strings", "separated", "with", "the", "code", "unit", "0x002C", "(", "COMMA", ")", ".", "A", "comma", "is", "not", "inserted", "either", "before", "the", "first", "String", "or", "after", "the", "last", "String", ".", {
+  "k": 18
+}, "Let", {
+  "id": "final"
+}, "be", "the", "string", "-", "concatenation", "of", {
+  "code": "\"[\""
+}, ",", {
+  "id": "properties"
+}, ",", "and", {
+  "code": "\"]\""
+}, ".", {
+  "k": 19
+}, false, {
+  "k": 17
+}, "Else", ",", true, "Let", {
+  "id": "separator"
+}, "be", "the", "string", "-", "concatenation", "of", "the", "code", "unit", "0x002C", "(", "COMMA", ")", ",", "the", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", "and", {
+  "id": "indent"
+}, ".", {
+  "k": 21
+}, "Let", {
+  "id": "properties"
+}, "be", "the", "String", "value", "formed", "by", "concatenating", "all", "the", "element", "Strings", "of", {
+  "id": "partial"
+}, "with", "each", "adjacent", "pair", "of", "Strings", "separated", "with", {
+  "id": "separator"
+}, ".", "The", {
+  "id": "separator"
+}, "String", "is", "not", "inserted", "either", "before", "the", "first", "String", "or", "after", "the", "last", "String", ".", {
+  "k": 22
+}, "Let", {
+  "id": "final"
+}, "be", "the", "string", "-", "concatenation", "of", {
+  "code": "\"[\""
+}, ",", "the", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", {
+  "id": "indent"
+}, ",", {
+  "id": "properties"
+}, ",", "the", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", {
+  "id": "stepback"
+}, ",", "and", {
+  "code": "\"]\""
+}, ".", {
+  "k": 23
+}, false, {
+  "k": 20
+}, false, {
+  "k": 16
+}, "Remove", "the", "last", "element", "of", {
+  "id": "stack"
+}, ".", {
+  "k": 24
+}, "Set", {
+  "id": "indent"
+}, "to", {
+  "id": "stepback"
+}, ".", {
+  "k": 25
+}, "Return", {
+  "id": "final"
+}, ".", {
+  "k": 26
+}]

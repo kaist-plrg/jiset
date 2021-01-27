@@ -1,0 +1,191 @@
+["Assert", ":", {
+  "id": "op"
+}, "is", {
+  "value": "\"&\""
+}, ",", {
+  "value": "\"|\""
+}, ",", "or", {
+  "value": "\"^\""
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "result"
+}, "be", {
+  "value": "0n"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "shift"
+}, "be", "0", ".", {
+  "k": 2
+}, "Repeat", ",", "until", "(", {
+  "id": "x"
+}, "=", "0", "or", {
+  "id": "x"
+}, "=", "-", "1", ")", "and", "(", {
+  "id": "y"
+}, "=", "0", "or", {
+  "id": "y"
+}, "=", "-", "1", ")", ",", true, "Let", {
+  "id": "xDigit"
+}, "be", {
+  "id": "x"
+}, "modulo", "2", ".", {
+  "k": 4
+}, "Let", {
+  "id": "yDigit"
+}, "be", {
+  "id": "y"
+}, "modulo", "2", ".", {
+  "k": 5
+}, "If", {
+  "id": "op"
+}, "is", {
+  "value": "\"&\""
+}, ",", "set", {
+  "id": "result"
+}, "to", {
+  "id": "result"
+}, "+", "2", {
+  "sup": {
+    "tokens": [{
+      "id": "shift"
+    }]
+  }
+}, "×", "BinaryAnd", "(", {
+  "id": "xDigit"
+}, ",", {
+  "id": "yDigit"
+}, ")", ".", {
+  "k": 6
+}, "Else", "if", {
+  "id": "op"
+}, "is", {
+  "value": "\"|\""
+}, ",", "set", {
+  "id": "result"
+}, "to", {
+  "id": "result"
+}, "+", "2", {
+  "sup": {
+    "tokens": [{
+      "id": "shift"
+    }]
+  }
+}, "×", "BinaryOr", "(", {
+  "id": "xDigit"
+}, ",", {
+  "id": "yDigit"
+}, ")", ".", {
+  "k": 7
+}, "Else", ",", true, "Assert", ":", {
+  "id": "op"
+}, "is", {
+  "value": "\"^\""
+}, ".", {
+  "k": 9
+}, "Set", {
+  "id": "result"
+}, "to", {
+  "id": "result"
+}, "+", "2", {
+  "sup": {
+    "tokens": [{
+      "id": "shift"
+    }]
+  }
+}, "×", "BinaryXor", "(", {
+  "id": "xDigit"
+}, ",", {
+  "id": "yDigit"
+}, ")", ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, "Set", {
+  "id": "shift"
+}, "to", {
+  "id": "shift"
+}, "+", "1", ".", {
+  "k": 11
+}, "Set", {
+  "id": "x"
+}, "to", "(", {
+  "id": "x"
+}, "-", {
+  "id": "xDigit"
+}, ")", "/", "2", ".", {
+  "k": 12
+}, "Set", {
+  "id": "y"
+}, "to", "(", {
+  "id": "y"
+}, "-", {
+  "id": "yDigit"
+}, ")", "/", "2", ".", {
+  "k": 13
+}, false, {
+  "k": 3
+}, "If", {
+  "id": "op"
+}, "is", {
+  "value": "\"&\""
+}, ",", "let", {
+  "id": "tmp"
+}, "be", "BinaryAnd", "(", {
+  "id": "x"
+}, "modulo", "2", ",", {
+  "id": "y"
+}, "modulo", "2", ")", ".", {
+  "k": 14
+}, "Else", "if", {
+  "id": "op"
+}, "is", {
+  "value": "\"|\""
+}, ",", "let", {
+  "id": "tmp"
+}, "be", "BinaryOr", "(", {
+  "id": "x"
+}, "modulo", "2", ",", {
+  "id": "y"
+}, "modulo", "2", ")", ".", {
+  "k": 15
+}, "Else", ",", true, "Assert", ":", {
+  "id": "op"
+}, "is", {
+  "value": "\"^\""
+}, ".", {
+  "k": 17
+}, "Let", {
+  "id": "tmp"
+}, "be", "BinaryXor", "(", {
+  "id": "x"
+}, "modulo", "2", ",", {
+  "id": "y"
+}, "modulo", "2", ")", ".", {
+  "k": 18
+}, false, {
+  "k": 16
+}, "If", {
+  "id": "tmp"
+}, "≠", "0", ",", "then", true, "Set", {
+  "id": "result"
+}, "to", {
+  "id": "result"
+}, "-", "2", {
+  "sup": {
+    "tokens": [{
+      "id": "shift"
+    }]
+  }
+}, ".", {
+  "k": 20
+}, "NOTE", ":", "This", "extends", "the", "sign", ".", {
+  "k": 21
+}, false, {
+  "k": 19
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 22
+}]

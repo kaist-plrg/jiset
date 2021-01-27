@@ -1,0 +1,239 @@
+["If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "now"
+}, "be", "the", "time", "value", "(", "UTC", ")", "identifying", "the", "current", "time", ".", {
+  "k": 1
+}, "Return", "ToDateString", "(", {
+  "id": "now"
+}, ")", ".", {
+  "k": 2
+}, false, {
+  "k": 0
+}, "Let", {
+  "id": "numberOfArgs"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "values"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "numberOfArgs"
+}, "=", "0", ",", "then", true, "Let", {
+  "id": "dv"
+}, "be", "the", "time", "value", "(", "UTC", ")", "identifying", "the", "current", "time", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", "if", {
+  "id": "numberOfArgs"
+}, "=", "1", ",", "then", true, "Let", {
+  "id": "value"
+}, "be", {
+  "id": "values"
+}, "[", "0", "]", ".", {
+  "k": 7
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Object", "and", {
+  "id": "value"
+}, "has", "a", "[", "[", "DateValue", "]", "]", "internal", "slot", ",", "then", true, "Let", {
+  "id": "tv"
+}, "be", "!", "thisTimeValue", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Else", ",", true, "Let", {
+  "id": "v"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 11
+}, "If", "Type", "(", {
+  "id": "v"
+}, ")", "is", "String", ",", "then", true, "Assert", ":", "The", "next", "step", "never", "returns", "an", "abrupt", "completion", "because", "Type", "(", {
+  "id": "v"
+}, ")", "is", "String", ".", {
+  "k": 13
+}, "Let", {
+  "id": "tv"
+}, "be", "the", "result", "of", "parsing", {
+  "id": "v"
+}, "as", "a", "date", ",", "in", "exactly", "the", "same", "manner", "as", "for", "the", {
+  "code": "parse"
+}, "method", "(", {
+  "link": ""
+}, ")", ".", {
+  "k": 14
+}, false, {
+  "k": 12
+}, "Else", ",", true, "Let", {
+  "id": "tv"
+}, "be", "?", "ToNumber", "(", {
+  "id": "v"
+}, ")", ".", {
+  "k": 16
+}, false, {
+  "k": 15
+}, false, {
+  "k": 10
+}, "Let", {
+  "id": "dv"
+}, "be", "TimeClip", "(", {
+  "id": "tv"
+}, ")", ".", {
+  "k": 17
+}, false, {
+  "k": 6
+}, "Else", ",", true, "Assert", ":", {
+  "id": "numberOfArgs"
+}, "≥", "2", ".", {
+  "k": 19
+}, "Let", {
+  "id": "y"
+}, "be", "?", "ToNumber", "(", {
+  "id": "values"
+}, "[", "0", "]", ")", ".", {
+  "k": 20
+}, "Let", {
+  "id": "m"
+}, "be", "?", "ToNumber", "(", {
+  "id": "values"
+}, "[", "1", "]", ")", ".", {
+  "k": 21
+}, "If", {
+  "id": "numberOfArgs"
+}, ">", "2", ",", "let", {
+  "id": "dt"
+}, "be", "?", "ToNumber", "(", {
+  "id": "values"
+}, "[", "2", "]", ")", ";", "else", "let", {
+  "id": "dt"
+}, "be", {
+  "value": "1"
+}, ".", {
+  "k": 22
+}, "If", {
+  "id": "numberOfArgs"
+}, ">", "3", ",", "let", {
+  "id": "h"
+}, "be", "?", "ToNumber", "(", {
+  "id": "values"
+}, "[", "3", "]", ")", ";", "else", "let", {
+  "id": "h"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 23
+}, "If", {
+  "id": "numberOfArgs"
+}, ">", "4", ",", "let", {
+  "id": "min"
+}, "be", "?", "ToNumber", "(", {
+  "id": "values"
+}, "[", "4", "]", ")", ";", "else", "let", {
+  "id": "min"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 24
+}, "If", {
+  "id": "numberOfArgs"
+}, ">", "5", ",", "let", {
+  "id": "s"
+}, "be", "?", "ToNumber", "(", {
+  "id": "values"
+}, "[", "5", "]", ")", ";", "else", "let", {
+  "id": "s"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 25
+}, "If", {
+  "id": "numberOfArgs"
+}, ">", "6", ",", "let", {
+  "id": "milli"
+}, "be", "?", "ToNumber", "(", {
+  "id": "values"
+}, "[", "6", "]", ")", ";", "else", "let", {
+  "id": "milli"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 26
+}, "If", {
+  "id": "y"
+}, "is", {
+  "value": "NaN"
+}, ",", "let", {
+  "id": "yr"
+}, "be", {
+  "value": "NaN"
+}, ".", {
+  "k": 27
+}, "Else", ",", true, "Let", {
+  "id": "yi"
+}, "be", "!", "ToIntegerOrInfinity", "(", {
+  "id": "y"
+}, ")", ".", {
+  "k": 29
+}, "If", "0", "≤", {
+  "id": "yi"
+}, "≤", "99", ",", "let", {
+  "id": "yr"
+}, "be", {
+  "value": "1900"
+}, "+", "𝔽", "(", {
+  "id": "yi"
+}, ")", ";", "otherwise", ",", "let", {
+  "id": "yr"
+}, "be", {
+  "id": "y"
+}, ".", {
+  "k": 30
+}, false, {
+  "k": 28
+}, "Let", {
+  "id": "finalDate"
+}, "be", "MakeDate", "(", "MakeDay", "(", {
+  "id": "yr"
+}, ",", {
+  "id": "m"
+}, ",", {
+  "id": "dt"
+}, ")", ",", "MakeTime", "(", {
+  "id": "h"
+}, ",", {
+  "id": "min"
+}, ",", {
+  "id": "s"
+}, ",", {
+  "id": "milli"
+}, ")", ")", ".", {
+  "k": 31
+}, "Let", {
+  "id": "dv"
+}, "be", "TimeClip", "(", "UTC", "(", {
+  "id": "finalDate"
+}, ")", ")", ".", {
+  "k": 32
+}, false, {
+  "k": 18
+}, "Let", {
+  "id": "O"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+  "value": "\"%Date.prototype%\""
+}, ",", "«", "[", "[", "DateValue", "]", "]", "»", ")", ".", {
+  "k": 33
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "DateValue", "]", "]", "to", {
+  "id": "dv"
+}, ".", {
+  "k": 34
+}, "Return", {
+  "id": "O"
+}, ".", {
+  "k": 35
+}]

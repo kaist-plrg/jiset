@@ -1,0 +1,27 @@
+{
+  let func = this
+  ??? "If id:{func} is a < emu - xref href = \" # sec - bound - function - exotic - objects \" > Bound Function exotic object < / emu - xref > or a < emu - xref href = \" # sec - built - in - function - objects \" > built - in function object < / emu - xref > , then return an implementation - dependent String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} . Additionally , if id:{func} is a < emu - xref href = \" # sec - well - known - intrinsic - objects \" > Well - known Intrinsic Object < / emu - xref > and is not identified as an anonymous function , the portion of the returned String that would be matched by nt:{PropertyName} must be the initial value of the code:{name} property of id:{func} ."
+  app __x0__ = (Type func)
+  let __x1__ = (= __x0__ Object)
+  if __x1__ {
+    let __x2__ = (! (= func.SourceText absent))
+    if __x2__ {
+      app __x3__ = (Type func.SourceText)
+      let __x4__ = (= __x3__ String)
+      if __x4__ {
+        app __x5__ = (HostHasSourceTextAvailable func)
+        if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+        __x4__ = (= __x5__ true)
+      } else {}
+      __x2__ = __x4__
+    } else {}
+    __x1__ = __x2__
+  } else {}
+  if __x1__ {
+    app __x6__ = (WrapCompletion func.SourceText)
+    return __x6__
+  } else {}
+  ??? "If Type ( id:{func} ) is Object and IsCallable ( id:{func} ) is value:{true} , then return an implementation - dependent String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} ."
+  app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  return __x7__
+}

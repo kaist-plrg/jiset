@@ -1,0 +1,71 @@
+["Let", {
+  "id": "oldEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 0
+}, "Let", {
+  "id": "catchEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "oldEnv"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "catchEnvRec"
+}, "be", {
+  "id": "catchEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 2
+}, "For", "each", "element", {
+  "id": "argName"
+}, "of", "the", "BoundNames", "of", {
+  "nt": "CatchParameter"
+}, ",", "do", true, "Perform", "!", {
+  "id": "catchEnvRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "argName"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "catchEnv"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "status"
+}, "be", "the", "result", "of", "performing", "BindingInitialization", "for", {
+  "nt": "CatchParameter"
+}, "passing", {
+  "id": "thrownValue"
+}, "and", {
+  "id": "catchEnv"
+}, "as", "arguments", ".", {
+  "k": 6
+}, "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 8
+}, "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 7
+}, "Let", {
+  "id": "B"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Block"
+}, ".", {
+  "k": 10
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 11
+}, "Return", "Completion", "(", {
+  "id": "B"
+}, ")", ".", {
+  "k": 12
+}]

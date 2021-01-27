@@ -1,0 +1,65 @@
+["Let", {
+  "id": "lref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "LeftHandSideExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lval"
+}, "be", "?", "GetValue", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "lval"
+}, "is", "neither", {
+  "value": "undefined"
+}, "nor", {
+  "value": "null"
+}, ",", "return", {
+  "id": "lval"
+}, ".", {
+  "k": 2
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "AssignmentExpression"
+}, ")", "is", {
+  "value": "true"
+}, "and", "IsIdentifierRef", "of", {
+  "nt": "LeftHandSideExpression"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "rval"
+}, "be", "NamedEvaluation", "of", {
+  "nt": "AssignmentExpression"
+}, "with", "argument", {
+  "id": "lref"
+}, ".", "[", "[", "ReferencedName", "]", "]", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, "Else", ",", true, "Let", {
+  "id": "rref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "rval"
+}, "be", "?", "GetValue", "(", {
+  "id": "rref"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 5
+}, "Perform", "?", "PutValue", "(", {
+  "id": "lref"
+}, ",", {
+  "id": "rval"
+}, ")", ".", {
+  "k": 8
+}, "Return", {
+  "id": "rval"
+}, ".", {
+  "k": 9
+}]

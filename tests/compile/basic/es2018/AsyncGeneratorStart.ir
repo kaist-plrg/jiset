@@ -1,0 +1,11 @@
+{
+  assert (= generator.AsyncGeneratorState undefined)
+  let genContext = GLOBAL_context
+  genContext.Generator = generator
+  ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed for that execution context the following steps will be performed : step-list:{...}"
+  generator.AsyncGeneratorContext = genContext
+  generator.AsyncGeneratorState = "suspendedStart"
+  generator.AsyncGeneratorQueue = (new [])
+  app __x0__ = (WrapCompletion undefined)
+  return __x0__
+}

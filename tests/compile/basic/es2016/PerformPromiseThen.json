@@ -1,0 +1,131 @@
+["Assert", ":", "IsPromise", "(", {
+  "id": "promise"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "resultCapability"
+}, "is", "a", "PromiseCapability", "record", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "onFulfilled"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "onFulfilled"
+}, "be", {
+  "code": "\"Identity\""
+}, ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "If", "IsCallable", "(", {
+  "id": "onRejected"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "onRejected"
+}, "be", {
+  "code": "\"Thrower\""
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Let", {
+  "id": "fulfillReaction"
+}, "be", "the", "PromiseReaction", "{", "[", "[", "Capabilities", "]", "]", ":", {
+  "id": "resultCapability"
+}, ",", "[", "[", "Handler", "]", "]", ":", {
+  "id": "onFulfilled"
+}, "}", ".", {
+  "k": 6
+}, "Let", {
+  "id": "rejectReaction"
+}, "be", "the", "PromiseReaction", "{", "[", "[", "Capabilities", "]", "]", ":", {
+  "id": "resultCapability"
+}, ",", "[", "[", "Handler", "]", "]", ":", {
+  "id": "onRejected"
+}, "}", ".", {
+  "k": 7
+}, "If", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseState", "]", "]", "internal", "slot", "is", {
+  "code": "\"pending\""
+}, ",", "then", true, "Append", {
+  "id": "fulfillReaction"
+}, "as", "the", "last", "element", "of", "the", "List", "that", "is", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseFulfillReactions", "]", "]", "internal", "slot", ".", {
+  "k": 9
+}, "Append", {
+  "id": "rejectReaction"
+}, "as", "the", "last", "element", "of", "the", "List", "that", "is", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseRejectReactions", "]", "]", "internal", "slot", ".", {
+  "k": 10
+}, false, {
+  "k": 8
+}, "Else", "if", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseState", "]", "]", "internal", "slot", "is", {
+  "code": "\"fulfilled\""
+}, ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseResult", "]", "]", "internal", "slot", ".", {
+  "k": 12
+}, "Perform", "EnqueueJob", "(", {
+  "code": "\"PromiseJobs\""
+}, ",", "PromiseReactionJob", ",", "«", {
+  "id": "fulfillReaction"
+}, ",", {
+  "id": "value"
+}, "»", ")", ".", {
+  "k": 13
+}, false, {
+  "k": 11
+}, "Else", ",", true, "Assert", ":", "The", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseState", "]", "]", "internal", "slot", "is", {
+  "code": "\"rejected\""
+}, ".", {
+  "k": 15
+}, "Let", {
+  "id": "reason"
+}, "be", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseResult", "]", "]", "internal", "slot", ".", {
+  "k": 16
+}, "If", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseIsHandled", "]", "]", "internal", "slot", "is", {
+  "value": "false"
+}, ",", "perform", "HostPromiseRejectionTracker", "(", {
+  "id": "promise"
+}, ",", {
+  "code": "\"handle\""
+}, ")", ".", {
+  "k": 17
+}, "Perform", "EnqueueJob", "(", {
+  "code": "\"PromiseJobs\""
+}, ",", "PromiseReactionJob", ",", "«", {
+  "id": "rejectReaction"
+}, ",", {
+  "id": "reason"
+}, "»", ")", ".", {
+  "k": 18
+}, false, {
+  "k": 14
+}, "Set", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseIsHandled", "]", "]", "internal", "slot", "to", {
+  "value": "true"
+}, ".", {
+  "k": 19
+}, "Return", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 20
+}]

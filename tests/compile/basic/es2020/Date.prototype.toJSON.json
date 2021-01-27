@@ -1,0 +1,27 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "tv"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "O"
+}, ",", "hint", "Number", ")", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "tv"
+}, ")", "is", "Number", "and", {
+  "id": "tv"
+}, "is", "not", "finite", ",", "return", {
+  "value": "null"
+}, ".", {
+  "k": 2
+}, "Return", "?", "Invoke", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"toISOString\""
+}, ")", ".", {
+  "k": 3
+}]

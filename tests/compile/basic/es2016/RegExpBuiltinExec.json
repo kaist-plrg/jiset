@@ -1,0 +1,373 @@
+["Assert", ":", {
+  "id": "R"
+}, "is", "an", "initialized", "RegExp", "instance", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "S"
+}, ")", "is", "String", ".", {
+  "k": 1
+}, "Let", {
+  "id": "length"
+}, "be", "the", "number", "of", "code", "units", "in", {
+  "id": "S"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "lastIndex"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "R"
+}, ",", {
+  "code": "\"lastIndex\""
+}, ")", ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "global"
+}, "be", "ToBoolean", "(", "?", "Get", "(", {
+  "id": "R"
+}, ",", {
+  "code": "\"global\""
+}, ")", ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "sticky"
+}, "be", "ToBoolean", "(", "?", "Get", "(", {
+  "id": "R"
+}, ",", {
+  "code": "\"sticky\""
+}, ")", ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "global"
+}, "is", {
+  "value": "false"
+}, "and", {
+  "id": "sticky"
+}, "is", {
+  "value": "false"
+}, ",", "let", {
+  "id": "lastIndex"
+}, "be", "0", ".", {
+  "k": 6
+}, "Let", {
+  "id": "matcher"
+}, "be", "the", "value", "of", {
+  "id": "R"
+}, "'", "s", "[", "[", "RegExpMatcher", "]", "]", "internal", "slot", ".", {
+  "k": 7
+}, "Let", {
+  "id": "flags"
+}, "be", "the", "value", "of", {
+  "id": "R"
+}, "'", "s", "[", "[", "OriginalFlags", "]", "]", "internal", "slot", ".", {
+  "k": 8
+}, "If", {
+  "id": "flags"
+}, "contains", {
+  "code": "\"u\""
+}, ",", "let", {
+  "id": "fullUnicode"
+}, "be", {
+  "value": "true"
+}, ",", "else", "let", {
+  "id": "fullUnicode"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "matchSucceeded"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 10
+}, "Repeat", ",", "while", {
+  "id": "matchSucceeded"
+}, "is", {
+  "value": "false"
+}, true, "If", {
+  "id": "lastIndex"
+}, ">", {
+  "id": "length"
+}, ",", "then", true, "Perform", "?", "Set", "(", {
+  "id": "R"
+}, ",", {
+  "code": "\"lastIndex\""
+}, ",", "0", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 13
+}, "Return", {
+  "value": "null"
+}, ".", {
+  "k": 14
+}, false, {
+  "k": 12
+}, "Let", {
+  "id": "r"
+}, "be", {
+  "id": "matcher"
+}, "(", {
+  "id": "S"
+}, ",", {
+  "id": "lastIndex"
+}, ")", ".", {
+  "k": 15
+}, "If", {
+  "id": "r"
+}, "is", {
+  "const": "failure"
+}, ",", "then", true, "If", {
+  "id": "sticky"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Perform", "?", "Set", "(", {
+  "id": "R"
+}, ",", {
+  "code": "\"lastIndex\""
+}, ",", "0", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 18
+}, "Return", {
+  "value": "null"
+}, ".", {
+  "k": 19
+}, false, {
+  "k": 17
+}, "Let", {
+  "id": "lastIndex"
+}, "be", "AdvanceStringIndex", "(", {
+  "id": "S"
+}, ",", {
+  "id": "lastIndex"
+}, ",", {
+  "id": "fullUnicode"
+}, ")", ".", {
+  "k": 20
+}, false, {
+  "k": 16
+}, "Else", ",", true, "Assert", ":", {
+  "id": "r"
+}, "is", "a", "State", ".", {
+  "k": 22
+}, "Set", {
+  "id": "matchSucceeded"
+}, "to", {
+  "value": "true"
+}, ".", {
+  "k": 23
+}, false, {
+  "k": 21
+}, false, {
+  "k": 11
+}, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "r"
+}, "'", "s", {
+  "id": "endIndex"
+}, "value", ".", {
+  "k": 24
+}, "If", {
+  "id": "fullUnicode"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, {
+  "id": "e"
+}, "is", "an", "index", "into", "the", {
+  "id": "Input"
+}, "character", "list", ",", "derived", "from", {
+  "id": "S"
+}, ",", "matched", "by", {
+  "id": "matcher"
+}, ".", "Let", {
+  "id": "eUTF"
+}, "be", "the", "smallest", "index", "into", {
+  "id": "S"
+}, "that", "corresponds", "to", "the", "character", "at", "element", {
+  "id": "e"
+}, "of", {
+  "id": "Input"
+}, ".", "If", {
+  "id": "e"
+}, "is", "greater", "than", "or", "equal", "to", "the", "length", "of", {
+  "id": "Input"
+}, ",", "then", {
+  "id": "eUTF"
+}, "is", "the", "number", "of", "code", "units", "in", {
+  "id": "S"
+}, ".", {
+  "k": 26
+}, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "eUTF"
+}, ".", {
+  "k": 27
+}, false, {
+  "k": 25
+}, "If", {
+  "id": "global"
+}, "is", {
+  "value": "true"
+}, "or", {
+  "id": "sticky"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Perform", "?", "Set", "(", {
+  "id": "R"
+}, ",", {
+  "code": "\"lastIndex\""
+}, ",", {
+  "id": "e"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 29
+}, false, {
+  "k": 28
+}, "Let", {
+  "id": "n"
+}, "be", "the", "length", "of", {
+  "id": "r"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", "(", "This", "is", "the", "same", "value", "as", {
+  "link": ""
+}, "'", "s", {
+  "id": "NcapturingParens"
+}, ".", ")", {
+  "k": 30
+}, "Let", {
+  "id": "A"
+}, "be", "ArrayCreate", "(", {
+  "id": "n"
+}, "+", "1", ")", ".", {
+  "k": 31
+}, "Assert", ":", "The", "value", "of", {
+  "id": "A"
+}, "'", "s", {
+  "code": "\"length\""
+}, "property", "is", {
+  "id": "n"
+}, "+", "1", ".", {
+  "k": 32
+}, "Let", {
+  "id": "matchIndex"
+}, "be", {
+  "id": "lastIndex"
+}, ".", {
+  "k": 33
+}, "Perform", "!", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", {
+  "code": "\"index\""
+}, ",", {
+  "id": "matchIndex"
+}, ")", ".", {
+  "k": 34
+}, "Perform", "!", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", {
+  "code": "\"input\""
+}, ",", {
+  "id": "S"
+}, ")", ".", {
+  "k": 35
+}, "Let", {
+  "id": "matchedSubstr"
+}, "be", "the", "matched", "substring", "(", "i", ".", "e", ".", "the", "portion", "of", {
+  "id": "S"
+}, "between", "offset", {
+  "id": "lastIndex"
+}, "inclusive", "and", "offset", {
+  "id": "e"
+}, "exclusive", ")", ".", {
+  "k": 36
+}, "Perform", "!", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", {
+  "code": "\"0\""
+}, ",", {
+  "id": "matchedSubstr"
+}, ")", ".", {
+  "k": 37
+}, "For", "each", "integer", {
+  "id": "i"
+}, "such", "that", {
+  "id": "i"
+}, ">", "0", "and", {
+  "id": "i"
+}, "≤", {
+  "id": "n"
+}, true, "Let", {
+  "id": "captureI"
+}, "be", {
+  "id": "i"
+}, {
+  "sup": {
+    "tokens": ["th"]
+  }
+}, "element", "of", {
+  "id": "r"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 39
+}, "If", {
+  "id": "captureI"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "capturedValue"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 40
+}, "Else", "if", {
+  "id": "fullUnicode"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Assert", ":", {
+  "id": "captureI"
+}, "is", "a", "List", "of", "code", "points", ".", {
+  "k": 42
+}, "Let", {
+  "id": "capturedValue"
+}, "be", "a", "string", "whose", "code", "units", "are", "the", "UTF16Encoding", "of", "the", "code", "points", "of", {
+  "id": "captureI"
+}, ".", {
+  "k": 43
+}, false, {
+  "k": 41
+}, "Else", ",", {
+  "id": "fullUnicode"
+}, "is", {
+  "value": "false"
+}, ",", true, "Assert", ":", {
+  "id": "captureI"
+}, "is", "a", "List", "of", "code", "units", ".", {
+  "k": 45
+}, "Let", {
+  "id": "capturedValue"
+}, "be", "a", "string", "consisting", "of", "the", "code", "units", "of", {
+  "id": "captureI"
+}, ".", {
+  "k": 46
+}, false, {
+  "k": 44
+}, "Perform", "!", "CreateDataProperty", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "i"
+}, ")", ",", {
+  "id": "capturedValue"
+}, ")", ".", {
+  "k": 47
+}, false, {
+  "k": 38
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 48
+}]

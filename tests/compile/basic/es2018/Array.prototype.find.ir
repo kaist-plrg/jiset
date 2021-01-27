@@ -1,0 +1,36 @@
+{
+  app __x0__ = (ToObject this)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let O = __x0__
+  app __x1__ = (Get O "length")
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  app __x2__ = (ToLength __x1__)
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let len = __x2__
+  app __x3__ = (IsCallable predicate)
+  if (= __x3__ false) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else {}
+  if (! (= thisArg absent)) let T = thisArg else let T = undefined
+  let k = 0i
+  while (< k len) {
+    app __x5__ = (ToString k)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    let Pk = __x5__
+    app __x6__ = (Get O Pk)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    let kValue = __x6__
+    app __x7__ = (Call predicate T (new [kValue, k, O]))
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    app __x8__ = (ToBoolean __x7__)
+    let testResult = __x8__
+    if (= testResult true) {
+      app __x9__ = (WrapCompletion kValue)
+      return __x9__
+    } else {}
+    k = (+ k 1i)
+  }
+  app __x10__ = (WrapCompletion undefined)
+  return __x10__
+}

@@ -1,0 +1,12 @@
+{
+  access __x0__ = (Alternative "Evaluation")
+  app __x1__ = (__x0__ direction)
+  let m1 = __x1__
+  access __x2__ = (Term "Evaluation")
+  app __x3__ = (__x2__ direction)
+  let m2 = __x3__
+  if (== direction 1i) ??? "Return a new Matcher with parameters ( id:{x} , id:{c} ) that captures id:{m1} and id:{m2} and performs the following steps when called : step-list:{...}" else {
+    assert (= direction -1i)
+    ??? "Return a new Matcher with parameters ( id:{x} , id:{c} ) that captures id:{m1} and id:{m2} and performs the following steps when called : step-list:{...}"
+  }
+}

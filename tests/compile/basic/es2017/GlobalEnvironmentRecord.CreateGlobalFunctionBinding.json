@@ -1,0 +1,101 @@
+["Let", {
+  "id": "envRec"
+}, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", ".", {
+  "k": 0
+}, "Let", {
+  "id": "ObjRec"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "ObjectRecord", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "globalObject"
+}, "be", "the", "binding", "object", "for", {
+  "id": "ObjRec"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "existingProp"
+}, "be", "?", {
+  "id": "globalObject"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "N"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "existingProp"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "id": "existingProp"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "desc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "V"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "id": "D"
+}, "}", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", ",", true, "Let", {
+  "id": "desc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "V"
+}, "}", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Perform", "?", "DefinePropertyOrThrow", "(", {
+  "id": "globalObject"
+}, ",", {
+  "id": "N"
+}, ",", {
+  "id": "desc"
+}, ")", ".", {
+  "k": 8
+}, "Record", "that", "the", "binding", "for", {
+  "id": "N"
+}, "in", {
+  "id": "ObjRec"
+}, "has", "been", "initialized", ".", {
+  "k": 9
+}, "Perform", "?", "Set", "(", {
+  "id": "globalObject"
+}, ",", {
+  "id": "N"
+}, ",", {
+  "id": "V"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "varDeclaredNames"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "VarNames", "]", "]", ".", {
+  "k": 11
+}, "If", {
+  "id": "varDeclaredNames"
+}, "does", "not", "contain", {
+  "id": "N"
+}, ",", "then", true, "Append", {
+  "id": "N"
+}, "to", {
+  "id": "varDeclaredNames"
+}, ".", {
+  "k": 13
+}, false, {
+  "k": 12
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 14
+}]

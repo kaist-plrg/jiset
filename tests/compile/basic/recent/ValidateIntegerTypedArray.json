@@ -1,0 +1,63 @@
+["If", {
+  "id": "waitable"
+}, "is", "not", "present", ",", "set", {
+  "id": "waitable"
+}, "to", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateTypedArray", "(", {
+  "id": "typedArray"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "typeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 2
+}, "Let", {
+  "id": "type"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "typeName"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "waitable"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "typeName"
+}, "is", "not", {
+  "value": "\"Int32Array\""
+}, "or", {
+  "value": "\"BigInt64Array\""
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", ",", true, "If", "!", "IsUnclampedIntegerElementType", "(", {
+  "id": "type"
+}, ")", "is", {
+  "value": "false"
+}, "and", "!", "IsBigIntElementType", "(", {
+  "id": "type"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Return", {
+  "id": "buffer"
+}, ".", {
+  "k": 8
+}]

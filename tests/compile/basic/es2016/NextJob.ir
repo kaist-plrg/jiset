@@ -1,0 +1,17 @@
+{
+  app __x0__ = (IsAbruptCompletion result)
+  if __x0__ {
+    app __x1__ = (HostReportErrors (new [result.Value]))
+    __x1__
+  } else {}
+  GLOBAL_context = null
+  ??? "Let id:{nextQueue} be a non - empty Job Queue chosen in an implementation defined manner . If all Job Queues are empty , the result is implementation defined ."
+  ??? "Let id:{nextPending} be the PendingJob record at the front of id:{nextQueue} . Remove that record from id:{nextQueue} ."
+  let newContext = (new ExecutionContext("SubMap" -> (new SubMap())))
+  newContext.Function = null
+  newContext.Realm = nextPending.Realm
+  newContext.ScriptOrModule = nextPending.ScriptOrModule
+  append newContext -> GLOBAL_executionStack
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  ??? "Perform the abstract operation named by id:{nextPending} . [ [ Job ] ] using the elements of id:{nextPending} . [ [ Arguments ] ] as its arguments ."
+}

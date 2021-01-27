@@ -1,0 +1,163 @@
+["Let", {
+  "id": "value"
+}, "be", "?", "Get", "(", {
+  "id": "holder"
+}, ",", {
+  "id": "key"
+}, ")", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Object", ",", "then", true, "Let", {
+  "id": "toJSON"
+}, "be", "?", "Get", "(", {
+  "id": "value"
+}, ",", {
+  "code": "\"toJSON\""
+}, ")", ".", {
+  "k": 2
+}, "If", "IsCallable", "(", {
+  "id": "toJSON"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "?", "Call", "(", {
+  "id": "toJSON"
+}, ",", {
+  "id": "value"
+}, ",", "«", {
+  "id": "key"
+}, "»", ")", ".", {
+  "k": 4
+}, false, {
+  "k": 3
+}, false, {
+  "k": 1
+}, "If", {
+  "id": "ReplacerFunction"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "?", "Call", "(", {
+  "id": "ReplacerFunction"
+}, ",", {
+  "id": "holder"
+}, ",", "«", {
+  "id": "key"
+}, ",", {
+  "id": "value"
+}, "»", ")", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Object", ",", "then", true, "If", {
+  "id": "value"
+}, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "?", "ToNumber", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "Else", "if", {
+  "id": "value"
+}, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "?", "ToString", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "Else", "if", {
+  "id": "value"
+}, "has", "a", "[", "[", "BooleanData", "]", "]", "internal", "slot", ",", "then", true, "Let", {
+  "id": "value"
+}, "be", "the", "value", "of", "the", "[", "[", "BooleanData", "]", "]", "internal", "slot", "of", {
+  "id": "value"
+}, ".", {
+  "k": 13
+}, false, {
+  "k": 12
+}, false, {
+  "k": 7
+}, "If", {
+  "id": "value"
+}, "is", {
+  "value": "null"
+}, ",", "return", {
+  "code": "\"null\""
+}, ".", {
+  "k": 14
+}, "If", {
+  "id": "value"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "code": "\"true\""
+}, ".", {
+  "k": 15
+}, "If", {
+  "id": "value"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "code": "\"false\""
+}, ".", {
+  "k": 16
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "String", ",", "return", "QuoteJSONString", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 17
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Number", ",", "then", true, "If", {
+  "id": "value"
+}, "is", "finite", ",", "return", "!", "ToString", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 19
+}, "Else", ",", "return", {
+  "code": "\"null\""
+}, ".", {
+  "k": 20
+}, false, {
+  "k": 18
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Object", "and", "IsCallable", "(", {
+  "id": "value"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "isArray"
+}, "be", "?", "IsArray", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 22
+}, "If", {
+  "id": "isArray"
+}, "is", {
+  "value": "true"
+}, ",", "return", "?", "SerializeJSONArray", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 23
+}, "Else", ",", "return", "?", "SerializeJSONObject", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 24
+}, false, {
+  "k": 21
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 25
+}]

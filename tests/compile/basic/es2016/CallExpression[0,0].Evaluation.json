@@ -1,0 +1,139 @@
+["Let", {
+  "id": "ref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "MemberExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "func"
+}, "be", "?", "GetValue", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "Reference", "and", "IsPropertyReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "false"
+}, "and", "GetReferencedName", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "code": "\"eval\""
+}, ",", "then", true, "If", "SameValue", "(", {
+  "id": "func"
+}, ",", "%", "eval", "%", ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "argList"
+}, "be", "?", "ArgumentListEvaluation", "(", {
+  "nt": "Arguments"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "argList"
+}, "has", "no", "elements", ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "evalText"
+}, "be", "the", "first", "element", "of", {
+  "id": "argList"
+}, ".", {
+  "k": 6
+}, "If", "the", "source", "code", "matching", "this", {
+  "nt": "CallExpression"
+}, "is", "strict", "code", ",", "let", {
+  "id": "strictCaller"
+}, "be", {
+  "value": "true"
+}, ".", "Otherwise", "let", {
+  "id": "strictCaller"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "evalRealm"
+}, "be", "the", "current", "Realm", "Record", ".", {
+  "k": 8
+}, "Return", "?", "PerformEval", "(", {
+  "id": "evalText"
+}, ",", {
+  "id": "evalRealm"
+}, ",", {
+  "id": "strictCaller"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 9
+}, false, {
+  "k": 3
+}, false, {
+  "k": 2
+}, "If", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "Reference", ",", "then", true, "If", "IsPropertyReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "thisValue"
+}, "be", "GetThisValue", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 12
+}, false, {
+  "k": 11
+}, "Else", ",", "the", "base", "of", {
+  "id": "ref"
+}, "is", "an", "Environment", "Record", true, "Let", {
+  "id": "refEnv"
+}, "be", "GetBase", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 14
+}, "Let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "refEnv"
+}, ".", "WithBaseObject", "(", ")", ".", {
+  "k": 15
+}, false, {
+  "k": 13
+}, false, {
+  "k": 10
+}, "Else", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "not", "Reference", ",", true, "Let", {
+  "id": "thisValue"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 17
+}, false, {
+  "k": 16
+}, "Let", {
+  "id": "thisCall"
+}, "be", "this", {
+  "nt": "CallExpression"
+}, ".", {
+  "k": 18
+}, "Let", {
+  "id": "tailCall"
+}, "be", "IsInTailPosition", "(", {
+  "id": "thisCall"
+}, ")", ".", {
+  "k": 19
+}, "Return", "?", "EvaluateDirectCall", "(", {
+  "id": "func"
+}, ",", {
+  "id": "thisValue"
+}, ",", {
+  "nt": "Arguments"
+}, ",", {
+  "id": "tailCall"
+}, ")", ".", {
+  "k": 20
+}]

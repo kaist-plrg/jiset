@@ -1,0 +1,45 @@
+["If", {
+  "id": "value"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Return", "0", ".", {
+  "k": 1
+}, false, {
+  "k": 0
+}, "Else", ",", true, "Let", {
+  "id": "integerIndex"
+}, "be", "𝔽", "(", "?", "ToIntegerOrInfinity", "(", {
+  "id": "value"
+}, ")", ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "integerIndex"
+}, "<", {
+  "value": "+0"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 4
+}, "Let", {
+  "id": "index"
+}, "be", "!", "ToLength", "(", {
+  "id": "integerIndex"
+}, ")", ".", {
+  "k": 5
+}, "If", "!", "SameValue", "(", {
+  "id": "integerIndex"
+}, ",", {
+  "id": "index"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 6
+}, "Return", "ℝ", "(", {
+  "id": "index"
+}, ")", ".", {
+  "k": 7
+}, false, {
+  "k": 2
+}]

@@ -1,0 +1,20 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  if (= O.SubMap[P] absent) {
+    app __x1__ = (WrapCompletion undefined)
+    return __x1__
+  } else {}
+  let D = (new PropertyDescriptor("SubMap" -> (new SubMap())))
+  let X = O.SubMap[P]
+  app __x2__ = (IsDataDescriptor X)
+  if __x2__ {
+    D.Value = X.Value
+    D.Writable = X.Writable
+  } else {}
+  ??? "Else id:{X} is an accessor property , so step-list:{...}"
+  D.Enumerable = X.Enumerable
+  D.Configurable = X.Configurable
+  app __x3__ = (WrapCompletion D)
+  return __x3__
+}

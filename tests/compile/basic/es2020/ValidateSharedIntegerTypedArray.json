@@ -1,0 +1,79 @@
+["If", {
+  "id": "waitable"
+}, "is", "not", "present", ",", "set", {
+  "id": "waitable"
+}, "to", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "Perform", "?", "RequireInternalSlot", "(", {
+  "id": "typedArray"
+}, ",", "[", "[", "TypedArrayName", "]", "]", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "typeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 2
+}, "Let", {
+  "id": "type"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "typeName"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "waitable"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "If", {
+  "id": "typeName"
+}, "is", "not", {
+  "value": "\"Int32Array\""
+}, "or", {
+  "value": "\"BigInt64Array\""
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", ",", true, "If", "!", "IsUnclampedIntegerElementType", "(", {
+  "id": "type"
+}, ")", "is", {
+  "value": "false"
+}, "and", "!", "IsBigIntElementType", "(", {
+  "id": "type"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "Assert", ":", {
+  "id": "typedArray"
+}, "has", "a", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", ".", {
+  "k": 8
+}, "Let", {
+  "id": "buffer"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 9
+}, "If", "IsSharedArrayBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 10
+}, "Return", {
+  "id": "buffer"
+}, ".", {
+  "k": 11
+}]

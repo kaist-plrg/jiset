@@ -1,0 +1,12 @@
+{
+  let target = weakRef.WeakRefTarget
+  if (! (= target CONST_empty)) {
+    app __x0__ = (AddToKeptObjects target)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    __x0__
+    app __x1__ = (WrapCompletion target)
+    return __x1__
+  } else {}
+  app __x2__ = (WrapCompletion undefined)
+  return __x2__
+}

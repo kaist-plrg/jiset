@@ -1,0 +1,137 @@
+["Let", {
+  "id": "patternIsRegExp"
+}, "be", "?", "IsRegExp", "(", {
+  "id": "pattern"
+}, ")", ".", {
+  "k": 0
+}, "If", "NewTarget", "is", "not", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "newTarget"
+}, "be", "NewTarget", ".", {
+  "k": 1
+}, "Else", ",", true, "Let", {
+  "id": "newTarget"
+}, "be", "the", "active", "function", "object", ".", {
+  "k": 3
+}, "If", {
+  "id": "patternIsRegExp"
+}, "is", {
+  "value": "true"
+}, "and", {
+  "id": "flags"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "patternConstructor"
+}, "be", "?", "Get", "(", {
+  "id": "pattern"
+}, ",", {
+  "code": "\"constructor\""
+}, ")", ".", {
+  "k": 5
+}, "If", "SameValue", "(", {
+  "id": "newTarget"
+}, ",", {
+  "id": "patternConstructor"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "pattern"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, false, {
+  "k": 2
+}, "If", "Type", "(", {
+  "id": "pattern"
+}, ")", "is", "Object", "and", {
+  "id": "pattern"
+}, "has", "a", "[", "[", "RegExpMatcher", "]", "]", "internal", "slot", ",", "then", true, "Let", {
+  "id": "P"
+}, "be", {
+  "id": "pattern"
+}, ".", "[", "[", "OriginalSource", "]", "]", ".", {
+  "k": 8
+}, "If", {
+  "id": "flags"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "F"
+}, "be", {
+  "id": "pattern"
+}, ".", "[", "[", "OriginalFlags", "]", "]", ".", {
+  "k": 9
+}, "Else", ",", "let", {
+  "id": "F"
+}, "be", {
+  "id": "flags"
+}, ".", {
+  "k": 10
+}, false, {
+  "k": 7
+}, "Else", "if", {
+  "id": "patternIsRegExp"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "P"
+}, "be", "?", "Get", "(", {
+  "id": "pattern"
+}, ",", {
+  "code": "\"source\""
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "flags"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "F"
+}, "be", "?", "Get", "(", {
+  "id": "pattern"
+}, ",", {
+  "code": "\"flags\""
+}, ")", ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, "Else", ",", "let", {
+  "id": "F"
+}, "be", {
+  "id": "flags"
+}, ".", {
+  "k": 15
+}, false, {
+  "k": 11
+}, "Else", ",", true, "Let", {
+  "id": "P"
+}, "be", {
+  "id": "pattern"
+}, ".", {
+  "k": 17
+}, "Let", {
+  "id": "F"
+}, "be", {
+  "id": "flags"
+}, ".", {
+  "k": 18
+}, false, {
+  "k": 16
+}, "Let", {
+  "id": "O"
+}, "be", "?", "RegExpAlloc", "(", {
+  "id": "newTarget"
+}, ")", ".", {
+  "k": 19
+}, "Return", "?", "RegExpInitialize", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "F"
+}, ")", ".", {
+  "k": 20
+}]

@@ -1,0 +1,18 @@
+{
+  app __x0__ = (Type set)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  if (= set.SetData absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  app __x3__ = (ObjectCreate INTRINSIC_SetIteratorPrototype (new ["IteratedSet", "SetNextIndex", "SetIterationKind"]))
+  let iterator = __x3__
+  iterator.IteratedSet = set
+  iterator.SetNextIndex = 0i
+  iterator.SetIterationKind = kind
+  app __x4__ = (WrapCompletion iterator)
+  return __x4__
+}

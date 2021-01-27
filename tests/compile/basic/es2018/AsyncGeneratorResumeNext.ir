@@ -1,0 +1,70 @@
+{
+  let state = generator.AsyncGeneratorState
+  assert (! (= state "executing"))
+  if (= state "awaiting-return") {
+    app __x0__ = (WrapCompletion undefined)
+    return __x0__
+  } else {}
+  let queue = generator.AsyncGeneratorQueue
+  if (= queue.length 0i) {
+    app __x1__ = (WrapCompletion undefined)
+    return __x1__
+  } else {}
+  let next = queue[0i]
+  let completion = next.Completion
+  app __x2__ = (IsAbruptCompletion completion)
+  if __x2__ {
+    if (= state "suspendedStart") {
+      generator.AsyncGeneratorState = "completed"
+      state = "completed"
+    } else {}
+    if (= state "completed") if (= completion.Type CONST_return) {
+      generator.AsyncGeneratorState = "awaiting-return"
+      app __x3__ = (NewPromiseCapability INTRINSIC_Promise)
+      if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+      let promiseCapability = __x3__
+      app __x4__ = (Call promiseCapability.Resolve undefined (new [completion.Value]))
+      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+      __x4__
+      ??? "Let id:{stepsFulfilled} be the algorithm steps defined in link:{} ."
+      app __x5__ = (CreateBuiltinFunction stepsFulfilled (new ["Generator"]))
+      let onFulfilled = __x5__
+      onFulfilled.Generator = generator
+      ??? "Let id:{stepsRejected} be the algorithm steps defined in link:{} ."
+      app __x6__ = (CreateBuiltinFunction stepsRejected (new ["Generator"]))
+      let onRejected = __x6__
+      onRejected.Generator = generator
+      app __x7__ = (NewPromiseCapability INTRINSIC_Promise)
+      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+      let throwawayCapability = __x7__
+      throwawayCapability.Promise.PromiseIsHandled = true
+      app __x8__ = (PerformPromiseThen promiseCapability.Promise onFulfilled onRejected throwawayCapability)
+      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+      __x8__
+      app __x9__ = (WrapCompletion undefined)
+      return __x9__
+    } else {
+      assert (= completion.Type CONST_throw)
+      app __x10__ = (AsyncGeneratorReject generator completion.Value)
+      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+      __x10__
+      app __x11__ = (WrapCompletion undefined)
+      return __x11__
+    } else {}
+  } else if (= state "completed") {
+    app __x12__ = (AsyncGeneratorResolve generator undefined true)
+    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+    app __x13__ = (WrapCompletion __x12__)
+    return __x13__
+  } else {}
+  assert (|| (= state "suspendedStart") (= state "suspendedYield"))
+  let genContext = generator.AsyncGeneratorContext
+  let callerContext = GLOBAL_context
+  GLOBAL_context = null
+  generator.AsyncGeneratorState = "executing"
+  append genContext -> GLOBAL_executionStack
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  ??? "Resume the suspended evaluation of id:{genContext} using id:{completion} as the result of the operation that suspended it . Let id:{result} be the completion record returned by the resumed computation ."
+  app __x14__ = (WrapCompletion undefined)
+  return __x14__
+}

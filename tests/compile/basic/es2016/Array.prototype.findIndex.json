@@ -1,0 +1,87 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "predicate"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "If", {
+  "id": "thisArg"
+}, "was", "supplied", ",", "let", {
+  "id": "T"
+}, "be", {
+  "id": "thisArg"
+}, ";", "else", "let", {
+  "id": "T"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 4
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, true, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "kValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "testResult"
+}, "be", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "predicate"
+}, ",", {
+  "id": "T"
+}, ",", "«", {
+  "id": "kValue"
+}, ",", {
+  "id": "k"
+}, ",", {
+  "id": "O"
+}, "»", ")", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "testResult"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "k"
+}, ".", {
+  "k": 9
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 10
+}, false, {
+  "k": 5
+}, "Return", "-", "1", ".", {
+  "k": 11
+}]

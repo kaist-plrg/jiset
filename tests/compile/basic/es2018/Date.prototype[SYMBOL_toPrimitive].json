@@ -1,0 +1,49 @@
+["Let", {
+  "id": "O"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "O"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", {
+  "id": "hint"
+}, "is", "the", "String", "value", {
+  "code": "\"string\""
+}, "or", "the", "String", "value", {
+  "code": "\"default\""
+}, ",", "then", true, "Let", {
+  "id": "tryFirst"
+}, "be", {
+  "code": "\"string\""
+}, ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "Else", "if", {
+  "id": "hint"
+}, "is", "the", "String", "value", {
+  "code": "\"number\""
+}, ",", "then", true, "Let", {
+  "id": "tryFirst"
+}, "be", {
+  "code": "\"number\""
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "Else", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "Return", "?", "OrdinaryToPrimitive", "(", {
+  "id": "O"
+}, ",", {
+  "id": "tryFirst"
+}, ")", ".", {
+  "k": 7
+}]

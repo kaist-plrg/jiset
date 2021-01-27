@@ -1,0 +1,57 @@
+["Let", {
+  "id": "propKey"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "PropertyName"
+}, ".", {
+  "k": 0
+}, "ReturnIfAbrupt", "(", {
+  "id": "propKey"
+}, ")", ".", {
+  "k": 1
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "AssignmentExpression"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "propValue"
+}, "be", "NamedEvaluation", "of", {
+  "nt": "AssignmentExpression"
+}, "with", "argument", {
+  "id": "propKey"
+}, ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "Else", ",", true, "Let", {
+  "id": "exprValueRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "propValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "exprValueRef"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 4
+}, "Assert", ":", {
+  "id": "enumerable"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 7
+}, "Assert", ":", {
+  "id": "object"
+}, "is", "an", "ordinary", ",", "extensible", "object", "with", "no", "non", "-", "configurable", "properties", ".", {
+  "k": 8
+}, "Return", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "object"
+}, ",", {
+  "id": "propKey"
+}, ",", {
+  "id": "propValue"
+}, ")", ".", {
+  "k": 9
+}]

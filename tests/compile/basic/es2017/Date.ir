@@ -1,0 +1,17 @@
+{
+  let numberOfArgs = argumentsList.length
+  assert (== numberOfArgs 0i)
+  if (! (= NewTarget undefined)) {
+    app __x0__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_DatePrototype (new ["DateValue"]))
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    let O = __x0__
+    ??? "Set id:{O} . [ [ DateValue ] ] to the time value ( UTC ) identifying the current time ."
+    app __x1__ = (WrapCompletion O)
+    return __x1__
+  } else {
+    ??? "Let id:{now} be the Number that is the time value ( UTC ) identifying the current time ."
+    app __x2__ = (ToDateString now)
+    app __x3__ = (WrapCompletion __x2__)
+    return __x3__
+  }
+}

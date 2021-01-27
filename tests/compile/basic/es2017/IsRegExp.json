@@ -1,0 +1,31 @@
+["If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "not", "Object", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "isRegExp"
+}, "be", "?", "Get", "(", {
+  "id": "argument"
+}, ",", "@", "@", "match", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "isRegExp"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "return", "ToBoolean", "(", {
+  "id": "isRegExp"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "argument"
+}, "has", "a", "[", "[", "RegExpMatcher", "]", "]", "internal", "slot", ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}]

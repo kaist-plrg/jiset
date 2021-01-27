@@ -1,0 +1,12 @@
+{
+  app __x0__ = (ToNumber number)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let num = __x0__
+  if (|| (|| (= num NaN) (= num Infinity)) (= num -Infinity)) {
+    app __x1__ = (WrapCompletion false)
+    return __x1__
+  } else {
+    app __x2__ = (WrapCompletion true)
+    return __x2__
+  }
+}

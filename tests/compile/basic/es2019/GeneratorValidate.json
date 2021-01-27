@@ -1,0 +1,35 @@
+["If", "Type", "(", {
+  "id": "generator"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "If", {
+  "id": "generator"
+}, "does", "not", "have", "a", "[", "[", "GeneratorState", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "generator"
+}, "also", "has", "a", "[", "[", "GeneratorContext", "]", "]", "internal", "slot", ".", {
+  "k": 2
+}, "Let", {
+  "id": "state"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorState", "]", "]", ".", {
+  "k": 3
+}, "If", {
+  "id": "state"
+}, "is", {
+  "code": "\"executing\""
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Return", {
+  "id": "state"
+}, ".", {
+  "k": 5
+}]

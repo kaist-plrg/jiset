@@ -1,0 +1,67 @@
+["If", {
+  "id": "perIterationBindings"
+}, "has", "any", "elements", ",", "then", true, "Let", {
+  "id": "lastIterationEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 1
+}, "Let", {
+  "id": "outer"
+}, "be", {
+  "id": "lastIterationEnv"
+}, ".", "[", "[", "OuterEnv", "]", "]", ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "outer"
+}, "is", "not", {
+  "value": "null"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "thisIterationEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "outer"
+}, ")", ".", {
+  "k": 4
+}, "For", "each", "element", {
+  "id": "bn"
+}, "of", {
+  "id": "perIterationBindings"
+}, ",", "do", true, "Perform", "!", {
+  "id": "thisIterationEnv"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "bn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "lastValue"
+}, "be", "?", {
+  "id": "lastIterationEnv"
+}, ".", "GetBindingValue", "(", {
+  "id": "bn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 7
+}, "Perform", {
+  "id": "thisIterationEnv"
+}, ".", "InitializeBinding", "(", {
+  "id": "bn"
+}, ",", {
+  "id": "lastValue"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 5
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "thisIterationEnv"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 0
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 10
+}]

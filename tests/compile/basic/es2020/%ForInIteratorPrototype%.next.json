@@ -1,0 +1,151 @@
+["Let", {
+  "id": "O"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "O"
+}, "has", "all", "of", "the", "internal", "slots", "of", "a", "For", "-", "In", "Iterator", "Instance", "(", {
+  "link": ""
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "object"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "Object", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "visited"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "VisitedKeys", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "remaining"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "RemainingKeys", "]", "]", ".", {
+  "k": 5
+}, "Repeat", ",", true, "If", {
+  "id": "O"
+}, ".", "[", "[", "ObjectWasVisited", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "keys"
+}, "be", "?", {
+  "id": "object"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 8
+}, "For", "each", {
+  "id": "key"
+}, "of", {
+  "id": "keys"
+}, "in", "List", "order", ",", "do", true, "If", "Type", "(", {
+  "id": "key"
+}, ")", "is", "String", ",", "then", true, "Append", {
+  "id": "key"
+}, "to", {
+  "id": "remaining"
+}, ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, false, {
+  "k": 9
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ObjectWasVisited", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 7
+}, "Repeat", ",", "while", {
+  "id": "remaining"
+}, "is", "not", "empty", ",", true, "Remove", "the", "first", "element", "from", {
+  "id": "remaining"
+}, "and", "let", {
+  "id": "r"
+}, "be", "the", "value", "of", "the", "element", ".", {
+  "k": 14
+}, "If", "there", "does", "not", "exist", "an", "element", {
+  "id": "v"
+}, "of", {
+  "id": "visited"
+}, "such", "that", "SameValue", "(", {
+  "id": "r"
+}, ",", {
+  "id": "v"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "object"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "r"
+}, ")", ".", {
+  "k": 16
+}, "If", {
+  "id": "desc"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Append", {
+  "id": "r"
+}, "to", {
+  "id": "visited"
+}, ".", {
+  "k": 18
+}, "If", {
+  "id": "desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", {
+  "value": "true"
+}, ",", "return", "CreateIterResultObject", "(", {
+  "id": "r"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 19
+}, false, {
+  "k": 17
+}, false, {
+  "k": 15
+}, false, {
+  "k": 13
+}, "Set", {
+  "id": "object"
+}, "to", "?", {
+  "id": "object"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", {
+  "k": 20
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "Object", "]", "]", "to", {
+  "id": "object"
+}, ".", {
+  "k": 21
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ObjectWasVisited", "]", "]", "to", {
+  "value": "false"
+}, ".", {
+  "k": 22
+}, "If", {
+  "id": "object"
+}, "is", {
+  "value": "null"
+}, ",", "return", "CreateIterResultObject", "(", {
+  "value": "undefined"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 23
+}, false, {
+  "k": 6
+}]

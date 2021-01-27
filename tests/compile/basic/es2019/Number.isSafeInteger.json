@@ -1,0 +1,47 @@
+["If", "Type", "(", {
+  "id": "number"
+}, ")", "is", "not", "Number", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "number"
+}, "is", {
+  "value": "NaN"
+}, ",", {
+  "value": "+∞"
+}, ",", "or", {
+  "value": "-∞"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "integer"
+}, "be", "!", "ToInteger", "(", {
+  "id": "number"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "integer"
+}, "is", "not", "equal", "to", {
+  "id": "number"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "If", "abs", "(", {
+  "id": "integer"
+}, ")", "≤", "2", {
+  "sup": {
+    "tokens": ["53"]
+  }
+}, "-", "1", ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "Otherwise", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 5
+}]

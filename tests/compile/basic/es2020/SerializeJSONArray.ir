@@ -1,0 +1,35 @@
+{
+  if (contains state.Stack value) {
+    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x0__
+  } else {}
+  append value -> state.Stack
+  let stepback = state.Indent
+  state.Indent = (+ state.Indent state.Gap)
+  let partial = (new [])
+  app __x1__ = (LengthOfArrayLike value)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let len = __x1__
+  let index = 0i
+  while (< index len) {
+    app __x2__ = (ToString index)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    app __x3__ = (SerializeJSONProperty state __x2__ value)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    let strP = __x3__
+    if (= strP undefined) append "null" -> partial else append strP -> partial
+    index = (+ index 1i)
+  }
+  if (= partial.length 0i) let final = "[]" else if (= state.Gap "") {
+    ??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with the code unit 0x002C ( COMMA ) . A comma is not inserted either before the first String or after the last String ."
+    let final = (+ (+ "[" properties) "]")
+  } else {
+    let separator = (+ (+ "," "\n") state.Indent)
+    ??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with id:{separator} . The id:{separator} String is not inserted either before the first String or after the last String ."
+    let final = (+ (+ (+ (+ (+ (+ "[" "\n") state.Indent) properties) "\n") stepback) "]")
+  }
+  ??? "Remove the last element of id:{state} . [ [ Stack ] ] ."
+  state.Indent = stepback
+  app __x4__ = (WrapCompletion final)
+  return __x4__
+}

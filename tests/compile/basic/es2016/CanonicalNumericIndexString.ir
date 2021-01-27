@@ -1,0 +1,19 @@
+{
+  app __x0__ = (Type argument)
+  assert (= __x0__ String)
+  if (= argument "-0") {
+    app __x1__ = (WrapCompletion -0.0)
+    return __x1__
+  } else {}
+  app __x2__ = (ToNumber argument)
+  let n = __x2__
+  app __x3__ = (ToString n)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  app __x4__ = (SameValue __x3__ argument)
+  if (= __x4__ false) {
+    app __x5__ = (WrapCompletion undefined)
+    return __x5__
+  } else {}
+  app __x6__ = (WrapCompletion n)
+  return __x6__
+}

@@ -1,0 +1,30 @@
+{
+  app __x0__ = (Type string)
+  assert (= __x0__ String)
+  app __x1__ = (Type searchValue)
+  assert (= __x1__ String)
+  let len = string.length
+  if (&& (= searchValue "") (! (< len fromIndex))) {
+    app __x2__ = (WrapCompletion fromIndex)
+    return __x2__
+  } else {}
+  let searchLen = searchValue.length
+  let i = (+ fromIndex 0i)
+  let __x3__ = (+ (- len searchLen) 1i)
+  while (< i __x3__) {
+    let __x4__ = ""
+    let __x5__ = i
+    while (< __x5__ (+ (+ i searchLen) 1i)) {
+      access __x6__ = (string __x5__)
+      __x4__ = (+ __x4__ __x6__)
+      __x5__ = (+ __x5__ 1i)
+    }
+    let candidate = __x4__
+    if (= candidate searchValue) {
+      app __x7__ = (WrapCompletion i)
+      return __x7__
+    } else {}
+  }
+  app __x8__ = (WrapCompletion -1i)
+  return __x8__
+}

@@ -1,0 +1,15 @@
+{
+  if (= NewTarget undefined) let newTarget = GLOBAL_context.Function else let newTarget = NewTarget
+  ??? "Let id:{O} be ? OrdinaryCreateFromConstructor ( id:{newTarget} , < code > \" % < var > NativeError < / var > Prototype % \" < / code > , « [ [ ErrorData ] ] » ) ."
+  if (! (= message undefined)) {
+    app __x0__ = (ToString message)
+    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+    let msg = __x0__
+    let msgDesc = (new PropertyDescriptor("Value" -> msg, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true))
+    app __x1__ = (DefinePropertyOrThrow O "message" msgDesc)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    __x1__
+  } else {}
+  app __x2__ = (WrapCompletion O)
+  return __x2__
+}

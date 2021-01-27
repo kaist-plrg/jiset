@@ -1,0 +1,117 @@
+["Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateSharedIntegerTypedArray", "(", {
+  "id": "typedArray"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "i"
+}, "be", "?", "ValidateAtomicAccess", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 2
+}, "If", {
+  "id": "typedArray"
+}, ".", "[", "[", "ContentType", "]", "]", "is", {
+  "const": "BigInt"
+}, ",", "then", true, "Let", {
+  "id": "expected"
+}, "be", "?", "ToBigInt", "(", {
+  "id": "expectedValue"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "replacement"
+}, "be", "?", "ToBigInt", "(", {
+  "id": "replacementValue"
+}, ")", ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Else", ",", true, "Let", {
+  "id": "expected"
+}, "be", "?", "ToInteger", "(", {
+  "id": "expectedValue"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "replacement"
+}, "be", "?", "ToInteger", "(", {
+  "id": "replacementValue"
+}, ")", ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "isLittleEndian"
+}, "be", "the", "value", "of", "the", "[", "[", "LittleEndian", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 10
+}, "Let", {
+  "id": "expectedBytes"
+}, "be", "NumericToRawBytes", "(", {
+  "id": "elementType"
+}, ",", {
+  "id": "expected"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 11
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 13
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "i"
+}, "×", {
+  "id": "elementSize"
+}, ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 14
+}, "Let", {
+  "code": "compareExchange"
+}, "denote", "a", "semantic", "function", "of", "two", "List", "of", "byte", "values", "arguments", "that", "returns", "the", "second", "argument", "if", "the", "first", "argument", "is", "element", "-", "wise", "equal", "to", {
+  "id": "expectedBytes"
+}, ".", {
+  "k": 15
+}, "Return", "GetModifySetValueInBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "id": "replacement"
+}, ",", {
+  "code": "compareExchange"
+}, ")", ".", {
+  "k": 16
+}]

@@ -1,0 +1,11 @@
+{
+  if true let strict = true else let strict = false
+  app __x0__ = (FunctionCreate CONST_Normal FormalParameters FunctionBody scope strict)
+  let F = __x0__
+  app __x1__ = (MakeConstructor F)
+  __x1__
+  app __x2__ = (SetFunctionName F "default")
+  __x2__
+  app __x3__ = (WrapCompletion F)
+  return __x3__
+}

@@ -1,0 +1,77 @@
+["Let", {
+  "id": "job"
+}, "be", "a", "new", "Job", "abstract", "closure", "with", "no", "parameters", "that", "captures", {
+  "id": "promiseToResolve"
+}, ",", {
+  "id": "thenable"
+}, ",", "and", {
+  "id": "then"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Let", {
+  "id": "resolvingFunctions"
+}, "be", "CreateResolvingFunctions", "(", {
+  "id": "promiseToResolve"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "thenCallResult"
+}, "be", "Call", "(", {
+  "id": "then"
+}, ",", {
+  "id": "thenable"
+}, ",", "«", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "thenCallResult"
+}, "is", "an", "abrupt", "completion", ",", "then", true, "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "thenCallResult"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 4
+}, "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "Return", "Completion", "(", {
+  "id": "thenCallResult"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 0
+}, "Let", {
+  "id": "getThenRealmResult"
+}, "be", "GetFunctionRealm", "(", {
+  "id": "then"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "getThenRealmResult"
+}, "is", "a", "normal", "completion", ",", "then", "let", {
+  "id": "thenRealm"
+}, "be", {
+  "id": "getThenRealmResult"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 8
+}, "Otherwise", ",", "let", {
+  "id": "thenRealm"
+}, "be", {
+  "value": "null"
+}, ".", {
+  "k": 9
+}, "Return", "the", "Record", "{", "[", "[", "Job", "]", "]", ":", {
+  "id": "job"
+}, ",", "[", "[", "Realm", "]", "]", ":", {
+  "id": "thenRealm"
+}, "}", ".", {
+  "k": 10
+}]

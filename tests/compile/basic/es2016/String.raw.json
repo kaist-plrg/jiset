@@ -1,0 +1,113 @@
+["Let", {
+  "id": "substitutions"
+}, "be", "a", "List", "consisting", "of", "all", "of", "the", "arguments", "passed", "to", "this", "function", ",", "starting", "with", "the", "second", "argument", ".", "If", "fewer", "than", "two", "arguments", "were", "passed", ",", "the", "List", "is", "empty", ".", {
+  "k": 0
+}, "Let", {
+  "id": "numberOfSubstitutions"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "substitutions"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "cooked"
+}, "be", "?", "ToObject", "(", {
+  "id": "template"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "raw"
+}, "be", "?", "ToObject", "(", "?", "Get", "(", {
+  "id": "cooked"
+}, ",", {
+  "code": "\"raw\""
+}, ")", ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "literalSegments"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "raw"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "literalSegments"
+}, "≤", "0", ",", "return", "the", "empty", "string", ".", {
+  "k": 5
+}, "Let", {
+  "id": "stringElements"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 6
+}, "Let", {
+  "id": "nextIndex"
+}, "be", "0", ".", {
+  "k": 7
+}, "Repeat", true, "Let", {
+  "id": "nextKey"
+}, "be", "!", "ToString", "(", {
+  "id": "nextIndex"
+}, ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "nextSeg"
+}, "be", "?", "ToString", "(", "?", "Get", "(", {
+  "id": "raw"
+}, ",", {
+  "id": "nextKey"
+}, ")", ")", ".", {
+  "k": 10
+}, "Append", "in", "order", "the", "code", "unit", "elements", "of", {
+  "id": "nextSeg"
+}, "to", "the", "end", "of", {
+  "id": "stringElements"
+}, ".", {
+  "k": 11
+}, "If", {
+  "id": "nextIndex"
+}, "+", "1", "=", {
+  "id": "literalSegments"
+}, ",", "then", true, "Return", "the", "String", "value", "whose", "code", "units", "are", ",", "in", "order", ",", "the", "elements", "in", "the", "List", {
+  "id": "stringElements"
+}, ".", "If", {
+  "id": "stringElements"
+}, "has", "no", "elements", ",", "the", "empty", "string", "is", "returned", ".", {
+  "k": 13
+}, false, {
+  "k": 12
+}, "If", {
+  "id": "nextIndex"
+}, "<", {
+  "id": "numberOfSubstitutions"
+}, ",", "let", {
+  "id": "next"
+}, "be", {
+  "id": "substitutions"
+}, "[", {
+  "id": "nextIndex"
+}, "]", ".", {
+  "k": 14
+}, "Else", ",", "let", {
+  "id": "next"
+}, "be", "the", "empty", "String", ".", {
+  "k": 15
+}, "Let", {
+  "id": "nextSub"
+}, "be", "?", "ToString", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 16
+}, "Append", "in", "order", "the", "code", "unit", "elements", "of", {
+  "id": "nextSub"
+}, "to", "the", "end", "of", {
+  "id": "stringElements"
+}, ".", {
+  "k": 17
+}, "Let", {
+  "id": "nextIndex"
+}, "be", {
+  "id": "nextIndex"
+}, "+", "1", ".", {
+  "k": 18
+}, false, {
+  "k": 8
+}]

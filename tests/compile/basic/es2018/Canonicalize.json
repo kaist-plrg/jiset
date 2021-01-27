@@ -1,0 +1,75 @@
+["If", {
+  "id": "IgnoreCase"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "ch"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "Unicode"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "If", "the", "file", "CaseFolding", ".", "txt", "of", "the", "Unicode", "Character", "Database", "provides", "a", "simple", "or", "common", "case", "folding", "mapping", "for", {
+  "id": "ch"
+}, ",", "return", "the", "result", "of", "applying", "that", "mapping", "to", {
+  "id": "ch"
+}, ".", {
+  "k": 2
+}, "Return", {
+  "id": "ch"
+}, ".", {
+  "k": 3
+}, false, {
+  "k": 1
+}, "Else", ",", true, "Assert", ":", {
+  "id": "ch"
+}, "is", "a", "UTF", "-", "16", "code", "unit", ".", {
+  "k": 5
+}, "Let", {
+  "id": "s"
+}, "be", "the", "String", "value", "consisting", "of", "the", "single", "code", "unit", {
+  "id": "ch"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "u"
+}, "be", "the", "same", "result", "produced", "as", "if", "by", "performing", "the", "algorithm", "for", {
+  "code": "String.prototype.toUpperCase"
+}, "using", {
+  "id": "s"
+}, "as", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 7
+}, "Assert", ":", {
+  "id": "u"
+}, "is", "a", "String", "value", ".", {
+  "k": 8
+}, "If", {
+  "id": "u"
+}, "does", "not", "consist", "of", "a", "single", "code", "unit", ",", "return", {
+  "id": "ch"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "cu"
+}, "be", {
+  "id": "u"
+}, "'", "s", "single", "code", "unit", "element", ".", {
+  "k": 10
+}, "If", "the", "numeric", "value", "of", {
+  "id": "ch"
+}, "≥", "128", "and", "the", "numeric", "value", "of", {
+  "id": "cu"
+}, "<", "128", ",", "return", {
+  "id": "ch"
+}, ".", {
+  "k": 11
+}, "Return", {
+  "id": "cu"
+}, ".", {
+  "k": 12
+}, false, {
+  "k": 4
+}]

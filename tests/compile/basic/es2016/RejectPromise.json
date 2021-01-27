@@ -1,0 +1,53 @@
+["Assert", ":", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseState", "]", "]", "internal", "slot", "is", {
+  "code": "\"pending\""
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "reactions"
+}, "be", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseRejectReactions", "]", "]", "internal", "slot", ".", {
+  "k": 1
+}, "Set", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseResult", "]", "]", "internal", "slot", "to", {
+  "id": "reason"
+}, ".", {
+  "k": 2
+}, "Set", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseFulfillReactions", "]", "]", "internal", "slot", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
+}, "Set", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseRejectReactions", "]", "]", "internal", "slot", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Set", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseState", "]", "]", "internal", "slot", "to", {
+  "code": "\"rejected\""
+}, ".", {
+  "k": 5
+}, "If", "the", "value", "of", {
+  "id": "promise"
+}, "'", "s", "[", "[", "PromiseIsHandled", "]", "]", "internal", "slot", "is", {
+  "value": "false"
+}, ",", "perform", "HostPromiseRejectionTracker", "(", {
+  "id": "promise"
+}, ",", {
+  "code": "\"reject\""
+}, ")", ".", {
+  "k": 6
+}, "Return", "TriggerPromiseReactions", "(", {
+  "id": "reactions"
+}, ",", {
+  "id": "reason"
+}, ")", ".", {
+  "k": 7
+}]

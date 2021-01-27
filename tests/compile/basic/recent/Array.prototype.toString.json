@@ -1,0 +1,29 @@
+["Let", {
+  "id": "array"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "func"
+}, "be", "?", "Get", "(", {
+  "id": "array"
+}, ",", {
+  "value": "\"join\""
+}, ")", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "func"
+}, ")", "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "func"
+}, "to", "the", "intrinsic", "function", "%", "Object", ".", "prototype", ".", "toString", "%", ".", {
+  "k": 2
+}, "Return", "?", "Call", "(", {
+  "id": "func"
+}, ",", {
+  "id": "array"
+}, ")", ".", {
+  "k": 3
+}]

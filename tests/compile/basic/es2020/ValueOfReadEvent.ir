@@ -1,0 +1,7 @@
+{
+  app __x0__ = (execution.ReadsBytesFrom execution R)
+  let Ws = __x0__
+  app __x1__ = (ComposeWriteEventBytes execution R.ByteIndex Ws)
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
+}

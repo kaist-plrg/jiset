@@ -1,0 +1,7 @@
+{
+  access __x0__ = (HoistableDeclaration "BoundNames")
+  let declarationNames = __x0__
+  if (! (contains declarationNames "*default*")) append "*default*" -> declarationNames else {}
+  app __x1__ = (WrapCompletion declarationNames)
+  return __x1__
+}

@@ -19,7 +19,6 @@ class BasicCompileTest extends CompileTest {
   // registration
   def init: Unit = {
     for (version <- VERSIONS) {
-      println(s"Testing $version...")
       val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
       // get grammar and document

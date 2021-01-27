@@ -1,0 +1,139 @@
+["Let", {
+  "id": "bindingId"
+}, "be", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lhs"
+}, "be", "?", "ResolveBinding", "(", {
+  "id": "bindingId"
+}, ",", {
+  "id": "environment"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", true, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 6
+}, "Else", ",", true, "Let", {
+  "id": "v"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "v"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 9
+}, "ReturnIfAbrupt", "(", {
+  "id": "v"
+}, ")", ".", {
+  "k": 10
+}, false, {
+  "k": 7
+}, false, {
+  "k": 2
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "true"
+}, ",", "let", {
+  "id": "v"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 11
+}, "If", {
+  "nt": "Initializer"
+}, "is", "present", "and", {
+  "id": "v"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "defaultValue"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", {
+  "k": 13
+}, "Set", {
+  "id": "v"
+}, "to", "?", "GetValue", "(", {
+  "id": "defaultValue"
+}, ")", ".", {
+  "k": 14
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "Initializer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "hasNameProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "v"
+}, ",", {
+  "code": "\"name\""
+}, ")", ".", {
+  "k": 16
+}, "If", {
+  "id": "hasNameProperty"
+}, "is", {
+  "value": "false"
+}, ",", "perform", "SetFunctionName", "(", {
+  "id": "v"
+}, ",", {
+  "id": "bindingId"
+}, ")", ".", {
+  "k": 17
+}, false, {
+  "k": 15
+}, false, {
+  "k": 12
+}, "If", {
+  "id": "environment"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", "?", "PutValue", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "v"
+}, ")", ".", {
+  "k": 18
+}, "Return", "InitializeReferencedBinding", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "v"
+}, ")", ".", {
+  "k": 19
+}]

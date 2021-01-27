@@ -1,0 +1,97 @@
+["If", {
+  "id": "x"
+}, "and", {
+  "id": "y"
+}, "are", "both", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "x"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", "1", ".", {
+  "k": 1
+}, "If", {
+  "id": "y"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", "-", "1", ".", {
+  "k": 2
+}, "If", "the", "argument", {
+  "id": "comparefn"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Let", {
+  "id": "v"
+}, "be", "?", "ToNumber", "(", "?", "Call", "(", {
+  "id": "comparefn"
+}, ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "x"
+}, ",", {
+  "id": "y"
+}, "»", ")", ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "v"
+}, "is", {
+  "value": "NaN"
+}, ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 5
+}, "Return", {
+  "id": "v"
+}, ".", {
+  "k": 6
+}, false, {
+  "k": 3
+}, "Let", {
+  "id": "xString"
+}, "be", "?", "ToString", "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "yString"
+}, "be", "?", "ToString", "(", {
+  "id": "y"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "xSmaller"
+}, "be", "the", "result", "of", "performing", "Abstract", "Relational", "Comparison", {
+  "id": "xString"
+}, "<", {
+  "id": "yString"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "xSmaller"
+}, "is", {
+  "value": "true"
+}, ",", "return", "-", "1", ".", {
+  "k": 10
+}, "Let", {
+  "id": "ySmaller"
+}, "be", "the", "result", "of", "performing", "Abstract", "Relational", "Comparison", {
+  "id": "yString"
+}, "<", {
+  "id": "xString"
+}, ".", {
+  "k": 11
+}, "If", {
+  "id": "ySmaller"
+}, "is", {
+  "value": "true"
+}, ",", "return", "1", ".", {
+  "k": 12
+}, "Return", {
+  "value": "+0"
+}, ".", {
+  "k": 13
+}]

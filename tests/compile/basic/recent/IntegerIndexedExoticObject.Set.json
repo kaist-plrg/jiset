@@ -1,0 +1,45 @@
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", ",", "then", true, "Let", {
+  "id": "numericIndex"
+}, "be", "!", "CanonicalNumericIndexString", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "numericIndex"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", true, "Perform", "?", "IntegerIndexedElementSet", "(", {
+  "id": "O"
+}, ",", {
+  "id": "numericIndex"
+}, ",", {
+  "id": "V"
+}, ")", ".", {
+  "k": 4
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, false, {
+  "k": 1
+}, "Return", "?", "OrdinarySet", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "V"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 6
+}]

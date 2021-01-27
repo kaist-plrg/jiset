@@ -1,0 +1,71 @@
+["If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Undefined", ",", true, "Return", {
+  "code": "\"undefined\""
+}, ".", {
+  "k": 1
+}, false, {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Null", ",", true, "Return", {
+  "code": "\"null\""
+}, ".", {
+  "k": 3
+}, false, {
+  "k": 2
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Boolean", ",", true, "If", {
+  "id": "argument"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "code": "\"true\""
+}, ".", "If", {
+  "id": "argument"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "code": "\"false\""
+}, ".", {
+  "k": 5
+}, false, {
+  "k": 4
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Number", ",", true, "See", ".", {
+  "k": 7
+}, false, {
+  "k": 6
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "String", ",", true, "Return", {
+  "id": "argument"
+}, ".", {
+  "k": 9
+}, false, {
+  "k": 8
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Symbol", ",", true, "Throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 11
+}, false, {
+  "k": 10
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Object", ",", true, "Let", {
+  "id": "primValue"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "argument"
+}, ",", "hint", "String", ")", ".", {
+  "k": 13
+}, "Return", "?", "ToString", "(", {
+  "id": "primValue"
+}, ")", ".", {
+  "k": 14
+}, false, {
+  "k": 12
+}]

@@ -1,0 +1,93 @@
+["Let", {
+  "id": "numberOfArgs"
+}, "be", "the", "number", "of", "arguments", "passed", "to", "this", "function", "call", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "numberOfArgs"
+}, "≥", "2", ".", {
+  "k": 1
+}, "If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "newTarget"
+}, "be", "the", "active", "function", "object", ",", "else", "let", {
+  "id": "newTarget"
+}, "be", "NewTarget", ".", {
+  "k": 2
+}, "Let", {
+  "id": "proto"
+}, "be", "?", "GetPrototypeFromConstructor", "(", {
+  "id": "newTarget"
+}, ",", {
+  "code": "\"%ArrayPrototype%\""
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "array"
+}, "be", "?", "ArrayCreate", "(", {
+  "id": "numberOfArgs"
+}, ",", {
+  "id": "proto"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 5
+}, "Let", {
+  "id": "items"
+}, "be", "a", "zero", "-", "origined", "List", "containing", "the", "argument", "items", "in", "order", ".", {
+  "k": 6
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "numberOfArgs"
+}, true, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "itemK"
+}, "be", {
+  "id": "items"
+}, "[", {
+  "id": "k"
+}, "]", ".", {
+  "k": 9
+}, "Let", {
+  "id": "defineStatus"
+}, "be", "CreateDataProperty", "(", {
+  "id": "array"
+}, ",", {
+  "id": "Pk"
+}, ",", {
+  "id": "itemK"
+}, ")", ".", {
+  "k": 10
+}, "Assert", ":", {
+  "id": "defineStatus"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "k": 11
+}, "Increase", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 12
+}, false, {
+  "k": 7
+}, "Assert", ":", "The", "value", "of", {
+  "id": "array"
+}, "'", "s", {
+  "code": "length"
+}, "property", "is", {
+  "id": "numberOfArgs"
+}, ".", {
+  "k": 13
+}, "Return", {
+  "id": "array"
+}, ".", {
+  "k": 14
+}]

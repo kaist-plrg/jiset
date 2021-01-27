@@ -1,0 +1,87 @@
+["Assert", ":", "IsConstructor", "(", {
+  "id": "constructor"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Assert", ":", "IsCallable", "(", {
+  "id": "promiseResolve"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 1
+}, "Repeat", ",", true, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "then", true, "Set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 7
+}, "Return", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 8
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "nextValue"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "nextValue"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 10
+}, "ReturnIfAbrupt", "(", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 11
+}, "Let", {
+  "id": "nextPromise"
+}, "be", "?", "Call", "(", {
+  "id": "promiseResolve"
+}, ",", {
+  "id": "constructor"
+}, ",", "«", {
+  "id": "nextValue"
+}, "»", ")", ".", {
+  "k": 12
+}, "Perform", "?", "Invoke", "(", {
+  "id": "nextPromise"
+}, ",", {
+  "value": "\"then\""
+}, ",", "«", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "id": "resultCapability"
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 13
+}, false, {
+  "k": 2
+}]

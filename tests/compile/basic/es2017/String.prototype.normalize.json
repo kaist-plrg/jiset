@@ -1,0 +1,57 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "form"
+}, "is", "not", "provided", "or", {
+  "id": "form"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "form"
+}, "be", {
+  "code": "\"NFC\""
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "f"
+}, "be", "?", "ToString", "(", {
+  "id": "form"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "f"
+}, "is", "not", "one", "of", {
+  "code": "\"NFC\""
+}, ",", {
+  "code": "\"NFD\""
+}, ",", {
+  "code": "\"NFKC\""
+}, ",", "or", {
+  "code": "\"NFKD\""
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 4
+}, "Let", {
+  "id": "ns"
+}, "be", "the", "String", "value", "that", "is", "the", "result", "of", "normalizing", {
+  "id": "S"
+}, "into", "the", "normalization", "form", "named", "by", {
+  "id": "f"
+}, "as", "specified", "in", "<", "a", "href", "=", "\"", "http", ":", "/", "/", "www", ".", "unicode", ".", "org", "/", "reports", "/", "tr15", "/", "\"", ">", "http", ":", "/", "/", "www", ".", "unicode", ".", "org", "/", "reports", "/", "tr15", "/", "<", "/", "a", ">", ".", {
+  "k": 5
+}, "Return", {
+  "id": "ns"
+}, ".", {
+  "k": 6
+}]

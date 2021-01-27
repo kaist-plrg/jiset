@@ -1,0 +1,29 @@
+{
+  if (= onlyInt32 absent) onlyInt32 = false else {}
+  app __x0__ = (Type typedArray)
+  if (! (= __x0__ Object)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  if (= typedArray.TypedArrayName absent) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  let typeName = typedArray.TypedArrayName
+  if (= onlyInt32 true) if (! (= typeName "Int32Array")) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {} else if (! (|| (|| (|| (|| (|| (= typeName "Int8Array") (= typeName "Uint8Array")) (= typeName "Int16Array")) (= typeName "Uint16Array")) (= typeName "Int32Array")) (= typeName "Uint32Array"))) {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else {}
+  assert (! (= typedArray.ViewedArrayBuffer absent))
+  let buffer = typedArray.ViewedArrayBuffer
+  app __x5__ = (IsSharedArrayBuffer buffer)
+  if (= __x5__ false) {
+    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x6__
+  } else {}
+  app __x7__ = (WrapCompletion buffer)
+  return __x7__
+}

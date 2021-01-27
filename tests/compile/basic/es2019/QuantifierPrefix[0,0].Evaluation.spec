@@ -1,0 +1,1 @@
+          1. Return the two results 0 and ∞.

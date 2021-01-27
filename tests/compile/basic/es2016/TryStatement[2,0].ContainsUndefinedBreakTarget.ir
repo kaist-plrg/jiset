@@ -1,0 +1,20 @@
+{
+  access __x0__ = (Block "ContainsUndefinedBreakTarget")
+  app __x1__ = (__x0__ labelSet)
+  let hasUndefinedLabels = __x1__
+  if (= hasUndefinedLabels true) {
+    app __x2__ = (WrapCompletion true)
+    return __x2__
+  } else {}
+  access __x3__ = (Catch "ContainsUndefinedBreakTarget")
+  app __x4__ = (__x3__ labelSet)
+  let hasUndefinedLabels = __x4__
+  if (= hasUndefinedLabels true) {
+    app __x5__ = (WrapCompletion true)
+    return __x5__
+  } else {}
+  access __x6__ = (Finally "ContainsUndefinedBreakTarget")
+  app __x7__ = (__x6__ labelSet)
+  app __x8__ = (WrapCompletion __x7__)
+  return __x8__
+}

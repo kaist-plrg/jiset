@@ -1,0 +1,71 @@
+["Evaluate", {
+  "nt": "Atom"
+}, "to", "obtain", "a", "Matcher", {
+  "id": "m"
+}, ".", {
+  "k": 0
+}, "Evaluate", {
+  "nt": "Quantifier"
+}, "to", "obtain", "the", "three", "results", ":", "an", "integer", {
+  "id": "min"
+}, ",", "an", "integer", "(", "or", "∞", ")", {
+  "id": "max"
+}, ",", "and", "Boolean", {
+  "id": "greedy"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "max"
+}, "is", "finite", "and", "less", "than", {
+  "id": "min"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 2
+}, "Let", {
+  "id": "parenIndex"
+}, "be", "the", "number", "of", "left", "-", "capturing", "parentheses", "in", "the", "entire", "regular", "expression", "that", "occur", "to", "the", "left", "of", "this", {
+  "nt": "Term"
+}, ".", "This", "is", "the", "total", "number", "of", {
+  "grammar": "Atom4",
+  "subs": ["Disjunction"]
+}, "Parse", "Nodes", "prior", "to", "or", "enclosing", "this", {
+  "nt": "Term"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "parenCount"
+}, "be", "the", "number", "of", "left", "-", "capturing", "parentheses", "in", {
+  "nt": "Atom"
+}, ".", "This", "is", "the", "total", "number", "of", {
+  "grammar": "Atom4",
+  "subs": ["Disjunction"]
+}, "Parse", "Nodes", "enclosed", "by", {
+  "nt": "Atom"
+}, ".", {
+  "k": 4
+}, "Return", "an", "internal", "Matcher", "closure", "that", "takes", "two", "arguments", ",", "a", "State", {
+  "id": "x"
+}, "and", "a", "Continuation", {
+  "id": "c"
+}, ",", "and", "performs", "the", "following", "steps", "when", "evaluated", ":", true, "Call", "RepeatMatcher", "(", {
+  "id": "m"
+}, ",", {
+  "id": "min"
+}, ",", {
+  "id": "max"
+}, ",", {
+  "id": "greedy"
+}, ",", {
+  "id": "x"
+}, ",", {
+  "id": "c"
+}, ",", {
+  "id": "parenIndex"
+}, ",", {
+  "id": "parenCount"
+}, ")", "and", "return", "its", "result", ".", {
+  "k": 6
+}, false, {
+  "k": 5
+}]

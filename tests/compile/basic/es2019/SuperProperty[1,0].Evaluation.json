@@ -1,0 +1,37 @@
+["Let", {
+  "id": "env"
+}, "be", "GetThisEnvironment", "(", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "actualThis"
+}, "be", "?", {
+  "id": "env"
+}, ".", "GetThisBinding", "(", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "propertyKey"
+}, "be", "StringValue", "of", {
+  "nt": "IdentifierName"
+}, ".", {
+  "k": 2
+}, "If", "the", "code", "matched", "by", "this", {
+  "nt": "SuperProperty"
+}, "is", "strict", "mode", "code", ",", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "true"
+}, ",", "else", "let", {
+  "id": "strict"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "Return", "?", "MakeSuperPropertyReference", "(", {
+  "id": "actualThis"
+}, ",", {
+  "id": "propertyKey"
+}, ",", {
+  "id": "strict"
+}, ")", ".", {
+  "k": 4
+}]

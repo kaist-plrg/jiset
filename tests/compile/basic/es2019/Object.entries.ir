@@ -1,0 +1,11 @@
+{
+  app __x0__ = (ToObject O)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let obj = __x0__
+  app __x1__ = (EnumerableOwnPropertyNames obj "key+value")
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let nameList = __x1__
+  app __x2__ = (CreateArrayFromList nameList)
+  app __x3__ = (WrapCompletion __x2__)
+  return __x3__
+}

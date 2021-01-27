@@ -1,0 +1,12 @@
+{
+  let execution = GLOBAL_agent.CandidateExecution
+  ??? "Let id:{eventsRecord} be the Agent Events Record in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
+  let agentSynchronizesWith = eventsRecord.AgentSynchronizesWith
+  let notifierEventList = eventsRecord.EventList
+  ??? "Let id:{waiterEventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is id:{W} ."
+  ??? "Let id:{notifyEvent} and id:{waitEvent} be new Synchronize events ."
+  append notifyEvent -> notifierEventList
+  append waitEvent -> waiterEventList
+  append (new [notifyEvent, waitEvent]) -> agentSynchronizesWith
+  ??? "Notify the agent id:{W} ."
+}

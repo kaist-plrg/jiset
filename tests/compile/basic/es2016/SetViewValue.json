@@ -1,0 +1,111 @@
+["If", "Type", "(", {
+  "id": "view"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "If", {
+  "id": "view"
+}, "does", "not", "have", "a", "[", "[", "DataView", "]", "]", "internal", "slot", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "numberIndex"
+}, "be", "?", "ToNumber", "(", {
+  "id": "requestIndex"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "getIndex"
+}, "be", "ToInteger", "(", {
+  "id": "numberIndex"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "numberIndex"
+}, "≠", {
+  "id": "getIndex"
+}, "or", {
+  "id": "getIndex"
+}, "<", "0", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 4
+}, "Let", {
+  "id": "numberValue"
+}, "be", "?", "ToNumber", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "isLittleEndian"
+}, "be", "ToBoolean", "(", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "buffer"
+}, "be", "the", "value", "of", {
+  "id": "view"
+}, "'", "s", "[", "[", "ViewedArrayBuffer", "]", "]", "internal", "slot", ".", {
+  "k": 7
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 8
+}, "Let", {
+  "id": "viewOffset"
+}, "be", "the", "value", "of", {
+  "id": "view"
+}, "'", "s", "[", "[", "ByteOffset", "]", "]", "internal", "slot", ".", {
+  "k": 9
+}, "Let", {
+  "id": "viewSize"
+}, "be", "the", "value", "of", {
+  "id": "view"
+}, "'", "s", "[", "[", "ByteLength", "]", "]", "internal", "slot", ".", {
+  "k": 10
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Number", "value", "of", "the", "Element", "Size", "value", "specified", "in", {
+  "link": ""
+}, "for", "Element", "Type", {
+  "id": "type"
+}, ".", {
+  "k": 11
+}, "If", {
+  "id": "getIndex"
+}, "+", {
+  "id": "elementSize"
+}, ">", {
+  "id": "viewSize"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 12
+}, "Let", {
+  "id": "bufferIndex"
+}, "be", {
+  "id": "getIndex"
+}, "+", {
+  "id": "viewOffset"
+}, ".", {
+  "k": 13
+}, "Return", "SetValueInBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "bufferIndex"
+}, ",", {
+  "id": "type"
+}, ",", {
+  "id": "numberValue"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 14
+}]

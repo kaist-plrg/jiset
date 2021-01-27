@@ -1,0 +1,205 @@
+["If", {
+  "id": "module"
+}, "is", "not", "a", "Cyclic", "Module", "Record", ",", "then", true, "Perform", "?", {
+  "id": "module"
+}, ".", "Evaluate", "(", ")", ".", {
+  "k": 1
+}, "Return", {
+  "id": "index"
+}, ".", {
+  "k": 2
+}, false, {
+  "k": 0
+}, "If", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "const": "evaluated"
+}, ",", "then", true, "If", {
+  "id": "module"
+}, ".", "[", "[", "EvaluationError", "]", "]", "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "id": "index"
+}, ".", {
+  "k": 4
+}, "Otherwise", ",", "return", {
+  "id": "module"
+}, ".", "[", "[", "EvaluationError", "]", "]", ".", {
+  "k": 5
+}, false, {
+  "k": 3
+}, "If", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "const": "evaluating"
+}, ",", "return", {
+  "id": "index"
+}, ".", {
+  "k": 6
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "const": "linked"
+}, ".", {
+  "k": 7
+}, "Set", {
+  "id": "module"
+}, ".", "[", "[", "Status", "]", "]", "to", {
+  "const": "evaluating"
+}, ".", {
+  "k": 8
+}, "Set", {
+  "id": "module"
+}, ".", "[", "[", "DFSIndex", "]", "]", "to", {
+  "id": "index"
+}, ".", {
+  "k": 9
+}, "Set", {
+  "id": "module"
+}, ".", "[", "[", "DFSAncestorIndex", "]", "]", "to", {
+  "id": "index"
+}, ".", {
+  "k": 10
+}, "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 11
+}, "Append", {
+  "id": "module"
+}, "to", {
+  "id": "stack"
+}, ".", {
+  "k": 12
+}, "For", "each", "String", {
+  "id": "required"
+}, "of", {
+  "id": "module"
+}, ".", "[", "[", "RequestedModules", "]", "]", ",", "do", true, "Let", {
+  "id": "requiredModule"
+}, "be", "!", "HostResolveImportedModule", "(", {
+  "id": "module"
+}, ",", {
+  "id": "required"
+}, ")", ".", {
+  "k": 14
+}, "NOTE", ":", "Link", "must", "be", "completed", "successfully", "prior", "to", "invoking", "this", "method", ",", "so", "every", "requested", "module", "is", "guaranteed", "to", "resolve", "successfully", ".", {
+  "k": 15
+}, "Set", {
+  "id": "index"
+}, "to", "?", "InnerModuleEvaluation", "(", {
+  "id": "requiredModule"
+}, ",", {
+  "id": "stack"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 16
+}, "If", {
+  "id": "requiredModule"
+}, "is", "a", "Cyclic", "Module", "Record", ",", "then", true, "Assert", ":", {
+  "id": "requiredModule"
+}, ".", "[", "[", "Status", "]", "]", "is", "either", {
+  "const": "evaluating"
+}, "or", {
+  "const": "evaluated"
+}, ".", {
+  "k": 18
+}, "Assert", ":", {
+  "id": "requiredModule"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "const": "evaluating"
+}, "if", "and", "only", "if", {
+  "id": "requiredModule"
+}, "is", "in", {
+  "id": "stack"
+}, ".", {
+  "k": 19
+}, "If", {
+  "id": "requiredModule"
+}, ".", "[", "[", "Status", "]", "]", "is", {
+  "const": "evaluating"
+}, ",", "then", true, "Set", {
+  "id": "module"
+}, ".", "[", "[", "DFSAncestorIndex", "]", "]", "to", "min", "(", {
+  "id": "module"
+}, ".", "[", "[", "DFSAncestorIndex", "]", "]", ",", {
+  "id": "requiredModule"
+}, ".", "[", "[", "DFSAncestorIndex", "]", "]", ")", ".", {
+  "k": 21
+}, false, {
+  "k": 20
+}, false, {
+  "k": 17
+}, false, {
+  "k": 13
+}, "Perform", "?", {
+  "id": "module"
+}, ".", "ExecuteModule", "(", ")", ".", {
+  "k": 22
+}, "Assert", ":", {
+  "id": "module"
+}, "occurs", "exactly", "once", "in", {
+  "id": "stack"
+}, ".", {
+  "k": 23
+}, "Assert", ":", {
+  "id": "module"
+}, ".", "[", "[", "DFSAncestorIndex", "]", "]", "≤", {
+  "id": "module"
+}, ".", "[", "[", "DFSIndex", "]", "]", ".", {
+  "k": 24
+}, "If", {
+  "id": "module"
+}, ".", "[", "[", "DFSAncestorIndex", "]", "]", "=", {
+  "id": "module"
+}, ".", "[", "[", "DFSIndex", "]", "]", ",", "then", true, "Let", {
+  "id": "done"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 26
+}, "Repeat", ",", "while", {
+  "id": "done"
+}, "is", {
+  "value": "false"
+}, ",", true, "Let", {
+  "id": "requiredModule"
+}, "be", "the", "last", "element", "in", {
+  "id": "stack"
+}, ".", {
+  "k": 28
+}, "Remove", "the", "last", "element", "of", {
+  "id": "stack"
+}, ".", {
+  "k": 29
+}, "Assert", ":", {
+  "id": "requiredModule"
+}, "is", "a", "Cyclic", "Module", "Record", ".", {
+  "k": 30
+}, "Set", {
+  "id": "requiredModule"
+}, ".", "[", "[", "Status", "]", "]", "to", {
+  "const": "evaluated"
+}, ".", {
+  "k": 31
+}, "If", {
+  "id": "requiredModule"
+}, "and", {
+  "id": "module"
+}, "are", "the", "same", "Module", "Record", ",", "set", {
+  "id": "done"
+}, "to", {
+  "value": "true"
+}, ".", {
+  "k": 32
+}, false, {
+  "k": 27
+}, false, {
+  "k": 25
+}, "Return", {
+  "id": "index"
+}, ".", {
+  "k": 33
+}]

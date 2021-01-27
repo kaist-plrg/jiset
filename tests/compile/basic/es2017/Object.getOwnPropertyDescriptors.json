@@ -1,0 +1,53 @@
+["Let", {
+  "id": "obj"
+}, "be", "?", "ToObject", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "ownKeys"
+}, "be", "?", {
+  "id": "obj"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "descriptors"
+}, "be", "!", "ObjectCreate", "(", "%", "ObjectPrototype", "%", ")", ".", {
+  "k": 2
+}, "For", "each", "element", {
+  "id": "key"
+}, "of", {
+  "id": "ownKeys"
+}, "in", "List", "order", ",", "do", true, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "obj"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "key"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "descriptor"
+}, "be", "!", "FromPropertyDescriptor", "(", {
+  "id": "desc"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "descriptor"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "perform", "!", "CreateDataProperty", "(", {
+  "id": "descriptors"
+}, ",", {
+  "id": "key"
+}, ",", {
+  "id": "descriptor"
+}, ")", ".", {
+  "k": 6
+}, false, {
+  "k": 3
+}, "Return", {
+  "id": "descriptors"
+}, ".", {
+  "k": 7
+}]

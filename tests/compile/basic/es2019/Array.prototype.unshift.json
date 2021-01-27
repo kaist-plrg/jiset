@@ -1,0 +1,157 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"length\""
+}, ")", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "argCount"
+}, "be", "the", "number", "of", "actual", "arguments", ".", {
+  "k": 2
+}, "If", {
+  "id": "argCount"
+}, ">", "0", ",", "then", true, "If", {
+  "id": "len"
+}, "+", {
+  "id": "argCount"
+}, ">", "2", {
+  "sup": {
+    "tokens": ["53"]
+  }
+}, "-", "1", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Let", {
+  "id": "k"
+}, "be", {
+  "id": "len"
+}, ".", {
+  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, ">", "0", ",", true, "Let", {
+  "id": "from"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, "-", "1", ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "to"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, "+", {
+  "id": "argCount"
+}, "-", "1", ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "fromPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", true, "Let", {
+  "id": "fromValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 11
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ",", {
+  "id": "fromValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 12
+}, false, {
+  "k": 10
+}, "Else", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "false"
+}, ",", true, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ")", ".", {
+  "k": 14
+}, false, {
+  "k": 13
+}, "Decrease", {
+  "id": "k"
+}, "by", "1", ".", {
+  "k": 15
+}, false, {
+  "k": 6
+}, "Let", {
+  "id": "j"
+}, "be", "0", ".", {
+  "k": 16
+}, "Let", {
+  "id": "items"
+}, "be", "a", "List", "whose", "elements", "are", ",", "in", "left", "to", "right", "order", ",", "the", "arguments", "that", "were", "passed", "to", "this", "function", "invocation", ".", {
+  "k": 17
+}, "Repeat", ",", "while", {
+  "id": "items"
+}, "is", "not", "empty", true, "Remove", "the", "first", "element", "from", {
+  "id": "items"
+}, "and", "let", {
+  "id": "E"
+}, "be", "the", "value", "of", "that", "element", ".", {
+  "k": 19
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "j"
+}, ")", ",", {
+  "id": "E"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 20
+}, "Increase", {
+  "id": "j"
+}, "by", "1", ".", {
+  "k": 21
+}, false, {
+  "k": 18
+}, false, {
+  "k": 3
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "code": "\"length\""
+}, ",", {
+  "id": "len"
+}, "+", {
+  "id": "argCount"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 22
+}, "Return", {
+  "id": "len"
+}, "+", {
+  "id": "argCount"
+}, ".", {
+  "k": 23
+}]
