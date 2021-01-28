@@ -48,7 +48,8 @@ object Diff {
       compare(le, re)
     case (ISeq(li), ISeq(ri)) =>
       val (success, remain) = ri.foldLeft((true, li)) {
-        case ((false, _), _) | ((true, Nil), _) => (false, Nil)
+        case ((false, _), _) => (false, Nil)
+        case ((true, Nil), r) => (fail(r, stop), Nil)
         case ((true, ls), IExpr(ENotYetModeled(_) | ENotSupported(_))) => (true, ls)
         case ((true, ls), r) =>
           var remain = ls

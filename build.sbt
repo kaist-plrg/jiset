@@ -12,6 +12,9 @@ ThisBuild / javacOptions ++= Seq(
   "-encoding", "UTF-8"
 )
 
+// automatic reload
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 // size
 lazy val smallTest = taskKey[Unit]("Launch small tests (maybe seconds)")
 lazy val middleTest = taskKey[Unit]("Launch middle tests (maybe minutes)")
