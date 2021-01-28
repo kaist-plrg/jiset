@@ -25,6 +25,7 @@ lazy val grammarBasicTest = taskKey[Unit]("Launch basic grammar tests (small)")
 lazy val compileTest = taskKey[Unit]("Launch compile tests")
 lazy val compileBasicTest = taskKey[Unit]("Launch basic compile tests (middle)")
 lazy val compileLegacyTest = taskKey[Unit]("Launch legacy compile tests (small)")
+lazy val compileManualTest = taskKey[Unit]("Launch manual compile tests (small)")
 
 // ires
 lazy val ires = ProjectRef(file("ires"), "ires")
@@ -64,5 +65,6 @@ lazy val jiset = (project in file("."))
     // compile
     compileTest := (testOnly in Test).toTask(" *.compile.*Test").value,
     compileBasicTest := (testOnly in Test).toTask(" *.compile.Basic*Test").value,
-    compileLegacyTest := (testOnly in Test).toTask(" *.compile.Legacy*Test").value
+    compileLegacyTest := (testOnly in Test).toTask(" *.compile.Legacy*Test").value,
+    compileManualTest := (testOnly in Test).toTask(" *.compile.Manual*Test").value
   )

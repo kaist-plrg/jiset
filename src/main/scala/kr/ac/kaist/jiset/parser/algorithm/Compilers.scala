@@ -242,6 +242,9 @@ trait Compilers extends TokenListParsers {
   def isEmptyInsts(insts: List[Inst]): Boolean =
     insts.forall(inst => flatten(inst) == ISeq(Nil))
 
+  // post process
+  def postProcess(inst: Inst): Inst = normalizeTempIds(flatten(inst))
+
   // flatten instructions
   def flatten(inst: Inst): Inst = FlattenWalker.walk(inst)
   object FlattenWalker extends Walker {

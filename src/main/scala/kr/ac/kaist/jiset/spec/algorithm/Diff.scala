@@ -53,10 +53,8 @@ object Diff {
         case ((true, ls), r) =>
           var remain = ls
           while (!remain.isEmpty && !compare(remain.head, r)) remain = remain.tail
-          if (remain.isEmpty) {
-            if (stop) throw Missing(r)
-            (false, Nil)
-          } else (true, remain.tail)
+          if (remain.isEmpty) (fail(r, stop), Nil)
+          else (true, remain.tail)
       }
       success
     case (IAssert(le), IAssert(re)) =>
@@ -71,8 +69,12 @@ object Diff {
       compare(li, ri) && compare(lp, rp) && compare(lb, rb)
     case (ISetType(le, lt), ISetType(re, rt)) =>
       compare(le, re) && compare(lt, rt)
-    case _ => false
+    case _ => fail(answer, stop)
   }
+
+  def fail(inst: Inst, stop: Boolean): Boolean =
+    if (stop) throw Missing(inst)
+    else false
 
   // compare lists
   def compare[T](

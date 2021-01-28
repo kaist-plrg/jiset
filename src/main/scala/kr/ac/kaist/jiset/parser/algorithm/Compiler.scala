@@ -8,7 +8,7 @@ import scala.util.{ Try, Success, Failure }
 
 object Compiler extends Compilers {
   def apply(tokens: List[Token], start: Int = 0): Inst =
-    normalizeTempIds(flatten(ISeq(parseAll(stmts, tokens).getOrElse(Nil))))
+    postProcess(ISeq(parseAll(stmts, tokens).getOrElse(Nil)))
 
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
