@@ -13,6 +13,10 @@ object Compiler extends Compilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
+  lazy val normalizedStmts: P[Inst] = stmts ^^ {
+    case list => normalizeTempIds(flatten(ISeq(list)))
+  }
+
   lazy val stmt: P[Inst] = {
     etcStmt | ignoreStmt | (
       innerStmt |||
@@ -1299,4 +1303,16 @@ object Compiler extends Compilers {
 
   // etc conditions
   lazy val etcCond: P[I[Expr]] = failure("")
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // Helper
+  ////////////////////////////////////////////////////////////////////////////////
+  def expr2inst(parser: P[I[Expr]]): P[Inst] = parser ^^ {
+    case Nil ~ e => IExpr(e)
+    case i ~ e => ISeq(i :+ IExpr(e))
+  }
+  def ref2inst(parser: P[I[Ref]]): P[Inst] = parser ^^ {
+    case Nil ~ r => IExpr(ERef(r))
+    case i ~ r => ISeq(i :+ IExpr(ERef(r)))
+  }
 }

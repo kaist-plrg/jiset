@@ -65,11 +65,16 @@ trait TokenParsers extends ProductionParsers {
 
     // indentation parsers
     lazy val indent = number ~ "." ~ opt(ignore) | "*" | "<" ~ rep(char)
-    indent ~> rep(token)
+    opt(indent) ~> rep(token)
   }
 
   // get tokens
   val TAB = 2
+  def getTokens(line: String)(
+    implicit
+    grammar: Grammar,
+    document: Document
+  ): List[Token] = parseAll(step(grammar, document), line).get
   def getTokens(code: Iterable[String])(
     implicit
     grammar: Grammar,
@@ -93,7 +98,7 @@ trait TokenParsers extends ProductionParsers {
         } else tokens :+= next
       }
       prev = indent
-      tokens ++= parseAll(step(grammar, document), line).get
+      tokens ++= getTokens(line)
     })
     tokens :+= next
     while (prev > initial) { prev -= TAB; tokens ++= List(Out, nexts.pop) }
