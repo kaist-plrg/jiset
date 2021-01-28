@@ -50,7 +50,8 @@ case class Star(text: String) extends NormalToken("star", text)
 case class Nt(nt: String) extends NormalToken("nt", nt)
 case class Sup(sup: List[Token]) extends NormalToken("sup", sup.mkString(" "))
 case class Link(link: String) extends NormalToken("link", link)
-case class Gr(grammar: String, subs: List[String]) extends NormalToken("grammar", grammar)
+case class Gr(grammar: String, subs: List[String])
+  extends NormalToken("grammar", grammar + ", " + subs.mkString("[", ", ", "]"))
 case class Sub(sub: List[Token]) extends NormalToken("sub", sub.mkString(" "))
 
 // special tokens only in steps

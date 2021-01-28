@@ -16,9 +16,14 @@ ThisBuild / javacOptions ++= Seq(
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 // size
+lazy val tinyTest = taskKey[Unit]("Launch tiny tests (maybe milliseconds)")
 lazy val smallTest = taskKey[Unit]("Launch small tests (maybe seconds)")
 lazy val middleTest = taskKey[Unit]("Launch middle tests (maybe minutes)")
 lazy val largeTest = taskKey[Unit]("Launch large tests (may hours)")
+
+// parse
+lazy val parseTest = taskKey[Unit]("Launch parse tests")
+lazy val parseTokenTest = taskKey[Unit]("Launch token parse tests (tiny)")
 
 // grammar
 lazy val grammarTest = taskKey[Unit]("Launch grammar tests")
@@ -59,9 +64,13 @@ lazy val jiset = (project in file("."))
     assemblyOption in assembly := (assemblyOption in assembly).value
       .copy(prependShellScript = Some(defaultUniversalScript(shebang = false))),
     // size
+    tinyTest := (testOnly in Test).toTask(" *TinyTest").value,
     smallTest := (testOnly in Test).toTask(" *SmallTest").value,
     middleTest := (testOnly in Test).toTask(" *MiddleTest").value,
     largeTest := (testOnly in Test).toTask(" *LargeTest").value,
+    // parse
+    parseTest := (testOnly in Test).toTask(" *.parse.*Test").value,
+    parseTokenTest := (testOnly in Test).toTask(" *.parse.Token*Test").value,
     // gramamr
     grammarTest := (testOnly in Test).toTask(" *.grammar.*Test").value,
     grammarBasicTest := (testOnly in Test).toTask(" *.grammar.Basic*Test").value,

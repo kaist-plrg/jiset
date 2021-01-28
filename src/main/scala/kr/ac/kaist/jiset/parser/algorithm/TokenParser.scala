@@ -10,6 +10,51 @@ import org.jsoup.nodes._
 // token parsers
 object TokenParser extends TokenParsers
 trait TokenParsers extends ProductionParsers {
+  // token list from string
+  def listFrom(str: String): List[Token] = parseAll(tokenStrList, str).get
+
+  // token list parser
+  lazy val tokenStrList: Parser[List[Token]] = rep(tokenStr)
+  lazy val tokenStr: Parser[Token] = {
+    lazy val const = getTokenParser("const") ^^ { Const(_) }
+    lazy val code = getTokenParser("code") ^^ { Code(_) }
+    lazy val value = getTokenParser("value") ^^ { Value(_) }
+    lazy val id = getTokenParser("id") ^^ { Id(_) }
+    lazy val nt = getTokenParser("nt") ^^ { Nt(_) }
+    lazy val sup = getTokenParser(
+      "sup",
+      rep(token) ^^ { case ts => Sup(ts) }
+    )
+    lazy val link = getTokenParser("link") ^^ { Link(_) }
+    lazy val grtext = "[^,\\[\\]]+".r
+    lazy val grammar = getTokenParser(
+      "grammar",
+      grtext ~ ("[" ~> repsep(grtext, ",") <~ "]") ^^ { case g ~ s => Gr(g, s) }
+    )
+    lazy val sub = getTokenParser(
+      "sub",
+      rep(token) ^^ { case ts => Sub(ts) }
+    )
+
+    lazy val next = getTokenParser("next") ^^ { s => Next(s.toInt) }
+    lazy val in = getTokenParser("in") ^^^ In
+    lazy val out = getTokenParser("out") ^^^ Out
+
+    lazy val text = "\\S+".r ^^ { Text(_) }
+
+    lazy val token: Parser[Token] = (
+      const | code | value | id | nt | sup | link | grammar | sub |
+      next | in | out | text
+    )
+
+    token
+  }
+
+  // get token parsers
+  def getTokenParser[T](name: String, parser: Parser[T]) = s"$name:{" ~> parser <~ "}"
+  def getTokenParser[T](name: String) =
+    s"$name:\\{[^{}]*\\}".r ^^ { case s => s.drop(name.length + 2).dropRight(1) }
+
   // step parsers
   def step(grammar: Grammar, document: Document): Parser[List[Token]] = {
     lazy val name = "[_-a-zA-Z]+".r

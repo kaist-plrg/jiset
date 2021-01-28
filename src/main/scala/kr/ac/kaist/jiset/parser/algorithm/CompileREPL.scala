@@ -69,7 +69,7 @@ object CompileREPL {
 
       // get code
       val code = if (input.isEmpty) {
-        // TODO read multiple lines
+        // read multiple lines
         var list = List[String]()
         while (scala.io.StdIn.readLine match {
           case null | "" => false
@@ -80,9 +80,13 @@ object CompileREPL {
 
       // get tokens
       val tokens = if (raw) {
+        // from raw string
         if (isInst) TokenParser.getTokens(code)
         else TokenParser.getTokens(code.mkString(" "))
-      } else ???
+      } else {
+        // from tokens
+        ???
+      }
       println(s"[Tokens] ${tokens.mkString(" ")}")
 
       val result = Compiler.parseAll(parser, tokens)
