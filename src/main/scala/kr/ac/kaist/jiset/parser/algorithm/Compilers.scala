@@ -445,7 +445,12 @@ trait Compilers extends TokenListParsers {
 
   def noExc[T](x: => T): Boolean = try { x; true } catch { case e: Throwable => false }
 
-  def log[T](p: Parser[T]): P[T] = p ^^ { x => println(x); x }
+  def log[T](p: Parser[T], msg: String = ""): P[T] = p ^^ {
+    x =>
+      val logWithMsg = if (msg != "") s"[$msg] $x" else x
+      println(logWithMsg)
+      x
+  }
 
   // execution context stack string
   val executionStack = "GLOBAL_executionStack"
