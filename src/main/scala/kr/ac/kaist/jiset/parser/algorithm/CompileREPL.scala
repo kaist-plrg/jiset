@@ -85,7 +85,7 @@ object CompileREPL {
         else TokenParser.getTokens(code.mkString(" "))
       } else {
         // from tokens
-        ???
+        TokenParser.listFrom(code.mkString(" "))
       }
       println(s"[Tokens] ${tokens.mkString(" ")}")
 
@@ -108,9 +108,7 @@ object CompileREPL {
             case cmd :: rest if cmd.startsWith(":") => cmd.drop(1) match {
               case "exit" | "quit" => keep = false
               case "raw" => parse(true, rest)
-              case "token" =>
-                // TODO parse(false, rest)
-                println("[Yet] Not yet supported `:token`")
+              case "token" => parse(false, rest)
               case cmd => println(s"The command `$cmd` does not exist.")
             }
             case rest => parse(true, rest)
