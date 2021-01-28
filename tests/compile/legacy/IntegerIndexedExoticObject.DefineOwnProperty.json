@@ -16,7 +16,9 @@
   "id": "numericIndex"
 }, "be", "!", "CanonicalNumericIndexString", "(", {
   "id": "P"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 3
+}, "If", {
   "id": "numericIndex"
 }, "is", "not", {
   "value": "undefined"
@@ -30,13 +32,17 @@
   "value": "false"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", "IsAccessorDescriptor", "(", {
+}, ".", {
+  "k": 5
+}, "If", "IsAccessorDescriptor", "(", {
   "id": "Desc"
 }, ")", "is", {
   "value": "true"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", {
+}, ".", {
+  "k": 6
+}, "If", {
   "id": "Desc"
 }, "has", "a", "[", "[", "Configurable", "]", "]", "field", "and", "if", {
   "id": "Desc"
@@ -44,7 +50,9 @@
   "value": "true"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", {
+}, ".", {
+  "k": 7
+}, "If", {
   "id": "Desc"
 }, "has", "an", "[", "[", "Enumerable", "]", "]", "field", "and", "if", {
   "id": "Desc"
@@ -52,7 +60,9 @@
   "value": "false"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", {
+}, ".", {
+  "k": 8
+}, "If", {
   "id": "Desc"
 }, "has", "a", "[", "[", "Writable", "]", "]", "field", "and", "if", {
   "id": "Desc"
@@ -60,7 +70,9 @@
   "value": "false"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", {
+}, ".", {
+  "k": 9
+}, "If", {
   "id": "Desc"
 }, "has", "a", "[", "[", "Value", "]", "]", "field", ",", "then", {
   "in": null
@@ -68,18 +80,28 @@
   "id": "value"
 }, "be", {
   "id": "Desc"
-}, ".", "[", "[", "Value", "]", "]", ".", "Return", "?", "IntegerIndexedElementSet", "(", {
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 11
+}, "Return", "?", "IntegerIndexedElementSet", "(", {
   "id": "O"
 }, ",", {
   "id": "numericIndex"
 }, ",", {
   "id": "value"
 }, ")", ".", {
+  "k": 12
+}, {
   "out": null
+}, {
+  "k": 10
 }, "Return", {
   "value": "true"
 }, ".", {
+  "k": 13
+}, {
   "out": null
+}, {
+  "k": 4
 }, {
   "out": null
 }, {
@@ -91,5 +113,5 @@
 }, ",", {
   "id": "Desc"
 }, ")", ".", {
-  "k": 3
+  "k": 14
 }]

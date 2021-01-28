@@ -22,7 +22,9 @@
   "id": "isRegExp"
 }, "be", "?", "IsRegExp", "(", {
   "id": "regexp"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 3
+}, "If", {
   "id": "isRegExp"
 }, "is", {
   "value": "true"
@@ -34,21 +36,31 @@
   "id": "regexp"
 }, ",", {
   "value": "\"flags\""
-}, ")", ".", "Perform", "?", "RequireObjectCoercible", "(", {
+}, ")", ".", {
+  "k": 5
+}, "Perform", "?", "RequireObjectCoercible", "(", {
   "id": "flags"
-}, ")", ".", "If", "?", "ToString", "(", {
+}, ")", ".", {
+  "k": 6
+}, "If", "?", "ToString", "(", {
   "id": "flags"
 }, ")", "does", "not", "contain", {
   "value": "\"g\""
 }, ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
+  "k": 7
+}, {
   "out": null
+}, {
+  "k": 4
 }, "Let", {
   "id": "matcher"
 }, "be", "?", "GetMethod", "(", {
   "id": "regexp"
-}, ",", "@", "@", "matchAll", ")", ".", "If", {
+}, ",", "@", "@", "matchAll", ")", ".", {
+  "k": 8
+}, "If", {
   "id": "matcher"
 }, "is", "not", {
   "value": "undefined"
@@ -61,7 +73,11 @@
 }, ",", "«", {
   "id": "O"
 }, "»", ")", ".", {
+  "k": 10
+}, {
   "out": null
+}, {
+  "k": 9
 }, {
   "out": null
 }, {
@@ -71,7 +87,7 @@
 }, "be", "?", "ToString", "(", {
   "id": "O"
 }, ")", ".", {
-  "k": 3
+  "k": 11
 }, "Let", {
   "id": "rx"
 }, "be", "?", "RegExpCreate", "(", {
@@ -79,11 +95,11 @@
 }, ",", {
   "value": "\"g\""
 }, ")", ".", {
-  "k": 4
+  "k": 12
 }, "Return", "?", "Invoke", "(", {
   "id": "rx"
 }, ",", "@", "@", "matchAll", ",", "«", {
   "id": "S"
 }, "»", ")", ".", {
-  "k": 5
+  "k": 13
 }]

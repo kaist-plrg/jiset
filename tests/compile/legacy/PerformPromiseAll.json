@@ -42,15 +42,21 @@
   "id": "next"
 }, "be", "IteratorStep", "(", {
   "id": "iteratorRecord"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 8
+}, "If", {
   "id": "next"
 }, "is", "an", "abrupt", "completion", ",", "set", {
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "to", {
   "value": "true"
-}, ".", "ReturnIfAbrupt", "(", {
+}, ".", {
+  "k": 9
+}, "ReturnIfAbrupt", "(", {
   "id": "next"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 10
+}, "If", {
   "id": "next"
 }, "is", {
   "value": "false"
@@ -60,11 +66,15 @@
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "to", {
   "value": "true"
-}, ".", "Set", {
+}, ".", {
+  "k": 12
+}, "Set", {
   "id": "remainingElementsCount"
 }, ".", "[", "[", "Value", "]", "]", "to", {
   "id": "remainingElementsCount"
-}, ".", "[", "[", "Value", "]", "]", "-", "1", ".", "If", {
+}, ".", "[", "[", "Value", "]", "]", "-", "1", ".", {
+  "k": 13
+}, "If", {
   "id": "remainingElementsCount"
 }, ".", "[", "[", "Value", "]", "]", "is", "0", ",", "then", {
   "in": null
@@ -72,35 +82,53 @@
   "id": "valuesArray"
 }, "be", "!", "CreateArrayFromList", "(", {
   "id": "values"
-}, ")", ".", "Perform", "?", "Call", "(", {
+}, ")", ".", {
+  "k": 15
+}, "Perform", "?", "Call", "(", {
   "id": "resultCapability"
 }, ".", "[", "[", "Resolve", "]", "]", ",", {
   "value": "undefined"
 }, ",", "«", {
   "id": "valuesArray"
 }, "»", ")", ".", {
+  "k": 16
+}, {
   "out": null
+}, {
+  "k": 14
 }, "Return", {
   "id": "resultCapability"
 }, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 17
+}, {
   "out": null
+}, {
+  "k": 11
 }, "Let", {
   "id": "nextValue"
 }, "be", "IteratorValue", "(", {
   "id": "next"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 18
+}, "If", {
   "id": "nextValue"
 }, "is", "an", "abrupt", "completion", ",", "set", {
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "to", {
   "value": "true"
-}, ".", "ReturnIfAbrupt", "(", {
+}, ".", {
+  "k": 19
+}, "ReturnIfAbrupt", "(", {
   "id": "nextValue"
-}, ")", ".", "Append", {
+}, ")", ".", {
+  "k": 20
+}, "Append", {
   "value": "undefined"
 }, "to", {
   "id": "values"
-}, ".", "Let", {
+}, ".", {
+  "k": 21
+}, "Let", {
   "id": "nextPromise"
 }, "be", "?", "Call", "(", {
   "id": "promiseResolve"
@@ -108,37 +136,55 @@
   "id": "constructor"
 }, ",", "«", {
   "id": "nextValue"
-}, "»", ")", ".", "Let", {
+}, "»", ")", ".", {
+  "k": 22
+}, "Let", {
   "id": "steps"
-}, "be", "the", "algorithm", "steps", "defined", "in", "Promise", ".", "all", "Resolve", "Element", "Functions", ".", "Let", {
+}, "be", "the", "algorithm", "steps", "defined", "in", "Promise", ".", "all", "Resolve", "Element", "Functions", ".", {
+  "k": 23
+}, "Let", {
   "id": "resolveElement"
 }, "be", "!", "CreateBuiltinFunction", "(", {
   "id": "steps"
-}, ",", "«", "[", "[", "AlreadyCalled", "]", "]", ",", "[", "[", "Index", "]", "]", ",", "[", "[", "Values", "]", "]", ",", "[", "[", "Capability", "]", "]", ",", "[", "[", "RemainingElements", "]", "]", "»", ")", ".", "Set", {
+}, ",", "«", "[", "[", "AlreadyCalled", "]", "]", ",", "[", "[", "Index", "]", "]", ",", "[", "[", "Values", "]", "]", ",", "[", "[", "Capability", "]", "]", ",", "[", "[", "RemainingElements", "]", "]", "»", ")", ".", {
+  "k": 24
+}, "Set", {
   "id": "resolveElement"
 }, ".", "[", "[", "AlreadyCalled", "]", "]", "to", "the", "Record", "{", "[", "[", "Value", "]", "]", ":", {
   "value": "false"
-}, "}", ".", "Set", {
+}, "}", ".", {
+  "k": 25
+}, "Set", {
   "id": "resolveElement"
 }, ".", "[", "[", "Index", "]", "]", "to", {
   "id": "index"
-}, ".", "Set", {
+}, ".", {
+  "k": 26
+}, "Set", {
   "id": "resolveElement"
 }, ".", "[", "[", "Values", "]", "]", "to", {
   "id": "values"
-}, ".", "Set", {
+}, ".", {
+  "k": 27
+}, "Set", {
   "id": "resolveElement"
 }, ".", "[", "[", "Capability", "]", "]", "to", {
   "id": "resultCapability"
-}, ".", "Set", {
+}, ".", {
+  "k": 28
+}, "Set", {
   "id": "resolveElement"
 }, ".", "[", "[", "RemainingElements", "]", "]", "to", {
   "id": "remainingElementsCount"
-}, ".", "Set", {
+}, ".", {
+  "k": 29
+}, "Set", {
   "id": "remainingElementsCount"
 }, ".", "[", "[", "Value", "]", "]", "to", {
   "id": "remainingElementsCount"
-}, ".", "[", "[", "Value", "]", "]", "+", "1", ".", "Perform", "?", "Invoke", "(", {
+}, ".", "[", "[", "Value", "]", "]", "+", "1", ".", {
+  "k": 30
+}, "Perform", "?", "Invoke", "(", {
   "id": "nextPromise"
 }, ",", {
   "value": "\"then\""
@@ -146,11 +192,15 @@
   "id": "resolveElement"
 }, ",", {
   "id": "resultCapability"
-}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", "Set", {
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 31
+}, "Set", {
   "id": "index"
 }, "to", {
   "id": "index"
 }, "+", "1", ".", {
+  "k": 32
+}, {
   "out": null
 }, {
   "k": 7

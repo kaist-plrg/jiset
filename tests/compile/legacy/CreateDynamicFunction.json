@@ -40,15 +40,21 @@
   "id": "goal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "FunctionBody"
-}, ".", "Let", {
+}, ".", {
+  "k": 7
+}, "Let", {
   "id": "parameterGoal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "FormalParameters"
-}, ".", "Let", {
+}, ".", {
+  "k": 8
+}, "Let", {
   "id": "fallbackProto"
 }, "be", {
   "value": "\"%Function.prototype%\""
 }, ".", {
+  "k": 9
+}, {
   "out": null
 }, {
   "k": 6
@@ -62,18 +68,24 @@
   "id": "goal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "GeneratorBody"
-}, ".", "Let", {
+}, ".", {
+  "k": 11
+}, "Let", {
   "id": "parameterGoal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "FormalParameters"
-}, ".", "Let", {
+}, ".", {
+  "k": 12
+}, "Let", {
   "id": "fallbackProto"
 }, "be", {
   "value": "\"%Generator%\""
 }, ".", {
+  "k": 13
+}, {
   "out": null
 }, {
-  "k": 7
+  "k": 10
 }, "Else", "if", {
   "id": "kind"
 }, "is", {
@@ -84,56 +96,70 @@
   "id": "goal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "AsyncFunctionBody"
-}, ".", "Let", {
+}, ".", {
+  "k": 15
+}, "Let", {
   "id": "parameterGoal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "FormalParameters"
-}, ".", "Let", {
+}, ".", {
+  "k": 16
+}, "Let", {
   "id": "fallbackProto"
 }, "be", {
   "value": "\"%AsyncFunction.prototype%\""
 }, ".", {
+  "k": 17
+}, {
   "out": null
 }, {
-  "k": 8
+  "k": 14
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "kind"
 }, "is", {
   "const": "asyncGenerator"
-}, ".", "Let", {
+}, ".", {
+  "k": 19
+}, "Let", {
   "id": "goal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "AsyncGeneratorBody"
-}, ".", "Let", {
+}, ".", {
+  "k": 20
+}, "Let", {
   "id": "parameterGoal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "FormalParameters"
-}, ".", "Let", {
+}, ".", {
+  "k": 21
+}, "Let", {
   "id": "fallbackProto"
 }, "be", {
   "value": "\"%AsyncGenerator%\""
 }, ".", {
+  "k": 22
+}, {
   "out": null
 }, {
-  "k": 9
+  "k": 18
 }, "Let", {
   "id": "argCount"
 }, "be", "the", "number", "of", "elements", "in", {
   "id": "args"
 }, ".", {
-  "k": 10
+  "k": 23
 }, "Let", {
   "id": "P"
 }, "be", "the", "empty", "String", ".", {
-  "k": 11
+  "k": 24
 }, "If", {
   "id": "argCount"
 }, "=", "0", ",", "let", {
   "id": "bodyArg"
 }, "be", "the", "empty", "String", ".", {
-  "k": 12
+  "k": 25
 }, "Else", "if", {
   "id": "argCount"
 }, "=", "1", ",", "let", {
@@ -141,22 +167,30 @@
 }, "be", {
   "id": "args"
 }, "[", "0", "]", ".", {
-  "k": 13
+  "k": 26
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "argCount"
-}, ">", "1", ".", "Let", {
+}, ">", "1", ".", {
+  "k": 28
+}, "Let", {
   "id": "firstArg"
 }, "be", {
   "id": "args"
-}, "[", "0", "]", ".", "Set", {
+}, "[", "0", "]", ".", {
+  "k": 29
+}, "Set", {
   "id": "P"
 }, "to", "?", "ToString", "(", {
   "id": "firstArg"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 30
+}, "Let", {
   "id": "k"
-}, "be", "1", ".", "Repeat", ",", "while", {
+}, "be", "1", ".", {
+  "k": 31
+}, "Repeat", ",", "while", {
   "id": "k"
 }, "<", {
   "id": "argCount"
@@ -168,11 +202,15 @@
   "id": "args"
 }, "[", {
   "id": "k"
-}, "]", ".", "Let", {
+}, "]", ".", {
+  "k": 33
+}, "Let", {
   "id": "nextArgString"
 }, "be", "?", "ToString", "(", {
   "id": "nextArg"
-}, ")", ".", "Set", {
+}, ")", ".", {
+  "k": 34
+}, "Set", {
   "id": "P"
 }, "to", "the", "string", "-", "concatenation", "of", "the", "previous", "value", "of", {
   "id": "P"
@@ -180,12 +218,18 @@
   "value": "\",\""
 }, "(", "a", "comma", ")", ",", "and", {
   "id": "nextArgString"
-}, ".", "Set", {
+}, ".", {
+  "k": 35
+}, "Set", {
   "id": "k"
 }, "to", {
   "id": "k"
 }, "+", "1", ".", {
+  "k": 36
+}, {
   "out": null
+}, {
+  "k": 32
 }, "Let", {
   "id": "bodyArg"
 }, "be", {
@@ -193,15 +237,17 @@
 }, "[", {
   "id": "k"
 }, "]", ".", {
+  "k": 37
+}, {
   "out": null
 }, {
-  "k": 14
+  "k": 27
 }, "Let", {
   "id": "bodyString"
 }, "be", "the", "string", "-", "concatenation", "of", "0x000A", "(", "LINE", "FEED", ")", ",", "?", "ToString", "(", {
   "id": "bodyArg"
 }, ")", ",", "and", "0x000A", "(", "LINE", "FEED", ")", ".", {
-  "k": 15
+  "k": 38
 }, "Perform", "the", "following", "substeps", "in", "an", "implementation", "-", "dependent", "order", ",", "possibly", "interleaving", "parsing", "and", "error", "detection", ":", {
   "in": null
 }, "Let", {
@@ -212,7 +258,9 @@
   "id": "parameterGoal"
 }, "as", "the", "goal", "symbol", ".", "Throw", "a", {
   "value": "SyntaxError"
-}, "exception", "if", "the", "parse", "fails", ".", "Let", {
+}, "exception", "if", "the", "parse", "fails", ".", {
+  "k": 40
+}, "Let", {
   "id": "body"
 }, "be", "the", "result", "of", "parsing", "!", "UTF16DecodeString", "(", {
   "id": "bodyString"
@@ -220,11 +268,15 @@
   "id": "goal"
 }, "as", "the", "goal", "symbol", ".", "Throw", "a", {
   "value": "SyntaxError"
-}, "exception", "if", "the", "parse", "fails", ".", "Let", {
+}, "exception", "if", "the", "parse", "fails", ".", {
+  "k": 41
+}, "Let", {
   "id": "strict"
 }, "be", "ContainsUseStrict", "of", {
   "id": "body"
-}, ".", "If", "any", "static", "semantics", "errors", "are", "detected", "for", {
+}, ".", {
+  "k": 42
+}, "If", "any", "static", "semantics", "errors", "are", "detected", "for", {
   "id": "parameters"
 }, "or", {
   "id": "body"
@@ -237,7 +289,9 @@
 }, ",", "the", "Early", "Error", "rules", "for", {
   "grammar": "UniqueFormalParameters0",
   "subs": ["FormalParameters"]
-}, "are", "applied", ".", "If", {
+}, "are", "applied", ".", {
+  "k": 43
+}, "If", {
   "id": "strict"
 }, "is", {
   "value": "true"
@@ -247,13 +301,17 @@
   "value": "false"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "If", "any", "element", "of", "the", "BoundNames", "of", {
+}, "exception", ".", {
+  "k": 44
+}, "If", "any", "element", "of", "the", "BoundNames", "of", {
   "id": "parameters"
 }, "also", "occurs", "in", "the", "LexicallyDeclaredNames", "of", {
   "id": "body"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 45
+}, "If", {
   "id": "body"
 }, "Contains", {
   "nt": "SuperCall"
@@ -261,7 +319,9 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 46
+}, "If", {
   "id": "parameters"
 }, "Contains", {
   "nt": "SuperCall"
@@ -269,7 +329,9 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 47
+}, "If", {
   "id": "body"
 }, "Contains", {
   "nt": "SuperProperty"
@@ -277,7 +339,9 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 48
+}, "If", {
   "id": "parameters"
 }, "Contains", {
   "nt": "SuperProperty"
@@ -285,7 +349,9 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 49
+}, "If", {
   "id": "kind"
 }, "is", {
   "const": "generator"
@@ -302,7 +368,11 @@
 }, ",", "throw", "a", {
   "value": "SyntaxError"
 }, "exception", ".", {
+  "k": 51
+}, {
   "out": null
+}, {
+  "k": 50
 }, "If", {
   "id": "kind"
 }, "is", {
@@ -320,7 +390,11 @@
 }, ",", "throw", "a", {
   "value": "SyntaxError"
 }, "exception", ".", {
+  "k": 53
+}, {
   "out": null
+}, {
+  "k": 52
 }, "If", {
   "id": "strict"
 }, "is", {
@@ -332,11 +406,15 @@
 }, "contains", "any", "duplicate", "elements", ",", "throw", "a", {
   "value": "SyntaxError"
 }, "exception", ".", {
-  "out": null
+  "k": 55
 }, {
   "out": null
 }, {
-  "k": 16
+  "k": 54
+}, {
+  "out": null
+}, {
+  "k": 39
 }, "Let", {
   "id": "proto"
 }, "be", "?", "GetPrototypeFromConstructor", "(", {
@@ -344,17 +422,17 @@
 }, ",", {
   "id": "fallbackProto"
 }, ")", ".", {
-  "k": 17
+  "k": 56
 }, "Let", {
   "id": "realmF"
 }, "be", "the", "current", "Realm", "Record", ".", {
-  "k": 18
+  "k": 57
 }, "Let", {
   "id": "scope"
 }, "be", {
   "id": "realmF"
 }, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
-  "k": 19
+  "k": 58
 }, "Let", {
   "id": "F"
 }, "be", "!", "OrdinaryFunctionCreate", "(", {
@@ -368,7 +446,7 @@
 }, ",", {
   "id": "scope"
 }, ")", ".", {
-  "k": 20
+  "k": 59
 }, "If", {
   "id": "kind"
 }, "is", {
@@ -377,7 +455,9 @@
   "in": null
 }, "Let", {
   "id": "prototype"
-}, "be", "OrdinaryObjectCreate", "(", "%", "Generator", ".", "prototype", "%", ")", ".", "Perform", "DefinePropertyOrThrow", "(", {
+}, "be", "OrdinaryObjectCreate", "(", "%", "Generator", ".", "prototype", "%", ")", ".", {
+  "k": 61
+}, "Perform", "DefinePropertyOrThrow", "(", {
   "id": "F"
 }, ",", {
   "value": "\"prototype\""
@@ -390,9 +470,11 @@
 }, ",", "[", "[", "Configurable", "]", "]", ":", {
   "value": "false"
 }, "}", ")", ".", {
+  "k": 62
+}, {
   "out": null
 }, {
-  "k": 21
+  "k": 60
 }, "Else", "if", {
   "id": "kind"
 }, "is", {
@@ -401,7 +483,9 @@
   "in": null
 }, "Let", {
   "id": "prototype"
-}, "be", "OrdinaryObjectCreate", "(", "%", "AsyncGenerator", ".", "prototype", "%", ")", ".", "Perform", "DefinePropertyOrThrow", "(", {
+}, "be", "OrdinaryObjectCreate", "(", "%", "AsyncGenerator", ".", "prototype", "%", ")", ".", {
+  "k": 64
+}, "Perform", "DefinePropertyOrThrow", "(", {
   "id": "F"
 }, ",", {
   "value": "\"prototype\""
@@ -414,9 +498,11 @@
 }, ",", "[", "[", "Configurable", "]", "]", ":", {
   "value": "false"
 }, "}", ")", ".", {
+  "k": 65
+}, {
   "out": null
 }, {
-  "k": 22
+  "k": 63
 }, "Else", "if", {
   "id": "kind"
 }, "is", {
@@ -424,23 +510,23 @@
 }, ",", "perform", "MakeConstructor", "(", {
   "id": "F"
 }, ")", ".", {
-  "k": 23
+  "k": 66
 }, "NOTE", ":", "Async", "functions", "are", "not", "constructable", "and", "do", "not", "have", "a", "[", "[", "Construct", "]", "]", "internal", "method", "or", "a", {
   "value": "\"prototype\""
 }, "property", ".", {
-  "k": 24
+  "k": 67
 }, "Perform", "SetFunctionName", "(", {
   "id": "F"
 }, ",", {
   "value": "\"anonymous\""
 }, ")", ".", {
-  "k": 25
+  "k": 68
 }, "Let", {
   "id": "prefix"
 }, "be", "the", "prefix", "associated", "with", {
   "id": "kind"
 }, "in", "Table", "48", ".", {
-  "k": 26
+  "k": 69
 }, "Let", {
   "id": "sourceString"
 }, "be", "the", "string", "-", "concatenation", "of", {
@@ -456,15 +542,15 @@
 }, ",", "and", {
   "value": "\"}\""
 }, ".", {
-  "k": 27
+  "k": 70
 }, "Set", {
   "id": "F"
 }, ".", "[", "[", "SourceText", "]", "]", "to", "!", "UTF16DecodeString", "(", {
   "id": "sourceString"
 }, ")", ".", {
-  "k": 28
+  "k": 71
 }, "Return", {
   "id": "F"
 }, ".", {
-  "k": 29
+  "k": 72
 }]

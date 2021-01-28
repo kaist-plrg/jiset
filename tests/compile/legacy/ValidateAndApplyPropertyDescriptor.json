@@ -20,11 +20,15 @@
   "value": "false"
 }, ",", "return", {
   "value": "false"
-}, ".", "Assert", ":", {
+}, ".", {
+  "k": 2
+}, "Assert", ":", {
   "id": "extensible"
 }, "is", {
   "value": "true"
-}, ".", "If", "IsGenericDescriptor", "(", {
+}, ".", {
+  "k": 3
+}, "If", "IsGenericDescriptor", "(", {
   "id": "Desc"
 }, ")", "is", {
   "value": "true"
@@ -47,14 +51,20 @@
 }, ".", "If", "the", "value", "of", "an", "attribute", "field", "of", {
   "id": "Desc"
 }, "is", "absent", ",", "the", "attribute", "of", "the", "newly", "created", "property", "is", "set", "to", "its", "default", "value", ".", {
+  "k": 5
+}, {
   "out": null
+}, {
+  "k": 4
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", "!", "IsAccessorDescriptor", "(", {
   "id": "Desc"
 }, ")", "is", {
   "value": "true"
-}, ".", "If", {
+}, ".", {
+  "k": 7
+}, "If", {
   "id": "O"
 }, "is", "not", {
   "value": "undefined"
@@ -67,10 +77,16 @@
 }, ".", "If", "the", "value", "of", "an", "attribute", "field", "of", {
   "id": "Desc"
 }, "is", "absent", ",", "the", "attribute", "of", "the", "newly", "created", "property", "is", "set", "to", "its", "default", "value", ".", {
+  "k": 8
+}, {
   "out": null
+}, {
+  "k": 6
 }, "Return", {
   "value": "true"
 }, ".", {
+  "k": 9
+}, {
   "out": null
 }, {
   "k": 1
@@ -79,7 +95,7 @@
 }, "is", "absent", ",", "return", {
   "value": "true"
 }, ".", {
-  "k": 2
+  "k": 10
 }, "If", {
   "id": "current"
 }, ".", "[", "[", "Configurable", "]", "]", "is", {
@@ -92,7 +108,9 @@
   "value": "true"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", {
+}, ".", {
+  "k": 12
+}, "If", {
   "id": "Desc"
 }, ".", "[", "[", "Enumerable", "]", "]", "is", "present", "and", "!", "SameValue", "(", {
   "id": "Desc"
@@ -103,9 +121,11 @@
 }, ",", "return", {
   "value": "false"
 }, ".", {
+  "k": 13
+}, {
   "out": null
 }, {
-  "k": 3
+  "k": 11
 }, "If", "!", "IsGenericDescriptor", "(", {
   "id": "Desc"
 }, ")", "is", {
@@ -113,9 +133,11 @@
 }, ",", "then", {
   "in": null
 }, "NOTE", ":", "No", "further", "validation", "is", "required", ".", {
+  "k": 15
+}, {
   "out": null
 }, {
-  "k": 4
+  "k": 14
 }, "Else", "if", "!", "SameValue", "(", "!", "IsDataDescriptor", "(", {
   "id": "current"
 }, ")", ",", "!", "IsDataDescriptor", "(", {
@@ -130,7 +152,9 @@
   "value": "false"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", "IsDataDescriptor", "(", {
+}, ".", {
+  "k": 17
+}, "If", "IsDataDescriptor", "(", {
   "id": "current"
 }, ")", "is", {
   "value": "true"
@@ -145,7 +169,11 @@
 }, "of", "object", {
   "id": "O"
 }, "from", "a", "data", "property", "to", "an", "accessor", "property", ".", "Preserve", "the", "existing", "values", "of", "the", "converted", "property", "'", "s", "[", "[", "Configurable", "]", "]", "and", "[", "[", "Enumerable", "]", "]", "attributes", "and", "set", "the", "rest", "of", "the", "property", "'", "s", "attributes", "to", "their", "default", "values", ".", {
+  "k": 19
+}, {
   "out": null
+}, {
+  "k": 18
 }, "Else", ",", {
   "in": null
 }, "If", {
@@ -157,11 +185,15 @@
 }, "of", "object", {
   "id": "O"
 }, "from", "an", "accessor", "property", "to", "a", "data", "property", ".", "Preserve", "the", "existing", "values", "of", "the", "converted", "property", "'", "s", "[", "[", "Configurable", "]", "]", "and", "[", "[", "Enumerable", "]", "]", "attributes", "and", "set", "the", "rest", "of", "the", "property", "'", "s", "attributes", "to", "their", "default", "values", ".", {
-  "out": null
+  "k": 21
 }, {
   "out": null
 }, {
-  "k": 5
+  "k": 20
+}, {
+  "out": null
+}, {
+  "k": 16
 }, "Else", "if", "IsDataDescriptor", "(", {
   "id": "current"
 }, ")", "and", "IsDataDescriptor", "(", {
@@ -188,7 +220,9 @@
   "value": "true"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", {
+}, ".", {
+  "k": 24
+}, "If", {
   "id": "Desc"
 }, ".", "[", "[", "Value", "]", "]", "is", "present", "and", "SameValue", "(", {
   "id": "Desc"
@@ -198,14 +232,20 @@
   "value": "false"
 }, ",", "return", {
   "value": "false"
-}, ".", "Return", {
+}, ".", {
+  "k": 25
+}, "Return", {
   "value": "true"
 }, ".", {
-  "out": null
+  "k": 26
 }, {
   "out": null
 }, {
-  "k": 6
+  "k": 23
+}, {
+  "out": null
+}, {
+  "k": 22
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", "!", "IsAccessorDescriptor", "(", {
@@ -214,7 +254,9 @@
   "id": "Desc"
 }, ")", "are", "both", {
   "value": "true"
-}, ".", "If", {
+}, ".", {
+  "k": 28
+}, "If", {
   "id": "current"
 }, ".", "[", "[", "Configurable", "]", "]", "is", {
   "value": "false"
@@ -230,7 +272,9 @@
   "value": "false"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", {
+}, ".", {
+  "k": 30
+}, "If", {
   "id": "Desc"
 }, ".", "[", "[", "Get", "]", "]", "is", "present", "and", "SameValue", "(", {
   "id": "Desc"
@@ -240,14 +284,20 @@
   "value": "false"
 }, ",", "return", {
   "value": "false"
-}, ".", "Return", {
+}, ".", {
+  "k": 31
+}, "Return", {
   "value": "true"
 }, ".", {
-  "out": null
+  "k": 32
 }, {
   "out": null
 }, {
-  "k": 7
+  "k": 29
+}, {
+  "out": null
+}, {
+  "k": 27
 }, "If", {
   "id": "O"
 }, "is", "not", {
@@ -261,11 +311,13 @@
 }, "of", "object", {
   "id": "O"
 }, "to", "the", "value", "of", "the", "field", ".", {
+  "k": 34
+}, {
   "out": null
 }, {
-  "k": 8
+  "k": 33
 }, "Return", {
   "value": "true"
 }, ".", {
-  "k": 9
+  "k": 35
 }]

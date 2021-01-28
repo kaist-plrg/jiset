@@ -44,17 +44,23 @@
   "id": "next"
 }, "be", "?", "IteratorStep", "(", {
   "id": "iteratorRecord"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 7
+}, "If", {
   "id": "next"
 }, "is", {
   "value": "false"
 }, ",", "return", {
   "id": "target"
-}, ".", "Let", {
+}, ".", {
+  "k": 8
+}, "Let", {
   "id": "nextItem"
 }, "be", "?", "IteratorValue", "(", {
   "id": "next"
-}, ")", ".", "If", "Type", "(", {
+}, ")", ".", {
+  "k": 9
+}, "If", "Type", "(", {
   "id": "nextItem"
 }, ")", "is", "not", "Object", ",", "then", {
   "in": null
@@ -62,37 +68,51 @@
   "id": "error"
 }, "be", "ThrowCompletion", "(", "a", "newly", "created", {
   "value": "TypeError"
-}, "object", ")", ".", "Return", "?", "IteratorClose", "(", {
+}, "object", ")", ".", {
+  "k": 11
+}, "Return", "?", "IteratorClose", "(", {
   "id": "iteratorRecord"
 }, ",", {
   "id": "error"
 }, ")", ".", {
+  "k": 12
+}, {
   "out": null
+}, {
+  "k": 10
 }, "Let", {
   "id": "k"
 }, "be", "Get", "(", {
   "id": "nextItem"
 }, ",", {
   "value": "\"0\""
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 13
+}, "If", {
   "id": "k"
 }, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
   "id": "iteratorRecord"
 }, ",", {
   "id": "k"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 14
+}, "Let", {
   "id": "v"
 }, "be", "Get", "(", {
   "id": "nextItem"
 }, ",", {
   "value": "\"1\""
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 15
+}, "If", {
   "id": "v"
 }, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
   "id": "iteratorRecord"
 }, ",", {
   "id": "v"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 16
+}, "Let", {
   "id": "status"
 }, "be", "Call", "(", {
   "id": "adder"
@@ -102,13 +122,17 @@
   "id": "k"
 }, ".", "[", "[", "Value", "]", "]", ",", {
   "id": "v"
-}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", "If", {
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 17
+}, "If", {
   "id": "status"
 }, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
   "id": "iteratorRecord"
 }, ",", {
   "id": "status"
 }, ")", ".", {
+  "k": 18
+}, {
   "out": null
 }, {
   "k": 6

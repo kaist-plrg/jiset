@@ -49,6 +49,8 @@
 }, ",", {
   "id": "Desc"
 }, ")", ".", {
+  "k": 7
+}, {
   "out": null
 }, {
   "k": 6
@@ -57,7 +59,7 @@
 }, "be", "FromPropertyDescriptor", "(", {
   "id": "Desc"
 }, ")", ".", {
-  "k": 7
+  "k": 8
 }, "Let", {
   "id": "booleanTrapResult"
 }, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
@@ -71,7 +73,7 @@
 }, ",", {
   "id": "descObj"
 }, "»", ")", ")", ".", {
-  "k": 8
+  "k": 9
 }, "If", {
   "id": "booleanTrapResult"
 }, "is", {
@@ -79,7 +81,7 @@
 }, ",", "return", {
   "value": "false"
 }, ".", {
-  "k": 9
+  "k": 10
 }, "Let", {
   "id": "targetDesc"
 }, "be", "?", {
@@ -87,13 +89,13 @@
 }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
   "id": "P"
 }, ")", ".", {
-  "k": 10
+  "k": 11
 }, "Let", {
   "id": "extensibleTarget"
 }, "be", "?", "IsExtensible", "(", {
   "id": "target"
 }, ")", ".", {
-  "k": 11
+  "k": 12
 }, "If", {
   "id": "Desc"
 }, "has", "a", "[", "[", "Configurable", "]", "]", "field", "and", "if", {
@@ -107,15 +109,17 @@
 }, "be", {
   "value": "true"
 }, ".", {
+  "k": 14
+}, {
   "out": null
 }, {
-  "k": 12
+  "k": 13
 }, "Else", ",", "let", {
   "id": "settingConfigFalse"
 }, "be", {
   "value": "false"
 }, ".", {
-  "k": 13
+  "k": 15
 }, "If", {
   "id": "targetDesc"
 }, "is", {
@@ -128,16 +132,20 @@
   "value": "false"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 17
+}, "If", {
   "id": "settingConfigFalse"
 }, "is", {
   "value": "true"
 }, ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
+  "k": 18
+}, {
   "out": null
 }, {
-  "k": 14
+  "k": 16
 }, "Else", ",", {
   "in": null
 }, "If", "IsCompatiblePropertyDescriptor", "(", {
@@ -150,7 +158,9 @@
   "value": "false"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 20
+}, "If", {
   "id": "settingConfigFalse"
 }, "is", {
   "value": "true"
@@ -160,7 +170,9 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "If", "IsDataDescriptor", "(", {
+}, "exception", ".", {
+  "k": 21
+}, "If", "IsDataDescriptor", "(", {
   "id": "targetDesc"
 }, ")", "is", {
   "value": "true"
@@ -183,13 +195,17 @@
 }, ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "out": null
+  "k": 23
 }, {
   "out": null
 }, {
-  "k": 15
+  "k": 22
+}, {
+  "out": null
+}, {
+  "k": 19
 }, "Return", {
   "value": "true"
 }, ".", {
-  "k": 16
+  "k": 24
 }]

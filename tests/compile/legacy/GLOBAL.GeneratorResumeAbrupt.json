@@ -26,15 +26,21 @@
   "id": "generator"
 }, ".", "[", "[", "GeneratorState", "]", "]", "to", {
   "const": "completed"
-}, ".", "Once", "a", "generator", "enters", "the", {
+}, ".", {
+  "k": 4
+}, "Once", "a", "generator", "enters", "the", {
   "const": "completed"
 }, "state", "it", "never", "leaves", "it", "and", "its", "associated", "execution", "context", "is", "never", "resumed", ".", "Any", "execution", "state", "associated", "with", {
   "id": "generator"
-}, "can", "be", "discarded", "at", "this", "point", ".", "Set", {
+}, "can", "be", "discarded", "at", "this", "point", ".", {
+  "k": 5
+}, "Set", {
   "id": "state"
 }, "to", {
   "const": "completed"
 }, ".", {
+  "k": 6
+}, {
   "out": null
 }, {
   "k": 3
@@ -55,45 +61,51 @@
 }, ".", "[", "[", "Value", "]", "]", ",", {
   "value": "true"
 }, ")", ".", {
+  "k": 9
+}, {
   "out": null
+}, {
+  "k": 8
 }, "Return", "Completion", "(", {
   "id": "abruptCompletion"
 }, ")", ".", {
+  "k": 10
+}, {
   "out": null
 }, {
-  "k": 4
+  "k": 7
 }, "Assert", ":", {
   "id": "state"
 }, "is", {
   "const": "suspendedYield"
 }, ".", {
-  "k": 5
+  "k": 11
 }, "Let", {
   "id": "genContext"
 }, "be", {
   "id": "generator"
 }, ".", "[", "[", "GeneratorContext", "]", "]", ".", {
-  "k": 6
+  "k": 12
 }, "Let", {
   "id": "methodContext"
 }, "be", "the", "running", "execution", "context", ".", {
-  "k": 7
+  "k": 13
 }, "Suspend", {
   "id": "methodContext"
 }, ".", {
-  "k": 8
+  "k": 14
 }, "Set", {
   "id": "generator"
 }, ".", "[", "[", "GeneratorState", "]", "]", "to", {
   "const": "executing"
 }, ".", {
-  "k": 9
+  "k": 15
 }, "Push", {
   "id": "genContext"
 }, "onto", "the", "execution", "context", "stack", ";", {
   "id": "genContext"
 }, "is", "now", "the", "running", "execution", "context", ".", {
-  "k": 10
+  "k": 16
 }, "Resume", "the", "suspended", "evaluation", "of", {
   "id": "genContext"
 }, "using", {
@@ -101,15 +113,15 @@
 }, "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
   "id": "result"
 }, "be", "the", "completion", "record", "returned", "by", "the", "resumed", "computation", ".", {
-  "k": 11
+  "k": 17
 }, "Assert", ":", "When", "we", "return", "here", ",", {
   "id": "genContext"
 }, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
   "id": "methodContext"
 }, "is", "the", "currently", "running", "execution", "context", ".", {
-  "k": 12
+  "k": 18
 }, "Return", "Completion", "(", {
   "id": "result"
 }, ")", ".", {
-  "k": 13
+  "k": 19
 }]

@@ -36,11 +36,15 @@
   "id": "from"
 }, "be", "!", "ToObject", "(", {
   "id": "nextSource"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 6
+}, "Let", {
   "id": "keys"
 }, "be", "?", {
   "id": "from"
-}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", "For", "each", "element", {
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 7
+}, "For", "each", "element", {
   "id": "nextKey"
 }, "of", {
   "id": "keys"
@@ -52,7 +56,9 @@
   "id": "from"
 }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
   "id": "nextKey"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 9
+}, "If", {
   "id": "desc"
 }, "is", "not", {
   "value": "undefined"
@@ -68,7 +74,9 @@
   "id": "from"
 }, ",", {
   "id": "nextKey"
-}, ")", ".", "Perform", "?", "Set", "(", {
+}, ")", ".", {
+  "k": 11
+}, "Perform", "?", "Set", "(", {
   "id": "to"
 }, ",", {
   "id": "nextKey"
@@ -77,11 +85,19 @@
 }, ",", {
   "value": "true"
 }, ")", ".", {
-  "out": null
+  "k": 12
 }, {
   "out": null
 }, {
+  "k": 10
+}, {
   "out": null
+}, {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 5
 }, {
   "out": null
 }, {
@@ -89,5 +105,5 @@
 }, "Return", {
   "id": "to"
 }, ".", {
-  "k": 5
+  "k": 13
 }]

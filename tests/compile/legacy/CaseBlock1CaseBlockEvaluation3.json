@@ -15,6 +15,8 @@
 }, "items", "in", "the", "first", {
   "nt": "CaseClauses"
 }, ",", "in", "source", "text", "order", ".", {
+  "k": 2
+}, {
   "out": null
 }, {
   "k": 1
@@ -23,15 +25,17 @@
 }, "Let", {
   "id": "A"
 }, "be", "«", "»", ".", {
+  "k": 4
+}, {
   "out": null
 }, {
-  "k": 2
+  "k": 3
 }, "Let", {
   "id": "found"
 }, "be", {
   "value": "false"
 }, ".", {
-  "k": 3
+  "k": 5
 }, "For", "each", {
   "nt": "CaseClause"
 }, {
@@ -53,139 +57,21 @@
 }, ",", {
   "id": "input"
 }, ")", ".", {
-  "out": null
-}, "If", {
-  "id": "found"
-}, "is", {
-  "value": "true"
-}, ",", "then", {
-  "in": null
-}, "Let", {
-  "id": "R"
-}, "be", "the", "result", "of", "evaluating", {
-  "id": "C"
-}, ".", "If", {
-  "id": "R"
-}, ".", "[", "[", "Value", "]", "]", "is", "not", {
-  "const": "empty"
-}, ",", "set", {
-  "id": "V"
-}, "to", {
-  "id": "R"
-}, ".", "[", "[", "Value", "]", "]", ".", "If", {
-  "id": "R"
-}, "is", "an", "abrupt", "completion", ",", "return", "Completion", "(", "UpdateEmpty", "(", {
-  "id": "R"
-}, ",", {
-  "id": "V"
-}, ")", ")", ".", {
-  "out": null
+  "k": 8
 }, {
-  "out": null
-}, {
-  "k": 4
-}, "Let", {
-  "id": "foundInB"
-}, "be", {
-  "value": "false"
-}, ".", {
-  "k": 5
-}, "If", "the", "second", {
-  "nt": "CaseClauses"
-}, "is", "present", ",", "then", {
-  "in": null
-}, "Let", {
-  "id": "B"
-}, "be", "the", "List", "of", {
-  "nt": "CaseClause"
-}, "items", "in", "the", "second", {
-  "nt": "CaseClauses"
-}, ",", "in", "source", "text", "order", ".", {
-  "out": null
-}, {
-  "k": 6
-}, "Else", ",", {
-  "in": null
-}, "Let", {
-  "id": "B"
-}, "be", "«", "»", ".", {
   "out": null
 }, {
   "k": 7
 }, "If", {
   "id": "found"
 }, "is", {
-  "value": "false"
-}, ",", "then", {
-  "in": null
-}, "For", "each", {
-  "nt": "CaseClause"
-}, {
-  "id": "C"
-}, "in", {
-  "id": "B"
-}, ",", "do", {
-  "in": null
-}, "If", {
-  "id": "foundInB"
-}, "is", {
-  "value": "false"
-}, ",", "then", {
-  "in": null
-}, "Set", {
-  "id": "foundInB"
-}, "to", "?", "CaseClauseIsSelected", "(", {
-  "id": "C"
-}, ",", {
-  "id": "input"
-}, ")", ".", {
-  "out": null
-}, "If", {
-  "id": "foundInB"
-}, "is", {
   "value": "true"
 }, ",", "then", {
   "in": null
 }, "Let", {
   "id": "R"
 }, "be", "the", "result", "of", "evaluating", {
-  "nt": "CaseClause"
-}, {
   "id": "C"
-}, ".", "If", {
-  "id": "R"
-}, ".", "[", "[", "Value", "]", "]", "is", "not", {
-  "const": "empty"
-}, ",", "set", {
-  "id": "V"
-}, "to", {
-  "id": "R"
-}, ".", "[", "[", "Value", "]", "]", ".", "If", {
-  "id": "R"
-}, "is", "an", "abrupt", "completion", ",", "return", "Completion", "(", "UpdateEmpty", "(", {
-  "id": "R"
-}, ",", {
-  "id": "V"
-}, ")", ")", ".", {
-  "out": null
-}, {
-  "out": null
-}, {
-  "out": null
-}, {
-  "k": 8
-}, "If", {
-  "id": "foundInB"
-}, "is", {
-  "value": "true"
-}, ",", "return", "NormalCompletion", "(", {
-  "id": "V"
-}, ")", ".", {
-  "k": 9
-}, "Let", {
-  "id": "R"
-}, "be", "the", "result", "of", "evaluating", {
-  "nt": "DefaultClause"
 }, ".", {
   "k": 10
 }, "If", {
@@ -206,10 +92,158 @@
   "id": "V"
 }, ")", ")", ".", {
   "k": 12
+}, {
+  "out": null
+}, {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "Let", {
+  "id": "foundInB"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 13
+}, "If", "the", "second", {
+  "nt": "CaseClauses"
+}, "is", "present", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "B"
+}, "be", "the", "List", "of", {
+  "nt": "CaseClause"
+}, "items", "in", "the", "second", {
+  "nt": "CaseClauses"
+}, ",", "in", "source", "text", "order", ".", {
+  "k": 15
+}, {
+  "out": null
+}, {
+  "k": 14
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "B"
+}, "be", "«", "»", ".", {
+  "k": 17
+}, {
+  "out": null
+}, {
+  "k": 16
+}, "If", {
+  "id": "found"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "For", "each", {
+  "nt": "CaseClause"
+}, {
+  "id": "C"
+}, "in", {
+  "id": "B"
+}, ",", "do", {
+  "in": null
+}, "If", {
+  "id": "foundInB"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "foundInB"
+}, "to", "?", "CaseClauseIsSelected", "(", {
+  "id": "C"
+}, ",", {
+  "id": "input"
+}, ")", ".", {
+  "k": 21
+}, {
+  "out": null
+}, {
+  "k": 20
+}, "If", {
+  "id": "foundInB"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "R"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "CaseClause"
+}, {
+  "id": "C"
+}, ".", {
+  "k": 23
+}, "If", {
+  "id": "R"
+}, ".", "[", "[", "Value", "]", "]", "is", "not", {
+  "const": "empty"
+}, ",", "set", {
+  "id": "V"
+}, "to", {
+  "id": "R"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 24
+}, "If", {
+  "id": "R"
+}, "is", "an", "abrupt", "completion", ",", "return", "Completion", "(", "UpdateEmpty", "(", {
+  "id": "R"
+}, ",", {
+  "id": "V"
+}, ")", ")", ".", {
+  "k": 25
+}, {
+  "out": null
+}, {
+  "k": 22
+}, {
+  "out": null
+}, {
+  "k": 19
+}, {
+  "out": null
+}, {
+  "k": 18
+}, "If", {
+  "id": "foundInB"
+}, "is", {
+  "value": "true"
+}, ",", "return", "NormalCompletion", "(", {
+  "id": "V"
+}, ")", ".", {
+  "k": 26
+}, "Let", {
+  "id": "R"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "DefaultClause"
+}, ".", {
+  "k": 27
+}, "If", {
+  "id": "R"
+}, ".", "[", "[", "Value", "]", "]", "is", "not", {
+  "const": "empty"
+}, ",", "set", {
+  "id": "V"
+}, "to", {
+  "id": "R"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 28
+}, "If", {
+  "id": "R"
+}, "is", "an", "abrupt", "completion", ",", "return", "Completion", "(", "UpdateEmpty", "(", {
+  "id": "R"
+}, ",", {
+  "id": "V"
+}, ")", ")", ".", {
+  "k": 29
 }, "NOTE", ":", "The", "following", "is", "another", "complete", "iteration", "of", "the", "second", {
   "nt": "CaseClauses"
 }, ".", {
-  "k": 13
+  "k": 30
 }, "For", "each", {
   "nt": "CaseClause"
 }, {
@@ -224,7 +258,9 @@
   "nt": "CaseClause"
 }, {
   "id": "C"
-}, ".", "If", {
+}, ".", {
+  "k": 32
+}, "If", {
   "id": "R"
 }, ".", "[", "[", "Value", "]", "]", "is", "not", {
   "const": "empty"
@@ -232,18 +268,22 @@
   "id": "V"
 }, "to", {
   "id": "R"
-}, ".", "[", "[", "Value", "]", "]", ".", "If", {
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 33
+}, "If", {
   "id": "R"
 }, "is", "an", "abrupt", "completion", ",", "return", "Completion", "(", "UpdateEmpty", "(", {
   "id": "R"
 }, ",", {
   "id": "V"
 }, ")", ")", ".", {
+  "k": 34
+}, {
   "out": null
 }, {
-  "k": 14
+  "k": 31
 }, "Return", "NormalCompletion", "(", {
   "id": "V"
 }, ")", ".", {
-  "k": 15
+  "k": 35
 }]

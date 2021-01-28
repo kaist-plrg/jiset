@@ -16,28 +16,38 @@
   "id": "px"
 }, "be", "?", "ToPrimitive", "(", {
   "id": "x"
-}, ",", "hint", "Number", ")", ".", "Let", {
+}, ",", "hint", "Number", ")", ".", {
+  "k": 2
+}, "Let", {
   "id": "py"
 }, "be", "?", "ToPrimitive", "(", {
   "id": "y"
 }, ",", "hint", "Number", ")", ".", {
+  "k": 3
+}, {
   "out": null
 }, {
   "k": 1
 }, "Else", ",", {
   "in": null
-}, "NOTE", ":", "The", "order", "of", "evaluation", "needs", "to", "be", "reversed", "to", "preserve", "left", "to", "right", "evaluation", ".", "Let", {
+}, "NOTE", ":", "The", "order", "of", "evaluation", "needs", "to", "be", "reversed", "to", "preserve", "left", "to", "right", "evaluation", ".", {
+  "k": 5
+}, "Let", {
   "id": "py"
 }, "be", "?", "ToPrimitive", "(", {
   "id": "y"
-}, ",", "hint", "Number", ")", ".", "Let", {
+}, ",", "hint", "Number", ")", ".", {
+  "k": 6
+}, "Let", {
   "id": "px"
 }, "be", "?", "ToPrimitive", "(", {
   "id": "x"
 }, ",", "hint", "Number", ")", ".", {
+  "k": 7
+}, {
   "out": null
 }, {
-  "k": 2
+  "k": 4
 }, "If", "Type", "(", {
   "id": "px"
 }, ")", "is", "String", "and", "Type", "(", {
@@ -52,7 +62,9 @@
   "value": "true"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", "IsStringPrefix", "(", {
+}, ".", {
+  "k": 9
+}, "If", "IsStringPrefix", "(", {
   "id": "px"
 }, ",", {
   "id": "py"
@@ -60,7 +72,9 @@
   "value": "true"
 }, ",", "return", {
   "value": "true"
-}, ".", "Let", {
+}, ".", {
+  "k": 10
+}, "Let", {
   "id": "k"
 }, "be", "the", "smallest", "nonnegative", "integer", "such", "that", "the", "code", "unit", "at", "index", {
   "id": "k"
@@ -72,19 +86,25 @@
   "id": "py"
 }, ".", "(", "There", "must", "be", "such", "a", {
   "id": "k"
-}, ",", "for", "neither", "String", "is", "a", "prefix", "of", "the", "other", ".", ")", "Let", {
+}, ",", "for", "neither", "String", "is", "a", "prefix", "of", "the", "other", ".", ")", {
+  "k": 11
+}, "Let", {
   "id": "m"
 }, "be", "the", "integer", "that", "is", "the", "numeric", "value", "of", "the", "code", "unit", "at", "index", {
   "id": "k"
 }, "within", {
   "id": "px"
-}, ".", "Let", {
+}, ".", {
+  "k": 12
+}, "Let", {
   "id": "n"
 }, "be", "the", "integer", "that", "is", "the", "numeric", "value", "of", "the", "code", "unit", "at", "index", {
   "id": "k"
 }, "within", {
   "id": "py"
-}, ".", "If", {
+}, ".", {
+  "k": 13
+}, "If", {
   "id": "m"
 }, "<", {
   "id": "n"
@@ -93,9 +113,11 @@
 }, ".", "Otherwise", ",", "return", {
   "value": "false"
 }, ".", {
+  "k": 14
+}, {
   "out": null
 }, {
-  "k": 3
+  "k": 8
 }, "Else", ",", {
   "in": null
 }, "If", "Type", "(", {
@@ -108,18 +130,26 @@
   "id": "ny"
 }, "be", "!", "StringToBigInt", "(", {
   "id": "py"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 17
+}, "If", {
   "id": "ny"
 }, "is", {
   "value": "NaN"
 }, ",", "return", {
   "value": "undefined"
-}, ".", "Return", "BigInt", ":", ":", "lessThan", "(", {
+}, ".", {
+  "k": 18
+}, "Return", "BigInt", ":", ":", "lessThan", "(", {
   "id": "px"
 }, ",", {
   "id": "ny"
 }, ")", ".", {
+  "k": 19
+}, {
   "out": null
+}, {
+  "k": 16
 }, "If", "Type", "(", {
   "id": "px"
 }, ")", "is", "String", "and", "Type", "(", {
@@ -130,31 +160,45 @@
   "id": "nx"
 }, "be", "!", "StringToBigInt", "(", {
   "id": "px"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 21
+}, "If", {
   "id": "nx"
 }, "is", {
   "value": "NaN"
 }, ",", "return", {
   "value": "undefined"
-}, ".", "Return", "BigInt", ":", ":", "lessThan", "(", {
+}, ".", {
+  "k": 22
+}, "Return", "BigInt", ":", ":", "lessThan", "(", {
   "id": "nx"
 }, ",", {
   "id": "py"
 }, ")", ".", {
+  "k": 23
+}, {
   "out": null
+}, {
+  "k": 20
 }, "NOTE", ":", "Because", {
   "id": "px"
 }, "and", {
   "id": "py"
-}, "are", "primitive", "values", ",", "evaluation", "order", "is", "not", "important", ".", "Let", {
+}, "are", "primitive", "values", ",", "evaluation", "order", "is", "not", "important", ".", {
+  "k": 24
+}, "Let", {
   "id": "nx"
 }, "be", "?", "ToNumeric", "(", {
   "id": "px"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 25
+}, "Let", {
   "id": "ny"
 }, "be", "?", "ToNumeric", "(", {
   "id": "py"
-}, ")", ".", "If", "Type", "(", {
+}, ")", ".", {
+  "k": 26
+}, "If", "Type", "(", {
   "id": "nx"
 }, ")", "is", "the", "same", "as", "Type", "(", {
   "id": "ny"
@@ -164,7 +208,9 @@
   "id": "nx"
 }, ",", {
   "id": "ny"
-}, ")", ".", "Assert", ":", "Type", "(", {
+}, ")", ".", {
+  "k": 27
+}, "Assert", ":", "Type", "(", {
   "id": "nx"
 }, ")", "is", "BigInt", "and", "Type", "(", {
   "id": "ny"
@@ -172,7 +218,9 @@
   "id": "nx"
 }, ")", "is", "Number", "and", "Type", "(", {
   "id": "ny"
-}, ")", "is", "BigInt", ".", "If", {
+}, ")", "is", "BigInt", ".", {
+  "k": 28
+}, "If", {
   "id": "nx"
 }, "or", {
   "id": "ny"
@@ -180,7 +228,9 @@
   "value": "NaN"
 }, ",", "return", {
   "value": "undefined"
-}, ".", "If", {
+}, ".", {
+  "k": 29
+}, "If", {
   "id": "nx"
 }, "is", {
   "value": "-∞"
@@ -190,7 +240,9 @@
   "value": "+∞"
 }, ",", "return", {
   "value": "true"
-}, ".", "If", {
+}, ".", {
+  "k": 30
+}, "If", {
   "id": "nx"
 }, "is", {
   "value": "+∞"
@@ -200,7 +252,9 @@
   "value": "-∞"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", "the", "mathematical", "value", "of", {
+}, ".", {
+  "k": 31
+}, "If", "the", "mathematical", "value", "of", {
   "id": "nx"
 }, "is", "less", "than", "the", "mathematical", "value", "of", {
   "id": "ny"
@@ -209,7 +263,9 @@
 }, ";", "otherwise", "return", {
   "value": "false"
 }, ".", {
+  "k": 32
+}, {
   "out": null
 }, {
-  "k": 4
+  "k": 15
 }]

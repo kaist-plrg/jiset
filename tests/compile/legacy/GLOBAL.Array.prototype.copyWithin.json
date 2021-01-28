@@ -128,19 +128,25 @@
   "in": null
 }, "Let", {
   "id": "direction"
-}, "be", "-", "1", ".", "Set", {
+}, "be", "-", "1", ".", {
+  "k": 13
+}, "Set", {
   "id": "from"
 }, "to", {
   "id": "from"
 }, "+", {
   "id": "count"
-}, "-", "1", ".", "Set", {
+}, "-", "1", ".", {
+  "k": 14
+}, "Set", {
   "id": "to"
 }, "to", {
   "id": "to"
 }, "+", {
   "id": "count"
 }, "-", "1", ".", {
+  "k": 15
+}, {
   "out": null
 }, {
   "k": 12
@@ -149,9 +155,11 @@
 }, "Let", {
   "id": "direction"
 }, "be", "1", ".", {
+  "k": 17
+}, {
   "out": null
 }, {
-  "k": 13
+  "k": 16
 }, "Repeat", ",", "while", {
   "id": "count"
 }, ">", "0", {
@@ -160,17 +168,23 @@
   "id": "fromKey"
 }, "be", "!", "ToString", "(", {
   "id": "from"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 19
+}, "Let", {
   "id": "toKey"
 }, "be", "!", "ToString", "(", {
   "id": "to"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 20
+}, "Let", {
   "id": "fromPresent"
 }, "be", "?", "HasProperty", "(", {
   "id": "O"
 }, ",", {
   "id": "fromKey"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 21
+}, "If", {
   "id": "fromPresent"
 }, "is", {
   "value": "true"
@@ -182,7 +196,9 @@
   "id": "O"
 }, ",", {
   "id": "fromKey"
-}, ")", ".", "Perform", "?", "Set", "(", {
+}, ")", ".", {
+  "k": 23
+}, "Perform", "?", "Set", "(", {
   "id": "O"
 }, ",", {
   "id": "toKey"
@@ -191,41 +207,57 @@
 }, ",", {
   "value": "true"
 }, ")", ".", {
+  "k": 24
+}, {
   "out": null
+}, {
+  "k": 22
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "fromPresent"
 }, "is", {
   "value": "false"
-}, ".", "Perform", "?", "DeletePropertyOrThrow", "(", {
+}, ".", {
+  "k": 26
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
   "id": "O"
 }, ",", {
   "id": "toKey"
 }, ")", ".", {
+  "k": 27
+}, {
   "out": null
+}, {
+  "k": 25
 }, "Set", {
   "id": "from"
 }, "to", {
   "id": "from"
 }, "+", {
   "id": "direction"
-}, ".", "Set", {
+}, ".", {
+  "k": 28
+}, "Set", {
   "id": "to"
 }, "to", {
   "id": "to"
 }, "+", {
   "id": "direction"
-}, ".", "Set", {
+}, ".", {
+  "k": 29
+}, "Set", {
   "id": "count"
 }, "to", {
   "id": "count"
 }, "-", "1", ".", {
+  "k": 30
+}, {
   "out": null
 }, {
-  "k": 14
+  "k": 18
 }, "Return", {
   "id": "O"
 }, ".", {
-  "k": 15
+  "k": 31
 }]

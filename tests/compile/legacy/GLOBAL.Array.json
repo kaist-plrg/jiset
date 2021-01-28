@@ -6,23 +6,33 @@
   "in": null
 }, "Let", {
   "id": "numberOfArgs"
-}, "be", "the", "number", "of", "arguments", "passed", "to", "this", "function", "call", ".", "Assert", ":", {
+}, "be", "the", "number", "of", "arguments", "passed", "to", "this", "function", "call", ".", {
+  "k": 1
+}, "Assert", ":", {
   "id": "numberOfArgs"
-}, "=", "0", ".", "If", "NewTarget", "is", {
+}, "=", "0", ".", {
+  "k": 2
+}, "If", "NewTarget", "is", {
   "value": "undefined"
 }, ",", "let", {
   "id": "newTarget"
 }, "be", "the", "active", "function", "object", ";", "else", "let", {
   "id": "newTarget"
-}, "be", "NewTarget", ".", "Let", {
+}, "be", "NewTarget", ".", {
+  "k": 3
+}, "Let", {
   "id": "proto"
 }, "be", "?", "GetPrototypeFromConstructor", "(", {
   "id": "newTarget"
 }, ",", {
   "value": "\"%Array.prototype%\""
-}, ")", ".", "Return", "!", "ArrayCreate", "(", "0", ",", {
+}, ")", ".", {
+  "k": 4
+}, "Return", "!", "ArrayCreate", "(", "0", ",", {
   "id": "proto"
 }, ")", ".", {
+  "k": 5
+}, {
   "out": null
 }, {
   "k": 0
@@ -36,27 +46,39 @@
   "id": "len"
 }, "be", "GetArgument", "(", {
   "id": "argumentsList"
-}, ",", "0", ")", ".", "Let", {
+}, ",", "0", ")", ".", {
+  "k": 7
+}, "Let", {
   "id": "numberOfArgs"
-}, "be", "the", "number", "of", "arguments", "passed", "to", "this", "function", "call", ".", "Assert", ":", {
+}, "be", "the", "number", "of", "arguments", "passed", "to", "this", "function", "call", ".", {
+  "k": 8
+}, "Assert", ":", {
   "id": "numberOfArgs"
-}, "=", "1", ".", "If", "NewTarget", "is", {
+}, "=", "1", ".", {
+  "k": 9
+}, "If", "NewTarget", "is", {
   "value": "undefined"
 }, ",", "let", {
   "id": "newTarget"
 }, "be", "the", "active", "function", "object", ";", "else", "let", {
   "id": "newTarget"
-}, "be", "NewTarget", ".", "Let", {
+}, "be", "NewTarget", ".", {
+  "k": 10
+}, "Let", {
   "id": "proto"
 }, "be", "?", "GetPrototypeFromConstructor", "(", {
   "id": "newTarget"
 }, ",", {
   "value": "\"%Array.prototype%\""
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 11
+}, "Let", {
   "id": "array"
 }, "be", "!", "ArrayCreate", "(", "0", ",", {
   "id": "proto"
-}, ")", ".", "If", "Type", "(", {
+}, ")", ".", {
+  "k": 12
+}, "If", "Type", "(", {
   "id": "len"
 }, ")", "is", "not", "Number", ",", "then", {
   "in": null
@@ -66,24 +88,36 @@
   "value": "\"0\""
 }, ",", {
   "id": "len"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 14
+}, "Let", {
   "id": "intLen"
 }, "be", "1", ".", {
+  "k": 15
+}, {
   "out": null
+}, {
+  "k": 13
 }, "Else", ",", {
   "in": null
 }, "Let", {
   "id": "intLen"
 }, "be", "ToUint32", "(", {
   "id": "len"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 17
+}, "If", {
   "id": "intLen"
 }, "≠", {
   "id": "len"
 }, ",", "throw", "a", {
   "value": "RangeError"
 }, "exception", ".", {
+  "k": 18
+}, {
   "out": null
+}, {
+  "k": 16
 }, "Perform", "!", "Set", "(", {
   "id": "array"
 }, ",", {
@@ -92,41 +126,59 @@
   "id": "intLen"
 }, ",", {
   "value": "true"
-}, ")", ".", "Return", {
+}, ")", ".", {
+  "k": 19
+}, "Return", {
   "id": "array"
 }, ".", {
+  "k": 20
+}, {
   "out": null
 }, {
-  "k": 1
+  "k": 6
 }, "Else", ",", {
   "in": null
 }, "Let", {
   "id": "numberOfArgs"
-}, "be", "the", "number", "of", "arguments", "passed", "to", "this", "function", "call", ".", "Assert", ":", {
+}, "be", "the", "number", "of", "arguments", "passed", "to", "this", "function", "call", ".", {
+  "k": 22
+}, "Assert", ":", {
   "id": "numberOfArgs"
-}, "≥", "2", ".", "If", "NewTarget", "is", {
+}, "≥", "2", ".", {
+  "k": 23
+}, "If", "NewTarget", "is", {
   "value": "undefined"
 }, ",", "let", {
   "id": "newTarget"
 }, "be", "the", "active", "function", "object", ";", "else", "let", {
   "id": "newTarget"
-}, "be", "NewTarget", ".", "Let", {
+}, "be", "NewTarget", ".", {
+  "k": 24
+}, "Let", {
   "id": "proto"
 }, "be", "?", "GetPrototypeFromConstructor", "(", {
   "id": "newTarget"
 }, ",", {
   "value": "\"%Array.prototype%\""
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 25
+}, "Let", {
   "id": "array"
 }, "be", "?", "ArrayCreate", "(", {
   "id": "numberOfArgs"
 }, ",", {
   "id": "proto"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 26
+}, "Let", {
   "id": "k"
-}, "be", "0", ".", "Let", {
+}, "be", "0", ".", {
+  "k": 27
+}, "Let", {
   "id": "items"
-}, "be", "a", "zero", "-", "origined", "List", "containing", "the", "argument", "items", "in", "order", ".", "Repeat", ",", "while", {
+}, "be", "a", "zero", "-", "origined", "List", "containing", "the", "argument", "items", "in", "order", ".", {
+  "k": 28
+}, "Repeat", ",", "while", {
   "id": "k"
 }, "<", {
   "id": "numberOfArgs"
@@ -136,34 +188,48 @@
   "id": "Pk"
 }, "be", "!", "ToString", "(", {
   "id": "k"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 30
+}, "Let", {
   "id": "itemK"
 }, "be", {
   "id": "items"
 }, "[", {
   "id": "k"
-}, "]", ".", "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+}, "]", ".", {
+  "k": 31
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
   "id": "array"
 }, ",", {
   "id": "Pk"
 }, ",", {
   "id": "itemK"
-}, ")", ".", "Set", {
+}, ")", ".", {
+  "k": 32
+}, "Set", {
   "id": "k"
 }, "to", {
   "id": "k"
 }, "+", "1", ".", {
+  "k": 33
+}, {
   "out": null
+}, {
+  "k": 29
 }, "Assert", ":", "The", "value", "of", {
   "id": "array"
 }, "'", "s", {
   "value": "\"length\""
 }, "property", "is", {
   "id": "numberOfArgs"
-}, ".", "Return", {
+}, ".", {
+  "k": 34
+}, "Return", {
   "id": "array"
 }, ".", {
+  "k": 35
+}, {
   "out": null
 }, {
-  "k": 2
+  "k": 21
 }]

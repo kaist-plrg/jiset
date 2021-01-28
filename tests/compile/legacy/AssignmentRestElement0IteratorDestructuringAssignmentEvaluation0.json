@@ -10,20 +10,24 @@
   "id": "lref"
 }, "be", "the", "result", "of", "evaluating", {
   "nt": "DestructuringAssignmentTarget"
-}, ".", "ReturnIfAbrupt", "(", {
+}, ".", {
+  "k": 1
+}, "ReturnIfAbrupt", "(", {
   "id": "lref"
 }, ")", ".", {
+  "k": 2
+}, {
   "out": null
 }, {
   "k": 0
 }, "Let", {
   "id": "A"
 }, "be", "!", "ArrayCreate", "(", "0", ")", ".", {
-  "k": 1
+  "k": 3
 }, "Let", {
   "id": "n"
 }, "be", "0", ".", {
-  "k": 2
+  "k": 4
 }, "Repeat", ",", "while", {
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "is", {
@@ -34,15 +38,21 @@
   "id": "next"
 }, "be", "IteratorStep", "(", {
   "id": "iteratorRecord"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 6
+}, "If", {
   "id": "next"
 }, "is", "an", "abrupt", "completion", ",", "set", {
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "to", {
   "value": "true"
-}, ".", "ReturnIfAbrupt", "(", {
+}, ".", {
+  "k": 7
+}, "ReturnIfAbrupt", "(", {
   "id": "next"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 8
+}, "If", {
   "id": "next"
 }, "is", {
   "value": "false"
@@ -50,36 +60,50 @@
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "to", {
   "value": "true"
-}, ".", "Else", ",", {
+}, ".", {
+  "k": 9
+}, "Else", ",", {
   "in": null
 }, "Let", {
   "id": "nextValue"
 }, "be", "IteratorValue", "(", {
   "id": "next"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 11
+}, "If", {
   "id": "nextValue"
 }, "is", "an", "abrupt", "completion", ",", "set", {
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "to", {
   "value": "true"
-}, ".", "ReturnIfAbrupt", "(", {
+}, ".", {
+  "k": 12
+}, "ReturnIfAbrupt", "(", {
   "id": "nextValue"
-}, ")", ".", "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+}, ")", ".", {
+  "k": 13
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
   "id": "A"
 }, ",", "!", "ToString", "(", {
   "id": "n"
 }, ")", ",", {
   "id": "nextValue"
-}, ")", ".", "Set", {
+}, ")", ".", {
+  "k": 14
+}, "Set", {
   "id": "n"
 }, "to", {
   "id": "n"
 }, "+", "1", ".", {
-  "out": null
+  "k": 15
 }, {
   "out": null
 }, {
-  "k": 3
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 5
 }, "If", {
   "nt": "DestructuringAssignmentTarget"
 }, "is", "neither", "an", {
@@ -93,9 +117,11 @@
 }, ",", {
   "id": "A"
 }, ")", ".", {
+  "k": 17
+}, {
   "out": null
 }, {
-  "k": 4
+  "k": 16
 }, "Let", {
   "id": "nestedAssignmentPattern"
 }, "be", "the", {
@@ -103,11 +129,11 @@
 }, "that", "is", "covered", "by", {
   "nt": "DestructuringAssignmentTarget"
 }, ".", {
-  "k": 5
+  "k": 18
 }, "Return", "the", "result", "of", "performing", "DestructuringAssignmentEvaluation", "of", {
   "id": "nestedAssignmentPattern"
 }, "with", {
   "id": "A"
 }, "as", "the", "argument", ".", {
-  "k": 6
+  "k": 19
 }]

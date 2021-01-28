@@ -29,6 +29,8 @@
 }, ",", {
   "value": "\"%Object.prototype%\""
 }, ")", ".", {
+  "k": 5
+}, {
   "out": null
 }, {
   "k": 4
@@ -39,11 +41,11 @@
 }, ",", {
   "id": "newTarget"
 }, ")", ".", {
-  "k": 5
+  "k": 6
 }, "Assert", ":", {
   "id": "calleeContext"
 }, "is", "now", "the", "running", "execution", "context", ".", {
-  "k": 6
+  "k": 7
 }, "If", {
   "id": "kind"
 }, "is", {
@@ -55,19 +57,19 @@
 }, ",", {
   "id": "thisArgument"
 }, ")", ".", {
-  "k": 7
+  "k": 8
 }, "Let", {
   "id": "constructorEnv"
 }, "be", "the", "LexicalEnvironment", "of", {
   "id": "calleeContext"
 }, ".", {
-  "k": 8
+  "k": 9
 }, "Let", {
   "id": "envRec"
 }, "be", {
   "id": "constructorEnv"
 }, "'", "s", "EnvironmentRecord", ".", {
-  "k": 9
+  "k": 10
 }, "Let", {
   "id": "result"
 }, "be", "OrdinaryCallEvaluateBody", "(", {
@@ -75,13 +77,13 @@
 }, ",", {
   "id": "argumentsList"
 }, ")", ".", {
-  "k": 10
+  "k": 11
 }, "Remove", {
   "id": "calleeContext"
 }, "from", "the", "execution", "context", "stack", "and", "restore", {
   "id": "callerContext"
 }, "as", "the", "running", "execution", "context", ".", {
-  "k": 11
+  "k": 12
 }, "If", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
@@ -92,28 +94,34 @@
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", ")", "is", "Object", ",", "return", "NormalCompletion", "(", {
   "id": "result"
-}, ".", "[", "[", "Value", "]", "]", ")", ".", "If", {
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 14
+}, "If", {
   "id": "kind"
 }, "is", {
   "const": "base"
 }, ",", "return", "NormalCompletion", "(", {
   "id": "thisArgument"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 15
+}, "If", {
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", "is", "not", {
   "value": "undefined"
 }, ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
+  "k": 16
+}, {
   "out": null
 }, {
-  "k": 12
+  "k": 13
 }, "Else", ",", "ReturnIfAbrupt", "(", {
   "id": "result"
 }, ")", ".", {
-  "k": 13
+  "k": 17
 }, "Return", "?", {
   "id": "envRec"
 }, ".", "GetThisBinding", "(", ")", ".", {
-  "k": 14
+  "k": 18
 }]

@@ -47,6 +47,8 @@
 }, ".", "[", "[", "HasProperty", "]", "]", "(", {
   "id": "P"
 }, ")", ".", {
+  "k": 7
+}, {
   "out": null
 }, {
   "k": 6
@@ -61,7 +63,7 @@
 }, ",", {
   "id": "P"
 }, "»", ")", ")", ".", {
-  "k": 7
+  "k": 8
 }, "If", {
   "id": "booleanTrapResult"
 }, "is", {
@@ -74,7 +76,9 @@
   "id": "target"
 }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
   "id": "P"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 10
+}, "If", {
   "id": "targetDesc"
 }, "is", "not", {
   "value": "undefined"
@@ -86,24 +90,32 @@
   "value": "false"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Let", {
+}, "exception", ".", {
+  "k": 12
+}, "Let", {
   "id": "extensibleTarget"
 }, "be", "?", "IsExtensible", "(", {
   "id": "target"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 13
+}, "If", {
   "id": "extensibleTarget"
 }, "is", {
   "value": "false"
 }, ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "out": null
+  "k": 14
 }, {
   "out": null
 }, {
-  "k": 8
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 9
 }, "Return", {
   "id": "booleanTrapResult"
 }, ".", {
-  "k": 9
+  "k": 15
 }]

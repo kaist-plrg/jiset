@@ -50,15 +50,23 @@
   "in": null
 }, "Let", {
   "id": "execution"
-}, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", "Let", {
+}, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 8
+}, "Let", {
   "id": "eventList"
 }, "be", "the", "[", "[", "EventList", "]", "]", "field", "of", "the", "element", "in", {
   "id": "execution"
-}, ".", "[", "[", "EventsRecords", "]", "]", "whose", "[", "[", "AgentSignifier", "]", "]", "is", "AgentSignifier", "(", ")", ".", "Let", {
+}, ".", "[", "[", "EventsRecords", "]", "]", "whose", "[", "[", "AgentSignifier", "]", "]", "is", "AgentSignifier", "(", ")", ".", {
+  "k": 9
+}, "Let", {
   "id": "bytes"
-}, "be", "a", "List", "of", "length", "1", "that", "contains", "a", "nondeterministically", "chosen", "byte", "value", ".", "NOTE", ":", "In", "implementations", ",", {
+}, "be", "a", "List", "of", "length", "1", "that", "contains", "a", "nondeterministically", "chosen", "byte", "value", ".", {
+  "k": 10
+}, "NOTE", ":", "In", "implementations", ",", {
   "id": "bytes"
-}, "is", "the", "result", "of", "a", "non", "-", "atomic", "read", "instruction", "on", "the", "underlying", "hardware", ".", "The", "nondeterminism", "is", "a", "semantic", "prescription", "of", "the", "memory", "model", "to", "describe", "observable", "behaviour", "of", "hardware", "with", "weak", "consistency", ".", "Let", {
+}, "is", "the", "result", "of", "a", "non", "-", "atomic", "read", "instruction", "on", "the", "underlying", "hardware", ".", "The", "nondeterminism", "is", "a", "semantic", "prescription", "of", "the", "memory", "model", "to", "describe", "observable", "behaviour", "of", "hardware", "with", "weak", "consistency", ".", {
+  "k": 11
+}, "Let", {
   "id": "readEvent"
 }, "be", "ReadSharedMemory", "{", "[", "[", "Order", "]", "]", ":", {
   "const": "Unordered"
@@ -68,17 +76,23 @@
   "id": "fromBlock"
 }, ",", "[", "[", "ByteIndex", "]", "]", ":", {
   "id": "fromIndex"
-}, ",", "[", "[", "ElementSize", "]", "]", ":", "1", "}", ".", "Append", {
+}, ",", "[", "[", "ElementSize", "]", "]", ":", "1", "}", ".", {
+  "k": 12
+}, "Append", {
   "id": "readEvent"
 }, "to", {
   "id": "eventList"
-}, ".", "Append", "Chosen", "Value", "Record", "{", "[", "[", "Event", "]", "]", ":", {
+}, ".", {
+  "k": 13
+}, "Append", "Chosen", "Value", "Record", "{", "[", "[", "Event", "]", "]", ":", {
   "id": "readEvent"
 }, ",", "[", "[", "ChosenValue", "]", "]", ":", {
   "id": "bytes"
 }, "}", "to", {
   "id": "execution"
-}, ".", "[", "[", "ChosenValues", "]", "]", ".", "If", {
+}, ".", "[", "[", "ChosenValues", "]", "]", ".", {
+  "k": 14
+}, "If", {
   "id": "toBlock"
 }, "is", "a", "Shared", "Data", "Block", ",", "then", {
   "in": null
@@ -95,7 +109,11 @@
 }, "}", "to", {
   "id": "eventList"
 }, ".", {
+  "k": 16
+}, {
   "out": null
+}, {
+  "k": 15
 }, "Else", ",", {
   "in": null
 }, "Set", {
@@ -105,14 +123,22 @@
 }, "]", "to", {
   "id": "bytes"
 }, "[", "0", "]", ".", {
-  "out": null
+  "k": 18
 }, {
   "out": null
+}, {
+  "k": 17
+}, {
+  "out": null
+}, {
+  "k": 7
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "toBlock"
-}, "is", "not", "a", "Shared", "Data", "Block", ".", "Set", {
+}, "is", "not", "a", "Shared", "Data", "Block", ".", {
+  "k": 20
+}, "Set", {
   "id": "toBlock"
 }, "[", {
   "id": "toIndex"
@@ -121,25 +147,35 @@
 }, "[", {
   "id": "fromIndex"
 }, "]", ".", {
+  "k": 21
+}, {
   "out": null
+}, {
+  "k": 19
 }, "Set", {
   "id": "toIndex"
 }, "to", {
   "id": "toIndex"
-}, "+", "1", ".", "Set", {
+}, "+", "1", ".", {
+  "k": 22
+}, "Set", {
   "id": "fromIndex"
 }, "to", {
   "id": "fromIndex"
-}, "+", "1", ".", "Set", {
+}, "+", "1", ".", {
+  "k": 23
+}, "Set", {
   "id": "count"
 }, "to", {
   "id": "count"
 }, "-", "1", ".", {
+  "k": 24
+}, {
   "out": null
 }, {
   "k": 6
 }, "Return", "NormalCompletion", "(", {
   "const": "empty"
 }, ")", ".", {
-  "k": 7
+  "k": 25
 }]

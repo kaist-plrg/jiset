@@ -15,6 +15,8 @@
 }, ",", {
   "id": "Receiver"
 }, ")", ".", {
+  "k": 2
+}, {
   "out": null
 }, {
   "k": 1
@@ -23,7 +25,7 @@
 }, "be", {
   "id": "O"
 }, ".", "[", "[", "Exports", "]", "]", ".", {
-  "k": 2
+  "k": 3
 }, "If", {
   "id": "P"
 }, "is", "not", "an", "element", "of", {
@@ -31,13 +33,13 @@
 }, ",", "return", {
   "value": "undefined"
 }, ".", {
-  "k": 3
+  "k": 4
 }, "Let", {
   "id": "m"
 }, "be", {
   "id": "O"
 }, ".", "[", "[", "Module", "]", "]", ".", {
-  "k": 4
+  "k": 5
 }, "Let", {
   "id": "binding"
 }, "be", "!", {
@@ -45,23 +47,23 @@
 }, ".", "ResolveExport", "(", {
   "id": "P"
 }, ")", ".", {
-  "k": 5
+  "k": 6
 }, "Assert", ":", {
   "id": "binding"
 }, "is", "a", "ResolvedBinding", "Record", ".", {
-  "k": 6
+  "k": 7
 }, "Let", {
   "id": "targetModule"
 }, "be", {
   "id": "binding"
 }, ".", "[", "[", "Module", "]", "]", ".", {
-  "k": 7
+  "k": 8
 }, "Assert", ":", {
   "id": "targetModule"
 }, "is", "not", {
   "value": "undefined"
 }, ".", {
-  "k": 8
+  "k": 9
 }, "If", {
   "id": "binding"
 }, ".", "[", "[", "BindingName", "]", "]", "is", {
@@ -71,15 +73,17 @@
 }, "Return", "?", "GetModuleNamespace", "(", {
   "id": "targetModule"
 }, ")", ".", {
+  "k": 11
+}, {
   "out": null
 }, {
-  "k": 9
+  "k": 10
 }, "Let", {
   "id": "targetEnv"
 }, "be", {
   "id": "targetModule"
 }, ".", "[", "[", "Environment", "]", "]", ".", {
-  "k": 10
+  "k": 12
 }, "If", {
   "id": "targetEnv"
 }, "is", {
@@ -87,13 +91,13 @@
 }, ",", "throw", "a", {
   "value": "ReferenceError"
 }, "exception", ".", {
-  "k": 11
+  "k": 13
 }, "Let", {
   "id": "targetEnvRec"
 }, "be", {
   "id": "targetEnv"
 }, "'", "s", "EnvironmentRecord", ".", {
-  "k": 12
+  "k": 14
 }, "Return", "?", {
   "id": "targetEnvRec"
 }, ".", "GetBindingValue", "(", {
@@ -101,5 +105,5 @@
 }, ".", "[", "[", "BindingName", "]", "]", ",", {
   "value": "true"
 }, ")", ".", {
-  "k": 13
+  "k": 15
 }]

@@ -32,21 +32,29 @@
   "id": "len"
 }, "-", {
   "id": "lower"
-}, "-", "1", ".", "Let", {
+}, "-", "1", ".", {
+  "k": 5
+}, "Let", {
   "id": "upperP"
 }, "be", "!", "ToString", "(", {
   "id": "upper"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 6
+}, "Let", {
   "id": "lowerP"
 }, "be", "!", "ToString", "(", {
   "id": "lower"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 7
+}, "Let", {
   "id": "lowerExists"
 }, "be", "?", "HasProperty", "(", {
   "id": "O"
 }, ",", {
   "id": "lowerP"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 8
+}, "If", {
   "id": "lowerExists"
 }, "is", {
   "value": "true"
@@ -59,14 +67,20 @@
 }, ",", {
   "id": "lowerP"
 }, ")", ".", {
+  "k": 10
+}, {
   "out": null
+}, {
+  "k": 9
 }, "Let", {
   "id": "upperExists"
 }, "be", "?", "HasProperty", "(", {
   "id": "O"
 }, ",", {
   "id": "upperP"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 11
+}, "If", {
   "id": "upperExists"
 }, "is", {
   "value": "true"
@@ -79,7 +93,11 @@
 }, ",", {
   "id": "upperP"
 }, ")", ".", {
+  "k": 13
+}, {
   "out": null
+}, {
+  "k": 12
 }, "If", {
   "id": "lowerExists"
 }, "is", {
@@ -98,7 +116,9 @@
   "id": "upperValue"
 }, ",", {
   "value": "true"
-}, ")", ".", "Perform", "?", "Set", "(", {
+}, ")", ".", {
+  "k": 15
+}, "Perform", "?", "Set", "(", {
   "id": "O"
 }, ",", {
   "id": "upperP"
@@ -107,7 +127,11 @@
 }, ",", {
   "value": "true"
 }, ")", ".", {
+  "k": 16
+}, {
   "out": null
+}, {
+  "k": 14
 }, "Else", "if", {
   "id": "lowerExists"
 }, "is", {
@@ -126,12 +150,18 @@
   "id": "upperValue"
 }, ",", {
   "value": "true"
-}, ")", ".", "Perform", "?", "DeletePropertyOrThrow", "(", {
+}, ")", ".", {
+  "k": 18
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
   "id": "O"
 }, ",", {
   "id": "upperP"
 }, ")", ".", {
+  "k": 19
+}, {
   "out": null
+}, {
+  "k": 17
 }, "Else", "if", {
   "id": "lowerExists"
 }, "is", {
@@ -146,7 +176,9 @@
   "id": "O"
 }, ",", {
   "id": "lowerP"
-}, ")", ".", "Perform", "?", "Set", "(", {
+}, ")", ".", {
+  "k": 21
+}, "Perform", "?", "Set", "(", {
   "id": "O"
 }, ",", {
   "id": "upperP"
@@ -155,7 +187,11 @@
 }, ",", {
   "value": "true"
 }, ")", ".", {
+  "k": 22
+}, {
   "out": null
+}, {
+  "k": 20
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
@@ -164,18 +200,26 @@
   "id": "upperExists"
 }, "are", "both", {
   "value": "false"
-}, ".", "No", "action", "is", "required", ".", {
+}, ".", {
+  "k": 24
+}, "No", "action", "is", "required", ".", {
+  "k": 25
+}, {
   "out": null
+}, {
+  "k": 23
 }, "Set", {
   "id": "lower"
 }, "to", {
   "id": "lower"
 }, "+", "1", ".", {
+  "k": 26
+}, {
   "out": null
 }, {
   "k": 4
 }, "Return", {
   "id": "O"
 }, ".", {
-  "k": 5
+  "k": 27
 }]

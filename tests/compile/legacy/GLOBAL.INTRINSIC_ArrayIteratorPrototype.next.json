@@ -54,11 +54,15 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Let", {
+}, "exception", ".", {
+  "k": 8
+}, "Let", {
   "id": "len"
 }, "be", {
   "id": "a"
 }, ".", "[", "[", "ArrayLength", "]", "]", ".", {
+  "k": 9
+}, {
   "out": null
 }, {
   "k": 7
@@ -69,9 +73,11 @@
 }, "be", "?", "LengthOfArrayLike", "(", {
   "id": "a"
 }, ")", ".", {
+  "k": 11
+}, {
   "out": null
 }, {
-  "k": 8
+  "k": 10
 }, "If", {
   "id": "index"
 }, "≥", {
@@ -82,20 +88,24 @@
   "id": "O"
 }, ".", "[", "[", "IteratedArrayLike", "]", "]", "to", {
   "value": "undefined"
-}, ".", "Return", "CreateIterResultObject", "(", {
+}, ".", {
+  "k": 13
+}, "Return", "CreateIterResultObject", "(", {
   "value": "undefined"
 }, ",", {
   "value": "true"
 }, ")", ".", {
+  "k": 14
+}, {
   "out": null
 }, {
-  "k": 9
+  "k": 12
 }, "Set", {
   "id": "O"
 }, ".", "[", "[", "ArrayLikeNextIndex", "]", "]", "to", {
   "id": "index"
 }, "+", "1", ".", {
-  "k": 10
+  "k": 15
 }, "If", {
   "id": "itemKind"
 }, "is", {
@@ -105,13 +115,13 @@
 }, ",", {
   "value": "false"
 }, ")", ".", {
-  "k": 11
+  "k": 16
 }, "Let", {
   "id": "elementKey"
 }, "be", "!", "ToString", "(", {
   "id": "index"
 }, ")", ".", {
-  "k": 12
+  "k": 17
 }, "Let", {
   "id": "elementValue"
 }, "be", "?", "Get", "(", {
@@ -119,7 +129,7 @@
 }, ",", {
   "id": "elementKey"
 }, ")", ".", {
-  "k": 13
+  "k": 18
 }, "If", {
   "id": "itemKind"
 }, "is", {
@@ -129,27 +139,31 @@
 }, "be", {
   "id": "elementValue"
 }, ".", {
-  "k": 14
+  "k": 19
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "itemKind"
 }, "is", {
   "const": "key+value"
-}, ".", "Let", {
+}, ".", {
+  "k": 21
+}, "Let", {
   "id": "result"
 }, "be", "!", "CreateArrayFromList", "(", "«", {
   "id": "index"
 }, ",", {
   "id": "elementValue"
 }, "»", ")", ".", {
+  "k": 22
+}, {
   "out": null
 }, {
-  "k": 15
+  "k": 20
 }, "Return", "CreateIterResultObject", "(", {
   "id": "result"
 }, ",", {
   "value": "false"
 }, ")", ".", {
-  "k": 16
+  "k": 23
 }]

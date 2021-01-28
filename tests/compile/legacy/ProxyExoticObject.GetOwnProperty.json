@@ -47,6 +47,8 @@
 }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
   "id": "P"
 }, ")", ".", {
+  "k": 7
+}, {
   "out": null
 }, {
   "k": 6
@@ -61,13 +63,13 @@
 }, ",", {
   "id": "P"
 }, "»", ")", ".", {
-  "k": 7
+  "k": 8
 }, "If", "Type", "(", {
   "id": "trapResultObj"
 }, ")", "is", "neither", "Object", "nor", "Undefined", ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "k": 8
+  "k": 9
 }, "Let", {
   "id": "targetDesc"
 }, "be", "?", {
@@ -75,7 +77,7 @@
 }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
   "id": "P"
 }, ")", ".", {
-  "k": 9
+  "k": 10
 }, "If", {
   "id": "trapResultObj"
 }, "is", {
@@ -88,44 +90,54 @@
   "value": "undefined"
 }, ",", "return", {
   "value": "undefined"
-}, ".", "If", {
+}, ".", {
+  "k": 12
+}, "If", {
   "id": "targetDesc"
 }, ".", "[", "[", "Configurable", "]", "]", "is", {
   "value": "false"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Let", {
+}, "exception", ".", {
+  "k": 13
+}, "Let", {
   "id": "extensibleTarget"
 }, "be", "?", "IsExtensible", "(", {
   "id": "target"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 14
+}, "If", {
   "id": "extensibleTarget"
 }, "is", {
   "value": "false"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Return", {
+}, "exception", ".", {
+  "k": 15
+}, "Return", {
   "value": "undefined"
 }, ".", {
+  "k": 16
+}, {
   "out": null
 }, {
-  "k": 10
+  "k": 11
 }, "Let", {
   "id": "extensibleTarget"
 }, "be", "?", "IsExtensible", "(", {
   "id": "target"
 }, ")", ".", {
-  "k": 11
+  "k": 17
 }, "Let", {
   "id": "resultDesc"
 }, "be", "?", "ToPropertyDescriptor", "(", {
   "id": "trapResultObj"
 }, ")", ".", {
-  "k": 12
+  "k": 18
 }, "Call", "CompletePropertyDescriptor", "(", {
   "id": "resultDesc"
 }, ")", ".", {
-  "k": 13
+  "k": 19
 }, "Let", {
   "id": "valid"
 }, "be", "IsCompatiblePropertyDescriptor", "(", {
@@ -135,7 +147,7 @@
 }, ",", {
   "id": "targetDesc"
 }, ")", ".", {
-  "k": 14
+  "k": 20
 }, "If", {
   "id": "valid"
 }, "is", {
@@ -143,7 +155,7 @@
 }, ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "k": 15
+  "k": 21
 }, "If", {
   "id": "resultDesc"
 }, ".", "[", "[", "Configurable", "]", "]", "is", {
@@ -163,7 +175,11 @@
 }, "Throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
+  "k": 24
+}, {
   "out": null
+}, {
+  "k": 23
 }, "If", {
   "id": "resultDesc"
 }, "has", "a", "[", "[", "Writable", "]", "]", "field", "and", {
@@ -179,13 +195,17 @@
 }, ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "out": null
+  "k": 26
 }, {
   "out": null
 }, {
-  "k": 16
+  "k": 25
+}, {
+  "out": null
+}, {
+  "k": 22
 }, "Return", {
   "id": "resultDesc"
 }, ".", {
-  "k": 17
+  "k": 27
 }]

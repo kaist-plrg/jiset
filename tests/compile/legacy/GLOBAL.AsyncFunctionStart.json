@@ -30,9 +30,15 @@
   "id": "result"
 }, "be", "the", "result", "of", "evaluating", {
   "id": "asyncFunctionBody"
-}, ".", "Assert", ":", "If", "we", "return", "here", ",", "the", "async", "function", "either", "threw", "an", "exception", "or", "performed", "an", "implicit", "or", "explicit", "return", ";", "all", "awaiting", "is", "done", ".", "Remove", {
+}, ".", {
+  "k": 6
+}, "Assert", ":", "If", "we", "return", "here", ",", "the", "async", "function", "either", "threw", "an", "exception", "or", "performed", "an", "implicit", "or", "explicit", "return", ";", "all", "awaiting", "is", "done", ".", {
+  "k": 7
+}, "Remove", {
   "id": "asyncContext"
-}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", "If", {
+}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 8
+}, "If", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "normal"
@@ -45,7 +51,11 @@
 }, ",", "«", {
   "value": "undefined"
 }, "»", ")", ".", {
+  "k": 10
+}, {
   "out": null
+}, {
+  "k": 9
 }, "Else", "if", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
@@ -59,22 +69,34 @@
 }, ",", "«", {
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 12
+}, {
   "out": null
+}, {
+  "k": 11
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "throw"
-}, ".", "Perform", "!", "Call", "(", {
+}, ".", {
+  "k": 14
+}, "Perform", "!", "Call", "(", {
   "id": "promiseCapability"
 }, ".", "[", "[", "Reject", "]", "]", ",", {
   "value": "undefined"
 }, ",", "«", {
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 15
+}, {
   "out": null
+}, {
+  "k": 13
 }, "Return", ".", {
+  "k": 16
+}, {
   "out": null
 }, {
   "k": 5
@@ -83,25 +105,25 @@
 }, "onto", "the", "execution", "context", "stack", ";", {
   "id": "asyncContext"
 }, "is", "now", "the", "running", "execution", "context", ".", {
-  "k": 6
+  "k": 17
 }, "Resume", "the", "suspended", "evaluation", "of", {
   "id": "asyncContext"
 }, ".", "Let", {
   "id": "result"
 }, "be", "the", "value", "returned", "by", "the", "resumed", "computation", ".", {
-  "k": 7
+  "k": 18
 }, "Assert", ":", "When", "we", "return", "here", ",", {
   "id": "asyncContext"
 }, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
   "id": "runningContext"
 }, "is", "the", "currently", "running", "execution", "context", ".", {
-  "k": 8
+  "k": 19
 }, "Assert", ":", {
   "id": "result"
 }, "is", "a", "normal", "completion", "with", "a", "value", "of", {
   "value": "undefined"
 }, ".", "The", "possible", "sources", "of", "completion", "values", "are", "Await", "or", ",", "if", "the", "async", "function", "doesn", "'", "t", "await", "anything", ",", "the", "step", "4", ".", "g", "above", ".", {
-  "k": 9
+  "k": 20
 }, "Return", ".", {
-  "k": 10
+  "k": 21
 }]

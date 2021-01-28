@@ -9,6 +9,8 @@
 }, ",", {
   "id": "Desc"
 }, ")", ".", {
+  "k": 1
+}, {
   "out": null
 }, {
   "k": 0
@@ -17,19 +19,19 @@
 }, "be", "a", "copy", "of", {
   "id": "Desc"
 }, ".", {
-  "k": 1
+  "k": 2
 }, "Let", {
   "id": "newLen"
 }, "be", "?", "ToUint32", "(", {
   "id": "Desc"
 }, ".", "[", "[", "Value", "]", "]", ")", ".", {
-  "k": 2
+  "k": 3
 }, "Let", {
   "id": "numberLen"
 }, "be", "?", "ToNumber", "(", {
   "id": "Desc"
 }, ".", "[", "[", "Value", "]", "]", ")", ".", {
-  "k": 3
+  "k": 4
 }, "If", {
   "id": "newLen"
 }, "≠", {
@@ -37,13 +39,13 @@
 }, ",", "throw", "a", {
   "value": "RangeError"
 }, "exception", ".", {
-  "k": 4
+  "k": 5
 }, "Set", {
   "id": "newLenDesc"
 }, ".", "[", "[", "Value", "]", "]", "to", {
   "id": "newLen"
 }, ".", {
-  "k": 5
+  "k": 6
 }, "Let", {
   "id": "oldLenDesc"
 }, "be", "OrdinaryGetOwnProperty", "(", {
@@ -51,19 +53,19 @@
 }, ",", {
   "value": "\"length\""
 }, ")", ".", {
-  "k": 6
+  "k": 7
 }, "Assert", ":", {
   "id": "oldLenDesc"
 }, "will", "never", "be", {
   "value": "undefined"
 }, "or", "an", "accessor", "descriptor", "because", "Array", "objects", "are", "created", "with", "a", "length", "data", "property", "that", "cannot", "be", "deleted", "or", "reconfigured", ".", {
-  "k": 7
+  "k": 8
 }, "Let", {
   "id": "oldLen"
 }, "be", {
   "id": "oldLenDesc"
 }, ".", "[", "[", "Value", "]", "]", ".", {
-  "k": 8
+  "k": 9
 }, "If", {
   "id": "newLen"
 }, "≥", {
@@ -77,9 +79,11 @@
 }, ",", {
   "id": "newLenDesc"
 }, ")", ".", {
+  "k": 11
+}, {
   "out": null
 }, {
-  "k": 9
+  "k": 10
 }, "If", {
   "id": "oldLenDesc"
 }, ".", "[", "[", "Writable", "]", "]", "is", {
@@ -87,7 +91,7 @@
 }, ",", "return", {
   "value": "false"
 }, ".", {
-  "k": 10
+  "k": 12
 }, "If", {
   "id": "newLenDesc"
 }, ".", "[", "[", "Writable", "]", "]", "is", "absent", "or", "has", "the", "value", {
@@ -97,23 +101,29 @@
 }, "be", {
   "value": "true"
 }, ".", {
-  "k": 11
+  "k": 13
 }, "Else", ",", {
   "in": null
 }, "Need", "to", "defer", "setting", "the", "[", "[", "Writable", "]", "]", "attribute", "to", {
   "value": "false"
-}, "in", "case", "any", "elements", "cannot", "be", "deleted", ".", "Let", {
+}, "in", "case", "any", "elements", "cannot", "be", "deleted", ".", {
+  "k": 15
+}, "Let", {
   "id": "newWritable"
 }, "be", {
   "value": "false"
-}, ".", "Set", {
+}, ".", {
+  "k": 16
+}, "Set", {
   "id": "newLenDesc"
 }, ".", "[", "[", "Writable", "]", "]", "to", {
   "value": "true"
 }, ".", {
+  "k": 17
+}, {
   "out": null
 }, {
-  "k": 12
+  "k": 14
 }, "Let", {
   "id": "succeeded"
 }, "be", "!", "OrdinaryDefineOwnProperty", "(", {
@@ -123,7 +133,7 @@
 }, ",", {
   "id": "newLenDesc"
 }, ")", ".", {
-  "k": 13
+  "k": 18
 }, "If", {
   "id": "succeeded"
 }, "is", {
@@ -131,7 +141,7 @@
 }, ",", "return", {
   "value": "false"
 }, ".", {
-  "k": 14
+  "k": 19
 }, "For", "each", "own", "property", "key", {
   "id": "P"
 }, "of", {
@@ -146,7 +156,9 @@
   "id": "A"
 }, ".", "[", "[", "Delete", "]", "]", "(", {
   "id": "P"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 21
+}, "If", {
   "id": "deleteSucceeded"
 }, "is", {
   "value": "false"
@@ -156,7 +168,9 @@
   "id": "newLenDesc"
 }, ".", "[", "[", "Value", "]", "]", "to", "!", "ToUint32", "(", {
   "id": "P"
-}, ")", "+", "1", ".", "If", {
+}, ")", "+", "1", ".", {
+  "k": 23
+}, "If", {
   "id": "newWritable"
 }, "is", {
   "value": "false"
@@ -164,20 +178,28 @@
   "id": "newLenDesc"
 }, ".", "[", "[", "Writable", "]", "]", "to", {
   "value": "false"
-}, ".", "Perform", "!", "OrdinaryDefineOwnProperty", "(", {
+}, ".", {
+  "k": 24
+}, "Perform", "!", "OrdinaryDefineOwnProperty", "(", {
   "id": "A"
 }, ",", {
   "value": "\"length\""
 }, ",", {
   "id": "newLenDesc"
-}, ")", ".", "Return", {
+}, ")", ".", {
+  "k": 25
+}, "Return", {
   "value": "false"
 }, ".", {
-  "out": null
+  "k": 26
 }, {
   "out": null
 }, {
-  "k": 15
+  "k": 22
+}, {
+  "out": null
+}, {
+  "k": 20
 }, "If", {
   "id": "newWritable"
 }, "is", {
@@ -193,11 +215,13 @@
 }, "}", ")", ".", "This", "call", "will", "always", "return", {
   "value": "true"
 }, ".", {
+  "k": 28
+}, {
   "out": null
 }, {
-  "k": 16
+  "k": 27
 }, "Return", {
   "value": "true"
 }, ".", {
-  "k": 17
+  "k": 29
 }]

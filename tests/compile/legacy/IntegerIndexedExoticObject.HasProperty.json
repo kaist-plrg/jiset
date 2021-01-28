@@ -16,7 +16,9 @@
   "id": "numericIndex"
 }, "be", "!", "CanonicalNumericIndexString", "(", {
   "id": "P"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 3
+}, "If", {
   "id": "numericIndex"
 }, "is", "not", {
   "value": "undefined"
@@ -26,13 +28,17 @@
   "id": "buffer"
 }, "be", {
   "id": "O"
-}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", "If", "IsDetachedBuffer", "(", {
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 5
+}, "If", "IsDetachedBuffer", "(", {
   "id": "buffer"
 }, ")", "is", {
   "value": "true"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "If", "!", "IsValidIntegerIndex", "(", {
+}, "exception", ".", {
+  "k": 6
+}, "If", "!", "IsValidIntegerIndex", "(", {
   "id": "O"
 }, ",", {
   "id": "numericIndex"
@@ -40,10 +46,16 @@
   "value": "false"
 }, ",", "return", {
   "value": "false"
-}, ".", "Return", {
+}, ".", {
+  "k": 7
+}, "Return", {
   "value": "true"
 }, ".", {
+  "k": 8
+}, {
   "out": null
+}, {
+  "k": 4
 }, {
   "out": null
 }, {
@@ -53,5 +65,5 @@
 }, ",", {
   "id": "P"
 }, ")", ".", {
-  "k": 3
+  "k": 9
 }]

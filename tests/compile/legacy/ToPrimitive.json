@@ -12,27 +12,39 @@
   "id": "hint"
 }, "be", {
   "value": "\"default\""
-}, ".", "Else", "if", {
+}, ".", {
+  "k": 2
+}, "Else", "if", {
   "id": "PreferredType"
 }, "is", "hint", "String", ",", "let", {
   "id": "hint"
 }, "be", {
   "value": "\"string\""
-}, ".", "Else", ",", {
+}, ".", {
+  "k": 3
+}, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "PreferredType"
-}, "is", "hint", "Number", ".", "Let", {
+}, "is", "hint", "Number", ".", {
+  "k": 5
+}, "Let", {
   "id": "hint"
 }, "be", {
   "value": "\"number\""
 }, ".", {
+  "k": 6
+}, {
   "out": null
+}, {
+  "k": 4
 }, "Let", {
   "id": "exoticToPrim"
 }, "be", "?", "GetMethod", "(", {
   "id": "input"
-}, ",", "@", "@", "toPrimitive", ")", ".", "If", {
+}, ",", "@", "@", "toPrimitive", ")", ".", {
+  "k": 7
+}, "If", {
   "id": "exoticToPrim"
 }, "is", "not", {
   "value": "undefined"
@@ -46,14 +58,22 @@
   "id": "input"
 }, ",", "«", {
   "id": "hint"
-}, "»", ")", ".", "If", "Type", "(", {
+}, "»", ")", ".", {
+  "k": 9
+}, "If", "Type", "(", {
   "id": "result"
 }, ")", "is", "not", "Object", ",", "return", {
   "id": "result"
-}, ".", "Throw", "a", {
+}, ".", {
+  "k": 10
+}, "Throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
+  "k": 11
+}, {
   "out": null
+}, {
+  "k": 8
 }, "If", {
   "id": "hint"
 }, "is", {
@@ -62,16 +82,20 @@
   "id": "hint"
 }, "to", {
   "value": "\"number\""
-}, ".", "Return", "?", "OrdinaryToPrimitive", "(", {
+}, ".", {
+  "k": 12
+}, "Return", "?", "OrdinaryToPrimitive", "(", {
   "id": "input"
 }, ",", {
   "id": "hint"
 }, ")", ".", {
+  "k": 13
+}, {
   "out": null
 }, {
   "k": 1
 }, "Return", {
   "id": "input"
 }, ".", {
-  "k": 2
+  "k": 14
 }]

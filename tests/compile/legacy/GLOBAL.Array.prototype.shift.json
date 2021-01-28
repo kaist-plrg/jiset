@@ -20,9 +20,13 @@
   "value": "\"length\""
 }, ",", "0", ",", {
   "value": "true"
-}, ")", ".", "Return", {
+}, ")", ".", {
+  "k": 3
+}, "Return", {
   "value": "undefined"
 }, ".", {
+  "k": 4
+}, {
   "out": null
 }, {
   "k": 2
@@ -33,11 +37,11 @@
 }, ",", {
   "value": "\"0\""
 }, ")", ".", {
-  "k": 3
+  "k": 5
 }, "Let", {
   "id": "k"
 }, "be", "1", ".", {
-  "k": 4
+  "k": 6
 }, "Repeat", ",", "while", {
   "id": "k"
 }, "<", {
@@ -48,17 +52,23 @@
   "id": "from"
 }, "be", "!", "ToString", "(", {
   "id": "k"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 8
+}, "Let", {
   "id": "to"
 }, "be", "!", "ToString", "(", {
   "id": "k"
-}, "-", "1", ")", ".", "Let", {
+}, "-", "1", ")", ".", {
+  "k": 9
+}, "Let", {
   "id": "fromPresent"
 }, "be", "?", "HasProperty", "(", {
   "id": "O"
 }, ",", {
   "id": "from"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 10
+}, "If", {
   "id": "fromPresent"
 }, "is", {
   "value": "true"
@@ -70,7 +80,9 @@
   "id": "O"
 }, ",", {
   "id": "from"
-}, ")", ".", "Perform", "?", "Set", "(", {
+}, ")", ".", {
+  "k": 12
+}, "Perform", "?", "Set", "(", {
   "id": "O"
 }, ",", {
   "id": "to"
@@ -79,33 +91,45 @@
 }, ",", {
   "value": "true"
 }, ")", ".", {
+  "k": 13
+}, {
   "out": null
+}, {
+  "k": 11
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "fromPresent"
 }, "is", {
   "value": "false"
-}, ".", "Perform", "?", "DeletePropertyOrThrow", "(", {
+}, ".", {
+  "k": 15
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
   "id": "O"
 }, ",", {
   "id": "to"
 }, ")", ".", {
+  "k": 16
+}, {
   "out": null
+}, {
+  "k": 14
 }, "Set", {
   "id": "k"
 }, "to", {
   "id": "k"
 }, "+", "1", ".", {
+  "k": 17
+}, {
   "out": null
 }, {
-  "k": 5
+  "k": 7
 }, "Perform", "?", "DeletePropertyOrThrow", "(", {
   "id": "O"
 }, ",", "!", "ToString", "(", {
   "id": "len"
 }, "-", "1", ")", ")", ".", {
-  "k": 6
+  "k": 18
 }, "Perform", "?", "Set", "(", {
   "id": "O"
 }, ",", {
@@ -115,9 +139,9 @@
 }, "-", "1", ",", {
   "value": "true"
 }, ")", ".", {
-  "k": 7
+  "k": 19
 }, "Return", {
   "id": "first"
 }, ".", {
-  "k": 8
+  "k": 20
 }]

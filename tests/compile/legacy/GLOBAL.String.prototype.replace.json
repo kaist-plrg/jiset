@@ -28,7 +28,9 @@
   "id": "replacer"
 }, "be", "?", "GetMethod", "(", {
   "id": "searchValue"
-}, ",", "@", "@", "replace", ")", ".", "If", {
+}, ",", "@", "@", "replace", ")", ".", {
+  "k": 4
+}, "If", {
   "id": "replacer"
 }, "is", "not", {
   "value": "undefined"
@@ -43,7 +45,11 @@
 }, ",", {
   "id": "replaceValue"
 }, "»", ")", ".", {
+  "k": 6
+}, {
   "out": null
+}, {
+  "k": 5
 }, {
   "out": null
 }, {
@@ -53,19 +59,19 @@
 }, "be", "?", "ToString", "(", {
   "id": "O"
 }, ")", ".", {
-  "k": 4
+  "k": 7
 }, "Let", {
   "id": "searchString"
 }, "be", "?", "ToString", "(", {
   "id": "searchValue"
 }, ")", ".", {
-  "k": 5
+  "k": 8
 }, "Let", {
   "id": "functionalReplace"
 }, "be", "IsCallable", "(", {
   "id": "replaceValue"
 }, ")", ".", {
-  "k": 6
+  "k": 9
 }, "If", {
   "id": "functionalReplace"
 }, "is", {
@@ -77,9 +83,11 @@
 }, "to", "?", "ToString", "(", {
   "id": "replaceValue"
 }, ")", ".", {
+  "k": 11
+}, {
   "out": null
 }, {
-  "k": 7
+  "k": 10
 }, "Search", {
   "id": "string"
 }, "for", "the", "first", "occurrence", "of", {
@@ -97,7 +105,7 @@
 }, "were", "found", ",", "return", {
   "id": "string"
 }, ".", {
-  "k": 8
+  "k": 12
 }, "If", {
   "id": "functionalReplace"
 }, "is", {
@@ -116,19 +124,25 @@
   "id": "pos"
 }, ",", {
   "id": "string"
-}, "»", ")", ".", "Let", {
+}, "»", ")", ".", {
+  "k": 14
+}, "Let", {
   "id": "replStr"
 }, "be", "?", "ToString", "(", {
   "id": "replValue"
 }, ")", ".", {
+  "k": 15
+}, {
   "out": null
 }, {
-  "k": 9
+  "k": 13
 }, "Else", ",", {
   "in": null
 }, "Let", {
   "id": "captures"
-}, "be", "a", "new", "empty", "List", ".", "Let", {
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 17
+}, "Let", {
   "id": "replStr"
 }, "be", "!", "GetSubstitution", "(", {
   "id": "matched"
@@ -143,9 +157,11 @@
 }, ",", {
   "id": "replaceValue"
 }, ")", ".", {
+  "k": 18
+}, {
   "out": null
 }, {
-  "k": 10
+  "k": 16
 }, "Let", {
   "id": "tailPos"
 }, "be", {
@@ -153,7 +169,7 @@
 }, "+", "the", "number", "of", "code", "units", "in", {
   "id": "matched"
 }, ".", {
-  "k": 11
+  "k": 19
 }, "Let", {
   "id": "newString"
 }, "be", "the", "string", "-", "concatenation", "of", "the", "first", {
@@ -169,9 +185,9 @@
 }, ".", "If", {
   "id": "pos"
 }, "is", "0", ",", "the", "first", "element", "of", "the", "concatenation", "will", "be", "the", "empty", "String", ".", {
-  "k": 12
+  "k": 20
 }, "Return", {
   "id": "newString"
 }, ".", {
-  "k": 13
+  "k": 21
 }]

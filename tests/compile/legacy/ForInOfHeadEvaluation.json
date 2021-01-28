@@ -8,15 +8,21 @@
   "in": null
 }, "Assert", ":", {
   "id": "uninitializedBoundNames"
-}, "has", "no", "duplicate", "entries", ".", "Let", {
+}, "has", "no", "duplicate", "entries", ".", {
+  "k": 2
+}, "Let", {
   "id": "newEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "oldEnv"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 3
+}, "Let", {
   "id": "newEnvRec"
 }, "be", {
   "id": "newEnv"
-}, "'", "s", "EnvironmentRecord", ".", "For", "each", "string", {
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 4
+}, "For", "each", "string", {
   "id": "name"
 }, "in", {
   "id": "uninitializedBoundNames"
@@ -29,10 +35,16 @@
 }, ",", {
   "value": "false"
 }, ")", ".", {
+  "k": 6
+}, {
   "out": null
+}, {
+  "k": 5
 }, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "newEnv"
 }, ".", {
+  "k": 7
+}, {
   "out": null
 }, {
   "k": 1
@@ -41,17 +53,17 @@
 }, "be", "the", "result", "of", "evaluating", {
   "id": "expr"
 }, ".", {
-  "k": 2
+  "k": 8
 }, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "oldEnv"
 }, ".", {
-  "k": 3
+  "k": 9
 }, "Let", {
   "id": "exprValue"
 }, "be", "?", "GetValue", "(", {
   "id": "exprRef"
 }, ")", ".", {
-  "k": 4
+  "k": 10
 }, "If", {
   "id": "iterationKind"
 }, "is", {
@@ -73,17 +85,25 @@
 }, ",", "[", "[", "Target", "]", "]", ":", {
   "const": "empty"
 }, "}", ".", {
+  "k": 13
+}, {
   "out": null
+}, {
+  "k": 12
 }, "Let", {
   "id": "obj"
 }, "be", "!", "ToObject", "(", {
   "id": "exprValue"
-}, ")", ".", "Return", "?", "EnumerateObjectProperties", "(", {
+}, ")", ".", {
+  "k": 14
+}, "Return", "?", "EnumerateObjectProperties", "(", {
   "id": "obj"
 }, ")", ".", {
+  "k": 15
+}, {
   "out": null
 }, {
-  "k": 5
+  "k": 11
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
@@ -92,7 +112,9 @@
   "const": "iterate"
 }, "or", {
   "const": "async-iterate"
-}, ".", "If", {
+}, ".", {
+  "k": 17
+}, "If", {
   "id": "iterationKind"
 }, "is", {
   "const": "async-iterate"
@@ -100,16 +122,22 @@
   "id": "iteratorHint"
 }, "be", {
   "const": "async"
-}, ".", "Else", ",", "let", {
+}, ".", {
+  "k": 18
+}, "Else", ",", "let", {
   "id": "iteratorHint"
 }, "be", {
   "const": "sync"
-}, ".", "Return", "?", "GetIterator", "(", {
+}, ".", {
+  "k": 19
+}, "Return", "?", "GetIterator", "(", {
   "id": "exprValue"
 }, ",", {
   "id": "iteratorHint"
 }, ")", ".", {
+  "k": 20
+}, {
   "out": null
 }, {
-  "k": 6
+  "k": 16
 }]

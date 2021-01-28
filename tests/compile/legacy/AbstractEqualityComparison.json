@@ -9,6 +9,8 @@
 }, "=", "=", "=", {
   "id": "y"
 }, ".", {
+  "k": 1
+}, {
   "out": null
 }, {
   "k": 0
@@ -23,7 +25,7 @@
 }, ",", "return", {
   "value": "true"
 }, ".", {
-  "k": 1
+  "k": 2
 }, "If", {
   "id": "x"
 }, "is", {
@@ -35,7 +37,7 @@
 }, ",", "return", {
   "value": "true"
 }, ".", {
-  "k": 2
+  "k": 3
 }, "If", "Type", "(", {
   "id": "x"
 }, ")", "is", "Number", "and", "Type", "(", {
@@ -45,7 +47,7 @@
 }, "=", "=", "!", "ToNumber", "(", {
   "id": "y"
 }, ")", ".", {
-  "k": 3
+  "k": 4
 }, "If", "Type", "(", {
   "id": "x"
 }, ")", "is", "String", "and", "Type", "(", {
@@ -55,7 +57,7 @@
 }, ")", "=", "=", {
   "id": "y"
 }, ".", {
-  "k": 4
+  "k": 5
 }, "If", "Type", "(", {
   "id": "x"
 }, ")", "is", "BigInt", "and", "Type", "(", {
@@ -66,20 +68,26 @@
   "id": "n"
 }, "be", "!", "StringToBigInt", "(", {
   "id": "y"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 7
+}, "If", {
   "id": "n"
 }, "is", {
   "value": "NaN"
 }, ",", "return", {
   "value": "false"
-}, ".", "Return", "the", "result", "of", "the", "comparison", {
+}, ".", {
+  "k": 8
+}, "Return", "the", "result", "of", "the", "comparison", {
   "id": "x"
 }, "=", "=", {
   "id": "n"
 }, ".", {
+  "k": 9
+}, {
   "out": null
 }, {
-  "k": 5
+  "k": 6
 }, "If", "Type", "(", {
   "id": "x"
 }, ")", "is", "String", "and", "Type", "(", {
@@ -89,7 +97,7 @@
 }, "=", "=", {
   "id": "x"
 }, ".", {
-  "k": 6
+  "k": 10
 }, "If", "Type", "(", {
   "id": "x"
 }, ")", "is", "Boolean", ",", "return", "the", "result", "of", "the", "comparison", "!", "ToNumber", "(", {
@@ -97,7 +105,7 @@
 }, ")", "=", "=", {
   "id": "y"
 }, ".", {
-  "k": 7
+  "k": 11
 }, "If", "Type", "(", {
   "id": "y"
 }, ")", "is", "Boolean", ",", "return", "the", "result", "of", "the", "comparison", {
@@ -105,7 +113,7 @@
 }, "=", "=", "!", "ToNumber", "(", {
   "id": "y"
 }, ")", ".", {
-  "k": 8
+  "k": 12
 }, "If", "Type", "(", {
   "id": "x"
 }, ")", "is", "either", "String", ",", "Number", ",", "BigInt", ",", "or", "Symbol", "and", "Type", "(", {
@@ -115,7 +123,7 @@
 }, "=", "=", "ToPrimitive", "(", {
   "id": "y"
 }, ")", ".", {
-  "k": 9
+  "k": 13
 }, "If", "Type", "(", {
   "id": "x"
 }, ")", "is", "Object", "and", "Type", "(", {
@@ -125,7 +133,7 @@
 }, ")", "=", "=", {
   "id": "y"
 }, ".", {
-  "k": 10
+  "k": 14
 }, "If", "Type", "(", {
   "id": "x"
 }, ")", "is", "BigInt", "and", "Type", "(", {
@@ -148,7 +156,9 @@
   "value": "-∞"
 }, ",", "return", {
   "value": "false"
-}, ".", "If", "the", "mathematical", "value", "of", {
+}, ".", {
+  "k": 16
+}, "If", "the", "mathematical", "value", "of", {
   "id": "x"
 }, "is", "equal", "to", "the", "mathematical", "value", "of", {
   "id": "y"
@@ -157,11 +167,13 @@
 }, ";", "otherwise", "return", {
   "value": "false"
 }, ".", {
+  "k": 17
+}, {
   "out": null
 }, {
-  "k": 11
+  "k": 15
 }, "Return", {
   "value": "false"
 }, ".", {
-  "k": 12
+  "k": 18
 }]

@@ -7,6 +7,8 @@
 }, "Let", {
   "id": "index"
 }, "be", "0", ".", {
+  "k": 1
+}, {
   "out": null
 }, {
   "k": 0
@@ -16,15 +18,21 @@
   "id": "integerIndex"
 }, "be", "?", "ToInteger", "(", {
   "id": "value"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 3
+}, "If", {
   "id": "integerIndex"
 }, "<", "0", ",", "throw", "a", {
   "value": "RangeError"
-}, "exception", ".", "Let", {
+}, "exception", ".", {
+  "k": 4
+}, "Let", {
   "id": "index"
 }, "be", "!", "ToLength", "(", {
   "id": "integerIndex"
-}, ")", ".", "If", "!", "SameValue", "(", {
+}, ")", ".", {
+  "k": 5
+}, "If", "!", "SameValue", "(", {
   "id": "integerIndex"
 }, ",", {
   "id": "index"
@@ -33,11 +41,13 @@
 }, ",", "throw", "a", {
   "value": "RangeError"
 }, "exception", ".", {
+  "k": 6
+}, {
   "out": null
 }, {
-  "k": 1
+  "k": 2
 }, "Return", {
   "id": "index"
 }, ".", {
-  "k": 2
+  "k": 7
 }]

@@ -38,25 +38,37 @@
   "id": "result"
 }, "be", "the", "result", "of", "evaluating", {
   "id": "generatorBody"
-}, ".", "Assert", ":", "If", "we", "return", "here", ",", "the", "async", "generator", "either", "threw", "an", "exception", "or", "performed", "either", "an", "implicit", "or", "explicit", "return", ".", "Remove", {
+}, ".", {
+  "k": 7
+}, "Assert", ":", "If", "we", "return", "here", ",", "the", "async", "generator", "either", "threw", "an", "exception", "or", "performed", "either", "an", "implicit", "or", "explicit", "return", ".", {
+  "k": 8
+}, "Remove", {
   "id": "genContext"
-}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", "Set", {
+}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 9
+}, "Set", {
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
   "const": "completed"
-}, ".", "If", {
+}, ".", {
+  "k": 10
+}, "If", {
   "id": "result"
 }, "is", "a", "normal", "completion", ",", "let", {
   "id": "resultValue"
 }, "be", {
   "value": "undefined"
-}, ".", "Else", ",", {
+}, ".", {
+  "k": 11
+}, "Else", ",", {
   "in": null
 }, "Let", {
   "id": "resultValue"
 }, "be", {
   "id": "result"
-}, ".", "[", "[", "Value", "]", "]", ".", "If", {
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 13
+}, "If", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", "not", {
   "const": "return"
@@ -67,9 +79,15 @@
 }, ",", {
   "id": "resultValue"
 }, ")", ".", {
-  "out": null
+  "k": 15
 }, {
   "out": null
+}, {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 12
 }, "Return", "!", "AsyncGeneratorResolve", "(", {
   "id": "generator"
 }, ",", {
@@ -77,6 +95,8 @@
 }, ",", {
   "value": "true"
 }, ")", ".", {
+  "k": 16
+}, {
   "out": null
 }, {
   "k": 6
@@ -85,19 +105,19 @@
 }, ".", "[", "[", "AsyncGeneratorContext", "]", "]", "to", {
   "id": "genContext"
 }, ".", {
-  "k": 7
+  "k": 17
 }, "Set", {
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
   "const": "suspendedStart"
 }, ".", {
-  "k": 8
+  "k": 18
 }, "Set", {
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorQueue", "]", "]", "to", "a", "new", "empty", "List", ".", {
-  "k": 9
+  "k": 19
 }, "Return", {
   "value": "undefined"
 }, ".", {
-  "k": 10
+  "k": 20
 }]

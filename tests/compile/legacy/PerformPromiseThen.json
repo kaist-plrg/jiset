@@ -11,6 +11,8 @@
 }, "Assert", ":", {
   "id": "resultCapability"
 }, "is", "a", "PromiseCapability", "Record", ".", {
+  "k": 2
+}, {
   "out": null
 }, {
   "k": 1
@@ -21,24 +23,28 @@
 }, "to", {
   "value": "undefined"
 }, ".", {
-  "out": null
+  "k": 4
 }, {
-  "k": 2
-}, "If", "IsCallable", "(", {
-  "id": "onFulfilled"
-}, ")", "is", {
-  "value": "false"
-}, ",", "then", {
-  "in": null
-}, "Set", {
-  "id": "onFulfilled"
-}, "to", {
-  "value": "undefined"
-}, ".", {
   "out": null
 }, {
   "k": 3
 }, "If", "IsCallable", "(", {
+  "id": "onFulfilled"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "onFulfilled"
+}, "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "If", "IsCallable", "(", {
   "id": "onRejected"
 }, ")", "is", {
   "value": "false"
@@ -49,9 +55,11 @@
 }, "to", {
   "value": "undefined"
 }, ".", {
+  "k": 8
+}, {
   "out": null
 }, {
-  "k": 4
+  "k": 7
 }, "Let", {
   "id": "fulfillReaction"
 }, "be", "the", "PromiseReaction", "{", "[", "[", "Capability", "]", "]", ":", {
@@ -61,7 +69,7 @@
 }, ",", "[", "[", "Handler", "]", "]", ":", {
   "id": "onFulfilled"
 }, "}", ".", {
-  "k": 5
+  "k": 9
 }, "Let", {
   "id": "rejectReaction"
 }, "be", "the", "PromiseReaction", "{", "[", "[", "Capability", "]", "]", ":", {
@@ -71,7 +79,7 @@
 }, ",", "[", "[", "Handler", "]", "]", ":", {
   "id": "onRejected"
 }, "}", ".", {
-  "k": 6
+  "k": 10
 }, "If", {
   "id": "promise"
 }, ".", "[", "[", "PromiseState", "]", "]", "is", {
@@ -82,14 +90,18 @@
   "id": "fulfillReaction"
 }, "as", "the", "last", "element", "of", "the", "List", "that", "is", {
   "id": "promise"
-}, ".", "[", "[", "PromiseFulfillReactions", "]", "]", ".", "Append", {
+}, ".", "[", "[", "PromiseFulfillReactions", "]", "]", ".", {
+  "k": 12
+}, "Append", {
   "id": "rejectReaction"
 }, "as", "the", "last", "element", "of", "the", "List", "that", "is", {
   "id": "promise"
 }, ".", "[", "[", "PromiseRejectReactions", "]", "]", ".", {
+  "k": 13
+}, {
   "out": null
 }, {
-  "k": 7
+  "k": 11
 }, "Else", "if", {
   "id": "promise"
 }, ".", "[", "[", "PromiseState", "]", "]", "is", {
@@ -100,31 +112,41 @@
   "id": "value"
 }, "be", {
   "id": "promise"
-}, ".", "[", "[", "PromiseResult", "]", "]", ".", "Let", {
+}, ".", "[", "[", "PromiseResult", "]", "]", ".", {
+  "k": 15
+}, "Let", {
   "id": "fulfillJob"
 }, "be", "NewPromiseReactionJob", "(", {
   "id": "fulfillReaction"
 }, ",", {
   "id": "value"
-}, ")", ".", "Perform", "HostEnqueuePromiseJob", "(", {
+}, ")", ".", {
+  "k": 16
+}, "Perform", "HostEnqueuePromiseJob", "(", {
   "id": "fulfillJob"
 }, ".", "[", "[", "Job", "]", "]", ",", {
   "id": "fulfillJob"
 }, ".", "[", "[", "Realm", "]", "]", ")", ".", {
+  "k": 17
+}, {
   "out": null
 }, {
-  "k": 8
+  "k": 14
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", "The", "value", "of", {
   "id": "promise"
 }, ".", "[", "[", "PromiseState", "]", "]", "is", {
   "const": "rejected"
-}, ".", "Let", {
+}, ".", {
+  "k": 19
+}, "Let", {
   "id": "reason"
 }, "be", {
   "id": "promise"
-}, ".", "[", "[", "PromiseResult", "]", "]", ".", "If", {
+}, ".", "[", "[", "PromiseResult", "]", "]", ".", {
+  "k": 20
+}, "If", {
   "id": "promise"
 }, ".", "[", "[", "PromiseIsHandled", "]", "]", "is", {
   "value": "false"
@@ -132,26 +154,32 @@
   "id": "promise"
 }, ",", {
   "value": "\"handle\""
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 21
+}, "Let", {
   "id": "rejectJob"
 }, "be", "NewPromiseReactionJob", "(", {
   "id": "rejectReaction"
 }, ",", {
   "id": "reason"
-}, ")", ".", "Perform", "HostEnqueuePromiseJob", "(", {
+}, ")", ".", {
+  "k": 22
+}, "Perform", "HostEnqueuePromiseJob", "(", {
   "id": "rejectJob"
 }, ".", "[", "[", "Job", "]", "]", ",", {
   "id": "rejectJob"
 }, ".", "[", "[", "Realm", "]", "]", ")", ".", {
+  "k": 23
+}, {
   "out": null
 }, {
-  "k": 9
+  "k": 18
 }, "Set", {
   "id": "promise"
 }, ".", "[", "[", "PromiseIsHandled", "]", "]", "to", {
   "value": "true"
 }, ".", {
-  "k": 10
+  "k": 24
 }, "If", {
   "id": "resultCapability"
 }, "is", {
@@ -161,15 +189,19 @@
 }, "Return", {
   "value": "undefined"
 }, ".", {
+  "k": 26
+}, {
   "out": null
 }, {
-  "k": 11
+  "k": 25
 }, "Else", ",", {
   "in": null
 }, "Return", {
   "id": "resultCapability"
 }, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 28
+}, {
   "out": null
 }, {
-  "k": 12
+  "k": 27
 }]

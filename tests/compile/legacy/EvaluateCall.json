@@ -17,21 +17,33 @@
 }, "be", "GetThisValue", "(", {
   "id": "ref"
 }, ")", ".", {
+  "k": 3
+}, {
   "out": null
+}, {
+  "k": 2
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", "the", "base", "of", {
   "id": "ref"
-}, "is", "an", "Environment", "Record", ".", "Let", {
+}, "is", "an", "Environment", "Record", ".", {
+  "k": 5
+}, "Let", {
   "id": "refEnv"
 }, "be", "GetBase", "(", {
   "id": "ref"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 6
+}, "Let", {
   "id": "thisValue"
 }, "be", {
   "id": "refEnv"
 }, ".", "WithBaseObject", "(", ")", ".", {
+  "k": 7
+}, {
   "out": null
+}, {
+  "k": 4
 }, {
   "out": null
 }, {
@@ -43,21 +55,23 @@
 }, "be", {
   "value": "undefined"
 }, ".", {
+  "k": 9
+}, {
   "out": null
 }, {
-  "k": 2
+  "k": 8
 }, "Let", {
   "id": "argList"
 }, "be", "?", "ArgumentListEvaluation", "of", {
   "id": "arguments"
 }, ".", {
-  "k": 3
+  "k": 10
 }, "If", "Type", "(", {
   "id": "func"
 }, ")", "is", "not", "Object", ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "k": 4
+  "k": 11
 }, "If", "IsCallable", "(", {
   "id": "func"
 }, ")", "is", {
@@ -65,13 +79,13 @@
 }, ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "k": 5
+  "k": 12
 }, "If", {
   "id": "tailPosition"
 }, "is", {
   "value": "true"
 }, ",", "perform", "PrepareForTailCall", "(", ")", ".", {
-  "k": 6
+  "k": 13
 }, "Let", {
   "id": "result"
 }, "be", "Call", "(", {
@@ -81,21 +95,21 @@
 }, ",", {
   "id": "argList"
 }, ")", ".", {
-  "k": 7
+  "k": 14
 }, "Assert", ":", "If", {
   "id": "tailPosition"
 }, "is", {
   "value": "true"
 }, ",", "the", "above", "call", "will", "not", "return", "here", ",", "but", "instead", "evaluation", "will", "continue", "as", "if", "the", "following", "return", "has", "already", "occurred", ".", {
-  "k": 8
+  "k": 15
 }, "Assert", ":", "If", {
   "id": "result"
 }, "is", "not", "an", "abrupt", "completion", ",", "then", "Type", "(", {
   "id": "result"
 }, ")", "is", "an", "ECMAScript", "language", "type", ".", {
-  "k": 9
+  "k": 16
 }, "Return", {
   "id": "result"
 }, ".", {
-  "k": 10
+  "k": 17
 }]

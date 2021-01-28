@@ -28,7 +28,9 @@
   "id": "splitter"
 }, "be", "?", "GetMethod", "(", {
   "id": "separator"
-}, ",", "@", "@", "split", ")", ".", "If", {
+}, ",", "@", "@", "split", ")", ".", {
+  "k": 4
+}, "If", {
   "id": "splitter"
 }, "is", "not", {
   "value": "undefined"
@@ -43,7 +45,11 @@
 }, ",", {
   "id": "limit"
 }, "»", ")", ".", {
+  "k": 6
+}, {
   "out": null
+}, {
+  "k": 5
 }, {
   "out": null
 }, {
@@ -53,15 +59,15 @@
 }, "be", "?", "ToString", "(", {
   "id": "O"
 }, ")", ".", {
-  "k": 4
+  "k": 7
 }, "Let", {
   "id": "A"
 }, "be", "!", "ArrayCreate", "(", "0", ")", ".", {
-  "k": 5
+  "k": 8
 }, "Let", {
   "id": "lengthA"
 }, "be", "0", ".", {
-  "k": 6
+  "k": 9
 }, "If", {
   "id": "limit"
 }, "is", {
@@ -75,29 +81,29 @@
 }, "be", "?", "ToUint32", "(", {
   "id": "limit"
 }, ")", ".", {
-  "k": 7
+  "k": 10
 }, "Let", {
   "id": "s"
 }, "be", "the", "length", "of", {
   "id": "S"
 }, ".", {
-  "k": 8
+  "k": 11
 }, "Let", {
   "id": "p"
 }, "be", "0", ".", {
-  "k": 9
+  "k": 12
 }, "Let", {
   "id": "R"
 }, "be", "?", "ToString", "(", {
   "id": "separator"
 }, ")", ".", {
-  "k": 10
+  "k": 13
 }, "If", {
   "id": "lim"
 }, "=", "0", ",", "return", {
   "id": "A"
 }, ".", {
-  "k": 11
+  "k": 14
 }, "If", {
   "id": "separator"
 }, "is", {
@@ -110,12 +116,16 @@
   "value": "\"0\""
 }, ",", {
   "id": "S"
-}, ")", ".", "Return", {
+}, ")", ".", {
+  "k": 16
+}, "Return", {
   "id": "A"
 }, ".", {
+  "k": 17
+}, {
   "out": null
 }, {
-  "k": 12
+  "k": 15
 }, "If", {
   "id": "s"
 }, "=", "0", ",", "then", {
@@ -126,30 +136,38 @@
   "id": "S"
 }, ",", "0", ",", {
   "id": "R"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 19
+}, "If", {
   "id": "z"
 }, "is", "not", {
   "value": "false"
 }, ",", "return", {
   "id": "A"
-}, ".", "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+}, ".", {
+  "k": 20
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
   "id": "A"
 }, ",", {
   "value": "\"0\""
 }, ",", {
   "id": "S"
-}, ")", ".", "Return", {
+}, ")", ".", {
+  "k": 21
+}, "Return", {
   "id": "A"
 }, ".", {
+  "k": 22
+}, {
   "out": null
 }, {
-  "k": 13
+  "k": 18
 }, "Let", {
   "id": "q"
 }, "be", {
   "id": "p"
 }, ".", {
-  "k": 14
+  "k": 23
 }, "Repeat", ",", "while", {
   "id": "q"
 }, "≠", {
@@ -164,7 +182,9 @@
   "id": "q"
 }, ",", {
   "id": "R"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 25
+}, "If", {
   "id": "e"
 }, "is", {
   "value": "false"
@@ -172,13 +192,17 @@
   "id": "q"
 }, "to", {
   "id": "q"
-}, "+", "1", ".", "Else", ",", {
+}, "+", "1", ".", {
+  "k": 26
+}, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "e"
 }, "is", "an", "integer", "index", "≤", {
   "id": "s"
-}, ".", "If", {
+}, ".", {
+  "k": 28
+}, "If", {
   "id": "e"
 }, "=", {
   "id": "p"
@@ -186,7 +210,9 @@
   "id": "q"
 }, "to", {
   "id": "q"
-}, "+", "1", ".", "Else", ",", {
+}, "+", "1", ".", {
+  "k": 29
+}, "Else", ",", {
   "in": null
 }, "Let", {
   "id": "T"
@@ -196,38 +222,54 @@
   "id": "p"
 }, "(", "inclusive", ")", "through", {
   "id": "q"
-}, "(", "exclusive", ")", ".", "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+}, "(", "exclusive", ")", ".", {
+  "k": 31
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
   "id": "A"
 }, ",", "!", "ToString", "(", {
   "id": "lengthA"
 }, ")", ",", {
   "id": "T"
-}, ")", ".", "Set", {
+}, ")", ".", {
+  "k": 32
+}, "Set", {
   "id": "lengthA"
 }, "to", {
   "id": "lengthA"
-}, "+", "1", ".", "If", {
+}, "+", "1", ".", {
+  "k": 33
+}, "If", {
   "id": "lengthA"
 }, "=", {
   "id": "lim"
 }, ",", "return", {
   "id": "A"
-}, ".", "Set", {
+}, ".", {
+  "k": 34
+}, "Set", {
   "id": "p"
 }, "to", {
   "id": "e"
-}, ".", "Set", {
+}, ".", {
+  "k": 35
+}, "Set", {
   "id": "q"
 }, "to", {
   "id": "p"
 }, ".", {
-  "out": null
+  "k": 36
 }, {
   "out": null
 }, {
+  "k": 30
+}, {
   "out": null
 }, {
-  "k": 15
+  "k": 27
+}, {
+  "out": null
+}, {
+  "k": 24
 }, "Let", {
   "id": "T"
 }, "be", "the", "String", "value", "equal", "to", "the", "substring", "of", {
@@ -237,7 +279,7 @@
 }, "(", "inclusive", ")", "through", {
   "id": "s"
 }, "(", "exclusive", ")", ".", {
-  "k": 16
+  "k": 37
 }, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
   "id": "A"
 }, ",", "!", "ToString", "(", {
@@ -245,9 +287,9 @@
 }, ")", ",", {
   "id": "T"
 }, ")", ".", {
-  "k": 17
+  "k": 38
 }, "Return", {
   "id": "A"
 }, ".", {
-  "k": 18
+  "k": 39
 }]

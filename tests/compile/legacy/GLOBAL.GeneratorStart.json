@@ -34,17 +34,27 @@
   "id": "result"
 }, "be", "the", "result", "of", "evaluating", {
   "id": "generatorBody"
-}, ".", "Assert", ":", "If", "we", "return", "here", ",", "the", "generator", "either", "threw", "an", "exception", "or", "performed", "either", "an", "implicit", "or", "explicit", "return", ".", "Remove", {
+}, ".", {
+  "k": 6
+}, "Assert", ":", "If", "we", "return", "here", ",", "the", "generator", "either", "threw", "an", "exception", "or", "performed", "either", "an", "implicit", "or", "explicit", "return", ".", {
+  "k": 7
+}, "Remove", {
   "id": "genContext"
-}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", "Set", {
+}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 8
+}, "Set", {
   "id": "generator"
 }, ".", "[", "[", "GeneratorState", "]", "]", "to", {
   "const": "completed"
-}, ".", "Once", "a", "generator", "enters", "the", {
+}, ".", {
+  "k": 9
+}, "Once", "a", "generator", "enters", "the", {
   "const": "completed"
 }, "state", "it", "never", "leaves", "it", "and", "its", "associated", "execution", "context", "is", "never", "resumed", ".", "Any", "execution", "state", "associated", "with", {
   "id": "generator"
-}, "can", "be", "discarded", "at", "this", "point", ".", "If", {
+}, "can", "be", "discarded", "at", "this", "point", ".", {
+  "k": 10
+}, "If", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "normal"
@@ -52,7 +62,9 @@
   "id": "resultValue"
 }, "be", {
   "value": "undefined"
-}, ".", "Else", "if", {
+}, ".", {
+  "k": 11
+}, "Else", "if", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "return"
@@ -60,21 +72,31 @@
   "id": "resultValue"
 }, "be", {
   "id": "result"
-}, ".", "[", "[", "Value", "]", "]", ".", "Else", ",", {
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 12
+}, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "throw"
-}, ".", "Return", "Completion", "(", {
+}, ".", {
+  "k": 14
+}, "Return", "Completion", "(", {
   "id": "result"
 }, ")", ".", {
+  "k": 15
+}, {
   "out": null
+}, {
+  "k": 13
 }, "Return", "CreateIterResultObject", "(", {
   "id": "resultValue"
 }, ",", {
   "value": "true"
 }, ")", ".", {
+  "k": 16
+}, {
   "out": null
 }, {
   "k": 5
@@ -83,15 +105,15 @@
 }, ".", "[", "[", "GeneratorContext", "]", "]", "to", {
   "id": "genContext"
 }, ".", {
-  "k": 6
+  "k": 17
 }, "Set", {
   "id": "generator"
 }, ".", "[", "[", "GeneratorState", "]", "]", "to", {
   "const": "suspendedStart"
 }, ".", {
-  "k": 7
+  "k": 18
 }, "Return", "NormalCompletion", "(", {
   "value": "undefined"
 }, ")", ".", {
-  "k": 8
+  "k": 19
 }]

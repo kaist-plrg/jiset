@@ -20,23 +20,33 @@
   "id": "testRef"
 }, "be", "the", "result", "of", "evaluating", {
   "id": "test"
-}, ".", "Let", {
+}, ".", {
+  "k": 4
+}, "Let", {
   "id": "testValue"
 }, "be", "?", "GetValue", "(", {
   "id": "testRef"
-}, ")", ".", "If", "!", "ToBoolean", "(", {
+}, ")", ".", {
+  "k": 5
+}, "If", "!", "ToBoolean", "(", {
   "id": "testValue"
 }, ")", "is", {
   "value": "false"
 }, ",", "return", "NormalCompletion", "(", {
   "id": "V"
 }, ")", ".", {
+  "k": 6
+}, {
   "out": null
+}, {
+  "k": 3
 }, "Let", {
   "id": "result"
 }, "be", "the", "result", "of", "evaluating", {
   "id": "stmt"
-}, ".", "If", "LoopContinues", "(", {
+}, ".", {
+  "k": 7
+}, "If", "LoopContinues", "(", {
   "id": "result"
 }, ",", {
   "id": "labelSet"
@@ -46,7 +56,9 @@
   "id": "result"
 }, ",", {
   "id": "V"
-}, ")", ")", ".", "If", {
+}, ")", ")", ".", {
+  "k": 8
+}, "If", {
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", "is", "not", {
   "const": "empty"
@@ -54,9 +66,13 @@
   "id": "V"
 }, "to", {
   "id": "result"
-}, ".", "[", "[", "Value", "]", "]", ".", "Perform", "?", "CreatePerIterationEnvironment", "(", {
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 9
+}, "Perform", "?", "CreatePerIterationEnvironment", "(", {
   "id": "perIterationBindings"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 10
+}, "If", {
   "id": "increment"
 }, "is", "not", {
   "const": "[empty]"
@@ -66,10 +82,16 @@
   "id": "incRef"
 }, "be", "the", "result", "of", "evaluating", {
   "id": "increment"
-}, ".", "Perform", "?", "GetValue", "(", {
+}, ".", {
+  "k": 12
+}, "Perform", "?", "GetValue", "(", {
   "id": "incRef"
 }, ")", ".", {
+  "k": 13
+}, {
   "out": null
+}, {
+  "k": 11
 }, {
   "out": null
 }, {

@@ -36,15 +36,21 @@
   "id": "F"
 }, "be", {
   "id": "thisEnvRec"
-}, ".", "[", "[", "FunctionObject", "]", "]", ".", "Let", {
+}, ".", "[", "[", "FunctionObject", "]", "]", ".", {
+  "k": 6
+}, "Let", {
   "id": "inFunction"
 }, "be", {
   "value": "true"
-}, ".", "Let", {
+}, ".", {
+  "k": 7
+}, "Let", {
   "id": "inMethod"
 }, "be", {
   "id": "thisEnvRec"
-}, ".", "HasSuperBinding", "(", ")", ".", "If", {
+}, ".", "HasSuperBinding", "(", ")", ".", {
+  "k": 8
+}, "If", {
   "id": "F"
 }, ".", "[", "[", "ConstructorKind", "]", "]", "is", {
   "const": "derived"
@@ -57,6 +63,8 @@
 }, "be", {
   "value": "false"
 }, ".", {
+  "k": 9
+}, {
   "out": null
 }, {
   "k": 5
@@ -66,18 +74,24 @@
   "id": "inFunction"
 }, "be", {
   "value": "false"
-}, ".", "Let", {
+}, ".", {
+  "k": 11
+}, "Let", {
   "id": "inMethod"
 }, "be", {
   "value": "false"
-}, ".", "Let", {
+}, ".", {
+  "k": 12
+}, "Let", {
   "id": "inDerivedConstructor"
 }, "be", {
   "value": "false"
 }, ".", {
+  "k": 13
+}, {
   "out": null
 }, {
-  "k": 6
+  "k": 10
 }, "Perform", "the", "following", "substeps", "in", "an", "implementation", "-", "dependent", "order", ",", "possibly", "interleaving", "parsing", "and", "error", "detection", ":", {
   "in": null
 }, "Let", {
@@ -90,7 +104,9 @@
   "value": "SyntaxError"
 }, "exception", ".", "If", "any", "early", "errors", "are", "detected", ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", "(", "but", "see", "also", "clause", "16", ")", ".", "If", {
+}, "exception", "(", "but", "see", "also", "clause", "16", ")", ".", {
+  "k": 15
+}, "If", {
   "id": "script"
 }, "Contains", {
   "nt": "ScriptBody"
@@ -98,13 +114,17 @@
   "value": "false"
 }, ",", "return", {
   "value": "undefined"
-}, ".", "Let", {
+}, ".", {
+  "k": 16
+}, "Let", {
   "id": "body"
 }, "be", "the", {
   "nt": "ScriptBody"
 }, "of", {
   "id": "script"
-}, ".", "If", {
+}, ".", {
+  "k": 17
+}, "If", {
   "id": "inFunction"
 }, "is", {
   "value": "false"
@@ -114,7 +134,9 @@
   "nt": "NewTarget"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 18
+}, "If", {
   "id": "inMethod"
 }, "is", {
   "value": "false"
@@ -124,7 +146,9 @@
   "nt": "SuperProperty"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 19
+}, "If", {
   "id": "inDerivedConstructor"
 }, "is", {
   "value": "false"
@@ -135,9 +159,11 @@
 }, ",", "throw", "a", {
   "value": "SyntaxError"
 }, "exception", ".", {
+  "k": 20
+}, {
   "out": null
 }, {
-  "k": 7
+  "k": 14
 }, "If", {
   "id": "strictCaller"
 }, "is", {
@@ -147,17 +173,17 @@
 }, "be", {
   "value": "true"
 }, ".", {
-  "k": 8
+  "k": 21
 }, "Else", ",", "let", {
   "id": "strictEval"
 }, "be", "IsStrict", "of", {
   "id": "script"
 }, ".", {
-  "k": 9
+  "k": 22
 }, "Let", {
   "id": "runningContext"
 }, "be", "the", "running", "execution", "context", ".", {
-  "k": 10
+  "k": 23
 }, "NOTE", ":", "If", {
   "id": "direct"
 }, "is", {
@@ -173,7 +199,7 @@
 }, "will", "be", "the", "execution", "context", "for", "the", "invocation", "of", "the", {
   "code": "eval"
 }, "function", ".", {
-  "k": 11
+  "k": 24
 }, "If", {
   "id": "direct"
 }, "is", {
@@ -184,28 +210,36 @@
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "runningContext"
-}, "'", "s", "LexicalEnvironment", ")", ".", "Let", {
+}, "'", "s", "LexicalEnvironment", ")", ".", {
+  "k": 26
+}, "Let", {
   "id": "varEnv"
 }, "be", {
   "id": "runningContext"
 }, "'", "s", "VariableEnvironment", ".", {
+  "k": 27
+}, {
   "out": null
 }, {
-  "k": 12
+  "k": 25
 }, "Else", ",", {
   "in": null
 }, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "evalRealm"
-}, ".", "[", "[", "GlobalEnv", "]", "]", ")", ".", "Let", {
+}, ".", "[", "[", "GlobalEnv", "]", "]", ")", ".", {
+  "k": 29
+}, "Let", {
   "id": "varEnv"
 }, "be", {
   "id": "evalRealm"
 }, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
+  "k": 30
+}, {
   "out": null
 }, {
-  "k": 13
+  "k": 28
 }, "If", {
   "id": "strictEval"
 }, "is", {
@@ -215,53 +249,53 @@
 }, "to", {
   "id": "lexEnv"
 }, ".", {
-  "k": 14
+  "k": 31
 }, "If", {
   "id": "runningContext"
 }, "is", "not", "already", "suspended", ",", "suspend", {
   "id": "runningContext"
 }, ".", {
-  "k": 15
+  "k": 32
 }, "Let", {
   "id": "evalContext"
 }, "be", "a", "new", "ECMAScript", "code", "execution", "context", ".", {
-  "k": 16
+  "k": 33
 }, "Set", {
   "id": "evalContext"
 }, "'", "s", "Function", "to", {
   "value": "null"
 }, ".", {
-  "k": 17
+  "k": 34
 }, "Set", {
   "id": "evalContext"
 }, "'", "s", "Realm", "to", {
   "id": "evalRealm"
 }, ".", {
-  "k": 18
+  "k": 35
 }, "Set", {
   "id": "evalContext"
 }, "'", "s", "ScriptOrModule", "to", {
   "id": "runningContext"
 }, "'", "s", "ScriptOrModule", ".", {
-  "k": 19
+  "k": 36
 }, "Set", {
   "id": "evalContext"
 }, "'", "s", "VariableEnvironment", "to", {
   "id": "varEnv"
 }, ".", {
-  "k": 20
+  "k": 37
 }, "Set", {
   "id": "evalContext"
 }, "'", "s", "LexicalEnvironment", "to", {
   "id": "lexEnv"
 }, ".", {
-  "k": 21
+  "k": 38
 }, "Push", {
   "id": "evalContext"
 }, "onto", "the", "execution", "context", "stack", ";", {
   "id": "evalContext"
 }, "is", "now", "the", "running", "execution", "context", ".", {
-  "k": 22
+  "k": 39
 }, "Let", {
   "id": "result"
 }, "be", "EvalDeclarationInstantiation", "(", {
@@ -273,7 +307,7 @@
 }, ",", {
   "id": "strictEval"
 }, ")", ".", {
-  "k": 23
+  "k": 40
 }, "If", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
@@ -285,9 +319,11 @@
 }, "to", "the", "result", "of", "evaluating", {
   "id": "body"
 }, ".", {
+  "k": 42
+}, {
   "out": null
 }, {
-  "k": 24
+  "k": 41
 }, "If", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
@@ -303,17 +339,19 @@
 }, "to", "NormalCompletion", "(", {
   "value": "undefined"
 }, ")", ".", {
+  "k": 44
+}, {
   "out": null
 }, {
-  "k": 25
+  "k": 43
 }, "Suspend", {
   "id": "evalContext"
 }, "and", "remove", "it", "from", "the", "execution", "context", "stack", ".", {
-  "k": 26
+  "k": 45
 }, "Resume", "the", "context", "that", "is", "now", "on", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
-  "k": 27
+  "k": 46
 }, "Return", "Completion", "(", {
   "id": "result"
 }, ")", ".", {
-  "k": 28
+  "k": 47
 }]

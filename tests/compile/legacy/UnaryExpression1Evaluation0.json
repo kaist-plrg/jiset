@@ -24,9 +24,13 @@
   "id": "ref"
 }, ")", "is", {
   "value": "false"
-}, ".", "Return", {
+}, ".", {
+  "k": 4
+}, "Return", {
   "value": "true"
 }, ".", {
+  "k": 5
+}, {
   "out": null
 }, {
   "k": 3
@@ -42,17 +46,23 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "ReferenceError"
-}, "exception", ".", "Let", {
+}, "exception", ".", {
+  "k": 7
+}, "Let", {
   "id": "baseObj"
 }, "be", "!", "ToObject", "(", "GetBase", "(", {
   "id": "ref"
-}, ")", ")", ".", "Let", {
+}, ")", ")", ".", {
+  "k": 8
+}, "Let", {
   "id": "deleteStatus"
 }, "be", "?", {
   "id": "baseObj"
 }, ".", "[", "[", "Delete", "]", "]", "(", "GetReferencedName", "(", {
   "id": "ref"
-}, ")", ")", ".", "If", {
+}, ")", ")", ".", {
+  "k": 9
+}, "If", {
   "id": "deleteStatus"
 }, "is", {
   "value": "false"
@@ -62,26 +72,36 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Return", {
+}, "exception", ".", {
+  "k": 10
+}, "Return", {
   "id": "deleteStatus"
 }, ".", {
+  "k": 11
+}, {
   "out": null
 }, {
-  "k": 4
+  "k": 6
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "ref"
-}, "is", "a", "Reference", "to", "an", "Environment", "Record", "binding", ".", "Let", {
+}, "is", "a", "Reference", "to", "an", "Environment", "Record", "binding", ".", {
+  "k": 13
+}, "Let", {
   "id": "bindings"
 }, "be", "GetBase", "(", {
   "id": "ref"
-}, ")", ".", "Return", "?", {
+}, ")", ".", {
+  "k": 14
+}, "Return", "?", {
   "id": "bindings"
 }, ".", "DeleteBinding", "(", "GetReferencedName", "(", {
   "id": "ref"
 }, ")", ")", ".", {
+  "k": 15
+}, {
   "out": null
 }, {
-  "k": 5
+  "k": 12
 }]

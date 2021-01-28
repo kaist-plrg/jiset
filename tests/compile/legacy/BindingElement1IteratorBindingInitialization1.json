@@ -8,15 +8,21 @@
   "id": "next"
 }, "be", "IteratorStep", "(", {
   "id": "iteratorRecord"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 1
+}, "If", {
   "id": "next"
 }, "is", "an", "abrupt", "completion", ",", "set", {
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "to", {
   "value": "true"
-}, ".", "ReturnIfAbrupt", "(", {
+}, ".", {
+  "k": 2
+}, "ReturnIfAbrupt", "(", {
   "id": "next"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 3
+}, "If", {
   "id": "next"
 }, "is", {
   "value": "false"
@@ -24,22 +30,32 @@
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "to", {
   "value": "true"
-}, ".", "Else", ",", {
+}, ".", {
+  "k": 4
+}, "Else", ",", {
   "in": null
 }, "Let", {
   "id": "v"
 }, "be", "IteratorValue", "(", {
   "id": "next"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 6
+}, "If", {
   "id": "v"
 }, "is", "an", "abrupt", "completion", ",", "set", {
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "to", {
   "value": "true"
-}, ".", "ReturnIfAbrupt", "(", {
+}, ".", {
+  "k": 7
+}, "ReturnIfAbrupt", "(", {
   "id": "v"
 }, ")", ".", {
+  "k": 8
+}, {
   "out": null
+}, {
+  "k": 5
 }, {
   "out": null
 }, {
@@ -53,7 +69,7 @@
 }, "be", {
   "value": "undefined"
 }, ".", {
-  "k": 1
+  "k": 9
 }, "If", {
   "nt": "Initializer"
 }, "is", "present", "and", {
@@ -66,14 +82,18 @@
   "id": "defaultValue"
 }, "be", "the", "result", "of", "evaluating", {
   "nt": "Initializer"
-}, ".", "Set", {
+}, ".", {
+  "k": 11
+}, "Set", {
   "id": "v"
 }, "to", "?", "GetValue", "(", {
   "id": "defaultValue"
 }, ")", ".", {
+  "k": 12
+}, {
   "out": null
 }, {
-  "k": 2
+  "k": 10
 }, "Return", "the", "result", "of", "performing", "BindingInitialization", "of", {
   "nt": "BindingPattern"
 }, "with", {
@@ -81,5 +101,5 @@
 }, "and", {
   "id": "environment"
 }, "as", "the", "arguments", ".", {
-  "k": 3
+  "k": 13
 }]

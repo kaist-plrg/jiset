@@ -28,7 +28,9 @@
   "id": "method"
 }, "to", "?", "GetMethod", "(", {
   "id": "obj"
-}, ",", "@", "@", "asyncIterator", ")", ".", "If", {
+}, ",", "@", "@", "asyncIterator", ")", ".", {
+  "k": 4
+}, "If", {
   "id": "method"
 }, "is", {
   "value": "undefined"
@@ -38,7 +40,9 @@
   "id": "syncMethod"
 }, "be", "?", "GetMethod", "(", {
   "id": "obj"
-}, ",", "@", "@", "iterator", ")", ".", "Let", {
+}, ",", "@", "@", "iterator", ")", ".", {
+  "k": 6
+}, "Let", {
   "id": "syncIteratorRecord"
 }, "be", "?", "GetIterator", "(", {
   "id": "obj"
@@ -46,17 +50,27 @@
   "const": "sync"
 }, ",", {
   "id": "syncMethod"
-}, ")", ".", "Return", "!", "CreateAsyncFromSyncIterator", "(", {
+}, ")", ".", {
+  "k": 7
+}, "Return", "!", "CreateAsyncFromSyncIterator", "(", {
   "id": "syncIteratorRecord"
 }, ")", ".", {
-  "out": null
+  "k": 8
 }, {
   "out": null
+}, {
+  "k": 5
+}, {
+  "out": null
+}, {
+  "k": 3
 }, "Otherwise", ",", "set", {
   "id": "method"
 }, "to", "?", "GetMethod", "(", {
   "id": "obj"
 }, ",", "@", "@", "iterator", ")", ".", {
+  "k": 9
+}, {
   "out": null
 }, {
   "k": 2
@@ -67,13 +81,13 @@
 }, ",", {
   "id": "obj"
 }, ")", ".", {
-  "k": 3
+  "k": 10
 }, "If", "Type", "(", {
   "id": "iterator"
 }, ")", "is", "not", "Object", ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "k": 4
+  "k": 11
 }, "Let", {
   "id": "nextMethod"
 }, "be", "?", "GetV", "(", {
@@ -81,7 +95,7 @@
 }, ",", {
   "value": "\"next\""
 }, ")", ".", {
-  "k": 5
+  "k": 12
 }, "Let", {
   "id": "iteratorRecord"
 }, "be", "the", "Record", "{", "[", "[", "Iterator", "]", "]", ":", {
@@ -91,9 +105,9 @@
 }, ",", "[", "[", "Done", "]", "]", ":", {
   "value": "false"
 }, "}", ".", {
-  "k": 6
+  "k": 13
 }, "Return", {
   "id": "iteratorRecord"
 }, ".", {
-  "k": 7
+  "k": 14
 }]

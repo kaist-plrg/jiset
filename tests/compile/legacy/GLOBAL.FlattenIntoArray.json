@@ -106,13 +106,17 @@
   "id": "P"
 }, "be", "!", "ToString", "(", {
   "id": "sourceIndex"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 16
+}, "Let", {
   "id": "exists"
 }, "be", "?", "HasProperty", "(", {
   "id": "source"
 }, ",", {
   "id": "P"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 17
+}, "If", {
   "id": "exists"
 }, "is", {
   "value": "true"
@@ -124,7 +128,9 @@
   "id": "source"
 }, ",", {
   "id": "P"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 19
+}, "If", {
   "id": "mapperFunction"
 }, "is", "present", ",", "then", {
   "in": null
@@ -141,12 +147,18 @@
 }, ",", {
   "id": "source"
 }, "»", ")", ".", {
+  "k": 21
+}, {
   "out": null
+}, {
+  "k": 20
 }, "Let", {
   "id": "shouldFlatten"
 }, "be", {
   "value": "false"
-}, ".", "If", {
+}, ".", {
+  "k": 22
+}, "If", {
   "id": "depth"
 }, ">", "0", ",", "then", {
   "in": null
@@ -155,7 +167,11 @@
 }, "to", "?", "IsArray", "(", {
   "id": "element"
 }, ")", ".", {
+  "k": 24
+}, {
   "out": null
+}, {
+  "k": 23
 }, "If", {
   "id": "shouldFlatten"
 }, "is", {
@@ -166,7 +182,9 @@
   "id": "elementLen"
 }, "be", "?", "LengthOfArrayLike", "(", {
   "id": "element"
-}, ")", ".", "Set", {
+}, ")", ".", {
+  "k": 26
+}, "Set", {
   "id": "targetIndex"
 }, "to", "?", "FlattenIntoArray", "(", {
   "id": "target"
@@ -179,7 +197,11 @@
 }, ",", {
   "id": "depth"
 }, "-", "1", ")", ".", {
+  "k": 27
+}, {
   "out": null
+}, {
+  "k": 25
 }, "Else", ",", {
   "in": null
 }, "If", {
@@ -188,30 +210,42 @@
   "sup": ["53"]
 }, "-", "1", ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+}, "exception", ".", {
+  "k": 29
+}, "Perform", "?", "CreateDataPropertyOrThrow", "(", {
   "id": "target"
 }, ",", "!", "ToString", "(", {
   "id": "targetIndex"
 }, ")", ",", {
   "id": "element"
-}, ")", ".", "Set", {
+}, ")", ".", {
+  "k": 30
+}, "Set", {
   "id": "targetIndex"
 }, "to", {
   "id": "targetIndex"
 }, "+", "1", ".", {
-  "out": null
+  "k": 31
 }, {
   "out": null
+}, {
+  "k": 28
+}, {
+  "out": null
+}, {
+  "k": 18
 }, "Set", {
   "id": "sourceIndex"
 }, "to", {
   "id": "sourceIndex"
 }, "+", "1", ".", {
+  "k": 32
+}, {
   "out": null
 }, {
   "k": 15
 }, "Return", {
   "id": "targetIndex"
 }, ".", {
-  "k": 16
+  "k": 33
 }]

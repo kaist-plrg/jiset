@@ -64,12 +64,18 @@
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
   "const": "completed"
-}, ".", "Set", {
+}, ".", {
+  "k": 11
+}, "Set", {
   "id": "state"
 }, "to", {
   "const": "completed"
 }, ".", {
+  "k": 12
+}, {
   "out": null
+}, {
+  "k": 10
 }, "If", {
   "id": "state"
 }, "is", {
@@ -86,56 +92,88 @@
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
   "const": "awaiting-return"
-}, ".", "Let", {
+}, ".", {
+  "k": 15
+}, "Let", {
   "id": "promise"
 }, "be", "?", "PromiseResolve", "(", "%", "Promise", "%", ",", {
   "id": "completion"
-}, ".", "[", "[", "Value", "]", "]", ")", ".", "Let", {
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 16
+}, "Let", {
   "id": "stepsFulfilled"
-}, "be", "the", "algorithm", "steps", "defined", "in", "AsyncGeneratorResumeNext", "Return", "Processor", "Fulfilled", "Functions", ".", "Let", {
+}, "be", "the", "algorithm", "steps", "defined", "in", "AsyncGeneratorResumeNext", "Return", "Processor", "Fulfilled", "Functions", ".", {
+  "k": 17
+}, "Let", {
   "id": "onFulfilled"
 }, "be", "!", "CreateBuiltinFunction", "(", {
   "id": "stepsFulfilled"
-}, ",", "«", "[", "[", "Generator", "]", "]", "»", ")", ".", "Set", {
+}, ",", "«", "[", "[", "Generator", "]", "]", "»", ")", ".", {
+  "k": 18
+}, "Set", {
   "id": "onFulfilled"
 }, ".", "[", "[", "Generator", "]", "]", "to", {
   "id": "generator"
-}, ".", "Let", {
+}, ".", {
+  "k": 19
+}, "Let", {
   "id": "stepsRejected"
-}, "be", "the", "algorithm", "steps", "defined", "in", "AsyncGeneratorResumeNext", "Return", "Processor", "Rejected", "Functions", ".", "Let", {
+}, "be", "the", "algorithm", "steps", "defined", "in", "AsyncGeneratorResumeNext", "Return", "Processor", "Rejected", "Functions", ".", {
+  "k": 20
+}, "Let", {
   "id": "onRejected"
 }, "be", "!", "CreateBuiltinFunction", "(", {
   "id": "stepsRejected"
-}, ",", "«", "[", "[", "Generator", "]", "]", "»", ")", ".", "Set", {
+}, ",", "«", "[", "[", "Generator", "]", "]", "»", ")", ".", {
+  "k": 21
+}, "Set", {
   "id": "onRejected"
 }, ".", "[", "[", "Generator", "]", "]", "to", {
   "id": "generator"
-}, ".", "Perform", "!", "PerformPromiseThen", "(", {
+}, ".", {
+  "k": 22
+}, "Perform", "!", "PerformPromiseThen", "(", {
   "id": "promise"
 }, ",", {
   "id": "onFulfilled"
 }, ",", {
   "id": "onRejected"
-}, ")", ".", "Return", {
+}, ")", ".", {
+  "k": 23
+}, "Return", {
   "value": "undefined"
 }, ".", {
+  "k": 24
+}, {
   "out": null
+}, {
+  "k": 14
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "completion"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "throw"
-}, ".", "Perform", "!", "AsyncGeneratorReject", "(", {
+}, ".", {
+  "k": 26
+}, "Perform", "!", "AsyncGeneratorReject", "(", {
   "id": "generator"
 }, ",", {
   "id": "completion"
-}, ".", "[", "[", "Value", "]", "]", ")", ".", "Return", {
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 27
+}, "Return", {
   "value": "undefined"
 }, ".", {
-  "out": null
+  "k": 28
 }, {
   "out": null
+}, {
+  "k": 25
+}, {
+  "out": null
+}, {
+  "k": 13
 }, {
   "out": null
 }, {
@@ -151,7 +189,7 @@
 }, ",", {
   "value": "true"
 }, ")", ".", {
-  "k": 10
+  "k": 29
 }, "Assert", ":", {
   "id": "state"
 }, "is", "either", {
@@ -159,33 +197,33 @@
 }, "or", {
   "const": "suspendedYield"
 }, ".", {
-  "k": 11
+  "k": 30
 }, "Let", {
   "id": "genContext"
 }, "be", {
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorContext", "]", "]", ".", {
-  "k": 12
+  "k": 31
 }, "Let", {
   "id": "callerContext"
 }, "be", "the", "running", "execution", "context", ".", {
-  "k": 13
+  "k": 32
 }, "Suspend", {
   "id": "callerContext"
 }, ".", {
-  "k": 14
+  "k": 33
 }, "Set", {
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
   "const": "executing"
 }, ".", {
-  "k": 15
+  "k": 34
 }, "Push", {
   "id": "genContext"
 }, "onto", "the", "execution", "context", "stack", ";", {
   "id": "genContext"
 }, "is", "now", "the", "running", "execution", "context", ".", {
-  "k": 16
+  "k": 35
 }, "Resume", "the", "suspended", "evaluation", "of", {
   "id": "genContext"
 }, "using", {
@@ -193,19 +231,19 @@
 }, "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
   "id": "result"
 }, "be", "the", "completion", "record", "returned", "by", "the", "resumed", "computation", ".", {
-  "k": 17
+  "k": 36
 }, "Assert", ":", {
   "id": "result"
 }, "is", "never", "an", "abrupt", "completion", ".", {
-  "k": 18
+  "k": 37
 }, "Assert", ":", "When", "we", "return", "here", ",", {
   "id": "genContext"
 }, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
   "id": "callerContext"
 }, "is", "the", "currently", "running", "execution", "context", ".", {
-  "k": 19
+  "k": 38
 }, "Return", {
   "value": "undefined"
 }, ".", {
-  "k": 20
+  "k": 39
 }]

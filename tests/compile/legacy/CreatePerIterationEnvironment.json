@@ -4,27 +4,39 @@
   "in": null
 }, "Let", {
   "id": "lastIterationEnv"
-}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", "Let", {
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 1
+}, "Let", {
   "id": "lastIterationEnvRec"
 }, "be", {
   "id": "lastIterationEnv"
-}, "'", "s", "EnvironmentRecord", ".", "Let", {
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 2
+}, "Let", {
   "id": "outer"
 }, "be", {
   "id": "lastIterationEnv"
-}, "'", "s", "outer", "environment", "reference", ".", "Assert", ":", {
+}, "'", "s", "outer", "environment", "reference", ".", {
+  "k": 3
+}, "Assert", ":", {
   "id": "outer"
 }, "is", "not", {
   "value": "null"
-}, ".", "Let", {
+}, ".", {
+  "k": 4
+}, "Let", {
   "id": "thisIterationEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "outer"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 5
+}, "Let", {
   "id": "thisIterationEnvRec"
 }, "be", {
   "id": "thisIterationEnv"
-}, "'", "s", "EnvironmentRecord", ".", "For", "each", "element", {
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 6
+}, "For", "each", "element", {
   "id": "bn"
 }, "of", {
   "id": "perIterationBindings"
@@ -36,7 +48,9 @@
   "id": "bn"
 }, ",", {
   "value": "false"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 8
+}, "Let", {
   "id": "lastValue"
 }, "be", "?", {
   "id": "lastIterationEnvRec"
@@ -44,22 +58,30 @@
   "id": "bn"
 }, ",", {
   "value": "true"
-}, ")", ".", "Perform", {
+}, ")", ".", {
+  "k": 9
+}, "Perform", {
   "id": "thisIterationEnvRec"
 }, ".", "InitializeBinding", "(", {
   "id": "bn"
 }, ",", {
   "id": "lastValue"
 }, ")", ".", {
+  "k": 10
+}, {
   "out": null
+}, {
+  "k": 7
 }, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "thisIterationEnv"
 }, ".", {
+  "k": 11
+}, {
   "out": null
 }, {
   "k": 0
 }, "Return", {
   "value": "undefined"
 }, ".", {
-  "k": 1
+  "k": 12
 }]

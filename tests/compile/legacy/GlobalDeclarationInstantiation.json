@@ -34,7 +34,9 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 5
+}, "If", {
   "id": "envRec"
 }, ".", "HasLexicalDeclaration", "(", {
   "id": "name"
@@ -42,19 +44,25 @@
   "value": "true"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
-}, "exception", ".", "Let", {
+}, "exception", ".", {
+  "k": 6
+}, "Let", {
   "id": "hasRestrictedGlobal"
 }, "be", "?", {
   "id": "envRec"
 }, ".", "HasRestrictedGlobalProperty", "(", {
   "id": "name"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 7
+}, "If", {
   "id": "hasRestrictedGlobal"
 }, "is", {
   "value": "true"
 }, ",", "throw", "a", {
   "value": "SyntaxError"
 }, "exception", ".", {
+  "k": 8
+}, {
   "out": null
 }, {
   "k": 4
@@ -73,23 +81,25 @@
 }, ",", "throw", "a", {
   "value": "SyntaxError"
 }, "exception", ".", {
+  "k": 10
+}, {
   "out": null
 }, {
-  "k": 5
+  "k": 9
 }, "Let", {
   "id": "varDeclarations"
 }, "be", "the", "VarScopedDeclarations", "of", {
   "id": "script"
 }, ".", {
-  "k": 6
+  "k": 11
 }, "Let", {
   "id": "functionsToInitialize"
 }, "be", "a", "new", "empty", "List", ".", {
-  "k": 7
+  "k": 12
 }, "Let", {
   "id": "declaredFunctionNames"
 }, "be", "a", "new", "empty", "List", ".", {
-  "k": 8
+  "k": 13
 }, "For", "each", {
   "id": "d"
 }, "in", {
@@ -116,11 +126,17 @@
   "nt": "AsyncFunctionDeclaration"
 }, ",", "or", "an", {
   "nt": "AsyncGeneratorDeclaration"
-}, ".", "NOTE", ":", "If", "there", "are", "multiple", "function", "declarations", "for", "the", "same", "name", ",", "the", "last", "declaration", "is", "used", ".", "Let", {
+}, ".", {
+  "k": 16
+}, "NOTE", ":", "If", "there", "are", "multiple", "function", "declarations", "for", "the", "same", "name", ",", "the", "last", "declaration", "is", "used", ".", {
+  "k": 17
+}, "Let", {
   "id": "fn"
 }, "be", "the", "sole", "element", "of", "the", "BoundNames", "of", {
   "id": "d"
-}, ".", "If", {
+}, ".", {
+  "k": 18
+}, "If", {
   "id": "fn"
 }, "is", "not", "an", "element", "of", {
   "id": "declaredFunctionNames"
@@ -132,32 +148,44 @@
   "id": "envRec"
 }, ".", "CanDeclareGlobalFunction", "(", {
   "id": "fn"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 20
+}, "If", {
   "id": "fnDefinable"
 }, "is", {
   "value": "false"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Append", {
+}, "exception", ".", {
+  "k": 21
+}, "Append", {
   "id": "fn"
 }, "to", {
   "id": "declaredFunctionNames"
-}, ".", "Insert", {
+}, ".", {
+  "k": 22
+}, "Insert", {
   "id": "d"
 }, "as", "the", "first", "element", "of", {
   "id": "functionsToInitialize"
 }, ".", {
-  "out": null
+  "k": 23
 }, {
   "out": null
 }, {
+  "k": 19
+}, {
   "out": null
 }, {
-  "k": 9
+  "k": 15
+}, {
+  "out": null
+}, {
+  "k": 14
 }, "Let", {
   "id": "declaredVarNames"
 }, "be", "a", "new", "empty", "List", ".", {
-  "k": 10
+  "k": 24
 }, "For", "each", {
   "id": "d"
 }, "in", {
@@ -192,13 +220,17 @@
   "id": "envRec"
 }, ".", "CanDeclareGlobalVar", "(", {
   "id": "vn"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 29
+}, "If", {
   "id": "vnDefinable"
 }, "is", {
   "value": "false"
 }, ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "If", {
+}, "exception", ".", {
+  "k": 30
+}, "If", {
   "id": "vn"
 }, "is", "not", "an", "element", "of", {
   "id": "declaredVarNames"
@@ -209,34 +241,46 @@
 }, "to", {
   "id": "declaredVarNames"
 }, ".", {
-  "out": null
+  "k": 32
 }, {
   "out": null
 }, {
-  "out": null
+  "k": 31
 }, {
   "out": null
 }, {
+  "k": 28
+}, {
   "out": null
 }, {
-  "k": 11
+  "k": 27
+}, {
+  "out": null
+}, {
+  "k": 26
+}, {
+  "out": null
+}, {
+  "k": 25
 }, "NOTE", ":", "No", "abnormal", "terminations", "occur", "after", "this", "algorithm", "step", "if", "the", "global", "object", "is", "an", "ordinary", "object", ".", "However", ",", "if", "the", "global", "object", "is", "a", "Proxy", "exotic", "object", "it", "may", "exhibit", "behaviours", "that", "cause", "abnormal", "terminations", "in", "some", "of", "the", "following", "steps", ".", {
-  "k": 12
+  "k": 33
 }, "NOTE", ":", "Annex", "B", ".", "3", ".", "3", ".", "2", "adds", "additional", "steps", "at", "this", "point", ".", {
-  "k": 13
+  "k": 34
 }, "Let", {
   "id": "lexDeclarations"
 }, "be", "the", "LexicallyScopedDeclarations", "of", {
   "id": "script"
 }, ".", {
-  "k": 14
+  "k": 35
 }, "For", "each", "element", {
   "id": "d"
 }, "in", {
   "id": "lexDeclarations"
 }, ",", "do", {
   "in": null
-}, "NOTE", ":", "Lexically", "declared", "names", "are", "only", "instantiated", "here", "but", "not", "initialized", ".", "For", "each", "element", {
+}, "NOTE", ":", "Lexically", "declared", "names", "are", "only", "instantiated", "here", "but", "not", "initialized", ".", {
+  "k": 37
+}, "For", "each", "element", {
   "id": "dn"
 }, "of", "the", "BoundNames", "of", {
   "id": "d"
@@ -255,7 +299,11 @@
 }, ",", {
   "value": "true"
 }, ")", ".", {
+  "k": 40
+}, {
   "out": null
+}, {
+  "k": 39
 }, "Else", ",", {
   "in": null
 }, "Perform", "?", {
@@ -265,13 +313,19 @@
 }, ",", {
   "value": "false"
 }, ")", ".", {
-  "out": null
+  "k": 42
 }, {
   "out": null
 }, {
+  "k": 41
+}, {
   "out": null
 }, {
-  "k": 15
+  "k": 38
+}, {
+  "out": null
+}, {
+  "k": 36
 }, "For", "each", "Parse", "Node", {
   "id": "f"
 }, "in", {
@@ -282,13 +336,17 @@
   "id": "fn"
 }, "be", "the", "sole", "element", "of", "the", "BoundNames", "of", {
   "id": "f"
-}, ".", "Let", {
+}, ".", {
+  "k": 44
+}, "Let", {
   "id": "fo"
 }, "be", "InstantiateFunctionObject", "of", {
   "id": "f"
 }, "with", "argument", {
   "id": "env"
-}, ".", "Perform", "?", {
+}, ".", {
+  "k": 45
+}, "Perform", "?", {
   "id": "envRec"
 }, ".", "CreateGlobalFunctionBinding", "(", {
   "id": "fn"
@@ -297,9 +355,11 @@
 }, ",", {
   "value": "false"
 }, ")", ".", {
+  "k": 46
+}, {
   "out": null
 }, {
-  "k": 16
+  "k": 43
 }, "For", "each", "String", {
   "id": "vn"
 }, "in", {
@@ -313,11 +373,13 @@
 }, ",", {
   "value": "false"
 }, ")", ".", {
+  "k": 48
+}, {
   "out": null
 }, {
-  "k": 17
+  "k": 47
 }, "Return", "NormalCompletion", "(", {
   "const": "empty"
 }, ")", ".", {
-  "k": 18
+  "k": 49
 }]

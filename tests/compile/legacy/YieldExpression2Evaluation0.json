@@ -50,7 +50,9 @@
   "id": "iteratorRecord"
 }, ".", "[", "[", "Iterator", "]", "]", ",", "«", {
   "id": "received"
-}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", "If", {
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 8
+}, "If", {
   "id": "generatorKind"
 }, "is", {
   "const": "async"
@@ -58,15 +60,21 @@
   "id": "innerResult"
 }, "to", "?", "Await", "(", {
   "id": "innerResult"
-}, ")", ".", "If", "Type", "(", {
+}, ")", ".", {
+  "k": 9
+}, "If", "Type", "(", {
   "id": "innerResult"
 }, ")", "is", "not", "Object", ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Let", {
+}, "exception", ".", {
+  "k": 10
+}, "Let", {
   "id": "done"
 }, "be", "?", "IteratorComplete", "(", {
   "id": "innerResult"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 11
+}, "If", {
   "id": "done"
 }, "is", {
   "value": "true"
@@ -75,7 +83,11 @@
 }, "Return", "?", "IteratorValue", "(", {
   "id": "innerResult"
 }, ")", ".", {
+  "k": 13
+}, {
   "out": null
+}, {
+  "k": 12
 }, "If", {
   "id": "generatorKind"
 }, "is", {
@@ -84,12 +96,18 @@
   "id": "received"
 }, "to", "AsyncGeneratorYield", "(", "?", "IteratorValue", "(", {
   "id": "innerResult"
-}, ")", ")", ".", "Else", ",", "set", {
+}, ")", ")", ".", {
+  "k": 14
+}, "Else", ",", "set", {
   "id": "received"
 }, "to", "GeneratorYield", "(", {
   "id": "innerResult"
 }, ")", ".", {
+  "k": 15
+}, {
   "out": null
+}, {
+  "k": 7
 }, "Else", "if", {
   "id": "received"
 }, ".", "[", "[", "Type", "]", "]", "is", {
@@ -102,7 +120,9 @@
   "id": "iterator"
 }, ",", {
   "value": "\"throw\""
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 17
+}, "If", {
   "id": "throw"
 }, "is", "not", {
   "value": "undefined"
@@ -116,7 +136,9 @@
   "id": "iterator"
 }, ",", "«", {
   "id": "received"
-}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", "If", {
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 19
+}, "If", {
   "id": "generatorKind"
 }, "is", {
   "const": "async"
@@ -124,21 +146,29 @@
   "id": "innerResult"
 }, "to", "?", "Await", "(", {
   "id": "innerResult"
-}, ")", ".", "NOTE", ":", "Exceptions", "from", "the", "inner", "iterator", {
+}, ")", ".", {
+  "k": 20
+}, "NOTE", ":", "Exceptions", "from", "the", "inner", "iterator", {
   "code": "throw"
 }, "method", "are", "propagated", ".", "Normal", "completions", "from", "an", "inner", {
   "code": "throw"
 }, "method", "are", "processed", "similarly", "to", "an", "inner", {
   "code": "next"
-}, ".", "If", "Type", "(", {
+}, ".", {
+  "k": 21
+}, "If", "Type", "(", {
   "id": "innerResult"
 }, ")", "is", "not", "Object", ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Let", {
+}, "exception", ".", {
+  "k": 22
+}, "Let", {
   "id": "done"
 }, "be", "?", "IteratorComplete", "(", {
   "id": "innerResult"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 23
+}, "If", {
   "id": "done"
 }, "is", {
   "value": "true"
@@ -147,7 +177,11 @@
 }, "Return", "?", "IteratorValue", "(", {
   "id": "innerResult"
 }, ")", ".", {
+  "k": 25
+}, {
   "out": null
+}, {
+  "k": 24
 }, "If", {
   "id": "generatorKind"
 }, "is", {
@@ -156,12 +190,18 @@
   "id": "received"
 }, "to", "AsyncGeneratorYield", "(", "?", "IteratorValue", "(", {
   "id": "innerResult"
-}, ")", ")", ".", "Else", ",", "set", {
+}, ")", ")", ".", {
+  "k": 26
+}, "Else", ",", "set", {
   "id": "received"
 }, "to", "GeneratorYield", "(", {
   "id": "innerResult"
 }, ")", ".", {
+  "k": 27
+}, {
   "out": null
+}, {
+  "k": 18
 }, "Else", ",", {
   "in": null
 }, "NOTE", ":", "If", {
@@ -172,7 +212,9 @@
   "code": "yield*"
 }, "loop", ".", "But", "first", "we", "need", "to", "give", {
   "id": "iterator"
-}, "a", "chance", "to", "clean", "up", ".", "Let", {
+}, "a", "chance", "to", "clean", "up", ".", {
+  "k": 29
+}, "Let", {
   "id": "closeCompletion"
 }, "be", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
   "const": "normal"
@@ -180,7 +222,9 @@
   "const": "empty"
 }, ",", "[", "[", "Target", "]", "]", ":", {
   "const": "empty"
-}, "}", ".", "If", {
+}, "}", ".", {
+  "k": 30
+}, "If", {
   "id": "generatorKind"
 }, "is", {
   "const": "async"
@@ -188,11 +232,15 @@
   "id": "iteratorRecord"
 }, ",", {
   "id": "closeCompletion"
-}, ")", ".", "Else", ",", "perform", "?", "IteratorClose", "(", {
+}, ")", ".", {
+  "k": 31
+}, "Else", ",", "perform", "?", "IteratorClose", "(", {
   "id": "iteratorRecord"
 }, ",", {
   "id": "closeCompletion"
-}, ")", ".", "NOTE", ":", "The", "next", "step", "throws", "a", {
+}, ")", ".", {
+  "k": 32
+}, "NOTE", ":", "The", "next", "step", "throws", "a", {
   "value": "TypeError"
 }, "to", "indicate", "that", "there", "was", "a", {
   "code": "yield*"
@@ -200,25 +248,37 @@
   "id": "iterator"
 }, "does", "not", "have", "a", {
   "code": "throw"
-}, "method", ".", "Throw", "a", {
+}, "method", ".", {
+  "k": 33
+}, "Throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "out": null
+  "k": 34
 }, {
   "out": null
+}, {
+  "k": 28
+}, {
+  "out": null
+}, {
+  "k": 16
 }, "Else", ",", {
   "in": null
 }, "Assert", ":", {
   "id": "received"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "return"
-}, ".", "Let", {
+}, ".", {
+  "k": 36
+}, "Let", {
   "id": "return"
 }, "be", "?", "GetMethod", "(", {
   "id": "iterator"
 }, ",", {
   "value": "\"return\""
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 37
+}, "If", {
   "id": "return"
 }, "is", {
   "value": "undefined"
@@ -232,10 +292,16 @@
   "id": "received"
 }, ".", "[", "[", "Value", "]", "]", "to", "?", "Await", "(", {
   "id": "received"
-}, ".", "[", "[", "Value", "]", "]", ")", ".", "Return", "Completion", "(", {
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 39
+}, "Return", "Completion", "(", {
   "id": "received"
 }, ")", ".", {
+  "k": 40
+}, {
   "out": null
+}, {
+  "k": 38
 }, "Let", {
   "id": "innerReturnResult"
 }, "be", "?", "Call", "(", {
@@ -244,7 +310,9 @@
   "id": "iterator"
 }, ",", "«", {
   "id": "received"
-}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", "If", {
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 41
+}, "If", {
   "id": "generatorKind"
 }, "is", {
   "const": "async"
@@ -252,15 +320,21 @@
   "id": "innerReturnResult"
 }, "to", "?", "Await", "(", {
   "id": "innerReturnResult"
-}, ")", ".", "If", "Type", "(", {
+}, ")", ".", {
+  "k": 42
+}, "If", "Type", "(", {
   "id": "innerReturnResult"
 }, ")", "is", "not", "Object", ",", "throw", "a", {
   "value": "TypeError"
-}, "exception", ".", "Let", {
+}, "exception", ".", {
+  "k": 43
+}, "Let", {
   "id": "done"
 }, "be", "?", "IteratorComplete", "(", {
   "id": "innerReturnResult"
-}, ")", ".", "If", {
+}, ")", ".", {
+  "k": 44
+}, "If", {
   "id": "done"
 }, "is", {
   "value": "true"
@@ -270,14 +344,20 @@
   "id": "value"
 }, "be", "?", "IteratorValue", "(", {
   "id": "innerReturnResult"
-}, ")", ".", "Return", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
+}, ")", ".", {
+  "k": 46
+}, "Return", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
   "const": "return"
 }, ",", "[", "[", "Value", "]", "]", ":", {
   "id": "value"
 }, ",", "[", "[", "Target", "]", "]", ":", {
   "const": "empty"
 }, "}", ".", {
+  "k": 47
+}, {
   "out": null
+}, {
+  "k": 45
 }, "If", {
   "id": "generatorKind"
 }, "is", {
@@ -286,12 +366,18 @@
   "id": "received"
 }, "to", "AsyncGeneratorYield", "(", "?", "IteratorValue", "(", {
   "id": "innerReturnResult"
-}, ")", ")", ".", "Else", ",", "set", {
+}, ")", ")", ".", {
+  "k": 48
+}, "Else", ",", "set", {
   "id": "received"
 }, "to", "GeneratorYield", "(", {
   "id": "innerReturnResult"
 }, ")", ".", {
+  "k": 49
+}, {
   "out": null
+}, {
+  "k": 35
 }, {
   "out": null
 }, {

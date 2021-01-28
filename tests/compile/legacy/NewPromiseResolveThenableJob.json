@@ -12,7 +12,9 @@
   "id": "resolvingFunctions"
 }, "be", "CreateResolvingFunctions", "(", {
   "id": "promiseToResolve"
-}, ")", ".", "Let", {
+}, ")", ".", {
+  "k": 1
+}, "Let", {
   "id": "thenCallResult"
 }, "be", "Call", "(", {
   "id": "then"
@@ -22,7 +24,9 @@
   "id": "resolvingFunctions"
 }, ".", "[", "[", "Resolve", "]", "]", ",", {
   "id": "resolvingFunctions"
-}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", "If", {
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 2
+}, "If", {
   "id": "thenCallResult"
 }, "is", "an", "abrupt", "completion", ",", "then", {
   "in": null
@@ -34,13 +38,21 @@
   "value": "undefined"
 }, ",", "«", {
   "id": "thenCallResult"
-}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", "Return", "Completion", "(", {
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "k": 4
+}, "Return", "Completion", "(", {
   "id": "status"
 }, ")", ".", {
+  "k": 5
+}, {
   "out": null
+}, {
+  "k": 3
 }, "Return", "Completion", "(", {
   "id": "thenCallResult"
 }, ")", ".", {
+  "k": 6
+}, {
   "out": null
 }, {
   "k": 0
@@ -49,7 +61,7 @@
 }, "be", "GetFunctionRealm", "(", {
   "id": "then"
 }, ")", ".", {
-  "k": 1
+  "k": 7
 }, "If", {
   "id": "getThenRealmResult"
 }, "is", "a", "normal", "completion", ",", "then", "let", {
@@ -57,17 +69,17 @@
 }, "be", {
   "id": "getThenRealmResult"
 }, ".", "[", "[", "Value", "]", "]", ".", {
-  "k": 2
+  "k": 8
 }, "Otherwise", ",", "let", {
   "id": "thenRealm"
 }, "be", {
   "value": "null"
 }, ".", {
-  "k": 3
+  "k": 9
 }, "Return", "the", "Record", "{", "[", "[", "Job", "]", "]", ":", {
   "id": "job"
 }, ",", "[", "[", "Realm", "]", "]", ":", {
   "id": "thenRealm"
 }, "}", ".", {
-  "k": 4
+  "k": 10
 }]
