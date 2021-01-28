@@ -1,6 +1,8 @@
 ["If", {
   "id": "module"
-}, "is", "not", "a", "Cyclic", "Module", "Record", ",", "then", true, "Perform", "?", {
+}, "is", "not", "a", "Cyclic", "Module", "Record", ",", "then", {
+  "in": null
+}, "Perform", "?", {
   "id": "module"
 }, ".", "Evaluate", "(", ")", ".", {
   "k": 1
@@ -8,13 +10,17 @@
   "id": "index"
 }, ".", {
   "k": 2
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "If", {
   "id": "module"
 }, ".", "[", "[", "Status", "]", "]", "is", {
   "const": "evaluated"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "module"
 }, ".", "[", "[", "EvaluationError", "]", "]", "is", {
   "value": "undefined"
@@ -26,7 +32,9 @@
   "id": "module"
 }, ".", "[", "[", "EvaluationError", "]", "]", ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "If", {
   "id": "module"
@@ -76,7 +84,9 @@
   "id": "required"
 }, "of", {
   "id": "module"
-}, ".", "[", "[", "RequestedModules", "]", "]", ",", "do", true, "Let", {
+}, ".", "[", "[", "RequestedModules", "]", "]", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "requiredModule"
 }, "be", "!", "HostResolveImportedModule", "(", {
   "id": "module"
@@ -98,7 +108,9 @@
   "k": 16
 }, "If", {
   "id": "requiredModule"
-}, "is", "a", "Cyclic", "Module", "Record", ",", "then", true, "Assert", ":", {
+}, "is", "a", "Cyclic", "Module", "Record", ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "requiredModule"
 }, ".", "[", "[", "Status", "]", "]", "is", "either", {
   "const": "evaluating"
@@ -120,7 +132,9 @@
   "id": "requiredModule"
 }, ".", "[", "[", "Status", "]", "]", "is", {
   "const": "evaluating"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "module"
 }, ".", "[", "[", "DFSAncestorIndex", "]", "]", "to", "min", "(", {
   "id": "module"
@@ -128,11 +142,17 @@
   "id": "requiredModule"
 }, ".", "[", "[", "DFSAncestorIndex", "]", "]", ")", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
 }, "Perform", "?", {
   "id": "module"
@@ -154,7 +174,9 @@
   "id": "module"
 }, ".", "[", "[", "DFSAncestorIndex", "]", "]", "=", {
   "id": "module"
-}, ".", "[", "[", "DFSIndex", "]", "]", ",", "then", true, "Let", {
+}, ".", "[", "[", "DFSIndex", "]", "]", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "done"
 }, "be", {
   "value": "false"
@@ -164,7 +186,9 @@
   "id": "done"
 }, "is", {
   "value": "false"
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "requiredModule"
 }, "be", "the", "last", "element", "in", {
   "id": "stack"
@@ -194,9 +218,13 @@
   "value": "true"
 }, ".", {
   "k": 32
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
 }, "Return", {
   "id": "index"

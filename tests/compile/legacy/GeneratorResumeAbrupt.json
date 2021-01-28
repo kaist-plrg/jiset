@@ -1,109 +1,103 @@
-[{
-  "tokens": ["Let", {
-    "id": "state"
-  }, "be", "?", "GeneratorValidate", "(", {
-    "id": "generator"
-  }, ")", "."]
+["Let", {
+  "id": "state"
+}, "be", "?", "GeneratorValidate", "(", {
+  "id": "generator"
+}, ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "state"
+}, "is", {
+  "const": "suspendedStart"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorState", "]", "]", "to", {
+  "const": "completed"
+}, ".", "Once", "a", "generator", "enters", "the", {
+  "const": "completed"
+}, "state", "it", "never", "leaves", "it", "and", "its", "associated", "execution", "context", "is", "never", "resumed", ".", "Any", "execution", "state", "associated", "with", {
+  "id": "generator"
+}, "can", "be", "discarded", "at", "this", "point", ".", "Set", {
+  "id": "state"
+}, "to", {
+  "const": "completed"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "state"
-  }, "is", {
-    "const": "suspendedStart"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Set", {
-        "id": "generator"
-      }, ".", "[", "[", "GeneratorState", "]", "]", "to", {
-        "const": "completed"
-      }, "."]
-    }, {
-      "tokens": ["Once", "a", "generator", "enters", "the", {
-        "const": "completed"
-      }, "state", "it", "never", "leaves", "it", "and", "its", "associated", "execution", "context", "is", "never", "resumed", ".", "Any", "execution", "state", "associated", "with", {
-        "id": "generator"
-      }, "can", "be", "discarded", "at", "this", "point", "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "state"
-      }, "to", {
-        "const": "completed"
-      }, "."]
-    }]
-  }]
+  "k": 1
+}, "If", {
+  "id": "state"
+}, "is", {
+  "const": "completed"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "abruptCompletion"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "return"
+}, ",", "then", {
+  "in": null
+}, "Return", "CreateIterResultObject", "(", {
+  "id": "abruptCompletion"
+}, ".", "[", "[", "Value", "]", "]", ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
+}, "Return", "Completion", "(", {
+  "id": "abruptCompletion"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "state"
-  }, "is", {
-    "const": "completed"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "abruptCompletion"
-      }, ".", "[", "[", "Type", "]", "]", "is", {
-        "const": "return"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Return", "CreateIterResultObject", "(", {
-            "id": "abruptCompletion"
-          }, ".", "[", "[", "Value", "]", "]", ",", {
-            "value": "true"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Return", "Completion", "(", {
-        "id": "abruptCompletion"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Assert", ":", {
-    "id": "state"
-  }, "is", {
-    "const": "suspendedYield"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "genContext"
-  }, "be", {
-    "id": "generator"
-  }, ".", "[", "[", "GeneratorContext", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "methodContext"
-  }, "be", "the", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Suspend", {
-    "id": "methodContext"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "generator"
-  }, ".", "[", "[", "GeneratorState", "]", "]", "to", {
-    "const": "executing"
-  }, "."]
-}, {
-  "tokens": ["Push", {
-    "id": "genContext"
-  }, "onto", "the", "execution", "context", "stack", ";", {
-    "id": "genContext"
-  }, "is", "now", "the", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Resume", "the", "suspended", "evaluation", "of", {
-    "id": "genContext"
-  }, "using", {
-    "id": "abruptCompletion"
-  }, "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
-    "id": "result"
-  }, "be", "the", "completion", "record", "returned", "by", "the", "resumed", "computation", "."]
-}, {
-  "tokens": ["Assert", ":", "When", "we", "return", "here", ",", {
-    "id": "genContext"
-  }, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
-    "id": "methodContext"
-  }, "is", "the", "currently", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Return", "Completion", "(", {
-    "id": "result"
-  }, ")", "."]
+  "k": 2
+}, "Assert", ":", {
+  "id": "state"
+}, "is", {
+  "const": "suspendedYield"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "genContext"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorContext", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "methodContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 5
+}, "Suspend", {
+  "id": "methodContext"
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorState", "]", "]", "to", {
+  "const": "executing"
+}, ".", {
+  "k": 7
+}, "Push", {
+  "id": "genContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "genContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 8
+}, "Resume", "the", "suspended", "evaluation", "of", {
+  "id": "genContext"
+}, "using", {
+  "id": "abruptCompletion"
+}, "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
+  "id": "result"
+}, "be", "the", "completion", "record", "returned", "by", "the", "resumed", "computation", ".", {
+  "k": 9
+}, "Assert", ":", "When", "we", "return", "here", ",", {
+  "id": "genContext"
+}, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
+  "id": "methodContext"
+}, "is", "the", "currently", "running", "execution", "context", ".", {
+  "k": 10
+}, "Return", "Completion", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 11
 }]

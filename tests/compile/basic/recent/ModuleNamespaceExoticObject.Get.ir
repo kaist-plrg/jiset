@@ -20,7 +20,7 @@
   assert (= (typeof binding) "ResolvedBindingRecord")
   let targetModule = binding.Module
   assert (! (= targetModule undefined))
-  ??? "If id:{binding} . [ [ BindingName ] ] is value:{\"\\} namespace \\ value:{\"} , then step-list:{...}"
+  ??? "If id:{binding} . [ [ BindingName ] ] is value:{\"\\} namespace \\ value:{\"} , then in:{} out:{}"
   let targetEnv = targetModule.Environment
   if (= targetEnv undefined) {
     app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))

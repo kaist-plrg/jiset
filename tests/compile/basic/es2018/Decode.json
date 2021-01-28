@@ -12,7 +12,9 @@
   "id": "k"
 }, "be", "0", ".", {
   "k": 2
-}, "Repeat", ",", true, "If", {
+}, "Repeat", ",", {
+  "in": null
+}, "If", {
   "id": "k"
 }, "equals", {
   "id": "strLen"
@@ -30,17 +32,23 @@
   "k": 5
 }, "If", {
   "id": "C"
-}, "is", "not", "the", "code", "unit", "0x0025", "(", "PERCENT", "SIGN", ")", ",", "then", true, "Let", {
+}, "is", "not", "the", "code", "unit", "0x0025", "(", "PERCENT", "SIGN", ")", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "String", "value", "containing", "only", "the", "code", "unit", {
   "id": "C"
 }, ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Else", {
   "id": "C"
-}, "is", "the", "code", "unit", "0x0025", "(", "PERCENT", "SIGN", ")", ",", true, "Let", {
+}, "is", "the", "code", "unit", "0x0025", "(", "PERCENT", "SIGN", ")", ",", {
+  "in": null
+}, "Let", {
   "id": "start"
 }, "be", {
   "id": "k"
@@ -78,7 +86,9 @@
   "k": 13
 }, "If", "the", "most", "significant", "bit", "in", {
   "id": "B"
-}, "is", "0", ",", "then", true, "Let", {
+}, "is", "0", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "C"
 }, "be", "the", "code", "unit", "whose", "value", "is", {
   "id": "B"
@@ -88,19 +98,25 @@
   "id": "C"
 }, "is", "not", "in", {
   "id": "reservedSet"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "String", "value", "containing", "only", "the", "code", "unit", {
   "id": "C"
 }, ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
 }, "Else", {
   "id": "C"
 }, "is", "in", {
   "id": "reservedSet"
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "substring", "of", {
   "id": "string"
@@ -110,13 +126,19 @@
   "id": "k"
 }, "inclusive", ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Else", "the", "most", "significant", "bit", "in", {
   "id": "B"
-}, "is", "1", ",", true, "Let", {
+}, "is", "1", ",", {
+  "in": null
+}, "Let", {
   "id": "n"
 }, "be", "the", "smallest", "nonnegative", "integer", "such", "that", "(", {
   "id": "B"
@@ -162,7 +184,9 @@
   "id": "j"
 }, "<", {
   "id": "n"
-}, true, "Increment", {
+}, {
+  "in": null
+}, "Increment", {
   "id": "k"
 }, "by", "1", ".", {
   "k": 28
@@ -214,7 +238,9 @@
   "id": "j"
 }, "by", "1", ".", {
   "k": 35
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
 }, "If", {
   "id": "Octets"
@@ -234,9 +260,13 @@
   "id": "V"
 }, ")", ".", {
   "k": 38
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Set", {
   "id": "R"
@@ -250,6 +280,8 @@
   "id": "k"
 }, "by", "1", ".", {
   "k": 40
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }]

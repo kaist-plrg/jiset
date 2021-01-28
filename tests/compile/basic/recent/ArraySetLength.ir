@@ -40,7 +40,7 @@
     app __x10__ = (WrapCompletion false)
     return __x10__
   } else {}
-  ??? "For each own property key id:{P} of id:{A} that is an array index , whose numeric value is greater than or equal to id:{newLen} , in descending numeric index order , do step-list:{...}"
+  ??? "For each own property key id:{P} of id:{A} that is an array index , whose numeric value is greater than or equal to id:{newLen} , in descending numeric index order , do in:{} out:{}"
   if (= newWritable false) {
     app __x11__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Writable" -> false)))
     if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}

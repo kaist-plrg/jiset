@@ -16,7 +16,9 @@
   "id": "r"
 }, "in", {
   "id": "resolveSet"
-}, ",", "do", true, "If", {
+}, ",", "do", {
+  "in": null
+}, "If", {
   "id": "module"
 }, "and", {
   "id": "r"
@@ -26,15 +28,21 @@
   "id": "r"
 }, ".", "[", "[", "ExportName", "]", "]", ")", "is", {
   "value": "true"
-}, ",", "then", true, "Assert", ":", "This", "is", "a", "circular", "import", "request", ".", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", "This", "is", "a", "circular", "import", "request", ".", {
   "k": 5
 }, "Return", {
   "value": "null"
 }, ".", {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "Append", "the", "Record", "{", "[", "[", "Module", "]", "]", ":", {
   "id": "module"
@@ -48,13 +56,17 @@
   "id": "e"
 }, "in", {
   "id": "module"
-}, ".", "[", "[", "LocalExportEntries", "]", "]", ",", "do", true, "If", "SameValue", "(", {
+}, ".", "[", "[", "LocalExportEntries", "]", "]", ",", "do", {
+  "in": null
+}, "If", "SameValue", "(", {
   "id": "exportName"
 }, ",", {
   "id": "e"
 }, ".", "[", "[", "ExportName", "]", "]", ")", "is", {
   "value": "true"
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "module"
 }, "provides", "the", "direct", "binding", "for", "this", "export", ".", {
   "k": 10
@@ -64,21 +76,29 @@
   "id": "e"
 }, ".", "[", "[", "LocalName", "]", "]", "}", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "For", "each", "ExportEntry", "Record", {
   "id": "e"
 }, "in", {
   "id": "module"
-}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", true, "If", "SameValue", "(", {
+}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", {
+  "in": null
+}, "If", "SameValue", "(", {
   "id": "exportName"
 }, ",", {
   "id": "e"
 }, ".", "[", "[", "ExportName", "]", "]", ")", "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "importedModule"
 }, "be", "?", "HostResolveImportedModule", "(", {
   "id": "module"
@@ -90,7 +110,9 @@
   "id": "e"
 }, ".", "[", "[", "ImportName", "]", "]", "is", {
   "value": "\"\\"
-}, "\"", "*", ",", "then", true, "Assert", ":", {
+}, "\"", "*", ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "module"
 }, "does", "not", "provide", "the", "direct", "binding", "for", "this", "export", ".", {
   "k": 16
@@ -102,9 +124,13 @@
   "value": "\""
 }, "}", ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 15
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "module"
 }, "imports", "a", "specific", "binding", "for", "this", "export", ".", {
   "k": 19
@@ -116,11 +142,17 @@
   "id": "resolveSet"
 }, ")", ".", {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
 }, "If", "SameValue", "(", {
   "id": "exportName"
@@ -128,7 +160,9 @@
   "value": "\"default\""
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "Assert", ":", "A", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", "A", {
   "code": "default"
 }, "export", "was", "not", "explicitly", "defined", "by", "this", "module", ".", {
   "k": 22
@@ -140,7 +174,9 @@
   "code": "default"
 }, "export", "cannot", "be", "provided", "by", "an", "`", "export", "*", "`", "or", "`", "export", "*", "from", "\"", "mod", "\"", "`", "declaration", ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 21
 }, "Let", {
   "id": "starResolution"
@@ -152,7 +188,9 @@
   "id": "e"
 }, "in", {
   "id": "module"
-}, ".", "[", "[", "StarExportEntries", "]", "]", ",", "do", true, "Let", {
+}, ".", "[", "[", "StarExportEntries", "]", "]", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "importedModule"
 }, "be", "?", "HostResolveImportedModule", "(", {
   "id": "module"
@@ -182,7 +220,9 @@
   "id": "resolution"
 }, "is", "not", {
   "value": "null"
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "resolution"
 }, "is", "a", "ResolvedBinding", "Record", ".", {
   "k": 31
@@ -196,7 +236,9 @@
   "id": "resolution"
 }, ".", {
   "k": 32
-}, "Else", ",", true, "Assert", ":", "There", "is", "more", "than", "one", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "There", "is", "more", "than", "one", {
   "code": "*"
 }, "import", "that", "includes", "the", "requested", "name", ".", {
   "k": 34
@@ -214,11 +256,17 @@
   "value": "\"ambiguous\""
 }, ".", {
   "k": 35
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 33
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 30
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 26
 }, "Return", {
   "id": "starResolution"

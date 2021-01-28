@@ -1,51 +1,49 @@
-[{
-  "tokens": ["If", "the", "first", {
-    "nt": "CaseClauses"
-  }, "is", "present", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "hasUndefinedLabels"
-      }, "be", "ContainsUndefinedBreakTarget", "of", "the", "first", {
-        "nt": "CaseClauses"
-      }, "with", "argument", {
-        "id": "labelSet"
-      }, "."]
-    }, {
-      "tokens": ["If", {
-        "id": "hasUndefinedLabels"
-      }, "is", {
-        "value": "true"
-      }, ",", "return", {
-        "value": "true"
-      }, "."]
-    }]
-  }]
+["If", "the", "first", {
+  "nt": "CaseClauses"
+}, "is", "present", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "hasUndefinedLabels"
+}, "be", "ContainsUndefinedBreakTarget", "of", "the", "first", {
+  "nt": "CaseClauses"
+}, "with", "argument", {
+  "id": "labelSet"
+}, ".", "If", {
+  "id": "hasUndefinedLabels"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "hasUndefinedLabels"
-  }, "be", "ContainsUndefinedBreakTarget", "of", {
-    "nt": "DefaultClause"
-  }, "with", "argument", {
-    "id": "labelSet"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "hasUndefinedLabels"
-  }, "is", {
-    "value": "true"
-  }, ",", "return", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["If", "the", "second", {
-    "nt": "CaseClauses"
-  }, "is", "not", "present", ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Return", "ContainsUndefinedBreakTarget", "of", "the", "second", {
-    "nt": "CaseClauses"
-  }, "with", "argument", {
-    "id": "labelSet"
-  }, "."]
+  "k": 0
+}, "Let", {
+  "id": "hasUndefinedLabels"
+}, "be", "ContainsUndefinedBreakTarget", "of", {
+  "nt": "DefaultClause"
+}, "with", "argument", {
+  "id": "labelSet"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "hasUndefinedLabels"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "If", "the", "second", {
+  "nt": "CaseClauses"
+}, "is", "not", "present", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "Return", "ContainsUndefinedBreakTarget", "of", "the", "second", {
+  "nt": "CaseClauses"
+}, "with", "argument", {
+  "id": "labelSet"
+}, ".", {
+  "k": 4
 }]

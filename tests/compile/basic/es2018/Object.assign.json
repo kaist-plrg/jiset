@@ -16,7 +16,9 @@
   "id": "nextSource"
 }, "of", {
   "id": "sources"
-}, ",", "in", "ascending", "index", "order", ",", "do", true, "If", {
+}, ",", "in", "ascending", "index", "order", ",", "do", {
+  "in": null
+}, "If", {
   "id": "nextSource"
 }, "is", {
   "value": "undefined"
@@ -26,7 +28,9 @@
   "id": "keys"
 }, "be", "a", "new", "empty", "List", ".", {
   "k": 4
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "from"
 }, "be", "!", "ToObject", "(", {
   "id": "nextSource"
@@ -38,13 +42,17 @@
   "id": "from"
 }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "For", "each", "element", {
   "id": "nextKey"
 }, "of", {
   "id": "keys"
-}, "in", "List", "order", ",", "do", true, "Let", {
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "desc"
 }, "be", "?", {
   "id": "from"
@@ -60,7 +68,9 @@
   "id": "desc"
 }, ".", "[", "[", "Enumerable", "]", "]", "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "propValue"
 }, "be", "?", "Get", "(", {
   "id": "from"
@@ -78,11 +88,17 @@
   "value": "true"
 }, ")", ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "Return", {
   "id": "to"

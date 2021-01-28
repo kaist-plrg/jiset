@@ -1,29 +1,27 @@
-[{
-  "tokens": ["Let", {
-    "id": "number"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "number"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "If", "!", "IsInteger", "(", {
+  "id": "number"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "If", "abs", "(", {
+  "id": "number"
+}, ")", "≤", "2", {
+  "sup": ["53"]
+}, "-", "1", ",", "return", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", "!", "IsInteger", "(", {
-    "id": "number"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", "abs", "(", {
-        "id": "number"
-      }, ")", "≤", "2", {
-        "sup": {
-          "tokens": ["53"]
-        }
-      }, "-", "1", ",", "return", {
-        "value": "true"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "value": "false"
-  }, "."]
+  "k": 1
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 2
 }]

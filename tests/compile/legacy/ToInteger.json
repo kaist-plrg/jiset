@@ -1,49 +1,49 @@
-[{
-  "tokens": ["Let", {
-    "id": "number"
-  }, "be", "?", "ToNumber", "(", {
-    "id": "argument"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "number"
-  }, "is", {
-    "value": "NaN"
-  }, ",", {
-    "value": "+0"
-  }, ",", "or", {
-    "value": "-0"
-  }, ",", "return", {
-    "value": "+0"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "number"
-  }, "is", {
-    "value": "+∞"
-  }, "or", {
-    "value": "-∞"
-  }, ",", "return", {
-    "id": "number"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "integer"
-  }, "be", "the", "Number", "value", "that", "is", "the", "same", "sign", "as", {
-    "id": "number"
-  }, "and", "whose", "magnitude", "is", "floor", "(", "abs", "(", {
-    "id": "number"
-  }, ")", ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "integer"
-  }, "is", {
-    "value": "-0"
-  }, ",", "return", {
-    "value": "+0"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "id": "integer"
-  }, "."]
+["Let", {
+  "id": "number"
+}, "be", "?", "ToNumber", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "number"
+}, "is", {
+  "value": "NaN"
+}, ",", {
+  "value": "+0"
+}, ",", "or", {
+  "value": "-0"
+}, ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "number"
+}, "is", {
+  "value": "+∞"
+}, "or", {
+  "value": "-∞"
+}, ",", "return", {
+  "id": "number"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "integer"
+}, "be", "the", "Number", "value", "that", "is", "the", "same", "sign", "as", {
+  "id": "number"
+}, "and", "whose", "magnitude", "is", "floor", "(", "abs", "(", {
+  "id": "number"
+}, ")", ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "integer"
+}, "is", {
+  "value": "-0"
+}, ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 4
+}, "Return", {
+  "id": "integer"
+}, ".", {
+  "k": 5
 }]

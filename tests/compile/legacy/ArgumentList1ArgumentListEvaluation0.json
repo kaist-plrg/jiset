@@ -1,53 +1,47 @@
-[{
-  "tokens": ["Let", {
-    "id": "list"
-  }, "be", "a", "new", "empty", "List", "."]
+["Let", {
+  "id": "list"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 0
+}, "Let", {
+  "id": "spreadRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "spreadObj"
+}, "be", "?", "GetValue", "(", {
+  "id": "spreadRef"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "spreadObj"
+}, ")", ".", {
+  "k": 3
+}, "Repeat", ",", {
+  "in": null
+}, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "list"
+}, ".", "Let", {
+  "id": "nextArg"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", "Append", {
+  "id": "nextArg"
+}, "as", "the", "last", "element", "of", {
+  "id": "list"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "spreadRef"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "AssignmentExpression"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "spreadObj"
-  }, "be", "?", "GetValue", "(", {
-    "id": "spreadRef"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "iteratorRecord"
-  }, "be", "?", "GetIterator", "(", {
-    "id": "spreadObj"
-  }, ")", "."]
-}, {
-  "tokens": ["Repeat", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "next"
-      }, "be", "?", "IteratorStep", "(", {
-        "id": "iteratorRecord"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", {
-        "value": "false"
-      }, ",", "return", {
-        "id": "list"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "nextArg"
-      }, "be", "?", "IteratorValue", "(", {
-        "id": "next"
-      }, ")", "."]
-    }, {
-      "tokens": ["Append", {
-        "id": "nextArg"
-      }, "as", "the", "last", "element", "of", {
-        "id": "list"
-      }, "."]
-    }]
-  }]
+  "k": 4
 }]

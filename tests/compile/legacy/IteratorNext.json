@@ -1,39 +1,39 @@
-[{
-  "tokens": ["If", {
-    "id": "value"
-  }, "is", "not", "present", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "result"
-      }, "be", "?", "Call", "(", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "NextMethod", "]", "]", ",", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Iterator", "]", "]", ")", "."]
-    }]
-  }]
+["If", {
+  "id": "value"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "result"
+}, "be", "?", "Call", "(", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "NextMethod", "]", "]", ",", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Iterator", "]", "]", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "result"
-      }, "be", "?", "Call", "(", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "NextMethod", "]", "]", ",", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Iterator", "]", "]", ",", "«", {
-        "id": "value"
-      }, "»", ")", "."]
-    }]
-  }]
+  "k": 0
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "result"
+}, "be", "?", "Call", "(", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "NextMethod", "]", "]", ",", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Iterator", "]", "]", ",", "«", {
+  "id": "value"
+}, "»", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "result"
-  }, ")", "is", "not", "Object", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "result"
-  }, "."]
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "result"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 3
 }]

@@ -12,25 +12,33 @@
   "id": "onFulfilled"
 }, ")", "is", {
   "value": "false"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "onFulfilled"
 }, "to", {
   "value": "undefined"
 }, ".", {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "If", "IsCallable", "(", {
   "id": "onRejected"
 }, ")", "is", {
   "value": "false"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "onRejected"
 }, "to", {
   "value": "undefined"
 }, ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
 }, "Let", {
   "id": "fulfillReaction"
@@ -56,7 +64,9 @@
   "id": "promise"
 }, ".", "[", "[", "PromiseState", "]", "]", "is", {
   "code": "\"pending\""
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "id": "fulfillReaction"
 }, "as", "the", "last", "element", "of", "the", "List", "that", "is", {
   "id": "promise"
@@ -68,13 +78,17 @@
   "id": "promise"
 }, ".", "[", "[", "PromiseRejectReactions", "]", "]", ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Else", "if", {
   "id": "promise"
 }, ".", "[", "[", "PromiseState", "]", "]", "is", {
   "code": "\"fulfilled\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "value"
 }, "be", {
   "id": "promise"
@@ -88,9 +102,13 @@
   "id": "value"
 }, "»", ")", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
-}, "Else", ",", true, "Assert", ":", "The", "value", "of", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "The", "value", "of", {
   "id": "promise"
 }, ".", "[", "[", "PromiseState", "]", "]", "is", {
   "code": "\"rejected\""
@@ -120,7 +138,9 @@
   "id": "reason"
 }, "»", ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Set", {
   "id": "promise"

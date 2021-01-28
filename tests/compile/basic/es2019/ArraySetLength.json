@@ -1,6 +1,8 @@
 ["If", {
   "id": "Desc"
-}, ".", "[", "[", "Value", "]", "]", "is", "absent", ",", "then", true, "Return", "OrdinaryDefineOwnProperty", "(", {
+}, ".", "[", "[", "Value", "]", "]", "is", "absent", ",", "then", {
+  "in": null
+}, "Return", "OrdinaryDefineOwnProperty", "(", {
   "id": "A"
 }, ",", {
   "code": "\"length\""
@@ -8,7 +10,9 @@
   "id": "Desc"
 }, ")", ".", {
   "k": 1
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "Let", {
   "id": "newLenDesc"
@@ -66,7 +70,9 @@
   "id": "newLen"
 }, "≥", {
   "id": "oldLen"
-}, ",", "then", true, "Return", "OrdinaryDefineOwnProperty", "(", {
+}, ",", "then", {
+  "in": null
+}, "Return", "OrdinaryDefineOwnProperty", "(", {
   "id": "A"
 }, ",", {
   "code": "\"length\""
@@ -74,7 +80,9 @@
   "id": "newLenDesc"
 }, ")", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "If", {
   "id": "oldLenDesc"
@@ -94,7 +102,9 @@
   "value": "true"
 }, ".", {
   "k": 13
-}, "Else", ",", true, "Need", "to", "defer", "setting", "the", "[", "[", "Writable", "]", "]", "attribute", "to", {
+}, "Else", ",", {
+  "in": null
+}, "Need", "to", "defer", "setting", "the", "[", "[", "Writable", "]", "]", "attribute", "to", {
   "value": "false"
 }, "in", "case", "any", "elements", "cannot", "be", "deleted", ".", {
   "k": 15
@@ -110,7 +120,9 @@
   "value": "true"
 }, ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Let", {
   "id": "succeeded"
@@ -134,7 +146,9 @@
   "id": "newLen"
 }, "<", {
   "id": "oldLen"
-}, ",", true, "Decrease", {
+}, ",", {
+  "in": null
+}, "Decrease", {
   "id": "oldLen"
 }, "by", "1", ".", {
   "k": 21
@@ -150,7 +164,9 @@
   "id": "deleteSucceeded"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "newLenDesc"
 }, ".", "[", "[", "Value", "]", "]", "to", {
   "id": "oldLen"
@@ -178,15 +194,21 @@
   "value": "false"
 }, ".", {
   "k": 27
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 23
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
 }, "If", {
   "id": "newWritable"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "Return", "OrdinaryDefineOwnProperty", "(", {
+}, ",", "then", {
+  "in": null
+}, "Return", "OrdinaryDefineOwnProperty", "(", {
   "id": "A"
 }, ",", {
   "code": "\"length\""
@@ -196,7 +218,9 @@
   "value": "true"
 }, ".", {
   "k": 29
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 28
 }, "Return", {
   "value": "true"

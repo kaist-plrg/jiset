@@ -2,6 +2,7 @@
   let realm = REALM
   app __x0__ = (ParseScript sourceText realm hostDefined)
   let s = __x0__
+  ??? "If id:{s} is a List of errors , then in:{} out:{}"
   app __x1__ = (ScriptEvaluation s)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   app __x2__ = (WrapCompletion __x1__)

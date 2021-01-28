@@ -34,9 +34,13 @@
   "k": 4
 }, "Repeat", ",", "while", {
   "id": "count"
-}, ">", "0", ",", true, "If", {
+}, ">", "0", ",", {
+  "in": null
+}, "If", {
   "id": "fromBlock"
-}, "is", "a", "Shared", "Data", "Block", ",", "then", true, "Let", {
+}, "is", "a", "Shared", "Data", "Block", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "execution"
 }, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
   "k": 7
@@ -82,7 +86,9 @@
   "k": 13
 }, "If", {
   "id": "toBlock"
-}, "is", "a", "Shared", "Data", "Block", ",", "then", true, "Append", "WriteSharedMemory", "{", "[", "[", "Order", "]", "]", ":", {
+}, "is", "a", "Shared", "Data", "Block", ",", "then", {
+  "in": null
+}, "Append", "WriteSharedMemory", "{", "[", "[", "Order", "]", "]", ":", {
   "const": "Unordered"
 }, ",", "[", "[", "NoTear", "]", "]", ":", {
   "value": "true"
@@ -96,9 +102,13 @@
   "id": "eventList"
 }, ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, "Else", ",", true, "Set", {
+}, "Else", ",", {
+  "in": null
+}, "Set", {
   "id": "toBlock"
 }, "[", {
   "id": "toIndex"
@@ -106,11 +116,17 @@
   "id": "bytes"
 }, "[", "0", "]", ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "toBlock"
 }, "is", "not", "a", "Shared", "Data", "Block", ".", {
   "k": 19
@@ -124,7 +140,9 @@
   "id": "fromIndex"
 }, "]", ".", {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
 }, "Set", {
   "id": "toIndex"
@@ -144,7 +162,9 @@
   "id": "count"
 }, "-", "1", ".", {
   "k": 23
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "Return", "NormalCompletion", "(", {
   "const": "empty"

@@ -1,169 +1,149 @@
-[{
-  "tokens": ["If", {
-    "nt": "DestructuringAssignmentTarget"
-  }, "is", "neither", "an", {
-    "nt": "ObjectLiteral"
-  }, "nor", "an", {
-    "nt": "ArrayLiteral"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "lref"
-      }, "be", "the", "result", "of", "evaluating", {
-        "nt": "DestructuringAssignmentTarget"
-      }, "."]
-    }, {
-      "tokens": ["ReturnIfAbrupt", "(", {
-        "id": "lref"
-      }, ")", "."]
-    }]
-  }]
+["If", {
+  "nt": "DestructuringAssignmentTarget"
+}, "is", "neither", "an", {
+  "nt": "ObjectLiteral"
+}, "nor", "an", {
+  "nt": "ArrayLiteral"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "lref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "DestructuringAssignmentTarget"
+}, ".", "ReturnIfAbrupt", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "is", {
-    "value": "false"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "next"
-      }, "be", "IteratorStep", "(", {
-        "id": "iteratorRecord"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", "an", "abrupt", "completion", ",", "set", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Done", "]", "]", "to", {
-        "value": "true"
-      }, "."]
-    }, {
-      "tokens": ["ReturnIfAbrupt", "(", {
-        "id": "next"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", {
-        "value": "false"
-      }, ",", "set", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Done", "]", "]", "to", {
-        "value": "true"
-      }, "."]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "value"
-          }, "be", "IteratorValue", "(", {
-            "id": "next"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "value"
-          }, "is", "an", "abrupt", "completion", ",", "set", {
-            "id": "iteratorRecord"
-          }, ".", "[", "[", "Done", "]", "]", "to", {
-            "value": "true"
-          }, "."]
-        }, {
-          "tokens": ["ReturnIfAbrupt", "(", {
-            "id": "value"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "k": 0
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "value"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", "If", {
+  "id": "value"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", "ReturnIfAbrupt", "(", {
+  "id": "value"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "is", {
-    "value": "true"
-  }, ",", "let", {
-    "id": "value"
-  }, "be", {
-    "value": "undefined"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["If", {
-    "nt": "Initializer"
-  }, "is", "present", "and", {
-    "id": "value"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", "IsAnonymousFunctionDefinition", "(", {
-        "nt": "Initializer"
-      }, ")", "and", "IsIdentifierRef", "of", {
-        "nt": "DestructuringAssignmentTarget"
-      }, "are", "both", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "v"
-          }, "be", "NamedEvaluation", "of", {
-            "nt": "Initializer"
-          }, "with", "argument", "GetReferencedName", "(", {
-            "id": "lref"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "defaultValue"
-          }, "be", "the", "result", "of", "evaluating", {
-            "nt": "Initializer"
-          }, "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "v"
-          }, "be", "?", "GetValue", "(", {
-            "id": "defaultValue"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "k": 1
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "true"
+}, ",", "let", {
+  "id": "value"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "If", {
+  "nt": "Initializer"
+}, "is", "present", "and", {
+  "id": "value"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "Initializer"
+}, ")", "and", "IsIdentifierRef", "of", {
+  "nt": "DestructuringAssignmentTarget"
+}, "are", "both", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "v"
+}, "be", "NamedEvaluation", "of", {
+  "nt": "Initializer"
+}, "with", "argument", "GetReferencedName", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "defaultValue"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", "Let", {
+  "id": "v"
+}, "be", "?", "GetValue", "(", {
+  "id": "defaultValue"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Else", ",", "let", {
-    "id": "v"
-  }, "be", {
-    "id": "value"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["If", {
-    "nt": "DestructuringAssignmentTarget"
-  }, "is", "an", {
-    "nt": "ObjectLiteral"
-  }, "or", "an", {
-    "nt": "ArrayLiteral"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "nestedAssignmentPattern"
-      }, "be", "the", {
-        "nt": "AssignmentPattern"
-      }, "that", "is", "covered", "by", {
-        "nt": "DestructuringAssignmentTarget"
-      }, "."]
-    }, {
-      "tokens": ["Return", "the", "result", "of", "performing", "DestructuringAssignmentEvaluation", "of", {
-        "id": "nestedAssignmentPattern"
-      }, "with", {
-        "id": "v"
-      }, "as", "the", "argument", "."]
-    }]
-  }]
+  "k": 3
+}, "Else", ",", "let", {
+  "id": "v"
+}, "be", {
+  "id": "value"
+}, ".", {
+  "k": 4
+}, "If", {
+  "nt": "DestructuringAssignmentTarget"
+}, "is", "an", {
+  "nt": "ObjectLiteral"
+}, "or", "an", {
+  "nt": "ArrayLiteral"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "nestedAssignmentPattern"
+}, "be", "the", {
+  "nt": "AssignmentPattern"
+}, "that", "is", "covered", "by", {
+  "nt": "DestructuringAssignmentTarget"
+}, ".", "Return", "the", "result", "of", "performing", "DestructuringAssignmentEvaluation", "of", {
+  "id": "nestedAssignmentPattern"
+}, "with", {
+  "id": "v"
+}, "as", "the", "argument", ".", {
+  "out": null
 }, {
-  "tokens": ["Return", "?", "PutValue", "(", {
-    "id": "lref"
-  }, ",", {
-    "id": "v"
-  }, ")", "."]
+  "k": 5
+}, "Return", "?", "PutValue", "(", {
+  "id": "lref"
+}, ",", {
+  "id": "v"
+}, ")", ".", {
+  "k": 6
 }]

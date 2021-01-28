@@ -1,121 +1,113 @@
-[{
-  "tokens": ["Let", {
-    "id": "searchElement"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "searchElement"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "fromIndex"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "len"
+}, "is", "0", ",", "return", "-", "1", ".", {
+  "k": 4
+}, "If", {
+  "id": "argumentsList"
+}, "[", "1", "]", "is", "present", ",", "let", {
+  "id": "n"
+}, "be", "?", "ToInteger", "(", {
+  "id": "fromIndex"
+}, ")", ";", "else", "let", {
+  "id": "n"
+}, "be", {
+  "id": "len"
+}, "-", "1", ".", {
+  "k": 5
+}, "If", {
+  "id": "n"
+}, "≥", "0", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "k"
+}, "be", "min", "(", {
+  "id": "n"
+}, ",", {
+  "id": "len"
+}, "-", "1", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "fromIndex"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
+  "k": 6
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "k"
+}, "be", {
+  "id": "len"
+}, "+", {
+  "id": "n"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "ToObject", "(", {
-    "value": "this"
-  }, "value", ")", "."]
+  "k": 7
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "≥", "0", {
+  "in": null
+}, "Let", {
+  "id": "kPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "elementK"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", "Let", {
+  "id": "same"
+}, "be", "the", "result", "of", "performing", "Strict", "Equality", "Comparison", {
+  "id": "searchElement"
+}, "=", "=", "=", {
+  "id": "elementK"
+}, ".", "If", {
+  "id": "same"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "k"
+}, ".", {
+  "out": null
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "-", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "?", "LengthOfArrayLike", "(", {
-    "id": "O"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "len"
-  }, "is", "0", ",", "return", "-", "1", "."]
-}, {
-  "tokens": ["If", {
-    "id": "argumentsList"
-  }, "[", "1", "]", "is", "present", ",", "let", {
-    "id": "n"
-  }, "be", "?", "ToInteger", "(", {
-    "id": "fromIndex"
-  }, ")", ";", "else", "let", {
-    "id": "n"
-  }, "be", {
-    "id": "len"
-  }, "-", "1", "."]
-}, {
-  "tokens": ["If", {
-    "id": "n"
-  }, "≥", "0", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "k"
-      }, "be", "min", "(", {
-        "id": "n"
-      }, ",", {
-        "id": "len"
-      }, "-", "1", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "k"
-      }, "be", {
-        "id": "len"
-      }, "+", {
-        "id": "n"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Repeat", ",", "while", {
-    "id": "k"
-  }, "≥", "0", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "kPresent"
-      }, "be", "?", "HasProperty", "(", {
-        "id": "O"
-      }, ",", "!", "ToString", "(", {
-        "id": "k"
-      }, ")", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "kPresent"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "elementK"
-          }, "be", "?", "Get", "(", {
-            "id": "O"
-          }, ",", "!", "ToString", "(", {
-            "id": "k"
-          }, ")", ")", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "same"
-          }, "be", "the", "result", "of", "performing", "Strict", "Equality", "Comparison", {
-            "id": "searchElement"
-          }, "=", "=", "=", {
-            "id": "elementK"
-          }, "."]
-        }, {
-          "tokens": ["If", {
-            "id": "same"
-          }, "is", {
-            "value": "true"
-          }, ",", "return", {
-            "id": "k"
-          }, "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Set", {
-        "id": "k"
-      }, "to", {
-        "id": "k"
-      }, "-", "1", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "-", "1", "."]
+  "k": 8
+}, "Return", "-", "1", ".", {
+  "k": 9
 }]

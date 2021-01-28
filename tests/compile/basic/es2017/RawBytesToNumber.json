@@ -18,7 +18,9 @@
   "id": "type"
 }, "is", {
   "code": "\"Float32\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "value"
 }, "be", "the", "byte", "elements", "of", {
   "id": "rawBytes"
@@ -34,13 +36,17 @@
   "id": "value"
 }, ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "If", {
   "id": "type"
 }, "is", {
   "code": "\"Float64\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "value"
 }, "be", "the", "byte", "elements", "of", {
   "id": "rawBytes"
@@ -56,21 +62,29 @@
   "id": "value"
 }, ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "If", "the", "first", "code", "unit", "of", {
   "id": "type"
 }, "is", {
   "code": "\"U\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "intValue"
 }, "be", "the", "byte", "elements", "of", {
   "id": "rawBytes"
 }, "concatenated", "and", "interpreted", "as", "a", "bit", "string", "encoding", "of", "an", "unsigned", "little", "-", "endian", "binary", "number", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "intValue"
 }, "be", "the", "byte", "elements", "of", {
   "id": "rawBytes"
@@ -78,7 +92,9 @@
   "id": "elementSize"
 }, "×", "8", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
 }, "Return", "the", "Number", "value", "that", "corresponds", "to", {
   "id": "intValue"

@@ -1,49 +1,43 @@
-[{
-  "tokens": ["Let", {
-    "id": "precedingArgs"
-  }, "be", "?", "ArgumentListEvaluation", "of", {
-    "nt": "ArgumentList"
-  }, "."]
+["Let", {
+  "id": "precedingArgs"
+}, "be", "?", "ArgumentListEvaluation", "of", {
+  "nt": "ArgumentList"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "spreadRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", "?", "GetValue", "(", {
+  "id": "spreadRef"
+}, ")", ")", ".", {
+  "k": 2
+}, "Repeat", ",", {
+  "in": null
+}, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "precedingArgs"
+}, ".", "Let", {
+  "id": "nextArg"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", "Append", {
+  "id": "nextArg"
+}, "as", "the", "last", "element", "of", {
+  "id": "precedingArgs"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "spreadRef"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "AssignmentExpression"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "iteratorRecord"
-  }, "be", "?", "GetIterator", "(", "?", "GetValue", "(", {
-    "id": "spreadRef"
-  }, ")", ")", "."]
-}, {
-  "tokens": ["Repeat", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "next"
-      }, "be", "?", "IteratorStep", "(", {
-        "id": "iteratorRecord"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", {
-        "value": "false"
-      }, ",", "return", {
-        "id": "precedingArgs"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "nextArg"
-      }, "be", "?", "IteratorValue", "(", {
-        "id": "next"
-      }, ")", "."]
-    }, {
-      "tokens": ["Append", {
-        "id": "nextArg"
-      }, "as", "the", "last", "element", "of", {
-        "id": "precedingArgs"
-      }, "."]
-    }]
-  }]
+  "k": 3
 }]

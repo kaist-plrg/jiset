@@ -1,49 +1,49 @@
-[{
-  "tokens": ["Let", {
-    "id": "value"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
-}, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "O"
-  }, ")", "is", "Object", "and", {
-    "id": "O"
-  }, "has", "a", "[", "[", "SyncIteratorRecord", "]", "]", "internal", "slot", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "syncIteratorRecord"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "SyncIteratorRecord", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "result"
-  }, "be", "IteratorNext", "(", {
-    "id": "syncIteratorRecord"
-  }, ",", {
-    "id": "value"
-  }, ")", "."]
-}, {
-  "tokens": ["IfAbruptRejectPromise", "(", {
-    "id": "result"
-  }, ",", {
-    "id": "promiseCapability"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", "!", "AsyncFromSyncIteratorContinuation", "(", {
-    "id": "result"
-  }, ",", {
-    "id": "promiseCapability"
-  }, ")", "."]
+["Let", {
+  "id": "value"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "O"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", "and", {
+  "id": "O"
+}, "has", "a", "[", "[", "SyncIteratorRecord", "]", "]", "internal", "slot", ".", {
+  "k": 2
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "syncIteratorRecord"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "SyncIteratorRecord", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "result"
+}, "be", "IteratorNext", "(", {
+  "id": "syncIteratorRecord"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 5
+}, "IfAbruptRejectPromise", "(", {
+  "id": "result"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 6
+}, "Return", "!", "AsyncFromSyncIteratorContinuation", "(", {
+  "id": "result"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 7
 }]

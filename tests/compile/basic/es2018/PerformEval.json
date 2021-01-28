@@ -20,7 +20,9 @@
   "k": 2
 }, "If", {
   "id": "thisEnvRec"
-}, "is", "a", "function", "Environment", "Record", ",", "then", true, "Let", {
+}, "is", "a", "function", "Environment", "Record", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "F"
 }, "be", {
   "id": "thisEnvRec"
@@ -52,9 +54,13 @@
   "value": "false"
 }, ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "inFunction"
 }, "be", {
   "value": "false"
@@ -72,7 +78,9 @@
   "value": "false"
 }, ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Let", {
   "id": "script"
@@ -168,7 +176,9 @@
   "id": "direct"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "ctx"
@@ -180,9 +190,13 @@
   "id": "ctx"
 }, "'", "s", "VariableEnvironment", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 19
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "evalRealm"
@@ -194,7 +208,9 @@
   "id": "evalRealm"
 }, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 22
 }, "If", {
   "id": "strictEval"
@@ -268,13 +284,17 @@
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "normal"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "result"
 }, "to", "the", "result", "of", "evaluating", {
   "id": "body"
 }, ".", {
   "k": 36
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 35
 }, "If", {
   "id": "result"
@@ -284,13 +304,17 @@
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", "is", {
   "const": "empty"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "result"
 }, "to", "NormalCompletion", "(", {
   "value": "undefined"
 }, ")", ".", {
   "k": 38
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 37
 }, "Suspend", {
   "id": "evalCxt"

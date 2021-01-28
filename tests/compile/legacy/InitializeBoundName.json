@@ -1,47 +1,41 @@
-[{
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "name"
-  }, ")", "is", "String", "."]
+["Assert", ":", "Type", "(", {
+  "id": "name"
+}, ")", "is", "String", ".", {
+  "k": 0
+}, "If", {
+  "id": "environment"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "env"
+}, "be", "the", "EnvironmentRecord", "component", "of", {
+  "id": "environment"
+}, ".", "Perform", {
+  "id": "env"
+}, ".", "InitializeBinding", "(", {
+  "id": "name"
+}, ",", {
+  "id": "value"
+}, ")", ".", "Return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "environment"
-  }, "is", "not", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "env"
-      }, "be", "the", "EnvironmentRecord", "component", "of", {
-        "id": "environment"
-      }, "."]
-    }, {
-      "tokens": ["Perform", {
-        "id": "env"
-      }, ".", "InitializeBinding", "(", {
-        "id": "name"
-      }, ",", {
-        "id": "value"
-      }, ")", "."]
-    }, {
-      "tokens": ["Return", "NormalCompletion", "(", {
-        "value": "undefined"
-      }, ")", "."]
-    }]
-  }]
+  "k": 1
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "lhs"
+}, "be", "ResolveBinding", "(", {
+  "id": "name"
+}, ")", ".", "Return", "?", "PutValue", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "lhs"
-      }, "be", "ResolveBinding", "(", {
-        "id": "name"
-      }, ")", "."]
-    }, {
-      "tokens": ["Return", "?", "PutValue", "(", {
-        "id": "lhs"
-      }, ",", {
-        "id": "value"
-      }, ")", "."]
-    }]
-  }]
+  "k": 2
 }]

@@ -34,11 +34,15 @@
   "id": "level"
 }, "is", {
   "const": "sealed"
-}, ",", "then", true, "For", "each", "element", {
+}, ",", "then", {
+  "in": null
+}, "For", "each", "element", {
   "id": "k"
 }, "of", {
   "id": "keys"
-}, ",", "do", true, "Perform", "?", "DefinePropertyOrThrow", "(", {
+}, ",", "do", {
+  "in": null
+}, "Perform", "?", "DefinePropertyOrThrow", "(", {
   "id": "O"
 }, ",", {
   "id": "k"
@@ -46,11 +50,17 @@
   "value": "false"
 }, "}", ")", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "level"
 }, "is", {
   "const": "frozen"
@@ -60,7 +70,9 @@
   "id": "k"
 }, "of", {
   "id": "keys"
-}, ",", "do", true, "Let", {
+}, ",", "do", {
+  "in": null
+}, "Let", {
   "id": "currentDesc"
 }, "be", "?", {
   "id": "O"
@@ -72,19 +84,27 @@
   "id": "currentDesc"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "If", "IsAccessorDescriptor", "(", {
+}, ",", "then", {
+  "in": null
+}, "If", "IsAccessorDescriptor", "(", {
   "id": "currentDesc"
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "desc"
 }, "be", "the", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
   "value": "false"
 }, "}", ".", {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "desc"
 }, "be", "the", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
   "value": "false"
@@ -92,7 +112,9 @@
   "value": "false"
 }, "}", ".", {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 15
 }, "Perform", "?", "DefinePropertyOrThrow", "(", {
   "id": "O"
@@ -102,11 +124,17 @@
   "id": "desc"
 }, ")", ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Return", {
   "value": "true"

@@ -1,49 +1,49 @@
-[{
-  "tokens": ["Let", {
-    "id": "key"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "key"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "stringKey"
+}, "be", "?", "ToString", "(", {
+  "id": "key"
+}, ")", ".", {
+  "k": 1
+}, "For", "each", "element", {
+  "id": "e"
+}, "of", "the", "GlobalSymbolRegistry", "List", ",", "do", {
+  "in": null
+}, "If", "SameValue", "(", {
+  "id": "e"
+}, ".", "[", "[", "Key", "]", "]", ",", {
+  "id": "stringKey"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "e"
+}, ".", "[", "[", "Symbol", "]", "]", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "stringKey"
-  }, "be", "?", "ToString", "(", {
-    "id": "key"
-  }, ")", "."]
-}, {
-  "tokens": ["For", "each", "element", {
-    "id": "e"
-  }, "of", "the", "GlobalSymbolRegistry", "List", ",", "do", {
-    "steps": [{
-      "tokens": ["If", "SameValue", "(", {
-        "id": "e"
-      }, ".", "[", "[", "Key", "]", "]", ",", {
-        "id": "stringKey"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "return", {
-        "id": "e"
-      }, ".", "[", "[", "Symbol", "]", "]", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Assert", ":", "GlobalSymbolRegistry", "does", "not", "currently", "contain", "an", "entry", "for", {
-    "id": "stringKey"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "newSymbol"
-  }, "be", "a", "new", "unique", "Symbol", "value", "whose", "[", "[", "Description", "]", "]", "value", "is", {
-    "id": "stringKey"
-  }, "."]
-}, {
-  "tokens": ["Append", "the", "Record", "{", "[", "[", "Key", "]", "]", ":", {
-    "id": "stringKey"
-  }, ",", "[", "[", "Symbol", "]", "]", ":", {
-    "id": "newSymbol"
-  }, "}", "to", "the", "GlobalSymbolRegistry", "List", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "newSymbol"
-  }, "."]
+  "k": 2
+}, "Assert", ":", "GlobalSymbolRegistry", "does", "not", "currently", "contain", "an", "entry", "for", {
+  "id": "stringKey"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "newSymbol"
+}, "be", "a", "new", "unique", "Symbol", "value", "whose", "[", "[", "Description", "]", "]", "value", "is", {
+  "id": "stringKey"
+}, ".", {
+  "k": 4
+}, "Append", "the", "Record", "{", "[", "[", "Key", "]", "]", ":", {
+  "id": "stringKey"
+}, ",", "[", "[", "Symbol", "]", "]", ":", {
+  "id": "newSymbol"
+}, "}", "to", "the", "GlobalSymbolRegistry", "List", ".", {
+  "k": 5
+}, "Return", {
+  "id": "newSymbol"
+}, ".", {
+  "k": 6
 }]

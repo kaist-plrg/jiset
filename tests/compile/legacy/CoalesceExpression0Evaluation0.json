@@ -1,37 +1,35 @@
-[{
-  "tokens": ["Let", {
-    "id": "lref"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "CoalesceExpressionHead"
-  }, "."]
+["Let", {
+  "id": "lref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "CoalesceExpressionHead"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lval"
+}, "be", "?", "GetValue", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "lval"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "rref"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "BitwiseORExpression"
+}, ".", "Return", "?", "GetValue", "(", {
+  "id": "rref"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "lval"
-  }, "be", "?", "GetValue", "(", {
-    "id": "lref"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "lval"
-  }, "is", {
-    "value": "undefined"
-  }, "or", {
-    "value": "null"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "rref"
-      }, "be", "the", "result", "of", "evaluating", {
-        "nt": "BitwiseORExpression"
-      }, "."]
-    }, {
-      "tokens": ["Return", "?", "GetValue", "(", {
-        "id": "rref"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Otherwise", ",", "return", {
-    "id": "lval"
-  }, "."]
+  "k": 2
+}, "Otherwise", ",", "return", {
+  "id": "lval"
+}, ".", {
+  "k": 3
 }]

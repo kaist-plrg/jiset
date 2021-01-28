@@ -1,49 +1,43 @@
-[{
-  "tokens": ["If", {
-    "id": "value"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "index"
-      }, "be", "0", "."]
-    }]
-  }]
+["If", {
+  "id": "value"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "out": null
 }, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "integerIndex"
-      }, "be", "?", "ToInteger", "(", {
-        "id": "value"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "integerIndex"
-      }, "<", "0", ",", "throw", "a", {
-        "value": "RangeError"
-      }, "exception", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "index"
-      }, "be", "!", "ToLength", "(", {
-        "id": "integerIndex"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", "!", "SameValue", "(", {
-        "id": "integerIndex"
-      }, ",", {
-        "id": "index"
-      }, ")", "is", {
-        "value": "false"
-      }, ",", "throw", "a", {
-        "value": "RangeError"
-      }, "exception", "."]
-    }]
-  }]
+  "k": 0
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "integerIndex"
+}, "be", "?", "ToInteger", "(", {
+  "id": "value"
+}, ")", ".", "If", {
+  "id": "integerIndex"
+}, "<", "0", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", "Let", {
+  "id": "index"
+}, "be", "!", "ToLength", "(", {
+  "id": "integerIndex"
+}, ")", ".", "If", "!", "SameValue", "(", {
+  "id": "integerIndex"
+}, ",", {
+  "id": "index"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "out": null
 }, {
-  "tokens": ["Return", {
-    "id": "index"
-  }, "."]
+  "k": 1
+}, "Return", {
+  "id": "index"
+}, ".", {
+  "k": 2
 }]

@@ -1,33 +1,33 @@
-[{
-  "tokens": ["Let", {
-    "id": "expr"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "UnaryExpression"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "oldValue"
-  }, "be", "?", "ToNumeric", "(", "?", "GetValue", "(", {
-    "id": "expr"
-  }, ")", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "newValue"
-  }, "be", "!", "Type", "(", {
-    "id": "oldvalue"
-  }, ")", ":", ":", "subtract", "(", {
-    "id": "oldValue"
-  }, ",", "Type", "(", {
-    "id": "oldValue"
-  }, ")", ":", ":", "unit", ")", "."]
-}, {
-  "tokens": ["Perform", "?", "PutValue", "(", {
-    "id": "expr"
-  }, ",", {
-    "id": "newValue"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "newValue"
-  }, "."]
+["Let", {
+  "id": "expr"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "UnaryExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "oldValue"
+}, "be", "?", "ToNumeric", "(", "?", "GetValue", "(", {
+  "id": "expr"
+}, ")", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "newValue"
+}, "be", "!", "Type", "(", {
+  "id": "oldvalue"
+}, ")", ":", ":", "subtract", "(", {
+  "id": "oldValue"
+}, ",", "Type", "(", {
+  "id": "oldValue"
+}, ")", ":", ":", "unit", ")", ".", {
+  "k": 2
+}, "Perform", "?", "PutValue", "(", {
+  "id": "expr"
+}, ",", {
+  "id": "newValue"
+}, ")", ".", {
+  "k": 3
+}, "Return", {
+  "id": "newValue"
+}, ".", {
+  "k": 4
 }]

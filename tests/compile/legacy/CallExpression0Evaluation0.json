@@ -1,123 +1,113 @@
-[{
-  "tokens": ["Let", {
-    "id": "expr"
-  }, "be", "CoveredCallExpression", "of", {
-    "nt": "CoverCallExpressionAndAsyncArrowHead"
-  }, "."]
+["Let", {
+  "id": "expr"
+}, "be", "CoveredCallExpression", "of", {
+  "nt": "CoverCallExpressionAndAsyncArrowHead"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "memberExpr"
+}, "be", "the", {
+  "nt": "MemberExpression"
+}, "of", {
+  "id": "expr"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "arguments"
+}, "be", "the", {
+  "nt": "Arguments"
+}, "of", {
+  "id": "expr"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "ref"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "memberExpr"
+}, ".", {
+  "k": 3
+}, "ReturnIfAbrupt", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "func"
+}, "be", "?", "GetValue", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "Reference", ",", "IsPropertyReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "false"
+}, ",", "and", "GetReferencedName", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "\"eval\""
+}, ",", "then", {
+  "in": null
+}, "If", "SameValue", "(", {
+  "id": "func"
+}, ",", "%", "eval", "%", ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "argList"
+}, "be", "?", "ArgumentListEvaluation", "of", {
+  "id": "arguments"
+}, ".", "If", {
+  "id": "argList"
+}, "has", "no", "elements", ",", "return", {
+  "value": "undefined"
+}, ".", "Let", {
+  "id": "evalArg"
+}, "be", "the", "first", "element", "of", {
+  "id": "argList"
+}, ".", "If", "the", "source", "code", "matching", "this", "this", "is", "strict", "mode", "code", ",", "let", {
+  "id": "strictCaller"
+}, "be", {
+  "value": "true"
+}, ".", "Otherwise", "let", {
+  "id": "strictCaller"
+}, "be", {
+  "value": "false"
+}, ".", "Let", {
+  "id": "evalRealm"
+}, "be", "the", "current", "Realm", "Record", ".", "Return", "?", "PerformEval", "(", {
+  "id": "evalArg"
+}, ",", {
+  "id": "evalRealm"
+}, ",", {
+  "id": "strictCaller"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "memberExpr"
-  }, "be", "the", {
-    "nt": "MemberExpression"
-  }, "of", {
-    "id": "expr"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "arguments"
-  }, "be", "the", {
-    "nt": "Arguments"
-  }, "of", {
-    "id": "expr"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "ref"
-  }, "be", "the", "result", "of", "evaluating", {
-    "id": "memberExpr"
-  }, "."]
-}, {
-  "tokens": ["ReturnIfAbrupt", "(", {
-    "id": "ref"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "func"
-  }, "be", "?", "GetValue", "(", {
-    "id": "ref"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "Type", "(", {
-    "id": "ref"
-  }, ")", "is", "Reference", ",", "IsPropertyReference", "(", {
-    "id": "ref"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "and", "GetReferencedName", "(", {
-    "id": "ref"
-  }, ")", "is", {
-    "value": "\"eval\""
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", "SameValue", "(", {
-        "id": "func"
-      }, ",", "%", "eval", "%", ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "argList"
-          }, "be", "?", "ArgumentListEvaluation", "of", {
-            "id": "arguments"
-          }, "."]
-        }, {
-          "tokens": ["If", {
-            "id": "argList"
-          }, "has", "no", "elements", ",", "return", {
-            "value": "undefined"
-          }, "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "evalArg"
-          }, "be", "the", "first", "element", "of", {
-            "id": "argList"
-          }, "."]
-        }, {
-          "tokens": ["If", "the", "source", "code", "matching", "this", "this", "is", "strict", "mode", "code", ",", "let", {
-            "id": "strictCaller"
-          }, "be", {
-            "value": "true"
-          }, ".", "Otherwise", "let", {
-            "id": "strictCaller"
-          }, "be", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "evalRealm"
-          }, "be", "the", "current", "Realm", "Record", "."]
-        }, {
-          "tokens": ["Return", "?", "PerformEval", "(", {
-            "id": "evalArg"
-          }, ",", {
-            "id": "evalRealm"
-          }, ",", {
-            "id": "strictCaller"
-          }, ",", {
-            "value": "true"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "thisCall"
-  }, "be", "this", "this", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "tailCall"
-  }, "be", "IsInTailPosition", "(", {
-    "id": "thisCall"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", "?", "EvaluateCall", "(", {
-    "id": "func"
-  }, ",", {
-    "id": "ref"
-  }, ",", {
-    "id": "arguments"
-  }, ",", {
-    "id": "tailCall"
-  }, ")", "."]
+  "k": 6
+}, "Let", {
+  "id": "thisCall"
+}, "be", "this", "this", ".", {
+  "k": 7
+}, "Let", {
+  "id": "tailCall"
+}, "be", "IsInTailPosition", "(", {
+  "id": "thisCall"
+}, ")", ".", {
+  "k": 8
+}, "Return", "?", "EvaluateCall", "(", {
+  "id": "func"
+}, ",", {
+  "id": "ref"
+}, ",", {
+  "id": "arguments"
+}, ",", {
+  "id": "tailCall"
+}, ")", ".", {
+  "k": 9
 }]

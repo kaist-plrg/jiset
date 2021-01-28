@@ -21,8 +21,7 @@ class LegacySmallTest extends CompileTest {
         lazy val jsonName = file.toString
         lazy val irName = json2ir(jsonName)
 
-        lazy val steps = readJson[List[Step]](jsonName)
-        lazy val tokens = Step.toTokens(steps)
+        lazy val tokens = readJson[List[Token]](jsonName)
         lazy val answer = Parser.parseInst(readFile(irName))
         lazy val result = Compiler(tokens)
 

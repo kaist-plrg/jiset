@@ -1,6 +1,8 @@
 ["If", {
   "id": "module"
-}, "is", "not", "a", "Cyclic", "Module", "Record", ",", "then", true, "Perform", "?", {
+}, "is", "not", "a", "Cyclic", "Module", "Record", ",", "then", {
+  "in": null
+}, "Perform", "?", {
   "id": "module"
 }, ".", "Evaluate", "(", ")", ".", {
   "k": 1
@@ -8,13 +10,17 @@
   "id": "index"
 }, ".", {
   "k": 2
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "If", {
   "id": "module"
 }, ".", "[", "[", "Status", "]", "]", "is", {
   "code": "\"evaluated\""
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "module"
 }, ".", "[", "[", "EvaluationError", "]", "]", "is", {
   "value": "undefined"
@@ -26,7 +32,9 @@
   "id": "module"
 }, ".", "[", "[", "EvaluationError", "]", "]", ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "If", {
   "id": "module"
@@ -74,7 +82,9 @@
   "id": "required"
 }, "that", "is", "an", "element", "of", {
   "id": "module"
-}, ".", "[", "[", "RequestedModules", "]", "]", ",", "do", true, "Let", {
+}, ".", "[", "[", "RequestedModules", "]", "]", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "requiredModule"
 }, "be", "!", "HostResolveImportedModule", "(", {
   "id": "module"
@@ -116,7 +126,9 @@
   "id": "requiredModule"
 }, ".", "[", "[", "Status", "]", "]", "is", {
   "code": "\"evaluating\""
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "requiredModule"
 }, "is", "a", "Cyclic", "Module", "Record", ".", {
   "k": 20
@@ -128,9 +140,13 @@
   "id": "requiredModule"
 }, ".", "[", "[", "DFSAncestorIndex", "]", "]", ")", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
 }, "Perform", "?", {
   "id": "module"
@@ -152,7 +168,9 @@
   "id": "module"
 }, ".", "[", "[", "DFSAncestorIndex", "]", "]", "equals", {
   "id": "module"
-}, ".", "[", "[", "DFSIndex", "]", "]", ",", "then", true, "Let", {
+}, ".", "[", "[", "DFSIndex", "]", "]", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "done"
 }, "be", {
   "value": "false"
@@ -162,7 +180,9 @@
   "id": "done"
 }, "is", {
   "value": "false"
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "requiredModule"
 }, "be", "the", "last", "element", "in", {
   "id": "stack"
@@ -188,9 +208,13 @@
   "value": "true"
 }, ".", {
   "k": 31
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
 }, "Return", {
   "id": "index"

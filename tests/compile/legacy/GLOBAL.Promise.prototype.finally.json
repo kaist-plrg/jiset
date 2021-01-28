@@ -1,109 +1,93 @@
-[{
-  "tokens": ["Let", {
-    "id": "onFinally"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "onFinally"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "promise"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "promise"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Let", {
+  "id": "C"
+}, "be", "?", "SpeciesConstructor", "(", {
+  "id": "promise"
+}, ",", "%", "Promise", "%", ")", ".", {
+  "k": 3
+}, "Assert", ":", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "If", "IsCallable", "(", {
+  "id": "onFinally"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "thenFinally"
+}, "be", {
+  "id": "onFinally"
+}, ".", "Let", {
+  "id": "catchFinally"
+}, "be", {
+  "id": "onFinally"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "promise"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
+  "k": 5
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "stepsThenFinally"
+}, "be", "the", "algorithm", "steps", "defined", "in", "Then", "Finally", "Functions", ".", "Let", {
+  "id": "thenFinally"
+}, "be", "!", "CreateBuiltinFunction", "(", {
+  "id": "stepsThenFinally"
+}, ",", "«", "[", "[", "Constructor", "]", "]", ",", "[", "[", "OnFinally", "]", "]", "»", ")", ".", "Set", {
+  "id": "thenFinally"
+}, ".", "[", "[", "Constructor", "]", "]", "to", {
+  "id": "C"
+}, ".", "Set", {
+  "id": "thenFinally"
+}, ".", "[", "[", "OnFinally", "]", "]", "to", {
+  "id": "onFinally"
+}, ".", "Let", {
+  "id": "stepsCatchFinally"
+}, "be", "the", "algorithm", "steps", "defined", "in", "Catch", "Finally", "Functions", ".", "Let", {
+  "id": "catchFinally"
+}, "be", "!", "CreateBuiltinFunction", "(", {
+  "id": "stepsCatchFinally"
+}, ",", "«", "[", "[", "Constructor", "]", "]", ",", "[", "[", "OnFinally", "]", "]", "»", ")", ".", "Set", {
+  "id": "catchFinally"
+}, ".", "[", "[", "Constructor", "]", "]", "to", {
+  "id": "C"
+}, ".", "Set", {
+  "id": "catchFinally"
+}, ".", "[", "[", "OnFinally", "]", "]", "to", {
+  "id": "onFinally"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "promise"
-  }, ")", "is", "not", "Object", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "C"
-  }, "be", "?", "SpeciesConstructor", "(", {
-    "id": "promise"
-  }, ",", "%", "Promise", "%", ")", "."]
-}, {
-  "tokens": ["Assert", ":", "IsConstructor", "(", {
-    "id": "C"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["If", "IsCallable", "(", {
-    "id": "onFinally"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "thenFinally"
-      }, "be", {
-        "id": "onFinally"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "catchFinally"
-      }, "be", {
-        "id": "onFinally"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "stepsThenFinally"
-      }, "be", "the", "algorithm", "steps", "defined", "in", "Then", "Finally", "Functions", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "thenFinally"
-      }, "be", "!", "CreateBuiltinFunction", "(", {
-        "id": "stepsThenFinally"
-      }, ",", "«", "[", "[", "Constructor", "]", "]", ",", "[", "[", "OnFinally", "]", "]", "»", ")", "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "thenFinally"
-      }, ".", "[", "[", "Constructor", "]", "]", "to", {
-        "id": "C"
-      }, "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "thenFinally"
-      }, ".", "[", "[", "OnFinally", "]", "]", "to", {
-        "id": "onFinally"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "stepsCatchFinally"
-      }, "be", "the", "algorithm", "steps", "defined", "in", "Catch", "Finally", "Functions", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "catchFinally"
-      }, "be", "!", "CreateBuiltinFunction", "(", {
-        "id": "stepsCatchFinally"
-      }, ",", "«", "[", "[", "Constructor", "]", "]", ",", "[", "[", "OnFinally", "]", "]", "»", ")", "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "catchFinally"
-      }, ".", "[", "[", "Constructor", "]", "]", "to", {
-        "id": "C"
-      }, "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "catchFinally"
-      }, ".", "[", "[", "OnFinally", "]", "]", "to", {
-        "id": "onFinally"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "?", "Invoke", "(", {
-    "id": "promise"
-  }, ",", {
-    "value": "\"then\""
-  }, ",", "«", {
-    "id": "thenFinally"
-  }, ",", {
-    "id": "catchFinally"
-  }, "»", ")", "."]
+  "k": 6
+}, "Return", "?", "Invoke", "(", {
+  "id": "promise"
+}, ",", {
+  "value": "\"then\""
+}, ",", "«", {
+  "id": "thenFinally"
+}, ",", {
+  "id": "catchFinally"
+}, "»", ")", ".", {
+  "k": 7
 }]

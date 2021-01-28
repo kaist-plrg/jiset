@@ -1,75 +1,73 @@
-[{
-  "tokens": ["Let", {
-    "id": "oldEnv"
-  }, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "."]
+["Let", {
+  "id": "oldEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 0
+}, "Let", {
+  "id": "catchEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "oldEnv"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "catchEnvRec"
+}, "be", {
+  "id": "catchEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 2
+}, "For", "each", "element", {
+  "id": "argName"
+}, "of", "the", "BoundNames", "of", {
+  "nt": "CatchParameter"
+}, ",", "do", {
+  "in": null
+}, "Perform", "!", {
+  "id": "catchEnvRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "argName"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "catchEnv"
-  }, "be", "NewDeclarativeEnvironment", "(", {
-    "id": "oldEnv"
-  }, ")", "."]
+  "k": 3
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "catchEnv"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "status"
+}, "be", "BindingInitialization", "of", {
+  "nt": "CatchParameter"
+}, "with", "arguments", {
+  "id": "thrownValue"
+}, "and", {
+  "id": "catchEnv"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "catchEnvRec"
-  }, "be", {
-    "id": "catchEnv"
-  }, "'", "s", "EnvironmentRecord", "."]
-}, {
-  "tokens": ["For", "each", "element", {
-    "id": "argName"
-  }, "of", "the", "BoundNames", "of", {
-    "nt": "CatchParameter"
-  }, ",", "do", {
-    "steps": [{
-      "tokens": ["Perform", "!", {
-        "id": "catchEnvRec"
-      }, ".", "CreateMutableBinding", "(", {
-        "id": "argName"
-      }, ",", {
-        "value": "false"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-    "id": "catchEnv"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "status"
-  }, "be", "BindingInitialization", "of", {
-    "nt": "CatchParameter"
-  }, "with", "arguments", {
-    "id": "thrownValue"
-  }, "and", {
-    "id": "catchEnv"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "status"
-  }, "is", "an", "abrupt", "completion", ",", "then", {
-    "steps": [{
-      "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-        "id": "oldEnv"
-      }, "."]
-    }, {
-      "tokens": ["Return", "Completion", "(", {
-        "id": "status"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "B"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "Block"
-  }, "."]
-}, {
-  "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-    "id": "oldEnv"
-  }, "."]
-}, {
-  "tokens": ["Return", "Completion", "(", {
-    "id": "B"
-  }, ")", "."]
+  "k": 6
+}, "Let", {
+  "id": "B"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Block"
+}, ".", {
+  "k": 7
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 8
+}, "Return", "Completion", "(", {
+  "id": "B"
+}, ")", ".", {
+  "k": 9
 }]

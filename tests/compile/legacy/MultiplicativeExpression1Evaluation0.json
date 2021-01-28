@@ -1,93 +1,91 @@
-[{
-  "tokens": ["Let", {
-    "id": "left"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "MultiplicativeExpression"
-  }, "."]
+["Let", {
+  "id": "left"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "MultiplicativeExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "leftValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "left"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "right"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "ExponentiationExpression"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "rightValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "right"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "lnum"
+}, "be", "?", "ToNumeric", "(", {
+  "id": "leftValue"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "rnum"
+}, "be", "?", "ToNumeric", "(", {
+  "id": "rightValue"
+}, ")", ".", {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "lnum"
+}, ")", "is", "different", "from", "Type", "(", {
+  "id": "rnum"
+}, ")", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "Let", {
+  "id": "T"
+}, "be", "Type", "(", {
+  "id": "lnum"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "nt": "MultiplicativeOperator"
+}, "is", {
+  "code": "*"
+}, ",", "return", {
+  "id": "T"
+}, ":", ":", "multiply", "(", {
+  "id": "lnum"
+}, ",", {
+  "id": "rnum"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "nt": "MultiplicativeOperator"
+}, "is", {
+  "code": "/"
+}, ",", "return", {
+  "id": "T"
+}, ":", ":", "divide", "(", {
+  "id": "lnum"
+}, ",", {
+  "id": "rnum"
+}, ")", ".", {
+  "k": 9
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "nt": "MultiplicativeOperator"
+}, "is", {
+  "code": "%"
+}, ".", "Return", {
+  "id": "T"
+}, ":", ":", "remainder", "(", {
+  "id": "lnum"
+}, ",", {
+  "id": "rnum"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "leftValue"
-  }, "be", "?", "GetValue", "(", {
-    "id": "left"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "right"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "ExponentiationExpression"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "rightValue"
-  }, "be", "?", "GetValue", "(", {
-    "id": "right"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "lnum"
-  }, "be", "?", "ToNumeric", "(", {
-    "id": "leftValue"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "rnum"
-  }, "be", "?", "ToNumeric", "(", {
-    "id": "rightValue"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "Type", "(", {
-    "id": "lnum"
-  }, ")", "is", "different", "from", "Type", "(", {
-    "id": "rnum"
-  }, ")", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "T"
-  }, "be", "Type", "(", {
-    "id": "lnum"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "nt": "MultiplicativeOperator"
-  }, "is", {
-    "code": "*"
-  }, ",", "return", {
-    "id": "T"
-  }, ":", ":", "multiply", "(", {
-    "id": "lnum"
-  }, ",", {
-    "id": "rnum"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "nt": "MultiplicativeOperator"
-  }, "is", {
-    "code": "/"
-  }, ",", "return", {
-    "id": "T"
-  }, ":", ":", "divide", "(", {
-    "id": "lnum"
-  }, ",", {
-    "id": "rnum"
-  }, ")", "."]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Assert", ":", {
-        "nt": "MultiplicativeOperator"
-      }, "is", {
-        "code": "%"
-      }, "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "T"
-      }, ":", ":", "remainder", "(", {
-        "id": "lnum"
-      }, ",", {
-        "id": "rnum"
-      }, ")", "."]
-    }]
-  }]
+  "k": 10
 }]

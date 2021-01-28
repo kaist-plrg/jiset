@@ -80,7 +80,9 @@
   "id": "d"
 }, "in", {
   "id": "varDeclarations"
-}, ",", "in", "reverse", "list", "order", ",", "do", true, "If", {
+}, ",", "in", "reverse", "list", "order", ",", "do", {
+  "in": null
+}, "If", {
   "id": "d"
 }, "is", "neither", "a", {
   "nt": "VariableDeclaration"
@@ -88,7 +90,9 @@
   "nt": "ForBinding"
 }, "nor", "a", {
   "nt": "BindingIdentifier"
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "d"
 }, "is", "either", "a", {
   "nt": "FunctionDeclaration"
@@ -110,7 +114,9 @@
   "id": "fn"
 }, "is", "not", "an", "element", "of", {
   "id": "functionNames"
-}, ",", "then", true, "Insert", {
+}, ",", "then", {
+  "in": null
+}, "Insert", {
   "id": "fn"
 }, "as", "the", "first", "element", "of", {
   "id": "functionNames"
@@ -124,11 +130,17 @@
   "id": "functionsToInitialize"
 }, ".", {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
 }, "Let", {
   "id": "argumentsObjectNeeded"
@@ -140,7 +152,9 @@
   "id": "func"
 }, ".", "[", "[", "ThisMode", "]", "]", "is", {
   "const": "lexical"
-}, ",", "then", true, "NOTE", ":", "Arrow", "functions", "never", "have", "an", "arguments", "objects", ".", {
+}, ",", "then", {
+  "in": null
+}, "NOTE", ":", "Arrow", "functions", "never", "have", "an", "arguments", "objects", ".", {
   "k": 23
 }, "Set", {
   "id": "argumentsObjectNeeded"
@@ -148,25 +162,33 @@
   "value": "false"
 }, ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 22
 }, "Else", "if", {
   "value": "\"arguments\""
 }, "is", "an", "element", "of", {
   "id": "parameterNames"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "argumentsObjectNeeded"
 }, "to", {
   "value": "false"
 }, ".", {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
 }, "Else", "if", {
   "id": "hasParameterExpressions"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "value": "\"arguments\""
 }, "is", "an", "element", "of", {
   "id": "functionNames"
@@ -174,15 +196,21 @@
   "value": "\"arguments\""
 }, "is", "an", "element", "of", {
   "id": "lexicalNames"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "argumentsObjectNeeded"
 }, "to", {
   "value": "false"
 }, ".", {
   "k": 29
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 28
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
 }, "If", {
   "id": "strict"
@@ -192,7 +220,9 @@
   "id": "hasParameterExpressions"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "NOTE", ":", "Only", "a", "single", "lexical", "environment", "is", "needed", "for", "the", "parameters", "and", "top", "-", "level", "vars", ".", {
+}, ",", "then", {
+  "in": null
+}, "NOTE", ":", "Only", "a", "single", "lexical", "environment", "is", "needed", "for", "the", "parameters", "and", "top", "-", "level", "vars", ".", {
   "k": 31
 }, "Let", {
   "id": "env"
@@ -206,9 +236,13 @@
   "id": "env"
 }, "'", "s", "EnvironmentRecord", ".", {
   "k": 33
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 30
-}, "Else", ",", true, "NOTE", ":", "A", "separate", "Environment", "Record", "is", "needed", "to", "ensure", "that", "bindings", "created", "by", "direct", "eval", "calls", "in", "the", "formal", "parameter", "list", "are", "outside", "the", "environment", "where", "parameters", "are", "declared", ".", {
+}, "Else", ",", {
+  "in": null
+}, "NOTE", ":", "A", "separate", "Environment", "Record", "is", "needed", "to", "ensure", "that", "bindings", "created", "by", "direct", "eval", "calls", "in", "the", "formal", "parameter", "list", "are", "outside", "the", "environment", "where", "parameters", "are", "declared", ".", {
   "k": 35
 }, "Let", {
   "id": "calleeEnv"
@@ -240,13 +274,17 @@
   "id": "env"
 }, ".", {
   "k": 40
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 34
 }, "For", "each", "String", {
   "id": "paramName"
 }, "in", {
   "id": "parameterNames"
-}, ",", "do", true, "Let", {
+}, ",", "do", {
+  "in": null
+}, "Let", {
   "id": "alreadyDeclared"
 }, "be", {
   "id": "envRec"
@@ -260,7 +298,9 @@
   "id": "alreadyDeclared"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "Perform", "!", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
   "id": "envRec"
 }, ".", "CreateMutableBinding", "(", {
   "id": "paramName"
@@ -272,7 +312,9 @@
   "id": "hasDuplicates"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Perform", "!", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
   "id": "envRec"
 }, ".", "InitializeBinding", "(", {
   "id": "paramName"
@@ -280,17 +322,25 @@
   "value": "undefined"
 }, ")", ".", {
   "k": 47
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 46
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 44
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 41
 }, "If", {
   "id": "argumentsObjectNeeded"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "strict"
 }, "is", {
   "value": "true"
@@ -298,15 +348,21 @@
   "id": "simpleParameterList"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "ao"
 }, "be", "CreateUnmappedArgumentsObject", "(", {
   "id": "argumentsList"
 }, ")", ".", {
   "k": 50
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 49
-}, "Else", ",", true, "NOTE", ":", "A", "mapped", "argument", "object", "is", "only", "provided", "for", "non", "-", "strict", "functions", "that", "don", "'", "t", "have", "a", "rest", "parameter", ",", "any", "parameter", "default", "value", "initializers", ",", "or", "any", "destructured", "parameters", ".", {
+}, "Else", ",", {
+  "in": null
+}, "NOTE", ":", "A", "mapped", "argument", "object", "is", "only", "provided", "for", "non", "-", "strict", "functions", "that", "don", "'", "t", "have", "a", "rest", "parameter", ",", "any", "parameter", "default", "value", "initializers", ",", "or", "any", "destructured", "parameters", ".", {
   "k": 52
 }, "Let", {
   "id": "ao"
@@ -320,13 +376,17 @@
   "id": "envRec"
 }, ")", ".", {
   "k": 53
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 51
 }, "If", {
   "id": "strict"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Perform", "!", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
   "id": "envRec"
 }, ".", "CreateImmutableBinding", "(", {
   "value": "\"arguments\""
@@ -334,9 +394,13 @@
   "value": "false"
 }, ")", ".", {
   "k": 55
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 54
-}, "Else", ",", true, "Perform", "!", {
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", {
   "id": "envRec"
 }, ".", "CreateMutableBinding", "(", {
   "value": "\"arguments\""
@@ -344,7 +408,9 @@
   "value": "false"
 }, ")", ".", {
   "k": 57
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 56
 }, "Call", {
   "id": "envRec"
@@ -362,15 +428,21 @@
   "value": "\"arguments\""
 }, "appended", ".", {
   "k": 59
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 48
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "parameterBindings"
 }, "be", {
   "id": "parameterNames"
 }, ".", {
   "k": 61
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 60
 }, "Let", {
   "id": "iteratorRecord"
@@ -382,7 +454,9 @@
   "id": "hasDuplicates"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Perform", "?", "IteratorBindingInitialization", "for", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", "IteratorBindingInitialization", "for", {
   "id": "formals"
 }, "with", {
   "id": "iteratorRecord"
@@ -390,9 +464,13 @@
   "value": "undefined"
 }, "as", "arguments", ".", {
   "k": 64
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 63
-}, "Else", ",", true, "Perform", "?", "IteratorBindingInitialization", "for", {
+}, "Else", ",", {
+  "in": null
+}, "Perform", "?", "IteratorBindingInitialization", "for", {
   "id": "formals"
 }, "with", {
   "id": "iteratorRecord"
@@ -400,13 +478,17 @@
   "id": "env"
 }, "as", "arguments", ".", {
   "k": 66
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 65
 }, "If", {
   "id": "hasParameterExpressions"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "NOTE", ":", "Only", "a", "single", "lexical", "environment", "is", "needed", "for", "the", "parameters", "and", "top", "-", "level", "vars", ".", {
+}, ",", "then", {
+  "in": null
+}, "NOTE", ":", "Only", "a", "single", "lexical", "environment", "is", "needed", "for", "the", "parameters", "and", "top", "-", "level", "vars", ".", {
   "k": 68
 }, "Let", {
   "id": "instantiatedVarNames"
@@ -418,11 +500,15 @@
   "id": "n"
 }, "in", {
   "id": "varNames"
-}, ",", "do", true, "If", {
+}, ",", "do", {
+  "in": null
+}, "If", {
   "id": "n"
 }, "is", "not", "an", "element", "of", {
   "id": "instantiatedVarNames"
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "id": "n"
 }, "to", {
   "id": "instantiatedVarNames"
@@ -444,9 +530,13 @@
   "value": "undefined"
 }, ")", ".", {
   "k": 74
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 71
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 70
 }, "Let", {
   "id": "varEnv"
@@ -460,9 +550,13 @@
   "id": "envRec"
 }, ".", {
   "k": 76
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 67
-}, "Else", ",", true, "NOTE", ":", "A", "separate", "Environment", "Record", "is", "needed", "to", "ensure", "that", "closures", "created", "by", "expressions", "in", "the", "formal", "parameter", "list", "do", "not", "have", "visibility", "of", "declarations", "in", "the", "function", "body", ".", {
+}, "Else", ",", {
+  "in": null
+}, "NOTE", ":", "A", "separate", "Environment", "Record", "is", "needed", "to", "ensure", "that", "closures", "created", "by", "expressions", "in", "the", "formal", "parameter", "list", "do", "not", "have", "visibility", "of", "declarations", "in", "the", "function", "body", ".", {
   "k": 78
 }, "Let", {
   "id": "varEnv"
@@ -490,11 +584,15 @@
   "id": "n"
 }, "in", {
   "id": "varNames"
-}, ",", "do", true, "If", {
+}, ",", "do", {
+  "in": null
+}, "If", {
   "id": "n"
 }, "is", "not", "an", "element", "of", {
   "id": "instantiatedVarNames"
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "id": "n"
 }, "to", {
   "id": "instantiatedVarNames"
@@ -522,7 +620,9 @@
   "value": "undefined"
 }, ".", {
   "k": 87
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "initialValue"
 }, "be", "!", {
   "id": "envRec"
@@ -532,7 +632,9 @@
   "value": "false"
 }, ")", ".", {
   "k": 89
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 88
 }, "Call", {
   "id": "varEnvRec"
@@ -544,11 +646,17 @@
   "k": 90
 }, "NOTE", ":", "A", "var", "with", "the", "same", "name", "as", "a", "formal", "parameter", "initially", "has", "the", "same", "value", "as", "the", "corresponding", "initialized", "parameter", ".", {
   "k": 91
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 84
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 83
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 77
 }, "NOTE", ":", "Annex", {
   "link": ""
@@ -558,7 +666,9 @@
   "id": "strict"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "varEnv"
@@ -566,7 +676,9 @@
   "k": 94
 }, "NOTE", ":", "Non", "-", "strict", "functions", "use", "a", "separate", "lexical", "Environment", "Record", "for", "top", "-", "level", "lexical", "declarations", "so", "that", "a", "direct", "eval", "can", "determine", "whether", "any", "var", "scoped", "declarations", "introduced", "by", "the", "eval", "code", "conflict", "with", "pre", "-", "existing", "top", "-", "level", "lexically", "scoped", "declarations", ".", "This", "is", "not", "needed", "for", "strict", "functions", "because", "a", "strict", "direct", "eval", "always", "places", "all", "declarations", "into", "a", "new", "Environment", "Record", ".", {
   "k": 95
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 93
 }, "Else", ",", "let", {
   "id": "lexEnv"
@@ -596,17 +708,23 @@
   "id": "d"
 }, "in", {
   "id": "lexDeclarations"
-}, ",", "do", true, "NOTE", ":", "A", "lexically", "declared", "name", "cannot", "be", "the", "same", "as", "a", "function", "/", "generator", "declaration", ",", "formal", "parameter", ",", "or", "a", "var", "name", ".", "Lexically", "declared", "names", "are", "only", "instantiated", "here", "but", "not", "initialized", ".", {
+}, ",", "do", {
+  "in": null
+}, "NOTE", ":", "A", "lexically", "declared", "name", "cannot", "be", "the", "same", "as", "a", "function", "/", "generator", "declaration", ",", "formal", "parameter", ",", "or", "a", "var", "name", ".", "Lexically", "declared", "names", "are", "only", "instantiated", "here", "but", "not", "initialized", ".", {
   "k": 101
 }, "For", "each", "element", {
   "id": "dn"
 }, "of", "the", "BoundNames", "of", {
   "id": "d"
-}, ",", "do", true, "If", "IsConstantDeclaration", "of", {
+}, ",", "do", {
+  "in": null
+}, "If", "IsConstantDeclaration", "of", {
   "id": "d"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Perform", "!", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
   "id": "lexEnvRec"
 }, ".", "CreateImmutableBinding", "(", {
   "id": "dn"
@@ -614,9 +732,13 @@
   "value": "true"
 }, ")", ".", {
   "k": 104
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 103
-}, "Else", ",", true, "Perform", "!", {
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", {
   "id": "lexEnvRec"
 }, ".", "CreateMutableBinding", "(", {
   "id": "dn"
@@ -624,17 +746,25 @@
   "value": "false"
 }, ")", ".", {
   "k": 106
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 105
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 102
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 100
 }, "For", "each", "Parse", "Node", {
   "id": "f"
 }, "in", {
   "id": "functionsToInitialize"
-}, ",", "do", true, "Let", {
+}, ",", "do", {
+  "in": null
+}, "Let", {
   "id": "fn"
 }, "be", "the", "sole", "element", "of", "the", "BoundNames", "of", {
   "id": "f"
@@ -658,7 +788,9 @@
   "value": "false"
 }, ")", ".", {
   "k": 110
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 107
 }, "Return", "NormalCompletion", "(", {
   "const": "empty"

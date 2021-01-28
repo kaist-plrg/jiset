@@ -1,45 +1,45 @@
-[{
-  "tokens": ["Let", {
-    "id": "envRec"
-  }, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", "."]
+["Let", {
+  "id": "envRec"
+}, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", ".", {
+  "k": 0
+}, "Let", {
+  "id": "DclRec"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "DeclarativeRecord", "]", "]", ".", {
+  "k": 1
+}, "If", {
+  "id": "DclRec"
+}, ".", "HasBinding", "(", {
+  "id": "N"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Return", {
+  "id": "DclRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "N"
+}, ",", {
+  "id": "V"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "DclRec"
-  }, "be", {
-    "id": "envRec"
-  }, ".", "[", "[", "DeclarativeRecord", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "DclRec"
-  }, ".", "HasBinding", "(", {
-    "id": "N"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", {
-        "id": "DclRec"
-      }, ".", "InitializeBinding", "(", {
-        "id": "N"
-      }, ",", {
-        "id": "V"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Assert", ":", "If", "the", "binding", "exists", ",", "it", "must", "be", "in", "the", "object", "Environment", "Record", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "ObjRec"
-  }, "be", {
-    "id": "envRec"
-  }, ".", "[", "[", "ObjectRecord", "]", "]", "."]
-}, {
-  "tokens": ["Return", "?", {
-    "id": "ObjRec"
-  }, ".", "InitializeBinding", "(", {
-    "id": "N"
-  }, ",", {
-    "id": "V"
-  }, ")", "."]
+  "k": 2
+}, "Assert", ":", "If", "the", "binding", "exists", ",", "it", "must", "be", "in", "the", "object", "Environment", "Record", ".", {
+  "k": 3
+}, "Let", {
+  "id": "ObjRec"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "ObjectRecord", "]", "]", ".", {
+  "k": 4
+}, "Return", "?", {
+  "id": "ObjRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "N"
+}, ",", {
+  "id": "V"
+}, ")", ".", {
+  "k": 5
 }]

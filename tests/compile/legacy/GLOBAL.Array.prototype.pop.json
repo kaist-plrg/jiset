@@ -1,79 +1,65 @@
-[{
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "ToObject", "(", {
-    "value": "this"
-  }, "value", ")", "."]
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "len"
+}, "is", "zero", ",", "then", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"length\""
+}, ",", "0", ",", {
+  "value": "true"
+}, ")", ".", "Return", {
+  "value": "undefined"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "?", "LengthOfArrayLike", "(", {
-    "id": "O"
-  }, ")", "."]
+  "k": 2
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "len"
+}, ">", "0", ".", "Let", {
+  "id": "newLen"
+}, "be", {
+  "id": "len"
+}, "-", "1", ".", "Let", {
+  "id": "index"
+}, "be", "!", "ToString", "(", {
+  "id": "newLen"
+}, ")", ".", "Let", {
+  "id": "element"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "index"
+}, ")", ".", "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "index"
+}, ")", ".", "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "newLen"
+}, ",", {
+  "value": "true"
+}, ")", ".", "Return", {
+  "id": "element"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "len"
-  }, "is", "zero", ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "?", "Set", "(", {
-        "id": "O"
-      }, ",", {
-        "value": "\"length\""
-      }, ",", "0", ",", {
-        "value": "true"
-      }, ")", "."]
-    }, {
-      "tokens": ["Return", {
-        "value": "undefined"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Assert", ":", {
-        "id": "len"
-      }, ">", "0", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "newLen"
-      }, "be", {
-        "id": "len"
-      }, "-", "1", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "index"
-      }, "be", "!", "ToString", "(", {
-        "id": "newLen"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "element"
-      }, "be", "?", "Get", "(", {
-        "id": "O"
-      }, ",", {
-        "id": "index"
-      }, ")", "."]
-    }, {
-      "tokens": ["Perform", "?", "DeletePropertyOrThrow", "(", {
-        "id": "O"
-      }, ",", {
-        "id": "index"
-      }, ")", "."]
-    }, {
-      "tokens": ["Perform", "?", "Set", "(", {
-        "id": "O"
-      }, ",", {
-        "value": "\"length\""
-      }, ",", {
-        "id": "newLen"
-      }, ",", {
-        "value": "true"
-      }, ")", "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "element"
-      }, "."]
-    }]
-  }]
+  "k": 3
 }]

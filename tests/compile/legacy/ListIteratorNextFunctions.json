@@ -1,61 +1,61 @@
-[{
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
+["Let", {
+  "id": "O"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "O"
+}, "has", "an", "[", "[", "IteratedList", "]", "]", "internal", "slot", ".", {
+  "k": 2
+}, "Let", {
+  "id": "list"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "IteratedList", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "index"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ListNextIndex", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "len"
+}, "be", "the", "number", "of", "elements", "of", {
+  "id": "list"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "index"
+}, "≥", {
+  "id": "len"
+}, ",", "then", {
+  "in": null
+}, "Return", "CreateIterResultObject", "(", {
+  "value": "undefined"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "O"
-  }, ")", "is", "Object", "."]
-}, {
-  "tokens": ["Assert", ":", {
-    "id": "O"
-  }, "has", "an", "[", "[", "IteratedList", "]", "]", "internal", "slot", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "list"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "IteratedList", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "index"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ListNextIndex", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "the", "number", "of", "elements", "of", {
-    "id": "list"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "index"
-  }, "≥", {
-    "id": "len"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", "CreateIterResultObject", "(", {
-        "value": "undefined"
-      }, ",", {
-        "value": "true"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Set", {
-    "id": "O"
-  }, ".", "[", "[", "ListNextIndex", "]", "]", "to", {
-    "id": "index"
-  }, "+", "1", "."]
-}, {
-  "tokens": ["Return", "CreateIterResultObject", "(", {
-    "id": "list"
-  }, "[", {
-    "id": "index"
-  }, "]", ",", {
-    "value": "false"
-  }, ")", "."]
+  "k": 6
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ListNextIndex", "]", "]", "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 7
+}, "Return", "CreateIterResultObject", "(", {
+  "id": "list"
+}, "[", {
+  "id": "index"
+}, "]", ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 8
 }]

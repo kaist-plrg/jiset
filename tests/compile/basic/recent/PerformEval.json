@@ -46,13 +46,17 @@
   "id": "direct"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "thisEnvRec"
 }, "be", "!", "GetThisEnvironment", "(", ")", ".", {
   "k": 8
 }, "If", {
   "id": "thisEnvRec"
-}, "is", "a", "function", "Environment", "Record", ",", "then", true, "Let", {
+}, "is", "a", "function", "Environment", "Record", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "F"
 }, "be", {
   "id": "thisEnvRec"
@@ -80,11 +84,17 @@
   "value": "true"
 }, ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
-}, "Perform", "the", "following", "substeps", "in", "an", "implementation", "-", "defined", "order", ",", "possibly", "interleaving", "parsing", "and", "error", "detection", ":", true, "Let", {
+}, "Perform", "the", "following", "substeps", "in", "an", "implementation", "-", "defined", "order", ",", "possibly", "interleaving", "parsing", "and", "error", "detection", ":", {
+  "in": null
+}, "Let", {
   "id": "script"
 }, "be", "ParseText", "(", "!", "StringToCodePoints", "(", {
   "id": "x"
@@ -152,7 +162,9 @@
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "If", {
   "id": "strictCaller"
@@ -194,7 +206,9 @@
   "id": "direct"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "runningContext"
@@ -206,9 +220,13 @@
   "id": "runningContext"
 }, "'", "s", "VariableEnvironment", ".", {
   "k": 28
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 26
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "evalRealm"
@@ -220,7 +238,9 @@
   "id": "evalRealm"
 }, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
   "k": 31
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 29
 }, "If", {
   "id": "strictEval"
@@ -294,13 +314,17 @@
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "normal"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "result"
 }, "to", "the", "result", "of", "evaluating", {
   "id": "body"
 }, ".", {
   "k": 43
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 42
 }, "If", {
   "id": "result"
@@ -310,13 +334,17 @@
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", "is", {
   "const": "empty"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "result"
 }, "to", "NormalCompletion", "(", {
   "value": "undefined"
 }, ")", ".", {
   "k": 45
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 44
 }, "Suspend", {
   "id": "evalContext"

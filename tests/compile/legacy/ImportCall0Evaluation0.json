@@ -1,45 +1,45 @@
-[{
-  "tokens": ["Let", {
-    "id": "referencingScriptOrModule"
-  }, "be", "!", "GetActiveScriptOrModule", "(", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "argRef"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "AssignmentExpression"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "specifier"
-  }, "be", "?", "GetValue", "(", {
-    "id": "argRef"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "specifierString"
-  }, "be", "ToString", "(", {
-    "id": "specifier"
-  }, ")", "."]
-}, {
-  "tokens": ["IfAbruptRejectPromise", "(", {
-    "id": "specifierString"
-  }, ",", {
-    "id": "promiseCapability"
-  }, ")", "."]
-}, {
-  "tokens": ["Perform", "!", "HostImportModuleDynamically", "(", {
-    "id": "referencingScriptOrModule"
-  }, ",", {
-    "id": "specifierString"
-  }, ",", {
-    "id": "promiseCapability"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Promise", "]", "]", "."]
+["Let", {
+  "id": "referencingScriptOrModule"
+}, "be", "!", "GetActiveScriptOrModule", "(", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "argRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "specifier"
+}, "be", "?", "GetValue", "(", {
+  "id": "argRef"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "specifierString"
+}, "be", "ToString", "(", {
+  "id": "specifier"
+}, ")", ".", {
+  "k": 4
+}, "IfAbruptRejectPromise", "(", {
+  "id": "specifierString"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 5
+}, "Perform", "!", "HostImportModuleDynamically", "(", {
+  "id": "referencingScriptOrModule"
+}, ",", {
+  "id": "specifierString"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 6
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 7
 }]

@@ -42,8 +42,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         val filename = file.getName
         if (jsonFilter(filename)) {
           val jsonName = file.toString
-          val steps = readJson[List[Step]](jsonName)
-          val tokens = Step.toTokens(steps)
+          val tokens = readJson[List[Token]](jsonName)
           val inst = Compiler(tokens)
 
           val irName = json2ir(jsonName)
@@ -78,7 +77,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     }
 
     genGrammarTest
-    // genLegacyTest
+    genLegacyTest
     genBasicTest
   }
 

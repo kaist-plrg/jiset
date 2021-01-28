@@ -1,49 +1,49 @@
-[{
-  "tokens": ["Let", {
-    "id": "iterable"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["If", "NewTarget", "is", {
-    "value": "undefined"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "map"
-  }, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
-    "value": "\"%Map.prototype%\""
-  }, ",", "«", "[", "[", "MapData", "]", "]", "»", ")", "."]
-}, {
-  "tokens": ["Set", {
-    "id": "map"
-  }, ".", "[", "[", "MapData", "]", "]", "to", "a", "new", "empty", "List", "."]
-}, {
-  "tokens": ["If", {
-    "id": "iterable"
-  }, "is", "either", {
-    "value": "undefined"
-  }, "or", {
-    "value": "null"
-  }, ",", "return", {
-    "id": "map"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "adder"
-  }, "be", "?", "Get", "(", {
-    "id": "map"
-  }, ",", {
-    "value": "\"set\""
-  }, ")", "."]
-}, {
-  "tokens": ["Return", "?", "AddEntriesFromIterable", "(", {
-    "id": "map"
-  }, ",", {
-    "id": "iterable"
-  }, ",", {
-    "id": "adder"
-  }, ")", "."]
+["Let", {
+  "id": "iterable"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "map"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+  "value": "\"%Map.prototype%\""
+}, ",", "«", "[", "[", "MapData", "]", "]", "»", ")", ".", {
+  "k": 2
+}, "Set", {
+  "id": "map"
+}, ".", "[", "[", "MapData", "]", "]", "to", "a", "new", "empty", "List", ".", {
+  "k": 3
+}, "If", {
+  "id": "iterable"
+}, "is", "either", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "return", {
+  "id": "map"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "adder"
+}, "be", "?", "Get", "(", {
+  "id": "map"
+}, ",", {
+  "value": "\"set\""
+}, ")", ".", {
+  "k": 5
+}, "Return", "?", "AddEntriesFromIterable", "(", {
+  "id": "map"
+}, ",", {
+  "id": "iterable"
+}, ",", {
+  "id": "adder"
+}, ")", ".", {
+  "k": 6
 }]

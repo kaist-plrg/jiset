@@ -1,63 +1,61 @@
-[{
-  "tokens": ["Let", {
-    "id": "iterNextObj"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "iterNextObj"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "iterNextObj"
+}, "is", "an", "Object", "that", "implements", "the", "IteratorResult", "interface", ".", {
+  "k": 1
+}, "Let", {
+  "id": "genContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "genContext"
+}, "is", "the", "execution", "context", "of", "a", "generator", ".", {
+  "k": 3
+}, "Let", {
+  "id": "generator"
+}, "be", "the", "value", "of", "the", "Generator", "component", "of", {
+  "id": "genContext"
+}, ".", {
+  "k": 4
+}, "Assert", ":", "GetGeneratorKind", "(", ")", "is", {
+  "const": "sync"
+}, ".", {
+  "k": 5
+}, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorState", "]", "]", "to", {
+  "const": "suspendedYield"
+}, ".", {
+  "k": 6
+}, "Remove", {
+  "id": "genContext"
+}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 7
+}, "Set", "the", "code", "evaluation", "state", "of", {
+  "id": "genContext"
+}, "such", "that", "when", "evaluation", "is", "resumed", "with", "a", "Completion", {
+  "id": "resumptionValue"
+}, "the", "following", "steps", "will", "be", "performed", ":", {
+  "in": null
+}, "Return", {
+  "id": "resumptionValue"
+}, ".", "NOTE", ":", "This", "returns", "to", "the", "evaluation", "of", "the", {
+  "nt": "YieldExpression"
+}, "that", "originally", "called", "this", "abstract", "operation", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "iterNextObj"
-  }, "is", "an", "Object", "that", "implements", "the", "IteratorResult", "interface", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "genContext"
-  }, "be", "the", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Assert", ":", {
-    "id": "genContext"
-  }, "is", "the", "execution", "context", "of", "a", "generator", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "generator"
-  }, "be", "the", "value", "of", "the", "Generator", "component", "of", {
-    "id": "genContext"
-  }, "."]
-}, {
-  "tokens": ["Assert", ":", "GetGeneratorKind", "(", ")", "is", {
-    "const": "sync"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "generator"
-  }, ".", "[", "[", "GeneratorState", "]", "]", "to", {
-    "const": "suspendedYield"
-  }, "."]
-}, {
-  "tokens": ["Remove", {
-    "id": "genContext"
-  }, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Set", "the", "code", "evaluation", "state", "of", {
-    "id": "genContext"
-  }, "such", "that", "when", "evaluation", "is", "resumed", "with", "a", "Completion", {
-    "id": "resumptionValue"
-  }, "the", "following", "steps", "will", "be", "performed", ":", {
-    "steps": [{
-      "tokens": ["Return", {
-        "id": "resumptionValue"
-      }, "."]
-    }, {
-      "tokens": ["NOTE", ":", "This", "returns", "to", "the", "evaluation", "of", "the", {
-        "nt": "YieldExpression"
-      }, "that", "originally", "called", "this", "abstract", "operation", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "NormalCompletion", "(", {
-    "id": "iterNextObj"
-  }, ")", "."]
-}, {
-  "tokens": ["NOTE", ":", "This", "returns", "to", "the", "evaluation", "of", "the", "operation", "that", "had", "most", "previously", "resumed", "evaluation", "of", {
-    "id": "genContext"
-  }, "."]
+  "k": 8
+}, "Return", "NormalCompletion", "(", {
+  "id": "iterNextObj"
+}, ")", ".", {
+  "k": 9
+}, "NOTE", ":", "This", "returns", "to", "the", "evaluation", "of", "the", "operation", "that", "had", "most", "previously", "resumed", "evaluation", "of", {
+  "id": "genContext"
+}, ".", {
+  "k": 10
 }]

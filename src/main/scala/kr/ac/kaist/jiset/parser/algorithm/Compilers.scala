@@ -29,11 +29,13 @@ trait Compilers extends TokenListParsers {
   // Helpers
   ////////////////////////////////////////////////////////////////////////////////
   // failed steps
-  def failedToken: PackratParser[Token] = normal | in ~> stmts <~ out ^^^ StepList(Nil)
-  def failedStep: PackratParser[Inst] = rep(failedToken) ~ next ^^ {
-    case ts ~ k =>
-      failed += k -> ts
-      val failedInst = IExpr(ENotSupported(ts.mkString(" ")))
+  def failedTokens: PackratParser[List[Token]] =
+    normal ^^ { List(_) } | in ~> stmts <~ out ^^^ List(In, Out)
+  def failedStep: PackratParser[Inst] = rep(failedTokens) ~ next ^^ {
+    case tss ~ k =>
+      val tokens = tss.flatten
+      failed += k -> tokens
+      val failedInst = IExpr(ENotSupported(tokens.mkString(" ")))
       failedInst.line = k
       failedInst
   }

@@ -1,53 +1,51 @@
-[{
-  "tokens": ["Let", {
-    "id": "str"
-  }, "be", "?", "RequireObjectCoercible", "(", {
-    "id": "string"
-  }, ")", "."]
+["Let", {
+  "id": "str"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "id": "string"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "str"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "where"
+}, "is", {
+  "const": "start"
+}, ",", "let", {
+  "id": "T"
+}, "be", "the", "String", "value", "that", "is", "a", "copy", "of", {
+  "id": "S"
+}, "with", "leading", "white", "space", "removed", ".", {
+  "k": 2
+}, "Else", "if", {
+  "id": "where"
+}, "is", {
+  "const": "end"
+}, ",", "let", {
+  "id": "T"
+}, "be", "the", "String", "value", "that", "is", "a", "copy", "of", {
+  "id": "S"
+}, "with", "trailing", "white", "space", "removed", ".", {
+  "k": 3
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "where"
+}, "is", {
+  "const": "start+end"
+}, ".", "Let", {
+  "id": "T"
+}, "be", "the", "String", "value", "that", "is", "a", "copy", "of", {
+  "id": "S"
+}, "with", "both", "leading", "and", "trailing", "white", "space", "removed", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "S"
-  }, "be", "?", "ToString", "(", {
-    "id": "str"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "where"
-  }, "is", {
-    "const": "start"
-  }, ",", "let", {
-    "id": "T"
-  }, "be", "the", "String", "value", "that", "is", "a", "copy", "of", {
-    "id": "S"
-  }, "with", "leading", "white", "space", "removed", "."]
-}, {
-  "tokens": ["Else", "if", {
-    "id": "where"
-  }, "is", {
-    "const": "end"
-  }, ",", "let", {
-    "id": "T"
-  }, "be", "the", "String", "value", "that", "is", "a", "copy", "of", {
-    "id": "S"
-  }, "with", "trailing", "white", "space", "removed", "."]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Assert", ":", {
-        "id": "where"
-      }, "is", {
-        "const": "start+end"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "T"
-      }, "be", "the", "String", "value", "that", "is", "a", "copy", "of", {
-        "id": "S"
-      }, "with", "both", "leading", "and", "trailing", "white", "space", "removed", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "T"
-  }, "."]
+  "k": 4
+}, "Return", {
+  "id": "T"
+}, ".", {
+  "k": 5
 }]

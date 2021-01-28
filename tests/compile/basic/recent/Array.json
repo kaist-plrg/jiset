@@ -22,15 +22,21 @@
   "k": 2
 }, "If", {
   "id": "numberOfArgs"
-}, "=", "0", ",", "then", true, "Return", "!", "ArrayCreate", "(", "0", ",", {
+}, "=", "0", ",", "then", {
+  "in": null
+}, "Return", "!", "ArrayCreate", "(", "0", ",", {
   "id": "proto"
 }, ")", ".", {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "Else", "if", {
   "id": "numberOfArgs"
-}, "=", "1", ",", "then", true, "Let", {
+}, "=", "1", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "len"
 }, "be", {
   "id": "values"
@@ -44,7 +50,9 @@
   "k": 7
 }, "If", "Type", "(", {
   "id": "len"
-}, ")", "is", "not", "Number", ",", "then", true, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+}, ")", "is", "not", "Number", ",", "then", {
+  "in": null
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
   "id": "array"
 }, ",", {
   "value": "\"0\""
@@ -58,9 +66,13 @@
   "value": "1"
 }, ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "intLen"
 }, "be", "!", "ToUint32", "(", {
   "id": "len"
@@ -74,7 +86,9 @@
   "value": "RangeError"
 }, "exception", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Perform", "!", "Set", "(", {
   "id": "array"
@@ -90,9 +104,13 @@
   "id": "array"
 }, ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "numberOfArgs"
 }, "≥", "2", ".", {
   "k": 17
@@ -112,7 +130,9 @@
   "id": "k"
 }, "<", {
   "id": "numberOfArgs"
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "Pk"
 }, "be", "!", "ToString", "(", "𝔽", "(", {
   "id": "k"
@@ -140,7 +160,9 @@
   "id": "k"
 }, "+", "1", ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
 }, "Assert", ":", "The", "mathematical", "value", "of", {
   "id": "array"
@@ -154,6 +176,8 @@
   "id": "array"
 }, ".", {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
 }]

@@ -52,11 +52,15 @@
   "k": 8
 }, "If", {
   "id": "completion"
-}, "is", "an", "abrupt", "completion", ",", "then", true, "If", {
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "If", {
   "id": "state"
 }, "is", {
   "code": "\"suspendedStart\""
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
   "code": "\"completed\""
@@ -68,17 +72,23 @@
   "code": "\"completed\""
 }, ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "If", {
   "id": "state"
 }, "is", {
   "code": "\"completed\""
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "completion"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "return"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
   "code": "\"awaiting-return\""
@@ -138,9 +148,13 @@
   "value": "undefined"
 }, ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "completion"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "throw"
@@ -156,11 +170,17 @@
   "value": "undefined"
 }, ".", {
   "k": 28
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
 }, "Else", "if", {
   "id": "state"

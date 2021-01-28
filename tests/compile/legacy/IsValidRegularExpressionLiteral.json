@@ -1,83 +1,83 @@
-[{
-  "tokens": ["Assert", ":", {
-    "id": "literal"
-  }, "is", "a", {
-    "nt": "RegularExpressionLiteral"
-  }, "."]
+["Assert", ":", {
+  "id": "literal"
+}, "is", "a", {
+  "nt": "RegularExpressionLiteral"
+}, ".", {
+  "k": 0
+}, "If", "FlagText", "of", {
+  "id": "literal"
+}, "contains", "any", "code", "points", "other", "than", {
+  "code": "g"
+}, ",", {
+  "code": "i"
+}, ",", {
+  "code": "m"
+}, ",", {
+  "code": "s"
+}, ",", {
+  "code": "u"
+}, ",", "or", {
+  "code": "y"
+}, ",", "or", "if", "it", "contains", "the", "same", "code", "point", "more", "than", "once", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "P"
+}, "be", "BodyText", "of", {
+  "id": "literal"
+}, ".", {
+  "k": 2
+}, "If", "FlagText", "of", {
+  "id": "literal"
+}, "contains", {
+  "code": "u"
+}, ",", "then", {
+  "in": null
+}, "Parse", {
+  "id": "P"
+}, "using", "the", "grammars", "in", "21", ".", "2", ".", "1", ".", "The", "goal", "symbol", "for", "the", "parse", "is", {
+  "nt": "Pattern"
+}, ".", "If", {
+  "id": "P"
+}, "did", "not", "conform", "to", "the", "grammar", ",", "if", "any", "elements", "of", {
+  "id": "P"
+}, "were", "not", "matched", "by", "the", "parse", ",", "or", "if", "any", "Early", "Error", "conditions", "exist", ",", "return", {
+  "value": "false"
+}, ".", "Otherwise", ",", "return", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", "FlagText", "of", {
-    "id": "literal"
-  }, "contains", "any", "code", "points", "other", "than", {
-    "code": "g"
-  }, ",", {
-    "code": "i"
-  }, ",", {
-    "code": "m"
-  }, ",", {
-    "code": "s"
-  }, ",", {
-    "code": "u"
-  }, ",", "or", {
-    "code": "y"
-  }, ",", "or", "if", "it", "contains", "the", "same", "code", "point", "more", "than", "once", ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "P"
-  }, "be", "BodyText", "of", {
-    "id": "literal"
-  }, "."]
-}, {
-  "tokens": ["If", "FlagText", "of", {
-    "id": "literal"
-  }, "contains", {
-    "code": "u"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Parse", {
-        "id": "P"
-      }, "using", "the", "grammars", "in", "21", ".", "2", ".", "1", ".", "The", "goal", "symbol", "for", "the", "parse", "is", {
-        "nt": "Pattern"
-      }, ".", "If", {
-        "id": "P"
-      }, "did", "not", "conform", "to", "the", "grammar", ",", "if", "any", "elements", "of", {
-        "id": "P"
-      }, "were", "not", "matched", "by", "the", "parse", ",", "or", "if", "any", "Early", "Error", "conditions", "exist", ",", "return", {
-        "value": "false"
-      }, ".", "Otherwise", ",", "return", {
-        "value": "true"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "stringValue"
-  }, "be", "UTF16Encode", "(", {
-    "id": "P"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "pText"
-  }, "be", "the", "sequence", "of", "code", "points", "resulting", "from", "interpreting", "each", "of", "the", "16", "-", "bit", "elements", "of", {
-    "id": "stringValue"
-  }, "as", "a", "Unicode", "BMP", "code", "point", ".", "UTF", "-", "16", "decoding", "is", "not", "applied", "to", "the", "elements", "."]
-}, {
-  "tokens": ["Parse", {
-    "id": "pText"
-  }, "using", "the", "grammars", "in", "21", ".", "2", ".", "1", ".", "The", "goal", "symbol", "for", "the", "parse", "is", {
-    "nt": "Pattern"
-  }, ".", "If", "the", "result", "of", "parsing", "contains", "a", {
-    "nt": "GroupName"
-  }, ",", "reparse", "with", "the", "goal", "symbol", {
-    "nt": "Pattern"
-  }, ".", "If", {
-    "id": "P"
-  }, "did", "not", "conform", "to", "the", "grammar", ",", "if", "any", "elements", "of", {
-    "id": "P"
-  }, "were", "not", "matched", "by", "the", "parse", ",", "or", "if", "any", "Early", "Error", "conditions", "exist", ",", "return", {
-    "value": "false"
-  }, ".", "Otherwise", ",", "return", {
-    "value": "true"
-  }, "."]
+  "k": 3
+}, "Let", {
+  "id": "stringValue"
+}, "be", "UTF16Encode", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "pText"
+}, "be", "the", "sequence", "of", "code", "points", "resulting", "from", "interpreting", "each", "of", "the", "16", "-", "bit", "elements", "of", {
+  "id": "stringValue"
+}, "as", "a", "Unicode", "BMP", "code", "point", ".", "UTF", "-", "16", "decoding", "is", "not", "applied", "to", "the", "elements", ".", {
+  "k": 5
+}, "Parse", {
+  "id": "pText"
+}, "using", "the", "grammars", "in", "21", ".", "2", ".", "1", ".", "The", "goal", "symbol", "for", "the", "parse", "is", {
+  "nt": "Pattern"
+}, ".", "If", "the", "result", "of", "parsing", "contains", "a", {
+  "nt": "GroupName"
+}, ",", "reparse", "with", "the", "goal", "symbol", {
+  "nt": "Pattern"
+}, ".", "If", {
+  "id": "P"
+}, "did", "not", "conform", "to", "the", "grammar", ",", "if", "any", "elements", "of", {
+  "id": "P"
+}, "were", "not", "matched", "by", "the", "parse", ",", "or", "if", "any", "Early", "Error", "conditions", "exist", ",", "return", {
+  "value": "false"
+}, ".", "Otherwise", ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 6
 }]

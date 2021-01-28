@@ -16,11 +16,15 @@
   "k": 1
 }, "If", {
   "id": "method"
-}, "is", "not", "present", ",", "then", true, "If", {
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "If", {
   "id": "hint"
 }, "is", {
   "const": "async"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "method"
 }, "to", "?", "GetMethod", "(", {
   "id": "obj"
@@ -30,7 +34,9 @@
   "id": "method"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "syncMethod"
 }, "be", "?", "GetMethod", "(", {
   "id": "obj"
@@ -50,9 +56,13 @@
   "id": "syncIteratorRecord"
 }, ")", ".", {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "Otherwise", ",", "set", {
   "id": "method"
@@ -60,7 +70,9 @@
   "id": "obj"
 }, ",", "@", "@", "iterator", ")", ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "Let", {
   "id": "iterator"

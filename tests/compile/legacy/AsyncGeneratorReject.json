@@ -1,43 +1,43 @@
-[{
-  "tokens": ["Assert", ":", {
-    "id": "generator"
-  }, "is", "an", "AsyncGenerator", "instance", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "queue"
-  }, "be", {
-    "id": "generator"
-  }, ".", "[", "[", "AsyncGeneratorQueue", "]", "]", "."]
-}, {
-  "tokens": ["Assert", ":", {
-    "id": "queue"
-  }, "is", "not", "an", "empty", "List", "."]
-}, {
-  "tokens": ["Remove", "the", "first", "element", "from", {
-    "id": "queue"
-  }, "and", "let", {
-    "id": "next"
-  }, "be", "the", "value", "of", "that", "element", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", {
-    "id": "next"
-  }, ".", "[", "[", "Capability", "]", "]", "."]
-}, {
-  "tokens": ["Perform", "!", "Call", "(", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Reject", "]", "]", ",", {
-    "value": "undefined"
-  }, ",", "«", {
-    "id": "exception"
-  }, "»", ")", "."]
-}, {
-  "tokens": ["Perform", "!", "AsyncGeneratorResumeNext", "(", {
-    "id": "generator"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", {
-    "value": "undefined"
-  }, "."]
+["Assert", ":", {
+  "id": "generator"
+}, "is", "an", "AsyncGenerator", "instance", ".", {
+  "k": 0
+}, "Let", {
+  "id": "queue"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorQueue", "]", "]", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "queue"
+}, "is", "not", "an", "empty", "List", ".", {
+  "k": 2
+}, "Remove", "the", "first", "element", "from", {
+  "id": "queue"
+}, "and", "let", {
+  "id": "next"
+}, "be", "the", "value", "of", "that", "element", ".", {
+  "k": 3
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", {
+  "id": "next"
+}, ".", "[", "[", "Capability", "]", "]", ".", {
+  "k": 4
+}, "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "exception"
+}, "»", ")", ".", {
+  "k": 5
+}, "Perform", "!", "AsyncGeneratorResumeNext", "(", {
+  "id": "generator"
+}, ")", ".", {
+  "k": 6
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 7
 }]

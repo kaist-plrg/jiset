@@ -83,8 +83,8 @@
     app __x19__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x19__
   } else {}
-  ??? "If id:{kind} is code:{\"generator\"} or ` \" async generator \" ` , then step-list:{...}"
-  ??? "If id:{kind} is code:{\"async\"} or ` \" async generator \" ` , then step-list:{...}"
+  ??? "If id:{kind} is code:{\"generator\"} or ` \" async generator \" ` , then in:{} out:{}"
+  ??? "If id:{kind} is code:{\"async\"} or ` \" async generator \" ` , then in:{} out:{}"
   if (= strict true) ??? "If BoundNames of id:{parameters} contains any duplicate elements , throw a value:{SyntaxError} exception ." else {}
   app __x20__ = (GetPrototypeFromConstructor newTarget fallbackProto)
   if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else {}
@@ -101,7 +101,7 @@
     app __x24__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     __x24__
   } else {}
-  ??? "Else if id:{kind} is ` \" async generator \" ` , then step-list:{...}"
+  ??? "Else if id:{kind} is ` \" async generator \" ` , then in:{} out:{}"
   ??? "Else if id:{kind} is code:{\"normal\"} , perform MakeConstructor ( id:{F} ) ."
   app __x25__ = (SetFunctionName F "anonymous")
   __x25__

@@ -12,7 +12,7 @@
     (pop GLOBAL_executionStack __x2__)
   } else {}
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
-  ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : step-list:{...}"
+  ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : in:{} out:{}"
   app __x3__ = (AsyncGeneratorResolve generator value false)
   if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
   app __x4__ = (WrapCompletion __x3__)

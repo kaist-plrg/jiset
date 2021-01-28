@@ -1,147 +1,139 @@
-[{
-  "tokens": ["Let", {
-    "id": "args"
-  }, "be", "the", "arguments", "object", "."]
+["Let", {
+  "id": "args"
+}, "be", "the", "arguments", "object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "map"
+}, "be", {
+  "id": "args"
+}, ".", "[", "[", "ParameterMap", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "isMapped"
+}, "be", "HasOwnProperty", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "newArgDesc"
+}, "be", {
+  "id": "Desc"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "isMapped"
+}, "is", {
+  "value": "true"
+}, "and", "IsDataDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", "is", "not", "present", "and", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "its", "value", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "newArgDesc"
+}, "to", "a", "copy", "of", {
+  "id": "Desc"
+}, ".", "Set", {
+  "id": "newArgDesc"
+}, ".", "[", "[", "Value", "]", "]", "to", "Get", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "map"
-  }, "be", {
-    "id": "args"
-  }, ".", "[", "[", "ParameterMap", "]", "]", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "isMapped"
-  }, "be", "HasOwnProperty", "(", {
-    "id": "map"
-  }, ",", {
-    "id": "P"
-  }, ")", "."]
+  "k": 4
+}, "Let", {
+  "id": "allowed"
+}, "be", "?", "OrdinaryDefineOwnProperty", "(", {
+  "id": "args"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "newArgDesc"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "allowed"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "isMapped"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "If", "IsAccessorDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Call", {
+  "id": "map"
+}, ".", "[", "[", "Delete", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", "is", "present", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "setStatus"
+}, "be", "Set", "(", {
+  "id": "map"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", ",", {
+  "value": "false"
+}, ")", ".", "Assert", ":", {
+  "id": "setStatus"
+}, "is", {
+  "value": "true"
+}, "because", "formal", "parameters", "mapped", "by", "argument", "objects", "are", "always", "writable", ".", {
+  "out": null
+}, "If", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "its", "value", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Call", {
+  "id": "map"
+}, ".", "[", "[", "Delete", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "newArgDesc"
-  }, "be", {
-    "id": "Desc"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "isMapped"
-  }, "is", {
-    "value": "true"
-  }, "and", "IsDataDescriptor", "(", {
-    "id": "Desc"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "Desc"
-      }, ".", "[", "[", "Value", "]", "]", "is", "not", "present", "and", {
-        "id": "Desc"
-      }, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "its", "value", "is", {
-        "value": "false"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Set", {
-            "id": "newArgDesc"
-          }, "to", "a", "copy", "of", {
-            "id": "Desc"
-          }, "."]
-        }, {
-          "tokens": ["Set", {
-            "id": "newArgDesc"
-          }, ".", "[", "[", "Value", "]", "]", "to", "Get", "(", {
-            "id": "map"
-          }, ",", {
-            "id": "P"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "allowed"
-  }, "be", "?", "OrdinaryDefineOwnProperty", "(", {
-    "id": "args"
-  }, ",", {
-    "id": "P"
-  }, ",", {
-    "id": "newArgDesc"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "allowed"
-  }, "is", {
-    "value": "false"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "isMapped"
-  }, "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", "IsAccessorDescriptor", "(", {
-        "id": "Desc"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Call", {
-            "id": "map"
-          }, ".", "[", "[", "Delete", "]", "]", "(", {
-            "id": "P"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["If", {
-            "id": "Desc"
-          }, ".", "[", "[", "Value", "]", "]", "is", "present", ",", "then", {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "setStatus"
-              }, "be", "Set", "(", {
-                "id": "map"
-              }, ",", {
-                "id": "P"
-              }, ",", {
-                "id": "Desc"
-              }, ".", "[", "[", "Value", "]", "]", ",", {
-                "value": "false"
-              }, ")", "."]
-            }, {
-              "tokens": ["Assert", ":", {
-                "id": "setStatus"
-              }, "is", {
-                "value": "true"
-              }, "because", "formal", "parameters", "mapped", "by", "argument", "objects", "are", "always", "writable", "."]
-            }]
-          }]
-        }, {
-          "tokens": ["If", {
-            "id": "Desc"
-          }, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "its", "value", "is", {
-            "value": "false"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["Call", {
-                "id": "map"
-              }, ".", "[", "[", "Delete", "]", "]", "(", {
-                "id": "P"
-              }, ")", "."]
-            }]
-          }]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "value": "true"
-  }, "."]
+  "k": 7
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 8
 }]

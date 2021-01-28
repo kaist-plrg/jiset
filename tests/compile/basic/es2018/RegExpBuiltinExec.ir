@@ -63,22 +63,22 @@
   app __x13__ = (CreateDataProperty A "0" matchedSubstr)
   if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
   __x13__
-  ??? "If id:{R} contains any nt:{GroupName} , then step-list:{...}"
-  ??? "Else , step-list:{...}"
+  ??? "If id:{R} contains any nt:{GroupName} , then in:{} out:{}"
+  ??? "Else , in:{} out:{}"
   app __x14__ = (CreateDataProperty A "groups" groups)
   if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
   __x14__
   let i = (+ 0i 1i)
   let __x15__ = (+ n 1i)
   while (< i __x15__) {
-    ??? "Let id:{captureI} be id:{i} sup:{th } element of id:{r} ' s id:{captures} List ."
+    ??? "Let id:{captureI} be id:{i} sup:{th} element of id:{r} ' s id:{captures} List ."
     if (= captureI undefined) let capturedValue = undefined else if (= fullUnicode true) ??? "Let id:{capturedValue} be the String value whose code units are the UTF16Encoding of the code points of id:{captureI} ." else let capturedValue = captureI
     app __x16__ = (ToString i)
     if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
     app __x17__ = (CreateDataProperty A __x16__ capturedValue)
     if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
     __x17__
-    ??? "If the id:{i} th capture of id:{R} was defined with a nt:{GroupName} , then step-list:{...}"
+    ??? "If the id:{i} th capture of id:{R} was defined with a nt:{GroupName} , then in:{} out:{}"
   }
   app __x18__ = (WrapCompletion A)
   return __x18__

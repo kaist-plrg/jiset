@@ -1,20 +1,28 @@
 ["If", "Type", "(", {
   "id": "ref"
-}, ")", "is", "Reference", ",", "then", true, "If", "IsPropertyReference", "(", {
+}, ")", "is", "Reference", ",", "then", {
+  "in": null
+}, "If", "IsPropertyReference", "(", {
   "id": "ref"
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "thisValue"
 }, "be", "GetThisValue", "(", {
   "id": "ref"
 }, ")", ".", {
   "k": 2
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 1
 }, "Else", "the", "base", "of", {
   "id": "ref"
-}, "is", "an", "Environment", "Record", ",", true, "Let", {
+}, "is", "an", "Environment", "Record", ",", {
+  "in": null
+}, "Let", {
   "id": "refEnv"
 }, "be", "GetBase", "(", {
   "id": "ref"
@@ -26,19 +34,27 @@
   "id": "refEnv"
 }, ".", "WithBaseObject", "(", ")", ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "Else", "Type", "(", {
   "id": "ref"
-}, ")", "is", "not", "Reference", ",", true, "Let", {
+}, ")", "is", "not", "Reference", ",", {
+  "in": null
+}, "Let", {
   "id": "thisValue"
 }, "be", {
   "value": "undefined"
 }, ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Let", {
   "id": "argList"

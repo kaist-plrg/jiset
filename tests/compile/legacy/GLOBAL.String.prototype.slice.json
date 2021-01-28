@@ -1,99 +1,99 @@
-[{
-  "tokens": ["Let", {
-    "id": "start"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "end"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "RequireObjectCoercible", "(", {
-    "value": "this"
-  }, "value", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "S"
-  }, "be", "?", "ToString", "(", {
-    "id": "O"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "the", "length", "of", {
-    "id": "S"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "intStart"
-  }, "be", "?", "ToInteger", "(", {
-    "id": "start"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "end"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "let", {
-    "id": "intEnd"
-  }, "be", {
-    "id": "len"
-  }, ";", "else", "let", {
-    "id": "intEnd"
-  }, "be", "?", "ToInteger", "(", {
-    "id": "end"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "intStart"
-  }, "<", "0", ",", "let", {
-    "id": "from"
-  }, "be", "max", "(", {
-    "id": "len"
-  }, "+", {
-    "id": "intStart"
-  }, ",", "0", ")", ";", "otherwise", "let", {
-    "id": "from"
-  }, "be", "min", "(", {
-    "id": "intStart"
-  }, ",", {
-    "id": "len"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "intEnd"
-  }, "<", "0", ",", "let", {
-    "id": "to"
-  }, "be", "max", "(", {
-    "id": "len"
-  }, "+", {
-    "id": "intEnd"
-  }, ",", "0", ")", ";", "otherwise", "let", {
-    "id": "to"
-  }, "be", "min", "(", {
-    "id": "intEnd"
-  }, ",", {
-    "id": "len"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "span"
-  }, "be", "max", "(", {
-    "id": "to"
-  }, "-", {
-    "id": "from"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["Return", "the", "String", "value", "containing", {
-    "id": "span"
-  }, "consecutive", "code", "units", "from", {
-    "id": "S"
-  }, "beginning", "with", "the", "code", "unit", "at", "index", {
-    "id": "from"
-  }, "."]
+["Let", {
+  "id": "start"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "end"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "len"
+}, "be", "the", "length", "of", {
+  "id": "S"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "intStart"
+}, "be", "?", "ToInteger", "(", {
+  "id": "start"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "end"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "intEnd"
+}, "be", {
+  "id": "len"
+}, ";", "else", "let", {
+  "id": "intEnd"
+}, "be", "?", "ToInteger", "(", {
+  "id": "end"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "intStart"
+}, "<", "0", ",", "let", {
+  "id": "from"
+}, "be", "max", "(", {
+  "id": "len"
+}, "+", {
+  "id": "intStart"
+}, ",", "0", ")", ";", "otherwise", "let", {
+  "id": "from"
+}, "be", "min", "(", {
+  "id": "intStart"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "intEnd"
+}, "<", "0", ",", "let", {
+  "id": "to"
+}, "be", "max", "(", {
+  "id": "len"
+}, "+", {
+  "id": "intEnd"
+}, ",", "0", ")", ";", "otherwise", "let", {
+  "id": "to"
+}, "be", "min", "(", {
+  "id": "intEnd"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "span"
+}, "be", "max", "(", {
+  "id": "to"
+}, "-", {
+  "id": "from"
+}, ",", "0", ")", ".", {
+  "k": 9
+}, "Return", "the", "String", "value", "containing", {
+  "id": "span"
+}, "consecutive", "code", "units", "from", {
+  "id": "S"
+}, "beginning", "with", "the", "code", "unit", "at", "index", {
+  "id": "from"
+}, ".", {
+  "k": 10
 }]

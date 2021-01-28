@@ -4,7 +4,9 @@
   "nt": "ObjectLiteral"
 }, "nor", "an", {
   "nt": "ArrayLiteral"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "lref"
 }, "be", "the", "result", "of", "evaluating", {
   "nt": "DestructuringAssignmentTarget"
@@ -14,13 +16,17 @@
   "id": "lref"
 }, ")", ".", {
   "k": 2
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "If", {
   "id": "iteratorRecord"
 }, ".", "[", "[", "Done", "]", "]", "is", {
   "value": "false"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "next"
 }, "be", "IteratorStep", "(", {
   "id": "iteratorRecord"
@@ -48,7 +54,9 @@
   "value": "true"
 }, ".", {
   "k": 7
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "value"
 }, "be", "IteratorValue", "(", {
   "id": "next"
@@ -66,9 +74,13 @@
   "id": "value"
 }, ")", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "If", {
   "id": "iteratorRecord"
@@ -86,7 +98,9 @@
   "id": "value"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "defaultValue"
 }, "be", "the", "result", "of", "evaluating", {
   "nt": "Initializer"
@@ -98,7 +112,9 @@
   "id": "defaultValue"
 }, ")", ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
 }, "Else", ",", "let", {
   "id": "v"
@@ -112,20 +128,18 @@
   "nt": "ObjectLiteral"
 }, "or", "an", {
   "nt": "ArrayLiteral"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "nestedAssignmentPattern"
 }, "be", "the", "parse", "of", "the", "source", "text", "corresponding", "to", {
   "nt": "DestructuringAssignmentTarget"
 }, "using", {
   "nt": "AssignmentPattern"
 }, "as", "the", "goal", "symbol", "with", "its", {
-  "sub": {
-    "tokens": ["[", "Yield", "]"]
-  }
+  "sub": ["[", "Yield", "]"]
 }, "and", {
-  "sub": {
-    "tokens": ["[", "Await", "]"]
-  }
+  "sub": ["[", "Await", "]"]
 }, "parameters", "set", "to", "the", "values", "used", "when", "parsing", "this", {
   "nt": "DestructuringAssignmentTarget"
 }, ".", {
@@ -136,7 +150,9 @@
   "id": "v"
 }, "as", "the", "argument", ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
 }, "If", {
   "nt": "Initializer"
@@ -150,7 +166,9 @@
   "nt": "DestructuringAssignmentTarget"
 }, "are", "both", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "hasNameProperty"
 }, "be", "?", "HasOwnProperty", "(", {
   "id": "v"
@@ -168,7 +186,9 @@
   "id": "lref"
 }, ")", ")", ".", {
   "k": 22
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
 }, "Return", "?", "PutValue", "(", {
   "id": "lref"

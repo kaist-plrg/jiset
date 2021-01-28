@@ -1,61 +1,59 @@
-[{
-  "tokens": ["Let", {
-    "id": "C"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "C"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "x"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "C"
+}, ")", "is", "Object", ".", {
+  "k": 2
+}, "If", "IsPromise", "(", {
+  "id": "x"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "xConstructor"
+}, "be", "?", "Get", "(", {
+  "id": "x"
+}, ",", {
+  "value": "\"constructor\""
+}, ")", ".", "If", "SameValue", "(", {
+  "id": "xConstructor"
+}, ",", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "x"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "x"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
-}, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "C"
-  }, ")", "is", "Object", "."]
-}, {
-  "tokens": ["If", "IsPromise", "(", {
-    "id": "x"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "xConstructor"
-      }, "be", "?", "Get", "(", {
-        "id": "x"
-      }, ",", {
-        "value": "\"constructor\""
-      }, ")", "."]
-    }, {
-      "tokens": ["If", "SameValue", "(", {
-        "id": "xConstructor"
-      }, ",", {
-        "id": "C"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "return", {
-        "id": "x"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", "?", "NewPromiseCapability", "(", {
-    "id": "C"
-  }, ")", "."]
-}, {
-  "tokens": ["Perform", "?", "Call", "(", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Resolve", "]", "]", ",", {
-    "value": "undefined"
-  }, ",", "«", {
-    "id": "x"
-  }, "»", ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Promise", "]", "]", "."]
+  "k": 3
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "?", "NewPromiseCapability", "(", {
+  "id": "C"
+}, ")", ".", {
+  "k": 4
+}, "Perform", "?", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "x"
+}, "»", ")", ".", {
+  "k": 5
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 6
 }]

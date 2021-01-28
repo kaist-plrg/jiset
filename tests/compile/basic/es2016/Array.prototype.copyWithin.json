@@ -108,7 +108,9 @@
   "id": "from"
 }, "+", {
   "id": "count"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "direction"
 }, "be", "-", "1", ".", {
   "k": 10
@@ -128,17 +130,25 @@
   "id": "count"
 }, "-", "1", ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "direction"
 }, "be", "1", ".", {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
 }, "Repeat", ",", "while", {
   "id": "count"
-}, ">", "0", true, "Let", {
+}, ">", "0", {
+  "in": null
+}, "Let", {
   "id": "fromKey"
 }, "be", "!", "ToString", "(", {
   "id": "from"
@@ -162,7 +172,9 @@
   "id": "fromPresent"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "fromVal"
 }, "be", "?", "Get", "(", {
   "id": "O"
@@ -180,19 +192,25 @@
   "value": "true"
 }, ")", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 19
 }, "Else", {
   "id": "fromPresent"
 }, "is", {
   "value": "false"
-}, ",", true, "Perform", "?", "DeletePropertyOrThrow", "(", {
+}, ",", {
+  "in": null
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
   "id": "O"
 }, ",", {
   "id": "toKey"
 }, ")", ".", {
   "k": 23
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 22
 }, "Let", {
   "id": "from"
@@ -216,7 +234,9 @@
   "id": "count"
 }, "-", "1", ".", {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 15
 }, "Return", {
   "id": "O"

@@ -1,69 +1,67 @@
-[{
-  "tokens": ["Let", {
-    "id": "iterable"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "iterable"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "C"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 1
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "?", "NewPromiseCapability", "(", {
+  "id": "C"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "GetIterator", "(", {
+  "id": "iterable"
+}, ")", ".", {
+  "k": 3
+}, "IfAbruptRejectPromise", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "result"
+}, "be", "PerformPromiseAllSettled", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "C"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "result"
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "result"
+}, "to", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "result"
+}, ")", ".", "IfAbruptRejectPromise", "(", {
+  "id": "result"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "C"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", "?", "NewPromiseCapability", "(", {
-    "id": "C"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "iteratorRecord"
-  }, "be", "GetIterator", "(", {
-    "id": "iterable"
-  }, ")", "."]
-}, {
-  "tokens": ["IfAbruptRejectPromise", "(", {
-    "id": "iteratorRecord"
-  }, ",", {
-    "id": "promiseCapability"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "result"
-  }, "be", "PerformPromiseAllSettled", "(", {
-    "id": "iteratorRecord"
-  }, ",", {
-    "id": "C"
-  }, ",", {
-    "id": "promiseCapability"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "result"
-  }, "is", "an", "abrupt", "completion", ",", "then", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Done", "]", "]", "is", {
-        "value": "false"
-      }, ",", "set", {
-        "id": "result"
-      }, "to", "IteratorClose", "(", {
-        "id": "iteratorRecord"
-      }, ",", {
-        "id": "result"
-      }, ")", "."]
-    }, {
-      "tokens": ["IfAbruptRejectPromise", "(", {
-        "id": "result"
-      }, ",", {
-        "id": "promiseCapability"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "Completion", "(", {
-    "id": "result"
-  }, ")", "."]
+  "k": 6
+}, "Return", "Completion", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 7
 }]

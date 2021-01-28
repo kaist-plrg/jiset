@@ -1,69 +1,69 @@
-[{
-  "tokens": ["Let", {
-    "id": "keys"
-  }, "be", "a", "new", "empty", "List", "."]
+["Let", {
+  "id": "keys"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 1
+}, "Let", {
+  "id": "len"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ArrayLength", "]", "]", ".", {
+  "k": 2
+}, "For", "each", "integer", {
+  "id": "i"
+}, "starting", "with", "0", "such", "that", {
+  "id": "i"
+}, "<", {
+  "id": "len"
+}, ",", "in", "ascending", "order", ",", "do", {
+  "in": null
+}, "Add", "!", "ToString", "(", {
+  "id": "i"
+}, ")", "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "O"
-  }, "is", "an", "Integer", "-", "Indexed", "exotic", "object", "."]
+  "k": 3
+}, "For", "each", "own", "property", "key", {
+  "id": "P"
+}, "of", {
+  "id": "O"
+}, "such", "that", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", "and", {
+  "id": "P"
+}, "is", "not", "an", "integer", "index", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do", {
+  "in": null
+}, "Add", {
+  "id": "P"
+}, "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ArrayLength", "]", "]", "."]
+  "k": 4
+}, "For", "each", "own", "property", "key", {
+  "id": "P"
+}, "of", {
+  "id": "O"
+}, "such", "that", "Type", "(", {
+  "id": "P"
+}, ")", "is", "Symbol", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do", {
+  "in": null
+}, "Add", {
+  "id": "P"
+}, "as", "the", "last", "element", "of", {
+  "id": "keys"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["For", "each", "integer", {
-    "id": "i"
-  }, "starting", "with", "0", "such", "that", {
-    "id": "i"
-  }, "<", {
-    "id": "len"
-  }, ",", "in", "ascending", "order", ",", "do", {
-    "steps": [{
-      "tokens": ["Add", "!", "ToString", "(", {
-        "id": "i"
-      }, ")", "as", "the", "last", "element", "of", {
-        "id": "keys"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["For", "each", "own", "property", "key", {
-    "id": "P"
-  }, "of", {
-    "id": "O"
-  }, "such", "that", "Type", "(", {
-    "id": "P"
-  }, ")", "is", "String", "and", {
-    "id": "P"
-  }, "is", "not", "an", "integer", "index", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do", {
-    "steps": [{
-      "tokens": ["Add", {
-        "id": "P"
-      }, "as", "the", "last", "element", "of", {
-        "id": "keys"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["For", "each", "own", "property", "key", {
-    "id": "P"
-  }, "of", {
-    "id": "O"
-  }, "such", "that", "Type", "(", {
-    "id": "P"
-  }, ")", "is", "Symbol", ",", "in", "ascending", "chronological", "order", "of", "property", "creation", ",", "do", {
-    "steps": [{
-      "tokens": ["Add", {
-        "id": "P"
-      }, "as", "the", "last", "element", "of", {
-        "id": "keys"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "keys"
-  }, "."]
+  "k": 5
+}, "Return", {
+  "id": "keys"
+}, ".", {
+  "k": 6
 }]

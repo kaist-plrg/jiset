@@ -9,9 +9,9 @@
     if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
     append __x1__ -> keys
   }
-  ??? "For each own property key id:{P} of id:{O} such that id:{P} is an integer index and ToInteger ( id:{P} ) ≥ id:{len} , in ascending numeric index order , step-list:{...}"
-  ??? "For each own property key id:{P} of id:{O} such that Type ( id:{P} ) is String and id:{P} is not an integer index , in ascending chronological order of property creation , step-list:{...}"
-  ??? "For each own property key id:{P} of id:{O} such that Type ( id:{P} ) is Symbol , in ascending chronological order of property creation , step-list:{...}"
+  ??? "For each own property key id:{P} of id:{O} such that id:{P} is an integer index and ToInteger ( id:{P} ) ≥ id:{len} , in ascending numeric index order , in:{} out:{}"
+  ??? "For each own property key id:{P} of id:{O} such that Type ( id:{P} ) is String and id:{P} is not an integer index , in ascending chronological order of property creation , in:{} out:{}"
+  ??? "For each own property key id:{P} of id:{O} such that Type ( id:{P} ) is Symbol , in ascending chronological order of property creation , in:{} out:{}"
   app __x2__ = (WrapCompletion keys)
   return __x2__
 }

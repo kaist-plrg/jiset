@@ -1,91 +1,87 @@
-[{
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "O"
-  }, ")", "is", "Object", "."]
+["Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "level"
+}, "is", "either", {
+  "const": "sealed"
+}, "or", {
+  "const": "frozen"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "extensible"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "extensible"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "NOTE", ":", "If", "the", "object", "is", "extensible", ",", "none", "of", "its", "properties", "are", "examined", ".", {
+  "k": 4
+}, "Let", {
+  "id": "keys"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 5
+}, "For", "each", "element", {
+  "id": "k"
+}, "of", {
+  "id": "keys"
+}, ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "currentDesc"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "k"
+}, ")", ".", "If", {
+  "id": "currentDesc"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "currentDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", {
+  "id": "level"
+}, "is", {
+  "const": "frozen"
+}, "and", "IsDataDescriptor", "(", {
+  "id": "currentDesc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "currentDesc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "level"
-  }, "is", "either", {
-    "const": "sealed"
-  }, "or", {
-    "const": "frozen"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "extensible"
-  }, "be", "?", "IsExtensible", "(", {
-    "id": "O"
-  }, ")", "."]
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "extensible"
-  }, "is", {
-    "value": "true"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["NOTE", ":", "If", "the", "object", "is", "extensible", ",", "none", "of", "its", "properties", "are", "examined", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "keys"
-  }, "be", "?", {
-    "id": "O"
-  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
-}, {
-  "tokens": ["For", "each", "element", {
-    "id": "k"
-  }, "of", {
-    "id": "keys"
-  }, ",", "do", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "currentDesc"
-      }, "be", "?", {
-        "id": "O"
-      }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-        "id": "k"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "currentDesc"
-      }, "is", "not", {
-        "value": "undefined"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["If", {
-            "id": "currentDesc"
-          }, ".", "[", "[", "Configurable", "]", "]", "is", {
-            "value": "true"
-          }, ",", "return", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["If", {
-            "id": "level"
-          }, "is", {
-            "const": "frozen"
-          }, "and", "IsDataDescriptor", "(", {
-            "id": "currentDesc"
-          }, ")", "is", {
-            "value": "true"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["If", {
-                "id": "currentDesc"
-              }, ".", "[", "[", "Writable", "]", "]", "is", {
-                "value": "true"
-              }, ",", "return", {
-                "value": "false"
-              }, "."]
-            }]
-          }]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "value": "true"
-  }, "."]
+  "k": 6
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 7
 }]

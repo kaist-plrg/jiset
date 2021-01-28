@@ -1,91 +1,83 @@
-[{
-  "tokens": ["Let", {
-    "id": "predicate"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "predicate"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "thisArg"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 3
+}, "If", "IsCallable", "(", {
+  "id": "predicate"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
 }, {
-  "tokens": ["Let", {
-    "id": "thisArg"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
+  "in": null
+}, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", "Let", {
+  "id": "kValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", "Let", {
+  "id": "testResult"
+}, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "predicate"
+}, ",", {
+  "id": "thisArg"
+}, ",", "«", {
+  "id": "kValue"
+}, ",", {
+  "id": "k"
+}, ",", {
+  "id": "O"
+}, "»", ")", ")", ".", "If", {
+  "id": "testResult"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "kValue"
+}, ".", "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "ToObject", "(", {
-    "value": "this"
-  }, "value", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "?", "LengthOfArrayLike", "(", {
-    "id": "O"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "IsCallable", "(", {
-    "id": "predicate"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "k"
-  }, "be", "0", "."]
-}, {
-  "tokens": ["Repeat", ",", "while", {
-    "id": "k"
-  }, "<", {
-    "id": "len"
-  }, {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "Pk"
-      }, "be", "!", "ToString", "(", {
-        "id": "k"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "kValue"
-      }, "be", "?", "Get", "(", {
-        "id": "O"
-      }, ",", {
-        "id": "Pk"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "testResult"
-      }, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
-        "id": "predicate"
-      }, ",", {
-        "id": "thisArg"
-      }, ",", "«", {
-        "id": "kValue"
-      }, ",", {
-        "id": "k"
-      }, ",", {
-        "id": "O"
-      }, "»", ")", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "testResult"
-      }, "is", {
-        "value": "true"
-      }, ",", "return", {
-        "id": "kValue"
-      }, "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "k"
-      }, "to", {
-        "id": "k"
-      }, "+", "1", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "value": "undefined"
-  }, "."]
+  "k": 6
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 7
 }]

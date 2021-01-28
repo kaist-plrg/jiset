@@ -1,6 +1,8 @@
 ["If", {
   "id": "perIterationBindings"
-}, "has", "any", "elements", ",", "then", true, "Let", {
+}, "has", "any", "elements", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "lastIterationEnv"
 }, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
   "k": 1
@@ -26,7 +28,9 @@
   "id": "bn"
 }, "of", {
   "id": "perIterationBindings"
-}, ",", "do", true, "Perform", "!", {
+}, ",", "do", {
+  "in": null
+}, "Perform", "!", {
   "id": "thisIterationEnv"
 }, ".", "CreateMutableBinding", "(", {
   "id": "bn"
@@ -52,13 +56,17 @@
   "id": "lastValue"
 }, ")", ".", {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "thisIterationEnv"
 }, ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "Return", {
   "value": "undefined"

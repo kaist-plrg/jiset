@@ -4,7 +4,9 @@
   "id": "reaction"
 }, "and", {
   "id": "argument"
-}, "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Assert", ":", {
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", {
+  "in": null
+}, "Assert", ":", {
   "id": "reaction"
 }, "is", "a", "PromiseReaction", "Record", ".", {
   "k": 1
@@ -30,7 +32,9 @@
   "id": "handler"
 }, "is", {
   "const": "empty"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "type"
 }, "is", {
   "const": "Fulfill"
@@ -40,7 +44,9 @@
   "id": "argument"
 }, ")", ".", {
   "k": 6
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "type"
 }, "is", {
   "const": "Reject"
@@ -52,9 +58,13 @@
   "id": "argument"
 }, ")", ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "Else", ",", "let", {
   "id": "handlerResult"
@@ -70,7 +80,9 @@
   "id": "promiseCapability"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "handlerResult"
 }, "is", "not", "an", "abrupt", "completion", ".", {
   "k": 12
@@ -78,7 +90,9 @@
   "const": "empty"
 }, ")", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Assert", ":", {
   "id": "promiseCapability"
@@ -86,7 +100,9 @@
   "k": 14
 }, "If", {
   "id": "handlerResult"
-}, "is", "an", "abrupt", "completion", ",", "then", true, "Let", {
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "status"
 }, "be", "Call", "(", {
   "id": "promiseCapability"
@@ -96,9 +112,13 @@
   "id": "handlerResult"
 }, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 15
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "status"
 }, "be", "Call", "(", {
   "id": "promiseCapability"
@@ -108,13 +128,17 @@
   "id": "handlerResult"
 }, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
 }, "Return", "Completion", "(", {
   "id": "status"
 }, ")", ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "Let", {
   "id": "handlerRealm"
@@ -126,7 +150,9 @@
   "id": "reaction"
 }, ".", "[", "[", "Handler", "]", "]", "is", "not", {
   "const": "empty"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "getHandlerRealmResult"
 }, "be", "GetFunctionRealm", "(", {
   "id": "reaction"
@@ -154,7 +180,9 @@
   "id": "handlerRealm"
 }, "is", "used", "to", "create", "error", "objects", ".", {
   "k": 25
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 21
 }, "Return", "the", "Record", "{", "[", "[", "Job", "]", "]", ":", {
   "id": "job"

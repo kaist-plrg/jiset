@@ -4,7 +4,9 @@
   "k": 0
 }, "If", "Type", "(", {
   "id": "input"
-}, ")", "is", "Object", ",", "then", true, "If", {
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", {
   "id": "PreferredType"
 }, "is", "not", "present", ",", "let", {
   "id": "hint"
@@ -20,7 +22,9 @@
   "value": "\"string\""
 }, ".", {
   "k": 3
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "PreferredType"
 }, "is", "hint", "Number", ".", {
   "k": 5
@@ -30,7 +34,9 @@
   "value": "\"number\""
 }, ".", {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
 }, "Let", {
   "id": "exoticToPrim"
@@ -42,7 +48,9 @@
   "id": "exoticToPrim"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "result"
 }, "be", "?", "Call", "(", {
   "id": "exoticToPrim"
@@ -62,7 +70,9 @@
   "value": "TypeError"
 }, "exception", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "If", {
   "id": "hint"
@@ -80,7 +90,9 @@
   "id": "hint"
 }, ")", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 1
 }, "Return", {
   "id": "input"

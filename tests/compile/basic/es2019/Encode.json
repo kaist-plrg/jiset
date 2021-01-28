@@ -12,7 +12,9 @@
   "id": "k"
 }, "be", "0", ".", {
   "k": 2
-}, "Repeat", ",", true, "If", {
+}, "Repeat", ",", {
+  "in": null
+}, "If", {
   "id": "k"
 }, "equals", {
   "id": "strLen"
@@ -32,7 +34,9 @@
   "id": "C"
 }, "is", "in", {
   "id": "unescapedSet"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "String", "value", "containing", "only", "the", "code", "unit", {
   "id": "C"
@@ -46,13 +50,17 @@
   "id": "S"
 }, ".", {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Else", {
   "id": "C"
 }, "is", "not", "in", {
   "id": "unescapedSet"
-}, ",", true, "If", {
+}, ",", {
+  "in": null
+}, "If", {
   "id": "C"
 }, "is", "a", {
   "link": ""
@@ -64,15 +72,21 @@
   "id": "C"
 }, "is", "not", "a", {
   "link": ""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "V"
 }, "be", "the", "code", "point", "with", "the", "same", "numeric", "value", "as", "code", "unit", {
   "id": "C"
 }, ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
-}, "Else", ",", true, "Increase", {
+}, "Else", ",", {
+  "in": null
+}, "Increase", {
   "id": "k"
 }, "by", "1", ".", {
   "k": 14
@@ -108,7 +122,9 @@
   "id": "kChar"
 }, ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
 }, "Let", {
   "id": "Octets"
@@ -120,9 +136,13 @@
   "id": "octet"
 }, "of", {
   "id": "Octets"
-}, "in", "List", "order", ",", "do", true, "Let", {
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "S"
-}, "be", "the", "string", "-", "concatenation", "of", ":", true, {
+}, "be", "the", "string", "-", "concatenation", "of", ":", {
+  "in": null
+}, {
   "code": "\"%\""
 }, {
   "k": 22
@@ -130,7 +150,9 @@
   "id": "octet"
 }, ",", "formatted", "as", "a", "two", "-", "digit", "uppercase", "hexadecimal", "number", ",", "padded", "to", "the", "left", "with", "a", "zero", "if", "necessary", {
   "k": 23
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 21
 }, "Set", {
   "id": "R"
@@ -140,14 +162,20 @@
   "id": "S"
 }, ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
 }, "Increase", {
   "id": "k"
 }, "by", "1", ".", {
   "k": 25
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }]

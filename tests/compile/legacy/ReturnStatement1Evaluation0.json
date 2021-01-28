@@ -1,29 +1,29 @@
-[{
-  "tokens": ["Let", {
-    "id": "exprRef"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "Expression"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "exprValue"
-  }, "be", "?", "GetValue", "(", {
-    "id": "exprRef"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "!", "GetGeneratorKind", "(", ")", "is", {
-    "const": "async"
-  }, ",", "set", {
-    "id": "exprValue"
-  }, "to", "?", "Await", "(", {
-    "id": "exprValue"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
-    "const": "return"
-  }, ",", "[", "[", "Value", "]", "]", ":", {
-    "id": "exprValue"
-  }, ",", "[", "[", "Target", "]", "]", ":", {
-    "const": "empty"
-  }, "}", "."]
+["Let", {
+  "id": "exprRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Expression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "exprValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "exprRef"
+}, ")", ".", {
+  "k": 1
+}, "If", "!", "GetGeneratorKind", "(", ")", "is", {
+  "const": "async"
+}, ",", "set", {
+  "id": "exprValue"
+}, "to", "?", "Await", "(", {
+  "id": "exprValue"
+}, ")", ".", {
+  "k": 2
+}, "Return", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
+  "const": "return"
+}, ",", "[", "[", "Value", "]", "]", ":", {
+  "id": "exprValue"
+}, ",", "[", "[", "Target", "]", "]", ":", {
+  "const": "empty"
+}, "}", ".", {
+  "k": 3
 }]

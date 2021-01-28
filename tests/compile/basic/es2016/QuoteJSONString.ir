@@ -1,0 +1,22 @@
+{
+  let product = "\""
+  let __x0__ = value
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let C = __x0__[__x1__]
+    if (|| (= C "\"") (= C "\\")) {
+      let product = (+ product "\\")
+      let product = (+ product C)
+    } else if (|| (|| (|| (|| (= C "") (= C "")) (= C "\n")) (= C "")) (= C "	")) {
+      let product = (+ product "\\")
+      ??? "Let id:{abbrev} be the String value corresponding to the value of id:{C} as follows : in:{} out:{}"
+      let product = (+ product abbrev)
+    } else {}
+    ??? "Else if id:{C} has a code unit value less than 0x0020 ( SPACE ) , then in:{} out:{}"
+    ??? "Else , in:{} out:{}"
+    __x1__ = (+ __x1__ 1i)
+  }
+  let product = (+ product "\"")
+  app __x2__ = (WrapCompletion product)
+  return __x2__
+}

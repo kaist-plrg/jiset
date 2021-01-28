@@ -1,29 +1,29 @@
-[{
-  "tokens": ["Let", {
-    "id": "value"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "value"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "If", "NewTarget", "is", "neither", {
+  "value": "undefined"
+}, "nor", "the", "active", "function", ",", "then", {
+  "in": null
+}, "Return", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+  "value": "\"%Object.prototype%\""
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "NewTarget", "is", "neither", {
-    "value": "undefined"
-  }, "nor", "the", "active", "function", ",", "then", {
-    "steps": [{
-      "tokens": ["Return", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
-        "value": "\"%Object.prototype%\""
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", {
-    "id": "value"
-  }, "is", {
-    "value": "undefined"
-  }, "or", {
-    "value": "null"
-  }, ",", "return", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", "."]
-}, {
-  "tokens": ["Return", "!", "ToObject", "(", {
-    "id": "value"
-  }, ")", "."]
+  "k": 1
+}, "If", {
+  "id": "value"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "return", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", ".", {
+  "k": 2
+}, "Return", "!", "ToObject", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 3
 }]

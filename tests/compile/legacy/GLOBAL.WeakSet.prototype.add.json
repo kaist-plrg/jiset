@@ -1,65 +1,65 @@
-[{
-  "tokens": ["Let", {
-    "id": "value"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "value"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "S"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 1
+}, "Perform", "?", "RequireInternalSlot", "(", {
+  "id": "S"
+}, ",", "[", "[", "WeakSetData", "]", "]", ")", ".", {
+  "k": 2
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Let", {
+  "id": "entries"
+}, "be", "the", "List", "that", "is", {
+  "id": "S"
+}, ".", "[", "[", "WeakSetData", "]", "]", ".", {
+  "k": 4
+}, "For", "each", {
+  "id": "e"
+}, "that", "is", "an", "element", "of", {
+  "id": "entries"
+}, ",", "do", {
+  "in": null
+}, "If", {
+  "id": "e"
+}, "is", "not", {
+  "const": "empty"
+}, "and", "SameValue", "(", {
+  "id": "e"
+}, ",", {
+  "id": "value"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Return", {
+  "id": "S"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "S"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
+  "out": null
 }, {
-  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
-    "id": "S"
-  }, ",", "[", "[", "WeakSetData", "]", "]", ")", "."]
-}, {
-  "tokens": ["If", "Type", "(", {
-    "id": "value"
-  }, ")", "is", "not", "Object", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "entries"
-  }, "be", "the", "List", "that", "is", {
-    "id": "S"
-  }, ".", "[", "[", "WeakSetData", "]", "]", "."]
-}, {
-  "tokens": ["For", "each", {
-    "id": "e"
-  }, "that", "is", "an", "element", "of", {
-    "id": "entries"
-  }, ",", "do", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "e"
-      }, "is", "not", {
-        "const": "empty"
-      }, "and", "SameValue", "(", {
-        "id": "e"
-      }, ",", {
-        "id": "value"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Return", {
-            "id": "S"
-          }, "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Append", {
-    "id": "value"
-  }, "as", "the", "last", "element", "of", {
-    "id": "entries"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "id": "S"
-  }, "."]
+  "k": 5
+}, "Append", {
+  "id": "value"
+}, "as", "the", "last", "element", "of", {
+  "id": "entries"
+}, ".", {
+  "k": 6
+}, "Return", {
+  "id": "S"
+}, ".", {
+  "k": 7
 }]

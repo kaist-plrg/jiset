@@ -1,107 +1,99 @@
-[{
-  "tokens": ["If", {
-    "id": "hint"
-  }, "is", "not", "present", ",", "set", {
-    "id": "hint"
-  }, "to", {
-    "const": "sync"
-  }, "."]
+["If", {
+  "id": "hint"
+}, "is", "not", "present", ",", "set", {
+  "id": "hint"
+}, "to", {
+  "const": "sync"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "hint"
+}, "is", "either", {
+  "const": "sync"
+}, "or", {
+  "const": "async"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "method"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "hint"
+}, "is", {
+  "const": "async"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "method"
+}, "to", "?", "GetMethod", "(", {
+  "id": "obj"
+}, ",", "@", "@", "asyncIterator", ")", ".", "If", {
+  "id": "method"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "syncMethod"
+}, "be", "?", "GetMethod", "(", {
+  "id": "obj"
+}, ",", "@", "@", "iterator", ")", ".", "Let", {
+  "id": "syncIteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "obj"
+}, ",", {
+  "const": "sync"
+}, ",", {
+  "id": "syncMethod"
+}, ")", ".", "Return", "!", "CreateAsyncFromSyncIterator", "(", {
+  "id": "syncIteratorRecord"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "hint"
-  }, "is", "either", {
-    "const": "sync"
-  }, "or", {
-    "const": "async"
-  }, "."]
+  "out": null
+}, "Otherwise", ",", "set", {
+  "id": "method"
+}, "to", "?", "GetMethod", "(", {
+  "id": "obj"
+}, ",", "@", "@", "iterator", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "method"
-  }, "is", "not", "present", ",", "then", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "hint"
-      }, "is", {
-        "const": "async"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Set", {
-            "id": "method"
-          }, "to", "?", "GetMethod", "(", {
-            "id": "obj"
-          }, ",", "@", "@", "asyncIterator", ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "method"
-          }, "is", {
-            "value": "undefined"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "syncMethod"
-              }, "be", "?", "GetMethod", "(", {
-                "id": "obj"
-              }, ",", "@", "@", "iterator", ")", "."]
-            }, {
-              "tokens": ["Let", {
-                "id": "syncIteratorRecord"
-              }, "be", "?", "GetIterator", "(", {
-                "id": "obj"
-              }, ",", {
-                "const": "sync"
-              }, ",", {
-                "id": "syncMethod"
-              }, ")", "."]
-            }, {
-              "tokens": ["Return", "!", "CreateAsyncFromSyncIterator", "(", {
-                "id": "syncIteratorRecord"
-              }, ")", "."]
-            }]
-          }]
-        }]
-      }]
-    }, {
-      "tokens": ["Otherwise", ",", "set", {
-        "id": "method"
-      }, "to", "?", "GetMethod", "(", {
-        "id": "obj"
-      }, ",", "@", "@", "iterator", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "iterator"
-  }, "be", "?", "Call", "(", {
-    "id": "method"
-  }, ",", {
-    "id": "obj"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "Type", "(", {
-    "id": "iterator"
-  }, ")", "is", "not", "Object", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "nextMethod"
-  }, "be", "?", "GetV", "(", {
-    "id": "iterator"
-  }, ",", {
-    "value": "\"next\""
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "iteratorRecord"
-  }, "be", "the", "Record", "{", "[", "[", "Iterator", "]", "]", ":", {
-    "id": "iterator"
-  }, ",", "[", "[", "NextMethod", "]", "]", ":", {
-    "id": "nextMethod"
-  }, ",", "[", "[", "Done", "]", "]", ":", {
-    "value": "false"
-  }, "}", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "iteratorRecord"
-  }, "."]
+  "k": 2
+}, "Let", {
+  "id": "iterator"
+}, "be", "?", "Call", "(", {
+  "id": "method"
+}, ",", {
+  "id": "obj"
+}, ")", ".", {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "iterator"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Let", {
+  "id": "nextMethod"
+}, "be", "?", "GetV", "(", {
+  "id": "iterator"
+}, ",", {
+  "value": "\"next\""
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "the", "Record", "{", "[", "[", "Iterator", "]", "]", ":", {
+  "id": "iterator"
+}, ",", "[", "[", "NextMethod", "]", "]", ":", {
+  "id": "nextMethod"
+}, ",", "[", "[", "Done", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 6
+}, "Return", {
+  "id": "iteratorRecord"
+}, ".", {
+  "k": 7
 }]

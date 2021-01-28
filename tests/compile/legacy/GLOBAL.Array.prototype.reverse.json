@@ -1,211 +1,181 @@
-[{
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "ToObject", "(", {
-    "value": "this"
-  }, "value", ")", "."]
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "middle"
+}, "be", "floor", "(", {
+  "id": "len"
+}, "/", "2", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "lower"
+}, "be", "0", ".", {
+  "k": 3
+}, "Repeat", ",", "while", {
+  "id": "lower"
+}, "≠", {
+  "id": "middle"
 }, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "?", "LengthOfArrayLike", "(", {
-    "id": "O"
-  }, ")", "."]
+  "in": null
+}, "Let", {
+  "id": "upper"
+}, "be", {
+  "id": "len"
+}, "-", {
+  "id": "lower"
+}, "-", "1", ".", "Let", {
+  "id": "upperP"
+}, "be", "!", "ToString", "(", {
+  "id": "upper"
+}, ")", ".", "Let", {
+  "id": "lowerP"
+}, "be", "!", "ToString", "(", {
+  "id": "lower"
+}, ")", ".", "Let", {
+  "id": "lowerExists"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "lowerP"
+}, ")", ".", "If", {
+  "id": "lowerExists"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "lowerValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "lowerP"
+}, ")", ".", {
+  "out": null
+}, "Let", {
+  "id": "upperExists"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "upperP"
+}, ")", ".", "If", {
+  "id": "upperExists"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "upperValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "upperP"
+}, ")", ".", {
+  "out": null
+}, "If", {
+  "id": "lowerExists"
+}, "is", {
+  "value": "true"
+}, "and", {
+  "id": "upperExists"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "lowerP"
+}, ",", {
+  "id": "upperValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "upperP"
+}, ",", {
+  "id": "lowerValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
+}, "Else", "if", {
+  "id": "lowerExists"
+}, "is", {
+  "value": "false"
+}, "and", {
+  "id": "upperExists"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "lowerP"
+}, ",", {
+  "id": "upperValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "upperP"
+}, ")", ".", {
+  "out": null
+}, "Else", "if", {
+  "id": "lowerExists"
+}, "is", {
+  "value": "true"
+}, "and", {
+  "id": "upperExists"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "lowerP"
+}, ")", ".", "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "upperP"
+}, ",", {
+  "id": "lowerValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "lowerExists"
+}, "and", {
+  "id": "upperExists"
+}, "are", "both", {
+  "value": "false"
+}, ".", "No", "action", "is", "required", ".", {
+  "out": null
+}, "Set", {
+  "id": "lower"
+}, "to", {
+  "id": "lower"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "middle"
-  }, "be", "floor", "(", {
-    "id": "len"
-  }, "/", "2", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "lower"
-  }, "be", "0", "."]
-}, {
-  "tokens": ["Repeat", ",", "while", {
-    "id": "lower"
-  }, "≠", {
-    "id": "middle"
-  }, {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "upper"
-      }, "be", {
-        "id": "len"
-      }, "-", {
-        "id": "lower"
-      }, "-", "1", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "upperP"
-      }, "be", "!", "ToString", "(", {
-        "id": "upper"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "lowerP"
-      }, "be", "!", "ToString", "(", {
-        "id": "lower"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "lowerExists"
-      }, "be", "?", "HasProperty", "(", {
-        "id": "O"
-      }, ",", {
-        "id": "lowerP"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "lowerExists"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "lowerValue"
-          }, "be", "?", "Get", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "lowerP"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Let", {
-        "id": "upperExists"
-      }, "be", "?", "HasProperty", "(", {
-        "id": "O"
-      }, ",", {
-        "id": "upperP"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "upperExists"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "upperValue"
-          }, "be", "?", "Get", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "upperP"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["If", {
-        "id": "lowerExists"
-      }, "is", {
-        "value": "true"
-      }, "and", {
-        "id": "upperExists"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Perform", "?", "Set", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "lowerP"
-          }, ",", {
-            "id": "upperValue"
-          }, ",", {
-            "value": "true"
-          }, ")", "."]
-        }, {
-          "tokens": ["Perform", "?", "Set", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "upperP"
-          }, ",", {
-            "id": "lowerValue"
-          }, ",", {
-            "value": "true"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", "if", {
-        "id": "lowerExists"
-      }, "is", {
-        "value": "false"
-      }, "and", {
-        "id": "upperExists"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Perform", "?", "Set", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "lowerP"
-          }, ",", {
-            "id": "upperValue"
-          }, ",", {
-            "value": "true"
-          }, ")", "."]
-        }, {
-          "tokens": ["Perform", "?", "DeletePropertyOrThrow", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "upperP"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", "if", {
-        "id": "lowerExists"
-      }, "is", {
-        "value": "true"
-      }, "and", {
-        "id": "upperExists"
-      }, "is", {
-        "value": "false"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Perform", "?", "DeletePropertyOrThrow", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "lowerP"
-          }, ")", "."]
-        }, {
-          "tokens": ["Perform", "?", "Set", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "upperP"
-          }, ",", {
-            "id": "lowerValue"
-          }, ",", {
-            "value": "true"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Assert", ":", {
-            "id": "lowerExists"
-          }, "and", {
-            "id": "upperExists"
-          }, "are", "both", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["No", "action", "is", "required", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Set", {
-        "id": "lower"
-      }, "to", {
-        "id": "lower"
-      }, "+", "1", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "O"
-  }, "."]
+  "k": 4
+}, "Return", {
+  "id": "O"
+}, ".", {
+  "k": 5
 }]

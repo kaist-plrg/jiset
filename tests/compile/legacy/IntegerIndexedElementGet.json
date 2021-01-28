@@ -1,79 +1,79 @@
-[{
-  "tokens": ["Assert", ":", {
-    "id": "O"
-  }, "is", "an", "Integer", "-", "Indexed", "exotic", "object", "."]
-}, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "index"
-  }, ")", "is", "Number", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "buffer"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "."]
-}, {
-  "tokens": ["If", "IsDetachedBuffer", "(", {
-    "id": "buffer"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["If", "!", "IsValidIntegerIndex", "(", {
-    "id": "O"
-  }, ",", {
-    "id": "index"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "return", {
-    "value": "undefined"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "offset"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ByteOffset", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "arrayTypeName"
-  }, "be", "the", "String", "value", "of", {
-    "id": "O"
-  }, ".", "[", "[", "TypedArrayName", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "elementSize"
-  }, "be", "the", "Element", "Size", "value", "specified", "in", "Table", "61", "for", {
-    "id": "arrayTypeName"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "indexedPosition"
-  }, "be", "(", {
-    "id": "index"
-  }, "×", {
-    "id": "elementSize"
-  }, ")", "+", {
-    "id": "offset"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "elementType"
-  }, "be", "the", "Element", "Type", "value", "in", "Table", "61", "for", {
-    "id": "arrayTypeName"
-  }, "."]
-}, {
-  "tokens": ["Return", "GetValueFromBuffer", "(", {
-    "id": "buffer"
-  }, ",", {
-    "id": "indexedPosition"
-  }, ",", {
-    "id": "elementType"
-  }, ",", {
-    "value": "true"
-  }, ",", {
-    "const": "Unordered"
-  }, ")", "."]
+["Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "index"
+}, ")", "is", "Number", ".", {
+  "k": 1
+}, "Let", {
+  "id": "buffer"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 2
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "If", "!", "IsValidIntegerIndex", "(", {
+  "id": "O"
+}, ",", {
+  "id": "index"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "offset"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 5
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", "the", "String", "value", "of", {
+  "id": "O"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 6
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", "Table", "61", "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "(", {
+  "id": "index"
+}, "×", {
+  "id": "elementSize"
+}, ")", "+", {
+  "id": "offset"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "Element", "Type", "value", "in", "Table", "61", "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 9
+}, "Return", "GetValueFromBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "const": "Unordered"
+}, ")", ".", {
+  "k": 10
 }]

@@ -1,97 +1,93 @@
-[{
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
+["Let", {
+  "id": "O"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", "and", {
+  "id": "O"
+}, "has", "a", "[", "[", "SyncIteratorRecord", "]", "]", "internal", "slot", ".", {
+  "k": 1
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "syncIterator"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "SyncIteratorRecord", "]", "]", ".", "[", "[", "Iterator", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "throw"
+}, "be", "GetMethod", "(", {
+  "id": "syncIterator"
+}, ",", {
+  "value": "\"throw\""
+}, ")", ".", {
+  "k": 4
+}, "IfAbruptRejectPromise", "(", {
+  "id": "throw"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "throw"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "value"
+}, "»", ")", ".", "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "O"
-  }, ")", "is", "Object", "and", {
-    "id": "O"
-  }, "has", "a", "[", "[", "SyncIteratorRecord", "]", "]", "internal", "slot", "."]
+  "k": 6
+}, "Let", {
+  "id": "result"
+}, "be", "Call", "(", {
+  "id": "throw"
+}, ",", {
+  "id": "syncIterator"
+}, ",", "«", {
+  "id": "value"
+}, "»", ")", ".", {
+  "k": 7
+}, "IfAbruptRejectPromise", "(", {
+  "id": "result"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 8
+}, "If", "Type", "(", {
+  "id": "result"
+}, ")", "is", "not", "Object", ",", "then", {
+  "in": null
+}, "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", "a", "newly", "created", {
+  "value": "TypeError"
+}, "object", "»", ")", ".", "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "syncIterator"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "SyncIteratorRecord", "]", "]", ".", "[", "[", "Iterator", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "throw"
-  }, "be", "GetMethod", "(", {
-    "id": "syncIterator"
-  }, ",", {
-    "value": "\"throw\""
-  }, ")", "."]
-}, {
-  "tokens": ["IfAbruptRejectPromise", "(", {
-    "id": "throw"
-  }, ",", {
-    "id": "promiseCapability"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "throw"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "Call", "(", {
-        "id": "promiseCapability"
-      }, ".", "[", "[", "Reject", "]", "]", ",", {
-        "value": "undefined"
-      }, ",", "«", {
-        "id": "value"
-      }, "»", ")", "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "promiseCapability"
-      }, ".", "[", "[", "Promise", "]", "]", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "result"
-  }, "be", "Call", "(", {
-    "id": "throw"
-  }, ",", {
-    "id": "syncIterator"
-  }, ",", "«", {
-    "id": "value"
-  }, "»", ")", "."]
-}, {
-  "tokens": ["IfAbruptRejectPromise", "(", {
-    "id": "result"
-  }, ",", {
-    "id": "promiseCapability"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "Type", "(", {
-    "id": "result"
-  }, ")", "is", "not", "Object", ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "Call", "(", {
-        "id": "promiseCapability"
-      }, ".", "[", "[", "Reject", "]", "]", ",", {
-        "value": "undefined"
-      }, ",", "«", "a", "newly", "created", {
-        "value": "TypeError"
-      }, "object", "»", ")", "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "promiseCapability"
-      }, ".", "[", "[", "Promise", "]", "]", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "!", "AsyncFromSyncIteratorContinuation", "(", {
-    "id": "result"
-  }, ",", {
-    "id": "promiseCapability"
-  }, ")", "."]
+  "k": 9
+}, "Return", "!", "AsyncFromSyncIteratorContinuation", "(", {
+  "id": "result"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 10
 }]

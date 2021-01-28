@@ -10,7 +10,9 @@
   "k": 1
 }, "If", "Type", "(", {
   "id": "P"
-}, ")", "is", "String", ",", "then", true, "Let", {
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "numericIndex"
 }, "be", "!", "CanonicalNumericIndexString", "(", {
   "id": "P"
@@ -20,7 +22,9 @@
   "id": "numericIndex"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "If", "!", "IsValidIntegerIndex", "(", {
+}, ",", "then", {
+  "in": null
+}, "If", "!", "IsValidIntegerIndex", "(", {
   "id": "O"
 }, ",", {
   "id": "numericIndex"
@@ -70,7 +74,9 @@
   "k": 9
 }, "If", {
   "id": "Desc"
-}, "has", "a", "[", "[", "Value", "]", "]", "field", ",", "then", true, "Let", {
+}, "has", "a", "[", "[", "Value", "]", "]", "field", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "value"
 }, "be", {
   "id": "Desc"
@@ -84,15 +90,21 @@
   "id": "value"
 }, ")", ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "Return", {
   "value": "true"
 }, ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "Return", "!", "OrdinaryDefineOwnProperty", "(", {
   "id": "O"

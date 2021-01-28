@@ -1,51 +1,49 @@
-[{
-  "tokens": ["Let", {
-    "id": "bindingId"
-  }, "be", "StringValue", "of", {
-    "nt": "BindingIdentifier"
-  }, "."]
+["Let", {
+  "id": "bindingId"
+}, "be", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lhs"
+}, "be", "?", "ResolveBinding", "(", {
+  "id": "bindingId"
+}, ")", ".", {
+  "k": 1
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "Initializer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "value"
+}, "be", "NamedEvaluation", "of", {
+  "nt": "Initializer"
+}, "with", "argument", {
+  "id": "bindingId"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "lhs"
-  }, "be", "?", "ResolveBinding", "(", {
-    "id": "bindingId"
-  }, ")", "."]
+  "k": 2
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "rhs"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", "Let", {
+  "id": "value"
+}, "be", "?", "GetValue", "(", {
+  "id": "rhs"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "IsAnonymousFunctionDefinition", "(", {
-    "nt": "Initializer"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "value"
-      }, "be", "NamedEvaluation", "of", {
-        "nt": "Initializer"
-      }, "with", "argument", {
-        "id": "bindingId"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "rhs"
-      }, "be", "the", "result", "of", "evaluating", {
-        "nt": "Initializer"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "value"
-      }, "be", "?", "GetValue", "(", {
-        "id": "rhs"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "?", "PutValue", "(", {
-    "id": "lhs"
-  }, ",", {
-    "id": "value"
-  }, ")", "."]
+  "k": 3
+}, "Return", "?", "PutValue", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 4
 }]

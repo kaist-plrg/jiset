@@ -1,81 +1,77 @@
-[{
-  "tokens": ["Let", {
-    "id": "bindingId"
-  }, "be", "StringValue", "of", {
-    "nt": "BindingIdentifier"
-  }, "."]
+["Let", {
+  "id": "bindingId"
+}, "be", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lhs"
+}, "be", "?", "ResolveBinding", "(", {
+  "id": "bindingId"
+}, ",", {
+  "id": "environment"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "v"
+}, "be", "?", "GetV", "(", {
+  "id": "value"
+}, ",", {
+  "id": "propertyName"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "nt": "Initializer"
+}, "is", "present", "and", {
+  "id": "v"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "Initializer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "v"
+}, "to", "the", "result", "of", "performing", "NamedEvaluation", "for", {
+  "nt": "Initializer"
+}, "with", "argument", {
+  "id": "bindingId"
+}, ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "defaultValue"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", "Set", {
+  "id": "v"
+}, "to", "?", "GetValue", "(", {
+  "id": "defaultValue"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "lhs"
-  }, "be", "?", "ResolveBinding", "(", {
-    "id": "bindingId"
-  }, ",", {
-    "id": "environment"
-  }, ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "v"
-  }, "be", "?", "GetV", "(", {
-    "id": "value"
-  }, ",", {
-    "id": "propertyName"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "nt": "Initializer"
-  }, "is", "present", "and", {
-    "id": "v"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", "IsAnonymousFunctionDefinition", "(", {
-        "nt": "Initializer"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Set", {
-            "id": "v"
-          }, "to", "the", "result", "of", "performing", "NamedEvaluation", "for", {
-            "nt": "Initializer"
-          }, "with", "argument", {
-            "id": "bindingId"
-          }, "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "defaultValue"
-          }, "be", "the", "result", "of", "evaluating", {
-            "nt": "Initializer"
-          }, "."]
-        }, {
-          "tokens": ["Set", {
-            "id": "v"
-          }, "to", "?", "GetValue", "(", {
-            "id": "defaultValue"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["If", {
-    "id": "environment"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "return", "?", "PutValue", "(", {
-    "id": "lhs"
-  }, ",", {
-    "id": "v"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", "InitializeReferencedBinding", "(", {
-    "id": "lhs"
-  }, ",", {
-    "id": "v"
-  }, ")", "."]
+  "k": 3
+}, "If", {
+  "id": "environment"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", "?", "PutValue", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "v"
+}, ")", ".", {
+  "k": 4
+}, "Return", "InitializeReferencedBinding", "(", {
+  "id": "lhs"
+}, ",", {
+  "id": "v"
+}, ")", ".", {
+  "k": 5
 }]

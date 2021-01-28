@@ -16,19 +16,27 @@
   "k": 2
 }, "If", "Type", "(", {
   "id": "replacer"
-}, ")", "is", "Object", ",", "then", true, "If", "IsCallable", "(", {
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", "IsCallable", "(", {
   "id": "replacer"
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "ReplacerFunction"
 }, "be", {
   "id": "replacer"
 }, ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "isArray"
 }, "be", "?", "IsArray", "(", {
   "id": "replacer"
@@ -38,7 +46,9 @@
   "id": "isArray"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "PropertyList"
 }, "be", "a", "new", "empty", "List", ".", {
   "k": 9
@@ -58,7 +68,9 @@
   "id": "k"
 }, "<", {
   "id": "len"
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "v"
 }, "be", "?", "Get", "(", {
   "id": "replacer"
@@ -90,7 +102,9 @@
   "k": 16
 }, "Else", "if", "Type", "(", {
   "id": "v"
-}, ")", "is", "Object", ",", "then", true, "If", {
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", {
   "id": "v"
 }, "has", "a", "[", "[", "StringData", "]", "]", "or", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "let", {
   "id": "item"
@@ -98,7 +112,9 @@
   "id": "v"
 }, ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
 }, "If", {
   "id": "item"
@@ -108,13 +124,17 @@
   "id": "item"
 }, "is", "not", "currently", "an", "element", "of", {
   "id": "PropertyList"
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "id": "item"
 }, "to", "the", "end", "of", {
   "id": "PropertyList"
 }, ".", {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 19
 }, "Let", {
   "id": "k"
@@ -122,41 +142,63 @@
   "id": "k"
 }, "+", "1", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "If", "Type", "(", {
   "id": "space"
-}, ")", "is", "Object", ",", "then", true, "If", {
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", {
   "id": "space"
-}, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then", true, "Let", {
+}, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "space"
 }, "be", "?", "ToNumber", "(", {
   "id": "space"
 }, ")", ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 23
 }, "Else", "if", {
   "id": "space"
-}, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then", true, "Let", {
+}, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "space"
 }, "be", "?", "ToString", "(", {
   "id": "space"
 }, ")", ".", {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 22
 }, "If", "Type", "(", {
   "id": "space"
-}, ")", "is", "Number", ",", "then", true, "Let", {
+}, ")", "is", "Number", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "space"
 }, "be", "min", "(", "10", ",", "ToInteger", "(", {
   "id": "space"
@@ -170,11 +212,15 @@
   "id": "space"
 }, "is", "less", "than", "1", ".", {
   "k": 29
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
 }, "Else", "if", "Type", "(", {
   "id": "space"
-}, ")", "is", "String", ",", "then", true, "If", "the", "length", "of", {
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "If", "the", "length", "of", {
   "id": "space"
 }, "is", "10", "or", "less", ",", "set", {
   "id": "gap"
@@ -186,13 +232,19 @@
   "id": "space"
 }, ".", {
   "k": 31
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 30
-}, "Else", ",", true, "Set", {
+}, "Else", ",", {
+  "in": null
+}, "Set", {
   "id": "gap"
 }, "to", "the", "empty", "String", ".", {
   "k": 33
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 32
 }, "Let", {
   "id": "wrapper"

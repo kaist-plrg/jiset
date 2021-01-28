@@ -1,59 +1,55 @@
-[{
-  "tokens": ["Let", {
-    "id": "iteratorRecord"
-  }, "be", "?", "GetIterator", "(", {
-    "id": "value"
-  }, ")", "."]
+["Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 0
+}, "If", {
+  "nt": "Elision"
+}, "is", "present", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "status"
+}, "be", "IteratorDestructuringAssignmentEvaluation", "of", {
+  "nt": "Elision"
+}, "with", "argument", {
+  "id": "iteratorRecord"
+}, ".", "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Assert", ":", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "true"
+}, ".", "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "nt": "Elision"
-  }, "is", "present", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "status"
-      }, "be", "IteratorDestructuringAssignmentEvaluation", "of", {
-        "nt": "Elision"
-      }, "with", "argument", {
-        "id": "iteratorRecord"
-      }, "."]
-    }, {
-      "tokens": ["If", {
-        "id": "status"
-      }, "is", "an", "abrupt", "completion", ",", "then", {
-        "steps": [{
-          "tokens": ["Assert", ":", {
-            "id": "iteratorRecord"
-          }, ".", "[", "[", "Done", "]", "]", "is", {
-            "value": "true"
-          }, "."]
-        }, {
-          "tokens": ["Return", "Completion", "(", {
-            "id": "status"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "result"
-  }, "be", "IteratorDestructuringAssignmentEvaluation", "of", {
-    "nt": "AssignmentRestElement"
-  }, "with", "argument", {
-    "id": "iteratorRecord"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "is", {
-    "value": "false"
-  }, ",", "return", "?", "IteratorClose", "(", {
-    "id": "iteratorRecord"
-  }, ",", {
-    "id": "result"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "result"
-  }, "."]
+  "k": 1
+}, "Let", {
+  "id": "result"
+}, "be", "IteratorDestructuringAssignmentEvaluation", "of", {
+  "nt": "AssignmentRestElement"
+}, "with", "argument", {
+  "id": "iteratorRecord"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "result"
+}, ")", ".", {
+  "k": 3
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 4
 }]

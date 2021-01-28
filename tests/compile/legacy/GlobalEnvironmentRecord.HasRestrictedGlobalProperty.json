@@ -1,45 +1,45 @@
-[{
-  "tokens": ["Let", {
-    "id": "envRec"
-  }, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "ObjRec"
-  }, "be", {
-    "id": "envRec"
-  }, ".", "[", "[", "ObjectRecord", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "globalObject"
-  }, "be", "the", "binding", "object", "for", {
-    "id": "ObjRec"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "existingProp"
-  }, "be", "?", {
-    "id": "globalObject"
-  }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-    "id": "N"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "existingProp"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "existingProp"
-  }, ".", "[", "[", "Configurable", "]", "]", "is", {
-    "value": "true"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "value": "true"
-  }, "."]
+["Let", {
+  "id": "envRec"
+}, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", ".", {
+  "k": 0
+}, "Let", {
+  "id": "ObjRec"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "ObjectRecord", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "globalObject"
+}, "be", "the", "binding", "object", "for", {
+  "id": "ObjRec"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "existingProp"
+}, "be", "?", {
+  "id": "globalObject"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "N"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "existingProp"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "existingProp"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 5
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 6
 }]

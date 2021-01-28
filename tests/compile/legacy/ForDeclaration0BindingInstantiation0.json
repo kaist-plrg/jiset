@@ -1,47 +1,45 @@
-[{
-  "tokens": ["Let", {
-    "id": "envRec"
-  }, "be", {
-    "id": "environment"
-  }, "'", "s", "EnvironmentRecord", "."]
+["Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "environment"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "envRec"
+}, "is", "a", "declarative", "Environment", "Record", ".", {
+  "k": 1
+}, "For", "each", "element", {
+  "id": "name"
+}, "of", "the", "BoundNames", "of", {
+  "nt": "ForBinding"
+}, ",", "do", {
+  "in": null
+}, "If", "IsConstantDeclaration", "of", {
+  "nt": "LetOrConst"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "envRec"
-  }, "is", "a", "declarative", "Environment", "Record", "."]
+  "out": null
 }, {
-  "tokens": ["For", "each", "element", {
-    "id": "name"
-  }, "of", "the", "BoundNames", "of", {
-    "nt": "ForBinding"
-  }, ",", "do", {
-    "steps": [{
-      "tokens": ["If", "IsConstantDeclaration", "of", {
-        "nt": "LetOrConst"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Perform", "!", {
-            "id": "envRec"
-          }, ".", "CreateImmutableBinding", "(", {
-            "id": "name"
-          }, ",", {
-            "value": "true"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Perform", "!", {
-            "id": "envRec"
-          }, ".", "CreateMutableBinding", "(", {
-            "id": "name"
-          }, ",", {
-            "value": "false"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "k": 2
 }]

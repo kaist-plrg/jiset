@@ -1,38 +1,38 @@
-[{
-  "tokens": ["If", {
-    "id": "stmt"
-  }, "is", "not", "a", {
-    "nt": "LabelledStatement"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "item"
-  }, "be", "the", {
-    "nt": "LabelledItem"
-  }, "of", {
-    "id": "stmt"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "item"
-  }, "is", {
-    "grammar": "LabelledItem1",
-    "subs": ["FunctionDeclaration"]
-  }, ",", "return", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "subStmt"
-  }, "be", "the", {
-    "nt": "Statement"
-  }, "of", {
-    "id": "item"
-  }, "."]
-}, {
-  "tokens": ["Return", "IsLabelledFunction", "(", {
-    "id": "subStmt"
-  }, ")", "."]
+["If", {
+  "id": "stmt"
+}, "is", "not", "a", {
+  "nt": "LabelledStatement"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "item"
+}, "be", "the", {
+  "nt": "LabelledItem"
+}, "of", {
+  "id": "stmt"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "item"
+}, "is", {
+  "grammar": "LabelledItem1",
+  "subs": ["FunctionDeclaration"]
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "subStmt"
+}, "be", "the", {
+  "nt": "Statement"
+}, "of", {
+  "id": "item"
+}, ".", {
+  "k": 3
+}, "Return", "IsLabelledFunction", "(", {
+  "id": "subStmt"
+}, ")", ".", {
+  "k": 4
 }]

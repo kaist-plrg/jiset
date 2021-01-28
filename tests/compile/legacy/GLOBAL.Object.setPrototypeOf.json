@@ -1,51 +1,51 @@
-[{
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "proto"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
-}, {
-  "tokens": ["Set", {
-    "id": "O"
-  }, "to", "?", "RequireObjectCoercible", "(", {
-    "id": "O"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "Type", "(", {
-    "id": "proto"
-  }, ")", "is", "neither", "Object", "nor", "Null", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["If", "Type", "(", {
-    "id": "O"
-  }, ")", "is", "not", "Object", ",", "return", {
-    "id": "O"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "status"
-  }, "be", "?", {
-    "id": "O"
-  }, ".", "[", "[", "SetPrototypeOf", "]", "]", "(", {
-    "id": "proto"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "status"
-  }, "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "O"
-  }, "."]
+["Let", {
+  "id": "O"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "proto"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Set", {
+  "id": "O"
+}, "to", "?", "RequireObjectCoercible", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 2
+}, "If", "Type", "(", {
+  "id": "proto"
+}, ")", "is", "neither", "Object", "nor", "Null", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "O"
+}, ")", "is", "not", "Object", ",", "return", {
+  "id": "O"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "status"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "SetPrototypeOf", "]", "]", "(", {
+  "id": "proto"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "status"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "Return", {
+  "id": "O"
+}, ".", {
+  "k": 7
 }]

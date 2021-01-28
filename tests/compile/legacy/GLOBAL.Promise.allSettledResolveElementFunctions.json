@@ -1,107 +1,105 @@
-[{
-  "tokens": ["Let", {
-    "id": "F"
-  }, "be", "the", "active", "function", "object", "."]
+["Let", {
+  "id": "F"
+}, "be", "the", "active", "function", "object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "alreadyCalled"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "AlreadyCalled", "]", "]", ".", {
+  "k": 1
+}, "If", {
+  "id": "alreadyCalled"
+}, ".", "[", "[", "Value", "]", "]", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "Set", {
+  "id": "alreadyCalled"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "index"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "Index", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "values"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "Values", "]", "]", ".", {
+  "k": 5
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "Capability", "]", "]", ".", {
+  "k": 6
+}, "Let", {
+  "id": "remainingElementsCount"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "RemainingElements", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "obj"
+}, "be", "!", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", ".", {
+  "k": 8
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"status\""
+}, ",", {
+  "value": "\"fulfilled\""
+}, ")", ".", {
+  "k": 9
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"value\""
+}, ",", {
+  "id": "x"
+}, ")", ".", {
+  "k": 10
+}, "Set", {
+  "id": "values"
+}, "[", {
+  "id": "index"
+}, "]", "to", {
+  "id": "obj"
+}, ".", {
+  "k": 11
+}, "Set", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "-", "1", ".", {
+  "k": 12
+}, "If", {
+  "id": "remainingElementsCount"
+}, ".", "[", "[", "Value", "]", "]", "is", "0", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "valuesArray"
+}, "be", "!", "CreateArrayFromList", "(", {
+  "id": "values"
+}, ")", ".", "Return", "?", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "valuesArray"
+}, "»", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "alreadyCalled"
-  }, "be", {
-    "id": "F"
-  }, ".", "[", "[", "AlreadyCalled", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "alreadyCalled"
-  }, ".", "[", "[", "Value", "]", "]", "is", {
-    "value": "true"
-  }, ",", "return", {
-    "value": "undefined"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "alreadyCalled"
-  }, ".", "[", "[", "Value", "]", "]", "to", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "index"
-  }, "be", {
-    "id": "F"
-  }, ".", "[", "[", "Index", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "values"
-  }, "be", {
-    "id": "F"
-  }, ".", "[", "[", "Values", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", {
-    "id": "F"
-  }, ".", "[", "[", "Capability", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "remainingElementsCount"
-  }, "be", {
-    "id": "F"
-  }, ".", "[", "[", "RemainingElements", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "obj"
-  }, "be", "!", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", "."]
-}, {
-  "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-    "id": "obj"
-  }, ",", {
-    "value": "\"status\""
-  }, ",", {
-    "value": "\"fulfilled\""
-  }, ")", "."]
-}, {
-  "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-    "id": "obj"
-  }, ",", {
-    "value": "\"value\""
-  }, ",", {
-    "id": "x"
-  }, ")", "."]
-}, {
-  "tokens": ["Set", {
-    "id": "values"
-  }, "[", {
-    "id": "index"
-  }, "]", "to", {
-    "id": "obj"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "remainingElementsCount"
-  }, ".", "[", "[", "Value", "]", "]", "to", {
-    "id": "remainingElementsCount"
-  }, ".", "[", "[", "Value", "]", "]", "-", "1", "."]
-}, {
-  "tokens": ["If", {
-    "id": "remainingElementsCount"
-  }, ".", "[", "[", "Value", "]", "]", "is", "0", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "valuesArray"
-      }, "be", "!", "CreateArrayFromList", "(", {
-        "id": "values"
-      }, ")", "."]
-    }, {
-      "tokens": ["Return", "?", "Call", "(", {
-        "id": "promiseCapability"
-      }, ".", "[", "[", "Resolve", "]", "]", ",", {
-        "value": "undefined"
-      }, ",", "«", {
-        "id": "valuesArray"
-      }, "»", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "value": "undefined"
-  }, "."]
+  "k": 13
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 14
 }]

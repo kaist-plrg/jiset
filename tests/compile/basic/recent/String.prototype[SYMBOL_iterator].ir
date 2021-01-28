@@ -5,7 +5,7 @@
   app __x1__ = (ToString O)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let s = __x1__
-  ??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{s} and performs the following steps when called : step-list:{...}"
+  ??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{s} and performs the following steps when called : in:{} out:{}"
   app __x2__ = (CreateIteratorFromClosure closure "%StringIteratorPrototype%" INTRINSIC_StringIteratorPrototype)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   app __x3__ = (WrapCompletion __x2__)

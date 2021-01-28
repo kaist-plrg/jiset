@@ -1,27 +1,27 @@
-[{
-  "tokens": ["Let", {
-    "id": "encodedURI"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "uriString"
-  }, "be", "?", "ToString", "(", {
-    "id": "encodedURI"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "reservedURISet"
-  }, "be", "a", "String", "containing", "one", "instance", "of", "each", "code", "unit", "valid", "in", {
-    "nt": "uriReserved"
-  }, "plus", {
-    "value": "\"#\""
-  }, "."]
-}, {
-  "tokens": ["Return", "?", "Decode", "(", {
-    "id": "uriString"
-  }, ",", {
-    "id": "reservedURISet"
-  }, ")", "."]
+["Let", {
+  "id": "encodedURI"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "uriString"
+}, "be", "?", "ToString", "(", {
+  "id": "encodedURI"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "reservedURISet"
+}, "be", "a", "String", "containing", "one", "instance", "of", "each", "code", "unit", "valid", "in", {
+  "nt": "uriReserved"
+}, "plus", {
+  "value": "\"#\""
+}, ".", {
+  "k": 2
+}, "Return", "?", "Decode", "(", {
+  "id": "uriString"
+}, ",", {
+  "id": "reservedURISet"
+}, ")", ".", {
+  "k": 3
 }]

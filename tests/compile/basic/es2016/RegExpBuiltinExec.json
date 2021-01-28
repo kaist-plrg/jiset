@@ -84,11 +84,15 @@
   "id": "matchSucceeded"
 }, "is", {
   "value": "false"
-}, true, "If", {
+}, {
+  "in": null
+}, "If", {
   "id": "lastIndex"
 }, ">", {
   "id": "length"
-}, ",", "then", true, "Perform", "?", "Set", "(", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
   "id": "R"
 }, ",", {
   "code": "\"lastIndex\""
@@ -100,7 +104,9 @@
   "value": "null"
 }, ".", {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
 }, "Let", {
   "id": "r"
@@ -116,11 +122,15 @@
   "id": "r"
 }, "is", {
   "const": "failure"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "sticky"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Perform", "?", "Set", "(", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
   "id": "R"
 }, ",", {
   "code": "\"lastIndex\""
@@ -132,7 +142,9 @@
   "value": "null"
 }, ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
 }, "Let", {
   "id": "lastIndex"
@@ -144,9 +156,13 @@
   "id": "fullUnicode"
 }, ")", ".", {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "r"
 }, "is", "a", "State", ".", {
   "k": 22
@@ -156,9 +172,13 @@
   "value": "true"
 }, ".", {
   "k": 23
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Let", {
   "id": "e"
@@ -172,7 +192,9 @@
   "id": "fullUnicode"
 }, "is", {
   "value": "true"
-}, ",", "then", true, {
+}, ",", "then", {
+  "in": null
+}, {
   "id": "e"
 }, "is", "an", "index", "into", "the", {
   "id": "Input"
@@ -204,7 +226,9 @@
   "id": "eUTF"
 }, ".", {
   "k": 27
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
 }, "If", {
   "id": "global"
@@ -214,7 +238,9 @@
   "id": "sticky"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Perform", "?", "Set", "(", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
   "id": "R"
 }, ",", {
   "code": "\"lastIndex\""
@@ -224,7 +250,9 @@
   "value": "true"
 }, ")", ".", {
   "k": 29
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 28
 }, "Let", {
   "id": "n"
@@ -300,14 +328,14 @@
   "id": "i"
 }, "≤", {
   "id": "n"
-}, true, "Let", {
+}, {
+  "in": null
+}, "Let", {
   "id": "captureI"
 }, "be", {
   "id": "i"
 }, {
-  "sup": {
-    "tokens": ["th"]
-  }
+  "sup": ["th"]
 }, "element", "of", {
   "id": "r"
 }, "'", "s", {
@@ -328,7 +356,9 @@
   "id": "fullUnicode"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "captureI"
 }, "is", "a", "List", "of", "code", "points", ".", {
   "k": 42
@@ -338,13 +368,17 @@
   "id": "captureI"
 }, ".", {
   "k": 43
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 41
 }, "Else", ",", {
   "id": "fullUnicode"
 }, "is", {
   "value": "false"
-}, ",", true, "Assert", ":", {
+}, ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "captureI"
 }, "is", "a", "List", "of", "code", "units", ".", {
   "k": 45
@@ -354,7 +388,9 @@
   "id": "captureI"
 }, ".", {
   "k": 46
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 44
 }, "Perform", "!", "CreateDataProperty", "(", {
   "id": "A"
@@ -364,7 +400,9 @@
   "id": "capturedValue"
 }, ")", ".", {
   "k": 47
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 38
 }, "Return", {
   "id": "A"

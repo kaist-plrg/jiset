@@ -1,61 +1,59 @@
-[{
-  "tokens": ["Let", {
-    "id": "value"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "value"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "S"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 1
+}, "Perform", "?", "RequireInternalSlot", "(", {
+  "id": "S"
+}, ",", "[", "[", "SetData", "]", "]", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "entries"
+}, "be", "the", "List", "that", "is", {
+  "id": "S"
+}, ".", "[", "[", "SetData", "]", "]", ".", {
+  "k": 3
+}, "For", "each", {
+  "id": "e"
+}, "that", "is", "an", "element", "of", {
+  "id": "entries"
+}, ",", "do", {
+  "in": null
+}, "If", {
+  "id": "e"
+}, "is", "not", {
+  "const": "empty"
+}, "and", "SameValueZero", "(", {
+  "id": "e"
+}, ",", {
+  "id": "value"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Replace", "the", "element", "of", {
+  "id": "entries"
+}, "whose", "value", "is", {
+  "id": "e"
+}, "with", "an", "element", "whose", "value", "is", {
+  "const": "empty"
+}, ".", "Return", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "S"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
+  "out": null
 }, {
-  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
-    "id": "S"
-  }, ",", "[", "[", "SetData", "]", "]", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "entries"
-  }, "be", "the", "List", "that", "is", {
-    "id": "S"
-  }, ".", "[", "[", "SetData", "]", "]", "."]
-}, {
-  "tokens": ["For", "each", {
-    "id": "e"
-  }, "that", "is", "an", "element", "of", {
-    "id": "entries"
-  }, ",", "do", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "e"
-      }, "is", "not", {
-        "const": "empty"
-      }, "and", "SameValueZero", "(", {
-        "id": "e"
-      }, ",", {
-        "id": "value"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Replace", "the", "element", "of", {
-            "id": "entries"
-          }, "whose", "value", "is", {
-            "id": "e"
-          }, "with", "an", "element", "whose", "value", "is", {
-            "const": "empty"
-          }, "."]
-        }, {
-          "tokens": ["Return", {
-            "value": "true"
-          }, "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "value": "false"
-  }, "."]
+  "k": 4
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 5
 }]

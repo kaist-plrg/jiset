@@ -12,7 +12,9 @@
   "id": "kind"
 }, "is", {
   "code": "\"normal\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "goal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "FunctionBody"
@@ -30,9 +32,13 @@
   "code": "\"%FunctionPrototype%\""
 }, ".", {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 1
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "goal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "GeneratorBody"
@@ -50,7 +56,9 @@
   "code": "\"%Generator%\""
 }, ".", {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "Let", {
   "id": "argCount"
@@ -78,7 +86,9 @@
   "k": 12
 }, "Else", {
   "id": "argCount"
-}, ">", "1", ",", true, "Let", {
+}, ">", "1", ",", {
+  "in": null
+}, "Let", {
   "id": "firstArg"
 }, "be", {
   "id": "args"
@@ -98,7 +108,9 @@
   "id": "k"
 }, "<", {
   "id": "argCount"
-}, "-", "1", true, "Let", {
+}, "-", "1", {
+  "in": null
+}, "Let", {
   "id": "nextArg"
 }, "be", {
   "id": "args"
@@ -126,7 +138,9 @@
   "id": "k"
 }, "by", "1", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
 }, "Let", {
   "id": "bodyText"
@@ -136,7 +150,9 @@
   "id": "k"
 }, "]", ".", {
   "k": 22
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
 }, "Let", {
   "id": "bodyText"
@@ -261,7 +277,9 @@
   "id": "kind"
 }, "is", {
   "code": "\"generator\""
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "parameters"
 }, "Contains", {
   "nt": "YieldExpression"
@@ -271,19 +289,25 @@
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 35
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 34
 }, "If", {
   "id": "strict"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "If", "BoundNames", "of", {
+}, ",", "then", {
+  "in": null
+}, "If", "BoundNames", "of", {
   "id": "parameters"
 }, "contains", "any", "duplicate", "elements", ",", "throw", "a", {
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 37
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 36
 }, "Let", {
   "id": "proto"
@@ -331,7 +355,9 @@
   "id": "kind"
 }, "is", {
   "code": "\"generator\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "prototype"
 }, "be", "ObjectCreate", "(", "%", "GeneratorPrototype", "%", ")", ".", {
   "k": 44
@@ -349,7 +375,9 @@
   "value": "false"
 }, "}", ")", ".", {
   "k": 45
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 43
 }, "Else", ",", "perform", "MakeConstructor", "(", {
   "id": "F"

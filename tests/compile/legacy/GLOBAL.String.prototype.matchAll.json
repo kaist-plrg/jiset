@@ -1,99 +1,89 @@
-[{
-  "tokens": ["Let", {
-    "id": "regexp"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "regexp"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "regexp"
+}, "is", "neither", {
+  "value": "undefined"
+}, "nor", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "isRegExp"
+}, "be", "?", "IsRegExp", "(", {
+  "id": "regexp"
+}, ")", ".", "If", {
+  "id": "isRegExp"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "flags"
+}, "be", "?", "Get", "(", {
+  "id": "regexp"
+}, ",", {
+  "value": "\"flags\""
+}, ")", ".", "Perform", "?", "RequireObjectCoercible", "(", {
+  "id": "flags"
+}, ")", ".", "If", "?", "ToString", "(", {
+  "id": "flags"
+}, ")", "does", "not", "contain", {
+  "value": "\"g\""
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "out": null
+}, "Let", {
+  "id": "matcher"
+}, "be", "?", "GetMethod", "(", {
+  "id": "regexp"
+}, ",", "@", "@", "matchAll", ")", ".", "If", {
+  "id": "matcher"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "Call", "(", {
+  "id": "matcher"
+}, ",", {
+  "id": "regexp"
+}, ",", "«", {
+  "id": "O"
+}, "»", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "RequireObjectCoercible", "(", {
-    "value": "this"
-  }, "value", ")", "."]
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "regexp"
-  }, "is", "neither", {
-    "value": "undefined"
-  }, "nor", {
-    "value": "null"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "isRegExp"
-      }, "be", "?", "IsRegExp", "(", {
-        "id": "regexp"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "isRegExp"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "flags"
-          }, "be", "?", "Get", "(", {
-            "id": "regexp"
-          }, ",", {
-            "value": "\"flags\""
-          }, ")", "."]
-        }, {
-          "tokens": ["Perform", "?", "RequireObjectCoercible", "(", {
-            "id": "flags"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", "?", "ToString", "(", {
-            "id": "flags"
-          }, ")", "does", "not", "contain", {
-            "value": "\"g\""
-          }, ",", "throw", "a", {
-            "value": "TypeError"
-          }, "exception", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Let", {
-        "id": "matcher"
-      }, "be", "?", "GetMethod", "(", {
-        "id": "regexp"
-      }, ",", "@", "@", "matchAll", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "matcher"
-      }, "is", "not", {
-        "value": "undefined"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Return", "?", "Call", "(", {
-            "id": "matcher"
-          }, ",", {
-            "id": "regexp"
-          }, ",", "«", {
-            "id": "O"
-          }, "»", ")", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "S"
-  }, "be", "?", "ToString", "(", {
-    "id": "O"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "rx"
-  }, "be", "?", "RegExpCreate", "(", {
-    "id": "regexp"
-  }, ",", {
-    "value": "\"g\""
-  }, ")", "."]
-}, {
-  "tokens": ["Return", "?", "Invoke", "(", {
-    "id": "rx"
-  }, ",", "@", "@", "matchAll", ",", "«", {
-    "id": "S"
-  }, "»", ")", "."]
+  "k": 2
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "rx"
+}, "be", "?", "RegExpCreate", "(", {
+  "id": "regexp"
+}, ",", {
+  "value": "\"g\""
+}, ")", ".", {
+  "k": 4
+}, "Return", "?", "Invoke", "(", {
+  "id": "rx"
+}, ",", "@", "@", "matchAll", ",", "«", {
+  "id": "S"
+}, "»", ")", ".", {
+  "k": 5
 }]

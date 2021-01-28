@@ -30,15 +30,21 @@
   "id": "state"
 }, ".", "[", "[", "PropertyList", "]", "]", "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "K"
 }, "be", {
   "id": "state"
 }, ".", "[", "[", "PropertyList", "]", "]", ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "K"
 }, "be", "?", "EnumerableOwnPropertyNames", "(", {
   "id": "value"
@@ -46,7 +52,9 @@
   "const": "key"
 }, ")", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Let", {
   "id": "partial"
@@ -56,7 +64,9 @@
   "id": "P"
 }, "of", {
   "id": "K"
-}, ",", "do", true, "Let", {
+}, ",", "do", {
+  "in": null
+}, "Let", {
   "id": "strP"
 }, "be", "?", "SerializeJSONProperty", "(", {
   "id": "state"
@@ -70,7 +80,9 @@
   "id": "strP"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "member"
 }, "be", "QuoteJSONString", "(", {
   "id": "P"
@@ -86,13 +98,17 @@
   "k": 13
 }, "If", {
   "id": "state"
-}, ".", "[", "[", "Gap", "]", "]", "is", "not", "the", "empty", "String", ",", "then", true, "Set", {
+}, ".", "[", "[", "Gap", "]", "]", "is", "not", "the", "empty", "String", ",", "then", {
+  "in": null
+}, "Set", {
   "id": "member"
 }, "to", "the", "string", "-", "concatenation", "of", {
   "id": "member"
 }, "and", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Set", {
   "id": "member"
@@ -108,23 +124,35 @@
   "id": "partial"
 }, ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
 }, "If", {
   "id": "partial"
-}, "is", "empty", ",", "then", true, "Let", {
+}, "is", "empty", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "final"
 }, "be", {
   "value": "\"{}\""
 }, ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
-}, "Else", ",", true, "If", {
+}, "Else", ",", {
+  "in": null
+}, "If", {
   "id": "state"
-}, ".", "[", "[", "Gap", "]", "]", "is", "the", "empty", "String", ",", "then", true, "Let", {
+}, ".", "[", "[", "Gap", "]", "]", "is", "the", "empty", "String", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "properties"
 }, "be", "the", "String", "value", "formed", "by", "concatenating", "all", "the", "element", "Strings", "of", {
   "id": "partial"
@@ -140,9 +168,13 @@
   "value": "\"}\""
 }, ".", {
   "k": 23
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 21
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "separator"
 }, "be", "the", "string", "-", "concatenation", "of", "the", "code", "unit", "0x002C", "(", "COMMA", ")", ",", "the", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", "and", {
   "id": "state"
@@ -172,9 +204,13 @@
   "value": "\"}\""
 }, ".", {
   "k": 27
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
 }, "Remove", "the", "last", "element", "of", {
   "id": "state"

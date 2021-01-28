@@ -1,67 +1,67 @@
-[{
-  "tokens": ["Let", {
-    "id": "handler"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ProxyHandler", "]", "]", "."]
+["Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 0
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 2
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "\"apply\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "Call", "(", {
+  "id": "target"
+}, ",", {
+  "id": "thisArgument"
+}, ",", {
+  "id": "argumentsList"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "handler"
-  }, "is", {
-    "value": "null"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "handler"
-  }, ")", "is", "Object", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "target"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ProxyTarget", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "trap"
-  }, "be", "?", "GetMethod", "(", {
-    "id": "handler"
-  }, ",", {
-    "value": "\"apply\""
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "trap"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", "?", "Call", "(", {
-        "id": "target"
-      }, ",", {
-        "id": "thisArgument"
-      }, ",", {
-        "id": "argumentsList"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "argArray"
-  }, "be", "!", "CreateArrayFromList", "(", {
-    "id": "argumentsList"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", "?", "Call", "(", {
-    "id": "trap"
-  }, ",", {
-    "id": "handler"
-  }, ",", "«", {
-    "id": "target"
-  }, ",", {
-    "id": "thisArgument"
-  }, ",", {
-    "id": "argArray"
-  }, "»", ")", "."]
+  "k": 5
+}, "Let", {
+  "id": "argArray"
+}, "be", "!", "CreateArrayFromList", "(", {
+  "id": "argumentsList"
+}, ")", ".", {
+  "k": 6
+}, "Return", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, ",", {
+  "id": "thisArgument"
+}, ",", {
+  "id": "argArray"
+}, "»", ")", ".", {
+  "k": 7
 }]

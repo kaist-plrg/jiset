@@ -2,7 +2,9 @@
   "id": "e"
 }, "of", {
   "id": "module"
-}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", true, "Let", {
+}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "resolution"
 }, "be", "?", {
   "id": "module"
@@ -24,7 +26,9 @@
   "id": "resolution"
 }, "is", "a", "ResolvedBinding", "Record", ".", {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "Assert", ":", "All", "named", "exports", "from", {
   "id": "module"
@@ -58,7 +62,9 @@
   "id": "in"
 }, "of", {
   "id": "module"
-}, ".", "[", "[", "ImportEntries", "]", "]", ",", "do", true, "Let", {
+}, ".", "[", "[", "ImportEntries", "]", "]", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "importedModule"
 }, "be", "!", "HostResolveImportedModule", "(", {
   "id": "module"
@@ -74,7 +80,9 @@
   "id": "in"
 }, ".", "[", "[", "ImportName", "]", "]", "is", {
   "value": "\"\\"
-}, "\"", "*", ",", "then", true, "Let", {
+}, "\"", "*", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "namespace"
 }, "be", "?", "GetModuleNamespace", "(", {
   "id": "importedModule"
@@ -96,9 +104,13 @@
   "id": "namespace"
 }, ")", ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "resolution"
 }, "be", "?", {
   "id": "importedModule"
@@ -122,7 +134,9 @@
   "value": "\"\\"
 }, "namespace", "\\", {
   "value": "\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "namespace"
 }, "be", "?", "GetModuleNamespace", "(", {
   "id": "resolution"
@@ -144,9 +158,13 @@
   "id": "namespace"
 }, ")", ".", {
   "k": 22
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 19
-}, "Else", ",", true, "Call", {
+}, "Else", ",", {
+  "in": null
+}, "Call", {
   "id": "env"
 }, ".", "CreateImportBinding", "(", {
   "id": "in"
@@ -156,11 +174,17 @@
   "id": "resolution"
 }, ".", "[", "[", "BindingName", "]", "]", ")", ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 23
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
 }, "Let", {
   "id": "moduleContext"
@@ -234,15 +258,21 @@
   "id": "d"
 }, "of", {
   "id": "varDeclarations"
-}, ",", "do", true, "For", "each", "element", {
+}, ",", "do", {
+  "in": null
+}, "For", "each", "element", {
   "id": "dn"
 }, "of", "the", "BoundNames", "of", {
   "id": "d"
-}, ",", "do", true, "If", {
+}, ",", "do", {
+  "in": null
+}, "If", {
   "id": "dn"
 }, "is", "not", "an", "element", "of", {
   "id": "declaredVarNames"
-}, ",", "then", true, "Perform", "!", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
   "id": "env"
 }, ".", "CreateMutableBinding", "(", {
   "id": "dn"
@@ -264,11 +294,17 @@
   "id": "declaredVarNames"
 }, ".", {
   "k": 42
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 39
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 38
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 37
 }, "Let", {
   "id": "lexDeclarations"
@@ -280,15 +316,21 @@
   "id": "d"
 }, "of", {
   "id": "lexDeclarations"
-}, ",", "do", true, "For", "each", "element", {
+}, ",", "do", {
+  "in": null
+}, "For", "each", "element", {
   "id": "dn"
 }, "of", "the", "BoundNames", "of", {
   "id": "d"
-}, ",", "do", true, "If", "IsConstantDeclaration", "of", {
+}, ",", "do", {
+  "in": null
+}, "If", "IsConstantDeclaration", "of", {
   "id": "d"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Perform", "!", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
   "id": "env"
 }, ".", "CreateImmutableBinding", "(", {
   "id": "dn"
@@ -296,9 +338,13 @@
   "value": "true"
 }, ")", ".", {
   "k": 47
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 46
-}, "Else", ",", true, "Perform", "!", {
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", {
   "id": "env"
 }, ".", "CreateMutableBinding", "(", {
   "id": "dn"
@@ -306,7 +352,9 @@
   "value": "false"
 }, ")", ".", {
   "k": 49
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 48
 }, "If", {
   "id": "d"
@@ -318,7 +366,9 @@
   "nt": "AsyncFunctionDeclaration"
 }, ",", "or", "an", {
   "nt": "AsyncGeneratorDeclaration"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "fo"
 }, "be", "InstantiateFunctionObject", "of", {
   "id": "d"
@@ -334,11 +384,17 @@
   "id": "fo"
 }, ")", ".", {
   "k": 52
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 50
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 45
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 44
 }, "Remove", {
   "id": "moduleContext"

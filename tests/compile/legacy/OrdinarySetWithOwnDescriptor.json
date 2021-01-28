@@ -1,173 +1,153 @@
-[{
-  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
-    "id": "P"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "ownDesc"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "parent"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", "If", {
+  "id": "parent"
+}, "is", "not", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", {
+  "id": "parent"
+}, ".", "[", "[", "Set", "]", "]", "(", {
+  "id": "P"
+}, ",", {
+  "id": "V"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Set", {
+  "id": "ownDesc"
+}, "to", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "value": "undefined"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "ownDesc"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "parent"
-      }, "be", "?", {
-        "id": "O"
-      }, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "parent"
-      }, "is", "not", {
-        "value": "null"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Return", "?", {
-            "id": "parent"
-          }, ".", "[", "[", "Set", "]", "]", "(", {
-            "id": "P"
-          }, ",", {
-            "id": "V"
-          }, ",", {
-            "id": "Receiver"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Set", {
-            "id": "ownDesc"
-          }, "to", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
-            "value": "undefined"
-          }, ",", "[", "[", "Writable", "]", "]", ":", {
-            "value": "true"
-          }, ",", "[", "[", "Enumerable", "]", "]", ":", {
-            "value": "true"
-          }, ",", "[", "[", "Configurable", "]", "]", ":", {
-            "value": "true"
-          }, "}", "."]
-        }]
-      }]
-    }]
-  }]
+  "out": null
 }, {
-  "tokens": ["If", "IsDataDescriptor", "(", {
-    "id": "ownDesc"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "ownDesc"
-      }, ".", "[", "[", "Writable", "]", "]", "is", {
-        "value": "false"
-      }, ",", "return", {
-        "value": "false"
-      }, "."]
-    }, {
-      "tokens": ["If", "Type", "(", {
-        "id": "Receiver"
-      }, ")", "is", "not", "Object", ",", "return", {
-        "value": "false"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "existingDescriptor"
-      }, "be", "?", {
-        "id": "Receiver"
-      }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-        "id": "P"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "existingDescriptor"
-      }, "is", "not", {
-        "value": "undefined"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["If", "IsAccessorDescriptor", "(", {
-            "id": "existingDescriptor"
-          }, ")", "is", {
-            "value": "true"
-          }, ",", "return", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["If", {
-            "id": "existingDescriptor"
-          }, ".", "[", "[", "Writable", "]", "]", "is", {
-            "value": "false"
-          }, ",", "return", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "valueDesc"
-          }, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
-            "id": "V"
-          }, "}", "."]
-        }, {
-          "tokens": ["Return", "?", {
-            "id": "Receiver"
-          }, ".", "[", "[", "DefineOwnProperty", "]", "]", "(", {
-            "id": "P"
-          }, ",", {
-            "id": "valueDesc"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Assert", ":", {
-            "id": "Receiver"
-          }, "does", "not", "currently", "have", "a", "property", {
-            "id": "P"
-          }, "."]
-        }, {
-          "tokens": ["Return", "?", "CreateDataProperty", "(", {
-            "id": "Receiver"
-          }, ",", {
-            "id": "P"
-          }, ",", {
-            "id": "V"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "k": 1
+}, "If", "IsDataDescriptor", "(", {
+  "id": "ownDesc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "ownDesc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", "Type", "(", {
+  "id": "Receiver"
+}, ")", "is", "not", "Object", ",", "return", {
+  "value": "false"
+}, ".", "Let", {
+  "id": "existingDescriptor"
+}, "be", "?", {
+  "id": "Receiver"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", "If", {
+  "id": "existingDescriptor"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "If", "IsAccessorDescriptor", "(", {
+  "id": "existingDescriptor"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", {
+  "id": "existingDescriptor"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", "Let", {
+  "id": "valueDesc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "V"
+}, "}", ".", "Return", "?", {
+  "id": "Receiver"
+}, ".", "[", "[", "DefineOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ",", {
+  "id": "valueDesc"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "Receiver"
+}, "does", "not", "currently", "have", "a", "property", {
+  "id": "P"
+}, ".", "Return", "?", "CreateDataProperty", "(", {
+  "id": "Receiver"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "V"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", "IsAccessorDescriptor", "(", {
-    "id": "ownDesc"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "setter"
-  }, "be", {
-    "id": "ownDesc"
-  }, ".", "[", "[", "Set", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "setter"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Perform", "?", "Call", "(", {
-    "id": "setter"
-  }, ",", {
-    "id": "Receiver"
-  }, ",", "«", {
-    "id": "V"
-  }, "»", ")", "."]
-}, {
-  "tokens": ["Return", {
-    "value": "true"
-  }, "."]
+  "k": 2
+}, "Assert", ":", "IsAccessorDescriptor", "(", {
+  "id": "ownDesc"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "setter"
+}, "be", {
+  "id": "ownDesc"
+}, ".", "[", "[", "Set", "]", "]", ".", {
+  "k": 4
+}, "If", {
+  "id": "setter"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 5
+}, "Perform", "?", "Call", "(", {
+  "id": "setter"
+}, ",", {
+  "id": "Receiver"
+}, ",", "«", {
+  "id": "V"
+}, "»", ")", ".", {
+  "k": 6
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 7
 }]

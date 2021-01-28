@@ -1,35 +1,35 @@
-[{
-  "tokens": ["Let", {
-    "id": "baseReference"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "CallExpression"
-  }, "."]
+["Let", {
+  "id": "baseReference"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "CallExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "baseValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "baseReference"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "baseValue"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "baseValue"
-  }, "be", "?", "GetValue", "(", {
-    "id": "baseReference"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "baseValue"
-  }, "is", {
-    "value": "undefined"
-  }, "or", {
-    "value": "null"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", {
-        "value": "undefined"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "the", "result", "of", "performing", "ChainEvaluation", "of", {
-    "nt": "OptionalChain"
-  }, "with", "arguments", {
-    "id": "baseValue"
-  }, "and", {
-    "id": "baseReference"
-  }, "."]
+  "k": 2
+}, "Return", "the", "result", "of", "performing", "ChainEvaluation", "of", {
+  "nt": "OptionalChain"
+}, "with", "arguments", {
+  "id": "baseValue"
+}, "and", {
+  "id": "baseReference"
+}, ".", {
+  "k": 3
 }]

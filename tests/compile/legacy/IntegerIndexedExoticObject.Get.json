@@ -1,41 +1,39 @@
-[{
-  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
-    "id": "P"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "numericIndex"
+}, "be", "!", "CanonicalNumericIndexString", "(", {
+  "id": "P"
+}, ")", ".", "If", {
+  "id": "numericIndex"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "IntegerIndexedElementGet", "(", {
+  "id": "O"
+}, ",", {
+  "id": "numericIndex"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "P"
-  }, ")", "is", "String", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "numericIndex"
-      }, "be", "!", "CanonicalNumericIndexString", "(", {
-        "id": "P"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "numericIndex"
-      }, "is", "not", {
-        "value": "undefined"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Return", "?", "IntegerIndexedElementGet", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "numericIndex"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "out": null
 }, {
-  "tokens": ["Return", "?", "OrdinaryGet", "(", {
-    "id": "O"
-  }, ",", {
-    "id": "P"
-  }, ",", {
-    "id": "Receiver"
-  }, ")", "."]
+  "k": 1
+}, "Return", "?", "OrdinaryGet", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 2
 }]

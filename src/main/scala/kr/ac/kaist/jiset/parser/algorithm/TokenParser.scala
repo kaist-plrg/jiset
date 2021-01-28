@@ -45,7 +45,7 @@ trait TokenParsers extends ProductionParsers {
       case x => Nt(x)
     }
     lazy val sup = "<sup>" ~> "[^<]*".r <~ "</sup>" ^^ {
-      case s => Sup(Step(parseAll(rep(token), s).getOrElse(Nil)))
+      case s => Sup(parseAll(rep(token), s).getOrElse(Nil))
     }
     lazy val link = "<emu-xref href=\"#" ~> "[^\"]*".r <~ "\"" <~ opt("[^>]*".r) <~ "></emu-xref>" ^^ {
       case id => Link("") // TODO convert id to corresponding name
@@ -54,7 +54,7 @@ trait TokenParsers extends ProductionParsers {
       case s =>
         // until 2017, [AWAIT] and [YIELD] are inside the sub as a parameter
         // after 2019, ℝ, ℤ, and 𝔽 are inside the sub to distinguish between different numeric kinds
-        Sub(Step(parseAll(rep(token), s).getOrElse(Nil)))
+        Sub(parseAll(rep(token), s).getOrElse(Nil))
     }
     lazy val text = (word | number | char) ^^ { Text(_) }
     lazy val token: Parser[Token] =

@@ -1,89 +1,85 @@
-[{
-  "tokens": ["Assert", ":", {
-    "id": "Desc"
-  }, "is", "a", "Property", "Descriptor", "."]
+["Assert", ":", {
+  "id": "Desc"
+}, "is", "a", "Property", "Descriptor", ".", {
+  "k": 0
+}, "Let", {
+  "id": "like"
+}, "be", "the", "Record", "{", "[", "[", "Value", "]", "]", ":", {
+  "value": "undefined"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Get", "]", "]", ":", {
+  "value": "undefined"
+}, ",", "[", "[", "Set", "]", "]", ":", {
+  "value": "undefined"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 1
+}, "If", "IsGenericDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, "or", "IsDataDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "Desc"
+}, "does", "not", "have", "a", "[", "[", "Value", "]", "]", "field", ",", "set", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "like"
+}, ".", "[", "[", "Value", "]", "]", ".", "If", {
+  "id": "Desc"
+}, "does", "not", "have", "a", "[", "[", "Writable", "]", "]", "field", ",", "set", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "to", {
+  "id": "like"
+}, ".", "[", "[", "Writable", "]", "]", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "like"
-  }, "be", "the", "Record", "{", "[", "[", "Value", "]", "]", ":", {
-    "value": "undefined"
-  }, ",", "[", "[", "Writable", "]", "]", ":", {
-    "value": "false"
-  }, ",", "[", "[", "Get", "]", "]", ":", {
-    "value": "undefined"
-  }, ",", "[", "[", "Set", "]", "]", ":", {
-    "value": "undefined"
-  }, ",", "[", "[", "Enumerable", "]", "]", ":", {
-    "value": "false"
-  }, ",", "[", "[", "Configurable", "]", "]", ":", {
-    "value": "false"
-  }, "}", "."]
+  "k": 2
+}, "Else", ",", {
+  "in": null
+}, "If", {
+  "id": "Desc"
+}, "does", "not", "have", "a", "[", "[", "Get", "]", "]", "field", ",", "set", {
+  "id": "Desc"
+}, ".", "[", "[", "Get", "]", "]", "to", {
+  "id": "like"
+}, ".", "[", "[", "Get", "]", "]", ".", "If", {
+  "id": "Desc"
+}, "does", "not", "have", "a", "[", "[", "Set", "]", "]", "field", ",", "set", {
+  "id": "Desc"
+}, ".", "[", "[", "Set", "]", "]", "to", {
+  "id": "like"
+}, ".", "[", "[", "Set", "]", "]", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "IsGenericDescriptor", "(", {
-    "id": "Desc"
-  }, ")", "is", {
-    "value": "true"
-  }, "or", "IsDataDescriptor", "(", {
-    "id": "Desc"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "Desc"
-      }, "does", "not", "have", "a", "[", "[", "Value", "]", "]", "field", ",", "set", {
-        "id": "Desc"
-      }, ".", "[", "[", "Value", "]", "]", "to", {
-        "id": "like"
-      }, ".", "[", "[", "Value", "]", "]", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "Desc"
-      }, "does", "not", "have", "a", "[", "[", "Writable", "]", "]", "field", ",", "set", {
-        "id": "Desc"
-      }, ".", "[", "[", "Writable", "]", "]", "to", {
-        "id": "like"
-      }, ".", "[", "[", "Writable", "]", "]", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "Desc"
-      }, "does", "not", "have", "a", "[", "[", "Get", "]", "]", "field", ",", "set", {
-        "id": "Desc"
-      }, ".", "[", "[", "Get", "]", "]", "to", {
-        "id": "like"
-      }, ".", "[", "[", "Get", "]", "]", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "Desc"
-      }, "does", "not", "have", "a", "[", "[", "Set", "]", "]", "field", ",", "set", {
-        "id": "Desc"
-      }, ".", "[", "[", "Set", "]", "]", "to", {
-        "id": "like"
-      }, ".", "[", "[", "Set", "]", "]", "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", {
-    "id": "Desc"
-  }, "does", "not", "have", "an", "[", "[", "Enumerable", "]", "]", "field", ",", "set", {
-    "id": "Desc"
-  }, ".", "[", "[", "Enumerable", "]", "]", "to", {
-    "id": "like"
-  }, ".", "[", "[", "Enumerable", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "Desc"
-  }, "does", "not", "have", "a", "[", "[", "Configurable", "]", "]", "field", ",", "set", {
-    "id": "Desc"
-  }, ".", "[", "[", "Configurable", "]", "]", "to", {
-    "id": "like"
-  }, ".", "[", "[", "Configurable", "]", "]", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "Desc"
-  }, "."]
+  "k": 3
+}, "If", {
+  "id": "Desc"
+}, "does", "not", "have", "an", "[", "[", "Enumerable", "]", "]", "field", ",", "set", {
+  "id": "Desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "to", {
+  "id": "like"
+}, ".", "[", "[", "Enumerable", "]", "]", ".", {
+  "k": 4
+}, "If", {
+  "id": "Desc"
+}, "does", "not", "have", "a", "[", "[", "Configurable", "]", "]", "field", ",", "set", {
+  "id": "Desc"
+}, ".", "[", "[", "Configurable", "]", "]", "to", {
+  "id": "like"
+}, ".", "[", "[", "Configurable", "]", "]", ".", {
+  "k": 5
+}, "Return", {
+  "id": "Desc"
+}, ".", {
+  "k": 6
 }]

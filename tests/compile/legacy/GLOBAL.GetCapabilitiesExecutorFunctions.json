@@ -1,59 +1,59 @@
-[{
-  "tokens": ["Let", {
-    "id": "resolve"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "reject"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "F"
-  }, "be", "the", "active", "function", "object", "."]
-}, {
-  "tokens": ["Assert", ":", {
-    "id": "F"
-  }, "has", "a", "[", "[", "Capability", "]", "]", "internal", "slot", "whose", "value", "is", "a", "PromiseCapability", "Record", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", {
-    "id": "F"
-  }, ".", "[", "[", "Capability", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Resolve", "]", "]", "is", "not", {
-    "value": "undefined"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["If", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Reject", "]", "]", "is", "not", {
-    "value": "undefined"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Resolve", "]", "]", "to", {
-    "id": "resolve"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Reject", "]", "]", "to", {
-    "id": "reject"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "value": "undefined"
-  }, "."]
+["Let", {
+  "id": "resolve"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "reject"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "F"
+}, "be", "the", "active", "function", "object", ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "F"
+}, "has", "a", "[", "[", "Capability", "]", "]", "internal", "slot", "whose", "value", "is", "a", "PromiseCapability", "Record", ".", {
+  "k": 3
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "Capability", "]", "]", ".", {
+  "k": 4
+}, "If", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", "is", "not", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "If", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", "is", "not", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "Set", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", "to", {
+  "id": "resolve"
+}, ".", {
+  "k": 7
+}, "Set", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", "to", {
+  "id": "reject"
+}, ".", {
+  "k": 8
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 9
 }]

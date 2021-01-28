@@ -3,8 +3,15 @@ package kr.ac.kaist.jiset.spec.algorithm
 import kr.ac.kaist.jiset.LINE_SEP
 
 // tokens
-trait Token {
-  def is(str: String): Boolean = toString == str
+abstract class Token(name: String, content: String) {
+  // get content
+  def getContent: String = content
+
+  // conversion to string
+  override def toString: String = this match {
+    case Text(t) => t
+    case _ => s"$name:{$content}"
+  }
 }
 object Token {
   def getString(tokens: List[Token]): String = {
@@ -13,7 +20,7 @@ object Token {
     var indent = 0
     def newline: Unit = sb.append(LINE_SEP).append(" " * indent)
     def t(token: Token): Unit = token match {
-      case (_: NormalToken) | (_: StepList) => sb.append(token).append(" ")
+      case (_: NormalToken) => sb.append(token).append(" ")
       case Next(_) => newline
       case Out =>
       case In =>
@@ -32,14 +39,8 @@ object Token {
 }
 
 // normal tokens
-abstract class NormalToken(name: String, content: String) extends Token {
-  override def toString: String = this match {
-    case Text(t) => t
-    case _ => s"$name:{$content}"
-  }
-  def getContent: String = content
-  override def is(str: String): Boolean = toString == str || name + ":" == str
-}
+abstract class NormalToken(name: String, content: String)
+  extends Token(name, content)
 case class Const(const: String) extends NormalToken("const", const)
 case class Code(code: String) extends NormalToken("code", code)
 case class Value(value: String) extends NormalToken("value", value)
@@ -47,17 +48,12 @@ case class Id(id: String) extends NormalToken("id", id)
 case class Text(text: String) extends NormalToken("text", text)
 case class Star(text: String) extends NormalToken("star", text)
 case class Nt(nt: String) extends NormalToken("nt", nt)
-case class Sup(sup: Step) extends NormalToken("sup", Token.getString(sup.tokens))
+case class Sup(sup: List[Token]) extends NormalToken("sup", sup.mkString(" "))
 case class Link(link: String) extends NormalToken("link", link)
 case class Gr(grammar: String, subs: List[String]) extends NormalToken("grammar", grammar)
-case class Sub(sub: Step) extends NormalToken("sub", Token.getString(sub.tokens))
-
-// step lists
-case class StepList(steps: List[Step]) extends Token {
-  override def toString: String = "step-list:{...}"
-}
+case class Sub(sub: List[Token]) extends NormalToken("sub", sub.mkString(" "))
 
 // special tokens only in steps
-case class Next(k: Int) extends Token
-case object In extends Token
-case object Out extends Token
+case class Next(k: Int) extends Token("next", k.toString)
+case object In extends Token("in", "")
+case object Out extends Token("out", "")

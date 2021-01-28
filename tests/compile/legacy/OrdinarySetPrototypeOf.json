@@ -1,105 +1,99 @@
-[{
-  "tokens": ["Assert", ":", "Either", "Type", "(", {
-    "id": "V"
-  }, ")", "is", "Object", "or", "Type", "(", {
-    "id": "V"
-  }, ")", "is", "Null", "."]
+["Assert", ":", "Either", "Type", "(", {
+  "id": "V"
+}, ")", "is", "Object", "or", "Type", "(", {
+  "id": "V"
+}, ")", "is", "Null", ".", {
+  "k": 0
+}, "Let", {
+  "id": "current"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "Prototype", "]", "]", ".", {
+  "k": 1
+}, "If", "SameValue", "(", {
+  "id": "V"
+}, ",", {
+  "id": "current"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "extensible"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "Extensible", "]", "]", ".", {
+  "k": 3
+}, "If", {
+  "id": "extensible"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "p"
+}, "be", {
+  "id": "V"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "done"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "Repeat", ",", "while", {
+  "id": "done"
+}, "is", {
+  "value": "false"
+}, ",", {
+  "in": null
+}, "If", {
+  "id": "p"
+}, "is", {
+  "value": "null"
+}, ",", "set", {
+  "id": "done"
+}, "to", {
+  "value": "true"
+}, ".", "Else", "if", "SameValue", "(", {
+  "id": "p"
+}, ",", {
+  "id": "O"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", "Else", ",", {
+  "in": null
+}, "If", {
+  "id": "p"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "is", "not", "the", "ordinary", "object", "internal", "method", "defined", "in", "9", ".", "1", ".", "1", ",", "set", {
+  "id": "done"
+}, "to", {
+  "value": "true"
+}, ".", "Else", ",", "set", {
+  "id": "p"
+}, "to", {
+  "id": "p"
+}, ".", "[", "[", "Prototype", "]", "]", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "current"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "Prototype", "]", "]", "."]
+  "out": null
 }, {
-  "tokens": ["If", "SameValue", "(", {
-    "id": "V"
-  }, ",", {
-    "id": "current"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "return", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "extensible"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "Extensible", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "extensible"
-  }, "is", {
-    "value": "false"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "p"
-  }, "be", {
-    "id": "V"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "done"
-  }, "be", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Repeat", ",", "while", {
-    "id": "done"
-  }, "is", {
-    "value": "false"
-  }, ",", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "p"
-      }, "is", {
-        "value": "null"
-      }, ",", "set", {
-        "id": "done"
-      }, "to", {
-        "value": "true"
-      }, "."]
-    }, {
-      "tokens": ["Else", "if", "SameValue", "(", {
-        "id": "p"
-      }, ",", {
-        "id": "O"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "return", {
-        "value": "false"
-      }, "."]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["If", {
-            "id": "p"
-          }, ".", "[", "[", "GetPrototypeOf", "]", "]", "is", "not", "the", "ordinary", "object", "internal", "method", "defined", "in", "9", ".", "1", ".", "1", ",", "set", {
-            "id": "done"
-          }, "to", {
-            "value": "true"
-          }, "."]
-        }, {
-          "tokens": ["Else", ",", "set", {
-            "id": "p"
-          }, "to", {
-            "id": "p"
-          }, ".", "[", "[", "Prototype", "]", "]", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Set", {
-    "id": "O"
-  }, ".", "[", "[", "Prototype", "]", "]", "to", {
-    "id": "V"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "value": "true"
-  }, "."]
+  "k": 7
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "Prototype", "]", "]", "to", {
+  "id": "V"
+}, ".", {
+  "k": 8
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 9
 }]

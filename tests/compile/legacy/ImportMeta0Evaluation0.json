@@ -1,79 +1,67 @@
-[{
-  "tokens": ["Let", {
-    "id": "module"
-  }, "be", "!", "GetActiveScriptOrModule", "(", ")", "."]
+["Let", {
+  "id": "module"
+}, "be", "!", "GetActiveScriptOrModule", "(", ")", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "module"
+}, "is", "a", "Source", "Text", "Module", "Record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "importMeta"
+}, "be", {
+  "id": "module"
+}, ".", "[", "[", "ImportMeta", "]", "]", ".", {
+  "k": 2
+}, "If", {
+  "id": "importMeta"
+}, "is", {
+  "const": "empty"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "importMeta"
+}, "to", "!", "OrdinaryObjectCreate", "(", {
+  "value": "null"
+}, ")", ".", "Let", {
+  "id": "importMetaValues"
+}, "be", "!", "HostGetImportMetaProperties", "(", {
+  "id": "module"
+}, ")", ".", "For", "each", "Record", "{", "[", "[", "Key", "]", "]", ",", "[", "[", "Value", "]", "]", "}", {
+  "id": "p"
+}, "that", "is", "an", "element", "of", {
+  "id": "importMetaValues"
+}, ",", "do", {
+  "in": null
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "importMeta"
+}, ",", {
+  "id": "p"
+}, ".", "[", "[", "Key", "]", "]", ",", {
+  "id": "p"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "out": null
+}, "Perform", "!", "HostFinalizeImportMeta", "(", {
+  "id": "importMeta"
+}, ",", {
+  "id": "module"
+}, ")", ".", "Set", {
+  "id": "module"
+}, ".", "[", "[", "ImportMeta", "]", "]", "to", {
+  "id": "importMeta"
+}, ".", "Return", {
+  "id": "importMeta"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "module"
-  }, "is", "a", "Source", "Text", "Module", "Record", "."]
+  "k": 3
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "Type", "(", {
+  "id": "importMeta"
+}, ")", "is", "Object", ".", "Return", {
+  "id": "importMeta"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "importMeta"
-  }, "be", {
-    "id": "module"
-  }, ".", "[", "[", "ImportMeta", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "importMeta"
-  }, "is", {
-    "const": "empty"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Set", {
-        "id": "importMeta"
-      }, "to", "!", "OrdinaryObjectCreate", "(", {
-        "value": "null"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "importMetaValues"
-      }, "be", "!", "HostGetImportMetaProperties", "(", {
-        "id": "module"
-      }, ")", "."]
-    }, {
-      "tokens": ["For", "each", "Record", "{", "[", "[", "Key", "]", "]", ",", "[", "[", "Value", "]", "]", "}", {
-        "id": "p"
-      }, "that", "is", "an", "element", "of", {
-        "id": "importMetaValues"
-      }, ",", "do", {
-        "steps": [{
-          "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-            "id": "importMeta"
-          }, ",", {
-            "id": "p"
-          }, ".", "[", "[", "Key", "]", "]", ",", {
-            "id": "p"
-          }, ".", "[", "[", "Value", "]", "]", ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Perform", "!", "HostFinalizeImportMeta", "(", {
-        "id": "importMeta"
-      }, ",", {
-        "id": "module"
-      }, ")", "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "module"
-      }, ".", "[", "[", "ImportMeta", "]", "]", "to", {
-        "id": "importMeta"
-      }, "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "importMeta"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Assert", ":", "Type", "(", {
-        "id": "importMeta"
-      }, ")", "is", "Object", "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "importMeta"
-      }, "."]
-    }]
-  }]
+  "k": 4
 }]

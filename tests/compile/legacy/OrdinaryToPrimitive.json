@@ -1,83 +1,79 @@
-[{
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "O"
-  }, ")", "is", "Object", "."]
+["Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "hint"
+}, ")", "is", "String", "and", "its", "value", "is", "either", {
+  "value": "\"string\""
+}, "or", {
+  "value": "\"number\""
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "hint"
+}, "is", {
+  "value": "\"string\""
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "methodNames"
+}, "be", "«", {
+  "value": "\"toString\""
+}, ",", {
+  "value": "\"valueOf\""
+}, "»", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "hint"
-  }, ")", "is", "String", "and", "its", "value", "is", "either", {
-    "value": "\"string\""
-  }, "or", {
-    "value": "\"number\""
-  }, "."]
+  "k": 2
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "methodNames"
+}, "be", "«", {
+  "value": "\"valueOf\""
+}, ",", {
+  "value": "\"toString\""
+}, "»", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "hint"
-  }, "is", {
-    "value": "\"string\""
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "methodNames"
-      }, "be", "«", {
-        "value": "\"toString\""
-      }, ",", {
-        "value": "\"valueOf\""
-      }, "»", "."]
-    }]
-  }]
+  "k": 3
+}, "For", "each", {
+  "id": "name"
+}, "in", {
+  "id": "methodNames"
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "method"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "name"
+}, ")", ".", "If", "IsCallable", "(", {
+  "id": "method"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "result"
+}, "be", "?", "Call", "(", {
+  "id": "method"
+}, ",", {
+  "id": "O"
+}, ")", ".", "If", "Type", "(", {
+  "id": "result"
+}, ")", "is", "not", "Object", ",", "return", {
+  "id": "result"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "methodNames"
-      }, "be", "«", {
-        "value": "\"valueOf\""
-      }, ",", {
-        "value": "\"toString\""
-      }, "»", "."]
-    }]
-  }]
+  "out": null
 }, {
-  "tokens": ["For", "each", {
-    "id": "name"
-  }, "in", {
-    "id": "methodNames"
-  }, "in", "List", "order", ",", "do", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "method"
-      }, "be", "?", "Get", "(", {
-        "id": "O"
-      }, ",", {
-        "id": "name"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", "IsCallable", "(", {
-        "id": "method"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "result"
-          }, "be", "?", "Call", "(", {
-            "id": "method"
-          }, ",", {
-            "id": "O"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", "Type", "(", {
-            "id": "result"
-          }, ")", "is", "not", "Object", ",", "return", {
-            "id": "result"
-          }, "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
+  "k": 4
+}, "Throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
 }]

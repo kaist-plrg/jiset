@@ -12,7 +12,9 @@
   "id": "k"
 }, "be", "0", ".", {
   "k": 2
-}, "Repeat", ",", true, "If", {
+}, "Repeat", ",", {
+  "in": null
+}, "If", {
   "id": "k"
 }, "equals", {
   "id": "strLen"
@@ -30,15 +32,21 @@
   "k": 5
 }, "If", {
   "id": "C"
-}, "is", "not", "the", "code", "unit", "0x0025", "(", "PERCENT", "SIGN", ")", ",", "then", true, "Let", {
+}, "is", "not", "the", "code", "unit", "0x0025", "(", "PERCENT", "SIGN", ")", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "String", "value", "containing", "only", "the", "code", "unit", {
   "id": "C"
 }, ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "start"
 }, "be", {
   "id": "k"
@@ -78,7 +86,9 @@
   "k": 13
 }, "If", "the", "most", "significant", "bit", "in", {
   "id": "B"
-}, "is", "0", ",", "then", true, "Let", {
+}, "is", "0", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "C"
 }, "be", "the", "code", "unit", "whose", "value", "is", {
   "id": "B"
@@ -88,15 +98,21 @@
   "id": "C"
 }, "is", "not", "in", {
   "id": "reservedSet"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "String", "value", "containing", "only", "the", "code", "unit", {
   "id": "C"
 }, ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "substring", "of", {
   "id": "string"
@@ -106,11 +122,17 @@
   "id": "k"
 }, "inclusive", ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, "Else", ",", true, "Assert", ":", "the", "most", "significant", "bit", "in", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "the", "most", "significant", "bit", "in", {
   "id": "B"
 }, "is", "1", ".", {
   "k": 21
@@ -160,7 +182,9 @@
   "id": "j"
 }, "<", {
   "id": "n"
-}, true, "Set", {
+}, {
+  "in": null
+}, "Set", {
   "id": "k"
 }, "to", {
   "id": "k"
@@ -218,7 +242,9 @@
   "id": "j"
 }, "+", "1", ".", {
   "k": 36
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 28
 }, "If", {
   "id": "Octets"
@@ -238,9 +264,13 @@
   "id": "V"
 }, ")", ".", {
   "k": 39
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Set", {
   "id": "R"
@@ -256,6 +286,8 @@
   "id": "k"
 }, "+", "1", ".", {
   "k": 41
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }]

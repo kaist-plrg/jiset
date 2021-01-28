@@ -1,73 +1,73 @@
-[{
-  "tokens": ["Let", {
-    "id": "callerContext"
-  }, "be", "the", "running", "execution", "context", "."]
-}, {
-  "tokens": ["If", {
-    "id": "callerContext"
-  }, "is", "not", "already", "suspended", ",", "suspend", {
-    "id": "callerContext"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "calleeContext"
-  }, "be", "a", "new", "execution", "context", "."]
-}, {
-  "tokens": ["Set", "the", "Function", "of", {
-    "id": "calleeContext"
-  }, "to", {
-    "id": "F"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "calleeRealm"
-  }, "be", {
-    "id": "F"
-  }, ".", "[", "[", "Realm", "]", "]", "."]
-}, {
-  "tokens": ["Set", "the", "Realm", "of", {
-    "id": "calleeContext"
-  }, "to", {
-    "id": "calleeRealm"
-  }, "."]
-}, {
-  "tokens": ["Set", "the", "ScriptOrModule", "of", {
-    "id": "calleeContext"
-  }, "to", {
-    "id": "F"
-  }, ".", "[", "[", "ScriptOrModule", "]", "]", "."]
-}, {
-  "tokens": ["Perform", "any", "necessary", "implementation", "-", "defined", "initialization", "of", {
-    "id": "calleeContext"
-  }, "."]
-}, {
-  "tokens": ["Push", {
-    "id": "calleeContext"
-  }, "onto", "the", "execution", "context", "stack", ";", {
-    "id": "calleeContext"
-  }, "is", "now", "the", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "result"
-  }, "be", "the", "Completion", "Record", "that", "is", "the", "result", "of", "evaluating", {
-    "id": "F"
-  }, "in", "an", "implementation", "-", "defined", "manner", "that", "conforms", "to", "the", "specification", "of", {
-    "id": "F"
-  }, ".", "The", {
-    "value": "this"
-  }, "value", "is", "uninitialized", ",", {
-    "id": "argumentsList"
-  }, "provides", "the", "named", "parameters", ",", "and", {
-    "id": "newTarget"
-  }, "provides", "the", "NewTarget", "value", "."]
-}, {
-  "tokens": ["Remove", {
-    "id": "calleeContext"
-  }, "from", "the", "execution", "context", "stack", "and", "restore", {
-    "id": "callerContext"
-  }, "as", "the", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "result"
-  }, "."]
+["Let", {
+  "id": "callerContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 0
+}, "If", {
+  "id": "callerContext"
+}, "is", "not", "already", "suspended", ",", "suspend", {
+  "id": "callerContext"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "calleeContext"
+}, "be", "a", "new", "execution", "context", ".", {
+  "k": 2
+}, "Set", "the", "Function", "of", {
+  "id": "calleeContext"
+}, "to", {
+  "id": "F"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "calleeRealm"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 4
+}, "Set", "the", "Realm", "of", {
+  "id": "calleeContext"
+}, "to", {
+  "id": "calleeRealm"
+}, ".", {
+  "k": 5
+}, "Set", "the", "ScriptOrModule", "of", {
+  "id": "calleeContext"
+}, "to", {
+  "id": "F"
+}, ".", "[", "[", "ScriptOrModule", "]", "]", ".", {
+  "k": 6
+}, "Perform", "any", "necessary", "implementation", "-", "defined", "initialization", "of", {
+  "id": "calleeContext"
+}, ".", {
+  "k": 7
+}, "Push", {
+  "id": "calleeContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "calleeContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 8
+}, "Let", {
+  "id": "result"
+}, "be", "the", "Completion", "Record", "that", "is", "the", "result", "of", "evaluating", {
+  "id": "F"
+}, "in", "an", "implementation", "-", "defined", "manner", "that", "conforms", "to", "the", "specification", "of", {
+  "id": "F"
+}, ".", "The", {
+  "value": "this"
+}, "value", "is", "uninitialized", ",", {
+  "id": "argumentsList"
+}, "provides", "the", "named", "parameters", ",", "and", {
+  "id": "newTarget"
+}, "provides", "the", "NewTarget", "value", ".", {
+  "k": 9
+}, "Remove", {
+  "id": "calleeContext"
+}, "from", "the", "execution", "context", "stack", "and", "restore", {
+  "id": "callerContext"
+}, "as", "the", "running", "execution", "context", ".", {
+  "k": 10
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 11
 }]

@@ -46,7 +46,9 @@
   "id": "index"
 }, "<", {
   "id": "len"
-}, true, "Let", {
+}, {
+  "in": null
+}, "Let", {
   "id": "strP"
 }, "be", "?", "SerializeJSONProperty", "(", "!", "ToString", "(", {
   "id": "index"
@@ -58,41 +60,59 @@
   "id": "strP"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "code": "\"null\""
 }, "to", {
   "id": "partial"
 }, ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
-}, "Else", ",", true, "Append", {
+}, "Else", ",", {
+  "in": null
+}, "Append", {
   "id": "strP"
 }, "to", {
   "id": "partial"
 }, ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Increment", {
   "id": "index"
 }, "by", "1", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
 }, "If", {
   "id": "partial"
-}, "is", "empty", ",", "then", true, "Let", {
+}, "is", "empty", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "final"
 }, "be", {
   "code": "\"[]\""
 }, ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, "Else", ",", true, "If", {
+}, "Else", ",", {
+  "in": null
+}, "If", {
   "id": "gap"
-}, "is", "the", "empty", "String", ",", "then", true, "Let", {
+}, "is", "the", "empty", "String", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "properties"
 }, "be", "the", "String", "value", "formed", "by", "concatenating", "all", "the", "element", "Strings", "of", {
   "id": "partial"
@@ -108,9 +128,13 @@
   "code": "\"]\""
 }, ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "separator"
 }, "be", "the", "string", "-", "concatenation", "of", "the", "code", "unit", "0x002C", "(", "COMMA", ")", ",", "the", "code", "unit", "0x000A", "(", "LINE", "FEED", ")", ",", "and", {
   "id": "indent"
@@ -140,9 +164,13 @@
   "code": "\"]\""
 }, ".", {
   "k": 23
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
 }, "Remove", "the", "last", "element", "of", {
   "id": "stack"

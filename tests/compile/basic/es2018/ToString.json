@@ -1,22 +1,32 @@
 ["If", "Type", "(", {
   "id": "argument"
-}, ")", "is", "Undefined", ",", true, "Return", {
+}, ")", "is", "Undefined", ",", {
+  "in": null
+}, "Return", {
   "code": "\"undefined\""
 }, ".", {
   "k": 1
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "If", "Type", "(", {
   "id": "argument"
-}, ")", "is", "Null", ",", true, "Return", {
+}, ")", "is", "Null", ",", {
+  "in": null
+}, "Return", {
   "code": "\"null\""
 }, ".", {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "If", "Type", "(", {
   "id": "argument"
-}, ")", "is", "Boolean", ",", true, "If", {
+}, ")", "is", "Boolean", ",", {
+  "in": null
+}, "If", {
   "id": "argument"
 }, "is", {
   "value": "true"
@@ -30,35 +40,51 @@
   "code": "\"false\""
 }, ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
 }, "If", "Type", "(", {
   "id": "argument"
-}, ")", "is", "Number", ",", true, "Return", "NumberToString", "(", {
+}, ")", "is", "Number", ",", {
+  "in": null
+}, "Return", "NumberToString", "(", {
   "id": "argument"
 }, ")", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "If", "Type", "(", {
   "id": "argument"
-}, ")", "is", "String", ",", true, "Return", {
+}, ")", "is", "String", ",", {
+  "in": null
+}, "Return", {
   "id": "argument"
 }, ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "If", "Type", "(", {
   "id": "argument"
-}, ")", "is", "Symbol", ",", true, "Throw", "a", {
+}, ")", "is", "Symbol", ",", {
+  "in": null
+}, "Throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "If", "Type", "(", {
   "id": "argument"
-}, ")", "is", "Object", ",", true, "Let", {
+}, ")", "is", "Object", ",", {
+  "in": null
+}, "Let", {
   "id": "primValue"
 }, "be", "?", "ToPrimitive", "(", {
   "id": "argument"
@@ -68,6 +94,8 @@
   "id": "primValue"
 }, ")", ".", {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
 }]

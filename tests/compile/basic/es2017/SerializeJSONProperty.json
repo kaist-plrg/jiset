@@ -8,7 +8,9 @@
   "k": 0
 }, "If", "Type", "(", {
   "id": "value"
-}, ")", "is", "Object", ",", "then", true, "Let", {
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "toJSON"
 }, "be", "?", "Get", "(", {
   "id": "value"
@@ -20,7 +22,9 @@
   "id": "toJSON"
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "value"
 }, "to", "?", "Call", "(", {
   "id": "toJSON"
@@ -30,15 +34,21 @@
   "id": "key"
 }, "»", ")", ".", {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 1
 }, "If", {
   "id": "ReplacerFunction"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "value"
 }, "to", "?", "Call", "(", {
   "id": "ReplacerFunction"
@@ -50,41 +60,59 @@
   "id": "value"
 }, "»", ")", ".", {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "If", "Type", "(", {
   "id": "value"
-}, ")", "is", "Object", ",", "then", true, "If", {
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", {
   "id": "value"
-}, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then", true, "Set", {
+}, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
   "id": "value"
 }, "to", "?", "ToNumber", "(", {
   "id": "value"
 }, ")", ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Else", "if", {
   "id": "value"
-}, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then", true, "Set", {
+}, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
   "id": "value"
 }, "to", "?", "ToString", "(", {
   "id": "value"
 }, ")", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "Else", "if", {
   "id": "value"
-}, "has", "a", "[", "[", "BooleanData", "]", "]", "internal", "slot", ",", "then", true, "Set", {
+}, "has", "a", "[", "[", "BooleanData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
   "id": "value"
 }, "to", {
   "id": "value"
 }, ".", "[", "[", "BooleanData", "]", "]", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
 }, "If", {
   "id": "value"
@@ -118,7 +146,9 @@
   "k": 17
 }, "If", "Type", "(", {
   "id": "value"
-}, ")", "is", "Number", ",", "then", true, "If", {
+}, ")", "is", "Number", ",", "then", {
+  "in": null
+}, "If", {
   "id": "value"
 }, "is", "finite", ",", "return", "!", "ToString", "(", {
   "id": "value"
@@ -128,7 +158,9 @@
   "code": "\"null\""
 }, ".", {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
 }, "If", "Type", "(", {
   "id": "value"
@@ -136,7 +168,9 @@
   "id": "value"
 }, ")", "is", {
   "value": "false"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "isArray"
 }, "be", "?", "IsArray", "(", {
   "id": "value"
@@ -154,7 +188,9 @@
   "id": "value"
 }, ")", ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 21
 }, "Return", {
   "value": "undefined"

@@ -69,9 +69,9 @@
   let i = (+ 0i 1i)
   let __x18__ = (+ n 1i)
   while (< i __x18__) {
-    ??? "Let id:{captureI} be id:{i} sup:{th } element of id:{r} ' s id:{captures} List ."
+    ??? "Let id:{captureI} be id:{i} sup:{th} element of id:{r} ' s id:{captures} List ."
     if (= captureI undefined) let capturedValue = undefined else if (= fullUnicode true) ??? "Let id:{capturedValue} be a string whose code units are the UTF16Encoding of the code points of id:{captureI} ." else {}
-    ??? "Else , id:{fullUnicode} is value:{false} , step-list:{...}"
+    ??? "Else , id:{fullUnicode} is value:{false} , in:{} out:{}"
     app __x19__ = (ToString i)
     if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
     app __x20__ = (CreateDataProperty A __x19__ capturedValue)

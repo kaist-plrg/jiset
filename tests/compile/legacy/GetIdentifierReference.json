@@ -1,65 +1,63 @@
-[{
-  "tokens": ["If", {
-    "id": "lex"
-  }, "is", "the", "value", {
-    "value": "null"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", "a", "value", "of", "type", "Reference", "whose", "base", "value", "component", "is", {
-        "value": "undefined"
-      }, ",", "whose", "referenced", "name", "component", "is", {
-        "id": "name"
-      }, ",", "and", "whose", "strict", "reference", "flag", "is", {
-        "id": "strict"
-      }, "."]
-    }]
-  }]
+["If", {
+  "id": "lex"
+}, "is", "the", "value", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Return", "a", "value", "of", "type", "Reference", "whose", "base", "value", "component", "is", {
+  "value": "undefined"
+}, ",", "whose", "referenced", "name", "component", "is", {
+  "id": "name"
+}, ",", "and", "whose", "strict", "reference", "flag", "is", {
+  "id": "strict"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "envRec"
-  }, "be", {
-    "id": "lex"
-  }, "'", "s", "EnvironmentRecord", "."]
+  "k": 0
+}, "Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "lex"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 1
+}, "Let", {
+  "id": "exists"
+}, "be", "?", {
+  "id": "envRec"
+}, ".", "HasBinding", "(", {
+  "id": "name"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "exists"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Return", "a", "value", "of", "type", "Reference", "whose", "base", "value", "component", "is", {
+  "id": "envRec"
+}, ",", "whose", "referenced", "name", "component", "is", {
+  "id": "name"
+}, ",", "and", "whose", "strict", "reference", "flag", "is", {
+  "id": "strict"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "exists"
-  }, "be", "?", {
-    "id": "envRec"
-  }, ".", "HasBinding", "(", {
-    "id": "name"
-  }, ")", "."]
+  "k": 3
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "outer"
+}, "be", "the", "value", "of", {
+  "id": "lex"
+}, "'", "s", "outer", "environment", "reference", ".", "Return", "?", "GetIdentifierReference", "(", {
+  "id": "outer"
+}, ",", {
+  "id": "name"
+}, ",", {
+  "id": "strict"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "exists"
-  }, "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", "a", "value", "of", "type", "Reference", "whose", "base", "value", "component", "is", {
-        "id": "envRec"
-      }, ",", "whose", "referenced", "name", "component", "is", {
-        "id": "name"
-      }, ",", "and", "whose", "strict", "reference", "flag", "is", {
-        "id": "strict"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "outer"
-      }, "be", "the", "value", "of", {
-        "id": "lex"
-      }, "'", "s", "outer", "environment", "reference", "."]
-    }, {
-      "tokens": ["Return", "?", "GetIdentifierReference", "(", {
-        "id": "outer"
-      }, ",", {
-        "id": "name"
-      }, ",", {
-        "id": "strict"
-      }, ")", "."]
-    }]
-  }]
+  "k": 4
 }]

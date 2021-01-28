@@ -1,115 +1,115 @@
-[{
-  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
-    "id": "P"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 1
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 3
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "\"deleteProperty\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "Delete", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "handler"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ProxyHandler", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "handler"
-  }, "is", {
-    "value": "null"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "handler"
-  }, ")", "is", "Object", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "target"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ProxyTarget", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "trap"
-  }, "be", "?", "GetMethod", "(", {
-    "id": "handler"
-  }, ",", {
-    "value": "\"deleteProperty\""
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "trap"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", "?", {
-        "id": "target"
-      }, ".", "[", "[", "Delete", "]", "]", "(", {
-        "id": "P"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "booleanTrapResult"
-  }, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
-    "id": "trap"
-  }, ",", {
-    "id": "handler"
-  }, ",", "«", {
-    "id": "target"
-  }, ",", {
-    "id": "P"
-  }, "»", ")", ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "booleanTrapResult"
-  }, "is", {
-    "value": "false"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "targetDesc"
-  }, "be", "?", {
-    "id": "target"
-  }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-    "id": "P"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "targetDesc"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "return", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "targetDesc"
-  }, ".", "[", "[", "Configurable", "]", "]", "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "extensibleTarget"
-  }, "be", "?", "IsExtensible", "(", {
-    "id": "target"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "extensibleTarget"
-  }, "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Return", {
-    "value": "true"
-  }, "."]
+  "k": 6
+}, "Let", {
+  "id": "booleanTrapResult"
+}, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, ",", {
+  "id": "P"
+}, "»", ")", ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "booleanTrapResult"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "targetDesc"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "targetDesc"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 10
+}, "If", {
+  "id": "targetDesc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 11
+}, "Let", {
+  "id": "extensibleTarget"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "extensibleTarget"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 13
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 14
 }]

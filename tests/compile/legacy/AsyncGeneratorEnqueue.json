@@ -1,77 +1,73 @@
-[{
-  "tokens": ["Assert", ":", {
-    "id": "completion"
-  }, "is", "a", "Completion", "Record", "."]
+["Assert", ":", {
+  "id": "completion"
+}, "is", "a", "Completion", "Record", ".", {
+  "k": 0
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "generator"
+}, ")", "is", "not", "Object", ",", "or", "if", {
+  "id": "generator"
+}, "does", "not", "have", "an", "[", "[", "AsyncGeneratorState", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "badGeneratorError"
+}, "be", "a", "newly", "created", {
+  "value": "TypeError"
+}, "object", ".", "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "badGeneratorError"
+}, "»", ")", ".", "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", "!", "NewPromiseCapability", "(", "%", "Promise", "%", ")", "."]
+  "k": 2
+}, "Let", {
+  "id": "queue"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorQueue", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "request"
+}, "be", "AsyncGeneratorRequest", "{", "[", "[", "Completion", "]", "]", ":", {
+  "id": "completion"
+}, ",", "[", "[", "Capability", "]", "]", ":", {
+  "id": "promiseCapability"
+}, "}", ".", {
+  "k": 4
+}, "Append", {
+  "id": "request"
+}, "to", "the", "end", "of", {
+  "id": "queue"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "state"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorState", "]", "]", ".", {
+  "k": 6
+}, "If", {
+  "id": "state"
+}, "is", "not", {
+  "const": "executing"
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", "AsyncGeneratorResumeNext", "(", {
+  "id": "generator"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "generator"
-  }, ")", "is", "not", "Object", ",", "or", "if", {
-    "id": "generator"
-  }, "does", "not", "have", "an", "[", "[", "AsyncGeneratorState", "]", "]", "internal", "slot", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "badGeneratorError"
-      }, "be", "a", "newly", "created", {
-        "value": "TypeError"
-      }, "object", "."]
-    }, {
-      "tokens": ["Perform", "!", "Call", "(", {
-        "id": "promiseCapability"
-      }, ".", "[", "[", "Reject", "]", "]", ",", {
-        "value": "undefined"
-      }, ",", "«", {
-        "id": "badGeneratorError"
-      }, "»", ")", "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "promiseCapability"
-      }, ".", "[", "[", "Promise", "]", "]", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "queue"
-  }, "be", {
-    "id": "generator"
-  }, ".", "[", "[", "AsyncGeneratorQueue", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "request"
-  }, "be", "AsyncGeneratorRequest", "{", "[", "[", "Completion", "]", "]", ":", {
-    "id": "completion"
-  }, ",", "[", "[", "Capability", "]", "]", ":", {
-    "id": "promiseCapability"
-  }, "}", "."]
-}, {
-  "tokens": ["Append", {
-    "id": "request"
-  }, "to", "the", "end", "of", {
-    "id": "queue"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "state"
-  }, "be", {
-    "id": "generator"
-  }, ".", "[", "[", "AsyncGeneratorState", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "state"
-  }, "is", "not", {
-    "const": "executing"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "AsyncGeneratorResumeNext", "(", {
-        "id": "generator"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Promise", "]", "]", "."]
+  "k": 7
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 8
 }]

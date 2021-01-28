@@ -1,75 +1,71 @@
-[{
-  "tokens": ["Assert", ":", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "is", {
-    "value": "false"
-  }, "."]
+["Assert", ":", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "v"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", "If", {
+  "id": "v"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", "ReturnIfAbrupt", "(", {
+  "id": "v"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "next"
-  }, "be", "IteratorStep", "(", {
-    "id": "iteratorRecord"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "next"
-  }, "is", "an", "abrupt", "completion", ",", "set", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "to", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["ReturnIfAbrupt", "(", {
-    "id": "next"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "next"
-  }, "is", {
-    "value": "false"
-  }, ",", "set", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "to", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "v"
-      }, "be", "IteratorValue", "(", {
-        "id": "next"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "v"
-      }, "is", "an", "abrupt", "completion", ",", "set", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Done", "]", "]", "to", {
-        "value": "true"
-      }, "."]
-    }, {
-      "tokens": ["ReturnIfAbrupt", "(", {
-        "id": "v"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "is", {
-    "value": "true"
-  }, ",", "let", {
-    "id": "v"
-  }, "be", {
-    "value": "undefined"
-  }, "."]
-}, {
-  "tokens": ["Return", "the", "result", "of", "performing", "BindingInitialization", "for", {
-    "nt": "BindingIdentifier"
-  }, "using", {
-    "id": "v"
-  }, "and", {
-    "id": "environment"
-  }, "as", "the", "arguments", "."]
+  "k": 5
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "true"
+}, ",", "let", {
+  "id": "v"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 6
+}, "Return", "the", "result", "of", "performing", "BindingInitialization", "for", {
+  "nt": "BindingIdentifier"
+}, "using", {
+  "id": "v"
+}, "and", {
+  "id": "environment"
+}, "as", "the", "arguments", ".", {
+  "k": 7
 }]

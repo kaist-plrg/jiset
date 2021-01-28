@@ -46,7 +46,9 @@
   "id": "type"
 }, "is", {
   "code": "\"Float32\""
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "rawBytes"
 }, "to", "a", "List", "containing", "the", "4", "bytes", "that", "are", "the", "result", "of", "converting", {
   "id": "value"
@@ -64,13 +66,17 @@
   "value": "NaN"
 }, "value", ".", {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
 }, "Else", ",", "if", {
   "id": "type"
 }, "is", {
   "code": "\"Float64\""
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "rawBytes"
 }, "to", "a", "List", "containing", "the", "8", "bytes", "that", "are", "the", "IEEE", "754", "-", "2008", "binary64", "format", "encoding", "of", {
   "id": "value"
@@ -88,9 +94,13 @@
   "value": "NaN"
 }, "value", ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "n"
 }, "be", "the", "Number", "value", "of", "the", "Element", "Size", "specified", "in", {
   "link": ""
@@ -116,7 +126,9 @@
   "k": 14
 }, "If", {
   "id": "intValue"
-}, "≥", "0", ",", "then", true, "Let", {
+}, "≥", "0", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "rawBytes"
 }, "be", "a", "List", "containing", "the", {
   "id": "n"
@@ -128,9 +140,13 @@
   "value": "false"
 }, ",", "the", "bytes", "are", "ordered", "in", "big", "endian", "order", ".", "Otherwise", ",", "the", "bytes", "are", "ordered", "in", "little", "endian", "order", ".", {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 15
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "rawBytes"
 }, "be", "a", "List", "containing", "the", {
   "id": "n"
@@ -142,9 +158,13 @@
   "value": "false"
 }, ",", "the", "bytes", "are", "ordered", "in", "big", "endian", "order", ".", "Otherwise", ",", "the", "bytes", "are", "ordered", "in", "little", "endian", "order", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Store", "the", "individual", "bytes", "of", {
   "id": "rawBytes"

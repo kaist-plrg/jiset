@@ -1,107 +1,107 @@
-[{
-  "tokens": ["Let", {
-    "id": "envRec"
-  }, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", "."]
+["Let", {
+  "id": "envRec"
+}, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", ".", {
+  "k": 0
+}, "Let", {
+  "id": "ObjRec"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "ObjectRecord", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "globalObject"
+}, "be", "the", "binding", "object", "for", {
+  "id": "ObjRec"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "existingProp"
+}, "be", "?", {
+  "id": "globalObject"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "N"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "existingProp"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "id": "existingProp"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "V"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "id": "D"
+}, "}", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "ObjRec"
-  }, "be", {
-    "id": "envRec"
-  }, ".", "[", "[", "ObjectRecord", "]", "]", "."]
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "V"
+}, "}", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "globalObject"
-  }, "be", "the", "binding", "object", "for", {
-    "id": "ObjRec"
-  }, "."]
+  "k": 5
+}, "Perform", "?", "DefinePropertyOrThrow", "(", {
+  "id": "globalObject"
+}, ",", {
+  "id": "N"
+}, ",", {
+  "id": "desc"
+}, ")", ".", {
+  "k": 6
+}, "Record", "that", "the", "binding", "for", {
+  "id": "N"
+}, "in", {
+  "id": "ObjRec"
+}, "has", "been", "initialized", ".", {
+  "k": 7
+}, "Perform", "?", "Set", "(", {
+  "id": "globalObject"
+}, ",", {
+  "id": "N"
+}, ",", {
+  "id": "V"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "varDeclaredNames"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "VarNames", "]", "]", ".", {
+  "k": 9
+}, "If", {
+  "id": "varDeclaredNames"
+}, "does", "not", "contain", {
+  "id": "N"
+}, ",", "then", {
+  "in": null
+}, "Append", {
+  "id": "N"
+}, "to", {
+  "id": "varDeclaredNames"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "existingProp"
-  }, "be", "?", {
-    "id": "globalObject"
-  }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-    "id": "N"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "existingProp"
-  }, "is", {
-    "value": "undefined"
-  }, "or", {
-    "id": "existingProp"
-  }, ".", "[", "[", "Configurable", "]", "]", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "desc"
-      }, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
-        "id": "V"
-      }, ",", "[", "[", "Writable", "]", "]", ":", {
-        "value": "true"
-      }, ",", "[", "[", "Enumerable", "]", "]", ":", {
-        "value": "true"
-      }, ",", "[", "[", "Configurable", "]", "]", ":", {
-        "id": "D"
-      }, "}", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "desc"
-      }, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
-        "id": "V"
-      }, "}", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Perform", "?", "DefinePropertyOrThrow", "(", {
-    "id": "globalObject"
-  }, ",", {
-    "id": "N"
-  }, ",", {
-    "id": "desc"
-  }, ")", "."]
-}, {
-  "tokens": ["Record", "that", "the", "binding", "for", {
-    "id": "N"
-  }, "in", {
-    "id": "ObjRec"
-  }, "has", "been", "initialized", "."]
-}, {
-  "tokens": ["Perform", "?", "Set", "(", {
-    "id": "globalObject"
-  }, ",", {
-    "id": "N"
-  }, ",", {
-    "id": "V"
-  }, ",", {
-    "value": "false"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "varDeclaredNames"
-  }, "be", {
-    "id": "envRec"
-  }, ".", "[", "[", "VarNames", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "varDeclaredNames"
-  }, "does", "not", "contain", {
-    "id": "N"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Append", {
-        "id": "N"
-      }, "to", {
-        "id": "varDeclaredNames"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "NormalCompletion", "(", {
-    "const": "empty"
-  }, ")", "."]
+  "k": 10
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 11
 }]

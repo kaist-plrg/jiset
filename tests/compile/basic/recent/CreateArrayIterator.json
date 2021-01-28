@@ -18,13 +18,19 @@
   "id": "kind"
 }, "and", {
   "id": "array"
-}, "and", "performs", "the", "following", "steps", "when", "called", ":", true, "Let", {
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", {
+  "in": null
+}, "Let", {
   "id": "index"
 }, "be", "0", ".", {
   "k": 3
-}, "Repeat", ",", true, "If", {
+}, "Repeat", ",", {
+  "in": null
+}, "If", {
   "id": "array"
-}, "has", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ",", "then", true, "If", "IsDetachedBuffer", "(", {
+}, "has", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "If", "IsDetachedBuffer", "(", {
   "id": "array"
 }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ")", "is", {
   "value": "true"
@@ -38,15 +44,21 @@
   "id": "array"
 }, ".", "[", "[", "ArrayLength", "]", "]", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "len"
 }, "be", "?", "LengthOfArrayLike", "(", {
   "id": "array"
 }, ")", ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "If", {
   "id": "index"
@@ -64,7 +76,9 @@
   "id": "index"
 }, ")", ")", ".", {
   "k": 11
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "elementKey"
 }, "be", "!", "ToString", "(", "𝔽", "(", {
   "id": "index"
@@ -86,7 +100,9 @@
   "id": "elementValue"
 }, ")", ".", {
   "k": 15
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "kind"
 }, "is", {
   "const": "key+value"
@@ -98,9 +114,13 @@
   "id": "elementValue"
 }, "»", ")", ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
 }, "Set", {
   "id": "index"
@@ -108,9 +128,13 @@
   "id": "index"
 }, "+", "1", ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "Return", "!", "CreateIteratorFromClosure", "(", {
   "id": "closure"

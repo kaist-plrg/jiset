@@ -1,129 +1,121 @@
-[{
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "O"
-  }, ")", "is", "Object", "."]
+["Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "level"
+}, "is", "either", {
+  "const": "sealed"
+}, "or", {
+  "const": "frozen"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "status"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "PreventExtensions", "]", "]", "(", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "status"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "keys"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "level"
+}, "is", {
+  "const": "sealed"
+}, ",", "then", {
+  "in": null
+}, "For", "each", "element", {
+  "id": "k"
+}, "of", {
+  "id": "keys"
+}, ",", "do", {
+  "in": null
+}, "Perform", "?", "DefinePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "k"
+}, ",", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "level"
-  }, "is", "either", {
-    "const": "sealed"
-  }, "or", {
-    "const": "frozen"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "status"
-  }, "be", "?", {
-    "id": "O"
-  }, ".", "[", "[", "PreventExtensions", "]", "]", "(", ")", "."]
+  "k": 5
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "level"
+}, "is", {
+  "const": "frozen"
+}, ".", "For", "each", "element", {
+  "id": "k"
+}, "of", {
+  "id": "keys"
+}, ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "currentDesc"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "k"
+}, ")", ".", "If", {
+  "id": "currentDesc"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "If", "IsAccessorDescriptor", "(", {
+  "id": "currentDesc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "out": null
+}, "Perform", "?", "DefinePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "k"
+}, ",", {
+  "id": "desc"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "status"
-  }, "is", {
-    "value": "false"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "keys"
-  }, "be", "?", {
-    "id": "O"
-  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "level"
-  }, "is", {
-    "const": "sealed"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["For", "each", "element", {
-        "id": "k"
-      }, "of", {
-        "id": "keys"
-      }, ",", "do", {
-        "steps": [{
-          "tokens": ["Perform", "?", "DefinePropertyOrThrow", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "k"
-          }, ",", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
-            "value": "false"
-          }, "}", ")", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Assert", ":", {
-        "id": "level"
-      }, "is", {
-        "const": "frozen"
-      }, "."]
-    }, {
-      "tokens": ["For", "each", "element", {
-        "id": "k"
-      }, "of", {
-        "id": "keys"
-      }, ",", "do", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "currentDesc"
-          }, "be", "?", {
-            "id": "O"
-          }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-            "id": "k"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "currentDesc"
-          }, "is", "not", {
-            "value": "undefined"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["If", "IsAccessorDescriptor", "(", {
-                "id": "currentDesc"
-              }, ")", "is", {
-                "value": "true"
-              }, ",", "then", {
-                "steps": [{
-                  "tokens": ["Let", {
-                    "id": "desc"
-                  }, "be", "the", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
-                    "value": "false"
-                  }, "}", "."]
-                }]
-              }]
-            }, {
-              "tokens": ["Else", ",", {
-                "steps": [{
-                  "tokens": ["Let", {
-                    "id": "desc"
-                  }, "be", "the", "PropertyDescriptor", "{", "[", "[", "Configurable", "]", "]", ":", {
-                    "value": "false"
-                  }, ",", "[", "[", "Writable", "]", "]", ":", {
-                    "value": "false"
-                  }, "}", "."]
-                }]
-              }]
-            }, {
-              "tokens": ["Perform", "?", "DefinePropertyOrThrow", "(", {
-                "id": "O"
-              }, ",", {
-                "id": "k"
-              }, ",", {
-                "id": "desc"
-              }, ")", "."]
-            }]
-          }]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "value": "true"
-  }, "."]
+  "k": 6
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 7
 }]

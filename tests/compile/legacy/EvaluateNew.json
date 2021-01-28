@@ -1,61 +1,61 @@
-[{
-  "tokens": ["Assert", ":", {
-    "id": "constructExpr"
-  }, "is", "either", "a", {
-    "nt": "NewExpression"
-  }, "or", "a", {
-    "nt": "MemberExpression"
-  }, "."]
+["Assert", ":", {
+  "id": "constructExpr"
+}, "is", "either", "a", {
+  "nt": "NewExpression"
+}, "or", "a", {
+  "nt": "MemberExpression"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "arguments"
+}, "is", "either", {
+  "const": "empty"
+}, "or", "an", {
+  "nt": "Arguments"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "ref"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "constructExpr"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "constructor"
+}, "be", "?", "GetValue", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "arguments"
+}, "is", {
+  "const": "empty"
+}, ",", "let", {
+  "id": "argList"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "argList"
+}, "be", "?", "ArgumentListEvaluation", "of", {
+  "id": "arguments"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "arguments"
-  }, "is", "either", {
-    "const": "empty"
-  }, "or", "an", {
-    "nt": "Arguments"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "ref"
-  }, "be", "the", "result", "of", "evaluating", {
-    "id": "constructExpr"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "constructor"
-  }, "be", "?", "GetValue", "(", {
-    "id": "ref"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "arguments"
-  }, "is", {
-    "const": "empty"
-  }, ",", "let", {
-    "id": "argList"
-  }, "be", "a", "new", "empty", "List", "."]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "argList"
-      }, "be", "?", "ArgumentListEvaluation", "of", {
-        "id": "arguments"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", "IsConstructor", "(", {
-    "id": "constructor"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Return", "?", "Construct", "(", {
-    "id": "constructor"
-  }, ",", {
-    "id": "argList"
-  }, ")", "."]
+  "k": 5
+}, "If", "IsConstructor", "(", {
+  "id": "constructor"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, "Return", "?", "Construct", "(", {
+  "id": "constructor"
+}, ",", {
+  "id": "argList"
+}, ")", ".", {
+  "k": 7
 }]

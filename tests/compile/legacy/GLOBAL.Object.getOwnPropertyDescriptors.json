@@ -1,61 +1,57 @@
-[{
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "O"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "obj"
+}, "be", "?", "ToObject", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "ownKeys"
+}, "be", "?", {
+  "id": "obj"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "descriptors"
+}, "be", "!", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", ".", {
+  "k": 3
+}, "For", "each", "element", {
+  "id": "key"
+}, "of", {
+  "id": "ownKeys"
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "obj"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "key"
+}, ")", ".", "Let", {
+  "id": "descriptor"
+}, "be", "!", "FromPropertyDescriptor", "(", {
+  "id": "desc"
+}, ")", ".", "If", {
+  "id": "descriptor"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "descriptors"
+}, ",", {
+  "id": "key"
+}, ",", {
+  "id": "descriptor"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "obj"
-  }, "be", "?", "ToObject", "(", {
-    "id": "O"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "ownKeys"
-  }, "be", "?", {
-    "id": "obj"
-  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "descriptors"
-  }, "be", "!", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", "."]
-}, {
-  "tokens": ["For", "each", "element", {
-    "id": "key"
-  }, "of", {
-    "id": "ownKeys"
-  }, "in", "List", "order", ",", "do", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "desc"
-      }, "be", "?", {
-        "id": "obj"
-      }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-        "id": "key"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "descriptor"
-      }, "be", "!", "FromPropertyDescriptor", "(", {
-        "id": "desc"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "descriptor"
-      }, "is", "not", {
-        "value": "undefined"
-      }, ",", "perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "descriptors"
-      }, ",", {
-        "id": "key"
-      }, ",", {
-        "id": "descriptor"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "descriptors"
-  }, "."]
+  "k": 4
+}, "Return", {
+  "id": "descriptors"
+}, ".", {
+  "k": 5
 }]

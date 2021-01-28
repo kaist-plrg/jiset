@@ -1,57 +1,51 @@
-[{
-  "tokens": ["Let", {
-    "id": "number"
-  }, "be", "?", "ToNumber", "(", {
-    "id": "argument"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "number"
-  }, "is", {
-    "value": "NaN"
-  }, ",", {
-    "value": "+0"
-  }, ",", {
-    "value": "-0"
-  }, ",", {
-    "value": "+∞"
-  }, ",", "or", {
-    "value": "-∞"
-  }, ",", "return", {
-    "value": "+0"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "int"
-  }, "be", "the", "Number", "value", "that", "is", "the", "same", "sign", "as", {
-    "id": "number"
-  }, "and", "whose", "magnitude", "is", "floor", "(", "abs", "(", {
-    "id": "number"
-  }, ")", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "int16bit"
-  }, "be", {
-    "id": "int"
-  }, "modulo", "2", {
-    "sup": {
-      "tokens": ["16"]
-    }
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "int16bit"
-  }, "≥", "2", {
-    "sup": {
-      "tokens": ["15"]
-    }
-  }, ",", "return", {
-    "id": "int16bit"
-  }, "-", "2", {
-    "sup": {
-      "tokens": ["16"]
-    }
-  }, ";", "otherwise", "return", {
-    "id": "int16bit"
-  }, "."]
+["Let", {
+  "id": "number"
+}, "be", "?", "ToNumber", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "number"
+}, "is", {
+  "value": "NaN"
+}, ",", {
+  "value": "+0"
+}, ",", {
+  "value": "-0"
+}, ",", {
+  "value": "+∞"
+}, ",", "or", {
+  "value": "-∞"
+}, ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "int"
+}, "be", "the", "Number", "value", "that", "is", "the", "same", "sign", "as", {
+  "id": "number"
+}, "and", "whose", "magnitude", "is", "floor", "(", "abs", "(", {
+  "id": "number"
+}, ")", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "int16bit"
+}, "be", {
+  "id": "int"
+}, "modulo", "2", {
+  "sup": ["16"]
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "int16bit"
+}, "≥", "2", {
+  "sup": ["15"]
+}, ",", "return", {
+  "id": "int16bit"
+}, "-", "2", {
+  "sup": ["16"]
+}, ";", "otherwise", "return", {
+  "id": "int16bit"
+}, ".", {
+  "k": 4
 }]

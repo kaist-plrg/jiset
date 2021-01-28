@@ -127,7 +127,7 @@ trait TokenListParsers extends PackratParsers {
   }))
 
   lazy val sup: Parser[List[Token]] = Parser(in => firstMap(in, _ match {
-    case Sup(Step(list)) => Success(list, in.rest)
+    case Sup(list) => Success(list, in.rest)
     case t => Failure(s"`Sup(_)` expected but `$t` found", in)
   }))
 
@@ -139,6 +139,11 @@ trait TokenListParsers extends PackratParsers {
   lazy val grammar: Parser[Gr] = Parser(in => firstMap(in, _ match {
     case (g: Gr) => Success(g, in.rest)
     case t => Failure(s"`Gr(_)` expected but `$t` found", in)
+  }))
+
+  lazy val sub: Parser[List[Token]] = Parser(in => firstMap(in, _ match {
+    case Sub(list) => Success(list, in.rest)
+    case t => Failure(s"`Sub(_)` expected but `$t` found", in)
   }))
 
   lazy val next: Parser[Int] = Parser(in => firstMap(in, _ match {
@@ -176,8 +181,7 @@ trait TokenListParsers extends PackratParsers {
   // failed lines
   protected var failed: Map[Int, List[Token]] = Map()
 
-  lazy val stepList: PackratParser[StepList] = in ~> rep(step) <~ out ^^^ StepList(Nil)
-  lazy val token: PackratParser[Token] = normal | stepList
+  lazy val token: PackratParser[Token] = normal
   lazy val rest: PackratParser[List[String]] = rep(token ^^ { _.toString })
   lazy val step: PackratParser[List[String]] = rest <~ next
 

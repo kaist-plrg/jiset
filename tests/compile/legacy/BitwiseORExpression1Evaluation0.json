@@ -1,85 +1,83 @@
-[{
-  "tokens": ["Let", {
-    "id": "lref"
-  }, "be", "the", "result", "of", "evaluating", {
-    "id": "A"
-  }, "."]
+["Let", {
+  "id": "lref"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "A"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lval"
+}, "be", "?", "GetValue", "(", {
+  "id": "lref"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "rref"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "B"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "rval"
+}, "be", "?", "GetValue", "(", {
+  "id": "rref"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "lnum"
+}, "be", "?", "ToNumeric", "(", {
+  "id": "lval"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "rnum"
+}, "be", "?", "ToNumeric", "(", {
+  "id": "rval"
+}, ")", ".", {
+  "k": 5
+}, "Return", {
+  "id": "lnum"
+}, "|", {
+  "id": "rnum"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "T"
+}, "be", "Type", "(", {
+  "id": "lnum"
+}, ")", ".", {
+  "k": 7
+}, "If", "@", "is", {
+  "code": "&"
+}, ",", "return", {
+  "id": "T"
+}, ":", ":", "bitwiseAND", "(", {
+  "id": "lnum"
+}, ",", {
+  "id": "rnum"
+}, ")", ".", {
+  "k": 8
+}, "If", "@", "is", {
+  "code": "|"
+}, ",", "return", {
+  "id": "T"
+}, ":", ":", "bitwiseOR", "(", {
+  "id": "lnum"
+}, ",", {
+  "id": "rnum"
+}, ")", ".", {
+  "k": 9
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "@", "is", {
+  "code": "^"
+}, ".", "Return", {
+  "id": "T"
+}, ":", ":", "bitwiseXOR", "(", {
+  "id": "lnum"
+}, ",", {
+  "id": "rnum"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "lval"
-  }, "be", "?", "GetValue", "(", {
-    "id": "lref"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "rref"
-  }, "be", "the", "result", "of", "evaluating", {
-    "id": "B"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "rval"
-  }, "be", "?", "GetValue", "(", {
-    "id": "rref"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "lnum"
-  }, "be", "?", "ToNumeric", "(", {
-    "id": "lval"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "rnum"
-  }, "be", "?", "ToNumeric", "(", {
-    "id": "rval"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "lnum"
-  }, "|", {
-    "id": "rnum"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "T"
-  }, "be", "Type", "(", {
-    "id": "lnum"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "@", "is", {
-    "code": "&"
-  }, ",", "return", {
-    "id": "T"
-  }, ":", ":", "bitwiseAND", "(", {
-    "id": "lnum"
-  }, ",", {
-    "id": "rnum"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "@", "is", {
-    "code": "|"
-  }, ",", "return", {
-    "id": "T"
-  }, ":", ":", "bitwiseOR", "(", {
-    "id": "lnum"
-  }, ",", {
-    "id": "rnum"
-  }, ")", "."]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Assert", ":", "@", "is", {
-        "code": "^"
-      }, "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "T"
-      }, ":", ":", "bitwiseXOR", "(", {
-        "id": "lnum"
-      }, ",", {
-        "id": "rnum"
-      }, ")", "."]
-    }]
-  }]
+  "k": 10
 }]

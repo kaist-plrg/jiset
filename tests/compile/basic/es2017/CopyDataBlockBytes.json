@@ -42,9 +42,13 @@
   "k": 5
 }, "Repeat", ",", "while", {
   "id": "count"
-}, ">", "0", true, "If", {
+}, ">", "0", {
+  "in": null
+}, "If", {
   "id": "fromBlock"
-}, "is", "a", "Shared", "Data", "Block", ",", "then", true, "Let", {
+}, "is", "a", "Shared", "Data", "Block", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "execution"
 }, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
   "k": 8
@@ -102,7 +106,9 @@
   "id": "execution"
 }, ".", "[", "[", "ChosenValues", "]", "]", ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
 }, "Otherwise", ",", "set", {
   "id": "toBlock"
@@ -124,7 +130,9 @@
   "id": "count"
 }, "by", "1", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Return", "NormalCompletion", "(", {
   "const": "empty"

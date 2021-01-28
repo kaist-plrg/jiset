@@ -1,135 +1,115 @@
-[{
-  "tokens": ["Let", {
-    "id": "target"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "target"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "iterable"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "adder"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "2", ")", ".", {
+  "k": 2
+}, "If", "IsCallable", "(", {
+  "id": "adder"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Assert", ":", {
+  "id": "argumentsList"
+}, "[", "1", "]", "is", "present", ",", "and", "is", "neither", {
+  "value": "undefined"
+}, "nor", {
+  "value": "null"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "iterable"
+}, ")", ".", {
+  "k": 5
+}, "Repeat", ",", {
+  "in": null
+}, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "target"
+}, ".", "Let", {
+  "id": "nextItem"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", "If", "Type", "(", {
+  "id": "nextItem"
+}, ")", "is", "not", "Object", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "error"
+}, "be", "ThrowCompletion", "(", "a", "newly", "created", {
+  "value": "TypeError"
+}, "object", ")", ".", "Return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "error"
+}, ")", ".", {
+  "out": null
+}, "Let", {
+  "id": "k"
+}, "be", "Get", "(", {
+  "id": "nextItem"
+}, ",", {
+  "value": "\"0\""
+}, ")", ".", "If", {
+  "id": "k"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "k"
+}, ")", ".", "Let", {
+  "id": "v"
+}, "be", "Get", "(", {
+  "id": "nextItem"
+}, ",", {
+  "value": "\"1\""
+}, ")", ".", "If", {
+  "id": "v"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "v"
+}, ")", ".", "Let", {
+  "id": "status"
+}, "be", "Call", "(", {
+  "id": "adder"
+}, ",", {
+  "id": "target"
+}, ",", "«", {
+  "id": "k"
+}, ".", "[", "[", "Value", "]", "]", ",", {
+  "id": "v"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "iterable"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "adder"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "2", ")", "."]
-}, {
-  "tokens": ["If", "IsCallable", "(", {
-    "id": "adder"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Assert", ":", {
-    "id": "argumentsList"
-  }, "[", "1", "]", "is", "present", ",", "and", "is", "neither", {
-    "value": "undefined"
-  }, "nor", {
-    "value": "null"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "iteratorRecord"
-  }, "be", "?", "GetIterator", "(", {
-    "id": "iterable"
-  }, ")", "."]
-}, {
-  "tokens": ["Repeat", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "next"
-      }, "be", "?", "IteratorStep", "(", {
-        "id": "iteratorRecord"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", {
-        "value": "false"
-      }, ",", "return", {
-        "id": "target"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "nextItem"
-      }, "be", "?", "IteratorValue", "(", {
-        "id": "next"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", "Type", "(", {
-        "id": "nextItem"
-      }, ")", "is", "not", "Object", ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "error"
-          }, "be", "ThrowCompletion", "(", "a", "newly", "created", {
-            "value": "TypeError"
-          }, "object", ")", "."]
-        }, {
-          "tokens": ["Return", "?", "IteratorClose", "(", {
-            "id": "iteratorRecord"
-          }, ",", {
-            "id": "error"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Let", {
-        "id": "k"
-      }, "be", "Get", "(", {
-        "id": "nextItem"
-      }, ",", {
-        "value": "\"0\""
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "k"
-      }, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
-        "id": "iteratorRecord"
-      }, ",", {
-        "id": "k"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "v"
-      }, "be", "Get", "(", {
-        "id": "nextItem"
-      }, ",", {
-        "value": "\"1\""
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "v"
-      }, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
-        "id": "iteratorRecord"
-      }, ",", {
-        "id": "v"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "status"
-      }, "be", "Call", "(", {
-        "id": "adder"
-      }, ",", {
-        "id": "target"
-      }, ",", "«", {
-        "id": "k"
-      }, ".", "[", "[", "Value", "]", "]", ",", {
-        "id": "v"
-      }, ".", "[", "[", "Value", "]", "]", "»", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "status"
-      }, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
-        "id": "iteratorRecord"
-      }, ",", {
-        "id": "status"
-      }, ")", "."]
-    }]
-  }]
+  "k": 6
 }]

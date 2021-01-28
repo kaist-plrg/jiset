@@ -1,43 +1,43 @@
-[{
-  "tokens": ["Let", {
-    "id": "envRec"
-  }, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", "."]
+["Let", {
+  "id": "envRec"
+}, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", ".", {
+  "k": 0
+}, "Let", {
+  "id": "DclRec"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "DeclarativeRecord", "]", "]", ".", {
+  "k": 1
+}, "If", {
+  "id": "DclRec"
+}, ".", "HasBinding", "(", {
+  "id": "N"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Return", {
+  "id": "DclRec"
+}, ".", "GetBindingValue", "(", {
+  "id": "N"
+}, ",", {
+  "id": "S"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "DclRec"
-  }, "be", {
-    "id": "envRec"
-  }, ".", "[", "[", "DeclarativeRecord", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "DclRec"
-  }, ".", "HasBinding", "(", {
-    "id": "N"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", {
-        "id": "DclRec"
-      }, ".", "GetBindingValue", "(", {
-        "id": "N"
-      }, ",", {
-        "id": "S"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "ObjRec"
-  }, "be", {
-    "id": "envRec"
-  }, ".", "[", "[", "ObjectRecord", "]", "]", "."]
-}, {
-  "tokens": ["Return", "?", {
-    "id": "ObjRec"
-  }, ".", "GetBindingValue", "(", {
-    "id": "N"
-  }, ",", {
-    "id": "S"
-  }, ")", "."]
+  "k": 2
+}, "Let", {
+  "id": "ObjRec"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "ObjectRecord", "]", "]", ".", {
+  "k": 3
+}, "Return", "?", {
+  "id": "ObjRec"
+}, ".", "GetBindingValue", "(", {
+  "id": "N"
+}, ",", {
+  "id": "S"
+}, ")", ".", {
+  "k": 4
 }]

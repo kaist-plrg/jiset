@@ -1,109 +1,99 @@
-[{
-  "tokens": ["Let", {
-    "id": "thisMode"
-  }, "be", {
-    "id": "F"
-  }, ".", "[", "[", "ThisMode", "]", "]", "."]
+["Let", {
+  "id": "thisMode"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "ThisMode", "]", "]", ".", {
+  "k": 0
+}, "If", {
+  "id": "thisMode"
+}, "is", {
+  "const": "lexical"
+}, ",", "return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "calleeRealm"
+}, "be", {
+  "id": "F"
+}, ".", "[", "[", "Realm", "]", "]", ".", {
+  "k": 2
+}, "Let", {
+  "id": "localEnv"
+}, "be", "the", "LexicalEnvironment", "of", {
+  "id": "calleeContext"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "thisMode"
+}, "is", {
+  "const": "strict"
+}, ",", "let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "thisArgument"
+}, ".", {
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "If", {
+  "id": "thisArgument"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "globalEnv"
+}, "be", {
+  "id": "calleeRealm"
+}, ".", "[", "[", "GlobalEnv", "]", "]", ".", "Let", {
+  "id": "globalEnvRec"
+}, "be", {
+  "id": "globalEnv"
+}, "'", "s", "EnvironmentRecord", ".", "Assert", ":", {
+  "id": "globalEnvRec"
+}, "is", "a", "global", "Environment", "Record", ".", "Let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "globalEnvRec"
+}, ".", "[", "[", "GlobalThisValue", "]", "]", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "thisValue"
+}, "be", "!", "ToObject", "(", {
+  "id": "thisArgument"
+}, ")", ".", "NOTE", ":", "ToObject", "produces", "wrapper", "objects", "using", {
+  "id": "calleeRealm"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "thisMode"
-  }, "is", {
-    "const": "lexical"
-  }, ",", "return", "NormalCompletion", "(", {
-    "value": "undefined"
-  }, ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "calleeRealm"
-  }, "be", {
-    "id": "F"
-  }, ".", "[", "[", "Realm", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "localEnv"
-  }, "be", "the", "LexicalEnvironment", "of", {
-    "id": "calleeContext"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "thisMode"
-  }, "is", {
-    "const": "strict"
-  }, ",", "let", {
-    "id": "thisValue"
-  }, "be", {
-    "id": "thisArgument"
-  }, "."]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "thisArgument"
-      }, "is", {
-        "value": "undefined"
-      }, "or", {
-        "value": "null"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "globalEnv"
-          }, "be", {
-            "id": "calleeRealm"
-          }, ".", "[", "[", "GlobalEnv", "]", "]", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "globalEnvRec"
-          }, "be", {
-            "id": "globalEnv"
-          }, "'", "s", "EnvironmentRecord", "."]
-        }, {
-          "tokens": ["Assert", ":", {
-            "id": "globalEnvRec"
-          }, "is", "a", "global", "Environment", "Record", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "thisValue"
-          }, "be", {
-            "id": "globalEnvRec"
-          }, ".", "[", "[", "GlobalThisValue", "]", "]", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "thisValue"
-          }, "be", "!", "ToObject", "(", {
-            "id": "thisArgument"
-          }, ")", "."]
-        }, {
-          "tokens": ["NOTE", ":", "ToObject", "produces", "wrapper", "objects", "using", {
-            "id": "calleeRealm"
-          }, "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "envRec"
-  }, "be", {
-    "id": "localEnv"
-  }, "'", "s", "EnvironmentRecord", "."]
-}, {
-  "tokens": ["Assert", ":", {
-    "id": "envRec"
-  }, "is", "a", "function", "Environment", "Record", "."]
-}, {
-  "tokens": ["Assert", ":", "The", "next", "step", "never", "returns", "an", "abrupt", "completion", "because", {
-    "id": "envRec"
-  }, ".", "[", "[", "ThisBindingStatus", "]", "]", "is", "not", {
-    "const": "initialized"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "id": "envRec"
-  }, ".", "BindThisValue", "(", {
-    "id": "thisValue"
-  }, ")", "."]
+  "k": 5
+}, "Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "localEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 6
+}, "Assert", ":", {
+  "id": "envRec"
+}, "is", "a", "function", "Environment", "Record", ".", {
+  "k": 7
+}, "Assert", ":", "The", "next", "step", "never", "returns", "an", "abrupt", "completion", "because", {
+  "id": "envRec"
+}, ".", "[", "[", "ThisBindingStatus", "]", "]", "is", "not", {
+  "const": "initialized"
+}, ".", {
+  "k": 8
+}, "Return", {
+  "id": "envRec"
+}, ".", "BindThisValue", "(", {
+  "id": "thisValue"
+}, ")", ".", {
+  "k": 9
 }]

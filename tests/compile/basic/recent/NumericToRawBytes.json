@@ -2,7 +2,9 @@
   "id": "type"
 }, "is", {
   "const": "Float32"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "rawBytes"
 }, "be", "a", "List", "whose", "elements", "are", "the", "4", "bytes", "that", "are", "the", "result", "of", "converting", {
   "id": "value"
@@ -20,13 +22,17 @@
   "value": "NaN"
 }, "value", ".", {
   "k": 1
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "Else", "if", {
   "id": "type"
 }, "is", {
   "const": "Float64"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "rawBytes"
 }, "be", "a", "List", "whose", "elements", "are", "the", "8", "bytes", "that", "are", "the", "IEEE", "754", "-", "2019", "binary64", "format", "encoding", "of", {
   "id": "value"
@@ -44,9 +50,13 @@
   "value": "NaN"
 }, "value", ".", {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "n"
 }, "be", "the", "Element", "Size", "value", "specified", "in", {
   "link": ""
@@ -72,7 +82,9 @@
   "k": 7
 }, "If", {
   "id": "intValue"
-}, "≥", "0", ",", "then", true, "Let", {
+}, "≥", "0", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "rawBytes"
 }, "be", "a", "List", "whose", "elements", "are", "the", {
   "id": "n"
@@ -84,9 +96,13 @@
   "value": "false"
 }, ",", "the", "bytes", "are", "ordered", "in", "big", "endian", "order", ".", "Otherwise", ",", "the", "bytes", "are", "ordered", "in", "little", "endian", "order", ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "rawBytes"
 }, "be", "a", "List", "whose", "elements", "are", "the", {
   "id": "n"
@@ -98,9 +114,13 @@
   "value": "false"
 }, ",", "the", "bytes", "are", "ordered", "in", "big", "endian", "order", ".", "Otherwise", ",", "the", "bytes", "are", "ordered", "in", "little", "endian", "order", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
 }, "Return", {
   "id": "rawBytes"

@@ -38,13 +38,17 @@
   "id": "length"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "newLength"
 }, "be", "?", "ToIndex", "(", {
   "id": "length"
 }, ")", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "If", "IsDetachedBuffer", "(", {
   "id": "buffer"
@@ -64,7 +68,9 @@
   "id": "length"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "bufferByteLength"
 }, "modulo", {
   "id": "elementSize"
@@ -86,9 +92,13 @@
   "value": "RangeError"
 }, "exception", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "newByteLength"
 }, "be", {
   "id": "newLength"
@@ -106,7 +116,9 @@
   "value": "RangeError"
 }, "exception", ".", {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Set", {
   "id": "O"

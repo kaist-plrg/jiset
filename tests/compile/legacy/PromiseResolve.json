@@ -1,49 +1,47 @@
-[{
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "C"
-  }, ")", "is", "Object", "."]
+["Assert", ":", "Type", "(", {
+  "id": "C"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "If", "IsPromise", "(", {
+  "id": "x"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "xConstructor"
+}, "be", "?", "Get", "(", {
+  "id": "x"
+}, ",", {
+  "value": "\"constructor\""
+}, ")", ".", "If", "SameValue", "(", {
+  "id": "xConstructor"
+}, ",", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "x"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", "IsPromise", "(", {
-    "id": "x"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "xConstructor"
-      }, "be", "?", "Get", "(", {
-        "id": "x"
-      }, ",", {
-        "value": "\"constructor\""
-      }, ")", "."]
-    }, {
-      "tokens": ["If", "SameValue", "(", {
-        "id": "xConstructor"
-      }, ",", {
-        "id": "C"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "return", {
-        "id": "x"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "promiseCapability"
-  }, "be", "?", "NewPromiseCapability", "(", {
-    "id": "C"
-  }, ")", "."]
-}, {
-  "tokens": ["Perform", "?", "Call", "(", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Resolve", "]", "]", ",", {
-    "value": "undefined"
-  }, ",", "«", {
-    "id": "x"
-  }, "»", ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "promiseCapability"
-  }, ".", "[", "[", "Promise", "]", "]", "."]
+  "k": 1
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "?", "NewPromiseCapability", "(", {
+  "id": "C"
+}, ")", ".", {
+  "k": 2
+}, "Perform", "?", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "x"
+}, "»", ")", ".", {
+  "k": 3
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 4
 }]

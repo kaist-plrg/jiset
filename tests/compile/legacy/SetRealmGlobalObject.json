@@ -1,59 +1,57 @@
-[{
-  "tokens": ["If", {
-    "id": "globalObj"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "intrinsics"
-      }, "be", {
-        "id": "realmRec"
-      }, ".", "[", "[", "Intrinsics", "]", "]", "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "globalObj"
-      }, "to", "OrdinaryObjectCreate", "(", {
-        "id": "intrinsics"
-      }, ".", "[", "[", "%", "Object", ".", "prototype", "%", "]", "]", ")", "."]
-    }]
-  }]
+["If", {
+  "id": "globalObj"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "intrinsics"
+}, "be", {
+  "id": "realmRec"
+}, ".", "[", "[", "Intrinsics", "]", "]", ".", "Set", {
+  "id": "globalObj"
+}, "to", "OrdinaryObjectCreate", "(", {
+  "id": "intrinsics"
+}, ".", "[", "[", "%", "Object", ".", "prototype", "%", "]", "]", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "globalObj"
-  }, ")", "is", "Object", "."]
-}, {
-  "tokens": ["If", {
-    "id": "thisValue"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "set", {
-    "id": "thisValue"
-  }, "to", {
-    "id": "globalObj"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "realmRec"
-  }, ".", "[", "[", "GlobalObject", "]", "]", "to", {
-    "id": "globalObj"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "newGlobalEnv"
-  }, "be", "NewGlobalEnvironment", "(", {
-    "id": "globalObj"
-  }, ",", {
-    "id": "thisValue"
-  }, ")", "."]
-}, {
-  "tokens": ["Set", {
-    "id": "realmRec"
-  }, ".", "[", "[", "GlobalEnv", "]", "]", "to", {
-    "id": "newGlobalEnv"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "id": "realmRec"
-  }, "."]
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "globalObj"
+}, ")", "is", "Object", ".", {
+  "k": 1
+}, "If", {
+  "id": "thisValue"
+}, "is", {
+  "value": "undefined"
+}, ",", "set", {
+  "id": "thisValue"
+}, "to", {
+  "id": "globalObj"
+}, ".", {
+  "k": 2
+}, "Set", {
+  "id": "realmRec"
+}, ".", "[", "[", "GlobalObject", "]", "]", "to", {
+  "id": "globalObj"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "newGlobalEnv"
+}, "be", "NewGlobalEnvironment", "(", {
+  "id": "globalObj"
+}, ",", {
+  "id": "thisValue"
+}, ")", ".", {
+  "k": 4
+}, "Set", {
+  "id": "realmRec"
+}, ".", "[", "[", "GlobalEnv", "]", "]", "to", {
+  "id": "newGlobalEnv"
+}, ".", {
+  "k": 5
+}, "Return", {
+  "id": "realmRec"
+}, ".", {
+  "k": 6
 }]

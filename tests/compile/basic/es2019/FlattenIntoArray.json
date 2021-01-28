@@ -12,7 +12,9 @@
   "id": "sourceIndex"
 }, "<", {
   "id": "sourceLen"
-}, true, "Let", {
+}, {
+  "in": null
+}, "Let", {
   "id": "P"
 }, "be", "!", "ToString", "(", {
   "id": "sourceIndex"
@@ -30,7 +32,9 @@
   "id": "exists"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "element"
 }, "be", "?", "Get", "(", {
   "id": "source"
@@ -40,7 +44,9 @@
   "k": 6
 }, "If", {
   "id": "mapperFunction"
-}, "is", "present", ",", "then", true, "Assert", ":", {
+}, "is", "present", ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "thisArg"
 }, "is", "present", ".", {
   "k": 8
@@ -58,7 +64,9 @@
   "id": "source"
 }, "»", ")", ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
 }, "Let", {
   "id": "shouldFlatten"
@@ -68,19 +76,25 @@
   "k": 10
 }, "If", {
   "id": "depth"
-}, ">", "0", ",", "then", true, "Set", {
+}, ">", "0", ",", "then", {
+  "in": null
+}, "Set", {
   "id": "shouldFlatten"
 }, "to", "?", "IsArray", "(", {
   "id": "element"
 }, ")", ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "If", {
   "id": "shouldFlatten"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "elementLen"
 }, "be", "?", "ToLength", "(", "?", "Get", "(", {
   "id": "element"
@@ -102,14 +116,16 @@
   "id": "depth"
 }, "-", "1", ")", ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
-}, "Else", ",", true, "If", {
+}, "Else", ",", {
+  "in": null
+}, "If", {
   "id": "targetIndex"
 }, "≥", "2", {
-  "sup": {
-    "tokens": ["53"]
-  }
+  "sup": ["53"]
 }, "-", "1", ",", "throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
@@ -126,15 +142,21 @@
   "id": "targetIndex"
 }, "by", "1", ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "Increase", {
   "id": "sourceIndex"
 }, "by", "1", ".", {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "Return", {
   "id": "targetIndex"

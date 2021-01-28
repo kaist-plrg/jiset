@@ -1,65 +1,57 @@
-[{
-  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
-    "id": "P"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "numericIndex"
+}, "be", "!", "CanonicalNumericIndexString", "(", {
+  "id": "P"
+}, ")", ".", "If", {
+  "id": "numericIndex"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "buffer"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", "If", "!", "IsValidIntegerIndex", "(", {
+  "id": "O"
+}, ",", {
+  "id": "numericIndex"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", "Return", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "O"
-  }, "is", "an", "Integer", "-", "Indexed", "exotic", "object", "."]
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "P"
-  }, ")", "is", "String", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "numericIndex"
-      }, "be", "!", "CanonicalNumericIndexString", "(", {
-        "id": "P"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "numericIndex"
-      }, "is", "not", {
-        "value": "undefined"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "buffer"
-          }, "be", {
-            "id": "O"
-          }, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "."]
-        }, {
-          "tokens": ["If", "IsDetachedBuffer", "(", {
-            "id": "buffer"
-          }, ")", "is", {
-            "value": "true"
-          }, ",", "throw", "a", {
-            "value": "TypeError"
-          }, "exception", "."]
-        }, {
-          "tokens": ["If", "!", "IsValidIntegerIndex", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "numericIndex"
-          }, ")", "is", {
-            "value": "false"
-          }, ",", "return", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["Return", {
-            "value": "true"
-          }, "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "?", "OrdinaryHasProperty", "(", {
-    "id": "O"
-  }, ",", {
-    "id": "P"
-  }, ")", "."]
+  "k": 2
+}, "Return", "?", "OrdinaryHasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 3
 }]

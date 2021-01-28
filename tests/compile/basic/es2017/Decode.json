@@ -12,7 +12,9 @@
   "id": "k"
 }, "be", "0", ".", {
   "k": 2
-}, "Repeat", ",", true, "If", {
+}, "Repeat", ",", {
+  "in": null
+}, "If", {
   "id": "k"
 }, "equals", {
   "id": "strLen"
@@ -32,19 +34,25 @@
   "id": "C"
 }, "is", "not", {
   "code": "\"%\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "String", "containing", "only", "the", "code", "unit", {
   "id": "C"
 }, ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Else", {
   "id": "C"
 }, "is", {
   "code": "\"%\""
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "start"
 }, "be", {
   "id": "k"
@@ -82,7 +90,9 @@
   "k": 13
 }, "If", "the", "most", "significant", "bit", "in", {
   "id": "B"
-}, "is", "0", ",", "then", true, "Let", {
+}, "is", "0", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "C"
 }, "be", "the", "code", "unit", "with", "code", "unit", "value", {
   "id": "B"
@@ -92,19 +102,25 @@
   "id": "C"
 }, "is", "not", "in", {
   "id": "reservedSet"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "String", "containing", "only", "the", "code", "unit", {
   "id": "C"
 }, ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
 }, "Else", {
   "id": "C"
 }, "is", "in", {
   "id": "reservedSet"
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "substring", "of", {
   "id": "string"
@@ -114,13 +130,19 @@
   "id": "k"
 }, "inclusive", ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Else", "the", "most", "significant", "bit", "in", {
   "id": "B"
-}, "is", "1", ",", true, "Let", {
+}, "is", "1", ",", {
+  "in": null
+}, "Let", {
   "id": "n"
 }, "be", "the", "smallest", "nonnegative", "integer", "such", "that", "(", {
   "id": "B"
@@ -166,7 +188,9 @@
   "id": "j"
 }, "<", {
   "id": "n"
-}, true, "Increment", {
+}, {
+  "in": null
+}, "Increment", {
   "id": "k"
 }, "by", "1", ".", {
   "k": 28
@@ -220,7 +244,9 @@
   "id": "j"
 }, "by", "1", ".", {
   "k": 35
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
 }, "Let", {
   "id": "V"
@@ -234,7 +260,9 @@
   "k": 36
 }, "If", {
   "id": "V"
-}, "<", "0x10000", ",", "then", true, "Let", {
+}, "<", "0x10000", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "C"
 }, "be", "the", "code", "unit", {
   "id": "V"
@@ -244,19 +272,25 @@
   "id": "C"
 }, "is", "not", "in", {
   "id": "reservedSet"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "String", "containing", "only", "the", "code", "unit", {
   "id": "C"
 }, ".", {
   "k": 40
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 39
 }, "Else", {
   "id": "C"
 }, "is", "in", {
   "id": "reservedSet"
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "substring", "of", {
   "id": "string"
@@ -266,23 +300,35 @@
   "id": "k"
 }, "inclusive", ".", {
   "k": 42
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 41
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 37
 }, "Else", {
   "id": "V"
-}, "≥", "0x10000", ",", true, "Let", {
+}, "≥", "0x10000", ",", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "the", "String", "value", "whose", "elements", "are", ",", "in", "order", ",", "the", "elements", "in", "UTF16Encoding", "(", {
   "id": "V"
 }, ")", ".", {
   "k": 44
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 43
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Set", {
   "id": "R"
@@ -296,6 +342,8 @@
   "id": "k"
 }, "by", "1", ".", {
   "k": 46
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }]

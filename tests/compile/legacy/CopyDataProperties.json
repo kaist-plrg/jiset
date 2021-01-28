@@ -1,117 +1,109 @@
-[{
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "target"
-  }, ")", "is", "Object", "."]
+["Assert", ":", "Type", "(", {
+  "id": "target"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "excludedItems"
+}, "is", "a", "List", "of", "property", "keys", ".", {
+  "k": 1
+}, "If", {
+  "id": "source"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "return", {
+  "id": "target"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "from"
+}, "be", "!", "ToObject", "(", {
+  "id": "source"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "keys"
+}, "be", "?", {
+  "id": "from"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 4
+}, "For", "each", "element", {
+  "id": "nextKey"
+}, "of", {
+  "id": "keys"
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "excluded"
+}, "be", {
+  "value": "false"
+}, ".", "For", "each", "element", {
+  "id": "e"
+}, "of", {
+  "id": "excludedItems"
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "If", "SameValue", "(", {
+  "id": "e"
+}, ",", {
+  "id": "nextKey"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "excluded"
+}, "to", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "excludedItems"
-  }, "is", "a", "List", "of", "property", "keys", "."]
+  "out": null
+}, "If", {
+  "id": "excluded"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "from"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "nextKey"
+}, ")", ".", "If", {
+  "id": "desc"
+}, "is", "not", {
+  "value": "undefined"
+}, "and", {
+  "id": "desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "propValue"
+}, "be", "?", "Get", "(", {
+  "id": "from"
+}, ",", {
+  "id": "nextKey"
+}, ")", ".", "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "target"
+}, ",", {
+  "id": "nextKey"
+}, ",", {
+  "id": "propValue"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "source"
-  }, "is", {
-    "value": "undefined"
-  }, "or", {
-    "value": "null"
-  }, ",", "return", {
-    "id": "target"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "from"
-  }, "be", "!", "ToObject", "(", {
-    "id": "source"
-  }, ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "keys"
-  }, "be", "?", {
-    "id": "from"
-  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
-}, {
-  "tokens": ["For", "each", "element", {
-    "id": "nextKey"
-  }, "of", {
-    "id": "keys"
-  }, "in", "List", "order", ",", "do", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "excluded"
-      }, "be", {
-        "value": "false"
-      }, "."]
-    }, {
-      "tokens": ["For", "each", "element", {
-        "id": "e"
-      }, "of", {
-        "id": "excludedItems"
-      }, "in", "List", "order", ",", "do", {
-        "steps": [{
-          "tokens": ["If", "SameValue", "(", {
-            "id": "e"
-          }, ",", {
-            "id": "nextKey"
-          }, ")", "is", {
-            "value": "true"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["Set", {
-                "id": "excluded"
-              }, "to", {
-                "value": "true"
-              }, "."]
-            }]
-          }]
-        }]
-      }]
-    }, {
-      "tokens": ["If", {
-        "id": "excluded"
-      }, "is", {
-        "value": "false"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "desc"
-          }, "be", "?", {
-            "id": "from"
-          }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-            "id": "nextKey"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "desc"
-          }, "is", "not", {
-            "value": "undefined"
-          }, "and", {
-            "id": "desc"
-          }, ".", "[", "[", "Enumerable", "]", "]", "is", {
-            "value": "true"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "propValue"
-              }, "be", "?", "Get", "(", {
-                "id": "from"
-              }, ",", {
-                "id": "nextKey"
-              }, ")", "."]
-            }, {
-              "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-                "id": "target"
-              }, ",", {
-                "id": "nextKey"
-              }, ",", {
-                "id": "propValue"
-              }, ")", "."]
-            }]
-          }]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "target"
-  }, "."]
+  "k": 5
+}, "Return", {
+  "id": "target"
+}, ".", {
+  "k": 6
 }]

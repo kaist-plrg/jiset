@@ -1,107 +1,101 @@
-[{
-  "tokens": ["ReturnIfAbrupt", "(", {
-    "id": "ref"
-  }, ")", "."]
+["ReturnIfAbrupt", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "ref"
+}, ")", "is", "Reference", ",", "then", {
+  "in": null
+}, "If", "IsPropertyReference", "(", {
+  "id": "ref"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "thisValue"
+}, "be", "GetThisValue", "(", {
+  "id": "ref"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "the", "base", "of", {
+  "id": "ref"
+}, "is", "an", "Environment", "Record", ".", "Let", {
+  "id": "refEnv"
+}, "be", "GetBase", "(", {
+  "id": "ref"
+}, ")", ".", "Let", {
+  "id": "thisValue"
+}, "be", {
+  "id": "refEnv"
+}, ".", "WithBaseObject", "(", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "ref"
-  }, ")", "is", "Reference", ",", "then", {
-    "steps": [{
-      "tokens": ["If", "IsPropertyReference", "(", {
-        "id": "ref"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "thisValue"
-          }, "be", "GetThisValue", "(", {
-            "id": "ref"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Assert", ":", "the", "base", "of", {
-            "id": "ref"
-          }, "is", "an", "Environment", "Record", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "refEnv"
-          }, "be", "GetBase", "(", {
-            "id": "ref"
-          }, ")", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "thisValue"
-          }, "be", {
-            "id": "refEnv"
-          }, ".", "WithBaseObject", "(", ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "out": null
 }, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "thisValue"
-      }, "be", {
-        "value": "undefined"
-      }, "."]
-    }]
-  }]
+  "k": 1
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "thisValue"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "argList"
-  }, "be", "?", "ArgumentListEvaluation", "of", {
-    "id": "arguments"
-  }, "."]
-}, {
-  "tokens": ["If", "Type", "(", {
-    "id": "func"
-  }, ")", "is", "not", "Object", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["If", "IsCallable", "(", {
-    "id": "func"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["If", {
-    "id": "tailPosition"
-  }, "is", {
-    "value": "true"
-  }, ",", "perform", "PrepareForTailCall", "(", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "result"
-  }, "be", "Call", "(", {
-    "id": "func"
-  }, ",", {
-    "id": "thisValue"
-  }, ",", {
-    "id": "argList"
-  }, ")", "."]
-}, {
-  "tokens": ["Assert", ":", "If", {
-    "id": "tailPosition"
-  }, "is", {
-    "value": "true"
-  }, ",", "the", "above", "call", "will", "not", "return", "here", ",", "but", "instead", "evaluation", "will", "continue", "as", "if", "the", "following", "return", "has", "already", "occurred", "."]
-}, {
-  "tokens": ["Assert", ":", "If", {
-    "id": "result"
-  }, "is", "not", "an", "abrupt", "completion", ",", "then", "Type", "(", {
-    "id": "result"
-  }, ")", "is", "an", "ECMAScript", "language", "type", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "result"
-  }, "."]
+  "k": 2
+}, "Let", {
+  "id": "argList"
+}, "be", "?", "ArgumentListEvaluation", "of", {
+  "id": "arguments"
+}, ".", {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "func"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "If", "IsCallable", "(", {
+  "id": "func"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "If", {
+  "id": "tailPosition"
+}, "is", {
+  "value": "true"
+}, ",", "perform", "PrepareForTailCall", "(", ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "result"
+}, "be", "Call", "(", {
+  "id": "func"
+}, ",", {
+  "id": "thisValue"
+}, ",", {
+  "id": "argList"
+}, ")", ".", {
+  "k": 7
+}, "Assert", ":", "If", {
+  "id": "tailPosition"
+}, "is", {
+  "value": "true"
+}, ",", "the", "above", "call", "will", "not", "return", "here", ",", "but", "instead", "evaluation", "will", "continue", "as", "if", "the", "following", "return", "has", "already", "occurred", ".", {
+  "k": 8
+}, "Assert", ":", "If", {
+  "id": "result"
+}, "is", "not", "an", "abrupt", "completion", ",", "then", "Type", "(", {
+  "id": "result"
+}, ")", "is", "an", "ECMAScript", "language", "type", ".", {
+  "k": 9
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 10
 }]

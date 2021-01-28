@@ -12,7 +12,9 @@
   "id": "W"
 }, "of", {
   "id": "Ws"
-}, "in", "List", "order", ",", "do", true, "Assert", ":", {
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "Assert", ":", {
   "id": "W"
 }, "has", {
   "id": "byteLocation"
@@ -28,7 +30,9 @@
   "k": 4
 }, "If", {
   "id": "W"
-}, "is", "a", "WriteSharedMemory", "event", ",", "then", true, "Let", {
+}, "is", "a", "WriteSharedMemory", "event", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "byte"
 }, "be", {
   "id": "W"
@@ -36,9 +40,13 @@
   "id": "payloadIndex"
 }, "]", ".", {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "W"
 }, "is", "a", "ReadModifyWriteSharedMemory", "event", ".", {
   "k": 8
@@ -68,7 +76,9 @@
   "id": "payloadIndex"
 }, "]", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
 }, "Append", {
   "id": "byte"
@@ -82,7 +92,9 @@
   "id": "byteLocation"
 }, "+", "1", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "Return", {
   "id": "bytesRead"

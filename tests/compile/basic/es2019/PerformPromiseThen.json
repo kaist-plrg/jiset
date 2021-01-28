@@ -6,43 +6,59 @@
   "k": 0
 }, "If", {
   "id": "resultCapability"
-}, "is", "present", ",", "then", true, "Assert", ":", {
+}, "is", "present", ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "resultCapability"
 }, "is", "a", "PromiseCapability", "Record", ".", {
   "k": 2
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 1
-}, "Else", ",", true, "Set", {
+}, "Else", ",", {
+  "in": null
+}, "Set", {
   "id": "resultCapability"
 }, "to", {
   "value": "undefined"
 }, ".", {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "If", "IsCallable", "(", {
   "id": "onFulfilled"
 }, ")", "is", {
   "value": "false"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "onFulfilled"
 }, "to", {
   "value": "undefined"
 }, ".", {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "If", "IsCallable", "(", {
   "id": "onRejected"
 }, ")", "is", {
   "value": "false"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "onRejected"
 }, "to", {
   "value": "undefined"
 }, ".", {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
 }, "Let", {
   "id": "fulfillReaction"
@@ -68,7 +84,9 @@
   "id": "promise"
 }, ".", "[", "[", "PromiseState", "]", "]", "is", {
   "code": "\"pending\""
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "id": "fulfillReaction"
 }, "as", "the", "last", "element", "of", "the", "List", "that", "is", {
   "id": "promise"
@@ -80,13 +98,17 @@
   "id": "promise"
 }, ".", "[", "[", "PromiseRejectReactions", "]", "]", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Else", "if", {
   "id": "promise"
 }, ".", "[", "[", "PromiseState", "]", "]", "is", {
   "code": "\"fulfilled\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "value"
 }, "be", {
   "id": "promise"
@@ -100,9 +122,13 @@
   "id": "value"
 }, "»", ")", ".", {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, "Else", ",", true, "Assert", ":", "The", "value", "of", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "The", "value", "of", {
   "id": "promise"
 }, ".", "[", "[", "PromiseState", "]", "]", "is", {
   "code": "\"rejected\""
@@ -132,7 +158,9 @@
   "id": "reason"
 }, "»", ")", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
 }, "Set", {
   "id": "promise"
@@ -144,16 +172,24 @@
   "id": "resultCapability"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "Return", {
+}, ",", "then", {
+  "in": null
+}, "Return", {
   "value": "undefined"
 }, ".", {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 23
-}, "Else", ",", true, "Return", {
+}, "Else", ",", {
+  "in": null
+}, "Return", {
   "id": "resultCapability"
 }, ".", "[", "[", "Promise", "]", "]", ".", {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
 }]

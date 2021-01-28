@@ -1,131 +1,109 @@
-[{
-  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
-    "id": "P"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "P"
+}, "is", {
+  "value": "\"length\""
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "ArraySetLength", "(", {
+  "id": "A"
+}, ",", {
+  "id": "Desc"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "P"
-  }, "is", {
-    "value": "\"length\""
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", "?", "ArraySetLength", "(", {
-        "id": "A"
-      }, ",", {
-        "id": "Desc"
-      }, ")", "."]
-    }]
-  }]
+  "k": 1
+}, "Else", "if", {
+  "id": "P"
+}, "is", "an", "array", "index", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "oldLenDesc"
+}, "be", "OrdinaryGetOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ")", ".", "Assert", ":", {
+  "id": "oldLenDesc"
+}, "will", "never", "be", {
+  "value": "undefined"
+}, "or", "an", "accessor", "descriptor", "because", "Array", "objects", "are", "created", "with", "a", "length", "data", "property", "that", "cannot", "be", "deleted", "or", "reconfigured", ".", "Let", {
+  "id": "oldLen"
+}, "be", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Value", "]", "]", ".", "Assert", ":", "IsNonNegativeInteger", "(", {
+  "id": "oldLen"
+}, ")", "is", {
+  "value": "true"
+}, ".", "Let", {
+  "id": "index"
+}, "be", "!", "ToUint32", "(", {
+  "id": "P"
+}, ")", ".", "If", {
+  "id": "index"
+}, "≥", {
+  "id": "oldLen"
+}, "and", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", "Let", {
+  "id": "succeeded"
+}, "be", "!", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Desc"
+}, ")", ".", "If", {
+  "id": "succeeded"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", {
+  "id": "index"
+}, "≥", {
+  "id": "oldLen"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "oldLenDesc"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "index"
+}, "+", "1", ".", "Let", {
+  "id": "succeeded"
+}, "be", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "oldLenDesc"
+}, ")", ".", "Assert", ":", {
+  "id": "succeeded"
+}, "is", {
+  "value": "true"
+}, ".", {
+  "out": null
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Else", "if", {
-    "id": "P"
-  }, "is", "an", "array", "index", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "oldLenDesc"
-      }, "be", "OrdinaryGetOwnProperty", "(", {
-        "id": "A"
-      }, ",", {
-        "value": "\"length\""
-      }, ")", "."]
-    }, {
-      "tokens": ["Assert", ":", {
-        "id": "oldLenDesc"
-      }, "will", "never", "be", {
-        "value": "undefined"
-      }, "or", "an", "accessor", "descriptor", "because", "Array", "objects", "are", "created", "with", "a", "length", "data", "property", "that", "cannot", "be", "deleted", "or", "reconfigured", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "oldLen"
-      }, "be", {
-        "id": "oldLenDesc"
-      }, ".", "[", "[", "Value", "]", "]", "."]
-    }, {
-      "tokens": ["Assert", ":", "IsNonNegativeInteger", "(", {
-        "id": "oldLen"
-      }, ")", "is", {
-        "value": "true"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "index"
-      }, "be", "!", "ToUint32", "(", {
-        "id": "P"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "index"
-      }, "≥", {
-        "id": "oldLen"
-      }, "and", {
-        "id": "oldLenDesc"
-      }, ".", "[", "[", "Writable", "]", "]", "is", {
-        "value": "false"
-      }, ",", "return", {
-        "value": "false"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "succeeded"
-      }, "be", "!", "OrdinaryDefineOwnProperty", "(", {
-        "id": "A"
-      }, ",", {
-        "id": "P"
-      }, ",", {
-        "id": "Desc"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "succeeded"
-      }, "is", {
-        "value": "false"
-      }, ",", "return", {
-        "value": "false"
-      }, "."]
-    }, {
-      "tokens": ["If", {
-        "id": "index"
-      }, "≥", {
-        "id": "oldLen"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Set", {
-            "id": "oldLenDesc"
-          }, ".", "[", "[", "Value", "]", "]", "to", {
-            "id": "index"
-          }, "+", "1", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "succeeded"
-          }, "be", "OrdinaryDefineOwnProperty", "(", {
-            "id": "A"
-          }, ",", {
-            "value": "\"length\""
-          }, ",", {
-            "id": "oldLenDesc"
-          }, ")", "."]
-        }, {
-          "tokens": ["Assert", ":", {
-            "id": "succeeded"
-          }, "is", {
-            "value": "true"
-          }, "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Return", {
-        "value": "true"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "OrdinaryDefineOwnProperty", "(", {
-    "id": "A"
-  }, ",", {
-    "id": "P"
-  }, ",", {
-    "id": "Desc"
-  }, ")", "."]
+  "k": 2
+}, "Return", "OrdinaryDefineOwnProperty", "(", {
+  "id": "A"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Desc"
+}, ")", ".", {
+  "k": 3
 }]

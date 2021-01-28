@@ -1,97 +1,89 @@
-[{
-  "tokens": ["Let", {
-    "id": "envRec"
-  }, "be", {
-    "id": "env"
-  }, "'", "s", "EnvironmentRecord", "."]
+["Let", {
+  "id": "envRec"
+}, "be", {
+  "id": "env"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "envRec"
+}, "is", "a", "declarative", "Environment", "Record", ".", {
+  "k": 1
+}, "Let", {
+  "id": "declarations"
+}, "be", "the", "LexicallyScopedDeclarations", "of", {
+  "id": "code"
+}, ".", {
+  "k": 2
+}, "For", "each", "element", {
+  "id": "d"
+}, "in", {
+  "id": "declarations"
+}, ",", "do", {
+  "in": null
+}, "For", "each", "element", {
+  "id": "dn"
+}, "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ",", "do", {
+  "in": null
+}, "If", "IsConstantDeclaration", "of", {
+  "id": "d"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", {
+  "id": "envRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "envRec"
-  }, "is", "a", "declarative", "Environment", "Record", "."]
+  "out": null
+}, "If", {
+  "id": "d"
+}, "is", "a", {
+  "nt": "FunctionDeclaration"
+}, ",", "a", {
+  "nt": "GeneratorDeclaration"
+}, ",", "an", {
+  "nt": "AsyncFunctionDeclaration"
+}, ",", "or", "an", {
+  "nt": "AsyncGeneratorDeclaration"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "fn"
+}, "be", "the", "sole", "element", "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ".", "Let", {
+  "id": "fo"
+}, "be", "InstantiateFunctionObject", "of", {
+  "id": "d"
+}, "with", "argument", {
+  "id": "env"
+}, ".", "Perform", {
+  "id": "envRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "fn"
+}, ",", {
+  "id": "fo"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "declarations"
-  }, "be", "the", "LexicallyScopedDeclarations", "of", {
-    "id": "code"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["For", "each", "element", {
-    "id": "d"
-  }, "in", {
-    "id": "declarations"
-  }, ",", "do", {
-    "steps": [{
-      "tokens": ["For", "each", "element", {
-        "id": "dn"
-      }, "of", "the", "BoundNames", "of", {
-        "id": "d"
-      }, ",", "do", {
-        "steps": [{
-          "tokens": ["If", "IsConstantDeclaration", "of", {
-            "id": "d"
-          }, "is", {
-            "value": "true"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["Perform", "!", {
-                "id": "envRec"
-              }, ".", "CreateImmutableBinding", "(", {
-                "id": "dn"
-              }, ",", {
-                "value": "true"
-              }, ")", "."]
-            }]
-          }]
-        }, {
-          "tokens": ["Else", ",", {
-            "steps": [{
-              "tokens": ["Perform", "!", {
-                "id": "envRec"
-              }, ".", "CreateMutableBinding", "(", {
-                "id": "dn"
-              }, ",", {
-                "value": "false"
-              }, ")", "."]
-            }]
-          }]
-        }]
-      }]
-    }, {
-      "tokens": ["If", {
-        "id": "d"
-      }, "is", "a", {
-        "nt": "FunctionDeclaration"
-      }, ",", "a", {
-        "nt": "GeneratorDeclaration"
-      }, ",", "an", {
-        "nt": "AsyncFunctionDeclaration"
-      }, ",", "or", "an", {
-        "nt": "AsyncGeneratorDeclaration"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "fn"
-          }, "be", "the", "sole", "element", "of", "the", "BoundNames", "of", {
-            "id": "d"
-          }, "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "fo"
-          }, "be", "InstantiateFunctionObject", "of", {
-            "id": "d"
-          }, "with", "argument", {
-            "id": "env"
-          }, "."]
-        }, {
-          "tokens": ["Perform", {
-            "id": "envRec"
-          }, ".", "InitializeBinding", "(", {
-            "id": "fn"
-          }, ",", {
-            "id": "fo"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "k": 3
 }]

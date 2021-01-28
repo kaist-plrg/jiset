@@ -88,7 +88,9 @@
   "id": "direct"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "ctx"
@@ -100,9 +102,13 @@
   "id": "ctx"
 }, "'", "s", "VariableEnvironment", ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "evalRealm"
@@ -114,7 +120,9 @@
   "id": "evalRealm"
 }, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "If", {
   "id": "strictEval"
@@ -188,13 +196,17 @@
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "normal"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "result"
 }, "be", "the", "result", "of", "evaluating", {
   "id": "body"
 }, ".", {
   "k": 25
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 24
 }, "If", {
   "id": "result"
@@ -204,13 +216,17 @@
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", "is", {
   "const": "empty"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "result"
 }, "be", "NormalCompletion", "(", {
   "value": "undefined"
 }, ")", ".", {
   "k": 27
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 26
 }, "Suspend", {
   "id": "evalCxt"

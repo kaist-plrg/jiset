@@ -1,37 +1,37 @@
-[{
-  "tokens": ["Let", {
-    "id": "sym"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "sym"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "sym"
+}, ")", "is", "not", "Symbol", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "For", "each", "element", {
+  "id": "e"
+}, "of", "the", "GlobalSymbolRegistry", "List", "(", "see", "19", ".", "4", ".", "2", ".", "2", ")", ",", "do", {
+  "in": null
+}, "If", "SameValue", "(", {
+  "id": "e"
+}, ".", "[", "[", "Symbol", "]", "]", ",", {
+  "id": "sym"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "e"
+}, ".", "[", "[", "Key", "]", "]", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "sym"
-  }, ")", "is", "not", "Symbol", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["For", "each", "element", {
-    "id": "e"
-  }, "of", "the", "GlobalSymbolRegistry", "List", "(", "see", "19", ".", "4", ".", "2", ".", "2", ")", ",", "do", {
-    "steps": [{
-      "tokens": ["If", "SameValue", "(", {
-        "id": "e"
-      }, ".", "[", "[", "Symbol", "]", "]", ",", {
-        "id": "sym"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "return", {
-        "id": "e"
-      }, ".", "[", "[", "Key", "]", "]", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Assert", ":", "GlobalSymbolRegistry", "does", "not", "currently", "contain", "an", "entry", "for", {
-    "id": "sym"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "value": "undefined"
-  }, "."]
+  "k": 2
+}, "Assert", ":", "GlobalSymbolRegistry", "does", "not", "currently", "contain", "an", "entry", "for", {
+  "id": "sym"
+}, ".", {
+  "k": 3
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
 }]

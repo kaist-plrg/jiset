@@ -30,11 +30,15 @@
   "id": "dn"
 }, "of", {
   "id": "boundNames"
-}, ",", "do", true, "If", {
+}, ",", "do", {
+  "in": null
+}, "If", {
   "id": "isConst"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Perform", "!", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
   "id": "loopEnvRec"
 }, ".", "CreateImmutableBinding", "(", {
   "id": "dn"
@@ -42,9 +46,13 @@
   "value": "true"
 }, ")", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
-}, "Else", ",", true, "Perform", "!", {
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", {
   "id": "loopEnvRec"
 }, ".", "CreateMutableBinding", "(", {
   "id": "dn"
@@ -52,9 +60,13 @@
   "value": "false"
 }, ")", ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "loopEnv"
@@ -68,7 +80,9 @@
   "k": 11
 }, "If", {
   "id": "forDcl"
-}, "is", "an", "abrupt", "completion", ",", "then", true, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "oldEnv"
 }, ".", {
   "k": 13
@@ -76,7 +90,9 @@
   "id": "forDcl"
 }, ")", ".", {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
 }, "If", {
   "id": "isConst"

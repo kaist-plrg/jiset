@@ -1,99 +1,85 @@
-[{
-  "tokens": ["If", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "is", {
-    "value": "false"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "next"
-      }, "be", "IteratorStep", "(", {
-        "id": "iteratorRecord"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", "an", "abrupt", "completion", ",", "set", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Done", "]", "]", "to", {
-        "value": "true"
-      }, "."]
-    }, {
-      "tokens": ["ReturnIfAbrupt", "(", {
-        "id": "next"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", {
-        "value": "false"
-      }, ",", "set", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Done", "]", "]", "to", {
-        "value": "true"
-      }, "."]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "v"
-          }, "be", "IteratorValue", "(", {
-            "id": "next"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "v"
-          }, "is", "an", "abrupt", "completion", ",", "set", {
-            "id": "iteratorRecord"
-          }, ".", "[", "[", "Done", "]", "]", "to", {
-            "value": "true"
-          }, "."]
-        }, {
-          "tokens": ["ReturnIfAbrupt", "(", {
-            "id": "v"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
+["If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "v"
+}, "be", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", "If", {
+  "id": "v"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", "ReturnIfAbrupt", "(", {
+  "id": "v"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "is", {
-    "value": "true"
-  }, ",", "let", {
-    "id": "v"
-  }, "be", {
-    "value": "undefined"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["If", {
-    "nt": "Initializer"
-  }, "is", "present", "and", {
-    "id": "v"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "defaultValue"
-      }, "be", "the", "result", "of", "evaluating", {
-        "nt": "Initializer"
-      }, "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "v"
-      }, "to", "?", "GetValue", "(", {
-        "id": "defaultValue"
-      }, ")", "."]
-    }]
-  }]
+  "k": 0
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "true"
+}, ",", "let", {
+  "id": "v"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 1
+}, "If", {
+  "nt": "Initializer"
+}, "is", "present", "and", {
+  "id": "v"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "defaultValue"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", "Set", {
+  "id": "v"
+}, "to", "?", "GetValue", "(", {
+  "id": "defaultValue"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Return", "the", "result", "of", "performing", "BindingInitialization", "of", {
-    "nt": "BindingPattern"
-  }, "with", {
-    "id": "v"
-  }, "and", {
-    "id": "environment"
-  }, "as", "the", "arguments", "."]
+  "k": 2
+}, "Return", "the", "result", "of", "performing", "BindingInitialization", "of", {
+  "nt": "BindingPattern"
+}, "with", {
+  "id": "v"
+}, "and", {
+  "id": "environment"
+}, "as", "the", "arguments", ".", {
+  "k": 3
 }]

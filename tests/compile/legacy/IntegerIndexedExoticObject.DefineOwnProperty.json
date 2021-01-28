@@ -1,111 +1,95 @@
-[{
-  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
-    "id": "P"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "P"
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "numericIndex"
+}, "be", "!", "CanonicalNumericIndexString", "(", {
+  "id": "P"
+}, ")", ".", "If", {
+  "id": "numericIndex"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "If", "!", "IsValidIntegerIndex", "(", {
+  "id": "O"
+}, ",", {
+  "id": "numericIndex"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", "IsAccessorDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Configurable", "]", "]", "field", "and", "if", {
+  "id": "Desc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", {
+  "id": "Desc"
+}, "has", "an", "[", "[", "Enumerable", "]", "]", "field", "and", "if", {
+  "id": "Desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Writable", "]", "]", "field", "and", "if", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Value", "]", "]", "field", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "value"
+}, "be", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", ".", "Return", "?", "IntegerIndexedElementSet", "(", {
+  "id": "O"
+}, ",", {
+  "id": "numericIndex"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "out": null
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "O"
-  }, "is", "an", "Integer", "-", "Indexed", "exotic", "object", "."]
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "P"
-  }, ")", "is", "String", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "numericIndex"
-      }, "be", "!", "CanonicalNumericIndexString", "(", {
-        "id": "P"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "numericIndex"
-      }, "is", "not", {
-        "value": "undefined"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["If", "!", "IsValidIntegerIndex", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "numericIndex"
-          }, ")", "is", {
-            "value": "false"
-          }, ",", "return", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["If", "IsAccessorDescriptor", "(", {
-            "id": "Desc"
-          }, ")", "is", {
-            "value": "true"
-          }, ",", "return", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["If", {
-            "id": "Desc"
-          }, "has", "a", "[", "[", "Configurable", "]", "]", "field", "and", "if", {
-            "id": "Desc"
-          }, ".", "[", "[", "Configurable", "]", "]", "is", {
-            "value": "true"
-          }, ",", "return", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["If", {
-            "id": "Desc"
-          }, "has", "an", "[", "[", "Enumerable", "]", "]", "field", "and", "if", {
-            "id": "Desc"
-          }, ".", "[", "[", "Enumerable", "]", "]", "is", {
-            "value": "false"
-          }, ",", "return", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["If", {
-            "id": "Desc"
-          }, "has", "a", "[", "[", "Writable", "]", "]", "field", "and", "if", {
-            "id": "Desc"
-          }, ".", "[", "[", "Writable", "]", "]", "is", {
-            "value": "false"
-          }, ",", "return", {
-            "value": "false"
-          }, "."]
-        }, {
-          "tokens": ["If", {
-            "id": "Desc"
-          }, "has", "a", "[", "[", "Value", "]", "]", "field", ",", "then", {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "value"
-              }, "be", {
-                "id": "Desc"
-              }, ".", "[", "[", "Value", "]", "]", "."]
-            }, {
-              "tokens": ["Return", "?", "IntegerIndexedElementSet", "(", {
-                "id": "O"
-              }, ",", {
-                "id": "numericIndex"
-              }, ",", {
-                "id": "value"
-              }, ")", "."]
-            }]
-          }]
-        }, {
-          "tokens": ["Return", {
-            "value": "true"
-          }, "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "!", "OrdinaryDefineOwnProperty", "(", {
-    "id": "O"
-  }, ",", {
-    "id": "P"
-  }, ",", {
-    "id": "Desc"
-  }, ")", "."]
+  "k": 2
+}, "Return", "!", "OrdinaryDefineOwnProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "Desc"
+}, ")", ".", {
+  "k": 3
 }]

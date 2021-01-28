@@ -38,7 +38,9 @@
   "id": "targetHasLength"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "targetLen"
 }, "be", "?", "Get", "(", {
   "id": "Target"
@@ -48,7 +50,9 @@
   "k": 6
 }, "If", "Type", "(", {
   "id": "targetLen"
-}, ")", "is", "Number", ",", "then", true, "If", {
+}, ")", "is", "Number", ",", "then", {
+  "in": null
+}, "If", {
   "id": "targetLen"
 }, "is", {
   "value": "+∞"
@@ -64,7 +68,9 @@
   "id": "L"
 }, "to", "0", ".", {
   "k": 9
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "targetLenAsInt"
 }, "be", "!", "ToIntegerOrInfinity", "(", {
   "id": "targetLen"
@@ -88,11 +94,17 @@
   "id": "argCount"
 }, ",", "0", ")", ".", {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "Perform", "!", "SetFunctionLength", "(", {
   "id": "F"

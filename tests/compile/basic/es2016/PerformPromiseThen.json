@@ -12,25 +12,33 @@
   "id": "onFulfilled"
 }, ")", "is", {
   "value": "false"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "onFulfilled"
 }, "be", {
   "code": "\"Identity\""
 }, ".", {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "If", "IsCallable", "(", {
   "id": "onRejected"
 }, ")", "is", {
   "value": "false"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "onRejected"
 }, "be", {
   "code": "\"Thrower\""
 }, ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
 }, "Let", {
   "id": "fulfillReaction"
@@ -52,7 +60,9 @@
   "id": "promise"
 }, "'", "s", "[", "[", "PromiseState", "]", "]", "internal", "slot", "is", {
   "code": "\"pending\""
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "id": "fulfillReaction"
 }, "as", "the", "last", "element", "of", "the", "List", "that", "is", "the", "value", "of", {
   "id": "promise"
@@ -64,13 +74,17 @@
   "id": "promise"
 }, "'", "s", "[", "[", "PromiseRejectReactions", "]", "]", "internal", "slot", ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Else", "if", "the", "value", "of", {
   "id": "promise"
 }, "'", "s", "[", "[", "PromiseState", "]", "]", "internal", "slot", "is", {
   "code": "\"fulfilled\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "value"
 }, "be", "the", "value", "of", {
   "id": "promise"
@@ -84,9 +98,13 @@
   "id": "value"
 }, "»", ")", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
-}, "Else", ",", true, "Assert", ":", "The", "value", "of", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "The", "value", "of", {
   "id": "promise"
 }, "'", "s", "[", "[", "PromiseState", "]", "]", "internal", "slot", "is", {
   "code": "\"rejected\""
@@ -116,7 +134,9 @@
   "id": "reason"
 }, "»", ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Set", {
   "id": "promise"

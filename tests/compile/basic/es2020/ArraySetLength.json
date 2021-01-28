@@ -1,6 +1,8 @@
 ["If", {
   "id": "Desc"
-}, ".", "[", "[", "Value", "]", "]", "is", "absent", ",", "then", true, "Return", "OrdinaryDefineOwnProperty", "(", {
+}, ".", "[", "[", "Value", "]", "]", "is", "absent", ",", "then", {
+  "in": null
+}, "Return", "OrdinaryDefineOwnProperty", "(", {
   "id": "A"
 }, ",", {
   "value": "\"length\""
@@ -8,7 +10,9 @@
   "id": "Desc"
 }, ")", ".", {
   "k": 1
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "Let", {
   "id": "newLenDesc"
@@ -66,7 +70,9 @@
   "id": "newLen"
 }, "≥", {
   "id": "oldLen"
-}, ",", "then", true, "Return", "OrdinaryDefineOwnProperty", "(", {
+}, ",", "then", {
+  "in": null
+}, "Return", "OrdinaryDefineOwnProperty", "(", {
   "id": "A"
 }, ",", {
   "value": "\"length\""
@@ -74,7 +80,9 @@
   "id": "newLenDesc"
 }, ")", ".", {
   "k": 11
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "If", {
   "id": "oldLenDesc"
@@ -94,7 +102,9 @@
   "value": "true"
 }, ".", {
   "k": 13
-}, "Else", ",", true, "Need", "to", "defer", "setting", "the", "[", "[", "Writable", "]", "]", "attribute", "to", {
+}, "Else", ",", {
+  "in": null
+}, "Need", "to", "defer", "setting", "the", "[", "[", "Writable", "]", "]", "attribute", "to", {
   "value": "false"
 }, "in", "case", "any", "elements", "cannot", "be", "deleted", ".", {
   "k": 15
@@ -110,7 +120,9 @@
   "value": "true"
 }, ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Let", {
   "id": "succeeded"
@@ -136,7 +148,9 @@
   "id": "A"
 }, "that", "is", "an", "array", "index", ",", "whose", "numeric", "value", "is", "greater", "than", "or", "equal", "to", {
   "id": "newLen"
-}, ",", "in", "descending", "numeric", "index", "order", ",", "do", true, "Let", {
+}, ",", "in", "descending", "numeric", "index", "order", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "deleteSucceeded"
 }, "be", "!", {
   "id": "A"
@@ -148,7 +162,9 @@
   "id": "deleteSucceeded"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "newLenDesc"
 }, ".", "[", "[", "Value", "]", "]", "to", "!", "ToUint32", "(", {
   "id": "P"
@@ -176,15 +192,21 @@
   "value": "false"
 }, ".", {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 22
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
 }, "If", {
   "id": "newWritable"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "Return", "OrdinaryDefineOwnProperty", "(", {
+}, ",", "then", {
+  "in": null
+}, "Return", "OrdinaryDefineOwnProperty", "(", {
   "id": "A"
 }, ",", {
   "value": "\"length\""
@@ -194,7 +216,9 @@
   "value": "true"
 }, ".", {
   "k": 28
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
 }, "Return", {
   "value": "true"

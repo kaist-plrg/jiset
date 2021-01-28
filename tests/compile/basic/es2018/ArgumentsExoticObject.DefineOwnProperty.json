@@ -30,13 +30,17 @@
   "id": "Desc"
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "Desc"
 }, ".", "[", "[", "Value", "]", "]", "is", "not", "present", "and", {
   "id": "Desc"
 }, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "its", "value", "is", {
   "value": "false"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "newArgDesc"
 }, "to", "a", "copy", "of", {
   "id": "Desc"
@@ -50,9 +54,13 @@
   "id": "P"
 }, ")", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
 }, "Let", {
   "id": "allowed"
@@ -76,21 +84,31 @@
   "id": "isMapped"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "If", "IsAccessorDescriptor", "(", {
+}, ",", "then", {
+  "in": null
+}, "If", "IsAccessorDescriptor", "(", {
   "id": "Desc"
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "Call", {
+}, ",", "then", {
+  "in": null
+}, "Call", {
   "id": "map"
 }, ".", "[", "[", "Delete", "]", "]", "(", {
   "id": "P"
 }, ")", ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
-}, "Else", ",", true, "If", {
+}, "Else", ",", {
+  "in": null
+}, "If", {
   "id": "Desc"
-}, ".", "[", "[", "Value", "]", "]", "is", "present", ",", "then", true, "Let", {
+}, ".", "[", "[", "Value", "]", "]", "is", "present", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "setStatus"
 }, "be", "Set", "(", {
   "id": "map"
@@ -108,23 +126,33 @@
   "value": "true"
 }, "because", "formal", "parameters", "mapped", "by", "argument", "objects", "are", "always", "writable", ".", {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "If", {
   "id": "Desc"
 }, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "its", "value", "is", {
   "value": "false"
-}, ",", "then", true, "Call", {
+}, ",", "then", {
+  "in": null
+}, "Call", {
   "id": "map"
 }, ".", "[", "[", "Delete", "]", "]", "(", {
   "id": "P"
 }, ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "Return", {
   "value": "true"

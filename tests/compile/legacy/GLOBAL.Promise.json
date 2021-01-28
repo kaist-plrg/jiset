@@ -1,83 +1,83 @@
-[{
-  "tokens": ["Let", {
-    "id": "executor"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "executor"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "If", "IsCallable", "(", {
+  "id": "executor"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Let", {
+  "id": "promise"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
+  "value": "\"%Promise.prototype%\""
+}, ",", "«", "[", "[", "PromiseState", "]", "]", ",", "[", "[", "PromiseResult", "]", "]", ",", "[", "[", "PromiseFulfillReactions", "]", "]", ",", "[", "[", "PromiseRejectReactions", "]", "]", ",", "[", "[", "PromiseIsHandled", "]", "]", "»", ")", ".", {
+  "k": 3
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseState", "]", "]", "to", {
+  "const": "pending"
+}, ".", {
+  "k": 4
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseFulfillReactions", "]", "]", "to", "a", "new", "empty", "List", ".", {
+  "k": 5
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseRejectReactions", "]", "]", "to", "a", "new", "empty", "List", ".", {
+  "k": 6
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseIsHandled", "]", "]", "to", {
+  "value": "false"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "resolvingFunctions"
+}, "be", "CreateResolvingFunctions", "(", {
+  "id": "promise"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "completion"
+}, "be", "Call", "(", {
+  "id": "executor"
+}, ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Resolve", "]", "]", ",", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Reject", "]", "]", "»", ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "completion"
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Perform", "?", "Call", "(", {
+  "id": "resolvingFunctions"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "completion"
+}, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "NewTarget", "is", {
-    "value": "undefined"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["If", "IsCallable", "(", {
-    "id": "executor"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "promise"
-  }, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
-    "value": "\"%Promise.prototype%\""
-  }, ",", "«", "[", "[", "PromiseState", "]", "]", ",", "[", "[", "PromiseResult", "]", "]", ",", "[", "[", "PromiseFulfillReactions", "]", "]", ",", "[", "[", "PromiseRejectReactions", "]", "]", ",", "[", "[", "PromiseIsHandled", "]", "]", "»", ")", "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseState", "]", "]", "to", {
-    "const": "pending"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseFulfillReactions", "]", "]", "to", "a", "new", "empty", "List", "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseRejectReactions", "]", "]", "to", "a", "new", "empty", "List", "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseIsHandled", "]", "]", "to", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "resolvingFunctions"
-  }, "be", "CreateResolvingFunctions", "(", {
-    "id": "promise"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "completion"
-  }, "be", "Call", "(", {
-    "id": "executor"
-  }, ",", {
-    "value": "undefined"
-  }, ",", "«", {
-    "id": "resolvingFunctions"
-  }, ".", "[", "[", "Resolve", "]", "]", ",", {
-    "id": "resolvingFunctions"
-  }, ".", "[", "[", "Reject", "]", "]", "»", ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "completion"
-  }, "is", "an", "abrupt", "completion", ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "?", "Call", "(", {
-        "id": "resolvingFunctions"
-      }, ".", "[", "[", "Reject", "]", "]", ",", {
-        "value": "undefined"
-      }, ",", "«", {
-        "id": "completion"
-      }, ".", "[", "[", "Value", "]", "]", "»", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "promise"
-  }, "."]
+  "k": 10
+}, "Return", {
+  "id": "promise"
+}, ".", {
+  "k": 11
 }]

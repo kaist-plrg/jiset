@@ -96,7 +96,9 @@
   "id": "v"
 }, "is", "not", "equal", "to", {
   "id": "w"
-}, ",", "then", true, "Perform", "LeaveCriticalSection", "(", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "LeaveCriticalSection", "(", {
   "id": "WL"
 }, ")", ".", {
   "k": 14
@@ -104,7 +106,9 @@
   "code": "\"not-equal\""
 }, ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
 }, "Let", {
   "id": "W"
@@ -130,21 +134,29 @@
   "id": "notified"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "W"
 }, "is", "not", "on", "the", "list", "of", "waiters", "in", {
   "id": "WL"
 }, ".", {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 19
-}, "Else", ",", true, "Perform", "RemoveWaiter", "(", {
+}, "Else", ",", {
+  "in": null
+}, "Perform", "RemoveWaiter", "(", {
   "id": "WL"
 }, ",", {
   "id": "W"
 }, ")", ".", {
   "k": 22
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 21
 }, "Perform", "LeaveCriticalSection", "(", {
   "id": "WL"

@@ -1,133 +1,115 @@
-[{
-  "tokens": ["Let", {
-    "id": "oldEnv"
-  }, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "."]
+["Let", {
+  "id": "oldEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 0
+}, "If", {
+  "id": "uninitializedBoundNames"
+}, "is", "not", "an", "empty", "List", ",", "then", {
+  "in": null
+}, "Assert", ":", {
+  "id": "uninitializedBoundNames"
+}, "has", "no", "duplicate", "entries", ".", "Let", {
+  "id": "newEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "oldEnv"
+}, ")", ".", "Let", {
+  "id": "newEnvRec"
+}, "be", {
+  "id": "newEnv"
+}, "'", "s", "EnvironmentRecord", ".", "For", "each", "string", {
+  "id": "name"
+}, "in", {
+  "id": "uninitializedBoundNames"
+}, ",", "do", {
+  "in": null
+}, "Perform", "!", {
+  "id": "newEnvRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "out": null
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "newEnv"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "uninitializedBoundNames"
-  }, "is", "not", "an", "empty", "List", ",", "then", {
-    "steps": [{
-      "tokens": ["Assert", ":", {
-        "id": "uninitializedBoundNames"
-      }, "has", "no", "duplicate", "entries", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "newEnv"
-      }, "be", "NewDeclarativeEnvironment", "(", {
-        "id": "oldEnv"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "newEnvRec"
-      }, "be", {
-        "id": "newEnv"
-      }, "'", "s", "EnvironmentRecord", "."]
-    }, {
-      "tokens": ["For", "each", "string", {
-        "id": "name"
-      }, "in", {
-        "id": "uninitializedBoundNames"
-      }, ",", "do", {
-        "steps": [{
-          "tokens": ["Perform", "!", {
-            "id": "newEnvRec"
-          }, ".", "CreateMutableBinding", "(", {
-            "id": "name"
-          }, ",", {
-            "value": "false"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-        "id": "newEnv"
-      }, "."]
-    }]
-  }]
+  "k": 1
+}, "Let", {
+  "id": "exprRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "expr"
+}, ".", {
+  "k": 2
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "exprValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "exprRef"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "iterationKind"
+}, "is", {
+  "const": "enumerate"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "exprValue"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Return", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
+  "const": "break"
+}, ",", "[", "[", "Value", "]", "]", ":", {
+  "const": "empty"
+}, ",", "[", "[", "Target", "]", "]", ":", {
+  "const": "empty"
+}, "}", ".", {
+  "out": null
+}, "Let", {
+  "id": "obj"
+}, "be", "!", "ToObject", "(", {
+  "id": "exprValue"
+}, ")", ".", "Return", "?", "EnumerateObjectProperties", "(", {
+  "id": "obj"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "exprRef"
-  }, "be", "the", "result", "of", "evaluating", {
-    "id": "expr"
-  }, "."]
+  "k": 5
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "iterationKind"
+}, "is", {
+  "const": "iterate"
+}, "or", {
+  "const": "async-iterate"
+}, ".", "If", {
+  "id": "iterationKind"
+}, "is", {
+  "const": "async-iterate"
+}, ",", "let", {
+  "id": "iteratorHint"
+}, "be", {
+  "const": "async"
+}, ".", "Else", ",", "let", {
+  "id": "iteratorHint"
+}, "be", {
+  "const": "sync"
+}, ".", "Return", "?", "GetIterator", "(", {
+  "id": "exprValue"
+}, ",", {
+  "id": "iteratorHint"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-    "id": "oldEnv"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "exprValue"
-  }, "be", "?", "GetValue", "(", {
-    "id": "exprRef"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "iterationKind"
-  }, "is", {
-    "const": "enumerate"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "exprValue"
-      }, "is", {
-        "value": "undefined"
-      }, "or", {
-        "value": "null"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Return", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
-            "const": "break"
-          }, ",", "[", "[", "Value", "]", "]", ":", {
-            "const": "empty"
-          }, ",", "[", "[", "Target", "]", "]", ":", {
-            "const": "empty"
-          }, "}", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Let", {
-        "id": "obj"
-      }, "be", "!", "ToObject", "(", {
-        "id": "exprValue"
-      }, ")", "."]
-    }, {
-      "tokens": ["Return", "?", "EnumerateObjectProperties", "(", {
-        "id": "obj"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Assert", ":", {
-        "id": "iterationKind"
-      }, "is", {
-        "const": "iterate"
-      }, "or", {
-        "const": "async-iterate"
-      }, "."]
-    }, {
-      "tokens": ["If", {
-        "id": "iterationKind"
-      }, "is", {
-        "const": "async-iterate"
-      }, ",", "let", {
-        "id": "iteratorHint"
-      }, "be", {
-        "const": "async"
-      }, "."]
-    }, {
-      "tokens": ["Else", ",", "let", {
-        "id": "iteratorHint"
-      }, "be", {
-        "const": "sync"
-      }, "."]
-    }, {
-      "tokens": ["Return", "?", "GetIterator", "(", {
-        "id": "exprValue"
-      }, ",", {
-        "id": "iteratorHint"
-      }, ")", "."]
-    }]
-  }]
+  "k": 6
 }]

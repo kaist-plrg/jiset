@@ -42,11 +42,15 @@
   "id": "ref"
 }, ")", "is", {
   "code": "\"eval\""
-}, ",", "then", true, "If", "SameValue", "(", {
+}, ",", "then", {
+  "in": null
+}, "If", "SameValue", "(", {
   "id": "func"
 }, ",", "%", "eval", "%", ")", "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "argList"
 }, "be", "?", "ArgumentListEvaluation", "(", {
   "id": "arguments"
@@ -96,27 +100,39 @@
   "value": "true"
 }, ")", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
 }, "If", "Type", "(", {
   "id": "ref"
-}, ")", "is", "Reference", ",", "then", true, "If", "IsPropertyReference", "(", {
+}, ")", "is", "Reference", ",", "then", {
+  "in": null
+}, "If", "IsPropertyReference", "(", {
   "id": "ref"
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "thisValue"
 }, "be", "GetThisValue", "(", {
   "id": "ref"
 }, ")", ".", {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 15
 }, "Else", "the", "base", "of", {
   "id": "ref"
-}, "is", "an", "Environment", "Record", ",", true, "Let", {
+}, "is", "an", "Environment", "Record", ",", {
+  "in": null
+}, "Let", {
   "id": "refEnv"
 }, "be", "GetBase", "(", {
   "id": "ref"
@@ -128,19 +144,27 @@
   "id": "refEnv"
 }, ".", "WithBaseObject", "(", ")", ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Else", "Type", "(", {
   "id": "ref"
-}, ")", "is", "not", "Reference", ",", true, "Let", {
+}, ")", "is", "not", "Reference", ",", {
+  "in": null
+}, "Let", {
   "id": "thisValue"
 }, "be", {
   "value": "undefined"
 }, ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
 }, "Let", {
   "id": "thisCall"

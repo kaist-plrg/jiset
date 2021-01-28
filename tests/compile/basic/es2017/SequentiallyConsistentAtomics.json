@@ -12,7 +12,9 @@
   "id": "D"
 }, "in", "EventSet", "(", {
   "id": "execution"
-}, ")", ",", "do", true, "If", {
+}, ")", ",", "do", {
+  "in": null
+}, "If", {
   "id": "E"
 }, "happens", "-", "before", {
   "id": "D"
@@ -32,7 +34,9 @@
   "id": "E"
 }, "synchronizes", "-", "with", {
   "id": "D"
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "D"
 }, ".", "[", "[", "Order", "]", "]", "is", {
   "code": "\"SeqCst\""
@@ -62,15 +66,21 @@
   "code": "\"SeqCst\""
 }, "events", "on", "equal", "ranges", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "For", "each", "WriteSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
   "id": "W"
 }, "in", "SharedDataBlockEventSet", "(", {
   "id": "execution"
-}, ")", ",", "do", true, "If", {
+}, ")", ",", "do", {
+  "in": null
+}, "If", {
   "id": "W"
 }, ".", "[", "[", "Order", "]", "]", "is", {
   "code": "\"SeqCst\""
@@ -86,6 +96,8 @@
   "code": "\"SeqCst\""
 }, "reads", "with", "equal", "range", "in", "finite", "time", ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }]

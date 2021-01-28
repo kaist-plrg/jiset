@@ -1,51 +1,51 @@
-[{
-  "tokens": ["Let", {
-    "id": "obj"
-  }, "be", "?", "ToObject", "(", {
-    "id": "O"
-  }, ")", "."]
+["Let", {
+  "id": "obj"
+}, "be", "?", "ToObject", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "keys"
+}, "be", "?", {
+  "id": "obj"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "nameList"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "For", "each", "element", {
+  "id": "nextKey"
+}, "of", {
+  "id": "keys"
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "If", "Type", "(", {
+  "id": "nextKey"
+}, ")", "is", "Symbol", "and", {
+  "id": "type"
+}, "is", {
+  "const": "symbol"
+}, "or", "Type", "(", {
+  "id": "nextKey"
+}, ")", "is", "String", "and", {
+  "id": "type"
+}, "is", {
+  "const": "string"
+}, ",", "then", {
+  "in": null
+}, "Append", {
+  "id": "nextKey"
+}, "as", "the", "last", "element", "of", {
+  "id": "nameList"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "keys"
-  }, "be", "?", {
-    "id": "obj"
-  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "nameList"
-  }, "be", "a", "new", "empty", "List", "."]
-}, {
-  "tokens": ["For", "each", "element", {
-    "id": "nextKey"
-  }, "of", {
-    "id": "keys"
-  }, "in", "List", "order", ",", "do", {
-    "steps": [{
-      "tokens": ["If", "Type", "(", {
-        "id": "nextKey"
-      }, ")", "is", "Symbol", "and", {
-        "id": "type"
-      }, "is", {
-        "const": "symbol"
-      }, "or", "Type", "(", {
-        "id": "nextKey"
-      }, ")", "is", "String", "and", {
-        "id": "type"
-      }, "is", {
-        "const": "string"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Append", {
-            "id": "nextKey"
-          }, "as", "the", "last", "element", "of", {
-            "id": "nameList"
-          }, "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "CreateArrayFromList", "(", {
-    "id": "nameList"
-  }, ")", "."]
+  "k": 3
+}, "Return", "CreateArrayFromList", "(", {
+  "id": "nameList"
+}, ")", ".", {
+  "k": 4
 }]

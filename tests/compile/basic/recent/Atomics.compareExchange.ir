@@ -41,7 +41,7 @@
     ??? "Let id:{rawBytesRead} be a List of length id:{elementSize} whose elements are nondeterministically chosen byte values ."
     app __x11__ = (ByteListEqual rawBytesRead expectedBytes)
     if (= __x11__ true) {
-      ??? "Let id:{second} be a new read - modify - write modification function with parameters ( id:{oldBytes} , id:{newBytes} ) that captures nothing and performs the following steps atomically when called : step-list:{...}"
+      ??? "Let id:{second} be a new read - modify - write modification function with parameters ( id:{oldBytes} , id:{newBytes} ) that captures nothing and performs the following steps atomically when called : in:{} out:{}"
       ??? "Let id:{event} be ReadModifyWriteSharedMemory { [ [ Order ] ] : const:{SeqCst} , [ [ NoTear ] ] : value:{true} , [ [ Block ] ] : id:{block} , [ [ ByteIndex ] ] : id:{indexedPosition} , [ [ ElementSize ] ] : id:{elementSize} , [ [ Payload ] ] : id:{replacementBytes} , [ [ ModifyOp ] ] : id:{second} } ."
     } else let event = (new ReadSharedMemory("Order" -> CONST_SeqCst, "NoTear" -> true, "Block" -> block, "ByteIndex" -> indexedPosition, "ElementSize" -> elementSize))
     append event -> eventList

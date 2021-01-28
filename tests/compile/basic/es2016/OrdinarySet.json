@@ -16,7 +16,9 @@
   "id": "ownDesc"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "parent"
 }, "be", "?", {
   "id": "O"
@@ -26,7 +28,9 @@
   "id": "parent"
 }, "is", "not", {
   "value": "null"
-}, ",", "then", true, "Return", "?", {
+}, ",", "then", {
+  "in": null
+}, "Return", "?", {
   "id": "parent"
 }, ".", "[", "[", "Set", "]", "]", "(", {
   "id": "P"
@@ -36,9 +40,13 @@
   "id": "Receiver"
 }, ")", ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "ownDesc"
 }, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
   "value": "undefined"
@@ -50,15 +58,21 @@
   "value": "true"
 }, "}", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "If", "IsDataDescriptor", "(", {
   "id": "ownDesc"
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "ownDesc"
 }, ".", "[", "[", "Writable", "]", "]", "is", {
   "value": "false"
@@ -84,7 +98,9 @@
   "id": "existingDescriptor"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "If", "IsAccessorDescriptor", "(", {
+}, ",", "then", {
+  "in": null
+}, "If", "IsAccessorDescriptor", "(", {
   "id": "existingDescriptor"
 }, ")", "is", {
   "value": "true"
@@ -114,13 +130,17 @@
   "id": "valueDesc"
 }, ")", ".", {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
 }, "Else", {
   "id": "Receiver"
 }, "does", "not", "currently", "have", "a", "property", {
   "id": "P"
-}, ",", true, "Return", "?", "CreateDataProperty", "(", {
+}, ",", {
+  "in": null
+}, "Return", "?", "CreateDataProperty", "(", {
   "id": "Receiver"
 }, ",", {
   "id": "P"
@@ -128,9 +148,13 @@
   "id": "V"
 }, ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Assert", ":", "IsAccessorDescriptor", "(", {
   "id": "ownDesc"

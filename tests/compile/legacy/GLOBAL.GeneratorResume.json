@@ -1,81 +1,81 @@
-[{
-  "tokens": ["Let", {
-    "id": "generator"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "value"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "state"
-  }, "be", "?", "GeneratorValidate", "(", {
-    "id": "generator"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "state"
-  }, "is", {
-    "const": "completed"
-  }, ",", "return", "CreateIterResultObject", "(", {
-    "value": "undefined"
-  }, ",", {
-    "value": "true"
-  }, ")", "."]
-}, {
-  "tokens": ["Assert", ":", {
-    "id": "state"
-  }, "is", "either", {
-    "const": "suspendedStart"
-  }, "or", {
-    "const": "suspendedYield"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "genContext"
-  }, "be", {
-    "id": "generator"
-  }, ".", "[", "[", "GeneratorContext", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "methodContext"
-  }, "be", "the", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Suspend", {
-    "id": "methodContext"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "generator"
-  }, ".", "[", "[", "GeneratorState", "]", "]", "to", {
-    "const": "executing"
-  }, "."]
-}, {
-  "tokens": ["Push", {
-    "id": "genContext"
-  }, "onto", "the", "execution", "context", "stack", ";", {
-    "id": "genContext"
-  }, "is", "now", "the", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Resume", "the", "suspended", "evaluation", "of", {
-    "id": "genContext"
-  }, "using", "NormalCompletion", "(", {
-    "id": "value"
-  }, ")", "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
-    "id": "result"
-  }, "be", "the", "value", "returned", "by", "the", "resumed", "computation", "."]
-}, {
-  "tokens": ["Assert", ":", "When", "we", "return", "here", ",", {
-    "id": "genContext"
-  }, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
-    "id": "methodContext"
-  }, "is", "the", "currently", "running", "execution", "context", "."]
-}, {
-  "tokens": ["Return", "Completion", "(", {
-    "id": "result"
-  }, ")", "."]
+["Let", {
+  "id": "generator"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "value"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "state"
+}, "be", "?", "GeneratorValidate", "(", {
+  "id": "generator"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "state"
+}, "is", {
+  "const": "completed"
+}, ",", "return", "CreateIterResultObject", "(", {
+  "value": "undefined"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 3
+}, "Assert", ":", {
+  "id": "state"
+}, "is", "either", {
+  "const": "suspendedStart"
+}, "or", {
+  "const": "suspendedYield"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "genContext"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorContext", "]", "]", ".", {
+  "k": 5
+}, "Let", {
+  "id": "methodContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 6
+}, "Suspend", {
+  "id": "methodContext"
+}, ".", {
+  "k": 7
+}, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "GeneratorState", "]", "]", "to", {
+  "const": "executing"
+}, ".", {
+  "k": 8
+}, "Push", {
+  "id": "genContext"
+}, "onto", "the", "execution", "context", "stack", ";", {
+  "id": "genContext"
+}, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 9
+}, "Resume", "the", "suspended", "evaluation", "of", {
+  "id": "genContext"
+}, "using", "NormalCompletion", "(", {
+  "id": "value"
+}, ")", "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
+  "id": "result"
+}, "be", "the", "value", "returned", "by", "the", "resumed", "computation", ".", {
+  "k": 10
+}, "Assert", ":", "When", "we", "return", "here", ",", {
+  "id": "genContext"
+}, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
+  "id": "methodContext"
+}, "is", "the", "currently", "running", "execution", "context", ".", {
+  "k": 11
+}, "Return", "Completion", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 12
 }]

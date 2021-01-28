@@ -1,6 +1,8 @@
 ["If", {
   "id": "module"
-}, "is", "not", "a", "Source", "Text", "Module", "Record", ",", "then", true, "Perform", "?", {
+}, "is", "not", "a", "Source", "Text", "Module", "Record", ",", "then", {
+  "in": null
+}, "Perform", "?", {
   "id": "module"
 }, ".", "Instantiate", "(", ")", ".", {
   "k": 1
@@ -8,7 +10,9 @@
   "id": "index"
 }, ".", {
   "k": 2
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "If", {
   "id": "module"
@@ -18,11 +22,15 @@
   "code": "\"instantiated\""
 }, ",", "or", {
   "code": "\"evaluated\""
-}, ",", "then", true, "Return", {
+}, ",", "then", {
+  "in": null
+}, "Return", {
   "id": "index"
 }, ".", {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "Assert", ":", {
   "id": "module"
@@ -64,7 +72,9 @@
   "id": "required"
 }, "that", "is", "an", "element", "of", {
   "id": "module"
-}, ".", "[", "[", "RequestedModules", "]", "]", ",", "do", true, "Let", {
+}, ".", "[", "[", "RequestedModules", "]", "]", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "requiredModule"
 }, "be", "?", "HostResolveImportedModule", "(", {
   "id": "module"
@@ -106,7 +116,9 @@
   "id": "requiredModule"
 }, ".", "[", "[", "Status", "]", "]", "is", {
   "code": "\"instantiating\""
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "requiredModule"
 }, "is", "a", "Source", "Text", "Module", "Record", ".", {
   "k": 17
@@ -118,9 +130,13 @@
   "id": "requiredModule"
 }, ".", "[", "[", "DFSAncestorIndex", "]", "]", ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Perform", "?", "ModuleDeclarationEnvironmentSetup", "(", {
   "id": "module"
@@ -142,7 +158,9 @@
   "id": "module"
 }, ".", "[", "[", "DFSAncestorIndex", "]", "]", "equals", {
   "id": "module"
-}, ".", "[", "[", "DFSIndex", "]", "]", ",", "then", true, "Let", {
+}, ".", "[", "[", "DFSIndex", "]", "]", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "done"
 }, "be", {
   "value": "false"
@@ -152,7 +170,9 @@
   "id": "done"
 }, "is", {
   "value": "false"
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "requiredModule"
 }, "be", "the", "last", "element", "in", {
   "id": "stack"
@@ -178,9 +198,13 @@
   "value": "true"
 }, ".", {
   "k": 28
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 22
 }, "Return", {
   "id": "index"

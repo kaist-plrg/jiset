@@ -1,41 +1,35 @@
-[{
-  "tokens": ["If", {
-    "id": "iteratorRecord"
-  }, ".", "[", "[", "Done", "]", "]", "is", {
-    "value": "false"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "next"
-      }, "be", "IteratorStep", "(", {
-        "id": "iteratorRecord"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", "an", "abrupt", "completion", ",", "set", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Done", "]", "]", "to", {
-        "value": "true"
-      }, "."]
-    }, {
-      "tokens": ["ReturnIfAbrupt", "(", {
-        "id": "next"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", {
-        "value": "false"
-      }, ",", "set", {
-        "id": "iteratorRecord"
-      }, ".", "[", "[", "Done", "]", "]", "to", {
-        "value": "true"
-      }, "."]
-    }]
-  }]
+["If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "next"
+}, "be", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", "an", "abrupt", "completion", ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", "ReturnIfAbrupt", "(", {
+  "id": "next"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Return", "NormalCompletion", "(", {
-    "const": "empty"
-  }, ")", "."]
+  "k": 0
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 1
 }]

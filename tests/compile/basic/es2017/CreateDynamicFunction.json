@@ -34,7 +34,9 @@
   "id": "kind"
 }, "is", {
   "code": "\"normal\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "goal"
 }, "be", "the", "grammar", "symbol", "|", "FunctionBody", "[", "~", "Yield", ",", "~", "Await", "]", "|", ".", {
   "k": 7
@@ -48,13 +50,17 @@
   "code": "\"%FunctionPrototype%\""
 }, ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Else", "if", {
   "id": "kind"
 }, "is", {
   "code": "\"generator\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "goal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "GeneratorBody"
@@ -70,9 +76,13 @@
   "code": "\"%Generator%\""
 }, ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "kind"
 }, "is", {
   "code": "\"async\""
@@ -94,7 +104,9 @@
   "code": "\"%AsyncFunctionPrototype%\""
 }, ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "Let", {
   "id": "argCount"
@@ -122,7 +134,9 @@
   "k": 22
 }, "Else", {
   "id": "argCount"
-}, ">", "1", ",", true, "Let", {
+}, ">", "1", ",", {
+  "in": null
+}, "Let", {
   "id": "firstArg"
 }, "be", {
   "id": "args"
@@ -142,7 +156,9 @@
   "id": "k"
 }, "<", {
   "id": "argCount"
-}, "-", "1", true, "Let", {
+}, "-", "1", {
+  "in": null
+}, "Let", {
   "id": "nextArg"
 }, "be", {
   "id": "args"
@@ -170,7 +186,9 @@
   "id": "k"
 }, "by", "1", ".", {
   "k": 31
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
 }, "Let", {
   "id": "bodyText"
@@ -180,7 +198,9 @@
   "id": "k"
 }, "]", ".", {
   "k": 32
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 23
 }, "Set", {
   "id": "bodyText"
@@ -299,7 +319,9 @@
   "id": "kind"
 }, "is", {
   "code": "\"generator\""
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "parameters"
 }, "Contains", {
   "nt": "YieldExpression"
@@ -309,13 +331,17 @@
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 45
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 44
 }, "If", {
   "id": "kind"
 }, "is", {
   "code": "\"async\""
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "parameters"
 }, "Contains", {
   "nt": "AwaitExpression"
@@ -325,19 +351,25 @@
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 47
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 46
 }, "If", {
   "id": "strict"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "If", "BoundNames", "of", {
+}, ",", "then", {
+  "in": null
+}, "If", "BoundNames", "of", {
   "id": "parameters"
 }, "contains", "any", "duplicate", "elements", ",", "throw", "a", {
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 49
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 48
 }, "Let", {
   "id": "proto"
@@ -385,7 +417,9 @@
   "id": "kind"
 }, "is", {
   "code": "\"generator\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "prototype"
 }, "be", "ObjectCreate", "(", "%", "GeneratorPrototype", "%", ")", ".", {
   "k": 56
@@ -403,7 +437,9 @@
   "value": "false"
 }, "}", ")", ".", {
   "k": 57
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 55
 }, "Else", "if", {
   "id": "kind"

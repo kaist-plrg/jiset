@@ -26,7 +26,9 @@
   "k": 3
 }, "If", {
   "id": "length"
-}, "is", "not", "present", ",", "then", true, "Set", {
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Set", {
   "id": "obj"
 }, ".", "[", "[", "ByteLength", "]", "]", "to", "0", ".", {
   "k": 5
@@ -38,15 +40,21 @@
   "id": "obj"
 }, ".", "[", "[", "ArrayLength", "]", "]", "to", "0", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, "Else", ",", true, "Perform", "?", "AllocateTypedArrayBuffer", "(", {
+}, "Else", ",", {
+  "in": null
+}, "Perform", "?", "AllocateTypedArrayBuffer", "(", {
   "id": "obj"
 }, ",", {
   "id": "length"
 }, ")", ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Return", {
   "id": "obj"

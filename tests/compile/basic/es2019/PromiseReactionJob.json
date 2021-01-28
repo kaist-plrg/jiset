@@ -24,7 +24,9 @@
   "id": "handler"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "type"
 }, "is", {
   "code": "\"Fulfill\""
@@ -34,7 +36,9 @@
   "id": "argument"
 }, ")", ".", {
   "k": 5
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "type"
 }, "is", {
   "code": "\"Reject\""
@@ -46,9 +50,13 @@
   "id": "argument"
 }, ")", ".", {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
 }, "Else", ",", "let", {
   "id": "handlerResult"
@@ -64,7 +72,9 @@
   "id": "promiseCapability"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "Assert", ":", {
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
   "id": "handlerResult"
 }, "is", "not", "an", "abrupt", "completion", ".", {
   "k": 11
@@ -72,11 +82,15 @@
   "const": "empty"
 }, ")", ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "If", {
   "id": "handlerResult"
-}, "is", "an", "abrupt", "completion", ",", "then", true, "Let", {
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "status"
 }, "be", "Call", "(", {
   "id": "promiseCapability"
@@ -86,9 +100,13 @@
   "id": "handlerResult"
 }, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "status"
 }, "be", "Call", "(", {
   "id": "promiseCapability"
@@ -98,7 +116,9 @@
   "id": "handlerResult"
 }, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 15
 }, "Return", "Completion", "(", {
   "id": "status"

@@ -10,7 +10,7 @@
   if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
   let rval = __x3__
   let assignmentOpText = (get-syntax AssignmentOperator)
-  ??? "Let id:{opText} be the sequence of Unicode code points associated with id:{assignmentOpText} in the following table : step-list:{...}"
+  ??? "Let id:{opText} be the sequence of Unicode code points associated with id:{assignmentOpText} in the following table : in:{} out:{}"
   app __x4__ = (ApplyStringOrNumericBinaryOperator lval opText rval)
   let r = __x4__
   app __x5__ = (PutValue lref r)

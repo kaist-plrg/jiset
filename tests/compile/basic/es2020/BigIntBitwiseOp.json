@@ -26,7 +26,9 @@
   "id": "y"
 }, "=", "0", "or", {
   "id": "y"
-}, "=", "-", "1", ")", ",", true, "Let", {
+}, "=", "-", "1", ")", ",", {
+  "in": null
+}, "Let", {
   "id": "xDigit"
 }, "be", {
   "id": "x"
@@ -47,11 +49,9 @@
 }, "to", {
   "id": "result"
 }, "+", "2", {
-  "sup": {
-    "tokens": [{
-      "id": "shift"
-    }]
-  }
+  "sup": [{
+    "id": "shift"
+  }]
 }, "×", "BinaryAnd", "(", {
   "id": "xDigit"
 }, ",", {
@@ -67,18 +67,18 @@
 }, "to", {
   "id": "result"
 }, "+", "2", {
-  "sup": {
-    "tokens": [{
-      "id": "shift"
-    }]
-  }
+  "sup": [{
+    "id": "shift"
+  }]
 }, "×", "BinaryOr", "(", {
   "id": "xDigit"
 }, ",", {
   "id": "yDigit"
 }, ")", ".", {
   "k": 7
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "op"
 }, "is", {
   "value": "\"^\""
@@ -89,18 +89,18 @@
 }, "to", {
   "id": "result"
 }, "+", "2", {
-  "sup": {
-    "tokens": [{
-      "id": "shift"
-    }]
-  }
+  "sup": [{
+    "id": "shift"
+  }]
 }, "×", "BinaryXor", "(", {
   "id": "xDigit"
 }, ",", {
   "id": "yDigit"
 }, ")", ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "Set", {
   "id": "shift"
@@ -124,7 +124,9 @@
   "id": "yDigit"
 }, ")", "/", "2", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "If", {
   "id": "op"
@@ -150,7 +152,9 @@
   "id": "y"
 }, "modulo", "2", ")", ".", {
   "k": 15
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "op"
 }, "is", {
   "value": "\"^\""
@@ -164,25 +168,29 @@
   "id": "y"
 }, "modulo", "2", ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
 }, "If", {
   "id": "tmp"
-}, "≠", "0", ",", "then", true, "Set", {
+}, "≠", "0", ",", "then", {
+  "in": null
+}, "Set", {
   "id": "result"
 }, "to", {
   "id": "result"
 }, "-", "2", {
-  "sup": {
-    "tokens": [{
-      "id": "shift"
-    }]
-  }
+  "sup": [{
+    "id": "shift"
+  }]
 }, ".", {
   "k": 20
 }, "NOTE", ":", "This", "extends", "the", "sign", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 19
 }, "Return", {
   "id": "result"

@@ -1,63 +1,63 @@
-[{
-  "tokens": ["Let", {
-    "id": "form"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "RequireObjectCoercible", "(", {
-    "value": "this"
-  }, "value", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "S"
-  }, "be", "?", "ToString", "(", {
-    "id": "O"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "form"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "let", {
-    "id": "f"
-  }, "be", {
-    "value": "\"NFC\""
-  }, "."]
-}, {
-  "tokens": ["Else", ",", "let", {
-    "id": "f"
-  }, "be", "?", "ToString", "(", {
-    "id": "form"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "f"
-  }, "is", "not", "one", "of", {
-    "value": "\"NFC\""
-  }, ",", {
-    "value": "\"NFD\""
-  }, ",", {
-    "value": "\"NFKC\""
-  }, ",", "or", {
-    "value": "\"NFKD\""
-  }, ",", "throw", "a", {
-    "value": "RangeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "ns"
-  }, "be", "the", "String", "value", "that", "is", "the", "result", "of", "normalizing", {
-    "id": "S"
-  }, "into", "the", "normalization", "form", "named", "by", {
-    "id": "f"
-  }, "as", "specified", "in", {
-    "link": ""
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "id": "ns"
-  }, "."]
+["Let", {
+  "id": "form"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "form"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "f"
+}, "be", {
+  "value": "\"NFC\""
+}, ".", {
+  "k": 3
+}, "Else", ",", "let", {
+  "id": "f"
+}, "be", "?", "ToString", "(", {
+  "id": "form"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "f"
+}, "is", "not", "one", "of", {
+  "value": "\"NFC\""
+}, ",", {
+  "value": "\"NFD\""
+}, ",", {
+  "value": "\"NFKC\""
+}, ",", "or", {
+  "value": "\"NFKD\""
+}, ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 5
+}, "Let", {
+  "id": "ns"
+}, "be", "the", "String", "value", "that", "is", "the", "result", "of", "normalizing", {
+  "id": "S"
+}, "into", "the", "normalization", "form", "named", "by", {
+  "id": "f"
+}, "as", "specified", "in", {
+  "link": ""
+}, ".", {
+  "k": 6
+}, "Return", {
+  "id": "ns"
+}, ".", {
+  "k": 7
 }]

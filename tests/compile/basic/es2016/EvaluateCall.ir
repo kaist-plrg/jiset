@@ -9,7 +9,7 @@
       app __x3__ = (GetThisValue ref)
       let thisValue = __x3__
     } else {}
-    ??? "Else , the base of id:{ref} is an Environment Record step-list:{...}"
+    ??? "Else , the base of id:{ref} is an Environment Record in:{} out:{}"
   } else let thisValue = undefined
   app __x4__ = (EvaluateDirectCall func thisValue arguments tailPosition)
   if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}

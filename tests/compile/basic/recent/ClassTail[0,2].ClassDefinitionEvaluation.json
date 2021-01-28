@@ -12,7 +12,9 @@
   "id": "classBinding"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "Perform", {
+}, ",", "then", {
+  "in": null
+}, "Perform", {
   "id": "classScope"
 }, ".", "CreateImmutableBinding", "(", {
   "id": "classBinding"
@@ -20,11 +22,15 @@
   "value": "true"
 }, ")", ".", {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "If", {
   "nt": "ClassHeritage"
-}, "is", "not", "present", ",", "then", true, "Let", {
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "protoParent"
 }, "be", "%", "Object", ".", "prototype", "%", ".", {
   "k": 5
@@ -32,9 +38,13 @@
   "id": "constructorParent"
 }, "be", "%", "Function", ".", "prototype", "%", ".", {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, "Else", ",", true, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+}, "Else", ",", {
+  "in": null
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "classScope"
 }, ".", {
   "k": 8
@@ -58,7 +68,9 @@
   "id": "superclass"
 }, "is", {
   "value": "null"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "protoParent"
 }, "be", {
   "value": "null"
@@ -68,7 +80,9 @@
   "id": "constructorParent"
 }, "be", "%", "Function", ".", "prototype", "%", ".", {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
 }, "Else", "if", "IsConstructor", "(", {
   "id": "superclass"
@@ -78,7 +92,9 @@
   "value": "TypeError"
 }, "exception", ".", {
   "k": 15
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "protoParent"
 }, "be", "?", "Get", "(", {
   "id": "superclass"
@@ -98,9 +114,13 @@
   "id": "superclass"
 }, ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 7
 }, "Let", {
   "id": "proto"
@@ -126,23 +146,41 @@
   "id": "constructor"
 }, "is", {
   "const": "empty"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "nt": "ClassHeritage"
-}, "is", "present", ",", "then", true, "Let", {
+}, "is", "present", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "constructorText"
-}, "be", "the", "source", "text", true, {
+}, "be", "the", "source", "text", {
+  "in": null
+}, {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 24
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "constructorText"
-}, "be", "the", "source", "text", true, {
+}, "be", "the", "source", "text", {
+  "in": null
+}, {
   "k": 29
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 28
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
 }, "Set", {
   "id": "constructor"
@@ -154,7 +192,9 @@
   "id": "constructor"
 }, "is", "a", "Parse", "Node", ".", {
   "k": 31
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 23
 }, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "classScope"
@@ -228,11 +268,15 @@
   "id": "m"
 }, "of", {
   "id": "methods"
-}, ",", "do", true, "If", "IsStatic", "of", {
+}, ",", "do", {
+  "in": null
+}, "If", "IsStatic", "of", {
   "id": "m"
 }, "is", {
   "value": "false"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "status"
 }, "be", "PropertyDefinitionEvaluation", "of", {
   "id": "m"
@@ -242,9 +286,13 @@
   "value": "false"
 }, ".", {
   "k": 44
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 43
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "status"
 }, "be", "PropertyDefinitionEvaluation", "of", {
   "id": "m"
@@ -254,11 +302,15 @@
   "value": "false"
 }, ".", {
   "k": 46
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 45
 }, "If", {
   "id": "status"
-}, "is", "an", "abrupt", "completion", ",", "then", true, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "env"
 }, ".", {
   "k": 48
@@ -266,9 +318,13 @@
   "id": "status"
 }, ")", ".", {
   "k": 49
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 47
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 42
 }, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "env"
@@ -278,7 +334,9 @@
   "id": "classBinding"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "Perform", {
+}, ",", "then", {
+  "in": null
+}, "Perform", {
   "id": "classScope"
 }, ".", "InitializeBinding", "(", {
   "id": "classBinding"
@@ -286,7 +344,9 @@
   "id": "F"
 }, ")", ".", {
   "k": 52
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 51
 }, "Return", {
   "id": "F"

@@ -1,73 +1,65 @@
-[{
-  "tokens": ["If", {
-    "id": "elementTypes"
-  }, "is", "not", "present", ",", "set", {
-    "id": "elementTypes"
-  }, "to", "«", "Undefined", ",", "Null", ",", "Boolean", ",", "String", ",", "Symbol", ",", "Number", ",", "BigInt", ",", "Object", "»", "."]
+["If", {
+  "id": "elementTypes"
+}, "is", "not", "present", ",", "set", {
+  "id": "elementTypes"
+}, "to", "«", "Undefined", ",", "Null", ",", "Boolean", ",", "String", ",", "Symbol", ",", "Number", ",", "BigInt", ",", "Object", "»", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "obj"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "obj"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "list"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 3
+}, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "k": 4
+}, "Repeat", ",", "while", {
+  "id": "index"
+}, "<", {
+  "id": "len"
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "obj"
-  }, ")", "is", "not", "Object", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
+  "in": null
+}, "Let", {
+  "id": "indexName"
+}, "be", "!", "ToString", "(", {
+  "id": "index"
+}, ")", ".", "Let", {
+  "id": "next"
+}, "be", "?", "Get", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "indexName"
+}, ")", ".", "If", "Type", "(", {
+  "id": "next"
+}, ")", "is", "not", "an", "element", "of", {
+  "id": "elementTypes"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", "Append", {
+  "id": "next"
+}, "as", "the", "last", "element", "of", {
+  "id": "list"
+}, ".", "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "?", "LengthOfArrayLike", "(", {
-    "id": "obj"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "list"
-  }, "be", "a", "new", "empty", "List", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "index"
-  }, "be", "0", "."]
-}, {
-  "tokens": ["Repeat", ",", "while", {
-    "id": "index"
-  }, "<", {
-    "id": "len"
-  }, {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "indexName"
-      }, "be", "!", "ToString", "(", {
-        "id": "index"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "next"
-      }, "be", "?", "Get", "(", {
-        "id": "obj"
-      }, ",", {
-        "id": "indexName"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", "Type", "(", {
-        "id": "next"
-      }, ")", "is", "not", "an", "element", "of", {
-        "id": "elementTypes"
-      }, ",", "throw", "a", {
-        "value": "TypeError"
-      }, "exception", "."]
-    }, {
-      "tokens": ["Append", {
-        "id": "next"
-      }, "as", "the", "last", "element", "of", {
-        "id": "list"
-      }, "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "index"
-      }, "to", {
-        "id": "index"
-      }, "+", "1", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "list"
-  }, "."]
+  "k": 5
+}, "Return", {
+  "id": "list"
+}, ".", {
+  "k": 6
 }]

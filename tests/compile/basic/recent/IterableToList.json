@@ -1,6 +1,8 @@
 ["If", {
   "id": "method"
-}, "is", "present", ",", "then", true, "Let", {
+}, "is", "present", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "iteratorRecord"
 }, "be", "?", "GetIterator", "(", {
   "id": "items"
@@ -10,9 +12,13 @@
   "id": "method"
 }, ")", ".", {
   "k": 1
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "iteratorRecord"
 }, "be", "?", "GetIterator", "(", {
   "id": "items"
@@ -20,7 +26,9 @@
   "const": "sync"
 }, ")", ".", {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "Let", {
   "id": "values"
@@ -36,7 +44,9 @@
   "id": "next"
 }, "is", "not", {
   "value": "false"
-}, ",", true, "Set", {
+}, ",", {
+  "in": null
+}, "Set", {
   "id": "next"
 }, "to", "?", "IteratorStep", "(", {
   "id": "iteratorRecord"
@@ -46,7 +56,9 @@
   "id": "next"
 }, "is", "not", {
   "value": "false"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "nextValue"
 }, "be", "?", "IteratorValue", "(", {
   "id": "next"
@@ -58,9 +70,13 @@
   "id": "values"
 }, ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Return", {
   "id": "values"

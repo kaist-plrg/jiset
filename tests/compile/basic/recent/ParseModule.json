@@ -58,23 +58,33 @@
   "id": "ee"
 }, "of", {
   "id": "exportEntries"
-}, ",", "do", true, "If", {
+}, ",", "do", {
+  "in": null
+}, "If", {
   "id": "ee"
 }, ".", "[", "[", "ModuleRequest", "]", "]", "is", {
   "value": "null"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "ee"
 }, ".", "[", "[", "LocalName", "]", "]", "is", "not", "an", "element", "of", {
   "id": "importedBoundNames"
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "id": "ee"
 }, "to", {
   "id": "localExportEntries"
 }, ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "ie"
 }, "be", "the", "element", "of", {
   "id": "importEntries"
@@ -86,7 +96,9 @@
   "id": "ie"
 }, ".", "[", "[", "ImportName", "]", "]", "is", {
   "value": "\"\\"
-}, "\"", "*", ",", "then", true, "NOTE", ":", "This", "is", "a", "re", "-", "export", "of", "an", "imported", "module", "namespace", "object", ".", {
+}, "\"", "*", ",", "then", {
+  "in": null
+}, "NOTE", ":", "This", "is", "a", "re", "-", "export", "of", "an", "imported", "module", "namespace", "object", ".", {
   "k": 17
 }, "Append", {
   "id": "ee"
@@ -94,9 +106,13 @@
   "id": "localExportEntries"
 }, ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 16
-}, "Else", ",", true, "NOTE", ":", "This", "is", "a", "re", "-", "export", "of", "a", "single", "name", ".", {
+}, "Else", ",", {
+  "in": null
+}, "NOTE", ":", "This", "is", "a", "re", "-", "export", "of", "a", "single", "name", ".", {
   "k": 20
 }, "Append", "the", "ExportEntry", "Record", "{", "[", "[", "ModuleRequest", "]", "]", ":", {
   "id": "ie"
@@ -110,11 +126,17 @@
   "id": "indirectExportEntries"
 }, ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Else", "if", {
   "id": "ee"
@@ -124,23 +146,33 @@
   "id": "ee"
 }, ".", "[", "[", "ExportName", "]", "]", "is", {
   "value": "null"
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "id": "ee"
 }, "to", {
   "id": "starExportEntries"
 }, ".", {
   "k": 23
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 22
-}, "Else", ",", true, "Append", {
+}, "Else", ",", {
+  "in": null
+}, "Append", {
   "id": "ee"
 }, "to", {
   "id": "indirectExportEntries"
 }, ".", {
   "k": 25
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 24
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "Return", "Source", "Text", "Module", "Record", "{", "[", "[", "Realm", "]", "]", ":", {
   "id": "realm"

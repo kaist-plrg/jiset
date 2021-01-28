@@ -1,171 +1,141 @@
-[{
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "ToObject", "(", {
-    "value": "this"
-  }, "value", ")", "."]
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "argCount"
+}, "be", "the", "number", "of", "actual", "arguments", ".", {
+  "k": 2
+}, "If", {
+  "id": "argCount"
+}, ">", "0", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "len"
+}, "+", {
+  "id": "argCount"
+}, ">", "2", {
+  "sup": ["53"]
+}, "-", "1", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", "Let", {
+  "id": "k"
+}, "be", {
+  "id": "len"
+}, ".", "Repeat", ",", "while", {
+  "id": "k"
+}, ">", "0", ",", {
+  "in": null
+}, "Let", {
+  "id": "from"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, "-", "1", ")", ".", "Let", {
+  "id": "to"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, "+", {
+  "id": "argCount"
+}, "-", "1", ")", ".", "Let", {
+  "id": "fromPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", "If", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "fromValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ",", {
+  "id": "fromValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "false"
+}, ".", "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ")", ".", {
+  "out": null
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "-", "1", ".", {
+  "out": null
+}, "Let", {
+  "id": "j"
+}, "be", "0", ".", "Let", {
+  "id": "items"
+}, "be", "a", "List", "whose", "elements", "are", ",", "in", "left", "to", "right", "order", ",", "the", "arguments", "that", "were", "passed", "to", "this", "function", "invocation", ".", "Repeat", ",", "while", {
+  "id": "items"
+}, "is", "not", "empty", {
+  "in": null
+}, "Remove", "the", "first", "element", "from", {
+  "id": "items"
+}, "and", "let", {
+  "id": "E"
+}, "be", "the", "value", "of", "that", "element", ".", "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "j"
+}, ")", ",", {
+  "id": "E"
+}, ",", {
+  "value": "true"
+}, ")", ".", "Set", {
+  "id": "j"
+}, "to", {
+  "id": "j"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "?", "LengthOfArrayLike", "(", {
-    "id": "O"
-  }, ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "argCount"
-  }, "be", "the", "number", "of", "actual", "arguments", "."]
-}, {
-  "tokens": ["If", {
-    "id": "argCount"
-  }, ">", "0", ",", "then", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "len"
-      }, "+", {
-        "id": "argCount"
-      }, ">", "2", {
-        "sup": {
-          "tokens": ["53"]
-        }
-      }, "-", "1", ",", "throw", "a", {
-        "value": "TypeError"
-      }, "exception", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "k"
-      }, "be", {
-        "id": "len"
-      }, "."]
-    }, {
-      "tokens": ["Repeat", ",", "while", {
-        "id": "k"
-      }, ">", "0", ",", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "from"
-          }, "be", "!", "ToString", "(", {
-            "id": "k"
-          }, "-", "1", ")", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "to"
-          }, "be", "!", "ToString", "(", {
-            "id": "k"
-          }, "+", {
-            "id": "argCount"
-          }, "-", "1", ")", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "fromPresent"
-          }, "be", "?", "HasProperty", "(", {
-            "id": "O"
-          }, ",", {
-            "id": "from"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "fromPresent"
-          }, "is", {
-            "value": "true"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "fromValue"
-              }, "be", "?", "Get", "(", {
-                "id": "O"
-              }, ",", {
-                "id": "from"
-              }, ")", "."]
-            }, {
-              "tokens": ["Perform", "?", "Set", "(", {
-                "id": "O"
-              }, ",", {
-                "id": "to"
-              }, ",", {
-                "id": "fromValue"
-              }, ",", {
-                "value": "true"
-              }, ")", "."]
-            }]
-          }]
-        }, {
-          "tokens": ["Else", ",", {
-            "steps": [{
-              "tokens": ["Assert", ":", {
-                "id": "fromPresent"
-              }, "is", {
-                "value": "false"
-              }, "."]
-            }, {
-              "tokens": ["Perform", "?", "DeletePropertyOrThrow", "(", {
-                "id": "O"
-              }, ",", {
-                "id": "to"
-              }, ")", "."]
-            }]
-          }]
-        }, {
-          "tokens": ["Set", {
-            "id": "k"
-          }, "to", {
-            "id": "k"
-          }, "-", "1", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Let", {
-        "id": "j"
-      }, "be", "0", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "items"
-      }, "be", "a", "List", "whose", "elements", "are", ",", "in", "left", "to", "right", "order", ",", "the", "arguments", "that", "were", "passed", "to", "this", "function", "invocation", "."]
-    }, {
-      "tokens": ["Repeat", ",", "while", {
-        "id": "items"
-      }, "is", "not", "empty", {
-        "steps": [{
-          "tokens": ["Remove", "the", "first", "element", "from", {
-            "id": "items"
-          }, "and", "let", {
-            "id": "E"
-          }, "be", "the", "value", "of", "that", "element", "."]
-        }, {
-          "tokens": ["Perform", "?", "Set", "(", {
-            "id": "O"
-          }, ",", "!", "ToString", "(", {
-            "id": "j"
-          }, ")", ",", {
-            "id": "E"
-          }, ",", {
-            "value": "true"
-          }, ")", "."]
-        }, {
-          "tokens": ["Set", {
-            "id": "j"
-          }, "to", {
-            "id": "j"
-          }, "+", "1", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Perform", "?", "Set", "(", {
-    "id": "O"
-  }, ",", {
-    "value": "\"length\""
-  }, ",", {
-    "id": "len"
-  }, "+", {
-    "id": "argCount"
-  }, ",", {
-    "value": "true"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "len"
-  }, "+", {
-    "id": "argCount"
-  }, "."]
+  "k": 3
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "len"
+}, "+", {
+  "id": "argCount"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 4
+}, "Return", {
+  "id": "len"
+}, "+", {
+  "id": "argCount"
+}, ".", {
+  "k": 5
 }]

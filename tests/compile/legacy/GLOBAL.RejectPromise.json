@@ -1,65 +1,65 @@
-[{
-  "tokens": ["Let", {
-    "id": "promise"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "reason"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
-}, {
-  "tokens": ["Assert", ":", "The", "value", "of", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseState", "]", "]", "is", {
-    "const": "pending"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "reactions"
-  }, "be", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseRejectReactions", "]", "]", "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseResult", "]", "]", "to", {
-    "id": "reason"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseFulfillReactions", "]", "]", "to", {
-    "value": "undefined"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseRejectReactions", "]", "]", "to", {
-    "value": "undefined"
-  }, "."]
-}, {
-  "tokens": ["Set", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseState", "]", "]", "to", {
-    "const": "rejected"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "promise"
-  }, ".", "[", "[", "PromiseIsHandled", "]", "]", "is", {
-    "value": "false"
-  }, ",", "perform", "HostPromiseRejectionTracker", "(", {
-    "id": "promise"
-  }, ",", {
-    "value": "\"reject\""
-  }, ")", "."]
-}, {
-  "tokens": ["Return", "TriggerPromiseReactions", "(", {
-    "id": "reactions"
-  }, ",", {
-    "id": "reason"
-  }, ")", "."]
+["Let", {
+  "id": "promise"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "reason"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Assert", ":", "The", "value", "of", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseState", "]", "]", "is", {
+  "const": "pending"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "reactions"
+}, "be", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseRejectReactions", "]", "]", ".", {
+  "k": 3
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseResult", "]", "]", "to", {
+  "id": "reason"
+}, ".", {
+  "k": 4
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseFulfillReactions", "]", "]", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 5
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseRejectReactions", "]", "]", "to", {
+  "value": "undefined"
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseState", "]", "]", "to", {
+  "const": "rejected"
+}, ".", {
+  "k": 7
+}, "If", {
+  "id": "promise"
+}, ".", "[", "[", "PromiseIsHandled", "]", "]", "is", {
+  "value": "false"
+}, ",", "perform", "HostPromiseRejectionTracker", "(", {
+  "id": "promise"
+}, ",", {
+  "value": "\"reject\""
+}, ")", ".", {
+  "k": 8
+}, "Return", "TriggerPromiseReactions", "(", {
+  "id": "reactions"
+}, ",", {
+  "id": "reason"
+}, ")", ".", {
+  "k": 9
 }]

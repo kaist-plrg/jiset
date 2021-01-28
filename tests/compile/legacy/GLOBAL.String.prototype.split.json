@@ -1,283 +1,253 @@
-[{
-  "tokens": ["Let", {
-    "id": "separator"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "separator"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "limit"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "separator"
+}, "is", "neither", {
+  "value": "undefined"
+}, "nor", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "splitter"
+}, "be", "?", "GetMethod", "(", {
+  "id": "separator"
+}, ",", "@", "@", "split", ")", ".", "If", {
+  "id": "splitter"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "Call", "(", {
+  "id": "splitter"
+}, ",", {
+  "id": "separator"
+}, ",", "«", {
+  "id": "O"
+}, ",", {
+  "id": "limit"
+}, "»", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "limit"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "RequireObjectCoercible", "(", {
-    "value": "this"
-  }, "value", ")", "."]
+  "k": 3
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "A"
+}, "be", "!", "ArrayCreate", "(", "0", ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "lengthA"
+}, "be", "0", ".", {
+  "k": 6
+}, "If", {
+  "id": "limit"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "lim"
+}, "be", "2", {
+  "sup": ["32"]
+}, "-", "1", ";", "else", "let", {
+  "id": "lim"
+}, "be", "?", "ToUint32", "(", {
+  "id": "limit"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "s"
+}, "be", "the", "length", "of", {
+  "id": "S"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "p"
+}, "be", "0", ".", {
+  "k": 9
+}, "Let", {
+  "id": "R"
+}, "be", "?", "ToString", "(", {
+  "id": "separator"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "lim"
+}, "=", "0", ",", "return", {
+  "id": "A"
+}, ".", {
+  "k": 11
+}, "If", {
+  "id": "separator"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"0\""
+}, ",", {
+  "id": "S"
+}, ")", ".", "Return", {
+  "id": "A"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "separator"
-  }, "is", "neither", {
-    "value": "undefined"
-  }, "nor", {
-    "value": "null"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "splitter"
-      }, "be", "?", "GetMethod", "(", {
-        "id": "separator"
-      }, ",", "@", "@", "split", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "splitter"
-      }, "is", "not", {
-        "value": "undefined"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Return", "?", "Call", "(", {
-            "id": "splitter"
-          }, ",", {
-            "id": "separator"
-          }, ",", "«", {
-            "id": "O"
-          }, ",", {
-            "id": "limit"
-          }, "»", ")", "."]
-        }]
-      }]
-    }]
-  }]
+  "k": 12
+}, "If", {
+  "id": "s"
+}, "=", "0", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "z"
+}, "be", "SplitMatch", "(", {
+  "id": "S"
+}, ",", "0", ",", {
+  "id": "R"
+}, ")", ".", "If", {
+  "id": "z"
+}, "is", "not", {
+  "value": "false"
+}, ",", "return", {
+  "id": "A"
+}, ".", "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"0\""
+}, ",", {
+  "id": "S"
+}, ")", ".", "Return", {
+  "id": "A"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "S"
-  }, "be", "?", "ToString", "(", {
-    "id": "O"
-  }, ")", "."]
+  "k": 13
+}, "Let", {
+  "id": "q"
+}, "be", {
+  "id": "p"
+}, ".", {
+  "k": 14
+}, "Repeat", ",", "while", {
+  "id": "q"
+}, "≠", {
+  "id": "s"
 }, {
-  "tokens": ["Let", {
-    "id": "A"
-  }, "be", "!", "ArrayCreate", "(", "0", ")", "."]
+  "in": null
+}, "Let", {
+  "id": "e"
+}, "be", "SplitMatch", "(", {
+  "id": "S"
+}, ",", {
+  "id": "q"
+}, ",", {
+  "id": "R"
+}, ")", ".", "If", {
+  "id": "e"
+}, "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "q"
+}, "to", {
+  "id": "q"
+}, "+", "1", ".", "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "e"
+}, "is", "an", "integer", "index", "≤", {
+  "id": "s"
+}, ".", "If", {
+  "id": "e"
+}, "=", {
+  "id": "p"
+}, ",", "set", {
+  "id": "q"
+}, "to", {
+  "id": "q"
+}, "+", "1", ".", "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "T"
+}, "be", "the", "String", "value", "equal", "to", "the", "substring", "of", {
+  "id": "S"
+}, "consisting", "of", "the", "code", "units", "at", "indices", {
+  "id": "p"
+}, "(", "inclusive", ")", "through", {
+  "id": "q"
+}, "(", "exclusive", ")", ".", "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "lengthA"
+}, ")", ",", {
+  "id": "T"
+}, ")", ".", "Set", {
+  "id": "lengthA"
+}, "to", {
+  "id": "lengthA"
+}, "+", "1", ".", "If", {
+  "id": "lengthA"
+}, "=", {
+  "id": "lim"
+}, ",", "return", {
+  "id": "A"
+}, ".", "Set", {
+  "id": "p"
+}, "to", {
+  "id": "e"
+}, ".", "Set", {
+  "id": "q"
+}, "to", {
+  "id": "p"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "lengthA"
-  }, "be", "0", "."]
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "limit"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "let", {
-    "id": "lim"
-  }, "be", "2", {
-    "sup": {
-      "tokens": ["32"]
-    }
-  }, "-", "1", ";", "else", "let", {
-    "id": "lim"
-  }, "be", "?", "ToUint32", "(", {
-    "id": "limit"
-  }, ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "s"
-  }, "be", "the", "length", "of", {
-    "id": "S"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "p"
-  }, "be", "0", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "R"
-  }, "be", "?", "ToString", "(", {
-    "id": "separator"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "lim"
-  }, "=", "0", ",", "return", {
-    "id": "A"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "separator"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "A"
-      }, ",", {
-        "value": "\"0\""
-      }, ",", {
-        "id": "S"
-      }, ")", "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "A"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", {
-    "id": "s"
-  }, "=", "0", ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "z"
-      }, "be", "SplitMatch", "(", {
-        "id": "S"
-      }, ",", "0", ",", {
-        "id": "R"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "z"
-      }, "is", "not", {
-        "value": "false"
-      }, ",", "return", {
-        "id": "A"
-      }, "."]
-    }, {
-      "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "A"
-      }, ",", {
-        "value": "\"0\""
-      }, ",", {
-        "id": "S"
-      }, ")", "."]
-    }, {
-      "tokens": ["Return", {
-        "id": "A"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "q"
-  }, "be", {
-    "id": "p"
-  }, "."]
-}, {
-  "tokens": ["Repeat", ",", "while", {
-    "id": "q"
-  }, "≠", {
-    "id": "s"
-  }, {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "e"
-      }, "be", "SplitMatch", "(", {
-        "id": "S"
-      }, ",", {
-        "id": "q"
-      }, ",", {
-        "id": "R"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "e"
-      }, "is", {
-        "value": "false"
-      }, ",", "set", {
-        "id": "q"
-      }, "to", {
-        "id": "q"
-      }, "+", "1", "."]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Assert", ":", {
-            "id": "e"
-          }, "is", "an", "integer", "index", "≤", {
-            "id": "s"
-          }, "."]
-        }, {
-          "tokens": ["If", {
-            "id": "e"
-          }, "=", {
-            "id": "p"
-          }, ",", "set", {
-            "id": "q"
-          }, "to", {
-            "id": "q"
-          }, "+", "1", "."]
-        }, {
-          "tokens": ["Else", ",", {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "T"
-              }, "be", "the", "String", "value", "equal", "to", "the", "substring", "of", {
-                "id": "S"
-              }, "consisting", "of", "the", "code", "units", "at", "indices", {
-                "id": "p"
-              }, "(", "inclusive", ")", "through", {
-                "id": "q"
-              }, "(", "exclusive", ")", "."]
-            }, {
-              "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-                "id": "A"
-              }, ",", "!", "ToString", "(", {
-                "id": "lengthA"
-              }, ")", ",", {
-                "id": "T"
-              }, ")", "."]
-            }, {
-              "tokens": ["Set", {
-                "id": "lengthA"
-              }, "to", {
-                "id": "lengthA"
-              }, "+", "1", "."]
-            }, {
-              "tokens": ["If", {
-                "id": "lengthA"
-              }, "=", {
-                "id": "lim"
-              }, ",", "return", {
-                "id": "A"
-              }, "."]
-            }, {
-              "tokens": ["Set", {
-                "id": "p"
-              }, "to", {
-                "id": "e"
-              }, "."]
-            }, {
-              "tokens": ["Set", {
-                "id": "q"
-              }, "to", {
-                "id": "p"
-              }, "."]
-            }]
-          }]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "T"
-  }, "be", "the", "String", "value", "equal", "to", "the", "substring", "of", {
-    "id": "S"
-  }, "consisting", "of", "the", "code", "units", "at", "indices", {
-    "id": "p"
-  }, "(", "inclusive", ")", "through", {
-    "id": "s"
-  }, "(", "exclusive", ")", "."]
-}, {
-  "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-    "id": "A"
-  }, ",", "!", "ToString", "(", {
-    "id": "lengthA"
-  }, ")", ",", {
-    "id": "T"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "A"
-  }, "."]
+  "k": 15
+}, "Let", {
+  "id": "T"
+}, "be", "the", "String", "value", "equal", "to", "the", "substring", "of", {
+  "id": "S"
+}, "consisting", "of", "the", "code", "units", "at", "indices", {
+  "id": "p"
+}, "(", "inclusive", ")", "through", {
+  "id": "s"
+}, "(", "exclusive", ")", ".", {
+  "k": 16
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "lengthA"
+}, ")", ",", {
+  "id": "T"
+}, ")", ".", {
+  "k": 17
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 18
 }]

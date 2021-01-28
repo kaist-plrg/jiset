@@ -1,349 +1,303 @@
-[{
-  "tokens": ["Let", {
-    "id": "items"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "items"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "mapfn"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "thisArg"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "2", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "C"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 3
+}, "If", {
+  "id": "mapfn"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "mapping"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "If", "IsCallable", "(", {
+  "id": "mapfn"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", "Let", {
+  "id": "mapping"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "mapfn"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
+  "k": 5
+}, "Let", {
+  "id": "usingIterator"
+}, "be", "?", "GetMethod", "(", {
+  "id": "items"
+}, ",", "@", "@", "iterator", ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "usingIterator"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "If", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "A"
+}, "be", "?", "Construct", "(", {
+  "id": "C"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "A"
+}, "be", "!", "ArrayCreate", "(", "0", ")", ".", {
+  "out": null
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "items"
+}, ",", {
+  "const": "sync"
+}, ",", {
+  "id": "usingIterator"
+}, ")", ".", "Let", {
+  "id": "k"
+}, "be", "0", ".", "Repeat", ",", {
+  "in": null
+}, "If", {
+  "id": "k"
+}, "≥", "2", {
+  "sup": ["53"]
+}, "-", "1", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "error"
+}, "be", "ThrowCompletion", "(", "a", "newly", "created", {
+  "value": "TypeError"
+}, "object", ")", ".", "Return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "error"
+}, ")", ".", {
+  "out": null
+}, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "k"
+}, ",", {
+  "value": "true"
+}, ")", ".", "Return", {
+  "id": "A"
+}, ".", {
+  "out": null
+}, "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", "If", {
+  "id": "mapping"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "mappedValue"
+}, "be", "Call", "(", {
+  "id": "mapfn"
+}, ",", {
+  "id": "thisArg"
+}, ",", "«", {
+  "id": "nextValue"
+}, ",", {
+  "id": "k"
+}, "»", ")", ".", "If", {
+  "id": "mappedValue"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "mappedValue"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", "let", {
+  "id": "mappedValue"
+}, "be", {
+  "id": "nextValue"
+}, ".", "Let", {
+  "id": "defineStatus"
+}, "be", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", {
+  "id": "Pk"
+}, ",", {
+  "id": "mappedValue"
+}, ")", ".", "If", {
+  "id": "defineStatus"
+}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "defineStatus"
+}, ")", ".", "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "thisArg"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "2", ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "C"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
+  "k": 7
+}, "NOTE", ":", {
+  "id": "items"
+}, "is", "not", "an", "Iterable", "so", "assume", "it", "is", "an", "array", "-", "like", "object", ".", {
+  "k": 8
+}, "Let", {
+  "id": "arrayLike"
+}, "be", "!", "ToObject", "(", {
+  "id": "items"
+}, ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "arrayLike"
+}, ")", ".", {
+  "k": 10
+}, "If", "IsConstructor", "(", {
+  "id": "C"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "A"
+}, "be", "?", "Construct", "(", {
+  "id": "C"
+}, ",", "«", {
+  "id": "len"
+}, "»", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "mapfn"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "let", {
-    "id": "mapping"
-  }, "be", {
-    "value": "false"
-  }, "."]
+  "k": 11
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "A"
+}, "be", "?", "ArrayCreate", "(", {
+  "id": "len"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["If", "IsCallable", "(", {
-        "id": "mapfn"
-      }, ")", "is", {
-        "value": "false"
-      }, ",", "throw", "a", {
-        "value": "TypeError"
-      }, "exception", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "mapping"
-      }, "be", {
-        "value": "true"
-      }, "."]
-    }]
-  }]
+  "k": 12
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 13
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
 }, {
-  "tokens": ["Let", {
-    "id": "usingIterator"
-  }, "be", "?", "GetMethod", "(", {
-    "id": "items"
-  }, ",", "@", "@", "iterator", ")", "."]
+  "in": null
+}, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", "Let", {
+  "id": "kValue"
+}, "be", "?", "Get", "(", {
+  "id": "arrayLike"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", "If", {
+  "id": "mapping"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "mappedValue"
+}, "be", "?", "Call", "(", {
+  "id": "mapfn"
+}, ",", {
+  "id": "thisArg"
+}, ",", "«", {
+  "id": "kValue"
+}, ",", {
+  "id": "k"
+}, "»", ")", ".", {
+  "out": null
+}, "Else", ",", "let", {
+  "id": "mappedValue"
+}, "be", {
+  "id": "kValue"
+}, ".", "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", {
+  "id": "Pk"
+}, ",", {
+  "id": "mappedValue"
+}, ")", ".", "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "usingIterator"
-  }, "is", "not", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", "IsConstructor", "(", {
-        "id": "C"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "A"
-          }, "be", "?", "Construct", "(", {
-            "id": "C"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "A"
-          }, "be", "!", "ArrayCreate", "(", "0", ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Let", {
-        "id": "iteratorRecord"
-      }, "be", "?", "GetIterator", "(", {
-        "id": "items"
-      }, ",", {
-        "const": "sync"
-      }, ",", {
-        "id": "usingIterator"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "k"
-      }, "be", "0", "."]
-    }, {
-      "tokens": ["Repeat", ",", {
-        "steps": [{
-          "tokens": ["If", {
-            "id": "k"
-          }, "≥", "2", {
-            "sup": {
-              "tokens": ["53"]
-            }
-          }, "-", "1", ",", "then", {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "error"
-              }, "be", "ThrowCompletion", "(", "a", "newly", "created", {
-                "value": "TypeError"
-              }, "object", ")", "."]
-            }, {
-              "tokens": ["Return", "?", "IteratorClose", "(", {
-                "id": "iteratorRecord"
-              }, ",", {
-                "id": "error"
-              }, ")", "."]
-            }]
-          }]
-        }, {
-          "tokens": ["Let", {
-            "id": "Pk"
-          }, "be", "!", "ToString", "(", {
-            "id": "k"
-          }, ")", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "next"
-          }, "be", "?", "IteratorStep", "(", {
-            "id": "iteratorRecord"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "next"
-          }, "is", {
-            "value": "false"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["Perform", "?", "Set", "(", {
-                "id": "A"
-              }, ",", {
-                "value": "\"length\""
-              }, ",", {
-                "id": "k"
-              }, ",", {
-                "value": "true"
-              }, ")", "."]
-            }, {
-              "tokens": ["Return", {
-                "id": "A"
-              }, "."]
-            }]
-          }]
-        }, {
-          "tokens": ["Let", {
-            "id": "nextValue"
-          }, "be", "?", "IteratorValue", "(", {
-            "id": "next"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "mapping"
-          }, "is", {
-            "value": "true"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "mappedValue"
-              }, "be", "Call", "(", {
-                "id": "mapfn"
-              }, ",", {
-                "id": "thisArg"
-              }, ",", "«", {
-                "id": "nextValue"
-              }, ",", {
-                "id": "k"
-              }, "»", ")", "."]
-            }, {
-              "tokens": ["If", {
-                "id": "mappedValue"
-              }, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
-                "id": "iteratorRecord"
-              }, ",", {
-                "id": "mappedValue"
-              }, ")", "."]
-            }]
-          }]
-        }, {
-          "tokens": ["Else", ",", "let", {
-            "id": "mappedValue"
-          }, "be", {
-            "id": "nextValue"
-          }, "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "defineStatus"
-          }, "be", "CreateDataPropertyOrThrow", "(", {
-            "id": "A"
-          }, ",", {
-            "id": "Pk"
-          }, ",", {
-            "id": "mappedValue"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "defineStatus"
-          }, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
-            "id": "iteratorRecord"
-          }, ",", {
-            "id": "defineStatus"
-          }, ")", "."]
-        }, {
-          "tokens": ["Set", {
-            "id": "k"
-          }, "to", {
-            "id": "k"
-          }, "+", "1", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["NOTE", ":", {
-    "id": "items"
-  }, "is", "not", "an", "Iterable", "so", "assume", "it", "is", "an", "array", "-", "like", "object", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "arrayLike"
-  }, "be", "!", "ToObject", "(", {
-    "id": "items"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "?", "LengthOfArrayLike", "(", {
-    "id": "arrayLike"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "IsConstructor", "(", {
-    "id": "C"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "A"
-      }, "be", "?", "Construct", "(", {
-        "id": "C"
-      }, ",", "«", {
-        "id": "len"
-      }, "»", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "A"
-      }, "be", "?", "ArrayCreate", "(", {
-        "id": "len"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "k"
-  }, "be", "0", "."]
-}, {
-  "tokens": ["Repeat", ",", "while", {
-    "id": "k"
-  }, "<", {
-    "id": "len"
-  }, {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "Pk"
-      }, "be", "!", "ToString", "(", {
-        "id": "k"
-      }, ")", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "kValue"
-      }, "be", "?", "Get", "(", {
-        "id": "arrayLike"
-      }, ",", {
-        "id": "Pk"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "mapping"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "mappedValue"
-          }, "be", "?", "Call", "(", {
-            "id": "mapfn"
-          }, ",", {
-            "id": "thisArg"
-          }, ",", "«", {
-            "id": "kValue"
-          }, ",", {
-            "id": "k"
-          }, "»", ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", "let", {
-        "id": "mappedValue"
-      }, "be", {
-        "id": "kValue"
-      }, "."]
-    }, {
-      "tokens": ["Perform", "?", "CreateDataPropertyOrThrow", "(", {
-        "id": "A"
-      }, ",", {
-        "id": "Pk"
-      }, ",", {
-        "id": "mappedValue"
-      }, ")", "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "k"
-      }, "to", {
-        "id": "k"
-      }, "+", "1", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Perform", "?", "Set", "(", {
-    "id": "A"
-  }, ",", {
-    "value": "\"length\""
-  }, ",", {
-    "id": "len"
-  }, ",", {
-    "value": "true"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "A"
-  }, "."]
+  "k": 14
+}, "Perform", "?", "Set", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "len"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 15
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 16
 }]

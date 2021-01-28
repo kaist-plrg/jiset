@@ -1,175 +1,143 @@
-[{
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "ToObject", "(", {
-    "value": "this"
-  }, "value", ")", "."]
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "A"
+}, "be", "?", "ArraySpeciesCreate", "(", {
+  "id": "O"
+}, ",", "0", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "n"
+}, "be", "0", ".", {
+  "k": 2
+}, "Let", {
+  "id": "items"
+}, "be", "a", "List", "whose", "first", "element", "is", {
+  "id": "O"
+}, "and", "whose", "subsequent", "elements", "are", ",", "in", "left", "to", "right", "order", ",", "the", "arguments", "that", "were", "passed", "to", "this", "function", "invocation", ".", {
+  "k": 3
+}, "Repeat", ",", "while", {
+  "id": "items"
+}, "is", "not", "empty", {
+  "in": null
+}, "Remove", "the", "first", "element", "from", {
+  "id": "items"
+}, "and", "let", {
+  "id": "E"
+}, "be", "the", "value", "of", "the", "element", ".", "Let", {
+  "id": "spreadable"
+}, "be", "?", "IsConcatSpreadable", "(", {
+  "id": "E"
+}, ")", ".", "If", {
+  "id": "spreadable"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "E"
+}, ")", ".", "If", {
+  "id": "n"
+}, "+", {
+  "id": "len"
+}, ">", "2", {
+  "sup": ["53"]
+}, "-", "1", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
 }, {
-  "tokens": ["Let", {
-    "id": "A"
-  }, "be", "?", "ArraySpeciesCreate", "(", {
-    "id": "O"
-  }, ",", "0", ")", "."]
+  "in": null
+}, "Let", {
+  "id": "P"
+}, "be", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ".", "Let", {
+  "id": "exists"
+}, "be", "?", "HasProperty", "(", {
+  "id": "E"
+}, ",", {
+  "id": "P"
+}, ")", ".", "If", {
+  "id": "exists"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "subElement"
+}, "be", "?", "Get", "(", {
+  "id": "E"
+}, ",", {
+  "id": "P"
+}, ")", ".", "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "n"
+}, ")", ",", {
+  "id": "subElement"
+}, ")", ".", {
+  "out": null
+}, "Set", {
+  "id": "n"
+}, "to", {
+  "id": "n"
+}, "+", "1", ".", "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "n"
-  }, "be", "0", "."]
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "NOTE", ":", {
+  "id": "E"
+}, "is", "added", "as", "a", "single", "item", "rather", "than", "spread", ".", "If", {
+  "id": "n"
+}, "≥", "2", {
+  "sup": ["53"]
+}, "-", "1", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", {
+  "id": "n"
+}, ")", ",", {
+  "id": "E"
+}, ")", ".", "Set", {
+  "id": "n"
+}, "to", {
+  "id": "n"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "items"
-  }, "be", "a", "List", "whose", "first", "element", "is", {
-    "id": "O"
-  }, "and", "whose", "subsequent", "elements", "are", ",", "in", "left", "to", "right", "order", ",", "the", "arguments", "that", "were", "passed", "to", "this", "function", "invocation", "."]
+  "out": null
 }, {
-  "tokens": ["Repeat", ",", "while", {
-    "id": "items"
-  }, "is", "not", "empty", {
-    "steps": [{
-      "tokens": ["Remove", "the", "first", "element", "from", {
-        "id": "items"
-      }, "and", "let", {
-        "id": "E"
-      }, "be", "the", "value", "of", "the", "element", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "spreadable"
-      }, "be", "?", "IsConcatSpreadable", "(", {
-        "id": "E"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "spreadable"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "k"
-          }, "be", "0", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "len"
-          }, "be", "?", "LengthOfArrayLike", "(", {
-            "id": "E"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "n"
-          }, "+", {
-            "id": "len"
-          }, ">", "2", {
-            "sup": {
-              "tokens": ["53"]
-            }
-          }, "-", "1", ",", "throw", "a", {
-            "value": "TypeError"
-          }, "exception", "."]
-        }, {
-          "tokens": ["Repeat", ",", "while", {
-            "id": "k"
-          }, "<", {
-            "id": "len"
-          }, {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "P"
-              }, "be", "!", "ToString", "(", {
-                "id": "k"
-              }, ")", "."]
-            }, {
-              "tokens": ["Let", {
-                "id": "exists"
-              }, "be", "?", "HasProperty", "(", {
-                "id": "E"
-              }, ",", {
-                "id": "P"
-              }, ")", "."]
-            }, {
-              "tokens": ["If", {
-                "id": "exists"
-              }, "is", {
-                "value": "true"
-              }, ",", "then", {
-                "steps": [{
-                  "tokens": ["Let", {
-                    "id": "subElement"
-                  }, "be", "?", "Get", "(", {
-                    "id": "E"
-                  }, ",", {
-                    "id": "P"
-                  }, ")", "."]
-                }, {
-                  "tokens": ["Perform", "?", "CreateDataPropertyOrThrow", "(", {
-                    "id": "A"
-                  }, ",", "!", "ToString", "(", {
-                    "id": "n"
-                  }, ")", ",", {
-                    "id": "subElement"
-                  }, ")", "."]
-                }]
-              }]
-            }, {
-              "tokens": ["Set", {
-                "id": "n"
-              }, "to", {
-                "id": "n"
-              }, "+", "1", "."]
-            }, {
-              "tokens": ["Set", {
-                "id": "k"
-              }, "to", {
-                "id": "k"
-              }, "+", "1", "."]
-            }]
-          }]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["NOTE", ":", {
-            "id": "E"
-          }, "is", "added", "as", "a", "single", "item", "rather", "than", "spread", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "n"
-          }, "≥", "2", {
-            "sup": {
-              "tokens": ["53"]
-            }
-          }, "-", "1", ",", "throw", "a", {
-            "value": "TypeError"
-          }, "exception", "."]
-        }, {
-          "tokens": ["Perform", "?", "CreateDataPropertyOrThrow", "(", {
-            "id": "A"
-          }, ",", "!", "ToString", "(", {
-            "id": "n"
-          }, ")", ",", {
-            "id": "E"
-          }, ")", "."]
-        }, {
-          "tokens": ["Set", {
-            "id": "n"
-          }, "to", {
-            "id": "n"
-          }, "+", "1", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Perform", "?", "Set", "(", {
-    "id": "A"
-  }, ",", {
-    "value": "\"length\""
-  }, ",", {
-    "id": "n"
-  }, ",", {
-    "value": "true"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", {
-    "id": "A"
-  }, "."]
+  "k": 4
+}, "Perform", "?", "Set", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "n"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 5
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 6
 }]

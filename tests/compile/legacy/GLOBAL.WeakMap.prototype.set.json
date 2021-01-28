@@ -1,85 +1,83 @@
-[{
-  "tokens": ["Let", {
-    "id": "key"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "key"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "value"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "M"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 2
+}, "Perform", "?", "RequireInternalSlot", "(", {
+  "id": "M"
+}, ",", "[", "[", "WeakMapData", "]", "]", ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "entries"
+}, "be", "the", "List", "that", "is", {
+  "id": "M"
+}, ".", "[", "[", "WeakMapData", "]", "]", ".", {
+  "k": 4
+}, "If", "Type", "(", {
+  "id": "key"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "For", "each", "Record", "{", "[", "[", "Key", "]", "]", ",", "[", "[", "Value", "]", "]", "}", {
+  "id": "p"
+}, "that", "is", "an", "element", "of", {
+  "id": "entries"
+}, ",", "do", {
+  "in": null
+}, "If", {
+  "id": "p"
+}, ".", "[", "[", "Key", "]", "]", "is", "not", {
+  "const": "empty"
+}, "and", "SameValue", "(", {
+  "id": "p"
+}, ".", "[", "[", "Key", "]", "]", ",", {
+  "id": "key"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "p"
+}, ".", "[", "[", "Value", "]", "]", "to", {
+  "id": "value"
+}, ".", "Return", {
+  "id": "M"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "value"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "M"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
-}, {
-  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
-    "id": "M"
-  }, ",", "[", "[", "WeakMapData", "]", "]", ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "entries"
-  }, "be", "the", "List", "that", "is", {
-    "id": "M"
-  }, ".", "[", "[", "WeakMapData", "]", "]", "."]
-}, {
-  "tokens": ["If", "Type", "(", {
-    "id": "key"
-  }, ")", "is", "not", "Object", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["For", "each", "Record", "{", "[", "[", "Key", "]", "]", ",", "[", "[", "Value", "]", "]", "}", {
-    "id": "p"
-  }, "that", "is", "an", "element", "of", {
-    "id": "entries"
-  }, ",", "do", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "p"
-      }, ".", "[", "[", "Key", "]", "]", "is", "not", {
-        "const": "empty"
-      }, "and", "SameValue", "(", {
-        "id": "p"
-      }, ".", "[", "[", "Key", "]", "]", ",", {
-        "id": "key"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Set", {
-            "id": "p"
-          }, ".", "[", "[", "Value", "]", "]", "to", {
-            "id": "value"
-          }, "."]
-        }, {
-          "tokens": ["Return", {
-            "id": "M"
-          }, "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "p"
-  }, "be", "the", "Record", "{", "[", "[", "Key", "]", "]", ":", {
-    "id": "key"
-  }, ",", "[", "[", "Value", "]", "]", ":", {
-    "id": "value"
-  }, "}", "."]
-}, {
-  "tokens": ["Append", {
-    "id": "p"
-  }, "as", "the", "last", "element", "of", {
-    "id": "entries"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "id": "M"
-  }, "."]
+  "k": 6
+}, "Let", {
+  "id": "p"
+}, "be", "the", "Record", "{", "[", "[", "Key", "]", "]", ":", {
+  "id": "key"
+}, ",", "[", "[", "Value", "]", "]", ":", {
+  "id": "value"
+}, "}", ".", {
+  "k": 7
+}, "Append", {
+  "id": "p"
+}, "as", "the", "last", "element", "of", {
+  "id": "entries"
+}, ".", {
+  "k": 8
+}, "Return", {
+  "id": "M"
+}, ".", {
+  "k": 9
 }]

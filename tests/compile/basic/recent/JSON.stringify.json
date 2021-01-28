@@ -16,19 +16,27 @@
   "k": 2
 }, "If", "Type", "(", {
   "id": "replacer"
-}, ")", "is", "Object", ",", "then", true, "If", "IsCallable", "(", {
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", "IsCallable", "(", {
   "id": "replacer"
 }, ")", "is", {
   "value": "true"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "ReplacerFunction"
 }, "to", {
   "id": "replacer"
 }, ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "isArray"
 }, "be", "?", "IsArray", "(", {
   "id": "replacer"
@@ -38,7 +46,9 @@
   "id": "isArray"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "PropertyList"
 }, "to", "a", "new", "empty", "List", ".", {
   "k": 9
@@ -56,7 +66,9 @@
   "id": "k"
 }, "<", {
   "id": "len"
-}, ",", true, "Let", {
+}, ",", {
+  "in": null
+}, "Let", {
   "id": "prop"
 }, "be", "!", "ToString", "(", "𝔽", "(", {
   "id": "k"
@@ -94,7 +106,9 @@
   "k": 17
 }, "Else", "if", "Type", "(", {
   "id": "v"
-}, ")", "is", "Object", ",", "then", true, "If", {
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", {
   "id": "v"
 }, "has", "a", "[", "[", "StringData", "]", "]", "or", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "set", {
   "id": "item"
@@ -102,7 +116,9 @@
   "id": "v"
 }, ")", ".", {
   "k": 19
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
 }, "If", {
   "id": "item"
@@ -112,13 +128,17 @@
   "id": "item"
 }, "is", "not", "currently", "an", "element", "of", {
   "id": "PropertyList"
-}, ",", "then", true, "Append", {
+}, ",", "then", {
+  "in": null
+}, "Append", {
   "id": "item"
 }, "to", "the", "end", "of", {
   "id": "PropertyList"
 }, ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 20
 }, "Set", {
   "id": "k"
@@ -126,41 +146,63 @@
   "id": "k"
 }, "+", "1", ".", {
   "k": 22
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "If", "Type", "(", {
   "id": "space"
-}, ")", "is", "Object", ",", "then", true, "If", {
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", {
   "id": "space"
-}, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then", true, "Set", {
+}, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
   "id": "space"
 }, "to", "?", "ToNumber", "(", {
   "id": "space"
 }, ")", ".", {
   "k": 25
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 24
 }, "Else", "if", {
   "id": "space"
-}, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then", true, "Set", {
+}, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
   "id": "space"
 }, "to", "?", "ToString", "(", {
   "id": "space"
 }, ")", ".", {
   "k": 27
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 23
 }, "If", "Type", "(", {
   "id": "space"
-}, ")", "is", "Number", ",", "then", true, "Let", {
+}, ")", "is", "Number", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "spaceMV"
 }, "be", "!", "ToIntegerOrInfinity", "(", {
   "id": "space"
@@ -182,11 +224,15 @@
   "id": "spaceMV"
 }, "occurrences", "of", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ".", {
   "k": 31
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 28
 }, "Else", "if", "Type", "(", {
   "id": "space"
-}, ")", "is", "String", ",", "then", true, "If", "the", "length", "of", {
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "If", "the", "length", "of", {
   "id": "space"
 }, "is", "10", "or", "less", ",", "let", {
   "id": "gap"
@@ -198,13 +244,19 @@
   "id": "space"
 }, "from", "0", "to", "10", ".", {
   "k": 33
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 32
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "gap"
 }, "be", "the", "empty", "String", ".", {
   "k": 35
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 34
 }, "Let", {
   "id": "wrapper"

@@ -1,105 +1,105 @@
-[{
-  "tokens": ["If", {
-    "id": "Desc"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "return", {
-    "value": "undefined"
-  }, "."]
+["If", {
+  "id": "Desc"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "obj"
+}, "be", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "obj"
+}, "is", "an", "extensible", "ordinary", "object", "with", "no", "own", "properties", ".", {
+  "k": 2
+}, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Value", "]", "]", "field", ",", "then", {
+  "in": null
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"value\""
+}, ",", {
+  "id": "Desc"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "obj"
-  }, "be", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", "."]
+  "k": 3
+}, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Writable", "]", "]", "field", ",", "then", {
+  "in": null
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"writable\""
+}, ",", {
+  "id": "Desc"
+}, ".", "[", "[", "Writable", "]", "]", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Assert", ":", {
-    "id": "obj"
-  }, "is", "an", "extensible", "ordinary", "object", "with", "no", "own", "properties", "."]
+  "k": 4
+}, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Get", "]", "]", "field", ",", "then", {
+  "in": null
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"get\""
+}, ",", {
+  "id": "Desc"
+}, ".", "[", "[", "Get", "]", "]", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "Desc"
-  }, "has", "a", "[", "[", "Value", "]", "]", "field", ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "obj"
-      }, ",", {
-        "value": "\"value\""
-      }, ",", {
-        "id": "Desc"
-      }, ".", "[", "[", "Value", "]", "]", ")", "."]
-    }]
-  }]
+  "k": 5
+}, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Set", "]", "]", "field", ",", "then", {
+  "in": null
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"set\""
+}, ",", {
+  "id": "Desc"
+}, ".", "[", "[", "Set", "]", "]", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "Desc"
-  }, "has", "a", "[", "[", "Writable", "]", "]", "field", ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "obj"
-      }, ",", {
-        "value": "\"writable\""
-      }, ",", {
-        "id": "Desc"
-      }, ".", "[", "[", "Writable", "]", "]", ")", "."]
-    }]
-  }]
+  "k": 6
+}, "If", {
+  "id": "Desc"
+}, "has", "an", "[", "[", "Enumerable", "]", "]", "field", ",", "then", {
+  "in": null
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"enumerable\""
+}, ",", {
+  "id": "Desc"
+}, ".", "[", "[", "Enumerable", "]", "]", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "Desc"
-  }, "has", "a", "[", "[", "Get", "]", "]", "field", ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "obj"
-      }, ",", {
-        "value": "\"get\""
-      }, ",", {
-        "id": "Desc"
-      }, ".", "[", "[", "Get", "]", "]", ")", "."]
-    }]
-  }]
+  "k": 7
+}, "If", {
+  "id": "Desc"
+}, "has", "a", "[", "[", "Configurable", "]", "]", "field", ",", "then", {
+  "in": null
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"configurable\""
+}, ",", {
+  "id": "Desc"
+}, ".", "[", "[", "Configurable", "]", "]", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", {
-    "id": "Desc"
-  }, "has", "a", "[", "[", "Set", "]", "]", "field", ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "obj"
-      }, ",", {
-        "value": "\"set\""
-      }, ",", {
-        "id": "Desc"
-      }, ".", "[", "[", "Set", "]", "]", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", {
-    "id": "Desc"
-  }, "has", "an", "[", "[", "Enumerable", "]", "]", "field", ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "obj"
-      }, ",", {
-        "value": "\"enumerable\""
-      }, ",", {
-        "id": "Desc"
-      }, ".", "[", "[", "Enumerable", "]", "]", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", {
-    "id": "Desc"
-  }, "has", "a", "[", "[", "Configurable", "]", "]", "field", ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "obj"
-      }, ",", {
-        "value": "\"configurable\""
-      }, ",", {
-        "id": "Desc"
-      }, ".", "[", "[", "Configurable", "]", "]", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "obj"
-  }, "."]
+  "k": 8
+}, "Return", {
+  "id": "obj"
+}, ".", {
+  "k": 9
 }]

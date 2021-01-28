@@ -30,7 +30,9 @@
   "id": "waitable"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "typeName"
 }, "is", "not", {
   "value": "\"Int32Array\""
@@ -40,9 +42,13 @@
   "value": "TypeError"
 }, "exception", ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, "Else", ",", true, "If", "!", "IsUnclampedIntegerElementType", "(", {
+}, "Else", ",", {
+  "in": null
+}, "If", "!", "IsUnclampedIntegerElementType", "(", {
   "id": "type"
 }, ")", "is", {
   "value": "false"
@@ -54,7 +60,9 @@
   "value": "TypeError"
 }, "exception", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Return", {
   "id": "buffer"

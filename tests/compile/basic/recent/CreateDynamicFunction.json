@@ -34,7 +34,9 @@
   "id": "kind"
 }, "is", {
   "const": "normal"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "goal"
 }, "be", "the", "grammar", "symbol", "|", "FunctionBody", "[", "~", "Yield", ",", "~", "Await", "]", "|", ".", {
   "k": 7
@@ -48,13 +50,17 @@
   "value": "\"%Function.prototype%\""
 }, ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Else", "if", {
   "id": "kind"
 }, "is", {
   "const": "generator"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "goal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "GeneratorBody"
@@ -70,13 +76,17 @@
   "value": "\"%GeneratorFunction.prototype%\""
 }, ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
 }, "Else", "if", {
   "id": "kind"
 }, "is", {
   "const": "async"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "goal"
 }, "be", "the", "grammar", "symbol", {
   "nt": "AsyncFunctionBody"
@@ -92,9 +102,13 @@
   "value": "\"%AsyncFunction.prototype%\""
 }, ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "kind"
 }, "is", {
   "const": "asyncGenerator"
@@ -116,7 +130,9 @@
   "value": "\"%AsyncGeneratorFunction.prototype%\""
 }, ".", {
   "k": 22
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
 }, "Let", {
   "id": "argCount"
@@ -142,7 +158,9 @@
   "id": "args"
 }, "[", "0", "]", ".", {
   "k": 26
-}, "Else", ",", true, "Assert", ":", {
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
   "id": "argCount"
 }, ">", "1", ".", {
   "k": 28
@@ -166,7 +184,9 @@
   "id": "k"
 }, "<", {
   "id": "argCount"
-}, "-", "1", ",", true, "Let", {
+}, "-", "1", ",", {
+  "in": null
+}, "Let", {
   "id": "nextArg"
 }, "be", {
   "id": "args"
@@ -196,7 +216,9 @@
   "id": "k"
 }, "+", "1", ".", {
   "k": 36
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 32
 }, "Let", {
   "id": "bodyArg"
@@ -206,7 +228,9 @@
   "id": "k"
 }, "]", ".", {
   "k": 37
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
 }, "Let", {
   "id": "bodyString"
@@ -240,7 +264,9 @@
   "id": "sourceString"
 }, ")", ".", {
   "k": 41
-}, "Perform", "the", "following", "substeps", "in", "an", "implementation", "-", "defined", "order", ",", "possibly", "interleaving", "parsing", "and", "error", "detection", ":", true, "Let", {
+}, "Perform", "the", "following", "substeps", "in", "an", "implementation", "-", "defined", "order", ",", "possibly", "interleaving", "parsing", "and", "error", "detection", ":", {
+  "in": null
+}, "Let", {
   "id": "parameters"
 }, "be", "ParseText", "(", "!", "StringToCodePoints", "(", {
   "id": "P"
@@ -351,7 +377,9 @@
   "const": "generator"
 }, "or", {
   "const": "asyncGenerator"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "parameters"
 }, "Contains", {
   "nt": "YieldExpression"
@@ -361,7 +389,9 @@
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 56
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 55
 }, "If", {
   "id": "kind"
@@ -369,7 +399,9 @@
   "const": "async"
 }, "or", {
   "const": "asyncGenerator"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "parameters"
 }, "Contains", {
   "nt": "AwaitExpression"
@@ -379,21 +411,29 @@
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 58
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 57
 }, "If", {
   "id": "strict"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "If", "BoundNames", "of", {
+}, ",", "then", {
+  "in": null
+}, "If", "BoundNames", "of", {
   "id": "parameters"
 }, "contains", "any", "duplicate", "elements", ",", "throw", "a", {
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 60
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 59
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 42
 }, "Let", {
   "id": "proto"
@@ -439,7 +479,9 @@
   "id": "kind"
 }, "is", {
   "const": "generator"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "prototype"
 }, "be", "!", "OrdinaryObjectCreate", "(", "%", "GeneratorFunction", ".", "prototype", ".", "prototype", "%", ")", ".", {
   "k": 67
@@ -457,13 +499,17 @@
   "value": "false"
 }, "}", ")", ".", {
   "k": 68
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 66
 }, "Else", "if", {
   "id": "kind"
 }, "is", {
   "const": "asyncGenerator"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "prototype"
 }, "be", "!", "OrdinaryObjectCreate", "(", "%", "AsyncGeneratorFunction", ".", "prototype", ".", "prototype", "%", ")", ".", {
   "k": 70
@@ -481,7 +527,9 @@
   "value": "false"
 }, "}", ")", ".", {
   "k": 71
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 69
 }, "Else", "if", {
   "id": "kind"

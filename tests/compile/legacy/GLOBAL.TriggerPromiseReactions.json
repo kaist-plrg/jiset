@@ -1,39 +1,37 @@
-[{
-  "tokens": ["Let", {
-    "id": "reactions"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "reactions"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "argument"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "For", "each", {
+  "id": "reaction"
+}, "in", {
+  "id": "reactions"
+}, ",", "in", "original", "insertion", "order", ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "job"
+}, "be", "NewPromiseReactionJob", "(", {
+  "id": "reaction"
+}, ",", {
+  "id": "argument"
+}, ")", ".", "Perform", "HostEnqueuePromiseJob", "(", {
+  "id": "job"
+}, ".", "[", "[", "Job", "]", "]", ",", {
+  "id": "job"
+}, ".", "[", "[", "Realm", "]", "]", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "argument"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
-}, {
-  "tokens": ["For", "each", {
-    "id": "reaction"
-  }, "in", {
-    "id": "reactions"
-  }, ",", "in", "original", "insertion", "order", ",", "do", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "job"
-      }, "be", "NewPromiseReactionJob", "(", {
-        "id": "reaction"
-      }, ",", {
-        "id": "argument"
-      }, ")", "."]
-    }, {
-      "tokens": ["Perform", "HostEnqueuePromiseJob", "(", {
-        "id": "job"
-      }, ".", "[", "[", "Job", "]", "]", ",", {
-        "id": "job"
-      }, ".", "[", "[", "Realm", "]", "]", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "value": "undefined"
-  }, "."]
+  "k": 2
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 3
 }]

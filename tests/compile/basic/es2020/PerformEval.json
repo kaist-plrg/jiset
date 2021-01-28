@@ -30,7 +30,9 @@
   "k": 4
 }, "If", {
   "id": "thisEnvRec"
-}, "is", "a", "function", "Environment", "Record", ",", "then", true, "Let", {
+}, "is", "a", "function", "Environment", "Record", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "F"
 }, "be", {
   "id": "thisEnvRec"
@@ -62,9 +64,13 @@
   "value": "false"
 }, ".", {
   "k": 9
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 5
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "inFunction"
 }, "be", {
   "value": "false"
@@ -82,9 +88,13 @@
   "value": "false"
 }, ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 10
-}, "Perform", "the", "following", "substeps", "in", "an", "implementation", "-", "dependent", "order", ",", "possibly", "interleaving", "parsing", "and", "error", "detection", ":", true, "Let", {
+}, "Perform", "the", "following", "substeps", "in", "an", "implementation", "-", "dependent", "order", ",", "possibly", "interleaving", "parsing", "and", "error", "detection", ":", {
+  "in": null
+}, "Let", {
   "id": "script"
 }, "be", "the", "ECMAScript", "code", "that", "is", "the", "result", "of", "parsing", "!", "UTF16DecodeString", "(", {
   "id": "x"
@@ -152,7 +162,9 @@
   "value": "SyntaxError"
 }, "exception", ".", {
   "k": 20
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
 }, "If", {
   "id": "strictCaller"
@@ -194,7 +206,9 @@
   "id": "direct"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "runningContext"
@@ -206,9 +220,13 @@
   "id": "runningContext"
 }, "'", "s", "VariableEnvironment", ".", {
   "k": 27
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "lexEnv"
 }, "be", "NewDeclarativeEnvironment", "(", {
   "id": "evalRealm"
@@ -220,7 +238,9 @@
   "id": "evalRealm"
 }, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
   "k": 30
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 28
 }, "If", {
   "id": "strictEval"
@@ -294,13 +314,17 @@
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "normal"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "result"
 }, "to", "the", "result", "of", "evaluating", {
   "id": "body"
 }, ".", {
   "k": 42
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 41
 }, "If", {
   "id": "result"
@@ -310,13 +334,17 @@
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", "is", {
   "const": "empty"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "result"
 }, "to", "NormalCompletion", "(", {
   "value": "undefined"
 }, ")", ".", {
   "k": 44
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 43
 }, "Suspend", {
   "id": "evalContext"

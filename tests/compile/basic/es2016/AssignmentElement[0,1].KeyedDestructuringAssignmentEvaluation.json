@@ -4,7 +4,9 @@
   "nt": "ObjectLiteral"
 }, "nor", "an", {
   "nt": "ArrayLiteral"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "lref"
 }, "be", "the", "result", "of", "evaluating", {
   "nt": "DestructuringAssignmentTarget"
@@ -14,7 +16,9 @@
   "id": "lref"
 }, ")", ".", {
   "k": 2
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 0
 }, "Let", {
   "id": "v"
@@ -30,7 +34,9 @@
   "id": "v"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "defaultValue"
 }, "be", "the", "result", "of", "evaluating", {
   "nt": "Initializer"
@@ -42,7 +48,9 @@
   "id": "defaultValue"
 }, ")", ".", {
   "k": 6
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
 }, "Else", ",", "let", {
   "id": "rhsValue"
@@ -56,7 +64,9 @@
   "nt": "ObjectLiteral"
 }, "or", "an", {
   "nt": "ArrayLiteral"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "assignmentPattern"
 }, "be", "the", "parse", "of", "the", "source", "text", "corresponding", "to", {
   "nt": "DestructuringAssignmentTarget"
@@ -67,9 +77,7 @@
 }, "as", "the", "goal", "symbol", "depending", "upon", "whether", "this", {
   "nt": "AssignmentElement"
 }, "has", "the", {
-  "sub": {
-    "tokens": ["[", "Yield", "]"]
-  }
+  "sub": ["[", "Yield", "]"]
 }, "parameter", ".", {
   "k": 9
 }, "Return", "the", "result", "of", "performing", "DestructuringAssignmentEvaluation", "of", {
@@ -78,7 +86,9 @@
   "id": "rhsValue"
 }, "as", "the", "argument", ".", {
   "k": 10
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 8
 }, "If", {
   "nt": "Initializer"
@@ -92,7 +102,9 @@
   "nt": "DestructuringAssignmentTarget"
 }, "are", "both", {
   "value": "true"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "hasNameProperty"
 }, "be", "?", "HasOwnProperty", "(", {
   "id": "rhsValue"
@@ -110,7 +122,9 @@
   "id": "lref"
 }, ")", ")", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Return", "?", "PutValue", "(", {
   "id": "lref"

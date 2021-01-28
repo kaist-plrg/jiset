@@ -1,73 +1,69 @@
-[{
-  "tokens": ["Let", {
-    "id": "P"
-  }, "be", "StringValue", "of", {
-    "nt": "IdentifierReference"
-  }, "."]
+["Let", {
+  "id": "P"
+}, "be", "StringValue", "of", {
+  "nt": "IdentifierReference"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "lref"
+}, "be", "?", "ResolveBinding", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "v"
+}, "be", "?", "GetV", "(", {
+  "id": "value"
+}, ",", {
+  "id": "P"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "nt": "Initializer"
+}, "is", "present", "and", {
+  "id": "v"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "If", "IsAnonymousFunctionDefinition", "(", {
+  "nt": "Initializer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "v"
+}, "to", "the", "result", "of", "performing", "NamedEvaluation", "for", {
+  "nt": "Initializer"
+}, "with", "argument", {
+  "id": "P"
+}, ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "defaultValue"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Initializer"
+}, ".", "Set", {
+  "id": "v"
+}, "to", "?", "GetValue", "(", {
+  "id": "defaultValue"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "lref"
-  }, "be", "?", "ResolveBinding", "(", {
-    "id": "P"
-  }, ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "v"
-  }, "be", "?", "GetV", "(", {
-    "id": "value"
-  }, ",", {
-    "id": "P"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "nt": "Initializer"
-  }, "is", "present", "and", {
-    "id": "v"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", "IsAnonymousFunctionDefinition", "(", {
-        "nt": "Initializer"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Set", {
-            "id": "v"
-          }, "to", "the", "result", "of", "performing", "NamedEvaluation", "for", {
-            "nt": "Initializer"
-          }, "with", "argument", {
-            "id": "P"
-          }, "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "defaultValue"
-          }, "be", "the", "result", "of", "evaluating", {
-            "nt": "Initializer"
-          }, "."]
-        }, {
-          "tokens": ["Set", {
-            "id": "v"
-          }, "to", "?", "GetValue", "(", {
-            "id": "defaultValue"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Perform", "?", "PutValue", "(", {
-    "id": "lref"
-  }, ",", {
-    "id": "v"
-  }, ")", "."]
-}, {
-  "tokens": ["Return", "a", "new", "List", "containing", {
-    "id": "P"
-  }, "."]
+  "k": 3
+}, "Perform", "?", "PutValue", "(", {
+  "id": "lref"
+}, ",", {
+  "id": "v"
+}, ")", ".", {
+  "k": 4
+}, "Return", "a", "new", "List", "containing", {
+  "id": "P"
+}, ".", {
+  "k": 5
 }]

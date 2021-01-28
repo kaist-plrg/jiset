@@ -6,7 +6,9 @@
   "k": 0
 }, "If", "Type", "(", {
   "id": "P"
-}, ")", "is", "String", ",", "then", true, "Let", {
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "numericIndex"
 }, "be", "!", "CanonicalNumericIndexString", "(", {
   "id": "P"
@@ -16,15 +18,21 @@
   "id": "numericIndex"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "Return", "?", "IntegerIndexedElementGet", "(", {
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "IntegerIndexedElementGet", "(", {
   "id": "O"
 }, ",", {
   "id": "numericIndex"
 }, ")", ".", {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 1
 }, "Return", "?", "OrdinaryGet", "(", {
   "id": "O"

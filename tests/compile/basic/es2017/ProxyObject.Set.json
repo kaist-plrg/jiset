@@ -40,7 +40,9 @@
   "id": "trap"
 }, "is", {
   "value": "undefined"
-}, ",", "then", true, "Return", "?", {
+}, ",", "then", {
+  "in": null
+}, "Return", "?", {
   "id": "target"
 }, ".", "[", "[", "Set", "]", "]", "(", {
   "id": "P"
@@ -50,7 +52,9 @@
   "id": "Receiver"
 }, ")", ".", {
   "k": 7
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Let", {
   "id": "booleanTrapResult"
@@ -88,7 +92,9 @@
   "id": "targetDesc"
 }, "is", "not", {
   "value": "undefined"
-}, ",", "then", true, "If", "IsDataDescriptor", "(", {
+}, ",", "then", {
+  "in": null
+}, "If", "IsDataDescriptor", "(", {
   "id": "targetDesc"
 }, ")", "is", {
   "value": "true"
@@ -100,7 +106,9 @@
   "id": "targetDesc"
 }, ".", "[", "[", "Writable", "]", "]", "is", {
   "value": "false"
-}, ",", "then", true, "If", "SameValue", "(", {
+}, ",", "then", {
+  "in": null
+}, "If", "SameValue", "(", {
   "id": "V"
 }, ",", {
   "id": "targetDesc"
@@ -110,7 +118,9 @@
   "value": "TypeError"
 }, "exception", ".", {
   "k": 13
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 12
 }, "If", "IsAccessorDescriptor", "(", {
   "id": "targetDesc"
@@ -120,7 +130,9 @@
   "id": "targetDesc"
 }, ".", "[", "[", "Configurable", "]", "]", "is", {
   "value": "false"
-}, ",", "then", true, "If", {
+}, ",", "then", {
+  "in": null
+}, "If", {
   "id": "targetDesc"
 }, ".", "[", "[", "Set", "]", "]", "is", {
   "value": "undefined"
@@ -128,9 +140,13 @@
   "value": "TypeError"
 }, "exception", ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Return", {
   "value": "true"

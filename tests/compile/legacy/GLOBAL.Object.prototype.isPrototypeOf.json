@@ -1,47 +1,43 @@
-[{
-  "tokens": ["Let", {
-    "id": "V"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "V"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "V"
+}, ")", "is", "not", "Object", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 2
+}, "Repeat", ",", {
+  "in": null
+}, "Set", {
+  "id": "V"
+}, "to", "?", {
+  "id": "V"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", "If", {
+  "id": "V"
+}, "is", {
+  "value": "null"
+}, ",", "return", {
+  "value": "false"
+}, ".", "If", "SameValue", "(", {
+  "id": "O"
+}, ",", {
+  "id": "V"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "V"
-  }, ")", "is", "not", "Object", ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "ToObject", "(", {
-    "value": "this"
-  }, "value", ")", "."]
-}, {
-  "tokens": ["Repeat", ",", {
-    "steps": [{
-      "tokens": ["Set", {
-        "id": "V"
-      }, "to", "?", {
-        "id": "V"
-      }, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "V"
-      }, "is", {
-        "value": "null"
-      }, ",", "return", {
-        "value": "false"
-      }, "."]
-    }, {
-      "tokens": ["If", "SameValue", "(", {
-        "id": "O"
-      }, ",", {
-        "id": "V"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "return", {
-        "value": "true"
-      }, "."]
-    }]
-  }]
+  "k": 3
 }]

@@ -1,107 +1,107 @@
-[{
-  "tokens": ["Assert", ":", "Either", "Type", "(", {
-    "id": "V"
-  }, ")", "is", "Object", "or", "Type", "(", {
-    "id": "V"
-  }, ")", "is", "Null", "."]
+["Assert", ":", "Either", "Type", "(", {
+  "id": "V"
+}, ")", "is", "Object", "or", "Type", "(", {
+  "id": "V"
+}, ")", "is", "Null", ".", {
+  "k": 0
+}, "Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 1
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 3
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "\"setPrototypeOf\""
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "SetPrototypeOf", "]", "]", "(", {
+  "id": "V"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "handler"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ProxyHandler", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "handler"
-  }, "is", {
-    "value": "null"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "handler"
-  }, ")", "is", "Object", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "target"
-  }, "be", {
-    "id": "O"
-  }, ".", "[", "[", "ProxyTarget", "]", "]", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "trap"
-  }, "be", "?", "GetMethod", "(", {
-    "id": "handler"
-  }, ",", {
-    "value": "\"setPrototypeOf\""
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "trap"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", "?", {
-        "id": "target"
-      }, ".", "[", "[", "SetPrototypeOf", "]", "]", "(", {
-        "id": "V"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "booleanTrapResult"
-  }, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
-    "id": "trap"
-  }, ",", {
-    "id": "handler"
-  }, ",", "«", {
-    "id": "target"
-  }, ",", {
-    "id": "V"
-  }, "»", ")", ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "booleanTrapResult"
-  }, "is", {
-    "value": "false"
-  }, ",", "return", {
-    "value": "false"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "extensibleTarget"
-  }, "be", "?", "IsExtensible", "(", {
-    "id": "target"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "extensibleTarget"
-  }, "is", {
-    "value": "true"
-  }, ",", "return", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "targetProto"
-  }, "be", "?", {
-    "id": "target"
-  }, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", "."]
-}, {
-  "tokens": ["If", "SameValue", "(", {
-    "id": "V"
-  }, ",", {
-    "id": "targetProto"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Return", {
-    "value": "true"
-  }, "."]
+  "k": 6
+}, "Let", {
+  "id": "booleanTrapResult"
+}, "be", "!", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, ",", {
+  "id": "V"
+}, "»", ")", ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "booleanTrapResult"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "extensibleTarget"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "extensibleTarget"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "targetProto"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", {
+  "k": 11
+}, "If", "SameValue", "(", {
+  "id": "V"
+}, ",", {
+  "id": "targetProto"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 12
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 13
 }]

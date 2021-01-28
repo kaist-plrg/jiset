@@ -1,43 +1,43 @@
-[{
-  "tokens": ["If", "Type", "(", {
-    "id": "target"
-  }, ")", "is", "not", "Object", ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
+["If", "Type", "(", {
+  "id": "target"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "instOfHandler"
+}, "be", "?", "GetMethod", "(", {
+  "id": "target"
+}, ",", "@", "@", "hasInstance", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "instOfHandler"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "!", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "instOfHandler"
+}, ",", {
+  "id": "target"
+}, ",", "«", {
+  "id": "V"
+}, "»", ")", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "instOfHandler"
-  }, "be", "?", "GetMethod", "(", {
-    "id": "target"
-  }, ",", "@", "@", "hasInstance", ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "instOfHandler"
-  }, "is", "not", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Return", "!", "ToBoolean", "(", "?", "Call", "(", {
-        "id": "instOfHandler"
-      }, ",", {
-        "id": "target"
-      }, ",", "«", {
-        "id": "V"
-      }, "»", ")", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", "IsCallable", "(", {
-    "id": "target"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Return", "?", "OrdinaryHasInstance", "(", {
-    "id": "target"
-  }, ",", {
-    "id": "V"
-  }, ")", "."]
+  "k": 2
+}, "If", "IsCallable", "(", {
+  "id": "target"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Return", "?", "OrdinaryHasInstance", "(", {
+  "id": "target"
+}, ",", {
+  "id": "V"
+}, ")", ".", {
+  "k": 4
 }]

@@ -1,109 +1,97 @@
-[{
-  "tokens": ["Assert", ":", "Type", "(", {
-    "id": "O"
-  }, ")", "is", "Object", "."]
+["Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "ownKeys"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "properties"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 2
+}, "For", "each", "element", {
+  "id": "key"
+}, "of", {
+  "id": "ownKeys"
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "If", "Type", "(", {
+  "id": "key"
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "key"
+}, ")", ".", "If", {
+  "id": "desc"
+}, "is", "not", {
+  "value": "undefined"
+}, "and", {
+  "id": "desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "kind"
+}, "is", {
+  "const": "key"
+}, ",", "append", {
+  "id": "key"
+}, "to", {
+  "id": "properties"
+}, ".", "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "value"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "key"
+}, ")", ".", "If", {
+  "id": "kind"
+}, "is", {
+  "const": "value"
+}, ",", "append", {
+  "id": "value"
+}, "to", {
+  "id": "properties"
+}, ".", "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "kind"
+}, "is", {
+  "const": "key+value"
+}, ".", "Let", {
+  "id": "entry"
+}, "be", "!", "CreateArrayFromList", "(", "«", {
+  "id": "key"
+}, ",", {
+  "id": "value"
+}, "»", ")", ".", "Append", {
+  "id": "entry"
+}, "to", {
+  "id": "properties"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "ownKeys"
-  }, "be", "?", {
-    "id": "O"
-  }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "properties"
-  }, "be", "a", "new", "empty", "List", "."]
+  "out": null
 }, {
-  "tokens": ["For", "each", "element", {
-    "id": "key"
-  }, "of", {
-    "id": "ownKeys"
-  }, "in", "List", "order", ",", "do", {
-    "steps": [{
-      "tokens": ["If", "Type", "(", {
-        "id": "key"
-      }, ")", "is", "String", ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "desc"
-          }, "be", "?", {
-            "id": "O"
-          }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-            "id": "key"
-          }, ")", "."]
-        }, {
-          "tokens": ["If", {
-            "id": "desc"
-          }, "is", "not", {
-            "value": "undefined"
-          }, "and", {
-            "id": "desc"
-          }, ".", "[", "[", "Enumerable", "]", "]", "is", {
-            "value": "true"
-          }, ",", "then", {
-            "steps": [{
-              "tokens": ["If", {
-                "id": "kind"
-              }, "is", {
-                "const": "key"
-              }, ",", "append", {
-                "id": "key"
-              }, "to", {
-                "id": "properties"
-              }, "."]
-            }, {
-              "tokens": ["Else", ",", {
-                "steps": [{
-                  "tokens": ["Let", {
-                    "id": "value"
-                  }, "be", "?", "Get", "(", {
-                    "id": "O"
-                  }, ",", {
-                    "id": "key"
-                  }, ")", "."]
-                }, {
-                  "tokens": ["If", {
-                    "id": "kind"
-                  }, "is", {
-                    "const": "value"
-                  }, ",", "append", {
-                    "id": "value"
-                  }, "to", {
-                    "id": "properties"
-                  }, "."]
-                }, {
-                  "tokens": ["Else", ",", {
-                    "steps": [{
-                      "tokens": ["Assert", ":", {
-                        "id": "kind"
-                      }, "is", {
-                        "const": "key+value"
-                      }, "."]
-                    }, {
-                      "tokens": ["Let", {
-                        "id": "entry"
-                      }, "be", "!", "CreateArrayFromList", "(", "«", {
-                        "id": "key"
-                      }, ",", {
-                        "id": "value"
-                      }, "»", ")", "."]
-                    }, {
-                      "tokens": ["Append", {
-                        "id": "entry"
-                      }, "to", {
-                        "id": "properties"
-                      }, "."]
-                    }]
-                  }]
-                }]
-              }]
-            }]
-          }]
-        }]
-      }]
-    }]
-  }]
+  "out": null
 }, {
-  "tokens": ["Return", {
-    "id": "properties"
-  }, "."]
+  "out": null
+}, {
+  "k": 3
+}, "Return", {
+  "id": "properties"
+}, ".", {
+  "k": 4
 }]

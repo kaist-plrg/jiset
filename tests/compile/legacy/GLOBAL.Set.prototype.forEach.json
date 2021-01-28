@@ -1,69 +1,69 @@
-[{
-  "tokens": ["Let", {
-    "id": "callbackfn"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "callbackfn"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "thisArg"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "1", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "S"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 2
+}, "Perform", "?", "RequireInternalSlot", "(", {
+  "id": "S"
+}, ",", "[", "[", "SetData", "]", "]", ")", ".", {
+  "k": 3
+}, "If", "IsCallable", "(", {
+  "id": "callbackfn"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Let", {
+  "id": "entries"
+}, "be", "the", "List", "that", "is", {
+  "id": "S"
+}, ".", "[", "[", "SetData", "]", "]", ".", {
+  "k": 5
+}, "For", "each", {
+  "id": "e"
+}, "that", "is", "an", "element", "of", {
+  "id": "entries"
+}, ",", "in", "original", "insertion", "order", ",", "do", {
+  "in": null
+}, "If", {
+  "id": "e"
+}, "is", "not", {
+  "const": "empty"
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", "Call", "(", {
+  "id": "callbackfn"
+}, ",", {
+  "id": "thisArg"
+}, ",", "«", {
+  "id": "e"
+}, ",", {
+  "id": "e"
+}, ",", {
+  "id": "S"
+}, "»", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "thisArg"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "1", ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "S"
-  }, "be", "the", {
-    "value": "this"
-  }, "value", "."]
-}, {
-  "tokens": ["Perform", "?", "RequireInternalSlot", "(", {
-    "id": "S"
-  }, ",", "[", "[", "SetData", "]", "]", ")", "."]
-}, {
-  "tokens": ["If", "IsCallable", "(", {
-    "id": "callbackfn"
-  }, ")", "is", {
-    "value": "false"
-  }, ",", "throw", "a", {
-    "value": "TypeError"
-  }, "exception", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "entries"
-  }, "be", "the", "List", "that", "is", {
-    "id": "S"
-  }, ".", "[", "[", "SetData", "]", "]", "."]
-}, {
-  "tokens": ["For", "each", {
-    "id": "e"
-  }, "that", "is", "an", "element", "of", {
-    "id": "entries"
-  }, ",", "in", "original", "insertion", "order", ",", "do", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "e"
-      }, "is", "not", {
-        "const": "empty"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Perform", "?", "Call", "(", {
-            "id": "callbackfn"
-          }, ",", {
-            "id": "thisArg"
-          }, ",", "«", {
-            "id": "e"
-          }, ",", {
-            "id": "e"
-          }, ",", {
-            "id": "S"
-          }, "»", ")", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "value": "undefined"
-  }, "."]
+  "k": 6
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 7
 }]

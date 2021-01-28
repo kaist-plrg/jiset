@@ -1,101 +1,93 @@
-[{
-  "tokens": ["Let", {
-    "id": "target"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "target"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "to"
+}, "be", "?", "ToObject", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 1
+}, "If", "only", "one", "argument", "was", "passed", ",", "return", {
+  "id": "to"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "sources"
+}, "be", "the", "List", "of", "argument", "values", "starting", "with", "the", "second", "argument", ".", {
+  "k": 3
+}, "For", "each", "element", {
+  "id": "nextSource"
+}, "of", {
+  "id": "sources"
+}, ",", "in", "ascending", "index", "order", ",", "do", {
+  "in": null
+}, "If", {
+  "id": "nextSource"
+}, "is", "neither", {
+  "value": "undefined"
+}, "nor", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "from"
+}, "be", "!", "ToObject", "(", {
+  "id": "nextSource"
+}, ")", ".", "Let", {
+  "id": "keys"
+}, "be", "?", {
+  "id": "from"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", "For", "each", "element", {
+  "id": "nextKey"
+}, "of", {
+  "id": "keys"
+}, "in", "List", "order", ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "from"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "nextKey"
+}, ")", ".", "If", {
+  "id": "desc"
+}, "is", "not", {
+  "value": "undefined"
+}, "and", {
+  "id": "desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "propValue"
+}, "be", "?", "Get", "(", {
+  "id": "from"
+}, ",", {
+  "id": "nextKey"
+}, ")", ".", "Perform", "?", "Set", "(", {
+  "id": "to"
+}, ",", {
+  "id": "nextKey"
+}, ",", {
+  "id": "propValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "to"
-  }, "be", "?", "ToObject", "(", {
-    "id": "target"
-  }, ")", "."]
+  "out": null
 }, {
-  "tokens": ["If", "only", "one", "argument", "was", "passed", ",", "return", {
-    "id": "to"
-  }, "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "sources"
-  }, "be", "the", "List", "of", "argument", "values", "starting", "with", "the", "second", "argument", "."]
+  "out": null
 }, {
-  "tokens": ["For", "each", "element", {
-    "id": "nextSource"
-  }, "of", {
-    "id": "sources"
-  }, ",", "in", "ascending", "index", "order", ",", "do", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "nextSource"
-      }, "is", "neither", {
-        "value": "undefined"
-      }, "nor", {
-        "value": "null"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Let", {
-            "id": "from"
-          }, "be", "!", "ToObject", "(", {
-            "id": "nextSource"
-          }, ")", "."]
-        }, {
-          "tokens": ["Let", {
-            "id": "keys"
-          }, "be", "?", {
-            "id": "from"
-          }, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", "."]
-        }, {
-          "tokens": ["For", "each", "element", {
-            "id": "nextKey"
-          }, "of", {
-            "id": "keys"
-          }, "in", "List", "order", ",", "do", {
-            "steps": [{
-              "tokens": ["Let", {
-                "id": "desc"
-              }, "be", "?", {
-                "id": "from"
-              }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-                "id": "nextKey"
-              }, ")", "."]
-            }, {
-              "tokens": ["If", {
-                "id": "desc"
-              }, "is", "not", {
-                "value": "undefined"
-              }, "and", {
-                "id": "desc"
-              }, ".", "[", "[", "Enumerable", "]", "]", "is", {
-                "value": "true"
-              }, ",", "then", {
-                "steps": [{
-                  "tokens": ["Let", {
-                    "id": "propValue"
-                  }, "be", "?", "Get", "(", {
-                    "id": "from"
-                  }, ",", {
-                    "id": "nextKey"
-                  }, ")", "."]
-                }, {
-                  "tokens": ["Perform", "?", "Set", "(", {
-                    "id": "to"
-                  }, ",", {
-                    "id": "nextKey"
-                  }, ",", {
-                    "id": "propValue"
-                  }, ",", {
-                    "value": "true"
-                  }, ")", "."]
-                }]
-              }]
-            }]
-          }]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "to"
-  }, "."]
+  "k": 4
+}, "Return", {
+  "id": "to"
+}, ".", {
+  "k": 5
 }]

@@ -12,7 +12,9 @@
   "id": "k"
 }, "be", "0", ".", {
   "k": 2
-}, "Repeat", ",", true, "If", {
+}, "Repeat", ",", {
+  "in": null
+}, "If", {
   "id": "k"
 }, "equals", {
   "id": "strLen"
@@ -32,7 +34,9 @@
   "id": "C"
 }, "is", "in", {
   "id": "unescapedSet"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "S"
 }, "be", "a", "String", "containing", "only", "the", "code", "unit", {
   "id": "C"
@@ -46,13 +50,17 @@
   "id": "S"
 }, ".", {
   "k": 8
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }, "Else", {
   "id": "C"
 }, "is", "not", "in", {
   "id": "unescapedSet"
-}, ",", true, "If", "the", "code", "unit", "value", "of", {
+}, ",", {
+  "in": null
+}, "If", "the", "code", "unit", "value", "of", {
   "id": "C"
 }, "is", "not", "less", "than", "0xDC00", "and", "not", "greater", "than", "0xDFFF", ",", "throw", "a", {
   "value": "URIError"
@@ -60,15 +68,21 @@
   "k": 10
 }, "If", "the", "code", "unit", "value", "of", {
   "id": "C"
-}, "is", "less", "than", "0xD800", "or", "greater", "than", "0xDBFF", ",", "then", true, "Let", {
+}, "is", "less", "than", "0xD800", "or", "greater", "than", "0xDBFF", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "V"
 }, "be", "the", "code", "point", "with", "the", "same", "numeric", "value", "as", "code", "unit", {
   "id": "C"
 }, ".", {
   "k": 12
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
-}, "Else", ",", true, "Increase", {
+}, "Else", ",", {
+  "in": null
+}, "Increase", {
   "id": "k"
 }, "by", "1", ".", {
   "k": 14
@@ -102,7 +116,9 @@
   "id": "kChar"
 }, ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 13
 }, "Let", {
   "id": "Octets"
@@ -120,7 +136,9 @@
   "id": "j"
 }, "<", {
   "id": "L"
-}, true, "Let", {
+}, {
+  "in": null
+}, "Let", {
   "id": "jOctet"
 }, "be", "the", "value", "at", "index", {
   "id": "j"
@@ -148,14 +166,20 @@
   "id": "j"
 }, "by", "1", ".", {
   "k": 25
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 9
 }, "Increase", {
   "id": "k"
 }, "by", "1", ".", {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }]

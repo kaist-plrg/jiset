@@ -1,57 +1,49 @@
-[{
-  "tokens": ["Let", {
-    "id": "spreadRef"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "AssignmentExpression"
-  }, "."]
+["Let", {
+  "id": "spreadRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "spreadObj"
+}, "be", "?", "GetValue", "(", {
+  "id": "spreadRef"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "spreadObj"
+}, ")", ".", {
+  "k": 2
+}, "Repeat", ",", {
+  "in": null
+}, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "nextIndex"
+}, ".", "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "array"
+}, ",", "!", "ToString", "(", {
+  "id": "nextIndex"
+}, ")", ",", {
+  "id": "nextValue"
+}, ")", ".", "Set", {
+  "id": "nextIndex"
+}, "to", {
+  "id": "nextIndex"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "spreadObj"
-  }, "be", "?", "GetValue", "(", {
-    "id": "spreadRef"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "iteratorRecord"
-  }, "be", "?", "GetIterator", "(", {
-    "id": "spreadObj"
-  }, ")", "."]
-}, {
-  "tokens": ["Repeat", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "next"
-      }, "be", "?", "IteratorStep", "(", {
-        "id": "iteratorRecord"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "next"
-      }, "is", {
-        "value": "false"
-      }, ",", "return", {
-        "id": "nextIndex"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "nextValue"
-      }, "be", "?", "IteratorValue", "(", {
-        "id": "next"
-      }, ")", "."]
-    }, {
-      "tokens": ["Perform", "!", "CreateDataPropertyOrThrow", "(", {
-        "id": "array"
-      }, ",", "!", "ToString", "(", {
-        "id": "nextIndex"
-      }, ")", ",", {
-        "id": "nextValue"
-      }, ")", "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "nextIndex"
-      }, "to", {
-        "id": "nextIndex"
-      }, "+", "1", "."]
-    }]
-  }]
+  "k": 3
 }]

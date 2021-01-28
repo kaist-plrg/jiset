@@ -1,79 +1,73 @@
-[{
-  "tokens": ["ReturnIfAbrupt", "(", {
-    "id": "V"
-  }, ")", "."]
+["ReturnIfAbrupt", "(", {
+  "id": "V"
+}, ")", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "V"
+}, ")", "is", "not", "Reference", ",", "return", {
+  "id": "V"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "base"
+}, "be", "GetBase", "(", {
+  "id": "V"
+}, ")", ".", {
+  "k": 2
+}, "If", "IsUnresolvableReference", "(", {
+  "id": "V"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "ReferenceError"
+}, "exception", ".", {
+  "k": 3
+}, "If", "IsPropertyReference", "(", {
+  "id": "V"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "If", "HasPrimitiveBase", "(", {
+  "id": "V"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", "In", "this", "case", ",", {
+  "id": "base"
+}, "will", "never", "be", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ".", "Set", {
+  "id": "base"
+}, "to", "!", "ToObject", "(", {
+  "id": "base"
+}, ")", ".", {
+  "out": null
+}, "Return", "?", {
+  "id": "base"
+}, ".", "[", "[", "Get", "]", "]", "(", "GetReferencedName", "(", {
+  "id": "V"
+}, ")", ",", "GetThisValue", "(", {
+  "id": "V"
+}, ")", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["If", "Type", "(", {
-    "id": "V"
-  }, ")", "is", "not", "Reference", ",", "return", {
-    "id": "V"
-  }, "."]
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "base"
+}, "is", "an", "Environment", "Record", ".", "Return", "?", {
+  "id": "base"
+}, ".", "GetBindingValue", "(", "GetReferencedName", "(", {
+  "id": "V"
+}, ")", ",", "IsStrictReference", "(", {
+  "id": "V"
+}, ")", ")", "(", "see", "8", ".", "1", ".", "1", ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "base"
-  }, "be", "GetBase", "(", {
-    "id": "V"
-  }, ")", "."]
-}, {
-  "tokens": ["If", "IsUnresolvableReference", "(", {
-    "id": "V"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "throw", "a", {
-    "value": "ReferenceError"
-  }, "exception", "."]
-}, {
-  "tokens": ["If", "IsPropertyReference", "(", {
-    "id": "V"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["If", "HasPrimitiveBase", "(", {
-        "id": "V"
-      }, ")", "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Assert", ":", "In", "this", "case", ",", {
-            "id": "base"
-          }, "will", "never", "be", {
-            "value": "undefined"
-          }, "or", {
-            "value": "null"
-          }, "."]
-        }, {
-          "tokens": ["Set", {
-            "id": "base"
-          }, "to", "!", "ToObject", "(", {
-            "id": "base"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Return", "?", {
-        "id": "base"
-      }, ".", "[", "[", "Get", "]", "]", "(", "GetReferencedName", "(", {
-        "id": "V"
-      }, ")", ",", "GetThisValue", "(", {
-        "id": "V"
-      }, ")", ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Else", ",", {
-    "steps": [{
-      "tokens": ["Assert", ":", {
-        "id": "base"
-      }, "is", "an", "Environment", "Record", "."]
-    }, {
-      "tokens": ["Return", "?", {
-        "id": "base"
-      }, ".", "GetBindingValue", "(", "GetReferencedName", "(", {
-        "id": "V"
-      }, ")", ",", "IsStrictReference", "(", {
-        "id": "V"
-      }, ")", ")", "(", "see", "8", ".", "1", ".", "1", ")", "."]
-    }]
-  }]
+  "k": 5
 }]

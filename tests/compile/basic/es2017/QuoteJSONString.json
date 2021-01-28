@@ -1,0 +1,291 @@
+["Let", {
+  "id": "product"
+}, "be", "code", "unit", "0x0022", "(", "QUOTATION", "MARK", ")", ".", {
+  "k": 0
+}, "For", "each", "code", "unit", {
+  "id": "C"
+}, "in", {
+  "id": "value"
+}, ",", "do", {
+  "in": null
+}, "If", {
+  "id": "C"
+}, "is", "0x0022", "(", "QUOTATION", "MARK", ")", "or", "0x005C", "(", "REVERSE", "SOLIDUS", ")", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "product"
+}, "to", "the", "concatenation", "of", {
+  "id": "product"
+}, "and", "code", "unit", "0x005C", "(", "REVERSE", "SOLIDUS", ")", ".", {
+  "k": 3
+}, "Set", {
+  "id": "product"
+}, "to", "the", "concatenation", "of", {
+  "id": "product"
+}, "and", {
+  "id": "C"
+}, ".", {
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 2
+}, "Else", "if", {
+  "id": "C"
+}, "is", "0x0008", "(", "BACKSPACE", ")", ",", "0x000C", "(", "FORM", "FEED", ")", ",", "0x000A", "(", "LINE", "FEED", ")", ",", "0x000D", "(", "CARRIAGE", "RETURN", ")", ",", "or", "0x0009", "(", "CHARACTER", "TABULATION", ")", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "product"
+}, "to", "the", "concatenation", "of", {
+  "id": "product"
+}, "and", "code", "unit", "0x005C", "(", "REVERSE", "SOLIDUS", ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "abbrev"
+}, "be", "the", "String", "value", "corresponding", "to", "the", "value", "of", {
+  "id": "C"
+}, "as", "follows", ":", {
+  "in": null
+}, {
+  "in": null
+}, {
+  "k": 9
+}, {
+  "in": null
+}, {
+  "in": null
+}, "BACKSPACE", {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 11
+}, {
+  "k": 13
+}, {
+  "in": null
+}, {
+  "code": "\"b\""
+}, {
+  "k": 15
+}, {
+  "out": null
+}, {
+  "k": 14
+}, {
+  "k": 16
+}, {
+  "out": null
+}, {
+  "k": 10
+}, {
+  "k": 17
+}, {
+  "in": null
+}, {
+  "in": null
+}, "FORM", "FEED", "(", "FF", ")", {
+  "k": 20
+}, {
+  "out": null
+}, {
+  "k": 19
+}, {
+  "k": 21
+}, {
+  "in": null
+}, {
+  "code": "\"f\""
+}, {
+  "k": 23
+}, {
+  "out": null
+}, {
+  "k": 22
+}, {
+  "k": 24
+}, {
+  "out": null
+}, {
+  "k": 18
+}, {
+  "k": 25
+}, {
+  "in": null
+}, {
+  "in": null
+}, "LINE", "FEED", "(", "LF", ")", {
+  "k": 28
+}, {
+  "out": null
+}, {
+  "k": 27
+}, {
+  "k": 29
+}, {
+  "in": null
+}, {
+  "code": "\"n\""
+}, {
+  "k": 31
+}, {
+  "out": null
+}, {
+  "k": 30
+}, {
+  "k": 32
+}, {
+  "out": null
+}, {
+  "k": 26
+}, {
+  "k": 33
+}, {
+  "in": null
+}, {
+  "in": null
+}, "CARRIAGE", "RETURN", "(", "CR", ")", {
+  "k": 36
+}, {
+  "out": null
+}, {
+  "k": 35
+}, {
+  "k": 37
+}, {
+  "in": null
+}, {
+  "code": "\"r\""
+}, {
+  "k": 39
+}, {
+  "out": null
+}, {
+  "k": 38
+}, {
+  "k": 40
+}, {
+  "out": null
+}, {
+  "k": 34
+}, {
+  "k": 41
+}, {
+  "in": null
+}, {
+  "in": null
+}, "CHARACTER", "TABULATION", {
+  "k": 44
+}, {
+  "out": null
+}, {
+  "k": 43
+}, {
+  "k": 45
+}, {
+  "in": null
+}, {
+  "code": "\"t\""
+}, {
+  "k": 47
+}, {
+  "out": null
+}, {
+  "k": 46
+}, {
+  "k": 48
+}, {
+  "out": null
+}, {
+  "k": 42
+}, {
+  "k": 49
+}, {
+  "k": 50
+}, {
+  "out": null
+}, {
+  "k": 8
+}, {
+  "k": 51
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "Set", {
+  "id": "product"
+}, "to", "the", "concatenation", "of", {
+  "id": "product"
+}, "and", {
+  "id": "abbrev"
+}, ".", {
+  "k": 52
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "Else", "if", {
+  "id": "C"
+}, "has", "a", "code", "unit", "value", "less", "than", "0x0020", "(", "SPACE", ")", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "product"
+}, "to", "the", "concatenation", "of", {
+  "id": "product"
+}, "and", "code", "unit", "0x005C", "(", "REVERSE", "SOLIDUS", ")", ".", {
+  "k": 54
+}, "Set", {
+  "id": "product"
+}, "to", "the", "concatenation", "of", {
+  "id": "product"
+}, "and", {
+  "code": "\"u\""
+}, ".", {
+  "k": 55
+}, "Let", {
+  "id": "hex"
+}, "be", "the", "string", "result", "of", "converting", "the", "numeric", "code", "unit", "value", "of", {
+  "id": "C"
+}, "to", "a", "String", "of", "four", "lowercase", "hexadecimal", "digits", ".", {
+  "k": 56
+}, "Set", {
+  "id": "product"
+}, "to", "the", "concatenation", "of", {
+  "id": "product"
+}, "and", {
+  "id": "hex"
+}, ".", {
+  "k": 57
+}, {
+  "out": null
+}, {
+  "k": 53
+}, "Else", ",", {
+  "in": null
+}, "Set", {
+  "id": "product"
+}, "to", "the", "concatenation", "of", {
+  "id": "product"
+}, "and", {
+  "id": "C"
+}, ".", {
+  "k": 59
+}, {
+  "out": null
+}, {
+  "k": 58
+}, {
+  "out": null
+}, {
+  "k": 1
+}, "Set", {
+  "id": "product"
+}, "to", "the", "concatenation", "of", {
+  "id": "product"
+}, "and", "code", "unit", "0x0022", "(", "QUOTATION", "MARK", ")", ".", {
+  "k": 60
+}, "Return", {
+  "id": "product"
+}, ".", {
+  "k": 61
+}]

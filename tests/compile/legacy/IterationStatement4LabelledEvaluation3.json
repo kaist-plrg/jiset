@@ -1,123 +1,119 @@
-[{
-  "tokens": ["Let", {
-    "id": "oldEnv"
-  }, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "."]
+["Let", {
+  "id": "oldEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 0
+}, "Let", {
+  "id": "loopEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "oldEnv"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "loopEnvRec"
+}, "be", {
+  "id": "loopEnv"
+}, "'", "s", "EnvironmentRecord", ".", {
+  "k": 2
+}, "Let", {
+  "id": "isConst"
+}, "be", "IsConstantDeclaration", "of", {
+  "nt": "LexicalDeclaration"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "boundNames"
+}, "be", "the", "BoundNames", "of", {
+  "nt": "LexicalDeclaration"
+}, ".", {
+  "k": 4
+}, "For", "each", "element", {
+  "id": "dn"
+}, "of", {
+  "id": "boundNames"
+}, ",", "do", {
+  "in": null
+}, "If", {
+  "id": "isConst"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
+  "id": "loopEnvRec"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "out": null
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", {
+  "id": "loopEnvRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "loopEnv"
-  }, "be", "NewDeclarativeEnvironment", "(", {
-    "id": "oldEnv"
-  }, ")", "."]
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "loopEnvRec"
-  }, "be", {
-    "id": "loopEnv"
-  }, "'", "s", "EnvironmentRecord", "."]
+  "k": 5
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "loopEnv"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "forDcl"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "LexicalDeclaration"
+}, ".", {
+  "k": 7
+}, "If", {
+  "id": "forDcl"
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", "Return", "Completion", "(", {
+  "id": "forDcl"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "isConst"
-  }, "be", "IsConstantDeclaration", "of", {
-    "nt": "LexicalDeclaration"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "boundNames"
-  }, "be", "the", "BoundNames", "of", {
-    "nt": "LexicalDeclaration"
-  }, "."]
-}, {
-  "tokens": ["For", "each", "element", {
-    "id": "dn"
-  }, "of", {
-    "id": "boundNames"
-  }, ",", "do", {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "isConst"
-      }, "is", {
-        "value": "true"
-      }, ",", "then", {
-        "steps": [{
-          "tokens": ["Perform", "!", {
-            "id": "loopEnvRec"
-          }, ".", "CreateImmutableBinding", "(", {
-            "id": "dn"
-          }, ",", {
-            "value": "true"
-          }, ")", "."]
-        }]
-      }]
-    }, {
-      "tokens": ["Else", ",", {
-        "steps": [{
-          "tokens": ["Perform", "!", {
-            "id": "loopEnvRec"
-          }, ".", "CreateMutableBinding", "(", {
-            "id": "dn"
-          }, ",", {
-            "value": "false"
-          }, ")", "."]
-        }]
-      }]
-    }]
-  }]
-}, {
-  "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-    "id": "loopEnv"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "forDcl"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "LexicalDeclaration"
-  }, "."]
-}, {
-  "tokens": ["If", {
-    "id": "forDcl"
-  }, "is", "an", "abrupt", "completion", ",", "then", {
-    "steps": [{
-      "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-        "id": "oldEnv"
-      }, "."]
-    }, {
-      "tokens": ["Return", "Completion", "(", {
-        "id": "forDcl"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", {
-    "id": "isConst"
-  }, "is", {
-    "value": "false"
-  }, ",", "let", {
-    "id": "perIterationLets"
-  }, "be", {
-    "id": "boundNames"
-  }, ";", "otherwise", "let", {
-    "id": "perIterationLets"
-  }, "be", "«", "»", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "bodyResult"
-  }, "be", "ForBodyEvaluation", "(", "the", "first", {
-    "nt": "Expression"
-  }, ",", "the", "second", {
-    "nt": "Expression"
-  }, ",", {
-    "nt": "Statement"
-  }, ",", {
-    "id": "perIterationLets"
-  }, ",", {
-    "id": "labelSet"
-  }, ")", "."]
-}, {
-  "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-    "id": "oldEnv"
-  }, "."]
-}, {
-  "tokens": ["Return", "Completion", "(", {
-    "id": "bodyResult"
-  }, ")", "."]
+  "k": 8
+}, "If", {
+  "id": "isConst"
+}, "is", {
+  "value": "false"
+}, ",", "let", {
+  "id": "perIterationLets"
+}, "be", {
+  "id": "boundNames"
+}, ";", "otherwise", "let", {
+  "id": "perIterationLets"
+}, "be", "«", "»", ".", {
+  "k": 9
+}, "Let", {
+  "id": "bodyResult"
+}, "be", "ForBodyEvaluation", "(", "the", "first", {
+  "nt": "Expression"
+}, ",", "the", "second", {
+  "nt": "Expression"
+}, ",", {
+  "nt": "Statement"
+}, ",", {
+  "id": "perIterationLets"
+}, ",", {
+  "id": "labelSet"
+}, ")", ".", {
+  "k": 10
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 11
+}, "Return", "Completion", "(", {
+  "id": "bodyResult"
+}, ")", ".", {
+  "k": 12
 }]

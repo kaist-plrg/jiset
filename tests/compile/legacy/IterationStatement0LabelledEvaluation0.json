@@ -1,59 +1,49 @@
-[{
-  "tokens": ["Let", {
-    "id": "V"
-  }, "be", {
-    "value": "undefined"
-  }, "."]
+["Let", {
+  "id": "V"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 0
+}, "Repeat", ",", {
+  "in": null
+}, "Let", {
+  "id": "stmtResult"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Statement"
+}, ".", "If", "LoopContinues", "(", {
+  "id": "stmtResult"
+}, ",", {
+  "id": "labelSet"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", "Completion", "(", "UpdateEmpty", "(", {
+  "id": "stmtResult"
+}, ",", {
+  "id": "V"
+}, ")", ")", ".", "If", {
+  "id": "stmtResult"
+}, ".", "[", "[", "Value", "]", "]", "is", "not", {
+  "const": "empty"
+}, ",", "set", {
+  "id": "V"
+}, "to", {
+  "id": "stmtResult"
+}, ".", "[", "[", "Value", "]", "]", ".", "Let", {
+  "id": "exprRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Expression"
+}, ".", "Let", {
+  "id": "exprValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "exprRef"
+}, ")", ".", "If", "!", "ToBoolean", "(", {
+  "id": "exprValue"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", "NormalCompletion", "(", {
+  "id": "V"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Repeat", ",", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "stmtResult"
-      }, "be", "the", "result", "of", "evaluating", {
-        "nt": "Statement"
-      }, "."]
-    }, {
-      "tokens": ["If", "LoopContinues", "(", {
-        "id": "stmtResult"
-      }, ",", {
-        "id": "labelSet"
-      }, ")", "is", {
-        "value": "false"
-      }, ",", "return", "Completion", "(", "UpdateEmpty", "(", {
-        "id": "stmtResult"
-      }, ",", {
-        "id": "V"
-      }, ")", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "stmtResult"
-      }, ".", "[", "[", "Value", "]", "]", "is", "not", {
-        "const": "empty"
-      }, ",", "set", {
-        "id": "V"
-      }, "to", {
-        "id": "stmtResult"
-      }, ".", "[", "[", "Value", "]", "]", "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "exprRef"
-      }, "be", "the", "result", "of", "evaluating", {
-        "nt": "Expression"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "exprValue"
-      }, "be", "?", "GetValue", "(", {
-        "id": "exprRef"
-      }, ")", "."]
-    }, {
-      "tokens": ["If", "!", "ToBoolean", "(", {
-        "id": "exprValue"
-      }, ")", "is", {
-        "value": "false"
-      }, ",", "return", "NormalCompletion", "(", {
-        "id": "V"
-      }, ")", "."]
-    }]
-  }]
+  "k": 1
 }]

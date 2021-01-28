@@ -8,17 +8,23 @@
   "id": "P"
 }, "is", {
   "code": "\"length\""
-}, ",", "then", true, "Return", "?", "ArraySetLength", "(", {
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "ArraySetLength", "(", {
   "id": "A"
 }, ",", {
   "id": "Desc"
 }, ")", ".", {
   "k": 2
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 1
 }, "Else", "if", {
   "id": "P"
-}, "is", "an", "array", "index", ",", "then", true, "Let", {
+}, "is", "an", "array", "index", ",", "then", {
+  "in": null
+}, "Let", {
   "id": "oldLenDesc"
 }, "be", "OrdinaryGetOwnProperty", "(", {
   "id": "A"
@@ -78,7 +84,9 @@
   "id": "index"
 }, "≥", {
   "id": "oldLen"
-}, ",", "then", true, "Set", {
+}, ",", "then", {
+  "in": null
+}, "Set", {
   "id": "oldLenDesc"
 }, ".", "[", "[", "Value", "]", "]", "to", {
   "id": "index"
@@ -100,13 +108,17 @@
   "value": "true"
 }, ".", {
   "k": 14
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Return", {
   "value": "true"
 }, ".", {
   "k": 15
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 3
 }, "Return", "OrdinaryDefineOwnProperty", "(", {
   "id": "A"

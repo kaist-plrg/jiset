@@ -6,7 +6,9 @@
   "id": "e"
 }, "in", {
   "id": "module"
-}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", true, "Let", {
+}, ".", "[", "[", "IndirectExportEntries", "]", "]", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "resolution"
 }, "be", "?", {
   "id": "module"
@@ -28,7 +30,9 @@
   "id": "resolution"
 }, "is", "a", "ResolvedBinding", "Record", ".", {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 1
 }, "Assert", ":", "All", "named", "exports", "from", {
   "id": "module"
@@ -68,7 +72,9 @@
   "id": "in"
 }, "in", {
   "id": "module"
-}, ".", "[", "[", "ImportEntries", "]", "]", ",", "do", true, "Let", {
+}, ".", "[", "[", "ImportEntries", "]", "]", ",", "do", {
+  "in": null
+}, "Let", {
   "id": "importedModule"
 }, "be", "!", "HostResolveImportedModule", "(", {
   "id": "module"
@@ -84,7 +90,9 @@
   "id": "in"
 }, ".", "[", "[", "ImportName", "]", "]", "is", {
   "code": "\"*\""
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "namespace"
 }, "be", "?", "GetModuleNamespace", "(", {
   "id": "importedModule"
@@ -106,9 +114,13 @@
   "id": "namespace"
 }, ")", ".", {
   "k": 17
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 14
-}, "Else", ",", true, "Let", {
+}, "Else", ",", {
+  "in": null
+}, "Let", {
   "id": "resolution"
 }, "be", "?", {
   "id": "importedModule"
@@ -136,9 +148,13 @@
   "id": "resolution"
 }, ".", "[", "[", "BindingName", "]", "]", ")", ".", {
   "k": 21
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 11
 }, "Let", {
   "id": "code"
@@ -160,15 +176,21 @@
   "id": "d"
 }, "in", {
   "id": "varDeclarations"
-}, ",", "do", true, "For", "each", "element", {
+}, ",", "do", {
+  "in": null
+}, "For", "each", "element", {
   "id": "dn"
 }, "of", "the", "BoundNames", "of", {
   "id": "d"
-}, ",", "do", true, "If", {
+}, ",", "do", {
+  "in": null
+}, "If", {
   "id": "dn"
 }, "is", "not", "an", "element", "of", {
   "id": "declaredVarNames"
-}, ",", "then", true, "Perform", "!", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
   "id": "envRec"
 }, ".", "CreateMutableBinding", "(", {
   "id": "dn"
@@ -190,11 +212,17 @@
   "id": "declaredVarNames"
 }, ".", {
   "k": 30
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 27
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 26
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 25
 }, "Let", {
   "id": "lexDeclarations"
@@ -206,15 +234,21 @@
   "id": "d"
 }, "in", {
   "id": "lexDeclarations"
-}, ",", "do", true, "For", "each", "element", {
+}, ",", "do", {
+  "in": null
+}, "For", "each", "element", {
   "id": "dn"
 }, "of", "the", "BoundNames", "of", {
   "id": "d"
-}, ",", "do", true, "If", "IsConstantDeclaration", "of", {
+}, ",", "do", {
+  "in": null
+}, "If", "IsConstantDeclaration", "of", {
   "id": "d"
 }, "is", {
   "value": "true"
-}, ",", "then", true, "Perform", "!", {
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
   "id": "envRec"
 }, ".", "CreateImmutableBinding", "(", {
   "id": "dn"
@@ -222,9 +256,13 @@
   "value": "true"
 }, ")", ".", {
   "k": 35
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 34
-}, "Else", ",", true, "Perform", "!", {
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", {
   "id": "envRec"
 }, ".", "CreateMutableBinding", "(", {
   "id": "dn"
@@ -232,7 +270,9 @@
   "value": "false"
 }, ")", ".", {
   "k": 37
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 36
 }, "If", {
   "id": "d"
@@ -244,7 +284,9 @@
   "nt": "AsyncFunctionDeclaration"
 }, ",", "or", "an", {
   "nt": "AsyncGeneratorDeclaration"
-}, ",", "then", true, "Let", {
+}, ",", "then", {
+  "in": null
+}, "Let", {
   "id": "fo"
 }, "be", "the", "result", "of", "performing", "InstantiateFunctionObject", "for", {
   "id": "d"
@@ -260,11 +302,17 @@
   "id": "fo"
 }, ")", ".", {
   "k": 40
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 38
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 33
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 32
 }, "Return", "NormalCompletion", "(", {
   "const": "empty"

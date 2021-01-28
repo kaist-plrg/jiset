@@ -70,12 +70,12 @@
   app __x16__ = (CreateDataPropertyOrThrow A "0" matchedSubstr)
   if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
   __x16__
-  ??? "If id:{R} contains any nt:{GroupName} , then step-list:{...}"
-  ??? "Else , step-list:{...}"
+  ??? "If id:{R} contains any nt:{GroupName} , then in:{} out:{}"
+  ??? "Else , in:{} out:{}"
   app __x17__ = (CreateDataPropertyOrThrow A "groups" groups)
   if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
   __x17__
-  ??? "For each integer id:{i} such that id:{i} ≥ 1 and id:{i} ≤ id:{n} , do step-list:{...}"
+  ??? "For each integer id:{i} such that id:{i} ≥ 1 and id:{i} ≤ id:{n} , do in:{} out:{}"
   app __x18__ = (WrapCompletion A)
   return __x18__
 }

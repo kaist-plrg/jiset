@@ -1,49 +1,49 @@
-[{
-  "tokens": ["Let", {
-    "id": "exprRef"
-  }, "be", "the", "result", "of", "evaluating", {
-    "nt": "Expression"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "switchValue"
-  }, "be", "?", "GetValue", "(", {
-    "id": "exprRef"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "oldEnv"
-  }, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "blockEnv"
-  }, "be", "NewDeclarativeEnvironment", "(", {
-    "id": "oldEnv"
-  }, ")", "."]
-}, {
-  "tokens": ["Perform", "BlockDeclarationInstantiation", "(", {
-    "nt": "CaseBlock"
-  }, ",", {
-    "id": "blockEnv"
-  }, ")", "."]
-}, {
-  "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-    "id": "blockEnv"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "R"
-  }, "be", "CaseBlockEvaluation", "of", {
-    "nt": "CaseBlock"
-  }, "with", "argument", {
-    "id": "switchValue"
-  }, "."]
-}, {
-  "tokens": ["Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-    "id": "oldEnv"
-  }, "."]
-}, {
-  "tokens": ["Return", {
-    "id": "R"
-  }, "."]
+["Let", {
+  "id": "exprRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "Expression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "switchValue"
+}, "be", "?", "GetValue", "(", {
+  "id": "exprRef"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "oldEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 2
+}, "Let", {
+  "id": "blockEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "oldEnv"
+}, ")", ".", {
+  "k": 3
+}, "Perform", "BlockDeclarationInstantiation", "(", {
+  "nt": "CaseBlock"
+}, ",", {
+  "id": "blockEnv"
+}, ")", ".", {
+  "k": 4
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "blockEnv"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "R"
+}, "be", "CaseBlockEvaluation", "of", {
+  "nt": "CaseBlock"
+}, "with", "argument", {
+  "id": "switchValue"
+}, ".", {
+  "k": 6
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 7
+}, "Return", {
+  "id": "R"
+}, ".", {
+  "k": 8
 }]

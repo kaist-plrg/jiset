@@ -1,79 +1,75 @@
-[{
-  "tokens": ["Assert", ":", "IsPropertyKey", "(", {
-    "id": "P"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
+["Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "desc"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "parent"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", ".", "If", {
+  "id": "parent"
+}, "is", {
+  "value": "null"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", "Return", "?", {
+  "id": "parent"
+}, ".", "[", "[", "Get", "]", "]", "(", {
+  "id": "P"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "desc"
-  }, "be", "?", {
-    "id": "O"
-  }, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
-    "id": "P"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "desc"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Let", {
-        "id": "parent"
-      }, "be", "?", {
-        "id": "O"
-      }, ".", "[", "[", "GetPrototypeOf", "]", "]", "(", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "parent"
-      }, "is", {
-        "value": "null"
-      }, ",", "return", {
-        "value": "undefined"
-      }, "."]
-    }, {
-      "tokens": ["Return", "?", {
-        "id": "parent"
-      }, ".", "[", "[", "Get", "]", "]", "(", {
-        "id": "P"
-      }, ",", {
-        "id": "Receiver"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["If", "IsDataDescriptor", "(", {
-    "id": "desc"
-  }, ")", "is", {
-    "value": "true"
-  }, ",", "return", {
-    "id": "desc"
-  }, ".", "[", "[", "Value", "]", "]", "."]
-}, {
-  "tokens": ["Assert", ":", "IsAccessorDescriptor", "(", {
-    "id": "desc"
-  }, ")", "is", {
-    "value": "true"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "getter"
-  }, "be", {
-    "id": "desc"
-  }, ".", "[", "[", "Get", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "getter"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "return", {
-    "value": "undefined"
-  }, "."]
-}, {
-  "tokens": ["Return", "?", "Call", "(", {
-    "id": "getter"
-  }, ",", {
-    "id": "Receiver"
-  }, ")", "."]
+  "k": 2
+}, "If", "IsDataDescriptor", "(", {
+  "id": "desc"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "desc"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 3
+}, "Assert", ":", "IsAccessorDescriptor", "(", {
+  "id": "desc"
+}, ")", "is", {
+  "value": "true"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "getter"
+}, "be", {
+  "id": "desc"
+}, ".", "[", "[", "Get", "]", "]", ".", {
+  "k": 5
+}, "If", {
+  "id": "getter"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "undefined"
+}, ".", {
+  "k": 6
+}, "Return", "?", "Call", "(", {
+  "id": "getter"
+}, ",", {
+  "id": "Receiver"
+}, ")", ".", {
+  "k": 7
 }]

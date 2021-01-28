@@ -6,9 +6,13 @@
   "id": "sourceText"
 }, "and", {
   "id": "hostDefined"
-}, ",", "do", true, "If", {
+}, ",", "do", {
+  "in": null
+}, "If", {
   "id": "sourceText"
-}, "is", "the", "source", "code", "of", "a", "script", ",", "then", true, "Perform", "EnqueueJob", "(", {
+}, "is", "the", "source", "code", "of", "a", "script", ",", "then", {
+  "in": null
+}, "Perform", "EnqueueJob", "(", {
   "code": "\"ScriptJobs\""
 }, ",", "ScriptEvaluationJob", ",", "«", {
   "id": "sourceText"
@@ -16,11 +20,15 @@
   "id": "hostDefined"
 }, "»", ")", ".", {
   "k": 3
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 2
 }, "Else", {
   "id": "sourceText"
-}, "is", "the", "source", "code", "of", "a", "module", ",", true, "Perform", "EnqueueJob", "(", {
+}, "is", "the", "source", "code", "of", "a", "module", ",", {
+  "in": null
+}, "Perform", "EnqueueJob", "(", {
   "code": "\"ScriptJobs\""
 }, ",", "TopLevelModuleEvaluationJob", ",", "«", {
   "id": "sourceText"
@@ -28,11 +36,17 @@
   "id": "hostDefined"
 }, "»", ")", ".", {
   "k": 5
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 4
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 1
-}, "Repeat", ",", true, "Suspend", "the", "running", "execution", "context", "and", "remove", "it", "from", "the", "execution", "context", "stack", ".", {
+}, "Repeat", ",", {
+  "in": null
+}, "Suspend", "the", "running", "execution", "context", "and", "remove", "it", "from", "the", "execution", "context", "stack", ".", {
   "k": 7
 }, "Assert", ":", "The", "execution", "context", "stack", "is", "now", "empty", ".", {
   "k": 8
@@ -94,6 +108,8 @@
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", "»", ")", ".", {
   "k": 18
-}, false, {
+}, {
+  "out": null
+}, {
   "k": 6
 }]

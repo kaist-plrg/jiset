@@ -1,83 +1,81 @@
-[{
-  "tokens": ["Let", {
-    "id": "envRec"
-  }, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", "."]
+["Let", {
+  "id": "envRec"
+}, "be", "the", "global", "Environment", "Record", "for", "which", "the", "method", "was", "invoked", ".", {
+  "k": 0
+}, "Let", {
+  "id": "ObjRec"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "ObjectRecord", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "globalObject"
+}, "be", "the", "binding", "object", "for", {
+  "id": "ObjRec"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "hasProperty"
+}, "be", "?", "HasOwnProperty", "(", {
+  "id": "globalObject"
+}, ",", {
+  "id": "N"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "extensible"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "globalObject"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "hasProperty"
+}, "is", {
+  "value": "false"
+}, "and", {
+  "id": "extensible"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", {
+  "id": "ObjRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "N"
+}, ",", {
+  "id": "D"
+}, ")", ".", "Perform", "?", {
+  "id": "ObjRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "N"
+}, ",", {
+  "value": "undefined"
+}, ")", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "ObjRec"
-  }, "be", {
-    "id": "envRec"
-  }, ".", "[", "[", "ObjectRecord", "]", "]", "."]
+  "k": 5
+}, "Let", {
+  "id": "varDeclaredNames"
+}, "be", {
+  "id": "envRec"
+}, ".", "[", "[", "VarNames", "]", "]", ".", {
+  "k": 6
+}, "If", {
+  "id": "varDeclaredNames"
+}, "does", "not", "contain", {
+  "id": "N"
+}, ",", "then", {
+  "in": null
+}, "Append", {
+  "id": "N"
+}, "to", {
+  "id": "varDeclaredNames"
+}, ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "globalObject"
-  }, "be", "the", "binding", "object", "for", {
-    "id": "ObjRec"
-  }, "."]
-}, {
-  "tokens": ["Let", {
-    "id": "hasProperty"
-  }, "be", "?", "HasOwnProperty", "(", {
-    "id": "globalObject"
-  }, ",", {
-    "id": "N"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "extensible"
-  }, "be", "?", "IsExtensible", "(", {
-    "id": "globalObject"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "hasProperty"
-  }, "is", {
-    "value": "false"
-  }, "and", {
-    "id": "extensible"
-  }, "is", {
-    "value": "true"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Perform", "?", {
-        "id": "ObjRec"
-      }, ".", "CreateMutableBinding", "(", {
-        "id": "N"
-      }, ",", {
-        "id": "D"
-      }, ")", "."]
-    }, {
-      "tokens": ["Perform", "?", {
-        "id": "ObjRec"
-      }, ".", "InitializeBinding", "(", {
-        "id": "N"
-      }, ",", {
-        "value": "undefined"
-      }, ")", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Let", {
-    "id": "varDeclaredNames"
-  }, "be", {
-    "id": "envRec"
-  }, ".", "[", "[", "VarNames", "]", "]", "."]
-}, {
-  "tokens": ["If", {
-    "id": "varDeclaredNames"
-  }, "does", "not", "contain", {
-    "id": "N"
-  }, ",", "then", {
-    "steps": [{
-      "tokens": ["Append", {
-        "id": "N"
-      }, "to", {
-        "id": "varDeclaredNames"
-      }, "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", "NormalCompletion", "(", {
-    "const": "empty"
-  }, ")", "."]
+  "k": 7
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 8
 }]

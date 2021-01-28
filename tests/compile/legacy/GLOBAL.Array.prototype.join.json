@@ -1,101 +1,93 @@
-[{
-  "tokens": ["Let", {
-    "id": "separator"
-  }, "be", "GetArgument", "(", {
-    "id": "argumentsList"
-  }, ",", "0", ")", "."]
+["Let", {
+  "id": "separator"
+}, "be", "GetArgument", "(", {
+  "id": "argumentsList"
+}, ",", "0", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "separator"
+}, "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "sep"
+}, "be", "the", "single", "-", "element", "String", {
+  "value": "\",\""
+}, ".", {
+  "k": 3
+}, "Else", ",", "let", {
+  "id": "sep"
+}, "be", "?", "ToString", "(", {
+  "id": "separator"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "R"
+}, "be", "the", "empty", "String", ".", {
+  "k": 5
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 6
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
 }, {
-  "tokens": ["Let", {
-    "id": "O"
-  }, "be", "?", "ToObject", "(", {
-    "value": "this"
-  }, "value", ")", "."]
+  "in": null
+}, "If", {
+  "id": "k"
+}, ">", "0", ",", "set", {
+  "id": "R"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "R"
+}, "and", {
+  "id": "sep"
+}, ".", "Let", {
+  "id": "element"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", {
+  "id": "k"
+}, ")", ")", ".", "If", {
+  "id": "element"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "let", {
+  "id": "next"
+}, "be", "the", "empty", "String", ";", "otherwise", ",", "let", {
+  "id": "next"
+}, "be", "?", "ToString", "(", {
+  "id": "element"
+}, ")", ".", "Set", {
+  "id": "R"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "R"
+}, "and", {
+  "id": "next"
+}, ".", "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "out": null
 }, {
-  "tokens": ["Let", {
-    "id": "len"
-  }, "be", "?", "LengthOfArrayLike", "(", {
-    "id": "O"
-  }, ")", "."]
-}, {
-  "tokens": ["If", {
-    "id": "separator"
-  }, "is", {
-    "value": "undefined"
-  }, ",", "let", {
-    "id": "sep"
-  }, "be", "the", "single", "-", "element", "String", {
-    "value": "\",\""
-  }, "."]
-}, {
-  "tokens": ["Else", ",", "let", {
-    "id": "sep"
-  }, "be", "?", "ToString", "(", {
-    "id": "separator"
-  }, ")", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "R"
-  }, "be", "the", "empty", "String", "."]
-}, {
-  "tokens": ["Let", {
-    "id": "k"
-  }, "be", "0", "."]
-}, {
-  "tokens": ["Repeat", ",", "while", {
-    "id": "k"
-  }, "<", {
-    "id": "len"
-  }, {
-    "steps": [{
-      "tokens": ["If", {
-        "id": "k"
-      }, ">", "0", ",", "set", {
-        "id": "R"
-      }, "to", "the", "string", "-", "concatenation", "of", {
-        "id": "R"
-      }, "and", {
-        "id": "sep"
-      }, "."]
-    }, {
-      "tokens": ["Let", {
-        "id": "element"
-      }, "be", "?", "Get", "(", {
-        "id": "O"
-      }, ",", "!", "ToString", "(", {
-        "id": "k"
-      }, ")", ")", "."]
-    }, {
-      "tokens": ["If", {
-        "id": "element"
-      }, "is", {
-        "value": "undefined"
-      }, "or", {
-        "value": "null"
-      }, ",", "let", {
-        "id": "next"
-      }, "be", "the", "empty", "String", ";", "otherwise", ",", "let", {
-        "id": "next"
-      }, "be", "?", "ToString", "(", {
-        "id": "element"
-      }, ")", "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "R"
-      }, "to", "the", "string", "-", "concatenation", "of", {
-        "id": "R"
-      }, "and", {
-        "id": "next"
-      }, "."]
-    }, {
-      "tokens": ["Set", {
-        "id": "k"
-      }, "to", {
-        "id": "k"
-      }, "+", "1", "."]
-    }]
-  }]
-}, {
-  "tokens": ["Return", {
-    "id": "R"
-  }, "."]
+  "k": 7
+}, "Return", {
+  "id": "R"
+}, ".", {
+  "k": 8
 }]

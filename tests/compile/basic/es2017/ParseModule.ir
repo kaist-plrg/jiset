@@ -18,7 +18,7 @@
     if (= ee.ModuleRequest null) if (! (contains importedBoundNames ee.LocalName)) append ee -> localExportEntries else {
       ??? "Let id:{ie} be the element of id:{importEntries} whose [ [ LocalName ] ] is the same as id:{ee} . [ [ LocalName ] ] ."
       if (= ie.ImportName "*") append ee -> localExportEntries else {}
-      ??? "Else this is a re - export of a single name , step-list:{...}"
+      ??? "Else this is a re - export of a single name , in:{} out:{}"
     } else if (= ee.ImportName "*") append ee -> starExportEntries else append ee -> indirectExportEntries
     __x5__ = (+ __x5__ 1i)
   }
