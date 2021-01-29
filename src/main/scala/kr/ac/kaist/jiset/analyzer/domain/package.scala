@@ -9,17 +9,18 @@ package object domain {
   // extensible abstract domain
   type EAbsDomain[T] = AbsDomain[T] with Singleton
 
-  // implicit conversions
-  implicit def bool2boolean(bool: Bool): Boolean = bool.bool
-  implicit def boolean2bool(bool: Boolean): Bool = Bool(bool)
-
+  //////////////////////////////////////////////////////////////////////////////
   // concrete domain
+  //////////////////////////////////////////////////////////////////////////////
   lazy val Infinite = concrete.Infinite
   lazy val Finite = concrete.Finite
   lazy val Zero = concrete.Zero
   lazy val One = concrete.One
   lazy val Many = concrete.Many
 
+  //////////////////////////////////////////////////////////////////////////////
+  // abstract domain
+  //////////////////////////////////////////////////////////////////////////////
   // abstract states
   lazy val AbsState = state.BasicDomain
   type AbsState = AbsState.Elem
@@ -50,18 +51,24 @@ package object domain {
   type AbsBool = AbsBool.Elem
 
   // abstract undefined values
-  lazy val AbsUndef = SimpleDomain(Undef)
+  lazy val AbsUndef: undef.Domain = undef.SimpleDomain
   type AbsUndef = AbsUndef.Elem
 
   // abstract null values
-  lazy val AbsNull = SimpleDomain(Null)
+  lazy val AbsNull: nullval.Domain = nullval.SimpleDomain
   type AbsNull = AbsNull.Elem
 
   // abstract absent values
-  lazy val AbsAbsent = SimpleDomain(Absent)
+  lazy val AbsAbsent: absent.Domain = absent.SimpleDomain
   type AbsAbsent = AbsAbsent.Elem
 
   // helpers
   lazy val AbsTrue = AbsBool(true)
   lazy val AbsFalse = AbsBool(false)
+
+  //////////////////////////////////////////////////////////////////////////////
+  // implicit conversions
+  //////////////////////////////////////////////////////////////////////////////
+  implicit def bool2boolean(bool: Bool): Boolean = bool.bool
+  implicit def boolean2bool(bool: Boolean): Bool = Bool(bool)
 }

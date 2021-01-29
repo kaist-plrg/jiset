@@ -4,6 +4,9 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 // flat abstract domain
 class FlatDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
+  // constructors
+  def this(seq: V*) = this(seq.toSet)
+
   // top value
   object Top extends Elem
 
@@ -63,5 +66,5 @@ class FlatDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
 }
 object FlatDomain {
   def apply[V](seq: V*): FlatDomain[V] = apply(seq.toSet)
-  def apply[V](total: Set[V]): FlatDomain[V] = new FlatDomain(total)
+  def apply[V](total: Set[V]) = new FlatDomain[V](total)
 }

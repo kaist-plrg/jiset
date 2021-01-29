@@ -3,7 +3,10 @@ package kr.ac.kaist.jiset.analyzer.domain.generator
 import kr.ac.kaist.jiset.analyzer.domain._
 
 // set abstract domain
-class SetDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
+class SetDomain[V](total: Set[V]) extends AbsDomain[V] {
+  // constructors
+  def this(seq: V*) = this(seq.toSet)
+
   // top value
   object Top extends Elem
 
@@ -71,5 +74,5 @@ object SetDomain {
   def apply[V](seq: V*): SetDomain[V] = apply(seq.toSet)
   def apply[V](total: Set[V]) = new SetDomain[V](total)
   def apply[V](total: Set[V] = Set[V](), bound: Int = 0) =
-    new SetDomain(total) { override val upperBound = bound }
+    new SetDomain[V](total) { override val upperBound = bound }
 }

@@ -24,7 +24,7 @@ trait HListDomain[L <: HList] extends AbsDomain[L] {
 
 // HNil Domain
 object HNilDomain
-  extends generator.SimpleDomain(Set[HNil](HNil))
+  extends generator.SimpleDomain[HNil](HNil)
   with HListDomain[HNil] {
   // result of conversion from elements to HList
   type ElemHList = HNil

@@ -3,8 +3,14 @@ package kr.ac.kaist.jiset.analyzer.domain.generator
 import kr.ac.kaist.jiset.analyzer.domain._
 
 // simple abstract domain
-class SimpleDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
+class SimpleDomain[V](total: Set[V]) extends AbsDomain[V] {
+  // constructors
+  def this(seq: V*) = this(seq.toSet)
+
+  // top value
   object Top extends Elem
+
+  // bottom value
   object Bot extends Elem
 
   // abstraction function
