@@ -9,27 +9,27 @@ trait AbsDomain[V] extends Domain {
   }
   def alpha(seq: V*): Elem = alpha(seq.toSet)
 
+  // unary operator abstraction
+  def alpha(f: V => V): Elem => Elem = _.gamma match {
+    case Infinite => Top
+    case Finite(set) => alpha(set.map(f))
+  }
+
+  // binary operator abstraction
+  def alpha(f: (V, V) => V): (Elem, Elem) => Elem =
+    (x, y) => (x.gamma, y.gamma) match {
+      case (Infinite, _) | (_, Infinite) => Top
+      case (Finite(lset), Finite(rset)) => alpha(for {
+        l <- lset
+        r <- rset
+      } yield f(l, r))
+    }
+
   // constructor
   def apply(set: Set[V]): Elem = alpha(set)
 
   // extractor
   def apply(seq: V*): Elem = alpha(seq.toSet)
-
-  // abstraction functions for operators
-  def alpha[U, D <: EAbsDomain[U]](
-    f: V => U
-  )(domain: D): Elem => domain.Elem = elem => elem.gamma match {
-    case Infinite => domain.Top
-    case Finite(vset) => domain.alpha(vset.map(f(_)))
-  }
-  def alpha[U, D <: EAbsDomain[U]](
-    f: (V, V) => U
-  )(domain: D): (Elem, Elem) => domain.Elem = (l, r) => (l.gamma, r.gamma) match {
-    case (Finite(lset), Finite(rset)) => domain.alpha(lset.foldLeft(Set[U]()) {
-      case (set, l) => set ++ rset.map(f(l, _))
-    })
-    case _ => domain.Top
-  }
 
   // abstract element
   type Elem <: ElemTrait

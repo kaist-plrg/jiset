@@ -47,7 +47,7 @@ package object domain {
   type AbsStr = AbsStr.Elem
 
   // abstract booleans
-  lazy val AbsBool = FlatDomain[Bool](true, false)
+  lazy val AbsBool: bool.Domain = bool.FlatDomain
   type AbsBool = AbsBool.Elem
 
   // abstract undefined values
