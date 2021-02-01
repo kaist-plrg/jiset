@@ -955,7 +955,7 @@ object Compiler extends Compilers {
     }
   }
   lazy val notEqualRhs: P[Expr => I[Expr]] = {
-    "is" ~ ("not" ~ opt("the same as" | "one of") | "neither")
+    "is" ~ ("not" ~ opt("the same value as" | "the same as" | "one of") | "neither")
   } ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next)), sep("nor" | "or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
