@@ -1139,7 +1139,8 @@ object Compiler extends Compilers {
     lastElemRef |||
     fieldRef |||
     lengthRef |||
-    flagRef
+    flagRef |||
+    intrinsicRef
   )
 
   // references for TypedArray
@@ -1195,6 +1196,18 @@ object Compiler extends Compilers {
   lazy val flagRef: P[I[Ref]] = (id <~ "flag of") ~ ref ^^ {
     case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
   }
+
+  // intrinsic references
+  lazy val intrinsicRef: P[I[Ref]] =
+    "%" ~> (word <~ ".") ~ rep1sep(word, ".") <~ "%" ^^ {
+      case base ~ props => {
+        val lastProp = props.reverse.head
+        val newProps = List(INTRINSIC_PRE + base) ++ props.reverse.tail.reverse
+        pair(Nil, (newProps.foldRight(EStr(lastProp): Expr) {
+          case (b, p) => ERef(RefProp(RefId(IRId(b)), p))
+        }: @unchecked) match { case ERef(r) => r })
+      }
+    }
 
   lazy val refBase: P[String] = opt("the") ~ opt("corresponding") ~> (
     "surrounding agent's agent record" ^^^ agent |||
