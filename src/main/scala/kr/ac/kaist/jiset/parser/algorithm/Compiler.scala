@@ -830,9 +830,9 @@ object Compiler extends Compilers {
     } ||| opt("-") ~ number.filter(s => noExc(java.lang.Long.decode(s))) ^^ {
       case None ~ s => EINum(java.lang.Long.decode(s))
       case Some(_) ~ s => EINum(-java.lang.Long.decode(s))
-    } ||| "zero" ^^^ {
-      EINum(0L)
-    } ||| "∞" ^^^ ENum(Double.PositiveInfinity)
+    } ||| "zero" ^^^ { EINum(0L) }
+    ||| ("∞" | "+∞") ^^^ ENum(Double.PositiveInfinity)
+    ||| "-∞" ^^^ ENum(Double.NegativeInfinity)
   ) ||| "the" ~ opt("ECMAScript") ~ "Number value" ~ ("for" | "corresponding to" | "that corresponds to") ~> id ^^ { toERef(_) }
 
   // grammar values
