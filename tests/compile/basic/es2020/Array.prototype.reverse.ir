@@ -53,10 +53,7 @@
       app __x14__ = (Set O upperP lowerValue true)
       if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
       __x14__
-    } else {
-      assert (&& (= lowerExists false) (= upperExists false))
-      ??? "No action is required ."
-    }
+    } else assert (&& (= lowerExists false) (= upperExists false))
     lower = (+ lower 1i)
   }
   app __x15__ = (WrapCompletion O)
