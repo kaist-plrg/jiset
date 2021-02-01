@@ -128,15 +128,18 @@
     __x51__ = __x53__
   } else {}
   if __x51__ {
-    ??? "If id:{x} or id:{y} are any of value:{NaN} , value:{+∞} , or value:{-∞} , return value:{false} ."
-    if (== x y) {
-      app __x57__ = (WrapCompletion true)
+    if (|| (|| (|| (= x NaN) (= x Infinity)) (= x -Infinity)) (|| (|| (= y NaN) (= y Infinity)) (= y -Infinity))) {
+      app __x57__ = (WrapCompletion false)
       return __x57__
-    } else {
-      app __x58__ = (WrapCompletion false)
+    } else {}
+    if (== x y) {
+      app __x58__ = (WrapCompletion true)
       return __x58__
+    } else {
+      app __x59__ = (WrapCompletion false)
+      return __x59__
     }
   } else {}
-  app __x59__ = (WrapCompletion false)
-  return __x59__
+  app __x60__ = (WrapCompletion false)
+  return __x60__
 }

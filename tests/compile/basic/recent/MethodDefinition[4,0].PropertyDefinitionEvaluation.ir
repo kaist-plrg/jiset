@@ -5,7 +5,7 @@
   propKey
   let scope = GLOBAL_context.LexicalEnvironment
   let sourceText = (get-syntax MethodDefinition)
-  ??? "Let id:{formalParameterList} be an instance of the production grammar:{FormalParameters0} ."
+  ??? "Let id:{formalParameterList} be an instance of the production grammar:{FormalParameters0, []} ."
   ??? "Let id:{closure} be OrdinaryFunctionCreate ( % Function . prototype % , id:{sourceText} , id:{formalParameterList} , nt:{FunctionBody} , const:{non-lexical-this} , id:{scope} ) ."
   app __x1__ = (MakeMethod closure object)
   __x1__

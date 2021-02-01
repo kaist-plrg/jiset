@@ -48,7 +48,7 @@
   ??? "Let id:{body} be the result of parsing id:{bodyText} , interpreted as UTF - 16 encoded Unicode text as described in link:{} , using id:{goal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
   access __x4__ = (body "ContainsUseStrict")
   let strict = __x4__
-  ??? "If any static semantics errors are detected for id:{parameters} or id:{body} , throw a value:{SyntaxError} or a value:{ReferenceError} exception , depending on the type of the error . If id:{strict} is value:{true} , the Early Error rules for grammar:{UniqueFormalParameters0} are applied . Parsing and early error detection may be interweaved in an implementation - dependent manner ."
+  ??? "If any static semantics errors are detected for id:{parameters} or id:{body} , throw a value:{SyntaxError} or a value:{ReferenceError} exception , depending on the type of the error . If id:{strict} is value:{true} , the Early Error rules for grammar:{UniqueFormalParameters0, [FormalParameters]} are applied . Parsing and early error detection may be interweaved in an implementation - dependent manner ."
   let __x5__ = (= strict true)
   if __x5__ {
     access __x6__ = (parameters "IsSimpleParameterList")

@@ -11,7 +11,7 @@
     (pop GLOBAL_executionStack __x2__)
   } else {}
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
-  ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : step-list:{...}"
+  ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : in:{} out:{}"
   app __x3__ = (NormalCompletion iterNextObj)
   app __x4__ = (WrapCompletion __x3__)
   return __x4__

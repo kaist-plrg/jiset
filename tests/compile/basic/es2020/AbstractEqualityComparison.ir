@@ -126,9 +126,12 @@
     __x51__ = __x53__
   } else {}
   if __x51__ {
-    ??? "If id:{x} or id:{y} are any of value:{NaN} , value:{+∞} , or value:{-∞} , return value:{false} ."
+    if (|| (|| (|| (= x NaN) (= x Infinity)) (= x -Infinity)) (|| (|| (= y NaN) (= y Infinity)) (= y -Infinity))) {
+      app __x57__ = (WrapCompletion false)
+      return __x57__
+    } else {}
     ??? "If the mathematical value of id:{x} is equal to the mathematical value of id:{y} , return value:{true} ; otherwise return value:{false} ."
   } else {}
-  app __x57__ = (WrapCompletion false)
-  return __x57__
+  app __x58__ = (WrapCompletion false)
+  return __x58__
 }

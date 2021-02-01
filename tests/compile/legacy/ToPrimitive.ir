@@ -3,7 +3,7 @@
   if (= __x0__ Object) {
     if (= PreferredType absent) let hint = "default" else {}
     ??? "Else if id:{PreferredType} is hint String , let id:{hint} be value:{\"string\"} ."
-    ??? "Else , step-list:{...}"
+    ??? "Else , in:{} out:{}"
     app __x1__ = (GetMethod input SYMBOL_toPrimitive)
     if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
     let exoticToPrim = __x1__

@@ -1,6 +1,6 @@
 {
   ??? "Search the enclosing nt:{Pattern} for an instance of a nt:{GroupSpecifier} for a nt:{RegExpIdentifierName} which has a StringValue equal to the StringValue of the nt:{RegExpIdentifierName} contained in nt:{GroupName} ."
-  ??? "Let id:{parenIndex} be the number of left - capturing parentheses in the entire regular expression that occur to the left of the located nt:{GroupSpecifier} . This is the total number of grammar:{Atom4} Parse Nodes prior to or enclosing the located nt:{GroupSpecifier} ."
+  ??? "Let id:{parenIndex} be the number of left - capturing parentheses in the entire regular expression that occur to the left of the located nt:{GroupSpecifier} . This is the total number of grammar:{Atom4, [GroupSpecifier, Disjunction]} Parse Nodes prior to or enclosing the located nt:{GroupSpecifier} ."
   app __x0__ = (BackreferenceMatcher parenIndex direction)
   return __x0__
 }
