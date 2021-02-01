@@ -68,7 +68,7 @@ object CompileREPL {
       val (parser, isInst, input) = getParser(words)
 
       // get code
-      val code = if (input.isEmpty) {
+      val code = (if (input.isEmpty) {
         // read multiple lines
         var list = List[String]()
         while (scala.io.StdIn.readLine match {
@@ -76,7 +76,7 @@ object CompileREPL {
           case str => list ::= str; true
         }) ()
         list.reverse
-      } else List(input.mkString(" "))
+      } else List(input.mkString(" "))).map(unescapeHtml(_))
 
       // get tokens
       val tokens = if (raw) {

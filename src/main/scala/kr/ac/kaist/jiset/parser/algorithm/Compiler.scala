@@ -948,7 +948,7 @@ object Compiler extends Compilers {
   }
   lazy val rhs: P[Expr => I[Expr]] = equalRhs ||| notEqualRhs
   lazy val equalRhs: P[Expr => I[Expr]] = {
-    ("is" | "was") ~ opt("present and" ~ ("its value is" | "has value")) | "has the value"
+    ("is" | "was") ~ opt("present and" ~ ("its value is" | "has value")) | "has the value" | "are any of"
   } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in | ("." ~ next)), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
@@ -998,7 +998,7 @@ object Compiler extends Compilers {
 
   // either conditions
   val eitherCond: P[I[Expr]] =
-    (opt("either") ~> expr <~ "or") ~ (expr <~ "is") ~ rhsExpr ^^ {
+    (opt("either") ~> expr <~ "or") ~ expr ~ rhs ^^ {
       case (i0 ~ x) ~ (i1 ~ y) ~ f => concat(i0 ++ i1, (f(x), f(y)) match {
         case (i0 ~ l, i1 ~ r) => pair(i0 ++ i1, EBOp(OOr, l, r))
       })
