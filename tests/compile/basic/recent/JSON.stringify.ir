@@ -64,13 +64,15 @@
     app __x16__ = (Type space)
     if (= __x16__ String) ??? "If the length of id:{space} is 10 or less , let id:{gap} be id:{space} ; otherwise let id:{gap} be the substring of id:{space} from 0 to 10 ." else let gap = ""
   }
-  ??? "Let id:{wrapper} be ! OrdinaryObjectCreate ( % Object . prototype % ) ."
-  app __x17__ = (CreateDataPropertyOrThrow wrapper "" value)
+  app __x17__ = (OrdinaryObjectCreate INTRINSIC_Object.prototype)
   if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-  __x17__
-  let state = (new Record("ReplacerFunction" -> ReplacerFunction, "Stack" -> stack, "Indent" -> indent, "Gap" -> gap, "PropertyList" -> PropertyList))
-  app __x18__ = (SerializeJSONProperty state "" wrapper)
+  let wrapper = __x17__
+  app __x18__ = (CreateDataPropertyOrThrow wrapper "" value)
   if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
-  app __x19__ = (WrapCompletion __x18__)
-  return __x19__
+  __x18__
+  let state = (new Record("ReplacerFunction" -> ReplacerFunction, "Stack" -> stack, "Indent" -> indent, "Gap" -> gap, "PropertyList" -> PropertyList))
+  app __x19__ = (SerializeJSONProperty state "" wrapper)
+  if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
+  app __x20__ = (WrapCompletion __x19__)
+  return __x20__
 }

@@ -6,9 +6,11 @@
   let head = __x1__
   access __x2__ = (head "ArrowFormalParameters")
   let parameters = __x2__
-  ??? "Let id:{closure} be ! OrdinaryFunctionCreate ( % AsyncFunction . prototype % , id:{sourceText} , id:{parameters} , nt:{AsyncConciseBody} , const:{lexical-this} , id:{scope} ) ."
-  app __x3__ = (SetFunctionName closure name)
-  __x3__
-  app __x4__ = (WrapCompletion closure)
-  return __x4__
+  app __x3__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction.prototype sourceText parameters AsyncConciseBody CONST_lexicalDASHthis scope)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let closure = __x3__
+  app __x4__ = (SetFunctionName closure name)
+  __x4__
+  app __x5__ = (WrapCompletion closure)
+  return __x5__
 }

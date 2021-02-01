@@ -2,13 +2,15 @@
   app __x0__ = (RequireObjectCoercible iterable)
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   __x0__
-  ??? "Let id:{obj} be ! OrdinaryObjectCreate ( % Object . prototype % ) ."
-  ??? "Let id:{stepsDefine} be the algorithm steps defined in link:{} ."
-  app __x1__ = (CreateBuiltinFunction stepsDefine (new []))
+  app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object.prototype)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let adder = __x1__
-  app __x2__ = (AddEntriesFromIterable obj iterable adder)
+  let obj = __x1__
+  ??? "Let id:{stepsDefine} be the algorithm steps defined in link:{} ."
+  app __x2__ = (CreateBuiltinFunction stepsDefine (new []))
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  let adder = __x2__
+  app __x3__ = (AddEntriesFromIterable obj iterable adder)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
 }

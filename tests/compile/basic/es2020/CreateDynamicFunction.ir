@@ -56,24 +56,26 @@
   if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
   let F = __x5__
   if (= kind CONST_generator) {
-    ??? "Let id:{prototype} be OrdinaryObjectCreate ( % Generator . prototype % ) ."
-    app __x6__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
-    __x6__
-  } else if (= kind CONST_asyncGenerator) {
-    ??? "Let id:{prototype} be OrdinaryObjectCreate ( % AsyncGenerator . prototype % ) ."
+    app __x6__ = (OrdinaryObjectCreate INTRINSIC_Generator.prototype)
+    let prototype = __x6__
     app __x7__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     __x7__
+  } else if (= kind CONST_asyncGenerator) {
+    app __x8__ = (OrdinaryObjectCreate INTRINSIC_AsyncGenerator.prototype)
+    let prototype = __x8__
+    app __x9__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+    __x9__
   } else if (= kind CONST_normal) {
-    app __x8__ = (MakeConstructor F)
-    __x8__
+    app __x10__ = (MakeConstructor F)
+    __x10__
   } else {}
-  app __x9__ = (SetFunctionName F "anonymous")
-  __x9__
+  app __x11__ = (SetFunctionName F "anonymous")
+  __x11__
   ??? "Let id:{prefix} be the prefix associated with id:{kind} in link:{} ."
   ??? "Let id:{sourceString} be the string - concatenation of id:{prefix} , * \" anonymous ( \" * , id:{P} , 0x000A ( LINE FEED ) , * \" ) { \" * , id:{bodyString} , and value:{\"}\"} ."
-  app __x10__ = (UTF16DecodeString sourceString)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  F.SourceText = __x10__
-  app __x11__ = (WrapCompletion F)
-  return __x11__
+  app __x12__ = (UTF16DecodeString sourceString)
+  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+  F.SourceText = __x12__
+  app __x13__ = (WrapCompletion F)
+  return __x13__
 }

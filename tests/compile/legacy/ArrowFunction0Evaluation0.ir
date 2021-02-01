@@ -3,8 +3,9 @@
   let scope = __x0__
   access __x1__ = (ArrowParameters "CoveredFormalsList")
   let parameters = __x1__
-  ??? "Let id:{closure} be OrdinaryFunctionCreate ( % Function . prototype % , id:{parameters} , nt:{ConciseBody} , const:{lexical-this} , id:{scope} ) ."
+  app __x2__ = (OrdinaryFunctionCreate INTRINSIC_Function.prototype parameters ConciseBody CONST_lexicalDASHthis scope)
+  let closure = __x2__
   closure.SourceText = (get-syntax this)
-  app __x2__ = (WrapCompletion closure)
-  return __x2__
+  app __x3__ = (WrapCompletion closure)
+  return __x3__
 }

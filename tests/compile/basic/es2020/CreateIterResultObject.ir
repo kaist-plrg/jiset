@@ -1,13 +1,14 @@
 {
   app __x0__ = (Type done)
   assert (= __x0__ Boolean)
-  ??? "Let id:{obj} be OrdinaryObjectCreate ( % Object . prototype % ) ."
-  app __x1__ = (CreateDataPropertyOrThrow obj "value" value)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
-  app __x2__ = (CreateDataPropertyOrThrow obj "done" done)
+  app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object.prototype)
+  let obj = __x1__
+  app __x2__ = (CreateDataPropertyOrThrow obj "value" value)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   __x2__
-  app __x3__ = (WrapCompletion obj)
-  return __x3__
+  app __x3__ = (CreateDataPropertyOrThrow obj "done" done)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  __x3__
+  app __x4__ = (WrapCompletion obj)
+  return __x4__
 }

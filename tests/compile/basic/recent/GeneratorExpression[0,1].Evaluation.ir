@@ -7,14 +7,17 @@
   app __x2__ = (funcEnv.CreateImmutableBinding funcEnv name false)
   __x2__
   let sourceText = (get-syntax GeneratorExpression)
-  ??? "Let id:{closure} be OrdinaryFunctionCreate ( % GeneratorFunction . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{GeneratorBody} , const:{non-lexical-this} , id:{funcEnv} ) ."
-  app __x3__ = (SetFunctionName closure name)
-  __x3__
-  ??? "Let id:{prototype} be ! OrdinaryObjectCreate ( % GeneratorFunction . prototype . prototype % ) ."
-  app __x4__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  app __x3__ = (OrdinaryFunctionCreate INTRINSIC_GeneratorFunction.prototype sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)
+  let closure = __x3__
+  app __x4__ = (SetFunctionName closure name)
   __x4__
-  app __x5__ = (funcEnv.InitializeBinding funcEnv name closure)
-  __x5__
-  app __x6__ = (WrapCompletion closure)
-  return __x6__
+  app __x5__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction[prototype.prototype])
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  let prototype = __x5__
+  app __x6__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  __x6__
+  app __x7__ = (funcEnv.InitializeBinding funcEnv name closure)
+  __x7__
+  app __x8__ = (WrapCompletion closure)
+  return __x8__
 }

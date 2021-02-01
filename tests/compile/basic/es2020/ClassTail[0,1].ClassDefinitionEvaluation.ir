@@ -9,8 +9,8 @@
     __x2__
   } else {}
   if (= ClassHeritage absent) {
-    ??? "Let id:{protoParent} be % Object . prototype % ."
-    ??? "Let id:{constructorParent} be % Function . prototype % ."
+    let protoParent = INTRINSIC_Object.prototype
+    let constructorParent = INTRINSIC_Function.prototype
   } else {
     GLOBAL_context.LexicalEnvironment = classScope
     access __x3__ = (ClassHeritage "Evaluation")
@@ -21,7 +21,7 @@
     let superclass = __x4__
     if (= superclass null) {
       let protoParent = null
-      ??? "Let id:{constructorParent} be % Function . prototype % ."
+      let constructorParent = INTRINSIC_Function.prototype
     } else {
       app __x5__ = (IsConstructor superclass)
       if (= __x5__ false) {

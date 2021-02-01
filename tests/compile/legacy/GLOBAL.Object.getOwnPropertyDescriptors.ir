@@ -7,24 +7,26 @@
   app __x2__ = (obj.OwnPropertyKeys obj)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let ownKeys = __x2__
-  ??? "Let id:{descriptors} be ! OrdinaryObjectCreate ( % Object . prototype % ) ."
-  let __x3__ = ownKeys
-  let __x4__ = 0i
-  while (< __x4__ __x3__.length) {
-    let key = __x3__[__x4__]
-    app __x5__ = (obj.GetOwnProperty obj key)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let desc = __x5__
-    app __x6__ = (FromPropertyDescriptor desc)
+  app __x3__ = (OrdinaryObjectCreate INTRINSIC_Object.prototype)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let descriptors = __x3__
+  let __x4__ = ownKeys
+  let __x5__ = 0i
+  while (< __x5__ __x4__.length) {
+    let key = __x4__[__x5__]
+    app __x6__ = (obj.GetOwnProperty obj key)
     if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let descriptor = __x6__
+    let desc = __x6__
+    app __x7__ = (FromPropertyDescriptor desc)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    let descriptor = __x7__
     if (! (= descriptor undefined)) {
-      app __x7__ = (CreateDataPropertyOrThrow descriptors key descriptor)
-      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-      __x7__
+      app __x8__ = (CreateDataPropertyOrThrow descriptors key descriptor)
+      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+      __x8__
     } else {}
-    __x4__ = (+ __x4__ 1i)
+    __x5__ = (+ __x5__ 1i)
   }
-  app __x8__ = (WrapCompletion descriptors)
-  return __x8__
+  app __x9__ = (WrapCompletion descriptors)
+  return __x9__
 }

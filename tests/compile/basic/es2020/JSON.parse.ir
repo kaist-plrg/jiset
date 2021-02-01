@@ -8,17 +8,18 @@
   let unfiltered = completion.Value
   app __x1__ = (IsCallable reviver)
   if (= __x1__ true) {
-    ??? "Let id:{root} be OrdinaryObjectCreate ( % Object . prototype % ) ."
+    app __x2__ = (OrdinaryObjectCreate INTRINSIC_Object.prototype)
+    let root = __x2__
     let rootName = ""
-    app __x2__ = (CreateDataPropertyOrThrow root rootName unfiltered)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    __x2__
-    app __x3__ = (InternalizeJSONProperty root rootName reviver)
+    app __x3__ = (CreateDataPropertyOrThrow root rootName unfiltered)
     if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    app __x4__ = (WrapCompletion __x3__)
-    return __x4__
-  } else {
-    app __x5__ = (WrapCompletion unfiltered)
+    __x3__
+    app __x4__ = (InternalizeJSONProperty root rootName reviver)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    app __x5__ = (WrapCompletion __x4__)
     return __x5__
+  } else {
+    app __x6__ = (WrapCompletion unfiltered)
+    return __x6__
   }
 }

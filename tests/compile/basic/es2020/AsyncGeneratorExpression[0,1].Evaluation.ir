@@ -12,17 +12,19 @@
   app __x3__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGenerator FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)
   if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
   let closure = __x3__
-  ??? "Let id:{prototype} be ! OrdinaryObjectCreate ( % AsyncGenerator . prototype % ) ."
-  app __x4__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  app __x4__ = (OrdinaryObjectCreate INTRINSIC_AsyncGenerator.prototype)
   if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  __x4__
-  app __x5__ = (SetFunctionName closure name)
+  let prototype = __x4__
+  app __x5__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
   if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
   __x5__
-  app __x6__ = (envRec.InitializeBinding envRec name closure)
+  app __x6__ = (SetFunctionName closure name)
   if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
   __x6__
+  app __x7__ = (envRec.InitializeBinding envRec name closure)
+  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+  __x7__
   closure.SourceText = (get-syntax AsyncGeneratorExpression)
-  app __x7__ = (WrapCompletion closure)
-  return __x7__
+  app __x8__ = (WrapCompletion closure)
+  return __x8__
 }

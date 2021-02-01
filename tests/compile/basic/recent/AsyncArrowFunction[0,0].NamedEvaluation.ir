@@ -3,9 +3,11 @@
   let scope = __x0__
   let sourceText = (get-syntax AsyncArrowFunction)
   let parameters = AsyncArrowBindingIdentifier
-  ??? "Let id:{closure} be ! OrdinaryFunctionCreate ( % AsyncFunction . prototype % , id:{sourceText} , id:{parameters} , nt:{AsyncConciseBody} , const:{lexical-this} , id:{scope} ) ."
-  app __x1__ = (SetFunctionName closure name)
-  __x1__
-  app __x2__ = (WrapCompletion closure)
-  return __x2__
+  app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction.prototype sourceText parameters AsyncConciseBody CONST_lexicalDASHthis scope)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let closure = __x1__
+  app __x2__ = (SetFunctionName closure name)
+  __x2__
+  app __x3__ = (WrapCompletion closure)
+  return __x3__
 }

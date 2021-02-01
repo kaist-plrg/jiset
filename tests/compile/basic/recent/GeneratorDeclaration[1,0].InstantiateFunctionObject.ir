@@ -1,11 +1,14 @@
 {
   let sourceText = (get-syntax GeneratorDeclaration)
-  ??? "Let id:{F} be OrdinaryFunctionCreate ( % GeneratorFunction . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{GeneratorBody} , const:{non-lexical-this} , id:{scope} ) ."
-  app __x0__ = (SetFunctionName F "default")
-  __x0__
-  ??? "Let id:{prototype} be ! OrdinaryObjectCreate ( % GeneratorFunction . prototype . prototype % ) ."
-  app __x1__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  app __x0__ = (OrdinaryFunctionCreate INTRINSIC_GeneratorFunction.prototype sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  let F = __x0__
+  app __x1__ = (SetFunctionName F "default")
   __x1__
-  app __x2__ = (WrapCompletion F)
-  return __x2__
+  app __x2__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction[prototype.prototype])
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let prototype = __x2__
+  app __x3__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  __x3__
+  app __x4__ = (WrapCompletion F)
+  return __x4__
 }

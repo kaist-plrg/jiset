@@ -2,8 +2,10 @@
   access __x0__ = (GLOBAL_context "LexicalEnvironment")
   let scope = __x0__
   let parameters = AsyncArrowBindingIdentifier
-  ??? "Let id:{closure} be ! OrdinaryFunctionCreate ( % AsyncFunction . prototype % , id:{parameters} , nt:{AsyncConciseBody} , const:{lexical-this} , id:{scope} ) ."
+  app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction.prototype parameters AsyncConciseBody CONST_lexicalDASHthis scope)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let closure = __x1__
   closure.SourceText = (get-syntax this)
-  app __x1__ = (WrapCompletion closure)
-  return __x1__
+  app __x2__ = (WrapCompletion closure)
+  return __x2__
 }

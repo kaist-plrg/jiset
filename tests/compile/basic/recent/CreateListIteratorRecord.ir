@@ -3,5 +3,6 @@
   app __x0__ = (CreateIteratorFromClosure closure CONST_empty INTRINSIC_IteratorPrototype)
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let iterator = __x0__
-  ??? "Return Record { [ [ Iterator ] ] : id:{iterator} , [ [ NextMethod ] ] : % GeneratorFunction . prototype . prototype . next % , [ [ Done ] ] : value:{false} } ."
+  app __x1__ = (WrapCompletion (new Record("Iterator" -> iterator, "NextMethod" -> INTRINSIC_GeneratorFunction[prototype[prototype.next]], "Done" -> false)))
+  return __x1__
 }

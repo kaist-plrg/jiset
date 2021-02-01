@@ -6,13 +6,19 @@
     return __x1__
   } else {}
   if (= R.OriginalSource absent) {
-    ??? "If SameValue ( id:{R} , % RegExp . prototype % ) is value:{true} , return value:{\"(?:)\"} ."
-    ??? "Otherwise , throw a value:{TypeError} exception ."
+    app __x2__ = (SameValue R INTRINSIC_RegExp.prototype)
+    if (= __x2__ true) {
+      app __x3__ = (WrapCompletion "(?:)")
+      return __x3__
+    } else {
+      app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x4__
+    }
   } else {}
   assert (! (= R.OriginalFlags absent))
   let src = R.OriginalSource
   let flags = R.OriginalFlags
-  app __x2__ = (EscapeRegExpPattern src flags)
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  app __x5__ = (EscapeRegExpPattern src flags)
+  app __x6__ = (WrapCompletion __x5__)
+  return __x6__
 }

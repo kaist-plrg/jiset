@@ -9,14 +9,15 @@
   __x2__
   app __x3__ = (OrdinaryFunctionCreate INTRINSIC_Generator FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)
   let closure = __x3__
-  ??? "Let id:{prototype} be OrdinaryObjectCreate ( % Generator . prototype % ) ."
-  app __x4__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
-  __x4__
-  app __x5__ = (SetFunctionName closure name)
+  app __x4__ = (OrdinaryObjectCreate INTRINSIC_Generator.prototype)
+  let prototype = __x4__
+  app __x5__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
   __x5__
-  app __x6__ = (envRec.InitializeBinding envRec name closure)
+  app __x6__ = (SetFunctionName closure name)
   __x6__
+  app __x7__ = (envRec.InitializeBinding envRec name closure)
+  __x7__
   closure.SourceText = (get-syntax GeneratorExpression)
-  app __x7__ = (WrapCompletion closure)
-  return __x7__
+  app __x8__ = (WrapCompletion closure)
+  return __x8__
 }

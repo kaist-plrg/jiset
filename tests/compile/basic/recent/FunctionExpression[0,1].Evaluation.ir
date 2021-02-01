@@ -7,13 +7,14 @@
   app __x2__ = (funcEnv.CreateImmutableBinding funcEnv name false)
   __x2__
   let sourceText = (get-syntax FunctionExpression)
-  ??? "Let id:{closure} be OrdinaryFunctionCreate ( % Function . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{FunctionBody} , const:{non-lexical-this} , id:{funcEnv} ) ."
-  app __x3__ = (SetFunctionName closure name)
-  __x3__
-  app __x4__ = (MakeConstructor closure)
+  app __x3__ = (OrdinaryFunctionCreate INTRINSIC_Function.prototype sourceText FormalParameters FunctionBody CONST_nonDASHlexicalDASHthis funcEnv)
+  let closure = __x3__
+  app __x4__ = (SetFunctionName closure name)
   __x4__
-  app __x5__ = (funcEnv.InitializeBinding funcEnv name closure)
+  app __x5__ = (MakeConstructor closure)
   __x5__
-  app __x6__ = (WrapCompletion closure)
-  return __x6__
+  app __x6__ = (funcEnv.InitializeBinding funcEnv name closure)
+  __x6__
+  app __x7__ = (WrapCompletion closure)
+  return __x7__
 }

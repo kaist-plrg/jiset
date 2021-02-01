@@ -2,12 +2,15 @@
   access __x0__ = (GLOBAL_context "LexicalEnvironment")
   let scope = __x0__
   let sourceText = (get-syntax GeneratorExpression)
-  ??? "Let id:{closure} be OrdinaryFunctionCreate ( % GeneratorFunction . prototype % , id:{sourceText} , nt:{FormalParameters} , nt:{GeneratorBody} , const:{non-lexical-this} , id:{scope} ) ."
-  app __x1__ = (SetFunctionName closure name)
-  __x1__
-  ??? "Let id:{prototype} be ! OrdinaryObjectCreate ( % GeneratorFunction . prototype . prototype % ) ."
-  app __x2__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  app __x1__ = (OrdinaryFunctionCreate INTRINSIC_GeneratorFunction.prototype sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  let closure = __x1__
+  app __x2__ = (SetFunctionName closure name)
   __x2__
-  app __x3__ = (WrapCompletion closure)
-  return __x3__
+  app __x3__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction[prototype.prototype])
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let prototype = __x3__
+  app __x4__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  __x4__
+  app __x5__ = (WrapCompletion closure)
+  return __x5__
 }
