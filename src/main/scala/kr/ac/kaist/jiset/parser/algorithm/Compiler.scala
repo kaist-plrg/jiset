@@ -65,7 +65,8 @@ object Compiler extends Compilers {
     "Perform any implementation or host environment defined processing of" |
     "Perform any implementation or host environment defined job initialization using" |
     "Perform any necessary implementation-defined initialization" |
-    "Once a generator enters"
+    "Once a generator enters" |
+    "No action is required"
   ) ~ rest ^^^ emptyInst
 
   // inner statements
