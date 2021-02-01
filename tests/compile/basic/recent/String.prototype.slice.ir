@@ -9,28 +9,36 @@
   app __x2__ = (ToIntegerOrInfinity start)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let intStart = __x2__
-  ??? "If id:{intStart} is - ∞ , let id:{from} be 0 ."
-  ??? "Else if id:{intStart} < 0 , let id:{from} be max ( id:{len} + id:{intStart} , 0 ) ."
-  ??? "Else , let id:{from} be min ( id:{intStart} , id:{len} ) ."
+  if (= intStart -Infinity) let from = 0i else if (< intStart 0i) {
+    app __x3__ = (max (+ len intStart) 0i)
+    let from = __x3__
+  } else {
+    app __x4__ = (min intStart len)
+    let from = __x4__
+  }
   if (= end undefined) let intEnd = len else {
-    app __x3__ = (ToIntegerOrInfinity end)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let intEnd = __x3__
+    app __x5__ = (ToIntegerOrInfinity end)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    let intEnd = __x5__
   }
-  ??? "If id:{intEnd} is - ∞ , let id:{to} be 0 ."
-  ??? "Else if id:{intEnd} < 0 , let id:{to} be max ( id:{len} + id:{intEnd} , 0 ) ."
-  ??? "Else , let id:{to} be min ( id:{intEnd} , id:{len} ) ."
+  if (= intEnd -Infinity) let to = 0i else if (< intEnd 0i) {
+    app __x6__ = (max (+ len intEnd) 0i)
+    let to = __x6__
+  } else {
+    app __x7__ = (min intEnd len)
+    let to = __x7__
+  }
   if (! (< from to)) {
-    app __x4__ = (WrapCompletion "")
-    return __x4__
+    app __x8__ = (WrapCompletion "")
+    return __x8__
   } else {}
-  let __x5__ = ""
-  let __x6__ = from
-  while (< __x6__ (+ to 1i)) {
-    access __x7__ = (S __x6__)
-    __x5__ = (+ __x5__ __x7__)
-    __x6__ = (+ __x6__ 1i)
+  let __x9__ = ""
+  let __x10__ = from
+  while (< __x10__ (+ to 1i)) {
+    access __x11__ = (S __x10__)
+    __x9__ = (+ __x9__ __x11__)
+    __x10__ = (+ __x10__ 1i)
   }
-  app __x8__ = (WrapCompletion __x5__)
-  return __x8__
+  app __x12__ = (WrapCompletion __x9__)
+  return __x12__
 }

@@ -24,30 +24,33 @@
       app __x6__ = (ToUint32 len)
       if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
       let intLen = __x6__
-      ??? "If id:{intLen} is not the same value as id:{len} , throw a value:{RangeError} exception ."
+      if (! (= intLen len)) {
+        app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x7__
+      } else {}
     }
-    app __x7__ = (Set array "length" intLen true)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    __x7__
-    app __x8__ = (WrapCompletion array)
-    return __x8__
+    app __x8__ = (Set array "length" intLen true)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    __x8__
+    app __x9__ = (WrapCompletion array)
+    return __x9__
   } else {
     assert (! (< numberOfArgs 2i))
-    app __x9__ = (ArrayCreate numberOfArgs proto)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    let array = __x9__
+    app __x10__ = (ArrayCreate numberOfArgs proto)
+    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+    let array = __x10__
     let k = 0i
     while (< k numberOfArgs) {
-      app __x10__ = (ToString k)
-      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-      let Pk = __x10__
-      let itemK = values[k]
-      app __x11__ = (CreateDataPropertyOrThrow array Pk itemK)
+      app __x11__ = (ToString k)
       if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      __x11__
+      let Pk = __x11__
+      let itemK = values[k]
+      app __x12__ = (CreateDataPropertyOrThrow array Pk itemK)
+      if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+      __x12__
       k = (+ k 1i)
     }
-    app __x12__ = (WrapCompletion array)
-    return __x12__
+    app __x13__ = (WrapCompletion array)
+    return __x13__
   }
 }

@@ -16,37 +16,40 @@
   app __x3__ = (LengthOfArrayLike src)
   if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
   let srcLength = __x3__
-  ??? "If id:{targetOffset} is + ∞ , throw a value:{RangeError} exception ."
-  if (< targetLength (+ srcLength targetOffset)) {
+  if (= targetOffset Infinity) {
     app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x4__
+  } else {}
+  if (< targetLength (+ srcLength targetOffset)) {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
   } else {}
   let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)
   let k = 0i
   let limit = (* (+ targetByteIndex targetElementSize) srcLength)
   while (< targetByteIndex limit) {
-    app __x5__ = (ToString k)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let Pk = __x5__
-    app __x6__ = (Get src Pk)
+    app __x6__ = (ToString k)
     if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let value = __x6__
+    let Pk = __x6__
+    app __x7__ = (Get src Pk)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    let value = __x7__
     if (= target.ContentType CONST_BigInt) {
-      app __x7__ = (ToBigInt value)
-      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-      value = __x7__
-    } else {
-      app __x8__ = (ToNumber value)
+      app __x8__ = (ToBigInt value)
       if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
       value = __x8__
+    } else {
+      app __x9__ = (ToNumber value)
+      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+      value = __x9__
     }
-    app __x9__ = (IsDetachedBuffer targetBuffer)
-    if (= __x9__ true) {
-      app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x10__
+    app __x10__ = (IsDetachedBuffer targetBuffer)
+    if (= __x10__ true) {
+      app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x11__
     } else {}
-    app __x11__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
-    __x11__
+    app __x12__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
+    __x12__
     k = (+ k 1i)
     targetByteIndex = (+ targetByteIndex targetElementSize)
   }

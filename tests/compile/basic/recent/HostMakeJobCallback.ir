@@ -1,5 +1,6 @@
 {
   app __x0__ = (IsCallable callback)
   assert (= __x0__ true)
-  ??? "Return the JobCallback Record { [ [ Callback ] ] : id:{callback} , [ [ HostDefined ] ] : const:{empty} } ."
+  app __x1__ = (WrapCompletion (new JobCallbackRecord("Callback" -> callback, "HostDefined" -> CONST_empty)))
+  return __x1__
 }

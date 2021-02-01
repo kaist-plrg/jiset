@@ -8,26 +8,34 @@
   app __x2__ = (ToIntegerOrInfinity start)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let relativeStart = __x2__
-  ??? "If id:{relativeStart} is - ∞ , let id:{k} be 0 ."
-  ??? "Else if id:{relativeStart} < 0 , let id:{k} be max ( id:{len} + id:{relativeStart} , 0 ) ."
-  ??? "Else , let id:{k} be min ( id:{relativeStart} , id:{len} ) ."
-  if (= end undefined) let relativeEnd = len else {
-    app __x3__ = (ToIntegerOrInfinity end)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let relativeEnd = __x3__
+  if (= relativeStart -Infinity) let k = 0i else if (< relativeStart 0i) {
+    app __x3__ = (max (+ len relativeStart) 0i)
+    let k = __x3__
+  } else {
+    app __x4__ = (min relativeStart len)
+    let k = __x4__
   }
-  ??? "If id:{relativeEnd} is - ∞ , let id:{final} be 0 ."
-  ??? "Else if id:{relativeEnd} < 0 , let id:{final} be max ( id:{len} + id:{relativeEnd} , 0 ) ."
-  ??? "Else , let id:{final} be min ( id:{relativeEnd} , id:{len} ) ."
-  while (< k final) {
-    app __x4__ = (ToString k)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let Pk = __x4__
-    app __x5__ = (Set O Pk value true)
+  if (= end undefined) let relativeEnd = len else {
+    app __x5__ = (ToIntegerOrInfinity end)
     if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    __x5__
+    let relativeEnd = __x5__
+  }
+  if (= relativeEnd -Infinity) let final = 0i else if (< relativeEnd 0i) {
+    app __x6__ = (max (+ len relativeEnd) 0i)
+    let final = __x6__
+  } else {
+    app __x7__ = (min relativeEnd len)
+    let final = __x7__
+  }
+  while (< k final) {
+    app __x8__ = (ToString k)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    let Pk = __x8__
+    app __x9__ = (Set O Pk value true)
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+    __x9__
     k = (+ k 1i)
   }
-  app __x6__ = (WrapCompletion O)
-  return __x6__
+  app __x10__ = (WrapCompletion O)
+  return __x10__
 }

@@ -28,8 +28,7 @@
         shouldFlatten = __x6__
       } else {}
       if (= shouldFlatten true) {
-        ??? "If id:{depth} is + ∞ , let id:{newDepth} be + ∞ ."
-        ??? "Else , let id:{newDepth} be id:{depth} - 1 ."
+        if (= depth Infinity) let newDepth = Infinity else let newDepth = (- depth 1i)
         app __x7__ = (LengthOfArrayLike element)
         if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
         let elementLen = __x7__

@@ -12,25 +12,27 @@
   app __x3__ = (ToIntegerOrInfinity fromIndex)
   if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
   let n = __x3__
-  ??? "If id:{n} is + ∞ , return value:{false} ."
-  ??? "Else if id:{n} is - ∞ , set id:{n} to 0 ."
+  if (= n Infinity) {
+    app __x4__ = (WrapCompletion false)
+    return __x4__
+  } else if (= n -Infinity) n = 0i else {}
   if (! (< n 0i)) let k = n else {
     let k = (+ len n)
     if (< k 0i) k = 0i else {}
   }
   while (< k len) {
-    app __x4__ = (ToString k)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    app __x5__ = (Get O __x4__)
+    app __x5__ = (ToString k)
     if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let elementK = __x5__
-    app __x6__ = (SameValueZero searchElement elementK)
-    if (= __x6__ true) {
-      app __x7__ = (WrapCompletion true)
-      return __x7__
+    app __x6__ = (Get O __x5__)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    let elementK = __x6__
+    app __x7__ = (SameValueZero searchElement elementK)
+    if (= __x7__ true) {
+      app __x8__ = (WrapCompletion true)
+      return __x8__
     } else {}
     k = (+ k 1i)
   }
-  app __x8__ = (WrapCompletion false)
-  return __x8__
+  app __x9__ = (WrapCompletion false)
+  return __x9__
 }

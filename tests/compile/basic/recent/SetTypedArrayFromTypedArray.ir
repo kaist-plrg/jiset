@@ -21,42 +21,45 @@
   ??? "Let id:{srcElementSize} be the Element Size value specified in link:{} for id:{srcName} ."
   let srcLength = source.ArrayLength
   let srcByteOffset = source.ByteOffset
-  ??? "If id:{targetOffset} is + ∞ , throw a value:{RangeError} exception ."
-  if (< targetLength (+ srcLength targetOffset)) {
+  if (= targetOffset Infinity) {
     app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x4__
   } else {}
-  if (! (== target.ContentType source.ContentType)) {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (< targetLength (+ srcLength targetOffset)) {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x5__
   } else {}
-  app __x6__ = (IsSharedArrayBuffer srcBuffer)
-  app __x7__ = (IsSharedArrayBuffer targetBuffer)
-  if (&& (= __x6__ true) (= __x7__ true)) if (= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData) let same = true else let same = false else {
-    app __x8__ = (SameValue srcBuffer targetBuffer)
-    let same = __x8__
+  if (! (== target.ContentType source.ContentType)) {
+    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x6__
+  } else {}
+  app __x7__ = (IsSharedArrayBuffer srcBuffer)
+  app __x8__ = (IsSharedArrayBuffer targetBuffer)
+  if (&& (= __x7__ true) (= __x8__ true)) if (= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData) let same = true else let same = false else {
+    app __x9__ = (SameValue srcBuffer targetBuffer)
+    let same = __x9__
   }
   if (= same true) {
     let srcByteLength = source.ByteLength
-    app __x9__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSIC_ArrayBuffer)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    srcBuffer = __x9__
+    app __x10__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSIC_ArrayBuffer)
+    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+    srcBuffer = __x10__
     let srcByteIndex = 0i
   } else let srcByteIndex = srcByteOffset
   let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)
   let limit = (* (+ targetByteIndex targetElementSize) srcLength)
   if (= srcType targetType) while (< targetByteIndex limit) {
-    app __x10__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)
-    let value = __x10__
-    app __x11__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)
-    __x11__
+    app __x11__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)
+    let value = __x11__
+    app __x12__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)
+    __x12__
     srcByteIndex = (+ srcByteIndex 1i)
     targetByteIndex = (+ targetByteIndex 1i)
   } else while (< targetByteIndex limit) {
-    app __x12__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true CONST_Unordered)
-    let value = __x12__
-    app __x13__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
-    __x13__
+    app __x13__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true CONST_Unordered)
+    let value = __x13__
+    app __x14__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
+    __x14__
     srcByteIndex = (+ srcByteIndex srcElementSize)
     targetByteIndex = (+ targetByteIndex targetElementSize)
   }

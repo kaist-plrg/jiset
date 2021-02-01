@@ -8,57 +8,69 @@
   app __x2__ = (ToIntegerOrInfinity target)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let relativeTarget = __x2__
-  ??? "If id:{relativeTarget} is - ∞ , let id:{to} be 0 ."
-  ??? "Else if id:{relativeTarget} < 0 , let id:{to} be max ( id:{len} + id:{relativeTarget} , 0 ) ."
-  ??? "Else , let id:{to} be min ( id:{relativeTarget} , id:{len} ) ."
-  app __x3__ = (ToIntegerOrInfinity start)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let relativeStart = __x3__
-  ??? "If id:{relativeStart} is - ∞ , let id:{from} be 0 ."
-  ??? "Else if id:{relativeStart} < 0 , let id:{from} be max ( id:{len} + id:{relativeStart} , 0 ) ."
-  ??? "Else , let id:{from} be min ( id:{relativeStart} , id:{len} ) ."
-  if (= end undefined) let relativeEnd = len else {
-    app __x4__ = (ToIntegerOrInfinity end)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let relativeEnd = __x4__
+  if (= relativeTarget -Infinity) let to = 0i else if (< relativeTarget 0i) {
+    app __x3__ = (max (+ len relativeTarget) 0i)
+    let to = __x3__
+  } else {
+    app __x4__ = (min relativeTarget len)
+    let to = __x4__
   }
-  ??? "If id:{relativeEnd} is - ∞ , let id:{final} be 0 ."
-  ??? "Else if id:{relativeEnd} < 0 , let id:{final} be max ( id:{len} + id:{relativeEnd} , 0 ) ."
-  ??? "Else , let id:{final} be min ( id:{relativeEnd} , id:{len} ) ."
-  app __x5__ = (min (- final from) (- len to))
-  let count = __x5__
+  app __x5__ = (ToIntegerOrInfinity start)
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  let relativeStart = __x5__
+  if (= relativeStart -Infinity) let from = 0i else if (< relativeStart 0i) {
+    app __x6__ = (max (+ len relativeStart) 0i)
+    let from = __x6__
+  } else {
+    app __x7__ = (min relativeStart len)
+    let from = __x7__
+  }
+  if (= end undefined) let relativeEnd = len else {
+    app __x8__ = (ToIntegerOrInfinity end)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    let relativeEnd = __x8__
+  }
+  if (= relativeEnd -Infinity) let final = 0i else if (< relativeEnd 0i) {
+    app __x9__ = (max (+ len relativeEnd) 0i)
+    let final = __x9__
+  } else {
+    app __x10__ = (min relativeEnd len)
+    let final = __x10__
+  }
+  app __x11__ = (min (- final from) (- len to))
+  let count = __x11__
   if (&& (< from to) (< to (+ from count))) {
     let direction = -1i
     from = (- (+ from count) 1i)
     to = (- (+ to count) 1i)
   } else let direction = 1i
   while (< 0i count) {
-    app __x6__ = (ToString from)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let fromKey = __x6__
-    app __x7__ = (ToString to)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let toKey = __x7__
-    app __x8__ = (HasProperty O fromKey)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let fromPresent = __x8__
+    app __x12__ = (ToString from)
+    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+    let fromKey = __x12__
+    app __x13__ = (ToString to)
+    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+    let toKey = __x13__
+    app __x14__ = (HasProperty O fromKey)
+    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+    let fromPresent = __x14__
     if (= fromPresent true) {
-      app __x9__ = (Get O fromKey)
-      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-      let fromVal = __x9__
-      app __x10__ = (Set O toKey fromVal true)
-      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-      __x10__
+      app __x15__ = (Get O fromKey)
+      if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+      let fromVal = __x15__
+      app __x16__ = (Set O toKey fromVal true)
+      if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
+      __x16__
     } else {
       assert (= fromPresent false)
-      app __x11__ = (DeletePropertyOrThrow O toKey)
-      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      __x11__
+      app __x17__ = (DeletePropertyOrThrow O toKey)
+      if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
+      __x17__
     }
     from = (+ from direction)
     to = (+ to direction)
     count = (- count 1i)
   }
-  app __x12__ = (WrapCompletion O)
-  return __x12__
+  app __x18__ = (WrapCompletion O)
+  return __x18__
 }
