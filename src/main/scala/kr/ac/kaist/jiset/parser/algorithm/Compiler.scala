@@ -1122,6 +1122,7 @@ object Compiler extends Compilers {
     "realm record" ^^^ "RealmRecord" |||
     "record" ^^^ "Record" |||
     "script record" ^^^ "ScriptRecord" |||
+    "jobcallback record" ^^^ "JobCallbackRecord" |||
     ("exotic String object" | "string exotic object") ^^^ "StringExoticObject" |||
     "reference record" ^^^ "ReferenceRecord" |||
     opt("ecmascript code") ~ "execution context" ^^^ "ExecutionContext"
