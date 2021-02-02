@@ -242,8 +242,14 @@ object Compiler extends Compilers {
 
   // remove statements
   lazy val removeStmt: P[Inst] = (
-    ("remove the first element from" ~> id <~ "and let") ~ (id <~ "be the value of" ~ ("that" | "the") ~ "element") ^^ {
-      case l ~ x => ILet(IRId(x), EPop(toERef(l), EINum(0)))
+    ("remove the first element from" ~> id) ~ opt(("and let" ~> id) <~ "be the value of" ~ ("that" | "the") ~ "element") ^^ {
+      case l ~ x => {
+        val popId = x match {
+          case None => getTempId
+          case Some(pid) => IRId(pid)
+        }
+        ILet(popId, EPop(toERef(l), EINum(0)))
+      }
     } ||| ("let" ~> id <~ "be the first element of") ~ (id <~ "and remove that element from" ~ id) ^^ {
       case x ~ l => ILet(IRId(x), EPop(toERef(l), EINum(0)))
     } ||| "remove" ~ id ~ "from the front of" ~> id ^^ {
@@ -1141,8 +1147,7 @@ object Compiler extends Compilers {
     lastElemRef |||
     fieldRef |||
     lengthRef |||
-    flagRef |||
-    intrinsicRef
+    flagRef
   )
 
   // references for TypedArray
@@ -1198,18 +1203,6 @@ object Compiler extends Compilers {
   lazy val flagRef: P[I[Ref]] = (id <~ "flag of") ~ ref ^^ {
     case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
   }
-
-  // intrinsic references
-  lazy val intrinsicRef: P[I[Ref]] =
-    "%" ~> (word <~ ".") ~ rep1sep(word, ".") <~ "%" ^^ {
-      case base ~ props => {
-        val lastProp = props.reverse.head
-        val newProps = List(INTRINSIC_PRE + base) ++ props.reverse.tail.reverse
-        pair(Nil, (newProps.foldRight(EStr(lastProp): Expr) {
-          case (b, p) => ERef(RefProp(RefId(IRId(b)), p))
-        }: @unchecked) match { case ERef(r) => r })
-      }
-    }
 
   lazy val refBase: P[String] = opt("the") ~ opt("corresponding") ~> (
     "surrounding agent's agent record" ^^^ agent |||
@@ -1301,7 +1294,10 @@ object Compiler extends Compilers {
   ////////////////////////////////////////////////////////////////////////////////
   lazy val name: P[String] = refBase
   lazy val intrinsicName: P[String] =
-    opt("the") ~> opt("intrinsic" ~ ("object" | "function")) ~> "%" ~> word <~ "%" ^^ { INTRINSIC_PRE + _ }
+    opt("the") ~> opt("intrinsic" ~ ("object" | "function")) ~> "%" ~> word ~ opt("." ~> rep1sep(word, ".")) <~ "%" ^^ {
+      case base ~ None => INTRINSIC_PRE + base
+      case base ~ Some(ls) => INTRINSIC_PRE + base + "_" + ls.mkString("_")
+    }
   lazy val symbolName: P[String] =
     "@@" ~> word ^^ { case x => s"SYMBOL_$x" }
   lazy val internalName: P[Expr] =

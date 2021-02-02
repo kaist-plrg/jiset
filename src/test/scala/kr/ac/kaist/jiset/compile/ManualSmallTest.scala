@@ -42,6 +42,21 @@ class ManualSmallTest extends CompileTest {
         return __x1__ 
       }"""
     )
+
+    test("Intrinsics")(
+      """Call ToString(%Object%)""" -> """{
+        app __x0__ = (ToString INTRINSIC_Object)
+        __x0__
+      }""",
+      """Call ToString(%Object.prototype%)""" -> """{
+        app __x0__ = (ToString INTRINSIC_Object_prototype)
+        __x0__
+      }""",
+      """Call ToString(%Object.prototype.prototype%)""" -> """{
+        app __x0__ = (ToString INTRINSIC_Object_prototype_prototype)
+        __x0__
+      }"""
+    )
   }
   init
 }
