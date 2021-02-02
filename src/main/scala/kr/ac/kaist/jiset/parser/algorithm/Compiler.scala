@@ -362,7 +362,7 @@ object Compiler extends Compilers {
     integerExpr |||
     numericExpr |||
     operatorExpr |||
-    // TODO primitiveExpr |||
+    primitiveExpr |||
     starExpr
   ))
 
@@ -416,23 +416,32 @@ object Compiler extends Compilers {
     }
   )
 
-  // call expressions
-  lazy val callExpr: P[I[Expr]] = (
-    callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-      case (_ ~ RefId(id), _) ~ list if id.name == "ℝ" || id.name == "𝔽" => list.head
-      case (_ ~ RefId(id), _) ~ list if id.name == "ℤ" => list match {
+  private def getCallExpr(
+    base: I[Ref],
+    args: List[I[Expr]],
+    isPrim: Boolean = false
+  ): I[Expr] =
+    pair(base, args) match {
+      case (_ ~ RefId(id)) ~ list if id.name == "ℝ" || id.name == "𝔽" => list.head
+      case (_ ~ RefId(id)) ~ list if id.name == "ℤ" => list match {
         case (i ~ e) :: _ => pair(i, toBigInt(e))
         case _ => ???
       }
-      case (i0 ~ (r: RefId), _) ~ list => {
+      case (i0 ~ (r: RefId)) ~ list => {
         val i1 ~ e = getCall(ERef(r), list)
         pair(i0 ++ i1, e)
       }
-      case (i0 ~ (r @ RefProp(b, _)), isPrim) ~ list => {
+      case (i0 ~ (r @ RefProp(b, _))) ~ list => {
         val prev = if (isPrim) Nil else List(pair(Nil, ERef(b)))
         val i1 ~ e = getCall(ERef(r), prev ++ list)
         pair(i0 ++ i1, e)
       }
+    }
+
+  // call expressions
+  lazy val callExpr: P[I[Expr]] = (
+    callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case b ~ as => getCallExpr(b, as)
     } ||| {
       "the result of" ~ (rep(not("comparison") ~ word) ~ "comparison") ~>
         expr ~ compOp ~ expr ~ opt("with" ~ id ~ "equal to" ~> expr)
@@ -440,17 +449,14 @@ object Compiler extends Compilers {
       case l ~ f ~ r ~ opt => getCall(toERef(f), List(l, r) ++ opt.toList)
     }
   )
-  lazy val callRef: P[(I[Ref], Boolean)] = (notNumber |||
+  lazy val callRef: P[I[Ref]] = (
+    notNumber |||
     "forin / ofheadevaluation" ^^^ { "ForInOfHeadEvaluation" } |||
-    "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }) ^^ { forIn => (pair(Nil, toRef(forIn)), false) } |||
+    "forin / ofbodyevaluation" ^^^ { "ForInOfBodyEvaluation" }
+  ) ^^ { forIn => pair(Nil, toRef(forIn)) } |||
     id ~ opt(callField) ^^ {
-      case x ~ Some(y) => (pair(Nil, toRef(x, y)), false)
-      case x ~ None => (pair(Nil, toRef(x)), false)
-    } |||
-    (expr <~ "::") ~ word ^^ {
-      case ie ~ r => {
-        (toRef("PRIMITIVE", List(ie, pair(Nil, EStr(r)))), true)
-      }
+      case x ~ Some(y) => pair(Nil, toRef(x, y))
+      case x ~ None => pair(Nil, toRef(x))
     }
   lazy val callField: P[Expr] = "." ~> (internalName | camelWord ^^ { EStr(_) })
   lazy val compOp: P[String] = (
@@ -751,11 +757,19 @@ object Compiler extends Compilers {
     }
   )
 
-  lazy val primitiveExpr: P[I[Expr]] = (expr <~ "::") ~ word ^^ {
-    case ie ~ r => {
-      toERef("PRIMITIVE", List(ie, pair(Nil, EStr(r))))
+  lazy val primitiveExpr: P[I[Expr]] =
+    (primitiveBase <~ "::") ~ word ~ opt("(" ~> repsep(expr, ",") <~ ")") ^^ {
+      case ie ~ r ~ as =>
+        val i ~ ref = toRef("PRIMITIVE", List(ie, pair(Nil, EStr(r))))
+        as match {
+          case None => pair(i, ERef(ref))
+          case Some(as) => getCallExpr(pair(i, ref), as, isPrim = true)
+        }
     }
-  }
+  lazy val primitiveBase: P[I[Expr]] = (
+    refBase ^^ { case x => pair(Nil, toERef(x)) } |||
+    callExpr
+  )
 
   lazy val dateConst: P[Int] = (
     "msPerDay" ^^^ msPerDay |
