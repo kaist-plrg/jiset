@@ -25,8 +25,37 @@
     app __x7__ = (HostResolveImportedModule module in.ModuleRequest)
     if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
     let importedModule = __x7__
-    ??? "If id:{in} . [ [ ImportName ] ] is value:{\"\\} \" * , then in:{} out:{}"
-    ??? "Else , in:{} out:{}"
+    if (= in.ImportName "*") {
+      app __x8__ = (GetModuleNamespace importedModule)
+      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+      let namespace = __x8__
+      app __x9__ = (env.CreateImmutableBinding env in.LocalName true)
+      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+      __x9__
+      app __x10__ = (env.InitializeBinding env in.LocalName namespace)
+      __x10__
+    } else {
+      app __x11__ = (importedModule.ResolveExport importedModule in.ImportName)
+      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+      let resolution = __x11__
+      if (|| (= resolution null) (= resolution "ambiguous")) {
+        app __x12__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        return __x12__
+      } else {}
+      if (= resolution.BindingName "*namespace*") {
+        app __x13__ = (GetModuleNamespace resolution.Module)
+        if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+        let namespace = __x13__
+        app __x14__ = (env.CreateImmutableBinding env in.LocalName true)
+        if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+        __x14__
+        app __x15__ = (env.InitializeBinding env in.LocalName namespace)
+        __x15__
+      } else {
+        app __x16__ = (env.CreateImportBinding env in.LocalName resolution.Module resolution.BindingName)
+        __x16__
+      }
+    }
     __x6__ = (+ __x6__ 1i)
   }
   let moduleContext = (new ExecutionContext("SubMap" -> (new SubMap())))
@@ -40,64 +69,64 @@
   append moduleContext -> GLOBAL_executionStack
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   let code = module.ECMAScriptCode
-  access __x8__ = (code "VarScopedDeclarations")
-  let varDeclarations = __x8__
+  access __x17__ = (code "VarScopedDeclarations")
+  let varDeclarations = __x17__
   let declaredVarNames = (new [])
-  let __x9__ = varDeclarations
-  let __x10__ = 0i
-  while (< __x10__ __x9__.length) {
-    let d = __x9__[__x10__]
-    access __x11__ = (d "BoundNames")
-    let __x12__ = __x11__
-    let __x13__ = 0i
-    while (< __x13__ __x12__.length) {
-      let dn = __x12__[__x13__]
+  let __x18__ = varDeclarations
+  let __x19__ = 0i
+  while (< __x19__ __x18__.length) {
+    let d = __x18__[__x19__]
+    access __x20__ = (d "BoundNames")
+    let __x21__ = __x20__
+    let __x22__ = 0i
+    while (< __x22__ __x21__.length) {
+      let dn = __x21__[__x22__]
       if (! (contains declaredVarNames dn)) {
-        app __x14__ = (env.CreateMutableBinding env dn false)
-        if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-        __x14__
-        app __x15__ = (env.InitializeBinding env dn undefined)
-        __x15__
-        append dn -> declaredVarNames
-      } else {}
-      __x13__ = (+ __x13__ 1i)
-    }
-    __x10__ = (+ __x10__ 1i)
-  }
-  access __x16__ = (code "LexicallyScopedDeclarations")
-  let lexDeclarations = __x16__
-  let __x17__ = lexDeclarations
-  let __x18__ = 0i
-  while (< __x18__ __x17__.length) {
-    let d = __x17__[__x18__]
-    access __x19__ = (d "BoundNames")
-    let __x20__ = __x19__
-    let __x21__ = 0i
-    while (< __x21__ __x20__.length) {
-      let dn = __x20__[__x21__]
-      access __x22__ = (d "IsConstantDeclaration")
-      if (= __x22__ true) {
-        app __x23__ = (env.CreateImmutableBinding env dn true)
+        app __x23__ = (env.CreateMutableBinding env dn false)
         if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
         __x23__
-      } else {
-        app __x24__ = (env.CreateMutableBinding env dn false)
-        if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
+        app __x24__ = (env.InitializeBinding env dn undefined)
         __x24__
+        append dn -> declaredVarNames
+      } else {}
+      __x22__ = (+ __x22__ 1i)
+    }
+    __x19__ = (+ __x19__ 1i)
+  }
+  access __x25__ = (code "LexicallyScopedDeclarations")
+  let lexDeclarations = __x25__
+  let __x26__ = lexDeclarations
+  let __x27__ = 0i
+  while (< __x27__ __x26__.length) {
+    let d = __x26__[__x27__]
+    access __x28__ = (d "BoundNames")
+    let __x29__ = __x28__
+    let __x30__ = 0i
+    while (< __x30__ __x29__.length) {
+      let dn = __x29__[__x30__]
+      access __x31__ = (d "IsConstantDeclaration")
+      if (= __x31__ true) {
+        app __x32__ = (env.CreateImmutableBinding env dn true)
+        if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else {}
+        __x32__
+      } else {
+        app __x33__ = (env.CreateMutableBinding env dn false)
+        if (is-completion __x33__) if (= __x33__.Type CONST_normal) __x33__ = __x33__.Value else return __x33__ else {}
+        __x33__
       }
       if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) {
-        access __x25__ = (d "InstantiateFunctionObject")
-        app __x26__ = (__x25__ env)
-        let fo = __x26__
-        app __x27__ = (env.InitializeBinding env dn fo)
-        __x27__
+        access __x34__ = (d "InstantiateFunctionObject")
+        app __x35__ = (__x34__ env)
+        let fo = __x35__
+        app __x36__ = (env.InitializeBinding env dn fo)
+        __x36__
       } else {}
-      __x21__ = (+ __x21__ 1i)
+      __x30__ = (+ __x30__ 1i)
     }
-    __x18__ = (+ __x18__ 1i)
+    __x27__ = (+ __x27__ 1i)
   }
   ??? "Remove id:{moduleContext} from the execution context stack ."
-  app __x28__ = (NormalCompletion CONST_empty)
-  app __x29__ = (WrapCompletion __x28__)
-  return __x29__
+  app __x37__ = (NormalCompletion CONST_empty)
+  app __x38__ = (WrapCompletion __x37__)
+  return __x38__
 }

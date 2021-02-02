@@ -36,47 +36,53 @@
       app __x12__ = (HostResolveImportedModule module e.ModuleRequest)
       if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
       let importedModule = __x12__
-      ??? "If id:{e} . [ [ ImportName ] ] is value:{\"\\} \" * , then in:{} out:{}"
-      ??? "Else , in:{} out:{}"
+      if (= e.ImportName "*") {
+        app __x13__ = (WrapCompletion (new ResolvedBindingRecord("Module" -> importedModule, "BindingName" -> "*namespace*")))
+        return __x13__
+      } else {
+        app __x14__ = (importedModule.ResolveExport importedModule e.ImportName resolveSet)
+        app __x15__ = (WrapCompletion __x14__)
+        return __x15__
+      }
     } else {}
     __x10__ = (+ __x10__ 1i)
   }
-  app __x13__ = (SameValue exportName "default")
-  if (= __x13__ true) {
-    app __x14__ = (WrapCompletion null)
-    return __x14__
+  app __x16__ = (SameValue exportName "default")
+  if (= __x16__ true) {
+    app __x17__ = (WrapCompletion null)
+    return __x17__
   } else {}
   let starResolution = null
-  let __x15__ = module.StarExportEntries
-  let __x16__ = 0i
-  while (< __x16__ __x15__.length) {
-    let e = __x15__[__x16__]
-    app __x17__ = (HostResolveImportedModule module e.ModuleRequest)
-    if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-    let importedModule = __x17__
-    app __x18__ = (importedModule.ResolveExport importedModule exportName resolveSet)
-    if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
-    let resolution = __x18__
+  let __x18__ = module.StarExportEntries
+  let __x19__ = 0i
+  while (< __x19__ __x18__.length) {
+    let e = __x18__[__x19__]
+    app __x20__ = (HostResolveImportedModule module e.ModuleRequest)
+    if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else {}
+    let importedModule = __x20__
+    app __x21__ = (importedModule.ResolveExport importedModule exportName resolveSet)
+    if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
+    let resolution = __x21__
     if (= resolution "ambiguous") {
-      app __x19__ = (WrapCompletion "ambiguous")
-      return __x19__
+      app __x22__ = (WrapCompletion "ambiguous")
+      return __x22__
     } else {}
     if (! (= resolution null)) {
       assert (= (typeof resolution) "ResolvedBindingRecord")
       if (= starResolution null) starResolution = resolution else {
-        let __x20__ = (! (= resolution.Module starResolution.Module))
-        if __x20__ {} else {
-          app __x21__ = (SameValue resolution.BindingName starResolution.BindingName)
-          __x20__ = (= __x21__ false)
+        let __x23__ = (! (= resolution.Module starResolution.Module))
+        if __x23__ {} else {
+          app __x24__ = (SameValue resolution.BindingName starResolution.BindingName)
+          __x23__ = (= __x24__ false)
         }
-        if __x20__ {
-          app __x22__ = (WrapCompletion "ambiguous")
-          return __x22__
+        if __x23__ {
+          app __x25__ = (WrapCompletion "ambiguous")
+          return __x25__
         } else {}
       }
     } else {}
-    __x16__ = (+ __x16__ 1i)
+    __x19__ = (+ __x19__ 1i)
   }
-  app __x23__ = (WrapCompletion starResolution)
-  return __x23__
+  app __x26__ = (WrapCompletion starResolution)
+  return __x26__
 }

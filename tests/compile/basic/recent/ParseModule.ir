@@ -18,11 +18,8 @@
     let ee = __x5__[__x6__]
     if (= ee.ModuleRequest null) if (! (contains importedBoundNames ee.LocalName)) append ee -> localExportEntries else {
       ??? "Let id:{ie} be the element of id:{importEntries} whose [ [ LocalName ] ] is the same as id:{ee} . [ [ LocalName ] ] ."
-      ??? "If id:{ie} . [ [ ImportName ] ] is value:{\"\\} \" * , then in:{} out:{}"
-      ??? "Else , in:{} out:{}"
-    } else {}
-    ??? "Else if id:{ee} . [ [ ImportName ] ] is value:{\"\\} \" * and id:{ee} . [ [ ExportName ] ] is value:{null} , then in:{} out:{}"
-    ??? "Else , in:{} out:{}"
+      if (= ie.ImportName "*") append ee -> localExportEntries else append (new ExportEntryRecord("ModuleRequest" -> ie.ModuleRequest, "ImportName" -> ie.ImportName, "LocalName" -> null, "ExportName" -> ee.ExportName)) -> indirectExportEntries
+    } else if (&& (= ee.ImportName "*") (= ee.ExportName null)) append ee -> starExportEntries else append ee -> indirectExportEntries
     __x6__ = (+ __x6__ 1i)
   }
   app __x7__ = (WrapCompletion (new SourceTextModuleRecord("Realm" -> realm, "Environment" -> undefined, "Namespace" -> undefined, "Status" -> CONST_unlinked, "EvaluationError" -> undefined, "HostDefined" -> hostDefined, "ECMAScriptCode" -> body, "Context" -> CONST_empty, "ImportMeta" -> CONST_empty, "RequestedModules" -> requestedModules, "ImportEntries" -> importEntries, "LocalExportEntries" -> localExportEntries, "IndirectExportEntries" -> indirectExportEntries, "StarExportEntries" -> starExportEntries, "DFSIndex" -> undefined, "DFSAncestorIndex" -> undefined)))

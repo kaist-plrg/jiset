@@ -12,8 +12,10 @@
     let value = __x4__
   }
   let env = GLOBAL_context.LexicalEnvironment
-  ??? "Perform ? InitializeBoundName ( value:{\"\\} default \\ value:{\"} , id:{value} , id:{env} ) ."
-  app __x5__ = (NormalCompletion CONST_empty)
-  app __x6__ = (WrapCompletion __x5__)
-  return __x6__
+  app __x5__ = (InitializeBoundName "*default*" value env)
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  __x5__
+  app __x6__ = (NormalCompletion CONST_empty)
+  app __x7__ = (WrapCompletion __x6__)
+  return __x7__
 }
