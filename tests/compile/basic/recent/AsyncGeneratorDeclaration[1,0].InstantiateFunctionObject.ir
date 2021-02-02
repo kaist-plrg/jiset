@@ -1,10 +1,10 @@
 {
   let sourceText = (get-syntax AsyncGeneratorDeclaration)
-  app __x0__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGeneratorFunction.prototype sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  app __x0__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGeneratorFunction_prototype sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
   let F = __x0__
   app __x1__ = (SetFunctionName F "default")
   __x1__
-  app __x2__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction[prototype.prototype])
+  app __x2__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let prototype = __x2__
   app __x3__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))

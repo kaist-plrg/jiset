@@ -5,7 +5,7 @@
   F.ConstructorKind = CONST_base
   if (= writablePrototype absent) writablePrototype = true else {}
   if (= prototype absent) {
-    app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object.prototype)
+    app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
     prototype = __x1__
     app __x2__ = (DefinePropertyOrThrow prototype "constructor" (new PropertyDescriptor("Value" -> F, "Writable" -> writablePrototype, "Enumerable" -> false, "Configurable" -> true)))
     if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}

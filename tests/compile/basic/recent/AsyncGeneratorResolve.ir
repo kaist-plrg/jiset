@@ -2,17 +2,17 @@
   let queue = generator.AsyncGeneratorQueue
   assert (< 0i queue.length)
   let next = queue[0i]
-  ??? "Remove the first element from id:{queue} ."
+  let __x0__ = (pop queue 0i)
   let promiseCapability = next.Capability
-  app __x0__ = (CreateIterResultObject value done)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let iteratorResult = __x0__
-  app __x1__ = (Call promiseCapability.Resolve undefined (new [iteratorResult]))
+  app __x1__ = (CreateIterResultObject value done)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
-  app __x2__ = (AsyncGeneratorResumeNext generator)
+  let iteratorResult = __x1__
+  app __x2__ = (Call promiseCapability.Resolve undefined (new [iteratorResult]))
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   __x2__
-  app __x3__ = (WrapCompletion undefined)
-  return __x3__
+  app __x3__ = (AsyncGeneratorResumeNext generator)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  __x3__
+  app __x4__ = (WrapCompletion undefined)
+  return __x4__
 }

@@ -4,7 +4,7 @@
   app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGenerator FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let F = __x1__
-  app __x2__ = (OrdinaryObjectCreate INTRINSIC_AsyncGenerator.prototype)
+  app __x2__ = (OrdinaryObjectCreate INTRINSIC_AsyncGenerator_prototype)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let prototype = __x2__
   app __x3__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))

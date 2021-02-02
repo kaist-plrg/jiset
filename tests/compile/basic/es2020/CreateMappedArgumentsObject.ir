@@ -8,7 +8,7 @@
   ??? "Set id:{obj} . [ [ Get ] ] as specified in link:{} ."
   ??? "Set id:{obj} . [ [ Set ] ] as specified in link:{} ."
   ??? "Set id:{obj} . [ [ Delete ] ] as specified in link:{} ."
-  obj.Prototype = INTRINSIC_Object.prototype
+  obj.Prototype = INTRINSIC_Object_prototype
   app __x1__ = (OrdinaryObjectCreate null)
   let map = __x1__
   obj.ParameterMap = map
@@ -47,7 +47,7 @@
     } else {}
     index = (- index 1i)
   }
-  app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSIC_Array[prototype.values], "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSIC_Array_prototype_values, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
   if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
   __x10__
   app __x11__ = (DefinePropertyOrThrow obj "callee" (new PropertyDescriptor("Value" -> func, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))

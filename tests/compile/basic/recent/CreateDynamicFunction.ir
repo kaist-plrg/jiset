@@ -63,13 +63,13 @@
   app __x7__ = (SetFunctionName F "anonymous")
   __x7__
   if (= kind CONST_generator) {
-    app __x8__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction[prototype.prototype])
+    app __x8__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction_prototype_prototype)
     if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
     let prototype = __x8__
     app __x9__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     __x9__
   } else if (= kind CONST_asyncGenerator) {
-    app __x10__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction[prototype.prototype])
+    app __x10__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
     if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
     let prototype = __x10__
     app __x11__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))

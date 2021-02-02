@@ -1,7 +1,7 @@
 {
   if (= realm absent) realm = REALM else {}
   assert (= (typeof realm) "RealmRecord")
-  ??? "If id:{prototype} is not present , set id:{prototype} to id:{realm} . [ [ Intrinsics ] ] . [ [ % Function . prototype % ] ] ."
+  if (= prototype absent) prototype = realm.Intrinsics.INTRINSIC_Function_prototype else {}
   ??? "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} , and an [ [ InitialName ] ] internal slot ."
   func.Realm = realm
   func.Prototype = prototype

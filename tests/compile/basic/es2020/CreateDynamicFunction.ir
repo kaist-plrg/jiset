@@ -56,12 +56,12 @@
   if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
   let F = __x5__
   if (= kind CONST_generator) {
-    app __x6__ = (OrdinaryObjectCreate INTRINSIC_Generator.prototype)
+    app __x6__ = (OrdinaryObjectCreate INTRINSIC_Generator_prototype)
     let prototype = __x6__
     app __x7__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     __x7__
   } else if (= kind CONST_asyncGenerator) {
-    app __x8__ = (OrdinaryObjectCreate INTRINSIC_AsyncGenerator.prototype)
+    app __x8__ = (OrdinaryObjectCreate INTRINSIC_AsyncGenerator_prototype)
     let prototype = __x8__
     app __x9__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     __x9__

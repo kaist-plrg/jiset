@@ -7,11 +7,11 @@
   app __x2__ = (funcEnv.CreateImmutableBinding funcEnv name false)
   __x2__
   let sourceText = (get-syntax GeneratorExpression)
-  app __x3__ = (OrdinaryFunctionCreate INTRINSIC_GeneratorFunction.prototype sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)
+  app __x3__ = (OrdinaryFunctionCreate INTRINSIC_GeneratorFunction_prototype sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)
   let closure = __x3__
   app __x4__ = (SetFunctionName closure name)
   __x4__
-  app __x5__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction[prototype.prototype])
+  app __x5__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction_prototype_prototype)
   if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
   let prototype = __x5__
   app __x6__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
