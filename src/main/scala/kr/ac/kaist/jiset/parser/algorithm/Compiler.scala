@@ -341,12 +341,13 @@ object Compiler extends Compilers {
     bopCond |||
     strictModeCond |||
     containsCond |||
-    anyMatchCond
+    anyMatchCond |||
+    duplicateCond
   ) // todo!: add more conds
 
   // contains and duplicate entry
   // ex. `It is a Syntax Error if the LexicallyDeclaredNames of |StatementList| contains any duplicate entries`
-  lazy val duplicateCond = (expr <~ "contains any duplicate entry") ^^ {
+  lazy val duplicateCond = (expr <~ ("contains any duplicate" ~ ("elements" | "entries"))) ^^ {
     case i ~ e => {
       val list = getTempId
       val idx = getTempId
