@@ -1308,9 +1308,8 @@ object Compiler extends Compilers {
   ////////////////////////////////////////////////////////////////////////////////
   lazy val name: P[String] = refBase
   lazy val intrinsicName: P[String] =
-    opt("the") ~> opt("intrinsic" ~ ("object" | "function")) ~> "%" ~> word ~ opt("." ~> rep1sep(word, ".")) <~ "%" ^^ {
-      case base ~ None => INTRINSIC_PRE + base
-      case base ~ Some(ls) => INTRINSIC_PRE + base + "_" + ls.mkString("_")
+    opt("the") ~> opt("intrinsic" ~ ("object" | "function")) ~> "%" ~> rep1sep(word, ".") <~ "%" ^^ {
+      case ls => s"${INTRINSIC_PRE}${ls.mkString("_")}"
     }
   lazy val symbolName: P[String] =
     "@@" ~> word ^^ { case x => s"SYMBOL_$x" }

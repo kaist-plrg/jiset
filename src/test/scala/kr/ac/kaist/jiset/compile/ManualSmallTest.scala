@@ -57,6 +57,22 @@ class ManualSmallTest extends CompileTest {
         __x0__
       }"""
     )
+
+    test("String Value")(
+      """return &laquo; *"\*default\*"* &raquo;""" -> """{
+        app __x0__ = (WrapCompletion (new ["*default*"]))
+        return __x0__
+      }""",
+      """return *42*""" -> """{
+        app __x0__ = (WrapCompletion 42i)
+        return __x0__
+      }""",
+      """return *"A B C D"*""" -> """{
+        app __x0__ = (WrapCompletion "A B C D")
+        return __x0__
+      }"""
+
+    )
   }
   init
 }

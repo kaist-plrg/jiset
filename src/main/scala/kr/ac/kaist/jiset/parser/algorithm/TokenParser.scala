@@ -83,7 +83,10 @@ trait TokenParsers extends ProductionParsers {
     }
     lazy val const = wrap("~") ^^ { Const(_) }
     lazy val code = wrap("`") ^^ { Code(_) }
-    lazy val value = wrap("*") <~ opt(sub) ^^ { Value(_) } // TODO process the sub
+    lazy val stringValue = "*\"" ~> "[^\"]+".r <~ "\"*" ^^ {
+      case sv => s""""${sv.replaceAll("\\\\", "")}""""
+    }
+    lazy val value = (stringValue | wrap("*")) <~ opt(sub) ^^ { Value(_) } // TODO process the sub
     lazy val id = wrap("_") ^^ { Id(_) }
     lazy val nt = wrap("|") ^^ {
       case x if x.endsWith("_opt") => Nt(x.dropRight("_opt".length))
@@ -101,7 +104,8 @@ trait TokenParsers extends ProductionParsers {
         // after 2019, ℝ, ℤ, and 𝔽 are inside the sub to distinguish between different numeric kinds
         Sub(parseAll(rep(token), s).getOrElse(Nil))
     }
-    lazy val text = (word | number | char) ^^ { Text(_) }
+    lazy val notRef = "<emu-not-ref>" ~> "[^<]*".r <~ "</emu-not-ref>"
+    lazy val text = (notRef | word | number | char) ^^ { Text(_) }
     lazy val token: Parser[Token] =
       gram | const | code | value | id | nt | sup | link | sub | text
 
