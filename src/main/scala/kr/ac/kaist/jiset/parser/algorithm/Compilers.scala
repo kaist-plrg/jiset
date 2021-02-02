@@ -466,4 +466,7 @@ trait Compilers extends TokenListParsers {
   val realm = "REALM"
   val jobQueue = "GLOBAL_jobQueue"
   val retcont = "__ret__"
+
+  // predefined variables
+  val RAND_BOOL = "randBool"
 }

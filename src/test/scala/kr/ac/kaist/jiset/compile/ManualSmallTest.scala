@@ -71,7 +71,16 @@ class ManualSmallTest extends CompileTest {
         app __x0__ = (WrapCompletion "A B C D")
         return __x0__
       }"""
+    )
 
+    test("Optionally, ~")(
+      "Optionally, perform ! HostEnqueueFinalizationRegistryCleanupJob(_fg_)." -> """if randBool {
+        app __x0__ = (HostEnqueueFinalizationRegistryCleanupJob fg)
+        if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+        __x0__
+      } else {}""",
+      "Optionally, set _F_.[[InitialName]] to _name_." ->
+        """if (! (= F.InitialName absent)) if randBool F.InitialName = name else {} else {}"""
     )
   }
   init

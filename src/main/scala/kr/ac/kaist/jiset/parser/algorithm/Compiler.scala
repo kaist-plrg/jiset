@@ -39,6 +39,7 @@ object Compiler extends Compilers {
       subtractStmt |||
       evaluateStmt |||
       assertStmt |||
+      optionalStmt |||
       starStmt
     )
   } <~ opt("." | ";") ~ opt(comment) | comment
@@ -322,6 +323,11 @@ object Compiler extends Compilers {
   // assert statements
   lazy val assertStmt: P[Inst] = ("assert:" | "note:") ~> cond <~ guard("." ~ next) ^^ { case i ~ e => ISeq(i :+ IAssert(e)) } |
     ("assert:" | "note:") ~> rest ^^^ emptyInst
+
+  // optional statements
+  lazy val optionalStmt: P[Inst] = ("optionally" ~ opt(",")) ~> stmt ^^ {
+    case i => IIf(toERef(RAND_BOOL), i, emptyInst)
+  }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
