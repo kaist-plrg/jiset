@@ -347,13 +347,37 @@ object Compiler extends Compilers {
     bopCond |||
     strictModeCond |||
     containsCond |||
-    anyMatchCond
+    anyMatchCond |||
+    duplicateCond
   ) // todo!: add more conds
 
   // contains and duplicate entry
   // ex. `It is a Syntax Error if the LexicallyDeclaredNames of |StatementList| contains any duplicate entries`
-  lazy val duplicateCond = (expr <~ "contains any duplicate entry") ^^ {
-    case e => // expr should match fieldRef and eval to some list
+  lazy val duplicateCond: P[I[Expr]] = (expr <~ ("contains any duplicate" ~ ("elements" | "entries"))) ^^ {
+    case i ~ e => {
+      val list = getTempId
+      val idx = getTempId
+      val jdx = getTempId
+      val result = getTempId
+      val innerWhile = IWhile(EBOp(OLt, toERef(jdx), toERef(list, "length")), ISeq(List(
+        IIf(
+          EBOp(OEq, toERef(list, toERef(idx)), toERef(list, toERef(jdx))),
+          IAssign(toRef(result), EBool(true)),
+          emptyInst
+        )
+      )))
+      val outerWhile = IWhile(EBOp(OLt, toERef(idx), toERef(list, "length")), ISeq(List(
+        ILet(jdx, EBOp(OPlus, toERef(idx), EINum(1))),
+        innerWhile
+      )))
+      val totalInst = ISeq(i ++ List(
+        ILet(list, e),
+        ILet(idx, EINum(0)),
+        ILet(result, EBool(true)),
+        outerWhile,
+      ))
+      pair(List(totalInst), toERef(result))
+    }
   }
 
   // "if the [ something ] parameter was not set"
