@@ -39,8 +39,13 @@ object Compiler extends Compilers {
       subtractStmt |||
       evaluateStmt |||
       assertStmt |||
+<<<<<<< HEAD
       optionalStmt |||
       starStmt
+=======
+      starStmt |||
+      earlyErrorStmt
+>>>>>>> Skeleton for earlyErrorStmt and earlyErrorCond
     )
   } <~ opt("." | ";") ~ opt(comment) | comment
   lazy val comment: P[Inst] =
@@ -324,11 +329,71 @@ object Compiler extends Compilers {
   lazy val assertStmt: P[Inst] = ("assert:" | "note:") ~> cond <~ guard("." ~ next) ^^ { case i ~ e => ISeq(i :+ IAssert(e)) } |
     ("assert:" | "note:") ~> rest ^^^ emptyInst
 
+<<<<<<< HEAD
   // optional statements
   lazy val optionalStmt: P[Inst] = ("optionally" ~ opt(",")) ~> stmt ^^ {
     case i => IIf(toERef(RAND_BOOL), i, emptyInst)
   }
 
+=======
+  // early errors
+  lazy val earlyErrorStmt: P[Inst] = "it is a syntax error if" ~> earlyErrorCond ^^ {
+    case i ~ c =>
+      ISeq(i :+ IIf(c, getRet(getCall("ThrowCompletion", List(pair(Nil, getErrorObj("SyntaxError"))))), emptyInst))
+  }
+
+  lazy val earlyErrorCond: P[I[Expr]] = (
+    rhsCond |||
+    bopCond |||
+    strictModeCond |||
+    containsCond |||
+    anyMatchCond
+  ) // todo!: add more conds
+
+  // contains and duplicate entry
+  // ex. `It is a Syntax Error if the LexicallyDeclaredNames of |StatementList| contains any duplicate entries`
+  lazy val duplicateCond = (expr <~ "contains any duplicate entry") ^^ {
+    case e => // expr should match fieldRef and eval to some list
+  }
+
+  // "if the [ something ] parameter was not set"
+  // ex. `SubstitutionTemplate[Yield, Await, Tagged] : TemplateHead Expression[+In, ?Yield, ?Await] TemplateSpans[?Yield, ?Await, ?Tagged]`
+  // ex. `It is a Syntax Error if the <sub>[Tagged]</sub> parameter was not set and |TemplateHead| Contains |NotEscapeSequence|.`
+  lazy val notSetCond = (expr <~ "parameter was not set") ^^ {
+    case e => // something like expr != EAbsent
+  }
+
+  // ex. `It is a Syntax Error if the syntactic goal symbol is not |Module|`
+  lazy val notGoalCond = ("the syntactic goal symbol is not" ~> nt) ^^ {
+    case n => // something that inspects nt's goal symbol
+  }
+
+  // ex. `It is a Syntax Error if PrototypePropertyNameList of |ClassElementList| contains more than one occurrence of *"constructor"*.`
+  lazy val moreThanOneOccurCond = (expr ~ ("contains more than one occurrence of" ~> expr)) ^^ {
+    case e1 ~ e2 => // something that checks e2 appears more than once in e1
+  }
+
+  // ex. It is a Syntax Error if any element of the BoundNames of |UniqueFormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|.`
+  lazy val alsoOccurCond = (("any element of" ~> expr) ~ ("also occurs in" ~> expr)) ^^ {
+    case e1 ~ e2 => // something that checks intersection of two lists e1, e2
+  }
+
+  // ex. It is a Syntax Error if |CoverCallExpressionAndAsyncArrowHead| is not covering an |AsyncArrowHead|.
+  // similar to coveredByExpr
+  lazy val notCoveringCond = ((ref <~ ("is not covering" ~ opt("a" | "an"))) ~ nt) ^^ {
+    case (i ~ r) ~ x => //
+  }
+
+  lazy val anyMatchCond = ("any code matches this production" | "any source text matches this rule") ^^ {
+    case _ => pair(Nil, EBool(true)) // same as condition "true"
+  }
+
+  // ex. It is a Syntax Error if the code that matches this production is contained in strict mode code
+  lazy val thisProdRefBase = ("the code that matches this production") ^^ {
+    case _ => toRef("this") // something same with refBase.
+  } // after matching this, "is contained in strict mode code" will appear. so produce same thing with refBase
+
+>>>>>>> Skeleton for earlyErrorStmt and earlyErrorCond
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
   ////////////////////////////////////////////////////////////////////////////////
