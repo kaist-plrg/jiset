@@ -1117,10 +1117,22 @@ object Compiler extends Compilers {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     }
+  } ||| {
+    ("is" | "was") ~ opt("present and" ~ ("its value is" | "has value")) | "has the value" | "are any of"
+  } ~ opt("either") ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | "or" | "and" | in | ("." ~ next)), sep("or")) ^^ {
+    case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
+      case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
+    }
   }
   lazy val notEqualRhs: P[Expr => I[Expr]] = {
     "is" ~ ("not" ~ opt("the same value as" | "the same as" | "one of") | "neither")
   } ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next)), sep("nor" | "or")) ^^ {
+    case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
+      case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
+    } match { case i ~ e => pair(i, not(e)) }
+  } ||| {
+    "is" ~ ("not" ~ opt("the same value as" | "the same as" | "one of") | "neither")
+  } ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next)), sep("nor" | "or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     } match { case i ~ e => pair(i, not(e)) }
@@ -1132,8 +1144,10 @@ object Compiler extends Compilers {
     (id | camelWord) ^^ { case x => (e: Expr) => pair(Nil, isEq(e, toERef(x))) } |||
     callName ^^ { case f => (e: Expr) => getCall(f, List(pair(Nil, e))) } |||
     ("a completion" ~ opt("record")) ^^^ { (e: Expr) => pair(Nil, EIsCompletion(e)) } |||
-    ("a" | "an") ~> ty.filter(_ != Ty("Completion")) ^^ { case t => (e: Expr) => pair(Nil, isEq(ETypeOf(e), EStr(t.name))) } |||
     opt("a" | "an") ~> nt ^^ { case x => (e: Expr) => pair(Nil, EIsInstanceOf(e, x)) }
+  )
+  lazy val rhsType: P[Expr => I[Expr]] = (
+    ty.filter(_ != Ty("Completion")) ^^ { case t => (e: Expr) => pair(Nil, isEq(ETypeOf(e), EStr(t.name))) }
   )
   lazy val callName: P[String] = ("a" | "an") ~> (
     "array index" ^^^ "IsArrayIndex" |||
@@ -1261,11 +1275,12 @@ object Compiler extends Compilers {
     "PromiseCapability" ^^^ "PromiseCapability" |||
     "ResolvedBinding Record" ^^^ "ResolvedBindingRecord" |||
     "PromiseReaction" ^^^ "PromiseReaction" |||
-    "ReadSharedMemory" ^^^ "ReadSharedMemory" |||
     "Data Block" ^^^ "DataBlock" |||
     "Shared Data Block" ^^^ "SharedDataBlock" |||
     "Source Text Module Record" ^^^ "SourceTextModuleRecord" |||
+    "ReadSharedMemory" <~ opt("event") ^^^ "ReadSharedMemory" |||
     "WriteSharedMemory" <~ opt("event") ^^^ "WriteSharedMemory" |||
+    "ReadModifyWriteSharedMemory" <~ opt("event") ^^^ "ReadModifyWriteSharedMemory" |||
     "arguments exotic object" ^^^ "ArgumentsExoticObject" |||
     "array exotic object" ^^^ "ArrayExoticObject" |||
     "bound function exotic object" ^^^ "BoundFunctionExoticObject" |||
