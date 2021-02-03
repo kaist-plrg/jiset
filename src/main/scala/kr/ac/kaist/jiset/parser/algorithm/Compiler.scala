@@ -343,7 +343,8 @@ object Compiler extends Compilers {
     containsCond |||
     anyMatchCond |||
     duplicateCond |||
-    moreThanOneOccurCond
+    moreThanOneOccurCond |||
+    alsoOccurCond
   ) // todo!: add more conds
 
   // contains and duplicate entry
@@ -420,8 +421,34 @@ object Compiler extends Compilers {
   }
 
   // ex. It is a Syntax Error if any element of the BoundNames of |UniqueFormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|.`
-  lazy val alsoOccurCond = (("any element of" ~> expr) ~ ("also occurs in" ~> expr)) ^^ {
-    case e1 ~ e2 => // something that checks intersection of two lists e1, e2
+  lazy val alsoOccurCond: P[I[Expr]] = (("any element of" ~> expr) ~ ("also occurs in" ~> expr)) ^^ {
+    case (i1 ~ e1) ~ (i2 ~ e2) => {
+      val list1 = getTempId
+      val list2 = getTempId
+      val idx = getTempId
+      val jdx = getTempId
+      val result = getTempId
+      val initInsts = List(
+        ILet(list1, e1),
+        ILet(list2, e2),
+        ILet(idx, EINum(0)),
+        ILet(jdx, EINum(0)),
+        ILet(result, EBool(false))
+      )
+      val innerWhile = IWhile(EBOp(OLt, toERef(jdx), toERef(list2, "length")), ISeq(List(
+        IIf(
+          EBOp(OEq, toERef(list1, toERef(idx)), toERef(list2, toERef(jdx))),
+          IAssign(toRef(result), EBool(true)),
+          emptyInst
+        )
+      )))
+      val outerWhile = IWhile(EBOp(OLt, toERef(idx), toERef(list1, "length")), ISeq(List(
+        IAssign(toRef(jdx), EINum(0)),
+        innerWhile
+      )))
+      val totalInsts = i1 ++ i2 ++ initInsts ++ List(outerWhile)
+      pair(totalInsts, toERef(result))
+    }
   }
 
   // ex. It is a Syntax Error if |CoverCallExpressionAndAsyncArrowHead| is not covering an |AsyncArrowHead|.
