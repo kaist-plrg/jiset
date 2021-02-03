@@ -342,12 +342,13 @@ object Compiler extends Compilers {
     strictModeCond |||
     containsCond |||
     anyMatchCond |||
-    duplicateCond
+    duplicateCond |||
+    moreThanOneOccurCond
   ) // todo!: add more conds
 
   // contains and duplicate entry
   // ex. `It is a Syntax Error if the LexicallyDeclaredNames of |StatementList| contains any duplicate entries`
-  lazy val duplicateCond = (expr <~ ("contains any duplicate" ~ ("elements" | "entries"))) ^^ {
+  lazy val duplicateCond: P[I[Expr]] = (expr <~ ("contains any duplicate" ~ ("elements" | "entries"))) ^^ {
     case i ~ e => {
       val list = getTempId
       val idx = getTempId
@@ -387,8 +388,35 @@ object Compiler extends Compilers {
   }
 
   // ex. `It is a Syntax Error if PrototypePropertyNameList of |ClassElementList| contains more than one occurrence of *"constructor"*.`
-  lazy val moreThanOneOccurCond = (expr ~ ("contains more than one occurrence of" ~> expr)) ^^ {
-    case e1 ~ e2 => // something that checks e2 appears more than once in e1
+  lazy val moreThanOneOccurCond: P[I[Expr]] = (expr ~ ("contains more than one occurrence of" ~> expr)) ^^ {
+    case (i1 ~ e1) ~ (i2 ~ e2) => { // something that checks e2 appears more than once in e1
+      val list = getTempId
+      var target = getTempId
+      val count = getTempId
+      val idx = getTempId
+      val result = getTempId
+      val initInsts = List(
+        ILet(list, e1),
+        ILet(target, e2),
+        ILet(count, EINum(0)),
+        ILet(idx, EINum(0)),
+        ILet(result, EBool(false))
+      )
+      val whileInst = IWhile(EBOp(OLt, toERef(idx), toERef(list, "length")), ISeq(List(
+        IIf(
+          EBOp(OEq, toERef(list, toERef(idx)), toERef(target)),
+          IAssign(toRef(count), EBOp(OPlus, toERef(count), EINum(1))),
+          emptyInst
+        )
+      )))
+      val finalInst = IIf(
+        EBOp(OLt, EINum(1), toERef(count)),
+        IAssign(toRef(result), EBool(true)),
+        emptyInst
+      )
+      val totalInsts = i1 ++ i2 ++ initInsts ++ List(whileInst, finalInst)
+      pair(totalInsts, toERef(result))
+    }
   }
 
   // ex. It is a Syntax Error if any element of the BoundNames of |UniqueFormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|.`
