@@ -75,16 +75,11 @@ object Compiler extends Compilers {
   lazy val innerStmt: P[Inst] = in ~> stmts <~ out ^^ { ISeq(_) }
 
   // return statements
-  lazy val returnStmt: P[Inst] = "Return" ~> opt(expr) ~ opt(opt(",") ~ "if" ~> cond ~ ("." ~> opt("otherwise" ~ "," ~> stmt))) ^^ {
-    case retOpt ~ condOpt =>
-      val inst = retOpt match {
+  lazy val returnStmt: P[Inst] = "Return" ~> opt(expr) ^^ {
+    case retOpt =>
+      retOpt match {
         case None => getRet(getNormalCompletion(EUndef))
         case Some(ie) => getRet(getWrapCompletion(ie))
-      }
-      condOpt match {
-        case None => inst
-        case Some((i ~ c) ~ None) => ISeq(i :+ IIf(c, inst, ISeq(Nil)))
-        case Some((i ~ c) ~ Some(elseInst)) => ISeq(i :+ IIf(c, inst, elseInst))
       }
   }
 
@@ -114,6 +109,13 @@ object Compiler extends Compilers {
     case x ~ Gr(y, ss) ~ s =>
       val pre = ss.map(s => IAccess(IRId(s), toERef(x), EStr(s)))
       IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
+  } ||| {
+    // TODO separate normal condition and early error condition
+    stmt ~ (opt(",") ~> "if" ~> cond) ~ opt(opt("." | ";" | ",") ~ opt(next) ~
+      ("else" | "otherwise") ~ opt(ignoreCond | cond) ~ opt(",") ~> stmt)
+  } ^^ {
+    case t ~ (i ~ c) ~ Some(e) => ISeq(i :+ IIf(c, t, e))
+    case t ~ (i ~ c) ~ None => ISeq(i :+ IIf(c, t, emptyInst))
   }
   lazy val ignoreCond: P[I[Expr]] = (
     "the order of evaluation needs to be reversed to preserve left to right evaluation" |
@@ -331,9 +333,8 @@ object Compiler extends Compilers {
   }
 
   // early errors
-  lazy val earlyErrorStmt: P[Inst] = "it is a syntax error if" ~> earlyErrorCond ^^ {
-    case i ~ c =>
-      ISeq(i :+ IIf(c, getRet(getCall("ThrowCompletion", List(pair(Nil, getErrorObj("SyntaxError"))))), emptyInst))
+  lazy val earlyErrorStmt: P[Inst] = "it is a syntax error" ^^^ {
+    getRet(getCall("ThrowCompletion", List(pair(Nil, getErrorObj("SyntaxError")))))
   }
 
   lazy val earlyErrorCond: P[I[Expr]] = (
@@ -1045,7 +1046,8 @@ object Compiler extends Compilers {
     suspendCond |||
     oddCond |||
     completionCond |||
-    emptyCond
+    emptyCond |||
+    earlyErrorCond
   )
 
   // conditions for arguments
