@@ -214,7 +214,7 @@ object Useful {
   def getRawBody(elem: Element)(implicit lines: Array[String]): Array[String] = {
     getRange(elem) match {
       case Some((s, e)) if s + 1 < e => lines.slice(s + 1, e - 1)
-      case _ => elem.html.split(LINE_SEP)
+      case _ => Array(elem.html.replaceAll(LINE_SEP, " "))
     }
   }
 
