@@ -1,2 +1,1 @@
-1. *60000*
-1. msPerSecond × 𝔽(SecondsPerMinute)
+msPerMinute = *60000* <sub>𝔽</sub> = msPerSecond × 𝔽(SecondsPerMinute)

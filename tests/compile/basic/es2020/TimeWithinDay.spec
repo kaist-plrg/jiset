@@ -1,1 +1,1 @@
-1. _t_ modulo msPerDay
+TimeWithinDay(_t_) = _t_ modulo msPerDay

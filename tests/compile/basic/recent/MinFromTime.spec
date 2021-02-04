@@ -1,1 +1,1 @@
-1. 𝔽(floor(ℝ(_t_ / msPerMinute)) modulo MinutesPerHour)
+MinFromTime(_t_) = 𝔽(floor(ℝ(_t_ / msPerMinute)) modulo MinutesPerHour)

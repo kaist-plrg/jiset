@@ -1,1 +1,4 @@
-??? "It is a Syntax Error if nt:{DestructuringAssignmentTarget} is an nt:{ArrayLiteral} or an nt:{ObjectLiteral} ."
+if (|| (is-instance-of DestructuringAssignmentTarget ArrayLiteral) (is-instance-of DestructuringAssignmentTarget ObjectLiteral)) {
+  app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  return __x0__
+} else {}

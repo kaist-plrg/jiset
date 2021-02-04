@@ -22,20 +22,11 @@
     return __x8__
   } else {}
   app __x9__ = (Type argument)
-  if (= __x9__ String) {
-    app __x10__ = (StringToBigInt prim)
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    let n = __x10__
-    if (= n NaN) {
-      app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x11__
-    } else {}
-    app __x12__ = (WrapCompletion n)
-    return __x12__
+  if (= __x9__ String) ??? "< emu - alg >" else {}
+  app __x10__ = (Type argument)
+  if (= __x10__ Symbol) {
+    app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x11__
   } else {}
-  app __x13__ = (Type argument)
-  if (= __x13__ Symbol) {
-    app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x14__
-  } else {}
+  ??? ""
 }

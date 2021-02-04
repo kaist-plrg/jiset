@@ -1,1 +1,1 @@
-1. floor(_t_ / msPerHour) modulo HoursPerDay
+HourFromTime(_t_) = floor(_t_ / msPerHour) modulo HoursPerDay

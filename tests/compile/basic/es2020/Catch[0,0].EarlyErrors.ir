@@ -1,5 +1,44 @@
 {
-  ??? "It is a Syntax Error if BoundNames of nt:{CatchParameter} contains any duplicate elements ."
-  ??? "It is a Syntax Error if any element of the BoundNames of nt:{CatchParameter} also occurs in the LexicallyDeclaredNames of nt:{Block} ."
-  ??? "It is a Syntax Error if any element of the BoundNames of nt:{CatchParameter} also occurs in the VarDeclaredNames of nt:{Block} ."
+  access __x0__ = (CatchParameter "BoundNames")
+  let __x1__ = __x0__
+  let __x2__ = 0i
+  let __x3__ = true
+  while (< __x2__ __x1__.length) {
+    let __x4__ = (+ __x2__ 1i)
+    while (< __x4__ __x1__.length) if (= __x1__[__x2__] __x1__[__x4__]) __x3__ = true else {}
+  }
+  if __x3__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x6__ = (CatchParameter "BoundNames")
+  access __x7__ = (Block "LexicallyDeclaredNames")
+  let __x8__ = __x6__
+  let __x9__ = __x7__
+  let __x10__ = 0i
+  let __x11__ = 0i
+  let __x12__ = false
+  while (< __x10__ __x8__.length) {
+    __x11__ = 0i
+    while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
+  }
+  if __x12__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x13__ = (CatchParameter "BoundNames")
+  access __x14__ = (Block "VarDeclaredNames")
+  let __x15__ = __x13__
+  let __x16__ = __x14__
+  let __x17__ = 0i
+  let __x18__ = 0i
+  let __x19__ = false
+  while (< __x17__ __x15__.length) {
+    __x18__ = 0i
+    while (< __x18__ __x16__.length) if (= __x15__[__x17__] __x16__[__x18__]) __x19__ = true else {}
+  }
+  if __x19__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
 }

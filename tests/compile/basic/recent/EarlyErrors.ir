@@ -1,1 +1,7 @@
-??? "It is a Syntax Error if AssignmentTargetType of nt:{LeftHandSideExpression} is not const:{simple} ."
+{
+  access __x0__ = (LeftHandSideExpression "AssignmentTargetType")
+  if (! (= __x0__ CONST_simple)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+}

@@ -1,11 +1,70 @@
 {
-  ??? "It is a Syntax Error if the LexicallyDeclaredNames of nt:{ModuleItemList} contains any duplicate entries ."
-  ??? "It is a Syntax Error if any element of the LexicallyDeclaredNames of nt:{ModuleItemList} also occurs in the VarDeclaredNames of nt:{ModuleItemList} ."
-  ??? "It is a Syntax Error if the ExportedNames of nt:{ModuleItemList} contains any duplicate entries ."
+  access __x0__ = (ModuleItemList "LexicallyDeclaredNames")
+  let __x1__ = __x0__
+  let __x2__ = 0i
+  let __x3__ = true
+  while (< __x2__ __x1__.length) {
+    let __x4__ = (+ __x2__ 1i)
+    while (< __x4__ __x1__.length) if (= __x1__[__x2__] __x1__[__x4__]) __x3__ = true else {}
+  }
+  if __x3__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x6__ = (ModuleItemList "LexicallyDeclaredNames")
+  access __x7__ = (ModuleItemList "VarDeclaredNames")
+  let __x8__ = __x6__
+  let __x9__ = __x7__
+  let __x10__ = 0i
+  let __x11__ = 0i
+  let __x12__ = false
+  while (< __x10__ __x8__.length) {
+    __x11__ = 0i
+    while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
+  }
+  if __x12__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x13__ = (ModuleItemList "ExportedNames")
+  let __x14__ = __x13__
+  let __x15__ = 0i
+  let __x16__ = true
+  while (< __x15__ __x14__.length) {
+    let __x17__ = (+ __x15__ 1i)
+    while (< __x17__ __x14__.length) if (= __x14__[__x15__] __x14__[__x17__]) __x16__ = true else {}
+  }
+  if __x16__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
   ??? "It is a Syntax Error if any element of the ExportedBindings of nt:{ModuleItemList} does not also occur in either the VarDeclaredNames of nt:{ModuleItemList} , or the LexicallyDeclaredNames of nt:{ModuleItemList} ."
-  ??? "It is a Syntax Error if nt:{ModuleItemList} Contains code:{super} ."
-  ??? "It is a Syntax Error if nt:{ModuleItemList} Contains nt:{NewTarget} ."
-  ??? "It is a Syntax Error if ContainsDuplicateLabels of nt:{ModuleItemList} with argument « » is value:{true} ."
-  ??? "It is a Syntax Error if ContainsUndefinedBreakTarget of nt:{ModuleItemList} with argument « » is value:{true} ."
-  ??? "It is a Syntax Error if ContainsUndefinedContinueTarget of nt:{ModuleItemList} with arguments « » and « » is value:{true} ."
+  if (contains ModuleItemList "super") {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x18__ = (ModuleItemList "Contains")
+  app __x19__ = (__x18__ "NewTarget")
+  if __x19__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x20__ = (ModuleItemList "ContainsDuplicateLabels")
+  app __x21__ = (__x20__ (new []))
+  if (= __x21__ true) {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x22__ = (ModuleItemList "ContainsUndefinedBreakTarget")
+  app __x23__ = (__x22__ (new []))
+  if (= __x23__ true) {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x24__ = (ModuleItemList "ContainsUndefinedContinueTarget")
+  app __x25__ = (__x24__ (new []) (new []))
+  if (= __x25__ true) {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
 }

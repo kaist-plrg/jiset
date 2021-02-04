@@ -1,4 +1,8 @@
 {
   ??? "It is a Syntax Error if the code that matches this production is contained in strict mode code ."
-  ??? "It is a Syntax Error if IsLabelledFunction ( nt:{Statement} ) is value:{true} ."
+  app __x0__ = (IsLabelledFunction Statement)
+  if (= __x0__ true) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
 }

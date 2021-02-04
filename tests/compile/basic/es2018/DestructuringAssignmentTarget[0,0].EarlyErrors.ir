@@ -1,4 +1,12 @@
 {
   ??? "It is a Syntax Error if nt:{LeftHandSideExpression} is either an nt:{ObjectLiteral} or an nt:{ArrayLiteral} and if nt:{LeftHandSideExpression} is not covering an nt:{AssignmentPattern} ."
-  ??? "It is a Syntax Error if nt:{LeftHandSideExpression} is neither an nt:{ObjectLiteral} nor an nt:{ArrayLiteral} and IsValidSimpleAssignmentTarget ( nt:{LeftHandSideExpression} ) is value:{false} ."
+  let __x0__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
+  if __x0__ {
+    app __x1__ = (IsValidSimpleAssignmentTarget LeftHandSideExpression)
+    __x0__ = (= __x1__ false)
+  } else {}
+  if __x0__ {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
 }

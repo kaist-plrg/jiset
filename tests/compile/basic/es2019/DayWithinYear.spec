@@ -1,1 +1,1 @@
-1. Day(_t_) - DayFromYear(YearFromTime(_t_))
+DayWithinYear(_t_) = Day(_t_) - DayFromYear(YearFromTime(_t_))

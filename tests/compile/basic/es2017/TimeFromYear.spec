@@ -1,1 +1,1 @@
-1. msPerDay × DayFromYear(_y_)
+TimeFromYear(_y_) = msPerDay × DayFromYear(_y_)

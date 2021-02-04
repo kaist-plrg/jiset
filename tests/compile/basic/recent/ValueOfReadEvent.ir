@@ -1,4 +1,5 @@
 {
+  assert (|| (= (typeof R) "ReadSharedMemory") (= (typeof R) "ReadModifyWriteSharedMemory"))
   app __x0__ = (execution.ReadsBytesFrom execution R)
   let Ws = __x0__
   app __x1__ = (ComposeWriteEventBytes execution R.ByteIndex Ws)

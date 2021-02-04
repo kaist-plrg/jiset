@@ -1,4 +1,8 @@
 {
-  ??? "It is a Syntax Error if AssignmentTargetType of nt:{LeftHandSideExpression} is not const:{simple} ."
-  ??? "It is a Syntax Error if the nt:{LeftHandSideExpression} is CoverParenthesizedExpressionAndArrowParameterList : code:{(} Expression code:{)} and nt:{Expression} derives a phrase that would produce a Syntax Error according to these rules if that phrase were substituted for nt:{LeftHandSideExpression} . This rule is recursively applied ."
+  access __x0__ = (LeftHandSideExpression "AssignmentTargetType")
+  if (! (= __x0__ CONST_simple)) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  ??? "It is a Syntax Error if the nt:{LeftHandSideExpression} is grammar:{CoverParenthesizedExpressionAndArrowParameterList0, [Expression]} and nt:{Expression} derives a phrase that would produce a Syntax Error according to these rules if that phrase were substituted for nt:{LeftHandSideExpression} . This rule is recursively applied ."
 }

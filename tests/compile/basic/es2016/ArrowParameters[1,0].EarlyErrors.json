@@ -1,4 +1,6 @@
-["If", "the", "[", "Yield", "]", "grammar", "parameter", "is", "present", "on", {
+["If", "the", {
+  "sub": ["[", "Yield", "]"]
+}, "grammar", "parameter", "is", "present", "on", {
   "nt": "ArrowParameters"
 }, ",", "it", "is", "a", "Syntax", "Error", "if", "the", "lexical", "token", "sequence", "matched", "by", {
   "nt": "CoverParenthesizedExpressionAndArrowParameterList[?Yield]"
@@ -6,7 +8,9 @@
   "nt": "ArrowFormalParameters[Yield]"
 }, "as", "the", "goal", "symbol", ".", {
   "k": 0
-}, "If", "the", "[", "Yield", "]", "grammar", "parameter", "is", "not", "present", "on", {
+}, "If", "the", {
+  "sub": ["[", "Yield", "]"]
+}, "grammar", "parameter", "is", "not", "present", "on", {
   "nt": "ArrowParameters"
 }, ",", "it", "is", "a", "Syntax", "Error", "if", "the", "lexical", "token", "sequence", "matched", "by", {
   "nt": "CoverParenthesizedExpressionAndArrowParameterList[?Yield]"

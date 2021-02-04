@@ -1,1 +1,1 @@
-1. floor(_t_ / msPerDay)
+Day(_t_) = floor(_t_ / msPerDay)

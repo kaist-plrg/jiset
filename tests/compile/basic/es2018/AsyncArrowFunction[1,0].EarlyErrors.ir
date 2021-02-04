@@ -1,8 +1,41 @@
 {
-  ??? "It is a Syntax Error if nt:{CoverCallExpressionAndAsyncArrowHead} Contains nt:{YieldExpression} is value:{true} ."
-  ??? "It is a Syntax Error if nt:{CoverCallExpressionAndAsyncArrowHead} Contains nt:{AwaitExpression} is value:{true} ."
+  access __x0__ = (CoverCallExpressionAndAsyncArrowHead "Contains")
+  app __x1__ = (__x0__ "YieldExpression")
+  if (= __x1__ true) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  access __x3__ = (CoverCallExpressionAndAsyncArrowHead "Contains")
+  app __x4__ = (__x3__ "AwaitExpression")
+  if (= __x4__ true) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
   ??? "It is a Syntax Error if nt:{CoverCallExpressionAndAsyncArrowHead} is not covering an nt:{AsyncArrowHead} ."
-  ??? "It is a Syntax Error if any element of the BoundNames of nt:{CoverCallExpressionAndAsyncArrowHead} also occurs in the LexicallyDeclaredNames of nt:{AsyncConciseBody} ."
-  ??? "It is a Syntax Error if ContainsUseStrict of nt:{AsyncConciseBody} is value:{true} and IsSimpleParameterList of nt:{CoverCallExpressionAndAsyncArrowHead} is value:{false} ."
+  access __x5__ = (CoverCallExpressionAndAsyncArrowHead "BoundNames")
+  access __x6__ = (AsyncConciseBody "LexicallyDeclaredNames")
+  let __x7__ = __x5__
+  let __x8__ = __x6__
+  let __x9__ = 0i
+  let __x10__ = 0i
+  let __x11__ = false
+  while (< __x9__ __x7__.length) {
+    __x10__ = 0i
+    while (< __x10__ __x8__.length) if (= __x7__[__x9__] __x8__[__x10__]) __x11__ = true else {}
+  }
+  if __x11__ {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  access __x12__ = (AsyncConciseBody "ContainsUseStrict")
+  let __x13__ = (= __x12__ true)
+  if __x13__ {
+    access __x14__ = (CoverCallExpressionAndAsyncArrowHead "IsSimpleParameterList")
+    __x13__ = (= __x14__ false)
+  } else {}
+  if __x13__ {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
   ??? "All Early Error rules for nt:{AsyncArrowHead} and its derived productions apply to CoveredAsyncArrowHead of nt:{CoverCallExpressionAndAsyncArrowHead} ."
 }

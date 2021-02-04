@@ -15,16 +15,32 @@
     return __x5__
   } else {}
   app __x6__ = (Type argument)
-  if (= __x6__ Number) ??? "If id:{argument} is value:{+0} 𝔽 , value:{-0} 𝔽 , or value:{NaN} , return value:{false} ; otherwise return value:{true} ." else {}
-  app __x7__ = (Type argument)
-  if (= __x7__ String) ??? "If id:{argument} is the empty String ( its length is 0 ) , return value:{false} ; otherwise return value:{true} ." else {}
-  app __x8__ = (Type argument)
-  if (= __x8__ Symbol) {
-    app __x9__ = (WrapCompletion true)
-    return __x9__
+  if (= __x6__ Number) if (|| (|| (= argument 0i) (= argument -0.0)) (= argument NaN)) {
+    app __x7__ = (WrapCompletion false)
+    return __x7__
+  } else {
+    app __x8__ = (WrapCompletion true)
+    return __x8__
   } else {}
+  app __x9__ = (Type argument)
+  if (= __x9__ String) ??? "If id:{argument} is the empty String ( its length is 0 ) , return value:{false} ; otherwise return value:{true} ." else {}
   app __x10__ = (Type argument)
-  if (= __x10__ BigInt) ??? "If id:{argument} is value:{0} ℤ , return value:{false} ; otherwise return value:{true} ." else {}
-  app __x11__ = (Type argument)
-  if (= __x11__ Object) ??? "Return value:{true} . An alternate algorithm related to the [ [ IsHTMLDDA ] ] internal slot is mandated in section ." else {}
+  if (= __x10__ Symbol) {
+    app __x11__ = (WrapCompletion true)
+    return __x11__
+  } else {}
+  app __x12__ = (Type argument)
+  if (= __x12__ BigInt) if (= argument 0i) {
+    app __x13__ = (WrapCompletion false)
+    return __x13__
+  } else {
+    app __x14__ = (WrapCompletion true)
+    return __x14__
+  } else {}
+  app __x15__ = (Type argument)
+  if (= __x15__ Object) {
+    app __x16__ = (WrapCompletion true)
+    return __x16__
+  } else {}
+  ??? ""
 }

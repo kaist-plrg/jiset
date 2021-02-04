@@ -1,1 +1,19 @@
-??? "It is a Syntax Error if IsSimpleParameterList of nt:{FormalParameterList} is value:{false} and BoundNames of nt:{FormalParameterList} contains any duplicate elements ."
+{
+  access __x0__ = (FormalParameterList "IsSimpleParameterList")
+  let __x1__ = (= __x0__ false)
+  if __x1__ {
+    access __x2__ = (FormalParameterList "BoundNames")
+    let __x3__ = __x2__
+    let __x4__ = 0i
+    let __x5__ = true
+    while (< __x4__ __x3__.length) {
+      let __x6__ = (+ __x4__ 1i)
+      while (< __x6__ __x3__.length) if (= __x3__[__x4__] __x3__[__x6__]) __x5__ = true else {}
+    }
+    __x1__ = __x5__
+  } else {}
+  if __x1__ {
+    app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x7__
+  } else {}
+}

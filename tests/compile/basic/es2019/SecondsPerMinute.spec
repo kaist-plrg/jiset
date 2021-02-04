@@ -1,1 +1,1 @@
-1. 60
+SecondsPerMinute = 60

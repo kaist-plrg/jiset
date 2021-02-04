@@ -1,4 +1,12 @@
 {
-  ??? "It is a Syntax Error if HasDirectSuper of nt:{MethodDefinition} is value:{true} ."
-  ??? "It is a Syntax Error if PropName of nt:{MethodDefinition} is value:{\"prototype\"} ."
+  access __x0__ = (MethodDefinition "HasDirectSuper")
+  if (= __x0__ true) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+  access __x2__ = (MethodDefinition "PropName")
+  if (= __x2__ "prototype") {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
 }

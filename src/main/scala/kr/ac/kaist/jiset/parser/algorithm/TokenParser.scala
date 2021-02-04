@@ -192,7 +192,7 @@ trait TokenParsers extends ProductionParsers {
     lazy val newline = rep(accept('\n'))
     lazy val indent: Parser[Int] = rep(space) ^^ { _.length }
 
-    (indent <~ opt(number ~ "." ~ opt(ignore))) ~ (tabular | list | tokens)
+    (indent <~ opt(number ~ "." ~ opt(ignore) | "*")) ~ (tabular | list | tokens)
   }
 
   // get tokens

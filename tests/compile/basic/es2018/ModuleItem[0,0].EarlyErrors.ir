@@ -1,1 +1,14 @@
-??? "It is a Syntax Error if the BoundNames of nt:{ImportDeclaration} contains any duplicate entries ."
+{
+  access __x0__ = (ImportDeclaration "BoundNames")
+  let __x1__ = __x0__
+  let __x2__ = 0i
+  let __x3__ = true
+  while (< __x2__ __x1__.length) {
+    let __x4__ = (+ __x2__ 1i)
+    while (< __x4__ __x1__.length) if (= __x1__[__x2__] __x1__[__x4__]) __x3__ = true else {}
+  }
+  if __x3__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+}

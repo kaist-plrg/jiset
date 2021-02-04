@@ -10,7 +10,7 @@
     return __x3__
   } else {}
   app __x4__ = (Type argument)
-  if (= __x4__ Boolean) ??? "If id:{argument} is value:{true} , return value:{\"true\"} . If id:{argument} is value:{false} , return value:{\"false\"} ." else {}
+  if (= __x4__ Boolean) ??? "< p > If id:{argument} is value:{true} , return value:{\"true\"} . < / p >" else {}
   app __x5__ = (Type argument)
   if (= __x5__ Number) {
     app __x6__ = (PRIMITIVE[Number].toString argument)
@@ -36,13 +36,6 @@
     return __x14__
   } else {}
   app __x15__ = (Type argument)
-  if (= __x15__ Object) {
-    app __x16__ = (ToPrimitive argument String)
-    if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-    let primValue = __x16__
-    app __x17__ = (ToString primValue)
-    if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-    app __x18__ = (WrapCompletion __x17__)
-    return __x18__
-  } else {}
+  if (= __x15__ Object) ??? "< p > Apply the following steps : < / p >" else {}
+  ??? ""
 }

@@ -1,7 +1,22 @@
 {
   ??? "It is a Syntax Error if nt:{StatementList} Contains code:{super} unless the source code containing code:{super} is eval code that is being processed by a direct eval that is contained in function code that is not the function code of an nt:{ArrowFunction} ."
   ??? "It is a Syntax Error if nt:{StatementList} Contains nt:{NewTarget} unless the source code containing nt:{NewTarget} is eval code that is being processed by a direct eval that is contained in function code that is not the function code of an nt:{ArrowFunction} ."
-  ??? "It is a Syntax Error if ContainsDuplicateLabels of nt:{StatementList} with argument « » is value:{true} ."
-  ??? "It is a Syntax Error if ContainsUndefinedBreakTarget of nt:{StatementList} with argument « » is value:{true} ."
-  ??? "It is a Syntax Error if ContainsUndefinedContinueTarget of nt:{StatementList} with arguments « » and « » is value:{true} ."
+  access __x0__ = (StatementList "ContainsDuplicateLabels")
+  app __x1__ = (__x0__ (new []))
+  if (= __x1__ true) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  access __x3__ = (StatementList "ContainsUndefinedBreakTarget")
+  app __x4__ = (__x3__ (new []))
+  if (= __x4__ true) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
+  access __x5__ = (StatementList "ContainsUndefinedContinueTarget")
+  app __x6__ = (__x5__ (new []) (new []))
+  if (= __x6__ true) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {}
 }

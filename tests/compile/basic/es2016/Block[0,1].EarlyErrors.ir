@@ -1,4 +1,29 @@
 {
-  ??? "It is a Syntax Error if the LexicallyDeclaredNames of nt:{StatementList} contains any duplicate entries ."
-  ??? "It is a Syntax Error if any element of the LexicallyDeclaredNames of nt:{StatementList} also occurs in the VarDeclaredNames of nt:{StatementList} ."
+  access __x0__ = (StatementList "LexicallyDeclaredNames")
+  let __x1__ = __x0__
+  let __x2__ = 0i
+  let __x3__ = true
+  while (< __x2__ __x1__.length) {
+    let __x4__ = (+ __x2__ 1i)
+    while (< __x4__ __x1__.length) if (= __x1__[__x2__] __x1__[__x4__]) __x3__ = true else {}
+  }
+  if __x3__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x6__ = (StatementList "LexicallyDeclaredNames")
+  access __x7__ = (StatementList "VarDeclaredNames")
+  let __x8__ = __x6__
+  let __x9__ = __x7__
+  let __x10__ = 0i
+  let __x11__ = 0i
+  let __x12__ = false
+  while (< __x10__ __x8__.length) {
+    __x11__ = 0i
+    while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
+  }
+  if __x12__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
 }

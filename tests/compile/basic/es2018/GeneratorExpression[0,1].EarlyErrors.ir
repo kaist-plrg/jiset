@@ -1,11 +1,59 @@
 {
-  ??? "If the source code matching this production is strict mode code , the Early Error rules for UniqueFormalParameters : FormalParameters are applied ."
+  ??? "If the source code matching this production is strict mode code , the Early Error rules for grammar:{UniqueFormalParameters0, [FormalParameters]} are applied ."
   ??? "If the source code matching this production is strict mode code , it is a Syntax Error if nt:{BindingIdentifier} is present and the StringValue of nt:{BindingIdentifier} is code:{\"eval\"} or code:{\"arguments\"} ."
-  ??? "It is a Syntax Error if ContainsUseStrict of nt:{GeneratorBody} is value:{true} and IsSimpleParameterList of nt:{FormalParameters} is value:{false} ."
-  ??? "It is a Syntax Error if any element of the BoundNames of nt:{FormalParameters} also occurs in the LexicallyDeclaredNames of nt:{GeneratorBody} ."
-  ??? "It is a Syntax Error if nt:{FormalParameters} Contains nt:{YieldExpression} is value:{true} ."
-  ??? "It is a Syntax Error if nt:{FormalParameters} Contains nt:{SuperProperty} is value:{true} ."
-  ??? "It is a Syntax Error if nt:{GeneratorBody} Contains nt:{SuperProperty} is value:{true} ."
-  ??? "It is a Syntax Error if nt:{FormalParameters} Contains nt:{SuperCall} is value:{true} ."
-  ??? "It is a Syntax Error if nt:{GeneratorBody} Contains nt:{SuperCall} is value:{true} ."
+  access __x0__ = (GeneratorBody "ContainsUseStrict")
+  let __x1__ = (= __x0__ true)
+  if __x1__ {
+    access __x2__ = (FormalParameters "IsSimpleParameterList")
+    __x1__ = (= __x2__ false)
+  } else {}
+  if __x1__ {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
+  access __x4__ = (FormalParameters "BoundNames")
+  access __x5__ = (GeneratorBody "LexicallyDeclaredNames")
+  let __x6__ = __x4__
+  let __x7__ = __x5__
+  let __x8__ = 0i
+  let __x9__ = 0i
+  let __x10__ = false
+  while (< __x8__ __x6__.length) {
+    __x9__ = 0i
+    while (< __x9__ __x7__.length) if (= __x6__[__x8__] __x7__[__x9__]) __x10__ = true else {}
+  }
+  if __x10__ {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
+  access __x11__ = (FormalParameters "Contains")
+  app __x12__ = (__x11__ "YieldExpression")
+  if (= __x12__ true) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
+  access __x13__ = (FormalParameters "Contains")
+  app __x14__ = (__x13__ "SuperProperty")
+  if (= __x14__ true) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
+  access __x15__ = (GeneratorBody "Contains")
+  app __x16__ = (__x15__ "SuperProperty")
+  if (= __x16__ true) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
+  access __x17__ = (FormalParameters "Contains")
+  app __x18__ = (__x17__ "SuperCall")
+  if (= __x18__ true) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
+  access __x19__ = (GeneratorBody "Contains")
+  app __x20__ = (__x19__ "SuperCall")
+  if (= __x20__ true) {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
 }

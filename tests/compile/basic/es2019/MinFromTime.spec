@@ -1,1 +1,1 @@
-1. floor(_t_ / msPerMinute) modulo MinutesPerHour
+MinFromTime(_t_) = floor(_t_ / msPerMinute) modulo MinutesPerHour

@@ -1,1 +1,1 @@
-1. 𝔽(floor(ℝ(_t_ / msPerHour)) modulo HoursPerDay)
+HourFromTime(_t_) = 𝔽(floor(ℝ(_t_ / msPerHour)) modulo HoursPerDay)

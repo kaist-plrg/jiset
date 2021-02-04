@@ -1,4 +1,13 @@
 {
-  ??? "It is a Syntax Error if IsCharacterClass of nt:{ClassAtomNoDash} is value:{true} or IsCharacterClass of nt:{ClassAtom} is value:{true} ."
+  access __x0__ = (ClassAtomNoDash "IsCharacterClass")
+  let __x1__ = (= __x0__ true)
+  if __x1__ {} else {
+    access __x2__ = (ClassAtom "IsCharacterClass")
+    __x1__ = (= __x2__ true)
+  }
+  if __x1__ {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {}
   ??? "It is a Syntax Error if IsCharacterClass of nt:{ClassAtomNoDash} is value:{false} and IsCharacterClass of nt:{ClassAtom} is value:{false} and the CharacterValue of nt:{ClassAtomNoDash} is larger than the CharacterValue of nt:{ClassAtom} ."
 }

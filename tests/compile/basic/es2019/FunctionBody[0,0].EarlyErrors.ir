@@ -1,7 +1,47 @@
 {
-  ??? "It is a Syntax Error if the LexicallyDeclaredNames of nt:{FunctionStatementList} contains any duplicate entries ."
-  ??? "It is a Syntax Error if any element of the LexicallyDeclaredNames of nt:{FunctionStatementList} also occurs in the VarDeclaredNames of nt:{FunctionStatementList} ."
-  ??? "It is a Syntax Error if ContainsDuplicateLabels of nt:{FunctionStatementList} with argument « » is value:{true} ."
-  ??? "It is a Syntax Error if ContainsUndefinedBreakTarget of nt:{FunctionStatementList} with argument « » is value:{true} ."
-  ??? "It is a Syntax Error if ContainsUndefinedContinueTarget of nt:{FunctionStatementList} with arguments « » and « » is value:{true} ."
+  access __x0__ = (FunctionStatementList "LexicallyDeclaredNames")
+  let __x1__ = __x0__
+  let __x2__ = 0i
+  let __x3__ = true
+  while (< __x2__ __x1__.length) {
+    let __x4__ = (+ __x2__ 1i)
+    while (< __x4__ __x1__.length) if (= __x1__[__x2__] __x1__[__x4__]) __x3__ = true else {}
+  }
+  if __x3__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x6__ = (FunctionStatementList "LexicallyDeclaredNames")
+  access __x7__ = (FunctionStatementList "VarDeclaredNames")
+  let __x8__ = __x6__
+  let __x9__ = __x7__
+  let __x10__ = 0i
+  let __x11__ = 0i
+  let __x12__ = false
+  while (< __x10__ __x8__.length) {
+    __x11__ = 0i
+    while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
+  }
+  if __x12__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x13__ = (FunctionStatementList "ContainsDuplicateLabels")
+  app __x14__ = (__x13__ (new []))
+  if (= __x14__ true) {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x15__ = (FunctionStatementList "ContainsUndefinedBreakTarget")
+  app __x16__ = (__x15__ (new []))
+  if (= __x16__ true) {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
+  access __x17__ = (FunctionStatementList "ContainsUndefinedContinueTarget")
+  app __x18__ = (__x17__ (new []) (new []))
+  if (= __x18__ true) {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
+  } else {}
 }

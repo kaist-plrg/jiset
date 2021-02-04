@@ -1,1 +1,7 @@
-??? "It is a Syntax Error if IsValidSimpleAssignmentTarget of nt:{IdentifierReference} is value:{false} ."
+{
+  access __x0__ = (IdentifierReference "IsValidSimpleAssignmentTarget")
+  if (= __x0__ false) {
+    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x1__
+  } else {}
+}

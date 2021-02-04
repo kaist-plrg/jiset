@@ -1,4 +1,5 @@
 {
+  assert (|| (= (typeof R) "ReadSharedMemory") (= (typeof R) "ReadModifyWriteSharedMemory"))
   ??? "Let reads - bytes - from be id:{execution} . [ [ ReadsBytesFrom ] ] ."
   ??? "Let id:{Ws} be reads - bytes - from ( id:{R} ) ."
   app __x0__ = (ComposeWriteEventBytes execution R.ByteIndex Ws)

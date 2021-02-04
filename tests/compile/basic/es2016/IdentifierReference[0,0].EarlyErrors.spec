@@ -1,1 +1,3 @@
-* It is a Syntax Error if this production has a [Yield] parameter and StringValue of |Identifier| is `"yield"`.
+        <li>
+          It is a Syntax Error if this production has a <sub>[Yield]</sub> parameter and StringValue of |Identifier| is `"yield"`.
+        </li>

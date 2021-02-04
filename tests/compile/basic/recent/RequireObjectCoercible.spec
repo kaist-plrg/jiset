@@ -1,16 +1,76 @@
-* If Type(_argument_) is Undefined,
-  * Throw a *TypeError* exception.
-* If Type(_argument_) is Null,
-  * Throw a *TypeError* exception.
-* If Type(_argument_) is Boolean,
-  * Return _argument_.
-* If Type(_argument_) is Number,
-  * Return _argument_.
-* If Type(_argument_) is String,
-  * Return _argument_.
-* If Type(_argument_) is Symbol,
-  * Return _argument_.
-* If Type(_argument_) is BigInt,
-  * Return _argument_.
-* If Type(_argument_) is Object,
-  * Return _argument_.
+        <table>
+          <tbody>
+          <tr>
+            <th>
+              Argument Type
+            </th>
+            <th>
+              Result
+            </th>
+          </tr>
+          <tr>
+            <td>
+              Undefined
+            </td>
+            <td>
+              Throw a *TypeError* exception.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Null
+            </td>
+            <td>
+              Throw a *TypeError* exception.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Boolean
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Number
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              String
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Symbol
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              BigInt
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Object
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          </tbody>
+        </table>

@@ -1,1 +1,1 @@
-1. _t_ modulo msPerSecond
+msFromTime(_t_) = _t_ modulo msPerSecond

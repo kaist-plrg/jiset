@@ -1,1 +1,1 @@
-1. floor(_t_ / msPerSecond) modulo SecondsPerMinute
+SecFromTime(_t_) = floor(_t_ / msPerSecond) modulo SecondsPerMinute

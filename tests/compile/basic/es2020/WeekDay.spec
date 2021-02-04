@@ -1,1 +1,1 @@
-1. (Day(_t_) + 4) modulo 7
+WeekDay(_t_) = (Day(_t_) + 4) modulo 7
