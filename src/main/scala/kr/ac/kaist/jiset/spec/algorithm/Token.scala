@@ -19,6 +19,9 @@ object Token {
     val TAB = 2
     var indent = 0
     def newline: Unit = sb.append(LINE_SEP).append(" " * indent)
+    def deleteRight(n: Int) = sb.delete(sb.length - n, sb.length)
+    def deleteTab: Unit = deleteRight(TAB)
+    def deleteNewLine: Unit = deleteRight(LINE_SEP.length)
     def t(token: Token): Unit = token match {
       case (_: NormalToken) => sb.append(token).append(" ")
       case Next(_) => newline
@@ -27,8 +30,10 @@ object Token {
         indent += TAB; newline
     }
     def ts(tokens: List[Token]): Unit = tokens match {
+      case Out :: Next(_) :: Nil =>
+        indent -= TAB; deleteTab; deleteNewLine;
       case Out :: Next(_) :: rest =>
-        indent -= TAB; ts(rest)
+        indent -= TAB; deleteTab; ts(rest)
       case v :: rest =>
         t(v); ts(rest)
       case Nil =>
