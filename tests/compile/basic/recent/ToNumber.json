@@ -5,11 +5,11 @@
 }, "Return", {
   "value": "NaN"
 }, ".", {
-  "k": 1
+  "k": 0
 }, {
   "out": null
 }, {
-  "k": 0
+  "k": 1
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Null", ",", {
@@ -17,11 +17,11 @@
 }, "Return", {
   "value": "+0"
 }, ".", {
-  "k": 3
+  "k": 2
 }, {
   "out": null
 }, {
-  "k": 2
+  "k": 3
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Boolean", ",", {
@@ -39,11 +39,11 @@
 }, ",", "return", {
   "value": "+0"
 }, ".", {
-  "k": 5
+  "k": 4
 }, {
   "out": null
 }, {
-  "k": 4
+  "k": 5
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Number", ",", {
@@ -51,21 +51,21 @@
 }, "Return", {
   "id": "argument"
 }, "(", "no", "conversion", ")", ".", {
-  "k": 7
+  "k": 6
 }, {
   "out": null
 }, {
-  "k": 6
+  "k": 7
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "String", ",", {
   "in": null
 }, "See", "grammar", "and", "conversion", "algorithm", "below", ".", {
-  "k": 9
+  "k": 8
 }, {
   "out": null
 }, {
-  "k": 8
+  "k": 9
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Symbol", ",", {
@@ -73,11 +73,11 @@
 }, "Throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "k": 11
+  "k": 10
 }, {
   "out": null
 }, {
-  "k": 10
+  "k": 11
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "BigInt", ",", {
@@ -85,21 +85,29 @@
 }, "Throw", "a", {
   "value": "TypeError"
 }, "exception", ".", {
-  "k": 13
+  "k": 12
 }, {
   "out": null
 }, {
-  "k": 12
+  "k": 13
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Object", ",", {
   "in": null
-}, "<", "p", ">", "Apply", "the", "following", "steps", ":", "<", "/", "p", ">", {
+}, "Let", {
+  "id": "primValue"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "argument"
+}, ",", {
+  "const": "number"
+}, ")", ".", {
+  "k": 14
+}, "Return", "?", "ToNumber", "(", {
+  "id": "primValue"
+}, ")", ".", {
   "k": 15
 }, {
   "out": null
-}, {
-  "k": 14
 }, {
   "k": 16
 }]

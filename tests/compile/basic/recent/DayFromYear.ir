@@ -1,1 +1,7 @@
-??? "DayFromYear ( id:{y} ) = 𝔽 ( 365 × ( ℝ ( id:{y} ) - 1970 ) + floor ( ( ℝ ( id:{y} ) - 1969 ) / 4 ) - floor ( ( ℝ ( id:{y} ) - 1901 ) / 100 ) + floor ( ( ℝ ( id:{y} ) - 1601 ) / 400 ) )"
+{
+  app __x0__ = (floor (/ (- y 1969i) 4i))
+  app __x1__ = (floor (/ (- y 1901i) 100i))
+  app __x2__ = (floor (/ (- y 1601i) 400i))
+  app __x3__ = (WrapCompletion (+ (- (+ (* 365i (- y 1970i)) __x0__) __x1__) __x2__))
+  return __x3__
+}

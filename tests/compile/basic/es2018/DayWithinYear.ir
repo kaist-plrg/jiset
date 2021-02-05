@@ -1,1 +1,7 @@
-??? "DayWithinYear ( id:{t} ) = Day ( id:{t} ) - DayFromYear ( YearFromTime ( id:{t} ) )"
+{
+  app __x0__ = (Day t)
+  app __x1__ = (YearFromTime t)
+  app __x2__ = (DayFromYear __x1__)
+  app __x3__ = (WrapCompletion (- __x0__ __x2__))
+  return __x3__
+}

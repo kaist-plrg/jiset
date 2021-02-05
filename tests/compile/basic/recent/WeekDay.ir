@@ -1,1 +1,5 @@
-??? "WeekDay ( id:{t} ) = 𝔽 ( ℝ ( Day ( id:{t} ) + value:{4} ) modulo 7 )"
+{
+  app __x0__ = (Day t)
+  app __x1__ = (WrapCompletion (%% (+ __x0__ 4i) 7i))
+  return __x1__
+}

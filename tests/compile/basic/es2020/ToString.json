@@ -5,11 +5,11 @@
 }, "Return", {
   "value": "\"undefined\""
 }, ".", {
-  "k": 1
+  "k": 0
 }, {
   "out": null
 }, {
-  "k": 0
+  "k": 1
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Null", ",", {
@@ -17,27 +17,35 @@
 }, "Return", {
   "value": "\"null\""
 }, ".", {
-  "k": 3
+  "k": 2
 }, {
   "out": null
 }, {
-  "k": 2
+  "k": 3
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Boolean", ",", {
   "in": null
-}, "<", "p", ">", "If", {
+}, "If", {
   "id": "argument"
 }, "is", {
   "value": "true"
 }, ",", "return", {
   "value": "\"true\""
-}, ".", "<", "/", "p", ">", {
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "argument"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "\"false\""
+}, ".", {
   "k": 5
 }, {
   "out": null
 }, {
-  "k": 4
+  "k": 6
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Number", ",", {
@@ -49,7 +57,7 @@
 }, {
   "out": null
 }, {
-  "k": 6
+  "k": 8
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "String", ",", {
@@ -61,7 +69,7 @@
 }, {
   "out": null
 }, {
-  "k": 8
+  "k": 10
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Symbol", ",", {
@@ -73,7 +81,7 @@
 }, {
   "out": null
 }, {
-  "k": 10
+  "k": 12
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "BigInt", ",", {
@@ -85,17 +93,23 @@
 }, {
   "out": null
 }, {
-  "k": 12
+  "k": 14
 }, "If", "Type", "(", {
   "id": "argument"
 }, ")", "is", "Object", ",", {
   "in": null
-}, "<", "p", ">", "Apply", "the", "following", "steps", ":", "<", "/", "p", ">", {
+}, "Let", {
+  "id": "primValue"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "argument"
+}, ",", "hint", "String", ")", ".", {
   "k": 15
+}, "Return", "?", "ToString", "(", {
+  "id": "primValue"
+}, ")", ".", {
+  "k": 16
 }, {
   "out": null
 }, {
-  "k": 14
-}, {
-  "k": 16
+  "k": 17
 }]
