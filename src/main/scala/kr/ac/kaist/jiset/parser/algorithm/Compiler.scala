@@ -351,7 +351,8 @@ object Compiler extends Compilers {
     anyMatchCond |||
     duplicateCond |||
     moreThanOneOccurCond |||
-    alsoOccurCond
+    alsoOccurCond |||
+    notSetCond
   ) // todo!: add more conds
 
   lazy val anyMatchCond = ("any code matches this production" | "any source text matches this rule") ^^ {
@@ -446,11 +447,15 @@ object Compiler extends Compilers {
     }
   }
 
+  lazy val thisProdRefBase: P[String] = (opt("the") ~ "code that matches this production") ^^ {
+    case _ => "this"
+  }
+
   // "if the [ something ] parameter was not set"
   // ex. `SubstitutionTemplate[Yield, Await, Tagged] : TemplateHead Expression[+In, ?Yield, ?Await] TemplateSpans[?Yield, ?Await, ?Tagged]`
   // ex. `It is a Syntax Error if the <sub>[Tagged]</sub> parameter was not set and |TemplateHead| Contains |NotEscapeSequence|.`
-  lazy val notSetCond = (expr <~ "parameter was not set") ^^ {
-    case e => // something like expr != EAbsent
+  lazy val notSetCond: P[I[Expr]] = (expr <~ "parameter was not set") ^^ {
+    case e => pair(Nil, ENotSupported("`parameter was not set` case"))
   }
 
   // ex. `It is a Syntax Error if the syntactic goal symbol is not |Module|`
@@ -462,10 +467,6 @@ object Compiler extends Compilers {
   // similar to coveredByExpr
   lazy val notCoveringCond = ((ref <~ ("is not covering" ~ opt("a" | "an"))) ~ nt) ^^ {
     case (i ~ r) ~ x => //
-  }
-
-  lazy val thisProdRefBase: P[String] = (opt("the") ~ "code that matches this production") ^^ {
-    case _ => "this"
   }
 
   ////////////////////////////////////////////////////////////////////////////////
