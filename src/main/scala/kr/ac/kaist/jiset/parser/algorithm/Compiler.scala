@@ -447,9 +447,7 @@ object Compiler extends Compilers {
     }
   }
 
-  lazy val thisProdRefBase: P[String] = (opt("the") ~ "code that matches this production") ^^ {
-    case _ => "this"
-  }
+  lazy val thisProdRefBase: P[String] = (opt("the") ~ "code matched by this production") ^^^ "this"
 
   // "if the [ something ] parameter was not set"
   // ex. `SubstitutionTemplate[Yield, Await, Tagged] : TemplateHead Expression[+In, ?Yield, ?Await] TemplateSpans[?Yield, ?Await, ?Tagged]`
@@ -1397,7 +1395,7 @@ object Compiler extends Compilers {
     camelWord |||
     opt(ordinal) ~ nt ^^ { case k ~ x => x + k.getOrElse("") } |||
     opt("argument" | opt("single") ~ "code" ~ ("unit" | "units") ~ opt("of") | "reference" | nt) ~> id <~ opt("flag" | "argument") |||
-    (opt("the") ~ "code that matches this production") ^^^ "this"
+    thisProdRefBase
   )
   lazy val refPre: P[Unit] = opt("the") ~> (
     "hint" |||
