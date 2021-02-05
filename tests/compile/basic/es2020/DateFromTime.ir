@@ -1,14 +1,84 @@
 {
-  ??? "= DayWithinYear ( id:{t} ) + 1 if MonthFromTime ( id:{t} ) = 0"
-  ??? "= DayWithinYear ( id:{t} ) - 30 if MonthFromTime ( id:{t} ) = 1"
-  ??? "= DayWithinYear ( id:{t} ) - 58 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 2"
-  ??? "= DayWithinYear ( id:{t} ) - 89 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 3"
-  ??? "= DayWithinYear ( id:{t} ) - 119 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 4"
-  ??? "= DayWithinYear ( id:{t} ) - 150 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 5"
-  ??? "= DayWithinYear ( id:{t} ) - 180 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 6"
-  ??? "= DayWithinYear ( id:{t} ) - 211 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 7"
-  ??? "= DayWithinYear ( id:{t} ) - 242 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 8"
-  ??? "= DayWithinYear ( id:{t} ) - 272 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 9"
-  ??? "= DayWithinYear ( id:{t} ) - 303 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 10"
-  ??? "= DayWithinYear ( id:{t} ) - 333 - InLeapYear ( id:{t} ) if MonthFromTime ( id:{t} ) = 11"
+  app __x0__ = (MonthFromTime t)
+  if (== __x0__ 0i) {
+    app __x1__ = (DayWithinYear t)
+    app __x2__ = (WrapCompletion (+ __x1__ 1i))
+    return __x2__
+  } else {}
+  app __x3__ = (MonthFromTime t)
+  if (== __x3__ 1i) {
+    app __x4__ = (DayWithinYear t)
+    app __x5__ = (WrapCompletion (- __x4__ 30i))
+    return __x5__
+  } else {}
+  app __x6__ = (MonthFromTime t)
+  if (== __x6__ 2i) {
+    app __x7__ = (DayWithinYear t)
+    app __x8__ = (InLeapYear t)
+    app __x9__ = (WrapCompletion (- (- __x7__ 58i) __x8__))
+    return __x9__
+  } else {}
+  app __x10__ = (MonthFromTime t)
+  if (== __x10__ 3i) {
+    app __x11__ = (DayWithinYear t)
+    app __x12__ = (InLeapYear t)
+    app __x13__ = (WrapCompletion (- (- __x11__ 89i) __x12__))
+    return __x13__
+  } else {}
+  app __x14__ = (MonthFromTime t)
+  if (== __x14__ 4i) {
+    app __x15__ = (DayWithinYear t)
+    app __x16__ = (InLeapYear t)
+    app __x17__ = (WrapCompletion (- (- __x15__ 119i) __x16__))
+    return __x17__
+  } else {}
+  app __x18__ = (MonthFromTime t)
+  if (== __x18__ 5i) {
+    app __x19__ = (DayWithinYear t)
+    app __x20__ = (InLeapYear t)
+    app __x21__ = (WrapCompletion (- (- __x19__ 150i) __x20__))
+    return __x21__
+  } else {}
+  app __x22__ = (MonthFromTime t)
+  if (== __x22__ 6i) {
+    app __x23__ = (DayWithinYear t)
+    app __x24__ = (InLeapYear t)
+    app __x25__ = (WrapCompletion (- (- __x23__ 180i) __x24__))
+    return __x25__
+  } else {}
+  app __x26__ = (MonthFromTime t)
+  if (== __x26__ 7i) {
+    app __x27__ = (DayWithinYear t)
+    app __x28__ = (InLeapYear t)
+    app __x29__ = (WrapCompletion (- (- __x27__ 211i) __x28__))
+    return __x29__
+  } else {}
+  app __x30__ = (MonthFromTime t)
+  if (== __x30__ 8i) {
+    app __x31__ = (DayWithinYear t)
+    app __x32__ = (InLeapYear t)
+    app __x33__ = (WrapCompletion (- (- __x31__ 242i) __x32__))
+    return __x33__
+  } else {}
+  app __x34__ = (MonthFromTime t)
+  if (== __x34__ 9i) {
+    app __x35__ = (DayWithinYear t)
+    app __x36__ = (InLeapYear t)
+    app __x37__ = (WrapCompletion (- (- __x35__ 272i) __x36__))
+    return __x37__
+  } else {}
+  app __x38__ = (MonthFromTime t)
+  if (== __x38__ 10i) {
+    app __x39__ = (DayWithinYear t)
+    app __x40__ = (InLeapYear t)
+    app __x41__ = (WrapCompletion (- (- __x39__ 303i) __x40__))
+    return __x41__
+  } else {}
+  app __x42__ = (MonthFromTime t)
+  if (== __x42__ 11i) {
+    app __x43__ = (DayWithinYear t)
+    app __x44__ = (InLeapYear t)
+    app __x45__ = (WrapCompletion (- (- __x43__ 333i) __x44__))
+    return __x45__
+  } else {}
 }

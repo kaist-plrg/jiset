@@ -1,4 +1,14 @@
 {
-  ??? "= value:{+0} if DaysInYear ( YearFromTime ( id:{t} ) ) = value:{365}"
-  ??? "= value:{1} if DaysInYear ( YearFromTime ( id:{t} ) ) = value:{366}"
+  app __x0__ = (YearFromTime t)
+  app __x1__ = (DaysInYear __x0__)
+  if (== __x1__ 365i) {
+    app __x2__ = (WrapCompletion 0i)
+    return __x2__
+  } else {}
+  app __x3__ = (YearFromTime t)
+  app __x4__ = (DaysInYear __x3__)
+  if (== __x4__ 366i) {
+    app __x5__ = (WrapCompletion 1i)
+    return __x5__
+  } else {}
 }

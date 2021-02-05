@@ -1,14 +1,83 @@
 {
-  ??? "= 0 if 0 ≤ DayWithinYear ( id:{t} ) < 31"
-  ??? "= 1 if 31 ≤ DayWithinYear ( id:{t} ) < 59 + InLeapYear ( id:{t} )"
-  ??? "= 2 if 59 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 90 + InLeapYear ( id:{t} )"
-  ??? "= 3 if 90 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 120 + InLeapYear ( id:{t} )"
-  ??? "= 4 if 120 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 151 + InLeapYear ( id:{t} )"
-  ??? "= 5 if 151 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 181 + InLeapYear ( id:{t} )"
-  ??? "= 6 if 181 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 212 + InLeapYear ( id:{t} )"
-  ??? "= 7 if 212 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 243 + InLeapYear ( id:{t} )"
-  ??? "= 8 if 243 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 273 + InLeapYear ( id:{t} )"
-  ??? "= 9 if 273 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 304 + InLeapYear ( id:{t} )"
-  ??? "= 10 if 304 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 334 + InLeapYear ( id:{t} )"
-  ??? "= 11 if 334 + InLeapYear ( id:{t} ) ≤ DayWithinYear ( id:{t} ) < 365 + InLeapYear ( id:{t} )"
+  app __x0__ = (DayWithinYear t)
+  if (&& (! (< __x0__ 0i)) (< __x0__ 31i)) {
+    app __x1__ = (WrapCompletion 0i)
+    return __x1__
+  } else {}
+  app __x2__ = (DayWithinYear t)
+  app __x3__ = (InLeapYear t)
+  if (&& (! (< __x2__ 31i)) (< __x2__ (+ 59i __x3__))) {
+    app __x4__ = (WrapCompletion 1i)
+    return __x4__
+  } else {}
+  app __x5__ = (InLeapYear t)
+  app __x6__ = (DayWithinYear t)
+  app __x7__ = (InLeapYear t)
+  if (&& (! (< __x6__ (+ 59i __x5__))) (< __x6__ (+ 90i __x7__))) {
+    app __x8__ = (WrapCompletion 2i)
+    return __x8__
+  } else {}
+  app __x9__ = (InLeapYear t)
+  app __x10__ = (DayWithinYear t)
+  app __x11__ = (InLeapYear t)
+  if (&& (! (< __x10__ (+ 90i __x9__))) (< __x10__ (+ 120i __x11__))) {
+    app __x12__ = (WrapCompletion 3i)
+    return __x12__
+  } else {}
+  app __x13__ = (InLeapYear t)
+  app __x14__ = (DayWithinYear t)
+  app __x15__ = (InLeapYear t)
+  if (&& (! (< __x14__ (+ 120i __x13__))) (< __x14__ (+ 151i __x15__))) {
+    app __x16__ = (WrapCompletion 4i)
+    return __x16__
+  } else {}
+  app __x17__ = (InLeapYear t)
+  app __x18__ = (DayWithinYear t)
+  app __x19__ = (InLeapYear t)
+  if (&& (! (< __x18__ (+ 151i __x17__))) (< __x18__ (+ 181i __x19__))) {
+    app __x20__ = (WrapCompletion 5i)
+    return __x20__
+  } else {}
+  app __x21__ = (InLeapYear t)
+  app __x22__ = (DayWithinYear t)
+  app __x23__ = (InLeapYear t)
+  if (&& (! (< __x22__ (+ 181i __x21__))) (< __x22__ (+ 212i __x23__))) {
+    app __x24__ = (WrapCompletion 6i)
+    return __x24__
+  } else {}
+  app __x25__ = (InLeapYear t)
+  app __x26__ = (DayWithinYear t)
+  app __x27__ = (InLeapYear t)
+  if (&& (! (< __x26__ (+ 212i __x25__))) (< __x26__ (+ 243i __x27__))) {
+    app __x28__ = (WrapCompletion 7i)
+    return __x28__
+  } else {}
+  app __x29__ = (InLeapYear t)
+  app __x30__ = (DayWithinYear t)
+  app __x31__ = (InLeapYear t)
+  if (&& (! (< __x30__ (+ 243i __x29__))) (< __x30__ (+ 273i __x31__))) {
+    app __x32__ = (WrapCompletion 8i)
+    return __x32__
+  } else {}
+  app __x33__ = (InLeapYear t)
+  app __x34__ = (DayWithinYear t)
+  app __x35__ = (InLeapYear t)
+  if (&& (! (< __x34__ (+ 273i __x33__))) (< __x34__ (+ 304i __x35__))) {
+    app __x36__ = (WrapCompletion 9i)
+    return __x36__
+  } else {}
+  app __x37__ = (InLeapYear t)
+  app __x38__ = (DayWithinYear t)
+  app __x39__ = (InLeapYear t)
+  if (&& (! (< __x38__ (+ 304i __x37__))) (< __x38__ (+ 334i __x39__))) {
+    app __x40__ = (WrapCompletion 10i)
+    return __x40__
+  } else {}
+  app __x41__ = (InLeapYear t)
+  app __x42__ = (DayWithinYear t)
+  app __x43__ = (InLeapYear t)
+  if (&& (! (< __x42__ (+ 334i __x41__))) (< __x42__ (+ 365i __x43__))) {
+    app __x44__ = (WrapCompletion 11i)
+    return __x44__
+  } else {}
 }

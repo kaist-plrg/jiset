@@ -1,6 +1,18 @@
 {
-  ??? "= 365 if ( id:{y} modulo 4 ) ≠ 0"
-  ??? "= 366 if ( id:{y} modulo 4 ) = 0 and ( id:{y} modulo 100 ) ≠ 0"
-  ??? "= 365 if ( id:{y} modulo 100 ) = 0 and ( id:{y} modulo 400 ) ≠ 0"
-  ??? "= 366 if ( id:{y} modulo 400 ) = 0"
+  if (! (== (%% y 4i) 0i)) {
+    app __x0__ = (WrapCompletion 365i)
+    return __x0__
+  } else {}
+  if (&& (== (%% y 4i) 0i) (! (== (%% y 100i) 0i))) {
+    app __x1__ = (WrapCompletion 366i)
+    return __x1__
+  } else {}
+  if (&& (== (%% y 100i) 0i) (! (== (%% y 400i) 0i))) {
+    app __x2__ = (WrapCompletion 365i)
+    return __x2__
+  } else {}
+  if (== (%% y 400i) 0i) {
+    app __x3__ = (WrapCompletion 366i)
+    return __x3__
+  } else {}
 }
