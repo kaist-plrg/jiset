@@ -62,10 +62,13 @@ trait TokenParsers extends ProductionParsers {
   // next counter
   class Counter {
     private var k = 0
+    private var appendNext = true
     private val nexts = Stack[Next]()
     def next: Next = { val res = Next(k); k += 1; res }
     def push: Unit = { nexts.push(next) }
     def pop: Next = { nexts.pop }
+    def setNoAppendNext: Unit = { appendNext = false }
+    def getAppendNext: Boolean = appendNext
   }
 
   // step parsers
@@ -82,12 +85,18 @@ trait TokenParsers extends ProductionParsers {
     def wrap(x: String) = s"[$x][^ $x]+[$x]".r ^^ {
       case s => s.substring(x.length, s.length - x.length)
     }
+    def parseStep(line: String): List[Token] =
+      parseAll(algoStep, line).getOrElse(Nil)
+    def parseStepWithNext(line: String): List[Token] =
+      parseStep(line) :+ counter.next
     // basic parsers
     lazy val name = "[_-a-zA-Z]+".r
     lazy val word = "[a-zA-Z0-9]+".r
     lazy val number = "[0-9]+".r
     lazy val char = "\\S".r
     lazy val whitespace = "\\s*".r
+    lazy val newline = rep(accept('\n'))
+    lazy val space: Parser[Char] = accept(' ');
 
     // tag parsers
     lazy val (table, tableEnd, tableEndWs) = tag("table")
@@ -96,10 +105,14 @@ trait TokenParsers extends ProductionParsers {
     lazy val (th, thEnd, thEndWs) = tag("th")
     lazy val (td, tdEnd, tdEndWs) = tag("td")
     lazy val (li, liEnd, liEndWs) = tag("li")
-    lazy val (emuNote, emuNoteEnd, emuNoteEndWs) = tag("emu-note")
+    lazy val (p, pEnd, pEndWs) = tag("p")
+    lazy val (emuAlg, emuAlgEnd, emuAlgEndWs) = tag("emu-alg")
     lazy val untilLiEnd = until("</li>")
     lazy val untilTdEnd = until("</td>")
-    lazy val untilEmuNote = until("</emu-note>")
+    lazy val untilEmuNote = until("<emu-note>")
+    lazy val untilEmuNoteEnd = until("</emu-note>")
+    lazy val untilEmuAlg = until("</emu-alg>")
+    lazy val untilPEnd = until("</p>")
 
     // token parsers
     lazy val gram = "<emu-grammar>" ~> lhs ~ rhs <~ "</emu-grammar>" ^^ {
@@ -147,52 +160,70 @@ trait TokenParsers extends ProductionParsers {
     lazy val token: Parser[Token] =
       gram | const | code | value | id | nt | sup | link | sub | text
 
-    // tabular
+    // tabular algorithm
     lazy val tabularHead = tr ~> {
-      (th ~> "Argument Type" <~ thEndWs) ~
-        (th ~> "Result" <~ thEndWs)
+      (th ~> "Argument Type" <~ thEndWs) ~ (th ~> "Result" <~ thEndWs)
     } <~ trEndWs
+    // NOTE assume body of algCell is flat
+    lazy val algCell = td ~> {
+      opt(p ~> untilPEnd) ~> whitespace ~> emuAlg ~> untilEmuAlg ^^ {
+        case code =>
+          code.split(LINE_SEP).map(parseStepWithNext(_)).toList.flatten
+      }
+    } <~ tdEndWs
+    lazy val pCell = td ~> {
+      rep(p ~> untilPEnd <~ whitespace) ^^ {
+        case codes =>
+          codes.map(parseStepWithNext(_)).flatten
+      }
+    } <~ tdEndWs
+    lazy val dropEmuNote = untilEmuNote <~ untilEmuNoteEnd
+    lazy val normalCell = td ~> untilTdEnd ^^ {
+      case rawCode => {
+        val code = parseAll(dropEmuNote, rawCode).getOrElse(rawCode)
+        parseStepWithNext(code)
+      }
+    }
+    lazy val tableCell: Parser[List[Token]] = algCell | pCell | normalCell
     lazy val tabularStep: Parser[List[Token]] = tr ~> {
-      (td ~> word <~ tdEndWs) ~
-        (td ~> untilTdEnd) ^^ {
-          case tyName ~ body => {
-            // TODO generalize handling _arugment_
-            val cond = s"""If Type(_argument_) is $tyName,"""
-            var res: List[Token] = parseAll(rep(token), cond).getOrElse(Nil)
-            res :+= In; counter.push
-            res ++= parse(rep(token), body).getOrElse(Nil)
-            res ++= List(counter.next, Out, counter.pop)
-            res
-          }
+      (td ~> word <~ tdEndWs) ~ tableCell ^^ {
+        case tyName ~ cellTokens => {
+          // TODO generalize handling _arugment_
+          val cond = s"""If Type(_argument_) is $tyName,"""
+          var res: List[Token] = parseStep(cond)
+          res :+= In; counter.push
+          res ++= cellTokens
+          res ++= List(Out, counter.pop)
+          res
         }
+      }
     } <~ trEndWs
-    lazy val tabular: Parser[List[Token]] = {
+    lazy val tabularAlgo: Parser[List[Token]] = {
       (table ~ tbody) ~> {
-        tabularHead ~> rep1(tabularStep) ^^ { _.flatten }
+        tabularHead ~> rep1(tabularStep) ^^ { counter.setNoAppendNext; _.flatten }
       } <~ (tbodyEnd ~ tableEnd)
     }
 
-    // list
-    lazy val list: Parser[List[Token]] = li ~> untilLiEnd <~ opt(newline) ^^ {
-      parseAll(rep(token), _).getOrElse(Nil)
-    }
+    // list step parser
+    lazy val listStep: Parser[List[Token]] =
+      li ~> untilLiEnd <~ opt(newline) ^^ { parseStep(_) }
 
-    // tokens
-    lazy val tokens: Parser[List[Token]] =
-      rep(token <~ not(LINE_SEP)) ~ opt(token <~ LINE_SEP) ^^ {
-        case ts ~ None => ts
-        case ts ~ Some(t) => ts :+ t
+    // algorithm step parser
+    lazy val ignore = "[id=\"" ~ repsep(word, "-") ~ "\"]"
+    lazy val algoStepPrefix = number ~ "." ~ opt(ignore) | "*"
+    lazy val algoStep: Parser[List[Token]] =
+      opt(algoStepPrefix) ~> {
+        rep(token <~ not(LINE_SEP)) ~ opt(token <~ LINE_SEP) ^^ {
+          case ts ~ None => ts
+          case ts ~ Some(t) => ts :+ t
+        }
       }
 
-    // ignore
-    lazy val ignore = "[id=\"" ~ repsep(word, "-") ~ "\"]"
-
-    // indentation parsers
-    lazy val space: Parser[Char] = accept(' ');
-    lazy val newline = rep(accept('\n'))
+    // indentation parser
     lazy val indent: Parser[Int] = rep(space) ^^ { _.length }
 
-    (indent <~ opt(number ~ "." ~ opt(ignore) | "*")) ~ (tabular | list | tokens)
+    // step parser
+    indent ~ (tabularAlgo | listStep | algoStep)
   }
 
   // get tokens
@@ -235,7 +266,7 @@ trait TokenParsers extends ProductionParsers {
     }
 
     aux(new CharSequenceReader(code))
-    tokens :+= counter.next
+    if (counter.getAppendNext) tokens :+= counter.next
     while (prev > initial) { prev -= TAB; tokens ++= List(Out, counter.pop) }
     tokens.toList
   }
