@@ -334,12 +334,8 @@ object Compiler extends Compilers {
   }
 
   // assignment statements
-  lazy val assignmentStmt: P[Inst] = word ~ rep1("=" ~> expr) ^^ {
-    case x ~ rhs =>
-      val instsList = rhs.foldLeft(List[Inst]())((l, ie) => l ++ (ie match {
-        case i ~ e => i :+ IAssign(toRef(x), e)
-      }))
-      ISeq(instsList)
+  lazy val assignmentStmt: P[Inst] = opt(word) ~ rep1("=" ~> expr) ^^ {
+    case x ~ rhs => getRet(getWrapCompletion(rhs.head))
   }
 
   // early errors
