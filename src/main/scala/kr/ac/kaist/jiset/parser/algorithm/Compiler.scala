@@ -336,6 +336,8 @@ object Compiler extends Compilers {
   // assignment statements
   lazy val assignmentStmt: P[Inst] = opt(word) ~ rep1("=" ~> expr) ^^ {
     case x ~ rhs => getRet(getWrapCompletion(rhs.head))
+  } | (word ~ "(" ~ id ~ ")" ~ "=" ~> expr) ^^ {
+    case ie => getRet(getWrapCompletion(ie))
   }
 
   // early errors
