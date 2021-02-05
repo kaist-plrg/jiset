@@ -354,8 +354,10 @@ object Compiler extends Compilers {
     alsoOccurCond
   ) // todo!: add more conds
 
-  // contains and duplicate entry
-  // ex. `It is a Syntax Error if the LexicallyDeclaredNames of |StatementList| contains any duplicate entries`
+  lazy val anyMatchCond = ("any code matches this production" | "any source text matches this rule") ^^ {
+    case _ => pair(Nil, EBool(true))
+  }
+
   lazy val duplicateCond: P[I[Expr]] = (expr <~ ("contains any duplicate" ~ ("elements" | "entries"))) ^^ {
     case i ~ e => {
       val list = getTempId
@@ -383,21 +385,8 @@ object Compiler extends Compilers {
     }
   }
 
-  // "if the [ something ] parameter was not set"
-  // ex. `SubstitutionTemplate[Yield, Await, Tagged] : TemplateHead Expression[+In, ?Yield, ?Await] TemplateSpans[?Yield, ?Await, ?Tagged]`
-  // ex. `It is a Syntax Error if the <sub>[Tagged]</sub> parameter was not set and |TemplateHead| Contains |NotEscapeSequence|.`
-  lazy val notSetCond = (expr <~ "parameter was not set") ^^ {
-    case e => // something like expr != EAbsent
-  }
-
-  // ex. `It is a Syntax Error if the syntactic goal symbol is not |Module|`
-  lazy val notGoalCond = ("the syntactic goal symbol is not" ~> nt) ^^ {
-    case n => // something that inspects nt's goal symbol
-  }
-
-  // ex. `It is a Syntax Error if PrototypePropertyNameList of |ClassElementList| contains more than one occurrence of *"constructor"*.`
   lazy val moreThanOneOccurCond: P[I[Expr]] = (expr ~ ("contains more than one occurrence of" ~> expr)) ^^ {
-    case (i1 ~ e1) ~ (i2 ~ e2) => { // something that checks e2 appears more than once in e1
+    case (i1 ~ e1) ~ (i2 ~ e2) => {
       val list = getTempId
       var target = getTempId
       val count = getTempId
@@ -427,7 +416,6 @@ object Compiler extends Compilers {
     }
   }
 
-  // ex. It is a Syntax Error if any element of the BoundNames of |UniqueFormalParameters| also occurs in the LexicallyDeclaredNames of |AsyncFunctionBody|.`
   lazy val alsoOccurCond: P[I[Expr]] = (("any element of" ~> expr) ~ ("also occurs in" ~> expr)) ^^ {
     case (i1 ~ e1) ~ (i2 ~ e2) => {
       val list1 = getTempId
@@ -458,17 +446,24 @@ object Compiler extends Compilers {
     }
   }
 
+  // "if the [ something ] parameter was not set"
+  // ex. `SubstitutionTemplate[Yield, Await, Tagged] : TemplateHead Expression[+In, ?Yield, ?Await] TemplateSpans[?Yield, ?Await, ?Tagged]`
+  // ex. `It is a Syntax Error if the <sub>[Tagged]</sub> parameter was not set and |TemplateHead| Contains |NotEscapeSequence|.`
+  lazy val notSetCond = (expr <~ "parameter was not set") ^^ {
+    case e => // something like expr != EAbsent
+  }
+
+  // ex. `It is a Syntax Error if the syntactic goal symbol is not |Module|`
+  lazy val notGoalCond = ("the syntactic goal symbol is not" ~> nt) ^^ {
+    case n => // something that inspects nt's goal symbol
+  }
+
   // ex. It is a Syntax Error if |CoverCallExpressionAndAsyncArrowHead| is not covering an |AsyncArrowHead|.
   // similar to coveredByExpr
   lazy val notCoveringCond = ((ref <~ ("is not covering" ~ opt("a" | "an"))) ~ nt) ^^ {
     case (i ~ r) ~ x => //
   }
 
-  lazy val anyMatchCond = ("any code matches this production" | "any source text matches this rule") ^^ {
-    case _ => pair(Nil, EBool(true)) // same as condition "true"
-  }
-
-  // ex. It is a Syntax Error if the code that matches this production is contained in strict mode code
   lazy val thisProdRefBase: P[String] = (opt("the") ~ "code that matches this production") ^^ {
     case _ => "this"
   }
@@ -1401,7 +1396,7 @@ object Compiler extends Compilers {
     camelWord |||
     opt(ordinal) ~ nt ^^ { case k ~ x => x + k.getOrElse("") } |||
     opt("argument" | opt("single") ~ "code" ~ ("unit" | "units") ~ opt("of") | "reference" | nt) ~> id <~ opt("flag" | "argument") |||
-    thisProdRefBase
+    (opt("the") ~ "code that matches this production") ^^^ "this"
   )
   lazy val refPre: P[Unit] = opt("the") ~> (
     "hint" |||
