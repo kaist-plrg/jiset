@@ -41,6 +41,7 @@ object Compiler extends Compilers {
       assertStmt |||
       optionalStmt |||
       starStmt |||
+      assignmentStmt |||
       earlyErrorStmt
     )
   } <~ opt("." | ";") ~ opt(comment) | comment
@@ -330,6 +331,15 @@ object Compiler extends Compilers {
   // optional statements
   lazy val optionalStmt: P[Inst] = ("optionally" ~ opt(",")) ~> stmt ^^ {
     case i => IIf(toERef(RAND_BOOL), i, emptyInst)
+  }
+
+  // assignment statements
+  lazy val assignmentStmt: P[Inst] = word ~ rep1("=" ~> expr) ^^ {
+    case x ~ rhs =>
+      val instsList = rhs.foldLeft(List[Inst]())((l, ie) => l ++ (ie match {
+        case i ~ e => i :+ IAssign(toRef(x), e)
+      }))
+      ISeq(instsList)
   }
 
   // early errors
