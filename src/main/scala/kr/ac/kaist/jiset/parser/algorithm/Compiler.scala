@@ -1029,7 +1029,7 @@ object Compiler extends Compilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | ".") | etcCond
+  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | "." | next) | etcCond
   lazy val _cond: P[I[Expr]] = (
     argumentCond |||
     sameCond |||
@@ -1115,26 +1115,26 @@ object Compiler extends Compilers {
   lazy val rhs: P[Expr => I[Expr]] = equalRhs ||| notEqualRhs
   lazy val equalRhs: P[Expr => I[Expr]] = {
     ("is" | "was") ~ opt("present and" ~ ("its value is" | "has value")) | "has the value" | "are any of"
-  } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in | ("." ~ next)), sep("or")) ^^ {
+  } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in | ("." ~ next) | next), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     }
   } ||| {
     ("is" | "was") ~ opt("present and" ~ ("its value is" | "has value")) | "has the value" | "are any of"
-  } ~ opt("either") ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | "or" | "and" | in | ("." ~ next)), sep("or")) ^^ {
+  } ~ opt("either") ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | "or" | "and" | in | ("." ~ next) | next), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     }
   }
   lazy val notEqualRhs: P[Expr => I[Expr]] = {
     "is" ~ ("not" ~ opt("the same value as" | "the same as" | "one of") | "neither")
-  } ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next)), sep("nor" | "or")) ^^ {
+  } ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next) | next), sep("nor" | "or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     } match { case i ~ e => pair(i, not(e)) }
   } ||| {
     "is" ~ ("not" ~ opt("the same value as" | "the same as" | "one of") | "neither")
-  } ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next)), sep("nor" | "or")) ^^ {
+  } ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next) | next), sep("nor" | "or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     } match { case i ~ e => pair(i, not(e)) }
