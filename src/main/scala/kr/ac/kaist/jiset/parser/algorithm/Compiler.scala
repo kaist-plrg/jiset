@@ -463,9 +463,9 @@ object Compiler extends Compilers {
   }
 
   // ex. It is a Syntax Error if the code that matches this production is contained in strict mode code
-  lazy val thisProdRefBase = ("the code that matches this production") ^^ {
-    case _ => toRef("this") // something same with refBase.
-  } // after matching this, "is contained in strict mode code" will appear. so produce same thing with refBase
+  lazy val thisProdRefBase: P[String] = (opt("the") ~ "code that matches this production") ^^ {
+    case _ => "this"
+  }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
@@ -1394,7 +1394,8 @@ object Compiler extends Compilers {
     symbolName |||
     camelWord |||
     opt(ordinal) ~ nt ^^ { case k ~ x => x + k.getOrElse("") } |||
-    opt("argument" | opt("single") ~ "code" ~ ("unit" | "units") ~ opt("of") | "reference" | nt) ~> id <~ opt("flag" | "argument")
+    opt("argument" | opt("single") ~ "code" ~ ("unit" | "units") ~ opt("of") | "reference" | nt) ~> id <~ opt("flag" | "argument") |||
+    thisProdRefBase
   )
   lazy val refPre: P[Unit] = opt("the") ~> (
     "hint" |||
