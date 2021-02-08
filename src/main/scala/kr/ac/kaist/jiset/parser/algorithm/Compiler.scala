@@ -54,6 +54,7 @@ object Compiler extends Compilers {
         "this may be" |
         "as defined" |
         "( if" |
+        "( no conversion )" |
         "this call will always return" ~ value |
         (opt("(") <~ ("see" | "it may be"))
       ) ~ rest ^^^ emptyInst
@@ -83,7 +84,24 @@ object Compiler extends Compilers {
         case None => getRet(getNormalCompletion(EUndef))
         case Some(ie) => getRet(getWrapCompletion(ie))
       }
-  }
+  } |||
+    "return" ~> rep1sep(expr ~ ("if" ~> cond), "and") ~ opt(
+      opt("," | ".") ~> "otherwise" ~> opt(",") ~> "return" ~> expr
+    ) ^^ {
+        case retInsts ~ retOther => {
+          val baseRet = retOther match {
+            case Some(ie) => getRet(getWrapCompletion(ie))
+            case None => getRet(getNormalCompletion(EUndef))
+          }
+
+          retInsts.foldRight(baseRet: Inst) {
+            case ((i0 ~ e0) ~ (i1 ~ e1), ielse) => {
+              val ithen = getRet(getWrapCompletion(e0))
+              ISeq(i0 ++ i1 :+ IIf(e1, ithen, ielse))
+            }
+          }
+        }
+      }
 
   // return continuation statements
   lazy val returnContStmt: P[Inst] = "ReturnCont" ~> opt(expr ~ opt("to" ~> expr)) ^^ {
@@ -119,6 +137,7 @@ object Compiler extends Compilers {
     case t ~ (i ~ c) ~ Some(e) => ISeq(i :+ IIf(c, t, e))
     case t ~ (i ~ c) ~ None => ISeq(i :+ IIf(c, t, emptyInst))
   }
+
   lazy val ignoreCond: P[I[Expr]] = (
     "the order of evaluation needs to be reversed to preserve left to right evaluation" |
     name ~ "is added as a single item rather than spread" |
@@ -1038,6 +1057,7 @@ object Compiler extends Compilers {
     case s if s.startsWith("\"%") && s.endsWith("%\"") => ERef(RefId(IRId(INTRINSIC_PRE + s.slice(2, s.length - 2))))
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case s @ ("super" | "this" | "&" | "^" | "|" | "**" | "+" | "-") => EStr(s)
+    case s if s.endsWith("n") => EBigINum(s.dropRight(1).toLong)
     case s => ENotSupported(s)
   }
 
@@ -1083,12 +1103,12 @@ object Compiler extends Compilers {
 
   // string values
   lazy val stringValue: P[Expr] =
-    "the empty string" ~ opt("value") ^^^ EStr("")
+    "the empty string" ~ opt("value" | "( its length is 0 )") ^^^ EStr("")
 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | "." | next) | etcCond
+  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | "." | next | "and") | etcCond
   lazy val _cond: P[I[Expr]] = (
     argumentCond |||
     sameCond |||

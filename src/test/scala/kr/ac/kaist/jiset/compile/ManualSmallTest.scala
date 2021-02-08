@@ -82,6 +82,33 @@ class ManualSmallTest extends CompileTest {
       "Optionally, set _F_.[[InitialName]] to _name_." ->
         """if (! (= F.InitialName absent)) if randBool F.InitialName = name else {} else {}"""
     )
+
+    test("Return `value` if `cond`")(
+      "Return `1n` if _prim_ is *true*" -> """if (= prim true) {
+        app __x0__ = (WrapCompletion 1n)
+        return __x0__
+      } else {
+        app __x1__ = (NormalCompletion undefined)
+        return __x1__
+      }""",
+      "Return `1n` if _prim_ is *true* and `0n` if _prim_ is *false*." -> """if (= prim true) {
+        app __x0__ = (WrapCompletion 1n)
+        return __x0__
+      } else if (= prim false) {
+        app __x1__ = (WrapCompletion 0n)
+        return __x1__
+      } else {
+        app __x2__ = (NormalCompletion undefined)
+        return __x2__
+      }""",
+      "Return *true* if _x_ and _y_ are the same Object value. Otherwise, return *false*." -> """if (= x y) {
+        app __x0__ = (WrapCompletion true)
+        return __x0__
+      } else {
+        app __x1__ = (WrapCompletion false)
+        return __x1__
+      }"""
+    )
   }
   init
 }

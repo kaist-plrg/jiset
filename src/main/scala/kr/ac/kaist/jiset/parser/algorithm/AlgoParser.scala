@@ -36,6 +36,8 @@ object AlgoParser {
         println(s"Range: (${start + 1}, $end)")
         code.foreach(println _)
         println(s"--------------------------------------------------")
+        println(Token.getString(tokens))
+        println(s"--------------------------------------------------")
         heads.foreach(println(_))
         println("====>")
         println(beautify(rawBody, index = true))
