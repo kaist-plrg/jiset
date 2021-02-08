@@ -602,13 +602,13 @@ object Compiler extends Compilers {
   lazy val bop: P[BOp] = (
     ("×" | "*") ^^^ OMul |
     "/" ^^^ ODiv |
-    "+" ^^^ OPlus |
-    ("-" | "minus") ^^^ OSub |
+    ("+" | "addition") ^^^ OPlus |
+    ("-" | "minus" | "subtraction") ^^^ OSub |
     "modulo" ^^^ OUMod |
-    "&" ^^^ OBAnd |
-    "^" ^^^ OBXOr |
-    "|" ^^^ OBOr |
-    "raised to the power" ^^^ OPow
+    ("&" | "bitwise AND") ^^^ OBAnd |
+    ("^" | "bitwise exclusive OR (XOR)") ^^^ OBXOr |
+    ("|" | "bitwise inclusive OR") ^^^ OBOr |
+    ("**" | "raised to the power") ^^^ OPow
   )
   lazy val uop: P[Option[UOp]] = (
     "+" ^^^ None |
@@ -966,7 +966,7 @@ object Compiler extends Compilers {
 
   // operator expressions
   lazy val operatorExpr: P[I[Expr]] = "the result of" ~> (
-    ("applying the" ~> ("**" ^^^ OPow | "addition" ^^^ OPlus | "subtraction" ^^^ OSub) <~ opt("operator with" | "operation to")) ~ id ~ ("and" ~> id) <~ rest ^^ {
+    ("applying the" ~> bop <~ opt("operator with" | "operation to")) ~ id ~ ("and" ~> id) <~ rest ^^ {
       case op ~ x ~ y => pair(Nil, EBOp(op, toERef(x), toERef(y)))
     } ||| ("applying bitwise complement to" ^^^ OBNot | "negating" ^^^ ONeg) ~ id <~ rest ^^ {
       case op ~ x => pair(Nil, EUOp(op, toERef(x)))
