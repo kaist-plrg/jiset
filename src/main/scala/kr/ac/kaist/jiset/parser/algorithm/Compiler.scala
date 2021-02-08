@@ -449,7 +449,10 @@ object Compiler extends Compilers {
     }
   }
 
-  lazy val thisProdRefBase: P[String] = (opt("the") ~ "code matched by this production") ^^^ "this"
+  lazy val thisProdRefBase: P[String] = (
+    (opt("the") ~ "code matched by this production") |||
+    (opt("the") ~ "code that matches this production")
+  ) ^^^ "this"
 
   // "if the [ something ] parameter was not set"
   // ex. `SubstitutionTemplate[Yield, Await, Tagged] : TemplateHead Expression[+In, ?Yield, ?Await] TemplateSpans[?Yield, ?Await, ?Tagged]`
