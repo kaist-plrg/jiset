@@ -309,12 +309,12 @@ object Compiler extends Compilers {
 
   // resume statements
   lazy val resumeStmt: P[Inst] = {
-    // TODO compile rule for resuming suspended evaluation
-    //    "Resume the suspended evaluation of" ~> id ~ opt("using" ~> ??? <~ "as the result of the operation that suspended it") ^^ {
-    //    case x ~ Some(ie) =>
-    //    case x ~ None =>
-    //  }
-    "Resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
+    "Resume the suspended evaluation of" ~> id ~ opt("using" ~> (id | (camelWord ~ ("(" ~> id <~ ")"))) <~ "as the result of the operation that suspended it") ^^ {
+      case x ~ Some(res) =>
+        // TODO complete the resume statement
+        IExpr(ENotSupported(s"Resume the suspended evaluation of $x using $res as the result of the operation that suspended it"))
+      case x ~ None => emptyInst
+    } | "Resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
       parseInst(s"""
         $context = $executionStack[(- $executionStack.length 1i)]
       """)
