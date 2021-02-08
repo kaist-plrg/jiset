@@ -354,7 +354,9 @@ object Compiler extends Compilers {
     duplicateCond |||
     moreThanOneOccurCond |||
     alsoOccurCond |||
-    notSetCond
+    notSetCond |||
+    notCoveringCond |||
+    notGoalCond
   ) // todo!: add more conds
 
   lazy val anyMatchCond = (opt("any") ~ "code matches this production" | "any source text matches this rule") ^^ {
@@ -462,14 +464,30 @@ object Compiler extends Compilers {
   }
 
   // ex. `It is a Syntax Error if the syntactic goal symbol is not |Module|`
-  lazy val notGoalCond = ("the syntactic goal symbol is not" ~> nt) ^^ {
-    case n => // something that inspects nt's goal symbol
+  lazy val notGoalCond: P[I[Expr]] = ((opt("the") ~ "syntactic goal symbol is not") ~> nt) ^^ {
+    case x => {
+      val result = getTempId
+      val ifInst = IIf(
+        EBOp(OEq, EAbsent, EParseSyntax(ERef(toRef("this")), EStr(x), EList(Nil))),
+        ILet(result, EBool(true)),
+        ILet(result, EBool(false))
+      )
+      pair(List(ifInst), toERef(result))
+    }
   }
 
   // ex. It is a Syntax Error if |CoverCallExpressionAndAsyncArrowHead| is not covering an |AsyncArrowHead|.
   // similar to coveredByExpr
-  lazy val notCoveringCond = ((ref <~ ("is not covering" ~ opt("a" | "an"))) ~ nt) ^^ {
-    case (i ~ r) ~ x => //
+  lazy val notCoveringCond: P[I[Expr]] = ((ref <~ ("is not covering" ~ opt("a" | "an"))) ~ nt) ^^ {
+    case (i ~ r) ~ x => {
+      val result = getTempId
+      val ifInst = IIf(
+        EBOp(OEq, EAbsent, EParseSyntax(ERef(r), EStr(x), EList(Nil))),
+        ILet(result, EBool(true)),
+        ILet(result, EBool(false))
+      )
+      pair(List(ifInst), toERef(result))
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////
