@@ -36,6 +36,7 @@ object Compiler extends Compilers {
       removeStmt |||
       suspendStmt |||
       pushStmt |||
+      resumeStmt |||
       subtractStmt |||
       evaluateStmt |||
       assertStmt |||
@@ -305,6 +306,20 @@ object Compiler extends Compilers {
       """)))
     }
   )
+
+  // resume statements
+  lazy val resumeStmt: P[Inst] = {
+    // TODO compile rule for resuming suspended evaluation
+    //    "Resume the suspended evaluation of" ~> id ~ opt("using" ~> ??? <~ "as the result of the operation that suspended it") ^^ {
+    //    case x ~ Some(ie) =>
+    //    case x ~ None =>
+    //  }
+    "Resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
+      parseInst(s"""
+        $context = $executionStack[(- $executionStack.length 1i)]
+      """)
+    }
+  }
 
   // subtract statements
   lazy val subtractStmt: P[Inst] = (
