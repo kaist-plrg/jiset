@@ -23,7 +23,7 @@
   GLOBAL_context = null
   if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] scriptCxt) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else {}
   assert (< 0i GLOBAL_executionStack.length)
-  ??? "Resume the context that is now on the top of the execution context stack as the running execution context ."
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   app __x3__ = (Completion result)
   app __x4__ = (WrapCompletion __x3__)
   return __x4__

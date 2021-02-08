@@ -31,7 +31,7 @@
   let result = __x5__
   GLOBAL_context = null
   if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] moduleCxt) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else {}
-  ??? "Resume the context that is now on the top of the execution context stack as the running execution context ."
+  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   app __x6__ = (Completion result)
   app __x7__ = (WrapCompletion __x6__)
   return __x7__

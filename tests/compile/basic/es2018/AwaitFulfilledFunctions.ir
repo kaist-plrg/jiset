@@ -4,7 +4,7 @@
   GLOBAL_context = null
   append asyncContext -> GLOBAL_executionStack
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
-  ??? "Resume the suspended evaluation of id:{asyncContext} using NormalCompletion ( id:{value} ) as the result of the operation that suspended it ."
+  ??? "Resume the suspended evaluation of asyncContext using (NormalCompletion~value) as the result of the operation that suspended it"
   app __x0__ = (WrapCompletion undefined)
   return __x0__
 }
