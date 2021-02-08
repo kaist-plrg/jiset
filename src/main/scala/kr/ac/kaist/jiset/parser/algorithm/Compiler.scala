@@ -341,7 +341,7 @@ object Compiler extends Compilers {
   }
 
   // early errors
-  lazy val earlyErrorStmt: P[Inst] = "it is a syntax error" ^^^ {
+  lazy val earlyErrorStmt: P[Inst] = ("it is" | "always throw") ~ "a syntax error" ^^^ {
     getRet(getCall("ThrowCompletion", List(pair(Nil, getErrorObj("SyntaxError")))))
   }
 
@@ -357,7 +357,7 @@ object Compiler extends Compilers {
     notSetCond
   ) // todo!: add more conds
 
-  lazy val anyMatchCond = ("any code matches this production" | "any source text matches this rule") ^^ {
+  lazy val anyMatchCond = (opt("any") ~ "code matches this production" | "any source text matches this rule") ^^ {
     case _ => pair(Nil, EBool(true))
   }
 
