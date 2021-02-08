@@ -3,10 +3,16 @@
   if (= __x0__ true) {
     app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x1__
-  } else {}
-  access __x2__ = (MethodDefinition "PropName")
-  if (= __x2__ "prototype") {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  } else {
+    app __x2__ = (NormalCompletion undefined)
+    return __x2__
+  }
+  access __x3__ = (MethodDefinition "PropName")
+  if (= __x3__ "prototype") {
+    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x4__
+  } else {
+    app __x5__ = (NormalCompletion undefined)
+    return __x5__
+  }
 }

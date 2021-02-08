@@ -1,1 +1,15 @@
-??? "It is a Syntax Error if nt:{LeftHandSideExpression} is either an nt:{ObjectLiteral} or an nt:{ArrayLiteral} and if nt:{LeftHandSideExpression} is not covering an nt:{AssignmentPattern} ."
+{
+  let __x0__ = (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))
+  if __x0__ {
+    let __x1__ = false
+    if (= absent (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))) __x1__ = true else {}
+    __x0__ = __x1__
+  } else {}
+  if __x0__ {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {
+    app __x3__ = (NormalCompletion undefined)
+    return __x3__
+  }
+}

@@ -2,28 +2,35 @@
   access __x0__ = (ScriptBody "LexicallyDeclaredNames")
   let __x1__ = __x0__
   let __x2__ = 0i
-  let __x3__ = true
+  let __x3__ = 0i
+  let __x4__ = true
   while (< __x2__ __x1__.length) {
-    let __x4__ = (+ __x2__ 1i)
-    while (< __x4__ __x1__.length) if (= __x1__[__x2__] __x1__[__x4__]) __x3__ = true else {}
+    __x3__ = (+ __x2__ 1i)
+    while (< __x3__ __x1__.length) if (= __x1__[__x2__] __x1__[__x3__]) __x4__ = true else {}
   }
-  if __x3__ {
+  if __x4__ {
     app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x5__
-  } else {}
-  access __x6__ = (ScriptBody "LexicallyDeclaredNames")
-  access __x7__ = (ScriptBody "VarDeclaredNames")
-  let __x8__ = __x6__
+  } else {
+    app __x6__ = (NormalCompletion undefined)
+    return __x6__
+  }
+  access __x7__ = (ScriptBody "LexicallyDeclaredNames")
+  access __x8__ = (ScriptBody "VarDeclaredNames")
   let __x9__ = __x7__
-  let __x10__ = 0i
+  let __x10__ = __x8__
   let __x11__ = 0i
-  let __x12__ = false
-  while (< __x10__ __x8__.length) {
-    __x11__ = 0i
-    while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
+  let __x12__ = 0i
+  let __x13__ = false
+  while (< __x11__ __x9__.length) {
+    __x12__ = 0i
+    while (< __x12__ __x10__.length) if (= __x9__[__x11__] __x10__[__x12__]) __x13__ = true else {}
   }
-  if __x12__ {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x5__
-  } else {}
+  if __x13__ {
+    app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x14__
+  } else {
+    app __x15__ = (NormalCompletion undefined)
+    return __x15__
+  }
 }

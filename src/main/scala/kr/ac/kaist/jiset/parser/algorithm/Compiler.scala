@@ -356,8 +356,18 @@ object Compiler extends Compilers {
   }
 
   // early errors
-  lazy val earlyErrorStmt: P[Inst] = ("it is" | "always throw") ~ "a syntax error" ^^^ {
-    getRet(getCall("ThrowCompletion", List(pair(Nil, getErrorObj("SyntaxError")))))
+  lazy val earlyErrorStmt: P[Inst] = (("it is" | "always throw") ~ ("a syntax error" | "an early syntax error") ~ "if") ~> cond ^^ {
+    case (i ~ c) => {
+      val ifRetInst = getRet(getCall("ThrowCompletion", List(pair(Nil, getErrorObj("SyntaxError")))))
+      val elseRetInst = getRet(getCall("NormalCompletion", List(pair(Nil, EUndef))))
+      ISeq(i ++ List(
+        IIf(
+          c,
+          ifRetInst,
+          elseRetInst
+        )
+      ))
+    }
   }
 
   lazy val earlyErrorCond: P[I[Expr]] = (
@@ -392,12 +402,13 @@ object Compiler extends Compilers {
         )
       )))
       val outerWhile = IWhile(EBOp(OLt, toERef(idx), toERef(list, "length")), ISeq(List(
-        ILet(jdx, EBOp(OPlus, toERef(idx), EINum(1))),
+        IAssign(toRef(jdx), EBOp(OPlus, toERef(idx), EINum(1))),
         innerWhile
       )))
       val totalInst = ISeq(i ++ List(
         ILet(list, e),
         ILet(idx, EINum(0)),
+        ILet(jdx, EINum(0)),
         ILet(result, EBool(true)),
         outerWhile,
       ))
@@ -479,17 +490,23 @@ object Compiler extends Compilers {
   }
 
   // ex. `It is a Syntax Error if the syntactic goal symbol is not |Module|`
-  lazy val notGoalCond: P[I[Expr]] = ((opt("the") ~ "syntactic goal symbol is not") ~> nt) ^^ {
-    case x => {
-      val result = getTempId
-      val ifInst = IIf(
-        EBOp(OEq, EAbsent, EParseSyntax(ERef(toRef("this")), EStr(x), EList(Nil))),
-        ILet(result, EBool(true)),
-        ILet(result, EBool(false))
-      )
-      pair(List(ifInst), toERef(result))
-    }
-  }
+  lazy val notGoalCond: P[I[Expr]] =
+    (((opt("the") ~ "syntactic goal symbol is not") ~> nt) |||
+      ("the goal symbol of the syntactic grammar is" ~> nt)) ^^ {
+        case x => {
+          val result = getTempId
+          val ifInst = IIf(
+            EBOp(OEq, EAbsent, EParseSyntax(ERef(toRef("this")), EStr(x), EList(Nil))),
+            IAssign(toRef(result), EBool(true)),
+            emptyInst
+          )
+          val totalInst = List(
+            ILet(result, EBool(false)),
+            ifInst
+          )
+          pair(totalInst, toERef(result))
+        }
+      }
 
   // ex. It is a Syntax Error if |CoverCallExpressionAndAsyncArrowHead| is not covering an |AsyncArrowHead|.
   // similar to coveredByExpr
@@ -498,10 +515,14 @@ object Compiler extends Compilers {
       val result = getTempId
       val ifInst = IIf(
         EBOp(OEq, EAbsent, EParseSyntax(ERef(r), EStr(x), EList(Nil))),
-        ILet(result, EBool(true)),
-        ILet(result, EBool(false))
+        IAssign(toRef(result), EBool(true)),
+        emptyInst
       )
-      pair(List(ifInst), toERef(result))
+      val totalInst = List(
+        ILet(result, EBool(false)),
+        ifInst
+      )
+      pair(totalInst, toERef(result))
     }
   }
 

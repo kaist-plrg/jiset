@@ -3,32 +3,42 @@
   if (contains __x0__ "let") {
     app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x1__
-  } else {}
-  access __x2__ = (ForDeclaration "BoundNames")
-  access __x3__ = (Statement "VarDeclaredNames")
-  let __x4__ = __x2__
+  } else {
+    app __x2__ = (NormalCompletion undefined)
+    return __x2__
+  }
+  access __x3__ = (ForDeclaration "BoundNames")
+  access __x4__ = (Statement "VarDeclaredNames")
   let __x5__ = __x3__
-  let __x6__ = 0i
+  let __x6__ = __x4__
   let __x7__ = 0i
-  let __x8__ = false
-  while (< __x6__ __x4__.length) {
-    __x7__ = 0i
-    while (< __x7__ __x5__.length) if (= __x4__[__x6__] __x5__[__x7__]) __x8__ = true else {}
+  let __x8__ = 0i
+  let __x9__ = false
+  while (< __x7__ __x5__.length) {
+    __x8__ = 0i
+    while (< __x8__ __x6__.length) if (= __x5__[__x7__] __x6__[__x8__]) __x9__ = true else {}
   }
-  if __x8__ {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
-  access __x9__ = (ForDeclaration "BoundNames")
-  let __x10__ = __x9__
-  let __x11__ = 0i
-  let __x12__ = true
-  while (< __x11__ __x10__.length) {
-    let __x13__ = (+ __x11__ 1i)
-    while (< __x13__ __x10__.length) if (= __x10__[__x11__] __x10__[__x13__]) __x12__ = true else {}
+  if __x9__ {
+    app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x10__
+  } else {
+    app __x11__ = (NormalCompletion undefined)
+    return __x11__
   }
-  if __x12__ {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  access __x12__ = (ForDeclaration "BoundNames")
+  let __x13__ = __x12__
+  let __x14__ = 0i
+  let __x15__ = 0i
+  let __x16__ = true
+  while (< __x14__ __x13__.length) {
+    __x15__ = (+ __x14__ 1i)
+    while (< __x15__ __x13__.length) if (= __x13__[__x14__] __x13__[__x15__]) __x16__ = true else {}
+  }
+  if __x16__ {
+    app __x17__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x17__
+  } else {
+    app __x18__ = (NormalCompletion undefined)
+    return __x18__
+  }
 }

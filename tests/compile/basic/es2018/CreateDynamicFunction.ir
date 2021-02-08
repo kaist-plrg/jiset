@@ -104,12 +104,13 @@
     access __x28__ = (parameters "BoundNames")
     let __x29__ = __x28__
     let __x30__ = 0i
-    let __x31__ = true
+    let __x31__ = 0i
+    let __x32__ = true
     while (< __x30__ __x29__.length) {
-      let __x32__ = (+ __x30__ 1i)
-      while (< __x32__ __x29__.length) if (= __x29__[__x30__] __x29__[__x32__]) __x31__ = true else {}
+      __x31__ = (+ __x30__ 1i)
+      while (< __x31__ __x29__.length) if (= __x29__[__x30__] __x29__[__x31__]) __x32__ = true else {}
     }
-    if __x31__ {
+    if __x32__ {
       app __x33__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
       return __x33__
     } else {}

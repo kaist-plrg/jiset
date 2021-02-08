@@ -1,5 +1,18 @@
 {
   ??? "It is a Syntax Error if this phrase is contained in strict mode code and the StringValue of nt:{IdentifierName} is : code:{\"implements\"} , code:{\"interface\"} , code:{\"let\"} , code:{\"package\"} , code:{\"private\"} , code:{\"protected\"} , code:{\"public\"} , code:{\"static\"} , or code:{\"yield\"} ."
-  ??? "It is a Syntax Error if the goal symbol of the syntactic grammar is nt:{Module} and the StringValue of nt:{IdentifierName} is code:{\"await\"} ."
+  let __x0__ = false
+  if (= absent (parse-syntax this "Module" (new []))) __x0__ = true else {}
+  let __x1__ = __x0__
+  if __x1__ {
+    access __x2__ = (IdentifierName "StringValue")
+    __x1__ = (= __x2__ "await")
+  } else {}
+  if __x1__ {
+    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x3__
+  } else {
+    app __x4__ = (NormalCompletion undefined)
+    return __x4__
+  }
   ??? "It is a Syntax Error if StringValue of nt:{IdentifierName} is the same String value as the StringValue of any nt:{ReservedWord} except for code:{yield} or code:{await} ."
 }
