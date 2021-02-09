@@ -1168,7 +1168,7 @@ object Compiler extends Compilers {
     ("is not equal to" | "is different from") ^^^ (OEq, true, false) |||
     ("<" | "is less than") ^^^ (OLt, false, false) |||
     ("≥" | "is not less than" | "is greater than or equal to") ^^^ (OLt, true, false) |||
-    (">" | "is greater than") ^^^ (OLt, false, true) |||
+    (">" | "is greater than" | "is larger than") ^^^ (OLt, false, true) |||
     ("≤" | "is not greater than" | "is less than or equal to") ^^^ (OLt, true, true)
   )
 
