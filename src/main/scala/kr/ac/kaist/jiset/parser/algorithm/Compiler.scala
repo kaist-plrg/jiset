@@ -130,7 +130,6 @@ object Compiler extends Compilers {
       val pre = ss.map(s => IAccess(IRId(s), toERef(x), EStr(s)))
       IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
   } ||| {
-    // TODO separate normal condition and early error condition
     stmt ~ (opt(",") ~> "if" ~> cond) ~ opt(opt("." | ";" | ",") ~ opt(next) ~
       ("else" | "otherwise") ~ opt(ignoreCond | cond) ~ opt(",") ~> stmt)
   } ^^ {
@@ -1126,6 +1125,7 @@ object Compiler extends Compilers {
     oddCond |||
     completionCond |||
     emptyCond |||
+    // TODO separate normal condition and early error condition
     earlyErrorCond
   )
 
@@ -1192,6 +1192,7 @@ object Compiler extends Compilers {
     })
   }
   lazy val rhs: P[Expr => I[Expr]] = equalRhs ||| notEqualRhs
+  // TODO consider the condition(_cond) end with "." #180
   lazy val equalRhs: P[Expr => I[Expr]] = {
     ("is" | "was") ~ opt("present and" ~ ("its value is" | "has value")) | "has the value" | "are any of"
   } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in | ("." ~ next) | next), sep("or")) ^^ {
