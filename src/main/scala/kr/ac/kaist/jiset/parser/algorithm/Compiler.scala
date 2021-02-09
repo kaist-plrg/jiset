@@ -952,7 +952,7 @@ object Compiler extends Compilers {
 
   // integer expressions
   lazy val integerExpr: P[I[Expr]] = (
-    "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> id <~ "and whose magnitude is floor(abs(" ~ name ~ "))" ^^ {
+    "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> id <~ "and whose magnitude is floor(abs(" ~ (id | "ℝ(" ~ id ~ ")") ~ "))" ^^ {
       case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
     }
   )
