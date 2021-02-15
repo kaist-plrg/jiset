@@ -12,14 +12,14 @@ trait Head {
   // name
   val name: String
 
+  // name for print
+  def printName: String = name
+
   // parameters
   val params: List[Param]
 
-  // section id
-  val secId: String
-
   // conversion to string
-  override def toString: String = s"$name (${params.mkString(", ")}):"
+  override def toString: String = s"${printName} (${params.mkString(", ")}):"
 
   // arity
   lazy val arity: (InfNum, InfNum) = {

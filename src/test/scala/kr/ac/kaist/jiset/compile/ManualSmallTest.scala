@@ -2,26 +2,30 @@ package kr.ac.kaist.jiset.compile
 
 import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.parser.ECMAScriptParser
 import kr.ac.kaist.jiset.parser.algorithm._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
-import kr.ac.kaist.jiset.util.Useful._
-import org.scalatest._
-import kr.ac.kaist.jiset.parser.ECMAScriptParser
+import kr.ac.kaist.jiset.spec.Region
+import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar.Grammar
+import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
+import org.scalatest._
 
 class ManualSmallTest extends CompileTest {
-  implicit val (grammar, document): (Grammar, Document) = {
-    implicit val (lines, document) = getInput("recent")
-    (ECMAScriptParser.parseGrammar, document)
+  implicit val (lines, grammar, document, region): (Array[String], Grammar, Document, Region) = {
+    implicit val (lines, document, region) = getInput("recent")
+    (lines, ECMAScriptParser.parseGrammar, document, region)
   }
+
+  val secIds = ECMAScriptParser.parseHeads()._1
 
   def test(desc: String, target: CompileTarget)(cases: (String, String)*) = check(desc, {
     cases.zipWithIndex.foreach {
       case ((spec, answer), i) => {
         val code = unescapeHtml(spec).split(LINE_SEP).toList
-        val resultInst = target.parse(code)._2.getOrElse(fail(s"`$spec` cannot be parsed."))
+        val resultInst = target.parse(code, secIds)._2.getOrElse(fail(s"`$spec` cannot be parsed."))
         val answerInst = target.parseIR(answer)
         difftest(s"$desc#$i", resultInst, answerInst)
       }

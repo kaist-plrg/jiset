@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.parser.algorithm
 
 import Compiler._
 import kr.ac.kaist.ires.ir
-import kr.ac.kaist.jiset.spec.algorithm.Token
+import kr.ac.kaist.jiset.spec.algorithm.{ Token, Name }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes.Document
@@ -14,13 +14,14 @@ sealed abstract class CompileTarget(
   // parse input
   def parse(
     code: List[String],
+    secIds: Map[String, Name] = Map(),
     raw: Boolean = true
   )(implicit grammar: Grammar, document: Document): (List[Token], ParseResult[ir.IRNode]) = {
     // get tokens
     val tokens = if (raw) {
       // from raw string
-      if (this eq InstsTarget) TokenParser.getTokens(code)
-      else TokenParser.getTokens(code.mkString(" "), handleIndent = false)
+      if (this eq InstsTarget) TokenParser.getTokens(code, secIds)
+      else TokenParser.getTokens(code.mkString(" "), secIds, handleIndent = false)
     } else {
       // from tokens
       TokenParser.listFrom(code.mkString(" "))

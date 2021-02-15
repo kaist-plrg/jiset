@@ -12,7 +12,7 @@ import org.jsoup.nodes._
 // ECMASCript abstract algorithms
 case class Algo(head: Head, private val rawBody: Inst, code: Iterable[String]) {
   // head fields
-  def name: String = head.name
+  def name: String = head.printName
   def params: List[Param] = head.params
 
   // prepend instructions

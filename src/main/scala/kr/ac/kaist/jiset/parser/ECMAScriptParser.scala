@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.parser
 
-import kr.ac.kaist.jiset.parser.algorithm.AlgoParser
+import kr.ac.kaist.jiset.parser.algorithm.{ AlgoParser, HeadParser }
 import kr.ac.kaist.jiset.parser.grammar.GrammarParser
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -17,17 +17,14 @@ object ECMAScriptParser {
   def apply(version: String, query: String, detail: Boolean): ECMAScript =
     apply(preprocess(version), query, detail)
   def apply(
-    input: (Array[String], Document),
+    input: (Array[String], Document, Region),
     query: String,
     detail: Boolean
   ): ECMAScript = {
-    implicit val (lines, document) = input
+    implicit val (lines, document, region) = input
 
     // parse grammar
     implicit val grammar = parseGrammar
-
-    // region of spec.html
-    implicit val region = Region(document)
 
     // parse algorithm
     val algos =
@@ -52,7 +49,7 @@ object ECMAScriptParser {
   // helper
   ////////////////////////////////////////////////////////////////////////////////
   // preprocess for spec.html
-  def preprocess(version: String = RECENT_VERSION): (Array[String], Document) = {
+  def preprocess(version: String = RECENT_VERSION): (Array[String], Document, Region) = {
     val rawVersion = getRawVersion(version)
     val cur = currentVersion(ECMA262_DIR)
     val src = if (cur == rawVersion) readFile(SPEC_HTML) else {
@@ -64,7 +61,8 @@ object ECMAScriptParser {
     val lines = unescapeHtml(src).split(LINE_SEP)
     val cutted = dropNoScope(attachLines(src.split(LINE_SEP))).mkString(LINE_SEP)
     val document = Jsoup.parse(cutted)
-    (lines, document)
+    val region = Region(document)
+    (lines, document, region)
   }
 
   // attach line numbers
@@ -115,31 +113,14 @@ object ECMAScriptParser {
       .map(row => toArray(row.children))
   }
 
-  ////////////////////////////////////////////////////////////////////////////////
-  // grammar
-  ////////////////////////////////////////////////////////////////////////////////
-  // parse spec.html to Grammar
-  def parseGrammar(version: String): (Grammar, Document) = {
-    implicit val (lines, document) = preprocess(version)
-    (parseGrammar, document)
-  }
-  def parseGrammar(implicit lines: Array[String], document: Document): Grammar =
-    GrammarParser(lines, document)
-
-  ////////////////////////////////////////////////////////////////////////////////
-  // algorithm
-  ////////////////////////////////////////////////////////////////////////////////
-  // parse spec.html to Algo
-  def parseAlgo(
+  private def getTargetElems(
     target: Element,
     detail: Boolean = false
   )(
     implicit
     lines: Array[String],
-    grammar: Grammar,
-    region: Region,
     document: Document
-  ): List[Algo] = {
+  ): Array[Element] = {
     // HTML elements with `emu-alg` tags
     // `emu-alg` that reside inside `emu-note` should be filtered out
     val emuAlgs = getElems(target, "emu-alg").filter(elem => elem.parent().tagName() != "emu-note")
@@ -155,9 +136,10 @@ object ECMAScriptParser {
 
     // HTML elements with `emu-eqn` tags
     val emuEqns = getElems(target, "emu-eqn[aoid]")
-    // val emuEqns = List.empty
 
+    // target elements
     val elems = emuAlgs ++ earlyErrors ++ typeTableAlgs ++ emuEqns
+
     if (detail) {
       println(s"# algorithm elements: ${elems.size}")
       println(s"  - <emu-alg>: ${emuAlgs.size}")
@@ -165,11 +147,72 @@ object ECMAScriptParser {
       println(s"  - <emu-table> with header Arguments Type : ${typeTableAlgs.size}")
       println(s"  - <emu-eqn>: ${emuEqns.size}")
     }
+    elems
+  }
+  def getSecId(elem: Element): String =
+    toArray(elem.parents).find(_.tagName == "emu-clause").get.id
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // grammar
+  ////////////////////////////////////////////////////////////////////////////////
+  // parse spec.html to Grammar
+  def parseGrammar(version: String): (Grammar, Document) = {
+    implicit val (lines, document, _) = preprocess(version)
+    (parseGrammar, document)
+  }
+  def parseGrammar(implicit lines: Array[String], document: Document): Grammar =
+    GrammarParser(lines, document)
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // algorithm
+  ////////////////////////////////////////////////////////////////////////////////
+  def parseHeads(
+    targetSections: Array[String] = Array(),
+    detail: Boolean = false
+  )(
+    implicit
+    lines: Array[String],
+    grammar: Grammar,
+    document: Document,
+    region: Region
+  ): (Map[String, Name], List[(Element, List[Head])]) = {
+    var res: List[(Element, List[Head])] = List()
+    var secIds = (for {
+      elem <- getTargetElems(document)
+      secId = getSecId(elem)
+      // TODO handle exception
+      heads = HeadParser(elem)
+      if !heads.isEmpty
+    } yield {
+      // if elem is in targets, add it to result
+      if (targetSections.contains(secId)) res :+= (elem, heads)
+      secId -> Name(heads.head.name)
+    }).toMap
+
+    (secIds, res)
+  }
+
+  // parse spec.html to Algo
+  def parseAlgo(
+    target: Element,
+    detail: Boolean = false
+  )(
+    implicit
+    lines: Array[String],
+    grammar: Grammar,
+    document: Document,
+    region: Region
+  ): List[Algo] = {
+    // get section id of target elements
+    val targetSections = getTargetElems(target).map(getSecId(_))
+
+    // parse heads and
+    val (secIds, parsedHeads) = parseHeads(targetSections, detail)
 
     // algorithms
     val (atime, passed) = time(for {
-      elem <- elems
-      algos = AlgoParser(elem, detail)
+      parsedHead <- parsedHeads
+      algos = AlgoParser(parsedHead, secIds, detail)
       if !algos.isEmpty
     } yield algos)
     if (detail) println(s"# successful algorithm parsing: ${passed.size} ($atime ms)")

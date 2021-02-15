@@ -76,7 +76,8 @@ trait TokenParsers extends ProductionParsers {
     grammar: Grammar,
     document: Document,
     counter: Counter,
-    handleIndent: Boolean
+    handleIndent: Boolean,
+    secIds: Map[String, Name]
   ): Parser[Int ~ List[Token]] = {
     // helpers
     def tag(name: String): (Parser[String], Parser[String], Parser[String]) =
@@ -146,7 +147,13 @@ trait TokenParsers extends ProductionParsers {
       case s => Sup(parseAll(rep(token), s).getOrElse(Nil))
     }
     lazy val link = "<emu-xref href=\"#" ~> "[^\"]*".r <~ "\"" <~ opt("[^>]*".r) <~ "></emu-xref>" ^^ {
-      case id => Link("") // TODO convert id to corresponding name
+      case secId => {
+        // change section link to appropriate text
+        secIds.get(secId) match {
+          case Some(Name(name)) => Text(name)
+          case None => println(secId); Link(s"unhandled: $secId")
+        }
+      }
     }
     lazy val sub = "<sub>" ~> "[^<]*".r <~ "</sub>" ^^ {
       case s =>
@@ -225,13 +232,14 @@ trait TokenParsers extends ProductionParsers {
 
   // get tokens
   val TAB = 2
-  def getTokens(code: Iterable[String])(
+  def getTokens(code: Iterable[String], secIds: Map[String, Name])(
     implicit
     grammar: Grammar,
     document: Document
-  ): List[Token] = getTokens(code.mkString(LINE_SEP))
+  ): List[Token] = getTokens(code.mkString(LINE_SEP), secIds)
   def getTokens(
     code: String,
+    secIds: Map[String, Name],
     handleIndent: Boolean = true
   )(
     implicit
@@ -241,7 +249,7 @@ trait TokenParsers extends ProductionParsers {
     var initial = -1
     var prev = -1
     val counter = new Counter
-    val parser = rep1(step(grammar, document, counter, handleIndent) ^^ {
+    val parser = rep1(step(grammar, document, counter, handleIndent, secIds) ^^ {
       case indent ~ ts => if (handleIndent) {
         var tokens = Vector[Token]()
         if (initial == -1) initial = indent

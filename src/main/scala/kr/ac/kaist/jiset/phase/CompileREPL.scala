@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
+import kr.ac.kaist.jiset.spec.Region
 import kr.ac.kaist.jiset.parser.algorithm.{ CompileREPL => REPL }
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
@@ -21,13 +22,15 @@ case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
     val version = versionOpt.getOrElse("recent")
     println(s"version: $version (${getRawVersion(version)})")
     println(s"parsing spec.html...")
-    implicit val (grammar, document) = ECMAScriptParser.parseGrammar(version)
+    implicit val (lines, document, region) = ECMAScriptParser.preprocess(version)
+    implicit val (grammar, _) = ECMAScriptParser.parseGrammar(version)
+    val secIds = ECMAScriptParser.parseHeads()._1
 
     println(s"* grammar:")
     println(s"  - lexical production: ${grammar.lexProds.length}")
     println(s"  - non-lexical production: ${grammar.prods.length}")
 
-    REPL.run(grammar, document)
+    REPL.run(secIds)
   }
 
   def defaultConfig: CompileREPLConfig = CompileREPLConfig()

@@ -13,145 +13,149 @@ import scala.util.matching.Regex._
 object HeadParser extends HeadParsers {
   import Head._
 
-  def apply(elem: Element)(
+  def apply(elem: Element, detail: Boolean = false)(
     implicit
     lines: Array[String],
     grammar: Grammar,
     region: Region
   ): List[Head] = {
-    var headElem = elem.siblingElements.get(0)
-    if (rulePattern.matches(headElem.text)) {
-      headElem = headElem.parent.siblingElements.get(0)
-    }
-    if (headElem.tagName != "h1") error(s"no algorithm head: $headElem")
-    val str =
+    try {
+      var headElem = elem.siblingElements.get(0)
+      if (rulePattern.matches(headElem.text)) {
+        headElem = headElem.parent.siblingElements.get(0)
+      }
+      if (headElem.tagName != "h1") error(s"no algorithm head: $headElem")
+      val str =
+        if (isEquation(elem)) {
+          val elemText = elem.text
+          elemText.slice(0, elem.text.indexOf("=")).trim
+        } else headElem.text
+
+      val Region(envRange, builtinLine) = region
+
+      // extract name
+      val from = str.indexOf("(")
+      var name = if (from == -1) str else str.substring(0, from)
+      name = prefixPattern.replaceFirstIn(name, "").trim
+      name = "[/\\s]".r.replaceAllIn(name, "")
+      if (!nameCheck(name)) error(s"not target algorithm: $str")
+
+      // extract parameters
+      val params =
+        if (isComparison(name)) COMP_PARAMS
+        else if (from == -1) Nil
+        else parse(paramList, str.substring(from)).get
+
+      // classify head
+      val prev = elem.previousElementSibling
       if (isEquation(elem)) {
-        val elemText = elem.text
-        elemText.slice(0, elem.text.indexOf("=")).trim
-      } else headElem.text
+        // equation
+        List(NormalHead(name, params))
+      } else if (isSyntaxDirected(prev)) {
+        // fix name of regexp syntax -> always evaluation
+        if (isRegexpSyntax(prev)) name = "Evaluation"
 
-    // extract region
-    val Region(envRange, builtinLine) = region
+        // syntax-directed algorithms
+        val idxMap = grammar.idxMap
 
-    // extract name
-    val from = str.indexOf("(")
-    var name = if (from == -1) str else str.substring(0, from)
-    name = prefixPattern.replaceFirstIn(name, "").trim
-    name = "[/\\s]".r.replaceAllIn(name, "")
-    if (!nameCheck(name)) error(s"not target algorithm: $str")
-
-    // extract parameters
-    val params =
-      if (isComparison(name)) COMP_PARAMS
-      else if (from == -1) Nil
-      else parse(paramList, str.substring(from)).get
-
-    // extract section number
-    val parents = toArray(elem.parents)
-    val secId: String = parents.find(_.tagName == "emu-clause").get.id
-
-    // classify head
-    val prev = elem.previousElementSibling
-    if (isEquation(elem)) {
-      // equation
-      List(NormalHead(name, params, secId))
-    } else if (isSyntaxDirected(prev)) {
-      // fix name of regexp syntax -> always evaluation
-      if (isRegexpSyntax(prev)) name = "Evaluation"
-
-      // syntax-directed algorithms
-      val idxMap = grammar.idxMap
-
-      // with parameters
-      val withParams: List[Param] = {
-        val prevElem = headElem.nextElementSibling
-        val isParagraph = prevElem.tagName == "p"
-        val text = prevElem.text
-        val isParams = "[wW]ith (parameter|argument).*".r.matches(text)
-        if (!isParagraph || !isParams) Nil
-        else withParamPattern.findAllMatchIn(text).toList.map(trimParam)
-      }.map(Param(_))
-
-      // extract emu-grammar
-      val target =
-        if (isCoreSyntax(prev)) prev
-        else getElems(prev, "emu-grammar")(0)
-      val body = getRawBody(target).toList
-      // get head
-      for {
-        code <- splitBy(body, "")
-        prod = ProductionParser(code)
-        lhsName = prod.lhs.name
-        rhs <- prod.rhsList
-        rhsName <- rhs.names
-        syntax = lhsName + ":" + rhsName
-        (i, j) <- idxMap.get(syntax)
-      } yield SyntaxDirectedHead(lhsName, rhs, i, j, name, withParams, secId)
-    } else if (isEnvMethod(prev, elem, envRange)) {
-      // environment record method
-      val bases =
-        toArray(elem.parent.previousElementSiblings).toList.flatMap(prevElem => {
-          val isHeader = prevElem.tagName == "h1"
+        // with parameters
+        val withParams: List[Param] = {
+          val prevElem = headElem.nextElementSibling
+          val isParagraph = prevElem.tagName == "p"
           val text = prevElem.text
-          val isEnvRecord = text.endsWith("Environment Records")
+          val isParams = "[wW]ith (parameter|argument).*".r.matches(text)
+          if (!isParagraph || !isParams) Nil
+          else withParamPattern.findAllMatchIn(text).toList.map(trimParam)
+        }.map(Param(_))
 
-          if (isHeader && isEnvRecord) {
-            List(prevElem.text.replaceAll(" ", "").dropRight(1))
-          } else List.empty
+        // extract emu-grammar
+        val target =
+          if (isCoreSyntax(prev)) prev
+          else getElems(prev, "emu-grammar")(0)
+        val body = getRawBody(target).toList
+        // get head
+        for {
+          code <- splitBy(body, "")
+          prod = ProductionParser(code)
+          lhsName = prod.lhs.name
+          rhs <- prod.rhsList
+          rhsName <- rhs.names
+          syntax = lhsName + ":" + rhsName
+          (i, j) <- idxMap.get(syntax)
+        } yield SyntaxDirectedHead(lhsName, rhs, i, j, name, withParams)
+      } else if (isEnvMethod(prev, elem, envRange)) {
+        // environment record method
+        val bases =
+          toArray(elem.parent.previousElementSiblings).toList.flatMap(prevElem => {
+            val isHeader = prevElem.tagName == "h1"
+            val text = prevElem.text
+            val isEnvRecord = text.endsWith("Environment Records")
+
+            if (isHeader && isEnvRecord) {
+              List(prevElem.text.replaceAll(" ", "").dropRight(1))
+            } else List.empty
+          })
+
+        // check if first step is "Let <var> be the ~ Environment Record ~"
+        val firstStep = getRawBody(elem).head.trim
+        val receiverParam = Param(firstStep match {
+          case letEnvRecPattern(thisVar) => strip(thisVar, 1)
+          case _ => firstReceiverParam(prev.text).getOrElse(ENV_PARAM)
         })
 
-      // check if first step is "Let <var> be the ~ Environment Record ~"
-      val firstStep = getRawBody(elem).head.trim
-      val receiverParam = Param(firstStep match {
-        case letEnvRecPattern(thisVar) => strip(thisVar, 1)
-        case _ => firstReceiverParam(prev.text).getOrElse(ENV_PARAM)
-      })
+        bases match {
+          case base :: Nil =>
+            List(MethodHead(base, name, receiverParam, params))
+          case _ => error("`Head`: no base in environment record method")
+        }
+      } else if (isObjMethod(name)) {
+        // object method
+        val bases =
+          toArray(elem.parent.previousElementSiblings).toList.flatMap(prevElem => {
+            val isHeader = prevElem.tagName == "h1"
+            val text = prevElem.text
+            val isObject = text.contains(OBJECT)
 
-      bases match {
-        case base :: Nil =>
-          List(MethodHead(base, name, receiverParam, params, secId))
-        case _ => error("`Head`: no base in environment record method")
-      }
-    } else if (isObjMethod(name)) {
-      // object method
-      val bases =
-        toArray(elem.parent.previousElementSiblings).toList.flatMap(prevElem => {
-          val isHeader = prevElem.tagName == "h1"
-          val text = prevElem.text
-          val isObject = text.contains(OBJECT)
+            if (isHeader && isObject) {
+              val endIdx = text.indexOfSlice(OBJECT) + OBJECT.length
+              val base = normPattern.replaceAllIn(text.slice(0, endIdx), "")
+              List(base)
+            } else List.empty
+          })
 
-          if (isHeader && isObject) {
-            val endIdx = text.indexOfSlice(OBJECT) + OBJECT.length
-            val base = normPattern.replaceAllIn(text.slice(0, endIdx), "")
-            List(base)
-          } else List.empty
+        val methodName = strip(name, 2)
+        val firstStep = getRawBody(elem).head.trim
+        val receiverParam = Param(firstStep match {
+          case letObjPattern(thisVar) => strip(thisVar, 1)
+          case _ => firstReceiverParam(prev.text).getOrElse(OBJ_PARAM)
         })
 
-      val methodName = strip(name, 2)
-      val firstStep = getRawBody(elem).head.trim
-      val receiverParam = Param(firstStep match {
-        case letObjPattern(thisVar) => strip(thisVar, 1)
-        case _ => firstReceiverParam(prev.text).getOrElse(OBJ_PARAM)
-      })
-
-      bases match {
-        case base :: Nil =>
-          List(MethodHead(base, methodName, receiverParam, params, secId))
-        case _ => error("`Head`: no base in object method")
+        bases match {
+          case base :: Nil =>
+            List(MethodHead(base, methodName, receiverParam, params))
+          case _ => error("`Head`: no base in object method")
+        }
+      } else if (isBuiltin(prev, elem, builtinLine)) {
+        // built-in algorithms
+        List(BuiltinHead(parseAll(ref, name).get, params))
+      } else if (isThisValue(prev, elem, builtinLine)) {
+        // thisValue
+        val prevText = prev.text
+        // NOTE name and params always exist
+        val name = thisValuePattern.findAllIn(prevText).toList.head
+        val params = List(Param(firstParam(prevText).get))
+        List(NormalHead(name, params))
+      } else {
+        // normal algorithms
+        List(NormalHead(name, params))
       }
-    } else if (isBuiltin(prev, elem, builtinLine)) {
-      // built-in algorithms
-      List(BuiltinHead(parseAll(ref, name).get, params, secId))
-    } else if (isThisValue(prev, elem, builtinLine)) {
-      // thisValue
-      val prevText = prev.text
-      // NOTE name and params always exist
-      val name = thisValuePattern.findAllIn(prevText).toList.head
-      val params = List(Param(firstParam(prevText).get))
-      List(NormalHead(name, params, secId))
-    } else {
-      // normal algorithms
-      List(NormalHead(name, params, secId))
+    } catch {
+      case e: Throwable =>
+        if (detail) {
+          println(s"[Head] ${e.getMessage}")
+          e.getStackTrace.foreach(println _)
+        }
+        Nil
     }
   }
   // check whether current algorithm head is for equation functions.

@@ -29,7 +29,7 @@ case object ExtractTag extends PhaseObj[Unit, ExtractTagConfig, Unit] {
     }
     val tag = tagOpt.getOrElse(noTargetTag)
 
-    implicit val (_, document) = preprocess(version)
+    implicit val (_, document, _) = preprocess(version)
 
     val elems = document.getElementsByTag(tag)
     for (elem <- elems.toArray) println(elem)

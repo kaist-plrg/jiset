@@ -10,11 +10,11 @@ case class SyntaxDirectedHead(
     idx: Int,
     subIdx: Int,
     methodName: String,
-    withParams: List[Param],
-    secId: String
+    withParams: List[Param]
 ) extends Head {
   // name with index and method name
-  val name: String = s"$lhsName[$idx,$subIdx].$methodName"
+  val name: String = s"$lhsName$idx$methodName$subIdx"
+  override val printName = s"$lhsName[$idx,$subIdx].$methodName"
 
   // prepend `this` parameter and number duplicated params
   val params: List[Param] = Param(THIS_PARAM) :: rename(rhs.getNTs.map(nt => {

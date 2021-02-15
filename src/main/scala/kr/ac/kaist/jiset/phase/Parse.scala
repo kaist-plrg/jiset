@@ -6,6 +6,8 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
 
+import kr.ac.kaist.jiset.spec.algorithm.Name
+
 // Parse phase
 case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
   val name = "parse"

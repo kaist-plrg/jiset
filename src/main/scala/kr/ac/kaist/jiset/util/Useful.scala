@@ -136,12 +136,19 @@ object Useful {
   // get name that could be used in Scala identifiers
   private val symbolRegex = "@@([^@]+)".r
   private val intrinsicRegex = "%([^%]+)%".r
-  def getScalaName(str: String): String =
-    str.replaceAll("\\.", "DOT") match {
+  def getScalaName(str: String): String = {
+    val replaces = Map(
+      "\\." -> "DOT",
+      ":" -> "COLON"
+    )
+    replaces.foldLeft(str) {
+      case (str, (from, to)) => str.replaceAll(from, to)
+    } match {
       case intrinsicRegex(x) => "INTRINSIC_" + x
       case symbolRegex(x) => "SYMBOL_" + x
       case x => x
     }
+  }
 
   // cache for function
   def cached[A, B](f: A => B): A => B = {

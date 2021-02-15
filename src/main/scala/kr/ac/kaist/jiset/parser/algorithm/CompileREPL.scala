@@ -4,7 +4,7 @@ import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.parser.algorithm.{ TokenParser, Compiler }
 import kr.ac.kaist.jiset.spec.JsonProtocol._
-import kr.ac.kaist.jiset.spec.algorithm.Token
+import kr.ac.kaist.jiset.spec.algorithm.{ Token, Name }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.util.Useful._
 import org.jline.builtins.Completers.TreeCompleter
@@ -18,7 +18,11 @@ import org.jsoup.nodes.Document
 import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
 
 object CompileREPL {
-  def run(implicit grammar: Grammar, document: Document): Unit = {
+  def run(secIds: Map[String, Name])(
+    implicit
+    grammar: Grammar,
+    document: Document
+  ): Unit = {
     val builder: TerminalBuilder = TerminalBuilder.builder()
     val terminal: Terminal = builder.build()
     def parseNode(cmd: String) = node(
@@ -68,8 +72,7 @@ object CompileREPL {
         list.reverse
       } else List(input.mkString(" "))).map(unescapeHtml(_))
 
-      // parse
-      val (tokens, result) = target.parse(code, raw)
+      val (tokens, result) = target.parse(code, secIds, raw)
       println(s"[Tokens] ${tokens.mkString(" ")}")
       if (result.successful) {
         val resultStr = beautify(result.get, index = true)

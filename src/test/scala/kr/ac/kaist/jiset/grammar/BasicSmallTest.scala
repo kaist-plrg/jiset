@@ -12,7 +12,7 @@ class BasicSmallTest extends GrammarTest {
     for (version <- VERSIONS) check(version, {
       val filename = s"$GRAMMAR_DIR/$version.grammar"
       val answer = readFile(filename)
-      implicit val (lines, document) = getInput(version)
+      implicit val (lines, document, _) = getInput(version)
       val grammar = ECMAScriptParser.parseGrammar
       assert(answer == grammar.toString)
     })

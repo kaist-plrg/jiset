@@ -56,10 +56,11 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
       for (version <- VERSIONS) {
         val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
-        // get spec, document, grammar
+        // get spec, document, grammar, secIds
         val spec = ECMAScriptParser(version, "", false)
-        implicit val document = ECMAScriptParser.preprocess(version)._2
+        implicit val (lines, document, region) = ECMAScriptParser.preprocess(version)
         implicit val grammar = spec.grammar
+        val secIds = ECMAScriptParser.parseHeads()._1
 
         mkdir(baseDir)
         spec.algos.foreach(algo => {
@@ -69,7 +70,8 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
           // dump code
           dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")
           // dump tokens of steps
-          dumpJson[List[Token]](TokenParser.getTokens(code), s"$filename.json")
+          val tokens = TokenParser.getTokens(code, secIds)
+          dumpJson[List[Token]](tokens, s"$filename.json")
           // dump ir
           dumpFile(beautify(rawBody, index = false), s"$filename.ir")
         })

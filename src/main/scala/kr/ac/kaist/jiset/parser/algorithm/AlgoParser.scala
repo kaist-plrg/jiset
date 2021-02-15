@@ -11,7 +11,8 @@ import org.jsoup.nodes._
 object AlgoParser {
   // get algorithms
   def apply(
-    elem: Element,
+    parsedHead: (Element, List[Head]),
+    secIds: Map[String, Name],
     detail: Boolean = false
   )(
     implicit
@@ -20,14 +21,14 @@ object AlgoParser {
     region: Region,
     document: Document
   ): List[Algo] = {
+    val (elem, heads) = parsedHead
     if (detail) println(s"==================================================")
     val result = try {
-      val heads = HeadParser(elem)
       val (start, end) = getRange(elem).get
       // get code
       val code = getRawBody(elem)
       // get tokens
-      val tokens = TokenParser.getTokens(code)
+      val tokens = TokenParser.getTokens(code, secIds)
       // get body
       val rawBody = Compiler(tokens, start)
 

@@ -20,8 +20,9 @@ class BasicMiddleTest extends CompileTest {
       val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
       // get grammar and document
-      implicit val (lines, document) = getInput(version)
+      implicit val (lines, document, region) = getInput(version)
       implicit val grammar = ECMAScriptParser.parseGrammar
+      val secIds = ECMAScriptParser.parseHeads()._1
 
       for (file <- walkTree(baseDir)) {
         val filename = file.getName
@@ -35,7 +36,7 @@ class BasicMiddleTest extends CompileTest {
             val tokens = readJson[List[Token]](jsonName)
 
             val code = readFile(specName).split(LINE_SEP)
-            val resultTokens = TokenParser.getTokens(code)
+            val resultTokens = TokenParser.getTokens(code, secIds)
             assert(tokens == resultTokens, "tokens are changed")
 
             // check compile
