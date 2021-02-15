@@ -495,6 +495,46 @@ object Compiler extends Compilers {
     }
   }
 
+  lazy val notAlsoOccurEitherCond: P[I[Expr]] = (
+    (("any element of" ~> expr) ~ ("does not also occurs in either" ~> expr)) ~ ((opt(",") ~ "or") ~> expr)
+  ) ^^ {
+      case (i1 ~ e1) ~ (i2 ~ e2) ~ (i3 ~ e3) => {
+        val list1 = getTempId
+        val list2 = getTempId
+        val list3 = getTempId
+        val idx = getTempId
+        val jdx = getTempId
+        val result = getTempId
+        val initInsts = List(
+          ILet(list1, e1),
+          ILet(list2, e2),
+          ILet(list3, e3),
+          ILet(idx, EINum(0)),
+          ILet(jdx, EINum(0)),
+          ILet(result, EBool(false))
+        )
+        def innerWhile(id: IRId): Inst = IWhile(
+          EBOp(OLt, toERef(jdx), toERef(id, "length")),
+          IIf(
+            EBOp(OEq, toERef(list1, toERef(idx)), toERef(id, toERef(jdx))),
+            IAssign(toRef(result), EBool(true)),
+            emptyInst
+          )
+        )
+        def outerWhile = IWhile(
+          EBOp(OLt, toERef(idx), toERef(list1, "length")),
+          ISeq(List(
+            IAssign(toRef(jdx), EINum(0)),
+            innerWhile(list2),
+            IAssign(toRef(jdx), EINum(0)),
+            innerWhile(list3)
+          ))
+        )
+        val totalInsts = i1 ++ i2 ++ i3 ++ initInsts ++ List(outerWhile)
+        pair(totalInsts, toERef(result))
+      }
+    }
+
   lazy val thisProdRefBase: P[String] = (
     (opt("the") ~ "code matched by this production") |||
     (opt("the") ~ "code that matches this production")
@@ -543,6 +583,8 @@ object Compiler extends Compilers {
       pair(totalInst, toERef(result))
     }
   }
+
+  //
 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
