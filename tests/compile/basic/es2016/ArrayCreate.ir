@@ -6,7 +6,7 @@
   } else {}
   if (= proto absent) let proto = INTRINSIC_ArrayPrototype else {}
   let A = (new ArrayExoticObject("SubMap" -> (new SubMap())))
-  ??? "Set the [ [ DefineOwnProperty ] ] internal method of id:{A} as specified in link:{} ."
+  A.DefineOwnProperty = ArrayExoticObjectDOTDefineOwnProperty
   A.Prototype = proto
   A.Extensible = true
   app __x1__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Value" -> length, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))

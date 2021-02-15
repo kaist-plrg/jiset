@@ -1,12 +1,12 @@
 {
   let product = "\""
-  ??? "Let id:{cpList} be a List containing in order the code points of id:{value} when interpreted as a sequence of UTF - 16 encoded code points as described in link:{} ."
+  ??? "Let id:{cpList} be a List containing in order the code points of id:{value} when interpreted as a sequence of UTF - 16 encoded code points as described in link:{unhandled: sec-ecmascript-language-types-string-type} ."
   let __x0__ = cpList
   let __x1__ = 0i
   while (< __x1__ __x0__.length) {
     let C = __x0__[__x1__]
-    ??? "If id:{C} is listed in the Code Point column of link:{} , then in:{} out:{}"
-    ??? "Else if id:{C} has a numeric value less than 0x0020 ( SPACE ) , or if id:{C} has the same numeric value as a link:{} or link:{} , then in:{} out:{}"
+    ??? "If id:{C} is listed in the Code Point column of link:{unhandled: table-json-single-character-escapes} , then in:{} out:{}"
+    ??? "Else if id:{C} has a numeric value less than 0x0020 ( SPACE ) , or if id:{C} has the same numeric value as a link:{unhandled: leading-surrogate} or link:{unhandled: trailing-surrogate} , then in:{} out:{}"
     ??? "Else , in:{} out:{}"
     __x1__ = (+ __x1__ 1i)
   }

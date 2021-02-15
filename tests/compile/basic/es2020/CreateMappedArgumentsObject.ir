@@ -3,11 +3,11 @@
   app __x0__ = (MakeBasicObject (new ["Prototype", "Extensible", "ParameterMap"]))
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let obj = __x0__
-  ??? "Set id:{obj} . [ [ GetOwnProperty ] ] as specified in link:{} ."
-  ??? "Set id:{obj} . [ [ DefineOwnProperty ] ] as specified in link:{} ."
-  ??? "Set id:{obj} . [ [ Get ] ] as specified in link:{} ."
-  ??? "Set id:{obj} . [ [ Set ] ] as specified in link:{} ."
-  ??? "Set id:{obj} . [ [ Delete ] ] as specified in link:{} ."
+  obj.GetOwnProperty = ArgumentsExoticObjectDOTGetOwnProperty
+  obj.DefineOwnProperty = ArgumentsExoticObjectDOTDefineOwnProperty
+  obj.Get = ArgumentsExoticObjectDOTGet
+  obj.Set = ArgumentsExoticObjectDOTSet
+  obj.Delete = ArgumentsExoticObjectDOTDelete
   obj.Prototype = INTRINSIC_Object_prototype
   app __x1__ = (OrdinaryObjectCreate null)
   let map = __x1__

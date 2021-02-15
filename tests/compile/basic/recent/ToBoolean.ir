@@ -23,23 +23,29 @@
     return __x8__
   } else {}
   app __x9__ = (Type argument)
-  if (= __x9__ String) ??? "If id:{argument} is the empty String ( its length is 0 ) , return value:{false} ; otherwise return value:{true} ." else {}
-  app __x10__ = (Type argument)
-  if (= __x10__ Symbol) {
+  if (= __x9__ String) if (= argument "") {
+    app __x10__ = (WrapCompletion false)
+    return __x10__
+  } else {
     app __x11__ = (WrapCompletion true)
     return __x11__
   } else {}
   app __x12__ = (Type argument)
-  if (= __x12__ BigInt) if (= argument 0i) {
-    app __x13__ = (WrapCompletion false)
+  if (= __x12__ Symbol) {
+    app __x13__ = (WrapCompletion true)
     return __x13__
-  } else {
-    app __x14__ = (WrapCompletion true)
-    return __x14__
   } else {}
-  app __x15__ = (Type argument)
-  if (= __x15__ Object) {
+  app __x14__ = (Type argument)
+  if (= __x14__ BigInt) if (= argument 0i) {
+    app __x15__ = (WrapCompletion false)
+    return __x15__
+  } else {
     app __x16__ = (WrapCompletion true)
     return __x16__
+  } else {}
+  app __x17__ = (Type argument)
+  if (= __x17__ Object) {
+    app __x18__ = (WrapCompletion true)
+    return __x18__
   } else {}
 }

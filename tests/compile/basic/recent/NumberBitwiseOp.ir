@@ -8,8 +8,7 @@
   let rnum = __x1__
   ??? "Let id:{lbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{lnum} ) ."
   ??? "Let id:{rbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{rnum} ) ."
-  ??? "If id:{op} is code:{&} , let id:{result} be the result of applying the bitwise AND operation to id:{lbits} and id:{rbits} ."
-  ??? "Else if id:{op} is code:{^} , let id:{result} be the result of applying the bitwise exclusive OR ( XOR ) operation to id:{lbits} and id:{rbits} ."
+  if (= op "&") let result = (& lbits rbits) else if (= op "^") let result = (^ lbits rbits) else {}
   ??? "Else , id:{op} is code:{|} . Let id:{result} be the result of applying the bitwise inclusive OR operation to id:{lbits} and id:{rbits} ."
   ??? "Return the Number value for the integer represented by the 32 - bit two ' s complement bit string id:{result} ."
 }

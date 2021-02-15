@@ -3,9 +3,9 @@
   assert (= __x0__ String)
   let S = (new StringExoticObject("SubMap" -> (new SubMap())))
   S.StringData = value
-  ??? "Set id:{S} . [ [ GetOwnProperty ] ] as specified in link:{} ."
-  ??? "Set id:{S} . [ [ DefineOwnProperty ] ] as specified in link:{} ."
-  ??? "Set id:{S} . [ [ OwnPropertyKeys ] ] as specified in link:{} ."
+  S.GetOwnProperty = StringExoticObjectDOTGetOwnProperty
+  S.DefineOwnProperty = StringExoticObjectDOTDefineOwnProperty
+  S.OwnPropertyKeys = StringExoticObjectDOTOwnPropertyKeys
   S.Prototype = prototype
   S.Extensible = true
   let length = value.length

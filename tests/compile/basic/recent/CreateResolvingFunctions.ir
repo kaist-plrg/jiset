@@ -1,12 +1,12 @@
 {
   let alreadyResolved = (new Record("Value" -> false))
-  ??? "Let id:{stepsResolve} be the algorithm steps defined in link:{} ."
+  ??? "Let id:{stepsResolve} be the algorithm steps defined in PromiseResolveFunctions ."
   app __x0__ = (CreateBuiltinFunction stepsResolve (new ["Promise", "AlreadyResolved"]))
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let resolve = __x0__
   resolve.Promise = promise
   resolve.AlreadyResolved = alreadyResolved
-  ??? "Let id:{stepsReject} be the algorithm steps defined in link:{} ."
+  ??? "Let id:{stepsReject} be the algorithm steps defined in PromiseRejectFunctions ."
   app __x1__ = (CreateBuiltinFunction stepsReject (new ["Promise", "AlreadyResolved"]))
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let reject = __x1__

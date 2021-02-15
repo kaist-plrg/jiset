@@ -22,9 +22,9 @@
   let P = __x6__
   app __x7__ = (IsCallable target)
   if (= __x7__ true) {
-    ??? "Set id:{P} . [ [ Call ] ] as specified in link:{} ."
+    P.Call = ProxyObjectDOTCall
     app __x8__ = (IsConstructor target)
-    if (= __x8__ true) ??? "Set id:{P} . [ [ Construct ] ] as specified in link:{} ." else {}
+    if (= __x8__ true) P.Construct = ProxyObjectDOTConstruct else {}
   } else {}
   P.ProxyTarget = target
   P.ProxyHandler = handler

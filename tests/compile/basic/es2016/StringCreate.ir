@@ -3,8 +3,8 @@
   assert (= __x0__ String)
   let S = (new StringExoticObject("SubMap" -> (new SubMap())))
   S.StringData = value
-  ??? "Set the [ [ GetOwnProperty ] ] internal method of id:{S} as specified in link:{} ."
-  ??? "Set the [ [ OwnPropertyKeys ] ] internal method of id:{S} as specified in link:{} ."
+  S.GetOwnProperty = StringExoticObjectDOTGetOwnProperty
+  S.OwnPropertyKeys = StringExoticObjectDOTOwnPropertyKeys
   S.Prototype = prototype
   S.Extensible = true
   let length = value.length

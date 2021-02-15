@@ -15,9 +15,9 @@
   } else {}
   let offset = O.ByteOffset
   let arrayTypeName = O.TypedArrayName
-  ??? "Let id:{elementSize} be the Element Size value specified in link:{} for id:{arrayTypeName} ."
+  ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
   let indexedPosition = (+ (* index elementSize) offset)
-  ??? "Let id:{elementType} be the Element Type value in link:{} for id:{arrayTypeName} ."
+  ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
   app __x5__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_Unordered)
   app __x6__ = (WrapCompletion __x5__)
   return __x6__

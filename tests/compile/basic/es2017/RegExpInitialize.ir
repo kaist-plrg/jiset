@@ -12,15 +12,15 @@
   ??? "If id:{F} contains any code unit other than code:{\"g\"} , code:{\"i\"} , code:{\"m\"} , code:{\"u\"} , or code:{\"y\"} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception ."
   if (contains F "u") let BMP = false else let BMP = true
   if (= BMP true) {
-    ??? "Parse id:{P} using the grammars in link:{} and interpreting each of its 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements . The goal symbol for the parse is nt:{Pattern[~U]} . Throw a value:{SyntaxError} exception if id:{P} did not conform to the grammar , if any elements of id:{P} were not matched by the parse , or if any Early Error conditions exist ."
+    ??? "Parse id:{P} using the grammars in link:{unhandled: sec-patterns} and interpreting each of its 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements . The goal symbol for the parse is nt:{Pattern[~U]} . Throw a value:{SyntaxError} exception if id:{P} did not conform to the grammar , if any elements of id:{P} were not matched by the parse , or if any Early Error conditions exist ."
     ??? "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} ."
   } else {
-    ??? "Parse id:{P} using the grammars in link:{} and interpreting id:{P} as UTF - 16 encoded Unicode code points ( link:{} ) . The goal symbol for the parse is nt:{Pattern[+U]} . Throw a value:{SyntaxError} exception if id:{P} did not conform to the grammar , if any elements of id:{P} were not matched by the parse , or if any Early Error conditions exist ."
+    ??? "Parse id:{P} using the grammars in link:{unhandled: sec-patterns} and interpreting id:{P} as UTF - 16 encoded Unicode code points ( link:{unhandled: sec-ecmascript-language-types-string-type} ) . The goal symbol for the parse is nt:{Pattern[+U]} . Throw a value:{SyntaxError} exception if id:{P} did not conform to the grammar , if any elements of id:{P} were not matched by the parse , or if any Early Error conditions exist ."
     ??? "Let id:{patternCharacters} be a List whose elements are the code points resulting from applying UTF - 16 decoding to id:{P} ' s sequence of elements ."
   }
   obj.OriginalSource = P
   obj.OriginalFlags = F
-  ??? "Set id:{obj} . [ [ RegExpMatcher ] ] to the internal procedure that evaluates the above parse of id:{P} by applying the semantics provided in link:{} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters ."
+  ??? "Set id:{obj} . [ [ RegExpMatcher ] ] to the internal procedure that evaluates the above parse of id:{P} by applying the semantics provided in link:{unhandled: sec-pattern-semantics} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters ."
   app __x2__ = (Set obj "lastIndex" 0i true)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   __x2__

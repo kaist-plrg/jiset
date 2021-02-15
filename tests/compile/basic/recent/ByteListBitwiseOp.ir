@@ -7,8 +7,7 @@
   while (< __x1__ __x0__.length) {
     let xByte = __x0__[__x1__]
     let yByte = yBytes[i]
-    ??? "If id:{op} is code:{&} , let id:{resultByte} be the result of applying the bitwise AND operation to id:{xByte} and id:{yByte} ."
-    ??? "Else if id:{op} is code:{^} , let id:{resultByte} be the result of applying the bitwise exclusive OR ( XOR ) operation to id:{xByte} and id:{yByte} ."
+    if (= op "&") let resultByte = (& xByte yByte) else if (= op "^") let resultByte = (^ xByte yByte) else {}
     ??? "Else , id:{op} is code:{|} . Let id:{resultByte} be the result of applying the bitwise inclusive OR operation to id:{xByte} and id:{yByte} ."
     i = (+ i 1i)
     append resultByte -> result

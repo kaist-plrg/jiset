@@ -4,14 +4,14 @@
   app __x1__ = (targetFunction.GetPrototypeOf targetFunction)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let proto = __x1__
-  ??? "Let id:{internalSlotsList} be the internal slots listed in link:{} , plus [ [ Prototype ] ] and [ [ Extensible ] ] ."
+  ??? "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-28} , plus [ [ Prototype ] ] and [ [ Extensible ] ] ."
   app __x2__ = (MakeBasicObject internalSlotsList)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let obj = __x2__
   obj.Prototype = proto
-  ??? "Set id:{obj} . [ [ Call ] ] as described in link:{} ."
+  obj.Call = BoundFunctionExoticObjectDOTCall
   app __x3__ = (IsConstructor targetFunction)
-  if (= __x3__ true) ??? "Set id:{obj} . [ [ Construct ] ] as described in link:{} ." else {}
+  if (= __x3__ true) obj.Construct = BoundFunctionExoticObjectDOTConstruct else {}
   obj.BoundTargetFunction = targetFunction
   obj.BoundThis = boundThis
   obj.BoundArguments = boundArgs

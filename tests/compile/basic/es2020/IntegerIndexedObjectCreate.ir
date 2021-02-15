@@ -3,12 +3,12 @@
   app __x0__ = (MakeBasicObject internalSlotsList)
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let A = __x0__
-  ??? "Set id:{A} . [ [ GetOwnProperty ] ] as specified in link:{} ."
-  ??? "Set id:{A} . [ [ HasProperty ] ] as specified in link:{} ."
-  ??? "Set id:{A} . [ [ DefineOwnProperty ] ] as specified in link:{} ."
-  ??? "Set id:{A} . [ [ Get ] ] as specified in link:{} ."
-  ??? "Set id:{A} . [ [ Set ] ] as specified in link:{} ."
-  ??? "Set id:{A} . [ [ OwnPropertyKeys ] ] as specified in link:{} ."
+  A.GetOwnProperty = IntegerIndexedExoticObjectDOTGetOwnProperty
+  A.HasProperty = IntegerIndexedExoticObjectDOTHasProperty
+  A.DefineOwnProperty = IntegerIndexedExoticObjectDOTDefineOwnProperty
+  A.Get = IntegerIndexedExoticObjectDOTGet
+  A.Set = IntegerIndexedExoticObjectDOTSet
+  A.OwnPropertyKeys = IntegerIndexedExoticObjectDOTOwnPropertyKeys
   A.Prototype = prototype
   app __x1__ = (WrapCompletion A)
   return __x1__

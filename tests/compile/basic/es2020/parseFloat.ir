@@ -5,7 +5,7 @@
   app __x1__ = (TrimString inputString CONST_start)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let trimmedString = __x1__
-  ??? "If neither id:{trimmedString} nor any prefix of id:{trimmedString} satisfies the syntax of a nt:{StrDecimalLiteral} ( see link:{} ) , return value:{NaN} ."
+  ??? "If neither id:{trimmedString} nor any prefix of id:{trimmedString} satisfies the syntax of a nt:{StrDecimalLiteral} ( see link:{unhandled: sec-tonumber-applied-to-the-string-type} ) , return value:{NaN} ."
   ??? "Let id:{numberString} be the longest prefix of id:{trimmedString} , which might be id:{trimmedString} itself , that satisfies the syntax of a nt:{StrDecimalLiteral} ."
   access __x2__ = (numberString "MV")
   let mathFloat = __x2__

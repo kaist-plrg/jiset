@@ -8,7 +8,7 @@
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let A = __x1__
   A.Prototype = proto
-  ??? "Set id:{A} . [ [ DefineOwnProperty ] ] as specified in link:{} ."
+  A.DefineOwnProperty = ArrayExoticObjectDOTDefineOwnProperty
   app __x2__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Value" -> length, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   __x2__

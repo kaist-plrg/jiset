@@ -6,7 +6,7 @@
   } else {}
   if (= proto absent) proto = INTRINSIC_ArrayPrototype else {}
   let A = (new ArrayExoticObject("SubMap" -> (new SubMap())))
-  ??? "Set id:{A} . [ [ DefineOwnProperty ] ] as specified in link:{} ."
+  A.DefineOwnProperty = ArrayExoticObjectDOTDefineOwnProperty
   A.Prototype = proto
   A.Extensible = true
   app __x1__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Value" -> length, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))

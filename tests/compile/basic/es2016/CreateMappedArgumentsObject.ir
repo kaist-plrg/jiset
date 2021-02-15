@@ -1,12 +1,12 @@
 {
   let len = argumentsList.length
   let obj = (new ArgumentsExoticObject("SubMap" -> (new SubMap()), "ParameterMap" -> undefined))
-  ??? "Set the [ [ GetOwnProperty ] ] internal method of id:{obj} as specified in link:{} ."
-  ??? "Set the [ [ DefineOwnProperty ] ] internal method of id:{obj} as specified in link:{} ."
-  ??? "Set the [ [ Get ] ] internal method of id:{obj} as specified in link:{} ."
-  ??? "Set the [ [ Set ] ] internal method of id:{obj} as specified in link:{} ."
-  ??? "Set the [ [ HasProperty ] ] internal method of id:{obj} as specified in link:{} ."
-  ??? "Set the [ [ Delete ] ] internal method of id:{obj} as specified in link:{} ."
+  obj.GetOwnProperty = ArgumentsExoticObjectDOTGetOwnProperty
+  obj.DefineOwnProperty = ArgumentsExoticObjectDOTDefineOwnProperty
+  obj.Get = ArgumentsExoticObjectDOTGet
+  obj.Set = ArgumentsExoticObjectDOTSet
+  obj.HasProperty = ArgumentsExoticObjectDOTHasProperty
+  obj.Delete = ArgumentsExoticObjectDOTDelete
   obj.Prototype = INTRINSIC_ObjectPrototype
   obj.Extensible = true
   app __x0__ = (ObjectCreate null)

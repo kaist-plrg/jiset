@@ -4,7 +4,7 @@
   let jsonString = __x0__
   ??? "Parse ! UTF16DecodeString ( id:{jsonString} ) as a JSON text as specified in ECMA - 404 . Throw a value:{SyntaxError} exception if it is not a valid JSON text as defined in that specification ."
   let scriptString = (+ (+ "(" jsonString) ");")
-  ??? "Let id:{completion} be the result of parsing and evaluating ! UTF16DecodeString ( id:{scriptString} ) as if it was the source text of an ECMAScript nt:{Script} . The extended PropertyDefinitionEvaluation semantics defined in link:{} must not be used during the evaluation ."
+  ??? "Let id:{completion} be the result of parsing and evaluating ! UTF16DecodeString ( id:{scriptString} ) as if it was the source text of an ECMAScript nt:{Script} . The extended PropertyDefinitionEvaluation semantics defined in link:{unhandled: sec-__proto__-property-names-in-object-initializers} must not be used during the evaluation ."
   let unfiltered = completion.Value
   app __x1__ = (IsCallable reviver)
   if (= __x1__ true) {

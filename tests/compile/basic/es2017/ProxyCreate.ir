@@ -20,8 +20,8 @@
   let P = (new OrdinaryObject("SubMap" -> (new SubMap())))
   app __x6__ = (IsCallable target)
   if (= __x6__ true) {
-    ??? "Set id:{P} . [ [ Call ] ] as specified in link:{} ."
-    if (! (= target.Construct absent)) ??? "Set id:{P} . [ [ Construct ] ] as specified in link:{} ." else {}
+    P.Call = ProxyObjectDOTCall
+    if (! (= target.Construct absent)) P.Construct = ProxyObjectDOTConstruct else {}
   } else {}
   P.ProxyTarget = target
   P.ProxyHandler = handler

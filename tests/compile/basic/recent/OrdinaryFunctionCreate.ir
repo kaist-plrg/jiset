@@ -1,11 +1,11 @@
 {
   app __x0__ = (Type functionPrototype)
   assert (= __x0__ Object)
-  ??? "Let id:{internalSlotsList} be the internal slots listed in link:{} ."
+  ??? "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-ecmascript-function-objects} ."
   app __x1__ = (OrdinaryObjectCreate functionPrototype internalSlotsList)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let F = __x1__
-  ??? "Set id:{F} . [ [ Call ] ] to the definition specified in link:{} ."
+  F.Call = ECMAScriptFunctionObjectDOTCall
   F.SourceText = sourceText
   F.FormalParameters = ParameterList
   F.ECMAScriptCode = Body

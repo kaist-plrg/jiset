@@ -4,9 +4,9 @@
   let S = __x0__
   S.Prototype = prototype
   S.StringData = value
-  ??? "Set id:{S} . [ [ GetOwnProperty ] ] as specified in link:{} ."
-  ??? "Set id:{S} . [ [ DefineOwnProperty ] ] as specified in link:{} ."
-  ??? "Set id:{S} . [ [ OwnPropertyKeys ] ] as specified in link:{} ."
+  S.GetOwnProperty = StringExoticObjectDOTGetOwnProperty
+  S.DefineOwnProperty = StringExoticObjectDOTDefineOwnProperty
+  S.OwnPropertyKeys = StringExoticObjectDOTOwnPropertyKeys
   let length = value.length
   app __x1__ = (DefinePropertyOrThrow S "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}

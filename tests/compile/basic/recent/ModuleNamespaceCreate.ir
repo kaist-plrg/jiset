@@ -1,6 +1,6 @@
 {
   assert (= module.Namespace undefined)
-  ??? "Let id:{internalSlotsList} be the internal slots listed in link:{} ."
+  ??? "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-module-namespace-exotic-objects} ."
   app __x0__ = (MakeBasicObject internalSlotsList)
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let M = __x0__
@@ -8,7 +8,7 @@
   M.Module = module
   ??? "Let id:{sortedExports} be a List whose elements are the elements of id:{exports} ordered as if an Array of the same values had been sorted using % Array . prototype . sort % using value:{undefined} as id:{comparefn} ."
   M.Exports = sortedExports
-  ??? "Create own properties of id:{M} corresponding to the definitions in link:{} ."
+  ??? "Create own properties of id:{M} corresponding to the definitions in link:{unhandled: sec-module-namespace-objects} ."
   module.Namespace = M
   app __x1__ = (WrapCompletion M)
   return __x1__

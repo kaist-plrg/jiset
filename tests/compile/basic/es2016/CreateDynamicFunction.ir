@@ -30,8 +30,8 @@
   app __x2__ = (ToString bodyText)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let bodyText = __x2__
-  ??? "Let id:{parameters} be the result of parsing id:{P} , interpreted as UTF - 16 encoded Unicode text as described in link:{} , using id:{parameterGoal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
-  ??? "Let id:{body} be the result of parsing id:{bodyText} , interpreted as UTF - 16 encoded Unicode text as described in link:{} , using id:{goal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
+  ??? "Let id:{parameters} be the result of parsing id:{P} , interpreted as UTF - 16 encoded Unicode text as described in link:{unhandled: sec-ecmascript-language-types-string-type} , using id:{parameterGoal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
+  ??? "Let id:{body} be the result of parsing id:{bodyText} , interpreted as UTF - 16 encoded Unicode text as described in link:{unhandled: sec-ecmascript-language-types-string-type} , using id:{goal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
   if true let strict = true else let strict = false
   ??? "If any static semantics errors are detected for id:{parameters} or id:{body} , throw a value:{SyntaxError} or a value:{ReferenceError} exception , depending on the type of the error . If id:{strict} is value:{true} , the Early Error rules for grammar:{StrictFormalParameters0, [FormalParameters]} are applied . Parsing and early error detection may be interweaved in an implementation dependent manner ."
   access __x3__ = (body "ContainsUseStrict")

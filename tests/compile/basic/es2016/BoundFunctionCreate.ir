@@ -5,8 +5,8 @@
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let proto = __x1__
   let obj = (new OrdinaryObject("SubMap" -> (new SubMap())))
-  ??? "Set the [ [ Call ] ] internal method of id:{obj} as described in link:{} ."
-  if (! (= targetFunction.Construct absent)) ??? "Set the [ [ Construct ] ] internal method of id:{obj} as described in link:{} ." else {}
+  obj.Call = BoundFunctionExoticObjectDOTCall
+  if (! (= targetFunction.Construct absent)) obj.Construct = BoundFunctionExoticObjectDOTConstruct else {}
   obj.Prototype = proto
   obj.Extensible = true
   obj.BoundTargetFunction = targetFunction
