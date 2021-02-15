@@ -151,7 +151,7 @@ trait TokenParsers extends ProductionParsers {
         // change section link to appropriate text
         secIds.get(secId) match {
           case Some(Name(name)) => Text(name)
-          case None => println(secId); Link(s"unhandled: $secId")
+          case None => Link(s"unhandled: $secId")
         }
       }
     }
