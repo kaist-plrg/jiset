@@ -399,7 +399,8 @@ object Compiler extends Compilers {
     alsoOccurCond |||
     notSetCond |||
     notCoveringCond |||
-    notGoalCond
+    notGoalCond |||
+    notAlsoOccurEitherCond
   ) // todo!: add more conds
 
   lazy val anyMatchCond = (opt("any") ~ "code matches this production" | "any source text matches this rule") ^^ {
@@ -496,7 +497,7 @@ object Compiler extends Compilers {
   }
 
   lazy val notAlsoOccurEitherCond: P[I[Expr]] = (
-    (("any element of" ~> expr) ~ ("does not also occurs in either" ~> expr)) ~ ((opt(",") ~ "or") ~> expr)
+    (("any element of" ~> expr) ~ ("does not also occur in either" ~> expr)) ~ ((opt(",") ~ "or") ~> expr)
   ) ^^ {
       case (i1 ~ e1) ~ (i2 ~ e2) ~ (i3 ~ e3) => {
         val list1 = getTempId
