@@ -47,7 +47,7 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
           resMap += name -> Yet(msg)
         case e: Throwable =>
           resMap += name -> Fail
-          fail(e.toString)
+          throw e
       }
     }
   }

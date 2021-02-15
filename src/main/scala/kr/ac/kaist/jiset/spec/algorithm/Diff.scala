@@ -7,13 +7,19 @@ import kr.ac.kaist.jiset.util.Useful._
 // import kr.ac.kaist.jiset.parser.ECMAScriptParser
 
 object Diff {
-  def apply(result: Inst, answer: Inst): Option[Missing] = try {
-    compare(result, answer, true)
-    None
+  def apply(result: IRNode, answer: IRNode): Option[Missing] = try {
+    if ((result, answer) match {
+      case (result: Inst, answer: Inst) => compare(result, answer, true)
+      case (result: Id, answer: Id) => compare(result, answer)
+      case (result: Ty, answer: Ty) => compare(result, answer)
+      case (result: Expr, answer: Expr) => compare(result, answer)
+      case (result: Ref, answer: Ref) => compare(result, answer)
+      case _ => false
+    }) None else Some(Missing(answer))
   } catch { case m: Missing => Some(m) }
 
   // missing cases
-  case class Missing(answer: Inst) extends Error
+  case class Missing(answer: IRNode) extends Error
 
   //////////////////////////////////////////////////////////////////////////////
   // Helpers

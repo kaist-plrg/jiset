@@ -47,25 +47,15 @@ object CompileREPL {
 
     var keep: Boolean = true
 
-    // get parser
-    type Parser = Compiler.Parser[IRNode]
-    def getParser(words: List[String]): (Parser, Boolean, List[String]) = {
-      import Compiler._
-      words match {
-        case "-insts" :: rest => (normalizedStmts, true, rest)
-        case "-inst" :: rest => (stmt, true, rest)
-        case "-expr" :: rest => (expr2inst(expr), false, rest)
-        case "-value" :: rest => (valueParser, false, rest)
-        case "-cond" :: rest => (expr2inst(cond), false, rest)
-        case "-ty" :: rest => (ty, false, rest)
-        case "-ref" :: rest => (ref2inst(ref), false, rest)
-        case rest => (normalizedStmts, true, rest)
-      }
+    // get target
+    def getTarget(words: List[String]): (CompileTarget, List[String]) = words match {
+      case CompileTarget(target) :: rest => (target, rest)
+      case _ => (InstsTarget, words)
     }
 
     def parse(raw: Boolean, words: List[String]): Unit = {
       // get parser
-      val (parser, isInst, input) = getParser(words)
+      val (target, input) = getTarget(words)
 
       // get code
       val code = (if (input.isEmpty) {
@@ -78,18 +68,9 @@ object CompileREPL {
         list.reverse
       } else List(input.mkString(" "))).map(unescapeHtml(_))
 
-      // get tokens
-      val tokens = if (raw) {
-        // from raw string
-        if (isInst) TokenParser.getTokens(code)
-        else TokenParser.getTokens(code.mkString(" "))
-      } else {
-        // from tokens
-        TokenParser.listFrom(code.mkString(" "))
-      }
+      // parse
+      val (tokens, result) = target.parse(code, raw)
       println(s"[Tokens] ${tokens.mkString(" ")}")
-
-      val result = Compiler.parseAll(parser, tokens)
       if (result.successful) {
         val resultStr = beautify(result.get, index = true)
         println(s"[Success] $resultStr")

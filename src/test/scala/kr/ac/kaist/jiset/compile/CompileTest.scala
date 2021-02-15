@@ -11,7 +11,7 @@ import org.scalatest._
 trait CompileTest extends JISETTest {
   val category: String = "compile"
 
-  def difftest(filename: String, result: Inst, answer: Inst): Unit =
+  def difftest(filename: String, result: IRNode, answer: IRNode): Unit =
     Diff(result, answer) match {
       case Some(Diff.Missing(missing)) =>
         println(s"==================================================")
@@ -19,8 +19,8 @@ trait CompileTest extends JISETTest {
         println(s"--------------------------------------------------")
         val answerStr = beautify(answer)
         val resultStr = beautify(result)
-        println(s"- answer: $answerStr")
         println(s"- result: $resultStr")
+        println(s"- answer: $answerStr")
         fail(s"$answerStr is different with $resultStr")
       case None =>
     }

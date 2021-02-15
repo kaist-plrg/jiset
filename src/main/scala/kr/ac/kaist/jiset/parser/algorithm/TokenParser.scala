@@ -75,7 +75,8 @@ trait TokenParsers extends ProductionParsers {
   private def step(
     grammar: Grammar,
     document: Document,
-    counter: Counter
+    counter: Counter,
+    handleIndent: Boolean
   ): Parser[Int ~ List[Token]] = {
     // helpers
     def tag(name: String): (Parser[String], Parser[String], Parser[String]) =
@@ -212,12 +213,8 @@ trait TokenParsers extends ProductionParsers {
     lazy val ignore = "[id=\"" ~ repsep(word, "-") ~ "\"]"
     lazy val algoStepPrefix = number ~ "." ~ opt(ignore) | "*"
     lazy val algoStep: Parser[List[Token]] =
-      opt(algoStepPrefix) ~> {
-        rep(token <~ not(LINE_SEP)) ~ opt(token <~ LINE_SEP) ^^ {
-          case ts ~ None => ts
-          case ts ~ Some(t) => ts :+ t
-        }
-      }
+      (if (handleIndent) opt(algoStepPrefix) else success("")) ~>
+        rep1sep(token, not(LINE_SEP)) <~ opt(LINE_SEP)
 
     // indentation parser
     lazy val indent: Parser[Int] = rep(space) ^^ { _.length }
@@ -233,23 +230,20 @@ trait TokenParsers extends ProductionParsers {
     grammar: Grammar,
     document: Document
   ): List[Token] = getTokens(code.mkString(LINE_SEP))
-  def getTokens(code: String)(
+  def getTokens(
+    code: String,
+    handleIndent: Boolean = true
+  )(
     implicit
     grammar: Grammar,
     document: Document
   ): List[Token] = {
     var initial = -1
     var prev = -1
-    var tokens = Vector[Token]()
     val counter = new Counter
-    val stepParser = step(grammar, document, counter)
-
-    @annotation.tailrec
-    def aux(in: Input): Unit = {
-      val pr = stepParser(in)
-      if (pr.successful) {
-        val indent ~ ts = pr.get
-        // handle indent
+    val parser = rep1(step(grammar, document, counter, handleIndent) ^^ {
+      case indent ~ ts => if (handleIndent) {
+        var tokens = Vector[Token]()
         if (initial == -1) initial = indent
         else if (prev != -1) {
           if (indent > prev) { tokens :+= In; counter.push }
@@ -259,15 +253,16 @@ trait TokenParsers extends ProductionParsers {
           } else tokens :+= counter.next
         }
         prev = indent
-        // keep parsing
         tokens ++= ts
-        if (!pr.next.atEnd) aux(pr.next)
-      } else ??? // parsing fail
-    }
+        tokens
+      } else ts.toVector
+    })
 
-    aux(new CharSequenceReader(code))
-    if (counter.getAppendNext) tokens :+= counter.next
-    while (prev > initial) { prev -= TAB; tokens ++= List(Out, counter.pop) }
+    var tokens = parseAll(parser, code).get.reduce(_ ++ _)
+    if (handleIndent) {
+      if (counter.getAppendNext) tokens :+= counter.next
+      while (prev > initial) { prev -= TAB; tokens ++= List(Out, counter.pop) }
+    }
     tokens.toList
   }
 }
