@@ -36,14 +36,25 @@ package object domain {
 
   // TODO abstract locations
   // TODO abstract functions
-  // TODO abstract primitives
+
+  // abstract primitives
+  lazy val AbsPrim = prim.ProdDomain
+  type AbsPrim = AbsPrim.Elem
 
   // abstract numbers
-  lazy val AbsNum = SetDomain[Num]()
+  lazy val AbsNum = num.FlatDomain
   type AbsNum = AbsNum.Elem
 
+  // abstract integers
+  lazy val AbsINum = inum.FlatDomain
+  type AbsINum = AbsINum.Elem
+
+  // abstract big integers
+  lazy val AbsBigINum = biginum.FlatDomain
+  type AbsBigINum = AbsBigINum.Elem
+
   // abstract strings
-  lazy val AbsStr = SetDomain[Str]()
+  lazy val AbsStr: str.Domain = str.FlatDomain
   type AbsStr = AbsStr.Elem
 
   // abstract booleans

@@ -16,6 +16,12 @@ sealed trait Set[+T] {
     case Finite(set) => "[" + set.mkString(", ") + "]"
     case Infinite => "⊤"
   }
+
+  // addition
+  def ++[U >: T](that: Set[U]): Set[U] = (this, that) match {
+    case (Finite(l), Finite(r)) => Finite(l ++ r: SSet[U])
+    case _ => Infinite
+  }
 }
 case object Infinite extends Set[Nothing]
 case class Finite[T](values: SSet[T]) extends Set[T]

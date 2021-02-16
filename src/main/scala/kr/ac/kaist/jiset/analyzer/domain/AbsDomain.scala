@@ -16,10 +16,15 @@ trait AbsDomain[V] extends Domain {
   }
 
   // binary operator abstraction
-  def alpha(f: (V, V) => V): (Elem, Elem) => Elem =
+  def alpha(f: (V, V) => V): (Elem, Elem) => Elem = alpha(this, this, this)(f)
+  def alpha[L, R, T](
+    lDomain: AbsDomain[L],
+    rDomain: AbsDomain[R],
+    tDomain: AbsDomain[T]
+  )(f: (L, R) => T): (lDomain.Elem, rDomain.Elem) => tDomain.Elem =
     (x, y) => (x.gamma, y.gamma) match {
-      case (Infinite, _) | (_, Infinite) => Top
-      case (Finite(lset), Finite(rset)) => alpha(for {
+      case (Infinite, _) | (_, Infinite) => tDomain.Top
+      case (Finite(lset), Finite(rset)) => tDomain.alpha(for {
         l <- lset
         r <- rset
       } yield f(l, r))
