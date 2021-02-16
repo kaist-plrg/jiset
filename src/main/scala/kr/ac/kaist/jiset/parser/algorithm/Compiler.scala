@@ -762,9 +762,9 @@ object Compiler extends Compilers {
       )
   } ^^ { getList(_) } |||
     ("a List whose first element is" ~> expr ~ ("and whose subsequent elements are the elements of" ~> expr) <~ opt(rest) |
-    "a List whose elements are the elements of" ~> expr ~ (", followed by the elements of" ~> expr)) ^^ {
-    case (i1 ~ e1) ~ (i2 ~ e2) => pair(i1 ++ i2, EList(List(e1, e2)))
-  }
+      "a List whose elements are the elements of" ~> expr ~ (", followed by the elements of" ~> expr)) ^^ {
+        case (i1 ~ e1) ~ (i2 ~ e2) => pair(i1 ++ i2, EList(List(e1, e2)))
+      }
 
   // multiple expressions
   lazy val multiExpr: P[I[Expr]] = (
