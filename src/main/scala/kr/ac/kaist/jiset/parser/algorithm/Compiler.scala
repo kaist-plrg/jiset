@@ -760,7 +760,11 @@ object Compiler extends Compilers {
         (("the elements, in order, of" ~> expr <~ "followed by") ~ expr |
           (expr <~ "followed by the elements , in order , of") ~ expr) ^^ { case x ~ y => List(x, y) }
       )
-  } ^^ { getList(_) }
+  } ^^ { getList(_) } |||
+    ("a List whose first element is" ~> expr ~ ("and whose subsequent elements are the elements of" ~> expr) <~ opt(rest) |
+    "a List whose elements are the elements of" ~> expr ~ (", followed by the elements of" ~> expr)) ^^ {
+    case (i1 ~ e1) ~ (i2 ~ e2) => pair(i1 ++ i2, EList(List(e1, e2)))
+  }
 
   // multiple expressions
   lazy val multiExpr: P[I[Expr]] = (
@@ -861,9 +865,7 @@ object Compiler extends Compilers {
     } ||| ("the code unit at index" ~> expr <~ "within") ~ ref ^^ {
       case (i0 ~ k) ~ (i1 ~ s) =>
         pair(i0 ++ i1, ERef(RefProp(s, k)))
-    } ||| "the code unit" ~ ("whose value is" | "with code unit value") ~> id ^^ {
-      case x => pair(Nil, toERef(x))
-    }
+    } ||| "the code unit" ~ ("whose value is" | "with code unit value") ~> expr
   )
 
   // substring expression
