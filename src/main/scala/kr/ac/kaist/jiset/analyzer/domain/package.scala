@@ -34,8 +34,21 @@ package object domain {
   lazy val AbsValue = value.BasicDomain
   type AbsValue = AbsValue.Elem
 
-  // TODO abstract locations
-  // TODO abstract functions
+  // abstract addresses
+  lazy val AbsAddr = addr.SetDomain
+  type AbsAddr = AbsAddr.Elem
+
+  // TODO abstract continuations
+  // lazy val AbsCont = cont.SetDomain
+  // type AbsCont = AbsCont.Elem
+
+  // abstract functions
+  lazy val AbsFunc = func.SetDomain
+  type AbsFunc = AbsFunc.Elem
+
+  // abstract AST values
+  lazy val AbsAST = ast.SimpleDomain
+  type AbsAST = AbsAST.Elem
 
   // abstract primitives
   lazy val AbsPrim = prim.ProdDomain
