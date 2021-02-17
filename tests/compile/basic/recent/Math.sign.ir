@@ -2,11 +2,14 @@
   app __x0__ = (ToNumber x)
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let n = __x0__
-  ??? "If id:{n} is value:{NaN} , id:{n} is value:{+0} , or id:{n} is value:{-0} , return id:{n} ."
-  if (< n 0i) {
-    app __x1__ = (WrapCompletion -1i)
+  if (|| (= n NaN) (|| (= n 0i) (= n -0.0))) {
+    app __x1__ = (WrapCompletion n)
     return __x1__
   } else {}
-  app __x2__ = (WrapCompletion 1i)
-  return __x2__
+  if (< n 0i) {
+    app __x2__ = (WrapCompletion -1i)
+    return __x2__
+  } else {}
+  app __x3__ = (WrapCompletion 1i)
+  return __x3__
 }
