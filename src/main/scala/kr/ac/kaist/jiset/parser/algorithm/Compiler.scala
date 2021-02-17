@@ -404,7 +404,6 @@ object Compiler extends Compilers {
     strictModeCond |||
     containsCond |||
     anyMatchCond |||
-    duplicateCond |||
     moreThanOneOccurCond |||
     alsoOccurCond |||
     notSetCond |||
@@ -415,34 +414,6 @@ object Compiler extends Compilers {
 
   lazy val anyMatchCond = (opt("any") ~ "code matches this production" | "any source text matches this rule") ^^ {
     case _ => pair(Nil, EBool(true))
-  }
-
-  lazy val duplicateCond: P[I[Expr]] = (expr <~ ("contains any duplicate" ~ ("elements" | "entries"))) ^^ {
-    case i ~ e => {
-      val list = getTempId
-      val idx = getTempId
-      val jdx = getTempId
-      val result = getTempId
-      val innerWhile = IWhile(EBOp(OLt, toERef(jdx), toERef(list, "length")), ISeq(List(
-        IIf(
-          EBOp(OEq, toERef(list, toERef(idx)), toERef(list, toERef(jdx))),
-          IAssign(toRef(result), EBool(true)),
-          emptyInst
-        )
-      )))
-      val outerWhile = IWhile(EBOp(OLt, toERef(idx), toERef(list, "length")), ISeq(List(
-        IAssign(toRef(jdx), EBOp(OPlus, toERef(idx), EINum(1))),
-        innerWhile
-      )))
-      val totalInst = ISeq(i ++ List(
-        ILet(list, e),
-        ILet(idx, EINum(0)),
-        ILet(jdx, EINum(0)),
-        ILet(result, EBool(true)),
-        outerWhile,
-      ))
-      pair(List(totalInst), toERef(result))
-    }
   }
 
   lazy val moreThanOneOccurCond: P[I[Expr]] = (expr ~ ("contains more than one occurrence of" ~> expr)) ^^ {
@@ -1157,6 +1128,7 @@ object Compiler extends Compilers {
     oddCond |||
     completionCond |||
     emptyCond |||
+    duplicateCond |||
     // TODO separate normal condition and early error condition
     earlyErrorCond
   )
@@ -1378,6 +1350,15 @@ object Compiler extends Compilers {
       case i ~ r => pair(i, EBOp(OLt, EINum(0), ERef(RefProp(r, EStr("length")))))
     }
   )
+
+  // duplicate conditions
+  lazy val duplicateCond: P[I[Expr]] = (expr <~ (("contains" | "has") ~ "any duplicate" ~ ("elements" | "entries"))) ^^ {
+    case i0 ~ e => {
+      val tempId = getTempId
+      val i1 = List(IApp(tempId, toERef("IsDuplicate"), List(e)))
+      pair(i0 ++ i1, toERef(tempId))
+    }
+  }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Types
