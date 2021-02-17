@@ -89,6 +89,10 @@ class ManualSmallTest extends CompileTest {
         return __x1__
       }"""
     )
+
+    test("Internal Method Condition", InstsTarget)(
+      """If _p_.[[GetPrototypeOf]] is not the ordinary object internal method defined in <emu-xref href="#sec-ordinary-object-internal-methods-and-internal-slots-getprototypeof"></emu-xref>, set _done_ to *true*.""" -> """if (! (= p.GetPrototypeOf OrdinaryObjectDOTGetPrototypeOf)) done = true else {}"""
+    )
   }
   init
 }

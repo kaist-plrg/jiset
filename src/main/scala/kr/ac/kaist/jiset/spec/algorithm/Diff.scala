@@ -76,6 +76,10 @@ object Diff {
       compare(li, ri) && compare(lp, rp) && compare(lb, rb)
     case (ISetType(le, lt), ISetType(re, rt)) =>
       compare(le, re) && compare(lt, rt)
+    case (_, ISeq(ri)) => ri.forall {
+      case IExpr(ENotYetModeled(_) | ENotSupported(_)) => true
+      case _ => false
+    }
     case _ => fail(answer, stop)
   }
 

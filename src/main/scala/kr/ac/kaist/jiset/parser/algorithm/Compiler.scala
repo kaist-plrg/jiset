@@ -1214,7 +1214,8 @@ object Compiler extends Compilers {
     ("<" | "is less than") ^^^ (OLt, false, false) |||
     ("≥" | "is not less than" | "is greater than or equal to") ^^^ (OLt, true, false) |||
     (">" | "is greater than" | "is larger than") ^^^ (OLt, false, true) |||
-    ("≤" | "is not greater than" | "is less than or equal to") ^^^ (OLt, true, true)
+    ("≤" | "is not greater than" | "is less than or equal to") ^^^ (OLt, true, true) |||
+    "is not the ordinary object internal method defined in" ^^^ (OEq, true, false)
   )
 
   // conditional operators
