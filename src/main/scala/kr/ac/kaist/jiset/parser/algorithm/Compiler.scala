@@ -381,7 +381,8 @@ object Compiler extends Compilers {
     notSetCond |||
     notCoveringCond |||
     notGoalCond |||
-    notAlsoOccurEitherCond
+    notAlsoOccurEitherCond |||
+    notNestedCond
   ) // todo!: add more conds
 
   lazy val anyMatchCond = (opt("any") ~ "code matches this production" | "any source text matches this rule") ^^ {
@@ -538,7 +539,24 @@ object Compiler extends Compilers {
     }
   }
 
-  //
+  // ex. It is a Syntax Error if this |ContinueStatement| is not nested, directly or indirectly (but not crossing function boundaries), within an |IterationStatement|.
+  // todo! : examine meaning of EParseSyntax and refactor
+  lazy val notNestedCond =
+    ((opt("this") ~> ref) ~ (("is not nested , directly or indirectly ( but not crossing function boundaries ) , within" ~ opt("a" | "an")) ~> nt)) ^^ {
+      case (i ~ r) ~ x => {
+        val result = getTempId
+        val ifInst = IIf(
+          EBOp(OEq, EAbsent, EParseSyntax(ERef(r), EStr(x), EList(Nil))),
+          IAssign(toRef(result), EBool(true)),
+          emptyInst
+        )
+        val totalInst = List(
+          ILet(result, EBool(false)),
+          ifInst
+        )
+        pair(totalInst, toERef(result))
+      }
+    }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Expressions
@@ -771,6 +789,7 @@ object Compiler extends Compilers {
         ), toERef(b))
     }
 
+  // ex. Let _assignmentPattern_ be the |AssignmentPattern| that is covered by |LeftHandSideExpression|
   // covered-by expressions
   lazy val coveredByExpr: P[I[Expr]] = ("the" ~> nt <~ "that is covered by") ~ ref ^^ {
     case x ~ (i ~ r) => pair(i, EParseSyntax(ERef(r), EStr(x), EList(Nil)))
