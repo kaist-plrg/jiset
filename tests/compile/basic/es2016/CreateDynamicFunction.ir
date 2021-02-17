@@ -93,39 +93,32 @@
   } else {}
   if (= strict true) {
     access __x30__ = (parameters "BoundNames")
-    let __x31__ = __x30__
-    let __x32__ = 0i
-    let __x33__ = 0i
-    let __x34__ = true
-    while (< __x32__ __x31__.length) {
-      __x33__ = (+ __x32__ 1i)
-      while (< __x33__ __x31__.length) if (= __x31__[__x32__] __x31__[__x33__]) __x34__ = true else {}
-    }
-    if __x34__ {
-      app __x35__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x35__
+    app __x31__ = (IsDuplicate __x30__)
+    if __x31__ {
+      app __x32__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x32__
     } else {}
   } else {}
-  app __x36__ = (GetPrototypeFromConstructor newTarget fallbackProto)
-  if (is-completion __x36__) if (= __x36__.Type CONST_normal) __x36__ = __x36__.Value else return __x36__ else {}
-  let proto = __x36__
-  app __x37__ = (FunctionAllocate proto strict kind)
-  let F = __x37__
+  app __x33__ = (GetPrototypeFromConstructor newTarget fallbackProto)
+  if (is-completion __x33__) if (= __x33__.Type CONST_normal) __x33__ = __x33__.Value else return __x33__ else {}
+  let proto = __x33__
+  app __x34__ = (FunctionAllocate proto strict kind)
+  let F = __x34__
   let realmF = F.Realm
   let scope = realmF.GlobalEnv
-  app __x38__ = (FunctionInitialize F CONST_Normal parameters body scope)
-  __x38__
+  app __x35__ = (FunctionInitialize F CONST_Normal parameters body scope)
+  __x35__
   if (= kind "generator") {
-    app __x39__ = (ObjectCreate INTRINSIC_GeneratorPrototype)
-    let prototype = __x39__
-    app __x40__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
-    __x40__
+    app __x36__ = (ObjectCreate INTRINSIC_GeneratorPrototype)
+    let prototype = __x36__
+    app __x37__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+    __x37__
   } else {
-    app __x41__ = (MakeConstructor F)
-    __x41__
+    app __x38__ = (MakeConstructor F)
+    __x38__
   }
-  app __x42__ = (SetFunctionName F "anonymous")
-  __x42__
-  app __x43__ = (WrapCompletion F)
-  return __x43__
+  app __x39__ = (SetFunctionName F "anonymous")
+  __x39__
+  app __x40__ = (WrapCompletion F)
+  return __x40__
 }

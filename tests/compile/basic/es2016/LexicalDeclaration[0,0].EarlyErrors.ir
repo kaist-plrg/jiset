@@ -8,19 +8,12 @@
     return __x2__
   }
   access __x3__ = (BindingList "BoundNames")
-  let __x4__ = __x3__
-  let __x5__ = 0i
-  let __x6__ = 0i
-  let __x7__ = true
-  while (< __x5__ __x4__.length) {
-    __x6__ = (+ __x5__ 1i)
-    while (< __x6__ __x4__.length) if (= __x4__[__x5__] __x4__[__x6__]) __x7__ = true else {}
-  }
-  if __x7__ {
-    app __x8__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x8__
+  app __x4__ = (IsDuplicate __x3__)
+  if __x4__ {
+    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x5__
   } else {
-    app __x9__ = (NormalCompletion undefined)
-    return __x9__
+    app __x6__ = (NormalCompletion undefined)
+    return __x6__
   }
 }

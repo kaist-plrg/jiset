@@ -22,73 +22,66 @@
   app __x6__ = (CreateListFromArrayLike trapResultArray (new [String, Symbol]))
   if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
   let trapResult = __x6__
-  let __x7__ = trapResult
-  let __x8__ = 0i
-  let __x9__ = 0i
-  let __x10__ = true
-  while (< __x8__ __x7__.length) {
-    __x9__ = (+ __x8__ 1i)
-    while (< __x9__ __x7__.length) if (= __x7__[__x8__] __x7__[__x9__]) __x10__ = true else {}
-  }
-  if __x10__ {
-    app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x11__
+  app __x7__ = (IsDuplicate trapResult)
+  if __x7__ {
+    app __x8__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x8__
   } else {}
-  app __x12__ = (IsExtensible target)
-  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-  let extensibleTarget = __x12__
-  app __x13__ = (target.OwnPropertyKeys target)
-  if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-  let targetKeys = __x13__
+  app __x9__ = (IsExtensible target)
+  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+  let extensibleTarget = __x9__
+  app __x10__ = (target.OwnPropertyKeys target)
+  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+  let targetKeys = __x10__
   let targetConfigurableKeys = (new [])
   let targetNonconfigurableKeys = (new [])
-  let __x14__ = targetKeys
-  let __x15__ = 0i
-  while (< __x15__ __x14__.length) {
-    let key = __x14__[__x15__]
-    app __x16__ = (target.GetOwnProperty target key)
-    if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-    let desc = __x16__
+  let __x11__ = targetKeys
+  let __x12__ = 0i
+  while (< __x12__ __x11__.length) {
+    let key = __x11__[__x12__]
+    app __x13__ = (target.GetOwnProperty target key)
+    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+    let desc = __x13__
     if (&& (! (= desc undefined)) (= desc.Configurable false)) append key -> targetNonconfigurableKeys else append key -> targetConfigurableKeys
-    __x15__ = (+ __x15__ 1i)
+    __x12__ = (+ __x12__ 1i)
   }
   if (&& (= extensibleTarget true) (= targetNonconfigurableKeys.length 0i)) {
-    app __x17__ = (WrapCompletion trapResult)
-    return __x17__
+    app __x14__ = (WrapCompletion trapResult)
+    return __x14__
   } else {}
   ??? "Let id:{uncheckedResultKeys} be a List whose elements are the elements of id:{trapResult} ."
-  let __x18__ = targetNonconfigurableKeys
-  let __x19__ = 0i
-  while (< __x19__ __x18__.length) {
-    let key = __x18__[__x19__]
+  let __x15__ = targetNonconfigurableKeys
+  let __x16__ = 0i
+  while (< __x16__ __x15__.length) {
+    let key = __x15__[__x16__]
     if (! (contains uncheckedResultKeys key)) {
-      app __x20__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x20__
+      app __x17__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x17__
     } else {}
-    let __x21__ = 0i
-    while (< __x21__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x21__] key) (pop uncheckedResultKeys __x21__) else __x21__ = (+ __x21__ 1i)
-    __x19__ = (+ __x19__ 1i)
+    let __x18__ = 0i
+    while (< __x18__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x18__] key) (pop uncheckedResultKeys __x18__) else __x18__ = (+ __x18__ 1i)
+    __x16__ = (+ __x16__ 1i)
   }
   if (= extensibleTarget true) {
-    app __x22__ = (WrapCompletion trapResult)
-    return __x22__
+    app __x19__ = (WrapCompletion trapResult)
+    return __x19__
   } else {}
-  let __x23__ = targetConfigurableKeys
-  let __x24__ = 0i
-  while (< __x24__ __x23__.length) {
-    let key = __x23__[__x24__]
+  let __x20__ = targetConfigurableKeys
+  let __x21__ = 0i
+  while (< __x21__ __x20__.length) {
+    let key = __x20__[__x21__]
     if (! (contains uncheckedResultKeys key)) {
-      app __x25__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x25__
+      app __x22__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x22__
     } else {}
-    let __x26__ = 0i
-    while (< __x26__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x26__] key) (pop uncheckedResultKeys __x26__) else __x26__ = (+ __x26__ 1i)
-    __x24__ = (+ __x24__ 1i)
+    let __x23__ = 0i
+    while (< __x23__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x23__] key) (pop uncheckedResultKeys __x23__) else __x23__ = (+ __x23__ 1i)
+    __x21__ = (+ __x21__ 1i)
   }
   if (< 0i uncheckedResultKeys.length) {
-    app __x27__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x27__
+    app __x24__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x24__
   } else {}
-  app __x28__ = (WrapCompletion trapResult)
-  return __x28__
+  app __x25__ = (WrapCompletion trapResult)
+  return __x25__
 }

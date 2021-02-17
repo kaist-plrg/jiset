@@ -1,115 +1,101 @@
 {
   access __x0__ = (ModuleItemList "LexicallyDeclaredNames")
-  let __x1__ = __x0__
-  let __x2__ = 0i
-  let __x3__ = 0i
-  let __x4__ = true
-  while (< __x2__ __x1__.length) {
-    __x3__ = (+ __x2__ 1i)
-    while (< __x3__ __x1__.length) if (= __x1__[__x2__] __x1__[__x3__]) __x4__ = true else {}
-  }
-  if __x4__ {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x5__
+  app __x1__ = (IsDuplicate __x0__)
+  if __x1__ {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
   } else {
-    app __x6__ = (NormalCompletion undefined)
-    return __x6__
+    app __x3__ = (NormalCompletion undefined)
+    return __x3__
   }
-  access __x7__ = (ModuleItemList "LexicallyDeclaredNames")
-  access __x8__ = (ModuleItemList "VarDeclaredNames")
-  let __x9__ = __x7__
-  let __x10__ = __x8__
-  let __x11__ = 0i
-  let __x12__ = 0i
-  let __x13__ = false
-  while (< __x11__ __x9__.length) {
-    __x12__ = 0i
-    while (< __x12__ __x10__.length) if (= __x9__[__x11__] __x10__[__x12__]) __x13__ = true else {}
+  access __x4__ = (ModuleItemList "LexicallyDeclaredNames")
+  access __x5__ = (ModuleItemList "VarDeclaredNames")
+  let __x6__ = __x4__
+  let __x7__ = __x5__
+  let __x8__ = 0i
+  let __x9__ = 0i
+  let __x10__ = false
+  while (< __x8__ __x6__.length) {
+    __x9__ = 0i
+    while (< __x9__ __x7__.length) if (= __x6__[__x8__] __x7__[__x9__]) __x10__ = true else {}
   }
-  if __x13__ {
-    app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x14__
+  if __x10__ {
+    app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x11__
   } else {
-    app __x15__ = (NormalCompletion undefined)
+    app __x12__ = (NormalCompletion undefined)
+    return __x12__
+  }
+  access __x13__ = (ModuleItemList "ExportedNames")
+  app __x14__ = (IsDuplicate __x13__)
+  if __x14__ {
+    app __x15__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x15__
-  }
-  access __x16__ = (ModuleItemList "ExportedNames")
-  let __x17__ = __x16__
-  let __x18__ = 0i
-  let __x19__ = 0i
-  let __x20__ = true
-  while (< __x18__ __x17__.length) {
-    __x19__ = (+ __x18__ 1i)
-    while (< __x19__ __x17__.length) if (= __x17__[__x18__] __x17__[__x19__]) __x20__ = true else {}
-  }
-  if __x20__ {
-    app __x21__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x21__
   } else {
-    app __x22__ = (NormalCompletion undefined)
-    return __x22__
+    app __x16__ = (NormalCompletion undefined)
+    return __x16__
   }
-  access __x23__ = (ModuleItemList "ExportedBindings")
-  access __x24__ = (ModuleItemList "VarDeclaredNames")
-  access __x25__ = (ModuleItemList "LexicallyDeclaredNames")
-  let __x26__ = __x23__
-  let __x27__ = __x24__
-  let __x28__ = __x25__
-  let __x29__ = 0i
-  let __x30__ = 0i
-  let __x31__ = false
-  while (< __x29__ __x26__.length) {
-    __x30__ = 0i
-    while (< __x30__ __x27__.length) if (= __x26__[__x29__] __x27__[__x30__]) __x31__ = true else {}
-    __x30__ = 0i
-    while (< __x30__ __x28__.length) if (= __x26__[__x29__] __x28__[__x30__]) __x31__ = true else {}
+  access __x17__ = (ModuleItemList "ExportedBindings")
+  access __x18__ = (ModuleItemList "VarDeclaredNames")
+  access __x19__ = (ModuleItemList "LexicallyDeclaredNames")
+  let __x20__ = __x17__
+  let __x21__ = __x18__
+  let __x22__ = __x19__
+  let __x23__ = 0i
+  let __x24__ = 0i
+  let __x25__ = false
+  while (< __x23__ __x20__.length) {
+    __x24__ = 0i
+    while (< __x24__ __x21__.length) if (= __x20__[__x23__] __x21__[__x24__]) __x25__ = true else {}
+    __x24__ = 0i
+    while (< __x24__ __x22__.length) if (= __x20__[__x23__] __x22__[__x24__]) __x25__ = true else {}
   }
-  if __x31__ {
-    app __x32__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x32__
+  if __x25__ {
+    app __x26__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x26__
   } else {
-    app __x33__ = (NormalCompletion undefined)
-    return __x33__
+    app __x27__ = (NormalCompletion undefined)
+    return __x27__
   }
   if (contains ModuleItemList "super") {
+    app __x28__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x28__
+  } else {
+    app __x29__ = (NormalCompletion undefined)
+    return __x29__
+  }
+  if (contains ModuleItemList NewTarget) {
+    app __x30__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x30__
+  } else {
+    app __x31__ = (NormalCompletion undefined)
+    return __x31__
+  }
+  access __x32__ = (ModuleItemList "ContainsDuplicateLabels")
+  app __x33__ = (__x32__ (new []))
+  if (= __x33__ true) {
     app __x34__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x34__
   } else {
     app __x35__ = (NormalCompletion undefined)
     return __x35__
   }
-  if (contains ModuleItemList NewTarget) {
-    app __x36__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x36__
+  access __x36__ = (ModuleItemList "ContainsUndefinedBreakTarget")
+  app __x37__ = (__x36__ (new []))
+  if (= __x37__ true) {
+    app __x38__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x38__
   } else {
-    app __x37__ = (NormalCompletion undefined)
-    return __x37__
+    app __x39__ = (NormalCompletion undefined)
+    return __x39__
   }
-  access __x38__ = (ModuleItemList "ContainsDuplicateLabels")
-  app __x39__ = (__x38__ (new []))
-  if (= __x39__ true) {
-    app __x40__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x40__
+  access __x40__ = (ModuleItemList "ContainsUndefinedContinueTarget")
+  app __x41__ = (__x40__ (new []) (new []))
+  if (= __x41__ true) {
+    app __x42__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x42__
   } else {
-    app __x41__ = (NormalCompletion undefined)
-    return __x41__
-  }
-  access __x42__ = (ModuleItemList "ContainsUndefinedBreakTarget")
-  app __x43__ = (__x42__ (new []))
-  if (= __x43__ true) {
-    app __x44__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x44__
-  } else {
-    app __x45__ = (NormalCompletion undefined)
-    return __x45__
-  }
-  access __x46__ = (ModuleItemList "ContainsUndefinedContinueTarget")
-  app __x47__ = (__x46__ (new []) (new []))
-  if (= __x47__ true) {
-    app __x48__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x48__
-  } else {
-    app __x49__ = (NormalCompletion undefined)
-    return __x49__
+    app __x43__ = (NormalCompletion undefined)
+    return __x43__
   }
 }

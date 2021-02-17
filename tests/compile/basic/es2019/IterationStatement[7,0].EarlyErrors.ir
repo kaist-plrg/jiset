@@ -26,19 +26,12 @@
     return __x11__
   }
   access __x12__ = (ForDeclaration "BoundNames")
-  let __x13__ = __x12__
-  let __x14__ = 0i
-  let __x15__ = 0i
-  let __x16__ = true
-  while (< __x14__ __x13__.length) {
-    __x15__ = (+ __x14__ 1i)
-    while (< __x15__ __x13__.length) if (= __x13__[__x14__] __x13__[__x15__]) __x16__ = true else {}
-  }
-  if __x16__ {
-    app __x17__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x17__
+  app __x13__ = (IsDuplicate __x12__)
+  if __x13__ {
+    app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x14__
   } else {
-    app __x18__ = (NormalCompletion undefined)
-    return __x18__
+    app __x15__ = (NormalCompletion undefined)
+    return __x15__
   }
 }

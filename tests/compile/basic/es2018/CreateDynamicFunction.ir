@@ -102,38 +102,31 @@
   ??? "If id:{kind} is code:{\"async\"} or ` \" async generator \" ` , then in:{} out:{}"
   if (= strict true) {
     access __x28__ = (parameters "BoundNames")
-    let __x29__ = __x28__
-    let __x30__ = 0i
-    let __x31__ = 0i
-    let __x32__ = true
-    while (< __x30__ __x29__.length) {
-      __x31__ = (+ __x30__ 1i)
-      while (< __x31__ __x29__.length) if (= __x29__[__x30__] __x29__[__x31__]) __x32__ = true else {}
-    }
-    if __x32__ {
-      app __x33__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x33__
+    app __x29__ = (IsDuplicate __x28__)
+    if __x29__ {
+      app __x30__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x30__
     } else {}
   } else {}
-  app __x34__ = (GetPrototypeFromConstructor newTarget fallbackProto)
-  if (is-completion __x34__) if (= __x34__.Type CONST_normal) __x34__ = __x34__.Value else return __x34__ else {}
-  let proto = __x34__
-  app __x35__ = (FunctionAllocate proto strict kind)
-  let F = __x35__
+  app __x31__ = (GetPrototypeFromConstructor newTarget fallbackProto)
+  if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
+  let proto = __x31__
+  app __x32__ = (FunctionAllocate proto strict kind)
+  let F = __x32__
   let realmF = F.Realm
   let scope = realmF.GlobalEnv
-  app __x36__ = (FunctionInitialize F CONST_Normal parameters body scope)
-  __x36__
+  app __x33__ = (FunctionInitialize F CONST_Normal parameters body scope)
+  __x33__
   if (= kind "generator") {
-    app __x37__ = (ObjectCreate INTRINSIC_GeneratorPrototype)
-    let prototype = __x37__
-    app __x38__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
-    __x38__
+    app __x34__ = (ObjectCreate INTRINSIC_GeneratorPrototype)
+    let prototype = __x34__
+    app __x35__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+    __x35__
   } else {}
   ??? "Else if id:{kind} is ` \" async generator \" ` , then in:{} out:{}"
   ??? "Else if id:{kind} is code:{\"normal\"} , perform MakeConstructor ( id:{F} ) ."
-  app __x39__ = (SetFunctionName F "anonymous")
-  __x39__
-  app __x40__ = (WrapCompletion F)
-  return __x40__
+  app __x36__ = (SetFunctionName F "anonymous")
+  __x36__
+  app __x37__ = (WrapCompletion F)
+  return __x37__
 }
