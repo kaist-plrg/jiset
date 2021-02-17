@@ -17,10 +17,7 @@
     if (= __x3__ true) {
       app __x4__ = (WrapCompletion false)
       return __x4__
-    } else {
-      ??? "If id:{p} . [ [ GetPrototypeOf ] ] is not the ordinary object internal method defined in OrdinaryObjectDOTGetPrototypeOf , set id:{done} to value:{true} ."
-      ??? "Else , set id:{p} to id:{p} . [ [ Prototype ] ] ."
-    }
+    } else if (! (= p.GetPrototypeOf OrdinaryObjectDOTGetPrototypeOf)) done = true else p = p.Prototype
   }
   O.Prototype = V
   app __x5__ = (WrapCompletion true)

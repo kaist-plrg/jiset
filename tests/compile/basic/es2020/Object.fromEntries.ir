@@ -4,7 +4,7 @@
   __x0__
   app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
   let obj = __x1__
-  ??? "Let id:{stepsDefine} be the algorithm steps defined in CreateDataPropertyOnObjectFunctions ."
+  let stepsDefine = CreateDataPropertyOnObjectFunctions
   app __x2__ = (CreateBuiltinFunction stepsDefine (new []))
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let adder = __x2__

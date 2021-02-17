@@ -49,48 +49,69 @@
     app __x22__ = (NormalCompletion undefined)
     return __x22__
   }
-  ??? "It is a Syntax Error if any element of the ExportedBindings of nt:{ModuleItemList} does not also occur in either the VarDeclaredNames of nt:{ModuleItemList} , or the LexicallyDeclaredNames of nt:{ModuleItemList} ."
-  if (contains ModuleItemList "super") {
-    app __x23__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x23__
-  } else {
-    app __x24__ = (NormalCompletion undefined)
-    return __x24__
+  access __x23__ = (ModuleItemList "ExportedBindings")
+  access __x24__ = (ModuleItemList "VarDeclaredNames")
+  access __x25__ = (ModuleItemList "LexicallyDeclaredNames")
+  let __x26__ = __x23__
+  let __x27__ = __x24__
+  let __x28__ = __x25__
+  let __x29__ = 0i
+  let __x30__ = 0i
+  let __x31__ = false
+  while (< __x29__ __x26__.length) {
+    __x30__ = 0i
+    while (< __x30__ __x27__.length) if (= __x26__[__x29__] __x27__[__x30__]) __x31__ = true else {}
+    __x30__ = 0i
+    while (< __x30__ __x28__.length) if (= __x26__[__x29__] __x28__[__x30__]) __x31__ = true else {}
   }
-  access __x25__ = (ModuleItemList "Contains")
-  app __x26__ = (__x25__ "NewTarget")
-  if __x26__ {
-    app __x27__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x27__
-  } else {
-    app __x28__ = (NormalCompletion undefined)
-    return __x28__
-  }
-  access __x29__ = (ModuleItemList "ContainsDuplicateLabels")
-  app __x30__ = (__x29__ (new []))
-  if (= __x30__ true) {
-    app __x31__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x31__
-  } else {
-    app __x32__ = (NormalCompletion undefined)
+  if __x31__ {
+    app __x32__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x32__
+  } else {
+    app __x33__ = (NormalCompletion undefined)
+    return __x33__
   }
-  access __x33__ = (ModuleItemList "ContainsUndefinedBreakTarget")
-  app __x34__ = (__x33__ (new []))
-  if (= __x34__ true) {
-    app __x35__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (contains ModuleItemList "super") {
+    app __x34__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x34__
+  } else {
+    app __x35__ = (NormalCompletion undefined)
     return __x35__
-  } else {
-    app __x36__ = (NormalCompletion undefined)
-    return __x36__
   }
-  access __x37__ = (ModuleItemList "ContainsUndefinedContinueTarget")
-  app __x38__ = (__x37__ (new []) (new []))
-  if (= __x38__ true) {
-    app __x39__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x39__
+  access __x36__ = (ModuleItemList "Contains")
+  app __x37__ = (__x36__ "NewTarget")
+  if __x37__ {
+    app __x38__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x38__
   } else {
-    app __x40__ = (NormalCompletion undefined)
-    return __x40__
+    app __x39__ = (NormalCompletion undefined)
+    return __x39__
+  }
+  access __x40__ = (ModuleItemList "ContainsDuplicateLabels")
+  app __x41__ = (__x40__ (new []))
+  if (= __x41__ true) {
+    app __x42__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x42__
+  } else {
+    app __x43__ = (NormalCompletion undefined)
+    return __x43__
+  }
+  access __x44__ = (ModuleItemList "ContainsUndefinedBreakTarget")
+  app __x45__ = (__x44__ (new []))
+  if (= __x45__ true) {
+    app __x46__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x46__
+  } else {
+    app __x47__ = (NormalCompletion undefined)
+    return __x47__
+  }
+  access __x48__ = (ModuleItemList "ContainsUndefinedContinueTarget")
+  app __x49__ = (__x48__ (new []) (new []))
+  if (= __x49__ true) {
+    app __x50__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x50__
+  } else {
+    app __x51__ = (NormalCompletion undefined)
+    return __x51__
   }
 }

@@ -84,108 +84,110 @@
     }
     app __x22__ = (env.InitializeBinding env "arguments" ao)
     __x22__
-    ??? "Let id:{parameterBindings} be a List whose elements are the elements of id:{parameterNames} , followed by value:{\"arguments\"} ."
+    let __x23__ = (copy-obj parameterNames)
+    append "arguments" -> __x23__
+    let parameterBindings = __x23__
   } else let parameterBindings = parameterNames
-  app __x23__ = (CreateListIteratorRecord argumentsList)
-  let iteratorRecord = __x23__
+  app __x24__ = (CreateListIteratorRecord argumentsList)
+  let iteratorRecord = __x24__
   if (= hasDuplicates true) {
-    access __x24__ = (formals "IteratorBindingInitialization")
-    app __x25__ = (__x24__ iteratorRecord undefined)
-    if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
-    __x25__
+    access __x25__ = (formals "IteratorBindingInitialization")
+    app __x26__ = (__x25__ iteratorRecord undefined)
+    if (is-completion __x26__) if (= __x26__.Type CONST_normal) __x26__ = __x26__.Value else return __x26__ else {}
+    __x26__
   } else {
-    access __x26__ = (formals "IteratorBindingInitialization")
-    app __x27__ = (__x26__ iteratorRecord env)
-    if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
-    __x27__
+    access __x27__ = (formals "IteratorBindingInitialization")
+    app __x28__ = (__x27__ iteratorRecord env)
+    if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else {}
+    __x28__
   }
   if (= hasParameterExpressions false) {
     let instantiatedVarNames = (copy-obj parameterBindings)
-    let __x28__ = varNames
-    let __x29__ = 0i
-    while (< __x29__ __x28__.length) {
-      let n = __x28__[__x29__]
+    let __x29__ = varNames
+    let __x30__ = 0i
+    while (< __x30__ __x29__.length) {
+      let n = __x29__[__x30__]
       if (! (contains instantiatedVarNames n)) {
         append n -> instantiatedVarNames
-        app __x30__ = (env.CreateMutableBinding env n false)
-        if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
-        __x30__
-        app __x31__ = (env.InitializeBinding env n undefined)
+        app __x31__ = (env.CreateMutableBinding env n false)
+        if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
         __x31__
+        app __x32__ = (env.InitializeBinding env n undefined)
+        __x32__
       } else {}
-      __x29__ = (+ __x29__ 1i)
+      __x30__ = (+ __x30__ 1i)
     }
     let varEnv = env
   } else {
-    app __x32__ = (NewDeclarativeEnvironment env)
-    let varEnv = __x32__
+    app __x33__ = (NewDeclarativeEnvironment env)
+    let varEnv = __x33__
     calleeContext.VariableEnvironment = varEnv
     let instantiatedVarNames = (new [])
-    let __x33__ = varNames
-    let __x34__ = 0i
-    while (< __x34__ __x33__.length) {
-      let n = __x33__[__x34__]
+    let __x34__ = varNames
+    let __x35__ = 0i
+    while (< __x35__ __x34__.length) {
+      let n = __x34__[__x35__]
       if (! (contains instantiatedVarNames n)) {
         append n -> instantiatedVarNames
-        app __x35__ = (varEnv.CreateMutableBinding varEnv n false)
-        if (is-completion __x35__) if (= __x35__.Type CONST_normal) __x35__ = __x35__.Value else return __x35__ else {}
-        __x35__
+        app __x36__ = (varEnv.CreateMutableBinding varEnv n false)
+        if (is-completion __x36__) if (= __x36__.Type CONST_normal) __x36__ = __x36__.Value else return __x36__ else {}
+        __x36__
         if (|| (! (contains parameterBindings n)) (contains functionNames n)) let initialValue = undefined else {
-          app __x36__ = (env.GetBindingValue env n false)
-          if (is-completion __x36__) if (= __x36__.Type CONST_normal) __x36__ = __x36__.Value else return __x36__ else {}
-          let initialValue = __x36__
+          app __x37__ = (env.GetBindingValue env n false)
+          if (is-completion __x37__) if (= __x37__.Type CONST_normal) __x37__ = __x37__.Value else return __x37__ else {}
+          let initialValue = __x37__
         }
-        app __x37__ = (varEnv.InitializeBinding varEnv n initialValue)
-        __x37__
+        app __x38__ = (varEnv.InitializeBinding varEnv n initialValue)
+        __x38__
       } else {}
-      __x34__ = (+ __x34__ 1i)
+      __x35__ = (+ __x35__ 1i)
     }
   }
   if (= strict false) {
-    app __x38__ = (NewDeclarativeEnvironment varEnv)
-    let lexEnv = __x38__
+    app __x39__ = (NewDeclarativeEnvironment varEnv)
+    let lexEnv = __x39__
   } else let lexEnv = varEnv
   calleeContext.LexicalEnvironment = lexEnv
-  access __x39__ = (code "LexicallyScopedDeclarations")
-  let lexDeclarations = __x39__
-  let __x40__ = lexDeclarations
-  let __x41__ = 0i
-  while (< __x41__ __x40__.length) {
-    let d = __x40__[__x41__]
-    access __x42__ = (d "BoundNames")
-    let __x43__ = __x42__
-    let __x44__ = 0i
-    while (< __x44__ __x43__.length) {
-      let dn = __x43__[__x44__]
-      access __x45__ = (d "IsConstantDeclaration")
-      if (= __x45__ true) {
-        app __x46__ = (lexEnv.CreateImmutableBinding lexEnv dn true)
-        if (is-completion __x46__) if (= __x46__.Type CONST_normal) __x46__ = __x46__.Value else return __x46__ else {}
-        __x46__
-      } else {
-        app __x47__ = (lexEnv.CreateMutableBinding lexEnv dn false)
+  access __x40__ = (code "LexicallyScopedDeclarations")
+  let lexDeclarations = __x40__
+  let __x41__ = lexDeclarations
+  let __x42__ = 0i
+  while (< __x42__ __x41__.length) {
+    let d = __x41__[__x42__]
+    access __x43__ = (d "BoundNames")
+    let __x44__ = __x43__
+    let __x45__ = 0i
+    while (< __x45__ __x44__.length) {
+      let dn = __x44__[__x45__]
+      access __x46__ = (d "IsConstantDeclaration")
+      if (= __x46__ true) {
+        app __x47__ = (lexEnv.CreateImmutableBinding lexEnv dn true)
         if (is-completion __x47__) if (= __x47__.Type CONST_normal) __x47__ = __x47__.Value else return __x47__ else {}
         __x47__
+      } else {
+        app __x48__ = (lexEnv.CreateMutableBinding lexEnv dn false)
+        if (is-completion __x48__) if (= __x48__.Type CONST_normal) __x48__ = __x48__.Value else return __x48__ else {}
+        __x48__
       }
-      __x44__ = (+ __x44__ 1i)
+      __x45__ = (+ __x45__ 1i)
     }
-    __x41__ = (+ __x41__ 1i)
+    __x42__ = (+ __x42__ 1i)
   }
-  let __x48__ = functionsToInitialize
-  let __x49__ = 0i
-  while (< __x49__ __x48__.length) {
-    let f = __x48__[__x49__]
-    access __x50__ = (f "BoundNames")
-    let fn = __x50__[0i]
-    access __x51__ = (f "InstantiateFunctionObject")
-    app __x52__ = (__x51__ lexEnv)
-    let fo = __x52__
-    app __x53__ = (varEnv.SetMutableBinding varEnv fn fo false)
-    if (is-completion __x53__) if (= __x53__.Type CONST_normal) __x53__ = __x53__.Value else return __x53__ else {}
-    __x53__
-    __x49__ = (+ __x49__ 1i)
+  let __x49__ = functionsToInitialize
+  let __x50__ = 0i
+  while (< __x50__ __x49__.length) {
+    let f = __x49__[__x50__]
+    access __x51__ = (f "BoundNames")
+    let fn = __x51__[0i]
+    access __x52__ = (f "InstantiateFunctionObject")
+    app __x53__ = (__x52__ lexEnv)
+    let fo = __x53__
+    app __x54__ = (varEnv.SetMutableBinding varEnv fn fo false)
+    if (is-completion __x54__) if (= __x54__.Type CONST_normal) __x54__ = __x54__.Value else return __x54__ else {}
+    __x54__
+    __x50__ = (+ __x50__ 1i)
   }
-  app __x54__ = (NormalCompletion CONST_empty)
-  app __x55__ = (WrapCompletion __x54__)
-  return __x55__
+  app __x55__ = (NormalCompletion CONST_empty)
+  app __x56__ = (WrapCompletion __x55__)
+  return __x56__
 }

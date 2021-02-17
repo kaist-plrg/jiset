@@ -7,5 +7,6 @@
   access __x2__ = (TemplateSpans "SubstitutionEvaluation")
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let restSub = __x2__
-  ??? "Return a List whose first element is id:{firstSub} and whose subsequent elements are the elements of id:{restSub} . id:{restSub} may contain no elements ."
+  app __x3__ = (WrapCompletion (new [firstSub, restSub]))
+  return __x3__
 }

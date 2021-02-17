@@ -1,1 +1,11 @@
-??? "It is a Syntax Error if the MV of the first nt:{DecimalDigits} is larger than the MV of the second nt:{DecimalDigits} ."
+{
+  access __x0__ = (DecimalDigits0 "MV")
+  access __x1__ = (DecimalDigits1 "MV")
+  if (< __x1__ __x0__) {
+    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x2__
+  } else {
+    app __x3__ = (NormalCompletion undefined)
+    return __x3__
+  }
+}

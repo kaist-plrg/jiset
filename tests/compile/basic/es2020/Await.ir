@@ -3,12 +3,12 @@
   app __x0__ = (PromiseResolve INTRINSIC_Promise value)
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let promise = __x0__
-  ??? "Let id:{stepsFulfilled} be the algorithm steps defined in AwaitFulfilledFunctions ."
+  let stepsFulfilled = AwaitFulfilledFunctions
   app __x1__ = (CreateBuiltinFunction stepsFulfilled (new ["AsyncContext"]))
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let onFulfilled = __x1__
   onFulfilled.AsyncContext = asyncContext
-  ??? "Let id:{stepsRejected} be the algorithm steps defined in AwaitRejectedFunctions ."
+  let stepsRejected = AwaitRejectedFunctions
   app __x2__ = (CreateBuiltinFunction stepsRejected (new ["AsyncContext"]))
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let onRejected = __x2__

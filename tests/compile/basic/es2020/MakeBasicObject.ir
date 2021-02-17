@@ -1,6 +1,13 @@
 {
-  ??? "Let id:{obj} be a newly created object with an internal slot for each name in id:{internalSlotsList} ."
+  let obj = (new OrdinaryObject("SubMap" -> (new SubMap())))
+  let __x0__ = internalSlotsList
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let __x2__ = __x0__[__x1__]
+    obj[__x2__] = undefined
+    __x1__ = (+ __x1__ 1i)
+  }
   if (contains internalSlotsList "Extensible") obj.Extensible = true else {}
-  app __x0__ = (WrapCompletion obj)
-  return __x0__
+  app __x3__ = (WrapCompletion obj)
+  return __x3__
 }

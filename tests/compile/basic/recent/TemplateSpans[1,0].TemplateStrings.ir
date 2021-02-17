@@ -9,5 +9,8 @@
     access __x3__ = (TemplateTail "TRV")
     let tail = __x3__
   }
-  ??? "Return a List whose elements are the elements of id:{middle} followed by id:{tail} ."
+  let __x4__ = (copy-obj middle)
+  append tail -> __x4__
+  app __x5__ = (WrapCompletion __x4__)
+  return __x5__
 }

@@ -23,11 +23,11 @@
       app __x3__ = (PromiseResolve INTRINSIC_Promise (new [completion.Value]))
       if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
       let promise = __x3__
-      ??? "Let id:{stepsFulfilled} be the algorithm steps defined in AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions ."
+      let stepsFulfilled = AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions
       app __x4__ = (CreateBuiltinFunction stepsFulfilled (new ["Generator"]))
       let onFulfilled = __x4__
       onFulfilled.Generator = generator
-      ??? "Let id:{stepsRejected} be the algorithm steps defined in AsyncGeneratorResumeNextReturnProcessorRejectedFunctions ."
+      let stepsRejected = AsyncGeneratorResumeNextReturnProcessorRejectedFunctions
       app __x5__ = (CreateBuiltinFunction stepsRejected (new ["Generator"]))
       let onRejected = __x5__
       onRejected.Generator = generator

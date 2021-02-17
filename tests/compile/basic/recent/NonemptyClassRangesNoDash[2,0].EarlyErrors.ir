@@ -12,5 +12,23 @@
     app __x4__ = (NormalCompletion undefined)
     return __x4__
   }
-  ??? "It is a Syntax Error if IsCharacterClass of nt:{ClassAtomNoDash} is value:{false} and IsCharacterClass of nt:{ClassAtom} is value:{false} and the CharacterValue of nt:{ClassAtomNoDash} is larger than the CharacterValue of nt:{ClassAtom} ."
+  access __x5__ = (ClassAtomNoDash "IsCharacterClass")
+  let __x6__ = (= __x5__ false)
+  if __x6__ {
+    access __x7__ = (ClassAtom "IsCharacterClass")
+    let __x8__ = (= __x7__ false)
+    if __x8__ {
+      access __x9__ = (ClassAtomNoDash "CharacterValue")
+      access __x10__ = (ClassAtom "CharacterValue")
+      __x8__ = (< __x10__ __x9__)
+    } else {}
+    __x6__ = __x8__
+  } else {}
+  if __x6__ {
+    app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    return __x11__
+  } else {
+    app __x12__ = (NormalCompletion undefined)
+    return __x12__
+  }
 }

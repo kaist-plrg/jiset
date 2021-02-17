@@ -5,7 +5,7 @@
     return __x1__
   } else {}
   let promiseCapability = (new PromiseCapability("Promise" -> undefined, "Resolve" -> undefined, "Reject" -> undefined))
-  ??? "Let id:{steps} be the algorithm steps defined in GetCapabilitiesExecutorFunctions ."
+  let steps = GetCapabilitiesExecutorFunctions
   app __x2__ = (CreateBuiltinFunction steps (new ["Capability"]))
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let executor = __x2__

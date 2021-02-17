@@ -8,7 +8,7 @@
   app __x1__ = (CreateBuiltinFunction realmRec throwerSteps null)
   let thrower = __x1__
   intrinsics.INTRINSIC_ThrowTypeError = thrower
-  let noSteps = (new algorithm("name" -> "", "length" -> 0i, "step" -> EmptyFunction))
+  let noSteps = EmptyFunction
   app __x2__ = (CreateBuiltinFunction realmRec noSteps objProto)
   let funcProto = __x2__
   intrinsics.INTRINSIC_FunctionPrototype = funcProto

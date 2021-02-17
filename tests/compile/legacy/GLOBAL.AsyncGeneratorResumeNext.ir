@@ -25,12 +25,12 @@
       app __x4__ = (PromiseResolve INTRINSIC_Promise completion.Value)
       if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
       let promise = __x4__
-      let stepsFulfilled = (new algorithm("name" -> "", "length" -> 1i, "step" -> GLOBALDOTAsyncGeneratorResumeNextReturnProcessorFulfilledFunctions))
+      ??? "Let id:{stepsFulfilled} be the algorithm steps defined in AsyncGeneratorResumeNext Return Processor Fulfilled Functions ."
       app __x5__ = (CreateBuiltinFunction stepsFulfilled (new ["Generator"]))
       if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
       let onFulfilled = __x5__
       onFulfilled.Generator = generator
-      let stepsRejected = (new algorithm("name" -> "", "length" -> 1i, "step" -> GLOBALDOTAsyncGeneratorResumeNextReturnProcessorRejectedFunctions))
+      ??? "Let id:{stepsRejected} be the algorithm steps defined in AsyncGeneratorResumeNext Return Processor Rejected Functions ."
       app __x6__ = (CreateBuiltinFunction stepsRejected (new ["Generator"]))
       if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
       let onRejected = __x6__

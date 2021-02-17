@@ -15,13 +15,13 @@
     let thenFinally = onFinally
     let catchFinally = onFinally
   } else {
-    ??? "Let id:{stepsThenFinally} be the algorithm steps defined in ThenFinallyFunctions ."
+    let stepsThenFinally = ThenFinallyFunctions
     app __x5__ = (CreateBuiltinFunction stepsThenFinally (new ["Constructor", "OnFinally"]))
     if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
     let thenFinally = __x5__
     thenFinally.Constructor = C
     thenFinally.OnFinally = onFinally
-    ??? "Let id:{stepsCatchFinally} be the algorithm steps defined in CatchFinallyFunctions ."
+    let stepsCatchFinally = CatchFinallyFunctions
     app __x6__ = (CreateBuiltinFunction stepsCatchFinally (new ["Constructor", "OnFinally"]))
     if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
     let catchFinally = __x6__

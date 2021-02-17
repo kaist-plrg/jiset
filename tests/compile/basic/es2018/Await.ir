@@ -6,11 +6,11 @@
   app __x1__ = (Call promiseCapability.Resolve undefined (new [promise]))
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   __x1__
-  ??? "Let id:{stepsFulfilled} be the algorithm steps defined in AwaitFulfilledFunctions ."
+  let stepsFulfilled = AwaitFulfilledFunctions
   app __x2__ = (CreateBuiltinFunction stepsFulfilled (new ["AsyncContext"]))
   let onFulfilled = __x2__
   onFulfilled.AsyncContext = asyncContext
-  ??? "Let id:{stepsRejected} be the algorithm steps defined in AwaitRejectedFunctions ."
+  let stepsRejected = AwaitRejectedFunctions
   app __x3__ = (CreateBuiltinFunction stepsRejected (new ["AsyncContext"]))
   let onRejected = __x3__
   onRejected.AsyncContext = asyncContext

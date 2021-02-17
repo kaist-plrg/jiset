@@ -4,8 +4,9 @@
     app __x0__ = (WrapCompletion cp)
     return __x0__
   } else {}
-  ??? "Let id:{cu1} be the code unit whose value is floor ( ( id:{cp} - 0x10000 ) / 0x400 ) + 0xD800 ."
-  ??? "Let id:{cu2} be the code unit whose value is ( ( id:{cp} - 0x10000 ) modulo 0x400 ) + 0xDC00 ."
-  app __x1__ = (WrapCompletion (+ cu1 cu2))
-  return __x1__
+  app __x1__ = (floor (/ (- cp 65536i) 1024i))
+  let cu1 = (+ __x1__ 55296i)
+  let cu2 = (+ (%% (- cp 65536i) 1024i) 56320i)
+  app __x2__ = (WrapCompletion (+ cu1 cu2))
+  return __x2__
 }
