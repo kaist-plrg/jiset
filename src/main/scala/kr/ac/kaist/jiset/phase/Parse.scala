@@ -78,7 +78,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
 
 // Parse phase config
 case class ParseConfig(
-    var version: Option[String] = None,
-    var query: Option[String] = None,
-    var detail: Boolean = false
+  var version: Option[String] = None,
+  var query: Option[String] = None,
+  var detail: Boolean = false
 ) extends Config

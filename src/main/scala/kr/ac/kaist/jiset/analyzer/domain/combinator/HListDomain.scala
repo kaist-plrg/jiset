@@ -35,8 +35,8 @@ object HNilDomain
 
 // HCons Domain
 class HConsDomain[H, HD <: EAbsDomain[H], T <: HList, TD <: HListDomain[T] with Singleton](
-    val AbsH: HD,
-    val AbsT: TD
+  val AbsH: HD,
+  val AbsT: TD
 ) extends HListDomain[H :: T] {
   type AbsH = AbsH.Elem
   type AbsT = AbsT.Elem

@@ -4,8 +4,8 @@ import kr.ac.kaist.jiset.ir
 
 // built-in algorithm heads
 case class BuiltinHead(
-    ref: ir.Ref,
-    origParams: List[Param]
+  ref: ir.Ref,
+  origParams: List[Param]
 ) extends Head {
   // name from base and fields
   val name: String = ir.beautify(ref)

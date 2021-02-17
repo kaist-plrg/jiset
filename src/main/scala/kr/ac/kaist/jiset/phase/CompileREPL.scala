@@ -44,6 +44,6 @@ case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
 
 // CompileREPL phase config
 case class CompileREPLConfig(
-    var version: Option[String] = None,
-    var detail: Boolean = false
+  var version: Option[String] = None,
+  var detail: Boolean = false
 ) extends Config

@@ -5,8 +5,8 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // ECMAScript grammar productions
 case class Production(
-    lhs: Lhs,
-    rhsList: List[Rhs]
+  lhs: Lhs,
+  rhsList: List[Rhs]
 ) {
   // get index map
   def getIdxMap: Map[String, (Int, Int)] = (for {

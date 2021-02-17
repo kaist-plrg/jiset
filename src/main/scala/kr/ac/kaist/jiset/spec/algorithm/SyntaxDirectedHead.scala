@@ -5,12 +5,12 @@ import Param.Kind._
 
 // syntax-directed algorithm heads
 case class SyntaxDirectedHead(
-    lhsName: String,
-    rhs: Rhs,
-    idx: Int,
-    subIdx: Int,
-    methodName: String,
-    withParams: List[Param]
+  lhsName: String,
+  rhs: Rhs,
+  idx: Int,
+  subIdx: Int,
+  methodName: String,
+  withParams: List[Param]
 ) extends Head {
   // name with index and method name
   val name: String = s"$lhsName$idx$methodName$subIdx"

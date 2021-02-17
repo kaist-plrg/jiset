@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 // map abstract domain
 class MapDomain[K, V, VD <: AbsDomain[V]](
-    val AbsV: VD
+  val AbsV: VD
 ) extends AbsDomain[Map[K, V]] {
   val AbsVOpt = OptionDomain[V, AbsV.type](AbsV)
   type AbsV = AbsV.Elem

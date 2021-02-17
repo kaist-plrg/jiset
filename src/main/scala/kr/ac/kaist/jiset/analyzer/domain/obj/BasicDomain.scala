@@ -26,9 +26,9 @@ object BasicDomain extends obj.Domain {
   val Top: Elem = Elem(AbsValue.Top, MapD.Top, ListD.Top)
 
   case class Elem(
-      symbol: AbsValue = AbsValue.Bot,
-      map: MapD = MapD.Bot,
-      list: ListD = ListD.Bot
+    symbol: AbsValue = AbsValue.Bot,
+    map: MapD = MapD.Bot,
+    list: ListD = ListD.Bot
   ) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (

@@ -58,5 +58,5 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
 
 // Check phase config
 case class CheckConfig(
-    var target: List[String] = Nil
+  var target: List[String] = Nil
 ) extends Config

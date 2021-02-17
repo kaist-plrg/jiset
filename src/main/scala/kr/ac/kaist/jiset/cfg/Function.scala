@@ -4,10 +4,10 @@ import kr.ac.kaist.jiset.util.UId
 
 // CFG functions
 case class Function(
-    entry: Entry,
-    exit: Exit,
-    nodes: Set[Node],
-    forwards: Map[Node, Set[(Edge, Node)]]
+  entry: Entry,
+  exit: Exit,
+  nodes: Set[Node],
+  forwards: Map[Node, Set[(Edge, Node)]]
 ) extends UId {
   // backward edges
   val backwards: Map[Node, Set[(Edge, Node)]] = (for {

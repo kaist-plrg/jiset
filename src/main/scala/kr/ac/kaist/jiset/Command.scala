@@ -11,8 +11,8 @@ sealed trait Command {
 }
 
 class CommandObj[Result](
-    override val name: String,
-    pList: PhaseList[Result]
+  override val name: String,
+  pList: PhaseList[Result]
 ) extends Command {
   def apply(args: List[String]): Result = {
     val jisetConfig = JISETConfig(this)

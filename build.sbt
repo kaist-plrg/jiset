@@ -54,7 +54,7 @@ lazy val jiset = (project in file("."))
     retrieveManaged := true,
     scalariformPreferences := scalariformPreferences.value
       .setPreference(DanglingCloseParenthesis, Force)
-      .setPreference(DoubleIndentConstructorArguments, true),
+      .setPreference(DoubleIndentConstructorArguments, false),
     parallelExecution in Test := true,
     assemblyOutputPath in assembly := file("bin/jiset"),
     assemblyOption in assembly := (assemblyOption in assembly).value

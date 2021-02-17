@@ -15,9 +15,9 @@ object BasicDomain extends ctxt.Domain {
   val Top: Elem = Elem(AbsEnv.Top, AbsEnv.Top, AbsValue.Top)
 
   case class Elem(
-      globals: AbsEnv,
-      locals: AbsEnv,
-      retVal: AbsValue
+    globals: AbsEnv,
+    locals: AbsEnv,
+    retVal: AbsValue
   ) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (

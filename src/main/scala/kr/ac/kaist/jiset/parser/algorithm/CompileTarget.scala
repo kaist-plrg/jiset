@@ -8,8 +8,8 @@ import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes.Document
 
 sealed abstract class CompileTarget(
-    val name: String,
-    val parser: Parser[ir.IRNode]
+  val name: String,
+  val parser: Parser[ir.IRNode]
 ) {
   // parse input
   def parse(

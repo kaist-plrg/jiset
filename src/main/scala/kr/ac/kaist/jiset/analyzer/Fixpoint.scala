@@ -3,9 +3,9 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.cfg.CFG
 
 class Fixpoint(
-    cfg: CFG,
-    worklist: Worklist[ControlPoint],
-    sem: AbsSemantics
+  cfg: CFG,
+  worklist: Worklist[ControlPoint],
+  sem: AbsSemantics
 ) {
   // abstract transfer function
   val transfer = new AbsTransfer(cfg)

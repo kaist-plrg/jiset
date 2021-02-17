@@ -111,9 +111,9 @@ object ArityChecker extends Checker {
 
   // result
   case class Result(
-      algo: Algo,
-      target: Target,
-      argc: Int
+    algo: Algo,
+    target: Target,
+    argc: Int
   ) extends Bug {
     // bug name
     val name: String = "Arity Mismatch"

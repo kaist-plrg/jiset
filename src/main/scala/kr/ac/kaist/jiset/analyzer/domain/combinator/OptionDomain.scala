@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 // option abstract domain
 class OptionDomain[V, VD <: EAbsDomain[V]](
-    val AbsV: VD
+  val AbsV: VD
 ) extends AbsDomain[Option[V]] {
   type AbsV = AbsV.Elem
 

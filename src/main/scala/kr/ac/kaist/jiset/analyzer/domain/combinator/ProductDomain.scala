@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 // Product domain
 abstract class ProductDomain[P <: Product, H <: HList, HD <: HListDomain[H]](
-    val gen: Generic[P] { type Repr = H }
+  val gen: Generic[P] { type Repr = H }
 ) extends AbsDomain[P] {
   val HElem: HD
   import HElem._

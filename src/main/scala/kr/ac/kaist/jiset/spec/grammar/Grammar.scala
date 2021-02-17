@@ -5,8 +5,8 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // ECMAScript grammars
 case class Grammar(
-    lexProds: List[Production],
-    prods: List[Production]
+  lexProds: List[Production],
+  prods: List[Production]
 ) {
   val idxMap: Map[String, (Int, Int)] = (for {
     prod <- lexProds ++ prods

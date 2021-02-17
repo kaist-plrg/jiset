@@ -8,12 +8,12 @@ import kr.ac.kaist.jiset.util.Conversion._
 
 // ECMASCript specifications
 case class ECMAScript(
-    grammar: Grammar,
-    algos: List[Algo],
-    intrinsics: Set[String],
-    symbols: Set[String],
-    aoids: Set[String],
-    section: Section
+  grammar: Grammar,
+  algos: List[Algo],
+  intrinsics: Set[String],
+  symbols: Set[String],
+  aoids: Set[String],
+  section: Section
 ) {
   // normal algorithm names
   lazy val normalAlgos: Set[String] =

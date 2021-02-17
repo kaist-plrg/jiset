@@ -45,21 +45,21 @@ case class Terminal(term: String) extends Token
 
 // non-terminals
 case class NonTerminal(
-    name: String,
-    args: List[String],
-    optional: Boolean
+  name: String,
+  args: List[String],
+  optional: Boolean
 ) extends Token
 
 // but-not tokens
 case class ButNot(
-    base: Token,
-    cases: List[Token]
+  base: Token,
+  cases: List[Token]
 ) extends Token
 
 // lookahead tokens
 case class Lookahead(
-    contains: Boolean,
-    cases: List[List[Token]]
+  contains: Boolean,
+  cases: List[List[Token]]
 ) extends Token
 
 // empty tokens

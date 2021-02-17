@@ -9,9 +9,9 @@ import scala.util.parsing.input._
 trait TokenListParsers extends PackratParsers {
   type Elem = Token
   case class TokenPosition(
-      line: Int,
-      column: Int,
-      protected val lineContents: String
+    line: Int,
+    column: Int,
+    protected val lineContents: String
   ) extends Position
   abstract class TokenReader extends Reader[Token] { outer =>
     val tokens: List[Token]

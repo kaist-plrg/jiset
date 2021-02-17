@@ -39,14 +39,14 @@ object ProdDomain extends prim.Domain {
   )
 
   case class Elem(
-      _num: AbsNum = AbsNum.Bot,
-      _int: AbsINum = AbsINum.Bot,
-      _bigint: AbsBigINum = AbsBigINum.Bot,
-      _str: AbsStr = AbsStr.Bot,
-      _bool: AbsBool = AbsBool.Bot,
-      _undef: AbsUndef = AbsUndef.Bot,
-      _nullval: AbsNull = AbsNull.Bot,
-      _absent: AbsAbsent = AbsAbsent.Bot
+    _num: AbsNum = AbsNum.Bot,
+    _int: AbsINum = AbsINum.Bot,
+    _bigint: AbsBigINum = AbsBigINum.Bot,
+    _str: AbsStr = AbsStr.Bot,
+    _bool: AbsBool = AbsBool.Bot,
+    _undef: AbsUndef = AbsUndef.Bot,
+    _nullval: AbsNull = AbsNull.Bot,
+    _absent: AbsAbsent = AbsAbsent.Bot
   ) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (

@@ -47,6 +47,6 @@ case object ExtractTag extends PhaseObj[Unit, ExtractTagConfig, Unit] {
 
 // ExtractTag phase config
 case class ExtractTagConfig(
-    var version: Option[String] = None,
-    var name: Option[String] = None
+  var version: Option[String] = None,
+  var name: Option[String] = None
 ) extends Config

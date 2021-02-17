@@ -2,8 +2,8 @@ package kr.ac.kaist.jiset.spec.grammar
 
 // ECMAScript grammar right-hand-sides
 case class Rhs(
-    tokens: List[Token],
-    condOpt: Option[RhsCond]
+  tokens: List[Token],
+  condOpt: Option[RhsCond]
 ) {
   // rhs name
   def names: List[String] = tokens.foldLeft(List[String]("")) {

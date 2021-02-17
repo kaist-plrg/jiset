@@ -24,11 +24,11 @@ object ProdDomain extends value.Domain {
   )
 
   case class Elem(
-      _addr: AbsAddr = AbsAddr.Bot,
-      _clo: AbsClo = AbsClo.Bot,
-      _cont: AbsCont = AbsCont.Bot,
-      _ast: AbsAST = AbsAST.Bot,
-      _prim: AbsPrim = AbsPrim.Bot
+    _addr: AbsAddr = AbsAddr.Bot,
+    _clo: AbsClo = AbsClo.Bot,
+    _cont: AbsCont = AbsCont.Bot,
+    _ast: AbsAST = AbsAST.Bot,
+    _prim: AbsPrim = AbsPrim.Bot
   ) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (
