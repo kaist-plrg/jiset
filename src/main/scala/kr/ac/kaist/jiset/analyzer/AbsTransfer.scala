@@ -72,7 +72,6 @@ class AbsTransfer(cfg: CFG) {
     case EContains(list, elem) => ???
     case ECopy(obj) => ???
     case EKeys(mobj) => ???
-    case ENotYetModeled(msg) => ???
     case ENotSupported(msg) => ???
   }
 

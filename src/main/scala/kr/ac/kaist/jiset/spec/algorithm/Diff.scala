@@ -33,7 +33,7 @@ object Diff {
     answer: Inst,
     stop: Boolean = false
   ): Boolean = (result, answer) match {
-    case (_, IExpr(ENotYetModeled(_) | ENotSupported(_))) => true
+    case (_, IExpr(ENotSupported(_))) => true
     case (IIf(lc, lt, le), IIf(rc, rt, re)) =>
       compare(lc, rc) && compare(lt, rt) && compare(le, re)
     case (IWhile(lc, lb), IWhile(rc, rb)) =>
@@ -56,7 +56,7 @@ object Diff {
       val (success, remain) = ri.foldLeft((true, li)) {
         case ((false, _), _) => (false, Nil)
         case ((true, Nil), r) => (fail(r, stop), Nil)
-        case ((true, ls), IExpr(ENotYetModeled(_) | ENotSupported(_))) => (true, ls)
+        case ((true, ls), IExpr(ENotSupported(_))) => (true, ls)
         case ((true, ls), r) =>
           var remain = ls
           while (!remain.isEmpty && !compare(remain.head, r)) remain = remain.tail
@@ -77,7 +77,7 @@ object Diff {
     case (ISetType(le, lt), ISetType(re, rt)) =>
       compare(le, re) && compare(lt, rt)
     case (_, ISeq(ri)) => ri.forall {
-      case IExpr(ENotYetModeled(_) | ENotSupported(_)) => true
+      case IExpr(ENotSupported(_)) => true
       case _ => false
     }
     case _ => fail(answer, stop)
@@ -139,7 +139,7 @@ object Diff {
       compare(ll, rl) && compare(le, re)
     case (ECopy(lo), ECopy(ro)) => compare(lo, ro)
     case (EKeys(lm), EKeys(rm)) => compare(lm, rm)
-    case (_, ENotYetModeled(_) | ENotSupported(_)) => true
+    case (_, ENotSupported(_)) => true
     case _ => false
   }
 

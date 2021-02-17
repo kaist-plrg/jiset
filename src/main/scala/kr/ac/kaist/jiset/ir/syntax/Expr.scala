@@ -53,9 +53,6 @@ case class EConvert(source: Expr, target: COp, flags: List[Expr]) extends Expr
 case class EContains(list: Expr, elem: Expr) extends Expr
 case class ECopy(obj: Expr) extends Expr with AllocExpr
 case class EKeys(mobj: Expr) extends Expr with AllocExpr
-case class ENotYetModeled(msg: String) extends Expr {
-  override def toString: String = s"ENotYetModeled($TRIPLE$msg$TRIPLE)"
-}
 case class ENotSupported(msg: String) extends Expr {
   override def toString: String = s"ENotSupported($TRIPLE$msg$TRIPLE)"
 }

@@ -52,7 +52,6 @@ case class Algo(head: Head, private val rawBody: Inst, code: Iterable[String]) {
     object Walker extends UnitWalker {
       override def walk(expr: Expr): Unit = expr match {
         case ENotSupported(msg) => l ::= msg
-        case ENotYetModeled(msg) => l ::= msg
         case _ => super.walk(expr)
       }
     }
@@ -65,7 +64,7 @@ case class Algo(head: Head, private val rawBody: Inst, code: Iterable[String]) {
     var complete = true
     object Walker extends UnitWalker {
       override def walk(expr: Expr): Unit = expr match {
-        case ENotYetModeled(_) | ENotSupported(_) => complete = false
+        case ENotSupported(_) => complete = false
         case _ => super.walk(expr)
       }
     }

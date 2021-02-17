@@ -91,7 +91,6 @@ trait Walker {
     case EContains(list, elem) => EContains(walk(list), walk(elem))
     case ECopy(obj) => ECopy(walk(obj))
     case EKeys(obj) => EKeys(walk(obj))
-    case ENotYetModeled(msg) => ENotYetModeled(walk(msg))
     case ENotSupported(msg) => ENotSupported(walk(msg))
   }
 
