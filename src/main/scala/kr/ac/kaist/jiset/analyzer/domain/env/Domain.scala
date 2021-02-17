@@ -2,8 +2,7 @@ package kr.ac.kaist.jiset.analyzer.domain.env
 
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.analyzer.domain.ops._
 
 // object abstract domain
-trait Domain extends AbsDomain[Env] {
-  val Empty: Elem
-}
+trait Domain extends AbsDomain[Env] with EmptyValue

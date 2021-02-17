@@ -13,6 +13,9 @@ object BasicDomain extends state.Domain {
   // top value
   val Top: Elem = Elem(AbsCtxt.Top, AbsHeap.Top)
 
+  // empty value
+  val Empty: Elem = Elem(AbsCtxt.Empty, AbsHeap.Empty)
+
   case class Elem(ctxt: AbsCtxt, heap: AbsHeap) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (

@@ -17,6 +17,9 @@ object BasicDomain extends heap.Domain {
   // top value
   val Top: Elem = Elem(MapD.Top)
 
+  // empty value
+  val Empty: Elem = Elem(MapD.Empty)
+
   case class Elem(map: MapD = MapD.Bot) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = this.map ⊑ that.map
