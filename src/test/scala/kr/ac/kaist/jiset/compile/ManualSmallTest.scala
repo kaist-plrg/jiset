@@ -106,6 +106,12 @@ class ManualSmallTest extends CompileTest {
         }
       }"""
     )
+
+    test("Complex Condition Operation", CondTarget)(
+      "_a_ = 0, _b_ = 10, and _c_ = 100" -> "(&& (== a 0i) (&& (== b 10i) (== c 100i)))",
+      "_a_ &ne; 0 or _b_ = 0 and  _c_ &ne; 0 or _d_ &ne; 0" ->
+        "(|| (! (== a 0i)) (&& (== b 0i) (|| (! (== c 0i)) (! (== d 0i)))))"
+    )
   }
   init
 }
