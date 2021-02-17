@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util.Useful._
 class DotPrinter {
   // for functions
   def apply(func: Function): DotPrinter = {
-    val Function(entry, exit, nodes, forwards) = func
+    val Function(_, entry, exit, nodes, forwards) = func
     add(s"""digraph {""")
     nodes.foreach(apply)
     forwards.foreach {

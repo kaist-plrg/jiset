@@ -1,9 +1,11 @@
 package kr.ac.kaist.jiset.cfg
 
+import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.jiset.util.UId
 
 // CFG functions
 case class Function(
+  algo: Algo,
   entry: Entry,
   exit: Exit,
   nodes: Set[Node],
