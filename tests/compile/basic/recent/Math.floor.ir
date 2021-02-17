@@ -2,13 +2,10 @@
   app __x0__ = (ToNumber x)
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let n = __x0__
-  if (|| (= n NaN) (|| (= n 0i) (|| (= n -0.0) (|| (= n Infinity) (= n -Infinity))))) {
-    app __x1__ = (WrapCompletion n)
-    return __x1__
-  } else {}
+  ??? "If id:{n} is value:{NaN} , id:{n} is value:{+0} , id:{n} is value:{-0} , id:{n} is value:{+∞} , or id:{n} is value:{-∞} , return id:{n} ."
   if (&& (< n 1i) (< 0i n)) {
-    app __x2__ = (WrapCompletion 0i)
-    return __x2__
+    app __x1__ = (WrapCompletion 0i)
+    return __x1__
   } else {}
   ??? "If id:{n} is an integral Number , return id:{n} ."
   ??? "Return the greatest ( closest to + ∞ ) integral Number value that is not greater than id:{n} ."

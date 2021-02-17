@@ -1111,11 +1111,11 @@ object Compiler extends Compilers {
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | "." | next | "and") | etcCond
-  lazy val _cond: P[I[Expr]] = (condOpCond ||| nonRecursiveCond)
-  lazy val nonRecursiveCond: P[I[Expr]] = (
+  lazy val _cond: P[I[Expr]] = (
     argumentCond |||
     sameCond |||
     bopCond |||
+    condOpCond |||
     rhsCond |||
     bothCond |||
     eitherCond |||
@@ -1178,21 +1178,14 @@ object Compiler extends Compilers {
   )
 
   // conditional operators
-  lazy val condOpCond: P[I[Expr]] = (normalCondOpCond | commaOpCond)
-  lazy val normalCondOpCond: P[I[Expr]] = nonRecursiveCond ~ (condOp <~ opt("if")) ~ _cond ^^ {
+  lazy val condOpCond: P[I[Expr]] = _cond ~ (condOp <~ opt("if")) ~ _cond ^^ {
     case (i ~ l) ~ ((op, _)) ~ (i1 ~ r) if isEmptyInsts(i1) => pair(i, EBOp(op, l, r))
-    case il ~ ((_, f)) ~ ir => applyCondFunc(f, il, ir)
+    case (i0 ~ l) ~ ((op, f)) ~ (i1 ~ r) =>
+      val temp = getTempId
+      val (t, e) = f(ISeq(i1 :+ IAssign(toRef(temp), r)))
+      pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
   }
-  lazy val commaOpCond: P[I[Expr]] = rep1(nonRecursiveCond <~ ",") ~ (condOp <~ opt("if")) ~ _cond ^^ {
-    case ies ~ ((op, f)) ~ ie =>
-      ies.foldRight(ie)((il, ir) => {
-        val (i0 ~ l) = il
-        val (i1 ~ r) = ir
-        if (isEmptyInsts(i1)) pair(i0, EBOp(op, l, r))
-        else applyCondFunc(f, il, ir)
-      })
-  }
-  lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = (
+  lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = opt(",") ~> (
     "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
     "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
   )
