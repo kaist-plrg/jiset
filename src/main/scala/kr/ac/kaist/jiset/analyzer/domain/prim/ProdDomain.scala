@@ -1,11 +1,11 @@
 package kr.ac.kaist.jiset.analyzer.domain.prim
 
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object ProdDomain extends prim.Domain {
   // abstraction functions
-  def alpha(v: Const): Elem = v match {
+  def alpha(v: Prim): Elem = v match {
     case num: Num => Elem(_num = AbsNum(num))
     case int: INum => Elem(_int = AbsINum(int))
     case bigint: BigINum => Elem(_bigint = AbsBigINum(bigint))
@@ -85,7 +85,7 @@ object ProdDomain extends prim.Domain {
     )
 
     // concretization function
-    def gamma: concrete.Set[Const] = (
+    def gamma: concrete.Set[Prim] = (
       this._num.gamma ++
       this._int.gamma ++
       this._bigint.gamma ++
@@ -97,7 +97,7 @@ object ProdDomain extends prim.Domain {
     )
 
     // conversion to flat domain
-    def getSingle: concrete.Flat[Const] = (
+    def getSingle: concrete.Flat[Prim] = (
       this._num.getSingle ++
       this._int.getSingle ++
       this._bigint.getSingle ++

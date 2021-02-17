@@ -1,7 +1,5 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.ires.ir._
-
 package object domain {
   import generator._
   import combinator._
@@ -53,9 +51,9 @@ package object domain {
   lazy val AbsCont: cont.Domain = cont.SimpleDomain
   type AbsCont = AbsCont.Elem
 
-  // abstract functions
-  lazy val AbsFunc: func.Domain = func.SimpleDomain
-  type AbsFunc = AbsFunc.Elem
+  // abstract function closures
+  lazy val AbsClo: clo.Domain = clo.SimpleDomain
+  type AbsClo = AbsClo.Elem
 
   // abstract AST values
   lazy val AbsAST: ast.Domain = ast.SimpleDomain

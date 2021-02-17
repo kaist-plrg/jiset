@@ -1,8 +1,8 @@
 package kr.ac.kaist.jiset.phase
 
 import java.io.File
-import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.parser.algorithm.Compiler
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.JsonProtocol._

@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.error.NoMode
-import kr.ac.kaist.ires.ir
+import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.util.ArgParser
 

@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.checker
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.jiset.util.MayMust
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.ir._
 import javax.xml.crypto.AlgorithmMethod
 
 object MissingRetChecker extends Checker {

@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.cfg
 
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.UId
 
 // CFG nodes

@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.analyzer.domain.str
 
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
-import kr.ac.kaist.ires.ir.Str
 
 // string abstract domain
 trait Domain extends AbsDomain[Str] {

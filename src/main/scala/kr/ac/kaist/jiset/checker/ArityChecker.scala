@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.checker
 
-import kr.ac.kaist.ires.ir._
 import kr.ac.kaist.jiset.DEBUG
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Param }
 import kr.ac.kaist.jiset.util.Conversion._

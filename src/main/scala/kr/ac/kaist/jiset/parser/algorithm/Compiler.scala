@@ -1,8 +1,8 @@
 package kr.ac.kaist.jiset.parser.algorithm
 
 import kr.ac.kaist.jiset.spec.algorithm._
-import kr.ac.kaist.ires.ir.Parser._
-import kr.ac.kaist.ires.ir.{ error => _, Id => IRId, _ }
+import kr.ac.kaist.jiset.ir.Parser._
+import kr.ac.kaist.jiset.ir.{ Id => IRId, _ }
 import kr.ac.kaist.jiset.util.Useful._
 import scala.util.{ Try, Success, Failure }
 

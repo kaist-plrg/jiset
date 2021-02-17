@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.compile
 
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.parser.algorithm.{ Compiler, TokenParser }
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._

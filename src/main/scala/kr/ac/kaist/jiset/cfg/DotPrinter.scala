@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.cfg
 
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Useful._
 
@@ -56,7 +56,7 @@ class DotPrinter {
   // string builder
   private val sb: StringBuilder = new StringBuilder
 
-  // normalize beautified ires nodes
+  // normalize beautified ir nodes
   private def norm(node: IRNode): String = escapeHtml(beautify(node, index = true))
 
   // add to StringBuilder

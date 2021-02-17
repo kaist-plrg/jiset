@@ -4,8 +4,8 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 
 trait Compilers extends TokenListParsers {
-  import kr.ac.kaist.ires.ir.Parser._
-  import kr.ac.kaist.ires.ir._
+  import kr.ac.kaist.jiset.ir.Parser._
+  import kr.ac.kaist.jiset.ir._
 
   // instructions
   val stmt: P[Inst]

@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.biginum
 
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object FlatDomain extends generator.FlatDomain[BigINum] with biginum.Domain {

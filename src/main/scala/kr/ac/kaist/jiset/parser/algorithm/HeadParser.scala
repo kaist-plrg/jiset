@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.parser.algorithm
 
-import kr.ac.kaist.ires.ir
+import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.parser.grammar.ProductionParser
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }

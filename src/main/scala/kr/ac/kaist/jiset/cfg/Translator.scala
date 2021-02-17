@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.cfg
 
 import kr.ac.kaist.jiset.spec.algorithm._
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.ir._
 
 // translator from algorithms to CFG functions
 object Translator {

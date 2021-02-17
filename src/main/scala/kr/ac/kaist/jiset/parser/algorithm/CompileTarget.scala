@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.parser.algorithm
 
 import Compiler._
-import kr.ac.kaist.ires.ir
+import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.spec.algorithm.{ Token, Name }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.util.Useful._
@@ -30,13 +30,8 @@ sealed abstract class CompileTarget(
   }
 
   def parseIR(str: String): ir.IRNode = this match {
-    case InstsTarget => ir.Parser.parseInst(str)
-    case InstTarget => ir.Parser.parseInst(str)
-    case ExprTarget => ir.Parser.parseInst(str)
-    case ValTarget => ir.Parser.parseValue(str)
-    case CondTarget => ir.Parser.parseInst(str)
     case TyTarget => ir.Parser.parseTy(str)
-    case RefTarget => ir.Parser.parseInst(str)
+    case _ => ir.Parser.parseInst(str)
   }
 }
 object CompileTarget {

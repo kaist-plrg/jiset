@@ -35,12 +35,8 @@ lazy val compileBasicTest = taskKey[Unit]("Launch basic compile tests (middle)")
 lazy val compileLegacyTest = taskKey[Unit]("Launch legacy compile tests (small)")
 lazy val compileManualTest = taskKey[Unit]("Launch manual compile tests (small)")
 
-// ires
-lazy val ires = ProjectRef(file("ires"), "ires")
-
 // jiset
 lazy val jiset = (project in file("."))
-  .dependsOn(ires)
   .settings(
     name := "JISET",
     libraryDependencies ++= Seq(

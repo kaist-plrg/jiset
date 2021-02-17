@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.analyzer.domain.ops
 
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
-import kr.ac.kaist.ires.ir._
 
 // bit-wise operators
 trait BitwiseOps { this: AbsDomain[_] =>

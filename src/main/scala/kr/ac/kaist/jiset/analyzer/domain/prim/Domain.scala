@@ -1,10 +1,10 @@
 package kr.ac.kaist.jiset.analyzer.domain.prim
 
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
-import kr.ac.kaist.ires.ir.Const
 
 // primitive value abstract domain
-trait Domain extends AbsDomain[Const] { domain =>
+trait Domain extends AbsDomain[Prim] { domain =>
   // abstract operators
   implicit class Ops(elem: Elem) {
     def num: AbsNum = domain.num(elem)

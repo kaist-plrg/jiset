@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.obj
 
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends obj.Domain {
@@ -14,11 +14,9 @@ object BasicDomain extends obj.Domain {
 
   // abstraction function
   def alpha(obj: Obj): Elem = obj match {
-    case IRSymbol(v) => Elem(symbol = AbsValue(v))
-    case IRMap(_, props, _) =>
-      Elem(map = MapD(props.map { case (k, (v, _)) => k -> v }))
-    case IRList(values) => Elem(list = ListD(values.toList))
-    case _ => Bot
+    case SymbolObj(v) => Elem(symbol = AbsValue(v))
+    case MapObj(props) => Elem(map = MapD(props))
+    case ListObj(values) => Elem(list = ListD(values))
   }
 
   // bottom value

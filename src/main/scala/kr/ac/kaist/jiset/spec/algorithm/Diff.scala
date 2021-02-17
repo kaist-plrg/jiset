@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Useful._
 // import org.scalatest._
 // import kr.ac.kaist.jiset.spec.algorithm.Step

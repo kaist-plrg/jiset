@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.compile
 
 import java.io._
-import kr.ac.kaist.ires.ir._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.algorithm.Compiler
 import kr.ac.kaist.jiset.spec.algorithm._
