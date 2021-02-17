@@ -8,16 +8,19 @@ case class Grammar(
   lexProds: List[Production],
   prods: List[Production]
 ) {
+  // all productions
+  val allProds = lexProds ++ prods
+
+  // name mapping
+  val nameMap: Map[String, Production] = (for {
+    prod <- allProds
+  } yield prod.lhs.name -> prod).toMap
+
+  // index mapping
   val idxMap: Map[String, (Int, Int)] = (for {
-    prod <- lexProds ++ prods
+    prod <- allProds
     pair <- prod.getIdxMap
   } yield pair).toMap
-
-  def getProdByName(name: String): Production =
-    prods.find(_.lhs.name == name) match {
-      case Some(prod) => prod
-      case None => throw new Exception(s"Grammar: $name is not production")
-    }
 
   private def getSorted(prods: List[Production]) = prods.sortBy(_.lhs.name)
   lazy val sortedProds = (getSorted(lexProds), getSorted(prods))

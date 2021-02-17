@@ -5,40 +5,24 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 object FlatDomain extends generator.FlatDomain[INum] with inum.Domain {
   // numerical operators
-  def neg(elem: Elem): Elem = alpha(e => INum(-e.long))(elem)
-  def add(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(l.long + r.long))(left, right)
-  def sub(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(l.long - r.long))(left, right)
-  def mul(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(l.long * r.long))(left, right)
-  def div(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(l.long / r.long))(left, right)
-  def pow(left: Elem, right: Elem): Elem = alpha((l, r) => {
-    INum(math.pow(l.long, r.long).toLong)
-  })(left, right)
-  def mod(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(modulo(l.long, r.long).toLong))(left, right)
-  def umod(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(unsigned_modulo(l.long, r.long).toLong))(left, right)
-  def lt(left: Elem, right: Elem): AbsBool = alpha(this, this, AbsBool) {
-    case (l, r) => Bool(l.long < r.long)
-  }(left, right)
+  val neg = alpha(-_)
+  val add = alpha(_ + _)
+  val sub = alpha(_ - _)
+  val mul = alpha(_ * _)
+  val div = alpha(_ / _)
+  val pow = alpha(lpow(_, _))
+  val mod = alpha(_ % _)
+  val umod = alpha(unsigned_modulo(_, _))
+  val lt = alpha(this, this, AbsBool)(_ < _)
 
   // bit-wise operators
-  def not(elem: Elem): Elem = alpha(e => INum(~e.long))(elem)
-  def and(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(l.long & r.long))(left, right)
-  def or(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(l.long | r.long))(left, right)
-  def xor(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(l.long ^ r.long))(left, right)
+  val not = alpha(~_)
+  val and = alpha(_ & _)
+  val or = alpha(_ | _)
+  val xor = alpha(_ ^ _)
 
   // shift operators
-  def leftShift(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(l.long << r.long.toInt))(left, right)
-  def rightShift(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum(l.long >> r.long.toInt))(left, right)
-  def unsignedRightShift(left: Elem, right: Elem): Elem =
-    alpha((l, r) => INum((l.long & 0xffffffffL) >>> r.long.toInt))(left, right)
+  val leftShift = alpha(_ << _)
+  val rightShift = alpha(_ >> _)
+  val unsignedRightShift = alpha((l, r) => (l & 0xffffffffL) >>> r.toInt)
 }

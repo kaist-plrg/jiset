@@ -15,25 +15,16 @@ package object analyzer {
   // triple quotations
   val TRIPLE = "\"\"\""
 
+  // power
+  def lpow(l: Long, r: Long): Long = math.pow(l.toDouble, r.toDouble).toLong
+
   // modulo
-  def modulo(l: BigInt, r: BigInt): BigInt = l % r
-  def unsigned_modulo(l: BigInt, r: BigInt): BigInt = {
-    val m = l % r
-    if (m * r < 0) m + r
-    else m
-  }
-  def modulo(l: BigInt, r: Long): BigInt = l % r
-  def unsigned_modulo(l: BigInt, r: Long): BigInt = {
-    val m = l % r
-    if (m * r < 0) m + r
-    else m
-  }
-  def modulo(l: Double, r: Double): Double = l % r
-  def unsigned_modulo(l: Double, r: Double): Double = {
-    val m = l % r
-    if (m * r < 0.0) m + r
-    else m
-  }
+  def unsigned_modulo(l: Long, r: Long): Long =
+    { val m = l % r; if (m * r < 0) m + r else m }
+  def unsigned_modulo(l: BigInt, r: BigInt): BigInt =
+    { val m = l % r; if (m * r < 0) m + r else m }
+  def unsigned_modulo(l: Double, r: Double): Double =
+    { val m = l % r; if (m * r < 0) m + r else m }
 
   // singleton types
   type Null = Null.type

@@ -14,6 +14,9 @@ object BasicDomain extends ctxt.Domain {
   // top value
   val Top: Elem = Elem(AbsEnv.Top, AbsEnv.Top, AbsValue.Top)
 
+  // empty value
+  val Empty: Elem = Elem(AbsEnv.Empty, AbsEnv.Empty, AbsAbsent.Top)
+
   case class Elem(
     globals: AbsEnv,
     locals: AbsEnv,

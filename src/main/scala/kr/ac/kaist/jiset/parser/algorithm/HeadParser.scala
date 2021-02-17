@@ -56,6 +56,7 @@ object HeadParser extends HeadParsers {
         if (isRegexpSyntax(prev)) name = "Evaluation"
 
         // syntax-directed algorithms
+        val nameMap = grammar.nameMap
         val idxMap = grammar.idxMap
 
         // with parameters
@@ -82,7 +83,7 @@ object HeadParser extends HeadParsers {
           rhsName <- rhs.names
           syntax = lhsName + ":" + rhsName
           (i, j) <- idxMap.get(syntax)
-        } yield SyntaxDirectedHead(lhsName, rhs, i, j, name, withParams)
+        } yield SyntaxDirectedHead(nameMap(lhsName), i, j, name, withParams)
       } else if (isEnvMethod(prev, elem, envRange)) {
         // environment record method
         val bases =

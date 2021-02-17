@@ -1,5 +1,7 @@
 package kr.ac.kaist.jiset.analyzer
 
+import scala.collection.immutable.StringOps
+
 package object domain {
   import generator._
   import combinator._
@@ -104,6 +106,41 @@ package object domain {
   //////////////////////////////////////////////////////////////////////////////
   // implicit conversions
   //////////////////////////////////////////////////////////////////////////////
-  implicit def bool2boolean(bool: Bool): Boolean = bool.bool
-  implicit def boolean2bool(bool: Boolean): Bool = Bool(bool)
+  implicit def bool2boolean(x: Bool): Boolean = x.bool
+  implicit def boolean2bool(x: Boolean): Bool = Bool(x)
+  implicit def str2string(x: Str): StringOps = x.str
+  implicit def string2str(x: String): Str = Str(x)
+  implicit def long2inum(x: Long): INum = INum(x)
+  implicit def inum2long(x: INum): Long = x.long
+  implicit def bigint2biginum(x: BigInt): BigINum = BigINum(x)
+  implicit def biginum2bigint(x: BigINum): BigInt = x.bigint
+  implicit def double2num(x: Double): Num = Num(x)
+  implicit def num2double(x: Num): Double = x.double
+
+  implicit def num2prim[T](x: T)(implicit ev: T => AbsNum) =
+    AbsPrim(num = x)
+  implicit def int2prim[T](x: T)(implicit ev: T => AbsINum) =
+    AbsPrim(int = x)
+  implicit def bigint2prim[T](x: T)(implicit ev: T => AbsBigINum) =
+    AbsPrim(bigint = x)
+  implicit def str2prim[T](x: T)(implicit ev: T => AbsStr) =
+    AbsPrim(str = x)
+  implicit def bool2prim[T](x: T)(implicit ev: T => AbsBool) =
+    AbsPrim(bool = x)
+  implicit def undef2prim[T](x: T)(implicit ev: T => AbsUndef) =
+    AbsPrim(undef = x)
+  implicit def null2prim[T](x: T)(implicit ev: T => AbsNull) =
+    AbsPrim(nullval = x)
+  implicit def absent2prim[T](x: T)(implicit f: T => AbsAbsent) =
+    AbsPrim(absent = x)
+  implicit def addr2value[T](x: T)(implicit f: T => AbsAddr) =
+    AbsValue(addr = x)
+  implicit def clo2value[T](x: T)(implicit f: T => AbsClo) =
+    AbsValue(clo = x)
+  implicit def cont2value[T](x: T)(implicit f: T => AbsCont) =
+    AbsValue(cont = x)
+  implicit def ast2value[T](x: T)(implicit f: T => AbsAST) =
+    AbsValue(ast = x)
+  implicit def prim2value[T](x: T)(implicit f: T => AbsPrim) =
+    AbsValue(prim = x)
 }

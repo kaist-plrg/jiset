@@ -5,13 +5,18 @@ import Param.Kind._
 
 // syntax-directed algorithm heads
 case class SyntaxDirectedHead(
-  lhsName: String,
-  rhs: Rhs,
+  prod: Production,
   idx: Int,
   subIdx: Int,
   methodName: String,
   withParams: List[Param]
 ) extends Head {
+  // name of left-hand-side
+  val lhsName: String = prod.lhs.name
+
+  // right-hand-side
+  val rhs: Rhs = prod.rhsList(idx)
+
   // name with index and method name
   val name: String = s"$lhsName$idx$methodName$subIdx"
   override val printName = s"$lhsName[$idx,$subIdx].$methodName"
@@ -22,7 +27,7 @@ case class SyntaxDirectedHead(
     Param(nt.name, kind)
   })) ++ withParams
 
-  // rename for duplicated parameters for syntex-directed algorithms
+  // rename for duplicated parameters for syntax-directed algorithms
   def rename(params: List[Param]): List[Param] = {
     val names = params.map(_.name)
     val duplicated =

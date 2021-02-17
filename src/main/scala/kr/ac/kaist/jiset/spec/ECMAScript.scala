@@ -28,6 +28,10 @@ case class ECMAScript(
     aoids
   )
 
+  // target algorithms
+  def targetAlgos: List[Algo] =
+    algos.filter(_.name == "Literal[0,0].Evaluation")
+
   // arity counter of algorithms
   lazy val arities: Map[String, (InfNum, InfNum)] =
     algos.map(a => (a.name, a.arity)).toMap ++ ECMAScript.PREDEF_FUNC

@@ -5,18 +5,15 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 object FlatDomain extends generator.FlatDomain[Str] with str.Domain {
   // string addition (+)
-  def add(left: Elem, right: Elem): Elem =
-    alpha((l, r) => Str(l.str + r.str))(left, right)
+  def add(left: Elem, right: Elem): Elem = alpha(_.str + _.str)(left, right)
 
   // drop right (-)
-  def sub(left: Elem, right: AbsINum): Elem = alpha(this, AbsINum, this) {
-    case (Str(l), INum(r)) => Str(l.dropRight(r.toInt))
-  }(left, right)
+  def sub(left: Elem, right: AbsINum): Elem =
+    alpha(this, AbsINum, this)(_ dropRight _.toInt)(left, right)
 
   // string multiplication (*)
-  def mul(left: Elem, right: AbsINum): Elem = alpha(this, AbsINum, this) {
-    case (Str(l), INum(r)) => Str(l * r.toInt)
-  }(left, right)
+  def mul(left: Elem, right: AbsINum): Elem =
+    alpha(this, AbsINum, this)(_ * _.toInt)(left, right)
 
   // string comparison (<)
   def lt(left: Elem, right: Elem): AbsBool =

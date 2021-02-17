@@ -36,7 +36,7 @@ class CFG extends UId {
 object CFG {
   def apply(spec: ECMAScript): CFG = {
     val cfg = new CFG
-    spec.algos.foreach(cfg += Translator(_))
+    spec.targetAlgos.foreach(cfg += Translator(_))
     cfg
   }
 }

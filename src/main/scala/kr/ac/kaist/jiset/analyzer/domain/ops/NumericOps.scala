@@ -19,29 +19,29 @@ trait NumericOps { this: AbsDomain[_] =>
   }
 
   // negation (-)
-  def neg(elem: Elem): Elem
+  val neg: Elem => Elem
 
   // addition (+)
-  def add(left: Elem, right: Elem): Elem
+  val add: (Elem, Elem) => Elem
 
   // substitution (-)
-  def sub(left: Elem, right: Elem): Elem
+  val sub: (Elem, Elem) => Elem
 
   // multiplication (*)
-  def mul(left: Elem, right: Elem): Elem
+  val mul: (Elem, Elem) => Elem
 
   // division (/)
-  def div(left: Elem, right: Elem): Elem
+  val div: (Elem, Elem) => Elem
 
   // exponential (**)
-  def pow(left: Elem, right: Elem): Elem
+  val pow: (Elem, Elem) => Elem
 
   // modulo (%)
-  def mod(left: Elem, right: Elem): Elem
+  val mod: (Elem, Elem) => Elem
 
   // unsigned modulo (%%)
-  def umod(left: Elem, right: Elem): Elem
+  val umod: (Elem, Elem) => Elem
 
   // comparison (<)
-  def lt(left: Elem, right: Elem): AbsBool
+  val lt: (Elem, Elem) => AbsBool
 }

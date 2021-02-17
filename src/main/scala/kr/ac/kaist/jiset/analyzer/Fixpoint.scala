@@ -1,12 +1,20 @@
 package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.cfg.CFG
+import kr.ac.kaist.jiset.spec.algorithm._
 
 class Fixpoint(
   cfg: CFG,
   worklist: Worklist[ControlPoint],
   sem: AbsSemantics
 ) {
+  // initial worklist
+  cfg.allFunctions.foreach(_.algo.head match {
+    case (head: SyntaxDirectedHead) =>
+      println(head)
+    case _ =>
+  })
+
   // abstract transfer function
   val transfer = new AbsTransfer(cfg)
 

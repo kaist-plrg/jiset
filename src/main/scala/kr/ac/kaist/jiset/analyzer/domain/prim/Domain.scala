@@ -17,6 +17,18 @@ trait Domain extends AbsDomain[Prim] { domain =>
     def absent: AbsAbsent = domain.absent(elem)
   }
 
+  // constructor
+  def apply(
+    num: AbsNum = AbsNum.Bot,
+    int: AbsINum = AbsINum.Bot,
+    bigint: AbsBigINum = AbsBigINum.Bot,
+    str: AbsStr = AbsStr.Bot,
+    bool: AbsBool = AbsBool.Bot,
+    undef: AbsUndef = AbsUndef.Bot,
+    nullval: AbsNull = AbsNull.Bot,
+    absent: AbsAbsent = AbsAbsent.Bot
+  ): Elem
+
   // number accessors
   def num(elem: Elem): AbsNum
 

@@ -14,6 +14,15 @@ trait Domain extends AbsDomain[Value] { domain =>
     def prim: AbsPrim = domain.prim(elem)
   }
 
+  // constructor
+  def apply(
+    addr: AbsAddr = AbsAddr.Bot,
+    clo: AbsClo = AbsClo.Bot,
+    cont: AbsCont = AbsCont.Bot,
+    ast: AbsAST = AbsAST.Bot,
+    prim: AbsPrim = AbsPrim.Bot
+  ): Elem
+
   // address accessors
   def addr(elem: Elem): AbsAddr
 

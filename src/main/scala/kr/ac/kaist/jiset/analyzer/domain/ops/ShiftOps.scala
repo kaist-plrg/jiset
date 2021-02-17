@@ -13,11 +13,11 @@ trait ShiftOps { this: AbsDomain[_] =>
   }
 
   // left shift (<<)
-  def leftShift(left: Elem, right: Elem): Elem
+  val leftShift: (Elem, Elem) => Elem
 
   // right shift (>>)
-  def rightShift(left: Elem, right: Elem): Elem
+  val rightShift: (Elem, Elem) => Elem
 
   // unsigned right shift (>>>)
-  def unsignedRightShift(left: Elem, right: Elem): Elem
+  val unsignedRightShift: (Elem, Elem) => Elem
 }

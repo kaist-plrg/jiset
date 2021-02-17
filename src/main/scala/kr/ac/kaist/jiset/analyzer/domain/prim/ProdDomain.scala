@@ -16,17 +16,10 @@ object ProdDomain extends prim.Domain {
     case absent: Absent => Elem(_absent = AbsAbsent(absent))
   }
 
-  // Members declared in Domain
-  val Bot: Elem = Elem(
-    AbsNum.Bot,
-    AbsINum.Bot,
-    AbsBigINum.Bot,
-    AbsStr.Bot,
-    AbsBool.Bot,
-    AbsUndef.Bot,
-    AbsNull.Bot,
-    AbsAbsent.Bot
-  )
+  // bottom value
+  val Bot: Elem = Elem()
+
+  // top value
   val Top: Elem = Elem(
     AbsNum.Top,
     AbsINum.Top,
@@ -37,6 +30,18 @@ object ProdDomain extends prim.Domain {
     AbsNull.Top,
     AbsAbsent.Top
   )
+
+  // constructor
+  def apply(
+    num: AbsNum = AbsNum.Bot,
+    int: AbsINum = AbsINum.Bot,
+    bigint: AbsBigINum = AbsBigINum.Bot,
+    str: AbsStr = AbsStr.Bot,
+    bool: AbsBool = AbsBool.Bot,
+    undef: AbsUndef = AbsUndef.Bot,
+    nullval: AbsNull = AbsNull.Bot,
+    absent: AbsAbsent = AbsAbsent.Bot
+  ): Elem = Elem(num, int, bigint, str, bool, undef, nullval, absent)
 
   case class Elem(
     _num: AbsNum = AbsNum.Bot,

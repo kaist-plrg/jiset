@@ -13,8 +13,10 @@ object ProdDomain extends value.Domain {
     case prim: Prim => Elem(_prim = AbsPrim(prim))
   }
 
-  // Members declared in Domain
+  // bottom value
   val Bot: Elem = Elem()
+
+  // top value
   val Top: Elem = Elem(
     AbsAddr.Top,
     AbsClo.Top,
@@ -22,6 +24,15 @@ object ProdDomain extends value.Domain {
     AbsAST.Top,
     AbsPrim.Top
   )
+
+  // constructor
+  def apply(
+    addr: AbsAddr = AbsAddr.Bot,
+    clo: AbsClo = AbsClo.Bot,
+    cont: AbsCont = AbsCont.Bot,
+    ast: AbsAST = AbsAST.Bot,
+    prim: AbsPrim = AbsPrim.Bot
+  ): Elem = Elem(addr, clo, cont, ast, prim)
 
   case class Elem(
     _addr: AbsAddr = AbsAddr.Bot,

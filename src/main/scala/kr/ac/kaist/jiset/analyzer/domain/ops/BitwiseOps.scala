@@ -14,14 +14,14 @@ trait BitwiseOps { this: AbsDomain[_] =>
   }
 
   // bit-wise negation (~)
-  def not(elem: Elem): Elem
+  val not: Elem => Elem
 
   // bit-wise and (&)
-  def and(left: Elem, right: Elem): Elem
+  val and: (Elem, Elem) => Elem
 
   // bit-wise or (|)
-  def or(left: Elem, right: Elem): Elem
+  val or: (Elem, Elem) => Elem
 
   // bit-wise xor (^)
-  def xor(left: Elem, right: Elem): Elem
+  val xor: (Elem, Elem) => Elem
 }
