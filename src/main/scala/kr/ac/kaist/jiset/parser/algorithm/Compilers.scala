@@ -424,6 +424,15 @@ trait Compilers extends TokenListParsers {
     EBOp(OEq, expr, ENum(Double.NegativeInfinity))
   )
 
+  // apply condition function. il is lhs and ir is rhs of the operation.
+  def applyCondFunc(condFunc: Inst => (Inst, Inst), il: List[Inst] ~ Expr, ir: List[Inst] ~ Expr) = {
+    val (i0 ~ l) = il
+    val (i1 ~ r) = ir
+    val temp = getTempId
+    val (t, e) = condFunc(ISeq(i1 :+ IAssign(toRef(temp), r)))
+    pair(i0 ++ List(ILet(temp, l), IIf(toERef(temp), t, e)), toERef(temp))
+  }
+
   // select rather than not supported
   def select(left: Parser[I[Expr]], right: Parser[I[Expr]]): Parser[I[Expr]] = new Parser[I[Expr]] {
     def apply(in: Input) = {
