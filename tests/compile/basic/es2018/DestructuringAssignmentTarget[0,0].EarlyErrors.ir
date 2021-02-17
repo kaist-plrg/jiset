@@ -1,5 +1,6 @@
 {
-  let __x0__ = (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))
+  let __x0__ = true
+  __x0__ = (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))
   if __x0__ {
     let __x1__ = false
     if (= absent (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))) __x1__ = true else {}
@@ -12,7 +13,8 @@
     app __x3__ = (NormalCompletion undefined)
     return __x3__
   }
-  let __x4__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
+  let __x4__ = true
+  __x4__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
   if __x4__ {
     app __x5__ = (IsValidSimpleAssignmentTarget LeftHandSideExpression)
     __x4__ = (= __x5__ false)

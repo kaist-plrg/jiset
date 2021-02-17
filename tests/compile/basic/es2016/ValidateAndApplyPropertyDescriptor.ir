@@ -5,13 +5,14 @@
       return __x0__
     } else {}
     assert (= extensible true)
-    app __x1__ = (IsGenericDescriptor Desc)
-    let __x2__ = (= __x1__ true)
-    if __x2__ {} else {
+    let __x1__ = true
+    app __x2__ = (IsGenericDescriptor Desc)
+    __x1__ = (= __x2__ true)
+    if __x1__ {} else {
       app __x3__ = (IsDataDescriptor Desc)
-      __x2__ = (= __x3__ true)
+      __x1__ = (= __x3__ true)
     }
-    if __x2__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ." else ??? "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ."
+    if __x1__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ." else ??? "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ."
     app __x4__ = (WrapCompletion true)
     return __x4__
   } else {}
@@ -45,7 +46,8 @@
             return __x13__
           } else {}
           if (= current.Writable false) {
-            let __x14__ = (! (= Desc.Value absent))
+            let __x14__ = true
+            __x14__ = (! (= Desc.Value absent))
             if __x14__ {
               app __x15__ = (SameValue Desc.Value current.Value)
               __x14__ = (= __x15__ false)
@@ -58,7 +60,8 @@
         } else {}
         ??? "Else the [ [ Configurable ] ] field of id:{current} is value:{true} , so any change is acceptable ."
       } else if (= current.Configurable false) {
-        let __x17__ = (! (= Desc.Set absent))
+        let __x17__ = true
+        __x17__ = (! (= Desc.Set absent))
         if __x17__ {
           app __x18__ = (SameValue Desc.Set current.Set)
           __x17__ = (= __x18__ false)
@@ -67,7 +70,8 @@
           app __x19__ = (WrapCompletion false)
           return __x19__
         } else {}
-        let __x20__ = (! (= Desc.Get absent))
+        let __x20__ = true
+        __x20__ = (! (= Desc.Get absent))
         if __x20__ {
           app __x21__ = (SameValue Desc.Get current.Get)
           __x20__ = (= __x21__ false)

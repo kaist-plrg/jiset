@@ -14,39 +14,42 @@
     app __x5__ = (WrapCompletion true)
     return __x5__
   } else {}
-  app __x6__ = (Type x)
-  let __x7__ = (= __x6__ Number)
-  if __x7__ {
+  let __x6__ = true
+  app __x7__ = (Type x)
+  __x6__ = (= __x7__ Number)
+  if __x6__ {
     app __x8__ = (Type y)
-    __x7__ = (= __x8__ String)
+    __x6__ = (= __x8__ String)
   } else {}
-  if __x7__ {
+  if __x6__ {
     app __x9__ = (ToNumber y)
     if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
     app __x10__ = (AbstractEqualityComparison x __x9__)
     app __x11__ = (WrapCompletion __x10__)
     return __x11__
   } else {}
-  app __x12__ = (Type x)
-  let __x13__ = (= __x12__ String)
-  if __x13__ {
+  let __x12__ = true
+  app __x13__ = (Type x)
+  __x12__ = (= __x13__ String)
+  if __x12__ {
     app __x14__ = (Type y)
-    __x13__ = (= __x14__ Number)
+    __x12__ = (= __x14__ Number)
   } else {}
-  if __x13__ {
+  if __x12__ {
     app __x15__ = (ToNumber x)
     if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
     app __x16__ = (AbstractEqualityComparison __x15__ y)
     app __x17__ = (WrapCompletion __x16__)
     return __x17__
   } else {}
-  app __x18__ = (Type x)
-  let __x19__ = (= __x18__ BigInt)
-  if __x19__ {
+  let __x18__ = true
+  app __x19__ = (Type x)
+  __x18__ = (= __x19__ BigInt)
+  if __x18__ {
     app __x20__ = (Type y)
-    __x19__ = (= __x20__ String)
+    __x18__ = (= __x20__ String)
   } else {}
-  if __x19__ {
+  if __x18__ {
     app __x21__ = (StringToBigInt y)
     if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
     let n = __x21__
@@ -58,13 +61,14 @@
     app __x24__ = (WrapCompletion __x23__)
     return __x24__
   } else {}
-  app __x25__ = (Type x)
-  let __x26__ = (= __x25__ String)
-  if __x26__ {
+  let __x25__ = true
+  app __x26__ = (Type x)
+  __x25__ = (= __x26__ String)
+  if __x25__ {
     app __x27__ = (Type y)
-    __x26__ = (= __x27__ BigInt)
+    __x25__ = (= __x27__ BigInt)
   } else {}
-  if __x26__ {
+  if __x25__ {
     app __x28__ = (AbstractEqualityComparison y x)
     app __x29__ = (WrapCompletion __x28__)
     return __x29__
@@ -85,47 +89,52 @@
     app __x37__ = (WrapCompletion __x36__)
     return __x37__
   } else {}
-  app __x38__ = (Type x)
-  let __x39__ = (|| (|| (|| (= __x38__ String) (= __x38__ Number)) (= __x38__ BigInt)) (= __x38__ Symbol))
-  if __x39__ {
+  let __x38__ = true
+  app __x39__ = (Type x)
+  __x38__ = (|| (|| (|| (= __x39__ String) (= __x39__ Number)) (= __x39__ BigInt)) (= __x39__ Symbol))
+  if __x38__ {
     app __x40__ = (Type y)
-    __x39__ = (= __x40__ Object)
+    __x38__ = (= __x40__ Object)
   } else {}
-  if __x39__ {
+  if __x38__ {
     app __x41__ = (ToPrimitive y)
     app __x42__ = (AbstractEqualityComparison x __x41__)
     app __x43__ = (WrapCompletion __x42__)
     return __x43__
   } else {}
-  app __x44__ = (Type x)
-  let __x45__ = (= __x44__ Object)
-  if __x45__ {
+  let __x44__ = true
+  app __x45__ = (Type x)
+  __x44__ = (= __x45__ Object)
+  if __x44__ {
     app __x46__ = (Type y)
-    __x45__ = (|| (|| (|| (= __x46__ String) (= __x46__ Number)) (= __x46__ BigInt)) (= __x46__ Symbol))
+    __x44__ = (|| (|| (|| (= __x46__ String) (= __x46__ Number)) (= __x46__ BigInt)) (= __x46__ Symbol))
   } else {}
-  if __x45__ {
+  if __x44__ {
     app __x47__ = (ToPrimitive x)
     app __x48__ = (AbstractEqualityComparison __x47__ y)
     app __x49__ = (WrapCompletion __x48__)
     return __x49__
   } else {}
-  app __x50__ = (Type x)
-  let __x51__ = (= __x50__ BigInt)
-  if __x51__ {
-    app __x52__ = (Type y)
-    let __x53__ = (= __x52__ Number)
-    if __x53__ {} else {
-      app __x54__ = (Type x)
-      let __x55__ = (= __x54__ Number)
-      if __x55__ {
+  let __x50__ = true
+  app __x51__ = (Type x)
+  __x50__ = (= __x51__ BigInt)
+  if __x50__ {
+    let __x52__ = true
+    app __x53__ = (Type y)
+    __x52__ = (= __x53__ Number)
+    if __x52__ {} else {
+      let __x54__ = true
+      app __x55__ = (Type x)
+      __x54__ = (= __x55__ Number)
+      if __x54__ {
         app __x56__ = (Type y)
-        __x55__ = (= __x56__ BigInt)
+        __x54__ = (= __x56__ BigInt)
       } else {}
-      __x53__ = __x55__
+      __x52__ = __x54__
     }
-    __x51__ = __x53__
+    __x50__ = __x52__
   } else {}
-  if __x51__ {
+  if __x50__ {
     if (|| (|| (|| (= x NaN) (= x Infinity)) (= x -Infinity)) (|| (|| (= y NaN) (= y Infinity)) (= y -Infinity))) {
       app __x57__ = (WrapCompletion false)
       return __x57__

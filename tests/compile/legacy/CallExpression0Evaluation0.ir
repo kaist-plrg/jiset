@@ -12,12 +12,41 @@
   app __x4__ = (GetValue ref)
   if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   let func = __x4__
-  ??? "If Type ( id:{ref} ) is Reference , IsPropertyReference ( id:{ref} ) is value:{false} , and GetReferencedName ( id:{ref} ) is value:{\"eval\"} , then in:{} out:{}"
+  let __x5__ = true
+  app __x6__ = (Type ref)
+  __x5__ = (= __x6__ Reference)
+  if __x5__ {
+    app __x7__ = (IsPropertyReference ref)
+    __x5__ = (= __x7__ false)
+    if __x5__ {
+      app __x8__ = (GetReferencedName ref)
+      __x5__ = (= __x8__ "eval")
+    } else {}
+  } else {}
+  if __x5__ {
+    app __x9__ = (SameValue func INTRINSIC_eval)
+    if (= __x9__ true) {
+      access __x10__ = (arguments "ArgumentListEvaluation")
+      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+      let argList = __x10__
+      if (= argList.length 0i) {
+        app __x11__ = (WrapCompletion undefined)
+        return __x11__
+      } else {}
+      let evalArg = argList[0i]
+      if true let strictCaller = true else let strictCaller = false
+      let evalRealm = REALM
+      app __x12__ = (PerformEval evalArg evalRealm strictCaller true)
+      if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+      app __x13__ = (WrapCompletion __x12__)
+      return __x13__
+    } else {}
+  } else {}
   let thisCall = this
-  app __x5__ = (IsInTailPosition thisCall)
-  let tailCall = __x5__
-  app __x6__ = (EvaluateCall func ref arguments tailCall)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  app __x7__ = (WrapCompletion __x6__)
-  return __x7__
+  app __x14__ = (IsInTailPosition thisCall)
+  let tailCall = __x14__
+  app __x15__ = (EvaluateCall func ref arguments tailCall)
+  if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+  app __x16__ = (WrapCompletion __x15__)
+  return __x16__
 }

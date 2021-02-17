@@ -5,13 +5,14 @@
     app __x1__ = (WrapCompletion list)
     return __x1__
   } else {}
-  access __x2__ = (ClassElement "IsStatic")
-  let __x3__ = (= __x2__ false)
-  if __x3__ {
+  let __x2__ = true
+  access __x3__ = (ClassElement "IsStatic")
+  __x2__ = (= __x3__ false)
+  if __x2__ {
     access __x4__ = (ClassElement "PropName")
-    __x3__ = (= __x4__ "constructor")
+    __x2__ = (= __x4__ "constructor")
   } else {}
-  if __x3__ {
+  if __x2__ {
     app __x5__ = (WrapCompletion list)
     return __x5__
   } else {}

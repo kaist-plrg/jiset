@@ -14,25 +14,27 @@
     app __x5__ = (WrapCompletion true)
     return __x5__
   } else {}
-  app __x6__ = (Type x)
-  let __x7__ = (= __x6__ Number)
-  if __x7__ {
+  let __x6__ = true
+  app __x7__ = (Type x)
+  __x6__ = (= __x7__ Number)
+  if __x6__ {
     app __x8__ = (Type y)
-    __x7__ = (= __x8__ String)
+    __x6__ = (= __x8__ String)
   } else {}
-  if __x7__ {
+  if __x6__ {
     app __x9__ = (ToNumber y)
     app __x10__ = (AbstractEqualityComparison x __x9__)
     app __x11__ = (WrapCompletion __x10__)
     return __x11__
   } else {}
-  app __x12__ = (Type x)
-  let __x13__ = (= __x12__ String)
-  if __x13__ {
+  let __x12__ = true
+  app __x13__ = (Type x)
+  __x12__ = (= __x13__ String)
+  if __x12__ {
     app __x14__ = (Type y)
-    __x13__ = (= __x14__ Number)
+    __x12__ = (= __x14__ Number)
   } else {}
-  if __x13__ {
+  if __x12__ {
     app __x15__ = (ToNumber x)
     app __x16__ = (AbstractEqualityComparison __x15__ y)
     app __x17__ = (WrapCompletion __x16__)
@@ -52,25 +54,27 @@
     app __x25__ = (WrapCompletion __x24__)
     return __x25__
   } else {}
-  app __x26__ = (Type x)
-  let __x27__ = (|| (|| (= __x26__ String) (= __x26__ Number)) (= __x26__ Symbol))
-  if __x27__ {
+  let __x26__ = true
+  app __x27__ = (Type x)
+  __x26__ = (|| (|| (= __x27__ String) (= __x27__ Number)) (= __x27__ Symbol))
+  if __x26__ {
     app __x28__ = (Type y)
-    __x27__ = (= __x28__ Object)
+    __x26__ = (= __x28__ Object)
   } else {}
-  if __x27__ {
+  if __x26__ {
     app __x29__ = (ToPrimitive y)
     app __x30__ = (AbstractEqualityComparison x __x29__)
     app __x31__ = (WrapCompletion __x30__)
     return __x31__
   } else {}
-  app __x32__ = (Type x)
-  let __x33__ = (= __x32__ Object)
-  if __x33__ {
+  let __x32__ = true
+  app __x33__ = (Type x)
+  __x32__ = (= __x33__ Object)
+  if __x32__ {
     app __x34__ = (Type y)
-    __x33__ = (|| (|| (= __x34__ String) (= __x34__ Number)) (= __x34__ Symbol))
+    __x32__ = (|| (|| (= __x34__ String) (= __x34__ Number)) (= __x34__ Symbol))
   } else {}
-  if __x33__ {
+  if __x32__ {
     app __x35__ = (ToPrimitive x)
     app __x36__ = (AbstractEqualityComparison __x35__ y)
     app __x37__ = (WrapCompletion __x36__)

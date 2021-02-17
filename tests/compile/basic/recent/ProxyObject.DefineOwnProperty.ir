@@ -55,8 +55,12 @@
       app __x16__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
       return __x16__
     } else {}
-    ??? "If IsDataDescriptor ( id:{targetDesc} ) is value:{true} , id:{targetDesc} . [ [ Configurable ] ] is value:{false} , and id:{targetDesc} . [ [ Writable ] ] is value:{true} , then in:{} out:{}"
+    app __x17__ = (IsDataDescriptor targetDesc)
+    if (&& (&& (= __x17__ true) (= targetDesc.Configurable false)) (= targetDesc.Writable true)) if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) {
+      app __x18__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+      return __x18__
+    } else {} else {}
   }
-  app __x17__ = (WrapCompletion true)
-  return __x17__
+  app __x19__ = (WrapCompletion true)
+  return __x19__
 }

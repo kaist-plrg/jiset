@@ -1,23 +1,26 @@
 {
   let func = this
   ??? "If id:{func} is a < emu - xref href = \" # sec - bound - function - exotic - objects \" > Bound Function exotic object < / emu - xref > or a < emu - xref href = \" # sec - built - in - function - objects \" > built - in function object < / emu - xref > , then return an implementation - dependent String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} . Additionally , if id:{func} is a < emu - xref href = \" # sec - well - known - intrinsic - objects \" > Well - known Intrinsic Object < / emu - xref > and is not identified as an anonymous function , the portion of the returned String that would be matched by nt:{PropertyName} must be the initial value of the code:{name} property of id:{func} ."
-  app __x0__ = (Type func)
-  let __x1__ = (= __x0__ Object)
-  if __x1__ {
-    let __x2__ = (! (= func.SourceText absent))
+  let __x0__ = true
+  app __x1__ = (Type func)
+  __x0__ = (= __x1__ Object)
+  if __x0__ {
+    let __x2__ = true
+    __x2__ = (! (= func.SourceText absent))
     if __x2__ {
-      app __x3__ = (Type func.SourceText)
-      let __x4__ = (= __x3__ String)
-      if __x4__ {
+      let __x3__ = true
+      app __x4__ = (Type func.SourceText)
+      __x3__ = (= __x4__ String)
+      if __x3__ {
         app __x5__ = (HostHasSourceTextAvailable func)
         if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-        __x4__ = (= __x5__ true)
+        __x3__ = (= __x5__ true)
       } else {}
-      __x2__ = __x4__
+      __x2__ = __x3__
     } else {}
-    __x1__ = __x2__
+    __x0__ = __x2__
   } else {}
-  if __x1__ {
+  if __x0__ {
     app __x6__ = (WrapCompletion func.SourceText)
     return __x6__
   } else {}

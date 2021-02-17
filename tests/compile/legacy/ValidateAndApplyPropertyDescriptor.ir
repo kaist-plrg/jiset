@@ -5,13 +5,14 @@
       return __x0__
     } else {}
     assert (= extensible true)
-    app __x1__ = (IsGenericDescriptor Desc)
-    let __x2__ = (= __x1__ true)
-    if __x2__ {} else {
+    let __x1__ = true
+    app __x2__ = (IsGenericDescriptor Desc)
+    __x1__ = (= __x2__ true)
+    if __x1__ {} else {
       app __x3__ = (IsDataDescriptor Desc)
-      __x2__ = (= __x3__ true)
+      __x1__ = (= __x3__ true)
     }
-    if __x2__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ." else {
+    if __x1__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ." else {
       app __x4__ = (IsAccessorDescriptor Desc)
       if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
       assert (= __x4__ true)
@@ -26,7 +27,8 @@
       app __x6__ = (WrapCompletion false)
       return __x6__
     } else {}
-    let __x7__ = (! (= Desc.Enumerable absent))
+    let __x7__ = true
+    __x7__ = (! (= Desc.Enumerable absent))
     if __x7__ {
       app __x8__ = (SameValue Desc.Enumerable current.Enumerable)
       if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
@@ -61,7 +63,8 @@
           app __x18__ = (WrapCompletion false)
           return __x18__
         } else {}
-        let __x19__ = (! (= Desc.Value absent))
+        let __x19__ = true
+        __x19__ = (! (= Desc.Value absent))
         if __x19__ {
           app __x20__ = (SameValue Desc.Value current.Value)
           __x19__ = (= __x20__ false)
@@ -79,7 +82,8 @@
         if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
         assert (&& (= __x23__ true) (= __x24__ true))
         if (= current.Configurable false) {
-          let __x25__ = (! (= Desc.Set absent))
+          let __x25__ = true
+          __x25__ = (! (= Desc.Set absent))
           if __x25__ {
             app __x26__ = (SameValue Desc.Set current.Set)
             __x25__ = (= __x26__ false)
@@ -88,7 +92,8 @@
             app __x27__ = (WrapCompletion false)
             return __x27__
           } else {}
-          let __x28__ = (! (= Desc.Get absent))
+          let __x28__ = true
+          __x28__ = (! (= Desc.Get absent))
           if __x28__ {
             app __x29__ = (SameValue Desc.Get current.Get)
             __x28__ = (= __x29__ false)

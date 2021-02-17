@@ -10,18 +10,20 @@
   app __x4__ = (GetValue ref)
   if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   let func = __x4__
-  app __x5__ = (Type ref)
-  let __x6__ = (= __x5__ Reference)
-  if __x6__ {
-    app __x7__ = (IsPropertyReference ref)
-    let __x8__ = (= __x7__ false)
-    if __x8__ {
+  let __x5__ = true
+  app __x6__ = (Type ref)
+  __x5__ = (= __x6__ Reference)
+  if __x5__ {
+    let __x7__ = true
+    app __x8__ = (IsPropertyReference ref)
+    __x7__ = (= __x8__ false)
+    if __x7__ {
       app __x9__ = (GetReferencedName ref)
-      __x8__ = (= __x9__ "eval")
+      __x7__ = (= __x9__ "eval")
     } else {}
-    __x6__ = __x8__
+    __x5__ = __x7__
   } else {}
-  if __x6__ {
+  if __x5__ {
     app __x10__ = (SameValue func INTRINSIC_eval)
     if (= __x10__ true) {
       access __x11__ = (arguments "ArgumentListEvaluation")

@@ -4,7 +4,8 @@
   let __x1__ = 0i
   while (< __x1__ __x0__.length) {
     let r = __x0__[__x1__]
-    let __x2__ = (= module r.Module)
+    let __x2__ = true
+    __x2__ = (= module r.Module)
     if __x2__ {
       app __x3__ = (SameValue exportName r.ExportName)
       __x2__ = (= __x3__ true)
@@ -65,7 +66,8 @@
     if (! (= resolution null)) {
       assert (= (typeof resolution) "ResolvedBindingRecord")
       if (= starResolution null) starResolution = resolution else {
-        let __x22__ = (! (= resolution.Module starResolution.Module))
+        let __x22__ = true
+        __x22__ = (! (= resolution.Module starResolution.Module))
         if __x22__ {} else {
           app __x23__ = (SameValue resolution.BindingName starResolution.BindingName)
           __x22__ = (= __x23__ false)

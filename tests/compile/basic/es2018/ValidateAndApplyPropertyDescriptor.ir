@@ -5,13 +5,14 @@
       return __x0__
     } else {}
     assert (= extensible true)
-    app __x1__ = (IsGenericDescriptor Desc)
-    let __x2__ = (= __x1__ true)
-    if __x2__ {} else {
+    let __x1__ = true
+    app __x2__ = (IsGenericDescriptor Desc)
+    __x1__ = (= __x2__ true)
+    if __x1__ {} else {
       app __x3__ = (IsDataDescriptor Desc)
-      __x2__ = (= __x3__ true)
+      __x1__ = (= __x3__ true)
     }
-    if __x2__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ." else ??? "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ."
+    if __x1__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ." else ??? "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ."
     app __x4__ = (WrapCompletion true)
     return __x4__
   } else {}
@@ -42,7 +43,8 @@
           app __x13__ = (WrapCompletion false)
           return __x13__
         } else {}
-        let __x14__ = (! (= Desc.Value absent))
+        let __x14__ = true
+        __x14__ = (! (= Desc.Value absent))
         if __x14__ {
           app __x15__ = (SameValue Desc.Value current.Value)
           __x14__ = (= __x15__ false)
@@ -54,7 +56,8 @@
         app __x17__ = (WrapCompletion true)
         return __x17__
       } else {} else if (= current.Configurable false) {
-        let __x18__ = (! (= Desc.Set absent))
+        let __x18__ = true
+        __x18__ = (! (= Desc.Set absent))
         if __x18__ {
           app __x19__ = (SameValue Desc.Set current.Set)
           __x18__ = (= __x19__ false)
@@ -63,7 +66,8 @@
           app __x20__ = (WrapCompletion false)
           return __x20__
         } else {}
-        let __x21__ = (! (= Desc.Get absent))
+        let __x21__ = true
+        __x21__ = (! (= Desc.Get absent))
         if __x21__ {
           app __x22__ = (SameValue Desc.Get current.Get)
           __x21__ = (= __x22__ false)

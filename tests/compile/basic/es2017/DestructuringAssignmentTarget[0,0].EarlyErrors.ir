@@ -1,6 +1,7 @@
 {
   ??? "It is a Syntax Error if nt:{LeftHandSideExpression} is either an nt:{ObjectLiteral} or an nt:{ArrayLiteral} and if the lexical token sequence matched by nt:{LeftHandSideExpression} cannot be parsed with no tokens left over using nt:{AssignmentPattern} as the goal symbol ."
-  let __x0__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
+  let __x0__ = true
+  __x0__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
   if __x0__ {
     app __x1__ = (IsValidSimpleAssignmentTarget LeftHandSideExpression)
     __x0__ = (= __x1__ false)

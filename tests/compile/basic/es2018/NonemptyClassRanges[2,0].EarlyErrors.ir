@@ -1,30 +1,33 @@
 {
-  access __x0__ = (ClassAtom0 "IsCharacterClass")
-  let __x1__ = (= __x0__ true)
-  if __x1__ {} else {
+  let __x0__ = true
+  access __x1__ = (ClassAtom0 "IsCharacterClass")
+  __x0__ = (= __x1__ true)
+  if __x0__ {} else {
     access __x2__ = (ClassAtom1 "IsCharacterClass")
-    __x1__ = (= __x2__ true)
+    __x0__ = (= __x2__ true)
   }
-  if __x1__ {
+  if __x0__ {
     app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x3__
   } else {
     app __x4__ = (NormalCompletion undefined)
     return __x4__
   }
-  access __x5__ = (ClassAtom0 "IsCharacterClass")
-  let __x6__ = (= __x5__ false)
-  if __x6__ {
-    access __x7__ = (ClassAtom1 "IsCharacterClass")
-    let __x8__ = (= __x7__ false)
-    if __x8__ {
+  let __x5__ = true
+  access __x6__ = (ClassAtom0 "IsCharacterClass")
+  __x5__ = (= __x6__ false)
+  if __x5__ {
+    let __x7__ = true
+    access __x8__ = (ClassAtom1 "IsCharacterClass")
+    __x7__ = (= __x8__ false)
+    if __x7__ {
       access __x9__ = (ClassAtom0 "CharacterValue")
       access __x10__ = (ClassAtom1 "CharacterValue")
-      __x8__ = (< __x10__ __x9__)
+      __x7__ = (< __x10__ __x9__)
     } else {}
-    __x6__ = __x8__
+    __x5__ = __x7__
   } else {}
-  if __x6__ {
+  if __x5__ {
     app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x11__
   } else {

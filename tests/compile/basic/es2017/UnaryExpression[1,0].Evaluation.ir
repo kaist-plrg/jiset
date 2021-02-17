@@ -30,7 +30,8 @@
     app __x12__ = (baseObj.Delete baseObj __x11__)
     if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
     let deleteStatus = __x12__
-    let __x13__ = (= deleteStatus false)
+    let __x13__ = true
+    __x13__ = (= deleteStatus false)
     if __x13__ {
       app __x14__ = (IsStrictReference ref)
       __x13__ = (= __x14__ true)

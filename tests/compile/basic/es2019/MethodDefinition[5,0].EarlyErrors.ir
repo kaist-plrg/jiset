@@ -8,13 +8,14 @@
     app __x3__ = (NormalCompletion undefined)
     return __x3__
   }
-  access __x4__ = (FunctionBody "ContainsUseStrict")
-  let __x5__ = (= __x4__ true)
-  if __x5__ {
+  let __x4__ = true
+  access __x5__ = (FunctionBody "ContainsUseStrict")
+  __x4__ = (= __x5__ true)
+  if __x4__ {
     access __x6__ = (PropertySetParameterList "IsSimpleParameterList")
-    __x5__ = (= __x6__ false)
+    __x4__ = (= __x6__ false)
   } else {}
-  if __x5__ {
+  if __x4__ {
     app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x7__
   } else {

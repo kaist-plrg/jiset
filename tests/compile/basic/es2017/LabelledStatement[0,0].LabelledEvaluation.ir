@@ -5,7 +5,8 @@
   access __x1__ = (LabelledItem "LabelledEvaluation")
   app __x2__ = (__x1__ labelSet)
   let stmtResult = __x2__
-  let __x3__ = (= stmtResult.Type CONST_break)
+  let __x3__ = true
+  __x3__ = (= stmtResult.Type CONST_break)
   if __x3__ {
     app __x4__ = (SameValue stmtResult.Target label)
     __x3__ = (= __x4__ true)

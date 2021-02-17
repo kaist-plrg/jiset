@@ -1,7 +1,8 @@
 {
   app __x0__ = (Type S)
   assert (= __x0__ String)
-  let __x1__ = (&& (! (< index 0i)) (! (< (- (** 2.0 53i) 1i) index)))
+  let __x1__ = true
+  __x1__ = (&& (! (< index 0i)) (! (< (- (** 2.0 53i) 1i) index)))
   if __x1__ {
     app __x2__ = (IsInteger index)
     if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}

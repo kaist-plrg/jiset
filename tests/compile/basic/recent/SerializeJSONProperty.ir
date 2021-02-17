@@ -63,13 +63,14 @@
     app __x20__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x20__
   } else {}
-  app __x21__ = (Type value)
-  let __x22__ = (= __x21__ Object)
-  if __x22__ {
+  let __x21__ = true
+  app __x22__ = (Type value)
+  __x21__ = (= __x22__ Object)
+  if __x21__ {
     app __x23__ = (IsCallable value)
-    __x22__ = (= __x23__ false)
+    __x21__ = (= __x23__ false)
   } else {}
-  if __x22__ {
+  if __x21__ {
     app __x24__ = (IsArray value)
     if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
     let isArray = __x24__

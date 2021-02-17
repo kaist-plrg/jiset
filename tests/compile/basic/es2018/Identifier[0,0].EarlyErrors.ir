@@ -1,13 +1,14 @@
 {
   ??? "It is a Syntax Error if this phrase is contained in strict mode code and the StringValue of nt:{IdentifierName} is : code:{\"implements\"} , code:{\"interface\"} , code:{\"let\"} , code:{\"package\"} , code:{\"private\"} , code:{\"protected\"} , code:{\"public\"} , code:{\"static\"} , or code:{\"yield\"} ."
-  let __x0__ = false
-  if (= absent (parse-syntax this "Module" (new []))) __x0__ = true else {}
-  let __x1__ = __x0__
-  if __x1__ {
+  let __x0__ = true
+  let __x1__ = false
+  if (= absent (parse-syntax this "Module" (new []))) __x1__ = true else {}
+  __x0__ = __x1__
+  if __x0__ {
     access __x2__ = (IdentifierName "StringValue")
-    __x1__ = (= __x2__ "await")
+    __x0__ = (= __x2__ "await")
   } else {}
-  if __x1__ {
+  if __x0__ {
     app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x3__
   } else {

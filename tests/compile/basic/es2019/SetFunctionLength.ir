@@ -1,7 +1,8 @@
 {
   app __x0__ = (Type length)
   assert (= __x0__ Number)
-  let __x1__ = (! (< length 0i))
+  let __x1__ = true
+  __x1__ = (! (< length 0i))
   if __x1__ {
     app __x2__ = (ToInteger length)
     if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}

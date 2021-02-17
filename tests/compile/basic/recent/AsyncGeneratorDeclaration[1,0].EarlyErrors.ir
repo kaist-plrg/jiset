@@ -10,13 +10,14 @@
       return __x2__
     }
   } else {}
-  access __x3__ = (AsyncGeneratorBody "ContainsUseStrict")
-  let __x4__ = (= __x3__ true)
-  if __x4__ {
+  let __x3__ = true
+  access __x4__ = (AsyncGeneratorBody "ContainsUseStrict")
+  __x3__ = (= __x4__ true)
+  if __x3__ {
     access __x5__ = (FormalParameters "IsSimpleParameterList")
-    __x4__ = (= __x5__ false)
+    __x3__ = (= __x5__ false)
   } else {}
-  if __x4__ {
+  if __x3__ {
     app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x6__
   } else {

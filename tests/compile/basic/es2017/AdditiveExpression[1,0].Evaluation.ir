@@ -15,13 +15,14 @@
   app __x5__ = (ToPrimitive rval)
   if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
   let rprim = __x5__
-  app __x6__ = (Type lprim)
-  let __x7__ = (= __x6__ String)
-  if __x7__ {} else {
+  let __x6__ = true
+  app __x7__ = (Type lprim)
+  __x6__ = (= __x7__ String)
+  if __x6__ {} else {
     app __x8__ = (Type rprim)
-    __x7__ = (= __x8__ String)
+    __x6__ = (= __x8__ String)
   }
-  if __x7__ {
+  if __x6__ {
     app __x9__ = (ToString lprim)
     if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
     let lstr = __x9__

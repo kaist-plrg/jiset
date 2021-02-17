@@ -44,13 +44,14 @@
     app __x19__ = (NormalCompletion undefined)
     return __x19__
   }
-  access __x20__ = (AsyncConciseBody "ContainsUseStrict")
-  let __x21__ = (= __x20__ true)
-  if __x21__ {
+  let __x20__ = true
+  access __x21__ = (AsyncConciseBody "ContainsUseStrict")
+  __x20__ = (= __x21__ true)
+  if __x20__ {
     access __x22__ = (CoverCallExpressionAndAsyncArrowHead "IsSimpleParameterList")
-    __x21__ = (= __x22__ false)
+    __x20__ = (= __x22__ false)
   } else {}
-  if __x21__ {
+  if __x20__ {
     app __x23__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x23__
   } else {

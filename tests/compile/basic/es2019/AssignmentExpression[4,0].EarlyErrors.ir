@@ -1,5 +1,6 @@
 {
-  let __x0__ = (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))
+  let __x0__ = true
+  __x0__ = (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))
   if __x0__ {
     let __x1__ = false
     if (= absent (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))) __x1__ = true else {}
@@ -13,7 +14,8 @@
     return __x3__
   }
   ??? "It is an early Reference Error if nt:{LeftHandSideExpression} is neither an nt:{ObjectLiteral} nor an nt:{ArrayLiteral} and AssignmentTargetType of nt:{LeftHandSideExpression} is const:{invalid} ."
-  let __x4__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
+  let __x4__ = true
+  __x4__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
   if __x4__ {
     access __x5__ = (LeftHandSideExpression "AssignmentTargetType")
     __x4__ = (= __x5__ CONST_strict)

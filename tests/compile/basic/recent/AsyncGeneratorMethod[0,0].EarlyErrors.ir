@@ -25,13 +25,14 @@
     app __x10__ = (NormalCompletion undefined)
     return __x10__
   }
-  access __x11__ = (AsyncGeneratorBody "ContainsUseStrict")
-  let __x12__ = (= __x11__ true)
-  if __x12__ {
+  let __x11__ = true
+  access __x12__ = (AsyncGeneratorBody "ContainsUseStrict")
+  __x11__ = (= __x12__ true)
+  if __x11__ {
     access __x13__ = (UniqueFormalParameters "IsSimpleParameterList")
-    __x12__ = (= __x13__ false)
+    __x11__ = (= __x13__ false)
   } else {}
-  if __x12__ {
+  if __x11__ {
     app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x14__
   } else {

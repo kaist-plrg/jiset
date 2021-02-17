@@ -23,13 +23,14 @@
   } else {}
   if (= iteratorRecord.Done true) let value = undefined else {}
   if (&& (! (= Initializer absent)) (= value undefined)) {
-    app __x5__ = (IsAnonymousFunctionDefinition Initializer)
-    let __x6__ = (= __x5__ true)
-    if __x6__ {
+    let __x5__ = true
+    app __x6__ = (IsAnonymousFunctionDefinition Initializer)
+    __x5__ = (= __x6__ true)
+    if __x5__ {
       access __x7__ = (DestructuringAssignmentTarget "IsIdentifierRef")
-      __x6__ = (= __x7__ true)
+      __x5__ = (= __x7__ true)
     } else {}
-    if __x6__ {
+    if __x5__ {
       access __x8__ = (Initializer "NamedEvaluation")
       app __x9__ = (__x8__ lref.ReferencedName)
       if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}

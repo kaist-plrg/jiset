@@ -11,13 +11,14 @@
     app __x3__ = (WrapCompletion lval)
     return __x3__
   } else {}
-  app __x4__ = (IsAnonymousFunctionDefinition AssignmentExpression)
-  let __x5__ = (= __x4__ true)
-  if __x5__ {
+  let __x4__ = true
+  app __x5__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+  __x4__ = (= __x5__ true)
+  if __x4__ {
     access __x6__ = (LeftHandSideExpression "IsIdentifierRef")
-    __x5__ = (= __x6__ true)
+    __x4__ = (= __x6__ true)
   } else {}
-  if __x5__ {
+  if __x4__ {
     access __x7__ = (AssignmentExpression "NamedEvaluation")
     app __x8__ = (__x7__ lref.ReferencedName)
     let rval = __x8__

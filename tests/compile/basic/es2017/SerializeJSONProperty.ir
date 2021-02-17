@@ -58,13 +58,14 @@
     app __x18__ = (WrapCompletion "null")
     return __x18__
   } else {}
-  app __x19__ = (Type value)
-  let __x20__ = (= __x19__ Object)
-  if __x20__ {
+  let __x19__ = true
+  app __x20__ = (Type value)
+  __x19__ = (= __x20__ Object)
+  if __x19__ {
     app __x21__ = (IsCallable value)
-    __x20__ = (= __x21__ false)
+    __x19__ = (= __x21__ false)
   } else {}
-  if __x20__ {
+  if __x19__ {
     app __x22__ = (IsArray value)
     if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else {}
     let isArray = __x22__

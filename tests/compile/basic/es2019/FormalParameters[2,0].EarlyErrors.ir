@@ -1,12 +1,13 @@
 {
-  access __x0__ = (FormalParameterList "IsSimpleParameterList")
-  let __x1__ = (= __x0__ false)
-  if __x1__ {
+  let __x0__ = true
+  access __x1__ = (FormalParameterList "IsSimpleParameterList")
+  __x0__ = (= __x1__ false)
+  if __x0__ {
     access __x2__ = (FormalParameterList "BoundNames")
     app __x3__ = (IsDuplicate __x2__)
-    __x1__ = __x3__
+    __x0__ = __x3__
   } else {}
-  if __x1__ {
+  if __x0__ {
     app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
     return __x4__
   } else {
