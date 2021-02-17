@@ -14,8 +14,9 @@ trait UId {
   // override hashCode using unique ids
   override def hashCode: Int = uid
 }
-private object UId {
+object UId {
   // private uid counter
   private var count: Int = 0
   private def newId: Int = { val uid = count; count += 1; uid }
+  def size: Int = count
 }
