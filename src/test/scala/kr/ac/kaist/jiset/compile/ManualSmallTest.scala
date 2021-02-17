@@ -93,6 +93,19 @@ class ManualSmallTest extends CompileTest {
     test("Internal Method Condition", InstsTarget)(
       """If _p_.[[GetPrototypeOf]] is not the ordinary object internal method defined in <emu-xref href="#sec-ordinary-object-internal-methods-and-internal-slots-getprototypeof"></emu-xref>, set _done_ to *true*.""" -> """if (! (= p.GetPrototypeOf OrdinaryObjectDOTGetPrototypeOf)) done = true else {}"""
     )
+
+    test("Newly Created Object", InstsTarget)(
+      """Let _obj_ be a newly created object with an internal slot for each name in _internalSlotsList_.""" -> """{
+        let obj = (new OrdinaryObject("SubMap" -> (new SubMap())))
+        let __x0__ = internalSlotsList
+        let __x1__ = 0i
+        while (< __x1__ __x0__.length) {
+          let __x2__ = __x0__[__x1__]
+          obj[__x2__] = undefined
+          __x1__ = (+ __x1__ 1i)
+        }
+      }"""
+    )
   }
   init
 }

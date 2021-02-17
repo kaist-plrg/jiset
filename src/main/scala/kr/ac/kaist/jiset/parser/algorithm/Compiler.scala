@@ -115,6 +115,16 @@ object Compiler extends Compilers {
     case xs ~ (i ~ e) ~ None => ISeq(i ++ xs.map(x => ILet(IRId(x), e)))
     case xs ~ (i1 ~ e1) ~ Some((i2 ~ e2) ~ (i3 ~ e3)) =>
       ISeq(i2 :+ IIf(e2, ISeq(i3 ++ xs.map(x => ILet(IRId(x), e3))), ISeq(i1 ++ xs.map(x => ILet(IRId(x), e1)))))
+  } ||| (("let" ~> id <~ "be a newly created object with an internal slot for each name in") ~ id) ^^ {
+    case x ~ y => {
+      val i0 = ILet(IRId(x), EMap(Ty("OrdinaryObject"), List(
+        EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
+      )))
+      val temp = getTemp
+      val body = parseInst(s"$x[$temp] = undefined")
+      val i1 = forEachList(IRId(temp), toERef(y), body)
+      ISeq(i0 :: i1 :: Nil)
+    }
   }
 
   // if-then-else statements
@@ -760,11 +770,10 @@ object Compiler extends Compilers {
         (("the elements, in order, of" ~> expr <~ "followed by") ~ expr |
           (expr <~ "followed by the elements , in order , of") ~ expr) ^^ { case x ~ y => List(x, y) }
       )
-  } ^^ { getList(_) } |||
-    ("a List whose first element is" ~> expr ~ ("and whose subsequent elements are the elements of" ~> expr) <~ opt(rest) |
-      "a List whose elements are the elements of" ~> expr ~ (", followed by the elements of" ~> expr)) ^^ {
-        case (i1 ~ e1) ~ (i2 ~ e2) => pair(i1 ++ i2, EList(List(e1, e2)))
-      }
+  } ^^ { getList(_) } ||| {
+    "a List whose first element is" ~> expr ~
+      ("and whose subsequent elements are the elements of" ~> expr) <~ opt(rest)
+  } ^^ { case (i0 ~ e0) ~ (i1 ~ e1) => pair(i0 ++ i1, EList(List(e0, e1))) }
 
   // multiple expressions
   lazy val multiExpr: P[I[Expr]] = (
@@ -782,7 +791,10 @@ object Compiler extends Compilers {
     "a copy of" ~ opt("the list") ~> expr ^^ { getCopyList(_, Nil) } |||
     ("a copy of" | "a new list of") ~> expr ~ ("with" ~> expr <~ "appended") ^^ { case x ~ y => getCopyList(x, List(y)) } |||
     "a copy of" ~ opt("the List") ~> (expr <~ "with all the elements of") ~ (expr <~ "appended") ^^ { case x ~ y => getCopyList(x, y) } |||
-    ("a new list containing the same values as the list" ~> expr <~ "in the same order followed by the same values as the list") ~ (expr <~ "in the same order") ^^ { case x ~ y => getCopyList(x, y) }
+    ("a new list containing the same values as the list" ~> expr <~ "in the same order followed by the same values as the list") ~ (expr <~ "in the same order") ^^ { case x ~ y => getCopyList(x, y) } |||
+    "a List whose elements are the elements of" ~> {
+      (expr <~ (opt(",") ~ "followed by" ~ opt("the elements of"))) ~ expr
+    } ^^ { case ie0 ~ ie1 => { getCopyList(ie0, List(ie1)) } }
   )
 
   // algorithm expressions
