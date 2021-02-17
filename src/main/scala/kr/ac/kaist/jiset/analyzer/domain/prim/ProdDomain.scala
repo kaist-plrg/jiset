@@ -48,18 +48,6 @@ object ProdDomain extends prim.Domain {
       _nullval: AbsNull = AbsNull.Bot,
       _absent: AbsAbsent = AbsAbsent.Bot
   ) extends ElemTrait {
-    // bottom check
-    override def isBottom: Boolean = (
-      this._num.isBottom ||
-      this._int.isBottom ||
-      this._bigint.isBottom ||
-      this._str.isBottom ||
-      this._bool.isBottom ||
-      this._undef.isBottom ||
-      this._nullval.isBottom ||
-      this._absent.isBottom
-    )
-
     // partial order
     def ⊑(that: Elem): Boolean = (
       this._num ⊑ that._num &&
@@ -82,7 +70,7 @@ object ProdDomain extends prim.Domain {
       this._undef ⊔ that._undef,
       this._nullval ⊔ that._nullval,
       this._absent ⊔ that._absent
-    ).normalized
+    )
 
     // meet operator
     def ⊓(that: Elem): Elem = Elem(
@@ -94,7 +82,7 @@ object ProdDomain extends prim.Domain {
       this._undef ⊓ that._undef,
       this._nullval ⊓ that._nullval,
       this._absent ⊓ that._absent
-    ).normalized
+    )
 
     // concretization function
     def gamma: concrete.Set[Const] = (
@@ -119,9 +107,6 @@ object ProdDomain extends prim.Domain {
       this._nullval.getSingle ++
       this._absent.getSingle
     )
-
-    // normalized element
-    def normalized: Elem = if (isBottom) Bot else this
   }
 
   // Members declared in prim.Domain

@@ -26,9 +26,7 @@ class AbsTransfer(cfg: CFG) {
       val nextSt = insts.foldLeft(st)(apply)
       cfg.nextNodes(node).toList.map(Result(_, nextSt))
     case Call(inst) => ???
-    case branch @ Branch(expr) => for {
-      cond <- apply(st, expr).boolset.toList
-    } yield Result(cfg.nextNode(branch, cond), prune(st, expr, cond))
+    case branch @ Branch(expr) => ???
   }
 
   // transfer function for instructions

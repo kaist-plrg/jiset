@@ -25,45 +25,56 @@ package object domain {
   lazy val AbsState = state.BasicDomain
   type AbsState = AbsState.Elem
 
-  // TODO abstract contexts
-  // TODO abstract heaps
-  // TODO abstract objects
-  // TODO abstract references
+  // abstract contexts
+  lazy val AbsCtxt: ctxt.Domain = ctxt.BasicDomain
+  type AbsCtxt = AbsCtxt.Elem
+
+  // abstract environment
+  lazy val AbsEnv: env.Domain = env.BasicDomain
+  type AbsEnv = AbsEnv.Elem
+
+  // abstract heaps
+  lazy val AbsHeap: heap.Domain = heap.BasicDomain
+  type AbsHeap = AbsHeap.Elem
+
+  // abstract objects
+  lazy val AbsObj: obj.Domain = obj.BasicDomain
+  type AbsObj = AbsObj.Elem
 
   // abstract values
-  lazy val AbsValue = value.BasicDomain
+  lazy val AbsValue: value.Domain = value.ProdDomain
   type AbsValue = AbsValue.Elem
 
   // abstract addresses
-  lazy val AbsAddr = addr.SetDomain
+  lazy val AbsAddr: addr.Domain = addr.SetDomain
   type AbsAddr = AbsAddr.Elem
 
-  // TODO abstract continuations
-  // lazy val AbsCont = cont.SetDomain
-  // type AbsCont = AbsCont.Elem
+  // abstract continuations
+  lazy val AbsCont: cont.Domain = cont.SimpleDomain
+  type AbsCont = AbsCont.Elem
 
   // abstract functions
-  lazy val AbsFunc = func.SetDomain
+  lazy val AbsFunc: func.Domain = func.SimpleDomain
   type AbsFunc = AbsFunc.Elem
 
   // abstract AST values
-  lazy val AbsAST = ast.SimpleDomain
+  lazy val AbsAST: ast.Domain = ast.SimpleDomain
   type AbsAST = AbsAST.Elem
 
   // abstract primitives
-  lazy val AbsPrim = prim.ProdDomain
+  lazy val AbsPrim: prim.Domain = prim.ProdDomain
   type AbsPrim = AbsPrim.Elem
 
   // abstract numbers
-  lazy val AbsNum = num.FlatDomain
+  lazy val AbsNum: num.Domain = num.FlatDomain
   type AbsNum = AbsNum.Elem
 
   // abstract integers
-  lazy val AbsINum = inum.FlatDomain
+  lazy val AbsINum: inum.Domain = inum.FlatDomain
   type AbsINum = AbsINum.Elem
 
   // abstract big integers
-  lazy val AbsBigINum = biginum.FlatDomain
+  lazy val AbsBigINum: biginum.Domain = biginum.FlatDomain
   type AbsBigINum = AbsBigINum.Elem
 
   // abstract strings
@@ -86,7 +97,9 @@ package object domain {
   lazy val AbsAbsent: absent.Domain = absent.SimpleDomain
   type AbsAbsent = AbsAbsent.Elem
 
+  //////////////////////////////////////////////////////////////////////////////
   // helpers
+  //////////////////////////////////////////////////////////////////////////////
   lazy val AbsTrue = AbsBool(true)
   lazy val AbsFalse = AbsBool(false)
 

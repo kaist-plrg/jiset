@@ -30,5 +30,8 @@ trait Domain {
 
     // meet operator
     def ⊓(that: Elem): Elem
+
+    // normalized element
+    def normalized: Elem = if (isBottom) Bot else this
   }
 }

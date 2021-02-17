@@ -20,14 +20,20 @@ class OptionDomain[V, VD <: EAbsDomain[V]](
   // top value
   val Top: Elem = Elem(AbsV.Top, AbsAbsent.Top)
 
+  // absent value
+  val Absent: Elem = Elem(AbsV.Bot, AbsAbsent.Top)
+
   // constructor
-  def apply(value: AbsV, absent: AbsAbsent): Elem = Elem(value, absent)
+  def apply(
+    value: AbsV = AbsV.Bot,
+    absent: AbsAbsent = AbsAbsent.Bot
+  ): Elem = Elem(value, absent)
 
   // extractor
   def unapply(elem: Elem): Option[(AbsV, AbsAbsent)] = Some((elem.value, elem.absent))
 
   // pair abstract element
-  case class Elem(value: AbsV, absent: AbsAbsent) extends ElemTrait {
+  case class Elem(val value: AbsV, val absent: AbsAbsent) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = this.value ⊑ that.value && this.absent ⊑ that.absent
 
