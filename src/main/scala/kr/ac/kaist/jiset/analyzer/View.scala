@@ -17,6 +17,13 @@ trait View {
     } yield Result(ProdView(l, r), ls ⊓ rs)
     case FlowView(_) => List(Result(FlowView(next.elem), next.st))
   }
+
+  // conversion to string
+  override def toString: String = (this match {
+    case InsensView => "Insens"
+    case ProdView(l, r) => s"$l*$r"
+    case FlowView(node) => s"$node"
+  })
 }
 
 // insensitive view
