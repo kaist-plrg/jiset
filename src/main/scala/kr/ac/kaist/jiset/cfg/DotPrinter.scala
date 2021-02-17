@@ -9,9 +9,6 @@ class DotPrinter {
   def apply(func: Function): DotPrinter = {
     val Function(entry, exit, nodes, forwards) = func
     add(s"""digraph {""")
-    add(s"""  graph [fontname="consolas"]""")
-    add(s"""  node [fontname="consolas"]""")
-    add(s"""  edge [fontname="consolas"]""")
     nodes.foreach(apply)
     forwards.foreach {
       case (from, set) => set.foreach {

@@ -17,9 +17,6 @@ case class Function(
     case (k, y) => k -> y.map(x => (x._2, x._3)).toSet
   }.toMap
 
-  forwards.foreach(println _)
-  backwards.foreach(println _)
-
   // conversion to DOT
   def toDot: String = (new DotPrinter)(this).toString
 }
