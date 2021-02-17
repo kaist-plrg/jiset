@@ -799,34 +799,9 @@ object Compiler extends Compilers {
 
   // algorithm expressions
   lazy val algorithmExpr: P[I[Expr]] = (
-    "an empty sequence of algorithm steps" ^^^ EMap(Ty("algorithm"), List(
-      EStr("name") -> EStr(""),
-      EStr("length") -> EINum(0),
-      EStr("step") -> toERef("EmptyFunction")
-    )) |||
-    "the algorithm steps" ~ ("specified" | "defined") ~ "in" ~> algorithmName ^^ {
-      case (name, len, stepS) => EMap(Ty("algorithm"), List(
-        EStr("name") -> EStr(name),
-        EStr("length") -> EINum(len),
-        EStr("step") -> toERef(stepS)
-      ))
-    }
+    "an empty sequence of algorithm steps" ^^^ toERef("EmptyFunction") |||
+    "the algorithm steps" ~ ("specified" | "defined") ~ "in" ~> refBase ^^ { toERef(_) }
   ) ^^ { pair(Nil, _) }
-  lazy val algorithmName: P[(String, Int, String)] = (
-    secno ~ "for the" ~> intrinsicName <~ "function" ^^ {
-      ("", 0, _)
-    } |||
-    "ListIterator" ~ code.filter(_ == "next") ~ "(" ~ secno ~ ")" ^^^ ("next", 0, "ListIteratornext") |||
-    "GetCapabilitiesExecutor Functions" ^^^ ("", 2, "GLOBALDOTGetCapabilitiesExecutorFunctions") |||
-    "Promise Resolve Functions (" <~ secno <~ ")" ^^^ ("", 1, "GLOBALDOTPromiseResolveFunctions") |||
-    "Promise Reject Functions (" <~ secno <~ ")" ^^^ ("", 1, "GLOBALDOTPromiseRejectFunctions") |||
-    "Await Fulfilled Functions" ^^^ ("", 1, "GLOBALDOTAwaitFulfilledFunctions") |||
-    "Await Rejected Functions" ^^^ ("", 1, "GLOBALDOTAwaitRejectedFunctions") |||
-    "Async-from-Sync Iterator Value Unwrap Functions" ^^^ ("", 1, "GLOBALDOTAsyncfromSyncIteratorValueUnwrapFunctions") |||
-    "AsyncGeneratorResumeNext Return Processor Fulfilled Functions" ^^^ ("", 1, "GLOBALDOTAsyncGeneratorResumeNextReturnProcessorFulfilledFunctions") |||
-    "AsyncGeneratorResumeNext Return Processor Rejected Functions" ^^^ ("", 1, "GLOBALDOTAsyncGeneratorResumeNextReturnProcessorRejectedFunctions")
-
-  )
 
   // access expressions
   lazy val accessExpr: P[I[Expr]] = accessRef ^^ { case i ~ r => pair(i, ERef(r)) }
@@ -1567,13 +1542,6 @@ object Compiler extends Compilers {
     camelWord <~ ("fields" | "component")
   ) ^^ { EStr(_) } ||| {
       opt("the") ~> internalName <~ opt("field" | "internal" ~ ("method" | "slot"))
-    }
-  ////////////////////////////////////////////////////////////////////////////////
-  // Section Numbers
-  ////////////////////////////////////////////////////////////////////////////////
-  lazy val secno: P[List[Int]] =
-    number ~ rep("." ~> number) ^^ {
-      case n ~ list => n.toInt :: list.map(_.toInt)
     }
   ////////////////////////////////////////////////////////////////////////////////
   // Names
