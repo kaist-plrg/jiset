@@ -1,8 +1,5 @@
 {
   access __x0__ = (LeftHandSideExpression "AssignmentTargetType")
-  if (! (= __x0__ CONST_simple)) throw INTRINSIC_SyntaxError else {
-    app __x1__ = (NormalCompletion undefined)
-    return __x1__
-  }
+  if (! (= __x0__ CONST_simple)) throw INTRINSIC_SyntaxError else return undefined
   ??? "It is a Syntax Error if the nt:{LeftHandSideExpression} is grammar:{CoverParenthesizedExpressionAndArrowParameterList0, [Expression]} and nt:{Expression} derives a phrase that would produce a Syntax Error according to these rules if that phrase were substituted for nt:{LeftHandSideExpression} . This rule is recursively applied ."
 }

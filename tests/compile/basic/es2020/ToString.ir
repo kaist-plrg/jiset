@@ -1,54 +1,32 @@
 {
   app __x0__ = (Type argument)
-  if (= __x0__ Undefined) {
-    app __x1__ = (WrapCompletion "undefined")
-    return __x1__
-  } else {}
+  if (= __x0__ Undefined) return "undefined" else {}
+  app __x1__ = (Type argument)
+  if (= __x1__ Null) return "null" else {}
   app __x2__ = (Type argument)
-  if (= __x2__ Null) {
-    app __x3__ = (WrapCompletion "null")
-    return __x3__
+  if (= __x2__ Boolean) {
+    if (= argument true) return "true" else {}
+    if (= argument false) return "false" else {}
   } else {}
-  app __x4__ = (Type argument)
-  if (= __x4__ Boolean) {
-    if (= argument true) {
-      app __x5__ = (WrapCompletion "true")
-      return __x5__
-    } else {}
-    if (= argument false) {
-      app __x6__ = (WrapCompletion "false")
-      return __x6__
-    } else {}
+  app __x3__ = (Type argument)
+  if (= __x3__ Number) {
+    app __x4__ = (PRIMITIVE[Number].toString argument)
+    return [! __x4__]
   } else {}
+  app __x5__ = (Type argument)
+  if (= __x5__ String) return argument else {}
+  app __x6__ = (Type argument)
+  if (= __x6__ Symbol) throw INTRINSIC_TypeError else {}
   app __x7__ = (Type argument)
-  if (= __x7__ Number) {
-    app __x8__ = (PRIMITIVE[Number].toString argument)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    app __x9__ = (WrapCompletion __x8__)
-    return __x9__
+  if (= __x7__ BigInt) {
+    app __x8__ = (PRIMITIVE[BigInt].toString argument)
+    return [! __x8__]
   } else {}
-  app __x10__ = (Type argument)
-  if (= __x10__ String) {
-    app __x11__ = (WrapCompletion argument)
-    return __x11__
-  } else {}
-  app __x12__ = (Type argument)
-  if (= __x12__ Symbol) throw INTRINSIC_TypeError else {}
-  app __x13__ = (Type argument)
-  if (= __x13__ BigInt) {
-    app __x14__ = (PRIMITIVE[BigInt].toString argument)
-    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-    app __x15__ = (WrapCompletion __x14__)
-    return __x15__
-  } else {}
-  app __x16__ = (Type argument)
-  if (= __x16__ Object) {
-    app __x17__ = (ToPrimitive argument String)
-    if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-    let primValue = __x17__
-    app __x18__ = (ToString primValue)
-    if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
-    app __x19__ = (WrapCompletion __x18__)
-    return __x19__
+  app __x9__ = (Type argument)
+  if (= __x9__ Object) {
+    app __x10__ = (ToPrimitive argument String)
+    let primValue = [? __x10__]
+    app __x11__ = (ToString primValue)
+    return [? __x11__]
   } else {}
 }

@@ -4,7 +4,5 @@
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   if (|| (= hint "string") (= hint "default")) let tryFirst = "string" else if (= hint "number") let tryFirst = "number" else throw INTRINSIC_TypeError
   app __x1__ = (OrdinaryToPrimitive O tryFirst)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (WrapCompletion __x1__)
-  return __x2__
+  return [? __x1__]
 }

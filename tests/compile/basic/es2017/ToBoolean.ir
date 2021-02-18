@@ -1,37 +1,16 @@
 {
   app __x0__ = (Type argument)
-  if (= __x0__ Undefined) {
-    app __x1__ = (WrapCompletion false)
-    return __x1__
-  } else {}
+  if (= __x0__ Undefined) return false else {}
+  app __x1__ = (Type argument)
+  if (= __x1__ Null) return false else {}
   app __x2__ = (Type argument)
-  if (= __x2__ Null) {
-    app __x3__ = (WrapCompletion false)
-    return __x3__
-  } else {}
+  if (= __x2__ Boolean) return argument else {}
+  app __x3__ = (Type argument)
+  if (= __x3__ Number) if (|| (|| (= argument 0i) (= argument -0.0)) (= argument NaN)) return false else return true else {}
   app __x4__ = (Type argument)
-  if (= __x4__ Boolean) {
-    app __x5__ = (WrapCompletion argument)
-    return __x5__
-  } else {}
+  if (= __x4__ String) ??? "If id:{argument} is the empty String ( its length is zero ) , return value:{false} ; otherwise return value:{true} ." else {}
+  app __x5__ = (Type argument)
+  if (= __x5__ Symbol) return true else {}
   app __x6__ = (Type argument)
-  if (= __x6__ Number) if (|| (|| (= argument 0i) (= argument -0.0)) (= argument NaN)) {
-    app __x7__ = (WrapCompletion false)
-    return __x7__
-  } else {
-    app __x8__ = (WrapCompletion true)
-    return __x8__
-  } else {}
-  app __x9__ = (Type argument)
-  if (= __x9__ String) ??? "If id:{argument} is the empty String ( its length is zero ) , return value:{false} ; otherwise return value:{true} ." else {}
-  app __x10__ = (Type argument)
-  if (= __x10__ Symbol) {
-    app __x11__ = (WrapCompletion true)
-    return __x11__
-  } else {}
-  app __x12__ = (Type argument)
-  if (= __x12__ Object) {
-    app __x13__ = (WrapCompletion true)
-    return __x13__
-  } else {}
+  if (= __x6__ Object) return true else {}
 }

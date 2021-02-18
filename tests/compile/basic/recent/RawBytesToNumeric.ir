@@ -4,18 +4,15 @@
   if (= type CONST_Float32) {
     ??? "Let id:{value} be the byte elements of id:{rawBytes} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2019 binary32 value ."
     ??? "If id:{value} is an IEEE 754 - 2019 binary32 NaN value , return the value:{NaN} Number value ."
-    app __x0__ = (WrapCompletion value)
-    return __x0__
+    return value
   } else {}
   if (= type CONST_Float64) {
     ??? "Let id:{value} be the byte elements of id:{rawBytes} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2019 binary64 value ."
     ??? "If id:{value} is an IEEE 754 - 2019 binary64 NaN value , return the value:{NaN} Number value ."
-    app __x1__ = (WrapCompletion value)
-    return __x1__
+    return value
   } else {}
-  app __x2__ = (IsUnsignedElementType type)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  if (= __x2__ true) ??? "Let id:{intValue} be the byte elements of id:{rawBytes} concatenated and interpreted as a bit string encoding of an unsigned little - endian binary number ." else ??? "Let id:{intValue} be the byte elements of id:{rawBytes} concatenated and interpreted as a bit string encoding of a binary little - endian two ' s complement number of bit length id:{elementSize} × 8 ."
+  app __x0__ = (IsUnsignedElementType type)
+  if (= [! __x0__] true) ??? "Let id:{intValue} be the byte elements of id:{rawBytes} concatenated and interpreted as a bit string encoding of an unsigned little - endian binary number ." else ??? "Let id:{intValue} be the byte elements of id:{rawBytes} concatenated and interpreted as a bit string encoding of a binary little - endian two ' s complement number of bit length id:{elementSize} × 8 ."
   ??? "If ! IsBigIntElementType ( id:{type} ) is value:{true} , return the BigInt value that corresponds to id:{intValue} ."
   ??? "Otherwise , return the Number value that corresponds to id:{intValue} ."
 }

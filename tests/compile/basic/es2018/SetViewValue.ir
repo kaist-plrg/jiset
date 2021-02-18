@@ -4,11 +4,9 @@
   if (= view.DataView absent) throw INTRINSIC_TypeError else {}
   assert (! (= view.ViewedArrayBuffer absent))
   app __x1__ = (ToIndex requestIndex)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let getIndex = __x1__
+  let getIndex = [? __x1__]
   app __x2__ = (ToNumber value)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let numberValue = __x2__
+  let numberValue = [? __x2__]
   app __x3__ = (ToBoolean isLittleEndian)
   isLittleEndian = __x3__
   let buffer = view.ViewedArrayBuffer
@@ -20,6 +18,5 @@
   if (< viewSize (+ getIndex elementSize)) throw INTRINSIC_RangeError else {}
   let bufferIndex = (+ getIndex viewOffset)
   app __x5__ = (SetValueInBuffer buffer bufferIndex type numberValue false "Unordered" isLittleEndian)
-  app __x6__ = (WrapCompletion __x5__)
-  return __x6__
+  return __x5__
 }

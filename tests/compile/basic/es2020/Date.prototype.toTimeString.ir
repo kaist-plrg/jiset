@@ -1,16 +1,11 @@
 {
   let O = this
   app __x0__ = (thisTimeValue O)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let tv = __x0__
-  if (= tv NaN) {
-    app __x1__ = (WrapCompletion "Invalid Date")
-    return __x1__
-  } else {}
-  app __x2__ = (LocalTime tv)
-  let t = __x2__
-  app __x3__ = (TimeString t)
-  app __x4__ = (TimeZoneString tv)
-  app __x5__ = (WrapCompletion (+ __x3__ __x4__))
-  return __x5__
+  let tv = [? __x0__]
+  if (= tv NaN) return "Invalid Date" else {}
+  app __x1__ = (LocalTime tv)
+  let t = __x1__
+  app __x2__ = (TimeString t)
+  app __x3__ = (TimeZoneString tv)
+  return (+ __x2__ __x3__)
 }

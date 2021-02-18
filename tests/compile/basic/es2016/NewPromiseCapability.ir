@@ -5,13 +5,11 @@
   let executor = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
   executor.Capability = promiseCapability
   app __x1__ = (Construct C (new [executor]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let promise = __x1__
+  let promise = [? __x1__]
   app __x2__ = (IsCallable promiseCapability.Resolve)
   if (= __x2__ false) throw INTRINSIC_TypeError else {}
   app __x3__ = (IsCallable promiseCapability.Reject)
   if (= __x3__ false) throw INTRINSIC_TypeError else {}
   promiseCapability.Promise = promise
-  app __x4__ = (WrapCompletion promiseCapability)
-  return __x4__
+  return promiseCapability
 }

@@ -9,10 +9,7 @@
   let obj = __x3__
   if (! (= Properties undefined)) {
     app __x4__ = (ObjectDefineProperties obj Properties)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    app __x5__ = (WrapCompletion __x4__)
-    return __x5__
+    return [? __x4__]
   } else {}
-  app __x6__ = (WrapCompletion obj)
-  return __x6__
+  return obj
 }

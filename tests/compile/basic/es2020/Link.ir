@@ -18,11 +18,9 @@
       __x3__ = (+ __x3__ 1i)
     }
     assert (= module.Status CONST_unlinked)
-    app __x4__ = (WrapCompletion result)
-    return __x4__
+    return result
   } else {}
   assert (|| (= module.Status CONST_linked) (= module.Status CONST_evaluated))
   assert (= stack.length 0i)
-  app __x5__ = (WrapCompletion undefined)
-  return __x5__
+  return undefined
 }

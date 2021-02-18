@@ -1,23 +1,18 @@
 {
   app __x0__ = (ValidateSharedIntegerTypedArray typedArray true)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let buffer = __x0__
+  let buffer = [? __x0__]
   app __x1__ = (ValidateAtomicAccess typedArray index)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let i = __x1__
+  let i = [? __x1__]
   let arrayTypeName = typedArray.TypedArrayName
   if (= arrayTypeName "BigInt64Array") {
     app __x2__ = (ToBigInt64 value)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let v = __x2__
+    let v = [? __x2__]
   } else {
     app __x3__ = (ToInt32 value)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let v = __x3__
+    let v = [? __x3__]
   }
   app __x4__ = (ToNumber timeout)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let q = __x4__
+  let q = [? __x4__]
   if (= q NaN) let t = Infinity else {
     app __x5__ = (max q 0i)
     let t = __x5__
@@ -34,30 +29,24 @@
   app __x8__ = (EnterCriticalSection WL)
   __x8__
   app __x9__ = (AtomicLoad typedArray i)
-  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-  let w = __x9__
+  let w = [! __x9__]
   if (! (= v w)) {
     app __x10__ = (LeaveCriticalSection WL)
     __x10__
-    app __x11__ = (WrapCompletion "not-equal")
-    return __x11__
+    return "not-equal"
   } else {}
-  app __x12__ = (AgentSignifier )
-  let W = __x12__
-  app __x13__ = (AddWaiter WL W)
-  __x13__
-  app __x14__ = (Suspend WL W t)
-  let notified = __x14__
+  app __x11__ = (AgentSignifier )
+  let W = __x11__
+  app __x12__ = (AddWaiter WL W)
+  __x12__
+  app __x13__ = (Suspend WL W t)
+  let notified = __x13__
   if (= notified true) {} else {
-    app __x15__ = (RemoveWaiter WL W)
-    __x15__
+    app __x14__ = (RemoveWaiter WL W)
+    __x14__
   }
-  app __x16__ = (LeaveCriticalSection WL)
-  __x16__
-  if (= notified true) {
-    app __x17__ = (WrapCompletion "ok")
-    return __x17__
-  } else {}
-  app __x18__ = (WrapCompletion "timed-out")
-  return __x18__
+  app __x15__ = (LeaveCriticalSection WL)
+  __x15__
+  if (= notified true) return "ok" else {}
+  return "timed-out"
 }

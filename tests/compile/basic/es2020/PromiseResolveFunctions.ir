@@ -2,43 +2,35 @@
   let F = GLOBAL_context.Function
   let promise = F.Promise
   let alreadyResolved = F.AlreadyResolved
-  if (= alreadyResolved.Value true) {
-    app __x0__ = (WrapCompletion undefined)
-    return __x0__
-  } else {}
+  if (= alreadyResolved.Value true) return undefined else {}
   alreadyResolved.Value = true
-  app __x1__ = (SameValue resolution promise)
-  if (= __x1__ true) {
+  app __x0__ = (SameValue resolution promise)
+  if (= __x0__ true) {
     let selfResolutionError = ??? "TypeError"
-    app __x2__ = (RejectPromise promise selfResolutionError)
-    app __x3__ = (WrapCompletion __x2__)
+    app __x1__ = (RejectPromise promise selfResolutionError)
+    return __x1__
+  } else {}
+  app __x2__ = (Type resolution)
+  if (! (= __x2__ Object)) {
+    app __x3__ = (FulfillPromise promise resolution)
     return __x3__
   } else {}
-  app __x4__ = (Type resolution)
-  if (! (= __x4__ Object)) {
-    app __x5__ = (FulfillPromise promise resolution)
-    app __x6__ = (WrapCompletion __x5__)
+  app __x4__ = (Get resolution "then")
+  let then = __x4__
+  app __x5__ = (IsAbruptCompletion then)
+  if __x5__ {
+    app __x6__ = (RejectPromise promise then.Value)
     return __x6__
   } else {}
-  app __x7__ = (Get resolution "then")
-  let then = __x7__
-  app __x8__ = (IsAbruptCompletion then)
-  if __x8__ {
-    app __x9__ = (RejectPromise promise then.Value)
-    app __x10__ = (WrapCompletion __x9__)
-    return __x10__
-  } else {}
   let thenAction = then.Value
-  app __x11__ = (IsCallable thenAction)
-  if (= __x11__ false) {
-    app __x12__ = (FulfillPromise promise resolution)
-    app __x13__ = (WrapCompletion __x12__)
-    return __x13__
+  app __x7__ = (IsCallable thenAction)
+  if (= __x7__ false) {
+    app __x8__ = (FulfillPromise promise resolution)
+    return __x8__
   } else {}
-  app __x14__ = (NewPromiseResolveThenableJob promise resolution thenAction)
-  let job = __x14__
-  app __x15__ = (HostEnqueuePromiseJob job.Job job.Realm)
-  __x15__
-  app __x16__ = (WrapCompletion undefined)
-  return __x16__
+  app __x9__ = (NewPromiseResolveThenableJob promise resolution thenAction)
+  let job = __x9__
+  app __x10__ = (HostEnqueuePromiseJob job.Job job.Realm)
+  __x10__
+  return undefined
 }

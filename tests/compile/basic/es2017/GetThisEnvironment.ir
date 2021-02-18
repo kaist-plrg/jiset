@@ -4,10 +4,7 @@
     let envRec = lex.EnvironmentRecord
     app __x0__ = (envRec.HasThisBinding envRec)
     let exists = __x0__
-    if (= exists true) {
-      app __x1__ = (WrapCompletion envRec)
-      return __x1__
-    } else {}
+    if (= exists true) return envRec else {}
     let outer = lex.Outer
     assert (! (= outer null))
     lex = outer

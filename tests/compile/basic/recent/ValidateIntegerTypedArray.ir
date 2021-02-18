@@ -1,22 +1,18 @@
 {
   if (= waitable absent) waitable = false else {}
   app __x0__ = (ValidateTypedArray typedArray)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let buffer = __x0__
+  let buffer = [? __x0__]
   let typeName = typedArray.TypedArrayName
   ??? "Let id:{type} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{typeName} ."
   if (= waitable true) if (! (|| (= typeName "Int32Array") (= typeName "BigInt64Array"))) throw INTRINSIC_TypeError else {} else {
     let __x1__ = true
     app __x2__ = (IsUnclampedIntegerElementType type)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    __x1__ = (= __x2__ false)
+    __x1__ = (= [! __x2__] false)
     if __x1__ {
       app __x3__ = (IsBigIntElementType type)
-      if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-      __x1__ = (= __x3__ false)
+      __x1__ = (= [! __x3__] false)
     } else {}
     if __x1__ throw INTRINSIC_TypeError else {}
   }
-  app __x4__ = (WrapCompletion buffer)
-  return __x4__
+  return buffer
 }

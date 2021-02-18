@@ -7,8 +7,6 @@
   access __x2__ = (head "ArrowFormalParameters")
   let parameters = __x2__
   app __x3__ = (AsyncFunctionCreate CONST_Arrow parameters AsyncConciseBody scope strict)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let closure = __x3__
-  app __x4__ = (WrapCompletion closure)
-  return __x4__
+  let closure = [! __x3__]
+  return closure
 }

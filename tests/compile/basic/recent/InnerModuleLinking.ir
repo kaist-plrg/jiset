@@ -1,43 +1,35 @@
 {
   if (! (= (typeof module) "CyclicModuleRecord")) {
     app __x0__ = (module.Link module)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    __x0__
-    app __x1__ = (WrapCompletion index)
-    return __x1__
+    [? __x0__]
+    return index
   } else {}
-  if (|| (|| (= module.Status CONST_linking) (= module.Status CONST_linked)) (= module.Status CONST_evaluated)) {
-    app __x2__ = (WrapCompletion index)
-    return __x2__
-  } else {}
+  if (|| (|| (= module.Status CONST_linking) (= module.Status CONST_linked)) (= module.Status CONST_evaluated)) return index else {}
   assert (= module.Status CONST_unlinked)
   module.Status = CONST_linking
   module.DFSIndex = index
   module.DFSAncestorIndex = index
   index = (+ index 1i)
   append module -> stack
-  let __x3__ = module.RequestedModules
-  let __x4__ = 0i
-  while (< __x4__ __x3__.length) {
-    let required = __x3__[__x4__]
-    app __x5__ = (HostResolveImportedModule module required)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let requiredModule = __x5__
-    app __x6__ = (InnerModuleLinking requiredModule stack index)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    index = __x6__
+  let __x1__ = module.RequestedModules
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let required = __x1__[__x2__]
+    app __x3__ = (HostResolveImportedModule module required)
+    let requiredModule = [? __x3__]
+    app __x4__ = (InnerModuleLinking requiredModule stack index)
+    index = [? __x4__]
     if (= (typeof requiredModule) "CyclicModuleRecord") {
       assert (|| (|| (= requiredModule.Status CONST_linking) (= requiredModule.Status CONST_linked)) (= requiredModule.Status CONST_evaluated))
       if (= requiredModule.Status CONST_linking) {
-        app __x7__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
-        module.DFSAncestorIndex = __x7__
+        app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
+        module.DFSAncestorIndex = __x5__
       } else {}
     } else {}
-    __x4__ = (+ __x4__ 1i)
+    __x2__ = (+ __x2__ 1i)
   }
-  app __x8__ = (module.InitializeEnvironment module)
-  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-  __x8__
+  app __x6__ = (module.InitializeEnvironment module)
+  [? __x6__]
   assert (! (< module.DFSIndex module.DFSAncestorIndex))
   if (== module.DFSAncestorIndex module.DFSIndex) {
     let done = false
@@ -49,6 +41,5 @@
       if (= requiredModule module) done = true else {}
     }
   } else {}
-  app __x9__ = (WrapCompletion index)
-  return __x9__
+  return index
 }

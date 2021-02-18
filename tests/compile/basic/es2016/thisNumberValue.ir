@@ -1,13 +1,7 @@
 {
   app __x0__ = (Type value)
-  if (= __x0__ Number) {
-    app __x1__ = (WrapCompletion value)
-    return __x1__
-  } else {}
-  app __x2__ = (Type value)
-  if (&& (= __x2__ Object) (! (= value.NumberData absent))) {
-    app __x3__ = (WrapCompletion value.NumberData)
-    return __x3__
-  } else {}
+  if (= __x0__ Number) return value else {}
+  app __x1__ = (Type value)
+  if (&& (= __x1__ Object) (! (= value.NumberData absent))) return value.NumberData else {}
   throw INTRINSIC_TypeError
 }

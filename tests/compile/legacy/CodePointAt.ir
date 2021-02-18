@@ -8,8 +8,6 @@
   let second = string[(+ position 1i)]
   ??? "If id:{second} is not a trailing surrogate , then in:{} out:{}"
   app __x0__ = (UTF16DecodeSurrogatePair first second)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  cp = __x0__
-  app __x1__ = (WrapCompletion (new Record("CodePoint" -> cp, "CodeUnitCount" -> 2i, "IsUnpairedSurrogate" -> false)))
-  return __x1__
+  cp = [! __x0__]
+  return (new Record("CodePoint" -> cp, "CodeUnitCount" -> 2i, "IsUnpairedSurrogate" -> false))
 }

@@ -6,13 +6,9 @@
   while (< __x1__ __x0__.length) {
     let xByte = __x0__[__x1__]
     let yByte = yBytes[i]
-    if (! (== xByte yByte)) {
-      app __x2__ = (WrapCompletion false)
-      return __x2__
-    } else {}
+    if (! (== xByte yByte)) return false else {}
     i = (+ i 1i)
     __x1__ = (+ __x1__ 1i)
   }
-  app __x3__ = (WrapCompletion true)
-  return __x3__
+  return true
 }

@@ -5,8 +5,7 @@
   while (< __x1__ __x0__.length) {
     let arg = __x0__[__x1__]
     app __x2__ = (ToNumber arg)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let n = __x2__
+    let n = [? __x2__]
     append n -> coerced
     __x1__ = (+ __x1__ 1i)
   }
@@ -15,14 +14,10 @@
   let __x4__ = 0i
   while (< __x4__ __x3__.length) {
     let number = __x3__[__x4__]
-    if (= number NaN) {
-      app __x5__ = (WrapCompletion NaN)
-      return __x5__
-    } else {}
+    if (= number NaN) return NaN else {}
     if (&& (= number -0.0) (= lowest 0i)) lowest = -0.0 else {}
     if (< number lowest) lowest = number else {}
     __x4__ = (+ __x4__ 1i)
   }
-  app __x6__ = (WrapCompletion lowest)
-  return __x6__
+  return lowest
 }

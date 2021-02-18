@@ -1,23 +1,15 @@
 {
   app __x0__ = (thisNumberValue this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let x = __x0__
+  let x = [? __x0__]
   app __x1__ = (ToInteger fractionDigits)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let f = __x1__
-  if (= x NaN) {
-    app __x2__ = (WrapCompletion "NaN")
-    return __x2__
-  } else {}
+  let f = [? __x1__]
+  if (= x NaN) return "NaN" else {}
   let s = ""
   if (< x 0i) {
     let s = "-"
     let x = (- x)
   } else {}
-  if (== x Infinity) {
-    app __x3__ = (WrapCompletion (+ s "Infinity"))
-    return __x3__
-  } else {}
+  if (== x Infinity) return (+ s "Infinity") else {}
   if (|| (< f 0i) (< 100i f)) throw INTRINSIC_RangeError else {}
   if (== x 0i) {
     ??? "Let id:{m} be the String value consisting of id:{f} + 1 occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
@@ -41,6 +33,5 @@
     ??? "Let id:{d} be the String value consisting of the digits of the decimal representation of id:{e} ( in order , with no leading zeroes ) ."
   }
   let m = (+ (+ (+ m "e") c) d)
-  app __x4__ = (WrapCompletion (+ s m))
-  return __x4__
+  return (+ s m)
 }

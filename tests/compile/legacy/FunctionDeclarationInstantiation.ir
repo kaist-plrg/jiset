@@ -58,12 +58,10 @@
     let alreadyDeclared = __x16__
     if (= alreadyDeclared false) {
       app __x17__ = (envRec.CreateMutableBinding envRec paramName false)
-      if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-      __x17__
+      [! __x17__]
       if (= hasDuplicates true) {
         app __x18__ = (envRec.InitializeBinding envRec paramName undefined)
-        if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
-        __x18__
+        [! __x18__]
       } else {}
     } else {}
     __x15__ = (+ __x15__ 1i)
@@ -78,12 +76,10 @@
     }
     if (= strict true) {
       app __x21__ = (envRec.CreateImmutableBinding envRec "arguments" false)
-      if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
-      __x21__
+      [! __x21__]
     } else {
       app __x22__ = (envRec.CreateMutableBinding envRec "arguments" false)
-      if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else {}
-      __x22__
+      [! __x22__]
     }
     app __x23__ = (envRec.InitializeBinding envRec "arguments" ao)
     __x23__
@@ -96,13 +92,11 @@
   if (= hasDuplicates true) {
     access __x26__ = (formals "IteratorBindingInitialization")
     app __x27__ = (__x26__ iteratorRecord undefined)
-    if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
-    __x27__
+    [? __x27__]
   } else {
     access __x28__ = (formals "IteratorBindingInitialization")
     app __x29__ = (__x28__ iteratorRecord env)
-    if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else {}
-    __x29__
+    [? __x29__]
   }
   if (= hasParameterExpressions false) {
     let instantiatedVarNames = (copy-obj parameterBindings)
@@ -113,8 +107,7 @@
       if (! (contains instantiatedVarNames n)) {
         append n -> instantiatedVarNames
         app __x32__ = (envRec.CreateMutableBinding envRec n false)
-        if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else {}
-        __x32__
+        [! __x32__]
         app __x33__ = (envRec.InitializeBinding envRec n undefined)
         __x33__
       } else {}
@@ -135,12 +128,10 @@
       if (! (contains instantiatedVarNames n)) {
         append n -> instantiatedVarNames
         app __x37__ = (varEnvRec.CreateMutableBinding varEnvRec n false)
-        if (is-completion __x37__) if (= __x37__.Type CONST_normal) __x37__ = __x37__.Value else return __x37__ else {}
-        __x37__
+        [! __x37__]
         if (|| (! (contains parameterBindings n)) (contains functionNames n)) let initialValue = undefined else {
           app __x38__ = (envRec.GetBindingValue envRec n false)
-          if (is-completion __x38__) if (= __x38__.Type CONST_normal) __x38__ = __x38__.Value else return __x38__ else {}
-          let initialValue = __x38__
+          let initialValue = [! __x38__]
         }
         app __x39__ = (varEnvRec.InitializeBinding varEnvRec n initialValue)
         __x39__
@@ -168,12 +159,10 @@
       access __x47__ = (d "IsConstantDeclaration")
       if (= __x47__ true) {
         app __x48__ = (lexEnvRec.CreateImmutableBinding lexEnvRec dn true)
-        if (is-completion __x48__) if (= __x48__.Type CONST_normal) __x48__ = __x48__.Value else return __x48__ else {}
-        __x48__
+        [! __x48__]
       } else {
         app __x49__ = (lexEnvRec.CreateMutableBinding lexEnvRec dn false)
-        if (is-completion __x49__) if (= __x49__.Type CONST_normal) __x49__ = __x49__.Value else return __x49__ else {}
-        __x49__
+        [! __x49__]
       }
       __x46__ = (+ __x46__ 1i)
     }
@@ -189,11 +178,9 @@
     app __x54__ = (__x53__ lexEnv)
     let fo = __x54__
     app __x55__ = (varEnvRec.SetMutableBinding varEnvRec fn fo false)
-    if (is-completion __x55__) if (= __x55__.Type CONST_normal) __x55__ = __x55__.Value else return __x55__ else {}
-    __x55__
+    [! __x55__]
     __x51__ = (+ __x51__ 1i)
   }
   app __x56__ = (NormalCompletion CONST_empty)
-  app __x57__ = (WrapCompletion __x56__)
-  return __x57__
+  return __x56__
 }

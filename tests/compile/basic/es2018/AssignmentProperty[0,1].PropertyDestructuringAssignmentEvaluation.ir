@@ -2,22 +2,18 @@
   access __x0__ = (IdentifierReference "StringValue")
   let P = __x0__
   app __x1__ = (ResolveBinding P)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let lref = __x1__
+  let lref = [? __x1__]
   app __x2__ = (GetV value P)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let v = __x2__
+  let v = [? __x2__]
   if (&& (! (= Initializer absent)) (= v undefined)) {
     access __x3__ = (Initializer "Evaluation")
     let defaultValue = __x3__
     app __x4__ = (GetValue defaultValue)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    v = __x4__
+    v = [? __x4__]
     app __x5__ = (IsAnonymousFunctionDefinition Initializer)
     if (= __x5__ true) {
       app __x6__ = (HasOwnProperty v "name")
-      if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-      let hasNameProperty = __x6__
+      let hasNameProperty = [? __x6__]
       if (= hasNameProperty false) {
         app __x7__ = (SetFunctionName v P)
         __x7__
@@ -25,8 +21,6 @@
     } else {}
   } else {}
   app __x8__ = (PutValue lref v)
-  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-  __x8__
-  app __x9__ = (WrapCompletion (new [P]))
-  return __x9__
+  [? __x8__]
+  return (new [P])
 }

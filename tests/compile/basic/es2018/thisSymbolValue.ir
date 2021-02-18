@@ -1,13 +1,7 @@
 {
   app __x0__ = (Type value)
-  if (= __x0__ Symbol) {
-    app __x1__ = (WrapCompletion value)
-    return __x1__
-  } else {}
-  app __x2__ = (Type value)
-  if (&& (= __x2__ Object) (! (= value.SymbolData absent))) {
-    app __x3__ = (WrapCompletion value.SymbolData)
-    return __x3__
-  } else {}
+  if (= __x0__ Symbol) return value else {}
+  app __x1__ = (Type value)
+  if (&& (= __x1__ Object) (! (= value.SymbolData absent))) return value.SymbolData else {}
   throw INTRINSIC_TypeError
 }

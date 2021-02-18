@@ -1,14 +1,7 @@
 {
   app __x0__ = (ToNumber x)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let n = __x0__
-  if (|| (|| (= n NaN) (< 1i n)) (< n -1i)) {
-    app __x1__ = (WrapCompletion NaN)
-    return __x1__
-  } else {}
-  if (= n 1i) {
-    app __x2__ = (WrapCompletion 0i)
-    return __x2__
-  } else {}
+  let n = [? __x0__]
+  if (|| (|| (= n NaN) (< 1i n)) (< n -1i)) return NaN else {}
+  if (= n 1i) return 0i else {}
   ??? "Return an implementation - approximated value representing the result of the inverse cosine of ℝ ( id:{n} ) ."
 }

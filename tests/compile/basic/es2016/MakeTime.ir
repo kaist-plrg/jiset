@@ -1,17 +1,13 @@
 {
-  if (|| (|| (= hour Infinity) (= hour -Infinity)) (|| (|| (= min Infinity) (= min -Infinity)) (|| (|| (= sec Infinity) (= sec -Infinity)) (|| (= ms Infinity) (= ms -Infinity))))) {
-    app __x0__ = (WrapCompletion NaN)
-    return __x0__
-  } else {}
-  app __x1__ = (ToInteger hour)
-  let h = __x1__
-  app __x2__ = (ToInteger min)
-  let m = __x2__
-  app __x3__ = (ToInteger sec)
-  let s = __x3__
-  app __x4__ = (ToInteger ms)
-  let milli = __x4__
+  if (|| (|| (= hour Infinity) (= hour -Infinity)) (|| (|| (= min Infinity) (= min -Infinity)) (|| (|| (= sec Infinity) (= sec -Infinity)) (|| (= ms Infinity) (= ms -Infinity))))) return NaN else {}
+  app __x0__ = (ToInteger hour)
+  let h = __x0__
+  app __x1__ = (ToInteger min)
+  let m = __x1__
+  app __x2__ = (ToInteger sec)
+  let s = __x2__
+  app __x3__ = (ToInteger ms)
+  let milli = __x3__
   ??? "Let id:{t} be id:{h} code:{*} msPerHour code:{+} id:{m} code:{*} msPerMinute code:{+} id:{s} code:{*} msPerSecond code:{+} id:{milli} , performing the arithmetic according to IEEE 754 - 2008 rules ( that is , as if using the ECMAScript operators code:{*} and code:{+} ) ."
-  app __x5__ = (WrapCompletion t)
-  return __x5__
+  return t
 }

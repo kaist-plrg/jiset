@@ -38,11 +38,5 @@
     __x11__
   }
   promise.PromiseIsHandled = true
-  if (= resultCapability undefined) {
-    app __x12__ = (WrapCompletion undefined)
-    return __x12__
-  } else {
-    app __x13__ = (WrapCompletion resultCapability.Promise)
-    return __x13__
-  }
+  if (= resultCapability undefined) return undefined else return resultCapability.Promise
 }

@@ -1,15 +1,12 @@
 {
   if (= value undefined) let index = 0i else {
     app __x0__ = (ToInteger value)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    let integerIndex = __x0__
+    let integerIndex = [? __x0__]
     if (< integerIndex 0i) throw INTRINSIC_RangeError else {}
     app __x1__ = (ToLength integerIndex)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let index = __x1__
+    let index = [! __x1__]
     app __x2__ = (SameValueZero integerIndex index)
     if (= __x2__ false) throw INTRINSIC_RangeError else {}
   }
-  app __x3__ = (WrapCompletion index)
-  return __x3__
+  return index
 }

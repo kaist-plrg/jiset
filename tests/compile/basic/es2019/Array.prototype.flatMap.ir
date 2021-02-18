@@ -1,21 +1,15 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (Get O "length")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (ToLength __x1__)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let sourceLen = __x2__
+  app __x2__ = (ToLength [? __x1__])
+  let sourceLen = [? __x2__]
   app __x3__ = (IsCallable mapperFunction)
   if (= __x3__ false) throw INTRINSIC_TypeError else {}
   if (! (= thisArg absent)) let T = thisArg else let T = undefined
   app __x4__ = (ArraySpeciesCreate O 0i)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let A = __x4__
+  let A = [? __x4__]
   app __x5__ = (FlattenIntoArray A O sourceLen 0i 1i mapperFunction T)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  __x5__
-  app __x6__ = (WrapCompletion A)
-  return __x6__
+  [? __x5__]
+  return A
 }

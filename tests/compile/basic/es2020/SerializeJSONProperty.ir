@@ -1,87 +1,62 @@
 {
   app __x0__ = (Get holder key)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let value = __x0__
+  let value = [? __x0__]
   app __x1__ = (Type value)
   if (|| (= __x1__ Object) (= __x1__ BigInt)) {
     app __x2__ = (GetV value "toJSON")
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let toJSON = __x2__
+    let toJSON = [? __x2__]
     app __x3__ = (IsCallable toJSON)
     if (= __x3__ true) {
       app __x4__ = (Call toJSON value (new [key]))
-      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-      value = __x4__
+      value = [? __x4__]
     } else {}
   } else {}
   if (! (= state.ReplacerFunction undefined)) {
     app __x5__ = (Call state.ReplacerFunction holder (new [key, value]))
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    value = __x5__
+    value = [? __x5__]
   } else {}
   app __x6__ = (Type value)
   if (= __x6__ Object) if (! (= value.NumberData absent)) {
     app __x7__ = (ToNumber value)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    value = __x7__
+    value = [? __x7__]
   } else if (! (= value.StringData absent)) {
     app __x8__ = (ToString value)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    value = __x8__
+    value = [? __x8__]
   } else if (! (= value.BooleanData absent)) value = value.BooleanData else if (! (= value.BigIntData absent)) value = value.BigIntData else {} else {}
-  if (= value null) {
-    app __x9__ = (WrapCompletion "null")
-    return __x9__
-  } else {}
-  if (= value true) {
-    app __x10__ = (WrapCompletion "true")
+  if (= value null) return "null" else {}
+  if (= value true) return "true" else {}
+  if (= value false) return "false" else {}
+  app __x9__ = (Type value)
+  if (= __x9__ String) {
+    app __x10__ = (QuoteJSONString value)
     return __x10__
   } else {}
-  if (= value false) {
-    app __x11__ = (WrapCompletion "false")
-    return __x11__
-  } else {}
-  app __x12__ = (Type value)
-  if (= __x12__ String) {
-    app __x13__ = (QuoteJSONString value)
-    app __x14__ = (WrapCompletion __x13__)
-    return __x14__
-  } else {}
-  app __x15__ = (Type value)
-  if (= __x15__ Number) {
+  app __x11__ = (Type value)
+  if (= __x11__ Number) {
     if (! (|| (= value Infinity) (= value -Infinity))) {
-      app __x16__ = (ToString value)
-      if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-      app __x17__ = (WrapCompletion __x16__)
-      return __x17__
+      app __x12__ = (ToString value)
+      return [! __x12__]
     } else {}
-    app __x18__ = (WrapCompletion "null")
-    return __x18__
+    return "null"
   } else {}
-  app __x19__ = (Type value)
-  if (= __x19__ BigInt) throw INTRINSIC_TypeError else {}
-  let __x20__ = true
-  app __x21__ = (Type value)
-  __x20__ = (= __x21__ Object)
-  if __x20__ {
-    app __x22__ = (IsCallable value)
-    __x20__ = (= __x22__ false)
+  app __x13__ = (Type value)
+  if (= __x13__ BigInt) throw INTRINSIC_TypeError else {}
+  let __x14__ = true
+  app __x15__ = (Type value)
+  __x14__ = (= __x15__ Object)
+  if __x14__ {
+    app __x16__ = (IsCallable value)
+    __x14__ = (= __x16__ false)
   } else {}
-  if __x20__ {
-    app __x23__ = (IsArray value)
-    if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
-    let isArray = __x23__
+  if __x14__ {
+    app __x17__ = (IsArray value)
+    let isArray = [? __x17__]
     if (= isArray true) {
-      app __x24__ = (SerializeJSONArray state value)
-      if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-      app __x25__ = (WrapCompletion __x24__)
-      return __x25__
+      app __x18__ = (SerializeJSONArray state value)
+      return [? __x18__]
     } else {}
-    app __x26__ = (SerializeJSONObject state value)
-    if (is-completion __x26__) if (= __x26__.Type CONST_normal) __x26__ = __x26__.Value else return __x26__ else {}
-    app __x27__ = (WrapCompletion __x26__)
-    return __x27__
+    app __x19__ = (SerializeJSONObject state value)
+    return [? __x19__]
   } else {}
-  app __x28__ = (WrapCompletion undefined)
-  return __x28__
+  return undefined
 }

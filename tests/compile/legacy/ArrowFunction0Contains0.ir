@@ -1,16 +1,9 @@
 {
-  if (! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol "super")) (= symbol "this"))) {
-    app __x0__ = (WrapCompletion false)
-    return __x0__
-  } else {}
-  access __x1__ = (ArrowParameters "Contains")
-  app __x2__ = (__x1__ symbol)
-  if (= __x2__ true) {
-    app __x3__ = (WrapCompletion true)
-    return __x3__
-  } else {}
-  access __x4__ = (ConciseBody "Contains")
-  app __x5__ = (__x4__ symbol)
-  app __x6__ = (WrapCompletion __x5__)
-  return __x6__
+  if (! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol "super")) (= symbol "this"))) return false else {}
+  access __x0__ = (ArrowParameters "Contains")
+  app __x1__ = (__x0__ symbol)
+  if (= __x1__ true) return true else {}
+  access __x2__ = (ConciseBody "Contains")
+  app __x3__ = (__x2__ symbol)
+  return __x3__
 }

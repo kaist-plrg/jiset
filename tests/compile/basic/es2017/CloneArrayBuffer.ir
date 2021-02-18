@@ -1,8 +1,7 @@
 {
   if (= cloneConstructor absent) {
     app __x0__ = (SpeciesConstructor srcBuffer INTRINSIC_ArrayBuffer)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    cloneConstructor = __x0__
+    cloneConstructor = [? __x0__]
     app __x1__ = (IsDetachedBuffer srcBuffer)
     if (= __x1__ true) throw INTRINSIC_TypeError else {}
   } else {
@@ -11,13 +10,11 @@
   }
   let srcBlock = srcBuffer.ArrayBufferData
   app __x3__ = (AllocateArrayBuffer cloneConstructor srcLength)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let targetBuffer = __x3__
+  let targetBuffer = [? __x3__]
   app __x4__ = (IsDetachedBuffer srcBuffer)
   if (= __x4__ true) throw INTRINSIC_TypeError else {}
   let targetBlock = targetBuffer.ArrayBufferData
   app __x5__ = (CopyDataBlockBytes targetBlock 0i srcBlock srcByteOffset srcLength)
   __x5__
-  app __x6__ = (WrapCompletion targetBuffer)
-  return __x6__
+  return targetBuffer
 }

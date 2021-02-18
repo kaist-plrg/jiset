@@ -1,21 +1,16 @@
 {
   app __x0__ = (LengthOfArrayLike arrayLike)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let len = __x0__
+  let len = [? __x0__]
   app __x1__ = (AllocateTypedArrayBuffer O len)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
+  [? __x1__]
   let k = 0i
   while (< k len) {
     app __x2__ = (ToString k)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let Pk = __x2__
+    let Pk = [! __x2__]
     app __x3__ = (Get arrayLike Pk)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let kValue = __x3__
+    let kValue = [? __x3__]
     app __x4__ = (Set O Pk kValue true)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    __x4__
+    [? __x4__]
     k = (+ k 1i)
   }
 }

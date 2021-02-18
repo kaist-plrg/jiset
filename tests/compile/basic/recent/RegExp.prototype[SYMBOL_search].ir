@@ -3,35 +3,24 @@
   app __x0__ = (Type rx)
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   app __x1__ = (ToString string)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let S = __x1__
+  let S = [? __x1__]
   app __x2__ = (Get rx "lastIndex")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let previousLastIndex = __x2__
+  let previousLastIndex = [? __x2__]
   app __x3__ = (SameValue previousLastIndex 0i)
   if (= __x3__ false) {
     app __x4__ = (Set rx "lastIndex" 0i true)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    __x4__
+    [? __x4__]
   } else {}
   app __x5__ = (RegExpExec rx S)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let result = __x5__
+  let result = [? __x5__]
   app __x6__ = (Get rx "lastIndex")
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let currentLastIndex = __x6__
+  let currentLastIndex = [? __x6__]
   app __x7__ = (SameValue currentLastIndex previousLastIndex)
   if (= __x7__ false) {
     app __x8__ = (Set rx "lastIndex" previousLastIndex true)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    __x8__
+    [? __x8__]
   } else {}
-  if (= result null) {
-    app __x9__ = (WrapCompletion -1i)
-    return __x9__
-  } else {}
-  app __x10__ = (Get result "index")
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  app __x11__ = (WrapCompletion __x10__)
-  return __x11__
+  if (= result null) return -1i else {}
+  app __x9__ = (Get result "index")
+  return [? __x9__]
 }

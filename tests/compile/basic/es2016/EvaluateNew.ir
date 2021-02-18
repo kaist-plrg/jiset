@@ -3,18 +3,14 @@
   access __x0__ = (constructProduction "Evaluation")
   let ref = __x0__
   app __x1__ = (GetValue ref)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let constructor = __x1__
+  let constructor = [? __x1__]
   if (= arguments CONST_empty) let argList = (new []) else {
     access __x2__ = (arguments "ArgumentListEvaluation")
     let argList = __x2__
-    if (is-completion argList) if (= argList.Type CONST_normal) argList = argList.Value else return argList else {}
-    argList
+    [? argList]
   }
   app __x3__ = (IsConstructor constructor)
   if (= __x3__ false) throw INTRINSIC_TypeError else {}
   app __x4__ = (Construct constructor argList)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  return [? __x4__]
 }

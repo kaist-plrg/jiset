@@ -5,11 +5,9 @@
   access __x1__ = (Expression "Evaluation")
   let firstSubRef = __x1__
   app __x2__ = (GetValue firstSubRef)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let firstSub = __x2__
+  let firstSub = [? __x2__]
   access __x3__ = (TemplateSpans "SubstitutionEvaluation")
   let restSub = __x3__
-  if (is-completion restSub) if (= restSub.Type CONST_normal) restSub = restSub.Value else return restSub else {}
-  restSub
+  [? restSub]
   ??? "Return a List whose first element is id:{siteObj} , whose second elements is id:{firstSub} , and whose subsequent elements are the elements of id:{restSub} , in order . id:{restSub} may contain no elements ."
 }

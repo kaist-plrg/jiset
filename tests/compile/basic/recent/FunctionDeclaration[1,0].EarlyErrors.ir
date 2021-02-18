@@ -2,59 +2,38 @@
   ??? "If the source code matching nt:{FormalParameters} is strict mode code , the Early Error rules for grammar:{UniqueFormalParameters0, [FormalParameters]} are applied ."
   if (&& (! (= BindingIdentifier absent)) true) {
     access __x0__ = (BindingIdentifier "StringValue")
-    if (|| (= __x0__ "eval") (= __x0__ "arguments")) throw INTRINSIC_SyntaxError else {
-      app __x1__ = (NormalCompletion undefined)
-      return __x1__
-    }
+    if (|| (= __x0__ "eval") (= __x0__ "arguments")) throw INTRINSIC_SyntaxError else return undefined
   } else {}
-  let __x2__ = true
-  access __x3__ = (FunctionBody "ContainsUseStrict")
-  __x2__ = (= __x3__ true)
-  if __x2__ {
-    access __x4__ = (FormalParameters "IsSimpleParameterList")
-    __x2__ = (= __x4__ false)
+  let __x1__ = true
+  access __x2__ = (FunctionBody "ContainsUseStrict")
+  __x1__ = (= __x2__ true)
+  if __x1__ {
+    access __x3__ = (FormalParameters "IsSimpleParameterList")
+    __x1__ = (= __x3__ false)
   } else {}
-  if __x2__ throw INTRINSIC_SyntaxError else {
-    app __x5__ = (NormalCompletion undefined)
-    return __x5__
+  if __x1__ throw INTRINSIC_SyntaxError else return undefined
+  access __x4__ = (FormalParameters "BoundNames")
+  access __x5__ = (FunctionBody "LexicallyDeclaredNames")
+  let __x6__ = __x4__
+  let __x7__ = __x5__
+  let __x8__ = 0i
+  let __x9__ = 0i
+  let __x10__ = false
+  while (< __x8__ __x6__.length) {
+    __x9__ = 0i
+    while (< __x9__ __x7__.length) if (= __x6__[__x8__] __x7__[__x9__]) __x10__ = true else {}
   }
-  access __x6__ = (FormalParameters "BoundNames")
-  access __x7__ = (FunctionBody "LexicallyDeclaredNames")
-  let __x8__ = __x6__
-  let __x9__ = __x7__
-  let __x10__ = 0i
-  let __x11__ = 0i
-  let __x12__ = false
-  while (< __x10__ __x8__.length) {
-    __x11__ = 0i
-    while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
-  }
-  if __x12__ throw INTRINSIC_SyntaxError else {
-    app __x13__ = (NormalCompletion undefined)
-    return __x13__
-  }
-  access __x14__ = (FormalParameters "Contains")
-  app __x15__ = (__x14__ "SuperProperty")
-  if (= __x15__ true) throw INTRINSIC_SyntaxError else {
-    app __x16__ = (NormalCompletion undefined)
-    return __x16__
-  }
+  if __x10__ throw INTRINSIC_SyntaxError else return undefined
+  access __x11__ = (FormalParameters "Contains")
+  app __x12__ = (__x11__ "SuperProperty")
+  if (= __x12__ true) throw INTRINSIC_SyntaxError else return undefined
+  access __x13__ = (FunctionBody "Contains")
+  app __x14__ = (__x13__ "SuperProperty")
+  if (= __x14__ true) throw INTRINSIC_SyntaxError else return undefined
+  access __x15__ = (FormalParameters "Contains")
+  app __x16__ = (__x15__ "SuperCall")
+  if (= __x16__ true) throw INTRINSIC_SyntaxError else return undefined
   access __x17__ = (FunctionBody "Contains")
-  app __x18__ = (__x17__ "SuperProperty")
-  if (= __x18__ true) throw INTRINSIC_SyntaxError else {
-    app __x19__ = (NormalCompletion undefined)
-    return __x19__
-  }
-  access __x20__ = (FormalParameters "Contains")
-  app __x21__ = (__x20__ "SuperCall")
-  if (= __x21__ true) throw INTRINSIC_SyntaxError else {
-    app __x22__ = (NormalCompletion undefined)
-    return __x22__
-  }
-  access __x23__ = (FunctionBody "Contains")
-  app __x24__ = (__x23__ "SuperCall")
-  if (= __x24__ true) throw INTRINSIC_SyntaxError else {
-    app __x25__ = (NormalCompletion undefined)
-    return __x25__
-  }
+  app __x18__ = (__x17__ "SuperCall")
+  if (= __x18__ true) throw INTRINSIC_SyntaxError else return undefined
 }

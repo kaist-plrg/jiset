@@ -2,19 +2,12 @@
   access __x0__ = (Block "ContainsUndefinedContinueTarget")
   app __x1__ = (__x0__ iterationSet (new []))
   let hasUndefinedLabels = __x1__
-  if (= hasUndefinedLabels true) {
-    app __x2__ = (WrapCompletion true)
-    return __x2__
-  } else {}
-  access __x3__ = (Catch "ContainsUndefinedContinueTarget")
-  app __x4__ = (__x3__ iterationSet (new []))
-  let hasUndefinedLabels = __x4__
-  if (= hasUndefinedLabels true) {
-    app __x5__ = (WrapCompletion true)
-    return __x5__
-  } else {}
-  access __x6__ = (Finally "ContainsUndefinedContinueTarget")
-  app __x7__ = (__x6__ iterationSet (new []))
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  if (= hasUndefinedLabels true) return true else {}
+  access __x2__ = (Catch "ContainsUndefinedContinueTarget")
+  app __x3__ = (__x2__ iterationSet (new []))
+  let hasUndefinedLabels = __x3__
+  if (= hasUndefinedLabels true) return true else {}
+  access __x4__ = (Finally "ContainsUndefinedContinueTarget")
+  app __x5__ = (__x4__ iterationSet (new []))
+  return __x5__
 }

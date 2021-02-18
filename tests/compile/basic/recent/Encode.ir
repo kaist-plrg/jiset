@@ -3,27 +3,23 @@
   let R = ""
   let k = 0i
   while true {
-    if (== k strLen) {
-      app __x0__ = (WrapCompletion R)
-      return __x0__
-    } else {}
+    if (== k strLen) return R else {}
     let C = string[k]
     if (contains unescapedSet C) {
       k = (+ k 1i)
       R = (+ R C)
     } else {
-      app __x1__ = (CodePointAt string k)
-      if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-      let cp = __x1__
+      app __x0__ = (CodePointAt string k)
+      let cp = [! __x0__]
       if (= cp.IsUnpairedSurrogate true) throw INTRINSIC_URIError else {}
       k = (+ k cp.CodeUnitCount)
       ??? "Let id:{Octets} be the List of octets resulting by applying the UTF - 8 transformation to id:{cp} . [ [ CodePoint ] ] ."
-      let __x2__ = Octets
-      let __x3__ = 0i
-      while (< __x3__ __x2__.length) {
-        let octet = __x2__[__x3__]
+      let __x1__ = Octets
+      let __x2__ = 0i
+      while (< __x2__ __x1__.length) {
+        let octet = __x1__[__x2__]
         R = (+ (+ R "%") ??? "StringOp")
-        __x3__ = (+ __x3__ 1i)
+        __x2__ = (+ __x2__ 1i)
       }
     }
   }

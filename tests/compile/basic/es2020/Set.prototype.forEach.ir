@@ -1,8 +1,7 @@
 {
   let S = this
   app __x0__ = (RequireInternalSlot S "SetData")
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   app __x1__ = (IsCallable callbackfn)
   if (= __x1__ false) throw INTRINSIC_TypeError else {}
   let entries = S.SetData
@@ -12,11 +11,9 @@
     let e = __x2__[__x3__]
     if (! (= e CONST_empty)) {
       app __x4__ = (Call callbackfn thisArg (new [e, e, S]))
-      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-      __x4__
+      [? __x4__]
     } else {}
     __x3__ = (+ __x3__ 1i)
   }
-  app __x5__ = (WrapCompletion undefined)
-  return __x5__
+  return undefined
 }

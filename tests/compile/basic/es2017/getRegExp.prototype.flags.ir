@@ -4,30 +4,24 @@
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   let result = ""
   app __x1__ = (Get R "global")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (ToBoolean __x1__)
+  app __x2__ = (ToBoolean [? __x1__])
   let global = __x2__
   if (= global true) let result = (+ result "g") else {}
   app __x3__ = (Get R "ignoreCase")
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  app __x4__ = (ToBoolean __x3__)
+  app __x4__ = (ToBoolean [? __x3__])
   let ignoreCase = __x4__
   if (= ignoreCase true) let result = (+ result "i") else {}
   app __x5__ = (Get R "multiline")
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  app __x6__ = (ToBoolean __x5__)
+  app __x6__ = (ToBoolean [? __x5__])
   let multiline = __x6__
   if (= multiline true) let result = (+ result "m") else {}
   app __x7__ = (Get R "unicode")
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  app __x8__ = (ToBoolean __x7__)
+  app __x8__ = (ToBoolean [? __x7__])
   let unicode = __x8__
   if (= unicode true) let result = (+ result "u") else {}
   app __x9__ = (Get R "sticky")
-  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-  app __x10__ = (ToBoolean __x9__)
+  app __x10__ = (ToBoolean [? __x9__])
   let sticky = __x10__
   if (= sticky true) let result = (+ result "y") else {}
-  app __x11__ = (WrapCompletion result)
-  return __x11__
+  return result
 }

@@ -1,24 +1,18 @@
 {
   app __x0__ = (thisNumberValue this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let x = __x0__
+  let x = [? __x0__]
   app __x1__ = (ToInteger fractionDigits)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let f = __x1__
+  let f = [? __x1__]
   if (|| (< f 0i) (< 100i f)) throw INTRINSIC_RangeError else {}
-  if (= x NaN) {
-    app __x2__ = (WrapCompletion "NaN")
-    return __x2__
-  } else {}
+  if (= x NaN) return "NaN" else {}
   let s = ""
   if (< x 0i) {
     let s = "-"
     let x = (- x)
   } else {}
   if (! (< x (** 10.0 21i))) {
-    app __x3__ = (ToString x)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let m = __x3__
+    app __x2__ = (ToString x)
+    let m = [! __x2__]
   } else {
     ??? "Let id:{n} be an integer for which the exact mathematical value of id:{n} ÷ 10 sup:{id:{f}} - id:{x} is as close to zero as possible . If there are two such id:{n} , pick the larger id:{n} ."
     ??? "If id:{n} = 0 , let id:{m} be the String code:{\"0\"} . Otherwise , let id:{m} be the String value consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) ."
@@ -33,6 +27,5 @@
       let m = (+ (+ a ".") b)
     } else {}
   }
-  app __x4__ = (WrapCompletion (+ s m))
-  return __x4__
+  return (+ s m)
 }

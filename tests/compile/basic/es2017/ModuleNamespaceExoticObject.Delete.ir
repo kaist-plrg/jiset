@@ -2,10 +2,6 @@
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
   let exports = O.Exports
-  if (contains exports P) {
-    app __x1__ = (WrapCompletion false)
-    return __x1__
-  } else {}
-  app __x2__ = (WrapCompletion true)
-  return __x2__
+  if (contains exports P) return false else {}
+  return true
 }

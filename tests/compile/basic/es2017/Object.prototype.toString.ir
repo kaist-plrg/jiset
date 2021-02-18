@@ -2,15 +2,12 @@
   ??? "If the value:{this} value is value:{undefined} , return ` \" [ object Undefined ] \" ` ."
   ??? "If the value:{this} value is value:{null} , return ` \" [ object Null ] \" ` ."
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [! __x0__]
   app __x1__ = (IsArray O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let isArray = __x1__
+  let isArray = [? __x1__]
   if (= isArray true) let builtinTag = "Array" else if (= (typeof O) "StringExoticObject") let builtinTag = "String" else if (! (= O.ParameterMap absent)) let builtinTag = "Arguments" else if (! (= O.Call absent)) let builtinTag = "Function" else if (! (= O.ErrorData absent)) let builtinTag = "Error" else if (! (= O.BooleanData absent)) let builtinTag = "Boolean" else if (! (= O.NumberData absent)) let builtinTag = "Number" else if (! (= O.DateValue absent)) let builtinTag = "Date" else if (! (= O.RegExpMatcher absent)) let builtinTag = "RegExp" else let builtinTag = "Object"
   app __x2__ = (Get O SYMBOL_toStringTag)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let tag = __x2__
+  let tag = [? __x2__]
   app __x3__ = (Type tag)
   if (! (= __x3__ String)) let tag = builtinTag else {}
   ??? "Return the String that is the result of concatenating ` \" [ object \" ` , id:{tag} , and code:{\"]\"} ."

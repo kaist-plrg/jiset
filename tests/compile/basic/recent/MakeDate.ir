@@ -1,13 +1,6 @@
 {
-  if (|| (|| (= day Infinity) (= day -Infinity)) (|| (= time Infinity) (= time -Infinity))) {
-    app __x0__ = (WrapCompletion NaN)
-    return __x0__
-  } else {}
+  if (|| (|| (= day Infinity) (= day -Infinity)) (|| (= time Infinity) (= time -Infinity))) return NaN else {}
   let tv = (+ (* day 8.64E7) time)
-  if (|| (= tv Infinity) (= tv -Infinity)) {
-    app __x1__ = (WrapCompletion NaN)
-    return __x1__
-  } else {}
-  app __x2__ = (WrapCompletion tv)
-  return __x2__
+  if (|| (= tv Infinity) (= tv -Infinity)) return NaN else {}
+  return tv
 }

@@ -6,45 +6,37 @@
   let a = O.IteratedArrayLike
   if (= a undefined) {
     app __x1__ = (CreateIterResultObject undefined true)
-    app __x2__ = (WrapCompletion __x1__)
-    return __x2__
+    return __x1__
   } else {}
   let index = O.ArrayLikeNextIndex
   let itemKind = O.ArrayLikeIterationKind
   if (! (= a.TypedArrayName absent)) {
-    app __x3__ = (IsDetachedBuffer a.ViewedArrayBuffer)
-    if (= __x3__ true) throw INTRINSIC_TypeError else {}
+    app __x2__ = (IsDetachedBuffer a.ViewedArrayBuffer)
+    if (= __x2__ true) throw INTRINSIC_TypeError else {}
     let len = a.ArrayLength
   } else {
-    app __x4__ = (LengthOfArrayLike a)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let len = __x4__
+    app __x3__ = (LengthOfArrayLike a)
+    let len = [? __x3__]
   }
   if (! (< index len)) {
     O.IteratedArrayLike = undefined
-    app __x5__ = (CreateIterResultObject undefined true)
-    app __x6__ = (WrapCompletion __x5__)
-    return __x6__
+    app __x4__ = (CreateIterResultObject undefined true)
+    return __x4__
   } else {}
   O.ArrayLikeNextIndex = (+ index 1i)
   if (= itemKind CONST_key) {
-    app __x7__ = (CreateIterResultObject index false)
-    app __x8__ = (WrapCompletion __x7__)
-    return __x8__
+    app __x5__ = (CreateIterResultObject index false)
+    return __x5__
   } else {}
-  app __x9__ = (ToString index)
-  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-  let elementKey = __x9__
-  app __x10__ = (Get a elementKey)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  let elementValue = __x10__
+  app __x6__ = (ToString index)
+  let elementKey = [! __x6__]
+  app __x7__ = (Get a elementKey)
+  let elementValue = [? __x7__]
   if (= itemKind CONST_value) let result = elementValue else {
     assert (= itemKind CONST_keyPLUSvalue)
-    app __x11__ = (CreateArrayFromList (new [index, elementValue]))
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    let result = __x11__
+    app __x8__ = (CreateArrayFromList (new [index, elementValue]))
+    let result = [! __x8__]
   }
-  app __x12__ = (CreateIterResultObject result false)
-  app __x13__ = (WrapCompletion __x12__)
-  return __x13__
+  app __x9__ = (CreateIterResultObject result false)
+  return __x9__
 }

@@ -17,8 +17,7 @@
     let superclassRef = __x3__
     GLOBAL_context.LexicalEnvironment = lex
     app __x4__ = (GetValue superclassRef)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let superclass = __x4__
+    let superclass = [? __x4__]
     if (= superclass null) {
       let protoParent = null
       let constructorParent = INTRINSIC_Function_prototype
@@ -26,8 +25,7 @@
       app __x5__ = (IsConstructor superclass)
       if (= __x5__ false) throw INTRINSIC_TypeError else {
         app __x6__ = (Get superclass "prototype")
-        if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-        let protoParent = __x6__
+        let protoParent = [? __x6__]
         app __x7__ = (Type protoParent)
         if (! (|| (= __x7__ Object) (= __x7__ Null))) throw INTRINSIC_TypeError else {}
         let constructorParent = superclass
@@ -44,8 +42,7 @@
   GLOBAL_context.LexicalEnvironment = classScope
   access __x10__ = (constructor "DefineMethod")
   app __x11__ = (__x10__ proto constructorParent)
-  if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-  let constructorInfo = __x11__
+  let constructorInfo = [! __x11__]
   let F = constructorInfo.Closure
   app __x12__ = (MakeConstructor F false proto)
   __x12__
@@ -80,16 +77,14 @@
     if __x24__ {
       GLOBAL_context.LexicalEnvironment = lex
       app __x25__ = (Completion status)
-      app __x26__ = (WrapCompletion __x25__)
-      return __x26__
+      return __x25__
     } else {}
     __x18__ = (+ __x18__ 1i)
   }
   GLOBAL_context.LexicalEnvironment = lex
   if (! (= classBinding undefined)) {
-    app __x27__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec classBinding F)
-    __x27__
+    app __x26__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec classBinding F)
+    __x26__
   } else {}
-  app __x28__ = (WrapCompletion F)
-  return __x28__
+  return F
 }

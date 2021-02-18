@@ -4,14 +4,10 @@
   app __x1__ = (env.HasSuperBinding env)
   assert (= __x1__ true)
   app __x2__ = (env.GetThisBinding env)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let actualThis = __x2__
+  let actualThis = [? __x2__]
   app __x3__ = (env.GetSuperBase env)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let baseValue = __x3__
+  let baseValue = [? __x3__]
   app __x4__ = (RequireObjectCoercible baseValue)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let bv = __x4__
-  app __x5__ = (WrapCompletion (new Reference("BaseValue" -> bv, "ReferencedName" -> propertyKey, "thisValue" -> actualThis, "StrictReference" -> strict)))
-  return __x5__
+  let bv = [? __x4__]
+  return (new Reference("BaseValue" -> bv, "ReferencedName" -> propertyKey, "thisValue" -> actualThis, "StrictReference" -> strict))
 }

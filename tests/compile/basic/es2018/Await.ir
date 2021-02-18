@@ -1,11 +1,9 @@
 {
   let asyncContext = GLOBAL_context
   app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let promiseCapability = __x0__
+  let promiseCapability = [! __x0__]
   app __x1__ = (Call promiseCapability.Resolve undefined (new [promise]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
+  [! __x1__]
   let stepsFulfilled = AwaitFulfilledFunctions
   app __x2__ = (CreateBuiltinFunction stepsFulfilled (new ["AsyncContext"]))
   let onFulfilled = __x2__
@@ -15,12 +13,10 @@
   let onRejected = __x3__
   onRejected.AsyncContext = asyncContext
   app __x4__ = (NewPromiseCapability INTRINSIC_Promise)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let throwawayCapability = __x4__
+  let throwawayCapability = [! __x4__]
   throwawayCapability.Promise.PromiseIsHandled = true
   app __x5__ = (PerformPromiseThen promiseCapability.Promise onFulfilled onRejected throwawayCapability)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  __x5__
+  [! __x5__]
   if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] asyncContext) {
     let __x6__ = (- GLOBAL_executionStack.length 1i)
     (pop GLOBAL_executionStack __x6__)

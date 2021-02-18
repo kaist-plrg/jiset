@@ -5,8 +5,7 @@
   while (< __x1__ __x0__.length) {
     let arg = __x0__[__x1__]
     app __x2__ = (ToNumber arg)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let n = __x2__
+    let n = [? __x2__]
     append n -> coerced
     __x1__ = (+ __x1__ 1i)
   }
@@ -15,20 +14,11 @@
   let __x4__ = 0i
   while (< __x4__ __x3__.length) {
     let number = __x3__[__x4__]
-    if (|| (= number NaN) (= number Infinity)) {
-      app __x5__ = (WrapCompletion number)
-      return __x5__
-    } else {}
-    if (= number -Infinity) {
-      app __x6__ = (WrapCompletion Infinity)
-      return __x6__
-    } else {}
+    if (|| (= number NaN) (= number Infinity)) return number else {}
+    if (= number -Infinity) return Infinity else {}
     if (! (|| (= number 0i) (= number -0.0))) onlyZero = false else {}
     __x4__ = (+ __x4__ 1i)
   }
-  if (= onlyZero true) {
-    app __x7__ = (WrapCompletion 0i)
-    return __x7__
-  } else {}
+  if (= onlyZero true) return 0i else {}
   ??? "Return an implementation - approximated value representing the square root of the sum of squares of the mathematical values of the elements of id:{coerced} ."
 }

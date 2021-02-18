@@ -4,16 +4,9 @@
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   if (= R.OriginalFlags absent) {
     app __x1__ = (SameValue R INTRINSIC_RegExp_prototype)
-    if (= __x1__ true) {
-      app __x2__ = (WrapCompletion undefined)
-      return __x2__
-    } else throw INTRINSIC_TypeError
+    if (= __x1__ true) return undefined else throw INTRINSIC_TypeError
   } else {}
   let flags = R.OriginalFlags
-  if (contains flags "g") {
-    app __x3__ = (WrapCompletion true)
-    return __x3__
-  } else {}
-  app __x4__ = (WrapCompletion false)
-  return __x4__
+  if (contains flags "g") return true else {}
+  return false
 }

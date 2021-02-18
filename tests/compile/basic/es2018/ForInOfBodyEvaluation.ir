@@ -10,18 +10,15 @@
   } else {}
   while true {
     app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator (new []))
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let nextResult = __x1__
+    let nextResult = [? __x1__]
     if (= iteratorKind CONST_async) {
       app __x2__ = (Await nextResult)
-      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-      nextResult = __x2__
+      nextResult = [? __x2__]
     } else {}
     app __x3__ = (Type nextResult)
     if (! (= __x3__ Object)) throw INTRINSIC_TypeError else {}
     app __x4__ = (IteratorValue nextResult)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let nextValue = __x4__
+    let nextValue = [? __x4__]
     if (|| (= lhsKind CONST_assignment) (= lhsKind CONST_varBinding)) if (= destructuring false) {
       access __x5__ = (lhs "Evaluation")
       let lhsRef = __x5__
@@ -38,8 +35,7 @@
         access __x9__ = (lhs "BoundNames")
         let lhsName = __x9__[0i]
         app __x10__ = (ResolveBinding lhsName)
-        if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-        let lhsRef = __x10__
+        let lhsRef = [! __x10__]
       } else {}
     }
     if (= destructuring false) {
@@ -72,44 +68,32 @@
       GLOBAL_context.LexicalEnvironment = oldEnv
       if (= iteratorKind CONST_async) {
         app __x21__ = (AsyncIteratorClose iteratorRecord status)
-        if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
-        app __x22__ = (WrapCompletion __x21__)
-        return __x22__
+        return [? __x21__]
       } else {}
-      if (= iterationKind CONST_enumerate) {
-        app __x23__ = (WrapCompletion status)
-        return __x23__
-      } else {
+      if (= iterationKind CONST_enumerate) return status else {
         assert (= iterationKind CONST_iterate)
-        app __x24__ = (IteratorClose iteratorRecord status)
-        if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-        app __x25__ = (WrapCompletion __x24__)
-        return __x25__
+        app __x22__ = (IteratorClose iteratorRecord status)
+        return [? __x22__]
       }
     } else {}
-    access __x26__ = (stmt "Evaluation")
-    let result = __x26__
+    access __x23__ = (stmt "Evaluation")
+    let result = __x23__
     GLOBAL_context.LexicalEnvironment = oldEnv
-    app __x27__ = (LoopContinues result labelSet)
-    if (= __x27__ false) if (= iterationKind CONST_enumerate) {
-      app __x28__ = (UpdateEmpty result V)
-      app __x29__ = (Completion __x28__)
-      app __x30__ = (WrapCompletion __x29__)
-      return __x30__
+    app __x24__ = (LoopContinues result labelSet)
+    if (= __x24__ false) if (= iterationKind CONST_enumerate) {
+      app __x25__ = (UpdateEmpty result V)
+      app __x26__ = (Completion __x25__)
+      return __x26__
     } else {
       assert (= iterationKind CONST_iterate)
-      app __x31__ = (UpdateEmpty result V)
-      status = __x31__
+      app __x27__ = (UpdateEmpty result V)
+      status = __x27__
       if (= iteratorKind CONST_async) {
-        app __x32__ = (AsyncIteratorClose iteratorRecord status)
-        if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else {}
-        app __x33__ = (WrapCompletion __x32__)
-        return __x33__
+        app __x28__ = (AsyncIteratorClose iteratorRecord status)
+        return [? __x28__]
       } else {}
-      app __x34__ = (IteratorClose iteratorRecord status)
-      if (is-completion __x34__) if (= __x34__.Type CONST_normal) __x34__ = __x34__.Value else return __x34__ else {}
-      app __x35__ = (WrapCompletion __x34__)
-      return __x35__
+      app __x29__ = (IteratorClose iteratorRecord status)
+      return [? __x29__]
     } else {}
     if (! (= result.Value CONST_empty)) V = result.Value else {}
   }

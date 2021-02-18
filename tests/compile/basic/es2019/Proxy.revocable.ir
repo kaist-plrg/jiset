@@ -1,7 +1,6 @@
 {
   app __x0__ = (ProxyCreate target handler)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let p = __x0__
+  let p = [? __x0__]
   let steps = ProxyRevocationFunctions
   app __x1__ = (CreateBuiltinFunction steps (new ["RevocableProxy"]))
   let revoker = __x1__
@@ -12,6 +11,5 @@
   __x3__
   app __x4__ = (CreateDataProperty result "revoke" revoker)
   __x4__
-  app __x5__ = (WrapCompletion result)
-  return __x5__
+  return result
 }

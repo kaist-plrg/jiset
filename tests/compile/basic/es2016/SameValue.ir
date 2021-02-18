@@ -1,32 +1,15 @@
 {
   app __x0__ = (Type x)
   app __x1__ = (Type y)
-  if (! (= __x0__ __x1__)) {
-    app __x2__ = (WrapCompletion false)
-    return __x2__
+  if (! (= __x0__ __x1__)) return false else {}
+  app __x2__ = (Type x)
+  if (= __x2__ Number) {
+    if (&& (= x NaN) (= y NaN)) return true else {}
+    if (&& (= x 0i) (= y -0.0)) return false else {}
+    if (&& (= x -0.0) (= y 0i)) return false else {}
+    if (= x y) return true else {}
+    return false
   } else {}
-  app __x3__ = (Type x)
-  if (= __x3__ Number) {
-    if (&& (= x NaN) (= y NaN)) {
-      app __x4__ = (WrapCompletion true)
-      return __x4__
-    } else {}
-    if (&& (= x 0i) (= y -0.0)) {
-      app __x5__ = (WrapCompletion false)
-      return __x5__
-    } else {}
-    if (&& (= x -0.0) (= y 0i)) {
-      app __x6__ = (WrapCompletion false)
-      return __x6__
-    } else {}
-    if (= x y) {
-      app __x7__ = (WrapCompletion true)
-      return __x7__
-    } else {}
-    app __x8__ = (WrapCompletion false)
-    return __x8__
-  } else {}
-  app __x9__ = (SameValueNonNumber x y)
-  app __x10__ = (WrapCompletion __x9__)
-  return __x10__
+  app __x3__ = (SameValueNonNumber x y)
+  return __x3__
 }

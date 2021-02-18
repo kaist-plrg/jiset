@@ -6,6 +6,5 @@
   let reject = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
   reject.Promise = promise
   reject.AlreadyResolved = alreadyResolved
-  app __x0__ = (WrapCompletion (new Record("Resolve" -> resolve, "Reject" -> reject)))
-  return __x0__
+  return (new Record("Resolve" -> resolve, "Reject" -> reject))
 }

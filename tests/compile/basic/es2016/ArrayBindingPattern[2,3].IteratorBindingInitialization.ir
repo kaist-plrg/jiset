@@ -2,17 +2,14 @@
   access __x0__ = (BindingElementList "IteratorBindingInitialization")
   app __x1__ = (__x0__ iteratorRecord environment)
   let status = __x1__
-  if (is-completion status) if (= status.Type CONST_normal) status = status.Value else return status else {}
-  status
+  [? status]
   if (! (= Elision absent)) {
     access __x2__ = (Elision "IteratorDestructuringAssignmentEvaluation")
     app __x3__ = (__x2__ iteratorRecord)
     let status = __x3__
-    if (is-completion status) if (= status.Type CONST_normal) status = status.Value else return status else {}
-    status
+    [? status]
   } else {}
   access __x4__ = (BindingRestElement "IteratorBindingInitialization")
   app __x5__ = (__x4__ iteratorRecord environment)
-  app __x6__ = (WrapCompletion __x5__)
-  return __x6__
+  return __x5__
 }

@@ -1,20 +1,13 @@
 {
   app __x0__ = (Type x)
   app __x1__ = (Type y)
-  if (! (= __x0__ __x1__)) {
-    app __x2__ = (WrapCompletion false)
-    return __x2__
+  if (! (= __x0__ __x1__)) return false else {}
+  app __x2__ = (Type x)
+  if (|| (= __x2__ Number) (= __x2__ BigInt)) {
+    app __x3__ = (Type x)
+    app __x4__ = (PRIMITIVE[__x3__].sameValueZero x y)
+    return [! __x4__]
   } else {}
-  app __x3__ = (Type x)
-  if (|| (= __x3__ Number) (= __x3__ BigInt)) {
-    app __x4__ = (Type x)
-    app __x5__ = (PRIMITIVE[__x4__].sameValueZero x y)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    app __x6__ = (WrapCompletion __x5__)
-    return __x6__
-  } else {}
-  app __x7__ = (SameValueNonNumeric x y)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  app __x5__ = (SameValueNonNumeric x y)
+  return [! __x5__]
 }

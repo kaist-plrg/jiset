@@ -8,11 +8,9 @@
   ??? "Let id:{targetType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{targetName} ."
   let targetByteOffset = target.ByteOffset
   app __x1__ = (ToObject source)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let src = __x1__
+  let src = [? __x1__]
   app __x2__ = (LengthOfArrayLike src)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let srcLength = __x2__
+  let srcLength = [? __x2__]
   if (= targetOffset Infinity) throw INTRINSIC_RangeError else {}
   if (< targetLength (+ srcLength targetOffset)) throw INTRINSIC_RangeError else {}
   let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)
@@ -20,19 +18,15 @@
   let limit = (* (+ targetByteIndex targetElementSize) srcLength)
   while (< targetByteIndex limit) {
     app __x3__ = (ToString k)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let Pk = __x3__
+    let Pk = [! __x3__]
     app __x4__ = (Get src Pk)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let value = __x4__
+    let value = [? __x4__]
     if (= target.ContentType CONST_BigInt) {
       app __x5__ = (ToBigInt value)
-      if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-      value = __x5__
+      value = [? __x5__]
     } else {
       app __x6__ = (ToNumber value)
-      if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-      value = __x6__
+      value = [? __x6__]
     }
     app __x7__ = (IsDetachedBuffer targetBuffer)
     if (= __x7__ true) throw INTRINSIC_TypeError else {}

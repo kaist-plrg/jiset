@@ -2,14 +2,8 @@
   let envRec = this
   let bindings = envRec.BindingObject
   app __x0__ = (HasProperty bindings N)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let value = __x0__
-  if (= value false) if (= S false) {
-    app __x1__ = (WrapCompletion undefined)
-    return __x1__
-  } else throw INTRINSIC_ReferenceError else {}
-  app __x2__ = (Get bindings N)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  let value = [? __x0__]
+  if (= value false) if (= S false) return undefined else throw INTRINSIC_ReferenceError else {}
+  app __x1__ = (Get bindings N)
+  return [? __x1__]
 }

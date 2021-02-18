@@ -1,8 +1,7 @@
 {
   let finalizationRegistry = this
   app __x0__ = (RequireInternalSlot finalizationRegistry "Cells")
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   app __x1__ = (Type unregisterToken)
   if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
   let removed = false
@@ -22,6 +21,5 @@
     } else {}
     __x3__ = (+ __x3__ 1i)
   }
-  app __x6__ = (WrapCompletion removed)
-  return __x6__
+  return removed
 }

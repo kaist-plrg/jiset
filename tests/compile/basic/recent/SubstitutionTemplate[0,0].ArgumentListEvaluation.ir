@@ -2,11 +2,8 @@
   access __x0__ = (Expression "Evaluation")
   let firstSubRef = __x0__
   app __x1__ = (GetValue firstSubRef)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let firstSub = __x1__
+  let firstSub = [? __x1__]
   access __x2__ = (TemplateSpans "SubstitutionEvaluation")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let restSub = __x2__
-  app __x3__ = (WrapCompletion (new [firstSub, restSub]))
-  return __x3__
+  let restSub = [? __x2__]
+  return (new [firstSub, restSub])
 }

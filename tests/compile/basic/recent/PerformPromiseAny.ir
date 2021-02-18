@@ -1,10 +1,8 @@
 {
   app __x0__ = (IsConstructor constructor)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  assert (= __x0__ true)
+  assert (= [! __x0__] true)
   app __x1__ = (IsCallable promiseResolve)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  assert (= __x1__ true)
+  assert (= [! __x1__] true)
   let errors = (new [])
   let remainingElementsCount = (new Record("Value" -> 1i))
   let index = 0i
@@ -13,48 +11,39 @@
     let next = __x2__
     app __x3__ = (IsAbruptCompletion next)
     if __x3__ iteratorRecord.Done = true else {}
-    if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else {}
-    next
+    [? next]
     if (= next false) {
       iteratorRecord.Done = true
       remainingElementsCount.Value = (- remainingElementsCount.Value 1i)
       if (= remainingElementsCount.Value 0i) {
         ??? "Let id:{error} be a newly created code:{AggregateError} object ."
         app __x4__ = (CreateArrayFromList errors)
-        if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-        app __x5__ = (DefinePropertyOrThrow error "errors" (new PropertyDescriptor("Configurable" -> true, "Enumerable" -> false, "Writable" -> true, "Value" -> __x4__)))
-        if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-        __x5__
+        app __x5__ = (DefinePropertyOrThrow error "errors" (new PropertyDescriptor("Configurable" -> true, "Enumerable" -> false, "Writable" -> true, "Value" -> [! __x4__])))
+        [! __x5__]
         app __x6__ = (ThrowCompletion error)
-        app __x7__ = (WrapCompletion __x6__)
-        return __x7__
+        return __x6__
       } else {}
-      app __x8__ = (WrapCompletion resultCapability.Promise)
-      return __x8__
+      return resultCapability.Promise
     } else {}
-    app __x9__ = (IteratorValue next)
-    let nextValue = __x9__
-    app __x10__ = (IsAbruptCompletion nextValue)
-    if __x10__ iteratorRecord.Done = true else {}
-    if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else {}
-    nextValue
+    app __x7__ = (IteratorValue next)
+    let nextValue = __x7__
+    app __x8__ = (IsAbruptCompletion nextValue)
+    if __x8__ iteratorRecord.Done = true else {}
+    [? nextValue]
     append undefined -> errors
-    app __x11__ = (Call promiseResolve constructor (new [nextValue]))
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    let nextPromise = __x11__
+    app __x9__ = (Call promiseResolve constructor (new [nextValue]))
+    let nextPromise = [? __x9__]
     ??? "Let id:{steps} be the algorithm steps defined in link:{unhandled: sec-promise.any-reject-element-functions} ."
-    app __x12__ = (CreateBuiltinFunction steps (new ["AlreadyCalled", "Index", "Errors", "Capability", "RemainingElements"]))
-    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-    let rejectElement = __x12__
+    app __x10__ = (CreateBuiltinFunction steps (new ["AlreadyCalled", "Index", "Errors", "Capability", "RemainingElements"]))
+    let rejectElement = [! __x10__]
     rejectElement.AlreadyCalled = false
     rejectElement.Index = index
     rejectElement.Errors = errors
     rejectElement.Capability = resultCapability
     rejectElement.RemainingElements = remainingElementsCount
     remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)
-    app __x13__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, rejectElement]))
-    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-    __x13__
+    app __x11__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, rejectElement]))
+    [? __x11__]
     index = (+ index 1i)
   }
 }

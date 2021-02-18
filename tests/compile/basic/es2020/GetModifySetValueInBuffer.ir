@@ -2,8 +2,7 @@
   app __x0__ = (IsSharedArrayBuffer arrayBuffer)
   assert (= __x0__ true)
   app __x1__ = (IsNonNegativeInteger byteIndex)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  assert (= __x1__ true)
+  assert (= [! __x1__] true)
   let block = arrayBuffer.ArrayBufferData
   ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{type} ."
   if (= isLittleEndian absent) isLittleEndian = GLOBAL_agent.LittleEndian else {}
@@ -16,6 +15,5 @@
   append rmwEvent -> eventList
   append (new ChosenValueRecord("Event" -> rmwEvent, "ChosenValue" -> rawBytesRead)) -> execution.ChosenValues
   app __x3__ = (RawBytesToNumeric type rawBytesRead isLittleEndian)
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  return __x3__
 }

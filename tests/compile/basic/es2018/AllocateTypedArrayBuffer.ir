@@ -5,12 +5,10 @@
   ??? "Let id:{elementSize} be the Element Size value in link:{unhandled: table-49} for id:{constructorName} ."
   let byteLength = (* elementSize length)
   app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let data = __x0__
+  let data = [? __x0__]
   O.ViewedArrayBuffer = data
   O.ByteLength = byteLength
   O.ByteOffset = 0i
   O.ArrayLength = length
-  app __x1__ = (WrapCompletion O)
-  return __x1__
+  return O
 }

@@ -1,15 +1,8 @@
 {
   app __x0__ = (ToNumber x)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let n = __x0__
+  let n = [? __x0__]
   ??? "If id:{n} is value:{NaN} , value:{+∞} , value:{-∞} , or an integral Number , return id:{n} ."
-  if (&& (< n 0.5) (< 0i n)) {
-    app __x1__ = (WrapCompletion 0i)
-    return __x1__
-  } else {}
-  if (&& (< n 0i) (! (< n -0.5))) {
-    app __x2__ = (WrapCompletion -0.0)
-    return __x2__
-  } else {}
+  if (&& (< n 0.5) (< 0i n)) return 0i else {}
+  if (&& (< n 0i) (! (< n -0.5))) return -0.0 else {}
   ??? "Return the integral Number closest to id:{n} , preferring the Number closer to + ∞ in the case of a tie ."
 }

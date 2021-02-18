@@ -2,19 +2,15 @@
   access __x0__ = (MultiplicativeExpression "Evaluation")
   let left = __x0__
   app __x1__ = (GetValue left)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let leftValue = __x1__
+  let leftValue = [? __x1__]
   access __x2__ = (ExponentiationExpression "Evaluation")
   let right = __x2__
   app __x3__ = (GetValue right)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let rightValue = __x3__
+  let rightValue = [? __x3__]
   app __x4__ = (ToNumeric leftValue)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let lnum = __x4__
+  let lnum = [? __x4__]
   app __x5__ = (ToNumeric rightValue)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let rnum = __x5__
+  let rnum = [? __x5__]
   app __x6__ = (Type lnum)
   app __x7__ = (Type rnum)
   if (! (= __x6__ __x7__)) throw INTRINSIC_TypeError else {}
@@ -22,17 +18,14 @@
   let T = __x8__
   if (= MultiplicativeOperator ??? "*") {
     app __x9__ = (PRIMITIVE[T].multiply lnum rnum)
-    app __x10__ = (WrapCompletion __x9__)
-    return __x10__
+    return __x9__
   } else {}
   if (= MultiplicativeOperator ??? "/") {
-    app __x11__ = (PRIMITIVE[T].divide lnum rnum)
-    app __x12__ = (WrapCompletion __x11__)
-    return __x12__
+    app __x10__ = (PRIMITIVE[T].divide lnum rnum)
+    return __x10__
   } else {
     assert (= MultiplicativeOperator ??? "%")
-    app __x13__ = (PRIMITIVE[T].remainder lnum rnum)
-    app __x14__ = (WrapCompletion __x13__)
-    return __x14__
+    app __x11__ = (PRIMITIVE[T].remainder lnum rnum)
+    return __x11__
   }
 }

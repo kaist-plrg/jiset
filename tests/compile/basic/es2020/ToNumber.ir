@@ -1,35 +1,23 @@
 {
   app __x0__ = (Type argument)
-  if (= __x0__ Undefined) {
-    app __x1__ = (WrapCompletion NaN)
-    return __x1__
-  } else {}
+  if (= __x0__ Undefined) return NaN else {}
+  app __x1__ = (Type argument)
+  if (= __x1__ Null) return 0i else {}
   app __x2__ = (Type argument)
-  if (= __x2__ Null) {
-    app __x3__ = (WrapCompletion 0i)
-    return __x3__
-  } else {}
+  if (= __x2__ Boolean) ??? "If id:{argument} is value:{true} , return 1 . If id:{argument} is value:{false} , return value:{+0} ." else {}
+  app __x3__ = (Type argument)
+  if (= __x3__ Number) return argument else {}
   app __x4__ = (Type argument)
-  if (= __x4__ Boolean) ??? "If id:{argument} is value:{true} , return 1 . If id:{argument} is value:{false} , return value:{+0} ." else {}
+  if (= __x4__ String) {} else {}
   app __x5__ = (Type argument)
-  if (= __x5__ Number) {
-    app __x6__ = (WrapCompletion argument)
-    return __x6__
-  } else {}
+  if (= __x5__ Symbol) throw INTRINSIC_TypeError else {}
+  app __x6__ = (Type argument)
+  if (= __x6__ BigInt) throw INTRINSIC_TypeError else {}
   app __x7__ = (Type argument)
-  if (= __x7__ String) {} else {}
-  app __x8__ = (Type argument)
-  if (= __x8__ Symbol) throw INTRINSIC_TypeError else {}
-  app __x9__ = (Type argument)
-  if (= __x9__ BigInt) throw INTRINSIC_TypeError else {}
-  app __x10__ = (Type argument)
-  if (= __x10__ Object) {
-    app __x11__ = (ToPrimitive argument Number)
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    let primValue = __x11__
-    app __x12__ = (ToNumber primValue)
-    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-    app __x13__ = (WrapCompletion __x12__)
-    return __x13__
+  if (= __x7__ Object) {
+    app __x8__ = (ToPrimitive argument Number)
+    let primValue = [? __x8__]
+    app __x9__ = (ToNumber primValue)
+    return [? __x9__]
   } else {}
 }

@@ -1,8 +1,6 @@
 {
-  if (is-completion V) if (= V.Type CONST_normal) V = V.Value else return V else {}
-  V
-  if (is-completion W) if (= W.Type CONST_normal) W = W.Value else return W else {}
-  W
+  [? V]
+  [? W]
   app __x0__ = (Type V)
   if (! (= __x0__ Reference)) throw INTRINSIC_ReferenceError else {}
   app __x1__ = (GetBase V)
@@ -15,38 +13,32 @@
     let globalObj = __x4__
     app __x5__ = (GetReferencedName V)
     app __x6__ = (Set globalObj __x5__ W false)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    app __x7__ = (WrapCompletion __x6__)
-    return __x7__
+    return [? __x6__]
   } else {
-    app __x8__ = (IsPropertyReference V)
-    if (= __x8__ true) {
-      app __x9__ = (HasPrimitiveBase V)
-      if (= __x9__ true) {
-        app __x10__ = (ToObject base)
-        base = __x10__
+    app __x7__ = (IsPropertyReference V)
+    if (= __x7__ true) {
+      app __x8__ = (HasPrimitiveBase V)
+      if (= __x8__ true) {
+        app __x9__ = (ToObject base)
+        base = __x9__
       } else {}
-      app __x11__ = (GetReferencedName V)
-      app __x12__ = (GetThisValue V)
-      app __x13__ = (base.Set base __x11__ W __x12__)
-      if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-      let succeeded = __x13__
-      let __x14__ = true
-      __x14__ = (= succeeded false)
-      if __x14__ {
-        app __x15__ = (IsStrictReference V)
-        __x14__ = (= __x15__ true)
+      app __x10__ = (GetReferencedName V)
+      app __x11__ = (GetThisValue V)
+      app __x12__ = (base.Set base __x10__ W __x11__)
+      let succeeded = [? __x12__]
+      let __x13__ = true
+      __x13__ = (= succeeded false)
+      if __x13__ {
+        app __x14__ = (IsStrictReference V)
+        __x13__ = (= __x14__ true)
       } else {}
-      if __x14__ throw INTRINSIC_TypeError else {}
-      app __x16__ = (NormalCompletion undefined)
-      return __x16__
+      if __x13__ throw INTRINSIC_TypeError else {}
+      return undefined
     } else {
-      app __x17__ = (GetReferencedName V)
-      app __x18__ = (IsStrictReference V)
-      app __x19__ = (base.SetMutableBinding base __x17__ W __x18__)
-      if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
-      app __x20__ = (WrapCompletion __x19__)
-      return __x20__
+      app __x15__ = (GetReferencedName V)
+      app __x16__ = (IsStrictReference V)
+      app __x17__ = (base.SetMutableBinding base __x15__ W __x16__)
+      return [? __x17__]
     }
   }
 }

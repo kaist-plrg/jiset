@@ -5,25 +5,18 @@
   assert (= __x0__ Object)
   let target = O.ProxyTarget
   app __x1__ = (GetMethod handler "preventExtensions")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let trap = __x1__
+  let trap = [? __x1__]
   if (= trap undefined) {
     app __x2__ = (target.PreventExtensions target)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return [? __x2__]
   } else {}
-  app __x4__ = (Call trap handler (new [target]))
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  app __x5__ = (ToBoolean __x4__)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let booleanTrapResult = __x5__
+  app __x3__ = (Call trap handler (new [target]))
+  app __x4__ = (ToBoolean [? __x3__])
+  let booleanTrapResult = [! __x4__]
   if (= booleanTrapResult true) {
-    app __x6__ = (IsExtensible target)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let extensibleTarget = __x6__
+    app __x5__ = (IsExtensible target)
+    let extensibleTarget = [? __x5__]
     if (= extensibleTarget true) throw INTRINSIC_TypeError else {}
   } else {}
-  app __x7__ = (WrapCompletion booleanTrapResult)
-  return __x7__
+  return booleanTrapResult
 }

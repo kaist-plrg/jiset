@@ -7,10 +7,8 @@
   access __x2__ = (head "ArrowFormalParameters")
   let parameters = __x2__
   app __x3__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype sourceText parameters AsyncConciseBody CONST_lexicalDASHthis scope)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let closure = __x3__
+  let closure = [! __x3__]
   app __x4__ = (SetFunctionName closure name)
   __x4__
-  app __x5__ = (WrapCompletion closure)
-  return __x5__
+  return closure
 }

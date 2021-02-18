@@ -10,114 +10,96 @@
   } else {}
   while true {
     app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let nextResult = __x1__
+    let nextResult = [? __x1__]
     if (= iteratorKind CONST_async) {
       app __x2__ = (Await nextResult)
-      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-      nextResult = __x2__
+      nextResult = [? __x2__]
     } else {}
     app __x3__ = (Type nextResult)
     if (! (= __x3__ Object)) throw INTRINSIC_TypeError else {}
     app __x4__ = (IteratorComplete nextResult)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let done = __x4__
+    let done = [? __x4__]
     if (= done true) {
       app __x5__ = (NormalCompletion V)
-      app __x6__ = (WrapCompletion __x5__)
-      return __x6__
+      return __x5__
     } else {}
-    app __x7__ = (IteratorValue nextResult)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let nextValue = __x7__
+    app __x6__ = (IteratorValue nextResult)
+    let nextValue = [? __x6__]
     if (|| (= lhsKind CONST_assignment) (= lhsKind CONST_varBinding)) if (= destructuring false) {
-      access __x8__ = (lhs "Evaluation")
-      let lhsRef = __x8__
+      access __x7__ = (lhs "Evaluation")
+      let lhsRef = __x7__
     } else {} else {
       assert (= lhsKind CONST_lexicalBinding)
       assert (is-instance-of lhs ForDeclaration)
-      app __x9__ = (NewDeclarativeEnvironment oldEnv)
-      let iterationEnv = __x9__
-      access __x10__ = (lhs "BindingInstantiation")
-      app __x11__ = (__x10__ iterationEnv)
-      __x11__
+      app __x8__ = (NewDeclarativeEnvironment oldEnv)
+      let iterationEnv = __x8__
+      access __x9__ = (lhs "BindingInstantiation")
+      app __x10__ = (__x9__ iterationEnv)
+      __x10__
       GLOBAL_context.LexicalEnvironment = iterationEnv
       if (= destructuring false) {
-        access __x12__ = (lhs "BoundNames")
-        let lhsName = __x12__[0i]
-        app __x13__ = (ResolveBinding lhsName)
-        if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-        let lhsRef = __x13__
+        access __x11__ = (lhs "BoundNames")
+        let lhsName = __x11__[0i]
+        app __x12__ = (ResolveBinding lhsName)
+        let lhsRef = [! __x12__]
       } else {}
     }
     if (= destructuring false) {
-      app __x14__ = (IsAbruptCompletion lhsRef)
-      if __x14__ let status = lhsRef else if (= lhsKind CONST_lexicalBinding) {
-        app __x15__ = (InitializeReferencedBinding lhsRef nextValue)
-        let status = __x15__
+      app __x13__ = (IsAbruptCompletion lhsRef)
+      if __x13__ let status = lhsRef else if (= lhsKind CONST_lexicalBinding) {
+        app __x14__ = (InitializeReferencedBinding lhsRef nextValue)
+        let status = __x14__
       } else {
-        app __x16__ = (PutValue lhsRef nextValue)
-        let status = __x16__
+        app __x15__ = (PutValue lhsRef nextValue)
+        let status = __x15__
       }
     } else if (= lhsKind CONST_assignment) {
-      access __x17__ = (assignmentPattern "DestructuringAssignmentEvaluation")
-      app __x18__ = (__x17__ nextValue)
-      let status = __x18__
+      access __x16__ = (assignmentPattern "DestructuringAssignmentEvaluation")
+      app __x17__ = (__x16__ nextValue)
+      let status = __x17__
     } else if (= lhsKind CONST_varBinding) {
       assert (is-instance-of lhs ForBinding)
-      access __x19__ = (lhs "BindingInitialization")
-      app __x20__ = (__x19__ nextValue undefined)
-      let status = __x20__
+      access __x18__ = (lhs "BindingInitialization")
+      app __x19__ = (__x18__ nextValue undefined)
+      let status = __x19__
     } else {
       assert (= lhsKind CONST_lexicalBinding)
       assert (is-instance-of lhs ForDeclaration)
-      access __x21__ = (lhs "BindingInitialization")
-      app __x22__ = (__x21__ nextValue iterationEnv)
-      let status = __x22__
+      access __x20__ = (lhs "BindingInitialization")
+      app __x21__ = (__x20__ nextValue iterationEnv)
+      let status = __x21__
     }
-    app __x23__ = (IsAbruptCompletion status)
-    if __x23__ {
+    app __x22__ = (IsAbruptCompletion status)
+    if __x22__ {
       GLOBAL_context.LexicalEnvironment = oldEnv
       if (= iteratorKind CONST_async) {
-        app __x24__ = (AsyncIteratorClose iteratorRecord status)
-        if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-        app __x25__ = (WrapCompletion __x24__)
-        return __x25__
+        app __x23__ = (AsyncIteratorClose iteratorRecord status)
+        return [? __x23__]
       } else {}
-      if (= iterationKind CONST_enumerate) {
-        app __x26__ = (WrapCompletion status)
-        return __x26__
-      } else {
+      if (= iterationKind CONST_enumerate) return status else {
         assert (= iterationKind CONST_iterate)
-        app __x27__ = (IteratorClose iteratorRecord status)
-        if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
-        app __x28__ = (WrapCompletion __x27__)
-        return __x28__
+        app __x24__ = (IteratorClose iteratorRecord status)
+        return [? __x24__]
       }
     } else {}
-    access __x29__ = (stmt "Evaluation")
-    let result = __x29__
+    access __x25__ = (stmt "Evaluation")
+    let result = __x25__
     GLOBAL_context.LexicalEnvironment = oldEnv
-    app __x30__ = (LoopContinues result labelSet)
-    if (= __x30__ false) if (= iterationKind CONST_enumerate) {
-      app __x31__ = (UpdateEmpty result V)
-      app __x32__ = (Completion __x31__)
-      app __x33__ = (WrapCompletion __x32__)
-      return __x33__
+    app __x26__ = (LoopContinues result labelSet)
+    if (= __x26__ false) if (= iterationKind CONST_enumerate) {
+      app __x27__ = (UpdateEmpty result V)
+      app __x28__ = (Completion __x27__)
+      return __x28__
     } else {
       assert (= iterationKind CONST_iterate)
-      app __x34__ = (UpdateEmpty result V)
-      status = __x34__
+      app __x29__ = (UpdateEmpty result V)
+      status = __x29__
       if (= iteratorKind CONST_async) {
-        app __x35__ = (AsyncIteratorClose iteratorRecord status)
-        if (is-completion __x35__) if (= __x35__.Type CONST_normal) __x35__ = __x35__.Value else return __x35__ else {}
-        app __x36__ = (WrapCompletion __x35__)
-        return __x36__
+        app __x30__ = (AsyncIteratorClose iteratorRecord status)
+        return [? __x30__]
       } else {}
-      app __x37__ = (IteratorClose iteratorRecord status)
-      if (is-completion __x37__) if (= __x37__.Type CONST_normal) __x37__ = __x37__.Value else return __x37__ else {}
-      app __x38__ = (WrapCompletion __x37__)
-      return __x38__
+      app __x31__ = (IteratorClose iteratorRecord status)
+      return [? __x31__]
     } else {}
     if (! (= result.Value CONST_empty)) V = result.Value else {}
   }

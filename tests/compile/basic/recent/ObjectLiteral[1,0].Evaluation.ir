@@ -1,11 +1,8 @@
 {
   app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let obj = __x0__
+  let obj = [! __x0__]
   access __x1__ = (PropertyDefinitionList "PropertyDefinitionEvaluation")
   app __x2__ = (__x1__ obj true)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  __x2__
-  app __x3__ = (WrapCompletion obj)
-  return __x3__
+  [? __x2__]
+  return obj
 }

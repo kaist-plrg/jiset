@@ -4,24 +4,16 @@
   app __x1__ = (Type P)
   if (= __x1__ String) {
     app __x2__ = (CanonicalNumericIndexString P)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let numericIndex = __x2__
+    let numericIndex = [! __x2__]
     if (! (= numericIndex undefined)) {
       let buffer = O.ViewedArrayBuffer
       app __x3__ = (IsDetachedBuffer buffer)
       if (= __x3__ true) throw INTRINSIC_TypeError else {}
       app __x4__ = (IsValidIntegerIndex O numericIndex)
-      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-      if (= __x4__ false) {
-        app __x5__ = (WrapCompletion false)
-        return __x5__
-      } else {}
-      app __x6__ = (WrapCompletion true)
-      return __x6__
+      if (= [! __x4__] false) return false else {}
+      return true
     } else {}
   } else {}
-  app __x7__ = (OrdinaryHasProperty O P)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  app __x5__ = (OrdinaryHasProperty O P)
+  return [? __x5__]
 }

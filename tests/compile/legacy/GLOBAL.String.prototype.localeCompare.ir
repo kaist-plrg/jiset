@@ -6,12 +6,9 @@
   app __x2__ = (GetArgument argumentsList 2i)
   let reserved2 = __x2__
   app __x3__ = (RequireObjectCoercible this)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let O = __x3__
+  let O = [? __x3__]
   app __x4__ = (ToString O)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let S = __x4__
+  let S = [? __x4__]
   app __x5__ = (ToString that)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let That = __x5__
+  let That = [? __x5__]
 }

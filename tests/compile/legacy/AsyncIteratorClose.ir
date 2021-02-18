@@ -4,32 +4,27 @@
   assert (is-completion completion)
   let iterator = iteratorRecord.Iterator
   app __x1__ = (GetMethod iterator "return")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let return = __x1__
+  let return = [? __x1__]
   if (= return undefined) {
     app __x2__ = (Completion completion)
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return __x2__
   } else {}
-  app __x4__ = (Call return iterator)
-  let innerResult = __x4__
+  app __x3__ = (Call return iterator)
+  let innerResult = __x3__
   if (= innerResult.Type CONST_normal) {
-    app __x5__ = (Await innerResult.Value)
-    innerResult = __x5__
+    app __x4__ = (Await innerResult.Value)
+    innerResult = __x4__
   } else {}
   if (= completion.Type CONST_throw) {
-    app __x6__ = (Completion completion)
-    app __x7__ = (WrapCompletion __x6__)
-    return __x7__
+    app __x5__ = (Completion completion)
+    return __x5__
   } else {}
   if (= innerResult.Type CONST_throw) {
-    app __x8__ = (Completion innerResult)
-    app __x9__ = (WrapCompletion __x8__)
-    return __x9__
+    app __x6__ = (Completion innerResult)
+    return __x6__
   } else {}
-  app __x10__ = (Type innerResult.Value)
-  if (! (= __x10__ Object)) throw INTRINSIC_TypeError else {}
-  app __x11__ = (Completion completion)
-  app __x12__ = (WrapCompletion __x11__)
-  return __x12__
+  app __x7__ = (Type innerResult.Value)
+  if (! (= __x7__ Object)) throw INTRINSIC_TypeError else {}
+  app __x8__ = (Completion completion)
+  return __x8__
 }

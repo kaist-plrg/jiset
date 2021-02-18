@@ -2,8 +2,7 @@
   app __x0__ = (IsDetachedBuffer arrayBuffer)
   assert (= __x0__ false)
   app __x1__ = (IsNonNegativeInteger byteIndex)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  assert (= __x1__ true)
+  assert (= [! __x1__] true)
   let block = arrayBuffer.ArrayBufferData
   ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{type} ."
   if (= isLittleEndian absent) isLittleEndian = GLOBAL_agent.LittleEndian else {}
@@ -24,6 +23,5 @@
   } else {}
   ??? "Else , store the individual bytes of id:{rawBytes} into id:{block} , in order , starting at id:{block} [ id:{byteIndex} ] ."
   app __x6__ = (NormalCompletion undefined)
-  app __x7__ = (WrapCompletion __x6__)
-  return __x7__
+  return __x6__
 }

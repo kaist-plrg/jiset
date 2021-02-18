@@ -1,13 +1,10 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (LengthOfArrayLike O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let len = __x1__
+  let len = [? __x1__]
   app __x2__ = (ToIntegerOrInfinity start)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let relativeStart = __x2__
+  let relativeStart = [? __x2__]
   if (= relativeStart -Infinity) let k = 0i else if (< relativeStart 0i) {
     app __x3__ = (max (+ len relativeStart) 0i)
     let k = __x3__
@@ -17,8 +14,7 @@
   }
   if (= end undefined) let relativeEnd = len else {
     app __x5__ = (ToIntegerOrInfinity end)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let relativeEnd = __x5__
+    let relativeEnd = [? __x5__]
   }
   if (= relativeEnd -Infinity) let final = 0i else if (< relativeEnd 0i) {
     app __x6__ = (max (+ len relativeEnd) 0i)
@@ -29,13 +25,10 @@
   }
   while (< k final) {
     app __x8__ = (ToString k)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let Pk = __x8__
+    let Pk = [! __x8__]
     app __x9__ = (Set O Pk value true)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    __x9__
+    [? __x9__]
     k = (+ k 1i)
   }
-  app __x10__ = (WrapCompletion O)
-  return __x10__
+  return O
 }

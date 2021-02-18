@@ -4,19 +4,13 @@
   app __x1__ = (GetArgument argumentsList 1i)
   let proto = __x1__
   app __x2__ = (RequireObjectCoercible O)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  O = __x2__
+  O = [? __x2__]
   app __x3__ = (Type proto)
   if (! (|| (= __x3__ Object) (= __x3__ Null))) throw INTRINSIC_TypeError else {}
   app __x4__ = (Type O)
-  if (! (= __x4__ Object)) {
-    app __x5__ = (WrapCompletion O)
-    return __x5__
-  } else {}
-  app __x6__ = (O.SetPrototypeOf O proto)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let status = __x6__
+  if (! (= __x4__ Object)) return O else {}
+  app __x5__ = (O.SetPrototypeOf O proto)
+  let status = [? __x5__]
   if (= status false) throw INTRINSIC_TypeError else {}
-  app __x7__ = (WrapCompletion O)
-  return __x7__
+  return O
 }

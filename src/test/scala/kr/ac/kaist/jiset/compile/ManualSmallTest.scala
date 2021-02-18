@@ -35,10 +35,7 @@ class ManualSmallTest extends CompileTest {
   // registration
   def init: Unit = {
     test("Basic Return Statement", InstsTarget)(
-      """Return _value_""" -> """{
-        app __x0__ = (WrapCompletion value)
-        return __x0__
-      }"""
+      "Return _value_" -> "return value"
     )
 
     test("Intrinsics", ExprTarget)(
@@ -56,38 +53,26 @@ class ManualSmallTest extends CompileTest {
     test("Optionally, ~", InstsTarget)(
       "Optionally, perform ! HostEnqueueFinalizationRegistryCleanupJob(_fg_)." -> """if randBool {
         app __x0__ = (HostEnqueueFinalizationRegistryCleanupJob fg)
-        if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-        __x0__
+        [! __x0__]
       } else {}""",
       "Optionally, set _F_.[[InitialName]] to _name_." ->
         """if randBool F.InitialName = name else {}"""
     )
 
     test("Return `value` if `cond`", InstsTarget)(
-      "Return `1n` if _prim_ is *true*" -> """if (= prim true) {
-        app __x0__ = (WrapCompletion 1n)
-        return __x0__
-      } else {
-        app __x1__ = (NormalCompletion undefined)
-        return __x1__
-      }""",
-      "Return `1n` if _prim_ is *true* and `0n` if _prim_ is *false*." -> """if (= prim true) {
-        app __x0__ = (WrapCompletion 1n)
-        return __x0__
-      } else if (= prim false) {
-        app __x1__ = (WrapCompletion 0n)
-        return __x1__
-      } else {
-        app __x2__ = (NormalCompletion undefined)
-        return __x2__
-      }""",
-      "Return *true* if _x_ and _y_ are the same Object value. Otherwise, return *false*." -> """if (= x y) {
-        app __x0__ = (WrapCompletion true)
-        return __x0__
-      } else {
-        app __x1__ = (WrapCompletion false)
-        return __x1__
-      }"""
+      "Return `1n` if _prim_ is *true*" -> """
+        if (= prim true) return 1n
+        else return undefined
+      """,
+      "Return `1n` if _prim_ is *true* and `0n` if _prim_ is *false*." -> """
+        if (= prim true) return 1n
+        else if (= prim false) return 0n
+        else return undefined
+      """,
+      "Return *true* if _x_ and _y_ are the same Object value. Otherwise, return *false*." -> """
+        if (= x y) return true
+        else return false
+      """
     )
 
     test("Internal Method Condition", InstsTarget)(
@@ -111,6 +96,11 @@ class ManualSmallTest extends CompileTest {
       "_a_ = 0, _b_ = 10, and _c_ = 100" -> "(&& (&& (== a 0i) (== b 10i)) (== c 100i))",
       "_a_ &ne; 0 or _b_ = 0 and  _c_ &ne; 0 or _d_ &ne; 0" ->
         "(|| (! (== a 0i)) (&& (== b 0i) (|| (! (== c 0i)) (! (== d 0i)))))"
+    )
+
+    test("ReturnIfAbrupt", ExprTarget)(
+      "? _x_" -> "[? x]",
+      "! _x_" -> "[! x]",
     )
   }
   init

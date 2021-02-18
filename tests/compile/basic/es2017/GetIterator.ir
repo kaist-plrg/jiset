@@ -1,14 +1,11 @@
 {
   if (= method absent) {
     app __x0__ = (GetMethod obj SYMBOL_iterator)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    method = __x0__
+    method = [? __x0__]
   } else {}
   app __x1__ = (Call method obj)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let iterator = __x1__
+  let iterator = [? __x1__]
   app __x2__ = (Type iterator)
   if (! (= __x2__ Object)) throw INTRINSIC_TypeError else {}
-  app __x3__ = (WrapCompletion iterator)
-  return __x3__
+  return iterator
 }

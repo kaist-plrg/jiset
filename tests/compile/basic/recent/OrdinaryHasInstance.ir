@@ -1,38 +1,22 @@
 {
   app __x0__ = (IsCallable C)
-  if (= __x0__ false) {
-    app __x1__ = (WrapCompletion false)
-    return __x1__
-  } else {}
+  if (= __x0__ false) return false else {}
   if (! (= C.BoundTargetFunction absent)) {
     let BC = C.BoundTargetFunction
-    app __x2__ = (InstanceofOperator O BC)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    app __x1__ = (InstanceofOperator O BC)
+    return [? __x1__]
   } else {}
-  app __x4__ = (Type O)
-  if (! (= __x4__ Object)) {
-    app __x5__ = (WrapCompletion false)
-    return __x5__
-  } else {}
-  app __x6__ = (Get C "prototype")
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let P = __x6__
-  app __x7__ = (Type P)
-  if (! (= __x7__ Object)) throw INTRINSIC_TypeError else {}
+  app __x2__ = (Type O)
+  if (! (= __x2__ Object)) return false else {}
+  app __x3__ = (Get C "prototype")
+  let P = [? __x3__]
+  app __x4__ = (Type P)
+  if (! (= __x4__ Object)) throw INTRINSIC_TypeError else {}
   while true {
-    app __x8__ = (O.GetPrototypeOf O)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    O = __x8__
-    if (= O null) {
-      app __x9__ = (WrapCompletion false)
-      return __x9__
-    } else {}
-    app __x10__ = (SameValue P O)
-    if (= __x10__ true) {
-      app __x11__ = (WrapCompletion true)
-      return __x11__
-    } else {}
+    app __x5__ = (O.GetPrototypeOf O)
+    O = [? __x5__]
+    if (= O null) return false else {}
+    app __x6__ = (SameValue P O)
+    if (= __x6__ true) return true else {}
   }
 }

@@ -1,24 +1,11 @@
 {
-  if (is-instance-of symbol ClassBody) {
-    app __x0__ = (WrapCompletion true)
-    return __x0__
-  } else {}
-  if (is-instance-of symbol ClassHeritage) if (! (= ClassHeritage absent)) {
-    app __x1__ = (WrapCompletion true)
-    return __x1__
-  } else {
-    app __x2__ = (WrapCompletion false)
-    return __x2__
-  } else {}
-  access __x3__ = (ClassHeritage "Contains")
-  app __x4__ = (__x3__ symbol)
-  let inHeritage = __x4__
-  if (= inHeritage true) {
-    app __x5__ = (WrapCompletion true)
-    return __x5__
-  } else {}
-  access __x6__ = (ClassBody "ComputedPropertyContains")
-  app __x7__ = (__x6__ symbol)
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  if (is-instance-of symbol ClassBody) return true else {}
+  if (is-instance-of symbol ClassHeritage) if (! (= ClassHeritage absent)) return true else return false else {}
+  access __x0__ = (ClassHeritage "Contains")
+  app __x1__ = (__x0__ symbol)
+  let inHeritage = __x1__
+  if (= inHeritage true) return true else {}
+  access __x2__ = (ClassBody "ComputedPropertyContains")
+  app __x3__ = (__x2__ symbol)
+  return __x3__
 }

@@ -4,15 +4,11 @@
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   if (= R.OriginalSource absent) {
     app __x1__ = (SameValue R INTRINSIC_RegExp_prototype)
-    if (= __x1__ true) {
-      app __x2__ = (WrapCompletion "(?:)")
-      return __x2__
-    } else throw INTRINSIC_TypeError
+    if (= __x1__ true) return "(?:)" else throw INTRINSIC_TypeError
   } else {}
   assert (! (= R.OriginalFlags absent))
   let src = R.OriginalSource
   let flags = R.OriginalFlags
-  app __x3__ = (EscapeRegExpPattern src flags)
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  app __x2__ = (EscapeRegExpPattern src flags)
+  return __x2__
 }

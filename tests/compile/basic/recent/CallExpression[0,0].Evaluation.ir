@@ -8,8 +8,7 @@
   access __x3__ = (memberExpr "Evaluation")
   let ref = __x3__
   app __x4__ = (GetValue ref)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let func = __x4__
+  let func = [? __x4__]
   let __x5__ = true
   __x5__ = (= (typeof ref) "ReferenceRecord")
   if __x5__ {
@@ -21,26 +20,18 @@
     app __x7__ = (SameValue func INTRINSIC_eval)
     if (= __x7__ true) {
       access __x8__ = (arguments "ArgumentListEvaluation")
-      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-      let argList = __x8__
-      if (= argList.length 0i) {
-        app __x9__ = (WrapCompletion undefined)
-        return __x9__
-      } else {}
+      let argList = [? __x8__]
+      if (= argList.length 0i) return undefined else {}
       let evalArg = argList[0i]
       if true let strictCaller = true else let strictCaller = false
       let evalRealm = REALM
-      app __x10__ = (PerformEval evalArg evalRealm strictCaller true)
-      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-      app __x11__ = (WrapCompletion __x10__)
-      return __x11__
+      app __x9__ = (PerformEval evalArg evalRealm strictCaller true)
+      return [? __x9__]
     } else {}
   } else {}
   let thisCall = this
-  app __x12__ = (IsInTailPosition thisCall)
-  let tailCall = __x12__
-  app __x13__ = (EvaluateCall func ref arguments tailCall)
-  if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-  app __x14__ = (WrapCompletion __x13__)
-  return __x14__
+  app __x10__ = (IsInTailPosition thisCall)
+  let tailCall = __x10__
+  app __x11__ = (EvaluateCall func ref arguments tailCall)
+  return [? __x11__]
 }

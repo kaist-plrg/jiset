@@ -5,66 +5,51 @@
   assert (= __x0__ Object)
   let target = O.ProxyTarget
   app __x1__ = (GetMethod handler "ownKeys")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let trap = __x1__
+  let trap = [? __x1__]
   if (= trap undefined) {
     app __x2__ = (target.OwnPropertyKeys target)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return [? __x2__]
   } else {}
-  app __x4__ = (Call trap handler (new [target]))
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let trapResultArray = __x4__
-  app __x5__ = (CreateListFromArrayLike trapResultArray (new [String, Symbol]))
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let trapResult = __x5__
-  app __x6__ = (IsExtensible target)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let extensibleTarget = __x6__
-  app __x7__ = (target.OwnPropertyKeys target)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  let targetKeys = __x7__
+  app __x3__ = (Call trap handler (new [target]))
+  let trapResultArray = [? __x3__]
+  app __x4__ = (CreateListFromArrayLike trapResultArray (new [String, Symbol]))
+  let trapResult = [? __x4__]
+  app __x5__ = (IsExtensible target)
+  let extensibleTarget = [? __x5__]
+  app __x6__ = (target.OwnPropertyKeys target)
+  let targetKeys = [? __x6__]
   let targetConfigurableKeys = (new [])
   let targetNonconfigurableKeys = (new [])
-  let __x8__ = targetKeys
-  let __x9__ = 0i
-  while (< __x9__ __x8__.length) {
-    let key = __x8__[__x9__]
-    app __x10__ = (target.GetOwnProperty target key)
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    let desc = __x10__
+  let __x7__ = targetKeys
+  let __x8__ = 0i
+  while (< __x8__ __x7__.length) {
+    let key = __x7__[__x8__]
+    app __x9__ = (target.GetOwnProperty target key)
+    let desc = [? __x9__]
     if (&& (! (= desc undefined)) (= desc.Configurable false)) append key -> targetNonconfigurableKeys else append key -> targetConfigurableKeys
-    __x9__ = (+ __x9__ 1i)
+    __x8__ = (+ __x8__ 1i)
   }
-  if (&& (= extensibleTarget true) (= targetNonconfigurableKeys.length 0i)) {
-    app __x11__ = (WrapCompletion trapResult)
-    return __x11__
-  } else {}
+  if (&& (= extensibleTarget true) (= targetNonconfigurableKeys.length 0i)) return trapResult else {}
   let uncheckedResultKeys = (copy-obj trapResult)
-  let __x12__ = targetNonconfigurableKeys
-  let __x13__ = 0i
-  while (< __x13__ __x12__.length) {
-    let key = __x12__[__x13__]
+  let __x10__ = targetNonconfigurableKeys
+  let __x11__ = 0i
+  while (< __x11__ __x10__.length) {
+    let key = __x10__[__x11__]
     if (! (contains uncheckedResultKeys key)) throw INTRINSIC_TypeError else {}
-    let __x14__ = 0i
-    while (< __x14__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x14__] key) (pop uncheckedResultKeys __x14__) else __x14__ = (+ __x14__ 1i)
-    __x13__ = (+ __x13__ 1i)
+    let __x12__ = 0i
+    while (< __x12__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x12__] key) (pop uncheckedResultKeys __x12__) else __x12__ = (+ __x12__ 1i)
+    __x11__ = (+ __x11__ 1i)
   }
-  if (= extensibleTarget true) {
-    app __x15__ = (WrapCompletion trapResult)
-    return __x15__
-  } else {}
-  let __x16__ = targetConfigurableKeys
-  let __x17__ = 0i
-  while (< __x17__ __x16__.length) {
-    let key = __x16__[__x17__]
+  if (= extensibleTarget true) return trapResult else {}
+  let __x13__ = targetConfigurableKeys
+  let __x14__ = 0i
+  while (< __x14__ __x13__.length) {
+    let key = __x13__[__x14__]
     if (! (contains uncheckedResultKeys key)) throw INTRINSIC_TypeError else {}
-    let __x18__ = 0i
-    while (< __x18__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x18__] key) (pop uncheckedResultKeys __x18__) else __x18__ = (+ __x18__ 1i)
-    __x17__ = (+ __x17__ 1i)
+    let __x15__ = 0i
+    while (< __x15__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x15__] key) (pop uncheckedResultKeys __x15__) else __x15__ = (+ __x15__ 1i)
+    __x14__ = (+ __x14__ 1i)
   }
   if (< 0i uncheckedResultKeys.length) throw INTRINSIC_TypeError else {}
-  app __x19__ = (WrapCompletion trapResult)
-  return __x19__
+  return trapResult
 }

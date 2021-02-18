@@ -2,7 +2,5 @@
   let generator = this
   let completion = (new Completion("Type" -> CONST_return, "Value" -> value, "Target" -> CONST_empty))
   app __x0__ = (AsyncGeneratorEnqueue generator completion CONST_empty)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  app __x1__ = (WrapCompletion __x0__)
-  return __x1__
+  return [! __x0__]
 }

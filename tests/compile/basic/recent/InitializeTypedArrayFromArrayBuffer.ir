@@ -2,13 +2,11 @@
   let constructorName = O.TypedArrayName
   ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{constructorName} ."
   app __x0__ = (ToIndex byteOffset)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let offset = __x0__
+  let offset = [? __x0__]
   if (! (== (%% offset elementSize) 0i)) throw INTRINSIC_RangeError else {}
   if (! (= length undefined)) {
     app __x1__ = (ToIndex length)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let newLength = __x1__
+    let newLength = [? __x1__]
   } else {}
   app __x2__ = (IsDetachedBuffer buffer)
   if (= __x2__ true) throw INTRINSIC_TypeError else {}

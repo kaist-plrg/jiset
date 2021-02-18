@@ -4,23 +4,17 @@
   app __x1__ = (Type S)
   assert (= __x1__ String)
   app __x2__ = (Get R "exec")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let exec = __x2__
+  let exec = [? __x2__]
   app __x3__ = (IsCallable exec)
   if (= __x3__ true) {
     app __x4__ = (Call exec R (new [S]))
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let result = __x4__
+    let result = [? __x4__]
     app __x5__ = (Type result)
     if (! (|| (= __x5__ Object) (= __x5__ Null))) throw INTRINSIC_TypeError else {}
-    app __x6__ = (WrapCompletion result)
-    return __x6__
+    return result
   } else {}
-  app __x7__ = (RequireInternalSlot R "RegExpMatcher")
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  __x7__
-  app __x8__ = (RegExpBuiltinExec R S)
-  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-  app __x9__ = (WrapCompletion __x8__)
-  return __x9__
+  app __x6__ = (RequireInternalSlot R "RegExpMatcher")
+  [? __x6__]
+  app __x7__ = (RegExpBuiltinExec R S)
+  return [? __x7__]
 }

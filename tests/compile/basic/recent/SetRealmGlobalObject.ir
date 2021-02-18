@@ -2,8 +2,7 @@
   if (= globalObj undefined) {
     let intrinsics = realmRec.Intrinsics
     app __x0__ = (OrdinaryObjectCreate intrinsics.INTRINSIC_Object_prototype)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    globalObj = __x0__
+    globalObj = [! __x0__]
   } else {}
   app __x1__ = (Type globalObj)
   assert (= __x1__ Object)
@@ -12,6 +11,5 @@
   app __x2__ = (NewGlobalEnvironment globalObj thisValue)
   let newGlobalEnv = __x2__
   realmRec.GlobalEnv = newGlobalEnv
-  app __x3__ = (WrapCompletion realmRec)
-  return __x3__
+  return realmRec
 }

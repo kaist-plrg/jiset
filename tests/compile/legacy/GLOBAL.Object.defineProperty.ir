@@ -8,14 +8,10 @@
   app __x3__ = (Type O)
   if (! (= __x3__ Object)) throw INTRINSIC_TypeError else {}
   app __x4__ = (ToPropertyKey P)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let key = __x4__
+  let key = [? __x4__]
   app __x5__ = (ToPropertyDescriptor Attributes)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let desc = __x5__
+  let desc = [? __x5__]
   app __x6__ = (DefinePropertyOrThrow O key desc)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  __x6__
-  app __x7__ = (WrapCompletion O)
-  return __x7__
+  [? __x6__]
+  return O
 }

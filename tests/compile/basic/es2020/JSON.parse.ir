@@ -1,7 +1,6 @@
 {
   app __x0__ = (ToString text)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let jsonString = __x0__
+  let jsonString = [? __x0__]
   ??? "Parse ! UTF16DecodeString ( id:{jsonString} ) as a JSON text as specified in ECMA - 404 . Throw a value:{SyntaxError} exception if it is not a valid JSON text as defined in that specification ."
   let scriptString = (+ (+ "(" jsonString) ");")
   ??? "Let id:{completion} be the result of parsing and evaluating ! UTF16DecodeString ( id:{scriptString} ) as if it was the source text of an ECMAScript nt:{Script} . The extended PropertyDefinitionEvaluation semantics defined in link:{unhandled: sec-__proto__-property-names-in-object-initializers} must not be used during the evaluation ."
@@ -12,14 +11,8 @@
     let root = __x2__
     let rootName = ""
     app __x3__ = (CreateDataPropertyOrThrow root rootName unfiltered)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    __x3__
+    [! __x3__]
     app __x4__ = (InternalizeJSONProperty root rootName reviver)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    app __x5__ = (WrapCompletion __x4__)
-    return __x5__
-  } else {
-    app __x6__ = (WrapCompletion unfiltered)
-    return __x6__
-  }
+    return [? __x4__]
+  } else return unfiltered
 }

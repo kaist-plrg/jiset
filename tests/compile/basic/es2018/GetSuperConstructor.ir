@@ -4,10 +4,8 @@
   assert (= (typeof envRec) "FunctionEnvironmentRecord")
   let activeFunction = envRec.FunctionObject
   app __x1__ = (activeFunction.GetPrototypeOf activeFunction)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let superConstructor = __x1__
+  let superConstructor = [! __x1__]
   app __x2__ = (IsConstructor superConstructor)
   if (= __x2__ false) throw INTRINSIC_TypeError else {}
-  app __x3__ = (WrapCompletion superConstructor)
-  return __x3__
+  return superConstructor
 }

@@ -8,8 +8,7 @@
     let C = __x0__[__x1__]
     if (= found false) {
       app __x2__ = (CaseClauseIsSelected C input)
-      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-      found = __x2__
+      found = [? __x2__]
     } else {}
     if (= found true) {
       access __x3__ = (C "Evaluation")
@@ -19,13 +18,11 @@
       if __x4__ {
         app __x5__ = (UpdateEmpty R V)
         app __x6__ = (Completion __x5__)
-        app __x7__ = (WrapCompletion __x6__)
-        return __x7__
+        return __x6__
       } else {}
     } else {}
     __x1__ = (+ __x1__ 1i)
   }
-  app __x8__ = (NormalCompletion V)
-  app __x9__ = (WrapCompletion __x8__)
-  return __x9__
+  app __x7__ = (NormalCompletion V)
+  return __x7__
 }

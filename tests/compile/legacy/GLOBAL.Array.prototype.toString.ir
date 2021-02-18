@@ -1,14 +1,10 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let array = __x0__
+  let array = [? __x0__]
   app __x1__ = (Get array "join")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let func = __x1__
+  let func = [? __x1__]
   app __x2__ = (IsCallable func)
   if (= __x2__ false) func = INTRINSIC_Object_prototype_toString else {}
   app __x3__ = (Call func array)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  return [? __x3__]
 }

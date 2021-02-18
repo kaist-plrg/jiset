@@ -3,8 +3,7 @@
   app __x0__ = (IsCallable executor)
   if (= __x0__ false) throw INTRINSIC_TypeError else {}
   app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%Promise.prototype%" (new ["PromiseState", "PromiseResult", "PromiseFulfillReactions", "PromiseRejectReactions", "PromiseIsHandled"]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let promise = __x1__
+  let promise = [? __x1__]
   promise.PromiseState = CONST_pending
   promise.PromiseFulfillReactions = (new [])
   promise.PromiseRejectReactions = (new [])
@@ -16,9 +15,7 @@
   app __x4__ = (IsAbruptCompletion completion)
   if __x4__ {
     app __x5__ = (Call resolvingFunctions.Reject undefined (new [completion.Value]))
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    __x5__
+    [? __x5__]
   } else {}
-  app __x6__ = (WrapCompletion promise)
-  return __x6__
+  return promise
 }

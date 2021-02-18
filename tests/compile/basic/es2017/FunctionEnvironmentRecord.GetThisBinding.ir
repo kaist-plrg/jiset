@@ -2,6 +2,5 @@
   let envRec = this
   assert (! (= envRec.ThisBindingStatus "lexical"))
   if (= envRec.ThisBindingStatus "uninitialized") throw INTRINSIC_ReferenceError else {}
-  app __x0__ = (WrapCompletion envRec.ThisValue)
-  return __x0__
+  return envRec.ThisValue
 }

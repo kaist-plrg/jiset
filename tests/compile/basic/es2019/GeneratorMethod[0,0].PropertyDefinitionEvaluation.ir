@@ -1,8 +1,7 @@
 {
   access __x0__ = (PropertyName "Evaluation")
   let propKey = __x0__
-  if (is-completion propKey) if (= propKey.Type CONST_normal) propKey = propKey.Value else return propKey else {}
-  propKey
+  [? propKey]
   if true let strict = true else let strict = false
   let scope = GLOBAL_context.LexicalEnvironment
   app __x1__ = (GeneratorFunctionCreate CONST_Method UniqueFormalParameters GeneratorBody scope strict)
@@ -18,7 +17,5 @@
   closure.SourceText = (get-syntax GeneratorMethod)
   let desc = (new PropertyDescriptor("Value" -> closure, "Writable" -> true, "Enumerable" -> enumerable, "Configurable" -> true))
   app __x6__ = (DefinePropertyOrThrow object propKey desc)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  app __x7__ = (WrapCompletion __x6__)
-  return __x7__
+  return [? __x6__]
 }

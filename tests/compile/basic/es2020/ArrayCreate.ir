@@ -1,18 +1,14 @@
 {
   app __x0__ = (IsNonNegativeInteger length)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  assert (= __x0__ true)
+  assert (= [! __x0__] true)
   if (= length -0.0) length = 0i else {}
   if (< (- (** 2.0 32i) 1i) length) throw INTRINSIC_RangeError else {}
   if (= proto absent) proto = INTRINSIC_Array_prototype else {}
   app __x1__ = (MakeBasicObject (new ["Prototype", "Extensible"]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let A = __x1__
+  let A = [! __x1__]
   A.Prototype = proto
   A.DefineOwnProperty = ArrayExoticObjectDOTDefineOwnProperty
   app __x2__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Value" -> length, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  __x2__
-  app __x3__ = (WrapCompletion A)
-  return __x3__
+  [! __x2__]
+  return A
 }

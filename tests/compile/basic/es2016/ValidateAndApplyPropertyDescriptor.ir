@@ -1,89 +1,66 @@
 {
   if (= current undefined) {
-    if (= extensible false) {
-      app __x0__ = (WrapCompletion false)
-      return __x0__
-    } else {}
+    if (= extensible false) return false else {}
     assert (= extensible true)
-    let __x1__ = true
-    app __x2__ = (IsGenericDescriptor Desc)
-    __x1__ = (= __x2__ true)
-    if __x1__ {} else {
-      app __x3__ = (IsDataDescriptor Desc)
-      __x1__ = (= __x3__ true)
+    let __x0__ = true
+    app __x1__ = (IsGenericDescriptor Desc)
+    __x0__ = (= __x1__ true)
+    if __x0__ {} else {
+      app __x2__ = (IsDataDescriptor Desc)
+      __x0__ = (= __x2__ true)
     }
-    if __x1__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ." else ??? "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ."
-    app __x4__ = (WrapCompletion true)
-    return __x4__
+    if __x0__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ." else ??? "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its default value ."
+    return true
   } else {}
   ??? "Return value:{true} , if every field in id:{Desc} is absent ."
   ??? "Return value:{true} , if every field in id:{Desc} also occurs in id:{current} and the value of every field in id:{Desc} is the same value as the corresponding field in id:{current} when compared using the SameValue algorithm ."
   if (= current.Configurable false) {
-    if (= Desc.Configurable true) {
-      app __x5__ = (WrapCompletion false)
-      return __x5__
-    } else {}
+    if (= Desc.Configurable true) return false else {}
     ??? "Return value:{false} , if the [ [ Enumerable ] ] field of id:{Desc} is present and the [ [ Enumerable ] ] fields of id:{current} and id:{Desc} are the Boolean negation of each other ."
   } else {}
-  app __x6__ = (IsGenericDescriptor Desc)
-  if (= __x6__ true) {} else {
-    app __x7__ = (IsDataDescriptor current)
-    app __x8__ = (IsDataDescriptor Desc)
-    if (! (= __x7__ __x8__)) {
-      if (= current.Configurable false) {
-        app __x9__ = (WrapCompletion false)
-        return __x9__
-      } else {}
-      app __x10__ = (IsDataDescriptor current)
-      if (= __x10__ true) ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from a data property to an accessor property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their default values ." else ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from an accessor property to a data property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their default values ."
+  app __x3__ = (IsGenericDescriptor Desc)
+  if (= __x3__ true) {} else {
+    app __x4__ = (IsDataDescriptor current)
+    app __x5__ = (IsDataDescriptor Desc)
+    if (! (= __x4__ __x5__)) {
+      if (= current.Configurable false) return false else {}
+      app __x6__ = (IsDataDescriptor current)
+      if (= __x6__ true) ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from a data property to an accessor property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their default values ." else ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from an accessor property to a data property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their default values ."
     } else {
-      app __x11__ = (IsDataDescriptor current)
-      app __x12__ = (IsDataDescriptor Desc)
-      if (&& (= __x11__ true) (= __x12__ true)) {
+      app __x7__ = (IsDataDescriptor current)
+      app __x8__ = (IsDataDescriptor Desc)
+      if (&& (= __x7__ true) (= __x8__ true)) {
         if (= current.Configurable false) {
-          if (&& (= current.Writable false) (= Desc.Writable true)) {
-            app __x13__ = (WrapCompletion false)
-            return __x13__
-          } else {}
+          if (&& (= current.Writable false) (= Desc.Writable true)) return false else {}
           if (= current.Writable false) {
-            let __x14__ = true
-            __x14__ = (! (= Desc.Value absent))
-            if __x14__ {
-              app __x15__ = (SameValue Desc.Value current.Value)
-              __x14__ = (= __x15__ false)
+            let __x9__ = true
+            __x9__ = (! (= Desc.Value absent))
+            if __x9__ {
+              app __x10__ = (SameValue Desc.Value current.Value)
+              __x9__ = (= __x10__ false)
             } else {}
-            if __x14__ {
-              app __x16__ = (WrapCompletion false)
-              return __x16__
-            } else {}
+            if __x9__ return false else {}
           } else {}
         } else {}
         ??? "Else the [ [ Configurable ] ] field of id:{current} is value:{true} , so any change is acceptable ."
       } else if (= current.Configurable false) {
-        let __x17__ = true
-        __x17__ = (! (= Desc.Set absent))
-        if __x17__ {
-          app __x18__ = (SameValue Desc.Set current.Set)
-          __x17__ = (= __x18__ false)
+        let __x11__ = true
+        __x11__ = (! (= Desc.Set absent))
+        if __x11__ {
+          app __x12__ = (SameValue Desc.Set current.Set)
+          __x11__ = (= __x12__ false)
         } else {}
-        if __x17__ {
-          app __x19__ = (WrapCompletion false)
-          return __x19__
+        if __x11__ return false else {}
+        let __x13__ = true
+        __x13__ = (! (= Desc.Get absent))
+        if __x13__ {
+          app __x14__ = (SameValue Desc.Get current.Get)
+          __x13__ = (= __x14__ false)
         } else {}
-        let __x20__ = true
-        __x20__ = (! (= Desc.Get absent))
-        if __x20__ {
-          app __x21__ = (SameValue Desc.Get current.Get)
-          __x20__ = (= __x21__ false)
-        } else {}
-        if __x20__ {
-          app __x22__ = (WrapCompletion false)
-          return __x22__
-        } else {}
+        if __x13__ return false else {}
       } else {}
     }
   }
   if (! (= O undefined)) ??? "For each field of id:{Desc} that is present , set the corresponding attribute of the property named id:{P} of object id:{O} to the value of the field ." else {}
-  app __x23__ = (WrapCompletion true)
-  return __x23__
+  return true
 }

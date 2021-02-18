@@ -1,11 +1,9 @@
 {
   let O = this
   app __x0__ = (RequireInternalSlot O "ArrayBufferData")
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   app __x1__ = (IsSharedArrayBuffer O)
   if (= __x1__ false) throw INTRINSIC_TypeError else {}
   let length = O.ArrayBufferByteLength
-  app __x2__ = (WrapCompletion length)
-  return __x2__
+  return length
 }

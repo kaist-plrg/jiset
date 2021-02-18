@@ -1,13 +1,11 @@
 {
   let O = this
   app __x0__ = (RequireInternalSlot O "DataView")
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   assert (! (= O.ViewedArrayBuffer absent))
   let buffer = O.ViewedArrayBuffer
   app __x1__ = (IsDetachedBuffer buffer)
   if (= __x1__ true) throw INTRINSIC_TypeError else {}
   let size = O.ByteLength
-  app __x2__ = (WrapCompletion size)
-  return __x2__
+  return size
 }

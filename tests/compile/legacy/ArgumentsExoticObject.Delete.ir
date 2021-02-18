@@ -2,15 +2,12 @@
   let args = args
   let map = args.ParameterMap
   app __x0__ = (HasOwnProperty map P)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let isMapped = __x0__
+  let isMapped = [! __x0__]
   app __x1__ = (OrdinaryDelete args P)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let result = __x1__
+  let result = [? __x1__]
   if (&& (= result true) (= isMapped true)) {
     app __x2__ = (map.Delete map P)
     __x2__
   } else {}
-  app __x3__ = (WrapCompletion result)
-  return __x3__
+  return result
 }

@@ -4,6 +4,5 @@
   if (= generator.GeneratorState absent) throw INTRINSIC_TypeError else {}
   let state = generator.GeneratorState
   if (= state "executing") throw INTRINSIC_TypeError else {}
-  app __x1__ = (WrapCompletion state)
-  return __x1__
+  return state
 }

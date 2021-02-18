@@ -43,8 +43,7 @@
       if (! (contains declaredFunctionNames fn)) {
         if (= (typeof varEnv) "GlobalEnvironmentRecord") {
           app __x11__ = (varEnv.CanDeclareGlobalFunction varEnv fn)
-          if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-          let fnDefinable = __x11__
+          let fnDefinable = [? __x11__]
           if (= fnDefinable false) throw INTRINSIC_TypeError else {}
         } else {}
         append fn -> declaredFunctionNames
@@ -66,8 +65,7 @@
         if (! (contains declaredFunctionNames vn)) {
           if (= (typeof varEnv) "GlobalEnvironmentRecord") {
             app __x17__ = (varEnv.CanDeclareGlobalVar varEnv vn)
-            if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-            let vnDefinable = __x17__
+            let vnDefinable = [? __x17__]
             if (= vnDefinable false) throw INTRINSIC_TypeError else {}
           } else {}
           if (! (contains declaredVarNames vn)) append vn -> declaredVarNames else {}
@@ -91,12 +89,10 @@
       access __x24__ = (d "IsConstantDeclaration")
       if (= __x24__ true) {
         app __x25__ = (lexEnv.CreateImmutableBinding lexEnv dn true)
-        if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
-        __x25__
+        [? __x25__]
       } else {
         app __x26__ = (lexEnv.CreateMutableBinding lexEnv dn false)
-        if (is-completion __x26__) if (= __x26__.Type CONST_normal) __x26__ = __x26__.Value else return __x26__ else {}
-        __x26__
+        [? __x26__]
       }
       __x23__ = (+ __x23__ 1i)
     }
@@ -113,22 +109,18 @@
     let fo = __x31__
     if (= (typeof varEnv) "GlobalEnvironmentRecord") {
       app __x32__ = (varEnv.CreateGlobalFunctionBinding varEnv fn fo true)
-      if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else {}
-      __x32__
+      [? __x32__]
     } else {
       app __x33__ = (varEnv.HasBinding varEnv fn)
       let bindingExists = __x33__
       if (= bindingExists false) {
         app __x34__ = (varEnv.CreateMutableBinding varEnv fn true)
-        if (is-completion __x34__) if (= __x34__.Type CONST_normal) __x34__ = __x34__.Value else return __x34__ else {}
-        let status = __x34__
+        let status = [! __x34__]
         app __x35__ = (varEnv.InitializeBinding varEnv fn fo)
-        if (is-completion __x35__) if (= __x35__.Type CONST_normal) __x35__ = __x35__.Value else return __x35__ else {}
-        __x35__
+        [! __x35__]
       } else {
         app __x36__ = (varEnv.SetMutableBinding varEnv fn fo false)
-        if (is-completion __x36__) if (= __x36__.Type CONST_normal) __x36__ = __x36__.Value else return __x36__ else {}
-        __x36__
+        [! __x36__]
       }
     }
     __x28__ = (+ __x28__ 1i)
@@ -139,23 +131,19 @@
     let vn = __x37__[__x38__]
     if (= (typeof varEnv) "GlobalEnvironmentRecord") {
       app __x39__ = (varEnv.CreateGlobalVarBinding varEnv vn true)
-      if (is-completion __x39__) if (= __x39__.Type CONST_normal) __x39__ = __x39__.Value else return __x39__ else {}
-      __x39__
+      [? __x39__]
     } else {
       app __x40__ = (varEnv.HasBinding varEnv vn)
       let bindingExists = __x40__
       if (= bindingExists false) {
         app __x41__ = (varEnv.CreateMutableBinding varEnv vn true)
-        if (is-completion __x41__) if (= __x41__.Type CONST_normal) __x41__ = __x41__.Value else return __x41__ else {}
-        let status = __x41__
+        let status = [! __x41__]
         app __x42__ = (varEnv.InitializeBinding varEnv vn undefined)
-        if (is-completion __x42__) if (= __x42__.Type CONST_normal) __x42__ = __x42__.Value else return __x42__ else {}
-        __x42__
+        [! __x42__]
       } else {}
     }
     __x38__ = (+ __x38__ 1i)
   }
   app __x43__ = (NormalCompletion CONST_empty)
-  app __x44__ = (WrapCompletion __x43__)
-  return __x44__
+  return __x43__
 }

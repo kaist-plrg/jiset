@@ -14,22 +14,19 @@
   if (== argCount 0i) let bodyText = "" else if (== argCount 1i) let bodyText = args[0i] else {
     let firstArg = args[0i]
     app __x0__ = (ToString firstArg)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    let P = __x0__
+    let P = [? __x0__]
     let k = 1i
     while (< k (- argCount 1i)) {
       let nextArg = args[k]
       app __x1__ = (ToString nextArg)
-      if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-      let nextArgString = __x1__
+      let nextArgString = [? __x1__]
       let P = (+ (+ P ",") nextArgString)
       k = (+ k 1i)
     }
     let bodyText = args[k]
   }
   app __x2__ = (ToString bodyText)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let bodyText = __x2__
+  let bodyText = [? __x2__]
   ??? "Let id:{parameters} be the result of parsing id:{P} , interpreted as UTF - 16 encoded Unicode text as described in link:{unhandled: sec-ecmascript-language-types-string-type} , using id:{parameterGoal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
   ??? "Let id:{body} be the result of parsing id:{bodyText} , interpreted as UTF - 16 encoded Unicode text as described in link:{unhandled: sec-ecmascript-language-types-string-type} , using id:{goal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
   if true let strict = true else let strict = false
@@ -77,8 +74,7 @@
     if __x24__ throw INTRINSIC_SyntaxError else {}
   } else {}
   app __x25__ = (GetPrototypeFromConstructor newTarget fallbackProto)
-  if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
-  let proto = __x25__
+  let proto = [? __x25__]
   app __x26__ = (FunctionAllocate proto strict kind)
   let F = __x26__
   let realmF = F.Realm
@@ -96,6 +92,5 @@
   }
   app __x31__ = (SetFunctionName F "anonymous")
   __x31__
-  app __x32__ = (WrapCompletion F)
-  return __x32__
+  return F
 }

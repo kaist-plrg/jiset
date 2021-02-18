@@ -1,11 +1,8 @@
 {
   let C = this
   app __x0__ = (NewPromiseCapability C)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let promiseCapability = __x0__
+  let promiseCapability = [? __x0__]
   app __x1__ = (Call promiseCapability.Reject undefined (new [r]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
-  app __x2__ = (WrapCompletion promiseCapability.Promise)
-  return __x2__
+  [? __x1__]
+  return promiseCapability.Promise
 }

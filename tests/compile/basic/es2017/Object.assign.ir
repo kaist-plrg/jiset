@@ -1,13 +1,8 @@
 {
   app __x0__ = (ToObject target)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let to = __x0__
-  if (= argumentsList.length 1i) {
-    app __x1__ = (WrapCompletion to)
-    return __x1__
-  } else {}
+  let to = [? __x0__]
+  if (= argumentsList.length 1i) return to else {}
   ??? "Let id:{sources} be the List of argument values starting with the second argument ."
   ??? "For each element id:{nextSource} of id:{sources} , in ascending index order , do in:{} out:{}"
-  app __x2__ = (WrapCompletion to)
-  return __x2__
+  return to
 }

@@ -16,8 +16,7 @@
     access __x3__ = (ClassHeritage "Evaluation")
     let superclass = __x3__
     GLOBAL_context.LexicalEnvironment = lex
-    if (is-completion superclass) if (= superclass.Type CONST_normal) superclass = superclass.Value else return superclass else {}
-    superclass
+    [? superclass]
     if (= superclass null) {
       let protoParent = null
       let constructorParent = INTRINSIC_FunctionPrototype
@@ -25,8 +24,7 @@
       app __x4__ = (IsConstructor superclass)
       if (= __x4__ false) throw INTRINSIC_TypeError else {
         app __x5__ = (Get superclass "prototype")
-        if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-        let protoParent = __x5__
+        let protoParent = [? __x5__]
         app __x6__ = (Type protoParent)
         if (! (|| (= __x6__ Object) (= __x6__ Null))) throw INTRINSIC_TypeError else {}
         let constructorParent = superclass
@@ -76,16 +74,14 @@
     if __x23__ {
       GLOBAL_context.LexicalEnvironment = lex
       app __x24__ = (Completion status)
-      app __x25__ = (WrapCompletion __x24__)
-      return __x25__
+      return __x24__
     } else {}
     __x17__ = (+ __x17__ 1i)
   }
   GLOBAL_context.LexicalEnvironment = lex
   if (! (= className undefined)) {
-    app __x26__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec className F)
-    __x26__
+    app __x25__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec className F)
+    __x25__
   } else {}
-  app __x27__ = (WrapCompletion F)
-  return __x27__
+  return F
 }

@@ -2,49 +2,38 @@
   ??? "Let id:{substitutions} be a List consisting of all of the arguments passed to this function , starting with the second argument . If fewer than two arguments were passed , the List is empty ."
   let numberOfSubstitutions = substitutions.length
   app __x0__ = (ToObject template)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let cooked = __x0__
+  let cooked = [? __x0__]
   app __x1__ = (Get cooked "raw")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (ToObject __x1__)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let raw = __x2__
+  app __x2__ = (ToObject [? __x1__])
+  let raw = [? __x2__]
   app __x3__ = (LengthOfArrayLike raw)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let literalSegments = __x3__
-  if (! (< 0i literalSegments)) {
-    app __x4__ = (WrapCompletion "")
-    return __x4__
-  } else {}
+  let literalSegments = [? __x3__]
+  if (! (< 0i literalSegments)) return "" else {}
   let stringElements = (new [])
   let nextIndex = 0i
   while true {
-    app __x5__ = (ToString nextIndex)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let nextKey = __x5__
-    app __x6__ = (Get raw nextKey)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    app __x7__ = (ToString __x6__)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let nextSeg = __x7__
-    let __x8__ = nextSeg
-    let __x9__ = 0i
-    while (< __x9__ __x8__.length) {
-      let __x10__ = __x8__[__x9__]
-      append __x10__ -> stringElements
-      __x9__ = (+ __x9__ 1i)
+    app __x4__ = (ToString nextIndex)
+    let nextKey = [! __x4__]
+    app __x5__ = (Get raw nextKey)
+    app __x6__ = (ToString [? __x5__])
+    let nextSeg = [? __x6__]
+    let __x7__ = nextSeg
+    let __x8__ = 0i
+    while (< __x8__ __x7__.length) {
+      let __x9__ = __x7__[__x8__]
+      append __x9__ -> stringElements
+      __x8__ = (+ __x8__ 1i)
     }
     if (== (+ nextIndex 1i) literalSegments) ??? "Return the String value whose code units are , in order , the elements in the List id:{stringElements} . If id:{stringElements} has no elements , the empty String is returned ." else {}
     if (< nextIndex numberOfSubstitutions) let next = substitutions[nextIndex] else let next = ""
-    app __x11__ = (ToString next)
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    let nextSub = __x11__
-    let __x12__ = nextSub
-    let __x13__ = 0i
-    while (< __x13__ __x12__.length) {
-      let __x14__ = __x12__[__x13__]
-      append __x14__ -> stringElements
-      __x13__ = (+ __x13__ 1i)
+    app __x10__ = (ToString next)
+    let nextSub = [? __x10__]
+    let __x11__ = nextSub
+    let __x12__ = 0i
+    while (< __x12__ __x11__.length) {
+      let __x13__ = __x11__[__x12__]
+      append __x13__ -> stringElements
+      __x12__ = (+ __x12__ 1i)
     }
     nextIndex = (+ nextIndex 1i)
   }

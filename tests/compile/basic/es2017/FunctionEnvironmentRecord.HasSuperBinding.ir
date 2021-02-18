@@ -1,14 +1,5 @@
 {
   let envRec = this
-  if (= envRec.ThisBindingStatus "lexical") {
-    app __x0__ = (WrapCompletion false)
-    return __x0__
-  } else {}
-  if (= envRec.HomeObject undefined) {
-    app __x1__ = (WrapCompletion false)
-    return __x1__
-  } else {
-    app __x2__ = (WrapCompletion true)
-    return __x2__
-  }
+  if (= envRec.ThisBindingStatus "lexical") return false else {}
+  if (= envRec.HomeObject undefined) return false else return true
 }

@@ -10,8 +10,6 @@
   if (! (< yv 0i)) let yearSign = "" else let yearSign = "-"
   ??? "Let id:{year} be the String representation of abs ( ℝ ( id:{yv} ) ) , formatted as a decimal number ."
   app __x2__ = (StringPad year 4i "0" CONST_start)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let paddedYear = __x2__
-  app __x3__ = (WrapCompletion (+ (+ (+ (+ (+ (+ (+ weekday " ") month) " ") day) " ") yearSign) paddedYear))
-  return __x3__
+  let paddedYear = [! __x2__]
+  return (+ (+ (+ (+ (+ (+ (+ weekday " ") month) " ") day) " ") yearSign) paddedYear)
 }

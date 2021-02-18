@@ -1,27 +1,18 @@
 {
-  if (is-completion V) if (= V.Type CONST_normal) V = V.Value else return V else {}
-  V
-  if (! (= (typeof V) "ReferenceRecord")) {
-    app __x0__ = (WrapCompletion V)
-    return __x0__
-  } else {}
-  app __x1__ = (IsUnresolvableReference V)
-  if (= __x1__ true) throw INTRINSIC_ReferenceError else {}
-  app __x2__ = (IsPropertyReference V)
-  if (= __x2__ true) {
-    app __x3__ = (ToObject V.Base)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let baseObj = __x3__
-    app __x4__ = (GetThisValue V)
-    app __x5__ = (baseObj.Get baseObj V.ReferencedName __x4__)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    app __x6__ = (WrapCompletion __x5__)
-    return __x6__
+  [? V]
+  if (! (= (typeof V) "ReferenceRecord")) return V else {}
+  app __x0__ = (IsUnresolvableReference V)
+  if (= __x0__ true) throw INTRINSIC_ReferenceError else {}
+  app __x1__ = (IsPropertyReference V)
+  if (= __x1__ true) {
+    app __x2__ = (ToObject V.Base)
+    let baseObj = [! __x2__]
+    app __x3__ = (GetThisValue V)
+    app __x4__ = (baseObj.Get baseObj V.ReferencedName __x3__)
+    return [? __x4__]
   } else {
     let base = V.Base
-    app __x7__ = (base.GetBindingValue base V.ReferencedName V.Strict)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    app __x8__ = (WrapCompletion __x7__)
-    return __x8__
+    app __x5__ = (base.GetBindingValue base V.ReferencedName V.Strict)
+    return [? __x5__]
   }
 }

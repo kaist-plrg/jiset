@@ -5,35 +5,21 @@
   assert (= __x0__ Object)
   let target = O.ProxyTarget
   app __x1__ = (GetMethod handler "setPrototypeOf")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let trap = __x1__
+  let trap = [? __x1__]
   if (= trap undefined) {
     app __x2__ = (target.SetPrototypeOf target V)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return [? __x2__]
   } else {}
-  app __x4__ = (Call trap handler (new [target, V]))
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  app __x5__ = (ToBoolean __x4__)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let booleanTrapResult = __x5__
-  if (= booleanTrapResult false) {
-    app __x6__ = (WrapCompletion false)
-    return __x6__
-  } else {}
-  app __x7__ = (IsExtensible target)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  let extensibleTarget = __x7__
-  if (= extensibleTarget true) {
-    app __x8__ = (WrapCompletion true)
-    return __x8__
-  } else {}
-  app __x9__ = (target.GetPrototypeOf target)
-  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-  let targetProto = __x9__
-  app __x10__ = (SameValue V targetProto)
-  if (= __x10__ false) throw INTRINSIC_TypeError else {}
-  app __x11__ = (WrapCompletion true)
-  return __x11__
+  app __x3__ = (Call trap handler (new [target, V]))
+  app __x4__ = (ToBoolean [? __x3__])
+  let booleanTrapResult = [! __x4__]
+  if (= booleanTrapResult false) return false else {}
+  app __x5__ = (IsExtensible target)
+  let extensibleTarget = [? __x5__]
+  if (= extensibleTarget true) return true else {}
+  app __x6__ = (target.GetPrototypeOf target)
+  let targetProto = [? __x6__]
+  app __x7__ = (SameValue V targetProto)
+  if (= __x7__ false) throw INTRINSIC_TypeError else {}
+  return true
 }

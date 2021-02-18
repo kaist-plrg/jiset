@@ -1,12 +1,8 @@
 {
   app __x0__ = (ToPropertyKey V)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let P = __x0__
+  let P = [? __x0__]
   app __x1__ = (ToObject this)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let O = __x1__
+  let O = [? __x1__]
   app __x2__ = (HasOwnProperty O P)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  return [? __x2__]
 }

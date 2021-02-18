@@ -1,15 +1,12 @@
 {
   if (= value absent) {
     app __x0__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator (new []))
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    let result = __x0__
+    let result = [? __x0__]
   } else {
     app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator (new [value]))
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let result = __x1__
+    let result = [? __x1__]
   }
   app __x2__ = (Type result)
   if (! (= __x2__ Object)) throw INTRINSIC_TypeError else {}
-  app __x3__ = (WrapCompletion result)
-  return __x3__
+  return result
 }

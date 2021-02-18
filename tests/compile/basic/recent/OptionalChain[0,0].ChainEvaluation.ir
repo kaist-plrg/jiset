@@ -3,7 +3,5 @@
   app __x0__ = (IsInTailPosition thisChain)
   let tailCall = __x0__
   app __x1__ = (EvaluateCall baseValue baseReference Arguments tailCall)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (WrapCompletion __x1__)
-  return __x2__
+  return [? __x1__]
 }

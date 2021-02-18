@@ -14,12 +14,9 @@
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   if (= result.Type CONST_return) {
     app __x4__ = (NormalCompletion result.Value)
-    app __x5__ = (WrapCompletion __x4__)
-    return __x5__
+    return __x4__
   } else {}
-  if (is-completion result) if (= result.Type CONST_normal) result = result.Value else return result else {}
-  result
-  app __x6__ = (NormalCompletion undefined)
-  app __x7__ = (WrapCompletion __x6__)
-  return __x7__
+  [? result]
+  app __x5__ = (NormalCompletion undefined)
+  return __x5__
 }

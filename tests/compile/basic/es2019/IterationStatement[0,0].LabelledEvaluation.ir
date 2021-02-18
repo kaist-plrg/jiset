@@ -7,20 +7,17 @@
     if (= __x1__ false) {
       app __x2__ = (UpdateEmpty stmtResult V)
       app __x3__ = (Completion __x2__)
-      app __x4__ = (WrapCompletion __x3__)
-      return __x4__
+      return __x3__
     } else {}
     if (! (= stmtResult.Value CONST_empty)) V = stmtResult.Value else {}
-    access __x5__ = (Expression "Evaluation")
-    let exprRef = __x5__
-    app __x6__ = (GetValue exprRef)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let exprValue = __x6__
-    app __x7__ = (ToBoolean exprValue)
-    if (= __x7__ false) {
-      app __x8__ = (NormalCompletion V)
-      app __x9__ = (WrapCompletion __x8__)
-      return __x9__
+    access __x4__ = (Expression "Evaluation")
+    let exprRef = __x4__
+    app __x5__ = (GetValue exprRef)
+    let exprValue = [? __x5__]
+    app __x6__ = (ToBoolean exprValue)
+    if (= __x6__ false) {
+      app __x7__ = (NormalCompletion V)
+      return __x7__
     } else {}
   }
 }

@@ -1,18 +1,13 @@
 {
-  if (! (is-instance-of stmt LabelledStatement)) {
-    app __x0__ = (WrapCompletion false)
-    return __x0__
-  } else {}
-  access __x1__ = (stmt "LabelledItem")
-  let item = __x1__
+  if (! (is-instance-of stmt LabelledStatement)) return false else {}
+  access __x0__ = (stmt "LabelledItem")
+  let item = __x0__
   if (is-instance-of item LabelledItem1) {
     access FunctionDeclaration = (item "FunctionDeclaration")
-    app __x2__ = (WrapCompletion true)
-    return __x2__
+    return true
   } else {}
-  access __x3__ = (item "Statement")
-  let subStmt = __x3__
-  app __x4__ = (IsLabelledFunction subStmt)
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  access __x1__ = (item "Statement")
+  let subStmt = __x1__
+  app __x2__ = (IsLabelledFunction subStmt)
+  return __x2__
 }

@@ -12,12 +12,10 @@
     let dn = __x3__[__x4__]
     if (= isConst true) {
       app __x5__ = (loopEnv.CreateImmutableBinding loopEnv dn true)
-      if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-      __x5__
+      [! __x5__]
     } else {
       app __x6__ = (loopEnv.CreateMutableBinding loopEnv dn false)
-      if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-      __x6__
+      [! __x6__]
     }
     __x4__ = (+ __x4__ 1i)
   }
@@ -28,14 +26,12 @@
   if __x8__ {
     GLOBAL_context.LexicalEnvironment = oldEnv
     app __x9__ = (Completion forDcl)
-    app __x10__ = (WrapCompletion __x9__)
-    return __x10__
+    return __x9__
   } else {}
   if (= isConst false) let perIterationLets = boundNames else let perIterationLets = (new [])
-  app __x11__ = (ForBodyEvaluation Expression0 Expression1 Statement perIterationLets labelSet)
-  let bodyResult = __x11__
+  app __x10__ = (ForBodyEvaluation Expression0 Expression1 Statement perIterationLets labelSet)
+  let bodyResult = __x10__
   GLOBAL_context.LexicalEnvironment = oldEnv
-  app __x12__ = (Completion bodyResult)
-  app __x13__ = (WrapCompletion __x12__)
-  return __x13__
+  app __x11__ = (Completion bodyResult)
+  return __x11__
 }

@@ -14,12 +14,8 @@
       app __x4__ = (SameValueZero p.Key key)
       __x3__ = (= __x4__ true)
     } else {}
-    if __x3__ {
-      app __x5__ = (WrapCompletion p.Value)
-      return __x5__
-    } else {}
+    if __x3__ return p.Value else {}
     __x2__ = (+ __x2__ 1i)
   }
-  app __x6__ = (WrapCompletion undefined)
-  return __x6__
+  return undefined
 }

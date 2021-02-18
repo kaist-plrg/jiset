@@ -1,16 +1,8 @@
 {
   app __x0__ = (ToIndex bits)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  bits = __x0__
+  bits = [? __x0__]
   app __x1__ = (ToBigInt bigint)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  bigint = __x1__
+  bigint = [? __x1__]
   let mod = (convert (%% bigint (** 2.0 bits)) num2bigint )
-  if (! (< mod (** 2.0 (- bits 1i)))) {
-    app __x2__ = (WrapCompletion (- mod (** 2.0 bits)))
-    return __x2__
-  } else {
-    app __x3__ = (WrapCompletion mod)
-    return __x3__
-  }
+  if (! (< mod (** 2.0 (- bits 1i)))) return (- mod (** 2.0 bits)) else return mod
 }

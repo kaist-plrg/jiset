@@ -1,17 +1,14 @@
 {
   access __x0__ = (ClassDeclaration "BindingClassDeclarationEvaluation")
   let value = __x0__
-  if (is-completion value) if (= value.Type CONST_normal) value = value.Value else return value else {}
-  value
+  [? value]
   access __x1__ = (ClassDeclaration "BoundNames")
   let className = __x1__[0i]
   if (= className "*default*") {
     let env = GLOBAL_context.LexicalEnvironment
     app __x2__ = (InitializeBoundName "*default*" value env)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    __x2__
+    [? __x2__]
   } else {}
   app __x3__ = (NormalCompletion CONST_empty)
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  return __x3__
 }

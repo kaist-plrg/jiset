@@ -5,26 +5,19 @@
   if (= S.WeakSetData absent) throw INTRINSIC_TypeError else {}
   let entries = S.WeakSetData
   app __x1__ = (Type value)
-  if (! (= __x1__ Object)) {
-    app __x2__ = (WrapCompletion false)
-    return __x2__
-  } else {}
-  let __x3__ = entries
-  let __x4__ = 0i
-  while (< __x4__ __x3__.length) {
-    let e = __x3__[__x4__]
-    let __x5__ = true
-    __x5__ = (! (= e CONST_empty))
-    if __x5__ {
-      app __x6__ = (SameValue e value)
-      __x5__ = (= __x6__ true)
+  if (! (= __x1__ Object)) return false else {}
+  let __x2__ = entries
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let e = __x2__[__x3__]
+    let __x4__ = true
+    __x4__ = (! (= e CONST_empty))
+    if __x4__ {
+      app __x5__ = (SameValue e value)
+      __x4__ = (= __x5__ true)
     } else {}
-    if __x5__ {
-      app __x7__ = (WrapCompletion true)
-      return __x7__
-    } else {}
-    __x4__ = (+ __x4__ 1i)
+    if __x4__ return true else {}
+    __x3__ = (+ __x3__ 1i)
   }
-  app __x8__ = (WrapCompletion false)
-  return __x8__
+  return false
 }

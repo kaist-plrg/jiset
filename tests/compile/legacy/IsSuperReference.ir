@@ -1,11 +1,5 @@
 {
   app __x0__ = (Type V)
   assert (= __x0__ Reference)
-  if (! (= V.thisValue absent)) {
-    app __x1__ = (WrapCompletion true)
-    return __x1__
-  } else {
-    app __x2__ = (WrapCompletion false)
-    return __x2__
-  }
+  if (! (= V.thisValue absent)) return true else return false
 }

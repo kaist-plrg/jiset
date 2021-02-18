@@ -1,6 +1,5 @@
 {
   assert (! (= envRec.ThisBindingStatus CONST_lexical))
   if (= envRec.ThisBindingStatus CONST_uninitialized) throw INTRINSIC_ReferenceError else {}
-  app __x0__ = (WrapCompletion envRec.ThisValue)
-  return __x0__
+  return envRec.ThisValue
 }

@@ -6,23 +6,19 @@
   let s = O.IteratedString
   if (= s undefined) {
     app __x1__ = (CreateIterResultObject undefined true)
-    app __x2__ = (WrapCompletion __x1__)
-    return __x2__
+    return __x1__
   } else {}
   let position = O.StringNextIndex
   let len = s.length
   if (! (< position len)) {
     O.IteratedString = undefined
-    app __x3__ = (CreateIterResultObject undefined true)
-    app __x4__ = (WrapCompletion __x3__)
-    return __x4__
+    app __x2__ = (CreateIterResultObject undefined true)
+    return __x2__
   } else {}
-  app __x5__ = (CodePointAt s position)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let cp = __x5__
+  app __x3__ = (CodePointAt s position)
+  let cp = [! __x3__]
   ??? "Let id:{resultString} be the String value containing id:{cp} . [ [ CodeUnitCount ] ] consecutive code units from id:{s} beginning with the code unit at index id:{position} ."
   O.StringNextIndex = (+ position cp.CodeUnitCount)
-  app __x6__ = (CreateIterResultObject resultString false)
-  app __x7__ = (WrapCompletion __x6__)
-  return __x7__
+  app __x4__ = (CreateIterResultObject resultString false)
+  return __x4__
 }

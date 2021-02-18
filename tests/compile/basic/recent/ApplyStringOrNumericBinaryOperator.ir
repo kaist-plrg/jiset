@@ -1,11 +1,9 @@
 {
   if (= opText "+") {
     app __x0__ = (ToPrimitive lval)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    let lprim = __x0__
+    let lprim = [? __x0__]
     app __x1__ = (ToPrimitive rval)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let rprim = __x1__
+    let rprim = [? __x1__]
     let __x2__ = true
     app __x3__ = (Type lprim)
     __x2__ = (= __x3__ String)
@@ -15,31 +13,24 @@
     }
     if __x2__ {
       app __x5__ = (ToString lprim)
-      if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-      let lstr = __x5__
+      let lstr = [? __x5__]
       app __x6__ = (ToString rprim)
-      if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-      let rstr = __x6__
-      app __x7__ = (WrapCompletion (+ lstr rstr))
-      return __x7__
+      let rstr = [? __x6__]
+      return (+ lstr rstr)
     } else {}
     lval = lprim
     rval = rprim
   } else {}
-  app __x8__ = (ToNumeric lval)
-  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-  let lnum = __x8__
-  app __x9__ = (ToNumeric rval)
-  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-  let rnum = __x9__
-  app __x10__ = (Type lnum)
-  app __x11__ = (Type rnum)
-  if (! (= __x10__ __x11__)) throw INTRINSIC_TypeError else {}
-  app __x12__ = (Type lnum)
-  let T = __x12__
+  app __x7__ = (ToNumeric lval)
+  let lnum = [? __x7__]
+  app __x8__ = (ToNumeric rval)
+  let rnum = [? __x8__]
+  app __x9__ = (Type lnum)
+  app __x10__ = (Type rnum)
+  if (! (= __x9__ __x10__)) throw INTRINSIC_TypeError else {}
+  app __x11__ = (Type lnum)
+  let T = __x11__
   ??? "Let id:{operation} be the abstract operation associated with id:{opText} in the following table : in:{} out:{}"
-  app __x13__ = (operation lnum rnum)
-  if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-  app __x14__ = (WrapCompletion __x13__)
-  return __x14__
+  app __x12__ = (operation lnum rnum)
+  return [? __x12__]
 }

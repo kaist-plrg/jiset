@@ -1,16 +1,13 @@
 {
   app __x0__ = (ValidateSharedIntegerTypedArray typedArray)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let buffer = __x0__
+  let buffer = [? __x0__]
   app __x1__ = (ValidateAtomicAccess typedArray index)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let i = __x1__
+  let i = [? __x1__]
   let arrayTypeName = typedArray.TypedArrayName
   ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
   ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
   let offset = typedArray.ByteOffset
   let indexedPosition = (+ (* i elementSize) offset)
   app __x2__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_SeqCst)
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  return __x2__
 }

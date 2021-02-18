@@ -6,19 +6,13 @@
     if (= absent (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))) __x1__ = true else {}
     __x0__ = __x1__
   } else {}
-  if __x0__ throw INTRINSIC_SyntaxError else {
-    app __x2__ = (NormalCompletion undefined)
-    return __x2__
-  }
+  if __x0__ throw INTRINSIC_SyntaxError else return undefined
   ??? "It is an early Reference Error if nt:{LeftHandSideExpression} is neither an nt:{ObjectLiteral} nor an nt:{ArrayLiteral} and AssignmentTargetType of nt:{LeftHandSideExpression} is const:{invalid} ."
-  let __x3__ = true
-  __x3__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
-  if __x3__ {
-    access __x4__ = (LeftHandSideExpression "AssignmentTargetType")
-    __x3__ = (= __x4__ CONST_strict)
+  let __x2__ = true
+  __x2__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
+  if __x2__ {
+    access __x3__ = (LeftHandSideExpression "AssignmentTargetType")
+    __x2__ = (= __x3__ CONST_strict)
   } else {}
-  if __x3__ throw INTRINSIC_SyntaxError else {
-    app __x5__ = (NormalCompletion undefined)
-    return __x5__
-  }
+  if __x2__ throw INTRINSIC_SyntaxError else return undefined
 }

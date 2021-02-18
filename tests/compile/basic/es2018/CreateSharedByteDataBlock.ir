@@ -11,6 +11,5 @@
     append (new WriteSharedMemory("Order" -> "Init", "NoTear" -> true, "Block" -> db, "ByteIndex" -> i, "ElementSize" -> 1i, "Payload" -> zero)) -> eventList
     __x1__ = (+ __x1__ 1i)
   }
-  app __x2__ = (WrapCompletion db)
-  return __x2__
+  return db
 }

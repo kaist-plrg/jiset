@@ -1,9 +1,7 @@
 {
   app __x0__ = (OrdinaryCreateFromConstructor functionObject INTRINSIC_GeneratorPrototype (new ["GeneratorState", "GeneratorContext"]))
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let G = __x0__
+  let G = [? __x0__]
   app __x1__ = (GeneratorStart G FunctionBody)
   __x1__
-  app __x2__ = (WrapCompletion (new Completion("Type" -> CONST_return, "Value" -> G, "Target" -> CONST_empty)))
-  return __x2__
+  return (new Completion("Type" -> CONST_return, "Value" -> G, "Target" -> CONST_empty))
 }

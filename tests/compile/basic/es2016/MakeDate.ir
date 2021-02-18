@@ -1,8 +1,4 @@
 {
-  if (|| (|| (= day Infinity) (= day -Infinity)) (|| (= time Infinity) (= time -Infinity))) {
-    app __x0__ = (WrapCompletion NaN)
-    return __x0__
-  } else {}
-  app __x1__ = (WrapCompletion (+ (* day 8.64E7) time))
-  return __x1__
+  if (|| (|| (= day Infinity) (= day -Infinity)) (|| (= time Infinity) (= time -Infinity))) return NaN else {}
+  return (+ (* day 8.64E7) time)
 }

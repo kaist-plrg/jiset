@@ -12,10 +12,8 @@
     access __x5__ = (Initializer "Evaluation")
     let rhs = __x5__
     app __x6__ = (GetValue rhs)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let value = __x6__
+    let value = [? __x6__]
   }
   app __x7__ = (InitializeReferencedBinding lhs value)
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  return __x7__
 }

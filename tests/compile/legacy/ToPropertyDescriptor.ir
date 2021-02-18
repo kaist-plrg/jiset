@@ -3,70 +3,54 @@
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   let desc = (new PropertyDescriptor("SubMap" -> (new SubMap())))
   app __x1__ = (HasProperty Obj "enumerable")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let hasEnumerable = __x1__
+  let hasEnumerable = [? __x1__]
   if (= hasEnumerable true) {
     app __x2__ = (Get Obj "enumerable")
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (ToBoolean __x2__)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let enumerable = __x3__
+    app __x3__ = (ToBoolean [? __x2__])
+    let enumerable = [! __x3__]
     desc.Enumerable = enumerable
   } else {}
   app __x4__ = (HasProperty Obj "configurable")
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let hasConfigurable = __x4__
+  let hasConfigurable = [? __x4__]
   if (= hasConfigurable true) {
     app __x5__ = (Get Obj "configurable")
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    app __x6__ = (ToBoolean __x5__)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let configurable = __x6__
+    app __x6__ = (ToBoolean [? __x5__])
+    let configurable = [! __x6__]
     desc.Configurable = configurable
   } else {}
   app __x7__ = (HasProperty Obj "value")
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  let hasValue = __x7__
+  let hasValue = [? __x7__]
   if (= hasValue true) {
     app __x8__ = (Get Obj "value")
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let value = __x8__
+    let value = [? __x8__]
     desc.Value = value
   } else {}
   app __x9__ = (HasProperty Obj "writable")
-  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-  let hasWritable = __x9__
+  let hasWritable = [? __x9__]
   if (= hasWritable true) {
     app __x10__ = (Get Obj "writable")
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    app __x11__ = (ToBoolean __x10__)
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    let writable = __x11__
+    app __x11__ = (ToBoolean [? __x10__])
+    let writable = [! __x11__]
     desc.Writable = writable
   } else {}
   app __x12__ = (HasProperty Obj "get")
-  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-  let hasGet = __x12__
+  let hasGet = [? __x12__]
   if (= hasGet true) {
     app __x13__ = (Get Obj "get")
-    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-    let getter = __x13__
+    let getter = [? __x13__]
     app __x14__ = (IsCallable getter)
     if (&& (= __x14__ false) (! (= getter undefined))) throw INTRINSIC_TypeError else {}
     desc.Get = getter
   } else {}
   app __x15__ = (HasProperty Obj "set")
-  if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
-  let hasSet = __x15__
+  let hasSet = [? __x15__]
   if (= hasSet true) {
     app __x16__ = (Get Obj "set")
-    if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-    let setter = __x16__
+    let setter = [? __x16__]
     app __x17__ = (IsCallable setter)
     if (&& (= __x17__ false) (! (= setter undefined))) throw INTRINSIC_TypeError else {}
     desc.Set = setter
   } else {}
   if (|| (! (= desc.Get absent)) (! (= desc.Set absent))) if (|| (! (= desc.Value absent)) (! (= desc.Writable absent))) throw INTRINSIC_TypeError else {} else {}
-  app __x18__ = (WrapCompletion desc)
-  return __x18__
+  return desc
 }

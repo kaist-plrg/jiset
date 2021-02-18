@@ -5,31 +5,21 @@
   assert (= __x0__ Object)
   let target = O.ProxyTarget
   app __x1__ = (GetMethod handler "getPrototypeOf")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let trap = __x1__
+  let trap = [? __x1__]
   if (= trap undefined) {
     app __x2__ = (target.GetPrototypeOf target)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return [? __x2__]
   } else {}
-  app __x4__ = (Call trap handler (new [target]))
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let handlerProto = __x4__
-  app __x5__ = (Type handlerProto)
-  if (! (|| (= __x5__ Object) (= __x5__ Null))) throw INTRINSIC_TypeError else {}
-  app __x6__ = (IsExtensible target)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let extensibleTarget = __x6__
-  if (= extensibleTarget true) {
-    app __x7__ = (WrapCompletion handlerProto)
-    return __x7__
-  } else {}
-  app __x8__ = (target.GetPrototypeOf target)
-  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-  let targetProto = __x8__
-  app __x9__ = (SameValue handlerProto targetProto)
-  if (= __x9__ false) throw INTRINSIC_TypeError else {}
-  app __x10__ = (WrapCompletion handlerProto)
-  return __x10__
+  app __x3__ = (Call trap handler (new [target]))
+  let handlerProto = [? __x3__]
+  app __x4__ = (Type handlerProto)
+  if (! (|| (= __x4__ Object) (= __x4__ Null))) throw INTRINSIC_TypeError else {}
+  app __x5__ = (IsExtensible target)
+  let extensibleTarget = [? __x5__]
+  if (= extensibleTarget true) return handlerProto else {}
+  app __x6__ = (target.GetPrototypeOf target)
+  let targetProto = [? __x6__]
+  app __x7__ = (SameValue handlerProto targetProto)
+  if (= __x7__ false) throw INTRINSIC_TypeError else {}
+  return handlerProto
 }

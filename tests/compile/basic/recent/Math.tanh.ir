@@ -1,18 +1,8 @@
 {
   app __x0__ = (ToNumber x)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let n = __x0__
-  if (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) {
-    app __x1__ = (WrapCompletion n)
-    return __x1__
-  } else {}
-  if (= n Infinity) {
-    app __x2__ = (WrapCompletion 1i)
-    return __x2__
-  } else {}
-  if (= n -Infinity) {
-    app __x3__ = (WrapCompletion -1i)
-    return __x3__
-  } else {}
+  let n = [? __x0__]
+  if (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) return n else {}
+  if (= n Infinity) return 1i else {}
+  if (= n -Infinity) return -1i else {}
   ??? "Return an implementation - approximated value representing the result of the hyperbolic tangent of ℝ ( id:{n} ) ."
 }

@@ -1,83 +1,47 @@
 {
   app __x0__ = (DayWithinYear t)
-  if (&& (! (< __x0__ 0i)) (< __x0__ 31i)) {
-    app __x1__ = (WrapCompletion 0i)
-    return __x1__
-  } else {}
-  app __x2__ = (DayWithinYear t)
+  if (&& (! (< __x0__ 0i)) (< __x0__ 31i)) return 0i else {}
+  app __x1__ = (DayWithinYear t)
+  app __x2__ = (InLeapYear t)
+  if (&& (! (< __x1__ 31i)) (< __x1__ (+ 59i __x2__))) return 1i else {}
   app __x3__ = (InLeapYear t)
-  if (&& (! (< __x2__ 31i)) (< __x2__ (+ 59i __x3__))) {
-    app __x4__ = (WrapCompletion 1i)
-    return __x4__
-  } else {}
+  app __x4__ = (DayWithinYear t)
   app __x5__ = (InLeapYear t)
-  app __x6__ = (DayWithinYear t)
-  app __x7__ = (InLeapYear t)
-  if (&& (! (< __x6__ (+ 59i __x5__))) (< __x6__ (+ 90i __x7__))) {
-    app __x8__ = (WrapCompletion 2i)
-    return __x8__
-  } else {}
+  if (&& (! (< __x4__ (+ 59i __x3__))) (< __x4__ (+ 90i __x5__))) return 2i else {}
+  app __x6__ = (InLeapYear t)
+  app __x7__ = (DayWithinYear t)
+  app __x8__ = (InLeapYear t)
+  if (&& (! (< __x7__ (+ 90i __x6__))) (< __x7__ (+ 120i __x8__))) return 3i else {}
   app __x9__ = (InLeapYear t)
   app __x10__ = (DayWithinYear t)
   app __x11__ = (InLeapYear t)
-  if (&& (! (< __x10__ (+ 90i __x9__))) (< __x10__ (+ 120i __x11__))) {
-    app __x12__ = (WrapCompletion 3i)
-    return __x12__
-  } else {}
-  app __x13__ = (InLeapYear t)
-  app __x14__ = (DayWithinYear t)
+  if (&& (! (< __x10__ (+ 120i __x9__))) (< __x10__ (+ 151i __x11__))) return 4i else {}
+  app __x12__ = (InLeapYear t)
+  app __x13__ = (DayWithinYear t)
+  app __x14__ = (InLeapYear t)
+  if (&& (! (< __x13__ (+ 151i __x12__))) (< __x13__ (+ 181i __x14__))) return 5i else {}
   app __x15__ = (InLeapYear t)
-  if (&& (! (< __x14__ (+ 120i __x13__))) (< __x14__ (+ 151i __x15__))) {
-    app __x16__ = (WrapCompletion 4i)
-    return __x16__
-  } else {}
+  app __x16__ = (DayWithinYear t)
   app __x17__ = (InLeapYear t)
-  app __x18__ = (DayWithinYear t)
-  app __x19__ = (InLeapYear t)
-  if (&& (! (< __x18__ (+ 151i __x17__))) (< __x18__ (+ 181i __x19__))) {
-    app __x20__ = (WrapCompletion 5i)
-    return __x20__
-  } else {}
+  if (&& (! (< __x16__ (+ 181i __x15__))) (< __x16__ (+ 212i __x17__))) return 6i else {}
+  app __x18__ = (InLeapYear t)
+  app __x19__ = (DayWithinYear t)
+  app __x20__ = (InLeapYear t)
+  if (&& (! (< __x19__ (+ 212i __x18__))) (< __x19__ (+ 243i __x20__))) return 7i else {}
   app __x21__ = (InLeapYear t)
   app __x22__ = (DayWithinYear t)
   app __x23__ = (InLeapYear t)
-  if (&& (! (< __x22__ (+ 181i __x21__))) (< __x22__ (+ 212i __x23__))) {
-    app __x24__ = (WrapCompletion 6i)
-    return __x24__
-  } else {}
-  app __x25__ = (InLeapYear t)
-  app __x26__ = (DayWithinYear t)
+  if (&& (! (< __x22__ (+ 243i __x21__))) (< __x22__ (+ 273i __x23__))) return 8i else {}
+  app __x24__ = (InLeapYear t)
+  app __x25__ = (DayWithinYear t)
+  app __x26__ = (InLeapYear t)
+  if (&& (! (< __x25__ (+ 273i __x24__))) (< __x25__ (+ 304i __x26__))) return 9i else {}
   app __x27__ = (InLeapYear t)
-  if (&& (! (< __x26__ (+ 212i __x25__))) (< __x26__ (+ 243i __x27__))) {
-    app __x28__ = (WrapCompletion 7i)
-    return __x28__
-  } else {}
+  app __x28__ = (DayWithinYear t)
   app __x29__ = (InLeapYear t)
-  app __x30__ = (DayWithinYear t)
-  app __x31__ = (InLeapYear t)
-  if (&& (! (< __x30__ (+ 243i __x29__))) (< __x30__ (+ 273i __x31__))) {
-    app __x32__ = (WrapCompletion 8i)
-    return __x32__
-  } else {}
-  app __x33__ = (InLeapYear t)
-  app __x34__ = (DayWithinYear t)
-  app __x35__ = (InLeapYear t)
-  if (&& (! (< __x34__ (+ 273i __x33__))) (< __x34__ (+ 304i __x35__))) {
-    app __x36__ = (WrapCompletion 9i)
-    return __x36__
-  } else {}
-  app __x37__ = (InLeapYear t)
-  app __x38__ = (DayWithinYear t)
-  app __x39__ = (InLeapYear t)
-  if (&& (! (< __x38__ (+ 304i __x37__))) (< __x38__ (+ 334i __x39__))) {
-    app __x40__ = (WrapCompletion 10i)
-    return __x40__
-  } else {}
-  app __x41__ = (InLeapYear t)
-  app __x42__ = (DayWithinYear t)
-  app __x43__ = (InLeapYear t)
-  if (&& (! (< __x42__ (+ 334i __x41__))) (< __x42__ (+ 365i __x43__))) {
-    app __x44__ = (WrapCompletion 11i)
-    return __x44__
-  } else {}
+  if (&& (! (< __x28__ (+ 304i __x27__))) (< __x28__ (+ 334i __x29__))) return 10i else {}
+  app __x30__ = (InLeapYear t)
+  app __x31__ = (DayWithinYear t)
+  app __x32__ = (InLeapYear t)
+  if (&& (! (< __x31__ (+ 334i __x30__))) (< __x31__ (+ 365i __x32__))) return 11i else {}
 }

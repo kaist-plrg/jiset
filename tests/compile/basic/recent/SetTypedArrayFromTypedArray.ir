@@ -27,8 +27,7 @@
   if (= same true) {
     let srcByteLength = source.ByteLength
     app __x5__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSIC_ArrayBuffer)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    srcBuffer = __x5__
+    srcBuffer = [? __x5__]
     let srcByteIndex = 0i
   } else let srcByteIndex = srcByteOffset
   let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)

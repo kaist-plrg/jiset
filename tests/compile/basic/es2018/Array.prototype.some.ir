@@ -1,38 +1,27 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (Get O "length")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (ToLength __x1__)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let len = __x2__
+  app __x2__ = (ToLength [? __x1__])
+  let len = [? __x2__]
   app __x3__ = (IsCallable callbackfn)
   if (= __x3__ false) throw INTRINSIC_TypeError else {}
   if (! (= thisArg absent)) let T = thisArg else let T = undefined
   let k = 0i
   while (< k len) {
     app __x4__ = (ToString k)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let Pk = __x4__
+    let Pk = [! __x4__]
     app __x5__ = (HasProperty O Pk)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let kPresent = __x5__
+    let kPresent = [? __x5__]
     if (= kPresent true) {
       app __x6__ = (Get O Pk)
-      if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-      let kValue = __x6__
+      let kValue = [? __x6__]
       app __x7__ = (Call callbackfn T (new [kValue, k, O]))
-      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-      app __x8__ = (ToBoolean __x7__)
+      app __x8__ = (ToBoolean [? __x7__])
       let testResult = __x8__
-      if (= testResult true) {
-        app __x9__ = (WrapCompletion true)
-        return __x9__
-      } else {}
+      if (= testResult true) return true else {}
     } else {}
     k = (+ k 1i)
   }
-  app __x10__ = (WrapCompletion false)
-  return __x10__
+  return false
 }

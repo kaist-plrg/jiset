@@ -2,26 +2,21 @@
   app __x0__ = (Type O)
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   app __x1__ = (ToObject Properties)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let props = __x1__
+  let props = [? __x1__]
   app __x2__ = (props.OwnPropertyKeys props)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let keys = __x2__
+  let keys = [? __x2__]
   let descriptors = (new [])
   let __x3__ = keys
   let __x4__ = 0i
   while (< __x4__ __x3__.length) {
     let nextKey = __x3__[__x4__]
     app __x5__ = (props.GetOwnProperty props nextKey)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let propDesc = __x5__
+    let propDesc = [? __x5__]
     if (&& (! (= propDesc undefined)) (= propDesc.Enumerable true)) {
       app __x6__ = (Get props nextKey)
-      if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-      let descObj = __x6__
+      let descObj = [? __x6__]
       app __x7__ = (ToPropertyDescriptor descObj)
-      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-      let desc = __x7__
+      let desc = [? __x7__]
       append (new [nextKey, desc]) -> descriptors
     } else {}
     __x4__ = (+ __x4__ 1i)
@@ -33,10 +28,8 @@
     let P = pair[0i]
     let desc = pair[1i]
     app __x10__ = (DefinePropertyOrThrow O P desc)
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    __x10__
+    [? __x10__]
     __x9__ = (+ __x9__ 1i)
   }
-  app __x11__ = (WrapCompletion O)
-  return __x11__
+  return O
 }

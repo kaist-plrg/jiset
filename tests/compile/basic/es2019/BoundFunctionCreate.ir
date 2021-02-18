@@ -2,8 +2,7 @@
   app __x0__ = (Type targetFunction)
   assert (= __x0__ Object)
   app __x1__ = (targetFunction.GetPrototypeOf targetFunction)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let proto = __x1__
+  let proto = [? __x1__]
   let obj = (new OrdinaryObject("SubMap" -> (new SubMap())))
   obj.Call = BoundFunctionExoticObjectDOTCall
   app __x2__ = (IsConstructor targetFunction)
@@ -13,6 +12,5 @@
   obj.BoundTargetFunction = targetFunction
   obj.BoundThis = boundThis
   obj.BoundArguments = boundArgs
-  app __x3__ = (WrapCompletion obj)
-  return __x3__
+  return obj
 }

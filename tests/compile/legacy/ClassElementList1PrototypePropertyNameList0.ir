@@ -2,17 +2,10 @@
   access __x0__ = (ClassElementList "PrototypePropertyNameList")
   let list = __x0__
   access __x1__ = (ClassElement "PropName")
-  if (= __x1__ CONST_empty) {
-    app __x2__ = (WrapCompletion list)
-    return __x2__
-  } else {}
-  access __x3__ = (ClassElement "IsStatic")
-  if (= __x3__ true) {
-    app __x4__ = (WrapCompletion list)
-    return __x4__
-  } else {}
-  access __x5__ = (ClassElement "PropName")
-  append __x5__ -> list
-  app __x6__ = (WrapCompletion list)
-  return __x6__
+  if (= __x1__ CONST_empty) return list else {}
+  access __x2__ = (ClassElement "IsStatic")
+  if (= __x2__ true) return list else {}
+  access __x3__ = (ClassElement "PropName")
+  append __x3__ -> list
+  return list
 }

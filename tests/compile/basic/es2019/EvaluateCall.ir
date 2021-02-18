@@ -14,8 +14,7 @@
   } else let thisValue = undefined
   access __x5__ = (arguments "ArgumentListEvaluation")
   let argList = __x5__
-  if (is-completion argList) if (= argList.Type CONST_normal) argList = argList.Value else return argList else {}
-  argList
+  [? argList]
   app __x6__ = (Type func)
   if (! (= __x6__ Object)) throw INTRINSIC_TypeError else {}
   app __x7__ = (IsCallable func)
@@ -26,6 +25,5 @@
   } else {}
   app __x9__ = (Call func thisValue argList)
   let result = __x9__
-  app __x10__ = (WrapCompletion result)
-  return __x10__
+  return result
 }

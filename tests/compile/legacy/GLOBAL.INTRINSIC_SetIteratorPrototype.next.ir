@@ -8,8 +8,7 @@
   let itemKind = O.SetIterationKind
   if (= s undefined) {
     app __x1__ = (CreateIterResultObject undefined true)
-    app __x2__ = (WrapCompletion __x1__)
-    return __x2__
+    return __x1__
   } else {}
   assert (! (= s.SetData absent))
   let entries = s.SetData
@@ -20,19 +19,16 @@
     O.SetNextIndex = index
     if (! (= e CONST_empty)) {
       if (= itemKind CONST_keyPLUSvalue) {
-        app __x3__ = (CreateArrayFromList (new [e, e]))
-        app __x4__ = (CreateIterResultObject __x3__ false)
-        app __x5__ = (WrapCompletion __x4__)
-        return __x5__
+        app __x2__ = (CreateArrayFromList (new [e, e]))
+        app __x3__ = (CreateIterResultObject __x2__ false)
+        return __x3__
       } else {}
       assert (= itemKind CONST_value)
-      app __x6__ = (CreateIterResultObject e false)
-      app __x7__ = (WrapCompletion __x6__)
-      return __x7__
+      app __x4__ = (CreateIterResultObject e false)
+      return __x4__
     } else {}
   }
   O.IteratedSet = undefined
-  app __x8__ = (CreateIterResultObject undefined true)
-  app __x9__ = (WrapCompletion __x8__)
-  return __x9__
+  app __x5__ = (CreateIterResultObject undefined true)
+  return __x5__
 }

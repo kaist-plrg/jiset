@@ -1,25 +1,19 @@
 {
   app __x0__ = (RequireInternalSlot view "DataView")
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   assert (! (= view.ViewedArrayBuffer absent))
   app __x1__ = (ToIndex requestIndex)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let getIndex = __x1__
+  let getIndex = [? __x1__]
   app __x2__ = (IsBigIntElementType type)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  if (= __x2__ true) {
+  if (= [! __x2__] true) {
     app __x3__ = (ToBigInt value)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let numberValue = __x3__
+    let numberValue = [? __x3__]
   } else {
     app __x4__ = (ToNumber value)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let numberValue = __x4__
+    let numberValue = [? __x4__]
   }
   app __x5__ = (ToBoolean isLittleEndian)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  isLittleEndian = __x5__
+  isLittleEndian = [! __x5__]
   let buffer = view.ViewedArrayBuffer
   app __x6__ = (IsDetachedBuffer buffer)
   if (= __x6__ true) throw INTRINSIC_TypeError else {}
@@ -29,6 +23,5 @@
   if (< viewSize (+ getIndex elementSize)) throw INTRINSIC_RangeError else {}
   let bufferIndex = (+ getIndex viewOffset)
   app __x7__ = (SetValueInBuffer buffer bufferIndex type numberValue false CONST_Unordered isLittleEndian)
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  return __x7__
 }

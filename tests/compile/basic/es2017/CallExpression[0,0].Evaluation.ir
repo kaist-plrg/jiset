@@ -8,8 +8,7 @@
   access __x3__ = (memberExpr "Evaluation")
   let ref = __x3__
   app __x4__ = (GetValue ref)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let func = __x4__
+  let func = [? __x4__]
   let __x5__ = true
   app __x6__ = (Type ref)
   __x5__ = (= __x6__ Reference)
@@ -27,42 +26,33 @@
     app __x10__ = (SameValue func INTRINSIC_eval)
     if (= __x10__ true) {
       app __x11__ = (ArgumentListEvaluation arguments)
-      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      let argList = __x11__
-      if (= argList.length 0i) {
-        app __x12__ = (WrapCompletion undefined)
-        return __x12__
-      } else {}
+      let argList = [? __x11__]
+      if (= argList.length 0i) return undefined else {}
       let evalText = argList[0i]
       if true let strictCaller = true else let strictCaller = false
       let evalRealm = REALM
-      app __x13__ = (HostEnsureCanCompileStrings evalRealm evalRealm)
-      if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-      __x13__
-      app __x14__ = (PerformEval evalText evalRealm strictCaller true)
-      if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-      app __x15__ = (WrapCompletion __x14__)
-      return __x15__
+      app __x12__ = (HostEnsureCanCompileStrings evalRealm evalRealm)
+      [? __x12__]
+      app __x13__ = (PerformEval evalText evalRealm strictCaller true)
+      return [? __x13__]
     } else {}
   } else {}
-  app __x16__ = (Type ref)
-  if (= __x16__ Reference) {
-    app __x17__ = (IsPropertyReference ref)
-    if (= __x17__ true) {
-      app __x18__ = (GetThisValue ref)
-      let thisValue = __x18__
+  app __x14__ = (Type ref)
+  if (= __x14__ Reference) {
+    app __x15__ = (IsPropertyReference ref)
+    if (= __x15__ true) {
+      app __x16__ = (GetThisValue ref)
+      let thisValue = __x16__
     } else {
-      app __x19__ = (GetBase ref)
-      let refEnv = __x19__
-      app __x20__ = (refEnv.WithBaseObject refEnv)
-      let thisValue = __x20__
+      app __x17__ = (GetBase ref)
+      let refEnv = __x17__
+      app __x18__ = (refEnv.WithBaseObject refEnv)
+      let thisValue = __x18__
     }
   } else let thisValue = undefined
   let thisCall = this
-  app __x21__ = (IsInTailPosition thisCall)
-  let tailCall = __x21__
-  app __x22__ = (EvaluateDirectCall func thisValue arguments tailCall)
-  if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else {}
-  app __x23__ = (WrapCompletion __x22__)
-  return __x23__
+  app __x19__ = (IsInTailPosition thisCall)
+  let tailCall = __x19__
+  app __x20__ = (EvaluateDirectCall func thisValue arguments tailCall)
+  return [? __x20__]
 }

@@ -3,21 +3,17 @@
   app __x0__ = (IsCallable Target)
   if (= __x0__ false) throw INTRINSIC_TypeError else {}
   app __x1__ = (BoundFunctionCreate Target thisArg args)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let F = __x1__
+  let F = [? __x1__]
   let L = 0i
   app __x2__ = (HasOwnProperty Target "length")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let targetHasLength = __x2__
+  let targetHasLength = [? __x2__]
   if (= targetHasLength true) {
     app __x3__ = (Get Target "length")
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let targetLen = __x3__
+    let targetLen = [? __x3__]
     app __x4__ = (Type targetLen)
     if (= __x4__ Number) if (= targetLen Infinity) L = Infinity else if (= targetLen -Infinity) L = 0i else {
       app __x5__ = (ToIntegerOrInfinity targetLen)
-      if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-      let targetLenAsInt = __x5__
+      let targetLenAsInt = [! __x5__]
       assert (! (|| (= targetLenAsInt Infinity) (= targetLenAsInt -Infinity)))
       let argCount = args.length
       app __x6__ = (max (- targetLenAsInt argCount) 0i)
@@ -25,15 +21,12 @@
     } else {}
   } else {}
   app __x7__ = (SetFunctionLength F L)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  __x7__
+  [! __x7__]
   app __x8__ = (Get Target "name")
-  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-  let targetName = __x8__
+  let targetName = [? __x8__]
   app __x9__ = (Type targetName)
   if (! (= __x9__ String)) targetName = "" else {}
   app __x10__ = (SetFunctionName F targetName "bound")
   __x10__
-  app __x11__ = (WrapCompletion F)
-  return __x11__
+  return F
 }

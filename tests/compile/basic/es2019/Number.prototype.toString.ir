@@ -1,18 +1,14 @@
 {
   app __x0__ = (thisNumberValue this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let x = __x0__
+  let x = [? __x0__]
   if (= radix absent) let radixNumber = 10i else if (= radix undefined) let radixNumber = 10i else {
     app __x1__ = (ToInteger radix)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let radixNumber = __x1__
+    let radixNumber = [? __x1__]
   }
   if (|| (< radixNumber 2i) (< 36i radixNumber)) throw INTRINSIC_RangeError else {}
   if (== radixNumber 10i) {
     app __x2__ = (ToString x)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return [! __x2__]
   } else {}
   ??? "Return the String representation of this Number value using the radix specified by id:{radixNumber} . Letters code:{a} - code:{z} are used for digits with values 10 through 35 . The precise algorithm is implementation - dependent , however the algorithm should be a generalization of that specified in NumberToString ."
 }

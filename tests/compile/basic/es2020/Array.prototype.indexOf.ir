@@ -1,46 +1,29 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (LengthOfArrayLike O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let len = __x1__
-  if (= len 0i) {
-    app __x2__ = (WrapCompletion -1i)
-    return __x2__
-  } else {}
-  app __x3__ = (ToInteger fromIndex)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let n = __x3__
-  if (! (< n len)) {
-    app __x4__ = (WrapCompletion -1i)
-    return __x4__
-  } else {}
+  let len = [? __x1__]
+  if (= len 0i) return -1i else {}
+  app __x2__ = (ToInteger fromIndex)
+  let n = [? __x2__]
+  if (! (< n len)) return -1i else {}
   if (! (< n 0i)) let k = n else {
     let k = (+ len n)
     if (< k 0i) k = 0i else {}
   }
   while (< k len) {
-    app __x5__ = (ToString k)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    app __x6__ = (HasProperty O __x5__)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let kPresent = __x6__
+    app __x3__ = (ToString k)
+    app __x4__ = (HasProperty O [! __x3__])
+    let kPresent = [? __x4__]
     if (= kPresent true) {
-      app __x7__ = (ToString k)
-      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-      app __x8__ = (Get O __x7__)
-      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-      let elementK = __x8__
-      app __x9__ = (StrictEqualityComparison searchElement elementK)
-      let same = __x9__
-      if (= same true) {
-        app __x10__ = (WrapCompletion k)
-        return __x10__
-      } else {}
+      app __x5__ = (ToString k)
+      app __x6__ = (Get O [! __x5__])
+      let elementK = [? __x6__]
+      app __x7__ = (StrictEqualityComparison searchElement elementK)
+      let same = __x7__
+      if (= same true) return k else {}
     } else {}
     k = (+ k 1i)
   }
-  app __x11__ = (WrapCompletion -1i)
-  return __x11__
+  return -1i
 }

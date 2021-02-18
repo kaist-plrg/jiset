@@ -2,8 +2,6 @@
   access __x0__ = (AssignmentExpression "Evaluation")
   let exprRef = __x0__
   app __x1__ = (GetValue exprRef)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let exprValue = __x1__
-  app __x2__ = (WrapCompletion (new Completion("Type" -> CONST_return, "Value" -> exprValue, "Target" -> CONST_empty)))
-  return __x2__
+  let exprValue = [? __x1__]
+  return (new Completion("Type" -> CONST_return, "Value" -> exprValue, "Target" -> CONST_empty))
 }

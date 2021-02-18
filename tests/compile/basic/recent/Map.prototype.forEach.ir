@@ -1,12 +1,10 @@
 {
   let M = this
   app __x0__ = (RequireInternalSlot M "MapData")
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   app __x1__ = (IsCallable callbackfn)
   if (= __x1__ false) throw INTRINSIC_TypeError else {}
   let entries = M.MapData
   ??? "For each Record { [ [ Key ] ] , [ [ Value ] ] } id:{e} of id:{entries} , in original key insertion order , do in:{} out:{}"
-  app __x2__ = (WrapCompletion undefined)
-  return __x2__
+  return undefined
 }

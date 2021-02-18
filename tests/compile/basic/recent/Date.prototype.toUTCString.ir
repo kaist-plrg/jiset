@@ -1,23 +1,17 @@
 {
   let O = this
   app __x0__ = (thisTimeValue O)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let tv = __x0__
-  if (= tv NaN) {
-    app __x1__ = (WrapCompletion "Invalid Date")
-    return __x1__
-  } else {}
+  let tv = [? __x0__]
+  if (= tv NaN) return "Invalid Date" else {}
   ??? "Let id:{weekday} be the Name of the entry in link:{unhandled: sec-todatestring-day-names} with the Number WeekDay ( id:{tv} ) ."
   ??? "Let id:{month} be the Name of the entry in link:{unhandled: sec-todatestring-month-names} with the Number MonthFromTime ( id:{tv} ) ."
   ??? "Let id:{day} be the String representation of DateFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
-  app __x2__ = (YearFromTime tv)
-  let yv = __x2__
+  app __x1__ = (YearFromTime tv)
+  let yv = __x1__
   if (! (< yv 0i)) let yearSign = "" else let yearSign = "-"
   ??? "Let id:{year} be the String representation of abs ( ℝ ( id:{yv} ) ) , formatted as a decimal number ."
-  app __x3__ = (StringPad year 4i "0" CONST_start)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let paddedYear = __x3__
-  app __x4__ = (TimeString tv)
-  app __x5__ = (WrapCompletion (+ (+ (+ (+ (+ (+ (+ (+ (+ (+ weekday ",") " ") day) " ") month) " ") yearSign) paddedYear) " ") __x4__))
-  return __x5__
+  app __x2__ = (StringPad year 4i "0" CONST_start)
+  let paddedYear = [! __x2__]
+  app __x3__ = (TimeString tv)
+  return (+ (+ (+ (+ (+ (+ (+ (+ (+ (+ weekday ",") " ") day) " ") month) " ") yearSign) paddedYear) " ") __x3__)
 }

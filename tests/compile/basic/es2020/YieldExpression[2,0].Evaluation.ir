@@ -1,136 +1,109 @@
 {
   app __x0__ = (GetGeneratorKind )
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let generatorKind = __x0__
+  let generatorKind = [! __x0__]
   access __x1__ = (AssignmentExpression "Evaluation")
   let exprRef = __x1__
   app __x2__ = (GetValue exprRef)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let value = __x2__
+  let value = [? __x2__]
   app __x3__ = (GetIterator value generatorKind)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let iteratorRecord = __x3__
+  let iteratorRecord = [? __x3__]
   let iterator = iteratorRecord.Iterator
   app __x4__ = (NormalCompletion undefined)
   let received = __x4__
   while true if (= received.Type CONST_normal) {
     app __x5__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator (new [received.Value]))
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let innerResult = __x5__
+    let innerResult = [? __x5__]
     if (= generatorKind CONST_async) {
       app __x6__ = (Await innerResult)
-      if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-      innerResult = __x6__
+      innerResult = [? __x6__]
     } else {}
     app __x7__ = (Type innerResult)
     if (! (= __x7__ Object)) throw INTRINSIC_TypeError else {}
     app __x8__ = (IteratorComplete innerResult)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let done = __x8__
+    let done = [? __x8__]
     if (= done true) {
       app __x9__ = (IteratorValue innerResult)
-      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-      app __x10__ = (WrapCompletion __x9__)
-      return __x10__
+      return [? __x9__]
     } else {}
     if (= generatorKind CONST_async) {
-      app __x11__ = (IteratorValue innerResult)
-      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      app __x12__ = (AsyncGeneratorYield __x11__)
-      received = __x12__
+      app __x10__ = (IteratorValue innerResult)
+      app __x11__ = (AsyncGeneratorYield [? __x10__])
+      received = __x11__
     } else {
-      app __x13__ = (GeneratorYield innerResult)
-      received = __x13__
+      app __x12__ = (GeneratorYield innerResult)
+      received = __x12__
     }
   } else if (= received.Type CONST_throw) {
-    app __x14__ = (GetMethod iterator "throw")
-    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-    let throw = __x14__
+    app __x13__ = (GetMethod iterator "throw")
+    let throw = [? __x13__]
     if (! (= throw undefined)) {
-      app __x15__ = (Call throw iterator (new [received.Value]))
-      if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
-      let innerResult = __x15__
+      app __x14__ = (Call throw iterator (new [received.Value]))
+      let innerResult = [? __x14__]
       if (= generatorKind CONST_async) {
-        app __x16__ = (Await innerResult)
-        if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-        innerResult = __x16__
+        app __x15__ = (Await innerResult)
+        innerResult = [? __x15__]
       } else {}
-      app __x17__ = (Type innerResult)
-      if (! (= __x17__ Object)) throw INTRINSIC_TypeError else {}
-      app __x18__ = (IteratorComplete innerResult)
-      if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
-      let done = __x18__
+      app __x16__ = (Type innerResult)
+      if (! (= __x16__ Object)) throw INTRINSIC_TypeError else {}
+      app __x17__ = (IteratorComplete innerResult)
+      let done = [? __x17__]
       if (= done true) {
-        app __x19__ = (IteratorValue innerResult)
-        if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
-        app __x20__ = (WrapCompletion __x19__)
-        return __x20__
+        app __x18__ = (IteratorValue innerResult)
+        return [? __x18__]
       } else {}
       if (= generatorKind CONST_async) {
-        app __x21__ = (IteratorValue innerResult)
-        if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
-        app __x22__ = (AsyncGeneratorYield __x21__)
-        received = __x22__
+        app __x19__ = (IteratorValue innerResult)
+        app __x20__ = (AsyncGeneratorYield [? __x19__])
+        received = __x20__
       } else {
-        app __x23__ = (GeneratorYield innerResult)
-        received = __x23__
+        app __x21__ = (GeneratorYield innerResult)
+        received = __x21__
       }
     } else {
       let closeCompletion = (new Completion("Type" -> CONST_normal, "Value" -> CONST_empty, "Target" -> CONST_empty))
       if (= generatorKind CONST_async) {
-        app __x24__ = (AsyncIteratorClose iteratorRecord closeCompletion)
-        if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-        __x24__
+        app __x22__ = (AsyncIteratorClose iteratorRecord closeCompletion)
+        [? __x22__]
       } else {
-        app __x25__ = (IteratorClose iteratorRecord closeCompletion)
-        if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
-        __x25__
+        app __x23__ = (IteratorClose iteratorRecord closeCompletion)
+        [? __x23__]
       }
       throw INTRINSIC_TypeError
     }
   } else {
     assert (= received.Type CONST_return)
-    app __x26__ = (GetMethod iterator "return")
-    if (is-completion __x26__) if (= __x26__.Type CONST_normal) __x26__ = __x26__.Value else return __x26__ else {}
-    let return = __x26__
+    app __x24__ = (GetMethod iterator "return")
+    let return = [? __x24__]
     if (= return undefined) {
       if (= generatorKind CONST_async) {
-        app __x27__ = (Await received.Value)
-        if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
-        received.Value = __x27__
+        app __x25__ = (Await received.Value)
+        received.Value = [? __x25__]
       } else {}
-      app __x28__ = (Completion received)
-      app __x29__ = (WrapCompletion __x28__)
-      return __x29__
+      app __x26__ = (Completion received)
+      return __x26__
     } else {}
-    app __x30__ = (Call return iterator (new [received.Value]))
-    if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
-    let innerReturnResult = __x30__
+    app __x27__ = (Call return iterator (new [received.Value]))
+    let innerReturnResult = [? __x27__]
     if (= generatorKind CONST_async) {
-      app __x31__ = (Await innerReturnResult)
-      if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
-      innerReturnResult = __x31__
+      app __x28__ = (Await innerReturnResult)
+      innerReturnResult = [? __x28__]
     } else {}
-    app __x32__ = (Type innerReturnResult)
-    if (! (= __x32__ Object)) throw INTRINSIC_TypeError else {}
-    app __x33__ = (IteratorComplete innerReturnResult)
-    if (is-completion __x33__) if (= __x33__.Type CONST_normal) __x33__ = __x33__.Value else return __x33__ else {}
-    let done = __x33__
+    app __x29__ = (Type innerReturnResult)
+    if (! (= __x29__ Object)) throw INTRINSIC_TypeError else {}
+    app __x30__ = (IteratorComplete innerReturnResult)
+    let done = [? __x30__]
     if (= done true) {
-      app __x34__ = (IteratorValue innerReturnResult)
-      if (is-completion __x34__) if (= __x34__.Type CONST_normal) __x34__ = __x34__.Value else return __x34__ else {}
-      let value = __x34__
-      app __x35__ = (WrapCompletion (new Completion("Type" -> CONST_return, "Value" -> value, "Target" -> CONST_empty)))
-      return __x35__
+      app __x31__ = (IteratorValue innerReturnResult)
+      let value = [? __x31__]
+      return (new Completion("Type" -> CONST_return, "Value" -> value, "Target" -> CONST_empty))
     } else {}
     if (= generatorKind CONST_async) {
-      app __x36__ = (IteratorValue innerReturnResult)
-      if (is-completion __x36__) if (= __x36__.Type CONST_normal) __x36__ = __x36__.Value else return __x36__ else {}
-      app __x37__ = (AsyncGeneratorYield __x36__)
-      received = __x37__
+      app __x32__ = (IteratorValue innerReturnResult)
+      app __x33__ = (AsyncGeneratorYield [? __x32__])
+      received = __x33__
     } else {
-      app __x38__ = (GeneratorYield innerReturnResult)
-      received = __x38__
+      app __x34__ = (GeneratorYield innerReturnResult)
+      received = __x34__
     }
   }
 }

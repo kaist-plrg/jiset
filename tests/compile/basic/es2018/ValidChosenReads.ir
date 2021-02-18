@@ -9,13 +9,9 @@
     let readValue = __x3__
     let chosenLen = chosenValue.length
     let readLen = readValue.length
-    if (! (= chosenLen readLen)) {
-      app __x4__ = (WrapCompletion false)
-      return __x4__
-    } else {}
+    if (! (= chosenLen readLen)) return false else {}
     ??? "If id:{chosenValue} [ id:{i} ] is not equal to id:{readValue} [ id:{i} ] for any integer value id:{i} in the range 0 through id:{chosenLen} , exclusive , then in:{} out:{}"
-    app __x5__ = (WrapCompletion true)
-    return __x5__
+    return true
     __x2__ = (+ __x2__ 1i)
   }
 }

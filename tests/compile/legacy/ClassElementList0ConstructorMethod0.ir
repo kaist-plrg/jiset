@@ -1,18 +1,8 @@
 {
-  if (is-instance-of ClassElement ClassElement2) {
-    app __x0__ = (WrapCompletion CONST_empty)
-    return __x0__
-  } else {}
-  access __x1__ = (ClassElement "IsStatic")
-  if (= __x1__ true) {
-    app __x2__ = (WrapCompletion CONST_empty)
-    return __x2__
-  } else {}
-  access __x3__ = (ClassElement "PropName")
-  if (! (= __x3__ "constructor")) {
-    app __x4__ = (WrapCompletion CONST_empty)
-    return __x4__
-  } else {}
-  app __x5__ = (WrapCompletion ClassElement)
-  return __x5__
+  if (is-instance-of ClassElement ClassElement2) return CONST_empty else {}
+  access __x0__ = (ClassElement "IsStatic")
+  if (= __x0__ true) return CONST_empty else {}
+  access __x1__ = (ClassElement "PropName")
+  if (! (= __x1__ "constructor")) return CONST_empty else {}
+  return ClassElement
 }

@@ -5,17 +5,13 @@
   let indent = (+ indent gap)
   let partial = (new [])
   app __x0__ = (Get value "length")
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  app __x1__ = (ToLength __x0__)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let len = __x1__
+  app __x1__ = (ToLength [? __x0__])
+  let len = [? __x1__]
   let index = 0i
   while (< index len) {
     app __x2__ = (ToString index)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (SerializeJSONProperty __x2__ value)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let strP = __x3__
+    app __x3__ = (SerializeJSONProperty [! __x2__] value)
+    let strP = [? __x3__]
     if (= strP undefined) append "null" -> partial else append strP -> partial
     index = (+ index 1i)
   }
@@ -29,6 +25,5 @@
   }
   (pop stack (- stack.length 1i))
   let indent = stepback
-  app __x4__ = (WrapCompletion final)
-  return __x4__
+  return final
 }

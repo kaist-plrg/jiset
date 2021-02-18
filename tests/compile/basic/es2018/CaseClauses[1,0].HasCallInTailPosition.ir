@@ -2,12 +2,8 @@
   access __x0__ = (CaseClauses "HasCallInTailPosition")
   app __x1__ = (__x0__ call)
   let has = __x1__
-  if (= has true) {
-    app __x2__ = (WrapCompletion true)
-    return __x2__
-  } else {}
-  access __x3__ = (CaseClause "HasCallInTailPosition")
-  app __x4__ = (__x3__ call)
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  if (= has true) return true else {}
+  access __x2__ = (CaseClause "HasCallInTailPosition")
+  app __x3__ = (__x2__ call)
+  return __x3__
 }

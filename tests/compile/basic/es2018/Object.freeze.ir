@@ -1,13 +1,8 @@
 {
   app __x0__ = (Type O)
-  if (! (= __x0__ Object)) {
-    app __x1__ = (WrapCompletion O)
-    return __x1__
-  } else {}
-  app __x2__ = (SetIntegrityLevel O "frozen")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let status = __x2__
+  if (! (= __x0__ Object)) return O else {}
+  app __x1__ = (SetIntegrityLevel O "frozen")
+  let status = [? __x1__]
   if (= status false) throw INTRINSIC_TypeError else {}
-  app __x3__ = (WrapCompletion O)
-  return __x3__
+  return O
 }

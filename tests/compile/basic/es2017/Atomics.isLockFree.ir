@@ -1,20 +1,9 @@
 {
   app __x0__ = (ToInteger size)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let n = __x0__
+  let n = [? __x0__]
   let AR = GLOBAL_agent
-  if (= n 1i) {
-    app __x1__ = (WrapCompletion AR.IsLockFree1)
-    return __x1__
-  } else {}
-  if (= n 2i) {
-    app __x2__ = (WrapCompletion AR.IsLockFree2)
-    return __x2__
-  } else {}
-  if (= n 4i) {
-    app __x3__ = (WrapCompletion true)
-    return __x3__
-  } else {}
-  app __x4__ = (WrapCompletion false)
-  return __x4__
+  if (= n 1i) return AR.IsLockFree1 else {}
+  if (= n 2i) return AR.IsLockFree2 else {}
+  if (= n 4i) return true else {}
+  return false
 }

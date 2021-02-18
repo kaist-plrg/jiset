@@ -3,24 +3,14 @@
     access __x0__ = (CaseClauses0 "ContainsDuplicateLabels")
     app __x1__ = (__x0__ labelSet)
     let hasDuplicates = __x1__
-    if (= hasDuplicates true) {
-      app __x2__ = (WrapCompletion true)
-      return __x2__
-    } else {}
+    if (= hasDuplicates true) return true else {}
   } else {}
-  access __x3__ = (DefaultClause "ContainsDuplicateLabels")
-  app __x4__ = (__x3__ labelSet)
-  let hasDuplicates = __x4__
-  if (= hasDuplicates true) {
-    app __x5__ = (WrapCompletion true)
-    return __x5__
-  } else {}
-  if (= CaseClauses1 absent) {
-    app __x6__ = (WrapCompletion false)
-    return __x6__
-  } else {}
-  access __x7__ = (CaseClauses1 "ContainsDuplicateLabels")
-  app __x8__ = (__x7__ labelSet)
-  app __x9__ = (WrapCompletion __x8__)
-  return __x9__
+  access __x2__ = (DefaultClause "ContainsDuplicateLabels")
+  app __x3__ = (__x2__ labelSet)
+  let hasDuplicates = __x3__
+  if (= hasDuplicates true) return true else {}
+  if (= CaseClauses1 absent) return false else {}
+  access __x4__ = (CaseClauses1 "ContainsDuplicateLabels")
+  app __x5__ = (__x4__ labelSet)
+  return __x5__
 }

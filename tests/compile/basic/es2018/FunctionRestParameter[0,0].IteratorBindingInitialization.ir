@@ -3,23 +3,21 @@
   if (= __x0__ false) {
     access __x1__ = (BindingRestElement "IteratorBindingInitialization")
     app __x2__ = (__x1__ iteratorRecord environment)
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return __x2__
   } else {}
   let currentContext = GLOBAL_context
-  access __x4__ = (currentContext "VariableEnvironment")
-  let originalEnv = __x4__
+  access __x3__ = (currentContext "VariableEnvironment")
+  let originalEnv = __x3__
   assert (= currentContext.VariableEnvironment currentContext.LexicalEnvironment)
   assert (= environment originalEnv)
-  app __x5__ = (NewDeclarativeEnvironment originalEnv)
-  let paramVarEnv = __x5__
+  app __x4__ = (NewDeclarativeEnvironment originalEnv)
+  let paramVarEnv = __x4__
   currentContext.VariableEnvironment = paramVarEnv
   currentContext.LexicalEnvironment = paramVarEnv
-  access __x6__ = (BindingRestElement "IteratorBindingInitialization")
-  app __x7__ = (__x6__ iteratorRecord environment)
-  let result = __x7__
+  access __x5__ = (BindingRestElement "IteratorBindingInitialization")
+  app __x6__ = (__x5__ iteratorRecord environment)
+  let result = __x6__
   currentContext.VariableEnvironment = originalEnv
   currentContext.LexicalEnvironment = originalEnv
-  app __x8__ = (WrapCompletion result)
-  return __x8__
+  return result
 }

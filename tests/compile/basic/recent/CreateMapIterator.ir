@@ -1,11 +1,8 @@
 {
   assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))
   app __x0__ = (RequireInternalSlot map "MapData")
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   ??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{map} and id:{kind} and performs the following steps when called : in:{} out:{}"
   app __x1__ = (CreateIteratorFromClosure closure "%MapIteratorPrototype%" INTRINSIC_MapIteratorPrototype)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (WrapCompletion __x1__)
-  return __x2__
+  return [! __x1__]
 }

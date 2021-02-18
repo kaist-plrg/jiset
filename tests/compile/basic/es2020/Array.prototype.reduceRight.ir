@@ -1,10 +1,8 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (LengthOfArrayLike O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let len = __x1__
+  let len = [? __x1__]
   app __x2__ = (IsCallable callbackfn)
   if (= __x2__ false) throw INTRINSIC_TypeError else {}
   if (&& (= len 0i) (= initialValue absent)) throw INTRINSIC_TypeError else {}
@@ -14,15 +12,12 @@
     let kPresent = false
     while (&& (= kPresent false) (! (< k 0i))) {
       app __x3__ = (ToString k)
-      if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-      let Pk = __x3__
+      let Pk = [! __x3__]
       app __x4__ = (HasProperty O Pk)
-      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-      kPresent = __x4__
+      kPresent = [? __x4__]
       if (= kPresent true) {
         app __x5__ = (Get O Pk)
-        if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-        accumulator = __x5__
+        accumulator = [? __x5__]
       } else {}
       k = (- k 1i)
     }
@@ -30,21 +25,16 @@
   }
   while (! (< k 0i)) {
     app __x6__ = (ToString k)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let Pk = __x6__
+    let Pk = [! __x6__]
     app __x7__ = (HasProperty O Pk)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let kPresent = __x7__
+    let kPresent = [? __x7__]
     if (= kPresent true) {
       app __x8__ = (Get O Pk)
-      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-      let kValue = __x8__
+      let kValue = [? __x8__]
       app __x9__ = (Call callbackfn undefined (new [accumulator, kValue, k, O]))
-      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-      accumulator = __x9__
+      accumulator = [? __x9__]
     } else {}
     k = (- k 1i)
   }
-  app __x10__ = (WrapCompletion accumulator)
-  return __x10__
+  return accumulator
 }

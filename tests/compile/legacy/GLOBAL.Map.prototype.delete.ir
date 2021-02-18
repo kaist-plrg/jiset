@@ -3,8 +3,7 @@
   let key = __x0__
   let M = this
   app __x1__ = (RequireInternalSlot M "MapData")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
+  [? __x1__]
   let entries = M.MapData
   let __x2__ = entries
   let __x3__ = 0i
@@ -19,11 +18,9 @@
     if __x4__ {
       p.Key = CONST_empty
       p.Value = CONST_empty
-      app __x6__ = (WrapCompletion true)
-      return __x6__
+      return true
     } else {}
     __x3__ = (+ __x3__ 1i)
   }
-  app __x7__ = (WrapCompletion false)
-  return __x7__
+  return false
 }

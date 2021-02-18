@@ -6,26 +6,20 @@
     access __x2__ = (ClassAtom1 "IsCharacterClass")
     __x0__ = (= __x2__ true)
   }
-  if __x0__ throw INTRINSIC_SyntaxError else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
-  }
-  let __x4__ = true
-  access __x5__ = (ClassAtom0 "IsCharacterClass")
-  __x4__ = (= __x5__ false)
-  if __x4__ {
-    let __x6__ = true
-    access __x7__ = (ClassAtom1 "IsCharacterClass")
-    __x6__ = (= __x7__ false)
-    if __x6__ {
-      access __x8__ = (ClassAtom0 "CharacterValue")
-      access __x9__ = (ClassAtom1 "CharacterValue")
-      __x6__ = (< __x9__ __x8__)
+  if __x0__ throw INTRINSIC_SyntaxError else return undefined
+  let __x3__ = true
+  access __x4__ = (ClassAtom0 "IsCharacterClass")
+  __x3__ = (= __x4__ false)
+  if __x3__ {
+    let __x5__ = true
+    access __x6__ = (ClassAtom1 "IsCharacterClass")
+    __x5__ = (= __x6__ false)
+    if __x5__ {
+      access __x7__ = (ClassAtom0 "CharacterValue")
+      access __x8__ = (ClassAtom1 "CharacterValue")
+      __x5__ = (< __x8__ __x7__)
     } else {}
-    __x4__ = __x6__
+    __x3__ = __x5__
   } else {}
-  if __x4__ throw INTRINSIC_SyntaxError else {
-    app __x10__ = (NormalCompletion undefined)
-    return __x10__
-  }
+  if __x3__ throw INTRINSIC_SyntaxError else return undefined
 }

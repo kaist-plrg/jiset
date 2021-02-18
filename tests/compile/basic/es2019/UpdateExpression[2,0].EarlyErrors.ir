@@ -1,8 +1,5 @@
 {
   ??? "It is an early Reference Error if AssignmentTargetType of nt:{LeftHandSideExpression} is const:{invalid} ."
   access __x0__ = (LeftHandSideExpression "AssignmentTargetType")
-  if (= __x0__ CONST_strict) throw INTRINSIC_SyntaxError else {
-    app __x1__ = (NormalCompletion undefined)
-    return __x1__
-  }
+  if (= __x0__ CONST_strict) throw INTRINSIC_SyntaxError else return undefined
 }

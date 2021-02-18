@@ -1,14 +1,11 @@
 {
   app __x0__ = (ValidateSharedIntegerTypedArray typedArray true)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let buffer = __x0__
+  let buffer = [? __x0__]
   app __x1__ = (ValidateAtomicAccess typedArray index)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let i = __x1__
+  let i = [? __x1__]
   if (= count undefined) let c = Infinity else {
     app __x2__ = (ToInteger count)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let intCount = __x2__
+    let intCount = [? __x2__]
     app __x3__ = (max intCount 0i)
     let c = __x3__
   }
@@ -31,6 +28,5 @@
   }
   app __x8__ = (LeaveCriticalSection WL)
   __x8__
-  app __x9__ = (WrapCompletion n)
-  return __x9__
+  return n
 }

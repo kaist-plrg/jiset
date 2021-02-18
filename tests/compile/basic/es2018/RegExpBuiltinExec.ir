@@ -3,10 +3,8 @@
   assert (= __x0__ String)
   let length = S.length
   app __x1__ = (Get R "lastIndex")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (ToLength __x1__)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let lastIndex = __x2__
+  app __x2__ = (ToLength [? __x1__])
+  let lastIndex = [? __x2__]
   let flags = R.OriginalFlags
   if (contains flags "g") let global = true else let global = false
   if (contains flags "y") let sticky = true else let sticky = false
@@ -18,24 +16,20 @@
     if (< length lastIndex) {
       if (|| (= global true) (= sticky true)) {
         app __x3__ = (Set R "lastIndex" 0i true)
-        if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-        __x3__
+        [? __x3__]
       } else {}
-      app __x4__ = (WrapCompletion null)
-      return __x4__
+      return null
     } else {}
-    app __x5__ = (matcher S lastIndex)
-    let r = __x5__
+    app __x4__ = (matcher S lastIndex)
+    let r = __x4__
     if (= r CONST_failure) {
       if (= sticky true) {
-        app __x6__ = (Set R "lastIndex" 0i true)
-        if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-        __x6__
-        app __x7__ = (WrapCompletion null)
-        return __x7__
+        app __x5__ = (Set R "lastIndex" 0i true)
+        [? __x5__]
+        return null
       } else {}
-      app __x8__ = (AdvanceStringIndex S lastIndex fullUnicode)
-      lastIndex = __x8__
+      app __x6__ = (AdvanceStringIndex S lastIndex fullUnicode)
+      lastIndex = __x6__
     } else matchSucceeded = true
   }
   let e = r.endIndex
@@ -44,42 +38,33 @@
     e = eUTF
   } else {}
   if (|| (= global true) (= sticky true)) {
-    app __x9__ = (Set R "lastIndex" e true)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    __x9__
+    app __x7__ = (Set R "lastIndex" e true)
+    [? __x7__]
   } else {}
   ??? "Let id:{n} be the number of elements in id:{r} ' s id:{captures} List . ( This is the same value as link:{unhandled: sec-notation} ' s id:{NcapturingParens} . )"
   assert (< n (- (** 2.0 32i) 1i))
-  app __x10__ = (ArrayCreate (+ n 1i))
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  let A = __x10__
-  app __x11__ = (CreateDataProperty A "index" lastIndex)
-  if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-  __x11__
-  app __x12__ = (CreateDataProperty A "input" S)
-  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-  __x12__
+  app __x8__ = (ArrayCreate (+ n 1i))
+  let A = [! __x8__]
+  app __x9__ = (CreateDataProperty A "index" lastIndex)
+  [! __x9__]
+  app __x10__ = (CreateDataProperty A "input" S)
+  [! __x10__]
   ??? "Let id:{matchedSubstr} be the matched substring ( i . e . the portion of id:{S} between offset id:{lastIndex} inclusive and offset id:{e} exclusive ) ."
-  app __x13__ = (CreateDataProperty A "0" matchedSubstr)
-  if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-  __x13__
+  app __x11__ = (CreateDataProperty A "0" matchedSubstr)
+  [! __x11__]
   ??? "If id:{R} contains any nt:{GroupName} , then in:{} out:{}"
   ??? "Else , in:{} out:{}"
-  app __x14__ = (CreateDataProperty A "groups" groups)
-  if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-  __x14__
+  app __x12__ = (CreateDataProperty A "groups" groups)
+  [! __x12__]
   let i = (+ 0i 1i)
-  let __x15__ = (+ n 1i)
-  while (< i __x15__) {
+  let __x13__ = (+ n 1i)
+  while (< i __x13__) {
     ??? "Let id:{captureI} be id:{i} sup:{th} element of id:{r} ' s id:{captures} List ."
     if (= captureI undefined) let capturedValue = undefined else if (= fullUnicode true) ??? "Let id:{capturedValue} be the String value whose code units are the UTF16Encoding of the code points of id:{captureI} ." else let capturedValue = captureI
-    app __x16__ = (ToString i)
-    if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-    app __x17__ = (CreateDataProperty A __x16__ capturedValue)
-    if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-    __x17__
+    app __x14__ = (ToString i)
+    app __x15__ = (CreateDataProperty A [! __x14__] capturedValue)
+    [! __x15__]
     ??? "If the id:{i} th capture of id:{R} was defined with a nt:{GroupName} , then in:{} out:{}"
   }
-  app __x18__ = (WrapCompletion A)
-  return __x18__
+  return A
 }

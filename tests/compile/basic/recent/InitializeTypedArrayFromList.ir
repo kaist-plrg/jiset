@@ -1,17 +1,14 @@
 {
   let len = values.length
   app __x0__ = (AllocateTypedArrayBuffer O len)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   let k = 0i
   while (< k len) {
     app __x1__ = (ToString k)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let Pk = __x1__
+    let Pk = [! __x1__]
     let kValue = (pop values 0i)
     app __x2__ = (Set O Pk kValue true)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    __x2__
+    [? __x2__]
     k = (+ k 1i)
   }
 }

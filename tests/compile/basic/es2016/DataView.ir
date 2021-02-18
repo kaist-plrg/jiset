@@ -4,8 +4,7 @@
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   if (= buffer.ArrayBufferData absent) throw INTRINSIC_TypeError else {}
   app __x1__ = (ToNumber byteOffset)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let numberOffset = __x1__
+  let numberOffset = [? __x1__]
   app __x2__ = (ToInteger numberOffset)
   let offset = __x2__
   if (|| (! (== numberOffset offset)) (< offset 0i)) throw INTRINSIC_RangeError else {}
@@ -15,17 +14,14 @@
   if (< bufferByteLength offset) throw INTRINSIC_RangeError else {}
   if (= byteLength undefined) let viewByteLength = (- bufferByteLength offset) else {
     app __x4__ = (ToLength byteLength)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let viewByteLength = __x4__
+    let viewByteLength = [? __x4__]
     if (< bufferByteLength (+ offset viewByteLength)) throw INTRINSIC_RangeError else {}
   }
   app __x5__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_DataViewPrototype (new ["DataView", "ViewedArrayBuffer", "ByteLength", "ByteOffset"]))
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let O = __x5__
+  let O = [? __x5__]
   O.DataView = true
   O.ViewedArrayBuffer = buffer
   O.ByteLength = viewByteLength
   O.ByteOffset = offset
-  app __x6__ = (WrapCompletion O)
-  return __x6__
+  return O
 }

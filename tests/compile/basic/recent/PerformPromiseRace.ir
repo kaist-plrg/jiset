@@ -8,24 +8,19 @@
     let next = __x2__
     app __x3__ = (IsAbruptCompletion next)
     if __x3__ iteratorRecord.Done = true else {}
-    if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else {}
-    next
+    [? next]
     if (= next false) {
       iteratorRecord.Done = true
-      app __x4__ = (WrapCompletion resultCapability.Promise)
-      return __x4__
+      return resultCapability.Promise
     } else {}
-    app __x5__ = (IteratorValue next)
-    let nextValue = __x5__
-    app __x6__ = (IsAbruptCompletion nextValue)
-    if __x6__ iteratorRecord.Done = true else {}
-    if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else {}
-    nextValue
-    app __x7__ = (Call promiseResolve constructor (new [nextValue]))
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let nextPromise = __x7__
-    app __x8__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, resultCapability.Reject]))
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    __x8__
+    app __x4__ = (IteratorValue next)
+    let nextValue = __x4__
+    app __x5__ = (IsAbruptCompletion nextValue)
+    if __x5__ iteratorRecord.Done = true else {}
+    [? nextValue]
+    app __x6__ = (Call promiseResolve constructor (new [nextValue]))
+    let nextPromise = [? __x6__]
+    app __x7__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, resultCapability.Reject]))
+    [? __x7__]
   }
 }

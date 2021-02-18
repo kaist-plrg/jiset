@@ -5,8 +5,7 @@
   app __x1__ = (Type promise)
   if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
   app __x2__ = (SpeciesConstructor promise INTRINSIC_Promise)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let C = __x2__
+  let C = [? __x2__]
   app __x3__ = (IsConstructor C)
   assert (= __x3__ true)
   app __x4__ = (IsCallable onFinally)
@@ -16,19 +15,15 @@
   } else {
     ??? "Let id:{stepsThenFinally} be the algorithm steps defined in Then Finally Functions ."
     app __x5__ = (CreateBuiltinFunction stepsThenFinally (new ["Constructor", "OnFinally"]))
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let thenFinally = __x5__
+    let thenFinally = [! __x5__]
     thenFinally.Constructor = C
     thenFinally.OnFinally = onFinally
     ??? "Let id:{stepsCatchFinally} be the algorithm steps defined in Catch Finally Functions ."
     app __x6__ = (CreateBuiltinFunction stepsCatchFinally (new ["Constructor", "OnFinally"]))
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let catchFinally = __x6__
+    let catchFinally = [! __x6__]
     catchFinally.Constructor = C
     catchFinally.OnFinally = onFinally
   }
   app __x7__ = (Invoke promise "then" (new [thenFinally, catchFinally]))
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  return [? __x7__]
 }

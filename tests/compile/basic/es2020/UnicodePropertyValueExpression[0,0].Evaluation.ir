@@ -2,12 +2,10 @@
   access __x0__ = (UnicodePropertyName "SourceText")
   let ps = __x0__
   app __x1__ = (UnicodeMatchProperty ps)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let p = __x1__
+  let p = [! __x1__]
   access __x2__ = (UnicodePropertyValue "SourceText")
   let vs = __x2__
   app __x3__ = (UnicodeMatchPropertyValue p vs)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let v = __x3__
+  let v = [! __x3__]
   ??? "Return the CharSet containing all Unicode code points whose character database definition includes the property id:{p} with value id:{v} ."
 }

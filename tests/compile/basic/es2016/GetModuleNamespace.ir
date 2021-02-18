@@ -2,16 +2,14 @@
   let namespace = module.Namespace
   if (= namespace undefined) {
     app __x0__ = (module.GetExportedNames module (new []))
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    let exportedNames = __x0__
+    let exportedNames = [? __x0__]
     let unambiguousNames = (new [])
     let __x1__ = exportedNames
     let __x2__ = 0i
     while (< __x2__ __x1__.length) {
       let name = __x1__[__x2__]
       app __x3__ = (module.ResolveExport module name (new []) (new []))
-      if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-      let resolution = __x3__
+      let resolution = [? __x3__]
       if (= resolution null) throw INTRINSIC_SyntaxError else {}
       if (! (= resolution "ambiguous")) append name -> unambiguousNames else {}
       __x2__ = (+ __x2__ 1i)
@@ -19,6 +17,5 @@
     app __x4__ = (ModuleNamespaceCreate module unambiguousNames)
     let namespace = __x4__
   } else {}
-  app __x5__ = (WrapCompletion namespace)
-  return __x5__
+  return namespace
 }

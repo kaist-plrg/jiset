@@ -1,12 +1,8 @@
 {
   access __x0__ = (PropertySetParameterList "Contains")
   app __x1__ = (__x0__ "SuperCall")
-  if (= __x1__ true) {
-    app __x2__ = (WrapCompletion true)
-    return __x2__
-  } else {}
-  access __x3__ = (FunctionBody "Contains")
-  app __x4__ = (__x3__ "SuperCall")
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  if (= __x1__ true) return true else {}
+  access __x2__ = (FunctionBody "Contains")
+  app __x3__ = (__x2__ "SuperCall")
+  return __x3__
 }

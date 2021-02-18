@@ -2,19 +2,12 @@
   access __x0__ = (Block "ContainsDuplicateLabels")
   app __x1__ = (__x0__ labelSet)
   let hasDuplicates = __x1__
-  if (= hasDuplicates true) {
-    app __x2__ = (WrapCompletion true)
-    return __x2__
-  } else {}
-  access __x3__ = (Catch "ContainsDuplicateLabels")
-  app __x4__ = (__x3__ labelSet)
-  let hasDuplicates = __x4__
-  if (= hasDuplicates true) {
-    app __x5__ = (WrapCompletion true)
-    return __x5__
-  } else {}
-  access __x6__ = (Finally "ContainsDuplicateLabels")
-  app __x7__ = (__x6__ labelSet)
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  if (= hasDuplicates true) return true else {}
+  access __x2__ = (Catch "ContainsDuplicateLabels")
+  app __x3__ = (__x2__ labelSet)
+  let hasDuplicates = __x3__
+  if (= hasDuplicates true) return true else {}
+  access __x4__ = (Finally "ContainsDuplicateLabels")
+  app __x5__ = (__x4__ labelSet)
+  return __x5__
 }

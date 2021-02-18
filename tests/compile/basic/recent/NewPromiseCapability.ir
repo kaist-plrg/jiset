@@ -4,17 +4,14 @@
   ??? "Let id:{promiseCapability} be the PromiseCapability Record { [ [ Promise ] ] : value:{undefined} , [ [ Resolve ] ] : value:{undefined} , [ [ Reject ] ] : value:{undefined} } ."
   let steps = GetCapabilitiesExecutorFunctions
   app __x1__ = (CreateBuiltinFunction steps (new ["Capability"]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let executor = __x1__
+  let executor = [! __x1__]
   executor.Capability = promiseCapability
   app __x2__ = (Construct C (new [executor]))
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let promise = __x2__
+  let promise = [? __x2__]
   app __x3__ = (IsCallable promiseCapability.Resolve)
   if (= __x3__ false) throw INTRINSIC_TypeError else {}
   app __x4__ = (IsCallable promiseCapability.Reject)
   if (= __x4__ false) throw INTRINSIC_TypeError else {}
   promiseCapability.Promise = promise
-  app __x5__ = (WrapCompletion promiseCapability)
-  return __x5__
+  return promiseCapability
 }

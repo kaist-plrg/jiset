@@ -1,8 +1,5 @@
 {
   if (< exponent ??? "0n") throw INTRINSIC_RangeError else {}
-  if (&& (= base ??? "0n") (= exponent ??? "0n")) {
-    app __x0__ = (WrapCompletion ??? "1n")
-    return __x0__
-  } else {}
+  if (&& (= base ??? "0n") (= exponent ??? "0n")) return ??? "1n" else {}
   ??? "Return the BigInt value that represents the mathematical value of id:{base} raised to the power id:{exponent} ."
 }

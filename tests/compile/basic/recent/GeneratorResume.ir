@@ -1,11 +1,9 @@
 {
   app __x0__ = (GeneratorValidate generator generatorBrand)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let state = __x0__
+  let state = [? __x0__]
   if (= state CONST_completed) {
     app __x1__ = (CreateIterResultObject undefined true)
-    app __x2__ = (WrapCompletion __x1__)
-    return __x2__
+    return __x1__
   } else {}
   assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))
   let genContext = generator.GeneratorContext
@@ -15,7 +13,6 @@
   append genContext -> GLOBAL_executionStack
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   ??? "Resume the suspended evaluation of id:{genContext} using NormalCompletion ( id:{value} ) as the result of the operation that suspended it . Let id:{result} be the value returned by the resumed computation ."
-  app __x3__ = (Completion result)
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  app __x2__ = (Completion result)
+  return __x2__
 }

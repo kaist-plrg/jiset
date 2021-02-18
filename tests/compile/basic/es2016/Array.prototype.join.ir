@@ -1,43 +1,31 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (Get O "length")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (ToLength __x1__)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let len = __x2__
+  app __x2__ = (ToLength [? __x1__])
+  let len = [? __x2__]
   if (= separator undefined) let separator = "," else {}
   app __x3__ = (ToString separator)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let sep = __x3__
-  if (= len 0i) {
-    app __x4__ = (WrapCompletion "")
-    return __x4__
-  } else {}
-  app __x5__ = (Get O "0")
-  let element0 = __x5__
+  let sep = [? __x3__]
+  if (= len 0i) return "" else {}
+  app __x4__ = (Get O "0")
+  let element0 = __x4__
   if (|| (= element0 undefined) (= element0 null)) let R = "" else {
-    app __x6__ = (ToString element0)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let R = __x6__
+    app __x5__ = (ToString element0)
+    let R = [? __x5__]
   }
   let k = ??? "1"
   while (< k len) {
     let S = (+ R sep)
-    app __x7__ = (ToString k)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    app __x8__ = (Get O __x7__)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let element = __x8__
+    app __x6__ = (ToString k)
+    app __x7__ = (Get O [! __x6__])
+    let element = [? __x7__]
     if (|| (= element undefined) (= element null)) let next = "" else {
-      app __x9__ = (ToString element)
-      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-      let next = __x9__
+      app __x8__ = (ToString element)
+      let next = [? __x8__]
     }
     let R = (+ S next)
     k = (+ k 1i)
   }
-  app __x10__ = (WrapCompletion R)
-  return __x10__
+  return R
 }

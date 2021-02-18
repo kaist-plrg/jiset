@@ -1,42 +1,32 @@
 {
   app __x0__ = (IsRegExp pattern)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let patternIsRegExp = __x0__
+  let patternIsRegExp = [? __x0__]
   if (! (= NewTarget undefined)) let newTarget = NewTarget else {
     let newTarget = GLOBAL_context.Function
     if (&& (= patternIsRegExp true) (= flags undefined)) {
       app __x1__ = (Get pattern "constructor")
-      if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-      let patternConstructor = __x1__
+      let patternConstructor = [? __x1__]
       app __x2__ = (SameValue newTarget patternConstructor)
-      if (= __x2__ true) {
-        app __x3__ = (WrapCompletion pattern)
-        return __x3__
-      } else {}
+      if (= __x2__ true) return pattern else {}
     } else {}
   }
-  app __x4__ = (Type pattern)
-  if (&& (= __x4__ Object) (! (= pattern.RegExpMatcher absent))) {
+  app __x3__ = (Type pattern)
+  if (&& (= __x3__ Object) (! (= pattern.RegExpMatcher absent))) {
     let P = pattern.OriginalSource
     if (= flags undefined) let F = pattern.OriginalFlags else let F = flags
   } else if (= patternIsRegExp true) {
-    app __x5__ = (Get pattern "source")
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let P = __x5__
+    app __x4__ = (Get pattern "source")
+    let P = [? __x4__]
     if (= flags undefined) {
-      app __x6__ = (Get pattern "flags")
-      if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-      let F = __x6__
+      app __x5__ = (Get pattern "flags")
+      let F = [? __x5__]
     } else let F = flags
   } else {
     let P = pattern
     let F = flags
   }
-  app __x7__ = (RegExpAlloc newTarget)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  let O = __x7__
-  app __x8__ = (RegExpInitialize O P F)
-  if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-  app __x9__ = (WrapCompletion __x8__)
-  return __x9__
+  app __x6__ = (RegExpAlloc newTarget)
+  let O = [? __x6__]
+  app __x7__ = (RegExpInitialize O P F)
+  return [? __x7__]
 }

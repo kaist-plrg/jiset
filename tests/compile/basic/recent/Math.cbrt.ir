@@ -1,10 +1,6 @@
 {
   app __x0__ = (ToNumber x)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let n = __x0__
-  if (|| (|| (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) (= n Infinity)) (= n -Infinity)) {
-    app __x1__ = (WrapCompletion n)
-    return __x1__
-  } else {}
+  let n = [? __x0__]
+  if (|| (|| (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) (= n Infinity)) (= n -Infinity)) return n else {}
   ??? "Return an implementation - approximated value representing the result of the cube root of ℝ ( id:{n} ) ."
 }

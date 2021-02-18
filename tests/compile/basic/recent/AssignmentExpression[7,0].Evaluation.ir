@@ -2,36 +2,28 @@
   access __x0__ = (LeftHandSideExpression "Evaluation")
   let lref = __x0__
   app __x1__ = (GetValue lref)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let lval = __x1__
+  let lval = [? __x1__]
   app __x2__ = (ToBoolean lval)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let lbool = __x2__
-  if (= lbool true) {
-    app __x3__ = (WrapCompletion lval)
-    return __x3__
+  let lbool = [! __x2__]
+  if (= lbool true) return lval else {}
+  let __x3__ = true
+  app __x4__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+  __x3__ = (= __x4__ true)
+  if __x3__ {
+    access __x5__ = (LeftHandSideExpression "IsIdentifierRef")
+    __x3__ = (= __x5__ true)
   } else {}
-  let __x4__ = true
-  app __x5__ = (IsAnonymousFunctionDefinition AssignmentExpression)
-  __x4__ = (= __x5__ true)
-  if __x4__ {
-    access __x6__ = (LeftHandSideExpression "IsIdentifierRef")
-    __x4__ = (= __x6__ true)
-  } else {}
-  if __x4__ {
-    access __x7__ = (AssignmentExpression "NamedEvaluation")
-    app __x8__ = (__x7__ lref.ReferencedName)
-    let rval = __x8__
+  if __x3__ {
+    access __x6__ = (AssignmentExpression "NamedEvaluation")
+    app __x7__ = (__x6__ lref.ReferencedName)
+    let rval = __x7__
   } else {
-    access __x9__ = (AssignmentExpression "Evaluation")
-    let rref = __x9__
-    app __x10__ = (GetValue rref)
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    let rval = __x10__
+    access __x8__ = (AssignmentExpression "Evaluation")
+    let rref = __x8__
+    app __x9__ = (GetValue rref)
+    let rval = [? __x9__]
   }
-  app __x11__ = (PutValue lref rval)
-  if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-  __x11__
-  app __x12__ = (WrapCompletion rval)
-  return __x12__
+  app __x10__ = (PutValue lref rval)
+  [? __x10__]
+  return rval
 }

@@ -13,8 +13,7 @@
     app __x5__ = (env.HasLexicalDeclaration env name)
     if (= __x5__ true) throw INTRINSIC_SyntaxError else {}
     app __x6__ = (env.HasRestrictedGlobalProperty env name)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let hasRestrictedGlobal = __x6__
+    let hasRestrictedGlobal = [? __x6__]
     if (= hasRestrictedGlobal true) throw INTRINSIC_SyntaxError else {}
     __x3__ = (+ __x3__ 1i)
   }
@@ -41,8 +40,7 @@
       let fn = __x13__[0i]
       if (! (contains declaredFunctionNames fn)) {
         app __x14__ = (env.CanDeclareGlobalFunction env fn)
-        if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-        let fnDefinable = __x14__
+        let fnDefinable = [? __x14__]
         if (= fnDefinable false) throw INTRINSIC_TypeError else {}
         append fn -> declaredFunctionNames
         prepend d -> functionsToInitialize
@@ -62,8 +60,7 @@
         let vn = __x18__[__x19__]
         if (! (contains declaredFunctionNames vn)) {
           app __x20__ = (env.CanDeclareGlobalVar env vn)
-          if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else {}
-          let vnDefinable = __x20__
+          let vnDefinable = [? __x20__]
           if (= vnDefinable false) throw INTRINSIC_TypeError else {}
           if (! (contains declaredVarNames vn)) append vn -> declaredVarNames else {}
         } else {}
@@ -86,12 +83,10 @@
       access __x27__ = (d "IsConstantDeclaration")
       if (= __x27__ true) {
         app __x28__ = (env.CreateImmutableBinding env dn true)
-        if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else {}
-        __x28__
+        [? __x28__]
       } else {
         app __x29__ = (env.CreateMutableBinding env dn false)
-        if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else {}
-        __x29__
+        [? __x29__]
       }
       __x26__ = (+ __x26__ 1i)
     }
@@ -107,8 +102,7 @@
     app __x34__ = (__x33__ env)
     let fo = __x34__
     app __x35__ = (env.CreateGlobalFunctionBinding env fn fo false)
-    if (is-completion __x35__) if (= __x35__.Type CONST_normal) __x35__ = __x35__.Value else return __x35__ else {}
-    __x35__
+    [? __x35__]
     __x31__ = (+ __x31__ 1i)
   }
   let __x36__ = declaredVarNames
@@ -116,11 +110,9 @@
   while (< __x37__ __x36__.length) {
     let vn = __x36__[__x37__]
     app __x38__ = (env.CreateGlobalVarBinding env vn false)
-    if (is-completion __x38__) if (= __x38__.Type CONST_normal) __x38__ = __x38__.Value else return __x38__ else {}
-    __x38__
+    [? __x38__]
     __x37__ = (+ __x37__ 1i)
   }
   app __x39__ = (NormalCompletion CONST_empty)
-  app __x40__ = (WrapCompletion __x39__)
-  return __x40__
+  return __x39__
 }

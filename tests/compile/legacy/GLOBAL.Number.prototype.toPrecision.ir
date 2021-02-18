@@ -2,30 +2,20 @@
   app __x0__ = (GetArgument argumentsList 0i)
   let precision = __x0__
   app __x1__ = (thisNumberValue this)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let x = __x1__
+  let x = [? __x1__]
   if (= precision undefined) {
     app __x2__ = (ToString x)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return [! __x2__]
   } else {}
-  app __x4__ = (ToInteger precision)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let p = __x4__
-  if (= x NaN) {
-    app __x5__ = (WrapCompletion "NaN")
-    return __x5__
-  } else {}
+  app __x3__ = (ToInteger precision)
+  let p = [? __x3__]
+  if (= x NaN) return "NaN" else {}
   let s = ""
   if (< x 0i) {
     s = "-"
     x = (- x)
   } else {}
-  if (== x Infinity) {
-    app __x6__ = (WrapCompletion (+ s "Infinity"))
-    return __x6__
-  } else {}
+  if (== x Infinity) return (+ s "Infinity") else {}
   if (|| (< p 1i) (< 100i p)) throw INTRINSIC_RangeError else {}
   if (== x 0i) {
     ??? "Let id:{m} be the String value consisting of id:{p} occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
@@ -45,15 +35,10 @@
         e = (- e)
       }
       ??? "Let id:{d} be the String value consisting of the digits of the decimal representation of id:{e} ( in order , with no leading zeroes ) ."
-      app __x7__ = (WrapCompletion (+ (+ (+ (+ s m) "e") c) d))
-      return __x7__
+      return (+ (+ (+ (+ s m) "e") c) d)
     } else {}
   }
-  if (== e (- p 1i)) {
-    app __x8__ = (WrapCompletion (+ s m))
-    return __x8__
-  } else {}
+  if (== e (- p 1i)) return (+ s m) else {}
   if (! (< e 0i)) ??? "Set id:{m} to the string - concatenation of the first id:{e} + 1 code units of id:{m} , the code unit 0x002E ( FULL STOP ) , and the remaining id:{p} - ( id:{e} + 1 ) code units of id:{m} ." else ??? "Set id:{m} to the string - concatenation of the code unit 0x0030 ( DIGIT ZERO ) , the code unit 0x002E ( FULL STOP ) , - ( id:{e} + 1 ) occurrences of the code unit 0x0030 ( DIGIT ZERO ) , and the String id:{m} ."
-  app __x9__ = (WrapCompletion (+ s m))
-  return __x9__
+  return (+ s m)
 }

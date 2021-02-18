@@ -9,18 +9,13 @@
   while (< index len) {
     let val = argumentsList[index]
     app __x2__ = (ToString index)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (CreateDataPropertyOrThrow obj __x2__ val)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    __x3__
+    app __x3__ = (CreateDataPropertyOrThrow obj [! __x2__] val)
+    [! __x3__]
     index = (+ index 1i)
   }
   app __x4__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSIC_Array_prototype_values, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  __x4__
+  [! __x4__]
   app __x5__ = (DefinePropertyOrThrow obj "callee" (new PropertyDescriptor("Get" -> INTRINSIC_ThrowTypeError, "Set" -> INTRINSIC_ThrowTypeError, "Enumerable" -> false, "Configurable" -> false)))
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  __x5__
-  app __x6__ = (WrapCompletion obj)
-  return __x6__
+  [! __x5__]
+  return obj
 }

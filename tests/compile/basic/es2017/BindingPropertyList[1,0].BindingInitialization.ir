@@ -2,10 +2,8 @@
   access __x0__ = (BindingPropertyList "BindingInitialization")
   app __x1__ = (__x0__ value environment)
   let status = __x1__
-  if (is-completion status) if (= status.Type CONST_normal) status = status.Value else return status else {}
-  status
+  [? status]
   access __x2__ = (BindingProperty "BindingInitialization")
   app __x3__ = (__x2__ value environment)
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  return __x3__
 }

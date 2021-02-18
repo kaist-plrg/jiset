@@ -1,48 +1,38 @@
 {
   access __x0__ = (UnaryExpression "Evaluation")
   let ref = __x0__
-  if (is-completion ref) if (= ref.Type CONST_normal) ref = ref.Value else return ref else {}
-  ref
+  [? ref]
   app __x1__ = (Type ref)
-  if (! (= __x1__ Reference)) {
-    app __x2__ = (WrapCompletion true)
-    return __x2__
+  if (! (= __x1__ Reference)) return true else {}
+  app __x2__ = (IsUnresolvableReference ref)
+  if (= __x2__ true) {
+    app __x3__ = (IsStrictReference ref)
+    assert (= __x3__ false)
+    return true
   } else {}
-  app __x3__ = (IsUnresolvableReference ref)
-  if (= __x3__ true) {
-    app __x4__ = (IsStrictReference ref)
-    assert (= __x4__ false)
-    app __x5__ = (WrapCompletion true)
-    return __x5__
-  } else {}
-  app __x6__ = (IsPropertyReference ref)
-  if (= __x6__ true) {
-    app __x7__ = (IsSuperReference ref)
-    if (= __x7__ true) throw INTRINSIC_ReferenceError else {}
-    app __x8__ = (GetBase ref)
-    app __x9__ = (ToObject __x8__)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    let baseObj = __x9__
-    app __x10__ = (GetReferencedName ref)
-    app __x11__ = (baseObj.Delete baseObj __x10__)
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    let deleteStatus = __x11__
-    let __x12__ = true
-    __x12__ = (= deleteStatus false)
-    if __x12__ {
-      app __x13__ = (IsStrictReference ref)
-      __x12__ = (= __x13__ true)
+  app __x4__ = (IsPropertyReference ref)
+  if (= __x4__ true) {
+    app __x5__ = (IsSuperReference ref)
+    if (= __x5__ true) throw INTRINSIC_ReferenceError else {}
+    app __x6__ = (GetBase ref)
+    app __x7__ = (ToObject __x6__)
+    let baseObj = [! __x7__]
+    app __x8__ = (GetReferencedName ref)
+    app __x9__ = (baseObj.Delete baseObj __x8__)
+    let deleteStatus = [? __x9__]
+    let __x10__ = true
+    __x10__ = (= deleteStatus false)
+    if __x10__ {
+      app __x11__ = (IsStrictReference ref)
+      __x10__ = (= __x11__ true)
     } else {}
-    if __x12__ throw INTRINSIC_TypeError else {}
-    app __x14__ = (WrapCompletion deleteStatus)
-    return __x14__
+    if __x10__ throw INTRINSIC_TypeError else {}
+    return deleteStatus
   } else {
-    app __x15__ = (GetBase ref)
-    let bindings = __x15__
-    app __x16__ = (GetReferencedName ref)
-    app __x17__ = (bindings.DeleteBinding bindings __x16__)
-    if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-    app __x18__ = (WrapCompletion __x17__)
-    return __x18__
+    app __x12__ = (GetBase ref)
+    let bindings = __x12__
+    app __x13__ = (GetReferencedName ref)
+    app __x14__ = (bindings.DeleteBinding bindings __x13__)
+    return [? __x14__]
   }
 }

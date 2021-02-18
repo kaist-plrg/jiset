@@ -18,11 +18,9 @@
       __x3__ = (+ __x3__ 1i)
     }
     assert (= module.Status "uninstantiated")
-    app __x4__ = (WrapCompletion result)
-    return __x4__
+    return result
   } else {}
   assert (|| (= module.Status "instantiated") (= module.Status "evaluated"))
   assert (= stack.length 0i)
-  app __x5__ = (WrapCompletion undefined)
-  return __x5__
+  return undefined
 }

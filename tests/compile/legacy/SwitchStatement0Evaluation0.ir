@@ -2,8 +2,7 @@
   access __x0__ = (Expression "Evaluation")
   let exprRef = __x0__
   app __x1__ = (GetValue exprRef)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let switchValue = __x1__
+  let switchValue = [? __x1__]
   let oldEnv = GLOBAL_context.LexicalEnvironment
   app __x2__ = (NewDeclarativeEnvironment oldEnv)
   let blockEnv = __x2__
@@ -14,6 +13,5 @@
   app __x5__ = (__x4__ switchValue)
   let R = __x5__
   GLOBAL_context.LexicalEnvironment = oldEnv
-  app __x6__ = (WrapCompletion R)
-  return __x6__
+  return R
 }

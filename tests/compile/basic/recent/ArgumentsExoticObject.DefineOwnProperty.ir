@@ -15,28 +15,23 @@
     newArgDesc.Value = __x3__
   } else {} else {}
   app __x4__ = (OrdinaryDefineOwnProperty args P newArgDesc)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let allowed = __x4__
-  if (= allowed false) {
-    app __x5__ = (WrapCompletion false)
-    return __x5__
-  } else {}
+  let allowed = [? __x4__]
+  if (= allowed false) return false else {}
   if (= isMapped true) {
-    app __x6__ = (IsAccessorDescriptor Desc)
-    if (= __x6__ true) {
-      app __x7__ = (map.Delete map P)
-      __x7__
+    app __x5__ = (IsAccessorDescriptor Desc)
+    if (= __x5__ true) {
+      app __x6__ = (map.Delete map P)
+      __x6__
     } else {
       if (! (= Desc.Value absent)) {
-        app __x8__ = (Set map P Desc.Value false)
-        let setStatus = __x8__
+        app __x7__ = (Set map P Desc.Value false)
+        let setStatus = __x7__
       } else {}
       if (= Desc.Writable false) {
-        app __x9__ = (map.Delete map P)
-        __x9__
+        app __x8__ = (map.Delete map P)
+        __x8__
       } else {}
     }
   } else {}
-  app __x10__ = (WrapCompletion true)
-  return __x10__
+  return true
 }

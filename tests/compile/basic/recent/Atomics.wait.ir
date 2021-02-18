@@ -1,25 +1,20 @@
 {
   app __x0__ = (ValidateIntegerTypedArray typedArray true)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let buffer = __x0__
+  let buffer = [? __x0__]
   app __x1__ = (IsSharedArrayBuffer buffer)
   if (= __x1__ false) throw INTRINSIC_TypeError else {}
   app __x2__ = (ValidateAtomicAccess typedArray index)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let indexedPosition = __x2__
+  let indexedPosition = [? __x2__]
   let arrayTypeName = typedArray.TypedArrayName
   if (= arrayTypeName "BigInt64Array") {
     app __x3__ = (ToBigInt64 value)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let v = __x3__
+    let v = [? __x3__]
   } else {
     app __x4__ = (ToInt32 value)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let v = __x4__
+    let v = [? __x4__]
   }
   app __x5__ = (ToNumber timeout)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let q = __x5__
+  let q = [? __x5__]
   if (|| (= q NaN) (= q Infinity)) let t = Infinity else if (= q -Infinity) let t = 0i else {
     app __x6__ = (max q 0i)
     let t = __x6__
@@ -34,30 +29,24 @@
   __x9__
   ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
   app __x10__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_SeqCst)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  let w = __x10__
+  let w = [! __x10__]
   if (! (== v w)) {
     app __x11__ = (LeaveCriticalSection WL)
     __x11__
-    app __x12__ = (WrapCompletion "not-equal")
-    return __x12__
+    return "not-equal"
   } else {}
-  app __x13__ = (AgentSignifier )
-  let W = __x13__
-  app __x14__ = (AddWaiter WL W)
-  __x14__
-  app __x15__ = (SuspendAgent WL W t)
-  let notified = __x15__
+  app __x12__ = (AgentSignifier )
+  let W = __x12__
+  app __x13__ = (AddWaiter WL W)
+  __x13__
+  app __x14__ = (SuspendAgent WL W t)
+  let notified = __x14__
   if (= notified true) {} else {
-    app __x16__ = (RemoveWaiter WL W)
-    __x16__
+    app __x15__ = (RemoveWaiter WL W)
+    __x15__
   }
-  app __x17__ = (LeaveCriticalSection WL)
-  __x17__
-  if (= notified true) {
-    app __x18__ = (WrapCompletion "ok")
-    return __x18__
-  } else {}
-  app __x19__ = (WrapCompletion "timed-out")
-  return __x19__
+  app __x16__ = (LeaveCriticalSection WL)
+  __x16__
+  if (= notified true) return "ok" else {}
+  return "timed-out"
 }

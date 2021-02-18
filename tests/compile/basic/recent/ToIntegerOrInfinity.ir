@@ -1,23 +1,12 @@
 {
   app __x0__ = (ToNumber argument)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let number = __x0__
-  if (|| (|| (= number NaN) (= number 0i)) (= number -0.0)) {
-    app __x1__ = (WrapCompletion 0i)
-    return __x1__
-  } else {}
-  if (= number Infinity) {
-    app __x2__ = (WrapCompletion Infinity)
-    return __x2__
-  } else {}
-  if (= number -Infinity) {
-    app __x3__ = (WrapCompletion -Infinity)
-    return __x3__
-  } else {}
-  app __x4__ = (abs number)
-  app __x5__ = (floor __x4__)
-  let integer = __x5__
+  let number = [? __x0__]
+  if (|| (|| (= number NaN) (= number 0i)) (= number -0.0)) return 0i else {}
+  if (= number Infinity) return Infinity else {}
+  if (= number -Infinity) return -Infinity else {}
+  app __x1__ = (abs number)
+  app __x2__ = (floor __x1__)
+  let integer = __x2__
   if (< number 0i) integer = (- integer) else {}
-  app __x6__ = (WrapCompletion integer)
-  return __x6__
+  return integer
 }

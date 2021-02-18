@@ -3,10 +3,7 @@
   let R = ""
   let k = 0i
   while true {
-    if (= k strLen) {
-      app __x0__ = (WrapCompletion R)
-      return __x0__
-    } else {}
+    if (= k strLen) return R else {}
     let C = string[k]
     if (contains unescapedSet C) {
       let S = C
@@ -16,13 +13,13 @@
       ??? "If id:{C} is not a link:{unhandled: leading-surrogate} , then in:{} out:{}"
       ??? "Else , in:{} out:{}"
       ??? "Let id:{Octets} be the List of octets resulting by applying the UTF - 8 transformation to id:{V} ."
-      let __x1__ = Octets
-      let __x2__ = 0i
-      while (< __x2__ __x1__.length) {
-        let octet = __x1__[__x2__]
+      let __x0__ = Octets
+      let __x1__ = 0i
+      while (< __x1__ __x0__.length) {
+        let octet = __x0__[__x1__]
         let S = (+ INTRINSIC_ ??? "StringOp")
         R = (+ R S)
-        __x2__ = (+ __x2__ 1i)
+        __x1__ = (+ __x1__ 1i)
       }
     }
     k = (+ k 1i)

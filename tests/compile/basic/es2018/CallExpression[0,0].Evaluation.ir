@@ -8,8 +8,7 @@
   access __x3__ = (memberExpr "Evaluation")
   let ref = __x3__
   app __x4__ = (GetValue ref)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let func = __x4__
+  let func = [? __x4__]
   let __x5__ = true
   app __x6__ = (Type ref)
   __x5__ = (= __x6__ Reference)
@@ -27,29 +26,20 @@
     app __x10__ = (SameValue func INTRINSIC_eval)
     if (= __x10__ true) {
       access __x11__ = (arguments "ArgumentListEvaluation")
-      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      let argList = __x11__
-      if (= argList.length 0i) {
-        app __x12__ = (WrapCompletion undefined)
-        return __x12__
-      } else {}
+      let argList = [? __x11__]
+      if (= argList.length 0i) return undefined else {}
       let evalText = argList[0i]
       if true let strictCaller = true else let strictCaller = false
       let evalRealm = REALM
-      app __x13__ = (HostEnsureCanCompileStrings evalRealm evalRealm)
-      if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-      __x13__
-      app __x14__ = (PerformEval evalText evalRealm strictCaller true)
-      if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-      app __x15__ = (WrapCompletion __x14__)
-      return __x15__
+      app __x12__ = (HostEnsureCanCompileStrings evalRealm evalRealm)
+      [? __x12__]
+      app __x13__ = (PerformEval evalText evalRealm strictCaller true)
+      return [? __x13__]
     } else {}
   } else {}
   let thisCall = this
-  app __x16__ = (IsInTailPosition thisCall)
-  let tailCall = __x16__
-  app __x17__ = (EvaluateCall func ref arguments tailCall)
-  if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-  app __x18__ = (WrapCompletion __x17__)
-  return __x18__
+  app __x14__ = (IsInTailPosition thisCall)
+  let tailCall = __x14__
+  app __x15__ = (EvaluateCall func ref arguments tailCall)
+  return [? __x15__]
 }

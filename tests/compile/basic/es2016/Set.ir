@@ -1,43 +1,30 @@
 {
   if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
   app __x0__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_SetPrototype (new ["SetData"]))
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let set = __x0__
+  let set = [? __x0__]
   set.SetData = (new [])
   if (= iterable absent) let iterable = undefined else {}
   if (|| (= iterable undefined) (= iterable null)) let iter = undefined else {
     app __x1__ = (Get set "add")
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let adder = __x1__
+    let adder = [? __x1__]
     app __x2__ = (IsCallable adder)
     if (= __x2__ false) throw INTRINSIC_TypeError else {}
     app __x3__ = (GetIterator iterable)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let iter = __x3__
+    let iter = [? __x3__]
   }
-  if (= iter undefined) {
-    app __x4__ = (WrapCompletion set)
-    return __x4__
-  } else {}
+  if (= iter undefined) return set else {}
   while true {
-    app __x5__ = (IteratorStep iter)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let next = __x5__
-    if (= next false) {
-      app __x6__ = (WrapCompletion set)
-      return __x6__
-    } else {}
-    app __x7__ = (IteratorValue next)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let nextValue = __x7__
-    app __x8__ = (Call adder set (new [nextValue.Value]))
-    let status = __x8__
-    app __x9__ = (IsAbruptCompletion status)
-    if __x9__ {
-      app __x10__ = (IteratorClose iter status)
-      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-      app __x11__ = (WrapCompletion __x10__)
-      return __x11__
+    app __x4__ = (IteratorStep iter)
+    let next = [? __x4__]
+    if (= next false) return set else {}
+    app __x5__ = (IteratorValue next)
+    let nextValue = [? __x5__]
+    app __x6__ = (Call adder set (new [nextValue.Value]))
+    let status = __x6__
+    app __x7__ = (IsAbruptCompletion status)
+    if __x7__ {
+      app __x8__ = (IteratorClose iter status)
+      return [? __x8__]
     } else {}
   }
 }

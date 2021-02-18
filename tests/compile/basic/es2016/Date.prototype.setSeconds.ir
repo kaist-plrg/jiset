@@ -1,18 +1,15 @@
 {
   app __x0__ = (thisTimeValue this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  app __x1__ = (LocalTime __x0__)
+  app __x1__ = (LocalTime [? __x0__])
   let t = __x1__
   app __x2__ = (ToNumber sec)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let s = __x2__
+  let s = [? __x2__]
   if (= ms absent) {
     app __x3__ = (msFromTime t)
     let milli = __x3__
   } else {
     app __x4__ = (ToNumber ms)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let milli = __x4__
+    let milli = [? __x4__]
   }
   app __x5__ = (Day t)
   app __x6__ = (HourFromTime t)
@@ -24,6 +21,5 @@
   app __x11__ = (TimeClip __x10__)
   let u = __x11__
   this.DateValue = u
-  app __x12__ = (WrapCompletion u)
-  return __x12__
+  return u
 }

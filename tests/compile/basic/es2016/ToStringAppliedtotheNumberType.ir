@@ -1,21 +1,11 @@
 {
-  if (= m NaN) {
-    app __x0__ = (WrapCompletion "NaN")
-    return __x0__
-  } else {}
-  if (|| (= m 0i) (= m -0.0)) {
-    app __x1__ = (WrapCompletion "0")
-    return __x1__
-  } else {}
+  if (= m NaN) return "NaN" else {}
+  if (|| (= m 0i) (= m -0.0)) return "0" else {}
   if (< m 0i) {
-    app __x2__ = (ToString (- m))
-    app __x3__ = (WrapCompletion (+ "-" __x2__))
-    return __x3__
+    app __x0__ = (ToString (- m))
+    return (+ "-" __x0__)
   } else {}
-  if (= m Infinity) {
-    app __x4__ = (WrapCompletion "Infinity")
-    return __x4__
-  } else {}
+  if (= m Infinity) return "Infinity" else {}
   ??? "Otherwise , let id:{n} , id:{k} , and id:{s} be integers such that id:{k} ≥ 1 , 10 sup:{id:{k} - 1} ≤ id:{s} < 10 sup:{id:{k}} , the Number value for id:{s} × 10 sup:{id:{n} - id:{k}} is id:{m} , and id:{k} is as small as possible . Note that id:{k} is the number of digits in the decimal representation of id:{s} , that id:{s} is not divisible by 10 , and that the least significant digit of id:{s} is not necessarily uniquely determined by these criteria ."
   ??? "If id:{k} ≤ id:{n} ≤ 21 , return the String consisting of the code units of the id:{k} digits of the decimal representation of id:{s} ( in order , with no leading zeroes ) , followed by id:{n} - id:{k} occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
   ??? "If 0 < id:{n} ≤ 21 , return the String consisting of the code units of the most significant id:{n} digits of the decimal representation of id:{s} , followed by the code unit 0x002E ( FULL STOP ) , followed by the code units of the remaining id:{k} - id:{n} digits of the decimal representation of id:{s} ."

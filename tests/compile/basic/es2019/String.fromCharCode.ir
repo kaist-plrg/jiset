@@ -6,8 +6,7 @@
   while (< nextIndex length) {
     let next = codeUnits[nextIndex]
     app __x0__ = (ToUint16 next)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    let nextCU = __x0__
+    let nextCU = [? __x0__]
     append nextCU -> elements
     nextIndex = (+ nextIndex 1i)
   }

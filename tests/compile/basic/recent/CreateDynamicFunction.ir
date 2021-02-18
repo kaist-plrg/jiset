@@ -3,8 +3,7 @@
   let callerRealm = callerContext.Realm
   let calleeRealm = REALM
   app __x0__ = (HostEnsureCanCompileStrings callerRealm calleeRealm)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   if (= newTarget undefined) newTarget = constructor else {}
   if (= kind CONST_normal) {
     ??? "Let id:{goal} be the grammar symbol | FunctionBody [ ~ Yield , ~ Await ] | ."
@@ -30,54 +29,45 @@
     assert (< 1i argCount)
     let firstArg = args[0i]
     app __x1__ = (ToString firstArg)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    P = __x1__
+    P = [? __x1__]
     let k = 1i
     while (< k (- argCount 1i)) {
       let nextArg = args[k]
       app __x2__ = (ToString nextArg)
-      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-      let nextArgString = __x2__
+      let nextArgString = [? __x2__]
       ??? "Set id:{P} to the string - concatenation of id:{P} , value:{\",\"} ( a comma ) , and id:{nextArgString} ."
       k = (+ k 1i)
     }
     let bodyArg = args[k]
   }
   app __x3__ = (ToString bodyArg)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let bodyString = (+ (+ "\n" __x3__) "\n")
+  let bodyString = (+ (+ "\n" [? __x3__]) "\n")
   ??? "Let id:{prefix} be the prefix associated with id:{kind} in link:{unhandled: table-dynamic-function-sourcetext-prefixes} ."
   let sourceString = (+ (+ (+ (+ (+ (+ prefix "anonymous(") P) "\n") ") {") bodyString) "}")
   app __x4__ = (StringToCodePoints sourceString)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let sourceText = __x4__
+  let sourceText = [! __x4__]
   ??? "Perform the following substeps in an implementation - defined order , possibly interleaving parsing and error detection : in:{} out:{}"
   app __x5__ = (GetPrototypeFromConstructor newTarget fallbackProto)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let proto = __x5__
+  let proto = [? __x5__]
   let realmF = REALM
   let scope = realmF.GlobalEnv
   app __x6__ = (OrdinaryFunctionCreate proto sourceText parameters body CONST_nonDASHlexicalDASHthis scope)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let F = __x6__
+  let F = [! __x6__]
   app __x7__ = (SetFunctionName F "anonymous")
   __x7__
   if (= kind CONST_generator) {
     app __x8__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction_prototype_prototype)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let prototype = __x8__
+    let prototype = [! __x8__]
     app __x9__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     __x9__
   } else if (= kind CONST_asyncGenerator) {
     app __x10__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    let prototype = __x10__
+    let prototype = [! __x10__]
     app __x11__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     __x11__
   } else if (= kind CONST_normal) {
     app __x12__ = (MakeConstructor F)
     __x12__
   } else {}
-  app __x13__ = (WrapCompletion F)
-  return __x13__
+  return F
 }

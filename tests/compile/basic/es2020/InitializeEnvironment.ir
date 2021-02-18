@@ -5,8 +5,7 @@
   while (< __x1__ __x0__.length) {
     let e = __x0__[__x1__]
     app __x2__ = (module.ResolveExport module e.ExportName)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let resolution = __x2__
+    let resolution = [? __x2__]
     if (|| (= resolution null) (= resolution "ambiguous")) throw INTRINSIC_SyntaxError else {}
     assert (= (typeof resolution) "ResolvedBindingRecord")
     __x1__ = (+ __x1__ 1i)
@@ -22,29 +21,23 @@
   while (< __x5__ __x4__.length) {
     let in = __x4__[__x5__]
     app __x6__ = (HostResolveImportedModule module in.ModuleRequest)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let importedModule = __x6__
+    let importedModule = [! __x6__]
     if (= in.ImportName "*") {
       app __x7__ = (GetModuleNamespace importedModule)
-      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-      let namespace = __x7__
+      let namespace = [? __x7__]
       app __x8__ = (envRec.CreateImmutableBinding envRec in.LocalName true)
-      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-      __x8__
+      [! __x8__]
       app __x9__ = (envRec.InitializeBinding envRec in.LocalName namespace)
       __x9__
     } else {
       app __x10__ = (importedModule.ResolveExport importedModule in.ImportName)
-      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-      let resolution = __x10__
+      let resolution = [? __x10__]
       if (|| (= resolution null) (= resolution "ambiguous")) throw INTRINSIC_SyntaxError else {}
       if (= resolution.BindingName "*namespace*") {
         app __x11__ = (GetModuleNamespace resolution.Module)
-        if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-        let namespace = __x11__
+        let namespace = [? __x11__]
         app __x12__ = (envRec.CreateImmutableBinding envRec in.LocalName true)
-        if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-        __x12__
+        [! __x12__]
         app __x13__ = (envRec.InitializeBinding envRec in.LocalName namespace)
         __x13__
       } else {
@@ -79,8 +72,7 @@
       let dn = __x19__[__x20__]
       if (! (contains declaredVarNames dn)) {
         app __x21__ = (envRec.CreateMutableBinding envRec dn false)
-        if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
-        __x21__
+        [! __x21__]
         app __x22__ = (envRec.InitializeBinding envRec dn undefined)
         __x22__
         append dn -> declaredVarNames
@@ -103,12 +95,10 @@
       access __x29__ = (d "IsConstantDeclaration")
       if (= __x29__ true) {
         app __x30__ = (envRec.CreateImmutableBinding envRec dn true)
-        if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
-        __x30__
+        [! __x30__]
       } else {
         app __x31__ = (envRec.CreateMutableBinding envRec dn false)
-        if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
-        __x31__
+        [! __x31__]
       }
       if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) {
         access __x32__ = (d "InstantiateFunctionObject")
@@ -123,6 +113,5 @@
   }
   ??? "Remove id:{moduleContext} from the execution context stack ."
   app __x35__ = (NormalCompletion CONST_empty)
-  app __x36__ = (WrapCompletion __x35__)
-  return __x36__
+  return __x35__
 }

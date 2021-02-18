@@ -8,10 +8,6 @@
     access __x3__ = (FormalParameter "HasInitializer")
     __x1__ = (= __x3__ true)
   }
-  if __x1__ {
-    app __x4__ = (WrapCompletion count)
-    return __x4__
-  } else {}
-  app __x5__ = (WrapCompletion (+ count 1i))
-  return __x5__
+  if __x1__ return count else {}
+  return (+ count 1i)
 }

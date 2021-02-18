@@ -13,17 +13,13 @@
       __x3__ = (= __x4__ String)
       if __x3__ {
         app __x5__ = (HostHasSourceTextAvailable func)
-        if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-        __x3__ = (= __x5__ true)
+        __x3__ = (= [! __x5__] true)
       } else {}
       __x2__ = __x3__
     } else {}
     __x0__ = __x2__
   } else {}
-  if __x0__ {
-    app __x6__ = (WrapCompletion func.SourceText)
-    return __x6__
-  } else {}
+  if __x0__ return func.SourceText else {}
   ??? "If Type ( id:{func} ) is Object and IsCallable ( id:{func} ) is value:{true} , then return an implementation - dependent String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} ."
   throw INTRINSIC_TypeError
 }

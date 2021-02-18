@@ -2,8 +2,6 @@
   access __x0__ = (UnaryExpression "Evaluation")
   let expr = __x0__
   app __x1__ = (GetValue expr)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
-  app __x2__ = (WrapCompletion undefined)
-  return __x2__
+  [? __x1__]
+  return undefined
 }

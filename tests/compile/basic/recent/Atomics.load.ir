@@ -1,15 +1,12 @@
 {
   app __x0__ = (ValidateIntegerTypedArray typedArray)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let buffer = __x0__
+  let buffer = [? __x0__]
   app __x1__ = (ValidateAtomicAccess typedArray index)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let indexedPosition = __x1__
+  let indexedPosition = [? __x1__]
   app __x2__ = (IsDetachedBuffer buffer)
   if (= __x2__ true) throw INTRINSIC_TypeError else {}
   let arrayTypeName = typedArray.TypedArrayName
   ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
   app __x3__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_SeqCst)
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  return __x3__
 }

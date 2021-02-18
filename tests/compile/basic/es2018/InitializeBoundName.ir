@@ -6,14 +6,11 @@
     app __x1__ = (env.InitializeBinding env name value)
     __x1__
     app __x2__ = (NormalCompletion undefined)
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return __x2__
   } else {
-    app __x4__ = (ResolveBinding name)
-    let lhs = __x4__
-    app __x5__ = (PutValue lhs value)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    app __x6__ = (WrapCompletion __x5__)
-    return __x6__
+    app __x3__ = (ResolveBinding name)
+    let lhs = __x3__
+    app __x4__ = (PutValue lhs value)
+    return [? __x4__]
   }
 }

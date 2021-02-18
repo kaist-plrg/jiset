@@ -3,8 +3,7 @@
   let callerRealm = callerContext.Realm
   let calleeRealm = REALM
   app __x0__ = (HostEnsureCanCompileStrings callerRealm calleeRealm)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   if (= newTarget undefined) newTarget = constructor else {}
   if (= kind "normal") {
     ??? "Let id:{goal} be the grammar symbol | FunctionBody [ ~ Yield , ~ Await ] | ."
@@ -29,22 +28,19 @@
   if (== argCount 0i) let bodyText = "" else if (== argCount 1i) let bodyText = args[0i] else {
     let firstArg = args[0i]
     app __x1__ = (ToString firstArg)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    P = __x1__
+    P = [? __x1__]
     let k = 1i
     while (< k (- argCount 1i)) {
       let nextArg = args[k]
       app __x2__ = (ToString nextArg)
-      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-      let nextArgString = __x2__
+      let nextArgString = [? __x2__]
       P = (+ (+ P ",") nextArgString)
       k = (+ k 1i)
     }
     let bodyText = args[k]
   }
   app __x3__ = (ToString bodyText)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  bodyText = __x3__
+  bodyText = [? __x3__]
   ??? "Let id:{parameters} be the result of parsing id:{P} , interpreted as UTF - 16 encoded Unicode text as described in link:{unhandled: sec-ecmascript-language-types-string-type} , using id:{parameterGoal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
   ??? "Let id:{body} be the result of parsing id:{bodyText} , interpreted as UTF - 16 encoded Unicode text as described in link:{unhandled: sec-ecmascript-language-types-string-type} , using id:{goal} as the goal symbol . Throw a value:{SyntaxError} exception if the parse fails ."
   access __x4__ = (body "ContainsUseStrict")
@@ -89,8 +85,7 @@
     if __x23__ throw INTRINSIC_SyntaxError else {}
   } else {}
   app __x24__ = (GetPrototypeFromConstructor newTarget fallbackProto)
-  if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-  let proto = __x24__
+  let proto = [? __x24__]
   app __x25__ = (FunctionAllocate proto strict kind)
   let F = __x25__
   let realmF = F.Realm
@@ -107,6 +102,5 @@
   ??? "Else if id:{kind} is code:{\"normal\"} , perform MakeConstructor ( id:{F} ) ."
   app __x29__ = (SetFunctionName F "anonymous")
   __x29__
-  app __x30__ = (WrapCompletion F)
-  return __x30__
+  return F
 }

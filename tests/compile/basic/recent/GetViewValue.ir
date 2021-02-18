@@ -1,14 +1,11 @@
 {
   app __x0__ = (RequireInternalSlot view "DataView")
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  __x0__
+  [? __x0__]
   assert (! (= view.ViewedArrayBuffer absent))
   app __x1__ = (ToIndex requestIndex)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let getIndex = __x1__
+  let getIndex = [? __x1__]
   app __x2__ = (ToBoolean isLittleEndian)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  isLittleEndian = __x2__
+  isLittleEndian = [! __x2__]
   let buffer = view.ViewedArrayBuffer
   app __x3__ = (IsDetachedBuffer buffer)
   if (= __x3__ true) throw INTRINSIC_TypeError else {}
@@ -18,6 +15,5 @@
   if (< viewSize (+ getIndex elementSize)) throw INTRINSIC_RangeError else {}
   let bufferIndex = (+ getIndex viewOffset)
   app __x4__ = (GetValueFromBuffer buffer bufferIndex type false CONST_Unordered isLittleEndian)
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  return __x4__
 }

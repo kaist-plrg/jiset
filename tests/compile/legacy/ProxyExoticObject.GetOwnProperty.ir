@@ -7,50 +7,37 @@
   assert (= __x1__ Object)
   let target = O.ProxyTarget
   app __x2__ = (GetMethod handler "getOwnPropertyDescriptor")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let trap = __x2__
+  let trap = [? __x2__]
   if (= trap undefined) {
     app __x3__ = (target.GetOwnProperty target P)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    app __x4__ = (WrapCompletion __x3__)
-    return __x4__
+    return [? __x3__]
   } else {}
-  app __x5__ = (Call trap handler (new [target, P]))
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let trapResultObj = __x5__
-  app __x6__ = (Type trapResultObj)
-  if (! (|| (= __x6__ Object) (= __x6__ Undefined))) throw INTRINSIC_TypeError else {}
-  app __x7__ = (target.GetOwnProperty target P)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  let targetDesc = __x7__
+  app __x4__ = (Call trap handler (new [target, P]))
+  let trapResultObj = [? __x4__]
+  app __x5__ = (Type trapResultObj)
+  if (! (|| (= __x5__ Object) (= __x5__ Undefined))) throw INTRINSIC_TypeError else {}
+  app __x6__ = (target.GetOwnProperty target P)
+  let targetDesc = [? __x6__]
   if (= trapResultObj undefined) {
-    if (= targetDesc undefined) {
-      app __x8__ = (WrapCompletion undefined)
-      return __x8__
-    } else {}
+    if (= targetDesc undefined) return undefined else {}
     if (= targetDesc.Configurable false) throw INTRINSIC_TypeError else {}
-    app __x9__ = (IsExtensible target)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    let extensibleTarget = __x9__
+    app __x7__ = (IsExtensible target)
+    let extensibleTarget = [? __x7__]
     if (= extensibleTarget false) throw INTRINSIC_TypeError else {}
-    app __x10__ = (WrapCompletion undefined)
-    return __x10__
+    return undefined
   } else {}
-  app __x11__ = (IsExtensible target)
-  if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-  let extensibleTarget = __x11__
-  app __x12__ = (ToPropertyDescriptor trapResultObj)
-  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-  let resultDesc = __x12__
-  app __x13__ = (CompletePropertyDescriptor resultDesc)
-  __x13__
-  app __x14__ = (IsCompatiblePropertyDescriptor extensibleTarget resultDesc targetDesc)
-  let valid = __x14__
+  app __x8__ = (IsExtensible target)
+  let extensibleTarget = [? __x8__]
+  app __x9__ = (ToPropertyDescriptor trapResultObj)
+  let resultDesc = [? __x9__]
+  app __x10__ = (CompletePropertyDescriptor resultDesc)
+  __x10__
+  app __x11__ = (IsCompatiblePropertyDescriptor extensibleTarget resultDesc targetDesc)
+  let valid = __x11__
   if (= valid false) throw INTRINSIC_TypeError else {}
   if (= resultDesc.Configurable false) {
     if (|| (= targetDesc undefined) (= targetDesc.Configurable true)) throw INTRINSIC_TypeError else {}
     if (&& (! (= resultDesc.Writable absent)) (= resultDesc.Writable false)) if (= targetDesc.Writable true) throw INTRINSIC_TypeError else {} else {}
   } else {}
-  app __x15__ = (WrapCompletion resultDesc)
-  return __x15__
+  return resultDesc
 }

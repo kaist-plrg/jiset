@@ -1,14 +1,7 @@
 {
   let e = x.endIndex
-  if (= e InputLength) {
-    app __x0__ = (WrapCompletion true)
-    return __x0__
-  } else {}
-  if (= Multiline false) {
-    app __x1__ = (WrapCompletion false)
-    return __x1__
-  } else {}
+  if (= e InputLength) return true else {}
+  if (= Multiline false) return false else {}
   ??? "If the character id:{Input} [ id:{e} ] is one of nt:{LineTerminator} , return value:{true} ."
-  app __x2__ = (WrapCompletion false)
-  return __x2__
+  return false
 }

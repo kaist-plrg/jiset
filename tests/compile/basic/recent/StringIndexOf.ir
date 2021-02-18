@@ -4,27 +4,20 @@
   app __x1__ = (Type searchValue)
   assert (= __x1__ String)
   let len = string.length
-  if (&& (= searchValue "") (! (< len fromIndex))) {
-    app __x2__ = (WrapCompletion fromIndex)
-    return __x2__
-  } else {}
+  if (&& (= searchValue "") (! (< len fromIndex))) return fromIndex else {}
   let searchLen = searchValue.length
   let i = (+ fromIndex 0i)
-  let __x3__ = (+ (- len searchLen) 1i)
-  while (< i __x3__) {
-    let __x4__ = ""
-    let __x5__ = i
-    while (< __x5__ (+ (+ i searchLen) 1i)) {
-      access __x6__ = (string __x5__)
-      __x4__ = (+ __x4__ __x6__)
-      __x5__ = (+ __x5__ 1i)
+  let __x2__ = (+ (- len searchLen) 1i)
+  while (< i __x2__) {
+    let __x3__ = ""
+    let __x4__ = i
+    while (< __x4__ (+ (+ i searchLen) 1i)) {
+      access __x5__ = (string __x4__)
+      __x3__ = (+ __x3__ __x5__)
+      __x4__ = (+ __x4__ 1i)
     }
-    let candidate = __x4__
-    if (= candidate searchValue) {
-      app __x7__ = (WrapCompletion i)
-      return __x7__
-    } else {}
+    let candidate = __x3__
+    if (= candidate searchValue) return i else {}
   }
-  app __x8__ = (WrapCompletion -1i)
-  return __x8__
+  return -1i
 }

@@ -5,17 +5,13 @@
   while (< __x1__ __x0__.length) {
     let next = __x0__[__x1__]
     app __x2__ = (ToNumber next)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let nextCP = __x2__
+    let nextCP = [? __x2__]
     app __x3__ = (IsIntegralNumber nextCP)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    if (= __x3__ false) throw INTRINSIC_RangeError else {}
+    if (= [! __x3__] false) throw INTRINSIC_RangeError else {}
     if (|| (< nextCP 0i) (< 1114111i nextCP)) throw INTRINSIC_RangeError else {}
     app __x4__ = (UTF16EncodeCodePoint nextCP)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    result = (+ result __x4__)
+    result = (+ result [! __x4__])
     __x1__ = (+ __x1__ 1i)
   }
-  app __x5__ = (WrapCompletion result)
-  return __x5__
+  return result
 }

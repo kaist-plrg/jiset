@@ -7,29 +7,23 @@
   assert (= __x1__ Object)
   let target = O.ProxyTarget
   app __x2__ = (GetMethod handler "get")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let trap = __x2__
+  let trap = [? __x2__]
   if (= trap undefined) {
     app __x3__ = (target.Get target P Receiver)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    app __x4__ = (WrapCompletion __x3__)
-    return __x4__
+    return [? __x3__]
   } else {}
-  app __x5__ = (Call trap handler (new [target, P, Receiver]))
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let trapResult = __x5__
-  app __x6__ = (target.GetOwnProperty target P)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let targetDesc = __x6__
+  app __x4__ = (Call trap handler (new [target, P, Receiver]))
+  let trapResult = [? __x4__]
+  app __x5__ = (target.GetOwnProperty target P)
+  let targetDesc = [? __x5__]
   if (! (= targetDesc undefined)) {
-    app __x7__ = (IsDataDescriptor targetDesc)
-    if (&& (= __x7__ true) (&& (= targetDesc.Configurable false) (= targetDesc.Writable false))) {
-      app __x8__ = (SameValue trapResult targetDesc.Value)
-      if (= __x8__ false) throw INTRINSIC_TypeError else {}
+    app __x6__ = (IsDataDescriptor targetDesc)
+    if (&& (= __x6__ true) (&& (= targetDesc.Configurable false) (= targetDesc.Writable false))) {
+      app __x7__ = (SameValue trapResult targetDesc.Value)
+      if (= __x7__ false) throw INTRINSIC_TypeError else {}
     } else {}
-    app __x9__ = (IsAccessorDescriptor targetDesc)
-    if (&& (= __x9__ true) (&& (= targetDesc.Configurable false) (= targetDesc.Get undefined))) if (! (= trapResult undefined)) throw INTRINSIC_TypeError else {} else {}
+    app __x8__ = (IsAccessorDescriptor targetDesc)
+    if (&& (= __x8__ true) (&& (= targetDesc.Configurable false) (= targetDesc.Get undefined))) if (! (= trapResult undefined)) throw INTRINSIC_TypeError else {} else {}
   } else {}
-  app __x10__ = (WrapCompletion trapResult)
-  return __x10__
+  return trapResult
 }

@@ -9,8 +9,7 @@
     if (= found false) {
       access __x2__ = (C "CaseSelectorEvaluation")
       let clauseSelector = __x2__
-      if (is-completion clauseSelector) if (= clauseSelector.Type CONST_normal) clauseSelector = clauseSelector.Value else return clauseSelector else {}
-      clauseSelector
+      [? clauseSelector]
       app __x3__ = (StrictEqualityComparison input clauseSelector)
       found = __x3__
     } else {}
@@ -22,13 +21,11 @@
       if __x5__ {
         app __x6__ = (UpdateEmpty R V)
         app __x7__ = (Completion __x6__)
-        app __x8__ = (WrapCompletion __x7__)
-        return __x8__
+        return __x7__
       } else {}
     } else {}
     __x1__ = (+ __x1__ 1i)
   }
-  app __x9__ = (NormalCompletion V)
-  app __x10__ = (WrapCompletion __x9__)
-  return __x10__
+  app __x8__ = (NormalCompletion V)
+  return __x8__
 }

@@ -6,6 +6,5 @@
   ??? "Let id:{steps} be the algorithm steps defined in ListIterator code:{next} ( ListIteratornext ) ."
   app __x1__ = (CreateBuiltinFunction steps (new []))
   let next = __x1__
-  app __x2__ = (WrapCompletion (new Record("Iterator" -> iterator, "NextMethod" -> next, "Done" -> false)))
-  return __x2__
+  return (new Record("Iterator" -> iterator, "NextMethod" -> next, "Done" -> false))
 }

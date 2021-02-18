@@ -1,8 +1,7 @@
 {
   access __x0__ = (PropertyName "Evaluation")
   let propKey = __x0__
-  if (is-completion propKey) if (= propKey.Type CONST_normal) propKey = propKey.Value else return propKey else {}
-  propKey
+  [? propKey]
   let scope = GLOBAL_context.LexicalEnvironment
   app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype PropertySetParameterList FunctionBody CONST_nonDASHlexicalDASHthis scope)
   let closure = __x1__
@@ -13,7 +12,5 @@
   closure.SourceText = (get-syntax this)
   let desc = (new PropertyDescriptor("Set" -> closure, "Enumerable" -> enumerable, "Configurable" -> true))
   app __x4__ = (DefinePropertyOrThrow object propKey desc)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  return [? __x4__]
 }

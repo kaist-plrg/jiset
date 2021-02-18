@@ -1,114 +1,78 @@
 {
   if (= current undefined) {
-    if (= extensible false) {
-      app __x0__ = (WrapCompletion false)
-      return __x0__
-    } else {}
+    if (= extensible false) return false else {}
     assert (= extensible true)
-    let __x1__ = true
-    app __x2__ = (IsGenericDescriptor Desc)
-    __x1__ = (= __x2__ true)
-    if __x1__ {} else {
-      app __x3__ = (IsDataDescriptor Desc)
-      __x1__ = (= __x3__ true)
+    let __x0__ = true
+    app __x1__ = (IsGenericDescriptor Desc)
+    __x0__ = (= __x1__ true)
+    if __x0__ {} else {
+      app __x2__ = (IsDataDescriptor Desc)
+      __x0__ = (= __x2__ true)
     }
-    if __x1__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > ." else {
-      app __x4__ = (IsAccessorDescriptor Desc)
-      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-      assert (= __x4__ true)
+    if __x0__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > ." else {
+      app __x3__ = (IsAccessorDescriptor Desc)
+      assert (= [! __x3__] true)
       ??? "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > ."
     }
-    app __x5__ = (WrapCompletion true)
-    return __x5__
+    return true
   } else {}
   ??? "If every field in id:{Desc} is absent , return value:{true} ."
   if (= current.Configurable false) {
-    if (= Desc.Configurable true) {
-      app __x6__ = (WrapCompletion false)
-      return __x6__
+    if (= Desc.Configurable true) return false else {}
+    let __x4__ = true
+    __x4__ = (! (= Desc.Enumerable absent))
+    if __x4__ {
+      app __x5__ = (SameValue Desc.Enumerable current.Enumerable)
+      __x4__ = (= [! __x5__] false)
     } else {}
-    let __x7__ = true
-    __x7__ = (! (= Desc.Enumerable absent))
-    if __x7__ {
-      app __x8__ = (SameValue Desc.Enumerable current.Enumerable)
-      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-      __x7__ = (= __x8__ false)
-    } else {}
-    if __x7__ {
-      app __x9__ = (WrapCompletion false)
-      return __x9__
-    } else {}
+    if __x4__ return false else {}
   } else {}
-  app __x10__ = (IsGenericDescriptor Desc)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  if (= __x10__ true) {} else {
-    app __x11__ = (IsDataDescriptor current)
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    app __x12__ = (IsDataDescriptor Desc)
-    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-    app __x13__ = (SameValue __x11__ __x12__)
-    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-    if (= __x13__ false) {
-      if (= current.Configurable false) {
-        app __x14__ = (WrapCompletion false)
-        return __x14__
-      } else {}
-      app __x15__ = (IsDataDescriptor current)
-      if (= __x15__ true) ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from a data property to an accessor property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > ." else ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from an accessor property to a data property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > ."
+  app __x6__ = (IsGenericDescriptor Desc)
+  if (= [! __x6__] true) {} else {
+    app __x7__ = (IsDataDescriptor current)
+    app __x8__ = (IsDataDescriptor Desc)
+    app __x9__ = (SameValue [! __x7__] [! __x8__])
+    if (= [! __x9__] false) {
+      if (= current.Configurable false) return false else {}
+      app __x10__ = (IsDataDescriptor current)
+      if (= __x10__ true) ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from a data property to an accessor property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > ." else ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from an accessor property to a data property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > ."
     } else {
-      app __x16__ = (IsDataDescriptor current)
-      app __x17__ = (IsDataDescriptor Desc)
-      if (&& (= __x16__ true) (= __x17__ true)) if (&& (= current.Configurable false) (= current.Writable false)) {
-        if (&& (! (= Desc.Writable absent)) (= Desc.Writable true)) {
-          app __x18__ = (WrapCompletion false)
-          return __x18__
+      app __x11__ = (IsDataDescriptor current)
+      app __x12__ = (IsDataDescriptor Desc)
+      if (&& (= __x11__ true) (= __x12__ true)) if (&& (= current.Configurable false) (= current.Writable false)) {
+        if (&& (! (= Desc.Writable absent)) (= Desc.Writable true)) return false else {}
+        let __x13__ = true
+        __x13__ = (! (= Desc.Value absent))
+        if __x13__ {
+          app __x14__ = (SameValue Desc.Value current.Value)
+          __x13__ = (= __x14__ false)
         } else {}
-        let __x19__ = true
-        __x19__ = (! (= Desc.Value absent))
-        if __x19__ {
-          app __x20__ = (SameValue Desc.Value current.Value)
-          __x19__ = (= __x20__ false)
-        } else {}
-        if __x19__ {
-          app __x21__ = (WrapCompletion false)
-          return __x21__
-        } else {}
-        app __x22__ = (WrapCompletion true)
-        return __x22__
+        if __x13__ return false else {}
+        return true
       } else {} else {
-        app __x23__ = (IsAccessorDescriptor current)
-        if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
-        app __x24__ = (IsAccessorDescriptor Desc)
-        if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-        assert (&& (= __x23__ true) (= __x24__ true))
+        app __x15__ = (IsAccessorDescriptor current)
+        app __x16__ = (IsAccessorDescriptor Desc)
+        assert (&& (= [! __x15__] true) (= [! __x16__] true))
         if (= current.Configurable false) {
-          let __x25__ = true
-          __x25__ = (! (= Desc.Set absent))
-          if __x25__ {
-            app __x26__ = (SameValue Desc.Set current.Set)
-            __x25__ = (= __x26__ false)
+          let __x17__ = true
+          __x17__ = (! (= Desc.Set absent))
+          if __x17__ {
+            app __x18__ = (SameValue Desc.Set current.Set)
+            __x17__ = (= __x18__ false)
           } else {}
-          if __x25__ {
-            app __x27__ = (WrapCompletion false)
-            return __x27__
+          if __x17__ return false else {}
+          let __x19__ = true
+          __x19__ = (! (= Desc.Get absent))
+          if __x19__ {
+            app __x20__ = (SameValue Desc.Get current.Get)
+            __x19__ = (= __x20__ false)
           } else {}
-          let __x28__ = true
-          __x28__ = (! (= Desc.Get absent))
-          if __x28__ {
-            app __x29__ = (SameValue Desc.Get current.Get)
-            __x28__ = (= __x29__ false)
-          } else {}
-          if __x28__ {
-            app __x30__ = (WrapCompletion false)
-            return __x30__
-          } else {}
-          app __x31__ = (WrapCompletion true)
-          return __x31__
+          if __x19__ return false else {}
+          return true
         } else {}
       }
     }
   }
   if (! (= O undefined)) ??? "For each field of id:{Desc} that is present , set the corresponding attribute of the property named id:{P} of object id:{O} to the value of the field ." else {}
-  app __x32__ = (WrapCompletion true)
-  return __x32__
+  return true
 }

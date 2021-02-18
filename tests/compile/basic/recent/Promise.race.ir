@@ -1,8 +1,7 @@
 {
   let C = this
   app __x0__ = (NewPromiseCapability C)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let promiseCapability = __x0__
+  let promiseCapability = [? __x0__]
   app __x1__ = (GetPromiseResolve C)
   let promiseResolve = __x1__
   if (is-completion promiseResolve) if (= promiseResolve.Type CONST_normal) promiseResolve = promiseResolve.Value else {
@@ -35,6 +34,5 @@
     result
   } else {}
   app __x9__ = (Completion result)
-  app __x10__ = (WrapCompletion __x9__)
-  return __x10__
+  return __x9__
 }

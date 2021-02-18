@@ -1,10 +1,6 @@
 {
   access __x0__ = (FormalParameterList "ContainsExpression")
-  if (= __x0__ true) {
-    app __x1__ = (WrapCompletion true)
-    return __x1__
-  } else {}
-  access __x2__ = (FunctionRestParameter "ContainsExpression")
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  if (= __x0__ true) return true else {}
+  access __x1__ = (FunctionRestParameter "ContainsExpression")
+  return __x1__
 }

@@ -13,11 +13,9 @@
     let e = __x2__[__x3__]
     if (! (= e CONST_empty)) {
       app __x4__ = (Call callbackfn T (new [e, e, S]))
-      if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-      __x4__
+      [? __x4__]
     } else {}
     __x3__ = (+ __x3__ 1i)
   }
-  app __x5__ = (WrapCompletion undefined)
-  return __x5__
+  return undefined
 }

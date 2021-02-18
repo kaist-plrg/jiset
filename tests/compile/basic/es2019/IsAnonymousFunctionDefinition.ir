@@ -1,15 +1,8 @@
 {
   access __x0__ = (expr "IsFunctionDefinition")
-  if (= __x0__ false) {
-    app __x1__ = (WrapCompletion false)
-    return __x1__
-  } else {}
-  access __x2__ = (expr "HasName")
-  let hasName = __x2__
-  if (= hasName true) {
-    app __x3__ = (WrapCompletion false)
-    return __x3__
-  } else {}
-  app __x4__ = (WrapCompletion true)
-  return __x4__
+  if (= __x0__ false) return false else {}
+  access __x1__ = (expr "HasName")
+  let hasName = __x1__
+  if (= hasName true) return false else {}
+  return true
 }

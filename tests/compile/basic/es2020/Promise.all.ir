@@ -1,8 +1,7 @@
 {
   let C = this
   app __x0__ = (NewPromiseCapability C)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let promiseCapability = __x0__
+  let promiseCapability = [? __x0__]
   app __x1__ = (GetIterator iterable)
   let iteratorRecord = __x1__
   if (is-completion iteratorRecord) if (= iteratorRecord.Type CONST_normal) iteratorRecord = iteratorRecord.Value else {
@@ -27,6 +26,5 @@
     result
   } else {}
   app __x7__ = (Completion result)
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  return __x7__
 }

@@ -1,25 +1,19 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (LengthOfArrayLike O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let len = __x1__
+  let len = [? __x1__]
   let items = argumentsList
   let argCount = items.length
   if (< (- (** 2.0 53i) 1i) (+ len argCount)) throw INTRINSIC_TypeError else {}
   while (< 0i items.length) {
     let E = (pop items 0i)
     app __x2__ = (ToString len)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (Set O __x2__ E true)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    __x3__
+    app __x3__ = (Set O [! __x2__] E true)
+    [? __x3__]
     len = (+ len 1i)
   }
   app __x4__ = (Set O "length" len true)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  __x4__
-  app __x5__ = (WrapCompletion len)
-  return __x5__
+  [? __x4__]
+  return len
 }

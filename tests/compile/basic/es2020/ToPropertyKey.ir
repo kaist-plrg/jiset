@@ -1,14 +1,8 @@
 {
   app __x0__ = (ToPrimitive argument String)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let key = __x0__
+  let key = [? __x0__]
   app __x1__ = (Type key)
-  if (= __x1__ Symbol) {
-    app __x2__ = (WrapCompletion key)
-    return __x2__
-  } else {}
-  app __x3__ = (ToString key)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  if (= __x1__ Symbol) return key else {}
+  app __x2__ = (ToString key)
+  return [! __x2__]
 }

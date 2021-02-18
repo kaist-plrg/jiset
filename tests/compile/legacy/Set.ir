@@ -6,9 +6,7 @@
   app __x2__ = (Type Throw)
   assert (= __x2__ Boolean)
   app __x3__ = (O.Set O P V O)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let success = __x3__
+  let success = [? __x3__]
   if (&& (= success false) (= Throw true)) throw INTRINSIC_TypeError else {}
-  app __x4__ = (WrapCompletion success)
-  return __x4__
+  return success
 }

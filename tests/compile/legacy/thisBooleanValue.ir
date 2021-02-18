@@ -1,16 +1,12 @@
 {
   app __x0__ = (Type value)
-  if (= __x0__ Boolean) {
-    app __x1__ = (WrapCompletion value)
-    return __x1__
-  } else {}
-  app __x2__ = (Type value)
-  if (&& (= __x2__ Object) (! (= value.BooleanData absent))) {
+  if (= __x0__ Boolean) return value else {}
+  app __x1__ = (Type value)
+  if (&& (= __x1__ Object) (! (= value.BooleanData absent))) {
     let b = value.BooleanData
-    app __x3__ = (Type b)
-    assert (= __x3__ Boolean)
-    app __x4__ = (WrapCompletion b)
-    return __x4__
+    app __x2__ = (Type b)
+    assert (= __x2__ Boolean)
+    return b
   } else {}
   throw INTRINSIC_TypeError
 }

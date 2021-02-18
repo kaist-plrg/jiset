@@ -5,8 +5,7 @@
   let value = __x1__
   let M = this
   app __x2__ = (RequireInternalSlot M "MapData")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  __x2__
+  [? __x2__]
   let entries = M.MapData
   let __x3__ = entries
   let __x4__ = 0i
@@ -20,14 +19,12 @@
     } else {}
     if __x5__ {
       p.Value = value
-      app __x7__ = (WrapCompletion M)
-      return __x7__
+      return M
     } else {}
     __x4__ = (+ __x4__ 1i)
   }
   if (= key -0.0) key = 0i else {}
   let p = (new Record("Key" -> key, "Value" -> value))
   append p -> entries
-  app __x8__ = (WrapCompletion M)
-  return __x8__
+  return M
 }

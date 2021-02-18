@@ -1,22 +1,17 @@
 {
   let module = this
   assert (! (= module.Realm undefined))
-  if (= module.Evaluated true) {
-    app __x0__ = (WrapCompletion undefined)
-    return __x0__
-  } else {}
+  if (= module.Evaluated true) return undefined else {}
   module.Evaluated = true
-  let __x1__ = module.RequestedModules
-  let __x2__ = 0i
-  while (< __x2__ __x1__.length) {
-    let required = __x1__[__x2__]
-    app __x3__ = (HostResolveImportedModule module required)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let requiredModule = __x3__
-    app __x4__ = (requiredModule.ModuleEvaluation requiredModule)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    __x4__
-    __x2__ = (+ __x2__ 1i)
+  let __x0__ = module.RequestedModules
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let required = __x0__[__x1__]
+    app __x2__ = (HostResolveImportedModule module required)
+    let requiredModule = [? __x2__]
+    app __x3__ = (requiredModule.ModuleEvaluation requiredModule)
+    [? __x3__]
+    __x1__ = (+ __x1__ 1i)
   }
   let moduleCxt = (new ExecutionContext("SubMap" -> (new SubMap())))
   moduleCxt.Function = null
@@ -27,12 +22,11 @@
   GLOBAL_context = null
   append moduleCxt -> GLOBAL_executionStack
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
-  access __x5__ = (module.ECMAScriptCode "Evaluation")
-  let result = __x5__
+  access __x4__ = (module.ECMAScriptCode "Evaluation")
+  let result = __x4__
   GLOBAL_context = null
   if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] moduleCxt) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else {}
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
-  app __x6__ = (Completion result)
-  app __x7__ = (WrapCompletion __x6__)
-  return __x7__
+  app __x5__ = (Completion result)
+  return __x5__
 }

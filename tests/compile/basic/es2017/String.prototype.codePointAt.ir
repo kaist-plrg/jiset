@@ -1,29 +1,16 @@
 {
   app __x0__ = (RequireObjectCoercible this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (ToString O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let S = __x1__
+  let S = [? __x1__]
   app __x2__ = (ToInteger pos)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let position = __x2__
+  let position = [? __x2__]
   let size = S.length
-  if (|| (< position 0i) (! (< position size))) {
-    app __x3__ = (WrapCompletion undefined)
-    return __x3__
-  } else {}
+  if (|| (< position 0i) (! (< position size))) return undefined else {}
   ??? "Let id:{first} be the code unit value of the element at index id:{position} in the String id:{S} ."
-  if (|| (< first 55296i) (|| (< 56319i first) (== (+ position 1i) size))) {
-    app __x4__ = (WrapCompletion first)
-    return __x4__
-  } else {}
+  if (|| (< first 55296i) (|| (< 56319i first) (== (+ position 1i) size))) return first else {}
   ??? "Let id:{second} be the code unit value of the element at index id:{position} + 1 in the String id:{S} ."
-  if (|| (< second 56320i) (< 57343i second)) {
-    app __x5__ = (WrapCompletion first)
-    return __x5__
-  } else {}
-  app __x6__ = (UTF16Decode first second)
-  app __x7__ = (WrapCompletion __x6__)
-  return __x7__
+  if (|| (< second 56320i) (< 57343i second)) return first else {}
+  app __x3__ = (UTF16Decode first second)
+  return __x3__
 }

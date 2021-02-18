@@ -3,12 +3,10 @@
   app __x0__ = (IsCallable cleanupCallback)
   if (= __x0__ false) throw INTRINSIC_TypeError else {}
   app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%FinalizationRegistry.prototype%" (new ["Realm", "CleanupCallback", "Cells"]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let finalizationRegistry = __x1__
+  let finalizationRegistry = [? __x1__]
   let fn = GLOBAL_context.Function
   finalizationRegistry.Realm = fn.Realm
   finalizationRegistry.CleanupCallback = cleanupCallback
   finalizationRegistry.Cells = (new [])
-  app __x2__ = (WrapCompletion finalizationRegistry)
-  return __x2__
+  return finalizationRegistry
 }

@@ -4,33 +4,26 @@
   if (= __x0__ false) throw INTRINSIC_TypeError else {}
   ??? "Let id:{args} be a new ( possibly empty ) List consisting of all of the argument values provided after id:{thisArg} in order ."
   app __x1__ = (BoundFunctionCreate Target thisArg args)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let F = __x1__
+  let F = [? __x1__]
   app __x2__ = (HasOwnProperty Target "length")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let targetHasLength = __x2__
+  let targetHasLength = [? __x2__]
   if (= targetHasLength true) {
     app __x3__ = (Get Target "length")
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let targetLen = __x3__
+    let targetLen = [? __x3__]
     app __x4__ = (Type targetLen)
     if (! (= __x4__ Number)) let L = 0i else {
       app __x5__ = (ToInteger targetLen)
-      if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-      targetLen = __x5__
+      targetLen = [! __x5__]
       ??? "Let id:{L} be the larger of 0 and the result of id:{targetLen} minus the number of elements of id:{args} ."
     }
   } else let L = 0i
   app __x6__ = (SetFunctionLength F L)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  __x6__
+  [! __x6__]
   app __x7__ = (Get Target "name")
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  let targetName = __x7__
+  let targetName = [? __x7__]
   app __x8__ = (Type targetName)
   if (! (= __x8__ String)) targetName = "" else {}
   app __x9__ = (SetFunctionName F targetName "bound")
   __x9__
-  app __x10__ = (WrapCompletion F)
-  return __x10__
+  return F
 }

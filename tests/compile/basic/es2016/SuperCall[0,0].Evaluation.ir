@@ -3,19 +3,14 @@
   let newTarget = __x0__
   if (= newTarget undefined) throw INTRINSIC_ReferenceError else {}
   app __x1__ = (GetSuperConstructor )
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let func = __x1__
+  let func = [? __x1__]
   access __x2__ = (Arguments "ArgumentListEvaluation")
   let argList = __x2__
-  if (is-completion argList) if (= argList.Type CONST_normal) argList = argList.Value else return argList else {}
-  argList
+  [? argList]
   app __x3__ = (Construct func argList newTarget)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let result = __x3__
+  let result = [? __x3__]
   app __x4__ = (GetThisEnvironment )
   let thisER = __x4__
   app __x5__ = (thisER.BindThisValue thisER result)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  app __x6__ = (WrapCompletion __x5__)
-  return __x6__
+  return [? __x5__]
 }

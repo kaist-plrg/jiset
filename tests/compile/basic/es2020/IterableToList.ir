@@ -1,20 +1,16 @@
 {
   app __x0__ = (GetIterator items CONST_sync method)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let iteratorRecord = __x0__
+  let iteratorRecord = [? __x0__]
   let values = (new [])
   let next = true
   while (! (= next false)) {
     app __x1__ = (IteratorStep iteratorRecord)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    next = __x1__
+    next = [? __x1__]
     if (! (= next false)) {
       app __x2__ = (IteratorValue next)
-      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-      let nextValue = __x2__
+      let nextValue = [? __x2__]
       append nextValue -> values
     } else {}
   }
-  app __x3__ = (WrapCompletion values)
-  return __x3__
+  return values
 }

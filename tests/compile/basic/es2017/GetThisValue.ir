@@ -2,11 +2,7 @@
   app __x0__ = (IsPropertyReference V)
   assert (= __x0__ true)
   app __x1__ = (IsSuperReference V)
-  if (= __x1__ true) {
-    app __x2__ = (WrapCompletion V.thisValue)
-    return __x2__
-  } else {}
-  app __x3__ = (GetBase V)
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  if (= __x1__ true) return V.thisValue else {}
+  app __x2__ = (GetBase V)
+  return __x2__
 }

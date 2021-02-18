@@ -5,22 +5,17 @@
   assert (= __x0__ Object)
   let target = O.ProxyTarget
   app __x1__ = (GetMethod handler "construct")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let trap = __x1__
+  let trap = [? __x1__]
   if (= trap undefined) {
     assert (! (= target.Construct absent))
     app __x2__ = (Construct target argumentsList newTarget)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    return [? __x2__]
   } else {}
-  app __x4__ = (CreateArrayFromList argumentsList)
-  let argArray = __x4__
-  app __x5__ = (Call trap handler (new [target, argArray, newTarget]))
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let newObj = __x5__
-  app __x6__ = (Type newObj)
-  if (! (= __x6__ Object)) throw INTRINSIC_TypeError else {}
-  app __x7__ = (WrapCompletion newObj)
-  return __x7__
+  app __x3__ = (CreateArrayFromList argumentsList)
+  let argArray = __x3__
+  app __x4__ = (Call trap handler (new [target, argArray, newTarget]))
+  let newObj = [? __x4__]
+  app __x5__ = (Type newObj)
+  if (! (= __x5__ Object)) throw INTRINSIC_TypeError else {}
+  return newObj
 }

@@ -25,12 +25,9 @@
   valueWrapper
   ??? "Let id:{steps} be the algorithm steps defined in link:{unhandled: sec-async-from-sync-iterator-value-unwrap-functions} ."
   app __x6__ = (CreateBuiltinFunction steps (new ["Done"]))
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let onFulfilled = __x6__
+  let onFulfilled = [! __x6__]
   onFulfilled.Done = done
   app __x7__ = (PerformPromiseThen valueWrapper onFulfilled undefined promiseCapability)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  __x7__
-  app __x8__ = (WrapCompletion promiseCapability.Promise)
-  return __x8__
+  [! __x7__]
+  return promiseCapability.Promise
 }

@@ -9,17 +9,14 @@
   if (= type "Float32") {
     ??? "Let id:{value} be the byte elements of id:{rawValue} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2008 binary32 value ."
     ??? "If id:{value} is an IEEE 754 - 2008 binary32 NaN value , return the value:{NaN} Number value ."
-    app __x1__ = (WrapCompletion value)
-    return __x1__
+    return value
   } else {}
   if (= type "Float64") {
     ??? "Let id:{value} be the byte elements of id:{rawValue} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2008 binary64 value ."
     ??? "If id:{value} is an IEEE 754 - 2008 binary64 NaN value , return the value:{NaN} Number value ."
-    app __x2__ = (WrapCompletion value)
-    return __x2__
+    return value
   } else {}
   ??? "If the first code unit of id:{type} is code:{\"U\"} , then in:{} out:{}"
   ??? "Else , in:{} out:{}"
-  app __x3__ = (WrapCompletion intValue)
-  return __x3__
+  return intValue
 }

@@ -1,46 +1,36 @@
 {
   app __x0__ = (RequireObjectCoercible this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   if (! (|| (= searchValue undefined) (= searchValue null))) {
     app __x1__ = (GetMethod searchValue SYMBOL_replace)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let replacer = __x1__
+    let replacer = [? __x1__]
     if (! (= replacer undefined)) {
       app __x2__ = (Call replacer searchValue (new [O, replaceValue]))
-      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-      app __x3__ = (WrapCompletion __x2__)
-      return __x3__
+      return [? __x2__]
     } else {}
   } else {}
-  app __x4__ = (ToString O)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let string = __x4__
-  app __x5__ = (ToString searchValue)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let searchString = __x5__
-  app __x6__ = (IsCallable replaceValue)
-  let functionalReplace = __x6__
+  app __x3__ = (ToString O)
+  let string = [? __x3__]
+  app __x4__ = (ToString searchValue)
+  let searchString = [? __x4__]
+  app __x5__ = (IsCallable replaceValue)
+  let functionalReplace = __x5__
   if (= functionalReplace false) {
-    app __x7__ = (ToString replaceValue)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    replaceValue = __x7__
+    app __x6__ = (ToString replaceValue)
+    replaceValue = [? __x6__]
   } else {}
   ??? "Search id:{string} for the first occurrence of id:{searchString} and let id:{pos} be the index within id:{string} of the first code unit of the matched substring and let id:{matched} be id:{searchString} . If no occurrences of id:{searchString} were found , return id:{string} ."
   if (= functionalReplace true) {
-    app __x8__ = (Call replaceValue undefined (new [matched, pos, string]))
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let replValue = __x8__
-    app __x9__ = (ToString replValue)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    let replStr = __x9__
+    app __x7__ = (Call replaceValue undefined (new [matched, pos, string]))
+    let replValue = [? __x7__]
+    app __x8__ = (ToString replValue)
+    let replStr = [? __x8__]
   } else {
     let captures = (new [])
-    app __x10__ = (GetSubstitution matched string pos captures undefined replaceValue)
-    let replStr = __x10__
+    app __x9__ = (GetSubstitution matched string pos captures undefined replaceValue)
+    let replStr = __x9__
   }
   let tailPos = (+ pos matched.length)
   ??? "Let id:{newString} be the string - concatenation of the first id:{pos} code units of id:{string} , id:{replStr} , and the trailing substring of id:{string} starting at index id:{tailPos} . If id:{pos} is 0 , the first element of the concatenation will be the empty String ."
-  app __x11__ = (WrapCompletion newString)
-  return __x11__
+  return newString
 }

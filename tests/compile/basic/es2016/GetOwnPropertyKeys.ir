@@ -1,10 +1,8 @@
 {
   app __x0__ = (ToObject O)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let obj = __x0__
+  let obj = [? __x0__]
   app __x1__ = (obj.OwnPropertyKeys obj)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let keys = __x1__
+  let keys = [? __x1__]
   let nameList = (new [])
   let __x2__ = keys
   let __x3__ = 0i
@@ -15,6 +13,5 @@
     __x3__ = (+ __x3__ 1i)
   }
   app __x5__ = (CreateArrayFromList nameList)
-  app __x6__ = (WrapCompletion __x5__)
-  return __x6__
+  return __x5__
 }

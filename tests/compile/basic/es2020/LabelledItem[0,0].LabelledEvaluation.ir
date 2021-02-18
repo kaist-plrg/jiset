@@ -1,10 +1,8 @@
 if (|| (is-instance-of Statement LabelledStatement) (is-instance-of Statement BreakableStatement)) {
   access __x0__ = (Statement "LabelledEvaluation")
   app __x1__ = (__x0__ labelSet)
-  app __x2__ = (WrapCompletion __x1__)
-  return __x2__
+  return __x1__
 } else {
-  access __x3__ = (Statement "Evaluation")
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  access __x2__ = (Statement "Evaluation")
+  return __x2__
 }

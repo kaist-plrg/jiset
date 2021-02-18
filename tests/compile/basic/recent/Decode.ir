@@ -3,10 +3,7 @@
   let R = ""
   let k = 0i
   while true {
-    if (== k strLen) {
-      app __x0__ = (WrapCompletion R)
-      return __x0__
-    } else {}
+    if (== k strLen) return R else {}
     let C = string[k]
     if (! (= C "%")) let S = C else {
       let start = k
@@ -18,14 +15,14 @@
       if (== n 0i) {
         let C = B
         if (! (contains reservedSet C)) let S = C else {
-          let __x1__ = ""
-          let __x2__ = start
-          while (< __x2__ (+ (+ k 1i) 1i)) {
-            access __x3__ = (string __x2__)
-            __x1__ = (+ __x1__ __x3__)
-            __x2__ = (+ __x2__ 1i)
+          let __x0__ = ""
+          let __x1__ = start
+          while (< __x1__ (+ (+ k 1i) 1i)) {
+            access __x2__ = (string __x1__)
+            __x0__ = (+ __x0__ __x2__)
+            __x1__ = (+ __x1__ 1i)
           }
-          let S = __x1__
+          let S = __x0__
         }
       } else {
         if (|| (== n 1i) (< 4i n)) throw INTRINSIC_URIError else {}
@@ -44,8 +41,8 @@
         assert (= Octets.length n)
         ??? "If id:{Octets} does not contain a valid UTF - 8 encoding of a Unicode code point , throw a value:{URIError} exception ."
         ??? "Let id:{V} be the code point obtained by applying the UTF - 8 transformation to id:{Octets} , that is , from a List of octets into a 21 - bit value ."
-        app __x4__ = (UTF16EncodeCodePoint V)
-        let S = __x4__
+        app __x3__ = (UTF16EncodeCodePoint V)
+        let S = __x3__
       }
     }
     R = (+ R S)

@@ -4,56 +4,46 @@
   let values = (new [])
   let remainingElementsCount = (new Record("Value" -> 1i))
   app __x1__ = (Get constructor "resolve")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let promiseResolve = __x1__
+  let promiseResolve = [? __x1__]
   app __x2__ = (IsCallable promiseResolve)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  if (= __x2__ false) throw INTRINSIC_TypeError else {}
+  if (= [! __x2__] false) throw INTRINSIC_TypeError else {}
   let index = 0i
   while true {
     app __x3__ = (IteratorStep iteratorRecord)
     let next = __x3__
     app __x4__ = (IsAbruptCompletion next)
     if __x4__ iteratorRecord.Done = true else {}
-    if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else {}
-    next
+    [? next]
     if (= next false) {
       iteratorRecord.Done = true
       remainingElementsCount.Value = (- remainingElementsCount.Value 1i)
       if (= remainingElementsCount.Value 0i) {
         app __x5__ = (CreateArrayFromList values)
-        if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-        let valuesArray = __x5__
+        let valuesArray = [! __x5__]
         app __x6__ = (Call resultCapability.Resolve undefined (new [valuesArray]))
-        if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-        __x6__
+        [? __x6__]
       } else {}
-      app __x7__ = (WrapCompletion resultCapability.Promise)
-      return __x7__
+      return resultCapability.Promise
     } else {}
-    app __x8__ = (IteratorValue next)
-    let nextValue = __x8__
-    app __x9__ = (IsAbruptCompletion nextValue)
-    if __x9__ iteratorRecord.Done = true else {}
-    if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else {}
-    nextValue
+    app __x7__ = (IteratorValue next)
+    let nextValue = __x7__
+    app __x8__ = (IsAbruptCompletion nextValue)
+    if __x8__ iteratorRecord.Done = true else {}
+    [? nextValue]
     append undefined -> values
-    app __x10__ = (Call promiseResolve constructor (new [nextValue]))
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    let nextPromise = __x10__
+    app __x9__ = (Call promiseResolve constructor (new [nextValue]))
+    let nextPromise = [? __x9__]
     ??? "Let id:{steps} be the algorithm steps defined in link:{unhandled: sec-promise.all-resolve-element-functions} ."
-    app __x11__ = (CreateBuiltinFunction steps (new ["AlreadyCalled", "Index", "Values", "Capability", "RemainingElements"]))
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    let resolveElement = __x11__
+    app __x10__ = (CreateBuiltinFunction steps (new ["AlreadyCalled", "Index", "Values", "Capability", "RemainingElements"]))
+    let resolveElement = [! __x10__]
     resolveElement.AlreadyCalled = (new Record("Value" -> false))
     resolveElement.Index = index
     resolveElement.Values = values
     resolveElement.Capability = resultCapability
     resolveElement.RemainingElements = remainingElementsCount
     remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)
-    app __x12__ = (Invoke nextPromise "then" (new [resolveElement, resultCapability.Reject]))
-    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-    __x12__
+    app __x11__ = (Invoke nextPromise "then" (new [resolveElement, resultCapability.Reject]))
+    [? __x11__]
     index = (+ index 1i)
   }
 }

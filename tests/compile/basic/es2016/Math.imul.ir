@@ -4,11 +4,5 @@
   app __x1__ = (ToUint32 y)
   let b = __x1__
   let product = (%% (* a b) (** 2.0 32i))
-  if (! (< product (** 2.0 31i))) {
-    app __x2__ = (WrapCompletion (- product (** 2.0 32i)))
-    return __x2__
-  } else {
-    app __x3__ = (WrapCompletion product)
-    return __x3__
-  }
+  if (! (< product (** 2.0 31i))) return (- product (** 2.0 32i)) else return product
 }

@@ -1,15 +1,11 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (Get O "length")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (ToLength __x1__)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let len = __x2__
+  app __x2__ = (ToLength [? __x1__])
+  let len = [? __x2__]
   app __x3__ = (ToInteger start)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let relativeStart = __x3__
+  let relativeStart = [? __x3__]
   if (< relativeStart 0i) {
     app __x4__ = (max (+ len relativeStart) 0i)
     let k = __x4__
@@ -19,8 +15,7 @@
   }
   if (= end undefined) let relativeEnd = len else {
     app __x6__ = (ToInteger end)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let relativeEnd = __x6__
+    let relativeEnd = [? __x6__]
   }
   if (< relativeEnd 0i) {
     app __x7__ = (max (+ len relativeEnd) 0i)
@@ -32,32 +27,24 @@
   app __x9__ = (max (- final k) 0i)
   let count = __x9__
   app __x10__ = (ArraySpeciesCreate O count)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  let A = __x10__
+  let A = [? __x10__]
   let n = 0i
   while (< k final) {
     app __x11__ = (ToString k)
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    let Pk = __x11__
+    let Pk = [! __x11__]
     app __x12__ = (HasProperty O Pk)
-    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-    let kPresent = __x12__
+    let kPresent = [? __x12__]
     if (= kPresent true) {
       app __x13__ = (Get O Pk)
-      if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-      let kValue = __x13__
+      let kValue = [? __x13__]
       app __x14__ = (ToString n)
-      if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-      app __x15__ = (CreateDataPropertyOrThrow A __x14__ kValue)
-      if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
-      __x15__
+      app __x15__ = (CreateDataPropertyOrThrow A [! __x14__] kValue)
+      [? __x15__]
     } else {}
     k = (+ k 1i)
     n = (+ n 1i)
   }
   app __x16__ = (Set A "length" n true)
-  if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-  __x16__
-  app __x17__ = (WrapCompletion A)
-  return __x17__
+  [? __x16__]
+  return A
 }

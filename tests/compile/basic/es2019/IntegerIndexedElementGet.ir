@@ -5,25 +5,15 @@
   app __x1__ = (IsDetachedBuffer buffer)
   if (= __x1__ true) throw INTRINSIC_TypeError else {}
   app __x2__ = (IsInteger index)
-  if (= __x2__ false) {
-    app __x3__ = (WrapCompletion undefined)
-    return __x3__
-  } else {}
-  if (== index -0.0) {
-    app __x4__ = (WrapCompletion undefined)
-    return __x4__
-  } else {}
+  if (= __x2__ false) return undefined else {}
+  if (== index -0.0) return undefined else {}
   let length = O.ArrayLength
-  if (|| (< index 0i) (! (< index length))) {
-    app __x5__ = (WrapCompletion undefined)
-    return __x5__
-  } else {}
+  if (|| (< index 0i) (! (< index length))) return undefined else {}
   let offset = O.ByteOffset
   let arrayTypeName = O.TypedArrayName
   ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{unhandled: table-49} for id:{arrayTypeName} ."
   let indexedPosition = (+ (* index elementSize) offset)
   ??? "Let id:{elementType} be the String value of the Element Type value in link:{unhandled: table-49} for id:{arrayTypeName} ."
-  app __x6__ = (GetValueFromBuffer buffer indexedPosition elementType true "Unordered")
-  app __x7__ = (WrapCompletion __x6__)
-  return __x7__
+  app __x3__ = (GetValueFromBuffer buffer indexedPosition elementType true "Unordered")
+  return __x3__
 }

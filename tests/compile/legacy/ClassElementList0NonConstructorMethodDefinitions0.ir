@@ -1,19 +1,12 @@
 {
-  if (is-instance-of ClassElement ClassElement2) {
-    app __x0__ = (WrapCompletion (new []))
-    return __x0__
+  if (is-instance-of ClassElement ClassElement2) return (new []) else {}
+  let __x0__ = true
+  access __x1__ = (ClassElement "IsStatic")
+  __x0__ = (= __x1__ false)
+  if __x0__ {
+    access __x2__ = (ClassElement "PropName")
+    __x0__ = (= __x2__ "constructor")
   } else {}
-  let __x1__ = true
-  access __x2__ = (ClassElement "IsStatic")
-  __x1__ = (= __x2__ false)
-  if __x1__ {
-    access __x3__ = (ClassElement "PropName")
-    __x1__ = (= __x3__ "constructor")
-  } else {}
-  if __x1__ {
-    app __x4__ = (WrapCompletion (new []))
-    return __x4__
-  } else {}
-  app __x5__ = (WrapCompletion (new [ClassElement]))
-  return __x5__
+  if __x0__ return (new []) else {}
+  return (new [ClassElement])
 }

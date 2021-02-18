@@ -1,16 +1,11 @@
 {
-  if (! (is-instance-of stmt LabelledStatement)) {
-    app __x0__ = (WrapCompletion false)
-    return __x0__
-  } else {}
+  if (! (is-instance-of stmt LabelledStatement)) return false else {}
   ??? "Let id:{item} be the nt:{LabelledItem} component of id:{stmt} ."
   if (is-instance-of item LabelledItem1) {
     access FunctionDeclaration = (item "FunctionDeclaration")
-    app __x1__ = (WrapCompletion true)
-    return __x1__
+    return true
   } else {}
   ??? "Let id:{subStmt} be the nt:{Statement} component of id:{item} ."
-  app __x2__ = (IsLabelledFunction subStmt)
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  app __x0__ = (IsLabelledFunction subStmt)
+  return __x0__
 }

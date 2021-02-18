@@ -1,17 +1,11 @@
 {
   app __x0__ = (RequireObjectCoercible this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (ToString O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let S = __x1__
+  let S = [? __x1__]
   app __x2__ = (ToInteger pos)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let position = __x2__
+  let position = [? __x2__]
   let size = S.length
-  if (|| (< position 0i) (! (< position size))) {
-    app __x3__ = (WrapCompletion "")
-    return __x3__
-  } else {}
+  if (|| (< position 0i) (! (< position size))) return "" else {}
   ??? "Return a String of length 1 , containing one code unit from id:{S} , namely the code unit at index id:{position} ."
 }

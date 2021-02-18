@@ -8,8 +8,7 @@
   while true {
     if (= O.ObjectWasVisited false) {
       app __x1__ = (object.OwnPropertyKeys object)
-      if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-      let keys = __x1__
+      let keys = [? __x1__]
       let __x2__ = keys
       let __x3__ = 0i
       while (< __x3__ __x2__.length) {
@@ -25,14 +24,12 @@
       ??? "If there does not exist an element id:{v} of id:{visited} such that SameValue ( id:{r} , id:{v} ) is value:{true} , then in:{} out:{}"
     }
     app __x5__ = (object.GetPrototypeOf object)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    object = __x5__
+    object = [? __x5__]
     O.Object = object
     O.ObjectWasVisited = false
     if (= object null) {
       app __x6__ = (CreateIterResultObject undefined true)
-      app __x7__ = (WrapCompletion __x6__)
-      return __x7__
+      return __x6__
     } else {}
   }
 }

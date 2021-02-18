@@ -3,8 +3,7 @@
   app __x0__ = (Type O)
   assert (&& (= __x0__ Object) (! (= O.SyncIteratorRecord absent)))
   app __x1__ = (NewPromiseCapability INTRINSIC_Promise)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let promiseCapability = __x1__
+  let promiseCapability = [! __x1__]
   let syncIteratorRecord = O.SyncIteratorRecord
   app __x2__ = (IteratorNext syncIteratorRecord value)
   let result = __x2__
@@ -15,7 +14,5 @@
   } else {}
   result
   app __x4__ = (AsyncFromSyncIteratorContinuation result promiseCapability)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  return [! __x4__]
 }

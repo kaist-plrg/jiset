@@ -10,6 +10,5 @@
   let reject = __x1__
   reject.Promise = promise
   reject.AlreadyResolved = alreadyResolved
-  app __x2__ = (WrapCompletion (new Record("Resolve" -> resolve, "Reject" -> reject)))
-  return __x2__
+  return (new Record("Resolve" -> resolve, "Reject" -> reject))
 }

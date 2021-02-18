@@ -1,11 +1,5 @@
 {
   assert (|| (= x 0i) (= x 1i))
   assert (|| (= y 0i) (= y 1i))
-  if (&& (= x 1i) (= y 1i)) {
-    app __x0__ = (WrapCompletion 1i)
-    return __x0__
-  } else {
-    app __x1__ = (WrapCompletion 0i)
-    return __x1__
-  }
+  if (&& (= x 1i) (= y 1i)) return 1i else return 0i
 }

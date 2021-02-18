@@ -2,54 +2,40 @@
   app __x0__ = (IsCallable adder)
   if (= __x0__ false) throw INTRINSIC_TypeError else {}
   app __x1__ = (GetIterator iterable)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let iteratorRecord = __x1__
+  let iteratorRecord = [? __x1__]
   while true {
     app __x2__ = (IteratorStep iteratorRecord)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let next = __x2__
-    if (= next false) {
-      app __x3__ = (WrapCompletion target)
-      return __x3__
+    let next = [? __x2__]
+    if (= next false) return target else {}
+    app __x3__ = (IteratorValue next)
+    let nextItem = [? __x3__]
+    app __x4__ = (Type nextItem)
+    if (! (= __x4__ Object)) {
+      app __x5__ = (ThrowCompletion ??? "TypeError")
+      let error = __x5__
+      app __x6__ = (IteratorClose iteratorRecord error)
+      return [? __x6__]
     } else {}
-    app __x4__ = (IteratorValue next)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let nextItem = __x4__
-    app __x5__ = (Type nextItem)
-    if (! (= __x5__ Object)) {
-      app __x6__ = (ThrowCompletion ??? "TypeError")
-      let error = __x6__
-      app __x7__ = (IteratorClose iteratorRecord error)
-      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-      app __x8__ = (WrapCompletion __x7__)
-      return __x8__
+    app __x7__ = (Get nextItem "0")
+    let k = __x7__
+    app __x8__ = (IsAbruptCompletion k)
+    if __x8__ {
+      app __x9__ = (IteratorClose iteratorRecord k)
+      return [? __x9__]
     } else {}
-    app __x9__ = (Get nextItem "0")
-    let k = __x9__
-    app __x10__ = (IsAbruptCompletion k)
-    if __x10__ {
-      app __x11__ = (IteratorClose iteratorRecord k)
-      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      app __x12__ = (WrapCompletion __x11__)
-      return __x12__
+    app __x10__ = (Get nextItem "1")
+    let v = __x10__
+    app __x11__ = (IsAbruptCompletion v)
+    if __x11__ {
+      app __x12__ = (IteratorClose iteratorRecord v)
+      return [? __x12__]
     } else {}
-    app __x13__ = (Get nextItem "1")
-    let v = __x13__
-    app __x14__ = (IsAbruptCompletion v)
+    app __x13__ = (Call adder target (new [k.Value, v.Value]))
+    let status = __x13__
+    app __x14__ = (IsAbruptCompletion status)
     if __x14__ {
-      app __x15__ = (IteratorClose iteratorRecord v)
-      if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
-      app __x16__ = (WrapCompletion __x15__)
-      return __x16__
-    } else {}
-    app __x17__ = (Call adder target (new [k.Value, v.Value]))
-    let status = __x17__
-    app __x18__ = (IsAbruptCompletion status)
-    if __x18__ {
-      app __x19__ = (IteratorClose iteratorRecord status)
-      if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
-      app __x20__ = (WrapCompletion __x19__)
-      return __x20__
+      app __x15__ = (IteratorClose iteratorRecord status)
+      return [? __x15__]
     } else {}
   }
 }

@@ -1,13 +1,7 @@
 {
   access __x0__ = (BindingList "BoundNames")
-  if (contains __x0__ "let") throw INTRINSIC_SyntaxError else {
-    app __x1__ = (NormalCompletion undefined)
-    return __x1__
-  }
-  access __x2__ = (BindingList "BoundNames")
-  app __x3__ = (IsDuplicate __x2__)
-  if __x3__ throw INTRINSIC_SyntaxError else {
-    app __x4__ = (NormalCompletion undefined)
-    return __x4__
-  }
+  if (contains __x0__ "let") throw INTRINSIC_SyntaxError else return undefined
+  access __x1__ = (BindingList "BoundNames")
+  app __x2__ = (IsDuplicate __x1__)
+  if __x2__ throw INTRINSIC_SyntaxError else return undefined
 }

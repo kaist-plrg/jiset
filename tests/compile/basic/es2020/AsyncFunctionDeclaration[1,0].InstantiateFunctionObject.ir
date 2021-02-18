@@ -1,11 +1,8 @@
 {
   app __x0__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let F = __x0__
+  let F = [! __x0__]
   app __x1__ = (SetFunctionName F "default")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
+  [! __x1__]
   F.SourceText = (get-syntax AsyncFunctionDeclaration)
-  app __x2__ = (WrapCompletion F)
-  return __x2__
+  return F
 }

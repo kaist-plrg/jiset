@@ -2,19 +2,14 @@
   app __x0__ = (Type C)
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   app __x1__ = (GetMethod C SYMBOL_hasInstance)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let instOfHandler = __x1__
+  let instOfHandler = [? __x1__]
   if (! (= instOfHandler undefined)) {
     app __x2__ = (Call instOfHandler C (new [O]))
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (ToBoolean __x2__)
-    app __x4__ = (WrapCompletion __x3__)
-    return __x4__
+    app __x3__ = (ToBoolean [? __x2__])
+    return __x3__
   } else {}
-  app __x5__ = (IsCallable C)
-  if (= __x5__ false) throw INTRINSIC_TypeError else {}
-  app __x6__ = (OrdinaryHasInstance C O)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  app __x7__ = (WrapCompletion __x6__)
-  return __x7__
+  app __x4__ = (IsCallable C)
+  if (= __x4__ false) throw INTRINSIC_TypeError else {}
+  app __x5__ = (OrdinaryHasInstance C O)
+  return [? __x5__]
 }

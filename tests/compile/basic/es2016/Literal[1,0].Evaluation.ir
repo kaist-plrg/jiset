@@ -1,16 +1,4 @@
 {
-  if (= (get-syntax BooleanLiteral) "false") {
-    app __x0__ = (WrapCompletion false)
-    return __x0__
-  } else {
-    app __x1__ = (NormalCompletion undefined)
-    return __x1__
-  }
-  if (= (get-syntax BooleanLiteral) "true") {
-    app __x2__ = (WrapCompletion true)
-    return __x2__
-  } else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
-  }
+  if (= (get-syntax BooleanLiteral) "false") return false else return undefined
+  if (= (get-syntax BooleanLiteral) "true") return true else return undefined
 }

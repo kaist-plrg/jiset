@@ -1,15 +1,11 @@
 {
   app __x0__ = (OrdinaryCreateFromConstructor constructor "%ArrayBuffer.prototype%" (new ["ArrayBufferData", "ArrayBufferByteLength", "ArrayBufferDetachKey"]))
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let obj = __x0__
+  let obj = [? __x0__]
   app __x1__ = (IsNonNegativeInteger byteLength)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  assert (= __x1__ true)
+  assert (= [! __x1__] true)
   app __x2__ = (CreateByteDataBlock byteLength)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let block = __x2__
+  let block = [? __x2__]
   obj.ArrayBufferData = block
   obj.ArrayBufferByteLength = byteLength
-  app __x3__ = (WrapCompletion obj)
-  return __x3__
+  return obj
 }

@@ -5,6 +5,5 @@
   ??? "Let id:{hour} be the String representation of HourFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
   ??? "Let id:{minute} be the String representation of MinFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
   ??? "Let id:{second} be the String representation of SecFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
-  app __x1__ = (WrapCompletion (+ (+ (+ (+ (+ (+ hour ":") minute) ":") second) " ") "GMT"))
-  return __x1__
+  return (+ (+ (+ (+ (+ (+ hour ":") minute) ":") second) " ") "GMT")
 }

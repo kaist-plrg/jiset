@@ -1,18 +1,12 @@
 {
   app __x0__ = (RequireObjectCoercible O)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (Type proto)
   if (! (|| (= __x1__ Object) (= __x1__ Null))) throw INTRINSIC_TypeError else {}
   app __x2__ = (Type O)
-  if (! (= __x2__ Object)) {
-    app __x3__ = (WrapCompletion O)
-    return __x3__
-  } else {}
-  app __x4__ = (O.SetPrototypeOf O proto)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let status = __x4__
+  if (! (= __x2__ Object)) return O else {}
+  app __x3__ = (O.SetPrototypeOf O proto)
+  let status = [? __x3__]
   if (= status false) throw INTRINSIC_TypeError else {}
-  app __x5__ = (WrapCompletion O)
-  return __x5__
+  return O
 }

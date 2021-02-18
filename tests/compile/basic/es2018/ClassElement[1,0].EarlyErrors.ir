@@ -1,12 +1,6 @@
 {
   access __x0__ = (MethodDefinition "HasDirectSuper")
-  if (= __x0__ true) throw INTRINSIC_SyntaxError else {
-    app __x1__ = (NormalCompletion undefined)
-    return __x1__
-  }
-  access __x2__ = (MethodDefinition "PropName")
-  if (= __x2__ "prototype") throw INTRINSIC_SyntaxError else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
-  }
+  if (= __x0__ true) throw INTRINSIC_SyntaxError else return undefined
+  access __x1__ = (MethodDefinition "PropName")
+  if (= __x1__ "prototype") throw INTRINSIC_SyntaxError else return undefined
 }

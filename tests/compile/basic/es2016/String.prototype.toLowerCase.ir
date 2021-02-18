@@ -1,15 +1,12 @@
 {
   app __x0__ = (RequireObjectCoercible this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (ToString O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let S = __x1__
+  let S = [? __x1__]
   ??? "Let id:{cpList} be a List containing in order the code points as defined in link:{unhandled: sec-ecmascript-language-types-string-type} of id:{S} , starting at the first element of id:{S} ."
   ??? "For each code point id:{c} in id:{cpList} , if the Unicode Character Database provides a language insensitive lower case equivalent of id:{c} , then replace id:{c} in id:{cpList} with that equivalent code point ( s ) ."
   let cuList = (new [])
   ??? "For each code point id:{c} in id:{cpList} , in order , append to id:{cuList} the elements of the UTF16Encoding of id:{c} ."
   ??? "Let id:{L} be a String whose elements are , in order , the elements of id:{cuList} ."
-  app __x2__ = (WrapCompletion L)
-  return __x2__
+  return L
 }

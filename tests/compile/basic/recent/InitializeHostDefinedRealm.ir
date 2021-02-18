@@ -12,10 +12,8 @@
   app __x1__ = (SetRealmGlobalObject realm global thisValue)
   __x1__
   app __x2__ = (SetDefaultGlobalBindings realm)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let globalObj = __x2__
+  let globalObj = [? __x2__]
   ??? "Create any host - defined global object properties on id:{globalObj} ."
   app __x3__ = (NormalCompletion CONST_empty)
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  return __x3__
 }

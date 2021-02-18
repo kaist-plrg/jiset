@@ -3,29 +3,18 @@
   app __x0__ = (Type O)
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   app __x1__ = (Get O "name")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let name = __x1__
+  let name = [? __x1__]
   if (= name undefined) name = "Error" else {
     app __x2__ = (ToString name)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    name = __x2__
+    name = [? __x2__]
   }
   app __x3__ = (Get O "message")
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let msg = __x3__
+  let msg = [? __x3__]
   if (= msg undefined) msg = "" else {
     app __x4__ = (ToString msg)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    msg = __x4__
+    msg = [? __x4__]
   }
-  if (= name "") {
-    app __x5__ = (WrapCompletion msg)
-    return __x5__
-  } else {}
-  if (= msg "") {
-    app __x6__ = (WrapCompletion name)
-    return __x6__
-  } else {}
-  app __x7__ = (WrapCompletion (+ (+ (+ name ":") " ") msg))
-  return __x7__
+  if (= name "") return msg else {}
+  if (= msg "") return name else {}
+  return (+ (+ (+ name ":") " ") msg)
 }

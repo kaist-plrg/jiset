@@ -3,14 +3,8 @@
   let ObjRec = envRec.ObjectRecord
   let globalObject = ObjRec.BindingObject
   app __x0__ = (HasOwnProperty globalObject N)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let hasProperty = __x0__
-  if (= hasProperty true) {
-    app __x1__ = (WrapCompletion true)
-    return __x1__
-  } else {}
-  app __x2__ = (IsExtensible globalObject)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  let hasProperty = [? __x0__]
+  if (= hasProperty true) return true else {}
+  app __x1__ = (IsExtensible globalObject)
+  return [? __x1__]
 }

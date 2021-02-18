@@ -2,8 +2,7 @@
   access __x0__ = (MemberExpression "Evaluation")
   let ref = __x0__
   app __x1__ = (GetValue ref)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let func = __x1__
+  let func = [? __x1__]
   let __x2__ = true
   app __x3__ = (Type ref)
   __x2__ = (= __x3__ Reference)
@@ -21,35 +20,27 @@
     app __x7__ = (SameValue func INTRINSIC_eval)
     if (= __x7__ true) {
       app __x8__ = (ArgumentListEvaluation Arguments)
-      if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-      let argList = __x8__
-      if (= argList.length 0i) {
-        app __x9__ = (WrapCompletion undefined)
-        return __x9__
-      } else {}
+      let argList = [? __x8__]
+      if (= argList.length 0i) return undefined else {}
       let evalText = argList[0i]
       ??? "If the source code matching this nt:{CallExpression} is strict code , let id:{strictCaller} be value:{true} . Otherwise let id:{strictCaller} be value:{false} ."
       let evalRealm = REALM
-      app __x10__ = (PerformEval evalText evalRealm strictCaller true)
-      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-      app __x11__ = (WrapCompletion __x10__)
-      return __x11__
+      app __x9__ = (PerformEval evalText evalRealm strictCaller true)
+      return [? __x9__]
     } else {}
   } else {}
-  app __x12__ = (Type ref)
-  if (= __x12__ Reference) {
-    app __x13__ = (IsPropertyReference ref)
-    if (= __x13__ true) {
-      app __x14__ = (GetThisValue ref)
-      let thisValue = __x14__
+  app __x10__ = (Type ref)
+  if (= __x10__ Reference) {
+    app __x11__ = (IsPropertyReference ref)
+    if (= __x11__ true) {
+      app __x12__ = (GetThisValue ref)
+      let thisValue = __x12__
     } else {}
     ??? "Else , the base of id:{ref} is an Environment Record in:{} out:{}"
   } else let thisValue = undefined
   let thisCall = this
-  app __x15__ = (IsInTailPosition thisCall)
-  let tailCall = __x15__
-  app __x16__ = (EvaluateDirectCall func thisValue Arguments tailCall)
-  if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-  app __x17__ = (WrapCompletion __x16__)
-  return __x17__
+  app __x13__ = (IsInTailPosition thisCall)
+  let tailCall = __x13__
+  app __x14__ = (EvaluateDirectCall func thisValue Arguments tailCall)
+  return [? __x14__]
 }

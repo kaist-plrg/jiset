@@ -2,9 +2,7 @@
   access __x0__ = (ClassTail "ClassDefinitionEvaluation")
   app __x1__ = (__x0__ undefined name)
   let value = __x1__
-  if (is-completion value) if (= value.Type CONST_normal) value = value.Value else return value else {}
-  value
+  [? value]
   value.SourceText = (get-syntax ClassExpression)
-  app __x2__ = (WrapCompletion value)
-  return __x2__
+  return value
 }

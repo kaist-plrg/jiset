@@ -9,8 +9,7 @@
   if (= __x2__ true) throw INTRINSIC_TypeError else {}
   let len = O.ArrayBufferByteLength
   app __x3__ = (ToInteger start)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let relativeStart = __x3__
+  let relativeStart = [? __x3__]
   if (< relativeStart 0i) {
     app __x4__ = (max (+ len relativeStart) 0i)
     let first = __x4__
@@ -20,8 +19,7 @@
   }
   if (= end undefined) let relativeEnd = len else {
     app __x6__ = (ToInteger end)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let relativeEnd = __x6__
+    let relativeEnd = [? __x6__]
   }
   if (< relativeEnd 0i) {
     app __x7__ = (max (+ len relativeEnd) 0i)
@@ -33,11 +31,9 @@
   app __x9__ = (max (- final first) 0i)
   let newLen = __x9__
   app __x10__ = (SpeciesConstructor O INTRINSIC_ArrayBuffer)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  let ctor = __x10__
+  let ctor = [? __x10__]
   app __x11__ = (Construct ctor (new [newLen]))
-  if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-  let new = __x11__
+  let new = [? __x11__]
   if (= new.ArrayBufferData absent) throw INTRINSIC_TypeError else {}
   app __x12__ = (IsSharedArrayBuffer new)
   if (= __x12__ true) throw INTRINSIC_TypeError else {}
@@ -52,6 +48,5 @@
   let toBuf = new.ArrayBufferData
   app __x16__ = (CopyDataBlockBytes toBuf 0i fromBuf first newLen)
   __x16__
-  app __x17__ = (WrapCompletion new)
-  return __x17__
+  return new
 }

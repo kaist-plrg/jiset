@@ -4,14 +4,11 @@
   if (= NewTarget undefined) {
     ??? "Let id:{now} be the Number that is the time value ( UTC ) identifying the current time ."
     app __x0__ = (ToDateString now)
-    app __x1__ = (WrapCompletion __x0__)
-    return __x1__
+    return __x0__
   } else {
-    app __x2__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_DatePrototype (new ["DateValue"]))
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let O = __x2__
+    app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_DatePrototype (new ["DateValue"]))
+    let O = [? __x1__]
     ??? "Set id:{O} . [ [ DateValue ] ] to the time value ( UTC ) identifying the current time ."
-    app __x3__ = (WrapCompletion O)
-    return __x3__
+    return O
   }
 }

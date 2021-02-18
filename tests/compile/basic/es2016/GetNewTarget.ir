@@ -2,6 +2,5 @@
   app __x0__ = (GetThisEnvironment )
   let envRec = __x0__
   assert (! (= envRec.NewTarget absent))
-  app __x1__ = (WrapCompletion envRec.NewTarget)
-  return __x1__
+  return envRec.NewTarget
 }

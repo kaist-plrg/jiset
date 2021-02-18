@@ -3,11 +3,7 @@
   assert (= __x0__ String)
   let r = R.length
   let s = S.length
-  if (< s (+ q r)) {
-    app __x1__ = (WrapCompletion CONST_notDASHmatched)
-    return __x1__
-  } else {}
+  if (< s (+ q r)) return CONST_notDASHmatched else {}
   ??? "If there exists an integer id:{i} between 0 ( inclusive ) and id:{r} ( exclusive ) such that the code unit at index id:{q} + id:{i} within id:{S} is different from the code unit at index id:{i} within id:{R} , return const:{not-matched} ."
-  app __x2__ = (WrapCompletion (+ q r))
-  return __x2__
+  return (+ q r)
 }

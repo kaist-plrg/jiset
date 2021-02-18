@@ -4,32 +4,18 @@
   app __x1__ = (Type argument)
   if (= __x1__ Null) throw INTRINSIC_TypeError else {}
   app __x2__ = (Type argument)
-  if (= __x2__ Boolean) if (= prim true) {
-    app __x3__ = (WrapCompletion 1n)
-    return __x3__
-  } else if (= prim false) {
-    app __x4__ = (WrapCompletion 0n)
-    return __x4__
-  } else {
-    app __x5__ = (NormalCompletion undefined)
-    return __x5__
-  } else {}
-  app __x6__ = (Type argument)
-  if (= __x6__ BigInt) {
-    app __x7__ = (WrapCompletion prim)
-    return __x7__
-  } else {}
-  app __x8__ = (Type argument)
-  if (= __x8__ Number) throw INTRINSIC_TypeError else {}
-  app __x9__ = (Type argument)
-  if (= __x9__ String) {
-    app __x10__ = (StringToBigInt prim)
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    let n = __x10__
+  if (= __x2__ Boolean) if (= prim true) return 1n else if (= prim false) return 0n else return undefined else {}
+  app __x3__ = (Type argument)
+  if (= __x3__ BigInt) return prim else {}
+  app __x4__ = (Type argument)
+  if (= __x4__ Number) throw INTRINSIC_TypeError else {}
+  app __x5__ = (Type argument)
+  if (= __x5__ String) {
+    app __x6__ = (StringToBigInt prim)
+    let n = [! __x6__]
     if (= n NaN) throw INTRINSIC_SyntaxError else {}
-    app __x11__ = (WrapCompletion n)
-    return __x11__
+    return n
   } else {}
-  app __x12__ = (Type argument)
-  if (= __x12__ Symbol) throw INTRINSIC_TypeError else {}
+  app __x7__ = (Type argument)
+  if (= __x7__ Symbol) throw INTRINSIC_TypeError else {}
 }

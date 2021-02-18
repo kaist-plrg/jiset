@@ -3,6 +3,5 @@
   app __x0__ = (GetFunctionRealm then)
   let getThenRealmResult = __x0__
   if (&& (is-completion getThenRealmResult) (= getThenRealmResult.Type CONST_normal)) let thenRealm = getThenRealmResult.Value else let thenRealm = null
-  app __x1__ = (WrapCompletion (new Record("Job" -> job, "Realm" -> thenRealm)))
-  return __x1__
+  return (new Record("Job" -> job, "Realm" -> thenRealm))
 }

@@ -2,38 +2,19 @@
   app __x0__ = (Type P)
   if (= __x0__ Symbol) {
     app __x1__ = (OrdinaryDefineOwnProperty O P Desc)
-    app __x2__ = (WrapCompletion __x1__)
-    return __x2__
+    return __x1__
   } else {}
-  app __x3__ = (O.GetOwnProperty O P)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let current = __x3__
-  if (= current undefined) {
-    app __x4__ = (WrapCompletion false)
+  app __x2__ = (O.GetOwnProperty O P)
+  let current = [? __x2__]
+  if (= current undefined) return false else {}
+  app __x3__ = (IsAccessorDescriptor Desc)
+  if (= __x3__ true) return false else {}
+  if (= Desc.Writable false) return false else {}
+  if (= Desc.Enumerable false) return false else {}
+  if (= Desc.Configurable true) return false else {}
+  if (! (= Desc.Value absent)) {
+    app __x4__ = (SameValue Desc.Value current.Value)
     return __x4__
   } else {}
-  app __x5__ = (IsAccessorDescriptor Desc)
-  if (= __x5__ true) {
-    app __x6__ = (WrapCompletion false)
-    return __x6__
-  } else {}
-  if (= Desc.Writable false) {
-    app __x7__ = (WrapCompletion false)
-    return __x7__
-  } else {}
-  if (= Desc.Enumerable false) {
-    app __x8__ = (WrapCompletion false)
-    return __x8__
-  } else {}
-  if (= Desc.Configurable true) {
-    app __x9__ = (WrapCompletion false)
-    return __x9__
-  } else {}
-  if (! (= Desc.Value absent)) {
-    app __x10__ = (SameValue Desc.Value current.Value)
-    app __x11__ = (WrapCompletion __x10__)
-    return __x11__
-  } else {}
-  app __x12__ = (WrapCompletion true)
-  return __x12__
+  return true
 }

@@ -10,6 +10,5 @@
     let getHandlerRealmResult = __x2__
     if (&& (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type CONST_normal)) handlerRealm = getHandlerRealmResult.Value else {}
   } else {}
-  app __x3__ = (WrapCompletion (new Record("Job" -> job, "Realm" -> handlerRealm)))
-  return __x3__
+  return (new Record("Job" -> job, "Realm" -> handlerRealm))
 }

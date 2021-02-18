@@ -1,50 +1,36 @@
 {
   if (! (= (typeof module) "CyclicModuleRecord")) {
     app __x0__ = (module.Evaluate module)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    __x0__
-    app __x1__ = (WrapCompletion index)
-    return __x1__
+    [? __x0__]
+    return index
   } else {}
-  if (= module.Status CONST_evaluated) if (= module.EvaluationError undefined) {
-    app __x2__ = (WrapCompletion index)
-    return __x2__
-  } else {
-    app __x3__ = (WrapCompletion module.EvaluationError)
-    return __x3__
-  } else {}
-  if (= module.Status CONST_evaluating) {
-    app __x4__ = (WrapCompletion index)
-    return __x4__
-  } else {}
+  if (= module.Status CONST_evaluated) if (= module.EvaluationError undefined) return index else return module.EvaluationError else {}
+  if (= module.Status CONST_evaluating) return index else {}
   assert (= module.Status CONST_linked)
   module.Status = CONST_evaluating
   module.DFSIndex = index
   module.DFSAncestorIndex = index
   index = (+ index 1i)
   append module -> stack
-  let __x5__ = module.RequestedModules
-  let __x6__ = 0i
-  while (< __x6__ __x5__.length) {
-    let required = __x5__[__x6__]
-    app __x7__ = (HostResolveImportedModule module required)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let requiredModule = __x7__
-    app __x8__ = (InnerModuleEvaluation requiredModule stack index)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    index = __x8__
+  let __x1__ = module.RequestedModules
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let required = __x1__[__x2__]
+    app __x3__ = (HostResolveImportedModule module required)
+    let requiredModule = [! __x3__]
+    app __x4__ = (InnerModuleEvaluation requiredModule stack index)
+    index = [? __x4__]
     if (= (typeof requiredModule) "CyclicModuleRecord") {
       assert (|| (= requiredModule.Status CONST_evaluating) (= requiredModule.Status CONST_evaluated))
       if (= requiredModule.Status CONST_evaluating) {
-        app __x9__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
-        module.DFSAncestorIndex = __x9__
+        app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
+        module.DFSAncestorIndex = __x5__
       } else {}
     } else {}
-    __x6__ = (+ __x6__ 1i)
+    __x2__ = (+ __x2__ 1i)
   }
-  app __x10__ = (module.ExecuteModule module)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  __x10__
+  app __x6__ = (module.ExecuteModule module)
+  [? __x6__]
   assert (! (< module.DFSIndex module.DFSAncestorIndex))
   if (== module.DFSAncestorIndex module.DFSIndex) {
     let done = false
@@ -56,6 +42,5 @@
       if (= requiredModule module) done = true else {}
     }
   } else {}
-  app __x11__ = (WrapCompletion index)
-  return __x11__
+  return index
 }

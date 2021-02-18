@@ -5,8 +5,7 @@
   let kind = F.ConstructorKind
   if (= kind CONST_base) {
     app __x1__ = (OrdinaryCreateFromConstructor newTarget "%Object.prototype%")
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let thisArgument = __x1__
+    let thisArgument = [? __x1__]
   } else {}
   app __x2__ = (PrepareForOrdinaryCall F newTarget)
   let calleeContext = __x2__
@@ -27,21 +26,14 @@
     app __x7__ = (Type result.Value)
     if (= __x7__ Object) {
       app __x8__ = (NormalCompletion result.Value)
-      app __x9__ = (WrapCompletion __x8__)
-      return __x9__
+      return __x8__
     } else {}
     if (= kind CONST_base) {
-      app __x10__ = (NormalCompletion thisArgument)
-      app __x11__ = (WrapCompletion __x10__)
-      return __x11__
+      app __x9__ = (NormalCompletion thisArgument)
+      return __x9__
     } else {}
     if (! (= result.Value undefined)) throw INTRINSIC_TypeError else {}
-  } else {
-    if (is-completion result) if (= result.Type CONST_normal) result = result.Value else return result else {}
-    result
-  }
-  app __x12__ = (constructorEnv.GetThisBinding constructorEnv)
-  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-  app __x13__ = (WrapCompletion __x12__)
-  return __x13__
+  } else [? result]
+  app __x10__ = (constructorEnv.GetThisBinding constructorEnv)
+  return [? __x10__]
 }

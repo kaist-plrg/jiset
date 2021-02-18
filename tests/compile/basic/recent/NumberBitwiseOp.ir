@@ -1,11 +1,9 @@
 {
   assert (|| (|| (= op "&") (= op "^")) (= op "|"))
   app __x0__ = (ToInt32 x)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let lnum = __x0__
+  let lnum = [! __x0__]
   app __x1__ = (ToInt32 y)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let rnum = __x1__
+  let rnum = [! __x1__]
   ??? "Let id:{lbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{lnum} ) ."
   ??? "Let id:{rbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{rnum} ) ."
   if (= op "&") let result = (& lbits rbits) else if (= op "^") let result = (^ lbits rbits) else {}

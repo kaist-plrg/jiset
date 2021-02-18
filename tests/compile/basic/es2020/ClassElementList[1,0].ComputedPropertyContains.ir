@@ -2,12 +2,8 @@
   access __x0__ = (ClassElementList "ComputedPropertyContains")
   app __x1__ = (__x0__ symbol)
   let inList = __x1__
-  if (= inList true) {
-    app __x2__ = (WrapCompletion true)
-    return __x2__
-  } else {}
-  access __x3__ = (ClassElement "ComputedPropertyContains")
-  app __x4__ = (__x3__ symbol)
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  if (= inList true) return true else {}
+  access __x2__ = (ClassElement "ComputedPropertyContains")
+  app __x3__ = (__x2__ symbol)
+  return __x3__
 }

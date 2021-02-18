@@ -1,16 +1,12 @@
 {
   app __x0__ = (Type value)
-  if (= __x0__ Symbol) {
-    app __x1__ = (WrapCompletion value)
-    return __x1__
-  } else {}
-  app __x2__ = (Type value)
-  if (&& (= __x2__ Object) (! (= value.SymbolData absent))) {
+  if (= __x0__ Symbol) return value else {}
+  app __x1__ = (Type value)
+  if (&& (= __x1__ Object) (! (= value.SymbolData absent))) {
     let s = value.SymbolData
-    app __x3__ = (Type s)
-    assert (= __x3__ Symbol)
-    app __x4__ = (WrapCompletion s)
-    return __x4__
+    app __x2__ = (Type s)
+    assert (= __x2__ Symbol)
+    return s
   } else {}
   throw INTRINSIC_TypeError
 }

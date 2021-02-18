@@ -5,8 +5,7 @@
   state.Indent = (+ state.Indent state.Gap)
   if (! (= state.PropertyList undefined)) let K = state.PropertyList else {
     app __x0__ = (EnumerableOwnPropertyNames value CONST_key)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    let K = __x0__
+    let K = [? __x0__]
   }
   let partial = (new [])
   let __x1__ = K
@@ -14,8 +13,7 @@
   while (< __x2__ __x1__.length) {
     let P = __x1__[__x2__]
     app __x3__ = (SerializeJSONProperty state P value)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let strP = __x3__
+    let strP = [? __x3__]
     if (! (= strP undefined)) {
       app __x4__ = (QuoteJSONString P)
       let member = __x4__
@@ -36,6 +34,5 @@
   }
   ??? "Remove the last element of id:{state} . [ [ Stack ] ] ."
   state.Indent = stepback
-  app __x5__ = (WrapCompletion final)
-  return __x5__
+  return final
 }

@@ -1,15 +1,11 @@
 {
   app __x0__ = (Type tv)
   assert (= __x0__ Number)
-  if (= tv NaN) {
-    app __x1__ = (WrapCompletion "Invalid Date")
-    return __x1__
-  } else {}
-  app __x2__ = (LocalTime tv)
-  let t = __x2__
-  app __x3__ = (DateString t)
-  app __x4__ = (TimeString t)
-  app __x5__ = (TimeZoneString tv)
-  app __x6__ = (WrapCompletion (+ (+ (+ __x3__ " ") __x4__) __x5__))
-  return __x6__
+  if (= tv NaN) return "Invalid Date" else {}
+  app __x1__ = (LocalTime tv)
+  let t = __x1__
+  app __x2__ = (DateString t)
+  app __x3__ = (TimeString t)
+  app __x4__ = (TimeZoneString tv)
+  return (+ (+ (+ __x2__ " ") __x3__) __x4__)
 }

@@ -14,6 +14,5 @@
   ??? "Let id:{offsetMin} be the String representation of MinFromTime ( id:{absOffset} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
   ??? "Let id:{offsetHour} be the String representation of HourFromTime ( id:{absOffset} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
   ??? "Let id:{tzName} be an implementation - defined string that is either the empty String or the string - concatenation of the code unit 0x0020 ( SPACE ) , the code unit 0x0028 ( LEFT PARENTHESIS ) , an implementation - defined timezone name , and the code unit 0x0029 ( RIGHT PARENTHESIS ) ."
-  app __x2__ = (WrapCompletion (+ (+ (+ offsetSign offsetHour) offsetMin) tzName))
-  return __x2__
+  return (+ (+ (+ offsetSign offsetHour) offsetMin) tzName)
 }

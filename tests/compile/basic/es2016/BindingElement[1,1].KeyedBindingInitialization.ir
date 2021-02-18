@@ -1,16 +1,13 @@
 {
   app __x0__ = (GetV value propertyName)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let v = __x0__
+  let v = [? __x0__]
   if (&& (! (= Initializer absent)) (= v undefined)) {
     access __x1__ = (Initializer "Evaluation")
     let defaultValue = __x1__
     app __x2__ = (GetValue defaultValue)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let v = __x2__
+    let v = [? __x2__]
   } else {}
   access __x3__ = (BindingPattern "BindingInitialization")
   app __x4__ = (__x3__ v environment)
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  return __x4__
 }

@@ -1,15 +1,7 @@
 {
-  if (|| (= time Infinity) (= time -Infinity)) {
-    app __x0__ = (WrapCompletion NaN)
-    return __x0__
-  } else {}
-  app __x1__ = (abs time)
-  if (< (* 8.64 (** 10.0 15i)) __x1__) {
-    app __x2__ = (WrapCompletion NaN)
-    return __x2__
-  } else {}
-  app __x3__ = (ToIntegerOrInfinity time)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  if (|| (= time Infinity) (= time -Infinity)) return NaN else {}
+  app __x0__ = (abs time)
+  if (< (* 8.64 (** 10.0 15i)) __x0__) return NaN else {}
+  app __x1__ = (ToIntegerOrInfinity time)
+  return [! __x1__]
 }

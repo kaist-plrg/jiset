@@ -11,9 +11,6 @@
     append __x4__ -> declarations
     __x3__ = (+ __x3__ 1i)
   }
-  if (= CaseClauses1 absent) {
-    app __x5__ = (WrapCompletion declarations)
-    return __x5__
-  } else {}
+  if (= CaseClauses1 absent) return declarations else {}
   ??? "Return the result of appending to id:{declarations} the elements of the LexicallyScopedDeclarations of the second nt:{CaseClauses} ."
 }

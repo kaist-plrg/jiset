@@ -3,8 +3,7 @@
   let value = __x0__
   let S = this
   app __x1__ = (RequireInternalSlot S "WeakSetData")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
+  [? __x1__]
   app __x2__ = (Type value)
   if (! (= __x2__ Object)) throw INTRINSIC_TypeError else {}
   let entries = S.WeakSetData
@@ -18,13 +17,9 @@
       app __x6__ = (SameValue e value)
       __x5__ = (= __x6__ true)
     } else {}
-    if __x5__ {
-      app __x7__ = (WrapCompletion S)
-      return __x7__
-    } else {}
+    if __x5__ return S else {}
     __x4__ = (+ __x4__ 1i)
   }
   append value -> entries
-  app __x8__ = (WrapCompletion S)
-  return __x8__
+  return S
 }

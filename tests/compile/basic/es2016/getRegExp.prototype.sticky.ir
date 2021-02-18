@@ -4,10 +4,6 @@
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   if (= R.OriginalFlags absent) throw INTRINSIC_TypeError else {}
   let flags = R.OriginalFlags
-  if (contains flags "y") {
-    app __x1__ = (WrapCompletion true)
-    return __x1__
-  } else {}
-  app __x2__ = (WrapCompletion false)
-  return __x2__
+  if (contains flags "y") return true else {}
+  return false
 }

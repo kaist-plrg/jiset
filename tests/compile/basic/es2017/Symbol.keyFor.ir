@@ -6,12 +6,8 @@
   while (< __x2__ __x1__.length) {
     let e = __x1__[__x2__]
     app __x3__ = (SameValue e.Symbol sym)
-    if (= __x3__ true) {
-      app __x4__ = (WrapCompletion e.Key)
-      return __x4__
-    } else {}
+    if (= __x3__ true) return e.Key else {}
     __x2__ = (+ __x2__ 1i)
   }
-  app __x5__ = (WrapCompletion undefined)
-  return __x5__
+  return undefined
 }

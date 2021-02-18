@@ -1,44 +1,31 @@
 {
   app __x0__ = (RequireObjectCoercible this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (ToString O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let S = __x1__
+  let S = [? __x1__]
   app __x2__ = (IsRegExp searchString)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let isRegExp = __x2__
+  let isRegExp = [? __x2__]
   if (= isRegExp true) throw INTRINSIC_TypeError else {}
   app __x3__ = (ToString searchString)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let searchStr = __x3__
+  let searchStr = [? __x3__]
   let len = S.length
   if (= endPosition undefined) let pos = len else {
     app __x4__ = (ToIntegerOrInfinity endPosition)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let pos = __x4__
+    let pos = [? __x4__]
   }
   ??? "Let id:{end} be the result of clamping id:{pos} between 0 and id:{len} ."
   let searchLength = searchStr.length
-  if (== searchLength 0i) {
-    app __x5__ = (WrapCompletion true)
-    return __x5__
-  } else {}
+  if (== searchLength 0i) return true else {}
   let start = (- end searchLength)
-  if (< start 0i) {
-    app __x6__ = (WrapCompletion false)
-    return __x6__
-  } else {}
-  let __x7__ = ""
-  let __x8__ = start
-  while (< __x8__ (+ end 1i)) {
-    access __x9__ = (S __x8__)
-    __x7__ = (+ __x7__ __x9__)
-    __x8__ = (+ __x8__ 1i)
+  if (< start 0i) return false else {}
+  let __x5__ = ""
+  let __x6__ = start
+  while (< __x6__ (+ end 1i)) {
+    access __x7__ = (S __x6__)
+    __x5__ = (+ __x5__ __x7__)
+    __x6__ = (+ __x6__ 1i)
   }
-  let substring = __x7__
-  app __x10__ = (SameValueNonNumeric substring searchStr)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  app __x11__ = (WrapCompletion __x10__)
-  return __x11__
+  let substring = __x5__
+  app __x8__ = (SameValueNonNumeric substring searchStr)
+  return [! __x8__]
 }

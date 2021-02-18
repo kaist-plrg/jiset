@@ -3,8 +3,7 @@
   if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   if (= view.DataView absent) throw INTRINSIC_TypeError else {}
   app __x1__ = (ToNumber requestIndex)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let numberIndex = __x1__
+  let numberIndex = [? __x1__]
   app __x2__ = (ToInteger numberIndex)
   let getIndex = __x2__
   if (|| (! (== numberIndex getIndex)) (< getIndex 0i)) throw INTRINSIC_RangeError else {}
@@ -19,6 +18,5 @@
   if (< viewSize (+ getIndex elementSize)) throw INTRINSIC_RangeError else {}
   let bufferIndex = (+ getIndex viewOffset)
   app __x5__ = (GetValueFromBuffer buffer bufferIndex type isLittleEndian)
-  app __x6__ = (WrapCompletion __x5__)
-  return __x6__
+  return __x5__
 }

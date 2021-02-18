@@ -2,10 +2,8 @@
   app __x0__ = (IsConstructor promiseConstructor)
   assert (= __x0__ true)
   app __x1__ = (Get promiseConstructor "resolve")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let promiseResolve = __x1__
+  let promiseResolve = [? __x1__]
   app __x2__ = (IsCallable promiseResolve)
   if (= __x2__ false) throw INTRINSIC_TypeError else {}
-  app __x3__ = (WrapCompletion promiseResolve)
-  return __x3__
+  return promiseResolve
 }

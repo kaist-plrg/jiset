@@ -4,8 +4,6 @@
   access __x1__ = (PropertyDefinitionList "PropertyDefinitionEvaluation")
   app __x2__ = (__x1__ obj true)
   let status = __x2__
-  if (is-completion status) if (= status.Type CONST_normal) status = status.Value else return status else {}
-  status
-  app __x3__ = (WrapCompletion obj)
-  return __x3__
+  [? status]
+  return obj
 }

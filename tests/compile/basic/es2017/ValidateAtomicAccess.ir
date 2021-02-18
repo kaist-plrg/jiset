@@ -1,10 +1,8 @@
 {
   app __x0__ = (ToIndex requestIndex)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let accessIndex = __x0__
+  let accessIndex = [? __x0__]
   let length = typedArray.ArrayLength
   assert (! (< accessIndex 0i))
   if (! (< accessIndex length)) throw INTRINSIC_RangeError else {}
-  app __x1__ = (WrapCompletion accessIndex)
-  return __x1__
+  return accessIndex
 }

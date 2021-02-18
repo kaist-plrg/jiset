@@ -1,14 +1,11 @@
 {
   if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
   app __x0__ = (ToNumber length)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let numberLength = __x0__
+  let numberLength = [? __x0__]
   app __x1__ = (ToLength numberLength)
   let byteLength = __x1__
   app __x2__ = (SameValueZero numberLength byteLength)
   if (= __x2__ false) throw INTRINSIC_RangeError else {}
   app __x3__ = (AllocateArrayBuffer NewTarget byteLength)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  app __x4__ = (WrapCompletion __x3__)
-  return __x4__
+  return [? __x3__]
 }

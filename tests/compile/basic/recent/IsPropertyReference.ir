@@ -1,15 +1,6 @@
 {
   assert (= (typeof V) "ReferenceRecord")
-  if (= V.Base CONST_unresolvable) {
-    app __x0__ = (WrapCompletion false)
-    return __x0__
-  } else {}
-  app __x1__ = (Type V.Base)
-  if (|| (|| (|| (|| (|| (= __x1__ Boolean) (= __x1__ String)) (= __x1__ Symbol)) (= __x1__ BigInt)) (= __x1__ Number)) (= __x1__ Object)) {
-    app __x2__ = (WrapCompletion true)
-    return __x2__
-  } else {
-    app __x3__ = (WrapCompletion false)
-    return __x3__
-  }
+  if (= V.Base CONST_unresolvable) return false else {}
+  app __x0__ = (Type V.Base)
+  if (|| (|| (|| (|| (|| (= __x0__ Boolean) (= __x0__ String)) (= __x0__ Symbol)) (= __x0__ BigInt)) (= __x0__ Number)) (= __x0__ Object)) return true else return false
 }

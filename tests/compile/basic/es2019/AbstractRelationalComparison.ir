@@ -1,18 +1,14 @@
 {
   if (= LeftFirst true) {
     app __x0__ = (ToPrimitive x Number)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    let px = __x0__
+    let px = [? __x0__]
     app __x1__ = (ToPrimitive y Number)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let py = __x1__
+    let py = [? __x1__]
   } else {
     app __x2__ = (ToPrimitive y Number)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let py = __x2__
+    let py = [? __x2__]
     app __x3__ = (ToPrimitive x Number)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let px = __x3__
+    let px = [? __x3__]
   }
   let __x4__ = true
   app __x5__ = (Type px)
@@ -23,68 +19,27 @@
   } else {}
   if __x4__ {
     app __x7__ = (IsStringPrefix py px)
-    if (= __x7__ true) {
-      app __x8__ = (WrapCompletion false)
-      return __x8__
-    } else {}
-    app __x9__ = (IsStringPrefix px py)
-    if (= __x9__ true) {
-      app __x10__ = (WrapCompletion true)
-      return __x10__
-    } else {}
+    if (= __x7__ true) return false else {}
+    app __x8__ = (IsStringPrefix px py)
+    if (= __x8__ true) return true else {}
     ??? "Let id:{k} be the smallest nonnegative integer such that the code unit at index id:{k} within id:{px} is different from the code unit at index id:{k} within id:{py} . ( There must be such a id:{k} , for neither String is a prefix of the other . )"
     ??? "Let id:{m} be the integer that is the numeric value of the code unit at index id:{k} within id:{px} ."
     ??? "Let id:{n} be the integer that is the numeric value of the code unit at index id:{k} within id:{py} ."
-    if (< m n) {
-      app __x11__ = (WrapCompletion true)
-      return __x11__
-    } else {
-      app __x12__ = (WrapCompletion false)
-      return __x12__
-    }
+    if (< m n) return true else return false
   } else {
-    app __x13__ = (ToNumber px)
-    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-    let nx = __x13__
-    app __x14__ = (ToNumber py)
-    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-    let ny = __x14__
-    if (= nx NaN) {
-      app __x15__ = (WrapCompletion undefined)
-      return __x15__
-    } else {}
-    if (= ny NaN) {
-      app __x16__ = (WrapCompletion undefined)
-      return __x16__
-    } else {}
-    if (= nx ny) {
-      app __x17__ = (WrapCompletion false)
-      return __x17__
-    } else {}
-    if (&& (= nx 0i) (= ny -0.0)) {
-      app __x18__ = (WrapCompletion false)
-      return __x18__
-    } else {}
-    if (&& (= nx -0.0) (= ny 0i)) {
-      app __x19__ = (WrapCompletion false)
-      return __x19__
-    } else {}
-    if (= nx Infinity) {
-      app __x20__ = (WrapCompletion false)
-      return __x20__
-    } else {}
-    if (= ny Infinity) {
-      app __x21__ = (WrapCompletion true)
-      return __x21__
-    } else {}
-    if (= ny -Infinity) {
-      app __x22__ = (WrapCompletion false)
-      return __x22__
-    } else {}
-    if (= nx -Infinity) {
-      app __x23__ = (WrapCompletion true)
-      return __x23__
-    } else {}
+    app __x9__ = (ToNumber px)
+    let nx = [? __x9__]
+    app __x10__ = (ToNumber py)
+    let ny = [? __x10__]
+    if (= nx NaN) return undefined else {}
+    if (= ny NaN) return undefined else {}
+    if (= nx ny) return false else {}
+    if (&& (= nx 0i) (= ny -0.0)) return false else {}
+    if (&& (= nx -0.0) (= ny 0i)) return false else {}
+    if (= nx Infinity) return false else {}
+    if (= ny Infinity) return true else {}
+    if (= ny -Infinity) return false else {}
+    if (= nx -Infinity) return true else {}
     ??? "If the mathematical value of id:{nx} is less than the mathematical value of id:{ny} — note that these mathematical values are both finite and not both zero — return value:{true} . Otherwise , return value:{false} ."
   }
 }

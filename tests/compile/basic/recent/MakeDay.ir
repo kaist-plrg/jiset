@@ -1,26 +1,16 @@
 {
-  if (|| (|| (= year Infinity) (= year -Infinity)) (|| (|| (= month Infinity) (= month -Infinity)) (|| (= date Infinity) (= date -Infinity)))) {
-    app __x0__ = (WrapCompletion NaN)
-    return __x0__
-  } else {}
-  app __x1__ = (ToIntegerOrInfinity year)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let y = __x1__
-  app __x2__ = (ToIntegerOrInfinity month)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let m = __x2__
-  app __x3__ = (ToIntegerOrInfinity date)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let dt = __x3__
-  app __x4__ = (floor (/ m 12i))
-  let ym = (+ y __x4__)
-  if (|| (= ym Infinity) (= ym -Infinity)) {
-    app __x5__ = (WrapCompletion NaN)
-    return __x5__
-  } else {}
+  if (|| (|| (= year Infinity) (= year -Infinity)) (|| (|| (= month Infinity) (= month -Infinity)) (|| (= date Infinity) (= date -Infinity)))) return NaN else {}
+  app __x0__ = (ToIntegerOrInfinity year)
+  let y = [! __x0__]
+  app __x1__ = (ToIntegerOrInfinity month)
+  let m = [! __x1__]
+  app __x2__ = (ToIntegerOrInfinity date)
+  let dt = [! __x2__]
+  app __x3__ = (floor (/ m 12i))
+  let ym = (+ y __x3__)
+  if (|| (= ym Infinity) (= ym -Infinity)) return NaN else {}
   let mn = (%% m 12i)
   ??? "Find a finite time value id:{t} such that YearFromTime ( id:{t} ) is id:{ym} and MonthFromTime ( id:{t} ) is id:{mn} and DateFromTime ( id:{t} ) is value:{1} ; but if this is not possible ( because some argument is out of range ) , return value:{NaN} ."
-  app __x6__ = (Day t)
-  app __x7__ = (WrapCompletion (- (+ __x6__ dt) 1i))
-  return __x7__
+  app __x4__ = (Day t)
+  return (- (+ __x4__ dt) 1i)
 }

@@ -3,40 +3,27 @@
   let iterable = __x0__
   if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
   app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%WeakSet.prototype%" (new ["WeakSetData"]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let set = __x1__
+  let set = [? __x1__]
   set.WeakSetData = (new [])
-  if (|| (= iterable undefined) (= iterable null)) {
-    app __x2__ = (WrapCompletion set)
-    return __x2__
-  } else {}
-  app __x3__ = (Get set "add")
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let adder = __x3__
-  app __x4__ = (IsCallable adder)
-  if (= __x4__ false) throw INTRINSIC_TypeError else {}
-  app __x5__ = (GetIterator iterable)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let iteratorRecord = __x5__
+  if (|| (= iterable undefined) (= iterable null)) return set else {}
+  app __x2__ = (Get set "add")
+  let adder = [? __x2__]
+  app __x3__ = (IsCallable adder)
+  if (= __x3__ false) throw INTRINSIC_TypeError else {}
+  app __x4__ = (GetIterator iterable)
+  let iteratorRecord = [? __x4__]
   while true {
-    app __x6__ = (IteratorStep iteratorRecord)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let next = __x6__
-    if (= next false) {
-      app __x7__ = (WrapCompletion set)
-      return __x7__
-    } else {}
-    app __x8__ = (IteratorValue next)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let nextValue = __x8__
-    app __x9__ = (Call adder set (new [nextValue]))
-    let status = __x9__
-    app __x10__ = (IsAbruptCompletion status)
-    if __x10__ {
-      app __x11__ = (IteratorClose iteratorRecord status)
-      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      app __x12__ = (WrapCompletion __x11__)
-      return __x12__
+    app __x5__ = (IteratorStep iteratorRecord)
+    let next = [? __x5__]
+    if (= next false) return set else {}
+    app __x6__ = (IteratorValue next)
+    let nextValue = [? __x6__]
+    app __x7__ = (Call adder set (new [nextValue]))
+    let status = __x7__
+    app __x8__ = (IsAbruptCompletion status)
+    if __x8__ {
+      app __x9__ = (IteratorClose iteratorRecord status)
+      return [? __x9__]
     } else {}
   }
 }

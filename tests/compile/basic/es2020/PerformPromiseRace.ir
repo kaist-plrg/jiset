@@ -2,34 +2,27 @@
   app __x0__ = (IsConstructor constructor)
   assert (= __x0__ true)
   app __x1__ = (Get constructor "resolve")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let promiseResolve = __x1__
+  let promiseResolve = [? __x1__]
   app __x2__ = (IsCallable promiseResolve)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  if (= __x2__ false) throw INTRINSIC_TypeError else {}
+  if (= [! __x2__] false) throw INTRINSIC_TypeError else {}
   while true {
     app __x3__ = (IteratorStep iteratorRecord)
     let next = __x3__
     app __x4__ = (IsAbruptCompletion next)
     if __x4__ iteratorRecord.Done = true else {}
-    if (is-completion next) if (= next.Type CONST_normal) next = next.Value else return next else {}
-    next
+    [? next]
     if (= next false) {
       iteratorRecord.Done = true
-      app __x5__ = (WrapCompletion resultCapability.Promise)
-      return __x5__
+      return resultCapability.Promise
     } else {}
-    app __x6__ = (IteratorValue next)
-    let nextValue = __x6__
-    app __x7__ = (IsAbruptCompletion nextValue)
-    if __x7__ iteratorRecord.Done = true else {}
-    if (is-completion nextValue) if (= nextValue.Type CONST_normal) nextValue = nextValue.Value else return nextValue else {}
-    nextValue
-    app __x8__ = (Call promiseResolve constructor (new [nextValue]))
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let nextPromise = __x8__
-    app __x9__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, resultCapability.Reject]))
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    __x9__
+    app __x5__ = (IteratorValue next)
+    let nextValue = __x5__
+    app __x6__ = (IsAbruptCompletion nextValue)
+    if __x6__ iteratorRecord.Done = true else {}
+    [? nextValue]
+    app __x7__ = (Call promiseResolve constructor (new [nextValue]))
+    let nextPromise = [? __x7__]
+    app __x8__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, resultCapability.Reject]))
+    [? __x8__]
   }
 }

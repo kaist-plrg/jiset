@@ -6,23 +6,17 @@
     access __x2__ = (UniqueFormalParameters "IsSimpleParameterList")
     __x0__ = (= __x2__ false)
   } else {}
-  if __x0__ throw INTRINSIC_SyntaxError else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
-  }
-  access __x4__ = (UniqueFormalParameters "BoundNames")
-  access __x5__ = (FunctionBody "LexicallyDeclaredNames")
+  if __x0__ throw INTRINSIC_SyntaxError else return undefined
+  access __x3__ = (UniqueFormalParameters "BoundNames")
+  access __x4__ = (FunctionBody "LexicallyDeclaredNames")
+  let __x5__ = __x3__
   let __x6__ = __x4__
-  let __x7__ = __x5__
+  let __x7__ = 0i
   let __x8__ = 0i
-  let __x9__ = 0i
-  let __x10__ = false
-  while (< __x8__ __x6__.length) {
-    __x9__ = 0i
-    while (< __x9__ __x7__.length) if (= __x6__[__x8__] __x7__[__x9__]) __x10__ = true else {}
+  let __x9__ = false
+  while (< __x7__ __x5__.length) {
+    __x8__ = 0i
+    while (< __x8__ __x6__.length) if (= __x5__[__x7__] __x6__[__x8__]) __x9__ = true else {}
   }
-  if __x10__ throw INTRINSIC_SyntaxError else {
-    app __x11__ = (NormalCompletion undefined)
-    return __x11__
-  }
+  if __x9__ throw INTRINSIC_SyntaxError else return undefined
 }

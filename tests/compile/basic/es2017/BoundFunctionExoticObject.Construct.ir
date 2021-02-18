@@ -14,7 +14,5 @@
   app __x4__ = (SameValue F newTarget)
   if (= __x4__ true) newTarget = target else {}
   app __x5__ = (Construct target args newTarget)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  app __x6__ = (WrapCompletion __x5__)
-  return __x6__
+  return [? __x5__]
 }

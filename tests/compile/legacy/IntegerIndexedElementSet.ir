@@ -3,29 +3,22 @@
   assert (= __x0__ Number)
   if (= O.ContentType CONST_BigInt) {
     app __x1__ = (ToBigInt value)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let numValue = __x1__
+    let numValue = [? __x1__]
   } else {
     app __x2__ = (ToNumber value)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let numValue = __x2__
+    let numValue = [? __x2__]
   }
   let buffer = O.ViewedArrayBuffer
   app __x3__ = (IsDetachedBuffer buffer)
   if (= __x3__ true) throw INTRINSIC_TypeError else {}
   app __x4__ = (IsValidIntegerIndex O index)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  if (= __x4__ false) {
-    app __x5__ = (WrapCompletion false)
-    return __x5__
-  } else {}
+  if (= [! __x4__] false) return false else {}
   let offset = O.ByteOffset
   let arrayTypeName = O.TypedArrayName
   let elementSize = GLOBAL_typedArrayInfo[arrayTypeName].ElementSize
   let indexedPosition = (+ (* index elementSize) offset)
   let elementType = GLOBAL_typedArrayInfo[arrayTypeName].ElementType
-  app __x6__ = (SetValueInBuffer buffer indexedPosition elementType numValue true CONST_Unordered)
-  __x6__
-  app __x7__ = (WrapCompletion true)
-  return __x7__
+  app __x5__ = (SetValueInBuffer buffer indexedPosition elementType numValue true CONST_Unordered)
+  __x5__
+  return true
 }

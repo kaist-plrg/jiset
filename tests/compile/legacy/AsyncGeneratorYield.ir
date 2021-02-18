@@ -4,8 +4,7 @@
   app __x0__ = (GetGeneratorKind )
   assert (= __x0__ CONST_async)
   app __x1__ = (Await value)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  value = __x1__
+  value = [? __x1__]
   generator.AsyncGeneratorState = CONST_suspendedYield
   if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] genContext) {
     let __x2__ = (- GLOBAL_executionStack.length 1i)
@@ -13,7 +12,5 @@
   } else {}
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : in:{} out:{}"
-  app __x3__ = (AsyncGeneratorResolve generator value false)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  app __x4__ = ((pop genContext.ReturnCont 0i) __x3__)
+  ??? "ReturnCont id:{genContext} . [ [ ReturnCont ] ] to ! AsyncGeneratorResolve ( id:{generator} , id:{value} , value:{false} ) ."
 }

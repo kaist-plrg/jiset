@@ -1,15 +1,11 @@
 {
   app __x0__ = (Type value)
-  if (= __x0__ BigInt) {
-    app __x1__ = (WrapCompletion value)
-    return __x1__
-  } else {}
-  app __x2__ = (Type value)
-  if (&& (= __x2__ Object) (! (= value.BigIntData absent))) {
-    app __x3__ = (Type value.BigIntData)
-    assert (= __x3__ BigInt)
-    app __x4__ = (WrapCompletion value.BigIntData)
-    return __x4__
+  if (= __x0__ BigInt) return value else {}
+  app __x1__ = (Type value)
+  if (&& (= __x1__ Object) (! (= value.BigIntData absent))) {
+    app __x2__ = (Type value.BigIntData)
+    assert (= __x2__ BigInt)
+    return value.BigIntData
   } else {}
   throw INTRINSIC_TypeError
 }

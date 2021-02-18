@@ -5,24 +5,15 @@
   __x1__ = (&& (! (< index 0i)) (! (< (- (** 2.0 53i) 1i) index)))
   if __x1__ {
     app __x2__ = (IsInteger index)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    __x1__ = (= __x2__ true)
+    __x1__ = (= [! __x2__] true)
   } else {}
   assert __x1__
   app __x3__ = (Type unicode)
   assert (= __x3__ Boolean)
-  if (= unicode false) {
-    app __x4__ = (WrapCompletion (+ index 1i))
-    return __x4__
-  } else {}
+  if (= unicode false) return (+ index 1i) else {}
   let length = S.length
-  if (! (< (+ index 1i) length)) {
-    app __x5__ = (WrapCompletion (+ index 1i))
-    return __x5__
-  } else {}
-  app __x6__ = (CodePointAt S index)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let cp = __x6__
-  app __x7__ = (WrapCompletion (+ index cp.CodeUnitCount))
-  return __x7__
+  if (! (< (+ index 1i) length)) return (+ index 1i) else {}
+  app __x4__ = (CodePointAt S index)
+  let cp = [! __x4__]
+  return (+ index cp.CodeUnitCount)
 }

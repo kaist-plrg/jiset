@@ -1,23 +1,15 @@
 {
-  if (! (= obj.Realm absent)) {
-    app __x0__ = (WrapCompletion obj.Realm)
-    return __x0__
-  } else {}
+  if (! (= obj.Realm absent)) return obj.Realm else {}
   if (= (typeof obj) "BoundFunctionExoticObject") {
     let target = obj.BoundTargetFunction
-    app __x1__ = (GetFunctionRealm target)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    app __x2__ = (WrapCompletion __x1__)
-    return __x2__
+    app __x0__ = (GetFunctionRealm target)
+    return [? __x0__]
   } else {}
   if (= (typeof obj) "ProxyExoticObject") {
     if (= obj.ProxyHandler null) throw INTRINSIC_TypeError else {}
     let proxyTarget = obj.ProxyTarget
-    app __x3__ = (GetFunctionRealm proxyTarget)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    app __x4__ = (WrapCompletion __x3__)
-    return __x4__
+    app __x1__ = (GetFunctionRealm proxyTarget)
+    return [? __x1__]
   } else {}
-  app __x5__ = (WrapCompletion REALM)
-  return __x5__
+  return REALM
 }

@@ -7,42 +7,31 @@
   assert (= __x1__ Object)
   let target = O.ProxyTarget
   app __x2__ = (GetMethod handler "defineProperty")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let trap = __x2__
+  let trap = [? __x2__]
   if (= trap undefined) {
     app __x3__ = (target.DefineOwnProperty target P Desc)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    app __x4__ = (WrapCompletion __x3__)
-    return __x4__
+    return [? __x3__]
   } else {}
-  app __x5__ = (FromPropertyDescriptor Desc)
-  let descObj = __x5__
-  app __x6__ = (Call trap handler (new [target, P, descObj]))
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  app __x7__ = (ToBoolean __x6__)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  let booleanTrapResult = __x7__
-  if (= booleanTrapResult false) {
-    app __x8__ = (WrapCompletion false)
-    return __x8__
-  } else {}
-  app __x9__ = (target.GetOwnProperty target P)
-  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-  let targetDesc = __x9__
-  app __x10__ = (IsExtensible target)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  let extensibleTarget = __x10__
+  app __x4__ = (FromPropertyDescriptor Desc)
+  let descObj = __x4__
+  app __x5__ = (Call trap handler (new [target, P, descObj]))
+  app __x6__ = (ToBoolean [? __x5__])
+  let booleanTrapResult = [! __x6__]
+  if (= booleanTrapResult false) return false else {}
+  app __x7__ = (target.GetOwnProperty target P)
+  let targetDesc = [? __x7__]
+  app __x8__ = (IsExtensible target)
+  let extensibleTarget = [? __x8__]
   if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable false)) let settingConfigFalse = true else let settingConfigFalse = false
   if (= targetDesc undefined) {
     if (= extensibleTarget false) throw INTRINSIC_TypeError else {}
     if (= settingConfigFalse true) throw INTRINSIC_TypeError else {}
   } else {
-    app __x11__ = (IsCompatiblePropertyDescriptor extensibleTarget Desc targetDesc)
-    if (= __x11__ false) throw INTRINSIC_TypeError else {}
+    app __x9__ = (IsCompatiblePropertyDescriptor extensibleTarget Desc targetDesc)
+    if (= __x9__ false) throw INTRINSIC_TypeError else {}
     if (&& (= settingConfigFalse true) (= targetDesc.Configurable true)) throw INTRINSIC_TypeError else {}
-    app __x12__ = (IsDataDescriptor targetDesc)
-    if (&& (&& (= __x12__ true) (= targetDesc.Configurable false)) (= targetDesc.Writable true)) if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) throw INTRINSIC_TypeError else {} else {}
+    app __x10__ = (IsDataDescriptor targetDesc)
+    if (&& (&& (= __x10__ true) (= targetDesc.Configurable false)) (= targetDesc.Writable true)) if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) throw INTRINSIC_TypeError else {} else {}
   }
-  app __x13__ = (WrapCompletion true)
-  return __x13__
+  return true
 }

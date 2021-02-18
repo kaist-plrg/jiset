@@ -2,7 +2,5 @@
   ??? "Let id:{A} be the CharSet of all characters ."
   if (! (= DotAll true)) ??? "Remove from id:{A} all characters corresponding to a code point on the right - hand side of the nt:{LineTerminator} production ." else {}
   app __x0__ = (CharacterSetMatcher A false direction)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  app __x1__ = (WrapCompletion __x0__)
-  return __x1__
+  return [! __x0__]
 }

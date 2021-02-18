@@ -1,29 +1,19 @@
 {
   app __x0__ = (RequireObjectCoercible this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (ToString O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let S = __x1__
+  let S = [? __x1__]
   app __x2__ = (IsRegExp searchString)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let isRegExp = __x2__
+  let isRegExp = [? __x2__]
   if (= isRegExp true) throw INTRINSIC_TypeError else {}
   app __x3__ = (ToString searchString)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let searchStr = __x3__
+  let searchStr = [? __x3__]
   app __x4__ = (ToIntegerOrInfinity position)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let pos = __x4__
+  let pos = [? __x4__]
   let len = S.length
   ??? "Let id:{start} be the result of clamping id:{pos} between 0 and id:{len} ."
   app __x5__ = (StringIndexOf S searchStr start)
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let index = __x5__
-  if (! (= index -1i)) {
-    app __x6__ = (WrapCompletion true)
-    return __x6__
-  } else {}
-  app __x7__ = (WrapCompletion false)
-  return __x7__
+  let index = [! __x5__]
+  if (! (= index -1i)) return true else {}
+  return false
 }

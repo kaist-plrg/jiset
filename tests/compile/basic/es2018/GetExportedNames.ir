@@ -1,45 +1,39 @@
 {
   let module = this
-  if (contains exportStarSet module) {
-    app __x0__ = (WrapCompletion (new []))
-    return __x0__
-  } else {}
+  if (contains exportStarSet module) return (new []) else {}
   append module -> exportStarSet
   let exportedNames = (new [])
-  let __x1__ = module.LocalExportEntries
-  let __x2__ = 0i
-  while (< __x2__ __x1__.length) {
-    let e = __x1__[__x2__]
+  let __x0__ = module.LocalExportEntries
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let e = __x0__[__x1__]
     append e.ExportName -> exportedNames
-    __x2__ = (+ __x2__ 1i)
+    __x1__ = (+ __x1__ 1i)
   }
-  let __x3__ = module.IndirectExportEntries
-  let __x4__ = 0i
-  while (< __x4__ __x3__.length) {
-    let e = __x3__[__x4__]
+  let __x2__ = module.IndirectExportEntries
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let e = __x2__[__x3__]
     append e.ExportName -> exportedNames
-    __x4__ = (+ __x4__ 1i)
+    __x3__ = (+ __x3__ 1i)
   }
-  let __x5__ = module.StarExportEntries
-  let __x6__ = 0i
-  while (< __x6__ __x5__.length) {
-    let e = __x5__[__x6__]
-    app __x7__ = (HostResolveImportedModule module e.ModuleRequest)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let requestedModule = __x7__
-    app __x8__ = (requestedModule.GetExportedNames requestedModule exportStarSet)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let starNames = __x8__
-    let __x9__ = starNames
-    let __x10__ = 0i
-    while (< __x10__ __x9__.length) {
-      let n = __x9__[__x10__]
-      app __x11__ = (SameValue n "default")
-      if (= __x11__ false) if (! (contains exportedNames n)) append n -> exportedNames else {} else {}
-      __x10__ = (+ __x10__ 1i)
+  let __x4__ = module.StarExportEntries
+  let __x5__ = 0i
+  while (< __x5__ __x4__.length) {
+    let e = __x4__[__x5__]
+    app __x6__ = (HostResolveImportedModule module e.ModuleRequest)
+    let requestedModule = [? __x6__]
+    app __x7__ = (requestedModule.GetExportedNames requestedModule exportStarSet)
+    let starNames = [? __x7__]
+    let __x8__ = starNames
+    let __x9__ = 0i
+    while (< __x9__ __x8__.length) {
+      let n = __x8__[__x9__]
+      app __x10__ = (SameValue n "default")
+      if (= __x10__ false) if (! (contains exportedNames n)) append n -> exportedNames else {} else {}
+      __x9__ = (+ __x9__ 1i)
     }
-    __x6__ = (+ __x6__ 1i)
+    __x5__ = (+ __x5__ 1i)
   }
-  app __x12__ = (WrapCompletion exportedNames)
-  return __x12__
+  return exportedNames
 }

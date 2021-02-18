@@ -3,8 +3,6 @@
   app __x0__ = (GetTemplateObject templateLiteral)
   let siteObj = __x0__
   access __x1__ = (SubstitutionTemplate "ArgumentListEvaluation")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let remaining = __x1__
-  app __x2__ = (WrapCompletion (new [siteObj, remaining]))
-  return __x2__
+  let remaining = [? __x1__]
+  return (new [siteObj, remaining])
 }

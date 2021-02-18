@@ -18,57 +18,44 @@
   app __x8__ = (Type source)
   assert (= __x8__ Object)
   app __x9__ = (IsNonNegativeInteger sourceLen)
-  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-  assert (= __x9__ true)
+  assert (= [! __x9__] true)
   app __x10__ = (IsNonNegativeInteger start)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  assert (= __x10__ true)
+  assert (= [! __x10__] true)
   app __x11__ = (IsInteger depth)
-  if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-  assert (|| (= __x11__ true) (|| (= depth Infinity) (= depth -Infinity)))
+  assert (|| (= [! __x11__] true) (|| (= depth Infinity) (= depth -Infinity)))
   let targetIndex = start
   let sourceIndex = 0i
   while (< sourceIndex sourceLen) {
     app __x12__ = (ToString sourceIndex)
-    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-    let P = __x12__
+    let P = [! __x12__]
     app __x13__ = (HasProperty source P)
-    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-    let exists = __x13__
+    let exists = [? __x13__]
     if (= exists true) {
       app __x14__ = (Get source P)
-      if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-      let element = __x14__
+      let element = [? __x14__]
       if (! (= mapperFunction absent)) {
         app __x15__ = (Call mapperFunction thisArg (new [element, sourceIndex, source]))
-        if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
-        element = __x15__
+        element = [? __x15__]
       } else {}
       let shouldFlatten = false
       if (< 0i depth) {
         app __x16__ = (IsArray element)
-        if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-        shouldFlatten = __x16__
+        shouldFlatten = [? __x16__]
       } else {}
       if (= shouldFlatten true) {
         app __x17__ = (LengthOfArrayLike element)
-        if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-        let elementLen = __x17__
+        let elementLen = [? __x17__]
         app __x18__ = (FlattenIntoArray target element elementLen targetIndex (- depth 1i))
-        if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
-        targetIndex = __x18__
+        targetIndex = [? __x18__]
       } else {
         if (! (< targetIndex (- (** 2.0 53i) 1i))) throw INTRINSIC_TypeError else {}
         app __x19__ = (ToString targetIndex)
-        if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
-        app __x20__ = (CreateDataPropertyOrThrow target __x19__ element)
-        if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else {}
-        __x20__
+        app __x20__ = (CreateDataPropertyOrThrow target [! __x19__] element)
+        [? __x20__]
         targetIndex = (+ targetIndex 1i)
       }
     } else {}
     sourceIndex = (+ sourceIndex 1i)
   }
-  app __x21__ = (WrapCompletion targetIndex)
-  return __x21__
+  return targetIndex
 }

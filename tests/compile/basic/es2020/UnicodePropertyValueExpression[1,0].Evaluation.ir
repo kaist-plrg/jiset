@@ -3,7 +3,6 @@
   let s = __x0__
   ??? "If ! UnicodeMatchPropertyValue ( code:{General_Category} , id:{s} ) is identical to a List of Unicode code points that is the name of a Unicode general category or general category alias listed in the “ Property value and aliases ” column of link:{unhandled: table-unicode-general-category-values} , then in:{} out:{}"
   app __x1__ = (UnicodeMatchProperty s)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let p = __x1__
+  let p = [! __x1__]
   ??? "Return the CharSet containing all Unicode code points whose character database definition includes the property id:{p} with value “ True ” ."
 }

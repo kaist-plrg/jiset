@@ -14,6 +14,5 @@
   if (= callerContext null) GLOBAL_context = null else {}
   append calleeContext -> GLOBAL_executionStack
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
-  app __x2__ = (WrapCompletion calleeContext)
-  return __x2__
+  return calleeContext
 }

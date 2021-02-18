@@ -2,14 +2,12 @@
   assert (= module.Namespace undefined)
   ??? "Let id:{internalSlotsList} be the internal slots listed in Table 29 ."
   app __x0__ = (MakeBasicObject internalSlotsList)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let M = __x0__
+  let M = [! __x0__]
   M.Prototype = null
   M.Module = module
   ??? "Let id:{sortedExports} be a new List containing the same values as the list id:{exports} where the values are ordered as if an Array of the same values had been sorted using code:{Array.prototype.sort} using value:{undefined} as id:{comparefn} ."
   M.Exports = sortedExports
   ??? "Create own properties of id:{M} corresponding to the definitions in 26 . 3 ."
   module.Namespace = M
-  app __x1__ = (WrapCompletion M)
-  return __x1__
+  return M
 }

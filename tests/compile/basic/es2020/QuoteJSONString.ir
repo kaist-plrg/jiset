@@ -1,8 +1,7 @@
 {
   let product = "\""
   app __x0__ = (UTF16DecodeString value)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let __x1__ = __x0__
+  let __x1__ = [! __x0__]
   let __x2__ = 0i
   while (< __x2__ __x1__.length) {
     let C = __x1__[__x2__]
@@ -12,6 +11,5 @@
     __x2__ = (+ __x2__ 1i)
   }
   product = (+ product "\"")
-  app __x3__ = (WrapCompletion product)
-  return __x3__
+  return product
 }

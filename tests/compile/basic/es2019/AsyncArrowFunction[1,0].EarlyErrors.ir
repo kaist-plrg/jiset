@@ -1,47 +1,32 @@
 {
   access __x0__ = (CoverCallExpressionAndAsyncArrowHead "Contains")
   app __x1__ = (__x0__ "YieldExpression")
-  if (= __x1__ true) throw INTRINSIC_SyntaxError else {
-    app __x2__ = (NormalCompletion undefined)
-    return __x2__
+  if (= __x1__ true) throw INTRINSIC_SyntaxError else return undefined
+  access __x2__ = (CoverCallExpressionAndAsyncArrowHead "Contains")
+  app __x3__ = (__x2__ "AwaitExpression")
+  if (= __x3__ true) throw INTRINSIC_SyntaxError else return undefined
+  let __x4__ = false
+  if (= absent (parse-syntax CoverCallExpressionAndAsyncArrowHead "AsyncArrowHead" (new []))) __x4__ = true else {}
+  if __x4__ throw INTRINSIC_SyntaxError else return undefined
+  access __x5__ = (CoverCallExpressionAndAsyncArrowHead "BoundNames")
+  access __x6__ = (AsyncConciseBody "LexicallyDeclaredNames")
+  let __x7__ = __x5__
+  let __x8__ = __x6__
+  let __x9__ = 0i
+  let __x10__ = 0i
+  let __x11__ = false
+  while (< __x9__ __x7__.length) {
+    __x10__ = 0i
+    while (< __x10__ __x8__.length) if (= __x7__[__x9__] __x8__[__x10__]) __x11__ = true else {}
   }
-  access __x3__ = (CoverCallExpressionAndAsyncArrowHead "Contains")
-  app __x4__ = (__x3__ "AwaitExpression")
-  if (= __x4__ true) throw INTRINSIC_SyntaxError else {
-    app __x5__ = (NormalCompletion undefined)
-    return __x5__
-  }
-  let __x6__ = false
-  if (= absent (parse-syntax CoverCallExpressionAndAsyncArrowHead "AsyncArrowHead" (new []))) __x6__ = true else {}
-  if __x6__ throw INTRINSIC_SyntaxError else {
-    app __x7__ = (NormalCompletion undefined)
-    return __x7__
-  }
-  access __x8__ = (CoverCallExpressionAndAsyncArrowHead "BoundNames")
-  access __x9__ = (AsyncConciseBody "LexicallyDeclaredNames")
-  let __x10__ = __x8__
-  let __x11__ = __x9__
-  let __x12__ = 0i
-  let __x13__ = 0i
-  let __x14__ = false
-  while (< __x12__ __x10__.length) {
-    __x13__ = 0i
-    while (< __x13__ __x11__.length) if (= __x10__[__x12__] __x11__[__x13__]) __x14__ = true else {}
-  }
-  if __x14__ throw INTRINSIC_SyntaxError else {
-    app __x15__ = (NormalCompletion undefined)
-    return __x15__
-  }
-  let __x16__ = true
-  access __x17__ = (AsyncConciseBody "ContainsUseStrict")
-  __x16__ = (= __x17__ true)
-  if __x16__ {
-    access __x18__ = (CoverCallExpressionAndAsyncArrowHead "IsSimpleParameterList")
-    __x16__ = (= __x18__ false)
+  if __x11__ throw INTRINSIC_SyntaxError else return undefined
+  let __x12__ = true
+  access __x13__ = (AsyncConciseBody "ContainsUseStrict")
+  __x12__ = (= __x13__ true)
+  if __x12__ {
+    access __x14__ = (CoverCallExpressionAndAsyncArrowHead "IsSimpleParameterList")
+    __x12__ = (= __x14__ false)
   } else {}
-  if __x16__ throw INTRINSIC_SyntaxError else {
-    app __x19__ = (NormalCompletion undefined)
-    return __x19__
-  }
+  if __x12__ throw INTRINSIC_SyntaxError else return undefined
   ??? "All Early Error rules for nt:{AsyncArrowHead} and its derived productions apply to CoveredAsyncArrowHead of nt:{CoverCallExpressionAndAsyncArrowHead} ."
 }

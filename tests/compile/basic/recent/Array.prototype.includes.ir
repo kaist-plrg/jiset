@@ -1,38 +1,23 @@
 {
   app __x0__ = (ToObject this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (LengthOfArrayLike O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let len = __x1__
-  if (= len 0i) {
-    app __x2__ = (WrapCompletion false)
-    return __x2__
-  } else {}
-  app __x3__ = (ToIntegerOrInfinity fromIndex)
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let n = __x3__
-  if (= n Infinity) {
-    app __x4__ = (WrapCompletion false)
-    return __x4__
-  } else if (= n -Infinity) n = 0i else {}
+  let len = [? __x1__]
+  if (= len 0i) return false else {}
+  app __x2__ = (ToIntegerOrInfinity fromIndex)
+  let n = [? __x2__]
+  if (= n Infinity) return false else if (= n -Infinity) n = 0i else {}
   if (! (< n 0i)) let k = n else {
     let k = (+ len n)
     if (< k 0i) k = 0i else {}
   }
   while (< k len) {
-    app __x5__ = (ToString k)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    app __x6__ = (Get O __x5__)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let elementK = __x6__
-    app __x7__ = (SameValueZero searchElement elementK)
-    if (= __x7__ true) {
-      app __x8__ = (WrapCompletion true)
-      return __x8__
-    } else {}
+    app __x3__ = (ToString k)
+    app __x4__ = (Get O [! __x3__])
+    let elementK = [? __x4__]
+    app __x5__ = (SameValueZero searchElement elementK)
+    if (= __x5__ true) return true else {}
     k = (+ k 1i)
   }
-  app __x9__ = (WrapCompletion false)
-  return __x9__
+  return false
 }

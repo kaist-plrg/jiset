@@ -1,7 +1,6 @@
 {
   app __x0__ = (GetPrototypeFromConstructor newTarget defaultProto)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let proto = __x0__
+  let proto = [? __x0__]
   app __x1__ = (IntegerIndexedObjectCreate proto (new ["ViewedArrayBuffer", "TypedArrayName", "ByteLength", "ByteOffset", "ArrayLength"]))
   let obj = __x1__
   assert (= obj.ViewedArrayBuffer undefined)
@@ -12,9 +11,7 @@
     obj.ArrayLength = 0i
   } else {
     app __x2__ = (AllocateTypedArrayBuffer obj length)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    __x2__
+    [? __x2__]
   }
-  app __x3__ = (WrapCompletion obj)
-  return __x3__
+  return obj
 }

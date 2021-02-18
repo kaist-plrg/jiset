@@ -3,8 +3,7 @@
   assert (= __x0__ Object)
   ??? "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-27} ."
   app __x1__ = (OrdinaryObjectCreate functionPrototype internalSlotsList)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let F = __x1__
+  let F = [! __x1__]
   F.Call = ECMAScriptFunctionObjectDOTCall
   F.FormalParameters = ParameterList
   F.ECMAScriptCode = Body
@@ -20,8 +19,6 @@
   access __x3__ = (ParameterList "ExpectedArgumentCount")
   let len = __x3__
   app __x4__ = (SetFunctionLength F len)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  __x4__
-  app __x5__ = (WrapCompletion F)
-  return __x5__
+  [! __x4__]
+  return F
 }

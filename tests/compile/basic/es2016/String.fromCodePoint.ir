@@ -6,8 +6,7 @@
   while (< nextIndex length) {
     let next = codePoints[nextIndex]
     app __x0__ = (ToNumber next)
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    let nextCP = __x0__
+    let nextCP = [? __x0__]
     app __x1__ = (ToInteger nextCP)
     app __x2__ = (SameValue nextCP __x1__)
     if (= __x2__ false) throw INTRINSIC_RangeError else {}

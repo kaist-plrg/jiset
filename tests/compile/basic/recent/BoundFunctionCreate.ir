@@ -2,12 +2,10 @@
   app __x0__ = (Type targetFunction)
   assert (= __x0__ Object)
   app __x1__ = (targetFunction.GetPrototypeOf targetFunction)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let proto = __x1__
+  let proto = [? __x1__]
   ??? "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-bound-function-exotic-objects} , plus [ [ Prototype ] ] and [ [ Extensible ] ] ."
   app __x2__ = (MakeBasicObject internalSlotsList)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let obj = __x2__
+  let obj = [! __x2__]
   obj.Prototype = proto
   obj.Call = BoundFunctionExoticObjectDOTCall
   app __x3__ = (IsConstructor targetFunction)
@@ -15,6 +13,5 @@
   obj.BoundTargetFunction = targetFunction
   obj.BoundThis = boundThis
   obj.BoundArguments = boundArgs
-  app __x4__ = (WrapCompletion obj)
-  return __x4__
+  return obj
 }

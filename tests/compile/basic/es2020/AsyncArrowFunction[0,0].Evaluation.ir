@@ -3,9 +3,7 @@
   let scope = __x0__
   let parameters = AsyncArrowBindingIdentifier
   app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype parameters AsyncConciseBody CONST_lexicalDASHthis scope)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let closure = __x1__
+  let closure = [! __x1__]
   closure.SourceText = (get-syntax AsyncArrowFunction)
-  app __x2__ = (WrapCompletion closure)
-  return __x2__
+  return closure
 }

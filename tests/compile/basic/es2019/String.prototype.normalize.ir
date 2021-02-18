@@ -1,16 +1,12 @@
 {
   app __x0__ = (RequireObjectCoercible this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (ToString O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let S = __x1__
+  let S = [? __x1__]
   if (|| (= form absent) (= form undefined)) form = "NFC" else {}
   app __x2__ = (ToString form)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let f = __x2__
+  let f = [? __x2__]
   if (! (|| (|| (|| (= f "NFC") (= f "NFD")) (= f "NFKC")) (= f "NFKD"))) throw INTRINSIC_RangeError else {}
   ??? "Let id:{ns} be the String value that is the result of normalizing id:{S} into the normalization form named by id:{f} as specified in < a href = \" https : / / unicode . org / reports / tr15 / \" > https : / / unicode . org / reports / tr15 / < / a > ."
-  app __x3__ = (WrapCompletion ns)
-  return __x3__
+  return ns
 }

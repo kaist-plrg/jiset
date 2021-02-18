@@ -5,8 +5,7 @@
   app __x1__ = (Type O)
   assert (&& (= __x1__ Object) (! (= O.SyncIteratorRecord absent)))
   app __x2__ = (NewPromiseCapability INTRINSIC_Promise)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let promiseCapability = __x2__
+  let promiseCapability = [! __x2__]
   let syncIterator = O.SyncIteratorRecord.Iterator
   app __x3__ = (GetMethod syncIterator "throw")
   let throw = __x3__
@@ -18,29 +17,23 @@
   throw
   if (= throw undefined) {
     app __x5__ = (Call promiseCapability.Reject undefined (new [value]))
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    __x5__
-    app __x6__ = (WrapCompletion promiseCapability.Promise)
-    return __x6__
+    [! __x5__]
+    return promiseCapability.Promise
   } else {}
-  app __x7__ = (Call throw syncIterator (new [value]))
-  let result = __x7__
+  app __x6__ = (Call throw syncIterator (new [value]))
+  let result = __x6__
   if (is-completion result) if (= result.Type CONST_normal) result = result.Value else {
-    app __x8__ = (Call promiseCapability.Reject undefined (new [result.Value]))
-    if (&& (is-completion __x8__) (! (= __x8__.Type CONST_normal))) return __x8__ else {}
+    app __x7__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+    if (&& (is-completion __x7__) (! (= __x7__.Type CONST_normal))) return __x7__ else {}
     return promiseCapability.Promise
   } else {}
   result
-  app __x9__ = (Type result)
-  if (! (= __x9__ Object)) {
-    app __x10__ = (Call promiseCapability.Reject undefined (new [??? "TypeError"]))
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    __x10__
-    app __x11__ = (WrapCompletion promiseCapability.Promise)
-    return __x11__
+  app __x8__ = (Type result)
+  if (! (= __x8__ Object)) {
+    app __x9__ = (Call promiseCapability.Reject undefined (new [??? "TypeError"]))
+    [! __x9__]
+    return promiseCapability.Promise
   } else {}
-  app __x12__ = (AsyncFromSyncIteratorContinuation result promiseCapability)
-  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-  app __x13__ = (WrapCompletion __x12__)
-  return __x13__
+  app __x10__ = (AsyncFromSyncIteratorContinuation result promiseCapability)
+  return [! __x10__]
 }

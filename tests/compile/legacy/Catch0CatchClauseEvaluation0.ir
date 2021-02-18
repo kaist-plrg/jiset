@@ -9,8 +9,7 @@
   while (< __x3__ __x2__.length) {
     let argName = __x2__[__x3__]
     app __x4__ = (catchEnvRec.CreateMutableBinding catchEnvRec argName false)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    __x4__
+    [! __x4__]
     __x3__ = (+ __x3__ 1i)
   }
   GLOBAL_context.LexicalEnvironment = catchEnv
@@ -21,13 +20,11 @@
   if __x7__ {
     GLOBAL_context.LexicalEnvironment = oldEnv
     app __x8__ = (Completion status)
-    app __x9__ = (WrapCompletion __x8__)
-    return __x9__
+    return __x8__
   } else {}
-  access __x10__ = (Block "Evaluation")
-  let B = __x10__
+  access __x9__ = (Block "Evaluation")
+  let B = __x9__
   GLOBAL_context.LexicalEnvironment = oldEnv
-  app __x11__ = (Completion B)
-  app __x12__ = (WrapCompletion __x11__)
-  return __x12__
+  app __x10__ = (Completion B)
+  return __x10__
 }

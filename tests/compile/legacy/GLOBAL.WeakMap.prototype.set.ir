@@ -5,8 +5,7 @@
   let value = __x1__
   let M = this
   app __x2__ = (RequireInternalSlot M "WeakMapData")
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  __x2__
+  [? __x2__]
   let entries = M.WeakMapData
   app __x3__ = (Type key)
   if (! (= __x3__ Object)) throw INTRINSIC_TypeError else {}
@@ -22,13 +21,11 @@
     } else {}
     if __x6__ {
       p.Value = value
-      app __x8__ = (WrapCompletion M)
-      return __x8__
+      return M
     } else {}
     __x5__ = (+ __x5__ 1i)
   }
   let p = (new Record("Key" -> key, "Value" -> value))
   append p -> entries
-  app __x9__ = (WrapCompletion M)
-  return __x9__
+  return M
 }

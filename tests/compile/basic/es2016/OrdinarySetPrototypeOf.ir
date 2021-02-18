@@ -2,24 +2,14 @@
   let extensible = O.Extensible
   let current = O.Prototype
   app __x0__ = (SameValue V current)
-  if (= __x0__ true) {
-    app __x1__ = (WrapCompletion true)
-    return __x1__
-  } else {}
-  if (= extensible false) {
-    app __x2__ = (WrapCompletion false)
-    return __x2__
-  } else {}
+  if (= __x0__ true) return true else {}
+  if (= extensible false) return false else {}
   let p = V
   let done = false
   while (= done false) if (= p null) let done = true else {
-    app __x3__ = (SameValue p O)
-    if (= __x3__ true) {
-      app __x4__ = (WrapCompletion false)
-      return __x4__
-    } else if (! (= p.GetPrototypeOf OrdinaryObjectDOTGetPrototypeOf)) let done = true else let p = p.Prototype
+    app __x1__ = (SameValue p O)
+    if (= __x1__ true) return false else if (! (= p.GetPrototypeOf OrdinaryObjectDOTGetPrototypeOf)) let done = true else let p = p.Prototype
   }
   O.Prototype = V
-  app __x5__ = (WrapCompletion true)
-  return __x5__
+  return true
 }

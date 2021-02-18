@@ -1,10 +1,8 @@
 {
   app __x0__ = (thisTimeValue this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let t = __x0__
+  let t = [? __x0__]
   app __x1__ = (ToNumber ms)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let milli = __x1__
+  let milli = [? __x1__]
   app __x2__ = (HourFromTime t)
   app __x3__ = (MinFromTime t)
   app __x4__ = (SecFromTime t)
@@ -15,6 +13,5 @@
   app __x8__ = (TimeClip __x7__)
   let v = __x8__
   this.DateValue = v
-  app __x9__ = (WrapCompletion v)
-  return __x9__
+  return v
 }

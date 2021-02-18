@@ -1,14 +1,11 @@
 {
   app __x0__ = (RequireObjectCoercible this)
-  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-  let O = __x0__
+  let O = [? __x0__]
   app __x1__ = (ToString O)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let S = __x1__
+  let S = [? __x1__]
   let len = S.length
   app __x2__ = (ToIntegerOrInfinity start)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let intStart = __x2__
+  let intStart = [? __x2__]
   if (= intStart -Infinity) let from = 0i else if (< intStart 0i) {
     app __x3__ = (max (+ len intStart) 0i)
     let from = __x3__
@@ -18,8 +15,7 @@
   }
   if (= end undefined) let intEnd = len else {
     app __x5__ = (ToIntegerOrInfinity end)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let intEnd = __x5__
+    let intEnd = [? __x5__]
   }
   if (= intEnd -Infinity) let to = 0i else if (< intEnd 0i) {
     app __x6__ = (max (+ len intEnd) 0i)
@@ -28,17 +24,13 @@
     app __x7__ = (min intEnd len)
     let to = __x7__
   }
-  if (! (< from to)) {
-    app __x8__ = (WrapCompletion "")
-    return __x8__
-  } else {}
-  let __x9__ = ""
-  let __x10__ = from
-  while (< __x10__ (+ to 1i)) {
-    access __x11__ = (S __x10__)
-    __x9__ = (+ __x9__ __x11__)
-    __x10__ = (+ __x10__ 1i)
+  if (! (< from to)) return "" else {}
+  let __x8__ = ""
+  let __x9__ = from
+  while (< __x9__ (+ to 1i)) {
+    access __x10__ = (S __x9__)
+    __x8__ = (+ __x8__ __x10__)
+    __x9__ = (+ __x9__ 1i)
   }
-  app __x12__ = (WrapCompletion __x9__)
-  return __x12__
+  return __x8__
 }

@@ -1,10 +1,8 @@
 {
   access __x0__ = (PropertyName "Evaluation")
   let P = __x0__
-  if (is-completion P) if (= P.Type CONST_normal) P = P.Value else return P else {}
-  P
+  [? P]
   access __x1__ = (BindingElement "KeyedBindingInitialization")
   app __x2__ = (__x1__ value environment P)
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  return __x2__
 }

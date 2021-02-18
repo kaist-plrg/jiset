@@ -2,25 +2,14 @@
   app __x0__ = (Type O)
   assert (= __x0__ Object)
   app __x1__ = (Get O "constructor")
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let C = __x1__
-  if (= C undefined) {
-    app __x2__ = (WrapCompletion defaultConstructor)
-    return __x2__
-  } else {}
-  app __x3__ = (Type C)
-  if (! (= __x3__ Object)) throw INTRINSIC_TypeError else {}
-  app __x4__ = (Get C SYMBOL_species)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let S = __x4__
-  if (|| (= S undefined) (= S null)) {
-    app __x5__ = (WrapCompletion defaultConstructor)
-    return __x5__
-  } else {}
-  app __x6__ = (IsConstructor S)
-  if (= __x6__ true) {
-    app __x7__ = (WrapCompletion S)
-    return __x7__
-  } else {}
+  let C = [? __x1__]
+  if (= C undefined) return defaultConstructor else {}
+  app __x2__ = (Type C)
+  if (! (= __x2__ Object)) throw INTRINSIC_TypeError else {}
+  app __x3__ = (Get C SYMBOL_species)
+  let S = [? __x3__]
+  if (|| (= S undefined) (= S null)) return defaultConstructor else {}
+  app __x4__ = (IsConstructor S)
+  if (= __x4__ true) return S else {}
   throw INTRINSIC_TypeError
 }

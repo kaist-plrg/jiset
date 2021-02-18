@@ -6,12 +6,10 @@
     let __x1__ = (+ O.ArrayLength 0i)
     while (< i __x1__) {
       app __x2__ = (ToString i)
-      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-      append __x2__ -> keys
+      append [! __x2__] -> keys
     }
   } else {}
   ??? "For each own property key id:{P} of id:{O} such that Type ( id:{P} ) is String and id:{P} is not an integer index , in ascending chronological order of property creation , do in:{} out:{}"
   ??? "For each own property key id:{P} of id:{O} such that Type ( id:{P} ) is Symbol , in ascending chronological order of property creation , do in:{} out:{}"
-  app __x3__ = (WrapCompletion keys)
-  return __x3__
+  return keys
 }

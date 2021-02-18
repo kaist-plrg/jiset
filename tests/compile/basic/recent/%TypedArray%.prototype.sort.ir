@@ -1,47 +1,19 @@
 {
   if (! (= comparefn undefined)) {
     app __x0__ = (Call comparefn undefined (new [x, y]))
-    if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
-    app __x1__ = (ToNumber __x0__)
-    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    let v = __x1__
+    app __x1__ = (ToNumber [? __x0__])
+    let v = [? __x1__]
     app __x2__ = (IsDetachedBuffer buffer)
     if (= __x2__ true) throw INTRINSIC_TypeError else {}
-    if (= v NaN) {
-      app __x3__ = (WrapCompletion 0i)
-      return __x3__
-    } else {}
-    app __x4__ = (WrapCompletion v)
-    return __x4__
+    if (= v NaN) return 0i else {}
+    return v
   } else {}
-  if (&& (= x NaN) (= y NaN)) {
-    app __x5__ = (WrapCompletion 0i)
-    return __x5__
-  } else {}
-  if (= x NaN) {
-    app __x6__ = (WrapCompletion 1i)
-    return __x6__
-  } else {}
-  if (= y NaN) {
-    app __x7__ = (WrapCompletion -1i)
-    return __x7__
-  } else {}
-  if (< x y) {
-    app __x8__ = (WrapCompletion -1i)
-    return __x8__
-  } else {}
-  if (< y x) {
-    app __x9__ = (WrapCompletion 1i)
-    return __x9__
-  } else {}
-  if (&& (= x -0.0) (= y 0i)) {
-    app __x10__ = (WrapCompletion -1i)
-    return __x10__
-  } else {}
-  if (&& (= x 0i) (= y -0.0)) {
-    app __x11__ = (WrapCompletion 1i)
-    return __x11__
-  } else {}
-  app __x12__ = (WrapCompletion 0i)
-  return __x12__
+  if (&& (= x NaN) (= y NaN)) return 0i else {}
+  if (= x NaN) return 1i else {}
+  if (= y NaN) return -1i else {}
+  if (< x y) return -1i else {}
+  if (< y x) return 1i else {}
+  if (&& (= x -0.0) (= y 0i)) return -1i else {}
+  if (&& (= x 0i) (= y -0.0)) return 1i else {}
+  return 0i
 }

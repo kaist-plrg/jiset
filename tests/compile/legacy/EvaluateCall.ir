@@ -1,6 +1,5 @@
 {
-  if (is-completion ref) if (= ref.Type CONST_normal) ref = ref.Value else return ref else {}
-  ref
+  [? ref]
   app __x0__ = (Type ref)
   if (= __x0__ Reference) {
     app __x1__ = (IsPropertyReference ref)
@@ -15,8 +14,7 @@
     }
   } else let thisValue = undefined
   access __x5__ = (arguments "ArgumentListEvaluation")
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  let argList = __x5__
+  let argList = [? __x5__]
   app __x6__ = (Type func)
   if (! (= __x6__ Object)) throw INTRINSIC_TypeError else {}
   app __x7__ = (IsCallable func)
@@ -27,6 +25,5 @@
   } else {}
   app __x9__ = (Call func thisValue argList)
   let result = __x9__
-  app __x10__ = (WrapCompletion result)
-  return __x10__
+  return result
 }

@@ -4,9 +4,7 @@
   app __x1__ = (IsPropertyKey P)
   assert (= __x1__ true)
   app __x2__ = (O.DefineOwnProperty O P desc)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let success = __x2__
+  let success = [? __x2__]
   if (= success false) throw INTRINSIC_TypeError else {}
-  app __x3__ = (WrapCompletion success)
-  return __x3__
+  return success
 }
