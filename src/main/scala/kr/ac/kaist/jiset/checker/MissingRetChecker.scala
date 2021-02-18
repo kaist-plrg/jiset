@@ -23,7 +23,7 @@ object MissingRetChecker extends Checker {
         val exhaustiveElse = walkBranch(ei)
         exhaustiveThen && exhaustiveElse
       case IWhile(c, b) => false
-      case IReturn(e) => true
+      case IReturn(_) | IThrow(_) => true
       case _ => false
     }
     val res = walkBranch(algo.getBody)

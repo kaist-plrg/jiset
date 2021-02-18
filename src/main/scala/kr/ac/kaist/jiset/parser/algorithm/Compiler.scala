@@ -204,9 +204,8 @@ object Compiler extends Compilers {
   }
 
   // throw statements
-  lazy val throwStmt = "throw" ~ ("a" | "an") ~> expr <~ "exception" ~ rest ^^ {
-    case ie => getRet(getCall("ThrowCompletion", List(ie)))
-  }
+  lazy val throwStmt =
+    "throw" ~ ("a" | "an") ~> value <~ "exception" ~ rest ^^ { getThrow(_) }
 
   // while statements
   lazy val whileStmt = (
@@ -386,7 +385,7 @@ object Compiler extends Compilers {
   // early errors
   lazy val earlyErrorStmt: P[Inst] = (("it is" | "always throw") ~ ("a syntax error" | "an early syntax error") ~ "if") ~> cond ^^ {
     case (i ~ c) => {
-      val ifRetInst = getRet(getCall("ThrowCompletion", List(pair(Nil, getErrorObj("SyntaxError")))))
+      val ifRetInst = getThrow("SyntaxError")
       val elseRetInst = getRet(getCall("NormalCompletion", List(pair(Nil, EUndef))))
       ISeq(i ++ List(
         IIf(
@@ -1040,7 +1039,6 @@ object Compiler extends Compilers {
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case s if Try(s.toLong).isSuccess => EINum(s.toLong)
     case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
-    case err if err.endsWith("Error") => getErrorObj(err)
     case s => ENotSupported(s)
   }
 

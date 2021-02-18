@@ -53,6 +53,7 @@ trait Walker {
       case IAppend(expr, list) => IAppend(walk(expr), walk(list))
       case IPrepend(expr, list) => IPrepend(walk(expr), walk(list))
       case IReturn(expr) => IReturn(walk(expr))
+      case IThrow(id) => IThrow(walk(id))
       case IIf(cond, thenInst, elseInst) => IIf(walk(cond), walk(thenInst), walk(elseInst))
       case IWhile(cond, body) => IWhile(walk(cond), walk(body))
       case ISeq(insts) => ISeq(walkList[Inst](insts, walk))

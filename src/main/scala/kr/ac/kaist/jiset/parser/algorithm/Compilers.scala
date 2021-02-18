@@ -319,6 +319,9 @@ trait Compilers extends TokenListParsers {
   def getInst(ie: I[Expr]): Inst = ISeq(ie._1)
 
   // get return
+  def getRet(e: Expr): Inst = getRet(pair(Nil, e))
+  def getRet(ieOpt: Option[I[Expr]]): Inst =
+    ieOpt.fold(getRet(EUndef))(getRet(_))
   def getRet(ie: I[Expr]): Inst = ie match {
     case i ~ e => ISeq(i :+ IReturn(e))
   }
@@ -366,8 +369,6 @@ trait Compilers extends TokenListParsers {
   }
 
   // get completions
-  def getThrowCompletion(e: Expr): I[Expr] = getThrowCompletion(pair(Nil, e))
-  def getThrowCompletion(ie: I[Expr]): I[Expr] = getCall("ThrowCompletion", List(ie))
   def getWrapCompletion(e: Expr): I[Expr] = getWrapCompletion(pair(Nil, e))
   def getWrapCompletion(ie: I[Expr]): I[Expr] = getCall("WrapCompletion", List(ie))
   def getNormalCompletion(e: Expr): I[Expr] = getNormalCompletion(pair(Nil, e))
@@ -397,11 +398,7 @@ trait Compilers extends TokenListParsers {
 
   // get error objects
   val INTRINSIC_PRE = "INTRINSIC_"
-  def getErrorObj(name: String): EMap = EMap(Ty("OrdinaryObject"), List(
-    EStr("Prototype") -> toERef(INTRINSIC_PRE + name, "prototype"),
-    EStr("ErrorData") -> EUndef,
-    EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
-  ))
+  def getThrow(name: String): IThrow = IThrow(Id(INTRINSIC_PRE + name))
 
   // suspend context
   def suspend(x: String, removed: Boolean = false): Inst = {

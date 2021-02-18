@@ -60,6 +60,8 @@ trait UnitWalker {
       walk(expr); walk(list)
     case IReturn(expr) =>
       walk(expr)
+    case IThrow(id) =>
+      walk(id)
     case IIf(cond, thenInst, elseInst) =>
       walk(cond); walk(thenInst); walk(elseInst)
     case IWhile(cond, body) =>

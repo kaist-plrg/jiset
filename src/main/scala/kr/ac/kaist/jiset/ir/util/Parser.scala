@@ -58,6 +58,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
     ("append " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IAppend(e, l) } |
     ("prepend " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPrepend(e, l) } |
     "return " ~> expr ^^ { case e => IReturn(e) } |
+    "throw " ~> id ^^ { case x => IThrow(x) } |
     ("if " ~> expr) ~ inst ~ ("else" ~> inst) ^^ { case c ~ t ~ e => IIf(c, t, e) } |
     ("while " ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |
     "{" ~> rep(inst) <~ "}" ^^ { case seq => ISeq(seq) } |
@@ -68,14 +69,6 @@ object Parser extends JavaTokenParsers with RegexParsers {
     ("access " ~> id <~ "=") ~ ("(" ~> expr) ~ (expr <~ ")") ^^ { case x ~ e1 ~ e2 => IAccess(x, e1, e2) } |
     ("withcont " ~> id) ~ ("(" ~> repsep(id, ",") <~ ")" <~ "=") ~ inst ^^ { case x ~ ps ~ b => IWithCont(x, ps, b) } |
     ("set-type " ~> expr ~ ty) ^^ { case e ~ t => ISetType(e, t) } |
-    ("throw " ~> ident) ^^ {
-      case x => parseInst(s"""{
-        app _ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_${x}Prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-        return _
-      }""")
-    } |
-    ("?" ~> ident) ^^ { case x => parseInst(s"if (is-completion $x) if (= $x.Type CONST_normal) $x = $x.Value else return $x else {}") } |
-    ("!" ~> ident) ^^ { case x => parseInst(s"if (is-completion $x) $x = $x.Value else {}") } |
     (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
     expr ^^ { case e => IExpr(e) }
   ) ^^ { case k ~ i => i.line = k.fold(-1)(_.toInt); i }

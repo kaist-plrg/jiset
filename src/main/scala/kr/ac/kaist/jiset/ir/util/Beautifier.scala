@@ -121,6 +121,8 @@ object Beautifier {
           walk("prepend "); walk(expr); walk(" -> "); walk(list)
         case IReturn(expr) =>
           walk("return "); walk(expr)
+        case IThrow(id) =>
+          walk("throw "); walk(id)
         case IIf(cond, thenInst, elseInst) =>
           walk("if "); walk(cond); walk(" "); detailWalk(thenInst)
           walk(" else "); detailWalk(elseInst)

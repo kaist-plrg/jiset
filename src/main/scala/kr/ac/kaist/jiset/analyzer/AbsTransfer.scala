@@ -38,6 +38,7 @@ class AbsTransfer(cfg: CFG) {
     case IAppend(expr, list) => ???
     case IPrepend(expr, list) => ???
     case IReturn(expr) => ???
+    case IThrow(id) => ???
     case IAssert(expr) => ???
     case IPrint(expr) => ???
     case IWithCont(id, params, bodyInst) => ???
