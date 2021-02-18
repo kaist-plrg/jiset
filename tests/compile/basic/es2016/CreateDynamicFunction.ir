@@ -41,85 +41,61 @@
     access __x5__ = (parameters "IsSimpleParameterList")
     __x3__ = (= __x5__ false)
   } else {}
-  if __x3__ {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x6__
-  } else {}
-  access __x7__ = (parameters "BoundNames")
-  access __x8__ = (body "LexicallyDeclaredNames")
+  if __x3__ throw INTRINSIC_SyntaxError else {}
+  access __x6__ = (parameters "BoundNames")
+  access __x7__ = (body "LexicallyDeclaredNames")
+  let __x8__ = __x6__
   let __x9__ = __x7__
-  let __x10__ = __x8__
+  let __x10__ = 0i
   let __x11__ = 0i
-  let __x12__ = 0i
-  let __x13__ = false
-  while (< __x11__ __x9__.length) {
-    __x12__ = 0i
-    while (< __x12__ __x10__.length) if (= __x9__[__x11__] __x10__[__x12__]) __x13__ = true else {}
+  let __x12__ = false
+  while (< __x10__ __x8__.length) {
+    __x11__ = 0i
+    while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
   }
-  if __x13__ {
-    app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x14__
-  } else {}
-  access __x15__ = (body "Contains")
+  if __x12__ throw INTRINSIC_SyntaxError else {}
+  access __x13__ = (body "Contains")
+  app __x14__ = (__x13__ "SuperCall")
+  if (= __x14__ true) throw INTRINSIC_SyntaxError else {}
+  access __x15__ = (parameters "Contains")
   app __x16__ = (__x15__ "SuperCall")
-  if (= __x16__ true) {
-    app __x17__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x17__
-  } else {}
-  access __x18__ = (parameters "Contains")
-  app __x19__ = (__x18__ "SuperCall")
-  if (= __x19__ true) {
-    app __x20__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x20__
-  } else {}
-  access __x21__ = (body "Contains")
-  app __x22__ = (__x21__ "SuperProperty")
-  if (= __x22__ true) {
-    app __x23__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x23__
-  } else {}
-  access __x24__ = (parameters "Contains")
-  app __x25__ = (__x24__ "SuperProperty")
-  if (= __x25__ true) {
-    app __x26__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x26__
-  } else {}
+  if (= __x16__ true) throw INTRINSIC_SyntaxError else {}
+  access __x17__ = (body "Contains")
+  app __x18__ = (__x17__ "SuperProperty")
+  if (= __x18__ true) throw INTRINSIC_SyntaxError else {}
+  access __x19__ = (parameters "Contains")
+  app __x20__ = (__x19__ "SuperProperty")
+  if (= __x20__ true) throw INTRINSIC_SyntaxError else {}
   if (= kind "generator") {
-    access __x27__ = (parameters "Contains")
-    app __x28__ = (__x27__ "YieldExpression")
-    if (= __x28__ true) {
-      app __x29__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x29__
-    } else {}
+    access __x21__ = (parameters "Contains")
+    app __x22__ = (__x21__ "YieldExpression")
+    if (= __x22__ true) throw INTRINSIC_SyntaxError else {}
   } else {}
   if (= strict true) {
-    access __x30__ = (parameters "BoundNames")
-    app __x31__ = (IsDuplicate __x30__)
-    if __x31__ {
-      app __x32__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x32__
-    } else {}
+    access __x23__ = (parameters "BoundNames")
+    app __x24__ = (IsDuplicate __x23__)
+    if __x24__ throw INTRINSIC_SyntaxError else {}
   } else {}
-  app __x33__ = (GetPrototypeFromConstructor newTarget fallbackProto)
-  if (is-completion __x33__) if (= __x33__.Type CONST_normal) __x33__ = __x33__.Value else return __x33__ else {}
-  let proto = __x33__
-  app __x34__ = (FunctionAllocate proto strict kind)
-  let F = __x34__
+  app __x25__ = (GetPrototypeFromConstructor newTarget fallbackProto)
+  if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
+  let proto = __x25__
+  app __x26__ = (FunctionAllocate proto strict kind)
+  let F = __x26__
   let realmF = F.Realm
   let scope = realmF.GlobalEnv
-  app __x35__ = (FunctionInitialize F CONST_Normal parameters body scope)
-  __x35__
+  app __x27__ = (FunctionInitialize F CONST_Normal parameters body scope)
+  __x27__
   if (= kind "generator") {
-    app __x36__ = (ObjectCreate INTRINSIC_GeneratorPrototype)
-    let prototype = __x36__
-    app __x37__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
-    __x37__
+    app __x28__ = (ObjectCreate INTRINSIC_GeneratorPrototype)
+    let prototype = __x28__
+    app __x29__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+    __x29__
   } else {
-    app __x38__ = (MakeConstructor F)
-    __x38__
+    app __x30__ = (MakeConstructor F)
+    __x30__
   }
-  app __x39__ = (SetFunctionName F "anonymous")
-  __x39__
-  app __x40__ = (WrapCompletion F)
-  return __x40__
+  app __x31__ = (SetFunctionName F "anonymous")
+  __x31__
+  app __x32__ = (WrapCompletion F)
+  return __x32__
 }

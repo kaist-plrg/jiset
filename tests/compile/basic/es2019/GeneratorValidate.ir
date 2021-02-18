@@ -1,18 +1,9 @@
 {
   app __x0__ = (Type generator)
-  if (! (= __x0__ Object)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
-  if (= generator.GeneratorState absent) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
+  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
+  if (= generator.GeneratorState absent) throw INTRINSIC_TypeError else {}
   let state = generator.GeneratorState
-  if (= state "executing") {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x3__
-  } else {}
-  app __x4__ = (WrapCompletion state)
-  return __x4__
+  if (= state "executing") throw INTRINSIC_TypeError else {}
+  app __x1__ = (WrapCompletion state)
+  return __x1__
 }

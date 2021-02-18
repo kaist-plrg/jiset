@@ -3,6 +3,5 @@
   ??? "If id:{func} is a bound function exotic object or a built - in function object , then return an implementation - dependent String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} . Additionally , if id:{func} is a Well - known Intrinsic Object and is not identified as an anonymous function , the portion of the returned String that would be matched by nt:{PropertyName} must be the initial value of the value:{\"name\"} property of id:{func} ."
   ??? "If Type ( id:{func} ) is Object and id:{func} has a [ [ SourceText ] ] internal slot and id:{func} . [ [ SourceText ] ] is a sequence of Unicode code points and ! HostHasSourceTextAvailable ( id:{func} ) is value:{true} , then in:{} out:{}"
   ??? "If Type ( id:{func} ) is Object and IsCallable ( id:{func} ) is value:{true} , then return an implementation - dependent String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} ."
-  app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-  return __x0__
+  throw INTRINSIC_TypeError
 }

@@ -10,17 +10,11 @@
   app __x3__ = (ToInteger count)
   if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
   let n = __x3__
-  if (< n 0i) {
-    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x4__
-  } else {}
-  if (= n Infinity) {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x5__
-  } else {}
+  if (< n 0i) throw INTRINSIC_RangeError else {}
+  if (= n Infinity) throw INTRINSIC_RangeError else {}
   if (= n 0i) {
-    app __x6__ = (WrapCompletion "")
-    return __x6__
+    app __x4__ = (WrapCompletion "")
+    return __x4__
   } else {}
   ??? "Return the String value that is made from id:{n} copies of id:{S} appended together ."
 }

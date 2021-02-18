@@ -5,19 +5,13 @@
   app __x1__ = (ToIntegerOrInfinity fractionDigits)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let f = __x1__
-  if (|| (= f Infinity) (= f -Infinity)) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
-  if (|| (< f 0i) (< 100i f)) {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x3__
-  } else {}
+  if (|| (= f Infinity) (= f -Infinity)) throw INTRINSIC_RangeError else {}
+  if (|| (< f 0i) (< 100i f)) throw INTRINSIC_RangeError else {}
   if (|| (= x Infinity) (= x -Infinity)) {
-    app __x4__ = (PRIMITIVE[Number].toString x)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    app __x5__ = (WrapCompletion __x4__)
-    return __x5__
+    app __x2__ = (PRIMITIVE[Number].toString x)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    app __x3__ = (WrapCompletion __x2__)
+    return __x3__
   } else {}
   x = x
   let s = ""
@@ -26,9 +20,9 @@
     x = (- x)
   } else {}
   if (! (< x (** 10.0 21i))) {
-    app __x6__ = (ToString x)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let m = __x6__
+    app __x4__ = (ToString x)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let m = __x4__
   } else {
     ??? "Let id:{n} be an integer for which id:{n} ÷ 10 sup:{id:{f}} - id:{x} is as close to zero as possible . If there are two such id:{n} , pick the larger id:{n} ."
     ??? "If id:{n} = 0 , let id:{m} be the String value:{\"0\"} . Otherwise , let id:{m} be the String value consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) ."
@@ -44,6 +38,6 @@
       m = (+ (+ a ".") b)
     } else {}
   }
-  app __x7__ = (WrapCompletion (+ s m))
-  return __x7__
+  app __x5__ = (WrapCompletion (+ s m))
+  return __x5__
 }

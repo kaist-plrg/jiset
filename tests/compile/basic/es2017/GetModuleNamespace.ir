@@ -12,16 +12,13 @@
       app __x3__ = (module.ResolveExport module name (new []))
       if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
       let resolution = __x3__
-      if (= resolution null) {
-        app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-        return __x4__
-      } else {}
+      if (= resolution null) throw INTRINSIC_SyntaxError else {}
       if (! (= resolution "ambiguous")) append name -> unambiguousNames else {}
       __x2__ = (+ __x2__ 1i)
     }
-    app __x5__ = (ModuleNamespaceCreate module unambiguousNames)
-    namespace = __x5__
+    app __x4__ = (ModuleNamespaceCreate module unambiguousNames)
+    namespace = __x4__
   } else {}
-  app __x6__ = (WrapCompletion namespace)
-  return __x6__
+  app __x5__ = (WrapCompletion namespace)
+  return __x5__
 }

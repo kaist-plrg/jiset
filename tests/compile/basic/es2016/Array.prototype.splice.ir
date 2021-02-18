@@ -32,96 +32,93 @@
     app __x8__ = (min __x7__ (- len actualStart))
     let actualDeleteCount = __x8__
   }
-  if (< (- (** 2.0 53i) 1i) (- (+ len insertCount) actualDeleteCount)) {
-    app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x9__
-  } else {}
-  app __x10__ = (ArraySpeciesCreate O actualDeleteCount)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  let A = __x10__
+  if (< (- (** 2.0 53i) 1i) (- (+ len insertCount) actualDeleteCount)) throw INTRINSIC_TypeError else {}
+  app __x9__ = (ArraySpeciesCreate O actualDeleteCount)
+  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+  let A = __x9__
   let k = 0i
   while (< k actualDeleteCount) {
-    app __x11__ = (ToString (+ actualStart k))
+    app __x10__ = (ToString (+ actualStart k))
+    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+    let from = __x10__
+    app __x11__ = (HasProperty O from)
     if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    let from = __x11__
-    app __x12__ = (HasProperty O from)
-    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-    let fromPresent = __x12__
+    let fromPresent = __x11__
     if (= fromPresent true) {
-      app __x13__ = (Get O from)
+      app __x12__ = (Get O from)
+      if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+      let fromValue = __x12__
+      app __x13__ = (ToString k)
       if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-      let fromValue = __x13__
-      app __x14__ = (ToString k)
+      app __x14__ = (CreateDataPropertyOrThrow A __x13__ fromValue)
       if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-      app __x15__ = (CreateDataPropertyOrThrow A __x14__ fromValue)
-      if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
-      __x15__
+      __x14__
     } else {}
     k = (+ k 1i)
   }
-  app __x16__ = (Set A "length" actualDeleteCount true)
-  if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-  __x16__
+  app __x15__ = (Set A "length" actualDeleteCount true)
+  if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+  __x15__
   ??? "Let id:{items} be a List whose elements are , in left to right order , the portion of the actual argument list starting with the third argument . The list is empty if fewer than three arguments were passed ."
   let itemCount = items.length
   if (< itemCount actualDeleteCount) {
     let k = actualStart
     while (< k (- len actualDeleteCount)) {
-      app __x17__ = (ToString (+ k actualDeleteCount))
+      app __x16__ = (ToString (+ k actualDeleteCount))
+      if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
+      let from = __x16__
+      app __x17__ = (ToString (+ k itemCount))
       if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-      let from = __x17__
-      app __x18__ = (ToString (+ k itemCount))
+      let to = __x17__
+      app __x18__ = (HasProperty O from)
       if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
-      let to = __x18__
-      app __x19__ = (HasProperty O from)
-      if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
-      let fromPresent = __x19__
+      let fromPresent = __x18__
       if (= fromPresent true) {
-        app __x20__ = (Get O from)
+        app __x19__ = (Get O from)
+        if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
+        let fromValue = __x19__
+        app __x20__ = (Set O to fromValue true)
         if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else {}
-        let fromValue = __x20__
-        app __x21__ = (Set O to fromValue true)
+        __x20__
+      } else {
+        app __x21__ = (DeletePropertyOrThrow O to)
         if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
         __x21__
-      } else {
-        app __x22__ = (DeletePropertyOrThrow O to)
-        if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else {}
-        __x22__
       }
       k = (+ k 1i)
     }
     let k = len
     while (< (+ (- len actualDeleteCount) itemCount) k) {
-      app __x23__ = (ToString (- k 1i))
+      app __x22__ = (ToString (- k 1i))
+      if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else {}
+      app __x23__ = (DeletePropertyOrThrow O __x22__)
       if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
-      app __x24__ = (DeletePropertyOrThrow O __x23__)
-      if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-      __x24__
+      __x23__
       k = (- k 1i)
     }
   } else if (< actualDeleteCount itemCount) {
     let k = (- len actualDeleteCount)
     while (< actualStart k) {
-      app __x25__ = (ToString (- (+ k actualDeleteCount) 1i))
+      app __x24__ = (ToString (- (+ k actualDeleteCount) 1i))
+      if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
+      let from = __x24__
+      app __x25__ = (ToString (- (+ k itemCount) 1i))
       if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
-      let from = __x25__
-      app __x26__ = (ToString (- (+ k itemCount) 1i))
+      let to = __x25__
+      app __x26__ = (HasProperty O from)
       if (is-completion __x26__) if (= __x26__.Type CONST_normal) __x26__ = __x26__.Value else return __x26__ else {}
-      let to = __x26__
-      app __x27__ = (HasProperty O from)
-      if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
-      let fromPresent = __x27__
+      let fromPresent = __x26__
       if (= fromPresent true) {
-        app __x28__ = (Get O from)
+        app __x27__ = (Get O from)
+        if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
+        let fromValue = __x27__
+        app __x28__ = (Set O to fromValue true)
         if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else {}
-        let fromValue = __x28__
-        app __x29__ = (Set O to fromValue true)
+        __x28__
+      } else {
+        app __x29__ = (DeletePropertyOrThrow O to)
         if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else {}
         __x29__
-      } else {
-        app __x30__ = (DeletePropertyOrThrow O to)
-        if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
-        __x30__
       }
       k = (- k 1i)
     }
@@ -129,16 +126,16 @@
   let k = actualStart
   while (< 0i items.length) {
     let E = (pop items 0i)
-    app __x31__ = (ToString k)
+    app __x30__ = (ToString k)
+    if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
+    app __x31__ = (Set O __x30__ E true)
     if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
-    app __x32__ = (Set O __x31__ E true)
-    if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else {}
-    __x32__
+    __x31__
     k = (+ k 1i)
   }
-  app __x33__ = (Set O "length" (+ (- len actualDeleteCount) itemCount) true)
-  if (is-completion __x33__) if (= __x33__.Type CONST_normal) __x33__ = __x33__.Value else return __x33__ else {}
-  __x33__
-  app __x34__ = (WrapCompletion A)
-  return __x34__
+  app __x32__ = (Set O "length" (+ (- len actualDeleteCount) itemCount) true)
+  if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else {}
+  __x32__
+  app __x33__ = (WrapCompletion A)
+  return __x33__
 }

@@ -1,56 +1,41 @@
 {
   access __x0__ = (FunctionStatementList "LexicallyDeclaredNames")
   app __x1__ = (IsDuplicate __x0__)
-  if __x1__ {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if __x1__ throw INTRINSIC_SyntaxError else {
+    app __x2__ = (NormalCompletion undefined)
     return __x2__
-  } else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
   }
-  access __x4__ = (FunctionStatementList "LexicallyDeclaredNames")
-  access __x5__ = (FunctionStatementList "VarDeclaredNames")
+  access __x3__ = (FunctionStatementList "LexicallyDeclaredNames")
+  access __x4__ = (FunctionStatementList "VarDeclaredNames")
+  let __x5__ = __x3__
   let __x6__ = __x4__
-  let __x7__ = __x5__
+  let __x7__ = 0i
   let __x8__ = 0i
-  let __x9__ = 0i
-  let __x10__ = false
-  while (< __x8__ __x6__.length) {
-    __x9__ = 0i
-    while (< __x9__ __x7__.length) if (= __x6__[__x8__] __x7__[__x9__]) __x10__ = true else {}
+  let __x9__ = false
+  while (< __x7__ __x5__.length) {
+    __x8__ = 0i
+    while (< __x8__ __x6__.length) if (= __x5__[__x7__] __x6__[__x8__]) __x9__ = true else {}
   }
-  if __x10__ {
-    app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x11__
-  } else {
-    app __x12__ = (NormalCompletion undefined)
-    return __x12__
+  if __x9__ throw INTRINSIC_SyntaxError else {
+    app __x10__ = (NormalCompletion undefined)
+    return __x10__
   }
-  access __x13__ = (FunctionStatementList "ContainsDuplicateLabels")
-  app __x14__ = (__x13__ (new []))
-  if (= __x14__ true) {
-    app __x15__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x15__
-  } else {
+  access __x11__ = (FunctionStatementList "ContainsDuplicateLabels")
+  app __x12__ = (__x11__ (new []))
+  if (= __x12__ true) throw INTRINSIC_SyntaxError else {
+    app __x13__ = (NormalCompletion undefined)
+    return __x13__
+  }
+  access __x14__ = (FunctionStatementList "ContainsUndefinedBreakTarget")
+  app __x15__ = (__x14__ (new []))
+  if (= __x15__ true) throw INTRINSIC_SyntaxError else {
     app __x16__ = (NormalCompletion undefined)
     return __x16__
   }
-  access __x17__ = (FunctionStatementList "ContainsUndefinedBreakTarget")
-  app __x18__ = (__x17__ (new []))
-  if (= __x18__ true) {
-    app __x19__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  access __x17__ = (FunctionStatementList "ContainsUndefinedContinueTarget")
+  app __x18__ = (__x17__ (new []) (new []))
+  if (= __x18__ true) throw INTRINSIC_SyntaxError else {
+    app __x19__ = (NormalCompletion undefined)
     return __x19__
-  } else {
-    app __x20__ = (NormalCompletion undefined)
-    return __x20__
-  }
-  access __x21__ = (FunctionStatementList "ContainsUndefinedContinueTarget")
-  app __x22__ = (__x21__ (new []) (new []))
-  if (= __x22__ true) {
-    app __x23__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x23__
-  } else {
-    app __x24__ = (NormalCompletion undefined)
-    return __x24__
   }
 }

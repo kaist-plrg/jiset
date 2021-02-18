@@ -20,10 +20,7 @@
     app __x4__ = (WrapCompletion (+ s "Infinity"))
     return __x4__
   } else {}
-  if (|| (< f 0i) (< 100i f)) {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x5__
-  } else {}
+  if (|| (< f 0i) (< 100i f)) throw INTRINSIC_RangeError else {}
   if (== x 0i) {
     ??? "Let id:{m} be the String value consisting of id:{f} + 1 occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
     let e = 0i
@@ -47,6 +44,6 @@
     ??? "Let id:{d} be the String value consisting of the digits of the decimal representation of id:{e} ( in order , with no leading zeroes ) ."
   }
   m = (+ (+ (+ m "e") c) d)
-  app __x6__ = (WrapCompletion (+ s m))
-  return __x6__
+  app __x5__ = (WrapCompletion (+ s m))
+  return __x5__
 }

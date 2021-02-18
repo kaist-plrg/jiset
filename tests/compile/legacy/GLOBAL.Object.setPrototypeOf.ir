@@ -7,22 +7,16 @@
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   O = __x2__
   app __x3__ = (Type proto)
-  if (! (|| (= __x3__ Object) (= __x3__ Null))) {
-    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x4__
+  if (! (|| (= __x3__ Object) (= __x3__ Null))) throw INTRINSIC_TypeError else {}
+  app __x4__ = (Type O)
+  if (! (= __x4__ Object)) {
+    app __x5__ = (WrapCompletion O)
+    return __x5__
   } else {}
-  app __x5__ = (Type O)
-  if (! (= __x5__ Object)) {
-    app __x6__ = (WrapCompletion O)
-    return __x6__
-  } else {}
-  app __x7__ = (O.SetPrototypeOf O proto)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  let status = __x7__
-  if (= status false) {
-    app __x8__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x8__
-  } else {}
-  app __x9__ = (WrapCompletion O)
-  return __x9__
+  app __x6__ = (O.SetPrototypeOf O proto)
+  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+  let status = __x6__
+  if (= status false) throw INTRINSIC_TypeError else {}
+  app __x7__ = (WrapCompletion O)
+  return __x7__
 }

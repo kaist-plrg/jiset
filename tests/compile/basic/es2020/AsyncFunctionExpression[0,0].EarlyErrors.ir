@@ -6,85 +6,61 @@
     access __x2__ = (FormalParameters "IsSimpleParameterList")
     __x0__ = (= __x2__ false)
   } else {}
-  if __x0__ {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if __x0__ throw INTRINSIC_SyntaxError else {
+    app __x3__ = (NormalCompletion undefined)
     return __x3__
-  } else {
-    app __x4__ = (NormalCompletion undefined)
-    return __x4__
   }
-  access __x5__ = (FormalParameters "Contains")
-  app __x6__ = (__x5__ "AwaitExpression")
-  if (= __x6__ true) {
-    app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x7__
-  } else {
-    app __x8__ = (NormalCompletion undefined)
-    return __x8__
+  access __x4__ = (FormalParameters "Contains")
+  app __x5__ = (__x4__ "AwaitExpression")
+  if (= __x5__ true) throw INTRINSIC_SyntaxError else {
+    app __x6__ = (NormalCompletion undefined)
+    return __x6__
   }
   ??? "If the source code matching nt:{FormalParameters} is strict mode code , the Early Error rules for grammar:{UniqueFormalParameters0, [FormalParameters]} are applied ."
   if (&& (! (= BindingIdentifier absent)) true) {
-    access __x9__ = (BindingIdentifier "StringValue")
-    if (|| (= __x9__ "eval") (= __x9__ "arguments")) {
-      app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x10__
-    } else {
-      app __x11__ = (NormalCompletion undefined)
-      return __x11__
+    access __x7__ = (BindingIdentifier "StringValue")
+    if (|| (= __x7__ "eval") (= __x7__ "arguments")) throw INTRINSIC_SyntaxError else {
+      app __x8__ = (NormalCompletion undefined)
+      return __x8__
     }
   } else {}
-  access __x12__ = (FormalParameters "BoundNames")
-  access __x13__ = (AsyncFunctionBody "LexicallyDeclaredNames")
-  let __x14__ = __x12__
-  let __x15__ = __x13__
-  let __x16__ = 0i
-  let __x17__ = 0i
-  let __x18__ = false
-  while (< __x16__ __x14__.length) {
-    __x17__ = 0i
-    while (< __x17__ __x15__.length) if (= __x14__[__x16__] __x15__[__x17__]) __x18__ = true else {}
+  access __x9__ = (FormalParameters "BoundNames")
+  access __x10__ = (AsyncFunctionBody "LexicallyDeclaredNames")
+  let __x11__ = __x9__
+  let __x12__ = __x10__
+  let __x13__ = 0i
+  let __x14__ = 0i
+  let __x15__ = false
+  while (< __x13__ __x11__.length) {
+    __x14__ = 0i
+    while (< __x14__ __x12__.length) if (= __x11__[__x13__] __x12__[__x14__]) __x15__ = true else {}
   }
-  if __x18__ {
-    app __x19__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if __x15__ throw INTRINSIC_SyntaxError else {
+    app __x16__ = (NormalCompletion undefined)
+    return __x16__
+  }
+  access __x17__ = (FormalParameters "Contains")
+  app __x18__ = (__x17__ "SuperProperty")
+  if (= __x18__ true) throw INTRINSIC_SyntaxError else {
+    app __x19__ = (NormalCompletion undefined)
     return __x19__
-  } else {
-    app __x20__ = (NormalCompletion undefined)
-    return __x20__
   }
-  access __x21__ = (FormalParameters "Contains")
-  app __x22__ = (__x21__ "SuperProperty")
-  if (= __x22__ true) {
-    app __x23__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x23__
-  } else {
-    app __x24__ = (NormalCompletion undefined)
-    return __x24__
+  access __x20__ = (AsyncFunctionBody "Contains")
+  app __x21__ = (__x20__ "SuperProperty")
+  if (= __x21__ true) throw INTRINSIC_SyntaxError else {
+    app __x22__ = (NormalCompletion undefined)
+    return __x22__
   }
-  access __x25__ = (AsyncFunctionBody "Contains")
-  app __x26__ = (__x25__ "SuperProperty")
-  if (= __x26__ true) {
-    app __x27__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x27__
-  } else {
+  access __x23__ = (FormalParameters "Contains")
+  app __x24__ = (__x23__ "SuperCall")
+  if (= __x24__ true) throw INTRINSIC_SyntaxError else {
+    app __x25__ = (NormalCompletion undefined)
+    return __x25__
+  }
+  access __x26__ = (AsyncFunctionBody "Contains")
+  app __x27__ = (__x26__ "SuperCall")
+  if (= __x27__ true) throw INTRINSIC_SyntaxError else {
     app __x28__ = (NormalCompletion undefined)
     return __x28__
-  }
-  access __x29__ = (FormalParameters "Contains")
-  app __x30__ = (__x29__ "SuperCall")
-  if (= __x30__ true) {
-    app __x31__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x31__
-  } else {
-    app __x32__ = (NormalCompletion undefined)
-    return __x32__
-  }
-  access __x33__ = (AsyncFunctionBody "Contains")
-  app __x34__ = (__x33__ "SuperCall")
-  if (= __x34__ true) {
-    app __x35__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x35__
-  } else {
-    app __x36__ = (NormalCompletion undefined)
-    return __x36__
   }
 }

@@ -1,9 +1,6 @@
 {
   app __x0__ = (IsIntegralNumber number)
-  if (= __x0__ false) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
-  app __x2__ = (WrapCompletion (convert number num2bigint ))
-  return __x2__
+  if (= __x0__ false) throw INTRINSIC_RangeError else {}
+  app __x1__ = (WrapCompletion (convert number num2bigint ))
+  return __x1__
 }

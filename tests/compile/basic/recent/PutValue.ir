@@ -3,43 +3,34 @@
   V
   if (is-completion W) if (= W.Type CONST_normal) W = W.Value else return W else {}
   W
-  if (! (= (typeof V) "ReferenceRecord")) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x0__
+  if (! (= (typeof V) "ReferenceRecord")) throw INTRINSIC_ReferenceError else {}
+  app __x0__ = (IsUnresolvableReference V)
+  if (= __x0__ true) {
+    if (= V.Strict true) throw INTRINSIC_ReferenceError else {}
+    app __x1__ = (GetGlobalObject )
+    let globalObj = __x1__
+    app __x2__ = (Set globalObj V.ReferencedName W false)
+    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+    app __x3__ = (WrapCompletion __x2__)
+    return __x3__
   } else {}
-  app __x1__ = (IsUnresolvableReference V)
-  if (= __x1__ true) {
-    if (= V.Strict true) {
-      app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x2__
-    } else {}
-    app __x3__ = (GetGlobalObject )
-    let globalObj = __x3__
-    app __x4__ = (Set globalObj V.ReferencedName W false)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    app __x5__ = (WrapCompletion __x4__)
-    return __x5__
-  } else {}
-  app __x6__ = (IsPropertyReference V)
-  if (= __x6__ true) {
-    app __x7__ = (ToObject V.Base)
+  app __x4__ = (IsPropertyReference V)
+  if (= __x4__ true) {
+    app __x5__ = (ToObject V.Base)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    let baseObj = __x5__
+    app __x6__ = (GetThisValue V)
+    app __x7__ = (baseObj.Set baseObj V.ReferencedName W __x6__)
     if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let baseObj = __x7__
-    app __x8__ = (GetThisValue V)
-    app __x9__ = (baseObj.Set baseObj V.ReferencedName W __x8__)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    let succeeded = __x9__
-    if (&& (= succeeded false) (= V.Strict true)) {
-      app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x10__
-    } else {}
-    app __x11__ = (NormalCompletion undefined)
-    return __x11__
+    let succeeded = __x7__
+    if (&& (= succeeded false) (= V.Strict true)) throw INTRINSIC_TypeError else {}
+    app __x8__ = (NormalCompletion undefined)
+    return __x8__
   } else {
     let base = V.Base
-    app __x12__ = (base.SetMutableBinding base V.ReferencedName W V.Strict)
-    if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-    app __x13__ = (WrapCompletion __x12__)
-    return __x13__
+    app __x9__ = (base.SetMutableBinding base V.ReferencedName W V.Strict)
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+    app __x10__ = (WrapCompletion __x9__)
+    return __x10__
   }
 }

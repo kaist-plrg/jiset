@@ -8,12 +8,9 @@
     access __x2__ = (IdentifierName "StringValue")
     __x0__ = (= __x2__ "await")
   } else {}
-  if __x0__ {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if __x0__ throw INTRINSIC_SyntaxError else {
+    app __x3__ = (NormalCompletion undefined)
     return __x3__
-  } else {
-    app __x4__ = (NormalCompletion undefined)
-    return __x4__
   }
   ??? "It is a Syntax Error if StringValue of nt:{IdentifierName} is the same String value as the StringValue of any nt:{ReservedWord} except for code:{yield} or code:{await} ."
 }

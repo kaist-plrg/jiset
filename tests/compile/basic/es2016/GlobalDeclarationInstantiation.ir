@@ -10,136 +10,118 @@
   while (< __x3__ __x2__.length) {
     let name = __x2__[__x3__]
     app __x4__ = (envRec.HasVarDeclaration envRec name)
-    if (= __x4__ true) {
-      app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x5__
-    } else {}
-    app __x6__ = (envRec.HasLexicalDeclaration envRec name)
-    if (= __x6__ true) {
-      app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x7__
-    } else {}
-    app __x8__ = (envRec.HasRestrictedGlobalProperty envRec name)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let hasRestrictedGlobal = __x8__
-    if (= hasRestrictedGlobal true) {
-      app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x9__
-    } else {}
+    if (= __x4__ true) throw INTRINSIC_SyntaxError else {}
+    app __x5__ = (envRec.HasLexicalDeclaration envRec name)
+    if (= __x5__ true) throw INTRINSIC_SyntaxError else {}
+    app __x6__ = (envRec.HasRestrictedGlobalProperty envRec name)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    let hasRestrictedGlobal = __x6__
+    if (= hasRestrictedGlobal true) throw INTRINSIC_SyntaxError else {}
     __x3__ = (+ __x3__ 1i)
   }
-  let __x10__ = varNames
-  let __x11__ = 0i
-  while (< __x11__ __x10__.length) {
-    let name = __x10__[__x11__]
-    app __x12__ = (envRec.HasLexicalDeclaration envRec name)
-    if (= __x12__ true) {
-      app __x13__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x13__
-    } else {}
-    __x11__ = (+ __x11__ 1i)
+  let __x7__ = varNames
+  let __x8__ = 0i
+  while (< __x8__ __x7__.length) {
+    let name = __x7__[__x8__]
+    app __x9__ = (envRec.HasLexicalDeclaration envRec name)
+    if (= __x9__ true) throw INTRINSIC_SyntaxError else {}
+    __x8__ = (+ __x8__ 1i)
   }
-  access __x14__ = (script "VarScopedDeclarations")
-  let varDeclarations = __x14__
+  access __x10__ = (script "VarScopedDeclarations")
+  let varDeclarations = __x10__
   let functionsToInitialize = (new [])
   let declaredFunctionNames = (new [])
-  let __x15__ = varDeclarations
-  let __x16__ = __x15__.length
-  while (< 0i __x16__) {
-    __x16__ = (- __x16__ 1i)
-    let d = __x15__[__x16__]
+  let __x11__ = varDeclarations
+  let __x12__ = __x11__.length
+  while (< 0i __x12__) {
+    __x12__ = (- __x12__ 1i)
+    let d = __x11__[__x12__]
     if (! (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding))) {
       assert (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration))
-      access __x17__ = (d "BoundNames")
-      let fn = __x17__[0i]
+      access __x13__ = (d "BoundNames")
+      let fn = __x13__[0i]
       if (! (contains declaredFunctionNames fn)) {
-        app __x18__ = (envRec.CanDeclareGlobalFunction envRec fn)
-        if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
-        let fnDefinable = __x18__
-        if (= fnDefinable false) {
-          app __x19__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-          return __x19__
-        } else {}
+        app __x14__ = (envRec.CanDeclareGlobalFunction envRec fn)
+        if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+        let fnDefinable = __x14__
+        if (= fnDefinable false) throw INTRINSIC_TypeError else {}
         append fn -> declaredFunctionNames
         prepend d -> functionsToInitialize
       } else {}
     } else {}
   }
   let declaredVarNames = (new [])
-  let __x20__ = varDeclarations
-  let __x21__ = 0i
-  while (< __x21__ __x20__.length) {
-    let d = __x20__[__x21__]
+  let __x15__ = varDeclarations
+  let __x16__ = 0i
+  while (< __x16__ __x15__.length) {
+    let d = __x15__[__x16__]
     if (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding)) {
-      access __x22__ = (d "BoundNames")
-      let __x23__ = __x22__
-      let __x24__ = 0i
-      while (< __x24__ __x23__.length) {
-        let vn = __x23__[__x24__]
+      access __x17__ = (d "BoundNames")
+      let __x18__ = __x17__
+      let __x19__ = 0i
+      while (< __x19__ __x18__.length) {
+        let vn = __x18__[__x19__]
         if (! (contains declaredFunctionNames vn)) {
-          app __x25__ = (envRec.CanDeclareGlobalVar envRec vn)
-          if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
-          let vnDefinable = __x25__
-          if (= vnDefinable false) {
-            app __x26__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-            return __x26__
-          } else {}
+          app __x20__ = (envRec.CanDeclareGlobalVar envRec vn)
+          if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else {}
+          let vnDefinable = __x20__
+          if (= vnDefinable false) throw INTRINSIC_TypeError else {}
           if (! (contains declaredVarNames vn)) append vn -> declaredVarNames else {}
         } else {}
-        __x24__ = (+ __x24__ 1i)
+        __x19__ = (+ __x19__ 1i)
       }
     } else {}
-    __x21__ = (+ __x21__ 1i)
+    __x16__ = (+ __x16__ 1i)
   }
-  access __x27__ = (script "LexicallyScopedDeclarations")
-  let lexDeclarations = __x27__
-  let __x28__ = lexDeclarations
-  let __x29__ = 0i
-  while (< __x29__ __x28__.length) {
-    let d = __x28__[__x29__]
-    access __x30__ = (d "BoundNames")
-    let __x31__ = __x30__
-    let __x32__ = 0i
-    while (< __x32__ __x31__.length) {
-      let dn = __x31__[__x32__]
-      access __x33__ = (d "IsConstantDeclaration")
-      if (= __x33__ true) {
-        app __x34__ = (envRec.CreateImmutableBinding envRec dn true)
-        if (is-completion __x34__) if (= __x34__.Type CONST_normal) __x34__ = __x34__.Value else return __x34__ else {}
-        __x34__
+  access __x21__ = (script "LexicallyScopedDeclarations")
+  let lexDeclarations = __x21__
+  let __x22__ = lexDeclarations
+  let __x23__ = 0i
+  while (< __x23__ __x22__.length) {
+    let d = __x22__[__x23__]
+    access __x24__ = (d "BoundNames")
+    let __x25__ = __x24__
+    let __x26__ = 0i
+    while (< __x26__ __x25__.length) {
+      let dn = __x25__[__x26__]
+      access __x27__ = (d "IsConstantDeclaration")
+      if (= __x27__ true) {
+        app __x28__ = (envRec.CreateImmutableBinding envRec dn true)
+        if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else {}
+        __x28__
       } else {
-        app __x35__ = (envRec.CreateMutableBinding envRec dn false)
-        if (is-completion __x35__) if (= __x35__.Type CONST_normal) __x35__ = __x35__.Value else return __x35__ else {}
-        __x35__
+        app __x29__ = (envRec.CreateMutableBinding envRec dn false)
+        if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else {}
+        __x29__
       }
-      __x32__ = (+ __x32__ 1i)
+      __x26__ = (+ __x26__ 1i)
     }
-    __x29__ = (+ __x29__ 1i)
+    __x23__ = (+ __x23__ 1i)
   }
-  let __x36__ = functionsToInitialize
+  let __x30__ = functionsToInitialize
+  let __x31__ = 0i
+  while (< __x31__ __x30__.length) {
+    let f = __x30__[__x31__]
+    access __x32__ = (f "BoundNames")
+    let fn = __x32__[0i]
+    access __x33__ = (f "InstantiateFunctionObject")
+    app __x34__ = (__x33__ env)
+    let fo = __x34__
+    app __x35__ = (envRec.CreateGlobalFunctionBinding envRec fn fo false)
+    if (is-completion __x35__) if (= __x35__.Type CONST_normal) __x35__ = __x35__.Value else return __x35__ else {}
+    __x35__
+    __x31__ = (+ __x31__ 1i)
+  }
+  let __x36__ = declaredVarNames
   let __x37__ = 0i
   while (< __x37__ __x36__.length) {
-    let f = __x36__[__x37__]
-    access __x38__ = (f "BoundNames")
-    let fn = __x38__[0i]
-    access __x39__ = (f "InstantiateFunctionObject")
-    app __x40__ = (__x39__ env)
-    let fo = __x40__
-    app __x41__ = (envRec.CreateGlobalFunctionBinding envRec fn fo false)
-    if (is-completion __x41__) if (= __x41__.Type CONST_normal) __x41__ = __x41__.Value else return __x41__ else {}
-    __x41__
+    let vn = __x36__[__x37__]
+    app __x38__ = (envRec.CreateGlobalVarBinding envRec vn false)
+    if (is-completion __x38__) if (= __x38__.Type CONST_normal) __x38__ = __x38__.Value else return __x38__ else {}
+    __x38__
     __x37__ = (+ __x37__ 1i)
   }
-  let __x42__ = declaredVarNames
-  let __x43__ = 0i
-  while (< __x43__ __x42__.length) {
-    let vn = __x42__[__x43__]
-    app __x44__ = (envRec.CreateGlobalVarBinding envRec vn false)
-    if (is-completion __x44__) if (= __x44__.Type CONST_normal) __x44__ = __x44__.Value else return __x44__ else {}
-    __x44__
-    __x43__ = (+ __x43__ 1i)
-  }
-  app __x45__ = (NormalCompletion CONST_empty)
-  app __x46__ = (WrapCompletion __x45__)
-  return __x46__
+  app __x39__ = (NormalCompletion CONST_empty)
+  app __x40__ = (WrapCompletion __x39__)
+  return __x40__
 }

@@ -5,13 +5,10 @@
   app __x1__ = (ToInteger fractionDigits)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   let f = __x1__
-  if (|| (< f 0i) (< 100i f)) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
+  if (|| (< f 0i) (< 100i f)) throw INTRINSIC_RangeError else {}
   if (= x NaN) {
-    app __x3__ = (WrapCompletion "NaN")
-    return __x3__
+    app __x2__ = (WrapCompletion "NaN")
+    return __x2__
   } else {}
   let s = ""
   if (< x 0i) {
@@ -19,9 +16,9 @@
     let x = (- x)
   } else {}
   if (! (< x (** 10.0 21i))) {
-    app __x4__ = (ToString x)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    let m = __x4__
+    app __x3__ = (ToString x)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    let m = __x3__
   } else {
     ??? "Let id:{n} be an integer for which the exact mathematical value of id:{n} ÷ 10 sup:{id:{f}} - id:{x} is as close to zero as possible . If there are two such id:{n} , pick the larger id:{n} ."
     ??? "If id:{n} = 0 , let id:{m} be the String code:{\"0\"} . Otherwise , let id:{m} be the String value consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) ."
@@ -36,6 +33,6 @@
       let m = (+ (+ a ".") b)
     } else {}
   }
-  app __x5__ = (WrapCompletion (+ s m))
-  return __x5__
+  app __x4__ = (WrapCompletion (+ s m))
+  return __x4__
 }

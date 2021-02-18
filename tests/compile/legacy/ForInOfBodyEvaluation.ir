@@ -18,109 +18,106 @@
       nextResult = __x2__
     } else {}
     app __x3__ = (Type nextResult)
-    if (! (= __x3__ Object)) {
-      app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x4__
-    } else {}
-    app __x5__ = (IteratorComplete nextResult)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let done = __x5__
+    if (! (= __x3__ Object)) throw INTRINSIC_TypeError else {}
+    app __x4__ = (IteratorComplete nextResult)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let done = __x4__
     if (= done true) {
-      app __x6__ = (NormalCompletion V)
-      app __x7__ = (WrapCompletion __x6__)
-      return __x7__
+      app __x5__ = (NormalCompletion V)
+      app __x6__ = (WrapCompletion __x5__)
+      return __x6__
     } else {}
-    app __x8__ = (IteratorValue nextResult)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let nextValue = __x8__
+    app __x7__ = (IteratorValue nextResult)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    let nextValue = __x7__
     if (|| (= lhsKind CONST_assignment) (= lhsKind CONST_varBinding)) if (= destructuring false) {
-      access __x9__ = (lhs "Evaluation")
-      let lhsRef = __x9__
+      access __x8__ = (lhs "Evaluation")
+      let lhsRef = __x8__
     } else {} else {
       assert (= lhsKind CONST_lexicalBinding)
       assert (is-instance-of lhs ForDeclaration)
-      app __x10__ = (NewDeclarativeEnvironment oldEnv)
-      let iterationEnv = __x10__
-      access __x11__ = (lhs "BindingInstantiation")
-      app __x12__ = (__x11__ iterationEnv)
-      __x12__
+      app __x9__ = (NewDeclarativeEnvironment oldEnv)
+      let iterationEnv = __x9__
+      access __x10__ = (lhs "BindingInstantiation")
+      app __x11__ = (__x10__ iterationEnv)
+      __x11__
       GLOBAL_context.LexicalEnvironment = iterationEnv
       if (= destructuring false) {
-        access __x13__ = (lhs "BoundNames")
-        let lhsName = __x13__[0i]
-        app __x14__ = (ResolveBinding lhsName)
-        if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-        let lhsRef = __x14__
+        access __x12__ = (lhs "BoundNames")
+        let lhsName = __x12__[0i]
+        app __x13__ = (ResolveBinding lhsName)
+        if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+        let lhsRef = __x13__
       } else {}
     }
     if (= destructuring false) {
-      app __x15__ = (IsAbruptCompletion lhsRef)
-      if __x15__ let status = lhsRef else if (= lhsKind CONST_lexicalBinding) {
-        app __x16__ = (InitializeReferencedBinding lhsRef nextValue)
-        let status = __x16__
+      app __x14__ = (IsAbruptCompletion lhsRef)
+      if __x14__ let status = lhsRef else if (= lhsKind CONST_lexicalBinding) {
+        app __x15__ = (InitializeReferencedBinding lhsRef nextValue)
+        let status = __x15__
       } else {
-        app __x17__ = (PutValue lhsRef nextValue)
-        let status = __x17__
+        app __x16__ = (PutValue lhsRef nextValue)
+        let status = __x16__
       }
     } else if (= lhsKind CONST_assignment) {
-      access __x18__ = (assignmentPattern "DestructuringAssignmentEvaluation")
-      app __x19__ = (__x18__ nextValue)
-      let status = __x19__
+      access __x17__ = (assignmentPattern "DestructuringAssignmentEvaluation")
+      app __x18__ = (__x17__ nextValue)
+      let status = __x18__
     } else if (= lhsKind CONST_varBinding) {
       assert (is-instance-of lhs ForBinding)
-      access __x20__ = (lhs "BindingInitialization")
-      app __x21__ = (__x20__ nextValue undefined)
-      let status = __x21__
+      access __x19__ = (lhs "BindingInitialization")
+      app __x20__ = (__x19__ nextValue undefined)
+      let status = __x20__
     } else {
       assert (= lhsKind CONST_lexicalBinding)
       assert (is-instance-of lhs ForDeclaration)
-      access __x22__ = (lhs "BindingInitialization")
-      app __x23__ = (__x22__ nextValue iterationEnv)
-      let status = __x23__
+      access __x21__ = (lhs "BindingInitialization")
+      app __x22__ = (__x21__ nextValue iterationEnv)
+      let status = __x22__
     }
-    app __x24__ = (IsAbruptCompletion status)
-    if __x24__ {
+    app __x23__ = (IsAbruptCompletion status)
+    if __x23__ {
       GLOBAL_context.LexicalEnvironment = oldEnv
       if (= iteratorKind CONST_async) {
-        app __x25__ = (AsyncIteratorClose iteratorRecord status)
-        if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
-        app __x26__ = (WrapCompletion __x25__)
-        return __x26__
+        app __x24__ = (AsyncIteratorClose iteratorRecord status)
+        if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
+        app __x25__ = (WrapCompletion __x24__)
+        return __x25__
       } else {}
       if (= iterationKind CONST_enumerate) {
-        app __x27__ = (WrapCompletion status)
-        return __x27__
+        app __x26__ = (WrapCompletion status)
+        return __x26__
       } else {
         assert (= iterationKind CONST_iterate)
-        app __x28__ = (IteratorClose iteratorRecord status)
-        if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else {}
-        app __x29__ = (WrapCompletion __x28__)
-        return __x29__
+        app __x27__ = (IteratorClose iteratorRecord status)
+        if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
+        app __x28__ = (WrapCompletion __x27__)
+        return __x28__
       }
     } else {}
-    access __x30__ = (stmt "Evaluation")
-    let result = __x30__
+    access __x29__ = (stmt "Evaluation")
+    let result = __x29__
     GLOBAL_context.LexicalEnvironment = oldEnv
-    app __x31__ = (LoopContinues result labelSet)
-    if (= __x31__ false) if (= iterationKind CONST_enumerate) {
-      app __x32__ = (UpdateEmpty result V)
-      app __x33__ = (Completion __x32__)
-      app __x34__ = (WrapCompletion __x33__)
-      return __x34__
+    app __x30__ = (LoopContinues result labelSet)
+    if (= __x30__ false) if (= iterationKind CONST_enumerate) {
+      app __x31__ = (UpdateEmpty result V)
+      app __x32__ = (Completion __x31__)
+      app __x33__ = (WrapCompletion __x32__)
+      return __x33__
     } else {
       assert (= iterationKind CONST_iterate)
-      app __x35__ = (UpdateEmpty result V)
-      status = __x35__
+      app __x34__ = (UpdateEmpty result V)
+      status = __x34__
       if (= iteratorKind CONST_async) {
-        app __x36__ = (AsyncIteratorClose iteratorRecord status)
-        if (is-completion __x36__) if (= __x36__.Type CONST_normal) __x36__ = __x36__.Value else return __x36__ else {}
-        app __x37__ = (WrapCompletion __x36__)
-        return __x37__
+        app __x35__ = (AsyncIteratorClose iteratorRecord status)
+        if (is-completion __x35__) if (= __x35__.Type CONST_normal) __x35__ = __x35__.Value else return __x35__ else {}
+        app __x36__ = (WrapCompletion __x35__)
+        return __x36__
       } else {}
-      app __x38__ = (IteratorClose iteratorRecord status)
-      if (is-completion __x38__) if (= __x38__.Type CONST_normal) __x38__ = __x38__.Value else return __x38__ else {}
-      app __x39__ = (WrapCompletion __x38__)
-      return __x39__
+      app __x37__ = (IteratorClose iteratorRecord status)
+      if (is-completion __x37__) if (= __x37__.Type CONST_normal) __x37__ = __x37__.Value else return __x37__ else {}
+      app __x38__ = (WrapCompletion __x37__)
+      return __x38__
     } else {}
     if (! (= result.Value CONST_empty)) V = result.Value else {}
   }

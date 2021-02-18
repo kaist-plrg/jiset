@@ -1,18 +1,15 @@
 {
   let O = this
   app __x0__ = (Type O)
-  if (! (= __x0__ Object)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   ??? "If id:{O} does not have all of the internal slots of a Map Iterator Instance ( 23 . 1 . 5 . 3 ) , throw a value:{TypeError} exception ."
   let m = O.IteratedMap
   let index = O.MapNextIndex
   let itemKind = O.MapIterationKind
   if (= m undefined) {
-    app __x2__ = (CreateIterResultObject undefined true)
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    app __x1__ = (CreateIterResultObject undefined true)
+    app __x2__ = (WrapCompletion __x1__)
+    return __x2__
   } else {}
   assert (! (= m.MapData absent))
   let entries = m.MapData
@@ -24,17 +21,17 @@
     if (! (= e.Key CONST_empty)) {
       if (= itemKind CONST_key) let result = e.Key else if (= itemKind CONST_value) let result = e.Value else {
         assert (= itemKind CONST_keyPLUSvalue)
-        app __x4__ = (CreateArrayFromList (new [e.Key, e.Value]))
-        if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-        let result = __x4__
+        app __x3__ = (CreateArrayFromList (new [e.Key, e.Value]))
+        if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+        let result = __x3__
       }
-      app __x5__ = (CreateIterResultObject result false)
-      app __x6__ = (WrapCompletion __x5__)
-      return __x6__
+      app __x4__ = (CreateIterResultObject result false)
+      app __x5__ = (WrapCompletion __x4__)
+      return __x5__
     } else {}
   }
   O.IteratedMap = undefined
-  app __x7__ = (CreateIterResultObject undefined true)
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  app __x6__ = (CreateIterResultObject undefined true)
+  app __x7__ = (WrapCompletion __x6__)
+  return __x7__
 }

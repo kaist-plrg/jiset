@@ -1,37 +1,28 @@
 {
   let S = this
   app __x0__ = (Type S)
-  if (! (= __x0__ Object)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
-  if (= S.WeakSetData absent) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
-  app __x3__ = (Type value)
-  if (! (= __x3__ Object)) {
-    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x4__
-  } else {}
+  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
+  if (= S.WeakSetData absent) throw INTRINSIC_TypeError else {}
+  app __x1__ = (Type value)
+  if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
   let entries = S.WeakSetData
-  let __x5__ = entries
-  let __x6__ = 0i
-  while (< __x6__ __x5__.length) {
-    let e = __x5__[__x6__]
-    let __x7__ = true
-    __x7__ = (! (= e CONST_empty))
-    if __x7__ {
-      app __x8__ = (SameValue e value)
-      __x7__ = (= __x8__ true)
+  let __x2__ = entries
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let e = __x2__[__x3__]
+    let __x4__ = true
+    __x4__ = (! (= e CONST_empty))
+    if __x4__ {
+      app __x5__ = (SameValue e value)
+      __x4__ = (= __x5__ true)
     } else {}
-    if __x7__ {
-      app __x9__ = (WrapCompletion S)
-      return __x9__
+    if __x4__ {
+      app __x6__ = (WrapCompletion S)
+      return __x6__
     } else {}
-    __x6__ = (+ __x6__ 1i)
+    __x3__ = (+ __x3__ 1i)
   }
   append value -> entries
-  app __x10__ = (WrapCompletion S)
-  return __x10__
+  app __x7__ = (WrapCompletion S)
+  return __x7__
 }

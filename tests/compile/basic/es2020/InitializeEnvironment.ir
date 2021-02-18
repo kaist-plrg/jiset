@@ -7,58 +7,52 @@
     app __x2__ = (module.ResolveExport module e.ExportName)
     if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
     let resolution = __x2__
-    if (|| (= resolution null) (= resolution "ambiguous")) {
-      app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x3__
-    } else {}
+    if (|| (= resolution null) (= resolution "ambiguous")) throw INTRINSIC_SyntaxError else {}
     assert (= (typeof resolution) "ResolvedBindingRecord")
     __x1__ = (+ __x1__ 1i)
   }
   let realm = module.Realm
   assert (! (= realm undefined))
-  app __x4__ = (NewModuleEnvironment realm.GlobalEnv)
-  let env = __x4__
+  app __x3__ = (NewModuleEnvironment realm.GlobalEnv)
+  let env = __x3__
   module.Environment = env
   let envRec = env.EnvironmentRecord
-  let __x5__ = module.ImportEntries
-  let __x6__ = 0i
-  while (< __x6__ __x5__.length) {
-    let in = __x5__[__x6__]
-    app __x7__ = (HostResolveImportedModule module in.ModuleRequest)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let importedModule = __x7__
+  let __x4__ = module.ImportEntries
+  let __x5__ = 0i
+  while (< __x5__ __x4__.length) {
+    let in = __x4__[__x5__]
+    app __x6__ = (HostResolveImportedModule module in.ModuleRequest)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    let importedModule = __x6__
     if (= in.ImportName "*") {
-      app __x8__ = (GetModuleNamespace importedModule)
+      app __x7__ = (GetModuleNamespace importedModule)
+      if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+      let namespace = __x7__
+      app __x8__ = (envRec.CreateImmutableBinding envRec in.LocalName true)
       if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-      let namespace = __x8__
-      app __x9__ = (envRec.CreateImmutableBinding envRec in.LocalName true)
-      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+      __x8__
+      app __x9__ = (envRec.InitializeBinding envRec in.LocalName namespace)
       __x9__
-      app __x10__ = (envRec.InitializeBinding envRec in.LocalName namespace)
-      __x10__
     } else {
-      app __x11__ = (importedModule.ResolveExport importedModule in.ImportName)
-      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      let resolution = __x11__
-      if (|| (= resolution null) (= resolution "ambiguous")) {
-        app __x12__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-        return __x12__
-      } else {}
+      app __x10__ = (importedModule.ResolveExport importedModule in.ImportName)
+      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+      let resolution = __x10__
+      if (|| (= resolution null) (= resolution "ambiguous")) throw INTRINSIC_SyntaxError else {}
       if (= resolution.BindingName "*namespace*") {
-        app __x13__ = (GetModuleNamespace resolution.Module)
-        if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-        let namespace = __x13__
-        app __x14__ = (envRec.CreateImmutableBinding envRec in.LocalName true)
-        if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-        __x14__
-        app __x15__ = (envRec.InitializeBinding envRec in.LocalName namespace)
-        __x15__
+        app __x11__ = (GetModuleNamespace resolution.Module)
+        if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+        let namespace = __x11__
+        app __x12__ = (envRec.CreateImmutableBinding envRec in.LocalName true)
+        if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+        __x12__
+        app __x13__ = (envRec.InitializeBinding envRec in.LocalName namespace)
+        __x13__
       } else {
-        app __x16__ = (envRec.CreateImportBinding envRec in.LocalName resolution.Module resolution.BindingName)
-        __x16__
+        app __x14__ = (envRec.CreateImportBinding envRec in.LocalName resolution.Module resolution.BindingName)
+        __x14__
       }
     }
-    __x6__ = (+ __x6__ 1i)
+    __x5__ = (+ __x5__ 1i)
   }
   let moduleContext = (new ExecutionContext("SubMap" -> (new SubMap())))
   moduleContext.Function = null
@@ -71,64 +65,64 @@
   append moduleContext -> GLOBAL_executionStack
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   let code = module.ECMAScriptCode
-  access __x17__ = (code "VarScopedDeclarations")
-  let varDeclarations = __x17__
+  access __x15__ = (code "VarScopedDeclarations")
+  let varDeclarations = __x15__
   let declaredVarNames = (new [])
-  let __x18__ = varDeclarations
-  let __x19__ = 0i
-  while (< __x19__ __x18__.length) {
-    let d = __x18__[__x19__]
-    access __x20__ = (d "BoundNames")
-    let __x21__ = __x20__
-    let __x22__ = 0i
-    while (< __x22__ __x21__.length) {
-      let dn = __x21__[__x22__]
+  let __x16__ = varDeclarations
+  let __x17__ = 0i
+  while (< __x17__ __x16__.length) {
+    let d = __x16__[__x17__]
+    access __x18__ = (d "BoundNames")
+    let __x19__ = __x18__
+    let __x20__ = 0i
+    while (< __x20__ __x19__.length) {
+      let dn = __x19__[__x20__]
       if (! (contains declaredVarNames dn)) {
-        app __x23__ = (envRec.CreateMutableBinding envRec dn false)
-        if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
-        __x23__
-        app __x24__ = (envRec.InitializeBinding envRec dn undefined)
-        __x24__
+        app __x21__ = (envRec.CreateMutableBinding envRec dn false)
+        if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
+        __x21__
+        app __x22__ = (envRec.InitializeBinding envRec dn undefined)
+        __x22__
         append dn -> declaredVarNames
       } else {}
-      __x22__ = (+ __x22__ 1i)
+      __x20__ = (+ __x20__ 1i)
     }
-    __x19__ = (+ __x19__ 1i)
+    __x17__ = (+ __x17__ 1i)
   }
-  access __x25__ = (code "LexicallyScopedDeclarations")
-  let lexDeclarations = __x25__
-  let __x26__ = lexDeclarations
-  let __x27__ = 0i
-  while (< __x27__ __x26__.length) {
-    let d = __x26__[__x27__]
-    access __x28__ = (d "BoundNames")
-    let __x29__ = __x28__
-    let __x30__ = 0i
-    while (< __x30__ __x29__.length) {
-      let dn = __x29__[__x30__]
-      access __x31__ = (d "IsConstantDeclaration")
-      if (= __x31__ true) {
-        app __x32__ = (envRec.CreateImmutableBinding envRec dn true)
-        if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else {}
-        __x32__
+  access __x23__ = (code "LexicallyScopedDeclarations")
+  let lexDeclarations = __x23__
+  let __x24__ = lexDeclarations
+  let __x25__ = 0i
+  while (< __x25__ __x24__.length) {
+    let d = __x24__[__x25__]
+    access __x26__ = (d "BoundNames")
+    let __x27__ = __x26__
+    let __x28__ = 0i
+    while (< __x28__ __x27__.length) {
+      let dn = __x27__[__x28__]
+      access __x29__ = (d "IsConstantDeclaration")
+      if (= __x29__ true) {
+        app __x30__ = (envRec.CreateImmutableBinding envRec dn true)
+        if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
+        __x30__
       } else {
-        app __x33__ = (envRec.CreateMutableBinding envRec dn false)
-        if (is-completion __x33__) if (= __x33__.Type CONST_normal) __x33__ = __x33__.Value else return __x33__ else {}
-        __x33__
+        app __x31__ = (envRec.CreateMutableBinding envRec dn false)
+        if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
+        __x31__
       }
       if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) {
-        access __x34__ = (d "InstantiateFunctionObject")
-        app __x35__ = (__x34__ env)
-        let fo = __x35__
-        app __x36__ = (envRec.InitializeBinding envRec dn fo)
-        __x36__
+        access __x32__ = (d "InstantiateFunctionObject")
+        app __x33__ = (__x32__ env)
+        let fo = __x33__
+        app __x34__ = (envRec.InitializeBinding envRec dn fo)
+        __x34__
       } else {}
-      __x30__ = (+ __x30__ 1i)
+      __x28__ = (+ __x28__ 1i)
     }
-    __x27__ = (+ __x27__ 1i)
+    __x25__ = (+ __x25__ 1i)
   }
   ??? "Remove id:{moduleContext} from the execution context stack ."
-  app __x37__ = (NormalCompletion CONST_empty)
-  app __x38__ = (WrapCompletion __x37__)
-  return __x38__
+  app __x35__ = (NormalCompletion CONST_empty)
+  app __x36__ = (WrapCompletion __x35__)
+  return __x36__
 }

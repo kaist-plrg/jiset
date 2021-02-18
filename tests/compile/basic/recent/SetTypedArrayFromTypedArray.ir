@@ -1,17 +1,11 @@
 {
   let targetBuffer = target.ViewedArrayBuffer
   app __x0__ = (IsDetachedBuffer targetBuffer)
-  if (= __x0__ true) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  if (= __x0__ true) throw INTRINSIC_TypeError else {}
   let targetLength = target.ArrayLength
   let srcBuffer = source.ViewedArrayBuffer
-  app __x2__ = (IsDetachedBuffer srcBuffer)
-  if (= __x2__ true) {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x3__
-  } else {}
+  app __x1__ = (IsDetachedBuffer srcBuffer)
+  if (= __x1__ true) throw INTRINSIC_TypeError else {}
   let targetName = target.TypedArrayName
   ??? "Let id:{targetType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{targetName} ."
   ??? "Let id:{targetElementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{targetName} ."
@@ -21,45 +15,36 @@
   ??? "Let id:{srcElementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{srcName} ."
   let srcLength = source.ArrayLength
   let srcByteOffset = source.ByteOffset
-  if (= targetOffset Infinity) {
-    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x4__
-  } else {}
-  if (< targetLength (+ srcLength targetOffset)) {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x5__
-  } else {}
-  if (! (== target.ContentType source.ContentType)) {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x6__
-  } else {}
-  app __x7__ = (IsSharedArrayBuffer srcBuffer)
-  app __x8__ = (IsSharedArrayBuffer targetBuffer)
-  if (&& (= __x7__ true) (= __x8__ true)) if (= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData) let same = true else let same = false else {
-    app __x9__ = (SameValue srcBuffer targetBuffer)
-    let same = __x9__
+  if (= targetOffset Infinity) throw INTRINSIC_RangeError else {}
+  if (< targetLength (+ srcLength targetOffset)) throw INTRINSIC_RangeError else {}
+  if (! (== target.ContentType source.ContentType)) throw INTRINSIC_TypeError else {}
+  app __x2__ = (IsSharedArrayBuffer srcBuffer)
+  app __x3__ = (IsSharedArrayBuffer targetBuffer)
+  if (&& (= __x2__ true) (= __x3__ true)) if (= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData) let same = true else let same = false else {
+    app __x4__ = (SameValue srcBuffer targetBuffer)
+    let same = __x4__
   }
   if (= same true) {
     let srcByteLength = source.ByteLength
-    app __x10__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSIC_ArrayBuffer)
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    srcBuffer = __x10__
+    app __x5__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSIC_ArrayBuffer)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    srcBuffer = __x5__
     let srcByteIndex = 0i
   } else let srcByteIndex = srcByteOffset
   let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)
   let limit = (* (+ targetByteIndex targetElementSize) srcLength)
   if (= srcType targetType) while (< targetByteIndex limit) {
-    app __x11__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)
-    let value = __x11__
-    app __x12__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)
-    __x12__
+    app __x6__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)
+    let value = __x6__
+    app __x7__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)
+    __x7__
     srcByteIndex = (+ srcByteIndex 1i)
     targetByteIndex = (+ targetByteIndex 1i)
   } else while (< targetByteIndex limit) {
-    app __x13__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true CONST_Unordered)
-    let value = __x13__
-    app __x14__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
-    __x14__
+    app __x8__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true CONST_Unordered)
+    let value = __x8__
+    app __x9__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
+    __x9__
     srcByteIndex = (+ srcByteIndex srcElementSize)
     targetByteIndex = (+ targetByteIndex targetElementSize)
   }

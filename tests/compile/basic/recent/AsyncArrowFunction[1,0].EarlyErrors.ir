@@ -1,62 +1,47 @@
 {
   access __x0__ = (CoverCallExpressionAndAsyncArrowHead "Contains")
   app __x1__ = (__x0__ "YieldExpression")
-  if (= __x1__ true) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (= __x1__ true) throw INTRINSIC_SyntaxError else {
+    app __x2__ = (NormalCompletion undefined)
     return __x2__
-  } else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
   }
-  access __x4__ = (CoverCallExpressionAndAsyncArrowHead "Contains")
-  app __x5__ = (__x4__ "AwaitExpression")
-  if (= __x5__ true) {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x6__
-  } else {
+  access __x3__ = (CoverCallExpressionAndAsyncArrowHead "Contains")
+  app __x4__ = (__x3__ "AwaitExpression")
+  if (= __x4__ true) throw INTRINSIC_SyntaxError else {
+    app __x5__ = (NormalCompletion undefined)
+    return __x5__
+  }
+  let __x6__ = false
+  if (= absent (parse-syntax CoverCallExpressionAndAsyncArrowHead "AsyncArrowHead" (new []))) __x6__ = true else {}
+  if __x6__ throw INTRINSIC_SyntaxError else {
     app __x7__ = (NormalCompletion undefined)
     return __x7__
   }
-  let __x8__ = false
-  if (= absent (parse-syntax CoverCallExpressionAndAsyncArrowHead "AsyncArrowHead" (new []))) __x8__ = true else {}
-  if __x8__ {
-    app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x9__
-  } else {
-    app __x10__ = (NormalCompletion undefined)
-    return __x10__
+  access __x8__ = (CoverCallExpressionAndAsyncArrowHead "BoundNames")
+  access __x9__ = (AsyncConciseBody "LexicallyDeclaredNames")
+  let __x10__ = __x8__
+  let __x11__ = __x9__
+  let __x12__ = 0i
+  let __x13__ = 0i
+  let __x14__ = false
+  while (< __x12__ __x10__.length) {
+    __x13__ = 0i
+    while (< __x13__ __x11__.length) if (= __x10__[__x12__] __x11__[__x13__]) __x14__ = true else {}
   }
-  access __x11__ = (CoverCallExpressionAndAsyncArrowHead "BoundNames")
-  access __x12__ = (AsyncConciseBody "LexicallyDeclaredNames")
-  let __x13__ = __x11__
-  let __x14__ = __x12__
-  let __x15__ = 0i
-  let __x16__ = 0i
-  let __x17__ = false
-  while (< __x15__ __x13__.length) {
-    __x16__ = 0i
-    while (< __x16__ __x14__.length) if (= __x13__[__x15__] __x14__[__x16__]) __x17__ = true else {}
+  if __x14__ throw INTRINSIC_SyntaxError else {
+    app __x15__ = (NormalCompletion undefined)
+    return __x15__
   }
-  if __x17__ {
-    app __x18__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x18__
-  } else {
+  let __x16__ = true
+  access __x17__ = (AsyncConciseBody "ContainsUseStrict")
+  __x16__ = (= __x17__ true)
+  if __x16__ {
+    access __x18__ = (CoverCallExpressionAndAsyncArrowHead "IsSimpleParameterList")
+    __x16__ = (= __x18__ false)
+  } else {}
+  if __x16__ throw INTRINSIC_SyntaxError else {
     app __x19__ = (NormalCompletion undefined)
     return __x19__
-  }
-  let __x20__ = true
-  access __x21__ = (AsyncConciseBody "ContainsUseStrict")
-  __x20__ = (= __x21__ true)
-  if __x20__ {
-    access __x22__ = (CoverCallExpressionAndAsyncArrowHead "IsSimpleParameterList")
-    __x20__ = (= __x22__ false)
-  } else {}
-  if __x20__ {
-    app __x23__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x23__
-  } else {
-    app __x24__ = (NormalCompletion undefined)
-    return __x24__
   }
   ??? "All Early Error rules for nt:{AsyncArrowHead} and its derived productions apply to CoveredAsyncArrowHead of nt:{CoverCallExpressionAndAsyncArrowHead} ."
 }

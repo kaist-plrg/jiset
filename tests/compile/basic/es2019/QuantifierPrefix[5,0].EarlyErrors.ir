@@ -1,11 +1,8 @@
 {
   access __x0__ = (DecimalDigits0 "MV")
   access __x1__ = (DecimalDigits1 "MV")
-  if (< __x1__ __x0__) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (< __x1__ __x0__) throw INTRINSIC_SyntaxError else {
+    app __x2__ = (NormalCompletion undefined)
     return __x2__
-  } else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
   }
 }

@@ -1,20 +1,17 @@
 {
   app __x0__ = (Type sym)
-  if (! (= __x0__ Symbol)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
-  let __x2__ = GLOBAL_symbolRegistry
-  let __x3__ = 0i
-  while (< __x3__ __x2__.length) {
-    let e = __x2__[__x3__]
-    app __x4__ = (SameValue e.Symbol sym)
-    if (= __x4__ true) {
-      app __x5__ = (WrapCompletion e.Key)
-      return __x5__
+  if (! (= __x0__ Symbol)) throw INTRINSIC_TypeError else {}
+  let __x1__ = GLOBAL_symbolRegistry
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let e = __x1__[__x2__]
+    app __x3__ = (SameValue e.Symbol sym)
+    if (= __x3__ true) {
+      app __x4__ = (WrapCompletion e.Key)
+      return __x4__
     } else {}
-    __x3__ = (+ __x3__ 1i)
+    __x2__ = (+ __x2__ 1i)
   }
-  app __x6__ = (WrapCompletion undefined)
-  return __x6__
+  app __x5__ = (WrapCompletion undefined)
+  return __x5__
 }

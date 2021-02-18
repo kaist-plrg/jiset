@@ -4,13 +4,10 @@
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let accessIndex = __x0__
   assert (! (< accessIndex 0i))
-  if (! (< accessIndex length)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  if (! (< accessIndex length)) throw INTRINSIC_RangeError else {}
   let arrayTypeName = typedArray.TypedArrayName
   ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
   let offset = typedArray.ByteOffset
-  app __x2__ = (WrapCompletion (+ (* accessIndex elementSize) offset))
-  return __x2__
+  app __x1__ = (WrapCompletion (+ (* accessIndex elementSize) offset))
+  return __x1__
 }

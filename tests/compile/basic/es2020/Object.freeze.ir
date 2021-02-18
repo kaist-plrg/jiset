@@ -7,10 +7,7 @@
   app __x2__ = (SetIntegrityLevel O CONST_frozen)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let status = __x2__
-  if (= status false) {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x3__
-  } else {}
-  app __x4__ = (WrapCompletion O)
-  return __x4__
+  if (= status false) throw INTRINSIC_TypeError else {}
+  app __x3__ = (WrapCompletion O)
+  return __x3__
 }

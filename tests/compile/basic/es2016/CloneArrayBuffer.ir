@@ -4,29 +4,23 @@
     if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
     let cloneConstructor = __x0__
     app __x1__ = (IsDetachedBuffer srcBuffer)
-    if (= __x1__ true) {
-      app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x2__
-    } else {}
+    if (= __x1__ true) throw INTRINSIC_TypeError else {}
   } else {
-    app __x3__ = (IsConstructor cloneConstructor)
-    assert (= __x3__ true)
+    app __x2__ = (IsConstructor cloneConstructor)
+    assert (= __x2__ true)
   }
   let srcLength = srcBuffer.ArrayBufferByteLength
   assert (! (< srcLength srcByteOffset))
   let cloneLength = (- srcLength srcByteOffset)
   let srcBlock = srcBuffer.ArrayBufferData
-  app __x4__ = (AllocateArrayBuffer cloneConstructor cloneLength)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let targetBuffer = __x4__
-  app __x5__ = (IsDetachedBuffer srcBuffer)
-  if (= __x5__ true) {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x6__
-  } else {}
+  app __x3__ = (AllocateArrayBuffer cloneConstructor cloneLength)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let targetBuffer = __x3__
+  app __x4__ = (IsDetachedBuffer srcBuffer)
+  if (= __x4__ true) throw INTRINSIC_TypeError else {}
   let targetBlock = targetBuffer.ArrayBufferData
-  app __x7__ = (CopyDataBlockBytes targetBlock 0i srcBlock srcByteOffset cloneLength)
-  __x7__
-  app __x8__ = (WrapCompletion targetBuffer)
-  return __x8__
+  app __x5__ = (CopyDataBlockBytes targetBlock 0i srcBlock srcByteOffset cloneLength)
+  __x5__
+  app __x6__ = (WrapCompletion targetBuffer)
+  return __x6__
 }

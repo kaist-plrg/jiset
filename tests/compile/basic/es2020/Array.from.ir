@@ -2,116 +2,113 @@
   let C = this
   if (= mapfn undefined) let mapping = false else {
     app __x0__ = (IsCallable mapfn)
-    if (= __x0__ false) {
-      app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x1__
-    } else {}
+    if (= __x0__ false) throw INTRINSIC_TypeError else {}
     let mapping = true
   }
-  app __x2__ = (GetMethod items SYMBOL_iterator)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let usingIterator = __x2__
+  app __x1__ = (GetMethod items SYMBOL_iterator)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let usingIterator = __x1__
   if (! (= usingIterator undefined)) {
-    app __x3__ = (IsConstructor C)
-    if (= __x3__ true) {
-      app __x4__ = (Construct C)
+    app __x2__ = (IsConstructor C)
+    if (= __x2__ true) {
+      app __x3__ = (Construct C)
+      if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+      let A = __x3__
+    } else {
+      app __x4__ = (ArrayCreate 0i)
       if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
       let A = __x4__
-    } else {
-      app __x5__ = (ArrayCreate 0i)
-      if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-      let A = __x5__
     }
-    app __x6__ = (GetIterator items CONST_sync usingIterator)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    let iteratorRecord = __x6__
+    app __x5__ = (GetIterator items CONST_sync usingIterator)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    let iteratorRecord = __x5__
     let k = 0i
     while true {
       if (! (< k (- (** 2.0 53i) 1i))) {
-        app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-        let error = __x7__
-        app __x8__ = (IteratorClose iteratorRecord error)
-        if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-        app __x9__ = (WrapCompletion __x8__)
-        return __x9__
+        app __x6__ = (ThrowCompletion ??? "TypeError")
+        let error = __x6__
+        app __x7__ = (IteratorClose iteratorRecord error)
+        if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+        app __x8__ = (WrapCompletion __x7__)
+        return __x8__
       } else {}
-      app __x10__ = (ToString k)
+      app __x9__ = (ToString k)
+      if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+      let Pk = __x9__
+      app __x10__ = (IteratorStep iteratorRecord)
       if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-      let Pk = __x10__
-      app __x11__ = (IteratorStep iteratorRecord)
-      if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      let next = __x11__
+      let next = __x10__
       if (= next false) {
-        app __x12__ = (Set A "length" k true)
-        if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-        __x12__
-        app __x13__ = (WrapCompletion A)
-        return __x13__
+        app __x11__ = (Set A "length" k true)
+        if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+        __x11__
+        app __x12__ = (WrapCompletion A)
+        return __x12__
       } else {}
-      app __x14__ = (IteratorValue next)
-      if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-      let nextValue = __x14__
+      app __x13__ = (IteratorValue next)
+      if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+      let nextValue = __x13__
       if (= mapping true) {
-        app __x15__ = (Call mapfn thisArg (new [nextValue, k]))
-        let mappedValue = __x15__
-        app __x16__ = (IsAbruptCompletion mappedValue)
-        if __x16__ {
-          app __x17__ = (IteratorClose iteratorRecord mappedValue)
-          if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
-          app __x18__ = (WrapCompletion __x17__)
-          return __x18__
+        app __x14__ = (Call mapfn thisArg (new [nextValue, k]))
+        let mappedValue = __x14__
+        app __x15__ = (IsAbruptCompletion mappedValue)
+        if __x15__ {
+          app __x16__ = (IteratorClose iteratorRecord mappedValue)
+          if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
+          app __x17__ = (WrapCompletion __x16__)
+          return __x17__
         } else {}
         mappedValue = mappedValue.Value
       } else let mappedValue = nextValue
-      app __x19__ = (CreateDataPropertyOrThrow A Pk mappedValue)
-      let defineStatus = __x19__
-      app __x20__ = (IsAbruptCompletion defineStatus)
-      if __x20__ {
-        app __x21__ = (IteratorClose iteratorRecord defineStatus)
-        if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
-        app __x22__ = (WrapCompletion __x21__)
-        return __x22__
+      app __x18__ = (CreateDataPropertyOrThrow A Pk mappedValue)
+      let defineStatus = __x18__
+      app __x19__ = (IsAbruptCompletion defineStatus)
+      if __x19__ {
+        app __x20__ = (IteratorClose iteratorRecord defineStatus)
+        if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else {}
+        app __x21__ = (WrapCompletion __x20__)
+        return __x21__
       } else {}
       k = (+ k 1i)
     }
   } else {}
-  app __x23__ = (ToObject items)
+  app __x22__ = (ToObject items)
+  if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else {}
+  let arrayLike = __x22__
+  app __x23__ = (LengthOfArrayLike arrayLike)
   if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
-  let arrayLike = __x23__
-  app __x24__ = (LengthOfArrayLike arrayLike)
-  if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-  let len = __x24__
-  app __x25__ = (IsConstructor C)
-  if (= __x25__ true) {
-    app __x26__ = (Construct C (new [len]))
+  let len = __x23__
+  app __x24__ = (IsConstructor C)
+  if (= __x24__ true) {
+    app __x25__ = (Construct C (new [len]))
+    if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
+    let A = __x25__
+  } else {
+    app __x26__ = (ArrayCreate len)
     if (is-completion __x26__) if (= __x26__.Type CONST_normal) __x26__ = __x26__.Value else return __x26__ else {}
     let A = __x26__
-  } else {
-    app __x27__ = (ArrayCreate len)
-    if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
-    let A = __x27__
   }
   let k = 0i
   while (< k len) {
-    app __x28__ = (ToString k)
+    app __x27__ = (ToString k)
+    if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
+    let Pk = __x27__
+    app __x28__ = (Get arrayLike Pk)
     if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else {}
-    let Pk = __x28__
-    app __x29__ = (Get arrayLike Pk)
-    if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else {}
-    let kValue = __x29__
+    let kValue = __x28__
     if (= mapping true) {
-      app __x30__ = (Call mapfn thisArg (new [kValue, k]))
-      if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
-      let mappedValue = __x30__
+      app __x29__ = (Call mapfn thisArg (new [kValue, k]))
+      if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else {}
+      let mappedValue = __x29__
     } else let mappedValue = kValue
-    app __x31__ = (CreateDataPropertyOrThrow A Pk mappedValue)
-    if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
-    __x31__
+    app __x30__ = (CreateDataPropertyOrThrow A Pk mappedValue)
+    if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
+    __x30__
     k = (+ k 1i)
   }
-  app __x32__ = (Set A "length" len true)
-  if (is-completion __x32__) if (= __x32__.Type CONST_normal) __x32__ = __x32__.Value else return __x32__ else {}
-  __x32__
-  app __x33__ = (WrapCompletion A)
-  return __x33__
+  app __x31__ = (Set A "length" len true)
+  if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
+  __x31__
+  app __x32__ = (WrapCompletion A)
+  return __x32__
 }

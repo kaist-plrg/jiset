@@ -15,18 +15,15 @@
       app __x1__ = (CodePointAt string k)
       if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
       let cp = __x1__
-      if (= cp.IsUnpairedSurrogate true) {
-        app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_URIError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-        return __x2__
-      } else {}
+      if (= cp.IsUnpairedSurrogate true) throw INTRINSIC_URIError else {}
       k = (+ k cp.CodeUnitCount)
       ??? "Let id:{Octets} be the List of octets resulting by applying the UTF - 8 transformation to id:{cp} . [ [ CodePoint ] ] ."
-      let __x3__ = Octets
-      let __x4__ = 0i
-      while (< __x4__ __x3__.length) {
-        let octet = __x3__[__x4__]
+      let __x2__ = Octets
+      let __x3__ = 0i
+      while (< __x3__ __x2__.length) {
+        let octet = __x2__[__x3__]
         R = (+ (+ ??? "StringOp" "%") ??? "StringOp")
-        __x4__ = (+ __x4__ 1i)
+        __x3__ = (+ __x3__ 1i)
       }
     }
   }

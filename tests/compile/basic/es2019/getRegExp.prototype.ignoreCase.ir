@@ -1,25 +1,19 @@
 {
   let R = this
   app __x0__ = (Type R)
-  if (! (= __x0__ Object)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   if (= R.OriginalFlags absent) {
-    app __x2__ = (SameValue R INTRINSIC_RegExpPrototype)
-    if (= __x2__ true) {
-      app __x3__ = (WrapCompletion undefined)
-      return __x3__
-    } else {
-      app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x4__
-    }
+    app __x1__ = (SameValue R INTRINSIC_RegExpPrototype)
+    if (= __x1__ true) {
+      app __x2__ = (WrapCompletion undefined)
+      return __x2__
+    } else throw INTRINSIC_TypeError
   } else {}
   let flags = R.OriginalFlags
   if (contains flags "i") {
-    app __x5__ = (WrapCompletion true)
-    return __x5__
+    app __x3__ = (WrapCompletion true)
+    return __x3__
   } else {}
-  app __x6__ = (WrapCompletion false)
-  return __x6__
+  app __x4__ = (WrapCompletion false)
+  return __x4__
 }

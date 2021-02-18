@@ -1,12 +1,9 @@
 {
   let __x0__ = false
   if (= absent (parse-syntax CoverParenthesizedExpressionAndArrowParameterList "ParenthesizedExpression" (new []))) __x0__ = true else {}
-  if __x0__ {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if __x0__ throw INTRINSIC_SyntaxError else {
+    app __x1__ = (NormalCompletion undefined)
     return __x1__
-  } else {
-    app __x2__ = (NormalCompletion undefined)
-    return __x2__
   }
   ??? "All Early Error rules for nt:{ParenthesizedExpression} and its derived productions also apply to CoveredParenthesizedExpression of nt:{CoverParenthesizedExpressionAndArrowParameterList} ."
 }

@@ -12,24 +12,21 @@
   app __x4__ = (IsRegExp searchString)
   if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
   let isRegExp = __x4__
-  if (= isRegExp true) {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x5__
-  } else {}
-  app __x6__ = (ToString searchString)
+  if (= isRegExp true) throw INTRINSIC_TypeError else {}
+  app __x5__ = (ToString searchString)
+  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+  let searchStr = __x5__
+  app __x6__ = (ToInteger position)
   if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let searchStr = __x6__
-  app __x7__ = (ToInteger position)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  let pos = __x7__
+  let pos = __x6__
   let len = S.length
-  app __x8__ = (max pos 0i)
-  app __x9__ = (min __x8__ len)
-  let start = __x9__
+  app __x7__ = (max pos 0i)
+  app __x8__ = (min __x7__ len)
+  let start = __x8__
   let searchLength = searchStr.length
   if (< len (+ searchLength start)) {
-    app __x10__ = (WrapCompletion false)
-    return __x10__
+    app __x9__ = (WrapCompletion false)
+    return __x9__
   } else {}
   ??? "If the sequence of code units of id:{S} starting at id:{start} of length id:{searchLength} is the same as the full code unit sequence of id:{searchStr} , return value:{true} ."
   ??? "Otherwise , return value:{false} ."

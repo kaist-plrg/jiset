@@ -17,13 +17,10 @@
   let exponent = __x5__
   app __x6__ = (Type base)
   app __x7__ = (Type exponent)
-  if (! (= __x6__ __x7__)) {
-    app __x8__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x8__
-  } else {}
-  app __x9__ = (Type base)
-  app __x10__ = (PRIMITIVE[__x9__].exponentiate base exponent)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  app __x11__ = (WrapCompletion __x10__)
-  return __x11__
+  if (! (= __x6__ __x7__)) throw INTRINSIC_TypeError else {}
+  app __x8__ = (Type base)
+  app __x9__ = (PRIMITIVE[__x8__].exponentiate base exponent)
+  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+  app __x10__ = (WrapCompletion __x9__)
+  return __x10__
 }

@@ -1,51 +1,39 @@
 {
   access __x0__ = (GeneratorMethod "HasDirectSuper")
-  if (= __x0__ true) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (= __x0__ true) throw INTRINSIC_SyntaxError else {
+    app __x1__ = (NormalCompletion undefined)
     return __x1__
-  } else {
-    app __x2__ = (NormalCompletion undefined)
-    return __x2__
   }
-  access __x3__ = (StrictFormalParameters "Contains")
-  app __x4__ = (__x3__ "YieldExpression")
-  if (= __x4__ true) {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x5__
-  } else {
-    app __x6__ = (NormalCompletion undefined)
-    return __x6__
+  access __x2__ = (StrictFormalParameters "Contains")
+  app __x3__ = (__x2__ "YieldExpression")
+  if (= __x3__ true) throw INTRINSIC_SyntaxError else {
+    app __x4__ = (NormalCompletion undefined)
+    return __x4__
   }
-  let __x7__ = true
-  access __x8__ = (GeneratorBody "ContainsUseStrict")
-  __x7__ = (= __x8__ true)
-  if __x7__ {
-    access __x9__ = (StrictFormalParameters "IsSimpleParameterList")
-    __x7__ = (= __x9__ false)
+  let __x5__ = true
+  access __x6__ = (GeneratorBody "ContainsUseStrict")
+  __x5__ = (= __x6__ true)
+  if __x5__ {
+    access __x7__ = (StrictFormalParameters "IsSimpleParameterList")
+    __x5__ = (= __x7__ false)
   } else {}
-  if __x7__ {
-    app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x10__
-  } else {
-    app __x11__ = (NormalCompletion undefined)
-    return __x11__
+  if __x5__ throw INTRINSIC_SyntaxError else {
+    app __x8__ = (NormalCompletion undefined)
+    return __x8__
   }
-  access __x12__ = (StrictFormalParameters "BoundNames")
-  access __x13__ = (GeneratorBody "LexicallyDeclaredNames")
-  let __x14__ = __x12__
-  let __x15__ = __x13__
-  let __x16__ = 0i
-  let __x17__ = 0i
-  let __x18__ = false
-  while (< __x16__ __x14__.length) {
-    __x17__ = 0i
-    while (< __x17__ __x15__.length) if (= __x14__[__x16__] __x15__[__x17__]) __x18__ = true else {}
+  access __x9__ = (StrictFormalParameters "BoundNames")
+  access __x10__ = (GeneratorBody "LexicallyDeclaredNames")
+  let __x11__ = __x9__
+  let __x12__ = __x10__
+  let __x13__ = 0i
+  let __x14__ = 0i
+  let __x15__ = false
+  while (< __x13__ __x11__.length) {
+    __x14__ = 0i
+    while (< __x14__ __x12__.length) if (= __x11__[__x13__] __x12__[__x14__]) __x15__ = true else {}
   }
-  if __x18__ {
-    app __x19__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x19__
-  } else {
-    app __x20__ = (NormalCompletion undefined)
-    return __x20__
+  if __x15__ throw INTRINSIC_SyntaxError else {
+    app __x16__ = (NormalCompletion undefined)
+    return __x16__
   }
 }

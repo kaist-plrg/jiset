@@ -44,20 +44,17 @@
         if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
         targetIndex = __x11__
       } else {
-        if (! (< targetIndex (- (** 2.0 53i) 1i))) {
-          app __x12__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-          return __x12__
-        } else {}
-        app __x13__ = (ToString targetIndex)
+        if (! (< targetIndex (- (** 2.0 53i) 1i))) throw INTRINSIC_TypeError else {}
+        app __x12__ = (ToString targetIndex)
+        if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+        app __x13__ = (CreateDataPropertyOrThrow target __x12__ element)
         if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-        app __x14__ = (CreateDataPropertyOrThrow target __x13__ element)
-        if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-        __x14__
+        __x13__
         targetIndex = (+ targetIndex 1i)
       }
     } else {}
     sourceIndex = (+ sourceIndex 1i)
   }
-  app __x15__ = (WrapCompletion targetIndex)
-  return __x15__
+  app __x14__ = (WrapCompletion targetIndex)
+  return __x14__
 }

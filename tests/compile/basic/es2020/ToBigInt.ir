@@ -1,50 +1,35 @@
 {
   app __x0__ = (Type argument)
-  if (= __x0__ Undefined) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  if (= __x0__ Undefined) throw INTRINSIC_TypeError else {}
+  app __x1__ = (Type argument)
+  if (= __x1__ Null) throw INTRINSIC_TypeError else {}
   app __x2__ = (Type argument)
-  if (= __x2__ Null) {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (= __x2__ Boolean) if (= prim true) {
+    app __x3__ = (WrapCompletion 1n)
     return __x3__
-  } else {}
-  app __x4__ = (Type argument)
-  if (= __x4__ Boolean) if (= prim true) {
-    app __x5__ = (WrapCompletion 1n)
-    return __x5__
   } else if (= prim false) {
-    app __x6__ = (WrapCompletion 0n)
-    return __x6__
+    app __x4__ = (WrapCompletion 0n)
+    return __x4__
   } else {
-    app __x7__ = (NormalCompletion undefined)
+    app __x5__ = (NormalCompletion undefined)
+    return __x5__
+  } else {}
+  app __x6__ = (Type argument)
+  if (= __x6__ BigInt) {
+    app __x7__ = (WrapCompletion prim)
     return __x7__
   } else {}
   app __x8__ = (Type argument)
-  if (= __x8__ BigInt) {
-    app __x9__ = (WrapCompletion prim)
-    return __x9__
-  } else {}
-  app __x10__ = (Type argument)
-  if (= __x10__ Number) {
-    app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (= __x8__ Number) throw INTRINSIC_TypeError else {}
+  app __x9__ = (Type argument)
+  if (= __x9__ String) {
+    app __x10__ = (StringToBigInt prim)
+    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+    let n = __x10__
+    if (= n NaN) throw INTRINSIC_SyntaxError else {}
+    app __x11__ = (WrapCompletion n)
     return __x11__
   } else {}
   app __x12__ = (Type argument)
-  if (= __x12__ String) {
-    app __x13__ = (StringToBigInt prim)
-    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-    let n = __x13__
-    if (= n NaN) {
-      app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x14__
-    } else {}
-    app __x15__ = (WrapCompletion n)
-    return __x15__
-  } else {}
-  app __x16__ = (Type argument)
-  if (= __x16__ Symbol) {
-    app __x17__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x17__
-  } else {}
+  if (= __x12__ Symbol) throw INTRINSIC_TypeError else {}
 }

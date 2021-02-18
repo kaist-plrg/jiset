@@ -1,22 +1,19 @@
 {
-  if (contains state.Stack value) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x0__
-  } else {}
+  if (contains state.Stack value) throw INTRINSIC_TypeError else {}
   append value -> state.Stack
   let stepback = state.Indent
   state.Indent = (+ state.Indent state.Gap)
   let partial = (new [])
-  app __x1__ = (LengthOfArrayLike value)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let len = __x1__
+  app __x0__ = (LengthOfArrayLike value)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let len = __x0__
   let index = 0i
   while (< index len) {
-    app __x2__ = (ToString index)
+    app __x1__ = (ToString index)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    app __x2__ = (SerializeJSONProperty state __x1__ value)
     if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    app __x3__ = (SerializeJSONProperty state __x2__ value)
-    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-    let strP = __x3__
+    let strP = __x2__
     if (= strP undefined) append "null" -> partial else append strP -> partial
     index = (+ index 1i)
   }
@@ -30,6 +27,6 @@
   }
   ??? "Remove the last element of id:{state} . [ [ Stack ] ] ."
   state.Indent = stepback
-  app __x4__ = (WrapCompletion final)
-  return __x4__
+  app __x3__ = (WrapCompletion final)
+  return __x3__
 }

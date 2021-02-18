@@ -1,17 +1,11 @@
 {
-  if true {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if true throw INTRINSIC_SyntaxError else {
+    app __x0__ = (NormalCompletion undefined)
     return __x0__
-  } else {
-    app __x1__ = (NormalCompletion undefined)
-    return __x1__
   }
-  app __x2__ = (IsLabelledFunction Statement)
-  if (= __x2__ true) {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x3__
-  } else {
-    app __x4__ = (NormalCompletion undefined)
-    return __x4__
+  app __x1__ = (IsLabelledFunction Statement)
+  if (= __x1__ true) throw INTRINSIC_SyntaxError else {
+    app __x2__ = (NormalCompletion undefined)
+    return __x2__
   }
 }

@@ -1,140 +1,137 @@
 {
   let rx = this
   app __x0__ = (Type rx)
-  if (! (= __x0__ Object)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
-  app __x2__ = (ToString string)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let S = __x2__
+  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
+  app __x1__ = (ToString string)
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let S = __x1__
   let lengthS = S.length
-  app __x3__ = (IsCallable replaceValue)
-  let functionalReplace = __x3__
+  app __x2__ = (IsCallable replaceValue)
+  let functionalReplace = __x2__
   if (= functionalReplace false) {
-    app __x4__ = (ToString replaceValue)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    replaceValue = __x4__
+    app __x3__ = (ToString replaceValue)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    replaceValue = __x3__
   } else {}
-  app __x5__ = (Get rx "global")
-  if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-  app __x6__ = (ToBoolean __x5__)
-  let global = __x6__
+  app __x4__ = (Get rx "global")
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  app __x5__ = (ToBoolean __x4__)
+  let global = __x5__
   if (= global true) {
-    app __x7__ = (Get rx "unicode")
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    app __x8__ = (ToBoolean __x7__)
-    let fullUnicode = __x8__
-    app __x9__ = (Set rx "lastIndex" 0i true)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    __x9__
+    app __x6__ = (Get rx "unicode")
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    app __x7__ = (ToBoolean __x6__)
+    let fullUnicode = __x7__
+    app __x8__ = (Set rx "lastIndex" 0i true)
+    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
+    __x8__
   } else {}
   let results = (new [])
   let done = false
   while (= done false) {
-    app __x10__ = (RegExpExec rx S)
-    if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-    let result = __x10__
+    app __x9__ = (RegExpExec rx S)
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+    let result = __x9__
     if (= result null) done = true else {
       append result -> results
       if (= global false) done = true else {
-        app __x11__ = (Get result "0")
+        app __x10__ = (Get result "0")
+        if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+        app __x11__ = (ToString __x10__)
         if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-        app __x12__ = (ToString __x11__)
-        if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-        let matchStr = __x12__
+        let matchStr = __x11__
         if (= matchStr "") {
-          app __x13__ = (Get rx "lastIndex")
+          app __x12__ = (Get rx "lastIndex")
+          if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+          app __x13__ = (ToLength __x12__)
           if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-          app __x14__ = (ToLength __x13__)
-          if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-          let thisIndex = __x14__
-          app __x15__ = (AdvanceStringIndex S thisIndex fullUnicode)
-          let nextIndex = __x15__
-          app __x16__ = (Set rx "lastIndex" nextIndex true)
-          if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-          __x16__
+          let thisIndex = __x13__
+          app __x14__ = (AdvanceStringIndex S thisIndex fullUnicode)
+          let nextIndex = __x14__
+          app __x15__ = (Set rx "lastIndex" nextIndex true)
+          if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
+          __x15__
         } else {}
       }
     }
   }
   let accumulatedResult = ""
   let nextSourcePosition = 0i
-  let __x17__ = results
-  let __x18__ = 0i
-  while (< __x18__ __x17__.length) {
-    let result = __x17__[__x18__]
-    app __x19__ = (Get result "length")
+  let __x16__ = results
+  let __x17__ = 0i
+  while (< __x17__ __x16__.length) {
+    let result = __x16__[__x17__]
+    app __x18__ = (Get result "length")
+    if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
+    app __x19__ = (ToLength __x18__)
     if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
-    app __x20__ = (ToLength __x19__)
-    if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else {}
-    let nCaptures = __x20__
-    app __x21__ = (max (- nCaptures 1i) 0i)
-    nCaptures = __x21__
-    app __x22__ = (Get result "0")
+    let nCaptures = __x19__
+    app __x20__ = (max (- nCaptures 1i) 0i)
+    nCaptures = __x20__
+    app __x21__ = (Get result "0")
+    if (is-completion __x21__) if (= __x21__.Type CONST_normal) __x21__ = __x21__.Value else return __x21__ else {}
+    app __x22__ = (ToString __x21__)
     if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else {}
-    app __x23__ = (ToString __x22__)
-    if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
-    let matched = __x23__
+    let matched = __x22__
     let matchLength = matched.length
-    app __x24__ = (Get result "index")
+    app __x23__ = (Get result "index")
+    if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
+    app __x24__ = (ToInteger __x23__)
     if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-    app __x25__ = (ToInteger __x24__)
-    if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
-    let position = __x25__
-    app __x26__ = (min position lengthS)
-    app __x27__ = (max __x26__ 0i)
-    position = __x27__
+    let position = __x24__
+    app __x25__ = (min position lengthS)
+    app __x26__ = (max __x25__ 0i)
+    position = __x26__
     let n = 1i
     let captures = (new [])
     while (! (< nCaptures n)) {
-      app __x28__ = (ToString n)
+      app __x27__ = (ToString n)
+      if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
+      app __x28__ = (Get result __x27__)
       if (is-completion __x28__) if (= __x28__.Type CONST_normal) __x28__ = __x28__.Value else return __x28__ else {}
-      app __x29__ = (Get result __x28__)
-      if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else {}
-      let capN = __x29__
+      let capN = __x28__
       if (! (= capN undefined)) {
-        app __x30__ = (ToString capN)
-        if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
-        capN = __x30__
+        app __x29__ = (ToString capN)
+        if (is-completion __x29__) if (= __x29__.Type CONST_normal) __x29__ = __x29__.Value else return __x29__ else {}
+        capN = __x29__
       } else {}
       append capN -> captures
       n = (+ n 1i)
     }
-    app __x31__ = (Get result "groups")
-    if (is-completion __x31__) if (= __x31__.Type CONST_normal) __x31__ = __x31__.Value else return __x31__ else {}
-    let namedCaptures = __x31__
+    app __x30__ = (Get result "groups")
+    if (is-completion __x30__) if (= __x30__.Type CONST_normal) __x30__ = __x30__.Value else return __x30__ else {}
+    let namedCaptures = __x30__
     if (= functionalReplace true) {
       let replacerArgs = (new [matched])
-      let __x32__ = captures
-      let __x33__ = 0i
-      while (< __x33__ __x32__.length) {
-        let __x34__ = __x32__[__x33__]
-        append __x34__ -> replacerArgs
-        __x33__ = (+ __x33__ 1i)
+      let __x31__ = captures
+      let __x32__ = 0i
+      while (< __x32__ __x31__.length) {
+        let __x33__ = __x31__[__x32__]
+        append __x33__ -> replacerArgs
+        __x32__ = (+ __x32__ 1i)
       }
       append position -> replacerArgs
       append S -> replacerArgs
       if (! (= namedCaptures undefined)) append namedCaptures -> replacerArgs else {}
-      app __x35__ = (Call replaceValue undefined replacerArgs)
+      app __x34__ = (Call replaceValue undefined replacerArgs)
+      if (is-completion __x34__) if (= __x34__.Type CONST_normal) __x34__ = __x34__.Value else return __x34__ else {}
+      let replValue = __x34__
+      app __x35__ = (ToString replValue)
       if (is-completion __x35__) if (= __x35__.Type CONST_normal) __x35__ = __x35__.Value else return __x35__ else {}
-      let replValue = __x35__
-      app __x36__ = (ToString replValue)
-      if (is-completion __x36__) if (= __x36__.Type CONST_normal) __x36__ = __x36__.Value else return __x36__ else {}
-      let replacement = __x36__
+      let replacement = __x35__
     } else {
-      app __x37__ = (GetSubstitution matched S position captures namedCaptures replaceValue)
-      let replacement = __x37__
+      app __x36__ = (GetSubstitution matched S position captures namedCaptures replaceValue)
+      let replacement = __x36__
     }
     if (! (< position nextSourcePosition)) {
       ??? "Set id:{accumulatedResult} to the string - concatenation of the current value of id:{accumulatedResult} , the substring of id:{S} consisting of the code units from id:{nextSourcePosition} ( inclusive ) up to id:{position} ( exclusive ) , and id:{replacement} ."
       nextSourcePosition = (+ position matchLength)
     } else {}
-    __x18__ = (+ __x18__ 1i)
+    __x17__ = (+ __x17__ 1i)
   }
   if (! (< nextSourcePosition lengthS)) {
-    app __x38__ = (WrapCompletion accumulatedResult)
-    return __x38__
+    app __x37__ = (WrapCompletion accumulatedResult)
+    return __x37__
   } else {}
   ??? "Return the string - concatenation of id:{accumulatedResult} and the substring of id:{S} consisting of the code units from id:{nextSourcePosition} ( inclusive ) up through the final code unit of id:{S} ( inclusive ) ."
 }

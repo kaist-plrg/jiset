@@ -17,15 +17,14 @@
         app __x4__ = (WrapCompletion result)
         return __x4__
       } else {}
-      app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x5__
+      throw INTRINSIC_TypeError
     } else {}
     if (= preferredType absent) let preferredType = CONST_number else {}
-    app __x6__ = (OrdinaryToPrimitive input preferredType)
-    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-    app __x7__ = (WrapCompletion __x6__)
-    return __x7__
+    app __x5__ = (OrdinaryToPrimitive input preferredType)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    app __x6__ = (WrapCompletion __x5__)
+    return __x6__
   } else {}
-  app __x8__ = (WrapCompletion input)
-  return __x8__
+  app __x7__ = (WrapCompletion input)
+  return __x7__
 }

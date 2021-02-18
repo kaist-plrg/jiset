@@ -10,21 +10,15 @@
     let nextCP = __x0__
     app __x1__ = (IsInteger nextCP)
     if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-    if (= __x1__ false) {
-      app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x2__
-    } else {}
-    if (|| (< nextCP 0i) (< 1114111i nextCP)) {
-      app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x3__
-    } else {}
-    access __x4__ = (nextCP "UTF16Encoding")
-    let __x5__ = __x4__
-    let __x6__ = 0i
-    while (< __x6__ __x5__.length) {
-      let __x7__ = __x5__[__x6__]
-      append __x7__ -> elements
-      __x6__ = (+ __x6__ 1i)
+    if (= __x1__ false) throw INTRINSIC_RangeError else {}
+    if (|| (< nextCP 0i) (< 1114111i nextCP)) throw INTRINSIC_RangeError else {}
+    access __x2__ = (nextCP "UTF16Encoding")
+    let __x3__ = __x2__
+    let __x4__ = 0i
+    while (< __x4__ __x3__.length) {
+      let __x5__ = __x3__[__x4__]
+      append __x5__ -> elements
+      __x4__ = (+ __x4__ 1i)
     }
     nextIndex = (+ nextIndex 1i)
   }

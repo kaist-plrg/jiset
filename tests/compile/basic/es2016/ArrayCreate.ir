@@ -1,17 +1,14 @@
 {
   if (= length -0.0) let length = 0i else {}
-  if (< (- (** 2.0 32i) 1i) length) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x0__
-  } else {}
+  if (< (- (** 2.0 32i) 1i) length) throw INTRINSIC_RangeError else {}
   if (= proto absent) let proto = INTRINSIC_ArrayPrototype else {}
   let A = (new ArrayExoticObject("SubMap" -> (new SubMap())))
   A.DefineOwnProperty = ArrayExoticObjectDOTDefineOwnProperty
   A.Prototype = proto
   A.Extensible = true
-  app __x1__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Value" -> length, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  __x1__
-  app __x2__ = (WrapCompletion A)
-  return __x2__
+  app __x0__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Value" -> length, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  __x0__
+  app __x1__ = (WrapCompletion A)
+  return __x1__
 }

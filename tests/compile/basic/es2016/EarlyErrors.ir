@@ -1,11 +1,8 @@
 {
   access __x0__ = (LeftHandSideExpression "IsValidSimpleAssignmentTarget")
-  if (= __x0__ false) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (= __x0__ false) throw INTRINSIC_SyntaxError else {
+    app __x1__ = (NormalCompletion undefined)
     return __x1__
-  } else {
-    app __x2__ = (NormalCompletion undefined)
-    return __x2__
   }
   ??? "It is a Syntax Error if the nt:{LeftHandSideExpression} is grammar:{CoverParenthesizedExpressionAndArrowParameterList0, [Expression]} and nt:{Expression} derives a production that would produce a Syntax Error according to these rules if that production is substituted for nt:{LeftHandSideExpression} . This rule is recursively applied ."
 }

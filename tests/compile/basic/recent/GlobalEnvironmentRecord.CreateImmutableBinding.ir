@@ -1,11 +1,8 @@
 {
   let DclRec = envRec.DeclarativeRecord
   app __x0__ = (DclRec.HasBinding DclRec N)
-  if (= __x0__ true) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
-  app __x2__ = (DclRec.CreateImmutableBinding DclRec N S)
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  if (= __x0__ true) throw INTRINSIC_TypeError else {}
+  app __x1__ = (DclRec.CreateImmutableBinding DclRec N S)
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
 }

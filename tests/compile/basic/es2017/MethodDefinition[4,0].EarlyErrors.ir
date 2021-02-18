@@ -1,43 +1,34 @@
 {
   access __x0__ = (PropertySetParameterList "BoundNames")
   app __x1__ = (IsDuplicate __x0__)
-  if __x1__ {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if __x1__ throw INTRINSIC_SyntaxError else {
+    app __x2__ = (NormalCompletion undefined)
     return __x2__
-  } else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
   }
-  let __x4__ = true
-  access __x5__ = (FunctionBody "ContainsUseStrict")
-  __x4__ = (= __x5__ true)
-  if __x4__ {
-    access __x6__ = (PropertySetParameterList "IsSimpleParameterList")
-    __x4__ = (= __x6__ false)
+  let __x3__ = true
+  access __x4__ = (FunctionBody "ContainsUseStrict")
+  __x3__ = (= __x4__ true)
+  if __x3__ {
+    access __x5__ = (PropertySetParameterList "IsSimpleParameterList")
+    __x3__ = (= __x5__ false)
   } else {}
-  if __x4__ {
-    app __x7__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x7__
-  } else {
-    app __x8__ = (NormalCompletion undefined)
-    return __x8__
+  if __x3__ throw INTRINSIC_SyntaxError else {
+    app __x6__ = (NormalCompletion undefined)
+    return __x6__
   }
-  access __x9__ = (PropertySetParameterList "BoundNames")
-  access __x10__ = (FunctionBody "LexicallyDeclaredNames")
-  let __x11__ = __x9__
-  let __x12__ = __x10__
-  let __x13__ = 0i
-  let __x14__ = 0i
-  let __x15__ = false
-  while (< __x13__ __x11__.length) {
-    __x14__ = 0i
-    while (< __x14__ __x12__.length) if (= __x11__[__x13__] __x12__[__x14__]) __x15__ = true else {}
+  access __x7__ = (PropertySetParameterList "BoundNames")
+  access __x8__ = (FunctionBody "LexicallyDeclaredNames")
+  let __x9__ = __x7__
+  let __x10__ = __x8__
+  let __x11__ = 0i
+  let __x12__ = 0i
+  let __x13__ = false
+  while (< __x11__ __x9__.length) {
+    __x12__ = 0i
+    while (< __x12__ __x10__.length) if (= __x9__[__x11__] __x10__[__x12__]) __x13__ = true else {}
   }
-  if __x15__ {
-    app __x16__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x16__
-  } else {
-    app __x17__ = (NormalCompletion undefined)
-    return __x17__
+  if __x13__ throw INTRINSIC_SyntaxError else {
+    app __x14__ = (NormalCompletion undefined)
+    return __x14__
   }
 }

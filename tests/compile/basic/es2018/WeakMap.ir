@@ -1,74 +1,68 @@
 {
-  if (= NewTarget undefined) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x0__
-  } else {}
-  app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_WeakMapPrototype (new ["WeakMapData"]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let map = __x1__
+  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  app __x0__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_WeakMapPrototype (new ["WeakMapData"]))
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let map = __x0__
   map.WeakMapData = (new [])
   if (= iterable absent) let iterable = undefined else {}
   if (|| (= iterable undefined) (= iterable null)) {
-    app __x2__ = (WrapCompletion map)
-    return __x2__
+    app __x1__ = (WrapCompletion map)
+    return __x1__
   } else {}
-  app __x3__ = (Get map "set")
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let adder = __x3__
-  app __x4__ = (IsCallable adder)
-  if (= __x4__ false) {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x5__
-  } else {}
-  app __x6__ = (GetIterator iterable)
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let iteratorRecord = __x6__
+  app __x2__ = (Get map "set")
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let adder = __x2__
+  app __x3__ = (IsCallable adder)
+  if (= __x3__ false) throw INTRINSIC_TypeError else {}
+  app __x4__ = (GetIterator iterable)
+  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+  let iteratorRecord = __x4__
   while true {
-    app __x7__ = (IteratorStep iterRecord)
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let next = __x7__
+    app __x5__ = (IteratorStep iterRecord)
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    let next = __x5__
     if (= next false) {
-      app __x8__ = (WrapCompletion map)
-      return __x8__
+      app __x6__ = (WrapCompletion map)
+      return __x6__
     } else {}
-    app __x9__ = (IteratorValue next)
-    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
-    let nextItem = __x9__
-    app __x10__ = (Type nextItem)
-    if (! (= __x10__ Object)) {
-      app __x11__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      let error = __x11__
-      app __x12__ = (IteratorClose iteratorRecord error)
-      if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-      app __x13__ = (WrapCompletion __x12__)
-      return __x13__
+    app __x7__ = (IteratorValue next)
+    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+    let nextItem = __x7__
+    app __x8__ = (Type nextItem)
+    if (! (= __x8__ Object)) {
+      app __x9__ = (ThrowCompletion ??? "TypeError")
+      let error = __x9__
+      app __x10__ = (IteratorClose iteratorRecord error)
+      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+      app __x11__ = (WrapCompletion __x10__)
+      return __x11__
     } else {}
-    app __x14__ = (Get nextItem "0")
-    let k = __x14__
-    app __x15__ = (IsAbruptCompletion k)
-    if __x15__ {
-      app __x16__ = (IteratorClose iteratorRecord k)
-      if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-      app __x17__ = (WrapCompletion __x16__)
-      return __x17__
+    app __x12__ = (Get nextItem "0")
+    let k = __x12__
+    app __x13__ = (IsAbruptCompletion k)
+    if __x13__ {
+      app __x14__ = (IteratorClose iteratorRecord k)
+      if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+      app __x15__ = (WrapCompletion __x14__)
+      return __x15__
     } else {}
-    app __x18__ = (Get nextItem "1")
-    let v = __x18__
-    app __x19__ = (IsAbruptCompletion v)
-    if __x19__ {
-      app __x20__ = (IteratorClose iteratorRecord v)
-      if (is-completion __x20__) if (= __x20__.Type CONST_normal) __x20__ = __x20__.Value else return __x20__ else {}
-      app __x21__ = (WrapCompletion __x20__)
-      return __x21__
+    app __x16__ = (Get nextItem "1")
+    let v = __x16__
+    app __x17__ = (IsAbruptCompletion v)
+    if __x17__ {
+      app __x18__ = (IteratorClose iteratorRecord v)
+      if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
+      app __x19__ = (WrapCompletion __x18__)
+      return __x19__
     } else {}
-    app __x22__ = (Call adder map (new [k.Value, v.Value]))
-    let status = __x22__
-    app __x23__ = (IsAbruptCompletion status)
-    if __x23__ {
-      app __x24__ = (IteratorClose iteratorRecord status)
-      if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-      app __x25__ = (WrapCompletion __x24__)
-      return __x25__
+    app __x20__ = (Call adder map (new [k.Value, v.Value]))
+    let status = __x20__
+    app __x21__ = (IsAbruptCompletion status)
+    if __x21__ {
+      app __x22__ = (IteratorClose iteratorRecord status)
+      if (is-completion __x22__) if (= __x22__.Type CONST_normal) __x22__ = __x22__.Value else return __x22__ else {}
+      app __x23__ = (WrapCompletion __x22__)
+      return __x23__
     } else {}
   }
 }

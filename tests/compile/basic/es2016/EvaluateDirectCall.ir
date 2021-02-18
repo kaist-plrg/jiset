@@ -3,21 +3,15 @@
   if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
   let argList = __x0__
   app __x1__ = (Type func)
-  if (! (= __x1__ Object)) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
-  app __x3__ = (IsCallable func)
-  if (= __x3__ false) {
-    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x4__
-  } else {}
+  if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
+  app __x2__ = (IsCallable func)
+  if (= __x2__ false) throw INTRINSIC_TypeError else {}
   if (= tailPosition true) {
-    app __x5__ = (PrepareForTailCall )
-    __x5__
+    app __x3__ = (PrepareForTailCall )
+    __x3__
   } else {}
-  app __x6__ = (Call func thisValue argList)
-  let result = __x6__
-  app __x7__ = (WrapCompletion result)
-  return __x7__
+  app __x4__ = (Call func thisValue argList)
+  let result = __x4__
+  app __x5__ = (WrapCompletion result)
+  return __x5__
 }

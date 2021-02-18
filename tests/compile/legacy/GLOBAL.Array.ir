@@ -30,38 +30,35 @@ if (== argumentsList.length 0i) {
   } else {
     app __x8__ = (ToUint32 len)
     let intLen = __x8__
-    if (! (== intLen len)) {
-      app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x9__
-    } else {}
+    if (! (== intLen len)) throw INTRINSIC_RangeError else {}
   }
-  app __x10__ = (Set array "length" intLen true)
-  if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
-  __x10__
-  app __x11__ = (WrapCompletion array)
-  return __x11__
+  app __x9__ = (Set array "length" intLen true)
+  if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+  __x9__
+  app __x10__ = (WrapCompletion array)
+  return __x10__
 } else {
   let numberOfArgs = argumentsList.length
   assert (! (< numberOfArgs 2i))
   if (= NewTarget undefined) let newTarget = GLOBAL_context.Function else let newTarget = NewTarget
-  app __x12__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
+  app __x11__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
+  if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
+  let proto = __x11__
+  app __x12__ = (ArrayCreate numberOfArgs proto)
   if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-  let proto = __x12__
-  app __x13__ = (ArrayCreate numberOfArgs proto)
-  if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-  let array = __x13__
+  let array = __x12__
   let k = 0i
   ??? "Let id:{items} be a zero - origined List containing the argument items in order ."
   while (< k numberOfArgs) {
-    app __x14__ = (ToString k)
-    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
-    let Pk = __x14__
+    app __x13__ = (ToString k)
+    if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
+    let Pk = __x13__
     let itemK = items[k]
-    app __x15__ = (CreateDataPropertyOrThrow array Pk itemK)
-    if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
-    __x15__
+    app __x14__ = (CreateDataPropertyOrThrow array Pk itemK)
+    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+    __x14__
     k = (+ k 1i)
   }
-  app __x16__ = (WrapCompletion array)
-  return __x16__
+  app __x15__ = (WrapCompletion array)
+  return __x15__
 }

@@ -6,25 +6,19 @@
     if (= absent (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))) __x1__ = true else {}
     __x0__ = __x1__
   } else {}
-  if __x0__ {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if __x0__ throw INTRINSIC_SyntaxError else {
+    app __x2__ = (NormalCompletion undefined)
     return __x2__
-  } else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
   }
   ??? "It is an early Reference Error if nt:{LeftHandSideExpression} is neither an nt:{ObjectLiteral} nor an nt:{ArrayLiteral} and AssignmentTargetType of nt:{LeftHandSideExpression} is const:{invalid} ."
-  let __x4__ = true
-  __x4__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
-  if __x4__ {
-    access __x5__ = (LeftHandSideExpression "AssignmentTargetType")
-    __x4__ = (= __x5__ CONST_strict)
+  let __x3__ = true
+  __x3__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
+  if __x3__ {
+    access __x4__ = (LeftHandSideExpression "AssignmentTargetType")
+    __x3__ = (= __x4__ CONST_strict)
   } else {}
-  if __x4__ {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x6__
-  } else {
-    app __x7__ = (NormalCompletion undefined)
-    return __x7__
+  if __x3__ throw INTRINSIC_SyntaxError else {
+    app __x5__ = (NormalCompletion undefined)
+    return __x5__
   }
 }

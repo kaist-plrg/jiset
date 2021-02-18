@@ -9,11 +9,8 @@
   app __x2__ = (ToString form)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let f = __x2__
-  if (! (|| (|| (|| (= f "NFC") (= f "NFD")) (= f "NFKC")) (= f "NFKD"))) {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x3__
-  } else {}
+  if (! (|| (|| (|| (= f "NFC") (= f "NFD")) (= f "NFKC")) (= f "NFKD"))) throw INTRINSIC_RangeError else {}
   ??? "Let id:{ns} be the String value that is the result of normalizing id:{S} into the normalization form named by id:{f} as specified in < a href = \" http : / / www . unicode . org / reports / tr15 / tr15 - 29 . html \" > http : / / www . unicode . org / reports / tr15 / tr15 - 29 . html < / a > ."
-  app __x4__ = (WrapCompletion ns)
-  return __x4__
+  app __x3__ = (WrapCompletion ns)
+  return __x3__
 }

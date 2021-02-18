@@ -1,37 +1,28 @@
 {
   access __x0__ = (ForDeclaration "BoundNames")
-  if (contains __x0__ "let") {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (contains __x0__ "let") throw INTRINSIC_SyntaxError else {
+    app __x1__ = (NormalCompletion undefined)
     return __x1__
-  } else {
-    app __x2__ = (NormalCompletion undefined)
-    return __x2__
   }
-  access __x3__ = (ForDeclaration "BoundNames")
-  access __x4__ = (Statement "VarDeclaredNames")
+  access __x2__ = (ForDeclaration "BoundNames")
+  access __x3__ = (Statement "VarDeclaredNames")
+  let __x4__ = __x2__
   let __x5__ = __x3__
-  let __x6__ = __x4__
+  let __x6__ = 0i
   let __x7__ = 0i
-  let __x8__ = 0i
-  let __x9__ = false
-  while (< __x7__ __x5__.length) {
-    __x8__ = 0i
-    while (< __x8__ __x6__.length) if (= __x5__[__x7__] __x6__[__x8__]) __x9__ = true else {}
+  let __x8__ = false
+  while (< __x6__ __x4__.length) {
+    __x7__ = 0i
+    while (< __x7__ __x5__.length) if (= __x4__[__x6__] __x5__[__x7__]) __x8__ = true else {}
   }
-  if __x9__ {
-    app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x10__
-  } else {
-    app __x11__ = (NormalCompletion undefined)
-    return __x11__
+  if __x8__ throw INTRINSIC_SyntaxError else {
+    app __x9__ = (NormalCompletion undefined)
+    return __x9__
   }
-  access __x12__ = (ForDeclaration "BoundNames")
-  app __x13__ = (IsDuplicate __x12__)
-  if __x13__ {
-    app __x14__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x14__
-  } else {
-    app __x15__ = (NormalCompletion undefined)
-    return __x15__
+  access __x10__ = (ForDeclaration "BoundNames")
+  app __x11__ = (IsDuplicate __x10__)
+  if __x11__ throw INTRINSIC_SyntaxError else {
+    app __x12__ = (NormalCompletion undefined)
+    return __x12__
   }
 }

@@ -7,53 +7,50 @@
   let len = __x1__
   let argCount = items.length
   if (< 0i argCount) {
-    if (< (- (** 2.0 53i) 1i) (+ len argCount)) {
-      app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x2__
-    } else {}
+    if (< (- (** 2.0 53i) 1i) (+ len argCount)) throw INTRINSIC_TypeError else {}
     let k = len
     while (< 0i k) {
-      app __x3__ = (ToString (- k 1i))
+      app __x2__ = (ToString (- k 1i))
+      if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+      let from = __x2__
+      app __x3__ = (ToString (- (+ k argCount) 1i))
       if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-      let from = __x3__
-      app __x4__ = (ToString (- (+ k argCount) 1i))
+      let to = __x3__
+      app __x4__ = (HasProperty O from)
       if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-      let to = __x4__
-      app __x5__ = (HasProperty O from)
-      if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-      let fromPresent = __x5__
+      let fromPresent = __x4__
       if (= fromPresent true) {
-        app __x6__ = (Get O from)
+        app __x5__ = (Get O from)
+        if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+        let fromValue = __x5__
+        app __x6__ = (Set O to fromValue true)
         if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-        let fromValue = __x6__
-        app __x7__ = (Set O to fromValue true)
-        if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-        __x7__
+        __x6__
       } else {
         assert (= fromPresent false)
-        app __x8__ = (DeletePropertyOrThrow O to)
-        if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-        __x8__
+        app __x7__ = (DeletePropertyOrThrow O to)
+        if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
+        __x7__
       }
       k = (- k 1i)
     }
     let j = 0i
-    let __x9__ = items
-    let __x10__ = 0i
-    while (< __x10__ __x9__.length) {
-      let E = __x9__[__x10__]
-      app __x11__ = (ToString j)
+    let __x8__ = items
+    let __x9__ = 0i
+    while (< __x9__ __x8__.length) {
+      let E = __x8__[__x9__]
+      app __x10__ = (ToString j)
+      if (is-completion __x10__) if (= __x10__.Type CONST_normal) __x10__ = __x10__.Value else return __x10__ else {}
+      app __x11__ = (Set O __x10__ E true)
       if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-      app __x12__ = (Set O __x11__ E true)
-      if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
-      __x12__
+      __x11__
       j = (+ j 1i)
-      __x10__ = (+ __x10__ 1i)
+      __x9__ = (+ __x9__ 1i)
     }
   } else {}
-  app __x13__ = (Set O "length" (+ len argCount) true)
-  if (is-completion __x13__) if (= __x13__.Type CONST_normal) __x13__ = __x13__.Value else return __x13__ else {}
-  __x13__
-  app __x14__ = (WrapCompletion (+ len argCount))
-  return __x14__
+  app __x12__ = (Set O "length" (+ len argCount) true)
+  if (is-completion __x12__) if (= __x12__.Type CONST_normal) __x12__ = __x12__.Value else return __x12__ else {}
+  __x12__
+  app __x13__ = (WrapCompletion (+ len argCount))
+  return __x13__
 }

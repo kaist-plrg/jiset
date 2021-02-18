@@ -5,10 +5,7 @@
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
   __x1__
   let state = generator.GeneratorState
-  if (= state CONST_executing) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
-  app __x3__ = (WrapCompletion state)
-  return __x3__
+  if (= state CONST_executing) throw INTRINSIC_TypeError else {}
+  app __x2__ = (WrapCompletion state)
+  return __x2__
 }

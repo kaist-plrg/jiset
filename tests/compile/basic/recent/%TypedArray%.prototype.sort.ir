@@ -6,45 +6,42 @@
     if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
     let v = __x1__
     app __x2__ = (IsDetachedBuffer buffer)
-    if (= __x2__ true) {
-      app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+    if (= __x2__ true) throw INTRINSIC_TypeError else {}
+    if (= v NaN) {
+      app __x3__ = (WrapCompletion 0i)
       return __x3__
     } else {}
-    if (= v NaN) {
-      app __x4__ = (WrapCompletion 0i)
-      return __x4__
-    } else {}
-    app __x5__ = (WrapCompletion v)
-    return __x5__
+    app __x4__ = (WrapCompletion v)
+    return __x4__
   } else {}
   if (&& (= x NaN) (= y NaN)) {
-    app __x6__ = (WrapCompletion 0i)
-    return __x6__
+    app __x5__ = (WrapCompletion 0i)
+    return __x5__
   } else {}
   if (= x NaN) {
-    app __x7__ = (WrapCompletion 1i)
-    return __x7__
+    app __x6__ = (WrapCompletion 1i)
+    return __x6__
   } else {}
   if (= y NaN) {
+    app __x7__ = (WrapCompletion -1i)
+    return __x7__
+  } else {}
+  if (< x y) {
     app __x8__ = (WrapCompletion -1i)
     return __x8__
   } else {}
-  if (< x y) {
-    app __x9__ = (WrapCompletion -1i)
+  if (< y x) {
+    app __x9__ = (WrapCompletion 1i)
     return __x9__
   } else {}
-  if (< y x) {
-    app __x10__ = (WrapCompletion 1i)
+  if (&& (= x -0.0) (= y 0i)) {
+    app __x10__ = (WrapCompletion -1i)
     return __x10__
   } else {}
-  if (&& (= x -0.0) (= y 0i)) {
-    app __x11__ = (WrapCompletion -1i)
+  if (&& (= x 0i) (= y -0.0)) {
+    app __x11__ = (WrapCompletion 1i)
     return __x11__
   } else {}
-  if (&& (= x 0i) (= y -0.0)) {
-    app __x12__ = (WrapCompletion 1i)
-    return __x12__
-  } else {}
-  app __x13__ = (WrapCompletion 0i)
-  return __x13__
+  app __x12__ = (WrapCompletion 0i)
+  return __x12__
 }

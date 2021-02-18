@@ -33,25 +33,22 @@
     return __x11__
   } else {}
   app __x12__ = (Type argument)
-  if (= __x12__ Symbol) {
-    app __x13__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x13__
+  if (= __x12__ Symbol) throw INTRINSIC_TypeError else {}
+  app __x13__ = (Type argument)
+  if (= __x13__ BigInt) {
+    app __x14__ = (PRIMITIVE[BigInt].toString argument)
+    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+    app __x15__ = (WrapCompletion __x14__)
+    return __x15__
   } else {}
-  app __x14__ = (Type argument)
-  if (= __x14__ BigInt) {
-    app __x15__ = (PRIMITIVE[BigInt].toString argument)
-    if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
-    app __x16__ = (WrapCompletion __x15__)
-    return __x16__
-  } else {}
-  app __x17__ = (Type argument)
-  if (= __x17__ Object) {
-    app __x18__ = (ToPrimitive argument CONST_string)
+  app __x16__ = (Type argument)
+  if (= __x16__ Object) {
+    app __x17__ = (ToPrimitive argument CONST_string)
+    if (is-completion __x17__) if (= __x17__.Type CONST_normal) __x17__ = __x17__.Value else return __x17__ else {}
+    let primValue = __x17__
+    app __x18__ = (ToString primValue)
     if (is-completion __x18__) if (= __x18__.Type CONST_normal) __x18__ = __x18__.Value else return __x18__ else {}
-    let primValue = __x18__
-    app __x19__ = (ToString primValue)
-    if (is-completion __x19__) if (= __x19__.Type CONST_normal) __x19__ = __x19__.Value else return __x19__ else {}
-    app __x20__ = (WrapCompletion __x19__)
-    return __x20__
+    app __x19__ = (WrapCompletion __x18__)
+    return __x19__
   } else {}
 }

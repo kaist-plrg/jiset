@@ -3,29 +3,20 @@
   ??? "It is a Syntax Error if nt:{StatementList} Contains nt:{NewTarget} unless the source code containing nt:{NewTarget} is eval code that is being processed by a direct eval . Additional early error rules for nt:{NewTarget} in direct eval are defined in PerformEval ."
   access __x0__ = (StatementList "ContainsDuplicateLabels")
   app __x1__ = (__x0__ (new []))
-  if (= __x1__ true) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (= __x1__ true) throw INTRINSIC_SyntaxError else {
+    app __x2__ = (NormalCompletion undefined)
     return __x2__
-  } else {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
   }
-  access __x4__ = (StatementList "ContainsUndefinedBreakTarget")
-  app __x5__ = (__x4__ (new []))
-  if (= __x5__ true) {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x6__
-  } else {
-    app __x7__ = (NormalCompletion undefined)
-    return __x7__
+  access __x3__ = (StatementList "ContainsUndefinedBreakTarget")
+  app __x4__ = (__x3__ (new []))
+  if (= __x4__ true) throw INTRINSIC_SyntaxError else {
+    app __x5__ = (NormalCompletion undefined)
+    return __x5__
   }
-  access __x8__ = (StatementList "ContainsUndefinedContinueTarget")
-  app __x9__ = (__x8__ (new []) (new []))
-  if (= __x9__ true) {
-    app __x10__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x10__
-  } else {
-    app __x11__ = (NormalCompletion undefined)
-    return __x11__
+  access __x6__ = (StatementList "ContainsUndefinedContinueTarget")
+  app __x7__ = (__x6__ (new []) (new []))
+  if (= __x7__ true) throw INTRINSIC_SyntaxError else {
+    app __x8__ = (NormalCompletion undefined)
+    return __x8__
   }
 }

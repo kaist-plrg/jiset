@@ -1,12 +1,9 @@
 {
-  if (< exponent 0i) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_RangeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (< exponent 0i) throw INTRINSIC_RangeError else {}
+  if (&& (= base 0i) (= exponent 0i)) {
+    app __x0__ = (WrapCompletion 1i)
     return __x0__
   } else {}
-  if (&& (= base 0i) (= exponent 0i)) {
-    app __x1__ = (WrapCompletion 1i)
-    return __x1__
-  } else {}
-  app __x2__ = (WrapCompletion (convert (** base exponent) num2bigint ))
-  return __x2__
+  app __x1__ = (WrapCompletion (convert (** base exponent) num2bigint ))
+  return __x1__
 }

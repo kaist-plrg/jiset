@@ -1,21 +1,18 @@
 {
-  if (= NewTarget undefined) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x0__
-  } else {}
-  app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_MapPrototype (new ["MapData"]))
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let map = __x1__
+  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  app __x0__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_MapPrototype (new ["MapData"]))
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let map = __x0__
   map.MapData = (new [])
   if (|| (= iterable absent) (|| (= iterable undefined) (= iterable null))) {
-    app __x2__ = (WrapCompletion map)
-    return __x2__
+    app __x1__ = (WrapCompletion map)
+    return __x1__
   } else {}
-  app __x3__ = (Get map "set")
+  app __x2__ = (Get map "set")
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let adder = __x2__
+  app __x3__ = (AddEntriesFromIterable map iterable adder)
   if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let adder = __x3__
-  app __x4__ = (AddEntriesFromIterable map iterable adder)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  app __x5__ = (WrapCompletion __x4__)
-  return __x5__
+  app __x4__ = (WrapCompletion __x3__)
+  return __x4__
 }

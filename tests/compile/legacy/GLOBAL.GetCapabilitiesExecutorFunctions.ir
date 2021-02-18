@@ -5,16 +5,10 @@
   let reject = __x1__
   let F = GLOBAL_context.Function
   let promiseCapability = F.Capability
-  if (! (= promiseCapability.Resolve undefined)) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
-  if (! (= promiseCapability.Reject undefined)) {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x3__
-  } else {}
+  if (! (= promiseCapability.Resolve undefined)) throw INTRINSIC_TypeError else {}
+  if (! (= promiseCapability.Reject undefined)) throw INTRINSIC_TypeError else {}
   promiseCapability.Resolve = resolve
   promiseCapability.Reject = reject
-  app __x4__ = (WrapCompletion undefined)
-  return __x4__
+  app __x2__ = (WrapCompletion undefined)
+  return __x2__
 }

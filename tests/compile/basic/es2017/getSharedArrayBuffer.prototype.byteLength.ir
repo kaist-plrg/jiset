@@ -1,20 +1,11 @@
 {
   let O = this
   app __x0__ = (Type O)
-  if (! (= __x0__ Object)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
-  if (= O.ArrayBufferData absent) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
-  app __x3__ = (IsSharedArrayBuffer O)
-  if (= __x3__ false) {
-    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x4__
-  } else {}
+  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
+  if (= O.ArrayBufferData absent) throw INTRINSIC_TypeError else {}
+  app __x1__ = (IsSharedArrayBuffer O)
+  if (= __x1__ false) throw INTRINSIC_TypeError else {}
   let length = O.ArrayBufferByteLength
-  app __x5__ = (WrapCompletion length)
-  return __x5__
+  app __x2__ = (WrapCompletion length)
+  return __x2__
 }

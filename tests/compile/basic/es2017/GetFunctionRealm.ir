@@ -11,16 +11,13 @@
     return __x2__
   } else {}
   if (= (typeof obj) "ProxyExoticObject") {
-    if (= obj.ProxyHandler null) {
-      app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x3__
-    } else {}
+    if (= obj.ProxyHandler null) throw INTRINSIC_TypeError else {}
     let proxyTarget = obj.ProxyTarget
-    app __x4__ = (GetFunctionRealm proxyTarget)
-    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-    app __x5__ = (WrapCompletion __x4__)
-    return __x5__
+    app __x3__ = (GetFunctionRealm proxyTarget)
+    if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+    app __x4__ = (WrapCompletion __x3__)
+    return __x4__
   } else {}
-  app __x6__ = (WrapCompletion REALM)
-  return __x6__
+  app __x5__ = (WrapCompletion REALM)
+  return __x5__
 }

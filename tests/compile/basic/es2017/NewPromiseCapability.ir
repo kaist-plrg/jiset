@@ -1,26 +1,17 @@
 {
   app __x0__ = (IsConstructor C)
-  if (= __x0__ false) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  if (= __x0__ false) throw INTRINSIC_TypeError else {}
   let promiseCapability = (new PromiseCapability("Promise" -> undefined, "Resolve" -> undefined, "Reject" -> undefined))
   let executor = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
   executor.Capability = promiseCapability
-  app __x2__ = (Construct C (new [executor]))
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  let promise = __x2__
-  app __x3__ = (IsCallable promiseCapability.Resolve)
-  if (= __x3__ false) {
-    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x4__
-  } else {}
-  app __x5__ = (IsCallable promiseCapability.Reject)
-  if (= __x5__ false) {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x6__
-  } else {}
+  app __x1__ = (Construct C (new [executor]))
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let promise = __x1__
+  app __x2__ = (IsCallable promiseCapability.Resolve)
+  if (= __x2__ false) throw INTRINSIC_TypeError else {}
+  app __x3__ = (IsCallable promiseCapability.Reject)
+  if (= __x3__ false) throw INTRINSIC_TypeError else {}
   promiseCapability.Promise = promise
-  app __x7__ = (WrapCompletion promiseCapability)
-  return __x7__
+  app __x4__ = (WrapCompletion promiseCapability)
+  return __x4__
 }

@@ -1,18 +1,15 @@
 {
   let O = this
   app __x0__ = (Type O)
-  if (! (= __x0__ Object)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
   ??? "If id:{O} does not have all of the internal slots of a Set Iterator Instance ( 23 . 2 . 5 . 3 ) , throw a value:{TypeError} exception ."
   let s = O.IteratedSet
   let index = O.SetNextIndex
   let itemKind = O.SetIterationKind
   if (= s undefined) {
-    app __x2__ = (CreateIterResultObject undefined true)
-    app __x3__ = (WrapCompletion __x2__)
-    return __x3__
+    app __x1__ = (CreateIterResultObject undefined true)
+    app __x2__ = (WrapCompletion __x1__)
+    return __x2__
   } else {}
   assert (! (= s.SetData absent))
   let entries = s.SetData
@@ -23,19 +20,19 @@
     O.SetNextIndex = index
     if (! (= e CONST_empty)) {
       if (= itemKind CONST_keyPLUSvalue) {
-        app __x4__ = (CreateArrayFromList (new [e, e]))
-        app __x5__ = (CreateIterResultObject __x4__ false)
-        app __x6__ = (WrapCompletion __x5__)
-        return __x6__
+        app __x3__ = (CreateArrayFromList (new [e, e]))
+        app __x4__ = (CreateIterResultObject __x3__ false)
+        app __x5__ = (WrapCompletion __x4__)
+        return __x5__
       } else {}
       assert (= itemKind CONST_value)
-      app __x7__ = (CreateIterResultObject e false)
-      app __x8__ = (WrapCompletion __x7__)
-      return __x8__
+      app __x6__ = (CreateIterResultObject e false)
+      app __x7__ = (WrapCompletion __x6__)
+      return __x7__
     } else {}
   }
   O.IteratedSet = undefined
-  app __x9__ = (CreateIterResultObject undefined true)
-  app __x10__ = (WrapCompletion __x9__)
-  return __x10__
+  app __x8__ = (CreateIterResultObject undefined true)
+  app __x9__ = (WrapCompletion __x8__)
+  return __x9__
 }

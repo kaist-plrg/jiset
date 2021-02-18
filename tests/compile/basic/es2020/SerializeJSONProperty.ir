@@ -59,32 +59,29 @@
     return __x18__
   } else {}
   app __x19__ = (Type value)
-  if (= __x19__ BigInt) {
-    app __x20__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x20__
+  if (= __x19__ BigInt) throw INTRINSIC_TypeError else {}
+  let __x20__ = true
+  app __x21__ = (Type value)
+  __x20__ = (= __x21__ Object)
+  if __x20__ {
+    app __x22__ = (IsCallable value)
+    __x20__ = (= __x22__ false)
   } else {}
-  let __x21__ = true
-  app __x22__ = (Type value)
-  __x21__ = (= __x22__ Object)
-  if __x21__ {
-    app __x23__ = (IsCallable value)
-    __x21__ = (= __x23__ false)
-  } else {}
-  if __x21__ {
-    app __x24__ = (IsArray value)
-    if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
-    let isArray = __x24__
+  if __x20__ {
+    app __x23__ = (IsArray value)
+    if (is-completion __x23__) if (= __x23__.Type CONST_normal) __x23__ = __x23__.Value else return __x23__ else {}
+    let isArray = __x23__
     if (= isArray true) {
-      app __x25__ = (SerializeJSONArray state value)
-      if (is-completion __x25__) if (= __x25__.Type CONST_normal) __x25__ = __x25__.Value else return __x25__ else {}
-      app __x26__ = (WrapCompletion __x25__)
-      return __x26__
+      app __x24__ = (SerializeJSONArray state value)
+      if (is-completion __x24__) if (= __x24__.Type CONST_normal) __x24__ = __x24__.Value else return __x24__ else {}
+      app __x25__ = (WrapCompletion __x24__)
+      return __x25__
     } else {}
-    app __x27__ = (SerializeJSONObject state value)
-    if (is-completion __x27__) if (= __x27__.Type CONST_normal) __x27__ = __x27__.Value else return __x27__ else {}
-    app __x28__ = (WrapCompletion __x27__)
-    return __x28__
+    app __x26__ = (SerializeJSONObject state value)
+    if (is-completion __x26__) if (= __x26__.Type CONST_normal) __x26__ = __x26__.Value else return __x26__ else {}
+    app __x27__ = (WrapCompletion __x26__)
+    return __x27__
   } else {}
-  app __x29__ = (WrapCompletion undefined)
-  return __x29__
+  app __x28__ = (WrapCompletion undefined)
+  return __x28__
 }

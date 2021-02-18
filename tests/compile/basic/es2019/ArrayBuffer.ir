@@ -1,13 +1,10 @@
 {
-  if (= NewTarget undefined) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x0__
-  } else {}
-  app __x1__ = (ToIndex length)
+  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  app __x0__ = (ToIndex length)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  let byteLength = __x0__
+  app __x1__ = (AllocateArrayBuffer NewTarget byteLength)
   if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  let byteLength = __x1__
-  app __x2__ = (AllocateArrayBuffer NewTarget byteLength)
-  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-  app __x3__ = (WrapCompletion __x2__)
-  return __x3__
+  app __x2__ = (WrapCompletion __x1__)
+  return __x2__
 }

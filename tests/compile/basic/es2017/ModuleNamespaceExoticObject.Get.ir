@@ -21,13 +21,10 @@
   let targetModule = binding.Module
   assert (! (= targetModule undefined))
   let targetEnv = targetModule.Environment
-  if (= targetEnv undefined) {
-    app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x6__
-  } else {}
+  if (= targetEnv undefined) throw INTRINSIC_ReferenceError else {}
   let targetEnvRec = targetEnv.EnvironmentRecord
-  app __x7__ = (targetEnvRec.GetBindingValue targetEnvRec binding.BindingName true)
-  if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-  app __x8__ = (WrapCompletion __x7__)
-  return __x8__
+  app __x6__ = (targetEnvRec.GetBindingValue targetEnvRec binding.BindingName true)
+  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+  app __x7__ = (WrapCompletion __x6__)
+  return __x7__
 }

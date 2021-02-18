@@ -4,18 +4,15 @@
   app __x1__ = (GetArgument argumentsList 1i)
   let Properties = __x1__
   app __x2__ = (Type O)
-  if (! (|| (= __x2__ Object) (= __x2__ Null))) {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x3__
-  } else {}
-  app __x4__ = (OrdinaryObjectCreate O)
-  let obj = __x4__
+  if (! (|| (= __x2__ Object) (= __x2__ Null))) throw INTRINSIC_TypeError else {}
+  app __x3__ = (OrdinaryObjectCreate O)
+  let obj = __x3__
   if (! (= Properties undefined)) {
-    app __x5__ = (ObjectDefineProperties obj Properties)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    app __x6__ = (WrapCompletion __x5__)
-    return __x6__
+    app __x4__ = (ObjectDefineProperties obj Properties)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    app __x5__ = (WrapCompletion __x4__)
+    return __x5__
   } else {}
-  app __x7__ = (WrapCompletion obj)
-  return __x7__
+  app __x6__ = (WrapCompletion obj)
+  return __x6__
 }

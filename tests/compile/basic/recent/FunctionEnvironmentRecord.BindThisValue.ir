@@ -1,11 +1,8 @@
 {
   assert (! (= envRec.ThisBindingStatus CONST_lexical))
-  if (= envRec.ThisBindingStatus CONST_initialized) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x0__
-  } else {}
+  if (= envRec.ThisBindingStatus CONST_initialized) throw INTRINSIC_ReferenceError else {}
   envRec.ThisValue = V
   envRec.ThisBindingStatus = CONST_initialized
-  app __x1__ = (WrapCompletion V)
-  return __x1__
+  app __x0__ = (WrapCompletion V)
+  return __x0__
 }

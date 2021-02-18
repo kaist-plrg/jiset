@@ -16,27 +16,21 @@
   app __x4__ = (IsPropertyReference ref)
   if (= __x4__ true) {
     app __x5__ = (IsSuperReference ref)
-    if (= __x5__ true) {
-      app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x6__
-    } else {}
-    app __x7__ = (ToObject ref.Base)
+    if (= __x5__ true) throw INTRINSIC_ReferenceError else {}
+    app __x6__ = (ToObject ref.Base)
+    if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
+    let baseObj = __x6__
+    app __x7__ = (baseObj.Delete baseObj ref.ReferencedName)
     if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    let baseObj = __x7__
-    app __x8__ = (baseObj.Delete baseObj ref.ReferencedName)
-    if (is-completion __x8__) if (= __x8__.Type CONST_normal) __x8__ = __x8__.Value else return __x8__ else {}
-    let deleteStatus = __x8__
-    if (&& (= deleteStatus false) (= ref.Strict true)) {
-      app __x9__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-      return __x9__
-    } else {}
-    app __x10__ = (WrapCompletion deleteStatus)
-    return __x10__
+    let deleteStatus = __x7__
+    if (&& (= deleteStatus false) (= ref.Strict true)) throw INTRINSIC_TypeError else {}
+    app __x8__ = (WrapCompletion deleteStatus)
+    return __x8__
   } else {
     let base = ref.Base
-    app __x11__ = (base.DeleteBinding base ref.ReferencedName)
-    if (is-completion __x11__) if (= __x11__.Type CONST_normal) __x11__ = __x11__.Value else return __x11__ else {}
-    app __x12__ = (WrapCompletion __x11__)
-    return __x12__
+    app __x9__ = (base.DeleteBinding base ref.ReferencedName)
+    if (is-completion __x9__) if (= __x9__.Type CONST_normal) __x9__ = __x9__.Value else return __x9__ else {}
+    app __x10__ = (WrapCompletion __x9__)
+    return __x10__
   }
 }

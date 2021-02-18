@@ -1,11 +1,8 @@
 {
   ??? "It is an early Reference Error if AssignmentTargetType of nt:{LeftHandSideExpression} is const:{invalid} ."
   access __x0__ = (LeftHandSideExpression "AssignmentTargetType")
-  if (= __x0__ CONST_strict) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_SyntaxError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+  if (= __x0__ CONST_strict) throw INTRINSIC_SyntaxError else {
+    app __x1__ = (NormalCompletion undefined)
     return __x1__
-  } else {
-    app __x2__ = (NormalCompletion undefined)
-    return __x2__
   }
 }

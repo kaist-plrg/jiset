@@ -32,18 +32,15 @@
     return __x11__
   } else {}
   app __x12__ = (Type argument)
-  if (= __x12__ Symbol) {
-    app __x13__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x13__
-  } else {}
-  app __x14__ = (Type argument)
-  if (= __x14__ Object) {
-    app __x15__ = (ToPrimitive argument String)
+  if (= __x12__ Symbol) throw INTRINSIC_TypeError else {}
+  app __x13__ = (Type argument)
+  if (= __x13__ Object) {
+    app __x14__ = (ToPrimitive argument String)
+    if (is-completion __x14__) if (= __x14__.Type CONST_normal) __x14__ = __x14__.Value else return __x14__ else {}
+    let primValue = __x14__
+    app __x15__ = (ToString primValue)
     if (is-completion __x15__) if (= __x15__.Type CONST_normal) __x15__ = __x15__.Value else return __x15__ else {}
-    let primValue = __x15__
-    app __x16__ = (ToString primValue)
-    if (is-completion __x16__) if (= __x16__.Type CONST_normal) __x16__ = __x16__.Value else return __x16__ else {}
-    app __x17__ = (WrapCompletion __x16__)
-    return __x17__
+    app __x16__ = (WrapCompletion __x15__)
+    return __x16__
   } else {}
 }

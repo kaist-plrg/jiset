@@ -1,14 +1,11 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let description = __x0__
-  if (! (= NewTarget undefined)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
+  if (! (= NewTarget undefined)) throw INTRINSIC_TypeError else {}
   if (= description undefined) let descString = undefined else {
-    app __x2__ = (ToString description)
-    if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
-    let descString = __x2__
+    app __x1__ = (ToString description)
+    if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+    let descString = __x1__
   }
   ??? "Return a new unique Symbol value whose [ [ Description ] ] value is id:{descString} ."
 }

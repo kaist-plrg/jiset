@@ -1,10 +1,7 @@
 {
-  if (= NewTarget undefined) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x0__
-  } else {}
-  app __x1__ = (ProxyCreate target handler)
-  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
-  app __x2__ = (WrapCompletion __x1__)
-  return __x2__
+  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  app __x0__ = (ProxyCreate target handler)
+  if (is-completion __x0__) if (= __x0__.Type CONST_normal) __x0__ = __x0__.Value else return __x0__ else {}
+  app __x1__ = (WrapCompletion __x0__)
+  return __x1__
 }

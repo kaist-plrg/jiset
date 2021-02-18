@@ -1,30 +1,24 @@
 {
-  if (= NewTarget undefined) {
-    app __x0__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x0__
-  } else {}
-  app __x1__ = (IsCallable executor)
-  if (= __x1__ false) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
-  app __x3__ = (OrdinaryCreateFromConstructor NewTarget "%Promise.prototype%" (new ["PromiseState", "PromiseResult", "PromiseFulfillReactions", "PromiseRejectReactions", "PromiseIsHandled"]))
-  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
-  let promise = __x3__
+  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  app __x0__ = (IsCallable executor)
+  if (= __x0__ false) throw INTRINSIC_TypeError else {}
+  app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%Promise.prototype%" (new ["PromiseState", "PromiseResult", "PromiseFulfillReactions", "PromiseRejectReactions", "PromiseIsHandled"]))
+  if (is-completion __x1__) if (= __x1__.Type CONST_normal) __x1__ = __x1__.Value else return __x1__ else {}
+  let promise = __x1__
   promise.PromiseState = CONST_pending
   promise.PromiseFulfillReactions = (new [])
   promise.PromiseRejectReactions = (new [])
   promise.PromiseIsHandled = false
-  app __x4__ = (CreateResolvingFunctions promise)
-  let resolvingFunctions = __x4__
-  app __x5__ = (Call executor undefined (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))
-  let completion = __x5__
-  app __x6__ = (IsAbruptCompletion completion)
-  if __x6__ {
-    app __x7__ = (Call resolvingFunctions.Reject undefined (new [completion.Value]))
-    if (is-completion __x7__) if (= __x7__.Type CONST_normal) __x7__ = __x7__.Value else return __x7__ else {}
-    __x7__
+  app __x2__ = (CreateResolvingFunctions promise)
+  let resolvingFunctions = __x2__
+  app __x3__ = (Call executor undefined (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))
+  let completion = __x3__
+  app __x4__ = (IsAbruptCompletion completion)
+  if __x4__ {
+    app __x5__ = (Call resolvingFunctions.Reject undefined (new [completion.Value]))
+    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
+    __x5__
   } else {}
-  app __x8__ = (WrapCompletion promise)
-  return __x8__
+  app __x6__ = (WrapCompletion promise)
+  return __x6__
 }

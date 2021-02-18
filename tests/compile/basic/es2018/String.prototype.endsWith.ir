@@ -8,27 +8,24 @@
   app __x2__ = (IsRegExp searchString)
   if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
   let isRegExp = __x2__
-  if (= isRegExp true) {
-    app __x3__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x3__
-  } else {}
-  app __x4__ = (ToString searchString)
-  if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
-  let searchStr = __x4__
+  if (= isRegExp true) throw INTRINSIC_TypeError else {}
+  app __x3__ = (ToString searchString)
+  if (is-completion __x3__) if (= __x3__.Type CONST_normal) __x3__ = __x3__.Value else return __x3__ else {}
+  let searchStr = __x3__
   let len = S.length
   if (= endPosition undefined) let pos = len else {
-    app __x5__ = (ToInteger endPosition)
-    if (is-completion __x5__) if (= __x5__.Type CONST_normal) __x5__ = __x5__.Value else return __x5__ else {}
-    let pos = __x5__
+    app __x4__ = (ToInteger endPosition)
+    if (is-completion __x4__) if (= __x4__.Type CONST_normal) __x4__ = __x4__.Value else return __x4__ else {}
+    let pos = __x4__
   }
-  app __x6__ = (max pos 0i)
-  app __x7__ = (min __x6__ len)
-  let end = __x7__
+  app __x5__ = (max pos 0i)
+  app __x6__ = (min __x5__ len)
+  let end = __x6__
   let searchLength = searchStr.length
   let start = (- end searchLength)
   if (< start 0i) {
-    app __x8__ = (WrapCompletion false)
-    return __x8__
+    app __x7__ = (WrapCompletion false)
+    return __x7__
   } else {}
   ??? "If the sequence of elements of id:{S} starting at id:{start} of length id:{searchLength} is the same as the full element sequence of id:{searchStr} , return value:{true} ."
   ??? "Otherwise , return value:{false} ."

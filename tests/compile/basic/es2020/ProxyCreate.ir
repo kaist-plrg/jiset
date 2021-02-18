@@ -1,33 +1,21 @@
 {
   app __x0__ = (Type target)
-  if (! (= __x0__ Object)) {
-    app __x1__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x1__
-  } else {}
-  if (&& (= (typeof target) "ProxyExoticObject") (= target.ProxyHandler null)) {
-    app __x2__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x2__
-  } else {}
-  app __x3__ = (Type handler)
-  if (! (= __x3__ Object)) {
-    app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x4__
-  } else {}
-  if (&& (= (typeof handler) "ProxyExoticObject") (= handler.ProxyHandler null)) {
-    app __x5__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.prototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-    return __x5__
-  } else {}
-  app __x6__ = (MakeBasicObject (new ["ProxyHandler", "ProxyTarget"]))
-  if (is-completion __x6__) if (= __x6__.Type CONST_normal) __x6__ = __x6__.Value else return __x6__ else {}
-  let P = __x6__
-  app __x7__ = (IsCallable target)
-  if (= __x7__ true) {
+  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
+  if (&& (= (typeof target) "ProxyExoticObject") (= target.ProxyHandler null)) throw INTRINSIC_TypeError else {}
+  app __x1__ = (Type handler)
+  if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
+  if (&& (= (typeof handler) "ProxyExoticObject") (= handler.ProxyHandler null)) throw INTRINSIC_TypeError else {}
+  app __x2__ = (MakeBasicObject (new ["ProxyHandler", "ProxyTarget"]))
+  if (is-completion __x2__) if (= __x2__.Type CONST_normal) __x2__ = __x2__.Value else return __x2__ else {}
+  let P = __x2__
+  app __x3__ = (IsCallable target)
+  if (= __x3__ true) {
     P.Call = ProxyObjectDOTCall
-    app __x8__ = (IsConstructor target)
-    if (= __x8__ true) P.Construct = ProxyObjectDOTConstruct else {}
+    app __x4__ = (IsConstructor target)
+    if (= __x4__ true) P.Construct = ProxyObjectDOTConstruct else {}
   } else {}
   P.ProxyTarget = target
   P.ProxyHandler = handler
-  app __x9__ = (WrapCompletion P)
-  return __x9__
+  app __x5__ = (WrapCompletion P)
+  return __x5__
 }
