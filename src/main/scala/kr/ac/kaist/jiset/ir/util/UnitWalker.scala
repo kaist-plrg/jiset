@@ -118,6 +118,8 @@ trait UnitWalker {
       walk(expr); walk(cop); walkList[Expr](list, walk)
     case EContains(list, elem) =>
       walk(list); walk(elem)
+    case EReturnIfAbrupt(expr, check) =>
+      walk(expr)
     case ECopy(obj) =>
       walk(obj)
     case EKeys(obj) =>

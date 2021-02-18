@@ -130,45 +130,6 @@ trait Compilers extends TokenListParsers {
     }
   }
 
-  // ReturnIfAbrupt
-  def returnIfAbrupt(
-    insts: List[Inst],
-    expr: Expr,
-    vulnerable: Boolean = true
-  ): I[Expr] = (insts, expr) match {
-    case (i, (e @ ERef(RefId(Id(x))))) => pair(i :+ IIf(
-      EIsCompletion(e),
-      IIf(
-        isEq(toERef(x, "Type"), toERef("CONST_normal")),
-        IAssign(toRef(x), toERef(x, "Value")),
-        IReturn(e)
-      ),
-      emptyInst
-    ), e)
-    case (i, e) =>
-      val temp = getTempId
-      pair(i :+ (if (vulnerable) ISeq(List(
-        ILet(temp, e),
-        IIf(
-          EIsCompletion(toERef(temp)),
-          IIf(
-            isEq(toERef(temp, "Type"), toERef("CONST_normal")),
-            IAssign(toRef(temp), toERef(temp, "Value")),
-            IReturn(toERef(temp))
-          ),
-          emptyInst
-        )
-      ))
-      else ISeq(List(
-        ILet(temp, e),
-        IIf(
-          EIsCompletion(toERef(temp)),
-          IAssign(toRef(temp), toERef(temp, "Value")),
-          emptyInst
-        )
-      ))), toERef(temp))
-  }
-
   // IfAbruptRejectPromise
   def ifAbruptRejectPromise(
     insts: List[Inst],
@@ -367,12 +328,6 @@ trait Compilers extends TokenListParsers {
         pair((i ++ i0 :+ ILet(newList, ECopy(l))) ++ as.map(f), toERef(newList))
     }
   }
-
-  // get completions
-  def getWrapCompletion(e: Expr): I[Expr] = getWrapCompletion(pair(Nil, e))
-  def getWrapCompletion(ie: I[Expr]): I[Expr] = getCall("WrapCompletion", List(ie))
-  def getNormalCompletion(e: Expr): I[Expr] = getNormalCompletion(pair(Nil, e))
-  def getNormalCompletion(ie: I[Expr]): I[Expr] = getCall("NormalCompletion", List(ie))
 
   // binary operator calculations
   def calc(n: Boolean, rev: Boolean, bop: BOp, left: Expr, right: Expr): Expr = {

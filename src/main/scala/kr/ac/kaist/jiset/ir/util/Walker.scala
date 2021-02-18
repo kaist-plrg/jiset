@@ -90,6 +90,7 @@ trait Walker {
     case EParseSyntax(code, rule, flags) => EParseSyntax(walk(code), walk(rule), walk(flags))
     case EConvert(expr, cop, list) => EConvert(walk(expr), walk(cop), walkList[Expr](list, walk))
     case EContains(list, elem) => EContains(walk(list), walk(elem))
+    case EReturnIfAbrupt(expr, check) => EReturnIfAbrupt(walk(expr), check)
     case ECopy(obj) => ECopy(walk(obj))
     case EKeys(obj) => EKeys(walk(obj))
     case ENotSupported(msg) => ENotSupported(walk(msg))

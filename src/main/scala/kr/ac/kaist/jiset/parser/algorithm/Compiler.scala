@@ -21,7 +21,6 @@ object Compiler extends Compilers {
     etcStmt | ignoreStmt | (
       innerStmt |||
       returnStmt |||
-      returnContStmt |||
       letStmt |||
       ifStmt |||
       callStmt |||
@@ -78,37 +77,21 @@ object Compiler extends Compilers {
   lazy val innerStmt: P[Inst] = in ~> stmts <~ out ^^ { ISeq(_) }
 
   // return statements
-  lazy val returnStmt: P[Inst] = "Return" ~> opt(expr) ^^ {
-    case retOpt =>
-      retOpt match {
-        case None => getRet(getNormalCompletion(EUndef))
-        case Some(ie) => getRet(getWrapCompletion(ie))
-      }
-  } |||
+  lazy val returnStmt: P[Inst] = (
+    "return" ~> opt(expr) ^^ { getRet(_) } |||
     "return" ~> rep1sep(expr ~ ("if" ~> cond), "and") ~ opt(
       opt("," | ".") ~> "otherwise" ~> opt(",") ~> "return" ~> expr
     ) ^^ {
         case retInsts ~ retOther => {
-          val baseRet = retOther match {
-            case Some(ie) => getRet(getWrapCompletion(ie))
-            case None => getRet(getNormalCompletion(EUndef))
-          }
-
-          retInsts.foldRight(baseRet: Inst) {
-            case ((i0 ~ e0) ~ (i1 ~ e1), ielse) => {
-              val ithen = getRet(getWrapCompletion(e0))
-              ISeq(i0 ++ i1 :+ IIf(e1, ithen, ielse))
+          val baseRet = getRet(retOther)
+          retInsts.foldRight(baseRet) {
+            case (retVal ~ (i ~ cond), ielse) => {
+              ISeq(i :+ IIf(cond, getRet(retVal), ielse))
             }
           }
         }
       }
-
-  // return continuation statements
-  lazy val returnContStmt: P[Inst] = "ReturnCont" ~> opt(expr ~ opt("to" ~> expr)) ^^ {
-    case None => getInst(getCall(retcont, List(getNormalCompletion(EUndef))))
-    case Some(ie ~ None) => getInst(getCall(retcont, List(ie)))
-    case Some((i ~ f) ~ Some(ie)) => ISeq(i :+ getInst(getCall(EPop(f, EINum(0)), List(ie))))
-  }
+  )
 
   // let binding statements
   lazy val letStmt = ("Let" ~> rep1sep(id, sep("and")) <~ "be") ~ expr ~ opt(("; if" ~> cond <~ ", use") ~ expr) ^^ {
@@ -377,24 +360,14 @@ object Compiler extends Compilers {
 
   // assignment statements
   lazy val assignmentStmt: P[Inst] = opt(word) ~ rep1("=" ~> expr) ^^ {
-    case x ~ rhs => getRet(getWrapCompletion(rhs.head))
+    case x ~ rhs => getRet(rhs.last)
   } | (word ~ "(" ~ id ~ ")" ~ "=" ~> expr) ^^ {
-    case ie => getRet(getWrapCompletion(ie))
+    case ie => getRet(ie)
   }
 
   // early errors
   lazy val earlyErrorStmt: P[Inst] = (("it is" | "always throw") ~ ("a syntax error" | "an early syntax error") ~ "if") ~> cond ^^ {
-    case (i ~ c) => {
-      val ifRetInst = getThrow("SyntaxError")
-      val elseRetInst = getRet(getCall("NormalCompletion", List(pair(Nil, EUndef))))
-      ISeq(i ++ List(
-        IIf(
-          c,
-          ifRetInst,
-          elseRetInst
-        )
-      ))
-    }
+    case (i ~ c) => ISeq(i :+ IIf(c, getThrow("SyntaxError"), getRet(EUndef)))
   }
 
   lazy val earlyErrorCond: P[I[Expr]] = (
@@ -652,9 +625,9 @@ object Compiler extends Compilers {
   // ReturnIfAbrupt
   lazy val returnIfAbruptExpr: P[I[Expr]] = opt("the result of" ~ opt("performing")) ~> (
     ("?" ~> expr | "ReturnIfAbrupt(" ~> expr <~ ")") ^^ {
-      case i ~ e => returnIfAbrupt(i, e, true)
+      case i ~ e => pair(i, EReturnIfAbrupt(e, true))
     } | "!" ~> expr ^^ {
-      case i ~ e => returnIfAbrupt(i, e, false)
+      case i ~ e => pair(i, EReturnIfAbrupt(e, false))
     } | ("IfAbruptRejectPromise(" ~> expr <~ ", ") ~ (ref <~ ")") ^^ {
       case (i0 ~ e) ~ (i1 ~ r) => ifAbruptRejectPromise(i0 ++ i1, e, r)
     }

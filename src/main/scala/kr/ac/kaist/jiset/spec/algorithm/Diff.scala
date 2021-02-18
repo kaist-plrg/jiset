@@ -139,6 +139,8 @@ object Diff {
       compare(ls, rs) && lt == rt && compare(lf, rf)
     case (EContains(ll, le), EContains(rl, re)) =>
       compare(ll, rl) && compare(le, re)
+    case (EReturnIfAbrupt(le, lb), EReturnIfAbrupt(re, rb)) =>
+      compare(le, re) && lb == rb
     case (ECopy(lo), ECopy(ro)) => compare(lo, ro)
     case (EKeys(lm), EKeys(rm)) => compare(lm, rm)
     case (_, ENotSupported(_)) => true

@@ -197,6 +197,8 @@ object Beautifier {
         walk("(convert "); walk(expr); walk(" "); walk(cop); walk(" "); walkListSep[Expr](list, " ", walk); walk(")")
       case EContains(list, elem) =>
         walk("(contains "); walk(list); walk(" "); walk(elem); walk(")")
+      case EReturnIfAbrupt(expr, check) =>
+        if (check) walk("[? ") else walk("[! "); walk(expr); walk("]")
       case ECopy(obj) =>
         walk("(copy-obj "); walk(obj); walk(")")
       case EKeys(obj) =>

@@ -71,6 +71,7 @@ class AbsTransfer(cfg: CFG) {
     case EParseSyntax(code, rule, flags) => ???
     case EConvert(source, target, flags) => ???
     case EContains(list, elem) => ???
+    case EReturnIfAbrupt(expr, check) => ???
     case ECopy(obj) => ???
     case EKeys(mobj) => ???
     case ENotSupported(msg) => ???
