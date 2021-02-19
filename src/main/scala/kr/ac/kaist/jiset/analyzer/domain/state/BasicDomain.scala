@@ -24,13 +24,13 @@ object BasicDomain extends state.Domain {
     )
 
     // join operator
-    def ⊔(that: Elem): Elem = Elem(
+    def ⊔(that: Elem): Elem = if (this eq that) this else Elem(
       this.ctxt ⊔ that.ctxt,
       this.heap ⊔ that.heap
     )
 
     // meet operator
-    def ⊓(that: Elem): Elem = Elem(
+    def ⊓(that: Elem): Elem = if (this eq that) this else Elem(
       this.ctxt ⊓ that.ctxt,
       this.heap ⊓ that.heap
     ).normalized

@@ -20,10 +20,10 @@ class ListDomain[V, VD <: AbsDomain[V]](
   object Top extends Elem
 
   // fixed length
-  case class Fixed(vector: Vector[AbsV]) extends Elem
+  case class Fixed(fixed: Vector[AbsV]) extends Elem
 
   // unfixed length
-  case class Unfixed(value: AbsV) extends Elem
+  case class Unfixed(unfixed: AbsV) extends Elem
 
   // empty value
   lazy val Empty: Elem = Fixed(Vector())

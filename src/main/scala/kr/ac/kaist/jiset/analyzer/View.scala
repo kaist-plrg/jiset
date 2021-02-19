@@ -16,6 +16,7 @@ trait View {
       Result(r, rs) <- right.next(prev, next)
     } yield Result(ProdView(l, r), ls ⊓ rs)
     case FlowView(_) => List(Result(FlowView(next.elem), next.st))
+    case _ => List(Result(this, next.st))
   }
 
   // conversion to string
@@ -34,3 +35,6 @@ case class ProdView[+V <: View, +W <: View](left: V, right: W) extends View
 
 // flow sensitive view
 case class FlowView(node: Node) extends View
+
+// parameter type sensitive view
+case class ParamTypeView(tys: List[Type]) extends View

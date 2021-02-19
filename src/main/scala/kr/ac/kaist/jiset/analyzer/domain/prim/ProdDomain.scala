@@ -6,14 +6,14 @@ import kr.ac.kaist.jiset.analyzer.domain._
 object ProdDomain extends prim.Domain {
   // abstraction functions
   def alpha(v: Prim): Elem = v match {
-    case num: Num => Elem(_num = AbsNum(num))
-    case int: INum => Elem(_int = AbsINum(int))
-    case bigint: BigINum => Elem(_bigint = AbsBigINum(bigint))
-    case str: Str => Elem(_str = AbsStr(str))
-    case bool: Bool => Elem(_bool = AbsBool(bool))
-    case undef: Undef => Elem(_undef = AbsUndef(undef))
-    case nullval: Null => Elem(_nullval = AbsNull(nullval))
-    case absent: Absent => Elem(_absent = AbsAbsent(absent))
+    case num: Num => Elem(num = AbsNum(num))
+    case int: INum => Elem(int = AbsINum(int))
+    case bigint: BigINum => Elem(bigint = AbsBigINum(bigint))
+    case str: Str => Elem(str = AbsStr(str))
+    case bool: Bool => Elem(bool = AbsBool(bool))
+    case undef: Undef => Elem(undef = AbsUndef(undef))
+    case nullval: Null => Elem(nullval = AbsNull(nullval))
+    case absent: Absent => Elem(absent = AbsAbsent(absent))
   }
 
   // bottom value
@@ -44,83 +44,83 @@ object ProdDomain extends prim.Domain {
   ): Elem = Elem(num, int, bigint, str, bool, undef, nullval, absent)
 
   case class Elem(
-    _num: AbsNum = AbsNum.Bot,
-    _int: AbsINum = AbsINum.Bot,
-    _bigint: AbsBigINum = AbsBigINum.Bot,
-    _str: AbsStr = AbsStr.Bot,
-    _bool: AbsBool = AbsBool.Bot,
-    _undef: AbsUndef = AbsUndef.Bot,
-    _nullval: AbsNull = AbsNull.Bot,
-    _absent: AbsAbsent = AbsAbsent.Bot
+    num: AbsNum = AbsNum.Bot,
+    int: AbsINum = AbsINum.Bot,
+    bigint: AbsBigINum = AbsBigINum.Bot,
+    str: AbsStr = AbsStr.Bot,
+    bool: AbsBool = AbsBool.Bot,
+    undef: AbsUndef = AbsUndef.Bot,
+    nullval: AbsNull = AbsNull.Bot,
+    absent: AbsAbsent = AbsAbsent.Bot
   ) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (
-      this._num ⊑ that._num &&
-      this._int ⊑ that._int &&
-      this._bigint ⊑ that._bigint &&
-      this._str ⊑ that._str &&
-      this._bool ⊑ that._bool &&
-      this._undef ⊑ that._undef &&
-      this._nullval ⊑ that._nullval &&
-      this._absent ⊑ that._absent
+      this.num ⊑ that.num &&
+      this.int ⊑ that.int &&
+      this.bigint ⊑ that.bigint &&
+      this.str ⊑ that.str &&
+      this.bool ⊑ that.bool &&
+      this.undef ⊑ that.undef &&
+      this.nullval ⊑ that.nullval &&
+      this.absent ⊑ that.absent
     )
 
     // join operator
     def ⊔(that: Elem): Elem = Elem(
-      this._num ⊔ that._num,
-      this._int ⊔ that._int,
-      this._bigint ⊔ that._bigint,
-      this._str ⊔ that._str,
-      this._bool ⊔ that._bool,
-      this._undef ⊔ that._undef,
-      this._nullval ⊔ that._nullval,
-      this._absent ⊔ that._absent
+      this.num ⊔ that.num,
+      this.int ⊔ that.int,
+      this.bigint ⊔ that.bigint,
+      this.str ⊔ that.str,
+      this.bool ⊔ that.bool,
+      this.undef ⊔ that.undef,
+      this.nullval ⊔ that.nullval,
+      this.absent ⊔ that.absent
     )
 
     // meet operator
     def ⊓(that: Elem): Elem = Elem(
-      this._num ⊓ that._num,
-      this._int ⊓ that._int,
-      this._bigint ⊓ that._bigint,
-      this._str ⊓ that._str,
-      this._bool ⊓ that._bool,
-      this._undef ⊓ that._undef,
-      this._nullval ⊓ that._nullval,
-      this._absent ⊓ that._absent
+      this.num ⊓ that.num,
+      this.int ⊓ that.int,
+      this.bigint ⊓ that.bigint,
+      this.str ⊓ that.str,
+      this.bool ⊓ that.bool,
+      this.undef ⊓ that.undef,
+      this.nullval ⊓ that.nullval,
+      this.absent ⊓ that.absent
     )
 
     // concretization function
     def gamma: concrete.Set[Prim] = (
-      this._num.gamma ++
-      this._int.gamma ++
-      this._bigint.gamma ++
-      this._str.gamma ++
-      this._bool.gamma ++
-      this._undef.gamma ++
-      this._nullval.gamma ++
-      this._absent.gamma
+      this.num.gamma ++
+      this.int.gamma ++
+      this.bigint.gamma ++
+      this.str.gamma ++
+      this.bool.gamma ++
+      this.undef.gamma ++
+      this.nullval.gamma ++
+      this.absent.gamma
     )
 
     // conversion to flat domain
     def getSingle: concrete.Flat[Prim] = (
-      this._num.getSingle ++
-      this._int.getSingle ++
-      this._bigint.getSingle ++
-      this._str.getSingle ++
-      this._bool.getSingle ++
-      this._undef.getSingle ++
-      this._nullval.getSingle ++
-      this._absent.getSingle
+      this.num.getSingle ++
+      this.int.getSingle ++
+      this.bigint.getSingle ++
+      this.str.getSingle ++
+      this.bool.getSingle ++
+      this.undef.getSingle ++
+      this.nullval.getSingle ++
+      this.absent.getSingle
     )
   }
 
   // Members declared in prim.Domain
-  def num(elem: Elem): AbsNum = elem._num
-  def int(elem: Elem): AbsINum = elem._int
-  def bigint(elem: Elem): AbsBigINum = elem._bigint
-  def str(elem: Elem): AbsStr = elem._str
-  def bool(elem: Elem): AbsBool = elem._bool
-  def undef(elem: Elem): AbsUndef = elem._undef
-  def nullval(elem: Elem): AbsNull = elem._nullval
-  def absent(elem: Elem): AbsAbsent = elem._absent
+  def num(elem: Elem): AbsNum = elem.num
+  def int(elem: Elem): AbsINum = elem.int
+  def bigint(elem: Elem): AbsBigINum = elem.bigint
+  def str(elem: Elem): AbsStr = elem.str
+  def bool(elem: Elem): AbsBool = elem.bool
+  def undef(elem: Elem): AbsUndef = elem.undef
+  def nullval(elem: Elem): AbsNull = elem.nullval
+  def absent(elem: Elem): AbsAbsent = elem.absent
 }

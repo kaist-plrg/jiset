@@ -22,6 +22,7 @@ case object Analyze extends PhaseObj[ECMAScript, AnalyzeConfig, AbsSemantics] {
     val sem = new AbsSemantics
     val fixpoint = new Fixpoint(cfg, worklist, sem)
     fixpoint.compute
+    println(sem)
     sem
   }
 

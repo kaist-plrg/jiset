@@ -16,8 +16,8 @@ case class Heap(map: Map[Addr, Obj])
 
 // objects
 sealed trait Obj
-case class SymbolObj(desc: Value) extends Obj
-case class MapObj(props: Map[Value, Value]) extends Obj
+case class SymbolObj(desc: Str) extends Obj
+case class MapObj(props: Map[String, Value]) extends Obj
 case class ListObj(values: List[Value]) extends Obj
 
 // values
@@ -34,8 +34,8 @@ case class Clo(func: Function, env: Env) extends Value
 // TODO continuations
 case class Cont() extends Value
 
-// TODO abstract syntax trees
-case class ASTVal() extends Value
+// abstract syntax trees
+case class ASTVal(name: String) extends Value
 
 // primitive values
 sealed trait Prim extends Value

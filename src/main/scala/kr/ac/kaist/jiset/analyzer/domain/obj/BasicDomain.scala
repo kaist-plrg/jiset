@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends obj.Domain {
   // map domain
-  val MapD = combinator.MapDomain[Value, Value, AbsValue.type](AbsValue)
+  val MapD = combinator.MapDomain[String, Value, AbsValue.type](AbsValue)
   type MapD = MapD.Elem
 
   // list domain
@@ -14,7 +14,7 @@ object BasicDomain extends obj.Domain {
 
   // abstraction function
   def alpha(obj: Obj): Elem = obj match {
-    case SymbolObj(v) => Elem(symbol = AbsValue(v))
+    case SymbolObj(desc) => Elem(symbol = AbsStr(desc))
     case MapObj(props) => Elem(map = MapD(props))
     case ListObj(values) => Elem(list = ListD(values))
   }
@@ -23,10 +23,10 @@ object BasicDomain extends obj.Domain {
   val Bot: Elem = Elem()
 
   // top value
-  val Top: Elem = Elem(AbsValue.Top, MapD.Top, ListD.Top)
+  val Top: Elem = Elem(AbsStr.Top, MapD.Top, ListD.Top)
 
   case class Elem(
-    symbol: AbsValue = AbsValue.Bot,
+    symbol: AbsValue = AbsStr.Bot,
     map: MapD = MapD.Bot,
     list: ListD = ListD.Bot
   ) extends ElemTrait {
