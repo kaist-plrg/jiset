@@ -40,5 +40,12 @@ object BasicDomain extends state.Domain {
 
     // conversion to flat domain
     def getSingle: concrete.Flat[State] = Many
+
+    // return value
+    def doReturn(value: AbsValue): Elem = copy(ctxt = ctxt.doReturn(value))
   }
+
+  def ctxt(elem: Elem): AbsCtxt = elem.ctxt
+  def heap(elem: Elem): AbsHeap = elem.heap
+  def doReturn(elem: Elem, value: AbsValue): Elem = elem.doReturn(value)
 }

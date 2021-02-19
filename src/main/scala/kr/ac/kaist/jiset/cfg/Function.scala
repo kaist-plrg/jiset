@@ -11,6 +11,9 @@ case class Function(
   nodes: Set[Node],
   forwards: Map[Node, Set[(Edge, Node)]]
 ) extends UId {
+  // connect nodes with function
+  nodes.foreach(_._func = this)
+
   // backward edges
   val backwards: Map[Node, Set[(Edge, Node)]] = (for {
     (from, set) <- forwards

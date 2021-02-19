@@ -24,22 +24,36 @@ package object domain {
   // abstract states
   lazy val AbsState = state.BasicDomain
   type AbsState = AbsState.Elem
+  implicit class StateOps(elem: AbsState) {
+    def ctxt: AbsCtxt = AbsState.ctxt(elem)
+    def heap: AbsHeap = AbsState.heap(elem)
+    def doReturn(value: AbsValue): AbsState = AbsState.doReturn(elem, value)
+  }
 
   // abstract contexts
   lazy val AbsCtxt: ctxt.Domain = ctxt.BasicDomain
   type AbsCtxt = AbsCtxt.Elem
+  implicit class CtxtOps(elem: AbsCtxt) {
+    def globals: AbsEnv = AbsCtxt.globals(elem)
+    def locals: AbsEnv = AbsCtxt.locals(elem)
+    def retVal: AbsValue = AbsCtxt.retVal(elem)
+    def doReturn(value: AbsValue): AbsCtxt = AbsCtxt.doReturn(elem, value)
+  }
 
   // abstract environment
   lazy val AbsEnv: env.Domain = env.BasicDomain
   type AbsEnv = AbsEnv.Elem
+  implicit class EnvOps(elem: AbsEnv)
 
   // abstract heaps
   lazy val AbsHeap: heap.Domain = heap.BasicDomain
   type AbsHeap = AbsHeap.Elem
+  implicit class HeapOps(elem: AbsHeap)
 
   // abstract objects
   lazy val AbsObj: obj.Domain = obj.BasicDomain
   type AbsObj = AbsObj.Elem
+  implicit class ObjOps(elem: AbsObj)
 
   // abstract values
   lazy val AbsValue: value.Domain = value.ProdDomain
@@ -55,18 +69,22 @@ package object domain {
   // abstract addresses
   lazy val AbsAddr: addr.Domain = addr.SetDomain
   type AbsAddr = AbsAddr.Elem
+  implicit class AddrOps(elem: AbsAddr)
 
   // abstract continuations
   lazy val AbsCont: cont.Domain = cont.SimpleDomain
   type AbsCont = AbsCont.Elem
+  implicit class ContOps(elem: AbsCont)
 
   // abstract function closures
   lazy val AbsClo: clo.Domain = clo.SimpleDomain
   type AbsClo = AbsClo.Elem
+  implicit class CloOps(elem: AbsClo)
 
   // abstract AST values
   lazy val AbsAST: ast.Domain = ast.SimpleDomain
   type AbsAST = AbsAST.Elem
+  implicit class ASTOps(elem: AbsAST)
 
   // abstract primitives
   lazy val AbsPrim: prim.Domain = prim.ProdDomain
@@ -138,14 +156,17 @@ package object domain {
   // abstract undefined values
   lazy val AbsUndef: undef.Domain = undef.SimpleDomain
   type AbsUndef = AbsUndef.Elem
+  implicit class UndefOps(elem: AbsUndef)
 
   // abstract null values
   lazy val AbsNull: nullval.Domain = nullval.SimpleDomain
   type AbsNull = AbsNull.Elem
+  implicit class NullOps(elem: AbsNull)
 
   // abstract absent values
   lazy val AbsAbsent: absent.Domain = absent.SimpleDomain
   type AbsAbsent = AbsAbsent.Elem
+  implicit class AbsentOps(elem: AbsAbsent)
 
   //////////////////////////////////////////////////////////////////////////////
   // helpers

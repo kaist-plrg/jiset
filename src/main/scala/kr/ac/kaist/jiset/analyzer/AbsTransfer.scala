@@ -24,13 +24,26 @@ class AbsTransfer(
   def apply(result: Result[Node]): List[Result[Node]] = apply(result.st, result.elem)
   def apply(st: AbsState, node: Node): List[Result[Node]] = node match {
     case Entry() => cfg.nextNodes(node).toList.map(Result(_, st))
-    case Exit() => ???
+    case Exit() => Nil // TODO handle inter-procedural cases
     case Block(insts) =>
       val nextSt = insts.foldLeft(st)(apply)
-      cfg.nextNodes(node).toList.map(Result(_, nextSt))
+      val nexts =
+        if (nextSt.isBottom) Nil
+        else cfg.nextNodes(node).toList.map(Result(_, nextSt))
+      handleReturn(node, nexts)
     case Call(inst) => ???
     case branch @ Branch(expr) => ???
   }
+
+  // handle return
+  private var retSt: AbsState = AbsState.Bot
+  def handleReturn(node: Node, list: List[Result[Node]]): List[Result[Node]] =
+    if (retSt.isBottom) list else {
+      val result = Result(node.func.exit, retSt)
+      val newNexts = result :: list
+      retSt = AbsState.Bot
+      newNexts
+    }
 
   // transfer function for instructions
   def apply(st: AbsState, inst: NormalInst): AbsState = inst match {
@@ -42,6 +55,7 @@ class AbsTransfer(
     case IPrepend(expr, list) => ???
     case IReturn(expr) =>
       val (s0, v) = apply(st, expr)
+      retSt ⊔= s0.doReturn(v)
       AbsState.Bot
     case IThrow(id) => ???
     case IAssert(expr) => ???
