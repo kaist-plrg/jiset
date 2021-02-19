@@ -5,7 +5,10 @@ import kr.ac.kaist.jiset.cfg._
 import domain._
 
 // abstract transfer function
-class AbsTransfer(cfg: CFG) {
+class AbsTransfer(
+  cfg: CFG,
+  sem: AbsSemantics
+) {
   // transfer function for control points
   def apply(st: AbsState, cp: ControlPoint): List[Result[ControlPoint]] = {
     val ControlPoint(node, view) = cp
@@ -37,7 +40,9 @@ class AbsTransfer(cfg: CFG) {
     case IDelete(ref) => ???
     case IAppend(expr, list) => ???
     case IPrepend(expr, list) => ???
-    case IReturn(expr) => ???
+    case IReturn(expr) =>
+      val (s0, v) = apply(st, expr)
+      AbsState.Bot
     case IThrow(id) => ???
     case IAssert(expr) => ???
     case IPrint(expr) => ???
@@ -46,15 +51,15 @@ class AbsTransfer(cfg: CFG) {
   }
 
   // transfer function for expressions
-  def apply(st: AbsState, expr: Expr): AbsValue = expr match {
-    case ENum(n) => ???
-    case EINum(n) => ???
-    case EBigINum(b) => ???
-    case EStr(str) => ???
-    case EBool(b) => ???
-    case EUndef => ???
-    case ENull => ???
-    case EAbsent => ???
+  def apply(st: AbsState, expr: Expr): (AbsState, AbsValue) = expr match {
+    case ENum(n) => (st, AbsNum(n))
+    case EINum(n) => (st, AbsINum(n))
+    case EBigINum(b) => (st, AbsBigINum(b))
+    case EStr(str) => (st, AbsStr(str))
+    case EBool(b) => (st, AbsBool(b))
+    case EUndef => (st, AbsUndef.Top)
+    case ENull => (st, AbsNull.Top)
+    case EAbsent => (st, AbsAbsent.Top)
     case EMap(ty, props) => ???
     case EList(exprs) => ???
     case ESymbol(desc) => ???

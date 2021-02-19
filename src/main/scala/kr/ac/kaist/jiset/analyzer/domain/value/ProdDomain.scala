@@ -43,29 +43,29 @@ object ProdDomain extends value.Domain {
   ) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (
-      this._addr ⊑ that.addr &&
-      this._clo ⊑ that.clo &&
-      this._cont ⊑ that.cont &&
-      this._ast ⊑ that.ast &&
-      this._prim ⊑ that.prim
+      this._addr ⊑ that._addr &&
+      this._clo ⊑ that._clo &&
+      this._cont ⊑ that._cont &&
+      this._ast ⊑ that._ast &&
+      this._prim ⊑ that._prim
     )
 
     // join operator
     def ⊔(that: Elem): Elem = Elem(
-      this._addr ⊔ that.addr,
-      this._clo ⊔ that.clo,
-      this._cont ⊔ that.cont,
-      this._ast ⊔ that.ast,
-      this._prim ⊔ that.prim
+      this._addr ⊔ that._addr,
+      this._clo ⊔ that._clo,
+      this._cont ⊔ that._cont,
+      this._ast ⊔ that._ast,
+      this._prim ⊔ that._prim
     )
 
     // meet operator
     def ⊓(that: Elem): Elem = Elem(
-      this._addr ⊓ that.addr,
-      this._clo ⊓ that.clo,
-      this._cont ⊓ that.cont,
-      this._ast ⊓ that.ast,
-      this._prim ⊓ that.prim
+      this._addr ⊓ that._addr,
+      this._clo ⊓ that._clo,
+      this._cont ⊓ that._cont,
+      this._ast ⊓ that._ast,
+      this._prim ⊓ that._prim
     )
 
     // concretization clotion

@@ -5,14 +5,6 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 // boolean abstract domain
 trait Domain extends AbsDomain[Bool] {
-  // abstract operators
-  implicit class Ops(elem: Elem) {
-    def &&(that: Elem): Elem = and(elem, that)
-    def ||(that: Elem): Elem = or(elem, that)
-    def ^(that: Elem): Elem = xor(elem, that)
-    def unary_!(): Elem = not(elem)
-  }
-
   // logical conjunction (&&)
   def and(left: Elem, right: Elem): Elem
 

@@ -44,6 +44,13 @@ package object domain {
   // abstract values
   lazy val AbsValue: value.Domain = value.ProdDomain
   type AbsValue = AbsValue.Elem
+  implicit class ValueOps(elem: AbsValue) {
+    def addr: AbsAddr = AbsValue.addr(elem)
+    def clo: AbsClo = AbsValue.clo(elem)
+    def cont: AbsCont = AbsValue.cont(elem)
+    def ast: AbsAST = AbsValue.ast(elem)
+    def prim: AbsPrim = AbsValue.prim(elem)
+  }
 
   // abstract addresses
   lazy val AbsAddr: addr.Domain = addr.SetDomain
@@ -64,26 +71,69 @@ package object domain {
   // abstract primitives
   lazy val AbsPrim: prim.Domain = prim.ProdDomain
   type AbsPrim = AbsPrim.Elem
+  implicit class PrimOps(elem: AbsPrim) {
+    def num: AbsNum = AbsPrim.num(elem)
+    def int: AbsINum = AbsPrim.int(elem)
+    def bigint: AbsBigINum = AbsPrim.bigint(elem)
+    def str: AbsStr = AbsPrim.str(elem)
+    def bool: AbsBool = AbsPrim.bool(elem)
+    def undef: AbsUndef = AbsPrim.undef(elem)
+    def nullval: AbsNull = AbsPrim.nullval(elem)
+    def absent: AbsAbsent = AbsPrim.absent(elem)
+  }
 
   // abstract numbers
   lazy val AbsNum: num.Domain = num.FlatDomain
   type AbsNum = AbsNum.Elem
+  implicit class NumOps(e: AbsNum) extends ops.NumericOpsHelper {
+    type Domain = AbsNum.type
+    val Domain = AbsNum
+    val elem = e
+  }
 
   // abstract integers
   lazy val AbsINum: inum.Domain = inum.FlatDomain
   type AbsINum = AbsINum.Elem
+  implicit class INumOps(e: AbsINum)
+    extends ops.NumericOpsHelper
+    with ops.BitwiseOpsHelper
+    with ops.ShiftOpsHelper {
+    type Domain = AbsINum.type
+    val Domain = AbsINum
+    val elem = e
+  }
 
   // abstract big integers
   lazy val AbsBigINum: biginum.Domain = biginum.FlatDomain
   type AbsBigINum = AbsBigINum.Elem
+  implicit class BigINumOps(e: AbsBigINum)
+    extends ops.NumericOpsHelper
+    with ops.BitwiseOpsHelper
+    with ops.ShiftOpsHelper {
+    type Domain = AbsBigINum.type
+    val Domain = AbsBigINum
+    val elem = e
+  }
 
   // abstract strings
   lazy val AbsStr: str.Domain = str.FlatDomain
   type AbsStr = AbsStr.Elem
+  implicit class StrOps(elem: AbsStr) {
+    def +(that: AbsStr): AbsStr = AbsStr.add(elem, that)
+    def -(num: AbsINum): AbsStr = AbsStr.sub(elem, num)
+    def *(num: AbsINum): AbsStr = AbsStr.mul(elem, num)
+    def <(that: AbsStr): AbsBool = AbsStr.lt(elem, that)
+  }
 
   // abstract booleans
   lazy val AbsBool: bool.Domain = bool.FlatDomain
   type AbsBool = AbsBool.Elem
+  implicit class BoolOps(elem: AbsBool) {
+    def &&(that: AbsBool): AbsBool = AbsBool.and(elem, that)
+    def ||(that: AbsBool): AbsBool = AbsBool.or(elem, that)
+    def ^(that: AbsBool): AbsBool = AbsBool.xor(elem, that)
+    def unary_!(): AbsBool = AbsBool.not(elem)
+  }
 
   // abstract undefined values
   lazy val AbsUndef: undef.Domain = undef.SimpleDomain

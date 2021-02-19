@@ -5,19 +5,6 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 // numeric operators
 trait NumericOps { this: AbsDomain[_] =>
-  // abstract operators
-  implicit class NumericOps(elem: Elem) {
-    def unary_-(): Elem = neg(elem)
-    def +(that: Elem): Elem = add(elem, that)
-    def -(that: Elem): Elem = sub(elem, that)
-    def *(that: Elem): Elem = mul(elem, that)
-    def /(that: Elem): Elem = div(elem, that)
-    def **(that: Elem): Elem = pow(elem, that)
-    def %(that: Elem): Elem = mod(elem, that)
-    def %%(that: Elem): Elem = umod(elem, that)
-    def <(that: Elem): AbsBool = lt(elem, that)
-  }
-
   // negation (-)
   val neg: Elem => Elem
 
@@ -44,4 +31,21 @@ trait NumericOps { this: AbsDomain[_] =>
 
   // comparison (<)
   val lt: (Elem, Elem) => AbsBool
+}
+
+// numeric operators helper
+trait NumericOpsHelper {
+  type Domain <: AbsDomain[_] with NumericOps
+  val Domain: Domain
+  val elem: Domain.Elem
+
+  def unary_-(): Domain.Elem = Domain.neg(elem)
+  def +(that: Domain.Elem): Domain.Elem = Domain.add(elem, that)
+  def -(that: Domain.Elem): Domain.Elem = Domain.sub(elem, that)
+  def *(that: Domain.Elem): Domain.Elem = Domain.mul(elem, that)
+  def /(that: Domain.Elem): Domain.Elem = Domain.div(elem, that)
+  def **(that: Domain.Elem): Domain.Elem = Domain.pow(elem, that)
+  def %(that: Domain.Elem): Domain.Elem = Domain.mod(elem, that)
+  def %%(that: Domain.Elem): Domain.Elem = Domain.umod(elem, that)
+  def <(that: Domain.Elem): AbsBool = Domain.lt(elem, that)
 }

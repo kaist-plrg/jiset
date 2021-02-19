@@ -21,7 +21,7 @@ class Fixpoint(
   })
 
   // abstract transfer function
-  val transfer = new AbsTransfer(cfg)
+  val transfer = new AbsTransfer(cfg, sem)
 
   // fixpoint computation
   def compute: Unit = while (!worklist.isEmpty) step

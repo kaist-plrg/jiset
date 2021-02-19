@@ -5,14 +5,6 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 // bit-wise operators
 trait BitwiseOps { this: AbsDomain[_] =>
-  // abstract operators
-  implicit class BitwiseOps(elem: Elem) {
-    def unary_~(): Elem = not(elem)
-    def &(that: Elem): Elem = and(elem, that)
-    def |(that: Elem): Elem = or(elem, that)
-    def ^(that: Elem): Elem = xor(elem, that)
-  }
-
   // bit-wise negation (~)
   val not: Elem => Elem
 
@@ -24,4 +16,16 @@ trait BitwiseOps { this: AbsDomain[_] =>
 
   // bit-wise xor (^)
   val xor: (Elem, Elem) => Elem
+}
+
+// bit-wise operators helper
+trait BitwiseOpsHelper {
+  type Domain <: AbsDomain[_] with BitwiseOps
+  val Domain: Domain
+  val elem: Domain.Elem
+
+  def unary_~(): Domain.Elem = Domain.not(elem)
+  def &(that: Domain.Elem): Domain.Elem = Domain.and(elem, that)
+  def |(that: Domain.Elem): Domain.Elem = Domain.or(elem, that)
+  def ^(that: Domain.Elem): Domain.Elem = Domain.xor(elem, that)
 }

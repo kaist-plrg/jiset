@@ -4,16 +4,7 @@ import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 // value abstract domain
-trait Domain extends AbsDomain[Value] { domain =>
-  // abstract operators
-  implicit class Ops(elem: Elem) {
-    def addr: AbsAddr = domain.addr(elem)
-    def clo: AbsClo = domain.clo(elem)
-    def cont: AbsCont = domain.cont(elem)
-    def ast: AbsAST = domain.ast(elem)
-    def prim: AbsPrim = domain.prim(elem)
-  }
-
+trait Domain extends AbsDomain[Value] {
   // constructor
   def apply(
     addr: AbsAddr = AbsAddr.Bot,

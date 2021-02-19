@@ -5,13 +5,6 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 // shift operators
 trait ShiftOps { this: AbsDomain[_] =>
-  // abstract operators
-  implicit class ShiftOps(elem: Elem) {
-    def <<(that: Elem): Elem = leftShift(elem, that)
-    def >>(that: Elem): Elem = rightShift(elem, that)
-    def >>>(that: Elem): Elem = unsignedRightShift(elem, that)
-  }
-
   // left shift (<<)
   val leftShift: (Elem, Elem) => Elem
 
@@ -20,4 +13,15 @@ trait ShiftOps { this: AbsDomain[_] =>
 
   // unsigned right shift (>>>)
   val unsignedRightShift: (Elem, Elem) => Elem
+}
+
+// shift operators helper
+trait ShiftOpsHelper {
+  type Domain <: AbsDomain[_] with ShiftOps
+  val Domain: Domain
+  val elem: Domain.Elem
+
+  def <<(that: Domain.Elem): Domain.Elem = Domain.leftShift(elem, that)
+  def >>(that: Domain.Elem): Domain.Elem = Domain.rightShift(elem, that)
+  def >>>(that: Domain.Elem): Domain.Elem = Domain.unsignedRightShift(elem, that)
 }
