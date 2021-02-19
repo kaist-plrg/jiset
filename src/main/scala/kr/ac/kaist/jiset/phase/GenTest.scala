@@ -57,7 +57,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
         // get spec, document, grammar, secIds
-        val spec = ECMAScriptParser(version, "", false)
+        val spec = ECMAScriptParser(version, "", false, false)
         implicit val (lines, document, region) = ECMAScriptParser.preprocess(version)
         implicit val grammar = spec.grammar
         val secIds = ECMAScriptParser.parseHeads()._1

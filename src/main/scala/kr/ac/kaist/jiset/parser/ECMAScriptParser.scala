@@ -14,11 +14,17 @@ import scala.collection.mutable.Stack
 import spray.json._
 
 object ECMAScriptParser {
-  def apply(version: String, query: String, detail: Boolean): ECMAScript =
-    apply(preprocess(version), query, detail)
+  def apply(
+    version: String,
+    query: String,
+    useCount: Boolean,
+    detail: Boolean
+  ): ECMAScript =
+    apply(preprocess(version), query, useCount, detail)
   def apply(
     input: (Array[String], Document, Region),
     query: String,
+    useCount: Boolean,
     detail: Boolean
   ): ECMAScript = {
     implicit val (lines, document, region) = input
@@ -28,8 +34,8 @@ object ECMAScriptParser {
 
     // parse algorithm
     val algos =
-      if (query == "") parseAlgo(document, detail)
-      else getElems(document, query).toList.flatMap(parseAlgo(_, detail))
+      if (query == "") parseAlgo(document, useCount, detail)
+      else getElems(document, query).toList.flatMap(parseAlgo(_, useCount, detail))
 
     // intrinsic object names
     val intrinsics = parseIntrinsic
@@ -195,7 +201,8 @@ object ECMAScriptParser {
   // parse spec.html to Algo
   def parseAlgo(
     target: Element,
-    detail: Boolean = false
+    useCount: Boolean,
+    detail: Boolean
   )(
     implicit
     lines: Array[String],
@@ -212,7 +219,7 @@ object ECMAScriptParser {
     // algorithms
     val (atime, passed) = time(for {
       parsedHead <- parsedHeads
-      algos = AlgoParser(parsedHead, secIds, detail)
+      algos = AlgoParser(parsedHead, secIds, useCount, detail)
       if !algos.isEmpty
     } yield algos)
     if (detail) println(s"# successful algorithm parsing: ${passed.size} ($atime ms)")

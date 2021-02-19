@@ -13,7 +13,8 @@ object AlgoParser {
   def apply(
     parsedHead: (Element, List[Head]),
     secIds: Map[String, Name],
-    detail: Boolean = false
+    useCount: Boolean,
+    detail: Boolean
   )(
     implicit
     lines: Array[String],
@@ -30,7 +31,9 @@ object AlgoParser {
       // get tokens
       val tokens = TokenParser.getTokens(code, secIds)
       // get body
-      val rawBody = Compiler(tokens, start)
+      val rawBody =
+        if (useCount) CompileRuleCounter(tokens, start)
+        else Compiler(tokens, start)
 
       // print detail
       if (detail) {

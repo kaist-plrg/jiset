@@ -38,6 +38,9 @@ case object CmdHelp extends CommandObj("help", CmdBase >> Help)
 // parse
 case object CmdParse extends CommandObj("parse", CmdBase >> Parse)
 
+// style-guide
+case object CmdStyleGuide extends CommandObj("style-guide", CmdParse >> StyleGuide)
+
 // compile-repl
 case object CmdCompileREPL extends CommandObj("compile-repl", CmdBase >> CompileREPL)
 

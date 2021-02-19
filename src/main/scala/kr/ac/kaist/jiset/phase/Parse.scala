@@ -19,13 +19,13 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     config: ParseConfig
   ): ECMAScript = {
     println(s"--------------------------------------------------")
-    val ParseConfig(versionOpt, queryOpt, detail) = config
+    val ParseConfig(versionOpt, queryOpt, useCount, detail) = config
     val version = versionOpt.getOrElse("recent")
     val query = queryOpt.getOrElse("")
     println(s"version: $version (${getRawVersion(version)})")
     if (query != "") println(s"query: $query")
     println(s"parsing spec.html...")
-    val spec = ECMAScriptParser(version, query, detail)
+    val spec = ECMAScriptParser(version, query, useCount, detail)
 
     val ECMAScript(grammar, algos, intrinsics, symbols, aoids, section) = spec
 
@@ -71,6 +71,8 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
       "set the git version of ecma262."),
     ("query", StrOption((c, s) => c.query = Some(s)),
       "set target query"),
+    ("useCount", BoolOption(c => c.useCount = true),
+      "use compiler rule counter"),
     ("detail", BoolOption(c => c.detail = true),
       "print log")
   )
@@ -80,5 +82,6 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
 case class ParseConfig(
   var version: Option[String] = None,
   var query: Option[String] = None,
+  var useCount: Boolean = false,
   var detail: Boolean = false
 ) extends Config

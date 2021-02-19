@@ -62,7 +62,8 @@ object JISET {
     CmdCheck,
     CmdAnalyze,
     CmdGenTest,
-    CmdExtractTag
+    CmdExtractTag,
+    CmdStyleGuide
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -76,7 +77,8 @@ object JISET {
     Check,
     Analyze,
     GenTest,
-    ExtractTag
+    ExtractTag,
+    StyleGuide
   )
 
   // global options
