@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends env.Domain {
   // map domain
-  val MapD = combinator.MapDomain[String, Value, AbsValue.type](AbsValue)
+  val MapD = combinator.PMapDomain[String, Value, AbsValue.type](AbsValue)
   type MapD = MapD.Elem
 
   // abstraction function

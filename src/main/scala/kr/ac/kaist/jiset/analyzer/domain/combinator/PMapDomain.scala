@@ -3,36 +3,38 @@ package kr.ac.kaist.jiset.analyzer.domain.combinator
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.ops._
 
-// map abstract domain
-class MapDomain[K, V, VD <: AbsDomain[V]](
+// partial map abstract domain
+class PMapDomain[K, V, VD <: AbsDomain[V]](
   val AbsV: VD
-) extends AbsDomain[Map[K, V]] {
+) extends AbsDomain[Map[K, V]] with EmptyValue {
+  val AbsVOpt = OptionDomain[V, AbsV.type](AbsV)
   type AbsV = AbsV.Elem
+  type AbsVOpt = AbsVOpt.Elem
 
   // abstraction function
   def alpha(map: Map[K, V]): Elem = {
-    val m = map.map { case (k, v) => k -> AbsV(v) }
-    val d = AbsV.Bot
+    val m = map.map { case (k, v) => k -> AbsVOpt(Some(v)) }
+    val d = AbsVOpt(None)
     Elem(m, d)
   }
 
   // bottom value
-  val Bot: Elem = Elem(Map(), AbsV.Bot)
+  val Bot: Elem = Elem(Map(), AbsVOpt.Bot)
 
   // top value
-  val Top: Elem = Elem(Map(), AbsV.Top)
+  val Top: Elem = Elem(Map(), AbsVOpt.Top)
 
   // empty value
-  val Empty: Elem = Bot
+  val Empty: Elem = Elem(Map(), AbsVOpt(None))
 
   // constructor
-  def apply(map: Map[K, AbsV], default: AbsV): Elem = Elem(map, default)
+  def apply(map: Map[K, AbsVOpt], default: AbsVOpt): Elem = Elem(map, default)
 
   // extractor
-  def unapply(elem: Elem): Option[(Map[K, AbsV], AbsV)] = Some((elem.map, elem.default))
+  def unapply(elem: Elem): Option[(Map[K, AbsVOpt], AbsVOpt)] = Some((elem.map, elem.default))
 
   // pair abstract element
-  case class Elem(val map: Map[K, AbsV], val default: AbsV) extends ElemTrait {
+  case class Elem(val map: Map[K, AbsVOpt], val default: AbsVOpt) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = {
       val keys = this.map.keySet ++ that.map.keySet
@@ -64,9 +66,9 @@ class MapDomain[K, V, VD <: AbsDomain[V]](
     def getSingle: concrete.Flat[Map[K, V]] = Many
 
     // lookup
-    def apply(k: K): AbsV = map.getOrElse(k, default)
+    def apply(k: K): AbsVOpt = map.getOrElse(k, default)
   }
 }
-object MapDomain {
-  def apply[K, V, VD <: EAbsDomain[V]](AbsV: VD) = new MapDomain[K, V, VD](AbsV)
+object PMapDomain {
+  def apply[K, V, VD <: EAbsDomain[V]](AbsV: VD) = new PMapDomain[K, V, VD](AbsV)
 }

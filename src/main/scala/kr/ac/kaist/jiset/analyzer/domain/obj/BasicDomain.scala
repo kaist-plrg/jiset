@@ -9,7 +9,7 @@ object BasicDomain extends obj.Domain {
   type SymbolD = SymbolD.Elem
 
   // map domain
-  val MapD = combinator.MapDomain[String, Value, AbsValue.type](AbsValue)
+  val MapD = combinator.PMapDomain[String, Value, AbsValue.type](AbsValue)
   type MapD = MapD.Elem
 
   // list domain

@@ -42,7 +42,7 @@ object JsonProtocol extends DefaultJsonProtocol {
   implicit lazy val avalueFormat = jsonFormat5(AbsValue.Elem)
   implicit lazy val aobjFormat: JsonFormat[AbsObj] = {
     implicit val symbolFormat = setDomainFormat(AbsObj.SymbolD)
-    implicit val mapFormat = mapDomainFormat(AbsObj.MapD)
+    implicit val mapFormat = pmapDomainFormat(AbsObj.MapD)
     implicit val listFormat = listDomainFormat(AbsObj.ListD)
     jsonFormat3(AbsObj.Elem)
   }
@@ -52,7 +52,7 @@ object JsonProtocol extends DefaultJsonProtocol {
     def write(heap: AbsHeap): JsValue = mapFormat.write(heap.map)
   }
   implicit lazy val aenvFormat: JsonFormat[AbsEnv] = new RootJsonFormat[AbsEnv] {
-    implicit val mapFormat: JsonFormat[AbsEnv.MapD] = mapDomainFormat(AbsEnv.MapD)
+    implicit val mapFormat: JsonFormat[AbsEnv.MapD] = pmapDomainFormat(AbsEnv.MapD)
     def read(json: JsValue): AbsEnv = AbsEnv.Elem(mapFormat.read(json))
     def write(env: AbsEnv): JsValue = mapFormat.write(env.map)
   }
@@ -116,6 +116,27 @@ object JsonProtocol extends DefaultJsonProtocol {
 
   // MapDomain JSON format
   def mapDomainFormat[K, V](domain: MapDomain[K, V, _])(
+    implicit
+    kFormat: JsonFormat[K],
+    avFormat: JsonFormat[domain.AbsV]
+  ): JsonFormat[domain.Elem] = {
+    import domain._
+    implicit val mapFormat = new RootJsonFormat[Map[K, AbsV]] {
+      def read(json: JsValue): Map[K, AbsV] = json match {
+        case JsObject(map) => map.map {
+          case (k, v) => kFormat.read(k.parseJson) -> avFormat.read(v)
+        }.toMap
+        case _ => deserializationError(s"unknown element: $json")
+      }
+      def write(map: Map[K, AbsV]): JsValue = JsObject((map.toSeq.map {
+        case (k, v) => kFormat.write(k).toString -> avFormat.write(v)
+      }): _*)
+    }
+    jsonFormat2(Elem)
+  }
+
+  // PMapDomain JSON format
+  def pmapDomainFormat[K, V](domain: PMapDomain[K, V, _])(
     implicit
     kFormat: JsonFormat[K],
     avFormat: JsonFormat[domain.AbsV]

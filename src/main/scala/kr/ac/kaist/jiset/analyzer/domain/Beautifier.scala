@@ -101,7 +101,7 @@ object Beautifier {
         _ >> "@" >> symbol
       }
       if (!map.isBottom) udts :+= {
-        implicit val mapApp = mapDomainApp(AbsObj.MapD)
+        implicit val mapApp = pmapDomainApp(AbsObj.MapD)
         _ >> map
       }
       if (!list.isBottom) udts :+= {
@@ -115,7 +115,7 @@ object Beautifier {
     _ >> _.map
   }
   implicit lazy val aenvApp: App[AbsEnv] = {
-    implicit val mapApp = mapDomainApp(AbsEnv.MapD)
+    implicit val mapApp = pmapDomainApp(AbsEnv.MapD)
     _ >> _.map
   }
   implicit lazy val actxtApp: App[AbsCtxt] =
@@ -181,6 +181,23 @@ object Beautifier {
 
   // MapDomain appender
   def mapDomainApp[K, V](domain: MapDomain[K, V, _])(
+    implicit
+    kFormat: App[K],
+    avFormat: App[domain.AbsV]
+  ): App[domain.Elem] = {
+    import domain._
+    domainApp(domain)((app, elem) => {
+      if (elem.map.size == 0) app >> "{}"
+      else app.wrap {
+        for ((k, v) <- elem.map) app :> k >> " -> " >> v >> endl
+        if (!elem.default.isBottom)
+          app :> "_ -> " >> elem.default >> endl
+      }
+    })
+  }
+
+  // PMapDomain appender
+  def pmapDomainApp[K, V](domain: PMapDomain[K, V, _])(
     implicit
     kFormat: App[K],
     avFormat: App[domain.AbsV]

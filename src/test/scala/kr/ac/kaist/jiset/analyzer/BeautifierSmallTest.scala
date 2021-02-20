@@ -64,8 +64,8 @@ class BeautifierSmallTest extends AnalyzerTest {
     ))
     test("Abstract Heaps")(
       heap -> """{
-      |  #Global -> ! @has
-      |  #42 -> ! {}
+      |  #Global -> @has
+      |  #42 -> {}
       |}""".stripMargin,
     )
 
@@ -122,8 +122,8 @@ class BeautifierSmallTest extends AnalyzerTest {
       |    return: true | null
       |  },
       |  heap: {
-      |    #Global -> ! @has
-      |    #42 -> ! {}
+      |    #Global -> @has
+      |    #42 -> {}
       |  }
       |}""".stripMargin,
     )
