@@ -5,18 +5,22 @@ case class Rhs(
   tokens: List[Token],
   condOpt: Option[RhsCond]
 ) {
-  // rhs name
-  def names: List[String] = tokens.foldLeft(List[String]("")) {
+  // get rhs name
+  def name: String = tokens.foldLeft("") {
+    case (prev, Terminal(term)) => prev + term
+    case (prev, NonTerminal(name, _, _)) => prev + name
+    case (prev, ButNot(NonTerminal(base, _, _), cases)) => prev + base
+    case (prev, _) => prev
+  }
+
+  // get rhs all names
+  def allNames: List[String] = tokens.foldLeft(List[String]("")) {
     case (names, Terminal(term)) => names.map(_ + term)
     case (names, NonTerminal(name, _, optional)) => names.flatMap(x => {
       if (optional) List(x, x + name) else List(x + name)
     })
     case (names, ButNot(NonTerminal(base, _, _), cases)) =>
-      val butnot = cases.flatMap(_ match {
-        case NonTerminal(name, _, _) => Some(name)
-        case _ => None
-      }).mkString
-      names.map(_ + s"${base}butnot$butnot")
+      names.map(_ + base)
     case (names, _) => names
   }
 

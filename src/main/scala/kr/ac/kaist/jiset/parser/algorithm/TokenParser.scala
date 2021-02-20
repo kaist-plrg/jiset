@@ -119,7 +119,7 @@ trait TokenParsers extends ProductionParsers {
     // token parsers
     lazy val gram = "<emu-grammar>" ~> lhs ~ rhs <~ "</emu-grammar>" ^^ {
       case Lhs(lhsName, _) ~ rhs => {
-        val caseName = s"${lhsName}:${rhs.names.head}"
+        val caseName = s"${lhsName}:${rhs.allNames.head}"
         grammar.idxMap.get(caseName) match {
           case Some((idx, _)) => {
             val subs = rhs.tokens.flatMap {

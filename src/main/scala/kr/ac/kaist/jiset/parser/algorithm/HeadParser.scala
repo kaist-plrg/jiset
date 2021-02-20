@@ -80,7 +80,7 @@ object HeadParser extends HeadParsers {
           prod = ProductionParser(code)
           lhsName = prod.lhs.name
           rhs <- prod.rhsList
-          rhsName <- rhs.names
+          rhsName = rhs.name
           syntax = lhsName + ":" + rhsName
           (i, j) <- idxMap.get(syntax)
         } yield SyntaxDirectedHead(nameMap(lhsName), i, j, name, withParams)

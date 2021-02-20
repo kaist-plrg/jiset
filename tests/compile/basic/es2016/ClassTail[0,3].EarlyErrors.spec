@@ -1,1 +1,0 @@
-* It is a Syntax Error if |ClassHeritage| is not present and the following algorithm evaluates to *true*: 1. Let _constructor_ be ConstructorMethod of |ClassBody|. 1. If _constructor_ is ~empty~, return *false*. 1. Return HasDirectSuper of _constructor_.

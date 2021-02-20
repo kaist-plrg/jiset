@@ -1,1 +1,5 @@
-??? "It is a Syntax Error if this nt:{ContinueStatement} is not nested , directly or indirectly ( but not crossing function boundaries ) , within an nt:{IterationStatement} ."
+{
+  let __x0__ = false
+  if (= absent (parse-syntax ContinueStatement "IterationStatement" (new []))) __x0__ = true else {}
+  if __x0__ throw INTRINSIC_SyntaxError else return undefined
+}

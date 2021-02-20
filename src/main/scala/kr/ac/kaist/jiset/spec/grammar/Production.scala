@@ -11,7 +11,7 @@ case class Production(
   // get index map
   def getIdxMap: Map[String, (Int, Int)] = (for {
     (rhs, i) <- rhsList.zipWithIndex
-    (name, j) <- rhs.names.zipWithIndex
+    (name, j) <- rhs.allNames.zipWithIndex
   } yield lhs.name + ":" + name -> (i, j)).toMap
 
   // conversion to string
