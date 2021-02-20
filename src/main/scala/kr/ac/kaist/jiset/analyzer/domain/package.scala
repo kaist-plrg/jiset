@@ -25,10 +25,6 @@ package object domain {
   lazy val AbsState = state.BasicDomain
   type AbsState = AbsState.Elem
 
-  // abstract contexts
-  lazy val AbsCtxt = ctxt.BasicDomain
-  type AbsCtxt = AbsCtxt.Elem
-
   // abstract environment
   lazy val AbsEnv = env.BasicDomain
   type AbsEnv = AbsEnv.Elem

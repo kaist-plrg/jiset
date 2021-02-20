@@ -84,47 +84,19 @@ class BeautifierSmallTest extends AnalyzerTest {
       |}""".stripMargin,
     )
 
-    val ctxt = AbsCtxt.Elem(
-      globals = env,
-      locals = env,
-      retVal = AbsValue(Null, true)
-    )
-    test("Abstract Contexts")(
-      ctxt -> """{
-      |  globals: {
-      |    x -> ! 42i
-      |    y -> ? true
-      |    z -> ? null
-      |  },
-      |  locals: {
-      |    x -> ! 42i
-      |    y -> ? true
-      |    z -> ? null
-      |  },
-      |  return: true | null
-      |}""".stripMargin,
-    )
-
-    val st = AbsState.Elem(ctxt, heap)
+    val st = AbsState.Elem(env, heap, AbsValue(true, 42))
     test("Abstract State")(
       st -> """{
-      |  context: {
-      |    globals: {
-      |      x -> ! 42i
-      |      y -> ? true
-      |      z -> ? null
-      |    },
-      |    locals: {
-      |      x -> ! 42i
-      |      y -> ? true
-      |      z -> ? null
-      |    },
-      |    return: true | null
-      |  },
+      |  env: {
+      |    x -> ! 42i
+      |    y -> ? true
+      |    z -> ? null
+      |  }
       |  heap: {
       |    #Global -> @has
       |    #42 -> {}
       |  }
+      |  return: 42i | true
       |}""".stripMargin,
     )
   }

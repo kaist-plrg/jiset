@@ -118,16 +118,11 @@ object Beautifier {
     implicit val mapApp = pmapDomainApp(AbsEnv.MapD)
     _ >> _.map
   }
-  implicit lazy val actxtApp: App[AbsCtxt] =
-    emptyApp(AbsCtxt)((app, ctxt) => app.wrap {
-      app :> "globals: " >> ctxt.globals >> "," >> endl
-      app :> "locals: " >> ctxt.locals >> "," >> endl
-      app :> "return: " >> ctxt.retVal >> endl
-    })
   implicit lazy val astateApp: App[AbsState] =
     emptyApp(AbsState)((app, st) => app.wrap {
-      app :> "context: " >> st.ctxt >> "," >> endl
+      app :> "env: " >> st.env >> endl
       app :> "heap: " >> st.heap >> endl
+      app :> "return: " >> st.retVal >> endl
     })
 
   // SimpleDomain appender

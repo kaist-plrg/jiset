@@ -3,10 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.cfg.Function
 
 // states
-case class State(ctxt: Ctxt, heap: Heap)
-
-// contexts
-case class Ctxt(globals: Env, locals: Env, retVal: Value)
+case class State(env: Env, heap: Heap, retVal: Value)
 
 // environments
 case class Env(map: Map[String, Value])

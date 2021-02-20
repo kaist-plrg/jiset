@@ -53,14 +53,7 @@ class JsonSmallTest extends AnalyzerTest {
     ))
     test("Abstract Environments")(env)
 
-    val ctxt = AbsCtxt.Elem(
-      globals = env,
-      locals = env,
-      retVal = AbsValue(Null, true)
-    )
-    test("Abstract Contexts")(ctxt)
-
-    val st = AbsState.Elem(ctxt, heap)
+    val st = AbsState.Elem(env, heap, AbsValue(42, true))
     test("Abstract State")(st)
   }
   init

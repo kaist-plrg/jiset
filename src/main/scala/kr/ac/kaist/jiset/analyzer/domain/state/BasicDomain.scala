@@ -5,34 +5,42 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends state.Domain {
   // abstraction function
-  def alpha(st: State): Elem = Elem(AbsCtxt(st.ctxt), AbsHeap(st.heap))
+  def alpha(st: State): Elem =
+    Elem(AbsEnv(st.env), AbsHeap(st.heap), AbsValue(st.retVal))
 
   // bottom value
-  val Bot: Elem = Elem(AbsCtxt.Bot, AbsHeap.Bot)
+  val Bot: Elem = Elem(AbsEnv.Bot, AbsHeap.Bot, AbsValue.Bot)
 
   // top value
-  val Top: Elem = Elem(AbsCtxt.Top, AbsHeap.Top)
+  val Top: Elem = Elem(AbsEnv.Top, AbsHeap.Top, AbsValue.Top)
 
   // empty value
-  val Empty: Elem = Elem(AbsCtxt.Empty, AbsHeap.Empty)
+  val Empty: Elem = Elem(AbsEnv.Empty, AbsHeap.Empty, AbsAbsent.Top)
 
-  case class Elem(ctxt: AbsCtxt, heap: AbsHeap) extends ElemTrait {
+  case class Elem(
+    env: AbsEnv = AbsEnv.Bot,
+    heap: AbsHeap = AbsHeap.Bot,
+    retVal: AbsValue = AbsValue.Bot
+  ) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (
-      this.ctxt ⊑ that.ctxt &&
-      this.heap ⊑ that.heap
+      this.env ⊑ that.env &&
+      this.heap ⊑ that.heap &&
+      this.retVal ⊑ that.retVal
     )
 
     // join operator
     def ⊔(that: Elem): Elem = if (this eq that) this else Elem(
-      this.ctxt ⊔ that.ctxt,
-      this.heap ⊔ that.heap
+      this.env ⊔ that.env,
+      this.heap ⊔ that.heap,
+      this.retVal ⊔ that.retVal
     )
 
     // meet operator
     def ⊓(that: Elem): Elem = if (this eq that) this else Elem(
-      this.ctxt ⊓ that.ctxt,
-      this.heap ⊓ that.heap
+      this.env ⊓ that.env,
+      this.heap ⊓ that.heap,
+      this.retVal ⊓ that.retVal
     ).normalized
 
     // concretization function
@@ -42,9 +50,9 @@ object BasicDomain extends state.Domain {
     def getSingle: concrete.Flat[State] = Many
 
     // return value
-    def doReturn(value: AbsValue): Elem = copy(ctxt = ctxt.doReturn(value))
+    def doReturn(value: AbsValue): Elem = copy(retVal = value)
 
     // define variable
-    def define(x: String, value: AbsValue): Elem = copy(ctxt = ctxt.define(x, value))
+    def define(x: String, value: AbsValue): Elem = copy(env = env.define(x, value))
   }
 }

@@ -56,8 +56,7 @@ object JsonProtocol extends DefaultJsonProtocol {
     def read(json: JsValue): AbsEnv = AbsEnv.Elem(mapFormat.read(json))
     def write(env: AbsEnv): JsValue = mapFormat.write(env.map)
   }
-  implicit lazy val actxtFormat = jsonFormat3(AbsCtxt.Elem)
-  implicit lazy val astateFormat = jsonFormat2(AbsState.Elem)
+  implicit lazy val astateFormat = jsonFormat3(AbsState.Elem)
 
   // SimpleDomain JSON format
   def simpleDomainFormat(domain: SimpleDomain[_]) = new RootJsonFormat[domain.Elem] {
