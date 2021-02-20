@@ -38,6 +38,7 @@ lazy val compileManualTest = taskKey[Unit]("Launch manual compile tests (small)"
 // analyzer
 lazy val analyzerTest = taskKey[Unit]("Launch analyzer tests")
 lazy val analyzerBeautifierTest = taskKey[Unit]("Launch beautifier analyzer tests (small)")
+lazy val analyzerJsonTest = taskKey[Unit]("Launch JSON analyzer tests (small)")
 
 // jiset
 lazy val jiset = (project in file("."))
@@ -81,5 +82,6 @@ lazy val jiset = (project in file("."))
     compileManualTest := (testOnly in Test).toTask(" *.compile.Manual*Test").value,
     // analyzer
     analyzerTest := (testOnly in Test).toTask(" *.analyzer.*Test").value,
-    analyzerBeautifierTest := (testOnly in Test).toTask(" *.analyzer.Beautifier*Test").value
+    analyzerBeautifierTest := (testOnly in Test).toTask(" *.analyzer.Beautifier*Test").value,
+    analyzerJsonTest := (testOnly in Test).toTask(" *.analyzer.Json*Test").value
   )

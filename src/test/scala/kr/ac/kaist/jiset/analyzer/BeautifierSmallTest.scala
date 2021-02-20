@@ -7,8 +7,8 @@ class BeautifierSmallTest extends AnalyzerTest {
   def test[T](desc: String)(cases: (T, String)*)(
     implicit
     tApp: App[T]
-  ): Unit = check(desc, cases.zipWithIndex.foreach {
-    case ((given, expected), i) =>
+  ): Unit = check(desc, cases.foreach {
+    case (given, expected) =>
       val result = beautify(given)
       if (result != expected) {
         println(s"FAILED: $result != $expected")
