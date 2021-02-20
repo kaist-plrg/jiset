@@ -113,14 +113,4 @@ object ProdDomain extends prim.Domain {
       this.absent.getSingle
     )
   }
-
-  // Members declared in prim.Domain
-  def num(elem: Elem): AbsNum = elem.num
-  def int(elem: Elem): AbsINum = elem.int
-  def bigint(elem: Elem): AbsBigINum = elem.bigint
-  def str(elem: Elem): AbsStr = elem.str
-  def bool(elem: Elem): AbsBool = elem.bool
-  def undef(elem: Elem): AbsUndef = elem.undef
-  def nullval(elem: Elem): AbsNull = elem.nullval
-  def absent(elem: Elem): AbsAbsent = elem.absent
 }

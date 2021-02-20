@@ -86,11 +86,4 @@ object ProdDomain extends value.Domain {
       this.prim.getSingle
     )
   }
-
-  // Members declared in prim.Domain
-  def addr(elem: Elem): AbsAddr = elem.addr
-  def clo(elem: Elem): AbsClo = elem.clo
-  def cont(elem: Elem): AbsCont = elem.cont
-  def ast(elem: Elem): AbsAST = elem.ast
-  def prim(elem: Elem): AbsPrim = elem.prim
 }

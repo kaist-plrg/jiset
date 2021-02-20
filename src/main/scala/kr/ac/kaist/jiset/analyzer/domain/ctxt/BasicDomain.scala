@@ -51,10 +51,9 @@ object BasicDomain extends ctxt.Domain {
 
     // return value
     def doReturn(value: AbsValue): Elem = copy(retVal = value)
-  }
 
-  def globals(elem: Elem): AbsEnv = elem.globals
-  def locals(elem: Elem): AbsEnv = elem.locals
-  def retVal(elem: Elem): AbsValue = elem.retVal
-  def doReturn(elem: Elem, value: AbsValue): Elem = elem.doReturn(value)
+    // define variable
+    def define(x: String, value: AbsValue): Elem =
+      copy(locals = locals.define(x, value))
+  }
 }

@@ -43,9 +43,8 @@ object BasicDomain extends state.Domain {
 
     // return value
     def doReturn(value: AbsValue): Elem = copy(ctxt = ctxt.doReturn(value))
-  }
 
-  def ctxt(elem: Elem): AbsCtxt = elem.ctxt
-  def heap(elem: Elem): AbsHeap = elem.heap
-  def doReturn(elem: Elem, value: AbsValue): Elem = elem.doReturn(value)
+    // define variable
+    def define(x: String, value: AbsValue): Elem = copy(ctxt = ctxt.define(x, value))
+  }
 }

@@ -35,5 +35,9 @@ object BasicDomain extends env.Domain {
 
     // conversion to flat domain
     def getSingle: concrete.Flat[Env] = Many
+
+    // define variable
+    def define(x: String, value: AbsValue): Elem =
+      copy(map = map + (x -> value))
   }
 }

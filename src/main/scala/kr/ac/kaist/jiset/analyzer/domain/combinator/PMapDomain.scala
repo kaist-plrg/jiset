@@ -67,6 +67,11 @@ class PMapDomain[K, V, VD <: AbsDomain[V]](
 
     // lookup
     def apply(k: K): AbsVOpt = map.getOrElse(k, default)
+
+    // strong update
+    def +(pair: (K, AbsV)): Elem = update(pair._1, pair._2)
+    def update(k: K, v: AbsV): Elem =
+      copy(map = map + (k -> AbsVOpt(value = v)))
   }
 }
 object PMapDomain {
