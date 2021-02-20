@@ -9,7 +9,7 @@ object ProdDomain extends value.Domain {
     case addr: Addr => Elem(addr = AbsAddr(addr))
     case clo: Clo => Elem(clo = AbsClo.Top)
     case cont: Cont => Elem(cont = AbsCont.Top)
-    case ast: ASTVal => Elem(ast = AbsAST.Top)
+    case ast: ASTVal => Elem(ast = AbsAST(ast))
     case prim: Prim => Elem(prim = AbsPrim(prim))
   }
 

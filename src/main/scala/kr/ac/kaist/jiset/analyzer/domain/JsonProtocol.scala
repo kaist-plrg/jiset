@@ -41,6 +41,7 @@ object JsonProtocol extends DefaultJsonProtocol {
   implicit lazy val aaddrFormat = setDomainFormat(AbsAddr)
   implicit lazy val avalueFormat = jsonFormat5(AbsValue.Elem)
   implicit lazy val aobjFormat: JsonFormat[AbsObj] = {
+    implicit val symbolFormat = setDomainFormat(AbsObj.SymbolD)
     implicit val mapFormat = mapDomainFormat(AbsObj.MapD)
     implicit val listFormat = listDomainFormat(AbsObj.ListD)
     jsonFormat3(AbsObj.Elem)

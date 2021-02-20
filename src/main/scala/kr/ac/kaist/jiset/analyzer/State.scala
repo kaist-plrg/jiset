@@ -10,15 +10,19 @@ case class Ctxt(globals: Env, locals: Env, retVal: Value)
 
 // environments
 case class Env(map: Map[String, Value])
+object Env { def apply(seq: (String, Value)*): Env = Env(seq.toMap) }
 
 // heaps
 case class Heap(map: Map[Addr, Obj])
+object Heap { def apply(seq: (Addr, Obj)*): Heap = Heap(seq.toMap) }
 
 // objects
 sealed trait Obj
-case class SymbolObj(desc: Str) extends Obj
+case class SymbolObj(desc: String) extends Obj
 case class MapObj(props: Map[String, Value]) extends Obj
+object MapObj { def apply(seq: (String, Value)*): MapObj = MapObj(seq.toMap) }
 case class ListObj(values: List[Value]) extends Obj
+object ListObj { def apply(seq: Value*): ListObj = ListObj(seq.toList) }
 
 // values
 sealed trait Value

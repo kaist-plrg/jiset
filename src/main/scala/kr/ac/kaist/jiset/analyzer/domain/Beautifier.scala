@@ -47,7 +47,7 @@ object Beautifier {
     case Null => "null"
     case Absent => "absent"
   })
-  implicit lazy val astApp: App[ASTVal] = (app, ast) => app >> "☊" >> ast.name
+  implicit lazy val astApp: App[ASTVal] = (app, ast) => app >> "☊(" >> ast.name >> ")"
   implicit lazy val addrApp: App[Addr] = (app, addr) => app >> "#" >> (addr match {
     case NamedAddr(name) => name
     case DynamicAddr(k) => k.toString
@@ -96,7 +96,10 @@ object Beautifier {
     domainApp(AbsObj)((app, obj) => {
       val AbsObj.Elem(symbol, map, list) = obj
       var udts = Vector[Update]()
-      if (!symbol.isBottom) udts :+= { _ >> "@" >> symbol }
+      if (!symbol.isBottom) udts :+= {
+        implicit val symbolApp = setDomainApp(AbsObj.SymbolD)
+        _ >> "@" >> symbol
+      }
       if (!map.isBottom) udts :+= {
         implicit val mapApp = mapDomainApp(AbsObj.MapD)
         _ >> map
@@ -160,10 +163,11 @@ object Beautifier {
     import domain._
     (app, elem) => elem match {
       case Top => app >> name
-      case VSet(set) if set.isEmpty => app >> "⊥"
+      case VSet(set) if set.isEmpty => app >> "ɛ"
+      case VSet(set) if set.size == 1 => app >> set.head
       case VSet(set) =>
-        app >> "{" >> set.map[Update](v => _ >> v)
-          .reduce((x, y) => _ >> x >> ", " >> y) >> "}"
+        app >> "(" >> set.map[Update](v => _ >> v)
+          .reduce((x, y) => _ >> x >> " | " >> y) >> ")"
     }
   }
 
@@ -172,7 +176,7 @@ object Beautifier {
     implicit
     avFormat: App[domain.AbsV]
   ): App[domain.Elem] = (app, elem) => {
-    app >> (if (elem.absent.isBottom) "!" else "?") >> elem.value
+    app >> (if (elem.absent.isBottom) "!" else "?") >> " " >> elem.value
   }
 
   // MapDomain appender
@@ -183,9 +187,13 @@ object Beautifier {
   ): App[domain.Elem] = {
     import domain._
     implicit val avoptApp = optionDomainApp(AbsVOpt)
-    emptyApp(domain)((app, elem) => app.wrap {
-      for ((k, v) <- elem.map) app :> k >> " -> " >> v >> endl
-      app :> "_ -> " >> elem.default >> endl
+    domainApp(domain)((app, elem) => {
+      if (elem.map.size == 0) app >> "{}"
+      else app.wrap {
+        for ((k, v) <- elem.map) app :> k >> " -> " >> v >> endl
+        if (elem.default != AbsVOpt.Absent)
+          app :> "_ -> " >> elem.default >> endl
+      }
     })
   }
 
@@ -195,15 +203,14 @@ object Beautifier {
     avFormat: App[domain.AbsV]
   ): App[domain.Elem] = {
     import domain._
-    (app, elem) => elem match {
-      case Top => app >> "⊤"
-      case Bot => app >> "⊥"
+    domainApp(domain)((app, elem) => elem match {
+      case Fixed(vector) if vector.size == 0 => app >> "[]"
       case Fixed(vector) =>
         app >> "[" >> vector.map[Update](v => _ >> v)
           .reduce((l, r) => _ >> l >> ", " >> r) >> "]"
       case Unfixed(v) =>
         app >> "[[" >> v >> "]]"
-    }
+    })
   }
 
   // domain appender
