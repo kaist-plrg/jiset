@@ -1,11 +1,12 @@
 package kr.ac.kaist.jiset.analyzer.domain.combinator
 
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.analyzer.domain.ops._
 
 // map abstract domain
 class MapDomain[K, V, VD <: AbsDomain[V]](
   val AbsV: VD
-) extends AbsDomain[Map[K, V]] {
+) extends AbsDomain[Map[K, V]] with EmptyValue {
   val AbsVOpt = OptionDomain[V, AbsV.type](AbsV)
   type AbsV = AbsV.Elem
   type AbsVOpt = AbsVOpt.Elem
@@ -37,7 +38,7 @@ class MapDomain[K, V, VD <: AbsDomain[V]](
     // partial order
     def ⊑(that: Elem): Boolean = {
       val keys = this.map.keySet ++ that.map.keySet
-      val mapB = keys.forall(key => this.map(key) ⊑ that.map(key))
+      val mapB = keys.forall(key => this.get(key) ⊑ that.get(key))
       val defaultB = this.default ⊑ that.default
       mapB && defaultB
     }
@@ -45,7 +46,7 @@ class MapDomain[K, V, VD <: AbsDomain[V]](
     // join operator
     def ⊔(that: Elem): Elem = {
       val keys = this.map.keySet ++ that.map.keySet
-      val map = keys.map(key => key -> (this.map(key) ⊔ that.map(key))).toMap
+      val map = keys.map(key => key -> (this.get(key) ⊔ that.get(key))).toMap
       val default = this.default ⊔ that.default
       Elem(map.filter(_._1 != default), default)
     }
@@ -53,7 +54,7 @@ class MapDomain[K, V, VD <: AbsDomain[V]](
     // meet operator
     def ⊓(that: Elem): Elem = {
       val keys = this.map.keySet ++ that.map.keySet
-      val map = keys.map(key => key -> (this.map(key) ⊔ that.map(key))).toMap
+      val map = keys.map(key => key -> (this.get(key) ⊔ that.get(key))).toMap
       val default = this.default ⊔ that.default
       Elem(map.filter(_._1 != default), default)
     }

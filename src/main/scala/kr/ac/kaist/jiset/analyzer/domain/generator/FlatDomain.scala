@@ -55,13 +55,6 @@ class FlatDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
       case Single(v) => One(v)
       case Bot => Zero
     }
-
-    // conversion to string
-    override def toString: String = this match {
-      case Top => "⊤"
-      case Single(v) => v.toString
-      case Bot => "⊥"
-    }
   }
 }
 object FlatDomain {

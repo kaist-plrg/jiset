@@ -11,13 +11,6 @@ sealed trait Flat[+T] {
     case Many => Many
   }
 
-  // conversion to string
-  override def toString: String = this match {
-    case Zero => "⊥"
-    case One(t) => s"$t"
-    case Many => "⊤"
-  }
-
   // addition
   def ++[U >: T](that: Flat[U]): Flat[U] = (this, that) match {
     case (Zero, Zero) => Zero

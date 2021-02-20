@@ -26,7 +26,7 @@ object BasicDomain extends obj.Domain {
   val Top: Elem = Elem(AbsStr.Top, MapD.Top, ListD.Top)
 
   case class Elem(
-    symbol: AbsValue = AbsStr.Bot,
+    symbol: AbsStr = AbsStr.Bot,
     map: MapD = MapD.Bot,
     list: ListD = ListD.Bot
   ) extends ElemTrait {

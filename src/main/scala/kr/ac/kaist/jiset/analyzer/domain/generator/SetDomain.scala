@@ -62,12 +62,6 @@ class SetDomain[V](total: Set[V]) extends AbsDomain[V] {
         case _ => Many
       }
     }
-
-    // conversion to string
-    override def toString: String = this match {
-      case Top => "⊤"
-      case VSet(set) => "[" + set.mkString(", ") + "]"
-    }
   }
 }
 object SetDomain {

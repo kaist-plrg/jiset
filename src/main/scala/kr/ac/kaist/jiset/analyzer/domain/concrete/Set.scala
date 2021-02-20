@@ -10,13 +10,6 @@ sealed trait Set[+T] {
     case Infinite => Infinite
   }
 
-  // conversion to string
-  override def toString: String = this match {
-    case Finite(set) if set.isEmpty => "⊥"
-    case Finite(set) => "[" + set.mkString(", ") + "]"
-    case Infinite => "⊤"
-  }
-
   // addition
   def ++[U >: T](that: Set[U]): Set[U] = (this, that) match {
     case (Finite(l), Finite(r)) => Finite(l ++ r: SSet[U])

@@ -92,13 +92,6 @@ class HConsDomain[H, HD <: EAbsDomain[H], T <: HList, TD <: HListDomain[T] with 
       case _ => Many
     }
 
-    // conversion to string
-    override def toString: String = {
-      if (isBottom) "⊥"
-      else if (isTop) "⊤"
-      else s"$head :: $tail"
-    }
-
     // bottom check
     override def isBottom: Boolean = head.isBottom || tail.isBottom
   }

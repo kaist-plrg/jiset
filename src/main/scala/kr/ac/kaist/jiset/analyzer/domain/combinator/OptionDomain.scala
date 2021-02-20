@@ -33,7 +33,7 @@ class OptionDomain[V, VD <: EAbsDomain[V]](
   def unapply(elem: Elem): Option[(AbsV, AbsAbsent)] = Some((elem.value, elem.absent))
 
   // pair abstract element
-  case class Elem(val value: AbsV, val absent: AbsAbsent) extends ElemTrait {
+  case class Elem(value: AbsV, absent: AbsAbsent) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = this.value ⊑ that.value && this.absent ⊑ that.absent
 
@@ -57,13 +57,6 @@ class OptionDomain[V, VD <: EAbsDomain[V]](
       case (Zero, One(n)) => One(None)
       case (Zero, Zero) => Zero
       case _ => Many
-    }
-
-    // conversion to string
-    override def toString: String = this match {
-      case Bot => "⊥"
-      case Top => "⊤"
-      case _ => s"($value, $absent)"
     }
 
     // absent check

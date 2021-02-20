@@ -47,12 +47,6 @@ class SimpleDomain[V](total: Set[V]) extends AbsDomain[V] {
       case Top => if (total.size == 1) One(total.head) else Many
       case Bot => Zero
     }
-
-    // conversion to string
-    override def toString: String = this match {
-      case Top => if (total.size == 1) total.head.toString else "⊤"
-      case Bot => "⊥"
-    }
   }
 }
 object SimpleDomain {

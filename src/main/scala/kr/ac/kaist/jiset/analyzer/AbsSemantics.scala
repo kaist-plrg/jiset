@@ -2,8 +2,7 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer.domain._
-import kr.ac.kaist.jiset.analyzer.domain.JsonProtocol._
-import spray.json._
+import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 
 class AbsSemantics {
   // internal view-wise abstract states
@@ -26,6 +25,6 @@ class AbsSemantics {
 
   // conversion to string
   override def toString: String = map.map {
-    case (view, st) => s"$view -> ${st.toJson.prettyPrint}"
+    case (view, st) => s"$view -> ${beautify(st)}"
   }.mkString(LINE_SEP)
 }
