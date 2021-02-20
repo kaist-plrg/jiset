@@ -187,7 +187,7 @@ object Beautifier {
   ): App[domain.Elem] = {
     import domain._
     domainApp(domain)((app, elem) => {
-      if (elem.map.size == 0) app >> "{}"
+      if (elem.map.size == 0 && elem.default.isBottom) app >> "{}"
       else app.wrap {
         for ((k, v) <- elem.map) app :> k >> " -> " >> v >> endl
         if (!elem.default.isBottom)
@@ -205,10 +205,10 @@ object Beautifier {
     import domain._
     implicit val avoptApp = optionDomainApp(AbsVOpt)
     domainApp(domain)((app, elem) => {
-      if (elem.map.size == 0) app >> "{}"
+      if (elem.map.size == 0 && elem.default.isAbsent) app >> "{}"
       else app.wrap {
         for ((k, v) <- elem.map) app :> k >> " -> " >> v >> endl
-        if (elem.default != AbsVOpt.Absent)
+        if (!elem.default.isAbsent)
           app :> "_ -> " >> elem.default >> endl
       }
     })

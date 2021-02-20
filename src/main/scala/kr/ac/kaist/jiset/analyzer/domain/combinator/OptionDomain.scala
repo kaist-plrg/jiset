@@ -60,7 +60,7 @@ class OptionDomain[V, VD <: EAbsDomain[V]](
     }
 
     // absent check
-    def isAbsent: Boolean = absent.isTop
+    def isAbsent: Boolean = value.isBottom && absent.isTop
   }
 }
 object OptionDomain {
