@@ -33,5 +33,11 @@ trait Domain {
 
     // normalized element
     def normalized: Elem = if (isBottom) Bot else this
+
+    // element equality
+    def ===(that: Elem): Boolean = this == that
+
+    // element inequality
+    def !==(that: Elem): Boolean = this != that
   }
 }

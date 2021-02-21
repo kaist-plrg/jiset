@@ -98,6 +98,13 @@ class BeautifierSmallTest extends AnalyzerTest {
       |  }
       |  return: 42i | true
       |}""".stripMargin,
+      AbsState.Empty.copy(env = env) -> """{
+      |  env: {
+      |    x -> ! 42i
+      |    y -> ? true
+      |    z -> ? null
+      |  }
+      |}""".stripMargin,
     )
   }
   init
