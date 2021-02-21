@@ -29,8 +29,10 @@ case class ECMAScript(
   )
 
   // target algorithms
-  def targetAlgos: List[Algo] =
-    algos.filter(_.name == "Literal[0,0].Evaluation")
+  val names = Set(
+    "Literal[0,0].Evaluation",
+  )
+  def targetAlgos: List[Algo] = algos.filter(names contains _.name)
 
   // arity counter of algorithms
   lazy val arities: Map[String, (InfNum, InfNum)] =

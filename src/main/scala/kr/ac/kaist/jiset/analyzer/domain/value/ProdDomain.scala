@@ -85,5 +85,13 @@ object ProdDomain extends value.Domain {
       this.ast.getSingle ++
       this.prim.getSingle
     )
+
+    // abstract equality
+    def =^=(that: Elem): AbsBool =
+      (this.getSingle, that.getSingle) match {
+        case (Zero, _) | (_, Zero) => AbsBool.Bot
+        case (One(x), One(y)) => AbsBool(x == y)
+        case _ => AbsBool.Top
+      }
   }
 }

@@ -23,13 +23,13 @@ class AbsTransfer(
   // transfer function for nodes
   def apply(result: Result[Node]): List[Result[Node]] = apply(result.st, result.elem)
   def apply(st: AbsState, node: Node): List[Result[Node]] = node match {
-    case Entry() => cfg.nextNodes(node).toList.map(Result(_, st))
+    case Entry() => cfg.next(node).map(Result(_, st))
     case Exit() => Nil // TODO handle inter-procedural cases
     case Block(insts) =>
       val nextSt = insts.foldLeft(st)(apply)
       val nexts =
         if (nextSt.isBottom) Nil
-        else cfg.nextNodes(node).toList.map(Result(_, nextSt))
+        else cfg.next(node).map(Result(_, nextSt))
       handleReturn(node, nexts)
     case Call(inst) => ???
     case branch @ Branch(expr) => ???

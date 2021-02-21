@@ -22,11 +22,18 @@ object BasicDomain extends state.Domain {
     heap: AbsHeap = AbsHeap.Bot,
     retVal: AbsValue = AbsValue.Bot
   ) extends ElemTrait {
+    // bottom check
+    override def isBottom: Boolean = (this eq Bot) || (this == Bot)
+
     // partial order
     def ⊑(that: Elem): Boolean = (
-      this.env ⊑ that.env &&
-      this.heap ⊑ that.heap &&
-      this.retVal ⊑ that.retVal
+      (this eq that) ||
+      this.isBottom ||
+      !that.isBottom && (
+        this.env ⊑ that.env &&
+        this.heap ⊑ that.heap &&
+        this.retVal ⊑ that.retVal
+      )
     )
 
     // join operator

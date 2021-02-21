@@ -23,15 +23,13 @@ class CFG extends UId {
   def allFunctions: Set[Function] = funcs
   def allNodes: Set[Node] = nodes
 
-  // getters for forward edges
-  def next(node: Node): Set[(Edge, Node)] = forwards.getOrElse(node, Set())
-  def nextNode(branch: Branch, cond: Boolean): Node =
-    next(branch).find(_._1 == CondEdge(cond)).get._2
-  def nextNodes(node: Node): Set[Node] = next(node).map(_._2)
+  // getters for forward nodes
+  def next(node: Node): List[Node] =
+    forwards.getOrElse(node, Set()).map(_._2).toList
 
-  // getters for backward edges
-  def prev(node: Node): Set[(Edge, Node)] = backwards.getOrElse(node, Set())
-  def prevNodes(node: Node): Set[Node] = prev(node).map(_._2)
+  // getters for backward nodes
+  def prev(node: Node): List[Node] =
+    backwards.getOrElse(node, Set()).map(_._2).toList
 }
 object CFG {
   def apply(spec: ECMAScript): CFG = {
