@@ -69,8 +69,14 @@ object Useful {
   }
 
   // dump given data as JSON
-  def dumpJson[T](data: T, filename: String)(implicit writer: JsonWriter[T]): Unit =
-    dumpFile(data.toJson.prettyPrint, filename)
+  def dumpJson[T](
+    data: T,
+    filename: String,
+    pretty: Boolean = true
+  )(implicit writer: JsonWriter[T]): Unit = {
+    val json = data.toJson
+    dumpFile((if (pretty) json.prettyPrint else json.toString), filename)
+  }
 
   // read file
   def readFile(filename: String): String =

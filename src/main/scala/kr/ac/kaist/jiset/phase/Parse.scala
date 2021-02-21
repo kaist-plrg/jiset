@@ -3,10 +3,9 @@ package kr.ac.kaist.jiset.phase
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
 import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
-
-import kr.ac.kaist.jiset.spec.algorithm.Name
 
 // Parse phase
 case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
@@ -19,16 +18,18 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     config: ParseConfig
   ): ECMAScript = {
     println(s"--------------------------------------------------")
-    val ParseConfig(versionOpt, queryOpt, useCount, detail) = config
-    val version = versionOpt.getOrElse("recent")
-    val query = queryOpt.getOrElse("")
-    println(s"version: $version (${getRawVersion(version)})")
-    if (query != "") println(s"query: $query")
-    println(s"parsing spec.html...")
-    val spec = ECMAScriptParser(version, query, useCount, detail)
+    val spec = config.load match {
+      case Some(filename) => readJson[ECMAScript](filename)
+      case None =>
+        val version = config.version.getOrElse("recent")
+        val query = config.query.getOrElse("")
+        println(s"version: $version (${getRawVersion(version)})")
+        if (query != "") println(s"query: $query")
+        println(s"parsing spec.html...")
+        ECMAScriptParser(version, query, config.useCount, config.detail)
+    }
 
     val ECMAScript(grammar, algos, intrinsics, symbols, aoids, section) = spec
-
     println(s"* grammar:")
     println(s"  - lexical production: ${grammar.lexProds.length}")
     println(s"  - non-lexical production: ${grammar.prods.length}")
@@ -62,6 +63,10 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
       s"$PARSE_LOG_DIR/incomplete_steps.log"
     )
 
+    // Dump JSON
+    config.json.foreach(dumpJson(spec, _, false))
+    config.prettyJson.foreach(dumpJson(spec, _, true))
+
     spec
   }
 
@@ -70,11 +75,17 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     ("version", StrOption((c, s) => c.version = Some(s)),
       "set the git version of ecma262."),
     ("query", StrOption((c, s) => c.query = Some(s)),
-      "set target query"),
+      "set target query."),
     ("useCount", BoolOption(c => c.useCount = true),
-      "use compiler rule counter"),
+      "use compiler rule counter."),
+    ("load", StrOption((c, s) => c.load = Some(s)),
+      "load ECMAScript from JSON."),
+    ("json", StrOption((c, s) => c.json = Some(s)),
+      "dump ECMAScript in a JSON format."),
+    ("pretty-json", StrOption((c, s) => c.prettyJson = Some(s)),
+      "dump ECMAScript in a JSON pretty format."),
     ("detail", BoolOption(c => c.detail = true),
-      "print log")
+      "print log.")
   )
 }
 
@@ -83,5 +94,8 @@ case class ParseConfig(
   var version: Option[String] = None,
   var query: Option[String] = None,
   var useCount: Boolean = false,
+  var load: Option[String] = None,
+  var json: Option[String] = None,
+  var prettyJson: Option[String] = None,
   var detail: Boolean = false
 ) extends Config
