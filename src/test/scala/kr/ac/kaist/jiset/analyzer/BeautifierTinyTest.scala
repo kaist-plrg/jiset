@@ -84,7 +84,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       |}""".stripMargin,
     )
 
-    val st = AbsState.Elem(env, heap, AbsValue(true, 42))
+    val st = AbsState.Elem(env, heap)
     test("Abstract State")(
       st -> """{
       |  env: {
@@ -96,7 +96,6 @@ class BeautifierTinyTest extends AnalyzerTest {
       |    #Global -> @has
       |    #42 -> {}
       |  }
-      |  return: 42i | true
       |}""".stripMargin,
       AbsState.Empty.copy(env = env) -> """{
       |  env: {

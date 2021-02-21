@@ -18,11 +18,9 @@ case object Analyze extends PhaseObj[ECMAScript, AnalyzeConfig, AbsSemantics] {
     println(s"--------------------------------------------------")
     println(s"analyzing specification...")
     val cfg = CFG(spec)
-    val worklist = new StackWorklist[ControlPoint]
-    val sem = new AbsSemantics
-    val fixpoint = new Fixpoint(cfg, worklist, sem)
+    val sem = new AbsSemantics(cfg)
+    val fixpoint = new Fixpoint(sem)
     fixpoint.compute
-    println(sem)
     sem
   }
 

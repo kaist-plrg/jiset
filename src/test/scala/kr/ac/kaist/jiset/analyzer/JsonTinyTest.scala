@@ -53,7 +53,7 @@ class JsonTinyTest extends AnalyzerTest {
     ))
     test("Abstract Environments")(env)
 
-    val st = AbsState.Elem(env, heap, AbsValue(42, true))
+    val st = AbsState.Elem(env, heap)
     test("Abstract State")(st)
   }
   init

@@ -14,6 +14,9 @@ case class Function(
   // connect nodes with function
   nodes.foreach(_._func = this)
 
+  // function name
+  def name: String = algo.name
+
   // backward edges
   val backwards: Map[Node, Set[(Edge, Node)]] = (for {
     (from, set) <- forwards

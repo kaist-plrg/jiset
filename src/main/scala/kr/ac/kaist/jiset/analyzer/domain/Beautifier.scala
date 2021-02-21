@@ -122,7 +122,6 @@ object Beautifier {
     emptyApp(AbsState)((app, st) => app.wrap {
       app :> "env: " >> st.env >> endl
       if (!st.heap.isBottom) app :> "heap: " >> st.heap >> endl
-      if (st.retVal !== AbsAbsent.Top) app :> "return: " >> st.retVal >> endl
     })
 
   // SimpleDomain appender

@@ -5,22 +5,20 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends state.Domain {
   // abstraction function
-  def alpha(st: State): Elem =
-    Elem(AbsEnv(st.env), AbsHeap(st.heap), AbsValue(st.retVal))
+  def alpha(st: State): Elem = Elem(AbsEnv(st.env), AbsHeap(st.heap))
 
   // bottom value
-  val Bot: Elem = Elem(AbsEnv.Bot, AbsHeap.Bot, AbsValue.Bot)
+  val Bot: Elem = Elem(AbsEnv.Bot, AbsHeap.Bot)
 
   // top value
-  val Top: Elem = Elem(AbsEnv.Top, AbsHeap.Top, AbsValue.Top)
+  val Top: Elem = Elem(AbsEnv.Top, AbsHeap.Top)
 
   // empty value
-  val Empty: Elem = Elem(AbsEnv.Empty, AbsHeap.Empty, AbsAbsent.Top)
+  val Empty: Elem = Elem(AbsEnv.Empty, AbsHeap.Empty)
 
   case class Elem(
     env: AbsEnv = AbsEnv.Bot,
-    heap: AbsHeap = AbsHeap.Bot,
-    retVal: AbsValue = AbsValue.Bot
+    heap: AbsHeap = AbsHeap.Bot
   ) extends ElemTrait {
     // bottom check
     override def isBottom: Boolean = (this eq Bot) || (this == Bot)
@@ -31,23 +29,20 @@ object BasicDomain extends state.Domain {
       this.isBottom ||
       !that.isBottom && (
         this.env ⊑ that.env &&
-        this.heap ⊑ that.heap &&
-        this.retVal ⊑ that.retVal
+        this.heap ⊑ that.heap
       )
     )
 
     // join operator
     def ⊔(that: Elem): Elem = if (this eq that) this else Elem(
       this.env ⊔ that.env,
-      this.heap ⊔ that.heap,
-      this.retVal ⊔ that.retVal
+      this.heap ⊔ that.heap
     )
 
     // meet operator
     def ⊓(that: Elem): Elem = if (this eq that) this else Elem(
       this.env ⊓ that.env,
-      this.heap ⊓ that.heap,
-      this.retVal ⊓ that.retVal
+      this.heap ⊓ that.heap
     ).normalized
 
     // concretization function
@@ -55,9 +50,6 @@ object BasicDomain extends state.Domain {
 
     // conversion to flat domain
     def getSingle: concrete.Flat[State] = Many
-
-    // return value
-    def doReturn(value: AbsValue): Elem = copy(retVal = value)
 
     // define variable
     def +(pair: (String, AbsValue)): Elem = copy(env = env + pair)
