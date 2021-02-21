@@ -94,11 +94,6 @@ object Beautifier {
     ////////////////////////////////////////////////////////////////////////////////
     // Syntax
     ////////////////////////////////////////////////////////////////////////////////
-
-    // programs
-    override def walk(program: Program): Unit =
-      walkList[Inst](program.insts, walk)
-
     def detailWalk(inst: Inst): Unit =
       if (detail) walk(inst) else walk("...")
 

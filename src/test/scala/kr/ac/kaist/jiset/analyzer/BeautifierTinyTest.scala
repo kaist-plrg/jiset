@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 
-class BeautifierSmallTest extends AnalyzerTest {
+class BeautifierTinyTest extends AnalyzerTest {
   def test[T](desc: String)(cases: (T, String)*)(
     implicit
     tApp: App[T]

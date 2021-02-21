@@ -8,7 +8,7 @@ import scala.util.parsing.combinator.{ JavaTokenParsers, RegexParsers }
 // parsers
 object Parser extends JavaTokenParsers with RegexParsers {
   // parse a file into a IRNode
-  def fileToProgram(f: String): Program = fromFile(f, program)
+  def fileToInsts(f: String): List[Inst] = fromFile(f, insts)
   def fileToInst(f: String): Inst = fromFile(f, inst)
   def fileToExpr(f: String): Expr = fromFile(f, expr)
   def fileToRef(f: String): Ref = fromFile(f, ref)
@@ -17,7 +17,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   def fileToBOp(f: String): BOp = fromFile(f, bop)
 
   // parse a String into a IRNode
-  def parseProgram(str: String): Program = errHandle(parseAll(program, str))
+  def parseInsts(str: String): List[Inst] = errHandle(parseAll(insts, str))
   def parseInst(str: String): Inst = errHandle(parseAll(inst, str))
   def parseExpr(str: String): Expr = errHandle(parseAll(expr, str))
   def parseRef(str: String): Ref = errHandle(parseAll(ref, str))
@@ -48,11 +48,8 @@ object Parser extends JavaTokenParsers with RegexParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Syntax
   ////////////////////////////////////////////////////////////////////////////////
-
-  // programs
-  lazy private val program: Parser[Program] = rep(inst) ^^ { Program(_) }
-
   // instructions
+  lazy private val insts: Parser[List[Inst]] = rep(inst)
   lazy private val inst: Parser[Inst] = opt("(" ~> integer <~ ")") ~ (
     "delete " ~> ref ^^ { IDelete(_) } |
     ("append " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IAppend(e, l) } |

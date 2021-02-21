@@ -70,6 +70,14 @@ case object NoLineTerminatorToken extends Token
 
 // char tokens
 abstract class Character(val name: String) extends Token
+object Character {
+  val predef = List(
+    UnicodeAny, UnicodeIdStart, UnicodeIdContinue, UnicodeLeadSurrogate,
+    UnicodeTrailSurrogate, NotCodePoint, CodePoint, HexLeadSurrogate,
+    HexTrailSurrogate, HexNonSurrogate
+  )
+  val nameMap = (for (ch <- predef) yield ch.name -> ch).toMap
+}
 case class Unicode(code: String) extends Character(code)
 case object UnicodeAny extends Character("UnicodeAny")
 case object UnicodeIdStart extends Character("UnicodeIdStart")

@@ -4,7 +4,6 @@ package kr.ac.kaist.jiset.ir
 trait Walker {
   // all cases
   def walk(node: IRNode): IRNode = node match {
-    case prog: Program => walk(prog)
     case inst: Inst => walk(inst)
     case expr: Expr => walk(expr)
     case ref: Ref => walk(ref)
@@ -39,10 +38,6 @@ trait Walker {
   ////////////////////////////////////////////////////////////////////////////////
   // Syntax
   ////////////////////////////////////////////////////////////////////////////////
-
-  // programs
-  def walk(program: Program): Program = Program(walkList[Inst](program.insts, walk))
-
   // instructions
   def walk(inst: Inst): Inst = {
     val newInst = inst match {

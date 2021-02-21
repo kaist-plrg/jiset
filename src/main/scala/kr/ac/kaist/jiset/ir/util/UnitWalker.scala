@@ -4,7 +4,6 @@ package kr.ac.kaist.jiset.ir
 trait UnitWalker {
   // all cases
   def walk(node: IRNode): Unit = node match {
-    case prog: Program => walk(prog)
     case inst: Inst => walk(inst)
     case expr: Expr => walk(expr)
     case ref: Ref => walk(ref)
@@ -40,10 +39,6 @@ trait UnitWalker {
   ////////////////////////////////////////////////////////////////////////////////
   // Syntax
   ////////////////////////////////////////////////////////////////////////////////
-
-  // programs
-  def walk(program: Program): Unit = walkList[Inst](program.insts, walk)
-
   // instructions
   def walk(inst: Inst): Unit = inst match {
     case IExpr(expr) =>

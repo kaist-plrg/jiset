@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.analyzer.domain.JsonProtocol._
 import spray.json._
 
-class JsonSmallTest extends AnalyzerTest {
+class JsonTinyTest extends AnalyzerTest {
   def test[T](desc: String)(cases: T*)(
     implicit
     tApp: App[T],
