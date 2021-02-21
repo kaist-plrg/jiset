@@ -5,33 +5,38 @@ import domain._
 
 // view abstraction
 trait View {
-  // view production
-  def *[W <: View](that: W): ProdView[this.type, W] = ProdView(this, that)
-
   // find next views and refined abstract states
-  def next(prev: Result[Node], next: Result[Node]): List[Result[View]] = this match {
-    case InsensView => List(Result(InsensView, next.st))
-    case ProdView(left, right) => for {
-      Result(l, ls) <- left.next(prev, next)
-      Result(r, rs) <- right.next(prev, next)
-    } yield Result(ProdView(l, r), ls ⊓ rs)
-    case FlowView(_) => List(Result(FlowView(next.elem), next.st))
-    case _ => List(Result(this, next.st))
+  def next(cur: Result[Node], next: Result[Node]): View = this match {
+    case MultiView(list) => MultiView(list.map(_.next(cur, next)))
+    case FlowView(_) => FlowView(next.elem)
+    case ParamTypeView(_) => next.elem match {
+      case (entry: Entry) => ???
+      case _ => this
+    }
   }
 
   // conversion to string
   override def toString: String = (this match {
-    case InsensView => "Insens"
-    case ProdView(l, r) => s"$l*$r"
+    case MultiView(list) => list.mkString("x")
     case FlowView(node) => s"$node"
+    case ParamTypeView(types) => types.mkString("[", ", ", "]")
   })
 }
+object View {
+  val Nil = MultiView()
+  def apply(seq: View*): MultiView = MultiView(seq.toList)
+  implicit def node2view(node: Node) = FlowView(node)
+  implicit def types2view(tys: List[Type]) = ParamTypeView(tys)
+}
 
-// insensitive view
-case object InsensView extends View
-
-// view production
-case class ProdView[+V <: View, +W <: View](left: V, right: W) extends View
+// multiple view
+case class MultiView(list: List[View]) extends View {
+  // view production
+  def ::[W <: View](view: View): MultiView = MultiView(view :: list)
+}
+object MultiView {
+  def apply(seq: View*): MultiView = MultiView(seq.toList)
+}
 
 // flow sensitive view
 case class FlowView(node: Node) extends View

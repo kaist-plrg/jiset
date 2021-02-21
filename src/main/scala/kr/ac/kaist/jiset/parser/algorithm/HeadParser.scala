@@ -83,7 +83,7 @@ object HeadParser extends HeadParsers {
           rhsName = rhs.name
           syntax = lhsName + ":" + rhsName
           (i, j) <- idxMap.get(syntax)
-        } yield SyntaxDirectedHead(nameMap(lhsName), i, j, name, withParams)
+        } yield SyntaxDirectedHead(nameMap(lhsName), i, j, rhs, name, withParams)
       } else if (isEnvMethod(prev, elem, envRange)) {
         // environment record method
         val bases =

@@ -11,12 +11,14 @@ class Fixpoint(
   // initial worklist
   cfg.allFunctions.foreach(func => func.algo.head match {
     case (head: SyntaxDirectedHead) if head.withParams.isEmpty =>
-      val init = Initialize(head)
       val entry = func.entry
-      val view = FlowView(entry)
-      val cp = ControlPoint(entry, view)
-      sem += view -> init
-      worklist.push(cp)
+      Initialize(head).foreach {
+        case (types, st) =>
+          val view = View(entry, types)
+          val cp = ControlPoint(entry, view)
+          sem += view -> st
+          worklist.push(cp)
+      }
     case _ =>
   })
 

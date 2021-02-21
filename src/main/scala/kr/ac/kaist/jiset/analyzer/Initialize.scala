@@ -7,18 +7,18 @@ object Initialize {
   // initial abstract state
   val init: AbsState = AbsState.Empty
 
-  // get initial abstract state for syntax-directed algorithms
-  def apply(head: SyntaxDirectedHead): AbsState = {
-    var argMap = Map[String, AbsValue]()
-    if (head.subIdx == 0) {
-      argMap += (THIS_PARAM -> AbsAST(ASTVal(head.lhsName)))
-      head.rhs.getNTs.foreach(nt => {
-        val name = nt.name
-        argMap += (name -> AbsAST(ASTVal(name)))
-      })
-    } else ???
-    argMap.foldLeft(init) {
-      case (st, (param, arg)) => st.define(param, arg)
-    }
-  }
+  // initial abstract state for syntax-directed algorithms
+  def apply(head: SyntaxDirectedHead): List[(List[Type], AbsState)] =
+    head.optional.subsets.map(opt => {
+      var st = init
+      val types: List[Type] = head.types.map {
+        case (name, _) if opt contains name =>
+          st += name -> AbsAbsent.Top
+          AbsentT
+        case (name, astName) =>
+          st += name -> AbsAST(ASTVal(astName))
+          AstT(astName)
+      }
+      (types, st)
+    }).toList
 }

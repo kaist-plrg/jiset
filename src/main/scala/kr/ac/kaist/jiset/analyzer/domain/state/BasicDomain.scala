@@ -53,6 +53,6 @@ object BasicDomain extends state.Domain {
     def doReturn(value: AbsValue): Elem = copy(retVal = value)
 
     // define variable
-    def define(x: String, value: AbsValue): Elem = copy(env = env.define(x, value))
+    def +(pair: (String, AbsValue)): Elem = copy(env = env + pair)
   }
 }

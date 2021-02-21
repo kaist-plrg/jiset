@@ -12,12 +12,12 @@ class AbsTransfer(
   // transfer function for control points
   def apply(st: AbsState, cp: ControlPoint): List[Result[ControlPoint]] = {
     val ControlPoint(node, view) = cp
-    val prev = Result(node, st)
-    apply(prev).flatMap {
-      case next => view.next(prev, next).map {
-        case result => Result(ControlPoint(next.elem, result.elem), result.st)
-      }
-    }
+    val cur = Result(node, st)
+    for {
+      next <- apply(cur)
+      nextView = view.next(cur, next)
+      cp = ControlPoint(next.elem, nextView)
+    } yield Result(cp, next.st)
   }
 
   // transfer function for nodes
