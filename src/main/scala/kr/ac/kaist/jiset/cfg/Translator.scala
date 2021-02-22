@@ -2,94 +2,98 @@ package kr.ac.kaist.jiset.cfg
 
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.ir._
+import scala.collection.mutable.Queue
 
 // translator from algorithms to CFG functions
 object Translator {
   def apply(algo: Algo): Function = {
-    // nodes and edges for Translator
-    var (nodes, edges) = (Map[Int, Node](), Map[Int, Set[(Edge, Int)]]())
-
-    // register nodes
-    def register[T <: Node](n: T): Int = { nodes += n.uid -> n; n.uid }
-
-    // initialization
-    val exitNode = Exit()
-    val entryNode = Entry(null)
-    val (entry, exit) = (register(entryNode), register(exitNode))
+    // edges
+    var forward = Map[MNode, Map[EdgeCase, MNode]]()
 
     // connect previous edges with a given node
-    def connect(prev: List[(Int, Edge)], to: Int): Unit = prev.foreach {
-      case (from, edge) =>
-        val set = edges.getOrElse(from, Set()) + ((edge, to))
-        edges += from -> set
-    }
-
-    // connect previous edges with normal instruction
-    def connectInst(prev: List[(Int, Edge)], inst: NormalInst): Int = {
-      val block = register(Block(inst :: Nil))
-      connect(prev, block)
-      block
+    def connect(prev: List[(MNode, EdgeCase)], to: MNode): Unit = prev.foreach {
+      case (from, edgeCase) =>
+        val cases = forward.getOrElse(from, Map())
+        forward += from -> (cases + (edgeCase -> to))
     }
 
     // translation
     def translate(
-      prev: List[(Int, Edge)],
+      prev: List[(MNode, EdgeCase)],
       inst: Inst
-    ): List[(Int, Edge)] = inst match {
+    ): List[(MNode, EdgeCase)] = inst match {
       case IIf(cond, thenInst, elseInst) =>
-        val branch = register(Branch(cond))
+        val branch = MBranch(cond)
         connect(prev, branch)
-        val thenPrev = translate(List((branch, CondEdge(true))), thenInst)
-        val elsePrev = translate(List((branch, CondEdge(false))), elseInst)
+        val thenPrev = translate(List((branch, Then)), thenInst)
+        val elsePrev = translate(List((branch, Else)), elseInst)
         thenPrev ++ elsePrev
       case IWhile(cond, body) =>
-        val branch = register(Branch(cond))
+        val branch = MBranch(cond)
         connect(prev, branch)
-        val thenPrev = translate(List((branch, CondEdge(true))), body)
+        val thenPrev = translate(List((branch, Then)), body)
         connect(thenPrev, branch)
-        List((branch, CondEdge(false)))
+        List((branch, Else))
       case (inst: CallInst) =>
-        val call = register(Call(inst))
+        val call = MCall(inst)
         connect(prev, call)
-        List((call, NormalEdge))
-      case (inst: NormalInst) =>
+        List((call, Normal))
+      case (inst: NormalInst) => prev match {
         // merge if `prev` is single `Block`
-        val block = prev match {
-          case (from, edge) :: Nil => nodes.get(from) match {
-            case None => ??? // impossible
-            case Some(b @ Block(insts, _)) =>
-              register(b >> Block(insts :+ inst))
-            case _ => connectInst(prev, inst)
-          }
-          case _ => connectInst(prev, inst)
-        }
-        List((block, NormalEdge))
+        case List((block: MBlock, _)) =>
+          block.insts += inst
+          List((block, Normal))
+        case _ =>
+          val block = MBlock(Queue(inst))
+          connect(prev, block)
+          List((block, Normal))
+      }
       case ISeq(insts) => insts.foldLeft(prev)(translate)
     }
 
-    // translate algo body
-    val prev = translate(List((entry, NormalEdge)), algo.getBody)
+    // translate algorithm bodies
+    val entry = MEntry()
+    val exit = MExit()
+    val prev = translate(List((entry, Normal)), algo.getBody)
     connect(prev, exit)
 
-    // patch edges
-    for {
-      (from, forwards) <- edges
-    } nodes(from) match {
-      case (n: LinearNode) if forwards.size == 1 =>
-        n.next = nodes.get(forwards.head._2)
-      case n @ Branch(_, _, _) if forwards.size == 2 =>
-        for {
-          (edge, to) <- forwards
-          toNode = nodes.get(to)
-        } edge match {
-          case NormalEdge => ??? // impossible
-          case CondEdge(true) => n.tnext = toNode
-          case CondEdge(false) => n.fnext = toNode
-        }
-      case _ => ??? // impossible
-    }
-
-    // return function
-    Function(algo, entryNode, exitNode, nodes.values.toSet)
+    // functions
+    Function(
+      algo = algo,
+      entry = entry.node,
+      exit = exit.node,
+      nodes = forward.keySet.map(_.node) + entry.node + exit.node,
+      edges = (forward.collect {
+        case (branch: MBranch, cases) =>
+          BranchEdge(branch.node, cases(Then).node, cases(Else).node)
+        case (linear: MLinear, cases) =>
+          LinearEdge(linear.node, cases(Normal).node)
+      }).toSet
+    )
   }
+
+  // internal mutable nodes
+  private trait MNode { val node: Node }
+  private trait MLinear extends MNode { val node: Linear }
+  private case class MEntry() extends MLinear {
+    lazy val node = Entry()
+  }
+  private case class MBlock(insts: Queue[NormalInst]) extends MLinear {
+    lazy val node = Block(insts.toList)
+  }
+  private case class MCall(inst: CallInst) extends MLinear {
+    lazy val node = Call(inst)
+  }
+  private case class MBranch(cond: Expr) extends MNode {
+    lazy val node = Branch(cond)
+  }
+  private case class MExit() extends MNode {
+    lazy val node = Exit()
+  }
+
+  // internnal edge cases
+  private trait EdgeCase
+  private case object Normal extends EdgeCase
+  private case object Then extends EdgeCase
+  private case object Else extends EdgeCase
 }

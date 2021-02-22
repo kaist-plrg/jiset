@@ -54,6 +54,9 @@ object BasicDomain extends state.Domain {
     // define variable
     def +(pair: (String, AbsValue)): Elem = copy(env = env + pair)
 
+    // lookup reference values
+    def apply(refVal: AbsRefValue): AbsValue = ???
+
     // allocate a new symbol
     def allocSymbol(desc: String): (Elem, AbsValue) = ???
 
@@ -63,7 +66,19 @@ object BasicDomain extends state.Domain {
     // allocate a new list
     def allocList(vs: List[AbsValue]): (Elem, AbsValue) = ???
 
+    // copy an object
+    def copyOf(v: AbsValue): (Elem, AbsValue) = ???
+
+    // get keys of an object
+    def keysOf(v: AbsValue): (Elem, AbsValue) = ???
+
     // pop a value from a list
     def pop(list: AbsValue, idx: AbsValue): (Elem, AbsValue) = ???
+
+    // get type of values
+    def typeOf(v: AbsValue): AbsValue = ???
+
+    // check whether lists contains elements
+    def contains(list: AbsValue, v: AbsValue): AbsValue = ???
   }
 }

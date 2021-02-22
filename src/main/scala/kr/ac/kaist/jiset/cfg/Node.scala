@@ -4,40 +4,25 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.UId
 
 // CFG nodes
-sealed abstract class Node extends UId {
-  // enclosing function
-  var _func: Function = null
-  lazy val func: Function = _func
-
-  def nexts: List[Node] = this match {
-    case (n: LinearNode) => List(n.next).flatten
-    case Branch(_, t, f) => List(t, f).flatten
-    case _ => List()
-  }
-
+trait Node extends UId {
   // conversion to string
-  override def toString: String = (this match {
-    case (_: Entry) => "Entry"
-    case (_: Exit) => "Exit"
-    case (_: Block) => "Block"
-    case (_: Call) => "Call"
-    case (_: Branch) => "Branch"
-  }) + s"[$uid]"
+  override def toString: String = s"${getClass.getName}[$uid]"
 }
-case class Exit() extends Node
-case class Branch(
-  cond: Expr,
-  var tnext: Option[Node] = None,
-  var fnext: Option[Node] = None
-) extends Node
 
-sealed abstract class LinearNode extends Node { var next: Option[Node] }
-case class Entry(var next: Option[Node] = None) extends LinearNode
-case class Block(
-  insts: List[NormalInst],
-  var next: Option[Node] = None
-) extends LinearNode
-case class Call(
-  inst: CallInst,
-  var next: Option[Node] = None
-) extends LinearNode
+// linear nodes
+trait Linear extends Node
+
+// entry nodes
+case class Entry() extends Linear
+
+// blocks
+case class Block(insts: List[NormalInst]) extends Linear
+
+// call nodes
+case class Call(inst: CallInst) extends Linear
+
+// branches
+case class Branch(cond: Expr) extends Node
+
+// exit nodes
+case class Exit() extends Node

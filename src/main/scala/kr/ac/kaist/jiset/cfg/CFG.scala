@@ -5,24 +5,24 @@ import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.util.UId
 
 // control flow graph
-class CFG extends UId {
-  private var funcs: Set[Function] = Set()
-  private var nodes: Set[Node] = Set()
-
-  // insert new functions
-  def +=(func: Function): Unit = {
-    funcs += func
-    nodes ++= func.nodes
-  }
-
-  // getters for functions and nodes
-  def allFunctions: Set[Function] = funcs
-  def allNodes: Set[Node] = nodes
+class CFG(val funcs: Set[Function]) {
+  val nodes: Set[Node] = funcs.flatMap(_.nodes)
+  val edges: Set[Edge] = funcs.flatMap(_.edges)
+  val funcOf: Map[Node, Function] = funcs.flatMap(f => f.nodes.map(_ -> f)).toMap
+  val next: Map[Linear, Node] =
+    (edges.collect { case LinearEdge(x, y) => x -> y }).toMap
+  val thenNext: Map[Branch, Node] =
+    (edges.collect { case BranchEdge(x, y, _) => x -> y }).toMap
+  val elseNext: Map[Branch, Node] =
+    (edges.collect { case BranchEdge(x, _, y) => x -> y }).toMap
+  val nexts: Map[Node, Set[Node]] = (edges.map {
+    case LinearEdge(x, y) => x -> Set(y)
+    case BranchEdge(x, y, z) => x -> Set(y, z)
+  }).toMap
 }
 object CFG {
   def apply(spec: ECMAScript): CFG = {
-    val cfg = new CFG
-    spec.targetAlgos.foreach(cfg += Translator(_))
-    cfg
+    val funcs = spec.targetAlgos.map(Translator(_)).toSet
+    new CFG(funcs)
   }
 }

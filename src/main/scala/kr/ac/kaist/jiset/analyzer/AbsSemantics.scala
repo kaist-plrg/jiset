@@ -3,9 +3,13 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
+import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.cfg.CFG
 
-class AbsSemantics(val cfg: CFG) {
+class AbsSemantics(
+  val cfg: CFG,
+  val grammar: Grammar
+) {
   // worklist
   val worklist = new StackWorklist[ControlPoint]
 

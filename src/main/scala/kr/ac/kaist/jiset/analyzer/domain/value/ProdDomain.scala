@@ -93,5 +93,15 @@ object ProdDomain extends value.Domain {
         case (One(x), One(y)) => AbsBool(x == y)
         case _ => AbsBool.Top
       }
+
+    // accessors for primitive values
+    def num: AbsNum = prim.num
+    def int: AbsINum = prim.int
+    def bigint: AbsBigINum = prim.bigint
+    def str: AbsStr = prim.str
+    def bool: AbsBool = prim.bool
+    def undef: AbsUndef = prim.undef
+    def nullval: AbsNull = prim.nullval
+    def absent: AbsAbsent = prim.absent
   }
 }

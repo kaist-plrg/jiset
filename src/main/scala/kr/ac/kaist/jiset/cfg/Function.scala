@@ -8,11 +8,9 @@ case class Function(
   algo: Algo,
   entry: Entry,
   exit: Exit,
-  nodes: Set[Node]
+  nodes: Set[Node],
+  edges: Set[Edge]
 ) extends UId {
-  // connect nodes with function
-  nodes.foreach(_._func = this)
-
   // function name
   def name: String = algo.name
 

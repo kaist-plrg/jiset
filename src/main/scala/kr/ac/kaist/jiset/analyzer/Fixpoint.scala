@@ -8,7 +8,7 @@ class Fixpoint(sem: AbsSemantics) {
   val cfg = sem.cfg
 
   // initialization
-  cfg.allFunctions.foreach(func => func.algo.head match {
+  cfg.funcs.foreach(func => func.algo.head match {
     case (head: SyntaxDirectedHead) if head.withParams.isEmpty =>
       val entry = func.entry
       Initialize(head).foreach {
