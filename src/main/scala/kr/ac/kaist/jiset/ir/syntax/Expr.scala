@@ -1,7 +1,9 @@
 package kr.ac.kaist.jiset.ir
 
 // IR Expressions
-sealed trait Expr extends IRNode { var uid: Int = -1 }
+sealed trait Expr extends IRNode {
+  var uid: Int = -1
+}
 
 case class ENum(n: Double) extends Expr {
   override def equals(that: Any): Boolean = that match {

@@ -155,7 +155,7 @@ object Beautifier {
     // expressions
     override def walk(expr: Expr): Unit = {
       val uid = expr.uid
-      if (exprId) walk(s"[$uid]")
+      if (exprId && uid != -1) walk(s"[$uid] ")
       expr match {
         case ENum(n) => walk(s"$n")
         case EINum(n) => walk(s"${n}i")

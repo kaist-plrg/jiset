@@ -71,7 +71,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   ) ^^ { case k ~ i => i.line = k.fold(-1)(_.toInt); i }
 
   // expressions
-  lazy private val expr: Parser[Expr] = (
+  lazy private val expr: Parser[Expr] = opt("[" ~> integer <~ "]") ~ (
     ref ^^ { ERef(_) } |
     s"${integer}i".r ^^ { case s => EINum(s.dropRight(1).toLong) } |
     s"${integer}n".r ^^ { case s => EBigINum(BigInt(s.dropRight(1).toLong)) } |
@@ -114,7 +114,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
     "[" ~> "!" ~> expr <~ "]" ^^ { case e => EReturnIfAbrupt(e, false) } |
     "(" ~> "copy-obj" ~> expr <~ ")" ^^ { case e => ECopy(e) } |
     "(" ~> "map-keys" ~> expr <~ ")" ^^ { case e => EKeys(e) }
-  )
+  ) ^^ { case k ~ e => e.uid = k.fold(-1)(_.toInt); e }
 
   // properties
   lazy private val prop: Parser[(Expr, Expr)] =
