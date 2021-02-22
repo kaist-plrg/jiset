@@ -7,14 +7,18 @@ import kr.ac.kaist.jiset.util.Useful._
 class DotPrinter {
   // for functions
   def apply(func: Function): DotPrinter = {
-    val Function(_, entry, exit, nodes, forwards) = func
+    val Function(_, entry, exit, nodes) = func
     add(s"""digraph {""")
     nodes.foreach(apply)
-    forwards.foreach {
-      case (from, set) => set.foreach {
-        case (edge, to) => apply(from, edge, to)
-      }
+
+    nodes.foreach {
+      case (n: LinearNode) => apply(n, NormalEdge, n.next.get)
+      case n @ Branch(_, t, f) =>
+        apply(n, CondEdge(true), t.get)
+        apply(n, CondEdge(false), f.get)
+      case _ =>
     }
+
     add(s"""}""")
     this
   }
@@ -23,11 +27,11 @@ class DotPrinter {
   def apply(node: Node): DotPrinter = {
     val uid = node.uid
     node match {
-      case Entry() =>
+      case Entry(_) =>
         add(s"""  node$uid [shape=point]""")
       case Exit() =>
         add(s"""  node$uid [shape=point]""")
-      case Block(insts) =>
+      case Block(insts, _) =>
         add(s"""  node$uid [shape=none, margin=0, label=<""")
         add(s"""    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">""")
         insts.foreach(inst => {
@@ -35,9 +39,9 @@ class DotPrinter {
         })
         add(s"""    </table>""")
         add(s"""  >]""")
-      case Call(inst) =>
+      case Call(inst, _) =>
         add(s"""  node$uid [shape=cds, label=<${norm(inst)}>]""")
-      case Branch(cond) =>
+      case Branch(cond, _, _) =>
         add(s"""  node$uid [shape=diamond, label="${norm(cond)}"]""")
     }
     this

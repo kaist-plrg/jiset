@@ -23,13 +23,14 @@ class AbsTransfer(sem: AbsSemantics) {
     import helper._
     node match {
       case (entry: Entry) =>
-        for (n <- cfg.next(entry)) sem += NodePoint(n, view) -> st
+        sem += NodePoint(entry.next.get, view) -> st
       case (exit: Exit) => // TODO detect missing return
       case (block: Block) =>
         val nextSt = block.insts.foldLeft(st)(transfer)
-        for (n <- cfg.next(block)) sem += NodePoint(n, view) -> nextSt
-      case Call(inst) => ???
-      case branch @ Branch(expr) =>
+        sem += NodePoint(block.next.get, view) -> st
+      case Call(inst, next) => ???
+      case branch @ Branch(expr, tnext, fnext) =>
+        ???
         val (s, v) = transfer(st, expr)
         ???
     }
