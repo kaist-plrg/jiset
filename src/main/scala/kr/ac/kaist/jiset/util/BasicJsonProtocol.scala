@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.util
 import spray.json._
 
 trait BasicJsonProtocol extends DefaultJsonProtocol {
-  // general enumerations
+  // JSON format for enumerations
   def enumFormat[T <: Enumeration](enu: T): RootJsonFormat[T#Value] =
     new RootJsonFormat[T#Value] {
       def write(obj: T#Value): JsValue = JsString(obj.toString)
@@ -15,7 +15,7 @@ trait BasicJsonProtocol extends DefaultJsonProtocol {
       }
     }
 
-  // protocol based on parsers and beautifiers
+  // JSON format based on parsers and beautifiers
   def stringFormat[T](
     parser: String => T,
     beautifier: T => String
@@ -24,6 +24,22 @@ trait BasicJsonProtocol extends DefaultJsonProtocol {
     def read(json: JsValue): T = json match {
       case JsString(str) => parser(str)
       case v => deserializationError(s"Expected a string instead of $v")
+    }
+  }
+
+  // JSON format for pairs
+  def pairFormat[T, U](
+    implicit
+    tFormat: JsonFormat[T],
+    uFormat: JsonFormat[U]
+  ): JsonFormat[(T, U)] = new RootJsonFormat[(T, U)] {
+    def write(pair: (T, U)): JsValue = {
+      val (l, r) = pair
+      JsArray(tFormat.write(l), uFormat.write(r))
+    }
+    def read(json: JsValue): (T, U) = json match {
+      case JsArray(v) if v.length == 2 => (tFormat.read(v(0)), uFormat.read(v(1)))
+      case v => deserializationError(s"Expected a 2-length array intead of $v")
     }
   }
 }

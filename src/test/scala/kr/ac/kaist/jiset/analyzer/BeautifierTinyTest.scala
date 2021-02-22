@@ -47,6 +47,16 @@ class BeautifierTinyTest extends AnalyzerTest {
       AbsValue(ASTVal("Literal"), ASTVal("Identifier")) -> "(☊(Literal) | ☊(Identifier))",
     )
 
+    val id = RefValueId("x")
+    val prop = RefValueProp(DynamicAddr(42), "p")
+    val string = RefValueString("abc", "length")
+    test("Abstract Reference Values")(
+      AbsRefValue(id) -> "x",
+      AbsRefValue(prop) -> "#42.p",
+      AbsRefValue(string) -> """"abc".length""",
+      AbsRefValue(id, prop, string) -> """x | #42.p | "abc".length""",
+    )
+
     test("Abstract Objects")(
       AbsObj(SymbolObj("has"), SymbolObj("get")) -> "@(has | get)",
       AbsObj(MapObj("x" -> true, "y" -> 2), MapObj("x" -> "a", "z" -> Null)) -> """{

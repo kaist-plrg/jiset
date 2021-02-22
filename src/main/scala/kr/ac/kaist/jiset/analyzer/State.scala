@@ -53,3 +53,9 @@ case class Bool(bool: Boolean) extends Prim
 case object Undef extends Prim
 case object Null extends Prim
 case object Absent extends Prim
+
+// reference values
+sealed trait RefValue
+case class RefValueId(id: String) extends RefValue
+case class RefValueProp(addr: Addr, prop: String) extends RefValue
+case class RefValueString(str: Str, name: String) extends RefValue

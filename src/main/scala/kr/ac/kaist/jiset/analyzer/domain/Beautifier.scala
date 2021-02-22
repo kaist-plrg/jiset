@@ -35,6 +35,7 @@ object Beautifier {
 
   // Scala value appender
   implicit lazy val stringApp: App[String] = _ >> _
+  implicit lazy val strflatApp: App[StrFlat] = flatDomainApp(StrFlat, "string")
 
   // concrete value appender
   implicit lazy val primApp: App[Prim] = (app, prim) => app >> (prim match {
@@ -90,6 +91,15 @@ object Beautifier {
       if (!cont.isBottom) udts :+= { _ >> cont }
       if (!ast.isBottom) udts :+= { _ >> ast }
       if (!prim.isBottom) udts :+= { _ >> prim }
+      app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
+    })
+  implicit lazy val arefvalueApp: App[AbsRefValue] =
+    domainApp(AbsRefValue)((app, arefval) => {
+      val AbsRefValue.Elem(id, prop, string) = arefval
+      var udts = Vector[Update]()
+      if (!id.isBottom) udts :+= { _ >> id }
+      if (!prop._1.isBottom) udts :+= { _ >> prop._1 >> "." >> prop._2 }
+      if (!string._1.isBottom) udts :+= { _ >> string._1 >> "." >> string._2 }
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
   implicit lazy val aobjApp: App[AbsObj] =
@@ -240,4 +250,14 @@ object Beautifier {
     case domain.Empty => app >> "ɛ"
     case _ => givenApp(app, elem)
   })
+
+  // pair appender
+  implicit def pairApp[T, U](
+    implicit
+    tApp: App[T],
+    uApp: App[U]
+  ): App[(T, U)] = (app, pair) => {
+    val (t, u) = pair
+    app >> "(" >> t >> ", " >> u >> ")"
+  }
 }

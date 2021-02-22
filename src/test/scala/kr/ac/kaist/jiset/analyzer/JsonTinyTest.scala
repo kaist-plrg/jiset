@@ -31,6 +31,16 @@ class JsonTinyTest extends AnalyzerTest {
       AbsValue(ASTVal("Literal"), ASTVal("Identifier")),
     )
 
+    val id = RefValueId("x")
+    val prop = RefValueProp(DynamicAddr(42), "p")
+    val string = RefValueString("abc", "length")
+    test("Abstract Reference Values")(
+      AbsRefValue(id),
+      AbsRefValue(prop),
+      AbsRefValue(string),
+      AbsRefValue(id, prop, string)
+    )
+
     test("Abstract Objects")(
       AbsObj(SymbolObj("has"), SymbolObj("get")),
       AbsObj(MapObj("x" -> true, "y" -> 2), MapObj("x" -> "a", "z" -> Null)),

@@ -93,11 +93,19 @@ package object domain {
   lazy val AbsAbsent = absent.SimpleDomain
   type AbsAbsent = AbsAbsent.Elem
 
+  // abstract reference values
+  lazy val AbsRefValue = refvalue.BasicDomain
+  type AbsRefValue = AbsRefValue.Elem
+
   //////////////////////////////////////////////////////////////////////////////
   // helpers
   //////////////////////////////////////////////////////////////////////////////
   lazy val AbsTrue = AbsBool(true)
   lazy val AbsFalse = AbsBool(false)
+
+  // abstract Scala strings
+  lazy val StrFlat = new FlatDomain[String]
+  type StrFlat = StrFlat.Elem
 
   //////////////////////////////////////////////////////////////////////////////
   // implicit conversions
