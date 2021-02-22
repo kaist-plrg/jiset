@@ -9,13 +9,15 @@ object Beautifier {
     node: IRNode,
     indent: String,
     detail: Boolean,
-    index: Boolean
+    index: Boolean,
+    exprId: Boolean
   ): String = {
     val walker = new BeautifierWalker
     walker.sb = new StringBuilder
     walker.indent = LINE_SEP + indent
     walker.detail = detail
     walker.index = index
+    walker.exprId = exprId
     walker.walk(node)
     walker.sb.toString
   }
@@ -36,6 +38,9 @@ object Beautifier {
 
     // shows index of instructions
     var index: Boolean = false
+
+    // shows uid of expressions
+    var exprId: Boolean = false
 
     // tab string
     val TAB = "  "
@@ -148,58 +153,62 @@ object Beautifier {
     }
 
     // expressions
-    override def walk(expr: Expr): Unit = expr match {
-      case ENum(n) => walk(s"$n")
-      case EINum(n) => walk(s"${n}i")
-      case EBigINum(b) => walk(s"${b}n")
-      case EStr(str) => walk("\"" + norm(str) + "\"")
-      case EBool(b) => walk(s"$b")
-      case EUndef => walk("undefined")
-      case ENull => walk("null")
-      case EAbsent => walk("absent")
-      case EMap(ty, props) =>
-        walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
-          case (k, v) => walk(k); walk(" -> "); walk(v)
-        }); walk("))")
-      case EList(exprs) =>
-        walk("(new ["); walkListSep[Expr](exprs, ", ", walk); walk("])");
-      case ESymbol(desc) =>
-        walk("(new '"); walk(desc); walk(")");
-      case EPop(list, idx) =>
-        walk("(pop "); walk(list); walk(" "); walk(idx); walk(")")
-      case ERef(ref) => walk(ref)
-      case ECont(params, body) =>
-        walk("("); walkListSep[Id](params, ", ", walk);
-        walk(") [=>] ")
-        detailWalk(body)
-      case EUOp(uop, expr) =>
-        walk("("); walk(uop); walk(" "); walk(expr); walk(")")
-      case EBOp(bop, left, right) =>
-        walk("("); walk(bop); walk(" "); walk(left); walk(" "); walk(right); walk(")")
-      case ETypeOf(expr) =>
-        walk("(typeof "); walk(expr); walk(")")
-      case EIsCompletion(expr) =>
-        walk("(is-completion "); walk(expr); walk(")")
-      case EIsInstanceOf(base, name) =>
-        walk("(is-instance-of "); walk(base); walk(" "); walk(name); walk(")")
-      case EGetElems(base, name) =>
-        walk("(get-elems "); walk(base); walk(" "); walk(name); walk(")")
-      case EGetSyntax(base) =>
-        walk("(get-syntax "); walk(base); walk(")")
-      case EParseSyntax(code, rule, flags) =>
-        walk("(parse-syntax "); walk(code); walk(" "); walk(rule); walk(" "); walk(flags); walk(")")
-      case EConvert(expr, cop, list) =>
-        walk("(convert "); walk(expr); walk(" "); walk(cop); walk(" "); walkListSep[Expr](list, " ", walk); walk(")")
-      case EContains(list, elem) =>
-        walk("(contains "); walk(list); walk(" "); walk(elem); walk(")")
-      case EReturnIfAbrupt(expr, check) =>
-        if (check) walk("[? ") else walk("[! "); walk(expr); walk("]")
-      case ECopy(obj) =>
-        walk("(copy-obj "); walk(obj); walk(")")
-      case EKeys(obj) =>
-        walk("(map-keys "); walk(obj); walk(")")
-      case ENotSupported(msg) =>
-        walk("??? \""); walk(norm(msg)); walk("\"")
+    override def walk(expr: Expr): Unit = {
+      val uid = expr.uid
+      if (exprId) walk(s"[$uid]")
+      expr match {
+        case ENum(n) => walk(s"$n")
+        case EINum(n) => walk(s"${n}i")
+        case EBigINum(b) => walk(s"${b}n")
+        case EStr(str) => walk("\"" + norm(str) + "\"")
+        case EBool(b) => walk(s"$b")
+        case EUndef => walk("undefined")
+        case ENull => walk("null")
+        case EAbsent => walk("absent")
+        case EMap(ty, props) =>
+          walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
+            case (k, v) => walk(k); walk(" -> "); walk(v)
+          }); walk("))")
+        case EList(exprs) =>
+          walk("(new ["); walkListSep[Expr](exprs, ", ", walk); walk("])");
+        case ESymbol(desc) =>
+          walk("(new '"); walk(desc); walk(")");
+        case EPop(list, idx) =>
+          walk("(pop "); walk(list); walk(" "); walk(idx); walk(")")
+        case ERef(ref) => walk(ref)
+        case ECont(params, body) =>
+          walk("("); walkListSep[Id](params, ", ", walk);
+          walk(") [=>] ")
+          detailWalk(body)
+        case EUOp(uop, expr) =>
+          walk("("); walk(uop); walk(" "); walk(expr); walk(")")
+        case EBOp(bop, left, right) =>
+          walk("("); walk(bop); walk(" "); walk(left); walk(" "); walk(right); walk(")")
+        case ETypeOf(expr) =>
+          walk("(typeof "); walk(expr); walk(")")
+        case EIsCompletion(expr) =>
+          walk("(is-completion "); walk(expr); walk(")")
+        case EIsInstanceOf(base, name) =>
+          walk("(is-instance-of "); walk(base); walk(" "); walk(name); walk(")")
+        case EGetElems(base, name) =>
+          walk("(get-elems "); walk(base); walk(" "); walk(name); walk(")")
+        case EGetSyntax(base) =>
+          walk("(get-syntax "); walk(base); walk(")")
+        case EParseSyntax(code, rule, flags) =>
+          walk("(parse-syntax "); walk(code); walk(" "); walk(rule); walk(" "); walk(flags); walk(")")
+        case EConvert(expr, cop, list) =>
+          walk("(convert "); walk(expr); walk(" "); walk(cop); walk(" "); walkListSep[Expr](list, " ", walk); walk(")")
+        case EContains(list, elem) =>
+          walk("(contains "); walk(list); walk(" "); walk(elem); walk(")")
+        case EReturnIfAbrupt(expr, check) =>
+          if (check) walk("[? ") else walk("[! "); walk(expr); walk("]")
+        case ECopy(obj) =>
+          walk("(copy-obj "); walk(obj); walk(")")
+        case EKeys(obj) =>
+          walk("(map-keys "); walk(obj); walk(")")
+        case ENotSupported(msg) =>
+          walk("??? \""); walk(norm(msg)); walk("\"")
+      }
     }
 
     // references

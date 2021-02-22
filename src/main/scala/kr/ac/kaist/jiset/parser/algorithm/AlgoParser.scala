@@ -44,7 +44,7 @@ object AlgoParser {
         println(s"--------------------------------------------------")
         heads.foreach(println(_))
         println("====>")
-        println(beautify(rawBody, index = true))
+        println(beautify(rawBody, index = true)) // TODO print exprId, currently generated later so all -1
       }
 
       heads.map(Algo(_, rawBody, code))
@@ -57,6 +57,16 @@ object AlgoParser {
         Nil
     }
     if (detail) println(s"==================================================")
+    result.map(algo => UidWalker.walk(algo.rawBody))
     result
+  }
+
+  object UidWalker extends UnitWalker {
+    private var count: Int = 0
+    private def getCount: Int = { val result = count; count += 1; result }
+    override def walk(expr: Expr): Unit = {
+      expr.uid = getCount
+      super.walk(expr)
+    }
   }
 }

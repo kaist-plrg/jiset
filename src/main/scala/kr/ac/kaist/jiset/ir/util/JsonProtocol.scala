@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.util.BasicJsonProtocol
 import spray.json._
 
 object JsonProtocol extends BasicJsonProtocol {
-  def beautifier[T <: IRNode](x: T): String = beautify(x, index = true)
+  def beautifier[T <: IRNode](x: T): String = beautify(x, index = true, exprId = true)
 
   implicit lazy val TyFormat = stringFormat[Ty](parseTy, beautifier)
   implicit lazy val RefFormat = stringFormat[Ref](parseRef, beautifier)
