@@ -65,7 +65,10 @@ object AlgoParser {
     private var count: Int = 0
     private def getCount: Int = { val result = count; count += 1; result }
     override def walk(expr: Expr): Unit = {
-      expr.uid = getCount
+      expr match {
+        case expr: AllocExpr => expr.uid = getCount
+        case _ =>
+      }
       super.walk(expr)
     }
   }
