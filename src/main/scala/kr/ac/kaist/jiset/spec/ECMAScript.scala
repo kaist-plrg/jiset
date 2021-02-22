@@ -31,6 +31,7 @@ case class ECMAScript(
   // target algorithms
   val names = Set(
     "Literal[0,0].Evaluation",
+    "Literal[1,0].Evaluation"
   )
   def targetAlgos: List[Algo] = algos.filter(names contains _.name)
 

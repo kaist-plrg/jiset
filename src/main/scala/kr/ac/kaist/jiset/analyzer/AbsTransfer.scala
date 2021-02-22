@@ -29,7 +29,9 @@ class AbsTransfer(sem: AbsSemantics) {
         val nextSt = block.insts.foldLeft(st)(transfer)
         for (n <- cfg.next(block)) sem += NodePoint(n, view) -> nextSt
       case Call(inst) => ???
-      case branch @ Branch(expr) => ???
+      case branch @ Branch(expr) =>
+        val (s, v) = transfer(st, expr)
+        ???
     }
   }
 
@@ -68,10 +70,30 @@ class AbsTransfer(sem: AbsSemantics) {
       case EUndef => (st, AbsUndef.Top)
       case ENull => (st, AbsNull.Top)
       case EAbsent => (st, AbsAbsent.Top)
-      case EMap(ty, props) => ???
-      case EList(exprs) => ???
-      case ESymbol(desc) => ???
-      case EPop(list, idx) => ???
+      case EMap(ty, props) =>
+        // TODO handling type information
+        val (newSt, map) = props.foldLeft((st, Map[String, AbsValue]())) {
+          case ((s0, map), (EStr(k), expr)) =>
+            val (s1, v) = transfer(s0, expr)
+            (s1, map + (k -> v))
+          case _ => ??? // TODO handling non-string keys
+        }
+        newSt.allocMap(map)
+      case EList(exprs) =>
+        val (newSt, vs) = exprs.foldLeft((st, Vector[AbsValue]())) {
+          case ((s0, vs), expr) =>
+            val (s1, v) = transfer(s0, expr)
+            (s1, vs :+ v)
+        }
+        newSt.allocList(vs.toList)
+      case ESymbol(desc) => desc match {
+        case EStr(desc) => st.allocSymbol(desc)
+        case _ => ??? // TODO handling non-string descriptions
+      }
+      case EPop(list, idx) =>
+        val (s0, l) = transfer(st, list)
+        val (s1, k) = transfer(s0, idx)
+        s1.pop(l, k)
       case ERef(ref) => ???
       case ECont(params, body) => ???
       case EUOp(uop, expr) => ???

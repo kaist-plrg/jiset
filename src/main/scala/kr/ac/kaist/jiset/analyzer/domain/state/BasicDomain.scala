@@ -53,5 +53,17 @@ object BasicDomain extends state.Domain {
 
     // define variable
     def +(pair: (String, AbsValue)): Elem = copy(env = env + pair)
+
+    // allocate a new symbol
+    def allocSymbol(desc: String): (Elem, AbsValue) = ???
+
+    // allocate a new map
+    def allocMap(props: Map[String, AbsValue]): (Elem, AbsValue) = ???
+
+    // allocate a new list
+    def allocList(vs: List[AbsValue]): (Elem, AbsValue) = ???
+
+    // pop a value from a list
+    def pop(list: AbsValue, idx: AbsValue): (Elem, AbsValue) = ???
   }
 }
