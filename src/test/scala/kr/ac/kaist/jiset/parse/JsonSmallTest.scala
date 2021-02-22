@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.parser.ECMAScriptParser
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import spray.json._
 import org.scalatest._
+import kr.ac.kaist.jiset.spec.algorithm.Diff
 
 class JsonSmallTest extends ParseTest {
   // registration
@@ -16,6 +17,11 @@ class JsonSmallTest extends ParseTest {
       val json = spec.toJson
       val loaded = json.convertTo[ECMAScript]
       assert(spec == loaded)
+      (spec.algos zip loaded.algos).foreach {
+        case (l, r) => {
+          assert(Diff.compare(l.rawBody, r.rawBody))
+        }
+      }
     })
   }
   init
