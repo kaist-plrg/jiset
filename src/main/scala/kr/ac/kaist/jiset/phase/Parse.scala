@@ -20,15 +20,17 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     println(s"--------------------------------------------------")
     val spec = config.load match {
       case Some(filename) =>
-        println(s"loading ECMAScript from $filename...")
-        readJson[ECMAScript](filename)
+        time(s"loading ECMAScript from $filename", {
+          readJson[ECMAScript](filename)
+        })
       case None =>
         val version = config.version.getOrElse("recent")
         val query = config.query.getOrElse("")
         println(s"version: $version (${getRawVersion(version)})")
         if (query != "") println(s"query: $query")
-        println(s"parsing spec.html...")
-        ECMAScriptParser(version, query, config.useCount, config.detail)
+        time(s"parsing spec.html", {
+          ECMAScriptParser(version, query, config.useCount, config.detail)
+        })
     }
 
     val ECMAScript(grammar, algos, intrinsics, symbols, aoids, section) = spec

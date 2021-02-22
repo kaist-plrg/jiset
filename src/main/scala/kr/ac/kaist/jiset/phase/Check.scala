@@ -23,30 +23,37 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
     val targets =
       if (config.target.isEmpty) completeAlgos
       else completeAlgos.filter(config.target contains _.name)
-    println(s"checking ${targets.size} algorithms...")
+    time(s"checking ${targets.size} algorithms", {
 
-    println
-    println(s"variable reference checking...")
-    val refErrors = ReferenceChecker(spec, targets)
-    refErrors.foreach(println _)
-    println(s"${refErrors.length} algorithms have reference errors.")
+      println
+      val refErrors = time(s"variable reference checking", {
+        val refErrors = ReferenceChecker(spec, targets)
+        refErrors.foreach(println _)
+        println(s"${refErrors.length} algorithms have reference errors.")
+        refErrors
+      })
 
-    println
-    println(s"missing return branch checking...")
-    val missingRets = MissingRetChecker(spec, targets)
-    missingRets.foreach(println _)
-    println(s"${missingRets.length} algorithms have missing return branch errors.")
+      println
+      val missingRets = time(s"missing return branch checking", {
+        val missingRets = MissingRetChecker(spec, targets)
+        missingRets.foreach(println _)
+        println(s"${missingRets.length} algorithms have missing return branch errors.")
+        missingRets
+      })
 
-    println
-    println(s"arity checking...")
-    val arityErrors = ArityChecker(spec, targets)
-    arityErrors.foreach(println _)
-    println(s"# of arity mismatch : ${arityErrors.length}")
+      println
+      val arityErrors = time(s"arity checking", {
+        val arityErrors = ArityChecker(spec, targets)
+        arityErrors.foreach(println _)
+        println(s"# of arity mismatch : ${arityErrors.length}")
+        arityErrors
+      })
 
-    println
-    val bugs = refErrors ++ missingRets ++ arityErrors
-    println(s"Total ${bugs.length} bugs detected.")
-    bugs
+      println
+      val bugs = refErrors ++ missingRets ++ arityErrors
+      println(s"Total ${bugs.length} bugs detected.")
+      bugs
+    })
   }
 
   def defaultConfig: CheckConfig = CheckConfig()

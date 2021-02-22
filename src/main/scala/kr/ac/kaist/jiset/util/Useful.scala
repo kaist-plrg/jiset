@@ -177,6 +177,14 @@ object Useful {
     (end - start, result)
   }
 
+  def time[T](msg: String, f: => T): T = {
+    lazy val f0 = f
+    println(msg)
+    val (interval, res) = time(f0)
+    println(msg + " done! (" + interval + " ms)")
+    res
+  }
+
   // catch exceptions with Option[_]
   def optional[T](f: => T): Option[T] = try Some(f) catch {
     case e: Throwable => if (DEBUG) println(e); None

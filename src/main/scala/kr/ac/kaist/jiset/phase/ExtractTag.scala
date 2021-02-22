@@ -22,17 +22,17 @@ case object ExtractTag extends PhaseObj[Unit, ExtractTagConfig, Unit] {
     val ExtractTagConfig(versionOpt, tagOpt) = config
     val version = versionOpt.getOrElse("recent")
     println(s"version: $version (${getRawVersion(version)})")
-    println(s"extracting tag from spec.html...")
-    lazy val noTargetTag = {
-      println("[No Name Input] Pass the target tag name!")
-      "_NoTargetTag_"
-    }
-    val tag = tagOpt.getOrElse(noTargetTag)
+    time(s"extracting tag from spec.html", {
 
-    implicit val (_, document, _) = preprocess(version)
+      tagOpt match {
+        case None => println("[No Name Input] Pass the target tag name!")
+        case Some(tag) =>
+          implicit val (_, document, _) = preprocess(version)
 
-    val elems = document.getElementsByTag(tag)
-    for (elem <- elems.toArray) println(elem)
+          val elems = document.getElementsByTag(tag)
+          for (elem <- elems.toArray) println(elem)
+      }
+    })
   }
 
   def defaultConfig: ExtractTagConfig = ExtractTagConfig()
