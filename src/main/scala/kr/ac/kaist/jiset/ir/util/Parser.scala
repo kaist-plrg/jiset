@@ -50,7 +50,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // instructions
   lazy private val insts: Parser[List[Inst]] = rep(inst)
-  lazy private val inst: Parser[Inst] = opt("(" ~> integer <~ ")") ~ (
+  lazy private val inst: Parser[Inst] = opt(integer <~ ":") ~ (
     "delete " ~> ref ^^ { IDelete(_) } |
     ("append " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IAppend(e, l) } |
     ("prepend " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPrepend(e, l) } |
@@ -71,7 +71,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   ) ^^ { case k ~ i => i.line = k.fold(-1)(_.toInt); i }
 
   // expressions
-  lazy private val expr: Parser[Expr] = opt("[" ~> integer <~ "]") ~ (
+  lazy private val expr: Parser[Expr] = opt("(" ~> integer <~ ")") ~ (
     ref ^^ { ERef(_) } |
     s"${integer}i".r ^^ { case s => EINum(s.dropRight(1).toLong) } |
     s"${integer}n".r ^^ { case s => EBigINum(BigInt(s.dropRight(1).toLong)) } |
