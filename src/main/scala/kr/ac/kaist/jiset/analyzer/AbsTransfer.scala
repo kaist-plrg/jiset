@@ -146,34 +146,60 @@ class AbsTransfer(sem: AbsSemantics) {
     // transfer function for reference values
     def transfer(st: AbsState, ref: Ref): (AbsState, AbsRefValue) = ???
 
+    // all integers
+    val intTop: AbsValue = AbsPrim(
+      int = AbsINum.Top,
+      bigint = AbsBigINum.Top
+    )
+
+    // all numbers
+    val numTop: AbsValue = AbsPrim(
+      num = AbsNum.Top,
+      int = AbsINum.Top,
+      bigint = AbsBigINum.Top
+    )
+
+    // all arithmetic values
+    val arithTop: AbsValue = AbsPrim(
+      num = AbsNum.Top,
+      int = AbsINum.Top,
+      bigint = AbsBigINum.Top,
+      str = AbsStr.Top
+    )
+
     // transfer function for unary operators
+    // TODO more precise abstract semantics
     def transfer(uop: UOp): AbsValue => AbsValue = v => uop match {
-      case ONeg => ???
-      case ONot => ???
-      case OBNot => ???
+      case ONeg => numTop
+      case ONot => !v.bool
+      case OBNot => intTop
     }
 
+    // all booleans
+    val boolTop: AbsValue = AbsBool.Top
+
     // transfer function for binary operators
+    // TODO more precise abstract semantics
     def transfer(bop: BOp): (AbsValue, AbsValue) => AbsValue = (l, r) => bop match {
-      case OPlus => ???
-      case OSub => ???
-      case OMul => ???
-      case OPow => ???
-      case ODiv => ???
-      case OUMod => ???
-      case OMod => ???
-      case OLt => ???
-      case OEq => ???
-      case OEqual => ???
-      case OAnd => ???
-      case OOr => ???
-      case OXor => ???
-      case OBAnd => ???
-      case OBOr => ???
-      case OBXOr => ???
-      case OLShift => ???
-      case OSRShift => ???
-      case OURShift => ???
+      case OPlus => arithTop
+      case OSub => arithTop
+      case OMul => arithTop
+      case OPow => numTop
+      case ODiv => numTop
+      case OUMod => numTop
+      case OMod => numTop
+      case OLt => boolTop
+      case OEq => boolTop
+      case OEqual => boolTop
+      case OAnd => l.bool && r.bool
+      case OOr => l.bool || r.bool
+      case OXor => l.bool ^ r.bool
+      case OBAnd => intTop
+      case OBOr => intTop
+      case OBXOr => intTop
+      case OLShift => intTop
+      case OSRShift => intTop
+      case OURShift => AbsINum.Top
     }
 
     // TODO pruning abstract states using conditions

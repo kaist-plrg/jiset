@@ -16,14 +16,12 @@ case object Analyze extends PhaseObj[ECMAScript, AnalyzeConfig, AbsSemantics] {
     jisetConfig: JISETConfig,
     config: AnalyzeConfig
   ): AbsSemantics = {
-    time(s"analyze specification", {
-      val cfg = CFG(spec)
-      val grammar = spec.grammar
-      val sem = new AbsSemantics(cfg, grammar)
-      val fixpoint = new Fixpoint(sem)
-      fixpoint.compute
-      sem
-    })
+    val cfg = CFG(spec)
+    val grammar = spec.grammar
+    val sem = new AbsSemantics(cfg, grammar)
+    val fixpoint = new Fixpoint(sem)
+    fixpoint.compute
+    sem
   }
 
   def defaultConfig: AnalyzeConfig = AnalyzeConfig()
