@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.UId
 // CFG nodes
 trait Node extends UId {
   // conversion to string
-  override def toString: String = s"${getClass.getName}[$uid]"
+  override def toString: String = s"${getClass.getSimpleName}[$uid]"
 }
 
 // linear nodes
