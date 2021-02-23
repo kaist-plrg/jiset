@@ -215,6 +215,11 @@ object Useful {
     process !!
   }
 
+  def getExitStatus(given: String): Int =
+    try given.! catch {
+      case ex: Exception => -1
+    }
+
   // change git version
   def changeVersion(target: String, dir: String = CUR_DIR): Unit =
     executeCmd(s"git checkout $target", dir)

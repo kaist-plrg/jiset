@@ -23,6 +23,9 @@ package object jiset {
   val LEGACY_COMPILE_DIR = s"${COMPILE_DIR}/legacy"
   val GRAMMAR_DIR = s"${TEST_DIR}/grammar"
 
+  // Dot directory
+  val DOT_DIR = s"${BASE_DIR}/dot"
+
   // Current directory root
   val CUR_DIR = System.getProperty("user.dir")
 
