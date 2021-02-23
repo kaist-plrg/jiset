@@ -2,23 +2,20 @@ package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util.Useful.time
 
 // Analyze phase
-case object Analyze extends PhaseObj[ECMAScript, AnalyzeConfig, AbsSemantics] {
+case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
   val name = "analyze"
   val help = "performs static anaysis for specifications."
 
   def apply(
-    spec: ECMAScript,
+    cfg: CFG,
     jisetConfig: JISETConfig,
     config: AnalyzeConfig
   ): AbsSemantics = {
-    val cfg = CFG(spec)
-    val grammar = spec.grammar
-    val sem = new AbsSemantics(cfg, grammar)
+    val sem = new AbsSemantics(cfg)
     val fixpoint = new Fixpoint(sem)
     fixpoint.compute
     sem

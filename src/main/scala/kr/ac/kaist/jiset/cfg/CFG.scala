@@ -5,7 +5,8 @@ import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.util.UId
 
 // control flow graph
-class CFG(val funcs: Set[Function]) {
+class CFG(val spec: ECMAScript) {
+  val funcs: Set[Function] = spec.algos.map(Translator(_)).toSet
   val nodes: Set[Node] = funcs.flatMap(_.nodes)
   val edges: Set[Edge] = funcs.flatMap(_.edges)
   val funcOf: Map[Node, Function] = funcs.flatMap(f => f.nodes.map(_ -> f)).toMap
@@ -19,10 +20,4 @@ class CFG(val funcs: Set[Function]) {
     case LinearEdge(x, y) => x -> Set(y)
     case BranchEdge(x, y, z) => x -> Set(y, z)
   }).toMap
-}
-object CFG {
-  def apply(spec: ECMAScript): CFG = {
-    val funcs = spec.targetAlgos.map(Translator(_)).toSet
-    new CFG(funcs)
-  }
 }

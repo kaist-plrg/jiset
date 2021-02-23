@@ -7,9 +7,17 @@ class Fixpoint(sem: AbsSemantics) {
   // CFG
   val cfg = sem.cfg
 
+  // TODO target algorithms
+  def isTarget(head: SyntaxDirectedHead): Boolean = (
+    head.withParams.isEmpty && (
+      head.printName == "Literal[0,0].Evaluation" ||
+      head.printName == "Literal[1,0].Evaluation"
+    )
+  )
+
   // initialization
   cfg.funcs.foreach(func => func.algo.head match {
-    case (head: SyntaxDirectedHead) if head.withParams.isEmpty =>
+    case (head: SyntaxDirectedHead) if isTarget(head) =>
       val entry = func.entry
       Initialize(head).foreach {
         case (types, st) =>
@@ -29,6 +37,7 @@ class Fixpoint(sem: AbsSemantics) {
   // fixpoint computation
   def compute: Unit = worklist.next.map(cp => {
     println(sem.getString(cp))
+    println
     transfer(cp)
     compute
   })

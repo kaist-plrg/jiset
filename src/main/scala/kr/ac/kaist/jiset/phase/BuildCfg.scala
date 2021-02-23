@@ -17,7 +17,7 @@ case object BuildCFG extends PhaseObj[ECMAScript, BuildCFGConfig, CFG] {
     jisetConfig: JISETConfig,
     config: BuildCFGConfig
   ): CFG = {
-    val cfg = time("build CFG", CFG(spec))
+    val cfg = time("build CFG", new CFG(spec))
 
     if (config.dot) {
       mkdir(CFG_DIR)

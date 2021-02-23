@@ -68,7 +68,7 @@ case object CmdCheck extends CommandObj("check", CmdParse >> Check)
 case object CmdBuildCFG extends CommandObj("build-cfg", CmdParse >> BuildCFG)
 
 // analyze
-case object CmdAnalyze extends CommandObj("analyze", CmdParse >> Analyze)
+case object CmdAnalyze extends CommandObj("analyze", CmdBuildCFG >> Analyze)
 
 // gen-test
 case object CmdGenTest extends CommandObj("gen-test", CmdBase >> GenTest)
