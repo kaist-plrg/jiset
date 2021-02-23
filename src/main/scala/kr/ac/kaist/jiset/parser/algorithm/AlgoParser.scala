@@ -57,7 +57,7 @@ object AlgoParser {
         Nil
     }
     if (detail) println(s"==================================================")
-    result.map(algo => UidWalker.walk(algo.rawBody))
+    result.foreach(algo => UidWalker.walk(algo.rawBody))
     result
   }
 
@@ -66,7 +66,7 @@ object AlgoParser {
     private def getCount: Int = { val result = count; count += 1; result }
     override def walk(expr: Expr): Unit = {
       expr match {
-        case expr: AllocExpr => expr.uid = getCount
+        case expr: AllocExpr => expr.asite = getCount
         case _ =>
       }
       super.walk(expr)

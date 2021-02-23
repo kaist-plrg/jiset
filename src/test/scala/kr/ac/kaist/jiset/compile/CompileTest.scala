@@ -11,17 +11,20 @@ import org.scalatest._
 trait CompileTest extends JISETTest {
   val category: String = "compile"
 
-  def difftest(filename: String, result: IRNode, answer: IRNode): Unit =
-    Diff(result, answer) match {
-      case Some(Diff.Missing(missing)) =>
+  def difftest(filename: String, result: IRNode, answer: IRNode, deep: Boolean = false): Unit = {
+    val diff = new Diff
+    diff.deep = deep
+    diff(result, answer) match {
+      case Some(diff.Missing(missing)) =>
         println(s"==================================================")
         println(s"[$filename] MISS: ${beautify(missing)}")
         println(s"--------------------------------------------------")
-        val answerStr = beautify(answer)
-        val resultStr = beautify(result)
+        val answerStr = beautify(answer, index = true, exprId = true)
+        val resultStr = beautify(result, index = true, exprId = true)
         println(s"- result: $resultStr")
         println(s"- answer: $answerStr")
         fail(s"$answerStr is different with $resultStr")
       case None =>
     }
+  }
 }

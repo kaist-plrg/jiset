@@ -1,9 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 // IR Expressions
-sealed trait Expr extends IRNode {
-  var uid: Int = -1
-}
+sealed trait Expr extends IRNode
 
 // allocation expression
 sealed trait AllocExpr { var asite: Int = -1 }

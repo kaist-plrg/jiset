@@ -51,7 +51,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         val inst = Compiler(tokens)
 
         val irName = json2ir(jsonName)
-        dumpFile(beautify(inst), irName)
+        dumpFile(beautify(inst, index = true, exprId = true), irName)
       }
     }
   })
@@ -78,7 +78,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         val tokens = TokenParser.getTokens(code, secIds)
         dumpJson(tokens, s"$filename.json")
         // dump ir
-        dumpFile(beautify(rawBody, index = false), s"$filename.ir")
+        dumpFile(beautify(rawBody, index = true, exprId = true), s"$filename.ir")
       })
     })
 

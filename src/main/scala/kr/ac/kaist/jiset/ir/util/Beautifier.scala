@@ -105,7 +105,7 @@ object Beautifier {
     // instructions
     override def walk(inst: Inst): Unit = {
       val k = inst.line
-      if (index && k != -1) walk(s"$k: ")
+      if (index && k != -1) walk(s"$k:")
       inst match {
         case IExpr(expr) =>
           walk(expr)
@@ -154,8 +154,11 @@ object Beautifier {
 
     // expressions
     override def walk(expr: Expr): Unit = {
-      val uid = expr.uid
-      if (exprId && uid != -1) walk(s"($uid) ")
+      expr match {
+        case expr: AllocExpr =>
+          if (exprId && expr.asite != -1) walk(s"(${expr.asite})")
+        case _ =>
+      }
       expr match {
         case ENum(n) => walk(s"$n")
         case EINum(n) => walk(s"${n}i")
@@ -214,7 +217,7 @@ object Beautifier {
     // references
     override def walk(ref: Ref): Unit = ref match {
       case RefId(id) => walk(id)
-      case RefProp(ref, EStr(str)) =>
+      case RefProp(ref, EStr(str)) if !exprId =>
         walk(ref); walk("."); walk(str)
       case RefProp(ref, expr) =>
         walk(ref); walk("["); walk(expr); walk("]")

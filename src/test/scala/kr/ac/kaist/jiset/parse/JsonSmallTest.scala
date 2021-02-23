@@ -16,10 +16,12 @@ class JsonSmallTest extends ParseTest {
       val spec = ECMAScriptParser(pre, "", false, false)
       val json = spec.toJson
       val loaded = json.convertTo[ECMAScript]
+      val diff = new Diff
+      diff.deep = true
       assert(spec == loaded)
       (spec.algos zip loaded.algos).foreach {
         case (l, r) => {
-          assert(Diff.compare(l.rawBody, r.rawBody))
+          assert(diff.compare(l.rawBody, r.rawBody))
         }
       }
     })

@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.Useful._
 // import kr.ac.kaist.jiset.spec.algorithm.Step
 // import kr.ac.kaist.jiset.parser.ECMAScriptParser
 
-object Diff {
+class Diff {
   def apply(result: IRNode, answer: IRNode): Option[Missing] = try {
     if ((result, answer) match {
       case (result: Inst, answer: Inst) => compare(result, answer, true)
@@ -17,6 +17,9 @@ object Diff {
       case _ => false
     }) None else Some(Missing(answer))
   } catch { case m: Missing => Some(m) }
+
+  // deep check
+  var deep: Boolean = false
 
   // missing cases
   case class Missing(answer: IRNode) extends Error
@@ -33,8 +36,11 @@ object Diff {
     answer: Inst,
     stop: Boolean = false
   ): Boolean = {
-    val lineEq = result.line == answer.line
-    if (!lineEq) fail(answer, stop)
+    val lineEq = !deep || {
+      val tmp = result.line == answer.line
+      if (!tmp) fail(answer, stop)
+      else tmp
+    }
     val deepEq = (result, answer) match {
       case (_, IExpr(ENotSupported(_))) => true
       case (IIf(lc, lt, le), IIf(rc, rt, re)) =>
@@ -85,7 +91,7 @@ object Diff {
         case IExpr(ENotSupported(_)) => true
         case _ => fail(answer, stop)
       }
-      case _ => fail(answer, stop)
+      case _ => false
     }
     lineEq && deepEq
   }
@@ -111,11 +117,10 @@ object Diff {
 
   // compare expressions
   implicit def compare(result: Expr, answer: Expr): Boolean = {
-    val asiteEq = (result, answer) match {
+    val asiteEq = !deep || ((result, answer) match {
       case (r: AllocExpr, a: AllocExpr) => r.asite == a.asite
-      case (_, _: AllocExpr) | (_: AllocExpr, _) => false
-      case (_, _) => true
-    }
+      case _ => true
+    })
     val deepEq = (result, answer) match {
       case (ln: ENum, rn: ENum) => ln == rn
       case (EINum(ln), EINum(rn)) => ln == rn

@@ -27,7 +27,7 @@ class ManualSmallTest extends CompileTest {
         val code = unescapeHtml(spec).split(LINE_SEP).toList
         val resultInst = target.parse(code, secIds)._2.getOrElse(fail(s"`$spec` cannot be parsed."))
         val answerInst = target.parseIR(answer)
-        difftest(s"$desc#$i", resultInst, answerInst)
+        difftest(s"$desc#$i", resultInst, answerInst, false)
       }
     }
   })

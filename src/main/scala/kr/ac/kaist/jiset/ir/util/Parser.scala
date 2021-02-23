@@ -114,7 +114,11 @@ object Parser extends JavaTokenParsers with RegexParsers {
     "[" ~> "!" ~> expr <~ "]" ^^ { case e => EReturnIfAbrupt(e, false) } |
     "(" ~> "copy-obj" ~> expr <~ ")" ^^ { case e => ECopy(e) } |
     "(" ~> "map-keys" ~> expr <~ ")" ^^ { case e => EKeys(e) }
-  ) ^^ { case k ~ e => e.uid = k.fold(-1)(_.toInt); e }
+  ) ^^ {
+      case k ~ (e: AllocExpr) =>
+        e.asite = k.fold(-1)(_.toInt); e
+      case k ~ e => assert(k == None); e
+    }
 
   // properties
   lazy private val prop: Parser[(Expr, Expr)] =
