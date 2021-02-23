@@ -12,9 +12,7 @@ case object StyleGuide extends PhaseObj[ECMAScript, StyleGuideConfig, Unit] {
     spec: ECMAScript,
     jisetConfig: JISETConfig,
     config: StyleGuideConfig
-  ): Unit = {
-    println("TODO")
-  }
+  ): Unit = ??? // TODO
 
   def defaultConfig: StyleGuideConfig = StyleGuideConfig()
   val options: List[PhaseOption[StyleGuideConfig]] = Nil

@@ -137,7 +137,7 @@ object JISET {
 
 case class JISETConfig(
   var command: Command,
-  var fileNames: List[String] = Nil,
+  var args: List[String] = Nil,
   var silent: Boolean = false,
   var debug: Boolean = false,
   var time: Boolean = false

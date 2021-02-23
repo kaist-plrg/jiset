@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.phase
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
 import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
@@ -33,43 +34,38 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
         })
     }
 
-    val ECMAScript(grammar, algos, intrinsics, symbols, aoids, section) = spec
-    println(s"* grammar:")
-    println(s"  - lexical production: ${grammar.lexProds.length}")
-    println(s"  - non-lexical production: ${grammar.prods.length}")
-    println(s"* algorithms:")
-    println(s"  - incomplete: ${spec.incompletedAlgos.length}")
-    println(s"  - complete: ${spec.completedAlgos.length}")
-    println(s"  - total: ${algos.length}")
-    println(s"* intrinsics: ${intrinsics.size}")
-    println(s"* symbols: ${symbols.size}")
-    println(s"* aoids: ${aoids.size}")
-    println(s"* incompleted steps: ${spec.incompletedAlgos.map(_.todos.length).sum}")
-
-    // make dir
-    mkdir(PARSE_LOG_DIR)
-
-    dumpFile(
-      spec.incompletedAlgos.map(_.name).mkString(LINE_SEP),
-      s"$PARSE_LOG_DIR/incomplete_algo-names.log"
-    )("incomplete algorithm names")
-
-    dumpFile(
-      spec.incompletedAlgos.map(algo => {
-        "========================================" +
-          LINE_SEP + s"${algo.name} ====>" + LINE_SEP +
-          algo.todos.zipWithIndex.map {
-            case (t, i) => s"  [$i] $t"
-          }.mkString(LINE_SEP) + LINE_SEP
-      }).mkString(LINE_SEP),
-      s"$PARSE_LOG_DIR/incomplete_algos.log"
-    )("incomplete algorithms")
+    // logging
+    dumpIncompleteAlgos(spec.incompletedAlgos)
 
     // Dump JSON
-    config.json.foreach(dumpJson(spec, _, false)("specification (json)"))
-    config.prettyJson.foreach(dumpJson(spec, _, true)("specification (pretty json)"))
+    config.json.map(dumpJson("specification", spec, _))
 
     spec
+  }
+
+  // dump incompleted algorithms and their names
+  def dumpIncompleteAlgos(algos: List[Algo]): Unit = {
+    // create directory
+    val dir = s"$PARSE_LOG_DIR/incompleted"
+    mkdir(dir)
+
+    // dump incompleted algorithms names
+    val names = algos.map(_.name).mkString(LINE_SEP)
+    dumpFile("incomplete algorithm names", names, s"$dir/names.log")
+
+    // dump incompleted algorithms
+    val app = new Appender
+    for (algo <- algos) {
+      app >> "========================================" >> LINE_SEP
+      app >> algo.name >> " ====>" >> LINE_SEP
+      for ((t, i) <- algo.todos.zipWithIndex)
+        app >> "[" >> i >> "]" >> t >> LINE_SEP
+    }
+    dumpFile(
+      "incomplete algorithms",
+      app.toString,
+      s"$dir/algorithms.log"
+    )
   }
 
   def defaultConfig: ParseConfig = ParseConfig()
@@ -84,8 +80,6 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
       "load ECMAScript from JSON."),
     ("json", StrOption((c, s) => c.json = Some(s)),
       "dump ECMAScript in a JSON format."),
-    ("pretty-json", StrOption((c, s) => c.prettyJson = Some(s)),
-      "dump ECMAScript in a JSON pretty format."),
     ("detail", BoolOption(c => c.detail = true),
       "print log.")
   )
@@ -98,6 +92,5 @@ case class ParseConfig(
   var useCount: Boolean = false,
   var load: Option[String] = None,
   var json: Option[String] = None,
-  var prettyJson: Option[String] = None,
   var detail: Boolean = false
 ) extends Config

@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
+import kr.ac.kaist.jiset.util.Appender._
 
 class BeautifierTinyTest extends AnalyzerTest {
   def test[T](desc: String)(cases: (T, String)*)(

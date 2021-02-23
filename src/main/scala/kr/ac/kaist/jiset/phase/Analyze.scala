@@ -17,7 +17,7 @@ case object Analyze extends PhaseObj[ECMAScript, AnalyzeConfig, AbsSemantics] {
     config: AnalyzeConfig
   ): AbsSemantics = {
     println(s"--------------------------------------------------")
-    time(s"analyzing specification", {
+    time(s"analyze specification", {
       val cfg = CFG(spec)
       val grammar = spec.grammar
       val sem = new AbsSemantics(cfg, grammar)

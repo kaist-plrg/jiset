@@ -2,14 +2,13 @@ package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
-import kr.ac.kaist.jiset.parser.ECMAScriptParser.preprocess
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
 import org.jsoup.nodes._
 
 // ExtractTag phase
-case object ExtractTag extends PhaseObj[Unit, ExtractTagConfig, Unit] {
+case object ExtractTag extends PhaseObj[Unit, ExtractTagConfig, List[Element]] {
   val name = "extract-tag"
   val help = "Extract the content of the tag to stdout"
 
@@ -17,22 +16,21 @@ case object ExtractTag extends PhaseObj[Unit, ExtractTagConfig, Unit] {
     unit: Unit,
     jisetConfig: JISETConfig,
     config: ExtractTagConfig
-  ): Unit = {
+  ): List[Element] = {
     println(s"--------------------------------------------------")
-    val ExtractTagConfig(versionOpt, tagOpt) = config
-    val version = versionOpt.getOrElse("recent")
+    val version = config.version.getOrElse("recent")
     println(s"version: $version (${getRawVersion(version)})")
-    time(s"extracting tag from spec.html", {
 
-      tagOpt match {
-        case None => println("[No Name Input] Pass the target tag name!")
-        case Some(tag) =>
-          implicit val (_, document, _) = preprocess(version)
-
-          val elems = document.getElementsByTag(tag)
-          for (elem <- elems.toArray) println(elem)
-      }
+    implicit val (_, document, _) = time("preprocess", {
+      ECMAScriptParser.preprocess(version)
     })
+
+    val elems = time("extract contents of tags from spec.html", for {
+      tag <- jisetConfig.args
+      elem <- toArray(document.getElementsByTag(tag))
+    } yield elem)
+
+    elems
   }
 
   def defaultConfig: ExtractTagConfig = ExtractTagConfig()
@@ -40,13 +38,10 @@ case object ExtractTag extends PhaseObj[Unit, ExtractTagConfig, Unit] {
   val options: List[PhaseOption[ExtractTagConfig]] = List(
     ("version", StrOption((c, s) => c.version = Some(s)),
       "set the git version of ecma262."),
-    ("name", StrOption((c, s) => c.name = Some(s)),
-      "set target tag name")
   )
 }
 
 // ExtractTag phase config
 case class ExtractTagConfig(
-  var version: Option[String] = None,
-  var name: Option[String] = None
+  var version: Option[String] = None
 ) extends Config

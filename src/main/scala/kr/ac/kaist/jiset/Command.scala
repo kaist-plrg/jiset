@@ -3,7 +3,9 @@ package kr.ac.kaist.jiset
 import kr.ac.kaist.jiset.error.NoMode
 import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.phase._
+import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.ArgParser
+import org.jsoup.nodes.Element
 
 sealed trait Command {
   val name: String
@@ -36,7 +38,22 @@ case object CmdBase extends CommandObj("", PhaseNil)
 case object CmdHelp extends CommandObj("help", CmdBase >> Help)
 
 // parse
-case object CmdParse extends CommandObj("parse", CmdBase >> Parse)
+case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
+  override def display(spec: ECMAScript): Unit = {
+    val ECMAScript(grammar, algos, intrinsics, symbols, aoids, section) = spec
+    println(s"* grammar:")
+    println(s"  - lexical production: ${grammar.lexProds.length}")
+    println(s"  - non-lexical production: ${grammar.prods.length}")
+    println(s"* algorithms:")
+    println(s"  - incomplete: ${spec.incompletedAlgos.length}")
+    println(s"  - complete: ${spec.completedAlgos.length}")
+    println(s"  - total: ${algos.length}")
+    println(s"* intrinsics: ${intrinsics.size}")
+    println(s"* symbols: ${symbols.size}")
+    println(s"* aoids: ${aoids.size}")
+    println(s"* incompleted steps: ${spec.incompletedAlgos.map(_.todos.length).sum}")
+  }
+}
 
 // style-guide
 case object CmdStyleGuide extends CommandObj("style-guide", CmdParse >> StyleGuide)
@@ -57,4 +74,6 @@ case object CmdAnalyze extends CommandObj("analyze", CmdParse >> Analyze)
 case object CmdGenTest extends CommandObj("gen-test", CmdBase >> GenTest)
 
 // extract tag
-case object CmdExtractTag extends CommandObj("extract-tag", CmdBase >> ExtractTag)
+case object CmdExtractTag extends CommandObj("extract-tag", CmdBase >> ExtractTag) {
+  override def display(elems: List[Element]): Unit = elems.foreach(println _)
+}

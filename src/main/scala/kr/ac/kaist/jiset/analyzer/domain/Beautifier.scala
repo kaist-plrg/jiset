@@ -1,10 +1,11 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.{ LINE_SEP => endl }
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain.ops._
 import kr.ac.kaist.jiset.analyzer.domain.generator._
 import kr.ac.kaist.jiset.analyzer.domain.combinator._
-import kr.ac.kaist.jiset.{ LINE_SEP => endl }
+import kr.ac.kaist.jiset.util.Appender
 
 object Beautifier {
   def beautify[T](x: T)(
@@ -12,29 +13,9 @@ object Beautifier {
     append: (Appender, T) => Appender
   ): String = append(new Appender, x).toString
 
-  type App[T] = (Appender, T) => Appender
-  type Update = Appender => Appender
-  class Appender(tab: String = "  ") {
-    val sb: StringBuilder = new StringBuilder
-    var k = 0
-    def indent = tab * k
-    override def toString: String = sb.toString
-    def wrap(f: => Unit): Appender = {
-      this >> "{" >> endl
-      k += 1; f; k -= 1
-      this :> "}"
-    }
-    def :>(str: String): Appender = this >> indent >> str
-    def >>(str: String): Appender = { sb ++= str; this }
-    def :>[T](x: T)(implicit app: App[T]): Appender =
-      this >> indent >> x
-    def >>[T](x: T)(implicit app: App[T]): Appender = app(this, x)
-    def >>(f: Update): Appender = f(this)
-  }
-  def nothingApp[T]: App[T] = (app, t) => app
+  import Appender._
 
   // Scala value appender
-  implicit lazy val stringApp: App[String] = _ >> _
   implicit lazy val strflatApp: App[StrFlat] = flatDomainApp(StrFlat, "string")
 
   // concrete value appender

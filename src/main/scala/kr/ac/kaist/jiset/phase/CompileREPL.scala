@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
-import kr.ac.kaist.jiset.spec.Region
 import kr.ac.kaist.jiset.parser.algorithm.{ CompileREPL => REPL }
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
@@ -21,17 +20,13 @@ case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
     val CompileREPLConfig(versionOpt, detail) = config
     val version = versionOpt.getOrElse("recent")
     println(s"version: $version (${getRawVersion(version)})")
-    val (explicitDocument, explicitGrammar, secIds) = time(s"parsing spec.html", {
-      implicit val (lines, document, region) = ECMAScriptParser.preprocess(version)
-      implicit val (grammar, _) = ECMAScriptParser.parseGrammar(version)
-      val secIds = ECMAScriptParser.parseHeads()._1
-      (document, grammar, secIds)
-    })
-    implicit val (document, grammar) = (explicitDocument, explicitGrammar)
 
-    println(s"* grammar:")
-    println(s"  - lexical production: ${grammar.lexProds.length}")
-    println(s"  - non-lexical production: ${grammar.prods.length}")
+    implicit val (lines, document, region) =
+      time("preprocess", ECMAScriptParser.preprocess(version))
+    implicit val (grammar, _) =
+      time("parse ECMAScript grammar", ECMAScriptParser.parseGrammar(version))
+    val (secIds, _) =
+      time("parse algorithm heads", ECMAScriptParser.parseHeads())
 
     REPL.run(secIds)
   }
@@ -41,7 +36,7 @@ case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
     ("version", StrOption((c, s) => c.version = Some(s)),
       "set the git version of ecma262."),
     ("detail", BoolOption(c => c.detail = true),
-      "print log")
+      "print log.")
   )
 }
 

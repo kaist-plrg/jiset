@@ -83,7 +83,7 @@ class ArgParser(cmd: Command, jisetConfig: JISETConfig) extends RegexParsers {
 
     // a filename list
     lazy val fileName: Parser[Unit] = str ^^ {
-      s => jisetConfig.fileNames = s :: jisetConfig.fileNames
+      s => jisetConfig.args = s :: jisetConfig.args
     }
 
     // Generate a parser.
@@ -97,6 +97,6 @@ class ArgParser(cmd: Command, jisetConfig: JISETConfig) extends RegexParsers {
       jsonArgs = Nil
     })
 
-    jisetConfig.fileNames = jisetConfig.fileNames.reverse
+    jisetConfig.args = jisetConfig.args.reverse
   }
 }

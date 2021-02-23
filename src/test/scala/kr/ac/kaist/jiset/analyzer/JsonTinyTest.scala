@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.analyzer.domain.JsonProtocol._
+import kr.ac.kaist.jiset.util.Appender._
 import spray.json._
 
 class JsonTinyTest extends AnalyzerTest {

@@ -22,65 +22,65 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     jisetConfig: JISETConfig,
     config: GenTestConfig
   ): Unit = {
-    // util
-    val json2ir = changeExt("json", "ir")
-
-    // gen grammar test
-    def genGrammarTest: Unit = {
-      mkdir(GRAMMAR_DIR)
-      for (version <- VERSIONS) {
-        val filename = s"$GRAMMAR_DIR/$version.grammar"
-        val (grammar, _) = ECMAScriptParser.parseGrammar(version)
-        dumpFile(grammar.toString, filename)(filename)
-      }
-    }
-
-    // gen legacy test
-    def genLegacyTest: Unit = {
-      mkdir(LEGACY_COMPILE_DIR)
-      for (file <- walkTree(LEGACY_COMPILE_DIR)) {
-        val filename = file.getName
-        if (jsonFilter(filename)) {
-          val jsonName = file.toString
-          val tokens = readJson[List[Token]](jsonName)
-          val inst = Compiler(tokens)
-
-          val irName = json2ir(jsonName)
-          dumpFile(beautify(inst), irName)(irName)
-        }
-      }
-    }
-
-    // gen basic test
-    def genBasicTest: Unit = {
-      for (version <- VERSIONS) {
-        val baseDir = s"$BASIC_COMPILE_DIR/$version"
-
-        // get spec, document, grammar, secIds
-        val spec = ECMAScriptParser(version, "", false, false)
-        implicit val (lines, document, region) = ECMAScriptParser.preprocess(version)
-        implicit val grammar = spec.grammar
-        val secIds = ECMAScriptParser.parseHeads()._1
-
-        mkdir(baseDir)
-        spec.algos.foreach(algo => {
-          val Algo(head, rawBody, code) = algo
-          // flle name
-          val filename = s"$baseDir/${algo.name}"
-          // dump code
-          dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")(s"$filename.spec")
-          // dump tokens of steps
-          val tokens = TokenParser.getTokens(code, secIds)
-          dumpJson[List[Token]](tokens, s"$filename.json")(s"$filename.json")
-          // dump ir
-          dumpFile(beautify(rawBody, index = false), s"$filename.ir")(s"$filename.ir")
-        })
-      }
-    }
-
     genGrammarTest
     genLegacyTest
     genBasicTest
+  }
+
+  // util
+  val json2ir = changeExt("json", "ir")
+
+  // gen grammar test
+  def genGrammarTest: Unit = {
+    mkdir(GRAMMAR_DIR)
+    for (version <- VERSIONS) {
+      val filename = s"$GRAMMAR_DIR/$version.grammar"
+      val (grammar, _) = ECMAScriptParser.parseGrammar(version)
+      dumpFile(grammar.toString, filename)
+    }
+  }
+
+  // gen legacy test
+  def genLegacyTest: Unit = {
+    mkdir(LEGACY_COMPILE_DIR)
+    for (file <- walkTree(LEGACY_COMPILE_DIR)) {
+      val filename = file.getName
+      if (jsonFilter(filename)) {
+        val jsonName = file.toString
+        val tokens = readJson[List[Token]](jsonName)
+        val inst = Compiler(tokens)
+
+        val irName = json2ir(jsonName)
+        dumpFile(beautify(inst), irName)
+      }
+    }
+  }
+
+  // gen basic test
+  def genBasicTest: Unit = {
+    for (version <- VERSIONS) {
+      val baseDir = s"$BASIC_COMPILE_DIR/$version"
+
+      // get spec, document, grammar, secIds
+      val spec = ECMAScriptParser(version, "", false, false)
+      implicit val (lines, document, region) = ECMAScriptParser.preprocess(version)
+      implicit val grammar = spec.grammar
+      val secIds = ECMAScriptParser.parseHeads()._1
+
+      mkdir(baseDir)
+      spec.algos.foreach(algo => {
+        val Algo(head, rawBody, code) = algo
+        // flle name
+        val filename = s"$baseDir/${algo.name}"
+        // dump code
+        dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")
+        // dump tokens of steps
+        val tokens = TokenParser.getTokens(code, secIds)
+        dumpJson(tokens, s"$filename.json")
+        // dump ir
+        dumpFile(beautify(rawBody, index = false), s"$filename.ir")
+      })
+    }
   }
 
   def defaultConfig: GenTestConfig = GenTestConfig()

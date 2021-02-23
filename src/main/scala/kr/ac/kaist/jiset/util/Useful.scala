@@ -62,21 +62,31 @@ object Useful {
     new PrintWriter(new File(filename))
 
   // dump given data to a file
-  def dumpFile(data: Any, filename: String)(msg: String): Unit = {
-    println(msg)
+  def dumpFile(data: Any, filename: String): Unit = {
     val nf = getPrintWriter(filename)
     nf.print(data)
     nf.close()
+  }
+  def dumpFile(name: String, data: Any, filename: String): Unit = {
+    val res = dumpFile(data, filename)
+    println(s"Dumped $name to $filename.")
   }
 
   // dump given data as JSON
   def dumpJson[T](
     data: T,
-    filename: String,
-    pretty: Boolean = true
-  )(msg: String)(implicit writer: JsonWriter[T]): Unit = {
+    filename: String
+  )(implicit writer: JsonWriter[T]): Unit = {
     val json = data.toJson
-    dumpFile((if (pretty) json.prettyPrint else json.toString), filename)(msg)
+    dumpFile(json.prettyPrint, filename)
+  }
+  def dumpJson[T](
+    name: String,
+    data: T,
+    filename: String
+  )(implicit writer: JsonWriter[T]): Unit = {
+    dumpJson(data, filename)
+    println(s"Dumped $name to $filename in a JSON format.")
   }
 
   // read file
@@ -89,13 +99,6 @@ object Useful {
 
   // read HTML
   def readHtml(filename: String): Document = Jsoup.parse(readFile(filename))
-
-  // get first filename
-  def getFirstFilename(jisetConfig: JISETConfig, job: String): String =
-    jisetConfig.fileNames.headOption.getOrElse(throw NoFileError(job))
-
-  // get simple file name
-  def getSimpleFilename(filename: String): String = new File(filename).getName
 
   // delete files
   def deleteFile(filename: String): Unit = new File(filename).delete
@@ -178,11 +181,12 @@ object Useful {
     (end - start, result)
   }
 
+  // print duration time with loading message
   def time[T](msg: String, f: => T): T = {
     lazy val f0 = f
-    println(msg)
+    print(s"$msg...")
     val (interval, res) = time(f0)
-    println(msg + " done! (" + interval + " ms)")
+    println(f" ($interval%,d ms)")
     res
   }
 
