@@ -205,6 +205,9 @@ object Useful {
   // revert character to entity name
   val escapeHtml = StringEscapeUtils.escapeHtml4(_)
 
+  def isNormalExit(given: String): Boolean =
+    optional(executeCmd(given)).isDefined
+
   // execute shell command with given dir, default to CUR_DIR
   def executeCmd(given: String, dir: String = CUR_DIR): String = {
     var cmd =
@@ -214,11 +217,6 @@ object Useful {
     var process = Process(Seq("sh", "-c", cmd), directory)
     process !!
   }
-
-  def getExitStatus(given: String): Int =
-    try given.! catch {
-      case ex: Exception => -1
-    }
 
   // change git version
   def changeVersion(target: String, dir: String = CUR_DIR): Unit =
