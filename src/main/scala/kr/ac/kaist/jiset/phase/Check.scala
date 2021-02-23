@@ -18,7 +18,6 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
     jisetConfig: JISETConfig,
     config: CheckConfig
   ): List[Bug] = {
-    println(s"--------------------------------------------------")
     val completeAlgos = spec.completedAlgos
     val targets =
       if (config.target.isEmpty) completeAlgos

@@ -16,7 +16,6 @@ case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
     jisetConfig: JISETConfig,
     config: CompileREPLConfig
   ): Unit = {
-    println(s"--------------------------------------------------")
     val CompileREPLConfig(versionOpt, detail) = config
     val version = versionOpt.getOrElse("recent")
     println(s"version: $version (${getRawVersion(version)})")

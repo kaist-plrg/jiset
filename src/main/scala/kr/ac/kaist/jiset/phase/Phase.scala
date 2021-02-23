@@ -25,7 +25,12 @@ abstract class PhaseObj[Input, PhaseConfig <: Config, Output] extends Phase {
   ): (Input, JISETConfig) => Output = {
     val config = defaultConfig
     parser.addRule(config, name, options)
-    (in, jisetConfig) => apply(in, jisetConfig, config)
+    (in, jisetConfig) => {
+      println(s"========================================")
+      println(s" $name phase")
+      println(s"----------------------------------------")
+      apply(in, jisetConfig, config)
+    }
   }
 
   def getOptShapes: List[String] = options.map {

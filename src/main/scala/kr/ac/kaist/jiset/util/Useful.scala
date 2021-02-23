@@ -69,7 +69,7 @@ object Useful {
   }
   def dumpFile(name: String, data: Any, filename: String): Unit = {
     val res = dumpFile(data, filename)
-    println(s"Dumped $name to $filename.")
+    println(s"dumped $name to $filename.")
   }
 
   // dump given data as JSON
@@ -86,7 +86,7 @@ object Useful {
     filename: String
   )(implicit writer: JsonWriter[T]): Unit = {
     dumpJson(data, filename)
-    println(s"Dumped $name to $filename in a JSON format.")
+    println(s"dumped $name to $filename in a JSON format.")
   }
 
   // read file

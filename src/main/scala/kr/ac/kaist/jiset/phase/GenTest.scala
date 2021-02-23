@@ -31,17 +31,17 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
   val json2ir = changeExt("json", "ir")
 
   // gen grammar test
-  def genGrammarTest: Unit = {
+  def genGrammarTest: Unit = time("generate grammar tests", {
     mkdir(GRAMMAR_DIR)
     for (version <- VERSIONS) {
       val filename = s"$GRAMMAR_DIR/$version.grammar"
       val (grammar, _) = ECMAScriptParser.parseGrammar(version)
       dumpFile(grammar.toString, filename)
     }
-  }
+  })
 
   // gen legacy test
-  def genLegacyTest: Unit = {
+  def genLegacyTest: Unit = time("generate legacy tests", {
     mkdir(LEGACY_COMPILE_DIR)
     for (file <- walkTree(LEGACY_COMPILE_DIR)) {
       val filename = file.getName
@@ -54,11 +54,11 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         dumpFile(beautify(inst), irName)
       }
     }
-  }
+  })
 
   // gen basic test
-  def genBasicTest: Unit = {
-    for (version <- VERSIONS) {
+  def genBasicTest: Unit =
+    for (version <- VERSIONS) time(s"generate $version tests", {
       val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
       // get spec, document, grammar, secIds
@@ -80,8 +80,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         // dump ir
         dumpFile(beautify(rawBody, index = false), s"$filename.ir")
       })
-    }
-  }
+    })
 
   def defaultConfig: GenTestConfig = GenTestConfig()
   val options: List[PhaseOption[GenTestConfig]] = Nil

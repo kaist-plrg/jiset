@@ -10,6 +10,7 @@ object JISET {
   ////////////////////////////////////////////////////////////////////////////////
   def main(tokens: Array[String]): Unit = try tokens.toList match {
     case str :: args => cmdMap.get(str) match {
+      case Some(CmdHelp) => println(JISET.help)
       case Some(cmd) => cmd(args)
       case None => throw NoCmdError(str)
     }
@@ -99,21 +100,18 @@ object JISET {
   // print help message.
   val help: String = {
     val s: StringBuilder = new StringBuilder
-    s.append("Invoked as script: jiset args").append(LINE_SEP)
-      .append("Invoked by java: java ... kr.ac.kaist.jiset.JISET args").append(LINE_SEP)
-      .append(LINE_SEP)
-      .append("* command list:").append(LINE_SEP)
-      .append("    Each command consists of following phases.").append(LINE_SEP)
-      .append("    format: {command} {phase} [>> {phase}]*").append(LINE_SEP).append(LINE_SEP)
+    s.append("* command list:").append(LINE_SEP)
+    s.append("    Each command consists of following phases.").append(LINE_SEP)
+    s.append("    format: {command} {phase} [>> {phase}]*").append(LINE_SEP).append(LINE_SEP)
     commands foreach (cmd => {
       s.append(s"    %-${INDENT}s".format(cmd.name))
         .append(cmd.toString.replace(LINE_SEP, LINE_SEP + "    " + " " * INDENT))
         .append(LINE_SEP)
     })
     s.append(LINE_SEP)
-      .append("* phase list:").append(LINE_SEP)
-      .append("    Each phase has following options.").append(LINE_SEP)
-      .append("    format: {phase} [-{phase}:{option}[={input}]]*").append(LINE_SEP).append(LINE_SEP)
+    s.append("* phase list:").append(LINE_SEP)
+    s.append("    Each phase has following options.").append(LINE_SEP)
+    s.append("    format: {phase} [-{phase}:{option}[={input}]]*").append(LINE_SEP).append(LINE_SEP)
     phases foreach (phase => {
       s.append(s"    %-${INDENT}s".format(phase.name))
       Useful.indentation(s, phase.help, INDENT + 4)

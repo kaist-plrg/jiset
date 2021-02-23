@@ -11,14 +11,13 @@ import kr.ac.kaist.jiset.util._
 // Parse phase
 case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
   val name = "parse"
-  val help = "Parses spec.html to Spec"
+  val help = "Parses spec.html to an ECMAScript object"
 
   def apply(
     unit: Unit,
     jisetConfig: JISETConfig,
     config: ParseConfig
   ): ECMAScript = {
-    println(s"--------------------------------------------------")
     val spec = config.load match {
       case Some(filename) =>
         time(s"loading ECMAScript from $filename", {

@@ -17,7 +17,6 @@ case object ExtractTag extends PhaseObj[Unit, ExtractTagConfig, List[Element]] {
     jisetConfig: JISETConfig,
     config: ExtractTagConfig
   ): List[Element] = {
-    println(s"--------------------------------------------------")
     val version = config.version.getOrElse("recent")
     println(s"version: $version (${getRawVersion(version)})")
 
