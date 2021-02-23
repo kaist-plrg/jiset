@@ -31,7 +31,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
       for (version <- VERSIONS) {
         val filename = s"$GRAMMAR_DIR/$version.grammar"
         val (grammar, _) = ECMAScriptParser.parseGrammar(version)
-        dumpFile(grammar.toString, filename)
+        dumpFile(grammar.toString, filename)(filename)
       }
     }
 
@@ -46,7 +46,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
           val inst = Compiler(tokens)
 
           val irName = json2ir(jsonName)
-          dumpFile(beautify(inst), irName)
+          dumpFile(beautify(inst), irName)(irName)
         }
       }
     }
@@ -68,12 +68,12 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
           // flle name
           val filename = s"$baseDir/${algo.name}"
           // dump code
-          dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")
+          dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")(s"$filename.spec")
           // dump tokens of steps
           val tokens = TokenParser.getTokens(code, secIds)
-          dumpJson[List[Token]](tokens, s"$filename.json")
+          dumpJson[List[Token]](tokens, s"$filename.json")(s"$filename.json")
           // dump ir
-          dumpFile(beautify(rawBody, index = false), s"$filename.ir")
+          dumpFile(beautify(rawBody, index = false), s"$filename.ir")(s"$filename.ir")
         })
       }
     }

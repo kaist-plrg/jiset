@@ -62,7 +62,8 @@ object Useful {
     new PrintWriter(new File(filename))
 
   // dump given data to a file
-  def dumpFile(data: Any, filename: String): Unit = {
+  def dumpFile(data: Any, filename: String)(msg: String): Unit = {
+    println(msg)
     val nf = getPrintWriter(filename)
     nf.print(data)
     nf.close()
@@ -73,9 +74,9 @@ object Useful {
     data: T,
     filename: String,
     pretty: Boolean = true
-  )(implicit writer: JsonWriter[T]): Unit = {
+  )(msg: String)(implicit writer: JsonWriter[T]): Unit = {
     val json = data.toJson
-    dumpFile((if (pretty) json.prettyPrint else json.toString), filename)
+    dumpFile((if (pretty) json.prettyPrint else json.toString), filename)(msg)
   }
 
   // read file

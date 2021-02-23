@@ -49,13 +49,11 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     // make dir
     mkdir(PARSE_LOG_DIR)
 
-    // Dump incomplete list
     dumpFile(
       spec.incompletedAlgos.map(_.name).mkString(LINE_SEP),
-      s"$PARSE_LOG_DIR/incomplete_list.log"
-    )
+      s"$PARSE_LOG_DIR/incomplete_algo-names.log"
+    )("incomplete algorithm names")
 
-    // Dump incomplete steps
     dumpFile(
       spec.incompletedAlgos.map(algo => {
         "========================================" +
@@ -64,12 +62,12 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
             case (t, i) => s"  [$i] $t"
           }.mkString(LINE_SEP) + LINE_SEP
       }).mkString(LINE_SEP),
-      s"$PARSE_LOG_DIR/incomplete_steps.log"
-    )
+      s"$PARSE_LOG_DIR/incomplete_algos.log"
+    )("incomplete algorithms")
 
     // Dump JSON
-    config.json.foreach(dumpJson(spec, _, false))
-    config.prettyJson.foreach(dumpJson(spec, _, true))
+    config.json.foreach(dumpJson(spec, _, false)("specification (json)"))
+    config.prettyJson.foreach(dumpJson(spec, _, true)("specification (pretty json)"))
 
     spec
   }
