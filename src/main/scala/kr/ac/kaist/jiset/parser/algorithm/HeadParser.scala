@@ -18,58 +18,56 @@ object HeadParser extends HeadParsers {
     lines: Array[String],
     grammar: Grammar,
     region: Region
-  ): List[Head] = {
-    try {
-      var headElem = elem.siblingElements.get(0)
-      if (rulePattern.matches(headElem.text)) {
-        headElem = headElem.parent.siblingElements.get(0)
-      }
-      if (headElem.tagName != "h1") error(s"no algorithm head: $headElem")
-      val str =
-        if (isEquation(elem)) {
-          val elemText = elem.text
-          elemText.slice(0, elem.text.indexOf("=")).trim
-        } else headElem.text
-
-      val Region(envRange, builtinLine) = region
-
-      // extract name
-      val from = str.indexOf("(")
-      var name = if (from == -1) str else str.substring(0, from)
-      name = prefixPattern.replaceFirstIn(name, "").trim
-      name = "[/\\s]".r.replaceAllIn(name, "")
-      if (!nameCheck(name)) error(s"not target algorithm: $str")
-
-      // extract parameters
-      val params =
-        if (isComparison(name)) COMP_PARAMS
-        else if (from == -1) Nil
-        else parse(paramList, str.substring(from)).get
-
-      // classify head
-      val prev = elem.previousElementSibling
-      if (isEquation(elem))
-        getEquationHead(name, params)
-      else if (isSyntaxDirected(prev))
-        getSyntaxDirectedHead(name, headElem, prev)
-      else if (isEnvMethod(prev, elem, envRange))
-        getEnvMethodHead(name, prev, elem, params)
-      else if (isObjMethod(name))
-        getObjMethodHead(name, prev, elem, params)
-      else if (isBuiltin(prev, elem, builtinLine))
-        getBuiltinHead(name, params)
-      else if (isThisValue(prev, elem, builtinLine))
-        getThisValueHead(prev)
-      else
-        getNormalHead(name, params)
-    } catch {
-      case e: Throwable =>
-        if (detail) {
-          println(s"[Head] ${e.getMessage}")
-          e.getStackTrace.foreach(println _)
-        }
-        Nil
+  ): List[Head] = try {
+    var headElem = elem.siblingElements.get(0)
+    if (rulePattern.matches(headElem.text)) {
+      headElem = headElem.parent.siblingElements.get(0)
     }
+    if (headElem.tagName != "h1") error(s"no algorithm head: $headElem")
+    val str =
+      if (isEquation(elem)) {
+        val elemText = elem.text
+        elemText.slice(0, elem.text.indexOf("=")).trim
+      } else headElem.text
+
+    val Region(envRange, builtinLine) = region
+
+    // extract name
+    val from = str.indexOf("(")
+    var name = if (from == -1) str else str.substring(0, from)
+    name = prefixPattern.replaceFirstIn(name, "").trim
+    name = "[/\\s]".r.replaceAllIn(name, "")
+    if (!nameCheck(name)) error(s"not target algorithm: $str")
+
+    // extract parameters
+    val params =
+      if (isComparison(name)) COMP_PARAMS
+      else if (from == -1) Nil
+      else parse(paramList, str.substring(from)).get
+
+    // classify head
+    val prev = elem.previousElementSibling
+    if (isEquation(elem))
+      getEquationHead(name, params)
+    else if (isSyntaxDirected(prev))
+      getSyntaxDirectedHead(name, headElem, prev)
+    else if (isEnvMethod(prev, elem, envRange))
+      getEnvMethodHead(name, prev, elem, params)
+    else if (isObjMethod(name))
+      getObjMethodHead(name, prev, elem, params)
+    else if (isBuiltin(prev, elem, builtinLine))
+      getBuiltinHead(name, params)
+    else if (isThisValue(prev, elem, builtinLine))
+      getThisValueHead(prev)
+    else
+      getNormalHead(name, params)
+  } catch {
+    case e: Throwable =>
+      if (detail) {
+        println(s"[Head] ${e.getMessage}")
+        e.getStackTrace.foreach(println _)
+      }
+      Nil
   }
 
   // normal head
