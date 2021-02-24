@@ -6,12 +6,12 @@ import kr.ac.kaist.jiset.cfg.{ CFG, DotPrinter }
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 
-class Fixpoint(sem: AbsSemantics, interact: Boolean) {
+class Fixpoint(sem: AbsSemantics, interactMode: Boolean) {
   // CFG
   val cfg = sem.cfg
 
   // interactive mode
-  val showStep = interact
+  var interact = interactMode
 
   // TODO target algorithms
   def isTarget(head: SyntaxDirectedHead): Boolean = {
@@ -43,16 +43,13 @@ class Fixpoint(sem: AbsSemantics, interact: Boolean) {
 
   // fixpoint computation
   def compute: Unit = worklist.headOption.map(cp => {
-    if (DEBUG) { println(sem.getString(cp)); println }
-    if (showStep) {
-      println(sem.getString(cp)); println
+    if (interact) {
       val dot = (new DotPrinter)(cp, sem).toString
-      val func = sem.funcOf(cp).name
-      val view = cp.view
-      val name = s"$CFG_DIR/$func:$view"
-      dumpFile(dot, s"$name.dot")
-      executeCmd(s"""dot -Tpdf "$name.dot" -o "$name.pdf"""")
-      scala.io.StdIn.readLine
+      dumpFile(dot, s"$CFG_DIR.dot")
+      executeCmd(s"""dot -Tpdf "$CFG_DIR.dot" -o "$CFG_DIR.pdf"""")
+      println(sem.getString(cp))
+      println
+      if (scala.io.StdIn.readLine == null) interact = false
     }
     worklist.next
     transfer(cp)

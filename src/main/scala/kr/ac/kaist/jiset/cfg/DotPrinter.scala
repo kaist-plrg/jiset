@@ -42,16 +42,10 @@ class DotPrinter {
     val worklist = sem.worklist
     val np = NodePoint(node, view)
     val (color, fillcolor): (String, String) =
-      if (worklist.headOption.fold(false) {
-        case ret: ReturnPoint if ret.func.exit == node => true
-        case _ => false
-      }) (REACH, CURRENT)
-      else {
-        if (worklist.headOption contains np) (REACH, CURRENT)
-        else if (worklist has np) (REACH, IN_WORKLIST)
-        else if (!sem(np).isBottom) (REACH, NORMAL)
-        else (NON_REACH, NORMAL)
-      }
+      if (worklist.headOption contains np) (REACH, CURRENT)
+      else if (worklist has np) (REACH, IN_WORKLIST)
+      else if (!sem(np).isBottom) (REACH, NORMAL)
+      else (NON_REACH, NORMAL)
     (color, fillcolor)
   }
 
