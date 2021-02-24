@@ -79,7 +79,8 @@ object Beautifier {
     case AbsRefValue.Top => app >> "⊤"
     case AbsRefValue.Bot => app >> "⊥"
     case AbsRefValue.Id(name) => app >> name
-    case AbsRefValue.Prop(base, prop) => app >> base >> "[" >> prop >> "]"
+    case AbsRefValue.ObjProp(addr, prop) => app >> addr >> "[" >> prop >> "]"
+    case AbsRefValue.StrProp(str, prop) => app >> str >> "[" >> prop >> "]"
   }
   implicit lazy val aobjApp: App[AbsObj] =
     domainApp(AbsObj)((app, obj) => {

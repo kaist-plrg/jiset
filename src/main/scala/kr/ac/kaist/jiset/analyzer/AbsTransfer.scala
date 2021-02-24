@@ -173,7 +173,7 @@ class AbsTransfer(sem: AbsSemantics) {
         val (s0, rv) = transfer(st, ref)
         val (s1, b) = transfer(s0, rv)
         val (s2, p) = transfer(s0, expr)
-        (s2, AbsRefValue.Prop(b, p.str)) // TODO handle non-string properties
+        (s2, AbsRefValue(b, p.str)) // TODO handle non-string properties
     }
 
     // transfer function for reference values

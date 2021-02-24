@@ -52,10 +52,11 @@ class BeautifierTinyTest extends AnalyzerTest {
     val prop = RefValueProp(DynamicAddr(42), "p")
     val string = RefValueString("abc", "length")
     test("Abstract Reference Values")(
+      AbsRefValue.Bot -> "⊥",
       AbsRefValue(id) -> "x",
-      AbsRefValue(prop) -> "#42.p",
-      AbsRefValue(string) -> """"abc".length""",
-      AbsRefValue(id, prop, string) -> """x | #42.p | "abc".length""",
+      AbsRefValue(prop) -> """#42["p"]""",
+      AbsRefValue(string) -> """"abc"["length"]""",
+      AbsRefValue(id, prop, string) -> "⊤",
     )
 
     test("Abstract Objects")(

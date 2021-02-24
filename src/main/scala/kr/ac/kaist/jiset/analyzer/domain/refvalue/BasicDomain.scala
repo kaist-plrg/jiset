@@ -8,8 +8,16 @@ object BasicDomain extends refvalue.Domain {
   // abstraction function
   def alpha(refVal: RefValue): Elem = refVal match {
     case RefValueId(name) => Id(name)
-    case RefValueProp(addr, name) => Prop(AbsAddr(addr), AbsStr(name))
-    case RefValueString(str, name) => Prop(AbsStr(str), AbsStr(name))
+    case RefValueProp(addr, name) => ObjProp(AbsAddr(addr), AbsStr(name))
+    case RefValueString(str, name) => StrProp(AbsStr(str), AbsStr(name))
+  }
+
+  // constructor for abstract value bases
+  def apply(base: AbsValue, prop: AbsStr): AbsRefValue = {
+    var refv: Elem = Bot
+    if (!base.addr.isBottom) refv ⊔= ObjProp(base.addr, prop)
+    if (!base.str.isBottom) refv ⊔= StrProp(base.str, prop)
+    refv
   }
 
   // bottom value
@@ -21,15 +29,19 @@ object BasicDomain extends refvalue.Domain {
   // id reference values
   case class Id(name: String) extends Elem
 
-  // property reference values
-  case class Prop(base: AbsValue, prop: AbsStr) extends Elem
+  // object reference values
+  case class ObjProp(addr: AbsAddr, prop: AbsStr) extends Elem
+
+  // string reference values
+  case class StrProp(str: AbsStr, prop: AbsStr) extends Elem
 
   trait Elem extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
       case (Bot, _) | (_, Top) => true
       case (Id(lname), Id(rname)) => lname == rname
-      case (Prop(lb, lp), Prop(rb, rp)) => lb ⊑ rb && lp ⊑ rp
+      case (ObjProp(la, lp), ObjProp(ra, rp)) => la ⊑ ra && lp ⊑ rp
+      case (StrProp(ls, lp), StrProp(rs, rp)) => ls ⊑ rs && lp ⊑ rp
       case _ => false
     }
 
@@ -38,7 +50,8 @@ object BasicDomain extends refvalue.Domain {
       case (Bot, _) | (_, Top) => that
       case (_, Bot) | (Top, _) => this
       case (Id(lname), Id(rname)) if lname == rname => this
-      case (Prop(lb, lp), Prop(rb, rp)) => Prop(lb ⊔ rb, lp ⊔ rp)
+      case (ObjProp(la, lp), ObjProp(ra, rp)) => ObjProp(la ⊔ ra, lp ⊔ rp)
+      case (StrProp(ls, lp), StrProp(rs, rp)) => StrProp(ls ⊔ rs, lp ⊔ rp)
       case _ => Top
     }
 
@@ -47,7 +60,8 @@ object BasicDomain extends refvalue.Domain {
       case (Bot, _) | (_, Top) => this
       case (_, Bot) | (Top, _) => that
       case (Id(lname), Id(rname)) if lname == rname => this
-      case (Prop(lb, lp), Prop(rb, rp)) => Prop(lb ⊓ rb, lp ⊓ rp)
+      case (ObjProp(la, lp), ObjProp(ra, rp)) => ObjProp(la ⊓ ra, lp ⊓ rp)
+      case (StrProp(ls, lp), StrProp(rs, rp)) => StrProp(ls ⊓ rs, lp ⊓ rp)
       case _ => Bot
     }
 
@@ -56,5 +70,14 @@ object BasicDomain extends refvalue.Domain {
 
     // conversion to flat domain
     def getSingle: concrete.Flat[RefValue] = Many
+
+    // conversion to abstract values with abstract states
+    def toValue(st: AbsState): AbsValue = this match {
+      case Bot => AbsValue.Bot
+      case Top => AbsValue.Top
+      case Id(str) => st.env(str)
+      case ObjProp(addr, prop) => ???
+      case StrProp(str, prop) => ???
+    }
   }
 }

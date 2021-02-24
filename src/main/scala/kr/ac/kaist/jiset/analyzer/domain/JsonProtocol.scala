@@ -44,16 +44,18 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val arefvalueFormat = new RootJsonFormat[AbsRefValue] {
     import AbsRefValue._
     implicit val IdFormat = jsonFormat1(Id)
-    implicit val PropFormat = jsonFormat2(Prop)
+    implicit val ObjPropFormat = jsonFormat2(ObjProp)
+    implicit val StrPropFormat = jsonFormat2(StrProp)
     def read(json: JsValue): Elem = json match {
       case JsString("⊤") => Top
       case JsString("⊥") => Bot
       case v =>
-        val discrimator = List("name", "base")
+        val discrimator = List("name", "addr", "str")
           .map(d => v.asJsObject.fields.contains(d))
         discrimator.indexOf(true) match {
           case 0 => IdFormat.read(v)
-          case 1 => PropFormat.read(v)
+          case 1 => ObjPropFormat.read(v)
+          case 2 => StrPropFormat.read(v)
           case _ => deserializationError(s"unknown element: $v")
         }
     }
@@ -61,7 +63,8 @@ object JsonProtocol extends BasicJsonProtocol {
       case Top => JsString("⊤")
       case Bot => JsString("⊥")
       case (x: Id) => IdFormat.write(x)
-      case (x: Prop) => PropFormat.write(x)
+      case (x: ObjProp) => ObjPropFormat.write(x)
+      case (x: StrProp) => StrPropFormat.write(x)
     }
   }
   implicit lazy val aobjFormat: JsonFormat[AbsObj] = {
