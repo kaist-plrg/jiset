@@ -9,6 +9,7 @@ import kr.ac.kaist.jiset.analyzer.INumT
 // IR Interpreter
 class Interp(
   isDebug: Boolean = false,
+  silent: Boolean = false,
   timeLimit: Option[Long] = None
 ) {
   var startTime: Long = 0
@@ -23,8 +24,8 @@ class Interp(
   // @tailrec
   final def fixpoint(st: State): State = ???
 
-  // instructions
-  def interp(inst: Inst): State => State = st => {
+  // preinterp
+  def preinterp(inst: Inst): Inst = {
     recentInst = Some(inst)
     if (instCount == 0) startTime = System.currentTimeMillis
     instCount = instCount + 1
@@ -36,37 +37,44 @@ class Interp(
       case ISeq(_) =>
       case _ => println(s"Interp: ${beautify(inst)}")
     }
-    val res = inst match {
-      // conditional instructions
-      case IIf(cond, thenInst, elseInst) => ???
-      case IWhile(cond, body) => ???
-      // call instructions
-      case IApp(id, fexpr, args) => ???
-      case IAccess(id, bexpr, expr) => ???
-      // normal instuctions
-      case IExpr(expr) => ???
-      case ILet(id, expr) => ???
-      case IAssign(ref, expr) => ???
-      case IDelete(ref) => ???
-      case IAppend(expr, list) => ???
-      case IPrepend(expr, list) => ???
-      case IReturn(expr) => ???
-      case IThrow(id) => ???
-      case ISeq(newInsts) => newInsts.foldLeft(st) {
-        case (s0, inst) => interp(inst)(s0)
-      }
-      case IAssert(expr) => {
-        val (v, s0) = interp(expr)(st)
-        v match {
-          case Bool(true) => s0
-          case Bool(false) => error(s"assertion failure: ${beautify(expr)}")
-        }
-      }
-      case IPrint(expr) => ???
-      case IWithCont(id, params, body) => ???
-      case ISetType(expr, ty) => ???
+    inst
+  }
+
+  // instructions
+  def interp(inst: Inst): State => State = st => preinterp(inst) match {
+    // conditional instructions
+    case IIf(cond, thenInst, elseInst) => ???
+    case IWhile(cond, body) => ???
+    // call instructions
+    case IApp(id, fexpr, args) => ???
+    case IAccess(id, bexpr, expr) => ???
+    // normal instuctions
+    case IExpr(expr) => ???
+    case ILet(id, expr) => ???
+    case IAssign(ref, expr) => ???
+    case IDelete(ref) => ???
+    case IAppend(expr, list) => ???
+    case IPrepend(expr, list) => ???
+    case IReturn(expr) => ???
+    case IThrow(id) => ???
+    case ISeq(newInsts) => newInsts.foldLeft(st) {
+      case (s0, inst) => interp(inst)(s0)
     }
-    res
+    case IAssert(expr) => {
+      val (v, s0) = interp(expr)(st)
+      v match {
+        case Bool(true) => s0
+        case Bool(false) => error(s"assertion failure: ${beautify(expr)}")
+        case _ => error(s"assertion is not a boolean: $v")
+      }
+    }
+    case IPrint(expr) => {
+      val (v, s0) = interp(expr)(st)
+      if (!silent) Helper.print(s0, v)
+      s0
+    }
+    case IWithCont(id, params, body) => ???
+    case ISetType(expr, ty) => ???
   }
 
   // expresssions
