@@ -82,10 +82,9 @@ class Interp(
     case EPop(list, idx) =>
       val (l, st1) = interp(list)(st)
       ???
-    case ERef(ref) => ref match {
-      case RefId(id) => ((st.env.map get id.name).getOrElse(Absent), st)
-      case RefProp(ref, expr) => ???
-    }
+    case ERef(ref) =>
+      val (rv, st1) = interp(ref)(st)
+      interp(rv)(st1)
     case ECont(params, body) => ???
     // logical operations
     case EUOp(uop, expr) =>
