@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 import java.text.Normalizer._
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.util.StateUpdator
+import kr.ac.kaist.jiset.util.StateUpdater
 import scala.annotation.tailrec
 import scala.concurrent.duration._
 import kr.ac.kaist.jiset.analyzer.INumT
@@ -37,7 +37,7 @@ class Interp(
   }
 
   // interp result
-  type Result[T] = StateUpdator[T, State]
+  type Result[T] = StateUpdater[T, State]
   def pure[T](v: T): Result[T] = st => (v, st)
 
   // instructions
