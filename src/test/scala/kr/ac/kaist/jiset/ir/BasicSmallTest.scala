@@ -13,7 +13,10 @@ class BasicSmallTest extends IRTest {
 
   // TODO remove targets
   val targets = Set(
-    "assert.ir"
+    "assert.ir",
+    "expr-bool.ir",
+    "expr-null.ir",
+    "expr-undef.ir"
   )
 
   // registration

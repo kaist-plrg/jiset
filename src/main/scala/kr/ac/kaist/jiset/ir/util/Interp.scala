@@ -127,13 +127,16 @@ class Interp(
 
   // references
   def interp(ref: Ref): State => (RefValue, State) = st => ref match {
-    case RefId(id) => ???
-    case RefProp(ref, expr) => ???
+    case RefId(id) => (RefValueId(id.name), st)
+    case RefProp(ref, expr) =>
+      val (rv, st1) = interp(ref)(st)
+      ???
   }
   def interp(refV: RefValue): State => (Value, State) = st => refV match {
-    case RefValueId(id) => ???
-    case RefValueProp(addr, value) => ???
-    case RefValueString(str, value) => ???
+    case RefValueId(id) => (st.env.map.getOrElse(id, Undef), st)
+    case RefValueProp(addr, value) => ??? // TODO use heap
+    case RefValueString(str, name) =>
+      (stringOp(str.str, Str(name)), st) // TODO check covering all cases
   }
 
   // unary operators
