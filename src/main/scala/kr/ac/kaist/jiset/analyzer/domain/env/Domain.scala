@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.env
 
-import kr.ac.kaist.jiset.ir.state.Env
+import kr.ac.kaist.jiset.ir.Env
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.ops._
 

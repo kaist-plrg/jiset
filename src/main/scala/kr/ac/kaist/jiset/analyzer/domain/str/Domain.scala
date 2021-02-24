@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.str
 
-import kr.ac.kaist.jiset.ir.state.Str
+import kr.ac.kaist.jiset.ir.Str
 import kr.ac.kaist.jiset.analyzer.domain._
 
 // string abstract domain

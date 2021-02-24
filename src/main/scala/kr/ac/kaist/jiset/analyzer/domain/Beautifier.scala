@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain.combinator._
 import kr.ac.kaist.jiset.analyzer.domain.generator._
 import kr.ac.kaist.jiset.analyzer.domain.ops._
-import kr.ac.kaist.jiset.ir.state._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.{ LINE_SEP => endl }
 

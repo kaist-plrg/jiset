@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
+import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.util.Appender._
 
 class BeautifierTinyTest extends AnalyzerTest {
@@ -19,6 +20,8 @@ class BeautifierTinyTest extends AnalyzerTest {
 
   // registration
   def init: Unit = {
+    import ir._
+
     test("Primitive Values")(
       Num(42.34) -> "42.34",
       INum(23) -> "23i",

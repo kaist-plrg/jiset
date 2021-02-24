@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.analyzer
 
 import scala.collection.immutable.StringOps
-import kr.ac.kaist.jiset.ir.state._
+import kr.ac.kaist.jiset.ir._
 
 package object domain {
   import generator._

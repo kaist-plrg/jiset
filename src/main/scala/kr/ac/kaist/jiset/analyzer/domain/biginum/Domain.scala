@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.biginum
 
-import kr.ac.kaist.jiset.ir.state.BigINum
+import kr.ac.kaist.jiset.ir.BigINum
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.ops._
 

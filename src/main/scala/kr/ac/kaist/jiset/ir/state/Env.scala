@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.ir.state
+package kr.ac.kaist.jiset.ir
 
 // environments
 case class Env(map: Map[String, Value])

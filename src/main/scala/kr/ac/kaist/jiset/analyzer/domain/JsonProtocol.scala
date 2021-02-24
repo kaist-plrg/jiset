@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
-import kr.ac.kaist.jiset.ir.state._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer.domain.generator._
 import kr.ac.kaist.jiset.analyzer.domain.combinator._
 import kr.ac.kaist.jiset.util.BasicJsonProtocol

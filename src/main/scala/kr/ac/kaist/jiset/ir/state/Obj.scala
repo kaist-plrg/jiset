@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.ir.state
+package kr.ac.kaist.jiset.ir
 
 // objects
 sealed trait Obj

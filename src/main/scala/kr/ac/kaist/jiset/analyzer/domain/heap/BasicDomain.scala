@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.heap
 
-import kr.ac.kaist.jiset.ir.state._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends heap.Domain {
