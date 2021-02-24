@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
+import kr.ac.kaist.jiset.DEBUG
 import kr.ac.kaist.jiset.cfg.CFG
 import kr.ac.kaist.jiset.spec.algorithm._
 
@@ -11,10 +12,8 @@ class Fixpoint(sem: AbsSemantics) {
   def isTarget(head: SyntaxDirectedHead): Boolean = {
     val patterns = List(
       """Literal\[.*""".r,
-    // "PrimaryExpression.*IsIdentifierRef",
+      """PrimaryExpression.*IsIdentifierRef""".r,
     )
-    println(head.printName)
-    println(patterns.exists(_.matches(head.printName)))
     head.withParams.isEmpty && patterns.exists(_.matches(head.printName))
   }
 
@@ -39,8 +38,7 @@ class Fixpoint(sem: AbsSemantics) {
 
   // fixpoint computation
   def compute: Unit = worklist.next.map(cp => {
-    println(sem.getString(cp))
-    println
+    if (DEBUG) { println(sem.getString(cp)); println }
     transfer(cp)
     compute
   })

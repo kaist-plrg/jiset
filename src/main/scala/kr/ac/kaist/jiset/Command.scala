@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset
 import kr.ac.kaist.jiset.error.NoMode
 import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.phase._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.ArgParser
 import org.jsoup.nodes.Element
@@ -68,7 +69,9 @@ case object CmdCheck extends CommandObj("check", CmdParse >> Check)
 case object CmdBuildCFG extends CommandObj("build-cfg", CmdParse >> BuildCFG)
 
 // analyze
-case object CmdAnalyze extends CommandObj("analyze", CmdBuildCFG >> Analyze)
+case object CmdAnalyze extends CommandObj("analyze", CmdBuildCFG >> Analyze) {
+  override def display(sem: AbsSemantics): Unit = println(sem)
+}
 
 // gen-test
 case object CmdGenTest extends CommandObj("gen-test", CmdBase >> GenTest)
