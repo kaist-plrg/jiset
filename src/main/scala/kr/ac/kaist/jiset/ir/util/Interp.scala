@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 import java.text.Normalizer._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.StateUpdator
 import scala.annotation.tailrec
 import scala.concurrent.duration._
 import kr.ac.kaist.jiset.analyzer.INumT
@@ -18,11 +19,6 @@ class Interp(
 
   def apply(inst: Inst) = interp(inst)
   def apply(insts: List[Inst]) = interp(ISeq(insts))
-  def apply(st: State) = fixpoint(st)
-
-  // perform transition until instructions are empty
-  // @tailrec
-  final def fixpoint(st: State): State = ???
 
   // preinterp
   def preinterp(inst: Inst): Inst = {
@@ -39,6 +35,10 @@ class Interp(
     }
     inst
   }
+
+  // interp result
+  type Result[T] = StateUpdator[T, State]
+  def pure[T](v: T): Result[T] = st => (v, st)
 
   // instructions
   def interp(inst: Inst): State => State = st => preinterp(inst) match {
@@ -78,107 +78,84 @@ class Interp(
   }
 
   // expresssions
-  def interp(expr: Expr): State => (Value, State) = st => expr match {
-    case ENum(n) => (Num(n), st)
-    case EINum(n) => (INum(n), st)
-    case EBigINum(b) => (BigINum(b), st)
-    case EStr(str) => (Str(str), st)
-    case EBool(b) => (Bool(b), st)
-    case EUndef => (Undef, st)
-    case ENull => (Null, st)
-    case EAbsent => (Absent, st)
+  def interp(expr: Expr): Result[Value] = expr match {
+    case ENum(n) => pure(Num(n))
+    case EINum(n) => pure(INum(n))
+    case EBigINum(b) => pure(BigINum(b))
+    case EStr(str) => pure(Str(str))
+    case EBool(b) => pure(Bool(b))
+    case EUndef => pure(Undef)
+    case ENull => pure(Null)
+    case EAbsent => pure(Absent)
     case EPop(list, idx) => ???
-    case ERef(ref) =>
-      val (rv, st1) = interp(ref)(st)
-      interp(rv)(st1)
+    case ERef(ref) => for {
+      rv <- interp(ref)
+      v <- interp(rv)
+    } yield v
     case ECont(params, body) => ???
     // logical operations
-    case EUOp(uop, expr) =>
-      val (v, st1) = interp(expr)(st)
-      (interp(uop)(v), st1)
+    case EUOp(uop, expr) => for {
+      v <- interp(expr)
+    } yield interp(uop)(v)
     /* case EBOp(OAnd, left, right) => ???
     case EBOp(OOr, left, right) => ??? */ // ? : why separate these two cases?
-    case EBOp(bop, left, right) =>
-      val (lv, st1) = interp(left)(st)
-      val (rv, st2) = interp(right)(st1)
-      (interp(bop)(lv, rv), st2)
-    case ETypeOf(expr) =>
-      val (v, st1) = interp(expr)(st)
-      ((v match {
-        case Num(_) | INum(_) => Str("Number")
-        case BigINum(_) => Str("BigInt")
-        case Str(_) => Str("String")
-        case Bool(_) => Str("Boolean")
-        case Undef => Str("Undefined")
-        case Null => Str("Null")
-        case Absent => Str("Absent")
-        case _ => ???
-      }), st1)
+    case EBOp(bop, left, right) => for {
+      lv <- interp(left)
+      rv <- interp(right)
+    } yield interp(bop)(lv, rv)
+    case ETypeOf(expr) => for {
+      v <- interp(expr)
+    } yield v match {
+      case Num(_) | INum(_) => Str("Number")
+      case BigINum(_) => Str("BigInt")
+      case Str(_) => Str("String")
+      case Bool(_) => Str("Boolean")
+      case Undef => Str("Undefined")
+      case Null => Str("Null")
+      case Absent => Str("Absent")
+      case _ => ???
+    }
     case EIsCompletion(expr) => ???
     case EIsInstanceOf(base, kind) => ???
     case EGetElems(base, kind) => ???
     case EGetSyntax(base) => ???
     case EParseSyntax(code, rule, flags) => ???
     case EConvert(expr, cop, l) => ???
-    case EContains(list, elem) =>
-      val (l, s0) = interp(list)(st)
-      l match {
-        case (addr: Addr) => s0.heap(addr) match {
-          case ListObj(vs) =>
-            val (v, s1) = interp(elem)(s0)
-            (Bool(vs contains v), s1)
-          case _ => error(s"Not an ListObj: ${beautify(expr)}")
-        }
-        case _ => error(s"Not an address: ${beautify(expr)}")
-      }
+    case EContains(list, elem) => ???
     case EReturnIfAbrupt(expr, check) => ???
     case ENotSupported(msg) => error(s"Not Supported: $msg")
     // allocation expressions
     case EMap(ty, props) => ???
-    case EList(exprs) =>
-      // TODO good, pretty, pure solution using monadic fold exists
-      def f(expr: Expr): (List[Value], State) => (List[Value], State) = (vlist, st0) => {
-        val (v, st1) = interp(expr)(st0)
-        (vlist :+ v, st1)
-      }
-      var vlist: List[Value] = Nil
-      var state = st
-      for (expr <- exprs) {
-        val stepResult = f(expr)(vlist, state)
-        vlist = stepResult._1
-        state = stepResult._2
-      }
-      val (addr, newHeap) = state.heap.allocList(vlist)
-      (addr, State(st.env, newHeap))
-    case ESymbol(desc) =>
-      val (d, st1) = interp(desc)(st)
-      d match {
-        case Str(s) =>
-          ??? // TODO need routine to get new DynamicAddr
-        case _ => error(s"Type mismatch - Str expected: ${beautify(expr)}")
-      }
+    case EList(exprs) => ???
+    case ESymbol(desc) => for {
+      v <- interp(desc)
+    } yield v match {
+      // TODO need routine to get new DynamicAddr
+      case Str(s) => ???
+      case _ => error(s"Type mismatch - Str expected: ${beautify(expr)}")
+    }
     case ECopy(expr) => ???
     case EKeys(mobj) => ???
   }
 
   // references
-  def interp(ref: Ref): State => (RefValue, State) = st => ref match {
-    case RefId(id) => (RefValueId(id.name), st)
-    case RefProp(ref, expr) =>
-      val (refv, st1) = interp(ref)(st)
-      val (rv, st2) = interp(refv)(st1)
-      val (pv, st3) = interp(expr)(st2)
-      (((rv, pv) match {
-        case (rv: Addr, pv: Str) => RefValueProp(rv, pv.str)
-        case (rv: Str, pv: Str) => RefValueString(rv, pv.str)
-        case _ => error(s"Not expected type in RefProp: ${beautify(expr)}")
-      }), st3)
+  def interp(ref: Ref): Result[RefValue] = ref match {
+    case RefId(id) => pure(RefValueId(id.name))
+    case RefProp(ref, expr) => for {
+      rv <- interp(ref)
+      bv <- interp(rv)
+      pv <- interp(expr)
+    } yield (bv, pv) match {
+      case (bv: Addr, pv: Str) => RefValueProp(bv, pv.str)
+      case (bv: Str, pv: Str) => RefValueString(bv, pv.str)
+      case _ => error(s"Not expected type in RefProp: ${beautify(expr)}")
+    }
+
   }
-  def interp(refV: RefValue): State => (Value, State) = st => refV match {
-    case RefValueId(id) => (st.env.map.getOrElse(id, Undef), st)
-    case RefValueProp(addr, value) => ??? // TODO use heap
-    case RefValueString(str, name) =>
-      (stringOp(str.str, Str(name)), st) // TODO check covering all cases
+  def interp(refV: RefValue): Result[Value] = st => refV match {
+    case RefValueId(id) => ???
+    case RefValueProp(addr, value) => ???
+    case RefValueString(str, value) => ???
   }
 
   // unary operators
