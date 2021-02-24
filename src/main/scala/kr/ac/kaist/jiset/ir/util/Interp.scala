@@ -2,7 +2,8 @@ package kr.ac.kaist.jiset.ir
 
 import java.text.Normalizer._
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.util.StateUpdater
+import kr.ac.kaist.jiset.util.StateMonad
+import kr.ac.kaist.jiset.util.StateMonad._
 import scala.annotation.tailrec
 import scala.concurrent.duration._
 import kr.ac.kaist.jiset.analyzer.INumT
@@ -37,25 +38,10 @@ class Interp(
   }
 
   // interp result
-  type Result[T] = StateUpdater[T, State]
-  implicit def pure[T](v: T): Result[T] = st => (v, st)
-  val allocList: List[Value] => Result[Addr] = vlist => st => st.allocList(vlist)
-  def allocMap(ty: Ty): List[(Value, Value)] => Result[Addr] =
-    mlist => st => st.allocMap(ty, mlist.map({
-      case (Str(s), v) => (s -> v)
-      case _ => error(s"Non String key given")
-    }).toMap)
-  val allocSymbol: Value => Result[Addr] = v => st => v match {
-    case Str(s) => st.allocSymbol(s)
-    case _ => error(s"Non string symbol given")
-  }
-  val copyHelper: Value => Result[Addr] = v => st => v match {
-    case v: Addr => st.copyObj(v)
-    case _ => error(s"None address object for copy given")
-  }
+  type Result[T] = StateMonad[T, State]
 
   // instructions
-  def interp(inst: Inst): State => State = st => preinterp(inst) match {
+  def interp(inst: Inst): Result[Unit] = preinterp(inst) match {
     // conditional instructions
     case IIf(cond, thenInst, elseInst) => ???
     case IWhile(cond, body) => ???
@@ -71,21 +57,16 @@ class Interp(
     case IPrepend(expr, list) => ???
     case IReturn(expr) => ???
     case IThrow(id) => ???
-    case ISeq(newInsts) => newInsts.foldLeft(st) {
-      case (s0, inst) => interp(inst)(s0)
+    case ISeq(newInsts) => join(newInsts.map(interp)) ^^^ ()
+    case IAssert(expr) => for {
+      v <- interp(expr)
+    } yield v match {
+      case Bool(true) =>
+      case Bool(false) => error(s"assertion failure: ${beautify(expr)}")
+      case _ => error(s"assertion is not a boolean: $v")
     }
-    case IAssert(expr) => {
-      val (v, s0) = interp(expr)(st)
-      v match {
-        case Bool(true) => s0
-        case Bool(false) => error(s"assertion failure: ${beautify(expr)}")
-        case _ => error(s"assertion is not a boolean: $v")
-      }
-    }
-    case IPrint(expr) => {
-      val (v, s0) = interp(expr)(st)
-      if (!silent) Helper.print(s0, v)
-      s0
+    case IPrint(expr) => interp(expr) ^^ {
+      case (v, st) => (if (!silent) Helper.print(st, v), st)
     }
     case IWithCont(id, params, body) => ???
     case ISetType(expr, ty) => ???
@@ -140,33 +121,32 @@ class Interp(
     case ENotSupported(msg) =>
       error(s"Not Supported: $msg")
     // allocation expressions
-    case EMap(ty, props) => for {
-      mlist <- props.foldLeft(pure(List.empty[(Value, Value)])) {
-        case (updater, (e1, e2)) => for {
-          l <- updater
-          v1 <- interp(e1)
-          v2 <- interp(e2)
-        } yield l :+ (v1, v2)
+    case EMap(ty, props) => join(props.map {
+      case (e1, e2) => for {
+        v1 <- interp(e1)
+        v2 <- interp(e2)
+      } yield (v1, v2)
+    }) ^^ {
+      case (mlist, s) => s.allocMap(ty, mlist.map({
+        case (Str(s), v) => (s -> v)
+        case _ => error(s"Non String key given")
+      }).toMap)
+    }
+    case EList(exprs) => join(exprs.map(interp)) ^^ {
+      case (l, s) => s.allocList(l)
+    }
+    case ESymbol(desc) => interp(desc) ^^ {
+      case (v, st) => v match {
+        case Str(s) => st.allocSymbol(s)
+        case _ => error(s"Non string symbol given")
       }
-      addr <- mlist ~> allocMap(ty)
-    } yield addr
-    case EList(exprs) => for {
-      vlist <- exprs.foldLeft(pure(List.empty[Value])) {
-        case (updater, expr) => for {
-          l <- updater
-          v <- interp(expr)
-        } yield l :+ v
+    }
+    case ECopy(expr) => interp(expr) ^^ {
+      case (v, st) => v match {
+        case v: Addr => st.copyObj(v)
+        case _ => error(s"None address object for copy given")
       }
-      addr <- vlist ~> allocList
-    } yield addr
-    case ESymbol(desc) => for {
-      v <- interp(desc)
-      addr <- v ~> allocSymbol
-    } yield addr
-    case ECopy(expr) => for {
-      v <- interp(expr)
-      addr <- v ~> copyHelper
-    } yield addr
+    }
     case EKeys(mobj) => ???
   }
 
