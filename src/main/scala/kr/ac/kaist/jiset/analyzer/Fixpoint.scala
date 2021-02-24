@@ -10,8 +10,7 @@ class Fixpoint(sem: AbsSemantics) {
   // TODO target algorithms
   def isTarget(head: SyntaxDirectedHead): Boolean = (
     head.withParams.isEmpty && (
-      head.printName == "Literal[0,0].Evaluation" ||
-      head.printName == "Literal[1,0].Evaluation"
+      head.printName.startsWith("Literal[")
     )
   )
 

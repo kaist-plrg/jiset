@@ -75,15 +75,12 @@ object Beautifier {
       if (!prim.isBottom) udts :+= { _ >> prim }
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
-  implicit lazy val arefvalueApp: App[AbsRefValue] =
-    domainApp(AbsRefValue)((app, arefval) => {
-      val AbsRefValue.Elem(id, prop, string) = arefval
-      var udts = Vector[Update]()
-      if (!id.isBottom) udts :+= { _ >> id }
-      if (!prop._1.isBottom) udts :+= { _ >> prop._1 >> "." >> prop._2 }
-      if (!string._1.isBottom) udts :+= { _ >> string._1 >> "." >> string._2 }
-      app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
-    })
+  implicit lazy val arefvalueApp: App[AbsRefValue] = (app, arefval) => arefval match {
+    case AbsRefValue.Top => app >> "⊤"
+    case AbsRefValue.Bot => app >> "⊥"
+    case AbsRefValue.Id(name) => app >> name
+    case AbsRefValue.Prop(base, prop) => app >> base >> "[" >> prop >> "]"
+  }
   implicit lazy val aobjApp: App[AbsObj] =
     domainApp(AbsObj)((app, obj) => {
       val AbsObj.Elem(symbol, map, list) = obj

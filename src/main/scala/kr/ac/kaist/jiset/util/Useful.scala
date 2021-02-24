@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.error._
 import org.jsoup._
 import org.jsoup.nodes._
 import org.jsoup.select._
-import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
+import scala.Console.RESET
 import scala.collection.mutable
 import scala.io.Source
 import scala.util.Random.shuffle
@@ -130,18 +130,9 @@ object Useful {
   def mkdir(name: String): Unit = new File(name).mkdirs
 
   // colored println
-  def printColor(color: String): Any => Unit =
-    x => print(color + x.toString + scala.Console.RESET)
-  def printRed: Any => Unit = printColor(RED)
-  def printYellow: Any => Unit = printColor(YELLOW)
-  def printGreen: Any => Unit = printColor(GREEN)
-  def printCyan: Any => Unit = printColor(CYAN)
-  def printlnColor(color: String): Any => Unit =
-    x => println(color + x.toString + scala.Console.RESET)
-  def printlnRed: Any => Unit = printlnColor(RED)
-  def printlnYellow: Any => Unit = printlnColor(YELLOW)
-  def printlnGreen: Any => Unit = printlnColor(GREEN)
-  def printlnCyan: Any => Unit = printlnColor(CYAN)
+  def setColor(color: String): Any => String = x => color + x.toString + RESET
+  def printColor(color: String): Any => Unit = x => print(setColor(color)(x))
+  def printlnColor(color: String): Any => Unit = x => println(setColor(color)(x))
 
   // get name that could be used in Scala identifiers
   private val symbolRegex = "@@([^@]+)".r

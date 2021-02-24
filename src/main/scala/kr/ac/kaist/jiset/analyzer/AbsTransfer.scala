@@ -27,7 +27,10 @@ class AbsTransfer(sem: AbsSemantics) {
       case (block: Block) =>
         val nextSt = block.insts.foldLeft(st)(transfer)
         sem += NodePoint(next(block), view) -> nextSt
-      case Call(inst) => ???
+      case call @ Call(inst) =>
+        val (nextSt, nps) = transfer(st, inst)
+        // TODO handle call cases
+        sem += NodePoint(next(call), view) -> nextSt
       case branch @ Branch(expr) =>
         val (s, v) = transfer(st, expr)
         sem += NodePoint(thenNext(branch), view) -> prune(st, expr, true)
@@ -41,7 +44,7 @@ class AbsTransfer(sem: AbsSemantics) {
   }
 
   private class Helper(ret: ReturnPoint) {
-    // transfer function for instructions
+    // transfer function for normal instructions
     def transfer(st: AbsState, inst: NormalInst): AbsState = inst match {
       case IExpr(expr) => ???
       case ILet(id, expr) => ???
@@ -58,6 +61,26 @@ class AbsTransfer(sem: AbsSemantics) {
       case IPrint(expr) => ???
       case IWithCont(id, params, bodyInst) => ???
       case ISetType(expr, ty) => ???
+    }
+
+    // transfer function for call instructions
+    def transfer(
+      st: AbsState,
+      inst: CallInst
+    ): (AbsState, List[NodePoint]) = inst match {
+      case IApp(id, fexpr, args) => ???
+      case IAccess(id, bexpr, expr) =>
+        val (s0, b) = transfer(st, bexpr)
+        val (s1, p) = transfer(s0, expr)
+        val v: AbsValue = (b.getSingle, p.getSingle) match {
+          case (One(ASTVal(ast)), One(Str(name))) => (ast, name) match {
+            case ("NumericLiteral", "NumericValue") => numTop
+            case ("StringLiteral", "StringValue") => strTop
+            case _ => ???
+          }
+          case _ => ???
+        }
+        (st + (id.name -> v), Nil) // TODO handling call cases
     }
 
     // transfer function for expressions
@@ -144,7 +167,17 @@ class AbsTransfer(sem: AbsSemantics) {
     }
 
     // transfer function for reference values
-    def transfer(st: AbsState, ref: Ref): (AbsState, AbsRefValue) = ???
+    def transfer(st: AbsState, ref: Ref): (AbsState, AbsRefValue) = ref match {
+      case RefId(id) => (st, AbsRefValue.Id(id.name))
+      case RefProp(ref, expr) =>
+        val (s0, rv) = transfer(st, ref)
+        val (s1, b) = transfer(s0, rv)
+        val (s2, p) = transfer(s0, expr)
+        (s2, AbsRefValue.Prop(b, p.str)) // TODO handle non-string properties
+    }
+
+    // transfer function for reference values
+    def transfer(st: AbsState, refv: AbsRefValue): (AbsState, AbsValue) = ???
 
     // all integers
     val intTop: AbsValue = AbsPrim(
@@ -158,6 +191,9 @@ class AbsTransfer(sem: AbsSemantics) {
       int = AbsINum.Top,
       bigint = AbsBigINum.Top
     )
+
+    // all strings
+    val strTop: AbsValue = AbsStr.Top
 
     // all arithmetic values
     val arithTop: AbsValue = AbsPrim(

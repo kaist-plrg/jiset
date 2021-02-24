@@ -4,6 +4,8 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.util.Useful._
+import scala.Console.CYAN
 
 class AbsSemantics(val cfg: CFG) {
   import cfg._
@@ -39,18 +41,22 @@ class AbsSemantics(val cfg: CFG) {
   }
 
   // get string for result of control points
-  def getString(cp: ControlPoint): String = cp match {
-    case np @ NodePoint(entry: Entry, view) =>
-      val st = this(np)
-      s"${funcOf(entry).name}:$view -> ${beautify(st)}"
-    case (np: NodePoint) =>
-      val st = this(np)
-      s"$np -> ${beautify(st)}"
-    case (rp: ReturnPoint) =>
-      val (h, v) = this(rp)
-      s"$rp -> [RETURN] ${beautify(v)}" + (
-        if (h.isBottom) ""
-        else s" @ ${beautify(h)}"
-      )
+  def getString(cp: ControlPoint): String = {
+    val cyan = setColor(CYAN)
+    val (k, v) = cp match {
+      case np @ NodePoint(entry: Entry, view) =>
+        val st = this(np)
+        (cyan(s"${funcOf(entry).name}:$view:ENTRY"), beautify(st))
+      case (np: NodePoint) =>
+        val st = this(np)
+        (np.toString, beautify(st))
+      case (rp: ReturnPoint) =>
+        val (h, v) = this(rp)
+        (cyan(s"$rp:RETURN"), beautify(v) + (
+          if (h.isBottom) ""
+          else s" @ ${beautify(h)}"
+        ))
+    }
+    s"$k -> $v"
   }
 }

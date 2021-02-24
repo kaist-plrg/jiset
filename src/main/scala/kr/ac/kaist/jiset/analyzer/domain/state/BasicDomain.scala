@@ -54,8 +54,14 @@ object BasicDomain extends state.Domain {
     // define variable
     def +(pair: (String, AbsValue)): Elem = copy(env = env + pair)
 
+    // update references
+    def update(refv: AbsRefValue, v: AbsValue): Elem = ???
+
     // lookup reference values
-    def apply(refVal: AbsRefValue): AbsValue = ???
+    def apply(refv: AbsRefValue): AbsValue = refv match {
+      case AbsRefValue.Id(str) => env(str)
+      case AbsRefValue.Prop(base, prop) => ???
+    }
 
     // allocate a new symbol
     def allocSymbol(desc: String): (Elem, AbsValue) = ???
