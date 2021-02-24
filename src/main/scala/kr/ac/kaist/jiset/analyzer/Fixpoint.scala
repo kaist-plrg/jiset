@@ -10,9 +10,11 @@ class Fixpoint(sem: AbsSemantics) {
   // TODO target algorithms
   def isTarget(head: SyntaxDirectedHead): Boolean = {
     val patterns = List(
-      "Literal[.*",
-      // "PrimaryExpression.*IsIdentifierRef",
+      """Literal\[.*""".r,
+    // "PrimaryExpression.*IsIdentifierRef",
     )
+    println(head.printName)
+    println(patterns.exists(_.matches(head.printName)))
     head.withParams.isEmpty && patterns.exists(_.matches(head.printName))
   }
 

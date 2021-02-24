@@ -46,12 +46,27 @@ class AbsTransfer(sem: AbsSemantics) {
   private class Helper(ret: ReturnPoint) {
     // transfer function for normal instructions
     def transfer(st: AbsState, inst: NormalInst): AbsState = inst match {
-      case IExpr(expr) => ???
-      case ILet(id, expr) => ???
-      case IAssign(ref, expr) => ???
-      case IDelete(ref) => ???
-      case IAppend(expr, list) => ???
-      case IPrepend(expr, list) => ???
+      case IExpr(expr) =>
+        val (s0, _) = transfer(st, expr)
+        s0
+      case ILet(id, expr) =>
+        val (s0, v) = transfer(st, expr)
+        s0 + (id.name -> v)
+      case IAssign(ref, expr) =>
+        val (s0, refv) = transfer(st, ref)
+        val (s1, v) = transfer(s0, refv)
+        s1.update(refv, v)
+      case IDelete(ref) =>
+        val (s0, refv) = transfer(st, ref)
+        s0.delete(refv)
+      case IAppend(expr, list) =>
+        val (s0, v) = transfer(st, expr)
+        val (s1, l) = transfer(s0, list)
+        s1.append(v, l.addr)
+      case IPrepend(expr, list) =>
+        val (s0, v) = transfer(st, expr)
+        val (s1, l) = transfer(s0, list)
+        s1.prepend(v, l.addr)
       case IReturn(expr) =>
         val (s0, v) = transfer(st, expr)
         sem.doReturn(ret -> (s0.heap, v))

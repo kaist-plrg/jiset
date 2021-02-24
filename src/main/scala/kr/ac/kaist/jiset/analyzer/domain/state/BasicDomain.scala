@@ -57,6 +57,9 @@ object BasicDomain extends state.Domain {
     // update references
     def update(refv: AbsRefValue, v: AbsValue): Elem = ???
 
+    // update references
+    def delete(refv: AbsRefValue): Elem = ???
+
     // lookup reference values
     def apply(refv: AbsRefValue): AbsValue = refv.toValue(this)
 
@@ -68,6 +71,12 @@ object BasicDomain extends state.Domain {
 
     // allocate a new list
     def allocList(vs: List[AbsValue]): (Elem, AbsValue) = ???
+
+    // append an element to a list
+    def append(v: AbsValue, addr: AbsAddr): Elem = ???
+
+    // prepend an element to a list
+    def prepend(v: AbsValue, addr: AbsAddr): Elem = ???
 
     // copy an object
     def copyOf(v: AbsValue): (Elem, AbsValue) = ???
