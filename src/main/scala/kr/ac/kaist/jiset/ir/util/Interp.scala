@@ -51,8 +51,16 @@ class Interp(
       case IPrepend(expr, list) => ???
       case IReturn(expr) => ???
       case IThrow(id) => ???
-      case ISeq(newInsts) => ???
-      case IAssert(expr) => ???
+      case ISeq(newInsts) => newInsts.foldLeft(st) {
+        case (s0, inst) => interp(inst)(s0)
+      }
+      case IAssert(expr) => {
+        val (v, s0) = interp(expr)(st)
+        v match {
+          case Bool(true) => s0
+          case Bool(false) => error(s"assertion failure: ${beautify(expr)}")
+        }
+      }
       case IPrint(expr) => ???
       case IWithCont(id, params, body) => ???
       case ISetType(expr, ty) => ???

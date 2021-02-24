@@ -11,13 +11,16 @@ class BasicSmallTest extends IRTest {
     interp(insts)(emptyState)
   }
 
-  val pattern = "".r
+  // TODO remove targets
+  val targets = Set(
+    "assert.ir"
+  )
 
   // registration
   def init: Unit = {
     for (file <- walkTree(IR_DIR)) {
       val filename = file.getName
-      if (irFilter(filename) && pattern.matches(filename))
+      if (irFilter(filename) && targets.contains(filename))
         check(filename, test(file.toString))
     }
   }
