@@ -1,12 +1,17 @@
 package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.DEBUG
-import kr.ac.kaist.jiset.cfg.CFG
+import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.cfg.{ CFG, DotPrinter }
 import kr.ac.kaist.jiset.spec.algorithm._
+import kr.ac.kaist.jiset.util.Useful._
 
-class Fixpoint(sem: AbsSemantics) {
+class Fixpoint(sem: AbsSemantics, interact: Boolean) {
   // CFG
   val cfg = sem.cfg
+
+  // interactive mode
+  val showStep = interact
 
   // TODO target algorithms
   def isTarget(head: SyntaxDirectedHead): Boolean = {
@@ -37,8 +42,19 @@ class Fixpoint(sem: AbsSemantics) {
   val worklist = sem.worklist
 
   // fixpoint computation
-  def compute: Unit = worklist.next.map(cp => {
+  def compute: Unit = worklist.headOption.map(cp => {
     if (DEBUG) { println(sem.getString(cp)); println }
+    if (showStep) {
+      println(sem.getString(cp)); println
+      val dot = (new DotPrinter)(cp, sem).toString
+      val func = sem.funcOf(cp).name
+      val view = cp.view
+      val name = s"$CFG_DIR/$func:$view"
+      dumpFile(dot, s"$name.dot")
+      executeCmd(s"""dot -Tpdf "$name.dot" -o "$name.pdf"""")
+      scala.io.StdIn.readLine
+    }
+    worklist.next
     transfer(cp)
     compute
   })

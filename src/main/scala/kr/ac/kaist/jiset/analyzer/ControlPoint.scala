@@ -5,14 +5,16 @@ import domain._
 
 // control points
 trait ControlPoint {
+  // view of control points
+  val view: View
+
   // conversion to string
   override def toString: String = this match {
     case NodePoint(node, view) => s"$node:$view"
     case ReturnPoint(func, view) => s"${func.name}:$view"
   }
 }
-case class NodePoint(node: Node, view: View) extends ControlPoint {
-}
+case class NodePoint(node: Node, view: View) extends ControlPoint
 case class ReturnPoint(func: Function, view: View) extends ControlPoint
 
 // view abstraction

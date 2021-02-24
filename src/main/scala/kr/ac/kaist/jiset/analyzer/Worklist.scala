@@ -7,6 +7,7 @@ trait Worklist[T] {
   def all: Set[T]
   def +=(x: T): Unit
   def next: Option[T]
+  def headOption: Option[T]
   def isEmpty: Boolean = all.isEmpty
   def has(x: T): Boolean = all contains x
 }
@@ -20,6 +21,7 @@ class StackWorklist[T] extends Worklist[T] {
   def next =
     if (isEmpty) None
     else { val x = stack.pop; set -= x; Some(x) }
+  def headOption: Option[T] = stack.headOption
 }
 
 // queue-based worklist
@@ -31,4 +33,5 @@ class QueueWorklist[T] extends Worklist[T] {
   def next =
     if (isEmpty) None
     else { val x = queue.dequeue; set -= x; Some(x) }
+  def headOption: Option[T] = queue.lastOption
 }

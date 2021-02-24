@@ -8,8 +8,6 @@ import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.CYAN
 
 class AbsSemantics(val cfg: CFG) {
-  import cfg._
-
   // worklist
   val worklist = new StackWorklist[ControlPoint]
 
@@ -50,7 +48,7 @@ class AbsSemantics(val cfg: CFG) {
     val (k, v) = cp match {
       case np @ NodePoint(entry: Entry, view) =>
         val st = this(np)
-        (cyan(s"${funcOf(entry).name}:$view:ENTRY"), beautify(st))
+        (cyan(s"${cfg.funcOf(entry).name}:$view:ENTRY"), beautify(st))
       case (np: NodePoint) =>
         val st = this(np)
         (np.toString, beautify(st))
@@ -62,5 +60,11 @@ class AbsSemantics(val cfg: CFG) {
         ))
     }
     s"$k -> $v"
+  }
+
+  // get function of given control points
+  def funcOf(cp: ControlPoint): Function = cp match {
+    case NodePoint(node, _) => cfg.funcOf(node)
+    case ReturnPoint(func, _) => func
   }
 }
