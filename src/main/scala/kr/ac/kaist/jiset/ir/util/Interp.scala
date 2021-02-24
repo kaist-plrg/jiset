@@ -38,7 +38,8 @@ class Interp(
 
   // interp result
   type Result[T] = StateUpdater[T, State]
-  def pure[T](v: T): Result[T] = st => (v, st)
+  implicit def pure[T](v: T): Result[T] = st => (v, st)
+  val allocList: List[Value] => Result[Addr] = vlist => st => st.allocList(vlist)
 
   // instructions
   def interp(inst: Inst): State => State = st => preinterp(inst) match {
@@ -79,14 +80,14 @@ class Interp(
 
   // expresssions
   def interp(expr: Expr): Result[Value] = expr match {
-    case ENum(n) => pure(Num(n))
-    case EINum(n) => pure(INum(n))
-    case EBigINum(b) => pure(BigINum(b))
-    case EStr(str) => pure(Str(str))
-    case EBool(b) => pure(Bool(b))
-    case EUndef => pure(Undef)
-    case ENull => pure(Null)
-    case EAbsent => pure(Absent)
+    case ENum(n) => Num(n)
+    case EINum(n) => INum(n)
+    case EBigINum(b) => BigINum(b)
+    case EStr(str) => Str(str)
+    case EBool(b) => Bool(b)
+    case EUndef => Undef
+    case ENull => Null
+    case EAbsent => Absent
     case EPop(list, idx) => ???
     case ERef(ref) => for {
       rv <- interp(ref)
@@ -134,7 +135,7 @@ class Interp(
           v <- interp(expr)
         } yield l :+ v
       }
-      addr <- pure(vlist) ~> (st => st.allocList(vlist))
+      addr <- vlist ~> allocList
     } yield addr
     case ESymbol(desc) => for {
       v <- interp(desc)

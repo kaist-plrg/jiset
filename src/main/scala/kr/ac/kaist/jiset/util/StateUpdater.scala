@@ -13,8 +13,5 @@ trait StateUpdater[+T, S] extends (S => (T, S)) {
     val (v, s0) = this(s)
     (v, f(s0))
   }
-  def ~>[U](u: StateUpdater[U, S]): StateUpdater[U, S] = s => {
-    val (_, s0) = this(s)
-    u(s0)
-  }
+  def ~>[U](f: T => StateUpdater[U, S]): StateUpdater[U, S] = this.flatMap(f)
 }
