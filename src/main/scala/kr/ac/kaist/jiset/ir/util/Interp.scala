@@ -49,6 +49,10 @@ class Interp(
     case Str(s) => st.allocSymbol(s)
     case _ => error(s"Non string symbol given")
   }
+  val copyHelper: Value => Result[Addr] = v => st => v match {
+    case v: Addr => st.copyObj(v)
+    case _ => error(s"None address object for copy given")
+  }
 
   // instructions
   def interp(inst: Inst): State => State = st => preinterp(inst) match {
@@ -159,7 +163,10 @@ class Interp(
       v <- interp(desc)
       addr <- v ~> allocSymbol
     } yield addr
-    case ECopy(expr) => ???
+    case ECopy(expr) => for {
+      v <- interp(expr)
+      addr <- v ~> copyHelper
+    } yield addr
     case EKeys(mobj) => ???
   }
 

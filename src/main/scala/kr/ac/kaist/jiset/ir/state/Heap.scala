@@ -10,6 +10,7 @@ case class Heap(
   def get(addr: Addr): Option[Obj] = map.get(addr)
   def apply(addr: Addr): Obj = map.getOrElse(addr, error(s"Unknown address"))
 
+  // alloc
   def allocList(list: List[Value]): (Addr, Heap) = {
     val addr = DynamicAddr(size)
     val newList = ListObj(list)
@@ -27,6 +28,14 @@ case class Heap(
     val newSize = size + 1
     val newObj = SymbolObj(desc)
     (addr, Heap(map + (addr -> newObj), newSize))
+  }
+
+  // interp helpers
+  def copyObj(addr: Addr): (Addr, Heap) = {
+    val addr = DynamicAddr(size)
+    val newMap = map + (addr -> apply(addr))
+    val newSize = size + 1
+    (addr, Heap(newMap, newSize))
   }
 }
 object Heap { def apply(seq: (Addr, Obj)*): Heap = Heap(seq.toMap) }
