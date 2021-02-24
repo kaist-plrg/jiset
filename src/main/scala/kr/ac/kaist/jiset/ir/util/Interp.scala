@@ -125,15 +125,17 @@ class Interp(
     case EReturnIfAbrupt(expr, check) => ???
     case ENotSupported(msg) => error(s"Not Supported: $msg")
     // allocation expressions
-    case EMap(ty, props) => ???
+    case EMap(ty, props) =>
+      ???
     case EList(exprs) => ???
-    case ESymbol(desc) => for {
-      v <- interp(desc)
-    } yield v match {
-      // TODO need routine to get new DynamicAddr
-      case Str(s) => ???
-      case _ => error(s"Type mismatch - Str expected: ${beautify(expr)}")
-    }
+    case ESymbol(desc) =>
+      for {
+        v <- interp(desc)
+      } yield v match {
+        // TODO need routine to get new DynamicAddr
+        case Str(s) => ???
+        case _ => error(s"Type mismatch - Str expected: ${beautify(expr)}")
+      }
     case ECopy(expr) => ???
     case EKeys(mobj) => ???
   }

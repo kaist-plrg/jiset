@@ -16,5 +16,11 @@ case class Heap(
     val newMap = map + (addr -> newList)
     (addr, Heap(newMap, size + 1))
   }
+  def allocMap(ty: Ty, svMap: Map[String, Value]): (Addr, Heap) = {
+    val addr = DynamicAddr(size)
+    val newSize = size + 1
+    val newMap = MapObj(svMap)
+    (addr, Heap(map + (addr -> newMap), newSize))
+  }
 }
 object Heap { def apply(seq: (Addr, Obj)*): Heap = Heap(seq.toMap) }
