@@ -28,7 +28,9 @@ case object BuildCFG extends PhaseObj[ECMAScript, BuildCFGConfig, CFG] {
         if (config.pdf) {
           // check whether dot is available
           if (isNormalExit("dot -V")) {
-            executeCmd(s"dot -Tpdf $name.dot -o $name.pdf")
+            try executeCmd(s"dot -Tpdf $name.dot -o $name.pdf") catch {
+              case ex: Exception => println(s"[ERROR] $name: exception occur while converting to pdf")
+            }
           } else println("Dot is not installed!")
         }
       }))

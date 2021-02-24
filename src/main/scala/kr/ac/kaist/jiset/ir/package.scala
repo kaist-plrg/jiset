@@ -46,5 +46,6 @@ package object ir {
 
   // normalize strings
   def norm(str: String): String =
-    str.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")
+    str.replace("\\", "\\\\").replace("\"", "\\\"")
+      .replace("\n", "\\n").replace("\b", "\\b")
 }
