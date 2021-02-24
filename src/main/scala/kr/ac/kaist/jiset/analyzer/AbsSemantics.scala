@@ -4,17 +4,29 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.ir.{ beautify => _, _ }
+import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.CYAN
 
 class AbsSemantics(val cfg: CFG) {
-  // worklist
-  val worklist = new StackWorklist[ControlPoint]
+  // ECMAScript
+  val spec: ECMAScript = cfg.spec
 
   // internal map from control points to abstract states
-  private var npMap: Map[NodePoint, AbsState] = Map()
+  private var npMap: Map[NodePoint, AbsState] = initNpMap
   private var rpMap: Map[ReturnPoint, (AbsHeap, AbsValue)] = Map()
 
+  // worklist
+  val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
+
+  // global variables
+  val globals: Map[String, AbsValue] = Map() // TODO get from semantics
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Private Helper Functions
+  //////////////////////////////////////////////////////////////////////////////
   // lookup
   def apply(np: NodePoint): AbsState = npMap.getOrElse(np, AbsState.Bot)
   def apply(rp: ReturnPoint): (AbsHeap, AbsValue) =
@@ -36,6 +48,12 @@ class AbsSemantics(val cfg: CFG) {
       rpMap += rp -> (oldH ⊔ newH, oldV ⊔ newV)
       worklist += rp
     }
+  }
+
+  // get function of given control points
+  def funcOf(cp: ControlPoint): Function = cp match {
+    case NodePoint(node, _) => cfg.funcOf(node)
+    case ReturnPoint(func, _) => func
   }
 
   // conversion to string
@@ -62,9 +80,41 @@ class AbsSemantics(val cfg: CFG) {
     s"$k -> $v"
   }
 
-  // get function of given control points
-  def funcOf(cp: ControlPoint): Function = cp match {
-    case NodePoint(node, _) => cfg.funcOf(node)
-    case ReturnPoint(func, _) => func
+  //////////////////////////////////////////////////////////////////////////////
+  // Private Helper Functions
+  //////////////////////////////////////////////////////////////////////////////
+  // initialization of node points with abstract states
+  private def initNpMap: Map[NodePoint, AbsState] = (for {
+    func <- cfg.funcs.toList
+    (types, st) <- getTypes(func.algo.head)
+    view = View(types)
+    cp = NodePoint(func.entry, view)
+  } yield cp -> st).toMap
+
+  // target algorithms
+  private def targetPatterns = List(
+    """Literal\[.*""".r,
+    """PrimaryExpression.*IsIdentifierRef""".r,
+  )
+  private def isTarget(head: SyntaxDirectedHead): Boolean = (
+    head.withParams.isEmpty &&
+    targetPatterns.exists(_.matches(head.printName))
+  )
+
+  // initial abstract state for syntax-directed algorithms
+  private def getTypes(head: Head): List[(List[Type], AbsState)] = head match {
+    case (head: SyntaxDirectedHead) if isTarget(head) => head.optional.subsets.map(opt => {
+      var st = AbsState.Bot
+      val types: List[Type] = head.types.map {
+        case (name, _) if opt contains name =>
+          st += name -> AbsAbsent.Top
+          AbsentT
+        case (name, astName) =>
+          st += name -> AbsAST(ASTVal(astName))
+          AstT(astName)
+      }
+      (types, st)
+    }).toList
+    case _ => Nil
   }
 }

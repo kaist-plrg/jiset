@@ -13,9 +13,10 @@ trait Worklist[T] {
 }
 
 // stack-based worklist
-class StackWorklist[T] extends Worklist[T] {
-  private var stack = Stack[T]()
+class StackWorklist[T](init: Iterable[T]) extends Worklist[T] {
+  private var stack = new Stack[T]()
   private var set = Set[T]()
+  init.foreach(this += _)
   def all = set
   def +=(x: T) = if (!set.contains(x)) { stack.push(x); set += x; }
   def next =
@@ -25,9 +26,10 @@ class StackWorklist[T] extends Worklist[T] {
 }
 
 // queue-based worklist
-class QueueWorklist[T] extends Worklist[T] {
+class QueueWorklist[T](init: Iterable[T]) extends Worklist[T] {
   private var queue = Queue[T]()
   private var set = Set[T]()
+  init.foreach(this += _)
   def all = set
   def +=(x: T): Unit = if (!set.contains(x)) { queue.enqueue(x); set += x; }
   def next =

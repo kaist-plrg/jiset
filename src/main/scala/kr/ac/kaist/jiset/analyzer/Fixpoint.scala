@@ -7,39 +7,14 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 
 class Fixpoint(sem: AbsSemantics, interactMode: Boolean) {
-  // CFG
-  val cfg = sem.cfg
-
-  // interactive mode
-  var interact = interactMode
-
-  // TODO target algorithms
-  def isTarget(head: SyntaxDirectedHead): Boolean = {
-    val patterns = List(
-      """Literal\[.*""".r,
-      """PrimaryExpression.*IsIdentifierRef""".r,
-    )
-    head.withParams.isEmpty && patterns.exists(_.matches(head.printName))
-  }
-
-  // initialization
-  cfg.funcs.foreach(func => func.algo.head match {
-    case (head: SyntaxDirectedHead) if isTarget(head) =>
-      val entry = func.entry
-      Initialize(head).foreach {
-        case (types, st) =>
-          val view = View(types)
-          val cp = NodePoint(entry, view)
-          sem += cp -> st
-      }
-    case _ =>
-  })
-
   // abstract transfer function
   val transfer = new AbsTransfer(sem)
 
   // worklist
   val worklist = sem.worklist
+
+  // interactive mode
+  var interact = interactMode
 
   // fixpoint computation
   def compute: Unit = worklist.headOption.map(cp => {
