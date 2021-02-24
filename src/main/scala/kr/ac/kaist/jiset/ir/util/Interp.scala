@@ -45,6 +45,10 @@ class Interp(
       case (Str(s), v) => (s -> v)
       case _ => error(s"Non String key given")
     }).toMap)
+  val allocSymbol: Value => Result[Addr] = v => st => v match {
+    case Str(s) => st.allocSymbol(s)
+    case _ => error(s"Non string symbol given")
+  }
 
   // instructions
   def interp(inst: Inst): State => State = st => preinterp(inst) match {
@@ -153,11 +157,8 @@ class Interp(
     } yield addr
     case ESymbol(desc) => for {
       v <- interp(desc)
-    } yield v match {
-      // TODO need routine to get new DynamicAddr
-      case Str(s) => ???
-      case _ => error(s"Type mismatch - Str expected: ${beautify(expr)}")
-    }
+      addr <- v ~> allocSymbol
+    } yield addr
     case ECopy(expr) => ???
     case EKeys(mobj) => ???
   }

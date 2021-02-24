@@ -12,4 +12,8 @@ case class State(env: Env, heap: Heap) {
     val (newAddr, newHeap) = heap.allocMap(ty, svMap)
     (newAddr, copy(heap = newHeap))
   }
+  def allocSymbol(desc: String): (Addr, State) = {
+    val (newAddr, newHeap) = heap.allocSymbol(desc)
+    (newAddr, copy(heap = newHeap))
+  }
 }

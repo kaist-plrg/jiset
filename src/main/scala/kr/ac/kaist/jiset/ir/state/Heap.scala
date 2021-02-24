@@ -19,8 +19,14 @@ case class Heap(
   def allocMap(ty: Ty, svMap: Map[String, Value]): (Addr, Heap) = {
     val addr = DynamicAddr(size)
     val newSize = size + 1
-    val newMap = MapObj(svMap) // TODO where should Ty fit in?
-    (addr, Heap(map + (addr -> newMap), newSize))
+    val newObj = MapObj(svMap) // TODO where should Ty fit in?
+    (addr, Heap(map + (addr -> newObj), newSize))
+  }
+  def allocSymbol(desc: String): (Addr, Heap) = {
+    val addr = DynamicAddr(size)
+    val newSize = size + 1
+    val newObj = SymbolObj(desc)
+    (addr, Heap(map + (addr -> newObj), newSize))
   }
 }
 object Heap { def apply(seq: (Addr, Obj)*): Heap = Heap(seq.toMap) }
