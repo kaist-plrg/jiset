@@ -87,9 +87,7 @@ class Interp(
     case EUndef => (Undef, st)
     case ENull => (Null, st)
     case EAbsent => (Absent, st)
-    case EPop(list, idx) =>
-      val (l, st1) = interp(list)(st)
-      ???
+    case EPop(list, idx) => ???
     case ERef(ref) =>
       val (rv, st1) = interp(ref)(st)
       interp(rv)(st1)
@@ -127,8 +125,28 @@ class Interp(
     case ENotSupported(msg) => ???
     // allocation expressions
     case EMap(ty, props) => ???
-    case EList(exprs) => ???
-    case ESymbol(desc) => ???
+    case EList(exprs) =>
+      // TODO good, pretty, pure solution using monadic fold exists
+      def f(expr: Expr): (List[Value], State) => (List[Value], State) = (vlist, st0) => {
+        val (v, st1) = interp(expr)(st0)
+        (vlist :+ v, st1)
+      }
+      var vlist: List[Value] = Nil
+      var state = st
+      for (expr <- exprs) {
+        val stepResult = f(expr)(vlist, state)
+        vlist = stepResult._1
+        state = stepResult._2
+      }
+      val (addr, newHeap) = state.heap.allocList(vlist)
+      (addr, State(st.env, newHeap))
+    case ESymbol(desc) =>
+      val (d, st1) = interp(desc)(st)
+      d match {
+        case Str(s) =>
+          ??? // TODO need routine to get new DynamicAddr
+        case _ => error(s"Type mismatch - Str expected: ${beautify(expr)}")
+      }
     case ECopy(expr) => ???
     case EKeys(mobj) => ???
   }
@@ -137,8 +155,14 @@ class Interp(
   def interp(ref: Ref): State => (RefValue, State) = st => ref match {
     case RefId(id) => (RefValueId(id.name), st)
     case RefProp(ref, expr) =>
-      val (rv, st1) = interp(ref)(st)
-      ???
+      val (refv, st1) = interp(ref)(st)
+      val (rv, st2) = interp(refv)(st1)
+      val (pv, st3) = interp(expr)(st2)
+      (((rv, pv) match {
+        case (rv: Addr, pv: Str) => RefValueProp(rv, pv.str)
+        case (rv: Str, pv: Str) => RefValueString(rv, pv.str)
+        case _ => error(s"Not expected type in RefProp: ${beautify(expr)}")
+      }), st3)
   }
   def interp(refV: RefValue): State => (Value, State) = st => refV match {
     case RefValueId(id) => (st.env.map.getOrElse(id, Undef), st)
@@ -158,7 +182,6 @@ class Interp(
     case (OBNot, BigINum(b)) => BigINum(~b)
     case (_, value) => error(s"wrong type of value for the operator $uop: $value")
   }
-
   // binary operators
   def interp(bop: BOp): (Value, Value) => Value = (bop, _, _) match {
     // double operations
