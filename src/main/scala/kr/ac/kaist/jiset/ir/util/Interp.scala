@@ -4,6 +4,7 @@ import java.text.Normalizer._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
 import scala.concurrent.duration._
+import kr.ac.kaist.jiset.analyzer.INumT
 
 // IR Interpreter
 class Interp(
@@ -78,15 +79,36 @@ class Interp(
     case EUndef => (Undef, st)
     case ENull => (Null, st)
     case EAbsent => (Absent, st)
-    case EPop(list, idx) => ???
-    case ERef(ref) => ???
+    case EPop(list, idx) =>
+      val (l, st1) = interp(list)(st)
+      ???
+    case ERef(ref) => ref match {
+      case RefId(id) => ((st.env.map get id.name).getOrElse(Absent), st)
+      case RefProp(ref, expr) => ???
+    }
     case ECont(params, body) => ???
     // logical operations
-    case EUOp(uop, expr) => ???
-    case EBOp(OAnd, left, right) => ???
-    case EBOp(OOr, left, right) => ???
-    case EBOp(bop, left, right) => ???
-    case ETypeOf(expr) => ???
+    case EUOp(uop, expr) =>
+      val (v, st1) = interp(expr)(st)
+      (interp(uop)(v), st1)
+    /* case EBOp(OAnd, left, right) => ???
+    case EBOp(OOr, left, right) => ??? */ // ? : why separate these two cases?
+    case EBOp(bop, left, right) =>
+      val (lv, st1) = interp(left)(st)
+      val (rv, st2) = interp(right)(st1)
+      (interp(bop)(lv, rv), st2)
+    case ETypeOf(expr) =>
+      val (v, st1) = interp(expr)(st)
+      ((v match {
+        case Num(_) | INum(_) => Str("Number")
+        case BigINum(_) => Str("BigInt")
+        case Str(_) => Str("String")
+        case Bool(_) => Str("Boolean")
+        case Undef => Str("Undefined")
+        case Null => Str("Null")
+        case Absent => Str("Absent")
+        case _ => ???
+      }), st1)
     case EIsCompletion(expr) => ???
     case EIsInstanceOf(base, kind) => ???
     case EGetElems(base, kind) => ???
