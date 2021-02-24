@@ -22,7 +22,7 @@ case object BuildCFG extends PhaseObj[ECMAScript, BuildCFGConfig, CFG] {
     if (config.dot) {
       mkdir(CFG_DIR)
       val format = if (config.pdf) "DOT/PDF" else "DOT"
-      time(s"dump CFG in a $format format", cfg.funcs.foreach(f => {
+      ProgressBar(s"dump CFG in a $format format", cfg.funcs).foreach(f => {
         val name = s"${CFG_DIR}/${f.name}"
         dumpFile(f.toDot, s"$name.dot")
         if (config.pdf) {
@@ -33,7 +33,7 @@ case object BuildCFG extends PhaseObj[ECMAScript, BuildCFGConfig, CFG] {
             }
           } else println("Dot is not installed!")
         }
-      }))
+      })
     }
 
     cfg

@@ -8,11 +8,13 @@ class Fixpoint(sem: AbsSemantics) {
   val cfg = sem.cfg
 
   // TODO target algorithms
-  def isTarget(head: SyntaxDirectedHead): Boolean = (
-    head.withParams.isEmpty && (
-      head.printName.startsWith("Literal[")
+  def isTarget(head: SyntaxDirectedHead): Boolean = {
+    val patterns = List(
+      "Literal[.*",
+      // "PrimaryExpression.*IsIdentifierRef",
     )
-  )
+    head.withParams.isEmpty && patterns.exists(_.matches(head.printName))
+  }
 
   // initialization
   cfg.funcs.foreach(func => func.algo.head match {
