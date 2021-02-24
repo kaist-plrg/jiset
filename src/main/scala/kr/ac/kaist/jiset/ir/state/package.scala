@@ -1,6 +1,6 @@
-package kr.ac.kaist.jiset
+package kr.ac.kaist.jiset.ir
 
-package object analyzer {
+package object state {
   // equality between doubles
   def doubleEquals(left: Double, right: Double): Boolean = {
     if (left.isNaN && right.isNaN) true

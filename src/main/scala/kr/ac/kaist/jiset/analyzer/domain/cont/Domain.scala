@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.cont
 
-import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.ir.state.Cont
 import kr.ac.kaist.jiset.analyzer.domain._
 
 // function abstract domain

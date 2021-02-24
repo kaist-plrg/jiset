@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.refvalue
 
-import kr.ac.kaist.jiset.analyzer.RefValue
+import kr.ac.kaist.jiset.ir.state.RefValue
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.ops._
 

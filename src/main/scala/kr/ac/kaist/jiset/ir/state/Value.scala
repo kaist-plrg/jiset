@@ -1,25 +1,6 @@
-package kr.ac.kaist.jiset.analyzer
+package kr.ac.kaist.jiset.ir.state
 
 import kr.ac.kaist.jiset.cfg.Function
-
-// states
-case class State(env: Env, heap: Heap)
-
-// environments
-case class Env(map: Map[String, Value])
-object Env { def apply(seq: (String, Value)*): Env = Env(seq.toMap) }
-
-// heaps
-case class Heap(map: Map[Addr, Obj])
-object Heap { def apply(seq: (Addr, Obj)*): Heap = Heap(seq.toMap) }
-
-// objects
-sealed trait Obj
-case class SymbolObj(desc: String) extends Obj
-case class MapObj(props: Map[String, Value]) extends Obj
-object MapObj { def apply(seq: (String, Value)*): MapObj = MapObj(seq.toMap) }
-case class ListObj(values: List[Value]) extends Obj
-object ListObj { def apply(seq: Value*): ListObj = ListObj(seq.toList) }
 
 // values
 sealed trait Value
@@ -53,9 +34,3 @@ case class Bool(bool: Boolean) extends Prim
 case object Undef extends Prim
 case object Null extends Prim
 case object Absent extends Prim
-
-// reference values
-sealed trait RefValue
-case class RefValueId(id: String) extends RefValue
-case class RefValueProp(addr: Addr, prop: String) extends RefValue
-case class RefValueString(str: Str, name: String) extends RefValue

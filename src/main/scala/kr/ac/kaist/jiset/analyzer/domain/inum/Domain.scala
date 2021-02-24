@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.inum
 
-import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.ir.state.INum
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.ops._
 

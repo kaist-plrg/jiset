@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.ir.state.ASTVal
 
 object Initialize {
   // initial abstract state

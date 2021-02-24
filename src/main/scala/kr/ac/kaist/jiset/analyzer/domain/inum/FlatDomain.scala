@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.inum
 
-import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.ir.state._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object FlatDomain extends generator.FlatDomain[INum] with inum.Domain {

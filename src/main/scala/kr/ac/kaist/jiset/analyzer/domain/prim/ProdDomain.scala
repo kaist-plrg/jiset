@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.prim
 
-import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.ir.state._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object ProdDomain extends prim.Domain {
