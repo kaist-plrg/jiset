@@ -37,7 +37,12 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val aabsentFormat = simpleDomainFormat(AbsAbsent)
   implicit lazy val aprimFormat = jsonFormat8(AbsPrim.Elem)
   implicit lazy val aastFormat = setDomainFormat(AbsAST)
-  implicit lazy val acloFormat = simpleDomainFormat(AbsClo)
+  implicit lazy val acloFormat = new RootJsonFormat[AbsClo] {
+    implicit val pairFormat: JsonFormat[AbsClo.Pair] = jsonFormat2(AbsClo.Pair)
+    implicit val setFormat: JsonFormat[AbsClo.SetD] = setDomainFormat(AbsClo.SetD)
+    def read(json: JsValue): AbsClo = AbsClo.Elem(setFormat.read(json))
+    def write(clo: AbsClo): JsValue = setFormat.write(clo.set)
+  }
   implicit lazy val acontFormat = simpleDomainFormat(AbsCont)
   implicit lazy val aaddrFormat = setDomainFormat(AbsAddr)
   implicit lazy val avalueFormat = jsonFormat5(AbsValue.Elem)
@@ -79,7 +84,7 @@ object JsonProtocol extends BasicJsonProtocol {
     def write(heap: AbsHeap): JsValue = mapFormat.write(heap.map)
   }
   implicit lazy val aenvFormat: JsonFormat[AbsEnv] = new RootJsonFormat[AbsEnv] {
-    implicit val mapFormat: JsonFormat[AbsEnv.MapD] = pmapDomainFormat(AbsEnv.MapD)
+    implicit lazy val mapFormat: JsonFormat[AbsEnv.MapD] = pmapDomainFormat(AbsEnv.MapD)
     def read(json: JsValue): AbsEnv = AbsEnv.Elem(mapFormat.read(json))
     def write(env: AbsEnv): JsValue = mapFormat.write(env.map)
   }

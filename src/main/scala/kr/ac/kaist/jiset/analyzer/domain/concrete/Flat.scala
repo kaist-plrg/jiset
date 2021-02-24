@@ -11,6 +11,19 @@ sealed trait Flat[+T] {
     case Many => Many
   }
 
+  // flat map function
+  def flatMap[U](f: T => Flat[U]): Flat[U] = this match {
+    case Zero => Zero
+    case One(t) => f(t)
+    case Many => Many
+  }
+
+  // filtering
+  def withFilter(f: T => Boolean): Flat[T] = this match {
+    case One(t) => if (f(t)) One(t) else Zero
+    case _ => this
+  }
+
   // addition
   def ++[U >: T](that: Flat[U]): Flat[U] = (this, that) match {
     case (Zero, Zero) => Zero

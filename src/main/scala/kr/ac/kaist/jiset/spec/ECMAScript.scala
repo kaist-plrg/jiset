@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
+import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.InfNum
@@ -16,13 +17,13 @@ case class ECMAScript(
   section: Section
 ) {
   // normal algorithm names
-  lazy val normalAlgos: Set[String] =
-    algos.collect { case Algo(normal: NormalHead, _, _) => normal.name }.toSet
+  lazy val normalAlgos: List[Algo] =
+    algos.collect { case algo @ Algo(normal: NormalHead, _, _) => algo }
 
   // global names
   lazy val globals: Set[String] = (
     ECMAScript.PREDEF ++
-    normalAlgos ++
+    normalAlgos.map(_.name) ++
     intrinsics.map("INTRINSIC_" + _) ++
     symbols.map("SYMBOL_" + _) ++
     aoids

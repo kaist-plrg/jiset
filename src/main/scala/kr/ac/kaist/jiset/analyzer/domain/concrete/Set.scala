@@ -10,6 +10,24 @@ sealed trait Set[+T] {
     case Infinite => Infinite
   }
 
+  // flat map function
+  def flatMap[U](f: T => Set[U]): Set[U] = this match {
+    case Finite(set) => set.map(f).foldLeft[Set[U]](Finite())(_ ++ _)
+    case Infinite => Infinite
+  }
+
+  // filtering
+  def withFilter(f: T => Boolean): Set[T] = this match {
+    case Finite(set) => Finite(set filter f)
+    case Infinite => Infinite
+  }
+
+  // conversion to set
+  def toList: List[T] = this match {
+    case Finite(set) => set.toList
+    case Infinite => ???
+  }
+
   // addition
   def ++[U >: T](that: Set[U]): Set[U] = (this, that) match {
     case (Finite(l), Finite(r)) => Finite(l ++ r: SSet[U])

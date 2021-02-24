@@ -11,7 +11,7 @@ case class NamedAddr(name: String) extends Addr
 case class DynamicAddr(long: Long) extends Addr
 
 // functions
-case class Clo(func: Function, env: Env) extends Value
+case class Clo(fid: Int, env: Env = Env()) extends Value
 
 // TODO continuations
 case class Cont() extends Value

@@ -7,8 +7,8 @@ object ProdDomain extends value.Domain {
   // abstraction functions
   def alpha(v: Value): Elem = v match {
     case addr: Addr => Elem(addr = AbsAddr(addr))
-    case clo: Clo => Elem(clo = AbsClo.Top)
-    case cont: Cont => Elem(cont = AbsCont.Top)
+    case clo: Clo => Elem(clo = AbsClo(clo))
+    case cont: Cont => Elem(cont = AbsCont(cont))
     case ast: ASTVal => Elem(ast = AbsAST(ast))
     case prim: Prim => Elem(prim = AbsPrim(prim))
   }

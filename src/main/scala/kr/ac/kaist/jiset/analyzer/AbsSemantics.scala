@@ -22,10 +22,12 @@ class AbsSemantics(val cfg: CFG) {
   val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
 
   // global variables
-  val globals: Map[String, AbsValue] = Map() // TODO get from semantics
+  val globals: Map[String, AbsValue] = (for {
+    (x, v) <- cfg.initGlobals
+  } yield x -> AbsValue(v)).toMap
 
   //////////////////////////////////////////////////////////////////////////////
-  // Private Helper Functions
+  // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
   // lookup
   def apply(np: NodePoint): AbsState = npMap.getOrElse(np, AbsState.Bot)
@@ -93,8 +95,9 @@ class AbsSemantics(val cfg: CFG) {
 
   // target algorithms
   private def targetPatterns = List(
-    """Literal\[.*""".r,
-    """PrimaryExpression.*IsIdentifierRef""".r,
+    // """Literal\[.*""".r,
+    // """PrimaryExpression.*IsIdentifierRef""".r,
+    """PrimaryExpression\[0,0\].Evaluation""".r,
   )
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
     head.withParams.isEmpty &&
@@ -104,7 +107,7 @@ class AbsSemantics(val cfg: CFG) {
   // initial abstract state for syntax-directed algorithms
   private def getTypes(head: Head): List[(List[Type], AbsState)] = head match {
     case (head: SyntaxDirectedHead) if isTarget(head) => head.optional.subsets.map(opt => {
-      var st = AbsState.Bot
+      var st = AbsState.Empty
       val types: List[Type] = head.types.map {
         case (name, _) if opt contains name =>
           st += name -> AbsAbsent.Top

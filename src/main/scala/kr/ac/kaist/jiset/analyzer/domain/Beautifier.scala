@@ -4,17 +4,18 @@ import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain.combinator._
 import kr.ac.kaist.jiset.analyzer.domain.generator._
 import kr.ac.kaist.jiset.analyzer.domain.ops._
+import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.{ LINE_SEP => endl }
 
 object Beautifier {
+  import Appender._
+
   def beautify[T](x: T)(
     implicit
     append: (Appender, T) => Appender
   ): String = append(new Appender, x).toString
-
-  import Appender._
 
   // Scala value appender
   implicit lazy val strflatApp: App[StrFlat] = flatDomainApp(StrFlat, "string")
@@ -61,7 +62,17 @@ object Beautifier {
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
   implicit lazy val aaddrApp: App[AbsAddr] = setDomainApp(AbsAddr)
-  implicit lazy val acloApp: App[AbsClo] = simpleDomainApp(AbsClo, "λ")
+  implicit lazy val acloApp: App[AbsClo] = {
+    import AbsClo._
+    implicit val pairApp: App[Pair] = (app, pair) => {
+      val Pair(t, u) = pair
+      app >> "λ(" >> t >> ")"
+      if (u != AbsEnv.Empty) app >> "[" >> u >> "]"
+      else app
+    }
+    implicit val setApp = setDomainApp(AbsClo.SetD)
+    _ >> _.set
+  }
   implicit lazy val acontApp: App[AbsCont] = simpleDomainApp(AbsCont, "κ")
   implicit lazy val aastApp: App[AbsAST] = setDomainApp(AbsAST)
   implicit lazy val avalueApp: App[AbsValue] =

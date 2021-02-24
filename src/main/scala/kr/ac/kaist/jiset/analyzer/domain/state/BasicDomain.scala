@@ -55,13 +55,14 @@ object BasicDomain extends state.Domain {
     def +(pair: (String, AbsValue)): Elem = copy(env = env + pair)
 
     // update references
-    def update(refv: AbsRefValue, v: AbsValue): Elem = ???
+    def update(globals: Map[String, AbsValue], refv: AbsRefValue, v: AbsValue): Elem = ???
 
     // update references
-    def delete(refv: AbsRefValue): Elem = ???
+    def delete(globals: Map[String, AbsValue], refv: AbsRefValue): Elem = ???
 
     // lookup reference values
-    def apply(refv: AbsRefValue): AbsValue = refv.toValue(this)
+    def apply(globals: Map[String, AbsValue], refv: AbsRefValue): AbsValue =
+      refv.toValue(this, globals)
 
     // allocate a new symbol
     def allocSymbol(desc: String): (Elem, AbsValue) = ???

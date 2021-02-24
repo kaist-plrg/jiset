@@ -24,7 +24,11 @@ class Fixpoint(sem: AbsSemantics, interactMode: Boolean) {
       executeCmd(s"""dot -Tpdf "$CFG_DIR.dot" -o "$CFG_DIR.pdf"""")
       println(sem.getString(cp))
       println
-      if (scala.io.StdIn.readLine == null) interact = false
+      val str = scala.io.StdIn.readLine()
+      str match {
+        case null | "q" | "quit" | "exit" => interact = false
+        case _ =>
+      }
     }
     worklist.next
     transfer(cp)

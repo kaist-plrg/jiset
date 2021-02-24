@@ -51,7 +51,7 @@ package object domain {
   type AbsCont = AbsCont.Elem
 
   // abstract function closures
-  lazy val AbsClo = clo.SimpleDomain
+  lazy val AbsClo = clo.SetDomain
   type AbsClo = AbsClo.Elem
 
   // abstract AST values

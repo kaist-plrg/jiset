@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
-import domain._
+import kr.ac.kaist.jiset.analyzer.domain._
 
 // abstract transfer function
 class AbsTransfer(sem: AbsSemantics) {
@@ -55,10 +55,10 @@ class AbsTransfer(sem: AbsSemantics) {
       case IAssign(ref, expr) =>
         val (s0, refv) = transfer(st, ref)
         val (s1, v) = transfer(s0, refv)
-        s1.update(refv, v)
+        s1.update(sem.globals, refv, v)
       case IDelete(ref) =>
         val (s0, refv) = transfer(st, ref)
-        s0.delete(refv)
+        s0.delete(sem.globals, refv)
       case IAppend(expr, list) =>
         val (s0, v) = transfer(st, expr)
         val (s1, l) = transfer(s0, list)
@@ -83,8 +83,10 @@ class AbsTransfer(sem: AbsSemantics) {
       st: AbsState,
       inst: CallInst
     ): (AbsState, List[NodePoint]) = inst match {
-      case IApp(id, fexpr, args) => ???
-      case IAccess(id, bexpr, expr) =>
+      case IApp(Id(x), fexpr, args) =>
+        val (s0, f) = transfer(st, fexpr)
+        ???
+      case IAccess(Id(x), bexpr, expr) =>
         val (s0, b) = transfer(st, bexpr)
         val (s1, p) = transfer(s0, expr)
         val v: AbsValue = (b.getSingle, p.getSingle) match {
@@ -95,7 +97,7 @@ class AbsTransfer(sem: AbsSemantics) {
           }
           case _ => ???
         }
-        (st + (id.name -> v), Nil) // TODO handling call cases
+        (st + (x -> v), Nil) // TODO handling call cases
     }
 
     // transfer function for expressions
@@ -134,8 +136,8 @@ class AbsTransfer(sem: AbsSemantics) {
         val (s1, k) = transfer(s0, idx)
         s1.pop(l, k)
       case ERef(ref) =>
-        val (s0, refVal) = transfer(st, ref)
-        (s0, s0(refVal))
+        val (s0, refv) = transfer(st, ref)
+        (s0, s0(sem.globals, refv))
       case ECont(params, body) => ???
       case EUOp(uop, expr) =>
         val (s0, v) = transfer(st, expr)

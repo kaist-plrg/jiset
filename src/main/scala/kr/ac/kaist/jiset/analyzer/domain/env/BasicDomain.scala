@@ -37,7 +37,10 @@ object BasicDomain extends env.Domain {
     def getSingle: concrete.Flat[Env] = Many
 
     // lookup identifiers
-    def apply(name: String): AbsValue = map(name).value // TODO handling undefined variables
+    def apply(name: String): (AbsValue, AbsAbsent) = {
+      val vopt = map(name)
+      (vopt.value, vopt.absent)
+    }
 
     // define variable
     def +(pair: (String, AbsValue)): Elem = copy(map = map + pair)
