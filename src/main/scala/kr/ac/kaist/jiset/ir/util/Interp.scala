@@ -40,6 +40,11 @@ class Interp(
   type Result[T] = StateUpdater[T, State]
   implicit def pure[T](v: T): Result[T] = st => (v, st)
   val allocList: List[Value] => Result[Addr] = vlist => st => st.allocList(vlist)
+  def allocMap(ty: Ty): List[(Value, Value)] => Result[Addr] =
+    mlist => st => st.allocMap(ty, mlist.map({
+      case (Str(s), v) => (s -> v)
+      case _ => error(s"Non String key given")
+    }).toMap)
 
   // instructions
   def interp(inst: Inst): State => State = st => preinterp(inst) match {
@@ -127,7 +132,16 @@ class Interp(
     case ENotSupported(msg) =>
       error(s"Not Supported: $msg")
     // allocation expressions
-    case EMap(ty, props) => ???
+    case EMap(ty, props) => for {
+      mlist <- props.foldLeft(pure(List.empty[(Value, Value)])) {
+        case (updater, (e1, e2)) => for {
+          l <- updater
+          v1 <- interp(e1)
+          v2 <- interp(e2)
+        } yield l :+ (v1, v2)
+      }
+      addr <- mlist ~> allocMap(ty)
+    } yield addr
     case EList(exprs) => for {
       vlist <- exprs.foldLeft(pure(List.empty[Value])) {
         case (updater, expr) => for {

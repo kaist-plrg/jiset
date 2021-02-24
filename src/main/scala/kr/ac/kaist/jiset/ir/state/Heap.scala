@@ -19,7 +19,7 @@ case class Heap(
   def allocMap(ty: Ty, svMap: Map[String, Value]): (Addr, Heap) = {
     val addr = DynamicAddr(size)
     val newSize = size + 1
-    val newMap = MapObj(svMap)
+    val newMap = MapObj(svMap) // TODO where should Ty fit in?
     (addr, Heap(map + (addr -> newMap), newSize))
   }
 }
