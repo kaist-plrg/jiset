@@ -15,6 +15,7 @@ class Interp(
   var recentInst: Option[Inst] = None
 
   def apply(inst: Inst) = interp(inst)
+  def apply(insts: List[Inst]) = interp(ISeq(insts))
   def apply(st: State) = fixpoint(st)
 
   // perform transition until instructions are empty
