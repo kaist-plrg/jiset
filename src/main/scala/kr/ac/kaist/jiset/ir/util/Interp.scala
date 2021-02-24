@@ -123,19 +123,26 @@ class Interp(
     case EConvert(expr, cop, l) => ???
     case EContains(list, elem) => ???
     case EReturnIfAbrupt(expr, check) => ???
-    case ENotSupported(msg) => error(s"Not Supported: $msg")
+    case ENotSupported(msg) =>
+      error(s"Not Supported: $msg")
     // allocation expressions
-    case EMap(ty, props) =>
-      ???
-    case EList(exprs) => ???
-    case ESymbol(desc) =>
-      for {
-        v <- interp(desc)
-      } yield v match {
-        // TODO need routine to get new DynamicAddr
-        case Str(s) => ???
-        case _ => error(s"Type mismatch - Str expected: ${beautify(expr)}")
+    case EMap(ty, props) => ???
+    case EList(exprs) => for {
+      vlist <- exprs.foldLeft(pure(List.empty[Value])) {
+        case (updater, expr) => for {
+          l <- updater
+          v <- interp(expr)
+        } yield l :+ v
       }
+      addr <- pure(vlist) ~> (st => st.allocList(vlist))
+    } yield addr
+    case ESymbol(desc) => for {
+      v <- interp(desc)
+    } yield v match {
+      // TODO need routine to get new DynamicAddr
+      case Str(s) => ???
+      case _ => error(s"Type mismatch - Str expected: ${beautify(expr)}")
+    }
     case ECopy(expr) => ???
     case EKeys(mobj) => ???
   }
