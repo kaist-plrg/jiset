@@ -120,9 +120,19 @@ class Interp(
     case EGetSyntax(base) => ???
     case EParseSyntax(code, rule, flags) => ???
     case EConvert(expr, cop, l) => ???
-    case EContains(list, elem) => ???
+    case EContains(list, elem) =>
+      val (l, s0) = interp(list)(st)
+      l match {
+        case (addr: Addr) => s0.heap(addr) match {
+          case ListObj(vs) =>
+            val (v, s1) = interp(elem)(s0)
+            (Bool(vs contains v), s1)
+          case _ => error(s"Not an ListObj: ${beautify(expr)}")
+        }
+        case _ => error(s"Not an address: ${beautify(expr)}")
+      }
     case EReturnIfAbrupt(expr, check) => ???
-    case ENotSupported(msg) => ???
+    case ENotSupported(msg) => error(s"Not Supported: $msg")
     // allocation expressions
     case EMap(ty, props) => ???
     case EList(exprs) =>
