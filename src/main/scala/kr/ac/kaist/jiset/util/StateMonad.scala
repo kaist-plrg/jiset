@@ -28,6 +28,9 @@ class StateMonad[S] {
     def ^^^[U](v: U): Result[U] = this ^^ { case (_, s) => (v, s) }
   }
 
+  // convert function to result type
+  def id[T](f: S => (T, S)): Result[T] = s => f(s)
+
   // update type
   type Updater = S => S
 
@@ -39,6 +42,9 @@ class StateMonad[S] {
 
   // modify the current state
   implicit def modify(f: Updater): Result[Unit] = s => ((), f(s))
+
+  // conversion to updater
+  implicit def toUpdater(m: Result[_]): Updater = s => m(s)._2
 
   // list of updaters to list of results
   implicit def listModify(list: List[Updater]): List[Result[Unit]] = list.map(modify)
