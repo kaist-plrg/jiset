@@ -22,7 +22,10 @@ class BasicSmallTest extends IRTest {
     "assign1.ir",
     "list1.ir",
     "map1.ir",
-    "map2.ir"
+    "map2.ir",
+    "prop-delete1.ir",
+    "prop-delete2.ir",
+    "delete1.ir"
   )
 
   // registration

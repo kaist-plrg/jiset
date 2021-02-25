@@ -38,6 +38,12 @@ case class Heap(
     copy(map = map + (addr -> obj))
   }
 
+  // deleted
+  def deleted(addr: Addr, prop: String): Heap = this(addr) match {
+    case MapObj(props) => copy(map = map + (addr -> MapObj(props - prop)))
+    case obj @ _ => error(s"not a map: $obj")
+  }
+
   // alloc
   def allocList(list: List[Value]): (Addr, Heap) = {
     val addr = DynamicAddr(size)

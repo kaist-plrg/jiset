@@ -60,7 +60,10 @@ class Interp(
       v <- interp(expr)
       _ <- modify(_.updated(rv, v))
     } yield ()
-    case IDelete(ref) => ???
+    case IDelete(ref) => for {
+      rv <- interp(ref)
+      _ <- modify(_.deleted(rv))
+    } yield ()
     case IAppend(expr, list) => ???
     case IPrepend(expr, list) => ???
     case IReturn(expr) => ???

@@ -51,4 +51,11 @@ case class State(env: Env, heap: Heap) {
     case RefValueProp(addr, key) => copy(heap = heap.updated(addr, key, v))
     case _ => error(s"illegal reference update: $refV = $v")
   }
+
+  // setter
+  def deleted(refV: RefValue): State = refV match {
+    case RefValueId(id) => copy(env = env.deleted(id))
+    case RefValueProp(addr, key) => copy(heap = heap.deleted(addr, key))
+    case _ => error(s"illegal reference delete: $refV")
+  }
 }
