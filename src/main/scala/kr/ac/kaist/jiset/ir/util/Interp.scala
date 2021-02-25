@@ -123,7 +123,17 @@ class Interp(
     case EGetSyntax(base) => ???
     case EParseSyntax(code, rule, flags) => ???
     case EConvert(expr, cop, l) => ???
-    case EContains(list, elem) => ???
+    case EContains(list, elem) => (for {
+      l <- interp(list)
+      v <- interp(elem)
+    } yield (l, v)) ^^ {
+      case ((l: Addr, v), st) =>
+        st.heap(l) match {
+          case ListObj(vs) => (Bool(vs contains v), st)
+          case _ => error("Not ListObj")
+        }
+      case _ => error(s"Not Addr given in ${beautify(expr)}")
+    }
     case EReturnIfAbrupt(expr, check) => ???
     case ENotSupported(msg) =>
       error(s"Not Supported: $msg")
