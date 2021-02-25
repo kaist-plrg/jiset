@@ -122,7 +122,7 @@ class Interp(
     case EConvert(expr, cop, l) => (interp(expr) ~ join(l.map(interp))) map {
       case (Str(s), _) if cop == CStrToNum => Num(ESValueParser.str2num(s))
       // TODO Str -> BigInt parser
-      case (Str(s), _) if cop == CStrToBigInt => ??? 
+      case (Str(s), _) if cop == CStrToBigInt => ???
       case (INum(n), lvs) if cop == CNumToStr => {
         val radix = lvs.headOption.getOrElse(INum(10)) match {
           case INum(n) => n.toInt
@@ -133,10 +133,10 @@ class Interp(
       }
       case (INum(n), lvs) if cop == CNumToInt => INum(n)
       // TODO Int -> BigInt parser
-      case (Num(d), lvs) if cop == CNumToBigInt => ??? 
+      case (Num(d), lvs) if cop == CNumToBigInt => ???
       case (BigINum(bi), lvs) if cop == CBigIntToNum => ???
       case _ => error(s"Type and COp missmatch for EConvert: ${beautify(expr)}")
-    } 
+    }
     case EContains(list, elem) => (interp(list) ~ interp(elem)) flatMap {
       case (a: Addr, elem) => _.contains(a, elem)
       case _ => error(s"Not an address")
@@ -156,18 +156,18 @@ class Interp(
       vs <- join(exprs.map(interp))
       a <- id(_.allocList(vs))
     } yield a
-    case ESymbol(desc) => interp(desc) flatMap {
-      case Str(s) => _.allocSymbol(s)
-      case _ => error(s"Non string given for ESymbol: ${beautify(expr)}")
-    }
-    case ECopy(expr) => interp(expr) flatMap {
-      case a: Addr => _.copyObj(a)
-      case _ => error(s"None address object for ECopy given: ${beautify(expr)}")
-    }
-    case EKeys(mobj) => interp(expr) flatMap {
-      case a: Addr => _.mapObjKeys(a)
-      case _ => error(s"None map object for EKeys given: ${beautify(expr)}")
-    }
+    case ESymbol(desc) => for {
+      v <- interp(desc)
+      a <- id(_.allocSymbol(v.to[Str]))
+    } yield a
+    case ECopy(expr) => for {
+      v <- interp(expr)
+      a <- id(_.copyObj(v.to[Addr]))
+    } yield a
+    case EKeys(mobj) => for {
+      v <- interp(mobj)
+      a <- id(_.mapObjKeys(v.to[Addr]))
+    } yield a
   }
 
   // references
