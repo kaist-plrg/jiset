@@ -33,7 +33,7 @@ class DotPrinter {
   val REACH = "black"
   val NON_REACH = "gray"
   val NORMAL = "white"
-  val CURRENT = "blue"
+  val CURRENT = "powderblue"
   val IN_WORKLIST = "gray"
 
   // get colors
