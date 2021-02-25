@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.StateMonad
-import kr.ac.kaist.jiset.util.StateMonad._
 import scala.annotation.tailrec
 import scala.concurrent.duration._
 import kr.ac.kaist.jiset.analyzer.INumT
@@ -36,8 +35,9 @@ class Interp(
     inst
   }
 
-  // interp result
-  type Result[T] = StateMonad[T, State]
+  // result of abstract transfer
+  val monad = new StateMonad[State]
+  import monad._
 
   // instructions
   def interp(inst: Inst): Result[Unit] = preinterp(inst) match {
