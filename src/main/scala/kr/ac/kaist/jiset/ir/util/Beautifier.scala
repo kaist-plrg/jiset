@@ -1,272 +1,241 @@
 package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.LINE_SEP
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.ir._
 
 // IR Beautifier
 object Beautifier {
-  // beautify
-  def beautify(
-    node: IRNode,
-    indent: String,
-    detail: Boolean,
-    index: Boolean,
-    exprId: Boolean
+  import Appender._
+
+  private var indent: String = ""
+  private var detail: Boolean = true
+  private var index: Boolean = false
+  private var exprId: Boolean = false
+
+  // visible length when `detail` is false
+  private val VISIBLE_LENGTH = 10
+
+  // tab string
+  val TAB = "  "
+
+  def beautify[T <: IRNode](
+    node: T,
+    indent: String = "",
+    detail: Boolean = true,
+    index: Boolean = false,
+    exprId: Boolean = false
+  )(
+    implicit
+    append: (Appender, T) => Appender
   ): String = {
-    val walker = new BeautifierWalker
-    walker.sb = new StringBuilder
-    walker.indent = LINE_SEP + indent
-    walker.detail = detail
-    walker.index = index
-    walker.exprId = exprId
-    walker.walk(node)
-    walker.sb.toString
+    this.indent = LINE_SEP + indent
+    this.detail = detail
+    this.index = index
+    this.exprId = exprId
+    append(new Appender, node).toString
   }
 
-  // walker for beautifier
-  private class BeautifierWalker extends UnitWalker {
-    // visible length when `detail` is false
-    val VISIBLE_LENGTH = 10
-
-    // string builder
-    var sb: StringBuilder = null
-
-    // current indentation
-    var indent: String = null
-
-    // option for detailed information
-    var detail: Boolean = false
-
-    // shows index of instructions
-    var index: Boolean = false
-
-    // shows uid of expressions
-    var exprId: Boolean = false
-
-    // tab string
-    val TAB = "  "
-
-    // go one more depth
-    def oneDepth(doit: => Unit): Unit = {
-      val oldIndent = indent
-      indent = indent + TAB
-      doit
-      indent = oldIndent
+  // irnode
+  implicit lazy val IRNodeApp: App[IRNode] = (app, node) => {
+    node match {
+      case node: Inst => InstApp(app, node)
+      case node: Expr => ExprApp(app, node)
+      case node: Ref => RefApp(app, node)
+      case node: Ty => TyApp(app, node)
+      case node: Id => IdApp(app, node)
+      case node: UOp => UOpApp(app, node)
+      case node: BOp => BOpApp(app, node)
+      case node: COp => COpApp(app, node)
     }
+  }
 
-    // strings
-    override def walk(str: String): Unit = sb.append(str)
+  // lists
+  def ListApp[T <: IRNode](
+    app: Appender,
+    list: List[T]
+  ): Appender = {
+    val oldIndent = indent
+    indent = indent + TAB
+    list.foreach { case t => app >> indent >> t }
+    indent = oldIndent
+    app
+  }
 
-    // lists
-    override def walkList[T](
-      list: List[T],
-      tWalk: T => Unit
-    ): Unit = oneDepth(list.foreach {
-      case t => sb.append(indent); tWalk(t)
-    })
+  // lists with separator
+  def ListSepApp[T <: IRNode](
+    app: Appender,
+    list: List[T],
+    sep: String
+  ): Appender = list match {
+    case Nil => app
+    case h :: t =>
+      t.foldLeft(app >> h)((app, e) => app >> sep >> e)
+  }
 
-    // lists with separator
-    def walkListSep[T](
-      list: List[T],
-      sep: String,
-      tWalk: T => Unit
-    ): Unit = list match {
-      case Nil =>
+  // map with separator
+  def MapSepApp[T <: (IRNode, IRNode)](
+    app: Appender,
+    map: List[T],
+    sep: String
+  ): Appender = map match {
+    case Nil => app
+    case h :: t =>
+      t.foldLeft(app >> h._1 >> " -> " >> h._2)((app, e) =>
+        app >> sep >> e._1 >> " -> " >> e._2)
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // Syntax
+  ////////////////////////////////////////////////////////////////////////////////
+  def detailApp(app: Appender, inst: Inst): Appender =
+    if (detail) app >> inst else app >> "..."
+
+  // instructions
+  implicit lazy val InstApp: App[Inst] = (app, inst) => {
+    val k = inst.line
+    if (index && k != -1) app >> s"$k:"
+    inst match {
+      case IExpr(expr) => app >> expr
+      case ILet(id, expr) => app >> "let " >> id >> " = " >> expr
+      case IAssign(ref, expr) => app >> ref >> " = " >> expr
+      case IDelete(ref) => app >> "delete " >> ref
+      case IAppend(expr, list) => app >> "append " >> expr >> " -> " >> list
+      case IPrepend(expr, list) => app >> "prepend " >> expr >> " -> " >> list
+      case IReturn(expr) => app >> "return " >> expr
+      case IThrow(id) => app >> "throw " >> id
+      case IIf(cond, thenInst, elseInst) =>
+        app >> "if " >> cond >> " "
+        detailApp(app, thenInst) >> " else "
+        detailApp(app, elseInst)
+      case IWhile(cond, body) => app >> "while " >> cond >> " " >> body
+      case ISeq(insts) =>
+        app >> "{"
+        if (insts.length > 0) {
+          if (detail) { ListApp[Inst](app, insts) >> indent }
+          else app >> " ... "
+        }
+        app >> "}"
+      case IAssert(expr) => app >> "assert " >> expr
+      case IPrint(expr) => app >> "print " >> expr
+      case IApp(id, fexpr, args) =>
+        app >> "app " >> id >> " = (" >> fexpr >> " "
+        ListSepApp[Expr](app, args, " ") >> ")"
+      case IAccess(id, bexpr, expr) =>
+        app >> "access " >> id >> " = (" >> bexpr >> " " >> expr >> ")"
+      case IWithCont(id, params, inst) =>
+        app >> "withcont " >> id >> " ("
+        ListSepApp[Id](app, params, ", ") >> ") ="
+        detailApp(app, inst)
+      case ISetType(expr, ty) => app >> "set-type " >> expr >> " " >> ty
+    }
+  }
+
+  // expressions
+  implicit lazy val ExprApp: App[Expr] = (app, expr) => {
+    expr match {
+      case expr: AllocExpr if exprId && expr.asite != -1 =>
+        app >> s"(${expr.asite})"
       case _ =>
-        list.foreach { case t => tWalk(t); walk(sep) }
-        sb.delete(sb.length - sep.length, sb.length)
     }
-
-    // maps
-    override def walkMap[K, V](
-      map: Map[K, V],
-      kWalk: K => Unit,
-      vWalk: V => Unit
-    ): Unit = if (!map.isEmpty) oneDepth(map.foreach {
-      case (k, v) => walk(indent); kWalk(k); walk(" -> "); vWalk(v)
-    })
-
-    // maps with separator
-    def walkMapSep[K, V](
-      map: Map[K, V],
-      sep: String,
-      kWalk: K => Unit,
-      vWalk: V => Unit
-    ): Unit = {
-      map.foreach { case (k, v) => kWalk(k); walk(" -> "); vWalk(v); walk(sep) }
-      sb.dropRight(sep.length)
+    expr match {
+      case ENum(n) => app >> s"$n"
+      case EINum(n) => app >> s"${n}i"
+      case EBigINum(b) => app >> s"${b}n"
+      case EStr(str) => app >> "\"" + norm(str) + "\""
+      case EBool(b) => app >> s"$b"
+      case EUndef => app >> "undefined"
+      case ENull => app >> "null"
+      case EAbsent => app >> "absent"
+      case EMap(ty, props) =>
+        app >> "(new " >> ty >> "("
+        MapSepApp[(Expr, Expr)](app, props, ", ") >> "))"
+      case EList(exprs) =>
+        app >> "(new ["
+        ListSepApp[Expr](app, exprs, ", ") >> "])"
+      case ESymbol(desc) => app >> "(new '" >> desc >> ")"
+      case EPop(list, idx) => app >> "(pop " >> list >> " " >> idx >> ")"
+      case ERef(ref) => app >> ref
+      case ECont(params, body) =>
+        app >> "("
+        ListSepApp[Id](app, params, ", ") >> ") [=>] "
+        detailApp(app, body)
+      case EUOp(uop, expr) => app >> "(" >> uop >> " " >> expr >> ")"
+      case EBOp(bop, left, right) =>
+        app >> "(" >> bop >> " " >> left >> " " >> right >> ")"
+      case ETypeOf(expr) => app >> "(typeof " >> expr >> ")"
+      case EIsCompletion(expr) => app >> "(is-completion " >> expr >> ")"
+      case EIsInstanceOf(base, name) =>
+        app >> "(is-instance-of " >> base >> " " >> name >> ")"
+      case EGetElems(base, name) =>
+        app >> "(get-elems " >> base >> " " >> name >> ")"
+      case EGetSyntax(base) => app >> "(get-syntax " >> base >> ")"
+      case EParseSyntax(code, rule, flags) =>
+        app >> "(parse-syntax " >> code >> " " >> rule >> " " >> flags >> ")"
+      case EConvert(expr, cop, list) =>
+        app >> "(convert " >> expr >> " " >> cop >> " "
+        ListSepApp[Expr](app, list, " ") >> ")"
+      case EContains(list, elem) =>
+        app >> "(contains " >> list >> " " >> elem >> ")"
+      case EReturnIfAbrupt(expr, check) =>
+        if (check) app >> "[? " else app >> "[! "
+        app >> expr >> "]"
+      case ECopy(obj) => app >> "(copy-obj " >> obj >> ")"
+      case EKeys(obj) => app >> "(map-keys " >> obj >> ")"
+      case ENotSupported(msg) => app >> "??? \"" >> norm(msg) >> "\""
     }
-
-    ////////////////////////////////////////////////////////////////////////////////
-    // Syntax
-    ////////////////////////////////////////////////////////////////////////////////
-    def detailWalk(inst: Inst): Unit =
-      if (detail) walk(inst) else walk("...")
-
-    // instructions
-    override def walk(inst: Inst): Unit = {
-      val k = inst.line
-      if (index && k != -1) walk(s"$k:")
-      inst match {
-        case IExpr(expr) =>
-          walk(expr)
-        case ILet(id, expr) =>
-          walk("let "); walk(id); walk(" = "); walk(expr)
-        case IAssign(ref, expr) =>
-          walk(ref); walk(" = "); walk(expr)
-        case IDelete(ref) =>
-          walk("delete "); walk(ref)
-        case IAppend(expr, list) =>
-          walk("append "); walk(expr); walk(" -> "); walk(list)
-        case IPrepend(expr, list) =>
-          walk("prepend "); walk(expr); walk(" -> "); walk(list)
-        case IReturn(expr) =>
-          walk("return "); walk(expr)
-        case IThrow(id) =>
-          walk("throw "); walk(id)
-        case IIf(cond, thenInst, elseInst) =>
-          walk("if "); walk(cond); walk(" "); detailWalk(thenInst)
-          walk(" else "); detailWalk(elseInst)
-        case IWhile(cond, body) =>
-          walk("while "); walk(cond); walk(" "); walk(body)
-        case ISeq(insts) =>
-          walk("{");
-          if (insts.length > 0) {
-            if (detail) { walkList[Inst](insts, walk); walk(indent); }
-            else walk(" ... ")
-          }
-          walk("}")
-        case IAssert(expr) =>
-          walk("assert "); walk(expr)
-        case IPrint(expr) =>
-          walk("print "); walk(expr)
-        case IApp(id, fexpr, args) =>
-          walk("app "); walk(id); walk(" = ("); walk(fexpr);
-          walk(" "); walkListSep[Expr](args, " ", walk); walk(")")
-        case IAccess(id, bexpr, expr) =>
-          walk("access "); walk(id); walk(" = ("); walk(bexpr); walk(" "); walk(expr); walk(")")
-        case IWithCont(id, params, inst) =>
-          walk("withcont "); walk(id); walk(" (");
-          walkListSep[Id](params, ", ", walk); walk(") ="); detailWalk(inst)
-        case ISetType(expr, ty) =>
-          walk("set-type "); walk(expr); walk(" "); walk(ty)
-      }
-    }
-
-    // expressions
-    override def walk(expr: Expr): Unit = {
-      expr match {
-        case expr: AllocExpr =>
-          if (exprId && expr.asite != -1) walk(s"(${expr.asite})")
-        case _ =>
-      }
-      expr match {
-        case ENum(n) => walk(s"$n")
-        case EINum(n) => walk(s"${n}i")
-        case EBigINum(b) => walk(s"${b}n")
-        case EStr(str) => walk("\"" + norm(str) + "\"")
-        case EBool(b) => walk(s"$b")
-        case EUndef => walk("undefined")
-        case ENull => walk("null")
-        case EAbsent => walk("absent")
-        case EMap(ty, props) =>
-          walk("(new "); walk(ty); walk("("); walkListSep[(Expr, Expr)](props, ", ", {
-            case (k, v) => walk(k); walk(" -> "); walk(v)
-          }); walk("))")
-        case EList(exprs) =>
-          walk("(new ["); walkListSep[Expr](exprs, ", ", walk); walk("])");
-        case ESymbol(desc) =>
-          walk("(new '"); walk(desc); walk(")");
-        case EPop(list, idx) =>
-          walk("(pop "); walk(list); walk(" "); walk(idx); walk(")")
-        case ERef(ref) => walk(ref)
-        case ECont(params, body) =>
-          walk("("); walkListSep[Id](params, ", ", walk);
-          walk(") [=>] ")
-          detailWalk(body)
-        case EUOp(uop, expr) =>
-          walk("("); walk(uop); walk(" "); walk(expr); walk(")")
-        case EBOp(bop, left, right) =>
-          walk("("); walk(bop); walk(" "); walk(left); walk(" "); walk(right); walk(")")
-        case ETypeOf(expr) =>
-          walk("(typeof "); walk(expr); walk(")")
-        case EIsCompletion(expr) =>
-          walk("(is-completion "); walk(expr); walk(")")
-        case EIsInstanceOf(base, name) =>
-          walk("(is-instance-of "); walk(base); walk(" "); walk(name); walk(")")
-        case EGetElems(base, name) =>
-          walk("(get-elems "); walk(base); walk(" "); walk(name); walk(")")
-        case EGetSyntax(base) =>
-          walk("(get-syntax "); walk(base); walk(")")
-        case EParseSyntax(code, rule, flags) =>
-          walk("(parse-syntax "); walk(code); walk(" "); walk(rule); walk(" "); walk(flags); walk(")")
-        case EConvert(expr, cop, list) =>
-          walk("(convert "); walk(expr); walk(" "); walk(cop); walk(" "); walkListSep[Expr](list, " ", walk); walk(")")
-        case EContains(list, elem) =>
-          walk("(contains "); walk(list); walk(" "); walk(elem); walk(")")
-        case EReturnIfAbrupt(expr, check) =>
-          if (check) walk("[? ") else walk("[! "); walk(expr); walk("]")
-        case ECopy(obj) =>
-          walk("(copy-obj "); walk(obj); walk(")")
-        case EKeys(obj) =>
-          walk("(map-keys "); walk(obj); walk(")")
-        case ENotSupported(msg) =>
-          walk("??? \""); walk(norm(msg)); walk("\"")
-      }
-    }
-
-    // references
-    override def walk(ref: Ref): Unit = ref match {
-      case RefId(id) => walk(id)
-      case RefProp(ref, EStr(str)) if !exprId =>
-        walk(ref); walk("."); walk(str)
-      case RefProp(ref, expr) =>
-        walk(ref); walk("["); walk(expr); walk("]")
-    }
-
-    // types
-    override def walk(ty: Ty): Unit = walk(ty.name)
-
-    // identifiers
-    override def walk(id: Id): Unit = walk(id.name)
-
-    // unary operators
-    override def walk(uop: UOp): Unit = walk(uop match {
-      case ONeg => "-"
-      case ONot => "!"
-      case OBNot => "~"
-    })
-
-    // binary operators
-    override def walk(bop: BOp): Unit = walk(bop match {
-      case OPlus => "+"
-      case OSub => "-"
-      case OMul => "*"
-      case OPow => "**"
-      case ODiv => "/"
-      case OUMod => "%%"
-      case OMod => "%"
-      case OEq => "="
-      case OEqual => "=="
-      case OAnd => "&&"
-      case OOr => "||"
-      case OXor => "^^"
-      case OBAnd => "&"
-      case OBOr => "|"
-      case OBXOr => "^"
-      case OLShift => "<<"
-      case OLt => "<"
-      case OURShift => ">>>"
-      case OSRShift => ">>"
-    })
-
-    // convert operators
-    override def walk(cop: COp): Unit = walk(cop match {
-      case CStrToNum => "str2num"
-      case CStrToBigInt => "str2bigint"
-      case CNumToStr => "num2str"
-      case CNumToInt => "num2int"
-      case CNumToBigInt => "num2bigint"
-      case CBigIntToNum => "bigint2num"
-    })
   }
+
+  // ref
+  implicit lazy val RefApp: App[Ref] = (app, ref) => ref match {
+    case RefId(id) => app >> id
+    case RefProp(ref, EStr(str)) if !exprId => app >> ref >> "." >> str
+    case RefProp(ref, expr) => app >> ref >> "[" >> expr >> "]"
+  }
+
+  // types
+  implicit lazy val TyApp: App[Ty] = (app, ty) => app >> ty.name
+
+  // identifiers
+  implicit lazy val IdApp: App[Id] = (app, id) => app >> id.name
+
+  // unary operators
+  implicit lazy val UOpApp: App[UOp] = (app, uop) => app >> (uop match {
+    case ONeg => "-"
+    case ONot => "!"
+    case OBNot => "~"
+  })
+
+  // binary operators
+  implicit lazy val BOpApp: App[BOp] = (app, bop) => app >> (bop match {
+    case OPlus => "+"
+    case OSub => "-"
+    case OMul => "*"
+    case OPow => "**"
+    case ODiv => "/"
+    case OUMod => "%%"
+    case OMod => "%"
+    case OEq => "="
+    case OEqual => "=="
+    case OAnd => "&&"
+    case OOr => "||"
+    case OXor => "^^"
+    case OBAnd => "&"
+    case OBOr => "|"
+    case OBXOr => "^"
+    case OLShift => "<<"
+    case OLt => "<"
+    case OURShift => ">>>"
+    case OSRShift => ">>"
+  })
+
+  // convert operators
+  implicit lazy val COpApp: App[COp] = (app, cop) => app >> (cop match {
+    case CStrToNum => "str2num"
+    case CStrToBigInt => "str2bigint"
+    case CNumToStr => "num2str"
+    case CNumToInt => "num2int"
+    case CNumToBigInt => "num2bigint"
+    case CBigIntToNum => "bigint2num"
+  })
 }

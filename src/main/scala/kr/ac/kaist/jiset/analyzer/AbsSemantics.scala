@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.ir.{ beautify => _, _ }
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._

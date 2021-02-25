@@ -4,15 +4,6 @@ import java.text.Normalizer._
 import kr.ac.kaist.jiset.util.Useful.error
 
 package object ir {
-  // beautify
-  def beautify(
-    node: IRNode,
-    indent: String = "",
-    detail: Boolean = true,
-    index: Boolean = false,
-    exprId: Boolean = false
-  ): String = Beautifier.beautify(node, indent, detail, index, exprId)
-
   // equality between doubles
   def doubleEquals(left: Double, right: Double): Boolean = {
     if (left.isNaN && right.isNaN) true

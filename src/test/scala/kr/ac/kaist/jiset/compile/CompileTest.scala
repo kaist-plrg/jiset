@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.compile
 
+import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.algorithm.{ Compiler, TokenParser }

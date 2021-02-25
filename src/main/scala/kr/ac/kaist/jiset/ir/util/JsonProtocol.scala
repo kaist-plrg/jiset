@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.ir.Parser._
+import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.util.BasicJsonProtocol
 import spray.json._
 

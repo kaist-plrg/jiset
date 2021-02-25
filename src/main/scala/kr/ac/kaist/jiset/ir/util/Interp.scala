@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.StateMonad
+import kr.ac.kaist.jiset.ir.Beautifier._
 import scala.annotation.tailrec
 import scala.concurrent.duration._
 import kr.ac.kaist.jiset.analyzer.INumT
