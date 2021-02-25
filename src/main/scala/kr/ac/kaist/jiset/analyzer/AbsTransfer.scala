@@ -1,9 +1,11 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.{ beautify => irBeautify, _ }
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.util.Useful._
 
 // abstract transfer function
 class AbsTransfer(sem: AbsSemantics) {
@@ -29,23 +31,20 @@ class AbsTransfer(sem: AbsSemantics) {
       case (entry: Entry) =>
         sem += NodePoint(next(entry), view) -> st
       case (exit: Exit) => // TODO detect missing return
-      case (block: Block) => for {
-        _ <- join(block.insts.map(transfer))
-        st <- get
-      } sem += NodePoint(next(block), view) -> st
-      case call @ Call(inst) => for {
-        _ <- transfer(inst)
-        st <- get
-      } sem += NodePoint(next(call), view) -> st
-      case branch @ Branch(expr) => for {
-        v <- transfer(expr)
-        st <- get
-      } v.bool.toSet.foreach {
-        case true =>
-          sem += NodePoint(thenNext(branch), view) -> prune(expr, true)(st)
-        case false =>
-          sem += NodePoint(elseNext(branch), view) -> prune(expr, false)(st)
-      }
+      case (block: Block) =>
+        val newSt = join(block.insts.map(transfer))(st)
+        sem += NodePoint(next(block), view) -> newSt
+      case call @ Call(inst) =>
+        val newSt = transfer(inst)(st)
+        sem += NodePoint(next(call), view) -> newSt
+      case branch @ Branch(expr) =>
+        val (v, newSt) = transfer(expr)(st)
+        v.bool.toSet.foreach {
+          case true =>
+            sem += NodePoint(thenNext(branch), view) -> prune(expr, true)(st)
+          case false =>
+            sem += NodePoint(elseNext(branch), view) -> prune(expr, false)(st)
+        }
     }
   }
 
@@ -56,154 +55,162 @@ class AbsTransfer(sem: AbsSemantics) {
 
   private class Helper(ret: ReturnPoint) {
     // transfer function for normal instructions
-    def transfer(inst: NormalInst): Updater = ???
-    // inst match {
-    //   case IExpr(expr) =>
-    //     val (s0, _) = transfer(st, expr)
-    //     s0
-    //   case ILet(id, expr) =>
-    //     val (s0, v) = transfer(st, expr)
-    //     s0 + (id.name -> v)
-    //   case IAssign(ref, expr) =>
-    //     val (s0, refv) = transfer(st, ref)
-    //     val (s1, v) = transfer(s0, refv)
-    //     s1.update(sem.globals, refv, v)
-    //   case IDelete(ref) =>
-    //     val (s0, refv) = transfer(st, ref)
-    //     s0.delete(sem.globals, refv)
-    //   case IAppend(expr, list) =>
-    //     val (s0, v) = transfer(st, expr)
-    //     val (s1, l) = transfer(s0, list)
-    //     s1.append(v, l.addr)
-    //   case IPrepend(expr, list) =>
-    //     val (s0, v) = transfer(st, expr)
-    //     val (s1, l) = transfer(s0, list)
-    //     s1.prepend(v, l.addr)
-    //   case IReturn(expr) =>
-    //     val (s0, v) = transfer(st, expr)
-    //     sem.doReturn(ret -> (s0.heap, v))
-    //     AbsState.Bot
-    //   case IThrow(id) => ???
-    //   case IAssert(expr) => ???
-    //   case IPrint(expr) => ???
-    //   case IWithCont(id, params, bodyInst) => ???
-    //   case ISetType(expr, ty) => ???
-    // }
+    def transfer(inst: NormalInst): Updater = inst match {
+      case IExpr(expr) => transfer(expr)
+      case ILet(Id(x), expr) => for {
+        v <- transfer(expr)
+        _ <- modify(_ + (x -> v))
+      } yield ()
+      case IAssign(ref, expr) => for {
+        refv <- transfer(ref)
+        v <- transfer(refv)
+        _ <- modify(_.update(sem.globals, refv, v))
+      } yield ()
+      case IDelete(ref) => for {
+        refv <- transfer(ref)
+        _ <- modify(_.delete(sem.globals, refv))
+      } yield ()
+      case IAppend(expr, list) => for {
+        v <- transfer(expr)
+        l <- transfer(list)
+        _ <- modify(_.append(v, l.addr))
+      } yield ()
+      case IPrepend(expr, list) => for {
+        v <- transfer(expr)
+        l <- transfer(list)
+        _ <- modify(_.prepend(v, l.addr))
+      } yield ()
+      case IReturn(expr) => for {
+        v <- transfer(expr)
+        st <- get
+        _ <- put(AbsState.Bot)
+      } yield sem.doReturn(ret -> (st.heap, v))
+      case IThrow(id) => ???
+      case IAssert(expr) => ???
+      case IPrint(expr) => ???
+      case IWithCont(id, params, bodyInst) => ???
+      case ISetType(expr, ty) => ???
+      case _ => ???
+    }
 
     // transfer function for call instructions
-    def transfer(inst: CallInst): Updater = ???
-    // inst match {
-    //   case IApp(Id(x), fexpr, args) =>
-    //     val (s0, f) = transfer(st, fexpr)
-    //     ???
-    //   case IAccess(Id(x), bexpr, expr) =>
-    //     val (s0, b) = transfer(st, bexpr)
-    //     val (s1, p) = transfer(s0, expr)
-    //     val v: AbsValue = (b.getSingle, p.getSingle) match {
-    //       case (One(ASTVal(ast)), One(Str(name))) => (ast, name) match {
-    //         case ("NumericLiteral", "NumericValue") => numTop
-    //         case ("StringLiteral", "StringValue") => strTop
-    //         case _ => ???
-    //       }
-    //       case _ => ???
-    //     }
-    //     (st + (x -> v), Nil) // TODO handling call cases
-    // }
+    def transfer(inst: CallInst): Updater = inst match {
+      case IApp(Id(x), fexpr, args) => for {
+        f <- transfer(fexpr)
+      } yield ???
+      case IAccess(Id(x), bexpr, expr) => for {
+        b <- transfer(bexpr)
+        p <- transfer(expr)
+        v = (b.getSingle, p.getSingle) match {
+          case (One(ASTVal(ast)), One(Str(name))) => (ast, name) match {
+            case ("NumericLiteral", "NumericValue") => numTop
+            case ("StringLiteral", "StringValue") => strTop
+            case _ => ???
+          }
+          case _ => ???
+        }
+        _ <- modify(_ + (x -> v)) // TODO handling call cases
+      } yield ()
+    }
 
     // transfer function for expressions
     // TODO consider the completion records
-    def transfer(expr: Expr): Result[AbsValue] = ???
-    // expr match {
-    //   case ENum(n) => (st, AbsNum(n))
-    //   case EINum(n) => (st, AbsINum(n))
-    //   case EBigINum(b) => (st, AbsBigINum(b))
-    //   case EStr(str) => (st, AbsStr(str))
-    //   case EBool(b) => (st, AbsBool(b))
-    //   case EUndef => (st, AbsUndef.Top)
-    //   case ENull => (st, AbsNull.Top)
-    //   case EAbsent => (st, AbsAbsent.Top)
-    //   case EMap(ty, props) =>
-    //     // TODO handling type information
-    //     val (newSt, map) = props.foldLeft((st, Map[String, AbsValue]())) {
-    //       case ((s0, map), (EStr(k), expr)) =>
-    //         val (s1, v) = transfer(s0, expr)
-    //         (s1, map + (k -> v))
-    //       case _ => ??? // TODO handling non-string keys
-    //     }
-    //     newSt.allocMap(map)
-    //   case EList(exprs) =>
-    //     val (newSt, vs) = exprs.foldLeft((st, Vector[AbsValue]())) {
-    //       case ((s0, vs), expr) =>
-    //         val (s1, v) = transfer(s0, expr)
-    //         (s1, vs :+ v)
-    //     }
-    //     newSt.allocList(vs.toList)
-    //   case ESymbol(desc) => desc match {
-    //     case EStr(desc) => st.allocSymbol(desc)
-    //     case _ => ??? // TODO handling non-string descriptions
-    //   }
-    //   case EPop(list, idx) =>
-    //     val (s0, l) = transfer(st, list)
-    //     val (s1, k) = transfer(s0, idx)
-    //     s1.pop(l, k)
-    //   case ERef(ref) =>
-    //     val (s0, refv) = transfer(st, ref)
-    //     (s0, s0(sem.globals, refv))
-    //   case ECont(params, body) => ???
-    //   case EUOp(uop, expr) =>
-    //     val (s0, v) = transfer(st, expr)
-    //     (s0, transfer(uop)(v))
-    //   case EBOp(bop, left, right) =>
-    //     val (s0, l) = transfer(st, left)
-    //     val (s1, r) = transfer(st, right)
-    //     (s1, transfer(bop)(l, r))
-    //   case ETypeOf(expr) =>
-    //     val (s0, v) = transfer(st, expr)
-    //     (s0, s0.typeOf(v))
-    //   case EIsCompletion(expr) =>
-    //     val (s0, v) = transfer(st, expr)
-    //     ??? // TODO after discussing the completion structures
-    //   case EIsInstanceOf(base, name) =>
-    //     val (s0, v) = transfer(st, expr)
-    //     ??? // TODO need discussion
-    //   case EGetElems(base, name) =>
-    //     val (s0, v) = transfer(st, expr)
-    //     ??? // TODO need discussion
-    //   case EGetSyntax(base) => (st, AbsStr.Top) // TODO handling non-AST values
-    //   case EParseSyntax(code, rule, flags) =>
-    //     val (s0, c) = transfer(st, code)
-    //     val (s1, r) = transfer(s0, rule)
-    //     // XXX maybe flags are not necessary in abstract semantics
-    //     ???
-    //   case EConvert(source, target, flags) =>
-    //     val (s0, v) = transfer(st, source)
-    //     ??? // TODO need discussion
-    //   case EContains(list, elem) =>
-    //     val (s0, l) = transfer(st, list)
-    //     val (s1, e) = transfer(s0, elem)
-    //     (s1, s1.contains(l, e))
-    //   case EReturnIfAbrupt(expr, check) =>
-    //     transfer(st, expr) // TODO support abrupt completion check
-    //   case ECopy(obj) =>
-    //     val (s0, v) = transfer(st, obj)
-    //     s0.copyOf(v)
-    //   case EKeys(obj) =>
-    //     val (s0, v) = transfer(st, obj)
-    //     s0.keysOf(v)
-    //   case ENotSupported(msg) =>
-    //     ??? // TODO need discussion
-    // }
+    def transfer(expr: Expr): Result[AbsValue] = expr match {
+      case ENum(n) => AbsValue(n)
+      case EINum(n) => AbsValue(n)
+      case EBigINum(b) => AbsValue(b)
+      case EStr(str) => AbsValue(str)
+      case EBool(b) => AbsValue(b)
+      case EUndef => AbsValue(Undef)
+      case ENull => AbsValue(Null)
+      case EAbsent => AbsValue(Absent)
+      case EMap(ty, props) => for {
+        vs <- join(props.map {
+          case (kexpr, vexpr) => for {
+            v <- transfer(expr)
+            k = kexpr.to[EStr](???).str
+          } yield k -> v
+        })
+        // TODO handling type information
+        a <- id(_.allocMap(vs.toMap))
+      } yield a
+      case EList(exprs) => for {
+        vs <- join(exprs.map(transfer))
+        a <- id(_.allocList(vs.toList))
+      } yield a
+      case ESymbol(desc) =>
+        // TODO handling non-string descriptions
+        _.allocSymbol(desc.to[EStr](???).str)
+      case EPop(list, idx) => for {
+        l <- transfer(list)
+        k <- transfer(idx)
+        a <- id(_.pop(l, k))
+      } yield a
+      case ERef(ref) => for {
+        refv <- transfer(ref)
+        v <- get(_(sem.globals, refv))
+      } yield v
+      // TODO after discussing the continuations
+      case ECont(params, body) => ???
+      case EUOp(uop, expr) => for {
+        v <- transfer(expr)
+        u = transfer(uop)(v)
+      } yield u
+      case EBOp(bop, left, right) => for {
+        l <- transfer(left)
+        r <- transfer(right)
+        v = transfer(bop)(l, r)
+      } yield v
+      case ETypeOf(expr) => for {
+        v <- transfer(expr)
+        t <- get(_.typeOf(v))
+      } yield t
+      case EIsCompletion(expr) => for {
+        v <- transfer(expr)
+      } yield ??? // TODO after discussing the completion structures
+      case EIsInstanceOf(base, name) => for {
+        v <- transfer(expr)
+      } yield ??? // TODO need discussion
+      case EGetElems(base, name) => for {
+        v <- transfer(expr)
+      } yield ??? // TODO need discussion
+      case EGetSyntax(base) => strTop // TODO handling non-AST values
+      case EParseSyntax(code, rule, flags) => for {
+        c <- transfer(code)
+        r <- transfer(rule)
+        // XXX maybe flags are not necessary in abstract semantics
+      } yield ???
+      case EConvert(source, target, flags) => for {
+        v <- transfer(source)
+      } yield ??? // TODO need discussion
+      case EContains(list, elem) => for {
+        l <- transfer(list)
+        e <- transfer(elem)
+        c <- get(_.contains(l, e))
+      } yield c
+      case EReturnIfAbrupt(expr, check) =>
+        transfer(expr) // TODO support abrupt completion check
+      case ECopy(obj) => for {
+        v <- transfer(obj)
+        a <- id(_.copyOf(v))
+      } yield a
+      case EKeys(obj) => for {
+        v <- transfer(obj)
+        a <- id(_.keysOf(v))
+      } yield a
+      case ENotSupported(msg) => ??? // TODO need discussion
+    }
 
     // transfer function for reference values
-    def transfer(ref: Ref): Result[AbsRefValue] = ???
-    // ref match {
-    //   case RefId(id) => (st, AbsRefValue.Id(id.name))
-    //   case RefProp(ref, expr) =>
-    //     val (s0, rv) = transfer(st, ref)
-    //     val (s1, b) = transfer(s0, rv)
-    //     val (s2, p) = transfer(s0, expr)
-    //     (s2, AbsRefValue(b, p.str)) // TODO handle non-string properties
-    // }
+    def transfer(ref: Ref): Result[AbsRefValue] = ref match {
+      case RefId(id) => AbsRefValue.Id(id.name)
+      case RefProp(ref, expr) => for {
+        rv <- transfer(ref)
+        b <- transfer(rv)
+        p <- transfer(expr)
+        r <- AbsRefValue(b, p.str)
+      } yield r // TODO handle non-string properties
+    }
 
     // transfer function for reference values
     def transfer(refv: AbsRefValue): Result[AbsValue] = ???

@@ -1,13 +1,8 @@
 package kr.ac.kaist.jiset.util
+
 class StateMonad[S] {
   // result type
   trait Result[+T] extends (S => (T, S)) {
-    // foreach function
-    def foreach[U](f: T => U): Result[Unit] = s => {
-      val (_, s0) = this(s)
-      ((), s0)
-    }
-
     // map function
     def map[U](f: T => U): Result[U] = s => {
       val (v, s0) = this(s)
@@ -34,7 +29,7 @@ class StateMonad[S] {
   def get: Result[S] = s => (s, s)
 
   // get a property of the current state
-  def gets[A](f: S => A): Result[A] = s => (f(s), s)
+  def get[A](f: S => A): Result[A] = s => (f(s), s)
 
   // modify the current state
   implicit def modify(f: Updater): Result[Unit] = s => ((), f(s))
@@ -43,7 +38,8 @@ class StateMonad[S] {
   implicit def toUpdater(m: Result[_]): Updater = s => m(s)._2
 
   // list of updaters to list of results
-  implicit def listModify(list: List[Updater]): List[Result[Unit]] = list.map(modify)
+  implicit def listModify(list: List[Updater]): List[Result[Unit]] =
+    list.map(modify)
 
   // pur a new state as the current state
   def put(s: S): Result[Unit] = _ => ((), s)
@@ -52,13 +48,15 @@ class StateMonad[S] {
   implicit def pure[T](v: T): Result[T] = s => (v, s)
 
   // join a list of state monads to a state monad of lists
-  def join[T](
-    iter: Iterable[Result[T]]
-  ): Result[List[T]] = {
-    if (iter.isEmpty) Nil
-    else for {
-      h <- iter.head
-      t <- join(iter.tail)
-    } yield h :: t
-  }
+  def join[T](iter: Iterable[Result[T]]): Result[List[T]] =
+    iter.foldRight(pure(List[T]())) {
+      case (lm, rm) => for {
+        l <- lm
+        r <- rm
+      } yield l :: r
+    }
+  def join[T](iter: Iterable[Updater]): Updater =
+    iter.foldRight[Updater](st => st) {
+      case (f, g) => st => f(g(st))
+    }
 }

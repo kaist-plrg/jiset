@@ -95,9 +95,9 @@ class AbsSemantics(val cfg: CFG) {
 
   // target algorithms
   private def targetPatterns = List(
-    // """Literal\[.*""".r,
-    // """PrimaryExpression.*IsIdentifierRef""".r,
-    """PrimaryExpression\[0,0\].Evaluation""".r,
+    """Literal\[.*""".r,
+    """PrimaryExpression.*IsIdentifierRef""".r,
+  // """PrimaryExpression\[0,0\].Evaluation""".r,
   )
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
     head.withParams.isEmpty &&

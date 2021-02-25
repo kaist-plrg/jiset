@@ -65,13 +65,13 @@ object BasicDomain extends state.Domain {
       refv.toValue(this, globals)
 
     // allocate a new symbol
-    def allocSymbol(desc: String): (Elem, AbsValue) = ???
+    def allocSymbol(desc: String): (AbsValue, Elem) = ???
 
     // allocate a new map
-    def allocMap(props: Map[String, AbsValue]): (Elem, AbsValue) = ???
+    def allocMap(props: Map[String, AbsValue]): (AbsValue, Elem) = ???
 
     // allocate a new list
-    def allocList(vs: List[AbsValue]): (Elem, AbsValue) = ???
+    def allocList(vs: List[AbsValue]): (AbsValue, Elem) = ???
 
     // append an element to a list
     def append(v: AbsValue, addr: AbsAddr): Elem = ???
@@ -80,13 +80,13 @@ object BasicDomain extends state.Domain {
     def prepend(v: AbsValue, addr: AbsAddr): Elem = ???
 
     // copy an object
-    def copyOf(v: AbsValue): (Elem, AbsValue) = ???
+    def copyOf(v: AbsValue): (AbsValue, Elem) = ???
 
     // get keys of an object
-    def keysOf(v: AbsValue): (Elem, AbsValue) = ???
+    def keysOf(v: AbsValue): (AbsValue, Elem) = ???
 
     // pop a value from a list
-    def pop(list: AbsValue, idx: AbsValue): (Elem, AbsValue) = ???
+    def pop(list: AbsValue, idx: AbsValue): (AbsValue, Elem) = ???
 
     // get type of values
     def typeOf(v: AbsValue): AbsValue = ???
