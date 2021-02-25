@@ -7,8 +7,36 @@ case class Heap(
   map: Map[Addr, Obj],
   size: Long = 0L
 ) {
+  // getter
   def get(addr: Addr): Option[Obj] = map.get(addr)
   def apply(addr: Addr): Obj = map.getOrElse(addr, error(s"Unknown address"))
+  def apply(addr: Addr, prop: String): Value = this(addr) match {
+    case MapObj(props) => props.getOrElse(prop, Absent)
+    case ListObj(values) => prop match {
+      case "length" => INum(values.length)
+      case _ =>
+        val idx = prop.toInt
+        if (0 <= idx && idx < values.length) values(idx)
+        else Absent
+    }
+    case SymbolObj(desc) => prop match {
+      case "Description" => Str(desc)
+      case _ => error(s"an invalid symbol field access: $prop")
+    }
+  }
+
+  // updated
+  def updated(addr: Addr, key: String, v: Value): Heap = {
+    val obj = this(addr) match {
+      case MapObj(props) => MapObj(props + (key -> v))
+      case ListObj(values) =>
+        val idx = key.toInt
+        if (idx < 0 || idx >= values.length) error(s"Out of range: $idx of $this")
+        ListObj(values.updated(idx, v))
+      case _ => error(s"not a map or list: $v")
+    }
+    copy(map = map + (addr -> obj))
+  }
 
   // alloc
   def allocList(list: List[Value]): (Addr, Heap) = {

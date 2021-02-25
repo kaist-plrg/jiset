@@ -16,6 +16,8 @@ trait StateMonad[+T, S] extends (S => (T, S)) {
 
   // XXX remove this method after refactoring
   @deprecated("this method will be removed")
+  def ~[U](monad: StateMonad[U, S]): StateMonad[(T, U), S] =
+    for { v0 <- this; v1 <- monad } yield (v0, v1)
   def ^^[U](f: ((T, S)) => (U, S)): StateMonad[U, S] = s => f(this(s))
   def ^^^[U](v: U): StateMonad[U, S] = this ^^ { case (_, s) => (v, s) }
 }

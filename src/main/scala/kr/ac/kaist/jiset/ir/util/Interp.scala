@@ -1,6 +1,5 @@
 package kr.ac.kaist.jiset.ir
 
-import java.text.Normalizer._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.StateMonad
 import kr.ac.kaist.jiset.util.StateMonad._
@@ -49,9 +48,11 @@ class Interp(
     case IApp(id, fexpr, args) => ???
     case IAccess(id, bexpr, expr) => ???
     // normal instuctions
-    case IExpr(expr) => ???
-    case ILet(id, expr) => ???
-    case IAssign(ref, expr) => ???
+    case IExpr(expr) => interp(expr) ^^^ ()
+    case ILet(id, expr) => interp(expr) ^^ { case (v, st) => st.define(id, v) }
+    case IAssign(ref, expr) => interp(ref) ~ interp(expr) ^^ {
+      case ((rv, v), st) => st.updated(rv, v)
+    }
     case IDelete(ref) => ???
     case IAppend(expr, list) => ???
     case IPrepend(expr, list) => ???
@@ -65,9 +66,7 @@ class Interp(
       case Bool(false) => error(s"assertion failure: ${beautify(expr)}")
       case _ => error(s"assertion is not a boolean: $v")
     }
-    case IPrint(expr) => interp(expr) ^^ {
-      case (v, st) => (if (!silent) Helper.print(st, v), st)
-    }
+    case IPrint(expr) => interp(expr).map(v => if (!silent) println(v))
     case IWithCont(id, params, body) => ???
     case ISetType(expr, ty) => ???
   }
@@ -174,24 +173,24 @@ class Interp(
 
   // references
   def interp(ref: Ref): Result[RefValue] = ref match {
-    case RefId(id) => pure(RefValueId(id.name))
+    case RefId(id) => RefValueId(id.name)
     case RefProp(ref, expr) => for {
       rv <- interp(ref)
       bv <- interp(rv)
       pv <- interp(expr)
     } yield (bv, pv) match {
       case (bv: Addr, pv: Str) => RefValueProp(bv, pv.str)
+      case (bv: Addr, pv: INum) => RefValueProp(bv, pv.long.toString)
       case (bv: Str, pv: Str) => RefValueString(bv, pv.str)
+      case (bv: Str, pv: INum) => RefValueString(bv, pv.long.toString)
       case _ => error(s"Not expected type in RefProp: ${beautify(expr)}")
     }
 
   }
   def interp(refV: RefValue): Result[Value] = st => refV match {
-    case RefValueId(id) => (st.env.map.getOrElse(id, Absent), st)
-    case RefValueProp(addr, value) => ???
-    case RefValueString(str, value) => (value match {
-      case "length" => INum(str.str.length)
-    }, st)
+    case RefValueId(id) => st.get(id)
+    case RefValueProp(addr, prop) => st.get(addr, prop)
+    case RefValueString(Str(str), prop) => st.get(str, prop)
   }
 
   // unary operators
@@ -317,24 +316,7 @@ class Interp(
 
     case (_, lval, rval) => error(s"wrong type: $lval $bop $rval")
   }
-  private def modulo(l: BigInt, r: BigInt): BigInt = l % r
-  private def unsigned_modulo(l: BigInt, r: BigInt): BigInt = {
-    val m = l % r
-    if (m * r < 0) m + r
-    else m
-  }
-  private def modulo(l: BigInt, r: Long): BigInt = l % r
-  private def unsigned_modulo(l: BigInt, r: Long): BigInt = {
-    val m = l % r
-    if (m * r < 0) m + r
-    else m
-  }
-  private def modulo(l: Double, r: Double): Double = l % r
-  private def unsigned_modulo(l: Double, r: Double): Double = {
-    val m = l % r
-    if (m * r < 0.0) m + r
-    else m
-  }
+
   // short circuit evaluation
   def shortCircuit(
     bop: BOp,
@@ -351,20 +333,5 @@ class Interp(
         case (Bool(l), Bool(r)) => (Bool(op(l, r)), s1)
         case (lval, rval) => error(s"wrong type: $lval $bop $rval")
       }
-  }
-
-  // catch and set undefined
-  def catchUndef(v: => Value): Value = try v catch { case _: Throwable => Undef }
-
-  // string operations
-  def stringOp(str: String, prop: Value): Value = prop match {
-    case Str("length") => INum(str.length)
-    case Str("normNFC") => Str(normalize(str, Form.NFC))
-    case Str("normNFD") => Str(normalize(str, Form.NFD))
-    case Str("normNFKC") => Str(normalize(str, Form.NFKC))
-    case Str("normNFKD") => Str(normalize(str, Form.NFKD))
-    case INum(k) => Str(str(k.toInt).toString)
-    case Num(k) => Str(str(k.toInt).toString)
-    case v => error(s"wrong access of string reference: $str.$v")
   }
 }

@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.cfg.Function
+import kr.ac.kaist.jiset.util.Useful._
 
 // states
 case class State(env: Env, heap: Heap) {
@@ -27,5 +28,21 @@ case class State(env: Env, heap: Heap) {
   def pop(addr: Addr, idx: Value): (Value, State) = {
     val (newAddr, newHeap) = heap.pop(addr, idx)
     (newAddr, copy(heap = newHeap))
+  }
+
+  // define new environment id
+  def define(id: Id, v: Value): (Unit, State) =
+    ((), copy(env = env.define(id.name, v)))
+
+  // getter
+  def get(id: String): (Value, State) = (env(id), this)
+  def get(addr: Addr, prop: String): (Value, State) = (heap(addr, prop), this)
+  def get(str: String, prop: String): (Value, State) = (stringOp(str, prop), this)
+
+  // setter
+  def updated(refV: RefValue, v: Value): (Unit, State) = refV match {
+    case RefValueId(id) => ((), copy(env = env.define(id, v)))
+    case RefValueProp(addr, key) => ((), copy(heap = heap.updated(addr, key, v)))
+    case _ => error(s"illegal reference update: $refV = $v")
   }
 }
