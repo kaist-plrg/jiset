@@ -64,4 +64,7 @@ case class State(env: Env, heap: Heap) {
 
   // prepend
   def prepend(addr: Addr, v: Value): State = copy(heap = heap.prepend(addr, v))
+
+  // set type
+  def setType(addr: Addr, ty: Ty): State = copy(heap = heap.setType(addr, ty))
 }

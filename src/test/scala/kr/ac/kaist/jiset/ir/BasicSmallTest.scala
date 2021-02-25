@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset._
 
 class BasicSmallTest extends IRTest {
   def test(path: String): Unit = {
-    val interp = new Interp(isDebug = false, silent = true, timeLimit = Some(3))
+    val interp = new Interp(isDebug = false, silent = false, timeLimit = Some(3))
     val insts = Parser.fileToInsts(path)
     val emptyState = State(Env(), Heap())
     interp(insts)(emptyState)
@@ -26,6 +26,7 @@ class BasicSmallTest extends IRTest {
     "list4.ir",
     "map1.ir",
     "map2.ir",
+    "map3.ir",
     "prop-delete1.ir",
     "prop-delete2.ir",
     "delete1.ir"

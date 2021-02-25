@@ -76,6 +76,7 @@ class Interp(
     } yield ()
     case IReturn(expr) => ???
     case IThrow(id) => ???
+    case IWithCont(id, params, body) => ???
     case ISeq(newInsts) => join(newInsts.map(interp))
     case IAssert(expr) => interp(expr) map {
       case Bool(true) =>
@@ -83,8 +84,10 @@ class Interp(
       case v @ _ => error(s"assertion is not a boolean: $v")
     }
     case IPrint(expr) => interp(expr).map(v => if (!silent) println(v))
-    case IWithCont(id, params, body) => ???
-    case ISetType(expr, ty) => ???
+    case ISetType(expr, ty) => for {
+      v <- interp(expr)
+      _ <- modify(_.setType(v.to[Addr], ty))
+    } yield ()
   }
 
   // expresssions

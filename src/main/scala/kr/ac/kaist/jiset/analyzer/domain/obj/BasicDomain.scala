@@ -19,7 +19,7 @@ object BasicDomain extends obj.Domain {
   // abstraction function
   def alpha(obj: Obj): Elem = obj match {
     case SymbolObj(desc) => Elem(symbol = SymbolD(desc))
-    case MapObj(props) => Elem(map = MapD(props))
+    case MapObj(_, props) => Elem(map = MapD(props))
     case ListObj(values) => Elem(list = ListD(values))
   }
 

@@ -11,7 +11,7 @@ case class Heap(
   def get(addr: Addr): Option[Obj] = map.get(addr)
   def apply(addr: Addr): Obj = map.getOrElse(addr, error(s"Unknown address"))
   def apply(addr: Addr, prop: String): Value = this(addr) match {
-    case MapObj(props) => props.getOrElse(prop, Absent)
+    case MapObj(_, props) => props.getOrElse(prop, Absent)
     case ListObj(values) => prop match {
       case "length" => INum(values.length)
       case _ =>
@@ -28,7 +28,7 @@ case class Heap(
   // updated
   def updated(addr: Addr, key: String, v: Value): Heap = {
     val obj = this(addr) match {
-      case MapObj(props) => MapObj(props + (key -> v))
+      case MapObj(ty, props) => MapObj(ty, props + (key -> v))
       case ListObj(values) =>
         val idx = key.toInt
         if (idx < 0 || idx >= values.length) error(s"Out of range: $idx of $this")
@@ -40,7 +40,7 @@ case class Heap(
 
   // deleted
   def deleted(addr: Addr, prop: String): Heap = this(addr) match {
-    case MapObj(props) => copy(map = map + (addr -> MapObj(props - prop)))
+    case MapObj(ty, props) => copy(map = map + (addr -> MapObj(ty, props - prop)))
     case obj @ _ => error(s"not a map: $obj")
   }
 
@@ -56,6 +56,12 @@ case class Heap(
     case obj @ _ => error(s"not a list: $obj")
   }
 
+  // set type
+  def setType(addr: Addr, ty: Ty): Heap = this(addr) match {
+    case MapObj(ty, props) => copy(map = map + (addr -> MapObj(ty, props)))
+    case obj @ _ => error(s"not a list: $obj")
+  }
+
   // alloc
   def allocList(list: List[Value]): (Addr, Heap) = {
     val addr = DynamicAddr(size)
@@ -66,7 +72,7 @@ case class Heap(
   def allocMap(ty: Ty, svMap: Map[String, Value]): (Addr, Heap) = {
     val addr = DynamicAddr(size)
     val newSize = size + 1
-    val newObj = MapObj(svMap) // TODO where should Ty fit in?
+    val newObj = MapObj(ty, svMap)
     (addr, Heap(map + (addr -> newObj), newSize))
   }
   def allocSymbol(desc: String): (Addr, Heap) = {

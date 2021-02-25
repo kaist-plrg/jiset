@@ -9,8 +9,10 @@ sealed trait Obj
 case class SymbolObj(desc: String) extends Obj
 
 // maps
-case class MapObj(props: Map[String, Value]) extends Obj
-object MapObj { def apply(seq: (String, Value)*): MapObj = MapObj(seq.toMap) }
+case class MapObj(ty: Ty, props: Map[String, Value]) extends Obj
+object MapObj {
+  def apply(ty: Ty, seq: (String, Value)*): MapObj = MapObj(ty, seq.toMap)
+}
 
 // lists
 case class ListObj(values: List[Value]) extends Obj {

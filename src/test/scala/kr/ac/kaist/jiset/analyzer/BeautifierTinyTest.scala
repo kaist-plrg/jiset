@@ -68,18 +68,18 @@ class BeautifierTinyTest extends AnalyzerTest {
 
     test("Abstract Objects")(
       AbsObj(SymbolObj("has"), SymbolObj("get")) -> "@(has | get)",
-      AbsObj(MapObj("x" -> true, "y" -> 2), MapObj("x" -> "a", "z" -> Null)) -> """{
+      AbsObj(MapObj(Ty(""), "x" -> true, "y" -> 2), MapObj(Ty(""), "x" -> "a", "z" -> Null)) -> """{
       |  x -> ! "a" | true
       |  y -> ? 2i
       |  z -> ? null
       |}""".stripMargin,
       AbsObj(ListObj(Undef, true, 42)) -> "[undef, true, 42i]",
-      AbsObj(SymbolObj("has"), MapObj(), ListObj()) -> "@has | {} | []",
+      AbsObj(SymbolObj("has"), MapObj(Ty("")), ListObj()) -> "@has | {} | []",
     )
 
     val heap = AbsHeap(Heap(
       NamedAddr("Global") -> SymbolObj("has"),
-      DynamicAddr(42) -> MapObj(),
+      DynamicAddr(42) -> MapObj(Ty("")),
     ))
     test("Abstract Heaps")(
       heap -> """{
