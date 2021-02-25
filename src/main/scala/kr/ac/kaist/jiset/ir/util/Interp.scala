@@ -5,6 +5,8 @@ import kr.ac.kaist.jiset.util.StateMonad
 import scala.annotation.tailrec
 import scala.concurrent.duration._
 import kr.ac.kaist.jiset.analyzer.INumT
+import kr.ac.kaist.jiset.ir.util.ESValueParser
+import kr.ac.kaist.jiset.ir.util.Helper
 
 // IR Interpreter
 class Interp(
@@ -121,7 +123,25 @@ class Interp(
     case EGetElems(base, kind) => ???
     case EGetSyntax(base) => ???
     case EParseSyntax(code, rule, flags) => ???
-    case EConvert(expr, cop, l) => ???
+    case EConvert(expr, cop, l) => (for {
+      v <- interp(expr)
+      lvs <- join(l.map(interp))
+    } yield (v, cop, lvs)) ^^ {
+      case ((Str(s), CStrToNum, _), st) => (Num(ESValueParser.str2num(s)), st)
+      case ((Str(s), CStrToBigInt, _), st) => ??? // TODO Str -> BigInt parser
+      case ((INum(n), CNumToStr, lvs), st) => {
+        val radix = lvs.headOption.getOrElse(INum(10)) match {
+          case INum(n) => n.toInt
+          case Num(n) => n.toInt
+          case _ => error(s"Radix not int")
+        }
+        (Str(Helper.toStringHelper(n, radix)), st)
+      }
+      case ((INum(n), CNumToInt, lvs), st) => (INum(n), st)
+      case ((Num(d), CNumToBigInt, lvs), st) => ??? // TODO Int -> BigInt parser
+      case ((BigINum(bi), CBigIntToNum, lvs), st) => ???
+      case _ => error(s"Type and COp missmatch for EConvert: ${beautify(expr)}")
+    } // TODO refactor util/{ESValueParser, Heler}.scala
     case EContains(list, elem) => (for {
       l <- interp(list)
       v <- interp(elem)
