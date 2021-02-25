@@ -44,6 +44,18 @@ case class Heap(
     case obj @ _ => error(s"not a map: $obj")
   }
 
+  // append
+  def append(addr: Addr, v: Value): Heap = this(addr) match {
+    case ListObj(values) => copy(map = map + (addr -> ListObj(values :+ v)))
+    case obj @ _ => error(s"not a list: $obj")
+  }
+
+  // prepend
+  def prepend(addr: Addr, v: Value): Heap = this(addr) match {
+    case ListObj(values) => copy(map = map + (addr -> ListObj(v :: values)))
+    case obj @ _ => error(s"not a list: $obj")
+  }
+
   // alloc
   def allocList(list: List[Value]): (Addr, Heap) = {
     val addr = DynamicAddr(size)

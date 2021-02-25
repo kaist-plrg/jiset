@@ -64,8 +64,16 @@ class Interp(
       rv <- interp(ref)
       _ <- modify(_.deleted(rv))
     } yield ()
-    case IAppend(expr, list) => ???
-    case IPrepend(expr, list) => ???
+    case IAppend(expr, list) => for {
+      v <- interp(expr)
+      lv <- interp(list)
+      _ <- modify(_.append(lv.to[Addr], v))
+    } yield ()
+    case IPrepend(expr, list) => for {
+      v <- interp(expr)
+      lv <- interp(list)
+      _ <- modify(_.prepend(lv.to[Addr], v))
+    } yield ()
     case IReturn(expr) => ???
     case IThrow(id) => ???
     case ISeq(newInsts) => join(newInsts.map(interp))
