@@ -177,9 +177,11 @@ class Interp(
 
   }
   def interp(refV: RefValue): Result[Value] = st => refV match {
-    case RefValueId(id) => ???
+    case RefValueId(id) => (st.env.map.getOrElse(id, Absent), st)
     case RefValueProp(addr, value) => ???
-    case RefValueString(str, value) => ???
+    case RefValueString(str, value) => (value match {
+      case "length" => INum(str.str.length)
+    }, st)
   }
 
   // unary operators
