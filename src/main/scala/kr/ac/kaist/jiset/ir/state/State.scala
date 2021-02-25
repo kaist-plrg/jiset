@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.cfg.Function
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.StateMonad
 
 // states
 case class State(env: Env, heap: Heap) {
@@ -30,9 +31,14 @@ case class State(env: Env, heap: Heap) {
     (newAddr, copy(heap = newHeap))
   }
 
+  // contains
+  def contains(addr: Addr, elem: Value): (Value, State) = heap(addr) match {
+    case ListObj(elems) => (Bool(elems contains elem), this)
+    case obj @ _ => error("Not a list object: $obj")
+  }
+
   // define new environment id
-  def define(id: Id, v: Value): (Unit, State) =
-    ((), copy(env = env.define(id.name, v)))
+  def define(id: Id, v: Value): State = copy(env = env.define(id.name, v))
 
   // getter
   def get(id: String): (Value, State) = (env(id), this)
@@ -40,9 +46,9 @@ case class State(env: Env, heap: Heap) {
   def get(str: String, prop: String): (Value, State) = (stringOp(str, prop), this)
 
   // setter
-  def updated(refV: RefValue, v: Value): (Unit, State) = refV match {
-    case RefValueId(id) => ((), copy(env = env.define(id, v)))
-    case RefValueProp(addr, key) => ((), copy(heap = heap.updated(addr, key, v)))
+  def updated(refV: RefValue, v: Value): State = refV match {
+    case RefValueId(id) => copy(env = env.define(id, v))
+    case RefValueProp(addr, key) => copy(heap = heap.updated(addr, key, v))
     case _ => error(s"illegal reference update: $refV = $v")
   }
 }

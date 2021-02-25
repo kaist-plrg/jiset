@@ -37,12 +37,12 @@ class Interp(
     inst
   }
 
-  // result of abstract transfer
+  // result of concrete transfer
   val monad = new StateMonad[State]
   import monad._
 
   // instructions
-  def interp(inst: Inst): Result[Unit] = preinterp(inst) match {
+  def interp(inst: Inst): Updater = preinterp(inst) match {
     // conditional instructions
     case IIf(cond, thenInst, elseInst) => ???
     case IWhile(cond, body) => ???
@@ -50,23 +50,26 @@ class Interp(
     case IApp(id, fexpr, args) => ???
     case IAccess(id, bexpr, expr) => ???
     // normal instuctions
-    case IExpr(expr) => interp(expr) ^^^ ()
-    case ILet(id, expr) => interp(expr) ^^ { case (v, st) => st.define(id, v) }
-    case IAssign(ref, expr) => interp(ref) ~ interp(expr) ^^ {
-      case ((rv, v), st) => st.updated(rv, v)
-    }
+    case IExpr(expr) => interp(expr)
+    case ILet(id, expr) => for {
+      v <- interp(expr)
+      _ <- modify(_.define(id, v))
+    } yield ()
+    case IAssign(ref, expr) => for {
+      rv <- interp(ref)
+      v <- interp(expr)
+      _ <- modify(_.updated(rv, v))
+    } yield ()
     case IDelete(ref) => ???
     case IAppend(expr, list) => ???
     case IPrepend(expr, list) => ???
     case IReturn(expr) => ???
     case IThrow(id) => ???
-    case ISeq(newInsts) => join(newInsts.map(interp)) ^^^ ()
-    case IAssert(expr) => for {
-      v <- interp(expr)
-    } yield v match {
+    case ISeq(newInsts) => join(newInsts.map(interp))
+    case IAssert(expr) => interp(expr) map {
       case Bool(true) =>
       case Bool(false) => error(s"assertion failure: ${beautify(expr)}")
-      case _ => error(s"assertion is not a boolean: $v")
+      case v @ _ => error(s"assertion is not a boolean: $v")
     }
     case IPrint(expr) => interp(expr).map(v => if (!silent) println(v))
     case IWithCont(id, params, body) => ???
@@ -83,13 +86,9 @@ class Interp(
     case EUndef => Undef
     case ENull => Null
     case EAbsent => Absent
-    case EPop(list, idx) => (for {
-      l <- interp(list)
-      i <- interp(idx)
-    } yield (l, i)) ^^ {
-      case ((a: Addr, i), st) =>
-        st.pop(a, i)
-      case _ => error(s"Non Addr given for EPop: ${beautify(expr)}")
+    case EPop(list, idx) => (interp(list) ~ interp(idx)) flatMap {
+      case (a: Addr, i) => _.pop(a, i)
+      case _ => error(s"Not an address")
     }
     case ERef(ref) => for {
       rv <- interp(ref)
@@ -97,18 +96,14 @@ class Interp(
     } yield v
     case ECont(params, body) => ???
     // logical operations
-    case EUOp(uop, expr) => for {
-      v <- interp(expr)
-    } yield interp(uop)(v)
+    case EUOp(uop, expr) => interp(expr) map (interp(uop)(_))
     /* case EBOp(OAnd, left, right) => ???
     case EBOp(OOr, left, right) => ??? */ // ? : why separate these two cases?
     case EBOp(bop, left, right) => for {
       lv <- interp(left)
       rv <- interp(right)
     } yield interp(bop)(lv, rv)
-    case ETypeOf(expr) => for {
-      v <- interp(expr)
-    } yield v match {
+    case ETypeOf(expr) => interp(expr) map {
       case Num(_) | INum(_) => Str("Number")
       case BigINum(_) => Str("BigInt")
       case Str(_) => Str("String")
@@ -123,71 +118,55 @@ class Interp(
     case EGetElems(base, kind) => ???
     case EGetSyntax(base) => ???
     case EParseSyntax(code, rule, flags) => ???
-    case EConvert(expr, cop, l) => (for {
-      v <- interp(expr)
-      lvs <- join(l.map(interp))
-    } yield (v, cop, lvs)) ^^ {
-      case ((Str(s), CStrToNum, _), st) => (Num(ESValueParser.str2num(s)), st)
-      case ((Str(s), CStrToBigInt, _), st) => ??? // TODO Str -> BigInt parser
-      case ((INum(n), CNumToStr, lvs), st) => {
+    // TODO refactor util/{ESValueParser, Heler}.scala
+    case EConvert(expr, cop, l) => (interp(expr) ~ join(l.map(interp))) map {
+      case (Str(s), _) if cop == CStrToNum => Num(ESValueParser.str2num(s))
+      // TODO Str -> BigInt parser
+      case (Str(s), _) if cop == CStrToBigInt => ??? 
+      case (INum(n), lvs) if cop == CNumToStr => {
         val radix = lvs.headOption.getOrElse(INum(10)) match {
           case INum(n) => n.toInt
           case Num(n) => n.toInt
           case _ => error(s"Radix not int")
         }
-        (Str(Helper.toStringHelper(n, radix)), st)
+        Str(Helper.toStringHelper(n, radix))
       }
-      case ((INum(n), CNumToInt, lvs), st) => (INum(n), st)
-      case ((Num(d), CNumToBigInt, lvs), st) => ??? // TODO Int -> BigInt parser
-      case ((BigINum(bi), CBigIntToNum, lvs), st) => ???
+      case (INum(n), lvs) if cop == CNumToInt => INum(n)
+      // TODO Int -> BigInt parser
+      case (Num(d), lvs) if cop == CNumToBigInt => ??? 
+      case (BigINum(bi), lvs) if cop == CBigIntToNum => ???
       case _ => error(s"Type and COp missmatch for EConvert: ${beautify(expr)}")
-    } // TODO refactor util/{ESValueParser, Heler}.scala
-    case EContains(list, elem) => (for {
-      l <- interp(list)
-      v <- interp(elem)
-    } yield (l, v)) ^^ {
-      case ((l: Addr, v), st) =>
-        st.heap(l) match {
-          case ListObj(vs) => (Bool(vs contains v), st)
-          case _ => error("Not ListObj")
-        }
-      case _ => error(s"Not Addr given in ${beautify(expr)}")
+    } 
+    case EContains(list, elem) => (interp(list) ~ interp(elem)) flatMap {
+      case (a: Addr, elem) => _.contains(a, elem)
+      case _ => error(s"Not an address")
     }
     case EReturnIfAbrupt(expr, check) => ???
-    case ENotSupported(msg) =>
-      error(s"Not Supported: $msg")
+    case ENotSupported(msg) => error(s"Not Supported: $msg")
     // allocation expressions
     case EMap(ty, props) => join(props.map {
-      case (e1, e2) => for {
-        v1 <- interp(e1)
-        v2 <- interp(e2)
-      } yield (v1, v2)
-    }) ^^ {
-      case (mlist, s) => s.allocMap(ty, mlist.map({
+      case (e1, e2) => interp(e1) ~ interp(e2)
+    }) map {
+      _.map {
         case (Str(s), v) => (s -> v)
         case _ => error(s"Non String key given")
-      }).toMap)
+      }.toMap
+    } flatMap { mlist => _.allocMap(ty, mlist) }
+    case EList(exprs: List[Expr]) => for {
+      vs <- join(exprs.map(interp))
+      a <- id(_.allocList(vs))
+    } yield a
+    case ESymbol(desc) => interp(desc) flatMap {
+      case Str(s) => _.allocSymbol(s)
+      case _ => error(s"Non string given for ESymbol: ${beautify(expr)}")
     }
-    case EList(exprs) => join(exprs.map(interp)) ^^ {
-      case (l, s) => s.allocList(l)
+    case ECopy(expr) => interp(expr) flatMap {
+      case a: Addr => _.copyObj(a)
+      case _ => error(s"None address object for ECopy given: ${beautify(expr)}")
     }
-    case ESymbol(desc) => interp(desc) ^^ {
-      case (v, st) => v match {
-        case Str(s) => st.allocSymbol(s)
-        case _ => error(s"Non string given for ESymbol: ${beautify(expr)}")
-      }
-    }
-    case ECopy(expr) => interp(expr) ^^ {
-      case (v, st) => v match {
-        case v: Addr => st.copyObj(v)
-        case _ => error(s"None address object for ECopy given: ${beautify(expr)}")
-      }
-    }
-    case EKeys(mobj) => interp(expr) ^^ {
-      case (v, st) => v match {
-        case v: Addr => st.mapObjKeys(v)
-        case _ => error(s"None map object for EKeys given: ${beautify(expr)}")
-      }
+    case EKeys(mobj) => interp(expr) flatMap {
+      case a: Addr => _.mapObjKeys(a)
+      case _ => error(s"None map object for EKeys given: ${beautify(expr)}")
     }
   }
 
@@ -207,10 +186,10 @@ class Interp(
     }
 
   }
-  def interp(refV: RefValue): Result[Value] = st => refV match {
-    case RefValueId(id) => st.get(id)
-    case RefValueProp(addr, prop) => st.get(addr, prop)
-    case RefValueString(Str(str), prop) => st.get(str, prop)
+  def interp(refV: RefValue): Result[Value] = refV match {
+    case RefValueId(id) => _.get(id)
+    case RefValueProp(addr, prop) => _.get(addr, prop)
+    case RefValueString(Str(str), prop) => _.get(str, prop)
   }
 
   // unary operators

@@ -20,12 +20,8 @@ class StateMonad[S] {
       f(v)(s0)
     }
 
-    // XXX remove this method after refactoring
-    @deprecated("this method will be removed")
     def ~[U](monad: Result[U]): Result[(T, U)] =
       for { v0 <- this; v1 <- monad } yield (v0, v1)
-    def ^^[U](f: ((T, S)) => (U, S)): Result[U] = s => f(this(s))
-    def ^^^[U](v: U): Result[U] = this ^^ { case (_, s) => (v, s) }
   }
 
   // convert function to result type
