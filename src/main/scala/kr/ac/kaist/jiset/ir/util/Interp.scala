@@ -82,7 +82,14 @@ class Interp(
     case EUndef => Undef
     case ENull => Null
     case EAbsent => Absent
-    case EPop(list, idx) => ???
+    case EPop(list, idx) => (for {
+      l <- interp(list)
+      i <- interp(idx)
+    } yield (l, i)) ^^ {
+      case ((a: Addr, i), st) =>
+        st.pop(a, i)
+      case _ => error(s"Non Addr given for EPop: ${beautify(expr)}")
+    }
     case ERef(ref) => for {
       rv <- interp(ref)
       v <- interp(rv)

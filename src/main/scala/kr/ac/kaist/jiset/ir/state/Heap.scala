@@ -45,5 +45,11 @@ case class Heap(
       (addr, Heap(map + (addr -> keyListObj)))
     case _ => error("Key can only be applied to MapObj")
   }
+  def pop(addr: Addr, idx: Value): (Value, Heap) = this(addr) match {
+    case l: ListObj =>
+      val (value, newList) = l.pop(idx)
+      (value, copy(map = map + (addr -> newList)))
+    case _ => error("Pop applied to non ListObj object")
+  }
 }
 object Heap { def apply(seq: (Addr, Obj)*): Heap = Heap(seq.toMap) }

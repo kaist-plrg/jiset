@@ -24,4 +24,8 @@ case class State(env: Env, heap: Heap) {
     val (newAddr, newHeap) = heap.mapObjKeys(addr)
     (newAddr, copy(heap = newHeap))
   }
+  def pop(addr: Addr, idx: Value): (Value, State) = {
+    val (newAddr, newHeap) = heap.pop(addr, idx)
+    (newAddr, copy(heap = newHeap))
+  }
 }
