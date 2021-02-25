@@ -57,6 +57,6 @@ class StateMonad[S] {
     }
   def join[T](iter: Iterable[Updater]): Updater =
     iter.foldRight[Updater](st => st) {
-      case (f, g) => st => f(g(st))
+      case (f, g) => st => g(f(st))
     }
 }

@@ -17,7 +17,6 @@ class BasicSmallTest extends IRTest {
     "expr-bool.ir",
     "expr-null.ir",
     "expr-undef.ir",
-    "print1.ir",
     "let1.ir",
     "assign1.ir",
     "list1.ir",

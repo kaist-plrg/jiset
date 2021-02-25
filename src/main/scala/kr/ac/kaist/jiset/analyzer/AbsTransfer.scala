@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.ir.{ beautify => irBeautify, _ }
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
