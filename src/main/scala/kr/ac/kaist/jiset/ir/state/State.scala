@@ -20,4 +20,8 @@ case class State(env: Env, heap: Heap) {
     val (newAddr, newHeap) = heap.copyObj(addr)
     (newAddr, copy(heap = newHeap))
   }
+  def mapObjKeys(addr: Addr): (Addr, State) = {
+    val (newAddr, newHeap) = heap.mapObjKeys(addr)
+    (newAddr, copy(heap = newHeap))
+  }
 }

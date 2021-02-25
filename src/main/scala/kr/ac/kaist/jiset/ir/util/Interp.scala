@@ -138,16 +138,21 @@ class Interp(
     case ESymbol(desc) => interp(desc) ^^ {
       case (v, st) => v match {
         case Str(s) => st.allocSymbol(s)
-        case _ => error(s"Non string symbol given")
+        case _ => error(s"Non string given for ESymbol: ${beautify(expr)}")
       }
     }
     case ECopy(expr) => interp(expr) ^^ {
       case (v, st) => v match {
         case v: Addr => st.copyObj(v)
-        case _ => error(s"None address object for copy given")
+        case _ => error(s"None address object for ECopy given: ${beautify(expr)}")
       }
     }
-    case EKeys(mobj) => ???
+    case EKeys(mobj) => interp(expr) ^^ {
+      case (v, st) => v match {
+        case v: Addr => st.mapObjKeys(v)
+        case _ => error(s"None map object for EKeys given: ${beautify(expr)}")
+      }
+    }
   }
 
   // references

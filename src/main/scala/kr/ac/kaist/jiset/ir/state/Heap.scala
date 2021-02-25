@@ -33,9 +33,17 @@ case class Heap(
   // interp helpers
   def copyObj(addr: Addr): (Addr, Heap) = {
     val addr = DynamicAddr(size)
-    val newMap = map + (addr -> apply(addr))
     val newSize = size + 1
-    (addr, Heap(newMap, newSize))
+    (addr, Heap(map + (addr -> apply(addr)), newSize))
+  }
+  def mapObjKeys(addr: Addr): (Addr, Heap) = this(addr) match {
+    case m: MapObj =>
+      val addr = DynamicAddr(size)
+      val newSize = size + 1
+      val keyList = m.props.keys.toList
+      val keyListObj = ListObj(keyList.map(s => Str(s)))
+      (addr, Heap(map + (addr -> keyListObj)))
+    case _ => error("Key can only be applied to MapObj")
   }
 }
 object Heap { def apply(seq: (Addr, Obj)*): Heap = Heap(seq.toMap) }
