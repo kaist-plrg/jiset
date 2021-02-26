@@ -95,9 +95,45 @@ class AbsSemantics(val cfg: CFG) {
 
   // target algorithms
   private def targetPatterns = List(
-    """Literal\[.*""".r,
-    """PrimaryExpression.*IsIdentifierRef""".r,
+    """asdf""".r,
+    //"""Literal\[.*""".r,
+    //"""PrimaryExpression.*IsIdentifierRef""".r,
+
+    // Success
+    // TODO refactor prefix pattern for IsFunctionDefinition
+    """Expression\[1,0\].IsFunctionDefinition""".r,
+    """PrimaryExpression\[[0-4],0\].IsFunctionDefinition""".r,
+    """PrimaryExpression\[1[0-1],0\].IsFunctionDefinition""".r, // [0,0]~[11,0]
+    """UpdateExpression\[.*.IsFunctionDefinition""".r,
+    """UnaryExpression\[.*.IsFunctionDefinition""".r,
+    """ExponentiationExpression\[.*.IsFunctionDefinition""".r,
+    """MultiplicativeExpression\[.*.IsFunctionDefinition""".r,
+    """AdditiveExpression\[.*.IsFunctionDefinition""".r,
+    """ShiftExpression\[.*.IsFunctionDefinition""".r,
+    """RelationalExpression\[.*.IsFunctionDefinition""".r,
+    """EqualityExpression\[.*.IsFunctionDefinition""".r,
+    """BitWiseANDExpression\[.*.IsFunctionDefinition""".r,
+    """BitWiseXORExpression\[.*.IsFunctionDefinition""".r,
+    """BitWiseORExpression\[.*.IsFunctionDefinition""".r,
+    """LogicalANDExpression\[.*.IsFunctionDefinition""".r,
+    """LogicalORExpression\[.*.IsFunctionDefinition""".r,
+    """CoalesceExpression\[.*.IsFunctionDefinition""".r,
+    """ConditionalExpression\[.*.IsFunctionDefinition""".r,
+    """AssignmentExpression\[.*.IsFunctionDefinition""".r,
+    """FunctionExpression\[.*.IsFunctionDefinition""".r,
+    """GeneratorExpression\[.*.IsFunctionDefinition""".r,
+    """AsyncGeneratorExpression\[.*.IsFunctionDefinition""".r,
+    """ClassExpression\[.*.IsFunctionDefinition""".r,
+    """AsyncFunctionExpression\[.*.IsFunctionDefinition""".r,
+
+  // Fail
+  // """PrimaryExpression\[12,0\].Evaluation""".r => need implemetation of IAccess, IApp
   // """PrimaryExpression\[0,0\].Evaluation""".r,
+  // """NewExpression\[1,0\].Evaluation""".r,
+  // """EvaluateStringOrNumericBinaryExpression""".r, => parse complete, but analyze phase does not work
+  // """Expression\[1,0\].AssignmentTargetType""".r, => missing impl on `return CONST_invalid`
+
+  //"""PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
   )
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
     head.withParams.isEmpty &&
