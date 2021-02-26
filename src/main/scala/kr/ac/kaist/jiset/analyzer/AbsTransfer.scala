@@ -1,15 +1,31 @@
 package kr.ac.kaist.jiset.analyzer
 
+import kr.ac.kaist.jiset.CFG_DIR
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
+import scala.annotation.tailrec
 
 // abstract transfer function
-class AbsTransfer(sem: AbsSemantics) {
+class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
   import sem.cfg._
+
+  // worklist
+  val worklist = sem.worklist
+
+  // fixpoint computation
+  @tailrec
+  final def compute: Unit = worklist.headOption match {
+    case Some(cp) =>
+      if (interactMode) interact(cp)
+      worklist.next
+      apply(cp)
+      compute
+    case None =>
+  }
 
   // result of abstract transfer
   val monad = new StateMonad[AbsState]
@@ -51,6 +67,20 @@ class AbsTransfer(sem: AbsSemantics) {
   // transfer function for return points
   def apply(rp: ReturnPoint): Unit = {
     // TODO handle inter-procedural cases
+  }
+
+  // interactive mode
+  def interact(cp: ControlPoint): Unit = {
+    val dot = (new DotPrinter)(cp, sem).toString
+    dumpFile(dot, s"$CFG_DIR.dot")
+    executeCmd(s"""dot -Tpdf "$CFG_DIR.dot" -o "$CFG_DIR.pdf"""")
+    println(sem.getString(cp))
+    println
+    val str = scala.io.StdIn.readLine()
+    str match {
+      case null | "q" | "quit" | "exit" => interactMode = false
+      case _ =>
+    }
   }
 
   private class Helper(ret: ReturnPoint) {
