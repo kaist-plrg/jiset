@@ -18,7 +18,6 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     config: AnalyzeConfig
   ): AbsSemantics = {
     val sem = new AbsSemantics(cfg)
-    mkdir(CFG_DIR)
     val fixpoint = new Fixpoint(sem, config.interact)
     fixpoint.compute
     sem
