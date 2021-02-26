@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import scala.util.parsing.combinator.{ JavaTokenParsers, RegexParsers }
 
 // parsers
-object Parser extends JavaTokenParsers with RegexParsers {
+trait Parser extends JavaTokenParsers with RegexParsers {
   // parse a file into a IRNode
   def fileToInsts(f: String): List[Inst] = fromFile(f, insts)
   def fileToInst(f: String): Inst = fromFile(f, inst)
@@ -29,7 +29,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   override protected val whiteSpace = """(\s|//.*)+""".r
 
   // parse from file
-  private def fromFile[T](f: String, parser: Parser[T]): T = {
+  def fromFile[T](f: String, parser: Parser[T]): T = {
     var fileName = new File(f).getCanonicalPath
     val fs = new FileInputStream(new File(f))
     val sr = new InputStreamReader(fs, Charset.forName("UTF-8"))
@@ -40,7 +40,7 @@ object Parser extends JavaTokenParsers with RegexParsers {
   }
 
   // parse with error message
-  private def errHandle[T](result: ParseResult[T]): T = result match {
+  def errHandle[T](result: ParseResult[T]): T = result match {
     case Success(result, _) => result
     case err => error(s"[IRParser] $err")
   }
@@ -49,8 +49,8 @@ object Parser extends JavaTokenParsers with RegexParsers {
   // Syntax
   ////////////////////////////////////////////////////////////////////////////////
   // instructions
-  lazy private val insts: Parser[List[Inst]] = rep(inst)
-  lazy private val inst: Parser[Inst] = opt(integer <~ ":") ~ (
+  lazy val insts: Parser[List[Inst]] = rep(inst)
+  lazy val inst: Parser[Inst] = opt(integer <~ ":") ~ (
     "delete " ~> ref ^^ { IDelete(_) } |
     ("append " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IAppend(e, l) } |
     ("prepend " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPrepend(e, l) } |
@@ -193,3 +193,4 @@ object Parser extends JavaTokenParsers with RegexParsers {
     case s => StringContext processEscapes s.substring(1, s.length - 1)
   }
 }
+object Parser extends Parser

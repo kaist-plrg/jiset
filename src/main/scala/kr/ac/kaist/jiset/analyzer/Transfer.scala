@@ -26,10 +26,12 @@ class Transfer(
 
   // compute
   @tailrec
-  final def compute: Unit = if (!sem.remains.isEmpty) {
-    val inst = sem.remains.dequeue
-    sem.state = transfer(inst)(sem.state)
-    compute
+  final def compute: Unit = sem.next match {
+    case Some(inst) => {
+      sem.setState(transfer(inst)(sem.getState))
+      compute
+    }
+    case None =>
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -44,18 +46,27 @@ class Transfer(
     } yield e match {
       case Bool(b) =>
         val nextInst = if (b) thenInst else elseInst
-        sem.remains.prepend(nextInst)
+        sem.prepend(nextInst)
       case v => error(s"not a boolean: $v")
     }
     case IWhile(cond, body) => for {
       e <- transfer(cond)
     } yield e match {
       case Bool(false) =>
-      case Bool(true) => sem.remains.prependAll(List(body, inst))
+      case Bool(true) => sem.prependAll(List(body, inst))
       case v => error(s"not a boolean: $v")
     }
     // call instructions
-    case IApp(id, fexpr, args) => ???
+    case IApp(id, fexpr, args) => for {
+      fv <- transfer(fexpr)
+      func = fv.to[Clo]
+      argsv <- join(args.map(transfer))
+      _ <- modify(_ => sem.doCall(func.fid, argsv, id))
+    } yield ()
+    case IReturn(expr) => for {
+      v <- transfer(expr)
+      _ <- modify(_ => sem.doReturn(v))
+    } yield ()
     case IAccess(id, bexpr, expr) => ???
     // normal instuctions
     case IExpr(expr) => transfer(expr)
@@ -82,10 +93,9 @@ class Transfer(
       lv <- transfer(list)
       _ <- modify(_.prepend(lv.to[Addr], v))
     } yield ()
-    case IReturn(expr) => ???
     case IThrow(id) => ???
     case IWithCont(id, params, body) => ???
-    case ISeq(insts) => pure(sem.remains.prependAll(insts))
+    case ISeq(insts) => pure(sem.prependAll(insts))
     case IAssert(expr) => transfer(expr) map {
       case Bool(true) =>
       case Bool(false) => error(s"assertion failure: ${expr.beautified}")
@@ -207,7 +217,8 @@ class Transfer(
 
   }
   def transfer(refV: RefValue): Result[Value] = refV match {
-    case RefValueId(id) => _.get(id)
+    // TODO use global
+    case RefValueId(id) => _.getOrElse(id, sem.globals.getOrElse(id, Absent))
     case RefValueProp(addr, prop) => _.get(addr, prop)
     case RefValueString(Str(str), prop) => _.get(str, prop)
   }

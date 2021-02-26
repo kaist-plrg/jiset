@@ -42,6 +42,10 @@ case class State(env: Env, heap: Heap) {
 
   // getter
   def get(id: String): (Value, State) = (env(id), this)
+  def getOrElse(id: String, default: Value): (Value, State) = env(id) match {
+    case Absent => (default, this)
+    case v => (v, this)
+  }
   def get(addr: Addr): (Obj, State) = (heap(addr), this)
   def get(addr: Addr, prop: String): (Value, State) = (heap(addr, prop), this)
   def get(str: String, prop: String): (Value, State) = (stringOp(str, prop), this)

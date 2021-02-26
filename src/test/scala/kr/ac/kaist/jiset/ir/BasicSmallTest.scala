@@ -6,9 +6,9 @@ import kr.ac.kaist.jiset.util.Useful._
 
 class BasicSmallTest extends IRTest {
   def test(path: String): Unit = {
-    val insts = Parser.fileToInsts(path)
-    val sem = new Semantics(ISeq(insts))
-    val transfer = new Transfer(sem, isDebug = false, silent = true, timeLimit = Some(3))
+    val (algos, inst) = IRParser.fileToIR(path)
+    val sem = new Semantics(inst, algos)
+    val transfer = new Transfer(sem, isDebug = false, silent = false, timeLimit = Some(3))
     transfer.compute
   }
 
