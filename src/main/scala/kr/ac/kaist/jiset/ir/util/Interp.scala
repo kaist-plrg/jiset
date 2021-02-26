@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.StateMonad
-import kr.ac.kaist.jiset.ir.Beautifier._
 import scala.annotation.tailrec
 import scala.concurrent.duration._
 import kr.ac.kaist.jiset.analyzer.INumT
@@ -33,7 +32,7 @@ class Interp(
     }
     if (isDebug) inst match {
       case ISeq(_) =>
-      case _ => println(s"Interp: ${beautify(inst)}")
+      case _ => println(s"Interp: ${inst.beautified}")
     }
     inst
   }
@@ -81,7 +80,7 @@ class Interp(
     case ISeq(newInsts) => join(newInsts.map(interp))
     case IAssert(expr) => interp(expr) map {
       case Bool(true) =>
-      case Bool(false) => error(s"assertion failure: ${beautify(expr)}")
+      case Bool(false) => error(s"assertion failure: ${expr.beautified}")
       case v @ _ => error(s"assertion is not a boolean: $v")
     }
     case IPrint(expr) => interp(expr).map(v => if (!silent) println(v))
@@ -150,7 +149,7 @@ class Interp(
       // TODO Int -> BigInt parser
       case (Num(d), lvs) if cop == CNumToBigInt => ???
       case (BigINum(bi), lvs) if cop == CBigIntToNum => ???
-      case _ => error(s"Type and COp missmatch for EConvert: ${beautify(expr)}")
+      case _ => error(s"Type and COp missmatch for EConvert: ${expr.beautified}")
     }
     case EContains(list, elem) => (interp(list) ~ interp(elem)) flatMap {
       case (a: Addr, elem) => _.contains(a, elem)
@@ -197,7 +196,7 @@ class Interp(
       case (bv: Addr, pv: INum) => RefValueProp(bv, pv.long.toString)
       case (bv: Str, pv: Str) => RefValueString(bv, pv.str)
       case (bv: Str, pv: INum) => RefValueString(bv, pv.long.toString)
-      case _ => error(s"Not expected type in RefProp: ${beautify(expr)}")
+      case _ => error(s"Not expected type in RefProp: ${expr.beautified}")
     }
 
   }

@@ -75,5 +75,5 @@ case class Algo(head: Head, rawBody: Inst, code: Iterable[String]) {
 
   // conversion to string
   override def toString: String =
-    s"$head ${beautify(getBody, index = true)}"
+    s"$head ${getBody.beautified(index = true)}"
 }

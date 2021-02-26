@@ -32,4 +32,17 @@ object Appender {
   // Scala value appender
   implicit lazy val stringApp: App[String] = _ >> _
   implicit lazy val intApp: App[Int] = _ >> _.toString
+
+  // lists with separator
+  def ListApp[T](
+    left: String = "",
+    sep: String = "",
+    right: String = ""
+  )(implicit tApp: App[T]): App[List[T]] = (app, list) => list match {
+    case Nil => app >> left >> right
+    case hd :: tl =>
+      app >> left >> hd
+      for (t <- tl) app >> sep >> t
+      app >> right
+  }
 }

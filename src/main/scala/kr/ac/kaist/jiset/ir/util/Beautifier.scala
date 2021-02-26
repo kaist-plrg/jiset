@@ -2,94 +2,31 @@ package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.ir._
 
 // IR Beautifier
-object Beautifier {
-  import Appender._
-
-  private var indent: String = ""
-  private var detail: Boolean = true
-  private var index: Boolean = false
-  private var exprId: Boolean = false
-
-  // visible length when `detail` is false
-  private val VISIBLE_LENGTH = 10
-
-  // tab string
-  val TAB = "  "
-
-  def beautify[T <: IRNode](
-    node: T,
-    indent: String = "",
-    detail: Boolean = true,
-    index: Boolean = false,
-    exprId: Boolean = false
-  )(
-    implicit
-    append: (Appender, T) => Appender
-  ): String = {
-    this.indent = LINE_SEP + indent
-    this.detail = detail
-    this.index = index
-    this.exprId = exprId
-    append(new Appender, node).toString
+class Beautifier(
+  detail: Boolean = true,
+  index: Boolean = false,
+  exprId: Boolean = false
+) {
+  // IR nodes
+  implicit lazy val IRNodeApp: App[IRNode] = (app, node) => node match {
+    case node: Inst => InstApp(app, node)
+    case node: Expr => ExprApp(app, node)
+    case node: Ref => RefApp(app, node)
+    case node: Ty => TyApp(app, node)
+    case node: Id => IdApp(app, node)
+    case node: UOp => UOpApp(app, node)
+    case node: BOp => BOpApp(app, node)
+    case node: COp => COpApp(app, node)
   }
 
-  // irnode
-  implicit lazy val IRNodeApp: App[IRNode] = (app, node) => {
-    node match {
-      case node: Inst => InstApp(app, node)
-      case node: Expr => ExprApp(app, node)
-      case node: Ref => RefApp(app, node)
-      case node: Ty => TyApp(app, node)
-      case node: Id => IdApp(app, node)
-      case node: UOp => UOpApp(app, node)
-      case node: BOp => BOpApp(app, node)
-      case node: COp => COpApp(app, node)
-    }
-  }
-
-  // lists
-  def ListApp[T <: IRNode](
-    app: Appender,
-    list: List[T]
-  ): Appender = {
-    val oldIndent = indent
-    indent = indent + TAB
-    list.foreach { case t => app >> indent >> t }
-    indent = oldIndent
-    app
-  }
-
-  // lists with separator
-  def ListSepApp[T <: IRNode](
-    app: Appender,
-    list: List[T],
-    sep: String
-  ): Appender = list match {
-    case Nil => app
-    case h :: t =>
-      t.foldLeft(app >> h)((app, e) => app >> sep >> e)
-  }
-
-  // map with separator
-  def MapSepApp[T <: (IRNode, IRNode)](
-    app: Appender,
-    map: List[T],
-    sep: String
-  ): Appender = map match {
-    case Nil => app
-    case h :: t =>
-      t.foldLeft(app >> h._1 >> " -> " >> h._2)((app, e) =>
-        app >> sep >> e._1 >> " -> " >> e._2)
-  }
-
-  ////////////////////////////////////////////////////////////////////////////////
-  // Syntax
-  ////////////////////////////////////////////////////////////////////////////////
-  def detailApp(app: Appender, inst: Inst): Appender =
+  // instrctions without detail information
+  lazy val DetailInstApp: App[Inst] = (app, inst) => {
     if (detail) app >> inst else app >> "..."
+  }
 
   // instructions
   implicit lazy val InstApp: App[Inst] = (app, inst) => {
@@ -105,28 +42,26 @@ object Beautifier {
       case IReturn(expr) => app >> "return " >> expr
       case IThrow(id) => app >> "throw " >> id
       case IIf(cond, thenInst, elseInst) =>
+        implicit val d = DetailInstApp
         app >> "if " >> cond >> " "
-        detailApp(app, thenInst) >> " else "
-        detailApp(app, elseInst)
+        app >> thenInst >> " else "
+        app >> elseInst
       case IWhile(cond, body) => app >> "while " >> cond >> " " >> body
       case ISeq(insts) =>
-        app >> "{"
-        if (insts.length > 0) {
-          if (detail) { ListApp[Inst](app, insts) >> indent }
-          else app >> " ... "
-        }
-        app >> "}"
+        if (insts.isEmpty) app >> "{}"
+        else if (!detail) app >> "{ ... }"
+        else app.wrap { insts.foreach(app :> _) }
       case IAssert(expr) => app >> "assert " >> expr
       case IPrint(expr) => app >> "print " >> expr
       case IApp(id, fexpr, args) =>
-        app >> "app " >> id >> " = (" >> fexpr >> " "
-        ListSepApp[Expr](app, args, " ") >> ")"
+        implicit val l = ListApp[Expr](sep = " ")
+        app >> "app " >> id >> " = (" >> fexpr >> " " >> args >> ")"
       case IAccess(id, bexpr, expr) =>
         app >> "access " >> id >> " = (" >> bexpr >> " " >> expr >> ")"
       case IWithCont(id, params, inst) =>
-        app >> "withcont " >> id >> " ("
-        ListSepApp[Id](app, params, ", ") >> ") ="
-        detailApp(app, inst)
+        implicit val d = DetailInstApp
+        implicit val l = ListApp[Id]("(", ", ", ")")
+        app >> "withcont " >> id >> " " >> params >> " = " >> inst
       case ISetType(expr, ty) => app >> "set-type " >> expr >> " " >> ty
     }
   }
@@ -148,18 +83,20 @@ object Beautifier {
       case ENull => app >> "null"
       case EAbsent => app >> "absent"
       case EMap(ty, props) =>
-        app >> "(new " >> ty >> "("
-        MapSepApp[(Expr, Expr)](app, props, ", ") >> "))"
+        implicit val p: App[(Expr, Expr)] =
+          { case (app, (x, y)) => app >> x >> " -> " >> y }
+        implicit val l = ListApp[(Expr, Expr)]("(", ", ", ")")
+        app >> "(new " >> ty >> props >> ")"
       case EList(exprs) =>
-        app >> "(new ["
-        ListSepApp[Expr](app, exprs, ", ") >> "])"
+        implicit val l = ListApp[Expr]("[", ", ", "]")
+        app >> "(new " >> exprs >> ")"
       case ESymbol(desc) => app >> "(new '" >> desc >> ")"
       case EPop(list, idx) => app >> "(pop " >> list >> " " >> idx >> ")"
       case ERef(ref) => app >> ref
       case ECont(params, body) =>
-        app >> "("
-        ListSepApp[Id](app, params, ", ") >> ") [=>] "
-        detailApp(app, body)
+        implicit val d = DetailInstApp
+        implicit val l = ListApp[Id]("(", ", ", ")")
+        app >> params >> " [=>] " >> body
       case EUOp(uop, expr) => app >> "(" >> uop >> " " >> expr >> ")"
       case EBOp(bop, left, right) =>
         app >> "(" >> bop >> " " >> left >> " " >> right >> ")"
@@ -173,13 +110,12 @@ object Beautifier {
       case EParseSyntax(code, rule, flags) =>
         app >> "(parse-syntax " >> code >> " " >> rule >> " " >> flags >> ")"
       case EConvert(expr, cop, list) =>
-        app >> "(convert " >> expr >> " " >> cop >> " "
-        ListSepApp[Expr](app, list, " ") >> ")"
+        implicit val l = ListApp[Expr](sep = " ")
+        app >> "(convert " >> expr >> " " >> cop >> " " >> list >> ")"
       case EContains(list, elem) =>
         app >> "(contains " >> list >> " " >> elem >> ")"
       case EReturnIfAbrupt(expr, check) =>
-        if (check) app >> "[? " else app >> "[! "
-        app >> expr >> "]"
+        app >> "[" >> (if (check) "?" else "!") >> " " >> expr >> "]"
       case ECopy(obj) => app >> "(copy-obj " >> obj >> ")"
       case EKeys(obj) => app >> "(map-keys " >> obj >> ")"
       case ENotSupported(msg) => app >> "??? \"" >> norm(msg) >> "\""

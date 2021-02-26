@@ -9,7 +9,7 @@ case class BuiltinHead(
   origParams: List[Param]
 ) extends Head {
   // name from base and fields
-  val name: String = beautify(ref)
+  val name: String = ref.beautified
 
   // fixed parameters for built-in algorithms
   val params: List[Param] =

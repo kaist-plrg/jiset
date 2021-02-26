@@ -1,6 +1,5 @@
 package kr.ac.kaist.jiset.compile
 
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.parser.algorithm.{ Compiler, TokenParser }
@@ -18,10 +17,10 @@ trait CompileTest extends JISETTest {
     diff(result, answer) match {
       case Some(diff.Missing(missing)) =>
         println(s"==================================================")
-        println(s"[$filename] MISS: ${beautify(missing)}")
+        println(s"[$filename] MISS: ${missing.beautified}")
         println(s"--------------------------------------------------")
-        val answerStr = beautify(answer, index = true, exprId = true)
-        val resultStr = beautify(result, index = true, exprId = true)
+        val answerStr = answer.beautified(index = true, exprId = true)
+        val resultStr = result.beautified(index = true, exprId = true)
         println(s"- result: $resultStr")
         println(s"- answer: $answerStr")
         fail(s"$answerStr is different with $resultStr")

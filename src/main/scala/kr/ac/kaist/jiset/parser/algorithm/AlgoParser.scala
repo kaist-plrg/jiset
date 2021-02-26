@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.parser.algorithm
 
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.spec.algorithm._
@@ -45,7 +44,7 @@ object AlgoParser {
         println(s"--------------------------------------------------")
         heads.foreach(println(_))
         println("====>")
-        println(beautify(rawBody, index = true)) // TODO print exprId, currently generated later so all -1
+        println(rawBody.beautified(index = true)) // TODO print exprId, currently generated later so all -1
       }
 
       heads.map(Algo(_, rawBody, code))

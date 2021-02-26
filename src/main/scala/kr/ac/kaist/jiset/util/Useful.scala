@@ -4,17 +4,17 @@ import java.io.{ Reader, File, PrintWriter }
 import java.nio.file.{ Files, StandardCopyOption }
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.error._
+import org.apache.commons.text.StringEscapeUtils
 import org.jsoup._
 import org.jsoup.nodes._
 import org.jsoup.select._
 import scala.Console.RESET
 import scala.collection.mutable
+import scala.concurrent._
 import scala.io.Source
+import scala.sys.process._
 import scala.util.Random.shuffle
 import spray.json._
-import scala.sys.process._
-import scala.concurrent._
-import org.apache.commons.text.StringEscapeUtils
 
 object Useful {
   // file reader
@@ -110,6 +110,10 @@ object Useful {
   // get name without extension
   def removedExt(filename: String): String =
     filename.split('.').dropRight(1).mkString(".")
+
+  // beautify
+  def beautify[T](t: T)(implicit app: Appender.App[T]): String =
+    app(new Appender, t).toString
 
   // get extension
   def getExt(filename: String): String =

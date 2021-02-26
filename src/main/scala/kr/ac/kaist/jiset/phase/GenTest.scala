@@ -3,7 +3,6 @@ package kr.ac.kaist.jiset.phase
 import java.io.File
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.parser.algorithm.Compiler
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -52,7 +51,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         val inst = Compiler(tokens)
 
         val irName = json2ir(jsonName)
-        dumpFile(beautify(inst, index = true, exprId = true), irName)
+        dumpFile(inst.beautified(index = true, exprId = true), irName)
       }
     }
   })
@@ -79,7 +78,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         val tokens = TokenParser.getTokens(code, secIds)
         dumpJson(tokens, s"$filename.json")
         // dump ir
-        dumpFile(beautify(rawBody, index = true, exprId = true), s"$filename.ir")
+        dumpFile(rawBody.beautified(index = true, exprId = true), s"$filename.ir")
       })
     })
 

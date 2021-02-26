@@ -7,16 +7,10 @@ import kr.ac.kaist.jiset.analyzer.domain.ops._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.{ LINE_SEP => endl }
 
 object Beautifier {
-  import Appender._
-
-  def beautify[T](x: T)(
-    implicit
-    append: (Appender, T) => Appender
-  ): String = append(new Appender, x).toString
-
   // Scala value appender
   implicit lazy val strflatApp: App[StrFlat] = flatDomainApp(StrFlat, "string")
 

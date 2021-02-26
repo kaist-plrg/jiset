@@ -219,9 +219,9 @@ object Compiler extends Compilers {
   ) ~ (opt(", in ascending order") ~ opt(",") ~ opt("do") ~> stmt) ^^ {
       case k ~ ((i0 ~ s, i1 ~ e, ds, de)) ~ b =>
         val n = getTemp
-        val sv = beautify(s)
-        val ev = beautify(e)
-        val body = beautify(b)
+        val sv = s.beautified
+        val ev = e.beautified
+        val body = b.beautified
         ISeq(i0 ++ i1 :+ parseInst(s"""{
         let $k = (+ $sv ${ds}i)
         let $n = (+ $ev ${de}i)
@@ -823,9 +823,9 @@ object Compiler extends Compilers {
     ("the substring of" ~> expr) ~ ("from" ~> expr) ~ ("to" ~> expr) ^^ {
       case (i0 ~ b) ~ (i1 ~ f) ~ (i2 ~ t) => {
         val (substr, idx, char) = (getTemp, getTemp, getTemp)
-        val base = beautify(b)
-        val from = beautify(f)
-        val to = beautify(t)
+        val base = b.beautified
+        val from = f.beautified
+        val to = t.beautified
         val inst = parseInst(s"""{
            let $substr = ""
            let $idx = $from
@@ -1352,7 +1352,7 @@ object Compiler extends Compilers {
   // completion conditions
   lazy val completionCond: P[I[Expr]] = (
     expr <~ "is a normal completion" ^^ {
-      case i ~ x => pair(i, parseExpr(s"""(&& (is-completion ${beautify(x)}) (= ${beautify(x)}.Type CONST_normal))"""))
+      case i ~ x => pair(i, parseExpr(s"""(&& (is-completion ${x.beautified}) (= ${x.beautified}.Type CONST_normal))"""))
     }
   )
 

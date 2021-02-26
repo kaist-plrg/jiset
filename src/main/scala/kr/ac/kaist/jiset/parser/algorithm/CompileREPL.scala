@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.parser.algorithm
 
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.parser.algorithm.{ TokenParser, Compiler }
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -76,7 +75,7 @@ object CompileREPL {
       val (tokens, result) = target.parse(code, secIds, raw)
       println(s"[Tokens] ${tokens.mkString(" ")}")
       if (result.successful) {
-        val resultStr = beautify(result.get, index = true)
+        val resultStr = result.get.beautified(index = true)
         println(s"[Success] $resultStr")
       } else {
         println(s"[Failed] $result")
