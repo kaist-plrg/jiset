@@ -14,7 +14,9 @@ class BeautifierTinyTest extends IRTest {
     case (given, expected) =>
       val result = given.beautified
       if (result != expected) {
-        println(s"FAILED: $result != $expected")
+        println(s"$desc FAILED")
+        println(s"result: $result")
+        println(s"answer: $expected")
         assert(result == expected)
       }
   })
@@ -43,7 +45,7 @@ class BeautifierTinyTest extends IRTest {
         s"if true $SReturn else 3.0",
       IWhile(EBool(false), IRReturn) -> s"while false $SReturn",
       ISeq(List()) -> "{}",
-      // ISeq(List(IRReturn, IExpr(ENull))) -> s"{\n  $SReturn\n  null\n}",
+      ISeq(List(IRReturn, IExpr(ENull))) -> s"{\n  $SReturn\n  null\n}",
       IAssert(EBool(false)) -> "assert false",
       IPrint(EBool(false)) -> "print false",
       IApp(Id("x"), EStr("f"), IRList) ->

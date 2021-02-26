@@ -24,6 +24,7 @@ lazy val largeTest = taskKey[Unit]("Launch large tests (may hours)")
 // parse
 lazy val parseTest = taskKey[Unit]("Launch parse tests")
 lazy val parseTokenTest = taskKey[Unit]("Launch token parse tests (tiny)")
+lazy val parseJsonTest = taskKey[Unit]("Launch json parse tests (small)")
 
 // grammar
 lazy val grammarTest = taskKey[Unit]("Launch grammar tests")
@@ -43,6 +44,7 @@ lazy val analyzerJsonTest = taskKey[Unit]("Launch JSON analyzer tests (small)")
 // ir
 lazy val irTest = taskKey[Unit]("Launch ir tests")
 lazy val irBasicTest = taskKey[Unit]("Launch basic ir tests")
+lazy val irBeautifierTest = taskKey[Unit]("Launch beautifier ir tests (small)")
 
 // jiset
 lazy val jiset = (project in file("."))
@@ -76,6 +78,7 @@ lazy val jiset = (project in file("."))
     // parse
     parseTest := (testOnly in Test).toTask(" *.parse.*Test").value,
     parseTokenTest := (testOnly in Test).toTask(" *.parse.Token*Test").value,
+		parseJsonTest := (testOnly in Test).toTask(" *.parse.Json*Test").value,
     // gramamr
     grammarTest := (testOnly in Test).toTask(" *.grammar.*Test").value,
     grammarBasicTest := (testOnly in Test).toTask(" *.grammar.Basic*Test").value,
@@ -90,5 +93,6 @@ lazy val jiset = (project in file("."))
     analyzerJsonTest := (testOnly in Test).toTask(" *.analyzer.Json*Test").value,
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
-    irBasicTest := (testOnly in Test).toTask(" *.ir.Basic*Test").value
+    irBasicTest := (testOnly in Test).toTask(" *.ir.Basic*Test").value,
+		irBeautifierTest := (testOnly in Test).toTask(" *.ir.Beautifier*Test").value
   )

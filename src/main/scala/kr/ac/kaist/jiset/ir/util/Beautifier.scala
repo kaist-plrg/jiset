@@ -50,7 +50,7 @@ class Beautifier(
       case ISeq(insts) =>
         if (insts.isEmpty) app >> "{}"
         else if (!detail) app >> "{ ... }"
-        else app.wrap { insts.foreach(app :> _) }
+        else app.wrap { insts.foreach(app :> _ >> LINE_SEP) }
       case IAssert(expr) => app >> "assert " >> expr
       case IPrint(expr) => app >> "print " >> expr
       case IApp(id, fexpr, args) =>
