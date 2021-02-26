@@ -9,6 +9,7 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.CYAN
+import scala.util.matching.Regex
 
 class AbsSemantics(val cfg: CFG) {
   // ECMAScript
@@ -95,9 +96,8 @@ class AbsSemantics(val cfg: CFG) {
 
   // target algorithms
   private def targetPatterns = List(
-    """asdf""".r,
-    //"""Literal\[.*""".r,
-    //"""PrimaryExpression.*IsIdentifierRef""".r,
+    """Literal\[.*""".r,
+    """PrimaryExpression.*IsIdentifierRef""".r,
 
     // Success
     // TODO refactor prefix pattern for IsFunctionDefinition
@@ -125,7 +125,6 @@ class AbsSemantics(val cfg: CFG) {
     """AsyncGeneratorExpression\[.*.IsFunctionDefinition""".r,
     """ClassExpression\[.*.IsFunctionDefinition""".r,
     """AsyncFunctionExpression\[.*.IsFunctionDefinition""".r,
-
   // Fail
   // """PrimaryExpression\[12,0\].Evaluation""".r => need implemetation of IAccess, IApp
   // """PrimaryExpression\[0,0\].Evaluation""".r,
@@ -135,6 +134,7 @@ class AbsSemantics(val cfg: CFG) {
 
   //"""PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
   )
+
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
     head.withParams.isEmpty &&
     targetPatterns.exists(_.matches(head.printName))
