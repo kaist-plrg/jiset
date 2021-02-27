@@ -95,12 +95,11 @@ class AbsSemantics(val cfg: CFG) {
   } yield cp -> st).toMap
 
   // target algorithms
-  private def targetPatterns = List(
-    """Literal\[.*""".r,
-    """PrimaryExpression.*IsIdentifierRef""".r,
-
+  private def successPatterns = List(
     // Success
     // TODO refactor prefix pattern for IsFunctionDefinition
+    """Literal\[.*""".r,
+    """PrimaryExpression.*IsIdentifierRef""".r,
     """Expression\[1,0\].IsFunctionDefinition""".r,
     """PrimaryExpression\[[0-4],0\].IsFunctionDefinition""".r,
     """PrimaryExpression\[1[0-1],0\].IsFunctionDefinition""".r, // [0,0]~[11,0]
@@ -125,15 +124,18 @@ class AbsSemantics(val cfg: CFG) {
     """AsyncGeneratorExpression\[.*.IsFunctionDefinition""".r,
     """ClassExpression\[.*.IsFunctionDefinition""".r,
     """AsyncFunctionExpression\[.*.IsFunctionDefinition""".r,
-  // Fail
-  // """PrimaryExpression\[12,0\].Evaluation""".r => need implemetation of IAccess, IApp
-  // """PrimaryExpression\[0,0\].Evaluation""".r,
-  // """NewExpression\[1,0\].Evaluation""".r,
-  // """EvaluateStringOrNumericBinaryExpression""".r, => parse complete, but analyze phase does not work
-  // """Expression\[1,0\].AssignmentTargetType""".r, => missing impl on `return CONST_invalid`
-
-  //"""PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
   )
+
+  private def failedPatterns = List(
+    """PrimaryExpression\[12,0\].Evaluation""".r, // need implemetation of IAccess, IApp
+    """PrimaryExpression\[0,0\].Evaluation""".r,
+    """NewExpression\[1,0\].Evaluation""".r,
+    """EvaluateStringOrNumericBinaryExpression""".r, // parse complete, but analyze phase does not work
+    """Expression\[1,0\].AssignmentTargetType""".r, // missing impl on `return CONST_invalid`
+    """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
+  )
+
+  private def targetPatterns = List("""Expression\[1,0\].AssignmentTargetType""".r)
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
     head.withParams.isEmpty &&

@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.analyzer.domain.refvalue
 
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.generator._
 
@@ -77,9 +78,11 @@ object BasicDomain extends refvalue.Domain {
       case Top => AbsValue.Top
       case Id(x) =>
         val (localV, absent) = st.env(x)
-        val globalV =
-          if (absent.isTop) globals.getOrElse(x, ???)
-          else AbsValue.Bot
+        val globalV: AbsValue = if (absent.isTop) globals.getOrElse(x, {
+          alarm(s"unknown variable: $x")
+          AbsAbsent.Top
+        })
+        else AbsValue.Bot
         localV ⊔ globalV
       case ObjProp(addr, prop) => ???
       case StrProp(str, prop) => ???
