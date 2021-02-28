@@ -48,6 +48,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)) -> "num | int | bigint",
       AbsValue("a", "b", true, false) -> "str | bool",
       AbsValue(42, NamedAddr("Global"), DynamicAddr(432)) -> "(#Global | #432) | 42i",
+      AbsValue(Symb("has"), Symb("get")) -> "(@has | @get)",
       (AbsValue(true, Cont()) ⊔ AbsClo(Clo(42))) -> "λ(42) | κ | true",
       AbsValue(Clo(42, Env("x" -> Bool(true), "y" -> Num(42)))) -> """λ(42)[{
       |  x -> ! true
@@ -68,23 +69,22 @@ class BeautifierTinyTest extends AnalyzerTest {
     )
 
     test("Abstract Objects")(
-      AbsObj(SymbolObj("has"), SymbolObj("get")) -> "@(has | get)",
       AbsObj(MapObj(Ty(""), "x" -> true, "y" -> 2), MapObj(Ty(""), "x" -> "a", "z" -> Null)) -> """{
       |  x -> ! "a" | true
       |  y -> ? 2i
       |  z -> ? null
       |}""".stripMargin,
       AbsObj(ListObj(Undef, true, 42)) -> "[undef, true, 42i]",
-      AbsObj(SymbolObj("has"), MapObj(Ty("")), ListObj()) -> "@has | {} | []",
+      AbsObj(MapObj(Ty("")), ListObj()) -> "{} | []",
     )
 
     val heap = AbsHeap(Heap(
-      NamedAddr("Global") -> SymbolObj("has"),
+      NamedAddr("Global") -> ListObj(),
       DynamicAddr(42) -> MapObj(Ty("")),
     ))
     test("Abstract Heaps")(
       heap -> """{
-      |  #Global -> @has
+      |  #Global -> []
       |  #42 -> {}
       |}""".stripMargin,
     )
@@ -113,7 +113,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       |    z -> ? null
       |  }
       |  heap: {
-      |    #Global -> @has
+      |    #Global -> []
       |    #42 -> {}
       |  }
       |}""".stripMargin,

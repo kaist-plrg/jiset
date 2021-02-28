@@ -5,9 +5,6 @@ import kr.ac.kaist.jiset.util.Useful._
 // objects
 sealed trait Obj
 
-// symbols
-case class SymbolObj(desc: String) extends Obj
-
 // maps
 case class MapObj(ty: Ty, props: Map[String, Value]) extends Obj
 object MapObj {

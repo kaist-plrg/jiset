@@ -10,6 +10,9 @@ sealed trait Addr extends Value
 case class NamedAddr(name: String) extends Addr
 case class DynamicAddr(long: Long) extends Addr
 
+// symbols
+case class Symb(desc: String) extends Value
+
 // functions
 case class Clo(fid: Int, env: Env = Env()) extends Value
 

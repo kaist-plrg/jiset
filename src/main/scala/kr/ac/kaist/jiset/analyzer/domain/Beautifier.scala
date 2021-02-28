@@ -30,6 +30,7 @@ object Beautifier {
     case NamedAddr(name) => name
     case DynamicAddr(k) => k.toString
   })
+  implicit lazy val symbApp: App[Symb] = (app, symb) => app >> "@" >> symb.desc
 
   // abstract value appender
   implicit lazy val anumApp: App[AbsNum] = flatDomainApp(AbsNum, "num")
@@ -56,6 +57,7 @@ object Beautifier {
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
   implicit lazy val aaddrApp: App[AbsAddr] = setDomainApp(AbsAddr)
+  implicit lazy val asymbApp: App[AbsSymb] = setDomainApp(AbsSymb)
   implicit lazy val acloApp: App[AbsClo] = {
     import AbsClo._
     implicit val pairApp: App[Pair] = (app, pair) => {
@@ -71,9 +73,10 @@ object Beautifier {
   implicit lazy val aastApp: App[AbsAST] = setDomainApp(AbsAST)
   implicit lazy val avalueApp: App[AbsValue] =
     domainApp(AbsValue)((app, v) => {
-      val AbsValue.Elem(addr, clo, cont, ast, prim) = v
+      val AbsValue.Elem(addr, symb, clo, cont, ast, prim) = v
       var udts = Vector[Update]()
       if (!addr.isBottom) udts :+= { _ >> addr }
+      if (!symb.isBottom) udts :+= { _ >> symb }
       if (!clo.isBottom) udts :+= { _ >> clo }
       if (!cont.isBottom) udts :+= { _ >> cont }
       if (!ast.isBottom) udts :+= { _ >> ast }
@@ -89,12 +92,8 @@ object Beautifier {
   }
   implicit lazy val aobjApp: App[AbsObj] =
     domainApp(AbsObj)((app, obj) => {
-      val AbsObj.Elem(symbol, map, list) = obj
+      val AbsObj.Elem(map, list) = obj
       var udts = Vector[Update]()
-      if (!symbol.isBottom) udts :+= {
-        implicit val symbolApp = setDomainApp(AbsObj.SymbolD)
-        _ >> "@" >> symbol
-      }
       if (!map.isBottom) udts :+= {
         implicit val mapApp = pmapDomainApp(AbsObj.MapD)
         _ >> map

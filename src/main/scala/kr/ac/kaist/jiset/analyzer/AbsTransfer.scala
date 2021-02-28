@@ -168,9 +168,10 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         vs <- join(exprs.map(transfer))
         a <- id(_.allocList(vs.toList))
       } yield a
-      case ESymbol(desc) =>
-        // TODO handling non-string descriptions
-        _.allocSymbol(desc.to[EStr](???).str)
+      case ESymbol(desc) => for {
+        v <- transfer(desc)
+        s = AbsValue(Symb(v.to[String]))
+      } yield s
       case EPop(list, idx) => for {
         l <- transfer(list)
         k <- transfer(idx)

@@ -188,8 +188,8 @@ class Transfer(
     } yield a
     case ESymbol(desc) => for {
       v <- transfer(desc)
-      a <- id(_.allocSymbol(v.to[Str]))
-    } yield a
+      s = Symb(v.to[String])
+    } yield s
     case ECopy(expr) => for {
       v <- transfer(expr)
       a <- id(_.copyObj(v.to[Addr]))
@@ -377,9 +377,9 @@ class Transfer(
     case Absent => "Absent"
     case a: Addr => st.get(a)._1 match {
       case _: ListObj => "List"
-      case _: SymbolObj => "Symbol"
       case MapObj(ty, _) => ty.name
     }
+    case Symb(_) => "Symbol"
     case ASTVal(_) => "AST"
     case Cont() => "Continuation"
     case Clo(_, _) => "Closure"

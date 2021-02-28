@@ -4,10 +4,6 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends obj.Domain {
-  // symbol domain
-  val SymbolD = generator.SetDomain[String]()
-  type SymbolD = SymbolD.Elem
-
   // map domain
   val MapD = combinator.PMapDomain[String, Value, AbsValue.type](AbsValue)
   type MapD = MapD.Elem
@@ -18,7 +14,6 @@ object BasicDomain extends obj.Domain {
 
   // abstraction function
   def alpha(obj: Obj): Elem = obj match {
-    case SymbolObj(desc) => Elem(symbol = SymbolD(desc))
     case MapObj(_, props) => Elem(map = MapD(props))
     case ListObj(values) => Elem(list = ListD(values))
   }
@@ -27,30 +22,26 @@ object BasicDomain extends obj.Domain {
   val Bot: Elem = Elem()
 
   // top value
-  val Top: Elem = Elem(SymbolD.Top, MapD.Top, ListD.Top)
+  val Top: Elem = Elem(MapD.Top, ListD.Top)
 
   case class Elem(
-    symbol: SymbolD = SymbolD.Bot,
     map: MapD = MapD.Bot,
     list: ListD = ListD.Bot
   ) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (
-      this.symbol ⊑ that.symbol &&
       this.map ⊑ that.map &&
       this.list ⊑ that.list
     )
 
     // join operator
     def ⊔(that: Elem): Elem = Elem(
-      this.symbol ⊔ that.symbol,
       this.map ⊔ that.map,
       this.list ⊔ that.list
     )
 
     // meet operator
     def ⊓(that: Elem): Elem = Elem(
-      this.symbol ⊓ that.symbol,
       this.map ⊓ that.map,
       this.list ⊓ that.list
     )

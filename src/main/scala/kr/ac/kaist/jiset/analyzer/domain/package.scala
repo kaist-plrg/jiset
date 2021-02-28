@@ -46,6 +46,10 @@ package object domain {
   lazy val AbsAddr = addr.SetDomain
   type AbsAddr = AbsAddr.Elem
 
+  // abstract addresses
+  lazy val AbsSymb = symb.SetDomain
+  type AbsSymb = AbsSymb.Elem
+
   // abstract continuations
   lazy val AbsCont = cont.SimpleDomain
   type AbsCont = AbsCont.Elem

@@ -7,6 +7,7 @@ object ProdDomain extends value.Domain {
   // abstraction functions
   def alpha(v: Value): Elem = v match {
     case addr: Addr => Elem(addr = AbsAddr(addr))
+    case symb: Symb => Elem(symb = AbsSymb(symb))
     case clo: Clo => Elem(clo = AbsClo(clo))
     case cont: Cont => Elem(cont = AbsCont(cont))
     case ast: ASTVal => Elem(ast = AbsAST(ast))
@@ -19,6 +20,7 @@ object ProdDomain extends value.Domain {
   // top value
   val Top: Elem = Elem(
     AbsAddr.Top,
+    AbsSymb.Top,
     AbsClo.Top,
     AbsCont.Top,
     AbsAST.Top,
@@ -28,14 +30,16 @@ object ProdDomain extends value.Domain {
   // constructor
   def apply(
     addr: AbsAddr = AbsAddr.Bot,
+    symb: AbsSymb = AbsSymb.Bot,
     clo: AbsClo = AbsClo.Bot,
     cont: AbsCont = AbsCont.Bot,
     ast: AbsAST = AbsAST.Bot,
     prim: AbsPrim = AbsPrim.Bot
-  ): Elem = Elem(addr, clo, cont, ast, prim)
+  ): Elem = Elem(addr, symb, clo, cont, ast, prim)
 
   case class Elem(
     addr: AbsAddr = AbsAddr.Bot,
+    symb: AbsSymb = AbsSymb.Bot,
     clo: AbsClo = AbsClo.Bot,
     cont: AbsCont = AbsCont.Bot,
     ast: AbsAST = AbsAST.Bot,
@@ -44,6 +48,7 @@ object ProdDomain extends value.Domain {
     // partial order
     def ⊑(that: Elem): Boolean = (
       this.addr ⊑ that.addr &&
+      this.symb ⊑ that.symb &&
       this.clo ⊑ that.clo &&
       this.cont ⊑ that.cont &&
       this.ast ⊑ that.ast &&
@@ -53,6 +58,7 @@ object ProdDomain extends value.Domain {
     // join operator
     def ⊔(that: Elem): Elem = Elem(
       this.addr ⊔ that.addr,
+      this.symb ⊔ that.symb,
       this.clo ⊔ that.clo,
       this.cont ⊔ that.cont,
       this.ast ⊔ that.ast,
@@ -62,6 +68,7 @@ object ProdDomain extends value.Domain {
     // meet operator
     def ⊓(that: Elem): Elem = Elem(
       this.addr ⊓ that.addr,
+      this.symb ⊓ that.symb,
       this.clo ⊓ that.clo,
       this.cont ⊓ that.cont,
       this.ast ⊓ that.ast,
@@ -71,6 +78,7 @@ object ProdDomain extends value.Domain {
     // concretization clotion
     def gamma: concrete.Set[Value] = (
       this.addr.gamma ++
+      this.symb.gamma ++
       this.clo.gamma ++
       this.cont.gamma ++
       this.ast.gamma ++
@@ -80,6 +88,7 @@ object ProdDomain extends value.Domain {
     // conversion to flat domain
     def getSingle: concrete.Flat[Value] = (
       this.addr.getSingle ++
+      this.symb.getSingle ++
       this.clo.getSingle ++
       this.cont.getSingle ++
       this.ast.getSingle ++
