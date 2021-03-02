@@ -126,7 +126,9 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v))
       case IThrow(id) => st => ???
-      case IAssert(expr) => st => ???
+      case IAssert(expr) => for {
+        v <- transfer(expr)
+      } yield if (!(AT ⊑ v.bool)) alarm(s"assertion failed: ${expr.beautified}")
       case IPrint(expr) => st => ???
       case IWithCont(id, params, bodyInst) => st => ???
       case ISetType(expr, ty) => st => ???

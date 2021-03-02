@@ -101,8 +101,8 @@ package object domain {
   //////////////////////////////////////////////////////////////////////////////
   // helpers
   //////////////////////////////////////////////////////////////////////////////
-  lazy val AbsTrue = AbsBool(true)
-  lazy val AbsFalse = AbsBool(false)
+  lazy val AT = AbsBool(true)
+  lazy val AF = AbsBool(false)
 
   // abstract Scala strings
   lazy val StrFlat = new FlatDomain[String]

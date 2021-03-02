@@ -87,10 +87,10 @@ object BasicDomain extends refvalue.Domain {
         else AbsValue.Bot
         localV ⊔ globalV
       case ObjProp(addr, prop) => addr.toSet.toList.map {
-        case (x: NamedAddr) =>
-          val obj = sem.globalHeaps.getOrElse(x, AbsObj.Bot)
+        case (addr @ NamedAddr(x)) =>
+          val obj = sem.globalHeaps.getOrElse(addr, AbsObj.Bot)
           val (v, a) = obj(prop) // XXX ignore absent values
-          if (a.isTop) alarm(s"unknown property: #$x.${beautify(prop)}")
+          if (a.isTop) alarm(s"unknown property: #$x[${beautify(prop)}]")
           v
         case DynamicAddr(k) => ???
       }.foldLeft[AbsValue](AbsValue.Bot)(_ ⊔ _)

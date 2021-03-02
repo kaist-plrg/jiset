@@ -47,8 +47,12 @@ class AbsSemantics(val cfg: CFG) {
     ),
     "EnvironmentRecord" -> Map(
       "HasThisBinding" -> getClos(""".*\.HasThisBinding""".r),
+      "GetThisBinding" -> getClos(""".*\.GetThisBinding""".r),
       "ThisBindingStatus" -> getConsts("lexical", "initialized", "uninitialized"),
+      "OuterEnv" -> List(NamedAddr("EnvironmentRecord"), Null),
+      "GlobalThisValue" -> List(NamedAddr("GlobalThis")),
     ),
+    "GlobalThis" -> Map(),
   )
   private def getClos(pattern: Regex): List[Clo] = for {
     func <- cfg.funcs.toList
