@@ -3,8 +3,6 @@ package kr.ac.kaist.jiset.analyzer.domain.refvalue
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
-import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
-import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.analyzer.domain.generator._
 
 object BasicDomain extends refvalue.Domain {
@@ -74,28 +72,5 @@ object BasicDomain extends refvalue.Domain {
 
     // conversion to flat domain
     def getSingle: concrete.Flat[RefValue] = Many
-
-    // conversion to abstract values with abstract states
-    def toValue(st: AbsState, sem: AbsSemantics): AbsValue = this match {
-      case Bot => AbsValue.Bot
-      case Top => AbsValue.Top
-      case Id(x) =>
-        val (localV, absent) = st.env(x)
-        val globalV: AbsValue = if (absent.isTop) sem.globalVars.getOrElse(x, {
-          alarm(s"unknown variable: $x")
-          AbsAbsent.Top
-        })
-        else AbsValue.Bot
-        localV ⊔ globalV
-      case ObjProp(addr, prop) => addr.toSet.toList.map {
-        case (addr @ NamedAddr(x)) =>
-          val obj = sem.globalHeaps.getOrElse(addr, AbsObj.Bot)
-          val (v, a) = obj(prop) // XXX ignore absent values
-          if (a.isTop) alarm(s"unknown property: #$x[${beautify(prop)}]")
-          v
-        case DynamicAddr(k) => ???
-      }.foldLeft[AbsValue](AbsValue.Bot)(_ ⊔ _)
-      case StrProp(str, prop) => ???
-    }
   }
 }

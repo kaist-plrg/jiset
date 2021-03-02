@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
+import scala.Console._
 import scala.annotation.tailrec
 
 // abstract transfer function
@@ -103,7 +104,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       } yield ()
       case IAssign(ref, expr) => for {
         refv <- transfer(ref)
-        v <- transfer(refv)
+        v <- transfer(expr)
         _ <- modify(_.update(sem, refv, v))
       } yield ()
       case IDelete(ref) => for {
@@ -128,6 +129,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case IThrow(id) => st => ???
       case IAssert(expr) => for {
         v <- transfer(expr)
+        _ <- modify(prune(expr, true))
       } yield if (!(AT ⊑ v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
       case IPrint(expr) => st => ???
       case IWithCont(id, params, bodyInst) => st => ???

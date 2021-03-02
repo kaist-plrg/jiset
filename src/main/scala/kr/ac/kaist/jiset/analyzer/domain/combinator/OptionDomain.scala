@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain.combinator
 
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 // option abstract domain

@@ -1,8 +1,10 @@
 package kr.ac.kaist.jiset.analyzer.domain.state
 
-import kr.ac.kaist.jiset.ir.State
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
+import kr.ac.kaist.jiset.util.Useful._
 
 object BasicDomain extends state.Domain {
   // abstraction function
@@ -56,14 +58,51 @@ object BasicDomain extends state.Domain {
     def +(pair: (String, AbsValue)): Elem = copy(env = env + pair)
 
     // update references
-    def update(sem: AbsSemantics, refv: AbsRefValue, v: AbsValue): Elem = ???
+    def update(sem: AbsSemantics, refv: AbsRefValue, v: AbsValue): Elem = refv match {
+      case AbsRefValue.Id(x) =>
+        val (localV, absent) = env(x)
+        if (!localV.isBottom) {
+          if (absent.isTop) alarm(s"unknown variable: $x")
+          println(x, beautify(v))
+          this + (x -> v)
+        } else if (absent.isTop) sem.globalVars.get(x) match {
+          case Some(globalV) =>
+            if (!(v ⊑ globalV))
+              alarm(s"wrong update of global variable $x with ${beautify(v)}")
+            this
+          case None =>
+            alarm(s"unknown variable: $x")
+            this
+        }
+        else Bot
+      case _ => ???
+    }
 
     // update references
     def delete(sem: AbsSemantics, refv: AbsRefValue): Elem = ???
 
     // lookup reference values
-    def apply(sem: AbsSemantics, refv: AbsRefValue): AbsValue =
-      refv.toValue(this, sem)
+    def apply(sem: AbsSemantics, refv: AbsRefValue): AbsValue = refv match {
+      case AbsRefValue.Bot => AbsValue.Bot
+      case AbsRefValue.Top => AbsValue.Top
+      case AbsRefValue.Id(x) =>
+        val (localV, absent) = env(x)
+        val globalV: AbsValue = if (absent.isTop) sem.globalVars.getOrElse(x, {
+          alarm(s"unknown variable: $x")
+          AbsAbsent.Top
+        })
+        else AbsValue.Bot
+        localV ⊔ globalV
+      case AbsRefValue.ObjProp(addr, prop) => addr.toSet.toList.map {
+        case (addr @ NamedAddr(x)) =>
+          val obj = sem.globalHeaps.getOrElse(addr, AbsObj.Bot)
+          val (v, a) = obj(prop) // XXX ignore absent values
+          if (a.isTop) alarm(s"unknown property: #$x[${beautify(prop)}]")
+          v
+        case DynamicAddr(k) => ???
+      }.foldLeft[AbsValue](AbsValue.Bot)(_ ⊔ _)
+      case AbsRefValue.StrProp(str, prop) => ???
+    }
 
     // allocate a new symbol
     def allocSymbol(desc: String): (AbsValue, Elem) = ???
