@@ -206,13 +206,12 @@ class AbsSemantics(val cfg: CFG) {
 
   private def failedPatterns = List(
     // need implemetation of IAccess, IApp
-    """PrimaryExpression\[12,0\].Evaluation""".r,
-    """NewExpression\[1,0\].Evaluation""".r,
-    """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
     // not implemented `access`
+    """PrimaryExpression\[12,0\].Evaluation""".r,
     """Identifier\[.*.StringValue""".r,
     """PropertyDefinition\[0,0\].PropName""".r,
     """StringLiteral\[0,1\].StringValue""".r,
+    """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
     // not implemented transfer for `RefValue `
     """IdentifierReference\[0,0\].AssignmentTargetType""".r,
     // has parameter
@@ -223,12 +222,13 @@ class AbsSemantics(val cfg: CFG) {
     """Identifier\[0,0\].StringValue""".r,
     // not implemented: EIsInstanceOf
     """IfStatement\[0,0\].EarlyErrors""".r,
+    """NewExpression\[1,0\].Evaluation""".r, // EIsInstanceOf @EvaluateNew
     // Unknown property #NamedAddr(ExecutionContext)."Generator" (@GetGeneratorKind)
     """YieldExpression\[0,0\].Evaluation""".r,
     // unknown property: #NamedAddr(EnvironmentRecord)."GetThisBinding"
-    //unknown property: #NamedAddr(EnvironmentRecord)."OuterEnv"
+    // unknown property: #NamedAddr(EnvironmentRecord)."OuterEnv"
     """PrimaryExpression\[0,0\].Evaluation""".r,
-    )
+  )
 
   private def targetPatterns = List(
     """PrimaryExpression\[0,0\].Evaluation""".r,
