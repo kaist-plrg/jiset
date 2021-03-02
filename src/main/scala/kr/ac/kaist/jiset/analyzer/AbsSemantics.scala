@@ -135,16 +135,18 @@ class AbsSemantics(val cfg: CFG) {
   )
 
   private def failedPatterns = List(
-    """PrimaryExpression\[12,0\].Evaluation""".r, // need implemetation of IAccess, IApp
+    // need implemetation of IAccess, IApp
+    """PrimaryExpression\[12,0\].Evaluation""".r,
     """NewExpression\[1,0\].Evaluation""".r,
     """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
-    """YieldExpression\[0,0\].Evaluation""".r, // not implemented `app`
-    """StringLiteral\[0,1\].StringValue""".r, // not implemented `access`
+    // not implemented `app`
+    """YieldExpression\[0,0\].Evaluation""".r,
+    // not implemented `access`
     """Identifier\[.*.StringValue""".r,
   )
 
   private def targetPatterns = List(
-    """PrimaryExpression\[0,0\].Evaluation""".r,
+    """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (

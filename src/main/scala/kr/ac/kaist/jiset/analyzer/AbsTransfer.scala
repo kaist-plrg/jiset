@@ -153,7 +153,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         v = (b.getSingle, p.getSingle) match {
           case (One(ASTVal(ast)), One(Str(name))) => (ast, name) match {
             case ("NumericLiteral", "NumericValue") => numTop
-            case ("StringLiteral", "StringValue") => strTop
+            case ("StringLiteral", "StringValue" | "SV") => strTop
             case _ => ???
           }
           case _ => ???
