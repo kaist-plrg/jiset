@@ -24,6 +24,9 @@ object BasicDomain extends comp.Domain {
     case (k, (v, t)) if !v.isBottom && !t.isBottom => k -> (v, t)
   }).toMap
 
+  // constructors
+  def apply(pairs: (String, (AbsPure, AbsPure))*): Elem = Elem(pairs.toMap)
+
   case class Elem(
     map: Map[String, (AbsPure, AbsPure)] = Map()
   ) extends ElemTrait {

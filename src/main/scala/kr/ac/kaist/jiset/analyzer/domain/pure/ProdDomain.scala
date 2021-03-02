@@ -86,6 +86,11 @@ object ProdDomain extends pure.Domain {
       this.prim.getSingle
     )
 
+    // conversion to normal completion
+    def toCompletion: AbsComp = AbsComp(
+      "normal" -> (this, AbsPure(NamedAddr("CONST_empty")))
+    )
+
     // abstract equality
     def =^=(that: Elem): AbsBool =
       (this.getSingle, that.getSingle) match {

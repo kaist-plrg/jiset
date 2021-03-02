@@ -158,4 +158,6 @@ package object domain {
     AbsPure(prim = x)
   implicit def pure2value[T](x: T)(implicit f: T => AbsPure) =
     AbsValue(pure = x)
+  implicit def comp2value[T](x: T)(implicit f: T => AbsComp) =
+    AbsValue(comp = x)
 }
