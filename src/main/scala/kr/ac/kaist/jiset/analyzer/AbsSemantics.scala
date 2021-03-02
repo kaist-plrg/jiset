@@ -206,12 +206,9 @@ class AbsSemantics(val cfg: CFG) {
 
   private def failedPatterns = List(
     // need implemetation of IAccess, IApp
-    """PrimaryExpression\[0,0\].Evaluation""".r,
     """PrimaryExpression\[12,0\].Evaluation""".r,
     """NewExpression\[1,0\].Evaluation""".r,
     """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
-    // not implemented `app`
-    """YieldExpression\[0,0\].Evaluation""".r,
     // not implemented `access`
     """Identifier\[.*.StringValue""".r,
     """PropertyDefinition\[0,0\].PropName""".r,
@@ -224,9 +221,14 @@ class AbsSemantics(val cfg: CFG) {
     """TemplateLiteral\[0,0\].TemplateStrings""".r,
     // not implemented: access Identifier "StringValue" -> maybe abstract StringValue to `str`?
     """Identifier\[0,0\].StringValue""".r,
-    // StackOverflow error
+    // not implemented: EIsInstanceOf
     """IfStatement\[0,0\].EarlyErrors""".r,
-  )
+    // Unknown property #NamedAddr(ExecutionContext)."Generator" (@GetGeneratorKind)
+    """YieldExpression\[0,0\].Evaluation""".r,
+    // unknown property: #NamedAddr(EnvironmentRecord)."GetThisBinding"
+    //unknown property: #NamedAddr(EnvironmentRecord)."OuterEnv"
+    """PrimaryExpression\[0,0\].Evaluation""".r,
+    )
 
   private def targetPatterns = List(
     """PrimaryExpression\[0,0\].Evaluation""".r,
