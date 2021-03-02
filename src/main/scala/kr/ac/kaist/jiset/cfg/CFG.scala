@@ -21,6 +21,7 @@ class CFG(val spec: ECMAScript) {
     case LinearEdge(x, y) => x -> Set(y)
     case BranchEdge(x, y, z) => x -> Set(y, z)
   }).toMap
+  val fidMap: Map[Int, Function] = (for (f <- funcs) yield f.uid -> f).toMap
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions

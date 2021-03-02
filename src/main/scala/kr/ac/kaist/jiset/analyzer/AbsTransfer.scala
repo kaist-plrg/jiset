@@ -127,7 +127,26 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
     def transfer(inst: CallInst): Updater = inst match {
       case IApp(Id(x), fexpr, args) => for {
         f <- transfer(fexpr)
-      } yield ???
+        vs <- join(args.map(arg => transfer(arg)))
+        st <- get
+        _ <- put(AbsState.Bot)
+      } yield for (ts <- getTypes(st, vs)) {
+        val view = View(ts)
+        f.clo.foreach {
+          case AbsClo.Pair(fid, _) =>
+            val func = fidMap(fid)
+            println("---- call ----")
+            println(s"func: ${func.name}")
+            val args = func.algo.params.map(_.name) zip vs
+            println(s"args: ${args.mkString("[", ", ", "]")}")
+            val np = NodePoint(func.entry, view)
+            println(s"np: $np")
+            val newSt = args.foldLeft(st.copy(env = AbsEnv.Empty)) {
+              case (st, (x, v)) => st + (x -> v)
+            }
+            sem += np -> newSt
+        }
+      }
       case IAccess(Id(x), bexpr, expr) => for {
         b <- transfer(bexpr)
         p <- transfer(expr)
@@ -243,7 +262,10 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
     }
 
     // transfer function for reference values
-    def transfer(refv: AbsRefValue): Result[AbsValue] = ???
+    def transfer(refv: AbsRefValue): Result[AbsValue] = {
+      println(beautify(refv))
+      ???
+    }
 
     // transfer function for unary operators
     // TODO more precise abstract semantics
@@ -306,5 +328,16 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       bigint = AbsBigINum.Top,
       str = AbsStr.Top
     )
+
+    // get types from abstract values
+    private def getTypes(st: AbsState, vs: List[AbsValue]): List[List[Type]] = {
+      vs.foldRight(List(List[Type]())) {
+        case (v, tysList) => for {
+          tys <- tysList
+          ty <- getType(st, v)
+        } yield ty :: tys
+      }
+    }
+    private def getType(st: AbsState, v: AbsValue): List[Type] = ???
   }
 }

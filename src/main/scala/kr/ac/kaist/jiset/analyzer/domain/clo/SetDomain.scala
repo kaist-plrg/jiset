@@ -29,6 +29,12 @@ object SetDomain extends clo.Domain {
     // meet operator
     def ⊓(that: Elem): Elem = Elem(this.set ⊓ that.set)
 
+    // map function
+    def map(f: Pair => Pair): Elem = Elem(set.map(f))
+
+    // foreach function
+    def foreach(f: Pair => Unit): Unit = set.foreach(f)
+
     // concretization function
     def gamma: concrete.Set[Clo] = for {
       Pair(f, ae) <- set.gamma

@@ -62,6 +62,18 @@ class SetDomain[V](total: Set[V]) extends AbsDomain[V] {
         case _ => Many
       }
     }
+
+    // map function
+    def map(f: V => V): Elem = this match {
+      case Top => Top
+      case VSet(set) => VSet(set.map(f))
+    }
+
+    // foreach function
+    def foreach(f: V => Unit): Unit = this match {
+      case Top => ???
+      case VSet(set) => set.foreach(f)
+    }
   }
 }
 object SetDomain {

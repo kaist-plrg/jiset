@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 trait Type {
   // conversion to string
   override def toString: String = this match {
+    case RecordT(name) => s"$name"
     case AstT(name) => s"☊($name)"
     case NumT => "num"
     case INumT => "int"
@@ -12,11 +13,18 @@ trait Type {
     case UndefT => "undef"
     case NullT => "null"
     case AbsentT => "?"
+    case OrT(set) => set.mkString(" | ")
   }
 }
 
+// object types
+case class RecordT(name: String) extends Type
+
 // AST types
 case class AstT(name: String) extends Type
+
+// or types
+case class OrT(set: Set[Type]) extends Type
 
 // primitive types
 case object NumT extends Type
