@@ -143,7 +143,8 @@ class AbsSemantics(val cfg: CFG) {
     """YieldExpression\[0,0\].Evaluation""".r,
     // not implemented `access`
     """Identifier\[.*.StringValue""".r,
-  )
+    """IdentifierReference\[0,0\].AssignmentTargetType""".r, //not implemented transfer for RefValue
+    )
 
   private def targetPatterns = List(
     """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
