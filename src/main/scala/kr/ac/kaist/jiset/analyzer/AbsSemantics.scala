@@ -127,6 +127,10 @@ class AbsSemantics(val cfg: CFG) {
     """AsyncGeneratorExpression\[.*.IsFunctionDefinition""".r,
     """ClassExpression\[.*.IsFunctionDefinition""".r,
     """AsyncFunctionExpression\[.*.IsFunctionDefinition""".r,
+    """IdentifierReference\[1,0\].StringValue""".r,
+    """BindingIdentifier\[.*.StringValue""".r,
+    """IdentifierReference\[.*.StringValue""".r,
+    """LabelIdentifier\[.*.StringValue""".r,
     """Expression\[1,0\].AssignmentTargetType""".r,
   )
 
@@ -134,11 +138,16 @@ class AbsSemantics(val cfg: CFG) {
     """PrimaryExpression\[12,0\].Evaluation""".r, // need implemetation of IAccess, IApp
     """PrimaryExpression\[0,0\].Evaluation""".r,
     """NewExpression\[1,0\].Evaluation""".r,
-    """EvaluateStringOrNumericBinaryExpression""".r, // parse complete, but analyze phase does not work
     """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
+    """EvaluateStringOrNumericBinaryExpression""".r, // parse complete, but analyze phase does not work
+    """YieldExpression\[0,0\].Evaluation""".r, // not implemented `app`
+    """StringLiteral\[0,1\].StringValue""".r, // not implemented `access`
+    """Identifier\[.*.StringValue""".r,
   )
 
   private def targetPatterns = successPatterns
+    """Expression\[1,0\].AssignmentTargetType""".r, // missing impl on `return CONST_invalid`
+  )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
     head.withParams.isEmpty &&
