@@ -224,10 +224,12 @@ class AbsSemantics(val cfg: CFG) {
     """TemplateLiteral\[0,0\].TemplateStrings""".r,
     // not implemented: access Identifier "StringValue" -> maybe abstract StringValue to `str`?
     """Identifier\[0,0\].StringValue""".r,
+    // StackOverflow error
+    """IfStatement\[0,0\].EarlyErrors""".r,
   )
 
   private def targetPatterns = List(
-    """PrimaryExpression\[0,0\].Evaluation""".r,
+    """IfStatement\[0,0\].EarlyErrors""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (

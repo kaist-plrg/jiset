@@ -212,7 +212,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         v <- transfer(expr)
       } yield ??? // TODO after discussing the completion structures
       case EIsInstanceOf(base, name) => for {
-        v <- transfer(expr)
+        v <- transfer(base)
       } yield ??? // TODO need discussion
       case EGetElems(base, name) => for {
         v <- transfer(expr)
