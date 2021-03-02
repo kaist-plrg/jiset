@@ -22,10 +22,13 @@ class AbsSemantics(val cfg: CFG) {
   // worklist
   val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
 
-  // global variables
-  val globals: Map[String, AbsValue] = (for {
-    (x, v) <- cfg.initGlobals
-  } yield x -> AbsValue(v)).toMap
+  // global variables and heaps
+  val (globalVars, globalHeaps): (Map[String, AbsValue], Map[Addr, AbsObj]) = {
+    val (vars, heaps) = cfg.getGlobal
+    val globalVars = for ((x, v) <- vars) yield x -> AbsValue(v)
+    val globalHeaps = for ((a, o) <- heaps) yield a -> AbsObj(o)
+    (globalVars, globalHeaps)
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
@@ -124,6 +127,7 @@ class AbsSemantics(val cfg: CFG) {
     """AsyncGeneratorExpression\[.*.IsFunctionDefinition""".r,
     """ClassExpression\[.*.IsFunctionDefinition""".r,
     """AsyncFunctionExpression\[.*.IsFunctionDefinition""".r,
+    """Expression\[1,0\].AssignmentTargetType""".r,
   )
 
   private def failedPatterns = List(
@@ -131,11 +135,10 @@ class AbsSemantics(val cfg: CFG) {
     """PrimaryExpression\[0,0\].Evaluation""".r,
     """NewExpression\[1,0\].Evaluation""".r,
     """EvaluateStringOrNumericBinaryExpression""".r, // parse complete, but analyze phase does not work
-    """Expression\[1,0\].AssignmentTargetType""".r, // missing impl on `return CONST_invalid`
     """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
   )
 
-  private def targetPatterns = List("""Expression\[1,0\].AssignmentTargetType""".r)
+  private def targetPatterns = successPatterns
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
     head.withParams.isEmpty &&

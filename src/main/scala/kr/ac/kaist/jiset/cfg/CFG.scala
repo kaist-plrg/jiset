@@ -25,12 +25,38 @@ class CFG(val spec: ECMAScript) {
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
-  // initial global variables
-  def initGlobals: Map[String, Value] = (for {
+  // initial global variables and heaps
+  def getGlobal: (Map[String, Value], Map[Addr, Obj]) = {
+    val globalMethods = getGlobalMethods
+    val consts = getConsts
+    val globalVars = (
+      globalMethods ++
+      consts.map(x => x -> NamedAddr(x))
+    )
+    val heaps = consts.map(x => NamedAddr(x) -> SymbolObj(x)).toMap[Addr, Obj]
+    (globalVars, heaps)
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Private Helper Functions
+  //////////////////////////////////////////////////////////////////////////////
+  // get global methods
+  private def getGlobalMethods: Map[String, Value] = (for {
     func <- funcs
     name <- func.algo.head match {
       case (head: NormalHead) => Some(head.name)
       case _ => None
     }
   } yield name -> Clo(func.uid)).toMap
+
+  // get constant names
+  private def getConsts: Set[String] = {
+    var consts: Set[String] = Set()
+    object ConstExtractor extends UnitWalker {
+      override def walk(id: Id) =
+        if (id.name startsWith "CONST_") consts += id.name
+    }
+    for (algo <- spec.algos) ConstExtractor.walk(algo.rawBody)
+    consts
+  }
 }

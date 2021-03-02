@@ -94,11 +94,11 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case IAssign(ref, expr) => for {
         refv <- transfer(ref)
         v <- transfer(refv)
-        _ <- modify(_.update(sem.globals, refv, v))
+        _ <- modify(_.update(sem, refv, v))
       } yield ()
       case IDelete(ref) => for {
         refv <- transfer(ref)
-        _ <- modify(_.delete(sem.globals, refv))
+        _ <- modify(_.delete(sem, refv))
       } yield ()
       case IAppend(expr, list) => for {
         v <- transfer(expr)
@@ -178,7 +178,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       } yield a
       case ERef(ref) => for {
         refv <- transfer(ref)
-        v <- get(_(sem.globals, refv))
+        v <- get(_(sem, refv))
       } yield v
       // TODO after discussing the continuations
       case ECont(params, body) => ???

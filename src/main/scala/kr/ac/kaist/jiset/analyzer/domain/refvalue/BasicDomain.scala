@@ -73,12 +73,12 @@ object BasicDomain extends refvalue.Domain {
     def getSingle: concrete.Flat[RefValue] = Many
 
     // conversion to abstract values with abstract states
-    def toValue(st: AbsState, globals: Map[String, AbsValue]): AbsValue = this match {
+    def toValue(st: AbsState, sem: AbsSemantics): AbsValue = this match {
       case Bot => AbsValue.Bot
       case Top => AbsValue.Top
       case Id(x) =>
         val (localV, absent) = st.env(x)
-        val globalV: AbsValue = if (absent.isTop) globals.getOrElse(x, {
+        val globalV: AbsValue = if (absent.isTop) sem.globalVars.getOrElse(x, {
           alarm(s"unknown variable: $x")
           AbsAbsent.Top
         })

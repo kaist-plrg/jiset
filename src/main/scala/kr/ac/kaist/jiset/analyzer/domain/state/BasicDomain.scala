@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.analyzer.domain.state
 
 import kr.ac.kaist.jiset.ir.State
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends state.Domain {
@@ -55,14 +56,14 @@ object BasicDomain extends state.Domain {
     def +(pair: (String, AbsValue)): Elem = copy(env = env + pair)
 
     // update references
-    def update(globals: Map[String, AbsValue], refv: AbsRefValue, v: AbsValue): Elem = ???
+    def update(sem: AbsSemantics, refv: AbsRefValue, v: AbsValue): Elem = ???
 
     // update references
-    def delete(globals: Map[String, AbsValue], refv: AbsRefValue): Elem = ???
+    def delete(sem: AbsSemantics, refv: AbsRefValue): Elem = ???
 
     // lookup reference values
-    def apply(globals: Map[String, AbsValue], refv: AbsRefValue): AbsValue =
-      refv.toValue(this, globals)
+    def apply(sem: AbsSemantics, refv: AbsRefValue): AbsValue =
+      refv.toValue(this, sem)
 
     // allocate a new symbol
     def allocSymbol(desc: String): (AbsValue, Elem) = ???
