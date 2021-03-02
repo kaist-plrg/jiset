@@ -1,0 +1,1 @@
+        1. Return ? EvaluateStringOrNumericBinaryExpression(|BitwiseANDExpression|, `&`, |EqualityExpression|).

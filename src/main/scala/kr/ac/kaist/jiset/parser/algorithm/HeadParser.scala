@@ -118,7 +118,7 @@ object HeadParser extends HeadParsers {
     val target =
       if (isCoreSyntax(prev)) prev
       else getElems(prev, "emu-grammar")(0)
-    val body = getRawBody(target).toList
+    val body = getRawBody(target).map(unescapeHtml(_)).toList
     // get head
     for {
       code <- splitBy(body, "")
@@ -127,7 +127,7 @@ object HeadParser extends HeadParsers {
       rhs <- prod.rhsList
       rhsName = rhs.name
       syntax = lhsName + ":" + rhsName
-      (i, j) <- idxMap.get(syntax)
+      (i, j) = idxMap(syntax)
     } yield SyntaxDirectedHead(nameMap(lhsName), i, j, rhs, name, withParams)
   }
 

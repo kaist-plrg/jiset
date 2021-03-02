@@ -181,9 +181,9 @@ class AbsSemantics(val cfg: CFG) {
     """TemplateSpans\[0,0\].SubstitutionEvaluation""".r,
     // not implemented: `return (new [])`
     """TemplateLiteral\[0,0\].TemplateStrings""".r,
-    // not implemented: access Identifier "StringValue" -> maybe abstract StringValue to `str`? 
+    // not implemented: access Identifier "StringValue" -> maybe abstract StringValue to `str`?
     """Identifier\[0,0\].StringValue""".r,
-    )
+  )
 
   private def targetPatterns = List(
     """PrimaryExpression\[0,0\].Evaluation""".r,

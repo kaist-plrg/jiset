@@ -1,0 +1,1 @@
+          1. Return HasCallInTailPosition of |BitwiseORExpression| with argument _call_.

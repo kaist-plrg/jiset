@@ -7,7 +7,7 @@
     if (|| (= C "\"") (= C "\\")) {
       product = (+ product "\\")
       product = (+ product C)
-    } else if (|| (|| (|| (|| (= C "") (= C "")) (= C "\n")) (= C "")) (= C "	")) {
+    } else if (|| (|| (|| (|| (= C "\b") (= C "")) (= C "\n")) (= C "")) (= C "	")) {
       product = (+ product "\\")
       ??? "Let id:{abbrev} be the String value corresponding to the value of id:{C} as follows : in:{} out:{}"
       product = (+ product abbrev)

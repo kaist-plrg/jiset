@@ -1,0 +1,16 @@
+{
+  access __x0__ = (ShiftExpression "Evaluation")
+  let lref = __x0__
+  app __x1__ = (GetValue lref)
+  let lval = [? __x1__]
+  access __x2__ = (AdditiveExpression "Evaluation")
+  let rref = __x2__
+  app __x3__ = (GetValue rref)
+  let rval = [? __x3__]
+  app __x4__ = (ToUint32 lval)
+  let lnum = [? __x4__]
+  app __x5__ = (ToUint32 rval)
+  let rnum = [? __x5__]
+  let shiftCount = (& rnum 31i)
+  return (>>> lnum shiftCount)
+}

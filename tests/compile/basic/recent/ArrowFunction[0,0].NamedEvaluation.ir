@@ -1,0 +1,12 @@
+{
+  access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  let scope = __x0__
+  let sourceText = (get-syntax ArrowFunction)
+  access __x1__ = (ArrowParameters "CoveredFormalsList")
+  let parameters = __x1__
+  app __x2__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype sourceText parameters ConciseBody CONST_lexicalDASHthis scope)
+  let closure = __x2__
+  app __x3__ = (SetFunctionName closure name)
+  __x3__
+  return closure
+}

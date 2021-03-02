@@ -121,7 +121,7 @@ object ECMAScriptParser {
 
   private def getTargetElems(
     target: Element,
-    detail: Boolean = false
+    detail: Boolean
   )(
     implicit
     lines: Array[String],
@@ -184,10 +184,10 @@ object ECMAScriptParser {
   ): (Map[String, Name], List[(Element, List[Head])]) = {
     var res: List[(Element, List[Head])] = List()
     var secIds = (for {
-      elem <- getTargetElems(document)
+      elem <- getTargetElems(document, false)
       secId = getSecId(elem)
       // TODO handle exception
-      heads = HeadParser(elem)
+      heads = HeadParser(elem, detail)
       if !heads.isEmpty
     } yield {
       // if elem is in targets, add it to result
@@ -211,7 +211,7 @@ object ECMAScriptParser {
     region: Region
   ): List[Algo] = {
     // get section id of target elements
-    val targetSections = getTargetElems(target).map(getSecId(_))
+    val targetSections = getTargetElems(target, detail).map(getSecId(_))
 
     // parse heads and
     val (secIds, parsedHeads) = parseHeads(targetSections, detail)

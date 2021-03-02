@@ -1,0 +1,1 @@
+          1. Return HasProductionInTailPosition of |BitwiseORExpression| with argument _nonterminal_.
