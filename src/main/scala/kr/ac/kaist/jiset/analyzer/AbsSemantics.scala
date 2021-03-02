@@ -229,7 +229,7 @@ class AbsSemantics(val cfg: CFG) {
   )
 
   private def targetPatterns = List(
-    """IfStatement\[0,0\].EarlyErrors""".r,
+    """PrimaryExpression\[0,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
