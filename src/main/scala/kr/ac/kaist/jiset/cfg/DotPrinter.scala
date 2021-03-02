@@ -4,6 +4,8 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
 
 class DotPrinter {
   // for control points
@@ -17,7 +19,7 @@ class DotPrinter {
     func: Function,
     sem: Option[(AbsSemantics, View)] = None
   ): DotPrinter = {
-    add(s"""digraph {""")
+    this >> s"""digraph {"""
     func.nodes.foreach(node => {
       val (color, fillcolor) = sem.fold((REACH, NORMAL))(getColor(node, _))
       this(node, color, fillcolor)
@@ -26,7 +28,7 @@ class DotPrinter {
       val color = sem.fold(REACH)(getColor(edge, _))
       this(edge, color)
     })
-    add(s"""}""")
+    this >> s"""}"""
   }
 
   // colors
@@ -67,21 +69,21 @@ class DotPrinter {
     val bgColor = s""""$gbgColor""""
     node match {
       case Entry() =>
-        add(s"""  node$uid [shape=point color=$color fillcolor=$bgColor style=filled]""")
+        this >> s"""  node$uid [shape=point color=$color fillcolor=$bgColor style=filled]"""
       case Exit() =>
-        add(s"""  node$uid [shape=point color=$color fillcolor=$bgColor style=filled]""")
+        this >> s"""  node$uid [shape=point color=$color fillcolor=$bgColor style=filled]"""
       case Block(insts) =>
-        add(s"""  node$uid [shape=none, margin=0, label=<<font color=$color>""")
-        add(s"""    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">""")
+        this >> s"""  node$uid [shape=none, margin=0, label=<<font color=$color>""" >>
+          s"""    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">"""
         insts.foreach(inst => {
-          add(s"""      <tr><td align="left">${norm(inst)}</td></tr>""")
+          this >> s"""      <tr><td align="left">${norm(inst)}</td></tr>"""
         })
-        add(s"""    </table>""")
-        add(s"""  </font>> color=$color fillcolor=$bgColor style=filled]""")
+        this >> s"""    </table>""" >>
+          s"""  </font>> color=$color fillcolor=$bgColor style=filled]"""
       case Call(inst) =>
-        add(s"""  node$uid [shape=cds, label=<<font color=$color>${norm(inst)}</font>> color=$color fillcolor=$bgColor style=filled]""")
+        this >> s"""  node$uid [shape=cds, label=<<font color=$color>${norm(inst)}</font>> color=$color fillcolor=$bgColor style=filled]"""
       case Branch(cond) =>
-        add(s"""  node$uid [shape=diamond, label=<<font color=$color>${norm(cond)}</font>> color=$color fillcolor=$bgColor style=filled]""")
+        this >> s"""  node$uid [shape=diamond, label=<<font color=$color>${norm(cond)}</font>> color=$color fillcolor=$bgColor style=filled]"""
     }
   }
 
@@ -90,22 +92,20 @@ class DotPrinter {
     val color = s""""$gcolor""""
     edge match {
       case LinearEdge(from, next) =>
-        add(s"""  node${from.uid} -> node${next.uid} [color=$color]""")
+        this >> s"""  node${from.uid} -> node${next.uid} [color=$color]"""
       case BranchEdge(from, thenNext, elseNext) =>
-        add(s"""  node${from.uid} -> node${thenNext.uid} [label=<<font color=$color>true</font>> color=$color]""")
-        add(s"""  node${from.uid} -> node${elseNext.uid} [label=<<font color=$color>false</font>> color=$color]""")
+        this >> s"""  node${from.uid} -> node${thenNext.uid} [label=<<font color=$color>true</font>> color=$color]""" >>
+          s"""  node${from.uid} -> node${elseNext.uid} [label=<<font color=$color>false</font>> color=$color]"""
     }
   }
 
-  // string builder
-  private val sb: StringBuilder = new StringBuilder
+  // Appender
+  private val app: Appender = new Appender
+
+  def >>(str: String): DotPrinter = { app >> str >> LINE_SEP; this }
+
+  override def toString: String = app.toString
 
   // normalize beautified ir nodes
   private def norm(node: IRNode): String = escapeHtml(node.beautified(index = true))
-
-  // add to StringBuilder
-  private def add(str: String): DotPrinter = { sb.append(str + LINE_SEP); this }
-
-  // conversion to string
-  override def toString: String = sb.toString
 }
