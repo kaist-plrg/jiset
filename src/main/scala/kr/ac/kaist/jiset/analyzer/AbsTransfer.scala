@@ -33,12 +33,12 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
   // transfer function for control points
   def apply(cp: ControlPoint): Unit = cp match {
-    case (np: NodePoint) => this(np)
+    case (np: NodePoint[_]) => this(np)
     case (rp: ReturnPoint) => this(rp)
   }
 
   // transfer function for node points
-  def apply(np: NodePoint): Unit = {
+  def apply[T <: Node](np: NodePoint[T]): Unit = {
     val st = sem(np)
     val NodePoint(node, view) = np
     val helper = new Helper(ReturnPoint(funcOf(node), view))
@@ -50,8 +50,8 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case (block: Block) =>
         val newSt = join(block.insts.map(transfer))(st)
         sem += NodePoint(next(block), view) -> newSt
-      case call @ Call(inst) =>
-        val newSt = transfer(inst)(st)
+      case (call: Call) =>
+        val newSt = transfer(call, view)(st)
         sem += NodePoint(next(call), view) -> newSt
       case branch @ Branch(expr) =>
         val (v, newSt) = transfer(expr)(st)
@@ -66,7 +66,14 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
   // transfer function for return points
   def apply(rp: ReturnPoint): Unit = {
-    // TODO handle inter-procedural cases
+    println(s"<<<< return <<<<")
+    println(s"rp: $rp")
+    val (h, v) = sem(rp)
+    for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
+      println(s"np: $np")
+      val nextNP = np.copy(node = next(call))
+      sem += nextNP -> (sem(np) + (x -> v))
+    }
   }
 
   // interactive mode
@@ -118,38 +125,22 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         st <- get
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v))
-      case IThrow(id) => ???
-      case IAssert(expr) => ???
-      case IPrint(expr) => ???
-      case IWithCont(id, params, bodyInst) => ???
-      case ISetType(expr, ty) => ???
-      case _ => ???
+      case IThrow(id) => st => ???
+      case IAssert(expr) => st => ???
+      case IPrint(expr) => st => ???
+      case IWithCont(id, params, bodyInst) => st => ???
+      case ISetType(expr, ty) => st => ???
+      case _ => st => ???
     }
 
     // transfer function for call instructions
-    def transfer(inst: CallInst): Updater = inst match {
+    def transfer(call: Call, view: View): Updater = call.inst match {
       case IApp(Id(x), fexpr, args) => for {
         f <- transfer(fexpr)
         vs <- join(args.map(arg => transfer(arg)))
         st <- get
         _ <- put(AbsState.Bot)
-      } yield for (ts <- getTypes(st, vs)) {
-        val view = View(ts)
-        f.clo.foreach {
-          case AbsClo.Pair(fid, _) =>
-            val func = fidMap(fid)
-            println("---- call ----")
-            println(s"func: ${func.name}")
-            val args = func.algo.params.map(_.name) zip vs
-            println(s"args: ${args.map(beautify(_)).mkString("[", ", ", "]")}")
-            val np = NodePoint(func.entry, view)
-            println(s"np: $np")
-            val newSt = args.foldLeft(st.copy(env = AbsEnv.Empty)) {
-              case (st, (x, v)) => st + (x -> v)
-            }
-            sem += np -> newSt
-        }
-      }
+      } yield sem.doCall(call, view, st, f, vs, x)
       case IAccess(Id(x), bexpr, expr) => for {
         b <- transfer(bexpr)
         p <- transfer(expr)
@@ -328,31 +319,5 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       bigint = AbsBigINum.Top,
       str = AbsStr.Top
     )
-
-    // get types from abstract values
-    private def getTypes(st: AbsState, vs: List[AbsValue]): List[List[Type]] = {
-      vs.foldRight(List(List[Type]())) {
-        case (v, tysList) => for {
-          tys <- tysList
-          ty <- getType(st, v)
-        } yield ty :: tys
-      }
-    }
-    private def getType(st: AbsState, v: AbsValue): List[Type] = {
-      var tys: List[Type] = Nil
-      if (!v.num.isBottom) tys ::= NumT
-      if (!v.int.isBottom) tys ::= INumT
-      if (!v.bigint.isBottom) tys ::= BigINumT
-      if (!v.str.isBottom) tys ::= StrT
-      if (!v.bool.isBottom) tys ::= BoolT
-      if (!v.undef.isBottom) tys ::= UndefT
-      if (!v.nullval.isBottom) tys ::= NullT
-      if (!v.absent.isBottom) tys ::= AbsentT
-      if (!v.ast.isBottom) tys = v.ast.toList.map(ast => AstT(ast.name)) ++ tys
-      if (!v.addr.isBottom) tys = (v.addr.toList.collect {
-        case NamedAddr(x) => NameT(x)
-      }) ++ tys
-      tys
-    }
   }
 }

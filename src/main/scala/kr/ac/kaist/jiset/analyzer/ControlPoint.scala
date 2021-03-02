@@ -14,7 +14,7 @@ trait ControlPoint {
     case ReturnPoint(func, view) => s"${func.name}:$view"
   }
 }
-case class NodePoint(node: Node, view: View) extends ControlPoint
+case class NodePoint[T <: Node](node: T, view: View) extends ControlPoint
 case class ReturnPoint(func: Function, view: View) extends ControlPoint
 
 // view abstraction

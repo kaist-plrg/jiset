@@ -16,8 +16,11 @@ class AbsSemantics(val cfg: CFG) {
   val spec: ECMAScript = cfg.spec
 
   // internal map from control points to abstract states
-  private var npMap: Map[NodePoint, AbsState] = initNpMap
+  private var npMap: Map[NodePoint[_], AbsState] = initNpMap
   private var rpMap: Map[ReturnPoint, (AbsHeap, AbsValue)] = Map()
+
+  // internal map for return edges
+  private var retEdges: Map[ReturnPoint, Set[(NodePoint[Call], String)]] = Map()
 
   // worklist
   val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
@@ -58,12 +61,14 @@ class AbsSemantics(val cfg: CFG) {
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
   // lookup
-  def apply(np: NodePoint): AbsState = npMap.getOrElse(np, AbsState.Bot)
+  def apply(np: NodePoint[_]): AbsState = npMap.getOrElse(np, AbsState.Bot)
   def apply(rp: ReturnPoint): (AbsHeap, AbsValue) =
     rpMap.getOrElse(rp, (AbsHeap.Bot, AbsValue.Bot))
+  def getRetEdges(rp: ReturnPoint): Set[(NodePoint[Call], String)] =
+    retEdges.getOrElse(rp, Set())
 
   // update internal map
-  def +=(pair: (NodePoint, AbsState)): Unit = {
+  def +=[T <: Node](pair: (NodePoint[T], AbsState)): Unit = {
     val (np, newSt) = pair
     val oldSt = this(np)
     if (!(newSt ⊑ oldSt)) {
@@ -71,6 +76,42 @@ class AbsSemantics(val cfg: CFG) {
       worklist += np
     }
   }
+
+  // handle calls
+  def doCall(
+    call: Call,
+    callView: View,
+    st: AbsState,
+    f: AbsValue,
+    args: List[AbsValue],
+    retVar: String
+  ): Unit = for {
+    ts <- getTypes(st, args)
+    view = View(ts)
+    pair <- f.clo
+  } {
+    val AbsClo.Pair(fid, _) = pair // TODO handle envrionments
+    val func = cfg.fidMap(fid)
+    val pairs = func.algo.params.map(_.name) zip args
+    val np = NodePoint(func.entry, view)
+    val newSt = pairs.foldLeft(st.copy(env = AbsEnv.Empty)) {
+      case (st, (x, v)) => st + (x -> v)
+    }
+    this += np -> newSt
+
+    val rp = ReturnPoint(func, view)
+    val callNP = NodePoint(call, callView)
+    val set = retEdges.getOrElse(rp, Set()) + ((callNP, retVar))
+
+    retEdges += rp -> set
+
+    println(">>>> call >>>>")
+    println(s"np: $callNP")
+    println(s"rp: $rp")
+    println(s"args: ${args.map(beautify(_)).mkString("[", ", ", "]")}")
+  }
+
+  // update return points
   def doReturn(pair: (ReturnPoint, (AbsHeap, AbsValue))): Unit = {
     val (rp, (newH, newV)) = pair
     val (oldH, oldV) = this(rp)
@@ -97,7 +138,7 @@ class AbsSemantics(val cfg: CFG) {
       case np @ NodePoint(entry: Entry, view) =>
         val st = this(np)
         (cyan(s"${cfg.funcOf(entry).name}:$view:ENTRY"), beautify(st))
-      case (np: NodePoint) =>
+      case (np: NodePoint[_]) =>
         val st = this(np)
         (np.toString, beautify(st))
       case (rp: ReturnPoint) =>
@@ -114,7 +155,7 @@ class AbsSemantics(val cfg: CFG) {
   // Private Helper Functions
   //////////////////////////////////////////////////////////////////////////////
   // initialization of node points with abstract states
-  private def initNpMap: Map[NodePoint, AbsState] = (for {
+  private def initNpMap: Map[NodePoint[_], AbsState] = (for {
     func <- cfg.funcs.toList
     (types, st) <- getTypes(func.algo.head)
     view = View(types)
@@ -209,5 +250,31 @@ class AbsSemantics(val cfg: CFG) {
       (types, st)
     }).toList
     case _ => Nil
+  }
+
+  // get types from abstract values
+  private def getTypes(st: AbsState, vs: List[AbsValue]): List[List[Type]] = {
+    vs.foldRight(List(List[Type]())) {
+      case (v, tysList) => for {
+        tys <- tysList
+        ty <- getType(st, v)
+      } yield ty :: tys
+    }
+  }
+  private def getType(st: AbsState, v: AbsValue): List[Type] = {
+    var tys: List[Type] = Nil
+    if (!v.num.isBottom) tys ::= NumT
+    if (!v.int.isBottom) tys ::= INumT
+    if (!v.bigint.isBottom) tys ::= BigINumT
+    if (!v.str.isBottom) tys ::= StrT
+    if (!v.bool.isBottom) tys ::= BoolT
+    if (!v.undef.isBottom) tys ::= UndefT
+    if (!v.nullval.isBottom) tys ::= NullT
+    if (!v.absent.isBottom) tys ::= AbsentT
+    if (!v.ast.isBottom) tys = v.ast.toList.map(ast => AstT(ast.name)) ++ tys
+    if (!v.addr.isBottom) tys = (v.addr.toList.collect {
+      case NamedAddr(x) => NameT(x)
+    }) ++ tys
+    tys
   }
 }
