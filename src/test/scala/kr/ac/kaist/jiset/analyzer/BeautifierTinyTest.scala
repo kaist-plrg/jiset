@@ -54,6 +54,15 @@ class BeautifierTinyTest extends AnalyzerTest {
       |  y -> ! 42.0
       |}]""".stripMargin,
       AbsValue(ASTVal("Literal"), ASTVal("Identifier")) -> "(☊(Literal) | ☊(Identifier))",
+      AbsValue(Completion("normal", 42, NamedAddr("CONST_empty"))) -> "N(42i)",
+      AbsValue(
+        Completion("normal", 42, NamedAddr("CONST_empty")),
+        Completion("normal", true, NamedAddr("CONST_empty")),
+      ) -> "N(42i | true)",
+      AbsValue(
+        Completion("throw", 42, NamedAddr("CONST_empty")),
+        Completion("normal", true, NamedAddr("CONST_empty")),
+      ) -> "N(true) | T(42i)",
     )
 
     val id = RefValueId("x")

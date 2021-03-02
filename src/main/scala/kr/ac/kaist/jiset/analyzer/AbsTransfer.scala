@@ -55,7 +55,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         sem += NodePoint(next(call), view) -> newSt
       case branch @ Branch(expr) =>
         val (v, newSt) = transfer(expr)(st)
-        v.bool.toSet.foreach {
+        v.escaped.bool.toSet.foreach {
           case true =>
             sem += NodePoint(thenNext(branch), view) -> prune(expr, true)(st)
           case false =>
@@ -113,12 +113,12 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case IAppend(expr, list) => for {
         v <- transfer(expr)
         l <- transfer(list)
-        _ <- modify(_.append(v, l.addr))
+        _ <- modify(_.append(v.escaped, l.escaped.addr))
       } yield ()
       case IPrepend(expr, list) => for {
         v <- transfer(expr)
         l <- transfer(list)
-        _ <- modify(_.prepend(v, l.addr))
+        _ <- modify(_.prepend(v.escaped, l.escaped.addr))
       } yield ()
       case IReturn(expr) => for {
         v <- transfer(expr)
@@ -128,10 +128,13 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case IThrow(id) => st => ???
       case IAssert(expr) => for {
         v <- transfer(expr)
-      } yield if (!(AT ⊑ v.bool)) alarm(s"assertion failed: ${expr.beautified}")
+      } yield if (!(AT ⊑ v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
       case IPrint(expr) => st => ???
       case IWithCont(id, params, bodyInst) => st => ???
-      case ISetType(expr, ty) => st => ???
+      case ISetType(expr, ty) => for {
+        v <- transfer(expr)
+        p = v.escaped
+      } yield ???
       case _ => st => ???
     }
 
@@ -142,11 +145,11 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         vs <- join(args.map(arg => transfer(arg)))
         st <- get
         _ <- put(AbsState.Bot)
-      } yield sem.doCall(call, view, st, f, vs, x)
+      } yield sem.doCall(call, view, st, f.escaped.clo, vs, x)
       case IAccess(Id(x), bexpr, expr) => for {
         b <- transfer(bexpr)
         p <- transfer(expr)
-        v = (b.getSingle, p.getSingle) match {
+        v = (b.escaped.getSingle, p.escaped.getSingle) match {
           case (One(ASTVal(ast)), One(Str(name))) => (ast, name) match {
             case ("NumericLiteral", "NumericValue") => numTop
             case ("StringLiteral", "StringValue" | "SV") => strTop
@@ -189,7 +192,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case EPop(list, idx) => for {
         l <- transfer(list)
         k <- transfer(idx)
-        a <- id(_.pop(l, k))
+        a <- id(_.pop(l.escaped, k.escaped))
       } yield a
       case ERef(ref) => for {
         refv <- transfer(ref)
@@ -199,12 +202,12 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case ECont(params, body) => ???
       case EUOp(uop, expr) => for {
         v <- transfer(expr)
-        u = transfer(uop)(v)
+        u = transfer(uop)(v.escaped)
       } yield u
       case EBOp(bop, left, right) => for {
         l <- transfer(left)
         r <- transfer(right)
-        v = transfer(bop)(l, r)
+        v = transfer(bop)(l.escaped, r.escaped)
       } yield v
       case ETypeOf(expr) => for {
         v <- transfer(expr)
@@ -215,33 +218,38 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       } yield ??? // TODO after discussing the completion structures
       case EIsInstanceOf(base, name) => for {
         v <- transfer(base)
+        p = v.escaped
       } yield ??? // TODO need discussion
       case EGetElems(base, name) => for {
         v <- transfer(expr)
+        p = v.escaped
       } yield ??? // TODO need discussion
       case EGetSyntax(base) => strTop // TODO handling non-AST values
       case EParseSyntax(code, rule, flags) => for {
         c <- transfer(code)
         r <- transfer(rule)
+        cp = c.escaped
+        rp = r.escaped
         // XXX maybe flags are not necessary in abstract semantics
       } yield ???
       case EConvert(source, target, flags) => for {
         v <- transfer(source)
+        p = v.escaped
       } yield ??? // TODO need discussion
       case EContains(list, elem) => for {
         l <- transfer(list)
         e <- transfer(elem)
-        c <- get(_.contains(l, e))
+        c <- get(_.contains(l.escaped, e.escaped))
       } yield c
       case EReturnIfAbrupt(expr, check) =>
         transfer(expr) // TODO support abrupt completion check
       case ECopy(obj) => for {
         v <- transfer(obj)
-        a <- id(_.copyOf(v))
+        a <- id(_.copyOf(v.escaped))
       } yield a
       case EKeys(obj) => for {
         v <- transfer(obj)
-        a <- id(_.keysOf(v))
+        a <- id(_.keysOf(v.escaped))
       } yield a
       case ENotSupported(msg) => ??? // TODO need discussion
     }
@@ -253,7 +261,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         rv <- transfer(ref)
         b <- transfer(rv)
         p <- transfer(expr)
-        r <- AbsRefValue(b, p.str)
+        r <- AbsRefValue(b, p.escaped.str)
       } yield r // TODO handle non-string properties
     }
 
@@ -262,9 +270,9 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
     // transfer function for unary operators
     // TODO more precise abstract semantics
-    def transfer(uop: UOp): AbsValue => AbsValue = v => uop match {
+    def transfer(uop: UOp): AbsPure => AbsValue = v => uop match {
       case ONeg => numTop
-      case ONot => !v.bool
+      case ONot => !v.escaped.bool
       case OBNot => intTop
     }
 
@@ -273,7 +281,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
     // transfer function for binary operators
     // TODO more precise abstract semantics
-    def transfer(bop: BOp): (AbsValue, AbsValue) => AbsValue = (l, r) => bop match {
+    def transfer(bop: BOp): (AbsPure, AbsPure) => AbsValue = (l, r) => bop match {
       case OPlus => arithTop
       case OSub => arithTop
       case OMul => arithTop

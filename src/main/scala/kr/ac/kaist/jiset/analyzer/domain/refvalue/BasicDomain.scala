@@ -18,8 +18,9 @@ object BasicDomain extends refvalue.Domain {
   // constructor for abstract value bases
   def apply(base: AbsValue, prop: AbsStr): AbsRefValue = {
     var refv: Elem = Bot
-    if (!base.addr.isBottom) refv ⊔= ObjProp(base.addr, prop)
-    if (!base.str.isBottom) refv ⊔= StrProp(base.str, prop)
+    val b = base.escaped
+    if (!b.addr.isBottom) refv ⊔= ObjProp(b.addr, prop)
+    if (!b.str.isBottom) refv ⊔= StrProp(b.str, prop)
     refv
   }
 

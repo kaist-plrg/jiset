@@ -42,6 +42,14 @@ package object domain {
   lazy val AbsValue = value.ProdDomain
   type AbsValue = AbsValue.Elem
 
+  // abstract completion values
+  lazy val AbsComp = comp.BasicDomain
+  type AbsComp = AbsComp.Elem
+
+  // abstract pure values
+  lazy val AbsPure = pure.ProdDomain
+  type AbsPure = AbsPure.Elem
+
   // abstract addresses
   lazy val AbsAddr = addr.SetDomain
   type AbsAddr = AbsAddr.Elem
@@ -138,14 +146,16 @@ package object domain {
     AbsPrim(nullval = x)
   implicit def absent2prim[T](x: T)(implicit f: T => AbsAbsent) =
     AbsPrim(absent = x)
-  implicit def addr2value[T](x: T)(implicit f: T => AbsAddr) =
-    AbsValue(addr = x)
-  implicit def clo2value[T](x: T)(implicit f: T => AbsClo) =
-    AbsValue(clo = x)
-  implicit def cont2value[T](x: T)(implicit f: T => AbsCont) =
-    AbsValue(cont = x)
-  implicit def ast2value[T](x: T)(implicit f: T => AbsAST) =
-    AbsValue(ast = x)
-  implicit def prim2value[T](x: T)(implicit f: T => AbsPrim) =
-    AbsValue(prim = x)
+  implicit def addr2pure[T](x: T)(implicit f: T => AbsAddr) =
+    AbsPure(addr = x)
+  implicit def clo2pure[T](x: T)(implicit f: T => AbsClo) =
+    AbsPure(clo = x)
+  implicit def cont2pure[T](x: T)(implicit f: T => AbsCont) =
+    AbsPure(cont = x)
+  implicit def ast2pure[T](x: T)(implicit f: T => AbsAST) =
+    AbsPure(ast = x)
+  implicit def prim2pure[T](x: T)(implicit f: T => AbsPrim) =
+    AbsPure(prim = x)
+  implicit def pure2value[T](x: T)(implicit f: T => AbsPure) =
+    AbsValue(pure = x)
 }

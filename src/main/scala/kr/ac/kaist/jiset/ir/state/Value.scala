@@ -5,22 +5,28 @@ import kr.ac.kaist.jiset.cfg.Function
 // values
 sealed trait Value
 
+// completion
+case class Completion(ty: String, value: PureValue, target: PureValue) extends Value
+
+// pure values
+sealed trait PureValue extends Value
+
 // addresses
-sealed trait Addr extends Value
+sealed trait Addr extends PureValue
 case class NamedAddr(name: String) extends Addr
 case class DynamicAddr(long: Long) extends Addr
 
 // functions
-case class Clo(fid: Int, env: Env = Env()) extends Value
+case class Clo(fid: Int, env: Env = Env()) extends PureValue
 
 // TODO continuations
-case class Cont() extends Value
+case class Cont() extends PureValue
 
 // abstract syntax trees
-case class ASTVal(name: String) extends Value
+case class ASTVal(name: String) extends PureValue
 
 // primitive values
-sealed trait Prim extends Value
+sealed trait Prim extends PureValue
 case class Num(double: Double) extends Prim {
   override def equals(that: Any): Boolean = that match {
     case that: Num => doubleEquals(this.double, that.double)

@@ -51,8 +51,10 @@ class AbsSemantics(val cfg: CFG) {
       "ThisBindingStatus" -> getConsts("lexical", "initialized", "uninitialized"),
       "OuterEnv" -> List(NamedAddr("EnvironmentRecord"), Null),
       "GlobalThisValue" -> List(NamedAddr("GlobalThis")),
+      "ThisValue" -> List(NamedAddr("ESValue")),
     ),
     "GlobalThis" -> Map(),
+    "ESValue" -> Map(),
   )
   private def getClos(pattern: Regex): List[Clo] = for {
     func <- cfg.funcs.toList
@@ -86,13 +88,13 @@ class AbsSemantics(val cfg: CFG) {
     call: Call,
     callView: View,
     st: AbsState,
-    f: AbsValue,
+    f: AbsClo,
     args: List[AbsValue],
     retVar: String
   ): Unit = for {
     ts <- getTypes(st, args)
     view = View(ts)
-    pair <- f.clo
+    pair <- f
   } {
     val AbsClo.Pair(fid, _) = pair // TODO handle envrionments
     val func = cfg.fidMap(fid)
@@ -265,11 +267,11 @@ class AbsSemantics(val cfg: CFG) {
     vs.foldRight(List(List[Type]())) {
       case (v, tysList) => for {
         tys <- tysList
-        ty <- getType(st, v)
+        ty <- getType(st, v.escaped)
       } yield ty :: tys
     }
   }
-  private def getType(st: AbsState, v: AbsValue): List[Type] = {
+  private def getType(st: AbsState, v: AbsPure): List[Type] = {
     var tys: List[Type] = Nil
     if (!v.num.isBottom) tys ::= NumT
     if (!v.int.isBottom) tys ::= INumT

@@ -69,15 +69,35 @@ object Beautifier {
   }
   implicit lazy val acontApp: App[AbsCont] = simpleDomainApp(AbsCont, "κ")
   implicit lazy val aastApp: App[AbsAST] = setDomainApp(AbsAST)
-  implicit lazy val avalueApp: App[AbsValue] =
-    domainApp(AbsValue)((app, v) => {
-      val AbsValue.Elem(addr, clo, cont, ast, prim) = v
+  implicit lazy val apureApp: App[AbsPure] =
+    domainApp(AbsPure)((app, v) => {
+      val AbsPure.Elem(addr, clo, cont, ast, prim) = v
       var udts = Vector[Update]()
       if (!addr.isBottom) udts :+= { _ >> addr }
       if (!clo.isBottom) udts :+= { _ >> clo }
       if (!cont.isBottom) udts :+= { _ >> cont }
       if (!ast.isBottom) udts :+= { _ >> ast }
       if (!prim.isBottom) udts :+= { _ >> prim }
+      app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
+    })
+  implicit lazy val acompApp: App[AbsComp] =
+    domainApp(AbsComp)((app, comp) => {
+      var udts = Vector[Update]()
+      comp.map.foreach {
+        case (k, (v, t)) => udts :+= (app => {
+          app >> k.substring(0, 1).toUpperCase
+          if (!(t === AbsAddr(NamedAddr("CONST_empty")))) app >> ":" >> t
+          app >> "(" >> v >> ")"
+        })
+      }
+      app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
+    })
+  implicit lazy val avalueApp: App[AbsValue] =
+    domainApp(AbsValue)((app, v) => {
+      val AbsValue.Elem(pure, comp) = v
+      var udts = Vector[Update]()
+      if (!pure.isBottom) udts :+= { _ >> pure }
+      if (!comp.isBottom) udts :+= { _ >> comp }
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
   implicit lazy val arefvalueApp: App[AbsRefValue] = (app, arefval) => arefval match {
