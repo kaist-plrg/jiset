@@ -19,6 +19,10 @@ case class Heap(
         if (0 <= idx && idx < values.length) values(idx)
         else Absent
     }
+    case SymbolObj(desc) => prop match {
+      case "Description" => Str(desc)
+      case _ => error(s"an invalid symbol field access: $prop")
+    }
   }
 
   // updated
@@ -69,6 +73,12 @@ case class Heap(
     val addr = DynamicAddr(size)
     val newSize = size + 1
     val newObj = MapObj(ty, svMap)
+    (addr, Heap(map + (addr -> newObj), newSize))
+  }
+  def allocSymbol(desc: String): (Addr, Heap) = {
+    val addr = DynamicAddr(size)
+    val newSize = size + 1
+    val newObj = SymbolObj(desc)
     (addr, Heap(map + (addr -> newObj), newSize))
   }
 

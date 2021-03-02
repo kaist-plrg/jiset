@@ -32,7 +32,6 @@ class JsonTinyTest extends AnalyzerTest {
       AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)),
       AbsValue("a", "b", true, false),
       AbsValue(42, NamedAddr("Global"), DynamicAddr(432)),
-      AbsValue(Symb("has"), Symb("get")),
       (AbsValue(true, Cont()) ⊔ AbsClo.Top),
       AbsValue(ASTVal("Literal"), ASTVal("Identifier")),
     )
@@ -48,13 +47,14 @@ class JsonTinyTest extends AnalyzerTest {
     )
 
     test("Abstract Objects")(
+      AbsObj(SymbolObj("has"), SymbolObj("get")),
       AbsObj(MapObj(Ty(""), "x" -> true, "y" -> 2), MapObj(Ty(""), "x" -> "a", "z" -> Null)),
       AbsObj(ListObj(Undef, true, 42)),
-      AbsObj(MapObj(Ty("")), ListObj()),
+      AbsObj(SymbolObj("has"), MapObj(Ty("")), ListObj()),
     )
 
     val heap = AbsHeap(Heap(
-      NamedAddr("Global") -> ListObj(),
+      NamedAddr("Global") -> SymbolObj("has"),
       DynamicAddr(42) -> MapObj(Ty("")),
     ))
     test("Abstract Heaps")(heap)
