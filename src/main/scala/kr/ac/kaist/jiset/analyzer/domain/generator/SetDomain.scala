@@ -74,6 +74,15 @@ class SetDomain[V](total: Set[V]) extends AbsDomain[V] {
       case Top => ???
       case VSet(set) => set.foreach(f)
     }
+
+    // conversion to set of values (unsound)
+    def toSet: Set[V] = this match {
+      case Top => ???
+      case VSet(set) => set
+    }
+
+    // conversion to list of values (unsound)
+    def toList: List[V] = toSet.toList
   }
 }
 object SetDomain {

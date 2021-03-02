@@ -72,15 +72,18 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
   // interactive mode
   def interact(cp: ControlPoint): Unit = {
     val dot = (new DotPrinter)(cp, sem).toString
-    dumpFile(dot, s"$CFG_DIR.dot")
-    executeCmd(s"""dot -Tpdf "$CFG_DIR.dot" -o "$CFG_DIR.pdf"""")
     println(sem.getString(cp))
     println
-    val str = scala.io.StdIn.readLine()
-    str match {
-      case null | "q" | "quit" | "exit" => interactMode = false
-      case _ =>
-    }
+    while (scala.io.StdIn.readLine() match {
+      case null | "q" | "quit" | "exit" =>
+        interactMode = false; false
+      case "d" =>
+        dumpFile(dot, s"$CFG_DIR.dot")
+        executeCmd(s"""dot -Tpdf "$CFG_DIR.dot" -o "$CFG_DIR.pdf"""")
+        println(s"Dumped CFG to $CFG_DIR.pdf")
+        true
+      case _ => false
+    }) {}
   }
 
   private class Helper(ret: ReturnPoint) {
@@ -138,7 +141,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
             println("---- call ----")
             println(s"func: ${func.name}")
             val args = func.algo.params.map(_.name) zip vs
-            println(s"args: ${args.mkString("[", ", ", "]")}")
+            println(s"args: ${args.map(beautify(_)).mkString("[", ", ", "]")}")
             val np = NodePoint(func.entry, view)
             println(s"np: $np")
             val newSt = args.foldLeft(st.copy(env = AbsEnv.Empty)) {
@@ -262,10 +265,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
     }
 
     // transfer function for reference values
-    def transfer(refv: AbsRefValue): Result[AbsValue] = {
-      println(beautify(refv))
-      ???
-    }
+    def transfer(refv: AbsRefValue): Result[AbsValue] = st => (st(sem, refv), st)
 
     // transfer function for unary operators
     // TODO more precise abstract semantics
@@ -289,7 +289,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case OUMod => numTop
       case OMod => numTop
       case OLt => boolTop
-      case OEq => boolTop
+      case OEq => l =^= r
       case OEqual => boolTop
       case OAnd => l.bool && r.bool
       case OOr => l.bool || r.bool
@@ -338,6 +338,21 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         } yield ty :: tys
       }
     }
-    private def getType(st: AbsState, v: AbsValue): List[Type] = ???
+    private def getType(st: AbsState, v: AbsValue): List[Type] = {
+      var tys: List[Type] = Nil
+      if (!v.num.isBottom) tys ::= NumT
+      if (!v.int.isBottom) tys ::= INumT
+      if (!v.bigint.isBottom) tys ::= BigINumT
+      if (!v.str.isBottom) tys ::= StrT
+      if (!v.bool.isBottom) tys ::= BoolT
+      if (!v.undef.isBottom) tys ::= UndefT
+      if (!v.nullval.isBottom) tys ::= NullT
+      if (!v.absent.isBottom) tys ::= AbsentT
+      if (!v.ast.isBottom) tys = v.ast.toList.map(ast => AstT(ast.name)) ++ tys
+      if (!v.addr.isBottom) tys = (v.addr.toList.collect {
+        case NamedAddr(x) => NameT(x)
+      }) ++ tys
+      tys
+    }
   }
 }

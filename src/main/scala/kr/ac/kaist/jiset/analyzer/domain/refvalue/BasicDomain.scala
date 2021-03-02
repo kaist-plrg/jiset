@@ -3,6 +3,8 @@ package kr.ac.kaist.jiset.analyzer.domain.refvalue
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
+import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.analyzer.domain.generator._
 
 object BasicDomain extends refvalue.Domain {
@@ -84,7 +86,14 @@ object BasicDomain extends refvalue.Domain {
         })
         else AbsValue.Bot
         localV ⊔ globalV
-      case ObjProp(addr, prop) => ???
+      case ObjProp(addr, prop) => addr.toSet.toList.map {
+        case (x: NamedAddr) =>
+          val obj = sem.globalHeaps.getOrElse(x, AbsObj.Bot)
+          val (v, a) = obj(prop) // XXX ignore absent values
+          if (a.isTop) alarm(s"unknown property: #$x.${beautify(prop)}")
+          v
+        case DynamicAddr(k) => ???
+      }.foldLeft[AbsValue](AbsValue.Bot)(_ ⊔ _)
       case StrProp(str, prop) => ???
     }
   }

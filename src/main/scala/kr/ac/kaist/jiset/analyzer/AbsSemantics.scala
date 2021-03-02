@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec._
-import kr.ac.kaist.jiset.spec.algorithm._
+import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, SyntaxDirectedHead }
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.CYAN
 import scala.util.matching.Regex
@@ -25,10 +25,34 @@ class AbsSemantics(val cfg: CFG) {
   // global variables and heaps
   val (globalVars, globalHeaps): (Map[String, AbsValue], Map[Addr, AbsObj]) = {
     val (vars, heaps) = cfg.getGlobal
-    val globalVars = for ((x, v) <- vars) yield x -> AbsValue(v)
-    val globalHeaps = for ((a, o) <- heaps) yield a -> AbsObj(o)
+    val globalVars = manualVars ++ (for ((x, v) <- vars) yield x -> AbsValue(v))
+    var globalHeaps: Map[Addr, AbsObj] = (for ((x, m) <- manualHeaps) yield {
+      val map: Map[String, AbsObj.MapD.AbsVOpt] = m.map {
+        case (k, vs) => k -> AbsObj.MapD.AbsVOpt(AbsValue(vs: _*), AbsAbsent.Bot)
+      }
+      NamedAddr(x) -> AbsObj.Elem(map = AbsObj.MapD(map, AbsObj.MapD.AbsVOpt(None)))
+    }).toMap
+    globalHeaps ++= (for ((a, o) <- heaps) yield a -> AbsObj(o))
     (globalVars, globalHeaps)
   }
+  private def manualVars: Map[String, AbsValue] = Map(
+    "GLOBAL_context" -> AbsValue(NamedAddr("ExecutionContext")),
+  )
+  private def manualHeaps: Map[String, Map[String, List[Value]]] = Map(
+    "ExecutionContext" -> Map(
+      "LexicalEnvironment" -> List(NamedAddr("EnvironmentRecord")),
+    ),
+    "EnvironmentRecord" -> Map(
+      "HasThisBinding" -> getClos(""".*\.HasThisBinding""".r),
+      "ThisBindingStatus" -> getConsts("lexical", "initialized", "uninitialized"),
+    ),
+  )
+  private def getClos(pattern: Regex): List[Clo] = for {
+    func <- cfg.funcs.toList
+    if pattern.matches(func.algo.head.printName)
+  } yield Clo(func.uid, Env())
+  private def getConsts(names: String*): List[Addr] =
+    names.toList.map(x => NamedAddr("CONST_" + x))
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
@@ -136,6 +160,7 @@ class AbsSemantics(val cfg: CFG) {
 
   private def failedPatterns = List(
     // need implemetation of IAccess, IApp
+    """PrimaryExpression\[0,0\].Evaluation""".r,
     """PrimaryExpression\[12,0\].Evaluation""".r,
     """NewExpression\[1,0\].Evaluation""".r,
     """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
@@ -152,7 +177,7 @@ class AbsSemantics(val cfg: CFG) {
   )
 
   private def targetPatterns = List(
-    """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
+    """PrimaryExpression\[0,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (

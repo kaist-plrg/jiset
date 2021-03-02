@@ -60,5 +60,15 @@ object BasicDomain extends obj.Domain {
 
     // conversion to flat domain
     def getSingle: concrete.Flat[Obj] = Many
+
+    // TODO handling lists
+    // lookup
+    def apply(prop: AbsStr): (AbsValue, AbsAbsent) =
+      prop.gamma.map(s => map(s.str)) match {
+        case Infinite => (AbsValue.Top, AbsAbsent.Top)
+        case Finite(set) =>
+          val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
+          (vopt.value, vopt.absent)
+      }
   }
 }
