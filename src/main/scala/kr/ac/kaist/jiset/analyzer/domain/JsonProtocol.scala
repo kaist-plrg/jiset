@@ -48,18 +48,19 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val apureFormat = jsonFormat5(AbsPure.Elem)
   implicit lazy val acompFormat = new RootJsonFormat[AbsComp] {
     import AbsComp._
+    val tyMap = CompletionType.tyMap
     def read(json: JsValue): Elem = Elem(json.asJsObject.fields.map {
       case (f, JsArray(Vector(jsV, jsT))) =>
         val v = apureFormat.read(jsV)
         val t = apureFormat.read(jsT)
-        f -> (v, t)
+        tyMap(f) -> (v, t)
       case _ => deserializationError(s"unknown element: $json")
     })
     def write(elem: Elem): JsValue = JsObject(elem.map.map {
       case (k, (v, t)) =>
         val jsV = apureFormat.write(v)
         val jsT = apureFormat.write(t)
-        k -> JsArray(jsV, jsT)
+        k.toString -> JsArray(jsV, jsT)
     })
   }
   implicit lazy val avalueFormat = jsonFormat2(AbsValue.Elem)

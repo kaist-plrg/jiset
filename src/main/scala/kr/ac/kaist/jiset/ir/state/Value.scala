@@ -6,7 +6,25 @@ import kr.ac.kaist.jiset.cfg.Function
 sealed trait Value
 
 // completion
-case class Completion(ty: String, value: PureValue, target: PureValue) extends Value
+case class Completion(ty: CompletionType, value: PureValue, target: PureValue) extends Value
+sealed abstract class CompletionType(name: String) {
+  // conversion to string
+  override def toString: String = name
+
+  // conversion to short string
+  def shortString: String = name.substring(0, 1).toUpperCase
+}
+object CompletionType {
+  val all: List[CompletionType] = List(
+    CompNormal, CompThrow, CompContinue, CompBreak, CompReturn
+  )
+  val tyMap: Map[String, CompletionType] = all.map(t => t.toString -> t).toMap
+}
+case object CompNormal extends CompletionType("normal")
+case object CompThrow extends CompletionType("throw")
+case object CompContinue extends CompletionType("continue")
+case object CompBreak extends CompletionType("break")
+case object CompReturn extends CompletionType("return")
 
 // pure values
 sealed trait PureValue extends Value

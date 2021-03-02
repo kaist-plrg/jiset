@@ -34,14 +34,14 @@ class JsonTinyTest extends AnalyzerTest {
       AbsValue(42, NamedAddr("Global"), DynamicAddr(432)),
       (AbsValue(true, Cont()) ⊔ AbsClo.Top),
       AbsValue(ASTVal("Literal"), ASTVal("Identifier")),
-      AbsValue(Completion("normal", 42, NamedAddr("CONST_empty"))),
+      AbsValue(Completion(CompNormal, 42, NamedAddr("CONST_empty"))),
       AbsValue(
-        Completion("normal", 42, NamedAddr("CONST_empty")),
-        Completion("normal", true, NamedAddr("CONST_empty")),
+        Completion(CompNormal, 42, NamedAddr("CONST_empty")),
+        Completion(CompNormal, true, NamedAddr("CONST_empty")),
       ),
       AbsValue(
-        Completion("throw", 42, NamedAddr("CONST_empty")),
-        Completion("normal", true, NamedAddr("CONST_empty")),
+        Completion(CompThrow, 42, NamedAddr("CONST_empty")),
+        Completion(CompNormal, true, NamedAddr("CONST_empty")),
       ),
     )
 

@@ -88,7 +88,7 @@ object ProdDomain extends pure.Domain {
 
     // conversion to normal completion
     def toCompletion: AbsComp = AbsComp(
-      "normal" -> (this, AbsPure(NamedAddr("CONST_empty")))
+      CompNormal -> (this, AbsPure(NamedAddr("CONST_empty")))
     )
 
     // abstract equality

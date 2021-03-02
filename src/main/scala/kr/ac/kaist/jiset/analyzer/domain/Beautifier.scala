@@ -80,12 +80,13 @@ object Beautifier {
       if (!prim.isBottom) udts :+= { _ >> prim }
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
+  implicit lazy val comptypeApp: App[CompletionType] = _ >> _.shortString
   implicit lazy val acompApp: App[AbsComp] =
     domainApp(AbsComp)((app, comp) => {
       var udts = Vector[Update]()
       comp.map.foreach {
         case (k, (v, t)) => udts :+= (app => {
-          app >> k.substring(0, 1).toUpperCase
+          app >> k
           if (!(t === AbsAddr(NamedAddr("CONST_empty")))) app >> ":" >> t
           app >> "(" >> v >> ")"
         })
