@@ -124,9 +124,9 @@ class AbsSemantics(val cfg: CFG) {
   // target algorithms
   private def successPatterns = List(
     // Success
-    // TODO refactor prefix pattern for IsFunctionDefinition
     """Literal\[.*""".r,
     """PrimaryExpression.*IsIdentifierRef""".r,
+    // .IsFunctionDefinition
     """Expression\[1,0\].IsFunctionDefinition""".r,
     """PrimaryExpression\[[0-4],0\].IsFunctionDefinition""".r,
     """PrimaryExpression\[1[0-1],0\].IsFunctionDefinition""".r, // [0,0]~[11,0]
@@ -152,10 +152,15 @@ class AbsSemantics(val cfg: CFG) {
     """ClassExpression\[.*.IsFunctionDefinition""".r,
     """AsyncFunctionExpression\[.*.IsFunctionDefinition""".r,
     """Expression\[1,0\].AssignmentTargetType""".r,
+    // String Value
     """IdentifierReference\[1,0\].StringValue""".r,
     """BindingIdentifier\[.*.StringValue""".r,
-    """IdentifierReference\[.*.StringValue""".r,
     """LabelIdentifier\[.*.StringValue""".r,
+    """StringLiteral\[.*.StringValue""".r,
+    """IdentifierReference\[.*.StringValue""".r,
+    // Etc.
+    """LiteralPropertyName\[1,0\].PropName""".r,
+    """LiteralPropertyName\[1,0\].Evaluation""".r,
   )
 
   private def failedPatterns = List(
@@ -173,8 +178,12 @@ class AbsSemantics(val cfg: CFG) {
     // not implemented transfer for `RefValue `
     """IdentifierReference\[0,0\].AssignmentTargetType""".r,
     // has parameter
+    """TemplateSpans\[0,0\].SubstitutionEvaluation""".r,
+    // not implemented: `return (new [])`
     """TemplateLiteral\[0,0\].TemplateStrings""".r,
-  )
+    // not implemented: access Identifier "StringValue" -> maybe abstract StringValue to `str`? 
+    """Identifier\[0,0\].StringValue""".r,
+    )
 
   private def targetPatterns = List(
     """PrimaryExpression\[0,0\].Evaluation""".r,
