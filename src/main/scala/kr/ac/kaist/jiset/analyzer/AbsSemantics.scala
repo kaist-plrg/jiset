@@ -240,7 +240,8 @@ class AbsSemantics(val cfg: CFG) {
     """PrimaryExpression\[0,0\].Evaluation""".r,
     // unknown variable: Type (@ToString)
     """LiteralPropertyName\[2,0\].Evaluation""".r,
-    // not implemented: `throw INTRINSIC_SyntaxError`
+    // unknown variable: INTRINSIC_SyntaxError
+    """PropertyDefinition\[1,0\].EarlyErrors""".r,
     """IdentifierReference\[1,0\].EarlyErrors""".r,
     // not impelemented: transfer for `EParseSyntax`
     """IdentifierReference\[2,0\].EarlyErrors""".r,
