@@ -74,6 +74,7 @@ class AbsSemantics(val cfg: CFG) {
   def apply(np: NodePoint[_]): AbsState = npMap.getOrElse(np, AbsState.Bot)
   def apply(rp: ReturnPoint): (AbsHeap, AbsValue) =
     rpMap.getOrElse(rp, (AbsHeap.Bot, AbsValue.Bot))
+  def _getRetEdges = retEdges
   def getRetEdges(rp: ReturnPoint): Set[(NodePoint[Call], String)] =
     retEdges.getOrElse(rp, Set())
   def getControlPoints: Set[ControlPoint] =
