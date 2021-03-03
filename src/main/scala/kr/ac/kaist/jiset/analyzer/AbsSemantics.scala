@@ -244,7 +244,7 @@ class AbsSemantics(val cfg: CFG) {
     """IdentifierReference\[1,0\].EarlyErrors""".r,
     // not impelemented: transfer for `EParseSyntax`
     """IdentifierReference\[2,0\].EarlyErrors""".r,
-    """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r
+    """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
     // not implemeted: state.BasicDomain allocList
     """BindingIdentifier\[1,0\].BoundNames""".r,
     """TemplateLiteral\[0,0\].TemplateStrings""".r,
@@ -253,6 +253,7 @@ class AbsSemantics(val cfg: CFG) {
   // private def targetPatterns = successPatterns
   // private def targetPatterns = failedPatterns
   private def targetPatterns = List(
+    """PrimaryExpression\[0,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
