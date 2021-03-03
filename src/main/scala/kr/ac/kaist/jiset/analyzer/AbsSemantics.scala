@@ -202,7 +202,9 @@ class AbsSemantics(val cfg: CFG) {
     """AsyncGeneratorExpression\[.*.IsFunctionDefinition""".r,
     """ClassExpression\[.*.IsFunctionDefinition""".r,
     """AsyncFunctionExpression\[.*.IsFunctionDefinition""".r,
+    // AssignmentTargetType
     """Expression\[1,0\].AssignmentTargetType""".r,
+    """IdentifierReference\[.*].AssignmentTargetType""".r,
     // String Value
     """IdentifierReference\[1,0\].StringValue""".r,
     """BindingIdentifier\[.*.StringValue""".r,
@@ -226,8 +228,6 @@ class AbsSemantics(val cfg: CFG) {
     """IdentifierReference\[0,0\].AssignmentTargetType""".r,
     // has parameter
     """TemplateSpans\[0,0\].SubstitutionEvaluation""".r,
-    // not implemented: `return (new [])`
-    """TemplateLiteral\[0,0\].TemplateStrings""".r,
     // not implemented: access Identifier "StringValue" -> maybe abstract StringValue to `str`?
     """Identifier\[0,0\].StringValue""".r,
     // not implemented: EIsInstanceOf
@@ -238,12 +238,21 @@ class AbsSemantics(val cfg: CFG) {
     // unknown property: #NamedAddr(EnvironmentRecord)."GetThisBinding"
     // unknown property: #NamedAddr(EnvironmentRecord)."OuterEnv"
     """PrimaryExpression\[0,0\].Evaluation""".r,
+    // unknown variable: Type (@ToString)
+    """LiteralPropertyName\[2,0\].Evaluation""".r,
+    // not implemented: `throw INTRINSIC_SyntaxError`
+    """IdentifierReference\[1,0\].EarlyErrors""".r,
+    // not impelemented: transfer for `EParseSyntax`
+    """IdentifierReference\[2,0\].EarlyErrors""".r,
+    """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r
+    // not implemeted: state.BasicDomain allocList
+    """BindingIdentifier\[1,0\].BoundNames""".r,
+    """TemplateLiteral\[0,0\].TemplateStrings""".r,
   )
 
   // private def targetPatterns = successPatterns
   // private def targetPatterns = failedPatterns
   private def targetPatterns = List(
-    """PrimaryExpression\[0,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
