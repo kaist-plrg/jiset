@@ -253,8 +253,16 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         e <- transfer(elem)
         c <- get(_.contains(l.escaped, e.escaped))
       } yield c
-      case EReturnIfAbrupt(expr, check) =>
-        transfer(expr) // TODO support abrupt completion check
+      case EReturnIfAbrupt(ERef(ref), check) => for {
+        rv <- transfer(ref)
+        v <- transfer(rv)
+        newV <- returnIfAbrupt(v, check)
+        _ <- modify(_.update(sem, rv, newV))
+      } yield newV
+      case EReturnIfAbrupt(expr, check) => for {
+        v <- transfer(expr)
+        newV <- returnIfAbrupt(v, check)
+      } yield newV
       case ECopy(obj) => for {
         v <- transfer(obj)
         a <- id(_.copyOf(v.escaped))
@@ -317,6 +325,21 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
     // TODO pruning abstract states using conditions
     def prune(expr: Expr, cond: Boolean): Updater = st => st
+
+    // return if abrupt completion
+    def returnIfAbrupt(v: AbsValue, check: Boolean): Result[AbsValue] = st => {
+      val AbsValue.Elem(pure, comp) = v
+      val compV: AbsPure = comp.isNormal.map {
+        case true => comp(CompNormal)._1
+        case false =>
+          val abrupt = comp.abrupt
+          if (check) sem.doReturn(ret -> (st.heap, abrupt))
+          else alarm(s"Unchecked abrupt completions: ${beautify(abrupt)}")
+          AbsPure.Bot
+      }.foldLeft(AbsPure.Bot)(_ ⊔ _)
+      val newV: AbsValue = pure ⊔ compV
+      (newV, st)
+    }
 
     // all integers
     private val intTop: AbsValue = AbsPrim(
