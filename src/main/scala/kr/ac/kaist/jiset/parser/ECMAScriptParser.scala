@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.parser
 
-import kr.ac.kaist.jiset.parser.algorithm.{ AlgoParser, HeadParser }
+import kr.ac.kaist.jiset.parser.algorithm.{ ASiteWalker, AlgoParser, HeadParser }
 import kr.ac.kaist.jiset.parser.grammar.GrammarParser
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -216,10 +216,13 @@ object ECMAScriptParser {
     // parse heads and
     val (secIds, parsedHeads) = parseHeads(targetSections, detail)
 
+    // allocation site walker
+    val asiteWalker = new ASiteWalker
+
     // algorithms
     val (atime, passed) = time(for {
       parsedHead <- parsedHeads
-      algos = AlgoParser(parsedHead, secIds, useCount, detail)
+      algos = AlgoParser(parsedHead, secIds, useCount, detail, asiteWalker)
       if !algos.isEmpty
     } yield algos)
     if (detail) println(s"# successful algorithm parsing: ${passed.size} ($atime ms)")

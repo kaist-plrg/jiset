@@ -14,7 +14,8 @@ object AlgoParser {
     parsedHead: (Element, List[Head]),
     secIds: Map[String, Name],
     useCount: Boolean,
-    detail: Boolean
+    detail: Boolean,
+    asiteWalker: ASiteWalker
   )(
     implicit
     lines: Array[String],
@@ -44,7 +45,7 @@ object AlgoParser {
         println(s"--------------------------------------------------")
         heads.foreach(println(_))
         println("====>")
-        println(rawBody.beautified(index = true)) // TODO print exprId, currently generated later so all -1
+        println(rawBody.beautified(index = true)) // TODO print asite, currently generated later so all -1
       }
 
       heads.map(Algo(_, rawBody, code))
@@ -57,19 +58,7 @@ object AlgoParser {
         Nil
     }
     if (detail) println(s"==================================================")
-    result.foreach(algo => UidWalker.walk(algo.rawBody))
+    result.foreach(algo => asiteWalker.walk(algo.rawBody))
     result
-  }
-
-  object UidWalker extends UnitWalker {
-    private var count: Int = 0
-    private def getCount: Int = { val result = count; count += 1; result }
-    override def walk(expr: Expr): Unit = {
-      expr match {
-        case expr: AllocExpr => expr.asite = getCount
-        case _ =>
-      }
-      super.walk(expr)
-    }
   }
 }

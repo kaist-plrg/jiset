@@ -9,7 +9,7 @@ import kr.ac.kaist.jiset.ir._
 class Beautifier(
   detail: Boolean = true,
   index: Boolean = false,
-  exprId: Boolean = false
+  asite: Boolean = false
 ) {
   // IR nodes
   implicit lazy val IRNodeApp: App[IRNode] = (app, node) => node match {
@@ -40,7 +40,10 @@ class Beautifier(
       case IAppend(expr, list) => app >> "append " >> expr >> " -> " >> list
       case IPrepend(expr, list) => app >> "prepend " >> expr >> " -> " >> list
       case IReturn(expr) => app >> "return " >> expr
-      case IThrow(id) => app >> "throw " >> id
+      case ithrow @ IThrow(id) =>
+        if (asite && ithrow.asite != -1)
+          app >> s"(" >> ithrow.asite >> ") "
+        app >> "throw " >> id
       case IIf(cond, thenInst, elseInst) =>
         implicit val d = DetailInstApp
         app >> "if " >> cond >> " "
@@ -69,8 +72,8 @@ class Beautifier(
   // expressions
   implicit lazy val ExprApp: App[Expr] = (app, expr) => {
     expr match {
-      case expr: AllocExpr if exprId && expr.asite != -1 =>
-        app >> s"(${expr.asite})"
+      case expr: AllocExpr if asite && expr.asite != -1 =>
+        app >> s"(" >> expr.asite >> ") "
       case _ =>
     }
     expr match {
@@ -125,7 +128,7 @@ class Beautifier(
   // ref
   implicit lazy val RefApp: App[Ref] = (app, ref) => ref match {
     case RefId(id) => app >> id
-    case RefProp(ref, EStr(str)) if !exprId => app >> ref >> "." >> str
+    case RefProp(ref, EStr(str)) if !asite => app >> ref >> "." >> str
     case RefProp(ref, expr) => app >> ref >> "[" >> expr >> "]"
   }
 

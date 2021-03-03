@@ -22,7 +22,7 @@ case class IDelete(ref: Ref) extends NormalInst
 case class IAppend(expr: Expr, list: Expr) extends NormalInst
 case class IPrepend(expr: Expr, list: Expr) extends NormalInst
 case class IReturn(expr: Expr) extends NormalInst
-case class IThrow(id: Id) extends NormalInst
+case class IThrow(id: Id) extends NormalInst { var asite: Int = -1 }
 case class IAssert(expr: Expr) extends NormalInst
 case class IPrint(expr: Expr) extends NormalInst
 case class IWithCont(id: Id, params: List[Id], bodyInst: Inst) extends NormalInst

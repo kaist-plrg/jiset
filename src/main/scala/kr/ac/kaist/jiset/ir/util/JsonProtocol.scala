@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.Useful.beautify
 import spray.json._
 
 object JsonProtocol extends BasicJsonProtocol {
-  val beautifier = new Beautifier(index = true, exprId = true)
+  val beautifier = new Beautifier(index = true, asite = true)
   import beautifier._
 
   implicit lazy val TyFormat = stringFormat[Ty](parseTy, beautify)

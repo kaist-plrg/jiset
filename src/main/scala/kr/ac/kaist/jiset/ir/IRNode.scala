@@ -7,9 +7,9 @@ trait IRNode {
   def beautified(
     detail: Boolean = true,
     index: Boolean = false,
-    exprId: Boolean = false
+    asite: Boolean = false
   ): String = {
-    val beautifier = IRNode.getBeautifier((detail, index, exprId))
+    val beautifier = IRNode.getBeautifier((detail, index, asite))
     import beautifier._
     beautify(this)
   }

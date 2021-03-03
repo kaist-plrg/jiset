@@ -55,7 +55,12 @@ trait Parser extends JavaTokenParsers with RegexParsers {
     ("append " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IAppend(e, l) } |
     ("prepend " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPrepend(e, l) } |
     "return " ~> expr ^^ { case e => IReturn(e) } |
-    "throw " ~> id ^^ { case x => IThrow(x) } |
+    opt("(" ~> integer <~ ")") ~ ("throw " ~> id) ^^ {
+      case k ~ x =>
+        val ithrow = IThrow(x)
+        ithrow.asite = k.fold(-1)(_.toInt)
+        ithrow
+    } |
     ("if " ~> expr) ~ inst ~ ("else" ~> inst) ^^ { case c ~ t ~ e => IIf(c, t, e) } |
     ("while " ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |
     "{" ~> rep(inst) <~ "}" ^^ { case seq => ISeq(seq) } |
@@ -117,7 +122,10 @@ trait Parser extends JavaTokenParsers with RegexParsers {
   ) ^^ {
       case k ~ (e: AllocExpr) =>
         e.asite = k.fold(-1)(_.toInt); e
-      case k ~ e => assert(k == None); e
+      case k ~ e =>
+        if (k != None) println(e.beautified, k)
+        assert(k == None)
+        e
     }
 
   // properties

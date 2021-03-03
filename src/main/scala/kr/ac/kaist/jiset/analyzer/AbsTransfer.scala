@@ -126,7 +126,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         st <- get
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v.escaped.toCompletion))
-      case IThrow(id) => st => ???
+      case ithrow @ IThrow(Id(x)) => st => ???
       case IAssert(expr) => for {
         v <- transfer(expr)
         _ <- modify(prune(expr, true))
