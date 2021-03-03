@@ -38,5 +38,8 @@ object BasicDomain extends heap.Domain {
 
     // lookup
     def apply(addr: Addr): AbsObj = map(addr)
+
+    // update
+    def +(pair: (Addr, AbsObj)): Elem = copy(map = map + pair)
   }
 }

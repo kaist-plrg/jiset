@@ -73,7 +73,9 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
     for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
       println(s"np: $np")
       val nextNP = np.copy(node = next(call))
-      sem += nextNP -> (sem(np) + (x -> v))
+      val st = sem(np)
+      val newSt = AbsState.Elem(st.env + (x -> v), st.heap ⊔ h)
+      sem += nextNP -> newSt
     }
   }
 

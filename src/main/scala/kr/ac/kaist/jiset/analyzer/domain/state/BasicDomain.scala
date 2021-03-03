@@ -115,7 +115,15 @@ object BasicDomain extends state.Domain {
       asite: Int,
       ty: String,
       props: Map[String, AbsValue]
-    ): (AbsPure, Elem) = ???
+    ): (AbsPure, Elem) = {
+      import AbsObj._
+      val map: MapD = MapD(props.map {
+        case (k, v) => k -> MapD.AbsVOpt(v)
+      }, MapD.AbsVOpt(None))
+      val addr = DynamicAddr(asite)
+      val obj: AbsObj = MapElem(Some(ty), map)
+      (AbsPure(addr), copy(heap = heap + (addr -> obj)))
+    }
 
     // allocate a new list
     def allocList(
