@@ -44,6 +44,7 @@ object BasicDomain extends heap.Domain {
     def +(pair: (Addr, AbsObj)): Elem = copy(map = map + pair)
 
     // helper
+    // converts parent:Option[String] into Option[MapElem], by actually looking into this: AbsHeapElem
     def mapElemGetParent(e: MapElem): Option[MapElem] = e.parent.map(name => {
       this(NamedAddr(name)) match {
         case o: MapElem => o
