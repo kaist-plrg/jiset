@@ -6,14 +6,14 @@
     access __x2__ = (FormalParameters "IsSimpleParameterList")
     __x0__ = (= __x2__ false)
   } else {}
-  if __x0__ throw INTRINSIC_SyntaxError else return undefined
+  if __x0__ throw SyntaxError else return undefined
   access __x3__ = (FormalParameters "Contains")
   app __x4__ = (__x3__ "AwaitExpression")
-  if (= __x4__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x4__ true) throw SyntaxError else return undefined
   ??? "If the source code matching nt:{FormalParameters} is strict mode code , the Early Error rules for grammar:{UniqueFormalParameters0, [FormalParameters]} are applied ."
   if (&& (! (= BindingIdentifier absent)) true) {
     access __x5__ = (BindingIdentifier "StringValue")
-    if (|| (= __x5__ "eval") (= __x5__ "arguments")) throw INTRINSIC_SyntaxError else return undefined
+    if (|| (= __x5__ "eval") (= __x5__ "arguments")) throw SyntaxError else return undefined
   } else {}
   access __x6__ = (FormalParameters "BoundNames")
   access __x7__ = (AsyncFunctionBody "LexicallyDeclaredNames")
@@ -26,17 +26,17 @@
     __x11__ = 0i
     while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
   }
-  if __x12__ throw INTRINSIC_SyntaxError else return undefined
+  if __x12__ throw SyntaxError else return undefined
   access __x13__ = (FormalParameters "Contains")
   app __x14__ = (__x13__ "SuperProperty")
-  if (= __x14__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x14__ true) throw SyntaxError else return undefined
   access __x15__ = (AsyncFunctionBody "Contains")
   app __x16__ = (__x15__ "SuperProperty")
-  if (= __x16__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x16__ true) throw SyntaxError else return undefined
   access __x17__ = (FormalParameters "Contains")
   app __x18__ = (__x17__ "SuperCall")
-  if (= __x18__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x18__ true) throw SyntaxError else return undefined
   access __x19__ = (AsyncFunctionBody "Contains")
   app __x20__ = (__x19__ "SuperCall")
-  if (= __x20__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x20__ true) throw SyntaxError else return undefined
 }

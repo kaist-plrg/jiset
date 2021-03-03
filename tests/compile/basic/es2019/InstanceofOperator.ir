@@ -1,6 +1,6 @@
 {
   app __x0__ = (Type target)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
   app __x1__ = (GetMethod target SYMBOL_hasInstance)
   let instOfHandler = [? __x1__]
   if (! (= instOfHandler undefined)) {
@@ -9,7 +9,7 @@
     return __x3__
   } else {}
   app __x4__ = (IsCallable target)
-  if (= __x4__ false) throw INTRINSIC_TypeError else {}
+  if (= __x4__ false) throw TypeError else {}
   app __x5__ = (OrdinaryHasInstance target V)
   return [? __x5__]
 }

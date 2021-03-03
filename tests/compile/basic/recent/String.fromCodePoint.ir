@@ -7,8 +7,8 @@
     app __x2__ = (ToNumber next)
     let nextCP = [? __x2__]
     app __x3__ = (IsIntegralNumber nextCP)
-    if (= [! __x3__] false) throw INTRINSIC_RangeError else {}
-    if (|| (< nextCP 0i) (< 1114111i nextCP)) throw INTRINSIC_RangeError else {}
+    if (= [! __x3__] false) throw RangeError else {}
+    if (|| (< nextCP 0i) (< 1114111i nextCP)) throw RangeError else {}
     app __x4__ = (UTF16EncodeCodePoint nextCP)
     result = (+ result [! __x4__])
     __x1__ = (+ __x1__ 1i)

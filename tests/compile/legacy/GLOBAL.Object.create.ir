@@ -4,7 +4,7 @@
   app __x1__ = (GetArgument argumentsList 1i)
   let Properties = __x1__
   app __x2__ = (Type O)
-  if (! (|| (= __x2__ Object) (= __x2__ Null))) throw INTRINSIC_TypeError else {}
+  if (! (|| (= __x2__ Object) (= __x2__ Null))) throw TypeError else {}
   app __x3__ = (OrdinaryObjectCreate O)
   let obj = __x3__
   if (! (= Properties undefined)) {

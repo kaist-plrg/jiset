@@ -1,11 +1,11 @@
 {
   let O = this
   let f = GLOBAL_context.Function
-  if (= O.IteratorNext absent) throw INTRINSIC_TypeError else {}
+  if (= O.IteratorNext absent) throw TypeError else {}
   let next = O.IteratorNext
   app __x0__ = (SameValue f next)
-  if (= __x0__ false) throw INTRINSIC_TypeError else {}
-  if (= O.IteratedList absent) throw INTRINSIC_TypeError else {}
+  if (= __x0__ false) throw TypeError else {}
+  if (= O.IteratedList absent) throw TypeError else {}
   let list = O.IteratedList
   let index = O.ListIteratorNextIndex
   let len = list.length

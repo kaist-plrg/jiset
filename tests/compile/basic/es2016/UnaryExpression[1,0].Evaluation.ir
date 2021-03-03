@@ -13,7 +13,7 @@
   app __x4__ = (IsPropertyReference ref)
   if (= __x4__ true) {
     app __x5__ = (IsSuperReference ref)
-    if (= __x5__ true) throw INTRINSIC_ReferenceError else {}
+    if (= __x5__ true) throw ReferenceError else {}
     app __x6__ = (GetBase ref)
     app __x7__ = (ToObject __x6__)
     let baseObj = [! __x7__]
@@ -26,7 +26,7 @@
       app __x11__ = (IsStrictReference ref)
       __x10__ = (= __x11__ true)
     } else {}
-    if __x10__ throw INTRINSIC_TypeError else {}
+    if __x10__ throw TypeError else {}
     return deleteStatus
   } else {
     app __x12__ = (GetBase ref)

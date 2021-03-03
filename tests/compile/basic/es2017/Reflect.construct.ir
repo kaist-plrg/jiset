@@ -1,9 +1,9 @@
 {
   app __x0__ = (IsConstructor target)
-  if (= __x0__ false) throw INTRINSIC_TypeError else {}
+  if (= __x0__ false) throw TypeError else {}
   if (= newTarget absent) let newTarget = target else {
     app __x1__ = (IsConstructor newTarget)
-    if (= __x1__ false) throw INTRINSIC_TypeError else {}
+    if (= __x1__ false) throw TypeError else {}
   }
   app __x2__ = (CreateListFromArrayLike argumentsList)
   let args = [? __x2__]

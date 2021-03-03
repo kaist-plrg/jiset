@@ -4,7 +4,7 @@
   app __x1__ = (LengthOfArrayLike O)
   let sourceLen = [? __x1__]
   app __x2__ = (IsCallable mapperFunction)
-  if (= [! __x2__] false) throw INTRINSIC_TypeError else {}
+  if (= [! __x2__] false) throw TypeError else {}
   app __x3__ = (ArraySpeciesCreate O 0i)
   let A = [? __x3__]
   app __x4__ = (FlattenIntoArray A O sourceLen 0i 1i mapperFunction thisArg)

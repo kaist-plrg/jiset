@@ -3,7 +3,7 @@
     app __x0__ = (SpeciesConstructor srcBuffer INTRINSIC_ArrayBuffer)
     let cloneConstructor = [? __x0__]
     app __x1__ = (IsDetachedBuffer srcBuffer)
-    if (= __x1__ true) throw INTRINSIC_TypeError else {}
+    if (= __x1__ true) throw TypeError else {}
   } else {
     app __x2__ = (IsConstructor cloneConstructor)
     assert (= __x2__ true)
@@ -15,7 +15,7 @@
   app __x3__ = (AllocateArrayBuffer cloneConstructor cloneLength)
   let targetBuffer = [? __x3__]
   app __x4__ = (IsDetachedBuffer srcBuffer)
-  if (= __x4__ true) throw INTRINSIC_TypeError else {}
+  if (= __x4__ true) throw TypeError else {}
   let targetBlock = targetBuffer.ArrayBufferData
   app __x5__ = (CopyDataBlockBytes targetBlock 0i srcBlock srcByteOffset cloneLength)
   __x5__

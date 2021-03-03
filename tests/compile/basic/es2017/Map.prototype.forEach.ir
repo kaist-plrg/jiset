@@ -1,10 +1,10 @@
 {
   let M = this
   app __x0__ = (Type M)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= M.MapData absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= M.MapData absent) throw TypeError else {}
   app __x1__ = (IsCallable callbackfn)
-  if (= __x1__ false) throw INTRINSIC_TypeError else {}
+  if (= __x1__ false) throw TypeError else {}
   if (! (= thisArg absent)) let T = thisArg else let T = undefined
   let entries = M.MapData
   ??? "For each Record { [ [ Key ] ] , [ [ Value ] ] } id:{e} that is an element of id:{entries} , in original key insertion order , do in:{} out:{}"

@@ -3,12 +3,12 @@
   app __x0__ = (RequireInternalSlot finalizationRegistry "Cells")
   [? __x0__]
   app __x1__ = (Type target)
-  if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x1__ Object)) throw TypeError else {}
   app __x2__ = (SameValue target heldValue)
-  if (= __x2__ true) throw INTRINSIC_TypeError else {}
+  if (= __x2__ true) throw TypeError else {}
   app __x3__ = (Type unregisterToken)
   if (! (= __x3__ Object)) {
-    if (! (= unregisterToken undefined)) throw INTRINSIC_TypeError else {}
+    if (! (= unregisterToken undefined)) throw TypeError else {}
     unregisterToken = CONST_empty
   } else {}
   let cell = (new Record("WeakRefTarget" -> target, "HeldValue" -> heldValue, "UnregisterToken" -> unregisterToken))

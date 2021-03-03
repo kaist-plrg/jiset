@@ -19,7 +19,7 @@
   app __x5__ = (Call method obj)
   let iterator = [? __x5__]
   app __x6__ = (Type iterator)
-  if (! (= __x6__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x6__ Object)) throw TypeError else {}
   app __x7__ = (GetV iterator "next")
   let nextMethod = [? __x7__]
   let iteratorRecord = (new Record("Iterator" -> iterator, "NextMethod" -> nextMethod, "Done" -> false))

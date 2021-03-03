@@ -1,6 +1,6 @@
 {
   let handler = O.ProxyHandler
-  if (= handler null) throw INTRINSIC_TypeError else {}
+  if (= handler null) throw TypeError else {}
   app __x0__ = (Type handler)
   assert (= __x0__ Object)
   let target = O.ProxyTarget
@@ -15,7 +15,7 @@
   app __x4__ = (CreateListFromArrayLike trapResultArray (new [String, Symbol]))
   let trapResult = [? __x4__]
   app __x5__ = (IsDuplicate trapResult)
-  if __x5__ throw INTRINSIC_TypeError else {}
+  if __x5__ throw TypeError else {}
   app __x6__ = (IsExtensible target)
   let extensibleTarget = [? __x6__]
   app __x7__ = (target.OwnPropertyKeys target)
@@ -37,7 +37,7 @@
   let __x12__ = 0i
   while (< __x12__ __x11__.length) {
     let key = __x11__[__x12__]
-    if (! (contains uncheckedResultKeys key)) throw INTRINSIC_TypeError else {}
+    if (! (contains uncheckedResultKeys key)) throw TypeError else {}
     let __x13__ = 0i
     while (< __x13__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x13__] key) (pop uncheckedResultKeys __x13__) else __x13__ = (+ __x13__ 1i)
     __x12__ = (+ __x12__ 1i)
@@ -47,11 +47,11 @@
   let __x15__ = 0i
   while (< __x15__ __x14__.length) {
     let key = __x14__[__x15__]
-    if (! (contains uncheckedResultKeys key)) throw INTRINSIC_TypeError else {}
+    if (! (contains uncheckedResultKeys key)) throw TypeError else {}
     let __x16__ = 0i
     while (< __x16__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x16__] key) (pop uncheckedResultKeys __x16__) else __x16__ = (+ __x16__ 1i)
     __x15__ = (+ __x15__ 1i)
   }
-  if (< 0i uncheckedResultKeys.length) throw INTRINSIC_TypeError else {}
+  if (< 0i uncheckedResultKeys.length) throw TypeError else {}
   return trapResult
 }

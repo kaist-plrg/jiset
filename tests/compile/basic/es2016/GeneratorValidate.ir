@@ -1,8 +1,8 @@
 {
   app __x0__ = (Type generator)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= generator.GeneratorState absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= generator.GeneratorState absent) throw TypeError else {}
   let state = generator.GeneratorState
-  if (= state "executing") throw INTRINSIC_TypeError else {}
+  if (= state "executing") throw TypeError else {}
   return state
 }

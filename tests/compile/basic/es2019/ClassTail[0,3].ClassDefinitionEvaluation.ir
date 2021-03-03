@@ -23,11 +23,11 @@
       let constructorParent = INTRINSIC_FunctionPrototype
     } else {
       app __x5__ = (IsConstructor superclass)
-      if (= __x5__ false) throw INTRINSIC_TypeError else {
+      if (= __x5__ false) throw TypeError else {
         app __x6__ = (Get superclass "prototype")
         let protoParent = [? __x6__]
         app __x7__ = (Type protoParent)
-        if (! (|| (= __x7__ Object) (= __x7__ Null))) throw INTRINSIC_TypeError else {}
+        if (! (|| (= __x7__ Object) (= __x7__ Null))) throw TypeError else {}
         let constructorParent = superclass
       }
     }

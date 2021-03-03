@@ -9,8 +9,8 @@
     let nextCP = [? __x0__]
     app __x1__ = (ToInteger nextCP)
     app __x2__ = (SameValue nextCP __x1__)
-    if (= __x2__ false) throw INTRINSIC_RangeError else {}
-    if (|| (< nextCP 0i) (< 1114111i nextCP)) throw INTRINSIC_RangeError else {}
+    if (= __x2__ false) throw RangeError else {}
+    if (|| (< nextCP 0i) (< 1114111i nextCP)) throw RangeError else {}
     access __x3__ = (nextCP "UTF16Encoding")
     let __x4__ = __x3__
     let __x5__ = 0i

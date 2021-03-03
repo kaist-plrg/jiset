@@ -10,12 +10,12 @@
   while (< __x3__ __x2__.length) {
     let name = __x2__[__x3__]
     app __x4__ = (envRec.HasVarDeclaration envRec name)
-    if (= __x4__ true) throw INTRINSIC_SyntaxError else {}
+    if (= __x4__ true) throw SyntaxError else {}
     app __x5__ = (envRec.HasLexicalDeclaration envRec name)
-    if (= __x5__ true) throw INTRINSIC_SyntaxError else {}
+    if (= __x5__ true) throw SyntaxError else {}
     app __x6__ = (envRec.HasRestrictedGlobalProperty envRec name)
     let hasRestrictedGlobal = [? __x6__]
-    if (= hasRestrictedGlobal true) throw INTRINSIC_SyntaxError else {}
+    if (= hasRestrictedGlobal true) throw SyntaxError else {}
     __x3__ = (+ __x3__ 1i)
   }
   let __x7__ = varNames
@@ -23,7 +23,7 @@
   while (< __x8__ __x7__.length) {
     let name = __x7__[__x8__]
     app __x9__ = (envRec.HasLexicalDeclaration envRec name)
-    if (= __x9__ true) throw INTRINSIC_SyntaxError else {}
+    if (= __x9__ true) throw SyntaxError else {}
     __x8__ = (+ __x8__ 1i)
   }
   access __x10__ = (script "VarScopedDeclarations")
@@ -42,7 +42,7 @@
       if (! (contains declaredFunctionNames fn)) {
         app __x14__ = (envRec.CanDeclareGlobalFunction envRec fn)
         let fnDefinable = [? __x14__]
-        if (= fnDefinable false) throw INTRINSIC_TypeError else {}
+        if (= fnDefinable false) throw TypeError else {}
         append fn -> declaredFunctionNames
         prepend d -> functionsToInitialize
       } else {}
@@ -62,7 +62,7 @@
         if (! (contains declaredFunctionNames vn)) {
           app __x20__ = (envRec.CanDeclareGlobalVar envRec vn)
           let vnDefinable = [? __x20__]
-          if (= vnDefinable false) throw INTRINSIC_TypeError else {}
+          if (= vnDefinable false) throw TypeError else {}
           if (! (contains declaredVarNames vn)) append vn -> declaredVarNames else {}
         } else {}
         __x19__ = (+ __x19__ 1i)

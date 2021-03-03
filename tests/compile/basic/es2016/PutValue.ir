@@ -2,13 +2,13 @@
   [? V]
   [? W]
   app __x0__ = (Type V)
-  if (! (= __x0__ Reference)) throw INTRINSIC_ReferenceError else {}
+  if (! (= __x0__ Reference)) throw ReferenceError else {}
   app __x1__ = (GetBase V)
   let base = __x1__
   app __x2__ = (IsUnresolvableReference V)
   if (= __x2__ true) {
     app __x3__ = (IsStrictReference V)
-    if (= __x3__ true) throw INTRINSIC_ReferenceError else {}
+    if (= __x3__ true) throw ReferenceError else {}
     app __x4__ = (GetGlobalObject )
     let globalObj = __x4__
     app __x5__ = (GetReferencedName V)
@@ -32,7 +32,7 @@
         app __x14__ = (IsStrictReference V)
         __x13__ = (= __x14__ true)
       } else {}
-      if __x13__ throw INTRINSIC_TypeError else {}
+      if __x13__ throw TypeError else {}
       return undefined
     } else {
       app __x15__ = (GetReferencedName V)

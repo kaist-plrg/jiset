@@ -26,7 +26,7 @@
     let e = __x6__[__x7__]
     app __x8__ = (module.ResolveExport module e.ExportName (new []) (new []))
     let resolution = [? __x8__]
-    if (|| (= resolution null) (= resolution "ambiguous")) throw INTRINSIC_SyntaxError else {}
+    if (|| (= resolution null) (= resolution "ambiguous")) throw SyntaxError else {}
     __x7__ = (+ __x7__ 1i)
   }
   let envRec = env.EnvironmentRecord
@@ -46,7 +46,7 @@
     } else {
       app __x15__ = (importedModule.ResolveExport importedModule in.ImportName (new []) (new []))
       let resolution = [? __x15__]
-      if (|| (= resolution null) (= resolution "ambiguous")) throw INTRINSIC_SyntaxError else {}
+      if (|| (= resolution null) (= resolution "ambiguous")) throw SyntaxError else {}
       app __x16__ = (envRec.CreateImportBinding envRec in.LocalName resolution.Module resolution.BindingName)
       __x16__
     }

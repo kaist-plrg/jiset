@@ -10,7 +10,7 @@
       let name = __x1__[__x2__]
       app __x3__ = (module.ResolveExport module name (new []))
       let resolution = [? __x3__]
-      if (= resolution null) throw INTRINSIC_SyntaxError else {}
+      if (= resolution null) throw SyntaxError else {}
       if (! (= resolution "ambiguous")) append name -> unambiguousNames else {}
       __x2__ = (+ __x2__ 1i)
     }

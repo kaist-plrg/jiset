@@ -1,18 +1,18 @@
 {
-  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  if (= NewTarget undefined) throw TypeError else {}
   app __x0__ = (Type buffer)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= buffer.ArrayBufferData absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= buffer.ArrayBufferData absent) throw TypeError else {}
   app __x1__ = (ToIndex byteOffset)
   let offset = [? __x1__]
   app __x2__ = (IsDetachedBuffer buffer)
-  if (= __x2__ true) throw INTRINSIC_TypeError else {}
+  if (= __x2__ true) throw TypeError else {}
   let bufferByteLength = buffer.ArrayBufferByteLength
-  if (< bufferByteLength offset) throw INTRINSIC_RangeError else {}
+  if (< bufferByteLength offset) throw RangeError else {}
   if (|| (= byteLength absent) (= byteLength undefined)) let viewByteLength = (- bufferByteLength offset) else {
     app __x3__ = (ToIndex byteLength)
     let viewByteLength = [? __x3__]
-    if (< bufferByteLength (+ offset viewByteLength)) throw INTRINSIC_RangeError else {}
+    if (< bufferByteLength (+ offset viewByteLength)) throw RangeError else {}
   }
   app __x4__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_DataViewPrototype (new ["DataView", "ViewedArrayBuffer", "ByteLength", "ByteOffset"]))
   let O = [? __x4__]

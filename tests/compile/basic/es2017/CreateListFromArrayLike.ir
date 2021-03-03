@@ -1,7 +1,7 @@
 {
   if (= elementTypes absent) elementTypes = (new [Undefined, Null, Boolean, String, Symbol, Number, Object]) else {}
   app __x0__ = (Type obj)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
   app __x1__ = (Get obj "length")
   app __x2__ = (ToLength [? __x1__])
   let len = [? __x2__]
@@ -13,7 +13,7 @@
     app __x4__ = (Get obj indexName)
     let next = [? __x4__]
     app __x5__ = (Type next)
-    if (! (contains elementTypes __x5__)) throw INTRINSIC_TypeError else {}
+    if (! (contains elementTypes __x5__)) throw TypeError else {}
     append next -> list
     index = (+ index 1i)
   }

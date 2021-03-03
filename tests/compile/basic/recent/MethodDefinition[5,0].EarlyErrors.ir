@@ -1,7 +1,7 @@
 {
   access __x0__ = (PropertySetParameterList "BoundNames")
   app __x1__ = (IsDuplicate __x0__)
-  if __x1__ throw INTRINSIC_SyntaxError else return undefined
+  if __x1__ throw SyntaxError else return undefined
   let __x2__ = true
   access __x3__ = (FunctionBody "ContainsUseStrict")
   __x2__ = (= __x3__ true)
@@ -9,7 +9,7 @@
     access __x4__ = (PropertySetParameterList "IsSimpleParameterList")
     __x2__ = (= __x4__ false)
   } else {}
-  if __x2__ throw INTRINSIC_SyntaxError else return undefined
+  if __x2__ throw SyntaxError else return undefined
   access __x5__ = (PropertySetParameterList "BoundNames")
   access __x6__ = (FunctionBody "LexicallyDeclaredNames")
   let __x7__ = __x5__
@@ -21,5 +21,5 @@
     __x10__ = 0i
     while (< __x10__ __x8__.length) if (= __x7__[__x9__] __x8__[__x10__]) __x11__ = true else {}
   }
-  if __x11__ throw INTRINSIC_SyntaxError else return undefined
+  if __x11__ throw SyntaxError else return undefined
 }

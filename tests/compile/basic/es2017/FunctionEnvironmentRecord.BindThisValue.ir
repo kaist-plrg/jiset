@@ -1,7 +1,7 @@
 {
   let envRec = this
   assert (! (= envRec.ThisBindingStatus "lexical"))
-  if (= envRec.ThisBindingStatus "initialized") throw INTRINSIC_ReferenceError else {}
+  if (= envRec.ThisBindingStatus "initialized") throw ReferenceError else {}
   envRec.ThisValue = V
   envRec.ThisBindingStatus = "initialized"
   return V

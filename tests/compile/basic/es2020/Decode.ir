@@ -7,7 +7,7 @@
     let C = string[k]
     if (! (= C "%")) let S = C else {
       let start = k
-      if (! (< (+ k 2i) strLen)) throw INTRINSIC_URIError else {}
+      if (! (< (+ k 2i) strLen)) throw URIError else {}
       ??? "If the code units at index ( id:{k} + 1 ) and ( id:{k} + 2 ) within id:{string} do not represent hexadecimal digits , throw a value:{URIError} exception ."
       ??? "Let id:{B} be the 8 - bit value represented by the two hexadecimal digits at index ( id:{k} + 1 ) and ( id:{k} + 2 ) ."
       k = (+ k 2i)

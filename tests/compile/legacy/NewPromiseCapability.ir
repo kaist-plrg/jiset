@@ -1,6 +1,6 @@
 {
   app __x0__ = (IsConstructor C)
-  if (= __x0__ false) throw INTRINSIC_TypeError else {}
+  if (= __x0__ false) throw TypeError else {}
   let promiseCapability = (new PromiseCapability("Promise" -> undefined, "Resolve" -> undefined, "Reject" -> undefined))
   ??? "Let id:{steps} be the algorithm steps defined in GetCapabilitiesExecutor Functions ."
   app __x1__ = (CreateBuiltinFunction steps (new ["Capability"]))
@@ -9,9 +9,9 @@
   app __x2__ = (Construct C (new [executor]))
   let promise = [? __x2__]
   app __x3__ = (IsCallable promiseCapability.Resolve)
-  if (= __x3__ false) throw INTRINSIC_TypeError else {}
+  if (= __x3__ false) throw TypeError else {}
   app __x4__ = (IsCallable promiseCapability.Reject)
-  if (= __x4__ false) throw INTRINSIC_TypeError else {}
+  if (= __x4__ false) throw TypeError else {}
   promiseCapability.Promise = promise
   return promiseCapability
 }

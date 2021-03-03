@@ -18,7 +18,7 @@
       innerResult = [? __x6__]
     } else {}
     app __x7__ = (Type innerResult)
-    if (! (= __x7__ Object)) throw INTRINSIC_TypeError else {}
+    if (! (= __x7__ Object)) throw TypeError else {}
     app __x8__ = (IteratorComplete innerResult)
     let done = [? __x8__]
     if (= done true) {
@@ -44,7 +44,7 @@
         innerResult = [? __x15__]
       } else {}
       app __x16__ = (Type innerResult)
-      if (! (= __x16__ Object)) throw INTRINSIC_TypeError else {}
+      if (! (= __x16__ Object)) throw TypeError else {}
       app __x17__ = (IteratorComplete innerResult)
       let done = [? __x17__]
       if (= done true) {
@@ -68,7 +68,7 @@
         app __x23__ = (IteratorClose iteratorRecord closeCompletion)
         [? __x23__]
       }
-      throw INTRINSIC_TypeError
+      throw TypeError
     }
   } else {
     assert (= received.Type CONST_return)
@@ -89,7 +89,7 @@
       innerReturnResult = [? __x28__]
     } else {}
     app __x29__ = (Type innerReturnResult)
-    if (! (= __x29__ Object)) throw INTRINSIC_TypeError else {}
+    if (! (= __x29__ Object)) throw TypeError else {}
     app __x30__ = (IteratorComplete innerReturnResult)
     let done = [? __x30__]
     if (= done true) {

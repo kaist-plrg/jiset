@@ -1,10 +1,10 @@
 {
   app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= O.TypedArrayName absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= O.TypedArrayName absent) throw TypeError else {}
   assert (! (= O.ViewedArrayBuffer absent))
   let buffer = O.ViewedArrayBuffer
   app __x1__ = (IsDetachedBuffer buffer)
-  if (= __x1__ true) throw INTRINSIC_TypeError else {}
+  if (= __x1__ true) throw TypeError else {}
   return buffer
 }

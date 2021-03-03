@@ -6,7 +6,7 @@
     access __x2__ = (UniqueFormalParameters "IsSimpleParameterList")
     __x0__ = (= __x2__ false)
   } else {}
-  if __x0__ throw INTRINSIC_SyntaxError else return undefined
+  if __x0__ throw SyntaxError else return undefined
   access __x3__ = (UniqueFormalParameters "BoundNames")
   access __x4__ = (FunctionBody "LexicallyDeclaredNames")
   let __x5__ = __x3__
@@ -18,5 +18,5 @@
     __x8__ = 0i
     while (< __x8__ __x6__.length) if (= __x5__[__x7__] __x6__[__x8__]) __x9__ = true else {}
   }
-  if __x9__ throw INTRINSIC_SyntaxError else return undefined
+  if __x9__ throw SyntaxError else return undefined
 }

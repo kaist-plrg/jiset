@@ -11,7 +11,7 @@
     } else {
       app __x0__ = (CodePointAt string k)
       let cp = [! __x0__]
-      if (= cp.IsUnpairedSurrogate true) throw INTRINSIC_URIError else {}
+      if (= cp.IsUnpairedSurrogate true) throw URIError else {}
       k = (+ k cp.CodeUnitCount)
       ??? "Let id:{Octets} be the List of octets resulting by applying the UTF - 8 transformation to id:{cp} . [ [ CodePoint ] ] ."
       let __x1__ = Octets

@@ -1,6 +1,6 @@
 {
   let handler = O.ProxyHandler
-  if (= handler null) throw INTRINSIC_TypeError else {}
+  if (= handler null) throw TypeError else {}
   app __x0__ = (Type handler)
   assert (= __x0__ Object)
   let target = O.ProxyTarget
@@ -20,6 +20,6 @@
   app __x6__ = (target.GetPrototypeOf target)
   let targetProto = [? __x6__]
   app __x7__ = (SameValue V targetProto)
-  if (= __x7__ false) throw INTRINSIC_TypeError else {}
+  if (= __x7__ false) throw TypeError else {}
   return true
 }

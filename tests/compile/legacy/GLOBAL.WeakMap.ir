@@ -1,7 +1,7 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let iterable = __x0__
-  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  if (= NewTarget undefined) throw TypeError else {}
   app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%WeakMap.prototype%" (new ["WeakMapData"]))
   let map = [? __x1__]
   map.WeakMapData = (new [])

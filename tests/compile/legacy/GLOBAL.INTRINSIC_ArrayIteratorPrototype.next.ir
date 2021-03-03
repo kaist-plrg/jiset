@@ -1,7 +1,7 @@
 {
   let O = this
   app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
   ??? "If id:{O} does not have all of the internal slots of an Array Iterator Instance ( 22 . 1 . 5 . 3 ) , throw a value:{TypeError} exception ."
   let a = O.IteratedArrayLike
   if (= a undefined) {
@@ -12,7 +12,7 @@
   let itemKind = O.ArrayLikeIterationKind
   if (! (= a.TypedArrayName absent)) {
     app __x2__ = (IsDetachedBuffer a.ViewedArrayBuffer)
-    if (= __x2__ true) throw INTRINSIC_TypeError else {}
+    if (= __x2__ true) throw TypeError else {}
     let len = a.ArrayLength
   } else {
     app __x3__ = (LengthOfArrayLike a)

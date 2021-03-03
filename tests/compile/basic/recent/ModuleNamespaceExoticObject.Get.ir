@@ -19,7 +19,7 @@
     return [? __x4__]
   } else {}
   let targetEnv = targetModule.Environment
-  if (= targetEnv undefined) throw INTRINSIC_ReferenceError else {}
+  if (= targetEnv undefined) throw ReferenceError else {}
   app __x5__ = (targetEnv.GetBindingValue targetEnv binding.BindingName true)
   return [? __x5__]
 }

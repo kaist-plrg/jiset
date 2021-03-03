@@ -1,12 +1,12 @@
 {
   let O = this
   app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= O.ArrayBufferData absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= O.ArrayBufferData absent) throw TypeError else {}
   app __x1__ = (IsSharedArrayBuffer O)
-  if (= __x1__ true) throw INTRINSIC_TypeError else {}
+  if (= __x1__ true) throw TypeError else {}
   app __x2__ = (IsDetachedBuffer O)
-  if (= __x2__ true) throw INTRINSIC_TypeError else {}
+  if (= __x2__ true) throw TypeError else {}
   let len = O.ArrayBufferByteLength
   app __x3__ = (ToInteger start)
   let relativeStart = [? __x3__]
@@ -34,16 +34,16 @@
   let ctor = [? __x10__]
   app __x11__ = (Construct ctor (new [newLen]))
   let new = [? __x11__]
-  if (= new.ArrayBufferData absent) throw INTRINSIC_TypeError else {}
+  if (= new.ArrayBufferData absent) throw TypeError else {}
   app __x12__ = (IsSharedArrayBuffer new)
-  if (= __x12__ true) throw INTRINSIC_TypeError else {}
+  if (= __x12__ true) throw TypeError else {}
   app __x13__ = (IsDetachedBuffer new)
-  if (= __x13__ true) throw INTRINSIC_TypeError else {}
+  if (= __x13__ true) throw TypeError else {}
   app __x14__ = (SameValue new O)
-  if (= __x14__ true) throw INTRINSIC_TypeError else {}
-  if (< new.ArrayBufferByteLength newLen) throw INTRINSIC_TypeError else {}
+  if (= __x14__ true) throw TypeError else {}
+  if (< new.ArrayBufferByteLength newLen) throw TypeError else {}
   app __x15__ = (IsDetachedBuffer O)
-  if (= __x15__ true) throw INTRINSIC_TypeError else {}
+  if (= __x15__ true) throw TypeError else {}
   let fromBuf = O.ArrayBufferData
   let toBuf = new.ArrayBufferData
   app __x16__ = (CopyDataBlockBytes toBuf 0i fromBuf first newLen)

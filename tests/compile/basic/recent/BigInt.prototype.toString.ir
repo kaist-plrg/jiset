@@ -5,7 +5,7 @@
     app __x1__ = (ToIntegerOrInfinity radix)
     let radixMV = [? __x1__]
   }
-  if (|| (< radixMV 2i) (< 36i radixMV)) throw INTRINSIC_RangeError else {}
+  if (|| (< radixMV 2i) (< 36i radixMV)) throw RangeError else {}
   if (== radixMV 10i) {
     app __x2__ = (ToString x)
     return [! __x2__]

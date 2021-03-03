@@ -8,7 +8,7 @@
   app __x3__ = (GetValue rref)
   let rval = [? __x3__]
   app __x4__ = (Type rval)
-  if (! (= __x4__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x4__ Object)) throw TypeError else {}
   app __x5__ = (ToPropertyKey lval)
   app __x6__ = (HasProperty rval __x5__)
   return [? __x6__]

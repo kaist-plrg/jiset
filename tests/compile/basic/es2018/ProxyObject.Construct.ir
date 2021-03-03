@@ -1,6 +1,6 @@
 {
   let handler = O.ProxyHandler
-  if (= handler null) throw INTRINSIC_TypeError else {}
+  if (= handler null) throw TypeError else {}
   app __x0__ = (Type handler)
   assert (= __x0__ Object)
   let target = O.ProxyTarget
@@ -17,6 +17,6 @@
   app __x5__ = (Call trap handler (new [target, argArray, newTarget]))
   let newObj = [? __x5__]
   app __x6__ = (Type newObj)
-  if (! (= __x6__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x6__ Object)) throw TypeError else {}
   return newObj
 }

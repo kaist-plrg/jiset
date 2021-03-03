@@ -1,7 +1,7 @@
 {
   app __x0__ = (Type set)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= set.SetData absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= set.SetData absent) throw TypeError else {}
   app __x1__ = (ObjectCreate INTRINSIC_SetIteratorPrototype (new ["IteratedSet", "SetNextIndex", "SetIterationKind"]))
   let iterator = __x1__
   iterator.IteratedSet = set

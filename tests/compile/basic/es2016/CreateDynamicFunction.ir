@@ -38,7 +38,7 @@
     access __x5__ = (parameters "IsSimpleParameterList")
     __x3__ = (= __x5__ false)
   } else {}
-  if __x3__ throw INTRINSIC_SyntaxError else {}
+  if __x3__ throw SyntaxError else {}
   access __x6__ = (parameters "BoundNames")
   access __x7__ = (body "LexicallyDeclaredNames")
   let __x8__ = __x6__
@@ -50,28 +50,28 @@
     __x11__ = 0i
     while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
   }
-  if __x12__ throw INTRINSIC_SyntaxError else {}
+  if __x12__ throw SyntaxError else {}
   access __x13__ = (body "Contains")
   app __x14__ = (__x13__ "SuperCall")
-  if (= __x14__ true) throw INTRINSIC_SyntaxError else {}
+  if (= __x14__ true) throw SyntaxError else {}
   access __x15__ = (parameters "Contains")
   app __x16__ = (__x15__ "SuperCall")
-  if (= __x16__ true) throw INTRINSIC_SyntaxError else {}
+  if (= __x16__ true) throw SyntaxError else {}
   access __x17__ = (body "Contains")
   app __x18__ = (__x17__ "SuperProperty")
-  if (= __x18__ true) throw INTRINSIC_SyntaxError else {}
+  if (= __x18__ true) throw SyntaxError else {}
   access __x19__ = (parameters "Contains")
   app __x20__ = (__x19__ "SuperProperty")
-  if (= __x20__ true) throw INTRINSIC_SyntaxError else {}
+  if (= __x20__ true) throw SyntaxError else {}
   if (= kind "generator") {
     access __x21__ = (parameters "Contains")
     app __x22__ = (__x21__ "YieldExpression")
-    if (= __x22__ true) throw INTRINSIC_SyntaxError else {}
+    if (= __x22__ true) throw SyntaxError else {}
   } else {}
   if (= strict true) {
     access __x23__ = (parameters "BoundNames")
     app __x24__ = (IsDuplicate __x23__)
-    if __x24__ throw INTRINSIC_SyntaxError else {}
+    if __x24__ throw SyntaxError else {}
   } else {}
   app __x25__ = (GetPrototypeFromConstructor newTarget fallbackProto)
   let proto = [? __x25__]

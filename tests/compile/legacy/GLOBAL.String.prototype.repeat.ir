@@ -7,8 +7,8 @@
   let S = [? __x2__]
   app __x3__ = (ToInteger count)
   let n = [? __x3__]
-  if (< n 0i) throw INTRINSIC_RangeError else {}
-  if (= n Infinity) throw INTRINSIC_RangeError else {}
+  if (< n 0i) throw RangeError else {}
+  if (= n Infinity) throw RangeError else {}
   if (= n 0i) return "" else {}
   ??? "Return the String value that is made from id:{n} copies of id:{S} appended together ."
 }

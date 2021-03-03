@@ -25,7 +25,7 @@
       app __x9__ = (Call throw iterator (new [received.Value]))
       let innerResult = [? __x9__]
       app __x10__ = (Type innerResult)
-      if (! (= __x10__ Object)) throw INTRINSIC_TypeError else {}
+      if (! (= __x10__ Object)) throw TypeError else {}
       app __x11__ = (IteratorComplete innerResult)
       let done = [? __x11__]
       if (= done true) {
@@ -37,7 +37,7 @@
     } else {
       app __x14__ = (IteratorClose iterator (new Completion("Type" -> CONST_normal, "Value" -> CONST_empty, "Target" -> CONST_empty)))
       [? __x14__]
-      throw INTRINSIC_TypeError
+      throw TypeError
     }
   } else {
     assert (= received.Type CONST_return)
@@ -50,7 +50,7 @@
     app __x17__ = (Call return iterator (new [received.Value]))
     let innerReturnResult = [? __x17__]
     app __x18__ = (Type innerReturnResult)
-    if (! (= __x18__ Object)) throw INTRINSIC_TypeError else {}
+    if (! (= __x18__ Object)) throw TypeError else {}
     app __x19__ = (IteratorComplete innerReturnResult)
     let done = [? __x19__]
     if (= done true) {

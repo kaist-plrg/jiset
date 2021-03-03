@@ -7,7 +7,7 @@
     let C = string[k]
     if (! (= C "%")) let S = C else {
       let start = k
-      if (! (< (+ k 2i) strLen)) throw INTRINSIC_URIError else {}
+      if (! (< (+ k 2i) strLen)) throw URIError else {}
       ??? "If the code units at index ( id:{k} + 1 ) and ( id:{k} + 2 ) within id:{string} do not represent hexadecimal digits , throw a value:{URIError} exception ."
       ??? "Let id:{B} be the 8 - bit value represented by the two hexadecimal digits at index ( id:{k} + 1 ) and ( id:{k} + 2 ) ."
       k = (+ k 2i)
@@ -25,13 +25,13 @@
           let S = __x0__
         }
       } else {
-        if (|| (== n 1i) (< 4i n)) throw INTRINSIC_URIError else {}
-        if (! (< (+ k (* 3i (- n 1i))) strLen)) throw INTRINSIC_URIError else {}
+        if (|| (== n 1i) (< 4i n)) throw URIError else {}
+        if (! (< (+ k (* 3i (- n 1i))) strLen)) throw URIError else {}
         let Octets = (new [B])
         let j = 1i
         while (< j n) {
           k = (+ k 1i)
-          if (! (= string[k] "%")) throw INTRINSIC_URIError else {}
+          if (! (= string[k] "%")) throw URIError else {}
           ??? "If the code units at index ( id:{k} + 1 ) and ( id:{k} + 2 ) within id:{string} do not represent hexadecimal digits , throw a value:{URIError} exception ."
           ??? "Let id:{B} be the 8 - bit value represented by the two hexadecimal digits at index ( id:{k} + 1 ) and ( id:{k} + 2 ) ."
           k = (+ k 2i)

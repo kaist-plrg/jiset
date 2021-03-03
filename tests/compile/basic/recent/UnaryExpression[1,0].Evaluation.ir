@@ -11,12 +11,12 @@
   app __x2__ = (IsPropertyReference ref)
   if (= __x2__ true) {
     app __x3__ = (IsSuperReference ref)
-    if (= __x3__ true) throw INTRINSIC_ReferenceError else {}
+    if (= __x3__ true) throw ReferenceError else {}
     app __x4__ = (ToObject ref.Base)
     let baseObj = [! __x4__]
     app __x5__ = (baseObj.Delete baseObj ref.ReferencedName)
     let deleteStatus = [? __x5__]
-    if (&& (= deleteStatus false) (= ref.Strict true)) throw INTRINSIC_TypeError else {}
+    if (&& (= deleteStatus false) (= ref.Strict true)) throw TypeError else {}
     return deleteStatus
   } else {
     let base = ref.Base

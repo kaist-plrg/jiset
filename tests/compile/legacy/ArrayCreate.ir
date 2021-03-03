@@ -2,7 +2,7 @@
   app __x0__ = (IsNonNegativeInteger length)
   assert (= [! __x0__] true)
   if (= length -0.0) length = 0i else {}
-  if (< (- (** 2.0 32i) 1i) length) throw INTRINSIC_RangeError else {}
+  if (< (- (** 2.0 32i) 1i) length) throw RangeError else {}
   if (= proto absent) proto = INTRINSIC_Array_prototype else {}
   app __x1__ = (MakeBasicObject (new ["Prototype", "Extensible"]))
   let A = [! __x1__]

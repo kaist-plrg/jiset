@@ -1,7 +1,7 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let iterable = __x0__
-  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  if (= NewTarget undefined) throw TypeError else {}
   app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%WeakSet.prototype%" (new ["WeakSetData"]))
   let set = [? __x1__]
   set.WeakSetData = (new [])
@@ -9,7 +9,7 @@
   app __x2__ = (Get set "add")
   let adder = [? __x2__]
   app __x3__ = (IsCallable adder)
-  if (= __x3__ false) throw INTRINSIC_TypeError else {}
+  if (= __x3__ false) throw TypeError else {}
   app __x4__ = (GetIterator iterable)
   let iteratorRecord = [? __x4__]
   while true {

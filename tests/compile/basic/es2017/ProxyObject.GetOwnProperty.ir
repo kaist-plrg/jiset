@@ -2,7 +2,7 @@
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
   let handler = O.ProxyHandler
-  if (= handler null) throw INTRINSIC_TypeError else {}
+  if (= handler null) throw TypeError else {}
   app __x1__ = (Type handler)
   assert (= __x1__ Object)
   let target = O.ProxyTarget
@@ -15,17 +15,17 @@
   app __x4__ = (Call trap handler (new [target, P]))
   let trapResultObj = [? __x4__]
   app __x5__ = (Type trapResultObj)
-  if (! (|| (= __x5__ Object) (= __x5__ Undefined))) throw INTRINSIC_TypeError else {}
+  if (! (|| (= __x5__ Object) (= __x5__ Undefined))) throw TypeError else {}
   app __x6__ = (target.GetOwnProperty target P)
   let targetDesc = [? __x6__]
   if (= trapResultObj undefined) {
     if (= targetDesc undefined) return undefined else {}
-    if (= targetDesc.Configurable false) throw INTRINSIC_TypeError else {}
+    if (= targetDesc.Configurable false) throw TypeError else {}
     app __x7__ = (IsExtensible target)
     let extensibleTarget = [? __x7__]
     app __x8__ = (Type extensibleTarget)
     assert (= __x8__ Boolean)
-    if (= extensibleTarget false) throw INTRINSIC_TypeError else {}
+    if (= extensibleTarget false) throw TypeError else {}
     return undefined
   } else {}
   app __x9__ = (IsExtensible target)
@@ -36,7 +36,7 @@
   __x11__
   app __x12__ = (IsCompatiblePropertyDescriptor extensibleTarget resultDesc targetDesc)
   let valid = __x12__
-  if (= valid false) throw INTRINSIC_TypeError else {}
-  if (= resultDesc.Configurable false) if (|| (= targetDesc undefined) (= targetDesc.Configurable true)) throw INTRINSIC_TypeError else {} else {}
+  if (= valid false) throw TypeError else {}
+  if (= resultDesc.Configurable false) if (|| (= targetDesc undefined) (= targetDesc.Configurable true)) throw TypeError else {} else {}
   return resultDesc
 }

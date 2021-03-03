@@ -1,12 +1,12 @@
 {
   access __x0__ = (AsyncGeneratorMethod "HasDirectSuper")
-  if (= __x0__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x0__ true) throw SyntaxError else return undefined
   access __x1__ = (UniqueFormalParameters "Contains")
   app __x2__ = (__x1__ "YieldExpression")
-  if (= __x2__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x2__ true) throw SyntaxError else return undefined
   access __x3__ = (UniqueFormalParameters "Contains")
   app __x4__ = (__x3__ "AwaitExpression")
-  if (= __x4__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x4__ true) throw SyntaxError else return undefined
   let __x5__ = true
   access __x6__ = (AsyncGeneratorBody "ContainsUseStrict")
   __x5__ = (= __x6__ true)
@@ -14,7 +14,7 @@
     access __x7__ = (UniqueFormalParameters "IsSimpleParameterList")
     __x5__ = (= __x7__ false)
   } else {}
-  if __x5__ throw INTRINSIC_SyntaxError else return undefined
+  if __x5__ throw SyntaxError else return undefined
   access __x8__ = (UniqueFormalParameters "BoundNames")
   access __x9__ = (AsyncGeneratorBody "LexicallyDeclaredNames")
   let __x10__ = __x8__
@@ -26,5 +26,5 @@
     __x13__ = 0i
     while (< __x13__ __x11__.length) if (= __x10__[__x12__] __x11__[__x13__]) __x14__ = true else {}
   }
-  if __x14__ throw INTRINSIC_SyntaxError else return undefined
+  if __x14__ throw SyntaxError else return undefined
 }

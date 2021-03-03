@@ -5,7 +5,7 @@
   let S = [? __x1__]
   app __x2__ = (ToIntegerOrInfinity count)
   let n = [? __x2__]
-  if (|| (< n 0i) (= n Infinity)) throw INTRINSIC_RangeError else {}
+  if (|| (< n 0i) (= n Infinity)) throw RangeError else {}
   if (= n 0i) return "" else {}
   ??? "Return the String value that is made from id:{n} copies of id:{S} appended together ."
 }

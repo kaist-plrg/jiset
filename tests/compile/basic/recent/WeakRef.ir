@@ -1,7 +1,7 @@
 {
-  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  if (= NewTarget undefined) throw TypeError else {}
   app __x0__ = (Type target)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
   app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%WeakRef.prototype%" (new ["WeakRefTarget"]))
   let weakRef = [? __x1__]
   app __x2__ = (AddToKeptObjects target)

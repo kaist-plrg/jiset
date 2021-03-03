@@ -5,11 +5,11 @@
   let C = [? __x1__]
   if (= C undefined) return defaultConstructor else {}
   app __x2__ = (Type C)
-  if (! (= __x2__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x2__ Object)) throw TypeError else {}
   app __x3__ = (Get C SYMBOL_species)
   let S = [? __x3__]
   if (|| (= S undefined) (= S null)) return defaultConstructor else {}
   app __x4__ = (IsConstructor S)
   if (= __x4__ true) return S else {}
-  throw INTRINSIC_TypeError
+  throw TypeError
 }

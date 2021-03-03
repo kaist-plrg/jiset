@@ -2,7 +2,7 @@
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
   let handler = O.ProxyHandler
-  if (= handler null) throw INTRINSIC_TypeError else {}
+  if (= handler null) throw TypeError else {}
   app __x1__ = (Type handler)
   assert (= __x1__ Object)
   let target = O.ProxyTarget
@@ -22,10 +22,10 @@
     app __x7__ = (IsDataDescriptor targetDesc)
     if (&& (= __x7__ true) (&& (= targetDesc.Configurable false) (= targetDesc.Writable false))) {
       app __x8__ = (SameValue V targetDesc.Value)
-      if (= __x8__ false) throw INTRINSIC_TypeError else {}
+      if (= __x8__ false) throw TypeError else {}
     } else {}
     app __x9__ = (IsAccessorDescriptor targetDesc)
-    if (&& (= __x9__ true) (= targetDesc.Configurable false)) if (= targetDesc.Set undefined) throw INTRINSIC_TypeError else {} else {}
+    if (&& (= __x9__ true) (= targetDesc.Configurable false)) if (= targetDesc.Set undefined) throw TypeError else {} else {}
   } else {}
   return true
 }

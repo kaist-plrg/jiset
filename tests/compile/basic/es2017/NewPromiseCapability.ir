@@ -1,15 +1,15 @@
 {
   app __x0__ = (IsConstructor C)
-  if (= __x0__ false) throw INTRINSIC_TypeError else {}
+  if (= __x0__ false) throw TypeError else {}
   let promiseCapability = (new PromiseCapability("Promise" -> undefined, "Resolve" -> undefined, "Reject" -> undefined))
   let executor = (new BuiltinFunctionObject("SubMap" -> (new SubMap())))
   executor.Capability = promiseCapability
   app __x1__ = (Construct C (new [executor]))
   let promise = [? __x1__]
   app __x2__ = (IsCallable promiseCapability.Resolve)
-  if (= __x2__ false) throw INTRINSIC_TypeError else {}
+  if (= __x2__ false) throw TypeError else {}
   app __x3__ = (IsCallable promiseCapability.Reject)
-  if (= __x3__ false) throw INTRINSIC_TypeError else {}
+  if (= __x3__ false) throw TypeError else {}
   promiseCapability.Promise = promise
   return promiseCapability
 }

@@ -15,7 +15,7 @@
   let targetModule = binding.Module
   assert (! (= targetModule undefined))
   let targetEnv = targetModule.Environment
-  if (= targetEnv undefined) throw INTRINSIC_ReferenceError else {}
+  if (= targetEnv undefined) throw ReferenceError else {}
   let targetEnvRec = targetEnv.EnvironmentRecord
   app __x4__ = (targetEnvRec.GetBindingValue targetEnvRec binding.BindingName true)
   return [? __x4__]

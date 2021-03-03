@@ -6,7 +6,7 @@
     let e = __x0__[__x1__]
     app __x2__ = (module.ResolveExport module e.ExportName (new []))
     let resolution = [? __x2__]
-    if (|| (= resolution null) (= resolution "ambiguous")) throw INTRINSIC_SyntaxError else {}
+    if (|| (= resolution null) (= resolution "ambiguous")) throw SyntaxError else {}
     assert (= (typeof resolution) "ResolvedBindingRecord")
     __x1__ = (+ __x1__ 1i)
   }
@@ -32,7 +32,7 @@
     } else {
       app __x10__ = (importedModule.ResolveExport importedModule in.ImportName (new []))
       let resolution = [? __x10__]
-      if (|| (= resolution null) (= resolution "ambiguous")) throw INTRINSIC_SyntaxError else {}
+      if (|| (= resolution null) (= resolution "ambiguous")) throw SyntaxError else {}
       app __x11__ = (envRec.CreateImportBinding envRec in.LocalName resolution.Module resolution.BindingName)
       __x11__
     }

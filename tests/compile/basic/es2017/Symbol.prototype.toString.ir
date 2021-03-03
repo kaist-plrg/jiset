@@ -3,8 +3,8 @@
   app __x0__ = (Type s)
   if (= __x0__ Symbol) let sym = s else {
     app __x1__ = (Type s)
-    if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
-    if (= s.SymbolData absent) throw INTRINSIC_TypeError else {}
+    if (! (= __x1__ Object)) throw TypeError else {}
+    if (= s.SymbolData absent) throw TypeError else {}
     let sym = s.SymbolData
   }
   app __x2__ = (SymbolDescriptiveString sym)

@@ -1,7 +1,7 @@
 {
   app __x0__ = (Type view)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= view.DataView absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= view.DataView absent) throw TypeError else {}
   assert (! (= view.ViewedArrayBuffer absent))
   app __x1__ = (ToIndex requestIndex)
   let getIndex = [? __x1__]
@@ -9,11 +9,11 @@
   isLittleEndian = __x2__
   let buffer = view.ViewedArrayBuffer
   app __x3__ = (IsDetachedBuffer buffer)
-  if (= __x3__ true) throw INTRINSIC_TypeError else {}
+  if (= __x3__ true) throw TypeError else {}
   let viewOffset = view.ByteOffset
   let viewSize = view.ByteLength
   ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{unhandled: table-49} for Element Type id:{type} ."
-  if (< viewSize (+ getIndex elementSize)) throw INTRINSIC_RangeError else {}
+  if (< viewSize (+ getIndex elementSize)) throw RangeError else {}
   let bufferIndex = (+ getIndex viewOffset)
   app __x4__ = (GetValueFromBuffer buffer bufferIndex type false "Unordered" isLittleEndian)
   return __x4__

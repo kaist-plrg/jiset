@@ -1,10 +1,10 @@
 if (= value undefined) return 0i else {
   app __x0__ = (ToIntegerOrInfinity value)
   let integerIndex = [? __x0__]
-  if (< integerIndex 0i) throw INTRINSIC_RangeError else {}
+  if (< integerIndex 0i) throw RangeError else {}
   app __x1__ = (ToLength integerIndex)
   let index = [! __x1__]
   app __x2__ = (SameValue integerIndex index)
-  if (= [! __x2__] false) throw INTRINSIC_RangeError else {}
+  if (= [! __x2__] false) throw RangeError else {}
   return index
 }

@@ -1,7 +1,7 @@
 {
   let srcData = srcArray.ViewedArrayBuffer
   app __x0__ = (IsDetachedBuffer srcData)
-  if (= __x0__ true) throw INTRINSIC_TypeError else {}
+  if (= __x0__ true) throw TypeError else {}
   let constructorName = O.TypedArrayName
   ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{constructorName} ."
   let elementLength = srcArray.ArrayLength
@@ -23,8 +23,8 @@
     app __x4__ = (AllocateArrayBuffer bufferConstructor byteLength)
     let data = [? __x4__]
     app __x5__ = (IsDetachedBuffer srcData)
-    if (= __x5__ true) throw INTRINSIC_TypeError else {}
-    if (! (== srcArray.ContentType O.ContentType)) throw INTRINSIC_TypeError else {}
+    if (= __x5__ true) throw TypeError else {}
+    if (! (== srcArray.ContentType O.ContentType)) throw TypeError else {}
     let srcByteIndex = srcByteOffset
     let targetByteIndex = 0i
     let count = elementLength

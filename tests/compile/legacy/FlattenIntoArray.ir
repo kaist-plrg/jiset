@@ -34,7 +34,7 @@
         app __x11__ = (FlattenIntoArray target element elementLen targetIndex (- depth 1i))
         targetIndex = [? __x11__]
       } else {
-        if (! (< targetIndex (- (** 2.0 53i) 1i))) throw INTRINSIC_TypeError else {}
+        if (! (< targetIndex (- (** 2.0 53i) 1i))) throw TypeError else {}
         app __x12__ = (ToString targetIndex)
         app __x13__ = (CreateDataPropertyOrThrow target [! __x12__] element)
         [? __x13__]

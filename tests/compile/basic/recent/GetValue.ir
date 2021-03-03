@@ -2,7 +2,7 @@
   [? V]
   if (! (= (typeof V) "ReferenceRecord")) return V else {}
   app __x0__ = (IsUnresolvableReference V)
-  if (= __x0__ true) throw INTRINSIC_ReferenceError else {}
+  if (= __x0__ true) throw ReferenceError else {}
   app __x1__ = (IsPropertyReference V)
   if (= __x1__ true) {
     app __x2__ = (ToObject V.Base)

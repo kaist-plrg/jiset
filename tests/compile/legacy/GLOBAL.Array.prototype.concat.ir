@@ -13,7 +13,7 @@
       let k = 0i
       app __x3__ = (LengthOfArrayLike E)
       let len = [? __x3__]
-      if (< (- (** 2.0 53i) 1i) (+ n len)) throw INTRINSIC_TypeError else {}
+      if (< (- (** 2.0 53i) 1i) (+ n len)) throw TypeError else {}
       while (< k len) {
         app __x4__ = (ToString k)
         let P = [! __x4__]
@@ -30,7 +30,7 @@
         k = (+ k 1i)
       }
     } else {
-      if (! (< n (- (** 2.0 53i) 1i))) throw INTRINSIC_TypeError else {}
+      if (! (< n (- (** 2.0 53i) 1i))) throw TypeError else {}
       app __x9__ = (ToString n)
       app __x10__ = (CreateDataPropertyOrThrow A [! __x9__] E)
       [? __x10__]

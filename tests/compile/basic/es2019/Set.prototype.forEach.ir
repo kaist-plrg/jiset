@@ -1,10 +1,10 @@
 {
   let S = this
   app __x0__ = (Type S)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= S.SetData absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= S.SetData absent) throw TypeError else {}
   app __x1__ = (IsCallable callbackfn)
-  if (= __x1__ false) throw INTRINSIC_TypeError else {}
+  if (= __x1__ false) throw TypeError else {}
   if (! (= thisArg absent)) let T = thisArg else let T = undefined
   let entries = S.SetData
   let __x2__ = entries

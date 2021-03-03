@@ -8,7 +8,7 @@
   let newLen = [? __x1__]
   app __x2__ = (ToNumber Desc.Value)
   let numberLen = [? __x2__]
-  if (! (= newLen numberLen)) throw INTRINSIC_RangeError else {}
+  if (! (= newLen numberLen)) throw RangeError else {}
   newLenDesc.Value = newLen
   app __x3__ = (OrdinaryGetOwnProperty A "length")
   let oldLenDesc = __x3__

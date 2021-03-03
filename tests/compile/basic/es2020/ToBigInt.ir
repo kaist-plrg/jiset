@@ -1,21 +1,21 @@
 {
   app __x0__ = (Type argument)
-  if (= __x0__ Undefined) throw INTRINSIC_TypeError else {}
+  if (= __x0__ Undefined) throw TypeError else {}
   app __x1__ = (Type argument)
-  if (= __x1__ Null) throw INTRINSIC_TypeError else {}
+  if (= __x1__ Null) throw TypeError else {}
   app __x2__ = (Type argument)
   if (= __x2__ Boolean) if (= prim true) return 1n else if (= prim false) return 0n else return undefined else {}
   app __x3__ = (Type argument)
   if (= __x3__ BigInt) return prim else {}
   app __x4__ = (Type argument)
-  if (= __x4__ Number) throw INTRINSIC_TypeError else {}
+  if (= __x4__ Number) throw TypeError else {}
   app __x5__ = (Type argument)
   if (= __x5__ String) {
     app __x6__ = (StringToBigInt prim)
     let n = [! __x6__]
-    if (= n NaN) throw INTRINSIC_SyntaxError else {}
+    if (= n NaN) throw SyntaxError else {}
     return n
   } else {}
   app __x7__ = (Type argument)
-  if (= __x7__ Symbol) throw INTRINSIC_TypeError else {}
+  if (= __x7__ Symbol) throw TypeError else {}
 }

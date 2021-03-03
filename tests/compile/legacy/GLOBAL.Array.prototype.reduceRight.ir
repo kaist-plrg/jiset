@@ -8,8 +8,8 @@
   app __x3__ = (LengthOfArrayLike O)
   let len = [? __x3__]
   app __x4__ = (IsCallable callbackfn)
-  if (= __x4__ false) throw INTRINSIC_TypeError else {}
-  if (&& (= len 0i) (= argumentsList[1i] absent)) throw INTRINSIC_TypeError else {}
+  if (= __x4__ false) throw TypeError else {}
+  if (&& (= len 0i) (= argumentsList[1i] absent)) throw TypeError else {}
   let k = (- len 1i)
   let accumulator = undefined
   if (! (= argumentsList[1i] absent)) accumulator = initialValue else {
@@ -25,7 +25,7 @@
       } else {}
       k = (- k 1i)
     }
-    if (= kPresent false) throw INTRINSIC_TypeError else {}
+    if (= kPresent false) throw TypeError else {}
   }
   while (! (< k 0i)) {
     app __x8__ = (ToString k)

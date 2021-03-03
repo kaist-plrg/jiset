@@ -1,10 +1,10 @@
 {
   [? V]
   [? W]
-  if (! (= (typeof V) "ReferenceRecord")) throw INTRINSIC_ReferenceError else {}
+  if (! (= (typeof V) "ReferenceRecord")) throw ReferenceError else {}
   app __x0__ = (IsUnresolvableReference V)
   if (= __x0__ true) {
-    if (= V.Strict true) throw INTRINSIC_ReferenceError else {}
+    if (= V.Strict true) throw ReferenceError else {}
     app __x1__ = (GetGlobalObject )
     let globalObj = __x1__
     app __x2__ = (Set globalObj V.ReferencedName W false)
@@ -17,7 +17,7 @@
     app __x5__ = (GetThisValue V)
     app __x6__ = (baseObj.Set baseObj V.ReferencedName W __x5__)
     let succeeded = [? __x6__]
-    if (&& (= succeeded false) (= V.Strict true)) throw INTRINSIC_TypeError else {}
+    if (&& (= succeeded false) (= V.Strict true)) throw TypeError else {}
     return undefined
   } else {
     let base = V.Base

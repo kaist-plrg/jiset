@@ -1,8 +1,8 @@
 {
   let O = this
   app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (|| (= hint "string") (= hint "default")) let tryFirst = "string" else if (= hint "number") let tryFirst = "number" else throw INTRINSIC_TypeError
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (|| (= hint "string") (= hint "default")) let tryFirst = "string" else if (= hint "number") let tryFirst = "number" else throw TypeError
   app __x1__ = (OrdinaryToPrimitive O tryFirst)
   return [? __x1__]
 }

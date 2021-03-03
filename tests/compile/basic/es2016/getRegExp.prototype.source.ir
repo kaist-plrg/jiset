@@ -1,9 +1,9 @@
 {
   let R = this
   app __x0__ = (Type R)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= R.OriginalSource absent) throw INTRINSIC_TypeError else {}
-  if (= R.OriginalFlags absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= R.OriginalSource absent) throw TypeError else {}
+  if (= R.OriginalFlags absent) throw TypeError else {}
   let src = R.OriginalSource
   let flags = R.OriginalFlags
   app __x1__ = (EscapeRegExpPattern src flags)

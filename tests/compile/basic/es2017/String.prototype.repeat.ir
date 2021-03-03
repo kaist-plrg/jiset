@@ -5,8 +5,8 @@
   let S = [? __x1__]
   app __x2__ = (ToInteger count)
   let n = [? __x2__]
-  if (< n 0i) throw INTRINSIC_RangeError else {}
-  if (= n Infinity) throw INTRINSIC_RangeError else {}
+  if (< n 0i) throw RangeError else {}
+  if (= n Infinity) throw RangeError else {}
   ??? "Let id:{T} be a String value that is made from id:{n} copies of id:{S} appended together . If id:{n} is 0 , id:{T} is the empty String ."
   return T
 }

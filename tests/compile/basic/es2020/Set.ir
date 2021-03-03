@@ -1,5 +1,5 @@
 {
-  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  if (= NewTarget undefined) throw TypeError else {}
   app __x0__ = (OrdinaryCreateFromConstructor NewTarget "%Set.prototype%" (new ["SetData"]))
   let set = [? __x0__]
   set.SetData = (new [])
@@ -7,7 +7,7 @@
   app __x1__ = (Get set "add")
   let adder = [? __x1__]
   app __x2__ = (IsCallable adder)
-  if (= __x2__ false) throw INTRINSIC_TypeError else {}
+  if (= __x2__ false) throw TypeError else {}
   app __x3__ = (GetIterator iterable)
   let iteratorRecord = [? __x3__]
   while true {

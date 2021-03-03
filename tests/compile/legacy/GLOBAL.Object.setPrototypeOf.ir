@@ -6,11 +6,11 @@
   app __x2__ = (RequireObjectCoercible O)
   O = [? __x2__]
   app __x3__ = (Type proto)
-  if (! (|| (= __x3__ Object) (= __x3__ Null))) throw INTRINSIC_TypeError else {}
+  if (! (|| (= __x3__ Object) (= __x3__ Null))) throw TypeError else {}
   app __x4__ = (Type O)
   if (! (= __x4__ Object)) return O else {}
   app __x5__ = (O.SetPrototypeOf O proto)
   let status = [? __x5__]
-  if (= status false) throw INTRINSIC_TypeError else {}
+  if (= status false) throw TypeError else {}
   return O
 }

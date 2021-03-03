@@ -16,9 +16,9 @@
   access __x5__ = (arguments "ArgumentListEvaluation")
   let argList = [? __x5__]
   app __x6__ = (Type func)
-  if (! (= __x6__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x6__ Object)) throw TypeError else {}
   app __x7__ = (IsCallable func)
-  if (= __x7__ false) throw INTRINSIC_TypeError else {}
+  if (= __x7__ false) throw TypeError else {}
   if (= tailPosition true) {
     app __x8__ = (PrepareForTailCall )
     __x8__

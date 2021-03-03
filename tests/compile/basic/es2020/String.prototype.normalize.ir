@@ -7,7 +7,7 @@
     app __x2__ = (ToString form)
     let f = [? __x2__]
   }
-  if (! (|| (|| (|| (= f "NFC") (= f "NFD")) (= f "NFKC")) (= f "NFKD"))) throw INTRINSIC_RangeError else {}
+  if (! (|| (|| (|| (= f "NFC") (= f "NFD")) (= f "NFKC")) (= f "NFKD"))) throw RangeError else {}
   ??? "Let id:{ns} be the String value that is the result of normalizing id:{S} into the normalization form named by id:{f} as specified in < a href = \" https : / / unicode . org / reports / tr15 / \" > https : / / unicode . org / reports / tr15 / < / a > ."
   return ns
 }

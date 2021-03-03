@@ -2,7 +2,7 @@
   app __x0__ = (ValidateIntegerTypedArray typedArray true)
   let buffer = [? __x0__]
   app __x1__ = (IsSharedArrayBuffer buffer)
-  if (= __x1__ false) throw INTRINSIC_TypeError else {}
+  if (= __x1__ false) throw TypeError else {}
   app __x2__ = (ValidateAtomicAccess typedArray index)
   let indexedPosition = [? __x2__]
   let arrayTypeName = typedArray.TypedArrayName
@@ -21,7 +21,7 @@
   }
   app __x7__ = (AgentCanSuspend )
   let B = __x7__
-  if (= B false) throw INTRINSIC_TypeError else {}
+  if (= B false) throw TypeError else {}
   let block = buffer.ArrayBufferData
   app __x8__ = (GetWaiterList block indexedPosition)
   let WL = __x8__

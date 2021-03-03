@@ -1,11 +1,11 @@
 {
   let targetBuffer = target.ViewedArrayBuffer
   app __x0__ = (IsDetachedBuffer targetBuffer)
-  if (= __x0__ true) throw INTRINSIC_TypeError else {}
+  if (= __x0__ true) throw TypeError else {}
   let targetLength = target.ArrayLength
   let srcBuffer = source.ViewedArrayBuffer
   app __x1__ = (IsDetachedBuffer srcBuffer)
-  if (= __x1__ true) throw INTRINSIC_TypeError else {}
+  if (= __x1__ true) throw TypeError else {}
   let targetName = target.TypedArrayName
   ??? "Let id:{targetType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{targetName} ."
   ??? "Let id:{targetElementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{targetName} ."
@@ -15,9 +15,9 @@
   ??? "Let id:{srcElementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{srcName} ."
   let srcLength = source.ArrayLength
   let srcByteOffset = source.ByteOffset
-  if (= targetOffset Infinity) throw INTRINSIC_RangeError else {}
-  if (< targetLength (+ srcLength targetOffset)) throw INTRINSIC_RangeError else {}
-  if (! (== target.ContentType source.ContentType)) throw INTRINSIC_TypeError else {}
+  if (= targetOffset Infinity) throw RangeError else {}
+  if (< targetLength (+ srcLength targetOffset)) throw RangeError else {}
+  if (! (== target.ContentType source.ContentType)) throw TypeError else {}
   app __x2__ = (IsSharedArrayBuffer srcBuffer)
   app __x3__ = (IsSharedArrayBuffer targetBuffer)
   if (&& (= __x2__ true) (= __x3__ true)) if (= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData) let same = true else let same = false else {

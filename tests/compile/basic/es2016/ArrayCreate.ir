@@ -1,6 +1,6 @@
 {
   if (= length -0.0) let length = 0i else {}
-  if (< (- (** 2.0 32i) 1i) length) throw INTRINSIC_RangeError else {}
+  if (< (- (** 2.0 32i) 1i) length) throw RangeError else {}
   if (= proto absent) let proto = INTRINSIC_ArrayPrototype else {}
   let A = (new ArrayExoticObject("SubMap" -> (new SubMap())))
   A.DefineOwnProperty = ArrayExoticObjectDOTDefineOwnProperty

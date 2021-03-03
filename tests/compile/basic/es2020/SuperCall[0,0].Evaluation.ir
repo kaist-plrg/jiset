@@ -8,7 +8,7 @@
   access __x3__ = (Arguments "ArgumentListEvaluation")
   let argList = [? __x3__]
   app __x4__ = (IsConstructor func)
-  if (= __x4__ false) throw INTRINSIC_TypeError else {}
+  if (= __x4__ false) throw TypeError else {}
   app __x5__ = (Construct func argList newTarget)
   let result = [? __x5__]
   app __x6__ = (GetThisEnvironment )

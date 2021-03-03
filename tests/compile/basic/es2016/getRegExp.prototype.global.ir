@@ -1,8 +1,8 @@
 {
   let R = this
   app __x0__ = (Type R)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= R.OriginalFlags absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= R.OriginalFlags absent) throw TypeError else {}
   let flags = R.OriginalFlags
   if (contains flags "g") return true else {}
   return false

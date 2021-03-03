@@ -5,7 +5,7 @@
   let x = [? __x1__]
   app __x2__ = (ToInteger fractionDigits)
   let f = [? __x2__]
-  if (|| (< f 0i) (< 100i f)) throw INTRINSIC_RangeError else {}
+  if (|| (< f 0i) (< 100i f)) throw RangeError else {}
   if (= x NaN) return "NaN" else {}
   let s = ""
   if (< x 0i) {

@@ -2,7 +2,7 @@
   app __x0__ = (GetThisEnvironment )
   let env = __x0__
   app __x1__ = (env.HasSuperBinding env)
-  if (= __x1__ false) throw INTRINSIC_ReferenceError else {}
+  if (= __x1__ false) throw ReferenceError else {}
   app __x2__ = (env.GetThisBinding env)
   let actualThis = [? __x2__]
   app __x3__ = (env.GetSuperBase env)

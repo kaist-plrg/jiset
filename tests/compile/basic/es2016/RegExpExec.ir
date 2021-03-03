@@ -10,10 +10,10 @@
     app __x4__ = (Call exec R (new [S]))
     let result = [? __x4__]
     app __x5__ = (Type result)
-    if (! (|| (= __x5__ Object) (= __x5__ Null))) throw INTRINSIC_TypeError else {}
+    if (! (|| (= __x5__ Object) (= __x5__ Null))) throw TypeError else {}
     return result
   } else {}
-  if (= R.RegExpMatcher absent) throw INTRINSIC_TypeError else {}
+  if (= R.RegExpMatcher absent) throw TypeError else {}
   app __x6__ = (RegExpBuiltinExec R S)
   return [? __x6__]
 }

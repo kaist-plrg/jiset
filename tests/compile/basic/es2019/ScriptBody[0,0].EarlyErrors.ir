@@ -3,11 +3,11 @@
   ??? "It is a Syntax Error if nt:{StatementList} Contains nt:{NewTarget} unless the source code containing nt:{NewTarget} is eval code that is being processed by a direct eval . Additional early error rules for nt:{NewTarget} in direct eval are defined in PerformEval ."
   access __x0__ = (StatementList "ContainsDuplicateLabels")
   app __x1__ = (__x0__ (new []))
-  if (= __x1__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x1__ true) throw SyntaxError else return undefined
   access __x2__ = (StatementList "ContainsUndefinedBreakTarget")
   app __x3__ = (__x2__ (new []))
-  if (= __x3__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x3__ true) throw SyntaxError else return undefined
   access __x4__ = (StatementList "ContainsUndefinedContinueTarget")
   app __x5__ = (__x4__ (new []) (new []))
-  if (= __x5__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x5__ true) throw SyntaxError else return undefined
 }

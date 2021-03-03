@@ -5,8 +5,8 @@
   app __x2__ = (ToLength [? __x1__])
   let len = [? __x2__]
   app __x3__ = (IsCallable callbackfn)
-  if (= __x3__ false) throw INTRINSIC_TypeError else {}
-  if (&& (= len 0i) (= initialValue absent)) throw INTRINSIC_TypeError else {}
+  if (= __x3__ false) throw TypeError else {}
+  if (&& (= len 0i) (= initialValue absent)) throw TypeError else {}
   let k = (- len 1i)
   let accumulator = undefined
   if (! (= initialValue absent)) accumulator = initialValue else {
@@ -22,7 +22,7 @@
       } else {}
       k = (- k 1i)
     }
-    if (= kPresent false) throw INTRINSIC_TypeError else {}
+    if (= kPresent false) throw TypeError else {}
   }
   while (! (< k 0i)) {
     app __x7__ = (ToString k)

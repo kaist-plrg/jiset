@@ -3,7 +3,7 @@
   app __x0__ = (RequireInternalSlot O "ArrayBufferData")
   [? __x0__]
   app __x1__ = (IsSharedArrayBuffer O)
-  if (= __x1__ false) throw INTRINSIC_TypeError else {}
+  if (= __x1__ false) throw TypeError else {}
   let len = O.ArrayBufferByteLength
   app __x2__ = (ToInteger start)
   let relativeStart = [? __x2__]
@@ -34,9 +34,9 @@
   app __x11__ = (RequireInternalSlot new "ArrayBufferData")
   [? __x11__]
   app __x12__ = (IsSharedArrayBuffer new)
-  if (= __x12__ false) throw INTRINSIC_TypeError else {}
-  if (= new.ArrayBufferData O.ArrayBufferData) throw INTRINSIC_TypeError else {}
-  if (< new.ArrayBufferByteLength newLen) throw INTRINSIC_TypeError else {}
+  if (= __x12__ false) throw TypeError else {}
+  if (= new.ArrayBufferData O.ArrayBufferData) throw TypeError else {}
+  if (< new.ArrayBufferByteLength newLen) throw TypeError else {}
   let fromBuf = O.ArrayBufferData
   let toBuf = new.ArrayBufferData
   app __x13__ = (CopyDataBlockBytes toBuf 0i fromBuf first newLen)

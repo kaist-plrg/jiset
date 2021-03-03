@@ -1,9 +1,9 @@
 {
   access __x0__ = (GeneratorMethod "HasDirectSuper")
-  if (= __x0__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x0__ true) throw SyntaxError else return undefined
   access __x1__ = (StrictFormalParameters "Contains")
   app __x2__ = (__x1__ "YieldExpression")
-  if (= __x2__ true) throw INTRINSIC_SyntaxError else return undefined
+  if (= __x2__ true) throw SyntaxError else return undefined
   let __x3__ = true
   access __x4__ = (GeneratorBody "ContainsUseStrict")
   __x3__ = (= __x4__ true)
@@ -11,7 +11,7 @@
     access __x5__ = (StrictFormalParameters "IsSimpleParameterList")
     __x3__ = (= __x5__ false)
   } else {}
-  if __x3__ throw INTRINSIC_SyntaxError else return undefined
+  if __x3__ throw SyntaxError else return undefined
   access __x6__ = (StrictFormalParameters "BoundNames")
   access __x7__ = (GeneratorBody "LexicallyDeclaredNames")
   let __x8__ = __x6__
@@ -23,5 +23,5 @@
     __x11__ = 0i
     while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
   }
-  if __x12__ throw INTRINSIC_SyntaxError else return undefined
+  if __x12__ throw SyntaxError else return undefined
 }

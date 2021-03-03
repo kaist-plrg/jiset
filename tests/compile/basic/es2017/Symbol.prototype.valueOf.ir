@@ -3,7 +3,7 @@
   app __x0__ = (Type s)
   if (= __x0__ Symbol) return s else {}
   app __x1__ = (Type s)
-  if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
-  if (= s.SymbolData absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x1__ Object)) throw TypeError else {}
+  if (= s.SymbolData absent) throw TypeError else {}
   return s.SymbolData
 }

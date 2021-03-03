@@ -1,6 +1,6 @@
 {
   let handler = O.ProxyHandler
-  if (= handler null) throw INTRINSIC_TypeError else {}
+  if (= handler null) throw TypeError else {}
   app __x0__ = (Type handler)
   assert (= __x0__ Object)
   let target = O.ProxyTarget
@@ -16,7 +16,7 @@
   if (= booleanTrapResult true) {
     app __x5__ = (IsExtensible target)
     let extensibleTarget = [? __x5__]
-    if (= extensibleTarget true) throw INTRINSIC_TypeError else {}
+    if (= extensibleTarget true) throw TypeError else {}
   } else {}
   return booleanTrapResult
 }

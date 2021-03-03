@@ -3,8 +3,8 @@
   [? __x0__]
   app __x1__ = (RequireInternalSlot generator "GeneratorBrand")
   [? __x1__]
-  if (! (= generator.GeneratorBrand generatorBrand)) throw INTRINSIC_TypeError else {}
+  if (! (= generator.GeneratorBrand generatorBrand)) throw TypeError else {}
   let state = generator.GeneratorState
-  if (= state CONST_executing) throw INTRINSIC_TypeError else {}
+  if (= state CONST_executing) throw TypeError else {}
   return state
 }

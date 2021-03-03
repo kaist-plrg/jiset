@@ -1,7 +1,7 @@
 {
   let targetBuffer = target.ViewedArrayBuffer
   app __x0__ = (IsDetachedBuffer targetBuffer)
-  if (= __x0__ true) throw INTRINSIC_TypeError else {}
+  if (= __x0__ true) throw TypeError else {}
   let targetLength = target.ArrayLength
   let targetName = target.TypedArrayName
   ??? "Let id:{targetElementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{targetName} ."
@@ -11,8 +11,8 @@
   let src = [? __x1__]
   app __x2__ = (LengthOfArrayLike src)
   let srcLength = [? __x2__]
-  if (= targetOffset Infinity) throw INTRINSIC_RangeError else {}
-  if (< targetLength (+ srcLength targetOffset)) throw INTRINSIC_RangeError else {}
+  if (= targetOffset Infinity) throw RangeError else {}
+  if (< targetLength (+ srcLength targetOffset)) throw RangeError else {}
   let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)
   let k = 0i
   let limit = (* (+ targetByteIndex targetElementSize) srcLength)
@@ -29,7 +29,7 @@
       value = [? __x6__]
     }
     app __x7__ = (IsDetachedBuffer targetBuffer)
-    if (= __x7__ true) throw INTRINSIC_TypeError else {}
+    if (= __x7__ true) throw TypeError else {}
     app __x8__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
     __x8__
     k = (+ k 1i)

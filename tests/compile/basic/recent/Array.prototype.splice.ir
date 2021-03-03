@@ -24,7 +24,7 @@
     let dc = [? __x5__]
     ??? "Let id:{actualDeleteCount} be the result of clamping id:{dc} between 0 and id:{len} - id:{actualStart} ."
   }
-  if (< (- (** 2.0 53i) 1i) (- (+ len insertCount) actualDeleteCount)) throw INTRINSIC_TypeError else {}
+  if (< (- (** 2.0 53i) 1i) (- (+ len insertCount) actualDeleteCount)) throw TypeError else {}
   app __x6__ = (ArraySpeciesCreate O actualDeleteCount)
   let A = [? __x6__]
   let k = 0i

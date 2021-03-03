@@ -6,12 +6,12 @@
     if (= absent (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))) __x1__ = true else {}
     __x0__ = __x1__
   } else {}
-  if __x0__ throw INTRINSIC_SyntaxError else return undefined
+  if __x0__ throw SyntaxError else return undefined
   let __x2__ = true
   __x2__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))
   if __x2__ {
     app __x3__ = (AssignmentTargetType LeftHandSideExpression)
     __x2__ = (! (= __x3__ CONST_simple))
   } else {}
-  if __x2__ throw INTRINSIC_SyntaxError else return undefined
+  if __x2__ throw SyntaxError else return undefined
 }

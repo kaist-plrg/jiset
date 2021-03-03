@@ -1,10 +1,10 @@
 {
   app __x0__ = (Type target)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (&& (= (typeof target) "ProxyExoticObject") (= target.ProxyHandler null)) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (&& (= (typeof target) "ProxyExoticObject") (= target.ProxyHandler null)) throw TypeError else {}
   app __x1__ = (Type handler)
-  if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
-  if (&& (= (typeof handler) "ProxyExoticObject") (= handler.ProxyHandler null)) throw INTRINSIC_TypeError else {}
+  if (! (= __x1__ Object)) throw TypeError else {}
+  if (&& (= (typeof handler) "ProxyExoticObject") (= handler.ProxyHandler null)) throw TypeError else {}
   app __x2__ = (MakeBasicObject (new ["ProxyHandler", "ProxyTarget"]))
   let P = [! __x2__]
   app __x3__ = (IsCallable target)

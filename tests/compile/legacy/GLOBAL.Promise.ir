@@ -1,9 +1,9 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let executor = __x0__
-  if (= NewTarget undefined) throw INTRINSIC_TypeError else {}
+  if (= NewTarget undefined) throw TypeError else {}
   app __x1__ = (IsCallable executor)
-  if (= __x1__ false) throw INTRINSIC_TypeError else {}
+  if (= __x1__ false) throw TypeError else {}
   app __x2__ = (OrdinaryCreateFromConstructor NewTarget "%Promise.prototype%" (new ["PromiseState", "PromiseResult", "PromiseFulfillReactions", "PromiseRejectReactions", "PromiseIsHandled"]))
   let promise = [? __x2__]
   promise.PromiseState = CONST_pending

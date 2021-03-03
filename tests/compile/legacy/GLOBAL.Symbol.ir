@@ -1,7 +1,7 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let description = __x0__
-  if (! (= NewTarget undefined)) throw INTRINSIC_TypeError else {}
+  if (! (= NewTarget undefined)) throw TypeError else {}
   if (= description undefined) let descString = undefined else {
     app __x1__ = (ToString description)
     let descString = [? __x1__]

@@ -6,7 +6,7 @@
     return [? __x0__]
   } else {}
   if (= (typeof obj) "ProxyExoticObject") {
-    if (= obj.ProxyHandler null) throw INTRINSIC_TypeError else {}
+    if (= obj.ProxyHandler null) throw TypeError else {}
     let proxyTarget = obj.ProxyTarget
     app __x1__ = (GetFunctionRealm proxyTarget)
     return [? __x1__]

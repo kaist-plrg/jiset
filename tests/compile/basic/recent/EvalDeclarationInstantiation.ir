@@ -10,7 +10,7 @@
       while (< __x3__ __x2__.length) {
         let name = __x2__[__x3__]
         app __x4__ = (varEnv.HasLexicalDeclaration varEnv name)
-        if (= __x4__ true) throw INTRINSIC_SyntaxError else {}
+        if (= __x4__ true) throw SyntaxError else {}
         __x3__ = (+ __x3__ 1i)
       }
     } else {}
@@ -22,7 +22,7 @@
         while (< __x6__ __x5__.length) {
           let name = __x5__[__x6__]
           app __x7__ = (thisEnv.HasBinding thisEnv name)
-          if (= __x7__ true) throw INTRINSIC_SyntaxError else {}
+          if (= __x7__ true) throw SyntaxError else {}
           __x6__ = (+ __x6__ 1i)
         }
       } else {}
@@ -44,7 +44,7 @@
         if (= (typeof varEnv) "GlobalEnvironmentRecord") {
           app __x11__ = (varEnv.CanDeclareGlobalFunction varEnv fn)
           let fnDefinable = [? __x11__]
-          if (= fnDefinable false) throw INTRINSIC_TypeError else {}
+          if (= fnDefinable false) throw TypeError else {}
         } else {}
         append fn -> declaredFunctionNames
         prepend d -> functionsToInitialize
@@ -66,7 +66,7 @@
           if (= (typeof varEnv) "GlobalEnvironmentRecord") {
             app __x17__ = (varEnv.CanDeclareGlobalVar varEnv vn)
             let vnDefinable = [? __x17__]
-            if (= vnDefinable false) throw INTRINSIC_TypeError else {}
+            if (= vnDefinable false) throw TypeError else {}
           } else {}
           if (! (contains declaredVarNames vn)) append vn -> declaredVarNames else {}
         } else {}

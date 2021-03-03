@@ -2,9 +2,9 @@
   app __x0__ = (ArgumentListEvaluation arguments)
   let argList = [? __x0__]
   app __x1__ = (Type func)
-  if (! (= __x1__ Object)) throw INTRINSIC_TypeError else {}
+  if (! (= __x1__ Object)) throw TypeError else {}
   app __x2__ = (IsCallable func)
-  if (= __x2__ false) throw INTRINSIC_TypeError else {}
+  if (= __x2__ false) throw TypeError else {}
   if (= tailPosition true) {
     app __x3__ = (PrepareForTailCall )
     __x3__

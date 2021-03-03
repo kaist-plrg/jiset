@@ -8,8 +8,8 @@
     app __x0__ = (ToNumber next)
     let nextCP = [? __x0__]
     app __x1__ = (IsInteger nextCP)
-    if (= [! __x1__] false) throw INTRINSIC_RangeError else {}
-    if (|| (< nextCP 0i) (< 1114111i nextCP)) throw INTRINSIC_RangeError else {}
+    if (= [! __x1__] false) throw RangeError else {}
+    if (|| (< nextCP 0i) (< 1114111i nextCP)) throw RangeError else {}
     access __x2__ = (nextCP "UTF16Encoding")
     let __x3__ = __x2__
     let __x4__ = 0i

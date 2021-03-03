@@ -2,7 +2,7 @@
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
   let handler = O.ProxyHandler
-  if (= handler null) throw INTRINSIC_TypeError else {}
+  if (= handler null) throw TypeError else {}
   app __x1__ = (Type handler)
   assert (= __x1__ Object)
   let target = O.ProxyTarget
@@ -24,12 +24,12 @@
   let extensibleTarget = [? __x8__]
   if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable false)) let settingConfigFalse = true else let settingConfigFalse = false
   if (= targetDesc undefined) {
-    if (= extensibleTarget false) throw INTRINSIC_TypeError else {}
-    if (= settingConfigFalse true) throw INTRINSIC_TypeError else {}
+    if (= extensibleTarget false) throw TypeError else {}
+    if (= settingConfigFalse true) throw TypeError else {}
   } else {
     app __x9__ = (IsCompatiblePropertyDescriptor extensibleTarget Desc targetDesc)
-    if (= __x9__ false) throw INTRINSIC_TypeError else {}
-    if (&& (= settingConfigFalse true) (= targetDesc.Configurable true)) throw INTRINSIC_TypeError else {}
+    if (= __x9__ false) throw TypeError else {}
+    if (&& (= settingConfigFalse true) (= targetDesc.Configurable true)) throw TypeError else {}
   }
   return true
 }

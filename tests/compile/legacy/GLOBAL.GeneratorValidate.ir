@@ -4,6 +4,6 @@
   app __x1__ = (RequireInternalSlot generator "GeneratorState")
   [? __x1__]
   let state = generator.GeneratorState
-  if (= state CONST_executing) throw INTRINSIC_TypeError else {}
+  if (= state CONST_executing) throw TypeError else {}
   return state
 }

@@ -1,13 +1,13 @@
 {
   if (= onlyInt32 absent) onlyInt32 = false else {}
   app __x0__ = (Type typedArray)
-  if (! (= __x0__ Object)) throw INTRINSIC_TypeError else {}
-  if (= typedArray.TypedArrayName absent) throw INTRINSIC_TypeError else {}
+  if (! (= __x0__ Object)) throw TypeError else {}
+  if (= typedArray.TypedArrayName absent) throw TypeError else {}
   let typeName = typedArray.TypedArrayName
-  if (= onlyInt32 true) if (! (= typeName "Int32Array")) throw INTRINSIC_TypeError else {} else if (! (|| (|| (|| (|| (|| (= typeName "Int8Array") (= typeName "Uint8Array")) (= typeName "Int16Array")) (= typeName "Uint16Array")) (= typeName "Int32Array")) (= typeName "Uint32Array"))) throw INTRINSIC_TypeError else {}
+  if (= onlyInt32 true) if (! (= typeName "Int32Array")) throw TypeError else {} else if (! (|| (|| (|| (|| (|| (= typeName "Int8Array") (= typeName "Uint8Array")) (= typeName "Int16Array")) (= typeName "Uint16Array")) (= typeName "Int32Array")) (= typeName "Uint32Array"))) throw TypeError else {}
   assert (! (= typedArray.ViewedArrayBuffer absent))
   let buffer = typedArray.ViewedArrayBuffer
   app __x1__ = (IsSharedArrayBuffer buffer)
-  if (= __x1__ false) throw INTRINSIC_TypeError else {}
+  if (= __x1__ false) throw TypeError else {}
   return buffer
 }
