@@ -22,6 +22,7 @@ class CFG(val spec: ECMAScript) {
     case BranchEdge(x, y, z) => x -> Set(y, z)
   }).toMap
   val fidMap: Map[Int, Function] = (for (f <- funcs) yield f.uid -> f).toMap
+  val algo2fid: Map[String, Int] = (for (f <- funcs) yield f.name -> f.uid).toMap
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
@@ -37,6 +38,10 @@ class CFG(val spec: ECMAScript) {
     val heaps = Map[Addr, Obj]()
     (globalVars, heaps)
   }
+
+  // get fids of syntax-directed algorithms
+  def getSyntaxFids(lhs: String, method: String): Set[Int] =
+    spec.getSyntaxAlgo(lhs, method).map(algo2fid(_))
 
   //////////////////////////////////////////////////////////////////////////////
   // Private Helper Functions

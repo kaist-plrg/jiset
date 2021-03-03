@@ -20,6 +20,10 @@ case class ECMAScript(
   lazy val normalAlgos: List[Algo] =
     algos.collect { case algo @ Algo(normal: NormalHead, _, _) => algo }
 
+  // syntax-directed algorithms
+  lazy val syntaxAlgos: List[Algo] =
+    algos.collect { case algo @ Algo(head: SyntaxDirectedHead, _, _) => algo }
+
   // global names
   lazy val globals: Set[String] = (
     ECMAScript.PREDEF ++
@@ -36,6 +40,32 @@ case class ECMAScript(
   // completed/incompleted algorithms
   lazy val (completedAlgos, incompletedAlgos): (List[Algo], List[Algo]) =
     algos.partition(_.isComplete)
+
+  // get syntax directed algos
+  def getSyntaxAlgo(lhs: String, method: String): Set[String] = {
+    // exclude index
+    var excludes = Set[Int]()
+    val rhsList = grammar.nameMap(lhs).rhsList
+    // direct
+    val direct = syntaxAlgos.filter {
+      case Algo(head: SyntaxDirectedHead, _, _) =>
+        val isTarget =
+          head.lhsName == lhs && head.methodName == method
+        if (isTarget) excludes += head.idx
+        isTarget
+      case _ => ??? // impossible
+    }.map(_.name).toSet
+
+    // chain
+    val chain: Set[String] = (for {
+      idx <- 0 until rhsList.length
+      if !excludes.contains(idx)
+      rhs = rhsList(idx)
+      if rhs.isSingleNT
+    } yield getSyntaxAlgo(rhs.name, method)).flatten.toSet
+
+    direct ++ chain
+  }
 }
 
 object ECMAScript {
