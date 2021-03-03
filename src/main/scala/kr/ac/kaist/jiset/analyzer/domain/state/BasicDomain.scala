@@ -105,13 +105,23 @@ object BasicDomain extends state.Domain {
     }
 
     // allocate a new symbol
-    def allocSymbol(desc: String): (AbsValue, Elem) = ???
+    def allocSymbol(
+      asite: Int,
+      desc: String
+    ): (AbsPure, Elem) = ???
 
     // allocate a new map
-    def allocMap(props: Map[String, AbsValue]): (AbsValue, Elem) = ???
+    def allocMap(
+      asite: Int,
+      ty: String,
+      props: Map[String, AbsValue]
+    ): (AbsPure, Elem) = ???
 
     // allocate a new list
-    def allocList(vs: List[AbsValue]): (AbsValue, Elem) = ???
+    def allocList(
+      asite: Int,
+      vs: List[AbsValue]
+    ): (AbsPure, Elem) = ???
 
     // append an element to a list
     def append(v: AbsValue, addr: AbsAddr): Elem = ???

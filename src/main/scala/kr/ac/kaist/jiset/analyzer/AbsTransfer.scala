@@ -126,12 +126,16 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         st <- get
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v.escaped.toCompletion))
-      case ithrow @ IThrow(Id(x)) => st => {
-        val addr = AbsPure(DynamicAddr(ithrow.asite))
-        val comp = AbsComp(CompThrow -> ((addr, emptyConst)))
-        // (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceErrorPrototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
-        ???
-      }
+      case ithrow @ IThrow(Id(x)) => for {
+        v <- transfer(AbsRefValue.Id(x))
+        asite = ithrow.asite
+        addr <- id(_.allocMap(asite, "Object", Map(
+          "Prototype" -> v,
+          "ErrorData" -> AbsUndef.Top
+        )))
+        comp = AbsComp(CompThrow -> ((addr, emptyConst)))
+        st <- get
+      } yield sem.doReturn(ret -> ((st.heap, comp)))
       case IAssert(expr) => for {
         v <- transfer(expr)
         _ <- modify(prune(expr, true))
@@ -179,23 +183,24 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case EUndef => AbsValue(Undef)
       case ENull => AbsValue(Null)
       case EAbsent => AbsValue(Absent)
-      case EMap(ty, props) => for {
+      case expr @ EMap(Ty(ty), props) => for {
         vs <- join(props.map {
           case (kexpr, vexpr) => for {
             v <- transfer(expr)
             k = kexpr.to[EStr](???).str
           } yield k -> v
         })
-        // TODO handling type information
-        a <- id(_.allocMap(vs.toMap))
+        asite = expr.asite
+        a <- id(_.allocMap(asite, ty, vs.toMap))
       } yield a
-      case EList(exprs) => for {
+      case expr @ EList(exprs) => for {
         vs <- join(exprs.map(transfer))
-        a <- id(_.allocList(vs.toList))
+        a <- id(_.allocList(expr.asite, vs.toList))
       } yield a
-      case ESymbol(desc) =>
+      case expr @ ESymbol(desc) => for {
         // TODO handling non-string descriptions
-        _.allocSymbol(desc.to[EStr](???).str)
+        a <- id(_.allocSymbol(expr.asite, desc.to[EStr](???).str))
+      } yield a
       case EPop(list, idx) => for {
         l <- transfer(list)
         k <- transfer(idx)
