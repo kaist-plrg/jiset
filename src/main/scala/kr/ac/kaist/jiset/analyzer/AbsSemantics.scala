@@ -60,8 +60,8 @@ class AbsSemantics(val cfg: CFG) {
     func <- cfg.funcs.toList
     if pattern.matches(func.algo.head.printName)
   } yield Clo(func.uid, Env())
-  private def getConsts(names: String*): List[Addr] =
-    names.toList.map(x => NamedAddr("CONST_" + x))
+  private def getConsts(names: String*): List[Const] =
+    names.toList.map(Const(_))
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
@@ -236,6 +236,8 @@ class AbsSemantics(val cfg: CFG) {
     """PrimaryExpression\[0,0\].Evaluation""".r,
   )
 
+  // private def targetPatterns = successPatterns
+  // private def targetPatterns = failedPatterns
   private def targetPatterns = List(
     """PrimaryExpression\[0,0\].Evaluation""".r,
   )

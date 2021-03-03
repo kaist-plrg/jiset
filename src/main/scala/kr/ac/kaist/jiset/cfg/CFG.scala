@@ -32,9 +32,9 @@ class CFG(val spec: ECMAScript) {
     val consts = getConsts
     val globalVars = (
       globalMethods ++
-      consts.map(x => x -> NamedAddr(x))
+      consts.map(x => x -> Const(x.substring("CONST_".length)))
     )
-    val heaps = consts.map(x => NamedAddr(x) -> SymbolObj(x)).toMap[Addr, Obj]
+    val heaps = Map[Addr, Obj]()
     (globalVars, heaps)
   }
 

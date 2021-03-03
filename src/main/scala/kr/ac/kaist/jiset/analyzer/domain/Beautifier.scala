@@ -30,6 +30,8 @@ object Beautifier {
     case NamedAddr(name) => name
     case DynamicAddr(k) => k.toString
   })
+  implicit lazy val constApp: App[Const] =
+    (app, const) => app >> "~" >> const.const >> "~"
 
   // abstract value appender
   implicit lazy val anumApp: App[AbsNum] = flatDomainApp(AbsNum, "num")
@@ -56,6 +58,7 @@ object Beautifier {
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
   implicit lazy val aaddrApp: App[AbsAddr] = setDomainApp(AbsAddr)
+  implicit lazy val aconstApp: App[AbsConst] = setDomainApp(AbsConst)
   implicit lazy val acloApp: App[AbsClo] = {
     import AbsClo._
     implicit val pairApp: App[Pair] = (app, pair) => {
@@ -71,9 +74,10 @@ object Beautifier {
   implicit lazy val aastApp: App[AbsAST] = setDomainApp(AbsAST)
   implicit lazy val apureApp: App[AbsPure] =
     domainApp(AbsPure)((app, v) => {
-      val AbsPure.Elem(addr, clo, cont, ast, prim) = v
+      val AbsPure.Elem(addr, const, clo, cont, ast, prim) = v
       var udts = Vector[Update]()
       if (!addr.isBottom) udts :+= { _ >> addr }
+      if (!const.isBottom) udts :+= { _ >> const }
       if (!clo.isBottom) udts :+= { _ >> clo }
       if (!cont.isBottom) udts :+= { _ >> cont }
       if (!ast.isBottom) udts :+= { _ >> ast }
@@ -87,7 +91,7 @@ object Beautifier {
       comp.map.foreach {
         case (k, (v, t)) => udts :+= (app => {
           app >> k
-          if (!(t === AbsAddr(NamedAddr("CONST_empty")))) app >> ":" >> t
+          if (!(t === AbsConst(Const("empty")))) app >> ":" >> t
           app >> "(" >> v >> ")"
         })
       }

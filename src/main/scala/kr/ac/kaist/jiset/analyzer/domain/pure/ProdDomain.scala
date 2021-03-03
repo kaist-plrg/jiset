@@ -7,6 +7,7 @@ object ProdDomain extends pure.Domain {
   // abstraction functions
   def alpha(v: PureValue): Elem = v match {
     case addr: Addr => Elem(addr = AbsAddr(addr))
+    case const: Const => Elem(const = AbsConst(const))
     case clo: Clo => Elem(clo = AbsClo(clo))
     case cont: Cont => Elem(cont = AbsCont(cont))
     case ast: ASTVal => Elem(ast = AbsAST(ast))
@@ -19,6 +20,7 @@ object ProdDomain extends pure.Domain {
   // top value
   val Top: Elem = Elem(
     AbsAddr.Top,
+    AbsConst.Top,
     AbsClo.Top,
     AbsCont.Top,
     AbsAST.Top,
@@ -28,14 +30,16 @@ object ProdDomain extends pure.Domain {
   // constructor
   def apply(
     addr: AbsAddr = AbsAddr.Bot,
+    const: AbsConst = AbsConst.Bot,
     clo: AbsClo = AbsClo.Bot,
     cont: AbsCont = AbsCont.Bot,
     ast: AbsAST = AbsAST.Bot,
     prim: AbsPrim = AbsPrim.Bot
-  ): Elem = Elem(addr, clo, cont, ast, prim)
+  ): Elem = Elem(addr, const, clo, cont, ast, prim)
 
   case class Elem(
     addr: AbsAddr = AbsAddr.Bot,
+    const: AbsConst = AbsConst.Bot,
     clo: AbsClo = AbsClo.Bot,
     cont: AbsCont = AbsCont.Bot,
     ast: AbsAST = AbsAST.Bot,
@@ -44,6 +48,7 @@ object ProdDomain extends pure.Domain {
     // partial order
     def ⊑(that: Elem): Boolean = (
       this.addr ⊑ that.addr &&
+      this.const ⊑ that.const &&
       this.clo ⊑ that.clo &&
       this.cont ⊑ that.cont &&
       this.ast ⊑ that.ast &&
@@ -53,6 +58,7 @@ object ProdDomain extends pure.Domain {
     // join operator
     def ⊔(that: Elem): Elem = Elem(
       this.addr ⊔ that.addr,
+      this.const ⊔ that.const,
       this.clo ⊔ that.clo,
       this.cont ⊔ that.cont,
       this.ast ⊔ that.ast,
@@ -62,6 +68,7 @@ object ProdDomain extends pure.Domain {
     // meet operator
     def ⊓(that: Elem): Elem = Elem(
       this.addr ⊓ that.addr,
+      this.const ⊓ that.const,
       this.clo ⊓ that.clo,
       this.cont ⊓ that.cont,
       this.ast ⊓ that.ast,
@@ -71,6 +78,7 @@ object ProdDomain extends pure.Domain {
     // concretization clotion
     def gamma: concrete.Set[PureValue] = (
       this.addr.gamma ++
+      this.const.gamma ++
       this.clo.gamma ++
       this.cont.gamma ++
       this.ast.gamma ++
@@ -80,6 +88,7 @@ object ProdDomain extends pure.Domain {
     // conversion to flat domain
     def getSingle: concrete.Flat[PureValue] = (
       this.addr.getSingle ++
+      this.const.getSingle ++
       this.clo.getSingle ++
       this.cont.getSingle ++
       this.ast.getSingle ++
@@ -88,7 +97,7 @@ object ProdDomain extends pure.Domain {
 
     // conversion to normal completion
     def toCompletion: AbsComp = AbsComp(
-      CompNormal -> (this, AbsPure(NamedAddr("CONST_empty")))
+      CompNormal -> (this, AbsPure(Const("empty")))
     )
 
     // abstract equality

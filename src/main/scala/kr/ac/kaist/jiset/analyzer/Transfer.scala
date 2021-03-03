@@ -370,6 +370,7 @@ class Transfer(
   private def typeof(v: Value, st: State): String = v match {
     case Num(_) | INum(_) => "Number"
     case Completion(_, v, _) => typeof(v, st)
+    case Const(c) => "Constant"
     case BigINum(_) => "BigInt"
     case Str(_) => "String"
     case Bool(_) => "Boolean"

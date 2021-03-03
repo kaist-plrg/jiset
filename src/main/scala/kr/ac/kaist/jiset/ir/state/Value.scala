@@ -34,6 +34,9 @@ sealed trait Addr extends PureValue
 case class NamedAddr(name: String) extends Addr
 case class DynamicAddr(long: Long) extends Addr
 
+// constants
+case class Const(const: String) extends PureValue
+
 // functions
 case class Clo(fid: Int, env: Env = Env()) extends PureValue
 
