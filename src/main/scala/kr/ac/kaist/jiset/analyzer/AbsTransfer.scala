@@ -81,7 +81,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
   // interactive mode
   def interact(cp: ControlPoint): Unit = {
-    val dot = (new DotPrinter)(cp, sem).toString
+    val dot = (new DotPrinter)(sem).toString
     println(sem.getString(cp))
     println
     while (scala.io.StdIn.readLine() match {

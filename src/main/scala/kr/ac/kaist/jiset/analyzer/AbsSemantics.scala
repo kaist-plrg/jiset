@@ -76,6 +76,8 @@ class AbsSemantics(val cfg: CFG) {
     rpMap.getOrElse(rp, (AbsHeap.Bot, AbsValue.Bot))
   def getRetEdges(rp: ReturnPoint): Set[(NodePoint[Call], String)] =
     retEdges.getOrElse(rp, Set())
+  def getControlPoints: Set[ControlPoint] =
+    npMap.keySet ++ rpMap.keySet
 
   // update internal map
   def +=[T <: Node](pair: (NodePoint[T], AbsState)): Unit = {

@@ -8,27 +8,35 @@ import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 
 class DotPrinter {
-  // for control points
-  def apply(cp: ControlPoint, sem: AbsSemantics): DotPrinter = {
-    val func = sem.funcOf(cp)
-    this(func, Option((sem, cp.view)))
+  // for pure cfg
+  def apply(func: Function): DotPrinter = {
+    this >> s"""digraph {"""
+    func.nodes.foreach(this(_, (REACH, NORMAL)))
+    func.edges.foreach(this(_, REACH))
+    this >> s"""}"""
   }
 
-  // for functions
-  def apply(
-    func: Function,
-    sem: Option[(AbsSemantics, View)] = None
-  ): DotPrinter = {
+  // for debugging analysis
+  def apply(sem: AbsSemantics): DotPrinter = {
     this >> s"""digraph {"""
-    func.nodes.foreach(node => {
-      val (color, fillcolor) = sem.fold((REACH, NORMAL))(getColor(node, _))
-      this(node, color, fillcolor)
-    })
-    func.edges.foreach(edge => {
-      val color = sem.fold(REACH)(getColor(edge, _))
-      this(edge, color)
-    })
+    val funcs: Set[(Function, View)] =
+      sem.getControlPoints.map(cp => (sem.funcOf(cp), cp.view))
+    funcs.foreach(doCluster(_, sem))
     this >> s"""}"""
+  }
+
+  // print cluster
+  def doCluster(
+    pair: (Function, View),
+    sem: AbsSemantics
+  ): DotPrinter = {
+    val (func, view) = pair
+    this >> s"""  subgraph cluster${func.uid}_${norm(view)} {"""
+    this >> s"""    label = "${func.name}:$view""""
+    this >> s"""    style = rounded"""
+    func.nodes.foreach(n => this(n, getColor(n, (sem, view))))
+    func.edges.foreach(e => this(e, getColor(e, (sem, view))))
+    this >> s"""  }"""
   }
 
   // colors
@@ -61,9 +69,9 @@ class DotPrinter {
   // for nodes
   def apply(
     node: Node,
-    gcolor: String,
-    gbgColor: String
+    colors: (String, String)
   ): DotPrinter = {
+    val (gcolor, gbgColor) = colors
     val uid = node.uid
     val color = s""""$gcolor""""
     val bgColor = s""""$gbgColor""""
@@ -108,4 +116,7 @@ class DotPrinter {
 
   // normalize beautified ir nodes
   private def norm(node: IRNode): String = escapeHtml(node.beautified(index = true))
+  // normalize beautified view
+  private val normPattern = """[\[\](),]""".r
+  private def norm(view: View): String = normPattern.replaceAllIn(view.toString, "")
 }
