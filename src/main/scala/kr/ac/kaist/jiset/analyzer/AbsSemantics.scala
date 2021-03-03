@@ -274,6 +274,14 @@ class AbsSemantics(val cfg: CFG) {
   }
   private def getType(st: AbsState, v: AbsPure): List[Type] = {
     var tys: List[Type] = Nil
+    if (!v.addr.isBottom) tys = (v.addr.toList.collect {
+      case NamedAddr(x) => NameT(x)
+      case DynamicAddr(_) => ???
+    }) ++ tys
+    if (!v.const.isBottom) ???
+    if (!v.clo.isBottom) ???
+    if (!v.cont.isBottom) ???
+    if (!v.ast.isBottom) tys = v.ast.toList.map(ast => AstT(ast.name)) ++ tys
     if (!v.num.isBottom) tys ::= NumT
     if (!v.int.isBottom) tys ::= INumT
     if (!v.bigint.isBottom) tys ::= BigINumT
@@ -282,10 +290,6 @@ class AbsSemantics(val cfg: CFG) {
     if (!v.undef.isBottom) tys ::= UndefT
     if (!v.nullval.isBottom) tys ::= NullT
     if (!v.absent.isBottom) tys ::= AbsentT
-    if (!v.ast.isBottom) tys = v.ast.toList.map(ast => AstT(ast.name)) ++ tys
-    if (!v.addr.isBottom) tys = (v.addr.toList.collect {
-      case NamedAddr(x) => NameT(x)
-    }) ++ tys
     tys
   }
 }
