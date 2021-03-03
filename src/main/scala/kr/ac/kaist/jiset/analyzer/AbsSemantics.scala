@@ -217,12 +217,12 @@ class AbsSemantics(val cfg: CFG) {
     // Etc.
     """LiteralPropertyName\[1,0\].PropName""".r,
     """LiteralPropertyName\[1,0\].Evaluation""".r,
+    """PrimaryExpression\[0,0\].Evaluation""".r,
   )
 
   private def failedPatterns = List(
     // need implemetation of IAccess, IApp
     // not implemented `access`
-    """PrimaryExpression\[12,0\].Evaluation""".r,
     """Identifier\[.*.StringValue""".r,
     """PropertyDefinition\[0,0\].PropName""".r,
     """StringLiteral\[0,1\].StringValue""".r,
@@ -257,7 +257,7 @@ class AbsSemantics(val cfg: CFG) {
   // private def targetPatterns = successPatterns
   // private def targetPatterns = failedPatterns
   private def targetPatterns = List(
-    """PrimaryExpression\[0,0\].Evaluation""".r,
+    """PrimaryExpression\[12,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
