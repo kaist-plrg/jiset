@@ -6,58 +6,46 @@ import kr.ac.kaist.jiset.analyzer.domain.AbsObj._
 
 class AddrNormalizer(heap: AbsHeap) {
   // normalize
-  def apply(set: Set[Addr]): Set[Addr] = ???
-
-  // helper
-  // converts parent:Option[String] into Option[MapElem], by actually looking into this: AbsHeapElem
-  def mapElemGetParent(e: MapElem): Option[MapElem] = e.parent.map(name => {
-    heap(NamedAddr(name)) match {
-      case o: MapElem => o
-      case _ => ??? // TODO : throw some error, because if parent name exists, it should point to MapElem
-    }
-  })
-
-  // AncestorRep: Represent a node and ancestors with list
-  // first elem: root of the forest, second elem: the child of first elem, ... , last elem : the node
-  // ex) Tree : (A (B (C D)) E) => Represent node C and its ancestors by [A, B, C]
-  type AncestorRep = List[MapElem]
-  def toMapElem(e: AncestorRep): MapElem = e.head
-
-  // convert MapElem into AncestorRep
-  def toAncestorRep(e: MapElem): AncestorRep = (mapElemGetParent(e) match {
-    case None => Nil
-    case Some(p) => p :: toAncestorRep(p) // orders closer ancester in front
-  }).reverse // needs reverse to order farther ancestor in front
-
-  // Find least common ancestor
-  // LCA of two AncestorRep, Optional
-  def leastCommonAncestor(left: AncestorRep, right: AncestorRep): Option[AncestorRep] = (left, right) match {
-    case (Nil, _) | (_, Nil) => None
-    case (l :: ls, r :: rs) => if (l == r) {
-      leastCommonAncestor(ls, rs) match {
-        case None => Some(List(l))
-        case Some(es) => Some(l :: es)
-      }
-    } else None
+  def apply(set: Set[Addr]): Set[Addr] = {
+    val namedSet = set.filter(namedAddrFilter(_)) // only contains NamedAddr
+    set.filter(!namedAddrFilter(_)) ++ getLCASet(namedSet.map(toAncestors(_))).map(toAddr(_))
   }
 
-  // apply 2-wise LCA to all list,
-  def leastCommonAncestor(ls: List[AncestorRep]): List[AncestorRep] = ls match {
-    case Nil => Nil
-    case x :: tl => leastCommonAncestor(tl) match {
-      case Nil => List(x)
-      case tl: List[AncestorRep] => {
-        val tlLCA = leastCommonAncestor(tl)
-        var xAdded = false // TODO refactor this with pure FP
-        val tlLCAwithX = tlLCA.map(y => leastCommonAncestor(x, y) match {
-          case None => y
-          case Some(a) => xAdded = true; a
-        })
-        if (xAdded) tlLCAwithX else x :: tlLCAwithX
-      }
-    }
+  // helper for filtering
+  def namedAddrFilter(x: Addr): Boolean = x match {
+    case x: NamedAddr => true
+    case _ => false
   }
 
-  // wrapper as List[MapElem]
-  def leastCommomAncestor(ls: List[MapElem]): List[MapElem] = leastCommonAncestor(ls.map(toAncestorRep(_))).map(toMapElem(_))
+  // list of NamedAddr of parents, closer ancestor in front (1st: addr itself)
+  def addrParents(addr: Addr): List[Addr] = heap(addr) match {
+    case MapElem(p, _) => addr :: p.map(s => addrParents(NamedAddr(s))).getOrElse(Nil)
+    case _ => ??? //TODO : throw some error, must point to MapElem
+  }
+
+  // Ancestors : List of Addr, root at first
+  type Ancestors = List[Addr]
+
+  // construct Ancestors from Addr, and another
+  def toAncestors(addr: Addr): Ancestors = addrParents(addr).reverse
+
+  // restore NamedAddr from Ancestors: last element of Ancestors is LCA
+  def toAddr(ans: Ancestors): Addr = ans.last
+
+  // helper for least common ancestor
+  def longestCommonPrefix(left: Ancestors, right: Ancestors): Ancestors = (left, right) match {
+    case (Nil, _) | (_, Nil) => Nil
+    case (l :: ls, r :: rs) => if (l == r) l :: longestCommonPrefix(ls, rs) else Nil
+  }
+
+  // find LCA Addr from list of Ancestors, which all have same root ancestor (so start with same root)
+  def leastCommonAncestor(anlist: List[Ancestors]): Ancestors = anlist.reduce((x, y) => longestCommonPrefix(x, y))
+
+  // find LCA set from list of Ancestors
+  def getLCAList(anlist: List[Ancestors]): List[Ancestors] =
+    anlist.groupBy(_(0)).toList.map(_._2).map(leastCommonAncestor(_))
+
+  // wrapper for set
+  def getLCASet(anset: Set[Ancestors]): Set[Ancestors] =
+    getLCAList(anset.toList).toSet
 }
