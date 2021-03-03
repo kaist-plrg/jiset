@@ -29,11 +29,11 @@ class AbsSemantics(val cfg: CFG) {
   lazy val (globalVars, globalHeaps): (Map[String, AbsValue], Map[Addr, AbsObj]) = {
     val (vars, heaps) = cfg.getGlobal
     val globalVars = manualVars ++ (for ((x, v) <- vars) yield x -> AbsValue(v))
-    var globalHeaps: Map[Addr, AbsObj] = (for ((x, m) <- manualHeaps) yield {
+    var globalHeaps: Map[Addr, AbsObj] = (for ((x, (p, m)) <- manualHeaps) yield {
       val map: Map[String, AbsObj.MapD.AbsVOpt] = m.map {
         case (k, v) => k -> AbsObj.MapD.AbsVOpt(v, AbsAbsent.Bot)
       }
-      NamedAddr(x) -> AbsObj.MapElem(None, AbsObj.MapD(map, AbsObj.MapD.AbsVOpt(None)))
+      NamedAddr(x) -> AbsObj.MapElem(p, AbsObj.MapD(map, AbsObj.MapD.AbsVOpt(None)))
     }).toMap
     globalHeaps ++= (for ((a, o) <- heaps) yield a -> AbsObj(o))
     (globalVars, globalHeaps)
@@ -41,20 +41,20 @@ class AbsSemantics(val cfg: CFG) {
   private def manualVars: Map[String, AbsValue] = Map(
     "GLOBAL_context" -> AbsValue(NamedAddr("ExecutionContext")),
   )
-  private def manualHeaps: Map[String, Map[String, AbsValue]] = Map(
-    "ExecutionContext" -> Map(
+  private def manualHeaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
+    "ExecutionContext" -> (None, Map(
       "LexicalEnvironment" -> AbsValue(NamedAddr("EnvironmentRecord")),
-    ),
-    "EnvironmentRecord" -> Map(
+    )),
+    "EnvironmentRecord" -> (None, Map(
       "HasThisBinding" -> getClos(""".*\.HasThisBinding""".r),
       "GetThisBinding" -> getClos(""".*\.GetThisBinding""".r),
       "ThisBindingStatus" -> getConsts("lexical", "initialized", "uninitialized"),
       "OuterEnv" -> AbsValue(NamedAddr("EnvironmentRecord"), Null),
       "GlobalThisValue" -> AbsValue(NamedAddr("Global")),
       "ThisValue" -> ESValue,
-    ),
-    "Global" -> Map(),
-    "Object" -> Map(),
+    )),
+    "Global" -> (Some("Object"), Map()),
+    "Object" -> (None, Map()),
   )
   private val ESValue: AbsValue = {
     val prim = AbsPrim.Top.copy(absent = AbsAbsent.Bot)
