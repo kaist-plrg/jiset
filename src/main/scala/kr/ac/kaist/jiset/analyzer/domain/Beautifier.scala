@@ -112,24 +112,21 @@ object Beautifier {
     case AbsRefValue.ObjProp(addr, prop) => app >> addr >> "[" >> prop >> "]"
     case AbsRefValue.StrProp(str, prop) => app >> str >> "[" >> prop >> "]"
   }
-  implicit lazy val aobjApp: App[AbsObj] =
-    domainApp(AbsObj)((app, obj) => {
-      val AbsObj.Elem(symbol, map, list) = obj
-      var udts = Vector[Update]()
-      if (!symbol.isBottom) udts :+= {
-        implicit val symbolApp = setDomainApp(AbsObj.SymbolD)
-        _ >> "@" >> symbol
-      }
-      if (!map.isBottom) udts :+= {
+  implicit lazy val aobjApp: App[AbsObj] = (app, obj) => {
+    import AbsObj._
+    obj match {
+      case Top => app >> "⊤"
+      case Bot => app >> "⊥"
+      case SymbolElem(desc) => app >> "@" >> desc
+      case MapElem(parent, map) =>
         implicit val mapApp = pmapDomainApp(AbsObj.MapD)
-        _ >> map
-      }
-      if (!list.isBottom) udts :+= {
+        parent.foreach(app >> _ >> " ")
+        app >> map
+      case ListElem(list) =>
         implicit val listApp = listDomainApp(AbsObj.ListD)
-        _ >> list
-      }
-      app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
-    })
+        app >> list
+    }
+  }
   implicit lazy val aheapApp: App[AbsHeap] = {
     implicit val mapApp = mapDomainApp(AbsHeap.MapD)
     _ >> _.map

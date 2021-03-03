@@ -4,10 +4,6 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends obj.Domain {
-  // symbol domain
-  val SymbolD = generator.SetDomain[String]()
-  type SymbolD = SymbolD.Elem
-
   // map domain
   val MapD = combinator.PMapDomain[String, Value, AbsValue.type](AbsValue)
   type MapD = MapD.Elem
@@ -18,42 +14,59 @@ object BasicDomain extends obj.Domain {
 
   // abstraction function
   def alpha(obj: Obj): Elem = obj match {
-    case SymbolObj(desc) => Elem(symbol = SymbolD(desc))
-    case MapObj(_, props) => Elem(map = MapD(props))
-    case ListObj(values) => Elem(list = ListD(values))
+    case SymbolObj(desc) => SymbolElem(desc)
+    case MapObj(Ty(name), props) => MapElem(parent = Some(name), map = MapD(props))
+    case ListObj(values) => ListElem(list = ListD(values))
   }
 
   // bottom value
-  val Bot: Elem = Elem()
+  object Bot extends Elem
 
   // top value
-  val Top: Elem = Elem(SymbolD.Top, MapD.Top, ListD.Top)
+  object Top extends Elem
 
-  case class Elem(
-    symbol: SymbolD = SymbolD.Bot,
-    map: MapD = MapD.Bot,
-    list: ListD = ListD.Bot
-  ) extends ElemTrait {
+  // symbol objects
+  case class SymbolElem(desc: String) extends Elem
+
+  // map objects
+  case class MapElem(parent: Option[String], map: MapD) extends Elem
+
+  // list objects
+  case class ListElem(list: ListD) extends Elem
+
+  trait Elem extends ElemTrait {
     // partial order
-    def ⊑(that: Elem): Boolean = (
-      this.symbol ⊑ that.symbol &&
-      this.map ⊑ that.map &&
-      this.list ⊑ that.list
-    )
+    def ⊑(that: Elem): Boolean = (this, that) match {
+      case (Bot, _) | (_, Top) => true
+      case (Top, _) | (_, Bot) => false
+      case (SymbolElem(l), SymbolElem(r)) => l == r
+      case (MapElem(lparent, lmap), MapElem(rparent, rmap)) =>
+        lparent == rparent & lmap ⊑ rmap
+      case (ListElem(l), ListElem(r)) => l ⊑ r
+      case _ => false
+    }
 
     // join operator
-    def ⊔(that: Elem): Elem = Elem(
-      this.symbol ⊔ that.symbol,
-      this.map ⊔ that.map,
-      this.list ⊔ that.list
-    )
+    def ⊔(that: Elem): Elem = (this, that) match {
+      case (Bot, _) | (_, Top) => that
+      case (Top, _) | (_, Bot) => this
+      case (SymbolElem(l), SymbolElem(r)) if l == r => this
+      case (MapElem(lp, lmap), MapElem(rp, rmap)) if lp == rp =>
+        MapElem(lp, lmap ⊔ rmap)
+      case (ListElem(l), ListElem(r)) => ListElem(l ⊔ r)
+      case _ => Top
+    }
 
     // meet operator
-    def ⊓(that: Elem): Elem = Elem(
-      this.symbol ⊓ that.symbol,
-      this.map ⊓ that.map,
-      this.list ⊓ that.list
-    )
+    def ⊓(that: Elem): Elem = (this, that) match {
+      case (Bot, _) | (_, Top) => this
+      case (Top, _) | (_, Bot) => that
+      case (SymbolElem(l), SymbolElem(r)) if l == r => this
+      case (MapElem(lp, lmap), MapElem(rp, rmap)) if lp == rp =>
+        MapElem(lp, lmap ⊓ rmap)
+      case (ListElem(l), ListElem(r)) => ListElem(l ⊓ r)
+      case _ => Bot
+    }
 
     // concretization function
     def gamma: concrete.Set[Obj] = Infinite
@@ -63,12 +76,14 @@ object BasicDomain extends obj.Domain {
 
     // TODO handling lists
     // lookup
-    def apply(prop: AbsStr): (AbsValue, AbsAbsent) =
-      prop.gamma.map(s => map(s.str)) match {
+    def apply(prop: AbsStr): (AbsValue, AbsAbsent) = this match {
+      case MapElem(_, map) => prop.gamma.map(s => map(s.str)) match {
         case Infinite => (AbsValue.Top, AbsAbsent.Top)
         case Finite(set) =>
           val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
           (vopt.value, vopt.absent)
       }
+      case _ => (AbsValue.Bot, AbsAbsent.Bot)
+    }
   }
 }

@@ -78,24 +78,27 @@ class BeautifierTinyTest extends AnalyzerTest {
     )
 
     test("Abstract Objects")(
-      AbsObj(SymbolObj("has"), SymbolObj("get")) -> "@(has | get)",
-      AbsObj(MapObj(Ty(""), "x" -> true, "y" -> 2), MapObj(Ty(""), "x" -> "a", "z" -> Null)) -> """{
+      AbsObj(SymbolObj("has")) -> "@has",
+      AbsObj(
+        MapObj(Ty("Object"), "x" -> true, "y" -> 2),
+        MapObj(Ty("Object"), "x" -> "a", "z" -> Null),
+      ) -> """Object {
       |  x -> ! "a" | true
       |  y -> ? 2i
       |  z -> ? null
       |}""".stripMargin,
       AbsObj(ListObj(Undef, true, 42)) -> "[undef, true, 42i]",
-      AbsObj(SymbolObj("has"), MapObj(Ty("")), ListObj()) -> "@has | {} | []",
+      AbsObj.Top -> "⊤",
     )
 
     val heap = AbsHeap(Heap(
       NamedAddr("Global") -> SymbolObj("has"),
-      DynamicAddr(42) -> MapObj(Ty("")),
+      DynamicAddr(42) -> MapObj(Ty("Record")),
     ))
     test("Abstract Heaps")(
       heap -> """{
       |  #Global -> @has
-      |  #42 -> {}
+      |  #42 -> Record {}
       |}""".stripMargin,
     )
 
@@ -124,7 +127,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       |  }
       |  heap: {
       |    #Global -> @has
-      |    #42 -> {}
+      |    #42 -> Record {}
       |  }
       |}""".stripMargin,
       AbsState.Empty.copy(env = env) -> """{

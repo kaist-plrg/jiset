@@ -92,11 +92,33 @@ object JsonProtocol extends BasicJsonProtocol {
       case (x: StrProp) => StrPropFormat.write(x)
     }
   }
-  implicit lazy val aobjFormat: JsonFormat[AbsObj] = {
-    implicit val symbolFormat = setDomainFormat(AbsObj.SymbolD)
-    implicit val mapFormat = pmapDomainFormat(AbsObj.MapD)
-    implicit val listFormat = listDomainFormat(AbsObj.ListD)
-    jsonFormat3(AbsObj.Elem)
+  implicit lazy val aobjFormat = new RootJsonFormat[AbsObj] {
+    import AbsObj._
+    implicit val MapFormat = pmapDomainFormat(MapD)
+    implicit val ListFormat = listDomainFormat(AbsObj.ListD)
+    implicit val SymbolElemFormat = jsonFormat1(SymbolElem)
+    implicit val MapElemFormat = jsonFormat2(MapElem)
+    implicit val ListElemFormat = jsonFormat1(ListElem)
+    def read(json: JsValue): Elem = json match {
+      case JsString("⊤") => Top
+      case JsString("⊥") => Bot
+      case v =>
+        val discrimator = List("desc", "map", "list")
+          .map(d => v.asJsObject.fields.contains(d))
+        discrimator.indexOf(true) match {
+          case 0 => SymbolElemFormat.read(v)
+          case 1 => MapElemFormat.read(v)
+          case 2 => ListElemFormat.read(v)
+          case _ => deserializationError(s"unknown element: $v")
+        }
+    }
+    def write(elem: Elem): JsValue = elem match {
+      case Top => JsString("⊤")
+      case Bot => JsString("⊥")
+      case (x: SymbolElem) => SymbolElemFormat.write(x)
+      case (x: MapElem) => MapElemFormat.write(x)
+      case (x: ListElem) => ListElemFormat.write(x)
+    }
   }
   implicit lazy val aheapFormat: JsonFormat[AbsHeap] = new RootJsonFormat[AbsHeap] {
     implicit val mapFormat: JsonFormat[AbsHeap.MapD] = mapDomainFormat(AbsHeap.MapD)

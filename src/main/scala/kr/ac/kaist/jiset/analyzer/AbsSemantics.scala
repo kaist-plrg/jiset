@@ -23,17 +23,17 @@ class AbsSemantics(val cfg: CFG) {
   private var retEdges: Map[ReturnPoint, Set[(NodePoint[Call], String)]] = Map()
 
   // worklist
-  val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
+  lazy val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
 
   // global variables and heaps
-  val (globalVars, globalHeaps): (Map[String, AbsValue], Map[Addr, AbsObj]) = {
+  lazy val (globalVars, globalHeaps): (Map[String, AbsValue], Map[Addr, AbsObj]) = {
     val (vars, heaps) = cfg.getGlobal
     val globalVars = manualVars ++ (for ((x, v) <- vars) yield x -> AbsValue(v))
     var globalHeaps: Map[Addr, AbsObj] = (for ((x, m) <- manualHeaps) yield {
       val map: Map[String, AbsObj.MapD.AbsVOpt] = m.map {
-        case (k, vs) => k -> AbsObj.MapD.AbsVOpt(AbsValue(vs: _*), AbsAbsent.Bot)
+        case (k, v) => k -> AbsObj.MapD.AbsVOpt(v, AbsAbsent.Bot)
       }
-      NamedAddr(x) -> AbsObj.Elem(map = AbsObj.MapD(map, AbsObj.MapD.AbsVOpt(None)))
+      NamedAddr(x) -> AbsObj.MapElem(None, AbsObj.MapD(map, AbsObj.MapD.AbsVOpt(None)))
     }).toMap
     globalHeaps ++= (for ((a, o) <- heaps) yield a -> AbsObj(o))
     (globalVars, globalHeaps)
@@ -41,27 +41,31 @@ class AbsSemantics(val cfg: CFG) {
   private def manualVars: Map[String, AbsValue] = Map(
     "GLOBAL_context" -> AbsValue(NamedAddr("ExecutionContext")),
   )
-  private def manualHeaps: Map[String, Map[String, List[Value]]] = Map(
+  private def manualHeaps: Map[String, Map[String, AbsValue]] = Map(
     "ExecutionContext" -> Map(
-      "LexicalEnvironment" -> List(NamedAddr("EnvironmentRecord")),
+      "LexicalEnvironment" -> AbsValue(NamedAddr("EnvironmentRecord")),
     ),
     "EnvironmentRecord" -> Map(
       "HasThisBinding" -> getClos(""".*\.HasThisBinding""".r),
       "GetThisBinding" -> getClos(""".*\.GetThisBinding""".r),
       "ThisBindingStatus" -> getConsts("lexical", "initialized", "uninitialized"),
-      "OuterEnv" -> List(NamedAddr("EnvironmentRecord"), Null),
-      "GlobalThisValue" -> List(NamedAddr("GlobalThis")),
-      "ThisValue" -> List(NamedAddr("ESValue")),
+      "OuterEnv" -> AbsValue(NamedAddr("EnvironmentRecord"), Null),
+      "GlobalThisValue" -> AbsValue(NamedAddr("Global")),
+      "ThisValue" -> ESValue,
     ),
-    "GlobalThis" -> Map(),
-    "ESValue" -> Map(),
+    "Global" -> Map(),
+    "Object" -> Map(),
   )
-  private def getClos(pattern: Regex): List[Clo] = for {
-    func <- cfg.funcs.toList
+  private val ESValue: AbsValue = {
+    val prim = AbsPrim.Top.copy(absent = AbsAbsent.Bot)
+    AbsPure(addr = AbsAddr(NamedAddr("Object")), prim = prim)
+  }
+  private def getClos(pattern: Regex): AbsValue = AbsValue(for {
+    func <- cfg.funcs.toSet
     if pattern.matches(func.algo.head.printName)
-  } yield Clo(func.uid, Env())
-  private def getConsts(names: String*): List[Const] =
-    names.toList.map(Const(_))
+  } yield (Clo(func.uid, Env()): Value))
+  private def getConsts(names: String*): AbsValue =
+    AbsValue(names.toSet.map[Value](Const(_)))
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions

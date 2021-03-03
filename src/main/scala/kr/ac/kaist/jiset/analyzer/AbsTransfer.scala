@@ -126,7 +126,12 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         st <- get
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v.escaped.toCompletion))
-      case ithrow @ IThrow(Id(x)) => st => ???
+      case ithrow @ IThrow(Id(x)) => st => {
+        val addr = AbsPure(DynamicAddr(ithrow.asite))
+        val comp = AbsComp(CompThrow -> ((addr, emptyConst)))
+        // (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_ReferenceErrorPrototype, "ErrorData" -> undefined, "SubMap" -> (new SubMap()))))
+        ???
+      }
       case IAssert(expr) => for {
         v <- transfer(expr)
         _ <- modify(prune(expr, true))
@@ -313,6 +318,9 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       int = AbsINum.Top,
       bigint = AbsBigINum.Top
     )
+
+    // empty constant
+    private val emptyConst: AbsPure = AbsConst(Const("empty"))
 
     // all numbers
     private val numTop: AbsValue = AbsPrim(
