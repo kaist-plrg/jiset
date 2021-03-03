@@ -5,6 +5,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
+import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console._
@@ -161,15 +162,16 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case IAccess(Id(x), bexpr, expr) => for {
         b <- transfer(bexpr)
         p <- transfer(expr)
+        st <- get
         v = (b.escaped.getSingle, p.escaped.getSingle) match {
-          case (One(ASTVal(ast)), One(Str(name))) => (ast, name) match {
-            case ("NumericLiteral", "NumericValue") => numTop
-            case ("StringLiteral", "StringValue" | "SV") => strTop
-            case _ => ???
-          }
-          case _ => ???
+          case (One(ASTVal(ast)), One(Str(name))) => accessAST(call, view, x, ast, name, st)
+          case (Zero, _) | (_, Zero) => AbsValue.Bot
+          case _ => AbsValue.Top
         }
-        _ <- modify(_ + (x -> v)) // TODO handling call cases
+        _ <- {
+          if (v.isBottom) put(AbsState.Bot)
+          else modify(_ + (x -> v))
+        }
       } yield ()
     }
 
@@ -340,6 +342,35 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       }.foldLeft(AbsPure.Bot)(_ ⊔ _)
       val newV: AbsValue = pure ⊔ compV
       (newV, st)
+    }
+
+    // access of AST values
+    def accessAST(
+      call: Call,
+      view: View,
+      x: String,
+      ast: String,
+      name: String,
+      st: AbsState
+    ): AbsValue = (ast, name) match {
+      case ("NumericLiteral", "NumericValue") => numTop
+      case ("StringLiteral", "StringValue" | "SV") => strTop
+      case _ =>
+        val fids = getSyntaxFids(ast, name)
+        val pairs = fids.toList.flatMap[AbsClo.Pair](fid => {
+          val func = fidMap(fid)
+          func.algo.head match {
+            case (head: SyntaxDirectedHead) =>
+              val args = sem.getArgs(head)
+              if (head.withParams.isEmpty) {
+                sem.doCall(call, view, st, AbsClo(Clo(fid)), args, x)
+                None
+              } else ??? // TODO
+            case _ => None
+          }
+        })
+        val v: AbsValue = AbsClo.Elem(AbsClo.SetD(pairs: _*))
+        v
     }
 
     // all integers

@@ -105,7 +105,7 @@ class AbsSemantics(val cfg: CFG) {
   } {
     val AbsClo.Pair(fid, _) = pair // TODO handle envrionments
     val func = cfg.fidMap(fid)
-    val pairs = func.algo.params.map(_.name) zip args
+    val pairs = func.algo.params.map(_.name) zip args // TODO pruning args using types
     val np = NodePoint(func.entry, view)
     val newSt = pairs.foldLeft(st.copy(env = AbsEnv.Empty)) {
       case (st, (x, v)) => st + (x -> v)
@@ -162,6 +162,14 @@ class AbsSemantics(val cfg: CFG) {
         ))
     }
     s"$k -> $v"
+  }
+
+  // get arguments
+  def getArgs(head: SyntaxDirectedHead): List[AbsValue] = head.types.map {
+    case (name, astName) =>
+      val v = AbsValue(ASTVal(astName))
+      if (head.optional contains name) v ⊔ AbsAbsent.Top
+      else v
   }
 
   //////////////////////////////////////////////////////////////////////////////
