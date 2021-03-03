@@ -189,30 +189,7 @@ class AbsSemantics(val cfg: CFG) {
     """Literal\[.*""".r,
     """PrimaryExpression.*IsIdentifierRef""".r,
     // .IsFunctionDefinition
-    """Expression\[1,0\].IsFunctionDefinition""".r,
-    """PrimaryExpression\[[0-4],0\].IsFunctionDefinition""".r,
-    """PrimaryExpression\[1[0-1],0\].IsFunctionDefinition""".r, // [0,0]~[11,0]
-    """UpdateExpression\[.*.IsFunctionDefinition""".r,
-    """UnaryExpression\[.*.IsFunctionDefinition""".r,
-    """ExponentiationExpression\[.*.IsFunctionDefinition""".r,
-    """MultiplicativeExpression\[.*.IsFunctionDefinition""".r,
-    """AdditiveExpression\[.*.IsFunctionDefinition""".r,
-    """ShiftExpression\[.*.IsFunctionDefinition""".r,
-    """RelationalExpression\[.*.IsFunctionDefinition""".r,
-    """EqualityExpression\[.*.IsFunctionDefinition""".r,
-    """BitWiseANDExpression\[.*.IsFunctionDefinition""".r,
-    """BitWiseXORExpression\[.*.IsFunctionDefinition""".r,
-    """BitWiseORExpression\[.*.IsFunctionDefinition""".r,
-    """LogicalANDExpression\[.*.IsFunctionDefinition""".r,
-    """LogicalORExpression\[.*.IsFunctionDefinition""".r,
-    """CoalesceExpression\[.*.IsFunctionDefinition""".r,
-    """ConditionalExpression\[.*.IsFunctionDefinition""".r,
-    """AssignmentExpression\[.*.IsFunctionDefinition""".r,
-    """FunctionExpression\[.*.IsFunctionDefinition""".r,
-    """GeneratorExpression\[.*.IsFunctionDefinition""".r,
-    """AsyncGeneratorExpression\[.*.IsFunctionDefinition""".r,
-    """ClassExpression\[.*.IsFunctionDefinition""".r,
-    """AsyncFunctionExpression\[.*.IsFunctionDefinition""".r,
+    """.*.IsFunctionDefinition""".r,
     // AssignmentTargetType
     """Expression\[1,0\].AssignmentTargetType""".r,
     """IdentifierReference\[.*].AssignmentTargetType""".r,
@@ -222,21 +199,22 @@ class AbsSemantics(val cfg: CFG) {
     """LabelIdentifier\[.*.StringValue""".r,
     """StringLiteral\[.*.StringValue""".r,
     """IdentifierReference\[.*.StringValue""".r,
-    // Etc.
+    """Identifier\[.*.StringValue""".r,
+    """StringLiteral\[0,1\].StringValue""".r,
+    // PropName
+    """PropertyDefinition\[0,0\].PropName""".r,
     """LiteralPropertyName\[1,0\].PropName""".r,
+    // EarlyErrors
+    """PropertyDefinition\[1,0\].EarlyErrors""".r,
+    """IdentifierReference\[1,0\].EarlyErrors""".r,
+    // Evaluation
     """LiteralPropertyName\[1,0\].Evaluation""".r,
     """PrimaryExpression\[0,0\].Evaluation""".r,
+    // CoveredParenthesizedExpression
+    """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
   )
 
   private def failedPatterns = List(
-    // need implemetation of IAccess, IApp
-    // not implemented `access`
-    """Identifier\[.*.StringValue""".r,
-    """PropertyDefinition\[0,0\].PropName""".r,
-    """StringLiteral\[0,1\].StringValue""".r,
-    """PrimaryExpression\[12,0\].IsFunctionDefinition""".r,
-    // not implemented transfer for `RefValue `
-    """IdentifierReference\[0,0\].AssignmentTargetType""".r,
     // has parameter
     """TemplateSpans\[0,0\].SubstitutionEvaluation""".r,
     // not implemented: access Identifier "StringValue" -> maybe abstract StringValue to `str`?
@@ -246,17 +224,12 @@ class AbsSemantics(val cfg: CFG) {
     """NewExpression\[1,0\].Evaluation""".r, // EIsInstanceOf @EvaluateNew
     // Unknown property #NamedAddr(ExecutionContext)."Generator" (@GetGeneratorKind)
     """YieldExpression\[0,0\].Evaluation""".r,
-    // unknown property: #NamedAddr(EnvironmentRecord)."GetThisBinding"
     // unknown property: #NamedAddr(EnvironmentRecord)."OuterEnv"
     """PrimaryExpression\[0,0\].Evaluation""".r,
     // unknown variable: Type (@ToString)
     """LiteralPropertyName\[2,0\].Evaluation""".r,
-    // unknown variable: INTRINSIC_SyntaxError
-    """PropertyDefinition\[1,0\].EarlyErrors""".r,
-    """IdentifierReference\[1,0\].EarlyErrors""".r,
     // not impelemented: transfer for `EParseSyntax`
     """IdentifierReference\[2,0\].EarlyErrors""".r,
-    """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
     // not implemeted: state.BasicDomain allocList
     """BindingIdentifier\[1,0\].BoundNames""".r,
     """TemplateLiteral\[0,0\].TemplateStrings""".r,
@@ -265,7 +238,7 @@ class AbsSemantics(val cfg: CFG) {
   // private def targetPatterns = successPatterns
   // private def targetPatterns = failedPatterns
   private def targetPatterns = List(
-    """PrimaryExpression\[12,0\].Evaluation""".r,
+    """BindingIdentifier\[1,0\].BoundNames""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (

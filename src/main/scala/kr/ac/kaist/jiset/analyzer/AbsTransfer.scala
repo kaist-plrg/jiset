@@ -243,12 +243,12 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       } yield ??? // TODO need discussion
       case EGetSyntax(base) => strTop // TODO handling non-AST values
       case EParseSyntax(code, rule, flags) => for {
-        c <- transfer(code)
         r <- transfer(rule)
-        cp = c.escaped
-        rp = r.escaped
-        // XXX maybe flags are not necessary in abstract semantics
-      } yield ???
+        ast = r.escaped.str.gamma match {
+          case Infinite => AbsAST.Top
+          case Finite(set) => AbsAST.alpha(set.map(str => ASTVal(str.str)))
+        }
+      } yield ast
       case EConvert(source, target, flags) => for {
         v <- transfer(source)
         p = v.escaped
@@ -355,6 +355,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       name: String,
       st: AbsState
     ): AbsValue = (ast, name) match {
+      case ("IdentifierName", "StringValue") => strTop
       case ("NumericLiteral", "NumericValue") => numTop
       case ("StringLiteral", "StringValue" | "SV") => strTop
       case _ =>
