@@ -43,11 +43,13 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
   def apply[T <: Node](np: NodePoint[T]): Unit = {
     val st = sem(np)
     val NodePoint(node, view) = np
-    val helper = new Helper(ReturnPoint(funcOf(node), view))
+    val func = funcOf(node)
+    val helper = new Helper(ReturnPoint(func, view))
     import helper._
     node match {
       case (entry: Entry) =>
-        sem += NodePoint(next(entry), view) -> st
+        val newSt = handleThisValue(func, st)
+        sem += NodePoint(next(entry), view) -> newSt
       case (exit: Exit) => // TODO detect missing return
       case (block: Block) =>
         val newSt = join(block.insts.map(transfer))(st)
@@ -371,6 +373,17 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         })
         val v: AbsValue = AbsClo.Elem(AbsClo.SetD(pairs: _*))
         v
+    }
+
+    // handle this value for syntax-directed algorithms
+    def handleThisValue(func: Function, st: AbsState): AbsState = {
+      func.algo.head match {
+        case (head: SyntaxDirectedHead) =>
+          val lhsName = head.lhsName
+          if (head.params.map(_.name) contains lhsName) st
+          else st + (lhsName -> st.env("this")._1)
+        case _ => st
+      }
     }
 
     // all integers
