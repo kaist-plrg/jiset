@@ -351,9 +351,8 @@ trait Compilers extends TokenListParsers {
   // metions
   lazy val mention: P[String] = literal("(") ~ rep1(normal.filter(_ != Text(")"))) ~ literal(")") ^^^ ""
 
-  // get error objects
+  // intrinsic prefix
   val INTRINSIC_PRE = "INTRINSIC_"
-  def getThrow(name: String): IThrow = IThrow(Id(INTRINSIC_PRE + name))
 
   // suspend context
   def suspend(x: String, removed: Boolean = false): Inst = {

@@ -63,7 +63,7 @@ class Diff {
         compare(le, re)
       case (lthrow @ IThrow(l), rthrow @ IThrow(r)) =>
         val asiteEq = !deep || (lthrow.asite == rthrow.asite)
-        asiteEq && compare(l, r)
+        asiteEq && l == r
       case (ISeq(li), ISeq(ri)) =>
         val (success, remain) = ri.foldLeft((true, li)) {
           case ((false, _), _) => (false, Nil)

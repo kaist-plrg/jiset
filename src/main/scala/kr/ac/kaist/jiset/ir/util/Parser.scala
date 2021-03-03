@@ -55,7 +55,7 @@ trait Parser extends JavaTokenParsers with RegexParsers {
     ("append " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IAppend(e, l) } |
     ("prepend " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPrepend(e, l) } |
     "return " ~> expr ^^ { case e => IReturn(e) } |
-    opt("(" ~> integer <~ ")") ~ ("throw " ~> id) ^^ {
+    opt("(" ~> integer <~ ")") ~ ("throw " ~> ident) ^^ {
       case k ~ x =>
         val ithrow = IThrow(x)
         ithrow.asite = k.fold(-1)(_.toInt)

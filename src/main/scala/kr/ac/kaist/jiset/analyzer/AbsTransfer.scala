@@ -126,12 +126,10 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         st <- get
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v.escaped.toCompletion))
-      case ithrow @ IThrow(Id(x)) => for {
-        v <- transfer(AbsRefValue.Id(x))
-        asite = ithrow.asite
-        addr <- id(_.allocMap(asite, "Object", Map(
-          "Prototype" -> v,
-          "ErrorData" -> AbsUndef.Top
+      case ithrow @ IThrow(x) => for {
+        addr <- id(_.allocMap(ithrow.asite, "Object", Map(
+          "Prototype" -> AbsValue(NamedAddr(s"Global.$x.prototype")),
+          "ErrorData" -> AbsUndef.Top,
         )))
         comp = AbsComp(CompThrow -> ((addr, emptyConst)))
         st <- get

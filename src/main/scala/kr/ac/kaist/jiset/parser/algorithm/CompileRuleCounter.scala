@@ -188,7 +188,7 @@ object CompileRuleCounter extends Compilers {
 
   // throw statements
   lazy val throwStmt =
-    "throw" ~ ("a" | "an") ~> value <~ "exception" ~ rest ^^ { getThrow(_) }
+    "throw" ~ ("a" | "an") ~> value <~ "exception" ~ rest ^^ { IThrow(_) }
 
   // while statements
   lazy val whileStmt = (
@@ -367,7 +367,7 @@ object CompileRuleCounter extends Compilers {
 
   // early errors
   lazy val earlyErrorStmt: P[Inst] = (("it is" | "always throw") ~ ("a syntax error" | "an early syntax error") ~ "if") ~> cond ^^ {
-    case (i ~ c) => ISeq(i :+ IIf(c, getThrow("SyntaxError"), getRet(EUndef)))
+    case (i ~ c) => ISeq(i :+ IIf(c, IThrow("SyntaxError"), getRet(EUndef)))
   }
 
   lazy val earlyErrorCond: P[I[Expr]] = (

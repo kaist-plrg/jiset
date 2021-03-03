@@ -40,7 +40,7 @@ class BeautifierTinyTest extends IRTest {
       IAppend(EUndef, EList(IRList)) -> s"append undefined -> $SList",
       IPrepend(EUndef, EList(IRList)) -> s"prepend undefined -> $SList",
       IRReturn -> SReturn,
-      IThrow(Id("x")) -> "throw x",
+      IThrow("SyntaxError") -> "throw SyntaxError",
       IIf(EBool(true), IRReturn, IExpr(ENum(3.0))) ->
         s"if true $SReturn else 3.0",
       IWhile(EBool(false), IRReturn) -> s"while false $SReturn",
