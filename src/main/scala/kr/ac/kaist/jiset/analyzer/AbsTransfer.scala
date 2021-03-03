@@ -89,7 +89,8 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         interactMode = false; false
       case "d" =>
         dumpFile(dot, s"$CFG_DIR.dot")
-        executeCmd(s"""dot -Tpdf "$CFG_DIR.dot" -o "$CFG_DIR.pdf"""")
+        executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")
+        executeCmd(s"""dot -Tpdf "${CFG_DIR}_trans.dot" -o "$CFG_DIR.pdf"""")
         println(s"Dumped CFG to $CFG_DIR.pdf")
         true
       case _ => false

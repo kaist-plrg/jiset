@@ -110,9 +110,9 @@ class DotPrinter {
     val (color, bgColor) = colors
     node match {
       case Entry() =>
-        this >> s"""  $name [shape=point color=$color fillcolor=$bgColor style=filled]"""
+        this >> s"""  $name [shape=circle label=" " color=$color fillcolor=$bgColor style=filled]"""
       case Exit() =>
-        this >> s"""  $name [shape=point color=$color fillcolor=$bgColor style=filled]"""
+        this >> s"""  $name [shape=circle label=" " color=$color fillcolor=$bgColor style=filled]"""
       case Block(insts) =>
         this >> s"""  $name [shape=none, margin=0, label=<<font color=$color>""" >>
           s"""    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">"""
