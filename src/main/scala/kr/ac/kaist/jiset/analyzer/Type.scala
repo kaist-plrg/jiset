@@ -5,6 +5,7 @@ trait Type {
   override def toString: String = this match {
     case NameT(name) => s"$name"
     case AstT(name) => s"☊($name)"
+    case ConstT(name) => s"~$name~"
     case NumT => "num"
     case INumT => "int"
     case BigINumT => "bigint"
@@ -21,6 +22,9 @@ case class NameT(name: String) extends Type
 
 // AST types
 case class AstT(name: String) extends Type
+
+// constant types
+case class ConstT(name: String) extends Type
 
 // primitive types
 case object NumT extends Type

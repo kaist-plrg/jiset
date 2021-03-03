@@ -108,7 +108,12 @@ object BasicDomain extends state.Domain {
     def allocSymbol(
       asite: Int,
       desc: String
-    ): (AbsPure, Elem) = ???
+    ): (AbsPure, Elem) = {
+      import AbsObj._
+      val addr = DynamicAddr(asite)
+      val obj: AbsObj = SymbolElem(desc)
+      (AbsPure(addr), copy(heap = heap + (addr -> obj)))
+    }
 
     // allocate a new map
     def allocMap(
@@ -129,7 +134,13 @@ object BasicDomain extends state.Domain {
     def allocList(
       asite: Int,
       vs: List[AbsValue]
-    ): (AbsPure, Elem) = ???
+    ): (AbsPure, Elem) = {
+      import AbsObj._
+      val list: ListD = ListD.Fixed(vs.toVector)
+      val addr = DynamicAddr(asite)
+      val obj: AbsObj = ListElem(list)
+      (AbsPure(addr), copy(heap = heap + (addr -> obj)))
+    }
 
     // append an element to a list
     def append(v: AbsValue, addr: AbsAddr): Elem = ???

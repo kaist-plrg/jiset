@@ -212,33 +212,28 @@ class AbsSemantics(val cfg: CFG) {
     """PrimaryExpression\[0,0\].Evaluation""".r,
     // CoveredParenthesizedExpression
     """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
+    // BoundNames
+    """BindingIdentifier\[1,0\].BoundNames""".r,
   )
 
   private def failedPatterns = List(
     // has parameter
     """TemplateSpans\[0,0\].SubstitutionEvaluation""".r,
-    // not implemented: access Identifier "StringValue" -> maybe abstract StringValue to `str`?
-    """Identifier\[0,0\].StringValue""".r,
+    """TemplateLiteral\[0,0\].TemplateStrings""".r,
     // not implemented: EIsInstanceOf
     """IfStatement\[0,0\].EarlyErrors""".r,
-    """NewExpression\[1,0\].Evaluation""".r, // EIsInstanceOf @EvaluateNew
     // Unknown property #NamedAddr(ExecutionContext)."Generator" (@GetGeneratorKind)
     """YieldExpression\[0,0\].Evaluation""".r,
-    // unknown property: #NamedAddr(EnvironmentRecord)."OuterEnv"
-    """PrimaryExpression\[0,0\].Evaluation""".r,
     // unknown variable: Type (@ToString)
     """LiteralPropertyName\[2,0\].Evaluation""".r,
     // not impelemented: transfer for `EParseSyntax`
     """IdentifierReference\[2,0\].EarlyErrors""".r,
-    // not implemeted: state.BasicDomain allocList
-    """BindingIdentifier\[1,0\].BoundNames""".r,
-    """TemplateLiteral\[0,0\].TemplateStrings""".r,
   )
 
   // private def targetPatterns = successPatterns
   // private def targetPatterns = failedPatterns
   private def targetPatterns = List(
-    """BindingIdentifier\[1,0\].BoundNames""".r,
+    """NewExpression\[1,0\].Evaluation""".r, // EIsInstanceOf @EvaluateNew
   )
 
   private def isTarget(head: SyntaxDirectedHead): Boolean = (
@@ -278,7 +273,10 @@ class AbsSemantics(val cfg: CFG) {
       case NamedAddr(x) => NameT(x)
       case DynamicAddr(_) => ???
     }) ++ tys
-    if (!v.const.isBottom) ???
+    if (!v.const.isBottom) v.const.gamma match {
+      case Infinite => ???
+      case Finite(set) => tys = set.toList.map(c => ConstT(c.const)) ++ tys
+    }
     if (!v.clo.isBottom) ???
     if (!v.cont.isBottom) ???
     if (!v.ast.isBottom) tys = v.ast.toList.map(ast => AstT(ast.name)) ++ tys
