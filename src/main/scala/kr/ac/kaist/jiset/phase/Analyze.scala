@@ -18,8 +18,9 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     config: AnalyzeConfig
   ): AbsSemantics = {
     val sem = new AbsSemantics(cfg)
-    val transfer = new AbsTransfer(sem, config.interact, config.dot, config.pdf)
+    val transfer = new AbsTransfer(sem, config.interact)
     transfer.compute
+    if (config.dot) transfer.dumpCFG(config.pdf)
     sem
   }
 

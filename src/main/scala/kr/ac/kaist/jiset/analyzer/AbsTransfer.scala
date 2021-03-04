@@ -12,12 +12,7 @@ import scala.Console._
 import scala.annotation.tailrec
 
 // abstract transfer function
-class AbsTransfer(
-  sem: AbsSemantics,
-  var interactMode: Boolean = false,
-  dot: Boolean = false,
-  pdf: Boolean = false
-) {
+class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
   import sem.cfg._
 
   // worklist
@@ -31,7 +26,7 @@ class AbsTransfer(
       worklist.next
       apply(cp)
       compute
-    case None => if (dot) dumpCFG(pdf)
+    case None =>
   }
 
   // result of abstract transfer
