@@ -61,9 +61,9 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         val (v, newSt) = transfer(expr)(st)
         v.escaped.bool.toSet.foreach {
           case true =>
-            sem += NodePoint(thenNext(branch), view) -> prune(expr, true)(st)
+            sem += NodePoint(thenNext(branch), view) -> prune(expr, true)(newSt)
           case false =>
-            sem += NodePoint(elseNext(branch), view) -> prune(expr, false)(st)
+            sem += NodePoint(elseNext(branch), view) -> prune(expr, false)(newSt)
         }
     }
   }
