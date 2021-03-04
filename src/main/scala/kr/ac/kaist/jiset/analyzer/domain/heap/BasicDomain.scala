@@ -20,6 +20,12 @@ object BasicDomain extends heap.Domain {
   // empty value
   val Empty: Elem = Bot
 
+  // constructor
+  def apply(map: MapD = MapD.Bot): Elem = Elem(map)
+
+  // extractor
+  def unapply(elem: Elem): Option[MapD] = Some(elem.map)
+
   case class Elem(map: MapD = MapD.Bot) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = this.map ⊑ that.map

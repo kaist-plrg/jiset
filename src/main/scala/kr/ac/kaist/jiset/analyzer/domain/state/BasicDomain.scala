@@ -19,6 +19,13 @@ object BasicDomain extends state.Domain {
   // empty value
   val Empty: Elem = Elem(AbsEnv.Empty, AbsHeap.Empty)
 
+  // constructor
+  def apply(env: AbsEnv = AbsEnv.Bot, heap: AbsHeap = AbsHeap.Bot): Elem =
+    Elem(env, heap)
+
+  // extractor
+  def unapply(elem: Elem): Option[(AbsEnv, AbsHeap)] = Some((elem.env, elem.heap))
+
   case class Elem(
     env: AbsEnv = AbsEnv.Bot,
     heap: AbsHeap = AbsHeap.Bot

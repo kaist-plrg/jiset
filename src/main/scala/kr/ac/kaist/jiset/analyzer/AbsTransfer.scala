@@ -74,7 +74,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
     for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
       val nextNP = np.copy(node = next(call))
       val st = sem(np)
-      val newSt = AbsState.Elem(st.env + (x -> v), st.heap ⊔ h)
+      val newSt = AbsState(st.env + (x -> v), st.heap ⊔ h)
       sem += nextNP -> newSt
     }
   }
@@ -335,7 +335,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
     // return if abrupt completion
     def returnIfAbrupt(v: AbsValue, check: Boolean): Result[AbsValue] = st => {
-      val AbsValue.Elem(pure, comp) = v
+      val AbsValue(pure, comp) = v
       val compV: AbsPure = comp.isNormal.map {
         case true => comp(CompNormal)._1
         case false =>
@@ -374,7 +374,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
             case _ => None
           }
         })
-        val v: AbsValue = AbsClo.Elem(AbsClo.SetD(pairs: _*))
+        val v: AbsValue = AbsClo(AbsClo.SetD(pairs: _*))
         v
     }
 

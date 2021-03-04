@@ -45,7 +45,7 @@ object Beautifier {
   implicit lazy val aabsentApp: App[AbsAbsent] = simpleDomainApp(AbsAbsent, "?")
   implicit lazy val aprimApp: App[AbsPrim] =
     domainApp(AbsPrim)((app, v) => {
-      val AbsPrim.Elem(num, int, bigint,
+      val AbsPrim(num, int, bigint,
         str, bool, undef, nullval, absent) = v
       var udts = Vector[Update]()
       if (!num.isBottom) udts :+= { _ >> num }
@@ -76,7 +76,7 @@ object Beautifier {
   implicit lazy val aastApp: App[AbsAST] = setDomainApp(AbsAST)
   implicit lazy val apureApp: App[AbsPure] =
     domainApp(AbsPure)((app, v) => {
-      val AbsPure.Elem(addr, ty, const, clo, cont, ast, prim) = v
+      val AbsPure(addr, ty, const, clo, cont, ast, prim) = v
       var udts = Vector[Update]()
       if (!addr.isBottom) udts :+= { _ >> addr }
       if (!ty.isBottom) udts :+= { _ >> ty }
@@ -102,7 +102,7 @@ object Beautifier {
     })
   implicit lazy val avalueApp: App[AbsValue] =
     domainApp(AbsValue)((app, v) => {
-      val AbsValue.Elem(pure, comp) = v
+      val AbsValue(pure, comp) = v
       var udts = Vector[Update]()
       if (!pure.isBottom) udts :+= { _ >> pure }
       if (!comp.isBottom) udts :+= { _ >> comp }

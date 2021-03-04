@@ -43,6 +43,10 @@ object ProdDomain extends prim.Domain {
     absent: AbsAbsent = AbsAbsent.Bot
   ): Elem = Elem(num, int, bigint, str, bool, undef, nullval, absent)
 
+  // extractor
+  def unapply(elem: Elem): Option[(AbsNum, AbsINum, AbsBigINum, AbsStr, AbsBool, AbsUndef, AbsNull, AbsAbsent)] =
+    Some((elem.num, elem.int, elem.bigint, elem.str, elem.bool, elem.undef, elem.nullval, elem.absent))
+
   case class Elem(
     num: AbsNum = AbsNum.Bot,
     int: AbsINum = AbsINum.Bot,

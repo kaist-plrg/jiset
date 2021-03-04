@@ -42,6 +42,10 @@ object ProdDomain extends pure.Domain {
   // constructor for types
   def apply(ty: Ty): Elem = Elem(ty = AbsTy(ty))
 
+  // extractor
+  def unapply(elem: Elem): Option[(AbsAddr, AbsTy, AbsConst, AbsClo, AbsCont, AbsAST, AbsPrim)] =
+    Some((elem.addr, elem.ty, elem.const, elem.clo, elem.cont, elem.ast, elem.prim))
+
   case class Elem(
     addr: AbsAddr = AbsAddr.Bot,
     ty: AbsTy = AbsTy.Bot,

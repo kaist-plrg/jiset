@@ -28,8 +28,12 @@ object ProdDomain extends value.Domain {
   // constructor for types
   def apply(ty: Ty): Elem = Elem(pure = AbsPure(ty))
 
+  // extractor
+  def unapply(elem: Elem): Option[(AbsPure, AbsComp)] =
+    Some((elem.pure, elem.comp))
+
   case class Elem(
-    private val pure: AbsPure = AbsPure.Bot,
+    pure: AbsPure = AbsPure.Bot,
     comp: AbsComp = AbsComp.Bot
   ) extends ElemTrait {
     // partial order

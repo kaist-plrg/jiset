@@ -19,6 +19,12 @@ object SetDomain extends clo.Domain {
   // top value
   val Top: Elem = Elem(SetD.Top)
 
+  // constructor
+  def apply(set: SetD): Elem = Elem(set)
+
+  // extractor
+  def unapply(elem: Elem): Option[SetD] = Some(elem.set)
+
   case class Elem(set: SetD) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = this.set ⊑ that.set

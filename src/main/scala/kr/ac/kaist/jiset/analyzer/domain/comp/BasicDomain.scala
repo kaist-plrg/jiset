@@ -25,6 +25,10 @@ object BasicDomain extends comp.Domain {
   // constructors
   def apply(pairs: (CompletionType, (AbsPure, AbsPure))*): Elem = Elem(pairs.toMap)
 
+  // extractor
+  def unapply(elem: Elem): Option[Map[CompletionType, (AbsPure, AbsPure)]] =
+    Some(elem.map)
+
   case class Elem(
     map: Map[CompletionType, (AbsPure, AbsPure)] = Map()
   ) extends ElemTrait {

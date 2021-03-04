@@ -28,6 +28,12 @@ abstract class ProductDomain[P <: Product, H <: HList, HD <: HListDomain[H]](
       at(HElem.elemToHList(elem.helem))
   }
 
+  // constructor
+  def apply(helem: HElem): Elem = Elem(helem)
+
+  // extractor
+  def unapply(elem: Elem): Option[HElem] = Some(elem.helem)
+
   // abstract element
   case class Elem(helem: HElem) extends ElemTrait {
     // partial order

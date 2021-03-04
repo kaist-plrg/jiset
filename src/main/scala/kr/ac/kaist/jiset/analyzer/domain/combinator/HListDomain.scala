@@ -62,6 +62,12 @@ class HConsDomain[H, HD <: EAbsDomain[H], T <: HList, TD <: HListDomain[T] with 
   // normalization
   private def norm(elem: Elem): Elem = if (elem.isBottom) Bot else elem
 
+  // constructor
+  def apply(head: AbsH, tail: AbsT): Elem = Elem(head, tail)
+
+  // extractor
+  def unapply(elem: Elem): Option[(AbsH, AbsT)] = Some((elem.head, elem.tail))
+
   // abstract element
   case class Elem(head: AbsH, tail: AbsT) extends ElemTrait {
     // partial order
