@@ -165,7 +165,7 @@ object Compiler extends Compilers {
       ) ~> refExpr
     } ^^ {
       case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e))
-    } ||| "set" ~ opt("the remainder of") ~ id ~ "'s essential internal methods" ~ rest ^^^ ISeq(Nil)
+    } ||| "set" ~ opt("the remainder of") ~ id ~ "'s essential internal methods" ~ rest ^^^ emptyInst
   )
   lazy val setRef: P[I[Ref]] =
     ref ||| opt("the") ~> (camelWord <~ "of") ~ refBase ^^ { case f ~ b => pair(Nil, toRef(b, f)) }
@@ -248,7 +248,20 @@ object Compiler extends Compilers {
         val tempId = getTempId
         ISeq(i0 ++ i1 :+ forEachList(tempId, l2, IAppend(toERef(tempId), l1)))
     } ||| (expr <~ "as the last code unit of") ~ id ^^ {
-      case (i ~ e) ~ x => ILet(IRId(x), EBOp(OPlus, toERef(x), e))
+      case (i ~ e) ~ x => ISeq(i :+ ILet(IRId(x), EBOp(OPlus, toERef(x), e)))
+    }
+  ) ||| presentAppendStmt
+
+  // append for presented parameters
+  lazy val presentAppendStmt: P[Inst] = (
+    ("if" ~> id <~ "is present , append each of its elements to") ~ expr ^^ {
+      case x ~ (i1 ~ y) =>
+        val tempId = getTempId
+        IIf(
+          exists(toERef(x)),
+          ISeq(i1 :+ forEachList(tempId, toERef(x), IAppend(toERef(tempId), y))),
+          emptyInst
+        )
     }
   )
 

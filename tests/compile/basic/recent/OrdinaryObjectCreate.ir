@@ -1,8 +1,16 @@
 {
   let internalSlotsList = (new ["Prototype", "Extensible"])
-  ??? "If id:{additionalInternalSlotsList} is present , append each of its elements to id:{internalSlotsList} ."
-  app __x0__ = (MakeBasicObject internalSlotsList)
-  let O = [! __x0__]
+  if (! (= additionalInternalSlotsList absent)) {
+    let __x0__ = additionalInternalSlotsList
+    let __x1__ = 0i
+    while (< __x1__ __x0__.length) {
+      let __x2__ = __x0__[__x1__]
+      append __x2__ -> internalSlotsList
+      __x1__ = (+ __x1__ 1i)
+    }
+  } else {}
+  app __x3__ = (MakeBasicObject internalSlotsList)
+  let O = [! __x3__]
   O.Prototype = proto
   return O
 }
