@@ -178,7 +178,7 @@ class AbsSemantics(val cfg: CFG) {
   // initialization of node points with abstract states
   private def initNpMap: Map[NodePoint[_], AbsState] = (for {
     func <- cfg.funcs.toList
-    (types, st) <- getTypes(func.algo.head)
+    (types, st) <- getTypes(func.algo)
     view = View(types)
     cp = NodePoint(func.entry, view)
   } yield cp -> st).toMap
@@ -230,38 +230,43 @@ class AbsSemantics(val cfg: CFG) {
     """IdentifierReference\[2,0\].EarlyErrors""".r,
   )
 
-  // private def targetPatterns = successPatterns
-  // private def targetPatterns = failedPatterns
   private def targetPatterns = List(
     """NewExpression\[1,0\].Evaluation""".r, // EIsInstanceOf @EvaluateNew
   )
 
-  private def isTarget(head: SyntaxDirectedHead): Boolean = (
+  private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
     head.withParams.isEmpty &&
     targetPatterns.exists(_.matches(head.printName))
   )
 
-  private def isSimple(ir: IRNode): Boolean = {
-    ir match {
-      case IReturn(EBool(_)) => true
-      case _ => false
-    }
+  private def isSuccess(head: SyntaxDirectedHead, inst: Inst): Boolean = (
+    head.withParams.isEmpty && (
+      successPatterns.exists(_.matches(head.printName)) ||
+      isSimple(inst)
+    )
+  )
+
+  private def isSimple(inst: Inst): Boolean = inst match {
+    case IReturn(EBool(_)) => true
+    case _ => false
   }
 
   // initial abstract state for syntax-directed algorithms
-  private def getTypes(head: Head): List[(List[Type], AbsState)] = head match {
-    case (head: SyntaxDirectedHead) if isTarget(head) => head.optional.subsets.map(opt => {
-      var st = AbsState.Empty
-      val types: List[Type] = head.types.map {
-        case (name, _) if opt contains name =>
-          st += name -> AbsAbsent.Top
-          AbsentT
-        case (name, astName) =>
-          st += name -> AbsAST(ASTVal(astName))
-          AstT(astName)
-      }
-      (types, st)
-    }).toList
+  private def getTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
+    // case (head: SyntaxDirectedHead) if isSuccess(head, algo.rawBody) =>
+    case (head: SyntaxDirectedHead) if isTarget(head, algo.rawBody) =>
+      head.optional.subsets.map(opt => {
+        var st = AbsState.Empty
+        val types: List[Type] = head.types.map {
+          case (name, _) if opt contains name =>
+            st += name -> AbsAbsent.Top
+            AbsentT
+          case (name, astName) =>
+            st += name -> AbsAST(ASTVal(astName))
+            AstT(astName)
+        }
+        (types, st)
+      }).toList
     case _ => Nil
   }
 
