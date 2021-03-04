@@ -238,8 +238,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       } yield ??? // TODO after discussing the completion structures
       case EIsInstanceOf(base, name) => for {
         v <- transfer(base)
-        p = v.escaped
-      } yield ??? // TODO need discussion
+      } yield boolTop // TODO more precise
       case EGetElems(base, name) => for {
         v <- transfer(expr)
         p = v.escaped

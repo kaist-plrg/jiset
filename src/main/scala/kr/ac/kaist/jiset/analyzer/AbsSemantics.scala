@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, SyntaxDirectedHead }
 import kr.ac.kaist.jiset.util.Useful._
-import scala.Console.CYAN
+import scala.Console._
 import scala.util.matching.Regex
 
 class AbsSemantics(val cfg: CFG) {

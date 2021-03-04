@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset._
+import scala.Console._
 
 // Analyze phase
 case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
@@ -19,8 +20,16 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
   ): AbsSemantics = {
     val sem = new AbsSemantics(cfg)
     val transfer = new AbsTransfer(sem, config.interact)
-    transfer.compute
-    if (config.dot) transfer.dumpCFG(config.pdf)
+    try transfer.compute catch {
+      case e: Throwable =>
+        println(s"[Error] ${e.getMessage}")
+        e.getStackTrace.foreach(println _)
+        Nil
+    }
+    if (config.dot) {
+      println
+      transfer.dumpCFG(config.pdf)
+    }
     sem
   }
 
@@ -31,7 +40,7 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     ("dot", BoolOption(c => c.dot = true),
       "dump the analyzed cfg in a dot format"),
     ("pdf", BoolOption(c => { c.dot = true; c.pdf = true }),
-      "dump the analyze cfg in a dot and pdf format")
+      "dump the analyze cfg in a dot and pdf format"),
   )
 }
 
