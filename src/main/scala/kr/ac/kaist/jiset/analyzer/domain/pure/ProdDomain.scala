@@ -20,6 +20,7 @@ object ProdDomain extends pure.Domain {
   // top value
   val Top: Elem = Elem(
     AbsAddr.Top,
+    AbsTy.Top,
     AbsConst.Top,
     AbsClo.Top,
     AbsCont.Top,
@@ -30,15 +31,17 @@ object ProdDomain extends pure.Domain {
   // constructor
   def apply(
     addr: AbsAddr = AbsAddr.Bot,
+    ty: AbsTy = AbsTy.Bot,
     const: AbsConst = AbsConst.Bot,
     clo: AbsClo = AbsClo.Bot,
     cont: AbsCont = AbsCont.Bot,
     ast: AbsAST = AbsAST.Bot,
     prim: AbsPrim = AbsPrim.Bot
-  ): Elem = Elem(addr, const, clo, cont, ast, prim)
+  ): Elem = Elem(addr, ty, const, clo, cont, ast, prim)
 
   case class Elem(
     addr: AbsAddr = AbsAddr.Bot,
+    ty: AbsTy = AbsTy.Bot,
     const: AbsConst = AbsConst.Bot,
     clo: AbsClo = AbsClo.Bot,
     cont: AbsCont = AbsCont.Bot,
@@ -48,6 +51,7 @@ object ProdDomain extends pure.Domain {
     // partial order
     def ⊑(that: Elem): Boolean = (
       this.addr ⊑ that.addr &&
+      this.ty ⊑ that.ty &&
       this.const ⊑ that.const &&
       this.clo ⊑ that.clo &&
       this.cont ⊑ that.cont &&
@@ -58,6 +62,7 @@ object ProdDomain extends pure.Domain {
     // join operator
     def ⊔(that: Elem): Elem = Elem(
       this.addr ⊔ that.addr,
+      this.ty ⊔ that.ty,
       this.const ⊔ that.const,
       this.clo ⊔ that.clo,
       this.cont ⊔ that.cont,
@@ -68,6 +73,7 @@ object ProdDomain extends pure.Domain {
     // meet operator
     def ⊓(that: Elem): Elem = Elem(
       this.addr ⊓ that.addr,
+      this.ty ⊓ that.ty,
       this.const ⊓ that.const,
       this.clo ⊓ that.clo,
       this.cont ⊓ that.cont,
@@ -78,6 +84,7 @@ object ProdDomain extends pure.Domain {
     // concretization clotion
     def gamma: concrete.Set[PureValue] = (
       this.addr.gamma ++
+      (if (this.ty.isBottom) Finite() else Infinite) ++
       this.const.gamma ++
       this.clo.gamma ++
       this.cont.gamma ++
@@ -88,6 +95,7 @@ object ProdDomain extends pure.Domain {
     // conversion to flat domain
     def getSingle: concrete.Flat[PureValue] = (
       this.addr.getSingle ++
+      (if (this.ty.isBottom) Zero else Many) ++
       this.const.getSingle ++
       this.clo.getSingle ++
       this.cont.getSingle ++

@@ -232,10 +232,12 @@ class AbsSemantics(val cfg: CFG) {
     """LiteralPropertyName\[2,0\].Evaluation""".r,
     // not impelemented: transfer for `EParseSyntax`
     """IdentifierReference\[2,0\].EarlyErrors""".r,
+    // EIsInstanceOf @EvaluateNew
+    """NewExpression\[1,0\].Evaluation""".r,
   )
 
   private def targetPatterns = List(
-    """NewExpression\[1,0\].Evaluation""".r, // EIsInstanceOf @EvaluateNew
+    """PrimaryExpression\[0,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (

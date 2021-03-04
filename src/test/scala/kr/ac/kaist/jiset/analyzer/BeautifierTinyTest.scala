@@ -48,6 +48,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)) -> "num | int | bigint",
       AbsValue("a", "b", true, false) -> "str | bool",
       AbsValue(42, NamedAddr("Global"), DynamicAddr(432)) -> "(#Global | #432) | 42i",
+      (AbsValue(42, Const("empty")) ⊔ AbsTy(Ty("Object"))) -> "Object | ~empty~ | 42i",
       (AbsValue(true, Cont()) ⊔ AbsClo(Clo(42))) -> "λ(42) | κ | true",
       AbsValue(Clo(42, Env("x" -> Bool(true), "y" -> Num(42)))) -> """λ(42)[{
       |  x -> ! true

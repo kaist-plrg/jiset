@@ -32,6 +32,7 @@ class JsonTinyTest extends AnalyzerTest {
       AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)),
       AbsValue("a", "b", true, false),
       AbsValue(42, NamedAddr("Global"), DynamicAddr(432)),
+      (AbsValue(42, Const("empty")) ⊔ AbsTy(Ty("Object"))),
       (AbsValue(true, Cont()) ⊔ AbsClo.Top),
       AbsValue(ASTVal("Literal"), ASTVal("Identifier")),
       AbsValue(Const("invalid"), Const("empty")),

@@ -58,6 +58,10 @@ package object domain {
   lazy val AbsAddr = addr.SetDomain
   type AbsAddr = AbsAddr.Elem
 
+  // abstract types
+  lazy val AbsTy = ty.SetDomain
+  type AbsTy = AbsTy.Elem
+
   // abstract continuations
   lazy val AbsCont = cont.SimpleDomain
   type AbsCont = AbsCont.Elem
@@ -154,6 +158,8 @@ package object domain {
     AbsPure(const = x)
   implicit def addr2pure[T](x: T)(implicit f: T => AbsAddr) =
     AbsPure(addr = x)
+  implicit def ty2pure[T](x: T)(implicit f: T => AbsTy) =
+    AbsPure(ty = x)
   implicit def clo2pure[T](x: T)(implicit f: T => AbsClo) =
     AbsPure(clo = x)
   implicit def cont2pure[T](x: T)(implicit f: T => AbsCont) =

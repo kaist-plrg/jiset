@@ -25,6 +25,7 @@ object JsonProtocol extends BasicJsonProtocol {
       case DynamicAddr(long) => JsNumber(long)
     }
   }
+  implicit lazy val tyFormat = jsonFormat1(Ty)
   implicit lazy val constFormat = jsonFormat1(Const)
 
   // abstract value JSON format
@@ -46,8 +47,9 @@ object JsonProtocol extends BasicJsonProtocol {
   }
   implicit lazy val acontFormat = simpleDomainFormat(AbsCont)
   implicit lazy val aaddrFormat = setDomainFormat(AbsAddr)
+  implicit lazy val atyFormat = setDomainFormat(AbsTy)
   implicit lazy val aconstFormat = setDomainFormat(AbsConst)
-  implicit lazy val apureFormat = jsonFormat6(AbsPure.Elem)
+  implicit lazy val apureFormat = jsonFormat7(AbsPure.Elem)
   implicit lazy val acompFormat = new RootJsonFormat[AbsComp] {
     import AbsComp._
     val tyMap = CompletionType.tyMap
