@@ -25,6 +25,9 @@ object ProdDomain extends value.Domain {
     comp: AbsComp = AbsComp.Bot
   ): Elem = Elem(pure, comp)
 
+  // constructor for types
+  def apply(ty: Ty): Elem = Elem(pure = AbsPure(ty))
+
   case class Elem(
     private val pure: AbsPure = AbsPure.Bot,
     comp: AbsComp = AbsComp.Bot

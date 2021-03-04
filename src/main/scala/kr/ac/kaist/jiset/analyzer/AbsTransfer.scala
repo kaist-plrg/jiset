@@ -70,11 +70,8 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
   // transfer function for return points
   def apply(rp: ReturnPoint): Unit = {
-    println(s"<<<< return <<<<")
-    println(s"rp: $rp")
     val (h, v) = sem(rp)
     for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
-      println(s"np: $np")
       val nextNP = np.copy(node = next(call))
       val st = sem(np)
       val newSt = AbsState.Elem(st.env + (x -> v), st.heap ⊔ h)
@@ -133,7 +130,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v.escaped.toCompletion))
       case ithrow @ IThrow(x) => for {
-        addr <- id(_.allocMap(ithrow.asite, "Object", Map(
+        addr <- id(_.allocMap(ithrow.asite, "OrdinaryObject", Map(
           "Prototype" -> AbsValue(NamedAddr(s"Global.$x.prototype")),
           "ErrorData" -> AbsUndef.Top,
         )))

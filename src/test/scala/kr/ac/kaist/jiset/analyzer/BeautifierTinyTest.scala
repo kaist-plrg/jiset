@@ -48,7 +48,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)) -> "num | int | bigint",
       AbsValue("a", "b", true, false) -> "str | bool",
       AbsValue(42, NamedAddr("Global"), DynamicAddr(432)) -> "(#Global | #432) | 42i",
-      (AbsValue(42, Const("empty")) ⊔ AbsTy(Ty("Object"))) -> "Object | ~empty~ | 42i",
+      (AbsValue(42, Const("empty")) ⊔ AbsValue(Ty("Object"))) -> "Object | ~empty~ | 42i",
       (AbsValue(true, Cont()) ⊔ AbsClo(Clo(42))) -> "λ(42) | κ | true",
       AbsValue(Clo(42, Env("x" -> Bool(true), "y" -> Num(42)))) -> """λ(42)[{
       |  x -> ! true
@@ -73,6 +73,12 @@ class BeautifierTinyTest extends AnalyzerTest {
     test("Abstract Reference Values")(
       AbsRefValue.Bot -> "⊥",
       AbsRefValue(id) -> "x",
+      AbsRefValue.ObjProp(AbsTy("Object"), AbsAddr.Bot, AbsStr("p")) -> """Object["p"]""",
+      AbsRefValue.ObjProp(
+        AbsTy("Object"),
+        AbsAddr(DynamicAddr(42)),
+        AbsStr("p")
+      ) -> """(Object | #42)["p"]""",
       AbsRefValue(prop) -> """#42["p"]""",
       AbsRefValue(string) -> """"abc"["length"]""",
       AbsRefValue(id, prop, string) -> "⊤",

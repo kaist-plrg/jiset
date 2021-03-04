@@ -71,7 +71,7 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val arefvalueFormat = new RootJsonFormat[AbsRefValue] {
     import AbsRefValue._
     implicit val IdFormat = jsonFormat1(Id)
-    implicit val ObjPropFormat = jsonFormat2(ObjProp)
+    implicit val ObjPropFormat = jsonFormat3(ObjProp)
     implicit val StrPropFormat = jsonFormat2(StrProp)
     def read(json: JsValue): Elem = json match {
       case JsString("⊤") => Top

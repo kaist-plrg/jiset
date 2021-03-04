@@ -63,9 +63,8 @@ object BasicDomain extends state.Domain {
         val (localV, absent) = env(x)
         if (!localV.isBottom) {
           if (absent.isTop) alarm(s"unknown variable: $x")
-          println(x, beautify(v))
           this + (x -> v)
-        } else if (absent.isTop) sem.globalVars.get(x) match {
+        } else if (absent.isTop) sem.globalEnv.get(x) match {
           case Some(globalV) =>
             if (!(v ⊑ globalV))
               alarm(s"wrong update of global variable $x with ${beautify(v)}")
@@ -87,20 +86,33 @@ object BasicDomain extends state.Domain {
       case AbsRefValue.Top => AbsValue.Top
       case AbsRefValue.Id(x) =>
         val (localV, absent) = env(x)
-        val globalV: AbsValue = if (absent.isTop) sem.globalVars.getOrElse(x, {
+        val globalV: AbsValue = if (absent.isTop) sem.globalEnv.getOrElse(x, {
           alarm(s"unknown variable: $x")
           AbsAbsent.Top
         })
         else AbsValue.Bot
         localV ⊔ globalV
-      case AbsRefValue.ObjProp(addr, prop) => addr.toSet.toList.map {
-        case (addr @ NamedAddr(x)) =>
-          val obj = sem.globalHeaps.getOrElse(addr, AbsObj.Bot)
-          val (v, a) = obj(prop) // XXX ignore absent values
-          if (a.isTop) alarm(s"unknown property: #$x[${beautify(prop)}]")
-          v
-        case DynamicAddr(k) => ???
-      }.foldLeft[AbsValue](AbsValue.Bot)(_ ⊔ _)
+      case AbsRefValue.ObjProp(ty, addr, prop) =>
+        val tyV = ty.toSet.toList.map {
+          case Ty(t) =>
+            val fields = sem.typeMap(t).fields
+            prop.gamma match {
+              case Infinite => AbsValue.Top
+              case Finite(ps) =>
+                // TODO follow ancestors
+                // TODO alarm unknown property
+                ps.toList.map(p => fields(p.str)).foldLeft(AbsValue.Bot)(_ ⊔ _)
+            }
+        }
+        val addrV = addr.toSet.toList.map {
+          case (addr @ NamedAddr(x)) =>
+            val obj = sem.globalHeap.getOrElse(addr, AbsObj.Bot)
+            val (v, a) = obj(prop) // XXX ignore absent values
+            if (a.isTop) alarm(s"unknown property: #$x[${beautify(prop)}]")
+            v
+          case DynamicAddr(k) => ???
+        }
+        (tyV ++ addrV).foldLeft(AbsValue.Bot)(_ ⊔ _)
       case AbsRefValue.StrProp(str, prop) => ???
     }
 

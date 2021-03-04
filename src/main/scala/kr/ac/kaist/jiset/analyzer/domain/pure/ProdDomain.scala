@@ -39,6 +39,9 @@ object ProdDomain extends pure.Domain {
     prim: AbsPrim = AbsPrim.Bot
   ): Elem = Elem(addr, ty, const, clo, cont, ast, prim)
 
+  // constructor for types
+  def apply(ty: Ty): Elem = Elem(ty = AbsTy(ty))
+
   case class Elem(
     addr: AbsAddr = AbsAddr.Bot,
     ty: AbsTy = AbsTy.Bot,

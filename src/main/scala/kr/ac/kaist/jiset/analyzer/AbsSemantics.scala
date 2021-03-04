@@ -26,39 +26,57 @@ class AbsSemantics(val cfg: CFG) {
   lazy val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
 
   // global variables and heaps
-  lazy val (globalVars, globalHeaps): (Map[String, AbsValue], Map[Addr, AbsObj]) = {
-    val (vars, heaps) = cfg.getGlobal
-    val globalVars = manualVars ++ (for ((x, v) <- vars) yield x -> AbsValue(v))
-    var globalHeaps: Map[Addr, AbsObj] = (for ((x, (p, m)) <- manualHeaps) yield {
+  lazy val (globalEnv, globalHeap): (Map[String, AbsValue], Map[Addr, AbsObj]) = {
+    val (env, heaps) = cfg.getGlobal
+    val globalEnv = manualEnv ++ (for ((x, v) <- env) yield x -> AbsValue(v))
+    var globalHeap: Map[Addr, AbsObj] = (for ((x, (p, m)) <- manualHeaps) yield {
       val map: Map[String, AbsObj.MapD.AbsVOpt] = m.map {
         case (k, v) => k -> AbsObj.MapD.AbsVOpt(v, AbsAbsent.Bot)
       }
       NamedAddr(x) -> AbsObj.MapElem(p, AbsObj.MapD(map, AbsObj.MapD.AbsVOpt(None)))
     }).toMap
-    globalHeaps ++= (for ((a, o) <- heaps) yield a -> AbsObj(o))
-    (globalVars, globalHeaps)
+    globalHeap ++= (for ((a, o) <- heaps) yield a -> AbsObj(o))
+    (globalEnv, globalHeap)
   }
-  private def manualVars: Map[String, AbsValue] = Map(
-    "GLOBAL_context" -> AbsValue(NamedAddr("ExecutionContext")),
-  )
-  private def manualHeaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
-    "ExecutionContext" -> (None, Map(
-      "LexicalEnvironment" -> AbsValue(NamedAddr("EnvironmentRecord")),
-    )),
-    "EnvironmentRecord" -> (None, Map(
+
+  // type map
+  lazy val typeMap: Map[String, TyInfo] =
+    typeInfos.map(info => info.name -> info).toMap
+
+  // TODO more manual modelings
+  private def typeInfos: List[TyInfo] = List(
+    TyInfo(
+      name = "ExecutionContext",
+      "LexicalEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
+    ),
+    TyInfo(
+      name = "EnvironmentRecord",
       "HasThisBinding" -> getClos(""".*\.HasThisBinding""".r),
       "GetThisBinding" -> getClos(""".*\.GetThisBinding""".r),
       "ThisBindingStatus" -> getConsts("lexical", "initialized", "uninitialized"),
-      "OuterEnv" -> AbsValue(NamedAddr("EnvironmentRecord"), Null),
+      "OuterEnv" -> AbsValue(Ty("EnvironmentRecord")) ⊔ AbsValue(Null),
       "GlobalThisValue" -> AbsValue(NamedAddr("Global")),
       "ThisValue" -> ESValue,
-    )),
-    "Global" -> (Some("Object"), Map()),
-    "Object" -> (None, Map()),
+    ),
+    TyInfo(
+      name = "Object",
+    ),
+    TyInfo(
+      name = "OrdinaryObject",
+      parent = "Object"
+    ),
+  )
+  // TODO more manual modelings
+  private def manualEnv: Map[String, AbsValue] = Map(
+    "GLOBAL_context" -> AbsValue(Ty("ExecutionContext")),
+  )
+  // TODO more manual modelings
+  private def manualHeaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
+    "Global" -> (Some("OrdinaryObject"), Map()),
   )
   private val ESValue: AbsValue = {
     val prim = AbsPrim.Top.copy(absent = AbsAbsent.Bot)
-    AbsPure(addr = AbsAddr(NamedAddr("Object")), prim = prim)
+    AbsPure(ty = AbsTy("Object"), prim = prim)
   }
   private def getClos(pattern: Regex): AbsValue = AbsValue(for {
     func <- cfg.funcs.toSet
@@ -117,11 +135,6 @@ class AbsSemantics(val cfg: CFG) {
     val set = retEdges.getOrElse(rp, Set()) + ((callNP, retVar))
 
     retEdges += rp -> set
-
-    println(">>>> call >>>>")
-    println(s"np: $callNP")
-    println(s"rp: $rp")
-    println(s"args: ${args.map(beautify(_)).mkString("[", ", ", "]")}")
   }
 
   // update return points
@@ -226,7 +239,7 @@ class AbsSemantics(val cfg: CFG) {
     """TemplateLiteral\[0,0\].TemplateStrings""".r,
     // not implemented: EIsInstanceOf
     """IfStatement\[0,0\].EarlyErrors""".r,
-    // Unknown property #NamedAddr(ExecutionContext)."Generator" (@GetGeneratorKind)
+    // Unknown property #Ty(ExecutionContext)."Generator" (@GetGeneratorKind)
     """YieldExpression\[0,0\].Evaluation""".r,
     // unknown variable: Type (@ToString)
     """LiteralPropertyName\[2,0\].Evaluation""".r,
@@ -237,7 +250,7 @@ class AbsSemantics(val cfg: CFG) {
   )
 
   private def targetPatterns = List(
-    """PrimaryExpression\[0,0\].Evaluation""".r,
+    """NewExpression\[1,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
@@ -287,8 +300,9 @@ class AbsSemantics(val cfg: CFG) {
   }
   private def getType(st: AbsState, v: AbsPure): List[Type] = {
     var tys: List[Type] = Nil
+    if (!v.ty.isBottom) tys = v.ty.toList.map(t => NameT(t.name)) ++ tys
     if (!v.addr.isBottom) tys = (v.addr.toList.collect {
-      case NamedAddr(x) => NameT(x)
+      case NamedAddr(x) => ???
       case DynamicAddr(_) => ???
     }) ++ tys
     if (!v.const.isBottom) v.const.gamma match {

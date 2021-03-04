@@ -32,7 +32,7 @@ class JsonTinyTest extends AnalyzerTest {
       AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)),
       AbsValue("a", "b", true, false),
       AbsValue(42, NamedAddr("Global"), DynamicAddr(432)),
-      (AbsValue(42, Const("empty")) ⊔ AbsTy(Ty("Object"))),
+      (AbsValue(42, Const("empty")) ⊔ AbsValue(Ty("Object"))),
       (AbsValue(true, Cont()) ⊔ AbsClo.Top),
       AbsValue(ASTVal("Literal"), ASTVal("Identifier")),
       AbsValue(Const("invalid"), Const("empty")),
@@ -52,6 +52,12 @@ class JsonTinyTest extends AnalyzerTest {
     val string = RefValueString("abc", "length")
     test("Abstract Reference Values")(
       AbsRefValue(id),
+      AbsRefValue.ObjProp(AbsTy("Object"), AbsAddr.Bot, AbsStr("p")),
+      AbsRefValue.ObjProp(
+        AbsTy("Object"),
+        AbsAddr(DynamicAddr(42)),
+        AbsStr("p")
+      ),
       AbsRefValue(prop),
       AbsRefValue(string),
       AbsRefValue(id, prop, string)
