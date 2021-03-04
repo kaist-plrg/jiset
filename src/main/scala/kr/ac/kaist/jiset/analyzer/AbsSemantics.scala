@@ -241,6 +241,13 @@ class AbsSemantics(val cfg: CFG) {
     targetPatterns.exists(_.matches(head.printName))
   )
 
+  private def isSimple(ir: IRNode): Boolean = {
+    ir match {
+      case IReturn(EBool(_)) => true
+      case _ => false
+    }
+  }
+
   // initial abstract state for syntax-directed algorithms
   private def getTypes(head: Head): List[(List[Type], AbsState)] = head match {
     case (head: SyntaxDirectedHead) if isTarget(head) => head.optional.subsets.map(opt => {
