@@ -12,7 +12,12 @@ import scala.Console._
 import scala.annotation.tailrec
 
 // abstract transfer function
-class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
+class AbsTransfer(
+  sem: AbsSemantics,
+  var interactMode: Boolean = false,
+  dot: Boolean = false,
+  pdf: Boolean = false
+) {
   import sem.cfg._
 
   // worklist
@@ -26,7 +31,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       worklist.next
       apply(cp)
       compute
-    case None =>
+    case None => if (dot) dumpCFG(pdf)
   }
 
   // result of abstract transfer
@@ -81,20 +86,26 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
   // interactive mode
   def interact(cp: ControlPoint): Unit = {
-    val dot = (new DotPrinter)(sem).toString
     println(sem.getString(cp))
     println
     while (scala.io.StdIn.readLine() match {
       case null | "q" | "quit" | "exit" =>
         interactMode = false; false
-      case "d" =>
-        dumpFile(dot, s"$CFG_DIR.dot")
-        executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")
-        executeCmd(s"""dot -Tpdf "${CFG_DIR}_trans.dot" -o "$CFG_DIR.pdf"""")
-        println(s"Dumped CFG to $CFG_DIR.pdf")
-        true
+      case "d" | "dot" =>
+        dumpCFG(true); true
       case _ => false
     }) {}
+  }
+
+  // dump CFG in DOT/PDF format
+  def dumpCFG(pdf: Boolean): Unit = {
+    val dot = (new DotPrinter)(sem).toString
+    dumpFile(dot, s"$CFG_DIR.dot")
+    if (pdf) {
+      executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")
+      executeCmd(s"""dot -Tpdf "${CFG_DIR}_trans.dot" -o "$CFG_DIR.pdf"""")
+      println(s"Dumped CFG to $CFG_DIR.pdf")
+    } else println(s"Dumped CFG to $CFG_DIR.dot")
   }
 
   private class Helper(ret: ReturnPoint) {

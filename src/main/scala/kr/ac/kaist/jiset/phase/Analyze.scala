@@ -18,7 +18,7 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     config: AnalyzeConfig
   ): AbsSemantics = {
     val sem = new AbsSemantics(cfg)
-    val transfer = new AbsTransfer(sem, config.interact)
+    val transfer = new AbsTransfer(sem, config.interact, config.dot, config.pdf)
     transfer.compute
     sem
   }
@@ -26,11 +26,17 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
   def defaultConfig: AnalyzeConfig = AnalyzeConfig()
   val options: List[PhaseOption[AnalyzeConfig]] = List(
     ("interact", BoolOption(c => c.interact = true),
-      "progress one step on every enter input")
+      "progress one step on every enter input"),
+    ("dot", BoolOption(c => c.dot = true),
+      "dump the analyzed cfg in a dot format"),
+    ("pdf", BoolOption(c => { c.dot = true; c.pdf = true }),
+      "dump the analyze cfg in a dot and pdf format")
   )
 }
 
 // Analyze phase config
 case class AnalyzeConfig(
-  var interact: Boolean = false
+  var interact: Boolean = false,
+  var dot: Boolean = false,
+  var pdf: Boolean = false
 ) extends Config
