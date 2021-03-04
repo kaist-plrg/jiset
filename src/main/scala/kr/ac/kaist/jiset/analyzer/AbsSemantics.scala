@@ -141,8 +141,12 @@ class AbsSemantics(val cfg: CFG) {
   }
 
   // conversion to string
-  override def toString: String =
-    rpMap.keySet.toList.map(getString).sorted.mkString(LINE_SEP)
+  override def toString: String = {
+    val res = rpMap.keySet.toList.map(getString).sorted.mkString(LINE_SEP)
+    val numRp = rpMap.size
+    val numFunc = rpMap.keySet.map(_.func).toSet.size
+    res + LINE_SEP + s"${numFunc} functions analyzed with ${numRp} return points"
+  }
 
   // get string for result of control points
   def getString(cp: ControlPoint): String = {
