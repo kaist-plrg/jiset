@@ -231,12 +231,15 @@ class AbsSemantics(val cfg: CFG) {
     """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
     // BoundNames
     """BindingIdentifier\[1,0\].BoundNames""".r,
+    // DeclarationPart - only 6 cases, all pass
+    """.*.DeclarationPart""".r,
   )
 
   private def failedPatterns = List(
     // has parameter
     """TemplateSpans\[0,0\].SubstitutionEvaluation""".r,
     """TemplateLiteral\[0,0\].TemplateStrings""".r,
+    """BreakableStatement\[0,0\].ContainsUndefinedContinueTarget""".r,
     // not implemented: EIsInstanceOf
     """IfStatement\[0,0\].EarlyErrors""".r,
     // Unknown property #Ty(ExecutionContext)."Generator" (@GetGeneratorKind)
@@ -250,7 +253,7 @@ class AbsSemantics(val cfg: CFG) {
   )
 
   private def targetPatterns = List(
-    """NewExpression\[1,0\].Evaluation""".r,
+    //"""NewExpression\[1,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
