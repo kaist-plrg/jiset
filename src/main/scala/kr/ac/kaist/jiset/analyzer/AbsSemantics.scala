@@ -233,6 +233,10 @@ class AbsSemantics(val cfg: CFG) {
     """BindingIdentifier\[1,0\].BoundNames""".r,
     // DeclarationPart - only 6 cases, all pass
     """.*.DeclarationPart""".r,
+    // ImportEntries
+    """Module\[0,0\].ImportEntries""".r,
+    """ModuleItem\[.*.ImportEntries""".r,
+    """ImportDeclaration\[1,0\].ImportEntries""".r,
   )
 
   private def failedPatterns = List(
@@ -250,11 +254,15 @@ class AbsSemantics(val cfg: CFG) {
     """IdentifierReference\[2,0\].EarlyErrors""".r,
     // EIsInstanceOf @EvaluateNew
     """NewExpression\[1,0\].Evaluation""".r,
+    //  not detected in target
+    """ImportDeclaration\[0,0\].ImportEntries""".r,
+    // instead, targetted in this query
+    """ModuleItemList\[1,0\].ImportEntries""".r,
   )
 
   private def targetPatterns = List(
-    """NewExpression\[1,0\].Evaluation""".r,
-  )
+    // """NewExpression\[1,0\].Evaluation""".r,
+ )
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
     head.withParams.isEmpty &&
