@@ -261,8 +261,8 @@ class AbsSemantics(val cfg: CFG) {
   )
 
   private def targetPatterns = List(
-    // """NewExpression\[1,0\].Evaluation""".r,
- )
+    """NewExpression\[1,0\].Evaluation""".r,
+  )
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
     head.withParams.isEmpty &&
