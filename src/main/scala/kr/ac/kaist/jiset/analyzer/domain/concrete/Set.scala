@@ -10,6 +10,12 @@ sealed trait Set[+T] {
     case Infinite => Infinite
   }
 
+  // foreach function
+  def foreach(f: T => Unit): Unit = this match {
+    case Finite(set) => set.foreach(f)
+    case Infinite => ???
+  }
+
   // flat map function
   def flatMap[U](f: T => Set[U]): Set[U] = this match {
     case Finite(set) => set.map(f).foldLeft[Set[U]](Finite())(_ ++ _)

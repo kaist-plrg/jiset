@@ -168,11 +168,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         b <- transfer(bexpr)
         p <- transfer(expr)
         st <- get
-        v = (b.escaped.getSingle, p.escaped.getSingle) match {
-          case (One(ASTVal(ast)), One(Str(name))) => accessAST(call, view, x, ast, name, st)
-          case (Zero, _) | (_, Zero) => AbsValue.Bot
-          case _ => AbsValue.Top
-        }
+        v = access(call, view, x, b.escaped, p.escaped.str, st)
         _ <- {
           if (v.isBottom) put(AbsState.Bot)
           else modify(_ + (x -> v))
@@ -194,7 +190,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case expr @ EMap(Ty(ty), props) => for {
         vs <- join(props.map {
           case (kexpr, vexpr) => for {
-            v <- transfer(expr)
+            v <- transfer(vexpr)
             k = kexpr.to[EStr](???).str
           } yield k -> v
         })
@@ -346,6 +342,29 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       }.foldLeft(AbsPure.Bot)(_ ⊔ _)
       val newV: AbsValue = pure ⊔ compV
       (newV, st)
+    }
+
+    // access semantics
+    def access(
+      call: Call,
+      view: View,
+      x: String,
+      value: AbsPure,
+      prop: AbsStr,
+      st: AbsState
+    ): AbsValue = {
+      var v = AbsValue.Bot
+
+      // AST cases
+      for {
+        ASTVal(ast) <- value.ast.gamma
+        Str(name) <- prop.gamma
+      } v ⊔= accessAST(call, view, x, ast, name, st)
+
+      // reference cases
+      v ⊔= st(sem, AbsRefValue.ObjProp(value.ty, value.addr, prop))
+
+      v
     }
 
     // access of AST values

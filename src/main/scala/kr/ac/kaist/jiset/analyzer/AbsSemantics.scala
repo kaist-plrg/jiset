@@ -258,10 +258,13 @@ class AbsSemantics(val cfg: CFG) {
     """ImportDeclaration\[0,0\].ImportEntries""".r,
     // instead, targetted in this query
     """ModuleItemList\[1,0\].ImportEntries""".r,
+    // unknown
+    """AsyncFunctionExpression\[1,0\].Evaluation""".r,
   )
 
   private def targetPatterns = List(
-    """NewExpression\[1,0\].Evaluation""".r,
+    // """NewExpression\[1,0\].Evaluation""".r,
+    """AsyncFunctionExpression\[1,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (

@@ -81,7 +81,16 @@ object BasicDomain extends state.Domain {
             this
         }
         else Bot
-      case _ => ???
+      case AbsRefValue.ObjProp(ty, addr, prop) => prop.getSingle match {
+        // TODO check properties for types
+        case One(Str(p)) => addr.toSet.foldLeft(this) {
+          case (st, a: DynamicAddr) =>
+            val obj = heap(a) + (p -> v)
+            copy(heap = heap + (a -> obj))
+          case _ => ???
+        }
+        case _ => ???
+      }
     }
 
     // update references
@@ -114,10 +123,20 @@ object BasicDomain extends state.Domain {
         val addrV = addr.toSet.toList.map {
           case (addr @ NamedAddr(x)) =>
             val obj = sem.globalHeap.getOrElse(addr, AbsObj.Bot)
-            val (v, a) = obj(prop) // XXX ignore absent values
-            if (a.isTop) alarm(s"unknown property: #$x[${beautify(prop)}]")
+            val (v, a) = obj(prop)
+            if (a.isTop) {
+              // XXX follow ancestors
+              alarm(s"unknown property: #$x[${beautify(prop)}]")
+            }
             v
-          case DynamicAddr(k) => ???
+          case (addr @ DynamicAddr(k)) =>
+            val obj = heap(addr)
+            val (v, a) = obj(prop)
+            if (a.isTop) {
+              // XXX follow ancestors
+              alarm(s"unknown property: #$k[${beautify(prop)}]")
+            }
+            v
         }
         (tyV ++ addrV).foldLeft(AbsValue.Bot)(_ ⊔ _)
       case AbsRefValue.StrProp(str, prop) => ???

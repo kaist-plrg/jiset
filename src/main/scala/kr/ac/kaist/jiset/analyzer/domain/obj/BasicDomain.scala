@@ -83,7 +83,14 @@ object BasicDomain extends obj.Domain {
           val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
           (vopt.value, vopt.absent)
       }
-      case _ => (AbsValue.Bot, AbsAbsent.Bot)
+      case _ => ???
+    }
+
+    // update
+    def +(pair: (String, AbsValue)): AbsObj = update(pair._1, pair._2)
+    def update(prop: String, value: AbsValue): AbsObj = this match {
+      case MapElem(ty, map) => MapElem(ty, map + (prop -> value))
+      case _ => ???
     }
   }
 }
