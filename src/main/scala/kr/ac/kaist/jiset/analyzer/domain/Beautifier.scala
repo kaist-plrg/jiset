@@ -241,14 +241,12 @@ object Beautifier {
     avFormat: App[domain.AbsV]
   ): App[domain.Elem] = {
     import domain._
-    domainApp(domain)((app, elem) => elem match {
-      case Fixed(vector) if vector.size == 0 => app >> "[]"
-      case Fixed(vector) =>
-        app >> "[" >> vector.map[Update](v => _ >> v)
-          .reduce((l, r) => _ >> l >> ", " >> r) >> "]"
-      case Unfixed(v) =>
-        app >> "[[" >> v >> "]]"
-    })
+    (app, elem) => elem match {
+      case Bot => app >> "⊥"
+      case ListElem(v) =>
+        if (v.isBottom) app >> "[]"
+        else app >> "[" >> v >> "]"
+    }
   }
 
   // domain appender

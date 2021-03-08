@@ -238,26 +238,15 @@ object JsonProtocol extends BasicJsonProtocol {
     avFormat: JsonFormat[domain.AbsV]
   ) = {
     import domain._
-    val fixedFormat = jsonFormat1(Fixed)
-    val unfixedFormat = jsonFormat1(Unfixed)
+    val listElemFormat = jsonFormat1(ListElem)
     new RootJsonFormat[Elem] {
       def read(json: JsValue): Elem = json match {
-        case JsString("⊤") => Top
         case JsString("⊥") => Bot
-        case _ =>
-          val discrimator = List("fixed", "unfixed")
-            .map(d => json.asJsObject.fields.contains(d))
-          discrimator.indexOf(true) match {
-            case 0 => fixedFormat.read(json)
-            case 1 => unfixedFormat.read(json)
-            case _ => deserializationError(s"unknown element: $json")
-          }
+        case _ => listElemFormat.read(json)
       }
       def write(elem: Elem): JsValue = elem match {
-        case Top => JsString("⊤")
         case Bot => JsString("⊥")
-        case (x: Fixed) => fixedFormat.write(x)
-        case (x: Unfixed) => unfixedFormat.write(x)
+        case (x: ListElem) => listElemFormat.write(x)
       }
     }
   }

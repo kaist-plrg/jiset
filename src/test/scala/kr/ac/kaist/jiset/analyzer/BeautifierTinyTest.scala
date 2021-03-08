@@ -94,7 +94,9 @@ class BeautifierTinyTest extends AnalyzerTest {
       |  y -> ? 2i
       |  z -> ? null
       |}""".stripMargin,
-      AbsObj(ListObj(Undef, true, 42)) -> "[undef, true, 42i]",
+      AbsObj(ListObj()) -> "[]",
+      AbsObj(ListObj(Undef, true, 42)) -> "[42i | true | undef]",
+      AbsObj(ListObj(0, 1, 2, 3)) -> "[int]",
       AbsObj.Top -> "⊤",
     )
 

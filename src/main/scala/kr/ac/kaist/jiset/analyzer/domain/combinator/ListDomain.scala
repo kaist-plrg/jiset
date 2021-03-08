@@ -6,61 +6,46 @@ import kr.ac.kaist.jiset.analyzer.domain._
 class ListDomain[V, VD <: AbsDomain[V]](
   val AbsV: VD
 ) extends AbsDomain[List[V]] {
-  val AbsVOpt = OptionDomain[V, AbsV.type](AbsV)
   type AbsV = AbsV.Elem
-  type AbsVOpt = AbsVOpt.Elem
 
   // abstraction function
-  def alpha(list: List[V]): Elem = Fixed(list.map(AbsV(_)).toVector)
+  def alpha(list: List[V]): Elem = ListElem(AbsV(list.toSet))
 
   // bottom value
   object Bot extends Elem
 
   // top value
-  object Top extends Elem
+  val Top = ListElem(AbsV.Top)
 
-  // fixed length
-  case class Fixed(fixed: Vector[AbsV]) extends Elem
-
-  // unfixed length
-  case class Unfixed(unfixed: AbsV) extends Elem
+  // list element
+  case class ListElem(v: AbsV) extends Elem
 
   // empty value
-  lazy val Empty: Elem = Fixed(Vector())
+  lazy val Empty: Elem = ListElem(AbsV.Bot)
 
   // constructor
-  def apply(list: List[AbsV]): Elem = Fixed(list.toVector)
-  def apply(value: AbsV): Elem = Unfixed(value)
+  def apply(value: AbsV): Elem = ListElem(value)
 
   // pair abstract element
   sealed trait Elem extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
-      case (Bot, _) | (_, Top) => true
-      case (Top, _) | (_, Bot) => false
-      case (Fixed(vector), Unfixed(value)) => vector.forall(_ ⊑ value)
-      case (Fixed(lv), Fixed(rv)) =>
-        lv.length == rv.length && (lv zip rv).forall { case (l, r) => l ⊑ r }
-      case (Unfixed(l), Unfixed(r)) => l ⊑ r
-      case _ => false
+      case (Bot, _) => true
+      case (_, Bot) => false
+      case (ListElem(l), ListElem(r)) => l ⊑ r
     }
 
     // join operator
     def ⊔(that: Elem): Elem = (this, that) match {
-      case (Bot, _) | (_, Top) => that
-      case (Top, _) | (_, Bot) => this
-      case (Fixed(lv), Fixed(rv)) if lv.length == rv.length =>
-        Fixed(for ((l, r) <- lv zip rv) yield l ⊔ r)
-      case _ => Unfixed(this.getValue ⊔ that.getValue)
+      case (Bot, _) => that
+      case (_, Bot) => this
+      case (ListElem(l), ListElem(r)) => ListElem(l ⊔ r)
     }
 
     // meet operator
     def ⊓(that: Elem): Elem = (this, that) match {
-      case (Bot, _) | (_, Top) => this
-      case (Top, _) | (_, Bot) => that
-      case (Fixed(lv), Fixed(rv)) if lv.length == rv.length =>
-        Fixed(for ((l, r) <- lv zip rv) yield l ⊓ r)
-      case _ => Unfixed(this.getValue ⊓ that.getValue)
+      case (Bot, _) | (_, Bot) => Bot
+      case (ListElem(l), ListElem(r)) => ListElem(l ⊓ r)
     }
 
     // concretization function
@@ -69,30 +54,18 @@ class ListDomain[V, VD <: AbsDomain[V]](
     // conversion to flat domain
     def getSingle: concrete.Flat[List[V]] = Many
 
-    // lookup
-    def apply(n: Int): AbsVOpt = this match {
-      case Bot => AbsVOpt.Bot
-      case Top => AbsVOpt.Top
-      case Fixed(vector) =>
-        if (0 <= n && n < vector.length) AbsVOpt(vector(n))
-        else AbsVOpt.Absent
-      case Unfixed(value) => AbsVOpt(value, AbsAbsent.Top)
-    }
-
     // get value
-    def getValue: AbsV = this match {
+    def value: AbsV = this match {
       case Bot => AbsV.Bot
-      case Top => AbsV.Top
-      case Fixed(vector) => vector.foldLeft(AbsV.Bot)(_ ⊔ _)
-      case Unfixed(value) => value
+      case ListElem(v) => v
     }
 
     // get length
     def length: AbsINum = this match {
       case Bot => AbsINum.Bot
-      case Top => AbsINum.Top
-      case Fixed(vector) => AbsINum(vector.length)
-      case Unfixed(_) => AbsINum.Top
+      case ListElem(v) =>
+        if (v.isBottom) AbsINum(0)
+        else AbsINum.Top
     }
   }
 }

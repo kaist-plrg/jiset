@@ -69,7 +69,9 @@ class JsonTinyTest extends AnalyzerTest {
         MapObj(Ty("Object"), "x" -> true, "y" -> 2),
         MapObj(Ty("Object"), "x" -> "a", "z" -> Null)
       ),
+      AbsObj(ListObj()),
       AbsObj(ListObj(Undef, true, 42)),
+      AbsObj(ListObj(0, 1, 2, 3)),
       AbsObj.Top,
     )
 

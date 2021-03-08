@@ -159,7 +159,7 @@ object BasicDomain extends state.Domain {
       vs: List[AbsValue]
     ): (AbsPure, Elem) = {
       import AbsObj._
-      val list: ListD = ListD.Fixed(vs.toVector)
+      val list: ListD = ListD(vs.foldLeft(AbsValue.Bot)(_ ⊔ _))
       val addr = DynamicAddr(asite)
       val obj: AbsObj = ListElem(list)
       (AbsPure(addr), copy(heap = heap + (addr -> obj)))
