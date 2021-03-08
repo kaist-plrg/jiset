@@ -92,7 +92,7 @@ lazy val jiset = (project in file("."))
     analyzerTest := (testOnly in Test).toTask(" *.analyzer.*Test").value,
     analyzerBeautifierTest := (testOnly in Test).toTask(" *.analyzer.Beautifier*Test").value,
     analyzerJsonTest := (testOnly in Test).toTask(" *.analyzer.Json*Test").value,
-    analyzerResultTest := (testOnly in Test).toTask(" *.analzer.AnalyzeResultTest").value,
+    analyzerResultTest := (testOnly in Test).toTask(" *.analzer.AnalyzerResultTest").value,
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
     irBasicTest := (testOnly in Test).toTask(" *.ir.Basic*Test").value,
