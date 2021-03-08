@@ -230,16 +230,21 @@ class AbsSemantics(val cfg: CFG) {
     // .IsFunctionDefinition
     """.*.IsFunctionDefinition""".r,
     // AssignmentTargetType
-    """Expression\[1,0\].AssignmentTargetType""".r,
-    """IdentifierReference\[.*].AssignmentTargetType""".r,
-    // String Value
-    """IdentifierReference\[1,0\].StringValue""".r,
-    """BindingIdentifier\[.*.StringValue""".r,
-    """LabelIdentifier\[.*.StringValue""".r,
-    """StringLiteral\[.*.StringValue""".r,
-    """IdentifierReference\[.*.StringValue""".r,
-    """Identifier\[.*.StringValue""".r,
-    """StringLiteral\[0,1\].StringValue""".r,
+    """.*.AssignmentTargetType""".r,
+    // String Value : success except algorithms with not-yet-compiled instructions
+    """BindingIdentifier[1,0].StringValue""".r,
+    """BindingIdentifier[2,0].StringValue""".r,
+    """CodePointsToString""".r,
+    """IdentifierName[1,0].StringValue""".r,
+    """IdentifierReference[1,0].StringValue""".r,
+    """IdentifierReference[2,0].StringValue""".r,
+    """Identifier[0,0].StringValue""".r,
+    """LabelIdentifier[1,0].StringValue""".r,
+    """LabelIdentifier[2,0].StringValue""".r,
+    """StringLiteral[0,1].StringValue""".r,
+    """StringLiteral[0,1].StringValue""".r,
+    """StringLiteral[1,1].StringValue""".r,
+    """StringLiteral[1,1].StringValue""".r,
     // PropName
     """PropertyDefinition\[0,0\].PropName""".r,
     """LiteralPropertyName\[1,0\].PropName""".r,
