@@ -8,6 +8,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, SyntaxDirectedHead }
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.Appender
 import scala.Console._
 import scala.util.matching.Regex
 
@@ -32,6 +33,9 @@ class AbsSemantics(val cfg: CFG) {
   lazy val typeMap = model.typeMap
 
   private val model = new Model(cfg)
+
+  // iter counter
+  var iter = 0
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
@@ -103,10 +107,13 @@ class AbsSemantics(val cfg: CFG) {
 
   // conversion to string
   override def toString: String = {
-    val res = rpMap.keySet.toList.map(getString).sorted.mkString(LINE_SEP)
+    val app = new Appender
+    rpMap.keySet.toList.map(getString).sorted.foreach(app >> _ >> LINE_SEP)
     val numRp = rpMap.size
     val numFunc = rpMap.keySet.map(_.func).toSet.size
-    res + LINE_SEP + s"${numFunc} functions analyzed with ${numRp} return points"
+    app >> numFunc >> " functions analyzed with " >> numRp >> " return points" >> LINE_SEP
+    app >> "# of iterations: " >> iter
+    app.toString
   }
 
   // get string for result of control points

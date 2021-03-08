@@ -30,6 +30,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false, usePrune
           dumpCFG(true, Some(cp))
           throw e
       }
+      sem.iter += 1
       compute
     case None =>
   }
