@@ -78,9 +78,13 @@ object Compiler extends Compilers {
   lazy val innerStmt: P[Inst] = in ~> stmts <~ out ^^ { ISeq(_) }
 
   // return statements
-  lazy val returnStmt: P[Inst] = (
-    "return" ~> opt(expr) ^^ { getRet(_) } |||
-    "return" ~> rep1sep(expr ~ ("if" ~> cond), "and") ~ opt(
+  lazy val returnStmt: P[Inst] = "return" ~> (
+    ("completion" | "normalcompletion") ~ "(" ~> returnInner <~ ")" |
+    returnInner
+  )
+  lazy val returnInner: P[Inst] = (
+    opt(expr) ^^ { getRet(_) } |||
+    rep1sep(expr ~ ("if" ~> cond), "and") ~ opt(
       opt("," | ".") ~> "otherwise" ~> opt(",") ~> "return" ~> expr
     ) ^^ {
         case retInsts ~ retOther => {
