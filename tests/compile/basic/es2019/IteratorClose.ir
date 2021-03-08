@@ -5,22 +5,12 @@
   let iterator = iteratorRecord.Iterator
   app __x1__ = (GetMethod iterator "return")
   let return = [? __x1__]
-  if (= return undefined) {
-    app __x2__ = (Completion completion)
-    return __x2__
-  } else {}
-  app __x3__ = (Call return iterator (new []))
-  let innerResult = __x3__
-  if (= completion.Type CONST_throw) {
-    app __x4__ = (Completion completion)
-    return __x4__
-  } else {}
-  if (= innerResult.Type CONST_throw) {
-    app __x5__ = (Completion innerResult)
-    return __x5__
-  } else {}
-  app __x6__ = (Type innerResult.Value)
-  if (! (= __x6__ Object)) throw TypeError else {}
-  app __x7__ = (Completion completion)
-  return __x7__
+  if (= return undefined) return completion else {}
+  app __x2__ = (Call return iterator (new []))
+  let innerResult = __x2__
+  if (= completion.Type CONST_throw) return completion else {}
+  if (= innerResult.Type CONST_throw) return innerResult else {}
+  app __x3__ = (Type innerResult.Value)
+  if (! (= __x3__ Object)) throw TypeError else {}
+  return completion
 }

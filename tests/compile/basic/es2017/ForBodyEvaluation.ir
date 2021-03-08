@@ -9,27 +9,23 @@
       app __x2__ = (GetValue testRef)
       let testValue = [? __x2__]
       app __x3__ = (ToBoolean testValue)
-      if (= __x3__ false) {
-        app __x4__ = (NormalCompletion V)
-        return __x4__
-      } else {}
+      if (= __x3__ false) return V else {}
     } else {}
-    access __x5__ = (stmt "Evaluation")
-    let result = __x5__
-    app __x6__ = (LoopContinues result labelSet)
-    if (= __x6__ false) {
-      app __x7__ = (UpdateEmpty result V)
-      app __x8__ = (Completion __x7__)
-      return __x8__
+    access __x4__ = (stmt "Evaluation")
+    let result = __x4__
+    app __x5__ = (LoopContinues result labelSet)
+    if (= __x5__ false) {
+      app __x6__ = (UpdateEmpty result V)
+      return __x6__
     } else {}
     if (! (= result.Value CONST_empty)) V = result.Value else {}
-    app __x9__ = (CreatePerIterationEnvironment perIterationBindings)
-    [? __x9__]
+    app __x7__ = (CreatePerIterationEnvironment perIterationBindings)
+    [? __x7__]
     if (! (= increment absent)) {
-      access __x10__ = (increment "Evaluation")
-      let incRef = __x10__
-      app __x11__ = (GetValue incRef)
-      [? __x11__]
+      access __x8__ = (increment "Evaluation")
+      let incRef = __x8__
+      app __x9__ = (GetValue incRef)
+      [? __x9__]
     } else {}
   }
 }

@@ -12,11 +12,7 @@
     (pop GLOBAL_executionStack __x3__)
   } else {}
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
-  if (= result.Type CONST_return) {
-    app __x4__ = (NormalCompletion result.Value)
-    return __x4__
-  } else {}
+  if (= result.Type CONST_return) return result.Value else {}
   [? result]
-  app __x5__ = (NormalCompletion undefined)
-  return __x5__
+  return undefined
 }

@@ -5,6 +5,5 @@
   append asyncContext -> GLOBAL_executionStack
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   ??? "Resume the suspended evaluation of id:{asyncContext} using NormalCompletion ( id:{value} ) as the result of the operation that suspended it . Let id:{result} be the value returned by the resumed computation ."
-  app __x0__ = (Completion result)
-  return __x0__
+  return result
 }

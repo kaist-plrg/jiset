@@ -73,15 +73,14 @@
     app __x23__ = (IsAbruptCompletion status)
     if __x23__ {
       GLOBAL_context.LexicalEnvironment = lex
-      app __x24__ = (Completion status)
-      return __x24__
+      return status
     } else {}
     __x17__ = (+ __x17__ 1i)
   }
   GLOBAL_context.LexicalEnvironment = lex
   if (! (= className undefined)) {
-    app __x25__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec className F)
-    __x25__
+    app __x24__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec className F)
+    __x24__
   } else {}
   return F
 }

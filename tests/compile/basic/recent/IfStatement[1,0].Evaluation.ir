@@ -4,14 +4,10 @@
   app __x1__ = (GetValue exprRef)
   app __x2__ = (ToBoolean [? __x1__])
   let exprValue = [! __x2__]
-  if (= exprValue false) {
-    app __x3__ = (NormalCompletion undefined)
-    return __x3__
-  } else {
-    access __x4__ = (Statement "Evaluation")
-    let stmtCompletion = __x4__
-    app __x5__ = (UpdateEmpty stmtCompletion undefined)
-    app __x6__ = (Completion __x5__)
-    return __x6__
+  if (= exprValue false) return undefined else {
+    access __x3__ = (Statement "Evaluation")
+    let stmtCompletion = __x3__
+    app __x4__ = (UpdateEmpty stmtCompletion undefined)
+    return __x4__
   }
 }

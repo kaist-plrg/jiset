@@ -8,16 +8,15 @@
     app __x3__ = (IsAbruptCompletion status)
     if __x3__ {
       assert (= iteratorRecord.Done true)
-      app __x4__ = (Completion status)
-      return __x4__
+      return status
     } else {}
   } else {}
-  access __x5__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation")
-  app __x6__ = (__x5__ iteratorRecord)
-  let result = __x6__
+  access __x4__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation")
+  app __x5__ = (__x4__ iteratorRecord)
+  let result = __x5__
   if (= iteratorRecord.Done false) {
-    app __x7__ = (IteratorClose iteratorRecord result)
-    return [? __x7__]
+    app __x6__ = (IteratorClose iteratorRecord result)
+    return [? __x6__]
   } else {}
   return result
 }

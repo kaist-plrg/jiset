@@ -11,24 +11,22 @@
       app __x4__ = (IteratorClose iterator status)
       return [? __x4__]
     } else {}
-    app __x5__ = (Completion status)
-    return __x5__
+    return status
   } else {}
   if (! (= Elision absent)) {
-    access __x6__ = (Elision "IteratorDestructuringAssignmentEvaluation")
-    app __x7__ = (__x6__ iteratorRecord)
-    status = __x7__
+    access __x5__ = (Elision "IteratorDestructuringAssignmentEvaluation")
+    app __x6__ = (__x5__ iteratorRecord)
+    status = __x6__
     [? status]
   } else {}
   if (! (= AssignmentRestElement absent)) {
-    access __x8__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation")
-    app __x9__ = (__x8__ iteratorRecord)
-    status = __x9__
+    access __x7__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation")
+    app __x8__ = (__x7__ iteratorRecord)
+    status = __x8__
   } else {}
   if (= iteratorRecord.Done false) {
-    app __x10__ = (IteratorClose iterator status)
-    return [? __x10__]
+    app __x9__ = (IteratorClose iterator status)
+    return [? __x9__]
   } else {}
-  app __x11__ = (Completion status)
-  return __x11__
+  return status
 }

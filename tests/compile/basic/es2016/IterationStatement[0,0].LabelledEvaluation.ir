@@ -6,18 +6,14 @@
     app __x1__ = (LoopContinues stmt labelSet)
     if (= __x1__ false) {
       app __x2__ = (UpdateEmpty stmt V)
-      app __x3__ = (Completion __x2__)
-      return __x3__
+      return __x2__
     } else {}
     if (! (= stmt.Value CONST_empty)) let V = stmt.Value else {}
-    access __x4__ = (Expression "Evaluation")
-    let exprRef = __x4__
-    app __x5__ = (GetValue exprRef)
-    let exprValue = [? __x5__]
-    app __x6__ = (ToBoolean exprValue)
-    if (= __x6__ false) {
-      app __x7__ = (NormalCompletion V)
-      return __x7__
-    } else {}
+    access __x3__ = (Expression "Evaluation")
+    let exprRef = __x3__
+    app __x4__ = (GetValue exprRef)
+    let exprValue = [? __x4__]
+    app __x5__ = (ToBoolean exprValue)
+    if (= __x5__ false) return V else {}
   }
 }

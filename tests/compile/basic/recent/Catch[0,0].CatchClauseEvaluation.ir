@@ -18,12 +18,10 @@
   app __x7__ = (IsAbruptCompletion status)
   if __x7__ {
     GLOBAL_context.LexicalEnvironment = oldEnv
-    app __x8__ = (Completion status)
-    return __x8__
+    return status
   } else {}
-  access __x9__ = (Block "Evaluation")
-  let B = __x9__
+  access __x8__ = (Block "Evaluation")
+  let B = __x8__
   GLOBAL_context.LexicalEnvironment = oldEnv
-  app __x10__ = (Completion B)
-  return __x10__
+  return B
 }

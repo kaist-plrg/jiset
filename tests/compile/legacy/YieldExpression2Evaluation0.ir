@@ -79,31 +79,30 @@
         app __x25__ = (Await received.Value)
         received.Value = [? __x25__]
       } else {}
-      app __x26__ = (Completion received)
-      return __x26__
+      return received
     } else {}
-    app __x27__ = (Call return iterator (new [received.Value]))
-    let innerReturnResult = [? __x27__]
+    app __x26__ = (Call return iterator (new [received.Value]))
+    let innerReturnResult = [? __x26__]
     if (= generatorKind CONST_async) {
-      app __x28__ = (Await innerReturnResult)
-      innerReturnResult = [? __x28__]
+      app __x27__ = (Await innerReturnResult)
+      innerReturnResult = [? __x27__]
     } else {}
-    app __x29__ = (Type innerReturnResult)
-    if (! (= __x29__ Object)) throw TypeError else {}
-    app __x30__ = (IteratorComplete innerReturnResult)
-    let done = [? __x30__]
+    app __x28__ = (Type innerReturnResult)
+    if (! (= __x28__ Object)) throw TypeError else {}
+    app __x29__ = (IteratorComplete innerReturnResult)
+    let done = [? __x29__]
     if (= done true) {
-      app __x31__ = (IteratorValue innerReturnResult)
-      let value = [? __x31__]
+      app __x30__ = (IteratorValue innerReturnResult)
+      let value = [? __x30__]
       return (new Completion("Type" -> CONST_return, "Value" -> value, "Target" -> CONST_empty))
     } else {}
     if (= generatorKind CONST_async) {
-      app __x32__ = (IteratorValue innerReturnResult)
-      app __x33__ = (AsyncGeneratorYield [? __x32__])
-      received = __x33__
+      app __x31__ = (IteratorValue innerReturnResult)
+      app __x32__ = (AsyncGeneratorYield [? __x31__])
+      received = __x32__
     } else {
-      app __x34__ = (GeneratorYield innerReturnResult)
-      received = __x34__
+      app __x33__ = (GeneratorYield innerReturnResult)
+      received = __x33__
     }
   }
 }

@@ -25,16 +25,10 @@
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   if (= result.Type CONST_return) {
     app __x7__ = (Type result.Value)
-    if (= __x7__ Object) {
-      app __x8__ = (NormalCompletion result.Value)
-      return __x8__
-    } else {}
-    if (= kind CONST_base) {
-      app __x9__ = (NormalCompletion thisArgument)
-      return __x9__
-    } else {}
+    if (= __x7__ Object) return result.Value else {}
+    if (= kind CONST_base) return thisArgument else {}
     if (! (= result.Value undefined)) throw TypeError else {}
   } else [? result]
-  app __x10__ = (envRec.GetThisBinding envRec)
-  return [? __x10__]
+  app __x8__ = (envRec.GetThisBinding envRec)
+  return [? __x8__]
 }

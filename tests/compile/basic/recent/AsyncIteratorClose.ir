@@ -7,27 +7,17 @@
   let innerResult = __x1__
   if (= innerResult.Type CONST_normal) {
     let return = innerResult.Value
-    if (= return undefined) {
-      app __x2__ = (Completion completion)
-      return __x2__
-    } else {}
-    app __x3__ = (Call return iterator)
-    innerResult = __x3__
+    if (= return undefined) return completion else {}
+    app __x2__ = (Call return iterator)
+    innerResult = __x2__
     if (= innerResult.Type CONST_normal) {
-      app __x4__ = (Await innerResult.Value)
-      innerResult = __x4__
+      app __x3__ = (Await innerResult.Value)
+      innerResult = __x3__
     } else {}
   } else {}
-  if (= completion.Type CONST_throw) {
-    app __x5__ = (Completion completion)
-    return __x5__
-  } else {}
-  if (= innerResult.Type CONST_throw) {
-    app __x6__ = (Completion innerResult)
-    return __x6__
-  } else {}
-  app __x7__ = (Type innerResult.Value)
-  if (! (= __x7__ Object)) throw TypeError else {}
-  app __x8__ = (Completion completion)
-  return __x8__
+  if (= completion.Type CONST_throw) return completion else {}
+  if (= innerResult.Type CONST_throw) return innerResult else {}
+  app __x4__ = (Type innerResult.Value)
+  if (! (= __x4__ Object)) throw TypeError else {}
+  return completion
 }

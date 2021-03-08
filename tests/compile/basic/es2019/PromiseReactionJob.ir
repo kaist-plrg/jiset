@@ -16,17 +16,15 @@
   if (= promiseCapability undefined) {
     app __x3__ = (IsAbruptCompletion handlerResult)
     assert (! __x3__)
-    app __x4__ = (NormalCompletion CONST_empty)
-    return __x4__
+    return CONST_empty
   } else {}
-  app __x5__ = (IsAbruptCompletion handlerResult)
-  if __x5__ {
-    app __x6__ = (Call promiseCapability.Reject undefined (new [handlerResult.Value]))
-    let status = __x6__
+  app __x4__ = (IsAbruptCompletion handlerResult)
+  if __x4__ {
+    app __x5__ = (Call promiseCapability.Reject undefined (new [handlerResult.Value]))
+    let status = __x5__
   } else {
-    app __x7__ = (Call promiseCapability.Resolve undefined (new [handlerResult.Value]))
-    let status = __x7__
+    app __x6__ = (Call promiseCapability.Resolve undefined (new [handlerResult.Value]))
+    let status = __x6__
   }
-  app __x8__ = (Completion status)
-  return __x8__
+  return status
 }

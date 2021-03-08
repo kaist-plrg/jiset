@@ -20,6 +20,5 @@
     append (new WriteSharedMemory("Order" -> order, "NoTear" -> noTear, "Block" -> block, "ByteIndex" -> byteIndex, "ElementSize" -> elementSize, "Payload" -> rawBytes)) -> eventList
   } else {}
   ??? "Else , store the individual bytes of id:{rawBytes} into id:{block} , starting at id:{block} [ id:{byteIndex} ] ."
-  app __x5__ = (NormalCompletion undefined)
-  return __x5__
+  return undefined
 }

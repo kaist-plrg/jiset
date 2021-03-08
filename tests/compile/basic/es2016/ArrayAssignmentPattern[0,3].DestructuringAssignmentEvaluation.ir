@@ -12,16 +12,15 @@
         app __x4__ = (IteratorClose iterator status)
         return [? __x4__]
       } else {}
-      app __x5__ = (Completion status)
-      return __x5__
+      return status
     } else {}
   } else {}
-  access __x6__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation")
-  app __x7__ = (__x6__ iteratorRecord)
-  let result = __x7__
+  access __x5__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation")
+  app __x6__ = (__x5__ iteratorRecord)
+  let result = __x6__
   if (= iteratorRecord.Done false) {
-    app __x8__ = (IteratorClose iterator result)
-    return [? __x8__]
+    app __x7__ = (IteratorClose iterator result)
+    return [? __x7__]
   } else {}
   return result
 }

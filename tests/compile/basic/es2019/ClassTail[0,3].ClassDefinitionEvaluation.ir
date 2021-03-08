@@ -78,15 +78,14 @@
     app __x25__ = (IsAbruptCompletion status)
     if __x25__ {
       GLOBAL_context.LexicalEnvironment = lex
-      app __x26__ = (Completion status)
-      return __x26__
+      return status
     } else {}
     __x19__ = (+ __x19__ 1i)
   }
   GLOBAL_context.LexicalEnvironment = lex
   if (! (= classBinding undefined)) {
-    app __x27__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec classBinding F)
-    __x27__
+    app __x26__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec classBinding F)
+    __x26__
   } else {}
   return F
 }

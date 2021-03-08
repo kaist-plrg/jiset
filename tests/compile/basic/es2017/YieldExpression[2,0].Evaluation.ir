@@ -43,22 +43,19 @@
     assert (= received.Type CONST_return)
     app __x15__ = (GetMethod iterator "return")
     let return = [? __x15__]
-    if (= return undefined) {
-      app __x16__ = (Completion received)
-      return __x16__
-    } else {}
-    app __x17__ = (Call return iterator (new [received.Value]))
-    let innerReturnResult = [? __x17__]
-    app __x18__ = (Type innerReturnResult)
-    if (! (= __x18__ Object)) throw TypeError else {}
-    app __x19__ = (IteratorComplete innerReturnResult)
-    let done = [? __x19__]
+    if (= return undefined) return received else {}
+    app __x16__ = (Call return iterator (new [received.Value]))
+    let innerReturnResult = [? __x16__]
+    app __x17__ = (Type innerReturnResult)
+    if (! (= __x17__ Object)) throw TypeError else {}
+    app __x18__ = (IteratorComplete innerReturnResult)
+    let done = [? __x18__]
     if (= done true) {
-      app __x20__ = (IteratorValue innerReturnResult)
-      let value = [? __x20__]
+      app __x19__ = (IteratorValue innerReturnResult)
+      let value = [? __x19__]
       return (new Completion("Type" -> CONST_return, "Value" -> value, "Target" -> CONST_empty))
     } else {}
-    app __x21__ = (GeneratorYield innerReturnResult)
-    received = __x21__
+    app __x20__ = (GeneratorYield innerReturnResult)
+    received = __x20__
   }
 }

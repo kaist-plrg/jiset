@@ -82,18 +82,17 @@
     app __x24__ = (LoopContinues result labelSet)
     if (= __x24__ false) if (= iterationKind CONST_enumerate) {
       app __x25__ = (UpdateEmpty result V)
-      app __x26__ = (Completion __x25__)
-      return __x26__
+      return __x25__
     } else {
       assert (= iterationKind CONST_iterate)
-      app __x27__ = (UpdateEmpty result V)
-      status = __x27__
+      app __x26__ = (UpdateEmpty result V)
+      status = __x26__
       if (= iteratorKind CONST_async) {
-        app __x28__ = (AsyncIteratorClose iteratorRecord status)
-        return [? __x28__]
+        app __x27__ = (AsyncIteratorClose iteratorRecord status)
+        return [? __x27__]
       } else {}
-      app __x29__ = (IteratorClose iteratorRecord status)
-      return [? __x29__]
+      app __x28__ = (IteratorClose iteratorRecord status)
+      return [? __x28__]
     } else {}
     if (! (= result.Value CONST_empty)) V = result.Value else {}
   }

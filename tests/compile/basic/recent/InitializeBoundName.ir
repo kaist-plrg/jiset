@@ -4,12 +4,11 @@
   if (! (= environment undefined)) {
     app __x1__ = (environment.InitializeBinding environment name value)
     __x1__
-    app __x2__ = (NormalCompletion undefined)
-    return __x2__
+    return undefined
   } else {
-    app __x3__ = (ResolveBinding name)
-    let lhs = __x3__
-    app __x4__ = (PutValue lhs value)
-    return [? __x4__]
+    app __x2__ = (ResolveBinding name)
+    let lhs = __x2__
+    app __x3__ = (PutValue lhs value)
+    return [? __x3__]
   }
 }

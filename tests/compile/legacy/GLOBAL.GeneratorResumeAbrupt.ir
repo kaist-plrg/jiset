@@ -14,8 +14,7 @@
       app __x3__ = (CreateIterResultObject abruptCompletion.Value true)
       return __x3__
     } else {}
-    app __x4__ = (Completion abruptCompletion)
-    return __x4__
+    return abruptCompletion
   } else {}
   assert (= state CONST_suspendedYield)
   let genContext = generator.GeneratorContext
@@ -25,6 +24,5 @@
   append genContext -> GLOBAL_executionStack
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   ??? "Resume the suspended evaluation of id:{genContext} using id:{abruptCompletion} as the result of the operation that suspended it . Let id:{result} be the completion record returned by the resumed computation ."
-  app __x5__ = (Completion result)
-  return __x5__
+  return result
 }

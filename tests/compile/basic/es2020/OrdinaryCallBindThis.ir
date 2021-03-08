@@ -1,23 +1,20 @@
 {
   let thisMode = F.ThisMode
-  if (= thisMode CONST_lexical) {
-    app __x0__ = (NormalCompletion undefined)
-    return __x0__
-  } else {}
+  if (= thisMode CONST_lexical) return undefined else {}
   let calleeRealm = F.Realm
-  access __x1__ = (calleeContext "LexicalEnvironment")
-  let localEnv = __x1__
+  access __x0__ = (calleeContext "LexicalEnvironment")
+  let localEnv = __x0__
   if (= thisMode CONST_strict) let thisValue = thisArgument else if (|| (= thisArgument undefined) (= thisArgument null)) {
     let globalEnv = calleeRealm.GlobalEnv
     let globalEnvRec = globalEnv.EnvironmentRecord
     assert (= (typeof globalEnvRec) "GlobalEnvironmentRecord")
     let thisValue = globalEnvRec.GlobalThisValue
   } else {
-    app __x2__ = (ToObject thisArgument)
-    let thisValue = [! __x2__]
+    app __x1__ = (ToObject thisArgument)
+    let thisValue = [! __x1__]
   }
   let envRec = localEnv.EnvironmentRecord
   assert (= (typeof envRec) "FunctionEnvironmentRecord")
-  app __x3__ = (envRec.BindThisValue envRec thisValue)
-  return __x3__
+  app __x2__ = (envRec.BindThisValue envRec thisValue)
+  return __x2__
 }
