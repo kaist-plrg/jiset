@@ -12,7 +12,7 @@ import scala.Console._
 import scala.annotation.tailrec
 
 // abstract transfer function
-class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
+class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false, usePrune: Boolean = true) {
   import sem.cfg._
 
   // worklist
@@ -50,6 +50,21 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
     val NodePoint(node, view) = np
     val func = funcOf(node)
     val helper = new Helper(ReturnPoint(func, view))
+
+    // transfer branch
+    def transferBranch(
+      branch: Branch,
+      v: AbsValue,
+      newSt: AbsState,
+      pruneT: Updater,
+      pruneF: Updater
+    ): Unit = v.escaped.bool.toSet.foreach {
+      case true =>
+        sem += NodePoint(thenNext(branch), view) -> pruneT(newSt)
+      case false =>
+        sem += NodePoint(elseNext(branch), view) -> pruneF(newSt)
+    }
+
     import helper._
     node match {
       case (entry: Entry) =>
@@ -62,14 +77,13 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case (call: Call) =>
         val newSt = transfer(call, view)(st)
         sem += NodePoint(next(call), view) -> newSt
-      case branch @ Branch(expr) =>
+      case branch @ Branch(expr) if usePrune =>
         val (pv, newSt) = pruneTransfer(expr)(st)
-        pv.v.escaped.bool.toSet.foreach {
-          case true =>
-            sem += NodePoint(thenNext(branch), view) -> pv.pruneT(newSt)
-          case false =>
-            sem += NodePoint(elseNext(branch), view) -> pv.pruneF(newSt)
-        }
+        transferBranch(branch, pv.v, newSt, pv.pruneT, pv.pruneF)
+      case branch @ Branch(expr) =>
+        val (v, newSt) = transfer(expr)(st)
+        val ident: Updater = st => st
+        transferBranch(branch, v, newSt, ident, ident)
     }
   }
 
@@ -148,12 +162,13 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         comp = AbsComp(CompThrow -> ((addr, emptyConst)))
         st <- get
       } yield sem.doReturn(ret -> ((st.heap, comp)))
-      case IAssert(expr) => for {
+      case IAssert(expr) if usePrune => for {
         pv <- pruneTransfer(expr)
-        st <- get
         _ <- modify(pv.pruneT)
-        newSt <- get
-      } yield if (!(AT ⊑ pv.v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
+      } yield assert(pv.v, expr)
+      case IAssert(expr) => for {
+        v <- transfer(expr)
+      } yield assert(v, expr)
       case IPrint(expr) => for {
         v <- transfer(expr)
         _ = printlnColor(GREEN)(s"[PRINT] ${beautify(v)}")
@@ -407,6 +422,10 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       val newV: AbsValue = pure ⊔ compV
       (newV, st)
     }
+
+    // alarm if assertion fails
+    def assert(v: AbsValue, expr: Expr) =
+      if (!(AT ⊑ v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
 
     // access semantics
     def access(

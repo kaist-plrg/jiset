@@ -33,6 +33,8 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
       "dump the analyzed cfg in a dot format"),
     ("pdf", BoolOption(c => { c.dot = true; c.pdf = true }),
       "dump the analyze cfg in a dot and pdf format"),
+    ("no-prune", BoolOption(c => c.prune = false),
+      "not applying pruning")
   )
 }
 
@@ -40,5 +42,6 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
 case class AnalyzeConfig(
   var interact: Boolean = false,
   var dot: Boolean = false,
-  var pdf: Boolean = false
+  var pdf: Boolean = false,
+  var prune: Boolean = true
 ) extends Config
