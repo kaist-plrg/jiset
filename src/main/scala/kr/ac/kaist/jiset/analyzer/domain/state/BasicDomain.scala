@@ -69,7 +69,7 @@ object BasicDomain extends state.Domain {
       case AbsRefValue.Id(x) =>
         val (localV, absent) = env(x)
         if (!localV.isBottom) {
-          if (absent.isTop) alarm(s"unknown variable: $x")
+          if (absent.isTop) alarm(s"unknown local variable: $x")
           this + (x -> v)
         } else if (absent.isTop) sem.globalEnv.get(x) match {
           case Some(globalV) =>
@@ -77,7 +77,7 @@ object BasicDomain extends state.Domain {
               alarm(s"wrong update of global variable $x with ${beautify(v)}")
             this
           case None =>
-            alarm(s"unknown variable: $x")
+            alarm(s"unknown global variable: $x")
             this
         }
         else Bot
@@ -123,7 +123,7 @@ object BasicDomain extends state.Domain {
 
     // lookup addresses
     def apply(sem: AbsSemantics, addr: Addr): AbsObj = addr match {
-      case (_: NamedAddr) => sem.globalHeap.getOrElse(addr, AbsObj.Bot)
+      case (_: NamedAddr) => sem.globalHeap(addr)
       case (_: DynamicAddr) => heap(addr)
     }
 
@@ -181,7 +181,17 @@ object BasicDomain extends state.Domain {
     def pop(list: AbsValue, idx: AbsValue): (AbsValue, Elem) = ???
 
     // get type of values
-    def typeOf(v: AbsValue): AbsValue = ???
+    def typeOf(v: AbsPure): AbsValue = {
+      var set = Set[Str]()
+      if (!v.addr.isBottom) set += Str("Object") // TODO unsound
+      if (!v.ty.isBottom) ???
+      if (!v.const.isBottom) ???
+      if (!v.clo.isBottom) ???
+      if (!v.cont.isBottom) ???
+      if (!v.ast.isBottom) ???
+      if (!v.prim.isBottom) ???
+      AbsStr(set)
+    }
 
     // check whether lists contains elements
     def contains(list: AbsValue, v: AbsValue): AbsValue = ???

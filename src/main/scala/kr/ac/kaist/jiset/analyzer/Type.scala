@@ -14,6 +14,7 @@ trait Type {
     case UndefT => "undef"
     case NullT => "null"
     case AbsentT => "?"
+    case ListT => "list"
   }
 }
 
@@ -25,6 +26,9 @@ case class AstT(name: String) extends Type
 
 // constant types
 case class ConstT(name: String) extends Type
+
+// list types
+case object ListT extends Type
 
 // primitive types
 case object NumT extends Type

@@ -25,69 +25,13 @@ class AbsSemantics(val cfg: CFG) {
   // worklist
   lazy val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
 
-  // global variables and heaps
-  lazy val (globalEnv, globalHeap): (Map[String, AbsValue], Map[Addr, AbsObj]) = {
-    val (env, heaps) = cfg.getGlobal
-    val globalEnv = manualEnv ++ (for ((x, v) <- env) yield x -> AbsValue(v))
-    var globalHeap: Map[Addr, AbsObj] = (for ((x, (p, m)) <- manualHeaps) yield {
-      val map: Map[String, AbsObj.MapD.AbsVOpt] = m.map {
-        case (k, v) => k -> AbsObj.MapD.AbsVOpt(v, AbsAbsent.Bot)
-      }
-      NamedAddr(x) -> AbsObj.MapElem(p, AbsObj.MapD(map, AbsObj.MapD.AbsVOpt(None)))
-    }).toMap
-    globalHeap ++= (for ((a, o) <- heaps) yield a -> AbsObj(o))
-    (globalEnv, globalHeap)
-  }
+  // global variables
+  lazy val (globalEnv, globalHeap) = model.getGlobal
 
   // type map
-  lazy val typeMap: Map[String, TyInfo] =
-    typeInfos.map(info => info.name -> info).toMap
+  lazy val typeMap = model.typeMap
 
-  // TODO more manual modelings
-  private def typeInfos: List[TyInfo] = List(
-    TyInfo(
-      name = "ExecutionContext",
-      "LexicalEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
-    ),
-    TyInfo(
-      name = "EnvironmentRecord",
-      "HasThisBinding" -> getClos(""".*\.HasThisBinding""".r),
-      "GetThisBinding" -> getClos(""".*\.GetThisBinding""".r),
-      "ThisBindingStatus" -> getConsts("lexical", "initialized", "uninitialized"),
-      "OuterEnv" -> AbsValue(Ty("EnvironmentRecord")) ⊔ AbsValue(Null),
-      "GlobalThisValue" -> AbsValue(NamedAddr("Global")),
-      "ThisValue" -> ESValue,
-    ),
-    TyInfo(
-      name = "DeclarativeEnvironmentRecord",
-      "CreateImmutableBinding" -> getClos(""".*\.CreateImmutableBinding""".r),
-    ),
-    TyInfo(
-      name = "Object",
-    ),
-    TyInfo(
-      name = "OrdinaryObject",
-      parent = "Object"
-    ),
-  )
-  // TODO more manual modelings
-  private def manualEnv: Map[String, AbsValue] = Map(
-    "GLOBAL_context" -> AbsValue(Ty("ExecutionContext")),
-  )
-  // TODO more manual modelings
-  private def manualHeaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
-    "Global" -> (Some("OrdinaryObject"), Map()),
-  )
-  private val ESValue: AbsValue = {
-    val prim = AbsPrim.Top.copy(absent = AbsAbsent.Bot)
-    AbsPure(ty = AbsTy("Object"), prim = prim)
-  }
-  private def getClos(pattern: Regex): AbsValue = AbsValue(for {
-    func <- cfg.funcs.toSet
-    if pattern.matches(func.algo.head.printName)
-  } yield (Clo(func.uid, Env()): Value))
-  private def getConsts(names: String*): AbsValue =
-    AbsValue(names.toSet.map[Value](Const(_)))
+  private val model = new Model(cfg)
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
@@ -321,8 +265,8 @@ class AbsSemantics(val cfg: CFG) {
 
   // initial abstract state for syntax-directed algorithms
   private def getTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
-    // case (head: SyntaxDirectedHead) if isSuccess(head, algo.rawBody) =>
     case (head: SyntaxDirectedHead) if isTarget(head, algo.rawBody) =>
+      // case (head: SyntaxDirectedHead) if isSuccess(head, algo.rawBody) =>
       head.optional.subsets.map(opt => {
         var st = AbsState.Empty
         val types: List[Type] = head.types.map {
@@ -354,6 +298,7 @@ class AbsSemantics(val cfg: CFG) {
       import AbsObj._
       st(this, addr) match {
         case MapElem(Some(ty), _) => NameT(ty)
+        case ListElem(_) => ListT
         case _ => ???
       }
     })

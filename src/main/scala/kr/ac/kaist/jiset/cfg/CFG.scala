@@ -30,10 +30,11 @@ class CFG(val spec: ECMAScript) {
   // initial global variables and heaps
   def getGlobal: (Map[String, Value], Map[Addr, Obj]) = {
     val globalMethods = getGlobalMethods
-    val consts = getConsts
+    val (consts, intrinsics) = getNames
     val globalVars = (
       globalMethods ++
-      consts.map(x => x -> Const(x.substring("CONST_".length)))
+      consts.map(x => x -> Const(x.substring("CONST_".length))) ++
+      intrinsics.map(x => x -> NamedAddr(x.substring("INTRINSIC_".length).replaceAll("_", ".")))
     )
     val heaps = Map[Addr, Obj]()
     (globalVars, heaps)
@@ -56,13 +57,16 @@ class CFG(val spec: ECMAScript) {
   } yield name -> Clo(func.uid)).toMap
 
   // get constant names
-  private def getConsts: Set[String] = {
+  private def getNames: (Set[String], Set[String]) = {
     var consts: Set[String] = Set()
+    var intrinsics: Set[String] = Set()
     object ConstExtractor extends UnitWalker {
-      override def walk(id: Id) =
+      override def walk(id: Id) = {
         if (id.name startsWith "CONST_") consts += id.name
+        if (id.name startsWith "INTRINSIC_") intrinsics += id.name
+      }
     }
     for (algo <- spec.algos) ConstExtractor.walk(algo.rawBody)
-    consts
+    (consts, intrinsics)
   }
 }

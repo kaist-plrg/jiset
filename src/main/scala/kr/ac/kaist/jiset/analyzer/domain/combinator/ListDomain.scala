@@ -86,6 +86,14 @@ class ListDomain[V, VD <: AbsDomain[V]](
       case Fixed(vector) => vector.foldLeft(AbsV.Bot)(_ ⊔ _)
       case Unfixed(value) => value
     }
+
+    // get length
+    def length: AbsINum = this match {
+      case Bot => AbsINum.Bot
+      case Top => AbsINum.Top
+      case Fixed(vector) => AbsINum(vector.length)
+      case Unfixed(_) => AbsINum.Top
+    }
   }
 }
 object ListDomain {

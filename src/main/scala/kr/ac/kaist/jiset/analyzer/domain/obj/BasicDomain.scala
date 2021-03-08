@@ -91,6 +91,10 @@ object BasicDomain extends obj.Domain {
           vopt.value ⊔ typeV
         case Infinite => ???
       }
+      case ListElem(list) => prop.getSingle match {
+        case One(Str("length")) => list.length
+        case _ => ???
+      }
       case _ => ???
     }
 
