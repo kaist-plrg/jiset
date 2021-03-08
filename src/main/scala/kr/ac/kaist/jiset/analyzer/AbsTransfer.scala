@@ -20,11 +20,16 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
 
   // fixpoint computation
   @tailrec
-  final def compute: Unit = worklist.headOption match {
+  final def compute: Unit = worklist.next match {
     case Some(cp) =>
       if (interactMode) interact(cp)
-      worklist.next
-      apply(cp)
+      try apply(cp) catch {
+        case e: Throwable =>
+          printlnColor(RED)(s"[Error] An exception is thrown.")
+          println(sem.getString(cp))
+          dumpCFG(true, Some(cp))
+          throw e
+      }
       compute
     case None =>
   }
@@ -87,14 +92,14 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       case null | "q" | "quit" | "exit" =>
         interactMode = false; false
       case "d" | "dot" =>
-        dumpCFG(true); true
+        dumpCFG(true, Some(cp)); true
       case _ => false
     }) {}
   }
 
   // dump CFG in DOT/PDF format
-  def dumpCFG(pdf: Boolean): Unit = {
-    val dot = (new DotPrinter)(sem).toString
+  def dumpCFG(pdf: Boolean, cp: Option[ControlPoint] = None): Unit = {
+    val dot = (new DotPrinter)(sem, cp).toString
     dumpFile(dot, s"$CFG_DIR.dot")
     if (pdf) {
       executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")
@@ -147,7 +152,10 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         v <- transfer(expr)
         _ <- modify(prune(expr, true))
       } yield if (!(AT ⊑ v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
-      case IPrint(expr) => st => ???
+      case IPrint(expr) => for {
+        v <- transfer(expr)
+        _ = printlnColor(GREEN)(s"[PRINT] ${beautify(v)}")
+      } yield ()
       case IWithCont(id, params, bodyInst) => st => ???
       case ISetType(expr, ty) => for {
         v <- transfer(expr)

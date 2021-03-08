@@ -17,13 +17,13 @@ class DotPrinter {
   }
 
   // for debugging analysis
-  def apply(sem: AbsSemantics): DotPrinter = {
+  def apply(sem: AbsSemantics, cur: Option[ControlPoint]): DotPrinter = {
     this >> s"""digraph {"""
 
     // print functions
     val funcs: Set[(Function, View)] =
       sem.getControlPoints.map(cp => (sem.funcOf(cp), cp.view))
-    funcs.foreach(doCluster(_, sem))
+    funcs.foreach(doCluster(_, sem, cur))
 
     // print call edges
     sem._getRetEdges.foreach {
@@ -48,13 +48,14 @@ class DotPrinter {
   // print cluster
   def doCluster(
     pair: (Function, View),
-    sem: AbsSemantics
+    sem: AbsSemantics,
+    cur: Option[ControlPoint] = None
   ): DotPrinter = {
     val (func, view) = pair
     this >> s"""  subgraph cluster${func.uid}_${norm(view)} {"""
     this >> s"""    label = "${func.name}:$view""""
     this >> s"""    style = rounded"""
-    func.nodes.foreach(doNode(_, view, sem))
+    func.nodes.foreach(doNode(_, view, sem, cur))
     func.edges.foreach(doEdge(_, Some(sem))(Some(view)))
     this >> s"""  }"""
   }
@@ -93,12 +94,16 @@ class DotPrinter {
     this >> s"""  $from -> $to [$label color=$color]"""
 
   // print nodes
-  def doNode(node: Node, view: View, sem: AbsSemantics): DotPrinter = {
+  def doNode(
+    node: Node,
+    view: View,
+    sem: AbsSemantics,
+    cur: Option[ControlPoint] = None
+  ): DotPrinter = {
     val np = NodePoint(node, view)
     val colors = {
-      val worklist = sem.worklist
-      if (worklist.headOption contains np) (REACH, CURRENT)
-      else if (worklist has np) (REACH, IN_WORKLIST)
+      if (Some(np) == cur) (REACH, CURRENT)
+      else if (sem.worklist has np) (REACH, IN_WORKLIST)
       else if (!sem(np).isBottom) (REACH, NORMAL)
       else (NON_REACH, NORMAL)
     }
