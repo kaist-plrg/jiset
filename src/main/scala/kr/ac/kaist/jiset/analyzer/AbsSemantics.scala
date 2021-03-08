@@ -224,7 +224,9 @@ class AbsSemantics(val cfg: CFG) {
   private def successPatterns = List(
     // Success
     """Literal\[.*""".r,
-    """PrimaryExpression.*IsIdentifierRef""".r,
+    // """PrimaryExpression.*IsIdentifierRef""".r,
+    // IsIdentifierRef
+    """.*.IsIdentifierRef""".r,
     // .IsFunctionDefinition
     """.*.IsFunctionDefinition""".r,
     // AssignmentTargetType
@@ -257,6 +259,8 @@ class AbsSemantics(val cfg: CFG) {
     """Module\[0,0\].ImportEntries""".r,
     """ModuleItem\[.*.ImportEntries""".r,
     """ImportDeclaration\[1,0\].ImportEntries""".r,
+    // IsDestructuring
+    """.*.IsDestructuring""".r,
   )
 
   private def failedPatterns = List(
@@ -278,13 +282,18 @@ class AbsSemantics(val cfg: CFG) {
     """ImportDeclaration\[0,0\].ImportEntries""".r,
     // instead, targetted in this query
     """ModuleItemList\[1,0\].ImportEntries""".r,
-    // unknown
+    // not implemented access
+    """AsyncFunctionExpression\[0,0\].Evaluation""".r,
+    // not implemented access: "Contains"
+    """ArrowFunction\[0,0\].EarlyErrors""".r,
+    // unknown property: "CreateImmutableBinding"
     """AsyncFunctionExpression\[1,0\].Evaluation""".r,
   )
 
   private def targetPatterns = List(
     // """NewExpression\[1,0\].Evaluation""".r,
-    """AsyncFunctionExpression\[1,0\].Evaluation""".r,
+    // """AsyncFunctionExpression\[1,0\].Evaluation""".r,
+    """""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
