@@ -18,8 +18,8 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     jisetConfig: JISETConfig,
     config: AnalyzeConfig
   ): AbsSemantics = {
-    val sem = new AbsSemantics(cfg)
-    val AnalyzeConfig(interact, dot, pdf, prune) = config
+    val AnalyzeConfig(interact, dot, pdf, prune, target) = config
+    val sem = new AbsSemantics(cfg, target)
     val transfer = new AbsTransfer(sem, interact, prune)
     transfer.compute
     if (dot) transfer.dumpCFG(pdf)
@@ -35,7 +35,9 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     ("pdf", BoolOption(c => { c.dot = true; c.pdf = true }),
       "dump the analyze cfg in a dot and pdf format"),
     ("prune", BoolOption(c => c.prune = true),
-      "perform pruning")
+      "perform pruning"),
+    ("target", StrOption((c, s) => c.target = Some(s)),
+      "set the target of analysis")
   )
 }
 
@@ -44,5 +46,6 @@ case class AnalyzeConfig(
   var interact: Boolean = false,
   var dot: Boolean = false,
   var pdf: Boolean = false,
-  var prune: Boolean = false
+  var prune: Boolean = false,
+  var target: Option[String] = None
 ) extends Config

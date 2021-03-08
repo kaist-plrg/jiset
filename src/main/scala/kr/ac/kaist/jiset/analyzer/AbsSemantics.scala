@@ -12,7 +12,10 @@ import kr.ac.kaist.jiset.util.Appender
 import scala.Console._
 import scala.util.matching.Regex
 
-class AbsSemantics(val cfg: CFG) {
+class AbsSemantics(
+  val cfg: CFG,
+  val target: Option[String] = None
+) {
   // ECMAScript
   val spec: ECMAScript = cfg.spec
 
@@ -251,21 +254,14 @@ class AbsSemantics(val cfg: CFG) {
     """AsyncFunctionExpression\[1,0\].Evaluation""".r,
   )
 
-  private def targetPatterns = List(
-    // """NewExpression\[1,0\].Evaluation""".r,
-    """AsyncFunctionExpression\[1,0\].Evaluation""".r,
-  )
-
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
-    head.withParams.isEmpty &&
-    targetPatterns.exists(_.matches(head.printName))
-  )
-
-  private def isSuccess(head: SyntaxDirectedHead, inst: Inst): Boolean = (
-    head.withParams.isEmpty && (
-      successPatterns.exists(_.matches(head.printName)) ||
-      isSimple(inst)
-    )
+    head.withParams.isEmpty && (target match {
+      case Some(pattern) => pattern.r.matches(head.printName)
+      case None => (
+        successPatterns.exists(_.matches(head.printName)) ||
+        isSimple(inst)
+      )
+    })
   )
 
   private def isSimple(inst: Inst): Boolean = inst match {
@@ -275,7 +271,6 @@ class AbsSemantics(val cfg: CFG) {
 
   // initial abstract state for syntax-directed algorithms
   private def getTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
-    // case (head: SyntaxDirectedHead) if isSuccess(head, algo.rawBody) =>
     case (head: SyntaxDirectedHead) if isTarget(head, algo.rawBody) =>
       head.optional.subsets.map(opt => {
         var st = AbsState.Empty
