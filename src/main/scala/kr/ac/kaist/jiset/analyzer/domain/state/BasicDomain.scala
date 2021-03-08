@@ -109,37 +109,22 @@ object BasicDomain extends state.Domain {
         else AbsValue.Bot
         localV ⊔ globalV
       case AbsRefValue.ObjProp(ty, addr, prop) =>
-        val tyV = ty.toSet.toList.map {
-          case Ty(t) =>
-            val fields = sem.typeMap(t).fields
-            prop.gamma match {
-              case Infinite => AbsValue.Top
-              case Finite(ps) =>
-                // TODO follow ancestors
-                // TODO alarm unknown property
-                ps.toList.map(p => fields(p.str)).foldLeft(AbsValue.Bot)(_ ⊔ _)
-            }
-        }
-        val addrV = addr.toSet.toList.map {
-          case (addr @ NamedAddr(x)) =>
-            val obj = sem.globalHeap.getOrElse(addr, AbsObj.Bot)
-            val (v, a) = obj(prop)
-            if (a.isTop) {
-              // XXX follow ancestors
-              alarm(s"unknown property: #$x[${beautify(prop)}]")
-            }
-            v
-          case (addr @ DynamicAddr(k)) =>
-            val obj = heap(addr)
-            val (v, a) = obj(prop)
-            if (a.isTop) {
-              // XXX follow ancestors
-              alarm(s"unknown property: #$k[${beautify(prop)}]")
-            }
-            v
-        }
+        val tyV = ty.toSet.toList.map(ty => sem.lookup(ty.name, prop))
+        val addrV = addr.toSet.toList.map(this(sem, _, prop))
         (tyV ++ addrV).foldLeft(AbsValue.Bot)(_ ⊔ _)
       case AbsRefValue.StrProp(str, prop) => ???
+    }
+
+    // lookup properties
+    def apply(sem: AbsSemantics, addr: Addr, prop: AbsStr): AbsValue = {
+      val obj = this(sem, addr)
+      obj(sem, prop)
+    }
+
+    // lookup addresses
+    def apply(sem: AbsSemantics, addr: Addr): AbsObj = addr match {
+      case (_: NamedAddr) => sem.globalHeap.getOrElse(addr, AbsObj.Bot)
+      case (_: DynamicAddr) => heap(addr)
     }
 
     // allocate a new symbol

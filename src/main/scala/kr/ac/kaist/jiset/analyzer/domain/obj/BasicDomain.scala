@@ -1,7 +1,10 @@
 package kr.ac.kaist.jiset.analyzer.domain.obj
 
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
+import kr.ac.kaist.jiset.util.Useful._
 
 object BasicDomain extends obj.Domain {
   // map domain
@@ -76,12 +79,17 @@ object BasicDomain extends obj.Domain {
 
     // TODO handling lists
     // lookup
-    def apply(prop: AbsStr): (AbsValue, AbsAbsent) = this match {
-      case MapElem(_, map) => prop.gamma.map(s => map(s.str)) match {
-        case Infinite => (AbsValue.Top, AbsAbsent.Top)
+    def apply(sem: AbsSemantics, prop: AbsStr): AbsValue = this match {
+      case MapElem(ty, map) => prop.gamma.map(s => map(s.str)) match {
         case Finite(set) =>
           val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
-          (vopt.value, vopt.absent)
+          val typeV = if (vopt.absent.isTop) {
+            val typeV = ty.fold(AbsValue.Bot)(sem.lookup(_, prop))
+            if (typeV.isBottom) alarm(s"unknown property: ${beautify(prop)}")
+            typeV
+          } else AbsValue.Bot
+          vopt.value ⊔ typeV
+        case Infinite => ???
       }
       case _ => ???
     }

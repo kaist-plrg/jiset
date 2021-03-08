@@ -59,6 +59,10 @@ class AbsSemantics(val cfg: CFG) {
       "ThisValue" -> ESValue,
     ),
     TyInfo(
+      name = "DeclarativeEnvironmentRecord",
+      "CreateImmutableBinding" -> getClos(""".*\.CreateImmutableBinding""".r),
+    ),
+    TyInfo(
       name = "Object",
     ),
     TyInfo(
@@ -189,6 +193,22 @@ class AbsSemantics(val cfg: CFG) {
       else v
   }
 
+  // lookup types
+  def lookup(ty: String, prop: AbsStr): AbsValue = typeMap.get(ty) match {
+    case Some(info) =>
+      val fields = info.fields
+      prop.gamma match {
+        case Infinite => AbsValue.Top
+        case Finite(ps) =>
+          // TODO follow ancestors
+          // TODO alarm unknown property
+          ps.toList.map(p => fields(p.str)).foldLeft(AbsValue.Bot)(_ ⊔ _)
+      }
+    case None =>
+      alarm(s"unknown type: $ty")
+      AbsValue.Bot
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Private Helper Functions
   //////////////////////////////////////////////////////////////////////////////
@@ -312,28 +332,28 @@ class AbsSemantics(val cfg: CFG) {
       } yield ty :: tys
     }
   }
-  private def getType(st: AbsState, v: AbsPure): List[Type] = {
-    var tys: List[Type] = Nil
-    if (!v.ty.isBottom) tys = v.ty.toList.map(t => NameT(t.name)) ++ tys
-    if (!v.addr.isBottom) tys = (v.addr.toList.collect {
-      case NamedAddr(x) => ???
-      case DynamicAddr(_) => ???
-    }) ++ tys
-    if (!v.const.isBottom) v.const.gamma match {
-      case Infinite => ???
-      case Finite(set) => tys = set.toList.map(c => ConstT(c.const)) ++ tys
-    }
+  private def getType(st: AbsState, v: AbsPure): Set[Type] = {
+    var tys = Set[Type]()
+    if (!v.ty.isBottom) tys ++= v.ty.toSet.map(t => NameT(t.name))
+    if (!v.addr.isBottom) tys ++= v.addr.toSet.map(addr => {
+      import AbsObj._
+      st(this, addr) match {
+        case MapElem(Some(ty), _) => NameT(ty)
+        case _ => ???
+      }
+    })
+    if (!v.const.isBottom) tys ++= v.const.toSet.map(c => ConstT(c.const))
     if (!v.clo.isBottom) ???
     if (!v.cont.isBottom) ???
-    if (!v.ast.isBottom) tys = v.ast.toList.map(ast => AstT(ast.name)) ++ tys
-    if (!v.num.isBottom) tys ::= NumT
-    if (!v.int.isBottom) tys ::= INumT
-    if (!v.bigint.isBottom) tys ::= BigINumT
-    if (!v.str.isBottom) tys ::= StrT
-    if (!v.bool.isBottom) tys ::= BoolT
-    if (!v.undef.isBottom) tys ::= UndefT
-    if (!v.nullval.isBottom) tys ::= NullT
-    if (!v.absent.isBottom) tys ::= AbsentT
+    if (!v.ast.isBottom) tys ++= v.ast.toSet.map(ast => AstT(ast.name))
+    if (!v.num.isBottom) tys += NumT
+    if (!v.int.isBottom) tys += INumT
+    if (!v.bigint.isBottom) tys += BigINumT
+    if (!v.str.isBottom) tys += StrT
+    if (!v.bool.isBottom) tys += BoolT
+    if (!v.undef.isBottom) tys += UndefT
+    if (!v.nullval.isBottom) tys += NullT
+    if (!v.absent.isBottom) tys += AbsentT
     tys
   }
 }

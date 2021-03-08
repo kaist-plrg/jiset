@@ -274,7 +274,10 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         v <- transfer(obj)
         a <- id(_.keysOf(v.escaped))
       } yield a
-      case ENotSupported(msg) => ??? // TODO need discussion
+      case ENotSupported(msg) => st => {
+        alarm(expr.beautified)
+        (AbsValue(Absent), st)
+      }
     }
 
     // transfer function for reference values
