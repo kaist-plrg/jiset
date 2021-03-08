@@ -266,6 +266,8 @@ class AbsSemantics(val cfg: CFG) {
     """ImportDeclaration\[1,0\].ImportEntries""".r,
     // IsDestructuring
     """.*.IsDestructuring""".r,
+    // .HasName
+    """.*.HasName""".r,
   )
 
   private def failedPatterns = List(
@@ -297,8 +299,7 @@ class AbsSemantics(val cfg: CFG) {
 
   private def targetPatterns = List(
     // """NewExpression\[1,0\].Evaluation""".r,
-    // """AsyncFunctionExpression\[1,0\].Evaluation""".r,
-    """.*.HasName""".r,
+    """AsyncFunctionExpression\[1,0\].Evaluation""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
