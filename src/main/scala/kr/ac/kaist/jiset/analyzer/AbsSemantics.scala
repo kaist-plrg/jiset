@@ -297,7 +297,8 @@ class AbsSemantics(val cfg: CFG) {
 
   private def targetPatterns = List(
     // """NewExpression\[1,0\].Evaluation""".r,
-    """AsyncFunctionExpression\[1,0\].Evaluation""".r,
+    // """AsyncFunctionExpression\[1,0\].Evaluation""".r,
+    """.*.HasName""".r,
   )
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
