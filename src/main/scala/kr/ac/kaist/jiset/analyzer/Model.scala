@@ -17,13 +17,23 @@ class Model(cfg: CFG) {
   def getGlobal: (Map[String, AbsValue], Map[Addr, AbsObj]) = {
     val (env, heaps) = cfg.getGlobal
     val globalEnv = manualEnv ++ (for ((x, v) <- env) yield x -> AbsValue(v))
-    var globalHeap: Map[Addr, AbsObj] = (for ((x, (p, m)) <- manualHeaps) yield {
+    var globalHeap = (for ((a, o) <- heaps) yield a -> AbsObj(o)).toMap
+
+    // map structures
+    for ((x, (p, m)) <- manualMaps) {
       val map: Map[String, AbsObj.MapD.AbsVOpt] = m.map {
         case (k, v) => k -> AbsObj.MapD.AbsVOpt(v, AbsAbsent.Bot)
       }
-      NamedAddr(x) -> AbsObj.MapElem(p, AbsObj.MapD(map, AbsObj.MapD.AbsVOpt(None)))
-    }).toMap
-    globalHeap ++= (for ((a, o) <- heaps) yield a -> AbsObj(o))
+      val pair = NamedAddr(x) -> AbsObj.MapElem(p, AbsObj.MapD(map, AbsObj.MapD.AbsVOpt(None)))
+      globalHeap += pair
+    }
+
+    // list structures
+    for ((x, v) <- manualLists) {
+      val pair = (NamedAddr(x) -> AbsObj.ListElem(AbsObj.ListD.ListElem(v)))
+      globalHeap += pair
+    }
+
     (globalEnv, globalHeap)
   }
 
@@ -31,11 +41,39 @@ class Model(cfg: CFG) {
   def typeMap: Map[String, TyInfo] =
     typeInfos.map(info => info.name -> info).toMap
 
+  // manual modeling of semantics
+  type Meaning = (Int, AbsSemantics, ReturnPoint, AbsState) => AbsState
+  private val ignore: Meaning = (_, _, _, st) => st
+  val manualSemantics: Map[String, Meaning] = Map(
+    "Create an immutable binding in id:{envRec} for id:{N} and record that it is uninitialized . If id:{S} is value:{true} , record that the newly created binding is a strict binding ." -> ignore,
+    "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-ecmascript-function-objects} ." -> ((asite, _, _, st) => {
+      val (addr, s0) = st.allocList(asite, List(AbsStr.Top))
+      s0 + ("internalSlotsList" -> addr)
+    }),
+    "Let id:{ec} be the topmost execution context on the execution context stack whose ScriptOrModule component is not value:{null} ." -> ((_, _, _, st) => {
+      st + ("ec" -> AbsValue(Ty("ExecutionContext")))
+    }),
+    "If no such execution context exists , return value:{null} . Otherwise , return id:{ec} ' s ScriptOrModule ." -> ((_, sem, ret, st) => {
+      val v = st(sem, "GLOBAL_executionStack", "length").escaped
+      var res = AbsValue.Bot
+      (v =^= AbsINum(0)).toSet.foreach {
+        case true => res ⊔= AbsNull.Top
+        case false => res ⊔= st(sem, "ec", "ScriptOrModule")
+      }
+      sem.doReturn(ret -> (st.heap, res))
+      AbsState.Bot
+    }),
+  )
+
   // TODO more manual modelings
   private def typeInfos: List[TyInfo] = List(
     TyInfo(
       name = "ExecutionContext",
       "LexicalEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
+      "VariableEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
+      "Function" -> AbsValue(Ty("Object")) ⊔ AbsNull.Top,
+      "Realm" -> AbsValue(Ty("Realm")),
+      "ScriptOrModule" -> AbsTy(Ty("ScriptRecord"), Ty("ModuleRecord")),
     ),
     TyInfo(
       name = "EnvironmentRecord",
@@ -52,33 +90,58 @@ class Model(cfg: CFG) {
     ),
     TyInfo(
       name = "Object",
+      "SubMap" -> AbsValue(Ty("SubMap")),
     ),
     TyInfo(
       name = "OrdinaryObject",
-      parent = "Object"
+      parent = "Object",
+      "GetPrototypeOf" -> getClos("""OrdinaryObject.GetPrototypeOf""".r),
+      "SetPrototypeOf" -> getClos("""OrdinaryObject.SetPrototypeOf""".r),
+      "IsExtensible" -> getClos("""OrdinaryObject.IsExtensible""".r),
+      "PreventExtensions" -> getClos("""OrdinaryObject.PreventExtensions""".r),
+      "GetOwnProperty" -> getClos("""OrdinaryObject.GetOwnProperty""".r),
+      "DefineOwnProperty" -> getClos("""OrdinaryObject.DefineOwnProperty""".r),
+      "HasProperty" -> getClos("""OrdinaryObject.HasProperty""".r),
+      "Get" -> getClos("""OrdinaryObject.Get""".r),
+      "Set" -> getClos("""OrdinaryObject.Set""".r),
+      "Delete" -> getClos("""OrdinaryObject.Delete""".r),
+      "OwnPropertyKeys" -> getClos("""OrdinaryObject.OwnPropertyKeys""".r),
+      "Extensible" -> AbsBool.Top,
+    ),
+    TyInfo(
+      name = "PropertyDescriptor",
+      "Value" -> ESValue ⊔ AbsAbsent.Top,
+      "Writable" -> AbsValue(true, false, Absent),
+      "Get" -> AbsValue(Ty("Object")),
+      "Set" -> AbsValue(Ty("Object")),
+      "Enumerable" -> AbsBool.Top,
+      "Configurable" -> AbsBool.Top,
     ),
   )
   // TODO more manual modelings
   private def manualEnv: Map[String, AbsValue] = Map(
     "GLOBAL_context" -> AbsValue(Ty("ExecutionContext")),
+    "GLOBAL_executionStack" -> AbsValue(NamedAddr("ExecutionStack")),
+    "REALM" -> AbsValue(Ty("Realm")),
     "Object" -> AbsValue("Object"),
+    "String" -> AbsValue("String"),
   )
   // TODO more manual modelings
-  private def manualHeaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
+  private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
     "Global" -> (Some("OrdinaryObject"), Map()),
-    "AsyncFunction.prototype" -> (Some("OrdinaryObject"), Map(
+    "%AsyncFunction.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("Function.prototype"))
     )),
   )
-  private val ESValue: AbsValue = {
-    val prim = AbsPrim.Top.copy(absent = AbsAbsent.Bot)
-    AbsPure(ty = AbsTy("Object"), prim = prim)
-  }
+  // TODO more manual modelings
+  private def manualLists: Map[String, AbsValue] = Map(
+    "ExecutionStack" -> AbsValue(Ty("ExecutionContext")),
+  )
+
   private def getClos(pattern: Regex): AbsValue = AbsValue(for {
     func <- cfg.funcs.toSet
     if pattern.matches(func.algo.head.printName)
   } yield (Clo(func.uid, Env()): Value))
   private def getConsts(names: String*): AbsValue =
     AbsValue(names.toSet.map[Value](Const(_)))
-
 }

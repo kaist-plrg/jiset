@@ -97,23 +97,42 @@ object BasicDomain extends state.Domain {
     // update references
     def delete(sem: AbsSemantics, refv: AbsRefValue): Elem = ???
 
+    // lookup helper
+    def apply(sem: AbsSemantics, base: String, fields: String*): AbsValue = {
+      val baseV = lookupVariable(sem, base)
+      fields.foldLeft(baseV) {
+        case (v, field) =>
+          val pureV = v.escaped
+          lookupField(sem, pureV.ty, pureV.addr, AbsStr(field))
+      }
+    }
+
     // lookup reference values
     def apply(sem: AbsSemantics, refv: AbsRefValue): AbsValue = refv match {
       case AbsRefValue.Bot => AbsValue.Bot
       case AbsRefValue.Top => AbsValue.Top
-      case AbsRefValue.Id(x) =>
-        val (localV, absent) = env(x)
-        val globalV: AbsValue = if (absent.isTop) sem.globalEnv.getOrElse(x, {
-          alarm(s"unknown variable: $x")
-          AbsAbsent.Top
-        })
-        else AbsValue.Bot
-        localV ⊔ globalV
-      case AbsRefValue.ObjProp(ty, addr, prop) =>
-        val tyV = ty.toSet.toList.map(ty => sem.lookup(ty.name, prop))
-        val addrV = addr.toSet.toList.map(this(sem, _, prop))
-        (tyV ++ addrV).foldLeft(AbsValue.Bot)(_ ⊔ _)
+      case AbsRefValue.Id(x) => lookupVariable(sem, x)
+      case AbsRefValue.ObjProp(ty, addr, prop) => lookupField(sem, ty, addr, prop)
       case AbsRefValue.StrProp(str, prop) => ???
+    }
+    private def lookupVariable(sem: AbsSemantics, x: String): AbsValue = {
+      val (localV, absent) = env(x)
+      val globalV: AbsValue = if (absent.isTop) sem.globalEnv.getOrElse(x, {
+        alarm(s"unknown variable: $x")
+        AbsAbsent.Top
+      })
+      else AbsValue.Bot
+      localV ⊔ globalV
+    }
+    private def lookupField(
+      sem: AbsSemantics,
+      ty: AbsTy,
+      addr: AbsAddr,
+      prop: AbsStr
+    ): AbsValue = {
+      val tyV = ty.toSet.toList.map(ty => sem.lookup(ty.name, prop))
+      val addrV = addr.toSet.toList.map(this(sem, _, prop))
+      (tyV ++ addrV).foldLeft(AbsValue.Bot)(_ ⊔ _)
     }
 
     // lookup properties
@@ -197,20 +216,27 @@ object BasicDomain extends state.Domain {
     // pop a value from a list
     def pop(list: AbsValue, idx: AbsValue): (AbsValue, Elem) = ???
 
-    // get type of values
+    // get type of pure values
     def typeOf(v: AbsPure): AbsValue = {
       var set = Set[Str]()
       if (!v.addr.isBottom) set += Str("Object") // TODO unsound
-      if (!v.ty.isBottom) ???
+      if (!v.ty.isBottom) set ++= v.ty.toSet.map(t => Str(t.name))
       if (!v.const.isBottom) ???
       if (!v.clo.isBottom) ???
       if (!v.cont.isBottom) ???
       if (!v.ast.isBottom) ???
-      if (!v.prim.isBottom) ???
+      if (!v.num.isBottom) set += Str("Number")
+      if (!v.int.isBottom) set += Str("Number")
+      if (!v.bigint.isBottom) set += Str("BigInt")
+      if (!v.str.isBottom) set += Str("String")
+      if (!v.bool.isBottom) set += Str("Boolean")
+      if (!v.undef.isBottom) set += Str("Undefined")
+      if (!v.nullval.isBottom) set += Str("Null")
+      if (!v.absent.isBottom) set += Str("Absent")
       AbsStr(set)
     }
 
     // check whether lists contains elements
-    def contains(list: AbsValue, v: AbsValue): AbsValue = ???
+    def contains(list: AbsPure, v: AbsPure): AbsValue = AbsBool.Top // TODO
   }
 }

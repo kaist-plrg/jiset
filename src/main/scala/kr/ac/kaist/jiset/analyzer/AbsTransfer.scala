@@ -12,8 +12,19 @@ import scala.Console._
 import scala.annotation.tailrec
 
 // abstract transfer function
-class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false, usePrune: Boolean = true) {
+class AbsTransfer(
+  sem: AbsSemantics,
+  var interactMode: Boolean = false,
+  usePrune: Boolean = false
+) {
   import sem.cfg._
+
+  // result of abstract transfer
+  val monad = new StateMonad[AbsState]
+  import monad._
+
+  // manual semantics
+  val model = sem.model
 
   // worklist
   val worklist = sem.worklist
@@ -34,10 +45,6 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false, usePrune
       compute
     case None =>
   }
-
-  // result of abstract transfer
-  val monad = new StateMonad[AbsState]
-  import monad._
 
   // transfer function for control points
   def apply(cp: ControlPoint): Unit = cp match {
@@ -126,6 +133,14 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false, usePrune
   private class Helper(ret: ReturnPoint) {
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = inst match {
+      case IExpr(expr @ ENotSupported(msg)) =>
+        import model._
+        st => manualSemantics.get(msg) match {
+          case Some(f) => f(expr.asite, sem, ret, st)
+          case None =>
+            alarm(expr.beautified)
+            st
+        }
       case IExpr(expr) => transfer(expr)
       case ILet(Id(x), expr) => for {
         v <- transfer(expr)
@@ -305,7 +320,7 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false, usePrune
         v <- transfer(obj)
         a <- id(_.keysOf(v.escaped))
       } yield a
-      case ENotSupported(msg) => st => {
+      case expr @ ENotSupported(msg) => st => {
         alarm(expr.beautified)
         (AbsValue(Absent), st)
       }

@@ -32,7 +32,8 @@ class AbsSemantics(val cfg: CFG) {
   // type map
   lazy val typeMap = model.typeMap
 
-  private val model = new Model(cfg)
+  // manual model
+  lazy val model = new Model(cfg)
 
   // iter counter
   var iter = 0
@@ -147,14 +148,16 @@ class AbsSemantics(val cfg: CFG) {
   // lookup types
   def lookup(ty: String, prop: AbsStr): AbsValue = typeMap.get(ty) match {
     case Some(info) =>
-      val fields = info.fields
+      val props = info.props
       prop.gamma match {
         case Infinite => AbsValue.Top
         case Finite(ps) =>
           // TODO follow ancestors
-          // TODO alarm unknown property
-          ps.toList.map(p => fields(p.str)).foldLeft(AbsValue.Bot)(_ ⊔ _)
+          ps.toList.foldLeft(AbsValue.Bot) {
+            case (v, Str(p)) => v ⊔ props.getOrElse(p, AbsValue.Bot)
+          }
       }
+    case None if (ty == "SubMap") => AbsAbsent.Top // TODO unsound
     case None =>
       alarm(s"unknown type: $ty")
       AbsValue.Bot
@@ -255,7 +258,7 @@ class AbsSemantics(val cfg: CFG) {
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
     head.withParams.isEmpty &&
-    successPatterns.exists(_.matches(head.printName))
+    targetPatterns.exists(_.matches(head.printName))
   )
 
   private def isSuccess(head: SyntaxDirectedHead, inst: Inst): Boolean = (
@@ -272,8 +275,8 @@ class AbsSemantics(val cfg: CFG) {
 
   // initial abstract state for syntax-directed algorithms
   private def getTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
+    // case (head: SyntaxDirectedHead) if isSuccess(head, algo.rawBody) =>
     case (head: SyntaxDirectedHead) if isTarget(head, algo.rawBody) =>
-      // case (head: SyntaxDirectedHead) if isSuccess(head, algo.rawBody) =>
       head.optional.subsets.map(opt => {
         var st = AbsState.Empty
         val types: List[Type] = head.types.map {

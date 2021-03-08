@@ -88,7 +88,7 @@ object BasicDomain extends obj.Domain {
           val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
           val typeV = if (vopt.absent.isTop) {
             val typeV = ty.fold(AbsValue.Bot)(sem.lookup(_, prop))
-            if (typeV.isBottom) alarm(s"unknown property: ${beautify(prop)}")
+            if (typeV.isBottom) alarm(s"unknown property: ${beautify(prop)} @ ${beautify(this)}")
             typeV
           } else AbsValue.Bot
           vopt.value ⊔ typeV

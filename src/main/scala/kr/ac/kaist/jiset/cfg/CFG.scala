@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.cfg
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec.ECMAScript
-import kr.ac.kaist.jiset.spec.algorithm.NormalHead
+import kr.ac.kaist.jiset.spec.algorithm.{ NormalHead, MethodHead }
 import kr.ac.kaist.jiset.util.UId
 
 // control flow graph
@@ -29,14 +29,18 @@ class CFG(val spec: ECMAScript) {
   //////////////////////////////////////////////////////////////////////////////
   // initial global variables and heaps
   def getGlobal: (Map[String, Value], Map[Addr, Obj]) = {
-    val globalMethods = getGlobalMethods
+    var globalVars = globalMethods
     val (consts, intrinsics) = getNames
-    val globalVars = (
-      globalMethods ++
-      consts.map(x => x -> Const(x.substring("CONST_".length))) ++
-      intrinsics.map(x => x -> NamedAddr(x.substring("INTRINSIC_".length).replaceAll("_", ".")))
-    )
+    for (x <- consts) globalVars += {
+      x -> Const(x.substring("CONST_".length))
+    }
+    for (x <- intrinsics) globalVars += {
+      val name = x.substring("INTRINSIC_".length).replaceAll("_", ".")
+      x -> NamedAddr(s"%$name%")
+    }
+
     val heaps = Map[Addr, Obj]()
+
     (globalVars, heaps)
   }
 
@@ -48,10 +52,11 @@ class CFG(val spec: ECMAScript) {
   // Private Helper Functions
   //////////////////////////////////////////////////////////////////////////////
   // get global methods
-  private def getGlobalMethods: Map[String, Value] = (for {
+  private def globalMethods: Map[String, Value] = (for {
     func <- funcs
     name <- func.algo.head match {
-      case (head: NormalHead) => Some(head.name)
+      case NormalHead(name, _) => Some(name)
+      case MethodHead(base, methodName, _, _) => Some(s"${base}DOT${methodName}")
       case _ => None
     }
   } yield name -> Clo(func.uid)).toMap
