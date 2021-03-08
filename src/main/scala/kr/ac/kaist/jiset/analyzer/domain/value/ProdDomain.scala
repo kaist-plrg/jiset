@@ -54,6 +54,12 @@ object ProdDomain extends value.Domain {
       this.comp ⊓ that.comp
     )
 
+    // prune
+    def prune(v: PureValue): Elem = Elem(
+      pure.prune(v),
+      comp.prune(v)
+    )
+
     // concretization clotion
     def gamma: concrete.Set[Value] = (
       this.pure.gamma ++

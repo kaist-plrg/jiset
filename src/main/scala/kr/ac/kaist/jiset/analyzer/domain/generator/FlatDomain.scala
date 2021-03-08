@@ -42,6 +42,12 @@ class FlatDomain[V](total: Set[V] = Set[V]()) extends AbsDomain[V] {
       else Bot
     }
 
+    // prune
+    def prune(v: V): Elem = this match {
+      case Single(e) if e == v => Bot
+      case _ => this
+    }
+
     // concretization function
     lazy val gamma: concrete.Set[V] = this match {
       case Top => if (total.isEmpty) Infinite else Finite(total)

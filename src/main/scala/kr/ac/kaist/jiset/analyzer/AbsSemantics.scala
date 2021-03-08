@@ -248,7 +248,7 @@ class AbsSemantics(val cfg: CFG) {
 
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
     head.withParams.isEmpty &&
-    targetPatterns.exists(_.matches(head.printName))
+    successPatterns.exists(_.matches(head.printName))
   )
 
   private def isSuccess(head: SyntaxDirectedHead, inst: Inst): Boolean = (

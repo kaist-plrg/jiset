@@ -7,6 +7,8 @@ object BasicDomain extends comp.Domain {
   // abstraction functions
   def alpha(comp: Completion): Elem =
     Elem(Map(comp.ty -> (AbsPure(comp.value), AbsPure(comp.target))))
+  def alpha(v: PureValue): Elem =
+    Elem(Map(CompNormal -> (AbsPure(v), AbsPure.Top)))
 
   // list of types
   val tys: List[CompletionType] = CompletionType.all
@@ -52,6 +54,12 @@ object BasicDomain extends comp.Domain {
       val (thatVal, thatTarget) = that(t)
       t -> (thisVal ⊓ thatVal, thisTarget ⊓ thatTarget)
     }).toMap))
+
+    // prune
+    def prune(v: PureValue): Elem = Elem(this.map.map {
+      case (CompNormal, (absV, target)) => CompNormal -> (absV.prune(v), target)
+      case abrupt @ _ => abrupt
+    })
 
     // concretization function
     def gamma: concrete.Set[Completion] = Infinite // TODO

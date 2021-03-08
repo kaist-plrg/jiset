@@ -4,8 +4,8 @@ import kr.ac.kaist.jiset.DEBUG
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Param }
-import kr.ac.kaist.jiset.util.Conversion._
 import kr.ac.kaist.jiset.util.InfNum
+import kr.ac.kaist.jiset.util.InfNum._
 
 object ArityChecker extends Checker {
   // for specifications

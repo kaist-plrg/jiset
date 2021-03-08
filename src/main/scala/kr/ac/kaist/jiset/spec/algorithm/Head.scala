@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.spec.grammar._
-import kr.ac.kaist.jiset.util.Conversion._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.{ InfNum, PInf }
 import org.jsoup.nodes._

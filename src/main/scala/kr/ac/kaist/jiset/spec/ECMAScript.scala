@@ -5,7 +5,6 @@ import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.InfNum
-import kr.ac.kaist.jiset.util.Conversion._
 
 // ECMASCript specifications
 case class ECMAScript(

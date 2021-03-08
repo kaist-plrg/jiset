@@ -41,6 +41,11 @@ object SetDomain extends clo.Domain {
     // foreach function
     def foreach(f: Pair => Unit): Unit = set.foreach(f)
 
+    // prune
+    def prune(v: Clo): Elem = v match {
+      case Clo(fid, env) => Elem(this.set.prune(Pair(fid, AbsEnv.alpha(env))))
+    }
+
     // concretization function
     def gamma: concrete.Set[Clo] = for {
       Pair(f, ae) <- set.gamma

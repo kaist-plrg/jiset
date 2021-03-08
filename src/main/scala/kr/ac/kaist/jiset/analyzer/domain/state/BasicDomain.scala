@@ -91,6 +91,7 @@ object BasicDomain extends state.Domain {
         }
         case _ => ???
       }
+      case _ => ???
     }
 
     // update references
@@ -163,6 +164,22 @@ object BasicDomain extends state.Domain {
       val addr = DynamicAddr(asite)
       val obj: AbsObj = ListElem(list)
       (AbsPure(addr), copy(heap = heap + (addr -> obj)))
+    }
+
+    // prune
+    def prune(refv: AbsRefValue, v: PureValue, cond: Boolean): Elem = refv match {
+      case AbsRefValue.Id(x) =>
+        val (localV, absent) = env(x)
+        if (absent.isTop) alarm(s"unknown variable: $x")
+        if (!localV.isBottom) {
+          val newV =
+            if (cond) localV ⊓ AbsValue(AbsPure.alpha(v), AbsComp.alpha(v))
+            else localV.prune(v)
+          // normalize
+          if (newV.isBottom) Bot else this + (x -> newV)
+        } else Bot
+      case AbsRefValue.ObjProp(ty, addr, prop) => this // TODO
+      case _ => ???
     }
 
     // append an element to a list

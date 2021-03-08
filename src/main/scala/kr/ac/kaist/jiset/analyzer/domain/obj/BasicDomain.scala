@@ -71,6 +71,9 @@ object BasicDomain extends obj.Domain {
       case _ => Bot
     }
 
+    // TODO prune
+    def prune(v: Obj): Elem = this
+
     // concretization function
     def gamma: concrete.Set[Obj] = Infinite
 

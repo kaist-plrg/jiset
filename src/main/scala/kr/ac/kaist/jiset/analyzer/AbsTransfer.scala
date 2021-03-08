@@ -63,12 +63,12 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         val newSt = transfer(call, view)(st)
         sem += NodePoint(next(call), view) -> newSt
       case branch @ Branch(expr) =>
-        val (v, newSt) = transfer(expr)(st)
-        v.escaped.bool.toSet.foreach {
+        val (pv, newSt) = pruneTransfer(expr)(st)
+        pv.v.escaped.bool.toSet.foreach {
           case true =>
-            sem += NodePoint(thenNext(branch), view) -> prune(expr, true)(newSt)
+            sem += NodePoint(thenNext(branch), view) -> pv.pruneT(newSt)
           case false =>
-            sem += NodePoint(elseNext(branch), view) -> prune(expr, false)(newSt)
+            sem += NodePoint(elseNext(branch), view) -> pv.pruneF(newSt)
         }
     }
   }
@@ -149,9 +149,11 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
         st <- get
       } yield sem.doReturn(ret -> ((st.heap, comp)))
       case IAssert(expr) => for {
-        v <- transfer(expr)
-        _ <- modify(prune(expr, true))
-      } yield if (!(AT ⊑ v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
+        pv <- pruneTransfer(expr)
+        st <- get
+        _ <- modify(pv.pruneT)
+        newSt <- get
+      } yield if (!(AT ⊑ pv.v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
       case IPrint(expr) => for {
         v <- transfer(expr)
         _ = printlnColor(GREEN)(s"[PRINT] ${beautify(v)}")
@@ -343,7 +345,53 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
     }
 
     // TODO pruning abstract states using conditions
-    def prune(expr: Expr, cond: Boolean): Updater = st => st
+    case class PruneValue(
+      v: AbsValue,
+      tlists: List[(AbsRefValue, PureValue, Boolean)] = List(),
+      flists: List[(AbsRefValue, PureValue, Boolean)] = List()
+    ) {
+      def negate: PruneValue = PruneValue(v, flists, tlists)
+      private def prune(b: Boolean): Updater = {
+        val pruneList = if (b) tlists else flists
+        st => pruneList.foldLeft(st) {
+          case (newSt, (refv, v, cond)) => newSt.prune(refv, v, cond)
+        }
+      }
+      def pruneT: Updater = prune(true)
+      def pruneF: Updater = prune(false)
+    }
+    def pruneTransfer(expr: Expr): Result[PruneValue] = expr match {
+      case ERef(ref) => for {
+        refv <- transfer(ref)
+        v <- get(_(sem, refv))
+      } yield PruneValue(
+        v,
+        List((refv, Bool(true), true)),
+        List((refv, Bool(false), false))
+      )
+      case EUOp(ONot, cexpr) => for {
+        pv <- pruneTransfer(cexpr)
+      } yield pv.negate
+      case EBOp(OEq, ERef(ref), rexpr) => for {
+        refv <- transfer(ref)
+        v <- transfer(refv)
+        rv <- transfer(rexpr)
+      } yield {
+        val condv = v.escaped =^= rv.escaped
+        rv.escaped.getSingle match {
+          case One(pv) => PruneValue(
+            condv,
+            List((refv, pv, true)),
+            List((refv, pv, false))
+          )
+          case _ => PruneValue(condv)
+        }
+      }
+      // TODO do more pruning
+      case _ => for {
+        v <- transfer(expr)
+      } yield PruneValue(v)
+    }
 
     // return if abrupt completion
     def returnIfAbrupt(v: AbsValue, check: Boolean): Result[AbsValue] = st => {
@@ -429,9 +477,6 @@ class AbsTransfer(sem: AbsSemantics, var interactMode: Boolean = false) {
       int = AbsINum.Top,
       bigint = AbsBigINum.Top
     )
-
-    // empty constant
-    private val emptyConst: AbsPure = AbsConst(Const("empty"))
 
     // all numbers
     private val numTop: AbsValue = AbsPrim(

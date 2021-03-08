@@ -93,6 +93,18 @@ object ProdDomain extends prim.Domain {
       this.absent ⊓ that.absent
     )
 
+    // prune
+    def prune(v: Prim): Elem = v match {
+      case n: Num => copy(num = num.prune(n))
+      case i: INum => copy(int = int.prune(i))
+      case bi: BigINum => copy(bigint = bigint.prune(bi))
+      case s: Str => copy(str = str.prune(s))
+      case b: Bool => copy(bool = bool.prune(b))
+      case u: Undef => copy(undef = undef.prune(u))
+      case n: Null => copy(nullval = nullval.prune(n))
+      case a: Absent => copy(absent = absent.prune(a))
+    }
+
     // concretization function
     def gamma: concrete.Set[Prim] = (
       this.num.gamma ++

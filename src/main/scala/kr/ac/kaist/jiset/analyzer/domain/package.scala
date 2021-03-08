@@ -119,6 +119,7 @@ package object domain {
   //////////////////////////////////////////////////////////////////////////////
   lazy val AT = AbsBool(true)
   lazy val AF = AbsBool(false)
+  lazy val emptyConst: AbsPure = AbsConst(Const("empty"))
 
   // abstract Scala strings
   lazy val StrFlat = new FlatDomain[String]

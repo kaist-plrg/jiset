@@ -88,6 +88,17 @@ object ProdDomain extends pure.Domain {
       this.prim ⊓ that.prim
     )
 
+    // prune
+    def prune(v: PureValue): Elem = v match {
+      case addr: Addr => copy(addr = this.addr.prune(addr))
+      case const: Const => copy(const = this.const.prune(const))
+      case clo: Clo => copy(clo = this.clo.prune(clo))
+      case cont: Cont => copy(cont = this.cont.prune(cont))
+      case ast: ASTVal => copy(ast = this.ast.prune(ast))
+      case prim: Prim => copy(prim = this.prim.prune(prim))
+      case _ => this
+    }
+
     // concretization clotion
     def gamma: concrete.Set[PureValue] = (
       this.addr.gamma ++

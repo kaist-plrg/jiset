@@ -47,6 +47,12 @@ class SetDomain[V](total: Set[V]) extends AbsDomain[V] {
       case (VSet(l), VSet(r)) => VSet(l intersect r)
     }
 
+    // prune
+    def prune(v: V): Elem = this match {
+      case VSet(elems) if elems.contains(v) => VSet(elems - v)
+      case _ => this
+    }
+
     // concretization function
     lazy val gamma: concrete.Set[V] = this match {
       case Top => if (total.isEmpty) Infinite else Finite(total)
