@@ -1,0 +1,94 @@
+digraph {
+  node930 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node916 [shape=cds, label=<<font color="black">0:app __x0__ = (IsCallable C)</font>> color="black" fillcolor="white" style=filled]
+  node933 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:O = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node922 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node927 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let P = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node931 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node917 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
+  node934 [shape=diamond, label=<<font color="black">(= O null)</font>> color="black" fillcolor="white" style=filled]
+  node924 [shape=diamond, label=<<font color="black">(! (= __x2__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node937 [shape=diamond, label=<<font color="black">(= __x6__ true)</font>> color="black" fillcolor="white" style=filled]
+  node920 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let BC = C.BoundTargetFunction</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node925 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node938 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node921 [shape=cds, label=<<font color="black">3:app __x1__ = (InstanceofOperator O BC)</font>> color="black" fillcolor="white" style=filled]
+  node926 [shape=cds, label=<<font color="black">5:app __x3__ = (Get C &quot;prototype&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node936 [shape=cds, label=<<font color="black">10:app __x6__ = (SameValue P O)</font>> color="black" fillcolor="white" style=filled]
+  node919 [shape=diamond, label=<<font color="black">(! (= C.BoundTargetFunction absent))</font>> color="black" fillcolor="white" style=filled]
+  node915 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node932 [shape=cds, label=<<font color="black">8:app __x5__ = (O.GetPrototypeOf O)</font>> color="black" fillcolor="white" style=filled]
+  node914 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node929 [shape=diamond, label=<<font color="black">(! (= __x4__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node918 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node928 [shape=cds, label=<<font color="black">6:app __x4__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node935 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node923 [shape=cds, label=<<font color="black">4:app __x2__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node923 -> node924 [ color="black"]
+  node930 -> node931 [ color="black"]
+  node917 -> node918 [label=<<font color="black">true</font>> color="black"]
+  node917 -> node919 [label=<<font color="black">false</font>> color="black"]
+  node914 -> node916 [ color="black"]
+  node938 -> node931 [ color="black"]
+  node937 -> node938 [label=<<font color="black">true</font>> color="black"]
+  node937 -> node931 [label=<<font color="black">false</font>> color="black"]
+  node929 -> node930 [label=<<font color="black">true</font>> color="black"]
+  node929 -> node931 [label=<<font color="black">false</font>> color="black"]
+  node928 -> node929 [ color="black"]
+  node925 -> node926 [ color="black"]
+  node922 -> node923 [ color="black"]
+  node924 -> node925 [label=<<font color="black">true</font>> color="black"]
+  node924 -> node926 [label=<<font color="black">false</font>> color="black"]
+  node916 -> node917 [ color="black"]
+  node933 -> node934 [ color="black"]
+  node921 -> node922 [ color="black"]
+  node932 -> node933 [ color="black"]
+  node920 -> node921 [ color="black"]
+  node926 -> node927 [ color="black"]
+  node936 -> node937 [ color="black"]
+  node931 -> node932 [label=<<font color="black">true</font>> color="black"]
+  node931 -> node915 [label=<<font color="black">false</font>> color="black"]
+  node934 -> node935 [label=<<font color="black">true</font>> color="black"]
+  node934 -> node936 [label=<<font color="black">false</font>> color="black"]
+  node919 -> node920 [label=<<font color="black">true</font>> color="black"]
+  node919 -> node923 [label=<<font color="black">false</font>> color="black"]
+  node935 -> node936 [ color="black"]
+  node918 -> node919 [ color="black"]
+  node927 -> node928 [ color="black"]
+}

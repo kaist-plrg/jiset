@@ -1,0 +1,91 @@
+digraph {
+  node6178 [shape=cds, label=<<font color="black">app __x8__ = (PutValue lhs v)</font>> color="black" fillcolor="white" style=filled]
+  node6179 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [? __x8__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6165 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= Initializer absent)) (= v undefined))</font>> color="black" fillcolor="white" style=filled]
+  node6180 [shape=cds, label=<<font color="black">10:app __x9__ = (InitializeReferencedBinding lhs v)</font>> color="black" fillcolor="white" style=filled]
+  node6170 [shape=cds, label=<<font color="black">6:app __x5__ = (IsAnonymousFunctionDefinition Initializer)</font>> color="black" fillcolor="white" style=filled]
+  node6161 [shape=cds, label=<<font color="black">1:app __x1__ = (ResolveBinding bindingId environment)</font>> color="black" fillcolor="white" style=filled]
+  node6169 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let v = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6167 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let defaultValue = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6172 [shape=cds, label=<<font color="black">7:app __x6__ = (HasOwnProperty v &quot;name&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6177 [shape=diamond, label=<<font color="black">(= environment undefined)</font>> color="black" fillcolor="white" style=filled]
+  node6162 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lhs = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6176 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x7__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6157 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6163 [shape=cds, label=<<font color="black">2:app __x2__ = (GetV value propertyName)</font>> color="black" fillcolor="white" style=filled]
+  node6168 [shape=cds, label=<<font color="black">5:app __x4__ = (GetValue defaultValue)</font>> color="black" fillcolor="white" style=filled]
+  node6175 [shape=cds, label=<<font color="black">app __x7__ = (SetFunctionName v bindingId)</font>> color="black" fillcolor="white" style=filled]
+  node6164 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let v = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6171 [shape=diamond, label=<<font color="black">(= __x5__ true)</font>> color="black" fillcolor="white" style=filled]
+  node6160 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let bindingId = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6174 [shape=diamond, label=<<font color="black">(= hasNameProperty false)</font>> color="black" fillcolor="white" style=filled]
+  node6159 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6181 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return __x9__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6166 [shape=cds, label=<<font color="black">4:access __x3__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6173 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let hasNameProperty = [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6158 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6168 -> node6169 [ color="black"]
+  node6176 -> node6177 [ color="black"]
+  node6180 -> node6181 [ color="black"]
+  node6174 -> node6175 [label=<<font color="black">true</font>> color="black"]
+  node6174 -> node6177 [label=<<font color="black">false</font>> color="black"]
+  node6164 -> node6165 [ color="black"]
+  node6169 -> node6170 [ color="black"]
+  node6165 -> node6166 [label=<<font color="black">true</font>> color="black"]
+  node6165 -> node6177 [label=<<font color="black">false</font>> color="black"]
+  node6157 -> node6159 [ color="black"]
+  node6172 -> node6173 [ color="black"]
+  node6175 -> node6176 [ color="black"]
+  node6163 -> node6164 [ color="black"]
+  node6159 -> node6160 [ color="black"]
+  node6177 -> node6178 [label=<<font color="black">true</font>> color="black"]
+  node6177 -> node6180 [label=<<font color="black">false</font>> color="black"]
+  node6170 -> node6171 [ color="black"]
+  node6162 -> node6163 [ color="black"]
+  node6173 -> node6174 [ color="black"]
+  node6160 -> node6161 [ color="black"]
+  node6178 -> node6179 [ color="black"]
+  node6179 -> node6180 [ color="black"]
+  node6161 -> node6162 [ color="black"]
+  node6167 -> node6168 [ color="black"]
+  node6181 -> node6158 [ color="black"]
+  node6171 -> node6172 [label=<<font color="black">true</font>> color="black"]
+  node6171 -> node6177 [label=<<font color="black">false</font>> color="black"]
+  node6166 -> node6167 [ color="black"]
+}

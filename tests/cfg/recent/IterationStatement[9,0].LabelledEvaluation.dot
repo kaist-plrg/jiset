@@ -1,0 +1,21 @@
+digraph {
+  node7793 [shape=cds, label=<<font color="black">0:app __x0__ = (ForInOfHeadEvaluation (new []) AssignmentExpression CONST_iterate)</font>> color="black" fillcolor="white" style=filled]
+  node7792 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7794 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let keyResult = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7795 [shape=cds, label=<<font color="black">1:app __x1__ = (ForInOfBodyEvaluation ForBinding Statement keyResult CONST_iterate CONST_varBinding labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node7796 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7791 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7794 -> node7795 [ color="black"]
+  node7791 -> node7793 [ color="black"]
+  node7795 -> node7796 [ color="black"]
+  node7793 -> node7794 [ color="black"]
+  node7796 -> node7792 [ color="black"]
+}

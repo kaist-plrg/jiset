@@ -1,0 +1,65 @@
+digraph {
+  node16071 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let xConstructor = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16067 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16077 [shape=cds, label=<<font color="black">6:app __x5__ = (Call promiseCapability.Resolve undefined (new [x]))</font>> color="black" fillcolor="white" style=filled]
+  node16076 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let promiseCapability = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16072 [shape=cds, label=<<font color="black">4:app __x3__ = (SameValue xConstructor C)</font>> color="black" fillcolor="white" style=filled]
+  node16068 [shape=cds, label=<<font color="black">2:app __x1__ = (IsPromise x)</font>> color="black" fillcolor="white" style=filled]
+  node16063 [shape=cds, label=<<font color="black">app x = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16075 [shape=cds, label=<<font color="black">5:app __x4__ = (NewPromiseCapability C)</font>> color="black" fillcolor="white" style=filled]
+  node16065 [shape=cds, label=<<font color="black">1:app __x0__ = (Type C)</font>> color="black" fillcolor="white" style=filled]
+  node16069 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node16062 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16064 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let C = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16070 [shape=cds, label=<<font color="black">3:app __x2__ = (Get x &quot;constructor&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16074 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return x</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16061 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16066 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node16078 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:[? __x5__]</td></tr>
+      <tr><td align="left">7:return promiseCapability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16073 [shape=diamond, label=<<font color="black">(= __x3__ true)</font>> color="black" fillcolor="white" style=filled]
+  node16063 -> node16064 [ color="black"]
+  node16069 -> node16070 [label=<<font color="black">true</font>> color="black"]
+  node16069 -> node16075 [label=<<font color="black">false</font>> color="black"]
+  node16071 -> node16072 [ color="black"]
+  node16076 -> node16077 [ color="black"]
+  node16075 -> node16076 [ color="black"]
+  node16073 -> node16074 [label=<<font color="black">true</font>> color="black"]
+  node16073 -> node16075 [label=<<font color="black">false</font>> color="black"]
+  node16070 -> node16071 [ color="black"]
+  node16067 -> node16068 [ color="black"]
+  node16068 -> node16069 [ color="black"]
+  node16078 -> node16062 [ color="black"]
+  node16065 -> node16066 [ color="black"]
+  node16066 -> node16067 [label=<<font color="black">true</font>> color="black"]
+  node16066 -> node16068 [label=<<font color="black">false</font>> color="black"]
+  node16064 -> node16065 [ color="black"]
+  node16061 -> node16063 [ color="black"]
+  node16077 -> node16078 [ color="black"]
+  node16072 -> node16073 [ color="black"]
+  node16074 -> node16075 [ color="black"]
+}

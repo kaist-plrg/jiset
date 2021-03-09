@@ -1,0 +1,38 @@
+digraph {
+  node1200 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:__x3__</td></tr>
+      <tr><td align="left">4:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1196 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1191 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1199 [shape=cds, label=<<font color="black">3:app __x3__ = (CreateDataProperty obj &quot;done&quot; done)</font>> color="black" fillcolor="white" style=filled]
+  node1195 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_ObjectPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node1192 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1194 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Boolean)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1198 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1193 [shape=cds, label=<<font color="black">0:app __x0__ = (Type done)</font>> color="black" fillcolor="white" style=filled]
+  node1197 [shape=cds, label=<<font color="black">2:app __x2__ = (CreateDataProperty obj &quot;value&quot; value)</font>> color="black" fillcolor="white" style=filled]
+  node1191 -> node1193 [ color="black"]
+  node1195 -> node1196 [ color="black"]
+  node1198 -> node1199 [ color="black"]
+  node1199 -> node1200 [ color="black"]
+  node1196 -> node1197 [ color="black"]
+  node1200 -> node1192 [ color="black"]
+  node1194 -> node1195 [ color="black"]
+  node1193 -> node1194 [ color="black"]
+  node1197 -> node1198 [ color="black"]
+}

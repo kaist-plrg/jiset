@@ -1,0 +1,19 @@
+digraph {
+  node16204 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node16200 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16205 [shape=cds, label=<<font color="black">0:app __x0__ = (AtomicReadModifyWrite typedArray index value ??? &quot;subtract&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16201 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16202 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16206 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:return [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16203 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node16203 -> node16204 [ color="black"]
+  node16200 -> node16202 [ color="black"]
+  node16202 -> node16203 [ color="black"]
+  node16206 -> node16201 [ color="black"]
+  node16204 -> node16205 [ color="black"]
+  node16205 -> node16206 [ color="black"]
+}

@@ -1,0 +1,32 @@
+digraph {
+  node3275 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3268 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3274 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ array (+ nextIndex padding))</font>> color="black" fillcolor="white" style=filled]
+  node3272 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let padding = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3270 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let padding = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3273 [shape=cds, label=<<font color="black">1:access __x1__ = (SpreadElement &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3267 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3271 [shape=cds, label=<<font color="black">access __x0__ = (Elision &quot;ElisionWidth&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3269 [shape=diamond, label=<<font color="black">(= Elision absent)</font>> color="black" fillcolor="white" style=filled]
+  node3271 -> node3272 [ color="black"]
+  node3272 -> node3273 [ color="black"]
+  node3273 -> node3274 [ color="black"]
+  node3275 -> node3268 [ color="black"]
+  node3269 -> node3270 [label=<<font color="black">true</font>> color="black"]
+  node3269 -> node3271 [label=<<font color="black">false</font>> color="black"]
+  node3267 -> node3269 [ color="black"]
+  node3270 -> node3273 [ color="black"]
+  node3274 -> node3275 [ color="black"]
+}

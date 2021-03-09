@@ -1,0 +1,33 @@
+digraph {
+  node12225 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12229 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12232 [shape=cds, label=<<font color="black">2:app __x2__ = (TimeClip t)</font>> color="black" fillcolor="white" style=filled]
+  node12228 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node12233 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let v = __x2__</td></tr>
+      <tr><td align="left">3:this.DateValue = v</td></tr>
+      <tr><td align="left">4:return v</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12231 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let t = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12227 [shape=cds, label=<<font color="black">app time = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12226 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12230 [shape=cds, label=<<font color="black">1:app __x1__ = (ToNumber time)</font>> color="black" fillcolor="white" style=filled]
+  node12227 -> node12228 [ color="black"]
+  node12232 -> node12233 [ color="black"]
+  node12233 -> node12226 [ color="black"]
+  node12231 -> node12232 [ color="black"]
+  node12225 -> node12227 [ color="black"]
+  node12228 -> node12229 [ color="black"]
+  node12230 -> node12231 [ color="black"]
+  node12229 -> node12230 [ color="black"]
+}

@@ -1,0 +1,45 @@
+digraph {
+  node10917 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10912 [shape=cds, label=<<font color="black">app Properties = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node10911 [shape=cds, label=<<font color="black">app O = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node10914 [shape=diamond, label=<<font color="black">(! (|| (= __x0__ Object) (= __x0__ Null)))</font>> color="black" fillcolor="white" style=filled]
+  node10919 [shape=cds, label=<<font color="black">3:app __x2__ = (ObjectDefineProperties obj Properties)</font>> color="black" fillcolor="white" style=filled]
+  node10920 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10915 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10909 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10916 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate O)</font>> color="black" fillcolor="white" style=filled]
+  node10913 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node10918 [shape=diamond, label=<<font color="black">(! (= Properties undefined))</font>> color="black" fillcolor="white" style=filled]
+  node10921 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10910 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10911 -> node10912 [ color="black"]
+  node10918 -> node10919 [label=<<font color="black">true</font>> color="black"]
+  node10918 -> node10921 [label=<<font color="black">false</font>> color="black"]
+  node10917 -> node10918 [ color="black"]
+  node10916 -> node10917 [ color="black"]
+  node10921 -> node10910 [ color="black"]
+  node10912 -> node10913 [ color="black"]
+  node10913 -> node10914 [ color="black"]
+  node10914 -> node10915 [label=<<font color="black">true</font>> color="black"]
+  node10914 -> node10916 [label=<<font color="black">false</font>> color="black"]
+  node10920 -> node10921 [ color="black"]
+  node10919 -> node10920 [ color="black"]
+  node10915 -> node10916 [ color="black"]
+  node10909 -> node10911 [ color="black"]
+}

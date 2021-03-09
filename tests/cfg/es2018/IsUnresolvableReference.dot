@@ -1,0 +1,28 @@
+digraph {
+  node57 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node61 [shape=diamond, label=<<font color="black">(= V.BaseValue undefined)</font>> color="black" fillcolor="white" style=filled]
+  node60 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Reference)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node59 [shape=cds, label=<<font color="black">0:app __x0__ = (Type V)</font>> color="black" fillcolor="white" style=filled]
+  node63 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node58 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node62 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node62 -> node58 [ color="black"]
+  node63 -> node58 [ color="black"]
+  node59 -> node60 [ color="black"]
+  node60 -> node61 [ color="black"]
+  node61 -> node62 [label=<<font color="black">true</font>> color="black"]
+  node61 -> node63 [label=<<font color="black">false</font>> color="black"]
+  node57 -> node59 [ color="black"]
+}

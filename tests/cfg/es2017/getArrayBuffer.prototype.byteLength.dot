@@ -1,0 +1,60 @@
+digraph {
+  node15776 [shape=diamond, label=<<font color="black">(= O.ArrayBufferData absent)</font>> color="black" fillcolor="white" style=filled]
+  node15779 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node15771 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15783 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15782 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
+  node15770 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15780 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15784 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let length = O.ArrayBufferByteLength</td></tr>
+      <tr><td align="left">6:return length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15774 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node15772 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15778 [shape=cds, label=<<font color="black">3:app __x1__ = (IsSharedArrayBuffer O)</font>> color="black" fillcolor="white" style=filled]
+  node15777 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15775 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15781 [shape=cds, label=<<font color="black">4:app __x2__ = (IsDetachedBuffer O)</font>> color="black" fillcolor="white" style=filled]
+  node15773 [shape=cds, label=<<font color="black">1:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node15779 -> node15780 [label=<<font color="black">true</font>> color="black"]
+  node15779 -> node15781 [label=<<font color="black">false</font>> color="black"]
+  node15778 -> node15779 [ color="black"]
+  node15783 -> node15784 [ color="black"]
+  node15776 -> node15777 [label=<<font color="black">true</font>> color="black"]
+  node15776 -> node15778 [label=<<font color="black">false</font>> color="black"]
+  node15777 -> node15778 [ color="black"]
+  node15781 -> node15782 [ color="black"]
+  node15775 -> node15776 [ color="black"]
+  node15770 -> node15772 [ color="black"]
+  node15772 -> node15773 [ color="black"]
+  node15773 -> node15774 [ color="black"]
+  node15780 -> node15781 [ color="black"]
+  node15784 -> node15771 [ color="black"]
+  node15782 -> node15783 [label=<<font color="black">true</font>> color="black"]
+  node15782 -> node15784 [label=<<font color="black">false</font>> color="black"]
+  node15774 -> node15775 [label=<<font color="black">true</font>> color="black"]
+  node15774 -> node15776 [label=<<font color="black">false</font>> color="black"]
+}

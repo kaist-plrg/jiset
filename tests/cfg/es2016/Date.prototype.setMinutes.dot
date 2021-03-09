@@ -1,0 +1,93 @@
+digraph {
+  node11790 [shape=cds, label=<<font color="black">5:app __x11__ = (UTC date)</font>> color="black" fillcolor="white" style=filled]
+  node11786 [shape=cds, label=<<font color="black">4:app __x8__ = (HourFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node11773 [shape=cds, label=<<font color="black">1:app __x2__ = (ToNumber min)</font>> color="black" fillcolor="white" style=filled]
+  node11778 [shape=cds, label=<<font color="black">app __x4__ = (ToNumber sec)</font>> color="black" fillcolor="white" style=filled]
+  node11783 [shape=cds, label=<<font color="black">app __x6__ = (ToNumber ms)</font>> color="black" fillcolor="white" style=filled]
+  node11791 [shape=cds, label=<<font color="black">5:app __x12__ = (TimeClip __x11__)</font>> color="black" fillcolor="white" style=filled]
+  node11771 [shape=cds, label=<<font color="black">0:app __x1__ = (LocalTime [? __x0__])</font>> color="black" fillcolor="white" style=filled]
+  node11767 [shape=cds, label=<<font color="black">app min = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11770 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node11788 [shape=cds, label=<<font color="black">4:app __x10__ = (MakeDate __x7__ __x9__)</font>> color="black" fillcolor="white" style=filled]
+  node11789 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let date = __x10__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11768 [shape=cds, label=<<font color="black">app sec = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node11766 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11782 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let milli = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11774 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let m = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11787 [shape=cds, label=<<font color="black">4:app __x9__ = (MakeTime __x8__ m s milli)</font>> color="black" fillcolor="white" style=filled]
+  node11777 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let s = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11769 [shape=cds, label=<<font color="black">app ms = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node11792 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let u = __x12__</td></tr>
+      <tr><td align="left">6:this.DateValue = u</td></tr>
+      <tr><td align="left">7:return u</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11765 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11775 [shape=diamond, label=<<font color="black">(= sec absent)</font>> color="black" fillcolor="white" style=filled]
+  node11781 [shape=cds, label=<<font color="black">app __x5__ = (msFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node11780 [shape=diamond, label=<<font color="black">(= ms absent)</font>> color="black" fillcolor="white" style=filled]
+  node11785 [shape=cds, label=<<font color="black">4:app __x7__ = (Day t)</font>> color="black" fillcolor="white" style=filled]
+  node11772 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let t = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11779 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let s = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11776 [shape=cds, label=<<font color="black">app __x3__ = (SecFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node11784 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let milli = [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11776 -> node11777 [ color="black"]
+  node11770 -> node11771 [ color="black"]
+  node11786 -> node11787 [ color="black"]
+  node11787 -> node11788 [ color="black"]
+  node11780 -> node11781 [label=<<font color="black">true</font>> color="black"]
+  node11780 -> node11783 [label=<<font color="black">false</font>> color="black"]
+  node11784 -> node11785 [ color="black"]
+  node11781 -> node11782 [ color="black"]
+  node11790 -> node11791 [ color="black"]
+  node11775 -> node11776 [label=<<font color="black">true</font>> color="black"]
+  node11775 -> node11778 [label=<<font color="black">false</font>> color="black"]
+  node11782 -> node11785 [ color="black"]
+  node11768 -> node11769 [ color="black"]
+  node11765 -> node11767 [ color="black"]
+  node11789 -> node11790 [ color="black"]
+  node11769 -> node11770 [ color="black"]
+  node11774 -> node11775 [ color="black"]
+  node11773 -> node11774 [ color="black"]
+  node11791 -> node11792 [ color="black"]
+  node11771 -> node11772 [ color="black"]
+  node11788 -> node11789 [ color="black"]
+  node11783 -> node11784 [ color="black"]
+  node11767 -> node11768 [ color="black"]
+  node11772 -> node11773 [ color="black"]
+  node11792 -> node11766 [ color="black"]
+  node11779 -> node11780 [ color="black"]
+  node11785 -> node11786 [ color="black"]
+  node11777 -> node11780 [ color="black"]
+  node11778 -> node11779 [ color="black"]
+}

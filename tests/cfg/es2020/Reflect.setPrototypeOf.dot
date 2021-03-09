@@ -1,0 +1,39 @@
+digraph {
+  node19076 [shape=cds, label=<<font color="black">2:app __x2__ = (target.SetPrototypeOf target proto)</font>> color="black" fillcolor="white" style=filled]
+  node19069 [shape=cds, label=<<font color="black">app proto = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node19066 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19071 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node19067 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19074 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= __x1__ Object)) (! (= proto null)))</font>> color="black" fillcolor="white" style=filled]
+  node19077 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19073 [shape=cds, label=<<font color="black">1:app __x1__ = (Type proto)</font>> color="black" fillcolor="white" style=filled]
+  node19068 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node19072 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19070 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node19075 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19069 -> node19070 [ color="black"]
+  node19068 -> node19069 [ color="black"]
+  node19075 -> node19076 [ color="black"]
+  node19071 -> node19072 [label=<<font color="black">true</font>> color="black"]
+  node19071 -> node19073 [label=<<font color="black">false</font>> color="black"]
+  node19074 -> node19075 [label=<<font color="black">true</font>> color="black"]
+  node19074 -> node19076 [label=<<font color="black">false</font>> color="black"]
+  node19070 -> node19071 [ color="black"]
+  node19077 -> node19067 [ color="black"]
+  node19076 -> node19077 [ color="black"]
+  node19072 -> node19073 [ color="black"]
+  node19066 -> node19068 [ color="black"]
+  node19073 -> node19074 [ color="black"]
+}

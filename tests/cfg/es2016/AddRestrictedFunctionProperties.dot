@@ -1,0 +1,27 @@
+digraph {
+  node1872 [shape=cds, label=<<font color="black">2:app __x0__ = (DefinePropertyOrThrow F &quot;caller&quot; (new PropertyDescriptor(&quot;Get&quot; -&gt; thrower, &quot;Set&quot; -&gt; thrower, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node1871 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let thrower = realm.Intrinsics.INTRINSIC_ThrowTypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1875 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1874 [shape=cds, label=<<font color="black">3:app __x1__ = (DefinePropertyOrThrow F &quot;arguments&quot; (new PropertyDescriptor(&quot;Get&quot; -&gt; thrower, &quot;Set&quot; -&gt; thrower, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node1873 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:[! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1869 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1870 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1875 -> node1870 [ color="black"]
+  node1871 -> node1872 [ color="black"]
+  node1874 -> node1875 [ color="black"]
+  node1872 -> node1873 [ color="black"]
+  node1873 -> node1874 [ color="black"]
+  node1869 -> node1871 [ color="black"]
+}

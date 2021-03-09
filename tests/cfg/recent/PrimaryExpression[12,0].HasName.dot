@@ -1,0 +1,32 @@
+digraph {
+  node3745 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3744 [shape=diamond, label=<<font color="black">(= __x1__ false)</font>> color="black" fillcolor="white" style=filled]
+  node3739 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3742 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let expr = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3746 [shape=cds, label=<<font color="black">2:access __x2__ = (expr &quot;HasName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3743 [shape=cds, label=<<font color="black">1:access __x1__ = (expr &quot;IsFunctionDefinition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3741 [shape=cds, label=<<font color="black">0:access __x0__ = (CoverParenthesizedExpressionAndArrowParameterList &quot;CoveredParenthesizedExpression&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3747 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3740 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3741 -> node3742 [ color="black"]
+  node3744 -> node3745 [label=<<font color="black">true</font>> color="black"]
+  node3744 -> node3746 [label=<<font color="black">false</font>> color="black"]
+  node3746 -> node3747 [ color="black"]
+  node3739 -> node3741 [ color="black"]
+  node3747 -> node3740 [ color="black"]
+  node3745 -> node3746 [ color="black"]
+  node3743 -> node3744 [ color="black"]
+  node3742 -> node3743 [ color="black"]
+}

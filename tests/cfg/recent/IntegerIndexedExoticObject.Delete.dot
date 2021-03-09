@@ -1,0 +1,54 @@
+digraph {
+  node2976 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2985 [shape=cds, label=<<font color="black">5:app __x3__ = (IsValidIntegerIndex O numericIndex)</font>> color="black" fillcolor="white" style=filled]
+  node2989 [shape=cds, label=<<font color="black">6:app __x4__ = (OrdinaryDelete O P)</font>> color="black" fillcolor="white" style=filled]
+  node2986 [shape=diamond, label=<<font color="black">(= [! __x3__] false)</font>> color="black" fillcolor="white" style=filled]
+  node2990 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2978 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node2981 [shape=diamond, label=<<font color="black">(= __x1__ String)</font>> color="black" fillcolor="white" style=filled]
+  node2987 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2984 [shape=diamond, label=<<font color="black">(! (= numericIndex undefined))</font>> color="black" fillcolor="white" style=filled]
+  node2977 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2988 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2983 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let numericIndex = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2980 [shape=cds, label=<<font color="black">2:app __x1__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node2979 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2982 [shape=cds, label=<<font color="black">3:app __x2__ = (CanonicalNumericIndexString P)</font>> color="black" fillcolor="white" style=filled]
+  node2986 -> node2987 [label=<<font color="black">true</font>> color="black"]
+  node2986 -> node2988 [label=<<font color="black">false</font>> color="black"]
+  node2979 -> node2980 [ color="black"]
+  node2976 -> node2978 [ color="black"]
+  node2989 -> node2990 [ color="black"]
+  node2983 -> node2984 [ color="black"]
+  node2982 -> node2983 [ color="black"]
+  node2981 -> node2982 [label=<<font color="black">true</font>> color="black"]
+  node2981 -> node2989 [label=<<font color="black">false</font>> color="black"]
+  node2987 -> node2989 [ color="black"]
+  node2988 -> node2989 [ color="black"]
+  node2980 -> node2981 [ color="black"]
+  node2978 -> node2979 [ color="black"]
+  node2985 -> node2986 [ color="black"]
+  node2984 -> node2985 [label=<<font color="black">true</font>> color="black"]
+  node2984 -> node2989 [label=<<font color="black">false</font>> color="black"]
+  node2990 -> node2977 [ color="black"]
+}

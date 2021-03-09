@@ -1,0 +1,35 @@
+digraph {
+  node18906 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x0__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18909 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18908 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18903 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18907 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node18904 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let __x0__ = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18905 [shape=diamond, label=<<font color="black">(= absent (parse-syntax ContinueStatement &quot;IterationStatement&quot; (new [])))</font>> color="black" fillcolor="white" style=filled]
+  node18902 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18905 -> node18906 [label=<<font color="black">true</font>> color="black"]
+  node18905 -> node18907 [label=<<font color="black">false</font>> color="black"]
+  node18902 -> node18904 [ color="black"]
+  node18907 -> node18908 [label=<<font color="black">true</font>> color="black"]
+  node18907 -> node18909 [label=<<font color="black">false</font>> color="black"]
+  node18906 -> node18907 [ color="black"]
+  node18904 -> node18905 [ color="black"]
+  node18909 -> node18903 [ color="black"]
+  node18908 -> node18903 [ color="black"]
+}

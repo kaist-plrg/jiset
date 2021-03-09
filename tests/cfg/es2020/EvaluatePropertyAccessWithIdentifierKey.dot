@@ -1,0 +1,28 @@
+digraph {
+  node4609 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (is-instance-of identifierName IdentifierName)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4608 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4613 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let propertyNameString = __x1__</td></tr>
+      <tr><td align="left">3:return (new Reference(&quot;BaseValue&quot; -&gt; bv, &quot;ReferencedName&quot; -&gt; propertyNameString, &quot;StrictReference&quot; -&gt; strict))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4612 [shape=cds, label=<<font color="black">2:access __x1__ = (identifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4611 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let bv = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4607 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4610 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
+  node4611 -> node4612 [ color="black"]
+  node4609 -> node4610 [ color="black"]
+  node4610 -> node4611 [ color="black"]
+  node4613 -> node4608 [ color="black"]
+  node4612 -> node4613 [ color="black"]
+  node4607 -> node4609 [ color="black"]
+}

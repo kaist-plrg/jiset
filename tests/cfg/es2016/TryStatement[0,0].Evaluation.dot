@@ -1,0 +1,40 @@
+digraph {
+  node7743 [shape=cds, label=<<font color="black">app __x2__ = (__x1__ B.Value)</font>> color="black" fillcolor="white" style=filled]
+  node7739 [shape=cds, label=<<font color="black">0:access __x0__ = (Block &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7745 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let C = B</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7738 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7742 [shape=cds, label=<<font color="black">access __x1__ = (Catch &quot;CatchClauseEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7737 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7747 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7744 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let C = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7740 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let B = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7746 [shape=cds, label=<<font color="black">3:app __x3__ = (UpdateEmpty C undefined)</font>> color="black" fillcolor="white" style=filled]
+  node7741 [shape=diamond, label=<<font color="black">(= B.Type CONST_throw)</font>> color="black" fillcolor="white" style=filled]
+  node7737 -> node7739 [ color="black"]
+  node7743 -> node7744 [ color="black"]
+  node7746 -> node7747 [ color="black"]
+  node7742 -> node7743 [ color="black"]
+  node7745 -> node7746 [ color="black"]
+  node7741 -> node7742 [label=<<font color="black">true</font>> color="black"]
+  node7741 -> node7745 [label=<<font color="black">false</font>> color="black"]
+  node7740 -> node7741 [ color="black"]
+  node7739 -> node7740 [ color="black"]
+  node7744 -> node7746 [ color="black"]
+  node7747 -> node7738 [ color="black"]
+}

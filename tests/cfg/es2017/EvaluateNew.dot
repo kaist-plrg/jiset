@@ -1,0 +1,65 @@
+digraph {
+  node3969 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let constructor = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3976 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3972 [shape=cds, label=<<font color="black">6:access __x2__ = (arguments &quot;ArgumentListEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3967 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let ref = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3964 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3975 [shape=diamond, label=<<font color="black">(= __x3__ false)</font>> color="black" fillcolor="white" style=filled]
+  node3970 [shape=diamond, label=<<font color="black">(= arguments CONST_empty)</font>> color="black" fillcolor="white" style=filled]
+  node3978 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3966 [shape=cds, label=<<font color="black">2:access __x0__ = (constructExpr &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3973 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let argList = __x2__</td></tr>
+      <tr><td align="left">7:[? argList]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3968 [shape=cds, label=<<font color="black">3:app __x1__ = (GetValue ref)</font>> color="black" fillcolor="white" style=filled]
+  node3963 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3977 [shape=cds, label=<<font color="black">9:app __x4__ = (Construct constructor argList)</font>> color="black" fillcolor="white" style=filled]
+  node3971 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let argList = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3974 [shape=cds, label=<<font color="black">8:app __x3__ = (IsConstructor constructor)</font>> color="black" fillcolor="white" style=filled]
+  node3965 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (|| (is-instance-of constructExpr NewExpression) (is-instance-of constructExpr MemberExpression))</td></tr>
+      <tr><td align="left">1:assert (|| (= arguments CONST_empty) (is-instance-of arguments Arguments))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3974 -> node3975 [ color="black"]
+  node3976 -> node3977 [ color="black"]
+  node3978 -> node3964 [ color="black"]
+  node3972 -> node3973 [ color="black"]
+  node3973 -> node3974 [ color="black"]
+  node3963 -> node3965 [ color="black"]
+  node3965 -> node3966 [ color="black"]
+  node3969 -> node3970 [ color="black"]
+  node3966 -> node3967 [ color="black"]
+  node3970 -> node3971 [label=<<font color="black">true</font>> color="black"]
+  node3970 -> node3972 [label=<<font color="black">false</font>> color="black"]
+  node3968 -> node3969 [ color="black"]
+  node3971 -> node3974 [ color="black"]
+  node3975 -> node3976 [label=<<font color="black">true</font>> color="black"]
+  node3975 -> node3977 [label=<<font color="black">false</font>> color="black"]
+  node3967 -> node3968 [ color="black"]
+  node3977 -> node3978 [ color="black"]
+}

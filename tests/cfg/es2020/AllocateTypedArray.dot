@@ -1,0 +1,63 @@
+digraph {
+  node16752 [shape=cds, label=<<font color="black">1:app __x1__ = (IntegerIndexedObjectCreate proto)</font>> color="black" fillcolor="white" style=filled]
+  node16757 [shape=diamond, label=<<font color="black">(= length absent)</font>> color="black" fillcolor="white" style=filled]
+  node16753 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = [! __x1__]</td></tr>
+      <tr><td align="left">2:assert (= obj.ViewedArrayBuffer undefined)</td></tr>
+      <tr><td align="left">3:obj.TypedArrayName = constructorName</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16761 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16758 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:obj.ByteLength = 0i</td></tr>
+      <tr><td align="left">8:obj.ByteOffset = 0i</td></tr>
+      <tr><td align="left">9:obj.ArrayLength = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16754 [shape=diamond, label=<<font color="black">(|| (= constructorName &quot;BigInt64Array&quot;) (= constructorName &quot;BigUint64Array&quot;))</font>> color="black" fillcolor="white" style=filled]
+  node16750 [shape=cds, label=<<font color="black">0:app __x0__ = (GetPrototypeFromConstructor newTarget defaultProto)</font>> color="black" fillcolor="white" style=filled]
+  node16755 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">obj.ContentType = CONST_BigInt</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16759 [shape=cds, label=<<font color="black">11:app __x2__ = (AllocateTypedArrayBuffer obj length)</font>> color="black" fillcolor="white" style=filled]
+  node16749 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16756 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">obj.ContentType = CONST_Number</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16760 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:[? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16751 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let proto = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16748 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16754 -> node16755 [label=<<font color="black">true</font>> color="black"]
+  node16754 -> node16756 [label=<<font color="black">false</font>> color="black"]
+  node16753 -> node16754 [ color="black"]
+  node16748 -> node16750 [ color="black"]
+  node16759 -> node16760 [ color="black"]
+  node16757 -> node16758 [label=<<font color="black">true</font>> color="black"]
+  node16757 -> node16759 [label=<<font color="black">false</font>> color="black"]
+  node16761 -> node16749 [ color="black"]
+  node16751 -> node16752 [ color="black"]
+  node16760 -> node16761 [ color="black"]
+  node16755 -> node16757 [ color="black"]
+  node16752 -> node16753 [ color="black"]
+  node16758 -> node16761 [ color="black"]
+  node16756 -> node16757 [ color="black"]
+  node16750 -> node16751 [ color="black"]
+}

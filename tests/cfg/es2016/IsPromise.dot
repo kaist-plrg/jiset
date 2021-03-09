@@ -1,0 +1,31 @@
+digraph {
+  node15838 [shape=cds, label=<<font color="black">0:app __x0__ = (Type x)</font>> color="black" fillcolor="white" style=filled]
+  node15843 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15842 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15836 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15840 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15839 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node15837 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15841 [shape=diamond, label=<<font color="black">(= x.PromiseState absent)</font>> color="black" fillcolor="white" style=filled]
+  node15836 -> node15838 [ color="black"]
+  node15843 -> node15837 [ color="black"]
+  node15841 -> node15842 [label=<<font color="black">true</font>> color="black"]
+  node15841 -> node15843 [label=<<font color="black">false</font>> color="black"]
+  node15840 -> node15841 [ color="black"]
+  node15838 -> node15839 [ color="black"]
+  node15839 -> node15840 [label=<<font color="black">true</font>> color="black"]
+  node15839 -> node15841 [label=<<font color="black">false</font>> color="black"]
+  node15842 -> node15843 [ color="black"]
+}

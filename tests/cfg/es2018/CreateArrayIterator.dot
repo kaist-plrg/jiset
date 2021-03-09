@@ -1,0 +1,29 @@
+digraph {
+  node15755 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15759 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15756 [shape=cds, label=<<font color="black">app array = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15761 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let iterator = __x1__</td></tr>
+      <tr><td align="left">2:iterator.IteratedObject = array</td></tr>
+      <tr><td align="left">3:iterator.ArrayIteratorNextIndex = 0i</td></tr>
+      <tr><td align="left">4:iterator.ArrayIterationKind = kind</td></tr>
+      <tr><td align="left">5:return iterator</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15760 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_ArrayIteratorPrototype (new [&quot;IteratedObject&quot;, &quot;ArrayIteratorNextIndex&quot;, &quot;ArrayIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node15757 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node15754 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15758 [shape=cds, label=<<font color="black">0:app __x0__ = (Type array)</font>> color="black" fillcolor="white" style=filled]
+  node15761 -> node15755 [ color="black"]
+  node15757 -> node15758 [ color="black"]
+  node15760 -> node15761 [ color="black"]
+  node15756 -> node15757 [ color="black"]
+  node15759 -> node15760 [ color="black"]
+  node15754 -> node15756 [ color="black"]
+  node15758 -> node15759 [ color="black"]
+}

@@ -1,0 +1,28 @@
+digraph {
+  node14716 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14712 [shape=diamond, label=<<font color="black">(= DotAll true)</font>> color="black" fillcolor="white" style=filled]
+  node14713 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">??? &quot;Let id:{A} be the set of all characters .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14714 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:??? &quot;Otherwise , let id:{A} be the set of all characters except nt:{LineTerminator} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14711 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14710 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14715 [shape=cds, label=<<font color="black">3:app __x0__ = (CharacterSetMatcher A false direction)</font>> color="black" fillcolor="white" style=filled]
+  node14712 -> node14713 [label=<<font color="black">true</font>> color="black"]
+  node14712 -> node14714 [label=<<font color="black">false</font>> color="black"]
+  node14716 -> node14711 [ color="black"]
+  node14714 -> node14715 [ color="black"]
+  node14713 -> node14714 [ color="black"]
+  node14710 -> node14712 [ color="black"]
+  node14715 -> node14716 [ color="black"]
+}

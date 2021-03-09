@@ -1,0 +1,57 @@
+digraph {
+  node495 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node492 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node485 [shape=cds, label=<<font color="black">0:app __x0__ = (Type argument)</font>> color="black" fillcolor="white" style=filled]
+  node484 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node493 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let target = argument.ProxyTarget</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node488 [shape=diamond, label=<<font color="black">(= (typeof argument) &quot;ArrayExoticObject&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node489 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node494 [shape=cds, label=<<font color="black">5:app __x1__ = (IsArray target)</font>> color="black" fillcolor="white" style=filled]
+  node483 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node490 [shape=diamond, label=<<font color="black">(= (typeof argument) &quot;ProxyExoticObject&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node487 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node486 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node491 [shape=diamond, label=<<font color="black">(= argument.ProxyHandler null)</font>> color="black" fillcolor="white" style=filled]
+  node496 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node488 -> node489 [label=<<font color="black">true</font>> color="black"]
+  node488 -> node490 [label=<<font color="black">false</font>> color="black"]
+  node493 -> node494 [ color="black"]
+  node485 -> node486 [ color="black"]
+  node491 -> node492 [label=<<font color="black">true</font>> color="black"]
+  node491 -> node493 [label=<<font color="black">false</font>> color="black"]
+  node483 -> node485 [ color="black"]
+  node487 -> node488 [ color="black"]
+  node490 -> node491 [label=<<font color="black">true</font>> color="black"]
+  node490 -> node496 [label=<<font color="black">false</font>> color="black"]
+  node495 -> node496 [ color="black"]
+  node496 -> node484 [ color="black"]
+  node494 -> node495 [ color="black"]
+  node489 -> node490 [ color="black"]
+  node486 -> node487 [label=<<font color="black">true</font>> color="black"]
+  node486 -> node488 [label=<<font color="black">false</font>> color="black"]
+  node492 -> node493 [ color="black"]
+}

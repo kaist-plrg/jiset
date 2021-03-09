@@ -1,0 +1,28 @@
+digraph {
+  node69 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node70 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node65 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node64 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node66 [shape=cds, label=<<font color="black">0:app __x0__ = (Type V)</font>> color="black" fillcolor="white" style=filled]
+  node67 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Reference)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node68 [shape=diamond, label=<<font color="black">(! (= V.thisValue absent))</font>> color="black" fillcolor="white" style=filled]
+  node69 -> node65 [ color="black"]
+  node67 -> node68 [ color="black"]
+  node66 -> node67 [ color="black"]
+  node64 -> node66 [ color="black"]
+  node68 -> node69 [label=<<font color="black">true</font>> color="black"]
+  node68 -> node70 [label=<<font color="black">false</font>> color="black"]
+  node70 -> node65 [ color="black"]
+}

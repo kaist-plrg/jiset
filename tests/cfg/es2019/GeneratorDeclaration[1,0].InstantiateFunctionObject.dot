@@ -1,0 +1,39 @@
+digraph {
+  node8843 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_GeneratorPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node8848 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:__x3__</td></tr>
+      <tr><td align="left">4:F.SourceText = (get-syntax GeneratorDeclaration)</td></tr>
+      <tr><td align="left">5:return F</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8842 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let F = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8847 [shape=cds, label=<<font color="black">3:app __x3__ = (SetFunctionName F &quot;default&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8841 [shape=cds, label=<<font color="black">0:app __x0__ = (GeneratorFunctionCreate CONST_Normal FormalParameters GeneratorBody scope true)</font>> color="black" fillcolor="white" style=filled]
+  node8844 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let prototype = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8846 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8839 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8845 [shape=cds, label=<<font color="black">2:app __x2__ = (DefinePropertyOrThrow F &quot;prototype&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; prototype, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node8840 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8846 -> node8847 [ color="black"]
+  node8844 -> node8845 [ color="black"]
+  node8845 -> node8846 [ color="black"]
+  node8842 -> node8843 [ color="black"]
+  node8841 -> node8842 [ color="black"]
+  node8847 -> node8848 [ color="black"]
+  node8839 -> node8841 [ color="black"]
+  node8843 -> node8844 [ color="black"]
+  node8848 -> node8840 [ color="black"]
+}

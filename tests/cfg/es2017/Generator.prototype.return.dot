@@ -1,0 +1,22 @@
+digraph {
+  node16527 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let g = this</td></tr>
+      <tr><td align="left">1:let C = (new Completion(&quot;Type&quot; -&gt; CONST_return, &quot;Value&quot; -&gt; value, &quot;Target&quot; -&gt; CONST_empty))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16529 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16524 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16528 [shape=cds, label=<<font color="black">2:app __x0__ = (GeneratorResumeAbrupt g C)</font>> color="black" fillcolor="white" style=filled]
+  node16525 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16526 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16524 -> node16526 [ color="black"]
+  node16527 -> node16528 [ color="black"]
+  node16529 -> node16525 [ color="black"]
+  node16528 -> node16529 [ color="black"]
+  node16526 -> node16527 [ color="black"]
+}

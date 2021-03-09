@@ -1,0 +1,75 @@
+digraph {
+  node1024 [shape=diamond, label=<<font color="black">(= __x4__ true)</font>> color="black" fillcolor="white" style=filled]
+  node1013 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let C = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1020 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let S = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1021 [shape=diamond, label=<<font color="black">(|| (= S undefined) (= S null))</font>> color="black" fillcolor="white" style=filled]
+  node1012 [shape=cds, label=<<font color="black">1:app __x1__ = (Get O &quot;constructor&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node1017 [shape=diamond, label=<<font color="black">(! (= __x2__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node1016 [shape=cds, label=<<font color="black">3:app __x2__ = (Type C)</font>> color="black" fillcolor="white" style=filled]
+  node1026 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1011 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1022 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return defaultConstructor</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1015 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return defaultConstructor</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1018 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1025 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return S</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1010 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node1019 [shape=cds, label=<<font color="black">4:app __x3__ = (Get C SYMBOL_species)</font>> color="black" fillcolor="white" style=filled]
+  node1023 [shape=cds, label=<<font color="black">6:app __x4__ = (IsConstructor S)</font>> color="black" fillcolor="white" style=filled]
+  node1008 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1009 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1014 [shape=diamond, label=<<font color="black">(= C undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1023 -> node1024 [ color="black"]
+  node1019 -> node1020 [ color="black"]
+  node1021 -> node1022 [label=<<font color="black">true</font>> color="black"]
+  node1021 -> node1023 [label=<<font color="black">false</font>> color="black"]
+  node1018 -> node1019 [ color="black"]
+  node1014 -> node1015 [label=<<font color="black">true</font>> color="black"]
+  node1014 -> node1016 [label=<<font color="black">false</font>> color="black"]
+  node1015 -> node1016 [ color="black"]
+  node1020 -> node1021 [ color="black"]
+  node1016 -> node1017 [ color="black"]
+  node1011 -> node1012 [ color="black"]
+  node1026 -> node1009 [ color="black"]
+  node1008 -> node1010 [ color="black"]
+  node1024 -> node1025 [label=<<font color="black">true</font>> color="black"]
+  node1024 -> node1026 [label=<<font color="black">false</font>> color="black"]
+  node1013 -> node1014 [ color="black"]
+  node1022 -> node1023 [ color="black"]
+  node1010 -> node1011 [ color="black"]
+  node1025 -> node1026 [ color="black"]
+  node1012 -> node1013 [ color="black"]
+  node1017 -> node1018 [label=<<font color="black">true</font>> color="black"]
+  node1017 -> node1019 [label=<<font color="black">false</font>> color="black"]
+}

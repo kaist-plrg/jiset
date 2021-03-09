@@ -1,0 +1,46 @@
+digraph {
+  node11848 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let P = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11844 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11849 [shape=cds, label=<<font color="black">1:app __x1__ = (ToObject this)</font>> color="black" fillcolor="white" style=filled]
+  node11853 [shape=diamond, label=<<font color="black">(= desc undefined)</font>> color="black" fillcolor="white" style=filled]
+  node11852 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let desc = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11845 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11851 [shape=cds, label=<<font color="black">2:app __x2__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node11846 [shape=cds, label=<<font color="black">app V = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11855 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return desc.Enumerable</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11847 [shape=cds, label=<<font color="black">0:app __x0__ = (ToPropertyKey V)</font>> color="black" fillcolor="white" style=filled]
+  node11850 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let O = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11854 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11851 -> node11852 [ color="black"]
+  node11849 -> node11850 [ color="black"]
+  node11844 -> node11846 [ color="black"]
+  node11852 -> node11853 [ color="black"]
+  node11853 -> node11854 [label=<<font color="black">true</font>> color="black"]
+  node11853 -> node11855 [label=<<font color="black">false</font>> color="black"]
+  node11855 -> node11845 [ color="black"]
+  node11850 -> node11851 [ color="black"]
+  node11847 -> node11848 [ color="black"]
+  node11854 -> node11855 [ color="black"]
+  node11846 -> node11847 [ color="black"]
+  node11848 -> node11849 [ color="black"]
+}

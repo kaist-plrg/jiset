@@ -1,0 +1,66 @@
+digraph {
+  node18228 [shape=diamond, label=<<font color="black">(= __x4__ true)</font>> color="black" fillcolor="white" style=filled]
+  node18223 [shape=cds, label=<<font color="black">app __x2__ = (ToBigInt value)</font>> color="black" fillcolor="white" style=filled]
+  node18232 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18225 [shape=cds, label=<<font color="black">app __x3__ = (ToIntegerOrInfinity value)</font>> color="black" fillcolor="white" style=filled]
+  node18216 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18229 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18218 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
+  node18226 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let v = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18230 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:??? &quot;Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18227 [shape=cds, label=<<font color="black">5:app __x4__ = (IsDetachedBuffer buffer)</font>> color="black" fillcolor="white" style=filled]
+  node18222 [shape=diamond, label=<<font color="black">(= typedArray.ContentType CONST_BigInt)</font>> color="black" fillcolor="white" style=filled]
+  node18219 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18224 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let v = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18217 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18231 [shape=cds, label=<<font color="black">8:app __x5__ = (GetModifySetValueInBuffer buffer indexedPosition elementType v op)</font>> color="black" fillcolor="white" style=filled]
+  node18220 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node18221 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let indexedPosition = [? __x1__]</td></tr>
+      <tr><td align="left">2:let arrayTypeName = typedArray.TypedArrayName</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18228 -> node18229 [label=<<font color="black">true</font>> color="black"]
+  node18228 -> node18230 [label=<<font color="black">false</font>> color="black"]
+  node18223 -> node18224 [ color="black"]
+  node18232 -> node18217 [ color="black"]
+  node18220 -> node18221 [ color="black"]
+  node18224 -> node18227 [ color="black"]
+  node18219 -> node18220 [ color="black"]
+  node18229 -> node18230 [ color="black"]
+  node18226 -> node18227 [ color="black"]
+  node18222 -> node18223 [label=<<font color="black">true</font>> color="black"]
+  node18222 -> node18225 [label=<<font color="black">false</font>> color="black"]
+  node18225 -> node18226 [ color="black"]
+  node18231 -> node18232 [ color="black"]
+  node18230 -> node18231 [ color="black"]
+  node18221 -> node18222 [ color="black"]
+  node18218 -> node18219 [ color="black"]
+  node18227 -> node18228 [ color="black"]
+  node18216 -> node18218 [ color="black"]
+}

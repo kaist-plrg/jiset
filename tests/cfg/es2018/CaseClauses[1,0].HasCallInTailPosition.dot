@@ -1,0 +1,34 @@
+digraph {
+  node9828 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9822 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ call)</font>> color="black" fillcolor="white" style=filled]
+  node9825 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9821 [shape=cds, label=<<font color="black">0:access __x0__ = (CaseClauses &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9820 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9826 [shape=cds, label=<<font color="black">2:access __x2__ = (CaseClause &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9819 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9824 [shape=diamond, label=<<font color="black">(= has true)</font>> color="black" fillcolor="white" style=filled]
+  node9823 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let has = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9827 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ call)</font>> color="black" fillcolor="white" style=filled]
+  node9822 -> node9823 [ color="black"]
+  node9823 -> node9824 [ color="black"]
+  node9824 -> node9825 [label=<<font color="black">true</font>> color="black"]
+  node9824 -> node9826 [label=<<font color="black">false</font>> color="black"]
+  node9821 -> node9822 [ color="black"]
+  node9819 -> node9821 [ color="black"]
+  node9825 -> node9826 [ color="black"]
+  node9827 -> node9828 [ color="black"]
+  node9828 -> node9820 [ color="black"]
+  node9826 -> node9827 [ color="black"]
+}

@@ -1,0 +1,30 @@
+digraph {
+  node721 [shape=cds, label=<<font color="black">1:app __x1__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node718 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node722 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= __x1__ true)</td></tr>
+      <tr><td align="left">2:let newDesc = (new PropertyDescriptor(&quot;Value&quot; -&gt; V, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; true))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node717 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node720 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node723 [shape=cds, label=<<font color="black">3:app __x2__ = (O.DefineOwnProperty O P newDesc)</font>> color="black" fillcolor="white" style=filled]
+  node724 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node719 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node722 -> node723 [ color="black"]
+  node721 -> node722 [ color="black"]
+  node723 -> node724 [ color="black"]
+  node724 -> node718 [ color="black"]
+  node719 -> node720 [ color="black"]
+  node717 -> node719 [ color="black"]
+  node720 -> node721 [ color="black"]
+}

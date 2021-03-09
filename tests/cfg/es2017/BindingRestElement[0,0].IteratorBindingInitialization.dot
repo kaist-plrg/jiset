@@ -1,0 +1,123 @@
+digraph {
+  node6149 [shape=cds, label=<<font color="black">0:app __x1__ = (ResolveBinding __x0__ environment)</font>> color="black" fillcolor="white" style=filled]
+  node6156 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let next = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6152 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let A = [! __x2__]</td></tr>
+      <tr><td align="left">2:let n = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6165 [shape=cds, label=<<font color="black">app __x5__ = (PutValue lhs A)</font>> color="black" fillcolor="white" style=filled]
+  node6151 [shape=cds, label=<<font color="black">1:app __x2__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
+  node6170 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let nextValue = __x7__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6146 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6161 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
+  node6166 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6150 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lhs = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6169 [shape=cds, label=<<font color="black">12:app __x7__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
+  node6155 [shape=cds, label=<<font color="black">5:app __x3__ = (IteratorStep iteratorRecord.Iterator)</font>> color="black" fillcolor="white" style=filled]
+  node6167 [shape=cds, label=<<font color="black">11:app __x6__ = (InitializeReferencedBinding lhs A)</font>> color="black" fillcolor="white" style=filled]
+  node6172 [shape=diamond, label=<<font color="black">__x8__</font>> color="black" fillcolor="white" style=filled]
+  node6177 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:let status = __x10__</td></tr>
+      <tr><td align="left">16:assert (= status true)</td></tr>
+      <tr><td align="left">17:n = (+ n 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6162 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6176 [shape=cds, label=<<font color="black">15:app __x10__ = (CreateDataProperty A [! __x9__] nextValue)</font>> color="black" fillcolor="white" style=filled]
+  node6157 [shape=cds, label=<<font color="black">6:app __x4__ = (IsAbruptCompletion next)</font>> color="black" fillcolor="white" style=filled]
+  node6163 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done true)</font>> color="black" fillcolor="white" style=filled]
+  node6168 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:return __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6153 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node6148 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6175 [shape=cds, label=<<font color="black">15:app __x9__ = (ToString n)</font>> color="black" fillcolor="white" style=filled]
+  node6164 [shape=diamond, label=<<font color="black">(= environment undefined)</font>> color="black" fillcolor="white" style=filled]
+  node6171 [shape=cds, label=<<font color="black">13:app __x8__ = (IsAbruptCompletion nextValue)</font>> color="black" fillcolor="white" style=filled]
+  node6160 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:[? next]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6147 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6154 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node6174 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:[? nextValue]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6159 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6173 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6158 [shape=diamond, label=<<font color="black">__x4__</font>> color="black" fillcolor="white" style=filled]
+  node6168 -> node6169 [ color="black"]
+  node6175 -> node6176 [ color="black"]
+  node6176 -> node6177 [ color="black"]
+  node6148 -> node6149 [ color="black"]
+  node6155 -> node6156 [ color="black"]
+  node6151 -> node6152 [ color="black"]
+  node6169 -> node6170 [ color="black"]
+  node6152 -> node6153 [ color="black"]
+  node6149 -> node6150 [ color="black"]
+  node6150 -> node6151 [ color="black"]
+  node6159 -> node6160 [ color="black"]
+  node6163 -> node6164 [label=<<font color="black">true</font>> color="black"]
+  node6163 -> node6169 [label=<<font color="black">false</font>> color="black"]
+  node6158 -> node6159 [label=<<font color="black">true</font>> color="black"]
+  node6158 -> node6160 [label=<<font color="black">false</font>> color="black"]
+  node6161 -> node6162 [label=<<font color="black">true</font>> color="black"]
+  node6161 -> node6163 [label=<<font color="black">false</font>> color="black"]
+  node6156 -> node6157 [ color="black"]
+  node6146 -> node6148 [ color="black"]
+  node6170 -> node6171 [ color="black"]
+  node6162 -> node6163 [ color="black"]
+  node6173 -> node6174 [ color="black"]
+  node6160 -> node6161 [ color="black"]
+  node6171 -> node6172 [ color="black"]
+  node6154 -> node6155 [label=<<font color="black">true</font>> color="black"]
+  node6154 -> node6163 [label=<<font color="black">false</font>> color="black"]
+  node6153 -> node6154 [label=<<font color="black">true</font>> color="black"]
+  node6153 -> node6147 [label=<<font color="black">false</font>> color="black"]
+  node6157 -> node6158 [ color="black"]
+  node6167 -> node6168 [ color="black"]
+  node6165 -> node6166 [ color="black"]
+  node6172 -> node6173 [label=<<font color="black">true</font>> color="black"]
+  node6172 -> node6174 [label=<<font color="black">false</font>> color="black"]
+  node6177 -> node6153 [ color="black"]
+  node6166 -> node6167 [ color="black"]
+  node6174 -> node6175 [ color="black"]
+  node6164 -> node6165 [label=<<font color="black">true</font>> color="black"]
+  node6164 -> node6167 [label=<<font color="black">false</font>> color="black"]
+}

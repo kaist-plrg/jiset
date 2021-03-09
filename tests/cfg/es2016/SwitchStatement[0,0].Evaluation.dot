@@ -1,0 +1,51 @@
+digraph {
+  node7358 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let R = __x5__</td></tr>
+      <tr><td align="left">7:GLOBAL_context.LexicalEnvironment = oldEnv</td></tr>
+      <tr><td align="left">8:return R</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7349 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let exprRef = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7354 [shape=cds, label=<<font color="black">4:app __x3__ = (BlockDeclarationInstantiation CaseBlock blockEnv)</font>> color="black" fillcolor="white" style=filled]
+  node7357 [shape=cds, label=<<font color="black">6:app __x5__ = (__x4__ switchValue)</font>> color="black" fillcolor="white" style=filled]
+  node7353 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let blockEnv = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7346 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7350 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue exprRef)</font>> color="black" fillcolor="white" style=filled]
+  node7347 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7356 [shape=cds, label=<<font color="black">6:access __x4__ = (CaseBlock &quot;CaseBlockEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7351 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let switchValue = [? __x1__]</td></tr>
+      <tr><td align="left">2:let oldEnv = GLOBAL_context.LexicalEnvironment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7348 [shape=cds, label=<<font color="black">0:access __x0__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7355 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:__x3__</td></tr>
+      <tr><td align="left">5:GLOBAL_context.LexicalEnvironment = blockEnv</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7352 [shape=cds, label=<<font color="black">3:app __x2__ = (NewDeclarativeEnvironment oldEnv)</font>> color="black" fillcolor="white" style=filled]
+  node7356 -> node7357 [ color="black"]
+  node7352 -> node7353 [ color="black"]
+  node7357 -> node7358 [ color="black"]
+  node7358 -> node7347 [ color="black"]
+  node7353 -> node7354 [ color="black"]
+  node7346 -> node7348 [ color="black"]
+  node7350 -> node7351 [ color="black"]
+  node7355 -> node7356 [ color="black"]
+  node7354 -> node7355 [ color="black"]
+  node7348 -> node7349 [ color="black"]
+  node7349 -> node7350 [ color="black"]
+  node7351 -> node7352 [ color="black"]
+}

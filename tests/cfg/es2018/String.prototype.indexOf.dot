@@ -1,0 +1,54 @@
+digraph {
+  node13238 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node13241 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let searchStr = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13233 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13237 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13232 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13245 [shape=cds, label=<<font color="black">5:app __x5__ = (min __x4__ len)</font>> color="black" fillcolor="white" style=filled]
+  node13240 [shape=cds, label=<<font color="black">2:app __x2__ = (ToString searchString)</font>> color="black" fillcolor="white" style=filled]
+  node13236 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
+  node13246 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let start = __x5__</td></tr>
+      <tr><td align="left">6:let searchLen = searchStr.length</td></tr>
+      <tr><td align="left">7:??? &quot;Return the smallest possible integer id:{k} not smaller than id:{start} such that id:{k} + id:{searchLen} is not greater than id:{len} , and for all nonnegative integers id:{j} less than id:{searchLen} , the code unit at index id:{k} + id:{j} within id:{S} is the same as the code unit at index id:{j} within id:{searchStr} ; but if there is no such integer id:{k} , return the value - 1 .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13243 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let pos = [? __x3__]</td></tr>
+      <tr><td align="left">4:let len = S.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13239 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let S = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13242 [shape=cds, label=<<font color="black">3:app __x3__ = (ToInteger position)</font>> color="black" fillcolor="white" style=filled]
+  node13235 [shape=cds, label=<<font color="black">app position = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node13244 [shape=cds, label=<<font color="black">5:app __x4__ = (max pos 0i)</font>> color="black" fillcolor="white" style=filled]
+  node13234 [shape=cds, label=<<font color="black">app searchString = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node13246 -> node13233 [ color="black"]
+  node13234 -> node13235 [ color="black"]
+  node13236 -> node13237 [ color="black"]
+  node13244 -> node13245 [ color="black"]
+  node13243 -> node13244 [ color="black"]
+  node13241 -> node13242 [ color="black"]
+  node13237 -> node13238 [ color="black"]
+  node13245 -> node13246 [ color="black"]
+  node13232 -> node13234 [ color="black"]
+  node13239 -> node13240 [ color="black"]
+  node13242 -> node13243 [ color="black"]
+  node13240 -> node13241 [ color="black"]
+  node13238 -> node13239 [ color="black"]
+  node13235 -> node13236 [ color="black"]
+}

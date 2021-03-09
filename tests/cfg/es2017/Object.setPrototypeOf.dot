@@ -1,0 +1,62 @@
+digraph {
+  node11122 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return O</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11112 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11111 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11115 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible O)</font>> color="black" fillcolor="white" style=filled]
+  node11119 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11121 [shape=diamond, label=<<font color="black">(! (= __x2__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node11116 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11124 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let status = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11113 [shape=cds, label=<<font color="black">app O = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11126 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11123 [shape=cds, label=<<font color="black">3:app __x3__ = (O.SetPrototypeOf O proto)</font>> color="black" fillcolor="white" style=filled]
+  node11118 [shape=diamond, label=<<font color="black">(! (|| (= __x1__ Object) (= __x1__ Null)))</font>> color="black" fillcolor="white" style=filled]
+  node11114 [shape=cds, label=<<font color="black">app proto = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node11125 [shape=diamond, label=<<font color="black">(= status false)</font>> color="black" fillcolor="white" style=filled]
+  node11120 [shape=cds, label=<<font color="black">2:app __x2__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node11127 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return O</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11117 [shape=cds, label=<<font color="black">1:app __x1__ = (Type proto)</font>> color="black" fillcolor="white" style=filled]
+  node11116 -> node11117 [ color="black"]
+  node11125 -> node11126 [label=<<font color="black">true</font>> color="black"]
+  node11125 -> node11127 [label=<<font color="black">false</font>> color="black"]
+  node11119 -> node11120 [ color="black"]
+  node11120 -> node11121 [ color="black"]
+  node11117 -> node11118 [ color="black"]
+  node11114 -> node11115 [ color="black"]
+  node11111 -> node11113 [ color="black"]
+  node11118 -> node11119 [label=<<font color="black">true</font>> color="black"]
+  node11118 -> node11120 [label=<<font color="black">false</font>> color="black"]
+  node11113 -> node11114 [ color="black"]
+  node11126 -> node11127 [ color="black"]
+  node11122 -> node11123 [ color="black"]
+  node11121 -> node11122 [label=<<font color="black">true</font>> color="black"]
+  node11121 -> node11123 [label=<<font color="black">false</font>> color="black"]
+  node11115 -> node11116 [ color="black"]
+  node11123 -> node11124 [ color="black"]
+  node11127 -> node11112 [ color="black"]
+  node11124 -> node11125 [ color="black"]
+}

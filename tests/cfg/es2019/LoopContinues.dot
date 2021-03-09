@@ -1,0 +1,47 @@
+digraph {
+  node6640 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6643 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6648 [shape=diamond, label=<<font color="black">(contains labelSet completion.Target)</font>> color="black" fillcolor="white" style=filled]
+  node6646 [shape=diamond, label=<<font color="black">(= completion.Target CONST_empty)</font>> color="black" fillcolor="white" style=filled]
+  node6642 [shape=diamond, label=<<font color="black">(= completion.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
+  node6647 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6649 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6645 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6641 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6650 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6644 [shape=diamond, label=<<font color="black">(! (= completion.Type CONST_continue))</font>> color="black" fillcolor="white" style=filled]
+  node6647 -> node6648 [ color="black"]
+  node6650 -> node6641 [ color="black"]
+  node6649 -> node6650 [ color="black"]
+  node6646 -> node6647 [label=<<font color="black">true</font>> color="black"]
+  node6646 -> node6648 [label=<<font color="black">false</font>> color="black"]
+  node6648 -> node6649 [label=<<font color="black">true</font>> color="black"]
+  node6648 -> node6650 [label=<<font color="black">false</font>> color="black"]
+  node6644 -> node6645 [label=<<font color="black">true</font>> color="black"]
+  node6644 -> node6646 [label=<<font color="black">false</font>> color="black"]
+  node6642 -> node6643 [label=<<font color="black">true</font>> color="black"]
+  node6642 -> node6644 [label=<<font color="black">false</font>> color="black"]
+  node6645 -> node6646 [ color="black"]
+  node6643 -> node6644 [ color="black"]
+  node6640 -> node6642 [ color="black"]
+}

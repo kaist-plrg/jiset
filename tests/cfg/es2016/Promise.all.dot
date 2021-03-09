@@ -1,0 +1,141 @@
+digraph {
+  node15926 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iterator = iterator.Value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15916 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let C = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15931 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:iterator</td></tr>
+      <tr><td align="left">5:let iteratorRecord = (new Record(&quot;Iterator&quot; -&gt; iterator, &quot;Done&quot; -&gt; false))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15939 [shape=diamond, label=<<font color="black">(is-completion result)</font>> color="black" fillcolor="white" style=filled]
+  node15920 [shape=cds, label=<<font color="black">2:app __x1__ = (NewPromiseCapability C)</font>> color="black" fillcolor="white" style=filled]
+  node15935 [shape=diamond, label=<<font color="black">__x5__</font>> color="black" fillcolor="white" style=filled]
+  node15947 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15944 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x7__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15940 [shape=diamond, label=<<font color="black">(= result.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
+  node15923 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let iterator = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15929 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15914 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15918 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node15924 [shape=diamond, label=<<font color="black">(is-completion iterator)</font>> color="black" fillcolor="white" style=filled]
+  node15937 [shape=cds, label=<<font color="black">app __x6__ = (IteratorClose iterator result)</font>> color="black" fillcolor="white" style=filled]
+  node15925 [shape=diamond, label=<<font color="black">(= iterator.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
+  node15945 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return promiseCapability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15917 [shape=cds, label=<<font color="black">1:app __x0__ = (Type C)</font>> color="black" fillcolor="white" style=filled]
+  node15938 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let result = __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15921 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let promiseCapability = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15942 [shape=cds, label=<<font color="black">app __x7__ = (Call promiseCapability.Reject undefined (new [result.Value]))</font>> color="black" fillcolor="white" style=filled]
+  node15922 [shape=cds, label=<<font color="black">3:app __x2__ = (GetIterator iterable)</font>> color="black" fillcolor="white" style=filled]
+  node15943 [shape=diamond, label=<<font color="black">(&amp;&amp; (is-completion __x7__) (! (= __x7__.Type CONST_normal)))</font>> color="black" fillcolor="white" style=filled]
+  node15915 [shape=cds, label=<<font color="black">app iterable = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15930 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return promiseCapability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15927 [shape=cds, label=<<font color="black">app __x3__ = (Call promiseCapability.Reject undefined (new [iterator.Value]))</font>> color="black" fillcolor="white" style=filled]
+  node15934 [shape=cds, label=<<font color="black">7:app __x5__ = (IsAbruptCompletion result)</font>> color="black" fillcolor="white" style=filled]
+  node15919 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15946 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15936 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node15941 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">result = result.Value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15933 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let result = __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15928 [shape=diamond, label=<<font color="black">(&amp;&amp; (is-completion __x3__) (! (= __x3__.Type CONST_normal)))</font>> color="black" fillcolor="white" style=filled]
+  node15913 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15932 [shape=cds, label=<<font color="black">6:app __x4__ = (PerformPromiseAll iteratorRecord C promiseCapability)</font>> color="black" fillcolor="white" style=filled]
+  node15927 -> node15928 [ color="black"]
+  node15915 -> node15916 [ color="black"]
+  node15926 -> node15931 [ color="black"]
+  node15930 -> node15931 [ color="black"]
+  node15918 -> node15919 [label=<<font color="black">true</font>> color="black"]
+  node15918 -> node15920 [label=<<font color="black">false</font>> color="black"]
+  node15934 -> node15935 [ color="black"]
+  node15943 -> node15944 [label=<<font color="black">true</font>> color="black"]
+  node15943 -> node15945 [label=<<font color="black">false</font>> color="black"]
+  node15932 -> node15933 [ color="black"]
+  node15922 -> node15923 [ color="black"]
+  node15929 -> node15930 [ color="black"]
+  node15928 -> node15929 [label=<<font color="black">true</font>> color="black"]
+  node15928 -> node15930 [label=<<font color="black">false</font>> color="black"]
+  node15924 -> node15925 [label=<<font color="black">true</font>> color="black"]
+  node15924 -> node15931 [label=<<font color="black">false</font>> color="black"]
+  node15941 -> node15946 [ color="black"]
+  node15940 -> node15941 [label=<<font color="black">true</font>> color="black"]
+  node15940 -> node15942 [label=<<font color="black">false</font>> color="black"]
+  node15942 -> node15943 [ color="black"]
+  node15939 -> node15940 [label=<<font color="black">true</font>> color="black"]
+  node15939 -> node15946 [label=<<font color="black">false</font>> color="black"]
+  node15938 -> node15939 [ color="black"]
+  node15925 -> node15926 [label=<<font color="black">true</font>> color="black"]
+  node15925 -> node15927 [label=<<font color="black">false</font>> color="black"]
+  node15936 -> node15937 [label=<<font color="black">true</font>> color="black"]
+  node15936 -> node15939 [label=<<font color="black">false</font>> color="black"]
+  node15916 -> node15917 [ color="black"]
+  node15937 -> node15938 [ color="black"]
+  node15920 -> node15921 [ color="black"]
+  node15917 -> node15918 [ color="black"]
+  node15931 -> node15932 [ color="black"]
+  node15923 -> node15924 [ color="black"]
+  node15921 -> node15922 [ color="black"]
+  node15944 -> node15945 [ color="black"]
+  node15946 -> node15947 [ color="black"]
+  node15947 -> node15914 [ color="black"]
+  node15935 -> node15936 [label=<<font color="black">true</font>> color="black"]
+  node15935 -> node15947 [label=<<font color="black">false</font>> color="black"]
+  node15945 -> node15946 [ color="black"]
+  node15919 -> node15920 [ color="black"]
+  node15933 -> node15934 [ color="black"]
+  node15913 -> node15915 [ color="black"]
+}

@@ -1,0 +1,22 @@
+digraph {
+  node1714 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let current = [? __x0__]</td></tr>
+      <tr><td align="left">1:let extensible = O.Extensible</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1715 [shape=cds, label=<<font color="black">2:app __x1__ = (ValidateAndApplyPropertyDescriptor O P extensible Desc current)</font>> color="black" fillcolor="white" style=filled]
+  node1712 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1713 [shape=cds, label=<<font color="black">0:app __x0__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node1711 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1716 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1713 -> node1714 [ color="black"]
+  node1715 -> node1716 [ color="black"]
+  node1716 -> node1712 [ color="black"]
+  node1714 -> node1715 [ color="black"]
+  node1711 -> node1713 [ color="black"]
+}

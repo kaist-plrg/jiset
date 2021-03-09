@@ -1,0 +1,83 @@
+digraph {
+  node14324 [shape=diamond, label=<<font color="black">(= isRegExp true)</font>> color="black" fillcolor="white" style=filled]
+  node14323 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let isRegExp = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14317 [shape=cds, label=<<font color="black">app position = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node14327 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let searchStr = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14318 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
+  node14326 [shape=cds, label=<<font color="black">4:app __x3__ = (ToString searchString)</font>> color="black" fillcolor="white" style=filled]
+  node14322 [shape=cds, label=<<font color="black">2:app __x2__ = (IsRegExp searchString)</font>> color="black" fillcolor="white" style=filled]
+  node14329 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let pos = [? __x4__]</td></tr>
+      <tr><td align="left">7:let len = S.length</td></tr>
+      <tr><td align="left">8:??? &quot;Let id:{start} be the result of clamping id:{pos} between 0 and id:{len} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14314 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14319 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14321 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let S = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14332 [shape=diamond, label=<<font color="black">(! (= index -1i))</font>> color="black" fillcolor="white" style=filled]
+  node14315 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14320 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node14333 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14328 [shape=cds, label=<<font color="black">5:app __x4__ = (ToIntegerOrInfinity position)</font>> color="black" fillcolor="white" style=filled]
+  node14331 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let index = [! __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14334 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14316 [shape=cds, label=<<font color="black">app searchString = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node14325 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14330 [shape=cds, label=<<font color="black">9:app __x5__ = (StringIndexOf S searchStr start)</font>> color="black" fillcolor="white" style=filled]
+  node14323 -> node14324 [ color="black"]
+  node14334 -> node14315 [ color="black"]
+  node14327 -> node14328 [ color="black"]
+  node14321 -> node14322 [ color="black"]
+  node14330 -> node14331 [ color="black"]
+  node14331 -> node14332 [ color="black"]
+  node14318 -> node14319 [ color="black"]
+  node14319 -> node14320 [ color="black"]
+  node14332 -> node14333 [label=<<font color="black">true</font>> color="black"]
+  node14332 -> node14334 [label=<<font color="black">false</font>> color="black"]
+  node14317 -> node14318 [ color="black"]
+  node14314 -> node14316 [ color="black"]
+  node14316 -> node14317 [ color="black"]
+  node14322 -> node14323 [ color="black"]
+  node14333 -> node14334 [ color="black"]
+  node14320 -> node14321 [ color="black"]
+  node14325 -> node14326 [ color="black"]
+  node14329 -> node14330 [ color="black"]
+  node14328 -> node14329 [ color="black"]
+  node14326 -> node14327 [ color="black"]
+  node14324 -> node14325 [label=<<font color="black">true</font>> color="black"]
+  node14324 -> node14326 [label=<<font color="black">false</font>> color="black"]
+}

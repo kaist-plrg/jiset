@@ -1,0 +1,30 @@
+digraph {
+  node8784 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:__x2__</td></tr>
+      <tr><td align="left">3:return (new Completion(&quot;Type&quot; -&gt; CONST_return, &quot;Value&quot; -&gt; G, &quot;Target&quot; -&gt; CONST_empty))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8779 [shape=cds, label=<<font color="black">0:app __x0__ = (FunctionDeclarationInstantiation functionObject argumentsList)</font>> color="black" fillcolor="white" style=filled]
+  node8777 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8782 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let G = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8783 [shape=cds, label=<<font color="black">2:app __x2__ = (GeneratorStart G FunctionBody)</font>> color="black" fillcolor="white" style=filled]
+  node8778 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8780 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8781 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryCreateFromConstructor functionObject INTRINSIC_GeneratorPrototype (new [&quot;GeneratorState&quot;, &quot;GeneratorContext&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node8782 -> node8783 [ color="black"]
+  node8779 -> node8780 [ color="black"]
+  node8780 -> node8781 [ color="black"]
+  node8777 -> node8779 [ color="black"]
+  node8781 -> node8782 [ color="black"]
+  node8784 -> node8778 [ color="black"]
+  node8783 -> node8784 [ color="black"]
+}

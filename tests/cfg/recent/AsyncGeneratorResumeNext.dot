@@ -1,0 +1,147 @@
+digraph {
+  node19598 [shape=diamond, label=<<font color="black">(= state CONST_completed)</font>> color="black" fillcolor="white" style=filled]
+  node19615 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">30:assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))</td></tr>
+      <tr><td align="left">31:let genContext = generator.AsyncGeneratorContext</td></tr>
+      <tr><td align="left">32:let callerContext = GLOBAL_context</td></tr>
+      <tr><td align="left">33:GLOBAL_context = null</td></tr>
+      <tr><td align="left">34:generator.AsyncGeneratorState = CONST_executing</td></tr>
+      <tr><td align="left">35:append genContext -&gt; GLOBAL_executionStack</td></tr>
+      <tr><td align="left">35:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">36:??? &quot;Resume the suspended evaluation of id:{genContext} using id:{completion} as the result of the operation that suspended it . Let id:{result} be the completion record returned by the resumed computation .&quot;</td></tr>
+      <tr><td align="left">39:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19607 [shape=cds, label=<<font color="black">23:app __x4__ = (PerformPromiseThen promise onFulfilled onRejected)</font>> color="black" fillcolor="white" style=filled]
+  node19606 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">21:let onRejected = [! __x3__]</td></tr>
+      <tr><td align="left">22:onRejected.Generator = generator</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19599 [shape=diamond, label=<<font color="black">(= completion.Type CONST_return)</font>> color="black" fillcolor="white" style=filled]
+  node19613 [shape=cds, label=<<font color="black">app __x6__ = (AsyncGeneratorResolve generator undefined true)</font>> color="black" fillcolor="white" style=filled]
+  node19610 [shape=cds, label=<<font color="black">27:app __x5__ = (AsyncGeneratorReject generator completion.Value)</font>> color="black" fillcolor="white" style=filled]
+  node19593 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let next = queue[0i]</td></tr>
+      <tr><td align="left">8:let completion = next.Completion</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19614 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [! __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19592 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19597 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:generator.AsyncGeneratorState = CONST_completed</td></tr>
+      <tr><td align="left">12:state = CONST_completed</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19594 [shape=cds, label=<<font color="black">29:app __x0__ = (IsAbruptCompletion completion)</font>> color="black" fillcolor="white" style=filled]
+  node19611 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">27:[! __x5__]</td></tr>
+      <tr><td align="left">28:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19589 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19604 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:let onFulfilled = [! __x2__]</td></tr>
+      <tr><td align="left">19:onFulfilled.Generator = generator</td></tr>
+      <tr><td align="left">20:let stepsRejected = AsyncGeneratorResumeNextReturnProcessorRejectedFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19591 [shape=diamond, label=<<font color="black">(= queue.length 0i)</font>> color="black" fillcolor="white" style=filled]
+  node19585 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19608 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">23:[! __x4__]</td></tr>
+      <tr><td align="left">24:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19595 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node19612 [shape=diamond, label=<<font color="black">(= state CONST_completed)</font>> color="black" fillcolor="white" style=filled]
+  node19588 [shape=diamond, label=<<font color="black">(= state CONST_awaitingDASHreturn)</font>> color="black" fillcolor="white" style=filled]
+  node19603 [shape=cds, label=<<font color="black">18:app __x2__ = (CreateBuiltinFunction stepsFulfilled (new [&quot;Generator&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node19596 [shape=diamond, label=<<font color="black">(= state CONST_suspendedStart)</font>> color="black" fillcolor="white" style=filled]
+  node19609 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">26:assert (= completion.Type CONST_throw)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19587 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let state = generator.AsyncGeneratorState</td></tr>
+      <tr><td align="left">2:assert (! (= state CONST_executing))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19602 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:let promise = [? __x1__]</td></tr>
+      <tr><td align="left">17:let stepsFulfilled = AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19600 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:generator.AsyncGeneratorState = CONST_awaitingDASHreturn</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19590 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let queue = generator.AsyncGeneratorQueue</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19605 [shape=cds, label=<<font color="black">21:app __x3__ = (CreateBuiltinFunction stepsRejected (new [&quot;Generator&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node19586 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19601 [shape=cds, label=<<font color="black">16:app __x1__ = (PromiseResolve INTRINSIC_Promise completion.Value)</font>> color="black" fillcolor="white" style=filled]
+  node19587 -> node19588 [ color="black"]
+  node19611 -> node19615 [ color="black"]
+  node19610 -> node19611 [ color="black"]
+  node19608 -> node19615 [ color="black"]
+  node19593 -> node19594 [ color="black"]
+  node19591 -> node19592 [label=<<font color="black">true</font>> color="black"]
+  node19591 -> node19593 [label=<<font color="black">false</font>> color="black"]
+  node19604 -> node19605 [ color="black"]
+  node19613 -> node19614 [ color="black"]
+  node19592 -> node19593 [ color="black"]
+  node19606 -> node19607 [ color="black"]
+  node19605 -> node19606 [ color="black"]
+  node19588 -> node19589 [label=<<font color="black">true</font>> color="black"]
+  node19588 -> node19590 [label=<<font color="black">false</font>> color="black"]
+  node19600 -> node19601 [ color="black"]
+  node19612 -> node19613 [label=<<font color="black">true</font>> color="black"]
+  node19612 -> node19615 [label=<<font color="black">false</font>> color="black"]
+  node19595 -> node19596 [label=<<font color="black">true</font>> color="black"]
+  node19595 -> node19612 [label=<<font color="black">false</font>> color="black"]
+  node19598 -> node19599 [label=<<font color="black">true</font>> color="black"]
+  node19598 -> node19615 [label=<<font color="black">false</font>> color="black"]
+  node19596 -> node19597 [label=<<font color="black">true</font>> color="black"]
+  node19596 -> node19598 [label=<<font color="black">false</font>> color="black"]
+  node19585 -> node19587 [ color="black"]
+  node19607 -> node19608 [ color="black"]
+  node19614 -> node19615 [ color="black"]
+  node19590 -> node19591 [ color="black"]
+  node19615 -> node19586 [ color="black"]
+  node19589 -> node19590 [ color="black"]
+  node19599 -> node19600 [label=<<font color="black">true</font>> color="black"]
+  node19599 -> node19609 [label=<<font color="black">false</font>> color="black"]
+  node19609 -> node19610 [ color="black"]
+  node19594 -> node19595 [ color="black"]
+  node19602 -> node19603 [ color="black"]
+  node19603 -> node19604 [ color="black"]
+  node19601 -> node19602 [ color="black"]
+  node19597 -> node19598 [ color="black"]
+}

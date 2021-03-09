@@ -1,0 +1,72 @@
+digraph {
+  node5288 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:v = [? __x7__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5281 [shape=diamond, label=<<font color="black">(= __x3__ true)</font>> color="black" fillcolor="white" style=filled]
+  node5285 [shape=cds, label=<<font color="black">7:access __x6__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5273 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierReference &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5278 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let v = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5271 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5282 [shape=cds, label=<<font color="black">5:access __x4__ = (Initializer &quot;NamedEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5286 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let defaultValue = __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5272 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5287 [shape=cds, label=<<font color="black">8:app __x7__ = (GetValue defaultValue)</font>> color="black" fillcolor="white" style=filled]
+  node5284 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:v = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5274 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let P = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5289 [shape=cds, label=<<font color="black">9:app __x8__ = (PutValue lref v)</font>> color="black" fillcolor="white" style=filled]
+  node5279 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= Initializer absent)) (= v undefined))</font>> color="black" fillcolor="white" style=filled]
+  node5276 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lref = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5277 [shape=cds, label=<<font color="black">2:app __x2__ = (GetV value P)</font>> color="black" fillcolor="white" style=filled]
+  node5290 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:[? __x8__]</td></tr>
+      <tr><td align="left">10:return (new [P])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5283 [shape=cds, label=<<font color="black">5:app __x5__ = (__x4__ P)</font>> color="black" fillcolor="white" style=filled]
+  node5275 [shape=cds, label=<<font color="black">1:app __x1__ = (ResolveBinding P)</font>> color="black" fillcolor="white" style=filled]
+  node5280 [shape=cds, label=<<font color="black">6:app __x3__ = (IsAnonymousFunctionDefinition Initializer)</font>> color="black" fillcolor="white" style=filled]
+  node5290 -> node5272 [ color="black"]
+  node5276 -> node5277 [ color="black"]
+  node5283 -> node5284 [ color="black"]
+  node5278 -> node5279 [ color="black"]
+  node5277 -> node5278 [ color="black"]
+  node5288 -> node5289 [ color="black"]
+  node5275 -> node5276 [ color="black"]
+  node5286 -> node5287 [ color="black"]
+  node5274 -> node5275 [ color="black"]
+  node5271 -> node5273 [ color="black"]
+  node5279 -> node5280 [label=<<font color="black">true</font>> color="black"]
+  node5279 -> node5289 [label=<<font color="black">false</font>> color="black"]
+  node5273 -> node5274 [ color="black"]
+  node5287 -> node5288 [ color="black"]
+  node5285 -> node5286 [ color="black"]
+  node5284 -> node5289 [ color="black"]
+  node5281 -> node5282 [label=<<font color="black">true</font>> color="black"]
+  node5281 -> node5285 [label=<<font color="black">false</font>> color="black"]
+  node5280 -> node5281 [ color="black"]
+  node5282 -> node5283 [ color="black"]
+  node5289 -> node5290 [ color="black"]
+}

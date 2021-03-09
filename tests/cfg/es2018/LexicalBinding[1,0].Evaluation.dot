@@ -1,0 +1,32 @@
+digraph {
+  node5967 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5970 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let value = [? __x1__]</td></tr>
+      <tr><td align="left">2:let env = GLOBAL_context.LexicalEnvironment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5968 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let rhs = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5973 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5969 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
+  node5965 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5972 [shape=cds, label=<<font color="black">3:app __x3__ = (__x2__ value env)</font>> color="black" fillcolor="white" style=filled]
+  node5966 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5971 [shape=cds, label=<<font color="black">3:access __x2__ = (BindingPattern &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5971 -> node5972 [ color="black"]
+  node5967 -> node5968 [ color="black"]
+  node5965 -> node5967 [ color="black"]
+  node5973 -> node5966 [ color="black"]
+  node5968 -> node5969 [ color="black"]
+  node5969 -> node5970 [ color="black"]
+  node5970 -> node5971 [ color="black"]
+  node5972 -> node5973 [ color="black"]
+}

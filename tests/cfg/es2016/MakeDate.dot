@@ -1,0 +1,20 @@
+digraph {
+  node11363 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11367 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return (+ (* day 8.64E7) time)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11364 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11365 [shape=diamond, label=<<font color="black">(|| (|| (= day Infinity) (= day -Infinity)) (|| (= time Infinity) (= time -Infinity)))</font>> color="black" fillcolor="white" style=filled]
+  node11366 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return NaN</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11363 -> node11365 [ color="black"]
+  node11365 -> node11366 [label=<<font color="black">true</font>> color="black"]
+  node11365 -> node11367 [label=<<font color="black">false</font>> color="black"]
+  node11366 -> node11367 [ color="black"]
+  node11367 -> node11364 [ color="black"]
+}

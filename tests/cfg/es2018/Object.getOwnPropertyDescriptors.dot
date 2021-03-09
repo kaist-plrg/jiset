@@ -1,0 +1,81 @@
+digraph {
+  node11620 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return descriptors</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11603 [shape=cds, label=<<font color="black">app O = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11613 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let desc = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11609 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let descriptors = [! __x2__]</td></tr>
+      <tr><td align="left">3:let __x3__ = ownKeys</td></tr>
+      <tr><td align="left">3:let __x4__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11619 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x4__ = (+ __x4__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11602 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11614 [shape=cds, label=<<font color="black">5:app __x6__ = (FromPropertyDescriptor desc)</font>> color="black" fillcolor="white" style=filled]
+  node11615 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let descriptor = [! __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11618 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">[! __x7__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11601 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11611 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let key = __x3__[__x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11617 [shape=cds, label=<<font color="black">app __x7__ = (CreateDataProperty descriptors key descriptor)</font>> color="black" fillcolor="white" style=filled]
+  node11604 [shape=cds, label=<<font color="black">0:app __x0__ = (ToObject O)</font>> color="black" fillcolor="white" style=filled]
+  node11612 [shape=cds, label=<<font color="black">4:app __x5__ = (obj.GetOwnProperty obj key)</font>> color="black" fillcolor="white" style=filled]
+  node11616 [shape=diamond, label=<<font color="black">(! (= descriptor undefined))</font>> color="black" fillcolor="white" style=filled]
+  node11608 [shape=cds, label=<<font color="black">2:app __x2__ = (ObjectCreate INTRINSIC_ObjectPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node11606 [shape=cds, label=<<font color="black">1:app __x1__ = (obj.OwnPropertyKeys obj)</font>> color="black" fillcolor="white" style=filled]
+  node11610 [shape=diamond, label=<<font color="black">(&lt; __x4__ __x3__.length)</font>> color="black" fillcolor="white" style=filled]
+  node11607 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let ownKeys = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11605 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11619 -> node11610 [ color="black"]
+  node11616 -> node11617 [label=<<font color="black">true</font>> color="black"]
+  node11616 -> node11619 [label=<<font color="black">false</font>> color="black"]
+  node11601 -> node11603 [ color="black"]
+  node11611 -> node11612 [ color="black"]
+  node11606 -> node11607 [ color="black"]
+  node11603 -> node11604 [ color="black"]
+  node11614 -> node11615 [ color="black"]
+  node11612 -> node11613 [ color="black"]
+  node11609 -> node11610 [ color="black"]
+  node11618 -> node11619 [ color="black"]
+  node11615 -> node11616 [ color="black"]
+  node11613 -> node11614 [ color="black"]
+  node11610 -> node11611 [label=<<font color="black">true</font>> color="black"]
+  node11610 -> node11620 [label=<<font color="black">false</font>> color="black"]
+  node11617 -> node11618 [ color="black"]
+  node11605 -> node11606 [ color="black"]
+  node11607 -> node11608 [ color="black"]
+  node11604 -> node11605 [ color="black"]
+  node11608 -> node11609 [ color="black"]
+  node11620 -> node11602 [ color="black"]
+}

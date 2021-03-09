@@ -1,0 +1,21 @@
+digraph {
+  node2889 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2893 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2890 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2891 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let f = GLOBAL_context.Function</td></tr>
+      <tr><td align="left">1:let name = f.Name</td></tr>
+      <tr><td align="left">2:let env = f.Env</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2892 [shape=cds, label=<<font color="black">3:app __x0__ = (env.SetMutableBinding env name value false)</font>> color="black" fillcolor="white" style=filled]
+  node2889 -> node2891 [ color="black"]
+  node2891 -> node2892 [ color="black"]
+  node2892 -> node2893 [ color="black"]
+  node2893 -> node2890 [ color="black"]
+}

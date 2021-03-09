@@ -1,0 +1,53 @@
+digraph {
+  node9116 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let closure = [! __x3__]</td></tr>
+      <tr><td align="left">5:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9108 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9105 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9113 [shape=cds, label=<<font color="black">3:access __x2__ = (head &quot;ArrowFormalParameters&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9112 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let head = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9104 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9107 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9114 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let parameters = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9106 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node9111 [shape=cds, label=<<font color="black">2:access __x1__ = (CoverCallExpressionAndAsyncArrowHead &quot;CoveredAsyncArrowHead&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9109 [shape=cds, label=<<font color="black">1:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9115 [shape=cds, label=<<font color="black">4:app __x3__ = (AsyncFunctionCreate CONST_Arrow parameters AsyncConciseBody scope strict)</font>> color="black" fillcolor="white" style=filled]
+  node9110 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let scope = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9112 -> node9113 [ color="black"]
+  node9104 -> node9106 [ color="black"]
+  node9114 -> node9115 [ color="black"]
+  node9113 -> node9114 [ color="black"]
+  node9110 -> node9111 [ color="black"]
+  node9108 -> node9109 [ color="black"]
+  node9111 -> node9112 [ color="black"]
+  node9106 -> node9107 [label=<<font color="black">true</font>> color="black"]
+  node9106 -> node9108 [label=<<font color="black">false</font>> color="black"]
+  node9115 -> node9116 [ color="black"]
+  node9109 -> node9110 [ color="black"]
+  node9107 -> node9109 [ color="black"]
+  node9116 -> node9105 [ color="black"]
+}

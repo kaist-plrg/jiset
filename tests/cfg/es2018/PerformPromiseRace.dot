@@ -1,0 +1,90 @@
+digraph {
+  node17766 [shape=cds, label=<<font color="black">app iteratorRecord = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17779 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let nextValue = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17783 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:[? nextValue]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17787 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:[? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17773 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node17770 [shape=cds, label=<<font color="black">3:app __x0__ = (IteratorStep iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node17780 [shape=cds, label=<<font color="black">10:app __x3__ = (IsAbruptCompletion nextValue)</font>> color="black" fillcolor="white" style=filled]
+  node17786 [shape=cds, label=<<font color="black">13:app __x5__ = (Invoke nextPromise &quot;then&quot; (new [resultCapability.Resolve, resultCapability.Reject]))</font>> color="black" fillcolor="white" style=filled]
+  node17768 [shape=cds, label=<<font color="black">app resultCapability = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node17777 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:iteratorRecord.Done = true</td></tr>
+      <tr><td align="left">8:return resultCapability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17772 [shape=cds, label=<<font color="black">4:app __x1__ = (IsAbruptCompletion next)</font>> color="black" fillcolor="white" style=filled]
+  node17775 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:[? next]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17771 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let next = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17774 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17767 [shape=cds, label=<<font color="black">app constructor = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node17784 [shape=cds, label=<<font color="black">12:app __x4__ = (Invoke constructor &quot;resolve&quot; (new [nextValue]))</font>> color="black" fillcolor="white" style=filled]
+  node17776 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
+  node17769 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node17781 [shape=diamond, label=<<font color="black">__x3__</font>> color="black" fillcolor="white" style=filled]
+  node17764 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17785 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let nextPromise = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17782 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17765 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17778 [shape=cds, label=<<font color="black">9:app __x2__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
+  node17783 -> node17784 [ color="black"]
+  node17785 -> node17786 [ color="black"]
+  node17771 -> node17772 [ color="black"]
+  node17774 -> node17775 [ color="black"]
+  node17764 -> node17766 [ color="black"]
+  node17777 -> node17778 [ color="black"]
+  node17769 -> node17770 [label=<<font color="black">true</font>> color="black"]
+  node17769 -> node17765 [label=<<font color="black">false</font>> color="black"]
+  node17778 -> node17779 [ color="black"]
+  node17776 -> node17777 [label=<<font color="black">true</font>> color="black"]
+  node17776 -> node17778 [label=<<font color="black">false</font>> color="black"]
+  node17775 -> node17776 [ color="black"]
+  node17779 -> node17780 [ color="black"]
+  node17784 -> node17785 [ color="black"]
+  node17782 -> node17783 [ color="black"]
+  node17773 -> node17774 [label=<<font color="black">true</font>> color="black"]
+  node17773 -> node17775 [label=<<font color="black">false</font>> color="black"]
+  node17781 -> node17782 [label=<<font color="black">true</font>> color="black"]
+  node17781 -> node17783 [label=<<font color="black">false</font>> color="black"]
+  node17772 -> node17773 [ color="black"]
+  node17768 -> node17769 [ color="black"]
+  node17766 -> node17767 [ color="black"]
+  node17780 -> node17781 [ color="black"]
+  node17786 -> node17787 [ color="black"]
+  node17767 -> node17768 [ color="black"]
+  node17787 -> node17769 [ color="black"]
+  node17770 -> node17771 [ color="black"]
+}

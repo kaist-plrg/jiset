@@ -1,0 +1,63 @@
+digraph {
+  node15138 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15130 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15133 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node15126 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15136 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let flags = R.OriginalFlags</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15131 [shape=diamond, label=<<font color="black">(= R.OriginalFlags absent)</font>> color="black" fillcolor="white" style=filled]
+  node15139 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15128 [shape=cds, label=<<font color="black">1:app __x0__ = (Type R)</font>> color="black" fillcolor="white" style=filled]
+  node15134 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15135 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15125 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15129 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node15137 [shape=diamond, label=<<font color="black">(contains flags &quot;s&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node15127 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let R = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15132 [shape=cds, label=<<font color="black">4:app __x1__ = (SameValue R INTRINSIC_RegExp_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node15132 -> node15133 [ color="black"]
+  node15133 -> node15134 [label=<<font color="black">true</font>> color="black"]
+  node15133 -> node15135 [label=<<font color="black">false</font>> color="black"]
+  node15130 -> node15131 [ color="black"]
+  node15136 -> node15137 [ color="black"]
+  node15137 -> node15138 [label=<<font color="black">true</font>> color="black"]
+  node15137 -> node15139 [label=<<font color="black">false</font>> color="black"]
+  node15138 -> node15139 [ color="black"]
+  node15134 -> node15136 [ color="black"]
+  node15129 -> node15130 [label=<<font color="black">true</font>> color="black"]
+  node15129 -> node15131 [label=<<font color="black">false</font>> color="black"]
+  node15135 -> node15136 [ color="black"]
+  node15125 -> node15127 [ color="black"]
+  node15139 -> node15126 [ color="black"]
+  node15131 -> node15132 [label=<<font color="black">true</font>> color="black"]
+  node15131 -> node15136 [label=<<font color="black">false</font>> color="black"]
+  node15127 -> node15128 [ color="black"]
+  node15128 -> node15129 [ color="black"]
+}

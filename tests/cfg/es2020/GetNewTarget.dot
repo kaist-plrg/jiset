@@ -1,0 +1,15 @@
+digraph {
+  node1912 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1914 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment )</font>> color="black" fillcolor="white" style=filled]
+  node1915 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let envRec = __x0__</td></tr>
+      <tr><td align="left">1:assert (! (= envRec.NewTarget absent))</td></tr>
+      <tr><td align="left">2:return envRec.NewTarget</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1913 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1912 -> node1914 [ color="black"]
+  node1914 -> node1915 [ color="black"]
+  node1915 -> node1913 [ color="black"]
+}

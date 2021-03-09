@@ -1,0 +1,34 @@
+digraph {
+  node18272 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18265 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18269 [shape=cds, label=<<font color="black">1:app __x1__ = (target.OwnPropertyKeys target)</font>> color="black" fillcolor="white" style=filled]
+  node18264 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18268 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18267 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node18270 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let keys = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18271 [shape=cds, label=<<font color="black">2:app __x2__ = (CreateArrayFromList keys)</font>> color="black" fillcolor="white" style=filled]
+  node18266 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node18263 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18271 -> node18272 [ color="black"]
+  node18263 -> node18265 [ color="black"]
+  node18267 -> node18268 [label=<<font color="black">true</font>> color="black"]
+  node18267 -> node18269 [label=<<font color="black">false</font>> color="black"]
+  node18268 -> node18269 [ color="black"]
+  node18266 -> node18267 [ color="black"]
+  node18272 -> node18264 [ color="black"]
+  node18265 -> node18266 [ color="black"]
+  node18269 -> node18270 [ color="black"]
+  node18270 -> node18271 [ color="black"]
+}

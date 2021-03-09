@@ -1,0 +1,52 @@
+digraph {
+  node3345 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3350 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ array 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3353 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let padding = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3357 [shape=cds, label=<<font color="black">4:app __x5__ = (Set array &quot;length&quot; __x4__ false)</font>> color="black" fillcolor="white" style=filled]
+  node3349 [shape=cds, label=<<font color="black">1:access __x1__ = (ElementList &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3354 [shape=cds, label=<<font color="black">access __x3__ = (Elision &quot;ElisionWidth&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3358 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:__x5__</td></tr>
+      <tr><td align="left">6:return array</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3355 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let padding = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3352 [shape=diamond, label=<<font color="black">(= Elision absent)</font>> color="black" fillcolor="white" style=filled]
+  node3348 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let array = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3356 [shape=cds, label=<<font color="black">4:app __x4__ = (ToUint32 (+ padding len))</font>> color="black" fillcolor="white" style=filled]
+  node3346 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3351 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let len = __x2__</td></tr>
+      <tr><td align="left">2:[? len]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3347 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3355 -> node3356 [ color="black"]
+  node3358 -> node3346 [ color="black"]
+  node3350 -> node3351 [ color="black"]
+  node3348 -> node3349 [ color="black"]
+  node3352 -> node3353 [label=<<font color="black">true</font>> color="black"]
+  node3352 -> node3354 [label=<<font color="black">false</font>> color="black"]
+  node3354 -> node3355 [ color="black"]
+  node3347 -> node3348 [ color="black"]
+  node3356 -> node3357 [ color="black"]
+  node3349 -> node3350 [ color="black"]
+  node3345 -> node3347 [ color="black"]
+  node3357 -> node3358 [ color="black"]
+  node3351 -> node3352 [ color="black"]
+  node3353 -> node3356 [ color="black"]
+}

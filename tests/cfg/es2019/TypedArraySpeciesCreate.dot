@@ -1,0 +1,27 @@
+digraph {
+  node16022 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:??? &quot;Let id:{defaultConstructor} be the intrinsic object listed in column one of link:{unhandled: table-49} for id:{exemplar} . [ [ TypedArrayName ] ] .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16026 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16023 [shape=cds, label=<<font color="black">2:app __x0__ = (SpeciesConstructor exemplar defaultConstructor)</font>> color="black" fillcolor="white" style=filled]
+  node16025 [shape=cds, label=<<font color="black">3:app __x1__ = (TypedArrayCreate constructor argumentList)</font>> color="black" fillcolor="white" style=filled]
+  node16020 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16024 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let constructor = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16021 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16023 -> node16024 [ color="black"]
+  node16024 -> node16025 [ color="black"]
+  node16022 -> node16023 [ color="black"]
+  node16025 -> node16026 [ color="black"]
+  node16020 -> node16022 [ color="black"]
+  node16026 -> node16021 [ color="black"]
+}

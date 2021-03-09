@@ -1,0 +1,37 @@
+digraph {
+  node284 [shape=cds, label=<<font color="black">2:app __x0__ = (Type V.Base)</font>> color="black" fillcolor="white" style=filled]
+  node280 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node285 [shape=diamond, label=<<font color="black">(|| (|| (|| (|| (|| (= __x0__ Boolean) (= __x0__ String)) (= __x0__ Symbol)) (= __x0__ BigInt)) (= __x0__ Number)) (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node279 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node282 [shape=diamond, label=<<font color="black">(= V.Base CONST_unresolvable)</font>> color="black" fillcolor="white" style=filled]
+  node287 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node283 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node286 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node281 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= (typeof V) &quot;ReferenceRecord&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node283 -> node284 [ color="black"]
+  node284 -> node285 [ color="black"]
+  node279 -> node281 [ color="black"]
+  node286 -> node280 [ color="black"]
+  node285 -> node286 [label=<<font color="black">true</font>> color="black"]
+  node285 -> node287 [label=<<font color="black">false</font>> color="black"]
+  node281 -> node282 [ color="black"]
+  node287 -> node280 [ color="black"]
+  node282 -> node283 [label=<<font color="black">true</font>> color="black"]
+  node282 -> node284 [label=<<font color="black">false</font>> color="black"]
+}

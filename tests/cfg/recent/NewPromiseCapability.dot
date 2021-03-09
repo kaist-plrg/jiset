@@ -1,0 +1,69 @@
+digraph {
+  node18906 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:??? &quot;Let id:{promiseCapability} be the PromiseCapability Record { [ [ Promise ] ] : value:{undefined} , [ [ Resolve ] ] : value:{undefined} , [ [ Reject ] ] : value:{undefined} } .&quot;</td></tr>
+      <tr><td align="left">3:let steps = GetCapabilitiesExecutorFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18910 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let promise = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18901 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18917 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:promiseCapability.Promise = promise</td></tr>
+      <tr><td align="left">10:return promiseCapability</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18916 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18912 [shape=diamond, label=<<font color="black">(= __x3__ false)</font>> color="black" fillcolor="white" style=filled]
+  node18903 [shape=cds, label=<<font color="black">0:app __x0__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
+  node18911 [shape=cds, label=<<font color="black">7:app __x3__ = (IsCallable promiseCapability.Resolve)</font>> color="black" fillcolor="white" style=filled]
+  node18914 [shape=cds, label=<<font color="black">8:app __x4__ = (IsCallable promiseCapability.Reject)</font>> color="black" fillcolor="white" style=filled]
+  node18907 [shape=cds, label=<<font color="black">4:app __x1__ = (CreateBuiltinFunction steps (new [&quot;Capability&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node18904 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
+  node18909 [shape=cds, label=<<font color="black">6:app __x2__ = (Construct C (new [executor]))</font>> color="black" fillcolor="white" style=filled]
+  node18915 [shape=diamond, label=<<font color="black">(= __x4__ false)</font>> color="black" fillcolor="white" style=filled]
+  node18905 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18902 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18913 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18908 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let executor = [! __x1__]</td></tr>
+      <tr><td align="left">5:executor.Capability = promiseCapability</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18903 -> node18904 [ color="black"]
+  node18904 -> node18905 [label=<<font color="black">true</font>> color="black"]
+  node18904 -> node18906 [label=<<font color="black">false</font>> color="black"]
+  node18915 -> node18916 [label=<<font color="black">true</font>> color="black"]
+  node18915 -> node18917 [label=<<font color="black">false</font>> color="black"]
+  node18906 -> node18907 [ color="black"]
+  node18917 -> node18902 [ color="black"]
+  node18909 -> node18910 [ color="black"]
+  node18912 -> node18913 [label=<<font color="black">true</font>> color="black"]
+  node18912 -> node18914 [label=<<font color="black">false</font>> color="black"]
+  node18913 -> node18914 [ color="black"]
+  node18901 -> node18903 [ color="black"]
+  node18911 -> node18912 [ color="black"]
+  node18910 -> node18911 [ color="black"]
+  node18905 -> node18906 [ color="black"]
+  node18907 -> node18908 [ color="black"]
+  node18908 -> node18909 [ color="black"]
+  node18916 -> node18917 [ color="black"]
+  node18914 -> node18915 [ color="black"]
+}

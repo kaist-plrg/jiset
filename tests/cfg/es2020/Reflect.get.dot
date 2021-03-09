@@ -1,0 +1,47 @@
+digraph {
+  node18985 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node18981 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18992 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18984 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node18989 [shape=diamond, label=<<font color="black">(= receiver absent)</font>> color="black" fillcolor="white" style=filled]
+  node18990 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">receiver = target</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18991 [shape=cds, label=<<font color="black">4:app __x2__ = (target.Get target key receiver)</font>> color="black" fillcolor="white" style=filled]
+  node18983 [shape=cds, label=<<font color="black">app receiver = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node18988 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let key = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18982 [shape=cds, label=<<font color="black">app propertyKey = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18979 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18986 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18980 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18987 [shape=cds, label=<<font color="black">1:app __x1__ = (ToPropertyKey propertyKey)</font>> color="black" fillcolor="white" style=filled]
+  node18987 -> node18988 [ color="black"]
+  node18989 -> node18990 [label=<<font color="black">true</font>> color="black"]
+  node18989 -> node18991 [label=<<font color="black">false</font>> color="black"]
+  node18984 -> node18985 [ color="black"]
+  node18992 -> node18980 [ color="black"]
+  node18991 -> node18992 [ color="black"]
+  node18983 -> node18984 [ color="black"]
+  node18985 -> node18986 [label=<<font color="black">true</font>> color="black"]
+  node18985 -> node18987 [label=<<font color="black">false</font>> color="black"]
+  node18986 -> node18987 [ color="black"]
+  node18990 -> node18991 [ color="black"]
+  node18981 -> node18982 [ color="black"]
+  node18982 -> node18983 [ color="black"]
+  node18988 -> node18989 [ color="black"]
+  node18979 -> node18981 [ color="black"]
+}

@@ -1,0 +1,33 @@
+digraph {
+  node3959 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let len = __x2__</td></tr>
+      <tr><td align="left">3:[? len]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3955 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let array = [! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3958 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ array 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3957 [shape=cds, label=<<font color="black">2:access __x1__ = (Elision &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3953 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3956 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
+  node3960 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return array</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3954 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3952 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3958 -> node3959 [ color="black"]
+  node3954 -> node3955 [ color="black"]
+  node3956 -> node3957 [label=<<font color="black">true</font>> color="black"]
+  node3956 -> node3960 [label=<<font color="black">false</font>> color="black"]
+  node3957 -> node3958 [ color="black"]
+  node3960 -> node3953 [ color="black"]
+  node3952 -> node3954 [ color="black"]
+  node3955 -> node3956 [ color="black"]
+  node3959 -> node3960 [ color="black"]
+}

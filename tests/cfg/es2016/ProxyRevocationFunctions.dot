@@ -1,0 +1,29 @@
+digraph {
+  node16304 [shape=diamond, label=<<font color="black">(= p null)</font>> color="black" fillcolor="white" style=filled]
+  node16301 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16302 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16306 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:F.RevocableProxy = null</td></tr>
+      <tr><td align="left">4:p.ProxyTarget = null</td></tr>
+      <tr><td align="left">5:p.ProxyHandler = null</td></tr>
+      <tr><td align="left">6:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16305 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16303 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let p = F.RevocableProxy</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16304 -> node16305 [label=<<font color="black">true</font>> color="black"]
+  node16304 -> node16306 [label=<<font color="black">false</font>> color="black"]
+  node16306 -> node16302 [ color="black"]
+  node16301 -> node16303 [ color="black"]
+  node16303 -> node16304 [ color="black"]
+  node16305 -> node16306 [ color="black"]
+}

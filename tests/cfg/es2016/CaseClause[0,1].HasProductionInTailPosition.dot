@@ -1,0 +1,24 @@
+digraph {
+  node8981 [shape=diamond, label=<<font color="black">(! (= StatementList absent))</font>> color="black" fillcolor="white" style=filled]
+  node8984 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8985 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8980 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8983 [shape=cds, label=<<font color="black">app __x1__ = (__x0__ nonterminal)</font>> color="black" fillcolor="white" style=filled]
+  node8979 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8982 [shape=cds, label=<<font color="black">access __x0__ = (StatementList &quot;HasProductionInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8981 -> node8982 [label=<<font color="black">true</font>> color="black"]
+  node8981 -> node8985 [label=<<font color="black">false</font>> color="black"]
+  node8985 -> node8980 [ color="black"]
+  node8979 -> node8981 [ color="black"]
+  node8982 -> node8983 [ color="black"]
+  node8984 -> node8985 [ color="black"]
+  node8983 -> node8984 [ color="black"]
+}

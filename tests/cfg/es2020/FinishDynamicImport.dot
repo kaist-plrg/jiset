@@ -1,0 +1,55 @@
+digraph {
+  node11513 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11512 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11523 [shape=diamond, label=<<font color="black">__x4__</font>> color="black" fillcolor="white" style=filled]
+  node11520 [shape=cds, label=<<font color="black">5:app __x3__ = (GetModuleNamespace moduleRecord)</font>> color="black" fillcolor="white" style=filled]
+  node11524 [shape=cds, label=<<font color="black">app __x5__ = (Call promiseCapability.Reject undefined (new [namespace.Value]))</font>> color="black" fillcolor="white" style=filled]
+  node11516 [shape=cds, label=<<font color="black">app __x1__ = (Call promiseCapability.Reject undefined (new [completion.Value]))</font>> color="black" fillcolor="white" style=filled]
+  node11518 [shape=cds, label=<<font color="black">3:app __x2__ = (HostResolveImportedModule referencingScriptOrModule specifier)</font>> color="black" fillcolor="white" style=filled]
+  node11514 [shape=cds, label=<<font color="black">1:app __x0__ = (IsAbruptCompletion completion)</font>> color="black" fillcolor="white" style=filled]
+  node11526 [shape=cds, label=<<font color="black">app __x6__ = (Call promiseCapability.Resolve undefined (new [namespace.Value]))</font>> color="black" fillcolor="white" style=filled]
+  node11522 [shape=cds, label=<<font color="black">7:app __x4__ = (IsAbruptCompletion namespace)</font>> color="black" fillcolor="white" style=filled]
+  node11517 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">[! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11527 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">[! __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11515 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node11525 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">[! __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11519 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let moduleRecord = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11521 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let namespace = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11526 -> node11527 [ color="black"]
+  node11525 -> node11513 [ color="black"]
+  node11520 -> node11521 [ color="black"]
+  node11514 -> node11515 [ color="black"]
+  node11523 -> node11524 [label=<<font color="black">true</font>> color="black"]
+  node11523 -> node11526 [label=<<font color="black">false</font>> color="black"]
+  node11517 -> node11513 [ color="black"]
+  node11518 -> node11519 [ color="black"]
+  node11522 -> node11523 [ color="black"]
+  node11515 -> node11516 [label=<<font color="black">true</font>> color="black"]
+  node11515 -> node11518 [label=<<font color="black">false</font>> color="black"]
+  node11527 -> node11513 [ color="black"]
+  node11524 -> node11525 [ color="black"]
+  node11516 -> node11517 [ color="black"]
+  node11521 -> node11522 [ color="black"]
+  node11519 -> node11520 [ color="black"]
+  node11512 -> node11514 [ color="black"]
+}

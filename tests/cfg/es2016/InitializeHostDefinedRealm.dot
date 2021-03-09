@@ -1,0 +1,40 @@
+digraph {
+  node1475 [shape=cds, label=<<font color="black">8:app __x1__ = (SetRealmGlobalObject realm global thisValue)</font>> color="black" fillcolor="white" style=filled]
+  node1478 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let globalObj = [? __x2__]</td></tr>
+      <tr><td align="left">10:??? &quot;Create any implementation defined global object properties on id:{globalObj} .&quot;</td></tr>
+      <tr><td align="left">11:??? &quot;In an implementation dependent manner , obtain the ECMAScript source texts ( see clause link:{unhandled: sec-ecmascript-language-source-code} ) and any associated host - defined values for zero or more ECMAScript scripts and / or ECMAScript modules . For each such id:{sourceText} and id:{hostDefined} , in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">16:??? &quot;NextJob NormalCompletion ( value:{undefined} ) .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1471 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1472 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1476 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:__x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1473 [shape=cds, label=<<font color="black">0:app __x0__ = (CreateRealm )</font>> color="black" fillcolor="white" style=filled]
+  node1474 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let realm = __x0__</td></tr>
+      <tr><td align="left">1:let newContext = (new ExecutionContext(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">2:newContext.Function = null</td></tr>
+      <tr><td align="left">3:newContext.Realm = realm</td></tr>
+      <tr><td align="left">4:newContext.ScriptOrModule = null</td></tr>
+      <tr><td align="left">5:append newContext -&gt; GLOBAL_executionStack</td></tr>
+      <tr><td align="left">5:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">6:??? &quot;If the host requires use of an exotic object to serve as id:{realm} ' s global object , let id:{global} be such an object created in an implementation defined manner . Otherwise , let id:{global} be value:{undefined} , indicating that an ordinary object should be created as the global object .&quot;</td></tr>
+      <tr><td align="left">7:??? &quot;If the host requires that the code:{this} binding in id:{realm} ' s global scope return an object other than the global object , let id:{thisValue} be such an object created in an implementation defined manner . Otherwise , let id:{thisValue} be value:{undefined} , indicating that id:{realm} ' s global code:{this} binding should be the global object .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1477 [shape=cds, label=<<font color="black">9:app __x2__ = (SetDefaultGlobalBindings realm)</font>> color="black" fillcolor="white" style=filled]
+  node1476 -> node1477 [ color="black"]
+  node1473 -> node1474 [ color="black"]
+  node1475 -> node1476 [ color="black"]
+  node1477 -> node1478 [ color="black"]
+  node1478 -> node1472 [ color="black"]
+  node1474 -> node1475 [ color="black"]
+  node1471 -> node1473 [ color="black"]
+}

@@ -1,0 +1,27 @@
+digraph {
+  node3591 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let size = string.length</td></tr>
+      <tr><td align="left">1:assert (&amp;&amp; (! (&lt; position 0i)) (&lt; position size))</td></tr>
+      <tr><td align="left">2:let first = string[position]</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{cp} be the code point whose numeric value is that of id:{first} .&quot;</td></tr>
+      <tr><td align="left">4:??? &quot;If id:{first} is not a link:{unhandled: leading-surrogate} or link:{unhandled: trailing-surrogate} , then in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">6:??? &quot;If id:{first} is a link:{unhandled: trailing-surrogate} or id:{position} + 1 = id:{size} , then in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">8:let second = string[(+ position 1i)]</td></tr>
+      <tr><td align="left">9:??? &quot;If id:{second} is not a link:{unhandled: trailing-surrogate} , then in:{} out:{}&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3592 [shape=cds, label=<<font color="black">11:app __x0__ = (UTF16SurrogatePairToCodePoint first second)</font>> color="black" fillcolor="white" style=filled]
+  node3590 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3589 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3593 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:cp = [! __x0__]</td></tr>
+      <tr><td align="left">12:return (new Record(&quot;CodePoint&quot; -&gt; cp, &quot;CodeUnitCount&quot; -&gt; 2i, &quot;IsUnpairedSurrogate&quot; -&gt; false))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3589 -> node3591 [ color="black"]
+  node3591 -> node3592 [ color="black"]
+  node3592 -> node3593 [ color="black"]
+  node3593 -> node3590 [ color="black"]
+}

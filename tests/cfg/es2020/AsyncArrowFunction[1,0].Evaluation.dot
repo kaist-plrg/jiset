@@ -1,0 +1,39 @@
+digraph {
+  node10382 [shape=cds, label=<<font color="black">2:access __x2__ = (head &quot;ArrowFormalParameters&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10378 [shape=cds, label=<<font color="black">0:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10381 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let head = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10377 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10385 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let closure = [! __x3__]</td></tr>
+      <tr><td align="left">4:closure.SourceText = (get-syntax AsyncArrowFunction)</td></tr>
+      <tr><td align="left">5:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10380 [shape=cds, label=<<font color="black">1:access __x1__ = (CoverCallExpressionAndAsyncArrowHead &quot;CoveredAsyncArrowHead&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10384 [shape=cds, label=<<font color="black">3:app __x3__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype parameters AsyncConciseBody CONST_lexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node10376 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10379 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let scope = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10383 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let parameters = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10378 -> node10379 [ color="black"]
+  node10382 -> node10383 [ color="black"]
+  node10383 -> node10384 [ color="black"]
+  node10380 -> node10381 [ color="black"]
+  node10376 -> node10378 [ color="black"]
+  node10379 -> node10380 [ color="black"]
+  node10385 -> node10377 [ color="black"]
+  node10384 -> node10385 [ color="black"]
+  node10381 -> node10382 [ color="black"]
+}

@@ -1,0 +1,22 @@
+digraph {
+  node17587 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17590 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let generator = this</td></tr>
+      <tr><td align="left">1:let completion = (new Completion(&quot;Type&quot; -&gt; CONST_return, &quot;Value&quot; -&gt; value, &quot;Target&quot; -&gt; CONST_empty))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17589 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17592 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17588 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17591 [shape=cds, label=<<font color="black">2:app __x0__ = (AsyncGeneratorEnqueue generator completion)</font>> color="black" fillcolor="white" style=filled]
+  node17590 -> node17591 [ color="black"]
+  node17587 -> node17589 [ color="black"]
+  node17589 -> node17590 [ color="black"]
+  node17591 -> node17592 [ color="black"]
+  node17592 -> node17588 [ color="black"]
+}

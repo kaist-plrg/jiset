@@ -1,0 +1,35 @@
+digraph {
+  node13102 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13106 [shape=diamond, label=<<font color="black">(= Unicode true)</font>> color="black" fillcolor="white" style=filled]
+  node13104 [shape=diamond, label=<<font color="black">(= IgnoreCase false)</font>> color="black" fillcolor="white" style=filled]
+  node13108 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:??? &quot;Let id:{s} be the ECMAScript String value consisting of the single code unit id:{ch} .&quot;</td></tr>
+      <tr><td align="left">7:??? &quot;Let id:{u} be the same result produced as if by performing the algorithm for code:{String.prototype.toUpperCase} using id:{s} as the value:{this} value .&quot;</td></tr>
+      <tr><td align="left">9:??? &quot;If id:{u} does not consist of a single code unit , return id:{ch} .&quot;</td></tr>
+      <tr><td align="left">10:??? &quot;Let id:{cu} be id:{u} ' s single code unit element .&quot;</td></tr>
+      <tr><td align="left">11:??? &quot;If id:{ch} ' s code unit value &ge; 128 and id:{cu} ' s code unit value &lt; 128 , return id:{ch} .&quot;</td></tr>
+      <tr><td align="left">12:return cu</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13107 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:??? &quot;If the file CaseFolding . txt of the Unicode Character Database provides a simple or common case folding mapping for id:{ch} , return the result of applying that mapping to id:{ch} .&quot;</td></tr>
+      <tr><td align="left">3:return ch</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13103 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13105 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return ch</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13105 -> node13106 [ color="black"]
+  node13102 -> node13104 [ color="black"]
+  node13107 -> node13103 [ color="black"]
+  node13106 -> node13107 [label=<<font color="black">true</font>> color="black"]
+  node13106 -> node13108 [label=<<font color="black">false</font>> color="black"]
+  node13108 -> node13103 [ color="black"]
+  node13104 -> node13105 [label=<<font color="black">true</font>> color="black"]
+  node13104 -> node13106 [label=<<font color="black">false</font>> color="black"]
+}

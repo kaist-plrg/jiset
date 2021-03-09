@@ -1,0 +1,85 @@
+digraph {
+  node17594 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let p = __x2__[__x3__]</td></tr>
+      <tr><td align="left">5:let __x4__ = true</td></tr>
+      <tr><td align="left">5:__x4__ = (! (= p.Key CONST_empty))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17598 [shape=diamond, label=<<font color="black">__x4__</font>> color="black" fillcolor="white" style=filled]
+  node17601 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17599 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:p.Key = CONST_empty</td></tr>
+      <tr><td align="left">7:p.Value = CONST_empty</td></tr>
+      <tr><td align="left">8:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17595 [shape=diamond, label=<<font color="black">__x4__</font>> color="black" fillcolor="white" style=filled]
+  node17587 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot M &quot;WeakMapData&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node17593 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node17585 [shape=cds, label=<<font color="black">app key = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17588 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x0__]</td></tr>
+      <tr><td align="left">2:let entries = M.WeakMapData</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17591 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17596 [shape=cds, label=<<font color="black">app __x5__ = (SameValue p.Key key)</font>> color="black" fillcolor="white" style=filled]
+  node17590 [shape=diamond, label=<<font color="black">(! (= __x1__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node17583 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17600 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17586 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let M = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17584 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17589 [shape=cds, label=<<font color="black">3:app __x1__ = (Type key)</font>> color="black" fillcolor="white" style=filled]
+  node17592 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let __x2__ = entries</td></tr>
+      <tr><td align="left">4:let __x3__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17597 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x4__ = (= __x5__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17598 -> node17599 [label=<<font color="black">true</font>> color="black"]
+  node17598 -> node17600 [label=<<font color="black">false</font>> color="black"]
+  node17596 -> node17597 [ color="black"]
+  node17593 -> node17594 [label=<<font color="black">true</font>> color="black"]
+  node17593 -> node17601 [label=<<font color="black">false</font>> color="black"]
+  node17583 -> node17585 [ color="black"]
+  node17586 -> node17587 [ color="black"]
+  node17591 -> node17592 [ color="black"]
+  node17587 -> node17588 [ color="black"]
+  node17589 -> node17590 [ color="black"]
+  node17592 -> node17593 [ color="black"]
+  node17594 -> node17595 [ color="black"]
+  node17597 -> node17598 [ color="black"]
+  node17595 -> node17596 [label=<<font color="black">true</font>> color="black"]
+  node17595 -> node17598 [label=<<font color="black">false</font>> color="black"]
+  node17601 -> node17584 [ color="black"]
+  node17585 -> node17586 [ color="black"]
+  node17588 -> node17589 [ color="black"]
+  node17599 -> node17600 [ color="black"]
+  node17600 -> node17593 [ color="black"]
+  node17590 -> node17591 [label=<<font color="black">true</font>> color="black"]
+  node17590 -> node17592 [label=<<font color="black">false</font>> color="black"]
+}

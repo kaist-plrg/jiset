@@ -1,0 +1,62 @@
+digraph {
+  node4290 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let func = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4294 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let result = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4297 [shape=cds, label=<<font color="black">7:app __x6__ = (thisER.BindThisValue thisER result)</font>> color="black" fillcolor="white" style=filled]
+  node4285 [shape=cds, label=<<font color="black">0:app __x0__ = (GetNewTarget )</font>> color="black" fillcolor="white" style=filled]
+  node4284 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4295 [shape=cds, label=<<font color="black">6:app __x5__ = (GetThisEnvironment )</font>> color="black" fillcolor="white" style=filled]
+  node4291 [shape=cds, label=<<font color="black">3:access __x3__ = (Arguments &quot;ArgumentListEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4288 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= __x1__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4283 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4296 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let thisER = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4292 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let argList = __x3__</td></tr>
+      <tr><td align="left">4:[? argList]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4287 [shape=cds, label=<<font color="black">1:app __x1__ = (Type newTarget)</font>> color="black" fillcolor="white" style=filled]
+  node4289 [shape=cds, label=<<font color="black">2:app __x2__ = (GetSuperConstructor )</font>> color="black" fillcolor="white" style=filled]
+  node4293 [shape=cds, label=<<font color="black">5:app __x4__ = (Construct func argList newTarget)</font>> color="black" fillcolor="white" style=filled]
+  node4286 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let newTarget = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4298 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4291 -> node4292 [ color="black"]
+  node4286 -> node4287 [ color="black"]
+  node4283 -> node4285 [ color="black"]
+  node4292 -> node4293 [ color="black"]
+  node4290 -> node4291 [ color="black"]
+  node4296 -> node4297 [ color="black"]
+  node4288 -> node4289 [ color="black"]
+  node4289 -> node4290 [ color="black"]
+  node4285 -> node4286 [ color="black"]
+  node4295 -> node4296 [ color="black"]
+  node4298 -> node4284 [ color="black"]
+  node4293 -> node4294 [ color="black"]
+  node4287 -> node4288 [ color="black"]
+  node4294 -> node4295 [ color="black"]
+  node4297 -> node4298 [ color="black"]
+}

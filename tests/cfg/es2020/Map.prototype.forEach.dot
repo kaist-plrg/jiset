@@ -1,0 +1,42 @@
+digraph {
+  node16867 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16868 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16877 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let entries = M.MapData</td></tr>
+      <tr><td align="left">4:??? &quot;For each Record { [ [ Key ] ] , [ [ Value ] ] } id:{e} that is an element of id:{entries} , in original key insertion order , do in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">7:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16873 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16872 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot M &quot;MapData&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16869 [shape=cds, label=<<font color="black">app callbackfn = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16876 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16875 [shape=diamond, label=<<font color="black">(= __x1__ false)</font>> color="black" fillcolor="white" style=filled]
+  node16870 [shape=cds, label=<<font color="black">app thisArg = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node16871 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let M = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16874 [shape=cds, label=<<font color="black">2:app __x1__ = (IsCallable callbackfn)</font>> color="black" fillcolor="white" style=filled]
+  node16877 -> node16868 [ color="black"]
+  node16876 -> node16877 [ color="black"]
+  node16872 -> node16873 [ color="black"]
+  node16871 -> node16872 [ color="black"]
+  node16873 -> node16874 [ color="black"]
+  node16875 -> node16876 [label=<<font color="black">true</font>> color="black"]
+  node16875 -> node16877 [label=<<font color="black">false</font>> color="black"]
+  node16867 -> node16869 [ color="black"]
+  node16869 -> node16870 [ color="black"]
+  node16870 -> node16871 [ color="black"]
+  node16874 -> node16875 [ color="black"]
+}

@@ -1,0 +1,46 @@
+digraph {
+  node4311 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment )</font>> color="black" fillcolor="white" style=filled]
+  node4317 [shape=cds, label=<<font color="black">3:app __x3__ = (env.GetSuperBase env)</font>> color="black" fillcolor="white" style=filled]
+  node4312 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let env = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4316 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let actualThis = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4309 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4319 [shape=cds, label=<<font color="black">4:app __x4__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
+  node4314 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= __x1__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4310 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4318 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let baseValue = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4313 [shape=cds, label=<<font color="black">1:app __x1__ = (env.HasSuperBinding env)</font>> color="black" fillcolor="white" style=filled]
+  node4320 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let bv = [? __x4__]</td></tr>
+      <tr><td align="left">5:return (new Reference(&quot;BaseValue&quot; -&gt; bv, &quot;ReferencedName&quot; -&gt; propertyKey, &quot;thisValue&quot; -&gt; actualThis, &quot;StrictReference&quot; -&gt; strict))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4315 [shape=cds, label=<<font color="black">2:app __x2__ = (env.GetThisBinding env)</font>> color="black" fillcolor="white" style=filled]
+  node4317 -> node4318 [ color="black"]
+  node4309 -> node4311 [ color="black"]
+  node4315 -> node4316 [ color="black"]
+  node4319 -> node4320 [ color="black"]
+  node4318 -> node4319 [ color="black"]
+  node4316 -> node4317 [ color="black"]
+  node4311 -> node4312 [ color="black"]
+  node4312 -> node4313 [ color="black"]
+  node4313 -> node4314 [ color="black"]
+  node4320 -> node4310 [ color="black"]
+  node4314 -> node4315 [ color="black"]
+}

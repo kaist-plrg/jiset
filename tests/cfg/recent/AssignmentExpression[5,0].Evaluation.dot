@@ -1,0 +1,56 @@
+digraph {
+  node5625 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lref = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5622 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5629 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let rref = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5630 [shape=cds, label=<<font color="black">3:app __x3__ = (GetValue rref)</font>> color="black" fillcolor="white" style=filled]
+  node5627 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lval = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5634 [shape=cds, label=<<font color="black">26:app __x5__ = (PutValue lref r)</font>> color="black" fillcolor="white" style=filled]
+  node5631 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let rval = [? __x3__]</td></tr>
+      <tr><td align="left">4:let assignmentOpText = (get-syntax AssignmentOperator)</td></tr>
+      <tr><td align="left">5:??? &quot;Let id:{opText} be the sequence of Unicode code points associated with id:{assignmentOpText} in the following table : in:{} out:{}&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5624 [shape=cds, label=<<font color="black">0:access __x0__ = (LeftHandSideExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5632 [shape=cds, label=<<font color="black">25:app __x4__ = (ApplyStringOrNumericBinaryOperator lval opText rval)</font>> color="black" fillcolor="white" style=filled]
+  node5623 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5626 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue lref)</font>> color="black" fillcolor="white" style=filled]
+  node5635 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">26:[? __x5__]</td></tr>
+      <tr><td align="left">27:return r</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5628 [shape=cds, label=<<font color="black">2:access __x2__ = (AssignmentExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5633 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">25:let r = __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5635 -> node5623 [ color="black"]
+  node5630 -> node5631 [ color="black"]
+  node5632 -> node5633 [ color="black"]
+  node5634 -> node5635 [ color="black"]
+  node5622 -> node5624 [ color="black"]
+  node5628 -> node5629 [ color="black"]
+  node5627 -> node5628 [ color="black"]
+  node5624 -> node5625 [ color="black"]
+  node5625 -> node5626 [ color="black"]
+  node5631 -> node5632 [ color="black"]
+  node5629 -> node5630 [ color="black"]
+  node5626 -> node5627 [ color="black"]
+  node5633 -> node5634 [ color="black"]
+}

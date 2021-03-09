@@ -1,0 +1,31 @@
+digraph {
+  node9485 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let G = [? __x1__]</td></tr>
+      <tr><td align="left">2:G.GeneratorBrand = CONST_empty</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9481 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9480 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9484 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryCreateFromConstructor functionObject &quot;%GeneratorFunction.prototype.prototype%&quot; (new [&quot;GeneratorState&quot;, &quot;GeneratorContext&quot;, &quot;GeneratorBrand&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node9483 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9487 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:__x2__</td></tr>
+      <tr><td align="left">4:return (new Completion(&quot;Type&quot; -&gt; CONST_return, &quot;Value&quot; -&gt; G, &quot;Target&quot; -&gt; CONST_empty))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9486 [shape=cds, label=<<font color="black">3:app __x2__ = (GeneratorStart G FunctionBody)</font>> color="black" fillcolor="white" style=filled]
+  node9482 [shape=cds, label=<<font color="black">0:app __x0__ = (FunctionDeclarationInstantiation functionObject argumentsList)</font>> color="black" fillcolor="white" style=filled]
+  node9487 -> node9481 [ color="black"]
+  node9485 -> node9486 [ color="black"]
+  node9480 -> node9482 [ color="black"]
+  node9482 -> node9483 [ color="black"]
+  node9486 -> node9487 [ color="black"]
+  node9484 -> node9485 [ color="black"]
+  node9483 -> node9484 [ color="black"]
+}

@@ -1,0 +1,125 @@
+digraph {
+  node18129 [shape=diamond, label=<<font color="black">(= promise.PromiseState &quot;fulfilled&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18114 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18133 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:assert (= promise.PromiseState &quot;rejected&quot;)</td></tr>
+      <tr><td align="left">19:let reason = promise.PromiseResult</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18120 [shape=cds, label=<<font color="black">5:app __x1__ = (IsCallable onFulfilled)</font>> color="black" fillcolor="white" style=filled]
+  node18116 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPromise promise)</font>> color="black" fillcolor="white" style=filled]
+  node18126 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let fulfillReaction = (new PromiseReaction(&quot;Capability&quot; -&gt; resultCapability, &quot;Type&quot; -&gt; &quot;Fulfill&quot;, &quot;Handler&quot; -&gt; onFulfilled))</td></tr>
+      <tr><td align="left">10:let rejectReaction = (new PromiseReaction(&quot;Capability&quot; -&gt; resultCapability, &quot;Type&quot; -&gt; &quot;Reject&quot;, &quot;Handler&quot; -&gt; onRejected))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18123 [shape=cds, label=<<font color="black">7:app __x2__ = (IsCallable onRejected)</font>> color="black" fillcolor="white" style=filled]
+  node18140 [shape=diamond, label=<<font color="black">(= resultCapability undefined)</font>> color="black" fillcolor="white" style=filled]
+  node18119 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">resultCapability = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18136 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18127 [shape=diamond, label=<<font color="black">(= promise.PromiseState &quot;pending&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18118 [shape=diamond, label=<<font color="black">(! (= resultCapability absent))</font>> color="black" fillcolor="white" style=filled]
+  node18131 [shape=cds, label=<<font color="black">16:app __x3__ = (EnqueueJob &quot;PromiseJobs&quot; PromiseReactionJob (new [fulfillReaction, value]))</font>> color="black" fillcolor="white" style=filled]
+  node18121 [shape=diamond, label=<<font color="black">(= __x1__ false)</font>> color="black" fillcolor="white" style=filled]
+  node18141 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18128 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:append fulfillReaction -&gt; promise.PromiseFulfillReactions</td></tr>
+      <tr><td align="left">13:append rejectReaction -&gt; promise.PromiseRejectReactions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18134 [shape=diamond, label=<<font color="black">(= promise.PromiseIsHandled false)</font>> color="black" fillcolor="white" style=filled]
+  node18138 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">21:__x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18122 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">onFulfilled = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18142 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return resultCapability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18125 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">onRejected = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18132 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:__x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18137 [shape=cds, label=<<font color="black">21:app __x5__ = (EnqueueJob &quot;PromiseJobs&quot; PromiseReactionJob (new [rejectReaction, reason]))</font>> color="black" fillcolor="white" style=filled]
+  node18124 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
+  node18135 [shape=cds, label=<<font color="black">app __x4__ = (HostPromiseRejectionTracker promise &quot;handle&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18117 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18115 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18139 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">22:promise.PromiseIsHandled = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18130 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:let value = promise.PromiseResult</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18118 -> node18120 [label=<<font color="black">true</font>> color="black"]
+  node18118 -> node18119 [label=<<font color="black">false</font>> color="black"]
+  node18138 -> node18139 [ color="black"]
+  node18136 -> node18137 [ color="black"]
+  node18123 -> node18124 [ color="black"]
+  node18114 -> node18116 [ color="black"]
+  node18119 -> node18120 [ color="black"]
+  node18128 -> node18139 [ color="black"]
+  node18142 -> node18115 [ color="black"]
+  node18126 -> node18127 [ color="black"]
+  node18129 -> node18130 [label=<<font color="black">true</font>> color="black"]
+  node18129 -> node18133 [label=<<font color="black">false</font>> color="black"]
+  node18134 -> node18135 [label=<<font color="black">true</font>> color="black"]
+  node18134 -> node18137 [label=<<font color="black">false</font>> color="black"]
+  node18120 -> node18121 [ color="black"]
+  node18124 -> node18125 [label=<<font color="black">true</font>> color="black"]
+  node18124 -> node18126 [label=<<font color="black">false</font>> color="black"]
+  node18127 -> node18128 [label=<<font color="black">true</font>> color="black"]
+  node18127 -> node18129 [label=<<font color="black">false</font>> color="black"]
+  node18125 -> node18126 [ color="black"]
+  node18122 -> node18123 [ color="black"]
+  node18139 -> node18140 [ color="black"]
+  node18131 -> node18132 [ color="black"]
+  node18137 -> node18138 [ color="black"]
+  node18116 -> node18117 [ color="black"]
+  node18117 -> node18118 [ color="black"]
+  node18141 -> node18115 [ color="black"]
+  node18130 -> node18131 [ color="black"]
+  node18132 -> node18139 [ color="black"]
+  node18135 -> node18136 [ color="black"]
+  node18133 -> node18134 [ color="black"]
+  node18140 -> node18141 [label=<<font color="black">true</font>> color="black"]
+  node18140 -> node18142 [label=<<font color="black">false</font>> color="black"]
+  node18121 -> node18122 [label=<<font color="black">true</font>> color="black"]
+  node18121 -> node18123 [label=<<font color="black">false</font>> color="black"]
+}

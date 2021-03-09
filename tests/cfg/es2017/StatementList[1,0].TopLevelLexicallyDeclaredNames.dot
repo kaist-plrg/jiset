@@ -1,0 +1,39 @@
+digraph {
+  node5501 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let __x2__ = __x1__</td></tr>
+      <tr><td align="left">1:let __x3__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5496 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5498 [shape=cds, label=<<font color="black">0:access __x0__ = (StatementList &quot;TopLevelLexicallyDeclaredNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5503 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let __x4__ = __x2__[__x3__]</td></tr>
+      <tr><td align="left">append __x4__ -&gt; names</td></tr>
+      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5499 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let names = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5504 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return names</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5500 [shape=cds, label=<<font color="black">1:access __x1__ = (StatementListItem &quot;TopLevelLexicallyDeclaredNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5502 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node5497 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5503 -> node5502 [ color="black"]
+  node5502 -> node5503 [label=<<font color="black">true</font>> color="black"]
+  node5502 -> node5504 [label=<<font color="black">false</font>> color="black"]
+  node5496 -> node5498 [ color="black"]
+  node5501 -> node5502 [ color="black"]
+  node5499 -> node5500 [ color="black"]
+  node5504 -> node5497 [ color="black"]
+  node5498 -> node5499 [ color="black"]
+  node5500 -> node5501 [ color="black"]
+}

@@ -1,0 +1,23 @@
+digraph {
+  node4877 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4878 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
+  node4882 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4879 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let iterator = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4881 [shape=cds, label=<<font color="black">1:app __x2__ = (IteratorClose iterator __x1__)</font>> color="black" fillcolor="white" style=filled]
+  node4880 [shape=cds, label=<<font color="black">1:app __x1__ = (NormalCompletion CONST_empty)</font>> color="black" fillcolor="white" style=filled]
+  node4876 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4881 -> node4882 [ color="black"]
+  node4876 -> node4878 [ color="black"]
+  node4882 -> node4877 [ color="black"]
+  node4879 -> node4880 [ color="black"]
+  node4878 -> node4879 [ color="black"]
+  node4880 -> node4881 [ color="black"]
+}

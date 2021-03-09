@@ -1,0 +1,43 @@
+digraph {
+  node15282 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15286 [shape=cds, label=<<font color="black">1:app __x1__ = (Type global)</font>> color="black" fillcolor="white" style=filled]
+  node15289 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (= __x2__ Boolean)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15285 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15290 [shape=cds, label=<<font color="black">3:app __x3__ = (OrdinaryObjectCreate INTRINSIC_RegExpStringIteratorPrototype (new [&quot;IteratingRegExp&quot;, &quot;IteratedString&quot;, &quot;Global&quot;, &quot;Unicode&quot;, &quot;Done&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node15284 [shape=cds, label=<<font color="black">0:app __x0__ = (Type S)</font>> color="black" fillcolor="white" style=filled]
+  node15291 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let iterator = __x3__</td></tr>
+      <tr><td align="left">4:iterator.IteratingRegExp = R</td></tr>
+      <tr><td align="left">5:iterator.IteratedString = S</td></tr>
+      <tr><td align="left">6:iterator.Global = global</td></tr>
+      <tr><td align="left">7:iterator.Unicode = fullUnicode</td></tr>
+      <tr><td align="left">8:iterator.Done = false</td></tr>
+      <tr><td align="left">9:return iterator</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15288 [shape=cds, label=<<font color="black">2:app __x2__ = (Type fullUnicode)</font>> color="black" fillcolor="white" style=filled]
+  node15283 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15287 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= __x1__ Boolean)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15286 -> node15287 [ color="black"]
+  node15288 -> node15289 [ color="black"]
+  node15289 -> node15290 [ color="black"]
+  node15285 -> node15286 [ color="black"]
+  node15290 -> node15291 [ color="black"]
+  node15282 -> node15284 [ color="black"]
+  node15287 -> node15288 [ color="black"]
+  node15284 -> node15285 [ color="black"]
+  node15291 -> node15283 [ color="black"]
+}

@@ -1,0 +1,46 @@
+digraph {
+  node17534 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node17531 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17535 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17532 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17536 [shape=diamond, label=<<font color="black">(= generator.GeneratorState absent)</font>> color="black" fillcolor="white" style=filled]
+  node17541 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return state</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17538 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let state = generator.GeneratorState</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17540 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17533 [shape=cds, label=<<font color="black">0:app __x0__ = (Type generator)</font>> color="black" fillcolor="white" style=filled]
+  node17537 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17539 [shape=diamond, label=<<font color="black">(= state &quot;executing&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node17537 -> node17538 [ color="black"]
+  node17535 -> node17536 [ color="black"]
+  node17536 -> node17537 [label=<<font color="black">true</font>> color="black"]
+  node17536 -> node17538 [label=<<font color="black">false</font>> color="black"]
+  node17533 -> node17534 [ color="black"]
+  node17534 -> node17535 [label=<<font color="black">true</font>> color="black"]
+  node17534 -> node17536 [label=<<font color="black">false</font>> color="black"]
+  node17539 -> node17540 [label=<<font color="black">true</font>> color="black"]
+  node17539 -> node17541 [label=<<font color="black">false</font>> color="black"]
+  node17531 -> node17533 [ color="black"]
+  node17541 -> node17532 [ color="black"]
+  node17540 -> node17541 [ color="black"]
+  node17538 -> node17539 [ color="black"]
+}

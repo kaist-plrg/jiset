@@ -1,0 +1,101 @@
+digraph {
+  node5644 [shape=diamond, label=<<font color="black">(= lbool false)</font>> color="black" fillcolor="white" style=filled]
+  node5636 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5640 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue lref)</font>> color="black" fillcolor="white" style=filled]
+  node5650 [shape=cds, label=<<font color="black">access __x5__ = (LeftHandSideExpression &quot;IsIdentifierRef&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5651 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x3__ = (= __x5__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5639 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lref = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5647 [shape=cds, label=<<font color="black">6:app __x4__ = (IsAnonymousFunctionDefinition AssignmentExpression)</font>> color="black" fillcolor="white" style=filled]
+  node5638 [shape=cds, label=<<font color="black">0:access __x0__ = (LeftHandSideExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5642 [shape=cds, label=<<font color="black">2:app __x2__ = (ToBoolean lval)</font>> color="black" fillcolor="white" style=filled]
+  node5649 [shape=diamond, label=<<font color="black">__x3__</font>> color="black" fillcolor="white" style=filled]
+  node5659 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let rval = [? __x9__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5654 [shape=cds, label=<<font color="black">5:app __x7__ = (__x6__ lref.ReferencedName)</font>> color="black" fillcolor="white" style=filled]
+  node5643 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let lbool = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5648 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:__x3__ = (= __x4__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5655 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let rval = __x7__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5658 [shape=cds, label=<<font color="black">8:app __x9__ = (GetValue rref)</font>> color="black" fillcolor="white" style=filled]
+  node5657 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let rref = __x8__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5656 [shape=cds, label=<<font color="black">7:access __x8__ = (AssignmentExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5641 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lval = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5646 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let __x3__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5661 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:[? __x10__]</td></tr>
+      <tr><td align="left">10:return rval</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5652 [shape=diamond, label=<<font color="black">__x3__</font>> color="black" fillcolor="white" style=filled]
+  node5653 [shape=cds, label=<<font color="black">5:access __x6__ = (AssignmentExpression &quot;NamedEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5660 [shape=cds, label=<<font color="black">9:app __x10__ = (PutValue lref rval)</font>> color="black" fillcolor="white" style=filled]
+  node5637 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5645 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return lval</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5639 -> node5640 [ color="black"]
+  node5644 -> node5645 [label=<<font color="black">true</font>> color="black"]
+  node5644 -> node5646 [label=<<font color="black">false</font>> color="black"]
+  node5640 -> node5641 [ color="black"]
+  node5655 -> node5660 [ color="black"]
+  node5643 -> node5644 [ color="black"]
+  node5653 -> node5654 [ color="black"]
+  node5641 -> node5642 [ color="black"]
+  node5661 -> node5637 [ color="black"]
+  node5656 -> node5657 [ color="black"]
+  node5636 -> node5638 [ color="black"]
+  node5657 -> node5658 [ color="black"]
+  node5647 -> node5648 [ color="black"]
+  node5660 -> node5661 [ color="black"]
+  node5654 -> node5655 [ color="black"]
+  node5650 -> node5651 [ color="black"]
+  node5645 -> node5646 [ color="black"]
+  node5638 -> node5639 [ color="black"]
+  node5652 -> node5653 [label=<<font color="black">true</font>> color="black"]
+  node5652 -> node5656 [label=<<font color="black">false</font>> color="black"]
+  node5649 -> node5650 [label=<<font color="black">true</font>> color="black"]
+  node5649 -> node5652 [label=<<font color="black">false</font>> color="black"]
+  node5648 -> node5649 [ color="black"]
+  node5658 -> node5659 [ color="black"]
+  node5659 -> node5660 [ color="black"]
+  node5642 -> node5643 [ color="black"]
+  node5651 -> node5652 [ color="black"]
+  node5646 -> node5647 [ color="black"]
+}

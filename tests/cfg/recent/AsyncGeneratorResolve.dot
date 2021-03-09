@@ -1,0 +1,40 @@
+digraph {
+  node19572 [shape=cds, label=<<font color="black">6:app __x1__ = (CreateIterResultObject value done)</font>> color="black" fillcolor="white" style=filled]
+  node19575 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:[! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19571 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let queue = generator.AsyncGeneratorQueue</td></tr>
+      <tr><td align="left">2:assert (&lt; 0i queue.length)</td></tr>
+      <tr><td align="left">3:let next = queue[0i]</td></tr>
+      <tr><td align="left">4:let __x0__ = (pop queue 0i)</td></tr>
+      <tr><td align="left">5:let promiseCapability = next.Capability</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19570 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19574 [shape=cds, label=<<font color="black">7:app __x2__ = (Call promiseCapability.Resolve undefined (new [iteratorResult]))</font>> color="black" fillcolor="white" style=filled]
+  node19569 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19576 [shape=cds, label=<<font color="black">8:app __x3__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
+  node19577 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[! __x3__]</td></tr>
+      <tr><td align="left">9:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19573 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let iteratorResult = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19569 -> node19571 [ color="black"]
+  node19576 -> node19577 [ color="black"]
+  node19573 -> node19574 [ color="black"]
+  node19572 -> node19573 [ color="black"]
+  node19574 -> node19575 [ color="black"]
+  node19577 -> node19570 [ color="black"]
+  node19571 -> node19572 [ color="black"]
+  node19575 -> node19576 [ color="black"]
+}

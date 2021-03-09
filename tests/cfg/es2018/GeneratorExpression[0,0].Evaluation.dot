@@ -1,0 +1,53 @@
+digraph {
+  node8838 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let closure = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8834 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8842 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:__x3__</td></tr>
+      <tr><td align="left">5:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8832 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node8835 [shape=cds, label=<<font color="black">1:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8839 [shape=cds, label=<<font color="black">3:app __x2__ = (ObjectCreate INTRINSIC_GeneratorPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node8841 [shape=cds, label=<<font color="black">4:app __x3__ = (DefinePropertyOrThrow closure &quot;prototype&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; prototype, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node8831 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8836 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let scope = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8840 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let prototype = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8830 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8837 [shape=cds, label=<<font color="black">2:app __x1__ = (GeneratorFunctionCreate CONST_Normal FormalParameters GeneratorBody scope strict)</font>> color="black" fillcolor="white" style=filled]
+  node8833 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8838 -> node8839 [ color="black"]
+  node8830 -> node8832 [ color="black"]
+  node8833 -> node8835 [ color="black"]
+  node8839 -> node8840 [ color="black"]
+  node8832 -> node8833 [label=<<font color="black">true</font>> color="black"]
+  node8832 -> node8834 [label=<<font color="black">false</font>> color="black"]
+  node8842 -> node8831 [ color="black"]
+  node8840 -> node8841 [ color="black"]
+  node8835 -> node8836 [ color="black"]
+  node8834 -> node8835 [ color="black"]
+  node8837 -> node8838 [ color="black"]
+  node8841 -> node8842 [ color="black"]
+  node8836 -> node8837 [ color="black"]
+}

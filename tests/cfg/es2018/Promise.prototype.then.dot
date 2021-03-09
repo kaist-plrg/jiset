@@ -1,0 +1,50 @@
+digraph {
+  node17888 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let C = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17884 [shape=cds, label=<<font color="black">1:app __x0__ = (IsPromise promise)</font>> color="black" fillcolor="white" style=filled]
+  node17879 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17880 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17882 [shape=cds, label=<<font color="black">app onRejected = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node17881 [shape=cds, label=<<font color="black">app onFulfilled = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17885 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
+  node17887 [shape=cds, label=<<font color="black">2:app __x1__ = (SpeciesConstructor promise INTRINSIC_Promise)</font>> color="black" fillcolor="white" style=filled]
+  node17891 [shape=cds, label=<<font color="black">4:app __x3__ = (PerformPromiseThen promise onFulfilled onRejected resultCapability)</font>> color="black" fillcolor="white" style=filled]
+  node17889 [shape=cds, label=<<font color="black">3:app __x2__ = (NewPromiseCapability C)</font>> color="black" fillcolor="white" style=filled]
+  node17890 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let resultCapability = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17883 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let promise = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17892 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17886 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17890 -> node17891 [ color="black"]
+  node17882 -> node17883 [ color="black"]
+  node17881 -> node17882 [ color="black"]
+  node17886 -> node17887 [ color="black"]
+  node17879 -> node17881 [ color="black"]
+  node17883 -> node17884 [ color="black"]
+  node17892 -> node17880 [ color="black"]
+  node17884 -> node17885 [ color="black"]
+  node17885 -> node17886 [label=<<font color="black">true</font>> color="black"]
+  node17885 -> node17887 [label=<<font color="black">false</font>> color="black"]
+  node17888 -> node17889 [ color="black"]
+  node17891 -> node17892 [ color="black"]
+  node17889 -> node17890 [ color="black"]
+  node17887 -> node17888 [ color="black"]
+}

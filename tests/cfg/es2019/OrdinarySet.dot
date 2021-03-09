@@ -1,0 +1,29 @@
+digraph {
+  node1835 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1832 [shape=cds, label=<<font color="black">1:app __x1__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node1828 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1831 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1833 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let ownDesc = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1830 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node1834 [shape=cds, label=<<font color="black">2:app __x2__ = (OrdinarySetWithOwnDescriptor O P V Receiver ownDesc)</font>> color="black" fillcolor="white" style=filled]
+  node1829 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1828 -> node1830 [ color="black"]
+  node1835 -> node1829 [ color="black"]
+  node1833 -> node1834 [ color="black"]
+  node1834 -> node1835 [ color="black"]
+  node1831 -> node1832 [ color="black"]
+  node1832 -> node1833 [ color="black"]
+  node1830 -> node1831 [ color="black"]
+}

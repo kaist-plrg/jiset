@@ -1,0 +1,41 @@
+digraph {
+  node5906 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5910 [shape=cds, label=<<font color="black">2:access __x1__ = (ArrayBindingPattern &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5914 [shape=cds, label=<<font color="black">app __x3__ = (IteratorClose iterator result)</font>> color="black" fillcolor="white" style=filled]
+  node5915 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5909 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let iterator = [? __x0__]</td></tr>
+      <tr><td align="left">1:let iteratorRecord = (new Record(&quot;Iterator&quot; -&gt; iterator, &quot;Done&quot; -&gt; false))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5908 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
+  node5916 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5912 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let result = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5907 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5913 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node5911 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node5912 -> node5913 [ color="black"]
+  node5915 -> node5916 [ color="black"]
+  node5911 -> node5912 [ color="black"]
+  node5913 -> node5914 [label=<<font color="black">true</font>> color="black"]
+  node5913 -> node5916 [label=<<font color="black">false</font>> color="black"]
+  node5909 -> node5910 [ color="black"]
+  node5910 -> node5911 [ color="black"]
+  node5908 -> node5909 [ color="black"]
+  node5906 -> node5908 [ color="black"]
+  node5916 -> node5907 [ color="black"]
+  node5914 -> node5915 [ color="black"]
+}

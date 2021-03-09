@@ -1,0 +1,89 @@
+digraph {
+  node9597 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9593 [shape=cds, label=<<font color="black">1:app __x0__ = (IteratorStep iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node9609 [shape=cds, label=<<font color="black">10:access __x4__ = (BindingIdentifier &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9594 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let next = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9602 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let v = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9592 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= iteratorRecord.Done false)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9610 [shape=cds, label=<<font color="black">10:app __x5__ = (__x4__ v environment)</font>> color="black" fillcolor="white" style=filled]
+  node9595 [shape=cds, label=<<font color="black">2:app __x1__ = (IsAbruptCompletion next)</font>> color="black" fillcolor="white" style=filled]
+  node9606 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[? v]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9599 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
+  node9601 [shape=cds, label=<<font color="black">6:app __x2__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
+  node9591 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9596 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node9611 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9590 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9604 [shape=diamond, label=<<font color="black">__x3__</font>> color="black" fillcolor="white" style=filled]
+  node9608 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let v = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9603 [shape=cds, label=<<font color="black">7:app __x3__ = (IsAbruptCompletion v)</font>> color="black" fillcolor="white" style=filled]
+  node9598 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:[? next]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9607 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done true)</font>> color="black" fillcolor="white" style=filled]
+  node9605 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9600 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9592 -> node9593 [ color="black"]
+  node9611 -> node9591 [ color="black"]
+  node9599 -> node9600 [label=<<font color="black">true</font>> color="black"]
+  node9599 -> node9601 [label=<<font color="black">false</font>> color="black"]
+  node9605 -> node9606 [ color="black"]
+  node9604 -> node9605 [label=<<font color="black">true</font>> color="black"]
+  node9604 -> node9606 [label=<<font color="black">false</font>> color="black"]
+  node9603 -> node9604 [ color="black"]
+  node9598 -> node9599 [ color="black"]
+  node9594 -> node9595 [ color="black"]
+  node9610 -> node9611 [ color="black"]
+  node9602 -> node9603 [ color="black"]
+  node9601 -> node9602 [ color="black"]
+  node9595 -> node9596 [ color="black"]
+  node9607 -> node9608 [label=<<font color="black">true</font>> color="black"]
+  node9607 -> node9609 [label=<<font color="black">false</font>> color="black"]
+  node9608 -> node9609 [ color="black"]
+  node9606 -> node9607 [ color="black"]
+  node9593 -> node9594 [ color="black"]
+  node9609 -> node9610 [ color="black"]
+  node9597 -> node9598 [ color="black"]
+  node9596 -> node9597 [label=<<font color="black">true</font>> color="black"]
+  node9596 -> node9598 [label=<<font color="black">false</font>> color="black"]
+  node9590 -> node9592 [ color="black"]
+  node9600 -> node9607 [ color="black"]
+}

@@ -1,0 +1,57 @@
+digraph {
+  node17556 [shape=diamond, label=<<font color="black">(= state &quot;completed&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node17560 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return abruptCompletion</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17555 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:generator.GeneratorState = &quot;completed&quot;</td></tr>
+      <tr><td align="left">4:state = &quot;completed&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17550 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17559 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17554 [shape=diamond, label=<<font color="black">(= state &quot;suspendedStart&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node17551 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17558 [shape=cds, label=<<font color="black">7:app __x1__ = (CreateIterResultObject abruptCompletion.Value true)</font>> color="black" fillcolor="white" style=filled]
+  node17552 [shape=cds, label=<<font color="black">0:app __x0__ = (GeneratorValidate generator)</font>> color="black" fillcolor="white" style=filled]
+  node17553 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let state = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17561 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:assert (= state &quot;suspendedYield&quot;)</td></tr>
+      <tr><td align="left">10:let genContext = generator.GeneratorContext</td></tr>
+      <tr><td align="left">11:let methodContext = GLOBAL_context</td></tr>
+      <tr><td align="left">12:GLOBAL_context = null</td></tr>
+      <tr><td align="left">13:generator.GeneratorState = &quot;executing&quot;</td></tr>
+      <tr><td align="left">14:append genContext -&gt; GLOBAL_executionStack</td></tr>
+      <tr><td align="left">14:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">15:??? &quot;Resume the suspended evaluation of id:{genContext} using id:{abruptCompletion} as the result of the operation that suspended it . Let id:{result} be the completion record returned by the resumed computation .&quot;</td></tr>
+      <tr><td align="left">17:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17557 [shape=diamond, label=<<font color="black">(= abruptCompletion.Type CONST_return)</font>> color="black" fillcolor="white" style=filled]
+  node17558 -> node17559 [ color="black"]
+  node17560 -> node17561 [ color="black"]
+  node17561 -> node17551 [ color="black"]
+  node17555 -> node17556 [ color="black"]
+  node17557 -> node17558 [label=<<font color="black">true</font>> color="black"]
+  node17557 -> node17560 [label=<<font color="black">false</font>> color="black"]
+  node17552 -> node17553 [ color="black"]
+  node17553 -> node17554 [ color="black"]
+  node17556 -> node17557 [label=<<font color="black">true</font>> color="black"]
+  node17556 -> node17561 [label=<<font color="black">false</font>> color="black"]
+  node17559 -> node17560 [ color="black"]
+  node17550 -> node17552 [ color="black"]
+  node17554 -> node17555 [label=<<font color="black">true</font>> color="black"]
+  node17554 -> node17556 [label=<<font color="black">false</font>> color="black"]
+}

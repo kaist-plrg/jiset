@@ -1,0 +1,46 @@
+digraph {
+  node1705 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1709 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let desc = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1704 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1714 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1708 [shape=cds, label=<<font color="black">1:app __x1__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node1712 [shape=diamond, label=<<font color="black">(= desc.Configurable true)</font>> color="black" fillcolor="white" style=filled]
+  node1707 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1711 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1706 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node1710 [shape=diamond, label=<<font color="black">(= desc undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1713 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:delete O[P]</td></tr>
+      <tr><td align="left">5:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1713 -> node1714 [ color="black"]
+  node1704 -> node1706 [ color="black"]
+  node1709 -> node1710 [ color="black"]
+  node1714 -> node1705 [ color="black"]
+  node1708 -> node1709 [ color="black"]
+  node1710 -> node1711 [label=<<font color="black">true</font>> color="black"]
+  node1710 -> node1712 [label=<<font color="black">false</font>> color="black"]
+  node1712 -> node1713 [label=<<font color="black">true</font>> color="black"]
+  node1712 -> node1714 [label=<<font color="black">false</font>> color="black"]
+  node1706 -> node1707 [ color="black"]
+  node1711 -> node1712 [ color="black"]
+  node1707 -> node1708 [ color="black"]
+}

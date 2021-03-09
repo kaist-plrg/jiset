@@ -1,0 +1,47 @@
+digraph {
+  node3934 [shape=cds, label=<<font color="black">4:access __x4__ = (TemplateSpans &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3935 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let tail = __x4__</td></tr>
+      <tr><td align="left">5:[? tail]</td></tr>
+      <tr><td align="left">6:return (+ (+ head middle) tail)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3925 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3932 [shape=cds, label=<<font color="black">3:app __x3__ = (ToString sub)</font>> color="black" fillcolor="white" style=filled]
+  node3930 [shape=cds, label=<<font color="black">2:app __x2__ = (GetValue subRef)</font>> color="black" fillcolor="white" style=filled]
+  node3927 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let head = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3926 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateHead &quot;TV&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3931 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let sub = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3928 [shape=cds, label=<<font color="black">1:access __x1__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3929 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let subRef = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3924 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3933 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let middle = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3934 -> node3935 [ color="black"]
+  node3927 -> node3928 [ color="black"]
+  node3928 -> node3929 [ color="black"]
+  node3924 -> node3926 [ color="black"]
+  node3935 -> node3925 [ color="black"]
+  node3933 -> node3934 [ color="black"]
+  node3929 -> node3930 [ color="black"]
+  node3931 -> node3932 [ color="black"]
+  node3926 -> node3927 [ color="black"]
+  node3932 -> node3933 [ color="black"]
+  node3930 -> node3931 [ color="black"]
+}

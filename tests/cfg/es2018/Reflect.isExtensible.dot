@@ -1,0 +1,26 @@
+digraph {
+  node18033 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node18030 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18031 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18036 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18035 [shape=cds, label=<<font color="black">1:app __x1__ = (target.IsExtensible target)</font>> color="black" fillcolor="white" style=filled]
+  node18032 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node18034 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18029 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18035 -> node18036 [ color="black"]
+  node18031 -> node18032 [ color="black"]
+  node18029 -> node18031 [ color="black"]
+  node18032 -> node18033 [ color="black"]
+  node18036 -> node18030 [ color="black"]
+  node18033 -> node18034 [label=<<font color="black">true</font>> color="black"]
+  node18033 -> node18035 [label=<<font color="black">false</font>> color="black"]
+  node18034 -> node18035 [ color="black"]
+}

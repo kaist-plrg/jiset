@@ -1,0 +1,50 @@
+digraph {
+  node9411 [shape=cds, label=<<font color="black">5:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype sourceText formalParameterList FunctionBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node9410 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let propKey = __x0__</td></tr>
+      <tr><td align="left">1:[? propKey]</td></tr>
+      <tr><td align="left">2:let scope = GLOBAL_context.LexicalEnvironment</td></tr>
+      <tr><td align="left">3:let sourceText = (get-syntax MethodDefinition)</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{formalParameterList} be an instance of the production grammar:{FormalParameters0, []} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9415 [shape=cds, label=<<font color="black">7:app __x3__ = (SetFunctionName closure propKey &quot;get&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9412 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let closure = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9416 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:__x3__</td></tr>
+      <tr><td align="left">8:let desc = (new PropertyDescriptor(&quot;Get&quot; -&gt; closure, &quot;Enumerable&quot; -&gt; enumerable, &quot;Configurable&quot; -&gt; true))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9418 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9407 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9408 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9413 [shape=cds, label=<<font color="black">6:app __x2__ = (MakeMethod closure object)</font>> color="black" fillcolor="white" style=filled]
+  node9417 [shape=cds, label=<<font color="black">9:app __x4__ = (DefinePropertyOrThrow object propKey desc)</font>> color="black" fillcolor="white" style=filled]
+  node9414 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9409 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyName &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9410 -> node9411 [ color="black"]
+  node9417 -> node9418 [ color="black"]
+  node9415 -> node9416 [ color="black"]
+  node9416 -> node9417 [ color="black"]
+  node9407 -> node9409 [ color="black"]
+  node9418 -> node9408 [ color="black"]
+  node9413 -> node9414 [ color="black"]
+  node9411 -> node9412 [ color="black"]
+  node9412 -> node9413 [ color="black"]
+  node9409 -> node9410 [ color="black"]
+  node9414 -> node9415 [ color="black"]
+}

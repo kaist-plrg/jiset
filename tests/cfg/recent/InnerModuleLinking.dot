@@ -1,0 +1,135 @@
+digraph {
+  node11175 [shape=cds, label=<<font color="black">1:app __x0__ = (module.Link module)</font>> color="black" fillcolor="white" style=filled]
+  node11183 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let requiredModule = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11195 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">23:let done = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11174 [shape=diamond, label=<<font color="black">(! (= (typeof module) &quot;CyclicModuleRecord&quot;))</font>> color="black" fillcolor="white" style=filled]
+  node11189 [shape=cds, label=<<font color="black">18:app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)</font>> color="black" fillcolor="white" style=filled]
+  node11184 [shape=cds, label=<<font color="black">13:app __x4__ = (InnerModuleLinking requiredModule stack index)</font>> color="black" fillcolor="white" style=filled]
+  node11179 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:assert (= module.Status CONST_unlinked)</td></tr>
+      <tr><td align="left">6:module.Status = CONST_linking</td></tr>
+      <tr><td align="left">7:module.DFSIndex = index</td></tr>
+      <tr><td align="left">8:module.DFSAncestorIndex = index</td></tr>
+      <tr><td align="left">9:index = (+ index 1i)</td></tr>
+      <tr><td align="left">10:append module -&gt; stack</td></tr>
+      <tr><td align="left">11:let __x1__ = module.RequestedModules</td></tr>
+      <tr><td align="left">11:let __x2__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11181 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let required = __x1__[__x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11176 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x0__]</td></tr>
+      <tr><td align="left">2:return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11187 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:assert (|| (|| (= requiredModule.Status CONST_linking) (= requiredModule.Status CONST_linked)) (= requiredModule.Status CONST_evaluated))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11172 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11192 [shape=cds, label=<<font color="black">19:app __x6__ = (module.InitializeEnvironment module)</font>> color="black" fillcolor="white" style=filled]
+  node11186 [shape=diamond, label=<<font color="black">(= (typeof requiredModule) &quot;CyclicModuleRecord&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11178 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11200 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">30:return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11191 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11185 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:index = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11197 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">25:let requiredModule = stack[(- stack.length 1i)]</td></tr>
+      <tr><td align="left">26:(pop stack (- stack.length 1i))</td></tr>
+      <tr><td align="left">27:assert (= (typeof requiredModule) &quot;CyclicModuleRecord&quot;)</td></tr>
+      <tr><td align="left">28:requiredModule.Status = CONST_linked</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11196 [shape=diamond, label=<<font color="black">(= done false)</font>> color="black" fillcolor="white" style=filled]
+  node11190 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:module.DFSAncestorIndex = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11188 [shape=diamond, label=<<font color="black">(= requiredModule.Status CONST_linking)</font>> color="black" fillcolor="white" style=filled]
+  node11173 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11193 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">19:[? __x6__]</td></tr>
+      <tr><td align="left">21:assert (! (&lt; module.DFSIndex module.DFSAncestorIndex))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11180 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node11198 [shape=diamond, label=<<font color="black">(= requiredModule module)</font>> color="black" fillcolor="white" style=filled]
+  node11199 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11194 [shape=diamond, label=<<font color="black">(== module.DFSAncestorIndex module.DFSIndex)</font>> color="black" fillcolor="white" style=filled]
+  node11177 [shape=diamond, label=<<font color="black">(|| (|| (= module.Status CONST_linking) (= module.Status CONST_linked)) (= module.Status CONST_evaluated))</font>> color="black" fillcolor="white" style=filled]
+  node11182 [shape=cds, label=<<font color="black">12:app __x3__ = (HostResolveImportedModule module required)</font>> color="black" fillcolor="white" style=filled]
+  node11189 -> node11190 [ color="black"]
+  node11195 -> node11196 [ color="black"]
+  node11194 -> node11195 [label=<<font color="black">true</font>> color="black"]
+  node11194 -> node11200 [label=<<font color="black">false</font>> color="black"]
+  node11197 -> node11198 [ color="black"]
+  node11178 -> node11179 [ color="black"]
+  node11185 -> node11186 [ color="black"]
+  node11198 -> node11199 [label=<<font color="black">true</font>> color="black"]
+  node11198 -> node11196 [label=<<font color="black">false</font>> color="black"]
+  node11177 -> node11178 [label=<<font color="black">true</font>> color="black"]
+  node11177 -> node11179 [label=<<font color="black">false</font>> color="black"]
+  node11183 -> node11184 [ color="black"]
+  node11196 -> node11197 [label=<<font color="black">true</font>> color="black"]
+  node11196 -> node11200 [label=<<font color="black">false</font>> color="black"]
+  node11184 -> node11185 [ color="black"]
+  node11187 -> node11188 [ color="black"]
+  node11182 -> node11183 [ color="black"]
+  node11180 -> node11181 [label=<<font color="black">true</font>> color="black"]
+  node11180 -> node11192 [label=<<font color="black">false</font>> color="black"]
+  node11181 -> node11182 [ color="black"]
+  node11174 -> node11175 [label=<<font color="black">true</font>> color="black"]
+  node11174 -> node11177 [label=<<font color="black">false</font>> color="black"]
+  node11190 -> node11191 [ color="black"]
+  node11188 -> node11189 [label=<<font color="black">true</font>> color="black"]
+  node11188 -> node11191 [label=<<font color="black">false</font>> color="black"]
+  node11179 -> node11180 [ color="black"]
+  node11176 -> node11177 [ color="black"]
+  node11200 -> node11173 [ color="black"]
+  node11191 -> node11180 [ color="black"]
+  node11192 -> node11193 [ color="black"]
+  node11172 -> node11174 [ color="black"]
+  node11186 -> node11187 [label=<<font color="black">true</font>> color="black"]
+  node11186 -> node11191 [label=<<font color="black">false</font>> color="black"]
+  node11199 -> node11196 [ color="black"]
+  node11193 -> node11194 [ color="black"]
+  node11175 -> node11176 [ color="black"]
+}

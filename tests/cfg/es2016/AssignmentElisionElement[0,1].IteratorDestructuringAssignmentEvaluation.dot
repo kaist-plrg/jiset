@@ -1,0 +1,26 @@
+digraph {
+  node5013 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5016 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let status = __x1__</td></tr>
+      <tr><td align="left">1:[? status]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5018 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node5015 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node5014 [shape=cds, label=<<font color="black">0:access __x0__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5019 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5012 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5017 [shape=cds, label=<<font color="black">2:access __x2__ = (AssignmentElement &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5015 -> node5016 [ color="black"]
+  node5016 -> node5017 [ color="black"]
+  node5014 -> node5015 [ color="black"]
+  node5019 -> node5013 [ color="black"]
+  node5018 -> node5019 [ color="black"]
+  node5017 -> node5018 [ color="black"]
+  node5012 -> node5014 [ color="black"]
+}

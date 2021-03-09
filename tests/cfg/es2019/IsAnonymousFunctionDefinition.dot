@@ -1,0 +1,39 @@
+digraph {
+  node8335 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8330 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8326 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8333 [shape=diamond, label=<<font color="black">(= hasName true)</font>> color="black" fillcolor="white" style=filled]
+  node8332 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let hasName = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8327 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8331 [shape=cds, label=<<font color="black">1:access __x1__ = (expr &quot;HasName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8328 [shape=cds, label=<<font color="black">0:access __x0__ = (expr &quot;IsFunctionDefinition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8329 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
+  node8334 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8329 -> node8330 [label=<<font color="black">true</font>> color="black"]
+  node8329 -> node8331 [label=<<font color="black">false</font>> color="black"]
+  node8331 -> node8332 [ color="black"]
+  node8332 -> node8333 [ color="black"]
+  node8326 -> node8328 [ color="black"]
+  node8330 -> node8331 [ color="black"]
+  node8333 -> node8334 [label=<<font color="black">true</font>> color="black"]
+  node8333 -> node8335 [label=<<font color="black">false</font>> color="black"]
+  node8334 -> node8335 [ color="black"]
+  node8335 -> node8327 [ color="black"]
+  node8328 -> node8329 [ color="black"]
+}

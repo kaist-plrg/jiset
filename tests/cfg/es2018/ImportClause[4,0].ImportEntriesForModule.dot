@@ -1,0 +1,43 @@
+digraph {
+  node10827 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10833 [shape=cds, label=<<font color="black">1:app __x3__ = (__x2__ module)</font>> color="black" fillcolor="white" style=filled]
+  node10831 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let entries = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10830 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ module)</font>> color="black" fillcolor="white" style=filled]
+  node10834 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let __x4__ = __x3__</td></tr>
+      <tr><td align="left">1:let __x5__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10829 [shape=cds, label=<<font color="black">0:access __x0__ = (ImportedDefaultBinding &quot;ImportEntriesForModule&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10835 [shape=diamond, label=<<font color="black">(&lt; __x5__ __x4__.length)</font>> color="black" fillcolor="white" style=filled]
+  node10828 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10836 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let __x6__ = __x4__[__x5__]</td></tr>
+      <tr><td align="left">append __x6__ -&gt; entries</td></tr>
+      <tr><td align="left">__x5__ = (+ __x5__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10832 [shape=cds, label=<<font color="black">1:access __x2__ = (NamedImports &quot;ImportEntriesForModule&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10837 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return entries</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10830 -> node10831 [ color="black"]
+  node10831 -> node10832 [ color="black"]
+  node10835 -> node10836 [label=<<font color="black">true</font>> color="black"]
+  node10835 -> node10837 [label=<<font color="black">false</font>> color="black"]
+  node10836 -> node10835 [ color="black"]
+  node10827 -> node10829 [ color="black"]
+  node10833 -> node10834 [ color="black"]
+  node10829 -> node10830 [ color="black"]
+  node10834 -> node10835 [ color="black"]
+  node10837 -> node10828 [ color="black"]
+  node10832 -> node10833 [ color="black"]
+}

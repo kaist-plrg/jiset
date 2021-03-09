@@ -1,0 +1,84 @@
+digraph {
+  node1501 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1494 [shape=diamond, label=<<font color="black">(= __x0__ true)</font>> color="black" fillcolor="white" style=filled]
+  node1502 [shape=cds, label=<<font color="black">app __x1__ = (SameValue p O)</font>> color="black" fillcolor="white" style=filled]
+  node1498 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let p = V</td></tr>
+      <tr><td align="left">6:let done = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1493 [shape=cds, label=<<font color="black">3:app __x0__ = (SameValue V current)</font>> color="black" fillcolor="white" style=filled]
+  node1503 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node1492 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let extensible = O.Extensible</td></tr>
+      <tr><td align="left">2:let current = O.Prototype</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1496 [shape=diamond, label=<<font color="black">(= extensible false)</font>> color="black" fillcolor="white" style=filled]
+  node1499 [shape=diamond, label=<<font color="black">(= done false)</font>> color="black" fillcolor="white" style=filled]
+  node1508 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:O.Prototype = V</td></tr>
+      <tr><td align="left">14:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1491 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1495 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1490 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1497 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1507 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let p = p.Prototype</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1506 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1504 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1500 [shape=diamond, label=<<font color="black">(= p null)</font>> color="black" fillcolor="white" style=filled]
+  node1505 [shape=diamond, label=<<font color="black">(! (= p.GetPrototypeOf OrdinaryObjectDOTGetPrototypeOf))</font>> color="black" fillcolor="white" style=filled]
+  node1502 -> node1503 [ color="black"]
+  node1507 -> node1499 [ color="black"]
+  node1503 -> node1504 [label=<<font color="black">true</font>> color="black"]
+  node1503 -> node1505 [label=<<font color="black">false</font>> color="black"]
+  node1499 -> node1500 [label=<<font color="black">true</font>> color="black"]
+  node1499 -> node1508 [label=<<font color="black">false</font>> color="black"]
+  node1498 -> node1499 [ color="black"]
+  node1490 -> node1492 [ color="black"]
+  node1496 -> node1497 [label=<<font color="black">true</font>> color="black"]
+  node1496 -> node1498 [label=<<font color="black">false</font>> color="black"]
+  node1501 -> node1499 [ color="black"]
+  node1500 -> node1501 [label=<<font color="black">true</font>> color="black"]
+  node1500 -> node1502 [label=<<font color="black">false</font>> color="black"]
+  node1495 -> node1496 [ color="black"]
+  node1492 -> node1493 [ color="black"]
+  node1494 -> node1495 [label=<<font color="black">true</font>> color="black"]
+  node1494 -> node1496 [label=<<font color="black">false</font>> color="black"]
+  node1506 -> node1499 [ color="black"]
+  node1505 -> node1506 [label=<<font color="black">true</font>> color="black"]
+  node1505 -> node1507 [label=<<font color="black">false</font>> color="black"]
+  node1497 -> node1498 [ color="black"]
+  node1504 -> node1499 [ color="black"]
+  node1493 -> node1494 [ color="black"]
+  node1508 -> node1491 [ color="black"]
+}

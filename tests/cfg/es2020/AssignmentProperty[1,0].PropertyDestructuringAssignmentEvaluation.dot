@@ -1,0 +1,25 @@
+digraph {
+  node5938 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyName &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5942 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:[? __x2__]</td></tr>
+      <tr><td align="left">3:return (new [name])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5941 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ value name)</font>> color="black" fillcolor="white" style=filled]
+  node5940 [shape=cds, label=<<font color="black">2:access __x1__ = (AssignmentElement &quot;KeyedDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5939 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let name = __x0__</td></tr>
+      <tr><td align="left">1:[? name]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5937 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5936 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5939 -> node5940 [ color="black"]
+  node5940 -> node5941 [ color="black"]
+  node5941 -> node5942 [ color="black"]
+  node5936 -> node5938 [ color="black"]
+  node5942 -> node5937 [ color="black"]
+  node5938 -> node5939 [ color="black"]
+}

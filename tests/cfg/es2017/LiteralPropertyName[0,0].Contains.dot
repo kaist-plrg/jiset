@@ -1,0 +1,49 @@
+digraph {
+  node3449 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node3446 [shape=diamond, label=<<font color="black">(is-instance-of symbol ReservedWord)</font>> color="black" fillcolor="white" style=filled]
+  node3453 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node3450 [shape=cds, label=<<font color="black">access __x1__ = (symbol &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3445 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3454 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3451 [shape=cds, label=<<font color="black">access __x2__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3448 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let __x0__ = true</td></tr>
+      <tr><td align="left">1:__x0__ = (is-instance-of symbol Identifier)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3444 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3455 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3452 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x0__ = (= __x1__ __x2__)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3447 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3453 -> node3454 [label=<<font color="black">true</font>> color="black"]
+  node3453 -> node3455 [label=<<font color="black">false</font>> color="black"]
+  node3452 -> node3453 [ color="black"]
+  node3446 -> node3447 [label=<<font color="black">true</font>> color="black"]
+  node3446 -> node3448 [label=<<font color="black">false</font>> color="black"]
+  node3455 -> node3445 [ color="black"]
+  node3454 -> node3455 [ color="black"]
+  node3450 -> node3451 [ color="black"]
+  node3451 -> node3452 [ color="black"]
+  node3449 -> node3450 [label=<<font color="black">true</font>> color="black"]
+  node3449 -> node3453 [label=<<font color="black">false</font>> color="black"]
+  node3448 -> node3449 [ color="black"]
+  node3447 -> node3448 [ color="black"]
+  node3444 -> node3446 [ color="black"]
+}

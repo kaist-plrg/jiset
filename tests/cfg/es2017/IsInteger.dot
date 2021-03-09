@@ -1,0 +1,46 @@
+digraph {
+  node468 [shape=diamond, label=<<font color="black">(! (= __x0__ Number))</font>> color="black" fillcolor="white" style=filled]
+  node472 [shape=cds, label=<<font color="black">2:app __x1__ = (abs argument)</font>> color="black" fillcolor="white" style=filled]
+  node475 [shape=diamond, label=<<font color="black">(! (== __x2__ __x3__))</font>> color="black" fillcolor="white" style=filled]
+  node467 [shape=cds, label=<<font color="black">0:app __x0__ = (Type argument)</font>> color="black" fillcolor="white" style=filled]
+  node466 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node477 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node473 [shape=cds, label=<<font color="black">2:app __x2__ = (floor __x1__)</font>> color="black" fillcolor="white" style=filled]
+  node470 [shape=diamond, label=<<font color="black">(|| (|| (= argument NaN) (= argument Infinity)) (= argument -Infinity))</font>> color="black" fillcolor="white" style=filled]
+  node465 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node474 [shape=cds, label=<<font color="black">2:app __x3__ = (abs argument)</font>> color="black" fillcolor="white" style=filled]
+  node469 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node471 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node476 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node467 -> node468 [ color="black"]
+  node472 -> node473 [ color="black"]
+  node470 -> node471 [label=<<font color="black">true</font>> color="black"]
+  node470 -> node472 [label=<<font color="black">false</font>> color="black"]
+  node477 -> node466 [ color="black"]
+  node465 -> node467 [ color="black"]
+  node474 -> node475 [ color="black"]
+  node471 -> node472 [ color="black"]
+  node476 -> node477 [ color="black"]
+  node469 -> node470 [ color="black"]
+  node468 -> node469 [label=<<font color="black">true</font>> color="black"]
+  node468 -> node470 [label=<<font color="black">false</font>> color="black"]
+  node475 -> node476 [label=<<font color="black">true</font>> color="black"]
+  node475 -> node477 [label=<<font color="black">false</font>> color="black"]
+  node473 -> node474 [ color="black"]
+}

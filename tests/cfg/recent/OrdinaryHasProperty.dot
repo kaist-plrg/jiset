@@ -1,0 +1,55 @@
+digraph {
+  node2109 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2118 [shape=diamond, label=<<font color="black">(! (= parent null))</font>> color="black" fillcolor="white" style=filled]
+  node2112 [shape=cds, label=<<font color="black">1:app __x1__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node2115 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2108 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2121 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2111 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2113 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let hasOwn = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2110 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node2120 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2117 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let parent = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2114 [shape=diamond, label=<<font color="black">(! (= hasOwn undefined))</font>> color="black" fillcolor="white" style=filled]
+  node2119 [shape=cds, label=<<font color="black">5:app __x3__ = (parent.HasProperty parent P)</font>> color="black" fillcolor="white" style=filled]
+  node2116 [shape=cds, label=<<font color="black">3:app __x2__ = (O.GetPrototypeOf O)</font>> color="black" fillcolor="white" style=filled]
+  node2116 -> node2117 [ color="black"]
+  node2121 -> node2109 [ color="black"]
+  node2118 -> node2119 [label=<<font color="black">true</font>> color="black"]
+  node2118 -> node2121 [label=<<font color="black">false</font>> color="black"]
+  node2114 -> node2115 [label=<<font color="black">true</font>> color="black"]
+  node2114 -> node2116 [label=<<font color="black">false</font>> color="black"]
+  node2110 -> node2111 [ color="black"]
+  node2117 -> node2118 [ color="black"]
+  node2108 -> node2110 [ color="black"]
+  node2120 -> node2121 [ color="black"]
+  node2113 -> node2114 [ color="black"]
+  node2111 -> node2112 [ color="black"]
+  node2115 -> node2116 [ color="black"]
+  node2112 -> node2113 [ color="black"]
+  node2119 -> node2120 [ color="black"]
+}

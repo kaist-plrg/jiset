@@ -1,0 +1,32 @@
+digraph {
+  node3125 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let expr = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3122 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3126 [shape=cds, label=<<font color="black">1:access __x1__ = (expr &quot;IsFunctionDefinition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3130 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3123 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3129 [shape=cds, label=<<font color="black">2:access __x2__ = (expr &quot;HasName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3127 [shape=diamond, label=<<font color="black">(= __x1__ false)</font>> color="black" fillcolor="white" style=filled]
+  node3124 [shape=cds, label=<<font color="black">0:access __x0__ = (CoverParenthesizedExpressionAndArrowParameterList &quot;CoveredParenthesizedExpression&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3128 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3124 -> node3125 [ color="black"]
+  node3126 -> node3127 [ color="black"]
+  node3130 -> node3123 [ color="black"]
+  node3129 -> node3130 [ color="black"]
+  node3122 -> node3124 [ color="black"]
+  node3125 -> node3126 [ color="black"]
+  node3127 -> node3128 [label=<<font color="black">true</font>> color="black"]
+  node3127 -> node3129 [label=<<font color="black">false</font>> color="black"]
+  node3128 -> node3129 [ color="black"]
+}

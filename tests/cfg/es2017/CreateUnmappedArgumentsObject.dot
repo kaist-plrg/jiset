@@ -1,0 +1,64 @@
+digraph {
+  node2363 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2373 [shape=cds, label=<<font color="black">7:app __x3__ = (CreateDataProperty obj [! __x2__] val)</font>> color="black" fillcolor="white" style=filled]
+  node2364 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2377 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:[! __x4__]</td></tr>
+      <tr><td align="left">11:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2370 [shape=diamond, label=<<font color="black">(&lt; index len)</font>> color="black" fillcolor="white" style=filled]
+  node2368 [shape=cds, label=<<font color="black">3:app __x1__ = (DefinePropertyOrThrow obj &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; len, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node2376 [shape=cds, label=<<font color="black">10:app __x4__ = (DefinePropertyOrThrow obj &quot;callee&quot; (new PropertyDescriptor(&quot;Get&quot; -&gt; INTRINSIC_ThrowTypeError, &quot;Set&quot; -&gt; INTRINSIC_ThrowTypeError, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node2375 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:??? &quot;Perform ! DefinePropertyOrThrow ( id:{obj} , @ @ iterator , PropertyDescriptor { [ [ Value ] ] : % ArrayProto _ values % , [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{false} , [ [ Configurable ] ] : value:{true} } ) .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2374 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:__x3__</td></tr>
+      <tr><td align="left">8:let index = (+ index 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2366 [shape=cds, label=<<font color="black">1:app __x0__ = (ObjectCreate INTRINSIC_ObjectPrototype (new [&quot;ParameterMap&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node2372 [shape=cds, label=<<font color="black">7:app __x2__ = (ToString index)</font>> color="black" fillcolor="white" style=filled]
+  node2367 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = __x0__</td></tr>
+      <tr><td align="left">2:obj.ParameterMap = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2371 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let val = argumentsList[index]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2365 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let len = argumentsList.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2369 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:__x1__</td></tr>
+      <tr><td align="left">4:let index = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2373 -> node2374 [ color="black"]
+  node2372 -> node2373 [ color="black"]
+  node2376 -> node2377 [ color="black"]
+  node2374 -> node2370 [ color="black"]
+  node2366 -> node2367 [ color="black"]
+  node2375 -> node2376 [ color="black"]
+  node2367 -> node2368 [ color="black"]
+  node2370 -> node2371 [label=<<font color="black">true</font>> color="black"]
+  node2370 -> node2375 [label=<<font color="black">false</font>> color="black"]
+  node2371 -> node2372 [ color="black"]
+  node2369 -> node2370 [ color="black"]
+  node2377 -> node2364 [ color="black"]
+  node2363 -> node2365 [ color="black"]
+  node2368 -> node2369 [ color="black"]
+  node2365 -> node2366 [ color="black"]
+}

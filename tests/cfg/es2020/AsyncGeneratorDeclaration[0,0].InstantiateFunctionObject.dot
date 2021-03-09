@@ -1,0 +1,47 @@
+digraph {
+  node9801 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9805 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let F = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9800 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9811 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:[! __x4__]</td></tr>
+      <tr><td align="left">5:F.SourceText = (get-syntax AsyncGeneratorDeclaration)</td></tr>
+      <tr><td align="left">6:return F</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9804 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGenerator FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node9802 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9806 [shape=cds, label=<<font color="black">2:app __x2__ = (OrdinaryObjectCreate INTRINSIC_AsyncGenerator_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node9810 [shape=cds, label=<<font color="black">4:app __x4__ = (SetFunctionName F name)</font>> color="black" fillcolor="white" style=filled]
+  node9808 [shape=cds, label=<<font color="black">3:app __x3__ = (DefinePropertyOrThrow F &quot;prototype&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; prototype, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node9803 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let name = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9809 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:[! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9807 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let prototype = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9809 -> node9810 [ color="black"]
+  node9804 -> node9805 [ color="black"]
+  node9810 -> node9811 [ color="black"]
+  node9807 -> node9808 [ color="black"]
+  node9803 -> node9804 [ color="black"]
+  node9806 -> node9807 [ color="black"]
+  node9802 -> node9803 [ color="black"]
+  node9805 -> node9806 [ color="black"]
+  node9800 -> node9802 [ color="black"]
+  node9808 -> node9809 [ color="black"]
+  node9811 -> node9801 [ color="black"]
+}

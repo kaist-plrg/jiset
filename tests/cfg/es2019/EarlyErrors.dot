@@ -1,0 +1,28 @@
+digraph {
+  node18824 [shape=diamond, label=<<font color="black">(! (= __x0__ CONST_simple))</font>> color="black" fillcolor="white" style=filled]
+  node18825 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18821 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18822 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18827 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:??? &quot;It is a Syntax Error if the nt:{LeftHandSideExpression} is grammar:{CoverParenthesizedExpressionAndArrowParameterList0, [Expression]} and nt:{Expression} derives a phrase that would produce a Syntax Error according to these rules if that phrase were substituted for nt:{LeftHandSideExpression} . This rule is recursively applied .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18823 [shape=cds, label=<<font color="black">0:access __x0__ = (LeftHandSideExpression &quot;AssignmentTargetType&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18826 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18827 -> node18822 [ color="black"]
+  node18825 -> node18827 [ color="black"]
+  node18824 -> node18825 [label=<<font color="black">true</font>> color="black"]
+  node18824 -> node18826 [label=<<font color="black">false</font>> color="black"]
+  node18821 -> node18823 [ color="black"]
+  node18823 -> node18824 [ color="black"]
+  node18826 -> node18827 [ color="black"]
+}

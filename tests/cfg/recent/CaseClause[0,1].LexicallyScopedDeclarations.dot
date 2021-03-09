@@ -1,0 +1,22 @@
+digraph {
+  node8278 [shape=cds, label=<<font color="black">access __x0__ = (StatementList &quot;LexicallyScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8275 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8279 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8276 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8280 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8277 [shape=diamond, label=<<font color="black">(! (= StatementList absent))</font>> color="black" fillcolor="white" style=filled]
+  node8279 -> node8280 [ color="black"]
+  node8275 -> node8277 [ color="black"]
+  node8280 -> node8276 [ color="black"]
+  node8277 -> node8278 [label=<<font color="black">true</font>> color="black"]
+  node8277 -> node8280 [label=<<font color="black">false</font>> color="black"]
+  node8278 -> node8279 [ color="black"]
+}

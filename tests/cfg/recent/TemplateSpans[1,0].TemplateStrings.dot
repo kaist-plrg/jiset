@@ -1,0 +1,42 @@
+digraph {
+  node4187 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let tail = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4180 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4184 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let middle = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4186 [shape=cds, label=<<font color="black">2:access __x2__ = (TemplateTail &quot;TV&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4181 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4190 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let __x4__ = (copy-obj middle)</td></tr>
+      <tr><td align="left">5:append tail -&gt; __x4__</td></tr>
+      <tr><td align="left">5:return __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4185 [shape=diamond, label=<<font color="black">(= raw false)</font>> color="black" fillcolor="white" style=filled]
+  node4182 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateMiddleList &quot;TemplateStrings&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4189 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let tail = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4188 [shape=cds, label=<<font color="black">4:access __x3__ = (TemplateTail &quot;TRV&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4183 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ raw)</font>> color="black" fillcolor="white" style=filled]
+  node4188 -> node4189 [ color="black"]
+  node4186 -> node4187 [ color="black"]
+  node4187 -> node4190 [ color="black"]
+  node4189 -> node4190 [ color="black"]
+  node4182 -> node4183 [ color="black"]
+  node4190 -> node4181 [ color="black"]
+  node4185 -> node4186 [label=<<font color="black">true</font>> color="black"]
+  node4185 -> node4188 [label=<<font color="black">false</font>> color="black"]
+  node4180 -> node4182 [ color="black"]
+  node4184 -> node4185 [ color="black"]
+  node4183 -> node4184 [ color="black"]
+}

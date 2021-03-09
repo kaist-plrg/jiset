@@ -1,0 +1,49 @@
+digraph {
+  node12040 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let func = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12046 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:__x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12041 [shape=cds, label=<<font color="black">1:app __x0__ = (IsCallable func)</font>> color="black" fillcolor="white" style=filled]
+  node12036 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12037 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12045 [shape=cds, label=<<font color="black">4:app __x1__ = (PrepareForTailCall )</font>> color="black" fillcolor="white" style=filled]
+  node12038 [shape=cds, label=<<font color="black">app thisArg = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12044 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let argList = (new [])</td></tr>
+      <tr><td align="left">3:??? &quot;If this method was called with more than one argument , then in left to right order , starting with the second argument , append each argument as the last element of id:{argList} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12039 [shape=cds, label=<<font color="black">app args = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node12042 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
+  node12047 [shape=cds, label=<<font color="black">5:app __x2__ = (Call func thisArg argList)</font>> color="black" fillcolor="white" style=filled]
+  node12048 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12043 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12041 -> node12042 [ color="black"]
+  node12036 -> node12038 [ color="black"]
+  node12039 -> node12040 [ color="black"]
+  node12048 -> node12037 [ color="black"]
+  node12047 -> node12048 [ color="black"]
+  node12046 -> node12047 [ color="black"]
+  node12040 -> node12041 [ color="black"]
+  node12044 -> node12045 [ color="black"]
+  node12045 -> node12046 [ color="black"]
+  node12042 -> node12043 [label=<<font color="black">true</font>> color="black"]
+  node12042 -> node12044 [label=<<font color="black">false</font>> color="black"]
+  node12038 -> node12039 [ color="black"]
+  node12043 -> node12044 [ color="black"]
+}

@@ -1,0 +1,32 @@
+digraph {
+  node18424 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x1__]</td></tr>
+      <tr><td align="left">2:return capability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18417 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18421 [shape=cds, label=<<font color="black">3:app __x0__ = (IsAbruptCompletion value)</font>> color="black" fillcolor="white" style=filled]
+  node18418 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18419 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18422 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node18426 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">value = value.Value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18423 [shape=cds, label=<<font color="black">1:app __x1__ = (Call capability.Reject undefined (new [value.Value]))</font>> color="black" fillcolor="white" style=filled]
+  node18425 [shape=diamond, label=<<font color="black">(is-completion value)</font>> color="black" fillcolor="white" style=filled]
+  node18420 [shape=cds, label=<<font color="black">app capability = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18426 -> node18418 [ color="black"]
+  node18424 -> node18418 [ color="black"]
+  node18420 -> node18421 [ color="black"]
+  node18422 -> node18423 [label=<<font color="black">true</font>> color="black"]
+  node18422 -> node18425 [label=<<font color="black">false</font>> color="black"]
+  node18417 -> node18419 [ color="black"]
+  node18423 -> node18424 [ color="black"]
+  node18425 -> node18426 [label=<<font color="black">true</font>> color="black"]
+  node18425 -> node18418 [label=<<font color="black">false</font>> color="black"]
+  node18421 -> node18422 [ color="black"]
+  node18419 -> node18420 [ color="black"]
+}

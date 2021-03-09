@@ -1,0 +1,44 @@
+digraph {
+  node1443 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let ObjRec = envRec.ObjectRecord</td></tr>
+      <tr><td align="left">2:let globalObject = ObjRec.BindingObject</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1441 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1450 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1447 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1446 [shape=diamond, label=<<font color="black">(= existingProp undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1445 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let existingProp = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1448 [shape=diamond, label=<<font color="black">(= existingProp.Configurable true)</font>> color="black" fillcolor="white" style=filled]
+  node1449 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1444 [shape=cds, label=<<font color="black">3:app __x0__ = (globalObject.GetOwnProperty globalObject N)</font>> color="black" fillcolor="white" style=filled]
+  node1442 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1449 -> node1450 [ color="black"]
+  node1446 -> node1447 [label=<<font color="black">true</font>> color="black"]
+  node1446 -> node1448 [label=<<font color="black">false</font>> color="black"]
+  node1444 -> node1445 [ color="black"]
+  node1447 -> node1448 [ color="black"]
+  node1445 -> node1446 [ color="black"]
+  node1443 -> node1444 [ color="black"]
+  node1448 -> node1449 [label=<<font color="black">true</font>> color="black"]
+  node1448 -> node1450 [label=<<font color="black">false</font>> color="black"]
+  node1450 -> node1442 [ color="black"]
+  node1441 -> node1443 [ color="black"]
+}

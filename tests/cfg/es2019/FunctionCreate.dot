@@ -1,0 +1,45 @@
+digraph {
+  node2031 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let allocKind = &quot;normal&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2035 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2032 [shape=cds, label=<<font color="black">4:app __x0__ = (FunctionAllocate prototype Strict allocKind)</font>> color="black" fillcolor="white" style=filled]
+  node2029 [shape=diamond, label=<<font color="black">(! (= kind CONST_Normal))</font>> color="black" fillcolor="white" style=filled]
+  node2025 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2030 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let allocKind = &quot;non-constructor&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2026 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2027 [shape=diamond, label=<<font color="black">(= prototype absent)</font>> color="black" fillcolor="white" style=filled]
+  node2034 [shape=cds, label=<<font color="black">5:app __x1__ = (FunctionInitialize F kind ParameterList Body Scope)</font>> color="black" fillcolor="white" style=filled]
+  node2033 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let F = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2028 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">prototype = INTRINSIC_FunctionPrototype</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2033 -> node2034 [ color="black"]
+  node2029 -> node2030 [label=<<font color="black">true</font>> color="black"]
+  node2029 -> node2031 [label=<<font color="black">false</font>> color="black"]
+  node2035 -> node2026 [ color="black"]
+  node2031 -> node2032 [ color="black"]
+  node2034 -> node2035 [ color="black"]
+  node2027 -> node2028 [label=<<font color="black">true</font>> color="black"]
+  node2027 -> node2029 [label=<<font color="black">false</font>> color="black"]
+  node2032 -> node2033 [ color="black"]
+  node2028 -> node2029 [ color="black"]
+  node2030 -> node2032 [ color="black"]
+  node2025 -> node2027 [ color="black"]
+}

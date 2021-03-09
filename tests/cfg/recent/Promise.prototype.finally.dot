@@ -1,0 +1,87 @@
+digraph {
+  node19342 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node19355 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:let catchFinally = [! __x5__]</td></tr>
+      <tr><td align="left">14:catchFinally.Constructor = C</td></tr>
+      <tr><td align="left">15:catchFinally.OnFinally = onFinally</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19338 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19351 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let stepsThenFinally = ThenFinallyFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19341 [shape=cds, label=<<font color="black">1:app __x0__ = (Type promise)</font>> color="black" fillcolor="white" style=filled]
+  node19337 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19354 [shape=cds, label=<<font color="black">13:app __x5__ = (CreateBuiltinFunction stepsCatchFinally (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node19346 [shape=cds, label=<<font color="black">3:app __x2__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
+  node19356 [shape=cds, label=<<font color="black">16:app __x6__ = (Invoke promise &quot;then&quot; (new [thenFinally, catchFinally]))</font>> color="black" fillcolor="white" style=filled]
+  node19339 [shape=cds, label=<<font color="black">app onFinally = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node19343 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19347 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:assert (= __x2__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19350 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let thenFinally = onFinally</td></tr>
+      <tr><td align="left">6:let catchFinally = onFinally</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19345 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let C = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19352 [shape=cds, label=<<font color="black">9:app __x4__ = (CreateBuiltinFunction stepsThenFinally (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node19340 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let promise = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19357 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:return [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19353 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let thenFinally = [! __x4__]</td></tr>
+      <tr><td align="left">10:thenFinally.Constructor = C</td></tr>
+      <tr><td align="left">11:thenFinally.OnFinally = onFinally</td></tr>
+      <tr><td align="left">12:let stepsCatchFinally = CatchFinallyFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19344 [shape=cds, label=<<font color="black">2:app __x1__ = (SpeciesConstructor promise INTRINSIC_Promise)</font>> color="black" fillcolor="white" style=filled]
+  node19349 [shape=diamond, label=<<font color="black">(= __x3__ false)</font>> color="black" fillcolor="white" style=filled]
+  node19348 [shape=cds, label=<<font color="black">7:app __x3__ = (IsCallable onFinally)</font>> color="black" fillcolor="white" style=filled]
+  node19347 -> node19348 [ color="black"]
+  node19348 -> node19349 [ color="black"]
+  node19344 -> node19345 [ color="black"]
+  node19356 -> node19357 [ color="black"]
+  node19352 -> node19353 [ color="black"]
+  node19354 -> node19355 [ color="black"]
+  node19349 -> node19350 [label=<<font color="black">true</font>> color="black"]
+  node19349 -> node19351 [label=<<font color="black">false</font>> color="black"]
+  node19346 -> node19347 [ color="black"]
+  node19342 -> node19343 [label=<<font color="black">true</font>> color="black"]
+  node19342 -> node19344 [label=<<font color="black">false</font>> color="black"]
+  node19343 -> node19344 [ color="black"]
+  node19357 -> node19338 [ color="black"]
+  node19340 -> node19341 [ color="black"]
+  node19337 -> node19339 [ color="black"]
+  node19355 -> node19356 [ color="black"]
+  node19350 -> node19356 [ color="black"]
+  node19351 -> node19352 [ color="black"]
+  node19345 -> node19346 [ color="black"]
+  node19353 -> node19354 [ color="black"]
+  node19339 -> node19340 [ color="black"]
+  node19341 -> node19342 [ color="black"]
+}

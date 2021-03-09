@@ -1,0 +1,22 @@
+digraph {
+  node7691 [shape=cds, label=<<font color="black">access __x0__ = (StatementList &quot;VarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7688 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7692 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7689 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7693 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7690 [shape=diamond, label=<<font color="black">(! (= StatementList absent))</font>> color="black" fillcolor="white" style=filled]
+  node7688 -> node7690 [ color="black"]
+  node7693 -> node7689 [ color="black"]
+  node7691 -> node7692 [ color="black"]
+  node7690 -> node7691 [label=<<font color="black">true</font>> color="black"]
+  node7690 -> node7693 [label=<<font color="black">false</font>> color="black"]
+  node7692 -> node7693 [ color="black"]
+}

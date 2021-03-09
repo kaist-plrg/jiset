@@ -1,0 +1,38 @@
+digraph {
+  node4101 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let propName = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4105 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let propValue = [? __x2__]</td></tr>
+      <tr><td align="left">3:assert (= enumerable true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4100 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierReference &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4104 [shape=cds, label=<<font color="black">2:app __x2__ = (GetValue exprValue)</font>> color="black" fillcolor="white" style=filled]
+  node4099 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4107 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4103 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let exprValue = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4106 [shape=cds, label=<<font color="black">5:app __x3__ = (CreateDataPropertyOrThrow object propName propValue)</font>> color="black" fillcolor="white" style=filled]
+  node4102 [shape=cds, label=<<font color="black">1:access __x1__ = (IdentifierReference &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4098 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4100 -> node4101 [ color="black"]
+  node4103 -> node4104 [ color="black"]
+  node4107 -> node4099 [ color="black"]
+  node4106 -> node4107 [ color="black"]
+  node4098 -> node4100 [ color="black"]
+  node4102 -> node4103 [ color="black"]
+  node4105 -> node4106 [ color="black"]
+  node4101 -> node4102 [ color="black"]
+  node4104 -> node4105 [ color="black"]
+}

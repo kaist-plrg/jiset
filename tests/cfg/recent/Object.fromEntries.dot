@@ -1,0 +1,40 @@
+digraph {
+  node12334 [shape=cds, label=<<font color="black">app iterable = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12339 [shape=cds, label=<<font color="black">4:app __x2__ = (CreateBuiltinFunction stepsDefine (new []))</font>> color="black" fillcolor="white" style=filled]
+  node12333 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12340 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let adder = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12337 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node12332 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12338 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = [! __x1__]</td></tr>
+      <tr><td align="left">3:let stepsDefine = CreateDataPropertyOnObjectFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12336 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12341 [shape=cds, label=<<font color="black">5:app __x3__ = (AddEntriesFromIterable obj iterable adder)</font>> color="black" fillcolor="white" style=filled]
+  node12342 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12335 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible iterable)</font>> color="black" fillcolor="white" style=filled]
+  node12338 -> node12339 [ color="black"]
+  node12339 -> node12340 [ color="black"]
+  node12337 -> node12338 [ color="black"]
+  node12341 -> node12342 [ color="black"]
+  node12335 -> node12336 [ color="black"]
+  node12340 -> node12341 [ color="black"]
+  node12336 -> node12337 [ color="black"]
+  node12334 -> node12335 [ color="black"]
+  node12332 -> node12334 [ color="black"]
+  node12342 -> node12333 [ color="black"]
+}

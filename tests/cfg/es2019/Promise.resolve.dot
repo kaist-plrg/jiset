@@ -1,0 +1,32 @@
+digraph {
+  node18020 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18023 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let C = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18026 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18022 [shape=cds, label=<<font color="black">app x = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18027 [shape=cds, label=<<font color="black">2:app __x1__ = (PromiseResolve C x)</font>> color="black" fillcolor="white" style=filled]
+  node18028 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18024 [shape=cds, label=<<font color="black">1:app __x0__ = (Type C)</font>> color="black" fillcolor="white" style=filled]
+  node18025 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node18021 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18023 -> node18024 [ color="black"]
+  node18025 -> node18026 [label=<<font color="black">true</font>> color="black"]
+  node18025 -> node18027 [label=<<font color="black">false</font>> color="black"]
+  node18024 -> node18025 [ color="black"]
+  node18020 -> node18022 [ color="black"]
+  node18028 -> node18021 [ color="black"]
+  node18027 -> node18028 [ color="black"]
+  node18026 -> node18027 [ color="black"]
+  node18022 -> node18023 [ color="black"]
+}

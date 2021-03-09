@@ -1,0 +1,50 @@
+digraph {
+  node6263 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lhs = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6268 [shape=diamond, label=<<font color="black">(= environment undefined)</font>> color="black" fillcolor="white" style=filled]
+  node6272 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6259 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6264 [shape=cds, label=<<font color="black">1:app __x2__ = (ObjectCreate INTRINSIC_ObjectPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node6267 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:[? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6271 [shape=cds, label=<<font color="black">4:app __x5__ = (InitializeReferencedBinding lhs restObj)</font>> color="black" fillcolor="white" style=filled]
+  node6260 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6261 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6270 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6266 [shape=cds, label=<<font color="black">2:app __x3__ = (CopyDataProperties restObj value excludedNames)</font>> color="black" fillcolor="white" style=filled]
+  node6262 [shape=cds, label=<<font color="black">0:app __x1__ = (ResolveBinding __x0__ environment)</font>> color="black" fillcolor="white" style=filled]
+  node6269 [shape=cds, label=<<font color="black">app __x4__ = (PutValue lhs restObj)</font>> color="black" fillcolor="white" style=filled]
+  node6265 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let restObj = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6271 -> node6272 [ color="black"]
+  node6265 -> node6266 [ color="black"]
+  node6261 -> node6262 [ color="black"]
+  node6266 -> node6267 [ color="black"]
+  node6267 -> node6268 [ color="black"]
+  node6263 -> node6264 [ color="black"]
+  node6259 -> node6261 [ color="black"]
+  node6262 -> node6263 [ color="black"]
+  node6272 -> node6260 [ color="black"]
+  node6268 -> node6269 [label=<<font color="black">true</font>> color="black"]
+  node6268 -> node6271 [label=<<font color="black">false</font>> color="black"]
+  node6269 -> node6270 [ color="black"]
+  node6270 -> node6271 [ color="black"]
+  node6264 -> node6265 [ color="black"]
+}

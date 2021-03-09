@@ -1,0 +1,25 @@
+digraph {
+  node14431 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let str = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14430 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible string)</font>> color="black" fillcolor="white" style=filled]
+  node14428 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14433 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let S = [? __x1__]</td></tr>
+      <tr><td align="left">2:??? &quot;If id:{where} is const:{start} , let id:{T} be the String value that is a copy of id:{S} with leading white space removed .&quot;</td></tr>
+      <tr><td align="left">3:??? &quot;Else if id:{where} is const:{end} , let id:{T} be the String value that is a copy of id:{S} with trailing white space removed .&quot;</td></tr>
+      <tr><td align="left">4:??? &quot;Else , in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">7:return T</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14429 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14432 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString str)</font>> color="black" fillcolor="white" style=filled]
+  node14432 -> node14433 [ color="black"]
+  node14430 -> node14431 [ color="black"]
+  node14433 -> node14429 [ color="black"]
+  node14431 -> node14432 [ color="black"]
+  node14428 -> node14430 [ color="black"]
+}

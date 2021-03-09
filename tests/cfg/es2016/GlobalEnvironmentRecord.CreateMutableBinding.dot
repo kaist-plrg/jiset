@@ -1,0 +1,30 @@
+digraph {
+  node1190 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1196 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1191 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let DclRec = envRec.DeclarativeRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1195 [shape=cds, label=<<font color="black">3:app __x1__ = (DclRec.CreateMutableBinding DclRec N D)</font>> color="black" fillcolor="white" style=filled]
+  node1192 [shape=cds, label=<<font color="black">2:app __x0__ = (DclRec.HasBinding DclRec N)</font>> color="black" fillcolor="white" style=filled]
+  node1194 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1189 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1193 [shape=diamond, label=<<font color="black">(= __x0__ true)</font>> color="black" fillcolor="white" style=filled]
+  node1189 -> node1191 [ color="black"]
+  node1192 -> node1193 [ color="black"]
+  node1195 -> node1196 [ color="black"]
+  node1196 -> node1190 [ color="black"]
+  node1191 -> node1192 [ color="black"]
+  node1194 -> node1195 [ color="black"]
+  node1193 -> node1194 [label=<<font color="black">true</font>> color="black"]
+  node1193 -> node1195 [label=<<font color="black">false</font>> color="black"]
+}

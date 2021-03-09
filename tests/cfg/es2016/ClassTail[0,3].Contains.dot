@@ -1,0 +1,61 @@
+digraph {
+  node8563 [shape=diamond, label=<<font color="black">(is-instance-of symbol ClassBody)</font>> color="black" fillcolor="white" style=filled]
+  node8568 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8571 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let inHeritage = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8575 [shape=cds, label=<<font color="black">5:app __x3__ = (__x2__ symbol)</font>> color="black" fillcolor="white" style=filled]
+  node8576 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8566 [shape=diamond, label=<<font color="black">(! (= ClassHeritage absent))</font>> color="black" fillcolor="white" style=filled]
+  node8561 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8573 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8569 [shape=cds, label=<<font color="black">3:access __x0__ = (ClassHeritage &quot;Contains&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8574 [shape=cds, label=<<font color="black">5:access __x2__ = (ClassBody &quot;ComputedPropertyContains&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8570 [shape=cds, label=<<font color="black">3:app __x1__ = (__x0__ symbol)</font>> color="black" fillcolor="white" style=filled]
+  node8562 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8567 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8572 [shape=diamond, label=<<font color="black">(= inHeritage true)</font>> color="black" fillcolor="white" style=filled]
+  node8564 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8565 [shape=diamond, label=<<font color="black">(is-instance-of symbol ClassHeritage)</font>> color="black" fillcolor="white" style=filled]
+  node8573 -> node8574 [ color="black"]
+  node8571 -> node8572 [ color="black"]
+  node8576 -> node8562 [ color="black"]
+  node8563 -> node8564 [label=<<font color="black">true</font>> color="black"]
+  node8563 -> node8565 [label=<<font color="black">false</font>> color="black"]
+  node8566 -> node8567 [label=<<font color="black">true</font>> color="black"]
+  node8566 -> node8568 [label=<<font color="black">false</font>> color="black"]
+  node8575 -> node8576 [ color="black"]
+  node8567 -> node8569 [ color="black"]
+  node8564 -> node8565 [ color="black"]
+  node8561 -> node8563 [ color="black"]
+  node8570 -> node8571 [ color="black"]
+  node8569 -> node8570 [ color="black"]
+  node8574 -> node8575 [ color="black"]
+  node8572 -> node8573 [label=<<font color="black">true</font>> color="black"]
+  node8572 -> node8574 [label=<<font color="black">false</font>> color="black"]
+  node8565 -> node8566 [label=<<font color="black">true</font>> color="black"]
+  node8565 -> node8569 [label=<<font color="black">false</font>> color="black"]
+  node8568 -> node8569 [ color="black"]
+}

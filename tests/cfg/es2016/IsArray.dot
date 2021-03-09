@@ -1,0 +1,57 @@
+digraph {
+  node408 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node404 [shape=diamond, label=<<font color="black">(= argument.ProxyHandler null)</font>> color="black" fillcolor="white" style=filled]
+  node407 [shape=cds, label=<<font color="black">5:app __x1__ = (IsArray target)</font>> color="black" fillcolor="white" style=filled]
+  node403 [shape=diamond, label=<<font color="black">(= (typeof argument) &quot;ProxyExoticObject&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node398 [shape=cds, label=<<font color="black">0:app __x0__ = (Type argument)</font>> color="black" fillcolor="white" style=filled]
+  node402 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node406 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let target = argument.ProxyTarget</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node399 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node409 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node401 [shape=diamond, label=<<font color="black">(= (typeof argument) &quot;ArrayExoticObject&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node405 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node400 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node397 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node396 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node406 -> node407 [ color="black"]
+  node408 -> node409 [ color="black"]
+  node404 -> node405 [label=<<font color="black">true</font>> color="black"]
+  node404 -> node406 [label=<<font color="black">false</font>> color="black"]
+  node407 -> node408 [ color="black"]
+  node400 -> node401 [ color="black"]
+  node398 -> node399 [ color="black"]
+  node399 -> node400 [label=<<font color="black">true</font>> color="black"]
+  node399 -> node401 [label=<<font color="black">false</font>> color="black"]
+  node396 -> node398 [ color="black"]
+  node401 -> node402 [label=<<font color="black">true</font>> color="black"]
+  node401 -> node403 [label=<<font color="black">false</font>> color="black"]
+  node409 -> node397 [ color="black"]
+  node403 -> node404 [label=<<font color="black">true</font>> color="black"]
+  node403 -> node409 [label=<<font color="black">false</font>> color="black"]
+  node405 -> node406 [ color="black"]
+  node402 -> node403 [ color="black"]
+}

@@ -1,0 +1,41 @@
+digraph {
+  node1899 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = (new OrdinaryObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">1:let __x0__ = internalSlotsList</td></tr>
+      <tr><td align="left">1:let __x1__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1896 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1900 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
+  node1895 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1897 [shape=diamond, label=<<font color="black">(= internalSlotsList absent)</font>> color="black" fillcolor="white" style=filled]
+  node1901 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let __x2__ = __x0__[__x1__]</td></tr>
+      <tr><td align="left">obj[__x2__] = undefined</td></tr>
+      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1898 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">internalSlotsList = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1902 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:obj.Prototype = proto</td></tr>
+      <tr><td align="left">4:obj.Extensible = true</td></tr>
+      <tr><td align="left">5:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1902 -> node1896 [ color="black"]
+  node1895 -> node1897 [ color="black"]
+  node1901 -> node1900 [ color="black"]
+  node1900 -> node1901 [label=<<font color="black">true</font>> color="black"]
+  node1900 -> node1902 [label=<<font color="black">false</font>> color="black"]
+  node1898 -> node1899 [ color="black"]
+  node1897 -> node1898 [label=<<font color="black">true</font>> color="black"]
+  node1897 -> node1899 [label=<<font color="black">false</font>> color="black"]
+  node1899 -> node1900 [ color="black"]
+}

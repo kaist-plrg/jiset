@@ -1,0 +1,23 @@
+digraph {
+  node11596 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let importName = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11597 [shape=cds, label=<<font color="black">1:access __x1__ = (ImportedBinding &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11593 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11598 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let localName = __x1__</td></tr>
+      <tr><td align="left">2:let entry = (new ImportEntryRecord(&quot;ModuleRequest&quot; -&gt; module, &quot;ImportName&quot; -&gt; importName, &quot;LocalName&quot; -&gt; localName))</td></tr>
+      <tr><td align="left">3:return (new [entry])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11594 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11595 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11595 -> node11596 [ color="black"]
+  node11598 -> node11594 [ color="black"]
+  node11596 -> node11597 [ color="black"]
+  node11593 -> node11595 [ color="black"]
+  node11597 -> node11598 [ color="black"]
+}

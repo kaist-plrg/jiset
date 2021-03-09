@@ -1,0 +1,51 @@
+digraph {
+  node12896 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let time = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12892 [shape=cds, label=<<font color="black">2:app __x2__ = (HourFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node12885 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12894 [shape=cds, label=<<font color="black">2:app __x4__ = (SecFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node12899 [shape=cds, label=<<font color="black">3:app __x8__ = (TimeClip __x7__)</font>> color="black" fillcolor="white" style=filled]
+  node12890 [shape=cds, label=<<font color="black">1:app __x1__ = (ToNumber ms)</font>> color="black" fillcolor="white" style=filled]
+  node12886 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12887 [shape=cds, label=<<font color="black">app ms = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12897 [shape=cds, label=<<font color="black">3:app __x6__ = (Day t)</font>> color="black" fillcolor="white" style=filled]
+  node12888 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node12898 [shape=cds, label=<<font color="black">3:app __x7__ = (MakeDate __x6__ time)</font>> color="black" fillcolor="white" style=filled]
+  node12895 [shape=cds, label=<<font color="black">2:app __x5__ = (MakeTime __x2__ __x3__ __x4__ milli)</font>> color="black" fillcolor="white" style=filled]
+  node12889 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let t = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12891 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let milli = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12900 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let v = __x8__</td></tr>
+      <tr><td align="left">4:this.DateValue = v</td></tr>
+      <tr><td align="left">5:return v</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12893 [shape=cds, label=<<font color="black">2:app __x3__ = (MinFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node12896 -> node12897 [ color="black"]
+  node12899 -> node12900 [ color="black"]
+  node12894 -> node12895 [ color="black"]
+  node12887 -> node12888 [ color="black"]
+  node12898 -> node12899 [ color="black"]
+  node12893 -> node12894 [ color="black"]
+  node12892 -> node12893 [ color="black"]
+  node12895 -> node12896 [ color="black"]
+  node12900 -> node12886 [ color="black"]
+  node12889 -> node12890 [ color="black"]
+  node12890 -> node12891 [ color="black"]
+  node12891 -> node12892 [ color="black"]
+  node12888 -> node12889 [ color="black"]
+  node12897 -> node12898 [ color="black"]
+  node12885 -> node12887 [ color="black"]
+}

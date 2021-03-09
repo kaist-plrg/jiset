@@ -1,0 +1,56 @@
+digraph {
+  node10125 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let closure = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10121 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let propKey = __x0__</td></tr>
+      <tr><td align="left">1:[? propKey]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10120 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyName &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10122 [shape=cds, label=<<font color="black">2:access __x1__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10127 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:[! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10130 [shape=cds, label=<<font color="black">8:app __x5__ = (DefinePropertyOrThrow object propKey desc)</font>> color="black" fillcolor="white" style=filled]
+  node10119 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10123 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let scope = __x1__</td></tr>
+      <tr><td align="left">3:let sourceText = (get-syntax AsyncMethod)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10124 [shape=cds, label=<<font color="black">4:app __x2__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype sourceText UniqueFormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node10118 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10131 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10126 [shape=cds, label=<<font color="black">5:app __x3__ = (MakeMethod closure object)</font>> color="black" fillcolor="white" style=filled]
+  node10129 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:[! __x4__]</td></tr>
+      <tr><td align="left">7:let desc = (new PropertyDescriptor(&quot;Value&quot; -&gt; closure, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; enumerable, &quot;Configurable&quot; -&gt; true))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10128 [shape=cds, label=<<font color="black">6:app __x4__ = (SetFunctionName closure propKey)</font>> color="black" fillcolor="white" style=filled]
+  node10118 -> node10120 [ color="black"]
+  node10120 -> node10121 [ color="black"]
+  node10126 -> node10127 [ color="black"]
+  node10131 -> node10119 [ color="black"]
+  node10124 -> node10125 [ color="black"]
+  node10127 -> node10128 [ color="black"]
+  node10125 -> node10126 [ color="black"]
+  node10122 -> node10123 [ color="black"]
+  node10130 -> node10131 [ color="black"]
+  node10121 -> node10122 [ color="black"]
+  node10123 -> node10124 [ color="black"]
+  node10129 -> node10130 [ color="black"]
+  node10128 -> node10129 [ color="black"]
+}

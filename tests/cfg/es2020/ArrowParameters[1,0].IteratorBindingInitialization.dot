@@ -1,0 +1,23 @@
+digraph {
+  node9351 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let formals = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9348 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9352 [shape=cds, label=<<font color="black">1:access __x1__ = (formals &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9354 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9349 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9353 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node9350 [shape=cds, label=<<font color="black">0:access __x0__ = (CoverParenthesizedExpressionAndArrowParameterList &quot;CoveredFormalsList&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9353 -> node9354 [ color="black"]
+  node9354 -> node9349 [ color="black"]
+  node9350 -> node9351 [ color="black"]
+  node9348 -> node9350 [ color="black"]
+  node9351 -> node9352 [ color="black"]
+  node9352 -> node9353 [ color="black"]
+}

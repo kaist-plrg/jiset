@@ -1,0 +1,34 @@
+digraph {
+  node17751 [shape=cds, label=<<font color="black">7:app __x2__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_SeqCst)</font>> color="black" fillcolor="white" style=filled]
+  node17747 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
+  node17752 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17748 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17749 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node17745 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17750 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let i = [? __x1__]</td></tr>
+      <tr><td align="left">2:let arrayTypeName = typedArray.TypedArrayName</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} .&quot;</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} .&quot;</td></tr>
+      <tr><td align="left">5:let offset = typedArray.ByteOffset</td></tr>
+      <tr><td align="left">6:let indexedPosition = (+ (* i elementSize) offset)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17746 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17751 -> node17752 [ color="black"]
+  node17750 -> node17751 [ color="black"]
+  node17747 -> node17748 [ color="black"]
+  node17749 -> node17750 [ color="black"]
+  node17748 -> node17749 [ color="black"]
+  node17745 -> node17747 [ color="black"]
+  node17752 -> node17746 [ color="black"]
+}

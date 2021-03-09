@@ -1,0 +1,67 @@
+digraph {
+  node217 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node228 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">20:let tmp = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node221 [shape=cds, label=<<font color="black">app __x0__ = (BinaryAnd (%% x 2i) (%% y 2i))</font>> color="black" fillcolor="white" style=filled]
+  node220 [shape=diamond, label=<<font color="black">(= op &quot;&amp;&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node225 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let tmp = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node229 [shape=diamond, label=<<font color="black">(! (== tmp 0i))</font>> color="black" fillcolor="white" style=filled]
+  node224 [shape=cds, label=<<font color="black">app __x1__ = (BinaryOr (%% x 2i) (%% y 2i))</font>> color="black" fillcolor="white" style=filled]
+  node219 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (|| (|| (= op &quot;&amp;&quot;) (= op &quot;^&quot;)) (= op &quot;|&quot;))</td></tr>
+      <tr><td align="left">1:x = x</td></tr>
+      <tr><td align="left">2:y = y</td></tr>
+      <tr><td align="left">3:let result = 0i</td></tr>
+      <tr><td align="left">4:let shift = 0i</td></tr>
+      <tr><td align="left">5:??? &quot;Repeat , until ( id:{x} = 0 or id:{x} = - 1 ) and ( id:{y} = 0 or id:{y} = - 1 ) , in:{} out:{}&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node230 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">result = (- result (** 2.0 shift))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node223 [shape=diamond, label=<<font color="black">(= op &quot;|&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node226 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">19:assert (= op &quot;^&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node231 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">24:return (convert result num2bigint )</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node218 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node227 [shape=cds, label=<<font color="black">20:app __x2__ = (BinaryXor (%% x 2i) (%% y 2i))</font>> color="black" fillcolor="white" style=filled]
+  node222 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let tmp = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node219 -> node220 [ color="black"]
+  node225 -> node229 [ color="black"]
+  node223 -> node224 [label=<<font color="black">true</font>> color="black"]
+  node223 -> node226 [label=<<font color="black">false</font>> color="black"]
+  node222 -> node229 [ color="black"]
+  node231 -> node218 [ color="black"]
+  node227 -> node228 [ color="black"]
+  node220 -> node221 [label=<<font color="black">true</font>> color="black"]
+  node220 -> node223 [label=<<font color="black">false</font>> color="black"]
+  node221 -> node222 [ color="black"]
+  node224 -> node225 [ color="black"]
+  node229 -> node230 [label=<<font color="black">true</font>> color="black"]
+  node229 -> node231 [label=<<font color="black">false</font>> color="black"]
+  node217 -> node219 [ color="black"]
+  node228 -> node229 [ color="black"]
+  node226 -> node227 [ color="black"]
+  node230 -> node231 [ color="black"]
+}

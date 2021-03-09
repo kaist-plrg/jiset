@@ -1,0 +1,72 @@
+digraph {
+  node11802 [shape=diamond, label=<<font color="black">(= date absent)</font>> color="black" fillcolor="white" style=filled]
+  node11793 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11806 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let dt = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11813 [shape=cds, label=<<font color="black">4:app __x10__ = (TimeClip __x9__)</font>> color="black" fillcolor="white" style=filled]
+  node11805 [shape=cds, label=<<font color="black">app __x4__ = (ToNumber date)</font>> color="black" fillcolor="white" style=filled]
+  node11795 [shape=cds, label=<<font color="black">app month = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11808 [shape=cds, label=<<font color="black">3:app __x6__ = (MakeDay __x5__ m dt)</font>> color="black" fillcolor="white" style=filled]
+  node11810 [shape=cds, label=<<font color="black">3:app __x8__ = (MakeDate __x6__ __x7__)</font>> color="black" fillcolor="white" style=filled]
+  node11800 [shape=cds, label=<<font color="black">1:app __x2__ = (ToNumber month)</font>> color="black" fillcolor="white" style=filled]
+  node11807 [shape=cds, label=<<font color="black">3:app __x5__ = (YearFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node11811 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let newDate = __x8__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11799 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let t = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11798 [shape=cds, label=<<font color="black">0:app __x1__ = (LocalTime [? __x0__])</font>> color="black" fillcolor="white" style=filled]
+  node11812 [shape=cds, label=<<font color="black">4:app __x9__ = (UTC newDate)</font>> color="black" fillcolor="white" style=filled]
+  node11801 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let m = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11797 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node11809 [shape=cds, label=<<font color="black">3:app __x7__ = (TimeWithinDay t)</font>> color="black" fillcolor="white" style=filled]
+  node11804 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let dt = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11796 [shape=cds, label=<<font color="black">app date = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node11814 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let u = __x10__</td></tr>
+      <tr><td align="left">5:this.DateValue = u</td></tr>
+      <tr><td align="left">6:return u</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11794 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11803 [shape=cds, label=<<font color="black">app __x3__ = (DateFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node11803 -> node11804 [ color="black"]
+  node11795 -> node11796 [ color="black"]
+  node11798 -> node11799 [ color="black"]
+  node11804 -> node11807 [ color="black"]
+  node11813 -> node11814 [ color="black"]
+  node11814 -> node11794 [ color="black"]
+  node11808 -> node11809 [ color="black"]
+  node11805 -> node11806 [ color="black"]
+  node11809 -> node11810 [ color="black"]
+  node11797 -> node11798 [ color="black"]
+  node11796 -> node11797 [ color="black"]
+  node11799 -> node11800 [ color="black"]
+  node11793 -> node11795 [ color="black"]
+  node11806 -> node11807 [ color="black"]
+  node11807 -> node11808 [ color="black"]
+  node11811 -> node11812 [ color="black"]
+  node11812 -> node11813 [ color="black"]
+  node11801 -> node11802 [ color="black"]
+  node11810 -> node11811 [ color="black"]
+  node11802 -> node11803 [label=<<font color="black">true</font>> color="black"]
+  node11802 -> node11805 [label=<<font color="black">false</font>> color="black"]
+  node11800 -> node11801 [ color="black"]
+}

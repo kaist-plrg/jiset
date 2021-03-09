@@ -1,0 +1,30 @@
+digraph {
+  node2844 [shape=cds, label=<<font color="black">2:app __x1__ = (SameValue V current)</font>> color="black" fillcolor="white" style=filled]
+  node2845 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node2842 [shape=cds, label=<<font color="black">1:app __x0__ = (O.GetPrototypeOf O)</font>> color="black" fillcolor="white" style=filled]
+  node2846 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2843 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let current = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2847 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2840 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2841 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2842 -> node2843 [ color="black"]
+  node2840 -> node2842 [ color="black"]
+  node2844 -> node2845 [ color="black"]
+  node2843 -> node2844 [ color="black"]
+  node2847 -> node2841 [ color="black"]
+  node2846 -> node2847 [ color="black"]
+  node2845 -> node2846 [label=<<font color="black">true</font>> color="black"]
+  node2845 -> node2847 [label=<<font color="black">false</font>> color="black"]
+}

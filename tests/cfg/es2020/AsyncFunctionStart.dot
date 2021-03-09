@@ -1,0 +1,21 @@
+digraph {
+  node18921 [shape=cds, label=<<font color="black">app asyncFunctionBody = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18920 [shape=cds, label=<<font color="black">app promiseCapability = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18918 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18922 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let runningContext = GLOBAL_context</td></tr>
+      <tr><td align="left">1:let asyncContext = (copy-obj runningContext)</td></tr>
+      <tr><td align="left">3:??? &quot;Set the code evaluation state of id:{asyncContext} such that when evaluation is resumed for that execution context the following steps will be performed : in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">15:append asyncContext -&gt; GLOBAL_executionStack</td></tr>
+      <tr><td align="left">15:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">16:??? &quot;Resume the suspended evaluation of id:{asyncContext} . Let id:{result} be the value returned by the resumed computation .&quot;</td></tr>
+      <tr><td align="left">19:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18919 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18918 -> node18920 [ color="black"]
+  node18920 -> node18921 [ color="black"]
+  node18921 -> node18922 [ color="black"]
+  node18922 -> node18919 [ color="black"]
+}

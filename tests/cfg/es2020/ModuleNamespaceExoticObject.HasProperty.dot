@@ -1,0 +1,39 @@
+digraph {
+  node3084 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let exports = O.Exports</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3083 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3079 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3082 [shape=cds, label=<<font color="black">app __x1__ = (OrdinaryHasProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node3080 [shape=cds, label=<<font color="black">0:app __x0__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node3085 [shape=diamond, label=<<font color="black">(contains exports P)</font>> color="black" fillcolor="white" style=filled]
+  node3078 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3087 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3086 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3081 [shape=diamond, label=<<font color="black">(= __x0__ Symbol)</font>> color="black" fillcolor="white" style=filled]
+  node3082 -> node3083 [ color="black"]
+  node3087 -> node3079 [ color="black"]
+  node3078 -> node3080 [ color="black"]
+  node3081 -> node3082 [label=<<font color="black">true</font>> color="black"]
+  node3081 -> node3084 [label=<<font color="black">false</font>> color="black"]
+  node3086 -> node3087 [ color="black"]
+  node3085 -> node3086 [label=<<font color="black">true</font>> color="black"]
+  node3085 -> node3087 [label=<<font color="black">false</font>> color="black"]
+  node3084 -> node3085 [ color="black"]
+  node3080 -> node3081 [ color="black"]
+  node3083 -> node3084 [ color="black"]
+}

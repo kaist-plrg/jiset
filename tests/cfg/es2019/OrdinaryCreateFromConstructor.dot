@@ -1,0 +1,21 @@
+digraph {
+  node1904 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1907 [shape=cds, label=<<font color="black">2:app __x1__ = (ObjectCreate proto internalSlotsList)</font>> color="black" fillcolor="white" style=filled]
+  node1906 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let proto = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1905 [shape=cds, label=<<font color="black">1:app __x0__ = (GetPrototypeFromConstructor constructor intrinsicDefaultProto)</font>> color="black" fillcolor="white" style=filled]
+  node1903 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1908 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1908 -> node1904 [ color="black"]
+  node1906 -> node1907 [ color="black"]
+  node1905 -> node1906 [ color="black"]
+  node1903 -> node1905 [ color="black"]
+  node1907 -> node1908 [ color="black"]
+}

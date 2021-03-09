@@ -1,0 +1,26 @@
+digraph {
+  node19012 [shape=cds, label=<<font color="black">1:app __x1__ = (target.GetPrototypeOf target)</font>> color="black" fillcolor="white" style=filled]
+  node19006 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19011 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19010 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node19007 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19009 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node19008 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node19013 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19012 -> node19013 [ color="black"]
+  node19011 -> node19012 [ color="black"]
+  node19010 -> node19011 [label=<<font color="black">true</font>> color="black"]
+  node19010 -> node19012 [label=<<font color="black">false</font>> color="black"]
+  node19009 -> node19010 [ color="black"]
+  node19006 -> node19008 [ color="black"]
+  node19008 -> node19009 [ color="black"]
+  node19013 -> node19007 [ color="black"]
+}

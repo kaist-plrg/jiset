@@ -1,0 +1,94 @@
+digraph {
+  node6042 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6046 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lref = __x0__</td></tr>
+      <tr><td align="left">2:[? lref]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6066 [shape=cds, label=<<font color="black">14:app __x10__ = (PutValue lref rhsValue)</font>> color="black" fillcolor="white" style=filled]
+  node6049 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= Initializer absent)) (= v undefined))</font>> color="black" fillcolor="white" style=filled]
+  node6054 [shape=cds, label=<<font color="black">6:app __x5__ = (__x4__ lref.ReferencedName)</font>> color="black" fillcolor="white" style=filled]
+  node6065 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:return __x9__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6048 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let v = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6044 [shape=diamond, label=<<font color="black">(! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)))</font>> color="black" fillcolor="white" style=filled]
+  node6056 [shape=cds, label=<<font color="black">8:access __x6__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6051 [shape=cds, label=<<font color="black">7:access __x3__ = (DestructuringAssignmentTarget &quot;IsIdentifierRef&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6067 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:return [? __x10__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6057 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let defaultValue = __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6063 [shape=cds, label=<<font color="black">13:access __x8__ = (assignmentPattern &quot;DestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6047 [shape=cds, label=<<font color="black">3:app __x1__ = (GetV value propertyName)</font>> color="black" fillcolor="white" style=filled]
+  node6064 [shape=cds, label=<<font color="black">13:app __x9__ = (__x8__ rhsValue)</font>> color="black" fillcolor="white" style=filled]
+  node6058 [shape=cds, label=<<font color="black">9:app __x7__ = (GetValue defaultValue)</font>> color="black" fillcolor="white" style=filled]
+  node6043 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6060 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let rhsValue = v</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6053 [shape=cds, label=<<font color="black">6:access __x4__ = (Initializer &quot;NamedEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6052 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x2__ true) (= __x3__ true))</font>> color="black" fillcolor="white" style=filled]
+  node6061 [shape=diamond, label=<<font color="black">(|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))</font>> color="black" fillcolor="white" style=filled]
+  node6059 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let rhsValue = [? __x7__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6045 [shape=cds, label=<<font color="black">1:access __x0__ = (DestructuringAssignmentTarget &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6062 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let assignmentPattern = (parse-syntax DestructuringAssignmentTarget &quot;AssignmentPattern&quot; (new []))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6055 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let rhsValue = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6050 [shape=cds, label=<<font color="black">7:app __x2__ = (IsAnonymousFunctionDefinition Initializer)</font>> color="black" fillcolor="white" style=filled]
+  node6042 -> node6044 [ color="black"]
+  node6046 -> node6047 [ color="black"]
+  node6059 -> node6061 [ color="black"]
+  node6051 -> node6052 [ color="black"]
+  node6055 -> node6061 [ color="black"]
+  node6064 -> node6065 [ color="black"]
+  node6047 -> node6048 [ color="black"]
+  node6052 -> node6053 [label=<<font color="black">true</font>> color="black"]
+  node6052 -> node6056 [label=<<font color="black">false</font>> color="black"]
+  node6050 -> node6051 [ color="black"]
+  node6062 -> node6063 [ color="black"]
+  node6056 -> node6057 [ color="black"]
+  node6049 -> node6050 [label=<<font color="black">true</font>> color="black"]
+  node6049 -> node6060 [label=<<font color="black">false</font>> color="black"]
+  node6063 -> node6064 [ color="black"]
+  node6065 -> node6066 [ color="black"]
+  node6044 -> node6045 [label=<<font color="black">true</font>> color="black"]
+  node6044 -> node6047 [label=<<font color="black">false</font>> color="black"]
+  node6061 -> node6062 [label=<<font color="black">true</font>> color="black"]
+  node6061 -> node6066 [label=<<font color="black">false</font>> color="black"]
+  node6053 -> node6054 [ color="black"]
+  node6057 -> node6058 [ color="black"]
+  node6048 -> node6049 [ color="black"]
+  node6066 -> node6067 [ color="black"]
+  node6067 -> node6043 [ color="black"]
+  node6060 -> node6061 [ color="black"]
+  node6054 -> node6055 [ color="black"]
+  node6045 -> node6046 [ color="black"]
+  node6058 -> node6059 [ color="black"]
+}

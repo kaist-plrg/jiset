@@ -1,0 +1,33 @@
+digraph {
+  node4479 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:[? __x3__]</td></tr>
+      <tr><td align="left">4:return oldValue</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4471 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4475 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue lhs)</font>> color="black" fillcolor="white" style=filled]
+  node4476 [shape=cds, label=<<font color="black">1:app __x2__ = (ToNumber [? __x1__])</font>> color="black" fillcolor="white" style=filled]
+  node4477 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let oldValue = [? __x2__]</td></tr>
+      <tr><td align="left">2:let newValue = (- oldValue 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4473 [shape=cds, label=<<font color="black">0:access __x0__ = (LeftHandSideExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4478 [shape=cds, label=<<font color="black">3:app __x3__ = (PutValue lhs newValue)</font>> color="black" fillcolor="white" style=filled]
+  node4472 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4474 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lhs = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4479 -> node4472 [ color="black"]
+  node4473 -> node4474 [ color="black"]
+  node4476 -> node4477 [ color="black"]
+  node4478 -> node4479 [ color="black"]
+  node4477 -> node4478 [ color="black"]
+  node4475 -> node4476 [ color="black"]
+  node4471 -> node4473 [ color="black"]
+  node4474 -> node4475 [ color="black"]
+}

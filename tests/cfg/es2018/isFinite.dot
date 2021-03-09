@@ -1,0 +1,30 @@
+digraph {
+  node11394 [shape=cds, label=<<font color="black">app number = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11399 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11398 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11395 [shape=cds, label=<<font color="black">0:app __x0__ = (ToNumber number)</font>> color="black" fillcolor="white" style=filled]
+  node11396 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let num = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11392 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11393 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11397 [shape=diamond, label=<<font color="black">(|| (|| (= num NaN) (= num Infinity)) (= num -Infinity))</font>> color="black" fillcolor="white" style=filled]
+  node11395 -> node11396 [ color="black"]
+  node11396 -> node11397 [ color="black"]
+  node11394 -> node11395 [ color="black"]
+  node11399 -> node11393 [ color="black"]
+  node11398 -> node11393 [ color="black"]
+  node11397 -> node11398 [label=<<font color="black">true</font>> color="black"]
+  node11397 -> node11399 [label=<<font color="black">false</font>> color="black"]
+  node11392 -> node11394 [ color="black"]
+}

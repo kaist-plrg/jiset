@@ -1,0 +1,104 @@
+digraph {
+  node6483 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
+  node6487 [shape=cds, label=<<font color="black">9:app __x4__ = (__x3__ A environment)</font>> color="black" fillcolor="white" style=filled]
+  node6482 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:[? next]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6496 [shape=cds, label=<<font color="black">13:app __x8__ = (CreateDataProperty A [! __x7__] nextValue)</font>> color="black" fillcolor="white" style=filled]
+  node6477 [shape=cds, label=<<font color="black">4:app __x1__ = (IteratorStep iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node6475 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node6492 [shape=diamond, label=<<font color="black">__x6__</font>> color="black" fillcolor="white" style=filled]
+  node6493 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6478 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let next = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6479 [shape=cds, label=<<font color="black">5:app __x2__ = (IsAbruptCompletion next)</font>> color="black" fillcolor="white" style=filled]
+  node6484 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6490 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:let nextValue = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6488 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:return __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6495 [shape=cds, label=<<font color="black">13:app __x7__ = (ToString n)</font>> color="black" fillcolor="white" style=filled]
+  node6480 [shape=diamond, label=<<font color="black">__x2__</font>> color="black" fillcolor="white" style=filled]
+  node6491 [shape=cds, label=<<font color="black">11:app __x6__ = (IsAbruptCompletion nextValue)</font>> color="black" fillcolor="white" style=filled]
+  node6474 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let A = [! __x0__]</td></tr>
+      <tr><td align="left">1:let n = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6486 [shape=cds, label=<<font color="black">9:access __x3__ = (BindingPattern &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6497 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:let status = __x8__</td></tr>
+      <tr><td align="left">14:assert (= status true)</td></tr>
+      <tr><td align="left">15:n = (+ n 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6485 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done true)</font>> color="black" fillcolor="white" style=filled]
+  node6476 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node6472 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6481 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6489 [shape=cds, label=<<font color="black">10:app __x5__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
+  node6494 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:[? nextValue]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6473 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
+  node6471 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6496 -> node6497 [ color="black"]
+  node6471 -> node6473 [ color="black"]
+  node6474 -> node6475 [ color="black"]
+  node6480 -> node6481 [label=<<font color="black">true</font>> color="black"]
+  node6480 -> node6482 [label=<<font color="black">false</font>> color="black"]
+  node6479 -> node6480 [ color="black"]
+  node6482 -> node6483 [ color="black"]
+  node6489 -> node6490 [ color="black"]
+  node6494 -> node6495 [ color="black"]
+  node6477 -> node6478 [ color="black"]
+  node6473 -> node6474 [ color="black"]
+  node6488 -> node6489 [ color="black"]
+  node6483 -> node6484 [label=<<font color="black">true</font>> color="black"]
+  node6483 -> node6485 [label=<<font color="black">false</font>> color="black"]
+  node6487 -> node6488 [ color="black"]
+  node6493 -> node6494 [ color="black"]
+  node6492 -> node6493 [label=<<font color="black">true</font>> color="black"]
+  node6492 -> node6494 [label=<<font color="black">false</font>> color="black"]
+  node6486 -> node6487 [ color="black"]
+  node6481 -> node6482 [ color="black"]
+  node6491 -> node6492 [ color="black"]
+  node6475 -> node6476 [label=<<font color="black">true</font>> color="black"]
+  node6475 -> node6472 [label=<<font color="black">false</font>> color="black"]
+  node6497 -> node6475 [ color="black"]
+  node6478 -> node6479 [ color="black"]
+  node6484 -> node6485 [ color="black"]
+  node6490 -> node6491 [ color="black"]
+  node6476 -> node6477 [label=<<font color="black">true</font>> color="black"]
+  node6476 -> node6485 [label=<<font color="black">false</font>> color="black"]
+  node6485 -> node6486 [label=<<font color="black">true</font>> color="black"]
+  node6485 -> node6489 [label=<<font color="black">false</font>> color="black"]
+  node6495 -> node6496 [ color="black"]
+}

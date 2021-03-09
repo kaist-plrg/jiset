@@ -1,0 +1,65 @@
+digraph {
+  node196 [shape=cds, label=<<font color="black">18:app __x2__ = (BinaryXor (%% x 2i) (%% y 2i))</font>> color="black" fillcolor="white" style=filled]
+  node189 [shape=diamond, label=<<font color="black">(= op &quot;&amp;&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node192 [shape=diamond, label=<<font color="black">(= op &quot;|&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node197 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:let tmp = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node188 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (|| (|| (= op &quot;&amp;&quot;) (= op &quot;|&quot;)) (= op &quot;^&quot;))</td></tr>
+      <tr><td align="left">1:let result = ??? &quot;0n&quot;</td></tr>
+      <tr><td align="left">2:let shift = 0i</td></tr>
+      <tr><td align="left">3:??? &quot;Repeat , until ( id:{x} = 0 or id:{x} = - 1 ) and ( id:{y} = 0 or id:{y} = - 1 ) , in:{} out:{}&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node193 [shape=cds, label=<<font color="black">app __x1__ = (BinaryOr (%% x 2i) (%% y 2i))</font>> color="black" fillcolor="white" style=filled]
+  node191 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let tmp = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node187 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node198 [shape=diamond, label=<<font color="black">(! (== tmp 0i))</font>> color="black" fillcolor="white" style=filled]
+  node194 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let tmp = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node199 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">result = (- result (** 2.0 shift))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node186 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node190 [shape=cds, label=<<font color="black">app __x0__ = (BinaryAnd (%% x 2i) (%% y 2i))</font>> color="black" fillcolor="white" style=filled]
+  node195 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">17:assert (= op &quot;^&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node200 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">22:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node198 -> node199 [label=<<font color="black">true</font>> color="black"]
+  node198 -> node200 [label=<<font color="black">false</font>> color="black"]
+  node197 -> node198 [ color="black"]
+  node186 -> node188 [ color="black"]
+  node192 -> node193 [label=<<font color="black">true</font>> color="black"]
+  node192 -> node195 [label=<<font color="black">false</font>> color="black"]
+  node189 -> node190 [label=<<font color="black">true</font>> color="black"]
+  node189 -> node192 [label=<<font color="black">false</font>> color="black"]
+  node193 -> node194 [ color="black"]
+  node196 -> node197 [ color="black"]
+  node190 -> node191 [ color="black"]
+  node199 -> node200 [ color="black"]
+  node200 -> node187 [ color="black"]
+  node194 -> node198 [ color="black"]
+  node191 -> node198 [ color="black"]
+  node195 -> node196 [ color="black"]
+  node188 -> node189 [ color="black"]
+}

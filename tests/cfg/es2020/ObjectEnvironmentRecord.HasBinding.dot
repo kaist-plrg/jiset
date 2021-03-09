@@ -1,0 +1,75 @@
+digraph {
+  node1559 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1569 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let unscopables = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1576 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1577 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1564 [shape=diamond, label=<<font color="black">(= foundBinding false)</font>> color="black" fillcolor="white" style=filled]
+  node1573 [shape=cds, label=<<font color="black">7:app __x4__ = (ToBoolean [? __x3__])</font>> color="black" fillcolor="white" style=filled]
+  node1567 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1563 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let foundBinding = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1562 [shape=cds, label=<<font color="black">2:app __x0__ = (HasProperty bindings N)</font>> color="black" fillcolor="white" style=filled]
+  node1566 [shape=diamond, label=<<font color="black">(= envRec.withEnvironment false)</font>> color="black" fillcolor="white" style=filled]
+  node1575 [shape=diamond, label=<<font color="black">(= blocked true)</font>> color="black" fillcolor="white" style=filled]
+  node1561 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let bindings = envRec.BindingObject</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1565 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1572 [shape=cds, label=<<font color="black">7:app __x3__ = (Get unscopables N)</font>> color="black" fillcolor="white" style=filled]
+  node1568 [shape=cds, label=<<font color="black">5:app __x1__ = (Get bindings SYMBOL_unscopables)</font>> color="black" fillcolor="white" style=filled]
+  node1570 [shape=cds, label=<<font color="black">6:app __x2__ = (Type unscopables)</font>> color="black" fillcolor="white" style=filled]
+  node1560 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1574 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let blocked = [! __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1571 [shape=diamond, label=<<font color="black">(= __x2__ Object)</font>> color="black" fillcolor="white" style=filled]
+  node1565 -> node1566 [ color="black"]
+  node1573 -> node1574 [ color="black"]
+  node1575 -> node1576 [label=<<font color="black">true</font>> color="black"]
+  node1575 -> node1577 [label=<<font color="black">false</font>> color="black"]
+  node1566 -> node1567 [label=<<font color="black">true</font>> color="black"]
+  node1566 -> node1568 [label=<<font color="black">false</font>> color="black"]
+  node1562 -> node1563 [ color="black"]
+  node1569 -> node1570 [ color="black"]
+  node1564 -> node1565 [label=<<font color="black">true</font>> color="black"]
+  node1564 -> node1566 [label=<<font color="black">false</font>> color="black"]
+  node1574 -> node1575 [ color="black"]
+  node1563 -> node1564 [ color="black"]
+  node1567 -> node1568 [ color="black"]
+  node1577 -> node1560 [ color="black"]
+  node1576 -> node1577 [ color="black"]
+  node1570 -> node1571 [ color="black"]
+  node1561 -> node1562 [ color="black"]
+  node1559 -> node1561 [ color="black"]
+  node1572 -> node1573 [ color="black"]
+  node1568 -> node1569 [ color="black"]
+  node1571 -> node1572 [label=<<font color="black">true</font>> color="black"]
+  node1571 -> node1577 [label=<<font color="black">false</font>> color="black"]
+}

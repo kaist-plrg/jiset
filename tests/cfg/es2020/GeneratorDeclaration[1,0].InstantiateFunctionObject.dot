@@ -1,0 +1,39 @@
+digraph {
+  node9571 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let F = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9576 [shape=cds, label=<<font color="black">3:app __x3__ = (SetFunctionName F &quot;default&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9577 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:__x3__</td></tr>
+      <tr><td align="left">4:F.SourceText = (get-syntax GeneratorDeclaration)</td></tr>
+      <tr><td align="left">5:return F</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9574 [shape=cds, label=<<font color="black">2:app __x2__ = (DefinePropertyOrThrow F &quot;prototype&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; prototype, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node9569 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9568 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9573 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let prototype = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9572 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Generator_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node9575 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9570 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryFunctionCreate INTRINSIC_Generator FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node9576 -> node9577 [ color="black"]
+  node9577 -> node9569 [ color="black"]
+  node9572 -> node9573 [ color="black"]
+  node9574 -> node9575 [ color="black"]
+  node9575 -> node9576 [ color="black"]
+  node9573 -> node9574 [ color="black"]
+  node9568 -> node9570 [ color="black"]
+  node9570 -> node9571 [ color="black"]
+  node9571 -> node9572 [ color="black"]
+}

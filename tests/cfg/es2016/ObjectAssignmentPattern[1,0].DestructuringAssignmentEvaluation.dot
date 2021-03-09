@@ -1,0 +1,23 @@
+digraph {
+  node4866 [shape=cds, label=<<font color="black">1:access __x1__ = (AssignmentPropertyList &quot;DestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4862 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4867 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ value)</font>> color="black" fillcolor="white" style=filled]
+  node4868 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4864 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible value)</font>> color="black" fillcolor="white" style=filled]
+  node4865 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4863 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4867 -> node4868 [ color="black"]
+  node4866 -> node4867 [ color="black"]
+  node4865 -> node4866 [ color="black"]
+  node4868 -> node4863 [ color="black"]
+  node4864 -> node4865 [ color="black"]
+  node4862 -> node4864 [ color="black"]
+}

@@ -1,0 +1,84 @@
+digraph {
+  node8843 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let oldEnv = GLOBAL_context.LexicalEnvironment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8855 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let status = __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8849 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let argName = __x2__[__x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8860 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let B = __x8__</td></tr>
+      <tr><td align="left">10:GLOBAL_context.LexicalEnvironment = oldEnv</td></tr>
+      <tr><td align="left">11:return B</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8842 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8856 [shape=cds, label=<<font color="black">6:app __x7__ = (IsAbruptCompletion status)</font>> color="black" fillcolor="white" style=filled]
+  node8846 [shape=cds, label=<<font color="black">2:access __x1__ = (CatchParameter &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8859 [shape=cds, label=<<font color="black">9:access __x8__ = (Block &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8841 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8853 [shape=cds, label=<<font color="black">5:access __x5__ = (CatchParameter &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8850 [shape=cds, label=<<font color="black">3:app __x4__ = (catchEnv.CreateMutableBinding catchEnv argName false)</font>> color="black" fillcolor="white" style=filled]
+  node8844 [shape=cds, label=<<font color="black">1:app __x0__ = (NewDeclarativeEnvironment oldEnv)</font>> color="black" fillcolor="white" style=filled]
+  node8854 [shape=cds, label=<<font color="black">5:app __x6__ = (__x5__ thrownValue catchEnv)</font>> color="black" fillcolor="white" style=filled]
+  node8857 [shape=diamond, label=<<font color="black">__x7__</font>> color="black" fillcolor="white" style=filled]
+  node8851 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:[! __x4__]</td></tr>
+      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8848 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node8852 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:GLOBAL_context.LexicalEnvironment = catchEnv</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8847 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let __x2__ = __x1__</td></tr>
+      <tr><td align="left">2:let __x3__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8858 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:GLOBAL_context.LexicalEnvironment = oldEnv</td></tr>
+      <tr><td align="left">8:return status</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8845 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let catchEnv = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8854 -> node8855 [ color="black"]
+  node8846 -> node8847 [ color="black"]
+  node8860 -> node8842 [ color="black"]
+  node8852 -> node8853 [ color="black"]
+  node8845 -> node8846 [ color="black"]
+  node8856 -> node8857 [ color="black"]
+  node8848 -> node8849 [label=<<font color="black">true</font>> color="black"]
+  node8848 -> node8852 [label=<<font color="black">false</font>> color="black"]
+  node8851 -> node8848 [ color="black"]
+  node8847 -> node8848 [ color="black"]
+  node8853 -> node8854 [ color="black"]
+  node8855 -> node8856 [ color="black"]
+  node8849 -> node8850 [ color="black"]
+  node8841 -> node8843 [ color="black"]
+  node8844 -> node8845 [ color="black"]
+  node8858 -> node8859 [ color="black"]
+  node8843 -> node8844 [ color="black"]
+  node8859 -> node8860 [ color="black"]
+  node8857 -> node8858 [label=<<font color="black">true</font>> color="black"]
+  node8857 -> node8859 [label=<<font color="black">false</font>> color="black"]
+  node8850 -> node8851 [ color="black"]
+}

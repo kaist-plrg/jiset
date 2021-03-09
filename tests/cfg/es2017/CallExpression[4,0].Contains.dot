@@ -1,0 +1,62 @@
+digraph {
+  node3798 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3794 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ symbol)</font>> color="black" fillcolor="white" style=filled]
+  node3803 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x2__ = (= __x3__ __x4__)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3795 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node3799 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let __x2__ = true</td></tr>
+      <tr><td align="left">2:__x2__ = (is-instance-of symbol Identifier)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3802 [shape=cds, label=<<font color="black">access __x4__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3792 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3796 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3800 [shape=diamond, label=<<font color="black">__x2__</font>> color="black" fillcolor="white" style=filled]
+  node3806 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3797 [shape=diamond, label=<<font color="black">(is-instance-of symbol ReservedWord)</font>> color="black" fillcolor="white" style=filled]
+  node3793 [shape=cds, label=<<font color="black">0:access __x0__ = (CallExpression &quot;Contains&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3791 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3801 [shape=cds, label=<<font color="black">access __x3__ = (symbol &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3804 [shape=diamond, label=<<font color="black">__x2__</font>> color="black" fillcolor="white" style=filled]
+  node3805 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3796 -> node3797 [ color="black"]
+  node3803 -> node3804 [ color="black"]
+  node3797 -> node3798 [label=<<font color="black">true</font>> color="black"]
+  node3797 -> node3799 [label=<<font color="black">false</font>> color="black"]
+  node3799 -> node3800 [ color="black"]
+  node3795 -> node3796 [label=<<font color="black">true</font>> color="black"]
+  node3795 -> node3797 [label=<<font color="black">false</font>> color="black"]
+  node3791 -> node3793 [ color="black"]
+  node3804 -> node3805 [label=<<font color="black">true</font>> color="black"]
+  node3804 -> node3806 [label=<<font color="black">false</font>> color="black"]
+  node3805 -> node3806 [ color="black"]
+  node3794 -> node3795 [ color="black"]
+  node3798 -> node3799 [ color="black"]
+  node3806 -> node3792 [ color="black"]
+  node3793 -> node3794 [ color="black"]
+  node3800 -> node3801 [label=<<font color="black">true</font>> color="black"]
+  node3800 -> node3804 [label=<<font color="black">false</font>> color="black"]
+  node3801 -> node3802 [ color="black"]
+  node3802 -> node3803 [ color="black"]
+}

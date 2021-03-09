@@ -1,0 +1,34 @@
+digraph {
+  node17072 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17075 [shape=cds, label=<<font color="black">7:app __x2__ = (GetValueFromBuffer buffer indexedPosition elementType true &quot;SeqCst&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node17074 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let i = [? __x1__]</td></tr>
+      <tr><td align="left">2:let arrayTypeName = typedArray.TypedArrayName</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{elementSize} be the Number value of the Element Size value specified in link:{unhandled: table-49} for id:{arrayTypeName} .&quot;</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{elementType} be the String value of the Element Type value in link:{unhandled: table-49} for id:{arrayTypeName} .&quot;</td></tr>
+      <tr><td align="left">5:let offset = typedArray.ByteOffset</td></tr>
+      <tr><td align="left">6:let indexedPosition = (+ (* i elementSize) offset)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17069 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17070 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17073 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node17071 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
+  node17076 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17072 -> node17073 [ color="black"]
+  node17074 -> node17075 [ color="black"]
+  node17075 -> node17076 [ color="black"]
+  node17071 -> node17072 [ color="black"]
+  node17069 -> node17071 [ color="black"]
+  node17073 -> node17074 [ color="black"]
+  node17076 -> node17070 [ color="black"]
+}

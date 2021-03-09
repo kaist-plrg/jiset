@@ -1,0 +1,35 @@
+digraph {
+  node16765 [shape=cds, label=<<font color="black">2:app __x0__ = (IsNonNegativeInteger length)</font>> color="black" fillcolor="white" style=filled]
+  node16762 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16768 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let data = [? __x1__]</td></tr>
+      <tr><td align="left">7:O.ViewedArrayBuffer = data</td></tr>
+      <tr><td align="left">8:O.ByteLength = byteLength</td></tr>
+      <tr><td align="left">9:O.ByteOffset = 0i</td></tr>
+      <tr><td align="left">10:O.ArrayLength = length</td></tr>
+      <tr><td align="left">11:return O</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16764 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16767 [shape=cds, label=<<font color="black">6:app __x1__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node16763 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16766 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (= [! __x0__] true)</td></tr>
+      <tr><td align="left">3:let constructorName = O.TypedArrayName</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{constructorName} .&quot;</td></tr>
+      <tr><td align="left">5:let byteLength = (* elementSize length)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16767 -> node16768 [ color="black"]
+  node16762 -> node16764 [ color="black"]
+  node16768 -> node16763 [ color="black"]
+  node16765 -> node16766 [ color="black"]
+  node16766 -> node16767 [ color="black"]
+  node16764 -> node16765 [ color="black"]
+}

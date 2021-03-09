@@ -1,0 +1,103 @@
+digraph {
+  node15666 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let len = [? __x1__]</td></tr>
+      <tr><td align="left">6:let index = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15671 [shape=diamond, label=<<font color="black">(= strP undefined)</font>> color="black" fillcolor="white" style=filled]
+  node15669 [shape=cds, label=<<font color="black">8:app __x3__ = (SerializeJSONProperty [! __x2__] value)</font>> color="black" fillcolor="white" style=filled]
+  node15664 [shape=cds, label=<<font color="black">5:app __x0__ = (Get value &quot;length&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node15668 [shape=cds, label=<<font color="black">8:app __x2__ = (ToString index)</font>> color="black" fillcolor="white" style=filled]
+  node15677 [shape=diamond, label=<<font color="black">(= gap &quot;&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node15672 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append &quot;null&quot; -&gt; partial</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15667 [shape=diamond, label=<<font color="black">(&lt; index len)</font>> color="black" fillcolor="white" style=filled]
+  node15679 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">21:let separator = (+ (+ &quot;,&quot; &quot;\n&quot;) indent)</td></tr>
+      <tr><td align="left">22:??? &quot;Let id:{properties} be a String formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with id:{separator} . The id:{separator} String is not inserted either before the first String or after the last String .&quot;</td></tr>
+      <tr><td align="left">23:let final = (+ (+ (+ (+ (+ (+ &quot;[&quot; &quot;\n&quot;) indent) properties) &quot;\n&quot;) stepback) &quot;]&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15673 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append strP -&gt; partial</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15662 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15674 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:index = (+ index 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15663 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:append value -&gt; stack</td></tr>
+      <tr><td align="left">2:let stepback = indent</td></tr>
+      <tr><td align="left">3:let indent = (+ indent gap)</td></tr>
+      <tr><td align="left">4:let partial = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15680 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">24:(pop stack (- stack.length 1i))</td></tr>
+      <tr><td align="left">25:let indent = stepback</td></tr>
+      <tr><td align="left">26:return final</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15659 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15678 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:??? &quot;Let id:{properties} be a String formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with code unit 0x002C ( COMMA ) . A comma is not inserted either before the first String or after the last String .&quot;</td></tr>
+      <tr><td align="left">19:let final = (+ (+ &quot;[&quot; properties) &quot;]&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15665 [shape=cds, label=<<font color="black">5:app __x1__ = (ToLength [? __x0__])</font>> color="black" fillcolor="white" style=filled]
+  node15670 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let strP = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15675 [shape=diamond, label=<<font color="black">(= partial.length 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15660 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15661 [shape=diamond, label=<<font color="black">(contains stack value)</font>> color="black" fillcolor="white" style=filled]
+  node15676 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let final = &quot;[]&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15677 -> node15678 [label=<<font color="black">true</font>> color="black"]
+  node15677 -> node15679 [label=<<font color="black">false</font>> color="black"]
+  node15667 -> node15668 [label=<<font color="black">true</font>> color="black"]
+  node15667 -> node15675 [label=<<font color="black">false</font>> color="black"]
+  node15661 -> node15662 [label=<<font color="black">true</font>> color="black"]
+  node15661 -> node15663 [label=<<font color="black">false</font>> color="black"]
+  node15669 -> node15670 [ color="black"]
+  node15659 -> node15661 [ color="black"]
+  node15671 -> node15672 [label=<<font color="black">true</font>> color="black"]
+  node15671 -> node15673 [label=<<font color="black">false</font>> color="black"]
+  node15670 -> node15671 [ color="black"]
+  node15674 -> node15667 [ color="black"]
+  node15666 -> node15667 [ color="black"]
+  node15680 -> node15660 [ color="black"]
+  node15662 -> node15663 [ color="black"]
+  node15676 -> node15680 [ color="black"]
+  node15675 -> node15676 [label=<<font color="black">true</font>> color="black"]
+  node15675 -> node15677 [label=<<font color="black">false</font>> color="black"]
+  node15678 -> node15680 [ color="black"]
+  node15665 -> node15666 [ color="black"]
+  node15672 -> node15674 [ color="black"]
+  node15668 -> node15669 [ color="black"]
+  node15673 -> node15674 [ color="black"]
+  node15663 -> node15664 [ color="black"]
+  node15664 -> node15665 [ color="black"]
+  node15679 -> node15680 [ color="black"]
+}

@@ -1,0 +1,23 @@
+digraph {
+  node11731 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11728 [shape=cds, label=<<font color="black">0:app __x0__ = (ToObject O)</font>> color="black" fillcolor="white" style=filled]
+  node11730 [shape=cds, label=<<font color="black">1:app __x1__ = (obj.GetPrototypeOf obj)</font>> color="black" fillcolor="white" style=filled]
+  node11725 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11729 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11726 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11727 [shape=cds, label=<<font color="black">app O = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11727 -> node11728 [ color="black"]
+  node11730 -> node11731 [ color="black"]
+  node11729 -> node11730 [ color="black"]
+  node11731 -> node11726 [ color="black"]
+  node11728 -> node11729 [ color="black"]
+  node11725 -> node11727 [ color="black"]
+}

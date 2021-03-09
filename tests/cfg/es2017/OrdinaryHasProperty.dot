@@ -1,0 +1,55 @@
+digraph {
+  node1655 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let hasOwn = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1650 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1660 [shape=diamond, label=<<font color="black">(! (= parent null))</font>> color="black" fillcolor="white" style=filled]
+  node1651 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1656 [shape=diamond, label=<<font color="black">(! (= hasOwn undefined))</font>> color="black" fillcolor="white" style=filled]
+  node1659 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let parent = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1663 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1652 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node1662 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1658 [shape=cds, label=<<font color="black">3:app __x2__ = (O.GetPrototypeOf O)</font>> color="black" fillcolor="white" style=filled]
+  node1654 [shape=cds, label=<<font color="black">1:app __x1__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node1661 [shape=cds, label=<<font color="black">5:app __x3__ = (parent.HasProperty parent P)</font>> color="black" fillcolor="white" style=filled]
+  node1657 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1653 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1661 -> node1662 [ color="black"]
+  node1659 -> node1660 [ color="black"]
+  node1655 -> node1656 [ color="black"]
+  node1650 -> node1652 [ color="black"]
+  node1653 -> node1654 [ color="black"]
+  node1663 -> node1651 [ color="black"]
+  node1660 -> node1661 [label=<<font color="black">true</font>> color="black"]
+  node1660 -> node1663 [label=<<font color="black">false</font>> color="black"]
+  node1654 -> node1655 [ color="black"]
+  node1656 -> node1657 [label=<<font color="black">true</font>> color="black"]
+  node1656 -> node1658 [label=<<font color="black">false</font>> color="black"]
+  node1658 -> node1659 [ color="black"]
+  node1652 -> node1653 [ color="black"]
+  node1662 -> node1663 [ color="black"]
+  node1657 -> node1658 [ color="black"]
+}

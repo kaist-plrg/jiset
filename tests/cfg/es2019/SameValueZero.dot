@@ -1,0 +1,73 @@
+digraph {
+  node582 [shape=diamond, label=<<font color="black">(= __x2__ Number)</font>> color="black" fillcolor="white" style=filled]
+  node587 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x -0.0) (= y 0i))</font>> color="black" fillcolor="white" style=filled]
+  node591 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node583 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x NaN) (= y NaN))</font>> color="black" fillcolor="white" style=filled]
+  node590 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node586 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node589 [shape=diamond, label=<<font color="black">(= x y)</font>> color="black" fillcolor="white" style=filled]
+  node580 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node581 [shape=cds, label=<<font color="black">1:app __x2__ = (Type x)</font>> color="black" fillcolor="white" style=filled]
+  node588 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node575 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node592 [shape=cds, label=<<font color="black">7:app __x3__ = (SameValueNonNumber x y)</font>> color="black" fillcolor="white" style=filled]
+  node578 [shape=cds, label=<<font color="black">0:app __x1__ = (Type y)</font>> color="black" fillcolor="white" style=filled]
+  node593 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node584 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node577 [shape=cds, label=<<font color="black">0:app __x0__ = (Type x)</font>> color="black" fillcolor="white" style=filled]
+  node579 [shape=diamond, label=<<font color="black">(! (= __x0__ __x1__))</font>> color="black" fillcolor="white" style=filled]
+  node585 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x 0i) (= y -0.0))</font>> color="black" fillcolor="white" style=filled]
+  node576 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node580 -> node581 [ color="black"]
+  node588 -> node589 [ color="black"]
+  node591 -> node592 [ color="black"]
+  node583 -> node584 [label=<<font color="black">true</font>> color="black"]
+  node583 -> node585 [label=<<font color="black">false</font>> color="black"]
+  node581 -> node582 [ color="black"]
+  node584 -> node585 [ color="black"]
+  node585 -> node586 [label=<<font color="black">true</font>> color="black"]
+  node585 -> node587 [label=<<font color="black">false</font>> color="black"]
+  node592 -> node593 [ color="black"]
+  node590 -> node591 [ color="black"]
+  node579 -> node580 [label=<<font color="black">true</font>> color="black"]
+  node579 -> node581 [label=<<font color="black">false</font>> color="black"]
+  node582 -> node583 [label=<<font color="black">true</font>> color="black"]
+  node582 -> node592 [label=<<font color="black">false</font>> color="black"]
+  node577 -> node578 [ color="black"]
+  node578 -> node579 [ color="black"]
+  node589 -> node590 [label=<<font color="black">true</font>> color="black"]
+  node589 -> node591 [label=<<font color="black">false</font>> color="black"]
+  node575 -> node577 [ color="black"]
+  node586 -> node587 [ color="black"]
+  node593 -> node576 [ color="black"]
+  node587 -> node588 [label=<<font color="black">true</font>> color="black"]
+  node587 -> node589 [label=<<font color="black">false</font>> color="black"]
+}

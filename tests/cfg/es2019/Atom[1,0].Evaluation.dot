@@ -1,0 +1,28 @@
+digraph {
+  node13955 [shape=diamond, label=<<font color="black">(= DotAll true)</font>> color="black" fillcolor="white" style=filled]
+  node13956 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">??? &quot;Let id:{A} be the set of all characters .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13957 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:??? &quot;Otherwise , let id:{A} be the set of all characters except nt:{LineTerminator} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13959 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13954 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13953 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13958 [shape=cds, label=<<font color="black">3:app __x0__ = (CharacterSetMatcher A false direction)</font>> color="black" fillcolor="white" style=filled]
+  node13957 -> node13958 [ color="black"]
+  node13958 -> node13959 [ color="black"]
+  node13955 -> node13956 [label=<<font color="black">true</font>> color="black"]
+  node13955 -> node13957 [label=<<font color="black">false</font>> color="black"]
+  node13956 -> node13957 [ color="black"]
+  node13953 -> node13955 [ color="black"]
+  node13959 -> node13954 [ color="black"]
+}

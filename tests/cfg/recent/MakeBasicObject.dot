@@ -1,0 +1,39 @@
+digraph {
+  node1046 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1051 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">obj.Extensible = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1047 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = (new OrdinaryObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">1:let __x0__ = internalSlotsList</td></tr>
+      <tr><td align="left">1:let __x1__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1050 [shape=diamond, label=<<font color="black">(contains internalSlotsList &quot;Extensible&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node1048 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
+  node1049 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let __x2__ = __x0__[__x1__]</td></tr>
+      <tr><td align="left">obj[__x2__] = undefined</td></tr>
+      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1052 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1045 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1049 -> node1048 [ color="black"]
+  node1051 -> node1052 [ color="black"]
+  node1050 -> node1051 [label=<<font color="black">true</font>> color="black"]
+  node1050 -> node1052 [label=<<font color="black">false</font>> color="black"]
+  node1052 -> node1046 [ color="black"]
+  node1048 -> node1049 [label=<<font color="black">true</font>> color="black"]
+  node1048 -> node1050 [label=<<font color="black">false</font>> color="black"]
+  node1045 -> node1047 [ color="black"]
+  node1047 -> node1048 [ color="black"]
+}

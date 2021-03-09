@@ -1,0 +1,17 @@
+digraph {
+  node21224 [shape=cds, label=<<font color="black">0:app __x1__ = (YearFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node21223 [shape=cds, label=<<font color="black">0:app __x0__ = (Day t)</font>> color="black" fillcolor="white" style=filled]
+  node21226 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:return (- __x0__ __x2__)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node21222 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node21225 [shape=cds, label=<<font color="black">0:app __x2__ = (DayFromYear __x1__)</font>> color="black" fillcolor="white" style=filled]
+  node21221 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node21221 -> node21223 [ color="black"]
+  node21223 -> node21224 [ color="black"]
+  node21225 -> node21226 [ color="black"]
+  node21224 -> node21225 [ color="black"]
+  node21226 -> node21222 [ color="black"]
+}

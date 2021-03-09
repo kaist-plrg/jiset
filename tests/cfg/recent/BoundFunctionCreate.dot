@@ -1,0 +1,52 @@
+digraph {
+  node2580 [shape=cds, label=<<font color="black">0:app __x0__ = (Type targetFunction)</font>> color="black" fillcolor="white" style=filled]
+  node2586 [shape=cds, label=<<font color="black">6:app __x3__ = (IsConstructor targetFunction)</font>> color="black" fillcolor="white" style=filled]
+  node2589 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:obj.BoundTargetFunction = targetFunction</td></tr>
+      <tr><td align="left">9:obj.BoundThis = boundThis</td></tr>
+      <tr><td align="left">10:obj.BoundArguments = boundArgs</td></tr>
+      <tr><td align="left">11:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2581 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2585 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let obj = [! __x2__]</td></tr>
+      <tr><td align="left">4:obj.Prototype = proto</td></tr>
+      <tr><td align="left">5:obj.Call = BoundFunctionExoticObjectDOTCall</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2578 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2582 [shape=cds, label=<<font color="black">1:app __x1__ = (targetFunction.GetPrototypeOf targetFunction)</font>> color="black" fillcolor="white" style=filled]
+  node2588 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">obj.Construct = BoundFunctionExoticObjectDOTConstruct</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2587 [shape=diamond, label=<<font color="black">(= __x3__ true)</font>> color="black" fillcolor="white" style=filled]
+  node2583 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let proto = [? __x1__]</td></tr>
+      <tr><td align="left">2:??? &quot;Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-bound-function-exotic-objects} , plus [ [ Prototype ] ] and [ [ Extensible ] ] .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2579 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2584 [shape=cds, label=<<font color="black">3:app __x2__ = (MakeBasicObject internalSlotsList)</font>> color="black" fillcolor="white" style=filled]
+  node2585 -> node2586 [ color="black"]
+  node2588 -> node2589 [ color="black"]
+  node2584 -> node2585 [ color="black"]
+  node2589 -> node2579 [ color="black"]
+  node2583 -> node2584 [ color="black"]
+  node2586 -> node2587 [ color="black"]
+  node2581 -> node2582 [ color="black"]
+  node2578 -> node2580 [ color="black"]
+  node2580 -> node2581 [ color="black"]
+  node2582 -> node2583 [ color="black"]
+  node2587 -> node2588 [label=<<font color="black">true</font>> color="black"]
+  node2587 -> node2589 [label=<<font color="black">false</font>> color="black"]
+}

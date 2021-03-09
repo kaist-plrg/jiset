@@ -1,0 +1,22 @@
+digraph {
+  node17485 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17486 [shape=cds, label=<<font color="black">0:app __x0__ = (IsLabelledFunction Statement)</font>> color="black" fillcolor="white" style=filled]
+  node17487 [shape=diamond, label=<<font color="black">(= __x0__ true)</font>> color="black" fillcolor="white" style=filled]
+  node17489 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17488 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17484 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17487 -> node17488 [label=<<font color="black">true</font>> color="black"]
+  node17487 -> node17489 [label=<<font color="black">false</font>> color="black"]
+  node17486 -> node17487 [ color="black"]
+  node17484 -> node17486 [ color="black"]
+  node17489 -> node17485 [ color="black"]
+  node17488 -> node17485 [ color="black"]
+}

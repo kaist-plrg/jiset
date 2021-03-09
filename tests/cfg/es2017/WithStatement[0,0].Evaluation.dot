@@ -1,0 +1,51 @@
+digraph {
+  node7018 [shape=cds, label=<<font color="black">6:access __x4__ = (Statement &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7011 [shape=cds, label=<<font color="black">0:access __x0__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7015 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = [? __x2__]</td></tr>
+      <tr><td align="left">2:let oldEnv = GLOBAL_context.LexicalEnvironment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7019 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let C = __x4__</td></tr>
+      <tr><td align="left">7:GLOBAL_context.LexicalEnvironment = oldEnv</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7014 [shape=cds, label=<<font color="black">1:app __x2__ = (ToObject [? __x1__])</font>> color="black" fillcolor="white" style=filled]
+  node7020 [shape=cds, label=<<font color="black">8:app __x5__ = (UpdateEmpty C undefined)</font>> color="black" fillcolor="white" style=filled]
+  node7010 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7021 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7013 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue val)</font>> color="black" fillcolor="white" style=filled]
+  node7009 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7012 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let val = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7017 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let newEnv = __x3__</td></tr>
+      <tr><td align="left">4:newEnv.EnvironmentRecord.withEnvironment = true</td></tr>
+      <tr><td align="left">5:GLOBAL_context.LexicalEnvironment = newEnv</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7016 [shape=cds, label=<<font color="black">3:app __x3__ = (NewObjectEnvironment obj oldEnv)</font>> color="black" fillcolor="white" style=filled]
+  node7018 -> node7019 [ color="black"]
+  node7014 -> node7015 [ color="black"]
+  node7009 -> node7011 [ color="black"]
+  node7012 -> node7013 [ color="black"]
+  node7021 -> node7010 [ color="black"]
+  node7016 -> node7017 [ color="black"]
+  node7011 -> node7012 [ color="black"]
+  node7019 -> node7020 [ color="black"]
+  node7013 -> node7014 [ color="black"]
+  node7017 -> node7018 [ color="black"]
+  node7015 -> node7016 [ color="black"]
+  node7020 -> node7021 [ color="black"]
+}

@@ -1,0 +1,32 @@
+digraph {
+  node5993 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let rhs = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5992 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5996 [shape=cds, label=<<font color="black">3:access __x2__ = (BindingPattern &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5997 [shape=cds, label=<<font color="black">3:app __x3__ = (__x2__ value env)</font>> color="black" fillcolor="white" style=filled]
+  node5994 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
+  node5991 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5995 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let value = [? __x1__]</td></tr>
+      <tr><td align="left">2:let env = GLOBAL_context.LexicalEnvironment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5998 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5990 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5995 -> node5996 [ color="black"]
+  node5993 -> node5994 [ color="black"]
+  node5997 -> node5998 [ color="black"]
+  node5994 -> node5995 [ color="black"]
+  node5996 -> node5997 [ color="black"]
+  node5990 -> node5992 [ color="black"]
+  node5998 -> node5991 [ color="black"]
+  node5992 -> node5993 [ color="black"]
+}

@@ -1,0 +1,46 @@
+digraph {
+  node4884 [shape=cds, label=<<font color="black">1:access __x0__ = (optionalChain &quot;ChainEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4892 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4888 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let newValue = [? __x2__]</td></tr>
+      <tr><td align="left">3:let thisChain = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4883 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let optionalChain = OptionalChain</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4889 [shape=cds, label=<<font color="black">4:app __x3__ = (IsInTailPosition thisChain)</font>> color="black" fillcolor="white" style=filled]
+  node4887 [shape=cds, label=<<font color="black">2:app __x2__ = (GetValue newReference)</font>> color="black" fillcolor="white" style=filled]
+  node4882 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4890 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let tailCall = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4886 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let newReference = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4881 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4885 [shape=cds, label=<<font color="black">1:app __x1__ = (__x0__ baseValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node4891 [shape=cds, label=<<font color="black">5:app __x4__ = (EvaluateCall newValue newReference Arguments tailCall)</font>> color="black" fillcolor="white" style=filled]
+  node4883 -> node4884 [ color="black"]
+  node4890 -> node4891 [ color="black"]
+  node4886 -> node4887 [ color="black"]
+  node4887 -> node4888 [ color="black"]
+  node4885 -> node4886 [ color="black"]
+  node4889 -> node4890 [ color="black"]
+  node4881 -> node4883 [ color="black"]
+  node4884 -> node4885 [ color="black"]
+  node4891 -> node4892 [ color="black"]
+  node4892 -> node4882 [ color="black"]
+  node4888 -> node4889 [ color="black"]
+}

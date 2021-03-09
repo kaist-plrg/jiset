@@ -1,0 +1,46 @@
+digraph {
+  node741 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node747 [shape=cds, label=<<font color="black">2:app __x1__ = (abs argument)</font>> color="black" fillcolor="white" style=filled]
+  node751 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node746 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node742 [shape=cds, label=<<font color="black">0:app __x0__ = (Type argument)</font>> color="black" fillcolor="white" style=filled]
+  node743 [shape=diamond, label=<<font color="black">(! (= __x0__ Number))</font>> color="black" fillcolor="white" style=filled]
+  node749 [shape=cds, label=<<font color="black">2:app __x3__ = (abs argument)</font>> color="black" fillcolor="white" style=filled]
+  node744 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node748 [shape=cds, label=<<font color="black">2:app __x2__ = (floor __x1__)</font>> color="black" fillcolor="white" style=filled]
+  node752 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node740 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node750 [shape=diamond, label=<<font color="black">(! (== __x2__ __x3__))</font>> color="black" fillcolor="white" style=filled]
+  node745 [shape=diamond, label=<<font color="black">(|| (|| (= argument NaN) (= argument Infinity)) (= argument -Infinity))</font>> color="black" fillcolor="white" style=filled]
+  node743 -> node744 [label=<<font color="black">true</font>> color="black"]
+  node743 -> node745 [label=<<font color="black">false</font>> color="black"]
+  node749 -> node750 [ color="black"]
+  node747 -> node748 [ color="black"]
+  node750 -> node751 [label=<<font color="black">true</font>> color="black"]
+  node750 -> node752 [label=<<font color="black">false</font>> color="black"]
+  node746 -> node747 [ color="black"]
+  node745 -> node746 [label=<<font color="black">true</font>> color="black"]
+  node745 -> node747 [label=<<font color="black">false</font>> color="black"]
+  node744 -> node745 [ color="black"]
+  node748 -> node749 [ color="black"]
+  node751 -> node752 [ color="black"]
+  node742 -> node743 [ color="black"]
+  node740 -> node742 [ color="black"]
+  node752 -> node741 [ color="black"]
+}

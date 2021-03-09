@@ -1,0 +1,36 @@
+digraph {
+  node2718 [shape=cds, label=<<font color="black">1:app __x1__ = (MakeBasicObject (new [&quot;Prototype&quot;, &quot;Extensible&quot;, &quot;StringData&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node2717 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2716 [shape=cds, label=<<font color="black">0:app __x0__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node2721 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[! __x2__]</td></tr>
+      <tr><td align="left">9:return S</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2719 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let S = [! __x1__]</td></tr>
+      <tr><td align="left">2:S.Prototype = prototype</td></tr>
+      <tr><td align="left">3:S.StringData = value</td></tr>
+      <tr><td align="left">4:S.GetOwnProperty = StringExoticObjectDOTGetOwnProperty</td></tr>
+      <tr><td align="left">5:S.DefineOwnProperty = StringExoticObjectDOTDefineOwnProperty</td></tr>
+      <tr><td align="left">6:S.OwnPropertyKeys = StringExoticObjectDOTOwnPropertyKeys</td></tr>
+      <tr><td align="left">7:let length = value.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2714 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2715 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2720 [shape=cds, label=<<font color="black">8:app __x2__ = (DefinePropertyOrThrow S &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; length, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node2719 -> node2720 [ color="black"]
+  node2721 -> node2715 [ color="black"]
+  node2714 -> node2716 [ color="black"]
+  node2718 -> node2719 [ color="black"]
+  node2716 -> node2717 [ color="black"]
+  node2720 -> node2721 [ color="black"]
+  node2717 -> node2718 [ color="black"]
+}

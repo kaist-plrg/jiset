@@ -1,0 +1,55 @@
+digraph {
+  node12721 [shape=cds, label=<<font color="black">2:app __x4__ = (MinFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node12715 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node12728 [shape=cds, label=<<font color="black">3:app __x10__ = (TimeClip __x9__)</font>> color="black" fillcolor="white" style=filled]
+  node12724 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let time = __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12719 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let ms = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12716 [shape=cds, label=<<font color="black">0:app __x1__ = (LocalTime [? __x0__])</font>> color="black" fillcolor="white" style=filled]
+  node12723 [shape=cds, label=<<font color="black">2:app __x6__ = (MakeTime __x3__ __x4__ __x5__ ms)</font>> color="black" fillcolor="white" style=filled]
+  node12720 [shape=cds, label=<<font color="black">2:app __x3__ = (HourFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node12726 [shape=cds, label=<<font color="black">3:app __x8__ = (MakeDate __x7__ time)</font>> color="black" fillcolor="white" style=filled]
+  node12722 [shape=cds, label=<<font color="black">2:app __x5__ = (SecFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node12729 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let u = __x10__</td></tr>
+      <tr><td align="left">4:this.DateValue = u</td></tr>
+      <tr><td align="left">5:return u</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12717 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let t = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12714 [shape=cds, label=<<font color="black">app ms = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12725 [shape=cds, label=<<font color="black">3:app __x7__ = (Day t)</font>> color="black" fillcolor="white" style=filled]
+  node12718 [shape=cds, label=<<font color="black">1:app __x2__ = (ToNumber ms)</font>> color="black" fillcolor="white" style=filled]
+  node12713 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12712 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12727 [shape=cds, label=<<font color="black">3:app __x9__ = (UTC __x8__)</font>> color="black" fillcolor="white" style=filled]
+  node12717 -> node12718 [ color="black"]
+  node12715 -> node12716 [ color="black"]
+  node12720 -> node12721 [ color="black"]
+  node12725 -> node12726 [ color="black"]
+  node12719 -> node12720 [ color="black"]
+  node12724 -> node12725 [ color="black"]
+  node12727 -> node12728 [ color="black"]
+  node12728 -> node12729 [ color="black"]
+  node12722 -> node12723 [ color="black"]
+  node12721 -> node12722 [ color="black"]
+  node12718 -> node12719 [ color="black"]
+  node12716 -> node12717 [ color="black"]
+  node12726 -> node12727 [ color="black"]
+  node12723 -> node12724 [ color="black"]
+  node12712 -> node12714 [ color="black"]
+  node12729 -> node12713 [ color="black"]
+  node12714 -> node12715 [ color="black"]
+}

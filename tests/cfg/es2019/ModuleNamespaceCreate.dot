@@ -1,0 +1,18 @@
+digraph {
+  node2855 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2857 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= module.Namespace undefined)</td></tr>
+      <tr><td align="left">3:let M = (new OrdinaryObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">5:M.Module = module</td></tr>
+      <tr><td align="left">6:??? &quot;Let id:{sortedExports} be a new List containing the same values as the list id:{exports} where the values are ordered as if an Array of the same values had been sorted using code:{Array.prototype.sort} using value:{undefined} as id:{comparefn} .&quot;</td></tr>
+      <tr><td align="left">7:M.Exports = sortedExports</td></tr>
+      <tr><td align="left">8:??? &quot;Create own properties of id:{M} corresponding to the definitions in link:{unhandled: sec-module-namespace-objects} .&quot;</td></tr>
+      <tr><td align="left">9:module.Namespace = M</td></tr>
+      <tr><td align="left">10:return M</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2856 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2855 -> node2857 [ color="black"]
+  node2857 -> node2856 [ color="black"]
+}

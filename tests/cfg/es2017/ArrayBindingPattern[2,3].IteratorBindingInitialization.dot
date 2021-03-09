@@ -1,0 +1,40 @@
+digraph {
+  node6042 [shape=cds, label=<<font color="black">3:access __x2__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6046 [shape=cds, label=<<font color="black">5:app __x5__ = (__x4__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node6039 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node6047 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6043 [shape=cds, label=<<font color="black">3:app __x3__ = (__x2__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node6038 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingElementList &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6044 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let status = __x3__</td></tr>
+      <tr><td align="left">4:[? status]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6041 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
+  node6045 [shape=cds, label=<<font color="black">5:access __x4__ = (BindingRestElement &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6040 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let status = __x1__</td></tr>
+      <tr><td align="left">1:[? status]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6036 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6037 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6046 -> node6047 [ color="black"]
+  node6039 -> node6040 [ color="black"]
+  node6038 -> node6039 [ color="black"]
+  node6036 -> node6038 [ color="black"]
+  node6043 -> node6044 [ color="black"]
+  node6045 -> node6046 [ color="black"]
+  node6041 -> node6042 [label=<<font color="black">true</font>> color="black"]
+  node6041 -> node6045 [label=<<font color="black">false</font>> color="black"]
+  node6040 -> node6041 [ color="black"]
+  node6042 -> node6043 [ color="black"]
+  node6044 -> node6045 [ color="black"]
+  node6047 -> node6037 [ color="black"]
+}

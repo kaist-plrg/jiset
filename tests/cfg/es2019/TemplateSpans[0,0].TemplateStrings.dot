@@ -1,0 +1,30 @@
+digraph {
+  node3826 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return (new [tail])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3819 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3824 [shape=cds, label=<<font color="black">3:access __x1__ = (TemplateTail &quot;TRV&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3823 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let tail = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3825 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let tail = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3822 [shape=cds, label=<<font color="black">1:access __x0__ = (TemplateTail &quot;TV&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3820 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3821 [shape=diamond, label=<<font color="black">(= raw false)</font>> color="black" fillcolor="white" style=filled]
+  node3821 -> node3822 [label=<<font color="black">true</font>> color="black"]
+  node3821 -> node3824 [label=<<font color="black">false</font>> color="black"]
+  node3824 -> node3825 [ color="black"]
+  node3826 -> node3820 [ color="black"]
+  node3825 -> node3826 [ color="black"]
+  node3819 -> node3821 [ color="black"]
+  node3823 -> node3826 [ color="black"]
+  node3822 -> node3823 [ color="black"]
+}

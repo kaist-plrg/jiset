@@ -1,0 +1,25 @@
+digraph {
+  node5533 [shape=diamond, label=<<font color="black">(is-instance-of Declaration Declaration0)</font>> color="black" fillcolor="white" style=filled]
+  node5534 [shape=cds, label=<<font color="black">access HoistableDeclaration = (Declaration &quot;HoistableDeclaration&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5535 [shape=cds, label=<<font color="black">1:access __x0__ = (HoistableDeclaration &quot;DeclarationPart&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5531 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5536 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let declaration = __x0__</td></tr>
+      <tr><td align="left">2:return (new [declaration])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5532 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5537 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5531 -> node5533 [ color="black"]
+  node5536 -> node5537 [ color="black"]
+  node5535 -> node5536 [ color="black"]
+  node5533 -> node5534 [label=<<font color="black">true</font>> color="black"]
+  node5533 -> node5537 [label=<<font color="black">false</font>> color="black"]
+  node5534 -> node5535 [ color="black"]
+  node5537 -> node5532 [ color="black"]
+}

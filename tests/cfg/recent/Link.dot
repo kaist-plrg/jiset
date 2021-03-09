@@ -1,0 +1,62 @@
+digraph {
+  node11164 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let result = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11160 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11171 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:assert (|| (= module.Status CONST_linked) (= module.Status CONST_evaluated))</td></tr>
+      <tr><td align="left">13:assert (= stack.length 0i)</td></tr>
+      <tr><td align="left">14:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11170 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:assert (= module.Status CONST_unlinked)</td></tr>
+      <tr><td align="left">11:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11165 [shape=cds, label=<<font color="black">3:app __x1__ = (IsAbruptCompletion result)</font>> color="black" fillcolor="white" style=filled]
+  node11169 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let m = __x2__[__x3__]</td></tr>
+      <tr><td align="left">5:assert (= m.Status CONST_linking)</td></tr>
+      <tr><td align="left">6:m.Status = CONST_unlinked</td></tr>
+      <tr><td align="left">7:m.Environment = undefined</td></tr>
+      <tr><td align="left">8:m.DFSIndex = undefined</td></tr>
+      <tr><td align="left">9:m.DFSAncestorIndex = undefined</td></tr>
+      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11161 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11166 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node11167 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let __x2__ = stack</td></tr>
+      <tr><td align="left">4:let __x3__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11162 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (! (|| (= module.Status CONST_linking) (= module.Status CONST_evaluating)))</td></tr>
+      <tr><td align="left">1:let stack = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11163 [shape=cds, label=<<font color="black">2:app __x0__ = (InnerModuleLinking module stack 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11168 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node11163 -> node11164 [ color="black"]
+  node11160 -> node11162 [ color="black"]
+  node11165 -> node11166 [ color="black"]
+  node11162 -> node11163 [ color="black"]
+  node11166 -> node11167 [label=<<font color="black">true</font>> color="black"]
+  node11166 -> node11171 [label=<<font color="black">false</font>> color="black"]
+  node11167 -> node11168 [ color="black"]
+  node11164 -> node11165 [ color="black"]
+  node11170 -> node11171 [ color="black"]
+  node11171 -> node11161 [ color="black"]
+  node11169 -> node11168 [ color="black"]
+  node11168 -> node11169 [label=<<font color="black">true</font>> color="black"]
+  node11168 -> node11170 [label=<<font color="black">false</font>> color="black"]
+}

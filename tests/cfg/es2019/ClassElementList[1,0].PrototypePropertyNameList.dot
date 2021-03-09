@@ -1,0 +1,44 @@
+digraph {
+  node9305 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9315 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:append __x3__ -&gt; list</td></tr>
+      <tr><td align="left">4:return list</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9308 [shape=cds, label=<<font color="black">1:access __x1__ = (ClassElement &quot;PropName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9307 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let list = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9312 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
+  node9313 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return list</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9306 [shape=cds, label=<<font color="black">0:access __x0__ = (ClassElementList &quot;PrototypePropertyNameList&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9311 [shape=cds, label=<<font color="black">2:access __x2__ = (ClassElement &quot;IsStatic&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9314 [shape=cds, label=<<font color="black">3:access __x3__ = (ClassElement &quot;PropName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9310 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return list</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9304 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9309 [shape=diamond, label=<<font color="black">(= __x1__ CONST_empty)</font>> color="black" fillcolor="white" style=filled]
+  node9306 -> node9307 [ color="black"]
+  node9311 -> node9312 [ color="black"]
+  node9307 -> node9308 [ color="black"]
+  node9304 -> node9306 [ color="black"]
+  node9308 -> node9309 [ color="black"]
+  node9312 -> node9313 [label=<<font color="black">true</font>> color="black"]
+  node9312 -> node9314 [label=<<font color="black">false</font>> color="black"]
+  node9309 -> node9310 [label=<<font color="black">true</font>> color="black"]
+  node9309 -> node9311 [label=<<font color="black">false</font>> color="black"]
+  node9314 -> node9315 [ color="black"]
+  node9315 -> node9305 [ color="black"]
+  node9310 -> node9311 [ color="black"]
+  node9313 -> node9314 [ color="black"]
+}

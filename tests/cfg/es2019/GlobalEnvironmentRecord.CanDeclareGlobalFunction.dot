@@ -1,0 +1,47 @@
+digraph {
+  node1458 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let ObjRec = envRec.ObjectRecord</td></tr>
+      <tr><td align="left">2:let globalObject = ObjRec.BindingObject</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1462 [shape=cds, label=<<font color="black">app __x1__ = (IsExtensible globalObject)</font>> color="black" fillcolor="white" style=filled]
+  node1465 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1457 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1461 [shape=diamond, label=<<font color="black">(= existingProp undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1456 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1466 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:??? &quot;If IsDataDescriptor ( id:{existingProp} ) is value:{true} and id:{existingProp} has attribute values { [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{true} } , return value:{true} .&quot;</td></tr>
+      <tr><td align="left">7:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1464 [shape=diamond, label=<<font color="black">(= existingProp.Configurable true)</font>> color="black" fillcolor="white" style=filled]
+  node1460 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let existingProp = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1459 [shape=cds, label=<<font color="black">3:app __x0__ = (globalObject.GetOwnProperty globalObject N)</font>> color="black" fillcolor="white" style=filled]
+  node1463 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1464 -> node1465 [label=<<font color="black">true</font>> color="black"]
+  node1464 -> node1466 [label=<<font color="black">false</font>> color="black"]
+  node1466 -> node1457 [ color="black"]
+  node1459 -> node1460 [ color="black"]
+  node1460 -> node1461 [ color="black"]
+  node1465 -> node1466 [ color="black"]
+  node1461 -> node1462 [label=<<font color="black">true</font>> color="black"]
+  node1461 -> node1464 [label=<<font color="black">false</font>> color="black"]
+  node1462 -> node1463 [ color="black"]
+  node1458 -> node1459 [ color="black"]
+  node1456 -> node1458 [ color="black"]
+  node1463 -> node1464 [ color="black"]
+}

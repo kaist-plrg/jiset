@@ -1,0 +1,89 @@
+digraph {
+  node4931 [shape=diamond, label=<<font color="black">(is-completion specifierString)</font>> color="black" fillcolor="white" style=filled]
+  node4928 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let promiseCapability = [! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4925 [shape=cds, label=<<font color="black">2:app __x2__ = (GetValue argRef)</font>> color="black" fillcolor="white" style=filled]
+  node4920 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4930 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let specifierString = __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4938 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:specifierString</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4934 [shape=cds, label=<<font color="black">app __x5__ = (Call promiseCapability.Reject undefined (new [specifierString.Value]))</font>> color="black" fillcolor="white" style=filled]
+  node4926 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let specifier = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4929 [shape=cds, label=<<font color="black">4:app __x4__ = (ToString specifier)</font>> color="black" fillcolor="white" style=filled]
+  node4933 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">specifierString = specifierString.Value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4932 [shape=diamond, label=<<font color="black">(= specifierString.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
+  node4927 [shape=cds, label=<<font color="black">3:app __x3__ = (NewPromiseCapability INTRINSIC_Promise)</font>> color="black" fillcolor="white" style=filled]
+  node4940 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:[! __x6__]</td></tr>
+      <tr><td align="left">7:return promiseCapability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4935 [shape=diamond, label=<<font color="black">(&amp;&amp; (is-completion __x5__) (! (= __x5__.Type CONST_normal)))</font>> color="black" fillcolor="white" style=filled]
+  node4924 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let argRef = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4921 [shape=cds, label=<<font color="black">0:app __x0__ = (GetActiveScriptOrModule )</font>> color="black" fillcolor="white" style=filled]
+  node4919 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4937 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return promiseCapability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4939 [shape=cds, label=<<font color="black">6:app __x6__ = (HostImportModuleDynamically referencingScriptOrModule specifierString promiseCapability)</font>> color="black" fillcolor="white" style=filled]
+  node4922 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let referencingScriptOrModule = [! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4923 [shape=cds, label=<<font color="black">1:access __x1__ = (AssignmentExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4936 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4922 -> node4923 [ color="black"]
+  node4939 -> node4940 [ color="black"]
+  node4937 -> node4938 [ color="black"]
+  node4923 -> node4924 [ color="black"]
+  node4921 -> node4922 [ color="black"]
+  node4936 -> node4937 [ color="black"]
+  node4928 -> node4929 [ color="black"]
+  node4924 -> node4925 [ color="black"]
+  node4931 -> node4932 [label=<<font color="black">true</font>> color="black"]
+  node4931 -> node4938 [label=<<font color="black">false</font>> color="black"]
+  node4927 -> node4928 [ color="black"]
+  node4940 -> node4920 [ color="black"]
+  node4938 -> node4939 [ color="black"]
+  node4934 -> node4935 [ color="black"]
+  node4929 -> node4930 [ color="black"]
+  node4935 -> node4936 [label=<<font color="black">true</font>> color="black"]
+  node4935 -> node4937 [label=<<font color="black">false</font>> color="black"]
+  node4926 -> node4927 [ color="black"]
+  node4919 -> node4921 [ color="black"]
+  node4930 -> node4931 [ color="black"]
+  node4932 -> node4933 [label=<<font color="black">true</font>> color="black"]
+  node4932 -> node4934 [label=<<font color="black">false</font>> color="black"]
+  node4925 -> node4926 [ color="black"]
+  node4933 -> node4938 [ color="black"]
+}

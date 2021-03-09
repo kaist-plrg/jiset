@@ -1,0 +1,27 @@
+digraph {
+  node12490 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12494 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let S = [? __x1__]</td></tr>
+      <tr><td align="left">2:??? &quot;Let id:{cpList} be a List containing in order the code points as defined in link:{unhandled: sec-ecmascript-language-types-string-type} of id:{S} , starting at the first element of id:{S} .&quot;</td></tr>
+      <tr><td align="left">3:??? &quot;For each code point id:{c} in id:{cpList} , if the Unicode Character Database provides a language insensitive lower case equivalent of id:{c} , then replace id:{c} in id:{cpList} with that equivalent code point ( s ) .&quot;</td></tr>
+      <tr><td align="left">4:let cuList = (new [])</td></tr>
+      <tr><td align="left">5:??? &quot;For each code point id:{c} in id:{cpList} , in order , append to id:{cuList} the elements of the UTF16Encoding of id:{c} .&quot;</td></tr>
+      <tr><td align="left">6:??? &quot;Let id:{L} be a String whose elements are , in order , the elements of id:{cuList} .&quot;</td></tr>
+      <tr><td align="left">7:return L</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12489 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12493 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node12492 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12491 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
+  node12492 -> node12493 [ color="black"]
+  node12494 -> node12490 [ color="black"]
+  node12491 -> node12492 [ color="black"]
+  node12493 -> node12494 [ color="black"]
+  node12489 -> node12491 [ color="black"]
+}

@@ -1,0 +1,48 @@
+digraph {
+  node8988 [shape=cds, label=<<font color="black">0:access __x0__ = (FormalParameterList &quot;ExpectedArgumentCount&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8996 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return count</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8992 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node8994 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x1__ = (= __x3__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8995 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node8989 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let count = __x0__</td></tr>
+      <tr><td align="left">1:let __x1__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8993 [shape=cds, label=<<font color="black">access __x3__ = (FormalParameter &quot;HasInitializer&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8986 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8990 [shape=cds, label=<<font color="black">1:access __x2__ = (FormalParameterList &quot;HasInitializer&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8987 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8997 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return (+ count 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8991 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:__x1__ = (= __x2__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8989 -> node8990 [ color="black"]
+  node8991 -> node8992 [ color="black"]
+  node8997 -> node8987 [ color="black"]
+  node8986 -> node8988 [ color="black"]
+  node8996 -> node8997 [ color="black"]
+  node8993 -> node8994 [ color="black"]
+  node8990 -> node8991 [ color="black"]
+  node8995 -> node8996 [label=<<font color="black">true</font>> color="black"]
+  node8995 -> node8997 [label=<<font color="black">false</font>> color="black"]
+  node8992 -> node8995 [label=<<font color="black">true</font>> color="black"]
+  node8992 -> node8993 [label=<<font color="black">false</font>> color="black"]
+  node8994 -> node8995 [ color="black"]
+  node8988 -> node8989 [ color="black"]
+}

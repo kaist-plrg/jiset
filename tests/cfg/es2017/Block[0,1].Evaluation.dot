@@ -1,0 +1,38 @@
+digraph {
+  node5625 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let oldEnv = GLOBAL_context.LexicalEnvironment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5629 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:__x1__</td></tr>
+      <tr><td align="left">3:GLOBAL_context.LexicalEnvironment = blockEnv</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5630 [shape=cds, label=<<font color="black">4:access __x2__ = (StatementList &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5626 [shape=cds, label=<<font color="black">1:app __x0__ = (NewDeclarativeEnvironment oldEnv)</font>> color="black" fillcolor="white" style=filled]
+  node5627 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let blockEnv = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5631 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let blockValue = __x2__</td></tr>
+      <tr><td align="left">5:GLOBAL_context.LexicalEnvironment = oldEnv</td></tr>
+      <tr><td align="left">6:return blockValue</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5624 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5628 [shape=cds, label=<<font color="black">2:app __x1__ = (BlockDeclarationInstantiation StatementList blockEnv)</font>> color="black" fillcolor="white" style=filled]
+  node5623 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5623 -> node5625 [ color="black"]
+  node5630 -> node5631 [ color="black"]
+  node5629 -> node5630 [ color="black"]
+  node5631 -> node5624 [ color="black"]
+  node5628 -> node5629 [ color="black"]
+  node5626 -> node5627 [ color="black"]
+  node5627 -> node5628 [ color="black"]
+  node5625 -> node5626 [ color="black"]
+}

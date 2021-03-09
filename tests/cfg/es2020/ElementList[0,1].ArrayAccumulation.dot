@@ -1,0 +1,46 @@
+digraph {
+  node3877 [shape=cds, label=<<font color="black">3:access __x2__ = (AssignmentExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3871 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3876 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:nextIndex = __x1__</td></tr>
+      <tr><td align="left">2:[? nextIndex]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3881 [shape=cds, label=<<font color="black">5:app __x4__ = (ToString nextIndex)</font>> color="black" fillcolor="white" style=filled]
+  node3872 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3874 [shape=cds, label=<<font color="black">1:access __x0__ = (Elision &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3879 [shape=cds, label=<<font color="black">4:app __x3__ = (GetValue initResult)</font>> color="black" fillcolor="white" style=filled]
+  node3882 [shape=cds, label=<<font color="black">5:app __x5__ = (CreateDataPropertyOrThrow array [! __x4__] initValue)</font>> color="black" fillcolor="white" style=filled]
+  node3875 [shape=cds, label=<<font color="black">1:app __x1__ = (__x0__ array nextIndex)</font>> color="black" fillcolor="white" style=filled]
+  node3873 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
+  node3883 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let created = [! __x5__]</td></tr>
+      <tr><td align="left">6:return (+ nextIndex 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3880 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let initValue = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3878 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let initResult = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3877 -> node3878 [ color="black"]
+  node3883 -> node3872 [ color="black"]
+  node3871 -> node3873 [ color="black"]
+  node3878 -> node3879 [ color="black"]
+  node3882 -> node3883 [ color="black"]
+  node3874 -> node3875 [ color="black"]
+  node3876 -> node3877 [ color="black"]
+  node3880 -> node3881 [ color="black"]
+  node3879 -> node3880 [ color="black"]
+  node3875 -> node3876 [ color="black"]
+  node3873 -> node3874 [label=<<font color="black">true</font>> color="black"]
+  node3873 -> node3877 [label=<<font color="black">false</font>> color="black"]
+  node3881 -> node3882 [ color="black"]
+}

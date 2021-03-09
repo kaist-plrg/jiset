@@ -1,0 +1,39 @@
+digraph {
+  node10854 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node10850 [shape=cds, label=<<font color="black">0:access __x0__ = (ImportedDefaultBinding &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10855 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let __x4__ = __x2__[__x3__]</td></tr>
+      <tr><td align="left">append __x4__ -&gt; names</td></tr>
+      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10848 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10851 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let names = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10852 [shape=cds, label=<<font color="black">1:access __x1__ = (NamedImports &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10856 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return names</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10853 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let __x2__ = __x1__</td></tr>
+      <tr><td align="left">1:let __x3__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10849 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10851 -> node10852 [ color="black"]
+  node10853 -> node10854 [ color="black"]
+  node10855 -> node10854 [ color="black"]
+  node10850 -> node10851 [ color="black"]
+  node10852 -> node10853 [ color="black"]
+  node10854 -> node10855 [label=<<font color="black">true</font>> color="black"]
+  node10854 -> node10856 [label=<<font color="black">false</font>> color="black"]
+  node10856 -> node10849 [ color="black"]
+  node10848 -> node10850 [ color="black"]
+}

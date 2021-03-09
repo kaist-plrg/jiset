@@ -1,0 +1,42 @@
+digraph {
+  node13960 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13965 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:assert (= __x2__ String)</td></tr>
+      <tr><td align="left">4:return s</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13961 [shape=cds, label=<<font color="black">1:app __x1__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node13956 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13964 [shape=cds, label=<<font color="black">3:app __x2__ = (Type s)</font>> color="black" fillcolor="white" style=filled]
+  node13958 [shape=cds, label=<<font color="black">0:app __x0__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node13963 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let s = value.StringData</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13957 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13959 [shape=diamond, label=<<font color="black">(= __x0__ String)</font>> color="black" fillcolor="white" style=filled]
+  node13966 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13962 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x1__ Object) (! (= value.StringData absent)))</font>> color="black" fillcolor="white" style=filled]
+  node13958 -> node13959 [ color="black"]
+  node13965 -> node13966 [ color="black"]
+  node13963 -> node13964 [ color="black"]
+  node13966 -> node13957 [ color="black"]
+  node13956 -> node13958 [ color="black"]
+  node13961 -> node13962 [ color="black"]
+  node13959 -> node13960 [label=<<font color="black">true</font>> color="black"]
+  node13959 -> node13961 [label=<<font color="black">false</font>> color="black"]
+  node13964 -> node13965 [ color="black"]
+  node13962 -> node13963 [label=<<font color="black">true</font>> color="black"]
+  node13962 -> node13966 [label=<<font color="black">false</font>> color="black"]
+  node13960 -> node13961 [ color="black"]
+}

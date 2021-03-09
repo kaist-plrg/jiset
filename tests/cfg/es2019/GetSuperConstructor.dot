@@ -1,0 +1,40 @@
+digraph {
+  node4353 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4347 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment )</font>> color="black" fillcolor="white" style=filled]
+  node4352 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
+  node4354 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return superConstructor</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4350 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let superConstructor = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4345 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4348 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let envRec = __x0__</td></tr>
+      <tr><td align="left">1:assert (= (typeof envRec) &quot;FunctionEnvironmentRecord&quot;)</td></tr>
+      <tr><td align="left">2:let activeFunction = envRec.FunctionObject</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4349 [shape=cds, label=<<font color="black">4:app __x1__ = (activeFunction.GetPrototypeOf activeFunction)</font>> color="black" fillcolor="white" style=filled]
+  node4346 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4351 [shape=cds, label=<<font color="black">5:app __x2__ = (IsConstructor superConstructor)</font>> color="black" fillcolor="white" style=filled]
+  node4354 -> node4346 [ color="black"]
+  node4349 -> node4350 [ color="black"]
+  node4348 -> node4349 [ color="black"]
+  node4350 -> node4351 [ color="black"]
+  node4351 -> node4352 [ color="black"]
+  node4353 -> node4354 [ color="black"]
+  node4347 -> node4348 [ color="black"]
+  node4345 -> node4347 [ color="black"]
+  node4352 -> node4353 [label=<<font color="black">true</font>> color="black"]
+  node4352 -> node4354 [label=<<font color="black">false</font>> color="black"]
+}

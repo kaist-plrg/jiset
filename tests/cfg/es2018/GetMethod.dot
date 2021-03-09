@@ -1,0 +1,47 @@
+digraph {
+  node846 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node841 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node849 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node843 [shape=cds, label=<<font color="black">1:app __x1__ = (GetV V P)</font>> color="black" fillcolor="white" style=filled]
+  node848 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
+  node840 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node847 [shape=cds, label=<<font color="black">3:app __x2__ = (IsCallable func)</font>> color="black" fillcolor="white" style=filled]
+  node842 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node845 [shape=diamond, label=<<font color="black">(|| (= func undefined) (= func null))</font>> color="black" fillcolor="white" style=filled]
+  node844 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let func = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node839 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node850 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return func</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node841 -> node842 [ color="black"]
+  node839 -> node841 [ color="black"]
+  node844 -> node845 [ color="black"]
+  node843 -> node844 [ color="black"]
+  node848 -> node849 [label=<<font color="black">true</font>> color="black"]
+  node848 -> node850 [label=<<font color="black">false</font>> color="black"]
+  node842 -> node843 [ color="black"]
+  node845 -> node846 [label=<<font color="black">true</font>> color="black"]
+  node845 -> node847 [label=<<font color="black">false</font>> color="black"]
+  node850 -> node840 [ color="black"]
+  node849 -> node850 [ color="black"]
+  node846 -> node847 [ color="black"]
+  node847 -> node848 [ color="black"]
+}

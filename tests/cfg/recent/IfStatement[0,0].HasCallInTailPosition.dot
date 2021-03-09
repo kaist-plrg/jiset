@@ -1,0 +1,34 @@
+digraph {
+  node10373 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10382 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10378 [shape=diamond, label=<<font color="black">(= has true)</font>> color="black" fillcolor="white" style=filled]
+  node10374 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10381 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ call)</font>> color="black" fillcolor="white" style=filled]
+  node10377 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let has = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10376 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ call)</font>> color="black" fillcolor="white" style=filled]
+  node10379 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10375 [shape=cds, label=<<font color="black">0:access __x0__ = (Statement0 &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10380 [shape=cds, label=<<font color="black">2:access __x2__ = (Statement1 &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10378 -> node10379 [label=<<font color="black">true</font>> color="black"]
+  node10378 -> node10380 [label=<<font color="black">false</font>> color="black"]
+  node10380 -> node10381 [ color="black"]
+  node10373 -> node10375 [ color="black"]
+  node10377 -> node10378 [ color="black"]
+  node10375 -> node10376 [ color="black"]
+  node10379 -> node10380 [ color="black"]
+  node10376 -> node10377 [ color="black"]
+  node10381 -> node10382 [ color="black"]
+  node10382 -> node10374 [ color="black"]
+}

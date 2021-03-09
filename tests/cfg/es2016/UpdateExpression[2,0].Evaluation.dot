@@ -1,0 +1,33 @@
+digraph {
+  node4187 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue lhs)</font>> color="black" fillcolor="white" style=filled]
+  node4191 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:[? __x3__]</td></tr>
+      <tr><td align="left">4:return oldValue</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4184 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4186 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lhs = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4190 [shape=cds, label=<<font color="black">3:app __x3__ = (PutValue lhs newValue)</font>> color="black" fillcolor="white" style=filled]
+  node4185 [shape=cds, label=<<font color="black">0:access __x0__ = (LeftHandSideExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4189 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let oldValue = [? __x2__]</td></tr>
+      <tr><td align="left">2:let newValue = (- oldValue ??? &quot;1&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4188 [shape=cds, label=<<font color="black">1:app __x2__ = (ToNumber [? __x1__])</font>> color="black" fillcolor="white" style=filled]
+  node4183 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4185 -> node4186 [ color="black"]
+  node4190 -> node4191 [ color="black"]
+  node4188 -> node4189 [ color="black"]
+  node4187 -> node4188 [ color="black"]
+  node4183 -> node4185 [ color="black"]
+  node4186 -> node4187 [ color="black"]
+  node4191 -> node4184 [ color="black"]
+  node4189 -> node4190 [ color="black"]
+}

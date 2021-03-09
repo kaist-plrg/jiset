@@ -1,0 +1,29 @@
+digraph {
+  node1640 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1636 [shape=diamond, label=<<font color="black">(= envRec.ThisBindingStatus CONST_lexical)</font>> color="black" fillcolor="white" style=filled]
+  node1634 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1637 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1639 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1635 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1638 [shape=diamond, label=<<font color="black">(= envRec.FunctionObject.HomeObject undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1638 -> node1639 [label=<<font color="black">true</font>> color="black"]
+  node1638 -> node1640 [label=<<font color="black">false</font>> color="black"]
+  node1637 -> node1638 [ color="black"]
+  node1639 -> node1635 [ color="black"]
+  node1636 -> node1637 [label=<<font color="black">true</font>> color="black"]
+  node1636 -> node1638 [label=<<font color="black">false</font>> color="black"]
+  node1640 -> node1635 [ color="black"]
+  node1634 -> node1636 [ color="black"]
+}

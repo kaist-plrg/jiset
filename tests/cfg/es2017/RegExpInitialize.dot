@@ -1,0 +1,100 @@
+digraph {
+  node13346 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let BMP = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13335 [shape=diamond, label=<<font color="black">(= pattern undefined)</font>> color="black" fillcolor="white" style=filled]
+  node13340 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let F = &quot;&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13338 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let P = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13342 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let F = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13349 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:??? &quot;Parse id:{P} using the grammars in link:{unhandled: sec-patterns} and interpreting id:{P} as UTF - 16 encoded Unicode code points ( link:{unhandled: sec-ecmascript-language-types-string-type} ) . The goal symbol for the parse is nt:{Pattern[+U]} . Throw a value:{SyntaxError} exception if id:{P} did not conform to the grammar , if any elements of id:{P} were not matched by the parse , or if any Early Error conditions exist .&quot;</td></tr>
+      <tr><td align="left">11:??? &quot;Let id:{patternCharacters} be a List whose elements are the code points resulting from applying UTF - 16 decoding to id:{P} ' s sequence of elements .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13351 [shape=cds, label=<<font color="black">15:app __x2__ = (Set obj &quot;lastIndex&quot; 0i true)</font>> color="black" fillcolor="white" style=filled]
+  node13341 [shape=cds, label=<<font color="black">app __x1__ = (ToString flags)</font>> color="black" fillcolor="white" style=filled]
+  node13350 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:obj.OriginalSource = P</td></tr>
+      <tr><td align="left">13:obj.OriginalFlags = F</td></tr>
+      <tr><td align="left">14:??? &quot;Set id:{obj} . [ [ RegExpMatcher ] ] to the internal procedure that evaluates the above parse of id:{P} by applying the semantics provided in link:{unhandled: sec-pattern-semantics} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13332 [shape=cds, label=<<font color="black">app obj = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node13352 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:[? __x2__]</td></tr>
+      <tr><td align="left">16:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13337 [shape=cds, label=<<font color="black">app __x0__ = (ToString pattern)</font>> color="black" fillcolor="white" style=filled]
+  node13347 [shape=diamond, label=<<font color="black">(= BMP true)</font>> color="black" fillcolor="white" style=filled]
+  node13344 [shape=diamond, label=<<font color="black">(contains F &quot;u&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node13331 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13336 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let P = &quot;&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13343 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:??? &quot;If id:{F} contains any code unit other than code:{\&quot;g\&quot;} , code:{\&quot;i\&quot;} , code:{\&quot;m\&quot;} , code:{\&quot;u\&quot;} , or code:{\&quot;y\&quot;} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13334 [shape=cds, label=<<font color="black">app flags = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node13348 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:??? &quot;Parse id:{P} using the grammars in link:{unhandled: sec-patterns} and interpreting each of its 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements . The goal symbol for the parse is nt:{Pattern[~U]} . Throw a value:{SyntaxError} exception if id:{P} did not conform to the grammar , if any elements of id:{P} were not matched by the parse , or if any Early Error conditions exist .&quot;</td></tr>
+      <tr><td align="left">8:??? &quot;Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13339 [shape=diamond, label=<<font color="black">(= flags undefined)</font>> color="black" fillcolor="white" style=filled]
+  node13330 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13345 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let BMP = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13333 [shape=cds, label=<<font color="black">app pattern = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node13342 -> node13343 [ color="black"]
+  node13340 -> node13343 [ color="black"]
+  node13349 -> node13350 [ color="black"]
+  node13332 -> node13333 [ color="black"]
+  node13335 -> node13336 [label=<<font color="black">true</font>> color="black"]
+  node13335 -> node13337 [label=<<font color="black">false</font>> color="black"]
+  node13334 -> node13335 [ color="black"]
+  node13338 -> node13339 [ color="black"]
+  node13333 -> node13334 [ color="black"]
+  node13346 -> node13347 [ color="black"]
+  node13343 -> node13344 [ color="black"]
+  node13339 -> node13340 [label=<<font color="black">true</font>> color="black"]
+  node13339 -> node13341 [label=<<font color="black">false</font>> color="black"]
+  node13350 -> node13351 [ color="black"]
+  node13344 -> node13345 [label=<<font color="black">true</font>> color="black"]
+  node13344 -> node13346 [label=<<font color="black">false</font>> color="black"]
+  node13345 -> node13347 [ color="black"]
+  node13341 -> node13342 [ color="black"]
+  node13352 -> node13331 [ color="black"]
+  node13337 -> node13338 [ color="black"]
+  node13348 -> node13350 [ color="black"]
+  node13347 -> node13348 [label=<<font color="black">true</font>> color="black"]
+  node13347 -> node13349 [label=<<font color="black">false</font>> color="black"]
+  node13351 -> node13352 [ color="black"]
+  node13330 -> node13332 [ color="black"]
+  node13336 -> node13339 [ color="black"]
+}

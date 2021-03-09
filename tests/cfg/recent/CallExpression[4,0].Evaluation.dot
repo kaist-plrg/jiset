@@ -1,0 +1,44 @@
+digraph {
+  node4546 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4551 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node4553 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4545 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4550 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let baseValue = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4554 [shape=cds, label=<<font color="black">3:app __x2__ = (EvaluatePropertyAccessWithExpressionKey baseValue Expression strict)</font>> color="black" fillcolor="white" style=filled]
+  node4549 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node4548 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let baseReference = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4555 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4547 [shape=cds, label=<<font color="black">0:access __x0__ = (CallExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4552 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4550 -> node4551 [ color="black"]
+  node4548 -> node4549 [ color="black"]
+  node4555 -> node4546 [ color="black"]
+  node4553 -> node4554 [ color="black"]
+  node4547 -> node4548 [ color="black"]
+  node4554 -> node4555 [ color="black"]
+  node4551 -> node4552 [label=<<font color="black">true</font>> color="black"]
+  node4551 -> node4553 [label=<<font color="black">false</font>> color="black"]
+  node4549 -> node4550 [ color="black"]
+  node4552 -> node4554 [ color="black"]
+  node4545 -> node4547 [ color="black"]
+}

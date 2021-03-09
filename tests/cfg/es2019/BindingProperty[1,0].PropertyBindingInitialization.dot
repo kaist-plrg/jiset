@@ -1,0 +1,25 @@
+digraph {
+  node6278 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let P = __x0__</td></tr>
+      <tr><td align="left">1:[? P]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6275 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6279 [shape=cds, label=<<font color="black">2:access __x1__ = (BindingElement &quot;KeyedBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6281 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:[? __x2__]</td></tr>
+      <tr><td align="left">3:return (new [P])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6276 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6280 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ value environment P)</font>> color="black" fillcolor="white" style=filled]
+  node6277 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyName &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6277 -> node6278 [ color="black"]
+  node6275 -> node6277 [ color="black"]
+  node6280 -> node6281 [ color="black"]
+  node6279 -> node6280 [ color="black"]
+  node6278 -> node6279 [ color="black"]
+  node6281 -> node6276 [ color="black"]
+}

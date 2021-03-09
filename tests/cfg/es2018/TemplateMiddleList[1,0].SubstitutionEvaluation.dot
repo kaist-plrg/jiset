@@ -1,0 +1,32 @@
+digraph {
+  node3895 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3898 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let preceding = __x0__</td></tr>
+      <tr><td align="left">1:[? preceding]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3902 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let next = [? __x2__]</td></tr>
+      <tr><td align="left">4:append next -&gt; preceding</td></tr>
+      <tr><td align="left">5:return preceding</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3899 [shape=cds, label=<<font color="black">2:access __x1__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3900 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let nextRef = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3896 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3897 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateMiddleList &quot;SubstitutionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3901 [shape=cds, label=<<font color="black">3:app __x2__ = (GetValue nextRef)</font>> color="black" fillcolor="white" style=filled]
+  node3901 -> node3902 [ color="black"]
+  node3895 -> node3897 [ color="black"]
+  node3899 -> node3900 [ color="black"]
+  node3897 -> node3898 [ color="black"]
+  node3902 -> node3896 [ color="black"]
+  node3900 -> node3901 [ color="black"]
+  node3898 -> node3899 [ color="black"]
+}

@@ -1,0 +1,38 @@
+digraph {
+  node18504 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:promiseCapability.Resolve = resolve</td></tr>
+      <tr><td align="left">6:promiseCapability.Reject = reject</td></tr>
+      <tr><td align="left">7:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18499 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let F = GLOBAL_context.Function</td></tr>
+      <tr><td align="left">2:let promiseCapability = F.Capability</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18498 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18503 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18497 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18502 [shape=diamond, label=<<font color="black">(! (= promiseCapability.Reject undefined))</font>> color="black" fillcolor="white" style=filled]
+  node18501 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18500 [shape=diamond, label=<<font color="black">(! (= promiseCapability.Resolve undefined))</font>> color="black" fillcolor="white" style=filled]
+  node18503 -> node18504 [ color="black"]
+  node18504 -> node18498 [ color="black"]
+  node18502 -> node18503 [label=<<font color="black">true</font>> color="black"]
+  node18502 -> node18504 [label=<<font color="black">false</font>> color="black"]
+  node18500 -> node18501 [label=<<font color="black">true</font>> color="black"]
+  node18500 -> node18502 [label=<<font color="black">false</font>> color="black"]
+  node18501 -> node18502 [ color="black"]
+  node18497 -> node18499 [ color="black"]
+  node18499 -> node18500 [ color="black"]
+}

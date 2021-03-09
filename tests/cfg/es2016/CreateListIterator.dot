@@ -1,0 +1,26 @@
+digraph {
+  node1031 [shape=cds, label=<<font color="black">0:app __x0__ = (ObjectCreate INTRINSIC_IteratorPrototype (new [&quot;IteratorNext&quot;, &quot;IteratedList&quot;, &quot;ListIteratorNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node1032 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let iterator = __x0__</td></tr>
+      <tr><td align="left">1:iterator.IteratedList = list</td></tr>
+      <tr><td align="left">2:iterator.ListIteratorNextIndex = 0i</td></tr>
+      <tr><td align="left">3:let next = (new BuiltinFunctionObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">4:iterator.IteratorNext = next</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1029 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1034 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:__x1__</td></tr>
+      <tr><td align="left">6:return iterator</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1030 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1033 [shape=cds, label=<<font color="black">5:app __x1__ = (CreateMethodProperty iterator &quot;next&quot; next)</font>> color="black" fillcolor="white" style=filled]
+  node1033 -> node1034 [ color="black"]
+  node1029 -> node1031 [ color="black"]
+  node1034 -> node1030 [ color="black"]
+  node1032 -> node1033 [ color="black"]
+  node1031 -> node1032 [ color="black"]
+}

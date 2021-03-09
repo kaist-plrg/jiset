@@ -1,0 +1,40 @@
+digraph {
+  node16972 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let func = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16976 [shape=cds, label=<<font color="black">3:app __x3__ = (Call func array)</font>> color="black" fillcolor="white" style=filled]
+  node16973 [shape=cds, label=<<font color="black">2:app __x2__ = (IsCallable func)</font>> color="black" fillcolor="white" style=filled]
+  node16968 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16969 [shape=cds, label=<<font color="black">0:app __x0__ = (ToObject this)</font>> color="black" fillcolor="white" style=filled]
+  node16977 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16967 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16970 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let array = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16974 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
+  node16975 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">func = INTRINSIC_Object_prototype_toString</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16971 [shape=cds, label=<<font color="black">1:app __x1__ = (Get array &quot;join&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16976 -> node16977 [ color="black"]
+  node16972 -> node16973 [ color="black"]
+  node16974 -> node16975 [label=<<font color="black">true</font>> color="black"]
+  node16974 -> node16976 [label=<<font color="black">false</font>> color="black"]
+  node16973 -> node16974 [ color="black"]
+  node16977 -> node16968 [ color="black"]
+  node16971 -> node16972 [ color="black"]
+  node16967 -> node16969 [ color="black"]
+  node16970 -> node16971 [ color="black"]
+  node16969 -> node16970 [ color="black"]
+  node16975 -> node16976 [ color="black"]
+}

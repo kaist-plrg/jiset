@@ -1,0 +1,30 @@
+digraph {
+  node11404 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let num = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11400 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11403 [shape=cds, label=<<font color="black">0:app __x0__ = (ToNumber number)</font>> color="black" fillcolor="white" style=filled]
+  node11407 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11406 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11402 [shape=cds, label=<<font color="black">app number = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11405 [shape=diamond, label=<<font color="black">(= num NaN)</font>> color="black" fillcolor="white" style=filled]
+  node11401 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11402 -> node11403 [ color="black"]
+  node11407 -> node11401 [ color="black"]
+  node11405 -> node11406 [label=<<font color="black">true</font>> color="black"]
+  node11405 -> node11407 [label=<<font color="black">false</font>> color="black"]
+  node11406 -> node11401 [ color="black"]
+  node11400 -> node11402 [ color="black"]
+  node11404 -> node11405 [ color="black"]
+  node11403 -> node11404 [ color="black"]
+}

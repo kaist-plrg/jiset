@@ -1,0 +1,29 @@
+digraph {
+  node2377 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= __x0__ Number)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2376 [shape=cds, label=<<font color="black">1:app __x0__ = (Type length)</font>> color="black" fillcolor="white" style=filled]
+  node2378 [shape=cds, label=<<font color="black">2:app __x1__ = (IsNonNegativeInteger length)</font>> color="black" fillcolor="white" style=filled]
+  node2375 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2379 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (= [! __x1__] true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2374 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2381 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2380 [shape=cds, label=<<font color="black">3:app __x2__ = (DefinePropertyOrThrow F &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; length, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node2378 -> node2379 [ color="black"]
+  node2380 -> node2381 [ color="black"]
+  node2381 -> node2375 [ color="black"]
+  node2377 -> node2378 [ color="black"]
+  node2374 -> node2376 [ color="black"]
+  node2379 -> node2380 [ color="black"]
+  node2376 -> node2377 [ color="black"]
+}

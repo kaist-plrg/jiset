@@ -1,0 +1,42 @@
+digraph {
+  node1401 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (|| (= __x0__ Undefined) (= __x0__ Object))</td></tr>
+      <tr><td align="left">2:let env = (new LexicalEnvironment(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">3:let envRec = (new FunctionEnvironmentRecord(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">4:envRec.FunctionObject = F</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1398 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1405 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let home = F.HomeObject</td></tr>
+      <tr><td align="left">8:envRec.HomeObject = home</td></tr>
+      <tr><td align="left">9:envRec.NewTarget = newTarget</td></tr>
+      <tr><td align="left">10:env.EnvironmentRecord = envRec</td></tr>
+      <tr><td align="left">11:env.Outer = F.Environment</td></tr>
+      <tr><td align="left">12:return env</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1402 [shape=diamond, label=<<font color="black">(= F.ThisMode CONST_lexical)</font>> color="black" fillcolor="white" style=filled]
+  node1403 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">envRec.ThisBindingStatus = &quot;lexical&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1400 [shape=cds, label=<<font color="black">1:app __x0__ = (Type newTarget)</font>> color="black" fillcolor="white" style=filled]
+  node1404 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">envRec.ThisBindingStatus = &quot;uninitialized&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1399 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1401 -> node1402 [ color="black"]
+  node1404 -> node1405 [ color="black"]
+  node1403 -> node1405 [ color="black"]
+  node1402 -> node1403 [label=<<font color="black">true</font>> color="black"]
+  node1402 -> node1404 [label=<<font color="black">false</font>> color="black"]
+  node1398 -> node1400 [ color="black"]
+  node1400 -> node1401 [ color="black"]
+  node1405 -> node1399 [ color="black"]
+}

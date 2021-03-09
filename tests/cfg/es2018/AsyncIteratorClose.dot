@@ -1,0 +1,86 @@
+digraph {
+  node1191 [shape=cds, label=<<font color="black">9:app __x4__ = (Type innerResult.Value)</font>> color="black" fillcolor="white" style=filled]
+  node1183 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let innerResult = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1174 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1178 [shape=cds, label=<<font color="black">3:app __x1__ = (GetMethod iterator &quot;return&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node1182 [shape=cds, label=<<font color="black">5:app __x2__ = (Call return iterator (new []))</font>> color="black" fillcolor="white" style=filled]
+  node1192 [shape=diamond, label=<<font color="black">(! (= __x4__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node1177 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+      <tr><td align="left">1:assert (is-completion completion)</td></tr>
+      <tr><td align="left">2:let iterator = iteratorRecord.Iterator</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1176 [shape=cds, label=<<font color="black">0:app __x0__ = (Type iteratorRecord.Iterator)</font>> color="black" fillcolor="white" style=filled]
+  node1181 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return completion</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1193 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1184 [shape=diamond, label=<<font color="black">(= innerResult.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
+  node1190 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return innerResult</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1179 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let return = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1187 [shape=diamond, label=<<font color="black">(= completion.Type CONST_throw)</font>> color="black" fillcolor="white" style=filled]
+  node1185 [shape=cds, label=<<font color="black">app __x3__ = (Await innerResult.Value)</font>> color="black" fillcolor="white" style=filled]
+  node1194 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return completion</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1175 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1188 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return completion</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1186 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">innerResult = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1180 [shape=diamond, label=<<font color="black">(= return undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1189 [shape=diamond, label=<<font color="black">(= innerResult.Type CONST_throw)</font>> color="black" fillcolor="white" style=filled]
+  node1188 -> node1189 [ color="black"]
+  node1182 -> node1183 [ color="black"]
+  node1190 -> node1191 [ color="black"]
+  node1178 -> node1179 [ color="black"]
+  node1189 -> node1190 [label=<<font color="black">true</font>> color="black"]
+  node1189 -> node1191 [label=<<font color="black">false</font>> color="black"]
+  node1186 -> node1187 [ color="black"]
+  node1181 -> node1182 [ color="black"]
+  node1187 -> node1188 [label=<<font color="black">true</font>> color="black"]
+  node1187 -> node1189 [label=<<font color="black">false</font>> color="black"]
+  node1192 -> node1193 [label=<<font color="black">true</font>> color="black"]
+  node1192 -> node1194 [label=<<font color="black">false</font>> color="black"]
+  node1194 -> node1175 [ color="black"]
+  node1180 -> node1181 [label=<<font color="black">true</font>> color="black"]
+  node1180 -> node1182 [label=<<font color="black">false</font>> color="black"]
+  node1184 -> node1185 [label=<<font color="black">true</font>> color="black"]
+  node1184 -> node1187 [label=<<font color="black">false</font>> color="black"]
+  node1183 -> node1184 [ color="black"]
+  node1191 -> node1192 [ color="black"]
+  node1174 -> node1176 [ color="black"]
+  node1193 -> node1194 [ color="black"]
+  node1185 -> node1186 [ color="black"]
+  node1179 -> node1180 [ color="black"]
+  node1177 -> node1178 [ color="black"]
+  node1176 -> node1177 [ color="black"]
+}

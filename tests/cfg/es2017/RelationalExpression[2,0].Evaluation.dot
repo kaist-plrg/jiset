@@ -1,0 +1,61 @@
+digraph {
+  node4603 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue lref)</font>> color="black" fillcolor="white" style=filled]
+  node4600 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4604 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lval = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4609 [shape=cds, label=<<font color="black">4:app __x4__ = (AbstractRelationalComparison rval lval false)</font>> color="black" fillcolor="white" style=filled]
+  node4608 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let rval = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4601 [shape=cds, label=<<font color="black">0:access __x0__ = (RelationalExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4611 [shape=diamond, label=<<font color="black">(= r undefined)</font>> color="black" fillcolor="white" style=filled]
+  node4606 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let rref = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4602 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lref = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4607 [shape=cds, label=<<font color="black">3:app __x3__ = (GetValue rref)</font>> color="black" fillcolor="white" style=filled]
+  node4610 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let r = __x4__</td></tr>
+      <tr><td align="left">5:[? r]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4613 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return r</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4599 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4605 [shape=cds, label=<<font color="black">2:access __x2__ = (ShiftExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4612 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4601 -> node4602 [ color="black"]
+  node4613 -> node4600 [ color="black"]
+  node4608 -> node4609 [ color="black"]
+  node4609 -> node4610 [ color="black"]
+  node4610 -> node4611 [ color="black"]
+  node4605 -> node4606 [ color="black"]
+  node4603 -> node4604 [ color="black"]
+  node4612 -> node4600 [ color="black"]
+  node4604 -> node4605 [ color="black"]
+  node4599 -> node4601 [ color="black"]
+  node4602 -> node4603 [ color="black"]
+  node4607 -> node4608 [ color="black"]
+  node4606 -> node4607 [ color="black"]
+  node4611 -> node4612 [label=<<font color="black">true</font>> color="black"]
+  node4611 -> node4613 [label=<<font color="black">false</font>> color="black"]
+}

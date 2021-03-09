@@ -1,0 +1,30 @@
+digraph {
+  node12046 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12051 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return NaN</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12052 [shape=cds, label=<<font color="black">2:app __x1__ = (SecFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node12053 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12049 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let t = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12048 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node12050 [shape=diamond, label=<<font color="black">(= t NaN)</font>> color="black" fillcolor="white" style=filled]
+  node12047 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12046 -> node12048 [ color="black"]
+  node12052 -> node12053 [ color="black"]
+  node12049 -> node12050 [ color="black"]
+  node12051 -> node12052 [ color="black"]
+  node12050 -> node12051 [label=<<font color="black">true</font>> color="black"]
+  node12050 -> node12052 [label=<<font color="black">false</font>> color="black"]
+  node12053 -> node12047 [ color="black"]
+  node12048 -> node12049 [ color="black"]
+}

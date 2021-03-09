@@ -1,0 +1,24 @@
+digraph {
+  node18786 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18789 [shape=cds, label=<<font color="black">2:app __x1__ = (Get asyncIterator &quot;next&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18787 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryObjectCreate INTRINSIC_AsyncFromSyncIteratorPrototype (new [&quot;SyncIteratorRecord&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node18790 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let nextMethod = [! __x1__]</td></tr>
+      <tr><td align="left">3:let iteratorRecord = (new Record(&quot;Iterator&quot; -&gt; asyncIterator, &quot;NextMethod&quot; -&gt; nextMethod, &quot;Done&quot; -&gt; false))</td></tr>
+      <tr><td align="left">4:return iteratorRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18788 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let asyncIterator = [! __x0__]</td></tr>
+      <tr><td align="left">1:asyncIterator.SyncIteratorRecord = syncIteratorRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18785 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18788 -> node18789 [ color="black"]
+  node18785 -> node18787 [ color="black"]
+  node18787 -> node18788 [ color="black"]
+  node18790 -> node18786 [ color="black"]
+  node18789 -> node18790 [ color="black"]
+}

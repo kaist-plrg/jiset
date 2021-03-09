@@ -1,0 +1,22 @@
+digraph {
+  node20142 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node20147 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node20144 [shape=cds, label=<<font color="black">0:access __x0__ = (LeftHandSideExpression &quot;AssignmentTargetType&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node20146 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node20145 [shape=diamond, label=<<font color="black">(! (= __x0__ CONST_simple))</font>> color="black" fillcolor="white" style=filled]
+  node20143 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node20146 -> node20143 [ color="black"]
+  node20144 -> node20145 [ color="black"]
+  node20142 -> node20144 [ color="black"]
+  node20147 -> node20143 [ color="black"]
+  node20145 -> node20146 [label=<<font color="black">true</font>> color="black"]
+  node20145 -> node20147 [label=<<font color="black">false</font>> color="black"]
+}

@@ -1,0 +1,38 @@
+digraph {
+  node3317 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let __x0__ = true</td></tr>
+      <tr><td align="left">0:__x0__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3322 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return CONST_strict</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3318 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node3321 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node3319 [shape=cds, label=<<font color="black">access __x1__ = (Identifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3315 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3320 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x0__ = (|| (= __x1__ &quot;eval&quot;) (= __x1__ &quot;arguments&quot;))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3323 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return CONST_simple</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3316 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3320 -> node3321 [ color="black"]
+  node3321 -> node3322 [label=<<font color="black">true</font>> color="black"]
+  node3321 -> node3323 [label=<<font color="black">false</font>> color="black"]
+  node3319 -> node3320 [ color="black"]
+  node3318 -> node3319 [label=<<font color="black">true</font>> color="black"]
+  node3318 -> node3321 [label=<<font color="black">false</font>> color="black"]
+  node3322 -> node3323 [ color="black"]
+  node3323 -> node3316 [ color="black"]
+  node3315 -> node3317 [ color="black"]
+  node3317 -> node3318 [ color="black"]
+}

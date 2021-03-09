@@ -1,0 +1,29 @@
+digraph {
+  node2024 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let current = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2027 [shape=cds, label=<<font color="black">2:app __x2__ = (ValidateAndApplyPropertyDescriptor O P extensible Desc current)</font>> color="black" fillcolor="white" style=filled]
+  node2023 [shape=cds, label=<<font color="black">0:app __x0__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node2028 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2025 [shape=cds, label=<<font color="black">1:app __x1__ = (IsExtensible O)</font>> color="black" fillcolor="white" style=filled]
+  node2022 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2026 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let extensible = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2021 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2027 -> node2028 [ color="black"]
+  node2025 -> node2026 [ color="black"]
+  node2026 -> node2027 [ color="black"]
+  node2028 -> node2022 [ color="black"]
+  node2023 -> node2024 [ color="black"]
+  node2024 -> node2025 [ color="black"]
+  node2021 -> node2023 [ color="black"]
+}

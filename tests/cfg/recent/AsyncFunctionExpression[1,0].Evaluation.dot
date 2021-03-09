@@ -1,0 +1,63 @@
+digraph {
+  node10166 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:[! __x6__]</td></tr>
+      <tr><td align="left">8:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10153 [shape=cds, label=<<font color="black">0:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10157 [shape=cds, label=<<font color="black">2:access __x2__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10165 [shape=cds, label=<<font color="black">7:app __x6__ = (funcEnv.InitializeBinding funcEnv name closure)</font>> color="black" fillcolor="white" style=filled]
+  node10163 [shape=cds, label=<<font color="black">6:app __x5__ = (SetFunctionName closure name)</font>> color="black" fillcolor="white" style=filled]
+  node10158 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let name = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10155 [shape=cds, label=<<font color="black">1:app __x1__ = (NewDeclarativeEnvironment scope)</font>> color="black" fillcolor="white" style=filled]
+  node10151 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10159 [shape=cds, label=<<font color="black">3:app __x3__ = (funcEnv.CreateImmutableBinding funcEnv name false)</font>> color="black" fillcolor="white" style=filled]
+  node10160 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:[! __x3__]</td></tr>
+      <tr><td align="left">4:let sourceText = (get-syntax AsyncFunctionExpression)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10156 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let funcEnv = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10161 [shape=cds, label=<<font color="black">5:app __x4__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype sourceText FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis funcEnv)</font>> color="black" fillcolor="white" style=filled]
+  node10154 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let scope = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10152 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10162 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let closure = [! __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10164 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:[! __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10160 -> node10161 [ color="black"]
+  node10159 -> node10160 [ color="black"]
+  node10161 -> node10162 [ color="black"]
+  node10151 -> node10153 [ color="black"]
+  node10166 -> node10152 [ color="black"]
+  node10158 -> node10159 [ color="black"]
+  node10165 -> node10166 [ color="black"]
+  node10164 -> node10165 [ color="black"]
+  node10155 -> node10156 [ color="black"]
+  node10157 -> node10158 [ color="black"]
+  node10162 -> node10163 [ color="black"]
+  node10154 -> node10155 [ color="black"]
+  node10153 -> node10154 [ color="black"]
+  node10163 -> node10164 [ color="black"]
+  node10156 -> node10157 [ color="black"]
+}

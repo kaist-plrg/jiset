@@ -1,0 +1,101 @@
+digraph {
+  node69 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node56 [shape=diamond, label=<<font color="black">(= x y)</font>> color="black" fillcolor="white" style=filled]
+  node52 [shape=diamond, label=<<font color="black">(= x NaN)</font>> color="black" fillcolor="white" style=filled]
+  node57 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node61 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node60 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x -0.0) (= y 0i))</font>> color="black" fillcolor="white" style=filled]
+  node70 [shape=diamond, label=<<font color="black">(&lt; x y)</font>> color="black" fillcolor="white" style=filled]
+  node65 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node53 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node64 [shape=diamond, label=<<font color="black">(= y Infinity)</font>> color="black" fillcolor="white" style=filled]
+  node59 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node66 [shape=diamond, label=<<font color="black">(= y -Infinity)</font>> color="black" fillcolor="white" style=filled]
+  node63 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node72 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node55 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node58 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x 0i) (= y -0.0))</font>> color="black" fillcolor="white" style=filled]
+  node51 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node71 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node54 [shape=diamond, label=<<font color="black">(= y NaN)</font>> color="black" fillcolor="white" style=filled]
+  node50 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node67 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node68 [shape=diamond, label=<<font color="black">(= x -Infinity)</font>> color="black" fillcolor="white" style=filled]
+  node62 [shape=diamond, label=<<font color="black">(= x Infinity)</font>> color="black" fillcolor="white" style=filled]
+  node61 -> node62 [ color="black"]
+  node67 -> node68 [ color="black"]
+  node70 -> node71 [label=<<font color="black">true</font>> color="black"]
+  node70 -> node72 [label=<<font color="black">false</font>> color="black"]
+  node54 -> node55 [label=<<font color="black">true</font>> color="black"]
+  node54 -> node56 [label=<<font color="black">false</font>> color="black"]
+  node55 -> node56 [ color="black"]
+  node66 -> node67 [label=<<font color="black">true</font>> color="black"]
+  node66 -> node68 [label=<<font color="black">false</font>> color="black"]
+  node64 -> node65 [label=<<font color="black">true</font>> color="black"]
+  node64 -> node66 [label=<<font color="black">false</font>> color="black"]
+  node72 -> node51 [ color="black"]
+  node71 -> node51 [ color="black"]
+  node50 -> node52 [ color="black"]
+  node59 -> node60 [ color="black"]
+  node56 -> node57 [label=<<font color="black">true</font>> color="black"]
+  node56 -> node58 [label=<<font color="black">false</font>> color="black"]
+  node69 -> node70 [ color="black"]
+  node65 -> node66 [ color="black"]
+  node53 -> node54 [ color="black"]
+  node58 -> node59 [label=<<font color="black">true</font>> color="black"]
+  node58 -> node60 [label=<<font color="black">false</font>> color="black"]
+  node63 -> node64 [ color="black"]
+  node52 -> node53 [label=<<font color="black">true</font>> color="black"]
+  node52 -> node54 [label=<<font color="black">false</font>> color="black"]
+  node68 -> node69 [label=<<font color="black">true</font>> color="black"]
+  node68 -> node70 [label=<<font color="black">false</font>> color="black"]
+  node60 -> node61 [label=<<font color="black">true</font>> color="black"]
+  node60 -> node62 [label=<<font color="black">false</font>> color="black"]
+  node57 -> node58 [ color="black"]
+  node62 -> node63 [label=<<font color="black">true</font>> color="black"]
+  node62 -> node64 [label=<<font color="black">false</font>> color="black"]
+}

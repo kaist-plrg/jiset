@@ -1,0 +1,66 @@
+digraph {
+  node1867 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:??? &quot;Let id:{F} be a newly created ECMAScript function object with the internal slots listed in link:{unhandled: table-27} . All of those internal slots are initialized to value:{undefined} .&quot;</td></tr>
+      <tr><td align="left">7:F.Call = ECMAScriptFunctionObjectDOTCall</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1860 [shape=cds, label=<<font color="black">0:app __x0__ = (Type functionPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node1865 [shape=diamond, label=<<font color="black">(= functionKind &quot;non-constructor&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node1862 [shape=diamond, label=<<font color="black">(= functionKind &quot;normal&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node1869 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:F.Construct = ECMAScriptFunctionObjectDOTConstruct</td></tr>
+      <tr><td align="left">10:F.ConstructorKind = &quot;base&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1866 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">functionKind = &quot;normal&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1861 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+      <tr><td align="left">1:assert (|| (|| (|| (= functionKind &quot;normal&quot;) (= functionKind &quot;non-constructor&quot;)) (= functionKind &quot;generator&quot;)) (= functionKind &quot;async&quot;))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1859 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1870 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:F.Strict = strict</td></tr>
+      <tr><td align="left">12:F.FunctionKind = functionKind</td></tr>
+      <tr><td align="left">13:F.Prototype = functionPrototype</td></tr>
+      <tr><td align="left">14:F.Extensible = true</td></tr>
+      <tr><td align="left">15:F.Realm = REALM</td></tr>
+      <tr><td align="left">16:return F</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1858 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1864 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let needsConstruct = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1863 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let needsConstruct = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1868 [shape=diamond, label=<<font color="black">(= needsConstruct true)</font>> color="black" fillcolor="white" style=filled]
+  node1861 -> node1862 [ color="black"]
+  node1870 -> node1859 [ color="black"]
+  node1869 -> node1870 [ color="black"]
+  node1867 -> node1868 [ color="black"]
+  node1864 -> node1865 [ color="black"]
+  node1858 -> node1860 [ color="black"]
+  node1863 -> node1865 [ color="black"]
+  node1862 -> node1863 [label=<<font color="black">true</font>> color="black"]
+  node1862 -> node1864 [label=<<font color="black">false</font>> color="black"]
+  node1868 -> node1869 [label=<<font color="black">true</font>> color="black"]
+  node1868 -> node1870 [label=<<font color="black">false</font>> color="black"]
+  node1860 -> node1861 [ color="black"]
+  node1865 -> node1866 [label=<<font color="black">true</font>> color="black"]
+  node1865 -> node1867 [label=<<font color="black">false</font>> color="black"]
+  node1866 -> node1867 [ color="black"]
+}

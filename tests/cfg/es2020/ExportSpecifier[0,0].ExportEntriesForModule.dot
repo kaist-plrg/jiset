@@ -1,0 +1,36 @@
+digraph {
+  node11866 [shape=diamond, label=<<font color="black">(= module null)</font>> color="black" fillcolor="white" style=filled]
+  node11863 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11865 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let sourceName = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11869 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return (new [(new ExportEntryRecord(&quot;ModuleRequest&quot; -&gt; module, &quot;ImportName&quot; -&gt; importName, &quot;LocalName&quot; -&gt; localName, &quot;ExportName&quot; -&gt; sourceName))])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11868 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let localName = null</td></tr>
+      <tr><td align="left">6:let importName = sourceName</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11867 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let localName = sourceName</td></tr>
+      <tr><td align="left">3:let importName = null</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11864 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11862 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11864 -> node11865 [ color="black"]
+  node11865 -> node11866 [ color="black"]
+  node11869 -> node11863 [ color="black"]
+  node11868 -> node11869 [ color="black"]
+  node11862 -> node11864 [ color="black"]
+  node11866 -> node11867 [label=<<font color="black">true</font>> color="black"]
+  node11866 -> node11868 [label=<<font color="black">false</font>> color="black"]
+  node11867 -> node11869 [ color="black"]
+}

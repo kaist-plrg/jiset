@@ -1,0 +1,46 @@
+digraph {
+  node19672 [shape=cds, label=<<font color="black">app thisArgument = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node19681 [shape=cds, label=<<font color="black">3:app __x3__ = (Call target thisArgument args)</font>> color="black" fillcolor="white" style=filled]
+  node19671 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node19679 [shape=cds, label=<<font color="black">2:app __x2__ = (PrepareForTailCall )</font>> color="black" fillcolor="white" style=filled]
+  node19676 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19670 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19682 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19669 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19674 [shape=cds, label=<<font color="black">0:app __x0__ = (IsCallable target)</font>> color="black" fillcolor="white" style=filled]
+  node19677 [shape=cds, label=<<font color="black">1:app __x1__ = (CreateListFromArrayLike argumentsList)</font>> color="black" fillcolor="white" style=filled]
+  node19675 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
+  node19678 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let args = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19673 [shape=cds, label=<<font color="black">app argumentsList = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node19680 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19679 -> node19680 [ color="black"]
+  node19678 -> node19679 [ color="black"]
+  node19680 -> node19681 [ color="black"]
+  node19674 -> node19675 [ color="black"]
+  node19676 -> node19677 [ color="black"]
+  node19682 -> node19670 [ color="black"]
+  node19681 -> node19682 [ color="black"]
+  node19669 -> node19671 [ color="black"]
+  node19671 -> node19672 [ color="black"]
+  node19672 -> node19673 [ color="black"]
+  node19677 -> node19678 [ color="black"]
+  node19675 -> node19676 [label=<<font color="black">true</font>> color="black"]
+  node19675 -> node19677 [label=<<font color="black">false</font>> color="black"]
+  node19673 -> node19674 [ color="black"]
+}

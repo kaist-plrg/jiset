@@ -1,0 +1,26 @@
+digraph {
+  node13576 [shape=cds, label=<<font color="black">app string = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node13579 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_StringIteratorPrototype (new [&quot;IteratedString&quot;, &quot;StringIteratorNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node13578 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13577 [shape=cds, label=<<font color="black">0:app __x0__ = (Type string)</font>> color="black" fillcolor="white" style=filled]
+  node13574 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13580 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let iterator = __x1__</td></tr>
+      <tr><td align="left">2:iterator.IteratedString = string</td></tr>
+      <tr><td align="left">3:iterator.StringIteratorNextIndex = 0i</td></tr>
+      <tr><td align="left">4:return iterator</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13575 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13576 -> node13577 [ color="black"]
+  node13574 -> node13576 [ color="black"]
+  node13579 -> node13580 [ color="black"]
+  node13580 -> node13575 [ color="black"]
+  node13578 -> node13579 [ color="black"]
+  node13577 -> node13578 [ color="black"]
+}

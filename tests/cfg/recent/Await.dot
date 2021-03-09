@@ -1,0 +1,65 @@
+digraph {
+  node257 [shape=cds, label=<<font color="black">1:app __x0__ = (PromiseResolve INTRINSIC_Promise value)</font>> color="black" fillcolor="white" style=filled]
+  node261 [shape=cds, label=<<font color="black">6:app __x2__ = (CreateBuiltinFunction stepsRejected (new [&quot;AsyncContext&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node265 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] asyncContext)</font>> color="black" fillcolor="white" style=filled]
+  node260 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let onFulfilled = [! __x1__]</td></tr>
+      <tr><td align="left">4:onFulfilled.AsyncContext = asyncContext</td></tr>
+      <tr><td align="left">5:let stepsRejected = AwaitRejectedFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node256 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let asyncContext = GLOBAL_context</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node266 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let __x4__ = (- GLOBAL_executionStack.length 1i)</td></tr>
+      <tr><td align="left">(pop GLOBAL_executionStack __x4__)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node264 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node259 [shape=cds, label=<<font color="black">3:app __x1__ = (CreateBuiltinFunction stepsFulfilled (new [&quot;AsyncContext&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node267 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">10:??? &quot;Set the code evaluation state of id:{asyncContext} such that when evaluation is resumed with a Completion id:{completion} , the following steps of the algorithm that invoked Await will be performed , with id:{completion} available .&quot;</td></tr>
+      <tr><td align="left">11:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node255 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node263 [shape=cds, label=<<font color="black">8:app __x3__ = (PerformPromiseThen promise onFulfilled onRejected)</font>> color="black" fillcolor="white" style=filled]
+  node258 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let promise = [? __x0__]</td></tr>
+      <tr><td align="left">2:let stepsFulfilled = AwaitFulfilledFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node262 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let onRejected = [! __x2__]</td></tr>
+      <tr><td align="left">7:onRejected.AsyncContext = asyncContext</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node254 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node263 -> node264 [ color="black"]
+  node257 -> node258 [ color="black"]
+  node259 -> node260 [ color="black"]
+  node256 -> node257 [ color="black"]
+  node254 -> node256 [ color="black"]
+  node261 -> node262 [ color="black"]
+  node262 -> node263 [ color="black"]
+  node264 -> node265 [ color="black"]
+  node267 -> node255 [ color="black"]
+  node260 -> node261 [ color="black"]
+  node266 -> node267 [ color="black"]
+  node258 -> node259 [ color="black"]
+  node265 -> node266 [label=<<font color="black">true</font>> color="black"]
+  node265 -> node267 [label=<<font color="black">false</font>> color="black"]
+}

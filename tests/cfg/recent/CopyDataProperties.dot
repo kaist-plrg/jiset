@@ -1,0 +1,120 @@
+digraph {
+  node1379 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let keys = [? __x2__]</td></tr>
+      <tr><td align="left">5:let __x3__ = keys</td></tr>
+      <tr><td align="left">5:let __x4__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1392 [shape=cds, label=<<font color="black">13:app __x9__ = (Get from nextKey)</font>> color="black" fillcolor="white" style=filled]
+  node1374 [shape=diamond, label=<<font color="black">(|| (= source undefined) (= source null))</font>> color="black" fillcolor="white" style=filled]
+  node1371 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1376 [shape=cds, label=<<font color="black">3:app __x1__ = (ToObject source)</font>> color="black" fillcolor="white" style=filled]
+  node1381 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let nextKey = __x3__[__x4__]</td></tr>
+      <tr><td align="left">6:let excluded = false</td></tr>
+      <tr><td align="left">7:let __x5__ = excludedItems</td></tr>
+      <tr><td align="left">7:let __x6__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1396 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x4__ = (+ __x4__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1372 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node1390 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:let desc = [? __x8__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1385 [shape=diamond, label=<<font color="black">(= __x7__ true)</font>> color="black" fillcolor="white" style=filled]
+  node1391 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= desc undefined)) (= desc.Enumerable true))</font>> color="black" fillcolor="white" style=filled]
+  node1386 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">excluded = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1373 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1383 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let e = __x5__[__x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1377 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let from = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1394 [shape=cds, label=<<font color="black">14:app __x10__ = (CreateDataPropertyOrThrow target nextKey propValue)</font>> color="black" fillcolor="white" style=filled]
+  node1387 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x6__ = (+ __x6__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1370 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1375 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return target</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1397 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:return target</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1382 [shape=diamond, label=<<font color="black">(&lt; __x6__ __x5__.length)</font>> color="black" fillcolor="white" style=filled]
+  node1393 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:let propValue = [? __x9__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1389 [shape=cds, label=<<font color="black">11:app __x8__ = (from.GetOwnProperty from nextKey)</font>> color="black" fillcolor="white" style=filled]
+  node1388 [shape=diamond, label=<<font color="black">(= excluded false)</font>> color="black" fillcolor="white" style=filled]
+  node1395 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:[! __x10__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1380 [shape=diamond, label=<<font color="black">(&lt; __x4__ __x3__.length)</font>> color="black" fillcolor="white" style=filled]
+  node1384 [shape=cds, label=<<font color="black">8:app __x7__ = (SameValue e nextKey)</font>> color="black" fillcolor="white" style=filled]
+  node1378 [shape=cds, label=<<font color="black">4:app __x2__ = (from.OwnPropertyKeys from)</font>> color="black" fillcolor="white" style=filled]
+  node1380 -> node1381 [label=<<font color="black">true</font>> color="black"]
+  node1380 -> node1397 [label=<<font color="black">false</font>> color="black"]
+  node1370 -> node1372 [ color="black"]
+  node1392 -> node1393 [ color="black"]
+  node1386 -> node1387 [ color="black"]
+  node1377 -> node1378 [ color="black"]
+  node1387 -> node1382 [ color="black"]
+  node1385 -> node1386 [label=<<font color="black">true</font>> color="black"]
+  node1385 -> node1387 [label=<<font color="black">false</font>> color="black"]
+  node1376 -> node1377 [ color="black"]
+  node1375 -> node1376 [ color="black"]
+  node1381 -> node1382 [ color="black"]
+  node1382 -> node1383 [label=<<font color="black">true</font>> color="black"]
+  node1382 -> node1388 [label=<<font color="black">false</font>> color="black"]
+  node1394 -> node1395 [ color="black"]
+  node1383 -> node1384 [ color="black"]
+  node1390 -> node1391 [ color="black"]
+  node1384 -> node1385 [ color="black"]
+  node1393 -> node1394 [ color="black"]
+  node1372 -> node1373 [ color="black"]
+  node1388 -> node1389 [label=<<font color="black">true</font>> color="black"]
+  node1388 -> node1396 [label=<<font color="black">false</font>> color="black"]
+  node1378 -> node1379 [ color="black"]
+  node1389 -> node1390 [ color="black"]
+  node1397 -> node1371 [ color="black"]
+  node1373 -> node1374 [ color="black"]
+  node1374 -> node1375 [label=<<font color="black">true</font>> color="black"]
+  node1374 -> node1376 [label=<<font color="black">false</font>> color="black"]
+  node1396 -> node1380 [ color="black"]
+  node1391 -> node1392 [label=<<font color="black">true</font>> color="black"]
+  node1391 -> node1396 [label=<<font color="black">false</font>> color="black"]
+  node1379 -> node1380 [ color="black"]
+  node1395 -> node1396 [ color="black"]
+}

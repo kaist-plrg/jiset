@@ -1,0 +1,50 @@
+digraph {
+  node1533 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let D = (new PropertyDescriptor(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">3:let X = O.SubMap[P]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1529 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node1534 [shape=cds, label=<<font color="black">4:app __x1__ = (IsDataDescriptor X)</font>> color="black" fillcolor="white" style=filled]
+  node1530 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1535 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node1528 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1531 [shape=diamond, label=<<font color="black">(= O.SubMap[P] absent)</font>> color="black" fillcolor="white" style=filled]
+  node1536 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:D.Value = X.Value</td></tr>
+      <tr><td align="left">6:D.Writable = X.Writable</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1527 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1532 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1537 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:??? &quot;Else id:{X} is an accessor property , so in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">10:D.Enumerable = X.Enumerable</td></tr>
+      <tr><td align="left">11:D.Configurable = X.Configurable</td></tr>
+      <tr><td align="left">12:return D</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1533 -> node1534 [ color="black"]
+  node1535 -> node1536 [label=<<font color="black">true</font>> color="black"]
+  node1535 -> node1537 [label=<<font color="black">false</font>> color="black"]
+  node1527 -> node1529 [ color="black"]
+  node1530 -> node1531 [ color="black"]
+  node1537 -> node1528 [ color="black"]
+  node1534 -> node1535 [ color="black"]
+  node1529 -> node1530 [ color="black"]
+  node1531 -> node1532 [label=<<font color="black">true</font>> color="black"]
+  node1531 -> node1533 [label=<<font color="black">false</font>> color="black"]
+  node1536 -> node1537 [ color="black"]
+  node1532 -> node1533 [ color="black"]
+}

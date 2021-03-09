@@ -1,0 +1,34 @@
+digraph {
+  node10049 [shape=cds, label=<<font color="black">0:access __x0__ = (AssignmentExpression0 &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10053 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10052 [shape=diamond, label=<<font color="black">(= has true)</font>> color="black" fillcolor="white" style=filled]
+  node10047 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10050 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ call)</font>> color="black" fillcolor="white" style=filled]
+  node10054 [shape=cds, label=<<font color="black">2:access __x2__ = (AssignmentExpression1 &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10051 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let has = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10056 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10048 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10055 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ call)</font>> color="black" fillcolor="white" style=filled]
+  node10047 -> node10049 [ color="black"]
+  node10053 -> node10054 [ color="black"]
+  node10054 -> node10055 [ color="black"]
+  node10055 -> node10056 [ color="black"]
+  node10049 -> node10050 [ color="black"]
+  node10050 -> node10051 [ color="black"]
+  node10052 -> node10053 [label=<<font color="black">true</font>> color="black"]
+  node10052 -> node10054 [label=<<font color="black">false</font>> color="black"]
+  node10056 -> node10048 [ color="black"]
+  node10051 -> node10052 [ color="black"]
+}

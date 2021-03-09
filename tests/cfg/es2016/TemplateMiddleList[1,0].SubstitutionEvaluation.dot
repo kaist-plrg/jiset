@@ -1,0 +1,25 @@
+digraph {
+  node3634 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateMiddleList &quot;SubstitutionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3635 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let preceding = __x0__</td></tr>
+      <tr><td align="left">1:[? preceding]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3632 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3636 [shape=cds, label=<<font color="black">2:access __x1__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3633 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3637 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let next = __x1__</td></tr>
+      <tr><td align="left">3:[? next]</td></tr>
+      <tr><td align="left">4:append next -&gt; preceding</td></tr>
+      <tr><td align="left">5:return preceding</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3635 -> node3636 [ color="black"]
+  node3637 -> node3633 [ color="black"]
+  node3632 -> node3634 [ color="black"]
+  node3636 -> node3637 [ color="black"]
+  node3634 -> node3635 [ color="black"]
+}

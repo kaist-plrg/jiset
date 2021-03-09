@@ -1,0 +1,40 @@
+digraph {
+  node5205 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5214 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5210 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let result = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5206 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
+  node5213 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5209 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node5207 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let iteratorRecord = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5212 [shape=cds, label=<<font color="black">app __x3__ = (IteratorClose iteratorRecord result)</font>> color="black" fillcolor="white" style=filled]
+  node5208 [shape=cds, label=<<font color="black">1:access __x1__ = (AssignmentElementList &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5211 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node5204 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5210 -> node5211 [ color="black"]
+  node5206 -> node5207 [ color="black"]
+  node5212 -> node5213 [ color="black"]
+  node5211 -> node5212 [label=<<font color="black">true</font>> color="black"]
+  node5211 -> node5214 [label=<<font color="black">false</font>> color="black"]
+  node5208 -> node5209 [ color="black"]
+  node5204 -> node5206 [ color="black"]
+  node5207 -> node5208 [ color="black"]
+  node5213 -> node5214 [ color="black"]
+  node5209 -> node5210 [ color="black"]
+  node5214 -> node5205 [ color="black"]
+}

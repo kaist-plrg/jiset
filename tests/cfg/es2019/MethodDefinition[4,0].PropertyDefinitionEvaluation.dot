@@ -1,0 +1,70 @@
+digraph {
+  node8747 [shape=cds, label=<<font color="black">7:app __x3__ = (SetFunctionName closure propKey &quot;get&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8748 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:__x3__</td></tr>
+      <tr><td align="left">8:closure.SourceText = (get-syntax MethodDefinition)</td></tr>
+      <tr><td align="left">9:let desc = (new PropertyDescriptor(&quot;Get&quot; -&gt; closure, &quot;Enumerable&quot; -&gt; enumerable, &quot;Configurable&quot; -&gt; true))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8738 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let propKey = __x0__</td></tr>
+      <tr><td align="left">1:[? propKey]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8742 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let scope = GLOBAL_context.LexicalEnvironment</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{formalParameterList} be an instance of the production grammar:{FormalParameters0, []} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8746 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8736 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8743 [shape=cds, label=<<font color="black">5:app __x1__ = (FunctionCreate CONST_Method formalParameterList FunctionBody scope strict)</font>> color="black" fillcolor="white" style=filled]
+  node8739 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node8740 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8745 [shape=cds, label=<<font color="black">6:app __x2__ = (MakeMethod closure object)</font>> color="black" fillcolor="white" style=filled]
+  node8744 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let closure = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8749 [shape=cds, label=<<font color="black">10:app __x4__ = (DefinePropertyOrThrow object propKey desc)</font>> color="black" fillcolor="white" style=filled]
+  node8737 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyName &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8741 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8735 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8750 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8744 -> node8745 [ color="black"]
+  node8749 -> node8750 [ color="black"]
+  node8745 -> node8746 [ color="black"]
+  node8737 -> node8738 [ color="black"]
+  node8747 -> node8748 [ color="black"]
+  node8740 -> node8742 [ color="black"]
+  node8738 -> node8739 [ color="black"]
+  node8735 -> node8737 [ color="black"]
+  node8741 -> node8742 [ color="black"]
+  node8743 -> node8744 [ color="black"]
+  node8739 -> node8740 [label=<<font color="black">true</font>> color="black"]
+  node8739 -> node8741 [label=<<font color="black">false</font>> color="black"]
+  node8750 -> node8736 [ color="black"]
+  node8742 -> node8743 [ color="black"]
+  node8746 -> node8747 [ color="black"]
+  node8748 -> node8749 [ color="black"]
+}

@@ -1,0 +1,58 @@
+digraph {
+  node15467 [shape=cds, label=<<font color="black">11:app __x4__ = (InternalizeJSONProperty root rootName)</font>> color="black" fillcolor="white" style=filled]
+  node15462 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node15468 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15458 [shape=cds, label=<<font color="black">app reviver = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node15463 [shape=cds, label=<<font color="black">7:app __x2__ = (ObjectCreate INTRINSIC_ObjectPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node15465 [shape=cds, label=<<font color="black">9:app __x3__ = (CreateDataProperty root rootName unfiltered)</font>> color="black" fillcolor="white" style=filled]
+  node15464 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let root = __x2__</td></tr>
+      <tr><td align="left">8:let rootName = &quot;&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15469 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return unfiltered</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15461 [shape=cds, label=<<font color="black">12:app __x1__ = (IsCallable reviver)</font>> color="black" fillcolor="white" style=filled]
+  node15457 [shape=cds, label=<<font color="black">app text = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15456 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15466 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let status = __x3__</td></tr>
+      <tr><td align="left">10:assert (= status true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15459 [shape=cds, label=<<font color="black">0:app __x0__ = (ToString text)</font>> color="black" fillcolor="white" style=filled]
+  node15460 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let JText = [? __x0__]</td></tr>
+      <tr><td align="left">1:??? &quot;Parse id:{JText} interpreted as UTF - 16 encoded Unicode points ( link:{unhandled: sec-ecmascript-language-types-string-type} ) as a JSON text as specified in ECMA - 404 . Throw a value:{SyntaxError} exception if id:{JText} is not a valid JSON text as defined in that specification .&quot;</td></tr>
+      <tr><td align="left">2:let scriptText = (+ (+ &quot;(&quot; JText) &quot;);&quot;)</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{completion} be the result of parsing and evaluating id:{scriptText} as if it was the source text of an ECMAScript nt:{Script} , but using the alternative definition of nt:{DoubleStringCharacter} provided below . The extended PropertyDefinitionEvaluation semantics defined in link:{unhandled: sec-__proto__-property-names-in-object-initializers} must not be used during the evaluation .&quot;</td></tr>
+      <tr><td align="left">4:let unfiltered = completion.Value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15455 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15455 -> node15457 [ color="black"]
+  node15459 -> node15460 [ color="black"]
+  node15466 -> node15467 [ color="black"]
+  node15469 -> node15456 [ color="black"]
+  node15468 -> node15456 [ color="black"]
+  node15458 -> node15459 [ color="black"]
+  node15465 -> node15466 [ color="black"]
+  node15462 -> node15463 [label=<<font color="black">true</font>> color="black"]
+  node15462 -> node15469 [label=<<font color="black">false</font>> color="black"]
+  node15467 -> node15468 [ color="black"]
+  node15457 -> node15458 [ color="black"]
+  node15463 -> node15464 [ color="black"]
+  node15460 -> node15461 [ color="black"]
+  node15461 -> node15462 [ color="black"]
+  node15464 -> node15465 [ color="black"]
+}

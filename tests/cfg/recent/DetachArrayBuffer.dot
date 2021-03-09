@@ -1,0 +1,41 @@
+digraph {
+  node17759 [shape=cds, label=<<font color="black">1:app __x0__ = (IsSharedArrayBuffer arrayBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node17766 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:arrayBuffer.ArrayBufferData = null</td></tr>
+      <tr><td align="left">5:arrayBuffer.ArrayBufferByteLength = 0i</td></tr>
+      <tr><td align="left">6:return null</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17758 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17760 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= __x0__ false)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17763 [shape=cds, label=<<font color="black">3:app __x1__ = (SameValue arrayBuffer.ArrayBufferDetachKey key)</font>> color="black" fillcolor="white" style=filled]
+  node17761 [shape=diamond, label=<<font color="black">(= key absent)</font>> color="black" fillcolor="white" style=filled]
+  node17764 [shape=diamond, label=<<font color="black">(= __x1__ false)</font>> color="black" fillcolor="white" style=filled]
+  node17762 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">key = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17757 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17765 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17759 -> node17760 [ color="black"]
+  node17761 -> node17762 [label=<<font color="black">true</font>> color="black"]
+  node17761 -> node17763 [label=<<font color="black">false</font>> color="black"]
+  node17765 -> node17766 [ color="black"]
+  node17757 -> node17759 [ color="black"]
+  node17766 -> node17758 [ color="black"]
+  node17763 -> node17764 [ color="black"]
+  node17762 -> node17763 [ color="black"]
+  node17760 -> node17761 [ color="black"]
+  node17764 -> node17765 [label=<<font color="black">true</font>> color="black"]
+  node17764 -> node17766 [label=<<font color="black">false</font>> color="black"]
+}

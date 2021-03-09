@@ -1,0 +1,31 @@
+digraph {
+  node504 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node507 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node503 [shape=cds, label=<<font color="black">0:app __x0__ = (Type argument)</font>> color="black" fillcolor="white" style=filled]
+  node508 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node505 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node502 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node506 [shape=diamond, label=<<font color="black">(! (= argument.Construct absent))</font>> color="black" fillcolor="white" style=filled]
+  node501 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node504 -> node505 [label=<<font color="black">true</font>> color="black"]
+  node504 -> node506 [label=<<font color="black">false</font>> color="black"]
+  node501 -> node503 [ color="black"]
+  node505 -> node506 [ color="black"]
+  node506 -> node507 [label=<<font color="black">true</font>> color="black"]
+  node506 -> node508 [label=<<font color="black">false</font>> color="black"]
+  node503 -> node504 [ color="black"]
+  node508 -> node502 [ color="black"]
+  node507 -> node508 [ color="black"]
+}

@@ -1,0 +1,94 @@
+digraph {
+  node17671 [shape=cds, label=<<font color="black">7:app __x2__ = (IsUnclampedIntegerElementType type)</font>> color="black" fillcolor="white" style=filled]
+  node17665 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot typedArray &quot;TypedArrayName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node17667 [shape=diamond, label=<<font color="black">(= waitable true)</font>> color="black" fillcolor="white" style=filled]
+  node17674 [shape=cds, label=<<font color="black">app __x3__ = (IsBigIntElementType type)</font>> color="black" fillcolor="white" style=filled]
+  node17670 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let __x1__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17663 [shape=diamond, label=<<font color="black">(= waitable absent)</font>> color="black" fillcolor="white" style=filled]
+  node17669 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17682 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:return buffer</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17668 [shape=diamond, label=<<font color="black">(! (|| (= typeName &quot;Int32Array&quot;) (= typeName &quot;BigInt64Array&quot;)))</font>> color="black" fillcolor="white" style=filled]
+  node17661 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17677 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17662 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17678 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:assert (! (= typedArray.ViewedArrayBuffer absent))</td></tr>
+      <tr><td align="left">9:let buffer = typedArray.ViewedArrayBuffer</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17675 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x1__ = (= [! __x3__] false)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17679 [shape=cds, label=<<font color="black">10:app __x4__ = (IsSharedArrayBuffer buffer)</font>> color="black" fillcolor="white" style=filled]
+  node17676 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node17664 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">waitable = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17666 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x0__]</td></tr>
+      <tr><td align="left">2:let typeName = typedArray.TypedArrayName</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{type} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{typeName} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17672 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:__x1__ = (= [! __x2__] false)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17681 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17680 [shape=diamond, label=<<font color="black">(= __x4__ false)</font>> color="black" fillcolor="white" style=filled]
+  node17673 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node17678 -> node17679 [ color="black"]
+  node17663 -> node17664 [label=<<font color="black">true</font>> color="black"]
+  node17663 -> node17665 [label=<<font color="black">false</font>> color="black"]
+  node17668 -> node17669 [label=<<font color="black">true</font>> color="black"]
+  node17668 -> node17678 [label=<<font color="black">false</font>> color="black"]
+  node17673 -> node17674 [label=<<font color="black">true</font>> color="black"]
+  node17673 -> node17676 [label=<<font color="black">false</font>> color="black"]
+  node17676 -> node17677 [label=<<font color="black">true</font>> color="black"]
+  node17676 -> node17678 [label=<<font color="black">false</font>> color="black"]
+  node17667 -> node17668 [label=<<font color="black">true</font>> color="black"]
+  node17667 -> node17670 [label=<<font color="black">false</font>> color="black"]
+  node17680 -> node17681 [label=<<font color="black">true</font>> color="black"]
+  node17680 -> node17682 [label=<<font color="black">false</font>> color="black"]
+  node17675 -> node17676 [ color="black"]
+  node17674 -> node17675 [ color="black"]
+  node17677 -> node17678 [ color="black"]
+  node17669 -> node17678 [ color="black"]
+  node17681 -> node17682 [ color="black"]
+  node17666 -> node17667 [ color="black"]
+  node17664 -> node17665 [ color="black"]
+  node17671 -> node17672 [ color="black"]
+  node17661 -> node17663 [ color="black"]
+  node17670 -> node17671 [ color="black"]
+  node17682 -> node17662 [ color="black"]
+  node17672 -> node17673 [ color="black"]
+  node17665 -> node17666 [ color="black"]
+  node17679 -> node17680 [ color="black"]
+}

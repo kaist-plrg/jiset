@@ -1,0 +1,92 @@
+digraph {
+  node3103 [shape=diamond, label=<<font color="black">(! (contains exports P))</font>> color="black" fillcolor="white" style=filled]
+  node3099 [shape=diamond, label=<<font color="black">(= __x1__ Symbol)</font>> color="black" fillcolor="white" style=filled]
+  node3097 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3094 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3111 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let targetEnv = targetModule.Environment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3110 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3112 [shape=diamond, label=<<font color="black">(= targetEnv undefined)</font>> color="black" fillcolor="white" style=filled]
+  node3107 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let binding = [! __x3__]</td></tr>
+      <tr><td align="left">7:assert (= (typeof binding) &quot;ResolvedBindingRecord&quot;)</td></tr>
+      <tr><td align="left">8:let targetModule = binding.Module</td></tr>
+      <tr><td align="left">9:assert (! (= targetModule undefined))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3104 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3100 [shape=cds, label=<<font color="black">2:app __x2__ = (OrdinaryGet O P Receiver)</font>> color="black" fillcolor="white" style=filled]
+  node3113 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw ReferenceError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3096 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node3098 [shape=cds, label=<<font color="black">1:app __x1__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node3108 [shape=diamond, label=<<font color="black">(= binding.BindingName &quot;*namespace*&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3105 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let m = O.Module</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3102 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let exports = O.Exports</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3115 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:return [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3109 [shape=cds, label=<<font color="black">11:app __x4__ = (GetModuleNamespace targetModule)</font>> color="black" fillcolor="white" style=filled]
+  node3101 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3106 [shape=cds, label=<<font color="black">6:app __x3__ = (m.ResolveExport m P)</font>> color="black" fillcolor="white" style=filled]
+  node3114 [shape=cds, label=<<font color="black">14:app __x5__ = (targetEnv.GetBindingValue targetEnv binding.BindingName true)</font>> color="black" fillcolor="white" style=filled]
+  node3095 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3096 -> node3097 [ color="black"]
+  node3105 -> node3106 [ color="black"]
+  node3100 -> node3101 [ color="black"]
+  node3094 -> node3096 [ color="black"]
+  node3098 -> node3099 [ color="black"]
+  node3115 -> node3095 [ color="black"]
+  node3103 -> node3104 [label=<<font color="black">true</font>> color="black"]
+  node3103 -> node3105 [label=<<font color="black">false</font>> color="black"]
+  node3111 -> node3112 [ color="black"]
+  node3106 -> node3107 [ color="black"]
+  node3112 -> node3113 [label=<<font color="black">true</font>> color="black"]
+  node3112 -> node3114 [label=<<font color="black">false</font>> color="black"]
+  node3113 -> node3114 [ color="black"]
+  node3102 -> node3103 [ color="black"]
+  node3101 -> node3102 [ color="black"]
+  node3114 -> node3115 [ color="black"]
+  node3108 -> node3109 [label=<<font color="black">true</font>> color="black"]
+  node3108 -> node3111 [label=<<font color="black">false</font>> color="black"]
+  node3109 -> node3110 [ color="black"]
+  node3097 -> node3098 [ color="black"]
+  node3099 -> node3100 [label=<<font color="black">true</font>> color="black"]
+  node3099 -> node3102 [label=<<font color="black">false</font>> color="black"]
+  node3110 -> node3111 [ color="black"]
+  node3104 -> node3105 [ color="black"]
+  node3107 -> node3108 [ color="black"]
+}

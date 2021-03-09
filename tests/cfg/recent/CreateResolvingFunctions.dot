@@ -1,0 +1,34 @@
+digraph {
+  node18851 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let alreadyResolved = (new Record(&quot;Value&quot; -&gt; false))</td></tr>
+      <tr><td align="left">1:let stepsResolve = PromiseResolveFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18852 [shape=cds, label=<<font color="black">2:app __x0__ = (CreateBuiltinFunction stepsResolve (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node18853 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let resolve = [! __x0__]</td></tr>
+      <tr><td align="left">3:resolve.Promise = promise</td></tr>
+      <tr><td align="left">4:resolve.AlreadyResolved = alreadyResolved</td></tr>
+      <tr><td align="left">5:let stepsReject = PromiseRejectFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18849 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18854 [shape=cds, label=<<font color="black">6:app __x1__ = (CreateBuiltinFunction stepsReject (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node18850 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18855 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let reject = [! __x1__]</td></tr>
+      <tr><td align="left">7:reject.Promise = promise</td></tr>
+      <tr><td align="left">8:reject.AlreadyResolved = alreadyResolved</td></tr>
+      <tr><td align="left">9:return (new Record(&quot;Resolve&quot; -&gt; resolve, &quot;Reject&quot; -&gt; reject))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18849 -> node18851 [ color="black"]
+  node18854 -> node18855 [ color="black"]
+  node18853 -> node18854 [ color="black"]
+  node18852 -> node18853 [ color="black"]
+  node18851 -> node18852 [ color="black"]
+  node18855 -> node18850 [ color="black"]
+}

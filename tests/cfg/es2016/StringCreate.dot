@@ -1,0 +1,29 @@
+digraph {
+  node2231 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+      <tr><td align="left">1:let S = (new StringExoticObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">2:S.StringData = value</td></tr>
+      <tr><td align="left">4:S.GetOwnProperty = StringExoticObjectDOTGetOwnProperty</td></tr>
+      <tr><td align="left">5:S.OwnPropertyKeys = StringExoticObjectDOTOwnPropertyKeys</td></tr>
+      <tr><td align="left">6:S.Prototype = prototype</td></tr>
+      <tr><td align="left">7:S.Extensible = true</td></tr>
+      <tr><td align="left">8:let length = value.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2232 [shape=cds, label=<<font color="black">9:app __x1__ = (DefinePropertyOrThrow S &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; length, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node2228 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2229 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2230 [shape=cds, label=<<font color="black">0:app __x0__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node2233 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:[! __x1__]</td></tr>
+      <tr><td align="left">10:return S</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2233 -> node2229 [ color="black"]
+  node2232 -> node2233 [ color="black"]
+  node2231 -> node2232 [ color="black"]
+  node2230 -> node2231 [ color="black"]
+  node2228 -> node2230 [ color="black"]
+}

@@ -1,0 +1,112 @@
+digraph {
+  node13520 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let date = __x11__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13501 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let h = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13516 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let milli = [? __x8__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13511 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let s = [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13506 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let m = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13519 [shape=cds, label=<<font color="black">5:app __x11__ = (MakeDate __x9__ __x10__)</font>> color="black" fillcolor="white" style=filled]
+  node13498 [shape=cds, label=<<font color="black">0:app __x1__ = (LocalTime [? __x0__])</font>> color="black" fillcolor="white" style=filled]
+  node13515 [shape=cds, label=<<font color="black">app __x8__ = (ToNumber ms)</font>> color="black" fillcolor="white" style=filled]
+  node13504 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let m = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13500 [shape=cds, label=<<font color="black">1:app __x2__ = (ToNumber hour)</font>> color="black" fillcolor="white" style=filled]
+  node13492 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13514 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let milli = __x7__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13509 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let s = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13502 [shape=diamond, label=<<font color="black">(= min absent)</font>> color="black" fillcolor="white" style=filled]
+  node13513 [shape=cds, label=<<font color="black">app __x7__ = (msFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node13517 [shape=cds, label=<<font color="black">5:app __x9__ = (Day t)</font>> color="black" fillcolor="white" style=filled]
+  node13521 [shape=cds, label=<<font color="black">6:app __x12__ = (UTC date)</font>> color="black" fillcolor="white" style=filled]
+  node13494 [shape=cds, label=<<font color="black">app min = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node13495 [shape=cds, label=<<font color="black">app sec = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node13512 [shape=diamond, label=<<font color="black">(= ms absent)</font>> color="black" fillcolor="white" style=filled]
+  node13522 [shape=cds, label=<<font color="black">6:app __x13__ = (TimeClip __x12__)</font>> color="black" fillcolor="white" style=filled]
+  node13507 [shape=diamond, label=<<font color="black">(= sec absent)</font>> color="black" fillcolor="white" style=filled]
+  node13497 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node13503 [shape=cds, label=<<font color="black">app __x3__ = (MinFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node13499 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let t = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13518 [shape=cds, label=<<font color="black">5:app __x10__ = (MakeTime h m s milli)</font>> color="black" fillcolor="white" style=filled]
+  node13491 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13523 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let u = __x13__</td></tr>
+      <tr><td align="left">7:this.DateValue = u</td></tr>
+      <tr><td align="left">8:return u</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13508 [shape=cds, label=<<font color="black">app __x5__ = (SecFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node13496 [shape=cds, label=<<font color="black">app ms = (GetArgument argumentsList 3i)</font>> color="black" fillcolor="white" style=filled]
+  node13505 [shape=cds, label=<<font color="black">app __x4__ = (ToNumber min)</font>> color="black" fillcolor="white" style=filled]
+  node13493 [shape=cds, label=<<font color="black">app hour = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node13510 [shape=cds, label=<<font color="black">app __x6__ = (ToNumber sec)</font>> color="black" fillcolor="white" style=filled]
+  node13510 -> node13511 [ color="black"]
+  node13496 -> node13497 [ color="black"]
+  node13512 -> node13513 [label=<<font color="black">true</font>> color="black"]
+  node13512 -> node13515 [label=<<font color="black">false</font>> color="black"]
+  node13517 -> node13518 [ color="black"]
+  node13506 -> node13507 [ color="black"]
+  node13515 -> node13516 [ color="black"]
+  node13495 -> node13496 [ color="black"]
+  node13491 -> node13493 [ color="black"]
+  node13500 -> node13501 [ color="black"]
+  node13521 -> node13522 [ color="black"]
+  node13511 -> node13512 [ color="black"]
+  node13514 -> node13517 [ color="black"]
+  node13493 -> node13494 [ color="black"]
+  node13523 -> node13492 [ color="black"]
+  node13494 -> node13495 [ color="black"]
+  node13520 -> node13521 [ color="black"]
+  node13507 -> node13508 [label=<<font color="black">true</font>> color="black"]
+  node13507 -> node13510 [label=<<font color="black">false</font>> color="black"]
+  node13504 -> node13507 [ color="black"]
+  node13502 -> node13503 [label=<<font color="black">true</font>> color="black"]
+  node13502 -> node13505 [label=<<font color="black">false</font>> color="black"]
+  node13513 -> node13514 [ color="black"]
+  node13498 -> node13499 [ color="black"]
+  node13509 -> node13512 [ color="black"]
+  node13499 -> node13500 [ color="black"]
+  node13516 -> node13517 [ color="black"]
+  node13497 -> node13498 [ color="black"]
+  node13508 -> node13509 [ color="black"]
+  node13505 -> node13506 [ color="black"]
+  node13519 -> node13520 [ color="black"]
+  node13503 -> node13504 [ color="black"]
+  node13501 -> node13502 [ color="black"]
+  node13518 -> node13519 [ color="black"]
+  node13522 -> node13523 [ color="black"]
+}

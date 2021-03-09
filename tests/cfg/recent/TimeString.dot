@@ -1,0 +1,18 @@
+digraph {
+  node14079 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14081 [shape=cds, label=<<font color="black">0:app __x0__ = (Type tv)</font>> color="black" fillcolor="white" style=filled]
+  node14082 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Number)</td></tr>
+      <tr><td align="left">1:assert (! (= tv NaN))</td></tr>
+      <tr><td align="left">2:??? &quot;Let id:{hour} be the String representation of HourFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary .&quot;</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{minute} be the String representation of MinFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary .&quot;</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{second} be the String representation of SecFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary .&quot;</td></tr>
+      <tr><td align="left">5:return (+ (+ (+ (+ (+ (+ hour &quot;:&quot;) minute) &quot;:&quot;) second) &quot; &quot;) &quot;GMT&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14080 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14079 -> node14081 [ color="black"]
+  node14081 -> node14082 [ color="black"]
+  node14082 -> node14080 [ color="black"]
+}

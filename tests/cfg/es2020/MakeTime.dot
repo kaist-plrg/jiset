@@ -1,0 +1,48 @@
+digraph {
+  node13120 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return NaN</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13127 [shape=cds, label=<<font color="black">4:app __x3__ = (ToInteger ms)</font>> color="black" fillcolor="white" style=filled]
+  node13123 [shape=cds, label=<<font color="black">2:app __x1__ = (ToInteger min)</font>> color="black" fillcolor="white" style=filled]
+  node13126 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let s = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13122 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let h = [! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13125 [shape=cds, label=<<font color="black">3:app __x2__ = (ToInteger sec)</font>> color="black" fillcolor="white" style=filled]
+  node13117 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13121 [shape=cds, label=<<font color="black">1:app __x0__ = (ToInteger hour)</font>> color="black" fillcolor="white" style=filled]
+  node13119 [shape=diamond, label=<<font color="black">(|| (|| (= hour Infinity) (= hour -Infinity)) (|| (|| (= min Infinity) (= min -Infinity)) (|| (|| (= sec Infinity) (= sec -Infinity)) (|| (= ms Infinity) (= ms -Infinity)))))</font>> color="black" fillcolor="white" style=filled]
+  node13128 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let milli = [! __x3__]</td></tr>
+      <tr><td align="left">5:??? &quot;Let id:{t} be id:{h} code:{*} msPerHour code:{+} id:{m} code:{*} msPerMinute code:{+} id:{s} code:{*} msPerSecond code:{+} id:{milli} , performing the arithmetic according to IEEE 754 - 2019 rules ( that is , as if using the ECMAScript operators code:{*} and code:{+} ) .&quot;</td></tr>
+      <tr><td align="left">6:return t</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13124 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let m = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13118 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13123 -> node13124 [ color="black"]
+  node13121 -> node13122 [ color="black"]
+  node13120 -> node13121 [ color="black"]
+  node13127 -> node13128 [ color="black"]
+  node13122 -> node13123 [ color="black"]
+  node13124 -> node13125 [ color="black"]
+  node13126 -> node13127 [ color="black"]
+  node13119 -> node13120 [label=<<font color="black">true</font>> color="black"]
+  node13119 -> node13121 [label=<<font color="black">false</font>> color="black"]
+  node13128 -> node13118 [ color="black"]
+  node13117 -> node13119 [ color="black"]
+  node13125 -> node13126 [ color="black"]
+}

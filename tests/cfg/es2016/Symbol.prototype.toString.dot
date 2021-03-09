@@ -1,0 +1,56 @@
+digraph {
+  node11051 [shape=cds, label=<<font color="black">2:app __x0__ = (Type s)</font>> color="black" fillcolor="white" style=filled]
+  node11049 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11050 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let s = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11048 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11058 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11055 [shape=diamond, label=<<font color="black">(! (= __x1__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node11056 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11057 [shape=diamond, label=<<font color="black">(= s.SymbolData absent)</font>> color="black" fillcolor="white" style=filled]
+  node11052 [shape=diamond, label=<<font color="black">(= __x0__ Symbol)</font>> color="black" fillcolor="white" style=filled]
+  node11061 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11060 [shape=cds, label=<<font color="black">6:app __x2__ = (SymbolDescriptiveString sym)</font>> color="black" fillcolor="white" style=filled]
+  node11053 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let sym = s</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11054 [shape=cds, label=<<font color="black">3:app __x1__ = (Type s)</font>> color="black" fillcolor="white" style=filled]
+  node11059 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let sym = s.SymbolData</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11053 -> node11060 [ color="black"]
+  node11056 -> node11057 [ color="black"]
+  node11057 -> node11058 [label=<<font color="black">true</font>> color="black"]
+  node11057 -> node11059 [label=<<font color="black">false</font>> color="black"]
+  node11052 -> node11053 [label=<<font color="black">true</font>> color="black"]
+  node11052 -> node11054 [label=<<font color="black">false</font>> color="black"]
+  node11060 -> node11061 [ color="black"]
+  node11058 -> node11059 [ color="black"]
+  node11050 -> node11051 [ color="black"]
+  node11055 -> node11056 [label=<<font color="black">true</font>> color="black"]
+  node11055 -> node11057 [label=<<font color="black">false</font>> color="black"]
+  node11048 -> node11050 [ color="black"]
+  node11054 -> node11055 [ color="black"]
+  node11059 -> node11060 [ color="black"]
+  node11061 -> node11049 [ color="black"]
+  node11051 -> node11052 [ color="black"]
+}

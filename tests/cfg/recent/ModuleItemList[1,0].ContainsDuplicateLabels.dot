@@ -1,0 +1,34 @@
+digraph {
+  node10955 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node10950 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node10951 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let hasDuplicates = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10952 [shape=diamond, label=<<font color="black">(= hasDuplicates true)</font>> color="black" fillcolor="white" style=filled]
+  node10956 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10949 [shape=cds, label=<<font color="black">0:access __x0__ = (ModuleItemList &quot;ContainsDuplicateLabels&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10954 [shape=cds, label=<<font color="black">2:access __x2__ = (ModuleItem &quot;ContainsDuplicateLabels&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10947 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10948 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10953 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10950 -> node10951 [ color="black"]
+  node10951 -> node10952 [ color="black"]
+  node10949 -> node10950 [ color="black"]
+  node10953 -> node10954 [ color="black"]
+  node10954 -> node10955 [ color="black"]
+  node10956 -> node10948 [ color="black"]
+  node10947 -> node10949 [ color="black"]
+  node10955 -> node10956 [ color="black"]
+  node10952 -> node10953 [label=<<font color="black">true</font>> color="black"]
+  node10952 -> node10954 [label=<<font color="black">false</font>> color="black"]
+}

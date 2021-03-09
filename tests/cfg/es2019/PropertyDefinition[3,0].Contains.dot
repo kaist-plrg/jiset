@@ -1,0 +1,24 @@
+digraph {
+  node3649 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3653 [shape=cds, label=<<font color="black">1:access __x0__ = (MethodDefinition &quot;ComputedPropertyContains&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3650 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3654 [shape=cds, label=<<font color="black">1:app __x1__ = (__x0__ symbol)</font>> color="black" fillcolor="white" style=filled]
+  node3651 [shape=diamond, label=<<font color="black">(is-instance-of symbol MethodDefinition)</font>> color="black" fillcolor="white" style=filled]
+  node3655 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3652 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3649 -> node3651 [ color="black"]
+  node3652 -> node3653 [ color="black"]
+  node3651 -> node3652 [label=<<font color="black">true</font>> color="black"]
+  node3651 -> node3653 [label=<<font color="black">false</font>> color="black"]
+  node3653 -> node3654 [ color="black"]
+  node3654 -> node3655 [ color="black"]
+  node3655 -> node3650 [ color="black"]
+}

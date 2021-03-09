@@ -1,0 +1,76 @@
+digraph {
+  node2280 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let thisMode = F.ThisMode</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2282 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2291 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:let thisValue = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2285 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let localEnv = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2292 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:assert (= (typeof localEnv) &quot;FunctionEnvironmentRecord&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2293 [shape=cds, label=<<font color="black">15:app __x2__ = (localEnv.BindThisValue localEnv thisValue)</font>> color="black" fillcolor="white" style=filled]
+  node2284 [shape=cds, label=<<font color="black">3:access __x0__ = (calleeContext &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node2288 [shape=diamond, label=<<font color="black">(|| (= thisArgument undefined) (= thisArgument null))</font>> color="black" fillcolor="white" style=filled]
+  node2279 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2294 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2287 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let thisValue = thisArgument</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2281 [shape=diamond, label=<<font color="black">(= thisMode CONST_lexical)</font>> color="black" fillcolor="white" style=filled]
+  node2286 [shape=diamond, label=<<font color="black">(= thisMode CONST_strict)</font>> color="black" fillcolor="white" style=filled]
+  node2289 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let globalEnv = calleeRealm.GlobalEnv</td></tr>
+      <tr><td align="left">8:assert (= (typeof globalEnv) &quot;GlobalEnvironmentRecord&quot;)</td></tr>
+      <tr><td align="left">9:let thisValue = globalEnv.GlobalThisValue</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2278 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2283 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let calleeRealm = F.Realm</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2290 [shape=cds, label=<<font color="black">11:app __x1__ = (ToObject thisArgument)</font>> color="black" fillcolor="white" style=filled]
+  node2282 -> node2283 [ color="black"]
+  node2287 -> node2292 [ color="black"]
+  node2283 -> node2284 [ color="black"]
+  node2284 -> node2285 [ color="black"]
+  node2293 -> node2294 [ color="black"]
+  node2278 -> node2280 [ color="black"]
+  node2286 -> node2287 [label=<<font color="black">true</font>> color="black"]
+  node2286 -> node2288 [label=<<font color="black">false</font>> color="black"]
+  node2294 -> node2279 [ color="black"]
+  node2288 -> node2289 [label=<<font color="black">true</font>> color="black"]
+  node2288 -> node2290 [label=<<font color="black">false</font>> color="black"]
+  node2291 -> node2292 [ color="black"]
+  node2290 -> node2291 [ color="black"]
+  node2280 -> node2281 [ color="black"]
+  node2289 -> node2292 [ color="black"]
+  node2281 -> node2282 [label=<<font color="black">true</font>> color="black"]
+  node2281 -> node2283 [label=<<font color="black">false</font>> color="black"]
+  node2285 -> node2286 [ color="black"]
+  node2292 -> node2293 [ color="black"]
+}

@@ -1,0 +1,58 @@
+digraph {
+  node18945 [shape=diamond, label=<<font color="black">(= newTarget absent)</font>> color="black" fillcolor="white" style=filled]
+  node18941 [shape=cds, label=<<font color="black">app newTarget = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node18937 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18946 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">newTarget = target</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18952 [shape=cds, label=<<font color="black">4:app __x3__ = (Construct target args newTarget)</font>> color="black" fillcolor="white" style=filled]
+  node18943 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
+  node18950 [shape=cds, label=<<font color="black">3:app __x2__ = (CreateListFromArrayLike argumentsList)</font>> color="black" fillcolor="white" style=filled]
+  node18948 [shape=diamond, label=<<font color="black">(= __x1__ false)</font>> color="black" fillcolor="white" style=filled]
+  node18939 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18942 [shape=cds, label=<<font color="black">0:app __x0__ = (IsConstructor target)</font>> color="black" fillcolor="white" style=filled]
+  node18951 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let args = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18938 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18949 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18953 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18944 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18947 [shape=cds, label=<<font color="black">app __x1__ = (IsConstructor newTarget)</font>> color="black" fillcolor="white" style=filled]
+  node18940 [shape=cds, label=<<font color="black">app argumentsList = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18951 -> node18952 [ color="black"]
+  node18943 -> node18944 [label=<<font color="black">true</font>> color="black"]
+  node18943 -> node18945 [label=<<font color="black">false</font>> color="black"]
+  node18947 -> node18948 [ color="black"]
+  node18945 -> node18946 [label=<<font color="black">true</font>> color="black"]
+  node18945 -> node18947 [label=<<font color="black">false</font>> color="black"]
+  node18944 -> node18945 [ color="black"]
+  node18946 -> node18950 [ color="black"]
+  node18952 -> node18953 [ color="black"]
+  node18940 -> node18941 [ color="black"]
+  node18950 -> node18951 [ color="black"]
+  node18949 -> node18950 [ color="black"]
+  node18942 -> node18943 [ color="black"]
+  node18937 -> node18939 [ color="black"]
+  node18953 -> node18938 [ color="black"]
+  node18941 -> node18942 [ color="black"]
+  node18948 -> node18949 [label=<<font color="black">true</font>> color="black"]
+  node18948 -> node18950 [label=<<font color="black">false</font>> color="black"]
+  node18939 -> node18940 [ color="black"]
+}

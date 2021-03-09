@@ -1,0 +1,24 @@
+digraph {
+  node15844 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15848 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let block = [? __x1__]</td></tr>
+      <tr><td align="left">3:obj.ArrayBufferData = block</td></tr>
+      <tr><td align="left">4:obj.ArrayBufferByteLength = byteLength</td></tr>
+      <tr><td align="left">5:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15843 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15847 [shape=cds, label=<<font color="black">2:app __x1__ = (CreateSharedByteDataBlock byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node15846 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15845 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor constructor INTRINSIC_SharedArrayBufferPrototype (new [&quot;ArrayBufferData&quot;, &quot;ArrayBufferByteLength&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node15843 -> node15845 [ color="black"]
+  node15846 -> node15847 [ color="black"]
+  node15845 -> node15846 [ color="black"]
+  node15848 -> node15844 [ color="black"]
+  node15847 -> node15848 [ color="black"]
+}

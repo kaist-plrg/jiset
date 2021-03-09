@@ -1,0 +1,60 @@
+digraph {
+  node2612 [shape=diamond, label=<<font color="black">(! (= numericIndex undefined))</font>> color="black" fillcolor="white" style=filled]
+  node2607 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2616 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2618 [shape=cds, label=<<font color="black">8:app __x4__ = (OrdinaryGetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node2606 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node2609 [shape=diamond, label=<<font color="black">(= __x1__ String)</font>> color="black" fillcolor="white" style=filled]
+  node2613 [shape=cds, label=<<font color="black">5:app __x3__ = (IntegerIndexedElementGet O numericIndex)</font>> color="black" fillcolor="white" style=filled]
+  node2617 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return (new PropertyDescriptor(&quot;Value&quot; -&gt; value, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; false))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2614 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let value = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2611 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let numericIndex = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2608 [shape=cds, label=<<font color="black">2:app __x1__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node2604 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2619 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2615 [shape=diamond, label=<<font color="black">(= value undefined)</font>> color="black" fillcolor="white" style=filled]
+  node2605 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2610 [shape=cds, label=<<font color="black">3:app __x2__ = (CanonicalNumericIndexString P)</font>> color="black" fillcolor="white" style=filled]
+  node2619 -> node2605 [ color="black"]
+  node2615 -> node2616 [label=<<font color="black">true</font>> color="black"]
+  node2615 -> node2617 [label=<<font color="black">false</font>> color="black"]
+  node2612 -> node2613 [label=<<font color="black">true</font>> color="black"]
+  node2612 -> node2618 [label=<<font color="black">false</font>> color="black"]
+  node2616 -> node2617 [ color="black"]
+  node2604 -> node2606 [ color="black"]
+  node2614 -> node2615 [ color="black"]
+  node2618 -> node2619 [ color="black"]
+  node2610 -> node2611 [ color="black"]
+  node2609 -> node2610 [label=<<font color="black">true</font>> color="black"]
+  node2609 -> node2618 [label=<<font color="black">false</font>> color="black"]
+  node2608 -> node2609 [ color="black"]
+  node2607 -> node2608 [ color="black"]
+  node2613 -> node2614 [ color="black"]
+  node2611 -> node2612 [ color="black"]
+  node2617 -> node2618 [ color="black"]
+  node2606 -> node2607 [ color="black"]
+}

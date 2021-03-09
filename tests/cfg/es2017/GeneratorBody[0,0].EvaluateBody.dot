@@ -1,0 +1,30 @@
+digraph {
+  node8430 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryCreateFromConstructor functionObject INTRINSIC_GeneratorPrototype (new [&quot;GeneratorState&quot;, &quot;GeneratorContext&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node8426 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8429 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8432 [shape=cds, label=<<font color="black">2:app __x2__ = (GeneratorStart G FunctionBody)</font>> color="black" fillcolor="white" style=filled]
+  node8428 [shape=cds, label=<<font color="black">0:app __x0__ = (FunctionDeclarationInstantiation functionObject argumentsList)</font>> color="black" fillcolor="white" style=filled]
+  node8427 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8433 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:__x2__</td></tr>
+      <tr><td align="left">3:return (new Completion(&quot;Type&quot; -&gt; CONST_return, &quot;Value&quot; -&gt; G, &quot;Target&quot; -&gt; CONST_empty))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8431 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let G = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8433 -> node8427 [ color="black"]
+  node8426 -> node8428 [ color="black"]
+  node8428 -> node8429 [ color="black"]
+  node8432 -> node8433 [ color="black"]
+  node8430 -> node8431 [ color="black"]
+  node8431 -> node8432 [ color="black"]
+  node8429 -> node8430 [ color="black"]
+}

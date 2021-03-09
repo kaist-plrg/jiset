@@ -1,0 +1,29 @@
+digraph {
+  node379 [shape=diamond, label=<<font color="black">(= Desc undefined)</font>> color="black" fillcolor="white" style=filled]
+  node382 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node377 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node380 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node381 [shape=diamond, label=<<font color="black">(&amp;&amp; (= Desc.Value absent) (= Desc.Writable absent))</font>> color="black" fillcolor="white" style=filled]
+  node378 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node383 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node380 -> node381 [ color="black"]
+  node381 -> node382 [label=<<font color="black">true</font>> color="black"]
+  node381 -> node383 [label=<<font color="black">false</font>> color="black"]
+  node382 -> node383 [ color="black"]
+  node383 -> node378 [ color="black"]
+  node377 -> node379 [ color="black"]
+  node379 -> node380 [label=<<font color="black">true</font>> color="black"]
+  node379 -> node381 [label=<<font color="black">false</font>> color="black"]
+}

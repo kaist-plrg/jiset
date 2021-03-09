@@ -1,0 +1,64 @@
+digraph {
+  node4151 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node4147 [shape=cds, label=<<font color="black">2:app __x1__ = (GetValue spreadRef)</font>> color="black" fillcolor="white" style=filled]
+  node4155 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return list</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4152 [shape=cds, label=<<font color="black">5:app __x3__ = (IteratorStep iterator)</font>> color="black" fillcolor="white" style=filled]
+  node4148 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let spreadObj = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4144 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let list = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4149 [shape=cds, label=<<font color="black">3:app __x2__ = (GetIterator spreadObj)</font>> color="black" fillcolor="white" style=filled]
+  node4154 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
+  node4145 [shape=cds, label=<<font color="black">1:access __x0__ = (AssignmentExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4153 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let next = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4142 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4156 [shape=cds, label=<<font color="black">7:app __x4__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
+  node4143 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4150 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let iterator = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4146 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let spreadRef = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4157 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let nextArg = [? __x4__]</td></tr>
+      <tr><td align="left">8:append nextArg -&gt; list</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4146 -> node4147 [ color="black"]
+  node4156 -> node4157 [ color="black"]
+  node4150 -> node4151 [ color="black"]
+  node4142 -> node4144 [ color="black"]
+  node4144 -> node4145 [ color="black"]
+  node4155 -> node4156 [ color="black"]
+  node4149 -> node4150 [ color="black"]
+  node4157 -> node4151 [ color="black"]
+  node4147 -> node4148 [ color="black"]
+  node4151 -> node4152 [label=<<font color="black">true</font>> color="black"]
+  node4151 -> node4143 [label=<<font color="black">false</font>> color="black"]
+  node4154 -> node4155 [label=<<font color="black">true</font>> color="black"]
+  node4154 -> node4156 [label=<<font color="black">false</font>> color="black"]
+  node4152 -> node4153 [ color="black"]
+  node4153 -> node4154 [ color="black"]
+  node4148 -> node4149 [ color="black"]
+  node4145 -> node4146 [ color="black"]
+}

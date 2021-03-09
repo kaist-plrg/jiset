@@ -1,0 +1,24 @@
+digraph {
+  node12221 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let componentString = [? __x0__]</td></tr>
+      <tr><td align="left">1:??? &quot;Let id:{unescapedURIComponentSet} be a String containing one instance of each code unit valid in nt:{uriUnescaped} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12223 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12218 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12219 [shape=cds, label=<<font color="black">app uriComponent = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12220 [shape=cds, label=<<font color="black">0:app __x0__ = (ToString uriComponent)</font>> color="black" fillcolor="white" style=filled]
+  node12217 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12222 [shape=cds, label=<<font color="black">2:app __x1__ = (Encode componentString unescapedURIComponentSet)</font>> color="black" fillcolor="white" style=filled]
+  node12222 -> node12223 [ color="black"]
+  node12217 -> node12219 [ color="black"]
+  node12221 -> node12222 [ color="black"]
+  node12223 -> node12218 [ color="black"]
+  node12219 -> node12220 [ color="black"]
+  node12220 -> node12221 [ color="black"]
+}

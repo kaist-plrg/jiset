@@ -1,0 +1,18 @@
+digraph {
+  node237 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node239 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let F = GLOBAL_context.Function</td></tr>
+      <tr><td align="left">1:let asyncContext = F.AsyncContext</td></tr>
+      <tr><td align="left">2:let prevContext = GLOBAL_context</td></tr>
+      <tr><td align="left">3:GLOBAL_context = null</td></tr>
+      <tr><td align="left">4:append asyncContext -&gt; GLOBAL_executionStack</td></tr>
+      <tr><td align="left">4:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">5:??? &quot;Resume the suspended evaluation of asyncContext using (NormalCompletion~value) as the result of the operation that suspended it&quot;</td></tr>
+      <tr><td align="left">7:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node238 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node237 -> node239 [ color="black"]
+  node239 -> node238 [ color="black"]
+}

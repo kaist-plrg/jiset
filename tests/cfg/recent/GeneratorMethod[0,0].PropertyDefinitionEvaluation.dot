@@ -1,0 +1,65 @@
+digraph {
+  node9516 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let closure = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9526 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9520 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:__x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9522 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let prototype = [! __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9512 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9525 [shape=cds, label=<<font color="black">10:app __x6__ = (DefinePropertyOrThrow object propKey desc)</font>> color="black" fillcolor="white" style=filled]
+  node9513 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyName &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9517 [shape=cds, label=<<font color="black">5:app __x2__ = (MakeMethod closure object)</font>> color="black" fillcolor="white" style=filled]
+  node9521 [shape=cds, label=<<font color="black">7:app __x4__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction_prototype_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node9511 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9518 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9515 [shape=cds, label=<<font color="black">4:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_GeneratorFunction_prototype sourceText UniqueFormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node9523 [shape=cds, label=<<font color="black">8:app __x5__ = (DefinePropertyOrThrow closure &quot;prototype&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; prototype, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node9519 [shape=cds, label=<<font color="black">6:app __x3__ = (SetFunctionName closure propKey)</font>> color="black" fillcolor="white" style=filled]
+  node9524 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:__x5__</td></tr>
+      <tr><td align="left">9:let desc = (new PropertyDescriptor(&quot;Value&quot; -&gt; closure, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; enumerable, &quot;Configurable&quot; -&gt; true))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9514 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let propKey = __x0__</td></tr>
+      <tr><td align="left">1:[? propKey]</td></tr>
+      <tr><td align="left">2:let scope = GLOBAL_context.LexicalEnvironment</td></tr>
+      <tr><td align="left">3:let sourceText = (get-syntax GeneratorMethod)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9518 -> node9519 [ color="black"]
+  node9524 -> node9525 [ color="black"]
+  node9516 -> node9517 [ color="black"]
+  node9520 -> node9521 [ color="black"]
+  node9517 -> node9518 [ color="black"]
+  node9525 -> node9526 [ color="black"]
+  node9521 -> node9522 [ color="black"]
+  node9519 -> node9520 [ color="black"]
+  node9514 -> node9515 [ color="black"]
+  node9515 -> node9516 [ color="black"]
+  node9511 -> node9513 [ color="black"]
+  node9523 -> node9524 [ color="black"]
+  node9526 -> node9512 [ color="black"]
+  node9522 -> node9523 [ color="black"]
+  node9513 -> node9514 [ color="black"]
+}

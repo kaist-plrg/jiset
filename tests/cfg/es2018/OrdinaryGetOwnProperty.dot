@@ -1,0 +1,56 @@
+digraph {
+  node1705 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:D.Get = X.Get</td></tr>
+      <tr><td align="left">9:D.Set = X.Set</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1703 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node1704 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:D.Value = X.Value</td></tr>
+      <tr><td align="left">6:D.Writable = X.Writable</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1700 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1695 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1698 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1701 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let D = (new PropertyDescriptor(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">3:let X = O.SubMap[P]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1699 [shape=diamond, label=<<font color="black">(= O.SubMap[P] absent)</font>> color="black" fillcolor="white" style=filled]
+  node1702 [shape=cds, label=<<font color="black">7:app __x1__ = (IsDataDescriptor X)</font>> color="black" fillcolor="white" style=filled]
+  node1706 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:D.Enumerable = X.Enumerable</td></tr>
+      <tr><td align="left">11:D.Configurable = X.Configurable</td></tr>
+      <tr><td align="left">12:return D</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1697 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node1696 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1701 -> node1702 [ color="black"]
+  node1704 -> node1706 [ color="black"]
+  node1700 -> node1701 [ color="black"]
+  node1705 -> node1706 [ color="black"]
+  node1699 -> node1700 [label=<<font color="black">true</font>> color="black"]
+  node1699 -> node1701 [label=<<font color="black">false</font>> color="black"]
+  node1695 -> node1697 [ color="black"]
+  node1697 -> node1698 [ color="black"]
+  node1703 -> node1704 [label=<<font color="black">true</font>> color="black"]
+  node1703 -> node1705 [label=<<font color="black">false</font>> color="black"]
+  node1698 -> node1699 [ color="black"]
+  node1702 -> node1703 [ color="black"]
+  node1706 -> node1696 [ color="black"]
+}

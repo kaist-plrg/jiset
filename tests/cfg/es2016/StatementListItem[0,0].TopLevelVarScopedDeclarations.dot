@@ -1,0 +1,26 @@
+digraph {
+  node5529 [shape=cds, label=<<font color="black">1:access __x1__ = (Statement &quot;VarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5526 [shape=cds, label=<<font color="black">access LabelledStatement = (Statement &quot;LabelledStatement&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5530 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5528 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5523 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5527 [shape=cds, label=<<font color="black">access __x0__ = (Statement &quot;TopLevelVarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5524 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5525 [shape=diamond, label=<<font color="black">(is-instance-of Statement Statement10)</font>> color="black" fillcolor="white" style=filled]
+  node5528 -> node5529 [ color="black"]
+  node5527 -> node5528 [ color="black"]
+  node5526 -> node5527 [ color="black"]
+  node5523 -> node5525 [ color="black"]
+  node5525 -> node5526 [label=<<font color="black">true</font>> color="black"]
+  node5525 -> node5529 [label=<<font color="black">false</font>> color="black"]
+  node5529 -> node5530 [ color="black"]
+  node5530 -> node5524 [ color="black"]
+}

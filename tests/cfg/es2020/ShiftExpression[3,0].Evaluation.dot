@@ -1,0 +1,82 @@
+digraph {
+  node5390 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5405 [shape=diamond, label=<<font color="black">(! (= __x6__ __x7__))</font>> color="black" fillcolor="white" style=filled]
+  node5393 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue lref)</font>> color="black" fillcolor="white" style=filled]
+  node5397 [shape=cds, label=<<font color="black">3:app __x3__ = (GetValue rref)</font>> color="black" fillcolor="white" style=filled]
+  node5401 [shape=cds, label=<<font color="black">5:app __x5__ = (ToNumeric rval)</font>> color="black" fillcolor="white" style=filled]
+  node5406 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5396 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let rref = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5391 [shape=cds, label=<<font color="black">0:access __x0__ = (ShiftExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5402 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let rnum = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5400 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let lnum = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5395 [shape=cds, label=<<font color="black">2:access __x2__ = (AdditiveExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5407 [shape=cds, label=<<font color="black">7:app __x8__ = (Type lnum)</font>> color="black" fillcolor="white" style=filled]
+  node5403 [shape=cds, label=<<font color="black">6:app __x6__ = (Type lnum)</font>> color="black" fillcolor="white" style=filled]
+  node5399 [shape=cds, label=<<font color="black">4:app __x4__ = (ToNumeric lval)</font>> color="black" fillcolor="white" style=filled]
+  node5389 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5394 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lval = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5398 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let rval = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5404 [shape=cds, label=<<font color="black">6:app __x7__ = (Type rnum)</font>> color="black" fillcolor="white" style=filled]
+  node5392 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lref = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5410 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return __x9__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5408 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let T = __x8__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5409 [shape=cds, label=<<font color="black">8:app __x9__ = (PRIMITIVE[T].unsignedRightShift lnum rnum)</font>> color="black" fillcolor="white" style=filled]
+  node5395 -> node5396 [ color="black"]
+  node5404 -> node5405 [ color="black"]
+  node5410 -> node5390 [ color="black"]
+  node5405 -> node5406 [label=<<font color="black">true</font>> color="black"]
+  node5405 -> node5407 [label=<<font color="black">false</font>> color="black"]
+  node5401 -> node5402 [ color="black"]
+  node5398 -> node5399 [ color="black"]
+  node5409 -> node5410 [ color="black"]
+  node5394 -> node5395 [ color="black"]
+  node5400 -> node5401 [ color="black"]
+  node5396 -> node5397 [ color="black"]
+  node5408 -> node5409 [ color="black"]
+  node5397 -> node5398 [ color="black"]
+  node5407 -> node5408 [ color="black"]
+  node5392 -> node5393 [ color="black"]
+  node5403 -> node5404 [ color="black"]
+  node5402 -> node5403 [ color="black"]
+  node5393 -> node5394 [ color="black"]
+  node5389 -> node5391 [ color="black"]
+  node5391 -> node5392 [ color="black"]
+  node5399 -> node5400 [ color="black"]
+  node5406 -> node5407 [ color="black"]
+}

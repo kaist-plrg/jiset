@@ -1,0 +1,20 @@
+digraph {
+  node3602 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let idText = (get-syntax IdentifierName)</td></tr>
+      <tr><td align="left">1:??? &quot;Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{UnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{UnicodeEscapeSequence} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3603 [shape=cds, label=<<font color="black">2:app __x0__ = (UTF16Encode idTextUnescaped)</font>> color="black" fillcolor="white" style=filled]
+  node3600 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3604 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3601 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3600 -> node3602 [ color="black"]
+  node3602 -> node3603 [ color="black"]
+  node3603 -> node3604 [ color="black"]
+  node3604 -> node3601 [ color="black"]
+}

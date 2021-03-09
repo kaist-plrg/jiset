@@ -1,0 +1,41 @@
+digraph {
+  node11600 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11596 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let key = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11597 [shape=cds, label=<<font color="black">2:app __x2__ = (obj.GetOwnProperty obj key)</font>> color="black" fillcolor="white" style=filled]
+  node11592 [shape=cds, label=<<font color="black">app P = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node11593 [shape=cds, label=<<font color="black">0:app __x0__ = (ToObject O)</font>> color="black" fillcolor="white" style=filled]
+  node11591 [shape=cds, label=<<font color="black">app O = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11598 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let desc = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11590 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11594 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11599 [shape=cds, label=<<font color="black">3:app __x3__ = (FromPropertyDescriptor desc)</font>> color="black" fillcolor="white" style=filled]
+  node11589 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11595 [shape=cds, label=<<font color="black">1:app __x1__ = (ToPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node11595 -> node11596 [ color="black"]
+  node11594 -> node11595 [ color="black"]
+  node11599 -> node11600 [ color="black"]
+  node11591 -> node11592 [ color="black"]
+  node11592 -> node11593 [ color="black"]
+  node11589 -> node11591 [ color="black"]
+  node11598 -> node11599 [ color="black"]
+  node11600 -> node11590 [ color="black"]
+  node11597 -> node11598 [ color="black"]
+  node11596 -> node11597 [ color="black"]
+  node11593 -> node11594 [ color="black"]
+}

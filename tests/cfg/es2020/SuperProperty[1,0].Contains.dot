@@ -1,0 +1,55 @@
+digraph {
+  node4371 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x0__ = (= __x1__ __x2__)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4368 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node4364 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:??? &quot;If id:{symbol} is the nt:{ReservedWord} code:{super} , return value:{true} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4370 [shape=cds, label=<<font color="black">access __x2__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4365 [shape=diamond, label=<<font color="black">(is-instance-of symbol ReservedWord)</font>> color="black" fillcolor="white" style=filled]
+  node4366 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4372 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node4367 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let __x0__ = true</td></tr>
+      <tr><td align="left">2:__x0__ = (is-instance-of symbol Identifier)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4363 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4369 [shape=cds, label=<<font color="black">access __x1__ = (symbol &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4374 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4373 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4362 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4364 -> node4365 [ color="black"]
+  node4368 -> node4369 [label=<<font color="black">true</font>> color="black"]
+  node4368 -> node4372 [label=<<font color="black">false</font>> color="black"]
+  node4370 -> node4371 [ color="black"]
+  node4371 -> node4372 [ color="black"]
+  node4362 -> node4364 [ color="black"]
+  node4369 -> node4370 [ color="black"]
+  node4367 -> node4368 [ color="black"]
+  node4372 -> node4373 [label=<<font color="black">true</font>> color="black"]
+  node4372 -> node4374 [label=<<font color="black">false</font>> color="black"]
+  node4365 -> node4366 [label=<<font color="black">true</font>> color="black"]
+  node4365 -> node4367 [label=<<font color="black">false</font>> color="black"]
+  node4373 -> node4374 [ color="black"]
+  node4374 -> node4363 [ color="black"]
+  node4366 -> node4367 [ color="black"]
+}

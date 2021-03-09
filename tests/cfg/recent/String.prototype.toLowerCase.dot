@@ -1,0 +1,39 @@
+digraph {
+  node14765 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14769 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let S = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14773 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let L = [! __x3__]</td></tr>
+      <tr><td align="left">5:return L</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14771 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let sText = [! __x2__]</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{lowerText} be the result of toLowercase ( id:{sText} ) , according to the Unicode Default Case Conversion algorithm .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14767 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14768 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node14770 [shape=cds, label=<<font color="black">2:app __x2__ = (StringToCodePoints S)</font>> color="black" fillcolor="white" style=filled]
+  node14764 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14766 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
+  node14772 [shape=cds, label=<<font color="black">4:app __x3__ = (CodePointsToString lowerText)</font>> color="black" fillcolor="white" style=filled]
+  node14767 -> node14768 [ color="black"]
+  node14770 -> node14771 [ color="black"]
+  node14771 -> node14772 [ color="black"]
+  node14772 -> node14773 [ color="black"]
+  node14769 -> node14770 [ color="black"]
+  node14773 -> node14765 [ color="black"]
+  node14764 -> node14766 [ color="black"]
+  node14766 -> node14767 [ color="black"]
+  node14768 -> node14769 [ color="black"]
+}

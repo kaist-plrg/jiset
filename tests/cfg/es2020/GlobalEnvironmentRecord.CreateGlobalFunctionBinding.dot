@@ -1,0 +1,68 @@
+digraph {
+  node1808 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:return CONST_empty</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1803 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[? __x1__]</td></tr>
+      <tr><td align="left">9:??? &quot;Record that the binding for id:{N} in id:{ObjRec} has been initialized .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1800 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let desc = (new PropertyDescriptor(&quot;Value&quot; -&gt; V, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; D))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1796 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let ObjRec = envRec.ObjectRecord</td></tr>
+      <tr><td align="left">2:let globalObject = ObjRec.BindingObject</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1799 [shape=diamond, label=<<font color="black">(|| (= existingProp undefined) (= existingProp.Configurable true))</font>> color="black" fillcolor="white" style=filled]
+  node1795 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1805 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:[? __x2__]</td></tr>
+      <tr><td align="left">11:let varDeclaredNames = envRec.VarNames</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1798 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let existingProp = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1807 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append N -&gt; varDeclaredNames</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1794 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1804 [shape=cds, label=<<font color="black">10:app __x2__ = (Set globalObject N V false)</font>> color="black" fillcolor="white" style=filled]
+  node1806 [shape=diamond, label=<<font color="black">(! (contains varDeclaredNames N))</font>> color="black" fillcolor="white" style=filled]
+  node1801 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let desc = (new PropertyDescriptor(&quot;Value&quot; -&gt; V))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1802 [shape=cds, label=<<font color="black">8:app __x1__ = (DefinePropertyOrThrow globalObject N desc)</font>> color="black" fillcolor="white" style=filled]
+  node1797 [shape=cds, label=<<font color="black">3:app __x0__ = (globalObject.GetOwnProperty globalObject N)</font>> color="black" fillcolor="white" style=filled]
+  node1804 -> node1805 [ color="black"]
+  node1805 -> node1806 [ color="black"]
+  node1801 -> node1802 [ color="black"]
+  node1797 -> node1798 [ color="black"]
+  node1808 -> node1795 [ color="black"]
+  node1799 -> node1800 [label=<<font color="black">true</font>> color="black"]
+  node1799 -> node1801 [label=<<font color="black">false</font>> color="black"]
+  node1800 -> node1802 [ color="black"]
+  node1802 -> node1803 [ color="black"]
+  node1798 -> node1799 [ color="black"]
+  node1806 -> node1807 [label=<<font color="black">true</font>> color="black"]
+  node1806 -> node1808 [label=<<font color="black">false</font>> color="black"]
+  node1807 -> node1808 [ color="black"]
+  node1803 -> node1804 [ color="black"]
+  node1794 -> node1796 [ color="black"]
+  node1796 -> node1797 [ color="black"]
+}

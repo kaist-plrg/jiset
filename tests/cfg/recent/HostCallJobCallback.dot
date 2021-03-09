@@ -1,0 +1,21 @@
+digraph {
+  node1924 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1921 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1922 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1926 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1923 [shape=cds, label=<<font color="black">0:app __x0__ = (IsCallable jobCallback.Callback)</font>> color="black" fillcolor="white" style=filled]
+  node1925 [shape=cds, label=<<font color="black">1:app __x1__ = (Call jobCallback.Callback V argumentsList)</font>> color="black" fillcolor="white" style=filled]
+  node1923 -> node1924 [ color="black"]
+  node1924 -> node1925 [ color="black"]
+  node1926 -> node1922 [ color="black"]
+  node1921 -> node1923 [ color="black"]
+  node1925 -> node1926 [ color="black"]
+}

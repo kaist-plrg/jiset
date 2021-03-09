@@ -1,0 +1,50 @@
+digraph {
+  node2077 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2082 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext)</font>> color="black" fillcolor="white" style=filled]
+  node2083 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let __x0__ = (- GLOBAL_executionStack.length 1i)</td></tr>
+      <tr><td align="left">(pop GLOBAL_executionStack __x0__)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2080 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">GLOBAL_context = null</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2076 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2078 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let callerContext = GLOBAL_context</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2081 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let calleeContext = (new ExecutionContext(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">3:calleeContext.Function = F</td></tr>
+      <tr><td align="left">4:let calleeRealm = F.Realm</td></tr>
+      <tr><td align="left">5:calleeContext.Realm = calleeRealm</td></tr>
+      <tr><td align="left">6:calleeContext.ScriptOrModule = F.ScriptOrModule</td></tr>
+      <tr><td align="left">8:append calleeContext -&gt; GLOBAL_executionStack</td></tr>
+      <tr><td align="left">8:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">9:??? &quot;Let id:{result} be the Completion Record that is the result of evaluating id:{F} in an implementation - defined manner that conforms to the specification of id:{F} . id:{thisArgument} is the value:{this} value , id:{argumentsList} provides the named parameters , and the NewTarget value is value:{undefined} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2079 [shape=diamond, label=<<font color="black">(= callerContext null)</font>> color="black" fillcolor="white" style=filled]
+  node2084 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">11:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2083 -> node2084 [ color="black"]
+  node2079 -> node2080 [label=<<font color="black">true</font>> color="black"]
+  node2079 -> node2081 [label=<<font color="black">false</font>> color="black"]
+  node2076 -> node2078 [ color="black"]
+  node2084 -> node2077 [ color="black"]
+  node2081 -> node2082 [ color="black"]
+  node2078 -> node2079 [ color="black"]
+  node2082 -> node2083 [label=<<font color="black">true</font>> color="black"]
+  node2082 -> node2084 [label=<<font color="black">false</font>> color="black"]
+  node2080 -> node2081 [ color="black"]
+}

@@ -1,0 +1,37 @@
+digraph {
+  node8519 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8522 [shape=cds, label=<<font color="black">1:access __x0__ = (ArrowParameters &quot;Contains&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8526 [shape=cds, label=<<font color="black">2:access __x2__ = (ConciseBody &quot;Contains&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8523 [shape=cds, label=<<font color="black">1:app __x1__ = (__x0__ symbol)</font>> color="black" fillcolor="white" style=filled]
+  node8518 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8527 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ symbol)</font>> color="black" fillcolor="white" style=filled]
+  node8524 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node8528 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8520 [shape=diamond, label=<<font color="black">(! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol &quot;super&quot;)) (= symbol &quot;this&quot;)))</font>> color="black" fillcolor="white" style=filled]
+  node8521 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8525 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8522 -> node8523 [ color="black"]
+  node8521 -> node8522 [ color="black"]
+  node8526 -> node8527 [ color="black"]
+  node8525 -> node8526 [ color="black"]
+  node8528 -> node8519 [ color="black"]
+  node8524 -> node8525 [label=<<font color="black">true</font>> color="black"]
+  node8524 -> node8526 [label=<<font color="black">false</font>> color="black"]
+  node8527 -> node8528 [ color="black"]
+  node8523 -> node8524 [ color="black"]
+  node8518 -> node8520 [ color="black"]
+  node8520 -> node8521 [label=<<font color="black">true</font>> color="black"]
+  node8520 -> node8522 [label=<<font color="black">false</font>> color="black"]
+}

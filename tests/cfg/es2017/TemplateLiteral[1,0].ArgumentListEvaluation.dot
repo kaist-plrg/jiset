@@ -1,0 +1,45 @@
+digraph {
+  node3644 [shape=cds, label=<<font color="black">1:app __x0__ = (GetTemplateObject templateLiteral)</font>> color="black" fillcolor="white" style=filled]
+  node3647 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let firstSubRef = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3650 [shape=cds, label=<<font color="black">4:access __x3__ = (TemplateSpans &quot;SubstitutionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3643 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let templateLiteral = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3642 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3645 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let siteObj = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3648 [shape=cds, label=<<font color="black">3:app __x2__ = (GetValue firstSubRef)</font>> color="black" fillcolor="white" style=filled]
+  node3649 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let firstSub = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3646 [shape=cds, label=<<font color="black">2:access __x1__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3651 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let restSub = __x3__</td></tr>
+      <tr><td align="left">5:[? restSub]</td></tr>
+      <tr><td align="left">7:??? &quot;Return a List whose first element is id:{siteObj} , whose second elements is id:{firstSub} , and whose subsequent elements are the elements of id:{restSub} , in order . id:{restSub} may contain no elements .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3641 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3648 -> node3649 [ color="black"]
+  node3646 -> node3647 [ color="black"]
+  node3644 -> node3645 [ color="black"]
+  node3645 -> node3646 [ color="black"]
+  node3650 -> node3651 [ color="black"]
+  node3647 -> node3648 [ color="black"]
+  node3649 -> node3650 [ color="black"]
+  node3641 -> node3643 [ color="black"]
+  node3651 -> node3642 [ color="black"]
+  node3643 -> node3644 [ color="black"]
+}

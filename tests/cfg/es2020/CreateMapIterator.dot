@@ -1,0 +1,29 @@
+digraph {
+  node16950 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node16947 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16953 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryObjectCreate INTRINSIC_MapIteratorPrototype (new [&quot;IteratedMap&quot;, &quot;MapNextIndex&quot;, &quot;MapIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node16954 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let iterator = __x1__</td></tr>
+      <tr><td align="left">2:iterator.IteratedMap = map</td></tr>
+      <tr><td align="left">3:iterator.MapNextIndex = 0i</td></tr>
+      <tr><td align="left">4:iterator.MapIterationKind = kind</td></tr>
+      <tr><td align="left">5:return iterator</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16949 [shape=cds, label=<<font color="black">app map = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16952 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16948 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16951 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireInternalSlot map &quot;MapData&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16951 -> node16952 [ color="black"]
+  node16954 -> node16948 [ color="black"]
+  node16947 -> node16949 [ color="black"]
+  node16950 -> node16951 [ color="black"]
+  node16953 -> node16954 [ color="black"]
+  node16952 -> node16953 [ color="black"]
+  node16949 -> node16950 [ color="black"]
+}

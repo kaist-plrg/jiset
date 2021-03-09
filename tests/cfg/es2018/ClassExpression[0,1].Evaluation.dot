@@ -1,0 +1,61 @@
+digraph {
+  node9373 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let value = __x2__</td></tr>
+      <tr><td align="left">3:[? value]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9379 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:__x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9380 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9376 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let hasNameProperty = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9374 [shape=diamond, label=<<font color="black">(! (= className undefined))</font>> color="black" fillcolor="white" style=filled]
+  node9378 [shape=cds, label=<<font color="black">7:app __x4__ = (SetFunctionName value className)</font>> color="black" fillcolor="white" style=filled]
+  node9369 [shape=cds, label=<<font color="black">access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9368 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let className = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9365 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9372 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ className)</font>> color="black" fillcolor="white" style=filled]
+  node9375 [shape=cds, label=<<font color="black">5:app __x3__ = (HasOwnProperty value &quot;name&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9377 [shape=diamond, label=<<font color="black">(= hasNameProperty false)</font>> color="black" fillcolor="white" style=filled]
+  node9371 [shape=cds, label=<<font color="black">2:access __x1__ = (ClassTail &quot;ClassDefinitionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9366 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9367 [shape=diamond, label=<<font color="black">(= BindingIdentifier absent)</font>> color="black" fillcolor="white" style=filled]
+  node9370 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let className = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9367 -> node9368 [label=<<font color="black">true</font>> color="black"]
+  node9367 -> node9369 [label=<<font color="black">false</font>> color="black"]
+  node9378 -> node9379 [ color="black"]
+  node9374 -> node9375 [label=<<font color="black">true</font>> color="black"]
+  node9374 -> node9380 [label=<<font color="black">false</font>> color="black"]
+  node9373 -> node9374 [ color="black"]
+  node9371 -> node9372 [ color="black"]
+  node9376 -> node9377 [ color="black"]
+  node9375 -> node9376 [ color="black"]
+  node9380 -> node9366 [ color="black"]
+  node9365 -> node9367 [ color="black"]
+  node9372 -> node9373 [ color="black"]
+  node9370 -> node9371 [ color="black"]
+  node9368 -> node9371 [ color="black"]
+  node9377 -> node9378 [label=<<font color="black">true</font>> color="black"]
+  node9377 -> node9380 [label=<<font color="black">false</font>> color="black"]
+  node9379 -> node9380 [ color="black"]
+  node9369 -> node9370 [ color="black"]
+}

@@ -1,0 +1,60 @@
+digraph {
+  node6690 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lhs = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6695 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let value = __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6696 [shape=cds, label=<<font color="black">5:access __x5__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6691 [shape=cds, label=<<font color="black">4:app __x2__ = (IsAnonymousFunctionDefinition Initializer)</font>> color="black" fillcolor="white" style=filled]
+  node6688 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let bindingId = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6699 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let value = [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6692 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
+  node6701 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return [? __x7__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6693 [shape=cds, label=<<font color="black">3:access __x3__ = (Initializer &quot;NamedEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6697 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let rhs = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6686 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6685 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6700 [shape=cds, label=<<font color="black">7:app __x7__ = (PutValue lhs value)</font>> color="black" fillcolor="white" style=filled]
+  node6687 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6698 [shape=cds, label=<<font color="black">6:app __x6__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
+  node6689 [shape=cds, label=<<font color="black">1:app __x1__ = (ResolveBinding bindingId)</font>> color="black" fillcolor="white" style=filled]
+  node6694 [shape=cds, label=<<font color="black">3:app __x4__ = (__x3__ bindingId)</font>> color="black" fillcolor="white" style=filled]
+  node6692 -> node6693 [label=<<font color="black">true</font>> color="black"]
+  node6692 -> node6696 [label=<<font color="black">false</font>> color="black"]
+  node6694 -> node6695 [ color="black"]
+  node6695 -> node6700 [ color="black"]
+  node6687 -> node6688 [ color="black"]
+  node6685 -> node6687 [ color="black"]
+  node6691 -> node6692 [ color="black"]
+  node6689 -> node6690 [ color="black"]
+  node6696 -> node6697 [ color="black"]
+  node6701 -> node6686 [ color="black"]
+  node6699 -> node6700 [ color="black"]
+  node6690 -> node6691 [ color="black"]
+  node6697 -> node6698 [ color="black"]
+  node6700 -> node6701 [ color="black"]
+  node6688 -> node6689 [ color="black"]
+  node6698 -> node6699 [ color="black"]
+  node6693 -> node6694 [ color="black"]
+}

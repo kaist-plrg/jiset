@@ -1,0 +1,243 @@
+digraph {
+  node14552 [shape=cds, label=<<font color="black">9:app __x6__ = (Call replacer searchValue (new [O, replaceValue]))</font>> color="black" fillcolor="white" style=filled]
+  node14534 [shape=cds, label=<<font color="black">app searchValue = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node14576 [shape=cds, label=<<font color="black">access __x18__ = (string __x17__)</font>> color="black" fillcolor="white" style=filled]
+  node14577 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x16__ = (+ __x16__ __x18__)</td></tr>
+      <tr><td align="left">__x17__ = (+ __x17__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14535 [shape=cds, label=<<font color="black">app replaceValue = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node14539 [shape=cds, label=<<font color="black">2:app __x1__ = (IsRegExp searchValue)</font>> color="black" fillcolor="white" style=filled]
+  node14574 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let p = __x14__[__x15__]</td></tr>
+      <tr><td align="left">25:let __x16__ = &quot;&quot;</td></tr>
+      <tr><td align="left">25:let __x17__ = endOfLastMatch</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14585 [shape=cds, label=<<font color="black">31:app __x22__ = (GetSubstitution searchString string p captures undefined replaceValue)</font>> color="black" fillcolor="white" style=filled]
+  node14570 [shape=cds, label=<<font color="black">21:app __x13__ = (StringIndexOf string searchString (+ position advanceBy))</font>> color="black" fillcolor="white" style=filled]
+  node14538 [shape=diamond, label=<<font color="black">(! (|| (= searchValue undefined) (= searchValue null)))</font>> color="black" fillcolor="white" style=filled]
+  node14559 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let functionalReplace = __x9__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14553 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:return [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14542 [shape=cds, label=<<font color="black">4:app __x2__ = (Get searchValue &quot;flags&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node14564 [shape=cds, label=<<font color="black">16:app __x11__ = (max 1i searchLength)</font>> color="black" fillcolor="white" style=filled]
+  node14579 [shape=diamond, label=<<font color="black">(= functionalReplace true)</font>> color="black" fillcolor="white" style=filled]
+  node14533 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14584 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">29:assert (= __x21__ String)</td></tr>
+      <tr><td align="left">30:let captures = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14532 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14547 [shape=diamond, label=<<font color="black">(! (contains [? __x4__] &quot;g&quot;))</font>> color="black" fillcolor="white" style=filled]
+  node14569 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">20:append position -&gt; matchPositions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14558 [shape=cds, label=<<font color="black">12:app __x9__ = (IsCallable replaceValue)</font>> color="black" fillcolor="white" style=filled]
+  node14588 [shape=diamond, label=<<font color="black">(&lt; endOfLastMatch string.length)</font>> color="black" fillcolor="white" style=filled]
+  node14537 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14541 [shape=diamond, label=<<font color="black">(= isRegExp true)</font>> color="black" fillcolor="white" style=filled]
+  node14556 [shape=cds, label=<<font color="black">11:app __x8__ = (ToString searchValue)</font>> color="black" fillcolor="white" style=filled]
+  node14565 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:let advanceBy = __x11__</td></tr>
+      <tr><td align="left">17:let matchPositions = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14566 [shape=cds, label=<<font color="black">18:app __x12__ = (StringIndexOf string searchString 0i)</font>> color="black" fillcolor="white" style=filled]
+  node14580 [shape=cds, label=<<font color="black">27:app __x19__ = (Call replaceValue undefined (new [searchString, p, string]))</font>> color="black" fillcolor="white" style=filled]
+  node14561 [shape=cds, label=<<font color="black">14:app __x10__ = (ToString replaceValue)</font>> color="black" fillcolor="white" style=filled]
+  node14548 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14590 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">36:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14573 [shape=diamond, label=<<font color="black">(&lt; __x15__ __x14__.length)</font>> color="black" fillcolor="white" style=filled]
+  node14572 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">22:let endOfLastMatch = 0i</td></tr>
+      <tr><td align="left">23:let result = &quot;&quot;</td></tr>
+      <tr><td align="left">24:let __x14__ = matchPositions</td></tr>
+      <tr><td align="left">24:let __x15__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14544 [shape=cds, label=<<font color="black">5:app __x3__ = (RequireObjectCoercible flags)</font>> color="black" fillcolor="white" style=filled]
+  node14587 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">32:result = (+ (+ result preserved) replacement)</td></tr>
+      <tr><td align="left">33:endOfLastMatch = (+ p searchLength)</td></tr>
+      <tr><td align="left">__x15__ = (+ __x15__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14549 [shape=cds, label=<<font color="black">7:app __x5__ = (GetMethod searchValue SYMBOL_replace)</font>> color="black" fillcolor="white" style=filled]
+  node14540 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let isRegExp = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14581 [shape=cds, label=<<font color="black">27:app __x20__ = (ToString [? __x19__])</font>> color="black" fillcolor="white" style=filled]
+  node14555 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:let string = [? __x7__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14562 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:replaceValue = [? __x10__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14557 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:let searchString = [? __x8__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14550 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let replacer = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14589 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">??? &quot;Set id:{result} to the string - concatenation of id:{result} and the substring of id:{string} from id:{endOfLastMatch} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14545 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:[? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14567 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:let position = [! __x12__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14554 [shape=cds, label=<<font color="black">10:app __x7__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node14586 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">31:let replacement = [! __x22__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14543 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let flags = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14571 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">21:position = [! __x13__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14560 [shape=diamond, label=<<font color="black">(= functionalReplace false)</font>> color="black" fillcolor="white" style=filled]
+  node14582 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">27:let replacement = [? __x20__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14575 [shape=diamond, label=<<font color="black">(&lt; __x17__ (+ p 1i))</font>> color="black" fillcolor="white" style=filled]
+  node14536 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
+  node14551 [shape=diamond, label=<<font color="black">(! (= replacer undefined))</font>> color="black" fillcolor="white" style=filled]
+  node14546 [shape=cds, label=<<font color="black">6:app __x4__ = (ToString flags)</font>> color="black" fillcolor="white" style=filled]
+  node14578 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">25:let preserved = __x16__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14563 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:let searchLength = searchString.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14568 [shape=diamond, label=<<font color="black">(! (= position -1i))</font>> color="black" fillcolor="white" style=filled]
+  node14583 [shape=cds, label=<<font color="black">29:app __x21__ = (Type replaceValue)</font>> color="black" fillcolor="white" style=filled]
+  node14551 -> node14552 [label=<<font color="black">true</font>> color="black"]
+  node14551 -> node14554 [label=<<font color="black">false</font>> color="black"]
+  node14538 -> node14539 [label=<<font color="black">true</font>> color="black"]
+  node14538 -> node14554 [label=<<font color="black">false</font>> color="black"]
+  node14550 -> node14551 [ color="black"]
+  node14544 -> node14545 [ color="black"]
+  node14568 -> node14569 [label=<<font color="black">true</font>> color="black"]
+  node14568 -> node14572 [label=<<font color="black">false</font>> color="black"]
+  node14579 -> node14580 [label=<<font color="black">true</font>> color="black"]
+  node14579 -> node14583 [label=<<font color="black">false</font>> color="black"]
+  node14555 -> node14556 [ color="black"]
+  node14567 -> node14568 [ color="black"]
+  node14574 -> node14575 [ color="black"]
+  node14576 -> node14577 [ color="black"]
+  node14584 -> node14585 [ color="black"]
+  node14563 -> node14564 [ color="black"]
+  node14552 -> node14553 [ color="black"]
+  node14539 -> node14540 [ color="black"]
+  node14548 -> node14549 [ color="black"]
+  node14588 -> node14589 [label=<<font color="black">true</font>> color="black"]
+  node14588 -> node14590 [label=<<font color="black">false</font>> color="black"]
+  node14557 -> node14558 [ color="black"]
+  node14546 -> node14547 [ color="black"]
+  node14535 -> node14536 [ color="black"]
+  node14586 -> node14587 [ color="black"]
+  node14577 -> node14575 [ color="black"]
+  node14587 -> node14573 [ color="black"]
+  node14559 -> node14560 [ color="black"]
+  node14536 -> node14537 [ color="black"]
+  node14582 -> node14587 [ color="black"]
+  node14541 -> node14542 [label=<<font color="black">true</font>> color="black"]
+  node14541 -> node14549 [label=<<font color="black">false</font>> color="black"]
+  node14580 -> node14581 [ color="black"]
+  node14564 -> node14565 [ color="black"]
+  node14581 -> node14582 [ color="black"]
+  node14583 -> node14584 [ color="black"]
+  node14573 -> node14574 [label=<<font color="black">true</font>> color="black"]
+  node14573 -> node14588 [label=<<font color="black">false</font>> color="black"]
+  node14554 -> node14555 [ color="black"]
+  node14540 -> node14541 [ color="black"]
+  node14537 -> node14538 [ color="black"]
+  node14565 -> node14566 [ color="black"]
+  node14566 -> node14567 [ color="black"]
+  node14532 -> node14534 [ color="black"]
+  node14534 -> node14535 [ color="black"]
+  node14558 -> node14559 [ color="black"]
+  node14578 -> node14579 [ color="black"]
+  node14543 -> node14544 [ color="black"]
+  node14553 -> node14554 [ color="black"]
+  node14571 -> node14568 [ color="black"]
+  node14561 -> node14562 [ color="black"]
+  node14560 -> node14561 [label=<<font color="black">true</font>> color="black"]
+  node14560 -> node14563 [label=<<font color="black">false</font>> color="black"]
+  node14590 -> node14533 [ color="black"]
+  node14542 -> node14543 [ color="black"]
+  node14549 -> node14550 [ color="black"]
+  node14562 -> node14563 [ color="black"]
+  node14572 -> node14573 [ color="black"]
+  node14547 -> node14548 [label=<<font color="black">true</font>> color="black"]
+  node14547 -> node14549 [label=<<font color="black">false</font>> color="black"]
+  node14556 -> node14557 [ color="black"]
+  node14585 -> node14586 [ color="black"]
+  node14545 -> node14546 [ color="black"]
+  node14589 -> node14590 [ color="black"]
+  node14570 -> node14571 [ color="black"]
+  node14575 -> node14576 [label=<<font color="black">true</font>> color="black"]
+  node14575 -> node14578 [label=<<font color="black">false</font>> color="black"]
+  node14569 -> node14570 [ color="black"]
+}

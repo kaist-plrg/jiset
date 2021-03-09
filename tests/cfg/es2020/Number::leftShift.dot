@@ -1,0 +1,23 @@
+digraph {
+  node10 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let rnum = [! __x1__]</td></tr>
+      <tr><td align="left">2:let shiftCount = (&amp; rnum 31i)</td></tr>
+      <tr><td align="left">3:return (&lt;&lt; lnum shiftCount)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13 [shape=cds, label=<<font color="black">1:app __x1__ = (ToUint32 y)</font>> color="black" fillcolor="white" style=filled]
+  node12 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lnum = [! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=cds, label=<<font color="black">0:app __x0__ = (ToInt32 x)</font>> color="black" fillcolor="white" style=filled]
+  node11 -> node12 [ color="black"]
+  node13 -> node14 [ color="black"]
+  node12 -> node13 [ color="black"]
+  node9 -> node11 [ color="black"]
+  node14 -> node10 [ color="black"]
+}

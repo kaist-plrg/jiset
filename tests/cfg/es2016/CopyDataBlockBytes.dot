@@ -1,0 +1,32 @@
+digraph {
+  node228 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node233 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return CONST_empty</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node229 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node230 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:??? &quot;Let id:{fromSize} be the number of bytes in id:{fromBlock} .&quot;</td></tr>
+      <tr><td align="left">3:assert (! (&lt; fromSize (+ fromIndex count)))</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{toSize} be the number of bytes in id:{toBlock} .&quot;</td></tr>
+      <tr><td align="left">5:assert (! (&lt; toSize (+ toIndex count)))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node231 [shape=diamond, label=<<font color="black">(&lt; 0i count)</font>> color="black" fillcolor="white" style=filled]
+  node232 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:toBlock[toIndex] = fromBlock[fromIndex]</td></tr>
+      <tr><td align="left">8:toIndex = (+ toIndex 1i)</td></tr>
+      <tr><td align="left">8:fromIndex = (+ fromIndex 1i)</td></tr>
+      <tr><td align="left">9:count = (- count 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node232 -> node231 [ color="black"]
+  node230 -> node231 [ color="black"]
+  node231 -> node232 [label=<<font color="black">true</font>> color="black"]
+  node231 -> node233 [label=<<font color="black">false</font>> color="black"]
+  node228 -> node230 [ color="black"]
+  node233 -> node229 [ color="black"]
+}

@@ -1,0 +1,63 @@
+digraph {
+  node9241 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return list</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9233 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return list</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9230 [shape=cds, label=<<font color="black">0:access __x0__ = (ClassElementList &quot;NonConstructorMethodDefinitions&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9240 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node9236 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:__x1__ = (= __x2__ false)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9228 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9232 [shape=diamond, label=<<font color="black">(is-instance-of ClassElement ClassElement2)</font>> color="black" fillcolor="white" style=filled]
+  node9238 [shape=cds, label=<<font color="black">access __x3__ = (ClassElement &quot;PropName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9242 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:append ClassElement -&gt; list</td></tr>
+      <tr><td align="left">4:return list</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9234 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let __x1__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9235 [shape=cds, label=<<font color="black">2:access __x2__ = (ClassElement &quot;IsStatic&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9237 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node9231 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let list = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9239 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x1__ = (= __x3__ &quot;constructor&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9229 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9235 -> node9236 [ color="black"]
+  node9237 -> node9238 [label=<<font color="black">true</font>> color="black"]
+  node9237 -> node9240 [label=<<font color="black">false</font>> color="black"]
+  node9242 -> node9229 [ color="black"]
+  node9228 -> node9230 [ color="black"]
+  node9241 -> node9242 [ color="black"]
+  node9233 -> node9234 [ color="black"]
+  node9240 -> node9241 [label=<<font color="black">true</font>> color="black"]
+  node9240 -> node9242 [label=<<font color="black">false</font>> color="black"]
+  node9230 -> node9231 [ color="black"]
+  node9238 -> node9239 [ color="black"]
+  node9232 -> node9233 [label=<<font color="black">true</font>> color="black"]
+  node9232 -> node9234 [label=<<font color="black">false</font>> color="black"]
+  node9239 -> node9240 [ color="black"]
+  node9234 -> node9235 [ color="black"]
+  node9236 -> node9237 [ color="black"]
+  node9231 -> node9232 [ color="black"]
+}

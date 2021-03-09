@@ -1,0 +1,38 @@
+digraph {
+  node4739 [shape=cds, label=<<font color="black">2:app __x2__ = (env.GetSuperBase env)</font>> color="black" fillcolor="white" style=filled]
+  node4733 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4740 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let baseValue = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4736 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let env = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4737 [shape=cds, label=<<font color="black">1:app __x1__ = (env.HasSuperBinding env)</font>> color="black" fillcolor="white" style=filled]
+  node4738 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= __x1__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4741 [shape=cds, label=<<font color="black">3:app __x3__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
+  node4735 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment )</font>> color="black" fillcolor="white" style=filled]
+  node4742 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let bv = [? __x3__]</td></tr>
+      <tr><td align="left">4:return (new ReferenceRecord(&quot;Base&quot; -&gt; bv, &quot;ReferencedName&quot; -&gt; propertyKey, &quot;Strict&quot; -&gt; strict, &quot;ThisValue&quot; -&gt; actualThis))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4734 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4739 -> node4740 [ color="black"]
+  node4737 -> node4738 [ color="black"]
+  node4740 -> node4741 [ color="black"]
+  node4736 -> node4737 [ color="black"]
+  node4741 -> node4742 [ color="black"]
+  node4742 -> node4734 [ color="black"]
+  node4738 -> node4739 [ color="black"]
+  node4733 -> node4735 [ color="black"]
+  node4735 -> node4736 [ color="black"]
+}

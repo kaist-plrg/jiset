@@ -1,0 +1,34 @@
+digraph {
+  node11068 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let desc = &quot;&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11064 [shape=cds, label=<<font color="black">app sym = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11069 [shape=cds, label=<<font color="black">3:app __x1__ = (Type desc)</font>> color="black" fillcolor="white" style=filled]
+  node11065 [shape=cds, label=<<font color="black">0:app __x0__ = (Type sym)</font>> color="black" fillcolor="white" style=filled]
+  node11063 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11070 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:assert (= __x1__ String)</td></tr>
+      <tr><td align="left">4:return (+ (+ &quot;Symbol(&quot; desc) &quot;)&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11062 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11066 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Symbol)</td></tr>
+      <tr><td align="left">1:let desc = sym.Description</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11067 [shape=diamond, label=<<font color="black">(= desc undefined)</font>> color="black" fillcolor="white" style=filled]
+  node11067 -> node11068 [label=<<font color="black">true</font>> color="black"]
+  node11067 -> node11069 [label=<<font color="black">false</font>> color="black"]
+  node11066 -> node11067 [ color="black"]
+  node11065 -> node11066 [ color="black"]
+  node11070 -> node11063 [ color="black"]
+  node11068 -> node11069 [ color="black"]
+  node11069 -> node11070 [ color="black"]
+  node11062 -> node11064 [ color="black"]
+  node11064 -> node11065 [ color="black"]
+}

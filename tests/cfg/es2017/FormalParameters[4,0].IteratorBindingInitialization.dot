@@ -1,0 +1,26 @@
+digraph {
+  node8030 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node8025 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8029 [shape=cds, label=<<font color="black">2:access __x2__ = (FunctionRestParameter &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8027 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node8024 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8028 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let restIndex = __x1__</td></tr>
+      <tr><td align="left">1:[? restIndex]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8026 [shape=cds, label=<<font color="black">0:access __x0__ = (FormalParameterList &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8031 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8028 -> node8029 [ color="black"]
+  node8031 -> node8025 [ color="black"]
+  node8024 -> node8026 [ color="black"]
+  node8030 -> node8031 [ color="black"]
+  node8026 -> node8027 [ color="black"]
+  node8029 -> node8030 [ color="black"]
+  node8027 -> node8028 [ color="black"]
+}

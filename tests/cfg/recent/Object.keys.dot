@@ -1,0 +1,31 @@
+digraph {
+  node12458 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let nameList = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12453 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12457 [shape=cds, label=<<font color="black">1:app __x1__ = (EnumerableOwnPropertyNames obj CONST_key)</font>> color="black" fillcolor="white" style=filled]
+  node12454 [shape=cds, label=<<font color="black">app O = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12460 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12455 [shape=cds, label=<<font color="black">0:app __x0__ = (ToObject O)</font>> color="black" fillcolor="white" style=filled]
+  node12452 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12459 [shape=cds, label=<<font color="black">2:app __x2__ = (CreateArrayFromList nameList)</font>> color="black" fillcolor="white" style=filled]
+  node12456 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12460 -> node12453 [ color="black"]
+  node12457 -> node12458 [ color="black"]
+  node12456 -> node12457 [ color="black"]
+  node12458 -> node12459 [ color="black"]
+  node12452 -> node12454 [ color="black"]
+  node12454 -> node12455 [ color="black"]
+  node12455 -> node12456 [ color="black"]
+  node12459 -> node12460 [ color="black"]
+}

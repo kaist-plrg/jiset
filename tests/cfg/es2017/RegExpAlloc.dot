@@ -1,0 +1,24 @@
+digraph {
+  node13325 [shape=cds, label=<<font color="black">app newTarget = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node13326 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor newTarget INTRINSIC_RegExpPrototype (new [&quot;RegExpMatcher&quot;, &quot;OriginalSource&quot;, &quot;OriginalFlags&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node13323 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13327 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13324 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13328 [shape=cds, label=<<font color="black">1:app __x1__ = (DefinePropertyOrThrow obj &quot;lastIndex&quot; (new PropertyDescriptor(&quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node13329 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[! __x1__]</td></tr>
+      <tr><td align="left">2:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13329 -> node13324 [ color="black"]
+  node13327 -> node13328 [ color="black"]
+  node13323 -> node13325 [ color="black"]
+  node13328 -> node13329 [ color="black"]
+  node13325 -> node13326 [ color="black"]
+  node13326 -> node13327 [ color="black"]
+}

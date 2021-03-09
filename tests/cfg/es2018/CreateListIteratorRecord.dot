@@ -1,0 +1,25 @@
+digraph {
+  node1205 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1206 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1210 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let next = __x1__</td></tr>
+      <tr><td align="left">5:return (new Record(&quot;Iterator&quot; -&gt; iterator, &quot;NextMethod&quot; -&gt; next, &quot;Done&quot; -&gt; false))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1207 [shape=cds, label=<<font color="black">0:app __x0__ = (ObjectCreate INTRINSIC_IteratorPrototype (new [&quot;IteratedList&quot;, &quot;ListIteratorNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node1209 [shape=cds, label=<<font color="black">4:app __x1__ = (CreateBuiltinFunction steps (new []))</font>> color="black" fillcolor="white" style=filled]
+  node1208 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let iterator = __x0__</td></tr>
+      <tr><td align="left">1:iterator.IteratedList = list</td></tr>
+      <tr><td align="left">2:iterator.ListIteratorNextIndex = 0i</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{steps} be the algorithm steps defined in ListIterator code:{next} ( ListIteratornext ) .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1208 -> node1209 [ color="black"]
+  node1209 -> node1210 [ color="black"]
+  node1207 -> node1208 [ color="black"]
+  node1210 -> node1206 [ color="black"]
+  node1205 -> node1207 [ color="black"]
+}

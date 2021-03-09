@@ -1,0 +1,30 @@
+digraph {
+  node19533 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:[! __x1__]</td></tr>
+      <tr><td align="left">6:return generator</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19529 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let internalSlotsList = (new [&quot;GeneratorState&quot;, &quot;GeneratorContext&quot;, &quot;GeneratorBrand&quot;])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19530 [shape=cds, label=<<font color="black">2:app __x0__ = (OrdinaryObjectCreate generatorPrototype internalSlotsList)</font>> color="black" fillcolor="white" style=filled]
+  node19531 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let generator = [! __x0__]</td></tr>
+      <tr><td align="left">3:generator.GeneratorBrand = generatorBrand</td></tr>
+      <tr><td align="left">4:generator.GeneratorState = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19527 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19532 [shape=cds, label=<<font color="black">5:app __x1__ = (GeneratorStart generator closure)</font>> color="black" fillcolor="white" style=filled]
+  node19528 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19532 -> node19533 [ color="black"]
+  node19533 -> node19528 [ color="black"]
+  node19531 -> node19532 [ color="black"]
+  node19529 -> node19530 [ color="black"]
+  node19530 -> node19531 [ color="black"]
+  node19527 -> node19529 [ color="black"]
+}

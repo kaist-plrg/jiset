@@ -1,0 +1,63 @@
+digraph {
+  node1063 [shape=cds, label=<<font color="black">9:app __x1__ = (GetFunctionRealm proxyTarget)</font>> color="black" fillcolor="white" style=filled]
+  node1051 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1057 [shape=cds, label=<<font color="black">5:app __x0__ = (GetFunctionRealm target)</font>> color="black" fillcolor="white" style=filled]
+  node1064 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1060 [shape=diamond, label=<<font color="black">(= obj.ProxyHandler null)</font>> color="black" fillcolor="white" style=filled]
+  node1054 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return obj.Realm</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1058 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1061 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1053 [shape=diamond, label=<<font color="black">(! (= obj.Realm absent))</font>> color="black" fillcolor="white" style=filled]
+  node1052 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1062 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let proxyTarget = obj.ProxyTarget</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1055 [shape=diamond, label=<<font color="black">(= (typeof obj) &quot;BoundFunctionExoticObject&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node1059 [shape=diamond, label=<<font color="black">(= (typeof obj) &quot;ProxyExoticObject&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node1056 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let target = obj.BoundTargetFunction</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1065 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return REALM</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1056 -> node1057 [ color="black"]
+  node1055 -> node1056 [label=<<font color="black">true</font>> color="black"]
+  node1055 -> node1059 [label=<<font color="black">false</font>> color="black"]
+  node1065 -> node1052 [ color="black"]
+  node1063 -> node1064 [ color="black"]
+  node1064 -> node1065 [ color="black"]
+  node1062 -> node1063 [ color="black"]
+  node1057 -> node1058 [ color="black"]
+  node1058 -> node1059 [ color="black"]
+  node1053 -> node1054 [label=<<font color="black">true</font>> color="black"]
+  node1053 -> node1055 [label=<<font color="black">false</font>> color="black"]
+  node1059 -> node1060 [label=<<font color="black">true</font>> color="black"]
+  node1059 -> node1065 [label=<<font color="black">false</font>> color="black"]
+  node1054 -> node1055 [ color="black"]
+  node1060 -> node1061 [label=<<font color="black">true</font>> color="black"]
+  node1060 -> node1062 [label=<<font color="black">false</font>> color="black"]
+  node1051 -> node1053 [ color="black"]
+  node1061 -> node1062 [ color="black"]
+}

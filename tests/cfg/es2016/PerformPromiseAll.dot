@@ -1,0 +1,132 @@
+digraph {
+  node15971 [shape=cds, label=<<font color="black">17:app __x5__ = (IsAbruptCompletion nextValue)</font>> color="black" fillcolor="white" style=filled]
+  node15954 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node15975 [shape=cds, label=<<font color="black">20:app __x6__ = (Invoke constructor &quot;resolve&quot; (new [nextValue]))</font>> color="black" fillcolor="white" style=filled]
+  node15958 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node15962 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:iteratorRecord.Done = true</td></tr>
+      <tr><td align="left">11:remainingElementsCount.Value = (- remainingElementsCount.Value 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15959 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15972 [shape=diamond, label=<<font color="black">__x5__</font>> color="black" fillcolor="white" style=filled]
+  node15951 [shape=cds, label=<<font color="black">app constructor = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node15978 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">28:[? __x7__]</td></tr>
+      <tr><td align="left">29:index = (+ index 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15960 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[? next]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15956 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let next = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15969 [shape=cds, label=<<font color="black">16:app __x4__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
+  node15957 [shape=cds, label=<<font color="black">7:app __x1__ = (IsAbruptCompletion next)</font>> color="black" fillcolor="white" style=filled]
+  node15964 [shape=cds, label=<<font color="black">13:app __x2__ = (CreateArrayFromList values)</font>> color="black" fillcolor="white" style=filled]
+  node15949 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15970 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:let nextValue = __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15948 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15963 [shape=diamond, label=<<font color="black">(= remainingElementsCount.Value 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15967 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:[? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15952 [shape=cds, label=<<font color="black">app resultCapability = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node15976 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">20:let nextPromise = [? __x6__]</td></tr>
+      <tr><td align="left">21:let resolveElement = (new BuiltinFunctionObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">22:resolveElement.AlreadyCalled = (new Record(&quot;Value&quot; -&gt; false))</td></tr>
+      <tr><td align="left">23:resolveElement.Index = index</td></tr>
+      <tr><td align="left">24:resolveElement.Values = values</td></tr>
+      <tr><td align="left">25:resolveElement.Capabilities = resultCapability</td></tr>
+      <tr><td align="left">26:resolveElement.RemainingElements = remainingElementsCount</td></tr>
+      <tr><td align="left">27:remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15955 [shape=cds, label=<<font color="black">6:app __x0__ = (IteratorStep iteratorRecord.Iterator)</font>> color="black" fillcolor="white" style=filled]
+  node15961 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
+  node15968 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:return resultCapability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15966 [shape=cds, label=<<font color="black">14:app __x3__ = (Call resultCapability.Resolve undefined (new [valuesArray]))</font>> color="black" fillcolor="white" style=filled]
+  node15965 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:let valuesArray = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15973 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15950 [shape=cds, label=<<font color="black">app iteratorRecord = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15977 [shape=cds, label=<<font color="black">28:app __x7__ = (Invoke nextPromise &quot;then&quot; (new [resolveElement, resultCapability.Reject]))</font>> color="black" fillcolor="white" style=filled]
+  node15974 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:[? nextValue]</td></tr>
+      <tr><td align="left">19:append undefined -&gt; values</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15953 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let values = (new [])</td></tr>
+      <tr><td align="left">3:let remainingElementsCount = (new Record(&quot;Value&quot; -&gt; 1i))</td></tr>
+      <tr><td align="left">4:let index = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15954 -> node15955 [label=<<font color="black">true</font>> color="black"]
+  node15954 -> node15949 [label=<<font color="black">false</font>> color="black"]
+  node15966 -> node15967 [ color="black"]
+  node15951 -> node15952 [ color="black"]
+  node15976 -> node15977 [ color="black"]
+  node15973 -> node15974 [ color="black"]
+  node15952 -> node15953 [ color="black"]
+  node15953 -> node15954 [ color="black"]
+  node15959 -> node15960 [ color="black"]
+  node15974 -> node15975 [ color="black"]
+  node15968 -> node15969 [ color="black"]
+  node15967 -> node15968 [ color="black"]
+  node15962 -> node15963 [ color="black"]
+  node15958 -> node15959 [label=<<font color="black">true</font>> color="black"]
+  node15958 -> node15960 [label=<<font color="black">false</font>> color="black"]
+  node15955 -> node15956 [ color="black"]
+  node15964 -> node15965 [ color="black"]
+  node15971 -> node15972 [ color="black"]
+  node15970 -> node15971 [ color="black"]
+  node15978 -> node15954 [ color="black"]
+  node15950 -> node15951 [ color="black"]
+  node15965 -> node15966 [ color="black"]
+  node15960 -> node15961 [ color="black"]
+  node15975 -> node15976 [ color="black"]
+  node15961 -> node15962 [label=<<font color="black">true</font>> color="black"]
+  node15961 -> node15969 [label=<<font color="black">false</font>> color="black"]
+  node15948 -> node15950 [ color="black"]
+  node15977 -> node15978 [ color="black"]
+  node15956 -> node15957 [ color="black"]
+  node15969 -> node15970 [ color="black"]
+  node15963 -> node15964 [label=<<font color="black">true</font>> color="black"]
+  node15963 -> node15968 [label=<<font color="black">false</font>> color="black"]
+  node15957 -> node15958 [ color="black"]
+  node15972 -> node15973 [label=<<font color="black">true</font>> color="black"]
+  node15972 -> node15974 [label=<<font color="black">false</font>> color="black"]
+}

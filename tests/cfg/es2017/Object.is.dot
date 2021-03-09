@@ -1,0 +1,17 @@
+digraph {
+  node11055 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11051 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11052 [shape=cds, label=<<font color="black">app value1 = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11053 [shape=cds, label=<<font color="black">app value2 = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node11054 [shape=cds, label=<<font color="black">0:app __x0__ = (SameValue value1 value2)</font>> color="black" fillcolor="white" style=filled]
+  node11050 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11050 -> node11052 [ color="black"]
+  node11052 -> node11053 [ color="black"]
+  node11053 -> node11054 [ color="black"]
+  node11054 -> node11055 [ color="black"]
+  node11055 -> node11051 [ color="black"]
+}

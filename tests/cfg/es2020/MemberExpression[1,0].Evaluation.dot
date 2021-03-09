@@ -1,0 +1,44 @@
+digraph {
+  node4560 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4563 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4556 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let baseReference = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4557 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node4553 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4562 [shape=cds, label=<<font color="black">3:app __x2__ = (EvaluatePropertyAccessWithExpressionKey baseValue Expression strict)</font>> color="black" fillcolor="white" style=filled]
+  node4558 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let baseValue = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4554 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4561 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4559 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node4555 [shape=cds, label=<<font color="black">0:access __x0__ = (MemberExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4553 -> node4555 [ color="black"]
+  node4555 -> node4556 [ color="black"]
+  node4558 -> node4559 [ color="black"]
+  node4557 -> node4558 [ color="black"]
+  node4561 -> node4562 [ color="black"]
+  node4563 -> node4554 [ color="black"]
+  node4560 -> node4562 [ color="black"]
+  node4556 -> node4557 [ color="black"]
+  node4559 -> node4560 [label=<<font color="black">true</font>> color="black"]
+  node4559 -> node4561 [label=<<font color="black">false</font>> color="black"]
+  node4562 -> node4563 [ color="black"]
+}

@@ -1,0 +1,83 @@
+digraph {
+  node5593 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node5589 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5597 [shape=diamond, label=<<font color="black">(&lt; __x5__ __x4__.length)</font>> color="black" fillcolor="white" style=filled]
+  node5594 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let d = __x1__[__x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5588 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5603 [shape=cds, label=<<font color="black">8:app __x8__ = (envRec.CreateMutableBinding envRec dn false)</font>> color="black" fillcolor="white" style=filled]
+  node5598 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let dn = __x4__[__x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5595 [shape=cds, label=<<font color="black">4:access __x3__ = (d &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5599 [shape=cds, label=<<font color="black">7:access __x6__ = (d &quot;IsConstantDeclaration&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5596 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let __x4__ = __x3__</td></tr>
+      <tr><td align="left">4:let __x5__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5600 [shape=diamond, label=<<font color="black">(= __x6__ true)</font>> color="black" fillcolor="white" style=filled]
+  node5590 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let envRec = env.EnvironmentRecord</td></tr>
+      <tr><td align="left">1:assert (= (typeof envRec) &quot;DeclarativeEnvironmentRecord&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5591 [shape=cds, label=<<font color="black">2:access __x0__ = (code &quot;LexicallyScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5605 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x5__ = (+ __x5__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5604 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[! __x8__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5602 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:[! __x7__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5592 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let declarations = __x0__</td></tr>
+      <tr><td align="left">3:let __x1__ = declarations</td></tr>
+      <tr><td align="left">3:let __x2__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5606 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:??? &quot;If id:{d} is a nt:{GeneratorDeclaration} production or a nt:{FunctionDeclaration} production , then in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5601 [shape=cds, label=<<font color="black">6:app __x7__ = (envRec.CreateImmutableBinding envRec dn true)</font>> color="black" fillcolor="white" style=filled]
+  node5595 -> node5596 [ color="black"]
+  node5605 -> node5597 [ color="black"]
+  node5603 -> node5604 [ color="black"]
+  node5597 -> node5598 [label=<<font color="black">true</font>> color="black"]
+  node5597 -> node5606 [label=<<font color="black">false</font>> color="black"]
+  node5594 -> node5595 [ color="black"]
+  node5599 -> node5600 [ color="black"]
+  node5588 -> node5590 [ color="black"]
+  node5602 -> node5605 [ color="black"]
+  node5601 -> node5602 [ color="black"]
+  node5604 -> node5605 [ color="black"]
+  node5592 -> node5593 [ color="black"]
+  node5606 -> node5593 [ color="black"]
+  node5593 -> node5594 [label=<<font color="black">true</font>> color="black"]
+  node5593 -> node5589 [label=<<font color="black">false</font>> color="black"]
+  node5591 -> node5592 [ color="black"]
+  node5590 -> node5591 [ color="black"]
+  node5596 -> node5597 [ color="black"]
+  node5600 -> node5601 [label=<<font color="black">true</font>> color="black"]
+  node5600 -> node5603 [label=<<font color="black">false</font>> color="black"]
+  node5598 -> node5599 [ color="black"]
+}

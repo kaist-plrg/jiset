@@ -1,0 +1,81 @@
+digraph {
+  node3253 [shape=cds, label=<<font color="black">8:app __x3__ = (IsConstructor target)</font>> color="black" fillcolor="white" style=filled]
+  node3249 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let P = (new OrdinaryObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3248 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3243 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3241 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3246 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3256 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:P.ProxyTarget = target</td></tr>
+      <tr><td align="left">11:P.ProxyHandler = handler</td></tr>
+      <tr><td align="left">12:return P</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3252 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:P.Call = ProxyObjectDOTCall</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3239 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node3250 [shape=cds, label=<<font color="black">6:app __x2__ = (IsCallable target)</font>> color="black" fillcolor="white" style=filled]
+  node3254 [shape=diamond, label=<<font color="black">(= __x3__ true)</font>> color="black" fillcolor="white" style=filled]
+  node3237 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3242 [shape=diamond, label=<<font color="black">(&amp;&amp; (= (typeof target) &quot;ProxyExoticObject&quot;) (= target.ProxyHandler null))</font>> color="black" fillcolor="white" style=filled]
+  node3247 [shape=diamond, label=<<font color="black">(&amp;&amp; (= (typeof handler) &quot;ProxyExoticObject&quot;) (= handler.ProxyHandler null))</font>> color="black" fillcolor="white" style=filled]
+  node3255 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">P.Construct = ProxyObjectDOTConstruct</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3240 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node3251 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
+  node3238 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3244 [shape=cds, label=<<font color="black">2:app __x1__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
+  node3245 [shape=diamond, label=<<font color="black">(! (= __x1__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node3237 -> node3239 [ color="black"]
+  node3242 -> node3243 [label=<<font color="black">true</font>> color="black"]
+  node3242 -> node3244 [label=<<font color="black">false</font>> color="black"]
+  node3250 -> node3251 [ color="black"]
+  node3251 -> node3252 [label=<<font color="black">true</font>> color="black"]
+  node3251 -> node3256 [label=<<font color="black">false</font>> color="black"]
+  node3248 -> node3249 [ color="black"]
+  node3241 -> node3242 [ color="black"]
+  node3239 -> node3240 [ color="black"]
+  node3256 -> node3238 [ color="black"]
+  node3253 -> node3254 [ color="black"]
+  node3244 -> node3245 [ color="black"]
+  node3246 -> node3247 [ color="black"]
+  node3249 -> node3250 [ color="black"]
+  node3243 -> node3244 [ color="black"]
+  node3247 -> node3248 [label=<<font color="black">true</font>> color="black"]
+  node3247 -> node3249 [label=<<font color="black">false</font>> color="black"]
+  node3252 -> node3253 [ color="black"]
+  node3255 -> node3256 [ color="black"]
+  node3254 -> node3255 [label=<<font color="black">true</font>> color="black"]
+  node3254 -> node3256 [label=<<font color="black">false</font>> color="black"]
+  node3240 -> node3241 [label=<<font color="black">true</font>> color="black"]
+  node3240 -> node3242 [label=<<font color="black">false</font>> color="black"]
+  node3245 -> node3246 [label=<<font color="black">true</font>> color="black"]
+  node3245 -> node3247 [label=<<font color="black">false</font>> color="black"]
+}

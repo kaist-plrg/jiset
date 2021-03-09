@@ -1,0 +1,72 @@
+digraph {
+  node7484 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7496 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:__x5__</td></tr>
+      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7492 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:[! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7486 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lastIterationEnv = GLOBAL_context.LexicalEnvironment</td></tr>
+      <tr><td align="left">2:let outer = lastIterationEnv.OuterEnv</td></tr>
+      <tr><td align="left">3:assert (! (= outer null))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7491 [shape=cds, label=<<font color="black">6:app __x3__ = (thisIterationEnv.CreateMutableBinding thisIterationEnv bn false)</font>> color="black" fillcolor="white" style=filled]
+  node7490 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let bn = __x1__[__x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7494 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let lastValue = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7483 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7489 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node7493 [shape=cds, label=<<font color="black">7:app __x4__ = (lastIterationEnv.GetBindingValue lastIterationEnv bn true)</font>> color="black" fillcolor="white" style=filled]
+  node7485 [shape=diamond, label=<<font color="black">(&lt; 0i perIterationBindings.length)</font>> color="black" fillcolor="white" style=filled]
+  node7495 [shape=cds, label=<<font color="black">8:app __x5__ = (thisIterationEnv.InitializeBinding thisIterationEnv bn lastValue)</font>> color="black" fillcolor="white" style=filled]
+  node7497 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:GLOBAL_context.LexicalEnvironment = thisIterationEnv</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7487 [shape=cds, label=<<font color="black">4:app __x0__ = (NewDeclarativeEnvironment outer)</font>> color="black" fillcolor="white" style=filled]
+  node7498 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7488 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let thisIterationEnv = __x0__</td></tr>
+      <tr><td align="left">5:let __x1__ = perIterationBindings</td></tr>
+      <tr><td align="left">5:let __x2__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7483 -> node7485 [ color="black"]
+  node7498 -> node7484 [ color="black"]
+  node7487 -> node7488 [ color="black"]
+  node7495 -> node7496 [ color="black"]
+  node7486 -> node7487 [ color="black"]
+  node7497 -> node7498 [ color="black"]
+  node7493 -> node7494 [ color="black"]
+  node7492 -> node7493 [ color="black"]
+  node7491 -> node7492 [ color="black"]
+  node7488 -> node7489 [ color="black"]
+  node7485 -> node7486 [label=<<font color="black">true</font>> color="black"]
+  node7485 -> node7498 [label=<<font color="black">false</font>> color="black"]
+  node7489 -> node7490 [label=<<font color="black">true</font>> color="black"]
+  node7489 -> node7497 [label=<<font color="black">false</font>> color="black"]
+  node7496 -> node7489 [ color="black"]
+  node7494 -> node7495 [ color="black"]
+  node7490 -> node7491 [ color="black"]
+}

@@ -1,0 +1,30 @@
+digraph {
+  node4226 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue firstSubRef)</font>> color="black" fillcolor="white" style=filled]
+  node4224 [shape=cds, label=<<font color="black">0:access __x0__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4227 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let firstSub = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4223 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4228 [shape=cds, label=<<font color="black">2:access __x2__ = (TemplateSpans &quot;SubstitutionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4222 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4225 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let firstSubRef = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4229 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let restSub = [? __x2__]</td></tr>
+      <tr><td align="left">4:return (new [firstSub, restSub])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4228 -> node4229 [ color="black"]
+  node4229 -> node4223 [ color="black"]
+  node4227 -> node4228 [ color="black"]
+  node4226 -> node4227 [ color="black"]
+  node4225 -> node4226 [ color="black"]
+  node4222 -> node4224 [ color="black"]
+  node4224 -> node4225 [ color="black"]
+}

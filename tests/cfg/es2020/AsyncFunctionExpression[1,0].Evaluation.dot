@@ -1,0 +1,64 @@
+digraph {
+  node10248 [shape=cds, label=<<font color="black">7:app __x6__ = (envRec.InitializeBinding envRec name closure)</font>> color="black" fillcolor="white" style=filled]
+  node10238 [shape=cds, label=<<font color="black">1:app __x1__ = (NewDeclarativeEnvironment scope)</font>> color="black" fillcolor="white" style=filled]
+  node10243 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:[! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10239 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let funcEnv = [! __x1__]</td></tr>
+      <tr><td align="left">2:let envRec = funcEnv.EnvironmentRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10242 [shape=cds, label=<<font color="black">4:app __x3__ = (envRec.CreateImmutableBinding envRec name false)</font>> color="black" fillcolor="white" style=filled]
+  node10236 [shape=cds, label=<<font color="black">0:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10240 [shape=cds, label=<<font color="black">3:access __x2__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10249 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:[! __x6__]</td></tr>
+      <tr><td align="left">8:closure.SourceText = (get-syntax AsyncFunctionExpression)</td></tr>
+      <tr><td align="left">9:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10246 [shape=cds, label=<<font color="black">6:app __x5__ = (SetFunctionName closure name)</font>> color="black" fillcolor="white" style=filled]
+  node10241 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let name = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10237 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let scope = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10245 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let closure = [! __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10234 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10244 [shape=cds, label=<<font color="black">5:app __x4__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis funcEnv)</font>> color="black" fillcolor="white" style=filled]
+  node10247 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:[! __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10235 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10245 -> node10246 [ color="black"]
+  node10240 -> node10241 [ color="black"]
+  node10248 -> node10249 [ color="black"]
+  node10249 -> node10235 [ color="black"]
+  node10242 -> node10243 [ color="black"]
+  node10237 -> node10238 [ color="black"]
+  node10239 -> node10240 [ color="black"]
+  node10236 -> node10237 [ color="black"]
+  node10241 -> node10242 [ color="black"]
+  node10246 -> node10247 [ color="black"]
+  node10238 -> node10239 [ color="black"]
+  node10243 -> node10244 [ color="black"]
+  node10244 -> node10245 [ color="black"]
+  node10247 -> node10248 [ color="black"]
+  node10234 -> node10236 [ color="black"]
+}

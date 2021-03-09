@@ -1,0 +1,71 @@
+digraph {
+  node2921 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2908 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2918 [shape=cds, label=<<font color="black">7:app __x4__ = (IsValidIntegerIndex O numericIndex)</font>> color="black" fillcolor="white" style=filled]
+  node2916 [shape=diamond, label=<<font color="black">(= __x3__ true)</font>> color="black" fillcolor="white" style=filled]
+  node2906 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2914 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let buffer = O.ViewedArrayBuffer</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2920 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2913 [shape=diamond, label=<<font color="black">(! (= numericIndex undefined))</font>> color="black" fillcolor="white" style=filled]
+  node2922 [shape=cds, label=<<font color="black">9:app __x5__ = (OrdinaryHasProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node2910 [shape=diamond, label=<<font color="black">(= __x1__ String)</font>> color="black" fillcolor="white" style=filled]
+  node2905 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2915 [shape=cds, label=<<font color="black">6:app __x3__ = (IsDetachedBuffer buffer)</font>> color="black" fillcolor="white" style=filled]
+  node2909 [shape=cds, label=<<font color="black">2:app __x1__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node2923 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:return [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2911 [shape=cds, label=<<font color="black">3:app __x2__ = (CanonicalNumericIndexString P)</font>> color="black" fillcolor="white" style=filled]
+  node2919 [shape=diamond, label=<<font color="black">(= [! __x4__] false)</font>> color="black" fillcolor="white" style=filled]
+  node2907 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node2912 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let numericIndex = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2917 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2912 -> node2913 [ color="black"]
+  node2908 -> node2909 [ color="black"]
+  node2917 -> node2918 [ color="black"]
+  node2915 -> node2916 [ color="black"]
+  node2921 -> node2922 [ color="black"]
+  node2916 -> node2917 [label=<<font color="black">true</font>> color="black"]
+  node2916 -> node2918 [label=<<font color="black">false</font>> color="black"]
+  node2909 -> node2910 [ color="black"]
+  node2911 -> node2912 [ color="black"]
+  node2913 -> node2914 [label=<<font color="black">true</font>> color="black"]
+  node2913 -> node2922 [label=<<font color="black">false</font>> color="black"]
+  node2919 -> node2920 [label=<<font color="black">true</font>> color="black"]
+  node2919 -> node2921 [label=<<font color="black">false</font>> color="black"]
+  node2920 -> node2921 [ color="black"]
+  node2907 -> node2908 [ color="black"]
+  node2918 -> node2919 [ color="black"]
+  node2923 -> node2906 [ color="black"]
+  node2914 -> node2915 [ color="black"]
+  node2922 -> node2923 [ color="black"]
+  node2910 -> node2911 [label=<<font color="black">true</font>> color="black"]
+  node2910 -> node2922 [label=<<font color="black">false</font>> color="black"]
+  node2905 -> node2907 [ color="black"]
+}

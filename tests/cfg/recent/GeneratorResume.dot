@@ -1,0 +1,38 @@
+digraph {
+  node19481 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19485 [shape=cds, label=<<font color="black">app __x1__ = (CreateIterResultObject undefined true)</font>> color="black" fillcolor="white" style=filled]
+  node19484 [shape=diamond, label=<<font color="black">(= state CONST_completed)</font>> color="black" fillcolor="white" style=filled]
+  node19483 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let state = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19487 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))</td></tr>
+      <tr><td align="left">3:let genContext = generator.GeneratorContext</td></tr>
+      <tr><td align="left">4:let methodContext = GLOBAL_context</td></tr>
+      <tr><td align="left">5:GLOBAL_context = null</td></tr>
+      <tr><td align="left">6:generator.GeneratorState = CONST_executing</td></tr>
+      <tr><td align="left">7:append genContext -&gt; GLOBAL_executionStack</td></tr>
+      <tr><td align="left">7:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">8:??? &quot;Resume the suspended evaluation of id:{genContext} using NormalCompletion ( id:{value} ) as the result of the operation that suspended it . Let id:{result} be the value returned by the resumed computation .&quot;</td></tr>
+      <tr><td align="left">10:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19480 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19482 [shape=cds, label=<<font color="black">0:app __x0__ = (GeneratorValidate generator generatorBrand)</font>> color="black" fillcolor="white" style=filled]
+  node19486 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19484 -> node19485 [label=<<font color="black">true</font>> color="black"]
+  node19484 -> node19487 [label=<<font color="black">false</font>> color="black"]
+  node19487 -> node19481 [ color="black"]
+  node19483 -> node19484 [ color="black"]
+  node19486 -> node19487 [ color="black"]
+  node19482 -> node19483 [ color="black"]
+  node19485 -> node19486 [ color="black"]
+  node19480 -> node19482 [ color="black"]
+}

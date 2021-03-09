@@ -1,0 +1,131 @@
+digraph {
+  node913 [shape=cds, label=<<font color="black">16:app __x10__ = (DefinePropertyOrThrow O k desc)</font>> color="black" fillcolor="white" style=filled]
+  node898 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let __x3__ = keys</td></tr>
+      <tr><td align="left">6:let __x4__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node902 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:[? __x5__]</td></tr>
+      <tr><td align="left">__x4__ = (+ __x4__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node905 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let k = __x6__[__x7__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node901 [shape=cds, label=<<font color="black">7:app __x5__ = (DefinePropertyOrThrow O k (new PropertyDescriptor(&quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node911 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let desc = (new PropertyDescriptor(&quot;Configurable&quot; -&gt; false))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node888 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node906 [shape=cds, label=<<font color="black">10:app __x8__ = (O.GetOwnProperty O k)</font>> color="black" fillcolor="white" style=filled]
+  node904 [shape=diamond, label=<<font color="black">(&lt; __x7__ __x6__.length)</font>> color="black" fillcolor="white" style=filled]
+  node900 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let k = __x3__[__x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node912 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let desc = (new PropertyDescriptor(&quot;Configurable&quot; -&gt; false, &quot;Writable&quot; -&gt; false))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node887 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node907 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:let currentDesc = [? __x8__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node896 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let keys = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node897 [shape=diamond, label=<<font color="black">(= level &quot;sealed&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node908 [shape=diamond, label=<<font color="black">(! (= currentDesc undefined))</font>> color="black" fillcolor="white" style=filled]
+  node892 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let status = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node909 [shape=cds, label=<<font color="black">14:app __x9__ = (IsAccessorDescriptor currentDesc)</font>> color="black" fillcolor="white" style=filled]
+  node893 [shape=diamond, label=<<font color="black">(= status false)</font>> color="black" fillcolor="white" style=filled]
+  node910 [shape=diamond, label=<<font color="black">(= __x9__ true)</font>> color="black" fillcolor="white" style=filled]
+  node894 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node916 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">17:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node889 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node890 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+      <tr><td align="left">1:assert (|| (= level &quot;sealed&quot;) (= level &quot;frozen&quot;))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node895 [shape=cds, label=<<font color="black">4:app __x2__ = (O.OwnPropertyKeys O)</font>> color="black" fillcolor="white" style=filled]
+  node915 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x7__ = (+ __x7__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node903 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let __x6__ = keys</td></tr>
+      <tr><td align="left">9:let __x7__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node891 [shape=cds, label=<<font color="black">2:app __x1__ = (O.PreventExtensions O)</font>> color="black" fillcolor="white" style=filled]
+  node914 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:[? __x10__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node899 [shape=diamond, label=<<font color="black">(&lt; __x4__ __x3__.length)</font>> color="black" fillcolor="white" style=filled]
+  node908 -> node909 [label=<<font color="black">true</font>> color="black"]
+  node908 -> node915 [label=<<font color="black">false</font>> color="black"]
+  node910 -> node911 [label=<<font color="black">true</font>> color="black"]
+  node910 -> node912 [label=<<font color="black">false</font>> color="black"]
+  node897 -> node898 [label=<<font color="black">true</font>> color="black"]
+  node897 -> node903 [label=<<font color="black">false</font>> color="black"]
+  node894 -> node895 [ color="black"]
+  node892 -> node893 [ color="black"]
+  node887 -> node889 [ color="black"]
+  node907 -> node908 [ color="black"]
+  node905 -> node906 [ color="black"]
+  node891 -> node892 [ color="black"]
+  node906 -> node907 [ color="black"]
+  node895 -> node896 [ color="black"]
+  node893 -> node894 [label=<<font color="black">true</font>> color="black"]
+  node893 -> node895 [label=<<font color="black">false</font>> color="black"]
+  node915 -> node904 [ color="black"]
+  node899 -> node900 [label=<<font color="black">true</font>> color="black"]
+  node899 -> node916 [label=<<font color="black">false</font>> color="black"]
+  node912 -> node913 [ color="black"]
+  node914 -> node915 [ color="black"]
+  node889 -> node890 [ color="black"]
+  node898 -> node899 [ color="black"]
+  node916 -> node888 [ color="black"]
+  node904 -> node905 [label=<<font color="black">true</font>> color="black"]
+  node904 -> node916 [label=<<font color="black">false</font>> color="black"]
+  node901 -> node902 [ color="black"]
+  node911 -> node913 [ color="black"]
+  node902 -> node899 [ color="black"]
+  node896 -> node897 [ color="black"]
+  node890 -> node891 [ color="black"]
+  node909 -> node910 [ color="black"]
+  node903 -> node904 [ color="black"]
+  node900 -> node901 [ color="black"]
+  node913 -> node914 [ color="black"]
+}

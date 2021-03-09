@@ -1,0 +1,89 @@
+digraph {
+  node9332 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node9340 [shape=diamond, label=<<font color="black">__x3__</font>> color="black" fillcolor="white" style=filled]
+  node9339 [shape=cds, label=<<font color="black">7:app __x3__ = (IsAbruptCompletion v)</font>> color="black" fillcolor="white" style=filled]
+  node9344 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let v = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9327 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9345 [shape=cds, label=<<font color="black">10:access __x4__ = (BindingIdentifier &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9334 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:[? next]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9326 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9343 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done true)</font>> color="black" fillcolor="white" style=filled]
+  node9338 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let v = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9335 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
+  node9342 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[? v]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9337 [shape=cds, label=<<font color="black">6:app __x2__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
+  node9336 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9330 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let next = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9341 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9347 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9328 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= iteratorRecord.Done false)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9333 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9346 [shape=cds, label=<<font color="black">10:app __x5__ = (__x4__ v environment)</font>> color="black" fillcolor="white" style=filled]
+  node9329 [shape=cds, label=<<font color="black">1:app __x0__ = (IteratorStep iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node9331 [shape=cds, label=<<font color="black">2:app __x1__ = (IsAbruptCompletion next)</font>> color="black" fillcolor="white" style=filled]
+  node9340 -> node9341 [label=<<font color="black">true</font>> color="black"]
+  node9340 -> node9342 [label=<<font color="black">false</font>> color="black"]
+  node9347 -> node9327 [ color="black"]
+  node9344 -> node9345 [ color="black"]
+  node9334 -> node9335 [ color="black"]
+  node9345 -> node9346 [ color="black"]
+  node9339 -> node9340 [ color="black"]
+  node9341 -> node9342 [ color="black"]
+  node9330 -> node9331 [ color="black"]
+  node9328 -> node9329 [ color="black"]
+  node9337 -> node9338 [ color="black"]
+  node9336 -> node9343 [ color="black"]
+  node9335 -> node9336 [label=<<font color="black">true</font>> color="black"]
+  node9335 -> node9337 [label=<<font color="black">false</font>> color="black"]
+  node9329 -> node9330 [ color="black"]
+  node9343 -> node9344 [label=<<font color="black">true</font>> color="black"]
+  node9343 -> node9345 [label=<<font color="black">false</font>> color="black"]
+  node9333 -> node9334 [ color="black"]
+  node9331 -> node9332 [ color="black"]
+  node9342 -> node9343 [ color="black"]
+  node9326 -> node9328 [ color="black"]
+  node9338 -> node9339 [ color="black"]
+  node9346 -> node9347 [ color="black"]
+  node9332 -> node9333 [label=<<font color="black">true</font>> color="black"]
+  node9332 -> node9334 [label=<<font color="black">false</font>> color="black"]
+}

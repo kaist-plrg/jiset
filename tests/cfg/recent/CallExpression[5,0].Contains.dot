@@ -1,0 +1,24 @@
+digraph {
+  node4376 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node4375 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ symbol)</font>> color="black" fillcolor="white" style=filled]
+  node4374 [shape=cds, label=<<font color="black">0:access __x0__ = (CallExpression &quot;Contains&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4373 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4377 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4372 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4378 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4378 -> node4373 [ color="black"]
+  node4375 -> node4376 [ color="black"]
+  node4376 -> node4377 [label=<<font color="black">true</font>> color="black"]
+  node4376 -> node4378 [label=<<font color="black">false</font>> color="black"]
+  node4372 -> node4374 [ color="black"]
+  node4377 -> node4378 [ color="black"]
+  node4374 -> node4375 [ color="black"]
+}

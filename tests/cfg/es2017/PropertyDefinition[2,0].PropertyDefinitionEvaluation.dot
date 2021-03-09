@@ -1,0 +1,68 @@
+digraph {
+  node3566 [shape=diamond, label=<<font color="black">(= __x3__ true)</font>> color="black" fillcolor="white" style=filled]
+  node3562 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let exprValueRef = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3574 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3557 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3569 [shape=diamond, label=<<font color="black">(= hasNameProperty false)</font>> color="black" fillcolor="white" style=filled]
+  node3559 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyName &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3567 [shape=cds, label=<<font color="black">5:app __x4__ = (HasOwnProperty propValue &quot;name&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3573 [shape=cds, label=<<font color="black">8:app __x6__ = (CreateDataPropertyOrThrow object propKey propValue)</font>> color="black" fillcolor="white" style=filled]
+  node3563 [shape=cds, label=<<font color="black">3:app __x2__ = (GetValue exprValueRef)</font>> color="black" fillcolor="white" style=filled]
+  node3568 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let hasNameProperty = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3572 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:assert (= enumerable true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3571 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3564 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let propValue = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3565 [shape=cds, label=<<font color="black">4:app __x3__ = (IsAnonymousFunctionDefinition AssignmentExpression)</font>> color="black" fillcolor="white" style=filled]
+  node3561 [shape=cds, label=<<font color="black">2:access __x1__ = (AssignmentExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3570 [shape=cds, label=<<font color="black">app __x5__ = (SetFunctionName propValue propKey)</font>> color="black" fillcolor="white" style=filled]
+  node3560 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let propKey = __x0__</td></tr>
+      <tr><td align="left">1:[? propKey]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3558 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3571 -> node3572 [ color="black"]
+  node3564 -> node3565 [ color="black"]
+  node3562 -> node3563 [ color="black"]
+  node3557 -> node3559 [ color="black"]
+  node3560 -> node3561 [ color="black"]
+  node3569 -> node3570 [label=<<font color="black">true</font>> color="black"]
+  node3569 -> node3572 [label=<<font color="black">false</font>> color="black"]
+  node3568 -> node3569 [ color="black"]
+  node3573 -> node3574 [ color="black"]
+  node3570 -> node3571 [ color="black"]
+  node3574 -> node3558 [ color="black"]
+  node3561 -> node3562 [ color="black"]
+  node3567 -> node3568 [ color="black"]
+  node3572 -> node3573 [ color="black"]
+  node3565 -> node3566 [ color="black"]
+  node3563 -> node3564 [ color="black"]
+  node3559 -> node3560 [ color="black"]
+  node3566 -> node3567 [label=<<font color="black">true</font>> color="black"]
+  node3566 -> node3572 [label=<<font color="black">false</font>> color="black"]
+}

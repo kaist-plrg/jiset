@@ -1,0 +1,56 @@
+digraph {
+  node12057 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12062 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let newTarget = NewTarget</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12065 [shape=diamond, label=<<font color="black">(! (= message undefined))</font>> color="black" fillcolor="white" style=filled]
+  node12069 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:[! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12068 [shape=cds, label=<<font color="black">5:app __x2__ = (DefinePropertyOrThrow O &quot;message&quot; msgDesc)</font>> color="black" fillcolor="white" style=filled]
+  node12058 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12063 [shape=cds, label=<<font color="black">1:app __x0__ = (OrdinaryCreateFromConstructor newTarget INTRINSIC_ErrorPrototype (new [&quot;ErrorData&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node12059 [shape=cds, label=<<font color="black">app message = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12067 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let msg = [? __x1__]</td></tr>
+      <tr><td align="left">4:let msgDesc = (new PropertyDescriptor(&quot;Value&quot; -&gt; msg, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12064 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12060 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
+  node12070 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return O</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12066 [shape=cds, label=<<font color="black">3:app __x1__ = (ToString message)</font>> color="black" fillcolor="white" style=filled]
+  node12061 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let newTarget = GLOBAL_context.Function</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12062 -> node12063 [ color="black"]
+  node12065 -> node12066 [label=<<font color="black">true</font>> color="black"]
+  node12065 -> node12070 [label=<<font color="black">false</font>> color="black"]
+  node12070 -> node12058 [ color="black"]
+  node12061 -> node12063 [ color="black"]
+  node12064 -> node12065 [ color="black"]
+  node12060 -> node12061 [label=<<font color="black">true</font>> color="black"]
+  node12060 -> node12062 [label=<<font color="black">false</font>> color="black"]
+  node12067 -> node12068 [ color="black"]
+  node12059 -> node12060 [ color="black"]
+  node12068 -> node12069 [ color="black"]
+  node12063 -> node12064 [ color="black"]
+  node12057 -> node12059 [ color="black"]
+  node12066 -> node12067 [ color="black"]
+  node12069 -> node12070 [ color="black"]
+}

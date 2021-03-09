@@ -1,0 +1,54 @@
+digraph {
+  node8635 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8632 [shape=cds, label=<<font color="black">access __x2__ = (ClassElement &quot;PropName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8627 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8630 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:__x0__ = (= __x1__ false)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8636 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return (new [ClassElement])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8631 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node8626 [shape=diamond, label=<<font color="black">(is-instance-of ClassElement ClassElement2)</font>> color="black" fillcolor="white" style=filled]
+  node8633 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x0__ = (= __x2__ &quot;constructor&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8625 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8634 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node8628 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let __x0__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8629 [shape=cds, label=<<font color="black">1:access __x1__ = (ClassElement &quot;IsStatic&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8624 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8627 -> node8628 [ color="black"]
+  node8632 -> node8633 [ color="black"]
+  node8624 -> node8626 [ color="black"]
+  node8626 -> node8627 [label=<<font color="black">true</font>> color="black"]
+  node8626 -> node8628 [label=<<font color="black">false</font>> color="black"]
+  node8631 -> node8632 [label=<<font color="black">true</font>> color="black"]
+  node8631 -> node8634 [label=<<font color="black">false</font>> color="black"]
+  node8636 -> node8625 [ color="black"]
+  node8633 -> node8634 [ color="black"]
+  node8628 -> node8629 [ color="black"]
+  node8634 -> node8635 [label=<<font color="black">true</font>> color="black"]
+  node8634 -> node8636 [label=<<font color="black">false</font>> color="black"]
+  node8630 -> node8631 [ color="black"]
+  node8629 -> node8630 [ color="black"]
+  node8635 -> node8636 [ color="black"]
+}

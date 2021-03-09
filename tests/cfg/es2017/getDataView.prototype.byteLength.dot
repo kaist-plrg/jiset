@@ -1,0 +1,56 @@
+digraph {
+  node16013 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16022 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16018 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16019 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:assert (! (= O.ViewedArrayBuffer absent))</td></tr>
+      <tr><td align="left">4:let buffer = O.ViewedArrayBuffer</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16023 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let size = O.ByteLength</td></tr>
+      <tr><td align="left">7:return size</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16012 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16014 [shape=cds, label=<<font color="black">1:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node16021 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node16017 [shape=diamond, label=<<font color="black">(= O.DataView absent)</font>> color="black" fillcolor="white" style=filled]
+  node16011 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16016 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16015 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node16020 [shape=cds, label=<<font color="black">5:app __x1__ = (IsDetachedBuffer buffer)</font>> color="black" fillcolor="white" style=filled]
+  node16020 -> node16021 [ color="black"]
+  node16021 -> node16022 [label=<<font color="black">true</font>> color="black"]
+  node16021 -> node16023 [label=<<font color="black">false</font>> color="black"]
+  node16015 -> node16016 [label=<<font color="black">true</font>> color="black"]
+  node16015 -> node16017 [label=<<font color="black">false</font>> color="black"]
+  node16014 -> node16015 [ color="black"]
+  node16018 -> node16019 [ color="black"]
+  node16019 -> node16020 [ color="black"]
+  node16016 -> node16017 [ color="black"]
+  node16022 -> node16023 [ color="black"]
+  node16017 -> node16018 [label=<<font color="black">true</font>> color="black"]
+  node16017 -> node16019 [label=<<font color="black">false</font>> color="black"]
+  node16013 -> node16014 [ color="black"]
+  node16023 -> node16012 [ color="black"]
+  node16011 -> node16013 [ color="black"]
+}

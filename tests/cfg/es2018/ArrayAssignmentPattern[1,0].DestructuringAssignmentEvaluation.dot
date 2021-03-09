@@ -1,0 +1,40 @@
+digraph {
+  node5168 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let result = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5163 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5169 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node5167 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node5166 [shape=cds, label=<<font color="black">1:access __x1__ = (AssignmentElementList &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5170 [shape=cds, label=<<font color="black">app __x3__ = (IteratorClose iteratorRecord result)</font>> color="black" fillcolor="white" style=filled]
+  node5165 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let iteratorRecord = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5171 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5172 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5164 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
+  node5162 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5165 -> node5166 [ color="black"]
+  node5170 -> node5171 [ color="black"]
+  node5168 -> node5169 [ color="black"]
+  node5162 -> node5164 [ color="black"]
+  node5172 -> node5163 [ color="black"]
+  node5166 -> node5167 [ color="black"]
+  node5164 -> node5165 [ color="black"]
+  node5167 -> node5168 [ color="black"]
+  node5169 -> node5170 [label=<<font color="black">true</font>> color="black"]
+  node5169 -> node5172 [label=<<font color="black">false</font>> color="black"]
+  node5171 -> node5172 [ color="black"]
+}

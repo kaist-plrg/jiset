@@ -1,0 +1,34 @@
+digraph {
+  node10726 [shape=cds, label=<<font color="black">2:access __x2__ = (AssignmentExpression1 &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10725 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10721 [shape=cds, label=<<font color="black">0:access __x0__ = (AssignmentExpression0 &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10720 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10728 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10724 [shape=diamond, label=<<font color="black">(= has true)</font>> color="black" fillcolor="white" style=filled]
+  node10727 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ call)</font>> color="black" fillcolor="white" style=filled]
+  node10723 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let has = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10722 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ call)</font>> color="black" fillcolor="white" style=filled]
+  node10719 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10719 -> node10721 [ color="black"]
+  node10727 -> node10728 [ color="black"]
+  node10724 -> node10725 [label=<<font color="black">true</font>> color="black"]
+  node10724 -> node10726 [label=<<font color="black">false</font>> color="black"]
+  node10728 -> node10720 [ color="black"]
+  node10726 -> node10727 [ color="black"]
+  node10725 -> node10726 [ color="black"]
+  node10722 -> node10723 [ color="black"]
+  node10723 -> node10724 [ color="black"]
+  node10721 -> node10722 [ color="black"]
+}

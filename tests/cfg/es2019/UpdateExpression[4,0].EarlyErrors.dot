@@ -1,0 +1,28 @@
+digraph {
+  node18592 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18589 [shape=cds, label=<<font color="black">1:access __x0__ = (UnaryExpression &quot;AssignmentTargetType&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18586 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18590 [shape=diamond, label=<<font color="black">(= __x0__ CONST_strict)</font>> color="black" fillcolor="white" style=filled]
+  node18587 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18588 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:??? &quot;It is an early Reference Error if AssignmentTargetType of nt:{UnaryExpression} is const:{invalid} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18591 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18586 -> node18588 [ color="black"]
+  node18589 -> node18590 [ color="black"]
+  node18588 -> node18589 [ color="black"]
+  node18590 -> node18591 [label=<<font color="black">true</font>> color="black"]
+  node18590 -> node18592 [label=<<font color="black">false</font>> color="black"]
+  node18592 -> node18587 [ color="black"]
+  node18591 -> node18587 [ color="black"]
+}

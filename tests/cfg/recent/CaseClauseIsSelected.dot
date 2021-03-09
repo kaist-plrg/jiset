@@ -1,0 +1,31 @@
+digraph {
+  node8463 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let clauseSelector = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8459 [shape=cds, label=<<font color="black">1:access __x0__ = (C &quot;Expression&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8462 [shape=cds, label=<<font color="black">2:app __x2__ = (GetValue exprRef)</font>> color="black" fillcolor="white" style=filled]
+  node8458 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8461 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let exprRef = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8457 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8464 [shape=cds, label=<<font color="black">3:app __x3__ = (StrictEqualityComparison input clauseSelector)</font>> color="black" fillcolor="white" style=filled]
+  node8460 [shape=cds, label=<<font color="black">1:access __x1__ = (__x0__ &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8465 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8465 -> node8458 [ color="black"]
+  node8462 -> node8463 [ color="black"]
+  node8464 -> node8465 [ color="black"]
+  node8463 -> node8464 [ color="black"]
+  node8459 -> node8460 [ color="black"]
+  node8461 -> node8462 [ color="black"]
+  node8460 -> node8461 [ color="black"]
+  node8457 -> node8459 [ color="black"]
+}

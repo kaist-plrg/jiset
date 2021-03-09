@@ -1,0 +1,41 @@
+digraph {
+  node18925 [shape=diamond, label=<<font color="black">(= absent (parse-syntax CoverParenthesizedExpressionAndArrowParameterList &quot;ArrowFormalParameters&quot; (new [])))</font>> color="black" fillcolor="white" style=filled]
+  node18930 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:??? &quot;All early error rules for nt:{ArrowFormalParameters} and its derived productions also apply to CoveredFormalsList of nt:{CoverParenthesizedExpressionAndArrowParameterList} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18928 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18924 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let __x0__ = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18927 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node18923 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18926 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x0__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18922 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18929 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18925 -> node18926 [label=<<font color="black">true</font>> color="black"]
+  node18925 -> node18927 [label=<<font color="black">false</font>> color="black"]
+  node18930 -> node18923 [ color="black"]
+  node18926 -> node18927 [ color="black"]
+  node18929 -> node18930 [ color="black"]
+  node18922 -> node18924 [ color="black"]
+  node18924 -> node18925 [ color="black"]
+  node18928 -> node18930 [ color="black"]
+  node18927 -> node18928 [label=<<font color="black">true</font>> color="black"]
+  node18927 -> node18929 [label=<<font color="black">false</font>> color="black"]
+}

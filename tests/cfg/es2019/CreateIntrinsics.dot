@@ -1,0 +1,58 @@
+digraph {
+  node1560 [shape=cds, label=<<font color="black">11:app __x4__ = (AddRestrictedFunctionProperties funcProto realmRec)</font>> color="black" fillcolor="white" style=filled]
+  node1555 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let thrower = __x1__</td></tr>
+      <tr><td align="left">6:intrinsics.INTRINSIC_ThrowTypeError = thrower</td></tr>
+      <tr><td align="left">7:let noSteps = EmptyFunction</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1552 [shape=cds, label=<<font color="black">2:app __x0__ = (ObjectCreate null)</font>> color="black" fillcolor="white" style=filled]
+  node1551 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let intrinsics = (new Record(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">1:realmRec.Intrinsics = intrinsics</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1553 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let objProto = __x0__</td></tr>
+      <tr><td align="left">3:intrinsics.INTRINSIC_ObjectPrototype = objProto</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{throwerSteps} be the algorithm steps specified in INTRINSIC_ThrowTypeError for the % ThrowTypeError % function .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1558 [shape=cds, label=<<font color="black">10:app __x3__ = (thrower.SetPrototypeOf thrower funcProto)</font>> color="black" fillcolor="white" style=filled]
+  node1561 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:__x4__</td></tr>
+      <tr><td align="left">13:return intrinsics</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1550 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1559 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:__x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1549 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1554 [shape=cds, label=<<font color="black">5:app __x1__ = (CreateBuiltinFunction throwerSteps (new []) realmRec null)</font>> color="black" fillcolor="white" style=filled]
+  node1557 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let funcProto = __x2__</td></tr>
+      <tr><td align="left">9:intrinsics.INTRINSIC_FunctionPrototype = funcProto</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1556 [shape=cds, label=<<font color="black">8:app __x2__ = (CreateBuiltinFunction noSteps (new []) realmRec objProto)</font>> color="black" fillcolor="white" style=filled]
+  node1554 -> node1555 [ color="black"]
+  node1552 -> node1553 [ color="black"]
+  node1559 -> node1560 [ color="black"]
+  node1553 -> node1554 [ color="black"]
+  node1556 -> node1557 [ color="black"]
+  node1549 -> node1551 [ color="black"]
+  node1551 -> node1552 [ color="black"]
+  node1557 -> node1558 [ color="black"]
+  node1560 -> node1561 [ color="black"]
+  node1561 -> node1550 [ color="black"]
+  node1558 -> node1559 [ color="black"]
+  node1555 -> node1556 [ color="black"]
+}

@@ -1,0 +1,31 @@
+digraph {
+  node6707 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let rval = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6702 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6705 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let rhs = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6710 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6704 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6706 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
+  node6703 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6708 [shape=cds, label=<<font color="black">2:access __x2__ = (BindingPattern &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6709 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ rval undefined)</font>> color="black" fillcolor="white" style=filled]
+  node6708 -> node6709 [ color="black"]
+  node6704 -> node6705 [ color="black"]
+  node6702 -> node6704 [ color="black"]
+  node6709 -> node6710 [ color="black"]
+  node6707 -> node6708 [ color="black"]
+  node6710 -> node6703 [ color="black"]
+  node6705 -> node6706 [ color="black"]
+  node6706 -> node6707 [ color="black"]
+}

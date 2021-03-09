@@ -1,0 +1,38 @@
+digraph {
+  node5950 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:[? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5946 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lref = __x0__</td></tr>
+      <tr><td align="left">1:[? lref]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5951 [shape=cds, label=<<font color="black">4:app __x3__ = (PutValue lref restObj)</font>> color="black" fillcolor="white" style=filled]
+  node5947 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node5952 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5944 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5948 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let restObj = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5949 [shape=cds, label=<<font color="black">3:app __x2__ = (CopyDataProperties restObj value excludedNames)</font>> color="black" fillcolor="white" style=filled]
+  node5945 [shape=cds, label=<<font color="black">0:access __x0__ = (DestructuringAssignmentTarget &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5943 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5945 -> node5946 [ color="black"]
+  node5948 -> node5949 [ color="black"]
+  node5952 -> node5944 [ color="black"]
+  node5951 -> node5952 [ color="black"]
+  node5947 -> node5948 [ color="black"]
+  node5949 -> node5950 [ color="black"]
+  node5950 -> node5951 [ color="black"]
+  node5946 -> node5947 [ color="black"]
+  node5943 -> node5945 [ color="black"]
+}

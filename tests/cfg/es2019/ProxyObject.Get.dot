@@ -1,0 +1,106 @@
+digraph {
+  node3098 [shape=cds, label=<<font color="black">13:app __x8__ = (IsAccessorDescriptor targetDesc)</font>> color="black" fillcolor="white" style=filled]
+  node3088 [shape=cds, label=<<font color="black">8:app __x4__ = (Call trap handler (new [target, P, Receiver]))</font>> color="black" fillcolor="white" style=filled]
+  node3089 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let trapResult = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3097 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3090 [shape=cds, label=<<font color="black">9:app __x5__ = (target.GetOwnProperty target P)</font>> color="black" fillcolor="white" style=filled]
+  node3094 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x6__ true) (= targetDesc.Writable false))</font>> color="black" fillcolor="white" style=filled]
+  node3083 [shape=cds, label=<<font color="black">5:app __x2__ = (GetMethod handler &quot;get&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3079 [shape=diamond, label=<<font color="black">(= handler null)</font>> color="black" fillcolor="white" style=filled]
+  node3101 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3082 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:assert (= __x1__ Object)</td></tr>
+      <tr><td align="left">4:let target = O.ProxyTarget</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3092 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= targetDesc undefined)) (= targetDesc.Configurable false))</font>> color="black" fillcolor="white" style=filled]
+  node3085 [shape=diamond, label=<<font color="black">(= trap undefined)</font>> color="black" fillcolor="white" style=filled]
+  node3100 [shape=diamond, label=<<font color="black">(! (= trapResult undefined))</font>> color="black" fillcolor="white" style=filled]
+  node3076 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3096 [shape=diamond, label=<<font color="black">(= __x7__ false)</font>> color="black" fillcolor="white" style=filled]
+  node3099 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x8__ true) (= targetDesc.Get undefined))</font>> color="black" fillcolor="white" style=filled]
+  node3084 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let trap = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3075 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3093 [shape=cds, label=<<font color="black">11:app __x6__ = (IsDataDescriptor targetDesc)</font>> color="black" fillcolor="white" style=filled]
+  node3102 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:return trapResult</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3078 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+      <tr><td align="left">1:let handler = O.ProxyHandler</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3087 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3086 [shape=cds, label=<<font color="black">7:app __x3__ = (target.Get target P Receiver)</font>> color="black" fillcolor="white" style=filled]
+  node3081 [shape=cds, label=<<font color="black">3:app __x1__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
+  node3077 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node3091 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let targetDesc = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3080 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3095 [shape=cds, label=<<font color="black">12:app __x7__ = (SameValue trapResult targetDesc.Value)</font>> color="black" fillcolor="white" style=filled]
+  node3095 -> node3096 [ color="black"]
+  node3087 -> node3088 [ color="black"]
+  node3084 -> node3085 [ color="black"]
+  node3082 -> node3083 [ color="black"]
+  node3094 -> node3095 [label=<<font color="black">true</font>> color="black"]
+  node3094 -> node3098 [label=<<font color="black">false</font>> color="black"]
+  node3098 -> node3099 [ color="black"]
+  node3081 -> node3082 [ color="black"]
+  node3078 -> node3079 [ color="black"]
+  node3092 -> node3093 [label=<<font color="black">true</font>> color="black"]
+  node3092 -> node3102 [label=<<font color="black">false</font>> color="black"]
+  node3101 -> node3102 [ color="black"]
+  node3075 -> node3077 [ color="black"]
+  node3097 -> node3098 [ color="black"]
+  node3096 -> node3097 [label=<<font color="black">true</font>> color="black"]
+  node3096 -> node3098 [label=<<font color="black">false</font>> color="black"]
+  node3089 -> node3090 [ color="black"]
+  node3077 -> node3078 [ color="black"]
+  node3091 -> node3092 [ color="black"]
+  node3080 -> node3081 [ color="black"]
+  node3083 -> node3084 [ color="black"]
+  node3093 -> node3094 [ color="black"]
+  node3085 -> node3086 [label=<<font color="black">true</font>> color="black"]
+  node3085 -> node3088 [label=<<font color="black">false</font>> color="black"]
+  node3088 -> node3089 [ color="black"]
+  node3086 -> node3087 [ color="black"]
+  node3090 -> node3091 [ color="black"]
+  node3099 -> node3100 [label=<<font color="black">true</font>> color="black"]
+  node3099 -> node3102 [label=<<font color="black">false</font>> color="black"]
+  node3100 -> node3101 [label=<<font color="black">true</font>> color="black"]
+  node3100 -> node3102 [label=<<font color="black">false</font>> color="black"]
+  node3102 -> node3076 [ color="black"]
+  node3079 -> node3080 [label=<<font color="black">true</font>> color="black"]
+  node3079 -> node3081 [label=<<font color="black">false</font>> color="black"]
+}

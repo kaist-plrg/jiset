@@ -1,0 +1,86 @@
+digraph {
+  node1641 [shape=diamond, label=<<font color="black">(= desc undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1656 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1644 [shape=diamond, label=<<font color="black">(= parent null)</font>> color="black" fillcolor="white" style=filled]
+  node1648 [shape=cds, label=<<font color="black">6:app __x4__ = (IsDataDescriptor desc)</font>> color="black" fillcolor="white" style=filled]
+  node1652 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:assert (= __x5__ true)</td></tr>
+      <tr><td align="left">8:let getter = desc.Get</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1643 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let parent = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1647 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1637 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node1642 [shape=cds, label=<<font color="black">3:app __x2__ = (O.GetPrototypeOf O)</font>> color="black" fillcolor="white" style=filled]
+  node1653 [shape=diamond, label=<<font color="black">(= getter undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1655 [shape=cds, label=<<font color="black">10:app __x6__ = (Call getter Receiver)</font>> color="black" fillcolor="white" style=filled]
+  node1640 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let desc = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1650 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return desc.Value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1645 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1651 [shape=cds, label=<<font color="black">7:app __x5__ = (IsAccessorDescriptor desc)</font>> color="black" fillcolor="white" style=filled]
+  node1636 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1635 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1638 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1649 [shape=diamond, label=<<font color="black">(= __x4__ true)</font>> color="black" fillcolor="white" style=filled]
+  node1654 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1646 [shape=cds, label=<<font color="black">5:app __x3__ = (parent.Get parent P Receiver)</font>> color="black" fillcolor="white" style=filled]
+  node1639 [shape=cds, label=<<font color="black">1:app __x1__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node1645 -> node1646 [ color="black"]
+  node1646 -> node1647 [ color="black"]
+  node1642 -> node1643 [ color="black"]
+  node1649 -> node1650 [label=<<font color="black">true</font>> color="black"]
+  node1649 -> node1651 [label=<<font color="black">false</font>> color="black"]
+  node1652 -> node1653 [ color="black"]
+  node1655 -> node1656 [ color="black"]
+  node1653 -> node1654 [label=<<font color="black">true</font>> color="black"]
+  node1653 -> node1655 [label=<<font color="black">false</font>> color="black"]
+  node1640 -> node1641 [ color="black"]
+  node1647 -> node1648 [ color="black"]
+  node1638 -> node1639 [ color="black"]
+  node1650 -> node1651 [ color="black"]
+  node1654 -> node1655 [ color="black"]
+  node1644 -> node1645 [label=<<font color="black">true</font>> color="black"]
+  node1644 -> node1646 [label=<<font color="black">false</font>> color="black"]
+  node1656 -> node1636 [ color="black"]
+  node1648 -> node1649 [ color="black"]
+  node1651 -> node1652 [ color="black"]
+  node1639 -> node1640 [ color="black"]
+  node1641 -> node1642 [label=<<font color="black">true</font>> color="black"]
+  node1641 -> node1648 [label=<<font color="black">false</font>> color="black"]
+  node1643 -> node1644 [ color="black"]
+  node1637 -> node1638 [ color="black"]
+  node1635 -> node1637 [ color="black"]
+}

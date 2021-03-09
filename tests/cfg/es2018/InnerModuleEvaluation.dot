@@ -1,0 +1,150 @@
+digraph {
+  node10698 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">20:assert (= (typeof requiredModule) &quot;SourceTextModuleRecord&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10690 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:assert (= module.Status &quot;instantiated&quot;)</td></tr>
+      <tr><td align="left">8:module.Status = &quot;evaluating&quot;</td></tr>
+      <tr><td align="left">9:module.DFSIndex = index</td></tr>
+      <tr><td align="left">10:module.DFSAncestorIndex = index</td></tr>
+      <tr><td align="left">11:index = (+ index 1i)</td></tr>
+      <tr><td align="left">12:append module -&gt; stack</td></tr>
+      <tr><td align="left">13:let __x1__ = module.RequestedModules</td></tr>
+      <tr><td align="left">13:let __x2__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10693 [shape=cds, label=<<font color="black">14:app __x3__ = (HostResolveImportedModule module required)</font>> color="black" fillcolor="white" style=filled]
+  node10699 [shape=cds, label=<<font color="black">21:app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)</font>> color="black" fillcolor="white" style=filled]
+  node10710 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">32:return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10689 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10696 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:index = [? __x4__]</td></tr>
+      <tr><td align="left">17:assert (|| (= requiredModule.Status &quot;evaluating&quot;) (= requiredModule.Status &quot;evaluated&quot;))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10680 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10697 [shape=diamond, label=<<font color="black">(= requiredModule.Status &quot;evaluating&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10695 [shape=cds, label=<<font color="black">16:app __x4__ = (InnerModuleEvaluation requiredModule stack index)</font>> color="black" fillcolor="white" style=filled]
+  node10691 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node10679 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10705 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">26:let done = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10694 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:let requiredModule = [! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10687 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return module.EvaluationError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10702 [shape=cds, label=<<font color="black">22:app __x6__ = (ModuleExecution module)</font>> color="black" fillcolor="white" style=filled]
+  node10682 [shape=cds, label=<<font color="black">1:app __x0__ = (module.Evaluate module)</font>> color="black" fillcolor="white" style=filled]
+  node10708 [shape=diamond, label=<<font color="black">(= requiredModule module)</font>> color="black" fillcolor="white" style=filled]
+  node10688 [shape=diamond, label=<<font color="black">(= module.Status &quot;evaluating&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10683 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x0__]</td></tr>
+      <tr><td align="left">2:return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10703 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">22:[? __x6__]</td></tr>
+      <tr><td align="left">24:assert (! (&lt; module.DFSIndex module.DFSAncestorIndex))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10709 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10700 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">21:module.DFSAncestorIndex = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10707 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">28:let requiredModule = stack[(- stack.length 1i)]</td></tr>
+      <tr><td align="left">29:(pop stack (- stack.length 1i))</td></tr>
+      <tr><td align="left">30:requiredModule.Status = &quot;evaluated&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10692 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let required = __x1__[__x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10685 [shape=diamond, label=<<font color="black">(= module.EvaluationError undefined)</font>> color="black" fillcolor="white" style=filled]
+  node10684 [shape=diamond, label=<<font color="black">(= module.Status &quot;evaluated&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10704 [shape=diamond, label=<<font color="black">(= module.DFSAncestorIndex module.DFSIndex)</font>> color="black" fillcolor="white" style=filled]
+  node10701 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10681 [shape=diamond, label=<<font color="black">(! (= (typeof module) &quot;SourceTextModuleRecord&quot;))</font>> color="black" fillcolor="white" style=filled]
+  node10706 [shape=diamond, label=<<font color="black">(= done false)</font>> color="black" fillcolor="white" style=filled]
+  node10686 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10705 -> node10706 [ color="black"]
+  node10700 -> node10701 [ color="black"]
+  node10692 -> node10693 [ color="black"]
+  node10684 -> node10685 [label=<<font color="black">true</font>> color="black"]
+  node10684 -> node10688 [label=<<font color="black">false</font>> color="black"]
+  node10707 -> node10708 [ color="black"]
+  node10694 -> node10695 [ color="black"]
+  node10698 -> node10699 [ color="black"]
+  node10689 -> node10690 [ color="black"]
+  node10686 -> node10688 [ color="black"]
+  node10690 -> node10691 [ color="black"]
+  node10691 -> node10692 [label=<<font color="black">true</font>> color="black"]
+  node10691 -> node10702 [label=<<font color="black">false</font>> color="black"]
+  node10708 -> node10709 [label=<<font color="black">true</font>> color="black"]
+  node10708 -> node10706 [label=<<font color="black">false</font>> color="black"]
+  node10683 -> node10684 [ color="black"]
+  node10704 -> node10705 [label=<<font color="black">true</font>> color="black"]
+  node10704 -> node10710 [label=<<font color="black">false</font>> color="black"]
+  node10681 -> node10682 [label=<<font color="black">true</font>> color="black"]
+  node10681 -> node10684 [label=<<font color="black">false</font>> color="black"]
+  node10693 -> node10694 [ color="black"]
+  node10679 -> node10681 [ color="black"]
+  node10685 -> node10686 [label=<<font color="black">true</font>> color="black"]
+  node10685 -> node10687 [label=<<font color="black">false</font>> color="black"]
+  node10682 -> node10683 [ color="black"]
+  node10696 -> node10697 [ color="black"]
+  node10706 -> node10707 [label=<<font color="black">true</font>> color="black"]
+  node10706 -> node10710 [label=<<font color="black">false</font>> color="black"]
+  node10701 -> node10691 [ color="black"]
+  node10697 -> node10698 [label=<<font color="black">true</font>> color="black"]
+  node10697 -> node10701 [label=<<font color="black">false</font>> color="black"]
+  node10710 -> node10680 [ color="black"]
+  node10709 -> node10706 [ color="black"]
+  node10687 -> node10688 [ color="black"]
+  node10699 -> node10700 [ color="black"]
+  node10688 -> node10689 [label=<<font color="black">true</font>> color="black"]
+  node10688 -> node10690 [label=<<font color="black">false</font>> color="black"]
+  node10702 -> node10703 [ color="black"]
+  node10695 -> node10696 [ color="black"]
+  node10703 -> node10704 [ color="black"]
+}

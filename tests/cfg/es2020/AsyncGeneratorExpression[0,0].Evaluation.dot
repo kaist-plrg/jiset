@@ -1,0 +1,39 @@
+digraph {
+  node9849 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let closure = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9846 [shape=cds, label=<<font color="black">0:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9853 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:[! __x3__]</td></tr>
+      <tr><td align="left">4:closure.SourceText = (get-syntax AsyncGeneratorExpression)</td></tr>
+      <tr><td align="left">5:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9852 [shape=cds, label=<<font color="black">3:app __x3__ = (DefinePropertyOrThrow closure &quot;prototype&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; prototype, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node9847 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let scope = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9851 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let prototype = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9844 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9848 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGenerator FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node9845 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9850 [shape=cds, label=<<font color="black">2:app __x2__ = (OrdinaryObjectCreate INTRINSIC_AsyncGenerator_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node9848 -> node9849 [ color="black"]
+  node9852 -> node9853 [ color="black"]
+  node9853 -> node9845 [ color="black"]
+  node9844 -> node9846 [ color="black"]
+  node9851 -> node9852 [ color="black"]
+  node9849 -> node9850 [ color="black"]
+  node9846 -> node9847 [ color="black"]
+  node9850 -> node9851 [ color="black"]
+  node9847 -> node9848 [ color="black"]
+}

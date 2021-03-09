@@ -1,0 +1,30 @@
+digraph {
+  node347 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node344 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node348 [shape=cds, label=<<font color="black">1:app __x1__ = (IsSuperReference V)</font>> color="black" fillcolor="white" style=filled]
+  node349 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node350 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return V.ThisValue</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node345 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node351 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return V.Base</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node346 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyReference V)</font>> color="black" fillcolor="white" style=filled]
+  node348 -> node349 [ color="black"]
+  node347 -> node348 [ color="black"]
+  node349 -> node350 [label=<<font color="black">true</font>> color="black"]
+  node349 -> node351 [label=<<font color="black">false</font>> color="black"]
+  node351 -> node345 [ color="black"]
+  node344 -> node346 [ color="black"]
+  node350 -> node345 [ color="black"]
+  node346 -> node347 [ color="black"]
+}

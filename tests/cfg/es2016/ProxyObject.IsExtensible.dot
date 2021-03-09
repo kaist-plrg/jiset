@@ -1,0 +1,83 @@
+digraph {
+  node2686 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let trap = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2691 [shape=cds, label=<<font color="black">7:app __x4__ = (ToBoolean [? __x3__])</font>> color="black" fillcolor="white" style=filled]
+  node2695 [shape=cds, label=<<font color="black">9:app __x6__ = (SameValue booleanTrapResult targetResult)</font>> color="black" fillcolor="white" style=filled]
+  node2679 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2693 [shape=cds, label=<<font color="black">8:app __x5__ = (target.IsExtensible target)</font>> color="black" fillcolor="white" style=filled]
+  node2684 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (= __x0__ Object)</td></tr>
+      <tr><td align="left">3:let target = O.ProxyTarget</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2688 [shape=cds, label=<<font color="black">6:app __x2__ = (target.IsExtensible target)</font>> color="black" fillcolor="white" style=filled]
+  node2696 [shape=diamond, label=<<font color="black">(= __x6__ false)</font>> color="black" fillcolor="white" style=filled]
+  node2680 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let handler = O.ProxyHandler</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2683 [shape=cds, label=<<font color="black">2:app __x0__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
+  node2687 [shape=diamond, label=<<font color="black">(= trap undefined)</font>> color="black" fillcolor="white" style=filled]
+  node2690 [shape=cds, label=<<font color="black">7:app __x3__ = (Call trap handler (new [target]))</font>> color="black" fillcolor="white" style=filled]
+  node2698 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return booleanTrapResult</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2682 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2685 [shape=cds, label=<<font color="black">4:app __x1__ = (GetMethod handler &quot;isExtensible&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node2692 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let booleanTrapResult = __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2694 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let targetResult = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2681 [shape=diamond, label=<<font color="black">(= handler null)</font>> color="black" fillcolor="white" style=filled]
+  node2697 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2678 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2689 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2694 -> node2695 [ color="black"]
+  node2688 -> node2689 [ color="black"]
+  node2680 -> node2681 [ color="black"]
+  node2692 -> node2693 [ color="black"]
+  node2681 -> node2682 [label=<<font color="black">true</font>> color="black"]
+  node2681 -> node2683 [label=<<font color="black">false</font>> color="black"]
+  node2690 -> node2691 [ color="black"]
+  node2686 -> node2687 [ color="black"]
+  node2695 -> node2696 [ color="black"]
+  node2683 -> node2684 [ color="black"]
+  node2684 -> node2685 [ color="black"]
+  node2691 -> node2692 [ color="black"]
+  node2697 -> node2698 [ color="black"]
+  node2698 -> node2679 [ color="black"]
+  node2693 -> node2694 [ color="black"]
+  node2687 -> node2688 [label=<<font color="black">true</font>> color="black"]
+  node2687 -> node2690 [label=<<font color="black">false</font>> color="black"]
+  node2696 -> node2697 [label=<<font color="black">true</font>> color="black"]
+  node2696 -> node2698 [label=<<font color="black">false</font>> color="black"]
+  node2682 -> node2683 [ color="black"]
+  node2685 -> node2686 [ color="black"]
+  node2678 -> node2680 [ color="black"]
+  node2689 -> node2690 [ color="black"]
+}

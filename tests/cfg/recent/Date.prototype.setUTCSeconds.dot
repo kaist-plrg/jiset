@@ -1,0 +1,70 @@
+digraph {
+  node14038 [shape=cds, label=<<font color="black">app __x2__ = (msFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node14034 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let t = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14046 [shape=cds, label=<<font color="black">5:app __x8__ = (MakeDate __x4__ __x7__)</font>> color="black" fillcolor="white" style=filled]
+  node14040 [shape=cds, label=<<font color="black">4:app __x3__ = (ToNumber ms)</font>> color="black" fillcolor="white" style=filled]
+  node14035 [shape=cds, label=<<font color="black">1:app __x1__ = (ToNumber sec)</font>> color="black" fillcolor="white" style=filled]
+  node14045 [shape=cds, label=<<font color="black">5:app __x7__ = (MakeTime __x5__ __x6__ s milli)</font>> color="black" fillcolor="white" style=filled]
+  node14044 [shape=cds, label=<<font color="black">5:app __x6__ = (MinFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node14049 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let v = __x9__</td></tr>
+      <tr><td align="left">7:this.DateValue = v</td></tr>
+      <tr><td align="left">8:return v</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14037 [shape=diamond, label=<<font color="black">(= ms absent)</font>> color="black" fillcolor="white" style=filled]
+  node14041 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let milli = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14047 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let date = __x8__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14030 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14033 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node14039 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let milli = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14029 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14032 [shape=cds, label=<<font color="black">app ms = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node14043 [shape=cds, label=<<font color="black">5:app __x5__ = (HourFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node14048 [shape=cds, label=<<font color="black">6:app __x9__ = (TimeClip date)</font>> color="black" fillcolor="white" style=filled]
+  node14042 [shape=cds, label=<<font color="black">5:app __x4__ = (Day t)</font>> color="black" fillcolor="white" style=filled]
+  node14036 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let s = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14031 [shape=cds, label=<<font color="black">app sec = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node14039 -> node14042 [ color="black"]
+  node14045 -> node14046 [ color="black"]
+  node14032 -> node14033 [ color="black"]
+  node14043 -> node14044 [ color="black"]
+  node14031 -> node14032 [ color="black"]
+  node14037 -> node14038 [label=<<font color="black">true</font>> color="black"]
+  node14037 -> node14040 [label=<<font color="black">false</font>> color="black"]
+  node14034 -> node14035 [ color="black"]
+  node14029 -> node14031 [ color="black"]
+  node14038 -> node14039 [ color="black"]
+  node14041 -> node14042 [ color="black"]
+  node14046 -> node14047 [ color="black"]
+  node14042 -> node14043 [ color="black"]
+  node14035 -> node14036 [ color="black"]
+  node14047 -> node14048 [ color="black"]
+  node14040 -> node14041 [ color="black"]
+  node14044 -> node14045 [ color="black"]
+  node14049 -> node14030 [ color="black"]
+  node14036 -> node14037 [ color="black"]
+  node14048 -> node14049 [ color="black"]
+  node14033 -> node14034 [ color="black"]
+}

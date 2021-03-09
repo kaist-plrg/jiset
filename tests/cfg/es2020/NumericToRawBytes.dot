@@ -1,0 +1,39 @@
+digraph {
+  node17358 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17362 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">??? &quot;Let id:{rawBytes} be a List containing the 8 bytes that are the IEEE 754 - 2019 binary64 format encoding of id:{value} . If id:{isLittleEndian} is value:{false} , the bytes are arranged in big endian order . Otherwise , the bytes are arranged in little endian order . If id:{value} is value:{NaN} , id:{rawBytes} may be set to any implementation chosen IEEE 754 - 2019 binary64 format Not - a - Number encoding . An implementation must always choose the same encoding for each implementation distinguishable value:{NaN} value .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17363 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:??? &quot;Let id:{n} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{type} .&quot;</td></tr>
+      <tr><td align="left">6:??? &quot;Let id:{convOp} be the abstract operation named in the Conversion Operation column in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{type} .&quot;</td></tr>
+      <tr><td align="left">7:??? &quot;Let id:{intValue} be id:{convOp} ( id:{value} ) treated as a mathematical value , whether the result is a BigInt or Number .&quot;</td></tr>
+      <tr><td align="left">8:??? &quot;If id:{intValue} &ge; 0 sub:{ℝ} , then in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">10:??? &quot;Else , in:{} out:{}&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17357 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17360 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">??? &quot;Let id:{rawBytes} be a List containing the 4 bytes that are the result of converting id:{value} to IEEE 754 - 2019 binary32 format using roundTiesToEven mode . If id:{isLittleEndian} is value:{false} , the bytes are arranged in big endian order . Otherwise , the bytes are arranged in little endian order . If id:{value} is value:{NaN} , id:{rawBytes} may be set to any implementation chosen IEEE 754 - 2019 binary32 format Not - a - Number encoding . An implementation must always choose the same encoding for each implementation distinguishable value:{NaN} value .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17364 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:return rawBytes</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17361 [shape=diamond, label=<<font color="black">(= type CONST_Float64)</font>> color="black" fillcolor="white" style=filled]
+  node17359 [shape=diamond, label=<<font color="black">(= type CONST_Float32)</font>> color="black" fillcolor="white" style=filled]
+  node17363 -> node17364 [ color="black"]
+  node17364 -> node17358 [ color="black"]
+  node17362 -> node17364 [ color="black"]
+  node17359 -> node17360 [label=<<font color="black">true</font>> color="black"]
+  node17359 -> node17361 [label=<<font color="black">false</font>> color="black"]
+  node17361 -> node17362 [label=<<font color="black">true</font>> color="black"]
+  node17361 -> node17363 [label=<<font color="black">false</font>> color="black"]
+  node17360 -> node17364 [ color="black"]
+  node17357 -> node17359 [ color="black"]
+}

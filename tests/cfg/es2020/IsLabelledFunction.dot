@@ -1,0 +1,49 @@
+digraph {
+  node8595 [shape=cds, label=<<font color="black">access FunctionDeclaration = (item &quot;FunctionDeclaration&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8594 [shape=diamond, label=<<font color="black">(is-instance-of item LabelledItem1)</font>> color="black" fillcolor="white" style=filled]
+  node8599 [shape=cds, label=<<font color="black">4:app __x2__ = (IsLabelledFunction subStmt)</font>> color="black" fillcolor="white" style=filled]
+  node8591 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8597 [shape=cds, label=<<font color="black">3:access __x1__ = (item &quot;Statement&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8588 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8589 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8596 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8590 [shape=diamond, label=<<font color="black">(! (is-instance-of stmt LabelledStatement))</font>> color="black" fillcolor="white" style=filled]
+  node8600 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8593 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let item = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8592 [shape=cds, label=<<font color="black">1:access __x0__ = (stmt &quot;LabelledItem&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8598 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let subStmt = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8599 -> node8600 [ color="black"]
+  node8596 -> node8597 [ color="black"]
+  node8588 -> node8590 [ color="black"]
+  node8600 -> node8589 [ color="black"]
+  node8590 -> node8591 [label=<<font color="black">true</font>> color="black"]
+  node8590 -> node8592 [label=<<font color="black">false</font>> color="black"]
+  node8597 -> node8598 [ color="black"]
+  node8591 -> node8592 [ color="black"]
+  node8594 -> node8595 [label=<<font color="black">true</font>> color="black"]
+  node8594 -> node8597 [label=<<font color="black">false</font>> color="black"]
+  node8598 -> node8599 [ color="black"]
+  node8593 -> node8594 [ color="black"]
+  node8595 -> node8596 [ color="black"]
+  node8592 -> node8593 [ color="black"]
+}

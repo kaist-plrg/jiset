@@ -1,0 +1,76 @@
+digraph {
+  node12244 [shape=diamond, label=<<font color="black">(= numPos NaN)</font>> color="black" fillcolor="white" style=filled]
+  node12249 [shape=cds, label=<<font color="black">6:app __x5__ = (max pos 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12232 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12247 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let pos = __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12243 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let numPos = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12250 [shape=cds, label=<<font color="black">6:app __x6__ = (min __x5__ len)</font>> color="black" fillcolor="white" style=filled]
+  node12242 [shape=cds, label=<<font color="black">3:app __x3__ = (ToNumber position)</font>> color="black" fillcolor="white" style=filled]
+  node12251 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let start = __x6__</td></tr>
+      <tr><td align="left">7:let searchLen = searchStr.length</td></tr>
+      <tr><td align="left">8:??? &quot;Return the largest possible nonnegative integer id:{k} not larger than id:{start} such that id:{k} + id:{searchLen} is not greater than id:{len} , and for all nonnegative integers id:{j} less than id:{searchLen} , the code unit at index id:{k} + id:{j} of id:{S} is the same as the code unit at index id:{j} of id:{searchStr} ; but if there is no such integer id:{k} , return the value code:{-1} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12241 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let searchStr = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12245 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let pos = Infinity</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12240 [shape=cds, label=<<font color="black">2:app __x2__ = (ToString searchString)</font>> color="black" fillcolor="white" style=filled]
+  node12235 [shape=cds, label=<<font color="black">app position = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node12237 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12236 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
+  node12238 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node12233 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12246 [shape=cds, label=<<font color="black">app __x4__ = (ToInteger numPos)</font>> color="black" fillcolor="white" style=filled]
+  node12248 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let len = S.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12239 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let S = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12234 [shape=cds, label=<<font color="black">app searchString = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12241 -> node12242 [ color="black"]
+  node12239 -> node12240 [ color="black"]
+  node12244 -> node12245 [label=<<font color="black">true</font>> color="black"]
+  node12244 -> node12246 [label=<<font color="black">false</font>> color="black"]
+  node12242 -> node12243 [ color="black"]
+  node12243 -> node12244 [ color="black"]
+  node12246 -> node12247 [ color="black"]
+  node12234 -> node12235 [ color="black"]
+  node12235 -> node12236 [ color="black"]
+  node12248 -> node12249 [ color="black"]
+  node12249 -> node12250 [ color="black"]
+  node12238 -> node12239 [ color="black"]
+  node12247 -> node12248 [ color="black"]
+  node12245 -> node12248 [ color="black"]
+  node12240 -> node12241 [ color="black"]
+  node12237 -> node12238 [ color="black"]
+  node12251 -> node12233 [ color="black"]
+  node12250 -> node12251 [ color="black"]
+  node12236 -> node12237 [ color="black"]
+  node12232 -> node12234 [ color="black"]
+}

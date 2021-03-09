@@ -1,0 +1,21 @@
+digraph {
+  node3502 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3505 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let expr = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3503 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3504 [shape=cds, label=<<font color="black">0:access __x0__ = (CoverParenthesizedExpressionAndArrowParameterList &quot;CoveredParenthesizedExpression&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3507 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3506 [shape=cds, label=<<font color="black">1:access __x1__ = (expr &quot;AssignmentTargetType&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3507 -> node3503 [ color="black"]
+  node3502 -> node3504 [ color="black"]
+  node3505 -> node3506 [ color="black"]
+  node3504 -> node3505 [ color="black"]
+  node3506 -> node3507 [ color="black"]
+}

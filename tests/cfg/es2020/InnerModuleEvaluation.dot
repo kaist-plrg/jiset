@@ -1,0 +1,153 @@
+digraph {
+  node11313 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">28:let requiredModule = stack[(- stack.length 1i)]</td></tr>
+      <tr><td align="left">29:(pop stack (- stack.length 1i))</td></tr>
+      <tr><td align="left">30:assert (= (typeof requiredModule) &quot;CyclicModuleRecord&quot;)</td></tr>
+      <tr><td align="left">31:requiredModule.Status = CONST_evaluated</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11308 [shape=cds, label=<<font color="black">22:app __x6__ = (module.ExecuteModule module)</font>> color="black" fillcolor="white" style=filled]
+  node11285 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11312 [shape=diamond, label=<<font color="black">(= done false)</font>> color="black" fillcolor="white" style=filled]
+  node11284 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11304 [shape=diamond, label=<<font color="black">(= requiredModule.Status CONST_evaluating)</font>> color="black" fillcolor="white" style=filled]
+  node11296 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node11311 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">26:let done = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11306 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">21:module.DFSAncestorIndex = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11310 [shape=diamond, label=<<font color="black">(= module.DFSAncestorIndex module.DFSIndex)</font>> color="black" fillcolor="white" style=filled]
+  node11316 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">33:return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11302 [shape=diamond, label=<<font color="black">(= (typeof requiredModule) &quot;CyclicModuleRecord&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11290 [shape=diamond, label=<<font color="black">(= module.EvaluationError undefined)</font>> color="black" fillcolor="white" style=filled]
+  node11303 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:assert (|| (= requiredModule.Status CONST_evaluating) (= requiredModule.Status CONST_evaluated))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11288 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x0__]</td></tr>
+      <tr><td align="left">2:return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11289 [shape=diamond, label=<<font color="black">(= module.Status CONST_evaluated)</font>> color="black" fillcolor="white" style=filled]
+  node11299 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:let requiredModule = [! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11314 [shape=diamond, label=<<font color="black">(= requiredModule module)</font>> color="black" fillcolor="white" style=filled]
+  node11293 [shape=diamond, label=<<font color="black">(= module.Status CONST_evaluating)</font>> color="black" fillcolor="white" style=filled]
+  node11307 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11292 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return module.EvaluationError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11315 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11300 [shape=cds, label=<<font color="black">16:app __x4__ = (InnerModuleEvaluation requiredModule stack index)</font>> color="black" fillcolor="white" style=filled]
+  node11301 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:index = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11291 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11295 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:assert (= module.Status CONST_linked)</td></tr>
+      <tr><td align="left">8:module.Status = CONST_evaluating</td></tr>
+      <tr><td align="left">9:module.DFSIndex = index</td></tr>
+      <tr><td align="left">10:module.DFSAncestorIndex = index</td></tr>
+      <tr><td align="left">11:index = (+ index 1i)</td></tr>
+      <tr><td align="left">12:append module -&gt; stack</td></tr>
+      <tr><td align="left">13:let __x1__ = module.RequestedModules</td></tr>
+      <tr><td align="left">13:let __x2__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11297 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let required = __x1__[__x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11287 [shape=cds, label=<<font color="black">1:app __x0__ = (module.Evaluate module)</font>> color="black" fillcolor="white" style=filled]
+  node11305 [shape=cds, label=<<font color="black">21:app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)</font>> color="black" fillcolor="white" style=filled]
+  node11309 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">22:[? __x6__]</td></tr>
+      <tr><td align="left">24:assert (! (&lt; module.DFSIndex module.DFSAncestorIndex))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11298 [shape=cds, label=<<font color="black">14:app __x3__ = (HostResolveImportedModule module required)</font>> color="black" fillcolor="white" style=filled]
+  node11286 [shape=diamond, label=<<font color="black">(! (= (typeof module) &quot;CyclicModuleRecord&quot;))</font>> color="black" fillcolor="white" style=filled]
+  node11294 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return index</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11305 -> node11306 [ color="black"]
+  node11316 -> node11285 [ color="black"]
+  node11299 -> node11300 [ color="black"]
+  node11307 -> node11296 [ color="black"]
+  node11315 -> node11312 [ color="black"]
+  node11296 -> node11297 [label=<<font color="black">true</font>> color="black"]
+  node11296 -> node11308 [label=<<font color="black">false</font>> color="black"]
+  node11302 -> node11303 [label=<<font color="black">true</font>> color="black"]
+  node11302 -> node11307 [label=<<font color="black">false</font>> color="black"]
+  node11312 -> node11313 [label=<<font color="black">true</font>> color="black"]
+  node11312 -> node11316 [label=<<font color="black">false</font>> color="black"]
+  node11287 -> node11288 [ color="black"]
+  node11290 -> node11291 [label=<<font color="black">true</font>> color="black"]
+  node11290 -> node11292 [label=<<font color="black">false</font>> color="black"]
+  node11303 -> node11304 [ color="black"]
+  node11293 -> node11294 [label=<<font color="black">true</font>> color="black"]
+  node11293 -> node11295 [label=<<font color="black">false</font>> color="black"]
+  node11292 -> node11293 [ color="black"]
+  node11298 -> node11299 [ color="black"]
+  node11288 -> node11289 [ color="black"]
+  node11308 -> node11309 [ color="black"]
+  node11291 -> node11293 [ color="black"]
+  node11289 -> node11290 [label=<<font color="black">true</font>> color="black"]
+  node11289 -> node11293 [label=<<font color="black">false</font>> color="black"]
+  node11297 -> node11298 [ color="black"]
+  node11310 -> node11311 [label=<<font color="black">true</font>> color="black"]
+  node11310 -> node11316 [label=<<font color="black">false</font>> color="black"]
+  node11294 -> node11295 [ color="black"]
+  node11300 -> node11301 [ color="black"]
+  node11301 -> node11302 [ color="black"]
+  node11313 -> node11314 [ color="black"]
+  node11311 -> node11312 [ color="black"]
+  node11286 -> node11287 [label=<<font color="black">true</font>> color="black"]
+  node11286 -> node11289 [label=<<font color="black">false</font>> color="black"]
+  node11309 -> node11310 [ color="black"]
+  node11284 -> node11286 [ color="black"]
+  node11295 -> node11296 [ color="black"]
+  node11314 -> node11315 [label=<<font color="black">true</font>> color="black"]
+  node11314 -> node11312 [label=<<font color="black">false</font>> color="black"]
+  node11304 -> node11305 [label=<<font color="black">true</font>> color="black"]
+  node11304 -> node11307 [label=<<font color="black">false</font>> color="black"]
+  node11306 -> node11307 [ color="black"]
+}

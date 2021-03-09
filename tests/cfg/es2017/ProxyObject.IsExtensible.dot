@@ -1,0 +1,83 @@
+digraph {
+  node2740 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2723 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let handler = O.ProxyHandler</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2735 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let booleanTrapResult = __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2730 [shape=diamond, label=<<font color="black">(= trap undefined)</font>> color="black" fillcolor="white" style=filled]
+  node2737 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let targetResult = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2733 [shape=cds, label=<<font color="black">7:app __x3__ = (Call trap handler (new [target]))</font>> color="black" fillcolor="white" style=filled]
+  node2741 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return booleanTrapResult</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2727 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (= __x0__ Object)</td></tr>
+      <tr><td align="left">3:let target = O.ProxyTarget</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2738 [shape=cds, label=<<font color="black">9:app __x6__ = (SameValue booleanTrapResult targetResult)</font>> color="black" fillcolor="white" style=filled]
+  node2721 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2725 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2732 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2739 [shape=diamond, label=<<font color="black">(= __x6__ false)</font>> color="black" fillcolor="white" style=filled]
+  node2736 [shape=cds, label=<<font color="black">8:app __x5__ = (target.IsExtensible target)</font>> color="black" fillcolor="white" style=filled]
+  node2731 [shape=cds, label=<<font color="black">6:app __x2__ = (target.IsExtensible target)</font>> color="black" fillcolor="white" style=filled]
+  node2726 [shape=cds, label=<<font color="black">2:app __x0__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
+  node2724 [shape=diamond, label=<<font color="black">(= handler null)</font>> color="black" fillcolor="white" style=filled]
+  node2729 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let trap = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2734 [shape=cds, label=<<font color="black">7:app __x4__ = (ToBoolean [? __x3__])</font>> color="black" fillcolor="white" style=filled]
+  node2722 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2728 [shape=cds, label=<<font color="black">4:app __x1__ = (GetMethod handler &quot;isExtensible&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node2725 -> node2726 [ color="black"]
+  node2721 -> node2723 [ color="black"]
+  node2740 -> node2741 [ color="black"]
+  node2738 -> node2739 [ color="black"]
+  node2727 -> node2728 [ color="black"]
+  node2726 -> node2727 [ color="black"]
+  node2734 -> node2735 [ color="black"]
+  node2730 -> node2731 [label=<<font color="black">true</font>> color="black"]
+  node2730 -> node2733 [label=<<font color="black">false</font>> color="black"]
+  node2724 -> node2725 [label=<<font color="black">true</font>> color="black"]
+  node2724 -> node2726 [label=<<font color="black">false</font>> color="black"]
+  node2736 -> node2737 [ color="black"]
+  node2728 -> node2729 [ color="black"]
+  node2723 -> node2724 [ color="black"]
+  node2729 -> node2730 [ color="black"]
+  node2733 -> node2734 [ color="black"]
+  node2735 -> node2736 [ color="black"]
+  node2731 -> node2732 [ color="black"]
+  node2737 -> node2738 [ color="black"]
+  node2741 -> node2722 [ color="black"]
+  node2732 -> node2733 [ color="black"]
+  node2739 -> node2740 [label=<<font color="black">true</font>> color="black"]
+  node2739 -> node2741 [label=<<font color="black">false</font>> color="black"]
+}

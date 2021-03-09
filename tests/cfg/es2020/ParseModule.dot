@@ -1,0 +1,117 @@
+digraph {
+  node11318 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11320 [shape=cds, label=<<font color="black">3:access __x0__ = (body &quot;ModuleRequests&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11325 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let importedBoundNames = __x2__</td></tr>
+      <tr><td align="left">6:let indirectExportEntries = (new [])</td></tr>
+      <tr><td align="left">7:let localExportEntries = (new [])</td></tr>
+      <tr><td align="left">8:let starExportEntries = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11324 [shape=cds, label=<<font color="black">5:app __x2__ = (ImportedLocalNames importEntries)</font>> color="black" fillcolor="white" style=filled]
+  node11339 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append ee -&gt; indirectExportEntries</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11336 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append (new ExportEntryRecord(&quot;ModuleRequest&quot; -&gt; ie.ModuleRequest, &quot;ImportName&quot; -&gt; ie.ImportName, &quot;LocalName&quot; -&gt; null, &quot;ExportName&quot; -&gt; ee.ExportName)) -&gt; indirectExportEntries</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11328 [shape=diamond, label=<<font color="black">(&lt; __x5__ __x4__.length)</font>> color="black" fillcolor="white" style=filled]
+  node11332 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append ee -&gt; localExportEntries</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11338 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append ee -&gt; starExportEntries</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11334 [shape=diamond, label=<<font color="black">(= ie.ImportName &quot;*&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11322 [shape=cds, label=<<font color="black">4:access __x1__ = (body &quot;ImportEntries&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11341 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">26:return (new SourceTextModuleRecord(&quot;Realm&quot; -&gt; realm, &quot;Environment&quot; -&gt; undefined, &quot;Namespace&quot; -&gt; undefined, &quot;Status&quot; -&gt; CONST_unlinked, &quot;EvaluationError&quot; -&gt; undefined, &quot;HostDefined&quot; -&gt; hostDefined, &quot;ECMAScriptCode&quot; -&gt; body, &quot;Context&quot; -&gt; CONST_empty, &quot;ImportMeta&quot; -&gt; CONST_empty, &quot;RequestedModules&quot; -&gt; requestedModules, &quot;ImportEntries&quot; -&gt; importEntries, &quot;LocalExportEntries&quot; -&gt; localExportEntries, &quot;IndirectExportEntries&quot; -&gt; indirectExportEntries, &quot;StarExportEntries&quot; -&gt; starExportEntries, &quot;DFSIndex&quot; -&gt; undefined, &quot;DFSAncestorIndex&quot; -&gt; undefined))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11326 [shape=cds, label=<<font color="black">9:access __x3__ = (body &quot;ExportEntries&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11330 [shape=diamond, label=<<font color="black">(= ee.ModuleRequest null)</font>> color="black" fillcolor="white" style=filled]
+  node11335 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append ee -&gt; localExportEntries</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11340 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x5__ = (+ __x5__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11331 [shape=diamond, label=<<font color="black">(! (contains importedBoundNames ee.LocalName))</font>> color="black" fillcolor="white" style=filled]
+  node11321 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let requestedModules = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11323 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let importEntries = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11333 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:??? &quot;Let id:{ie} be the element of id:{importEntries} whose [ [ LocalName ] ] is the same as id:{ee} . [ [ LocalName ] ] .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11329 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let ee = __x4__[__x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11327 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let exportEntries = __x3__</td></tr>
+      <tr><td align="left">10:let __x4__ = exportEntries</td></tr>
+      <tr><td align="left">10:let __x5__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11337 [shape=diamond, label=<<font color="black">(&amp;&amp; (= ee.ImportName &quot;*&quot;) (= ee.ExportName null))</font>> color="black" fillcolor="white" style=filled]
+  node11319 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:??? &quot;Parse id:{sourceText} using nt:{Module} as the goal symbol and analyse the parse result for any Early Error conditions . If the parse was successful and no early errors were found , let id:{body} be the resulting parse tree . Otherwise , let id:{body} be a List of one or more value:{SyntaxError} objects representing the parsing errors and / or early errors . Parsing and early error detection may be interweaved in an implementation - dependent manner . If more than one parsing error or early error is present , the number and ordering of error objects in the list is implementation - dependent , but at least one must be present .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11317 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11324 -> node11325 [ color="black"]
+  node11325 -> node11326 [ color="black"]
+  node11322 -> node11323 [ color="black"]
+  node11336 -> node11340 [ color="black"]
+  node11339 -> node11340 [ color="black"]
+  node11328 -> node11329 [label=<<font color="black">true</font>> color="black"]
+  node11328 -> node11341 [label=<<font color="black">false</font>> color="black"]
+  node11331 -> node11332 [label=<<font color="black">true</font>> color="black"]
+  node11331 -> node11333 [label=<<font color="black">false</font>> color="black"]
+  node11332 -> node11340 [ color="black"]
+  node11330 -> node11331 [label=<<font color="black">true</font>> color="black"]
+  node11330 -> node11337 [label=<<font color="black">false</font>> color="black"]
+  node11317 -> node11319 [ color="black"]
+  node11327 -> node11328 [ color="black"]
+  node11323 -> node11324 [ color="black"]
+  node11320 -> node11321 [ color="black"]
+  node11329 -> node11330 [ color="black"]
+  node11340 -> node11328 [ color="black"]
+  node11341 -> node11318 [ color="black"]
+  node11335 -> node11340 [ color="black"]
+  node11326 -> node11327 [ color="black"]
+  node11321 -> node11322 [ color="black"]
+  node11333 -> node11334 [ color="black"]
+  node11338 -> node11340 [ color="black"]
+  node11319 -> node11320 [ color="black"]
+  node11334 -> node11335 [label=<<font color="black">true</font>> color="black"]
+  node11334 -> node11336 [label=<<font color="black">false</font>> color="black"]
+  node11337 -> node11338 [label=<<font color="black">true</font>> color="black"]
+  node11337 -> node11339 [label=<<font color="black">false</font>> color="black"]
+}

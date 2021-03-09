@@ -1,0 +1,40 @@
+digraph {
+  node7377 [shape=diamond, label=<<font color="black">(contains labelSet label)</font>> color="black" fillcolor="white" style=filled]
+  node7376 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let label = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7381 [shape=cds, label=<<font color="black">3:app __x3__ = (__x2__ newLabelSet)</font>> color="black" fillcolor="white" style=filled]
+  node7378 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7382 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7379 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let __x1__ = (copy-obj labelSet)</td></tr>
+      <tr><td align="left">2:append label -&gt; __x1__</td></tr>
+      <tr><td align="left">2:let newLabelSet = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7375 [shape=cds, label=<<font color="black">0:access __x0__ = (LabelIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7373 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7374 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7380 [shape=cds, label=<<font color="black">3:access __x2__ = (LabelledItem &quot;ContainsDuplicateLabels&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7380 -> node7381 [ color="black"]
+  node7373 -> node7375 [ color="black"]
+  node7378 -> node7379 [ color="black"]
+  node7379 -> node7380 [ color="black"]
+  node7381 -> node7382 [ color="black"]
+  node7376 -> node7377 [ color="black"]
+  node7382 -> node7374 [ color="black"]
+  node7377 -> node7378 [label=<<font color="black">true</font>> color="black"]
+  node7377 -> node7379 [label=<<font color="black">false</font>> color="black"]
+  node7375 -> node7376 [ color="black"]
+}

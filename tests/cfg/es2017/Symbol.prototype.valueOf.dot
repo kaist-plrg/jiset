@@ -1,0 +1,48 @@
+digraph {
+  node11458 [shape=diamond, label=<<font color="black">(= __x0__ Symbol)</font>> color="black" fillcolor="white" style=filled]
+  node11463 [shape=diamond, label=<<font color="black">(= s.SymbolData absent)</font>> color="black" fillcolor="white" style=filled]
+  node11456 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let s = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11455 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11465 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return s.SymbolData</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11454 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11457 [shape=cds, label=<<font color="black">1:app __x0__ = (Type s)</font>> color="black" fillcolor="white" style=filled]
+  node11462 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11464 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11459 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return s</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11461 [shape=diamond, label=<<font color="black">(! (= __x1__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node11460 [shape=cds, label=<<font color="black">2:app __x1__ = (Type s)</font>> color="black" fillcolor="white" style=filled]
+  node11458 -> node11459 [label=<<font color="black">true</font>> color="black"]
+  node11458 -> node11460 [label=<<font color="black">false</font>> color="black"]
+  node11454 -> node11456 [ color="black"]
+  node11460 -> node11461 [ color="black"]
+  node11464 -> node11465 [ color="black"]
+  node11461 -> node11462 [label=<<font color="black">true</font>> color="black"]
+  node11461 -> node11463 [label=<<font color="black">false</font>> color="black"]
+  node11463 -> node11464 [label=<<font color="black">true</font>> color="black"]
+  node11463 -> node11465 [label=<<font color="black">false</font>> color="black"]
+  node11462 -> node11463 [ color="black"]
+  node11459 -> node11460 [ color="black"]
+  node11456 -> node11457 [ color="black"]
+  node11465 -> node11455 [ color="black"]
+  node11457 -> node11458 [ color="black"]
+}

@@ -1,0 +1,95 @@
+digraph {
+  node269 [shape=diamond, label=<<font color="black">(= Desc.Configurable absent)</font>> color="black" fillcolor="white" style=filled]
+  node257 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x0__ = (= __x2__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node261 [shape=diamond, label=<<font color="black">(= Desc.Writable absent)</font>> color="black" fillcolor="white" style=filled]
+  node253 [shape=cds, label=<<font color="black">5:app __x1__ = (IsGenericDescriptor Desc)</font>> color="black" fillcolor="white" style=filled]
+  node265 [shape=diamond, label=<<font color="black">(= Desc.Set absent)</font>> color="black" fillcolor="white" style=filled]
+  node270 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">Desc.Configurable = like.Configurable</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node260 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">Desc.Value = like.Value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node252 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= (typeof Desc) &quot;PropertyDescriptor&quot;)</td></tr>
+      <tr><td align="left">1:let like = (new Record(&quot;Value&quot; -&gt; undefined, &quot;Writable&quot; -&gt; false, &quot;Get&quot; -&gt; undefined, &quot;Set&quot; -&gt; undefined, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false))</td></tr>
+      <tr><td align="left">5:let __x0__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node256 [shape=cds, label=<<font color="black">app __x2__ = (IsDataDescriptor Desc)</font>> color="black" fillcolor="white" style=filled]
+  node266 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">Desc.Set = like.Set</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node264 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">Desc.Get = like.Get</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node259 [shape=diamond, label=<<font color="black">(= Desc.Value absent)</font>> color="black" fillcolor="white" style=filled]
+  node271 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return Desc</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node251 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node267 [shape=diamond, label=<<font color="black">(= Desc.Enumerable absent)</font>> color="black" fillcolor="white" style=filled]
+  node255 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node263 [shape=diamond, label=<<font color="black">(= Desc.Get absent)</font>> color="black" fillcolor="white" style=filled]
+  node250 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node258 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node262 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">Desc.Writable = like.Writable</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node268 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">Desc.Enumerable = like.Enumerable</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node254 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:__x0__ = (= __x1__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node261 -> node262 [label=<<font color="black">true</font>> color="black"]
+  node261 -> node267 [label=<<font color="black">false</font>> color="black"]
+  node271 -> node251 [ color="black"]
+  node257 -> node258 [ color="black"]
+  node259 -> node260 [label=<<font color="black">true</font>> color="black"]
+  node259 -> node261 [label=<<font color="black">false</font>> color="black"]
+  node269 -> node270 [label=<<font color="black">true</font>> color="black"]
+  node269 -> node271 [label=<<font color="black">false</font>> color="black"]
+  node262 -> node267 [ color="black"]
+  node268 -> node269 [ color="black"]
+  node270 -> node271 [ color="black"]
+  node260 -> node261 [ color="black"]
+  node250 -> node252 [ color="black"]
+  node265 -> node266 [label=<<font color="black">true</font>> color="black"]
+  node265 -> node267 [label=<<font color="black">false</font>> color="black"]
+  node267 -> node268 [label=<<font color="black">true</font>> color="black"]
+  node267 -> node269 [label=<<font color="black">false</font>> color="black"]
+  node263 -> node264 [label=<<font color="black">true</font>> color="black"]
+  node263 -> node265 [label=<<font color="black">false</font>> color="black"]
+  node255 -> node258 [label=<<font color="black">true</font>> color="black"]
+  node255 -> node256 [label=<<font color="black">false</font>> color="black"]
+  node256 -> node257 [ color="black"]
+  node253 -> node254 [ color="black"]
+  node252 -> node253 [ color="black"]
+  node258 -> node259 [label=<<font color="black">true</font>> color="black"]
+  node258 -> node263 [label=<<font color="black">false</font>> color="black"]
+  node264 -> node265 [ color="black"]
+  node254 -> node255 [ color="black"]
+  node266 -> node267 [ color="black"]
+}

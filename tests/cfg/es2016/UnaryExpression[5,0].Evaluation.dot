@@ -1,0 +1,38 @@
+digraph {
+  node4322 [shape=diamond, label=<<font color="black">(= oldValue NaN)</font>> color="black" fillcolor="white" style=filled]
+  node4317 [shape=cds, label=<<font color="black">0:access __x0__ = (UnaryExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4323 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return NaN</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4316 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4319 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue expr)</font>> color="black" fillcolor="white" style=filled]
+  node4324 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return (- oldValue)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4321 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let oldValue = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4318 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let expr = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4320 [shape=cds, label=<<font color="black">1:app __x2__ = (ToNumber [? __x1__])</font>> color="black" fillcolor="white" style=filled]
+  node4315 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4323 -> node4324 [ color="black"]
+  node4324 -> node4316 [ color="black"]
+  node4319 -> node4320 [ color="black"]
+  node4318 -> node4319 [ color="black"]
+  node4315 -> node4317 [ color="black"]
+  node4322 -> node4323 [label=<<font color="black">true</font>> color="black"]
+  node4322 -> node4324 [label=<<font color="black">false</font>> color="black"]
+  node4321 -> node4322 [ color="black"]
+  node4317 -> node4318 [ color="black"]
+  node4320 -> node4321 [ color="black"]
+}

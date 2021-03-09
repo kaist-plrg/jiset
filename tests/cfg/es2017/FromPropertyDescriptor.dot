@@ -1,0 +1,94 @@
+digraph {
+  node138 [shape=diamond, label=<<font color="black">(= Desc undefined)</font>> color="black" fillcolor="white" style=filled]
+  node157 [shape=diamond, label=<<font color="black">(! (= Desc.Configurable absent))</font>> color="black" fillcolor="white" style=filled]
+  node152 [shape=cds, label=<<font color="black">10:app __x4__ = (CreateDataProperty obj &quot;set&quot; Desc.Set)</font>> color="black" fillcolor="white" style=filled]
+  node147 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node145 [shape=diamond, label=<<font color="black">(! (= Desc.Writable absent))</font>> color="black" fillcolor="white" style=filled]
+  node150 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:__x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node136 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node142 [shape=diamond, label=<<font color="black">(! (= Desc.Value absent))</font>> color="black" fillcolor="white" style=filled]
+  node153 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:__x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node160 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node137 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node156 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:__x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node141 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node148 [shape=diamond, label=<<font color="black">(! (= Desc.Get absent))</font>> color="black" fillcolor="white" style=filled]
+  node149 [shape=cds, label=<<font color="black">8:app __x3__ = (CreateDataProperty obj &quot;get&quot; Desc.Get)</font>> color="black" fillcolor="white" style=filled]
+  node144 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:__x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node159 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:__x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node140 [shape=cds, label=<<font color="black">1:app __x0__ = (ObjectCreate INTRINSIC_ObjectPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node155 [shape=cds, label=<<font color="black">12:app __x5__ = (CreateDataProperty obj &quot;enumerable&quot; Desc.Enumerable)</font>> color="black" fillcolor="white" style=filled]
+  node154 [shape=diamond, label=<<font color="black">(! (= Desc.Enumerable absent))</font>> color="black" fillcolor="white" style=filled]
+  node143 [shape=cds, label=<<font color="black">4:app __x1__ = (CreateDataProperty obj &quot;value&quot; Desc.Value)</font>> color="black" fillcolor="white" style=filled]
+  node158 [shape=cds, label=<<font color="black">14:app __x6__ = (CreateDataProperty obj &quot;configurable&quot; Desc.Configurable)</font>> color="black" fillcolor="white" style=filled]
+  node139 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node151 [shape=diamond, label=<<font color="black">(! (= Desc.Set absent))</font>> color="black" fillcolor="white" style=filled]
+  node146 [shape=cds, label=<<font color="black">6:app __x2__ = (CreateDataProperty obj &quot;writable&quot; Desc.Writable)</font>> color="black" fillcolor="white" style=filled]
+  node151 -> node152 [label=<<font color="black">true</font>> color="black"]
+  node151 -> node154 [label=<<font color="black">false</font>> color="black"]
+  node138 -> node139 [label=<<font color="black">true</font>> color="black"]
+  node138 -> node140 [label=<<font color="black">false</font>> color="black"]
+  node149 -> node150 [ color="black"]
+  node153 -> node154 [ color="black"]
+  node136 -> node138 [ color="black"]
+  node142 -> node143 [label=<<font color="black">true</font>> color="black"]
+  node142 -> node145 [label=<<font color="black">false</font>> color="black"]
+  node146 -> node147 [ color="black"]
+  node148 -> node149 [label=<<font color="black">true</font>> color="black"]
+  node148 -> node151 [label=<<font color="black">false</font>> color="black"]
+  node141 -> node142 [ color="black"]
+  node160 -> node137 [ color="black"]
+  node156 -> node157 [ color="black"]
+  node155 -> node156 [ color="black"]
+  node159 -> node160 [ color="black"]
+  node144 -> node145 [ color="black"]
+  node147 -> node148 [ color="black"]
+  node150 -> node151 [ color="black"]
+  node158 -> node159 [ color="black"]
+  node157 -> node158 [label=<<font color="black">true</font>> color="black"]
+  node157 -> node160 [label=<<font color="black">false</font>> color="black"]
+  node152 -> node153 [ color="black"]
+  node145 -> node146 [label=<<font color="black">true</font>> color="black"]
+  node145 -> node148 [label=<<font color="black">false</font>> color="black"]
+  node154 -> node155 [label=<<font color="black">true</font>> color="black"]
+  node154 -> node157 [label=<<font color="black">false</font>> color="black"]
+  node140 -> node141 [ color="black"]
+  node139 -> node140 [ color="black"]
+  node143 -> node144 [ color="black"]
+}

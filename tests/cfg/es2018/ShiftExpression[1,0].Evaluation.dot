@@ -1,0 +1,55 @@
+digraph {
+  node4711 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let rnum = [? __x5__]</td></tr>
+      <tr><td align="left">6:let shiftCount = (&amp; rnum 31i)</td></tr>
+      <tr><td align="left">7:return (&lt;&lt; lnum shiftCount)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4700 [shape=cds, label=<<font color="black">0:access __x0__ = (ShiftExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4708 [shape=cds, label=<<font color="black">4:app __x4__ = (ToInt32 lval)</font>> color="black" fillcolor="white" style=filled]
+  node4709 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let lnum = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4703 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lval = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4698 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4706 [shape=cds, label=<<font color="black">3:app __x3__ = (GetValue rref)</font>> color="black" fillcolor="white" style=filled]
+  node4702 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue lref)</font>> color="black" fillcolor="white" style=filled]
+  node4701 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lref = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4707 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let rval = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4704 [shape=cds, label=<<font color="black">2:access __x2__ = (AdditiveExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4699 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4710 [shape=cds, label=<<font color="black">5:app __x5__ = (ToUint32 rval)</font>> color="black" fillcolor="white" style=filled]
+  node4705 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let rref = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4709 -> node4710 [ color="black"]
+  node4702 -> node4703 [ color="black"]
+  node4705 -> node4706 [ color="black"]
+  node4710 -> node4711 [ color="black"]
+  node4698 -> node4700 [ color="black"]
+  node4703 -> node4704 [ color="black"]
+  node4700 -> node4701 [ color="black"]
+  node4711 -> node4699 [ color="black"]
+  node4706 -> node4707 [ color="black"]
+  node4708 -> node4709 [ color="black"]
+  node4701 -> node4702 [ color="black"]
+  node4704 -> node4705 [ color="black"]
+  node4707 -> node4708 [ color="black"]
+}

@@ -1,0 +1,70 @@
+digraph {
+  node9222 [shape=cds, label=<<font color="black">5:app __x3__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype FormalParameters FunctionBody CONST_nonDASHlexicalDASHthis funcEnv)</font>> color="black" fillcolor="white" style=filled]
+  node9218 [shape=cds, label=<<font color="black">3:access __x1__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9216 [shape=cds, label=<<font color="black">1:app __x0__ = (NewDeclarativeEnvironment scope)</font>> color="black" fillcolor="white" style=filled]
+  node9225 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:__x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9221 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9217 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let funcEnv = __x0__</td></tr>
+      <tr><td align="left">2:let envRec = funcEnv.EnvironmentRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9224 [shape=cds, label=<<font color="black">6:app __x4__ = (MakeConstructor closure)</font>> color="black" fillcolor="white" style=filled]
+  node9228 [shape=cds, label=<<font color="black">9:app __x6__ = (envRec.InitializeBinding envRec name closure)</font>> color="black" fillcolor="white" style=filled]
+  node9227 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:__x5__</td></tr>
+      <tr><td align="left">8:closure.SourceText = (get-syntax FunctionExpression)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9219 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let name = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9223 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let closure = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9229 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:__x6__</td></tr>
+      <tr><td align="left">10:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9215 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let scope = GLOBAL_context.LexicalEnvironment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9213 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9226 [shape=cds, label=<<font color="black">7:app __x5__ = (SetFunctionName closure name)</font>> color="black" fillcolor="white" style=filled]
+  node9214 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9220 [shape=cds, label=<<font color="black">4:app __x2__ = (envRec.CreateImmutableBinding envRec name false)</font>> color="black" fillcolor="white" style=filled]
+  node9223 -> node9224 [ color="black"]
+  node9218 -> node9219 [ color="black"]
+  node9213 -> node9215 [ color="black"]
+  node9216 -> node9217 [ color="black"]
+  node9228 -> node9229 [ color="black"]
+  node9219 -> node9220 [ color="black"]
+  node9220 -> node9221 [ color="black"]
+  node9217 -> node9218 [ color="black"]
+  node9229 -> node9214 [ color="black"]
+  node9226 -> node9227 [ color="black"]
+  node9222 -> node9223 [ color="black"]
+  node9215 -> node9216 [ color="black"]
+  node9225 -> node9226 [ color="black"]
+  node9221 -> node9222 [ color="black"]
+  node9224 -> node9225 [ color="black"]
+  node9227 -> node9228 [ color="black"]
+}

@@ -1,0 +1,56 @@
+digraph {
+  node56 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x 0i) (= y -0.0))</font>> color="black" fillcolor="white" style=filled]
+  node52 [shape=diamond, label=<<font color="black">(= y NaN)</font>> color="black" fillcolor="white" style=filled]
+  node57 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node60 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node53 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node59 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node48 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node50 [shape=diamond, label=<<font color="black">(= x NaN)</font>> color="black" fillcolor="white" style=filled]
+  node55 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node58 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x -0.0) (= y 0i))</font>> color="black" fillcolor="white" style=filled]
+  node51 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node54 [shape=diamond, label=<<font color="black">(= x y)</font>> color="black" fillcolor="white" style=filled]
+  node49 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node54 -> node55 [label=<<font color="black">true</font>> color="black"]
+  node54 -> node56 [label=<<font color="black">false</font>> color="black"]
+  node55 -> node56 [ color="black"]
+  node52 -> node53 [label=<<font color="black">true</font>> color="black"]
+  node52 -> node54 [label=<<font color="black">false</font>> color="black"]
+  node57 -> node58 [ color="black"]
+  node51 -> node52 [ color="black"]
+  node59 -> node60 [ color="black"]
+  node56 -> node57 [label=<<font color="black">true</font>> color="black"]
+  node56 -> node58 [label=<<font color="black">false</font>> color="black"]
+  node60 -> node49 [ color="black"]
+  node53 -> node54 [ color="black"]
+  node58 -> node59 [label=<<font color="black">true</font>> color="black"]
+  node58 -> node60 [label=<<font color="black">false</font>> color="black"]
+  node50 -> node51 [label=<<font color="black">true</font>> color="black"]
+  node50 -> node52 [label=<<font color="black">false</font>> color="black"]
+  node48 -> node50 [ color="black"]
+}

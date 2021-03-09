@@ -1,0 +1,24 @@
+digraph {
+  node4030 [shape=diamond, label=<<font color="black">(= __x0__ CONST_empty)</font>> color="black" fillcolor="white" style=filled]
+  node4033 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return (new [__x1__])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4031 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4027 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4032 [shape=cds, label=<<font color="black">1:access __x1__ = (PropertyDefinition &quot;PropName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4028 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4029 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyDefinition &quot;PropName&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4033 -> node4028 [ color="black"]
+  node4030 -> node4031 [label=<<font color="black">true</font>> color="black"]
+  node4030 -> node4032 [label=<<font color="black">false</font>> color="black"]
+  node4027 -> node4029 [ color="black"]
+  node4031 -> node4032 [ color="black"]
+  node4029 -> node4030 [ color="black"]
+  node4032 -> node4033 [ color="black"]
+}

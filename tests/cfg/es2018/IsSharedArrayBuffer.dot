@@ -1,0 +1,38 @@
+digraph {
+  node16619 [shape=diamond, label=<<font color="black">(= bufferData null)</font>> color="black" fillcolor="white" style=filled]
+  node16623 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:assert (= (typeof bufferData) &quot;SharedDataBlock&quot;)</td></tr>
+      <tr><td align="left">5:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16616 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16620 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16615 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16617 [shape=cds, label=<<font color="black">app obj = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16621 [shape=diamond, label=<<font color="black">(= (typeof bufferData) &quot;DataBlock&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16618 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let bufferData = obj.ArrayBufferData</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16622 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16619 -> node16620 [label=<<font color="black">true</font>> color="black"]
+  node16619 -> node16621 [label=<<font color="black">false</font>> color="black"]
+  node16617 -> node16618 [ color="black"]
+  node16621 -> node16622 [label=<<font color="black">true</font>> color="black"]
+  node16621 -> node16623 [label=<<font color="black">false</font>> color="black"]
+  node16618 -> node16619 [ color="black"]
+  node16622 -> node16623 [ color="black"]
+  node16615 -> node16617 [ color="black"]
+  node16620 -> node16621 [ color="black"]
+  node16623 -> node16616 [ color="black"]
+}

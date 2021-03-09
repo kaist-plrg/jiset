@@ -1,0 +1,34 @@
+digraph {
+  node9383 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let hasDuplicates = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9379 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9388 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9384 [shape=diamond, label=<<font color="black">(= hasDuplicates true)</font>> color="black" fillcolor="white" style=filled]
+  node9380 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9387 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node9381 [shape=cds, label=<<font color="black">0:access __x0__ = (ModuleItemList &quot;ContainsDuplicateLabels&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9386 [shape=cds, label=<<font color="black">2:access __x2__ = (ModuleItem &quot;ContainsDuplicateLabels&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9382 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node9385 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9383 -> node9384 [ color="black"]
+  node9381 -> node9382 [ color="black"]
+  node9385 -> node9386 [ color="black"]
+  node9387 -> node9388 [ color="black"]
+  node9379 -> node9381 [ color="black"]
+  node9388 -> node9380 [ color="black"]
+  node9384 -> node9385 [label=<<font color="black">true</font>> color="black"]
+  node9384 -> node9386 [label=<<font color="black">false</font>> color="black"]
+  node9382 -> node9383 [ color="black"]
+  node9386 -> node9387 [ color="black"]
+}

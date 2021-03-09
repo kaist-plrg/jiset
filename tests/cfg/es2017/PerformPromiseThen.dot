@@ -1,0 +1,102 @@
+digraph {
+  node16928 [shape=diamond, label=<<font color="black">(= __x1__ false)</font>> color="black" fillcolor="white" style=filled]
+  node16940 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:assert (= promise.PromiseState &quot;rejected&quot;)</td></tr>
+      <tr><td align="left">16:let reason = promise.PromiseResult</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16933 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let fulfillReaction = (new PromiseReaction(&quot;Capability&quot; -&gt; resultCapability, &quot;Type&quot; -&gt; &quot;Fulfill&quot;, &quot;Handler&quot; -&gt; onFulfilled))</td></tr>
+      <tr><td align="left">7:let rejectReaction = (new PromiseReaction(&quot;Capability&quot; -&gt; resultCapability, &quot;Type&quot; -&gt; &quot;Reject&quot;, &quot;Handler&quot; -&gt; onRejected))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16927 [shape=cds, label=<<font color="black">2:app __x1__ = (IsCallable onFulfilled)</font>> color="black" fillcolor="white" style=filled]
+  node16936 [shape=diamond, label=<<font color="black">(= promise.PromiseState &quot;fulfilled&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16923 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16941 [shape=diamond, label=<<font color="black">(= promise.PromiseIsHandled false)</font>> color="black" fillcolor="white" style=filled]
+  node16935 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:append fulfillReaction -&gt; promise.PromiseFulfillReactions</td></tr>
+      <tr><td align="left">10:append rejectReaction -&gt; promise.PromiseRejectReactions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16945 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:__x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16938 [shape=cds, label=<<font color="black">13:app __x3__ = (EnqueueJob &quot;PromiseJobs&quot; PromiseReactionJob (new [fulfillReaction, value]))</font>> color="black" fillcolor="white" style=filled]
+  node16926 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16942 [shape=cds, label=<<font color="black">app __x4__ = (HostPromiseRejectionTracker promise &quot;handle&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16934 [shape=diamond, label=<<font color="black">(= promise.PromiseState &quot;pending&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16925 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPromise promise)</font>> color="black" fillcolor="white" style=filled]
+  node16931 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
+  node16943 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16929 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">onFulfilled = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16946 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">19:promise.PromiseIsHandled = true</td></tr>
+      <tr><td align="left">20:return resultCapability.Promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16944 [shape=cds, label=<<font color="black">18:app __x5__ = (EnqueueJob &quot;PromiseJobs&quot; PromiseReactionJob (new [rejectReaction, reason]))</font>> color="black" fillcolor="white" style=filled]
+  node16924 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16937 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let value = promise.PromiseResult</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16932 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">onRejected = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16939 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:__x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16930 [shape=cds, label=<<font color="black">4:app __x2__ = (IsCallable onRejected)</font>> color="black" fillcolor="white" style=filled]
+  node16930 -> node16931 [ color="black"]
+  node16942 -> node16943 [ color="black"]
+  node16946 -> node16924 [ color="black"]
+  node16928 -> node16929 [label=<<font color="black">true</font>> color="black"]
+  node16928 -> node16930 [label=<<font color="black">false</font>> color="black"]
+  node16941 -> node16942 [label=<<font color="black">true</font>> color="black"]
+  node16941 -> node16944 [label=<<font color="black">false</font>> color="black"]
+  node16940 -> node16941 [ color="black"]
+  node16943 -> node16944 [ color="black"]
+  node16935 -> node16946 [ color="black"]
+  node16938 -> node16939 [ color="black"]
+  node16925 -> node16926 [ color="black"]
+  node16932 -> node16933 [ color="black"]
+  node16944 -> node16945 [ color="black"]
+  node16934 -> node16935 [label=<<font color="black">true</font>> color="black"]
+  node16934 -> node16936 [label=<<font color="black">false</font>> color="black"]
+  node16929 -> node16930 [ color="black"]
+  node16945 -> node16946 [ color="black"]
+  node16933 -> node16934 [ color="black"]
+  node16937 -> node16938 [ color="black"]
+  node16936 -> node16937 [label=<<font color="black">true</font>> color="black"]
+  node16936 -> node16940 [label=<<font color="black">false</font>> color="black"]
+  node16926 -> node16927 [ color="black"]
+  node16923 -> node16925 [ color="black"]
+  node16931 -> node16932 [label=<<font color="black">true</font>> color="black"]
+  node16931 -> node16933 [label=<<font color="black">false</font>> color="black"]
+  node16939 -> node16946 [ color="black"]
+  node16927 -> node16928 [ color="black"]
+}

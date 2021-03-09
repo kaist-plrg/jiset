@@ -1,0 +1,40 @@
+digraph {
+  node11504 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11510 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">(pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11505 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11506 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let module = this</td></tr>
+      <tr><td align="left">1:GLOBAL_context = null</td></tr>
+      <tr><td align="left">2:let moduleContext = module.Context</td></tr>
+      <tr><td align="left">3:append moduleContext -&gt; GLOBAL_executionStack</td></tr>
+      <tr><td align="left">3:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11508 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let result = __x0__</td></tr>
+      <tr><td align="left">5:GLOBAL_context = null</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11507 [shape=cds, label=<<font color="black">4:access __x0__ = (module.ECMAScriptCode &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11509 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] moduleContext)</font>> color="black" fillcolor="white" style=filled]
+  node11511 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">7:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11509 -> node11510 [label=<<font color="black">true</font>> color="black"]
+  node11509 -> node11511 [label=<<font color="black">false</font>> color="black"]
+  node11510 -> node11511 [ color="black"]
+  node11508 -> node11509 [ color="black"]
+  node11511 -> node11505 [ color="black"]
+  node11506 -> node11507 [ color="black"]
+  node11507 -> node11508 [ color="black"]
+  node11504 -> node11506 [ color="black"]
+}

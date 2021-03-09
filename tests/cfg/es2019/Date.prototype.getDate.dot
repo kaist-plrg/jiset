@@ -1,0 +1,32 @@
+digraph {
+  node12597 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let t = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12602 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12600 [shape=cds, label=<<font color="black">2:app __x1__ = (LocalTime t)</font>> color="black" fillcolor="white" style=filled]
+  node12596 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node12599 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return NaN</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12595 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12598 [shape=diamond, label=<<font color="black">(= t NaN)</font>> color="black" fillcolor="white" style=filled]
+  node12601 [shape=cds, label=<<font color="black">2:app __x2__ = (DateFromTime __x1__)</font>> color="black" fillcolor="white" style=filled]
+  node12594 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12601 -> node12602 [ color="black"]
+  node12597 -> node12598 [ color="black"]
+  node12602 -> node12595 [ color="black"]
+  node12598 -> node12599 [label=<<font color="black">true</font>> color="black"]
+  node12598 -> node12600 [label=<<font color="black">false</font>> color="black"]
+  node12600 -> node12601 [ color="black"]
+  node12596 -> node12597 [ color="black"]
+  node12594 -> node12596 [ color="black"]
+  node12599 -> node12600 [ color="black"]
+}

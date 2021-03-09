@@ -1,0 +1,34 @@
+digraph {
+  node10117 [shape=cds, label=<<font color="black">2:access __x1__ = (ClassTail &quot;ClassDefinitionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10113 [shape=diamond, label=<<font color="black">(= BindingIdentifier absent)</font>> color="black" fillcolor="white" style=filled]
+  node10116 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let className = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10111 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10115 [shape=cds, label=<<font color="black">access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10119 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let value = [? __x2__]</td></tr>
+      <tr><td align="left">3:value.SourceText = (get-syntax ClassExpression)</td></tr>
+      <tr><td align="left">4:return value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10112 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10114 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let className = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10118 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ className className)</font>> color="black" fillcolor="white" style=filled]
+  node10111 -> node10113 [ color="black"]
+  node10113 -> node10114 [label=<<font color="black">true</font>> color="black"]
+  node10113 -> node10115 [label=<<font color="black">false</font>> color="black"]
+  node10116 -> node10117 [ color="black"]
+  node10114 -> node10117 [ color="black"]
+  node10118 -> node10119 [ color="black"]
+  node10119 -> node10112 [ color="black"]
+  node10115 -> node10116 [ color="black"]
+  node10117 -> node10118 [ color="black"]
+}

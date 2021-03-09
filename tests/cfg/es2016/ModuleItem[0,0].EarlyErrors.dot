@@ -1,0 +1,24 @@
+digraph {
+  node17226 [shape=cds, label=<<font color="black">0:app __x1__ = (IsDuplicate __x0__)</font>> color="black" fillcolor="white" style=filled]
+  node17225 [shape=cds, label=<<font color="black">0:access __x0__ = (ImportDeclaration &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node17223 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17227 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node17224 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17229 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17228 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17225 -> node17226 [ color="black"]
+  node17223 -> node17225 [ color="black"]
+  node17229 -> node17224 [ color="black"]
+  node17228 -> node17224 [ color="black"]
+  node17226 -> node17227 [ color="black"]
+  node17227 -> node17228 [label=<<font color="black">true</font>> color="black"]
+  node17227 -> node17229 [label=<<font color="black">false</font>> color="black"]
+}

@@ -1,0 +1,75 @@
+digraph {
+  node18761 [shape=diamond, label=<<font color="black">(! (= __x3__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node18746 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18764 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:unregisterToken = CONST_empty</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18749 [shape=cds, label=<<font color="black">app heldValue = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18748 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18763 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18747 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18762 [shape=diamond, label=<<font color="black">(! (= unregisterToken undefined))</font>> color="black" fillcolor="white" style=filled]
+  node18765 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let cell = (new Record(&quot;WeakRefTarget&quot; -&gt; target, &quot;HeldValue&quot; -&gt; heldValue, &quot;UnregisterToken&quot; -&gt; unregisterToken))</td></tr>
+      <tr><td align="left">8:append cell -&gt; finalizationRegistry.Cells</td></tr>
+      <tr><td align="left">9:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18751 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let finalizationRegistry = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18754 [shape=cds, label=<<font color="black">2:app __x1__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node18760 [shape=cds, label=<<font color="black">4:app __x3__ = (Type unregisterToken)</font>> color="black" fillcolor="white" style=filled]
+  node18750 [shape=cds, label=<<font color="black">app unregisterToken = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node18757 [shape=cds, label=<<font color="black">3:app __x2__ = (SameValue target heldValue)</font>> color="black" fillcolor="white" style=filled]
+  node18755 [shape=diamond, label=<<font color="black">(! (= __x1__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node18752 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot finalizationRegistry &quot;Cells&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18756 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18758 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
+  node18759 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18753 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18751 -> node18752 [ color="black"]
+  node18753 -> node18754 [ color="black"]
+  node18750 -> node18751 [ color="black"]
+  node18764 -> node18765 [ color="black"]
+  node18760 -> node18761 [ color="black"]
+  node18758 -> node18759 [label=<<font color="black">true</font>> color="black"]
+  node18758 -> node18760 [label=<<font color="black">false</font>> color="black"]
+  node18759 -> node18760 [ color="black"]
+  node18748 -> node18749 [ color="black"]
+  node18761 -> node18762 [label=<<font color="black">true</font>> color="black"]
+  node18761 -> node18765 [label=<<font color="black">false</font>> color="black"]
+  node18752 -> node18753 [ color="black"]
+  node18756 -> node18757 [ color="black"]
+  node18757 -> node18758 [ color="black"]
+  node18762 -> node18763 [label=<<font color="black">true</font>> color="black"]
+  node18762 -> node18764 [label=<<font color="black">false</font>> color="black"]
+  node18763 -> node18764 [ color="black"]
+  node18749 -> node18750 [ color="black"]
+  node18746 -> node18748 [ color="black"]
+  node18765 -> node18747 [ color="black"]
+  node18755 -> node18756 [label=<<font color="black">true</font>> color="black"]
+  node18755 -> node18757 [label=<<font color="black">false</font>> color="black"]
+  node18754 -> node18755 [ color="black"]
+}

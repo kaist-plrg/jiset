@@ -1,0 +1,29 @@
+digraph {
+  node1151 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1153 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1155 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= __x1__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1150 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1154 [shape=cds, label=<<font color="black">1:app __x1__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node1156 [shape=cds, label=<<font color="black">2:app __x2__ = (O.HasProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node1157 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1152 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node1156 -> node1157 [ color="black"]
+  node1157 -> node1151 [ color="black"]
+  node1154 -> node1155 [ color="black"]
+  node1153 -> node1154 [ color="black"]
+  node1150 -> node1152 [ color="black"]
+  node1155 -> node1156 [ color="black"]
+  node1152 -> node1153 [ color="black"]
+}

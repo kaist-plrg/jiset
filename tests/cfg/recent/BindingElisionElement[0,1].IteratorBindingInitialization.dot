@@ -1,0 +1,25 @@
+digraph {
+  node6968 [shape=cds, label=<<font color="black">1:access __x2__ = (BindingElement &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6964 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6967 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:[? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6963 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6969 [shape=cds, label=<<font color="black">1:app __x3__ = (__x2__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node6966 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node6965 [shape=cds, label=<<font color="black">0:access __x0__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6970 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6963 -> node6965 [ color="black"]
+  node6969 -> node6970 [ color="black"]
+  node6968 -> node6969 [ color="black"]
+  node6967 -> node6968 [ color="black"]
+  node6965 -> node6966 [ color="black"]
+  node6966 -> node6967 [ color="black"]
+  node6970 -> node6964 [ color="black"]
+}

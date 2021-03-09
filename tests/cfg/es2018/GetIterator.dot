@@ -1,0 +1,98 @@
+digraph {
+  node1109 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let syncMethod = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1106 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:method = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1103 [shape=diamond, label=<<font color="black">(= method absent)</font>> color="black" fillcolor="white" style=filled]
+  node1107 [shape=diamond, label=<<font color="black">(= method undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1112 [shape=cds, label=<<font color="black">8:app __x3__ = (CreateAsyncFromSyncIterator syncIteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node1098 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1108 [shape=cds, label=<<font color="black">6:app __x1__ = (GetMethod obj SYMBOL_iterator)</font>> color="black" fillcolor="white" style=filled]
+  node1101 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">hint = CONST_sync</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1116 [shape=cds, label=<<font color="black">10:app __x5__ = (Call method obj)</font>> color="black" fillcolor="white" style=filled]
+  node1120 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1105 [shape=cds, label=<<font color="black">4:app __x0__ = (GetMethod obj SYMBOL_asyncIterator)</font>> color="black" fillcolor="white" style=filled]
+  node1110 [shape=cds, label=<<font color="black">7:app __x2__ = (GetIterator obj CONST_sync syncMethod)</font>> color="black" fillcolor="white" style=filled]
+  node1115 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">method = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1100 [shape=diamond, label=<<font color="black">(= hint absent)</font>> color="black" fillcolor="white" style=filled]
+  node1119 [shape=diamond, label=<<font color="black">(! (= __x6__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node1104 [shape=diamond, label=<<font color="black">(= hint CONST_async)</font>> color="black" fillcolor="white" style=filled]
+  node1121 [shape=cds, label=<<font color="black">12:app __x7__ = (GetV iterator &quot;next&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node1111 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let syncIteratorRecord = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1118 [shape=cds, label=<<font color="black">11:app __x6__ = (Type iterator)</font>> color="black" fillcolor="white" style=filled]
+  node1114 [shape=cds, label=<<font color="black">app __x4__ = (GetMethod obj SYMBOL_iterator)</font>> color="black" fillcolor="white" style=filled]
+  node1099 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1117 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:let iterator = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1122 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let nextMethod = [? __x7__]</td></tr>
+      <tr><td align="left">13:let iteratorRecord = (new Record(&quot;Iterator&quot; -&gt; iterator, &quot;NextMethod&quot; -&gt; nextMethod, &quot;Done&quot; -&gt; false))</td></tr>
+      <tr><td align="left">14:return iteratorRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1113 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1102 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (|| (= hint CONST_sync) (= hint CONST_async))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1119 -> node1120 [label=<<font color="black">true</font>> color="black"]
+  node1119 -> node1121 [label=<<font color="black">false</font>> color="black"]
+  node1105 -> node1106 [ color="black"]
+  node1104 -> node1105 [label=<<font color="black">true</font>> color="black"]
+  node1104 -> node1114 [label=<<font color="black">false</font>> color="black"]
+  node1107 -> node1108 [label=<<font color="black">true</font>> color="black"]
+  node1107 -> node1116 [label=<<font color="black">false</font>> color="black"]
+  node1108 -> node1109 [ color="black"]
+  node1109 -> node1110 [ color="black"]
+  node1117 -> node1118 [ color="black"]
+  node1100 -> node1101 [label=<<font color="black">true</font>> color="black"]
+  node1100 -> node1102 [label=<<font color="black">false</font>> color="black"]
+  node1103 -> node1104 [label=<<font color="black">true</font>> color="black"]
+  node1103 -> node1116 [label=<<font color="black">false</font>> color="black"]
+  node1118 -> node1119 [ color="black"]
+  node1120 -> node1121 [ color="black"]
+  node1112 -> node1113 [ color="black"]
+  node1106 -> node1107 [ color="black"]
+  node1113 -> node1116 [ color="black"]
+  node1115 -> node1116 [ color="black"]
+  node1121 -> node1122 [ color="black"]
+  node1098 -> node1100 [ color="black"]
+  node1102 -> node1103 [ color="black"]
+  node1101 -> node1102 [ color="black"]
+  node1122 -> node1099 [ color="black"]
+  node1111 -> node1112 [ color="black"]
+  node1110 -> node1111 [ color="black"]
+  node1114 -> node1115 [ color="black"]
+  node1116 -> node1117 [ color="black"]
+}

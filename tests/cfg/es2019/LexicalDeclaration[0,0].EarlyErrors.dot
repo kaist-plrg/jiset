@@ -1,0 +1,41 @@
+digraph {
+  node18667 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingList &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18674 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18671 [shape=cds, label=<<font color="black">1:access __x1__ = (BindingList &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18672 [shape=cds, label=<<font color="black">1:app __x2__ = (IsDuplicate __x1__)</font>> color="black" fillcolor="white" style=filled]
+  node18665 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18670 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18675 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18673 [shape=diamond, label=<<font color="black">__x2__</font>> color="black" fillcolor="white" style=filled]
+  node18668 [shape=diamond, label=<<font color="black">(contains __x0__ &quot;let&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18669 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18666 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18675 -> node18666 [ color="black"]
+  node18669 -> node18671 [ color="black"]
+  node18673 -> node18674 [label=<<font color="black">true</font>> color="black"]
+  node18673 -> node18675 [label=<<font color="black">false</font>> color="black"]
+  node18672 -> node18673 [ color="black"]
+  node18670 -> node18671 [ color="black"]
+  node18674 -> node18666 [ color="black"]
+  node18667 -> node18668 [ color="black"]
+  node18668 -> node18669 [label=<<font color="black">true</font>> color="black"]
+  node18668 -> node18670 [label=<<font color="black">false</font>> color="black"]
+  node18665 -> node18667 [ color="black"]
+  node18671 -> node18672 [ color="black"]
+}

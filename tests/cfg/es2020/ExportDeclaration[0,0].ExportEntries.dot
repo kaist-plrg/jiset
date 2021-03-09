@@ -1,0 +1,23 @@
+digraph {
+  node11802 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11806 [shape=cds, label=<<font color="black">1:access __x1__ = (ExportFromClause &quot;ExportEntriesForModule&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11805 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let module = __x0__[0i]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11804 [shape=cds, label=<<font color="black">0:access __x0__ = (FromClause &quot;ModuleRequests&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11808 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11807 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ module)</font>> color="black" fillcolor="white" style=filled]
+  node11803 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11802 -> node11804 [ color="black"]
+  node11806 -> node11807 [ color="black"]
+  node11807 -> node11808 [ color="black"]
+  node11808 -> node11803 [ color="black"]
+  node11805 -> node11806 [ color="black"]
+  node11804 -> node11805 [ color="black"]
+}

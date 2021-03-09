@@ -1,0 +1,28 @@
+digraph {
+  node3004 [shape=cds, label=<<font color="black">1:app __x0__ = (MakeBasicObject internalSlotsList)</font>> color="black" fillcolor="white" style=filled]
+  node3001 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3005 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let A = [! __x0__]</td></tr>
+      <tr><td align="left">2:A.GetOwnProperty = IntegerIndexedExoticObjectDOTGetOwnProperty</td></tr>
+      <tr><td align="left">3:A.HasProperty = IntegerIndexedExoticObjectDOTHasProperty</td></tr>
+      <tr><td align="left">4:A.DefineOwnProperty = IntegerIndexedExoticObjectDOTDefineOwnProperty</td></tr>
+      <tr><td align="left">5:A.Get = IntegerIndexedExoticObjectDOTGet</td></tr>
+      <tr><td align="left">6:A.Set = IntegerIndexedExoticObjectDOTSet</td></tr>
+      <tr><td align="left">7:A.Delete = IntegerIndexedExoticObjectDOTDelete</td></tr>
+      <tr><td align="left">8:A.OwnPropertyKeys = IntegerIndexedExoticObjectDOTOwnPropertyKeys</td></tr>
+      <tr><td align="left">9:A.Prototype = prototype</td></tr>
+      <tr><td align="left">10:return A</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3002 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3003 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let internalSlotsList = (new [&quot;Prototype&quot;, &quot;Extensible&quot;, &quot;ViewedArrayBuffer&quot;, &quot;TypedArrayName&quot;, &quot;ContentType&quot;, &quot;ByteLength&quot;, &quot;ByteOffset&quot;, &quot;ArrayLength&quot;])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3001 -> node3003 [ color="black"]
+  node3003 -> node3004 [ color="black"]
+  node3004 -> node3005 [ color="black"]
+  node3005 -> node3002 [ color="black"]
+}

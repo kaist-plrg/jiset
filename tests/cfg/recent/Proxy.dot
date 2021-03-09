@@ -1,0 +1,26 @@
+digraph {
+  node19827 [shape=cds, label=<<font color="black">app handler = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node19831 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19828 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
+  node19825 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19830 [shape=cds, label=<<font color="black">1:app __x0__ = (ProxyCreate target handler)</font>> color="black" fillcolor="white" style=filled]
+  node19826 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node19829 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19824 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19824 -> node19826 [ color="black"]
+  node19829 -> node19830 [ color="black"]
+  node19826 -> node19827 [ color="black"]
+  node19828 -> node19829 [label=<<font color="black">true</font>> color="black"]
+  node19828 -> node19830 [label=<<font color="black">false</font>> color="black"]
+  node19831 -> node19825 [ color="black"]
+  node19830 -> node19831 [ color="black"]
+  node19827 -> node19828 [ color="black"]
+}

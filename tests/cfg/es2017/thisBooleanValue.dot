@@ -1,0 +1,33 @@
+digraph {
+  node11385 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11389 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11388 [shape=diamond, label=<<font color="black">(= __x0__ Boolean)</font>> color="black" fillcolor="white" style=filled]
+  node11391 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x1__ Object) (! (= value.BooleanData absent)))</font>> color="black" fillcolor="white" style=filled]
+  node11386 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11393 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11390 [shape=cds, label=<<font color="black">1:app __x1__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node11392 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return value.BooleanData</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11387 [shape=cds, label=<<font color="black">0:app __x0__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node11389 -> node11390 [ color="black"]
+  node11392 -> node11393 [ color="black"]
+  node11385 -> node11387 [ color="black"]
+  node11391 -> node11392 [label=<<font color="black">true</font>> color="black"]
+  node11391 -> node11393 [label=<<font color="black">false</font>> color="black"]
+  node11390 -> node11391 [ color="black"]
+  node11387 -> node11388 [ color="black"]
+  node11388 -> node11389 [label=<<font color="black">true</font>> color="black"]
+  node11388 -> node11390 [label=<<font color="black">false</font>> color="black"]
+  node11393 -> node11386 [ color="black"]
+}

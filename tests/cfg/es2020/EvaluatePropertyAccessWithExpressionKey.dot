@@ -1,0 +1,38 @@
+digraph {
+  node4603 [shape=cds, label=<<font color="black">2:app __x2__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
+  node4600 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let propertyNameReference = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4604 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let bv = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4599 [shape=cds, label=<<font color="black">0:access __x0__ = (expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4605 [shape=cds, label=<<font color="black">3:app __x3__ = (ToPropertyKey propertyNameValue)</font>> color="black" fillcolor="white" style=filled]
+  node4601 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue propertyNameReference)</font>> color="black" fillcolor="white" style=filled]
+  node4598 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4606 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let propertyKey = [? __x3__]</td></tr>
+      <tr><td align="left">4:return (new Reference(&quot;BaseValue&quot; -&gt; bv, &quot;ReferencedName&quot; -&gt; propertyKey, &quot;StrictReference&quot; -&gt; strict))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4602 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let propertyNameValue = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4597 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4601 -> node4602 [ color="black"]
+  node4600 -> node4601 [ color="black"]
+  node4603 -> node4604 [ color="black"]
+  node4597 -> node4599 [ color="black"]
+  node4604 -> node4605 [ color="black"]
+  node4605 -> node4606 [ color="black"]
+  node4599 -> node4600 [ color="black"]
+  node4606 -> node4598 [ color="black"]
+  node4602 -> node4603 [ color="black"]
+}

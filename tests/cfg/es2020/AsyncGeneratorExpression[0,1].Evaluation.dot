@@ -1,0 +1,78 @@
+digraph {
+  node9864 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let closure = [! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9855 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9869 [shape=cds, label=<<font color="black">8:app __x6__ = (SetFunctionName closure name)</font>> color="black" fillcolor="white" style=filled]
+  node9865 [shape=cds, label=<<font color="black">6:app __x4__ = (OrdinaryObjectCreate INTRINSIC_AsyncGenerator_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node9861 [shape=cds, label=<<font color="black">4:app __x2__ = (envRec.CreateImmutableBinding envRec name false)</font>> color="black" fillcolor="white" style=filled]
+  node9868 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:[! __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9872 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:[! __x7__]</td></tr>
+      <tr><td align="left">10:closure.SourceText = (get-syntax AsyncGeneratorExpression)</td></tr>
+      <tr><td align="left">11:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9867 [shape=cds, label=<<font color="black">7:app __x5__ = (DefinePropertyOrThrow closure &quot;prototype&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; prototype, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node9871 [shape=cds, label=<<font color="black">9:app __x7__ = (envRec.InitializeBinding envRec name closure)</font>> color="black" fillcolor="white" style=filled]
+  node9858 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let funcEnv = [! __x0__]</td></tr>
+      <tr><td align="left">2:let envRec = funcEnv.EnvironmentRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9863 [shape=cds, label=<<font color="black">5:app __x3__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGenerator FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)</font>> color="black" fillcolor="white" style=filled]
+  node9866 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let prototype = [! __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9856 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let scope = GLOBAL_context.LexicalEnvironment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9859 [shape=cds, label=<<font color="black">3:access __x1__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9870 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[! __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9854 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9860 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let name = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9857 [shape=cds, label=<<font color="black">1:app __x0__ = (NewDeclarativeEnvironment scope)</font>> color="black" fillcolor="white" style=filled]
+  node9862 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:[! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9857 -> node9858 [ color="black"]
+  node9859 -> node9860 [ color="black"]
+  node9854 -> node9856 [ color="black"]
+  node9862 -> node9863 [ color="black"]
+  node9864 -> node9865 [ color="black"]
+  node9866 -> node9867 [ color="black"]
+  node9861 -> node9862 [ color="black"]
+  node9869 -> node9870 [ color="black"]
+  node9871 -> node9872 [ color="black"]
+  node9860 -> node9861 [ color="black"]
+  node9870 -> node9871 [ color="black"]
+  node9872 -> node9855 [ color="black"]
+  node9865 -> node9866 [ color="black"]
+  node9867 -> node9868 [ color="black"]
+  node9856 -> node9857 [ color="black"]
+  node9858 -> node9859 [ color="black"]
+  node9868 -> node9869 [ color="black"]
+  node9863 -> node9864 [ color="black"]
+}

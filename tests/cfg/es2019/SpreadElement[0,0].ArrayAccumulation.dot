@@ -1,0 +1,71 @@
+digraph {
+  node3597 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let next = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3602 [shape=cds, label=<<font color="black">7:app __x5__ = (ToUint32 nextIndex)</font>> color="black" fillcolor="white" style=filled]
+  node3588 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3591 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue spreadRef)</font>> color="black" fillcolor="white" style=filled]
+  node3603 [shape=cds, label=<<font color="black">7:app __x6__ = (ToString __x5__)</font>> color="black" fillcolor="white" style=filled]
+  node3596 [shape=cds, label=<<font color="black">4:app __x3__ = (IteratorStep iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node3594 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let iteratorRecord = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3598 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
+  node3601 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let nextValue = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3605 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let status = __x7__</td></tr>
+      <tr><td align="left">8:assert (= status true)</td></tr>
+      <tr><td align="left">9:nextIndex = (+ nextIndex 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3600 [shape=cds, label=<<font color="black">6:app __x4__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
+  node3595 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node3587 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3592 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let spreadObj = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3590 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let spreadRef = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3604 [shape=cds, label=<<font color="black">7:app __x7__ = (CreateDataProperty array __x6__ nextValue)</font>> color="black" fillcolor="white" style=filled]
+  node3599 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return nextIndex</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3589 [shape=cds, label=<<font color="black">0:access __x0__ = (AssignmentExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3593 [shape=cds, label=<<font color="black">2:app __x2__ = (GetIterator spreadObj)</font>> color="black" fillcolor="white" style=filled]
+  node3600 -> node3601 [ color="black"]
+  node3587 -> node3589 [ color="black"]
+  node3596 -> node3597 [ color="black"]
+  node3590 -> node3591 [ color="black"]
+  node3598 -> node3599 [label=<<font color="black">true</font>> color="black"]
+  node3598 -> node3600 [label=<<font color="black">false</font>> color="black"]
+  node3597 -> node3598 [ color="black"]
+  node3592 -> node3593 [ color="black"]
+  node3605 -> node3595 [ color="black"]
+  node3601 -> node3602 [ color="black"]
+  node3603 -> node3604 [ color="black"]
+  node3602 -> node3603 [ color="black"]
+  node3595 -> node3596 [label=<<font color="black">true</font>> color="black"]
+  node3595 -> node3588 [label=<<font color="black">false</font>> color="black"]
+  node3593 -> node3594 [ color="black"]
+  node3594 -> node3595 [ color="black"]
+  node3589 -> node3590 [ color="black"]
+  node3604 -> node3605 [ color="black"]
+  node3599 -> node3600 [ color="black"]
+  node3591 -> node3592 [ color="black"]
+}

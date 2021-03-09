@@ -1,0 +1,36 @@
+digraph {
+  node19024 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19020 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19016 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node19021 [shape=cds, label=<<font color="black">1:app __x1__ = (ToPropertyKey propertyKey)</font>> color="black" fillcolor="white" style=filled]
+  node19017 [shape=cds, label=<<font color="black">app propertyKey = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node19015 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19018 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node19022 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let key = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19019 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node19023 [shape=cds, label=<<font color="black">2:app __x2__ = (target.HasProperty target key)</font>> color="black" fillcolor="white" style=filled]
+  node19014 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19020 -> node19021 [ color="black"]
+  node19023 -> node19024 [ color="black"]
+  node19021 -> node19022 [ color="black"]
+  node19016 -> node19017 [ color="black"]
+  node19024 -> node19015 [ color="black"]
+  node19019 -> node19020 [label=<<font color="black">true</font>> color="black"]
+  node19019 -> node19021 [label=<<font color="black">false</font>> color="black"]
+  node19022 -> node19023 [ color="black"]
+  node19018 -> node19019 [ color="black"]
+  node19017 -> node19018 [ color="black"]
+  node19014 -> node19016 [ color="black"]
+}

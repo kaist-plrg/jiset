@@ -1,0 +1,51 @@
+digraph {
+  node12097 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12105 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return e.Symbol</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12101 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node12100 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let stringKey = [? __x0__]</td></tr>
+      <tr><td align="left">1:let __x1__ = GLOBAL_symbolRegistry</td></tr>
+      <tr><td align="left">1:let __x2__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12104 [shape=diamond, label=<<font color="black">(= __x3__ true)</font>> color="black" fillcolor="white" style=filled]
+  node12106 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12099 [shape=cds, label=<<font color="black">0:app __x0__ = (ToString key)</font>> color="black" fillcolor="white" style=filled]
+  node12096 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12107 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:??? &quot;Let id:{newSymbol} be a new unique Symbol value whose [ [ Description ] ] value is id:{stringKey} .&quot;</td></tr>
+      <tr><td align="left">5:append (new Record(&quot;Key&quot; -&gt; stringKey, &quot;Symbol&quot; -&gt; newSymbol)) -&gt; GLOBAL_symbolRegistry</td></tr>
+      <tr><td align="left">6:return newSymbol</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12103 [shape=cds, label=<<font color="black">2:app __x3__ = (SameValue e.Key stringKey)</font>> color="black" fillcolor="white" style=filled]
+  node12098 [shape=cds, label=<<font color="black">app key = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12102 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let e = __x1__[__x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12102 -> node12103 [ color="black"]
+  node12096 -> node12098 [ color="black"]
+  node12104 -> node12105 [label=<<font color="black">true</font>> color="black"]
+  node12104 -> node12106 [label=<<font color="black">false</font>> color="black"]
+  node12107 -> node12097 [ color="black"]
+  node12106 -> node12101 [ color="black"]
+  node12098 -> node12099 [ color="black"]
+  node12100 -> node12101 [ color="black"]
+  node12105 -> node12106 [ color="black"]
+  node12099 -> node12100 [ color="black"]
+  node12103 -> node12104 [ color="black"]
+  node12101 -> node12102 [label=<<font color="black">true</font>> color="black"]
+  node12101 -> node12107 [label=<<font color="black">false</font>> color="black"]
+}

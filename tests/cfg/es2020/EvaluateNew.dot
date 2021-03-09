@@ -1,0 +1,64 @@
+digraph {
+  node4623 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4633 [shape=cds, label=<<font color="black">7:app __x3__ = (IsConstructor constructor)</font>> color="black" fillcolor="white" style=filled]
+  node4637 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4628 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let constructor = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4629 [shape=diamond, label=<<font color="black">(= arguments CONST_empty)</font>> color="black" fillcolor="white" style=filled]
+  node4636 [shape=cds, label=<<font color="black">8:app __x4__ = (Construct constructor argList)</font>> color="black" fillcolor="white" style=filled]
+  node4625 [shape=cds, label=<<font color="black">2:access __x0__ = (constructExpr &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4635 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4626 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let ref = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4630 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let argList = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4631 [shape=cds, label=<<font color="black">6:access __x2__ = (arguments &quot;ArgumentListEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4627 [shape=cds, label=<<font color="black">3:app __x1__ = (GetValue ref)</font>> color="black" fillcolor="white" style=filled]
+  node4622 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4632 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let argList = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4624 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (|| (is-instance-of constructExpr NewExpression) (is-instance-of constructExpr MemberExpression))</td></tr>
+      <tr><td align="left">1:assert (|| (= arguments CONST_empty) (is-instance-of arguments Arguments))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4634 [shape=diamond, label=<<font color="black">(= __x3__ false)</font>> color="black" fillcolor="white" style=filled]
+  node4634 -> node4635 [label=<<font color="black">true</font>> color="black"]
+  node4634 -> node4636 [label=<<font color="black">false</font>> color="black"]
+  node4622 -> node4624 [ color="black"]
+  node4627 -> node4628 [ color="black"]
+  node4626 -> node4627 [ color="black"]
+  node4630 -> node4633 [ color="black"]
+  node4632 -> node4633 [ color="black"]
+  node4631 -> node4632 [ color="black"]
+  node4628 -> node4629 [ color="black"]
+  node4629 -> node4630 [label=<<font color="black">true</font>> color="black"]
+  node4629 -> node4631 [label=<<font color="black">false</font>> color="black"]
+  node4636 -> node4637 [ color="black"]
+  node4637 -> node4623 [ color="black"]
+  node4633 -> node4634 [ color="black"]
+  node4635 -> node4636 [ color="black"]
+  node4624 -> node4625 [ color="black"]
+  node4625 -> node4626 [ color="black"]
+}

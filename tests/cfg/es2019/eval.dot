@@ -1,0 +1,31 @@
+digraph {
+  node11285 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11284 [shape=cds, label=<<font color="black">4:app __x0__ = (HostEnsureCanCompileStrings callerRealm calleeRealm)</font>> color="black" fillcolor="white" style=filled]
+  node11283 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let callerContext = GLOBAL_executionStack[(- GLOBAL_executionStack.length 2i)]</td></tr>
+      <tr><td align="left">2:let callerRealm = callerContext.Realm</td></tr>
+      <tr><td align="left">3:let calleeRealm = REALM</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11280 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11282 [shape=cds, label=<<font color="black">app x = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11287 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11286 [shape=cds, label=<<font color="black">5:app __x1__ = (PerformEval x calleeRealm false false)</font>> color="black" fillcolor="white" style=filled]
+  node11281 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11285 -> node11286 [ color="black"]
+  node11287 -> node11281 [ color="black"]
+  node11286 -> node11287 [ color="black"]
+  node11284 -> node11285 [ color="black"]
+  node11280 -> node11282 [ color="black"]
+  node11283 -> node11284 [ color="black"]
+  node11282 -> node11283 [ color="black"]
+}

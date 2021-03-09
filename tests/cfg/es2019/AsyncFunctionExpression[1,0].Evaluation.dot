@@ -1,0 +1,79 @@
+digraph {
+  node9565 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let name = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9561 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let scope = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9557 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node9566 [shape=cds, label=<<font color="black">5:app __x3__ = (envRec.CreateImmutableBinding envRec name)</font>> color="black" fillcolor="white" style=filled]
+  node9562 [shape=cds, label=<<font color="black">2:app __x1__ = (NewDeclarativeEnvironment scope)</font>> color="black" fillcolor="white" style=filled]
+  node9555 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9563 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let funcEnv = [! __x1__]</td></tr>
+      <tr><td align="left">3:let envRec = funcEnv.EnvironmentRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9567 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:[! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9564 [shape=cds, label=<<font color="black">4:access __x2__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9573 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:[! __x6__]</td></tr>
+      <tr><td align="left">9:closure.SourceText = (get-syntax AsyncFunctionExpression)</td></tr>
+      <tr><td align="left">10:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9572 [shape=cds, label=<<font color="black">8:app __x6__ = (envRec.InitializeBinding envRec name closure)</font>> color="black" fillcolor="white" style=filled]
+  node9556 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9571 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:[! __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9560 [shape=cds, label=<<font color="black">1:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9570 [shape=cds, label=<<font color="black">7:app __x5__ = (SetFunctionName closure name)</font>> color="black" fillcolor="white" style=filled]
+  node9569 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let closure = [! __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9559 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9568 [shape=cds, label=<<font color="black">6:app __x4__ = (AsyncFunctionCreate CONST_Normal FormalParameters AsyncFunctionBody funcEnv strict)</font>> color="black" fillcolor="white" style=filled]
+  node9558 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9573 -> node9556 [ color="black"]
+  node9564 -> node9565 [ color="black"]
+  node9568 -> node9569 [ color="black"]
+  node9572 -> node9573 [ color="black"]
+  node9560 -> node9561 [ color="black"]
+  node9555 -> node9557 [ color="black"]
+  node9562 -> node9563 [ color="black"]
+  node9565 -> node9566 [ color="black"]
+  node9567 -> node9568 [ color="black"]
+  node9566 -> node9567 [ color="black"]
+  node9569 -> node9570 [ color="black"]
+  node9563 -> node9564 [ color="black"]
+  node9557 -> node9558 [label=<<font color="black">true</font>> color="black"]
+  node9557 -> node9559 [label=<<font color="black">false</font>> color="black"]
+  node9559 -> node9560 [ color="black"]
+  node9561 -> node9562 [ color="black"]
+  node9558 -> node9560 [ color="black"]
+  node9570 -> node9571 [ color="black"]
+  node9571 -> node9572 [ color="black"]
+}

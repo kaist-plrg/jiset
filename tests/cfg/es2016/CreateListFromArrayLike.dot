@@ -1,0 +1,80 @@
+digraph {
+  node861 [shape=diamond, label=<<font color="black">(&lt; index len)</font>> color="black" fillcolor="white" style=filled]
+  node866 [shape=cds, label=<<font color="black">8:app __x5__ = (Type next)</font>> color="black" fillcolor="white" style=filled]
+  node862 [shape=cds, label=<<font color="black">6:app __x3__ = (ToString index)</font>> color="black" fillcolor="white" style=filled]
+  node852 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node856 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node863 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let indexName = [! __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node858 [shape=cds, label=<<font color="black">2:app __x1__ = (Get obj &quot;length&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node855 [shape=cds, label=<<font color="black">1:app __x0__ = (Type obj)</font>> color="black" fillcolor="white" style=filled]
+  node860 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let len = [? __x2__]</td></tr>
+      <tr><td align="left">3:let list = (new [])</td></tr>
+      <tr><td align="left">4:let index = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node853 [shape=diamond, label=<<font color="black">(= elementTypes absent)</font>> color="black" fillcolor="white" style=filled]
+  node870 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:return list</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node869 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:append next -&gt; list</td></tr>
+      <tr><td align="left">10:index = (+ index 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node857 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node868 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node851 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node864 [shape=cds, label=<<font color="black">7:app __x4__ = (Get obj indexName)</font>> color="black" fillcolor="white" style=filled]
+  node859 [shape=cds, label=<<font color="black">2:app __x2__ = (ToLength [? __x1__])</font>> color="black" fillcolor="white" style=filled]
+  node854 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let elementTypes = (new [Undefined, Null, Boolean, String, Symbol, Number, Object])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node867 [shape=diamond, label=<<font color="black">(! (contains elementTypes __x5__))</font>> color="black" fillcolor="white" style=filled]
+  node865 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let next = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node863 -> node864 [ color="black"]
+  node855 -> node856 [ color="black"]
+  node853 -> node854 [label=<<font color="black">true</font>> color="black"]
+  node853 -> node855 [label=<<font color="black">false</font>> color="black"]
+  node860 -> node861 [ color="black"]
+  node851 -> node853 [ color="black"]
+  node857 -> node858 [ color="black"]
+  node858 -> node859 [ color="black"]
+  node862 -> node863 [ color="black"]
+  node861 -> node862 [label=<<font color="black">true</font>> color="black"]
+  node861 -> node870 [label=<<font color="black">false</font>> color="black"]
+  node870 -> node852 [ color="black"]
+  node865 -> node866 [ color="black"]
+  node856 -> node857 [label=<<font color="black">true</font>> color="black"]
+  node856 -> node858 [label=<<font color="black">false</font>> color="black"]
+  node859 -> node860 [ color="black"]
+  node864 -> node865 [ color="black"]
+  node866 -> node867 [ color="black"]
+  node854 -> node855 [ color="black"]
+  node867 -> node868 [label=<<font color="black">true</font>> color="black"]
+  node867 -> node869 [label=<<font color="black">false</font>> color="black"]
+  node869 -> node861 [ color="black"]
+  node868 -> node869 [ color="black"]
+}

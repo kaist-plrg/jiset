@@ -1,0 +1,20 @@
+digraph {
+  node3781 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3783 [shape=diamond, label=<<font color="black">(|| (is-instance-of PrimaryExpression ObjectLiteral) (is-instance-of PrimaryExpression ArrayLiteral))</font>> color="black" fillcolor="white" style=filled]
+  node3785 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3784 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3782 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3781 -> node3783 [ color="black"]
+  node3783 -> node3784 [label=<<font color="black">true</font>> color="black"]
+  node3783 -> node3785 [label=<<font color="black">false</font>> color="black"]
+  node3784 -> node3785 [ color="black"]
+  node3785 -> node3782 [ color="black"]
+}

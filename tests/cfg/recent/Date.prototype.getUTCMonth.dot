@@ -1,0 +1,30 @@
+digraph {
+  node13700 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node13704 [shape=cds, label=<<font color="black">2:app __x1__ = (MonthFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node13699 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13703 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return NaN</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13705 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13702 [shape=diamond, label=<<font color="black">(= t NaN)</font>> color="black" fillcolor="white" style=filled]
+  node13698 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13701 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let t = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13700 -> node13701 [ color="black"]
+  node13704 -> node13705 [ color="black"]
+  node13705 -> node13699 [ color="black"]
+  node13703 -> node13704 [ color="black"]
+  node13702 -> node13703 [label=<<font color="black">true</font>> color="black"]
+  node13702 -> node13704 [label=<<font color="black">false</font>> color="black"]
+  node13698 -> node13700 [ color="black"]
+  node13701 -> node13702 [ color="black"]
+}

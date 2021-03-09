@@ -1,0 +1,61 @@
+digraph {
+  node5486 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let rval = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5480 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lref = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5489 [shape=diamond, label=<<font color="black">(|| (= r true) (= r undefined))</font>> color="black" fillcolor="white" style=filled]
+  node5487 [shape=cds, label=<<font color="black">4:app __x4__ = (AbstractRelationalComparison rval lval false)</font>> color="black" fillcolor="white" style=filled]
+  node5483 [shape=cds, label=<<font color="black">2:access __x2__ = (ShiftExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5488 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let r = __x4__</td></tr>
+      <tr><td align="left">5:[? r]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5491 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5482 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let lval = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5477 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5481 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue lref)</font>> color="black" fillcolor="white" style=filled]
+  node5479 [shape=cds, label=<<font color="black">0:access __x0__ = (RelationalExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5478 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5484 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let rref = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5490 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5485 [shape=cds, label=<<font color="black">3:app __x3__ = (GetValue rref)</font>> color="black" fillcolor="white" style=filled]
+  node5482 -> node5483 [ color="black"]
+  node5484 -> node5485 [ color="black"]
+  node5491 -> node5478 [ color="black"]
+  node5477 -> node5479 [ color="black"]
+  node5488 -> node5489 [ color="black"]
+  node5490 -> node5478 [ color="black"]
+  node5481 -> node5482 [ color="black"]
+  node5479 -> node5480 [ color="black"]
+  node5489 -> node5490 [label=<<font color="black">true</font>> color="black"]
+  node5489 -> node5491 [label=<<font color="black">false</font>> color="black"]
+  node5480 -> node5481 [ color="black"]
+  node5485 -> node5486 [ color="black"]
+  node5487 -> node5488 [ color="black"]
+  node5486 -> node5487 [ color="black"]
+  node5483 -> node5484 [ color="black"]
+}

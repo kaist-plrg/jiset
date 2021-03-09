@@ -1,0 +1,24 @@
+digraph {
+  node9300 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9298 [shape=cds, label=<<font color="black">app __x1__ = (__x0__ call)</font>> color="black" fillcolor="white" style=filled]
+  node9296 [shape=diamond, label=<<font color="black">(! (= StatementList absent))</font>> color="black" fillcolor="white" style=filled]
+  node9295 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9294 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9299 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9297 [shape=cds, label=<<font color="black">access __x0__ = (StatementList &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9299 -> node9300 [ color="black"]
+  node9294 -> node9296 [ color="black"]
+  node9300 -> node9295 [ color="black"]
+  node9297 -> node9298 [ color="black"]
+  node9298 -> node9299 [ color="black"]
+  node9296 -> node9297 [label=<<font color="black">true</font>> color="black"]
+  node9296 -> node9300 [label=<<font color="black">false</font>> color="black"]
+}

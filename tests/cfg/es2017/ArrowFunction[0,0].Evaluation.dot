@@ -1,0 +1,45 @@
+digraph {
+  node8239 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8242 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8246 [shape=cds, label=<<font color="black">2:access __x1__ = (ArrowParameters &quot;CoveredFormalsList&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8243 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8247 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let parameters = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8248 [shape=cds, label=<<font color="black">3:app __x2__ = (FunctionCreate CONST_Arrow parameters ConciseBody scope strict)</font>> color="black" fillcolor="white" style=filled]
+  node8240 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8241 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node8245 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let scope = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8249 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let closure = __x2__</td></tr>
+      <tr><td align="left">4:return closure</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8244 [shape=cds, label=<<font color="black">1:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8242 -> node8244 [ color="black"]
+  node8243 -> node8244 [ color="black"]
+  node8244 -> node8245 [ color="black"]
+  node8247 -> node8248 [ color="black"]
+  node8246 -> node8247 [ color="black"]
+  node8241 -> node8242 [label=<<font color="black">true</font>> color="black"]
+  node8241 -> node8243 [label=<<font color="black">false</font>> color="black"]
+  node8248 -> node8249 [ color="black"]
+  node8249 -> node8240 [ color="black"]
+  node8245 -> node8246 [ color="black"]
+  node8239 -> node8241 [ color="black"]
+}

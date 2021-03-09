@@ -1,0 +1,35 @@
+digraph {
+  node17517 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17513 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17518 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:alreadyResolved.Value = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17514 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17515 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let promise = F.Promise</td></tr>
+      <tr><td align="left">2:let alreadyResolved = F.AlreadyResolved</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17519 [shape=cds, label=<<font color="black">5:app __x0__ = (RejectPromise promise reason)</font>> color="black" fillcolor="white" style=filled]
+  node17516 [shape=diamond, label=<<font color="black">(= alreadyResolved.Value true)</font>> color="black" fillcolor="white" style=filled]
+  node17520 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17517 -> node17518 [ color="black"]
+  node17518 -> node17519 [ color="black"]
+  node17513 -> node17515 [ color="black"]
+  node17519 -> node17520 [ color="black"]
+  node17516 -> node17517 [label=<<font color="black">true</font>> color="black"]
+  node17516 -> node17518 [label=<<font color="black">false</font>> color="black"]
+  node17515 -> node17516 [ color="black"]
+  node17520 -> node17514 [ color="black"]
+}

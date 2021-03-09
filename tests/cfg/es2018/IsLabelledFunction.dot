@@ -1,0 +1,49 @@
+digraph {
+  node7839 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let item = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7835 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7845 [shape=cds, label=<<font color="black">4:app __x2__ = (IsLabelledFunction subStmt)</font>> color="black" fillcolor="white" style=filled]
+  node7834 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7842 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7838 [shape=cds, label=<<font color="black">1:access __x0__ = (stmt &quot;LabelledItem&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7843 [shape=cds, label=<<font color="black">3:access __x1__ = (item &quot;Statement&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7837 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7844 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let subStmt = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7840 [shape=diamond, label=<<font color="black">(is-instance-of item LabelledItem1)</font>> color="black" fillcolor="white" style=filled]
+  node7836 [shape=diamond, label=<<font color="black">(! (is-instance-of stmt LabelledStatement))</font>> color="black" fillcolor="white" style=filled]
+  node7846 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7841 [shape=cds, label=<<font color="black">access FunctionDeclaration = (item &quot;FunctionDeclaration&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7837 -> node7838 [ color="black"]
+  node7841 -> node7842 [ color="black"]
+  node7844 -> node7845 [ color="black"]
+  node7842 -> node7843 [ color="black"]
+  node7845 -> node7846 [ color="black"]
+  node7843 -> node7844 [ color="black"]
+  node7839 -> node7840 [ color="black"]
+  node7836 -> node7837 [label=<<font color="black">true</font>> color="black"]
+  node7836 -> node7838 [label=<<font color="black">false</font>> color="black"]
+  node7846 -> node7835 [ color="black"]
+  node7840 -> node7841 [label=<<font color="black">true</font>> color="black"]
+  node7840 -> node7843 [label=<<font color="black">false</font>> color="black"]
+  node7834 -> node7836 [ color="black"]
+  node7838 -> node7839 [ color="black"]
+}

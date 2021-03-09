@@ -1,0 +1,36 @@
+digraph {
+  node17509 [shape=cds, label=<<font color="black">2:app __x0__ = (CreateBuiltinFunction stepsResolve (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node17512 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let reject = __x1__</td></tr>
+      <tr><td align="left">7:reject.Promise = promise</td></tr>
+      <tr><td align="left">8:reject.AlreadyResolved = alreadyResolved</td></tr>
+      <tr><td align="left">9:return (new Record(&quot;Resolve&quot; -&gt; resolve, &quot;Reject&quot; -&gt; reject))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17511 [shape=cds, label=<<font color="black">6:app __x1__ = (CreateBuiltinFunction stepsReject (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node17510 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let resolve = __x0__</td></tr>
+      <tr><td align="left">3:resolve.Promise = promise</td></tr>
+      <tr><td align="left">4:resolve.AlreadyResolved = alreadyResolved</td></tr>
+      <tr><td align="left">5:??? &quot;Let id:{stepsReject} be the algorithm steps defined in Promise Reject Functions ( PromiseRejectFunctions ) .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17507 [shape=cds, label=<<font color="black">app promise = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17505 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17508 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let alreadyResolved = (new Record(&quot;Value&quot; -&gt; false))</td></tr>
+      <tr><td align="left">1:??? &quot;Let id:{stepsResolve} be the algorithm steps defined in Promise Resolve Functions ( PromiseResolveFunctions ) .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17506 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17511 -> node17512 [ color="black"]
+  node17509 -> node17510 [ color="black"]
+  node17505 -> node17507 [ color="black"]
+  node17508 -> node17509 [ color="black"]
+  node17510 -> node17511 [ color="black"]
+  node17512 -> node17506 [ color="black"]
+  node17507 -> node17508 [ color="black"]
+}

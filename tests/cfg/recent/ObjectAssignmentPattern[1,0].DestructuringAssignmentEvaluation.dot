@@ -1,0 +1,24 @@
+digraph {
+  node5851 [shape=cds, label=<<font color="black">2:access __x1__ = (AssignmentRestProperty &quot;RestDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5847 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5850 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:[? __x0__]</td></tr>
+      <tr><td align="left">1:let excludedNames = (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5849 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible value)</font>> color="black" fillcolor="white" style=filled]
+  node5852 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ value excludedNames)</font>> color="black" fillcolor="white" style=filled]
+  node5848 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5853 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5850 -> node5851 [ color="black"]
+  node5851 -> node5852 [ color="black"]
+  node5852 -> node5853 [ color="black"]
+  node5849 -> node5850 [ color="black"]
+  node5847 -> node5849 [ color="black"]
+  node5853 -> node5848 [ color="black"]
+}

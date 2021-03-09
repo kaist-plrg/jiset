@@ -1,0 +1,47 @@
+digraph {
+  node1142 [shape=cds, label=<<font color="black">1:app __x1__ = (GetV V P)</font>> color="black" fillcolor="white" style=filled]
+  node1147 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
+  node1146 [shape=cds, label=<<font color="black">3:app __x2__ = (IsCallable func)</font>> color="black" fillcolor="white" style=filled]
+  node1139 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1144 [shape=diamond, label=<<font color="black">(|| (= func undefined) (= func null))</font>> color="black" fillcolor="white" style=filled]
+  node1149 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return func</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1145 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1148 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1143 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let func = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1138 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1141 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1140 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node1142 -> node1143 [ color="black"]
+  node1141 -> node1142 [ color="black"]
+  node1143 -> node1144 [ color="black"]
+  node1149 -> node1139 [ color="black"]
+  node1148 -> node1149 [ color="black"]
+  node1138 -> node1140 [ color="black"]
+  node1147 -> node1148 [label=<<font color="black">true</font>> color="black"]
+  node1147 -> node1149 [label=<<font color="black">false</font>> color="black"]
+  node1146 -> node1147 [ color="black"]
+  node1144 -> node1145 [label=<<font color="black">true</font>> color="black"]
+  node1144 -> node1146 [label=<<font color="black">false</font>> color="black"]
+  node1145 -> node1146 [ color="black"]
+  node1140 -> node1141 [ color="black"]
+}

@@ -1,0 +1,93 @@
+digraph {
+  node14181 [shape=cds, label=<<font color="black">app O = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node14200 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return (+ truncatedStringFiller S)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14188 [shape=cds, label=<<font color="black">2:app __x1__ = (ToLength maxLength)</font>> color="black" fillcolor="white" style=filled]
+  node14192 [shape=diamond, label=<<font color="black">(= fillString undefined)</font>> color="black" fillcolor="white" style=filled]
+  node14196 [shape=diamond, label=<<font color="black">(= filler &quot;&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node14184 [shape=cds, label=<<font color="black">app placement = (GetArgument argumentsList 3i)</font>> color="black" fillcolor="white" style=filled]
+  node14199 [shape=diamond, label=<<font color="black">(= placement CONST_start)</font>> color="black" fillcolor="white" style=filled]
+  node14189 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let intMaxLength = [? __x1__]</td></tr>
+      <tr><td align="left">3:let stringLength = S.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14195 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let filler = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14183 [shape=cds, label=<<font color="black">app fillString = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node14194 [shape=cds, label=<<font color="black">app __x2__ = (ToString fillString)</font>> color="black" fillcolor="white" style=filled]
+  node14190 [shape=diamond, label=<<font color="black">(! (&lt; stringLength intMaxLength))</font>> color="black" fillcolor="white" style=filled]
+  node14201 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return (+ S truncatedStringFiller)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14197 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return S</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14182 [shape=cds, label=<<font color="black">app maxLength = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node14187 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let S = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14191 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return S</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14180 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14185 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (|| (= placement CONST_start) (= placement CONST_end))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14193 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let filler = &quot; &quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14198 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let fillLen = (- intMaxLength stringLength)</td></tr>
+      <tr><td align="left">9:??? &quot;Let id:{truncatedStringFiller} be the String value consisting of repeated concatenations of id:{filler} truncated to length id:{fillLen} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14186 [shape=cds, label=<<font color="black">1:app __x0__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node14179 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14190 -> node14191 [label=<<font color="black">true</font>> color="black"]
+  node14190 -> node14192 [label=<<font color="black">false</font>> color="black"]
+  node14181 -> node14182 [ color="black"]
+  node14184 -> node14185 [ color="black"]
+  node14188 -> node14189 [ color="black"]
+  node14196 -> node14197 [label=<<font color="black">true</font>> color="black"]
+  node14196 -> node14198 [label=<<font color="black">false</font>> color="black"]
+  node14186 -> node14187 [ color="black"]
+  node14187 -> node14188 [ color="black"]
+  node14195 -> node14196 [ color="black"]
+  node14193 -> node14196 [ color="black"]
+  node14191 -> node14192 [ color="black"]
+  node14192 -> node14193 [label=<<font color="black">true</font>> color="black"]
+  node14192 -> node14194 [label=<<font color="black">false</font>> color="black"]
+  node14198 -> node14199 [ color="black"]
+  node14183 -> node14184 [ color="black"]
+  node14194 -> node14195 [ color="black"]
+  node14189 -> node14190 [ color="black"]
+  node14199 -> node14200 [label=<<font color="black">true</font>> color="black"]
+  node14199 -> node14201 [label=<<font color="black">false</font>> color="black"]
+  node14201 -> node14180 [ color="black"]
+  node14197 -> node14198 [ color="black"]
+  node14179 -> node14181 [ color="black"]
+  node14182 -> node14183 [ color="black"]
+  node14200 -> node14180 [ color="black"]
+  node14185 -> node14186 [ color="black"]
+}

@@ -1,0 +1,44 @@
+digraph {
+  node14057 [shape=cds, label=<<font color="black">3:app __x1__ = (LocalTime tv)</font>> color="black" fillcolor="white" style=filled]
+  node14051 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14056 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return &quot;Invalid Date&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14060 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14052 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14059 [shape=cds, label=<<font color="black">4:app __x2__ = (DateString t)</font>> color="black" fillcolor="white" style=filled]
+  node14053 [shape=cds, label=<<font color="black">1:app __x0__ = (thisTimeValue O)</font>> color="black" fillcolor="white" style=filled]
+  node14058 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let t = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14054 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let tv = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14050 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14055 [shape=diamond, label=<<font color="black">(= tv NaN)</font>> color="black" fillcolor="white" style=filled]
+  node14054 -> node14055 [ color="black"]
+  node14057 -> node14058 [ color="black"]
+  node14056 -> node14057 [ color="black"]
+  node14052 -> node14053 [ color="black"]
+  node14055 -> node14056 [label=<<font color="black">true</font>> color="black"]
+  node14055 -> node14057 [label=<<font color="black">false</font>> color="black"]
+  node14060 -> node14051 [ color="black"]
+  node14050 -> node14052 [ color="black"]
+  node14058 -> node14059 [ color="black"]
+  node14053 -> node14054 [ color="black"]
+  node14059 -> node14060 [ color="black"]
+}

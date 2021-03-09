@@ -1,0 +1,27 @@
+digraph {
+  node19904 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19900 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (|| (= (typeof R) &quot;ReadSharedMemory&quot;) (= (typeof R) &quot;ReadModifyWriteSharedMemory&quot;))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19903 [shape=cds, label=<<font color="black">3:app __x1__ = (ComposeWriteEventBytes execution R.ByteIndex Ws)</font>> color="black" fillcolor="white" style=filled]
+  node19899 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19898 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19902 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let Ws = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19901 [shape=cds, label=<<font color="black">1:app __x0__ = (execution.ReadsBytesFrom execution R)</font>> color="black" fillcolor="white" style=filled]
+  node19904 -> node19899 [ color="black"]
+  node19902 -> node19903 [ color="black"]
+  node19900 -> node19901 [ color="black"]
+  node19898 -> node19900 [ color="black"]
+  node19901 -> node19902 [ color="black"]
+  node19903 -> node19904 [ color="black"]
+}
