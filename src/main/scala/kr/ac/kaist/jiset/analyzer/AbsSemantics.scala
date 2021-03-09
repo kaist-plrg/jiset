@@ -115,7 +115,8 @@ class AbsSemantics(
     rpMap.keySet.toList.map(getString).sorted.foreach(app >> _ >> LINE_SEP)
     val numRp = rpMap.size
     val numFunc = rpMap.keySet.map(_.func).toSet.size
-    app >> numFunc >> " functions analyzed with " >> numRp >> " return points" >> LINE_SEP
+    app >> numFunc >> " out of " >> spec.algos.length >> " functions analyzed with "
+    app >> numRp >> " return points" >> LINE_SEP
     app >> "# of iterations: " >> iter
     app.toString
   }
