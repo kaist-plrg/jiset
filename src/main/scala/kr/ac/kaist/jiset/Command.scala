@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.ArgParser
 import org.jsoup.nodes.Element
+import scala.Console._
 
 sealed trait Command {
   val name: String
@@ -70,7 +71,10 @@ case object CmdBuildCFG extends CommandObj("build-cfg", CmdParse >> BuildCFG)
 
 // analyze
 case object CmdAnalyze extends CommandObj("analyze", CmdBuildCFG >> Analyze) {
-  override def display(sem: AbsSemantics): Unit = println(sem)
+  override def display(sem: AbsSemantics): Unit = {
+    println(sem.getString(CYAN))
+    println(sem.getInfo)
+  }
 }
 
 // gen-test

@@ -26,6 +26,7 @@ class ManualTinyTest extends AnalyzerTest {
     else s" @ ${beautify(h)}"
   )
 
+  // registration
   def init: Unit = {
     // analyze results in sem: AbsSemantics
     val spec = getSpec("recent")
@@ -50,4 +51,3 @@ class ManualTinyTest extends AnalyzerTest {
   }
   init
 }
-

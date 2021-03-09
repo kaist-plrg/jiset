@@ -44,7 +44,8 @@ lazy val cfgBuildTest = taskKey[Unit]("Launch build cfg tests (small)")
 lazy val analyzerTest = taskKey[Unit]("Launch analyzer tests")
 lazy val analyzerBeautifierTest = taskKey[Unit]("Launch beautifier analyzer tests (small)")
 lazy val analyzerJsonTest = taskKey[Unit]("Launch JSON analyzer tests (small)")
-lazy val analyzerManualTest = taskKey[Unit]("Launch ananlyzer manual comparison tests")
+lazy val analyzerManualTest = taskKey[Unit]("Launch ananlyzer manual comparison tests (tiny)")
+lazy val analyzerStringifyTest = taskKey[Unit]("Launch analyzer stringify tests (tiny)")
 
 // ir
 lazy val irTest = taskKey[Unit]("Launch ir tests")
@@ -100,6 +101,7 @@ lazy val jiset = (project in file("."))
     analyzerBeautifierTest := (testOnly in Test).toTask(" *.analyzer.Beautifier*Test").value,
     analyzerJsonTest := (testOnly in Test).toTask(" *.analyzer.Json*Test").value,
     analyzerManualTest := (testOnly in Test).toTask(" *.analyzer.Manual*Test").value,
+    analyzerStringifyTest := (testOnly in Test).toTask(" *.analyzer.Stringify*Test").value,
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
     irBasicTest := (testOnly in Test).toTask(" *.ir.Basic*Test").value,

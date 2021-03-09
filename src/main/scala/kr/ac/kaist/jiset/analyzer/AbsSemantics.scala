@@ -110,9 +110,9 @@ class AbsSemantics(
   }
 
   // conversion to string
-  override def toString: String = {
+  override def toString: String = getString("")
+  def getInfo: String = {
     val app = new Appender
-    rpMap.keySet.toList.map(getString).sorted.foreach(app >> _ >> LINE_SEP)
     val numRp = rpMap.size
     val numFunc = rpMap.keySet.map(_.func).toSet.size
     app >> numFunc >> " out of " >> spec.algos.length >> " functions analyzed with "
@@ -122,18 +122,20 @@ class AbsSemantics(
   }
 
   // get string for result of control points
-  def getString(cp: ControlPoint): String = {
-    val cyan = setColor(CYAN)
+  def getString(color: String): String =
+    rpMap.keySet.toList.map(getString(_, color)).sorted.mkString(LINE_SEP)
+  def getString(cp: ControlPoint, color: String): String = {
+    val colored = setColor(color)
     val (k, v) = cp match {
       case np @ NodePoint(entry: Entry, view) =>
         val st = this(np)
-        (cyan(s"${cfg.funcOf(entry).name}:$view:ENTRY"), beautify(st))
+        (colored(s"${cfg.funcOf(entry).name}:$view:ENTRY"), beautify(st))
       case (np: NodePoint[_]) =>
         val st = this(np)
         (np.toString, beautify(st))
       case (rp: ReturnPoint) =>
         val (h, v) = this(rp)
-        (cyan(s"$rp:RETURN"), beautify(v) + (
+        (colored(rp), beautify(v) + (
           if (h.isBottom) ""
           else s" @ ${beautify(h)}"
         ))

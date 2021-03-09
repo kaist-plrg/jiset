@@ -1,6 +1,8 @@
 package kr.ac.kaist.jiset
 
 import java.io._
+import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.error.NotSupported
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
 import kr.ac.kaist.jiset.phase._
@@ -121,5 +123,15 @@ object JISETTest {
     }).toMap
     println("[info] all specifications are successfully parsed.")
     specs
+  }
+
+  // analyze specifications
+  lazy val analysisResult = {
+    val spec = specs("recent")
+    val cfg = new CFG(spec)
+    val sem = new AbsSemantics(cfg)
+    val transfer = new AbsTransfer(sem)
+    transfer.compute
+    sem
   }
 }

@@ -135,7 +135,8 @@ object Useful {
   def mkdir(name: String): Unit = new File(name).mkdirs
 
   // colored println
-  def setColor(color: String): Any => String = x => color + x.toString + RESET
+  def setColor(color: String): Any => String =
+    if (color == "") x => x.toString else x => color + x.toString + RESET
   def printColor(color: String): Any => Unit = x => print(setColor(color)(x))
   def printlnColor(color: String): Any => Unit = x => println(setColor(color)(x))
 

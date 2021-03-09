@@ -37,7 +37,7 @@ class AbsTransfer(
       try apply(cp) catch {
         case e: Throwable =>
           printlnColor(RED)(s"[Error] An exception is thrown.")
-          println(sem.getString(cp))
+          println(sem.getString(cp, CYAN))
           dumpCFG(Some(cp), focus = true)
           throw e
       }
@@ -108,7 +108,7 @@ class AbsTransfer(
 
   // interactive mode
   def interact(cp: ControlPoint): Unit = {
-    println(sem.getString(cp))
+    println(sem.getString(cp, CYAN))
     println
     while (scala.io.StdIn.readLine() match {
       case null | "q" | "quit" | "exit" =>
