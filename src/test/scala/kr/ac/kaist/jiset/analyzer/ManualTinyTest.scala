@@ -11,16 +11,12 @@ import kr.ac.kaist.jiset.ir._
 import org.scalatest._
 
 class ManualTinyTest extends AnalyzerTest {
+  val name: String = "analyzerManualTest"
+
   val answerMap: Map[(String, View), (AbsHeap, AbsValue)] = Map(
     ("PrimaryExpression[0,0].IsIdentifierRef", View(List(AstT("PrimaryExpression"))))
       -> ((AbsHeap.Bot, AbsComp(CompNormal -> (AF: AbsPure, emptyConst))))
   )
-
-  def compareAbsResult(result: (AbsHeap, AbsValue), answer: (AbsHeap, AbsValue)): Boolean = {
-    val (resH, resV) = result
-    val (ansH, ansV) = answer
-    resH === ansH && resV === ansV
-  }
 
   def getFunctionByName(cfg: CFG, fname: String): Option[Function] =
     cfg.algo2fid.get(fname).flatMap(uid => cfg.fidMap.get(uid))
@@ -31,16 +27,15 @@ class ManualTinyTest extends AnalyzerTest {
   )
 
   def init: Unit = {
-    val pre = JISETTest.specInputs("recent")
-    val spec: ECMAScript = ECMAScriptParser(pre, "", false, false)
+    // analyze results in sem: AbsSemantics
+    val (_, spec) = getSpec("recent")
     val cfg = new CFG(spec)
     val sem = new AbsSemantics(cfg)
     val transfer = new AbsTransfer(sem, false)
     transfer.compute
-    // analyze results in sem: AbsSemantics
 
     // find testcases
-    check("Compare analyze results", for (((fname, view), (ansH, ansV)) <- answerMap) {
+    for (((fname, view), (ansH, ansV)) <- answerMap) check(fname, {
       val func = getFunctionByName(cfg, fname).getOrElse(error("Answer Function not found"))
       val rp = ReturnPoint(func, view)
       val (resH, resV) = sem(rp)
