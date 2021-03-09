@@ -16,7 +16,7 @@ class LegacySmallTest extends CompileTest {
   val json2ir = changeExt("json", "ir")
 
   // registration
-  def init: Unit = {
+  def init: Unit = check("legacy", {
     for (file <- walkTree(LEGACY_COMPILE_DIR)) {
       val filename = file.getName
       if (jsonFilter(filename)) {
@@ -27,9 +27,9 @@ class LegacySmallTest extends CompileTest {
         lazy val answer = Parser.parseInst(readFile(irName))
         lazy val result = Compiler(tokens)
 
-        check(filename, difftest(filename, result, answer))
+        difftest(filename, result, answer)
       }
     }
-  }
+  })
   init
 }

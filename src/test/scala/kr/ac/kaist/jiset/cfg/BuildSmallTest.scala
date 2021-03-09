@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.cfg
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.util.Appender._
+import kr.ac.kaist.jiset.util.UIdGen
 import kr.ac.kaist.jiset.util.Useful._
 
 class BuildSmallTest extends CFGTest {
@@ -10,16 +11,20 @@ class BuildSmallTest extends CFGTest {
 
   // registration
   def init: Unit = {
-    for (version <- VERSIONS) {
+    for (version <- VERSIONS) check(version, {
       val baseDir = s"$CFG_TEST_DIR/$version"
+      val fidGen = new UIdGen
+      val nidGen = new UIdGen
       val spec = getSpec(version)
-      for ((name, algo) <- spec.algos.map(algo => algo.name -> algo).toMap) {
-        val result = Translator(algo).toDot
-        val name = algo.name
-        val answer = readFile(s"$baseDir/$name.dot")
-        check(s"$name @ $version", assert(result == answer))
+      var map = Map[String, String]() // XXX remove resolving duplicated cases
+      for (algo <- spec.algos) {
+        map += algo.name -> Translator(algo, fidGen, nidGen).toDot
       }
-    }
+      for ((name, result) <- map) {
+        val answer = readFile(s"$baseDir/$name.dot")
+        assert(result == answer)
+      }
+    })
   }
-  // init TODO
+  init
 }

@@ -8,6 +8,7 @@ import kr.ac.kaist.jiset.parser.algorithm.Compiler
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.util.UIdGen
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
 import kr.ac.kaist.jiset.parser.algorithm.TokenParser
@@ -56,8 +57,10 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
       val baseDir = s"$CFG_TEST_DIR/$version"
 
       mkdir(baseDir)
+      val fidGen = new UIdGen
+      val nidGen = new UIdGen
       spec.algos.foreach(algo => {
-        val func = Translator(algo).toDot
+        val func = Translator(algo, fidGen, nidGen).toDot
         dumpFile(func, s"$baseDir/${algo.name}.dot")
       })
     }

@@ -18,7 +18,7 @@ class BasicMiddleTest extends CompileTest {
 
   // registration
   def init: Unit = {
-    for (version <- VERSIONS) {
+    for (version <- VERSIONS) check(version, {
       val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
       // get grammar and document
@@ -31,25 +31,23 @@ class BasicMiddleTest extends CompileTest {
         val filename = file.getName
         if (specFilter(filename)) {
           val name = s"${removedExt(filename)} @ $version"
-          check(name, {
-            val specName = file.toString
-            val (jsonName, irName) = (spec2json(specName), spec2ir(specName))
+          val specName = file.toString
+          val (jsonName, irName) = (spec2json(specName), spec2ir(specName))
 
-            // check token parsing
-            val tokens = readJson[List[Token]](jsonName)
+          // check token parsing
+          val tokens = readJson[List[Token]](jsonName)
 
-            val code = readFile(specName).split(LINE_SEP)
-            val resultTokens = TokenParser.getTokens(code, secIds)
-            assert(tokens == resultTokens, "tokens are changed")
+          val code = readFile(specName).split(LINE_SEP)
+          val resultTokens = TokenParser.getTokens(code, secIds)
+          assert(tokens == resultTokens, "tokens are changed")
 
-            // check compile
-            val answer = Parser.fileToInst(irName)
-            val result = Compiler(tokens)
-            difftest(name, result, answer)
-          })
+          // check compile
+          val answer = Parser.fileToInst(irName)
+          val result = Compiler(tokens)
+          difftest(name, result, answer)
         }
       }
-    }
+    })
   }
   init
 }

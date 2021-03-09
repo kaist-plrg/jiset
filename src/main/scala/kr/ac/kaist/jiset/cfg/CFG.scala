@@ -3,11 +3,13 @@ package kr.ac.kaist.jiset.cfg
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.spec.algorithm.{ NormalHead, MethodHead }
-import kr.ac.kaist.jiset.util.UId
+import kr.ac.kaist.jiset.util.UIdGen
 
 // control flow graph
 class CFG(val spec: ECMAScript) {
-  val funcs: Set[Function] = spec.algos.map(Translator(_)).toSet
+  val fidGen: UIdGen = new UIdGen
+  val nidGen: UIdGen = new UIdGen
+  val funcs: Set[Function] = spec.algos.map(Translator(_, fidGen, nidGen)).toSet
   val nodes: Set[Node] = funcs.flatMap(_.nodes)
   val edges: Set[Edge] = funcs.flatMap(_.edges)
   val funcOf: Map[Node, Function] = funcs.flatMap(f => f.nodes.map(_ -> f)).toMap

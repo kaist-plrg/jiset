@@ -1,10 +1,11 @@
 package kr.ac.kaist.jiset.cfg
 
 import kr.ac.kaist.jiset.spec.algorithm.Algo
-import kr.ac.kaist.jiset.util.UId
+import kr.ac.kaist.jiset.util.{ UId, UIdGen }
 
 // CFG functions
 case class Function(
+  uidGen: UIdGen,
   algo: Algo,
   entry: Entry,
   exit: Exit,

@@ -114,11 +114,11 @@ class DotPrinter {
   def doNode(node: Node, name: String, colors: (String, String)): DotPrinter = {
     val (color, bgColor) = colors
     node match {
-      case Entry() =>
+      case Entry(_) =>
         this >> s"""  $name [shape=circle label=" " color=$color fillcolor=$bgColor style=filled]"""
-      case Exit() =>
+      case Exit(_) =>
         this >> s"""  $name [shape=circle label=" " color=$color fillcolor=$bgColor style=filled]"""
-      case Block(insts) =>
+      case Block(_, insts) =>
         this >> s"""  $name [shape=none, margin=0, label=<<font color=$color>""" >>
           s"""    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">"""
         insts.foreach(inst => {
@@ -126,9 +126,9 @@ class DotPrinter {
         })
         this >> s"""    </table>""" >>
           s"""  </font>> color=$color fillcolor=$bgColor style=filled]"""
-      case Call(inst) =>
+      case Call(_, inst) =>
         this >> s"""  $name [shape=cds, label=<<font color=$color>${norm(inst)}</font>> color=$color fillcolor=$bgColor style=filled]"""
-      case Branch(cond) =>
+      case Branch(_, cond) =>
         this >> s"""  $name [shape=diamond, label=<<font color=$color>${norm(cond)}</font>> color=$color fillcolor=$bgColor style=filled]"""
     }
   }

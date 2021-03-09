@@ -1,12 +1,42 @@
 package kr.ac.kaist.jiset.cfg
 
-import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.spec.algorithm._
+import kr.ac.kaist.jiset.util.UIdGen
 import scala.collection.mutable.Queue
 
 // translator from algorithms to CFG functions
 object Translator {
-  def apply(algo: Algo): Function = {
+  def apply(
+    algo: Algo,
+    fidGen: UIdGen = new UIdGen,
+    nidGen: UIdGen = new UIdGen
+  ): Function = {
+    // internal mutable nodes
+    trait MNode { val node: Node }
+    trait MLinear extends MNode { val node: Linear }
+    case class MEntry() extends MLinear {
+      lazy val node = Entry(nidGen)
+    }
+    case class MBlock(insts: Queue[NormalInst]) extends MLinear {
+      lazy val node = Block(nidGen, insts.toList)
+    }
+    case class MCall(inst: CallInst) extends MLinear {
+      lazy val node = Call(nidGen, inst)
+    }
+    case class MBranch(cond: Expr) extends MNode {
+      lazy val node = Branch(nidGen, cond)
+    }
+    case class MExit() extends MNode {
+      lazy val node = Exit(nidGen)
+    }
+
+    // internnal edge cases
+    trait EdgeCase
+    case object Normal extends EdgeCase
+    case object Then extends EdgeCase
+    case object Else extends EdgeCase
+
     // edges
     var mnodes = Vector[MNode]()
     var forward = Map[Int, Map[EdgeCase, Int]]()
@@ -66,6 +96,7 @@ object Translator {
 
     // functions
     Function(
+      uidGen = fidGen,
       algo = algo,
       entry = entry.node,
       exit = exit.node,
@@ -82,29 +113,4 @@ object Translator {
       } yield edge).toSet
     )
   }
-
-  // internal mutable nodes
-  private trait MNode { val node: Node }
-  private trait MLinear extends MNode { val node: Linear }
-  private case class MEntry() extends MLinear {
-    lazy val node = Entry()
-  }
-  private case class MBlock(insts: Queue[NormalInst]) extends MLinear {
-    lazy val node = Block(insts.toList)
-  }
-  private case class MCall(inst: CallInst) extends MLinear {
-    lazy val node = Call(inst)
-  }
-  private case class MBranch(cond: Expr) extends MNode {
-    lazy val node = Branch(cond)
-  }
-  private case class MExit() extends MNode {
-    lazy val node = Exit()
-  }
-
-  // internnal edge cases
-  private trait EdgeCase
-  private case object Normal extends EdgeCase
-  private case object Then extends EdgeCase
-  private case object Else extends EdgeCase
 }

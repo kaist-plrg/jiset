@@ -85,10 +85,10 @@ class AbsTransfer(
       case (call: Call) =>
         val newSt = transfer(call, view)(st)
         sem += NodePoint(next(call), view) -> newSt
-      case branch @ Branch(expr) if usePrune =>
+      case branch @ Branch(_, expr) if usePrune =>
         val (pv, newSt) = pruneTransfer(expr)(st)
         transferBranch(branch, pv.v, newSt, pv.pruneT, pv.pruneF)
-      case branch @ Branch(expr) =>
+      case branch @ Branch(_, expr) =>
         val (v, newSt) = transfer(expr)(st)
         val ident: Updater = st => st
         transferBranch(branch, v, newSt, ident, ident)

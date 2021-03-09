@@ -4,16 +4,14 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.ir.Parser
 
-// parser for ir with function definitions
+// parser for ir with algorithm definitions
 object IRParser extends Parser {
   // parse a file
   def fileToIR(f: String): (List[Algo], Inst) = fromFile(f, ir)
-  def fileToFunc(f: String): Function = fromFile(f, func)
   def fileToAlgo(f: String): Algo = fromFile(f, algo)
 
   // parse a string
   def parseIR(str: String): (List[Algo], Inst) = errHandle(parseAll(ir, str))
-  def parseFunc(str: String): Function = errHandle(parseAll(func, str))
   def parseAlgo(str: String): Algo = errHandle(parseAll(algo, str))
 
   // IR
@@ -27,9 +25,6 @@ object IRParser extends Parser {
   }
   lazy val irElem: Parser[Either[Algo, Inst]] =
     algo ^^ { Left(_) } | inst ^^ { Right(_) }
-
-  // function
-  lazy val func: Parser[Function] = algo ^^ { Translator(_) }
 
   // algorithm
   lazy val algo: Parser[Algo] = "def" ~> (head ~ inst) <~ "#" ^^ {

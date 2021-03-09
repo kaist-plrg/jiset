@@ -25,10 +25,10 @@ trait UnitWalker extends ir.UnitWalker {
 
   // walker for nodes
   def walk(node: Node): Unit = node match {
-    case Exit() =>
-    case Entry() =>
-    case Call(inst) => walk(inst)
-    case Branch(cond) => walk(cond)
-    case Block(insts) => walkList[ir.Inst](insts, walk)
+    case Exit(_) =>
+    case Entry(_) =>
+    case Call(_, inst) => walk(inst)
+    case Branch(_, cond) => walk(cond)
+    case Block(_, insts) => walkList[ir.Inst](insts, walk)
   }
 }
