@@ -53,16 +53,16 @@ class JsonTinyTest extends AnalyzerTest {
     val prop = RefValueProp(DynamicAddr(42), "p")
     val string = RefValueString("abc", "length")
     test("Abstract Reference Values")(
+      AbsRefValue.Bot,
       AbsRefValue(id),
-      AbsRefValue.ObjProp(AbsTy("Object"), AbsAddr.Bot, AbsStr("p")),
-      AbsRefValue.ObjProp(
-        AbsTy("Object"),
-        AbsAddr(DynamicAddr(42)),
+      AbsRefValue.Prop(AbsTy("Object"), AbsStr("p")),
+      AbsRefValue.Prop(
+        AbsValue(DynamicAddr(42)) ⊔ AbsTy("Object"),
         AbsStr("p")
       ),
       AbsRefValue(prop),
       AbsRefValue(string),
-      AbsRefValue(id, prop, string)
+      AbsRefValue(id, prop, string),
     )
 
     test("Abstract Objects")(

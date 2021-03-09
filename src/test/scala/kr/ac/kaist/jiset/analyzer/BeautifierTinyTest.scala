@@ -75,14 +75,13 @@ class BeautifierTinyTest extends AnalyzerTest {
     test("Abstract Reference Values")(
       AbsRefValue.Bot -> "⊥",
       AbsRefValue(id) -> "x",
-      AbsRefValue.ObjProp(AbsTy("Object"), AbsAddr.Bot, AbsStr("p")) -> """Object["p"]""",
-      AbsRefValue.ObjProp(
-        AbsTy("Object"),
-        AbsAddr(DynamicAddr(42)),
+      AbsRefValue.Prop(AbsTy("Object"), AbsStr("p")) -> """(Object)["p"]""",
+      AbsRefValue.Prop(
+        AbsValue(DynamicAddr(42)) ⊔ AbsTy("Object"),
         AbsStr("p")
-      ) -> """(Object | #42)["p"]""",
-      AbsRefValue(prop) -> """#42["p"]""",
-      AbsRefValue(string) -> """"abc"["length"]""",
+      ) -> """(#42 | Object)["p"]""",
+      AbsRefValue(prop) -> """(#42)["p"]""",
+      AbsRefValue(string) -> """("abc")["length"]""",
       AbsRefValue(id, prop, string) -> "⊤",
     )
 

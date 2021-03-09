@@ -149,24 +149,6 @@ class AbsSemantics(
       else v
   }
 
-  // lookup types
-  def lookup(ty: String, prop: AbsStr): AbsValue = typeMap.get(ty) match {
-    case Some(info) =>
-      val props = info.props
-      prop.gamma match {
-        case Infinite => AbsValue.Top
-        case Finite(ps) =>
-          // TODO follow ancestors
-          ps.toList.foldLeft(AbsValue.Bot) {
-            case (v, Str(p)) => v ⊔ props.getOrElse(p, AbsValue.Bot)
-          }
-      }
-    case None if (ty == "SubMap") => AbsAbsent.Top // TODO unsound
-    case None =>
-      alarm(s"unknown type: $ty")
-      AbsValue.Bot
-  }
-
   //////////////////////////////////////////////////////////////////////////////
   // Private Helper Functions
   //////////////////////////////////////////////////////////////////////////////
@@ -302,7 +284,7 @@ class AbsSemantics(
     if (!v.ty.isBottom) tys ++= v.ty.toSet.map(t => NameT(t.name))
     if (!v.addr.isBottom) tys ++= v.addr.toSet.map(addr => {
       import AbsObj._
-      st(this, addr) match {
+      st.lookup(this, addr) match {
         case MapElem(Some(ty), _) => NameT(ty)
         case ListElem(_) => ListT
         case _ => ???

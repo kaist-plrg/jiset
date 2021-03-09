@@ -81,39 +81,48 @@ object BasicDomain extends state.Domain {
             this
         }
         else Bot
-      case AbsRefValue.ObjProp(ty, addr, prop) => prop.getSingle match {
-        // TODO check properties for types
-        case One(Str(p)) => addr.toSet.foldLeft(this) {
-          case (st, a: DynamicAddr) =>
-            val obj = heap(a) + (p -> v)
-            copy(heap = heap + (a -> obj))
+      case AbsRefValue.Prop(base, prop) =>
+        copy(heap = base.escaped.addr.toSet.foldLeft(heap) {
+          case (h, a: DynamicAddr) =>
+            val obj = update(heap(a), prop, v)
+            h + (a -> obj)
+          case _ => ???
+        })
+      case _ => ???
+    }
+
+    // update
+    def update(obj: AbsObj, prop: AbsPure, value: AbsValue): AbsObj = {
+      import AbsObj._
+      obj match {
+        case MapElem(ty, map) => prop.getSingle match {
+          case Zero => AbsObj.Bot
+          case One(Str(p)) => MapElem(ty, map + (p -> value))
           case _ => ???
         }
         case _ => ???
       }
-      case _ => ???
     }
 
     // update references
     def delete(sem: AbsSemantics, refv: AbsRefValue): Elem = ???
 
     // lookup helper
-    def apply(sem: AbsSemantics, base: String, fields: String*): AbsValue = {
+    def lookup(sem: AbsSemantics, base: String, props: String*): AbsValue = {
       val baseV = lookupVariable(sem, base)
-      fields.foldLeft(baseV) {
-        case (v, field) =>
+      props.foldLeft(baseV) {
+        case (v, prop) =>
           val pureV = v.escaped
-          lookupField(sem, pureV.ty, pureV.addr, AbsStr(field))
+          lookupProp(sem, pureV, AbsPure(prop))
       }
     }
 
     // lookup reference values
-    def apply(sem: AbsSemantics, refv: AbsRefValue): AbsValue = refv match {
+    def lookup(sem: AbsSemantics, refv: AbsRefValue): AbsValue = refv match {
       case AbsRefValue.Bot => AbsValue.Bot
       case AbsRefValue.Top => AbsValue.Top
       case AbsRefValue.Id(x) => lookupVariable(sem, x)
-      case AbsRefValue.ObjProp(ty, addr, prop) => lookupField(sem, ty, addr, prop)
-      case AbsRefValue.StrProp(str, prop) => ???
+      case AbsRefValue.Prop(base, prop) => lookupProp(sem, base, prop)
     }
     private def lookupVariable(sem: AbsSemantics, x: String): AbsValue = {
       val (localV, absent) = env(x)
@@ -124,25 +133,73 @@ object BasicDomain extends state.Domain {
       else AbsValue.Bot
       localV ⊔ globalV
     }
-    private def lookupField(
+    private def lookupProp(
       sem: AbsSemantics,
-      ty: AbsTy,
-      addr: AbsAddr,
-      prop: AbsStr
+      base: AbsValue,
+      prop: AbsPure
     ): AbsValue = {
-      val tyV = ty.toSet.toList.map(ty => sem.lookup(ty.name, prop))
-      val addrV = addr.toSet.toList.map(this(sem, _, prop))
+      val pure = base.escaped
+      val tyV = pure.ty.toSet.toList.map(ty => lookup(sem, ty.name, prop.str))
+      val addrV = pure.addr.toSet.toList.map(lookup(sem, _, prop))
       (tyV ++ addrV).foldLeft(AbsValue.Bot)(_ ⊔ _)
     }
 
+    // lookup objects
+    def lookup(sem: AbsSemantics, obj: AbsObj, prop: AbsPure): AbsValue = {
+      import AbsObj._
+      obj match {
+        case MapElem(Some("SubMap"), _) => AbsAbsent.Top // TODO
+        case MapElem(ty, map) => prop.str.gamma.map(s => map(s.str)) match {
+          case Finite(set) =>
+            val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
+            val typeV = if (vopt.absent.isTop) {
+              val typeV = ty.fold(AbsValue.Bot)(lookup(sem, _, prop.str))
+              if (typeV.isBottom) alarm(s"unknown property: ${beautify(prop)} @ ${beautify(this)}")
+              typeV
+            } else AbsValue.Bot
+            vopt.value ⊔ typeV
+          case Infinite => ???
+        }
+        case ListElem(list) =>
+          val strV: AbsValue = prop.str.getSingle match {
+            case One(Str("length")) | Many => list.length
+            case _ => AbsValue.Bot
+          }
+          val intV =
+            if (prop.int.isBottom) AbsValue.Bot
+            else list.value
+          strV ⊔ intV
+        case _ => ???
+      }
+    }
+
+    // lookup type properties
+    def lookup(sem: AbsSemantics, ty: String, prop: AbsStr): AbsValue =
+      sem.typeMap.get(ty) match {
+        case Some(info) =>
+          val props = info.props
+          prop.gamma match {
+            case Infinite => AbsValue.Top
+            case Finite(ps) =>
+              // TODO follow ancestors
+              ps.toList.foldLeft(AbsValue.Bot) {
+                case (v, Str(p)) => v ⊔ props.getOrElse(p, AbsValue.Bot)
+              }
+          }
+        case None if (ty == "SubMap") => AbsAbsent.Top // TODO unsound
+        case None =>
+          alarm(s"unknown type: $ty")
+          AbsValue.Bot
+      }
+
     // lookup properties
-    def apply(sem: AbsSemantics, addr: Addr, prop: AbsStr): AbsValue = {
-      val obj = this(sem, addr)
-      obj(sem, prop)
+    def lookup(sem: AbsSemantics, addr: Addr, prop: AbsPure): AbsValue = {
+      val obj = lookup(sem, addr)
+      lookup(sem, obj, prop)
     }
 
     // lookup addresses
-    def apply(sem: AbsSemantics, addr: Addr): AbsObj = addr match {
+    def lookup(sem: AbsSemantics, addr: Addr): AbsObj = addr match {
       case (_: NamedAddr) => sem.globalHeap(addr)
       case (_: DynamicAddr) => heap(addr)
     }
@@ -197,12 +254,21 @@ object BasicDomain extends state.Domain {
           // normalize
           if (newV.isBottom) Bot else this + (x -> newV)
         } else Bot
-      case AbsRefValue.ObjProp(ty, addr, prop) => this // TODO
+      case AbsRefValue.Prop(base, prop) => this // TODO
       case _ => ???
     }
 
     // append an element to a list
-    def append(v: AbsValue, addr: AbsAddr): Elem = ???
+    def append(sem: AbsSemantics, v: AbsValue, addr: AbsAddr): Elem = {
+      import AbsObj._
+      copy(heap = addr.toSet.foldLeft(heap) {
+        case (h, a: DynamicAddr) => h(a) match {
+          case ListElem(list) => h + (a -> ListElem(ListD(list.value)))
+          case _ => ???
+        }
+        case _ => ???
+      })
+    }
 
     // prepend an element to a list
     def prepend(v: AbsValue, addr: AbsAddr): Elem = ???

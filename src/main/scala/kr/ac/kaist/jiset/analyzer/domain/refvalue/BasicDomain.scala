@@ -9,17 +9,8 @@ object BasicDomain extends refvalue.Domain {
   // abstraction function
   def alpha(refVal: RefValue): Elem = refVal match {
     case RefValueId(name) => Id(name)
-    case RefValueProp(addr, name) => ObjProp(AbsTy.Bot, AbsAddr(addr), AbsStr(name))
-    case RefValueString(str, name) => StrProp(AbsStr(str), AbsStr(name))
-  }
-
-  // constructor for abstract value bases
-  def apply(base: AbsValue, prop: AbsStr): AbsRefValue = {
-    var refv: Elem = Bot
-    val b = base.escaped
-    if (!b.ty.isBottom || !b.addr.isBottom) refv ⊔= ObjProp(b.ty, b.addr, prop)
-    if (!b.str.isBottom) refv ⊔= StrProp(b.str, prop)
-    refv
+    case RefValueProp(addr, name) => Prop(AbsValue(addr), AbsPure(name))
+    case RefValueString(str, name) => Prop(AbsValue(str), AbsPure(name))
   }
 
   // bottom value
@@ -31,19 +22,15 @@ object BasicDomain extends refvalue.Domain {
   // id reference values
   case class Id(name: String) extends Elem
 
-  // object reference values
-  case class ObjProp(ty: AbsTy, addr: AbsAddr, prop: AbsStr) extends Elem
-
-  // string reference values
-  case class StrProp(str: AbsStr, prop: AbsStr) extends Elem
+  // property reference values
+  case class Prop(base: AbsValue, prop: AbsPure) extends Elem
 
   trait Elem extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
       case (Bot, _) | (_, Top) => true
       case (Id(lname), Id(rname)) => lname == rname
-      case (ObjProp(lt, la, lp), ObjProp(rt, ra, rp)) => lt ⊑ rt && la ⊑ ra && lp ⊑ rp
-      case (StrProp(ls, lp), StrProp(rs, rp)) => ls ⊑ rs && lp ⊑ rp
+      case (Prop(lb, lp), Prop(rb, rp)) => lb ⊑ rb && lp ⊑ rp
       case _ => false
     }
 
@@ -52,9 +39,7 @@ object BasicDomain extends refvalue.Domain {
       case (Bot, _) | (_, Top) => that
       case (_, Bot) | (Top, _) => this
       case (Id(lname), Id(rname)) if lname == rname => this
-      case (ObjProp(lt, la, lp), ObjProp(rt, ra, rp)) =>
-        ObjProp(lt ⊔ rt, la ⊔ ra, lp ⊔ rp)
-      case (StrProp(ls, lp), StrProp(rs, rp)) => StrProp(ls ⊔ rs, lp ⊔ rp)
+      case (Prop(lb, lp), Prop(rb, rp)) => Prop(lb ⊔ rb, lp ⊔ rp)
       case _ => Top
     }
 
@@ -63,9 +48,7 @@ object BasicDomain extends refvalue.Domain {
       case (Bot, _) | (_, Top) => this
       case (_, Bot) | (Top, _) => that
       case (Id(lname), Id(rname)) if lname == rname => this
-      case (ObjProp(lt, la, lp), ObjProp(rt, ra, rp)) =>
-        ObjProp(lt ⊓ rt, la ⊓ ra, lp ⊓ rp)
-      case (StrProp(ls, lp), StrProp(rs, rp)) => StrProp(ls ⊓ rs, lp ⊓ rp)
+      case (Prop(lb, lp), Prop(rb, rp)) => Prop(lb ⊓ rb, lp ⊓ rp)
       case _ => Bot
     }
 

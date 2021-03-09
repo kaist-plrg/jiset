@@ -158,7 +158,7 @@ class AbsTransfer(
       case IAppend(expr, list) => for {
         v <- transfer(expr)
         l <- transfer(list)
-        _ <- modify(_.append(v.escaped, l.escaped.addr))
+        _ <- modify(_.append(sem, v.escaped, l.escaped.addr))
       } yield ()
       case IPrepend(expr, list) => for {
         v <- transfer(expr)
@@ -258,7 +258,7 @@ class AbsTransfer(
       } yield a
       case ERef(ref) => for {
         refv <- transfer(ref)
-        v <- get(_(sem, refv))
+        v <- get(_.lookup(sem, refv))
       } yield v
       // TODO after discussing the continuations
       case ECont(params, body) => ???
@@ -333,12 +333,13 @@ class AbsTransfer(
         rv <- transfer(ref)
         b <- transfer(rv)
         p <- transfer(expr)
-        r <- AbsRefValue(b, p.escaped.str)
+        r <- AbsRefValue.Prop(b, p.escaped.str)
       } yield r // TODO handle non-string properties
     }
 
     // transfer function for reference values
-    def transfer(refv: AbsRefValue): Result[AbsValue] = st => (st(sem, refv), st)
+    def transfer(refv: AbsRefValue): Result[AbsValue] =
+      st => (st.lookup(sem, refv), st)
 
     // transfer function for unary operators
     // TODO more precise abstract semantics
@@ -394,7 +395,7 @@ class AbsTransfer(
     def pruneTransfer(expr: Expr): Result[PruneValue] = expr match {
       case ERef(ref) => for {
         refv <- transfer(ref)
-        v <- get(_(sem, refv))
+        v <- get(_.lookup(sem, refv))
       } yield PruneValue(
         v,
         List((refv, Bool(true), true)),
@@ -461,7 +462,7 @@ class AbsTransfer(
       } v ⊔= accessAST(call, view, x, ast, name, st)
 
       // reference cases
-      v ⊔= st(sem, AbsRefValue.ObjProp(value.ty, value.addr, prop))
+      v ⊔= st.lookup(sem, AbsRefValue.Prop(value, prop))
 
       v
     }

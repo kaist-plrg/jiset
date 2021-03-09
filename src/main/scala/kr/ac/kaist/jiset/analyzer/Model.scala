@@ -54,11 +54,11 @@ class Model(cfg: CFG) {
       st + ("ec" -> AbsValue(Ty("ExecutionContext")))
     }),
     "If no such execution context exists , return value:{null} . Otherwise , return id:{ec} ' s ScriptOrModule ." -> ((_, sem, ret, st) => {
-      val v = st(sem, "GLOBAL_executionStack", "length").escaped
+      val v = st.lookup(sem, "GLOBAL_executionStack", "length").escaped
       var res = AbsValue.Bot
       (v =^= AbsINum(0)).toSet.foreach {
         case true => res ⊔= AbsNull.Top
-        case false => res ⊔= st(sem, "ec", "ScriptOrModule")
+        case false => res ⊔= st.lookup(sem, "ec", "ScriptOrModule")
       }
       sem.doReturn(ret -> (st.heap, res))
       AbsState.Bot

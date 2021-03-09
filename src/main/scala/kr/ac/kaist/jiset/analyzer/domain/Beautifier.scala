@@ -112,15 +112,7 @@ object Beautifier {
     case AbsRefValue.Top => app >> "⊤"
     case AbsRefValue.Bot => app >> "⊥"
     case AbsRefValue.Id(name) => app >> name
-    case AbsRefValue.ObjProp(ty, addr, prop) =>
-      var udts = Vector[Update]()
-      if (!ty.isBottom) udts :+= { _ >> ty }
-      if (!addr.isBottom) udts :+= { _ >> addr }
-      if (udts.length > 1) app >> "("
-      app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
-      if (udts.length > 1) app >> ")"
-      app >> "[" >> prop >> "]"
-    case AbsRefValue.StrProp(str, prop) => app >> str >> "[" >> prop >> "]"
+    case AbsRefValue.Prop(base, prop) => app >> "(" >> base >> ")" >> "[" >> prop >> "]"
   }
   implicit lazy val aobjApp: App[AbsObj] = (app, obj) => {
     import AbsObj._

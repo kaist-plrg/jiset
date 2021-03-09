@@ -79,33 +79,5 @@ object BasicDomain extends obj.Domain {
 
     // conversion to flat domain
     def getSingle: concrete.Flat[Obj] = Many
-
-    // TODO handling lists
-    // lookup
-    def apply(sem: AbsSemantics, prop: AbsStr): AbsValue = this match {
-      case MapElem(ty, map) => prop.gamma.map(s => map(s.str)) match {
-        case Finite(set) =>
-          val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
-          val typeV = if (vopt.absent.isTop) {
-            val typeV = ty.fold(AbsValue.Bot)(sem.lookup(_, prop))
-            if (typeV.isBottom) alarm(s"unknown property: ${beautify(prop)} @ ${beautify(this)}")
-            typeV
-          } else AbsValue.Bot
-          vopt.value ⊔ typeV
-        case Infinite => ???
-      }
-      case ListElem(list) => prop.getSingle match {
-        case One(Str("length")) => list.length
-        case _ => ???
-      }
-      case _ => ???
-    }
-
-    // update
-    def +(pair: (String, AbsValue)): AbsObj = update(pair._1, pair._2)
-    def update(prop: String, value: AbsValue): AbsObj = this match {
-      case MapElem(ty, map) => MapElem(ty, map + (prop -> value))
-      case _ => ???
-    }
   }
 }
