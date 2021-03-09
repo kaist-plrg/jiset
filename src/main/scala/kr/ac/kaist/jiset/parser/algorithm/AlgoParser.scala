@@ -33,7 +33,7 @@ object AlgoParser {
       val tokens = TokenParser.getTokens(code, secIds)
       // get body
       val rawBody =
-        if (useCount) CompileRuleCounter(tokens, start)
+        if (useCount) ??? // TODO compiler with counters
         else Compiler(tokens, start)
 
       // print detail
