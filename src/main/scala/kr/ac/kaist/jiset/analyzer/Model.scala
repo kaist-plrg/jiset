@@ -107,6 +107,7 @@ class Model(cfg: CFG) {
       "Delete" -> getClos("""OrdinaryObject.Delete""".r),
       "OwnPropertyKeys" -> getClos("""OrdinaryObject.OwnPropertyKeys""".r),
       "Extensible" -> AbsBool.Top,
+      "InitialName" -> AbsValue(Null, Absent) ⊔ AbsStr.Top
     ),
     TyInfo(
       name = "PropertyDescriptor",
@@ -125,6 +126,7 @@ class Model(cfg: CFG) {
     "REALM" -> AbsValue(Ty("Realm")),
     "Object" -> AbsValue("Object"),
     "String" -> AbsValue("String"),
+    "Symbol" -> AbsValue("Symbol"),
   )
   // TODO more manual modelings
   private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
