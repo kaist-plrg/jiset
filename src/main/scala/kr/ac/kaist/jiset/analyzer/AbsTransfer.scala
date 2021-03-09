@@ -38,7 +38,7 @@ class AbsTransfer(
         case e: Throwable =>
           printlnColor(RED)(s"[Error] An exception is thrown.")
           println(sem.getString(cp))
-          dumpCFG(true, Some(cp))
+          dumpCFG(Some(cp), focus = true)
           throw e
       }
       sem.iter += 1
@@ -114,14 +114,18 @@ class AbsTransfer(
       case null | "q" | "quit" | "exit" =>
         interactMode = false; false
       case "d" | "dot" =>
-        dumpCFG(true, Some(cp)); true
+        dumpCFG(Some(cp)); true
       case _ => false
     }) {}
   }
 
   // dump CFG in DOT/PDF format
-  def dumpCFG(pdf: Boolean, cp: Option[ControlPoint] = None): Unit = {
-    val dot = (new DotPrinter)(sem, cp).toString
+  def dumpCFG(
+    cp: Option[ControlPoint] = None,
+    pdf: Boolean = true,
+    focus: Boolean = false
+  ): Unit = {
+    val dot = (new DotPrinter)(sem, cp, focus).toString
     dumpFile(dot, s"$CFG_DIR.dot")
     if (pdf) {
       executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")

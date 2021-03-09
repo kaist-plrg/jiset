@@ -22,7 +22,7 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     val sem = new AbsSemantics(cfg, target)
     val transfer = new AbsTransfer(sem, interact, prune)
     transfer.compute
-    if (dot) transfer.dumpCFG(pdf)
+    if (dot) transfer.dumpCFG(pdf = pdf)
     sem
   }
 

@@ -17,22 +17,33 @@ class DotPrinter {
   }
 
   // for debugging analysis
-  def apply(sem: AbsSemantics, cur: Option[ControlPoint]): DotPrinter = {
+  def apply(
+    sem: AbsSemantics,
+    cur: Option[ControlPoint],
+    focus: Boolean = false
+  ): DotPrinter = {
     this >> "digraph {"
 
     // print functions
-    val funcs: Set[(Function, View)] =
-      sem.getControlPoints.map(cp => (sem.funcOf(cp), cp.view))
-    funcs.foreach(doCluster(_, sem, cur))
+    cur match {
+      case Some(cp) if focus =>
+        val func = sem.funcOf(cp)
+        val view = cp.view
+        doCluster((func, view), sem, cur)
+      case _ =>
+        val funcs: Set[(Function, View)] =
+          sem.getControlPoints.map(cp => (sem.funcOf(cp), cp.view))
+        funcs.foreach(doCluster(_, sem, cur))
 
-    // print call edges
-    sem._getRetEdges.foreach {
-      case (ReturnPoint(func, rv), calls) => {
-        val entry = NodePoint(func.entry, rv)
-        for ((np, _) <- calls) {
-          doEdge(np2str(np), np2str(entry), REACH, "")
+        // print call edges
+        sem._getRetEdges.foreach {
+          case (ReturnPoint(func, rv), calls) => {
+            val entry = NodePoint(func.entry, rv)
+            for ((np, _) <- calls) {
+              doEdge(np2str(np), np2str(entry), REACH, "")
+            }
+          }
         }
-      }
     }
 
     this >> "}"
