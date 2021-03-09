@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.phase
 import java.io.File
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.parser.algorithm.Compiler
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -10,6 +11,7 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
 import kr.ac.kaist.jiset.parser.algorithm.TokenParser
+import org.jsoup.nodes._
 import spray.json._
 
 // GenTest phase
@@ -17,30 +19,51 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
   val name: String = "gen-test"
   val help: String = "generates test answers."
 
+  type Parsed = ((Array[String], Document, Region), ECMAScript)
   def apply(
     non: Unit,
     jisetConfig: JISETConfig,
     config: GenTestConfig
   ): Unit = {
-    genGrammarTest
+    val parsedMap = (for (version <- VERSIONS) yield time(s"parse $version", {
+      val input = ECMAScriptParser.preprocess(version)
+      val spec = ECMAScriptParser(input, "", false, false)
+      version -> (input, spec)
+    })).toMap
+    genGrammarTest(parsedMap)
+    genCFGTest(parsedMap)
     genLegacyTest
-    genBasicTest
+    genBasicTest(parsedMap)
   }
 
   // util
   val json2ir = changeExt("json", "ir")
 
-  // gen grammar test
-  def genGrammarTest: Unit = time("generate grammar tests", {
-    mkdir(GRAMMAR_DIR)
-    for (version <- VERSIONS) {
-      val filename = s"$GRAMMAR_DIR/$version.grammar"
-      val (grammar, _) = ECMAScriptParser.parseGrammar(version)
-      dumpFile(grammar.toString, filename)
+  // generate grammar test
+  def genGrammarTest(parsedMap: Map[String, Parsed]): Unit =
+    time("generate grammar tests", {
+      mkdir(GRAMMAR_DIR)
+      for ((version, (_, spec)) <- parsedMap) {
+        val filename = s"$GRAMMAR_DIR/$version.grammar"
+        dumpFile(spec.grammar.toString, filename)
+      }
+    })
+
+  // generate cfg test
+  def genCFGTest(parsedMap: Map[String, Parsed]): Unit = time("generate cfg tests", {
+    mkdir(CFG_TEST_DIR)
+    for ((version, (_, spec)) <- parsedMap) {
+      val baseDir = s"$CFG_TEST_DIR/$version"
+
+      mkdir(baseDir)
+      spec.algos.foreach(algo => {
+        val func = Translator(algo).toDot
+        dumpFile(func, s"$baseDir/${algo.name}.dot")
+      })
     }
   })
 
-  // gen legacy test
+  // generate legacy test
   def genLegacyTest: Unit = time("generate legacy tests", {
     mkdir(LEGACY_COMPILE_DIR)
     for (file <- walkTree(LEGACY_COMPILE_DIR)) {
@@ -56,21 +79,20 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     }
   })
 
-  // gen basic test
-  def genBasicTest: Unit =
-    for (version <- VERSIONS) time(s"generate $version tests", {
+  // generate basic test
+  def genBasicTest(parsedMap: Map[String, Parsed]): Unit =
+    for ((version, (input, spec)) <- parsedMap) time(s"generate $version tests", {
       val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
       // get spec, document, grammar, secIds
-      val spec = ECMAScriptParser(version, "", false, false)
-      implicit val (lines, document, region) = ECMAScriptParser.preprocess(version)
+      implicit val (lines, document, region) = input
       implicit val grammar = spec.grammar
-      val secIds = ECMAScriptParser.parseHeads()._1
+      val (secIds, _) = ECMAScriptParser.parseHeads()
 
       mkdir(baseDir)
       spec.algos.foreach(algo => {
         val Algo(head, rawBody, code) = algo
-        // flle name
+        // file name
         val filename = s"$baseDir/${algo.name}"
         // dump code
         dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")

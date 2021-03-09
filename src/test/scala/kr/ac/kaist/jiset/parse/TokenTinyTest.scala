@@ -6,6 +6,8 @@ import scala.util.Random
 import org.scalatest._
 
 class TokenTinyTest extends ParseTest {
+  val name: String = "parseTokenTest"
+
   // random repetition
   def randomRepeat[T](f: => T): List[T] =
     (0 until Random.nextInt(5)).map(_ => f).toList

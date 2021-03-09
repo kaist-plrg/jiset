@@ -7,6 +7,8 @@ import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
 class BeautifierTinyTest extends AnalyzerTest {
+  val name: String = "analyzerBeautifierTest"
+
   def test[T](desc: String)(cases: (T, String)*)(
     implicit
     tApp: App[T]

@@ -30,7 +30,7 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
   }
 
   // extract specifications
-  def getInput(version: String) = JISETTest.specInputs(version)
+  def getSpec(version: String) = JISETTest.specs(version)
 
   // count tests
   protected var count: Int = 0
@@ -101,10 +101,23 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
       jpw.close()
     }
   }
+
+  // test name
+  val name: String
+
+  // registration
+  def init: Unit
 }
 object JISETTest {
   // extract specifications
-  lazy val specInputs = (for (version <- VERSIONS) yield {
-    version -> ECMAScriptParser.preprocess(version)
-  }).toMap
+  lazy val specs = {
+    val specs = (for (version <- VERSIONS) yield {
+      println(s"[info] parsing $version...")
+      val input = ECMAScriptParser.preprocess(version)
+      val spec = ECMAScriptParser(input, "", false, false)
+      version -> (input, spec)
+    }).toMap
+    println("[info] all specifications are successfully parsed.")
+    specs
+  }
 }

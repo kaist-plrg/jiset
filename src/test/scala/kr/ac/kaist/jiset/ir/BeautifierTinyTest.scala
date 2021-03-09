@@ -6,6 +6,8 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.ir.Beautifier._
 
 class BeautifierTinyTest extends IRTest {
+  val name: String = "irBeautifierTest"
+
   import BeautifierTinyTest.beautifier._
   def test[T <: IRNode](desc: String)(cases: (T, String)*)(
     implicit

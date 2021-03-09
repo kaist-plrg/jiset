@@ -5,6 +5,8 @@ import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util.Useful._
 
 class BasicSmallTest extends IRTest {
+  val name: String = "irBasicTest"
+
   def test(path: String): Unit = {
     val (algos, inst) = IRParser.fileToIR(path)
     val sem = new Semantics(inst, algos)

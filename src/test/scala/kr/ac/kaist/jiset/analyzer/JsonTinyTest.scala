@@ -9,6 +9,8 @@ import kr.ac.kaist.jiset.util.Useful._
 import spray.json._
 
 class JsonTinyTest extends AnalyzerTest {
+  val name: String = "analyzerJsonTest"
+
   def test[T](desc: String)(cases: T*)(
     implicit
     tApp: App[T],

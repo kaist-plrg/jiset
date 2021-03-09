@@ -10,6 +10,8 @@ import kr.ac.kaist.jiset.spec.algorithm.Token
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
 
 class BasicMiddleTest extends CompileTest {
+  val name: String = "compileBasicTest"
+
   // helper
   val spec2json = changeExt("spec", "json")
   val spec2ir = changeExt("spec", "ir")
@@ -20,9 +22,9 @@ class BasicMiddleTest extends CompileTest {
       val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
       // get grammar and document
-      implicit val (lines, document, region) = getInput(version)
-      implicit val grammar = ECMAScriptParser.parseGrammar
-      val secIds = ECMAScriptParser.parseHeads()._1
+      implicit val ((lines, document, region), spec) = getSpec(version)
+      implicit val grammar = spec.grammar
+      val (secIds, _) = ECMAScriptParser.parseHeads()
 
       for (file <- walkTree(baseDir)) {
         val filename = file.getName

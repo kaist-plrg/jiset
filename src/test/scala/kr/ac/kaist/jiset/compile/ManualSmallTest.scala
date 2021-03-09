@@ -14,8 +14,10 @@ import org.jsoup.nodes._
 import org.scalatest._
 
 class ManualSmallTest extends CompileTest {
+  val name: String = "compileManualTest"
+
   implicit val (lines, grammar, document, region): (Array[String], Grammar, Document, Region) = {
-    implicit val (lines, document, region) = getInput("recent")
+    implicit val ((lines, document, region), _) = getSpec("recent")
     (lines, ECMAScriptParser.parseGrammar, document, region)
   }
 

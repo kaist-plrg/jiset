@@ -10,6 +10,8 @@ import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._
 
 class LegacySmallTest extends CompileTest {
+  val name: String = "compileLegacyTest"
+
   // helper
   val json2ir = changeExt("json", "ir")
 
