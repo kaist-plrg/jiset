@@ -17,7 +17,7 @@ class ManualSmallTest extends CompileTest {
   val name: String = "compileManualTest"
 
   implicit val (lines, grammar, document, region): (Array[String], Grammar, Document, Region) = {
-    implicit val ((lines, document, region), _) = getSpec("recent")
+    implicit val (lines, document, region) = getInfo("recent")
     (lines, ECMAScriptParser.parseGrammar, document, region)
   }
 

@@ -12,7 +12,7 @@ class BuildSmallTest extends CFGTest {
   def init: Unit = {
     for (version <- VERSIONS) {
       val baseDir = s"$CFG_TEST_DIR/$version"
-      val (_, spec) = getSpec(version)
+      val spec = getSpec(version)
       for ((name, algo) <- spec.algos.map(algo => algo.name -> algo).toMap) {
         val result = Translator(algo).toDot
         val name = algo.name

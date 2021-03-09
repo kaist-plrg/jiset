@@ -14,7 +14,7 @@ class JsonSmallTest extends ParseTest {
   // registration
   def init: Unit = {
     check("ECMAScript (recent)", {
-      val (_, spec) = getSpec("recent")
+      val spec = getSpec("recent")
       val json = spec.toJson
       val loaded = json.convertTo[ECMAScript]
       val diff = new Diff

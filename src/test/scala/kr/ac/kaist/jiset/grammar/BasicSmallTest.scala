@@ -14,7 +14,7 @@ class BasicSmallTest extends GrammarTest {
     for (version <- VERSIONS) check(version, {
       val filename = s"$GRAMMAR_DIR/$version.grammar"
       val answer = readFile(filename)
-      implicit val (_, spec) = getSpec(version)
+      val spec = getSpec(version)
       val grammar = spec.grammar
       assert(answer == grammar.toString)
     })

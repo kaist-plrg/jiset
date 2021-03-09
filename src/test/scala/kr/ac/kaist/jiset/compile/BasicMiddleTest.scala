@@ -22,7 +22,8 @@ class BasicMiddleTest extends CompileTest {
       val baseDir = s"$BASIC_COMPILE_DIR/$version"
 
       // get grammar and document
-      implicit val ((lines, document, region), spec) = getSpec(version)
+      implicit val (lines, document, region) = getInfo(version)
+      implicit val spec = getSpec(version)
       implicit val grammar = spec.grammar
       val (secIds, _) = ECMAScriptParser.parseHeads()
 

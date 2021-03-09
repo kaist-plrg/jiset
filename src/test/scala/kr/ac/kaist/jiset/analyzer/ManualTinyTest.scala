@@ -28,7 +28,7 @@ class ManualTinyTest extends AnalyzerTest {
 
   def init: Unit = {
     // analyze results in sem: AbsSemantics
-    val (_, spec) = getSpec("recent")
+    val spec = getSpec("recent")
     val cfg = new CFG(spec)
     val sem = new AbsSemantics(cfg)
     val transfer = new AbsTransfer(sem, false)
