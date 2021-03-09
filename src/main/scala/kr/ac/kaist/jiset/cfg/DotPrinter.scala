@@ -10,15 +10,15 @@ import kr.ac.kaist.jiset.util.Appender._
 class DotPrinter {
   // for pure cfg
   def apply(func: Function): DotPrinter = {
-    this >> s"""digraph {"""
+    this >> "digraph {"
     func.nodes.foreach(doNode(_, (REACH, NORMAL)))
     func.edges.foreach(doEdge(_))
-    this >> s"""}"""
+    this >> "}"
   }
 
   // for debugging analysis
   def apply(sem: AbsSemantics, cur: Option[ControlPoint]): DotPrinter = {
-    this >> s"""digraph {"""
+    this >> "digraph {"
 
     // print functions
     val funcs: Set[(Function, View)] =
@@ -35,7 +35,7 @@ class DotPrinter {
       }
     }
 
-    this >> s"""}"""
+    this >> "}"
   }
 
   // colors
@@ -74,20 +74,25 @@ class DotPrinter {
       case Some(v) => np2str(NodePoint(n, v))
     }
 
-    // get color by semantics and view
-    val color = (sem, view) match {
+    def color(from: Node, to: Node): String = (sem, view) match {
       case (None, _) | (_, None) => REACH
       case (Some(sem), Some(view)) =>
-        if (sem(NodePoint(edge.from, view)).isBottom) NON_REACH
+        val fromNP = NodePoint(from, view)
+        val toNP = NodePoint(to, view)
+        if (sem(fromNP).isBottom || sem(toNP).isBottom) NON_REACH
         else REACH
     }
 
     // print edge
     edge match {
-      case LinearEdge(f, n) => doEdge(str(f), str(n), color, "")
+      case LinearEdge(f, n) =>
+        val c = color(f, n)
+        doEdge(str(f), str(n), c, "")
       case BranchEdge(f, tn, en) =>
-        doEdge(str(f), str(tn), color, s"label=<<font color=$color>true</font>>")
-        doEdge(str(f), str(en), color, s"label=<<font color=$color>false</font>>")
+        val tc = color(f, tn)
+        val ec = color(f, en)
+        doEdge(str(f), str(tn), tc, s"label=<<font color=$tc>true</font>>")
+        doEdge(str(f), str(en), ec, s"label=<<font color=$ec>false</font>>")
     }
   }
   def doEdge(from: String, to: String, color: String, label: String): DotPrinter =
