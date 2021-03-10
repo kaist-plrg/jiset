@@ -94,7 +94,7 @@ class AbsSemantics(
       if (counter.isEmpty) -1
       else {
         val size = counter.size
-        val values = counter.values.toList
+        val values = counter.values.toList.sorted
         if (size % 2 == 1) values(size / 2)
         else (values(size / 2) + values(size / 2 - 1)) / 2.toDouble
       }
