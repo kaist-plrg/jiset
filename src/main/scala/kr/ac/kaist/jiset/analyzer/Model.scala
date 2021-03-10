@@ -157,6 +157,15 @@ class Model(cfg: CFG) {
     "%AsyncFunction.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("Function.prototype"))
     )),
+    "%Function.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF
+    )),
+    "%AsyncGeneratorFunction.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF
+    )),
+    "%Object.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF
+    )),
   )
   // TODO more manual modelings
   private def manualLists: Map[String, AbsValue] = Map(
