@@ -1,36 +1,28 @@
 digraph {
-  node14358 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let searchStr = [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14354 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let O = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14351 [shape=cds, label=<<font color="black">app searchString = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node14361 [shape=diamond, label=<<font color="black">(= numPos NaN)</font>> color="black" fillcolor="white" style=filled]
-  node14357 [shape=cds, label=<<font color="black">2:app __x2__ = (ToString searchString)</font>> color="black" fillcolor="white" style=filled]
-  node14363 [shape=cds, label=<<font color="black">app __x4__ = (ToIntegerOrInfinity numPos)</font>> color="black" fillcolor="white" style=filled]
-  node14353 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
-  node14352 [shape=cds, label=<<font color="black">app position = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node14362 [shape=none, margin=0, label=<<font color="black">
+  node14014 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let pos = Infinity</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14360 [shape=none, margin=0, label=<<font color="black">
+  node14007 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node14002 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14004 [shape=cds, label=<<font color="black">app position = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node14010 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let numPos = [? __x3__]</td></tr>
+      <tr><td align="left">2:let searchStr = [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14364 [shape=none, margin=0, label=<<font color="black">
+  node14016 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let pos = [! __x4__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14365 [shape=none, margin=0, label=<<font color="black">
+  node14012 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let numPos = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14017 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let len = S.length</td></tr>
       <tr><td align="left">7:??? &quot;Let id:{start} be the result of clamping id:{pos} between 0 and id:{len} .&quot;</td></tr>
@@ -39,30 +31,38 @@ digraph {
       <tr><td align="left">10:return k</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14349 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14356 [shape=none, margin=0, label=<<font color="black">
+  node14005 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
+  node14001 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14006 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14013 [shape=diamond, label=<<font color="black">(= numPos NaN)</font>> color="black" fillcolor="white" style=filled]
+  node14011 [shape=cds, label=<<font color="black">3:app __x3__ = (ToNumber position)</font>> color="black" fillcolor="white" style=filled]
+  node14008 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let S = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14359 [shape=cds, label=<<font color="black">3:app __x3__ = (ToNumber position)</font>> color="black" fillcolor="white" style=filled]
-  node14350 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14355 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
-  node14363 -> node14364 [ color="black"]
-  node14358 -> node14359 [ color="black"]
-  node14355 -> node14356 [ color="black"]
-  node14365 -> node14350 [ color="black"]
-  node14357 -> node14358 [ color="black"]
-  node14361 -> node14362 [label=<<font color="black">true</font>> color="black"]
-  node14361 -> node14363 [label=<<font color="black">false</font>> color="black"]
-  node14364 -> node14365 [ color="black"]
-  node14354 -> node14355 [ color="black"]
-  node14359 -> node14360 [ color="black"]
-  node14362 -> node14365 [ color="black"]
-  node14356 -> node14357 [ color="black"]
-  node14353 -> node14354 [ color="black"]
-  node14349 -> node14351 [ color="black"]
-  node14352 -> node14353 [ color="black"]
-  node14360 -> node14361 [ color="black"]
-  node14351 -> node14352 [ color="black"]
+  node14003 [shape=cds, label=<<font color="black">app searchString = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node14009 [shape=cds, label=<<font color="black">2:app __x2__ = (ToString searchString)</font>> color="black" fillcolor="white" style=filled]
+  node14015 [shape=cds, label=<<font color="black">app __x4__ = (ToIntegerOrInfinity numPos)</font>> color="black" fillcolor="white" style=filled]
+  node14007 -> node14008 [ color="black"]
+  node14014 -> node14017 [ color="black"]
+  node14003 -> node14004 [ color="black"]
+  node14013 -> node14014 [label=<<font color="black">true</font>> color="black"]
+  node14013 -> node14015 [label=<<font color="black">false</font>> color="black"]
+  node14008 -> node14009 [ color="black"]
+  node14015 -> node14016 [ color="black"]
+  node14012 -> node14013 [ color="black"]
+  node14005 -> node14006 [ color="black"]
+  node14001 -> node14003 [ color="black"]
+  node14016 -> node14017 [ color="black"]
+  node14017 -> node14002 [ color="black"]
+  node14004 -> node14005 [ color="black"]
+  node14010 -> node14011 [ color="black"]
+  node14006 -> node14007 [ color="black"]
+  node14009 -> node14010 [ color="black"]
+  node14011 -> node14012 [ color="black"]
 }

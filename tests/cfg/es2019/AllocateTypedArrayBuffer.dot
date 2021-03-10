@@ -1,5 +1,16 @@
 digraph {
-  node16013 [shape=none, margin=0, label=<<font color="black">
+  node15674 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15675 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
+      <tr><td align="left">2:assert (! (&lt; length 0i))</td></tr>
+      <tr><td align="left">3:let constructorName = O.TypedArrayName</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{elementSize} be the Element Size value in link:{unhandled: table-49} for id:{constructorName} .&quot;</td></tr>
+      <tr><td align="left">5:let byteLength = (* elementSize length)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15676 [shape=cds, label=<<font color="black">6:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node15677 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let data = [? __x0__]</td></tr>
       <tr><td align="left">7:O.ViewedArrayBuffer = data</td></tr>
@@ -9,20 +20,9 @@ digraph {
       <tr><td align="left">11:return O</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16011 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
-      <tr><td align="left">2:assert (! (&lt; length 0i))</td></tr>
-      <tr><td align="left">3:let constructorName = O.TypedArrayName</td></tr>
-      <tr><td align="left">4:??? &quot;Let id:{elementSize} be the Element Size value in link:{unhandled: table-49} for id:{constructorName} .&quot;</td></tr>
-      <tr><td align="left">5:let byteLength = (* elementSize length)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16012 [shape=cds, label=<<font color="black">6:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node16010 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16009 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16009 -> node16011 [ color="black"]
-  node16011 -> node16012 [ color="black"]
-  node16012 -> node16013 [ color="black"]
-  node16013 -> node16010 [ color="black"]
+  node15673 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15673 -> node15675 [ color="black"]
+  node15675 -> node15676 [ color="black"]
+  node15676 -> node15677 [ color="black"]
+  node15677 -> node15674 [ color="black"]
 }

@@ -1,19 +1,30 @@
 digraph {
-  node10198 [shape=cds, label=<<font color="black">10:app __x0__ = (GlobalDeclarationInstantiation scriptBody globalEnv)</font>> color="black" fillcolor="white" style=filled]
-  node10209 [shape=none, margin=0, label=<<font color="black">
+  node9907 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">16:assert (&lt; 0i GLOBAL_executionStack.length)</td></tr>
-      <tr><td align="left">17:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
-      <tr><td align="left">18:return result</td></tr>
+      <tr><td align="left">14:result = __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10206 [shape=none, margin=0, label=<<font color="black">
+  node9901 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">15:GLOBAL_context = null</td></tr>
+      <tr><td align="left">10:let result = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10201 [shape=cds, label=<<font color="black">12:access __x1__ = (scriptBody &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10197 [shape=none, margin=0, label=<<font color="black">
+  node9909 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] scriptCxt)</font>> color="black" fillcolor="white" style=filled]
+  node9897 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9904 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:result = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9910 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">(pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9900 [shape=cds, label=<<font color="black">10:app __x0__ = (GlobalDeclarationInstantiation scriptBody globalEnv)</font>> color="black" fillcolor="white" style=filled]
+  node9903 [shape=cds, label=<<font color="black">12:access __x1__ = (scriptBody &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9905 [shape=diamond, label=<<font color="black">(&amp;&amp; (= result.Type CONST_normal) (= result.Value CONST_empty))</font>> color="black" fillcolor="white" style=filled]
+  node9899 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let globalEnv = scriptRecord.Realm.GlobalEnv</td></tr>
       <tr><td align="left">1:let scriptCxt = (new ExecutionContext(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
@@ -28,47 +39,36 @@ digraph {
       <tr><td align="left">9:let scriptBody = scriptRecord.ECMAScriptCode</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10203 [shape=diamond, label=<<font color="black">(&amp;&amp; (= result.Type CONST_normal) (= result.Value CONST_empty))</font>> color="black" fillcolor="white" style=filled]
-  node10195 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10207 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] scriptCxt)</font>> color="black" fillcolor="white" style=filled]
-  node10202 [shape=none, margin=0, label=<<font color="black">
+  node9911 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">12:result = __x1__</td></tr>
+      <tr><td align="left">16:assert (&lt; 0i GLOBAL_executionStack.length)</td></tr>
+      <tr><td align="left">17:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">18:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10200 [shape=diamond, label=<<font color="black">(= result.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
-  node10204 [shape=cds, label=<<font color="black">14:app __x2__ = (NormalCompletion undefined)</font>> color="black" fillcolor="white" style=filled]
-  node10208 [shape=none, margin=0, label=<<font color="black">
+  node9902 [shape=diamond, label=<<font color="black">(= result.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
+  node9898 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9906 [shape=cds, label=<<font color="black">14:app __x2__ = (NormalCompletion undefined)</font>> color="black" fillcolor="white" style=filled]
+  node9908 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">(pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i))</td></tr>
+      <tr><td align="left">15:GLOBAL_context = null</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10196 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10199 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:let result = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10205 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">14:result = __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10199 -> node10200 [ color="black"]
-  node10198 -> node10199 [ color="black"]
-  node10201 -> node10202 [ color="black"]
-  node10197 -> node10198 [ color="black"]
-  node10207 -> node10208 [label=<<font color="black">true</font>> color="black"]
-  node10207 -> node10209 [label=<<font color="black">false</font>> color="black"]
-  node10200 -> node10201 [label=<<font color="black">true</font>> color="black"]
-  node10200 -> node10203 [label=<<font color="black">false</font>> color="black"]
-  node10203 -> node10204 [label=<<font color="black">true</font>> color="black"]
-  node10203 -> node10206 [label=<<font color="black">false</font>> color="black"]
-  node10195 -> node10197 [ color="black"]
-  node10202 -> node10203 [ color="black"]
-  node10209 -> node10196 [ color="black"]
-  node10204 -> node10205 [ color="black"]
-  node10208 -> node10209 [ color="black"]
-  node10206 -> node10207 [ color="black"]
-  node10205 -> node10206 [ color="black"]
+  node9911 -> node9898 [ color="black"]
+  node9903 -> node9904 [ color="black"]
+  node9907 -> node9908 [ color="black"]
+  node9904 -> node9905 [ color="black"]
+  node9897 -> node9899 [ color="black"]
+  node9900 -> node9901 [ color="black"]
+  node9909 -> node9910 [label=<<font color="black">true</font>> color="black"]
+  node9909 -> node9911 [label=<<font color="black">false</font>> color="black"]
+  node9910 -> node9911 [ color="black"]
+  node9905 -> node9906 [label=<<font color="black">true</font>> color="black"]
+  node9905 -> node9908 [label=<<font color="black">false</font>> color="black"]
+  node9901 -> node9902 [ color="black"]
+  node9902 -> node9903 [label=<<font color="black">true</font>> color="black"]
+  node9902 -> node9905 [label=<<font color="black">false</font>> color="black"]
+  node9899 -> node9900 [ color="black"]
+  node9906 -> node9907 [ color="black"]
+  node9908 -> node9909 [ color="black"]
 }

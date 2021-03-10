@@ -14,13 +14,10 @@
     while (< __x7__ __x5__.length) if (= __x4__[__x6__] __x5__[__x7__]) __x8__ = true else {}
   }
   if __x8__ throw SyntaxError else return undefined
-  access __x9__ = (FunctionStatementList "ContainsDuplicateLabels")
-  app __x10__ = (__x9__ (new []))
+  access __x9__ = (FunctionStatementList "ContainsDuplicateLabels" (new []))
+  if (= __x9__ true) throw SyntaxError else return undefined
+  access __x10__ = (FunctionStatementList "ContainsUndefinedBreakTarget" (new []))
   if (= __x10__ true) throw SyntaxError else return undefined
-  access __x11__ = (FunctionStatementList "ContainsUndefinedBreakTarget")
-  app __x12__ = (__x11__ (new []))
-  if (= __x12__ true) throw SyntaxError else return undefined
-  access __x13__ = (FunctionStatementList "ContainsUndefinedContinueTarget")
-  app __x14__ = (__x13__ (new []) (new []))
-  if (= __x14__ true) throw SyntaxError else return undefined
+  access __x11__ = (FunctionStatementList "ContainsUndefinedContinueTarget" (new []) (new []))
+  if (= __x11__ true) throw SyntaxError else return undefined
 }

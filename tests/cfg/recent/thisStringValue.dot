@@ -1,42 +1,42 @@
 digraph {
-  node14228 [shape=cds, label=<<font color="black">1:app __x1__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
-  node14232 [shape=none, margin=0, label=<<font color="black">
+  node13878 [shape=diamond, label=<<font color="black">(= __x0__ String)</font>> color="black" fillcolor="white" style=filled]
+  node13883 [shape=cds, label=<<font color="black">3:app __x2__ = (Type s)</font>> color="black" fillcolor="white" style=filled]
+  node13879 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13876 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13884 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:assert (= __x2__ String)</td></tr>
       <tr><td align="left">4:return s</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14227 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return value</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14231 [shape=cds, label=<<font color="black">3:app __x2__ = (Type s)</font>> color="black" fillcolor="white" style=filled]
-  node14233 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14223 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14230 [shape=none, margin=0, label=<<font color="black">
+  node13882 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let s = value.StringData</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14226 [shape=diamond, label=<<font color="black">(= __x0__ String)</font>> color="black" fillcolor="white" style=filled]
-  node14224 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14229 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x1__ Object) (! (= value.StringData absent)))</font>> color="black" fillcolor="white" style=filled]
-  node14225 [shape=cds, label=<<font color="black">0:app __x0__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
-  node14230 -> node14231 [ color="black"]
-  node14227 -> node14228 [ color="black"]
-  node14228 -> node14229 [ color="black"]
-  node14225 -> node14226 [ color="black"]
-  node14226 -> node14227 [label=<<font color="black">true</font>> color="black"]
-  node14226 -> node14228 [label=<<font color="black">false</font>> color="black"]
-  node14229 -> node14230 [label=<<font color="black">true</font>> color="black"]
-  node14229 -> node14233 [label=<<font color="black">false</font>> color="black"]
-  node14223 -> node14225 [ color="black"]
-  node14233 -> node14224 [ color="black"]
-  node14232 -> node14233 [ color="black"]
-  node14231 -> node14232 [ color="black"]
+  node13880 [shape=cds, label=<<font color="black">1:app __x1__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node13877 [shape=cds, label=<<font color="black">0:app __x0__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node13881 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x1__ Object) (! (= value.StringData absent)))</font>> color="black" fillcolor="white" style=filled]
+  node13885 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13875 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13885 -> node13876 [ color="black"]
+  node13882 -> node13883 [ color="black"]
+  node13875 -> node13877 [ color="black"]
+  node13880 -> node13881 [ color="black"]
+  node13883 -> node13884 [ color="black"]
+  node13884 -> node13885 [ color="black"]
+  node13878 -> node13879 [label=<<font color="black">true</font>> color="black"]
+  node13878 -> node13880 [label=<<font color="black">false</font>> color="black"]
+  node13881 -> node13882 [label=<<font color="black">true</font>> color="black"]
+  node13881 -> node13885 [label=<<font color="black">false</font>> color="black"]
+  node13879 -> node13880 [ color="black"]
+  node13877 -> node13878 [ color="black"]
 }

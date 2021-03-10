@@ -1,12 +1,7 @@
 digraph {
-  node16424 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16423 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor constructor INTRINSIC_ArrayBufferPrototype (new [&quot;ArrayBufferData&quot;, &quot;ArrayBufferByteLength&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node16421 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16426 [shape=none, margin=0, label=<<font color="black">
+  node16103 [shape=cds, label=<<font color="black">2:app __x1__ = (CreateByteDataBlock byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node16099 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16104 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let block = [? __x1__]</td></tr>
       <tr><td align="left">3:obj.ArrayBufferData = block</td></tr>
@@ -14,11 +9,16 @@ digraph {
       <tr><td align="left">5:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16422 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16425 [shape=cds, label=<<font color="black">2:app __x1__ = (CreateByteDataBlock byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node16425 -> node16426 [ color="black"]
-  node16423 -> node16424 [ color="black"]
-  node16426 -> node16422 [ color="black"]
-  node16421 -> node16423 [ color="black"]
-  node16424 -> node16425 [ color="black"]
+  node16100 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16101 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor constructor INTRINSIC_ArrayBufferPrototype (new [&quot;ArrayBufferData&quot;, &quot;ArrayBufferByteLength&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node16102 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16102 -> node16103 [ color="black"]
+  node16099 -> node16101 [ color="black"]
+  node16103 -> node16104 [ color="black"]
+  node16101 -> node16102 [ color="black"]
+  node16104 -> node16100 [ color="black"]
 }

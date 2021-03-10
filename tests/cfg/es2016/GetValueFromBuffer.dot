@@ -1,13 +1,29 @@
 digraph {
-  node15222 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15229 [shape=none, margin=0, label=<<font color="black">
+  node14937 [shape=cds, label=<<font color="black">0:app __x0__ = (IsDetachedBuffer arrayBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node14936 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14943 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:??? &quot;If the first code unit of id:{type} is code:{\&quot;U\&quot;} , then in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">18:??? &quot;Else , in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">20:return intValue</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14941 [shape=diamond, label=<<font color="black">(= type &quot;Float64&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node14942 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">13:??? &quot;Let id:{value} be the byte elements of id:{rawValue} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2008 binary64 value .&quot;</td></tr>
       <tr><td align="left">14:??? &quot;If id:{value} is an IEEE 754 - 2008 binary64 NaN value , return the value:{NaN} Number value .&quot;</td></tr>
       <tr><td align="left">15:return value</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15225 [shape=none, margin=0, label=<<font color="black">
+  node14940 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:??? &quot;Let id:{value} be the byte elements of id:{rawValue} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2008 binary32 value .&quot;</td></tr>
+      <tr><td align="left">10:??? &quot;If id:{value} is an IEEE 754 - 2008 binary32 NaN value , return the value:{NaN} Number value .&quot;</td></tr>
+      <tr><td align="left">11:return value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14938 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= __x0__ false)</td></tr>
       <tr><td align="left">3:let block = arrayBuffer.ArrayBufferData</td></tr>
@@ -17,32 +33,16 @@ digraph {
       <tr><td align="left">7:??? &quot;If id:{isLittleEndian} is value:{false} , reverse the order of the elements of id:{rawValue} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15226 [shape=diamond, label=<<font color="black">(= type &quot;Float32&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node15224 [shape=cds, label=<<font color="black">0:app __x0__ = (IsDetachedBuffer arrayBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node15227 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:??? &quot;Let id:{value} be the byte elements of id:{rawValue} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2008 binary32 value .&quot;</td></tr>
-      <tr><td align="left">10:??? &quot;If id:{value} is an IEEE 754 - 2008 binary32 NaN value , return the value:{NaN} Number value .&quot;</td></tr>
-      <tr><td align="left">11:return value</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15223 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15228 [shape=diamond, label=<<font color="black">(= type &quot;Float64&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node15230 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">16:??? &quot;If the first code unit of id:{type} is code:{\&quot;U\&quot;} , then in:{} out:{}&quot;</td></tr>
-      <tr><td align="left">18:??? &quot;Else , in:{} out:{}&quot;</td></tr>
-      <tr><td align="left">20:return intValue</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15225 -> node15226 [ color="black"]
-  node15230 -> node15223 [ color="black"]
-  node15228 -> node15229 [label=<<font color="black">true</font>> color="black"]
-  node15228 -> node15230 [label=<<font color="black">false</font>> color="black"]
-  node15226 -> node15227 [label=<<font color="black">true</font>> color="black"]
-  node15226 -> node15228 [label=<<font color="black">false</font>> color="black"]
-  node15224 -> node15225 [ color="black"]
-  node15229 -> node15230 [ color="black"]
-  node15222 -> node15224 [ color="black"]
-  node15227 -> node15228 [ color="black"]
+  node14939 [shape=diamond, label=<<font color="black">(= type &quot;Float32&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node14935 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14942 -> node14943 [ color="black"]
+  node14937 -> node14938 [ color="black"]
+  node14941 -> node14942 [label=<<font color="black">true</font>> color="black"]
+  node14941 -> node14943 [label=<<font color="black">false</font>> color="black"]
+  node14943 -> node14936 [ color="black"]
+  node14939 -> node14940 [label=<<font color="black">true</font>> color="black"]
+  node14939 -> node14941 [label=<<font color="black">false</font>> color="black"]
+  node14938 -> node14939 [ color="black"]
+  node14935 -> node14937 [ color="black"]
+  node14940 -> node14941 [ color="black"]
 }

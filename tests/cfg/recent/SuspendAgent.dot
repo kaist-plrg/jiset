@@ -1,24 +1,24 @@
 digraph {
-  node18210 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:assert (= __x0__ true)</td></tr>
-      <tr><td align="left">4:??? &quot;Perform LeaveCriticalSection ( id:{WL} ) and suspend id:{W} for up to id:{timeout} milliseconds , performing the combined operation in such a way that a notification that arrives after the critical section is exited but before the suspension takes effect is not lost . id:{W} can notify either because the timeout expired or because it was notified explicitly by another agent calling NotifyWaiter ( id:{WL} , id:{W} ) , and not for any other reasons at all .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18207 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18212 [shape=none, margin=0, label=<<font color="black">
+  node17847 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17852 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:__x1__</td></tr>
       <tr><td align="left">6:??? &quot;If id:{W} was notified explicitly by another agent calling NotifyWaiter ( id:{WL} , id:{W} ) , return value:{true} .&quot;</td></tr>
       <tr><td align="left">7:return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18209 [shape=cds, label=<<font color="black">3:app __x0__ = (AgentCanSuspend )</font>> color="black" fillcolor="white" style=filled]
-  node18208 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18211 [shape=cds, label=<<font color="black">5:app __x1__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
-  node18210 -> node18211 [ color="black"]
-  node18212 -> node18208 [ color="black"]
-  node18209 -> node18210 [ color="black"]
-  node18207 -> node18209 [ color="black"]
-  node18211 -> node18212 [ color="black"]
+  node17850 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:assert (= __x0__ true)</td></tr>
+      <tr><td align="left">4:??? &quot;Perform LeaveCriticalSection ( id:{WL} ) and suspend id:{W} for up to id:{timeout} milliseconds , performing the combined operation in such a way that a notification that arrives after the critical section is exited but before the suspension takes effect is not lost . id:{W} can notify either because the timeout expired or because it was notified explicitly by another agent calling NotifyWaiter ( id:{WL} , id:{W} ) , and not for any other reasons at all .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17849 [shape=cds, label=<<font color="black">3:app __x0__ = (AgentCanSuspend)</font>> color="black" fillcolor="white" style=filled]
+  node17848 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17851 [shape=cds, label=<<font color="black">5:app __x1__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
+  node17851 -> node17852 [ color="black"]
+  node17850 -> node17851 [ color="black"]
+  node17849 -> node17850 [ color="black"]
+  node17847 -> node17849 [ color="black"]
+  node17852 -> node17848 [ color="black"]
 }

@@ -1,7 +1,5 @@
 digraph {
-  node17266 [shape=cds, label=<<font color="black">5:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node17264 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17267 [shape=none, margin=0, label=<<font color="black">
+  node16907 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:let data = [? __x0__]</td></tr>
       <tr><td align="left">6:O.ViewedArrayBuffer = data</td></tr>
@@ -11,8 +9,9 @@ digraph {
       <tr><td align="left">10:return O</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17263 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17265 [shape=none, margin=0, label=<<font color="black">
+  node16903 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16906 [shape=cds, label=<<font color="black">5:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node16905 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
       <tr><td align="left">2:let constructorName = O.TypedArrayName</td></tr>
@@ -20,8 +19,9 @@ digraph {
       <tr><td align="left">4:let byteLength = (* elementSize length)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17263 -> node17265 [ color="black"]
-  node17265 -> node17266 [ color="black"]
-  node17266 -> node17267 [ color="black"]
-  node17267 -> node17264 [ color="black"]
+  node16904 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16903 -> node16905 [ color="black"]
+  node16905 -> node16906 [ color="black"]
+  node16906 -> node16907 [ color="black"]
+  node16907 -> node16904 [ color="black"]
 }

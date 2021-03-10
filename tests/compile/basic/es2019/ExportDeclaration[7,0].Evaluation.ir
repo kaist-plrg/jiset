@@ -1,17 +1,16 @@
 {
   app __x0__ = (IsAnonymousFunctionDefinition AssignmentExpression)
   if (= __x0__ true) {
-    access __x1__ = (AssignmentExpression "NamedEvaluation")
-    app __x2__ = (__x1__ "default")
-    let value = __x2__
+    access __x1__ = (AssignmentExpression "NamedEvaluation" "default")
+    let value = __x1__
   } else {
-    access __x3__ = (AssignmentExpression "Evaluation")
-    let rhs = __x3__
-    app __x4__ = (GetValue rhs)
-    let value = [? __x4__]
+    access __x2__ = (AssignmentExpression "Evaluation")
+    let rhs = __x2__
+    app __x3__ = (GetValue rhs)
+    let value = [? __x3__]
   }
   let env = GLOBAL_context.LexicalEnvironment
-  app __x5__ = (InitializeBoundName "*default*" value env)
-  [? __x5__]
+  app __x4__ = (InitializeBoundName "*default*" value env)
+  [? __x4__]
   return CONST_empty
 }

@@ -1,43 +1,39 @@
 digraph {
-  node9886 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let entries = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node9892 [shape=none, margin=0, label=<<font color="black">
+  node9612 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9616 [shape=cds, label=<<font color="black">1:access __x1__ = (NameSpaceImport &quot;ImportEntriesForModule&quot; module)</font>> color="black" fillcolor="white" style=filled]
+  node9618 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node9613 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9620 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return entries</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9882 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9885 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ module)</font>> color="black" fillcolor="white" style=filled]
-  node9889 [shape=none, margin=0, label=<<font color="black">
+  node9617 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let __x4__ = __x3__</td></tr>
-      <tr><td align="left">1:let __x5__ = 0i</td></tr>
+      <tr><td align="left">1:let __x2__ = __x1__</td></tr>
+      <tr><td align="left">1:let __x3__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9890 [shape=diamond, label=<<font color="black">(&lt; __x5__ __x4__.length)</font>> color="black" fillcolor="white" style=filled]
-  node9888 [shape=cds, label=<<font color="black">1:app __x3__ = (__x2__ module)</font>> color="black" fillcolor="white" style=filled]
-  node9884 [shape=cds, label=<<font color="black">0:access __x0__ = (ImportedDefaultBinding &quot;ImportEntriesForModule&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node9891 [shape=none, margin=0, label=<<font color="black">
+  node9614 [shape=cds, label=<<font color="black">0:access __x0__ = (ImportedDefaultBinding &quot;ImportEntriesForModule&quot; module)</font>> color="black" fillcolor="white" style=filled]
+  node9619 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let __x6__ = __x4__[__x5__]</td></tr>
-      <tr><td align="left">append __x6__ -&gt; entries</td></tr>
-      <tr><td align="left">__x5__ = (+ __x5__ 1i)</td></tr>
+      <tr><td align="left">let __x4__ = __x2__[__x3__]</td></tr>
+      <tr><td align="left">append __x4__ -&gt; entries</td></tr>
+      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9887 [shape=cds, label=<<font color="black">1:access __x2__ = (NameSpaceImport &quot;ImportEntriesForModule&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node9883 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9885 -> node9886 [ color="black"]
-  node9882 -> node9884 [ color="black"]
-  node9884 -> node9885 [ color="black"]
-  node9887 -> node9888 [ color="black"]
-  node9892 -> node9883 [ color="black"]
-  node9890 -> node9891 [label=<<font color="black">true</font>> color="black"]
-  node9890 -> node9892 [label=<<font color="black">false</font>> color="black"]
-  node9888 -> node9889 [ color="black"]
-  node9891 -> node9890 [ color="black"]
-  node9886 -> node9887 [ color="black"]
-  node9889 -> node9890 [ color="black"]
+  node9615 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let entries = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9612 -> node9614 [ color="black"]
+  node9615 -> node9616 [ color="black"]
+  node9619 -> node9618 [ color="black"]
+  node9614 -> node9615 [ color="black"]
+  node9618 -> node9619 [label=<<font color="black">true</font>> color="black"]
+  node9618 -> node9620 [label=<<font color="black">false</font>> color="black"]
+  node9616 -> node9617 [ color="black"]
+  node9617 -> node9618 [ color="black"]
+  node9620 -> node9613 [ color="black"]
 }

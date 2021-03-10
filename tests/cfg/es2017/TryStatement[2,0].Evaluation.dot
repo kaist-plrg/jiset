@@ -1,57 +1,55 @@
 digraph {
-  node7854 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">F = C</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node7850 [shape=none, margin=0, label=<<font color="black">
+  node7660 [shape=diamond, label=<<font color="black">(= F.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
+  node7652 [shape=cds, label=<<font color="black">0:access __x0__ = (Block &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7657 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let C = B</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7856 [shape=none, margin=0, label=<<font color="black">
+  node7663 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:return __x4__</td></tr>
+      <tr><td align="left">5:return __x3__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7845 [shape=none, margin=0, label=<<font color="black">
+  node7651 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7658 [shape=cds, label=<<font color="black">3:access __x2__ = (Finally &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7654 [shape=diamond, label=<<font color="black">(= B.Type CONST_throw)</font>> color="black" fillcolor="white" style=filled]
+  node7650 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7659 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let F = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7653 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let B = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7849 [shape=none, margin=0, label=<<font color="black">
+  node7661 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let C = __x2__</td></tr>
+      <tr><td align="left">F = C</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7846 [shape=diamond, label=<<font color="black">(= B.Type CONST_throw)</font>> color="black" fillcolor="white" style=filled]
-  node7843 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7852 [shape=none, margin=0, label=<<font color="black">
+  node7656 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let F = __x3__</td></tr>
+      <tr><td align="left">let C = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7847 [shape=cds, label=<<font color="black">access __x1__ = (Catch &quot;CatchClauseEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node7844 [shape=cds, label=<<font color="black">0:access __x0__ = (Block &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node7855 [shape=cds, label=<<font color="black">5:app __x4__ = (UpdateEmpty F undefined)</font>> color="black" fillcolor="white" style=filled]
-  node7851 [shape=cds, label=<<font color="black">3:access __x3__ = (Finally &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node7848 [shape=cds, label=<<font color="black">app __x2__ = (__x1__ B.Value)</font>> color="black" fillcolor="white" style=filled]
-  node7842 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7853 [shape=diamond, label=<<font color="black">(= F.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
-  node7847 -> node7848 [ color="black"]
-  node7848 -> node7849 [ color="black"]
-  node7846 -> node7847 [label=<<font color="black">true</font>> color="black"]
-  node7846 -> node7850 [label=<<font color="black">false</font>> color="black"]
-  node7842 -> node7844 [ color="black"]
-  node7852 -> node7853 [ color="black"]
-  node7856 -> node7843 [ color="black"]
-  node7855 -> node7856 [ color="black"]
-  node7844 -> node7845 [ color="black"]
-  node7850 -> node7851 [ color="black"]
-  node7854 -> node7855 [ color="black"]
-  node7849 -> node7851 [ color="black"]
-  node7845 -> node7846 [ color="black"]
-  node7851 -> node7852 [ color="black"]
-  node7853 -> node7854 [label=<<font color="black">true</font>> color="black"]
-  node7853 -> node7855 [label=<<font color="black">false</font>> color="black"]
+  node7655 [shape=cds, label=<<font color="black">access __x1__ = (Catch &quot;CatchClauseEvaluation&quot; B.Value)</font>> color="black" fillcolor="white" style=filled]
+  node7662 [shape=cds, label=<<font color="black">5:app __x3__ = (UpdateEmpty F undefined)</font>> color="black" fillcolor="white" style=filled]
+  node7655 -> node7656 [ color="black"]
+  node7650 -> node7652 [ color="black"]
+  node7661 -> node7662 [ color="black"]
+  node7656 -> node7658 [ color="black"]
+  node7652 -> node7653 [ color="black"]
+  node7657 -> node7658 [ color="black"]
+  node7654 -> node7655 [label=<<font color="black">true</font>> color="black"]
+  node7654 -> node7657 [label=<<font color="black">false</font>> color="black"]
+  node7658 -> node7659 [ color="black"]
+  node7662 -> node7663 [ color="black"]
+  node7659 -> node7660 [ color="black"]
+  node7660 -> node7661 [label=<<font color="black">true</font>> color="black"]
+  node7660 -> node7662 [label=<<font color="black">false</font>> color="black"]
+  node7663 -> node7651 [ color="black"]
+  node7653 -> node7654 [ color="black"]
 }

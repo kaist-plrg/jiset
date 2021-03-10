@@ -1,41 +1,32 @@
 digraph {
-  node2844 [shape=none, margin=0, label=<<font color="black">
+  node2844 [shape=cds, label=<<font color="black">16:app __x4__ = (CreateDataPropertyOrThrow obj [! __x3__] val)</font>> color="black" fillcolor="white" style=filled]
+  node2842 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:let val = argumentsList[index]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2835 [shape=cds, label=<<font color="black">2:app __x0__ = (MakeBasicObject (new [&quot;Prototype&quot;, &quot;Extensible&quot;, &quot;ParameterMap&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node2846 [shape=cds, label=<<font color="black">18:app __x5__ = (DefinePropertyOrThrow obj &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; len, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node2837 [shape=cds, label=<<font color="black">9:app __x1__ = (OrdinaryObjectCreate null)</font>> color="black" fillcolor="white" style=filled]
+  node2854 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">26:let g = __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2857 [shape=cds, label=<<font color="black">28:app __x8__ = (ToString index)</font>> color="black" fillcolor="white" style=filled]
+  node2852 [shape=diamond, label=<<font color="black">(&lt; index len)</font>> color="black" fillcolor="white" style=filled]
+  node2833 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2861 [shape=cds, label=<<font color="black">30:app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor(&quot;Value&quot; -&gt; INTRINSIC_Array_prototype_values, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node2840 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">11:let parameterNames = __x2__</td></tr>
       <tr><td align="left">12:let numberOfParameters = parameterNames.length</td></tr>
       <tr><td align="left">13:let index = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2861 [shape=cds, label=<<font color="black">28:app __x8__ = (ToString index)</font>> color="black" fillcolor="white" style=filled]
-  node2868 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">31:[! __x11__]</td></tr>
-      <tr><td align="left">32:return obj</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2842 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:let map = __x1__</td></tr>
-      <tr><td align="left">10:obj.ParameterMap = map</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2867 [shape=cds, label=<<font color="black">31:app __x11__ = (DefinePropertyOrThrow obj &quot;callee&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; func, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
-  node2846 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">15:let val = argumentsList[index]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2865 [shape=cds, label=<<font color="black">30:app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor(&quot;Value&quot; -&gt; INTRINSIC_Array_prototype_values, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
-  node2866 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">30:[! __x10__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2837 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2854 [shape=diamond, label=<<font color="black">(! (contains mappedNames name))</font>> color="black" fillcolor="white" style=filled]
-  node2857 [shape=cds, label=<<font color="black">26:app __x6__ = (MakeArgGetter name env)</font>> color="black" fillcolor="white" style=filled]
-  node2852 [shape=diamond, label=<<font color="black">(! (&lt; index 0i))</font>> color="black" fillcolor="white" style=filled]
-  node2840 [shape=none, margin=0, label=<<font color="black">
+  node2841 [shape=diamond, label=<<font color="black">(&lt; index len)</font>> color="black" fillcolor="white" style=filled]
+  node2858 [shape=cds, label=<<font color="black">28:app __x9__ = (map.DefineOwnProperty map [! __x8__] (new PropertyDescriptor(&quot;Set&quot; -&gt; p, &quot;Get&quot; -&gt; g, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node2836 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let obj = [! __x0__]</td></tr>
       <tr><td align="left">3:obj.GetOwnProperty = ArgumentsExoticObjectDOTGetOwnProperty</td></tr>
@@ -46,99 +37,108 @@ digraph {
       <tr><td align="left">8:obj.Prototype = INTRINSIC_Object_prototype</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2841 [shape=cds, label=<<font color="black">9:app __x1__ = (OrdinaryObjectCreate null)</font>> color="black" fillcolor="white" style=filled]
-  node2858 [shape=none, margin=0, label=<<font color="black">
+  node2845 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">26:let g = __x6__</td></tr>
+      <tr><td align="left">16:[! __x4__]</td></tr>
+      <tr><td align="left">17:index = (+ index 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2836 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2845 [shape=diamond, label=<<font color="black">(&lt; index len)</font>> color="black" fillcolor="white" style=filled]
   node2851 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">24:append name -&gt; mappedNames</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2862 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">30:[! __x10__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2859 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">28:__x9__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2849 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">22:let name = parameterNames[index]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2839 [shape=cds, label=<<font color="black">11:access __x2__ = (formals &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node2856 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">27:let p = __x7__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2863 [shape=cds, label=<<font color="black">31:app __x11__ = (DefinePropertyOrThrow obj &quot;callee&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; func, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node2850 [shape=diamond, label=<<font color="black">(! (contains mappedNames name))</font>> color="black" fillcolor="white" style=filled]
+  node2838 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let map = __x1__</td></tr>
+      <tr><td align="left">10:obj.ParameterMap = map</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2843 [shape=cds, label=<<font color="black">16:app __x3__ = (ToString index)</font>> color="black" fillcolor="white" style=filled]
+  node2860 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">29:index = (- index 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2848 [shape=diamond, label=<<font color="black">(! (&lt; index 0i))</font>> color="black" fillcolor="white" style=filled]
+  node2855 [shape=cds, label=<<font color="black">27:app __x7__ = (MakeArgSetter name env)</font>> color="black" fillcolor="white" style=filled]
+  node2853 [shape=cds, label=<<font color="black">26:app __x6__ = (MakeArgGetter name env)</font>> color="black" fillcolor="white" style=filled]
+  node2847 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">18:[! __x5__]</td></tr>
       <tr><td align="left">19:let mappedNames = (new [])</td></tr>
       <tr><td align="left">20:let index = (- numberOfParameters 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2862 [shape=cds, label=<<font color="black">28:app __x9__ = (map.DefineOwnProperty map [! __x8__] (new PropertyDescriptor(&quot;Set&quot; -&gt; p, &quot;Get&quot; -&gt; g, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
-  node2859 [shape=cds, label=<<font color="black">27:app __x7__ = (MakeArgSetter name env)</font>> color="black" fillcolor="white" style=filled]
-  node2849 [shape=none, margin=0, label=<<font color="black">
+  node2864 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">16:[! __x4__]</td></tr>
-      <tr><td align="left">17:index = (+ index 1i)</td></tr>
+      <tr><td align="left">31:[! __x11__]</td></tr>
+      <tr><td align="left">32:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2839 [shape=cds, label=<<font color="black">2:app __x0__ = (MakeBasicObject (new [&quot;Prototype&quot;, &quot;Extensible&quot;, &quot;ParameterMap&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node2856 [shape=diamond, label=<<font color="black">(&lt; index len)</font>> color="black" fillcolor="white" style=filled]
-  node2863 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">28:__x9__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2850 [shape=cds, label=<<font color="black">18:app __x5__ = (DefinePropertyOrThrow obj &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; len, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
-  node2838 [shape=none, margin=0, label=<<font color="black">
+  node2832 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2834 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let len = argumentsList.length</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2843 [shape=cds, label=<<font color="black">11:access __x2__ = (formals &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node2860 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">27:let p = __x7__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2848 [shape=cds, label=<<font color="black">16:app __x4__ = (CreateDataPropertyOrThrow obj [! __x3__] val)</font>> color="black" fillcolor="white" style=filled]
-  node2855 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">24:append name -&gt; mappedNames</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2853 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">22:let name = parameterNames[index]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2847 [shape=cds, label=<<font color="black">16:app __x3__ = (ToString index)</font>> color="black" fillcolor="white" style=filled]
-  node2864 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">29:index = (- index 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
+  node2851 -> node2852 [ color="black"]
   node2840 -> node2841 [ color="black"]
-  node2852 -> node2853 [label=<<font color="black">true</font>> color="black"]
-  node2852 -> node2865 [label=<<font color="black">false</font>> color="black"]
   node2847 -> node2848 [ color="black"]
-  node2845 -> node2846 [label=<<font color="black">true</font>> color="black"]
-  node2845 -> node2850 [label=<<font color="black">false</font>> color="black"]
-  node2864 -> node2852 [ color="black"]
+  node2856 -> node2857 [ color="black"]
+  node2850 -> node2851 [label=<<font color="black">true</font>> color="black"]
+  node2850 -> node2860 [label=<<font color="black">false</font>> color="black"]
+  node2832 -> node2834 [ color="black"]
+  node2835 -> node2836 [ color="black"]
+  node2837 -> node2838 [ color="black"]
   node2853 -> node2854 [ color="black"]
-  node2848 -> node2849 [ color="black"]
+  node2841 -> node2842 [label=<<font color="black">true</font>> color="black"]
+  node2841 -> node2846 [label=<<font color="black">false</font>> color="black"]
+  node2844 -> node2845 [ color="black"]
+  node2860 -> node2848 [ color="black"]
+  node2834 -> node2835 [ color="black"]
+  node2852 -> node2853 [label=<<font color="black">true</font>> color="black"]
+  node2852 -> node2860 [label=<<font color="black">false</font>> color="black"]
   node2861 -> node2862 [ color="black"]
   node2846 -> node2847 [ color="black"]
   node2858 -> node2859 [ color="black"]
-  node2854 -> node2855 [label=<<font color="black">true</font>> color="black"]
-  node2854 -> node2864 [label=<<font color="black">false</font>> color="black"]
-  node2836 -> node2838 [ color="black"]
-  node2851 -> node2852 [ color="black"]
+  node2854 -> node2855 [ color="black"]
   node2859 -> node2860 [ color="black"]
   node2838 -> node2839 [ color="black"]
   node2842 -> node2843 [ color="black"]
   node2839 -> node2840 [ color="black"]
   node2857 -> node2858 [ color="black"]
-  node2860 -> node2861 [ color="black"]
-  node2867 -> node2868 [ color="black"]
+  node2845 -> node2841 [ color="black"]
   node2863 -> node2864 [ color="black"]
-  node2841 -> node2842 [ color="black"]
+  node2836 -> node2837 [ color="black"]
+  node2848 -> node2849 [label=<<font color="black">true</font>> color="black"]
+  node2848 -> node2861 [label=<<font color="black">false</font>> color="black"]
   node2862 -> node2863 [ color="black"]
   node2855 -> node2856 [ color="black"]
-  node2844 -> node2845 [ color="black"]
-  node2849 -> node2845 [ color="black"]
-  node2850 -> node2851 [ color="black"]
-  node2868 -> node2837 [ color="black"]
-  node2865 -> node2866 [ color="black"]
   node2843 -> node2844 [ color="black"]
-  node2856 -> node2857 [label=<<font color="black">true</font>> color="black"]
-  node2856 -> node2864 [label=<<font color="black">false</font>> color="black"]
-  node2866 -> node2867 [ color="black"]
+  node2849 -> node2850 [ color="black"]
+  node2864 -> node2833 [ color="black"]
 }

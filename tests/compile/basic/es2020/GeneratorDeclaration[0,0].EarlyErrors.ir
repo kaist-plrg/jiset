@@ -24,19 +24,14 @@
     while (< __x9__ __x7__.length) if (= __x6__[__x8__] __x7__[__x9__]) __x10__ = true else {}
   }
   if __x10__ throw SyntaxError else return undefined
-  access __x11__ = (FormalParameters "Contains")
-  app __x12__ = (__x11__ "YieldExpression")
+  access __x11__ = (__x11__ "Contains" "YieldExpression")
+  if (= __x11__ true) throw SyntaxError else return undefined
+  access __x12__ = (__x12__ "Contains" "SuperProperty")
   if (= __x12__ true) throw SyntaxError else return undefined
-  access __x13__ = (FormalParameters "Contains")
-  app __x14__ = (__x13__ "SuperProperty")
+  access __x13__ = (__x13__ "Contains" "SuperProperty")
+  if (= __x13__ true) throw SyntaxError else return undefined
+  access __x14__ = (__x14__ "Contains" "SuperCall")
   if (= __x14__ true) throw SyntaxError else return undefined
-  access __x15__ = (GeneratorBody "Contains")
-  app __x16__ = (__x15__ "SuperProperty")
-  if (= __x16__ true) throw SyntaxError else return undefined
-  access __x17__ = (FormalParameters "Contains")
-  app __x18__ = (__x17__ "SuperCall")
-  if (= __x18__ true) throw SyntaxError else return undefined
-  access __x19__ = (GeneratorBody "Contains")
-  app __x20__ = (__x19__ "SuperCall")
-  if (= __x20__ true) throw SyntaxError else return undefined
+  access __x15__ = (__x15__ "Contains" "SuperCall")
+  if (= __x15__ true) throw SyntaxError else return undefined
 }

@@ -1,8 +1,26 @@
 digraph {
-  node13982 [shape=diamond, label=<<font color="black">(= IgnoreCase false)</font>> color="black" fillcolor="white" style=filled]
-  node13987 [shape=cds, label=<<font color="black">8:app __x0__ = (Type u)</font>> color="black" fillcolor="white" style=filled]
-  node13981 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13988 [shape=none, margin=0, label=<<font color="black">
+  node13650 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let s = ch</td></tr>
+      <tr><td align="left">7:??? &quot;Let id:{u} be the same result produced as if by performing the algorithm for code:{String.prototype.toUpperCase} using id:{s} as the value:{this} value .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13651 [shape=cds, label=<<font color="black">8:app __x0__ = (Type u)</font>> color="black" fillcolor="white" style=filled]
+  node13647 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return ch</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13644 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13649 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:??? &quot;If the file CaseFolding . txt of the Unicode Character Database provides a simple or common case folding mapping for id:{ch} , return the result of applying that mapping to id:{ch} .&quot;</td></tr>
+      <tr><td align="left">3:return ch</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13648 [shape=diamond, label=<<font color="black">(= Unicode true)</font>> color="black" fillcolor="white" style=filled]
+  node13645 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13652 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">8:assert (= __x0__ String)</td></tr>
       <tr><td align="left">9:??? &quot;If id:{u} does not consist of a single code unit , return id:{ch} .&quot;</td></tr>
@@ -11,33 +29,15 @@ digraph {
       <tr><td align="left">12:return cu</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13984 [shape=diamond, label=<<font color="black">(= Unicode true)</font>> color="black" fillcolor="white" style=filled]
-  node13980 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13985 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:??? &quot;If the file CaseFolding . txt of the Unicode Character Database provides a simple or common case folding mapping for id:{ch} , return the result of applying that mapping to id:{ch} .&quot;</td></tr>
-      <tr><td align="left">3:return ch</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13983 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return ch</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13986 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let s = ch</td></tr>
-      <tr><td align="left">7:??? &quot;Let id:{u} be the same result produced as if by performing the algorithm for code:{String.prototype.toUpperCase} using id:{s} as the value:{this} value .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13982 -> node13983 [label=<<font color="black">true</font>> color="black"]
-  node13982 -> node13984 [label=<<font color="black">false</font>> color="black"]
-  node13984 -> node13985 [label=<<font color="black">true</font>> color="black"]
-  node13984 -> node13986 [label=<<font color="black">false</font>> color="black"]
-  node13987 -> node13988 [ color="black"]
-  node13988 -> node13981 [ color="black"]
-  node13985 -> node13981 [ color="black"]
-  node13983 -> node13984 [ color="black"]
-  node13980 -> node13982 [ color="black"]
-  node13986 -> node13987 [ color="black"]
+  node13646 [shape=diamond, label=<<font color="black">(= IgnoreCase false)</font>> color="black" fillcolor="white" style=filled]
+  node13647 -> node13648 [ color="black"]
+  node13648 -> node13649 [label=<<font color="black">true</font>> color="black"]
+  node13648 -> node13650 [label=<<font color="black">false</font>> color="black"]
+  node13652 -> node13645 [ color="black"]
+  node13650 -> node13651 [ color="black"]
+  node13646 -> node13647 [label=<<font color="black">true</font>> color="black"]
+  node13646 -> node13648 [label=<<font color="black">false</font>> color="black"]
+  node13651 -> node13652 [ color="black"]
+  node13649 -> node13645 [ color="black"]
+  node13644 -> node13646 [ color="black"]
 }

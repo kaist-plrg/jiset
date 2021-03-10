@@ -27,31 +27,30 @@
   } else let v = value
   if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) {
     ??? "Let id:{nestedAssignmentPattern} be the parse of the source text corresponding to nt:{DestructuringAssignmentTarget} using either nt:{AssignmentPattern} or nt:{AssignmentPattern[Yield]} as the goal symbol depending upon whether this nt:{AssignmentElement} has the sub:{[ Yield ]} parameter ."
-    access __x7__ = (nestedAssignmentPattern "DestructuringAssignmentEvaluation")
-    app __x8__ = (__x7__ v)
-    return __x8__
+    access __x7__ = (nestedAssignmentPattern "DestructuringAssignmentEvaluation" v)
+    return __x7__
   } else {}
-  let __x9__ = true
-  __x9__ = (! (= Initializer absent))
-  if __x9__ {
-    let __x10__ = true
-    __x10__ = (= value undefined)
-    if __x10__ {
-      app __x11__ = (IsAnonymousFunctionDefinition Initializer)
-      access __x12__ = (DestructuringAssignmentTarget "IsIdentifierRef")
-      __x10__ = (&& (= __x11__ true) (= __x12__ true))
+  let __x8__ = true
+  __x8__ = (! (= Initializer absent))
+  if __x8__ {
+    let __x9__ = true
+    __x9__ = (= value undefined)
+    if __x9__ {
+      app __x10__ = (IsAnonymousFunctionDefinition Initializer)
+      access __x11__ = (DestructuringAssignmentTarget "IsIdentifierRef")
+      __x9__ = (&& (= __x10__ true) (= __x11__ true))
     } else {}
-    __x9__ = __x10__
+    __x8__ = __x9__
   } else {}
-  if __x9__ {
-    app __x13__ = (HasOwnProperty v "name")
-    let hasNameProperty = [? __x13__]
+  if __x8__ {
+    app __x12__ = (HasOwnProperty v "name")
+    let hasNameProperty = [? __x12__]
     if (= hasNameProperty false) {
-      app __x14__ = (GetReferencedName lref)
-      app __x15__ = (SetFunctionName v __x14__)
-      __x15__
+      app __x13__ = (GetReferencedName lref)
+      app __x14__ = (SetFunctionName v __x13__)
+      __x14__
     } else {}
   } else {}
-  app __x16__ = (PutValue lref v)
-  return [? __x16__]
+  app __x15__ = (PutValue lref v)
+  return [? __x15__]
 }

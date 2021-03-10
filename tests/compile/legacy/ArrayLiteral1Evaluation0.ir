@@ -1,9 +1,8 @@
 {
   app __x0__ = (ArrayCreate 0i)
   let array = [! __x0__]
-  access __x1__ = (ElementList "ArrayAccumulation")
-  app __x2__ = (__x1__ array 0i)
-  let len = __x2__
+  access __x1__ = (ElementList "ArrayAccumulation" array 0i)
+  let len = __x1__
   [? len]
   return array
 }

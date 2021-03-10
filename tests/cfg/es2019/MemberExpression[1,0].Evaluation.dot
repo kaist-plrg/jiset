@@ -1,74 +1,74 @@
 digraph {
-  node4179 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let strict = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4173 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let propertyNameValue = [? __x3__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4172 [shape=cds, label=<<font color="black">3:app __x3__ = (GetValue propertyNameReference)</font>> color="black" fillcolor="white" style=filled]
-  node4171 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let propertyNameReference = __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4176 [shape=cds, label=<<font color="black">5:app __x5__ = (ToPropertyKey propertyNameValue)</font>> color="black" fillcolor="white" style=filled]
-  node4181 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return (new Reference(&quot;BaseValue&quot; -&gt; bv, &quot;ReferencedName&quot; -&gt; propertyKey, &quot;StrictReference&quot; -&gt; strict))</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4164 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4175 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let bv = [? __x4__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4178 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
-  node4174 [shape=cds, label=<<font color="black">4:app __x4__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
-  node4169 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let baseValue = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4166 [shape=cds, label=<<font color="black">0:access __x0__ = (MemberExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4167 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let baseReference = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4180 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let strict = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4177 [shape=none, margin=0, label=<<font color="black">
+  node4142 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node4151 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:let propertyKey = [? __x5__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4168 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
-  node4165 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4170 [shape=cds, label=<<font color="black">2:access __x2__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4180 -> node4181 [ color="black"]
-  node4170 -> node4171 [ color="black"]
-  node4166 -> node4167 [ color="black"]
-  node4174 -> node4175 [ color="black"]
-  node4178 -> node4179 [label=<<font color="black">true</font>> color="black"]
-  node4178 -> node4180 [label=<<font color="black">false</font>> color="black"]
-  node4177 -> node4178 [ color="black"]
-  node4173 -> node4174 [ color="black"]
-  node4164 -> node4166 [ color="black"]
-  node4168 -> node4169 [ color="black"]
-  node4181 -> node4165 [ color="black"]
-  node4179 -> node4181 [ color="black"]
-  node4172 -> node4173 [ color="black"]
-  node4167 -> node4168 [ color="black"]
-  node4171 -> node4172 [ color="black"]
-  node4169 -> node4170 [ color="black"]
-  node4175 -> node4176 [ color="black"]
-  node4176 -> node4177 [ color="black"]
+  node4141 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let baseReference = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4147 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let propertyNameValue = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4152 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node4148 [shape=cds, label=<<font color="black">4:app __x4__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
+  node4144 [shape=cds, label=<<font color="black">2:access __x2__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4149 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let bv = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4145 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let propertyNameReference = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4138 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4153 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4146 [shape=cds, label=<<font color="black">3:app __x3__ = (GetValue propertyNameReference)</font>> color="black" fillcolor="white" style=filled]
+  node4140 [shape=cds, label=<<font color="black">0:access __x0__ = (MemberExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4155 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return (new Reference(&quot;BaseValue&quot; -&gt; bv, &quot;ReferencedName&quot; -&gt; propertyKey, &quot;StrictReference&quot; -&gt; strict))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4139 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4154 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4143 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let baseValue = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4150 [shape=cds, label=<<font color="black">5:app __x5__ = (ToPropertyKey propertyNameValue)</font>> color="black" fillcolor="white" style=filled]
+  node4146 -> node4147 [ color="black"]
+  node4141 -> node4142 [ color="black"]
+  node4143 -> node4144 [ color="black"]
+  node4153 -> node4155 [ color="black"]
+  node4150 -> node4151 [ color="black"]
+  node4144 -> node4145 [ color="black"]
+  node4154 -> node4155 [ color="black"]
+  node4151 -> node4152 [ color="black"]
+  node4149 -> node4150 [ color="black"]
+  node4142 -> node4143 [ color="black"]
+  node4147 -> node4148 [ color="black"]
+  node4155 -> node4139 [ color="black"]
+  node4152 -> node4153 [label=<<font color="black">true</font>> color="black"]
+  node4152 -> node4154 [label=<<font color="black">false</font>> color="black"]
+  node4138 -> node4140 [ color="black"]
+  node4140 -> node4141 [ color="black"]
+  node4148 -> node4149 [ color="black"]
+  node4145 -> node4146 [ color="black"]
 }

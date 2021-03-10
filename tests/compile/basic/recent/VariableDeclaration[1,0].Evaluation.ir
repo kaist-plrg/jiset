@@ -3,7 +3,6 @@
   let rhs = __x0__
   app __x1__ = (GetValue rhs)
   let rval = [? __x1__]
-  access __x2__ = (BindingPattern "BindingInitialization")
-  app __x3__ = (__x2__ rval undefined)
-  return __x3__
+  access __x2__ = (BindingPattern "BindingInitialization" rval undefined)
+  return __x2__
 }

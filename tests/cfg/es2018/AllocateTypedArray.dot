@@ -1,48 +1,48 @@
 digraph {
-  node15795 [shape=none, margin=0, label=<<font color="black">
+  node15468 [shape=cds, label=<<font color="black">1:app __x1__ = (IntegerIndexedObjectCreate proto (new [&quot;ViewedArrayBuffer&quot;, &quot;TypedArrayName&quot;, &quot;ByteLength&quot;, &quot;ByteOffset&quot;, &quot;ArrayLength&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node15473 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:[? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15791 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let obj = __x1__</td></tr>
-      <tr><td align="left">2:assert (= obj.ViewedArrayBuffer undefined)</td></tr>
-      <tr><td align="left">3:obj.TypedArrayName = constructorName</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15787 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15794 [shape=cds, label=<<font color="black">9:app __x2__ = (AllocateTypedArrayBuffer obj length)</font>> color="black" fillcolor="white" style=filled]
-  node15792 [shape=diamond, label=<<font color="black">(= length absent)</font>> color="black" fillcolor="white" style=filled]
-  node15793 [shape=none, margin=0, label=<<font color="black">
+  node15471 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:obj.ByteLength = 0i</td></tr>
       <tr><td align="left">6:obj.ByteOffset = 0i</td></tr>
       <tr><td align="left">7:obj.ArrayLength = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15788 [shape=cds, label=<<font color="black">0:app __x0__ = (GetPrototypeFromConstructor newTarget defaultProto)</font>> color="black" fillcolor="white" style=filled]
-  node15789 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let proto = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15790 [shape=cds, label=<<font color="black">1:app __x1__ = (IntegerIndexedObjectCreate proto (new [&quot;ViewedArrayBuffer&quot;, &quot;TypedArrayName&quot;, &quot;ByteLength&quot;, &quot;ByteOffset&quot;, &quot;ArrayLength&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node15796 [shape=none, margin=0, label=<<font color="black">
+  node15466 [shape=cds, label=<<font color="black">0:app __x0__ = (GetPrototypeFromConstructor newTarget defaultProto)</font>> color="black" fillcolor="white" style=filled]
+  node15474 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">10:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15786 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15788 -> node15789 [ color="black"]
-  node15794 -> node15795 [ color="black"]
-  node15790 -> node15791 [ color="black"]
-  node15789 -> node15790 [ color="black"]
-  node15786 -> node15788 [ color="black"]
-  node15791 -> node15792 [ color="black"]
-  node15795 -> node15796 [ color="black"]
-  node15796 -> node15787 [ color="black"]
-  node15792 -> node15793 [label=<<font color="black">true</font>> color="black"]
-  node15792 -> node15794 [label=<<font color="black">false</font>> color="black"]
-  node15793 -> node15796 [ color="black"]
+  node15470 [shape=diamond, label=<<font color="black">(= length absent)</font>> color="black" fillcolor="white" style=filled]
+  node15465 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15464 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15469 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let obj = __x1__</td></tr>
+      <tr><td align="left">2:assert (= obj.ViewedArrayBuffer undefined)</td></tr>
+      <tr><td align="left">3:obj.TypedArrayName = constructorName</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15467 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let proto = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15472 [shape=cds, label=<<font color="black">9:app __x2__ = (AllocateTypedArrayBuffer obj length)</font>> color="black" fillcolor="white" style=filled]
+  node15466 -> node15467 [ color="black"]
+  node15469 -> node15470 [ color="black"]
+  node15470 -> node15471 [label=<<font color="black">true</font>> color="black"]
+  node15470 -> node15472 [label=<<font color="black">false</font>> color="black"]
+  node15471 -> node15474 [ color="black"]
+  node15472 -> node15473 [ color="black"]
+  node15473 -> node15474 [ color="black"]
+  node15464 -> node15466 [ color="black"]
+  node15468 -> node15469 [ color="black"]
+  node15474 -> node15465 [ color="black"]
+  node15467 -> node15468 [ color="black"]
 }

@@ -1,42 +1,40 @@
 digraph {
-  node6149 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= Initializer absent)) (= v undefined))</font>> color="black" fillcolor="white" style=filled]
-  node6156 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:return __x4__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6152 [shape=cds, label=<<font color="black">3:app __x2__ = (GetValue defaultValue)</font>> color="black" fillcolor="white" style=filled]
-  node6151 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let defaultValue = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6146 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6150 [shape=cds, label=<<font color="black">2:access __x1__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6155 [shape=cds, label=<<font color="black">4:app __x4__ = (__x3__ v environment)</font>> color="black" fillcolor="white" style=filled]
-  node6145 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6153 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let v = [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6148 [shape=none, margin=0, label=<<font color="black">
+  node6063 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6066 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let v = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6147 [shape=cds, label=<<font color="black">0:app __x0__ = (GetV value propertyName)</font>> color="black" fillcolor="white" style=filled]
-  node6154 [shape=cds, label=<<font color="black">4:access __x3__ = (BindingPattern &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6148 -> node6149 [ color="black"]
-  node6150 -> node6151 [ color="black"]
-  node6155 -> node6156 [ color="black"]
-  node6154 -> node6155 [ color="black"]
-  node6152 -> node6153 [ color="black"]
-  node6153 -> node6154 [ color="black"]
-  node6149 -> node6150 [label=<<font color="black">true</font>> color="black"]
-  node6149 -> node6154 [label=<<font color="black">false</font>> color="black"]
-  node6151 -> node6152 [ color="black"]
-  node6145 -> node6147 [ color="black"]
-  node6147 -> node6148 [ color="black"]
-  node6156 -> node6146 [ color="black"]
+  node6071 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let v = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6064 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6065 [shape=cds, label=<<font color="black">0:app __x0__ = (GetV value propertyName)</font>> color="black" fillcolor="white" style=filled]
+  node6070 [shape=cds, label=<<font color="black">3:app __x2__ = (GetValue defaultValue)</font>> color="black" fillcolor="white" style=filled]
+  node6069 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let defaultValue = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6073 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6068 [shape=cds, label=<<font color="black">2:access __x1__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6072 [shape=cds, label=<<font color="black">4:access __x3__ = (BindingPattern &quot;BindingInitialization&quot; v environment)</font>> color="black" fillcolor="white" style=filled]
+  node6067 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= Initializer absent)) (= v undefined))</font>> color="black" fillcolor="white" style=filled]
+  node6069 -> node6070 [ color="black"]
+  node6072 -> node6073 [ color="black"]
+  node6067 -> node6068 [label=<<font color="black">true</font>> color="black"]
+  node6067 -> node6072 [label=<<font color="black">false</font>> color="black"]
+  node6071 -> node6072 [ color="black"]
+  node6068 -> node6069 [ color="black"]
+  node6063 -> node6065 [ color="black"]
+  node6070 -> node6071 [ color="black"]
+  node6066 -> node6067 [ color="black"]
+  node6073 -> node6064 [ color="black"]
+  node6065 -> node6066 [ color="black"]
 }

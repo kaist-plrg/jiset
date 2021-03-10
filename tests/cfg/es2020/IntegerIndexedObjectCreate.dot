@@ -1,6 +1,5 @@
 digraph {
-  node2985 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2989 [shape=none, margin=0, label=<<font color="black">
+  node2985 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let A = [! __x0__]</td></tr>
       <tr><td align="left">2:A.GetOwnProperty = IntegerIndexedExoticObjectDOTGetOwnProperty</td></tr>
@@ -13,15 +12,16 @@ digraph {
       <tr><td align="left">9:return A</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2986 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2987 [shape=none, margin=0, label=<<font color="black">
+  node2982 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2981 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2984 [shape=cds, label=<<font color="black">1:app __x0__ = (MakeBasicObject internalSlotsList)</font>> color="black" fillcolor="white" style=filled]
+  node2983 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let internalSlotsList = (new [&quot;Prototype&quot;, &quot;Extensible&quot;, &quot;ViewedArrayBuffer&quot;, &quot;TypedArrayName&quot;, &quot;ContentType&quot;, &quot;ByteLength&quot;, &quot;ByteOffset&quot;, &quot;ArrayLength&quot;])</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2988 [shape=cds, label=<<font color="black">1:app __x0__ = (MakeBasicObject internalSlotsList)</font>> color="black" fillcolor="white" style=filled]
-  node2985 -> node2987 [ color="black"]
-  node2987 -> node2988 [ color="black"]
-  node2988 -> node2989 [ color="black"]
-  node2989 -> node2986 [ color="black"]
+  node2981 -> node2983 [ color="black"]
+  node2983 -> node2984 [ color="black"]
+  node2984 -> node2985 [ color="black"]
+  node2985 -> node2982 [ color="black"]
 }

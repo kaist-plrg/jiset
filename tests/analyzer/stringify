@@ -104,7 +104,7 @@ Expression[1,0].AssignmentTargetType:[☊(Expression), ☊(Expression), ☊(Assi
 Expression[1,0].IsFunctionDefinition:[☊(Expression), ☊(Expression), ☊(AssignmentExpression)] -> N(false)
 ForBinding[0,0].IsDestructuring:[☊(ForBinding), ☊(BindingIdentifier)] -> N(false)
 ForBinding[1,0].IsDestructuring:[☊(ForBinding), ☊(BindingPattern)] -> N(true)
-ForDeclaration[0,0].IsDestructuring:[☊(ForDeclaration), ☊(LetOrConst), ☊(ForBinding)] -> N(true)
+ForDeclaration[0,0].IsDestructuring:[☊(ForDeclaration), ☊(LetOrConst), ☊(ForBinding)] -> N(bool)
 FormalParameters[0,0].ContainsExpression:[☊(FormalParameters)] -> N(false)
 FormalParameters[0,0].IsSimpleParameterList:[☊(FormalParameters)] -> N(true)
 FormalParameters[1,0].IsSimpleParameterList:[☊(FormalParameters), ☊(FunctionRestParameter)] -> N(false)
@@ -144,6 +144,7 @@ HoistableDeclaration[0,0].DeclarationPart:[☊(HoistableDeclaration), ☊(Functi
 HoistableDeclaration[1,0].DeclarationPart:[☊(HoistableDeclaration), ☊(GeneratorDeclaration)] -> N(☊(GeneratorDeclaration))
 HoistableDeclaration[2,0].DeclarationPart:[☊(HoistableDeclaration), ☊(AsyncFunctionDeclaration)] -> N(☊(AsyncFunctionDeclaration))
 HoistableDeclaration[3,0].DeclarationPart:[☊(HoistableDeclaration), ☊(AsyncGeneratorDeclaration)] -> N(☊(AsyncGeneratorDeclaration))
+IdentifierReference[0,0].AssignmentTargetType:[☊(IdentifierReference), ☊(Identifier)] -> N((~simple~ | ~invalid~))
 IdentifierReference[1,0].AssignmentTargetType:[☊(IdentifierReference)] -> N(~simple~)
 IdentifierReference[1,0].EarlyErrors:[☊(IdentifierReference)] -> T(#1605) @ {
   #1605 -> OrdinaryObject {
@@ -251,6 +252,8 @@ PrimaryExpression[10,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(RegularExpr
 PrimaryExpression[11,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(TemplateLiteral)] -> N(~invalid~)
 PrimaryExpression[11,0].IsFunctionDefinition:[☊(PrimaryExpression), ☊(TemplateLiteral)] -> N(false)
 PrimaryExpression[11,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(TemplateLiteral)] -> N(false)
+PrimaryExpression[12,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)] -> N((~invalid~ | ~simple~))
+PrimaryExpression[12,0].HasName:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)] -> N(false)
 PrimaryExpression[12,0].IsFunctionDefinition:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)] -> N(bool)
 PrimaryExpression[12,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)] -> N(false)
 PrimaryExpression[2,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(Literal)] -> N(~invalid~)

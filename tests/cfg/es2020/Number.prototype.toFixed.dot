@@ -1,108 +1,108 @@
 digraph {
-  node12949 [shape=cds, label=<<font color="black">1:app __x1__ = (ToInteger fractionDigits)</font>> color="black" fillcolor="white" style=filled]
-  node12960 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:let m = [! __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12956 [shape=diamond, label=<<font color="black">(&lt; x 0i)</font>> color="black" fillcolor="white" style=filled]
-  node12961 [shape=none, margin=0, label=<<font color="black">
+  node12602 [shape=cds, label=<<font color="black">app fractionDigits = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12617 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">12:??? &quot;Let id:{n} be an integer for which ℝ ( id:{n} ) &divide; 10 sub:{ℝ} sup:{ℝ ( id:{f} )} - ℝ ( id:{x} ) is as close to zero as possible . If there are two such id:{n} , pick the larger id:{n} .&quot;</td></tr>
       <tr><td align="left">13:??? &quot;If id:{n} = 0 , let id:{m} be the String value:{\&quot;0\&quot;} . Otherwise , let id:{m} be the String value consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12966 [shape=none, margin=0, label=<<font color="black">
+  node12606 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">20:??? &quot;Let id:{a} be the first id:{k} - id:{f} code units of id:{m} , and let id:{b} be the remaining id:{f} code units of id:{m} .&quot;</td></tr>
-      <tr><td align="left">21:m = (+ (+ a &quot;.&quot;) b)</td></tr>
+      <tr><td align="left">1:let f = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12967 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">22:return (+ s m)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12953 [shape=diamond, label=<<font color="black">(= x NaN)</font>> color="black" fillcolor="white" style=filled]
-  node12952 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw RangeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12957 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:s = &quot;-&quot;</td></tr>
-      <tr><td align="left">8:x = (- x)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12944 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12948 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let x = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12965 [shape=none, margin=0, label=<<font color="black">
+  node12621 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">17:??? &quot;Let id:{z} be the String value consisting of id:{f} + 1 - id:{k} occurrences of the code unit 0x0030 ( DIGIT ZERO ) .&quot;</td></tr>
       <tr><td align="left">18:m = (+ z m)</td></tr>
       <tr><td align="left">19:k = (+ f 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12959 [shape=cds, label=<<font color="black">10:app __x2__ = (ToString x)</font>> color="black" fillcolor="white" style=filled]
-  node12950 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let f = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12945 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12955 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:let s = &quot;&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12946 [shape=cds, label=<<font color="black">app fractionDigits = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node12962 [shape=diamond, label=<<font color="black">(! (== f 0i))</font>> color="black" fillcolor="white" style=filled]
-  node12951 [shape=diamond, label=<<font color="black">(|| (&lt; f 0i) (&lt; 100i f))</font>> color="black" fillcolor="white" style=filled]
-  node12958 [shape=diamond, label=<<font color="black">(! (&lt; x (** 10.0 21i)))</font>> color="black" fillcolor="white" style=filled]
-  node12964 [shape=diamond, label=<<font color="black">(! (&lt; f k))</font>> color="black" fillcolor="white" style=filled]
-  node12947 [shape=cds, label=<<font color="black">0:app __x0__ = (thisNumberValue this)</font>> color="black" fillcolor="white" style=filled]
-  node12963 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">15:let k = m.length</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12954 [shape=none, margin=0, label=<<font color="black">
+  node12610 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return &quot;NaN&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12952 -> node12953 [ color="black"]
-  node12956 -> node12957 [label=<<font color="black">true</font>> color="black"]
-  node12956 -> node12958 [label=<<font color="black">false</font>> color="black"]
-  node12950 -> node12951 [ color="black"]
-  node12957 -> node12958 [ color="black"]
-  node12944 -> node12946 [ color="black"]
-  node12966 -> node12967 [ color="black"]
-  node12949 -> node12950 [ color="black"]
-  node12961 -> node12962 [ color="black"]
-  node12955 -> node12956 [ color="black"]
-  node12948 -> node12949 [ color="black"]
-  node12963 -> node12964 [ color="black"]
-  node12959 -> node12960 [ color="black"]
-  node12947 -> node12948 [ color="black"]
-  node12953 -> node12954 [label=<<font color="black">true</font>> color="black"]
-  node12953 -> node12955 [label=<<font color="black">false</font>> color="black"]
-  node12962 -> node12963 [label=<<font color="black">true</font>> color="black"]
-  node12962 -> node12967 [label=<<font color="black">false</font>> color="black"]
-  node12946 -> node12947 [ color="black"]
-  node12967 -> node12945 [ color="black"]
-  node12958 -> node12959 [label=<<font color="black">true</font>> color="black"]
-  node12958 -> node12961 [label=<<font color="black">false</font>> color="black"]
-  node12965 -> node12966 [ color="black"]
-  node12954 -> node12955 [ color="black"]
-  node12964 -> node12965 [label=<<font color="black">true</font>> color="black"]
-  node12964 -> node12966 [label=<<font color="black">false</font>> color="black"]
-  node12951 -> node12952 [label=<<font color="black">true</font>> color="black"]
-  node12951 -> node12953 [label=<<font color="black">false</font>> color="black"]
-  node12960 -> node12967 [ color="black"]
+  node12623 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">22:return (+ s m)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12609 [shape=diamond, label=<<font color="black">(= x NaN)</font>> color="black" fillcolor="white" style=filled]
+  node12616 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:let m = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12612 [shape=diamond, label=<<font color="black">(&lt; x 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12615 [shape=cds, label=<<font color="black">10:app __x2__ = (ToString x)</font>> color="black" fillcolor="white" style=filled]
+  node12605 [shape=cds, label=<<font color="black">1:app __x1__ = (ToInteger fractionDigits)</font>> color="black" fillcolor="white" style=filled]
+  node12611 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let s = &quot;&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12607 [shape=diamond, label=<<font color="black">(|| (&lt; f 0i) (&lt; 100i f))</font>> color="black" fillcolor="white" style=filled]
+  node12614 [shape=diamond, label=<<font color="black">(! (&lt; x (** 10.0 21i)))</font>> color="black" fillcolor="white" style=filled]
+  node12613 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:s = &quot;-&quot;</td></tr>
+      <tr><td align="left">8:x = (- x)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12608 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw RangeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12618 [shape=diamond, label=<<font color="black">(! (== f 0i))</font>> color="black" fillcolor="white" style=filled]
+  node12603 [shape=cds, label=<<font color="black">0:app __x0__ = (thisNumberValue this)</font>> color="black" fillcolor="white" style=filled]
+  node12622 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">20:??? &quot;Let id:{a} be the first id:{k} - id:{f} code units of id:{m} , and let id:{b} be the remaining id:{f} code units of id:{m} .&quot;</td></tr>
+      <tr><td align="left">21:m = (+ (+ a &quot;.&quot;) b)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12600 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12604 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let x = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12619 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:let k = m.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12620 [shape=diamond, label=<<font color="black">(! (&lt; f k))</font>> color="black" fillcolor="white" style=filled]
+  node12601 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12610 -> node12611 [ color="black"]
+  node12621 -> node12622 [ color="black"]
+  node12607 -> node12608 [label=<<font color="black">true</font>> color="black"]
+  node12607 -> node12609 [label=<<font color="black">false</font>> color="black"]
+  node12600 -> node12602 [ color="black"]
+  node12619 -> node12620 [ color="black"]
+  node12608 -> node12609 [ color="black"]
+  node12609 -> node12610 [label=<<font color="black">true</font>> color="black"]
+  node12609 -> node12611 [label=<<font color="black">false</font>> color="black"]
+  node12615 -> node12616 [ color="black"]
+  node12604 -> node12605 [ color="black"]
+  node12603 -> node12604 [ color="black"]
+  node12606 -> node12607 [ color="black"]
+  node12617 -> node12618 [ color="black"]
+  node12614 -> node12615 [label=<<font color="black">true</font>> color="black"]
+  node12614 -> node12617 [label=<<font color="black">false</font>> color="black"]
+  node12622 -> node12623 [ color="black"]
+  node12611 -> node12612 [ color="black"]
+  node12620 -> node12621 [label=<<font color="black">true</font>> color="black"]
+  node12620 -> node12622 [label=<<font color="black">false</font>> color="black"]
+  node12605 -> node12606 [ color="black"]
+  node12623 -> node12601 [ color="black"]
+  node12613 -> node12614 [ color="black"]
+  node12618 -> node12619 [label=<<font color="black">true</font>> color="black"]
+  node12618 -> node12623 [label=<<font color="black">false</font>> color="black"]
+  node12602 -> node12603 [ color="black"]
+  node12616 -> node12623 [ color="black"]
+  node12612 -> node12613 [label=<<font color="black">true</font>> color="black"]
+  node12612 -> node12614 [label=<<font color="black">false</font>> color="black"]
 }

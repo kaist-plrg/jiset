@@ -1,28 +1,28 @@
 digraph {
-  node10293 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10299 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return declarationNames</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10294 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10295 [shape=cds, label=<<font color="black">0:access __x0__ = (HoistableDeclaration &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10298 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">append &quot;*default*&quot; -&gt; declarationNames</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10297 [shape=diamond, label=<<font color="black">(! (contains declarationNames &quot;*default*&quot;))</font>> color="black" fillcolor="white" style=filled]
-  node10296 [shape=none, margin=0, label=<<font color="black">
+  node10007 [shape=diamond, label=<<font color="black">(! (contains declarationNames &quot;*default*&quot;))</font>> color="black" fillcolor="white" style=filled]
+  node10003 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10006 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let declarationNames = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10298 -> node10299 [ color="black"]
-  node10295 -> node10296 [ color="black"]
-  node10296 -> node10297 [ color="black"]
-  node10299 -> node10294 [ color="black"]
-  node10297 -> node10298 [label=<<font color="black">true</font>> color="black"]
-  node10297 -> node10299 [label=<<font color="black">false</font>> color="black"]
-  node10293 -> node10295 [ color="black"]
+  node10008 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append &quot;*default*&quot; -&gt; declarationNames</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10009 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return declarationNames</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10005 [shape=cds, label=<<font color="black">0:access __x0__ = (HoistableDeclaration &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10004 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10005 -> node10006 [ color="black"]
+  node10009 -> node10004 [ color="black"]
+  node10007 -> node10008 [label=<<font color="black">true</font>> color="black"]
+  node10007 -> node10009 [label=<<font color="black">false</font>> color="black"]
+  node10008 -> node10009 [ color="black"]
+  node10003 -> node10005 [ color="black"]
+  node10006 -> node10007 [ color="black"]
 }

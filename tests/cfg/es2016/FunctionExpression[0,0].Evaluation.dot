@@ -1,45 +1,45 @@
 digraph {
-  node8030 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8037 [shape=cds, label=<<font color="black">2:app __x1__ = (FunctionCreate CONST_Normal FormalParameters FunctionBody scope strict)</font>> color="black" fillcolor="white" style=filled]
-  node8033 [shape=none, margin=0, label=<<font color="black">
+  node7839 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let closure = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7835 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7834 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let strict = true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8031 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8036 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let scope = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8040 [shape=none, margin=0, label=<<font color="black">
+  node7838 [shape=cds, label=<<font color="black">2:app __x1__ = (FunctionCreate CONST_Normal FormalParameters FunctionBody scope strict)</font>> color="black" fillcolor="white" style=filled]
+  node7841 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:__x2__</td></tr>
       <tr><td align="left">4:return closure</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8032 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
-  node8035 [shape=cds, label=<<font color="black">1:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8039 [shape=cds, label=<<font color="black">3:app __x2__ = (MakeConstructor closure)</font>> color="black" fillcolor="white" style=filled]
-  node8038 [shape=none, margin=0, label=<<font color="black">
+  node7831 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7833 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node7837 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let closure = __x1__</td></tr>
+      <tr><td align="left">1:let scope = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8034 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let strict = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8037 -> node8038 [ color="black"]
-  node8039 -> node8040 [ color="black"]
-  node8040 -> node8031 [ color="black"]
-  node8034 -> node8035 [ color="black"]
-  node8035 -> node8036 [ color="black"]
-  node8032 -> node8033 [label=<<font color="black">true</font>> color="black"]
-  node8032 -> node8034 [label=<<font color="black">false</font>> color="black"]
-  node8033 -> node8035 [ color="black"]
-  node8030 -> node8032 [ color="black"]
-  node8038 -> node8039 [ color="black"]
-  node8036 -> node8037 [ color="black"]
+  node7832 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7840 [shape=cds, label=<<font color="black">3:app __x2__ = (MakeConstructor closure)</font>> color="black" fillcolor="white" style=filled]
+  node7836 [shape=cds, label=<<font color="black">1:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7837 -> node7838 [ color="black"]
+  node7836 -> node7837 [ color="black"]
+  node7841 -> node7832 [ color="black"]
+  node7835 -> node7836 [ color="black"]
+  node7833 -> node7834 [label=<<font color="black">true</font>> color="black"]
+  node7833 -> node7835 [label=<<font color="black">false</font>> color="black"]
+  node7831 -> node7833 [ color="black"]
+  node7840 -> node7841 [ color="black"]
+  node7839 -> node7840 [ color="black"]
+  node7834 -> node7836 [ color="black"]
+  node7838 -> node7839 [ color="black"]
 }

@@ -1,32 +1,30 @@
 digraph {
-  node6640 [shape=none, margin=0, label=<<font color="black">
+  node6555 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6559 [shape=cds, label=<<font color="black">3:access __x2__ = (BindingPattern &quot;BindingInitialization&quot; value env)</font>> color="black" fillcolor="white" style=filled]
+  node6560 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6556 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let rhs = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6553 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6557 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
+  node6554 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6558 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let value = [? __x1__]</td></tr>
       <tr><td align="left">2:let env = GLOBAL_context.LexicalEnvironment</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6643 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6635 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6642 [shape=cds, label=<<font color="black">3:app __x3__ = (__x2__ value env)</font>> color="black" fillcolor="white" style=filled]
-  node6637 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6641 [shape=cds, label=<<font color="black">3:access __x2__ = (BindingPattern &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6639 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
-  node6638 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let rhs = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6636 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6641 -> node6642 [ color="black"]
-  node6638 -> node6639 [ color="black"]
-  node6637 -> node6638 [ color="black"]
-  node6639 -> node6640 [ color="black"]
-  node6635 -> node6637 [ color="black"]
-  node6643 -> node6636 [ color="black"]
-  node6642 -> node6643 [ color="black"]
-  node6640 -> node6641 [ color="black"]
+  node6555 -> node6556 [ color="black"]
+  node6559 -> node6560 [ color="black"]
+  node6556 -> node6557 [ color="black"]
+  node6560 -> node6554 [ color="black"]
+  node6558 -> node6559 [ color="black"]
+  node6553 -> node6555 [ color="black"]
+  node6557 -> node6558 [ color="black"]
 }

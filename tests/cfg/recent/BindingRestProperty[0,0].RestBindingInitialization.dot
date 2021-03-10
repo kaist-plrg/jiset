@@ -1,50 +1,50 @@
 digraph {
-  node6905 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6915 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return __x4__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6908 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let lhs = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6916 [shape=cds, label=<<font color="black">4:app __x5__ = (InitializeReferencedBinding lhs restObj)</font>> color="black" fillcolor="white" style=filled]
-  node6907 [shape=cds, label=<<font color="black">0:app __x1__ = (ResolveBinding __x0__ environment)</font>> color="black" fillcolor="white" style=filled]
-  node6912 [shape=none, margin=0, label=<<font color="black">
+  node6808 [shape=cds, label=<<font color="black">0:app __x1__ = (ResolveBinding __x0__ environment)</font>> color="black" fillcolor="white" style=filled]
+  node6813 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:[? __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6917 [shape=none, margin=0, label=<<font color="black">
+  node6809 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lhs = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6805 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6812 [shape=cds, label=<<font color="black">2:app __x3__ = (CopyDataProperties restObj value excludedNames)</font>> color="black" fillcolor="white" style=filled]
+  node6815 [shape=cds, label=<<font color="black">app __x4__ = (PutValue lhs restObj)</font>> color="black" fillcolor="white" style=filled]
+  node6817 [shape=cds, label=<<font color="black">4:app __x5__ = (InitializeReferencedBinding lhs restObj)</font>> color="black" fillcolor="white" style=filled]
+  node6806 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6814 [shape=diamond, label=<<font color="black">(= environment undefined)</font>> color="black" fillcolor="white" style=filled]
+  node6818 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:return __x5__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6906 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6911 [shape=cds, label=<<font color="black">2:app __x3__ = (CopyDataProperties restObj value excludedNames)</font>> color="black" fillcolor="white" style=filled]
-  node6914 [shape=cds, label=<<font color="black">app __x4__ = (PutValue lhs restObj)</font>> color="black" fillcolor="white" style=filled]
-  node6909 [shape=cds, label=<<font color="black">1:app __x2__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
-  node6904 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6913 [shape=diamond, label=<<font color="black">(= environment undefined)</font>> color="black" fillcolor="white" style=filled]
-  node6910 [shape=none, margin=0, label=<<font color="black">
+  node6807 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6810 [shape=cds, label=<<font color="black">1:app __x2__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node6811 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let restObj = [! __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6906 -> node6907 [ color="black"]
-  node6917 -> node6905 [ color="black"]
-  node6914 -> node6915 [ color="black"]
-  node6908 -> node6909 [ color="black"]
-  node6912 -> node6913 [ color="black"]
-  node6909 -> node6910 [ color="black"]
-  node6913 -> node6914 [label=<<font color="black">true</font>> color="black"]
-  node6913 -> node6916 [label=<<font color="black">false</font>> color="black"]
-  node6915 -> node6916 [ color="black"]
-  node6907 -> node6908 [ color="black"]
-  node6904 -> node6906 [ color="black"]
-  node6911 -> node6912 [ color="black"]
-  node6916 -> node6917 [ color="black"]
-  node6910 -> node6911 [ color="black"]
+  node6816 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6808 -> node6809 [ color="black"]
+  node6815 -> node6816 [ color="black"]
+  node6816 -> node6817 [ color="black"]
+  node6809 -> node6810 [ color="black"]
+  node6818 -> node6806 [ color="black"]
+  node6813 -> node6814 [ color="black"]
+  node6817 -> node6818 [ color="black"]
+  node6810 -> node6811 [ color="black"]
+  node6805 -> node6807 [ color="black"]
+  node6812 -> node6813 [ color="black"]
+  node6807 -> node6808 [ color="black"]
+  node6814 -> node6815 [label=<<font color="black">true</font>> color="black"]
+  node6814 -> node6817 [label=<<font color="black">false</font>> color="black"]
+  node6811 -> node6812 [ color="black"]
 }

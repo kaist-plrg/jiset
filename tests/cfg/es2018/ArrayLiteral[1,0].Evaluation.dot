@@ -1,35 +1,33 @@
 digraph {
-  node3597 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3602 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ array 0i)</font>> color="black" fillcolor="white" style=filled]
-  node3606 [shape=none, margin=0, label=<<font color="black">
+  node3597 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:__x4__</td></tr>
+      <tr><td align="left">3:__x3__</td></tr>
       <tr><td align="left">5:return array</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3603 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let len = __x2__</td></tr>
-      <tr><td align="left">2:[? len]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3600 [shape=none, margin=0, label=<<font color="black">
+  node3591 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3595 [shape=cds, label=<<font color="black">3:app __x2__ = (ToUint32 len)</font>> color="black" fillcolor="white" style=filled]
+  node3596 [shape=cds, label=<<font color="black">3:app __x3__ = (Set array &quot;length&quot; __x2__ false)</font>> color="black" fillcolor="white" style=filled]
+  node3592 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let array = [! __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3598 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3601 [shape=cds, label=<<font color="black">1:access __x1__ = (ElementList &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3605 [shape=cds, label=<<font color="black">3:app __x4__ = (Set array &quot;length&quot; __x3__ false)</font>> color="black" fillcolor="white" style=filled]
-  node3604 [shape=cds, label=<<font color="black">3:app __x3__ = (ToUint32 len)</font>> color="black" fillcolor="white" style=filled]
-  node3599 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
-  node3602 -> node3603 [ color="black"]
-  node3600 -> node3601 [ color="black"]
-  node3605 -> node3606 [ color="black"]
-  node3597 -> node3599 [ color="black"]
-  node3606 -> node3598 [ color="black"]
-  node3601 -> node3602 [ color="black"]
-  node3604 -> node3605 [ color="black"]
-  node3603 -> node3604 [ color="black"]
-  node3599 -> node3600 [ color="black"]
+  node3590 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3594 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let len = __x1__</td></tr>
+      <tr><td align="left">2:[? len]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3589 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3593 [shape=cds, label=<<font color="black">1:access __x1__ = (ElementList &quot;ArrayAccumulation&quot; array 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3589 -> node3591 [ color="black"]
+  node3595 -> node3596 [ color="black"]
+  node3596 -> node3597 [ color="black"]
+  node3592 -> node3593 [ color="black"]
+  node3597 -> node3590 [ color="black"]
+  node3591 -> node3592 [ color="black"]
+  node3593 -> node3594 [ color="black"]
+  node3594 -> node3595 [ color="black"]
 }

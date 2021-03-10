@@ -1,22 +1,20 @@
 {
   access __x0__ = (BindingRestElement "ContainsExpression")
   if (= __x0__ false) {
-    access __x1__ = (BindingRestElement "IteratorBindingInitialization")
-    app __x2__ = (__x1__ iteratorRecord environment)
-    return __x2__
+    access __x1__ = (BindingRestElement "IteratorBindingInitialization" iteratorRecord environment)
+    return __x1__
   } else {}
   let currentContext = GLOBAL_context
-  access __x3__ = (currentContext "VariableEnvironment")
-  let originalEnv = __x3__
+  access __x2__ = (currentContext "VariableEnvironment")
+  let originalEnv = __x2__
   assert (= currentContext.VariableEnvironment currentContext.LexicalEnvironment)
   assert (= environment originalEnv)
-  app __x4__ = (NewDeclarativeEnvironment originalEnv)
-  let paramVarEnv = __x4__
+  app __x3__ = (NewDeclarativeEnvironment originalEnv)
+  let paramVarEnv = __x3__
   currentContext.VariableEnvironment = paramVarEnv
   currentContext.LexicalEnvironment = paramVarEnv
-  access __x5__ = (BindingRestElement "IteratorBindingInitialization")
-  app __x6__ = (__x5__ iteratorRecord environment)
-  let result = __x6__
+  access __x4__ = (BindingRestElement "IteratorBindingInitialization" iteratorRecord environment)
+  let result = __x4__
   currentContext.VariableEnvironment = originalEnv
   currentContext.LexicalEnvironment = originalEnv
   return result

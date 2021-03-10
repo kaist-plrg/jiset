@@ -3,7 +3,6 @@
   ??? "If id:{nonterminal} is not contained within a nt:{FunctionBody} or nt:{ConciseBody} , return value:{false} ."
   ??? "Let id:{body} be the nt:{FunctionBody} or nt:{ConciseBody} that most closely contains id:{nonterminal} ."
   ??? "If id:{body} is the nt:{FunctionBody} of a nt:{GeneratorBody} , return value:{false} ."
-  access __x0__ = (body "HasProductionInTailPosition")
-  app __x1__ = (__x0__ nonterminal)
-  return __x1__
+  access __x0__ = (body "HasProductionInTailPosition" nonterminal)
+  return __x0__
 }

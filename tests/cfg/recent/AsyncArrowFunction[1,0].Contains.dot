@@ -1,45 +1,41 @@
 digraph {
-  node10198 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ symbol)</font>> color="black" fillcolor="white" style=filled]
-  node10201 [shape=cds, label=<<font color="black">3:access __x3__ = (AsyncConciseBody &quot;Contains&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10197 [shape=cds, label=<<font color="black">2:access __x1__ = (head &quot;Contains&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10203 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return __x4__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10195 [shape=cds, label=<<font color="black">1:access __x0__ = (CoverCallExpressionAndAsyncArrowHead &quot;CoveredAsyncArrowHead&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10202 [shape=cds, label=<<font color="black">3:app __x4__ = (__x3__ symbol)</font>> color="black" fillcolor="white" style=filled]
-  node10191 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10196 [shape=none, margin=0, label=<<font color="black">
+  node9918 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let head = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10192 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10194 [shape=none, margin=0, label=<<font color="black">
+  node9917 [shape=cds, label=<<font color="black">1:access __x0__ = (CoverCallExpressionAndAsyncArrowHead &quot;CoveredAsyncArrowHead&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9913 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9920 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node9919 [shape=cds, label=<<font color="black">2:access __x1__ = (__x1__ &quot;Contains&quot; symbol)</font>> color="black" fillcolor="white" style=filled]
+  node9922 [shape=cds, label=<<font color="black">3:access __x2__ = (__x2__ &quot;Contains&quot; symbol)</font>> color="black" fillcolor="white" style=filled]
+  node9915 [shape=diamond, label=<<font color="black">(! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol &quot;super&quot;)) (= symbol &quot;this&quot;)))</font>> color="black" fillcolor="white" style=filled]
+  node9914 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9923 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9916 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10200 [shape=none, margin=0, label=<<font color="black">
+  node9921 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10199 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
-  node10193 [shape=diamond, label=<<font color="black">(! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol &quot;super&quot;)) (= symbol &quot;this&quot;)))</font>> color="black" fillcolor="white" style=filled]
-  node10198 -> node10199 [ color="black"]
-  node10194 -> node10195 [ color="black"]
-  node10200 -> node10201 [ color="black"]
-  node10203 -> node10192 [ color="black"]
-  node10191 -> node10193 [ color="black"]
-  node10196 -> node10197 [ color="black"]
-  node10195 -> node10196 [ color="black"]
-  node10202 -> node10203 [ color="black"]
-  node10199 -> node10200 [label=<<font color="black">true</font>> color="black"]
-  node10199 -> node10201 [label=<<font color="black">false</font>> color="black"]
-  node10201 -> node10202 [ color="black"]
-  node10197 -> node10198 [ color="black"]
-  node10193 -> node10194 [label=<<font color="black">true</font>> color="black"]
-  node10193 -> node10195 [label=<<font color="black">false</font>> color="black"]
+  node9919 -> node9920 [ color="black"]
+  node9918 -> node9919 [ color="black"]
+  node9920 -> node9921 [label=<<font color="black">true</font>> color="black"]
+  node9920 -> node9922 [label=<<font color="black">false</font>> color="black"]
+  node9913 -> node9915 [ color="black"]
+  node9916 -> node9917 [ color="black"]
+  node9915 -> node9916 [label=<<font color="black">true</font>> color="black"]
+  node9915 -> node9917 [label=<<font color="black">false</font>> color="black"]
+  node9917 -> node9918 [ color="black"]
+  node9923 -> node9914 [ color="black"]
+  node9921 -> node9922 [ color="black"]
+  node9922 -> node9923 [ color="black"]
 }

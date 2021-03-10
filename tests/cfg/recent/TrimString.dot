@@ -1,13 +1,6 @@
 digraph {
-  node14786 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let str = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14785 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible string)</font>> color="black" fillcolor="white" style=filled]
-  node14783 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14784 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14788 [shape=none, margin=0, label=<<font color="black">
+  node14436 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14440 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let S = [? __x1__]</td></tr>
       <tr><td align="left">2:??? &quot;If id:{where} is const:{start} , let id:{T} be the String value that is a copy of id:{S} with leading white space removed .&quot;</td></tr>
@@ -16,10 +9,17 @@ digraph {
       <tr><td align="left">7:return T</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14787 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString str)</font>> color="black" fillcolor="white" style=filled]
-  node14783 -> node14785 [ color="black"]
-  node14788 -> node14784 [ color="black"]
-  node14787 -> node14788 [ color="black"]
-  node14785 -> node14786 [ color="black"]
-  node14786 -> node14787 [ color="black"]
+  node14437 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible string)</font>> color="black" fillcolor="white" style=filled]
+  node14438 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let str = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14435 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14439 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString str)</font>> color="black" fillcolor="white" style=filled]
+  node14435 -> node14437 [ color="black"]
+  node14437 -> node14438 [ color="black"]
+  node14440 -> node14436 [ color="black"]
+  node14438 -> node14439 [ color="black"]
+  node14439 -> node14440 [ color="black"]
 }

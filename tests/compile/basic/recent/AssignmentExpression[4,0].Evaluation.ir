@@ -6,26 +6,24 @@
     app __x1__ = (IsAnonymousFunctionDefinition AssignmentExpression)
     access __x2__ = (LeftHandSideExpression "IsIdentifierRef")
     if (&& (= __x1__ true) (= __x2__ true)) {
-      access __x3__ = (AssignmentExpression "NamedEvaluation")
-      app __x4__ = (__x3__ lref.ReferencedName)
-      let rval = __x4__
+      access __x3__ = (AssignmentExpression "NamedEvaluation" lref.ReferencedName)
+      let rval = __x3__
     } else {
-      access __x5__ = (AssignmentExpression "Evaluation")
-      let rref = __x5__
-      app __x6__ = (GetValue rref)
-      let rval = [? __x6__]
+      access __x4__ = (AssignmentExpression "Evaluation")
+      let rref = __x4__
+      app __x5__ = (GetValue rref)
+      let rval = [? __x5__]
     }
-    app __x7__ = (PutValue lref rval)
-    [? __x7__]
+    app __x6__ = (PutValue lref rval)
+    [? __x6__]
     return rval
   } else {}
   let assignmentPattern = (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))
-  access __x8__ = (AssignmentExpression "Evaluation")
-  let rref = __x8__
-  app __x9__ = (GetValue rref)
-  let rval = [? __x9__]
-  access __x10__ = (assignmentPattern "DestructuringAssignmentEvaluation")
-  app __x11__ = (__x10__ rval)
-  [? __x11__]
+  access __x7__ = (AssignmentExpression "Evaluation")
+  let rref = __x7__
+  app __x8__ = (GetValue rref)
+  let rval = [? __x8__]
+  access __x9__ = (assignmentPattern "DestructuringAssignmentEvaluation" rval)
+  [? __x9__]
   return rval
 }

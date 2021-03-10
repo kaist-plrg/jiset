@@ -1,90 +1,84 @@
 digraph {
-  node4992 [shape=cds, label=<<font color="black">7:access __x5__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node5000 [shape=cds, label=<<font color="black">app __x9__ = (IteratorClose iterator status)</font>> color="black" fillcolor="white" style=filled]
-  node4980 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
-  node4984 [shape=none, margin=0, label=<<font color="black">
+  node4960 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
+  node4956 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node4962 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let status = __x2__</td></tr>
+      <tr><td align="left">7:status = __x4__</td></tr>
+      <tr><td align="left">9:[? status]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4988 [shape=cds, label=<<font color="black">app __x4__ = (IteratorClose iterator status)</font>> color="black" fillcolor="white" style=filled]
-  node4996 [shape=cds, label=<<font color="black">11:access __x7__ = (AssignmentRestElement &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4999 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
-  node4983 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
-  node4995 [shape=diamond, label=<<font color="black">(! (= AssignmentRestElement absent))</font>> color="black" fillcolor="white" style=filled]
-  node4998 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">11:status = __x8__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4978 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4986 [shape=diamond, label=<<font color="black">__x3__</font>> color="black" fillcolor="white" style=filled]
-  node4991 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
-  node4997 [shape=cds, label=<<font color="black">11:app __x8__ = (__x7__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
-  node4981 [shape=none, margin=0, label=<<font color="black">
+  node4957 [shape=cds, label=<<font color="black">app __x3__ = (IteratorClose iterator status)</font>> color="black" fillcolor="white" style=filled]
+  node4951 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let iterator = [? __x0__]</td></tr>
       <tr><td align="left">1:let iteratorRecord = (new Record(&quot;Iterator&quot; -&gt; iterator, &quot;Done&quot; -&gt; false))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4987 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
-  node5002 [shape=none, margin=0, label=<<font color="black">
+  node4953 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">13:return status</td></tr>
+      <tr><td align="left">2:let status = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4989 [shape=none, margin=0, label=<<font color="black">
+  node4966 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node4958 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return [? __x4__]</td></tr>
+      <tr><td align="left">return [? __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4994 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:status = __x6__</td></tr>
-      <tr><td align="left">9:[? status]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4979 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4985 [shape=cds, label=<<font color="black">3:app __x3__ = (IsAbruptCompletion status)</font>> color="black" fillcolor="white" style=filled]
-  node4993 [shape=cds, label=<<font color="black">7:app __x6__ = (__x5__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
-  node4990 [shape=none, margin=0, label=<<font color="black">
+  node4959 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:return status</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5001 [shape=none, margin=0, label=<<font color="black">
+  node4969 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return [? __x9__]</td></tr>
+      <tr><td align="left">13:return status</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4982 [shape=cds, label=<<font color="black">2:access __x1__ = (AssignmentElementList &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4978 -> node4980 [ color="black"]
-  node4998 -> node4999 [ color="black"]
-  node4981 -> node4982 [ color="black"]
-  node4991 -> node4992 [label=<<font color="black">true</font>> color="black"]
-  node4991 -> node4995 [label=<<font color="black">false</font>> color="black"]
-  node4986 -> node4987 [label=<<font color="black">true</font>> color="black"]
-  node4986 -> node4991 [label=<<font color="black">false</font>> color="black"]
-  node4987 -> node4988 [label=<<font color="black">true</font>> color="black"]
-  node4987 -> node4990 [label=<<font color="black">false</font>> color="black"]
-  node4989 -> node4990 [ color="black"]
-  node4984 -> node4985 [ color="black"]
-  node5002 -> node4979 [ color="black"]
-  node5000 -> node5001 [ color="black"]
-  node4985 -> node4986 [ color="black"]
-  node4999 -> node5000 [label=<<font color="black">true</font>> color="black"]
-  node4999 -> node5002 [label=<<font color="black">false</font>> color="black"]
-  node5001 -> node5002 [ color="black"]
-  node4995 -> node4996 [label=<<font color="black">true</font>> color="black"]
-  node4995 -> node4999 [label=<<font color="black">false</font>> color="black"]
-  node4997 -> node4998 [ color="black"]
-  node4982 -> node4983 [ color="black"]
-  node4993 -> node4994 [ color="black"]
-  node4988 -> node4989 [ color="black"]
-  node4996 -> node4997 [ color="black"]
-  node4990 -> node4991 [ color="black"]
-  node4992 -> node4993 [ color="black"]
-  node4980 -> node4981 [ color="black"]
-  node4994 -> node4995 [ color="black"]
-  node4983 -> node4984 [ color="black"]
+  node4964 [shape=cds, label=<<font color="black">11:access __x5__ = (AssignmentRestElement &quot;IteratorDestructuringAssignmentEvaluation&quot; iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node4968 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4955 [shape=diamond, label=<<font color="black">__x2__</font>> color="black" fillcolor="white" style=filled]
+  node4949 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4963 [shape=diamond, label=<<font color="black">(! (= AssignmentRestElement absent))</font>> color="black" fillcolor="white" style=filled]
+  node4948 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4952 [shape=cds, label=<<font color="black">2:access __x1__ = (AssignmentElementList &quot;IteratorDestructuringAssignmentEvaluation&quot; iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node4967 [shape=cds, label=<<font color="black">app __x6__ = (IteratorClose iterator status)</font>> color="black" fillcolor="white" style=filled]
+  node4954 [shape=cds, label=<<font color="black">3:app __x2__ = (IsAbruptCompletion status)</font>> color="black" fillcolor="white" style=filled]
+  node4965 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:status = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4950 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
+  node4961 [shape=cds, label=<<font color="black">7:access __x4__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot; iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node4957 -> node4958 [ color="black"]
+  node4953 -> node4954 [ color="black"]
+  node4968 -> node4969 [ color="black"]
+  node4952 -> node4953 [ color="black"]
+  node4965 -> node4966 [ color="black"]
+  node4958 -> node4959 [ color="black"]
+  node4969 -> node4949 [ color="black"]
+  node4955 -> node4956 [label=<<font color="black">true</font>> color="black"]
+  node4955 -> node4960 [label=<<font color="black">false</font>> color="black"]
+  node4967 -> node4968 [ color="black"]
+  node4963 -> node4964 [label=<<font color="black">true</font>> color="black"]
+  node4963 -> node4966 [label=<<font color="black">false</font>> color="black"]
+  node4961 -> node4962 [ color="black"]
+  node4966 -> node4967 [label=<<font color="black">true</font>> color="black"]
+  node4966 -> node4969 [label=<<font color="black">false</font>> color="black"]
+  node4962 -> node4963 [ color="black"]
+  node4959 -> node4960 [ color="black"]
+  node4954 -> node4955 [ color="black"]
+  node4951 -> node4952 [ color="black"]
+  node4964 -> node4965 [ color="black"]
+  node4948 -> node4950 [ color="black"]
+  node4956 -> node4957 [label=<<font color="black">true</font>> color="black"]
+  node4956 -> node4959 [label=<<font color="black">false</font>> color="black"]
+  node4960 -> node4961 [label=<<font color="black">true</font>> color="black"]
+  node4960 -> node4963 [label=<<font color="black">false</font>> color="black"]
+  node4950 -> node4951 [ color="black"]
 }

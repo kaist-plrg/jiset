@@ -1,40 +1,38 @@
 digraph {
-  node3830 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ raw)</font>> color="black" fillcolor="white" style=filled]
-  node3836 [shape=none, margin=0, label=<<font color="black">
+  node3813 [shape=diamond, label=<<font color="black">(= raw false)</font>> color="black" fillcolor="white" style=filled]
+  node3809 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3810 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3811 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateMiddleList &quot;TemplateStrings&quot; raw)</font>> color="black" fillcolor="white" style=filled]
+  node3815 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let tail = __x3__</td></tr>
+      <tr><td align="left">2:let tail = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3835 [shape=cds, label=<<font color="black">4:access __x3__ = (TemplateTail &quot;TRV&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3827 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3831 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let middle = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3834 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let tail = __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3832 [shape=diamond, label=<<font color="black">(= raw false)</font>> color="black" fillcolor="white" style=filled]
-  node3833 [shape=cds, label=<<font color="black">2:access __x2__ = (TemplateTail &quot;TV&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3828 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3829 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateMiddleList &quot;TemplateStrings&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3837 [shape=none, margin=0, label=<<font color="black">
+  node3818 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:return (new [middle, tail])</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3835 -> node3836 [ color="black"]
-  node3832 -> node3833 [label=<<font color="black">true</font>> color="black"]
-  node3832 -> node3835 [label=<<font color="black">false</font>> color="black"]
-  node3830 -> node3831 [ color="black"]
-  node3833 -> node3834 [ color="black"]
-  node3827 -> node3829 [ color="black"]
-  node3837 -> node3828 [ color="black"]
-  node3834 -> node3837 [ color="black"]
-  node3829 -> node3830 [ color="black"]
-  node3831 -> node3832 [ color="black"]
-  node3836 -> node3837 [ color="black"]
+  node3816 [shape=cds, label=<<font color="black">4:access __x2__ = (TemplateTail &quot;TRV&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3814 [shape=cds, label=<<font color="black">2:access __x1__ = (TemplateTail &quot;TV&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3817 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let tail = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3812 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let middle = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3812 -> node3813 [ color="black"]
+  node3811 -> node3812 [ color="black"]
+  node3816 -> node3817 [ color="black"]
+  node3813 -> node3814 [label=<<font color="black">true</font>> color="black"]
+  node3813 -> node3816 [label=<<font color="black">false</font>> color="black"]
+  node3809 -> node3811 [ color="black"]
+  node3817 -> node3818 [ color="black"]
+  node3815 -> node3818 [ color="black"]
+  node3814 -> node3815 [ color="black"]
+  node3818 -> node3810 [ color="black"]
 }

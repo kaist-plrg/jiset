@@ -1,38 +1,38 @@
 digraph {
-  node2232 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2240 [shape=cds, label=<<font color="black">3:app __x2__ = (StringGetOwnProperty S P)</font>> color="black" fillcolor="white" style=filled]
-  node2235 [shape=none, margin=0, label=<<font color="black">
+  node2231 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= __x0__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2233 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2241 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return [! __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2238 [shape=diamond, label=<<font color="black">(! (= desc undefined))</font>> color="black" fillcolor="white" style=filled]
-  node2237 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let desc = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2236 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryGetOwnProperty S P)</font>> color="black" fillcolor="white" style=filled]
-  node2239 [shape=none, margin=0, label=<<font color="black">
+  node2232 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryGetOwnProperty S P)</font>> color="black" fillcolor="white" style=filled]
+  node2228 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2235 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return desc</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2234 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
-  node2235 -> node2236 [ color="black"]
-  node2241 -> node2233 [ color="black"]
-  node2234 -> node2235 [ color="black"]
-  node2240 -> node2241 [ color="black"]
-  node2232 -> node2234 [ color="black"]
-  node2238 -> node2239 [label=<<font color="black">true</font>> color="black"]
-  node2238 -> node2240 [label=<<font color="black">false</font>> color="black"]
-  node2239 -> node2240 [ color="black"]
-  node2237 -> node2238 [ color="black"]
+  node2229 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2234 [shape=diamond, label=<<font color="black">(! (= desc undefined))</font>> color="black" fillcolor="white" style=filled]
+  node2230 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node2233 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let desc = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2237 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2236 [shape=cds, label=<<font color="black">3:app __x2__ = (StringGetOwnProperty S P)</font>> color="black" fillcolor="white" style=filled]
+  node2233 -> node2234 [ color="black"]
+  node2232 -> node2233 [ color="black"]
+  node2231 -> node2232 [ color="black"]
+  node2228 -> node2230 [ color="black"]
   node2236 -> node2237 [ color="black"]
+  node2237 -> node2229 [ color="black"]
+  node2235 -> node2236 [ color="black"]
+  node2230 -> node2231 [ color="black"]
+  node2234 -> node2235 [label=<<font color="black">true</font>> color="black"]
+  node2234 -> node2236 [label=<<font color="black">false</font>> color="black"]
 }

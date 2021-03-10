@@ -1,38 +1,38 @@
 digraph {
-  node2412 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryGetOwnProperty S P)</font>> color="black" fillcolor="white" style=filled]
-  node2408 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2413 [shape=none, margin=0, label=<<font color="black">
+  node2412 [shape=cds, label=<<font color="black">3:app __x2__ = (StringGetOwnProperty S P)</font>> color="black" fillcolor="white" style=filled]
+  node2405 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2409 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let desc = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2415 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return desc</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2410 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
-  node2411 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2416 [shape=cds, label=<<font color="black">3:app __x2__ = (StringGetOwnProperty S P)</font>> color="black" fillcolor="white" style=filled]
-  node2417 [shape=none, margin=0, label=<<font color="black">
+  node2408 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryGetOwnProperty S P)</font>> color="black" fillcolor="white" style=filled]
+  node2413 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:return [! __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2409 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2414 [shape=diamond, label=<<font color="black">(! (= desc undefined))</font>> color="black" fillcolor="white" style=filled]
-  node2413 -> node2414 [ color="black"]
-  node2411 -> node2412 [ color="black"]
-  node2414 -> node2415 [label=<<font color="black">true</font>> color="black"]
-  node2414 -> node2416 [label=<<font color="black">false</font>> color="black"]
-  node2408 -> node2410 [ color="black"]
-  node2410 -> node2411 [ color="black"]
+  node2410 [shape=diamond, label=<<font color="black">(! (= desc undefined))</font>> color="black" fillcolor="white" style=filled]
+  node2407 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2411 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return desc</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2406 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node2404 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2404 -> node2406 [ color="black"]
+  node2410 -> node2411 [label=<<font color="black">true</font>> color="black"]
+  node2410 -> node2412 [label=<<font color="black">false</font>> color="black"]
   node2412 -> node2413 [ color="black"]
-  node2417 -> node2409 [ color="black"]
-  node2415 -> node2416 [ color="black"]
-  node2416 -> node2417 [ color="black"]
+  node2409 -> node2410 [ color="black"]
+  node2408 -> node2409 [ color="black"]
+  node2413 -> node2405 [ color="black"]
+  node2407 -> node2408 [ color="black"]
+  node2406 -> node2407 [ color="black"]
+  node2411 -> node2412 [ color="black"]
 }

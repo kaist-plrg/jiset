@@ -27,8 +27,7 @@
   let rref = __x9__
   app __x10__ = (GetValue rref)
   let rval = [? __x10__]
-  access __x11__ = (assignmentPattern "DestructuringAssignmentEvaluation")
-  app __x12__ = (__x11__ rval)
-  [? __x12__]
+  access __x11__ = (assignmentPattern "DestructuringAssignmentEvaluation" rval)
+  [? __x11__]
   return rval
 }

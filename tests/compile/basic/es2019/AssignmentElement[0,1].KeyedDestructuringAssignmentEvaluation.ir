@@ -11,22 +11,20 @@
     access __x3__ = (DestructuringAssignmentTarget "IsIdentifierRef")
     if (&& (= __x2__ true) (= __x3__ true)) {
       app __x4__ = (GetReferencedName lref)
-      access __x5__ = (Initializer "NamedEvaluation")
-      app __x6__ = (__x5__ __x4__)
-      let rhsValue = __x6__
+      access __x5__ = (Initializer "NamedEvaluation" __x4__)
+      let rhsValue = __x5__
     } else {
-      access __x7__ = (Initializer "Evaluation")
-      let defaultValue = __x7__
-      app __x8__ = (GetValue defaultValue)
-      let rhsValue = [? __x8__]
+      access __x6__ = (Initializer "Evaluation")
+      let defaultValue = __x6__
+      app __x7__ = (GetValue defaultValue)
+      let rhsValue = [? __x7__]
     }
   } else let rhsValue = v
   if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) {
     let assignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
-    access __x9__ = (assignmentPattern "DestructuringAssignmentEvaluation")
-    app __x10__ = (__x9__ rhsValue)
-    return __x10__
+    access __x8__ = (assignmentPattern "DestructuringAssignmentEvaluation" rhsValue)
+    return __x8__
   } else {}
-  app __x11__ = (PutValue lref rhsValue)
-  return [? __x11__]
+  app __x9__ = (PutValue lref rhsValue)
+  return [? __x9__]
 }

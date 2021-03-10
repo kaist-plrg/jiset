@@ -1,49 +1,28 @@
 digraph {
-  node15303 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15314 [shape=diamond, label=<<font color="black">(contains F &quot;u&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node15318 [shape=cds, label=<<font color="black">7:app __x2__ = (StringToCodePoints P)</font>> color="black" fillcolor="white" style=filled]
-  node15311 [shape=cds, label=<<font color="black">app __x1__ = (ToString flags)</font>> color="black" fillcolor="white" style=filled]
-  node15306 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let P = &quot;&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15321 [shape=cds, label=<<font color="black">12:app __x3__ = (ParsePattern patternText u)</font>> color="black" fillcolor="white" style=filled]
-  node15313 [shape=none, margin=0, label=<<font color="black">
+  node14944 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14954 [shape=diamond, label=<<font color="black">(contains F &quot;u&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node14949 [shape=diamond, label=<<font color="black">(= flags undefined)</font>> color="black" fillcolor="white" style=filled]
+  node14945 [shape=diamond, label=<<font color="black">(= pattern undefined)</font>> color="black" fillcolor="white" style=filled]
+  node14953 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:??? &quot;If id:{F} contains any code unit other than value:{\&quot;g\&quot;} , value:{\&quot;i\&quot;} , value:{\&quot;m\&quot;} , value:{\&quot;s\&quot;} , value:{\&quot;u\&quot;} , or value:{\&quot;y\&quot;} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15312 [shape=none, margin=0, label=<<font color="black">
+  node14950 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let F = [? __x1__]</td></tr>
+      <tr><td align="left">let F = &quot;&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15307 [shape=cds, label=<<font color="black">app __x0__ = (ToString pattern)</font>> color="black" fillcolor="white" style=filled]
-  node15320 [shape=none, margin=0, label=<<font color="black">
+  node14961 [shape=cds, label=<<font color="black">12:app __x3__ = (ParsePattern patternText u)</font>> color="black" fillcolor="white" style=filled]
+  node14946 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:??? &quot;Let id:{patternText} be the result of interpreting each of id:{P} ' s 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements .&quot;</td></tr>
-      <tr><td align="left">11:??? &quot;Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} .&quot;</td></tr>
+      <tr><td align="left">let P = &quot;&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15316 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let u = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15309 [shape=diamond, label=<<font color="black">(= flags undefined)</font>> color="black" fillcolor="white" style=filled]
-  node15315 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let u = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15324 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">18:[? __x4__]</td></tr>
-      <tr><td align="left">19:return obj</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15322 [shape=none, margin=0, label=<<font color="black">
+  node14957 [shape=diamond, label=<<font color="black">(= u true)</font>> color="black" fillcolor="white" style=filled]
+  node14947 [shape=cds, label=<<font color="black">app __x0__ = (ToString pattern)</font>> color="black" fillcolor="white" style=filled]
+  node14951 [shape=cds, label=<<font color="black">app __x1__ = (ToString flags)</font>> color="black" fillcolor="white" style=filled]
+  node14962 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">12:let parseResult = __x3__</td></tr>
       <tr><td align="left">13:??? &quot;If id:{parseResult} is a non - empty List of value:{SyntaxError} objects , throw a value:{SyntaxError} exception .&quot;</td></tr>
@@ -52,49 +31,70 @@ digraph {
       <tr><td align="left">17:??? &quot;Set id:{obj} . [ [ RegExpMatcher ] ] to the Abstract Closure that evaluates id:{parseResult} by applying the semantics provided in link:{unhandled: sec-pattern-semantics} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15317 [shape=diamond, label=<<font color="black">(= u true)</font>> color="black" fillcolor="white" style=filled]
-  node15308 [shape=none, margin=0, label=<<font color="black">
+  node14948 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let P = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15323 [shape=cds, label=<<font color="black">18:app __x4__ = (Set obj &quot;lastIndex&quot; 0i true)</font>> color="black" fillcolor="white" style=filled]
-  node15304 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15319 [shape=none, margin=0, label=<<font color="black">
+  node14963 [shape=cds, label=<<font color="black">18:app __x4__ = (Set obj &quot;lastIndex&quot; 0i true)</font>> color="black" fillcolor="white" style=filled]
+  node14952 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let F = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14956 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let u = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14959 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:let patternText = [! __x2__]</td></tr>
       <tr><td align="left">8:??? &quot;Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15310 [shape=none, margin=0, label=<<font color="black">
+  node14964 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let F = &quot;&quot;</td></tr>
+      <tr><td align="left">18:[? __x4__]</td></tr>
+      <tr><td align="left">19:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15305 [shape=diamond, label=<<font color="black">(= pattern undefined)</font>> color="black" fillcolor="white" style=filled]
-  node15310 -> node15313 [ color="black"]
-  node15309 -> node15310 [label=<<font color="black">true</font>> color="black"]
-  node15309 -> node15311 [label=<<font color="black">false</font>> color="black"]
-  node15312 -> node15313 [ color="black"]
-  node15322 -> node15323 [ color="black"]
-  node15314 -> node15315 [label=<<font color="black">true</font>> color="black"]
-  node15314 -> node15316 [label=<<font color="black">false</font>> color="black"]
-  node15317 -> node15318 [label=<<font color="black">true</font>> color="black"]
-  node15317 -> node15320 [label=<<font color="black">false</font>> color="black"]
-  node15306 -> node15309 [ color="black"]
-  node15320 -> node15321 [ color="black"]
-  node15315 -> node15317 [ color="black"]
-  node15316 -> node15317 [ color="black"]
-  node15321 -> node15322 [ color="black"]
-  node15324 -> node15304 [ color="black"]
-  node15311 -> node15312 [ color="black"]
-  node15307 -> node15308 [ color="black"]
-  node15318 -> node15319 [ color="black"]
-  node15323 -> node15324 [ color="black"]
-  node15319 -> node15321 [ color="black"]
-  node15305 -> node15306 [label=<<font color="black">true</font>> color="black"]
-  node15305 -> node15307 [label=<<font color="black">false</font>> color="black"]
-  node15308 -> node15309 [ color="black"]
-  node15313 -> node15314 [ color="black"]
-  node15303 -> node15305 [ color="black"]
+  node14958 [shape=cds, label=<<font color="black">7:app __x2__ = (StringToCodePoints P)</font>> color="black" fillcolor="white" style=filled]
+  node14943 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14960 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:??? &quot;Let id:{patternText} be the result of interpreting each of id:{P} ' s 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements .&quot;</td></tr>
+      <tr><td align="left">11:??? &quot;Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14955 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let u = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14963 -> node14964 [ color="black"]
+  node14945 -> node14946 [label=<<font color="black">true</font>> color="black"]
+  node14945 -> node14947 [label=<<font color="black">false</font>> color="black"]
+  node14953 -> node14954 [ color="black"]
+  node14955 -> node14957 [ color="black"]
+  node14960 -> node14961 [ color="black"]
+  node14959 -> node14961 [ color="black"]
+  node14961 -> node14962 [ color="black"]
+  node14949 -> node14950 [label=<<font color="black">true</font>> color="black"]
+  node14949 -> node14951 [label=<<font color="black">false</font>> color="black"]
+  node14943 -> node14945 [ color="black"]
+  node14957 -> node14958 [label=<<font color="black">true</font>> color="black"]
+  node14957 -> node14960 [label=<<font color="black">false</font>> color="black"]
+  node14954 -> node14955 [label=<<font color="black">true</font>> color="black"]
+  node14954 -> node14956 [label=<<font color="black">false</font>> color="black"]
+  node14958 -> node14959 [ color="black"]
+  node14952 -> node14953 [ color="black"]
+  node14956 -> node14957 [ color="black"]
+  node14947 -> node14948 [ color="black"]
+  node14951 -> node14952 [ color="black"]
+  node14964 -> node14944 [ color="black"]
+  node14950 -> node14953 [ color="black"]
+  node14948 -> node14949 [ color="black"]
+  node14946 -> node14949 [ color="black"]
+  node14962 -> node14963 [ color="black"]
 }

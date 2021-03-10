@@ -1,13 +1,5 @@
 digraph {
-  node19481 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19485 [shape=cds, label=<<font color="black">app __x1__ = (CreateIterResultObject undefined true)</font>> color="black" fillcolor="white" style=filled]
-  node19484 [shape=diamond, label=<<font color="black">(= state CONST_completed)</font>> color="black" fillcolor="white" style=filled]
-  node19483 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let state = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19487 [shape=none, margin=0, label=<<font color="black">
+  node19127 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))</td></tr>
       <tr><td align="left">3:let genContext = generator.GeneratorContext</td></tr>
@@ -20,19 +12,27 @@ digraph {
       <tr><td align="left">10:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19480 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19482 [shape=cds, label=<<font color="black">0:app __x0__ = (GeneratorValidate generator generatorBrand)</font>> color="black" fillcolor="white" style=filled]
-  node19486 [shape=none, margin=0, label=<<font color="black">
+  node19123 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let state = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19120 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19122 [shape=cds, label=<<font color="black">0:app __x0__ = (GeneratorValidate generator generatorBrand)</font>> color="black" fillcolor="white" style=filled]
+  node19126 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19484 -> node19485 [label=<<font color="black">true</font>> color="black"]
-  node19484 -> node19487 [label=<<font color="black">false</font>> color="black"]
-  node19487 -> node19481 [ color="black"]
-  node19483 -> node19484 [ color="black"]
-  node19486 -> node19487 [ color="black"]
-  node19482 -> node19483 [ color="black"]
-  node19485 -> node19486 [ color="black"]
-  node19480 -> node19482 [ color="black"]
+  node19121 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19125 [shape=cds, label=<<font color="black">app __x1__ = (CreateIterResultObject undefined true)</font>> color="black" fillcolor="white" style=filled]
+  node19124 [shape=diamond, label=<<font color="black">(= state CONST_completed)</font>> color="black" fillcolor="white" style=filled]
+  node19125 -> node19126 [ color="black"]
+  node19123 -> node19124 [ color="black"]
+  node19126 -> node19127 [ color="black"]
+  node19127 -> node19121 [ color="black"]
+  node19120 -> node19122 [ color="black"]
+  node19122 -> node19123 [ color="black"]
+  node19124 -> node19125 [label=<<font color="black">true</font>> color="black"]
+  node19124 -> node19127 [label=<<font color="black">false</font>> color="black"]
 }

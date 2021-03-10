@@ -1,16 +1,19 @@
 digraph {
-  node2291 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">obj.Construct = BoundFunctionExoticObjectDOTConstruct</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2286 [shape=none, margin=0, label=<<font color="black">
+  node2280 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2282 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2285 [shape=cds, label=<<font color="black">0:app __x0__ = (Type targetFunction)</font>> color="black" fillcolor="white" style=filled]
-  node2292 [shape=none, margin=0, label=<<font color="black">
+  node2285 [shape=cds, label=<<font color="black">5:app __x2__ = (IsConstructor targetFunction)</font>> color="black" fillcolor="white" style=filled]
+  node2284 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let proto = [? __x1__]</td></tr>
+      <tr><td align="left">2:let obj = (new OrdinaryObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">4:obj.Call = BoundFunctionExoticObjectDOTCall</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2288 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:obj.Prototype = proto</td></tr>
       <tr><td align="left">8:obj.Extensible = true</td></tr>
@@ -20,26 +23,23 @@ digraph {
       <tr><td align="left">12:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2284 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2289 [shape=cds, label=<<font color="black">5:app __x2__ = (IsConstructor targetFunction)</font>> color="black" fillcolor="white" style=filled]
-  node2288 [shape=none, margin=0, label=<<font color="black">
+  node2279 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2283 [shape=cds, label=<<font color="black">1:app __x1__ = (targetFunction.GetPrototypeOf targetFunction)</font>> color="black" fillcolor="white" style=filled]
+  node2287 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let proto = [? __x1__]</td></tr>
-      <tr><td align="left">2:let obj = (new OrdinaryObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
-      <tr><td align="left">4:obj.Call = BoundFunctionExoticObjectDOTCall</td></tr>
+      <tr><td align="left">obj.Construct = BoundFunctionExoticObjectDOTConstruct</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2287 [shape=cds, label=<<font color="black">1:app __x1__ = (targetFunction.GetPrototypeOf targetFunction)</font>> color="black" fillcolor="white" style=filled]
-  node2283 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2290 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
-  node2292 -> node2284 [ color="black"]
-  node2288 -> node2289 [ color="black"]
-  node2283 -> node2285 [ color="black"]
-  node2285 -> node2286 [ color="black"]
-  node2286 -> node2287 [ color="black"]
+  node2281 [shape=cds, label=<<font color="black">0:app __x0__ = (Type targetFunction)</font>> color="black" fillcolor="white" style=filled]
+  node2286 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
   node2287 -> node2288 [ color="black"]
-  node2289 -> node2290 [ color="black"]
-  node2291 -> node2292 [ color="black"]
-  node2290 -> node2291 [label=<<font color="black">true</font>> color="black"]
-  node2290 -> node2292 [label=<<font color="black">false</font>> color="black"]
+  node2282 -> node2283 [ color="black"]
+  node2283 -> node2284 [ color="black"]
+  node2284 -> node2285 [ color="black"]
+  node2288 -> node2280 [ color="black"]
+  node2285 -> node2286 [ color="black"]
+  node2279 -> node2281 [ color="black"]
+  node2286 -> node2287 [label=<<font color="black">true</font>> color="black"]
+  node2286 -> node2288 [label=<<font color="black">false</font>> color="black"]
+  node2281 -> node2282 [ color="black"]
 }

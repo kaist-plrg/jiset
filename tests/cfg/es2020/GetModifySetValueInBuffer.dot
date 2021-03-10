@@ -1,13 +1,34 @@
 digraph {
-  node17394 [shape=cds, label=<<font color="black">7:app __x2__ = (NumericToRawBytes type value isLittleEndian)</font>> color="black" fillcolor="white" style=filled]
-  node17390 [shape=cds, label=<<font color="black">2:app __x1__ = (IsNonNegativeInteger byteIndex)</font>> color="black" fillcolor="white" style=filled]
-  node17386 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17389 [shape=none, margin=0, label=<<font color="black">
+  node17036 [shape=diamond, label=<<font color="black">(= isLittleEndian absent)</font>> color="black" fillcolor="white" style=filled]
+  node17040 [shape=cds, label=<<font color="black">15:app __x3__ = (RawBytesToNumeric type rawBytesRead isLittleEndian)</font>> color="black" fillcolor="white" style=filled]
+  node17033 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= __x0__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17395 [shape=none, margin=0, label=<<font color="black">
+  node17041 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17031 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17038 [shape=cds, label=<<font color="black">7:app __x2__ = (NumericToRawBytes type value isLittleEndian)</font>> color="black" fillcolor="white" style=filled]
+  node17034 [shape=cds, label=<<font color="black">2:app __x1__ = (IsNonNegativeInteger byteIndex)</font>> color="black" fillcolor="white" style=filled]
+  node17035 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (= [! __x1__] true)</td></tr>
+      <tr><td align="left">4:let block = arrayBuffer.ArrayBufferData</td></tr>
+      <tr><td align="left">5:??? &quot;Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{type} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17037 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">isLittleEndian = GLOBAL_agent.LittleEndian</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17032 [shape=cds, label=<<font color="black">0:app __x0__ = (IsSharedArrayBuffer arrayBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node17030 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17039 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:let rawBytes = __x2__</td></tr>
       <tr><td align="left">8:let execution = GLOBAL_agent.CandidateExecution</td></tr>
@@ -18,37 +39,16 @@ digraph {
       <tr><td align="left">14:append (new ChosenValueRecord(&quot;Event&quot; -&gt; rmwEvent, &quot;ChosenValue&quot; -&gt; rawBytesRead)) -&gt; execution.ChosenValues</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17392 [shape=diamond, label=<<font color="black">(= isLittleEndian absent)</font>> color="black" fillcolor="white" style=filled]
-  node17396 [shape=cds, label=<<font color="black">15:app __x3__ = (RawBytesToNumeric type rawBytesRead isLittleEndian)</font>> color="black" fillcolor="white" style=filled]
-  node17393 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">isLittleEndian = GLOBAL_agent.LittleEndian</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17388 [shape=cds, label=<<font color="black">0:app __x0__ = (IsSharedArrayBuffer arrayBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node17391 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:assert (= [! __x1__] true)</td></tr>
-      <tr><td align="left">4:let block = arrayBuffer.ArrayBufferData</td></tr>
-      <tr><td align="left">5:??? &quot;Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{type} .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17397 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">15:return __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17387 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17395 -> node17396 [ color="black"]
-  node17392 -> node17393 [label=<<font color="black">true</font>> color="black"]
-  node17392 -> node17394 [label=<<font color="black">false</font>> color="black"]
-  node17396 -> node17397 [ color="black"]
-  node17394 -> node17395 [ color="black"]
-  node17391 -> node17392 [ color="black"]
-  node17397 -> node17387 [ color="black"]
-  node17388 -> node17389 [ color="black"]
-  node17393 -> node17394 [ color="black"]
-  node17389 -> node17390 [ color="black"]
-  node17390 -> node17391 [ color="black"]
-  node17386 -> node17388 [ color="black"]
+  node17040 -> node17041 [ color="black"]
+  node17030 -> node17032 [ color="black"]
+  node17041 -> node17031 [ color="black"]
+  node17032 -> node17033 [ color="black"]
+  node17038 -> node17039 [ color="black"]
+  node17034 -> node17035 [ color="black"]
+  node17036 -> node17037 [label=<<font color="black">true</font>> color="black"]
+  node17036 -> node17038 [label=<<font color="black">false</font>> color="black"]
+  node17035 -> node17036 [ color="black"]
+  node17039 -> node17040 [ color="black"]
+  node17033 -> node17034 [ color="black"]
+  node17037 -> node17038 [ color="black"]
 }

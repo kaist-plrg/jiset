@@ -1,15 +1,12 @@
 {
-  access __x0__ = (ElementList "ArrayAccumulation")
-  app __x1__ = (__x0__ array nextIndex)
-  nextIndex = __x1__
+  access __x0__ = (ElementList "ArrayAccumulation" array nextIndex)
+  nextIndex = __x0__
   [? nextIndex]
   if (! (= Elision absent)) {
-    access __x2__ = (Elision "ArrayAccumulation")
-    app __x3__ = (__x2__ array nextIndex)
-    nextIndex = __x3__
+    access __x1__ = (Elision "ArrayAccumulation" array nextIndex)
+    nextIndex = __x1__
     [? nextIndex]
   } else {}
-  access __x4__ = (SpreadElement "ArrayAccumulation")
-  app __x5__ = (__x4__ array nextIndex)
-  return __x5__
+  access __x2__ = (SpreadElement "ArrayAccumulation" array nextIndex)
+  return __x2__
 }

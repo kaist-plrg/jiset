@@ -4,7 +4,6 @@
   app __x1__ = (GetValue rhs)
   let value = [? __x1__]
   let env = GLOBAL_context.LexicalEnvironment
-  access __x2__ = (BindingPattern "BindingInitialization")
-  app __x3__ = (__x2__ value env)
-  return __x3__
+  access __x2__ = (BindingPattern "BindingInitialization" value env)
+  return __x2__
 }

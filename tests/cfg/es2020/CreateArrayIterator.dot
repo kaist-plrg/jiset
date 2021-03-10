@@ -1,16 +1,6 @@
 digraph {
-  node16720 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16721 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16725 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
-      <tr><td align="left">1:assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16722 [shape=cds, label=<<font color="black">app array = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16726 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryObjectCreate INTRINSIC_ArrayIteratorPrototype (new [&quot;IteratedArrayLike&quot;, &quot;ArrayLikeNextIndex&quot;, &quot;ArrayLikeIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node16723 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node16727 [shape=none, margin=0, label=<<font color="black">
+  node16364 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16371 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let iterator = __x1__</td></tr>
       <tr><td align="left">3:iterator.IteratedArrayLike = array</td></tr>
@@ -19,12 +9,22 @@ digraph {
       <tr><td align="left">6:return iterator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16724 [shape=cds, label=<<font color="black">0:app __x0__ = (Type array)</font>> color="black" fillcolor="white" style=filled]
-  node16725 -> node16726 [ color="black"]
-  node16723 -> node16724 [ color="black"]
-  node16722 -> node16723 [ color="black"]
-  node16726 -> node16727 [ color="black"]
-  node16720 -> node16722 [ color="black"]
-  node16724 -> node16725 [ color="black"]
-  node16727 -> node16721 [ color="black"]
+  node16365 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16370 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryObjectCreate INTRINSIC_ArrayIteratorPrototype (new [&quot;IteratedArrayLike&quot;, &quot;ArrayLikeNextIndex&quot;, &quot;ArrayLikeIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node16366 [shape=cds, label=<<font color="black">app array = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16367 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node16369 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+      <tr><td align="left">1:assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16368 [shape=cds, label=<<font color="black">0:app __x0__ = (Type array)</font>> color="black" fillcolor="white" style=filled]
+  node16364 -> node16366 [ color="black"]
+  node16368 -> node16369 [ color="black"]
+  node16366 -> node16367 [ color="black"]
+  node16369 -> node16370 [ color="black"]
+  node16367 -> node16368 [ color="black"]
+  node16370 -> node16371 [ color="black"]
+  node16371 -> node16365 [ color="black"]
 }

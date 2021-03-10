@@ -1,12 +1,11 @@
 {
   app __x0__ = (GetIterator value)
   let iteratorRecord = [? __x0__]
-  access __x1__ = (Elision "IteratorDestructuringAssignmentEvaluation")
-  app __x2__ = (__x1__ iteratorRecord)
-  let result = __x2__
+  access __x1__ = (Elision "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
+  let result = __x1__
   if (= iteratorRecord.Done false) {
-    app __x3__ = (IteratorClose iteratorRecord result)
-    return [? __x3__]
+    app __x2__ = (IteratorClose iteratorRecord result)
+    return [? __x2__]
   } else {}
   return result
 }

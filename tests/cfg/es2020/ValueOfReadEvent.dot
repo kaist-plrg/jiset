@@ -1,27 +1,27 @@
 digraph {
-  node19155 [shape=cds, label=<<font color="black">1:app __x0__ = (execution.ReadsBytesFrom execution R)</font>> color="black" fillcolor="white" style=filled]
-  node19152 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19158 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19154 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (|| (= (typeof R) &quot;ReadSharedMemory&quot;) (= (typeof R) &quot;ReadModifyWriteSharedMemory&quot;))</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19153 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19157 [shape=cds, label=<<font color="black">3:app __x1__ = (ComposeWriteEventBytes execution R.ByteIndex Ws)</font>> color="black" fillcolor="white" style=filled]
-  node19156 [shape=none, margin=0, label=<<font color="black">
+  node18800 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let Ws = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19157 -> node19158 [ color="black"]
-  node19152 -> node19154 [ color="black"]
-  node19156 -> node19157 [ color="black"]
-  node19158 -> node19153 [ color="black"]
-  node19154 -> node19155 [ color="black"]
-  node19155 -> node19156 [ color="black"]
+  node18801 [shape=cds, label=<<font color="black">3:app __x1__ = (ComposeWriteEventBytes execution R.ByteIndex Ws)</font>> color="black" fillcolor="white" style=filled]
+  node18796 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18799 [shape=cds, label=<<font color="black">1:app __x0__ = (execution.ReadsBytesFrom execution R)</font>> color="black" fillcolor="white" style=filled]
+  node18802 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18797 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18798 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (|| (= (typeof R) &quot;ReadSharedMemory&quot;) (= (typeof R) &quot;ReadModifyWriteSharedMemory&quot;))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18800 -> node18801 [ color="black"]
+  node18799 -> node18800 [ color="black"]
+  node18796 -> node18798 [ color="black"]
+  node18801 -> node18802 [ color="black"]
+  node18802 -> node18797 [ color="black"]
+  node18798 -> node18799 [ color="black"]
 }

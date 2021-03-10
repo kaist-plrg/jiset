@@ -1,31 +1,29 @@
 digraph {
-  node5751 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5743 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5747 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
-  node5748 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let rval = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5749 [shape=cds, label=<<font color="black">2:access __x2__ = (BindingPattern &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node5745 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node5750 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ rval undefined)</font>> color="black" fillcolor="white" style=filled]
-  node5744 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5746 [shape=none, margin=0, label=<<font color="black">
+  node5691 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
+  node5690 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let rhs = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5743 -> node5745 [ color="black"]
-  node5751 -> node5744 [ color="black"]
-  node5748 -> node5749 [ color="black"]
-  node5747 -> node5748 [ color="black"]
-  node5749 -> node5750 [ color="black"]
-  node5745 -> node5746 [ color="black"]
-  node5746 -> node5747 [ color="black"]
-  node5750 -> node5751 [ color="black"]
+  node5687 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5694 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5689 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5693 [shape=cds, label=<<font color="black">2:access __x2__ = (BindingPattern &quot;BindingInitialization&quot; rval undefined)</font>> color="black" fillcolor="white" style=filled]
+  node5688 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5692 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let rval = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5691 -> node5692 [ color="black"]
+  node5690 -> node5691 [ color="black"]
+  node5692 -> node5693 [ color="black"]
+  node5694 -> node5688 [ color="black"]
+  node5693 -> node5694 [ color="black"]
+  node5687 -> node5689 [ color="black"]
+  node5689 -> node5690 [ color="black"]
 }

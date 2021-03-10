@@ -3,17 +3,15 @@
   let iterator = [? __x0__]
   let iteratorRecord = (new Record("Iterator" -> iterator, "Done" -> false))
   if (! (= Elision absent)) {
-    access __x1__ = (Elision "IteratorDestructuringAssignmentEvaluation")
-    app __x2__ = (__x1__ iteratorRecord)
-    let status = __x2__
+    access __x1__ = (Elision "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
+    let status = __x1__
     [? status]
   } else {}
-  access __x3__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation")
-  app __x4__ = (__x3__ iteratorRecord)
-  let result = __x4__
+  access __x2__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
+  let result = __x2__
   if (= iteratorRecord.Done false) {
-    app __x5__ = (IteratorClose iterator result)
-    return [? __x5__]
+    app __x3__ = (IteratorClose iterator result)
+    return [? __x3__]
   } else {}
   return result
 }

@@ -2,12 +2,11 @@
   app __x0__ = (GetIterator value)
   let iterator = [? __x0__]
   let iteratorRecord = (new Record("Iterator" -> iterator, "Done" -> false))
-  access __x1__ = (ArrayBindingPattern "IteratorBindingInitialization")
-  app __x2__ = (__x1__ iteratorRecord environment)
-  let result = __x2__
+  access __x1__ = (ArrayBindingPattern "IteratorBindingInitialization" iteratorRecord environment)
+  let result = __x1__
   if (= iteratorRecord.Done false) {
-    app __x3__ = (IteratorClose iterator result)
-    return [? __x3__]
+    app __x2__ = (IteratorClose iterator result)
+    return [? __x2__]
   } else {}
   return result
 }

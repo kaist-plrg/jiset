@@ -9,9 +9,8 @@
   app __x3__ = (BlockDeclarationInstantiation CaseBlock blockEnv)
   __x3__
   GLOBAL_context.LexicalEnvironment = blockEnv
-  access __x4__ = (CaseBlock "CaseBlockEvaluation")
-  app __x5__ = (__x4__ switchValue)
-  let R = __x5__
+  access __x4__ = (CaseBlock "CaseBlockEvaluation" switchValue)
+  let R = __x4__
   GLOBAL_context.LexicalEnvironment = oldEnv
   return R
 }

@@ -12,18 +12,17 @@
       if (= next false) iteratorRecord.Done = true else {}
     } else {}
     if (= iteratorRecord.Done true) {
-      access __x3__ = (BindingPattern "BindingInitialization")
-      app __x4__ = (__x3__ A environment)
-      return __x4__
+      access __x3__ = (BindingPattern "BindingInitialization" A environment)
+      return __x3__
     } else {}
-    app __x5__ = (IteratorValue next)
-    let nextValue = __x5__
-    app __x6__ = (IsAbruptCompletion nextValue)
-    if __x6__ iteratorRecord.Done = true else {}
+    app __x4__ = (IteratorValue next)
+    let nextValue = __x4__
+    app __x5__ = (IsAbruptCompletion nextValue)
+    if __x5__ iteratorRecord.Done = true else {}
     [? nextValue]
-    app __x7__ = (ToString n)
-    app __x8__ = (CreateDataProperty A [! __x7__] nextValue)
-    let status = __x8__
+    app __x6__ = (ToString n)
+    app __x7__ = (CreateDataProperty A [! __x6__] nextValue)
+    let status = __x7__
     assert (= status true)
     n = (+ n 1i)
   }

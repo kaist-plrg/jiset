@@ -1,9 +1,7 @@
 {
-  access __x0__ = (Block "ContainsUndefinedBreakTarget")
-  app __x1__ = (__x0__ labelSet)
-  let hasUndefinedLabels = __x1__
+  access __x0__ = (Block "ContainsUndefinedBreakTarget" labelSet)
+  let hasUndefinedLabels = __x0__
   if (= hasUndefinedLabels true) return true else {}
-  access __x2__ = (Catch "ContainsUndefinedBreakTarget")
-  app __x3__ = (__x2__ labelSet)
-  return __x3__
+  access __x1__ = (Catch "ContainsUndefinedBreakTarget" labelSet)
+  return __x1__
 }

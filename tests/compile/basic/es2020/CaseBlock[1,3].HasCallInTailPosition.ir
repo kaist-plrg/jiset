@@ -1,19 +1,16 @@
 {
   let has = false
   if (! (= CaseClauses0 absent)) {
-    access __x0__ = (CaseClauses0 "HasCallInTailPosition")
-    app __x1__ = (__x0__ call)
-    let has = __x1__
+    access __x0__ = (CaseClauses0 "HasCallInTailPosition" call)
+    let has = __x0__
   } else {}
   if (= has true) return true else {}
-  access __x2__ = (DefaultClause "HasCallInTailPosition")
-  app __x3__ = (__x2__ call)
-  let has = __x3__
+  access __x1__ = (DefaultClause "HasCallInTailPosition" call)
+  let has = __x1__
   if (= has true) return true else {}
   if (! (= CaseClauses1 absent)) {
-    access __x4__ = (CaseClauses1 "HasCallInTailPosition")
-    app __x5__ = (__x4__ call)
-    let has = __x5__
+    access __x2__ = (CaseClauses1 "HasCallInTailPosition" call)
+    let has = __x2__
   } else {}
   return has
 }

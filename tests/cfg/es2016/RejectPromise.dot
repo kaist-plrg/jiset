@@ -1,6 +1,15 @@
 digraph {
-  node15844 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15848 [shape=none, margin=0, label=<<font color="black">
+  node15563 [shape=cds, label=<<font color="black">app __x0__ = (HostPromiseRejectionTracker promise &quot;reject&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node15559 [shape=cds, label=<<font color="black">app promise = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15560 [shape=cds, label=<<font color="black">app reason = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node15562 [shape=diamond, label=<<font color="black">(= promise.PromiseIsHandled false)</font>> color="black" fillcolor="white" style=filled]
+  node15566 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15557 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15561 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= promise.PromiseState &quot;pending&quot;)</td></tr>
       <tr><td align="left">1:let reactions = promise.PromiseRejectReactions</td></tr>
@@ -10,30 +19,21 @@ digraph {
       <tr><td align="left">5:promise.PromiseState = &quot;rejected&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15851 [shape=none, margin=0, label=<<font color="black">
+  node15565 [shape=cds, label=<<font color="black">7:app __x1__ = (TriggerPromiseReactions reactions reason)</font>> color="black" fillcolor="white" style=filled]
+  node15564 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">__x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15847 [shape=cds, label=<<font color="black">app reason = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node15852 [shape=cds, label=<<font color="black">7:app __x1__ = (TriggerPromiseReactions reactions reason)</font>> color="black" fillcolor="white" style=filled]
-  node15853 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15849 [shape=diamond, label=<<font color="black">(= promise.PromiseIsHandled false)</font>> color="black" fillcolor="white" style=filled]
-  node15846 [shape=cds, label=<<font color="black">app promise = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node15850 [shape=cds, label=<<font color="black">app __x0__ = (HostPromiseRejectionTracker promise &quot;reject&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node15845 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15852 -> node15853 [ color="black"]
-  node15846 -> node15847 [ color="black"]
-  node15851 -> node15852 [ color="black"]
-  node15844 -> node15846 [ color="black"]
-  node15850 -> node15851 [ color="black"]
-  node15853 -> node15845 [ color="black"]
-  node15847 -> node15848 [ color="black"]
-  node15849 -> node15850 [label=<<font color="black">true</font>> color="black"]
-  node15849 -> node15852 [label=<<font color="black">false</font>> color="black"]
-  node15848 -> node15849 [ color="black"]
+  node15558 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15557 -> node15559 [ color="black"]
+  node15563 -> node15564 [ color="black"]
+  node15565 -> node15566 [ color="black"]
+  node15561 -> node15562 [ color="black"]
+  node15562 -> node15563 [label=<<font color="black">true</font>> color="black"]
+  node15562 -> node15565 [label=<<font color="black">false</font>> color="black"]
+  node15560 -> node15561 [ color="black"]
+  node15566 -> node15558 [ color="black"]
+  node15564 -> node15565 [ color="black"]
+  node15559 -> node15560 [ color="black"]
 }

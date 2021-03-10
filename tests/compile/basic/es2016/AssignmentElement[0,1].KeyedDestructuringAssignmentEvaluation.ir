@@ -14,31 +14,30 @@
   } else let rhsValue = v
   if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) {
     ??? "Let id:{assignmentPattern} be the parse of the source text corresponding to nt:{DestructuringAssignmentTarget} using either nt:{AssignmentPattern} or nt:{AssignmentPattern[Yield]} as the goal symbol depending upon whether this nt:{AssignmentElement} has the sub:{[ Yield ]} parameter ."
-    access __x4__ = (assignmentPattern "DestructuringAssignmentEvaluation")
-    app __x5__ = (__x4__ rhsValue)
-    return __x5__
+    access __x4__ = (assignmentPattern "DestructuringAssignmentEvaluation" rhsValue)
+    return __x4__
   } else {}
-  let __x6__ = true
-  __x6__ = (! (= Initializer absent))
-  if __x6__ {
-    let __x7__ = true
-    __x7__ = (= v undefined)
-    if __x7__ {
-      app __x8__ = (IsAnonymousFunctionDefinition Initializer)
-      access __x9__ = (DestructuringAssignmentTarget "IsIdentifierRef")
-      __x7__ = (&& (= __x8__ true) (= __x9__ true))
+  let __x5__ = true
+  __x5__ = (! (= Initializer absent))
+  if __x5__ {
+    let __x6__ = true
+    __x6__ = (= v undefined)
+    if __x6__ {
+      app __x7__ = (IsAnonymousFunctionDefinition Initializer)
+      access __x8__ = (DestructuringAssignmentTarget "IsIdentifierRef")
+      __x6__ = (&& (= __x7__ true) (= __x8__ true))
     } else {}
-    __x6__ = __x7__
+    __x5__ = __x6__
   } else {}
-  if __x6__ {
-    app __x10__ = (HasOwnProperty rhsValue "name")
-    let hasNameProperty = [? __x10__]
+  if __x5__ {
+    app __x9__ = (HasOwnProperty rhsValue "name")
+    let hasNameProperty = [? __x9__]
     if (= hasNameProperty false) {
-      app __x11__ = (GetReferencedName lref)
-      app __x12__ = (SetFunctionName rhsValue __x11__)
-      __x12__
+      app __x10__ = (GetReferencedName lref)
+      app __x11__ = (SetFunctionName rhsValue __x10__)
+      __x11__
     } else {}
   } else {}
-  app __x13__ = (PutValue lref rhsValue)
-  return [? __x13__]
+  app __x12__ = (PutValue lref rhsValue)
+  return [? __x12__]
 }

@@ -25,11 +25,10 @@
     if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) {
       access __x9__ = (d "BoundNames")
       let fn = __x9__[0i]
-      access __x10__ = (d "InstantiateFunctionObject")
-      app __x11__ = (__x10__ env)
-      let fo = __x11__
-      app __x12__ = (envRec.InitializeBinding envRec fn fo)
-      __x12__
+      access __x10__ = (d "InstantiateFunctionObject" env)
+      let fo = __x10__
+      app __x11__ = (envRec.InitializeBinding envRec fn fo)
+      __x11__
     } else {}
     __x2__ = (+ __x2__ 1i)
   }

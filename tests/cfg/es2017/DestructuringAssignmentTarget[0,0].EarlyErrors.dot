@@ -1,39 +1,39 @@
 digraph {
-  node17381 [shape=cds, label=<<font color="black">app __x1__ = (IsValidSimpleAssignmentTarget LeftHandSideExpression)</font>> color="black" fillcolor="white" style=filled]
-  node17378 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17385 [shape=none, margin=0, label=<<font color="black">
+  node17079 [shape=cds, label=<<font color="black">app __x1__ = (IsValidSimpleAssignmentTarget LeftHandSideExpression)</font>> color="black" fillcolor="white" style=filled]
+  node17081 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node17075 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17078 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node17082 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw SyntaxError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17083 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17377 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17382 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">__x0__ = (= __x1__ false)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17379 [shape=none, margin=0, label=<<font color="black">
+  node17077 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:??? &quot;It is a Syntax Error if nt:{LeftHandSideExpression} is either an nt:{ObjectLiteral} or an nt:{ArrayLiteral} and if the lexical token sequence matched by nt:{LeftHandSideExpression} cannot be parsed with no tokens left over using nt:{AssignmentPattern} as the goal symbol .&quot;</td></tr>
       <tr><td align="left">1:let __x0__ = true</td></tr>
       <tr><td align="left">1:__x0__ = (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral)))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17383 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
-  node17380 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
-  node17384 [shape=none, margin=0, label=<<font color="black">
+  node17080 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw SyntaxError</td></tr>
+      <tr><td align="left">__x0__ = (= __x1__ false)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17384 -> node17378 [ color="black"]
-  node17382 -> node17383 [ color="black"]
-  node17379 -> node17380 [ color="black"]
-  node17381 -> node17382 [ color="black"]
-  node17377 -> node17379 [ color="black"]
-  node17385 -> node17378 [ color="black"]
-  node17380 -> node17381 [label=<<font color="black">true</font>> color="black"]
-  node17380 -> node17383 [label=<<font color="black">false</font>> color="black"]
-  node17383 -> node17384 [label=<<font color="black">true</font>> color="black"]
-  node17383 -> node17385 [label=<<font color="black">false</font>> color="black"]
+  node17076 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17082 -> node17076 [ color="black"]
+  node17078 -> node17079 [label=<<font color="black">true</font>> color="black"]
+  node17078 -> node17081 [label=<<font color="black">false</font>> color="black"]
+  node17077 -> node17078 [ color="black"]
+  node17083 -> node17076 [ color="black"]
+  node17079 -> node17080 [ color="black"]
+  node17080 -> node17081 [ color="black"]
+  node17081 -> node17082 [label=<<font color="black">true</font>> color="black"]
+  node17081 -> node17083 [label=<<font color="black">false</font>> color="black"]
+  node17075 -> node17077 [ color="black"]
 }

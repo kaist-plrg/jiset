@@ -1,51 +1,51 @@
 digraph {
-  node7364 [shape=none, margin=0, label=<<font color="black">
+  node7220 [shape=cds, label=<<font color="black">1:app __x2__ = (ToObject [? __x1__])</font>> color="black" fillcolor="white" style=filled]
+  node7217 [shape=cds, label=<<font color="black">0:access __x0__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7222 [shape=cds, label=<<font color="black">3:app __x3__ = (NewObjectEnvironment obj oldEnv)</font>> color="black" fillcolor="white" style=filled]
+  node7221 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let obj = [? __x2__]</td></tr>
       <tr><td align="left">2:let oldEnv = GLOBAL_context.LexicalEnvironment</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7369 [shape=cds, label=<<font color="black">8:app __x5__ = (UpdateEmpty C undefined)</font>> color="black" fillcolor="white" style=filled]
-  node7361 [shape=none, margin=0, label=<<font color="black">
+  node7225 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let val = __x0__</td></tr>
+      <tr><td align="left">6:let C = __x4__</td></tr>
+      <tr><td align="left">7:GLOBAL_context.LexicalEnvironment = oldEnv</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7365 [shape=cds, label=<<font color="black">3:app __x3__ = (NewObjectEnvironment obj oldEnv)</font>> color="black" fillcolor="white" style=filled]
-  node7366 [shape=none, margin=0, label=<<font color="black">
+  node7223 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let newEnv = __x3__</td></tr>
       <tr><td align="left">4:newEnv.EnvironmentRecord.withEnvironment = true</td></tr>
       <tr><td align="left">5:GLOBAL_context.LexicalEnvironment = newEnv</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7363 [shape=cds, label=<<font color="black">1:app __x2__ = (ToObject [? __x1__])</font>> color="black" fillcolor="white" style=filled]
-  node7359 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7370 [shape=none, margin=0, label=<<font color="black">
+  node7218 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let val = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7224 [shape=cds, label=<<font color="black">6:access __x4__ = (Statement &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7219 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue val)</font>> color="black" fillcolor="white" style=filled]
+  node7216 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7227 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">8:return __x5__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7367 [shape=cds, label=<<font color="black">6:access __x4__ = (Statement &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node7358 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7368 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let C = __x4__</td></tr>
-      <tr><td align="left">7:GLOBAL_context.LexicalEnvironment = oldEnv</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node7360 [shape=cds, label=<<font color="black">0:access __x0__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node7362 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue val)</font>> color="black" fillcolor="white" style=filled]
-  node7368 -> node7369 [ color="black"]
-  node7370 -> node7359 [ color="black"]
-  node7361 -> node7362 [ color="black"]
-  node7367 -> node7368 [ color="black"]
-  node7364 -> node7365 [ color="black"]
-  node7360 -> node7361 [ color="black"]
-  node7366 -> node7367 [ color="black"]
-  node7365 -> node7366 [ color="black"]
-  node7358 -> node7360 [ color="black"]
-  node7369 -> node7370 [ color="black"]
-  node7362 -> node7363 [ color="black"]
-  node7363 -> node7364 [ color="black"]
+  node7215 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7226 [shape=cds, label=<<font color="black">8:app __x5__ = (UpdateEmpty C undefined)</font>> color="black" fillcolor="white" style=filled]
+  node7219 -> node7220 [ color="black"]
+  node7220 -> node7221 [ color="black"]
+  node7223 -> node7224 [ color="black"]
+  node7215 -> node7217 [ color="black"]
+  node7221 -> node7222 [ color="black"]
+  node7224 -> node7225 [ color="black"]
+  node7226 -> node7227 [ color="black"]
+  node7225 -> node7226 [ color="black"]
+  node7222 -> node7223 [ color="black"]
+  node7227 -> node7216 [ color="black"]
+  node7217 -> node7218 [ color="black"]
+  node7218 -> node7219 [ color="black"]
 }

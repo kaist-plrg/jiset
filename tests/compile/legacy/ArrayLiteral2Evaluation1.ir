@@ -1,14 +1,12 @@
 {
   app __x0__ = (ArrayCreate 0i)
   let array = [! __x0__]
-  access __x1__ = (ElementList "ArrayAccumulation")
-  app __x2__ = (__x1__ array 0i)
-  let nextIndex = __x2__
+  access __x1__ = (ElementList "ArrayAccumulation" array 0i)
+  let nextIndex = __x1__
   [? nextIndex]
   if (! (= Elision absent)) {
-    access __x3__ = (Elision "ArrayAccumulation")
-    app __x4__ = (__x3__ array nextIndex)
-    let len = __x4__
+    access __x2__ = (Elision "ArrayAccumulation" array nextIndex)
+    let len = __x2__
     [? len]
   } else {}
   return array

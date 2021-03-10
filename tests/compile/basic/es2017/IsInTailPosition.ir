@@ -5,7 +5,6 @@
   ??? "If id:{body} is the nt:{FunctionBody} of a nt:{GeneratorBody} , return value:{false} ."
   ??? "If id:{body} is the nt:{FunctionBody} of an nt:{AsyncFunctionBody} , return value:{false} ."
   if (is-instance-of body AsyncConciseBody) return false else {}
-  access __x0__ = (body "HasCallInTailPosition")
-  app __x1__ = (__x0__ call)
-  return __x1__
+  access __x0__ = (body "HasCallInTailPosition" call)
+  return __x0__
 }

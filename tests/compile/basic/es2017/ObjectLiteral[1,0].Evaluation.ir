@@ -1,9 +1,8 @@
 {
   app __x0__ = (ObjectCreate INTRINSIC_ObjectPrototype)
   let obj = __x0__
-  access __x1__ = (PropertyDefinitionList "PropertyDefinitionEvaluation")
-  app __x2__ = (__x1__ obj true)
-  let status = __x2__
+  access __x1__ = (PropertyDefinitionList "PropertyDefinitionEvaluation" obj true)
+  let status = __x1__
   [? status]
   return obj
 }

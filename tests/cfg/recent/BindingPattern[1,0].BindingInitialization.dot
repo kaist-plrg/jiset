@@ -1,40 +1,38 @@
 digraph {
-  node6845 [shape=none, margin=0, label=<<font color="black">
+  node6759 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node6754 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6755 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
+  node6760 [shape=cds, label=<<font color="black">app __x2__ = (IteratorClose iteratorRecord result)</font>> color="black" fillcolor="white" style=filled]
+  node6756 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let iteratorRecord = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6851 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return [? __x3__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6844 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
-  node6843 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6842 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6852 [shape=none, margin=0, label=<<font color="black">
+  node6757 [shape=cds, label=<<font color="black">1:access __x1__ = (ArrayBindingPattern &quot;IteratorBindingInitialization&quot; iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node6762 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6848 [shape=none, margin=0, label=<<font color="black">
+  node6758 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let result = __x2__</td></tr>
+      <tr><td align="left">1:let result = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6849 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
-  node6847 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
-  node6850 [shape=cds, label=<<font color="black">app __x3__ = (IteratorClose iteratorRecord result)</font>> color="black" fillcolor="white" style=filled]
-  node6846 [shape=cds, label=<<font color="black">1:access __x1__ = (ArrayBindingPattern &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6850 -> node6851 [ color="black"]
-  node6849 -> node6850 [label=<<font color="black">true</font>> color="black"]
-  node6849 -> node6852 [label=<<font color="black">false</font>> color="black"]
-  node6842 -> node6844 [ color="black"]
-  node6851 -> node6852 [ color="black"]
-  node6848 -> node6849 [ color="black"]
-  node6846 -> node6847 [ color="black"]
-  node6845 -> node6846 [ color="black"]
-  node6852 -> node6843 [ color="black"]
-  node6847 -> node6848 [ color="black"]
-  node6844 -> node6845 [ color="black"]
+  node6753 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6761 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6762 -> node6754 [ color="black"]
+  node6761 -> node6762 [ color="black"]
+  node6759 -> node6760 [label=<<font color="black">true</font>> color="black"]
+  node6759 -> node6762 [label=<<font color="black">false</font>> color="black"]
+  node6757 -> node6758 [ color="black"]
+  node6753 -> node6755 [ color="black"]
+  node6755 -> node6756 [ color="black"]
+  node6756 -> node6757 [ color="black"]
+  node6760 -> node6761 [ color="black"]
+  node6758 -> node6759 [ color="black"]
 }

@@ -1,12 +1,6 @@
 digraph {
-  node8816 [shape=cds, label=<<font color="black">5:app __x1__ = (__x0__ nonterminal)</font>> color="black" fillcolor="white" style=filled]
-  node8817 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8815 [shape=cds, label=<<font color="black">5:access __x0__ = (body &quot;HasProductionInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8814 [shape=none, margin=0, label=<<font color="black">
+  node8586 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8587 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:??? &quot;If the source code matching id:{nonterminal} is not strict code , return value:{false} .&quot;</td></tr>
       <tr><td align="left">2:??? &quot;If id:{nonterminal} is not contained within a nt:{FunctionBody} or nt:{ConciseBody} , return value:{false} .&quot;</td></tr>
@@ -14,11 +8,15 @@ digraph {
       <tr><td align="left">4:??? &quot;If id:{body} is the nt:{FunctionBody} of a nt:{GeneratorBody} , return value:{false} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8813 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8812 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8815 -> node8816 [ color="black"]
-  node8817 -> node8813 [ color="black"]
-  node8812 -> node8814 [ color="black"]
-  node8816 -> node8817 [ color="black"]
-  node8814 -> node8815 [ color="black"]
+  node8588 [shape=cds, label=<<font color="black">5:access __x0__ = (body &quot;HasProductionInTailPosition&quot; nonterminal)</font>> color="black" fillcolor="white" style=filled]
+  node8589 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8585 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8585 -> node8587 [ color="black"]
+  node8587 -> node8588 [ color="black"]
+  node8588 -> node8589 [ color="black"]
+  node8589 -> node8586 [ color="black"]
 }

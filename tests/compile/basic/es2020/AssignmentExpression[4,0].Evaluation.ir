@@ -7,26 +7,24 @@
     access __x2__ = (LeftHandSideExpression "IsIdentifierRef")
     if (&& (= __x1__ true) (= __x2__ true)) {
       app __x3__ = (GetReferencedName lref)
-      access __x4__ = (AssignmentExpression "NamedEvaluation")
-      app __x5__ = (__x4__ __x3__)
-      let rval = __x5__
+      access __x4__ = (AssignmentExpression "NamedEvaluation" __x3__)
+      let rval = __x4__
     } else {
-      access __x6__ = (AssignmentExpression "Evaluation")
-      let rref = __x6__
-      app __x7__ = (GetValue rref)
-      let rval = [? __x7__]
+      access __x5__ = (AssignmentExpression "Evaluation")
+      let rref = __x5__
+      app __x6__ = (GetValue rref)
+      let rval = [? __x6__]
     }
-    app __x8__ = (PutValue lref rval)
-    [? __x8__]
+    app __x7__ = (PutValue lref rval)
+    [? __x7__]
     return rval
   } else {}
   let assignmentPattern = (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))
-  access __x9__ = (AssignmentExpression "Evaluation")
-  let rref = __x9__
-  app __x10__ = (GetValue rref)
-  let rval = [? __x10__]
-  access __x11__ = (assignmentPattern "DestructuringAssignmentEvaluation")
-  app __x12__ = (__x11__ rval)
-  [? __x12__]
+  access __x8__ = (AssignmentExpression "Evaluation")
+  let rref = __x8__
+  app __x9__ = (GetValue rref)
+  let rval = [? __x9__]
+  access __x10__ = (assignmentPattern "DestructuringAssignmentEvaluation" rval)
+  [? __x10__]
   return rval
 }

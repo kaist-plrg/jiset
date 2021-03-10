@@ -1,24 +1,22 @@
 digraph {
-  node4047 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4050 [shape=none, margin=0, label=<<font color="black">
+  node4030 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node4033 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x1__]</td></tr>
+      <tr><td align="left">2:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4031 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let obj = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4053 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:[? __x2__]</td></tr>
-      <tr><td align="left">2:return obj</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4048 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4049 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
-  node4052 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ obj true)</font>> color="black" fillcolor="white" style=filled]
-  node4051 [shape=cds, label=<<font color="black">1:access __x1__ = (PropertyDefinitionList &quot;PropertyDefinitionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4050 -> node4051 [ color="black"]
-  node4047 -> node4049 [ color="black"]
-  node4051 -> node4052 [ color="black"]
-  node4052 -> node4053 [ color="black"]
-  node4049 -> node4050 [ color="black"]
-  node4053 -> node4048 [ color="black"]
+  node4032 [shape=cds, label=<<font color="black">1:access __x1__ = (PropertyDefinitionList &quot;PropertyDefinitionEvaluation&quot; obj true)</font>> color="black" fillcolor="white" style=filled]
+  node4028 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4029 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4031 -> node4032 [ color="black"]
+  node4033 -> node4029 [ color="black"]
+  node4030 -> node4031 [ color="black"]
+  node4028 -> node4030 [ color="black"]
+  node4032 -> node4033 [ color="black"]
 }

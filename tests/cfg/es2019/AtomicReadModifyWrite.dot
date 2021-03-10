@@ -1,17 +1,5 @@
 digraph {
-  node17068 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:return __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17061 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
-  node17065 [shape=cds, label=<<font color="black">2:app __x2__ = (ToInteger value)</font>> color="black" fillcolor="white" style=filled]
-  node17064 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let i = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17066 [shape=none, margin=0, label=<<font color="black">
+  node16730 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let v = [? __x2__]</td></tr>
       <tr><td align="left">3:let arrayTypeName = typedArray.TypedArrayName</td></tr>
@@ -21,22 +9,34 @@ digraph {
       <tr><td align="left">7:let indexedPosition = (+ (* i elementSize) offset)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17060 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17067 [shape=cds, label=<<font color="black">8:app __x3__ = (GetModifySetValueInBuffer buffer indexedPosition elementType v op)</font>> color="black" fillcolor="white" style=filled]
-  node17063 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
-  node17059 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17062 [shape=none, margin=0, label=<<font color="black">
+  node16725 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
+  node16729 [shape=cds, label=<<font color="black">2:app __x2__ = (ToInteger value)</font>> color="black" fillcolor="white" style=filled]
+  node16726 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17062 -> node17063 [ color="black"]
-  node17064 -> node17065 [ color="black"]
-  node17065 -> node17066 [ color="black"]
-  node17063 -> node17064 [ color="black"]
-  node17061 -> node17062 [ color="black"]
-  node17067 -> node17068 [ color="black"]
-  node17068 -> node17060 [ color="black"]
-  node17066 -> node17067 [ color="black"]
-  node17059 -> node17061 [ color="black"]
+  node16723 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16732 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16731 [shape=cds, label=<<font color="black">8:app __x3__ = (GetModifySetValueInBuffer buffer indexedPosition elementType v op)</font>> color="black" fillcolor="white" style=filled]
+  node16727 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node16728 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let i = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16724 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16725 -> node16726 [ color="black"]
+  node16726 -> node16727 [ color="black"]
+  node16731 -> node16732 [ color="black"]
+  node16732 -> node16724 [ color="black"]
+  node16727 -> node16728 [ color="black"]
+  node16730 -> node16731 [ color="black"]
+  node16728 -> node16729 [ color="black"]
+  node16729 -> node16730 [ color="black"]
+  node16723 -> node16725 [ color="black"]
 }

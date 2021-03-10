@@ -12,16 +12,15 @@
     __x2__ = (= __x4__ true)
   } else {}
   if __x2__ {
-    access __x5__ = (AssignmentExpression "NamedEvaluation")
-    app __x6__ = (__x5__ lref.ReferencedName)
-    let rval = __x6__
+    access __x5__ = (AssignmentExpression "NamedEvaluation" lref.ReferencedName)
+    let rval = __x5__
   } else {
-    access __x7__ = (AssignmentExpression "Evaluation")
-    let rref = __x7__
-    app __x8__ = (GetValue rref)
-    let rval = [? __x8__]
+    access __x6__ = (AssignmentExpression "Evaluation")
+    let rref = __x6__
+    app __x7__ = (GetValue rref)
+    let rval = [? __x7__]
   }
-  app __x9__ = (PutValue lref rval)
-  [? __x9__]
+  app __x8__ = (PutValue lref rval)
+  [? __x8__]
   return rval
 }

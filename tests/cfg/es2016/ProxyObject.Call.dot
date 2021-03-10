@@ -1,64 +1,64 @@
 digraph {
-  node2976 [shape=none, margin=0, label=<<font color="black">
+  node2976 [shape=cds, label=<<font color="black">4:app __x1__ = (GetMethod handler &quot;apply&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node2972 [shape=diamond, label=<<font color="black">(= handler null)</font>> color="black" fillcolor="white" style=filled]
+  node2969 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2973 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2986 [shape=cds, label=<<font color="black">8:app __x4__ = (Call trap handler (new [target, thisArgument, argArray]))</font>> color="black" fillcolor="white" style=filled]
-  node2973 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2978 [shape=none, margin=0, label=<<font color="black">
+  node2978 [shape=diamond, label=<<font color="black">(= trap undefined)</font>> color="black" fillcolor="white" style=filled]
+  node2974 [shape=cds, label=<<font color="black">2:app __x0__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
+  node2984 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2977 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let trap = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2975 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (= __x0__ Object)</td></tr>
       <tr><td align="left">3:let target = O.ProxyTarget</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2981 [shape=diamond, label=<<font color="black">(= trap undefined)</font>> color="black" fillcolor="white" style=filled]
-  node2987 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:return [? __x4__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2974 [shape=none, margin=0, label=<<font color="black">
+  node2971 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let handler = O.ProxyHandler</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2984 [shape=cds, label=<<font color="black">7:app __x3__ = (CreateArrayFromList argumentsList)</font>> color="black" fillcolor="white" style=filled]
-  node2977 [shape=cds, label=<<font color="black">2:app __x0__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
-  node2975 [shape=diamond, label=<<font color="black">(= handler null)</font>> color="black" fillcolor="white" style=filled]
-  node2983 [shape=none, margin=0, label=<<font color="black">
+  node2983 [shape=cds, label=<<font color="black">8:app __x4__ = (Call trap handler (new [target, thisArgument, argArray]))</font>> color="black" fillcolor="white" style=filled]
+  node2980 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:return [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2980 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let trap = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2972 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2985 [shape=none, margin=0, label=<<font color="black">
+  node2979 [shape=cds, label=<<font color="black">6:app __x2__ = (Call target thisArgument argumentsList)</font>> color="black" fillcolor="white" style=filled]
+  node2982 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:let argArray = __x3__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2979 [shape=cds, label=<<font color="black">4:app __x1__ = (GetMethod handler &quot;apply&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node2982 [shape=cds, label=<<font color="black">6:app __x2__ = (Call target thisArgument argumentsList)</font>> color="black" fillcolor="white" style=filled]
+  node2970 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2981 [shape=cds, label=<<font color="black">7:app __x3__ = (CreateArrayFromList argumentsList)</font>> color="black" fillcolor="white" style=filled]
   node2979 -> node2980 [ color="black"]
-  node2987 -> node2973 [ color="black"]
-  node2982 -> node2983 [ color="black"]
-  node2981 -> node2982 [label=<<font color="black">true</font>> color="black"]
-  node2981 -> node2984 [label=<<font color="black">false</font>> color="black"]
-  node2974 -> node2975 [ color="black"]
-  node2975 -> node2976 [label=<<font color="black">true</font>> color="black"]
-  node2975 -> node2977 [label=<<font color="black">false</font>> color="black"]
-  node2980 -> node2981 [ color="black"]
-  node2985 -> node2986 [ color="black"]
-  node2986 -> node2987 [ color="black"]
-  node2978 -> node2979 [ color="black"]
-  node2984 -> node2985 [ color="black"]
-  node2972 -> node2974 [ color="black"]
   node2977 -> node2978 [ color="black"]
+  node2978 -> node2979 [label=<<font color="black">true</font>> color="black"]
+  node2978 -> node2981 [label=<<font color="black">false</font>> color="black"]
+  node2981 -> node2982 [ color="black"]
+  node2971 -> node2972 [ color="black"]
+  node2975 -> node2976 [ color="black"]
+  node2982 -> node2983 [ color="black"]
+  node2973 -> node2974 [ color="black"]
+  node2980 -> node2981 [ color="black"]
   node2983 -> node2984 [ color="black"]
+  node2984 -> node2970 [ color="black"]
+  node2972 -> node2973 [label=<<font color="black">true</font>> color="black"]
+  node2972 -> node2974 [label=<<font color="black">false</font>> color="black"]
   node2976 -> node2977 [ color="black"]
+  node2969 -> node2971 [ color="black"]
+  node2974 -> node2975 [ color="black"]
 }

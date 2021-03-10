@@ -1,31 +1,29 @@
 digraph {
-  node6042 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6038 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
-  node6041 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ rval undefined)</font>> color="black" fillcolor="white" style=filled]
-  node6040 [shape=cds, label=<<font color="black">2:access __x2__ = (BindingPattern &quot;BindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6035 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6034 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6039 [shape=none, margin=0, label=<<font color="black">
+  node5977 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
+  node5974 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5978 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let rval = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6036 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6037 [shape=none, margin=0, label=<<font color="black">
+  node5973 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5979 [shape=cds, label=<<font color="black">2:access __x2__ = (BindingPattern &quot;BindingInitialization&quot; rval undefined)</font>> color="black" fillcolor="white" style=filled]
+  node5976 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let rhs = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6039 -> node6040 [ color="black"]
-  node6038 -> node6039 [ color="black"]
-  node6040 -> node6041 [ color="black"]
-  node6042 -> node6035 [ color="black"]
-  node6034 -> node6036 [ color="black"]
-  node6037 -> node6038 [ color="black"]
-  node6036 -> node6037 [ color="black"]
-  node6041 -> node6042 [ color="black"]
+  node5980 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5975 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node5973 -> node5975 [ color="black"]
+  node5980 -> node5974 [ color="black"]
+  node5979 -> node5980 [ color="black"]
+  node5977 -> node5978 [ color="black"]
+  node5978 -> node5979 [ color="black"]
+  node5976 -> node5977 [ color="black"]
+  node5975 -> node5976 [ color="black"]
 }

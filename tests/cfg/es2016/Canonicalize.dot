@@ -1,5 +1,19 @@
 digraph {
-  node12699 [shape=none, margin=0, label=<<font color="black">
+  node12407 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12411 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:??? &quot;If the file CaseFolding . txt of the Unicode Character Database provides a simple or common case folding mapping for id:{ch} , return the result of applying that mapping to id:{ch} .&quot;</td></tr>
+      <tr><td align="left">3:??? &quot;Else , return id:{ch} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12409 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return ch</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12410 [shape=diamond, label=<<font color="black">(= Unicode true)</font>> color="black" fillcolor="white" style=filled]
+  node12408 [shape=diamond, label=<<font color="black">(= IgnoreCase false)</font>> color="black" fillcolor="white" style=filled]
+  node12412 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:??? &quot;Let id:{s} be the ECMAScript String value consisting of the single code unit id:{ch} .&quot;</td></tr>
       <tr><td align="left">7:??? &quot;Let id:{u} be the same result produced as if by performing the algorithm for code:{String.prototype.toUpperCase} using id:{s} as the value:{this} value .&quot;</td></tr>
@@ -9,27 +23,13 @@ digraph {
       <tr><td align="left">12:return cu</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12693 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12696 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return ch</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12697 [shape=diamond, label=<<font color="black">(= Unicode true)</font>> color="black" fillcolor="white" style=filled]
-  node12695 [shape=diamond, label=<<font color="black">(= IgnoreCase false)</font>> color="black" fillcolor="white" style=filled]
-  node12698 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:??? &quot;If the file CaseFolding . txt of the Unicode Character Database provides a simple or common case folding mapping for id:{ch} , return the result of applying that mapping to id:{ch} .&quot;</td></tr>
-      <tr><td align="left">3:??? &quot;Else , return id:{ch} .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12694 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12693 -> node12695 [ color="black"]
-  node12699 -> node12694 [ color="black"]
-  node12698 -> node12694 [ color="black"]
-  node12697 -> node12698 [label=<<font color="black">true</font>> color="black"]
-  node12697 -> node12699 [label=<<font color="black">false</font>> color="black"]
-  node12696 -> node12697 [ color="black"]
-  node12695 -> node12696 [label=<<font color="black">true</font>> color="black"]
-  node12695 -> node12697 [label=<<font color="black">false</font>> color="black"]
+  node12406 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12406 -> node12408 [ color="black"]
+  node12412 -> node12407 [ color="black"]
+  node12410 -> node12411 [label=<<font color="black">true</font>> color="black"]
+  node12410 -> node12412 [label=<<font color="black">false</font>> color="black"]
+  node12409 -> node12410 [ color="black"]
+  node12411 -> node12407 [ color="black"]
+  node12408 -> node12409 [label=<<font color="black">true</font>> color="black"]
+  node12408 -> node12410 [label=<<font color="black">false</font>> color="black"]
 }

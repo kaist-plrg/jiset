@@ -1,15 +1,6 @@
 digraph {
-  node17549 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17555 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:return __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17550 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17554 [shape=cds, label=<<font color="black">6:app __x0__ = (TriggerPromiseReactions reactions value)</font>> color="black" fillcolor="white" style=filled]
-  node17551 [shape=cds, label=<<font color="black">app promise = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node17552 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node17553 [shape=none, margin=0, label=<<font color="black">
+  node17232 [shape=cds, label=<<font color="black">6:app __x0__ = (TriggerPromiseReactions reactions value)</font>> color="black" fillcolor="white" style=filled]
+  node17231 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= promise.PromiseState &quot;pending&quot;)</td></tr>
       <tr><td align="left">1:let reactions = promise.PromiseFulfillReactions</td></tr>
@@ -19,10 +10,19 @@ digraph {
       <tr><td align="left">5:promise.PromiseState = &quot;fulfilled&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17549 -> node17551 [ color="black"]
-  node17551 -> node17552 [ color="black"]
-  node17552 -> node17553 [ color="black"]
-  node17553 -> node17554 [ color="black"]
-  node17554 -> node17555 [ color="black"]
-  node17555 -> node17550 [ color="black"]
+  node17233 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17229 [shape=cds, label=<<font color="black">app promise = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17228 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17227 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17230 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node17227 -> node17229 [ color="black"]
+  node17230 -> node17231 [ color="black"]
+  node17231 -> node17232 [ color="black"]
+  node17233 -> node17228 [ color="black"]
+  node17229 -> node17230 [ color="black"]
+  node17232 -> node17233 [ color="black"]
 }

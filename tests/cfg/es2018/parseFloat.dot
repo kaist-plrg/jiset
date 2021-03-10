@@ -1,24 +1,18 @@
 digraph {
-  node11409 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11417 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:return mathFloat</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11416 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:??? &quot;If the first code unit of id:{trimmedString} is the code unit 0x002D ( HYPHEN - MINUS ) , return value:{-0} .&quot;</td></tr>
-      <tr><td align="left">7:return 0i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11410 [shape=cds, label=<<font color="black">app string = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node11414 [shape=none, margin=0, label=<<font color="black">
+  node11107 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let mathFloat = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11411 [shape=cds, label=<<font color="black">0:app __x0__ = (ToString string)</font>> color="black" fillcolor="white" style=filled]
-  node11412 [shape=none, margin=0, label=<<font color="black">
+  node11104 [shape=cds, label=<<font color="black">0:app __x0__ = (ToString string)</font>> color="black" fillcolor="white" style=filled]
+  node11106 [shape=cds, label=<<font color="black">4:access __x1__ = (numberString &quot;MV&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node11101 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11110 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return mathFloat</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11105 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let inputString = [? __x0__]</td></tr>
       <tr><td align="left">1:??? &quot;Let id:{trimmedString} be a substring of id:{inputString} consisting of the leftmost code unit that is not a nt:{StrWhiteSpaceChar} and all code units to the right of that code unit . ( In other words , remove leading white space . ) If id:{inputString} does not contain any such code units , let id:{trimmedString} be the empty string .&quot;</td></tr>
@@ -26,17 +20,23 @@ digraph {
       <tr><td align="left">3:??? &quot;Let id:{numberString} be the longest prefix of id:{trimmedString} , which might be id:{trimmedString} itself , that satisfies the syntax of a nt:{StrDecimalLiteral} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11415 [shape=diamond, label=<<font color="black">(== mathFloat 0i)</font>> color="black" fillcolor="white" style=filled]
-  node11413 [shape=cds, label=<<font color="black">4:access __x1__ = (numberString &quot;MV&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node11408 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11408 -> node11410 [ color="black"]
-  node11415 -> node11416 [label=<<font color="black">true</font>> color="black"]
-  node11415 -> node11417 [label=<<font color="black">false</font>> color="black"]
-  node11417 -> node11409 [ color="black"]
-  node11410 -> node11411 [ color="black"]
-  node11412 -> node11413 [ color="black"]
-  node11413 -> node11414 [ color="black"]
-  node11411 -> node11412 [ color="black"]
-  node11416 -> node11417 [ color="black"]
-  node11414 -> node11415 [ color="black"]
+  node11102 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11109 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:??? &quot;If the first code unit of id:{trimmedString} is the code unit 0x002D ( HYPHEN - MINUS ) , return value:{-0} .&quot;</td></tr>
+      <tr><td align="left">7:return 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11108 [shape=diamond, label=<<font color="black">(== mathFloat 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11103 [shape=cds, label=<<font color="black">app string = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11103 -> node11104 [ color="black"]
+  node11108 -> node11109 [label=<<font color="black">true</font>> color="black"]
+  node11108 -> node11110 [label=<<font color="black">false</font>> color="black"]
+  node11101 -> node11103 [ color="black"]
+  node11106 -> node11107 [ color="black"]
+  node11107 -> node11108 [ color="black"]
+  node11105 -> node11106 [ color="black"]
+  node11104 -> node11105 [ color="black"]
+  node11109 -> node11110 [ color="black"]
+  node11110 -> node11102 [ color="black"]
 }

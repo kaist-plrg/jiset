@@ -1,15 +1,15 @@
 {
-  app __x0__ = (GetNewTarget )
+  app __x0__ = (GetNewTarget)
   let newTarget = __x0__
   if (= newTarget undefined) throw ReferenceError else {}
-  app __x1__ = (GetSuperConstructor )
+  app __x1__ = (GetSuperConstructor)
   let func = [? __x1__]
   access __x2__ = (Arguments "ArgumentListEvaluation")
   let argList = __x2__
   [? argList]
   app __x3__ = (Construct func argList newTarget)
   let result = [? __x3__]
-  app __x4__ = (GetThisEnvironment )
+  app __x4__ = (GetThisEnvironment)
   let thisER = __x4__
   app __x5__ = (thisER.BindThisValue thisER result)
   return [? __x5__]

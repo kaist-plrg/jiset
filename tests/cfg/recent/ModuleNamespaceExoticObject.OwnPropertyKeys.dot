@@ -1,38 +1,38 @@
 digraph {
-  node3135 [shape=none, margin=0, label=<<font color="black">
+  node3131 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let symbolKeys = [! __x0__]</td></tr>
       <tr><td align="left">2:let __x1__ = symbolKeys</td></tr>
       <tr><td align="left">2:let __x2__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3131 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3134 [shape=cds, label=<<font color="black">1:app __x0__ = (OrdinaryOwnPropertyKeys O)</font>> color="black" fillcolor="white" style=filled]
-  node3137 [shape=none, margin=0, label=<<font color="black">
+  node3134 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return exports</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3130 [shape=cds, label=<<font color="black">1:app __x0__ = (OrdinaryOwnPropertyKeys O)</font>> color="black" fillcolor="white" style=filled]
+  node3133 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let __x3__ = __x1__[__x2__]</td></tr>
       <tr><td align="left">append __x3__ -&gt; exports</td></tr>
       <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3138 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return exports</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3133 [shape=none, margin=0, label=<<font color="black">
+  node3129 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let exports = (copy-obj O.Exports)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3136 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
-  node3132 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3131 -> node3133 [ color="black"]
-  node3137 -> node3136 [ color="black"]
-  node3136 -> node3137 [label=<<font color="black">true</font>> color="black"]
-  node3136 -> node3138 [label=<<font color="black">false</font>> color="black"]
-  node3133 -> node3134 [ color="black"]
-  node3134 -> node3135 [ color="black"]
-  node3138 -> node3132 [ color="black"]
-  node3135 -> node3136 [ color="black"]
+  node3127 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3132 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node3128 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3130 -> node3131 [ color="black"]
+  node3134 -> node3128 [ color="black"]
+  node3133 -> node3132 [ color="black"]
+  node3129 -> node3130 [ color="black"]
+  node3127 -> node3129 [ color="black"]
+  node3131 -> node3132 [ color="black"]
+  node3132 -> node3133 [label=<<font color="black">true</font>> color="black"]
+  node3132 -> node3134 [label=<<font color="black">false</font>> color="black"]
 }

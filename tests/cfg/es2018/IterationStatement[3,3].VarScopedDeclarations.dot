@@ -1,39 +1,39 @@
 digraph {
-  node6787 [shape=none, margin=0, label=<<font color="black">
+  node6669 [shape=cds, label=<<font color="black">1:access __x1__ = (Statement &quot;VarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6665 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6670 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let __x2__ = __x1__</td></tr>
       <tr><td align="left">1:let __x3__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6789 [shape=none, margin=0, label=<<font color="black">
+  node6666 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6672 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let __x4__ = __x2__[__x3__]</td></tr>
       <tr><td align="left">append __x4__ -&gt; declarations</td></tr>
       <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6790 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return declarations</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6788 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
-  node6784 [shape=cds, label=<<font color="black">0:access __x0__ = (VariableDeclarationList &quot;VarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6783 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6785 [shape=none, margin=0, label=<<font color="black">
+  node6671 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node6668 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let declarations = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6786 [shape=cds, label=<<font color="black">1:access __x1__ = (Statement &quot;VarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6782 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6789 -> node6788 [ color="black"]
-  node6782 -> node6784 [ color="black"]
-  node6788 -> node6789 [label=<<font color="black">true</font>> color="black"]
-  node6788 -> node6790 [label=<<font color="black">false</font>> color="black"]
-  node6785 -> node6786 [ color="black"]
-  node6787 -> node6788 [ color="black"]
-  node6786 -> node6787 [ color="black"]
-  node6784 -> node6785 [ color="black"]
-  node6790 -> node6783 [ color="black"]
+  node6667 [shape=cds, label=<<font color="black">0:access __x0__ = (VariableDeclarationList &quot;VarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6673 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return declarations</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6670 -> node6671 [ color="black"]
+  node6669 -> node6670 [ color="black"]
+  node6672 -> node6671 [ color="black"]
+  node6667 -> node6668 [ color="black"]
+  node6671 -> node6672 [label=<<font color="black">true</font>> color="black"]
+  node6671 -> node6673 [label=<<font color="black">false</font>> color="black"]
+  node6668 -> node6669 [ color="black"]
+  node6673 -> node6666 [ color="black"]
+  node6665 -> node6667 [ color="black"]
 }

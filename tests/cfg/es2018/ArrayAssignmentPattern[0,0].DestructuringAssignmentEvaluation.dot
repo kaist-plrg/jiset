@@ -1,23 +1,23 @@
 digraph {
-  node5131 [shape=cds, label=<<font color="black">1:app __x2__ = (IteratorClose iteratorRecord __x1__)</font>> color="black" fillcolor="white" style=filled]
-  node5130 [shape=cds, label=<<font color="black">1:app __x1__ = (NormalCompletion CONST_empty)</font>> color="black" fillcolor="white" style=filled]
-  node5127 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5126 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5132 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:return [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5128 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
-  node5129 [shape=none, margin=0, label=<<font color="black">
+  node5101 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5102 [shape=cds, label=<<font color="black">0:app __x0__ = (GetIterator value)</font>> color="black" fillcolor="white" style=filled]
+  node5103 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let iteratorRecord = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5131 -> node5132 [ color="black"]
-  node5130 -> node5131 [ color="black"]
-  node5126 -> node5128 [ color="black"]
-  node5129 -> node5130 [ color="black"]
-  node5128 -> node5129 [ color="black"]
-  node5132 -> node5127 [ color="black"]
+  node5106 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5100 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5104 [shape=cds, label=<<font color="black">1:app __x1__ = (NormalCompletion CONST_empty)</font>> color="black" fillcolor="white" style=filled]
+  node5105 [shape=cds, label=<<font color="black">1:app __x2__ = (IteratorClose iteratorRecord __x1__)</font>> color="black" fillcolor="white" style=filled]
+  node5105 -> node5106 [ color="black"]
+  node5100 -> node5102 [ color="black"]
+  node5103 -> node5104 [ color="black"]
+  node5106 -> node5101 [ color="black"]
+  node5102 -> node5103 [ color="black"]
+  node5104 -> node5105 [ color="black"]
 }

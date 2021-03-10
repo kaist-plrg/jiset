@@ -1,37 +1,42 @@
 digraph {
-  node18388 [shape=none, margin=0, label=<<font color="black">
+  node18040 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18043 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
+  node18047 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">12:append byte -&gt; bytesRead</td></tr>
-      <tr><td align="left">13:byteLocation = (+ byteLocation 1i)</td></tr>
-      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
+      <tr><td align="left">8:assert (= (typeof W) &quot;ReadModifyWriteSharedMemory&quot;)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18384 [shape=cds, label=<<font color="black">9:app __x2__ = (ValueOfReadEvent execution W)</font>> color="black" fillcolor="white" style=filled]
-  node18385 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:let bytes = __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18380 [shape=none, margin=0, label=<<font color="black">
+  node18044 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let W = __x0__[__x1__]</td></tr>
       <tr><td align="left">4:let payloadIndex = (- byteLocation W.ByteIndex)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18383 [shape=none, margin=0, label=<<font color="black">
+  node18049 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:assert (= (typeof W) &quot;ReadModifyWriteSharedMemory&quot;)</td></tr>
+      <tr><td align="left">9:let bytes = __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18379 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
-  node18386 [shape=cds, label=<<font color="black">10:app __x3__ = (W.ModifyOp W bytes W.Payload)</font>> color="black" fillcolor="white" style=filled]
-  node18389 [shape=none, margin=0, label=<<font color="black">
+  node18048 [shape=cds, label=<<font color="black">9:app __x2__ = (ValueOfReadEvent execution W)</font>> color="black" fillcolor="white" style=filled]
+  node18045 [shape=diamond, label=<<font color="black">(= (typeof W) &quot;WriteSharedMemory&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18041 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18051 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:let bytesModified = __x3__</td></tr>
+      <tr><td align="left">11:let byte = bytesModified[payloadIndex]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18046 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let byte = W.Payload[payloadIndex]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18053 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">14:return bytesRead</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18376 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18378 [shape=none, margin=0, label=<<font color="black">
+  node18042 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let byteLocation = byteIndex</td></tr>
       <tr><td align="left">1:let bytesRead = (new [])</td></tr>
@@ -39,32 +44,27 @@ digraph {
       <tr><td align="left">2:let __x1__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18382 [shape=none, margin=0, label=<<font color="black">
+  node18052 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let byte = W.Payload[payloadIndex]</td></tr>
+      <tr><td align="left">12:append byte -&gt; bytesRead</td></tr>
+      <tr><td align="left">13:byteLocation = (+ byteLocation 1i)</td></tr>
+      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18387 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:let bytesModified = __x3__</td></tr>
-      <tr><td align="left">11:let byte = bytesModified[payloadIndex]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18377 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18381 [shape=diamond, label=<<font color="black">(= (typeof W) &quot;WriteSharedMemory&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node18376 -> node18378 [ color="black"]
-  node18383 -> node18384 [ color="black"]
-  node18389 -> node18377 [ color="black"]
-  node18387 -> node18388 [ color="black"]
-  node18379 -> node18380 [label=<<font color="black">true</font>> color="black"]
-  node18379 -> node18389 [label=<<font color="black">false</font>> color="black"]
-  node18386 -> node18387 [ color="black"]
-  node18381 -> node18382 [label=<<font color="black">true</font>> color="black"]
-  node18381 -> node18383 [label=<<font color="black">false</font>> color="black"]
-  node18384 -> node18385 [ color="black"]
-  node18385 -> node18386 [ color="black"]
-  node18378 -> node18379 [ color="black"]
-  node18380 -> node18381 [ color="black"]
-  node18388 -> node18379 [ color="black"]
-  node18382 -> node18388 [ color="black"]
+  node18050 [shape=cds, label=<<font color="black">10:app __x3__ = (W.ModifyOp W bytes W.Payload)</font>> color="black" fillcolor="white" style=filled]
+  node18046 -> node18052 [ color="black"]
+  node18043 -> node18044 [label=<<font color="black">true</font>> color="black"]
+  node18043 -> node18053 [label=<<font color="black">false</font>> color="black"]
+  node18052 -> node18043 [ color="black"]
+  node18051 -> node18052 [ color="black"]
+  node18047 -> node18048 [ color="black"]
+  node18050 -> node18051 [ color="black"]
+  node18053 -> node18041 [ color="black"]
+  node18045 -> node18046 [label=<<font color="black">true</font>> color="black"]
+  node18045 -> node18047 [label=<<font color="black">false</font>> color="black"]
+  node18044 -> node18045 [ color="black"]
+  node18042 -> node18043 [ color="black"]
+  node18048 -> node18049 [ color="black"]
+  node18049 -> node18050 [ color="black"]
+  node18040 -> node18042 [ color="black"]
 }

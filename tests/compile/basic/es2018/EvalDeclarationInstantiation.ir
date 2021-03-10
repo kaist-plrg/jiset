@@ -107,45 +107,44 @@
     let f = __x27__[__x28__]
     access __x29__ = (f "BoundNames")
     let fn = __x29__[0i]
-    access __x30__ = (f "InstantiateFunctionObject")
-    app __x31__ = (__x30__ lexEnv)
-    let fo = __x31__
+    access __x30__ = (f "InstantiateFunctionObject" lexEnv)
+    let fo = __x30__
     if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
-      app __x32__ = (varEnvRec.CreateGlobalFunctionBinding varEnvRec fn fo true)
-      [? __x32__]
+      app __x31__ = (varEnvRec.CreateGlobalFunctionBinding varEnvRec fn fo true)
+      [? __x31__]
     } else {
-      app __x33__ = (varEnvRec.HasBinding varEnvRec fn)
-      let bindingExists = __x33__
+      app __x32__ = (varEnvRec.HasBinding varEnvRec fn)
+      let bindingExists = __x32__
       if (= bindingExists false) {
-        app __x34__ = (varEnvRec.CreateMutableBinding varEnvRec fn true)
-        let status = [! __x34__]
-        app __x35__ = (varEnvRec.InitializeBinding varEnvRec fn fo)
-        [! __x35__]
+        app __x33__ = (varEnvRec.CreateMutableBinding varEnvRec fn true)
+        let status = [! __x33__]
+        app __x34__ = (varEnvRec.InitializeBinding varEnvRec fn fo)
+        [! __x34__]
       } else {
-        app __x36__ = (varEnvRec.SetMutableBinding varEnvRec fn fo false)
-        [! __x36__]
+        app __x35__ = (varEnvRec.SetMutableBinding varEnvRec fn fo false)
+        [! __x35__]
       }
     }
     __x28__ = (+ __x28__ 1i)
   }
-  let __x37__ = declaredVarNames
-  let __x38__ = 0i
-  while (< __x38__ __x37__.length) {
-    let vn = __x37__[__x38__]
+  let __x36__ = declaredVarNames
+  let __x37__ = 0i
+  while (< __x37__ __x36__.length) {
+    let vn = __x36__[__x37__]
     if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
-      app __x39__ = (varEnvRec.CreateGlobalVarBinding varEnvRec vn true)
-      [? __x39__]
+      app __x38__ = (varEnvRec.CreateGlobalVarBinding varEnvRec vn true)
+      [? __x38__]
     } else {
-      app __x40__ = (varEnvRec.HasBinding varEnvRec vn)
-      let bindingExists = __x40__
+      app __x39__ = (varEnvRec.HasBinding varEnvRec vn)
+      let bindingExists = __x39__
       if (= bindingExists false) {
-        app __x41__ = (varEnvRec.CreateMutableBinding varEnvRec vn true)
-        let status = [! __x41__]
-        app __x42__ = (varEnvRec.InitializeBinding varEnvRec vn undefined)
-        [! __x42__]
+        app __x40__ = (varEnvRec.CreateMutableBinding varEnvRec vn true)
+        let status = [! __x40__]
+        app __x41__ = (varEnvRec.InitializeBinding varEnvRec vn undefined)
+        [! __x41__]
       } else {}
     }
-    __x38__ = (+ __x38__ 1i)
+    __x37__ = (+ __x37__ 1i)
   }
   return CONST_empty
 }

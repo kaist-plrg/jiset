@@ -1,26 +1,26 @@
 digraph {
-  node16248 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16251 [shape=none, margin=0, label=<<font color="black">
+  node15963 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node15962 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node15959 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15960 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15965 [shape=cds, label=<<font color="black">1:app __x1__ = (target.PreventExtensions target)</font>> color="black" fillcolor="white" style=filled]
+  node15964 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16246 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16253 [shape=none, margin=0, label=<<font color="black">
+  node15961 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15966 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:return [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16249 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
-  node16250 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node16247 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16252 [shape=cds, label=<<font color="black">1:app __x1__ = (target.PreventExtensions target)</font>> color="black" fillcolor="white" style=filled]
-  node16248 -> node16249 [ color="black"]
-  node16253 -> node16247 [ color="black"]
-  node16252 -> node16253 [ color="black"]
-  node16246 -> node16248 [ color="black"]
-  node16250 -> node16251 [label=<<font color="black">true</font>> color="black"]
-  node16250 -> node16252 [label=<<font color="black">false</font>> color="black"]
-  node16251 -> node16252 [ color="black"]
-  node16249 -> node16250 [ color="black"]
+  node15962 -> node15963 [ color="black"]
+  node15964 -> node15965 [ color="black"]
+  node15959 -> node15961 [ color="black"]
+  node15963 -> node15964 [label=<<font color="black">true</font>> color="black"]
+  node15963 -> node15965 [label=<<font color="black">false</font>> color="black"]
+  node15965 -> node15966 [ color="black"]
+  node15966 -> node15960 [ color="black"]
+  node15961 -> node15962 [ color="black"]
 }

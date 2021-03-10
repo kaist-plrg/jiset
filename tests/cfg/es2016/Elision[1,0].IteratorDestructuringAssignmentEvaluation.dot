@@ -1,59 +1,57 @@
 digraph {
-  node5037 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
-  node5032 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5045 [shape=none, margin=0, label=<<font color="black">
+  node4992 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5000 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">iteratorRecord.Done = true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5034 [shape=cds, label=<<font color="black">0:access __x0__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node5044 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
-  node5038 [shape=cds, label=<<font color="black">3:app __x2__ = (IteratorStep iteratorRecord.Iterator)</font>> color="black" fillcolor="white" style=filled]
-  node5043 [shape=none, margin=0, label=<<font color="black">
+  node4996 [shape=cds, label=<<font color="black">3:app __x1__ = (IteratorStep iteratorRecord.Iterator)</font>> color="black" fillcolor="white" style=filled]
+  node4999 [shape=diamond, label=<<font color="black">__x2__</font>> color="black" fillcolor="white" style=filled]
+  node5002 [shape=diamond, label=<<font color="black">(= next false)</font>> color="black" fillcolor="white" style=filled]
+  node4994 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let status = __x0__</td></tr>
+      <tr><td align="left">1:[? status]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4995 [shape=diamond, label=<<font color="black">(= iteratorRecord.Done false)</font>> color="black" fillcolor="white" style=filled]
+  node4998 [shape=cds, label=<<font color="black">4:app __x2__ = (IsAbruptCompletion next)</font>> color="black" fillcolor="white" style=filled]
+  node4993 [shape=cds, label=<<font color="black">0:access __x0__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot; iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node5003 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5001 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:[? next]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5035 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
-  node5042 [shape=none, margin=0, label=<<font color="black">
+  node4991 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4997 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">iteratorRecord.Done = true</td></tr>
+      <tr><td align="left">3:let next = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5040 [shape=cds, label=<<font color="black">4:app __x3__ = (IsAbruptCompletion next)</font>> color="black" fillcolor="white" style=filled]
-  node5041 [shape=diamond, label=<<font color="black">__x3__</font>> color="black" fillcolor="white" style=filled]
-  node5036 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let status = __x1__</td></tr>
-      <tr><td align="left">1:[? status]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5046 [shape=none, margin=0, label=<<font color="black">
+  node5004 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:return CONST_empty</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5039 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let next = __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5033 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5042 -> node5043 [ color="black"]
-  node5040 -> node5041 [ color="black"]
-  node5036 -> node5037 [ color="black"]
-  node5038 -> node5039 [ color="black"]
-  node5032 -> node5034 [ color="black"]
-  node5044 -> node5045 [label=<<font color="black">true</font>> color="black"]
-  node5044 -> node5046 [label=<<font color="black">false</font>> color="black"]
-  node5045 -> node5046 [ color="black"]
-  node5037 -> node5038 [label=<<font color="black">true</font>> color="black"]
-  node5037 -> node5046 [label=<<font color="black">false</font>> color="black"]
-  node5046 -> node5033 [ color="black"]
-  node5039 -> node5040 [ color="black"]
-  node5041 -> node5042 [label=<<font color="black">true</font>> color="black"]
-  node5041 -> node5043 [label=<<font color="black">false</font>> color="black"]
-  node5035 -> node5036 [ color="black"]
-  node5034 -> node5035 [ color="black"]
-  node5043 -> node5044 [ color="black"]
+  node4998 -> node4999 [ color="black"]
+  node5004 -> node4992 [ color="black"]
+  node5003 -> node5004 [ color="black"]
+  node4994 -> node4995 [ color="black"]
+  node5000 -> node5001 [ color="black"]
+  node4997 -> node4998 [ color="black"]
+  node4993 -> node4994 [ color="black"]
+  node4999 -> node5000 [label=<<font color="black">true</font>> color="black"]
+  node4999 -> node5001 [label=<<font color="black">false</font>> color="black"]
+  node4996 -> node4997 [ color="black"]
+  node4995 -> node4996 [label=<<font color="black">true</font>> color="black"]
+  node4995 -> node5004 [label=<<font color="black">false</font>> color="black"]
+  node4991 -> node4993 [ color="black"]
+  node5002 -> node5003 [label=<<font color="black">true</font>> color="black"]
+  node5002 -> node5004 [label=<<font color="black">false</font>> color="black"]
+  node5001 -> node5002 [ color="black"]
 }

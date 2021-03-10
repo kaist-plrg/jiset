@@ -24,22 +24,16 @@
     while (< __x9__ __x7__.length) if (= __x6__[__x8__] __x7__[__x9__]) __x10__ = true else {}
   }
   if __x10__ throw SyntaxError else return undefined
-  access __x11__ = (FormalParameters "Contains")
-  app __x12__ = (__x11__ "YieldExpression")
+  access __x11__ = (__x11__ "Contains" "YieldExpression")
+  if (= __x11__ true) throw SyntaxError else return undefined
+  access __x12__ = (__x12__ "Contains" "AwaitExpression")
   if (= __x12__ true) throw SyntaxError else return undefined
-  access __x13__ = (FormalParameters "Contains")
-  app __x14__ = (__x13__ "AwaitExpression")
+  access __x13__ = (__x13__ "Contains" "SuperProperty")
+  if (= __x13__ true) throw SyntaxError else return undefined
+  access __x14__ = (__x14__ "Contains" "SuperProperty")
   if (= __x14__ true) throw SyntaxError else return undefined
-  access __x15__ = (FormalParameters "Contains")
-  app __x16__ = (__x15__ "SuperProperty")
+  access __x15__ = (__x15__ "Contains" "SuperCall")
+  if (= __x15__ true) throw SyntaxError else return undefined
+  access __x16__ = (__x16__ "Contains" "SuperCall")
   if (= __x16__ true) throw SyntaxError else return undefined
-  access __x17__ = (AsyncGeneratorBody "Contains")
-  app __x18__ = (__x17__ "SuperProperty")
-  if (= __x18__ true) throw SyntaxError else return undefined
-  access __x19__ = (FormalParameters "Contains")
-  app __x20__ = (__x19__ "SuperCall")
-  if (= __x20__ true) throw SyntaxError else return undefined
-  access __x21__ = (AsyncGeneratorBody "Contains")
-  app __x22__ = (__x21__ "SuperCall")
-  if (= __x22__ true) throw SyntaxError else return undefined
 }

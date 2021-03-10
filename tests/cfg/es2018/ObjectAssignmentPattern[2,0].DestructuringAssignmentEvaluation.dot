@@ -1,24 +1,22 @@
 digraph {
-  node5116 [shape=cds, label=<<font color="black">1:access __x1__ = (AssignmentPropertyList &quot;PropertyDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node5117 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ value)</font>> color="black" fillcolor="white" style=filled]
-  node5113 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5112 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5118 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:[? __x2__]</td></tr>
-      <tr><td align="left">2:return CONST_empty</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5114 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible value)</font>> color="black" fillcolor="white" style=filled]
-  node5115 [shape=none, margin=0, label=<<font color="black">
+  node5088 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5091 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:[? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5114 -> node5115 [ color="black"]
-  node5116 -> node5117 [ color="black"]
-  node5112 -> node5114 [ color="black"]
-  node5117 -> node5118 [ color="black"]
-  node5118 -> node5113 [ color="black"]
-  node5115 -> node5116 [ color="black"]
+  node5090 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible value)</font>> color="black" fillcolor="white" style=filled]
+  node5093 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x1__]</td></tr>
+      <tr><td align="left">2:return CONST_empty</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5089 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5092 [shape=cds, label=<<font color="black">1:access __x1__ = (AssignmentPropertyList &quot;PropertyDestructuringAssignmentEvaluation&quot; value)</font>> color="black" fillcolor="white" style=filled]
+  node5093 -> node5089 [ color="black"]
+  node5090 -> node5091 [ color="black"]
+  node5091 -> node5092 [ color="black"]
+  node5092 -> node5093 [ color="black"]
+  node5088 -> node5090 [ color="black"]
 }

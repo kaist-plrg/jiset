@@ -1,25 +1,23 @@
 digraph {
-  node3962 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3966 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ array 0i)</font>> color="black" fillcolor="white" style=filled]
-  node3963 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
-  node3967 [shape=none, margin=0, label=<<font color="black">
+  node3947 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3951 [shape=cds, label=<<font color="black">1:access __x1__ = (ElementList &quot;ArrayAccumulation&quot; array 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3948 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3952 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let len = __x2__</td></tr>
+      <tr><td align="left">1:let len = __x1__</td></tr>
       <tr><td align="left">2:[? len]</td></tr>
       <tr><td align="left">3:return array</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3964 [shape=none, margin=0, label=<<font color="black">
+  node3949 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3950 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let array = [! __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3961 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3965 [shape=cds, label=<<font color="black">1:access __x1__ = (ElementList &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3961 -> node3963 [ color="black"]
-  node3967 -> node3962 [ color="black"]
-  node3963 -> node3964 [ color="black"]
-  node3965 -> node3966 [ color="black"]
-  node3964 -> node3965 [ color="black"]
-  node3966 -> node3967 [ color="black"]
+  node3951 -> node3952 [ color="black"]
+  node3947 -> node3949 [ color="black"]
+  node3950 -> node3951 [ color="black"]
+  node3952 -> node3948 [ color="black"]
+  node3949 -> node3950 [ color="black"]
 }

@@ -1,26 +1,26 @@
 digraph {
-  node18015 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18011 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18017 [shape=none, margin=0, label=<<font color="black">
+  node17688 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17692 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node17695 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:return [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18016 [shape=cds, label=<<font color="black">1:app __x1__ = (target.GetPrototypeOf target)</font>> color="black" fillcolor="white" style=filled]
-  node18012 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18013 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
-  node18010 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18014 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node18016 -> node18017 [ color="black"]
-  node18013 -> node18014 [ color="black"]
-  node18012 -> node18013 [ color="black"]
-  node18017 -> node18011 [ color="black"]
-  node18015 -> node18016 [ color="black"]
-  node18010 -> node18012 [ color="black"]
-  node18014 -> node18015 [label=<<font color="black">true</font>> color="black"]
-  node18014 -> node18016 [label=<<font color="black">false</font>> color="black"]
+  node17689 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17693 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17690 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17694 [shape=cds, label=<<font color="black">1:app __x1__ = (target.GetPrototypeOf target)</font>> color="black" fillcolor="white" style=filled]
+  node17691 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node17692 -> node17693 [label=<<font color="black">true</font>> color="black"]
+  node17692 -> node17694 [label=<<font color="black">false</font>> color="black"]
+  node17688 -> node17690 [ color="black"]
+  node17691 -> node17692 [ color="black"]
+  node17693 -> node17694 [ color="black"]
+  node17690 -> node17691 [ color="black"]
+  node17694 -> node17695 [ color="black"]
+  node17695 -> node17689 [ color="black"]
 }

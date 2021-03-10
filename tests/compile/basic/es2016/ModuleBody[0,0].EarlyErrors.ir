@@ -35,13 +35,10 @@
   if __x19__ throw SyntaxError else return undefined
   if (contains ModuleItemList "super") throw SyntaxError else return undefined
   if (contains ModuleItemList NewTarget) throw SyntaxError else return undefined
-  access __x20__ = (ModuleItemList "ContainsDuplicateLabels")
-  app __x21__ = (__x20__ (new []))
+  access __x20__ = (ModuleItemList "ContainsDuplicateLabels" (new []))
+  if (= __x20__ true) throw SyntaxError else return undefined
+  access __x21__ = (ModuleItemList "ContainsUndefinedBreakTarget" (new []))
   if (= __x21__ true) throw SyntaxError else return undefined
-  access __x22__ = (ModuleItemList "ContainsUndefinedBreakTarget")
-  app __x23__ = (__x22__ (new []))
-  if (= __x23__ true) throw SyntaxError else return undefined
-  access __x24__ = (ModuleItemList "ContainsUndefinedContinueTarget")
-  app __x25__ = (__x24__ (new []) (new []))
-  if (= __x25__ true) throw SyntaxError else return undefined
+  access __x22__ = (ModuleItemList "ContainsUndefinedContinueTarget" (new []) (new []))
+  if (= __x22__ true) throw SyntaxError else return undefined
 }

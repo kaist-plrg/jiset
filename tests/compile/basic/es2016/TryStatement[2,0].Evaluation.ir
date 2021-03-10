@@ -2,13 +2,12 @@
   access __x0__ = (Block "Evaluation")
   let B = __x0__
   if (= B.Type CONST_throw) {
-    access __x1__ = (Catch "CatchClauseEvaluation")
-    app __x2__ = (__x1__ B.Value)
-    let C = __x2__
+    access __x1__ = (Catch "CatchClauseEvaluation" B.Value)
+    let C = __x1__
   } else let C = B
-  access __x3__ = (Finally "Evaluation")
-  let F = __x3__
+  access __x2__ = (Finally "Evaluation")
+  let F = __x2__
   if (= F.Type CONST_normal) let F = C else {}
-  app __x4__ = (UpdateEmpty F undefined)
-  return __x4__
+  app __x3__ = (UpdateEmpty F undefined)
+  return __x3__
 }

@@ -3,9 +3,8 @@
     access __x0__ = (BindingIdentifier "StringValue")
     let className = __x0__
   }
-  access __x1__ = (ClassTail "ClassDefinitionEvaluation")
-  app __x2__ = (__x1__ className className)
-  let value = __x2__
+  access __x1__ = (ClassTail "ClassDefinitionEvaluation" className className)
+  let value = __x1__
   [? value]
   value.SourceText = (get-syntax ClassExpression)
   return value

@@ -1,52 +1,52 @@
 digraph {
-  node18328 [shape=cds, label=<<font color="black">6:app __x4__ = (CreateDataProperty result &quot;revoke&quot; revoker)</font>> color="black" fillcolor="white" style=filled]
-  node18316 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18321 [shape=none, margin=0, label=<<font color="black">
+  node17986 [shape=cds, label=<<font color="black">2:app __x1__ = (CreateBuiltinFunction steps (new [&quot;RevocableProxy&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node17988 [shape=cds, label=<<font color="black">4:app __x2__ = (ObjectCreate INTRINSIC_ObjectPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node17983 [shape=cds, label=<<font color="black">app handler = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node17980 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17984 [shape=cds, label=<<font color="black">0:app __x0__ = (ProxyCreate target handler)</font>> color="black" fillcolor="white" style=filled]
+  node17991 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let p = [? __x0__]</td></tr>
-      <tr><td align="left">1:let steps = ProxyRevocationFunctions</td></tr>
+      <tr><td align="left">5:__x3__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18320 [shape=cds, label=<<font color="black">0:app __x0__ = (ProxyCreate target handler)</font>> color="black" fillcolor="white" style=filled]
-  node18324 [shape=cds, label=<<font color="black">4:app __x2__ = (ObjectCreate INTRINSIC_ObjectPrototype)</font>> color="black" fillcolor="white" style=filled]
-  node18329 [shape=none, margin=0, label=<<font color="black">
+  node17981 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17989 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let result = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17993 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:__x4__</td></tr>
       <tr><td align="left">7:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18325 [shape=none, margin=0, label=<<font color="black">
+  node17982 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17990 [shape=cds, label=<<font color="black">5:app __x3__ = (CreateDataProperty result &quot;proxy&quot; p)</font>> color="black" fillcolor="white" style=filled]
+  node17985 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let result = __x2__</td></tr>
+      <tr><td align="left">0:let p = [? __x0__]</td></tr>
+      <tr><td align="left">1:let steps = ProxyRevocationFunctions</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18319 [shape=cds, label=<<font color="black">app handler = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node18326 [shape=cds, label=<<font color="black">5:app __x3__ = (CreateDataProperty result &quot;proxy&quot; p)</font>> color="black" fillcolor="white" style=filled]
-  node18322 [shape=cds, label=<<font color="black">2:app __x1__ = (CreateBuiltinFunction steps (new [&quot;RevocableProxy&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node18318 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18327 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:__x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18317 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18323 [shape=none, margin=0, label=<<font color="black">
+  node17992 [shape=cds, label=<<font color="black">6:app __x4__ = (CreateDataProperty result &quot;revoke&quot; revoker)</font>> color="black" fillcolor="white" style=filled]
+  node17987 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let revoker = __x1__</td></tr>
       <tr><td align="left">3:revoker.RevocableProxy = p</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18323 -> node18324 [ color="black"]
-  node18322 -> node18323 [ color="black"]
-  node18329 -> node18317 [ color="black"]
-  node18316 -> node18318 [ color="black"]
-  node18319 -> node18320 [ color="black"]
-  node18325 -> node18326 [ color="black"]
-  node18326 -> node18327 [ color="black"]
-  node18324 -> node18325 [ color="black"]
-  node18321 -> node18322 [ color="black"]
-  node18328 -> node18329 [ color="black"]
-  node18318 -> node18319 [ color="black"]
-  node18327 -> node18328 [ color="black"]
-  node18320 -> node18321 [ color="black"]
+  node17986 -> node17987 [ color="black"]
+  node17991 -> node17992 [ color="black"]
+  node17985 -> node17986 [ color="black"]
+  node17990 -> node17991 [ color="black"]
+  node17982 -> node17983 [ color="black"]
+  node17983 -> node17984 [ color="black"]
+  node17992 -> node17993 [ color="black"]
+  node17989 -> node17990 [ color="black"]
+  node17988 -> node17989 [ color="black"]
+  node17987 -> node17988 [ color="black"]
+  node17980 -> node17982 [ color="black"]
+  node17993 -> node17981 [ color="black"]
+  node17984 -> node17985 [ color="black"]
 }

@@ -101,11 +101,10 @@
         [! __x31__]
       }
       if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) {
-        access __x32__ = (d "InstantiateFunctionObject")
-        app __x33__ = (__x32__ env)
-        let fo = __x33__
-        app __x34__ = (envRec.InitializeBinding envRec dn fo)
-        __x34__
+        access __x32__ = (d "InstantiateFunctionObject" env)
+        let fo = __x32__
+        app __x33__ = (envRec.InitializeBinding envRec dn fo)
+        __x33__
       } else {}
       __x28__ = (+ __x28__ 1i)
     }

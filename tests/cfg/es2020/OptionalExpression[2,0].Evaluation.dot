@@ -1,40 +1,38 @@
 digraph {
-  node4852 [shape=none, margin=0, label=<<font color="black">
+  node4821 [shape=cds, label=<<font color="black">4:access __x2__ = (OptionalChain &quot;ChainEvaluation&quot; baseValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node4817 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node4814 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4822 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let baseReference = __x0__</td></tr>
+      <tr><td align="left">4:return __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4856 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4857 [shape=cds, label=<<font color="black">4:access __x2__ = (OptionalChain &quot;ChainEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4853 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
-  node4849 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4854 [shape=none, margin=0, label=<<font color="black">
+  node4818 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let baseValue = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4850 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4859 [shape=none, margin=0, label=<<font color="black">
+  node4813 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4819 [shape=diamond, label=<<font color="black">(|| (= baseValue undefined) (= baseValue null))</font>> color="black" fillcolor="white" style=filled]
+  node4816 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:return __x3__</td></tr>
+      <tr><td align="left">0:let baseReference = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4851 [shape=cds, label=<<font color="black">0:access __x0__ = (OptionalExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4855 [shape=diamond, label=<<font color="black">(|| (= baseValue undefined) (= baseValue null))</font>> color="black" fillcolor="white" style=filled]
-  node4858 [shape=cds, label=<<font color="black">4:app __x3__ = (__x2__ baseValue baseReference)</font>> color="black" fillcolor="white" style=filled]
-  node4853 -> node4854 [ color="black"]
-  node4859 -> node4850 [ color="black"]
-  node4852 -> node4853 [ color="black"]
-  node4849 -> node4851 [ color="black"]
-  node4855 -> node4856 [label=<<font color="black">true</font>> color="black"]
-  node4855 -> node4857 [label=<<font color="black">false</font>> color="black"]
-  node4856 -> node4857 [ color="black"]
-  node4851 -> node4852 [ color="black"]
-  node4854 -> node4855 [ color="black"]
-  node4858 -> node4859 [ color="black"]
-  node4857 -> node4858 [ color="black"]
+  node4820 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4815 [shape=cds, label=<<font color="black">0:access __x0__ = (OptionalExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4819 -> node4820 [label=<<font color="black">true</font>> color="black"]
+  node4819 -> node4821 [label=<<font color="black">false</font>> color="black"]
+  node4820 -> node4821 [ color="black"]
+  node4817 -> node4818 [ color="black"]
+  node4818 -> node4819 [ color="black"]
+  node4815 -> node4816 [ color="black"]
+  node4813 -> node4815 [ color="black"]
+  node4822 -> node4814 [ color="black"]
+  node4816 -> node4817 [ color="black"]
+  node4821 -> node4822 [ color="black"]
 }

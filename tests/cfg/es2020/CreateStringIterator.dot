@@ -1,5 +1,13 @@
 digraph {
-  node14462 [shape=none, margin=0, label=<<font color="black">
+  node14117 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryObjectCreate INTRINSIC_StringIteratorPrototype (new [&quot;IteratedString&quot;, &quot;StringNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node14113 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14116 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14115 [shape=cds, label=<<font color="black">0:app __x0__ = (Type string)</font>> color="black" fillcolor="white" style=filled]
+  node14118 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let iterator = __x1__</td></tr>
       <tr><td align="left">2:iterator.IteratedString = string</td></tr>
@@ -7,20 +15,12 @@ digraph {
       <tr><td align="left">4:return iterator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14456 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14460 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14461 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryObjectCreate INTRINSIC_StringIteratorPrototype (new [&quot;IteratedString&quot;, &quot;StringNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node14458 [shape=cds, label=<<font color="black">app string = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node14459 [shape=cds, label=<<font color="black">0:app __x0__ = (Type string)</font>> color="black" fillcolor="white" style=filled]
-  node14457 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14461 -> node14462 [ color="black"]
-  node14460 -> node14461 [ color="black"]
-  node14456 -> node14458 [ color="black"]
-  node14458 -> node14459 [ color="black"]
-  node14459 -> node14460 [ color="black"]
-  node14462 -> node14457 [ color="black"]
+  node14114 [shape=cds, label=<<font color="black">app string = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node14112 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14118 -> node14113 [ color="black"]
+  node14112 -> node14114 [ color="black"]
+  node14116 -> node14117 [ color="black"]
+  node14115 -> node14116 [ color="black"]
+  node14114 -> node14115 [ color="black"]
+  node14117 -> node14118 [ color="black"]
 }

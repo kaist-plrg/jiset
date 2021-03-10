@@ -1,11 +1,10 @@
 {
-  access __x0__ = (MethodDefinition "DefineMethod")
-  app __x1__ = (__x0__ object)
-  let methodDef = __x1__
+  access __x0__ = (MethodDefinition "DefineMethod" object)
+  let methodDef = __x0__
   [? methodDef]
-  app __x2__ = (SetFunctionName methodDef.Closure methodDef.Key)
-  __x2__
+  app __x1__ = (SetFunctionName methodDef.Closure methodDef.Key)
+  __x1__
   let desc = (new PropertyDescriptor("Value" -> methodDef.Closure, "Writable" -> true, "Enumerable" -> enumerable, "Configurable" -> true))
-  app __x3__ = (DefinePropertyOrThrow object methodDef.Key desc)
-  return [? __x3__]
+  app __x2__ = (DefinePropertyOrThrow object methodDef.Key desc)
+  return [? __x2__]
 }

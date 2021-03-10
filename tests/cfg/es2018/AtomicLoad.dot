@@ -1,8 +1,13 @@
 digraph {
-  node16881 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16885 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
-  node16882 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16886 [shape=none, margin=0, label=<<font color="black">
+  node16559 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16566 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16560 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16561 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
+  node16564 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let i = [? __x1__]</td></tr>
       <tr><td align="left">2:let arrayTypeName = typedArray.TypedArrayName</td></tr>
@@ -12,23 +17,18 @@ digraph {
       <tr><td align="left">6:let indexedPosition = (+ (* i elementSize) offset)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16883 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
-  node16887 [shape=cds, label=<<font color="black">7:app __x2__ = (GetValueFromBuffer buffer indexedPosition elementType true &quot;SeqCst&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node16884 [shape=none, margin=0, label=<<font color="black">
+  node16563 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node16562 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16888 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16886 -> node16887 [ color="black"]
-  node16888 -> node16882 [ color="black"]
-  node16887 -> node16888 [ color="black"]
-  node16881 -> node16883 [ color="black"]
-  node16885 -> node16886 [ color="black"]
-  node16884 -> node16885 [ color="black"]
-  node16883 -> node16884 [ color="black"]
+  node16565 [shape=cds, label=<<font color="black">7:app __x2__ = (GetValueFromBuffer buffer indexedPosition elementType true &quot;SeqCst&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16561 -> node16562 [ color="black"]
+  node16563 -> node16564 [ color="black"]
+  node16566 -> node16560 [ color="black"]
+  node16562 -> node16563 [ color="black"]
+  node16559 -> node16561 [ color="black"]
+  node16565 -> node16566 [ color="black"]
+  node16564 -> node16565 [ color="black"]
 }

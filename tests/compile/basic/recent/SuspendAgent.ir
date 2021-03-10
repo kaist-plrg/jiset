@@ -1,5 +1,5 @@
 {
-  app __x0__ = (AgentCanSuspend )
+  app __x0__ = (AgentCanSuspend)
   assert (= __x0__ true)
   ??? "Perform LeaveCriticalSection ( id:{WL} ) and suspend id:{W} for up to id:{timeout} milliseconds , performing the combined operation in such a way that a notification that arrives after the critical section is exited but before the suspension takes effect is not lost . id:{W} can notify either because the timeout expired or because it was notified explicitly by another agent calling NotifyWaiter ( id:{WL} , id:{W} ) , and not for any other reasons at all ."
   app __x1__ = (EnterCriticalSection WL)

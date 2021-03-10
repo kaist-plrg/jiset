@@ -8,17 +8,16 @@
   if (&& (! (= Initializer absent)) (= v undefined)) {
     app __x3__ = (IsAnonymousFunctionDefinition Initializer)
     if (= __x3__ true) {
-      access __x4__ = (Initializer "NamedEvaluation")
-      app __x5__ = (__x4__ P)
-      v = __x5__
+      access __x4__ = (Initializer "NamedEvaluation" P)
+      v = __x4__
     } else {
-      access __x6__ = (Initializer "Evaluation")
-      let defaultValue = __x6__
-      app __x7__ = (GetValue defaultValue)
-      v = [? __x7__]
+      access __x5__ = (Initializer "Evaluation")
+      let defaultValue = __x5__
+      app __x6__ = (GetValue defaultValue)
+      v = [? __x6__]
     }
   } else {}
-  app __x8__ = (PutValue lref v)
-  [? __x8__]
+  app __x7__ = (PutValue lref v)
+  [? __x7__]
   return (new [P])
 }

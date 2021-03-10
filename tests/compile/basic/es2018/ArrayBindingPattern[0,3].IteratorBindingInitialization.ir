@@ -1,10 +1,8 @@
 {
   if (! (= Elision absent)) {
-    access __x0__ = (Elision "IteratorDestructuringAssignmentEvaluation")
-    app __x1__ = (__x0__ iteratorRecord)
-    [? __x1__]
+    access __x0__ = (Elision "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
+    [? __x0__]
   } else {}
-  access __x2__ = (BindingRestElement "IteratorBindingInitialization")
-  app __x3__ = (__x2__ iteratorRecord environment)
-  return __x3__
+  access __x1__ = (BindingRestElement "IteratorBindingInitialization" iteratorRecord environment)
+  return __x1__
 }

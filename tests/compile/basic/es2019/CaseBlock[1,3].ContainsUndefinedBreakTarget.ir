@@ -1,16 +1,13 @@
 {
   if (! (= CaseClauses0 absent)) {
-    access __x0__ = (CaseClauses0 "ContainsUndefinedBreakTarget")
-    app __x1__ = (__x0__ labelSet)
-    let hasUndefinedLabels = __x1__
+    access __x0__ = (CaseClauses0 "ContainsUndefinedBreakTarget" labelSet)
+    let hasUndefinedLabels = __x0__
     if (= hasUndefinedLabels true) return true else {}
   } else {}
-  access __x2__ = (DefaultClause "ContainsUndefinedBreakTarget")
-  app __x3__ = (__x2__ labelSet)
-  let hasUndefinedLabels = __x3__
+  access __x1__ = (DefaultClause "ContainsUndefinedBreakTarget" labelSet)
+  let hasUndefinedLabels = __x1__
   if (= hasUndefinedLabels true) return true else {}
   if (= CaseClauses1 absent) return false else {}
-  access __x4__ = (CaseClauses1 "ContainsUndefinedBreakTarget")
-  app __x5__ = (__x4__ labelSet)
-  return __x5__
+  access __x2__ = (CaseClauses1 "ContainsUndefinedBreakTarget" labelSet)
+  return __x2__
 }

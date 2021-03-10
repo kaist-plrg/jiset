@@ -1,13 +1,7 @@
 digraph {
-  node2718 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let keys = (new [])</td></tr>
-      <tr><td align="left">1:let str = O.StringData</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2717 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2716 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2720 [shape=none, margin=0, label=<<font color="black">
+  node2712 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2713 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2716 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (= __x0__ String)</td></tr>
       <tr><td align="left">3:let len = str.length</td></tr>
@@ -18,9 +12,15 @@ digraph {
       <tr><td align="left">12:return keys</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2719 [shape=cds, label=<<font color="black">2:app __x0__ = (Type str)</font>> color="black" fillcolor="white" style=filled]
-  node2716 -> node2718 [ color="black"]
-  node2718 -> node2719 [ color="black"]
-  node2719 -> node2720 [ color="black"]
-  node2720 -> node2717 [ color="black"]
+  node2715 [shape=cds, label=<<font color="black">2:app __x0__ = (Type str)</font>> color="black" fillcolor="white" style=filled]
+  node2714 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let keys = (new [])</td></tr>
+      <tr><td align="left">1:let str = O.StringData</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2712 -> node2714 [ color="black"]
+  node2714 -> node2715 [ color="black"]
+  node2715 -> node2716 [ color="black"]
+  node2716 -> node2713 [ color="black"]
 }

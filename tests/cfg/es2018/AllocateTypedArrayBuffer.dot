@@ -1,5 +1,5 @@
 digraph {
-  node15799 [shape=none, margin=0, label=<<font color="black">
+  node15477 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
       <tr><td align="left">2:assert (! (&lt; length 0i))</td></tr>
@@ -8,9 +8,9 @@ digraph {
       <tr><td align="left">5:let byteLength = (* elementSize length)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15798 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15797 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15801 [shape=none, margin=0, label=<<font color="black">
+  node15478 [shape=cds, label=<<font color="black">6:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node15475 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15479 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let data = [? __x0__]</td></tr>
       <tr><td align="left">7:O.ViewedArrayBuffer = data</td></tr>
@@ -20,9 +20,9 @@ digraph {
       <tr><td align="left">11:return O</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15800 [shape=cds, label=<<font color="black">6:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node15797 -> node15799 [ color="black"]
-  node15799 -> node15800 [ color="black"]
-  node15800 -> node15801 [ color="black"]
-  node15801 -> node15798 [ color="black"]
+  node15476 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15475 -> node15477 [ color="black"]
+  node15477 -> node15478 [ color="black"]
+  node15478 -> node15479 [ color="black"]
+  node15479 -> node15476 [ color="black"]
 }

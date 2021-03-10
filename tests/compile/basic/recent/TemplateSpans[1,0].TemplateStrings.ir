@@ -1,15 +1,14 @@
 {
-  access __x0__ = (TemplateMiddleList "TemplateStrings")
-  app __x1__ = (__x0__ raw)
-  let middle = __x1__
+  access __x0__ = (TemplateMiddleList "TemplateStrings" raw)
+  let middle = __x0__
   if (= raw false) {
-    access __x2__ = (TemplateTail "TV")
-    let tail = __x2__
+    access __x1__ = (TemplateTail "TV")
+    let tail = __x1__
   } else {
-    access __x3__ = (TemplateTail "TRV")
-    let tail = __x3__
+    access __x2__ = (TemplateTail "TRV")
+    let tail = __x2__
   }
-  let __x4__ = (copy-obj middle)
-  append tail -> __x4__
-  return __x4__
+  let __x3__ = (copy-obj middle)
+  append tail -> __x3__
+  return __x3__
 }

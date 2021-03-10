@@ -1,15 +1,13 @@
 {
-  access __x0__ = (ImportsList "ImportEntriesForModule")
-  app __x1__ = (__x0__ module)
-  let specs = __x1__
-  access __x2__ = (ImportSpecifier "ImportEntriesForModule")
-  app __x3__ = (__x2__ module)
-  let __x4__ = __x3__
-  let __x5__ = 0i
-  while (< __x5__ __x4__.length) {
-    let __x6__ = __x4__[__x5__]
-    append __x6__ -> specs
-    __x5__ = (+ __x5__ 1i)
+  access __x0__ = (ImportsList "ImportEntriesForModule" module)
+  let specs = __x0__
+  access __x1__ = (ImportSpecifier "ImportEntriesForModule" module)
+  let __x2__ = __x1__
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let __x4__ = __x2__[__x3__]
+    append __x4__ -> specs
+    __x3__ = (+ __x3__ 1i)
   }
   return specs
 }

@@ -1,17 +1,24 @@
 digraph {
-  node2042 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2042 [shape=diamond, label=<<font color="black">(= callerContext null)</font>> color="black" fillcolor="white" style=filled]
   node2046 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">GLOBAL_context = null</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2049 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let __x0__ = (- GLOBAL_executionStack.length 1i)</td></tr>
       <tr><td align="left">(pop GLOBAL_executionStack __x0__)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
+  node2039 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node2047 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">11:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2043 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">GLOBAL_context = null</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2044 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let calleeContext = (new ExecutionContext(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
       <tr><td align="left">3:calleeContext.Function = F</td></tr>
@@ -24,28 +31,21 @@ digraph {
       <tr><td align="left">9:??? &quot;Let id:{result} be the Completion Record that is the result of evaluating id:{F} in an implementation defined manner that conforms to the specification of id:{F} . id:{thisArgument} is the value:{this} value , id:{argumentsList} provides the named parameters , and the NewTarget value is value:{undefined} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2043 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2048 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext)</font>> color="black" fillcolor="white" style=filled]
-  node2044 [shape=none, margin=0, label=<<font color="black">
+  node2045 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext)</font>> color="black" fillcolor="white" style=filled]
+  node2041 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let callerContext = GLOBAL_context</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2045 [shape=diamond, label=<<font color="black">(= callerContext null)</font>> color="black" fillcolor="white" style=filled]
-  node2050 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
-      <tr><td align="left">11:return result</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2049 -> node2050 [ color="black"]
-  node2050 -> node2043 [ color="black"]
+  node2040 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2039 -> node2041 [ color="black"]
+  node2042 -> node2043 [label=<<font color="black">true</font>> color="black"]
+  node2042 -> node2044 [label=<<font color="black">false</font>> color="black"]
   node2046 -> node2047 [ color="black"]
-  node2042 -> node2044 [ color="black"]
+  node2041 -> node2042 [ color="black"]
+  node2043 -> node2044 [ color="black"]
+  node2047 -> node2040 [ color="black"]
   node2044 -> node2045 [ color="black"]
   node2045 -> node2046 [label=<<font color="black">true</font>> color="black"]
   node2045 -> node2047 [label=<<font color="black">false</font>> color="black"]
-  node2047 -> node2048 [ color="black"]
-  node2048 -> node2049 [label=<<font color="black">true</font>> color="black"]
-  node2048 -> node2050 [label=<<font color="black">false</font>> color="black"]
 }

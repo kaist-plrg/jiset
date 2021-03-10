@@ -39,48 +39,45 @@
   }
   if (= constructor CONST_empty) if (! (= ClassHeritage absent)) ??? "Let id:{constructor} be the result of parsing the source text in:{} out:{}" else ??? "Let id:{constructor} be the result of parsing the source text in:{} out:{}" else {}
   GLOBAL_context.LexicalEnvironment = classScope
-  access __x9__ = (constructor "DefineMethod")
-  app __x10__ = (__x9__ proto constructorParent)
-  let constructorInfo = __x10__
-  app __x11__ = (IsAbruptCompletion constructorInfo)
-  assert (! __x11__)
+  access __x9__ = (constructor "DefineMethod" proto constructorParent)
+  let constructorInfo = __x9__
+  app __x10__ = (IsAbruptCompletion constructorInfo)
+  assert (! __x10__)
   let F = constructorInfo.Closure
   if (! (= ClassHeritage absent)) F.ConstructorKind = "derived" else {}
-  app __x12__ = (MakeConstructor F false proto)
+  app __x11__ = (MakeConstructor F false proto)
+  __x11__
+  app __x12__ = (MakeClassConstructor F)
   __x12__
-  app __x13__ = (MakeClassConstructor F)
+  app __x13__ = (CreateMethodProperty proto "constructor" F)
   __x13__
-  app __x14__ = (CreateMethodProperty proto "constructor" F)
-  __x14__
   if (= ClassBody absent) let methods = (new []) else {
-    access __x15__ = (ClassBody "NonConstructorMethodDefinitions")
-    let methods = __x15__
+    access __x14__ = (ClassBody "NonConstructorMethodDefinitions")
+    let methods = __x14__
   }
-  let __x16__ = methods
-  let __x17__ = 0i
-  while (< __x17__ __x16__.length) {
-    let m = __x16__[__x17__]
-    access __x18__ = (m "IsStatic")
-    if (= __x18__ false) {
-      access __x19__ = (m "PropertyDefinitionEvaluation")
-      app __x20__ = (__x19__ proto false)
-      let status = __x20__
+  let __x15__ = methods
+  let __x16__ = 0i
+  while (< __x16__ __x15__.length) {
+    let m = __x15__[__x16__]
+    access __x17__ = (m "IsStatic")
+    if (= __x17__ false) {
+      access __x18__ = (m "PropertyDefinitionEvaluation" proto false)
+      let status = __x18__
     } else {
-      access __x21__ = (m "PropertyDefinitionEvaluation")
-      app __x22__ = (__x21__ F false)
-      let status = __x22__
+      access __x19__ = (m "PropertyDefinitionEvaluation" F false)
+      let status = __x19__
     }
-    app __x23__ = (IsAbruptCompletion status)
-    if __x23__ {
+    app __x20__ = (IsAbruptCompletion status)
+    if __x20__ {
       GLOBAL_context.LexicalEnvironment = lex
       return status
     } else {}
-    __x17__ = (+ __x17__ 1i)
+    __x16__ = (+ __x16__ 1i)
   }
   GLOBAL_context.LexicalEnvironment = lex
   if (! (= className undefined)) {
-    app __x24__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec className F)
-    __x24__
+    app __x21__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec className F)
+    __x21__
   } else {}
   return F
 }

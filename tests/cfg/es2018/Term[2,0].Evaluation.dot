@@ -1,28 +1,26 @@
 digraph {
-  node13708 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13709 [shape=cds, label=<<font color="black">0:access __x0__ = (Atom &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node13710 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ direction)</font>> color="black" fillcolor="white" style=filled]
-  node13713 [shape=none, margin=0, label=<<font color="black">
+  node13392 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13393 [shape=cds, label=<<font color="black">0:access __x0__ = (Atom &quot;Evaluation&quot; direction)</font>> color="black" fillcolor="white" style=filled]
+  node13391 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13394 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let min = __x2__[0i]</td></tr>
-      <tr><td align="left">1:let max = __x2__[1i]</td></tr>
-      <tr><td align="left">1:let greedy = __x2__[2i]</td></tr>
+      <tr><td align="left">0:let m = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13395 [shape=cds, label=<<font color="black">1:access __x1__ = (Quantifier &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node13396 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let min = __x1__[0i]</td></tr>
+      <tr><td align="left">1:let max = __x1__[1i]</td></tr>
+      <tr><td align="left">1:let greedy = __x1__[2i]</td></tr>
       <tr><td align="left">3:??? &quot;Let id:{parenIndex} be the number of left - capturing parentheses in the entire regular expression that occur to the left of this nt:{Term} . This is the total number of grammar:{Atom4, [GroupSpecifier, Disjunction]} Parse Nodes prior to or enclosing this nt:{Term} .&quot;</td></tr>
       <tr><td align="left">4:??? &quot;Let id:{parenCount} be the number of left - capturing parentheses in nt:{Atom} . This is the total number of grammar:{Atom4, [GroupSpecifier, Disjunction]} Parse Nodes enclosed by nt:{Atom} .&quot;</td></tr>
       <tr><td align="left">5:??? &quot;Return an internal Matcher closure that takes two arguments , a State id:{x} and a Continuation id:{c} , and performs the following steps when evaluated : in:{} out:{}&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13711 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let m = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13712 [shape=cds, label=<<font color="black">1:access __x2__ = (Quantifier &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node13707 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13712 -> node13713 [ color="black"]
-  node13713 -> node13708 [ color="black"]
-  node13707 -> node13709 [ color="black"]
-  node13710 -> node13711 [ color="black"]
-  node13711 -> node13712 [ color="black"]
-  node13709 -> node13710 [ color="black"]
+  node13395 -> node13396 [ color="black"]
+  node13391 -> node13393 [ color="black"]
+  node13393 -> node13394 [ color="black"]
+  node13394 -> node13395 [ color="black"]
+  node13396 -> node13392 [ color="black"]
 }

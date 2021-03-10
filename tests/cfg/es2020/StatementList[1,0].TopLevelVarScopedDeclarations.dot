@@ -1,39 +1,39 @@
 digraph {
-  node6470 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6474 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let __x2__ = __x1__</td></tr>
-      <tr><td align="left">1:let __x3__ = 0i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6477 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return declarations</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6475 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
-  node6469 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6476 [shape=none, margin=0, label=<<font color="black">
+  node6391 [shape=cds, label=<<font color="black">0:access __x0__ = (StatementList &quot;TopLevelVarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6396 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let __x4__ = __x2__[__x3__]</td></tr>
       <tr><td align="left">append __x4__ -&gt; declarations</td></tr>
       <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6472 [shape=none, margin=0, label=<<font color="black">
+  node6392 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let declarations = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6473 [shape=cds, label=<<font color="black">1:access __x1__ = (StatementListItem &quot;TopLevelVarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6471 [shape=cds, label=<<font color="black">0:access __x0__ = (StatementList &quot;TopLevelVarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6475 -> node6476 [label=<<font color="black">true</font>> color="black"]
-  node6475 -> node6477 [label=<<font color="black">false</font>> color="black"]
-  node6476 -> node6475 [ color="black"]
-  node6469 -> node6471 [ color="black"]
-  node6474 -> node6475 [ color="black"]
-  node6471 -> node6472 [ color="black"]
-  node6472 -> node6473 [ color="black"]
-  node6473 -> node6474 [ color="black"]
-  node6477 -> node6470 [ color="black"]
+  node6395 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node6394 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let __x2__ = __x1__</td></tr>
+      <tr><td align="left">1:let __x3__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6389 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6390 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6397 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return declarations</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node6393 [shape=cds, label=<<font color="black">1:access __x1__ = (StatementListItem &quot;TopLevelVarScopedDeclarations&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node6397 -> node6390 [ color="black"]
+  node6391 -> node6392 [ color="black"]
+  node6392 -> node6393 [ color="black"]
+  node6395 -> node6396 [label=<<font color="black">true</font>> color="black"]
+  node6395 -> node6397 [label=<<font color="black">false</font>> color="black"]
+  node6389 -> node6391 [ color="black"]
+  node6394 -> node6395 [ color="black"]
+  node6396 -> node6395 [ color="black"]
+  node6393 -> node6394 [ color="black"]
 }

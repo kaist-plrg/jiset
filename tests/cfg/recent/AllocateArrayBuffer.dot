@@ -1,5 +1,13 @@
 digraph {
-  node17751 [shape=none, margin=0, label=<<font color="black">
+  node17390 [shape=cds, label=<<font color="black">1:app __x1__ = (CreateByteDataBlock byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node17386 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17389 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17388 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor constructor &quot;%ArrayBuffer.prototype%&quot; (new [&quot;ArrayBufferData&quot;, &quot;ArrayBufferByteLength&quot;, &quot;ArrayBufferDetachKey&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node17391 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let block = [? __x1__]</td></tr>
       <tr><td align="left">2:obj.ArrayBufferData = block</td></tr>
@@ -7,18 +15,10 @@ digraph {
       <tr><td align="left">4:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17747 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17748 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor constructor &quot;%ArrayBuffer.prototype%&quot; (new [&quot;ArrayBufferData&quot;, &quot;ArrayBufferByteLength&quot;, &quot;ArrayBufferDetachKey&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node17749 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17750 [shape=cds, label=<<font color="black">1:app __x1__ = (CreateByteDataBlock byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node17746 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17746 -> node17748 [ color="black"]
-  node17751 -> node17747 [ color="black"]
-  node17750 -> node17751 [ color="black"]
-  node17749 -> node17750 [ color="black"]
-  node17748 -> node17749 [ color="black"]
+  node17387 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17391 -> node17387 [ color="black"]
+  node17388 -> node17389 [ color="black"]
+  node17389 -> node17390 [ color="black"]
+  node17390 -> node17391 [ color="black"]
+  node17386 -> node17388 [ color="black"]
 }

@@ -1,32 +1,32 @@
 digraph {
-  node16862 [shape=cds, label=<<font color="black">1:app __x0__ = (AgentSignifier )</font>> color="black" fillcolor="white" style=filled]
-  node16866 [shape=cds, label=<<font color="black">5:app __x2__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
-  node16864 [shape=cds, label=<<font color="black">3:app __x1__ = (AgentCanSuspend )</font>> color="black" fillcolor="white" style=filled]
-  node16867 [shape=none, margin=0, label=<<font color="black">
+  node16544 [shape=cds, label=<<font color="black">5:app __x2__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
+  node16541 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= W __x0__)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16542 [shape=cds, label=<<font color="black">3:app __x1__ = (AgentCanSuspend)</font>> color="black" fillcolor="white" style=filled]
+  node16538 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16539 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16543 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:assert (= __x1__ true)</td></tr>
+      <tr><td align="left">4:??? &quot;Perform LeaveCriticalSection ( id:{WL} ) and suspend id:{W} for up to id:{timeout} milliseconds , performing the combined operation in such a way that a wakeup that arrives after the critical section is exited but before the suspension takes effect is not lost . id:{W} can wake up either because the timeout expired or because it was woken explicitly by another agent calling WakeWaiter ( id:{WL} , id:{W} ) , and not for any other reasons at all .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16540 [shape=cds, label=<<font color="black">1:app __x0__ = (AgentSignifier)</font>> color="black" fillcolor="white" style=filled]
+  node16545 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:__x2__</td></tr>
       <tr><td align="left">6:??? &quot;If id:{W} was woken explicitly by another agent calling WakeWaiter ( id:{WL} , id:{W} ) , return value:{true} .&quot;</td></tr>
       <tr><td align="left">7:return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16861 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16865 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:assert (= __x1__ true)</td></tr>
-      <tr><td align="left">4:??? &quot;Perform LeaveCriticalSection ( id:{WL} ) and suspend id:{W} for up to id:{timeout} milliseconds , performing the combined operation in such a way that a wakeup that arrives after the critical section is exited but before the suspension takes effect is not lost . id:{W} can wake up either because the timeout expired or because it was woken explicitly by another agent calling WakeWaiter ( id:{WL} , id:{W} ) , and not for any other reasons at all .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16863 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (= W __x0__)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16860 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16866 -> node16867 [ color="black"]
-  node16867 -> node16861 [ color="black"]
-  node16860 -> node16862 [ color="black"]
-  node16864 -> node16865 [ color="black"]
-  node16863 -> node16864 [ color="black"]
-  node16862 -> node16863 [ color="black"]
-  node16865 -> node16866 [ color="black"]
+  node16541 -> node16542 [ color="black"]
+  node16545 -> node16539 [ color="black"]
+  node16543 -> node16544 [ color="black"]
+  node16538 -> node16540 [ color="black"]
+  node16542 -> node16543 [ color="black"]
+  node16544 -> node16545 [ color="black"]
+  node16540 -> node16541 [ color="black"]
 }

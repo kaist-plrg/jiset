@@ -4,7 +4,7 @@
   let evalRealm = REALM
   app __x1__ = (HostEnsureCanCompileStrings callerRealm evalRealm)
   [? __x1__]
-  app __x2__ = (GetThisEnvironment )
+  app __x2__ = (GetThisEnvironment)
   let thisEnvRec = [! __x2__]
   if (= (typeof thisEnvRec) "FunctionEnvironmentRecord") {
     let F = thisEnvRec.FunctionObject

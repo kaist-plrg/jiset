@@ -10,22 +10,20 @@
     app __x2__ = (IsAnonymousFunctionDefinition Initializer)
     access __x3__ = (DestructuringAssignmentTarget "IsIdentifierRef")
     if (&& (= __x2__ true) (= __x3__ true)) {
-      access __x4__ = (Initializer "NamedEvaluation")
-      app __x5__ = (__x4__ lref.ReferencedName)
-      let rhsValue = [? __x5__]
+      access __x4__ = (Initializer "NamedEvaluation" lref.ReferencedName)
+      let rhsValue = [? __x4__]
     } else {
-      access __x6__ = (Initializer "Evaluation")
-      let defaultValue = __x6__
-      app __x7__ = (GetValue defaultValue)
-      let rhsValue = [? __x7__]
+      access __x5__ = (Initializer "Evaluation")
+      let defaultValue = __x5__
+      app __x6__ = (GetValue defaultValue)
+      let rhsValue = [? __x6__]
     }
   } else let rhsValue = v
   if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) {
     let assignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
-    access __x8__ = (assignmentPattern "DestructuringAssignmentEvaluation")
-    app __x9__ = (__x8__ rhsValue)
-    return __x9__
+    access __x7__ = (assignmentPattern "DestructuringAssignmentEvaluation" rhsValue)
+    return __x7__
   } else {}
-  app __x10__ = (PutValue lref rhsValue)
-  return [? __x10__]
+  app __x8__ = (PutValue lref rhsValue)
+  return [? __x8__]
 }

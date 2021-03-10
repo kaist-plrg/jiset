@@ -1,35 +1,35 @@
 digraph {
-  node3236 [shape=diamond, label=<<font color="black">(= (get-syntax BooleanLiteral) &quot;true&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3231 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3233 [shape=diamond, label=<<font color="black">(= (get-syntax BooleanLiteral) &quot;false&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3237 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3234 [shape=none, margin=0, label=<<font color="black">
+  node3230 [shape=diamond, label=<<font color="black">(= (get-syntax BooleanLiteral) &quot;false&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3231 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3238 [shape=none, margin=0, label=<<font color="black">
+  node3229 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3233 [shape=diamond, label=<<font color="black">(= (get-syntax BooleanLiteral) &quot;true&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3234 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
+      <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
+  node3228 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node3235 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3232 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3235 -> node3236 [ color="black"]
+  node3232 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3232 -> node3233 [ color="black"]
   node3231 -> node3233 [ color="black"]
-  node3237 -> node3232 [ color="black"]
-  node3234 -> node3236 [ color="black"]
-  node3238 -> node3232 [ color="black"]
-  node3236 -> node3237 [label=<<font color="black">true</font>> color="black"]
-  node3236 -> node3238 [label=<<font color="black">false</font>> color="black"]
+  node3230 -> node3231 [label=<<font color="black">true</font>> color="black"]
+  node3230 -> node3232 [label=<<font color="black">false</font>> color="black"]
+  node3234 -> node3229 [ color="black"]
   node3233 -> node3234 [label=<<font color="black">true</font>> color="black"]
   node3233 -> node3235 [label=<<font color="black">false</font>> color="black"]
+  node3228 -> node3230 [ color="black"]
+  node3235 -> node3229 [ color="black"]
 }

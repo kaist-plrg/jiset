@@ -1,20 +1,14 @@
 digraph {
-  node16118 [shape=none, margin=0, label=<<font color="black">
+  node15816 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16119 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
-  node16122 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16116 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16121 [shape=cds, label=<<font color="black">7:app __x2__ = (GetValueFromBuffer buffer indexedPosition elementType true &quot;SeqCst&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node16117 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
-  node16115 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16120 [shape=none, margin=0, label=<<font color="black">
+  node15819 [shape=cds, label=<<font color="black">7:app __x2__ = (GetValueFromBuffer buffer indexedPosition elementType true &quot;SeqCst&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node15814 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15817 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node15813 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15818 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let i = [? __x1__]</td></tr>
       <tr><td align="left">2:let arrayTypeName = typedArray.TypedArrayName</td></tr>
@@ -24,11 +18,17 @@ digraph {
       <tr><td align="left">6:let indexedPosition = (+ (* i elementSize) offset)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16122 -> node16116 [ color="black"]
-  node16115 -> node16117 [ color="black"]
-  node16120 -> node16121 [ color="black"]
-  node16117 -> node16118 [ color="black"]
-  node16119 -> node16120 [ color="black"]
-  node16121 -> node16122 [ color="black"]
-  node16118 -> node16119 [ color="black"]
+  node15815 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
+  node15820 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15813 -> node15815 [ color="black"]
+  node15816 -> node15817 [ color="black"]
+  node15815 -> node15816 [ color="black"]
+  node15818 -> node15819 [ color="black"]
+  node15817 -> node15818 [ color="black"]
+  node15819 -> node15820 [ color="black"]
+  node15820 -> node15814 [ color="black"]
 }

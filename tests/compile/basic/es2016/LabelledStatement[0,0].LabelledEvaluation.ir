@@ -2,18 +2,17 @@
   access __x0__ = (LabelIdentifier "StringValue")
   let label = __x0__
   append label -> labelSet
-  access __x1__ = (LabelledItem "LabelledEvaluation")
-  app __x2__ = (__x1__ labelSet)
-  let stmtResult = __x2__
-  let __x3__ = true
-  __x3__ = (= stmtResult.Type CONST_break)
-  if __x3__ {
-    app __x4__ = (SameValue stmtResult.Target label)
-    __x3__ = (= __x4__ true)
+  access __x1__ = (LabelledItem "LabelledEvaluation" labelSet)
+  let stmtResult = __x1__
+  let __x2__ = true
+  __x2__ = (= stmtResult.Type CONST_break)
+  if __x2__ {
+    app __x3__ = (SameValue stmtResult.Target label)
+    __x2__ = (= __x3__ true)
   } else {}
-  if __x3__ {
-    app __x5__ = (NormalCompletion stmtResult.Value)
-    let stmtResult = __x5__
+  if __x2__ {
+    app __x4__ = (NormalCompletion stmtResult.Value)
+    let stmtResult = __x4__
   } else {}
   return stmtResult
 }

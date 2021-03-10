@@ -1,37 +1,14 @@
 digraph {
-  node11440 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return -0.0</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11436 [shape=none, margin=0, label=<<font color="black">
+  node11122 [shape=diamond, label=<<font color="black">(! (== R 16i))</font>> color="black" fillcolor="white" style=filled]
+  node11112 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11111 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11119 [shape=diamond, label=<<font color="black">(! (== R 0i))</font>> color="black" fillcolor="white" style=filled]
+  node11121 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return NaN</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11441 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">19:return 0i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11424 [shape=cds, label=<<font color="black">5:app __x1__ = (ToInt32 radix)</font>> color="black" fillcolor="white" style=filled]
-  node11439 [shape=diamond, label=<<font color="black">(== sign -1i)</font>> color="black" fillcolor="white" style=filled]
-  node11420 [shape=cds, label=<<font color="black">app string = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node11435 [shape=diamond, label=<<font color="black">(= Z.length 0i)</font>> color="black" fillcolor="white" style=filled]
-  node11442 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">20:let number = mathInt</td></tr>
-      <tr><td align="left">21:return (* sign number)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11432 [shape=diamond, label=<<font color="black">(= stripPrefix true)</font>> color="black" fillcolor="white" style=filled]
-  node11427 [shape=diamond, label=<<font color="black">(|| (&lt; R 2i) (&lt; 36i R))</font>> color="black" fillcolor="white" style=filled]
-  node11434 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">14:??? &quot;If id:{S} contains a code unit that is not a radix - id:{R} digit , let id:{Z} be the substring of id:{S} consisting of all code units before the first such code unit ; otherwise , let id:{Z} be id:{S} .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11423 [shape=none, margin=0, label=<<font color="black">
+  node11116 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let inputString = [? __x0__]</td></tr>
       <tr><td align="left">1:??? &quot;Let id:{S} be a newly created substring of id:{inputString} consisting of the first code unit that is not a nt:{StrWhiteSpaceChar} and all code units following that code unit . ( In other words , remove leading white space . ) If id:{inputString} does not contain any such code unit , let id:{S} be the empty string .&quot;</td></tr>
@@ -40,73 +17,96 @@ digraph {
       <tr><td align="left">4:??? &quot;If id:{S} is not empty and the first code unit of id:{S} is the code unit 0x002B ( PLUS SIGN ) or the code unit 0x002D ( HYPHEN - MINUS ) , remove the first code unit from id:{S} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11438 [shape=diamond, label=<<font color="black">(== mathInt 0i)</font>> color="black" fillcolor="white" style=filled]
-  node11419 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11433 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">??? &quot;If the length of id:{S} is at least 2 and the first two code units of id:{S} are either code:{\&quot;0x\&quot;} or code:{\&quot;0X\&quot;} , remove the first two code units from id:{S} and let id:{R} be 16 .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11418 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11437 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">16:??? &quot;Let id:{mathInt} be the mathematical integer value that is represented by id:{Z} in radix - id:{R} notation , using the letters &lt; b &gt; A &lt; / b &gt; - &lt; b &gt; Z &lt; / b &gt; and &lt; b &gt; a &lt; / b &gt; - &lt; b &gt; z &lt; / b &gt; for digits with values 10 through 35 . ( However , if id:{R} is 10 and id:{Z} contains more than 20 significant digits , every significant digit after the 20th may be replaced by a 0 digit , at the option of the implementation ; and if id:{R} is not 2 , 4 , 8 , 10 , 16 , or 32 , then id:{mathInt} may be an implementation - dependent approximation to the mathematical integer value that is represented by id:{Z} in radix - id:{R} notation . )&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11422 [shape=cds, label=<<font color="black">0:app __x0__ = (ToString string)</font>> color="black" fillcolor="white" style=filled]
-  node11426 [shape=diamond, label=<<font color="black">(! (== R 0i))</font>> color="black" fillcolor="white" style=filled]
-  node11421 [shape=cds, label=<<font color="black">app radix = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node11431 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let R = 10i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11428 [shape=none, margin=0, label=<<font color="black">
+  node11129 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return NaN</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11429 [shape=diamond, label=<<font color="black">(! (== R 16i))</font>> color="black" fillcolor="white" style=filled]
-  node11425 [shape=none, margin=0, label=<<font color="black">
+  node11124 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let R = 10i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11126 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">??? &quot;If the length of id:{S} is at least 2 and the first two code units of id:{S} are either code:{\&quot;0x\&quot;} or code:{\&quot;0X\&quot;} , remove the first two code units from id:{S} and let id:{R} be 16 .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11123 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let stripPrefix = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11118 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:let R = [? __x1__]</td></tr>
       <tr><td align="left">6:let stripPrefix = true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11430 [shape=none, margin=0, label=<<font color="black">
+  node11131 [shape=diamond, label=<<font color="black">(== mathInt 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11114 [shape=cds, label=<<font color="black">app radix = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node11135 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let stripPrefix = false</td></tr>
+      <tr><td align="left">20:let number = mathInt</td></tr>
+      <tr><td align="left">21:return (* sign number)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11441 -> node11442 [ color="black"]
-  node11424 -> node11425 [ color="black"]
-  node11442 -> node11419 [ color="black"]
-  node11426 -> node11427 [label=<<font color="black">true</font>> color="black"]
-  node11426 -> node11431 [label=<<font color="black">false</font>> color="black"]
-  node11425 -> node11426 [ color="black"]
-  node11421 -> node11422 [ color="black"]
-  node11432 -> node11433 [label=<<font color="black">true</font>> color="black"]
-  node11432 -> node11434 [label=<<font color="black">false</font>> color="black"]
-  node11439 -> node11440 [label=<<font color="black">true</font>> color="black"]
-  node11439 -> node11441 [label=<<font color="black">false</font>> color="black"]
-  node11423 -> node11424 [ color="black"]
-  node11433 -> node11434 [ color="black"]
-  node11436 -> node11437 [ color="black"]
-  node11418 -> node11420 [ color="black"]
-  node11420 -> node11421 [ color="black"]
-  node11438 -> node11439 [label=<<font color="black">true</font>> color="black"]
-  node11438 -> node11442 [label=<<font color="black">false</font>> color="black"]
-  node11440 -> node11441 [ color="black"]
-  node11437 -> node11438 [ color="black"]
-  node11427 -> node11428 [label=<<font color="black">true</font>> color="black"]
-  node11427 -> node11429 [label=<<font color="black">false</font>> color="black"]
-  node11431 -> node11432 [ color="black"]
-  node11435 -> node11436 [label=<<font color="black">true</font>> color="black"]
-  node11435 -> node11437 [label=<<font color="black">false</font>> color="black"]
-  node11430 -> node11432 [ color="black"]
-  node11422 -> node11423 [ color="black"]
-  node11429 -> node11430 [label=<<font color="black">true</font>> color="black"]
-  node11429 -> node11432 [label=<<font color="black">false</font>> color="black"]
-  node11434 -> node11435 [ color="black"]
-  node11428 -> node11429 [ color="black"]
+  node11115 [shape=cds, label=<<font color="black">0:app __x0__ = (ToString string)</font>> color="black" fillcolor="white" style=filled]
+  node11132 [shape=diamond, label=<<font color="black">(== sign -1i)</font>> color="black" fillcolor="white" style=filled]
+  node11133 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return -0.0</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11128 [shape=diamond, label=<<font color="black">(= Z.length 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11125 [shape=diamond, label=<<font color="black">(= stripPrefix true)</font>> color="black" fillcolor="white" style=filled]
+  node11120 [shape=diamond, label=<<font color="black">(|| (&lt; R 2i) (&lt; 36i R))</font>> color="black" fillcolor="white" style=filled]
+  node11134 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">19:return 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11127 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:??? &quot;If id:{S} contains a code unit that is not a radix - id:{R} digit , let id:{Z} be the substring of id:{S} consisting of all code units before the first such code unit ; otherwise , let id:{Z} be id:{S} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11117 [shape=cds, label=<<font color="black">5:app __x1__ = (ToInt32 radix)</font>> color="black" fillcolor="white" style=filled]
+  node11113 [shape=cds, label=<<font color="black">app string = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11130 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:??? &quot;Let id:{mathInt} be the mathematical integer value that is represented by id:{Z} in radix - id:{R} notation , using the letters &lt; b &gt; A &lt; / b &gt; - &lt; b &gt; Z &lt; / b &gt; and &lt; b &gt; a &lt; / b &gt; - &lt; b &gt; z &lt; / b &gt; for digits with values 10 through 35 . ( However , if id:{R} is 10 and id:{Z} contains more than 20 significant digits , every significant digit after the 20th may be replaced by a 0 digit , at the option of the implementation ; and if id:{R} is not 2 , 4 , 8 , 10 , 16 , or 32 , then id:{mathInt} may be an implementation - dependent approximation to the mathematical integer value that is represented by id:{Z} in radix - id:{R} notation . )&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11120 -> node11121 [label=<<font color="black">true</font>> color="black"]
+  node11120 -> node11122 [label=<<font color="black">false</font>> color="black"]
+  node11116 -> node11117 [ color="black"]
+  node11125 -> node11126 [label=<<font color="black">true</font>> color="black"]
+  node11125 -> node11127 [label=<<font color="black">false</font>> color="black"]
+  node11122 -> node11123 [label=<<font color="black">true</font>> color="black"]
+  node11122 -> node11125 [label=<<font color="black">false</font>> color="black"]
+  node11131 -> node11132 [label=<<font color="black">true</font>> color="black"]
+  node11131 -> node11135 [label=<<font color="black">false</font>> color="black"]
+  node11114 -> node11115 [ color="black"]
+  node11111 -> node11113 [ color="black"]
+  node11113 -> node11114 [ color="black"]
+  node11124 -> node11125 [ color="black"]
+  node11123 -> node11125 [ color="black"]
+  node11129 -> node11130 [ color="black"]
+  node11119 -> node11120 [label=<<font color="black">true</font>> color="black"]
+  node11119 -> node11124 [label=<<font color="black">false</font>> color="black"]
+  node11130 -> node11131 [ color="black"]
+  node11128 -> node11129 [label=<<font color="black">true</font>> color="black"]
+  node11128 -> node11130 [label=<<font color="black">false</font>> color="black"]
+  node11134 -> node11135 [ color="black"]
+  node11132 -> node11133 [label=<<font color="black">true</font>> color="black"]
+  node11132 -> node11134 [label=<<font color="black">false</font>> color="black"]
+  node11117 -> node11118 [ color="black"]
+  node11121 -> node11122 [ color="black"]
+  node11135 -> node11112 [ color="black"]
+  node11115 -> node11116 [ color="black"]
+  node11126 -> node11127 [ color="black"]
+  node11118 -> node11119 [ color="black"]
+  node11127 -> node11128 [ color="black"]
+  node11133 -> node11134 [ color="black"]
 }

@@ -1,9 +1,7 @@
 {
-  access __x0__ = (CaseClauses "ContainsDuplicateLabels")
-  app __x1__ = (__x0__ labelSet)
-  let hasDuplicates = __x1__
+  access __x0__ = (CaseClauses "ContainsDuplicateLabels" labelSet)
+  let hasDuplicates = __x0__
   if (= hasDuplicates true) return true else {}
-  access __x2__ = (CaseClause "ContainsDuplicateLabels")
-  app __x3__ = (__x2__ labelSet)
-  return __x3__
+  access __x1__ = (CaseClause "ContainsDuplicateLabels" labelSet)
+  return __x1__
 }

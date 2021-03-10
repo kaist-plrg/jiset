@@ -5,15 +5,14 @@
   let lhs = __x1__
   app __x2__ = (IsAnonymousFunctionDefinition Initializer)
   if (= __x2__ true) {
-    access __x3__ = (Initializer "NamedEvaluation")
-    app __x4__ = (__x3__ bindingId)
-    let value = __x4__
+    access __x3__ = (Initializer "NamedEvaluation" bindingId)
+    let value = __x3__
   } else {
-    access __x5__ = (Initializer "Evaluation")
-    let rhs = __x5__
-    app __x6__ = (GetValue rhs)
-    let value = [? __x6__]
+    access __x4__ = (Initializer "Evaluation")
+    let rhs = __x4__
+    app __x5__ = (GetValue rhs)
+    let value = [? __x5__]
   }
-  app __x7__ = (InitializeReferencedBinding lhs value)
-  return __x7__
+  app __x6__ = (InitializeReferencedBinding lhs value)
+  return __x6__
 }

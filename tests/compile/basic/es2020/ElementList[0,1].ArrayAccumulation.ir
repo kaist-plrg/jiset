@@ -1,16 +1,15 @@
 {
   if (! (= Elision absent)) {
-    access __x0__ = (Elision "ArrayAccumulation")
-    app __x1__ = (__x0__ array nextIndex)
-    nextIndex = __x1__
+    access __x0__ = (Elision "ArrayAccumulation" array nextIndex)
+    nextIndex = __x0__
     [? nextIndex]
   } else {}
-  access __x2__ = (AssignmentExpression "Evaluation")
-  let initResult = __x2__
-  app __x3__ = (GetValue initResult)
-  let initValue = [? __x3__]
-  app __x4__ = (ToString nextIndex)
-  app __x5__ = (CreateDataPropertyOrThrow array [! __x4__] initValue)
-  let created = [! __x5__]
+  access __x1__ = (AssignmentExpression "Evaluation")
+  let initResult = __x1__
+  app __x2__ = (GetValue initResult)
+  let initValue = [? __x2__]
+  app __x3__ = (ToString nextIndex)
+  app __x4__ = (CreateDataPropertyOrThrow array [! __x3__] initValue)
+  let created = [! __x4__]
   return (+ nextIndex 1i)
 }

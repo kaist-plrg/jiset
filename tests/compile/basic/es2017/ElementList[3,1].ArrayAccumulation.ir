@@ -1,13 +1,11 @@
 {
-  access __x0__ = (ElementList "ArrayAccumulation")
-  app __x1__ = (__x0__ array nextIndex)
-  let postIndex = __x1__
+  access __x0__ = (ElementList "ArrayAccumulation" array nextIndex)
+  let postIndex = __x0__
   [? postIndex]
   if (= Elision absent) let padding = 0i else {
-    access __x2__ = (Elision "ElisionWidth")
-    let padding = __x2__
+    access __x1__ = (Elision "ElisionWidth")
+    let padding = __x1__
   }
-  access __x3__ = (SpreadElement "ArrayAccumulation")
-  app __x4__ = (__x3__ array (+ postIndex padding))
-  return __x4__
+  access __x2__ = (SpreadElement "ArrayAccumulation" array (+ postIndex padding))
+  return __x2__
 }

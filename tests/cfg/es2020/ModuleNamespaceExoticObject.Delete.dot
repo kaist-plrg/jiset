@@ -1,47 +1,47 @@
 digraph {
-  node3115 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3114 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3120 [shape=cds, label=<<font color="black">2:app __x2__ = (OrdinaryDelete O P)</font>> color="black" fillcolor="white" style=filled]
-  node3121 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3116 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
-  node3125 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:return true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3122 [shape=none, margin=0, label=<<font color="black">
+  node3116 [shape=cds, label=<<font color="black">2:app __x2__ = (OrdinaryDelete O P)</font>> color="black" fillcolor="white" style=filled]
+  node3119 [shape=diamond, label=<<font color="black">(contains exports P)</font>> color="black" fillcolor="white" style=filled]
+  node3115 [shape=diamond, label=<<font color="black">(= __x1__ Symbol)</font>> color="black" fillcolor="white" style=filled]
+  node3111 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3118 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let exports = O.Exports</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3119 [shape=diamond, label=<<font color="black">(= __x1__ Symbol)</font>> color="black" fillcolor="white" style=filled]
-  node3118 [shape=cds, label=<<font color="black">1:app __x1__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
-  node3123 [shape=diamond, label=<<font color="black">(contains exports P)</font>> color="black" fillcolor="white" style=filled]
-  node3124 [shape=none, margin=0, label=<<font color="black">
+  node3110 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3112 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node3114 [shape=cds, label=<<font color="black">1:app __x1__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node3117 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return false</td></tr>
+      <tr><td align="left">2:return [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3117 [shape=none, margin=0, label=<<font color="black">
+  node3113 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= __x0__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3117 -> node3118 [ color="black"]
+  node3120 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3121 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
   node3118 -> node3119 [ color="black"]
-  node3116 -> node3117 [ color="black"]
-  node3121 -> node3122 [ color="black"]
-  node3125 -> node3115 [ color="black"]
-  node3114 -> node3116 [ color="black"]
-  node3122 -> node3123 [ color="black"]
-  node3123 -> node3124 [label=<<font color="black">true</font>> color="black"]
-  node3123 -> node3125 [label=<<font color="black">false</font>> color="black"]
-  node3120 -> node3121 [ color="black"]
   node3119 -> node3120 [label=<<font color="black">true</font>> color="black"]
-  node3119 -> node3122 [label=<<font color="black">false</font>> color="black"]
-  node3124 -> node3125 [ color="black"]
+  node3119 -> node3121 [label=<<font color="black">false</font>> color="black"]
+  node3112 -> node3113 [ color="black"]
+  node3114 -> node3115 [ color="black"]
+  node3120 -> node3121 [ color="black"]
+  node3115 -> node3116 [label=<<font color="black">true</font>> color="black"]
+  node3115 -> node3118 [label=<<font color="black">false</font>> color="black"]
+  node3117 -> node3118 [ color="black"]
+  node3116 -> node3117 [ color="black"]
+  node3110 -> node3112 [ color="black"]
+  node3113 -> node3114 [ color="black"]
+  node3121 -> node3111 [ color="black"]
 }

@@ -1,34 +1,32 @@
 digraph {
-  node10007 [shape=cds, label=<<font color="black">4:app __x3__ = (InitializeBoundName className value env)</font>> color="black" fillcolor="white" style=filled]
-  node10003 [shape=none, margin=0, label=<<font color="black">
+  node9735 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let className = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10006 [shape=none, margin=0, label=<<font color="black">
+  node9738 [shape=cds, label=<<font color="black">4:app __x2__ = (InitializeBoundName className value env)</font>> color="black" fillcolor="white" style=filled]
+  node9734 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9739 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let value = [? __x2__]</td></tr>
+      <tr><td align="left">4:[? __x2__]</td></tr>
+      <tr><td align="left">5:return value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9733 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9732 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9736 [shape=cds, label=<<font color="black">1:access __x1__ = (ClassTail &quot;ClassDefinitionEvaluation&quot; className className)</font>> color="black" fillcolor="white" style=filled]
+  node9737 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let value = [? __x1__]</td></tr>
       <tr><td align="left">2:value.SourceText = (get-syntax ClassDeclaration)</td></tr>
       <tr><td align="left">3:let env = GLOBAL_context.LexicalEnvironment</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10000 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10001 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10008 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:[? __x3__]</td></tr>
-      <tr><td align="left">5:return value</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10002 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10005 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ className className)</font>> color="black" fillcolor="white" style=filled]
-  node10004 [shape=cds, label=<<font color="black">1:access __x1__ = (ClassTail &quot;ClassDefinitionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10005 -> node10006 [ color="black"]
-  node10000 -> node10002 [ color="black"]
-  node10002 -> node10003 [ color="black"]
-  node10004 -> node10005 [ color="black"]
-  node10003 -> node10004 [ color="black"]
-  node10008 -> node10001 [ color="black"]
-  node10007 -> node10008 [ color="black"]
-  node10006 -> node10007 [ color="black"]
+  node9735 -> node9736 [ color="black"]
+  node9736 -> node9737 [ color="black"]
+  node9739 -> node9733 [ color="black"]
+  node9732 -> node9734 [ color="black"]
+  node9734 -> node9735 [ color="black"]
+  node9737 -> node9738 [ color="black"]
+  node9738 -> node9739 [ color="black"]
 }

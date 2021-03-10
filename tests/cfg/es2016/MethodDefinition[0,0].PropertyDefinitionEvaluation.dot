@@ -1,33 +1,31 @@
 digraph {
-  node8283 [shape=none, margin=0, label=<<font color="black">
+  node8069 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:return [? __x3__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8278 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ object)</font>> color="black" fillcolor="white" style=filled]
-  node8282 [shape=cds, label=<<font color="black">4:app __x3__ = (DefinePropertyOrThrow object methodDef.Key desc)</font>> color="black" fillcolor="white" style=filled]
-  node8275 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8279 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let methodDef = __x1__</td></tr>
-      <tr><td align="left">1:[? methodDef]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8276 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8281 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:__x2__</td></tr>
+      <tr><td align="left">2:__x1__</td></tr>
       <tr><td align="left">3:let desc = (new PropertyDescriptor(&quot;Value&quot; -&gt; methodDef.Closure, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; enumerable, &quot;Configurable&quot; -&gt; true))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8280 [shape=cds, label=<<font color="black">2:app __x2__ = (SetFunctionName methodDef.Closure methodDef.Key)</font>> color="black" fillcolor="white" style=filled]
-  node8277 [shape=cds, label=<<font color="black">0:access __x0__ = (MethodDefinition &quot;DefineMethod&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8277 -> node8278 [ color="black"]
-  node8283 -> node8276 [ color="black"]
-  node8280 -> node8281 [ color="black"]
-  node8281 -> node8282 [ color="black"]
-  node8279 -> node8280 [ color="black"]
-  node8275 -> node8277 [ color="black"]
-  node8282 -> node8283 [ color="black"]
-  node8278 -> node8279 [ color="black"]
+  node8065 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8068 [shape=cds, label=<<font color="black">2:app __x1__ = (SetFunctionName methodDef.Closure methodDef.Key)</font>> color="black" fillcolor="white" style=filled]
+  node8064 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8067 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let methodDef = __x0__</td></tr>
+      <tr><td align="left">1:[? methodDef]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8071 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8070 [shape=cds, label=<<font color="black">4:app __x2__ = (DefinePropertyOrThrow object methodDef.Key desc)</font>> color="black" fillcolor="white" style=filled]
+  node8066 [shape=cds, label=<<font color="black">0:access __x0__ = (MethodDefinition &quot;DefineMethod&quot; object)</font>> color="black" fillcolor="white" style=filled]
+  node8070 -> node8071 [ color="black"]
+  node8069 -> node8070 [ color="black"]
+  node8071 -> node8065 [ color="black"]
+  node8068 -> node8069 [ color="black"]
+  node8067 -> node8068 [ color="black"]
+  node8064 -> node8066 [ color="black"]
+  node8066 -> node8067 [ color="black"]
 }

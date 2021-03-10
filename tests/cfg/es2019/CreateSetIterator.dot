@@ -1,17 +1,23 @@
 digraph {
-  node16387 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node16386 [shape=cds, label=<<font color="black">app set = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16390 [shape=none, margin=0, label=<<font color="black">
+  node16054 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16385 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16389 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node16384 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16388 [shape=cds, label=<<font color="black">0:app __x0__ = (Type set)</font>> color="black" fillcolor="white" style=filled]
-  node16391 [shape=diamond, label=<<font color="black">(= set.SetData absent)</font>> color="black" fillcolor="white" style=filled]
-  node16394 [shape=none, margin=0, label=<<font color="black">
+  node16050 [shape=cds, label=<<font color="black">app set = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16055 [shape=diamond, label=<<font color="black">(= set.SetData absent)</font>> color="black" fillcolor="white" style=filled]
+  node16048 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16056 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16057 [shape=cds, label=<<font color="black">2:app __x1__ = (ObjectCreate INTRINSIC_SetIteratorPrototype (new [&quot;IteratedSet&quot;, &quot;SetNextIndex&quot;, &quot;SetIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node16052 [shape=cds, label=<<font color="black">0:app __x0__ = (Type set)</font>> color="black" fillcolor="white" style=filled]
+  node16049 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16053 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node16051 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node16058 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let iterator = __x1__</td></tr>
       <tr><td align="left">3:iterator.IteratedSet = set</td></tr>
@@ -20,22 +26,16 @@ digraph {
       <tr><td align="left">6:return iterator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16393 [shape=cds, label=<<font color="black">2:app __x1__ = (ObjectCreate INTRINSIC_SetIteratorPrototype (new [&quot;IteratedSet&quot;, &quot;SetNextIndex&quot;, &quot;SetIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node16392 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16390 -> node16391 [ color="black"]
-  node16389 -> node16390 [label=<<font color="black">true</font>> color="black"]
-  node16389 -> node16391 [label=<<font color="black">false</font>> color="black"]
-  node16394 -> node16385 [ color="black"]
-  node16387 -> node16388 [ color="black"]
-  node16388 -> node16389 [ color="black"]
-  node16392 -> node16393 [ color="black"]
-  node16393 -> node16394 [ color="black"]
-  node16386 -> node16387 [ color="black"]
-  node16391 -> node16392 [label=<<font color="black">true</font>> color="black"]
-  node16391 -> node16393 [label=<<font color="black">false</font>> color="black"]
-  node16384 -> node16386 [ color="black"]
+  node16051 -> node16052 [ color="black"]
+  node16056 -> node16057 [ color="black"]
+  node16052 -> node16053 [ color="black"]
+  node16053 -> node16054 [label=<<font color="black">true</font>> color="black"]
+  node16053 -> node16055 [label=<<font color="black">false</font>> color="black"]
+  node16050 -> node16051 [ color="black"]
+  node16048 -> node16050 [ color="black"]
+  node16055 -> node16056 [label=<<font color="black">true</font>> color="black"]
+  node16055 -> node16057 [label=<<font color="black">false</font>> color="black"]
+  node16054 -> node16055 [ color="black"]
+  node16057 -> node16058 [ color="black"]
+  node16058 -> node16049 [ color="black"]
 }

@@ -1,6 +1,10 @@
 digraph {
-  node3029 [shape=diamond, label=<<font color="black">(= O.ContentType CONST_BigInt)</font>> color="black" fillcolor="white" style=filled]
-  node3036 [shape=none, margin=0, label=<<font color="black">
+  node3029 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let numValue = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3032 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let offset = O.ByteOffset</td></tr>
       <tr><td align="left">5:let arrayTypeName = O.TypedArrayName</td></tr>
@@ -9,45 +13,41 @@ digraph {
       <tr><td align="left">8:??? &quot;Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3037 [shape=cds, label=<<font color="black">9:app __x3__ = (SetValueInBuffer O.ViewedArrayBuffer indexedPosition elementType numValue true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
-  node3032 [shape=cds, label=<<font color="black">app __x1__ = (ToNumber value)</font>> color="black" fillcolor="white" style=filled]
-  node3038 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:__x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3031 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let numValue = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3039 [shape=none, margin=0, label=<<font color="black">
+  node3023 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3031 [shape=diamond, label=<<font color="black">(= [! __x2__] true)</font>> color="black" fillcolor="white" style=filled]
+  node3026 [shape=cds, label=<<font color="black">app __x0__ = (ToBigInt value)</font>> color="black" fillcolor="white" style=filled]
+  node3024 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3030 [shape=cds, label=<<font color="black">3:app __x2__ = (IsValidIntegerIndex O index)</font>> color="black" fillcolor="white" style=filled]
+  node3025 [shape=diamond, label=<<font color="black">(= O.ContentType CONST_BigInt)</font>> color="black" fillcolor="white" style=filled]
+  node3035 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">10:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3030 [shape=cds, label=<<font color="black">app __x0__ = (ToBigInt value)</font>> color="black" fillcolor="white" style=filled]
-  node3035 [shape=diamond, label=<<font color="black">(= [! __x2__] true)</font>> color="black" fillcolor="white" style=filled]
-  node3028 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3033 [shape=none, margin=0, label=<<font color="black">
+  node3028 [shape=cds, label=<<font color="black">app __x1__ = (ToNumber value)</font>> color="black" fillcolor="white" style=filled]
+  node3033 [shape=cds, label=<<font color="black">9:app __x3__ = (SetValueInBuffer O.ViewedArrayBuffer indexedPosition elementType numValue true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
+  node3027 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let numValue = [? __x1__]</td></tr>
+      <tr><td align="left">let numValue = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3027 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3034 [shape=cds, label=<<font color="black">3:app __x2__ = (IsValidIntegerIndex O index)</font>> color="black" fillcolor="white" style=filled]
-  node3035 -> node3036 [label=<<font color="black">true</font>> color="black"]
-  node3035 -> node3039 [label=<<font color="black">false</font>> color="black"]
+  node3034 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:__x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
   node3034 -> node3035 [ color="black"]
-  node3030 -> node3031 [ color="black"]
   node3033 -> node3034 [ color="black"]
-  node3038 -> node3039 [ color="black"]
-  node3029 -> node3030 [label=<<font color="black">true</font>> color="black"]
-  node3029 -> node3032 [label=<<font color="black">false</font>> color="black"]
-  node3039 -> node3028 [ color="black"]
-  node3031 -> node3034 [ color="black"]
-  node3027 -> node3029 [ color="black"]
-  node3037 -> node3038 [ color="black"]
+  node3028 -> node3029 [ color="black"]
+  node3023 -> node3025 [ color="black"]
+  node3025 -> node3026 [label=<<font color="black">true</font>> color="black"]
+  node3025 -> node3028 [label=<<font color="black">false</font>> color="black"]
+  node3026 -> node3027 [ color="black"]
+  node3031 -> node3032 [label=<<font color="black">true</font>> color="black"]
+  node3031 -> node3035 [label=<<font color="black">false</font>> color="black"]
   node3032 -> node3033 [ color="black"]
-  node3036 -> node3037 [ color="black"]
+  node3035 -> node3024 [ color="black"]
+  node3030 -> node3031 [ color="black"]
+  node3029 -> node3030 [ color="black"]
+  node3027 -> node3030 [ color="black"]
 }

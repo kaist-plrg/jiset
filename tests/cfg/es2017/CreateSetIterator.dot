@@ -1,23 +1,20 @@
 digraph {
-  node15403 [shape=cds, label=<<font color="black">2:app __x1__ = (ObjectCreate INTRINSIC_SetIteratorPrototype (new [&quot;IteratedSet&quot;, &quot;SetNextIndex&quot;, &quot;SetIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node15394 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15398 [shape=cds, label=<<font color="black">0:app __x0__ = (Type set)</font>> color="black" fillcolor="white" style=filled]
-  node15402 [shape=none, margin=0, label=<<font color="black">
+  node15098 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15399 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node15395 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15401 [shape=diamond, label=<<font color="black">(= set.SetData absent)</font>> color="black" fillcolor="white" style=filled]
-  node15400 [shape=none, margin=0, label=<<font color="black">
+  node15092 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15097 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node15093 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15101 [shape=cds, label=<<font color="black">2:app __x1__ = (ObjectCreate INTRINSIC_SetIteratorPrototype (new [&quot;IteratedSet&quot;, &quot;SetNextIndex&quot;, &quot;SetIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node15100 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15396 [shape=cds, label=<<font color="black">app set = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node15397 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node15404 [shape=none, margin=0, label=<<font color="black">
+  node15094 [shape=cds, label=<<font color="black">app set = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15102 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let iterator = __x1__</td></tr>
       <tr><td align="left">3:iterator.IteratedSet = set</td></tr>
@@ -26,16 +23,19 @@ digraph {
       <tr><td align="left">6:return iterator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15394 -> node15396 [ color="black"]
-  node15404 -> node15395 [ color="black"]
-  node15396 -> node15397 [ color="black"]
-  node15401 -> node15402 [label=<<font color="black">true</font>> color="black"]
-  node15401 -> node15403 [label=<<font color="black">false</font>> color="black"]
-  node15402 -> node15403 [ color="black"]
-  node15400 -> node15401 [ color="black"]
-  node15403 -> node15404 [ color="black"]
-  node15398 -> node15399 [ color="black"]
-  node15399 -> node15400 [label=<<font color="black">true</font>> color="black"]
-  node15399 -> node15401 [label=<<font color="black">false</font>> color="black"]
-  node15397 -> node15398 [ color="black"]
+  node15095 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node15099 [shape=diamond, label=<<font color="black">(= set.SetData absent)</font>> color="black" fillcolor="white" style=filled]
+  node15096 [shape=cds, label=<<font color="black">0:app __x0__ = (Type set)</font>> color="black" fillcolor="white" style=filled]
+  node15094 -> node15095 [ color="black"]
+  node15092 -> node15094 [ color="black"]
+  node15100 -> node15101 [ color="black"]
+  node15095 -> node15096 [ color="black"]
+  node15099 -> node15100 [label=<<font color="black">true</font>> color="black"]
+  node15099 -> node15101 [label=<<font color="black">false</font>> color="black"]
+  node15096 -> node15097 [ color="black"]
+  node15101 -> node15102 [ color="black"]
+  node15097 -> node15098 [label=<<font color="black">true</font>> color="black"]
+  node15097 -> node15099 [label=<<font color="black">false</font>> color="black"]
+  node15098 -> node15099 [ color="black"]
+  node15102 -> node15093 [ color="black"]
 }

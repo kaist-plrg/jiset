@@ -1,44 +1,44 @@
 digraph {
-  node18955 [shape=diamond, label=<<font color="black">(! (= reaction.Handler CONST_empty))</font>> color="black" fillcolor="white" style=filled]
-  node18959 [shape=none, margin=0, label=<<font color="black">
+  node18600 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">handlerRealm = getHandlerRealmResult.Value</td></tr>
+      <tr><td align="left">handlerRealm = REALM</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18954 [shape=none, margin=0, label=<<font color="black">
+  node18601 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">26:return (new Record(&quot;Job&quot; -&gt; job, &quot;Realm&quot; -&gt; handlerRealm))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18594 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:??? &quot;Let id:{job} be a new Job Abstract Closure with no parameters that captures id:{reaction} and id:{argument} and performs the following steps when called : in:{} out:{}&quot;</td></tr>
       <tr><td align="left">20:let handlerRealm = null</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18961 [shape=none, margin=0, label=<<font color="black">
+  node18599 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">26:return (new Record(&quot;Job&quot; -&gt; job, &quot;Realm&quot; -&gt; handlerRealm))</td></tr>
+      <tr><td align="left">handlerRealm = getHandlerRealmResult.Value</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18958 [shape=diamond, label=<<font color="black">(&amp;&amp; (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type CONST_normal))</font>> color="black" fillcolor="white" style=filled]
-  node18953 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18957 [shape=none, margin=0, label=<<font color="black">
+  node18593 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18598 [shape=diamond, label=<<font color="black">(&amp;&amp; (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type CONST_normal))</font>> color="black" fillcolor="white" style=filled]
+  node18596 [shape=cds, label=<<font color="black">22:app __x0__ = (GetFunctionRealm reaction.Handler.Callback)</font>> color="black" fillcolor="white" style=filled]
+  node18592 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18597 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">22:let getHandlerRealmResult = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18952 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18956 [shape=cds, label=<<font color="black">22:app __x0__ = (GetFunctionRealm reaction.Handler.Callback)</font>> color="black" fillcolor="white" style=filled]
-  node18960 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">handlerRealm = REALM</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18960 -> node18961 [ color="black"]
-  node18955 -> node18956 [label=<<font color="black">true</font>> color="black"]
-  node18955 -> node18961 [label=<<font color="black">false</font>> color="black"]
-  node18961 -> node18953 [ color="black"]
-  node18959 -> node18961 [ color="black"]
-  node18952 -> node18954 [ color="black"]
-  node18956 -> node18957 [ color="black"]
-  node18958 -> node18959 [label=<<font color="black">true</font>> color="black"]
-  node18958 -> node18960 [label=<<font color="black">false</font>> color="black"]
-  node18954 -> node18955 [ color="black"]
-  node18957 -> node18958 [ color="black"]
+  node18595 [shape=diamond, label=<<font color="black">(! (= reaction.Handler CONST_empty))</font>> color="black" fillcolor="white" style=filled]
+  node18599 -> node18601 [ color="black"]
+  node18595 -> node18596 [label=<<font color="black">true</font>> color="black"]
+  node18595 -> node18601 [label=<<font color="black">false</font>> color="black"]
+  node18601 -> node18593 [ color="black"]
+  node18600 -> node18601 [ color="black"]
+  node18598 -> node18599 [label=<<font color="black">true</font>> color="black"]
+  node18598 -> node18600 [label=<<font color="black">false</font>> color="black"]
+  node18594 -> node18595 [ color="black"]
+  node18597 -> node18598 [ color="black"]
+  node18592 -> node18594 [ color="black"]
+  node18596 -> node18597 [ color="black"]
 }

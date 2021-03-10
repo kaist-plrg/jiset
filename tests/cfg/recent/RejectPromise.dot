@@ -1,15 +1,7 @@
 digraph {
-  node18938 [shape=cds, label=<<font color="black">app __x0__ = (HostPromiseRejectionTracker promise &quot;reject&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node18941 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18937 [shape=diamond, label=<<font color="black">(= promise.PromiseIsHandled false)</font>> color="black" fillcolor="white" style=filled]
-  node18934 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18935 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18940 [shape=cds, label=<<font color="black">7:app __x1__ = (TriggerPromiseReactions reactions reason)</font>> color="black" fillcolor="white" style=filled]
-  node18936 [shape=none, margin=0, label=<<font color="black">
+  node18575 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18578 [shape=cds, label=<<font color="black">app __x0__ = (HostPromiseRejectionTracker promise &quot;reject&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node18576 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= promise.PromiseState CONST_pending)</td></tr>
       <tr><td align="left">1:let reactions = promise.PromiseRejectReactions</td></tr>
@@ -19,17 +11,25 @@ digraph {
       <tr><td align="left">5:promise.PromiseState = CONST_rejected</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18939 [shape=none, margin=0, label=<<font color="black">
+  node18581 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18577 [shape=diamond, label=<<font color="black">(= promise.PromiseIsHandled false)</font>> color="black" fillcolor="white" style=filled]
+  node18580 [shape=cds, label=<<font color="black">7:app __x1__ = (TriggerPromiseReactions reactions reason)</font>> color="black" fillcolor="white" style=filled]
+  node18574 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18579 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">__x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18938 -> node18939 [ color="black"]
-  node18940 -> node18941 [ color="black"]
-  node18937 -> node18938 [label=<<font color="black">true</font>> color="black"]
-  node18937 -> node18940 [label=<<font color="black">false</font>> color="black"]
-  node18934 -> node18936 [ color="black"]
-  node18936 -> node18937 [ color="black"]
-  node18941 -> node18935 [ color="black"]
-  node18939 -> node18940 [ color="black"]
+  node18576 -> node18577 [ color="black"]
+  node18577 -> node18578 [label=<<font color="black">true</font>> color="black"]
+  node18577 -> node18580 [label=<<font color="black">false</font>> color="black"]
+  node18581 -> node18575 [ color="black"]
+  node18579 -> node18580 [ color="black"]
+  node18574 -> node18576 [ color="black"]
+  node18580 -> node18581 [ color="black"]
+  node18578 -> node18579 [ color="black"]
 }

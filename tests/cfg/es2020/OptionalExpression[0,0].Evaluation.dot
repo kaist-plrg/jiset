@@ -1,40 +1,38 @@
 digraph {
-  node4835 [shape=cds, label=<<font color="black">4:access __x2__ = (OptionalChain &quot;ChainEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4830 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let baseReference = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4836 [shape=cds, label=<<font color="black">4:app __x3__ = (__x2__ baseValue baseReference)</font>> color="black" fillcolor="white" style=filled]
-  node4829 [shape=cds, label=<<font color="black">0:access __x0__ = (MemberExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4837 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:return __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4828 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4833 [shape=diamond, label=<<font color="black">(|| (= baseValue undefined) (= baseValue null))</font>> color="black" fillcolor="white" style=filled]
-  node4834 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4831 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
-  node4832 [shape=none, margin=0, label=<<font color="black">
+  node4793 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4798 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let baseValue = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4827 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4832 -> node4833 [ color="black"]
-  node4835 -> node4836 [ color="black"]
-  node4827 -> node4829 [ color="black"]
-  node4834 -> node4835 [ color="black"]
-  node4829 -> node4830 [ color="black"]
-  node4833 -> node4834 [label=<<font color="black">true</font>> color="black"]
-  node4833 -> node4835 [label=<<font color="black">false</font>> color="black"]
-  node4837 -> node4828 [ color="black"]
-  node4836 -> node4837 [ color="black"]
-  node4830 -> node4831 [ color="black"]
-  node4831 -> node4832 [ color="black"]
+  node4797 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node4801 [shape=cds, label=<<font color="black">4:access __x2__ = (OptionalChain &quot;ChainEvaluation&quot; baseValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node4796 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let baseReference = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4800 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4794 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4799 [shape=diamond, label=<<font color="black">(|| (= baseValue undefined) (= baseValue null))</font>> color="black" fillcolor="white" style=filled]
+  node4802 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4795 [shape=cds, label=<<font color="black">0:access __x0__ = (MemberExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4796 -> node4797 [ color="black"]
+  node4800 -> node4801 [ color="black"]
+  node4799 -> node4800 [label=<<font color="black">true</font>> color="black"]
+  node4799 -> node4801 [label=<<font color="black">false</font>> color="black"]
+  node4793 -> node4795 [ color="black"]
+  node4801 -> node4802 [ color="black"]
+  node4797 -> node4798 [ color="black"]
+  node4798 -> node4799 [ color="black"]
+  node4795 -> node4796 [ color="black"]
+  node4802 -> node4794 [ color="black"]
 }

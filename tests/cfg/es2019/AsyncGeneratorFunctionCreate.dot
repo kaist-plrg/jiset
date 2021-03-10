@@ -1,27 +1,27 @@
 digraph {
-  node2046 [shape=cds, label=<<font color="black">1:app __x0__ = (FunctionAllocate functionPrototype Strict &quot;generator&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node2049 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return [! __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2047 [shape=none, margin=0, label=<<font color="black">
+  node2042 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2046 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let F = [! __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
+  node2047 [shape=cds, label=<<font color="black">2:app __x1__ = (FunctionInitialize F kind ParameterList Body Scope)</font>> color="black" fillcolor="white" style=filled]
   node2043 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2048 [shape=cds, label=<<font color="black">2:app __x1__ = (FunctionInitialize F kind ParameterList Body Scope)</font>> color="black" fillcolor="white" style=filled]
-  node2044 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2045 [shape=none, margin=0, label=<<font color="black">
+  node2048 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2044 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let functionPrototype = INTRINSIC_AsyncGenerator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
+  node2045 [shape=cds, label=<<font color="black">1:app __x0__ = (FunctionAllocate functionPrototype Strict &quot;generator&quot;)</font>> color="black" fillcolor="white" style=filled]
   node2047 -> node2048 [ color="black"]
-  node2048 -> node2049 [ color="black"]
+  node2048 -> node2043 [ color="black"]
   node2046 -> node2047 [ color="black"]
-  node2043 -> node2045 [ color="black"]
   node2045 -> node2046 [ color="black"]
-  node2049 -> node2044 [ color="black"]
+  node2042 -> node2044 [ color="black"]
+  node2044 -> node2045 [ color="black"]
 }

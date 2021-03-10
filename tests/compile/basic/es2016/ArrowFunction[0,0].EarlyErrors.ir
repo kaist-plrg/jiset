@@ -1,25 +1,24 @@
 {
-  access __x0__ = (ArrowParameters "Contains")
-  app __x1__ = (__x0__ "YieldExpression")
-  if (= __x1__ true) throw SyntaxError else return undefined
-  let __x2__ = true
-  access __x3__ = (ConciseBody "ContainsUseStrict")
-  __x2__ = (= __x3__ true)
-  if __x2__ {
-    access __x4__ = (ArrowParameters "IsSimpleParameterList")
-    __x2__ = (= __x4__ false)
+  access __x0__ = (__x0__ "Contains" "YieldExpression")
+  if (= __x0__ true) throw SyntaxError else return undefined
+  let __x1__ = true
+  access __x2__ = (ConciseBody "ContainsUseStrict")
+  __x1__ = (= __x2__ true)
+  if __x1__ {
+    access __x3__ = (ArrowParameters "IsSimpleParameterList")
+    __x1__ = (= __x3__ false)
   } else {}
-  if __x2__ throw SyntaxError else return undefined
-  access __x5__ = (ArrowParameters "BoundNames")
-  access __x6__ = (ConciseBody "LexicallyDeclaredNames")
+  if __x1__ throw SyntaxError else return undefined
+  access __x4__ = (ArrowParameters "BoundNames")
+  access __x5__ = (ConciseBody "LexicallyDeclaredNames")
+  let __x6__ = __x4__
   let __x7__ = __x5__
-  let __x8__ = __x6__
+  let __x8__ = 0i
   let __x9__ = 0i
-  let __x10__ = 0i
-  let __x11__ = false
-  while (< __x9__ __x7__.length) {
-    __x10__ = 0i
-    while (< __x10__ __x8__.length) if (= __x7__[__x9__] __x8__[__x10__]) __x11__ = true else {}
+  let __x10__ = false
+  while (< __x8__ __x6__.length) {
+    __x9__ = 0i
+    while (< __x9__ __x7__.length) if (= __x6__[__x8__] __x7__[__x9__]) __x10__ = true else {}
   }
-  if __x11__ throw SyntaxError else return undefined
+  if __x10__ throw SyntaxError else return undefined
 }

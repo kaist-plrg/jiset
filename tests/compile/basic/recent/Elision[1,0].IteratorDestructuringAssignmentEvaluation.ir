@@ -1,12 +1,11 @@
 {
-  access __x0__ = (Elision "IteratorDestructuringAssignmentEvaluation")
-  app __x1__ = (__x0__ iteratorRecord)
-  [? __x1__]
+  access __x0__ = (Elision "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
+  [? __x0__]
   if (= iteratorRecord.Done false) {
-    app __x2__ = (IteratorStep iteratorRecord)
-    let next = __x2__
-    app __x3__ = (IsAbruptCompletion next)
-    if __x3__ iteratorRecord.Done = true else {}
+    app __x1__ = (IteratorStep iteratorRecord)
+    let next = __x1__
+    app __x2__ = (IsAbruptCompletion next)
+    if __x2__ iteratorRecord.Done = true else {}
     [? next]
     if (= next false) iteratorRecord.Done = true else {}
   } else {}

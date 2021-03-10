@@ -1,6 +1,29 @@
 digraph {
-  node10495 [shape=cds, label=<<font color="black">14:app __x7__ = (requestedModule.GetExportedNames requestedModule exportStarSet)</font>> color="black" fillcolor="white" style=filled]
-  node10484 [shape=none, margin=0, label=<<font color="black">
+  node10198 [shape=diamond, label=<<font color="black">(&lt; __x5__ __x4__.length)</font>> color="black" fillcolor="white" style=filled]
+  node10209 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append n -&gt; exportedNames</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10206 [shape=cds, label=<<font color="black">16:app __x10__ = (SameValue n &quot;default&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10197 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let __x4__ = module.StarExportEntries</td></tr>
+      <tr><td align="left">12:let __x5__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10203 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">14:let starNames = [? __x7__]</td></tr>
+      <tr><td align="left">15:let __x8__ = starNames</td></tr>
+      <tr><td align="left">15:let __x9__ = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10195 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node10207 [shape=diamond, label=<<font color="black">(= __x10__ false)</font>> color="black" fillcolor="white" style=filled]
+  node10202 [shape=cds, label=<<font color="black">14:app __x7__ = (requestedModule.GetExportedNames requestedModule exportStarSet)</font>> color="black" fillcolor="white" style=filled]
+  node10204 [shape=diamond, label=<<font color="black">(&lt; __x9__ __x8__.length)</font>> color="black" fillcolor="white" style=filled]
+  node10191 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:append module -&gt; exportStarSet</td></tr>
       <tr><td align="left">5:let exportedNames = (new [])</td></tr>
@@ -8,126 +31,103 @@ digraph {
       <tr><td align="left">6:let __x1__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10501 [shape=diamond, label=<<font color="black">(! (contains exportedNames n))</font>> color="black" fillcolor="white" style=filled]
-  node10486 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let e = __x0__[__x1__]</td></tr>
-      <tr><td align="left">8:append e.ExportName -&gt; exportedNames</td></tr>
-      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10497 [shape=diamond, label=<<font color="black">(&lt; __x9__ __x8__.length)</font>> color="black" fillcolor="white" style=filled]
-  node10491 [shape=diamond, label=<<font color="black">(&lt; __x5__ __x4__.length)</font>> color="black" fillcolor="white" style=filled]
-  node10494 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">13:let requestedModule = [? __x6__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10503 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">__x9__ = (+ __x9__ 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10480 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10489 [shape=none, margin=0, label=<<font color="black">
+  node10196 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let e = __x2__[__x3__]</td></tr>
       <tr><td align="left">11:append e.ExportName -&gt; exportedNames</td></tr>
       <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10499 [shape=cds, label=<<font color="black">16:app __x10__ = (SameValue n &quot;default&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10488 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
-  node10481 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let module = this</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10504 [shape=none, margin=0, label=<<font color="black">
+  node10211 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">__x5__ = (+ __x5__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10483 [shape=none, margin=0, label=<<font color="black">
+  node10210 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return (new [])</td></tr>
+      <tr><td align="left">__x9__ = (+ __x9__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10502 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">append n -&gt; exportedNames</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10490 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">12:let __x4__ = module.StarExportEntries</td></tr>
-      <tr><td align="left">12:let __x5__ = 0i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10498 [shape=none, margin=0, label=<<font color="black">
+  node10205 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let n = __x8__[__x9__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10487 [shape=none, margin=0, label=<<font color="black">
+  node10189 [shape=diamond, label=<<font color="black">(contains exportStarSet module)</font>> color="black" fillcolor="white" style=filled]
+  node10201 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:let requestedModule = [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10212 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">19:return exportedNames</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10190 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10194 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:let __x2__ = module.IndirectExportEntries</td></tr>
       <tr><td align="left">9:let __x3__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10493 [shape=cds, label=<<font color="black">13:app __x6__ = (HostResolveImportedModule module e.ModuleRequest)</font>> color="black" fillcolor="white" style=filled]
-  node10505 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">19:return exportedNames</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10496 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">14:let starNames = [? __x7__]</td></tr>
-      <tr><td align="left">15:let __x8__ = starNames</td></tr>
-      <tr><td align="left">15:let __x9__ = 0i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10479 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10500 [shape=diamond, label=<<font color="black">(= __x10__ false)</font>> color="black" fillcolor="white" style=filled]
-  node10485 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
-  node10482 [shape=diamond, label=<<font color="black">(contains exportStarSet module)</font>> color="black" fillcolor="white" style=filled]
-  node10492 [shape=none, margin=0, label=<<font color="black">
+  node10200 [shape=cds, label=<<font color="black">13:app __x6__ = (HostResolveImportedModule module e.ModuleRequest)</font>> color="black" fillcolor="white" style=filled]
+  node10208 [shape=diamond, label=<<font color="black">(! (contains exportedNames n))</font>> color="black" fillcolor="white" style=filled]
+  node10186 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10199 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let e = __x4__[__x5__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10493 -> node10494 [ color="black"]
-  node10481 -> node10482 [ color="black"]
-  node10501 -> node10502 [label=<<font color="black">true</font>> color="black"]
-  node10501 -> node10503 [label=<<font color="black">false</font>> color="black"]
-  node10490 -> node10491 [ color="black"]
-  node10489 -> node10488 [ color="black"]
-  node10503 -> node10497 [ color="black"]
-  node10479 -> node10481 [ color="black"]
-  node10492 -> node10493 [ color="black"]
-  node10502 -> node10503 [ color="black"]
-  node10494 -> node10495 [ color="black"]
-  node10482 -> node10483 [label=<<font color="black">true</font>> color="black"]
-  node10482 -> node10484 [label=<<font color="black">false</font>> color="black"]
-  node10504 -> node10491 [ color="black"]
-  node10488 -> node10489 [label=<<font color="black">true</font>> color="black"]
-  node10488 -> node10490 [label=<<font color="black">false</font>> color="black"]
-  node10495 -> node10496 [ color="black"]
-  node10499 -> node10500 [ color="black"]
-  node10486 -> node10485 [ color="black"]
-  node10483 -> node10484 [ color="black"]
-  node10496 -> node10497 [ color="black"]
-  node10484 -> node10485 [ color="black"]
-  node10497 -> node10498 [label=<<font color="black">true</font>> color="black"]
-  node10497 -> node10504 [label=<<font color="black">false</font>> color="black"]
-  node10500 -> node10501 [label=<<font color="black">true</font>> color="black"]
-  node10500 -> node10503 [label=<<font color="black">false</font>> color="black"]
-  node10487 -> node10488 [ color="black"]
-  node10498 -> node10499 [ color="black"]
-  node10505 -> node10480 [ color="black"]
-  node10491 -> node10492 [label=<<font color="black">true</font>> color="black"]
-  node10491 -> node10505 [label=<<font color="black">false</font>> color="black"]
-  node10485 -> node10486 [label=<<font color="black">true</font>> color="black"]
-  node10485 -> node10487 [label=<<font color="black">false</font>> color="black"]
+  node10193 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let e = __x0__[__x1__]</td></tr>
+      <tr><td align="left">8:append e.ExportName -&gt; exportedNames</td></tr>
+      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10188 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let module = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10187 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10192 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
+  node10186 -> node10188 [ color="black"]
+  node10211 -> node10198 [ color="black"]
+  node10196 -> node10195 [ color="black"]
+  node10197 -> node10198 [ color="black"]
+  node10191 -> node10192 [ color="black"]
+  node10200 -> node10201 [ color="black"]
+  node10189 -> node10190 [label=<<font color="black">true</font>> color="black"]
+  node10189 -> node10191 [label=<<font color="black">false</font>> color="black"]
+  node10203 -> node10204 [ color="black"]
+  node10207 -> node10208 [label=<<font color="black">true</font>> color="black"]
+  node10207 -> node10210 [label=<<font color="black">false</font>> color="black"]
+  node10198 -> node10199 [label=<<font color="black">true</font>> color="black"]
+  node10198 -> node10212 [label=<<font color="black">false</font>> color="black"]
+  node10209 -> node10210 [ color="black"]
+  node10208 -> node10209 [label=<<font color="black">true</font>> color="black"]
+  node10208 -> node10210 [label=<<font color="black">false</font>> color="black"]
+  node10204 -> node10205 [label=<<font color="black">true</font>> color="black"]
+  node10204 -> node10211 [label=<<font color="black">false</font>> color="black"]
+  node10199 -> node10200 [ color="black"]
+  node10193 -> node10192 [ color="black"]
+  node10188 -> node10189 [ color="black"]
+  node10201 -> node10202 [ color="black"]
+  node10192 -> node10193 [label=<<font color="black">true</font>> color="black"]
+  node10192 -> node10194 [label=<<font color="black">false</font>> color="black"]
+  node10194 -> node10195 [ color="black"]
+  node10190 -> node10191 [ color="black"]
+  node10206 -> node10207 [ color="black"]
+  node10205 -> node10206 [ color="black"]
+  node10212 -> node10187 [ color="black"]
+  node10195 -> node10196 [label=<<font color="black">true</font>> color="black"]
+  node10195 -> node10197 [label=<<font color="black">false</font>> color="black"]
+  node10210 -> node10204 [ color="black"]
+  node10202 -> node10203 [ color="black"]
 }

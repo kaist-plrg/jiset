@@ -1,47 +1,47 @@
 digraph {
-  node15889 [shape=cds, label=<<font color="black">2:app __x2__ = (IsAbruptCompletion thenCallResult)</font>> color="black" fillcolor="white" style=filled]
-  node15885 [shape=cds, label=<<font color="black">0:app __x0__ = (CreateResolvingFunctions promiseToResolve)</font>> color="black" fillcolor="white" style=filled]
-  node15881 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15893 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:??? &quot;NextJob Completion ( id:{thenCallResult} ) .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15892 [shape=none, margin=0, label=<<font color="black">
+  node15596 [shape=cds, label=<<font color="black">app thenable = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node15600 [shape=cds, label=<<font color="black">1:app __x1__ = (Call then thenable (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))</font>> color="black" fillcolor="white" style=filled]
+  node15605 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let status = __x3__</td></tr>
       <tr><td align="left">4:??? &quot;NextJob Completion ( id:{status} ) .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15886 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let resolvingFunctions = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15882 [shape=cds, label=<<font color="black">app promiseToResolve = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node15887 [shape=cds, label=<<font color="black">1:app __x1__ = (Call then thenable (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))</font>> color="black" fillcolor="white" style=filled]
-  node15890 [shape=diamond, label=<<font color="black">__x2__</font>> color="black" fillcolor="white" style=filled]
-  node15884 [shape=cds, label=<<font color="black">app then = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
-  node15880 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15891 [shape=cds, label=<<font color="black">3:app __x3__ = (Call resolvingFunctions.Reject undefined (new [thenCallResult.Value]))</font>> color="black" fillcolor="white" style=filled]
-  node15883 [shape=cds, label=<<font color="black">app thenable = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node15888 [shape=none, margin=0, label=<<font color="black">
+  node15601 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let thenCallResult = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15880 -> node15882 [ color="black"]
-  node15892 -> node15893 [ color="black"]
-  node15893 -> node15881 [ color="black"]
-  node15883 -> node15884 [ color="black"]
-  node15884 -> node15885 [ color="black"]
-  node15888 -> node15889 [ color="black"]
-  node15886 -> node15887 [ color="black"]
-  node15890 -> node15891 [label=<<font color="black">true</font>> color="black"]
-  node15890 -> node15893 [label=<<font color="black">false</font>> color="black"]
-  node15891 -> node15892 [ color="black"]
-  node15887 -> node15888 [ color="black"]
-  node15882 -> node15883 [ color="black"]
-  node15885 -> node15886 [ color="black"]
-  node15889 -> node15890 [ color="black"]
+  node15595 [shape=cds, label=<<font color="black">app promiseToResolve = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15602 [shape=cds, label=<<font color="black">2:app __x2__ = (IsAbruptCompletion thenCallResult)</font>> color="black" fillcolor="white" style=filled]
+  node15594 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15603 [shape=diamond, label=<<font color="black">__x2__</font>> color="black" fillcolor="white" style=filled]
+  node15598 [shape=cds, label=<<font color="black">0:app __x0__ = (CreateResolvingFunctions promiseToResolve)</font>> color="black" fillcolor="white" style=filled]
+  node15593 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15604 [shape=cds, label=<<font color="black">3:app __x3__ = (Call resolvingFunctions.Reject undefined (new [thenCallResult.Value]))</font>> color="black" fillcolor="white" style=filled]
+  node15597 [shape=cds, label=<<font color="black">app then = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node15606 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:??? &quot;NextJob Completion ( id:{thenCallResult} ) .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15599 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let resolvingFunctions = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15604 -> node15605 [ color="black"]
+  node15593 -> node15595 [ color="black"]
+  node15599 -> node15600 [ color="black"]
+  node15603 -> node15604 [label=<<font color="black">true</font>> color="black"]
+  node15603 -> node15606 [label=<<font color="black">false</font>> color="black"]
+  node15600 -> node15601 [ color="black"]
+  node15595 -> node15596 [ color="black"]
+  node15601 -> node15602 [ color="black"]
+  node15597 -> node15598 [ color="black"]
+  node15602 -> node15603 [ color="black"]
+  node15596 -> node15597 [ color="black"]
+  node15598 -> node15599 [ color="black"]
+  node15606 -> node15594 [ color="black"]
+  node15605 -> node15606 [ color="black"]
 }

@@ -99,20 +99,19 @@
     let f = __x30__[__x31__]
     access __x32__ = (f "BoundNames")
     let fn = __x32__[0i]
-    access __x33__ = (f "InstantiateFunctionObject")
-    app __x34__ = (__x33__ env)
-    let fo = __x34__
-    app __x35__ = (envRec.CreateGlobalFunctionBinding envRec fn fo false)
-    [? __x35__]
+    access __x33__ = (f "InstantiateFunctionObject" env)
+    let fo = __x33__
+    app __x34__ = (envRec.CreateGlobalFunctionBinding envRec fn fo false)
+    [? __x34__]
     __x31__ = (+ __x31__ 1i)
   }
-  let __x36__ = declaredVarNames
-  let __x37__ = 0i
-  while (< __x37__ __x36__.length) {
-    let vn = __x36__[__x37__]
-    app __x38__ = (envRec.CreateGlobalVarBinding envRec vn false)
-    [? __x38__]
-    __x37__ = (+ __x37__ 1i)
+  let __x35__ = declaredVarNames
+  let __x36__ = 0i
+  while (< __x36__ __x35__.length) {
+    let vn = __x35__[__x36__]
+    app __x37__ = (envRec.CreateGlobalVarBinding envRec vn false)
+    [? __x37__]
+    __x36__ = (+ __x36__ 1i)
   }
   return CONST_empty
 }

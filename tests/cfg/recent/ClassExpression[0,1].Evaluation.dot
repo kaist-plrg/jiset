@@ -1,25 +1,23 @@
 digraph {
-  node10029 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10030 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10034 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let value = [? __x2__]</td></tr>
-      <tr><td align="left">2:value.SourceText = (get-syntax ClassExpression)</td></tr>
-      <tr><td align="left">3:return value</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10031 [shape=none, margin=0, label=<<font color="black">
+  node9759 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let className = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10028 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10033 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ className className)</font>> color="black" fillcolor="white" style=filled]
-  node10032 [shape=cds, label=<<font color="black">1:access __x1__ = (ClassTail &quot;ClassDefinitionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10033 -> node10034 [ color="black"]
-  node10032 -> node10033 [ color="black"]
-  node10028 -> node10030 [ color="black"]
-  node10031 -> node10032 [ color="black"]
-  node10034 -> node10029 [ color="black"]
-  node10030 -> node10031 [ color="black"]
+  node9758 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9761 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let value = [? __x1__]</td></tr>
+      <tr><td align="left">2:value.SourceText = (get-syntax ClassExpression)</td></tr>
+      <tr><td align="left">3:return value</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9760 [shape=cds, label=<<font color="black">1:access __x1__ = (ClassTail &quot;ClassDefinitionEvaluation&quot; className className)</font>> color="black" fillcolor="white" style=filled]
+  node9757 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9756 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9760 -> node9761 [ color="black"]
+  node9761 -> node9757 [ color="black"]
+  node9759 -> node9760 [ color="black"]
+  node9758 -> node9759 [ color="black"]
+  node9756 -> node9758 [ color="black"]
 }

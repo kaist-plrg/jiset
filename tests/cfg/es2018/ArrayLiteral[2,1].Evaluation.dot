@@ -1,52 +1,50 @@
 digraph {
-  node3616 [shape=cds, label=<<font color="black">access __x3__ = (Elision &quot;ElisionWidth&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3610 [shape=none, margin=0, label=<<font color="black">
+  node3602 [shape=cds, label=<<font color="black">1:access __x1__ = (ElementList &quot;ArrayAccumulation&quot; array 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3606 [shape=cds, label=<<font color="black">access __x2__ = (Elision &quot;ElisionWidth&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3600 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3607 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let padding = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3608 [shape=cds, label=<<font color="black">4:app __x3__ = (ToUint32 (+ padding len))</font>> color="black" fillcolor="white" style=filled]
+  node3598 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3601 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let array = [! __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3618 [shape=cds, label=<<font color="black">4:app __x4__ = (ToUint32 (+ padding len))</font>> color="black" fillcolor="white" style=filled]
-  node3615 [shape=none, margin=0, label=<<font color="black">
+  node3605 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let padding = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3611 [shape=cds, label=<<font color="black">1:access __x1__ = (ElementList &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3607 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3609 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
-  node3619 [shape=cds, label=<<font color="black">4:app __x5__ = (Set array &quot;length&quot; __x4__ false)</font>> color="black" fillcolor="white" style=filled]
-  node3614 [shape=diamond, label=<<font color="black">(= Elision absent)</font>> color="black" fillcolor="white" style=filled]
-  node3608 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3620 [shape=none, margin=0, label=<<font color="black">
+  node3603 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:__x5__</td></tr>
-      <tr><td align="left">6:return array</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3613 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let len = __x2__</td></tr>
+      <tr><td align="left">1:let len = __x1__</td></tr>
       <tr><td align="left">2:[? len]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3617 [shape=none, margin=0, label=<<font color="black">
+  node3610 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let padding = __x3__</td></tr>
+      <tr><td align="left">4:__x4__</td></tr>
+      <tr><td align="left">6:return array</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3612 [shape=cds, label=<<font color="black">1:app __x2__ = (__x1__ array 0i)</font>> color="black" fillcolor="white" style=filled]
-  node3610 -> node3611 [ color="black"]
-  node3607 -> node3609 [ color="black"]
-  node3613 -> node3614 [ color="black"]
+  node3609 [shape=cds, label=<<font color="black">4:app __x4__ = (Set array &quot;length&quot; __x3__ false)</font>> color="black" fillcolor="white" style=filled]
+  node3604 [shape=diamond, label=<<font color="black">(= Elision absent)</font>> color="black" fillcolor="white" style=filled]
+  node3599 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3602 -> node3603 [ color="black"]
+  node3607 -> node3608 [ color="black"]
+  node3600 -> node3601 [ color="black"]
+  node3608 -> node3609 [ color="black"]
+  node3606 -> node3607 [ color="black"]
+  node3598 -> node3600 [ color="black"]
+  node3610 -> node3599 [ color="black"]
+  node3603 -> node3604 [ color="black"]
   node3609 -> node3610 [ color="black"]
-  node3618 -> node3619 [ color="black"]
-  node3617 -> node3618 [ color="black"]
-  node3616 -> node3617 [ color="black"]
-  node3615 -> node3618 [ color="black"]
-  node3614 -> node3615 [label=<<font color="black">true</font>> color="black"]
-  node3614 -> node3616 [label=<<font color="black">false</font>> color="black"]
-  node3620 -> node3608 [ color="black"]
-  node3612 -> node3613 [ color="black"]
-  node3611 -> node3612 [ color="black"]
-  node3619 -> node3620 [ color="black"]
+  node3605 -> node3608 [ color="black"]
+  node3601 -> node3602 [ color="black"]
+  node3604 -> node3605 [label=<<font color="black">true</font>> color="black"]
+  node3604 -> node3606 [label=<<font color="black">false</font>> color="black"]
 }

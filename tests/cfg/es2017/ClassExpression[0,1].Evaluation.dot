@@ -1,61 +1,59 @@
 digraph {
-  node8843 [shape=cds, label=<<font color="black">7:app __x4__ = (SetFunctionName value className)</font>> color="black" fillcolor="white" style=filled]
-  node8838 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let value = __x2__</td></tr>
-      <tr><td align="left">3:[? value]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8834 [shape=cds, label=<<font color="black">access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8842 [shape=diamond, label=<<font color="black">(= hasNameProperty false)</font>> color="black" fillcolor="white" style=filled]
-  node8832 [shape=diamond, label=<<font color="black">(= BindingIdentifier absent)</font>> color="black" fillcolor="white" style=filled]
-  node8835 [shape=none, margin=0, label=<<font color="black">
+  node8607 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let className = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8839 [shape=diamond, label=<<font color="black">(! (= className undefined))</font>> color="black" fillcolor="white" style=filled]
-  node8841 [shape=none, margin=0, label=<<font color="black">
+  node8603 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8610 [shape=diamond, label=<<font color="black">(! (= className undefined))</font>> color="black" fillcolor="white" style=filled]
+  node8615 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:let hasNameProperty = [? __x3__]</td></tr>
+      <tr><td align="left">7:__x3__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8831 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8836 [shape=cds, label=<<font color="black">2:access __x1__ = (ClassTail &quot;ClassDefinitionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8837 [shape=cds, label=<<font color="black">2:app __x2__ = (__x1__ className)</font>> color="black" fillcolor="white" style=filled]
-  node8833 [shape=none, margin=0, label=<<font color="black">
+  node8613 [shape=diamond, label=<<font color="black">(= hasNameProperty false)</font>> color="black" fillcolor="white" style=filled]
+  node8608 [shape=cds, label=<<font color="black">2:access __x1__ = (ClassTail &quot;ClassDefinitionEvaluation&quot; className)</font>> color="black" fillcolor="white" style=filled]
+  node8604 [shape=diamond, label=<<font color="black">(= BindingIdentifier absent)</font>> color="black" fillcolor="white" style=filled]
+  node8605 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let className = undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8845 [shape=none, margin=0, label=<<font color="black">
+  node8612 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let hasNameProperty = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8602 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8606 [shape=cds, label=<<font color="black">access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8616 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">8:return value</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8840 [shape=cds, label=<<font color="black">5:app __x3__ = (HasOwnProperty value &quot;name&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8830 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8844 [shape=none, margin=0, label=<<font color="black">
+  node8611 [shape=cds, label=<<font color="black">5:app __x2__ = (HasOwnProperty value &quot;name&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8614 [shape=cds, label=<<font color="black">7:app __x3__ = (SetFunctionName value className)</font>> color="black" fillcolor="white" style=filled]
+  node8609 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:__x4__</td></tr>
+      <tr><td align="left">2:let value = __x1__</td></tr>
+      <tr><td align="left">3:[? value]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8838 -> node8839 [ color="black"]
-  node8832 -> node8833 [label=<<font color="black">true</font>> color="black"]
-  node8832 -> node8834 [label=<<font color="black">false</font>> color="black"]
-  node8833 -> node8836 [ color="black"]
-  node8840 -> node8841 [ color="black"]
-  node8835 -> node8836 [ color="black"]
-  node8843 -> node8844 [ color="black"]
-  node8845 -> node8831 [ color="black"]
-  node8837 -> node8838 [ color="black"]
-  node8839 -> node8840 [label=<<font color="black">true</font>> color="black"]
-  node8839 -> node8845 [label=<<font color="black">false</font>> color="black"]
-  node8830 -> node8832 [ color="black"]
-  node8844 -> node8845 [ color="black"]
-  node8841 -> node8842 [ color="black"]
-  node8836 -> node8837 [ color="black"]
-  node8834 -> node8835 [ color="black"]
-  node8842 -> node8843 [label=<<font color="black">true</font>> color="black"]
-  node8842 -> node8845 [label=<<font color="black">false</font>> color="black"]
+  node8608 -> node8609 [ color="black"]
+  node8614 -> node8615 [ color="black"]
+  node8610 -> node8611 [label=<<font color="black">true</font>> color="black"]
+  node8610 -> node8616 [label=<<font color="black">false</font>> color="black"]
+  node8605 -> node8608 [ color="black"]
+  node8611 -> node8612 [ color="black"]
+  node8606 -> node8607 [ color="black"]
+  node8602 -> node8604 [ color="black"]
+  node8613 -> node8614 [label=<<font color="black">true</font>> color="black"]
+  node8613 -> node8616 [label=<<font color="black">false</font>> color="black"]
+  node8607 -> node8608 [ color="black"]
+  node8609 -> node8610 [ color="black"]
+  node8612 -> node8613 [ color="black"]
+  node8615 -> node8616 [ color="black"]
+  node8616 -> node8603 [ color="black"]
+  node8604 -> node8605 [label=<<font color="black">true</font>> color="black"]
+  node8604 -> node8606 [label=<<font color="black">false</font>> color="black"]
 }

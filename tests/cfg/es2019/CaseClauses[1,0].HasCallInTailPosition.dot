@@ -1,34 +1,30 @@
 digraph {
-  node9886 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9892 [shape=cds, label=<<font color="black">2:access __x2__ = (CaseClause &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node9885 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9889 [shape=none, margin=0, label=<<font color="black">
+  node9604 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9609 [shape=cds, label=<<font color="black">2:access __x1__ = (CaseClause &quot;HasCallInTailPosition&quot; call)</font>> color="black" fillcolor="white" style=filled]
+  node9607 [shape=diamond, label=<<font color="black">(= has true)</font>> color="black" fillcolor="white" style=filled]
+  node9610 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let has = __x1__</td></tr>
+      <tr><td align="left">2:return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9893 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ call)</font>> color="black" fillcolor="white" style=filled]
-  node9890 [shape=diamond, label=<<font color="black">(= has true)</font>> color="black" fillcolor="white" style=filled]
-  node9888 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ call)</font>> color="black" fillcolor="white" style=filled]
-  node9894 [shape=none, margin=0, label=<<font color="black">
+  node9606 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return __x3__</td></tr>
+      <tr><td align="left">0:let has = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9891 [shape=none, margin=0, label=<<font color="black">
+  node9605 [shape=cds, label=<<font color="black">0:access __x0__ = (CaseClauses &quot;HasCallInTailPosition&quot; call)</font>> color="black" fillcolor="white" style=filled]
+  node9608 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9887 [shape=cds, label=<<font color="black">0:access __x0__ = (CaseClauses &quot;HasCallInTailPosition&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node9889 -> node9890 [ color="black"]
-  node9893 -> node9894 [ color="black"]
-  node9887 -> node9888 [ color="black"]
-  node9891 -> node9892 [ color="black"]
-  node9892 -> node9893 [ color="black"]
-  node9890 -> node9891 [label=<<font color="black">true</font>> color="black"]
-  node9890 -> node9892 [label=<<font color="black">false</font>> color="black"]
-  node9888 -> node9889 [ color="black"]
-  node9885 -> node9887 [ color="black"]
-  node9894 -> node9886 [ color="black"]
+  node9603 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9607 -> node9608 [label=<<font color="black">true</font>> color="black"]
+  node9607 -> node9609 [label=<<font color="black">false</font>> color="black"]
+  node9605 -> node9606 [ color="black"]
+  node9603 -> node9605 [ color="black"]
+  node9608 -> node9609 [ color="black"]
+  node9606 -> node9607 [ color="black"]
+  node9610 -> node9604 [ color="black"]
+  node9609 -> node9610 [ color="black"]
 }

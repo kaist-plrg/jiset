@@ -1,30 +1,28 @@
 {
   access __x0__ = (AsyncGeneratorMethod "HasDirectSuper")
   if (= __x0__ true) throw SyntaxError else return undefined
-  access __x1__ = (UniqueFormalParameters "Contains")
-  app __x2__ = (__x1__ "YieldExpression")
+  access __x1__ = (__x1__ "Contains" "YieldExpression")
+  if (= __x1__ true) throw SyntaxError else return undefined
+  access __x2__ = (__x2__ "Contains" "AwaitExpression")
   if (= __x2__ true) throw SyntaxError else return undefined
-  access __x3__ = (UniqueFormalParameters "Contains")
-  app __x4__ = (__x3__ "AwaitExpression")
-  if (= __x4__ true) throw SyntaxError else return undefined
-  let __x5__ = true
-  access __x6__ = (AsyncGeneratorBody "ContainsUseStrict")
-  __x5__ = (= __x6__ true)
-  if __x5__ {
-    access __x7__ = (UniqueFormalParameters "IsSimpleParameterList")
-    __x5__ = (= __x7__ false)
+  let __x3__ = true
+  access __x4__ = (AsyncGeneratorBody "ContainsUseStrict")
+  __x3__ = (= __x4__ true)
+  if __x3__ {
+    access __x5__ = (UniqueFormalParameters "IsSimpleParameterList")
+    __x3__ = (= __x5__ false)
   } else {}
-  if __x5__ throw SyntaxError else return undefined
-  access __x8__ = (UniqueFormalParameters "BoundNames")
-  access __x9__ = (AsyncGeneratorBody "LexicallyDeclaredNames")
-  let __x10__ = __x8__
-  let __x11__ = __x9__
-  let __x12__ = 0i
-  let __x13__ = 0i
-  let __x14__ = false
-  while (< __x12__ __x10__.length) {
-    __x13__ = 0i
-    while (< __x13__ __x11__.length) if (= __x10__[__x12__] __x11__[__x13__]) __x14__ = true else {}
+  if __x3__ throw SyntaxError else return undefined
+  access __x6__ = (UniqueFormalParameters "BoundNames")
+  access __x7__ = (AsyncGeneratorBody "LexicallyDeclaredNames")
+  let __x8__ = __x6__
+  let __x9__ = __x7__
+  let __x10__ = 0i
+  let __x11__ = 0i
+  let __x12__ = false
+  while (< __x10__ __x8__.length) {
+    __x11__ = 0i
+    while (< __x11__ __x9__.length) if (= __x8__[__x10__] __x9__[__x11__]) __x12__ = true else {}
   }
-  if __x14__ throw SyntaxError else return undefined
+  if __x12__ throw SyntaxError else return undefined
 }

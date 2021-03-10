@@ -1,32 +1,5 @@
 digraph {
-  node2822 [shape=diamond, label=<<font color="black">(! (contains exports P))</font>> color="black" fillcolor="white" style=filled]
-  node2814 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2829 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">12:let targetEnvRec = targetEnv.EnvironmentRecord</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2830 [shape=cds, label=<<font color="black">13:app __x4__ = (targetEnvRec.GetBindingValue targetEnvRec binding.BindingName true)</font>> color="black" fillcolor="white" style=filled]
-  node2813 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2824 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:let m = O.Module</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2816 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2823 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2815 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
-  node2825 [shape=cds, label=<<font color="black">6:app __x3__ = (m.ResolveExport m P (new []))</font>> color="black" fillcolor="white" style=filled]
-  node2819 [shape=cds, label=<<font color="black">2:app __x2__ = (OrdinaryGet O P Receiver)</font>> color="black" fillcolor="white" style=filled]
-  node2826 [shape=none, margin=0, label=<<font color="black">
+  node2822 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let binding = [! __x3__]</td></tr>
       <tr><td align="left">7:assert (= (typeof binding) &quot;ResolvedBindingRecord&quot;)</td></tr>
@@ -35,48 +8,75 @@ digraph {
       <tr><td align="left">10:let targetEnv = targetModule.Environment</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2820 [shape=none, margin=0, label=<<font color="black">
+  node2814 [shape=diamond, label=<<font color="black">(= __x1__ Symbol)</font>> color="black" fillcolor="white" style=filled]
+  node2809 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2813 [shape=cds, label=<<font color="black">1:app __x1__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node2816 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2817 [shape=cds, label=<<font color="black">1:app __x1__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
-  node2827 [shape=diamond, label=<<font color="black">(= targetEnv undefined)</font>> color="black" fillcolor="white" style=filled]
-  node2821 [shape=none, margin=0, label=<<font color="black">
+  node2821 [shape=cds, label=<<font color="black">6:app __x3__ = (m.ResolveExport m P (new []))</font>> color="black" fillcolor="white" style=filled]
+  node2818 [shape=diamond, label=<<font color="black">(! (contains exports P))</font>> color="black" fillcolor="white" style=filled]
+  node2815 [shape=cds, label=<<font color="black">2:app __x2__ = (OrdinaryGet O P Receiver)</font>> color="black" fillcolor="white" style=filled]
+  node2810 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2825 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let targetEnvRec = targetEnv.EnvironmentRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2819 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2826 [shape=cds, label=<<font color="black">13:app __x4__ = (targetEnvRec.GetBindingValue targetEnvRec binding.BindingName true)</font>> color="black" fillcolor="white" style=filled]
+  node2820 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let m = O.Module</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2817 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let exports = O.Exports</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2831 [shape=none, margin=0, label=<<font color="black">
+  node2827 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">13:return [? __x4__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2818 [shape=diamond, label=<<font color="black">(= __x1__ Symbol)</font>> color="black" fillcolor="white" style=filled]
-  node2828 [shape=none, margin=0, label=<<font color="black">
+  node2824 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw ReferenceError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2828 -> node2829 [ color="black"]
+  node2812 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2823 [shape=diamond, label=<<font color="black">(= targetEnv undefined)</font>> color="black" fillcolor="white" style=filled]
+  node2811 [shape=cds, label=<<font color="black">0:app __x0__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
   node2819 -> node2820 [ color="black"]
-  node2829 -> node2830 [ color="black"]
-  node2830 -> node2831 [ color="black"]
+  node2812 -> node2813 [ color="black"]
+  node2813 -> node2814 [ color="black"]
   node2825 -> node2826 [ color="black"]
-  node2822 -> node2823 [label=<<font color="black">true</font>> color="black"]
-  node2822 -> node2824 [label=<<font color="black">false</font>> color="black"]
-  node2818 -> node2819 [label=<<font color="black">true</font>> color="black"]
-  node2818 -> node2821 [label=<<font color="black">false</font>> color="black"]
+  node2822 -> node2823 [ color="black"]
   node2821 -> node2822 [ color="black"]
-  node2827 -> node2828 [label=<<font color="black">true</font>> color="black"]
-  node2827 -> node2829 [label=<<font color="black">false</font>> color="black"]
-  node2823 -> node2824 [ color="black"]
+  node2811 -> node2812 [ color="black"]
   node2820 -> node2821 [ color="black"]
+  node2814 -> node2815 [label=<<font color="black">true</font>> color="black"]
+  node2814 -> node2817 [label=<<font color="black">false</font>> color="black"]
   node2817 -> node2818 [ color="black"]
-  node2831 -> node2814 [ color="black"]
+  node2818 -> node2819 [label=<<font color="black">true</font>> color="black"]
+  node2818 -> node2820 [label=<<font color="black">false</font>> color="black"]
+  node2827 -> node2810 [ color="black"]
   node2815 -> node2816 [ color="black"]
-  node2824 -> node2825 [ color="black"]
   node2826 -> node2827 [ color="black"]
+  node2824 -> node2825 [ color="black"]
+  node2809 -> node2811 [ color="black"]
+  node2823 -> node2824 [label=<<font color="black">true</font>> color="black"]
+  node2823 -> node2825 [label=<<font color="black">false</font>> color="black"]
   node2816 -> node2817 [ color="black"]
-  node2813 -> node2815 [ color="black"]
 }

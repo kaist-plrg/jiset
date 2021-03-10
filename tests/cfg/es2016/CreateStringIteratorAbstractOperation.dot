@@ -1,5 +1,14 @@
 digraph {
-  node12522 [shape=none, margin=0, label=<<font color="black">
+  node12232 [shape=cds, label=<<font color="black">0:app __x0__ = (Type string)</font>> color="black" fillcolor="white" style=filled]
+  node12233 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12231 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12234 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_StringIteratorPrototype (new [&quot;IteratedString&quot;, &quot;StringIteratorNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node12230 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12235 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let iterator = __x1__</td></tr>
       <tr><td align="left">2:iterator.IteratedString = string</td></tr>
@@ -7,18 +16,9 @@ digraph {
       <tr><td align="left">4:return iterator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12517 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12521 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_StringIteratorPrototype (new [&quot;IteratedString&quot;, &quot;StringIteratorNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node12518 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12519 [shape=cds, label=<<font color="black">0:app __x0__ = (Type string)</font>> color="black" fillcolor="white" style=filled]
-  node12520 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12517 -> node12519 [ color="black"]
-  node12521 -> node12522 [ color="black"]
-  node12522 -> node12518 [ color="black"]
-  node12519 -> node12520 [ color="black"]
-  node12520 -> node12521 [ color="black"]
+  node12232 -> node12233 [ color="black"]
+  node12235 -> node12231 [ color="black"]
+  node12234 -> node12235 [ color="black"]
+  node12233 -> node12234 [ color="black"]
+  node12230 -> node12232 [ color="black"]
 }

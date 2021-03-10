@@ -1,47 +1,47 @@
 digraph {
-  node10616 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10619 [shape=cds, label=<<font color="black">app Attributes = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
-  node10615 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10620 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
-  node10624 [shape=none, margin=0, label=<<font color="black">
+  node10336 [shape=cds, label=<<font color="black">app P = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node10337 [shape=cds, label=<<font color="black">app Attributes = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node10345 [shape=cds, label=<<font color="black">3:app __x3__ = (DefinePropertyOrThrow O key desc)</font>> color="black" fillcolor="white" style=filled]
+  node10335 [shape=cds, label=<<font color="black">app O = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node10342 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let key = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10625 [shape=cds, label=<<font color="black">2:app __x2__ = (ToPropertyDescriptor Attributes)</font>> color="black" fillcolor="white" style=filled]
-  node10617 [shape=cds, label=<<font color="black">app O = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node10627 [shape=cds, label=<<font color="black">3:app __x3__ = (DefinePropertyOrThrow O key desc)</font>> color="black" fillcolor="white" style=filled]
-  node10622 [shape=none, margin=0, label=<<font color="black">
+  node10338 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node10334 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10339 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node10333 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10343 [shape=cds, label=<<font color="black">2:app __x2__ = (ToPropertyDescriptor Attributes)</font>> color="black" fillcolor="white" style=filled]
+  node10340 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10618 [shape=cds, label=<<font color="black">app P = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node10623 [shape=cds, label=<<font color="black">1:app __x1__ = (ToPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
-  node10626 [shape=none, margin=0, label=<<font color="black">
+  node10344 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let desc = [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10621 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node10628 [shape=none, margin=0, label=<<font color="black">
+  node10346 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:[? __x3__]</td></tr>
       <tr><td align="left">4:return O</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10619 -> node10620 [ color="black"]
-  node10626 -> node10627 [ color="black"]
-  node10623 -> node10624 [ color="black"]
-  node10615 -> node10617 [ color="black"]
-  node10617 -> node10618 [ color="black"]
-  node10627 -> node10628 [ color="black"]
-  node10628 -> node10616 [ color="black"]
-  node10624 -> node10625 [ color="black"]
-  node10622 -> node10623 [ color="black"]
-  node10621 -> node10622 [label=<<font color="black">true</font>> color="black"]
-  node10621 -> node10623 [label=<<font color="black">false</font>> color="black"]
-  node10618 -> node10619 [ color="black"]
-  node10625 -> node10626 [ color="black"]
-  node10620 -> node10621 [ color="black"]
+  node10341 [shape=cds, label=<<font color="black">1:app __x1__ = (ToPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node10337 -> node10338 [ color="black"]
+  node10343 -> node10344 [ color="black"]
+  node10333 -> node10335 [ color="black"]
+  node10342 -> node10343 [ color="black"]
+  node10335 -> node10336 [ color="black"]
+  node10336 -> node10337 [ color="black"]
+  node10346 -> node10334 [ color="black"]
+  node10340 -> node10341 [ color="black"]
+  node10341 -> node10342 [ color="black"]
+  node10338 -> node10339 [ color="black"]
+  node10339 -> node10340 [label=<<font color="black">true</font>> color="black"]
+  node10339 -> node10341 [label=<<font color="black">false</font>> color="black"]
+  node10345 -> node10346 [ color="black"]
+  node10344 -> node10345 [ color="black"]
 }

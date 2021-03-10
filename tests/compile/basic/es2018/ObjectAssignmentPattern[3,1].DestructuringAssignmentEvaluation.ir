@@ -1,8 +1,6 @@
 {
-  access __x0__ = (AssignmentPropertyList "PropertyDestructuringAssignmentEvaluation")
-  app __x1__ = (__x0__ value)
-  let excludedNames = [? __x1__]
-  access __x2__ = (AssignmentRestProperty "RestDestructuringAssignmentEvaluation")
-  app __x3__ = (__x2__ value excludedNames)
-  return __x3__
+  access __x0__ = (AssignmentPropertyList "PropertyDestructuringAssignmentEvaluation" value)
+  let excludedNames = [? __x0__]
+  access __x1__ = (AssignmentRestProperty "RestDestructuringAssignmentEvaluation" value excludedNames)
+  return __x1__
 }

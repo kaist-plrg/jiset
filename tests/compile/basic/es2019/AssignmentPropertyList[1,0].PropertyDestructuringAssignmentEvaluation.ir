@@ -1,16 +1,14 @@
 {
-  access __x0__ = (AssignmentPropertyList "PropertyDestructuringAssignmentEvaluation")
-  app __x1__ = (__x0__ value)
-  let propertyNames = [? __x1__]
-  access __x2__ = (AssignmentProperty "PropertyDestructuringAssignmentEvaluation")
-  app __x3__ = (__x2__ value)
-  let nextNames = [? __x3__]
-  let __x4__ = nextNames
-  let __x5__ = 0i
-  while (< __x5__ __x4__.length) {
-    let __x6__ = __x4__[__x5__]
-    append __x6__ -> propertyNames
-    __x5__ = (+ __x5__ 1i)
+  access __x0__ = (AssignmentPropertyList "PropertyDestructuringAssignmentEvaluation" value)
+  let propertyNames = [? __x0__]
+  access __x1__ = (AssignmentProperty "PropertyDestructuringAssignmentEvaluation" value)
+  let nextNames = [? __x1__]
+  let __x2__ = nextNames
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let __x4__ = __x2__[__x3__]
+    append __x4__ -> propertyNames
+    __x3__ = (+ __x3__ 1i)
   }
   return propertyNames
 }

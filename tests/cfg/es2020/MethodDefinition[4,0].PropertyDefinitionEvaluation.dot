@@ -1,17 +1,27 @@
 digraph {
-  node9485 [shape=cds, label=<<font color="black">9:app __x4__ = (DefinePropertyOrThrow object propKey desc)</font>> color="black" fillcolor="white" style=filled]
-  node9481 [shape=cds, label=<<font color="black">5:app __x2__ = (MakeMethod closure object)</font>> color="black" fillcolor="white" style=filled]
-  node9476 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9477 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyName &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node9484 [shape=none, margin=0, label=<<font color="black">
+  node9222 [shape=cds, label=<<font color="black">0:access __x0__ = (PropertyName &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9230 [shape=cds, label=<<font color="black">9:app __x4__ = (DefinePropertyOrThrow object propKey desc)</font>> color="black" fillcolor="white" style=filled]
+  node9225 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:__x3__</td></tr>
-      <tr><td align="left">7:closure.SourceText = (get-syntax MethodDefinition)</td></tr>
-      <tr><td align="left">8:let desc = (new PropertyDescriptor(&quot;Get&quot; -&gt; closure, &quot;Enumerable&quot; -&gt; enumerable, &quot;Configurable&quot; -&gt; true))</td></tr>
+      <tr><td align="left">4:let closure = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9483 [shape=cds, label=<<font color="black">6:app __x3__ = (SetFunctionName closure propKey &quot;get&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node9478 [shape=none, margin=0, label=<<font color="black">
+  node9221 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9226 [shape=cds, label=<<font color="black">5:app __x2__ = (MakeMethod closure object)</font>> color="black" fillcolor="white" style=filled]
+  node9231 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:return [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9224 [shape=cds, label=<<font color="black">4:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype formalParameterList FunctionBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node9228 [shape=cds, label=<<font color="black">6:app __x3__ = (SetFunctionName closure propKey &quot;get&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9227 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9220 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node9223 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let propKey = __x0__</td></tr>
       <tr><td align="left">1:[? propKey]</td></tr>
@@ -19,32 +29,22 @@ digraph {
       <tr><td align="left">3:??? &quot;Let id:{formalParameterList} be an instance of the production grammar:{FormalParameters0, []} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9486 [shape=none, margin=0, label=<<font color="black">
+  node9229 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:return [? __x4__]</td></tr>
+      <tr><td align="left">6:__x3__</td></tr>
+      <tr><td align="left">7:closure.SourceText = (get-syntax MethodDefinition)</td></tr>
+      <tr><td align="left">8:let desc = (new PropertyDescriptor(&quot;Get&quot; -&gt; closure, &quot;Enumerable&quot; -&gt; enumerable, &quot;Configurable&quot; -&gt; true))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9482 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:__x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node9479 [shape=cds, label=<<font color="black">4:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype formalParameterList FunctionBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
-  node9480 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let closure = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node9475 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9485 -> node9486 [ color="black"]
-  node9482 -> node9483 [ color="black"]
-  node9477 -> node9478 [ color="black"]
-  node9484 -> node9485 [ color="black"]
-  node9480 -> node9481 [ color="black"]
-  node9483 -> node9484 [ color="black"]
-  node9481 -> node9482 [ color="black"]
-  node9475 -> node9477 [ color="black"]
-  node9478 -> node9479 [ color="black"]
-  node9479 -> node9480 [ color="black"]
-  node9486 -> node9476 [ color="black"]
+  node9223 -> node9224 [ color="black"]
+  node9228 -> node9229 [ color="black"]
+  node9231 -> node9221 [ color="black"]
+  node9226 -> node9227 [ color="black"]
+  node9220 -> node9222 [ color="black"]
+  node9222 -> node9223 [ color="black"]
+  node9225 -> node9226 [ color="black"]
+  node9230 -> node9231 [ color="black"]
+  node9224 -> node9225 [ color="black"]
+  node9229 -> node9230 [ color="black"]
+  node9227 -> node9228 [ color="black"]
 }

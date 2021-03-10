@@ -1,30 +1,30 @@
 digraph {
-  node13675 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13679 [shape=none, margin=0, label=<<font color="black">
+  node13332 [shape=cds, label=<<font color="black">2:app __x1__ = (HourFromTime t)</font>> color="black" fillcolor="white" style=filled]
+  node13326 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13331 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return NaN</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13681 [shape=none, margin=0, label=<<font color="black">
+  node13330 [shape=diamond, label=<<font color="black">(= t NaN)</font>> color="black" fillcolor="white" style=filled]
+  node13327 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13333 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13676 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
-  node13680 [shape=cds, label=<<font color="black">2:app __x1__ = (HourFromTime t)</font>> color="black" fillcolor="white" style=filled]
-  node13677 [shape=none, margin=0, label=<<font color="black">
+  node13328 [shape=cds, label=<<font color="black">0:app __x0__ = (thisTimeValue this)</font>> color="black" fillcolor="white" style=filled]
+  node13329 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let t = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13674 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13678 [shape=diamond, label=<<font color="black">(= t NaN)</font>> color="black" fillcolor="white" style=filled]
-  node13680 -> node13681 [ color="black"]
-  node13678 -> node13679 [label=<<font color="black">true</font>> color="black"]
-  node13678 -> node13680 [label=<<font color="black">false</font>> color="black"]
-  node13676 -> node13677 [ color="black"]
-  node13681 -> node13675 [ color="black"]
-  node13674 -> node13676 [ color="black"]
-  node13677 -> node13678 [ color="black"]
-  node13679 -> node13680 [ color="black"]
+  node13332 -> node13333 [ color="black"]
+  node13328 -> node13329 [ color="black"]
+  node13329 -> node13330 [ color="black"]
+  node13330 -> node13331 [label=<<font color="black">true</font>> color="black"]
+  node13330 -> node13332 [label=<<font color="black">false</font>> color="black"]
+  node13333 -> node13327 [ color="black"]
+  node13326 -> node13328 [ color="black"]
+  node13331 -> node13332 [ color="black"]
 }

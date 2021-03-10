@@ -1,7 +1,6 @@
 {
   ??? "Let id:{name} be the string that is the only element of BoundNames of nt:{SingleNameBinding} ."
-  access __x0__ = (SingleNameBinding "KeyedBindingInitialization")
-  app __x1__ = (__x0__ value environment name)
-  [? __x1__]
+  access __x0__ = (SingleNameBinding "KeyedBindingInitialization" value environment name)
+  [? __x0__]
   return (new [name])
 }

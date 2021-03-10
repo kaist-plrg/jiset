@@ -1,40 +1,34 @@
 digraph {
-  node3923 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3922 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3925 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ array nextIndex)</font>> color="black" fillcolor="white" style=filled]
-  node3932 [shape=cds, label=<<font color="black">5:app __x5__ = (__x4__ array nextIndex)</font>> color="black" fillcolor="white" style=filled]
-  node3930 [shape=none, margin=0, label=<<font color="black">
+  node3912 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3915 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:nextIndex = __x3__</td></tr>
-      <tr><td align="left">4:[? nextIndex]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3927 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
-  node3926 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:nextIndex = __x1__</td></tr>
+      <tr><td align="left">0:nextIndex = __x0__</td></tr>
       <tr><td align="left">1:[? nextIndex]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3931 [shape=cds, label=<<font color="black">5:access __x4__ = (SpreadElement &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3928 [shape=cds, label=<<font color="black">3:access __x2__ = (Elision &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3929 [shape=cds, label=<<font color="black">3:app __x3__ = (__x2__ array nextIndex)</font>> color="black" fillcolor="white" style=filled]
-  node3924 [shape=cds, label=<<font color="black">0:access __x0__ = (ElementList &quot;ArrayAccumulation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3933 [shape=none, margin=0, label=<<font color="black">
+  node3919 [shape=cds, label=<<font color="black">5:access __x2__ = (SpreadElement &quot;ArrayAccumulation&quot; array nextIndex)</font>> color="black" fillcolor="white" style=filled]
+  node3916 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
+  node3920 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:return __x5__</td></tr>
+      <tr><td align="left">5:return __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3927 -> node3928 [label=<<font color="black">true</font>> color="black"]
-  node3927 -> node3931 [label=<<font color="black">false</font>> color="black"]
-  node3933 -> node3923 [ color="black"]
-  node3928 -> node3929 [ color="black"]
-  node3922 -> node3924 [ color="black"]
-  node3929 -> node3930 [ color="black"]
-  node3931 -> node3932 [ color="black"]
-  node3926 -> node3927 [ color="black"]
-  node3924 -> node3925 [ color="black"]
-  node3925 -> node3926 [ color="black"]
-  node3932 -> node3933 [ color="black"]
-  node3930 -> node3931 [ color="black"]
+  node3917 [shape=cds, label=<<font color="black">3:access __x1__ = (Elision &quot;ArrayAccumulation&quot; array nextIndex)</font>> color="black" fillcolor="white" style=filled]
+  node3913 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3914 [shape=cds, label=<<font color="black">0:access __x0__ = (ElementList &quot;ArrayAccumulation&quot; array nextIndex)</font>> color="black" fillcolor="white" style=filled]
+  node3918 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:nextIndex = __x1__</td></tr>
+      <tr><td align="left">4:[? nextIndex]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3916 -> node3917 [label=<<font color="black">true</font>> color="black"]
+  node3916 -> node3919 [label=<<font color="black">false</font>> color="black"]
+  node3915 -> node3916 [ color="black"]
+  node3914 -> node3915 [ color="black"]
+  node3912 -> node3914 [ color="black"]
+  node3918 -> node3919 [ color="black"]
+  node3920 -> node3913 [ color="black"]
+  node3917 -> node3918 [ color="black"]
+  node3919 -> node3920 [ color="black"]
 }

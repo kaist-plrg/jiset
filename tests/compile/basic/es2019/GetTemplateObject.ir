@@ -1,43 +1,41 @@
 {
-  access __x0__ = (templateLiteral "TemplateStrings")
-  app __x1__ = (__x0__ true)
-  let rawStrings = __x1__
+  access __x0__ = (templateLiteral "TemplateStrings" true)
+  let rawStrings = __x0__
   let realm = REALM
   let templateRegistry = realm.TemplateMap
-  let __x2__ = templateRegistry
-  let __x3__ = 0i
-  while (< __x3__ __x2__.length) {
-    let e = __x2__[__x3__]
+  let __x1__ = templateRegistry
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let e = __x1__[__x2__]
     ??? "If id:{e} . [ [ Site ] ] is the same Parse Node as id:{templateLiteral} , then in:{} out:{}"
-    __x3__ = (+ __x3__ 1i)
+    __x2__ = (+ __x2__ 1i)
   }
-  access __x4__ = (templateLiteral "TemplateStrings")
-  app __x5__ = (__x4__ false)
-  let cookedStrings = __x5__
+  access __x3__ = (templateLiteral "TemplateStrings" false)
+  let cookedStrings = __x3__
   let count = cookedStrings.length
   assert (! (< (- (** 2.0 32i) 1i) count))
-  app __x6__ = (ArrayCreate count)
-  let template = [! __x6__]
-  app __x7__ = (ArrayCreate count)
-  let rawObj = [! __x7__]
+  app __x4__ = (ArrayCreate count)
+  let template = [! __x4__]
+  app __x5__ = (ArrayCreate count)
+  let rawObj = [! __x5__]
   let index = 0i
   while (< index count) {
-    app __x8__ = (ToString index)
-    let prop = [! __x8__]
+    app __x6__ = (ToString index)
+    let prop = [! __x6__]
     let cookedValue = cookedStrings[index]
-    app __x9__ = (template.DefineOwnProperty template prop (new PropertyDescriptor("Value" -> cookedValue, "Writable" -> false, "Enumerable" -> true, "Configurable" -> false)))
-    __x9__
+    app __x7__ = (template.DefineOwnProperty template prop (new PropertyDescriptor("Value" -> cookedValue, "Writable" -> false, "Enumerable" -> true, "Configurable" -> false)))
+    __x7__
     let rawValue = rawStrings[index]
-    app __x10__ = (rawObj.DefineOwnProperty rawObj prop (new PropertyDescriptor("Value" -> rawValue, "Writable" -> false, "Enumerable" -> true, "Configurable" -> false)))
-    __x10__
+    app __x8__ = (rawObj.DefineOwnProperty rawObj prop (new PropertyDescriptor("Value" -> rawValue, "Writable" -> false, "Enumerable" -> true, "Configurable" -> false)))
+    __x8__
     index = (+ index 1i)
   }
-  app __x11__ = (SetIntegrityLevel rawObj "frozen")
+  app __x9__ = (SetIntegrityLevel rawObj "frozen")
+  __x9__
+  app __x10__ = (template.DefineOwnProperty template "raw" (new PropertyDescriptor("Value" -> rawObj, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
+  __x10__
+  app __x11__ = (SetIntegrityLevel template "frozen")
   __x11__
-  app __x12__ = (template.DefineOwnProperty template "raw" (new PropertyDescriptor("Value" -> rawObj, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
-  __x12__
-  app __x13__ = (SetIntegrityLevel template "frozen")
-  __x13__
   append (new Record("Site" -> templateLiteral, "Array" -> template)) -> templateRegistry
   return template
 }

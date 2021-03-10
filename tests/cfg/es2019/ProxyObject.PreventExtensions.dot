@@ -1,84 +1,84 @@
 digraph {
-  node2957 [shape=cds, label=<<font color="black">7:app __x3__ = (Call trap handler (new [target]))</font>> color="black" fillcolor="white" style=filled]
-  node2950 [shape=cds, label=<<font color="black">2:app __x0__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
-  node2954 [shape=diamond, label=<<font color="black">(= trap undefined)</font>> color="black" fillcolor="white" style=filled]
-  node2958 [shape=cds, label=<<font color="black">7:app __x4__ = (ToBoolean [? __x3__])</font>> color="black" fillcolor="white" style=filled]
-  node2946 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2963 [shape=diamond, label=<<font color="black">(= targetIsExtensible true)</font>> color="black" fillcolor="white" style=filled]
-  node2959 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:let booleanTrapResult = __x4__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2962 [shape=none, margin=0, label=<<font color="black">
+  node2957 [shape=cds, label=<<font color="black">9:app __x5__ = (target.IsExtensible target)</font>> color="black" fillcolor="white" style=filled]
+  node2950 [shape=diamond, label=<<font color="black">(= trap undefined)</font>> color="black" fillcolor="white" style=filled]
+  node2954 [shape=cds, label=<<font color="black">7:app __x4__ = (ToBoolean [? __x3__])</font>> color="black" fillcolor="white" style=filled]
+  node2958 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:let targetIsExtensible = [? __x5__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2952 [shape=cds, label=<<font color="black">4:app __x1__ = (GetMethod handler &quot;preventExtensions&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node2960 [shape=diamond, label=<<font color="black">(= booleanTrapResult true)</font>> color="black" fillcolor="white" style=filled]
-  node2956 [shape=none, margin=0, label=<<font color="black">
+  node2946 [shape=cds, label=<<font color="black">2:app __x0__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
+  node2941 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2959 [shape=diamond, label=<<font color="black">(= targetIsExtensible true)</font>> color="black" fillcolor="white" style=filled]
+  node2952 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:return [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2951 [shape=none, margin=0, label=<<font color="black">
+  node2942 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2960 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2951 [shape=cds, label=<<font color="black">6:app __x2__ = (target.PreventExtensions target)</font>> color="black" fillcolor="white" style=filled]
+  node2961 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:return booleanTrapResult</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2953 [shape=cds, label=<<font color="black">7:app __x3__ = (Call trap handler (new [target]))</font>> color="black" fillcolor="white" style=filled]
+  node2947 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (= __x0__ Object)</td></tr>
       <tr><td align="left">3:let target = O.ProxyTarget</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2961 [shape=cds, label=<<font color="black">9:app __x5__ = (target.IsExtensible target)</font>> color="black" fillcolor="white" style=filled]
-  node2953 [shape=none, margin=0, label=<<font color="black">
+  node2955 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let trap = [? __x1__]</td></tr>
+      <tr><td align="left">7:let booleanTrapResult = __x4__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2947 [shape=none, margin=0, label=<<font color="black">
+  node2943 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let handler = O.ProxyHandler</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2964 [shape=none, margin=0, label=<<font color="black">
+  node2945 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2965 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">11:return booleanTrapResult</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2955 [shape=cds, label=<<font color="black">6:app __x2__ = (target.PreventExtensions target)</font>> color="black" fillcolor="white" style=filled]
-  node2945 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2948 [shape=diamond, label=<<font color="black">(= handler null)</font>> color="black" fillcolor="white" style=filled]
+  node2948 [shape=cds, label=<<font color="black">4:app __x1__ = (GetMethod handler &quot;preventExtensions&quot;)</font>> color="black" fillcolor="white" style=filled]
   node2949 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
+      <tr><td align="left">4:let trap = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2948 -> node2949 [label=<<font color="black">true</font>> color="black"]
-  node2948 -> node2950 [label=<<font color="black">false</font>> color="black"]
-  node2952 -> node2953 [ color="black"]
-  node2961 -> node2962 [ color="black"]
-  node2964 -> node2965 [ color="black"]
-  node2965 -> node2946 [ color="black"]
+  node2944 [shape=diamond, label=<<font color="black">(= handler null)</font>> color="black" fillcolor="white" style=filled]
+  node2956 [shape=diamond, label=<<font color="black">(= booleanTrapResult true)</font>> color="black" fillcolor="white" style=filled]
+  node2950 -> node2951 [label=<<font color="black">true</font>> color="black"]
+  node2950 -> node2953 [label=<<font color="black">false</font>> color="black"]
+  node2945 -> node2946 [ color="black"]
+  node2941 -> node2943 [ color="black"]
+  node2944 -> node2945 [label=<<font color="black">true</font>> color="black"]
+  node2944 -> node2946 [label=<<font color="black">false</font>> color="black"]
   node2951 -> node2952 [ color="black"]
   node2958 -> node2959 [ color="black"]
-  node2953 -> node2954 [ color="black"]
-  node2963 -> node2964 [label=<<font color="black">true</font>> color="black"]
-  node2963 -> node2965 [label=<<font color="black">false</font>> color="black"]
-  node2954 -> node2955 [label=<<font color="black">true</font>> color="black"]
-  node2954 -> node2957 [label=<<font color="black">false</font>> color="black"]
-  node2945 -> node2947 [ color="black"]
-  node2959 -> node2960 [ color="black"]
-  node2957 -> node2958 [ color="black"]
-  node2950 -> node2951 [ color="black"]
   node2955 -> node2956 [ color="black"]
-  node2960 -> node2961 [label=<<font color="black">true</font>> color="black"]
-  node2960 -> node2965 [label=<<font color="black">false</font>> color="black"]
-  node2956 -> node2957 [ color="black"]
+  node2946 -> node2947 [ color="black"]
+  node2959 -> node2960 [label=<<font color="black">true</font>> color="black"]
+  node2959 -> node2961 [label=<<font color="black">false</font>> color="black"]
+  node2952 -> node2953 [ color="black"]
+  node2943 -> node2944 [ color="black"]
+  node2957 -> node2958 [ color="black"]
+  node2954 -> node2955 [ color="black"]
+  node2960 -> node2961 [ color="black"]
+  node2961 -> node2942 [ color="black"]
+  node2948 -> node2949 [ color="black"]
+  node2953 -> node2954 [ color="black"]
+  node2956 -> node2957 [label=<<font color="black">true</font>> color="black"]
+  node2956 -> node2961 [label=<<font color="black">false</font>> color="black"]
   node2949 -> node2950 [ color="black"]
-  node2962 -> node2963 [ color="black"]
   node2947 -> node2948 [ color="black"]
 }

@@ -1,11 +1,18 @@
 digraph {
-  node13039 [shape=none, margin=0, label=<<font color="black">
+  node12731 [shape=cds, label=<<font color="black">7:app __x1__ = (TimeString tv)</font>> color="black" fillcolor="white" style=filled]
+  node12732 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return (+ (+ (+ (+ (+ (+ (+ (+ (+ weekday &quot;,&quot;) &quot; &quot;) day) &quot; &quot;) month) &quot; &quot;) year) &quot; &quot;) __x1__)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12728 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let O = this</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13038 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13041 [shape=none, margin=0, label=<<font color="black">
+  node12727 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12726 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12730 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let tv = [? __x0__]</td></tr>
       <tr><td align="left">2:??? &quot;If id:{tv} is value:{NaN} , return ` \&quot; Invalid Date \&quot; ` .&quot;</td></tr>
@@ -15,18 +22,11 @@ digraph {
       <tr><td align="left">6:??? &quot;Let id:{year} be the String representation of YearFromTime ( id:{tv} ) , formatted as a decimal number of at least four digits , padded to the left with zeroes if necessary .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13040 [shape=cds, label=<<font color="black">1:app __x0__ = (thisTimeValue O)</font>> color="black" fillcolor="white" style=filled]
-  node13043 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return (+ (+ (+ (+ (+ (+ (+ (+ (+ weekday &quot;,&quot;) &quot; &quot;) day) &quot; &quot;) month) &quot; &quot;) year) &quot; &quot;) __x1__)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13042 [shape=cds, label=<<font color="black">7:app __x1__ = (TimeString tv)</font>> color="black" fillcolor="white" style=filled]
-  node13037 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13043 -> node13038 [ color="black"]
-  node13041 -> node13042 [ color="black"]
-  node13037 -> node13039 [ color="black"]
-  node13039 -> node13040 [ color="black"]
-  node13040 -> node13041 [ color="black"]
-  node13042 -> node13043 [ color="black"]
+  node12729 [shape=cds, label=<<font color="black">1:app __x0__ = (thisTimeValue O)</font>> color="black" fillcolor="white" style=filled]
+  node12732 -> node12727 [ color="black"]
+  node12731 -> node12732 [ color="black"]
+  node12729 -> node12730 [ color="black"]
+  node12728 -> node12729 [ color="black"]
+  node12726 -> node12728 [ color="black"]
+  node12730 -> node12731 [ color="black"]
 }

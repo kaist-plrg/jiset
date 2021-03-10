@@ -1,35 +1,35 @@
 digraph {
-  node2306 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2301 [shape=diamond, label=<<font color="black">(= P &quot;caller&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node2307 [shape=cds, label=<<font color="black">4:app __x2__ = (OrdinaryHasProperty args P)</font>> color="black" fillcolor="white" style=filled]
-  node2300 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2304 [shape=cds, label=<<font color="black">3:app __x1__ = (IsDataDescriptor desc)</font>> color="black" fillcolor="white" style=filled]
-  node2308 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:return [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2299 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2303 [shape=none, margin=0, label=<<font color="black">
+  node2301 [shape=cds, label=<<font color="black">3:app __x1__ = (IsDataDescriptor desc)</font>> color="black" fillcolor="white" style=filled]
+  node2296 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2300 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let desc = [! __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2305 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
-  node2302 [shape=cds, label=<<font color="black">2:app __x0__ = (OrdinaryGetOwnProperty args P)</font>> color="black" fillcolor="white" style=filled]
+  node2304 [shape=cds, label=<<font color="black">4:app __x2__ = (OrdinaryHasProperty args P)</font>> color="black" fillcolor="white" style=filled]
+  node2299 [shape=cds, label=<<font color="black">2:app __x0__ = (OrdinaryGetOwnProperty args P)</font>> color="black" fillcolor="white" style=filled]
+  node2303 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2298 [shape=diamond, label=<<font color="black">(= P &quot;caller&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node2305 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2302 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node2297 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node2304 -> node2305 [ color="black"]
-  node2299 -> node2301 [ color="black"]
-  node2302 -> node2303 [ color="black"]
-  node2307 -> node2308 [ color="black"]
+  node2301 -> node2302 [ color="black"]
+  node2296 -> node2298 [ color="black"]
+  node2300 -> node2301 [ color="black"]
+  node2302 -> node2303 [label=<<font color="black">true</font>> color="black"]
+  node2302 -> node2304 [label=<<font color="black">false</font>> color="black"]
+  node2299 -> node2300 [ color="black"]
+  node2298 -> node2299 [label=<<font color="black">true</font>> color="black"]
+  node2298 -> node2304 [label=<<font color="black">false</font>> color="black"]
+  node2305 -> node2297 [ color="black"]
   node2303 -> node2304 [ color="black"]
-  node2301 -> node2302 [label=<<font color="black">true</font>> color="black"]
-  node2301 -> node2307 [label=<<font color="black">false</font>> color="black"]
-  node2308 -> node2300 [ color="black"]
-  node2305 -> node2306 [label=<<font color="black">true</font>> color="black"]
-  node2305 -> node2307 [label=<<font color="black">false</font>> color="black"]
-  node2306 -> node2307 [ color="black"]
 }

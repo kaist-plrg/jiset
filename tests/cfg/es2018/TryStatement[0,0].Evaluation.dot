@@ -1,40 +1,38 @@
 digraph {
-  node8169 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8178 [shape=cds, label=<<font color="black">3:app __x3__ = (UpdateEmpty C undefined)</font>> color="black" fillcolor="white" style=filled]
-  node8173 [shape=diamond, label=<<font color="black">(= B.Type CONST_throw)</font>> color="black" fillcolor="white" style=filled]
-  node8170 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8174 [shape=cds, label=<<font color="black">access __x1__ = (Catch &quot;CatchClauseEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8171 [shape=cds, label=<<font color="black">0:access __x0__ = (Block &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8175 [shape=cds, label=<<font color="black">app __x2__ = (__x1__ B.Value)</font>> color="black" fillcolor="white" style=filled]
-  node8172 [shape=none, margin=0, label=<<font color="black">
+  node7973 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let B = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8179 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8176 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let C = __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8177 [shape=none, margin=0, label=<<font color="black">
+  node7977 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let C = B</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8178 -> node8179 [ color="black"]
-  node8171 -> node8172 [ color="black"]
-  node8179 -> node8170 [ color="black"]
-  node8175 -> node8176 [ color="black"]
-  node8174 -> node8175 [ color="black"]
-  node8173 -> node8174 [label=<<font color="black">true</font>> color="black"]
-  node8173 -> node8177 [label=<<font color="black">false</font>> color="black"]
-  node8169 -> node8171 [ color="black"]
-  node8176 -> node8178 [ color="black"]
-  node8172 -> node8173 [ color="black"]
-  node8177 -> node8178 [ color="black"]
+  node7976 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let C = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7972 [shape=cds, label=<<font color="black">0:access __x0__ = (Block &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7978 [shape=cds, label=<<font color="black">3:app __x2__ = (UpdateEmpty C undefined)</font>> color="black" fillcolor="white" style=filled]
+  node7975 [shape=cds, label=<<font color="black">access __x1__ = (Catch &quot;CatchClauseEvaluation&quot; B.Value)</font>> color="black" fillcolor="white" style=filled]
+  node7971 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7974 [shape=diamond, label=<<font color="black">(= B.Type CONST_throw)</font>> color="black" fillcolor="white" style=filled]
+  node7979 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7970 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7970 -> node7972 [ color="black"]
+  node7973 -> node7974 [ color="black"]
+  node7979 -> node7971 [ color="black"]
+  node7977 -> node7978 [ color="black"]
+  node7974 -> node7975 [label=<<font color="black">true</font>> color="black"]
+  node7974 -> node7977 [label=<<font color="black">false</font>> color="black"]
+  node7975 -> node7976 [ color="black"]
+  node7978 -> node7979 [ color="black"]
+  node7976 -> node7978 [ color="black"]
+  node7972 -> node7973 [ color="black"]
 }

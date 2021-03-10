@@ -1,30 +1,30 @@
 digraph {
-  node3153 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
-  node3148 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3152 [shape=cds, label=<<font color="black">2:app __x1__ = (SameValue V current)</font>> color="black" fillcolor="white" style=filled]
+  node3148 [shape=cds, label=<<font color="black">2:app __x1__ = (SameValue V current)</font>> color="black" fillcolor="white" style=filled]
   node3151 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let current = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3154 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3155 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3150 [shape=cds, label=<<font color="black">1:app __x0__ = (O.GetPrototypeOf O)</font>> color="black" fillcolor="white" style=filled]
-  node3149 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3153 -> node3154 [label=<<font color="black">true</font>> color="black"]
-  node3153 -> node3155 [label=<<font color="black">false</font>> color="black"]
-  node3148 -> node3150 [ color="black"]
-  node3152 -> node3153 [ color="black"]
-  node3154 -> node3155 [ color="black"]
-  node3155 -> node3149 [ color="black"]
-  node3151 -> node3152 [ color="black"]
+  node3144 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3147 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let current = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3150 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3146 [shape=cds, label=<<font color="black">1:app __x0__ = (O.GetPrototypeOf O)</font>> color="black" fillcolor="white" style=filled]
+  node3149 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node3145 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3146 -> node3147 [ color="black"]
+  node3151 -> node3145 [ color="black"]
+  node3149 -> node3150 [label=<<font color="black">true</font>> color="black"]
+  node3149 -> node3151 [label=<<font color="black">false</font>> color="black"]
+  node3148 -> node3149 [ color="black"]
+  node3147 -> node3148 [ color="black"]
+  node3144 -> node3146 [ color="black"]
   node3150 -> node3151 [ color="black"]
 }

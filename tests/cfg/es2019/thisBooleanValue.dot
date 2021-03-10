@@ -1,42 +1,42 @@
 digraph {
-  node12084 [shape=none, margin=0, label=<<font color="black">
+  node11752 [shape=cds, label=<<font color="black">0:app __x0__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node11756 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x1__ Object) (! (= value.BooleanData absent)))</font>> color="black" fillcolor="white" style=filled]
+  node11760 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12077 [shape=diamond, label=<<font color="black">(= __x0__ Boolean)</font>> color="black" fillcolor="white" style=filled]
-  node12078 [shape=none, margin=0, label=<<font color="black">
+  node11751 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11757 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return value</td></tr>
+      <tr><td align="left">2:let b = value.BooleanData</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12083 [shape=none, margin=0, label=<<font color="black">
+  node11750 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11758 [shape=cds, label=<<font color="black">3:app __x2__ = (Type b)</font>> color="black" fillcolor="white" style=filled]
+  node11753 [shape=diamond, label=<<font color="black">(= __x0__ Boolean)</font>> color="black" fillcolor="white" style=filled]
+  node11755 [shape=cds, label=<<font color="black">1:app __x1__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
+  node11759 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:assert (= __x2__ Boolean)</td></tr>
       <tr><td align="left">4:return b</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12074 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12082 [shape=cds, label=<<font color="black">3:app __x2__ = (Type b)</font>> color="black" fillcolor="white" style=filled]
-  node12079 [shape=cds, label=<<font color="black">1:app __x1__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
-  node12075 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12080 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x1__ Object) (! (= value.BooleanData absent)))</font>> color="black" fillcolor="white" style=filled]
-  node12081 [shape=none, margin=0, label=<<font color="black">
+  node11754 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let b = value.BooleanData</td></tr>
+      <tr><td align="left">return value</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12076 [shape=cds, label=<<font color="black">0:app __x0__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
-  node12084 -> node12075 [ color="black"]
-  node12083 -> node12084 [ color="black"]
-  node12082 -> node12083 [ color="black"]
-  node12076 -> node12077 [ color="black"]
-  node12078 -> node12079 [ color="black"]
-  node12080 -> node12081 [label=<<font color="black">true</font>> color="black"]
-  node12080 -> node12084 [label=<<font color="black">false</font>> color="black"]
-  node12081 -> node12082 [ color="black"]
-  node12077 -> node12078 [label=<<font color="black">true</font>> color="black"]
-  node12077 -> node12079 [label=<<font color="black">false</font>> color="black"]
-  node12074 -> node12076 [ color="black"]
-  node12079 -> node12080 [ color="black"]
+  node11755 -> node11756 [ color="black"]
+  node11758 -> node11759 [ color="black"]
+  node11756 -> node11757 [label=<<font color="black">true</font>> color="black"]
+  node11756 -> node11760 [label=<<font color="black">false</font>> color="black"]
+  node11760 -> node11751 [ color="black"]
+  node11753 -> node11754 [label=<<font color="black">true</font>> color="black"]
+  node11753 -> node11755 [label=<<font color="black">false</font>> color="black"]
+  node11750 -> node11752 [ color="black"]
+  node11752 -> node11753 [ color="black"]
+  node11754 -> node11755 [ color="black"]
+  node11759 -> node11760 [ color="black"]
+  node11757 -> node11758 [ color="black"]
 }

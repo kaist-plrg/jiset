@@ -1,42 +1,42 @@
 digraph {
-  node3053 [shape=diamond, label=<<font color="black">(= __x0__ Symbol)</font>> color="black" fillcolor="white" style=filled]
-  node3054 [shape=cds, label=<<font color="black">app __x1__ = (OrdinaryGetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
-  node3050 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3060 [shape=none, margin=0, label=<<font color="black">
+  node3053 [shape=diamond, label=<<font color="black">(! (contains exports P))</font>> color="black" fillcolor="white" style=filled]
+  node3049 [shape=diamond, label=<<font color="black">(= __x0__ Symbol)</font>> color="black" fillcolor="white" style=filled]
+  node3046 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3054 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3050 [shape=cds, label=<<font color="black">app __x1__ = (OrdinaryGetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node3051 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3055 [shape=cds, label=<<font color="black">3:app __x2__ = (O.Get O P O)</font>> color="black" fillcolor="white" style=filled]
+  node3048 [shape=cds, label=<<font color="black">0:app __x0__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node3056 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let value = [? __x2__]</td></tr>
       <tr><td align="left">4:return (new PropertyDescriptor(&quot;Value&quot; -&gt; value, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; false))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3059 [shape=cds, label=<<font color="black">3:app __x2__ = (O.Get O P O)</font>> color="black" fillcolor="white" style=filled]
-  node3051 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3055 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3058 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3056 [shape=none, margin=0, label=<<font color="black">
+  node3052 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let exports = O.Exports</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3057 [shape=diamond, label=<<font color="black">(! (contains exports P))</font>> color="black" fillcolor="white" style=filled]
-  node3052 [shape=cds, label=<<font color="black">0:app __x0__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
-  node3054 -> node3055 [ color="black"]
+  node3047 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node3056 -> node3047 [ color="black"]
+  node3046 -> node3048 [ color="black"]
   node3053 -> node3054 [label=<<font color="black">true</font>> color="black"]
-  node3053 -> node3056 [label=<<font color="black">false</font>> color="black"]
-  node3059 -> node3060 [ color="black"]
-  node3060 -> node3051 [ color="black"]
-  node3056 -> node3057 [ color="black"]
+  node3053 -> node3055 [label=<<font color="black">false</font>> color="black"]
+  node3048 -> node3049 [ color="black"]
   node3052 -> node3053 [ color="black"]
+  node3049 -> node3050 [label=<<font color="black">true</font>> color="black"]
+  node3049 -> node3052 [label=<<font color="black">false</font>> color="black"]
   node3055 -> node3056 [ color="black"]
-  node3058 -> node3059 [ color="black"]
-  node3057 -> node3058 [label=<<font color="black">true</font>> color="black"]
-  node3057 -> node3059 [label=<<font color="black">false</font>> color="black"]
-  node3050 -> node3052 [ color="black"]
+  node3050 -> node3051 [ color="black"]
+  node3054 -> node3055 [ color="black"]
+  node3051 -> node3052 [ color="black"]
 }

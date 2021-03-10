@@ -21,16 +21,12 @@
     while (< __x8__ __x6__.length) if (= __x5__[__x7__] __x6__[__x8__]) __x9__ = true else {}
   }
   if __x9__ throw SyntaxError else return undefined
-  access __x10__ = (FormalParameters "Contains")
-  app __x11__ = (__x10__ "SuperProperty")
+  access __x10__ = (__x10__ "Contains" "SuperProperty")
+  if (= __x10__ true) throw SyntaxError else return undefined
+  access __x11__ = (__x11__ "Contains" "SuperProperty")
   if (= __x11__ true) throw SyntaxError else return undefined
-  access __x12__ = (FunctionBody "Contains")
-  app __x13__ = (__x12__ "SuperProperty")
+  access __x12__ = (__x12__ "Contains" "SuperCall")
+  if (= __x12__ true) throw SyntaxError else return undefined
+  access __x13__ = (__x13__ "Contains" "SuperCall")
   if (= __x13__ true) throw SyntaxError else return undefined
-  access __x14__ = (FormalParameters "Contains")
-  app __x15__ = (__x14__ "SuperCall")
-  if (= __x15__ true) throw SyntaxError else return undefined
-  access __x16__ = (FunctionBody "Contains")
-  app __x17__ = (__x16__ "SuperCall")
-  if (= __x17__ true) throw SyntaxError else return undefined
 }

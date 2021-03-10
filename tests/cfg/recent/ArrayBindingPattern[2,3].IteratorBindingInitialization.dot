@@ -1,38 +1,32 @@
 digraph {
-  node6954 [shape=none, margin=0, label=<<font color="black">
+  node6845 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return __x5__</td></tr>
+      <tr><td align="left">2:[? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6944 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6951 [shape=none, margin=0, label=<<font color="black">
+  node6844 [shape=cds, label=<<font color="black">2:access __x1__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot; iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node6847 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:[? __x3__]</td></tr>
+      <tr><td align="left">3:return __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6947 [shape=none, margin=0, label=<<font color="black">
+  node6843 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
+  node6846 [shape=cds, label=<<font color="black">3:access __x2__ = (BindingRestElement &quot;IteratorBindingInitialization&quot; iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node6840 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6841 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingElementList &quot;IteratorBindingInitialization&quot; iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node6842 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:[? __x1__]</td></tr>
+      <tr><td align="left">0:[? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6946 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
-  node6950 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
-  node6949 [shape=cds, label=<<font color="black">2:access __x2__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6945 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingElementList &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6943 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6953 [shape=cds, label=<<font color="black">3:app __x5__ = (__x4__ iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
-  node6952 [shape=cds, label=<<font color="black">3:access __x4__ = (BindingRestElement &quot;IteratorBindingInitialization&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6948 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
-  node6946 -> node6947 [ color="black"]
-  node6949 -> node6950 [ color="black"]
-  node6951 -> node6952 [ color="black"]
-  node6952 -> node6953 [ color="black"]
-  node6947 -> node6948 [ color="black"]
-  node6954 -> node6944 [ color="black"]
-  node6948 -> node6949 [label=<<font color="black">true</font>> color="black"]
-  node6948 -> node6952 [label=<<font color="black">false</font>> color="black"]
-  node6950 -> node6951 [ color="black"]
-  node6953 -> node6954 [ color="black"]
-  node6945 -> node6946 [ color="black"]
-  node6943 -> node6945 [ color="black"]
+  node6839 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6847 -> node6840 [ color="black"]
+  node6843 -> node6844 [label=<<font color="black">true</font>> color="black"]
+  node6843 -> node6846 [label=<<font color="black">false</font>> color="black"]
+  node6842 -> node6843 [ color="black"]
+  node6845 -> node6846 [ color="black"]
+  node6844 -> node6845 [ color="black"]
+  node6846 -> node6847 [ color="black"]
+  node6839 -> node6841 [ color="black"]
+  node6841 -> node6842 [ color="black"]
 }

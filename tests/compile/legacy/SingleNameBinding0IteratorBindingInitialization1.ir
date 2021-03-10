@@ -21,20 +21,19 @@
   if (&& (! (= Initializer absent)) (= v undefined)) {
     app __x6__ = (IsAnonymousFunctionDefinition Initializer)
     if (= __x6__ true) {
-      access __x7__ = (Initializer "NamedEvaluation")
-      app __x8__ = (__x7__ bindingId)
-      v = __x8__
+      access __x7__ = (Initializer "NamedEvaluation" bindingId)
+      v = __x7__
     } else {
-      access __x9__ = (Initializer "Evaluation")
-      let defaultValue = __x9__
-      app __x10__ = (GetValue defaultValue)
-      v = [? __x10__]
+      access __x8__ = (Initializer "Evaluation")
+      let defaultValue = __x8__
+      app __x9__ = (GetValue defaultValue)
+      v = [? __x9__]
     }
   } else {}
   if (= environment undefined) {
-    app __x11__ = (PutValue lhs v)
-    return [? __x11__]
+    app __x10__ = (PutValue lhs v)
+    return [? __x10__]
   } else {}
-  app __x12__ = (InitializeReferencedBinding lhs v)
-  return __x12__
+  app __x11__ = (InitializeReferencedBinding lhs v)
+  return __x11__
 }

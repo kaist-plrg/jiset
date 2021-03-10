@@ -1,11 +1,10 @@
 {
-  access __x0__ = (Atom "Evaluation")
-  app __x1__ = (__x0__ direction)
-  let m = __x1__
-  access __x2__ = (Quantifier "Evaluation")
-  let min = __x2__[0i]
-  let max = __x2__[1i]
-  let greedy = __x2__[2i]
+  access __x0__ = (Atom "Evaluation" direction)
+  let m = __x0__
+  access __x1__ = (Quantifier "Evaluation")
+  let min = __x1__[0i]
+  let max = __x1__[1i]
+  let greedy = __x1__[2i]
   ??? "Let id:{parenIndex} be the number of left - capturing parentheses in the entire regular expression that occur to the left of this nt:{Term} . This is the total number of grammar:{Atom4, [GroupSpecifier, Disjunction]} Parse Nodes prior to or enclosing this nt:{Term} ."
   ??? "Let id:{parenCount} be the number of left - capturing parentheses in nt:{Atom} . This is the total number of grammar:{Atom4, [GroupSpecifier, Disjunction]} Parse Nodes enclosed by nt:{Atom} ."
   ??? "Return a new Matcher with parameters ( id:{x} , id:{c} ) that captures id:{m} , id:{min} , id:{max} , id:{greedy} , id:{parenIndex} , and id:{parenCount} and performs the following steps when called : in:{} out:{}"

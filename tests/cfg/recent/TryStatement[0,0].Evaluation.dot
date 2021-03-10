@@ -1,40 +1,38 @@
 digraph {
-  node8866 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8875 [shape=none, margin=0, label=<<font color="black">
+  node8639 [shape=cds, label=<<font color="black">access __x1__ = (Catch &quot;CatchClauseEvaluation&quot; B.Value)</font>> color="black" fillcolor="white" style=filled]
+  node8635 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8642 [shape=cds, label=<<font color="black">3:app __x2__ = (UpdateEmpty C undefined)</font>> color="black" fillcolor="white" style=filled]
+  node8640 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return __x3__</td></tr>
+      <tr><td align="left">let C = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8870 [shape=cds, label=<<font color="black">access __x1__ = (Catch &quot;CatchClauseEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8867 [shape=cds, label=<<font color="black">0:access __x0__ = (Block &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node8871 [shape=cds, label=<<font color="black">app __x2__ = (__x1__ B.Value)</font>> color="black" fillcolor="white" style=filled]
-  node8874 [shape=cds, label=<<font color="black">3:app __x3__ = (UpdateEmpty C undefined)</font>> color="black" fillcolor="white" style=filled]
-  node8872 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let C = __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8868 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let B = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8873 [shape=none, margin=0, label=<<font color="black">
+  node8636 [shape=cds, label=<<font color="black">0:access __x0__ = (Block &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8641 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let C = B</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8865 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8869 [shape=diamond, label=<<font color="black">(= B.Type CONST_throw)</font>> color="black" fillcolor="white" style=filled]
-  node8872 -> node8874 [ color="black"]
-  node8869 -> node8870 [label=<<font color="black">true</font>> color="black"]
-  node8869 -> node8873 [label=<<font color="black">false</font>> color="black"]
-  node8871 -> node8872 [ color="black"]
-  node8870 -> node8871 [ color="black"]
-  node8868 -> node8869 [ color="black"]
-  node8865 -> node8867 [ color="black"]
-  node8874 -> node8875 [ color="black"]
-  node8867 -> node8868 [ color="black"]
-  node8873 -> node8874 [ color="black"]
-  node8875 -> node8866 [ color="black"]
+  node8637 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let B = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8634 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node8638 [shape=diamond, label=<<font color="black">(= B.Type CONST_throw)</font>> color="black" fillcolor="white" style=filled]
+  node8643 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8638 -> node8639 [label=<<font color="black">true</font>> color="black"]
+  node8638 -> node8641 [label=<<font color="black">false</font>> color="black"]
+  node8634 -> node8636 [ color="black"]
+  node8641 -> node8642 [ color="black"]
+  node8640 -> node8642 [ color="black"]
+  node8636 -> node8637 [ color="black"]
+  node8637 -> node8638 [ color="black"]
+  node8642 -> node8643 [ color="black"]
+  node8643 -> node8635 [ color="black"]
+  node8639 -> node8640 [ color="black"]
 }

@@ -3,16 +3,15 @@
     access __x0__ = (BindingIdentifier "StringValue")
     let className = __x0__
   }
-  access __x1__ = (ClassTail "ClassDefinitionEvaluation")
-  app __x2__ = (__x1__ className)
-  let value = __x2__
+  access __x1__ = (ClassTail "ClassDefinitionEvaluation" className)
+  let value = __x1__
   [? value]
   if (! (= className undefined)) {
-    app __x3__ = (HasOwnProperty value "name")
-    let hasNameProperty = [? __x3__]
+    app __x2__ = (HasOwnProperty value "name")
+    let hasNameProperty = [? __x2__]
     if (= hasNameProperty false) {
-      app __x4__ = (SetFunctionName value className)
-      __x4__
+      app __x3__ = (SetFunctionName value className)
+      __x3__
     } else {}
   } else {}
   return value

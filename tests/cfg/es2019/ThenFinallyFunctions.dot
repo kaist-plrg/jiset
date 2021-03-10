@@ -1,54 +1,54 @@
 digraph {
-  node18081 [shape=cds, label=<<font color="black">5:app __x2__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
-  node18076 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let F = GLOBAL_context.Function</td></tr>
-      <tr><td align="left">1:let onFinally = F.OnFinally</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18080 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let result = [? __x1__]</td></tr>
-      <tr><td align="left">4:let C = F.Constructor</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18085 [shape=cds, label=<<font color="black">8:app __x4__ = (Invoke promise &quot;then&quot; (new [valueThunk]))</font>> color="black" fillcolor="white" style=filled]
-  node18078 [shape=none, margin=0, label=<<font color="black">
+  node17739 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17747 [shape=cds, label=<<font color="black">6:app __x3__ = (PromiseResolve C result)</font>> color="black" fillcolor="white" style=filled]
+  node17742 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (= __x0__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18083 [shape=cds, label=<<font color="black">6:app __x3__ = (PromiseResolve C result)</font>> color="black" fillcolor="white" style=filled]
-  node18074 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18082 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:assert (= __x2__ true)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18079 [shape=cds, label=<<font color="black">3:app __x1__ = (Call onFinally undefined)</font>> color="black" fillcolor="white" style=filled]
-  node18075 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18084 [shape=none, margin=0, label=<<font color="black">
+  node17748 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let promise = [? __x3__]</td></tr>
       <tr><td align="left">7:??? &quot;Let id:{valueThunk} be equivalent to a function that returns id:{value} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18086 [shape=none, margin=0, label=<<font color="black">
+  node17745 [shape=cds, label=<<font color="black">5:app __x2__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
+  node17750 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">8:return [? __x4__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18077 [shape=cds, label=<<font color="black">2:app __x0__ = (IsCallable onFinally)</font>> color="black" fillcolor="white" style=filled]
-  node18082 -> node18083 [ color="black"]
-  node18083 -> node18084 [ color="black"]
-  node18077 -> node18078 [ color="black"]
-  node18074 -> node18076 [ color="black"]
-  node18086 -> node18075 [ color="black"]
-  node18085 -> node18086 [ color="black"]
-  node18084 -> node18085 [ color="black"]
-  node18079 -> node18080 [ color="black"]
-  node18081 -> node18082 [ color="black"]
-  node18080 -> node18081 [ color="black"]
-  node18078 -> node18079 [ color="black"]
-  node18076 -> node18077 [ color="black"]
+  node17743 [shape=cds, label=<<font color="black">3:app __x1__ = (Call onFinally undefined)</font>> color="black" fillcolor="white" style=filled]
+  node17740 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let F = GLOBAL_context.Function</td></tr>
+      <tr><td align="left">1:let onFinally = F.OnFinally</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17746 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:assert (= __x2__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17738 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17741 [shape=cds, label=<<font color="black">2:app __x0__ = (IsCallable onFinally)</font>> color="black" fillcolor="white" style=filled]
+  node17744 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let result = [? __x1__]</td></tr>
+      <tr><td align="left">4:let C = F.Constructor</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17749 [shape=cds, label=<<font color="black">8:app __x4__ = (Invoke promise &quot;then&quot; (new [valueThunk]))</font>> color="black" fillcolor="white" style=filled]
+  node17747 -> node17748 [ color="black"]
+  node17740 -> node17741 [ color="black"]
+  node17744 -> node17745 [ color="black"]
+  node17743 -> node17744 [ color="black"]
+  node17749 -> node17750 [ color="black"]
+  node17750 -> node17739 [ color="black"]
+  node17748 -> node17749 [ color="black"]
+  node17742 -> node17743 [ color="black"]
+  node17746 -> node17747 [ color="black"]
+  node17738 -> node17740 [ color="black"]
+  node17745 -> node17746 [ color="black"]
+  node17741 -> node17742 [ color="black"]
 }

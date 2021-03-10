@@ -1,60 +1,58 @@
 digraph {
-  node10319 [shape=none, margin=0, label=<<font color="black">
+  node10039 [shape=diamond, label=<<font color="black">(= strictEval true)</font>> color="black" fillcolor="white" style=filled]
+  node10049 [shape=diamond, label=<<font color="black">(&amp;&amp; (= result.Type CONST_normal) (= result.Value CONST_empty))</font>> color="black" fillcolor="white" style=filled]
+  node10022 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">12:let lexEnv = __x6__</td></tr>
+      <tr><td align="left">return x</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10025 [shape=diamond, label=<<font color="black">(= __x1__ false)</font>> color="black" fillcolor="white" style=filled]
+  node10046 [shape=diamond, label=<<font color="black">(= result.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
+  node10029 [shape=diamond, label=<<font color="black">(= strictCaller true)</font>> color="black" fillcolor="white" style=filled]
+  node10027 [shape=cds, label=<<font color="black">4:access __x2__ = (script &quot;ScriptBody&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10050 [shape=cds, label=<<font color="black">27:app __x8__ = (NormalCompletion undefined)</font>> color="black" fillcolor="white" style=filled]
+  node10040 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let varEnv = lexEnv</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10036 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let lexEnv = __x4__</td></tr>
+      <tr><td align="left">10:let varEnv = ctx.VariableEnvironment</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10042 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">GLOBAL_context = null</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10053 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] evalCxt)</font>> color="black" fillcolor="white" style=filled]
+  node10038 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let lexEnv = __x5__</td></tr>
       <tr><td align="left">13:let varEnv = evalRealm.GlobalEnv</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10336 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">29:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
-      <tr><td align="left">30:return result</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10303 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:??? &quot;Let id:{script} be the ECMAScript code that is the result of parsing id:{x} , interpreted as UTF - 16 encoded Unicode text as described in link:{unhandled: sec-ecmascript-language-types-string-type} , for the goal symbol nt:{Script} . If the parse fails , throw a value:{SyntaxError} exception . If any early errors are detected , throw a value:{SyntaxError} or a value:{ReferenceError} exception , depending on the type of the error ( but see also clause link:{unhandled: sec-error-handling-and-language-extensions} ) . Parsing and early error detection may be interweaved in an implementation dependent manner .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10313 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let strictEval = __x4__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10330 [shape=diamond, label=<<font color="black">(&amp;&amp; (= result.Type CONST_normal) (= result.Value CONST_empty))</font>> color="black" fillcolor="white" style=filled]
-  node10301 [shape=diamond, label=<<font color="black">(! (= __x0__ String))</font>> color="black" fillcolor="white" style=filled]
-  node10333 [shape=none, margin=0, label=<<font color="black">
+  node10035 [shape=cds, label=<<font color="black">9:app __x4__ = (NewDeclarativeEnvironment ctx.LexicalEnvironment)</font>> color="black" fillcolor="white" style=filled]
+  node10021 [shape=diamond, label=<<font color="black">(! (= __x0__ String))</font>> color="black" fillcolor="white" style=filled]
+  node10052 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">28:GLOBAL_context = null</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10332 [shape=none, margin=0, label=<<font color="black">
+  node10026 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">27:let result = __x9__</td></tr>
+      <tr><td align="left">return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10325 [shape=cds, label=<<font color="black">23:app __x7__ = (EvalDeclarationInstantiation body varEnv lexEnv strictEval)</font>> color="black" fillcolor="white" style=filled]
-  node10315 [shape=diamond, label=<<font color="black">(= direct true)</font>> color="black" fillcolor="white" style=filled]
-  node10312 [shape=cds, label=<<font color="black">access __x4__ = (script &quot;IsStrict&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10299 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10331 [shape=cds, label=<<font color="black">27:app __x9__ = (NormalCompletion undefined)</font>> color="black" fillcolor="white" style=filled]
-  node10314 [shape=none, margin=0, label=<<font color="black">
+  node10047 [shape=cds, label=<<font color="black">25:access __x7__ = (body &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10030 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:??? &quot;Let id:{ctx} be the running execution context . If id:{direct} is value:{true} , id:{ctx} will be the execution context that performed the direct eval . If id:{direct} is value:{false} , id:{ctx} will be the execution context for the invocation of the code:{eval} function .&quot;</td></tr>
+      <tr><td align="left">let strictEval = true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10326 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">23:let result = __x7__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10305 [shape=cds, label=<<font color="black">3:app __x2__ = (__x1__ &quot;ScriptBody&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10309 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let body = __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10324 [shape=none, margin=0, label=<<font color="black">
+  node10043 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">16:let evalCxt = (new ExecutionContext(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
       <tr><td align="left">17:evalCxt.Function = null</td></tr>
@@ -66,105 +64,105 @@ digraph {
       <tr><td align="left">22:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10335 [shape=none, margin=0, label=<<font color="black">
+  node10044 [shape=cds, label=<<font color="black">23:app __x6__ = (EvalDeclarationInstantiation body varEnv lexEnv strictEval)</font>> color="black" fillcolor="white" style=filled]
+  node10034 [shape=diamond, label=<<font color="black">(= direct true)</font>> color="black" fillcolor="white" style=filled]
+  node10051 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">27:let result = __x8__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10024 [shape=cds, label=<<font color="black">3:access __x1__ = (__x1__ &quot;Contains&quot; &quot;ScriptBody&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10037 [shape=cds, label=<<font color="black">12:app __x5__ = (NewDeclarativeEnvironment evalRealm.GlobalEnv)</font>> color="black" fillcolor="white" style=filled]
+  node10019 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10020 [shape=cds, label=<<font color="black">1:app __x0__ = (Type x)</font>> color="black" fillcolor="white" style=filled]
+  node10031 [shape=cds, label=<<font color="black">access __x3__ = (script &quot;IsStrict&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10048 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">25:let result = __x7__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10055 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">29:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">30:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10023 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:??? &quot;Let id:{script} be the ECMAScript code that is the result of parsing id:{x} , interpreted as UTF - 16 encoded Unicode text as described in link:{unhandled: sec-ecmascript-language-types-string-type} , for the goal symbol nt:{Script} . If the parse fails , throw a value:{SyntaxError} exception . If any early errors are detected , throw a value:{SyntaxError} or a value:{ReferenceError} exception , depending on the type of the error ( but see also clause link:{unhandled: sec-error-handling-and-language-extensions} ) . Parsing and early error detection may be interweaved in an implementation dependent manner .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10028 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let body = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10018 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node10033 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:??? &quot;Let id:{ctx} be the running execution context . If id:{direct} is value:{true} , id:{ctx} will be the execution context that performed the direct eval . If id:{direct} is value:{false} , id:{ctx} will be the execution context for the invocation of the code:{eval} function .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node10041 [shape=diamond, label=<<font color="black">(= ctx null)</font>> color="black" fillcolor="white" style=filled]
+  node10054 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">(pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10318 [shape=cds, label=<<font color="black">12:app __x6__ = (NewDeclarativeEnvironment evalRealm.GlobalEnv)</font>> color="black" fillcolor="white" style=filled]
-  node10298 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10306 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
-  node10302 [shape=none, margin=0, label=<<font color="black">
+  node10032 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return x</td></tr>
+      <tr><td align="left">let strictEval = __x3__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10310 [shape=diamond, label=<<font color="black">(= strictCaller true)</font>> color="black" fillcolor="white" style=filled]
-  node10327 [shape=diamond, label=<<font color="black">(= result.Type CONST_normal)</font>> color="black" fillcolor="white" style=filled]
-  node10321 [shape=none, margin=0, label=<<font color="black">
+  node10045 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let varEnv = lexEnv</td></tr>
+      <tr><td align="left">23:let result = __x6__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10334 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] evalCxt)</font>> color="black" fillcolor="white" style=filled]
-  node10329 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">25:let result = __x8__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10317 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:let lexEnv = __x5__</td></tr>
-      <tr><td align="left">10:let varEnv = ctx.VariableEnvironment</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10316 [shape=cds, label=<<font color="black">9:app __x5__ = (NewDeclarativeEnvironment ctx.LexicalEnvironment)</font>> color="black" fillcolor="white" style=filled]
-  node10311 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let strictEval = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10322 [shape=diamond, label=<<font color="black">(= ctx null)</font>> color="black" fillcolor="white" style=filled]
-  node10307 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10328 [shape=cds, label=<<font color="black">25:access __x8__ = (body &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10300 [shape=cds, label=<<font color="black">1:app __x0__ = (Type x)</font>> color="black" fillcolor="white" style=filled]
-  node10320 [shape=diamond, label=<<font color="black">(= strictEval true)</font>> color="black" fillcolor="white" style=filled]
-  node10308 [shape=cds, label=<<font color="black">4:access __x3__ = (script &quot;ScriptBody&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10323 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">GLOBAL_context = null</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10304 [shape=cds, label=<<font color="black">3:access __x1__ = (script &quot;Contains&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10336 -> node10299 [ color="black"]
-  node10298 -> node10300 [ color="black"]
-  node10327 -> node10328 [label=<<font color="black">true</font>> color="black"]
-  node10327 -> node10330 [label=<<font color="black">false</font>> color="black"]
-  node10307 -> node10308 [ color="black"]
-  node10304 -> node10305 [ color="black"]
-  node10313 -> node10314 [ color="black"]
-  node10331 -> node10332 [ color="black"]
-  node10306 -> node10307 [label=<<font color="black">true</font>> color="black"]
-  node10306 -> node10308 [label=<<font color="black">false</font>> color="black"]
-  node10310 -> node10311 [label=<<font color="black">true</font>> color="black"]
-  node10310 -> node10312 [label=<<font color="black">false</font>> color="black"]
-  node10317 -> node10320 [ color="black"]
-  node10308 -> node10309 [ color="black"]
-  node10325 -> node10326 [ color="black"]
-  node10302 -> node10303 [ color="black"]
-  node10311 -> node10314 [ color="black"]
-  node10329 -> node10330 [ color="black"]
-  node10332 -> node10333 [ color="black"]
-  node10335 -> node10336 [ color="black"]
-  node10320 -> node10321 [label=<<font color="black">true</font>> color="black"]
-  node10320 -> node10322 [label=<<font color="black">false</font>> color="black"]
-  node10326 -> node10327 [ color="black"]
-  node10334 -> node10335 [label=<<font color="black">true</font>> color="black"]
-  node10334 -> node10336 [label=<<font color="black">false</font>> color="black"]
-  node10330 -> node10331 [label=<<font color="black">true</font>> color="black"]
-  node10330 -> node10333 [label=<<font color="black">false</font>> color="black"]
-  node10305 -> node10306 [ color="black"]
-  node10314 -> node10315 [ color="black"]
-  node10324 -> node10325 [ color="black"]
-  node10319 -> node10320 [ color="black"]
-  node10323 -> node10324 [ color="black"]
-  node10333 -> node10334 [ color="black"]
-  node10321 -> node10322 [ color="black"]
-  node10300 -> node10301 [ color="black"]
-  node10316 -> node10317 [ color="black"]
-  node10303 -> node10304 [ color="black"]
-  node10318 -> node10319 [ color="black"]
-  node10309 -> node10310 [ color="black"]
-  node10312 -> node10313 [ color="black"]
-  node10301 -> node10302 [label=<<font color="black">true</font>> color="black"]
-  node10301 -> node10303 [label=<<font color="black">false</font>> color="black"]
-  node10315 -> node10316 [label=<<font color="black">true</font>> color="black"]
-  node10315 -> node10318 [label=<<font color="black">false</font>> color="black"]
-  node10322 -> node10323 [label=<<font color="black">true</font>> color="black"]
-  node10322 -> node10324 [label=<<font color="black">false</font>> color="black"]
-  node10328 -> node10329 [ color="black"]
+  node10040 -> node10041 [ color="black"]
+  node10048 -> node10049 [ color="black"]
+  node10033 -> node10034 [ color="black"]
+  node10021 -> node10022 [label=<<font color="black">true</font>> color="black"]
+  node10021 -> node10023 [label=<<font color="black">false</font>> color="black"]
+  node10039 -> node10040 [label=<<font color="black">true</font>> color="black"]
+  node10039 -> node10041 [label=<<font color="black">false</font>> color="black"]
+  node10022 -> node10023 [ color="black"]
+  node10023 -> node10024 [ color="black"]
+  node10028 -> node10029 [ color="black"]
+  node10050 -> node10051 [ color="black"]
+  node10047 -> node10048 [ color="black"]
+  node10051 -> node10052 [ color="black"]
+  node10043 -> node10044 [ color="black"]
+  node10029 -> node10030 [label=<<font color="black">true</font>> color="black"]
+  node10029 -> node10031 [label=<<font color="black">false</font>> color="black"]
+  node10042 -> node10043 [ color="black"]
+  node10049 -> node10050 [label=<<font color="black">true</font>> color="black"]
+  node10049 -> node10052 [label=<<font color="black">false</font>> color="black"]
+  node10027 -> node10028 [ color="black"]
+  node10025 -> node10026 [label=<<font color="black">true</font>> color="black"]
+  node10025 -> node10027 [label=<<font color="black">false</font>> color="black"]
+  node10055 -> node10019 [ color="black"]
+  node10041 -> node10042 [label=<<font color="black">true</font>> color="black"]
+  node10041 -> node10043 [label=<<font color="black">false</font>> color="black"]
+  node10031 -> node10032 [ color="black"]
+  node10030 -> node10033 [ color="black"]
+  node10046 -> node10047 [label=<<font color="black">true</font>> color="black"]
+  node10046 -> node10049 [label=<<font color="black">false</font>> color="black"]
+  node10037 -> node10038 [ color="black"]
+  node10038 -> node10039 [ color="black"]
+  node10045 -> node10046 [ color="black"]
+  node10020 -> node10021 [ color="black"]
+  node10054 -> node10055 [ color="black"]
+  node10052 -> node10053 [ color="black"]
+  node10032 -> node10033 [ color="black"]
+  node10024 -> node10025 [ color="black"]
+  node10034 -> node10035 [label=<<font color="black">true</font>> color="black"]
+  node10034 -> node10037 [label=<<font color="black">false</font>> color="black"]
+  node10044 -> node10045 [ color="black"]
+  node10026 -> node10027 [ color="black"]
+  node10035 -> node10036 [ color="black"]
+  node10036 -> node10039 [ color="black"]
+  node10018 -> node10020 [ color="black"]
+  node10053 -> node10054 [label=<<font color="black">true</font>> color="black"]
+  node10053 -> node10055 [label=<<font color="black">false</font>> color="black"]
 }

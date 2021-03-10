@@ -1,38 +1,38 @@
 digraph {
-  node4775 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let baseValue = [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4771 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let env = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4776 [shape=cds, label=<<font color="black">3:app __x3__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
-  node4772 [shape=cds, label=<<font color="black">1:app __x1__ = (env.HasSuperBinding env)</font>> color="black" fillcolor="white" style=filled]
-  node4769 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4773 [shape=none, margin=0, label=<<font color="black">
+  node4739 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= __x1__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4768 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4770 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment )</font>> color="black" fillcolor="white" style=filled]
-  node4774 [shape=cds, label=<<font color="black">2:app __x2__ = (env.GetSuperBase env)</font>> color="black" fillcolor="white" style=filled]
-  node4777 [shape=none, margin=0, label=<<font color="black">
+  node4743 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let bv = [? __x3__]</td></tr>
       <tr><td align="left">4:return (new Reference(&quot;BaseValue&quot; -&gt; bv, &quot;ReferencedName&quot; -&gt; propertyKey, &quot;thisValue&quot; -&gt; actualThis, &quot;StrictReference&quot; -&gt; strict))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4768 -> node4770 [ color="black"]
-  node4777 -> node4769 [ color="black"]
-  node4774 -> node4775 [ color="black"]
-  node4770 -> node4771 [ color="black"]
-  node4775 -> node4776 [ color="black"]
-  node4772 -> node4773 [ color="black"]
-  node4773 -> node4774 [ color="black"]
-  node4771 -> node4772 [ color="black"]
-  node4776 -> node4777 [ color="black"]
+  node4740 [shape=cds, label=<<font color="black">2:app __x2__ = (env.GetSuperBase env)</font>> color="black" fillcolor="white" style=filled]
+  node4736 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment)</font>> color="black" fillcolor="white" style=filled]
+  node4737 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let env = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4738 [shape=cds, label=<<font color="black">1:app __x1__ = (env.HasSuperBinding env)</font>> color="black" fillcolor="white" style=filled]
+  node4741 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let baseValue = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4735 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4742 [shape=cds, label=<<font color="black">3:app __x3__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
+  node4734 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4739 -> node4740 [ color="black"]
+  node4737 -> node4738 [ color="black"]
+  node4740 -> node4741 [ color="black"]
+  node4736 -> node4737 [ color="black"]
+  node4742 -> node4743 [ color="black"]
+  node4743 -> node4735 [ color="black"]
+  node4741 -> node4742 [ color="black"]
+  node4734 -> node4736 [ color="black"]
+  node4738 -> node4739 [ color="black"]
 }

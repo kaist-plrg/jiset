@@ -1,8 +1,6 @@
 {
-  access __x0__ = (BindingPropertyList "PropertyBindingInitialization")
-  app __x1__ = (__x0__ value environment)
-  let excludedNames = [? __x1__]
-  access __x2__ = (BindingRestProperty "RestBindingInitialization")
-  app __x3__ = (__x2__ value environment excludedNames)
-  return __x3__
+  access __x0__ = (BindingPropertyList "PropertyBindingInitialization" value environment)
+  let excludedNames = [? __x0__]
+  access __x1__ = (BindingRestProperty "RestBindingInitialization" value environment excludedNames)
+  return __x1__
 }

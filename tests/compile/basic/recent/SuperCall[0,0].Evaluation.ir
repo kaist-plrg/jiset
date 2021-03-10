@@ -1,9 +1,9 @@
 {
-  app __x0__ = (GetNewTarget )
+  app __x0__ = (GetNewTarget)
   let newTarget = __x0__
   app __x1__ = (Type newTarget)
   assert (= __x1__ Object)
-  app __x2__ = (GetSuperConstructor )
+  app __x2__ = (GetSuperConstructor)
   let func = [! __x2__]
   access __x3__ = (Arguments "ArgumentListEvaluation")
   let argList = [? __x3__]
@@ -11,7 +11,7 @@
   if (= __x4__ false) throw TypeError else {}
   app __x5__ = (Construct func argList newTarget)
   let result = [? __x5__]
-  app __x6__ = (GetThisEnvironment )
+  app __x6__ = (GetThisEnvironment)
   let thisER = __x6__
   app __x7__ = (thisER.BindThisValue thisER result)
   return [? __x7__]

@@ -1,34 +1,30 @@
 digraph {
-  node7620 [shape=none, margin=0, label=<<font color="black">
+  node7445 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7452 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return __x3__</td></tr>
+      <tr><td align="left">2:return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7613 [shape=cds, label=<<font color="black">0:access __x0__ = (Block &quot;ContainsDuplicateLabels&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node7611 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7612 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7619 [shape=cds, label=<<font color="black">2:app __x3__ = (__x2__ labelSet)</font>> color="black" fillcolor="white" style=filled]
-  node7614 [shape=cds, label=<<font color="black">0:app __x1__ = (__x0__ labelSet)</font>> color="black" fillcolor="white" style=filled]
-  node7615 [shape=none, margin=0, label=<<font color="black">
+  node7449 [shape=diamond, label=<<font color="black">(= hasDuplicates true)</font>> color="black" fillcolor="white" style=filled]
+  node7448 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let hasDuplicates = __x1__</td></tr>
+      <tr><td align="left">0:let hasDuplicates = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7618 [shape=cds, label=<<font color="black">2:access __x2__ = (Catch &quot;ContainsDuplicateLabels&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node7616 [shape=diamond, label=<<font color="black">(= hasDuplicates true)</font>> color="black" fillcolor="white" style=filled]
-  node7617 [shape=none, margin=0, label=<<font color="black">
+  node7450 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7619 -> node7620 [ color="black"]
-  node7613 -> node7614 [ color="black"]
-  node7617 -> node7618 [ color="black"]
-  node7615 -> node7616 [ color="black"]
-  node7620 -> node7612 [ color="black"]
-  node7618 -> node7619 [ color="black"]
-  node7614 -> node7615 [ color="black"]
-  node7611 -> node7613 [ color="black"]
-  node7616 -> node7617 [label=<<font color="black">true</font>> color="black"]
-  node7616 -> node7618 [label=<<font color="black">false</font>> color="black"]
+  node7447 [shape=cds, label=<<font color="black">0:access __x0__ = (Block &quot;ContainsDuplicateLabels&quot; labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node7446 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node7451 [shape=cds, label=<<font color="black">2:access __x1__ = (Catch &quot;ContainsDuplicateLabels&quot; labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node7447 -> node7448 [ color="black"]
+  node7448 -> node7449 [ color="black"]
+  node7452 -> node7446 [ color="black"]
+  node7445 -> node7447 [ color="black"]
+  node7450 -> node7451 [ color="black"]
+  node7449 -> node7450 [label=<<font color="black">true</font>> color="black"]
+  node7449 -> node7451 [label=<<font color="black">false</font>> color="black"]
+  node7451 -> node7452 [ color="black"]
 }

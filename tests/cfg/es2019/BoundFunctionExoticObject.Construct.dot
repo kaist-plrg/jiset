@@ -1,15 +1,31 @@
 digraph {
-  node2280 [shape=none, margin=0, label=<<font color="black">
+  node2277 [shape=cds, label=<<font color="black">5:app __x6__ = (Construct target args newTarget)</font>> color="black" fillcolor="white" style=filled]
+  node2268 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let target = F.BoundTargetFunction</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2272 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let __x4__ = __x2__[__x3__]</td></tr>
+      <tr><td align="left">append __x4__ -&gt; __x1__</td></tr>
+      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2275 [shape=diamond, label=<<font color="black">(= __x5__ true)</font>> color="black" fillcolor="white" style=filled]
+  node2271 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node2276 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">newTarget = target</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2282 [shape=none, margin=0, label=<<font color="black">
+  node2266 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2273 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:return [? __x6__]</td></tr>
+      <tr><td align="left">3:let args = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2274 [shape=none, margin=0, label=<<font color="black">
+  node2270 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= __x0__ true)</td></tr>
       <tr><td align="left">2:let boundArgs = F.BoundArguments</td></tr>
@@ -18,42 +34,26 @@ digraph {
       <tr><td align="left">3:let __x3__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2281 [shape=cds, label=<<font color="black">5:app __x6__ = (Construct target args newTarget)</font>> color="black" fillcolor="white" style=filled]
-  node2277 [shape=none, margin=0, label=<<font color="black">
+  node2269 [shape=cds, label=<<font color="black">1:app __x0__ = (IsConstructor target)</font>> color="black" fillcolor="white" style=filled]
+  node2274 [shape=cds, label=<<font color="black">4:app __x5__ = (SameValue F newTarget)</font>> color="black" fillcolor="white" style=filled]
+  node2267 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2278 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let args = __x1__</td></tr>
+      <tr><td align="left">5:return [? __x6__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2272 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let target = F.BoundTargetFunction</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2275 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
-  node2278 [shape=cds, label=<<font color="black">4:app __x5__ = (SameValue F newTarget)</font>> color="black" fillcolor="white" style=filled]
-  node2271 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2276 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let __x4__ = __x2__[__x3__]</td></tr>
-      <tr><td align="left">append __x4__ -&gt; __x1__</td></tr>
-      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2279 [shape=diamond, label=<<font color="black">(= __x5__ true)</font>> color="black" fillcolor="white" style=filled]
-  node2273 [shape=cds, label=<<font color="black">1:app __x0__ = (IsConstructor target)</font>> color="black" fillcolor="white" style=filled]
-  node2270 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2276 -> node2275 [ color="black"]
-  node2281 -> node2282 [ color="black"]
-  node2272 -> node2273 [ color="black"]
-  node2270 -> node2272 [ color="black"]
+  node2271 -> node2272 [label=<<font color="black">true</font>> color="black"]
+  node2271 -> node2273 [label=<<font color="black">false</font>> color="black"]
+  node2269 -> node2270 [ color="black"]
+  node2270 -> node2271 [ color="black"]
+  node2266 -> node2268 [ color="black"]
+  node2268 -> node2269 [ color="black"]
+  node2272 -> node2271 [ color="black"]
   node2275 -> node2276 [label=<<font color="black">true</font>> color="black"]
   node2275 -> node2277 [label=<<font color="black">false</font>> color="black"]
   node2277 -> node2278 [ color="black"]
-  node2280 -> node2281 [ color="black"]
-  node2279 -> node2280 [label=<<font color="black">true</font>> color="black"]
-  node2279 -> node2281 [label=<<font color="black">false</font>> color="black"]
   node2274 -> node2275 [ color="black"]
   node2273 -> node2274 [ color="black"]
-  node2282 -> node2271 [ color="black"]
-  node2278 -> node2279 [ color="black"]
+  node2276 -> node2277 [ color="black"]
+  node2278 -> node2267 [ color="black"]
 }

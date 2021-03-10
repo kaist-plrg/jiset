@@ -1,36 +1,36 @@
 digraph {
-  node4279 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let strict = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4275 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4280 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let strict = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4276 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4277 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let propertyKey = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4282 [shape=none, margin=0, label=<<font color="black">
+  node4253 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4258 [shape=cds, label=<<font color="black">2:app __x1__ = (MakeSuperPropertyReference propertyKey strict)</font>> color="black" fillcolor="white" style=filled]
+  node4252 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4259 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4278 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
-  node4281 [shape=cds, label=<<font color="black">2:app __x1__ = (MakeSuperPropertyReference propertyKey strict)</font>> color="black" fillcolor="white" style=filled]
-  node4274 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4278 -> node4279 [label=<<font color="black">true</font>> color="black"]
-  node4278 -> node4280 [label=<<font color="black">false</font>> color="black"]
-  node4274 -> node4276 [ color="black"]
-  node4277 -> node4278 [ color="black"]
-  node4279 -> node4281 [ color="black"]
-  node4280 -> node4281 [ color="black"]
-  node4281 -> node4282 [ color="black"]
-  node4276 -> node4277 [ color="black"]
-  node4282 -> node4275 [ color="black"]
+  node4256 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4251 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4255 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node4257 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let strict = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4254 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let propertyKey = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4251 -> node4253 [ color="black"]
+  node4255 -> node4256 [label=<<font color="black">true</font>> color="black"]
+  node4255 -> node4257 [label=<<font color="black">false</font>> color="black"]
+  node4254 -> node4255 [ color="black"]
+  node4258 -> node4259 [ color="black"]
+  node4253 -> node4254 [ color="black"]
+  node4257 -> node4258 [ color="black"]
+  node4259 -> node4252 [ color="black"]
+  node4256 -> node4258 [ color="black"]
 }

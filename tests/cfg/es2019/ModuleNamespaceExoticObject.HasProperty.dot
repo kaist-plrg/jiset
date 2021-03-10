@@ -1,39 +1,39 @@
 digraph {
   node2808 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2805 [shape=cds, label=<<font color="black">0:app __x0__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
-  node2806 [shape=diamond, label=<<font color="black">(= __x0__ Symbol)</font>> color="black" fillcolor="white" style=filled]
-  node2812 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2807 [shape=cds, label=<<font color="black">app __x1__ = (OrdinaryHasProperty O P)</font>> color="black" fillcolor="white" style=filled]
-  node2811 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2809 [shape=none, margin=0, label=<<font color="black">
+  node2805 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let exports = O.Exports</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2804 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2810 [shape=diamond, label=<<font color="black">(contains exports P)</font>> color="black" fillcolor="white" style=filled]
-  node2803 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2810 -> node2811 [label=<<font color="black">true</font>> color="black"]
-  node2810 -> node2812 [label=<<font color="black">false</font>> color="black"]
-  node2811 -> node2812 [ color="black"]
-  node2808 -> node2809 [ color="black"]
-  node2803 -> node2805 [ color="black"]
+  node2801 [shape=cds, label=<<font color="black">0:app __x0__ = (Type P)</font>> color="black" fillcolor="white" style=filled]
+  node2806 [shape=diamond, label=<<font color="black">(contains exports P)</font>> color="black" fillcolor="white" style=filled]
+  node2802 [shape=diamond, label=<<font color="black">(= __x0__ Symbol)</font>> color="black" fillcolor="white" style=filled]
+  node2807 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2800 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2803 [shape=cds, label=<<font color="black">app __x1__ = (OrdinaryHasProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node2799 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2804 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2802 -> node2803 [label=<<font color="black">true</font>> color="black"]
+  node2802 -> node2805 [label=<<font color="black">false</font>> color="black"]
   node2806 -> node2807 [label=<<font color="black">true</font>> color="black"]
-  node2806 -> node2809 [label=<<font color="black">false</font>> color="black"]
-  node2809 -> node2810 [ color="black"]
-  node2812 -> node2804 [ color="black"]
+  node2806 -> node2808 [label=<<font color="black">false</font>> color="black"]
+  node2808 -> node2800 [ color="black"]
+  node2799 -> node2801 [ color="black"]
+  node2801 -> node2802 [ color="black"]
+  node2804 -> node2805 [ color="black"]
+  node2803 -> node2804 [ color="black"]
   node2807 -> node2808 [ color="black"]
   node2805 -> node2806 [ color="black"]
 }

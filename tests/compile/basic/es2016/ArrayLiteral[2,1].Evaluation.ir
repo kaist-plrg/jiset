@@ -1,16 +1,15 @@
 {
   app __x0__ = (ArrayCreate 0i)
   let array = __x0__
-  access __x1__ = (ElementList "ArrayAccumulation")
-  app __x2__ = (__x1__ array 0i)
-  let len = __x2__
+  access __x1__ = (ElementList "ArrayAccumulation" array 0i)
+  let len = __x1__
   [? len]
   if (= Elision absent) let padding = 0i else {
-    access __x3__ = (Elision "ElisionWidth")
-    let padding = __x3__
+    access __x2__ = (Elision "ElisionWidth")
+    let padding = __x2__
   }
-  app __x4__ = (ToUint32 (+ padding len))
-  app __x5__ = (Set array "length" __x4__ false)
-  __x5__
+  app __x3__ = (ToUint32 (+ padding len))
+  app __x4__ = (Set array "length" __x3__ false)
+  __x4__
   return array
 }

@@ -1,45 +1,17 @@
 digraph {
-  node15907 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:let completion = __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15901 [shape=none, margin=0, label=<<font color="black">
+  node15611 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15896 [shape=cds, label=<<font color="black">app executor = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node15908 [shape=cds, label=<<font color="black">9:app __x4__ = (IsAbruptCompletion completion)</font>> color="black" fillcolor="white" style=filled]
-  node15902 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_PromisePrototype (new [&quot;PromiseState&quot;, &quot;PromiseResult&quot;, &quot;PromiseFulfillReactions&quot;, &quot;PromiseRejectReactions&quot;, &quot;PromiseIsHandled&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node15898 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15895 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15905 [shape=none, margin=0, label=<<font color="black">
+  node15623 [shape=cds, label=<<font color="black">10:app __x5__ = (Call resolvingFunctions.Reject undefined (new [completion.Value]))</font>> color="black" fillcolor="white" style=filled]
+  node15618 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:let resolvingFunctions = __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15894 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15911 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:[? __x5__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15900 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
-  node15912 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">11:return promise</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15897 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
-  node15909 [shape=diamond, label=<<font color="black">__x4__</font>> color="black" fillcolor="white" style=filled]
-  node15904 [shape=cds, label=<<font color="black">7:app __x2__ = (CreateResolvingFunctions promise)</font>> color="black" fillcolor="white" style=filled]
-  node15910 [shape=cds, label=<<font color="black">10:app __x5__ = (Call resolvingFunctions.Reject undefined (new [completion.Value]))</font>> color="black" fillcolor="white" style=filled]
-  node15903 [shape=none, margin=0, label=<<font color="black">
+  node15610 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
+  node15616 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let promise = [? __x1__]</td></tr>
       <tr><td align="left">3:promise.PromiseState = &quot;pending&quot;</td></tr>
@@ -48,27 +20,55 @@ digraph {
       <tr><td align="left">6:promise.PromiseIsHandled = false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15906 [shape=cds, label=<<font color="black">8:app __x3__ = (Call executor undefined (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))</font>> color="black" fillcolor="white" style=filled]
-  node15899 [shape=cds, label=<<font color="black">1:app __x0__ = (IsCallable executor)</font>> color="black" fillcolor="white" style=filled]
-  node15905 -> node15906 [ color="black"]
-  node15894 -> node15896 [ color="black"]
-  node15900 -> node15901 [label=<<font color="black">true</font>> color="black"]
-  node15900 -> node15902 [label=<<font color="black">false</font>> color="black"]
-  node15911 -> node15912 [ color="black"]
-  node15910 -> node15911 [ color="black"]
-  node15908 -> node15909 [ color="black"]
-  node15899 -> node15900 [ color="black"]
-  node15907 -> node15908 [ color="black"]
-  node15906 -> node15907 [ color="black"]
-  node15904 -> node15905 [ color="black"]
-  node15896 -> node15897 [ color="black"]
-  node15898 -> node15899 [ color="black"]
-  node15901 -> node15902 [ color="black"]
-  node15897 -> node15898 [label=<<font color="black">true</font>> color="black"]
-  node15897 -> node15899 [label=<<font color="black">false</font>> color="black"]
-  node15912 -> node15895 [ color="black"]
-  node15909 -> node15910 [label=<<font color="black">true</font>> color="black"]
-  node15909 -> node15912 [label=<<font color="black">false</font>> color="black"]
-  node15903 -> node15904 [ color="black"]
-  node15902 -> node15903 [ color="black"]
+  node15619 [shape=cds, label=<<font color="black">8:app __x3__ = (Call executor undefined (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))</font>> color="black" fillcolor="white" style=filled]
+  node15624 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:[? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15614 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15607 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15609 [shape=cds, label=<<font color="black">app executor = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15620 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let completion = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15615 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_PromisePrototype (new [&quot;PromiseState&quot;, &quot;PromiseResult&quot;, &quot;PromiseFulfillReactions&quot;, &quot;PromiseRejectReactions&quot;, &quot;PromiseIsHandled&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node15608 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15613 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
+  node15612 [shape=cds, label=<<font color="black">1:app __x0__ = (IsCallable executor)</font>> color="black" fillcolor="white" style=filled]
+  node15625 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:return promise</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15621 [shape=cds, label=<<font color="black">9:app __x4__ = (IsAbruptCompletion completion)</font>> color="black" fillcolor="white" style=filled]
+  node15622 [shape=diamond, label=<<font color="black">__x4__</font>> color="black" fillcolor="white" style=filled]
+  node15617 [shape=cds, label=<<font color="black">7:app __x2__ = (CreateResolvingFunctions promise)</font>> color="black" fillcolor="white" style=filled]
+  node15614 -> node15615 [ color="black"]
+  node15625 -> node15608 [ color="black"]
+  node15615 -> node15616 [ color="black"]
+  node15607 -> node15609 [ color="black"]
+  node15622 -> node15623 [label=<<font color="black">true</font>> color="black"]
+  node15622 -> node15625 [label=<<font color="black">false</font>> color="black"]
+  node15617 -> node15618 [ color="black"]
+  node15609 -> node15610 [ color="black"]
+  node15623 -> node15624 [ color="black"]
+  node15616 -> node15617 [ color="black"]
+  node15621 -> node15622 [ color="black"]
+  node15619 -> node15620 [ color="black"]
+  node15613 -> node15614 [label=<<font color="black">true</font>> color="black"]
+  node15613 -> node15615 [label=<<font color="black">false</font>> color="black"]
+  node15612 -> node15613 [ color="black"]
+  node15618 -> node15619 [ color="black"]
+  node15611 -> node15612 [ color="black"]
+  node15620 -> node15621 [ color="black"]
+  node15610 -> node15611 [label=<<font color="black">true</font>> color="black"]
+  node15610 -> node15612 [label=<<font color="black">false</font>> color="black"]
+  node15624 -> node15625 [ color="black"]
 }

@@ -1,15 +1,8 @@
 digraph {
-  node2723 [shape=cds, label=<<font color="black">0:app __x0__ = (MakeBasicObject (new [&quot;Prototype&quot;, &quot;Extensible&quot;, &quot;StringData&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node2721 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2725 [shape=cds, label=<<font color="black">7:app __x1__ = (DefinePropertyOrThrow S &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; length, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
-  node2722 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2726 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:[! __x1__]</td></tr>
-      <tr><td align="left">8:return S</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2724 [shape=none, margin=0, label=<<font color="black">
+  node2718 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2717 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2721 [shape=cds, label=<<font color="black">7:app __x1__ = (DefinePropertyOrThrow S &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; length, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node2720 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let S = [! __x0__]</td></tr>
       <tr><td align="left">1:S.Prototype = prototype</td></tr>
@@ -20,9 +13,16 @@ digraph {
       <tr><td align="left">6:let length = value.length</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2725 -> node2726 [ color="black"]
-  node2726 -> node2722 [ color="black"]
-  node2723 -> node2724 [ color="black"]
-  node2724 -> node2725 [ color="black"]
-  node2721 -> node2723 [ color="black"]
+  node2722 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:[! __x1__]</td></tr>
+      <tr><td align="left">8:return S</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2719 [shape=cds, label=<<font color="black">0:app __x0__ = (MakeBasicObject (new [&quot;Prototype&quot;, &quot;Extensible&quot;, &quot;StringData&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node2719 -> node2720 [ color="black"]
+  node2721 -> node2722 [ color="black"]
+  node2717 -> node2719 [ color="black"]
+  node2722 -> node2718 [ color="black"]
+  node2720 -> node2721 [ color="black"]
 }

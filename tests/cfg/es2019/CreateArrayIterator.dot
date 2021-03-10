@@ -1,12 +1,6 @@
 digraph {
-  node15971 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15967 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15972 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_ArrayIteratorPrototype (new [&quot;IteratedObject&quot;, &quot;ArrayIteratorNextIndex&quot;, &quot;ArrayIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node15973 [shape=none, margin=0, label=<<font color="black">
+  node15632 [shape=cds, label=<<font color="black">app array = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node15637 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let iterator = __x1__</td></tr>
       <tr><td align="left">2:iterator.IteratedObject = array</td></tr>
@@ -15,15 +9,21 @@ digraph {
       <tr><td align="left">5:return iterator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15969 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node15970 [shape=cds, label=<<font color="black">0:app __x0__ = (Type array)</font>> color="black" fillcolor="white" style=filled]
-  node15968 [shape=cds, label=<<font color="black">app array = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node15966 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15973 -> node15967 [ color="black"]
-  node15966 -> node15968 [ color="black"]
-  node15972 -> node15973 [ color="black"]
-  node15969 -> node15970 [ color="black"]
-  node15968 -> node15969 [ color="black"]
-  node15971 -> node15972 [ color="black"]
-  node15970 -> node15971 [ color="black"]
+  node15633 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node15631 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15634 [shape=cds, label=<<font color="black">0:app __x0__ = (Type array)</font>> color="black" fillcolor="white" style=filled]
+  node15630 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node15635 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15636 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_ArrayIteratorPrototype (new [&quot;IteratedObject&quot;, &quot;ArrayIteratorNextIndex&quot;, &quot;ArrayIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node15633 -> node15634 [ color="black"]
+  node15632 -> node15633 [ color="black"]
+  node15637 -> node15631 [ color="black"]
+  node15634 -> node15635 [ color="black"]
+  node15635 -> node15636 [ color="black"]
+  node15630 -> node15632 [ color="black"]
+  node15636 -> node15637 [ color="black"]
 }

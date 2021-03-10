@@ -1,7 +1,8 @@
 digraph {
-  node17603 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node17601 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17605 [shape=none, margin=0, label=<<font color="black">
+  node17266 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17267 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17268 [shape=cds, label=<<font color="black">app generatorBody = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node17269 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= generator.AsyncGeneratorState undefined)</td></tr>
       <tr><td align="left">2:let genContext = GLOBAL_context</td></tr>
@@ -13,10 +14,9 @@ digraph {
       <tr><td align="left">18:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17602 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17604 [shape=cds, label=<<font color="black">app generatorBody = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node17601 -> node17603 [ color="black"]
-  node17603 -> node17604 [ color="black"]
-  node17604 -> node17605 [ color="black"]
-  node17605 -> node17602 [ color="black"]
+  node17265 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17265 -> node17267 [ color="black"]
+  node17267 -> node17268 [ color="black"]
+  node17268 -> node17269 [ color="black"]
+  node17269 -> node17266 [ color="black"]
 }

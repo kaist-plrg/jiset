@@ -1,38 +1,38 @@
 digraph {
-  node4358 [shape=none, margin=0, label=<<font color="black">
+  node4334 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= __x1__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4329 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4333 [shape=cds, label=<<font color="black">1:app __x1__ = (env.HasSuperBinding env)</font>> color="black" fillcolor="white" style=filled]
+  node4337 [shape=cds, label=<<font color="black">3:app __x3__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
+  node4332 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let env = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4364 [shape=none, margin=0, label=<<font color="black">
+  node4338 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let bv = [? __x3__]</td></tr>
       <tr><td align="left">4:return (new Reference(&quot;BaseValue&quot; -&gt; bv, &quot;ReferencedName&quot; -&gt; propertyKey, &quot;thisValue&quot; -&gt; actualThis, &quot;StrictReference&quot; -&gt; strict))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4361 [shape=cds, label=<<font color="black">2:app __x2__ = (env.GetSuperBase env)</font>> color="black" fillcolor="white" style=filled]
-  node4359 [shape=cds, label=<<font color="black">1:app __x1__ = (env.HasSuperBinding env)</font>> color="black" fillcolor="white" style=filled]
-  node4362 [shape=none, margin=0, label=<<font color="black">
+  node4330 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node4335 [shape=cds, label=<<font color="black">2:app __x2__ = (env.GetSuperBase env)</font>> color="black" fillcolor="white" style=filled]
+  node4331 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment)</font>> color="black" fillcolor="white" style=filled]
+  node4336 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let baseValue = [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4355 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4360 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (= __x1__ true)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4363 [shape=cds, label=<<font color="black">3:app __x3__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
-  node4356 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4357 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment )</font>> color="black" fillcolor="white" style=filled]
-  node4355 -> node4357 [ color="black"]
-  node4363 -> node4364 [ color="black"]
-  node4362 -> node4363 [ color="black"]
-  node4357 -> node4358 [ color="black"]
-  node4361 -> node4362 [ color="black"]
-  node4360 -> node4361 [ color="black"]
-  node4358 -> node4359 [ color="black"]
-  node4359 -> node4360 [ color="black"]
-  node4364 -> node4356 [ color="black"]
+  node4332 -> node4333 [ color="black"]
+  node4329 -> node4331 [ color="black"]
+  node4337 -> node4338 [ color="black"]
+  node4338 -> node4330 [ color="black"]
+  node4334 -> node4335 [ color="black"]
+  node4335 -> node4336 [ color="black"]
+  node4336 -> node4337 [ color="black"]
+  node4333 -> node4334 [ color="black"]
+  node4331 -> node4332 [ color="black"]
 }
