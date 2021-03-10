@@ -30,7 +30,7 @@ class AbsTransfer(
   val worklist = sem.worklist
 
   // stats
-  val stats = sem.stats
+  val stat = sem.stat
 
   // fixpoint computation
   @tailrec
@@ -46,12 +46,12 @@ class AbsTransfer(
           dumpCFG(Some(cp), focus = true)
           throw e
       }
-      stats.iter += 1
-      if (LOG && stats.iter % 10000 == 0) stats.dump()
+      stat.iter += 1
+      if (LOG && stat.iter % 10000 == 0) stat.dump()
       compute
     case None =>
-      if (LOG) stats.dump()
-      stats.close()
+      if (LOG) stat.dump()
+      stat.close()
       nfAlarms.close()
   }
 

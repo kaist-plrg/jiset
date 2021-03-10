@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.{ LINE_SEP, LOG, ANALYZE_LOG_DIR }
+import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.cfg._
@@ -11,14 +11,13 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender
 import scala.Console._
 import scala.util.matching.Regex
-import java.io.PrintWriter
 
 class AbsSemantics(
   val cfg: CFG,
   val target: Option[String] = None
 ) {
   // ECMAScript
-  val spec: ECMAScript = cfg.spec
+  lazy val spec: ECMAScript = cfg.spec
 
   // internal map from control points to abstract states
   private var npMap: Map[NodePoint[_], AbsState] = initNpMap
@@ -39,62 +38,8 @@ class AbsSemantics(
   // manual model
   lazy val model = new Model(cfg)
 
-  // stats
-  val stats = new {
-    var iter = 0
-    private var counter: Map[ControlPoint, Int] = Map()
-    private val nfSummary = getPrintWriter(s"$ANALYZE_LOG_DIR/summary")
-
-    // increase counter
-    def inc[T <: ControlPoint](cp: T): T = {
-      if (LOG) counter += cp -> (counter.getOrElse(cp, 0) + 1)
-      cp
-    }
-
-    // dump stats
-    def dump(): Unit = {
-      // dump summary
-      // # of iter, worklist size, # of control points, min, max, avg, median
-      logItems(nfSummary, iter, worklist.size, npMap.size + rpMap.size, min, max, avg, median)
-
-      // dump worklist
-      val wapp = new Appender
-      worklist.foreach(wapp >> _.toString >> LINE_SEP)
-      dumpFile("worklist", wapp, s"$ANALYZE_LOG_DIR/worklist")
-
-      // dump update
-      val uapp = new Appender
-      counter.foreach {
-        case (cp, cnt) => uapp >> cp.toString >> "\t" >> cnt >> LINE_SEP
-      }
-      dumpFile("update", uapp, s"$ANALYZE_LOG_DIR/update")
-
-      // dump result
-      dumpFile("analysis result", getString(CYAN), s"$ANALYZE_LOG_DIR/result.log")
-    }
-
-    // close
-    def close(): Unit = nfSummary.close()
-
-    // stats helpers
-    private def logItems(nf: PrintWriter, items: Any*): Unit = {
-      nf.println(items.map(_.toString).mkString("\t"))
-      nf.flush()
-    }
-    private def min: Int = if (counter.isEmpty) -1 else counter.values.min
-    private def max: Int = if (counter.isEmpty) -1 else counter.values.max
-    private def avg: Double =
-      if (counter.isEmpty) -1
-      else counter.values.sum / counter.size.toDouble
-    private def median: Double =
-      if (counter.isEmpty) -1
-      else {
-        val size = counter.size
-        val values = counter.values.toList.sorted
-        if (size % 2 == 1) values(size / 2)
-        else (values(size / 2) + values(size / 2 - 1)) / 2.toDouble
-      }
-  }
+  // statistics
+  lazy val stat = new Stat(this)
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
@@ -108,29 +53,31 @@ class AbsSemantics(
   def getControlPoints: Set[ControlPoint] =
     npMap.keySet ++ rpMap.keySet
 
+  def size: Int = npMap.size + rpMap.size
+
   // update internal map
   def +=[T <: Node](pair: (NodePoint[T], AbsState)): Boolean = {
     val (np, newSt) = pair
     val oldSt = this(np)
     if (!(newSt ⊑ oldSt)) {
       npMap += np -> (oldSt ⊔ newSt)
-      worklist += stats.inc(np)
+      worklist += stat.inc(np)
       true
     }
     false
   }
-  
+
   // handle parameters
   def getEnv(
     call: Call,
-    params: List[Param], 
+    params: List[Param],
     args: List[AbsValue]
   ): List[(String, AbsValue)] = (params, args) match {
     case (param :: pl, arg :: al) =>
       (param.name -> arg) :: getEnv(call, pl, al)
-    case (Param(name, Param.Kind.Optional) :: tl, Nil) => 
+    case (Param(name, Param.Kind.Optional) :: tl, Nil) =>
       (name -> ABSENT) :: getEnv(call, tl, Nil)
-    case (Param(_, Param.Kind.Normal) :: tl, Nil) =>
+    case (Param(name, Param.Kind.Normal) :: tl, Nil) =>
       alarm(s"arity mismatch @ $call")
       (name -> ABSENT) :: getEnv(call, tl, Nil)
     case (Nil, Nil) => Nil
@@ -154,7 +101,7 @@ class AbsSemantics(
     val func = cfg.fidMap(fid)
     // TODO consider variadic
     val params = func.algo.params
-    if (params.exists(_.kind == Param.Kind.Variadic)) ??? 
+    if (params.exists(_.kind == Param.Kind.Variadic)) ???
     val pairs = getEnv(call, params, args)
     val np = NodePoint(func.entry, view)
     val newSt = pairs.foldLeft(st.copy(env = AbsEnv.Empty)) {
@@ -177,7 +124,7 @@ class AbsSemantics(
     val (oldH, oldV) = this(rp)
     if (!(newH ⊑ oldH && newV ⊑ oldV)) {
       rpMap += rp -> (oldH ⊔ newH, oldV ⊔ newV)
-      worklist += stats.inc(rp)
+      worklist += stat.inc(rp)
     }
   }
 
@@ -195,7 +142,7 @@ class AbsSemantics(
     val numFunc = rpMap.keySet.map(_.func).toSet.size
     app >> numFunc >> " out of " >> spec.algos.length >> " functions analyzed with "
     app >> numRp >> " return points" >> LINE_SEP
-    app >> "# of iterations: " >> stats.iter
+    app >> "# of iterations: " >> stat.iter
     app.toString
   }
 
