@@ -67,7 +67,7 @@ class Transfer(
       v <- transfer(expr)
       _ <- modify(_ => sem.doReturn(v))
     } yield ()
-    case IAccess(id, bexpr, expr) => ???
+    case IAccess(id, bexpr, expr, args) => ???
     // normal instuctions
     case IExpr(expr) => transfer(expr)
     case ILet(id, expr) => for {

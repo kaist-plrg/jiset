@@ -77,7 +77,7 @@ object ArityChecker extends Checker {
             }
           }
         }
-        case IAccess(Id(x), ERef(r), EStr(method)) => {
+        case IAccess(Id(x), ERef(r), EStr(method), _) => {
           // get base name
           val base = numberPattern.replaceAllIn(getRefBaseName(r), "")
           // get related info from `arities`

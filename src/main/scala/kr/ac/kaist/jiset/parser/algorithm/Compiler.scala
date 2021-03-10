@@ -125,7 +125,7 @@ object Compiler extends Compilers {
     case (i ~ c) ~ t ~ Some(e) => ISeq(i :+ IIf(c, t, e))
   } ||| ("if" ~> (nt | id) <~ "is" ~ opt("the production")) ~ grammar ~ ("," ~ opt("then") ~> stmt) ^^ {
     case x ~ Gr(y, ss) ~ s =>
-      val pre = ss.map(s => IAccess(IRId(s), toERef(x), EStr(s)))
+      val pre = ss.map(s => IAccess(IRId(s), toERef(x), EStr(s), Nil))
       IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
   } ||| {
     stmt ~ (opt(",") ~> "if" ~> cond) ~ opt(opt("." | ";" | ",") ~ opt(next) ~
@@ -790,7 +790,7 @@ object Compiler extends Compilers {
       opt(("using" | "with" | "passing") ~ opt("arguments" | "argument" | "parameters" | "parameter") ~>
         repsep(expr <~ opt("as" ~ ("its" | "the optional") ~ id ~ "argument"), ", and" | "," | "and") <~
         opt("as" ~ opt("the") ~ ("arguments" | "argument")))) ^^ {
-        case f ~ ix ~ optList => getAccess(f, ix, optList)
+        case f ~ ix ~ optList => getAccess(f, ix, optList.getOrElse(Nil))
       }
   )
 
@@ -799,12 +799,8 @@ object Compiler extends Compilers {
     opt("the result of") ~> ((id | nt) <~ camelWord.filter(_ == "Contains")) ~ (nt ^^ { EStr(_) } | id ^^ { toERef(_) }) ^^ {
       case x ~ y =>
         // `Contains` static semantics
-        val a = getTempId
-        val b = getTempId
-        pair(List(
-          IAccess(a, toERef(x), EStr("Contains")),
-          IApp(b, toERef(a), List(y))
-        ), toERef(b))
+        val x = getTempId
+        pair(List(IAccess(x, toERef(x), EStr("Contains"), List(y))), toERef(x))
     }
 
   // ex. Let _assignmentPattern_ be the |AssignmentPattern| that is covered by |LeftHandSideExpression|

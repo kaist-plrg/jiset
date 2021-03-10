@@ -82,8 +82,8 @@ class Diff {
         compare(le, re)
       case (IApp(li, lf, la), IApp(ri, rf, ra)) =>
         compare(li, ri) && compare(lf, rf) && compare(la, ra)
-      case (IAccess(li, lb, le), IAccess(ri, rb, re)) =>
-        compare(li, ri) && compare(lb, rb) && compare(le, re)
+      case (IAccess(li, lb, le, la), IAccess(ri, rb, re, ra)) =>
+        compare(li, ri) && compare(lb, rb) && compare(le, re) && compare(la, ra)
       case (IWithCont(li, lp, lb), IWithCont(ri, rp, rb)) =>
         compare(li, ri) && compare(lp, rp) && compare(lb, rb)
       case (ISetType(le, lt), ISetType(re, rt)) =>

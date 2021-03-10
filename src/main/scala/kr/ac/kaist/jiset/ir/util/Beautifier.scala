@@ -58,9 +58,14 @@ class Beautifier(
       case IPrint(expr) => app >> "print " >> expr
       case IApp(id, fexpr, args) =>
         implicit val l = ListApp[Expr](sep = " ")
-        app >> "app " >> id >> " = (" >> fexpr >> " " >> args >> ")"
-      case IAccess(id, bexpr, expr) =>
-        app >> "access " >> id >> " = (" >> bexpr >> " " >> expr >> ")"
+        app >> "app " >> id >> " = (" >> fexpr
+        if (!args.isEmpty) app >> " " >> args
+        app >> ")"
+      case IAccess(id, bexpr, expr, args) =>
+        implicit val l = ListApp[Expr](" ")
+        app >> "access " >> id >> " = (" >> bexpr >> " " >> expr
+        if (!args.isEmpty) app >> " " >> args
+        app >> ")"
       case IWithCont(id, params, inst) =>
         implicit val d = DetailInstApp
         implicit val l = ListApp[Id]("(", ", ", ")")

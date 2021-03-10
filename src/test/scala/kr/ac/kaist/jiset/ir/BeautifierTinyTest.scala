@@ -52,8 +52,10 @@ class BeautifierTinyTest extends IRTest {
       IPrint(EBool(false)) -> "print false",
       IApp(Id("x"), EStr("f"), IRList) ->
         "app x = (\"f\" null absent)",
-      IAccess(Id("x"), EStr("b"), ENum(3.0)) ->
+      IAccess(Id("x"), EStr("b"), ENum(3.0), Nil) ->
         "access x = (\"b\" 3.0)",
+      IAccess(Id("x"), EStr("b"), ENum(3.0), List(EStr("x"))) ->
+        "access x = (\"b\" 3.0 x)",
       IWithCont(Id("x"), IdList, IRReturn) ->
         s"withcont x $SIdList = $SReturn",
       ISetType(EINum(4), Ty("T")) -> "set-type 4i T"

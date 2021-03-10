@@ -214,11 +214,12 @@ class AbsTransfer(
         st <- get
         _ <- put(AbsState.Bot)
       } yield sem.doCall(call, view, st, f.escaped.clo, vs, x)
-      case IAccess(Id(x), bexpr, expr) => for {
+      case IAccess(Id(x), bexpr, expr, args) => for {
         b <- transfer(bexpr)
         p <- transfer(expr)
+        vs <- join(args.map(arg => transfer(arg)))
         st <- get
-        v = access(call, view, x, b.escaped, p.escaped.str, st)
+        v = access(call, view, x, b.escaped, p.escaped.str, vs, st)
         _ <- {
           if (v.isBottom) put(AbsState.Bot)
           else modify(_ + (x -> v))
@@ -455,6 +456,7 @@ class AbsTransfer(
       x: String,
       value: AbsPure,
       prop: AbsStr,
+      args: List[AbsValue],
       st: AbsState
     ): AbsValue = {
       var v = AbsValue.Bot
@@ -463,7 +465,7 @@ class AbsTransfer(
       for {
         ASTVal(ast) <- value.ast.gamma
         Str(name) <- prop.gamma
-      } v ⊔= accessAST(call, view, x, ast, name, st)
+      } v ⊔= accessAST(call, view, x, ast, name, args, st)
 
       // reference cases
       v ⊔= st.lookup(sem, AbsRefValue.Prop(value, prop))
@@ -478,6 +480,7 @@ class AbsTransfer(
       x: String,
       ast: String,
       name: String,
+      args: List[AbsValue],
       st: AbsState
     ): AbsValue = (ast, name) match {
       case ("IdentifierName", "StringValue") => strTop
@@ -489,11 +492,9 @@ class AbsTransfer(
           val func = fidMap(fid)
           func.algo.head match {
             case (head: SyntaxDirectedHead) =>
-              val args = sem.getArgs(head)
-              if (head.withParams.isEmpty) {
-                sem.doCall(call, view, st, AbsClo(Clo(fid)), args, x)
-                None
-              } else ??? // TODO
+              val baseArgs = sem.getArgs(head)
+              sem.doCall(call, view, st, AbsClo(Clo(fid)), baseArgs ++ args, x)
+              None
             case _ => None
           }
         })

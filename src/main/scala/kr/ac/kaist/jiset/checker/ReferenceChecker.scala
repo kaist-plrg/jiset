@@ -40,8 +40,8 @@ object ReferenceChecker extends Checker {
           walk(e); define(x.name)
         case IApp(x, f, as) =>
           walk(f); walkList[Expr](as, walk); define(x.name)
-        case IAccess(x, b, e) =>
-          walk(b); walk(e); define(x.name)
+        case IAccess(x, b, e, as) =>
+          walk(b); walk(e); define(x.name); walkList[Expr](as, walk)
         case IWithCont(x, ps, b) =>
           walkList[Id](ps, walk); walk(b); define(x.name)
         case IIf(cond, thenInst, elseInst) =>

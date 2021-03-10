@@ -69,8 +69,8 @@ trait UnitWalker {
       walk(expr)
     case IApp(id, fexpr, args) =>
       walk(id); walk(fexpr); walkList[Expr](args, walk)
-    case IAccess(id, bexpr, expr) =>
-      walk(id); walk(bexpr); walk(expr)
+    case IAccess(id, bexpr, expr, args) =>
+      walk(id); walk(bexpr); walk(expr); walkList[Expr](args, walk)
     case IWithCont(id, params, body) =>
       walk(id); walkList[Id](params, walk); walk(body)
     case ISetType(expr, ty) =>

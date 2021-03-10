@@ -11,7 +11,7 @@ case class IWhile(cond: Expr, body: Inst) extends CondInst
 // call instructions
 sealed trait CallInst extends Inst { val id: Id }
 case class IApp(id: Id, fexpr: Expr, args: List[Expr]) extends CallInst
-case class IAccess(id: Id, bexpr: Expr, expr: Expr) extends CallInst
+case class IAccess(id: Id, bexpr: Expr, expr: Expr, args: List[Expr]) extends CallInst
 
 // normal instructions
 sealed trait NormalInst extends Inst
