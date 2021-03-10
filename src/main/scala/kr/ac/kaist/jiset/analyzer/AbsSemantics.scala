@@ -148,25 +148,25 @@ class AbsSemantics(
 
   // get string for result of control points
   def getString(color: String): String =
-    rpMap.keySet.toList.map(getString(_, color)).sorted.mkString(LINE_SEP)
-  def getString(cp: ControlPoint): String = getString(cp, "")
-  def getString(cp: ControlPoint, color: String): String = {
-    val colored = setColor(color)
-    val (k, v) = cp match {
-      case np @ NodePoint(entry: Entry, view) =>
-        val st = this(np)
-        (colored(s"${cfg.funcOf(entry).name}:$view:ENTRY"), beautify(st))
-      case (np: NodePoint[_]) =>
-        val st = this(np)
-        (np.toString, beautify(st))
-      case (rp: ReturnPoint) =>
-        val (h, v) = this(rp)
-        (colored(rp), beautify(v) + (
-          if (h.isBottom) ""
-          else s" @ ${beautify(h)}"
-        ))
-    }
-    s"$k -> $v"
+    rpMap.keySet.toList.map(getString(_, color, true)).sorted.mkString(LINE_SEP)
+  def getString(cp: ControlPoint): String = getString(cp, "", true)
+  def getString(cp: ControlPoint, color: String, detail: Boolean): String = {
+    val func = funcOf(cp).name
+    val k = setColor(color)(s"$func:$cp")
+    if (detail) {
+      val v = cp match {
+        case (np: NodePoint[_]) =>
+          val st = this(np)
+          beautify(st)
+        case (rp: ReturnPoint) =>
+          val (h, v) = this(rp)
+          beautify(v) + (
+            if (h.isBottom) ""
+            else s" @ ${beautify(h)}"
+          )
+      }
+      s"$k -> $v"
+    } else k
   }
 
   // get arguments

@@ -154,7 +154,7 @@ object BasicDomain extends state.Domain {
             val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
             val typeV = if (vopt.absent.isTop) {
               val typeV = ty.fold(AbsValue.Bot)(lookup(sem, _, prop.str))
-              if (typeV.isBottom) alarm(s"unknown property: ${beautify(prop)} @ ${beautify(this)}")
+              if (typeV.isBottom) alarm(s"unknown property: ${beautify(prop)} @ ${beautify(obj)}")
               typeV
             } else AbsValue.Bot
             vopt.value ⊔ typeV

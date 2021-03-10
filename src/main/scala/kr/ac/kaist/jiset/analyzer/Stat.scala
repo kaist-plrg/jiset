@@ -13,7 +13,6 @@ class Stat(sem: AbsSemantics) {
   // initalize
   mkdir(ANALYZE_LOG_DIR)
   private val nfSummary = getPrintWriter(s"$ANALYZE_LOG_DIR/summary")
-  private val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
 
   // increase counter
   def inc[T <: ControlPoint](cp: T): T = {

@@ -42,7 +42,7 @@ class AbsTransfer(
       } catch {
         case e: Throwable =>
           printlnColor(RED)(s"[Error] An exception is thrown.")
-          println(sem.getString(cp, CYAN))
+          println(sem.getString(cp, CYAN, true))
           dumpCFG(Some(cp), focus = true)
           throw e
       }
@@ -56,9 +56,13 @@ class AbsTransfer(
   }
 
   // transfer function for control points
-  def apply(cp: ControlPoint): Unit = cp match {
-    case (np: NodePoint[_]) => this(np)
-    case (rp: ReturnPoint) => this(rp)
+  def apply(cp: ControlPoint): Unit = {
+    alarmCP = cp
+    alarmCPStr = sem.getString(cp, "", false)
+    cp match {
+      case (np: NodePoint[_]) => this(np)
+      case (rp: ReturnPoint) => this(rp)
+    }
   }
 
   // transfer function for node points
@@ -119,7 +123,7 @@ class AbsTransfer(
 
   // interactive mode
   def interact(cp: ControlPoint): Unit = {
-    println(sem.getString(cp, CYAN))
+    println(sem.getString(cp, CYAN, true))
     println
     while (scala.io.StdIn.readLine() match {
       case null | "q" | "quit" | "exit" =>

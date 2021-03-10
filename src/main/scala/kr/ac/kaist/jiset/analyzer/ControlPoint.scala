@@ -11,7 +11,7 @@ trait ControlPoint {
   // conversion to string
   override def toString: String = this match {
     case NodePoint(node, view) => s"$node:$view"
-    case ReturnPoint(func, view) => s"${func.name}:$view"
+    case ReturnPoint(func, view) => s"RETURN:$view"
   }
 }
 case class NodePoint[T <: Node](node: T, view: View) extends ControlPoint
