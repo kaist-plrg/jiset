@@ -113,13 +113,15 @@ class AbsSemantics(
     npMap.keySet ++ rpMap.keySet
 
   // update internal map
-  def +=[T <: Node](pair: (NodePoint[T], AbsState)): Unit = {
+  def +=[T <: Node](pair: (NodePoint[T], AbsState)): Boolean = {
     val (np, newSt) = pair
     val oldSt = this(np)
     if (!(newSt ⊑ oldSt)) {
       npMap += np -> (oldSt ⊔ newSt)
       worklist += stats.inc(np)
+      true
     }
+    false
   }
 
   // handle calls
@@ -142,13 +144,15 @@ class AbsSemantics(
     val newSt = pairs.foldLeft(st.copy(env = AbsEnv.Empty)) {
       case (st, (x, v)) => st + (x -> v)
     }
-    this += np -> newSt
+    val updated = (this += np -> newSt)
 
     val rp = ReturnPoint(func, view)
     val callNP = NodePoint(call, callView)
     val set = retEdges.getOrElse(rp, Set()) + ((callNP, retVar))
     retEdges += rp -> set
-    worklist += rp
+
+    val (retV, _) = this(rp)
+    if (!updated && !retV.isBottom) worklist += rp
   }
 
   // update return points

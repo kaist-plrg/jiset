@@ -36,8 +36,10 @@ class AbsTransfer(
   @tailrec
   final def compute: Unit = worklist.next match {
     case Some(cp) =>
-      if (interactMode) interact(cp)
-      try apply(cp) catch {
+      try {
+        if (interactMode) interact(cp)
+        apply(cp)
+      } catch {
         case e: Throwable =>
           printlnColor(RED)(s"[Error] An exception is thrown.")
           println(sem.getString(cp, CYAN))
@@ -108,8 +110,10 @@ class AbsTransfer(
     for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
       val nextNP = np.copy(node = next(call))
       val st = sem(np)
-      val newSt = AbsState(st.env + (x -> v), st.heap ⊔ h)
-      sem += nextNP -> newSt
+      if (!v.isBottom) {
+        val newSt = AbsState(st.env + (x -> v), st.heap ⊔ h)
+        sem += nextNP -> newSt
+      }
     }
   }
 

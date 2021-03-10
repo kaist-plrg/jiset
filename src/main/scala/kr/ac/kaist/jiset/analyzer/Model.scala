@@ -63,6 +63,9 @@ class Model(cfg: CFG) {
       sem.doReturn(ret -> (st.heap, res))
       AbsState.Bot
     }),
+    "Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{UnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{UnicodeEscapeSequence} ." -> ((_, _, _, st) => {
+      st + ("idTextUnescaped" -> AbsStr.Top)
+    }),
   )
 
   // TODO more manual modelings
