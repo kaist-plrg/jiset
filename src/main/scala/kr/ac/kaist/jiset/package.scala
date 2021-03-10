@@ -10,6 +10,7 @@ package object jiset {
   // Log directory
   val LOG_DIR = s"${BASE_DIR}/logs"
   val PARSE_LOG_DIR = s"${LOG_DIR}/parse"
+  val ANALYZE_LOG_DIR = s"${LOG_DIR}/analyze"
 
   // Specification directory
   val ECMA262_DIR = s"${BASE_DIR}/ecma262"
@@ -42,4 +43,7 @@ package object jiset {
 
   // checking alarm
   var CHECK_ALARM: Boolean = false
+
+  // Logging mode
+  var LOG: Boolean = false
 }

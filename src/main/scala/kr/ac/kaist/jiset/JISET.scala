@@ -89,7 +89,9 @@ object JISET {
     ("silent", BoolOption(c => c.silent = true),
       "final results are not displayed."),
     ("debug", BoolOption(c => DEBUG = true),
-      "trun on the debub option."),
+      "turn on the debub option."),
+    ("log", BoolOption(c => LOG = true),
+      "turn on the log option."),
     ("time", BoolOption(c => c.time = true),
       "display duration time.")
   )

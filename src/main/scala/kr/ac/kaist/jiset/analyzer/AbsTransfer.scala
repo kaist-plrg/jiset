@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.CFG_DIR
+import kr.ac.kaist.jiset.{ CFG_DIR, LOG }
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer.domain._
@@ -29,6 +29,9 @@ class AbsTransfer(
   // worklist
   val worklist = sem.worklist
 
+  // stats
+  val stats = sem.stats
+
   // fixpoint computation
   @tailrec
   final def compute: Unit = worklist.next match {
@@ -41,9 +44,13 @@ class AbsTransfer(
           dumpCFG(Some(cp), focus = true)
           throw e
       }
-      sem.iter += 1
+      stats.iter += 1
+      if (LOG && stats.iter % 10000 == 0) stats.dump()
       compute
     case None =>
+      if (LOG) stats.dump()
+      stats.close()
+      nfAlarms.close()
   }
 
   // transfer function for control points

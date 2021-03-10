@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.LINE_SEP
+import kr.ac.kaist.jiset.{ LINE_SEP, LOG, ANALYZE_LOG_DIR }
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.cfg._
@@ -11,6 +11,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender
 import scala.Console._
 import scala.util.matching.Regex
+import java.io.PrintWriter
 
 class AbsSemantics(
   val cfg: CFG,
@@ -38,9 +39,66 @@ class AbsSemantics(
   // manual model
   lazy val model = new Model(cfg)
 
-  // iter counter
-  var iter = 0
+  // stats
+  val stats = new {
+    var iter = 0
+    private var counter: Map[ControlPoint, Int] = Map()
 
+    // initalize
+    mkdir(ANALYZE_LOG_DIR)
+    private val nfSummary = getPrintWriter(s"$ANALYZE_LOG_DIR/summary")
+    private val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
+
+    // increase counter
+    def inc[T <: ControlPoint](cp: T): T = {
+      if (LOG) counter += cp -> (counter.getOrElse(cp, 0) + 1)
+      cp
+    }
+
+    // dump stats
+    def dump(): Unit = {
+      // dump summary
+      // # of iter, worklist size, # of control points, min, max, avg, median
+      logItems(nfSummary, iter, worklist.size, npMap.size + rpMap.size, min, max, avg, median)
+
+      // dump worklist
+      val wapp = new Appender
+      worklist.foreach(wapp >> _.toString >> LINE_SEP)
+      dumpFile("worklist", wapp, s"$ANALYZE_LOG_DIR/worklist")
+
+      // dump update
+      val uapp = new Appender
+      counter.foreach {
+        case (cp, cnt) => uapp >> cp.toString >> "\t" >> cnt >> LINE_SEP
+      }
+      dumpFile("update", uapp, s"$ANALYZE_LOG_DIR/update")
+
+      // dump result
+      dumpFile("analysis result", getString(CYAN), s"$ANALYZE_LOG_DIR/result.log")
+    }
+
+    // close
+    def close(): Unit = nfSummary.close(); nfAlarms.close()
+
+    // stats helpers
+    private def logItems(nf: PrintWriter, items: Any*): Unit = {
+      nf.println(items.map(_.toString).mkString("\t"))
+      nf.flush()
+    }
+    private def min: Int = if (counter.isEmpty) -1 else counter.values.min
+    private def max: Int = if (counter.isEmpty) -1 else counter.values.max
+    private def avg: Double =
+      if (counter.isEmpty) -1
+      else counter.values.sum / counter.size.toDouble
+    private def median: Double =
+      if (counter.isEmpty) -1
+      else {
+        val size = counter.size
+        val values = counter.values.toList
+        if (size % 2 == 1) values(size / 2)
+        else (values(size / 2) + values(size / 2 - 1)) / 2.toDouble
+      }
+  }
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
@@ -60,7 +118,7 @@ class AbsSemantics(
     val oldSt = this(np)
     if (!(newSt ⊑ oldSt)) {
       npMap += np -> (oldSt ⊔ newSt)
-      worklist += np
+      worklist += stats.inc(np)
     }
   }
 
@@ -99,7 +157,7 @@ class AbsSemantics(
     val (oldH, oldV) = this(rp)
     if (!(newH ⊑ oldH && newV ⊑ oldV)) {
       rpMap += rp -> (oldH ⊔ newH, oldV ⊔ newV)
-      worklist += rp
+      worklist += stats.inc(rp)
     }
   }
 
@@ -117,7 +175,7 @@ class AbsSemantics(
     val numFunc = rpMap.keySet.map(_.func).toSet.size
     app >> numFunc >> " out of " >> spec.algos.length >> " functions analyzed with "
     app >> numRp >> " return points" >> LINE_SEP
-    app >> "# of iterations: " >> iter
+    app >> "# of iterations: " >> stats.iter
     app.toString
   }
 

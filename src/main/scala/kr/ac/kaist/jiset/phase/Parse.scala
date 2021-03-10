@@ -34,7 +34,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     }
 
     // logging
-    dumpIncompleteAlgos(spec.incompletedAlgos)
+    if (LOG) dumpIncompleteAlgos(spec.incompletedAlgos)
 
     // Dump JSON
     config.json.map(dumpJson("specification", spec, _))
