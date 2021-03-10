@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.phase
 
-import kr.ac.kaist.jiset.JISETConfig
+import kr.ac.kaist.jiset.{ JISETConfig, CHECK_ALARM }
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util.Useful._
@@ -35,6 +35,8 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     ("pdf", BoolOption(c => { c.dot = true; c.pdf = true }),
       "dump the analyze cfg in a dot and pdf format"),
     ("prune", BoolOption(c => c.prune = true),
+      "perform pruning"),
+    ("check-alarm", BoolOption(c => CHECK_ALARM = true),
       "perform pruning"),
     ("target", StrOption((c, s) => c.target = Some(s)),
       "set the target of analysis")

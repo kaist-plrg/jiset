@@ -113,8 +113,10 @@ class AbsTransfer(
     while (scala.io.StdIn.readLine() match {
       case null | "q" | "quit" | "exit" =>
         interactMode = false; false
-      case "d" | "dot" =>
+      case "g" | "graph" =>
         dumpCFG(Some(cp)); true
+      case "d" | "debug" =>
+        error("stop for debugging")
       case _ => false
     }) {}
   }
