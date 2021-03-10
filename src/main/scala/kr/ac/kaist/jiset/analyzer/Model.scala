@@ -68,6 +68,21 @@ class Model(cfg: CFG) {
   // TODO more manual modelings
   private def typeInfos: List[TyInfo] = List(
     TyInfo(
+      name = "ScriptRecord",
+      "Realm" -> AbsValue(Ty("RealmRecord")) ⊔ AbsUndef.Top,
+      "Environment" -> AbsValue(Ty("EnvironmentRecord")) ⊔ AbsUndef.Top,
+      "ECMAScriptCode" -> AbsValue(ASTVal("AnyNode")),
+      "HostDefined" -> emptyConst,
+    ),
+    TyInfo(
+      name = "ModuleRecord",
+      "Status" -> (AbsConst("unlinked", "linking", "linked", "evaluating", "evaluated"): AbsValue),
+      "EvaluationError" -> AbsValue(Undef) ⊔ AbsComp.Top.abrupt,
+      "DFSIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
+      "DFSAncestorIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
+      "RequestedModules" -> AbsValue(NamedAddr("StringList")),
+    ),
+    TyInfo(
       name = "ExecutionContext",
       "LexicalEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
       "VariableEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
@@ -127,6 +142,11 @@ class Model(cfg: CFG) {
     "Object" -> AbsValue("Object"),
     "String" -> AbsValue("String"),
     "Symbol" -> AbsValue("Symbol"),
+    "Undefined" -> AbsValue("Undefined"),
+    "Null" -> AbsValue("Null"),
+    "Boolean" -> AbsValue("Boolean"),
+    "Number" -> AbsValue("Number"),
+    "BigInt" -> AbsValue("BigInt"),
   )
   // TODO more manual modelings
   private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
@@ -138,6 +158,7 @@ class Model(cfg: CFG) {
   // TODO more manual modelings
   private def manualLists: Map[String, AbsValue] = Map(
     "ExecutionStack" -> AbsValue(Ty("ExecutionContext")),
+    "StringList" -> AbsStr.Top,
   )
 
   private def getClos(pattern: Regex): AbsValue = AbsValue(for {

@@ -119,7 +119,7 @@ package object domain {
   //////////////////////////////////////////////////////////////////////////////
   lazy val AT = AbsBool(true)
   lazy val AF = AbsBool(false)
-  lazy val emptyConst: AbsPure = AbsConst(Const("empty"))
+  lazy val emptyConst: AbsPure = AbsConst("empty")
   lazy val ESValue: AbsValue = {
     val prim = AbsPrim.Top.copy(absent = AbsAbsent.Bot)
     AbsPure(ty = AbsTy("Object"), prim = prim)

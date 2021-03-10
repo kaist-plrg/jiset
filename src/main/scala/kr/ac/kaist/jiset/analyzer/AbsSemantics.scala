@@ -284,12 +284,16 @@ class AbsSemantics(
   private def getType(st: AbsState, v: AbsPure): Set[Type] = {
     var tys = Set[Type]()
     if (!v.ty.isBottom) tys ++= v.ty.toSet.map(t => NameT(t.name))
-    if (!v.addr.isBottom) tys ++= v.addr.toSet.map(addr => {
+    if (!v.addr.isBottom) tys ++= v.addr.toSet.flatMap(addr => {
       import AbsObj._
       st.lookup(this, addr) match {
-        case MapElem(Some(ty), _) => NameT(ty)
-        case ListElem(_) => ListT
-        case _ => ???
+        case MapElem(Some(ty), _) => Some(NameT(ty))
+        case ListElem(_) => Some(ListT)
+        case Bot =>
+          alarm(s"no objects for ${beautify(addr)} @ AbsSemantics.getType")
+          None
+        case _ =>
+          ???
       }
     })
     if (!v.const.isBottom) tys ++= v.const.toSet.map(c => ConstT(c.const))

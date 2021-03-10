@@ -4,4 +4,7 @@ import kr.ac.kaist.jiset.ir.Const
 import kr.ac.kaist.jiset.analyzer.domain._
 
 object SetDomain extends generator.SetDomain[Const]
-  with const.Domain
+  with const.Domain {
+  // constructor
+  def apply(seq: String*): Elem = VSet(seq.map(Const(_)).toSet)
+}

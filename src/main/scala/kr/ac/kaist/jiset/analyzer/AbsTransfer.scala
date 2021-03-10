@@ -282,7 +282,12 @@ class AbsTransfer(
       } yield t
       case EIsCompletion(expr) => for {
         v <- transfer(expr)
-      } yield ??? // TODO after discussing the completion structures
+      } yield {
+        var res = AbsValue.Bot
+        if (!v.comp.isBottom) res ⊔= AT
+        if (!v.pure.isBottom) res ⊔= AF
+        res
+      }
       case EIsInstanceOf(base, name) => for {
         v <- transfer(base)
       } yield boolTop // TODO more precise
@@ -298,10 +303,16 @@ class AbsTransfer(
           case Finite(set) => AbsAST.alpha(set.map(str => ASTVal(str.str)))
         }
       } yield ast
-      case EConvert(source, target, flags) => for {
+      case EConvert(source, cop, flags) => for {
         v <- transfer(source)
-        p = v.escaped
-      } yield ??? // TODO need discussion
+      } yield cop match {
+        case CStrToNum => AbsNum.Top
+        case CStrToBigInt => AbsBigINum.Top
+        case CNumToStr => AbsStr.Top
+        case CNumToInt => AbsINum.Top
+        case CNumToBigInt => AbsBigINum.Top
+        case CBigIntToNum => AbsNum.Top
+      }
       case EContains(list, elem) => for {
         l <- transfer(list)
         e <- transfer(elem)
@@ -317,9 +328,9 @@ class AbsTransfer(
         v <- transfer(expr)
         newV <- returnIfAbrupt(v, check)
       } yield newV
-      case ECopy(obj) => for {
+      case expr @ ECopy(obj) => for {
         v <- transfer(obj)
-        a <- id(_.copyOf(v.escaped))
+        a <- id(_.copyOf(sem, expr.asite, v.escaped))
       } yield a
       case EKeys(obj) => for {
         v <- transfer(obj)

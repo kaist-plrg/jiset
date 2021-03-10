@@ -169,7 +169,15 @@ object BasicDomain extends state.Domain {
             if (prop.int.isBottom) AbsValue.Bot
             else list.value
           strV ⊔ intV
-        case _ => ???
+        case SymbolElem(desc) =>
+          alarm(s"access of the property ${beautify(prop)} for a symbol @$desc")
+          AbsValue.Bot
+        case AbsObj.Top =>
+          alarm(s"access of the property ${beautify(prop)} for the top object")
+          AbsValue.Bot
+        case AbsObj.Bot =>
+          alarm(s"access of the property ${beautify(prop)} for the bottom object")
+          AbsValue.Bot
       }
     }
 
@@ -200,7 +208,10 @@ object BasicDomain extends state.Domain {
 
     // lookup addresses
     def lookup(sem: AbsSemantics, addr: Addr): AbsObj = addr match {
-      case (_: NamedAddr) => sem.globalHeap(addr)
+      case (_: NamedAddr) => sem.globalHeap.getOrElse(addr, {
+        alarm(s"unknown address: ${beautify(addr)}")
+        AbsObj.Bot
+      })
       case (_: DynamicAddr) => heap(addr)
     }
 
@@ -274,7 +285,12 @@ object BasicDomain extends state.Domain {
     def prepend(v: AbsValue, addr: AbsAddr): Elem = ???
 
     // copy an object
-    def copyOf(v: AbsValue): (AbsValue, Elem) = ???
+    def copyOf(sem: AbsSemantics, asite: Int, pure: AbsPure): (AbsPure, Elem) = {
+      val objs = pure.addr.toList.map(lookup(sem, _))
+      val obj = objs.foldLeft[AbsObj](AbsObj.Bot)(_ ⊔ _)
+      val addr = DynamicAddr(asite)
+      (AbsPure(addr), copy(heap = heap + (addr -> obj)))
+    }
 
     // get keys of an object
     def keysOf(v: AbsValue): (AbsValue, Elem) = ???
