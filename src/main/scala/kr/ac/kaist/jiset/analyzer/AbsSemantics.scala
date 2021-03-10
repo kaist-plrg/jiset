@@ -78,7 +78,7 @@ class AbsSemantics(
     }
 
     // close
-    def close(): Unit = nfSummary.close(); nfAlarms.close()
+    def close(): Unit = nfSummary.close()
 
     // stats helpers
     private def logItems(nf: PrintWriter, items: Any*): Unit = {
