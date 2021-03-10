@@ -34,7 +34,7 @@ class Stat(sem: AbsSemantics) {
     val worklist = sem.worklist
 
     // dump summary
-    log(f"$iter,3d", f"$time%,3d", worklist.size, sem.size, min, max, f"$avg%.2f", median.toInt)
+    log(f"$iter%,3d", f"$time%,3d", worklist.size, sem.size, min, max, f"$avg%.2f", median.toInt)
 
     // dump worklist
     val wapp = new Appender
