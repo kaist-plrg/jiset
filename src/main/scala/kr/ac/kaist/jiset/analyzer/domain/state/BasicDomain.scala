@@ -252,7 +252,7 @@ object BasicDomain extends state.Domain {
             if (cond) localV ⊓ AbsValue(AbsPure.alpha(v), AbsComp.alpha(v))
             else localV.prune(v)
           // normalize
-          if (newV.isBottom) Bot else this + (x -> newV)
+          if (newV.escaped.isBottom) Bot else this + (x -> newV)
         } else Bot
       case AbsRefValue.Prop(base, prop) => this // TODO
       case _ => ???

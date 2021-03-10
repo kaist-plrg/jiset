@@ -386,7 +386,7 @@ class AbsTransfer(
       tlists: List[(AbsRefValue, PureValue, Boolean)] = List(),
       flists: List[(AbsRefValue, PureValue, Boolean)] = List()
     ) {
-      def negate: PruneValue = PruneValue(v, flists, tlists)
+      def negate: PruneValue = PruneValue(transfer(ONot)(v.escaped), flists, tlists)
       private def prune(b: Boolean): Updater = {
         val pruneList = if (b) tlists else flists
         st => pruneList.foldLeft(st) {
