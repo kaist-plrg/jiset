@@ -144,15 +144,15 @@ class AbsSemantics(
     val newSt = pairs.foldLeft(st.copy(env = AbsEnv.Empty)) {
       case (st, (x, v)) => st + (x -> v)
     }
-    val updated = (this += np -> newSt)
+    this += np -> newSt
 
     val rp = ReturnPoint(func, view)
     val callNP = NodePoint(call, callView)
     val set = retEdges.getOrElse(rp, Set()) + ((callNP, retVar))
     retEdges += rp -> set
 
-    val (retV, _) = this(rp)
-    if (!updated && !retV.isBottom) worklist += rp
+    val (_, retV) = this(rp)
+    if (!retV.isBottom) worklist += rp
   }
 
   // update return points
@@ -186,6 +186,7 @@ class AbsSemantics(
   // get string for result of control points
   def getString(color: String): String =
     rpMap.keySet.toList.map(getString(_, color)).sorted.mkString(LINE_SEP)
+  def getString(cp: ControlPoint): String = getString(cp, "")
   def getString(cp: ControlPoint, color: String): String = {
     val colored = setColor(color)
     val (k, v) = cp match {

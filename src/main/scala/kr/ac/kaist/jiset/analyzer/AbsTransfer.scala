@@ -107,10 +107,10 @@ class AbsTransfer(
   // transfer function for return points
   def apply(rp: ReturnPoint): Unit = {
     val (h, v) = sem(rp)
-    for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
-      val nextNP = np.copy(node = next(call))
-      val st = sem(np)
-      if (!v.isBottom) {
+    if (!v.isBottom) {
+      for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
+        val nextNP = np.copy(node = next(call))
+        val st = sem(np)
         val newSt = AbsState(st.env + (x -> v), st.heap ⊔ h)
         sem += nextNP -> newSt
       }
