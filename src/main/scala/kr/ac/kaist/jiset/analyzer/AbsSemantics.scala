@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec._
-import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, SyntaxDirectedHead }
+import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, SyntaxDirectedHead, Param }
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender
 import scala.Console._
@@ -119,6 +119,23 @@ class AbsSemantics(
     }
     false
   }
+  
+  // handle parameters
+  def getEnv(
+    call: Call,
+    params: List[Param], 
+    args: List[AbsValue]
+  ): List[(String, AbsValue)] = (params, args) match {
+    case (param :: pl, arg :: al) =>
+      (param.name -> arg) :: getEnv(call, pl, al)
+    case (Param(name, Param.Kind.Optional) :: tl, Nil) => 
+      (name -> ABSENT) :: getEnv(call, tl, Nil)
+    case (Param(_, Param.Kind.Normal) :: tl, Nil) =>
+      alarm(s"arity mismatch @ $call")
+      (name -> ABSENT) :: getEnv(call, tl, Nil)
+    case (Nil, Nil) => Nil
+    case _ => ??? // TODO consider variadic
+  }
 
   // handle calls
   def doCall(
@@ -135,7 +152,10 @@ class AbsSemantics(
   } {
     val AbsClo.Pair(fid, _) = pair // TODO handle envrionments
     val func = cfg.fidMap(fid)
-    val pairs = func.algo.params.map(_.name) zip args // TODO pruning args using types
+    // TODO consider variadic
+    val params = func.algo.params
+    if (params.exists(_.kind == Param.Kind.Variadic)) ??? 
+    val pairs = getEnv(call, params, args)
     val np = NodePoint(func.entry, view)
     val newSt = pairs.foldLeft(st.copy(env = AbsEnv.Empty)) {
       case (st, (x, v)) => st + (x -> v)
