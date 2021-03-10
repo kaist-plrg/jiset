@@ -62,7 +62,7 @@ class Beautifier(
         if (!args.isEmpty) app >> " " >> args
         app >> ")"
       case IAccess(id, bexpr, expr, args) =>
-        implicit val l = ListApp[Expr](" ")
+        implicit val l = ListApp[Expr](sep = " ")
         app >> "access " >> id >> " = (" >> bexpr >> " " >> expr
         if (!args.isEmpty) app >> " " >> args
         app >> ")"

@@ -89,8 +89,8 @@ class AbsSemantics(
     val rp = ReturnPoint(func, view)
     val callNP = NodePoint(call, callView)
     val set = retEdges.getOrElse(rp, Set()) + ((callNP, retVar))
-
     retEdges += rp -> set
+    worklist += rp
   }
 
   // update return points
