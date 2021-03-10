@@ -154,18 +154,48 @@ class Model(cfg: CFG) {
   // TODO more manual modelings
   private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
     "Global" -> (Some("OrdinaryObject"), Map()),
-    "%AsyncFunction.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Prototype" -> AbsValue(NamedAddr("Function.prototype"))
+    // %AsyncFunction%
+    "%AsyncFunction%" -> (Some("Constructor"), Map(
+      "Prototype" -> AbsValue(NamedAddr("Function")),
+      "name" -> AbsStr("AsyncFunction"),
     )),
-    "%Function.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF
+    "%AsyncFunction.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
+    )),
+    // %Function%
+    "%Function%" -> (Some("Constructor"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
+    )),
+    "%Function.prototype%" -> (Some("FunctionObject"), Map(
+      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF,
+      "Prototype" -> AbsValue(NamedAddr("%Object.Prototype%")),
+      "name" -> AbsStr(""),
+    // "length" -> AbsNum(+0.0)
+    )),
+    // %AsyncGeneratorFunction%
+    "%AsyncGeneratorFunction%" -> (Some("Constructor"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function%")),
+      "name" -> AbsStr("AsyncGeneratorFunction")
     )),
     "%AsyncGeneratorFunction.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF
+      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF,
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
+    )),
+    // %Object%
+    "%Object%" -> (Some("Constructor"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
     )),
     "%Object.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF
+      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF,
+      "Prototype" -> AbsNull(Null)
     )),
+    // %Promise%
+    "%Promise%" -> (Some("Constructor"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
+    )),
+    "%Promise.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> (AbsValue(NamedAddr("%Object.prototype%")),
+    ))
   )
   // TODO more manual modelings
   private def manualLists: Map[String, AbsValue] = Map(
