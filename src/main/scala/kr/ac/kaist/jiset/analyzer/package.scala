@@ -5,7 +5,11 @@ import kr.ac.kaist.jiset.CHECK_ALARM
 import kr.ac.kaist.jiset.util.Useful._
 
 package object analyzer {
+  // initialize
+  mkdir(ANALYZE_LOG_DIR)
   val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
+
+  // alarm
   def alarm(msg: String): Unit = {
     val errMsg = setColor(RED)(s"[Bug] $msg")
     Console.err.println(errMsg)
