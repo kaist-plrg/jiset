@@ -1,340 +1,1938 @@
-AdditiveExpression[1,0].AssignmentTargetType:RETURN:[☊(AdditiveExpression), ☊(AdditiveExpression), ☊(MultiplicativeExpression)] -> N(~invalid~)
-AdditiveExpression[1,0].IsFunctionDefinition:RETURN:[☊(AdditiveExpression), ☊(AdditiveExpression), ☊(MultiplicativeExpression)] -> N(false)
-AdditiveExpression[2,0].AssignmentTargetType:RETURN:[☊(AdditiveExpression), ☊(AdditiveExpression), ☊(MultiplicativeExpression)] -> N(~invalid~)
-AdditiveExpression[2,0].IsFunctionDefinition:RETURN:[☊(AdditiveExpression), ☊(AdditiveExpression), ☊(MultiplicativeExpression)] -> N(false)
-ArrayBindingPattern[0,2].ContainsExpression:RETURN:[☊(ArrayBindingPattern), ?] -> N(false)
-ArrayBindingPattern[0,2].ContainsExpression:RETURN:[☊(ArrayBindingPattern), ☊(Elision)] -> N(false)
-ArrowFunction[0,0].HasName:RETURN:[☊(ArrowFunction), ☊(ArrowParameters), ☊(ConciseBody)] -> N(false)
-ArrowParameters[0,0].ContainsExpression:RETURN:[☊(ArrowParameters), ☊(BindingIdentifier)] -> N(false)
-ArrowParameters[0,0].IsSimpleParameterList:RETURN:[☊(ArrowParameters), ☊(BindingIdentifier)] -> N(true)
-AssignmentExpression[1,0].AssignmentTargetType:RETURN:[☊(AssignmentExpression), ☊(YieldExpression)] -> N(~invalid~)
-AssignmentExpression[1,0].IsFunctionDefinition:RETURN:[☊(AssignmentExpression), ☊(YieldExpression)] -> N(false)
-AssignmentExpression[2,0].AssignmentTargetType:RETURN:[☊(AssignmentExpression), ☊(ArrowFunction)] -> N(~invalid~)
-AssignmentExpression[2,0].IsFunctionDefinition:RETURN:[☊(AssignmentExpression), ☊(ArrowFunction)] -> N(true)
-AssignmentExpression[3,0].AssignmentTargetType:RETURN:[☊(AssignmentExpression), ☊(AsyncArrowFunction)] -> N(~invalid~)
-AssignmentExpression[3,0].IsFunctionDefinition:RETURN:[☊(AssignmentExpression), ☊(AsyncArrowFunction)] -> N(true)
-AssignmentExpression[4,0].AssignmentTargetType:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)] -> N(~invalid~)
-AssignmentExpression[4,0].IsFunctionDefinition:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)] -> N(false)
-AssignmentExpression[5,0].AssignmentTargetType:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentOperator), ☊(AssignmentExpression)] -> N(~invalid~)
-AssignmentExpression[5,0].IsFunctionDefinition:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentOperator), ☊(AssignmentExpression)] -> N(false)
-AssignmentExpression[6,0].AssignmentTargetType:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)] -> N(~invalid~)
-AssignmentExpression[6,0].IsFunctionDefinition:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)] -> N(false)
-AssignmentExpression[7,0].AssignmentTargetType:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)] -> N(~invalid~)
-AssignmentExpression[7,0].IsFunctionDefinition:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)] -> N(false)
-AssignmentExpression[8,0].AssignmentTargetType:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)] -> N(~invalid~)
-AssignmentExpression[8,0].IsFunctionDefinition:RETURN:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)] -> N(false)
-AsyncArrowBindingIdentifier[0,0].ContainsExpression:RETURN:[☊(AsyncArrowBindingIdentifier), ☊(BindingIdentifier)] -> N(false)
-AsyncArrowBindingIdentifier[0,0].IsSimpleParameterList:RETURN:[☊(AsyncArrowBindingIdentifier), ☊(BindingIdentifier)] -> N(true)
-AsyncArrowFunction[0,0].HasName:RETURN:[☊(AsyncArrowFunction), ☊(AsyncArrowBindingIdentifier), ☊(AsyncConciseBody)] -> N(false)
-AsyncArrowFunction[1,0].HasName:RETURN:[☊(AsyncArrowFunction), ☊(CoverCallExpressionAndAsyncArrowHead), ☊(AsyncConciseBody)] -> N(false)
-AsyncConciseBody[0,0].ContainsUseStrict:RETURN:[☊(AsyncConciseBody), ☊(ExpressionBody)] -> N(false)
-AsyncFunctionDeclaration[0,0].IsConstantDeclaration:RETURN:[☊(AsyncFunctionDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncFunctionBody)] -> N(false)
-AsyncFunctionDeclaration[1,0].IsConstantDeclaration:RETURN:[☊(AsyncFunctionDeclaration), ☊(FormalParameters), ☊(AsyncFunctionBody)] -> N(false)
-AsyncFunctionExpression[0,0].HasName:RETURN:[☊(AsyncFunctionExpression), ☊(FormalParameters), ☊(AsyncFunctionBody)] -> N(false)
-AsyncFunctionExpression[0,0].IsFunctionDefinition:RETURN:[☊(AsyncFunctionExpression), ☊(FormalParameters), ☊(AsyncFunctionBody)] -> N(true)
-AsyncFunctionExpression[1,0].HasName:RETURN:[☊(AsyncFunctionExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncFunctionBody)] -> N(true)
-AsyncFunctionExpression[1,0].IsFunctionDefinition:RETURN:[☊(AsyncFunctionExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncFunctionBody)] -> N(true)
-AsyncGeneratorDeclaration[0,0].IsConstantDeclaration:RETURN:[☊(AsyncGeneratorDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncGeneratorBody)] -> N(false)
-AsyncGeneratorDeclaration[1,0].IsConstantDeclaration:RETURN:[☊(AsyncGeneratorDeclaration), ☊(FormalParameters), ☊(AsyncGeneratorBody)] -> N(false)
-AsyncGeneratorExpression[0,0].HasName:RETURN:[☊(AsyncGeneratorExpression), ☊(FormalParameters), ☊(AsyncGeneratorBody)] -> N(false)
-AsyncGeneratorExpression[0,1].HasName:RETURN:[☊(AsyncGeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncGeneratorBody)] -> N(true)
-AsyncGeneratorExpression[0,1].IsFunctionDefinition:RETURN:[☊(AsyncGeneratorExpression), ?, ☊(FormalParameters), ☊(AsyncGeneratorBody)] -> N(true)
-AsyncGeneratorExpression[0,1].IsFunctionDefinition:RETURN:[☊(AsyncGeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncGeneratorBody)] -> N(true)
-BindingElement[1,0].HasInitializer:RETURN:[☊(BindingElement), ☊(BindingPattern)] -> N(false)
-BindingElement[1,0].IsSimpleParameterList:RETURN:[☊(BindingElement), ☊(BindingPattern)] -> N(false)
-BindingElement[1,1].ContainsExpression:RETURN:[☊(BindingElement), ☊(BindingPattern), ☊(Initializer)] -> N(true)
-BindingElement[1,1].HasInitializer:RETURN:[☊(BindingElement), ☊(BindingPattern), ☊(Initializer)] -> N(true)
-BindingElement[1,1].IsSimpleParameterList:RETURN:[☊(BindingElement), ☊(BindingPattern), ☊(Initializer)] -> N(false)
-BindingIdentifier[1,0].BoundNames:RETURN:[☊(BindingIdentifier)] -> N(#350) @ {
+AdditiveExpression[1,0].AssignmentTargetType:[☊(AdditiveExpression), ☊(AdditiveExpression), ☊(MultiplicativeExpression)]: {
+  env: {
+    this -> ! ☊(AdditiveExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+    MultiplicativeExpression -> ! ☊(MultiplicativeExpression)
+  }
+} ---> N(~invalid~)
+AdditiveExpression[1,0].IsFunctionDefinition:[☊(AdditiveExpression), ☊(AdditiveExpression), ☊(MultiplicativeExpression)]: {
+  env: {
+    this -> ! ☊(AdditiveExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+    MultiplicativeExpression -> ! ☊(MultiplicativeExpression)
+  }
+} ---> N(false)
+AdditiveExpression[2,0].AssignmentTargetType:[☊(AdditiveExpression), ☊(AdditiveExpression), ☊(MultiplicativeExpression)]: {
+  env: {
+    this -> ! ☊(AdditiveExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+    MultiplicativeExpression -> ! ☊(MultiplicativeExpression)
+  }
+} ---> N(~invalid~)
+AdditiveExpression[2,0].IsFunctionDefinition:[☊(AdditiveExpression), ☊(AdditiveExpression), ☊(MultiplicativeExpression)]: {
+  env: {
+    this -> ! ☊(AdditiveExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+    MultiplicativeExpression -> ! ☊(MultiplicativeExpression)
+  }
+} ---> N(false)
+ArrayBindingPattern[0,2].ContainsExpression:[☊(ArrayBindingPattern), ?]: {
+  env: {
+    this -> ! ☊(ArrayBindingPattern)
+    Elision -> ! ?
+  }
+} ---> N(false)
+ArrayBindingPattern[0,2].ContainsExpression:[☊(ArrayBindingPattern), ☊(Elision)]: {
+  env: {
+    this -> ! ☊(ArrayBindingPattern)
+    Elision -> ! ☊(Elision)
+  }
+} ---> N(false)
+ArrowFunction[0,0].HasName:[☊(ArrowFunction), ☊(ArrowParameters), ☊(ConciseBody)]: {
+  env: {
+    this -> ! ☊(ArrowFunction)
+    ArrowParameters -> ! ☊(ArrowParameters)
+    ConciseBody -> ! ☊(ConciseBody)
+  }
+} ---> N(false)
+ArrowParameters[0,0].ContainsExpression:[☊(ArrowParameters), ☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(ArrowParameters)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+  }
+} ---> N(false)
+ArrowParameters[0,0].IsSimpleParameterList:[☊(ArrowParameters), ☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(ArrowParameters)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+  }
+} ---> N(true)
+AssignmentExpression[1,0].AssignmentTargetType:[☊(AssignmentExpression), ☊(YieldExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    YieldExpression -> ! ☊(YieldExpression)
+  }
+} ---> N(~invalid~)
+AssignmentExpression[1,0].IsFunctionDefinition:[☊(AssignmentExpression), ☊(YieldExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    YieldExpression -> ! ☊(YieldExpression)
+  }
+} ---> N(false)
+AssignmentExpression[2,0].AssignmentTargetType:[☊(AssignmentExpression), ☊(ArrowFunction)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    ArrowFunction -> ! ☊(ArrowFunction)
+  }
+} ---> N(~invalid~)
+AssignmentExpression[2,0].IsFunctionDefinition:[☊(AssignmentExpression), ☊(ArrowFunction)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    ArrowFunction -> ! ☊(ArrowFunction)
+  }
+} ---> N(true)
+AssignmentExpression[3,0].AssignmentTargetType:[☊(AssignmentExpression), ☊(AsyncArrowFunction)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    AsyncArrowFunction -> ! ☊(AsyncArrowFunction)
+  }
+} ---> N(~invalid~)
+AssignmentExpression[3,0].IsFunctionDefinition:[☊(AssignmentExpression), ☊(AsyncArrowFunction)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    AsyncArrowFunction -> ! ☊(AsyncArrowFunction)
+  }
+} ---> N(true)
+AssignmentExpression[4,0].AssignmentTargetType:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~invalid~)
+AssignmentExpression[4,0].IsFunctionDefinition:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(false)
+AssignmentExpression[5,0].AssignmentTargetType:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentOperator), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentOperator -> ! ☊(AssignmentOperator)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~invalid~)
+AssignmentExpression[5,0].IsFunctionDefinition:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentOperator), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentOperator -> ! ☊(AssignmentOperator)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(false)
+AssignmentExpression[6,0].AssignmentTargetType:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~invalid~)
+AssignmentExpression[6,0].IsFunctionDefinition:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(false)
+AssignmentExpression[7,0].AssignmentTargetType:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~invalid~)
+AssignmentExpression[7,0].IsFunctionDefinition:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(false)
+AssignmentExpression[8,0].AssignmentTargetType:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~invalid~)
+AssignmentExpression[8,0].IsFunctionDefinition:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(AssignmentExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(false)
+AsyncArrowBindingIdentifier[0,0].ContainsExpression:[☊(AsyncArrowBindingIdentifier), ☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(AsyncArrowBindingIdentifier)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+  }
+} ---> N(false)
+AsyncArrowBindingIdentifier[0,0].IsSimpleParameterList:[☊(AsyncArrowBindingIdentifier), ☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(AsyncArrowBindingIdentifier)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+  }
+} ---> N(true)
+AsyncArrowFunction[0,0].HasName:[☊(AsyncArrowFunction), ☊(AsyncArrowBindingIdentifier), ☊(AsyncConciseBody)]: {
+  env: {
+    this -> ! ☊(AsyncArrowFunction)
+    AsyncArrowBindingIdentifier -> ! ☊(AsyncArrowBindingIdentifier)
+    AsyncConciseBody -> ! ☊(AsyncConciseBody)
+  }
+} ---> N(false)
+AsyncArrowFunction[1,0].HasName:[☊(AsyncArrowFunction), ☊(CoverCallExpressionAndAsyncArrowHead), ☊(AsyncConciseBody)]: {
+  env: {
+    this -> ! ☊(AsyncArrowFunction)
+    CoverCallExpressionAndAsyncArrowHead -> ! ☊(CoverCallExpressionAndAsyncArrowHead)
+    AsyncConciseBody -> ! ☊(AsyncConciseBody)
+  }
+} ---> N(false)
+AsyncConciseBody[0,0].ContainsUseStrict:[☊(AsyncConciseBody), ☊(ExpressionBody)]: {
+  env: {
+    this -> ! ☊(AsyncConciseBody)
+    ExpressionBody -> ! ☊(ExpressionBody)
+  }
+} ---> N(false)
+AsyncFunctionDeclaration[0,0].IsConstantDeclaration:[☊(AsyncFunctionDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
+  env: {
+    this -> ! ☊(AsyncFunctionDeclaration)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
+  }
+} ---> N(false)
+AsyncFunctionDeclaration[1,0].IsConstantDeclaration:[☊(AsyncFunctionDeclaration), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
+  env: {
+    this -> ! ☊(AsyncFunctionDeclaration)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
+  }
+} ---> N(false)
+AsyncFunctionExpression[0,0].HasName:[☊(AsyncFunctionExpression), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
+  env: {
+    this -> ! ☊(AsyncFunctionExpression)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
+  }
+} ---> N(false)
+AsyncFunctionExpression[0,0].IsFunctionDefinition:[☊(AsyncFunctionExpression), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
+  env: {
+    this -> ! ☊(AsyncFunctionExpression)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
+  }
+} ---> N(true)
+AsyncFunctionExpression[1,0].HasName:[☊(AsyncFunctionExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
+  env: {
+    this -> ! ☊(AsyncFunctionExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
+  }
+} ---> N(true)
+AsyncFunctionExpression[1,0].IsFunctionDefinition:[☊(AsyncFunctionExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
+  env: {
+    this -> ! ☊(AsyncFunctionExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
+  }
+} ---> N(true)
+AsyncGeneratorDeclaration[0,0].IsConstantDeclaration:[☊(AsyncGeneratorDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
+  env: {
+    this -> ! ☊(AsyncGeneratorDeclaration)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
+  }
+} ---> N(false)
+AsyncGeneratorDeclaration[1,0].IsConstantDeclaration:[☊(AsyncGeneratorDeclaration), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
+  env: {
+    this -> ! ☊(AsyncGeneratorDeclaration)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
+  }
+} ---> N(false)
+AsyncGeneratorExpression[0,0].HasName:[☊(AsyncGeneratorExpression), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
+  env: {
+    this -> ! ☊(AsyncGeneratorExpression)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
+  }
+} ---> N(false)
+AsyncGeneratorExpression[0,1].HasName:[☊(AsyncGeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
+  env: {
+    this -> ! ☊(AsyncGeneratorExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
+  }
+} ---> N(true)
+AsyncGeneratorExpression[0,1].IsFunctionDefinition:[☊(AsyncGeneratorExpression), ?, ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
+  env: {
+    this -> ! ☊(AsyncGeneratorExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
+  }
+} ---> N(true)
+AsyncGeneratorExpression[0,1].IsFunctionDefinition:[☊(AsyncGeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
+  env: {
+    this -> ! ☊(AsyncGeneratorExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    FormalParameters -> ! ☊(FormalParameters)
+    AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
+  }
+} ---> N(true)
+BindingElement[1,0].HasInitializer:[☊(BindingElement), ☊(BindingPattern)]: {
+  env: {
+    this -> ! ☊(BindingElement)
+    BindingPattern -> ! ☊(BindingPattern)
+  }
+} ---> N(false)
+BindingElement[1,0].IsSimpleParameterList:[☊(BindingElement), ☊(BindingPattern)]: {
+  env: {
+    this -> ! ☊(BindingElement)
+    BindingPattern -> ! ☊(BindingPattern)
+  }
+} ---> N(false)
+BindingElement[1,1].ContainsExpression:[☊(BindingElement), ☊(BindingPattern), ☊(Initializer)]: {
+  env: {
+    this -> ! ☊(BindingElement)
+    BindingPattern -> ! ☊(BindingPattern)
+    Initializer -> ! ☊(Initializer)
+  }
+} ---> N(true)
+BindingElement[1,1].HasInitializer:[☊(BindingElement), ☊(BindingPattern), ☊(Initializer)]: {
+  env: {
+    this -> ! ☊(BindingElement)
+    BindingPattern -> ! ☊(BindingPattern)
+    Initializer -> ! ☊(Initializer)
+  }
+} ---> N(true)
+BindingElement[1,1].IsSimpleParameterList:[☊(BindingElement), ☊(BindingPattern), ☊(Initializer)]: {
+  env: {
+    this -> ! ☊(BindingElement)
+    BindingPattern -> ! ☊(BindingPattern)
+    Initializer -> ! ☊(Initializer)
+  }
+} ---> N(false)
+BindingIdentifier[1,0].BoundNames:[☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(BindingIdentifier)
+  }
+} ---> N(#350) @ {
   #350 -> ["yield"]
 }
-BindingRestElement[0,0].ContainsExpression:RETURN:[☊(BindingRestElement), ☊(BindingIdentifier)] -> N(false)
-BitwiseANDExpression[1,0].AssignmentTargetType:RETURN:[☊(BitwiseANDExpression), ☊(BitwiseANDExpression), ☊(EqualityExpression)] -> N(~invalid~)
-BitwiseANDExpression[1,0].IsFunctionDefinition:RETURN:[☊(BitwiseANDExpression), ☊(BitwiseANDExpression), ☊(EqualityExpression)] -> N(false)
-BitwiseORExpression[1,0].AssignmentTargetType:RETURN:[☊(BitwiseORExpression), ☊(BitwiseORExpression), ☊(BitwiseXORExpression)] -> N(~invalid~)
-BitwiseORExpression[1,0].IsFunctionDefinition:RETURN:[☊(BitwiseORExpression), ☊(BitwiseORExpression), ☊(BitwiseXORExpression)] -> N(false)
-BitwiseXORExpression[1,0].AssignmentTargetType:RETURN:[☊(BitwiseXORExpression), ☊(BitwiseXORExpression), ☊(BitwiseANDExpression)] -> N(~invalid~)
-BitwiseXORExpression[1,0].IsFunctionDefinition:RETURN:[☊(BitwiseXORExpression), ☊(BitwiseXORExpression), ☊(BitwiseANDExpression)] -> N(false)
-CallExpression[0,0].AssignmentTargetType:RETURN:[☊(CallExpression), ☊(CoverCallExpressionAndAsyncArrowHead)] -> N(~invalid~)
-CallExpression[1,0].AssignmentTargetType:RETURN:[☊(CallExpression), ☊(SuperCall)] -> N(~invalid~)
-CallExpression[2,0].AssignmentTargetType:RETURN:[☊(CallExpression), ☊(ImportCall)] -> N(~invalid~)
-CallExpression[3,0].AssignmentTargetType:RETURN:[☊(CallExpression), ☊(CallExpression), ☊(Arguments)] -> N(~invalid~)
-CallExpression[4,0].AssignmentTargetType:RETURN:[☊(CallExpression), ☊(CallExpression), ☊(Expression)] -> N(~simple~)
-CallExpression[5,0].AssignmentTargetType:RETURN:[☊(CallExpression), ☊(CallExpression), ☊(IdentifierName)] -> N(~simple~)
-CallExpression[6,0].AssignmentTargetType:RETURN:[☊(CallExpression), ☊(CallExpression), ☊(TemplateLiteral)] -> N(~invalid~)
-ClassAtomNoDash[0,0].IsCharacterClass:RETURN:[☊(ClassAtomNoDash), ☊(SourceCharacter)] -> N(false)
-ClassAtom[0,0].IsCharacterClass:RETURN:[☊(ClassAtom)] -> N(false)
-ClassDeclaration[0,0].IsConstantDeclaration:RETURN:[☊(ClassDeclaration), ☊(BindingIdentifier), ☊(ClassTail)] -> N(false)
-ClassDeclaration[1,0].IsConstantDeclaration:RETURN:[☊(ClassDeclaration), ☊(ClassTail)] -> N(false)
-ClassElement[0,0].IsStatic:RETURN:[☊(ClassElement), ☊(MethodDefinition)] -> N(false)
-ClassElement[1,0].IsStatic:RETURN:[☊(ClassElement), ☊(MethodDefinition)] -> N(true)
-ClassElement[2,0].IsStatic:RETURN:[☊(ClassElement)] -> N(false)
-ClassEscape[0,0].IsCharacterClass:RETURN:[☊(ClassEscape)] -> N(false)
-ClassEscape[1,0].IsCharacterClass:RETURN:[☊(ClassEscape)] -> N(false)
-ClassEscape[2,0].IsCharacterClass:RETURN:[☊(ClassEscape), ☊(CharacterClassEscape)] -> N(true)
-ClassEscape[3,0].IsCharacterClass:RETURN:[☊(ClassEscape), ☊(CharacterEscape)] -> N(false)
-ClassExpression[0,0].HasName:RETURN:[☊(ClassExpression), ☊(ClassTail)] -> N(false)
-ClassExpression[0,1].HasName:RETURN:[☊(ClassExpression), ☊(BindingIdentifier), ☊(ClassTail)] -> N(true)
-ClassExpression[0,1].IsFunctionDefinition:RETURN:[☊(ClassExpression), ?, ☊(ClassTail)] -> N(true)
-ClassExpression[0,1].IsFunctionDefinition:RETURN:[☊(ClassExpression), ☊(BindingIdentifier), ☊(ClassTail)] -> N(true)
-CoalesceExpression[0,0].AssignmentTargetType:RETURN:[☊(CoalesceExpression), ☊(CoalesceExpressionHead), ☊(BitwiseORExpression)] -> N(~invalid~)
-CoalesceExpression[0,0].IsFunctionDefinition:RETURN:[☊(CoalesceExpression), ☊(CoalesceExpressionHead), ☊(BitwiseORExpression)] -> N(false)
-ConciseBody[0,0].ContainsUseStrict:RETURN:[☊(ConciseBody), ☊(ExpressionBody)] -> N(false)
-ConditionalExpression[1,0].AssignmentTargetType:RETURN:[☊(ConditionalExpression), ☊(ShortCircuitExpression), ☊(AssignmentExpression), ☊(AssignmentExpression)] -> N(~invalid~)
-ConditionalExpression[1,0].IsFunctionDefinition:RETURN:[☊(ConditionalExpression), ☊(ShortCircuitExpression), ☊(AssignmentExpression), ☊(AssignmentExpression)] -> N(false)
-CoverParenthesizedExpressionAndArrowParameterList[0,0].CoveredParenthesizedExpression:RETURN:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(Expression)] -> N(☊(ParenthesizedExpression))
-Declaration[1,0].DeclarationPart:RETURN:[☊(Declaration), ☊(ClassDeclaration)] -> N(☊(ClassDeclaration))
-Declaration[2,0].DeclarationPart:RETURN:[☊(Declaration), ☊(LexicalDeclaration)] -> N(☊(LexicalDeclaration))
-DeclarativeEnvironmentRecord.HasThisBinding:RETURN:[EnvironmentRecord] -> N(false)
-DeclarativeEnvironmentRecord.HasThisBinding:RETURN:[null] -> N(false)
-EqualityExpression[1,0].AssignmentTargetType:RETURN:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)] -> N(~invalid~)
-EqualityExpression[1,0].IsFunctionDefinition:RETURN:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)] -> N(false)
-EqualityExpression[2,0].AssignmentTargetType:RETURN:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)] -> N(~invalid~)
-EqualityExpression[2,0].IsFunctionDefinition:RETURN:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)] -> N(false)
-EqualityExpression[3,0].AssignmentTargetType:RETURN:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)] -> N(~invalid~)
-EqualityExpression[3,0].IsFunctionDefinition:RETURN:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)] -> N(false)
-EqualityExpression[4,0].AssignmentTargetType:RETURN:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)] -> N(~invalid~)
-EqualityExpression[4,0].IsFunctionDefinition:RETURN:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)] -> N(false)
-ExponentiationExpression[1,0].AssignmentTargetType:RETURN:[☊(ExponentiationExpression), ☊(UpdateExpression), ☊(ExponentiationExpression)] -> N(~invalid~)
-ExponentiationExpression[1,0].IsFunctionDefinition:RETURN:[☊(ExponentiationExpression), ☊(UpdateExpression), ☊(ExponentiationExpression)] -> N(false)
-ExportDeclaration[0,0].IsConstantDeclaration:RETURN:[☊(ExportDeclaration), ☊(ExportFromClause), ☊(FromClause)] -> N(false)
-ExportDeclaration[1,0].IsConstantDeclaration:RETURN:[☊(ExportDeclaration), ☊(NamedExports)] -> N(false)
-ExportDeclaration[6,0].IsConstantDeclaration:RETURN:[☊(ExportDeclaration), ☊(AssignmentExpression)] -> N(false)
-Expression[1,0].AssignmentTargetType:RETURN:[☊(Expression), ☊(Expression), ☊(AssignmentExpression)] -> N(~invalid~)
-Expression[1,0].IsFunctionDefinition:RETURN:[☊(Expression), ☊(Expression), ☊(AssignmentExpression)] -> N(false)
-ForBinding[0,0].IsDestructuring:RETURN:[☊(ForBinding), ☊(BindingIdentifier)] -> N(false)
-ForBinding[1,0].IsDestructuring:RETURN:[☊(ForBinding), ☊(BindingPattern)] -> N(true)
-ForDeclaration[0,0].IsDestructuring:RETURN:[☊(ForDeclaration), ☊(LetOrConst), ☊(ForBinding)] -> N(bool)
-FormalParameters[0,0].ContainsExpression:RETURN:[☊(FormalParameters)] -> N(false)
-FormalParameters[0,0].IsSimpleParameterList:RETURN:[☊(FormalParameters)] -> N(true)
-FormalParameters[1,0].IsSimpleParameterList:RETURN:[☊(FormalParameters), ☊(FunctionRestParameter)] -> N(false)
-FormalParameters[4,0].IsSimpleParameterList:RETURN:[☊(FormalParameters), ☊(FormalParameterList), ☊(FunctionRestParameter)] -> N(false)
-FunctionDeclaration[0,0].IsConstantDeclaration:RETURN:[☊(FunctionDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(FunctionBody)] -> N(false)
-FunctionDeclaration[1,0].IsConstantDeclaration:RETURN:[☊(FunctionDeclaration), ☊(FormalParameters), ☊(FunctionBody)] -> N(false)
-FunctionEnvironmentRecord.GetThisBinding:RETURN:[EnvironmentRecord] -> N(Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
+BindingRestElement[0,0].ContainsExpression:[☊(BindingRestElement), ☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(BindingRestElement)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+  }
+} ---> N(false)
+BitwiseANDExpression[1,0].AssignmentTargetType:[☊(BitwiseANDExpression), ☊(BitwiseANDExpression), ☊(EqualityExpression)]: {
+  env: {
+    this -> ! ☊(BitwiseANDExpression)
+    BitwiseANDExpression -> ! ☊(BitwiseANDExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+  }
+} ---> N(~invalid~)
+BitwiseANDExpression[1,0].IsFunctionDefinition:[☊(BitwiseANDExpression), ☊(BitwiseANDExpression), ☊(EqualityExpression)]: {
+  env: {
+    this -> ! ☊(BitwiseANDExpression)
+    BitwiseANDExpression -> ! ☊(BitwiseANDExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+  }
+} ---> N(false)
+BitwiseORExpression[1,0].AssignmentTargetType:[☊(BitwiseORExpression), ☊(BitwiseORExpression), ☊(BitwiseXORExpression)]: {
+  env: {
+    this -> ! ☊(BitwiseORExpression)
+    BitwiseORExpression -> ! ☊(BitwiseORExpression)
+    BitwiseXORExpression -> ! ☊(BitwiseXORExpression)
+  }
+} ---> N(~invalid~)
+BitwiseORExpression[1,0].IsFunctionDefinition:[☊(BitwiseORExpression), ☊(BitwiseORExpression), ☊(BitwiseXORExpression)]: {
+  env: {
+    this -> ! ☊(BitwiseORExpression)
+    BitwiseORExpression -> ! ☊(BitwiseORExpression)
+    BitwiseXORExpression -> ! ☊(BitwiseXORExpression)
+  }
+} ---> N(false)
+BitwiseXORExpression[1,0].AssignmentTargetType:[☊(BitwiseXORExpression), ☊(BitwiseXORExpression), ☊(BitwiseANDExpression)]: {
+  env: {
+    this -> ! ☊(BitwiseXORExpression)
+    BitwiseXORExpression -> ! ☊(BitwiseXORExpression)
+    BitwiseANDExpression -> ! ☊(BitwiseANDExpression)
+  }
+} ---> N(~invalid~)
+BitwiseXORExpression[1,0].IsFunctionDefinition:[☊(BitwiseXORExpression), ☊(BitwiseXORExpression), ☊(BitwiseANDExpression)]: {
+  env: {
+    this -> ! ☊(BitwiseXORExpression)
+    BitwiseXORExpression -> ! ☊(BitwiseXORExpression)
+    BitwiseANDExpression -> ! ☊(BitwiseANDExpression)
+  }
+} ---> N(false)
+CallExpression[0,0].AssignmentTargetType:[☊(CallExpression), ☊(CoverCallExpressionAndAsyncArrowHead)]: {
+  env: {
+    this -> ! ☊(CallExpression)
+    CoverCallExpressionAndAsyncArrowHead -> ! ☊(CoverCallExpressionAndAsyncArrowHead)
+  }
+} ---> N(~invalid~)
+CallExpression[1,0].AssignmentTargetType:[☊(CallExpression), ☊(SuperCall)]: {
+  env: {
+    this -> ! ☊(CallExpression)
+    SuperCall -> ! ☊(SuperCall)
+  }
+} ---> N(~invalid~)
+CallExpression[2,0].AssignmentTargetType:[☊(CallExpression), ☊(ImportCall)]: {
+  env: {
+    this -> ! ☊(CallExpression)
+    ImportCall -> ! ☊(ImportCall)
+  }
+} ---> N(~invalid~)
+CallExpression[3,0].AssignmentTargetType:[☊(CallExpression), ☊(CallExpression), ☊(Arguments)]: {
+  env: {
+    this -> ! ☊(CallExpression)
+    CallExpression -> ! ☊(CallExpression)
+    Arguments -> ! ☊(Arguments)
+  }
+} ---> N(~invalid~)
+CallExpression[4,0].AssignmentTargetType:[☊(CallExpression), ☊(CallExpression), ☊(Expression)]: {
+  env: {
+    this -> ! ☊(CallExpression)
+    CallExpression -> ! ☊(CallExpression)
+    Expression -> ! ☊(Expression)
+  }
+} ---> N(~simple~)
+CallExpression[5,0].AssignmentTargetType:[☊(CallExpression), ☊(CallExpression), ☊(IdentifierName)]: {
+  env: {
+    this -> ! ☊(CallExpression)
+    CallExpression -> ! ☊(CallExpression)
+    IdentifierName -> ! ☊(IdentifierName)
+  }
+} ---> N(~simple~)
+CallExpression[6,0].AssignmentTargetType:[☊(CallExpression), ☊(CallExpression), ☊(TemplateLiteral)]: {
+  env: {
+    this -> ! ☊(CallExpression)
+    CallExpression -> ! ☊(CallExpression)
+    TemplateLiteral -> ! ☊(TemplateLiteral)
+  }
+} ---> N(~invalid~)
+ClassAtomNoDash[0,0].IsCharacterClass:[☊(ClassAtomNoDash), ☊(SourceCharacter)]: {
+  env: {
+    this -> ! ☊(ClassAtomNoDash)
+    SourceCharacter -> ! ☊(SourceCharacter)
+  }
+} ---> N(false)
+ClassAtom[0,0].IsCharacterClass:[☊(ClassAtom)]: {
+  env: {
+    this -> ! ☊(ClassAtom)
+  }
+} ---> N(false)
+ClassDeclaration[0,0].IsConstantDeclaration:[☊(ClassDeclaration), ☊(BindingIdentifier), ☊(ClassTail)]: {
+  env: {
+    this -> ! ☊(ClassDeclaration)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    ClassTail -> ! ☊(ClassTail)
+  }
+} ---> N(false)
+ClassDeclaration[1,0].IsConstantDeclaration:[☊(ClassDeclaration), ☊(ClassTail)]: {
+  env: {
+    this -> ! ☊(ClassDeclaration)
+    ClassTail -> ! ☊(ClassTail)
+  }
+} ---> N(false)
+ClassElement[0,0].IsStatic:[☊(ClassElement), ☊(MethodDefinition)]: {
+  env: {
+    this -> ! ☊(ClassElement)
+    MethodDefinition -> ! ☊(MethodDefinition)
+  }
+} ---> N(false)
+ClassElement[1,0].IsStatic:[☊(ClassElement), ☊(MethodDefinition)]: {
+  env: {
+    this -> ! ☊(ClassElement)
+    MethodDefinition -> ! ☊(MethodDefinition)
+  }
+} ---> N(true)
+ClassElement[2,0].IsStatic:[☊(ClassElement)]: {
+  env: {
+    this -> ! ☊(ClassElement)
+  }
+} ---> N(false)
+ClassEscape[0,0].IsCharacterClass:[☊(ClassEscape)]: {
+  env: {
+    this -> ! ☊(ClassEscape)
+  }
+} ---> N(false)
+ClassEscape[1,0].IsCharacterClass:[☊(ClassEscape)]: {
+  env: {
+    this -> ! ☊(ClassEscape)
+  }
+} ---> N(false)
+ClassEscape[2,0].IsCharacterClass:[☊(ClassEscape), ☊(CharacterClassEscape)]: {
+  env: {
+    this -> ! ☊(ClassEscape)
+    CharacterClassEscape -> ! ☊(CharacterClassEscape)
+  }
+} ---> N(true)
+ClassEscape[3,0].IsCharacterClass:[☊(ClassEscape), ☊(CharacterEscape)]: {
+  env: {
+    this -> ! ☊(ClassEscape)
+    CharacterEscape -> ! ☊(CharacterEscape)
+  }
+} ---> N(false)
+ClassExpression[0,0].HasName:[☊(ClassExpression), ☊(ClassTail)]: {
+  env: {
+    this -> ! ☊(ClassExpression)
+    ClassTail -> ! ☊(ClassTail)
+  }
+} ---> N(false)
+ClassExpression[0,1].HasName:[☊(ClassExpression), ☊(BindingIdentifier), ☊(ClassTail)]: {
+  env: {
+    this -> ! ☊(ClassExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    ClassTail -> ! ☊(ClassTail)
+  }
+} ---> N(true)
+ClassExpression[0,1].IsFunctionDefinition:[☊(ClassExpression), ?, ☊(ClassTail)]: {
+  env: {
+    this -> ! ☊(ClassExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    ClassTail -> ! ☊(ClassTail)
+  }
+} ---> N(true)
+ClassExpression[0,1].IsFunctionDefinition:[☊(ClassExpression), ☊(BindingIdentifier), ☊(ClassTail)]: {
+  env: {
+    this -> ! ☊(ClassExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    ClassTail -> ! ☊(ClassTail)
+  }
+} ---> N(true)
+CoalesceExpression[0,0].AssignmentTargetType:[☊(CoalesceExpression), ☊(CoalesceExpressionHead), ☊(BitwiseORExpression)]: {
+  env: {
+    this -> ! ☊(CoalesceExpression)
+    CoalesceExpressionHead -> ! ☊(CoalesceExpressionHead)
+    BitwiseORExpression -> ! ☊(BitwiseORExpression)
+  }
+} ---> N(~invalid~)
+CoalesceExpression[0,0].IsFunctionDefinition:[☊(CoalesceExpression), ☊(CoalesceExpressionHead), ☊(BitwiseORExpression)]: {
+  env: {
+    this -> ! ☊(CoalesceExpression)
+    CoalesceExpressionHead -> ! ☊(CoalesceExpressionHead)
+    BitwiseORExpression -> ! ☊(BitwiseORExpression)
+  }
+} ---> N(false)
+ConciseBody[0,0].ContainsUseStrict:[☊(ConciseBody), ☊(ExpressionBody)]: {
+  env: {
+    this -> ! ☊(ConciseBody)
+    ExpressionBody -> ! ☊(ExpressionBody)
+  }
+} ---> N(false)
+ConditionalExpression[1,0].AssignmentTargetType:[☊(ConditionalExpression), ☊(ShortCircuitExpression), ☊(AssignmentExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(ConditionalExpression)
+    ShortCircuitExpression -> ! ☊(ShortCircuitExpression)
+    AssignmentExpression0 -> ! ☊(AssignmentExpression)
+    AssignmentExpression1 -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~invalid~)
+ConditionalExpression[1,0].IsFunctionDefinition:[☊(ConditionalExpression), ☊(ShortCircuitExpression), ☊(AssignmentExpression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(ConditionalExpression)
+    ShortCircuitExpression -> ! ☊(ShortCircuitExpression)
+    AssignmentExpression0 -> ! ☊(AssignmentExpression)
+    AssignmentExpression1 -> ! ☊(AssignmentExpression)
+  }
+} ---> N(false)
+CoverParenthesizedExpressionAndArrowParameterList[0,0].CoveredParenthesizedExpression:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(Expression)]: {
+  env: {
+    this -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+    Expression -> ! ☊(Expression)
+  }
+} ---> N(☊(ParenthesizedExpression))
+Declaration[1,0].DeclarationPart:[☊(Declaration), ☊(ClassDeclaration)]: {
+  env: {
+    this -> ! ☊(Declaration)
+    ClassDeclaration -> ! ☊(ClassDeclaration)
+  }
+} ---> N(☊(ClassDeclaration))
+Declaration[2,0].DeclarationPart:[☊(Declaration), ☊(LexicalDeclaration)]: {
+  env: {
+    this -> ! ☊(Declaration)
+    LexicalDeclaration -> ! ☊(LexicalDeclaration)
+  }
+} ---> N(☊(LexicalDeclaration))
+DeclarativeEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(false)
+DeclarativeEnvironmentRecord.HasThisBinding:[null]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(false)
+EqualityExpression[1,0].AssignmentTargetType:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)]: {
+  env: {
+    this -> ! ☊(EqualityExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+  }
+} ---> N(~invalid~)
+EqualityExpression[1,0].IsFunctionDefinition:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)]: {
+  env: {
+    this -> ! ☊(EqualityExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+  }
+} ---> N(false)
+EqualityExpression[2,0].AssignmentTargetType:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)]: {
+  env: {
+    this -> ! ☊(EqualityExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+  }
+} ---> N(~invalid~)
+EqualityExpression[2,0].IsFunctionDefinition:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)]: {
+  env: {
+    this -> ! ☊(EqualityExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+  }
+} ---> N(false)
+EqualityExpression[3,0].AssignmentTargetType:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)]: {
+  env: {
+    this -> ! ☊(EqualityExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+  }
+} ---> N(~invalid~)
+EqualityExpression[3,0].IsFunctionDefinition:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)]: {
+  env: {
+    this -> ! ☊(EqualityExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+  }
+} ---> N(false)
+EqualityExpression[4,0].AssignmentTargetType:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)]: {
+  env: {
+    this -> ! ☊(EqualityExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+  }
+} ---> N(~invalid~)
+EqualityExpression[4,0].IsFunctionDefinition:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)]: {
+  env: {
+    this -> ! ☊(EqualityExpression)
+    EqualityExpression -> ! ☊(EqualityExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+  }
+} ---> N(false)
+ExponentiationExpression[1,0].AssignmentTargetType:[☊(ExponentiationExpression), ☊(UpdateExpression), ☊(ExponentiationExpression)]: {
+  env: {
+    this -> ! ☊(ExponentiationExpression)
+    UpdateExpression -> ! ☊(UpdateExpression)
+    ExponentiationExpression -> ! ☊(ExponentiationExpression)
+  }
+} ---> N(~invalid~)
+ExponentiationExpression[1,0].IsFunctionDefinition:[☊(ExponentiationExpression), ☊(UpdateExpression), ☊(ExponentiationExpression)]: {
+  env: {
+    this -> ! ☊(ExponentiationExpression)
+    UpdateExpression -> ! ☊(UpdateExpression)
+    ExponentiationExpression -> ! ☊(ExponentiationExpression)
+  }
+} ---> N(false)
+ExportDeclaration[0,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(ExportFromClause), ☊(FromClause)]: {
+  env: {
+    this -> ! ☊(ExportDeclaration)
+    ExportFromClause -> ! ☊(ExportFromClause)
+    FromClause -> ! ☊(FromClause)
+  }
+} ---> N(false)
+ExportDeclaration[1,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(NamedExports)]: {
+  env: {
+    this -> ! ☊(ExportDeclaration)
+    NamedExports -> ! ☊(NamedExports)
+  }
+} ---> N(false)
+ExportDeclaration[6,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(ExportDeclaration)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(false)
+Expression[1,0].AssignmentTargetType:[☊(Expression), ☊(Expression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(Expression)
+    Expression -> ! ☊(Expression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~invalid~)
+Expression[1,0].IsFunctionDefinition:[☊(Expression), ☊(Expression), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(Expression)
+    Expression -> ! ☊(Expression)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(false)
+ForBinding[0,0].IsDestructuring:[☊(ForBinding), ☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(ForBinding)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+  }
+} ---> N(false)
+ForBinding[1,0].IsDestructuring:[☊(ForBinding), ☊(BindingPattern)]: {
+  env: {
+    this -> ! ☊(ForBinding)
+    BindingPattern -> ! ☊(BindingPattern)
+  }
+} ---> N(true)
+ForDeclaration[0,0].IsDestructuring:[☊(ForDeclaration), ☊(LetOrConst), ☊(ForBinding)]: {
+  env: {
+    this -> ! ☊(ForDeclaration)
+    LetOrConst -> ! ☊(LetOrConst)
+    ForBinding -> ! ☊(ForBinding)
+  }
+} ---> N(bool)
+FormalParameters[0,0].ContainsExpression:[☊(FormalParameters)]: {
+  env: {
+    this -> ! ☊(FormalParameters)
+  }
+} ---> N(false)
+FormalParameters[0,0].IsSimpleParameterList:[☊(FormalParameters)]: {
+  env: {
+    this -> ! ☊(FormalParameters)
+  }
+} ---> N(true)
+FormalParameters[1,0].IsSimpleParameterList:[☊(FormalParameters), ☊(FunctionRestParameter)]: {
+  env: {
+    this -> ! ☊(FormalParameters)
+    FunctionRestParameter -> ! ☊(FunctionRestParameter)
+  }
+} ---> N(false)
+FormalParameters[4,0].IsSimpleParameterList:[☊(FormalParameters), ☊(FormalParameterList), ☊(FunctionRestParameter)]: {
+  env: {
+    this -> ! ☊(FormalParameters)
+    FormalParameterList -> ! ☊(FormalParameterList)
+    FunctionRestParameter -> ! ☊(FunctionRestParameter)
+  }
+} ---> N(false)
+FunctionDeclaration[0,0].IsConstantDeclaration:[☊(FunctionDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(FunctionDeclaration)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(false)
+FunctionDeclaration[1,0].IsConstantDeclaration:[☊(FunctionDeclaration), ☊(FormalParameters), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(FunctionDeclaration)
+    FormalParameters -> ! ☊(FormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(false)
+FunctionEnvironmentRecord.GetThisBinding:[EnvironmentRecord]: {
+  env: {
+    envRec -> ! N(EnvironmentRecord | null)
+  }
+} ---> N(Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
   #122 -> OrdinaryObject {
     Prototype -> ! #Global.ReferenceError.prototype
     ErrorData -> ! undef
   }
 }
-FunctionEnvironmentRecord.GetThisBinding:RETURN:[null] -> N(Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
+FunctionEnvironmentRecord.GetThisBinding:[null]: {
+  env: {
+    envRec -> ! N(EnvironmentRecord | null)
+  }
+} ---> N(Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
   #122 -> OrdinaryObject {
     Prototype -> ! #Global.ReferenceError.prototype
     ErrorData -> ! undef
   }
 }
-FunctionEnvironmentRecord.HasThisBinding:RETURN:[EnvironmentRecord] -> N(bool)
-FunctionEnvironmentRecord.HasThisBinding:RETURN:[null] -> N(bool)
-FunctionExpression[0,0].HasName:RETURN:[☊(FunctionExpression), ☊(FormalParameters), ☊(FunctionBody)] -> N(false)
-FunctionExpression[0,1].HasName:RETURN:[☊(FunctionExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(FunctionBody)] -> N(true)
-FunctionExpression[0,1].IsFunctionDefinition:RETURN:[☊(FunctionExpression), ?, ☊(FormalParameters), ☊(FunctionBody)] -> N(true)
-FunctionExpression[0,1].IsFunctionDefinition:RETURN:[☊(FunctionExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(FunctionBody)] -> N(true)
-GeneratorDeclaration[0,0].IsConstantDeclaration:RETURN:[☊(GeneratorDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(GeneratorBody)] -> N(false)
-GeneratorDeclaration[1,0].IsConstantDeclaration:RETURN:[☊(GeneratorDeclaration), ☊(FormalParameters), ☊(GeneratorBody)] -> N(false)
-GeneratorExpression[0,0].HasName:RETURN:[☊(GeneratorExpression), ☊(FormalParameters), ☊(GeneratorBody)] -> N(false)
-GeneratorExpression[0,1].HasName:RETURN:[☊(GeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(GeneratorBody)] -> N(true)
-GeneratorExpression[0,1].IsFunctionDefinition:RETURN:[☊(GeneratorExpression), ?, ☊(FormalParameters), ☊(GeneratorBody)] -> N(true)
-GeneratorExpression[0,1].IsFunctionDefinition:RETURN:[☊(GeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(GeneratorBody)] -> N(true)
-GetThisEnvironment:RETURN:[] -> N(EnvironmentRecord | null)
-GlobalEnvironmentRecord.GetThisBinding:RETURN:[EnvironmentRecord] -> N(#Global)
-GlobalEnvironmentRecord.GetThisBinding:RETURN:[null] -> N(#Global)
-GlobalEnvironmentRecord.HasThisBinding:RETURN:[EnvironmentRecord] -> N(true)
-GlobalEnvironmentRecord.HasThisBinding:RETURN:[null] -> N(true)
-HoistableDeclaration[0,0].DeclarationPart:RETURN:[☊(HoistableDeclaration), ☊(FunctionDeclaration)] -> N(☊(FunctionDeclaration))
-HoistableDeclaration[1,0].DeclarationPart:RETURN:[☊(HoistableDeclaration), ☊(GeneratorDeclaration)] -> N(☊(GeneratorDeclaration))
-HoistableDeclaration[2,0].DeclarationPart:RETURN:[☊(HoistableDeclaration), ☊(AsyncFunctionDeclaration)] -> N(☊(AsyncFunctionDeclaration))
-HoistableDeclaration[3,0].DeclarationPart:RETURN:[☊(HoistableDeclaration), ☊(AsyncGeneratorDeclaration)] -> N(☊(AsyncGeneratorDeclaration))
-IdentifierReference[0,0].AssignmentTargetType:RETURN:[☊(IdentifierReference), ☊(Identifier)] -> N((~simple~ | ~invalid~))
-IdentifierReference[1,0].AssignmentTargetType:RETURN:[☊(IdentifierReference)] -> N(~simple~)
-IdentifierReference[1,0].EarlyErrors:RETURN:[☊(IdentifierReference)] -> T(#1605) @ {
+FunctionEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(bool)
+FunctionEnvironmentRecord.HasThisBinding:[null]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(bool)
+FunctionExpression[0,0].HasName:[☊(FunctionExpression), ☊(FormalParameters), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(FunctionExpression)
+    FormalParameters -> ! ☊(FormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(false)
+FunctionExpression[0,1].HasName:[☊(FunctionExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(FunctionExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(true)
+FunctionExpression[0,1].IsFunctionDefinition:[☊(FunctionExpression), ?, ☊(FormalParameters), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(FunctionExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    FormalParameters -> ! ☊(FormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(true)
+FunctionExpression[0,1].IsFunctionDefinition:[☊(FunctionExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(FunctionExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    FormalParameters -> ! ☊(FormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(true)
+GeneratorDeclaration[0,0].IsConstantDeclaration:[☊(GeneratorDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(GeneratorBody)]: {
+  env: {
+    this -> ! ☊(GeneratorDeclaration)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    GeneratorBody -> ! ☊(GeneratorBody)
+  }
+} ---> N(false)
+GeneratorDeclaration[1,0].IsConstantDeclaration:[☊(GeneratorDeclaration), ☊(FormalParameters), ☊(GeneratorBody)]: {
+  env: {
+    this -> ! ☊(GeneratorDeclaration)
+    FormalParameters -> ! ☊(FormalParameters)
+    GeneratorBody -> ! ☊(GeneratorBody)
+  }
+} ---> N(false)
+GeneratorExpression[0,0].HasName:[☊(GeneratorExpression), ☊(FormalParameters), ☊(GeneratorBody)]: {
+  env: {
+    this -> ! ☊(GeneratorExpression)
+    FormalParameters -> ! ☊(FormalParameters)
+    GeneratorBody -> ! ☊(GeneratorBody)
+  }
+} ---> N(false)
+GeneratorExpression[0,1].HasName:[☊(GeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(GeneratorBody)]: {
+  env: {
+    this -> ! ☊(GeneratorExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    GeneratorBody -> ! ☊(GeneratorBody)
+  }
+} ---> N(true)
+GeneratorExpression[0,1].IsFunctionDefinition:[☊(GeneratorExpression), ?, ☊(FormalParameters), ☊(GeneratorBody)]: {
+  env: {
+    this -> ! ☊(GeneratorExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    FormalParameters -> ! ☊(FormalParameters)
+    GeneratorBody -> ! ☊(GeneratorBody)
+  }
+} ---> N(true)
+GeneratorExpression[0,1].IsFunctionDefinition:[☊(GeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(GeneratorBody)]: {
+  env: {
+    this -> ! ☊(GeneratorExpression)
+    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    FormalParameters -> ! ☊(FormalParameters)
+    GeneratorBody -> ! ☊(GeneratorBody)
+  }
+} ---> N(true)
+GetThisEnvironment:[]: ɛ ---> N(EnvironmentRecord | null)
+GlobalEnvironmentRecord.GetThisBinding:[EnvironmentRecord]: {
+  env: {
+    envRec -> ! N(EnvironmentRecord | null)
+  }
+} ---> N(#Global)
+GlobalEnvironmentRecord.GetThisBinding:[null]: {
+  env: {
+    envRec -> ! N(EnvironmentRecord | null)
+  }
+} ---> N(#Global)
+GlobalEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(true)
+GlobalEnvironmentRecord.HasThisBinding:[null]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(true)
+HoistableDeclaration[0,0].DeclarationPart:[☊(HoistableDeclaration), ☊(FunctionDeclaration)]: {
+  env: {
+    this -> ! ☊(HoistableDeclaration)
+    FunctionDeclaration -> ! ☊(FunctionDeclaration)
+  }
+} ---> N(☊(FunctionDeclaration))
+HoistableDeclaration[1,0].DeclarationPart:[☊(HoistableDeclaration), ☊(GeneratorDeclaration)]: {
+  env: {
+    this -> ! ☊(HoistableDeclaration)
+    GeneratorDeclaration -> ! ☊(GeneratorDeclaration)
+  }
+} ---> N(☊(GeneratorDeclaration))
+HoistableDeclaration[2,0].DeclarationPart:[☊(HoistableDeclaration), ☊(AsyncFunctionDeclaration)]: {
+  env: {
+    this -> ! ☊(HoistableDeclaration)
+    AsyncFunctionDeclaration -> ! ☊(AsyncFunctionDeclaration)
+  }
+} ---> N(☊(AsyncFunctionDeclaration))
+HoistableDeclaration[3,0].DeclarationPart:[☊(HoistableDeclaration), ☊(AsyncGeneratorDeclaration)]: {
+  env: {
+    this -> ! ☊(HoistableDeclaration)
+    AsyncGeneratorDeclaration -> ! ☊(AsyncGeneratorDeclaration)
+  }
+} ---> N(☊(AsyncGeneratorDeclaration))
+IdentifierReference[0,0].AssignmentTargetType:[☊(IdentifierReference), ☊(Identifier)]: {
+  env: {
+    this -> ! ☊(IdentifierReference)
+    Identifier -> ! ☊(Identifier)
+  }
+} ---> N((~simple~ | ~invalid~))
+IdentifierReference[1,0].AssignmentTargetType:[☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(IdentifierReference)
+  }
+} ---> N(~simple~)
+IdentifierReference[1,0].EarlyErrors:[☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(IdentifierReference)
+  }
+} ---> T(#1605) @ {
   #1605 -> OrdinaryObject {
     Prototype -> ! #Global.SyntaxError.prototype
     ErrorData -> ! undef
   }
 }
-IdentifierReference[1,0].StringValue:RETURN:[☊(IdentifierReference)] -> N("yield")
-IdentifierReference[2,0].AssignmentTargetType:RETURN:[☊(IdentifierReference)] -> N(~simple~)
-IdentifierReference[2,0].StringValue:RETURN:[☊(IdentifierReference)] -> N("await")
-Identifier[0,0].StringValue:RETURN:[☊(Identifier), ☊(IdentifierName)] -> N(str)
-ImportDeclaration[1,0].ImportEntries:RETURN:[☊(ImportDeclaration), ☊(ModuleSpecifier)] -> N(#772) @ {
+IdentifierReference[1,0].StringValue:[☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(IdentifierReference)
+  }
+} ---> N("yield")
+IdentifierReference[2,0].AssignmentTargetType:[☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(IdentifierReference)
+  }
+} ---> N(~simple~)
+IdentifierReference[2,0].StringValue:[☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(IdentifierReference)
+  }
+} ---> N("await")
+Identifier[0,0].StringValue:[☊(Identifier), ☊(IdentifierName)]: {
+  env: {
+    this -> ! ☊(Identifier)
+    IdentifierName -> ! ☊(IdentifierName)
+  }
+} ---> N(str)
+ImportDeclaration[1,0].ImportEntries:[☊(ImportDeclaration), ☊(ModuleSpecifier)]: {
+  env: {
+    this -> ! ☊(ImportDeclaration)
+    ModuleSpecifier -> ! ☊(ModuleSpecifier)
+  }
+} ---> N(#772) @ {
   #772 -> []
 }
-ImportMeta[0,0].AssignmentTargetType:RETURN:[☊(ImportMeta)] -> N(~invalid~)
-LeftHandSideExpression[1,0].IsDestructuring:RETURN:[☊(LeftHandSideExpression), ☊(CallExpression)] -> N(false)
-LeftHandSideExpression[1,0].IsFunctionDefinition:RETURN:[☊(LeftHandSideExpression), ☊(CallExpression)] -> N(false)
-LeftHandSideExpression[1,0].IsIdentifierRef:RETURN:[☊(LeftHandSideExpression), ☊(CallExpression)] -> N(false)
-LeftHandSideExpression[2,0].AssignmentTargetType:RETURN:[☊(LeftHandSideExpression), ☊(OptionalExpression)] -> N(~invalid~)
-LeftHandSideExpression[2,0].IsDestructuring:RETURN:[☊(LeftHandSideExpression), ☊(OptionalExpression)] -> N(false)
-LeftHandSideExpression[2,0].IsFunctionDefinition:RETURN:[☊(LeftHandSideExpression), ☊(OptionalExpression)] -> N(false)
-LeftHandSideExpression[2,0].IsIdentifierRef:RETURN:[☊(LeftHandSideExpression), ☊(OptionalExpression)] -> N(false)
-LetOrConst[0,0].IsConstantDeclaration:RETURN:[☊(LetOrConst)] -> N(false)
-LetOrConst[1,0].IsConstantDeclaration:RETURN:[☊(LetOrConst)] -> N(true)
-LiteralPropertyName[1,0].Evaluation:RETURN:[☊(LiteralPropertyName), ☊(StringLiteral)] -> N(str)
-LiteralPropertyName[1,0].PropName:RETURN:[☊(LiteralPropertyName), ☊(StringLiteral)] -> N(str)
-Literal[0,0].Evaluation:RETURN:[☊(Literal), ☊(NullLiteral)] -> N(null)
-Literal[1,0].Evaluation:RETURN:[☊(Literal), ☊(BooleanLiteral)] -> N(bool)
-Literal[2,0].Evaluation:RETURN:[☊(Literal), ☊(NumericLiteral)] -> N(num | int | bigint)
-Literal[3,0].Evaluation:RETURN:[☊(Literal), ☊(StringLiteral)] -> N(str)
-LogicalANDExpression[1,0].AssignmentTargetType:RETURN:[☊(LogicalANDExpression), ☊(LogicalANDExpression), ☊(BitwiseORExpression)] -> N(~invalid~)
-LogicalANDExpression[1,0].IsFunctionDefinition:RETURN:[☊(LogicalANDExpression), ☊(LogicalANDExpression), ☊(BitwiseORExpression)] -> N(false)
-LogicalORExpression[1,0].AssignmentTargetType:RETURN:[☊(LogicalORExpression), ☊(LogicalORExpression), ☊(LogicalANDExpression)] -> N(~invalid~)
-LogicalORExpression[1,0].IsFunctionDefinition:RETURN:[☊(LogicalORExpression), ☊(LogicalORExpression), ☊(LogicalANDExpression)] -> N(false)
-MemberExpression[0,0].IsDestructuring:RETURN:[☊(MemberExpression), ☊(PrimaryExpression)] -> N(bool)
-MemberExpression[1,0].AssignmentTargetType:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(Expression)] -> N(~simple~)
-MemberExpression[1,0].IsDestructuring:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(Expression)] -> N(false)
-MemberExpression[1,0].IsFunctionDefinition:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(Expression)] -> N(false)
-MemberExpression[1,0].IsIdentifierRef:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(Expression)] -> N(false)
-MemberExpression[2,0].AssignmentTargetType:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(IdentifierName)] -> N(~simple~)
-MemberExpression[2,0].IsDestructuring:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(IdentifierName)] -> N(false)
-MemberExpression[2,0].IsFunctionDefinition:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(IdentifierName)] -> N(false)
-MemberExpression[2,0].IsIdentifierRef:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(IdentifierName)] -> N(false)
-MemberExpression[3,0].AssignmentTargetType:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(TemplateLiteral)] -> N(~invalid~)
-MemberExpression[3,0].IsDestructuring:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(TemplateLiteral)] -> N(false)
-MemberExpression[3,0].IsFunctionDefinition:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(TemplateLiteral)] -> N(false)
-MemberExpression[3,0].IsIdentifierRef:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(TemplateLiteral)] -> N(false)
-MemberExpression[4,0].AssignmentTargetType:RETURN:[☊(MemberExpression), ☊(SuperProperty)] -> N(~simple~)
-MemberExpression[4,0].IsDestructuring:RETURN:[☊(MemberExpression), ☊(SuperProperty)] -> N(false)
-MemberExpression[4,0].IsFunctionDefinition:RETURN:[☊(MemberExpression), ☊(SuperProperty)] -> N(false)
-MemberExpression[4,0].IsIdentifierRef:RETURN:[☊(MemberExpression), ☊(SuperProperty)] -> N(false)
-MemberExpression[5,0].IsDestructuring:RETURN:[☊(MemberExpression), ☊(MetaProperty)] -> N(false)
-MemberExpression[5,0].IsFunctionDefinition:RETURN:[☊(MemberExpression), ☊(MetaProperty)] -> N(false)
-MemberExpression[5,0].IsIdentifierRef:RETURN:[☊(MemberExpression), ☊(MetaProperty)] -> N(false)
-MemberExpression[6,0].AssignmentTargetType:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(Arguments)] -> N(~invalid~)
-MemberExpression[6,0].IsDestructuring:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(Arguments)] -> N(false)
-MemberExpression[6,0].IsFunctionDefinition:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(Arguments)] -> N(false)
-MemberExpression[6,0].IsIdentifierRef:RETURN:[☊(MemberExpression), ☊(MemberExpression), ☊(Arguments)] -> N(false)
-MethodDefinition[0,0].SpecialMethod:RETURN:[☊(MethodDefinition), ☊(PropertyName), ☊(UniqueFormalParameters), ☊(FunctionBody)] -> N(false)
-MethodDefinition[1,0].SpecialMethod:RETURN:[☊(MethodDefinition), ☊(GeneratorMethod)] -> N(true)
-MethodDefinition[2,0].SpecialMethod:RETURN:[☊(MethodDefinition), ☊(AsyncMethod)] -> N(true)
-MethodDefinition[3,0].SpecialMethod:RETURN:[☊(MethodDefinition), ☊(AsyncGeneratorMethod)] -> N(true)
-MethodDefinition[4,0].SpecialMethod:RETURN:[☊(MethodDefinition), ☊(PropertyName), ☊(FunctionBody)] -> N(true)
-MethodDefinition[5,0].SpecialMethod:RETURN:[☊(MethodDefinition), ☊(PropertyName), ☊(PropertySetParameterList), ☊(FunctionBody)] -> N(true)
-ModuleEnvironmentRecord.GetThisBinding:RETURN:[EnvironmentRecord] -> N(undef)
-ModuleEnvironmentRecord.GetThisBinding:RETURN:[null] -> N(undef)
-ModuleEnvironmentRecord.HasThisBinding:RETURN:[EnvironmentRecord] -> N(true)
-ModuleEnvironmentRecord.HasThisBinding:RETURN:[null] -> N(true)
-ModuleItem[1,0].ImportEntries:RETURN:[☊(ModuleItem), ☊(ExportDeclaration)] -> N(#725) @ {
+ImportMeta[0,0].AssignmentTargetType:[☊(ImportMeta)]: {
+  env: {
+    this -> ! ☊(ImportMeta)
+  }
+} ---> N(~invalid~)
+LeftHandSideExpression[1,0].IsDestructuring:[☊(LeftHandSideExpression), ☊(CallExpression)]: {
+  env: {
+    this -> ! ☊(LeftHandSideExpression)
+    CallExpression -> ! ☊(CallExpression)
+  }
+} ---> N(false)
+LeftHandSideExpression[1,0].IsFunctionDefinition:[☊(LeftHandSideExpression), ☊(CallExpression)]: {
+  env: {
+    this -> ! ☊(LeftHandSideExpression)
+    CallExpression -> ! ☊(CallExpression)
+  }
+} ---> N(false)
+LeftHandSideExpression[1,0].IsIdentifierRef:[☊(LeftHandSideExpression), ☊(CallExpression)]: {
+  env: {
+    this -> ! ☊(LeftHandSideExpression)
+    CallExpression -> ! ☊(CallExpression)
+  }
+} ---> N(false)
+LeftHandSideExpression[2,0].AssignmentTargetType:[☊(LeftHandSideExpression), ☊(OptionalExpression)]: {
+  env: {
+    this -> ! ☊(LeftHandSideExpression)
+    OptionalExpression -> ! ☊(OptionalExpression)
+  }
+} ---> N(~invalid~)
+LeftHandSideExpression[2,0].IsDestructuring:[☊(LeftHandSideExpression), ☊(OptionalExpression)]: {
+  env: {
+    this -> ! ☊(LeftHandSideExpression)
+    OptionalExpression -> ! ☊(OptionalExpression)
+  }
+} ---> N(false)
+LeftHandSideExpression[2,0].IsFunctionDefinition:[☊(LeftHandSideExpression), ☊(OptionalExpression)]: {
+  env: {
+    this -> ! ☊(LeftHandSideExpression)
+    OptionalExpression -> ! ☊(OptionalExpression)
+  }
+} ---> N(false)
+LeftHandSideExpression[2,0].IsIdentifierRef:[☊(LeftHandSideExpression), ☊(OptionalExpression)]: {
+  env: {
+    this -> ! ☊(LeftHandSideExpression)
+    OptionalExpression -> ! ☊(OptionalExpression)
+  }
+} ---> N(false)
+LetOrConst[0,0].IsConstantDeclaration:[☊(LetOrConst)]: {
+  env: {
+    this -> ! ☊(LetOrConst)
+  }
+} ---> N(false)
+LetOrConst[1,0].IsConstantDeclaration:[☊(LetOrConst)]: {
+  env: {
+    this -> ! ☊(LetOrConst)
+  }
+} ---> N(true)
+LiteralPropertyName[1,0].Evaluation:[☊(LiteralPropertyName), ☊(StringLiteral)]: {
+  env: {
+    this -> ! ☊(LiteralPropertyName)
+    StringLiteral -> ! ☊(StringLiteral)
+  }
+} ---> N(str)
+LiteralPropertyName[1,0].PropName:[☊(LiteralPropertyName), ☊(StringLiteral)]: {
+  env: {
+    this -> ! ☊(LiteralPropertyName)
+    StringLiteral -> ! ☊(StringLiteral)
+  }
+} ---> N(str)
+Literal[0,0].Evaluation:[☊(Literal), ☊(NullLiteral)]: {
+  env: {
+    this -> ! ☊(Literal)
+    NullLiteral -> ! ☊(NullLiteral)
+  }
+} ---> N(null)
+Literal[1,0].Evaluation:[☊(Literal), ☊(BooleanLiteral)]: {
+  env: {
+    this -> ! ☊(Literal)
+    BooleanLiteral -> ! ☊(BooleanLiteral)
+  }
+} ---> N(bool)
+Literal[2,0].Evaluation:[☊(Literal), ☊(NumericLiteral)]: {
+  env: {
+    this -> ! ☊(Literal)
+    NumericLiteral -> ! ☊(NumericLiteral)
+  }
+} ---> N(num | int | bigint)
+Literal[3,0].Evaluation:[☊(Literal), ☊(StringLiteral)]: {
+  env: {
+    this -> ! ☊(Literal)
+    StringLiteral -> ! ☊(StringLiteral)
+  }
+} ---> N(str)
+LogicalANDExpression[1,0].AssignmentTargetType:[☊(LogicalANDExpression), ☊(LogicalANDExpression), ☊(BitwiseORExpression)]: {
+  env: {
+    this -> ! ☊(LogicalANDExpression)
+    LogicalANDExpression -> ! ☊(LogicalANDExpression)
+    BitwiseORExpression -> ! ☊(BitwiseORExpression)
+  }
+} ---> N(~invalid~)
+LogicalANDExpression[1,0].IsFunctionDefinition:[☊(LogicalANDExpression), ☊(LogicalANDExpression), ☊(BitwiseORExpression)]: {
+  env: {
+    this -> ! ☊(LogicalANDExpression)
+    LogicalANDExpression -> ! ☊(LogicalANDExpression)
+    BitwiseORExpression -> ! ☊(BitwiseORExpression)
+  }
+} ---> N(false)
+LogicalORExpression[1,0].AssignmentTargetType:[☊(LogicalORExpression), ☊(LogicalORExpression), ☊(LogicalANDExpression)]: {
+  env: {
+    this -> ! ☊(LogicalORExpression)
+    LogicalORExpression -> ! ☊(LogicalORExpression)
+    LogicalANDExpression -> ! ☊(LogicalANDExpression)
+  }
+} ---> N(~invalid~)
+LogicalORExpression[1,0].IsFunctionDefinition:[☊(LogicalORExpression), ☊(LogicalORExpression), ☊(LogicalANDExpression)]: {
+  env: {
+    this -> ! ☊(LogicalORExpression)
+    LogicalORExpression -> ! ☊(LogicalORExpression)
+    LogicalANDExpression -> ! ☊(LogicalANDExpression)
+  }
+} ---> N(false)
+MemberExpression[0,0].IsDestructuring:[☊(MemberExpression), ☊(PrimaryExpression)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    PrimaryExpression -> ! ☊(PrimaryExpression)
+  }
+} ---> N(bool)
+MemberExpression[1,0].AssignmentTargetType:[☊(MemberExpression), ☊(MemberExpression), ☊(Expression)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    Expression -> ! ☊(Expression)
+  }
+} ---> N(~simple~)
+MemberExpression[1,0].IsDestructuring:[☊(MemberExpression), ☊(MemberExpression), ☊(Expression)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    Expression -> ! ☊(Expression)
+  }
+} ---> N(false)
+MemberExpression[1,0].IsFunctionDefinition:[☊(MemberExpression), ☊(MemberExpression), ☊(Expression)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    Expression -> ! ☊(Expression)
+  }
+} ---> N(false)
+MemberExpression[1,0].IsIdentifierRef:[☊(MemberExpression), ☊(MemberExpression), ☊(Expression)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    Expression -> ! ☊(Expression)
+  }
+} ---> N(false)
+MemberExpression[2,0].AssignmentTargetType:[☊(MemberExpression), ☊(MemberExpression), ☊(IdentifierName)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    IdentifierName -> ! ☊(IdentifierName)
+  }
+} ---> N(~simple~)
+MemberExpression[2,0].IsDestructuring:[☊(MemberExpression), ☊(MemberExpression), ☊(IdentifierName)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    IdentifierName -> ! ☊(IdentifierName)
+  }
+} ---> N(false)
+MemberExpression[2,0].IsFunctionDefinition:[☊(MemberExpression), ☊(MemberExpression), ☊(IdentifierName)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    IdentifierName -> ! ☊(IdentifierName)
+  }
+} ---> N(false)
+MemberExpression[2,0].IsIdentifierRef:[☊(MemberExpression), ☊(MemberExpression), ☊(IdentifierName)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    IdentifierName -> ! ☊(IdentifierName)
+  }
+} ---> N(false)
+MemberExpression[3,0].AssignmentTargetType:[☊(MemberExpression), ☊(MemberExpression), ☊(TemplateLiteral)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    TemplateLiteral -> ! ☊(TemplateLiteral)
+  }
+} ---> N(~invalid~)
+MemberExpression[3,0].IsDestructuring:[☊(MemberExpression), ☊(MemberExpression), ☊(TemplateLiteral)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    TemplateLiteral -> ! ☊(TemplateLiteral)
+  }
+} ---> N(false)
+MemberExpression[3,0].IsFunctionDefinition:[☊(MemberExpression), ☊(MemberExpression), ☊(TemplateLiteral)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    TemplateLiteral -> ! ☊(TemplateLiteral)
+  }
+} ---> N(false)
+MemberExpression[3,0].IsIdentifierRef:[☊(MemberExpression), ☊(MemberExpression), ☊(TemplateLiteral)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    TemplateLiteral -> ! ☊(TemplateLiteral)
+  }
+} ---> N(false)
+MemberExpression[4,0].AssignmentTargetType:[☊(MemberExpression), ☊(SuperProperty)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    SuperProperty -> ! ☊(SuperProperty)
+  }
+} ---> N(~simple~)
+MemberExpression[4,0].IsDestructuring:[☊(MemberExpression), ☊(SuperProperty)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    SuperProperty -> ! ☊(SuperProperty)
+  }
+} ---> N(false)
+MemberExpression[4,0].IsFunctionDefinition:[☊(MemberExpression), ☊(SuperProperty)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    SuperProperty -> ! ☊(SuperProperty)
+  }
+} ---> N(false)
+MemberExpression[4,0].IsIdentifierRef:[☊(MemberExpression), ☊(SuperProperty)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    SuperProperty -> ! ☊(SuperProperty)
+  }
+} ---> N(false)
+MemberExpression[5,0].IsDestructuring:[☊(MemberExpression), ☊(MetaProperty)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MetaProperty -> ! ☊(MetaProperty)
+  }
+} ---> N(false)
+MemberExpression[5,0].IsFunctionDefinition:[☊(MemberExpression), ☊(MetaProperty)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MetaProperty -> ! ☊(MetaProperty)
+  }
+} ---> N(false)
+MemberExpression[5,0].IsIdentifierRef:[☊(MemberExpression), ☊(MetaProperty)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MetaProperty -> ! ☊(MetaProperty)
+  }
+} ---> N(false)
+MemberExpression[6,0].AssignmentTargetType:[☊(MemberExpression), ☊(MemberExpression), ☊(Arguments)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    Arguments -> ! ☊(Arguments)
+  }
+} ---> N(~invalid~)
+MemberExpression[6,0].IsDestructuring:[☊(MemberExpression), ☊(MemberExpression), ☊(Arguments)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    Arguments -> ! ☊(Arguments)
+  }
+} ---> N(false)
+MemberExpression[6,0].IsFunctionDefinition:[☊(MemberExpression), ☊(MemberExpression), ☊(Arguments)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    Arguments -> ! ☊(Arguments)
+  }
+} ---> N(false)
+MemberExpression[6,0].IsIdentifierRef:[☊(MemberExpression), ☊(MemberExpression), ☊(Arguments)]: {
+  env: {
+    this -> ! ☊(MemberExpression)
+    MemberExpression -> ! ☊(MemberExpression)
+    Arguments -> ! ☊(Arguments)
+  }
+} ---> N(false)
+MethodDefinition[0,0].SpecialMethod:[☊(MethodDefinition), ☊(PropertyName), ☊(UniqueFormalParameters), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(MethodDefinition)
+    PropertyName -> ! ☊(PropertyName)
+    UniqueFormalParameters -> ! ☊(UniqueFormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(false)
+MethodDefinition[1,0].SpecialMethod:[☊(MethodDefinition), ☊(GeneratorMethod)]: {
+  env: {
+    this -> ! ☊(MethodDefinition)
+    GeneratorMethod -> ! ☊(GeneratorMethod)
+  }
+} ---> N(true)
+MethodDefinition[2,0].SpecialMethod:[☊(MethodDefinition), ☊(AsyncMethod)]: {
+  env: {
+    this -> ! ☊(MethodDefinition)
+    AsyncMethod -> ! ☊(AsyncMethod)
+  }
+} ---> N(true)
+MethodDefinition[3,0].SpecialMethod:[☊(MethodDefinition), ☊(AsyncGeneratorMethod)]: {
+  env: {
+    this -> ! ☊(MethodDefinition)
+    AsyncGeneratorMethod -> ! ☊(AsyncGeneratorMethod)
+  }
+} ---> N(true)
+MethodDefinition[4,0].SpecialMethod:[☊(MethodDefinition), ☊(PropertyName), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(MethodDefinition)
+    PropertyName -> ! ☊(PropertyName)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(true)
+MethodDefinition[5,0].SpecialMethod:[☊(MethodDefinition), ☊(PropertyName), ☊(PropertySetParameterList), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(MethodDefinition)
+    PropertyName -> ! ☊(PropertyName)
+    PropertySetParameterList -> ! ☊(PropertySetParameterList)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(true)
+ModuleEnvironmentRecord.GetThisBinding:[EnvironmentRecord]: {
+  env: {
+    envRec -> ! N(EnvironmentRecord | null)
+  }
+} ---> N(undef)
+ModuleEnvironmentRecord.GetThisBinding:[null]: {
+  env: {
+    envRec -> ! N(EnvironmentRecord | null)
+  }
+} ---> N(undef)
+ModuleEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(true)
+ModuleEnvironmentRecord.HasThisBinding:[null]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(true)
+ModuleItem[1,0].ImportEntries:[☊(ModuleItem), ☊(ExportDeclaration)]: {
+  env: {
+    this -> ! ☊(ModuleItem)
+    ExportDeclaration -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#725) @ {
   #725 -> []
 }
-ModuleItem[2,0].ImportEntries:RETURN:[☊(ModuleItem), ☊(StatementListItem)] -> N(#725) @ {
+ModuleItem[2,0].ImportEntries:[☊(ModuleItem), ☊(StatementListItem)]: {
+  env: {
+    this -> ! ☊(ModuleItem)
+    StatementListItem -> ! ☊(StatementListItem)
+  }
+} ---> N(#725) @ {
   #725 -> []
 }
-Module[0,0].ImportEntries:RETURN:[☊(Module)] -> N(#723) @ {
+Module[0,0].ImportEntries:[☊(Module)]: {
+  env: {
+    this -> ! ☊(Module)
+  }
+} ---> N(#723) @ {
   #723 -> []
 }
-MultiplicativeExpression[1,0].AssignmentTargetType:RETURN:[☊(MultiplicativeExpression), ☊(MultiplicativeExpression), ☊(MultiplicativeOperator), ☊(ExponentiationExpression)] -> N(~invalid~)
-MultiplicativeExpression[1,0].IsFunctionDefinition:RETURN:[☊(MultiplicativeExpression), ☊(MultiplicativeExpression), ☊(MultiplicativeOperator), ☊(ExponentiationExpression)] -> N(false)
-NewExpression[1,0].AssignmentTargetType:RETURN:[☊(NewExpression), ☊(NewExpression)] -> N(~invalid~)
-NewExpression[1,0].IsDestructuring:RETURN:[☊(NewExpression), ☊(NewExpression)] -> N(false)
-NewExpression[1,0].IsFunctionDefinition:RETURN:[☊(NewExpression), ☊(NewExpression)] -> N(false)
-NewExpression[1,0].IsIdentifierRef:RETURN:[☊(NewExpression), ☊(NewExpression)] -> N(false)
-NewTarget[0,0].AssignmentTargetType:RETURN:[☊(NewTarget)] -> N(~invalid~)
-ObjectBindingPattern[0,0].ContainsExpression:RETURN:[☊(ObjectBindingPattern)] -> N(false)
-ObjectBindingPattern[1,0].ContainsExpression:RETURN:[☊(ObjectBindingPattern), ☊(BindingRestProperty)] -> N(false)
-ObjectEnvironmentRecord.HasThisBinding:RETURN:[EnvironmentRecord] -> N(false)
-ObjectEnvironmentRecord.HasThisBinding:RETURN:[null] -> N(false)
-ParenthesizedExpression[0,0].AssignmentTargetType:RETURN:[☊(ParenthesizedExpression), ☊(Expression)] -> N((~invalid~ | ~simple~))
-ParenthesizedExpression[0,0].IsFunctionDefinition:RETURN:[☊(ParenthesizedExpression), ☊(Expression)] -> N(bool)
-PrimaryExpression[0,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression)] -> N(~invalid~)
-PrimaryExpression[0,0].Evaluation:RETURN:[☊(PrimaryExpression)] -> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
+MultiplicativeExpression[1,0].AssignmentTargetType:[☊(MultiplicativeExpression), ☊(MultiplicativeExpression), ☊(MultiplicativeOperator), ☊(ExponentiationExpression)]: {
+  env: {
+    this -> ! ☊(MultiplicativeExpression)
+    MultiplicativeExpression -> ! ☊(MultiplicativeExpression)
+    MultiplicativeOperator -> ! ☊(MultiplicativeOperator)
+    ExponentiationExpression -> ! ☊(ExponentiationExpression)
+  }
+} ---> N(~invalid~)
+MultiplicativeExpression[1,0].IsFunctionDefinition:[☊(MultiplicativeExpression), ☊(MultiplicativeExpression), ☊(MultiplicativeOperator), ☊(ExponentiationExpression)]: {
+  env: {
+    this -> ! ☊(MultiplicativeExpression)
+    MultiplicativeExpression -> ! ☊(MultiplicativeExpression)
+    MultiplicativeOperator -> ! ☊(MultiplicativeOperator)
+    ExponentiationExpression -> ! ☊(ExponentiationExpression)
+  }
+} ---> N(false)
+NewExpression[1,0].AssignmentTargetType:[☊(NewExpression), ☊(NewExpression)]: {
+  env: {
+    this -> ! ☊(NewExpression)
+    NewExpression -> ! ☊(NewExpression)
+  }
+} ---> N(~invalid~)
+NewExpression[1,0].IsDestructuring:[☊(NewExpression), ☊(NewExpression)]: {
+  env: {
+    this -> ! ☊(NewExpression)
+    NewExpression -> ! ☊(NewExpression)
+  }
+} ---> N(false)
+NewExpression[1,0].IsFunctionDefinition:[☊(NewExpression), ☊(NewExpression)]: {
+  env: {
+    this -> ! ☊(NewExpression)
+    NewExpression -> ! ☊(NewExpression)
+  }
+} ---> N(false)
+NewExpression[1,0].IsIdentifierRef:[☊(NewExpression), ☊(NewExpression)]: {
+  env: {
+    this -> ! ☊(NewExpression)
+    NewExpression -> ! ☊(NewExpression)
+  }
+} ---> N(false)
+NewTarget[0,0].AssignmentTargetType:[☊(NewTarget)]: {
+  env: {
+    this -> ! ☊(NewTarget)
+  }
+} ---> N(~invalid~)
+ObjectBindingPattern[0,0].ContainsExpression:[☊(ObjectBindingPattern)]: {
+  env: {
+    this -> ! ☊(ObjectBindingPattern)
+  }
+} ---> N(false)
+ObjectBindingPattern[1,0].ContainsExpression:[☊(ObjectBindingPattern), ☊(BindingRestProperty)]: {
+  env: {
+    this -> ! ☊(ObjectBindingPattern)
+    BindingRestProperty -> ! ☊(BindingRestProperty)
+  }
+} ---> N(false)
+ObjectEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(false)
+ObjectEnvironmentRecord.HasThisBinding:[null]: {
+  env: {
+    envRec -> ! EnvironmentRecord | null
+  }
+} ---> N(false)
+ParenthesizedExpression[0,0].AssignmentTargetType:[☊(ParenthesizedExpression), ☊(Expression)]: {
+  env: {
+    this -> ! ☊(ParenthesizedExpression)
+    Expression -> ! ☊(Expression)
+  }
+} ---> N((~invalid~ | ~simple~))
+ParenthesizedExpression[0,0].IsFunctionDefinition:[☊(ParenthesizedExpression), ☊(Expression)]: {
+  env: {
+    this -> ! ☊(ParenthesizedExpression)
+    Expression -> ! ☊(Expression)
+  }
+} ---> N(bool)
+PrimaryExpression[0,0].AssignmentTargetType:[☊(PrimaryExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[0,0].Evaluation:[☊(PrimaryExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+  }
+} ---> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
   #122 -> OrdinaryObject {
     Prototype -> ! #Global.ReferenceError.prototype
     ErrorData -> ! undef
   }
 }
-PrimaryExpression[0,0].IsFunctionDefinition:RETURN:[☊(PrimaryExpression)] -> N(false)
-PrimaryExpression[0,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression)] -> N(false)
-PrimaryExpression[1,0].IsFunctionDefinition:RETURN:[☊(PrimaryExpression), ☊(IdentifierReference)] -> N(false)
-PrimaryExpression[1,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(IdentifierReference)] -> N(true)
-PrimaryExpression[10,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(RegularExpressionLiteral)] -> N(~invalid~)
-PrimaryExpression[10,0].IsFunctionDefinition:RETURN:[☊(PrimaryExpression), ☊(RegularExpressionLiteral)] -> N(false)
-PrimaryExpression[10,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(RegularExpressionLiteral)] -> N(false)
-PrimaryExpression[11,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(TemplateLiteral)] -> N(~invalid~)
-PrimaryExpression[11,0].IsFunctionDefinition:RETURN:[☊(PrimaryExpression), ☊(TemplateLiteral)] -> N(false)
-PrimaryExpression[11,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(TemplateLiteral)] -> N(false)
-PrimaryExpression[12,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)] -> N((~invalid~ | ~simple~))
-PrimaryExpression[12,0].HasName:RETURN:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)] -> N(false)
-PrimaryExpression[12,0].IsFunctionDefinition:RETURN:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)] -> N(bool)
-PrimaryExpression[12,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)] -> N(false)
-PrimaryExpression[2,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(Literal)] -> N(~invalid~)
-PrimaryExpression[2,0].IsFunctionDefinition:RETURN:[☊(PrimaryExpression), ☊(Literal)] -> N(false)
-PrimaryExpression[2,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(Literal)] -> N(false)
-PrimaryExpression[3,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(ArrayLiteral)] -> N(~invalid~)
-PrimaryExpression[3,0].IsFunctionDefinition:RETURN:[☊(PrimaryExpression), ☊(ArrayLiteral)] -> N(false)
-PrimaryExpression[3,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(ArrayLiteral)] -> N(false)
-PrimaryExpression[4,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(ObjectLiteral)] -> N(~invalid~)
-PrimaryExpression[4,0].IsFunctionDefinition:RETURN:[☊(PrimaryExpression), ☊(ObjectLiteral)] -> N(false)
-PrimaryExpression[4,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(ObjectLiteral)] -> N(false)
-PrimaryExpression[5,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(FunctionExpression)] -> N(~invalid~)
-PrimaryExpression[5,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(FunctionExpression)] -> N(false)
-PrimaryExpression[6,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(ClassExpression)] -> N(~invalid~)
-PrimaryExpression[6,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(ClassExpression)] -> N(false)
-PrimaryExpression[7,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(GeneratorExpression)] -> N(~invalid~)
-PrimaryExpression[7,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(GeneratorExpression)] -> N(false)
-PrimaryExpression[8,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(AsyncFunctionExpression)] -> N(~invalid~)
-PrimaryExpression[8,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(AsyncFunctionExpression)] -> N(false)
-PrimaryExpression[9,0].AssignmentTargetType:RETURN:[☊(PrimaryExpression), ☊(AsyncGeneratorExpression)] -> N(~invalid~)
-PrimaryExpression[9,0].IsIdentifierRef:RETURN:[☊(PrimaryExpression), ☊(AsyncGeneratorExpression)] -> N(false)
-PropertyDefinition[0,0].PropName:RETURN:[☊(PropertyDefinition), ☊(IdentifierReference)] -> N(str)
-PropertyDefinition[1,0].EarlyErrors:RETURN:[☊(PropertyDefinition), ☊(CoverInitializedName)] -> T(#1625) @ {
+PrimaryExpression[0,0].IsFunctionDefinition:[☊(PrimaryExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+  }
+} ---> N(false)
+PrimaryExpression[0,0].IsIdentifierRef:[☊(PrimaryExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+  }
+} ---> N(false)
+PrimaryExpression[1,0].IsFunctionDefinition:[☊(PrimaryExpression), ☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    IdentifierReference -> ! ☊(IdentifierReference)
+  }
+} ---> N(false)
+PrimaryExpression[1,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    IdentifierReference -> ! ☊(IdentifierReference)
+  }
+} ---> N(true)
+PrimaryExpression[10,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(RegularExpressionLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    RegularExpressionLiteral -> ! ☊(RegularExpressionLiteral)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[10,0].IsFunctionDefinition:[☊(PrimaryExpression), ☊(RegularExpressionLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    RegularExpressionLiteral -> ! ☊(RegularExpressionLiteral)
+  }
+} ---> N(false)
+PrimaryExpression[10,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(RegularExpressionLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    RegularExpressionLiteral -> ! ☊(RegularExpressionLiteral)
+  }
+} ---> N(false)
+PrimaryExpression[11,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(TemplateLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    TemplateLiteral -> ! ☊(TemplateLiteral)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[11,0].IsFunctionDefinition:[☊(PrimaryExpression), ☊(TemplateLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    TemplateLiteral -> ! ☊(TemplateLiteral)
+  }
+} ---> N(false)
+PrimaryExpression[11,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(TemplateLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    TemplateLiteral -> ! ☊(TemplateLiteral)
+  }
+} ---> N(false)
+PrimaryExpression[12,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    CoverParenthesizedExpressionAndArrowParameterList -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N((~invalid~ | ~simple~))
+PrimaryExpression[12,0].HasName:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    CoverParenthesizedExpressionAndArrowParameterList -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(false)
+PrimaryExpression[12,0].IsFunctionDefinition:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    CoverParenthesizedExpressionAndArrowParameterList -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(bool)
+PrimaryExpression[12,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(CoverParenthesizedExpressionAndArrowParameterList)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    CoverParenthesizedExpressionAndArrowParameterList -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(false)
+PrimaryExpression[2,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(Literal)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    Literal -> ! ☊(Literal)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[2,0].IsFunctionDefinition:[☊(PrimaryExpression), ☊(Literal)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    Literal -> ! ☊(Literal)
+  }
+} ---> N(false)
+PrimaryExpression[2,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(Literal)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    Literal -> ! ☊(Literal)
+  }
+} ---> N(false)
+PrimaryExpression[3,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(ArrayLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    ArrayLiteral -> ! ☊(ArrayLiteral)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[3,0].IsFunctionDefinition:[☊(PrimaryExpression), ☊(ArrayLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    ArrayLiteral -> ! ☊(ArrayLiteral)
+  }
+} ---> N(false)
+PrimaryExpression[3,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(ArrayLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    ArrayLiteral -> ! ☊(ArrayLiteral)
+  }
+} ---> N(false)
+PrimaryExpression[4,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(ObjectLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    ObjectLiteral -> ! ☊(ObjectLiteral)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[4,0].IsFunctionDefinition:[☊(PrimaryExpression), ☊(ObjectLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    ObjectLiteral -> ! ☊(ObjectLiteral)
+  }
+} ---> N(false)
+PrimaryExpression[4,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(ObjectLiteral)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    ObjectLiteral -> ! ☊(ObjectLiteral)
+  }
+} ---> N(false)
+PrimaryExpression[5,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(FunctionExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    FunctionExpression -> ! ☊(FunctionExpression)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[5,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(FunctionExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    FunctionExpression -> ! ☊(FunctionExpression)
+  }
+} ---> N(false)
+PrimaryExpression[6,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(ClassExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    ClassExpression -> ! ☊(ClassExpression)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[6,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(ClassExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    ClassExpression -> ! ☊(ClassExpression)
+  }
+} ---> N(false)
+PrimaryExpression[7,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(GeneratorExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    GeneratorExpression -> ! ☊(GeneratorExpression)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[7,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(GeneratorExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    GeneratorExpression -> ! ☊(GeneratorExpression)
+  }
+} ---> N(false)
+PrimaryExpression[8,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(AsyncFunctionExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    AsyncFunctionExpression -> ! ☊(AsyncFunctionExpression)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[8,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(AsyncFunctionExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    AsyncFunctionExpression -> ! ☊(AsyncFunctionExpression)
+  }
+} ---> N(false)
+PrimaryExpression[9,0].AssignmentTargetType:[☊(PrimaryExpression), ☊(AsyncGeneratorExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    AsyncGeneratorExpression -> ! ☊(AsyncGeneratorExpression)
+  }
+} ---> N(~invalid~)
+PrimaryExpression[9,0].IsIdentifierRef:[☊(PrimaryExpression), ☊(AsyncGeneratorExpression)]: {
+  env: {
+    this -> ! ☊(PrimaryExpression)
+    AsyncGeneratorExpression -> ! ☊(AsyncGeneratorExpression)
+  }
+} ---> N(false)
+PropertyDefinition[0,0].PropName:[☊(PropertyDefinition), ☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(PropertyDefinition)
+    IdentifierReference -> ! ☊(IdentifierReference)
+  }
+} ---> N(str)
+PropertyDefinition[1,0].EarlyErrors:[☊(PropertyDefinition), ☊(CoverInitializedName)]: {
+  env: {
+    this -> ! ☊(PropertyDefinition)
+    CoverInitializedName -> ! ☊(CoverInitializedName)
+  }
+} ---> T(#1625) @ {
   #1625 -> OrdinaryObject {
     Prototype -> ! #Global.SyntaxError.prototype
     ErrorData -> ! undef
   }
 }
-PropertyName[0,0].IsComputedPropertyKey:RETURN:[☊(PropertyName), ☊(LiteralPropertyName)] -> N(false)
-PropertyName[1,0].IsComputedPropertyKey:RETURN:[☊(PropertyName), ☊(ComputedPropertyName)] -> N(true)
-RelationalExpression[1,0].AssignmentTargetType:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(~invalid~)
-RelationalExpression[1,0].IsFunctionDefinition:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(false)
-RelationalExpression[2,0].AssignmentTargetType:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(~invalid~)
-RelationalExpression[2,0].IsFunctionDefinition:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(false)
-RelationalExpression[3,0].AssignmentTargetType:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(~invalid~)
-RelationalExpression[3,0].IsFunctionDefinition:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(false)
-RelationalExpression[4,0].AssignmentTargetType:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(~invalid~)
-RelationalExpression[4,0].IsFunctionDefinition:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(false)
-RelationalExpression[5,0].AssignmentTargetType:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(~invalid~)
-RelationalExpression[5,0].IsFunctionDefinition:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(false)
-RelationalExpression[6,0].AssignmentTargetType:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(~invalid~)
-RelationalExpression[6,0].IsFunctionDefinition:RETURN:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)] -> N(false)
-ResolveThisBinding:RETURN:[] -> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
+PropertyName[0,0].IsComputedPropertyKey:[☊(PropertyName), ☊(LiteralPropertyName)]: {
+  env: {
+    this -> ! ☊(PropertyName)
+    LiteralPropertyName -> ! ☊(LiteralPropertyName)
+  }
+} ---> N(false)
+PropertyName[1,0].IsComputedPropertyKey:[☊(PropertyName), ☊(ComputedPropertyName)]: {
+  env: {
+    this -> ! ☊(PropertyName)
+    ComputedPropertyName -> ! ☊(ComputedPropertyName)
+  }
+} ---> N(true)
+RelationalExpression[1,0].AssignmentTargetType:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(~invalid~)
+RelationalExpression[1,0].IsFunctionDefinition:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(false)
+RelationalExpression[2,0].AssignmentTargetType:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(~invalid~)
+RelationalExpression[2,0].IsFunctionDefinition:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(false)
+RelationalExpression[3,0].AssignmentTargetType:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(~invalid~)
+RelationalExpression[3,0].IsFunctionDefinition:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(false)
+RelationalExpression[4,0].AssignmentTargetType:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(~invalid~)
+RelationalExpression[4,0].IsFunctionDefinition:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(false)
+RelationalExpression[5,0].AssignmentTargetType:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(~invalid~)
+RelationalExpression[5,0].IsFunctionDefinition:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(false)
+RelationalExpression[6,0].AssignmentTargetType:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(~invalid~)
+RelationalExpression[6,0].IsFunctionDefinition:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
+  env: {
+    this -> ! ☊(RelationalExpression)
+    RelationalExpression -> ! ☊(RelationalExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+  }
+} ---> N(false)
+ResolveThisBinding:[]: ɛ ---> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
   #122 -> OrdinaryObject {
     Prototype -> ! #Global.ReferenceError.prototype
     ErrorData -> ! undef
   }
 }
-ShiftExpression[1,0].AssignmentTargetType:RETURN:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)] -> N(~invalid~)
-ShiftExpression[1,0].IsFunctionDefinition:RETURN:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)] -> N(false)
-ShiftExpression[2,0].AssignmentTargetType:RETURN:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)] -> N(~invalid~)
-ShiftExpression[2,0].IsFunctionDefinition:RETURN:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)] -> N(false)
-ShiftExpression[3,0].AssignmentTargetType:RETURN:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)] -> N(~invalid~)
-ShiftExpression[3,0].IsFunctionDefinition:RETURN:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)] -> N(false)
-SingleNameBinding[0,0].ContainsExpression:RETURN:[☊(SingleNameBinding), ☊(BindingIdentifier)] -> N(false)
-SingleNameBinding[0,0].HasInitializer:RETURN:[☊(SingleNameBinding), ☊(BindingIdentifier)] -> N(false)
-SingleNameBinding[0,0].IsSimpleParameterList:RETURN:[☊(SingleNameBinding), ☊(BindingIdentifier)] -> N(true)
-SingleNameBinding[0,1].ContainsExpression:RETURN:[☊(SingleNameBinding), ☊(BindingIdentifier), ☊(Initializer)] -> N(true)
-SingleNameBinding[0,1].HasInitializer:RETURN:[☊(SingleNameBinding), ☊(BindingIdentifier), ☊(Initializer)] -> N(true)
-SingleNameBinding[0,1].IsSimpleParameterList:RETURN:[☊(SingleNameBinding), ☊(BindingIdentifier), ☊(Initializer)] -> N(false)
-UnaryExpression[1,0].AssignmentTargetType:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(~invalid~)
-UnaryExpression[1,0].IsFunctionDefinition:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(false)
-UnaryExpression[2,0].AssignmentTargetType:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(~invalid~)
-UnaryExpression[2,0].IsFunctionDefinition:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(false)
-UnaryExpression[3,0].AssignmentTargetType:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(~invalid~)
-UnaryExpression[3,0].IsFunctionDefinition:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(false)
-UnaryExpression[4,0].AssignmentTargetType:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(~invalid~)
-UnaryExpression[4,0].IsFunctionDefinition:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(false)
-UnaryExpression[5,0].AssignmentTargetType:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(~invalid~)
-UnaryExpression[5,0].IsFunctionDefinition:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(false)
-UnaryExpression[6,0].AssignmentTargetType:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(~invalid~)
-UnaryExpression[6,0].IsFunctionDefinition:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(false)
-UnaryExpression[7,0].AssignmentTargetType:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(~invalid~)
-UnaryExpression[7,0].IsFunctionDefinition:RETURN:[☊(UnaryExpression), ☊(UnaryExpression)] -> N(false)
-UnaryExpression[8,0].AssignmentTargetType:RETURN:[☊(UnaryExpression), ☊(AwaitExpression)] -> N(~invalid~)
-UnaryExpression[8,0].IsFunctionDefinition:RETURN:[☊(UnaryExpression), ☊(AwaitExpression)] -> N(false)
-UpdateExpression[1,0].AssignmentTargetType:RETURN:[☊(UpdateExpression), ☊(LeftHandSideExpression)] -> N(~invalid~)
-UpdateExpression[1,0].IsFunctionDefinition:RETURN:[☊(UpdateExpression), ☊(LeftHandSideExpression)] -> N(false)
-UpdateExpression[2,0].AssignmentTargetType:RETURN:[☊(UpdateExpression), ☊(LeftHandSideExpression)] -> N(~invalid~)
-UpdateExpression[2,0].IsFunctionDefinition:RETURN:[☊(UpdateExpression), ☊(LeftHandSideExpression)] -> N(false)
-UpdateExpression[3,0].AssignmentTargetType:RETURN:[☊(UpdateExpression), ☊(UnaryExpression)] -> N(~invalid~)
-UpdateExpression[3,0].IsFunctionDefinition:RETURN:[☊(UpdateExpression), ☊(UnaryExpression)] -> N(false)
-UpdateExpression[4,0].AssignmentTargetType:RETURN:[☊(UpdateExpression), ☊(UnaryExpression)] -> N(~invalid~)
-UpdateExpression[4,0].IsFunctionDefinition:RETURN:[☊(UpdateExpression), ☊(UnaryExpression)] -> N(false)
+ShiftExpression[1,0].AssignmentTargetType:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)]: {
+  env: {
+    this -> ! ☊(ShiftExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+  }
+} ---> N(~invalid~)
+ShiftExpression[1,0].IsFunctionDefinition:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)]: {
+  env: {
+    this -> ! ☊(ShiftExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+  }
+} ---> N(false)
+ShiftExpression[2,0].AssignmentTargetType:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)]: {
+  env: {
+    this -> ! ☊(ShiftExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+  }
+} ---> N(~invalid~)
+ShiftExpression[2,0].IsFunctionDefinition:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)]: {
+  env: {
+    this -> ! ☊(ShiftExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+  }
+} ---> N(false)
+ShiftExpression[3,0].AssignmentTargetType:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)]: {
+  env: {
+    this -> ! ☊(ShiftExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+  }
+} ---> N(~invalid~)
+ShiftExpression[3,0].IsFunctionDefinition:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)]: {
+  env: {
+    this -> ! ☊(ShiftExpression)
+    ShiftExpression -> ! ☊(ShiftExpression)
+    AdditiveExpression -> ! ☊(AdditiveExpression)
+  }
+} ---> N(false)
+SingleNameBinding[0,0].ContainsExpression:[☊(SingleNameBinding), ☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(SingleNameBinding)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+  }
+} ---> N(false)
+SingleNameBinding[0,0].HasInitializer:[☊(SingleNameBinding), ☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(SingleNameBinding)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+  }
+} ---> N(false)
+SingleNameBinding[0,0].IsSimpleParameterList:[☊(SingleNameBinding), ☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(SingleNameBinding)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+  }
+} ---> N(true)
+SingleNameBinding[0,1].ContainsExpression:[☊(SingleNameBinding), ☊(BindingIdentifier), ☊(Initializer)]: {
+  env: {
+    this -> ! ☊(SingleNameBinding)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Initializer -> ! ☊(Initializer)
+  }
+} ---> N(true)
+SingleNameBinding[0,1].HasInitializer:[☊(SingleNameBinding), ☊(BindingIdentifier), ☊(Initializer)]: {
+  env: {
+    this -> ! ☊(SingleNameBinding)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Initializer -> ! ☊(Initializer)
+  }
+} ---> N(true)
+SingleNameBinding[0,1].IsSimpleParameterList:[☊(SingleNameBinding), ☊(BindingIdentifier), ☊(Initializer)]: {
+  env: {
+    this -> ! ☊(SingleNameBinding)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Initializer -> ! ☊(Initializer)
+  }
+} ---> N(false)
+UnaryExpression[1,0].AssignmentTargetType:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(~invalid~)
+UnaryExpression[1,0].IsFunctionDefinition:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(false)
+UnaryExpression[2,0].AssignmentTargetType:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(~invalid~)
+UnaryExpression[2,0].IsFunctionDefinition:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(false)
+UnaryExpression[3,0].AssignmentTargetType:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(~invalid~)
+UnaryExpression[3,0].IsFunctionDefinition:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(false)
+UnaryExpression[4,0].AssignmentTargetType:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(~invalid~)
+UnaryExpression[4,0].IsFunctionDefinition:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(false)
+UnaryExpression[5,0].AssignmentTargetType:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(~invalid~)
+UnaryExpression[5,0].IsFunctionDefinition:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(false)
+UnaryExpression[6,0].AssignmentTargetType:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(~invalid~)
+UnaryExpression[6,0].IsFunctionDefinition:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(false)
+UnaryExpression[7,0].AssignmentTargetType:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(~invalid~)
+UnaryExpression[7,0].IsFunctionDefinition:[☊(UnaryExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(false)
+UnaryExpression[8,0].AssignmentTargetType:[☊(UnaryExpression), ☊(AwaitExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    AwaitExpression -> ! ☊(AwaitExpression)
+  }
+} ---> N(~invalid~)
+UnaryExpression[8,0].IsFunctionDefinition:[☊(UnaryExpression), ☊(AwaitExpression)]: {
+  env: {
+    this -> ! ☊(UnaryExpression)
+    AwaitExpression -> ! ☊(AwaitExpression)
+  }
+} ---> N(false)
+UpdateExpression[1,0].AssignmentTargetType:[☊(UpdateExpression), ☊(LeftHandSideExpression)]: {
+  env: {
+    this -> ! ☊(UpdateExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+  }
+} ---> N(~invalid~)
+UpdateExpression[1,0].IsFunctionDefinition:[☊(UpdateExpression), ☊(LeftHandSideExpression)]: {
+  env: {
+    this -> ! ☊(UpdateExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+  }
+} ---> N(false)
+UpdateExpression[2,0].AssignmentTargetType:[☊(UpdateExpression), ☊(LeftHandSideExpression)]: {
+  env: {
+    this -> ! ☊(UpdateExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+  }
+} ---> N(~invalid~)
+UpdateExpression[2,0].IsFunctionDefinition:[☊(UpdateExpression), ☊(LeftHandSideExpression)]: {
+  env: {
+    this -> ! ☊(UpdateExpression)
+    LeftHandSideExpression -> ! ☊(LeftHandSideExpression)
+  }
+} ---> N(false)
+UpdateExpression[3,0].AssignmentTargetType:[☊(UpdateExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UpdateExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(~invalid~)
+UpdateExpression[3,0].IsFunctionDefinition:[☊(UpdateExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UpdateExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(false)
+UpdateExpression[4,0].AssignmentTargetType:[☊(UpdateExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UpdateExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(~invalid~)
+UpdateExpression[4,0].IsFunctionDefinition:[☊(UpdateExpression), ☊(UnaryExpression)]: {
+  env: {
+    this -> ! ☊(UpdateExpression)
+    UnaryExpression -> ! ☊(UnaryExpression)
+  }
+} ---> N(false)

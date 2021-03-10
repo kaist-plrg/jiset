@@ -147,8 +147,14 @@ class AbsSemantics(
   }
 
   // get string for result of control points
-  def getString(color: String): String =
-    rpMap.keySet.toList.map(getString(_, color, true)).sorted.mkString(LINE_SEP)
+  def getString(color: String): String = rpMap.keySet.toList.map(rp => {
+    val ReturnPoint(func, view) = rp
+    val entryCP = NodePoint(func.entry, view)
+    val from = beautify(this(entryCP))
+    val (h, v) = this(rp)
+    val to = beautify(v) + (if (h.isBottom) "" else s" @ ${beautify(h)}")
+    setColor(color)(s"${func.name}:$view:") + s" $from ---> $to"
+  }).sorted.mkString(LINE_SEP)
   def getString(cp: ControlPoint): String = getString(cp, "", true)
   def getString(cp: ControlPoint, color: String, detail: Boolean): String = {
     val func = funcOf(cp).name

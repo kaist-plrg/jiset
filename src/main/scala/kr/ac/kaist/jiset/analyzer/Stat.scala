@@ -7,12 +7,17 @@ import scala.Console._
 import java.io.PrintWriter
 
 class Stat(sem: AbsSemantics) {
+  // iteration
   var iter = 0
   private var counter: Map[ControlPoint, Int] = Map()
 
   // initalize
   mkdir(ANALYZE_LOG_DIR)
-  private val nfSummary = getPrintWriter(s"$ANALYZE_LOG_DIR/summary")
+  private val nf = getPrintWriter(s"$ANALYZE_LOG_DIR/summary")
+
+  // time
+  private val startTime = System.currentTimeMillis
+  def time: Long = System.currentTimeMillis - startTime
 
   // increase counter
   def inc[T <: ControlPoint](cp: T): T = {
@@ -20,16 +25,16 @@ class Stat(sem: AbsSemantics) {
     cp
   }
 
-  val worklist = sem.worklist
-
-  logItems(nfSummary, "", "", "", "#Update")
-  logItems(nfSummary, "#", "|WL|", "|CP|", "min", "max", "avg.", "median")
+  // header
+  log("", "", "", "", "#Update")
+  log("#", "time (ms)", "|WL|", "|CP|", "min", "max", "avg.", "median")
 
   // dump stats
   def dump(): Unit = {
+    val worklist = sem.worklist
+
     // dump summary
-    // # of iter, worklist size, # of control points, min, max, avg, median
-    logItems(nfSummary, iter, worklist.size, sem.size, min, max, f"$avg%.2f", median.toInt)
+    log(f"$iter,3d", f"$time%,3d", worklist.size, sem.size, min, max, f"$avg%.2f", median.toInt)
 
     // dump worklist
     val wapp = new Appender
@@ -48,10 +53,10 @@ class Stat(sem: AbsSemantics) {
   }
 
   // close
-  def close(): Unit = nfSummary.close()
+  def close(): Unit = nf.close()
 
   // stats helpers
-  private def logItems(nf: PrintWriter, items: Any*): Unit = {
+  private def log(items: Any*): Unit = {
     nf.println(items.map(_.toString).mkString("\t"))
     nf.flush()
   }
