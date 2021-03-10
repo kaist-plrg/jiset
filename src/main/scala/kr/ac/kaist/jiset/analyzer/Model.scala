@@ -194,7 +194,7 @@ class Model(cfg: CFG) {
       "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
     )),
     "%Promise.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Prototype" -> (AbsValue(NamedAddr("%Object.prototype%")),
+      "Prototype" -> (AbsValue(NamedAddr("%Object.prototype%")))
     ))
   )
   // TODO more manual modelings
