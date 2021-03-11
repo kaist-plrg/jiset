@@ -80,10 +80,17 @@ class AbsSemantics(
     case (Param(name, Param.Kind.Optional) :: tl, Nil) =>
       (name -> ABSENT) :: getEnv(call, tl, Nil)
     case (Param(name, Param.Kind.Normal) :: tl, Nil) =>
-      alarm(s"arity mismatch @ $call")
+      val paramsStr = params.mkString(", ")
+      alarm(s"arity mismatch (remaining normal parameters): $paramsStr")
       (name -> ABSENT) :: getEnv(call, tl, Nil)
     case (Nil, Nil) => Nil
-    case _ => ??? // TODO consider variadic
+    case (Nil, _) =>
+      val argsStr = args.map(beautify(_)).mkString(", ")
+      alarm(s"arity mismatch (remaining arguments): $argsStr")
+      Nil
+    case _ =>
+      println(s"$call $params $args")
+      ??? // TODO consider variadic
   }
 
   // handle calls
