@@ -112,6 +112,8 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
   def init: Unit
 }
 object JISETTest {
+  // set test mode
+  TEST_MODE = true
   // extract specifications
   lazy val infos = (for (version <- VERSIONS) yield {
     version -> ECMAScriptParser.preprocess(version)

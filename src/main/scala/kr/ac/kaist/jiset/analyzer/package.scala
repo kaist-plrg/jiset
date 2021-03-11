@@ -17,7 +17,7 @@ package object analyzer {
   var alarmCPStr: String = ""
 
   private var alarmMap: Map[ControlPoint, Set[String]] = Map()
-  def alarm(msg: String): Unit = {
+  def alarm(msg: String): Unit = if (!TEST_MODE) {
     val set = alarmMap.getOrElse(alarmCP, Set())
     if (!(set contains msg)) {
       alarmMap += alarmCP -> (set + msg)

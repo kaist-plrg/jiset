@@ -193,8 +193,8 @@ class Model(cfg: CFG) {
     )),
     "%Object%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
-      "Call" -> AbsClo.Bot, // TODO getClo("Object") <- why not exist?
-      "Construct" -> AbsClo.Bot, // TODO getClo("Object") <- why not exist?
+      "Call" -> getClo("Object"),
+      "Construct" -> getClo("Object"),
     )),
     "%Object.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsNull.Top,
